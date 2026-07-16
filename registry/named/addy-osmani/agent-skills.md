@@ -91,6 +91,8 @@ timeline:
   contributor: mbtiongson1
   details: 'Generic parent ''git-ship-done-pipeline'' type: extra/ultimate → fusion
     (Yggdrasil II taxonomy migration #997)'
+  metaEpoch: yggdrasil-ii
+  migrationBatch: yggdrasil-ii@2026-07-16
 evidence:
 - source: https://github.com/addyosmani/agent-skills/stargazers
   evaluator: unknown

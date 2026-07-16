@@ -66,6 +66,8 @@ timeline:
   contributor: mbtiongson1
   details: 'Generic parent ''few-shot-learning'' type: basic (unchanged; Yggdrasil
     II taxonomy migration #997)'
+  metaEpoch: yggdrasil-ii
+  migrationBatch: yggdrasil-ii@2026-07-16
 evidence:
 - source: https://arxiv.org/abs/2005.14165
   evaluator: mbtiongson1

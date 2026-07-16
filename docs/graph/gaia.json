@@ -1,6 +1,6 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "generatedAt": "2026-07-16T10:00:57Z",
+  "generatedAt": "2026-07-16T11:21:23Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic",
@@ -71,6 +71,16 @@
       "niche-integration": "Niche integrations",
       "experimental-feature": "Experimental features",
       "heavyweight-dependency": "Heavyweight dependencies"
+    },
+    "metaEpochs": {
+      "order": [
+        "yggdrasil-i",
+        "yggdrasil-ii"
+      ],
+      "labels": {
+        "yggdrasil-i": "Yggdrasil I",
+        "yggdrasil-ii": "Yggdrasil II"
+      }
     },
     "clusterNames": {
       "0": "Text & Event",
@@ -214,7 +224,9 @@
           "timestamp": "2026-07-16T08:31:16Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 1,
@@ -332,7 +344,9 @@
           "timestamp": "2026-07-16T08:31:16Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -414,7 +428,9 @@
           "timestamp": "2026-07-16T08:31:16Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -518,7 +534,9 @@
           "timestamp": "2026-07-16T08:31:16Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -601,7 +619,9 @@
           "timestamp": "2026-07-16T08:31:17Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -694,7 +714,9 @@
           "timestamp": "2026-07-16T08:31:17Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 1,
@@ -764,7 +786,9 @@
           "timestamp": "2026-07-16T08:31:17Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 1,
@@ -848,7 +872,9 @@
           "timestamp": "2026-07-16T08:31:17Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -983,7 +1009,9 @@
           "timestamp": "2026-07-16T08:31:17Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -1130,7 +1158,9 @@
           "timestamp": "2026-07-16T08:31:17Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 6,
@@ -1242,7 +1272,9 @@
           "timestamp": "2026-07-16T08:31:17Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 5,
@@ -1334,7 +1366,9 @@
           "timestamp": "2026-07-16T08:31:17Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 6,
@@ -1534,7 +1568,9 @@
           "timestamp": "2026-07-16T08:31:17Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 2,
@@ -1663,7 +1699,9 @@
           "timestamp": "2026-07-16T08:31:17Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 5,
@@ -1755,7 +1793,9 @@
           "timestamp": "2026-07-16T08:31:17Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -1864,7 +1904,9 @@
           "timestamp": "2026-07-16T08:31:17Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 5,
@@ -1961,7 +2003,9 @@
           "timestamp": "2026-07-16T08:31:17Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -2532,7 +2576,9 @@
           "timestamp": "2026-07-16T08:31:17Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 1,
@@ -2901,7 +2947,9 @@
           "timestamp": "2026-07-16T08:31:17Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 6,
@@ -2975,7 +3023,9 @@
           "timestamp": "2026-07-16T08:31:18Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -3078,7 +3128,9 @@
           "timestamp": "2026-07-16T08:31:18Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 5,
@@ -3243,7 +3295,9 @@
           "timestamp": "2026-07-16T08:31:18Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -3414,7 +3468,9 @@
           "timestamp": "2026-07-16T08:31:18Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -3713,7 +3769,9 @@
           "timestamp": "2026-07-16T08:31:18Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 5,
@@ -3835,7 +3893,9 @@
           "timestamp": "2026-07-16T08:31:18Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 7,
@@ -3893,7 +3953,9 @@
           "timestamp": "2026-07-16T08:31:18Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -3982,7 +4044,9 @@
           "timestamp": "2026-07-16T08:31:18Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 6,
@@ -4041,7 +4105,9 @@
           "timestamp": "2026-07-16T08:31:18Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -4124,7 +4190,9 @@
           "timestamp": "2026-07-16T08:31:18Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -4261,7 +4329,9 @@
           "timestamp": "2026-07-16T08:31:18Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -4329,7 +4399,9 @@
           "timestamp": "2026-07-16T08:31:18Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -4385,7 +4457,9 @@
           "timestamp": "2026-07-16T08:31:18Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 1,
@@ -4441,7 +4515,9 @@
           "timestamp": "2026-07-16T08:31:18Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 4,
@@ -4551,7 +4627,9 @@
           "timestamp": "2026-07-16T08:31:19Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 2,
@@ -4700,7 +4778,9 @@
           "timestamp": "2026-07-16T08:31:19Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -4774,7 +4854,9 @@
           "timestamp": "2026-07-16T08:31:19Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -4871,7 +4953,9 @@
           "timestamp": "2026-07-16T08:31:19Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -5073,7 +5157,9 @@
           "timestamp": "2026-07-16T08:31:19Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -5620,7 +5706,9 @@
           "timestamp": "2026-07-16T08:31:19Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 6,
@@ -5738,7 +5826,9 @@
           "timestamp": "2026-07-16T08:31:19Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -6092,7 +6182,9 @@
           "timestamp": "2026-07-16T08:31:19Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -6257,7 +6349,9 @@
           "timestamp": "2026-07-16T08:31:19Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 5,
@@ -6331,7 +6425,9 @@
           "timestamp": "2026-07-16T08:31:19Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -6499,7 +6595,9 @@
           "timestamp": "2026-07-16T08:31:26Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from ultimate to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from ultimate to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -6658,7 +6756,9 @@
           "timestamp": "2026-07-16T08:31:19Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 6,
@@ -6759,7 +6859,9 @@
           "timestamp": "2026-07-16T08:31:19Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -7021,7 +7123,9 @@
           "timestamp": "2026-07-16T08:31:19Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -7206,7 +7310,9 @@
           "timestamp": "2026-07-16T08:31:19Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -7325,7 +7431,9 @@
           "timestamp": "2026-07-16T08:31:20Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -7393,7 +7501,9 @@
           "timestamp": "2026-07-16T08:31:26Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from ultimate to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from ultimate to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -7501,7 +7611,9 @@
           "timestamp": "2026-07-16T08:31:20Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -7559,7 +7671,9 @@
           "timestamp": "2026-07-16T08:31:20Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 6,
@@ -7653,7 +7767,9 @@
           "timestamp": "2026-07-16T08:31:20Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -7746,7 +7862,9 @@
           "timestamp": "2026-07-16T08:31:20Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -7835,7 +7953,9 @@
           "timestamp": "2026-07-16T08:31:20Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -8004,7 +8124,9 @@
           "timestamp": "2026-07-16T08:31:20Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -8629,7 +8751,9 @@
           "timestamp": "2026-07-16T08:31:20Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "verification": {
@@ -8697,7 +8821,9 @@
           "timestamp": "2026-07-16T08:31:20Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 2,
@@ -8773,7 +8899,9 @@
           "timestamp": "2026-07-16T08:31:20Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 2,
@@ -8853,7 +8981,9 @@
           "timestamp": "2026-07-16T08:31:20Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 5,
@@ -9154,7 +9284,9 @@
           "timestamp": "2026-07-16T08:31:21Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -9233,7 +9365,9 @@
           "timestamp": "2026-07-16T08:31:21Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -9420,7 +9554,9 @@
           "timestamp": "2026-07-16T08:31:21Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -9503,7 +9639,9 @@
           "timestamp": "2026-07-16T08:31:21Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 4,
@@ -9624,7 +9762,9 @@
           "timestamp": "2026-07-16T08:31:21Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 7,
@@ -9711,7 +9851,9 @@
           "timestamp": "2026-07-16T08:31:21Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -9893,7 +10035,9 @@
           "timestamp": "2026-07-16T08:31:21Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -9991,7 +10135,9 @@
           "timestamp": "2026-07-16T08:31:21Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 1,
@@ -10053,7 +10199,9 @@
           "timestamp": "2026-07-16T08:31:21Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -10172,7 +10320,9 @@
           "timestamp": "2026-07-16T08:31:26Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from ultimate to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from ultimate to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -10259,7 +10409,9 @@
           "timestamp": "2026-07-16T08:31:21Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -10456,7 +10608,9 @@
           "timestamp": "2026-07-16T08:31:21Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -11048,7 +11202,9 @@
           "timestamp": "2026-07-16T08:31:21Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -11131,7 +11287,9 @@
           "timestamp": "2026-07-16T08:31:21Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 5,
@@ -11214,7 +11372,9 @@
           "timestamp": "2026-07-16T08:31:22Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -11348,7 +11508,9 @@
           "timestamp": "2026-07-16T08:31:22Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -11423,7 +11585,9 @@
           "timestamp": "2026-07-16T08:31:22Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -11498,7 +11662,9 @@
           "timestamp": "2026-07-16T08:31:22Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 4,
@@ -11717,7 +11883,9 @@
           "timestamp": "2026-07-16T08:31:22Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -11793,7 +11961,9 @@
           "timestamp": "2026-07-16T08:31:22Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 5,
@@ -11977,7 +12147,9 @@
           "timestamp": "2026-07-16T08:31:22Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 6,
@@ -12242,7 +12414,9 @@
           "timestamp": "2026-07-16T08:31:22Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -12433,7 +12607,9 @@
           "timestamp": "2026-07-16T08:31:22Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 2,
@@ -12590,7 +12766,9 @@
           "timestamp": "2026-07-16T08:31:22Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -12701,7 +12879,9 @@
           "timestamp": "2026-07-16T08:31:22Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 4,
@@ -12756,7 +12936,9 @@
           "timestamp": "2026-07-16T08:31:22Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 1,
@@ -12822,7 +13004,9 @@
           "timestamp": "2026-07-16T08:31:22Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 6,
@@ -12896,7 +13080,9 @@
           "timestamp": "2026-07-16T08:31:23Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -13095,7 +13281,9 @@
           "timestamp": "2026-07-16T08:31:23Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -13175,7 +13363,9 @@
           "timestamp": "2026-07-16T08:31:23Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -13238,7 +13428,9 @@
           "timestamp": "2026-07-16T08:31:23Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -13356,7 +13548,9 @@
           "timestamp": "2026-07-16T08:31:23Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -13412,7 +13606,9 @@
           "timestamp": "2026-07-16T08:31:23Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 7,
@@ -13478,7 +13674,9 @@
           "timestamp": "2026-07-16T08:31:23Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 6,
@@ -13610,7 +13808,9 @@
           "timestamp": "2026-07-16T08:31:23Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 5,
@@ -13990,7 +14190,9 @@
           "timestamp": "2026-07-16T08:31:23Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 5,
@@ -14145,7 +14347,9 @@
           "timestamp": "2026-07-16T08:31:23Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 5,
@@ -14294,7 +14498,9 @@
           "timestamp": "2026-07-16T08:31:23Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -14368,7 +14574,9 @@
           "timestamp": "2026-07-16T08:31:23Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 6,
@@ -15079,7 +15287,9 @@
           "timestamp": "2026-07-16T08:31:23Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -15190,7 +15400,9 @@
           "timestamp": "2026-07-16T08:31:24Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -15346,7 +15558,9 @@
           "timestamp": "2026-07-16T08:31:26Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from ultimate to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from ultimate to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -15455,7 +15669,9 @@
           "timestamp": "2026-07-16T08:31:24Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 4,
@@ -15575,7 +15791,9 @@
           "timestamp": "2026-07-16T08:31:24Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -15833,7 +16051,9 @@
           "timestamp": "2026-07-16T08:31:24Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -15982,7 +16202,9 @@
           "timestamp": "2026-07-16T08:31:24Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -16117,7 +16339,9 @@
           "timestamp": "2026-07-16T08:31:26Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from ultimate to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from ultimate to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -16235,7 +16459,9 @@
           "timestamp": "2026-07-16T08:31:24Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -16502,7 +16728,9 @@
           "timestamp": "2026-07-16T08:31:24Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 6,
@@ -16738,7 +16966,9 @@
           "timestamp": "2026-07-16T08:31:24Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -16855,7 +17085,9 @@
           "timestamp": "2026-07-16T08:31:24Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -17159,7 +17391,9 @@
           "timestamp": "2026-07-16T08:31:24Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -17249,7 +17483,9 @@
           "timestamp": "2026-07-16T08:31:24Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -17597,7 +17833,9 @@
           "timestamp": "2026-07-16T08:31:24Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -17685,7 +17923,9 @@
           "timestamp": "2026-07-16T08:31:24Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 5,
@@ -17756,7 +17996,9 @@
           "timestamp": "2026-07-16T08:31:25Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -17822,7 +18064,9 @@
           "timestamp": "2026-07-16T08:31:25Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 7,
@@ -18048,7 +18292,9 @@
           "timestamp": "2026-07-16T08:31:25Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 6,
@@ -18106,7 +18352,9 @@
           "timestamp": "2026-07-16T08:31:25Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -18164,7 +18412,9 @@
           "timestamp": "2026-07-16T08:31:25Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -18330,7 +18580,9 @@
           "timestamp": "2026-07-16T08:31:25Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -18410,7 +18662,9 @@
           "timestamp": "2026-07-16T08:31:25Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -18490,7 +18744,9 @@
           "timestamp": "2026-07-16T08:31:25Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -18591,7 +18847,9 @@
           "timestamp": "2026-07-16T08:31:25Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 0,
@@ -18671,7 +18929,9 @@
           "timestamp": "2026-07-16T08:31:25Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 2,
@@ -18818,7 +19078,9 @@
           "timestamp": "2026-07-16T08:31:25Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 2,
@@ -18971,7 +19233,9 @@
           "timestamp": "2026-07-16T08:31:25Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,
@@ -19046,7 +19310,9 @@
           "timestamp": "2026-07-16T08:31:25Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 7,
@@ -19186,7 +19452,9 @@
           "timestamp": "2026-07-16T08:31:26Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 5,
@@ -19245,7 +19513,9 @@
           "timestamp": "2026-07-16T08:31:26Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "cluster": 3,

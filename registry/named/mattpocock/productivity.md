@@ -37,6 +37,8 @@ timeline:
   contributor: mbtiongson1
   details: 'Generic parent ''productivity'' type: extra/ultimate → fusion (Yggdrasil
     II taxonomy migration #997)'
+  metaEpoch: yggdrasil-ii
+  migrationBatch: yggdrasil-ii@2026-07-16
 - timestamp: '2026-07-16T08:36:43Z'
   action: demote
   contributor: mbtiongson1
@@ -44,6 +46,8 @@ timeline:
   newValue: 3★
   details: 'Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch
     TM=0.0 (< 100.0)) — demoted to 3★ Evolved'
+  metaEpoch: yggdrasil-ii
+  migrationBatch: yggdrasil-ii@2026-07-16
 suiteRef: mattpocock/skills
 suiteComponents:
 - mattpocock/caveman

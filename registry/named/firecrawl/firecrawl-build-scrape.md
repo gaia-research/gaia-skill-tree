@@ -45,6 +45,8 @@ timeline:
   contributor: mbtiongson1
   details: 'Generic parent ''web-scrape'' type: extra/ultimate → fusion (Yggdrasil
     II taxonomy migration #997)'
+  metaEpoch: yggdrasil-ii
+  migrationBatch: yggdrasil-ii@2026-07-16
 evidence:
 - source: https://www.youtube.com/watch?v=tBtPSV_gU6o
   evaluator: unknown

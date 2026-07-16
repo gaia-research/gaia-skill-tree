@@ -87,7 +87,9 @@
       "timestamp": "2026-07-16T08:36:44Z",
       "action": "type_change",
       "contributor": "mbtiongson1",
-      "details": "Generic parent 'self-consistency' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+      "details": "Generic parent 'self-consistency' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+      "metaEpoch": "yggdrasil-ii",
+      "migrationBatch": "yggdrasil-ii@2026-07-16"
     },
     {
       "timestamp": "2026-07-16T08:36:44Z",
@@ -95,7 +97,9 @@
       "contributor": "mbtiongson1",
       "previousValue": "4★",
       "newValue": "3★",
-      "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.0 (≥ 100.0)) — demoted to 3★ Evolved"
+      "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.0 (≥ 100.0)) — demoted to 3★ Evolved",
+      "metaEpoch": "yggdrasil-ii",
+      "migrationBatch": "yggdrasil-ii@2026-07-16"
     }
   ],
   "links": {

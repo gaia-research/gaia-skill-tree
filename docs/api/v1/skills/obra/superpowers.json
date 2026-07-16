@@ -163,7 +163,9 @@
       "timestamp": "2026-07-16T08:36:44Z",
       "action": "type_change",
       "contributor": "mbtiongson1",
-      "details": "Generic parent 'superpowers' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+      "details": "Generic parent 'superpowers' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+      "metaEpoch": "yggdrasil-ii",
+      "migrationBatch": "yggdrasil-ii@2026-07-16"
     }
   ],
   "links": {

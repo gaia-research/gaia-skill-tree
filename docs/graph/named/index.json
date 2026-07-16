@@ -518,7 +518,9 @@
             "timestamp": "2026-07-16T08:36:42Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
-            "details": "Generic parent 'git-ship-done-pipeline' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+            "details": "Generic parent 'git-ship-done-pipeline' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           }
         ],
         "suiteComponents": [
@@ -678,7 +680,9 @@
             "timestamp": "2026-07-16T08:36:43Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
-            "details": "Generic parent 'git-ship-done-pipeline' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+            "details": "Generic parent 'git-ship-done-pipeline' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           },
           {
             "timestamp": "2026-07-16T08:36:43Z",
@@ -686,7 +690,9 @@
             "contributor": "mbtiongson1",
             "previousValue": "4★",
             "newValue": "3★",
-            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=52.2 (< 100.0)) — demoted to 3★ Evolved"
+            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=52.2 (< 100.0)) — demoted to 3★ Evolved",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           }
         ],
         "suiteComponents": [
@@ -2057,7 +2063,9 @@
             "timestamp": "2026-07-16T08:36:42Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
-            "details": "Generic parent 'performance-tuning' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+            "details": "Generic parent 'performance-tuning' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
@@ -2301,7 +2309,9 @@
             "timestamp": "2026-07-16T08:36:42Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
-            "details": "Generic parent 'vertical-slice-planning' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+            "details": "Generic parent 'vertical-slice-planning' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           },
           {
             "timestamp": "2026-07-16T08:36:42Z",
@@ -2309,7 +2319,9 @@
             "contributor": "mbtiongson1",
             "previousValue": "4★",
             "newValue": "3★",
-            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=36.0 (< 100.0)) — demoted to 3★ Evolved"
+            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=36.0 (< 100.0)) — demoted to 3★ Evolved",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -4583,7 +4595,9 @@
             "timestamp": "2026-07-16T08:36:42Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
-            "details": "Generic parent 'browser-control' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+            "details": "Generic parent 'browser-control' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           },
           {
             "timestamp": "2026-07-16T08:36:42Z",
@@ -4591,7 +4605,9 @@
             "contributor": "mbtiongson1",
             "previousValue": "4★",
             "newValue": "3★",
-            "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=True TM=73.6 (< 100.0)) — demoted to 3★ Evolved"
+            "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=True TM=73.6 (< 100.0)) — demoted to 3★ Evolved",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           }
         ],
         "trustMagnitude": 73.59,
@@ -6448,7 +6464,9 @@
             "timestamp": "2026-07-16T08:36:42Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
-            "details": "Generic parent 'web-scrape' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+            "details": "Generic parent 'web-scrape' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           }
         ],
         "suiteRef": "firecrawl/firecrawl-skills",
@@ -6646,7 +6664,9 @@
             "timestamp": "2026-07-16T08:36:42Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
-            "details": "Generic parent 'web-search' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+            "details": "Generic parent 'web-search' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           }
         ],
         "suiteRef": "firecrawl/firecrawl-skills",
@@ -6887,7 +6907,9 @@
             "timestamp": "2026-07-16T08:36:42Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
-            "details": "Generic parent 'firecrawl' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+            "details": "Generic parent 'firecrawl' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           },
           {
             "timestamp": "2026-07-16T08:36:42Z",
@@ -6895,7 +6917,9 @@
             "contributor": "mbtiongson1",
             "previousValue": "4★",
             "newValue": "3★",
-            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=73.5 (< 100.0)) — demoted to 3★ Evolved"
+            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=73.5 (< 100.0)) — demoted to 3★ Evolved",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           }
         ],
         "suiteComponents": [
@@ -9219,7 +9243,9 @@
             "timestamp": "2026-07-16T08:36:44Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
-            "details": "Generic parent 'ux-audit' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+            "details": "Generic parent 'ux-audit' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           }
         ],
         "trustMagnitude": 122.8,
@@ -10267,7 +10293,9 @@
             "timestamp": "2026-07-16T08:36:42Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
-            "details": "Generic parent 'founder-mode-orchestration' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+            "details": "Generic parent 'founder-mode-orchestration' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           }
         ],
         "suiteComponents": [
@@ -12036,7 +12064,9 @@
             "timestamp": "2026-07-16T08:36:44Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
-            "details": "Generic parent 'prompt-optimization' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+            "details": "Generic parent 'prompt-optimization' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           },
           {
             "timestamp": "2026-07-16T08:36:44Z",
@@ -12044,7 +12074,9 @@
             "contributor": "mbtiongson1",
             "previousValue": "4★",
             "newValue": "3★",
-            "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.0 (≥ 100.0)) — demoted to 3★ Evolved"
+            "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.0 (≥ 100.0)) — demoted to 3★ Evolved",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           }
         ],
         "trustMagnitude": 100.0,
@@ -14110,7 +14142,9 @@
             "timestamp": "2026-07-16T08:36:44Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
-            "details": "Generic parent 'subagent-driven-development' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+            "details": "Generic parent 'subagent-driven-development' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -14534,7 +14568,9 @@
             "timestamp": "2026-07-16T08:36:44Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
-            "details": "Generic parent 'writing-plans' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+            "details": "Generic parent 'writing-plans' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           },
           {
             "timestamp": "2026-07-16T08:36:44Z",
@@ -14542,7 +14578,9 @@
             "contributor": "mbtiongson1",
             "previousValue": "4★",
             "newValue": "3★",
-            "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=110.1 (≥ 100.0)) — demoted to 3★ Evolved"
+            "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=110.1 (≥ 100.0)) — demoted to 3★ Evolved",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -16744,7 +16782,9 @@
             "timestamp": "2026-07-16T08:36:43Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
-            "details": "Generic parent 'engineering-discipline' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+            "details": "Generic parent 'engineering-discipline' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           },
           {
             "timestamp": "2026-07-16T08:36:43Z",
@@ -16752,7 +16792,9 @@
             "contributor": "mbtiongson1",
             "previousValue": "4★",
             "newValue": "3★",
-            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=0.0 (< 100.0)) — demoted to 3★ Evolved"
+            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=0.0 (< 100.0)) — demoted to 3★ Evolved",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           }
         ],
         "suiteRef": "mattpocock/skills",
@@ -17486,7 +17528,9 @@
             "timestamp": "2026-07-16T08:36:43Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
-            "details": "Generic parent 'productivity' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+            "details": "Generic parent 'productivity' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           },
           {
             "timestamp": "2026-07-16T08:36:43Z",
@@ -17494,7 +17538,9 @@
             "contributor": "mbtiongson1",
             "previousValue": "4★",
             "newValue": "3★",
-            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=0.0 (< 100.0)) — demoted to 3★ Evolved"
+            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=0.0 (< 100.0)) — demoted to 3★ Evolved",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           }
         ],
         "suiteRef": "mattpocock/skills",
@@ -18012,7 +18058,9 @@
             "timestamp": "2026-07-16T08:36:43Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
-            "details": "Generic parent 'skill-mastery' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+            "details": "Generic parent 'skill-mastery' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           }
         ],
         "suiteComponents": [
@@ -19992,7 +20040,9 @@
             "timestamp": "2026-07-16T08:36:44Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
-            "details": "Generic parent 'superpowers' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+            "details": "Generic parent 'superpowers' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           }
         ],
         "suiteComponents": [
@@ -20200,7 +20250,9 @@
             "timestamp": "2026-07-16T08:36:44Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
-            "details": "Generic parent 'using-git-worktrees' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+            "details": "Generic parent 'using-git-worktrees' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           },
           {
             "timestamp": "2026-07-16T08:36:44Z",
@@ -20208,7 +20260,9 @@
             "contributor": "mbtiongson1",
             "previousValue": "4★",
             "newValue": "3★",
-            "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=117.6 (≥ 100.0)) — demoted to 3★ Evolved"
+            "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=117.6 (≥ 100.0)) — demoted to 3★ Evolved",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -20328,7 +20382,9 @@
             "timestamp": "2026-07-16T08:36:44Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
-            "details": "Generic parent 'few-shot-learning' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+            "details": "Generic parent 'few-shot-learning' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           }
         ],
         "trustMagnitude": 100.0,
@@ -20427,7 +20483,9 @@
             "timestamp": "2026-07-16T08:36:44Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
-            "details": "Generic parent 'self-consistency' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+            "details": "Generic parent 'self-consistency' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           },
           {
             "timestamp": "2026-07-16T08:36:44Z",
@@ -20435,7 +20493,9 @@
             "contributor": "mbtiongson1",
             "previousValue": "4★",
             "newValue": "3★",
-            "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.0 (≥ 100.0)) — demoted to 3★ Evolved"
+            "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.0 (≥ 100.0)) — demoted to 3★ Evolved",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           }
         ],
         "trustMagnitude": 100.0,
@@ -21128,7 +21188,9 @@
             "timestamp": "2026-07-16T08:36:44Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
-            "details": "Generic parent 'agent-memory-platform' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+            "details": "Generic parent 'agent-memory-platform' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           },
           {
             "timestamp": "2026-07-16T08:36:44Z",
@@ -21136,7 +21198,9 @@
             "contributor": "mbtiongson1",
             "previousValue": "4★",
             "newValue": "3★",
-            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=81.0 (< 100.0)) — demoted to 3★ Evolved"
+            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=81.0 (< 100.0)) — demoted to 3★ Evolved",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -21501,7 +21565,9 @@
             "timestamp": "2026-07-16T08:36:44Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
-            "details": "Generic parent 'dual-mode' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+            "details": "Generic parent 'dual-mode' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           },
           {
             "timestamp": "2026-07-16T08:36:44Z",
@@ -21509,7 +21575,9 @@
             "contributor": "mbtiongson1",
             "previousValue": "4★",
             "newValue": "3★",
-            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=36.0 (< 100.0)) — demoted to 3★ Evolved"
+            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=36.0 (< 100.0)) — demoted to 3★ Evolved",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -22720,7 +22788,9 @@
             "timestamp": "2026-07-16T08:36:44Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
-            "details": "Generic parent 'reasoning-pattern-bank' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+            "details": "Generic parent 'reasoning-pattern-bank' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           },
           {
             "timestamp": "2026-07-16T08:36:44Z",
@@ -22728,7 +22798,9 @@
             "contributor": "mbtiongson1",
             "previousValue": "4★",
             "newValue": "3★",
-            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=88.5 (< 100.0)) — demoted to 3★ Evolved"
+            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=88.5 (< 100.0)) — demoted to 3★ Evolved",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -22832,7 +22904,9 @@
             "timestamp": "2026-07-16T08:36:44Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
-            "details": "Generic parent 'platform-modernization-sprint' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+            "details": "Generic parent 'platform-modernization-sprint' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           },
           {
             "timestamp": "2026-07-16T08:36:44Z",
@@ -22840,7 +22914,9 @@
             "contributor": "mbtiongson1",
             "previousValue": "4★",
             "newValue": "3★",
-            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=36.0 (< 100.0)) — demoted to 3★ Evolved"
+            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=36.0 (< 100.0)) — demoted to 3★ Evolved",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -23040,7 +23116,9 @@
             "timestamp": "2026-07-16T08:36:44Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
-            "details": "Generic parent 'multi-topology-orchestration' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+            "details": "Generic parent 'multi-topology-orchestration' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           }
         ],
         "suiteComponents": [
@@ -23927,7 +24005,9 @@
             "timestamp": "2026-07-16T08:36:44Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
-            "details": "Generic parent 'knowledge-graph-build' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+            "details": "Generic parent 'knowledge-graph-build' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           },
           {
             "timestamp": "2026-07-16T08:36:44Z",
@@ -23935,7 +24015,9 @@
             "contributor": "mbtiongson1",
             "previousValue": "4★",
             "newValue": "3★",
-            "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=122.9 (≥ 100.0)) — demoted to 3★ Evolved"
+            "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=122.9 (≥ 100.0)) — demoted to 3★ Evolved",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
           }
         ],
         "trustMagnitude": 116.57,
@@ -24628,7 +24710,9 @@
           "timestamp": "2026-07-16T08:36:42Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Generic parent 'computational-biology-workflows' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Generic parent 'computational-biology-workflows' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         },
         {
           "timestamp": "2026-07-16T08:36:42Z",
@@ -24636,7 +24720,9 @@
           "contributor": "mbtiongson1",
           "previousValue": "4★",
           "newValue": "3★",
-          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "trustMagnitude": 100.82,
@@ -24745,7 +24831,9 @@
           "timestamp": "2026-07-16T08:36:42Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Generic parent 'computational-biology-workflows' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Generic parent 'computational-biology-workflows' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         },
         {
           "timestamp": "2026-07-16T08:36:42Z",
@@ -24753,7 +24841,9 @@
           "contributor": "mbtiongson1",
           "previousValue": "4★",
           "newValue": "3★",
-          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "trustMagnitude": 100.82,
@@ -25276,7 +25366,9 @@
           "timestamp": "2026-07-16T08:36:43Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Generic parent 'pathway-ontology-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+          "details": "Generic parent 'pathway-ontology-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         },
         {
           "timestamp": "2026-07-16T08:36:43Z",
@@ -25284,7 +25376,9 @@
           "contributor": "mbtiongson1",
           "previousValue": "4★",
           "newValue": "3★",
-          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "trustMagnitude": 100.82,
@@ -25395,7 +25489,9 @@
           "timestamp": "2026-07-16T08:36:43Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Generic parent 'genomic-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+          "details": "Generic parent 'genomic-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         },
         {
           "timestamp": "2026-07-16T08:36:43Z",
@@ -25403,7 +25499,9 @@
           "contributor": "mbtiongson1",
           "previousValue": "4★",
           "newValue": "3★",
-          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "trustMagnitude": 100.82,
@@ -25514,7 +25612,9 @@
           "timestamp": "2026-07-16T08:36:43Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Generic parent 'genomic-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+          "details": "Generic parent 'genomic-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         },
         {
           "timestamp": "2026-07-16T08:36:43Z",
@@ -25522,7 +25622,9 @@
           "contributor": "mbtiongson1",
           "previousValue": "4★",
           "newValue": "3★",
-          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "trustMagnitude": 100.82,
@@ -25633,7 +25735,9 @@
           "timestamp": "2026-07-16T08:36:43Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Generic parent 'protein-structure-analysis' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+          "details": "Generic parent 'protein-structure-analysis' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         },
         {
           "timestamp": "2026-07-16T08:36:43Z",
@@ -25641,7 +25745,9 @@
           "contributor": "mbtiongson1",
           "previousValue": "4★",
           "newValue": "3★",
-          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "trustMagnitude": 100.82,
@@ -25750,7 +25856,9 @@
           "timestamp": "2026-07-16T08:36:43Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Generic parent 'genomic-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+          "details": "Generic parent 'genomic-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         },
         {
           "timestamp": "2026-07-16T08:36:43Z",
@@ -25758,7 +25866,9 @@
           "contributor": "mbtiongson1",
           "previousValue": "4★",
           "newValue": "3★",
-          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "trustMagnitude": 100.82,
@@ -25867,7 +25977,9 @@
           "timestamp": "2026-07-16T08:36:43Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Generic parent 'genomic-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+          "details": "Generic parent 'genomic-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         },
         {
           "timestamp": "2026-07-16T08:36:43Z",
@@ -25875,7 +25987,9 @@
           "contributor": "mbtiongson1",
           "previousValue": "4★",
           "newValue": "3★",
-          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "trustMagnitude": 100.82,
@@ -25986,7 +26100,9 @@
           "timestamp": "2026-07-16T08:36:43Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Generic parent 'proteomic-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+          "details": "Generic parent 'proteomic-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         },
         {
           "timestamp": "2026-07-16T08:36:43Z",
@@ -25994,7 +26110,9 @@
           "contributor": "mbtiongson1",
           "previousValue": "4★",
           "newValue": "3★",
-          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "trustMagnitude": 100.82,
@@ -26105,7 +26223,9 @@
           "timestamp": "2026-07-16T08:36:43Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Generic parent 'proteomic-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+          "details": "Generic parent 'proteomic-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         },
         {
           "timestamp": "2026-07-16T08:36:43Z",
@@ -26113,7 +26233,9 @@
           "contributor": "mbtiongson1",
           "previousValue": "4★",
           "newValue": "3★",
-          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "trustMagnitude": 100.82,
@@ -26224,7 +26346,9 @@
           "timestamp": "2026-07-16T08:36:43Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Generic parent 'genomic-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+          "details": "Generic parent 'genomic-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         },
         {
           "timestamp": "2026-07-16T08:36:43Z",
@@ -26232,7 +26356,9 @@
           "contributor": "mbtiongson1",
           "previousValue": "4★",
           "newValue": "3★",
-          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "trustMagnitude": 100.82,
@@ -26549,7 +26675,9 @@
           "timestamp": "2026-07-16T08:36:43Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Generic parent 'literature-search' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+          "details": "Generic parent 'literature-search' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         },
         {
           "timestamp": "2026-07-16T08:36:43Z",
@@ -26557,7 +26685,9 @@
           "contributor": "mbtiongson1",
           "previousValue": "4★",
           "newValue": "3★",
-          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "trustMagnitude": 100.82,
@@ -26668,7 +26798,9 @@
           "timestamp": "2026-07-16T08:36:43Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Generic parent 'literature-search' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+          "details": "Generic parent 'literature-search' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "trustMagnitude": 100.82,
@@ -26779,7 +26911,9 @@
           "timestamp": "2026-07-16T08:36:43Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Generic parent 'genomic-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+          "details": "Generic parent 'genomic-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         },
         {
           "timestamp": "2026-07-16T08:36:43Z",
@@ -26787,7 +26921,9 @@
           "contributor": "mbtiongson1",
           "previousValue": "4★",
           "newValue": "3★",
-          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "trustMagnitude": 100.82,
@@ -26898,7 +27034,9 @@
           "timestamp": "2026-07-16T08:36:43Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Generic parent 'clinical-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+          "details": "Generic parent 'clinical-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         },
         {
           "timestamp": "2026-07-16T08:36:43Z",
@@ -26906,7 +27044,9 @@
           "contributor": "mbtiongson1",
           "previousValue": "4★",
           "newValue": "3★",
-          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "trustMagnitude": 100.82,
@@ -27017,7 +27157,9 @@
           "timestamp": "2026-07-16T08:36:43Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Generic parent 'clinical-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+          "details": "Generic parent 'clinical-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         },
         {
           "timestamp": "2026-07-16T08:36:43Z",
@@ -27025,7 +27167,9 @@
           "contributor": "mbtiongson1",
           "previousValue": "4★",
           "newValue": "3★",
-          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "trustMagnitude": 100.82,
@@ -27351,7 +27495,9 @@
           "timestamp": "2026-07-16T08:36:43Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Generic parent 'bioinformatic-sequence-analysis' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+          "details": "Generic parent 'bioinformatic-sequence-analysis' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         },
         {
           "timestamp": "2026-07-16T08:36:43Z",
@@ -27359,7 +27505,9 @@
           "contributor": "mbtiongson1",
           "previousValue": "4★",
           "newValue": "3★",
-          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "trustMagnitude": 100.82,
@@ -27470,7 +27618,9 @@
           "timestamp": "2026-07-16T08:36:43Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Generic parent 'molecular-databases' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+          "details": "Generic parent 'molecular-databases' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         },
         {
           "timestamp": "2026-07-16T08:36:43Z",
@@ -27478,7 +27628,9 @@
           "contributor": "mbtiongson1",
           "previousValue": "4★",
           "newValue": "3★",
-          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "trustMagnitude": 100.82,
@@ -27704,7 +27856,9 @@
           "timestamp": "2026-07-16T08:36:43Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Generic parent 'scientific-visualization' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+          "details": "Generic parent 'scientific-visualization' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         },
         {
           "timestamp": "2026-07-16T08:36:43Z",
@@ -27712,7 +27866,9 @@
           "contributor": "mbtiongson1",
           "previousValue": "4★",
           "newValue": "3★",
-          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "trustMagnitude": 100.82,
@@ -27823,7 +27979,9 @@
           "timestamp": "2026-07-16T08:36:43Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Generic parent 'pathway-ontology-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+          "details": "Generic parent 'pathway-ontology-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         },
         {
           "timestamp": "2026-07-16T08:36:43Z",
@@ -27831,7 +27989,9 @@
           "contributor": "mbtiongson1",
           "previousValue": "4★",
           "newValue": "3★",
-          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "trustMagnitude": 100.82,
@@ -27942,7 +28102,9 @@
           "timestamp": "2026-07-16T08:36:43Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Generic parent 'pathway-ontology-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+          "details": "Generic parent 'pathway-ontology-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         },
         {
           "timestamp": "2026-07-16T08:36:43Z",
@@ -27950,7 +28112,9 @@
           "contributor": "mbtiongson1",
           "previousValue": "4★",
           "newValue": "3★",
-          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "trustMagnitude": 100.82,
@@ -28061,7 +28225,9 @@
           "timestamp": "2026-07-16T08:36:43Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Generic parent 'core-platform-implementation' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+          "details": "Generic parent 'core-platform-implementation' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         },
         {
           "timestamp": "2026-07-16T08:36:43Z",
@@ -28069,7 +28235,9 @@
           "contributor": "mbtiongson1",
           "previousValue": "4★",
           "newValue": "3★",
-          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "trustMagnitude": 100.82,
@@ -28283,7 +28451,9 @@
           "timestamp": "2026-07-16T08:36:43Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Generic parent 'genomic-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+          "details": "Generic parent 'genomic-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         },
         {
           "timestamp": "2026-07-16T08:36:43Z",
@@ -28291,7 +28461,9 @@
           "contributor": "mbtiongson1",
           "previousValue": "4★",
           "newValue": "3★",
-          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "trustMagnitude": 100.82,
@@ -28402,7 +28574,9 @@
           "timestamp": "2026-07-16T08:36:43Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Generic parent 'genomic-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+          "details": "Generic parent 'genomic-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         },
         {
           "timestamp": "2026-07-16T08:36:43Z",
@@ -28410,7 +28584,9 @@
           "contributor": "mbtiongson1",
           "previousValue": "4★",
           "newValue": "3★",
-          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "trustMagnitude": 100.82,
@@ -28624,7 +28800,9 @@
           "timestamp": "2026-07-16T08:36:43Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Generic parent 'core-platform-implementation' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+          "details": "Generic parent 'core-platform-implementation' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         },
         {
           "timestamp": "2026-07-16T08:36:43Z",
@@ -28632,7 +28810,9 @@
           "contributor": "mbtiongson1",
           "previousValue": "4★",
           "newValue": "3★",
-          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "trustMagnitude": 100.82,
@@ -28743,7 +28923,9 @@
           "timestamp": "2026-07-16T08:36:43Z",
           "action": "type_change",
           "contributor": "mbtiongson1",
-          "details": "Generic parent 'skill-authoring' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+          "details": "Generic parent 'skill-authoring' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         },
         {
           "timestamp": "2026-07-16T08:36:43Z",
@@ -28751,7 +28933,9 @@
           "contributor": "mbtiongson1",
           "previousValue": "4★",
           "newValue": "3★",
-          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-16"
         }
       ],
       "trustMagnitude": 100.82,
