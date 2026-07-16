@@ -21,6 +21,17 @@ This design pass runs under an explicit workflow ratified with Marcus:
 
 The **live nitpick log is §8** — every reported issue lands there with its pattern generalization and planned fix.
 
+### 0.1 Ratified rulings (2026-07-17, founder) — build the fan-out on these
+
+| # | Question | RULING | Consequence |
+|---|---|---|---|
+| R1 | `--tier-unique` color token | **New violet `--tier-unique` design token** | A-schema-core defines it; every unique surface (dark plaques, badges, OG, About) reads it. No hex fallbacks (CI guard). Uniques get a distinct hue, not just "the bg color." |
+| R2 | Correctness-first vs bundle | **Bundle correctness + design per surface** | Each surface-PR fixes schema-read AND redesigns together. **BUT** the shared `computeBranch`/`rankWord` resolver + violet token still land as **step 1 of the FIRST bundled PR** (the plaque PR) — everything else imports it. One-agent-first, THEN fan. Non-negotiable ordering. |
+| R3 | Mobile-first (N-12 deliv. 2) scope | **INSIDE #998** | Sprint-completeness (CLAUDE.md "no follow-ups"): mobile-first across non-homepage surfaces is #998's own remainder, NOT a spun-off EPIC. #998 doesn't close until non-homepage surfaces are mobile-first. Homepage FROZEN except N-1/N-2. |
+| R4 | /impeccable design gate | **No founder gate — trust /impeccable + reviewer agent** | N-8 OG, N-10 footer, N-7 reports, N-4 wreath: /impeccable produces, reviewer agent grades + picks, no founder sign-off between. MITIGATION: reviewer prompts must be **adversarial** (grade vs the design standard, reject-by-default) so "no gate" ≠ "no quality bar." |
+
+**Load-bearing ordering from R2:** the dependency isn't gone, it moved. Sequence = **PR-1 (plaque + shared computeBranch/rankWord + violet token)** lands → then A-heroes, A-leaderboard, D-named, N-5, N-6, N-8 fan out in parallel (each imports the shared resolver). Never run two resolver-writing agents concurrently.
+
 ---
 
 ## 1. Purpose + when to act
