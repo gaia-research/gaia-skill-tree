@@ -8,15 +8,18 @@ For each named skill, generates a Hall Plate at:
 The plates are rendered as entries in *Gaia's Celestial Atlas of Skills*. Three
 celestial subjects, three different plate compositions, **one cartographic style**:
 
-  Plate VI  · APEX SUPERNOVA   (Ultimate Skill - Apex, level 6★)
-  Plate V   · STELLAR          (Ultimate Skill, level <6 with type=ultimate)
-  Plate IV  · SINGULARITY      (Unique Skill, type=unique)
-  Plate (default)              (basic / extra — minimal fallback for the
-                                cron generator; never promoted to the Atlas)
+  Plate VI  · APEX SUPERNOVA   (suite branch, 6★ — Apex)
+  Plate V   · STELLAR          (suite branch, 4-5★ — Extra / Ultimate)
+  Plate IV  · SINGULARITY      (unique branch, 4★+ — standalone mastery)
+  Plate (default)              (standard branch, 1-3★ — Awakened / Named /
+                                Evolved; not yet a catalogued celestial body)
+
+Plate dispatch keys on the read-time BRANCH (computeBranch) + rank, NEVER on a
+stored type/tier field (Ygg-II rubric E1).
 
 Reference grammar (Bode's Uranographia, Hevelius's Firmamentum):
   RA/Dec ticks at the top, roman-numeral plate number top-right, discoverer's
-  signature in honor red above an engraved rule, marginal magnitude band at
+  signature in gold above an engraved rule, marginal magnitude band at
   the foot of every plate. The reader recognises the atlas; each plate is a
   unique entry within it.
 
@@ -42,6 +45,8 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT / "src"))
 from gaia_cli.redaction import REDACTED_HANDLE, is_redacted  # noqa: E402  single source of truth
+from gaia_cli.trustMagnitude import computeBranch as _compute_branch  # noqa: E402  Ygg-II read-time branch
+from gaia_cli.formatting import rank_word as _rank_word  # noqa: E402  branch-forked rank vocabulary
 NAMED_JSON = REPO_ROOT / "registry" / "named-skills.json"
 GAIA_JSON = REPO_ROOT / "registry" / "gaia.json"
 DOCS_DIR = REPO_ROOT / "docs"
@@ -64,110 +69,47 @@ INK_NIGHT = "#0e0d20"          # OKLCH ~ oklch(13% 0.025 275); printed night-sky
 CREAM_ENGRAVED = "#ebe5d4"     # OKLCH ~ oklch(92% 0.015  80); warm cream ink/linework
 
 # ─── Brand voice tokens (resolved from DESIGN.md / styles.css) ────────────────
-HONOR_RED = "#ef4444"          # discoverer's signature only
+# Yggdrasil II rubric E4: the deprecated honor-red origin mark (#ef4444) is
+# replaced by gold. The discoverer's signature + `· ORIGIN ·` token now render
+# in the same gold as the wreath / apex accent — no red anywhere.
+SIGNATURE_GOLD = "#fbbf24"     # discoverer's signature + origin mark (was honor-red)
 APEX_GOLD = "#fbbf24"          # supernova core + filaments (Plate VI)
 AMBER_STAR = "#f59e0b"         # main-sequence star disc (Plate V)
 VIOLET_HALO = "#7c3aed"        # black-hole accretion ring (Plate IV)
 
 
-# ─── Tier / rank resolution helpers (kept compatible with previous generator) ─
-_TIER_PALETTE_CACHE: dict | None = None
-_RANK_PALETTE_CACHE: dict | None = None
-_TYPE_BY_ID: dict | None = None
+# ─── Branch / rank resolution helpers (Yggdrasil II — read-time) ──────────────
+# Plate dispatch + labels are driven by read-time BRANCH + rank. The old
+# tier-color helpers (tier_palette / rank_palette / resolve_type_for_og) keyed
+# on the dead `type == 'extra'|'ultimate'|'unique'` enum and were removed with
+# the enum dispatch — each plate now hard-codes its own celestial palette
+# (APEX_GOLD / AMBER_STAR / VIOLET_HALO above), so no gaia.json color lookup is
+# needed here.
 
 
-def tier_palette() -> dict:
-    """Return { 'basic': {'hex','rgb'}, …, 'ultimate': {…} } from gaia.json."""
-    global _TIER_PALETTE_CACHE
-    if _TIER_PALETTE_CACHE is not None:
-        return _TIER_PALETTE_CACHE
-    fallback = {
-        "basic":    {"hex": "#38bdf8", "rgb": "56,189,248"},
-        "extra":    {"hex": "#c084fc", "rgb": "192,132,252"},
-        "unique":   {"hex": "#7c3aed", "rgb": "124,58,237"},
-        "ultimate": {"hex": "#f59e0b", "rgb": "245,158,11"},
-    }
-    if not GAIA_JSON.exists():
-        _TIER_PALETTE_CACHE = fallback
-        return _TIER_PALETTE_CACHE
-    try:
-        with open(GAIA_JSON, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        tc = (data.get("meta") or {}).get("typeColors") or {}
-        out: dict = {}
-        for k, v in tc.items():
-            out[k] = {
-                "hex": v.get("hex", fallback.get(k, {}).get("hex", "#38bdf8")),
-                "rgb": v.get("rgb", fallback.get(k, {}).get("rgb", "56,189,248")),
-            }
-        for k, v in fallback.items():
-            out.setdefault(k, v)
-        _TIER_PALETTE_CACHE = out
-    except Exception:
-        _TIER_PALETTE_CACHE = fallback
-    return _TIER_PALETTE_CACHE
+def og_branch(entry: dict) -> str:
+    """Read-time branch for a named-skill entry ('standard'|'suite'|'unique').
+
+    Delegates to gaia_cli.trustMagnitude.computeBranch (Ygg-II rubric E1) — the
+    plate composition and labels are driven by branch+rank, NEVER by the dead
+    `type == 'ultimate'|'unique'|'extra'` enum that used to key dispatch and
+    sent EVERY named skill to the barren "Basic Skill" fallback plate. The entry
+    carries level+suiteComponents, so no genericSkillMap thread is needed.
+    """
+    return _compute_branch(entry)
 
 
-def rank_palette() -> dict:
-    """Return { '0': {'hex'}, …, '6': {'hex'} } from gaia.json.meta.levelColors."""
-    global _RANK_PALETTE_CACHE
-    if _RANK_PALETTE_CACHE is not None:
-        return _RANK_PALETTE_CACHE
-    fallback = {
-        "0": {"hex": "#94a3b8"},
-        "1": {"hex": "#38bdf8"},
-        "2": {"hex": "#63cab7"},
-        "3": {"hex": "#a78bfa"},
-        "4": {"hex": "#e879f9"},
-        "5": {"hex": "#fbbf24"},
-        "6": {"hex": "#fbbf24"},
-    }
-    if not GAIA_JSON.exists():
-        _RANK_PALETTE_CACHE = fallback
-        return _RANK_PALETTE_CACHE
-    try:
-        with open(GAIA_JSON, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        lc = (data.get("meta") or {}).get("levelColors") or {}
-        out: dict = {}
-        for key, val in lc.items():
-            n = "".join(c for c in key if c.isdigit())
-            if n:
-                out[n] = {"hex": val.get("hex", "#94a3b8")}
-        for k, v in fallback.items():
-            out.setdefault(k, v)
-        _RANK_PALETTE_CACHE = out
-    except Exception:
-        _RANK_PALETTE_CACHE = fallback
-    return _RANK_PALETTE_CACHE
+def og_rank_label(rank: int, branch: str) -> str:
+    """Top-right plate label: branch-forked rank word (Ygg-II E2).
 
-
-def tier_lookup_for_named() -> dict:
-    """Map canonical-skill id → type so plates inherit tier from gaia.json."""
-    if not GAIA_JSON.exists():
-        return {}
-    try:
-        with open(GAIA_JSON, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        return {s.get("id"): s.get("type", "basic") for s in data.get("skills", [])}
-    except Exception:
-        return {}
-
-
-def resolve_type_for_og(entry: dict) -> str:
-    """Resolve the canonical type for a named-skill entry."""
-    global _TYPE_BY_ID
-    if _TYPE_BY_ID is None:
-        _TYPE_BY_ID = tier_lookup_for_named()
-    ref = entry.get("genericSkillRef")
-    if ref and ref in _TYPE_BY_ID:
-        return _TYPE_BY_ID[ref]
-    raw_id = entry.get("id", "")
-    if "/" in raw_id:
-        slug = raw_id.split("/", 1)[1]
-        if slug in _TYPE_BY_ID:
-            return _TYPE_BY_ID[slug]
-    return entry.get("type", "basic") or "basic"
+    Mirrors docs/js/skill-semantics.js rankWord — shared 1-3★
+    (Awakened/Named/Evolved), suite 4-6★ (Extra/Ultimate/Apex), unique 4-6★
+    (Unique/Unique Ultimate/Unique Impossible). NEVER emits banned
+    'Hardened'/'Transcendent'. The label reads e.g. "Extra · 4★" so the plate's
+    top-right stamp is meaningful rather than a flat "Basic Skill" fallback.
+    """
+    word = _rank_word(f"{rank}★", branch)
+    return f"{word} · {rank}★" if rank > 0 else "Basic"
 
 
 def level_num(level: str) -> int:
@@ -311,7 +253,7 @@ def _magnitude_band(magnitude: str, ev_class: str, stars_or_word: str, designati
 
 
 def _catalog_signature(contributor: str, is_origin: bool, year: str) -> str:
-    """Discoverer's signature in honor red, EB Garamond italic 22px.
+    """Discoverer's signature in gold (E4: was honor-red), EB Garamond italic 22px.
 
     Atlas convention: the literal word "Cataloged", then the @handle, then —
     if origin is set — an inline `· ORIGIN ·` token, then the year.
@@ -332,7 +274,7 @@ def _catalog_signature(contributor: str, is_origin: bool, year: str) -> str:
     body = "".join(parts)
     return (
         f'<text x="{MARGIN}" y="{SIG_Y}" font-family="\'EB Garamond\',Georgia,serif" '
-        f'font-size="22" font-style="italic" fill="{HONOR_RED}" '
+        f'font-size="22" font-style="italic" fill="{SIGNATURE_GOLD}" '
         f'dominant-baseline="middle">{body}</text>'
     )
 
@@ -370,7 +312,7 @@ def build_supernova_plate(skill: dict) -> str:
 
     Composition: hot white core disc (left-of-centre) with six radial gold
     filaments — one per star earned at apex tier — plus the slug, italic
-    kicker, honor-red signature, and marginal magnitude band reading
+    kicker, gold signature, and marginal magnitude band reading
     `MAG 6.0 · CLASS A · ★★★★★★ · α 6 OBS · YYYY`.
     """
     contributor = skill.get("contributor", "")
@@ -431,7 +373,8 @@ def build_supernova_plate(skill: dict) -> str:
     return f"""<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
   width="{OG_W}" height="{OG_H}" viewBox="0 0 {OG_W} {OG_H}"
-  class="plate plate--apex" data-plate="VI" data-type="ultimate" data-level="{n_lvl}">
+  class="plate plate--apex" data-plate="VI" data-branch="suite" data-level="{n_lvl}"
+  aria-label="{html.escape(og_rank_label(n_lvl, 'suite'))} — Apex plate">
   <defs>
     <radialGradient id="sn-core-{sid}" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="#fff7d6" stop-opacity="1"/>
@@ -440,7 +383,7 @@ def build_supernova_plate(skill: dict) -> str:
     </radialGradient>
   </defs>
 
-  {_shared_frame('Ultimate Skill - Apex')}
+  {_shared_frame(og_rank_label(n_lvl, 'suite'))}
 
   <!-- Diamond Seal (Apex only — atlas publisher's mark) -->
   {_diamond_seal(MARGIN, MARGIN + 4, size=28)}
@@ -544,7 +487,8 @@ def build_stellar_plate(skill: dict) -> str:
     return f"""<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
   width="{OG_W}" height="{OG_H}" viewBox="0 0 {OG_W} {OG_H}"
-  class="plate plate--stellar" data-plate="V" data-type="ultimate" data-level="{n_lvl}">
+  class="plate plate--stellar" data-plate="V" data-branch="suite" data-level="{n_lvl}"
+  aria-label="{html.escape(og_rank_label(n_lvl, 'suite'))} — Stellar plate">
   <defs>
     <radialGradient id="st-core-{sid}" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="#fde2a4" stop-opacity="1"/>
@@ -553,7 +497,7 @@ def build_stellar_plate(skill: dict) -> str:
     </radialGradient>
   </defs>
 
-  {_shared_frame('Ultimate Skill')}
+  {_shared_frame(og_rank_label(n_lvl, 'suite'))}
 
   <!-- Two concentric orbital tracks -->
   {orbits}
@@ -648,15 +592,10 @@ def build_singularity_plate(skill: dict) -> str:
     bh_prefix_y = slug_y - 64
     kicker_y = slug_y + 50
 
-    # Rank word (replaces the star-count cell on the magnitude band).
-    rank_words = {
-        2: "NAMED",
-        3: "EVOLVED",
-        4: "HARDENED",
-        5: "TRANSCENDENT",
-        6: "TRANSCENDENT ★",
-    }
-    rank_word = rank_words.get(n_lvl, "AWAITED")
+    # Rank word (replaces the star-count cell on the magnitude band). The
+    # Singularity plate is the UNIQUE branch (4★+) — branch-forked words only,
+    # NEVER the banned Hardened/Transcendent (Ygg-II E2).
+    rank_word = _rank_word(f"{n_lvl}★", "unique").upper() if n_lvl >= 2 else "AWAITED"
     designation = f"BH {to_roman(max(1, n_lvl))} · {year}"
 
     magVal, gradeVal = resolveTrustData(skill, "∞")
@@ -664,7 +603,8 @@ def build_singularity_plate(skill: dict) -> str:
     return f"""<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
   width="{OG_W}" height="{OG_H}" viewBox="0 0 {OG_W} {OG_H}"
-  class="plate plate--singularity" data-plate="IV" data-type="unique" data-level="{n_lvl}">
+  class="plate plate--singularity" data-plate="IV" data-branch="unique" data-level="{n_lvl}"
+  aria-label="{html.escape(og_rank_label(n_lvl, 'unique'))} — Singularity plate">
   <defs>
     <radialGradient id="bh-void-{sid}" cx="50%" cy="50%" r="50%">
       <stop offset="0%" stop-color="#050410" stop-opacity="1"/>
@@ -673,7 +613,7 @@ def build_singularity_plate(skill: dict) -> str:
     </radialGradient>
   </defs>
 
-  {_shared_frame('Unique Skill')}
+  {_shared_frame(og_rank_label(n_lvl, 'unique'))}
 
   <!-- Lensing-displaced stellar field -->
   {field_svg}
@@ -727,9 +667,14 @@ def build_default_plate(skill: dict) -> str:
     year = designation_year(skill)
     is_origin = bool(skill.get("origin"))
     n_lvl = level_num(skill.get("level", "2★"))
-    tier_type = resolve_type_for_og(skill)
-    plate_label = "Extra Skill" if tier_type == "extra" else "Basic Skill"
-    plate_css_val = plate_label.lower().replace(" ", "-")
+    # Default plate serves the STANDARD branch (1-3★ shared ladder: Awakened /
+    # Named / Evolved). Dispatch (build_og_svg) routes 4★+ suite skills to the
+    # Stellar/Apex plates and unique skills to the Singularity plate, so this
+    # plate no longer keys on the dead `type == 'extra'` enum. The top-right
+    # label is the branch-forked rank word, not a flat "Basic Skill" (E1/E2).
+    branch = og_branch(skill)
+    plate_label = og_rank_label(n_lvl, branch)
+    plate_css_val = f"rank-{n_lvl}"
 
     slug_x = MARGIN + 12
     slug_w = OG_W - slug_x - MARGIN
@@ -745,7 +690,8 @@ def build_default_plate(skill: dict) -> str:
     return f"""<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
   width="{OG_W}" height="{OG_H}" viewBox="0 0 {OG_W} {OG_H}"
-  class="plate plate--default" data-plate="{plate_css_val}" data-level="{n_lvl}">
+  class="plate plate--default" data-plate="{plate_css_val}" data-branch="{branch}" data-level="{n_lvl}"
+  aria-label="{html.escape(plate_label)} plate">
   {_shared_frame(plate_label)}
 
   <!-- Slash-skill slug (no celestial subject for sub-4★ skills) -->
@@ -765,12 +711,20 @@ def build_default_plate(skill: dict) -> str:
 # ─── Dispatcher ───────────────────────────────────────────────────────────────
 
 def build_og_svg(skill: dict) -> str:
-    """Pick the right Hall Plate based on tier + rank.
+    """Pick the right Hall Plate based on read-time BRANCH + rank (Ygg-II E1).
 
-    - level 6★                         → Apex Supernova (Plate VI)
-    - type=ultimate, level <6            → Stellar (Plate V)
-    - type=unique                        → Singularity (Plate IV)
-    - everything else (basic / extra)    → default fallback
+    Dispatch keys on computeBranch(skill) + star rank — NEVER the dead
+    `type == 'ultimate'|'unique'|'extra'` enum. Under the old enum EVERY named
+    skill (type is only ever basic/fusion) fell through to the barren
+    "Basic Skill" default plate; branch dispatch gives all 6 ranks × 2 branches
+    a proper composition:
+
+    - unique branch (4★+)                → Singularity (Plate IV, violet) —
+      the standalone off-spectrum treatment; covers 4/5/6★.
+    - suite branch, 6★                   → Apex Supernova (Plate VI, gold)
+    - suite branch, 4-5★                 → Stellar (Plate V, amber star)
+    - standard branch (1-3★) / sub-4★    → default plate (not yet a celestial
+      body — correct, not a fallback dead-zone)
     """
     level = skill.get("level", "")
     n_lvl = level_num(level)
@@ -783,14 +737,14 @@ def build_og_svg(skill: dict) -> str:
         skill["contributor"] = REDACTED_HANDLE
         skill["origin"] = False
 
-    tier_type = resolve_type_for_og(skill)
+    branch = og_branch(skill)
 
+    if branch == "unique":
+        return build_singularity_plate(skill)
     if n_lvl >= 6:
         return build_supernova_plate(skill)
-    if tier_type == "ultimate":
+    if n_lvl >= 4:
         return build_stellar_plate(skill)
-    if tier_type == "unique":
-        return build_singularity_plate(skill)
     return build_default_plate(skill)
 
 
