@@ -145,35 +145,33 @@
 }
 
 
-/* ── Per-tier accent: single rule per tier ───────────────────────
+/* ── Per-branch accent: single rule per branch ───────────────────
    --plaque-accent flips here. Every .plaque__* selector resolves
    accent via this property, so no per-variant overrides exist.
+   Rubric E1/E3: keyed on the DERIVED data-branch (standard|suite|
+   unique), never data-type. standard = basic blue, suite = fusion
+   gold, unique = the violet mastery fork.
    ============================================================ */
-.plaque[data-type="basic"] {
+.plaque[data-branch="standard"] {
   --plaque-accent: var(--tier-basic);
   --plaque-accent-rgb: var(--tier-basic-rgb);
   --plaque-accent-bg: var(--tier-basic-bg);
 }
-.plaque[data-type="extra"] {
-  --plaque-accent: var(--tier-extra);
-  --plaque-accent-rgb: var(--tier-extra-rgb);
-  --plaque-accent-bg: var(--tier-extra-bg);
+.plaque[data-branch="suite"] {
+  --plaque-accent: var(--tier-fusion);
+  --plaque-accent-rgb: var(--tier-fusion-rgb);
+  --plaque-accent-bg: var(--tier-fusion-bg);
 }
-.plaque[data-type="unique"] {
+.plaque[data-branch="unique"] {
   --plaque-accent: var(--tier-unique);
   --plaque-accent-rgb: var(--tier-unique-rgb);
   --plaque-accent-bg: var(--tier-unique-bg);
 }
-.plaque[data-type="unique"]:hover {
+.plaque[data-branch="unique"]:hover {
   box-shadow:
     0 0 0 1px rgba(var(--tier-unique-rgb), 0.3),
     0 16px 48px rgba(0, 0, 0, 0.6),
     0 0 20px rgba(var(--tier-unique-rgb), 0.5);
-}
-.plaque[data-type="ultimate"] {
-  --plaque-accent: var(--tier-ultimate);
-  --plaque-accent-rgb: var(--tier-ultimate-rgb);
-  --plaque-accent-bg: var(--tier-ultimate-bg);
 }
 
 
@@ -252,15 +250,17 @@ button.plaque__slug:focus-visible {
   text-underline-offset: 3px;
   outline: none;
 }
-/* Ultimate carries the brand-voice Apex Gold via the tier token. */
-.plaque[data-type="ultimate"] .plaque__slug,
-.plaque[data-type="ultimate"] .plaque-skill-name {
+/* Suite branch at 5★+ carries the brand-voice Apex Gold via the tier token. */
+.plaque[data-branch="suite"][data-level="5"] .plaque__slug,
+.plaque[data-branch="suite"][data-level="5"] .plaque-skill-name,
+.plaque[data-branch="suite"][data-level="6"] .plaque__slug,
+.plaque[data-branch="suite"][data-level="6"] .plaque-skill-name {
   color: var(--apex-gold, #fbbf24);
 }
-/* Level VI (6★) — Transcendent ★ — earns the rainbow shimmer.
-   Level V (5★) — Transcendent — remains static Apex Gold. */
-.plaque[data-type="ultimate"][data-level="6"] .plaque__slug,
-.plaque[data-type="ultimate"][data-level="6"] .plaque-skill-name {
+/* Level VI (6★ Apex) earns the rainbow shimmer.
+   Level V (5★ Ultimate) remains static Apex Gold. */
+.plaque[data-branch="suite"][data-level="6"] .plaque__slug,
+.plaque[data-branch="suite"][data-level="6"] .plaque-skill-name {
   animation: tree-rainbow-glow 4s linear infinite;
 }
 
@@ -563,36 +563,41 @@ button.plaque__slug:focus-visible {
 .plaque[data-level="6"] .plaque-skill-name.named-slug,
 .plaque__stack-row[data-level="6"] .plaque-skill-name.named-slug { color: var(--rank-6, #fbbf24); }
 
-/* Tier-aware overrides — emitted AFTER the rank-level rules so the tier
-   color wins for Unique (deep violet) and Ultimate (apex gold). Without
-   these, a Unique skill at rank IV (Hardened) would render fuchsia from
-   the rank-4 rule above instead of its tier-native deep violet. */
-.plaque[data-type="unique"] .plaque__slug.named-slug,
-.plaque[data-type="unique"] .plaque-skill-name.named-slug,
-.plaque__stack-row[data-type="unique"] .plaque__slug.named-slug,
-.plaque__stack-row[data-type="unique"] .plaque-skill-name.named-slug {
+/* Branch-aware overrides — emitted AFTER the rank-level rules so the branch
+   color wins for Unique (deep violet) and Suite (apex gold). Without these, a
+   Unique skill at 4★ would render fuchsia from the rank-4 rule above instead
+   of its branch-native deep violet. Rubric E1/E3: keyed on derived
+   data-branch, never data-type. */
+.plaque[data-branch="unique"] .plaque__slug.named-slug,
+.plaque[data-branch="unique"] .plaque-skill-name.named-slug,
+.plaque__stack-row[data-branch="unique"] .plaque__slug.named-slug,
+.plaque__stack-row[data-branch="unique"] .plaque-skill-name.named-slug {
   color: var(--tier-unique);
 }
-/* Unique type always overrides level-based rank color on stars */
-.plaque[data-type="unique"] .rank-badge__star[data-on],
-.plaque__stack-row[data-type="unique"] .rank-badge__star[data-on] {
+/* Unique branch always overrides level-based rank color on stars */
+.plaque[data-branch="unique"] .rank-badge__star[data-on],
+.plaque__stack-row[data-branch="unique"] .rank-badge__star[data-on] {
   color: var(--tier-unique);
   text-shadow: 0 0 6px rgba(var(--tier-unique-rgb), .5);
 }
-.plaque[data-type="unique"] .rank-badge__star[data-off],
-.plaque__stack-row[data-type="unique"] .rank-badge__star[data-off] {
+.plaque[data-branch="unique"] .rank-badge__star[data-off],
+.plaque__stack-row[data-branch="unique"] .rank-badge__star[data-off] {
   color: rgba(var(--tier-unique-rgb), .15);
 }
-.plaque[data-type="ultimate"] .plaque__slug.named-slug,
-.plaque[data-type="ultimate"] .plaque-skill-name.named-slug,
-.plaque__stack-row[data-type="ultimate"] .plaque__slug.named-slug,
-.plaque__stack-row[data-type="ultimate"] .plaque-skill-name.named-slug {
+.plaque[data-branch="suite"][data-level="5"] .plaque__slug.named-slug,
+.plaque[data-branch="suite"][data-level="5"] .plaque-skill-name.named-slug,
+.plaque[data-branch="suite"][data-level="6"] .plaque__slug.named-slug,
+.plaque[data-branch="suite"][data-level="6"] .plaque-skill-name.named-slug,
+.plaque__stack-row[data-branch="suite"][data-level="5"] .plaque__slug.named-slug,
+.plaque__stack-row[data-branch="suite"][data-level="5"] .plaque-skill-name.named-slug,
+.plaque__stack-row[data-branch="suite"][data-level="6"] .plaque__slug.named-slug,
+.plaque__stack-row[data-branch="suite"][data-level="6"] .plaque-skill-name.named-slug {
   color: var(--apex-gold, #fbbf24);
 }
-.plaque[data-type="ultimate"][data-level="6"] .plaque__slug.named-slug,
-.plaque[data-type="ultimate"][data-level="6"] .plaque-skill-name.named-slug,
-.plaque__stack-row[data-type="ultimate"][data-level="6"] .plaque__slug.named-slug,
-.plaque__stack-row[data-type="ultimate"][data-level="6"] .plaque-skill-name.named-slug {
+.plaque[data-branch="suite"][data-level="6"] .plaque__slug.named-slug,
+.plaque[data-branch="suite"][data-level="6"] .plaque-skill-name.named-slug,
+.plaque__stack-row[data-branch="suite"][data-level="6"] .plaque__slug.named-slug,
+.plaque__stack-row[data-branch="suite"][data-level="6"] .plaque-skill-name.named-slug {
   animation: tree-rainbow-glow 4s linear infinite;
 }
 
@@ -644,6 +649,58 @@ button.plaque__slug:focus-visible {
     var(--tier-fusion) 60%,
     color-mix(in srgb, var(--tier-fusion) 70%, #000) 100%);
   box-shadow: 0 0 12px rgba(var(--tier-fusion-rgb), 0.4);
+}
+
+/* ── Contributor avatar + gold origin wreath (Yggdrasil II, E3/E4) ─
+   _fieldAvatar emits <a|span.plaque__avatar style="--avatar-size:Npx">
+     <img.plaque__avatar-img>          ← GitHub avatar (identicon fallback)
+     <img.plaque__avatar-wreath>       ← gold laurel frame (origin mark)
+   The wreath is the NEW origin mark (replaces the deprecated honor-red
+   inline badge). The avatar links to the skill repo, replacing the old
+   standalone GitHub button. The frame NEVER renders as an empty hole —
+   the <img> onerror swaps to a GitHub identicon rather than hiding.
+   ============================================================ */
+.plaque__avatar {
+  --avatar-size: 40px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  flex-shrink: 0;
+  border-radius: 50%;
+  text-decoration: none;
+}
+.plaque__avatar-img {
+  width: 82%;
+  height: 82%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  background: rgba(var(--tier-basic-rgb), 0.12);
+}
+/* The wreath overlays the avatar, framing it slightly larger than the
+   photo so the laurel reads as a border ring. Gold tint comes from the
+   SVG's own token-driven gradient (--seal-gold / --tier-fusion). */
+.plaque__avatar-wreath {
+  position: absolute;
+  inset: -6%;
+  width: 112%;
+  height: 112%;
+  pointer-events: none;
+  display: block;
+}
+/* Origin contributors get a warmer gold halo behind the avatar. */
+.plaque__avatar[data-origin="true"] {
+  box-shadow: 0 0 10px rgba(var(--tier-fusion-rgb), 0.45);
+}
+.plaque__avatar--link:hover .plaque__avatar-img {
+  box-shadow: 0 0 8px rgba(var(--tier-fusion-rgb), 0.5);
+}
+.plaque__avatar--link:focus-visible {
+  outline: 2px solid var(--tier-fusion);
+  outline-offset: 2px;
 }
 
 /* Stage 4 — orb gradients reference tier tokens (--tier-<name>) for the
@@ -1332,29 +1389,29 @@ button.plaque__slug:focus-visible {
 .plaque--hall .plaque__stack-row[data-level="4"] .plaque__slug.named-slug { color: var(--rank-4, #e879f9); }
 .plaque--hall .plaque__stack-row[data-level="5"] .plaque-skill-name.named-slug,
 .plaque--hall .plaque__stack-row[data-level="5"] .plaque__slug.named-slug { color: var(--rank-5, #fbbf24); }
-/* 6★ Ultimate retains apex gold + rainbow — preserves the existing
-   tree-rainbow-glow animation on .plaque__stack-row[data-type="ultimate"][data-level="6"]. */
-.plaque--hall .plaque__stack-row[data-level="6"][data-type="ultimate"] .plaque-skill-name.named-slug,
-.plaque--hall .plaque__stack-row[data-level="6"][data-type="ultimate"] .plaque__slug.named-slug { color: var(--apex-gold, #fbbf24); }
-/* Non-Ultimate 6★ (e.g. a hypothetical Unique 6★) just uses rank-6 amber. */
-.plaque--hall .plaque__stack-row[data-level="6"]:not([data-type="ultimate"]) .plaque-skill-name.named-slug,
-.plaque--hall .plaque__stack-row[data-level="6"]:not([data-type="ultimate"]) .plaque__slug.named-slug { color: var(--rank-6, #fbbf24); }
+/* 6★ Apex (suite branch) retains apex gold + rainbow — preserves the existing
+   tree-rainbow-glow animation on .plaque__stack-row[data-branch="suite"][data-level="6"]. */
+.plaque--hall .plaque__stack-row[data-level="6"][data-branch="suite"] .plaque-skill-name.named-slug,
+.plaque--hall .plaque__stack-row[data-level="6"][data-branch="suite"] .plaque__slug.named-slug { color: var(--apex-gold, #fbbf24); }
+/* Non-suite 6★ (e.g. a Unique 6★) just uses rank-6 amber. */
+.plaque--hall .plaque__stack-row[data-level="6"]:not([data-branch="suite"]) .plaque-skill-name.named-slug,
+.plaque--hall .plaque__stack-row[data-level="6"]:not([data-branch="suite"]) .plaque__slug.named-slug { color: var(--rank-6, #fbbf24); }
 
-/* Unique tier exception — deep violet wins over the rank colour for
+/* Unique branch exception — deep violet wins over the rank colour for
    every Unique skill row regardless of rank. The Unique branch is the
-   standalone-mastery tier (a Basic that ascended without ever fusing)
-   and must read in its tier-native deep violet across surfaces. The
+   standalone-mastery fork (a Basic that ascended without ever fusing)
+   and must read in its branch-native deep violet across surfaces. The
    stars in this row also get deep violet (overriding rank-4 fuchsia)
-   so slug + stars stay in lockstep. */
-.plaque--hall .plaque__stack-row[data-type="unique"] .plaque-skill-name.named-slug,
-.plaque--hall .plaque__stack-row[data-type="unique"] .plaque__slug.named-slug {
+   so slug + stars stay in lockstep. Rubric E1: keyed on derived branch. */
+.plaque--hall .plaque__stack-row[data-branch="unique"] .plaque-skill-name.named-slug,
+.plaque--hall .plaque__stack-row[data-branch="unique"] .plaque__slug.named-slug {
   color: var(--tier-unique);
 }
-.plaque--hall .plaque__stack-row[data-type="unique"] .rank-badge__star[data-on] {
+.plaque--hall .plaque__stack-row[data-branch="unique"] .rank-badge__star[data-on] {
   color: var(--tier-unique);
   text-shadow: 0 0 6px rgba(var(--tier-unique-rgb), .5);
 }
-.plaque--hall .plaque__stack-row[data-type="unique"] .rank-badge__star[data-off] {
+.plaque--hall .plaque__stack-row[data-branch="unique"] .rank-badge__star[data-off] {
   color: rgba(var(--tier-unique-rgb), .15);
 }
 
