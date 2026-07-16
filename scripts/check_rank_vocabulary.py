@@ -153,6 +153,8 @@ ALLOWLIST_PATHS = {
     'docs/meta/2026-05-31-starless-skills-update.md',         # Pre-Yggdrasil-II meta post
     'docs/meta/2026-06-curate-chain-starless.md',             # Pre-Yggdrasil-II curate post
     # docs/meta/2026-06-trust-methodology.md — REMOVED from allowlist: cleaned to v2 by #994 (PR #1170)
+    'docs/meta/2026-06-17-g7-trust-magnitude-supersession.md',  # G7 supersession post; uses G7 codename + "apex tier" as 6★ descriptor  # #994
+    'docs/architecture/benchmark-framework.md',                  # Benchmark RFC; uses G7 codename + "apex tier" as 6★ descriptor  # #994
     'docs/okf/index.md',                                      # OKF index: old tier section headers
     'docs/okf/skills/extra/index.md',                         # OKF "Extra Skills" index
     'docs/okf/skills/ultimate/index.md',                      # OKF "Ultimate Skills" index
@@ -173,6 +175,7 @@ ALLOWLIST_PATHS = {
     'founder/handovers/done/TRUST_METHODOLOGY_REPORT.md',         # Historical report
     'founder/handovers/done/G7_TRUST_TAXONOMY_RFC.md',            # G7 RFC; pre-Yggdrasil-II naming ("Ultimate skill") in engineering spec  # #994
     'founder/handovers/done/g7-mattpocock-audit/_workflow_notes.md',   # Historical workflow notes
+    'founder/handovers/done/g7-mattpocock-audit/_issue_comment.md',    # Historical issue comment; "apex tier" as 6★ descriptor  # #994
     'founder/handovers/phase-1.5/issues/I8.md',                   # Historical issue doc
 
     # ── registry/named/** migration provenance notes (#997 Yggdrasil II migration) ────
@@ -210,6 +213,36 @@ ALLOWLIST_SUBTREES = [
 ]
 
 # ---------------------------------------------------------------------------
+# Docs-only banned patterns — applied ONLY to root *.md and docs/**/*.md
+# (external/public documentation surface).  founder/handovers/** and
+# registry/** are EXEMPT: those paths are internal engineering specs where
+# the G-series codename is the primary reference.  (#999 Step 2)
+# ---------------------------------------------------------------------------
+
+DOCS_ONLY_BANNED_PATTERNS = [
+    # Pattern,  human label,  rationale
+    (re.compile(r'\bG7\b'), 'G7', 'internal engineering codename (CONTEXT.md §Banned synonyms); use "TM Index (2026 Q2)" in public docs; founder/handovers/** and registry/** are exempt'),
+    (re.compile(r'\bG8\b'), 'G8', 'internal engineering codename (CONTEXT.md §Banned synonyms); use "TM Index (2026 Q3)" in public docs; founder/handovers/** and registry/** are exempt'),
+]
+
+# Allowlist for docs-only patterns (pre-existing G7/G8 external-doc references).
+# These files are exempted ONLY for DOCS_ONLY_BANNED_PATTERNS.  Files already in
+# ALLOWLIST_PATHS inherit that exemption automatically (is_allowlisted() returns True)
+# and need not be repeated here.  #994
+DOCS_ONLY_ALLOWLIST_PATHS = {
+    'CHANGELOG.md',           # Release notes reference "G7 Trust Infrastructure" phase name  # #994
+    'CONTRIBUTING.md',        # Contribution guide: "Add evidence with G7 dual-axis fields"  # #994
+    'DESIGN.md',              # Design doc references the G7 Trust Taxonomy RFC  # #994
+    'META.md',                # Evidence-methodology summary references G7 RFC directly  # #994
+    'README.md',              # Readme mentions G7 Trust Taxonomy RFC  # #994
+    'docs/meta/2026-06-FULL-recap.md',      # G7 retrospective document  # #994
+    'docs/meta/JUN_2026_TRUST_REGRADE.md',  # G7 cutover stamp document  # #994
+    # Note: docs/meta/2026-06-17-g7-trust-magnitude-supersession.md and
+    # docs/architecture/benchmark-framework.md are in the main ALLOWLIST_PATHS
+    # (pre-existing G7 + apex-tier references); is_allowlisted() covers them.
+}
+
+# ---------------------------------------------------------------------------
 # File collection helpers
 # ---------------------------------------------------------------------------
 
@@ -233,6 +266,31 @@ def is_allowlisted(rel_path: str) -> bool:
         if norm.startswith(subtree):
             return True
     return False
+
+
+def is_docs_scope(rel_path: str) -> bool:
+    """Return True for root *.md and docs/**/*.md — the external/public doc surface.
+
+    G7/G8 docs-only banned patterns apply only to this scope.  Files in
+    founder/handovers/** and registry/** are NOT docs-scope for this check.
+    """
+    norm = rel_path.replace('\\', '/')
+    if norm.endswith('.md') and '/' not in norm:
+        return True
+    if norm.startswith('docs/') and norm.endswith('.md'):
+        return True
+    return False
+
+
+def is_docs_only_allowlisted(rel_path: str) -> bool:
+    """Return True if this path is exempt from DOCS_ONLY_BANNED_PATTERNS.
+
+    A file is exempt if it is either in the main ALLOWLIST_PATHS (which covers
+    all patterns) or in DOCS_ONLY_ALLOWLIST_PATHS (which covers only
+    DOCS_ONLY_BANNED_PATTERNS).  This lets us exempt files like CHANGELOG.md
+    from the G7/G8 check without granting them blanket immunity from all guards.
+    """
+    return is_allowlisted(rel_path) or rel_path.replace('\\', '/') in DOCS_ONLY_ALLOWLIST_PATHS
 
 
 def collect_files(repo_root: Path):
@@ -281,7 +339,11 @@ def scan(repo_root: Path):
             print(f'  [SKIP] {rel_path}: {exc}', file=sys.stderr)
             continue
 
+        # Determine which pattern sets apply to this file
+        check_docs_only = is_docs_scope(rel_path)
+
         for lineno, line in enumerate(text.splitlines(), start=1):
+            # Full-scope banned patterns (apply to all scanned files)
             for pattern, label, rationale in BANNED_PATTERNS:
                 if pattern.search(line):
                     entry = (rel_path, lineno, line.strip()[:120], label, rationale)
@@ -289,6 +351,16 @@ def scan(repo_root: Path):
                         soft_violations.append(entry)
                     else:
                         hard_violations.append(entry)
+
+            # Docs-only banned patterns (G7/G8 — external/public doc surface only)
+            if check_docs_only:
+                for pattern, label, rationale in DOCS_ONLY_BANNED_PATTERNS:
+                    if pattern.search(line):
+                        entry = (rel_path, lineno, line.strip()[:120], label, rationale)
+                        if is_docs_only_allowlisted(rel_path):
+                            soft_violations.append(entry)
+                        else:
+                            hard_violations.append(entry)
 
     return hard_violations, soft_violations
 
