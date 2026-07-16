@@ -566,6 +566,19 @@
         "newValue": {
           "type": "string",
           "description": "The level/status after this event (e.g. '3★')."
+        },
+        "metaEpoch": {
+          "type": "string",
+          "enum": [
+            "yggdrasil-i",
+            "yggdrasil-ii"
+          ],
+          "description": "Optional structured provenance: the meta epoch (schema-generation slug) this event belongs to. Mirrors meta.json metaEpochs.order. Stamped on migration events (e.g. a node type_change) so provenance is queryable without prose parsing. Absent on pre-Yggdrasil-II (legacy) events."
+        },
+        "migrationBatch": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+@\\d{4}-\\d{2}-\\d{2}$",
+          "description": "Optional structured provenance: the migration batch identifier in '<epoch-slug>@YYYY-MM-DD' form (e.g. 'yggdrasil-ii@2026-07-16'). Groups the events of one dated migration batch so provenance can be verified structurally. Absent on non-migration and legacy events."
         }
       }
     }
