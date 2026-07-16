@@ -136,6 +136,7 @@ HARD_EXCLUDE_GLOBS = [
 ALLOWLIST_PATHS = {
     # ── Guard reference doc (documents the banned terms by definition) ─────
     'docs/rank-vocabulary-guard.md',  # This IS the guard ref doc; must name the banned terms
+    'docs/guard-topology.md',         # Guard topology reference; names banned terms by definition
 
     # ── Root canonical docs (pre-Yggdrasil-II prose still in flight) ────────
     'CONTEXT.md',           # Lexicon entries explicitly documenting deprecated terms
