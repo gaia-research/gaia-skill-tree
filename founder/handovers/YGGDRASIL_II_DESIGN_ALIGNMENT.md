@@ -265,7 +265,7 @@ Add a `<picture>` inside `.plaque__header` (or replace `.plaque-orb`'s gradient 
 
 ### Global execution invariants
 - **Commit identity:** `mbtiongson1` — every worker sets `git -c user.name="Marcus Rafael B. Tiongson" -c user.email="153011150+mbtiongson1@users.noreply.github.com"`. Verify `git log --format='%ae'` before every push. **Nothing else.**
-- **Concurrency:** MAX 2 concurrent workers; MAX 1 if opus. Enforced in-script by batching `parallel([a,b])` pairs and running every opus stage solo (never two opus in one `parallel`).
+- **Concurrency:** **Wave 0–1:** MAX 2 concurrent workers; MAX 1 if opus (batch `parallel([a,b])` pairs, opus stages solo). **Wave 2 onward (founder ruling 2026-07-17):** MAX 4 concurrent sonnet; MAX 2 concurrent opus (opus only if needed). Never mix so that >2 opus or >4 sonnet run at once; a mixed batch counts opus against the 2-cap first. The workflow concurrency cap is min(16, cores-2), so 4-wide sonnet fans are within the engine limit.
 - **Worktrees:** every implementation agent runs `isolation: "worktree"`, branches from `origin/dev/yggdrasil-ii-staging`, commits+pushes its feature branch per logical unit, reports SHAs. Never batches pushes.
 - **Review-gate:** every lane is followed by an **adversarial reviewer agent** (reject-by-default, grades against `DESIGN.md` §"Yggdrasil II Enforcement Rubric"). Fail → ONE bounded remediation retry → re-review. Structured verdict returned.
 - **PR lifecycle stays in orchestrator hands (recoverable):** workflows implement + push + review-gate + return a manifest. **The orchestrator opens each PR → `dev/yggdrasil-ii-staging` and merges** between waves (idempotent GitHub mutations; a crashed workflow never leaves a half-merged PR). Merge order = dependency order (foundation first).
@@ -291,15 +291,16 @@ Add a `<picture>` inside `.plaque__header` (or replace `.plaque-orb`'s gradient 
 - **W1e (opus, high, SOLO):** Python design scripts branch-aware — `generateBadges.py` (`RANK_NAMES` L54-57 + honor-red→gold), `generateOgCards.py` (dispatch L157-170 on computeBranch+rank, banned words L652-658, all-rank×2-branch plates), `generateProfilePages.py` (kills N-3 frozen `data-type`/`data-level` + branch aria). Regenerate outputs. **Badge `_assets/` regen is a SEPARATE `infra/badge-*` PR** per invariant.
 - **W1f (sonnet, low):** copy/CSS — **N-9** MCP sweep (`@gaia-registry/mcp-server`→`@gaia-registry/mcp@0.1.0` + `research.gaiaskilltree.com/mcp` across `docs/index.html`×2, `docs/en/index.html`, `docs/en/mcp-server.html`, `docs/agent.md`, README); **N-1** shared `.aov-terminal-art` edge treatment (both terminals); **N-2** hero install-card grid alignment.
 
-**WAVE 2 — /impeccable design items (opus solo each, reviewer-gated, no founder gate per R4). Sequence after their W1 dependency.**
+**WAVE 2 — /impeccable design items (reviewer-gated, no founder gate per R4). Concurrency: up to 2 opus concurrent (new ruling).**
 - **W2a (opus, high):** N-8 OG card `/impeccable` composition on top of W1e's fixed dispatch — embed AOV `-hero` art, reshape, all-rank. Reviewer picks shape.
 - **W2b (opus, high):** N-10 footer redesign + Gaia Research CTA cross-brand ("one house, two rooms," Rimuru-Blue #38bdf8 bridge) in `docs/js/site-footer.js` + `styles.css`.
 - **W2c (opus, high):** N-7 `docs/reports/` + `docs/named/report.html` shared report design system. **NOT `docs/meta/reports/`.**
+- **Run shape:** W2a+W2b as one opus pair (both independent surfaces); W2c opus-solo after (or paired if a 4th sonnet-class item joins). Each own PR, adversarial-reviewer-gated (reviewers may be sonnet, so a review pass can run 4-wide if batched).
 
-**WAVE 3 — Capstone N-12 (mixed; critique sonnet-parallel, remediation, DESIGN.md opus-solo).**
+**WAVE 3 — Capstone N-12 (mixed; critique fans 4-wide sonnet, remediation opus-as-needed, DESIGN.md opus-solo).**
 - Critique scout inventories mobile/responsive state of all non-homepage surfaces.
-- Adversarial critique agents grade each non-homepage surface vs DESIGN.md rubric (2 sonnet at a time).
-- Remediation agents make flagged surfaces mobile-first (homepage FROZEN except N-1/N-2).
+- Adversarial critique agents grade each non-homepage surface vs DESIGN.md rubric — **up to 4 sonnet concurrent (new ruling)**.
+- Remediation agents make flagged surfaces mobile-first (homepage FROZEN except N-1/N-2) — sonnet 4-wide, opus ≤2 only for the hardest layout reworks.
 - Finalize `DESIGN.md` as the solidified impeccable-init standard; complete `founder/YGGDRASIL_II_DESIGN_LEDGER.md`.
 
 ### Workflow files
