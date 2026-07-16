@@ -433,6 +433,12 @@ Community contributors (1–2 skills each): [@karpathy](https://github.com/karpa
 | [@kriptoburak](https://github.com/kriptoburak) | Evidence evaluator: x-twitter-automation evidence review |
 | [@fahimkarim01](https://github.com/fahimkarim01) | Curation: corrected pexp13/sentiment-analysis metadata links |
 
+### Code & Fixes
+
+| Contributor | Contribution |
+|---|---|
+| [@fazalpsinfo-cmyk](https://github.com/fazalpsinfo-cmyk) | Bug fix: resolved `UnboundLocalError` in `gaia scan` when no custom skills are detected (#1141, PR #1188) |
+
 ### Bots
 
 | Bot | Contribution |
