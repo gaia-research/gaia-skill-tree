@@ -1,6 +1,6 @@
 # Gaia AI Agent Skill Registry — Agent Context
 
-Gaia is an open, evidence-backed skill graph for AI agents. It tracks capabilities (Basic, Extra, Ultimate), their evolution (0★ to 6★), and fusion into complex workflows.
+Gaia is an open, evidence-backed skill graph for AI agents. It tracks capabilities and their evolution (0★ to 6★) through two structural axes: **Type** (starless/generic nodes only) and **Branch** (named skills at 4★+, derived at read-time).
 
 This document serves as a lightweight, clean, and structured context sheet for AI agents and LLMs to understand the Gaia project, its CLI, MCP server, workflows, and registry guidelines.
 
@@ -8,11 +8,23 @@ This document serves as a lightweight, clean, and structured context sheet for A
 
 ## 1. Project Overview & Architecture
 
-### Core Tiers & Concepts
-*   **○ Basic Skills:** Primitive, indivisible capabilities (e.g., `/web-search`, `/parse-html`).
-*   **◇ Extra Skills:** Emerges from fusing or combining 2+ basic skills (e.g., `/web-scrape`, `/research`).
-*   **◆ Ultimate Skills:** High-complexity emergent capabilities; requires fusing 5+ named skill prerequisites (from `registry/named/`), with ≥1 origin contribution from the proposer. The most prestigious tier — a monument to a contributor's named body of work.
-*   **◉ Unique Skills:** Basic skills that have reached elite rank (4★+), are graph-isolated (no prerequisites, no derivatives), and carry a distinct identity.
+### Taxonomy (Yggdrasil II)
+
+#### Type axis — starless (generic) nodes only
+*   **○ Basic:** Primitive node with 0 prerequisites. The foundational structural unit (e.g., `/web-search`, `/parse-html`).
+*   **◇ Fusion:** Node with ≥1 prerequisite — emerges from fusing or combining 2+ basic nodes (e.g., `/web-scrape`, `/research`). Replaces the legacy Extra / Ultimate taxonomy values.
+
+Named skills carry **no `type` field**; they inherit type via `genericSkillRef` walk (Option D).
+
+#### Branch axis — named skills only, derived at read-time
+*   **Standard branch** (1★–3★) — default path for all named skills:
+    1★ Awakened → 2★ Named → 3★ Evolved
+*   **Suite branch** (4★+, generic parent has `suiteComponents`):
+    4★ Extra → 5★ Ultimate → 6★ Apex
+*   **Unique branch** (4★+, generic parent has NO `suiteComponents`):
+    4★ Unique → 5★ Unique Ultimate → 6★ Unique Impossible *(provisional)*
+
+Branch is **always derived, never declared** on a node. The fork happens at 4★ based solely on whether the generic parent carries `suiteComponents`.
 
 ### Codebase Layout
 *   `registry/`: Canonical graph (`gaia.json`), named skills, and schemas. **Source of Truth.**
@@ -72,24 +84,33 @@ claude mcp add gaia -- npx @gaia-registry/mcp-server
 
 ## 4. Curation & Ranking Rules
 
-Capabilities advance through evidence, not declaration. Ranks range from `0★` to `6★` based on evidence:
+Capabilities advance through evidence, not declaration. Ranks range from `0★` to `6★`. **Trust Magnitude (TM) is the sole promotion gate** — there is no separate Evidence Floor requirement.
 
-### Evidence Tiers
-*   **2★ (Named):** Requires $\ge 1$ Tier C evidence (basic demonstration).
-*   **3★ (Evolved):** Requires $\ge 1$ Tier B evidence (integration in real workflow).
-*   **4★+ (Hardened/Transcendent):** Requires $\ge 1$ Tier B/A evidence. **Alternative path**: 3+ skill fuses with ≥1 origin named skill.
-*   **6★ (Transcendent ★ / Apex):** Tier A evidence + peer review. **Grandmaster path**: hold 2+ 5★ Ultimate skills AND ≥10k GitHub stars on your repo.
+### Trust Magnitude Thresholds
+*   **Grade S** (TM ≥ 250 + diversity gate): Required for 5★ promotion on either branch, and for 6★ Apex.
+*   **Grade A** (TM ≥ 100): Required for 4★ promotion on either branch (Extra or Unique).
+*   **Grade B** (TM ≥ 50): Named skill baseline for 3★ Evolved.
+*   **Grade C** (TM ≥ 20): Minimum for 2★ Named.
 
-### Unique Promotion Policy
-A Basic skill may be promoted to `type: "unique"` if:
-1.  It has reached elite rank — `4★` or above.
-2.  It is completely **graph-isolated** (has 0 prerequisites and 0 derivatives referenced by other nodes).
+### Promotion Gates
+*   **2★ (Named):** TM ≥ 20 (Grade C).
+*   **3★ (Evolved):** TM ≥ 50 (Grade B).
+*   **4★ Extra (Suite branch)** or **4★ Unique (Unique branch):** Origin contribution + TM ≥ 100 (Grade A).
+*   **5★ Ultimate (Suite) / 5★ Unique Ultimate (Unique branch):** TM ≥ 250 (Grade S). Suite 5★ gate preserved per #935 (5 A-graded origins in `suiteComponents`).
+*   **6★ Apex (Suite branch):** Full 6-predicate Apex Gate (TM Index 2026 Q2). See `docs/codex/trust-methodology.html`.
+*   **6★ Unique Impossible (Unique branch):** Provisional 5-predicate gate (Apex minus `directNestedSuiteGte1`). Formal ratification deferred to Yggdrasil III.
 
-### Ultimate Promotion Criteria
-A skill may be registered as `type: "ultimate"` if the proposer satisfies **all** of:
-1. **5+ named prerequisites** — all prerequisites must be named skills in `registry/named/`
-2. **At least 1 origin** — the proposer must hold `origin: true` on ≥1 of those named skills
-3. **Evidence** — ≥3 Class A/B evidence sources; **Class A waived** if proposer has ≥5 named skills in `registry/named/`
+### Unique Branch Policy
+A named skill enters the Unique branch at 4★ when its generic parent has **no `suiteComponents`** and the skill holds:
+1.  At least 1 Origin contribution in the fusion structure (`prerequisites`).
+2.  TM ≥ 100 (Grade A).
+
+Being graph-isolated is NOT a requirement — a skill may carry `suiteRef` membership and still be Unique-branch if its generic parent has no `suiteComponents`.
+
+### Suite / Fusion Promotion Criteria
+A named skill enters the Suite branch at 4★ when its generic parent carries `suiteComponents` and the proposer satisfies:
+1. **Origin** — the proposer holds `role: 'origin'` on ≥1 component in `suiteComponents`.
+2. **TM ≥ 100** (Grade A).
 
 ---
 
