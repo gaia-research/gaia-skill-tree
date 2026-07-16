@@ -10,14 +10,31 @@ EXIT CODES
   0  — clean (zero hard violations outside the documented allowlist)
   1  — one or more hard violations found in non-allowlisted files
 
-BANNED PATTERNS
-  \\bTranscendent\\b    — old 5★ rank name; now "Ultimate" (Suite) / "Unique Ultimate" (Unique)
-  \\bHardened\\b        — old 4★ rank name; now "Extra" (Suite) / "Unique" (Unique branch)
-  \\bFusion\\s+Skill\\b — type words stand bare; the "Skill" suffix is a rank-word convention. Use "Fusion".
-  \\bBasic\\s+Skill\\b  — type words stand bare; the "Skill" suffix is a rank-word convention. Use "Basic".
+BANNED PATTERNS  (applied to full scan scope — all case-sensitive unless noted)
+  \\bTranscendent\\b      — old 5★ rank name; now "Ultimate" (Suite) / "Unique Ultimate" (Unique)
+  \\bHardened\\b          — old 4★ rank name; now "Extra" (Suite) / "Unique" (Unique branch)
+  \\bFusion\\s+Skill\\b   — type words stand bare; use "Fusion"  (CONTEXT.md §Banned synonyms)
+  \\bBasic\\s+Skill\\b    — type words stand bare; use "Basic"   (CONTEXT.md §Banned synonyms)
+  \\bExtra skill\\b        — lowercase-s taxonomy form (Yggdrasil I type word); use "Fusion" / type=fusion
+                            CONTEXT.md §Banned synonyms; capital-S "Extra Skill" rank phrasing is VALID.
+  \\bUltimate skill\\b     — lowercase-s taxonomy form; "Ultimate" is now the 5★ rank name only;
+                            CONTEXT.md §Banned synonyms; capital-S "Ultimate Skill" rank phrasing is VALID.
+  type\\s*[=:]\\s*extra    — legacy Yggdrasil I taxonomy field value  (CONTEXT.md §Banned synonyms)
+  type\\s*[=:]\\s*ultimate — legacy Yggdrasil I taxonomy field value  (CONTEXT.md §Banned synonyms)
+  \\bapex\\s+tier\\b       — CASE-INSENSITIVE taxonomy-Ultimate synonym; CONTEXT.md §Banned synonyms:
+                            "Ultimate is now the 5★ rank name; Apex is the 6★ Suite rank name.
+                            Never use 'apex tier' as a taxonomy synonym."
+                            scripts/** hard-excluded; generateBadges.py/generateOgCards.py use
+                            it as a legitimate 6★-rank descriptor — confirmed excluded.
+                            Stale positive assertions in other guards/tests should be removed.
+
+DOCS-ONLY BANNED PATTERNS  (root *.md and docs/**/*.md only; added #999 Step 2)
+  \\bG7\\b  — internal engineering codename; use "TM Index (2026 Q2)" in public docs
+  \\bG8\\b  — internal engineering codename; use "TM Index (2026 Q3)" in public docs
+  founder/handovers/** and registry/** are exempt: internal specs where the G-series is primary.
 
   NOTE: The "Skill" suffix attaches to RANK words only — "Extra Skill", "Unique Skill",
-  "Ultimate Skill", "Apex Skill" are all VALID rank phrasings. TYPE words stand bare:
+  "Ultimate Skill", "Apex Skill" are all VALID rank phrasings (capital S). TYPE words stand bare:
   "Basic" and "Fusion" (never "Basic Skill" / "Fusion Skill"). Bare "Extra"/"Ultimate"
   as rank names are valid too (word-boundary matching).
 
@@ -26,6 +43,7 @@ ALLOWED (v2 vocabulary — never flagged)
   Suite: 4★ Extra · 5★ Ultimate · 6★ Apex
   Unique: 4★ Unique · 5★ Unique Ultimate · 6★ Unique Impossible
   Types (field value): basic · fusion
+  Rank phrasings with "Skill" suffix: Extra Skill · Ultimate Skill · Apex Skill · Unique Skill
 
 SCAN SCOPE  (content surface only)
   registry/**              — registry data files
@@ -68,10 +86,23 @@ if sys.stderr.encoding and sys.stderr.encoding.lower() not in ('utf-8', 'utf8'):
 
 BANNED_PATTERNS = [
     # Pattern,  human label,  rationale
-    (re.compile(r'\bTranscendent\b'),     'Transcendent',    'old 5★ rank name — use Ultimate / Unique Ultimate'),
-    (re.compile(r'\bHardened\b'),         'Hardened',        'old 4★ rank name — use Extra (Suite) / Unique (Unique branch)'),
-    (re.compile(r'\bFusion\s+Skill\b'), 'Fusion Skill',  'type words stand bare — the "Skill" suffix is reserved for rank words; use "Fusion"'),
-    (re.compile(r'\bBasic\s+Skill\b'),  'Basic Skill',   'type words stand bare — the "Skill" suffix is reserved for rank words; use "Basic"'),
+    (re.compile(r'\bTranscendent\b'),       'Transcendent',    'old 5★ rank name — use Ultimate / Unique Ultimate  (CONTEXT.md §Banned synonyms)'),
+    (re.compile(r'\bHardened\b'),           'Hardened',        'old 4★ rank name — use Extra (Suite) / Unique (Unique branch)  (CONTEXT.md §Banned synonyms)'),
+    (re.compile(r'\bFusion\s+Skill\b'),     'Fusion Skill',    'type words stand bare — "Skill" suffix is reserved for rank words; use "Fusion"  (CONTEXT.md §Banned synonyms)'),
+    (re.compile(r'\bBasic\s+Skill\b'),      'Basic Skill',     'type words stand bare — "Skill" suffix is reserved for rank words; use "Basic"  (CONTEXT.md §Banned synonyms)'),
+    # Case-sensitive patterns — lowercase-s taxonomy forms only (#999 Step 1)
+    # Capital-S "Extra Skill" / "Ultimate Skill" rank phrasings remain VALID and will NOT match.
+    (re.compile(r'\bExtra skill\b'),        'Extra skill',     'taxonomy-sense Yggdrasil I type word (CONTEXT.md §Banned synonyms); use "Fusion" / type=fusion. "Extra Skill" (capital S) rank phrasing is valid.'),
+    (re.compile(r'\bUltimate skill\b'),     'Ultimate skill',  'taxonomy-sense Yggdrasil I type word (CONTEXT.md §Banned synonyms); "Ultimate" is the 5★ rank name only; structural role → Fusion. "Ultimate Skill" (capital S) rank phrasing is valid.'),
+    (re.compile(r'type\s*[=:]\s*extra'),    'type=extra',      'legacy Yggdrasil I taxonomy field value (CONTEXT.md §Banned synonyms); use type=fusion'),
+    (re.compile(r'type\s*[=:]\s*ultimate'), 'type=ultimate',   'legacy Yggdrasil I taxonomy field value (CONTEXT.md §Banned synonyms); use type=fusion'),
+    # Case-insensitive pattern (#999 Step 3)
+    # CONTEXT.md §Banned synonyms: "apex tier" (as taxonomy-Ultimate synonym) is banned.
+    # "Ultimate is now the 5★ rank name; Apex is the 6★ Suite rank name.
+    #  Never use 'apex tier' as a taxonomy synonym."
+    # scripts/** hard-excluded: generateBadges.py + generateOgCards.py use 'apex tier' as
+    # a legitimate 6★-rank descriptor — confirmed excluded via HARD_EXCLUDE_GLOBS.
+    (re.compile(r'\bapex\s+tier\b', re.IGNORECASE), 'apex tier', 'taxonomy-Ultimate synonym — CONTEXT.md §Banned synonyms; Ultimate=5★ rank name, Apex=6★ Suite rank name; never use "apex tier" as a taxonomy synonym. scripts/** hard-excluded.'),
 ]
 
 # ---------------------------------------------------------------------------
@@ -105,6 +136,7 @@ HARD_EXCLUDE_GLOBS = [
 ALLOWLIST_PATHS = {
     # ── Guard reference doc (documents the banned terms by definition) ─────
     'docs/rank-vocabulary-guard.md',  # This IS the guard ref doc; must name the banned terms
+    'docs/guard-topology.md',         # Guard topology reference; names banned terms by definition
 
     # ── Root canonical docs (pre-Yggdrasil-II prose still in flight) ────────
     'CONTEXT.md',           # Lexicon entries explicitly documenting deprecated terms
@@ -135,6 +167,8 @@ ALLOWLIST_PATHS = {
     'docs/meta/2026-05-31-starless-skills-update.md',         # Pre-Yggdrasil-II meta post
     'docs/meta/2026-06-curate-chain-starless.md',             # Pre-Yggdrasil-II curate post
     # docs/meta/2026-06-trust-methodology.md — REMOVED from allowlist: cleaned to v2 by #994 (PR #1170)
+    'docs/meta/2026-06-17-g7-trust-magnitude-supersession.md',  # G7 supersession post; uses G7 codename + "apex tier" as 6★ descriptor  # #994
+    'docs/architecture/benchmark-framework.md',                  # Benchmark RFC; uses G7 codename + "apex tier" as 6★ descriptor  # #994
     'docs/okf/index.md',                                      # OKF index: old tier section headers
     'docs/okf/skills/extra/index.md',                         # OKF "Extra Skills" index
     'docs/okf/skills/ultimate/index.md',                      # OKF "Ultimate Skills" index
@@ -153,14 +187,74 @@ ALLOWLIST_PATHS = {
     'founder/handovers/YGGDRASIL_II_RATIFICATION_2026-07-07.md',  # Ratification doc references both old and new terms
     'founder/handovers/design-v6.1.1-world-tree-semantic-topology.md',  # v2 topology; changelog names the dropped "Transcendent" term
     'founder/handovers/done/TRUST_METHODOLOGY_REPORT.md',         # Historical report
-    'founder/handovers/done/g7-mattpocock-audit/_workflow_notes.md',  # Historical workflow notes
+    'founder/handovers/done/G7_TRUST_TAXONOMY_RFC.md',            # G7 RFC; pre-Yggdrasil-II naming ("Ultimate skill") in engineering spec  # #994
+    'founder/handovers/done/g7-mattpocock-audit/_workflow_notes.md',   # Historical workflow notes
+    'founder/handovers/done/g7-mattpocock-audit/_issue_comment.md',    # Historical issue comment; "apex tier" as 6★ descriptor  # #994
     'founder/handovers/phase-1.5/issues/I8.md',                   # Historical issue doc
+
+    # ── registry/named/** migration provenance notes (#997 Yggdrasil II migration) ────
+    # All contain "type: extra/ultimate → fusion" in evidence.details strings —
+    # legitimate provenance records of the taxonomy migration, not actual type=extra fields.
+    'registry/named-skills.json',                                       # Generated catalog; migration provenance notes  # #994
+    'registry/named/addy-osmani/agent-skills.md',                      # #994
+    'registry/named/firecrawl/firecrawl-build-scrape.md',              # #994
+    'registry/named/firecrawl/firecrawl-skills.md',                    # #994
+    'registry/named/garrytan/garrytan.md',                             # #994
+    'registry/named/garrytan/gstack.md',                               # #994
+    'registry/named/google-deepmind/alphafold_database_fetch_and_analyze.md',  # #994
+    'registry/named/google-deepmind/alphagenome_single_variant_analysis.md',   # #994
+    'registry/named/google-deepmind/workflow_skill_creator.md',        # #994
+    'registry/named/gsd-build/get-shit-done.md',                       # #994
+    'registry/named/mattpocock/engineering.md',                        # #994
+    'registry/named/mattpocock/productivity.md',                       # #994
+    'registry/named/mattpocock/skills.md',                             # #994
+    'registry/named/obra/subagent-driven-development.md',              # #994
+    'registry/named/obra/superpowers.md',                              # #994
+    'registry/named/obra/using-git-worktrees.md',                      # #994
+    'registry/named/obra/writing-plans.md',                            # #994
+    'registry/named/ruvnet/agentdb.md',                                # #994
+    'registry/named/ruvnet/dual-mode.md',                              # #994
+    'registry/named/ruvnet/reasoningbank.md',                          # #994
+    'registry/named/ruvnet/ruflo-v3.md',                               # #994
+    'registry/named/ruvnet/ruflo.md',                                  # #994
+    'registry/named/safishamsi/graphify.md',                           # #994
+    'registry/named/stanfordnlp/dspy.md',                              # #994
 }
 
 # Also allowlist entire docs/archive/ subtree (all are frozen pre-Yggdrasil snapshots)
 ALLOWLIST_SUBTREES = [
     'docs/archive/',
 ]
+
+# ---------------------------------------------------------------------------
+# Docs-only banned patterns — applied ONLY to root *.md and docs/**/*.md
+# (external/public documentation surface).  founder/handovers/** and
+# registry/** are EXEMPT: those paths are internal engineering specs where
+# the G-series codename is the primary reference.  (#999 Step 2)
+# ---------------------------------------------------------------------------
+
+DOCS_ONLY_BANNED_PATTERNS = [
+    # Pattern,  human label,  rationale
+    (re.compile(r'\bG7\b'), 'G7', 'internal engineering codename (CONTEXT.md §Banned synonyms); use "TM Index (2026 Q2)" in public docs; founder/handovers/** and registry/** are exempt'),
+    (re.compile(r'\bG8\b'), 'G8', 'internal engineering codename (CONTEXT.md §Banned synonyms); use "TM Index (2026 Q3)" in public docs; founder/handovers/** and registry/** are exempt'),
+]
+
+# Allowlist for docs-only patterns (pre-existing G7/G8 external-doc references).
+# These files are exempted ONLY for DOCS_ONLY_BANNED_PATTERNS.  Files already in
+# ALLOWLIST_PATHS inherit that exemption automatically (is_allowlisted() returns True)
+# and need not be repeated here.  #994
+DOCS_ONLY_ALLOWLIST_PATHS = {
+    'CHANGELOG.md',           # Release notes reference "G7 Trust Infrastructure" phase name  # #994
+    'CONTRIBUTING.md',        # Contribution guide: "Add evidence with G7 dual-axis fields"  # #994
+    'DESIGN.md',              # Design doc references the G7 Trust Taxonomy RFC  # #994
+    'META.md',                # Evidence-methodology summary references G7 RFC directly  # #994
+    'README.md',              # Readme mentions G7 Trust Taxonomy RFC  # #994
+    'docs/meta/2026-06-FULL-recap.md',      # G7 retrospective document  # #994
+    'docs/meta/JUN_2026_TRUST_REGRADE.md',  # G7 cutover stamp document  # #994
+    # Note: docs/meta/2026-06-17-g7-trust-magnitude-supersession.md and
+    # docs/architecture/benchmark-framework.md are in the main ALLOWLIST_PATHS
+    # (pre-existing G7 + apex-tier references); is_allowlisted() covers them.
+}
 
 # ---------------------------------------------------------------------------
 # File collection helpers
@@ -186,6 +280,31 @@ def is_allowlisted(rel_path: str) -> bool:
         if norm.startswith(subtree):
             return True
     return False
+
+
+def is_docs_scope(rel_path: str) -> bool:
+    """Return True for root *.md and docs/**/*.md — the external/public doc surface.
+
+    G7/G8 docs-only banned patterns apply only to this scope.  Files in
+    founder/handovers/** and registry/** are NOT docs-scope for this check.
+    """
+    norm = rel_path.replace('\\', '/')
+    if norm.endswith('.md') and '/' not in norm:
+        return True
+    if norm.startswith('docs/') and norm.endswith('.md'):
+        return True
+    return False
+
+
+def is_docs_only_allowlisted(rel_path: str) -> bool:
+    """Return True if this path is exempt from DOCS_ONLY_BANNED_PATTERNS.
+
+    A file is exempt if it is either in the main ALLOWLIST_PATHS (which covers
+    all patterns) or in DOCS_ONLY_ALLOWLIST_PATHS (which covers only
+    DOCS_ONLY_BANNED_PATTERNS).  This lets us exempt files like CHANGELOG.md
+    from the G7/G8 check without granting them blanket immunity from all guards.
+    """
+    return is_allowlisted(rel_path) or rel_path.replace('\\', '/') in DOCS_ONLY_ALLOWLIST_PATHS
 
 
 def collect_files(repo_root: Path):
@@ -234,7 +353,11 @@ def scan(repo_root: Path):
             print(f'  [SKIP] {rel_path}: {exc}', file=sys.stderr)
             continue
 
+        # Determine which pattern sets apply to this file
+        check_docs_only = is_docs_scope(rel_path)
+
         for lineno, line in enumerate(text.splitlines(), start=1):
+            # Full-scope banned patterns (apply to all scanned files)
             for pattern, label, rationale in BANNED_PATTERNS:
                 if pattern.search(line):
                     entry = (rel_path, lineno, line.strip()[:120], label, rationale)
@@ -242,6 +365,16 @@ def scan(repo_root: Path):
                         soft_violations.append(entry)
                     else:
                         hard_violations.append(entry)
+
+            # Docs-only banned patterns (G7/G8 — external/public doc surface only)
+            if check_docs_only:
+                for pattern, label, rationale in DOCS_ONLY_BANNED_PATTERNS:
+                    if pattern.search(line):
+                        entry = (rel_path, lineno, line.strip()[:120], label, rationale)
+                        if is_docs_only_allowlisted(rel_path):
+                            soft_violations.append(entry)
+                        else:
+                            hard_violations.append(entry)
 
     return hard_violations, soft_violations
 
@@ -261,8 +394,9 @@ def main():
 
     print('=== Yggdrasil II Rank Vocabulary Guard  (Refs #999) ===')
     print(f'Repo root : {repo_root}')
-    print(f'Banned    : Transcendent, Hardened, "Basic Skill", "Fusion Skill"')
-    print(f'Allowed   : Extra/Ultimate + rank+Skill phrasings ("Extra Skill" etc.); Basic, Fusion (bare types)')
+    print(f'Banned    : Transcendent, Hardened, "Basic Skill", "Fusion Skill", "Extra skill", "Ultimate skill", type=extra, type=ultimate, "apex tier" (case-insensitive)')
+    print(f'Docs-only : G7, G8 (external/public docs only; founder/handovers/** and registry/** exempt)')
+    print(f'Allowed   : Extra Skill / Ultimate Skill (capital-S rank phrasings); Extra/Ultimate bare; Basic, Fusion (bare types)')
     print()
 
     hard, soft = scan(repo_root)
