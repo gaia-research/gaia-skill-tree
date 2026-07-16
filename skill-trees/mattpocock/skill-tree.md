@@ -50,7 +50,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — mattpocock  ·  generated 2026-07-14
+GAIA SKILL TREE — mattpocock  ·  generated 2026-07-16
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
