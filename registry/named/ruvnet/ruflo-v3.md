@@ -7,7 +7,7 @@ genericSkillRef: platform-modernization-sprint
 status: named
 title: The V3 Architect
 catalogRef: ruvnet-ruflo-v3
-level: 4★
+level: 3★
 description: 'Complete Ruflo v3 modernization sprint: CLI modernization, core implementation,
   DDD architecture, MCP optimization, memory unification, performance tuning, security
   overhaul, and swarm coordination.'
@@ -21,7 +21,7 @@ tags:
 - security
 - memory-unification
 createdAt: '2026-05-19'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-16'
 suiteRef: ruvnet/ruflo
 suiteComponents:
 - ruvnet/swarm-advanced
@@ -71,6 +71,18 @@ timeline:
   previousValue: null
   newValue: v3.25.5
   details: first-run baseline
+- timestamp: '2026-07-16T08:36:44Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''platform-modernization-sprint'' type: extra/ultimate
+    → fusion (Yggdrasil II taxonomy migration #997)'
+- timestamp: '2026-07-16T08:36:44Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 3★
+  details: 'Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch
+    TM=36.0 (< 100.0)) — demoted to 3★ Evolved'
 trustMagnitude: 186.0
 overallTrustGrade: A
 apexGateStatus:

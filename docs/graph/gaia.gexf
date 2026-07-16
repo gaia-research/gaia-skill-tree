@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <gexf xmlns="http://www.gexf.net/1.2draft" version="1.2">
-  <meta lastmodifieddate="2026-07-14">
+  <meta lastmodifieddate="2026-07-16">
     <creator>Gaia</creator>
     <description>Gaia Skill Registry Graph</description>
   </meta>
@@ -22,56 +22,56 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="adversarial-robustness-testing" label="Adversarial Robustness Testing">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="agent-environment-setup" label="agent-environment-setup">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="agent-eval" label="Agent Evaluation">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="agent-handoff" label="agent-handoff">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="agent-memory-learning" label="Agent Memory Learning">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="agent-memory-platform" label="Agent Memory Platform">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="agentic-workflow-design" label="Agentic Workflow Design">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="api-call" label="API Call">
@@ -85,7 +85,7 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="audience-model" label="Audience Model">
@@ -99,21 +99,21 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="autonomous-data-scientist" label="Autonomous Data Scientist">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="autonomous-debug" label="Autonomous Debug">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="autonomous-engineering-platform" label="Autonomous Engineering Platform">
@@ -127,7 +127,7 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="bioinformatic-sequence-analysis" label="Bioinformatic Sequence Analysis">
@@ -141,14 +141,14 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="browser-automation" label="Browser Automation">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="browser-control" label="Browser Control">
@@ -162,14 +162,14 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="causal-inference" label="Causal Inference">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="chain-of-thought" label="Chain-of-Thought Reasoning">
@@ -225,7 +225,7 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="code-execution" label="Code Execution">
@@ -253,21 +253,21 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="collaborative-diagramming" label="Collaborative Diagramming">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="computational-biology-workflows" label="Computational Biology Workflows">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="computer-use" label="Computer Use">
@@ -281,7 +281,7 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="context-compression" label="Context Compression">
@@ -295,7 +295,7 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="core-platform-implementation" label="Core Platform Implementation">
@@ -323,7 +323,7 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="data-visualize" label="Data Visualize">
@@ -337,35 +337,35 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="design-generation" label="Design Generation">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="design-review" label="Design Review">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="design-system-extraction" label="Design System Extraction">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="detect-anomaly" label="Detect Anomaly">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="diff-content" label="Diff Content">
@@ -379,35 +379,35 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="distributed-consensus-coordination" label="Hive Mind Coordination">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="distributed-neural-training" label="Distributed Neural Training">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="distributed-vector-memory" label="Distributed Vector Memory">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="document-analyst" label="Document Analyst">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="document-editing" label="Document Editing">
@@ -428,21 +428,21 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="e2e-testing" label="End-to-End Testing">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="edge-optimization" label="Edge Optimization">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="embed-text" label="Embed Text">
@@ -456,7 +456,7 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="error-interpretation" label="Error Interpretation">
@@ -512,14 +512,14 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="explainability-audit" label="Explainability Audit">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="extract-entities" label="Extract Entities">
@@ -547,7 +547,7 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="fine-tune" label="Fine-Tune">
@@ -561,14 +561,14 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="firecrawl" label="Firecrawl">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="format-output" label="Format Output">
@@ -582,7 +582,7 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="ultimate" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="framework-upgrade" label="Framework Upgrade">
@@ -596,14 +596,14 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="function-calling" label="Function Calling">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="generate-sql" label="Generate SQL">
@@ -631,7 +631,7 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="genomic-data-retrieval" label="Genomic Data Retrieval">
@@ -645,7 +645,7 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="git-diff-risk-analysis" label="Git Diff Risk Analysis">
@@ -659,14 +659,14 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="git-ship-done-pipeline" label="Git Ship Done Pipeline">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="ultimate" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="grant-application-processing" label="Grant Application Processing">
@@ -680,35 +680,35 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="grill-me" label="Grill Me">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="grill-with-docs" label="Grill With Docs">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="grounding" label="Grounding">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="guardrails" label="Guardrails">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="headless-worker-collect" label="Headless Worker Collect">
@@ -729,7 +729,7 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="hybrid-workflow-coordination" label="Hybrid Workflow Coordination">
@@ -778,28 +778,28 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="knowledge-harvest" label="Knowledge Harvest">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="knowledge-management" label="Knowledge Management">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="literature-review" label="Literature Review">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="literature-search" label="Literature Search">
@@ -827,14 +827,14 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="mcp-debugger-control" label="MCP Debugger Control">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="mcp-integration" label="MCP Integration">
@@ -848,14 +848,14 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="memory-manage" label="Memory Manage">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="memory-pattern-design" label="Memory Pattern Design">
@@ -869,14 +869,14 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="ml-pipeline" label="ML Pipeline">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="molecular-databases" label="Molecular Databases">
@@ -890,21 +890,21 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="multi-agent-orchestration-v" label="Multi-Agent Orchestration">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="multi-node-orchestration" label="Flow Nexus Orchestration">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="multi-repo-coordination" label="Multi-Repo Coordination">
@@ -918,14 +918,14 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="ultimate" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="multimodal-reasoning" label="Multimodal Reasoning">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="object-detection" label="Object Detection">
@@ -939,7 +939,7 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="optical-character-recognition" label="OCR">
@@ -995,21 +995,21 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="personal-knowledge-management" label="personal-knowledge-management">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="plan-and-execute" label="Plan and Execute">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="plan-decompose" label="Plan and Decompose">
@@ -1023,21 +1023,21 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="prd-generation" label="PRD Generation">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="prediction-market-analysis" label="Prediction Market Analysis">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="probabilistic-programming" label="Probabilistic Programming">
@@ -1051,14 +1051,14 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="project-management" label="Project Management">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="prompt-injection-defense" label="Prompt Injection Defense">
@@ -1072,7 +1072,7 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="protein-structure-analysis" label="Protein Structure Analysis">
@@ -1093,7 +1093,7 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="question-answer" label="Question Answer">
@@ -1107,7 +1107,7 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="rank" label="Rank">
@@ -1121,35 +1121,35 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="real-time-voice-assistant" label="Real-Time Voice Assistant">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="reasoning-pattern-bank" label="Reasoning Pattern Bank">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="receiving-code-review" label="Receiving Code Review">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="recursive-self-improvement" label="Recursive Self-Improvement">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="refactor-code" label="Refactor Code">
@@ -1163,42 +1163,42 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="registry-entry-audit" label="Gaia Audit">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="registry-health-scan" label="Gaia Meta Audit">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="regulatory-compliance-mapping" label="Regulatory Compliance Mapping">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="release-automation" label="Release Automation">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="requesting-code-review" label="Requesting Code Review">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="requirements-analysis" label="Requirements Analysis">
@@ -1212,7 +1212,7 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="retrieve" label="Retrieve">
@@ -1247,7 +1247,7 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="scientific-visualization" label="Scientific Visualization">
@@ -1261,7 +1261,7 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="score-relevance" label="Score Relevance">
@@ -1275,14 +1275,14 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="security-audit" label="Security Audit">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="self-consistency" label="Self-Consistency">
@@ -1324,7 +1324,7 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="skill-discovery" label="Skill Discovery">
@@ -1338,28 +1338,28 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="skill-mastery" label="mattpocock-skills">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="ultimate" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="skill-performance-benchmarking" label="Skill Performance Benchmarking">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="skill-security-analysis" label="Skill Security Analysis">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="software-design" label="Software Design">
@@ -1387,7 +1387,7 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="structured-output" label="Structured Output Generation">
@@ -1401,7 +1401,7 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="summarize" label="Summarize">
@@ -1415,14 +1415,14 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="ultimate" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="supply-chain-optimization" label="Supply Chain Optimization">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="swarm-topology-management" label="Swarm Topology Management">
@@ -1450,7 +1450,7 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="test-driven-development" label="Test-Driven Development">
@@ -1471,14 +1471,14 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="threat-intelligence-synthesis" label="Threat Intelligence Synthesis">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="time-series-forecasting" label="Time Series Forecasting">
@@ -1506,14 +1506,14 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="tool-creation" label="Tool Creation">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="tool-select" label="Tool Select">
@@ -1548,28 +1548,28 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="tree-of-thought" label="Tree of Thought">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="ubiquitous-language" label="Ubiquitous Language">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="using-git-worktrees" label="Using Git Worktrees">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="ux-audit" label="UX Audit">
@@ -1597,21 +1597,21 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="vertical-slice-planning" label="Vertical Slice Planning">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="video-intelligence" label="Video Intelligence">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="vision-qa" label="Visual Question Answering">
@@ -1625,35 +1625,35 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="web-accessibility" label="web-accessibility">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="web-best-practices" label="web-best-practices">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="web-quality-audit" label="web-quality-audit">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="web-scrape" label="Web Scrape">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="web-search" label="Web Search">
@@ -1667,7 +1667,7 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="worker-agent-dispatch" label="Worker Agent Dispatch">
@@ -1681,14 +1681,14 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="workspace-automation" label="Workspace Automation">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="write-report" label="Write Report">
@@ -1702,14 +1702,14 @@
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
       <node id="x-twitter-automation" label="X/Twitter Automation">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
-          <attvalue for="type" value="extra" />
+          <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
     </nodes>

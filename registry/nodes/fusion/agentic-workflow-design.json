@@ -1,0 +1,62 @@
+{
+  "id": "agentic-workflow-design",
+  "name": "Agentic Workflow Design",
+  "type": "fusion",
+  "description": "Autonomously designs, authors, and iterates on complex multi-step workflows by translating high-level goals into executable DAGs or playbooks, managing task dependencies and distributed execution environments.",
+  "prerequisites": [
+    "workflow-automation",
+    "plan-decompose"
+  ],
+  "derivatives": [
+    "full-stack-developer"
+  ],
+  "conditions": "Requires a workflow orchestration target (e.g. Airflow, Temporal) and access to its authoring API.",
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/apache/airflow/blob/main/AGENTS.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-14",
+      "notes": "Airflow AGENTS.md defines agentic workflow design patterns using the TaskFlow API for dynamic DAG generation. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0
+    }
+  ],
+  "knownAgents": [
+    "apache/airflow"
+  ],
+  "status": "provisional",
+  "createdAt": "2026-05-14",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-14T07:54:42Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 5★ (provisional)",
+      "previousValue": null,
+      "newValue": "5★"
+    },
+    {
+      "timestamp": "2026-05-19T22:44:52Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated/demoted rank from 5★ to 3★",
+      "previousValue": "5★",
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:57Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/apache/airflow/blob/main/AGENTS.md as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:17Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

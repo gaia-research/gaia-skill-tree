@@ -1,0 +1,82 @@
+{
+  "id": "multi-agent-debate",
+  "name": "Multi-Agent Debate",
+  "type": "fusion",
+  "description": "Runs multiple LLM agents that propose, critique, and iteratively refine answers across structured debate rounds, converging on more accurate and well-reasoned responses than any single agent achieves.",
+  "prerequisites": [
+    "self-critique",
+    "evaluate-output",
+    "chain-of-thought"
+  ],
+  "derivatives": [
+    "founder-mode-orchestration"
+  ],
+  "conditions": "",
+  "evidence": [
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2305.14325",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-30",
+      "notes": "Du et al. (2023) -- Improving Factuality and Reasoning through Multi-Agent Debate; +14% truthfulness on TruthfulQA and +6% on MMLU Reasoning over single-model greedy decoding baselines. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0
+    },
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2308.07201",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-30",
+      "notes": "ChatEval (Chan et al., 2023) -- role-play multi-agent debate framework for open-ended text quality evaluation; outperforms single LLM judges on correlation with human ratings across MT-Bench and Vicuna benchmarks. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-04-30",
+  "updatedAt": "2026-07-16",
+  "version": "0.2.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-13T21:50:25Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 4★ (provisional)",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-25T03:45:37Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 4★ to 2★"
+    },
+    {
+      "timestamp": "2026-05-25T03:46:10Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated/demoted rank from 4★ to 2★",
+      "previousValue": "4★",
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:02Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2305.14325 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:02Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2308.07201 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:21Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

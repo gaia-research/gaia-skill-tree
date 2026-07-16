@@ -1,0 +1,55 @@
+{
+  "id": "superpowers",
+  "name": "Superpowers",
+  "type": "fusion",
+  "description": "A complete software development methodology for coding agents: combines brainstorming, planning, parallel execution, systematic debugging, code review loops, and branch discipline into a unified agentic workflow.",
+  "prerequisites": [
+    "brainstorming",
+    "dispatching-parallel-agents",
+    "executing-plans",
+    "finishing-a-development-branch",
+    "receiving-code-review",
+    "requesting-code-review",
+    "subagent-driven-development",
+    "systematic-debugging",
+    "using-git-worktrees",
+    "verification-before-completion",
+    "writing-plans"
+  ],
+  "derivatives": [],
+  "conditions": "Requires demonstrating all 11 obra discipline skills together in a real multi-step development context.",
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-18",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-18T00:00:00Z",
+      "action": "fuse",
+      "contributor": "mbtiongson1",
+      "details": "Fused 11 obra/superpowers discipline skills into /superpowers ultimate. Components: brainstorming, writing-plans, executing-plans, dispatching-parallel-agents, subagent-driven-development, requesting-code-review, receiving-code-review, systematic-debugging, verification-before-completion, using-git-worktrees, finishing-a-development-branch. Promoted to 5 star on evidence: obra/superpowers v5.1.0, 196k+ stars, multi-platform adoption."
+    },
+    {
+      "timestamp": "2026-05-18T14:11:08Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 5★ (provisional)",
+      "previousValue": null,
+      "newValue": "5★"
+    },
+    {
+      "timestamp": "2026-05-25T03:46:20Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 5★ to 5★"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:26Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from ultimate to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

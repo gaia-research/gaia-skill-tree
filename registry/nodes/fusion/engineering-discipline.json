@@ -1,0 +1,111 @@
+{
+  "id": "engineering-discipline",
+  "name": "mattpocock-engineering",
+  "type": "fusion",
+  "description": "Engineering category suite for Matt Pocock's skills.",
+  "prerequisites": [
+    "autonomous-debug",
+    "refactor-code",
+    "vertical-slice-planning",
+    "prd-generation",
+    "issue-triage",
+    "ubiquitous-language",
+    "code-explain",
+    "grill-with-docs",
+    "prototype",
+    "agent-environment-setup"
+  ],
+  "derivatives": [],
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/mattpocock/skills",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-22",
+      "notes": "Consolidated engineering suite for Matt Pocock's skills. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-22",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-21T16:24:36Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill mattpocock-engineering"
+    },
+    {
+      "timestamp": "2026-05-21T16:31:25Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 1★ (provisional)",
+      "previousValue": null,
+      "newValue": "1★"
+    },
+    {
+      "timestamp": "2026-05-21T17:17:01Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added B evidence from https://github.com/mattpocock/skills"
+    },
+    {
+      "timestamp": "2026-05-21T17:19:20Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated/demoted rank from 1★ to 5★",
+      "previousValue": "1★",
+      "newValue": "5★"
+    },
+    {
+      "timestamp": "2026-05-21T17:19:20Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence: https://github.com/mattpocock/skills",
+      "previousValue": null,
+      "newValue": "5★"
+    },
+    {
+      "timestamp": "2026-05-21T19:14:10Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Type adjusted from extra to ultimate",
+      "previousValue": "extra",
+      "newValue": "ultimate"
+    },
+    {
+      "timestamp": "2026-05-25T03:46:20Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 5★ to 5★"
+    },
+    {
+      "timestamp": "2026-06-01T15:39:52Z",
+      "action": "rename",
+      "contributor": "unknown",
+      "details": "Renamed from mattpocock-engineering to engineering-discipline"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:07Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/mattpocock/skills as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-06-20T06:47:53Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from ultimate to extra"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:19Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

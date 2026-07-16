@@ -1,0 +1,34 @@
+{
+  "id": "cloud-platform-management",
+  "name": "Cloud Platform Management",
+  "type": "fusion",
+  "description": "Full lifecycle management of cloud AI platforms including user auth, sandbox environments, app store deployment, payments, and challenge systems. Home of the Queen Seraphina AI assistant.",
+  "prerequisites": [
+    "api-call",
+    "tool-use"
+  ],
+  "derivatives": [],
+  "conditions": "",
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-19",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-19T16:29:16Z",
+      "action": "propose",
+      "contributor": "claude",
+      "details": "Skill created as 3★ (provisional)",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:17Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

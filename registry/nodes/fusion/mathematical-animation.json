@@ -1,0 +1,52 @@
+{
+  "id": "mathematical-animation",
+  "name": "Mathematical Animation",
+  "type": "fusion",
+  "description": "Produces programmatic mathematical and algorithmic animations with high pedagogical and visual quality, utilizing LaTeX for notation and geometric coordinate systems for spatial layout.",
+  "prerequisites": [
+    "code-execution",
+    "data-visualize"
+  ],
+  "derivatives": [],
+  "conditions": "",
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/ManimCommunity/manim",
+      "evaluator": "gemini-cli",
+      "date": "2026-05-17",
+      "notes": "Manim Community Edition -- programmatic animation engine for explanatory math videos; inspired by 3Blue1Brown. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0
+    }
+  ],
+  "knownAgents": [
+    "NousResearch/hermes-agent"
+  ],
+  "status": "provisional",
+  "createdAt": "2026-05-17",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-17T13:00:26Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 3★ (provisional)",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:01Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/ManimCommunity/manim as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:21Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

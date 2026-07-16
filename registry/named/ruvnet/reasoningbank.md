@@ -7,7 +7,7 @@ genericSkillRef: reasoning-pattern-bank
 status: named
 title: The Pattern Sage
 catalogRef: ruvnet-reasoningbank
-level: 4★
+level: 3★
 description: Fuses adaptive pattern learning with persistent vector memory to build
   a self-improving agent knowledge base across sessions.
 links:
@@ -18,7 +18,7 @@ tags:
 - memory-integration
 - self-improvement
 createdAt: '2026-05-19'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-16'
 suiteRef: ruvnet/ruflo
 suiteComponents:
 - ruvnet/reasoningbank-agentdb
@@ -128,6 +128,18 @@ timeline:
   previousValue: null
   newValue: v3.25.5
   details: first-run baseline
+- timestamp: '2026-07-16T08:36:44Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''reasoning-pattern-bank'' type: extra/ultimate → fusion
+    (Yggdrasil II taxonomy migration #997)'
+- timestamp: '2026-07-16T08:36:44Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 3★
+  details: 'Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch
+    TM=88.5 (< 100.0)) — demoted to 3★ Evolved'
 trustMagnitude: 118.5
 overallTrustGrade: A
 apexGateStatus:

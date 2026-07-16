@@ -6,7 +6,7 @@ origin: true
 genericSkillRef: browser-control
 status: named
 title: The Dom Whispering
-level: 4★
+level: 3★
 description: Self-healing harness for direct browser control via CDP, enabling agents
   to write custom helpers at runtime.
 links:
@@ -16,7 +16,7 @@ tags:
 - cdp
 - automation
 createdAt: '2026-05-14'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-16'
 evidence:
 - class: B
   source: https://github.com/browser-use/browser-harness
@@ -113,6 +113,18 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Level updated from 2★ to 3★ per G7 final rankings calibration.
+- timestamp: '2026-07-16T08:36:42Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''browser-control'' type: basic (unchanged; Yggdrasil II
+    taxonomy migration #997)'
+- timestamp: '2026-07-16T08:36:42Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 3★
+  details: 'Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch
+    origin=True TM=73.6 (< 100.0)) — demoted to 3★ Evolved'
 trustMagnitude: 73.59
 overallTrustGrade: B
 apexGateStatus:

@@ -1,0 +1,52 @@
+{
+  "id": "recursive-self-improvement",
+  "name": "Recursive Self-Improvement",
+  "type": "fusion",
+  "description": "Agent iteratively refines its own prompts, tools, or strategies based on performance feedback loops.",
+  "prerequisites": [
+    "autonomous-debug",
+    "evaluate-output",
+    "plan-and-execute"
+  ],
+  "derivatives": [],
+  "conditions": "Requires extensive multi-system validation before level advancement.",
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-04-26",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "title": "Unbound Sage",
+  "timeline": [
+    {
+      "timestamp": "2026-05-13T21:50:25Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 5★ (provisional)",
+      "previousValue": null,
+      "newValue": "5★"
+    },
+    {
+      "timestamp": "2026-05-18T09:04:22Z",
+      "action": "demote",
+      "contributor": "jules",
+      "details": "Calibrated/demoted rank from 5★ to 1★",
+      "previousValue": "5★",
+      "newValue": "1★"
+    },
+    {
+      "timestamp": "2026-05-18T15:45:47Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Type adjusted from ultimate to extra",
+      "previousValue": "ultimate",
+      "newValue": "extra"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:23Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

@@ -19,7 +19,7 @@ tags:
 - two-stage-review
 - multi-agent
 createdAt: '2026-05-18'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-16'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -130,6 +130,11 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T14:32:19Z'
   details: TM 117.65 -> 117.65, grade A -> A (direct edit -- CLI gap)
+- timestamp: '2026-07-16T08:36:44Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''subagent-driven-development'' type: extra/ultimate →
+    fusion (Yggdrasil II taxonomy migration #997)'
 trustMagnitude: 117.65
 overallTrustGrade: A
 apexGateStatus:

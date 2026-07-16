@@ -1,0 +1,34 @@
+{
+  "id": "distributed-neural-training",
+  "name": "Distributed Neural Training",
+  "type": "fusion",
+  "description": "Trains neural networks (feedforward, LSTM, GAN, autoencoder, transformer) across distributed E2B sandbox clusters with federated learning and model marketplace publishing.",
+  "prerequisites": [
+    "parallel-execution",
+    "embed-text"
+  ],
+  "derivatives": [],
+  "conditions": "",
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-19",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-19T16:29:16Z",
+      "action": "propose",
+      "contributor": "claude",
+      "details": "Skill created as 3★ (provisional)",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:18Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

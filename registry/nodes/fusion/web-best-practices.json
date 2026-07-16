@@ -1,0 +1,59 @@
+{
+  "id": "web-best-practices",
+  "name": "web-best-practices",
+  "type": "fusion",
+  "description": "Web Best Practices",
+  "prerequisites": [
+    "code-review-pipeline",
+    "performance-tuning"
+  ],
+  "derivatives": [],
+  "evidence": [
+    {
+      "class": "A",
+      "source": "https://github.com/addyosmani/web-quality-skills",
+      "evaluator": "addyosmani",
+      "date": "2026-05-24",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "notes": "(backfilled — class-to-type migration)"
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-24",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-24T16:03:24Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill web-best-practices"
+    },
+    {
+      "timestamp": "2026-05-24T16:07:27Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from None to 2★"
+    },
+    {
+      "timestamp": "2026-05-24T16:09:50Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added A evidence from https://github.com/addyosmani/web-quality-skills"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:07Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/addyosmani/web-quality-skills as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:25Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

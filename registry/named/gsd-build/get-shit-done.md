@@ -5,11 +5,11 @@ contributor: gsd-build
 origin: false
 genericSkillRef: git-ship-done-pipeline
 status: named
-level: 4★
+level: 3★
 description: 'Git Ship Done pipeline for Claude Code: discuss, plan, execute, verify,
   and ship as a repeatable agentic software delivery loop.'
 createdAt: '2026-07-03'
-updatedAt: '2026-07-03'
+updatedAt: '2026-07-16'
 tags:
 - suite
 - pipeline
@@ -75,6 +75,18 @@ timeline:
   previousValue: null
   newValue: v1.42.3
   details: first-run baseline
+- timestamp: '2026-07-16T08:36:43Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''git-ship-done-pipeline'' type: extra/ultimate → fusion
+    (Yggdrasil II taxonomy migration #997)'
+- timestamp: '2026-07-16T08:36:43Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 3★
+  details: 'Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch
+    TM=52.2 (< 100.0)) — demoted to 3★ Evolved'
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/stargazers
   evaluator: unknown

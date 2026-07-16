@@ -6,7 +6,7 @@ origin: true
 genericSkillRef: knowledge-graph-build
 status: named
 title: The Structural Muse
-level: 4★
+level: 3★
 description: Maps codebases and documentation into a queryable knowledge graph using
   AST analysis and semantic extraction.
 links:
@@ -16,7 +16,7 @@ tags:
 - rag
 - ast
 createdAt: '2026-05-14'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-16'
 timeline:
 - timestamp: '2026-06-02T23:48:24Z'
   action: demote
@@ -61,6 +61,18 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Level updated from 1★ to 4★ per G7 final rankings calibration.
+- timestamp: '2026-07-16T08:36:44Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''knowledge-graph-build'' type: extra/ultimate → fusion
+    (Yggdrasil II taxonomy migration #997)'
+- timestamp: '2026-07-16T08:36:44Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 3★
+  details: 'Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch
+    origin=False TM=122.9 (≥ 100.0)) — demoted to 3★ Evolved'
 trustMagnitude: 116.57
 overallTrustGrade: A
 apexGateStatus:

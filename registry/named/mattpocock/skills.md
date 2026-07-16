@@ -13,7 +13,7 @@ description: The ultimate capstone suite encompassing all of Matt Pocock's engin
 links:
   github: https://github.com/mattpocock/skills
 createdAt: '2026-05-22'
-updatedAt: '2026-07-02'
+updatedAt: '2026-07-16'
 trustMagnitude: 480.29
 overallTrustGrade: S
 apexGateStatus:
@@ -99,6 +99,11 @@ timeline:
   previousValue: null
   newValue: v1.1.0
   details: first-run baseline
+- timestamp: '2026-07-16T08:36:43Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''skill-mastery'' type: extra/ultimate → fusion (Yggdrasil
+    II taxonomy migration #997)'
 evidence:
 - source: https://github.com/mattpocock/skills/stargazers
   evaluator: mbtiongson1

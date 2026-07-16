@@ -10,7 +10,7 @@ description: Production-grade engineering command suite for AI coding agents spa
   the full development lifecycle — spec, plan, build, test, review, web performance,
   ship, and simplify.
 createdAt: '2026-07-03'
-updatedAt: '2026-07-03'
+updatedAt: '2026-07-16'
 timeline:
 - timestamp: '2026-07-02T18:42:20Z'
   action: add
@@ -86,6 +86,11 @@ timeline:
   previousValue: null
   newValue: 0.6.3
   details: first-run baseline
+- timestamp: '2026-07-16T08:36:42Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''git-ship-done-pipeline'' type: extra/ultimate → fusion
+    (Yggdrasil II taxonomy migration #997)'
 evidence:
 - source: https://github.com/addyosmani/agent-skills/stargazers
   evaluator: unknown

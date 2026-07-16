@@ -1,0 +1,67 @@
+{
+  "id": "design-review",
+  "name": "Design Review",
+  "type": "fusion",
+  "description": "Stress-tests a plan or design through relentless targeted questioning, walking the decision tree branch-by-branch, resolving concept dependencies, surfacing contradictions against the existing codebase, and crystallising ubiquitous language — optionally persisting resolved decisions to CONTEXT.md and ADRs.",
+  "prerequisites": [
+    "evaluate-output",
+    "plan-decompose"
+  ],
+  "derivatives": [
+    "founder-mode-orchestration"
+  ],
+  "conditions": "",
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-30",
+      "notes": "Production interactive design-grilling skill; walks decision tree with recommended answers, one question at a time. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/grill-with-docs/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-30",
+      "notes": "Extended implementation with domain-model awareness: challenges language against CONTEXT.md, cross-references code, writes ADRs inline. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-04-30",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-13T21:50:25Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 3★ (provisional)",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:59Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/grill-me/SKILL.md as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:59Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/grill-with-docs/SKILL.md as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:18Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

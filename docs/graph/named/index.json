@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-14",
+  "generatedAt": "2026-07-16",
   "buckets": {
     "automated-testing": [
       {
@@ -91,7 +91,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -155,7 +155,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       }
     ],
@@ -286,7 +286,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "origin"
       },
       {
@@ -370,7 +370,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       }
     ],
@@ -409,7 +409,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-07-03",
+        "updatedAt": "2026-07-16",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:42:20Z",
@@ -513,6 +513,12 @@
             "previousValue": null,
             "newValue": "0.6.3",
             "details": "first-run baseline"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:42Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'git-ship-done-pipeline' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
           }
         ],
         "suiteComponents": [
@@ -538,13 +544,9 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "ultimate",
+        "type": "fusion",
         "installBody": "Install the full Addy Osmani agent skills suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nThis is the recommended path from the upstream repo's Quick Start.",
-        "role": "origin",
-        "ultimateGateStatus": {
-          "passes": false,
-          "reason": "need ≥1 component(s) graded S+, have 0"
-        }
+        "role": "origin"
       },
       {
         "id": "gsd-build/get-shit-done",
@@ -553,7 +555,7 @@
         "origin": false,
         "genericSkillRef": "git-ship-done-pipeline",
         "status": "named",
-        "level": "4★",
+        "level": "3★",
         "description": "Git Ship Done pipeline for Claude Code: discuss, plan, execute, verify, and ship as a repeatable agentic software delivery loop.",
         "title": "Get Shit Done",
         "installable": true,
@@ -585,7 +587,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-07-03",
+        "updatedAt": "2026-07-16",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:04:57Z",
@@ -671,6 +673,20 @@
             "previousValue": null,
             "newValue": "v1.42.3",
             "details": "first-run baseline"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:43Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'git-ship-done-pipeline' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:43Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "previousValue": "4★",
+            "newValue": "3★",
+            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=52.2 (< 100.0)) — demoted to 3★ Evolved"
           }
         ],
         "suiteComponents": [
@@ -693,13 +709,9 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "ultimate",
+        "type": "fusion",
         "installBody": "Install the full GSD Core software development pipeline with:\n\n```bash\nnpx @opengsd/gsd-core@latest\n```\n\nThis is the recommended path from the upstream repo's Quickstart.",
-        "role": "variant",
-        "ultimateGateStatus": {
-          "passes": false,
-          "reason": "need ≥1 component(s) graded S+, have 0"
-        }
+        "role": "variant"
       }
     ],
     "code-review-pipeline": [
@@ -825,7 +837,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
         "role": "variant"
       },
@@ -939,7 +951,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -1062,7 +1074,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -1124,7 +1136,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       }
     ],
@@ -1676,7 +1688,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "origin"
       },
       {
@@ -1801,7 +1813,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
         "role": "variant"
       },
@@ -1921,7 +1933,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant"
       }
@@ -1973,7 +1985,7 @@
           }
         ],
         "createdAt": "2026-05-31",
-        "updatedAt": "2026-07-04",
+        "updatedAt": "2026-07-16",
         "timeline": [
           {
             "timestamp": "2026-05-31T02:15:44Z",
@@ -2040,6 +2052,12 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 3★ to 4★"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:42Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'performance-tuning' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
@@ -2204,7 +2222,7 @@
         "origin": true,
         "genericSkillRef": "vertical-slice-planning",
         "status": "named",
-        "level": "4★",
+        "level": "3★",
         "description": "The definitive autonomous \"Founder mode\" review and decision suite. An auto-review pipeline that reads the full CEO, design, engineering, and DX review skills from disk and runs them sequentially with auto-decisions using 6 decision principles.",
         "title": "Founder Mode Autoplan",
         "catalogRef": "garrytan-autoplan",
@@ -2233,7 +2251,7 @@
           }
         ],
         "createdAt": "2026-05-12",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-07-16",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:01Z",
@@ -2278,6 +2296,20 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:37Z",
             "details": "TM 0.0 -> 156.0, grade ungraded -> A (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:42Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'vertical-slice-planning' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:42Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "previousValue": "4★",
+            "newValue": "3★",
+            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=36.0 (< 100.0)) — demoted to 3★ Evolved"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -2300,7 +2332,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "origin"
       },
       {
@@ -2425,7 +2457,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
         "role": "variant"
       },
@@ -2568,7 +2600,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant"
       }
@@ -2700,7 +2732,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "origin"
       },
       {
@@ -2825,7 +2857,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
         "role": "variant"
       },
@@ -2951,7 +2983,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is part of the GSD Core pipeline. Install the suite with:\n\n```bash\nnpx @opengsd/gsd-core@latest\n```\n\nThen use the matching phase from the installed GSD workflow.",
         "role": "variant"
       },
@@ -3072,7 +3104,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       }
     ],
@@ -3225,7 +3257,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin"
       },
@@ -3351,7 +3383,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
         "role": "variant"
       }
@@ -4186,7 +4218,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -4292,7 +4324,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin"
       }
@@ -4400,7 +4432,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "origin"
       }
     ],
@@ -4412,7 +4444,7 @@
         "origin": true,
         "genericSkillRef": "browser-control",
         "status": "named",
-        "level": "4★",
+        "level": "3★",
         "description": "Self-healing harness for direct browser control via CDP, enabling agents to write custom helpers at runtime.",
         "title": "The Dom Whispering",
         "tags": [
@@ -4467,7 +4499,7 @@
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-07-16",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:32:59Z",
@@ -4546,6 +4578,20 @@
             "action": "rank_up",
             "contributor": "mbtiongson1",
             "details": "Level updated from 2★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-07-16T08:36:42Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'browser-control' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:42Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "previousValue": "4★",
+            "newValue": "3★",
+            "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=True TM=73.6 (< 100.0)) — demoted to 3★ Evolved"
           }
         ],
         "trustMagnitude": 73.59,
@@ -5050,7 +5096,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -5112,7 +5158,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -5175,7 +5221,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "variant"
       }
@@ -5406,7 +5452,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant"
       },
@@ -5547,7 +5593,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "origin"
       }
     ],
@@ -5912,7 +5958,7 @@
             "details": "Calibrated level from 2★ to 1★"
           }
         ],
-        "type": "extra",
+        "type": "fusion",
         "role": "variant",
         "trustMagnitude": 5.0,
         "apexGateStatus": {
@@ -6220,7 +6266,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant"
       },
@@ -6282,7 +6328,7 @@
           }
         ],
         "suiteRef": "firecrawl/firecrawl-skills",
-        "type": "extra",
+        "type": "fusion",
         "installBody": "Add installation instructions here.",
         "role": "origin",
         "trustMagnitude": 73.52,
@@ -6360,7 +6406,7 @@
           }
         ],
         "createdAt": "2026-07-13",
-        "updatedAt": "2026-07-13",
+        "updatedAt": "2026-07-16",
         "timeline": [
           {
             "timestamp": "2026-07-13T06:22:17Z",
@@ -6397,10 +6443,16 @@
             "action": "note",
             "contributor": "mbtiongson1",
             "details": "Renamed from firecrawl/web-scrape-integration to firecrawl/firecrawl-build-scrape — aligned to official firecrawl/skills repo naming"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:42Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'web-scrape' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
           }
         ],
         "suiteRef": "firecrawl/firecrawl-skills",
-        "type": "extra",
+        "type": "fusion",
         "installBody": "Add installation instructions here.",
         "role": "origin",
         "trustMagnitude": 133.54,
@@ -6511,7 +6563,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       }
     ],
@@ -6564,7 +6616,7 @@
           }
         ],
         "createdAt": "2026-07-13",
-        "updatedAt": "2026-07-13",
+        "updatedAt": "2026-07-16",
         "timeline": [
           {
             "timestamp": "2026-07-13T06:22:17Z",
@@ -6589,6 +6641,12 @@
             "action": "note",
             "contributor": "mbtiongson1",
             "details": "Renamed from firecrawl/web-search-integration to firecrawl/firecrawl-build-search — aligned to official firecrawl/skills repo naming"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:42Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'web-search' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
           }
         ],
         "suiteRef": "firecrawl/firecrawl-skills",
@@ -6693,7 +6751,7 @@
         "origin": false,
         "genericSkillRef": "firecrawl",
         "status": "named",
-        "level": "4★",
+        "level": "3★",
         "description": "Suite of Firecrawl skills for web scraping, search, browser interaction, environment setup, and research. Install all skills: `npx -y firecrawl-cli@latest init --all --browser`",
         "title": "The Web Infuser",
         "catalogRef": "firecrawl-firecrawl",
@@ -6739,7 +6797,7 @@
           }
         ],
         "createdAt": "2026-05-17",
-        "updatedAt": "2026-07-13",
+        "updatedAt": "2026-07-16",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:01Z",
@@ -6824,6 +6882,20 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-07-13T11:46:14Z",
             "details": "TM 36.0 -> 223.52, grade C -> A (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:42Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'firecrawl' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:42Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "previousValue": "4★",
+            "newValue": "3★",
+            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=73.5 (< 100.0)) — demoted to 3★ Evolved"
           }
         ],
         "suiteComponents": [
@@ -6846,7 +6918,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       }
     ],
@@ -7027,7 +7099,7 @@
             "details": "Calibrated level from 2★ to 2★"
           }
         ],
-        "type": "extra",
+        "type": "fusion",
         "installBody": "Add installation instructions here.",
         "role": "variant",
         "trustMagnitude": 41.0,
@@ -7134,7 +7206,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -7197,7 +7269,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "variant"
       }
@@ -7571,7 +7643,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       }
     ],
@@ -7685,7 +7757,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -7771,7 +7843,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -7863,7 +7935,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -7949,7 +8021,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -8068,7 +8140,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant"
       },
@@ -8188,7 +8260,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant"
       }
@@ -8283,7 +8355,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       }
     ],
@@ -8661,7 +8733,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "origin"
       },
       {
@@ -8779,7 +8851,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -8842,7 +8914,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "variant"
       }
@@ -9059,7 +9131,7 @@
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-07-16",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:42:59Z",
@@ -9142,6 +9214,12 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:43Z",
             "details": "TM 0.0 -> 122.8, grade ungraded -> A (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:44Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'ux-audit' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
           }
         ],
         "trustMagnitude": 122.8,
@@ -9856,7 +9934,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -9975,7 +10053,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant"
       }
@@ -10064,7 +10142,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       }
     ],
@@ -10129,7 +10207,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-07-16",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:22Z",
@@ -10184,6 +10262,12 @@
             "action": "verified",
             "contributor": "unknown",
             "details": "Apex promotion PR stamped by Marco (founder/mbtiongson1) per #746 directive — gstack qualifies for §11.12.8 (apexPromotionPrSigned)"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:42Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'founder-mode-orchestration' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
           }
         ],
         "suiteComponents": [
@@ -10247,13 +10331,9 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "ultimate",
+        "type": "fusion",
         "installBody": "**Requirements:** [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Git](https://git-scm.com/), [Bun](https://bun.sh/) v1.0+, [Node.js](https://nodejs.org/) (Windows only)\n\n### Step 1: Install on your machine\n\nOpen Claude Code and paste this. Claude does the rest.\n\n> Install gstack: run **`git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup`** then add a \"gstack\" section to CLAUDE.md that says to use the /browse skill from gstack for all web browsing, never use mcp\\_\\_claude-in-chrome\\_\\_\\* tools, and lists the available skills: /office-hours, /plan-ceo-review, /plan-eng-review, /plan-design-review, /design-consultation, /design-shotgun, /design-html, /review, /ship, /land-and-deploy, /canary, /benchmark, /browse, /connect-chrome, /qa, /qa-only, /design-review, /setup-browser-cookies, /setup-deploy, /setup-gbrain, /retro, /investigate, /document-release, /document-generate, /codex, /cso, /autoplan, /plan-devex-review, /devex-review, /careful, /freeze, /guard, /unfreeze, /gstack-upgrade, /learn. Then ask the user if they also want to add gstack to the current project so teammates get it.\n\n### Step 2: Team mode — auto-update for shared repos (recommended)\n\nFrom inside your repo, paste this. Switches you to team mode, bootstraps the repo so teammates get gstack automatically, and commits the change:\n\n```bash\n(cd ~/.claude/skills/gstack && ./setup --team) && ~/.claude/skills/gstack/bin/gstack-team-init required && git add .claude/ CLAUDE.md && git commit -m \"require gstack for AI-assisted work\"\n```bash\nNo vendored files in your repo, no version drift, no manual upgrades. Every Claude Code session starts with a fast auto-update check (throttled to once/hour, network-failure-safe, completely silent).\n\nSwap `required` for `optional` if you'd rather nudge teammates than block them.\n\n### OpenClaw\n\nOpenClaw spawns Claude Code sessions via ACP, so every gstack skill just works\nwhen Claude Code has gstack installed. Paste this to your OpenClaw agent:\n\n> Install gstack: run `git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup` to install gstack for Claude Code. Then add a \"Coding Tasks\" section to AGENTS.md that says: when spawning Claude Code sessions for coding work, tell the session to use gstack skills. Include these examples — security audit: \"Load gstack. Run /cso\", code review: \"Load gstack. Run /review\", QA test a URL: \"Load gstack. Run /qa https://...\", build a feature end-to-end: \"Load gstack. Run /autoplan, implement the plan, then run /ship\", plan before building: \"Load gstack. Run /office-hours then /autoplan. Save the plan, don't implement.\"\n\n**After setup, just talk to your OpenClaw agent naturally:**\n\n| You say | What happens |\n|---------|-------------|\n| \"Fix the typo in README\" | Simple — Claude Code session, no gstack needed |\n| \"Run a security audit on this repo\" | Spawns Claude Code with `Run /cso` |\n| \"Build me a notifications feature\" | Spawns Claude Code with /autoplan → implement → /ship |\n| \"Help me plan the v2 API redesign\" | Spawns Claude Code with /office-hours → /autoplan, saves plan |\n\nSee [docs/OPENCLAW.md](docs/OPENCLAW.md) for advanced dispatch routing and\nthe gstack-lite/gstack-full prompt templates.\n\n### Native OpenClaw Skills (via ClawHub)\n\nFour methodology skills that work directly in your OpenClaw agent, no Claude Code\nsession needed. Install from ClawHub:\n\n```\nclawhub install gstack-openclaw-office-hours gstack-openclaw-ceo-review gstack-openclaw-investigate gstack-openclaw-retro\n```bash\n| Skill | What it does |\n|-------|-------------|\n| `gstack-openclaw-office-hours` | Product interrogation with 6 forcing questions |\n| `gstack-openclaw-ceo-review` | Strategic challenge with 4 scope modes |\n| `gstack-openclaw-investigate` | Root cause debugging methodology |\n| `gstack-openclaw-retro` | Weekly engineering retrospective |\n\nThese are conversational skills. Your OpenClaw agent runs them directly via chat.\n\n### Other AI Agents\n\ngstack works on 10 AI coding agents, not just Claude. Setup auto-detects which\nagents you have installed:\n\n```bash\ngit clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/gstack\ncd ~/gstack && ./setup\n```\n\nOr target a specific agent with `./setup --host <name>`:\n\n| Agent | Flag | Skills install to |\n|-------|------|-------------------|\n| OpenAI Codex CLI | `--host codex` | `~/.codex/skills/gstack-*/` |\n| OpenCode | `--host opencode` | `~/.config/opencode/skills/gstack-*/` |\n| Cursor | `--host cursor` | `~/.cursor/skills/gstack-*/` |\n| Factory Droid | `--host factory` | `~/.factory/skills/gstack-*/` |\n| Slate | `--host slate` | `~/.slate/skills/gstack-*/` |\n| Kiro | `--host kiro` | `~/.kiro/skills/gstack-*/` |\n| Hermes | `--host hermes` | `~/.hermes/skills/gstack-*/` |\n| GBrain (mod) | `--host gbrain` | `~/.gbrain/skills/gstack-*/` |\n\n**Want to add support for another agent?** See [docs/ADDING_A_HOST.md](docs/ADDING_A_HOST.md).\nIt's one TypeScript config file, zero code changes.",
-        "role": "origin",
-        "ultimateGateStatus": {
-          "passes": false,
-          "reason": "need ≥1 component(s) graded S+, have 0"
-        }
+        "role": "origin"
       }
     ],
     "systematic-debugging": [
@@ -10383,7 +10463,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "origin"
       },
       {
@@ -10526,7 +10606,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -10645,7 +10725,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant"
       }
@@ -10771,7 +10851,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -10857,7 +10937,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -10947,7 +11027,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -11066,7 +11146,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       }
     ],
@@ -11154,7 +11234,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -11217,7 +11297,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       }
     ],
@@ -11311,7 +11391,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -11374,7 +11454,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "variant"
       }
@@ -11883,7 +11963,7 @@
         "origin": true,
         "genericSkillRef": "prompt-optimization",
         "status": "named",
-        "level": "4★",
+        "level": "3★",
         "description": "Declarative programming of language model pipelines, automatically optimizing prompts and RAG retrieval using bootstrapping and teleprompters.",
         "title": "The Programmatic Prompt Engineer",
         "catalogRef": "stanfordnlp-dspy",
@@ -11901,7 +11981,7 @@
           }
         ],
         "createdAt": "2026-06-02",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-07-16",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:44:00Z",
@@ -11951,6 +12031,20 @@
             "action": "rank_up",
             "contributor": "mbtiongson1",
             "details": "Level updated from 1★ to 4★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-07-16T08:36:44Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'prompt-optimization' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:44Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "previousValue": "4★",
+            "newValue": "3★",
+            "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.0 (≥ 100.0)) — demoted to 3★ Evolved"
           }
         ],
         "trustMagnitude": 100.0,
@@ -11966,7 +12060,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "origin"
       },
       {
@@ -12052,7 +12146,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       }
     ],
@@ -12177,7 +12271,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -12263,7 +12357,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -12381,7 +12475,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       }
     ],
@@ -12821,7 +12915,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -12907,7 +13001,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -13043,7 +13137,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant"
       }
@@ -13168,7 +13262,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -13287,7 +13381,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant"
       },
@@ -13407,7 +13501,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant"
       },
@@ -13471,7 +13565,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "variant"
       }
@@ -13712,7 +13806,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "origin"
       },
       {
@@ -13843,7 +13937,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is part of the GSD Core pipeline. Install the suite with:\n\n```bash\nnpx @opengsd/gsd-core@latest\n```\n\nThen use the matching phase from the installed GSD workflow.",
         "role": "variant"
       }
@@ -13933,7 +14027,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-07-16",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:48Z",
@@ -14011,6 +14105,12 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T14:32:19Z",
             "details": "TM 117.65 -> 117.65, grade A -> A (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:44Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'subagent-driven-development' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -14027,7 +14127,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "origin"
       },
       {
@@ -14152,7 +14252,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is part of the GSD Core pipeline. Install the suite with:\n\n```bash\nnpx @opengsd/gsd-core@latest\n```\n\nThen use the matching phase from the installed GSD workflow.",
         "role": "variant"
       },
@@ -14241,7 +14341,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "variant"
       }
@@ -14254,7 +14354,7 @@
         "origin": true,
         "genericSkillRef": "writing-plans",
         "status": "named",
-        "level": "4★",
+        "level": "3★",
         "description": "Writes comprehensive implementation plans that break multi-step tasks into bite-sized, independently executable sub-tasks before any code is touched.",
         "title": "The Blueprint Writer",
         "tags": [
@@ -14339,7 +14439,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-07-16",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:49Z",
@@ -14429,6 +14529,20 @@
             "action": "rank_up",
             "contributor": "mbtiongson1",
             "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-07-16T08:36:44Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'writing-plans' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:44Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "previousValue": "4★",
+            "newValue": "3★",
+            "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=110.1 (≥ 100.0)) — demoted to 3★ Evolved"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -14445,7 +14559,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "origin"
       },
       {
@@ -14570,7 +14684,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is part of the GSD Core pipeline. Install the suite with:\n\n```bash\nnpx @opengsd/gsd-core@latest\n```\n\nThen use the matching phase from the installed GSD workflow.",
         "role": "variant"
       }
@@ -14731,7 +14845,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "origin"
       },
       {
@@ -14856,7 +14970,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is part of the GSD Core pipeline. Install the suite with:\n\n```bash\nnpx @opengsd/gsd-core@latest\n```\n\nThen use the matching phase from the installed GSD workflow.",
         "role": "variant"
       },
@@ -14945,7 +15059,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "variant"
       }
@@ -15074,7 +15188,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       }
     ],
@@ -15202,7 +15316,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       }
     ],
@@ -15467,7 +15581,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       }
     ],
@@ -15826,7 +15940,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -15889,7 +16003,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       }
     ],
@@ -16095,7 +16209,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "origin"
       }
     ],
@@ -16599,11 +16713,11 @@
         "origin": true,
         "genericSkillRef": "engineering-discipline",
         "status": "named",
-        "level": "4★",
+        "level": "3★",
         "description": "Engineering category suite for Matt Pocock's skills. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Matt Pocock Engineering Discipline",
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-06-10",
+        "updatedAt": "2026-07-16",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -16625,6 +16739,20 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 5★ to 4★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-07-16T08:36:43Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'engineering-discipline' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:43Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "previousValue": "4★",
+            "newValue": "3★",
+            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=0.0 (< 100.0)) — demoted to 3★ Evolved"
           }
         ],
         "suiteRef": "mattpocock/skills",
@@ -16653,7 +16781,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin"
       }
@@ -16807,7 +16935,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant"
       }
@@ -16957,7 +17085,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin"
       }
@@ -17131,7 +17259,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant"
       }
@@ -17261,7 +17389,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant"
       }
@@ -17320,7 +17448,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin"
       }
@@ -17333,11 +17461,11 @@
         "origin": true,
         "genericSkillRef": "productivity",
         "status": "named",
-        "level": "4★",
+        "level": "3★",
         "description": "Productivity category suite for Matt Pocock's skills. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Matt Pocock Productivity Suite",
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-06-10",
+        "updatedAt": "2026-07-16",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -17353,6 +17481,20 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:41Z",
             "details": "TM 0.0 -> 120.0, grade ungraded -> A (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:43Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'productivity' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:43Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "previousValue": "4★",
+            "newValue": "3★",
+            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=0.0 (< 100.0)) — demoted to 3★ Evolved"
           }
         ],
         "suiteRef": "mattpocock/skills",
@@ -17375,7 +17517,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin"
       }
@@ -17478,7 +17620,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant"
       }
@@ -17584,7 +17726,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin"
       },
@@ -17704,7 +17846,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant"
       }
@@ -17768,7 +17910,7 @@
           }
         ],
         "createdAt": "2026-05-22",
-        "updatedAt": "2026-07-02",
+        "updatedAt": "2026-07-16",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -17865,6 +18007,12 @@
             "previousValue": null,
             "newValue": "v1.1.0",
             "details": "first-run baseline"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:43Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'skill-mastery' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
           }
         ],
         "suiteComponents": [
@@ -17901,13 +18049,9 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "ultimate",
+        "type": "fusion",
         "installBody": "Install the full Matt Pocock skills suite with:\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required.",
-        "role": "origin",
-        "ultimateGateStatus": {
-          "passes": false,
-          "reason": "need ≥1 component(s) graded S+, have 0"
-        }
+        "role": "origin"
       }
     ],
     "issue-triage": [
@@ -18235,7 +18379,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant"
       },
@@ -18324,7 +18468,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "variant"
       }
@@ -18484,7 +18628,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "origin"
       },
       {
@@ -18580,7 +18724,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       }
     ],
@@ -18653,7 +18797,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -18726,7 +18870,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -18791,7 +18935,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -18862,7 +19006,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -18934,7 +19078,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -18999,7 +19143,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       }
     ],
@@ -19100,7 +19244,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "origin"
       }
     ],
@@ -19193,7 +19337,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "origin"
       }
     ],
@@ -19286,7 +19430,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "origin"
       }
     ],
@@ -19500,7 +19644,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "origin"
       }
     ],
@@ -19602,7 +19746,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "origin"
       }
     ],
@@ -19691,7 +19835,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "origin"
       }
     ],
@@ -19753,7 +19897,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-07-16",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:48Z",
@@ -19843,6 +19987,12 @@
             "previousValue": null,
             "newValue": "v6.1.1",
             "details": "first-run baseline"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:44Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'superpowers' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
           }
         ],
         "suiteComponents": [
@@ -19871,13 +20021,9 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "ultimate",
+        "type": "fusion",
         "installBody": "Installation differs by harness. If you use more than one, install Superpowers separately for each one.\n\n### Claude Code\n\nSuperpowers is available via the [official Claude plugin marketplace](https://claude.com/plugins/superpowers)\n\n#### Official Marketplace\n\n- Install the plugin from Anthropic's official marketplace:\n\n  ```bash\n  /plugin install superpowers@claude-plugins-official\n  ```bash\n#### Superpowers Marketplace\n\nThe Superpowers marketplace provides Superpowers and some other related plugins for Claude Code.\n\n- Register the marketplace:\n\n  ```bash\n  /plugin marketplace add obra/superpowers-marketplace\n  ```\n\n- Install the plugin from this marketplace:\n\n  ```bash\n  /plugin install superpowers@superpowers-marketplace\n  ```\n\n### Antigravity\n\nInstall Superpowers as a plugin from this repository:\n\n```bash\nagy plugin install https://github.com/obra/superpowers\n```bash\nAntigravity runs the plugin's session-start hook, so Superpowers is active from\nthe first message. Reinstall with the same command to update.\n\n### Codex App\n\nSuperpowers is available via the [official Codex plugin marketplace](https://github.com/openai/plugins).\n\n- In the Codex app, click on Plugins in the sidebar.\n- You should see `Superpowers` in the Coding section.\n- Click the `+` next to Superpowers and follow the prompts.\n\n### Codex CLI\n\nSuperpowers is available via the [official Codex plugin marketplace](https://github.com/openai/plugins).\n\n- Open the plugin search interface:\n\n  ```bash\n  /plugins\n  ```\n\n- Search for Superpowers:\n\n  ```bash\n  superpowers\n  ```\n\n- Select `Install Plugin`.\n\n### Cursor\n\n- In Cursor Agent chat, install from marketplace:\n\n  ```bash\n  /add-plugin superpowers\n  ```\n\n- Or search for \"superpowers\" in the plugin marketplace.\n\n### Factory Droid\n\n- Register the marketplace:\n\n  ```bash\n  droid plugin marketplace add https://github.com/obra/superpowers\n  ```\n\n- Install the plugin:\n\n  ```bash\n  droid plugin install superpowers@superpowers\n  ```\n\n### GitHub Copilot CLI\n\n- Register the marketplace:\n\n  ```bash\n  copilot plugin marketplace add obra/superpowers-marketplace\n  ```\n\n- Install the plugin:\n\n  ```bash\n  copilot plugin install superpowers@superpowers-marketplace\n  ```\n\n### Kimi Code\n\nSuperpowers is available in Kimi Code's plugin marketplace.\n\n- Open Kimi Code's plugin manager:\n\n  ```bash\n  /plugins\n  ```\n\n- Go to `Marketplace` > `Superpowers` and install it.\n\n- Or install directly from this repository:\n\n  ```bash\n  /plugins install https://github.com/obra/superpowers\n  ```\n\n- Detailed docs: [docs/README.kimi.md](docs/README.kimi.md)\n\n### OpenCode\n\nOpenCode uses its own plugin install; install Superpowers separately even if you\nalready use it in another harness.\n\n- Tell OpenCode:\n\n  ```\n  Fetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.opencode/INSTALL.md\n  ```\n\n- Detailed docs: [docs/README.opencode.md](docs/README.opencode.md)\n\n### Pi\n\nInstall Superpowers as a Pi package from this repository:\n\n```bash\npi install git:github.com/obra/superpowers\n```bash\nFor local development, run Pi with this checkout loaded as a temporary package:\n\n```bash\npi -e /path/to/superpowers\n```\n\nThe Pi package loads the Superpowers skills and a small extension that injects the `using-superpowers` bootstrap at session startup and again after compaction. Pi has native skills, so no compatibility `Skill` tool is required. Subagent and task-list tools remain optional Pi companion packages.",
-        "role": "origin",
-        "ultimateGateStatus": {
-          "passes": false,
-          "reason": "need ≥1 component(s) graded S+, have 0"
-        }
+        "role": "origin"
       }
     ],
     "using-git-worktrees": [
@@ -19888,7 +20034,7 @@
         "origin": true,
         "genericSkillRef": "using-git-worktrees",
         "status": "named",
-        "level": "4★",
+        "level": "3★",
         "description": "Ensures every piece of feature work begins in an isolated workspace — creating a native git worktree when available, falling back to tool-provided isolation otherwise.",
         "title": "The Isolated Workspace",
         "tags": [
@@ -19965,7 +20111,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-07-16",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:49Z",
@@ -20049,6 +20195,20 @@
             "action": "rank_up",
             "contributor": "mbtiongson1",
             "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-07-16T08:36:44Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'using-git-worktrees' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:44Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "previousValue": "4★",
+            "newValue": "3★",
+            "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=117.6 (≥ 100.0)) — demoted to 3★ Evolved"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -20065,7 +20225,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "origin"
       }
     ],
@@ -20119,7 +20279,7 @@
           }
         ],
         "createdAt": "2026-05-15",
-        "updatedAt": "2026-07-05",
+        "updatedAt": "2026-07-16",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -20163,6 +20323,12 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard (type: benchmark-result)"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:44Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'few-shot-learning' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
           }
         ],
         "trustMagnitude": 100.0,
@@ -20190,7 +20356,7 @@
         "origin": false,
         "genericSkillRef": "self-consistency",
         "status": "named",
-        "level": "4★",
+        "level": "3★",
         "description": "Samples multiple reasoning paths and selects the most consistent answer by majority vote.",
         "title": "The Majority Consensus",
         "catalogRef": "openai-self-consistency",
@@ -20218,7 +20384,7 @@
           }
         ],
         "createdAt": "2026-05-15",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-07-16",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -20256,6 +20422,20 @@
             "action": "rank_up",
             "contributor": "mbtiongson1",
             "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-07-16T08:36:44Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'self-consistency' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:44Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "previousValue": "4★",
+            "newValue": "3★",
+            "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.0 (≥ 100.0)) — demoted to 3★ Evolved"
           }
         ],
         "trustMagnitude": 100.0,
@@ -20450,7 +20630,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "origin"
       }
     ],
@@ -20514,7 +20694,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -20576,7 +20756,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       }
     ],
@@ -20838,7 +21018,7 @@
         "origin": true,
         "genericSkillRef": "agent-memory-platform",
         "status": "named",
-        "level": "4★",
+        "level": "3★",
         "description": "Complete AgentDB vector memory platform fused from 5 discipline skills — QUIC-synchronized distributed storage, pattern learning, memory design, optimization, and vector search.",
         "title": "The Memory Sovereign",
         "catalogRef": "ruvnet-agentdb",
@@ -20885,7 +21065,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-07-16",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:52Z",
@@ -20943,6 +21123,20 @@
             "previousValue": null,
             "newValue": "v3.25.5",
             "details": "first-run baseline"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:44Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'agent-memory-platform' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:44Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "previousValue": "4★",
+            "newValue": "3★",
+            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=81.0 (< 100.0)) — demoted to 3★ Evolved"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -20966,7 +21160,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin"
       }
@@ -21232,7 +21426,7 @@
         "origin": true,
         "genericSkillRef": "dual-mode",
         "status": "named",
-        "level": "4★",
+        "level": "3★",
         "description": "Fuses headless worker spawning, result collection, and hybrid workflow coordination into a complete Claude+Codex parallel orchestration pattern.",
         "title": "The Hybrid Conductor",
         "catalogRef": "ruvnet-dual-mode",
@@ -21261,7 +21455,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-07-16",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:53Z",
@@ -21302,6 +21496,20 @@
             "previousValue": null,
             "newValue": "v3.25.5",
             "details": "first-run baseline"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:44Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'dual-mode' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:44Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "previousValue": "4★",
+            "newValue": "3★",
+            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=36.0 (< 100.0)) — demoted to 3★ Evolved"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -21323,7 +21531,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin"
       }
@@ -21504,7 +21712,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "origin"
       }
     ],
@@ -21600,7 +21808,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "origin"
       }
     ],
@@ -21665,7 +21873,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -21728,7 +21936,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "variant"
       }
@@ -21833,7 +22041,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin"
       }
@@ -21982,7 +22190,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       },
       {
@@ -22045,7 +22253,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "variant"
       }
@@ -22253,7 +22461,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin"
       }
@@ -22361,7 +22569,7 @@
         "origin": true,
         "genericSkillRef": "reasoning-pattern-bank",
         "status": "named",
-        "level": "4★",
+        "level": "3★",
         "description": "Fuses adaptive pattern learning with persistent vector memory to build a self-improving agent knowledge base across sessions.",
         "title": "The Pattern Sage",
         "catalogRef": "ruvnet-reasoningbank",
@@ -22431,7 +22639,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-07-16",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:58Z",
@@ -22507,6 +22715,20 @@
             "previousValue": null,
             "newValue": "v3.25.5",
             "details": "first-run baseline"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:44Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'reasoning-pattern-bank' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:44Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "previousValue": "4★",
+            "newValue": "3★",
+            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=88.5 (< 100.0)) — demoted to 3★ Evolved"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -22527,7 +22749,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin"
       }
@@ -22540,7 +22762,7 @@
         "origin": true,
         "genericSkillRef": "platform-modernization-sprint",
         "status": "named",
-        "level": "4★",
+        "level": "3★",
         "description": "Complete Ruflo v3 modernization sprint: CLI modernization, core implementation, DDD architecture, MCP optimization, memory unification, performance tuning, security overhaul, and swarm coordination.",
         "title": "The V3 Architect",
         "catalogRef": "ruvnet-ruflo-v3",
@@ -22570,7 +22792,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-07-16",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:58Z",
@@ -22605,6 +22827,20 @@
             "previousValue": null,
             "newValue": "v3.25.5",
             "details": "first-run baseline"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:44Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'platform-modernization-sprint' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:44Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "previousValue": "4★",
+            "newValue": "3★",
+            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=36.0 (< 100.0)) — demoted to 3★ Evolved"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -22634,7 +22870,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin"
       }
@@ -22713,7 +22949,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-07-16",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:58Z",
@@ -22799,6 +23035,12 @@
             "previousValue": null,
             "newValue": "v3.25.5",
             "details": "first-run baseline"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:44Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'multi-topology-orchestration' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
           }
         ],
         "suiteComponents": [
@@ -22863,13 +23105,9 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "ultimate",
+        "type": "fusion",
         "installBody": "The quickest path to Ruflo:\n\n```bash\nnpx ruflo@latest init\n```\n\nThis launches an interactive wizard that detects your platform and configures\nthe full Ruflo loop (98 agents, 60+ commands, MCP server, hooks, and daemon).\nFor Claude Code plugin installs, Windows specifics, or the complete options\nreference, see the [full installation guide on GitHub](https://github.com/ruvnet/ruflo#installation).",
-        "role": "origin",
-        "ultimateGateStatus": {
-          "passes": false,
-          "reason": "need ≥1 component(s) graded S+, have 0"
-        }
+        "role": "origin"
       }
     ],
     "agentic-workflow-design": [
@@ -22933,7 +23171,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "variant"
       }
@@ -23115,7 +23353,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin"
       }
@@ -23565,7 +23803,7 @@
         "origin": true,
         "genericSkillRef": "knowledge-graph-build",
         "status": "named",
-        "level": "4★",
+        "level": "3★",
         "description": "Maps codebases and documentation into a queryable knowledge graph using AST analysis and semantic extraction.",
         "title": "The Structural Muse",
         "tags": [
@@ -23617,7 +23855,7 @@
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-07-16",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:24Z",
@@ -23684,6 +23922,20 @@
             "action": "rank_up",
             "contributor": "mbtiongson1",
             "details": "Level updated from 1★ to 4★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-07-16T08:36:44Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'knowledge-graph-build' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:44Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "previousValue": "4★",
+            "newValue": "3★",
+            "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=122.9 (≥ 100.0)) — demoted to 3★ Evolved"
           }
         ],
         "trustMagnitude": 116.57,
@@ -23699,7 +23951,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "origin"
       }
     ],
@@ -23785,7 +24037,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "origin"
       }
     ],
@@ -24052,7 +24304,7 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "extra",
+        "type": "fusion",
         "role": "variant"
       }
     ]
@@ -24308,7 +24560,7 @@
       "origin": false,
       "genericSkillRef": "computational-biology-workflows",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Retrieve and analyze AlphaFold predicted structures for a protein. Use when the user provides a specific UniProt Accession ID and wants structural confidence metrics (pLDDT), domain boundary analysis, or disorder assessment. Do not use if the user only has a protein name, gene name, or amino acid sequence — ask for a UniProt ID first.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md"
@@ -24338,7 +24590,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-07-16",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:28Z",
@@ -24371,6 +24623,20 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T14:32:17Z",
           "details": "TM 100.82 -> 100.82, grade A -> A (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-07-16T08:36:42Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Generic parent 'computational-biology-workflows' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+        },
+        {
+          "timestamp": "2026-07-16T08:36:42Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "previousValue": "4★",
+          "newValue": "3★",
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
         }
       ],
       "trustMagnitude": 100.82,
@@ -24386,7 +24652,7 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "extra"
+      "type": "fusion"
     },
     {
       "id": "google-deepmind/alphagenome_single_variant_analysis",
@@ -24395,7 +24661,7 @@
       "origin": false,
       "genericSkillRef": "computational-biology-workflows",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Analyzes genetic variant effects on gene expression (RNA-seq), chromatin accessibility (DNASE), histone marks (ChIP), and transcription factors using the AlphaGenome API. Use when the user asks about non-coding variant effects, pathogenicity, clinical significance, disease associations, functional effects, gene expression changes, splicing disruption, or regulatory effects in promoters and enhancers. Also use for resolving biological terms to tissue/cell-type ontologies (UBERON/CL) or analyzing variants in chr:pos:ref>alt format.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md"
@@ -24425,7 +24691,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-07-16",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:28Z",
@@ -24474,6 +24740,20 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 3★ to 4★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-07-16T08:36:42Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Generic parent 'computational-biology-workflows' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+        },
+        {
+          "timestamp": "2026-07-16T08:36:42Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "previousValue": "4★",
+          "newValue": "3★",
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
         }
       ],
       "trustMagnitude": 100.82,
@@ -24489,7 +24769,7 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "extra"
+      "type": "fusion"
     },
     {
       "id": "google-deepmind/chembl_database",
@@ -24910,7 +25190,7 @@
       "origin": false,
       "genericSkillRef": "pathway-ontology-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Query and search the EMBL-EBI Ontology Lookup Service (OLS) for biomedical ontology terms, definitions, and hierarchies across 250+ ontologies (e.g., GO, DOID, HP). Use when the user asks to search for terms, retrieve details, navigate hierarchies (parents, children, ancestors), look up properties and individuals, get autocomplete suggestions, or access ontology metadata and statistics.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols/SKILL.md"
@@ -24941,7 +25221,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-07-16",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:30Z",
@@ -24991,6 +25271,20 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Generic parent 'pathway-ontology-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "previousValue": "4★",
+          "newValue": "3★",
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
         }
       ],
       "trustMagnitude": 100.82,
@@ -25015,7 +25309,7 @@
       "origin": false,
       "genericSkillRef": "genomic-data-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Query the ENCODE Registry of cis-Regulatory Elements (cCREs) via the SCREEN GraphQL API, or make custom queries to the ENCODE Portal REST API for experiments and files (ChIP-seq peaks, etc.). Use when you want to query regulatory annotations or raw experimental data across human cell types.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/encode_ccres_database/SKILL.md"
@@ -25046,7 +25340,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-07-16",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:30Z",
@@ -25096,6 +25390,20 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Generic parent 'genomic-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "previousValue": "4★",
+          "newValue": "3★",
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
         }
       ],
       "trustMagnitude": 100.82,
@@ -25120,7 +25428,7 @@
       "origin": false,
       "genericSkillRef": "genomic-data-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Query the Ensembl database to resolve gene, transcript, and protein IDs, fetch genomic or protein sequences, retrieve gene structures (exons), and get variant consequence and effect predictions (VEP). Use this skill as a primary ID translator, genomic sequence database and variant effect prediction tool.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database/SKILL.md"
@@ -25151,7 +25459,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-07-16",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:30Z",
@@ -25201,6 +25509,20 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Generic parent 'genomic-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "previousValue": "4★",
+          "newValue": "3★",
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
         }
       ],
       "trustMagnitude": 100.82,
@@ -25225,7 +25547,7 @@
       "origin": false,
       "genericSkillRef": "protein-structure-analysis",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Performs 3D structural searches of proteins against various databases (PDB, AlphaFold, CATH, MGnify, etc.) using the Foldseek API. Use ONLY when the user provides a physical 3D coordinate file (.cif, .mmcif, or .pdb) and wants to find structurally similar proteins. Do NOT use if the user only provides a protein sequence, gene name, or UniProt ID.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search/SKILL.md"
@@ -25256,7 +25578,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-07-16",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:31Z",
@@ -25306,6 +25628,20 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Generic parent 'protein-structure-analysis' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "previousValue": "4★",
+          "newValue": "3★",
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
         }
       ],
       "trustMagnitude": 100.82,
@@ -25330,7 +25666,7 @@
       "origin": false,
       "genericSkillRef": "genomic-data-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Query the Genome Aggregation Database (gnomAD). Use when determining the rarity or allele frequency of specific genetic variants, retrieving gene constraint metrics (pLI, LOEUF) to assess loss-of-function intolerance, finding variants in a genomic region or gene, or querying structural variants. Don't use for analyzing individual patient genomes, tracking somatic mutations in cancer (use COSMIC), or requesting raw sequencing reads (use ENA).",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database/SKILL.md"
@@ -25360,7 +25696,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-07-16",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:31Z",
@@ -25409,6 +25745,20 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Generic parent 'genomic-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "previousValue": "4★",
+          "newValue": "3★",
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
         }
       ],
       "trustMagnitude": 100.82,
@@ -25433,7 +25783,7 @@
       "origin": false,
       "genericSkillRef": "genomic-data-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Use when you want to retrieve quantitative RNA expression data and variant eQTL information from the GTEx (Genotype-Tissue Expression) Project across 54 non-diseased tissue sites.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/gtex_database/SKILL.md"
@@ -25463,7 +25813,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-07-16",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:31Z",
@@ -25512,6 +25862,20 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Generic parent 'genomic-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "previousValue": "4★",
+          "newValue": "3★",
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
         }
       ],
       "trustMagnitude": 100.82,
@@ -25536,7 +25900,7 @@
       "origin": false,
       "genericSkillRef": "proteomic-data-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Use when you want to retrieve semi-quantitative protein expression and spatial localisation data from the Human Protein Atlas (HPA).",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database/SKILL.md"
@@ -25567,7 +25931,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-07-16",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:32Z",
@@ -25617,6 +25981,20 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Generic parent 'proteomic-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "previousValue": "4★",
+          "newValue": "3★",
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
         }
       ],
       "trustMagnitude": 100.82,
@@ -25641,7 +26019,7 @@
       "origin": false,
       "genericSkillRef": "proteomic-data-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Identify domains, families, and sites in proteins; find all proteins in a family or sharing a domain; explore species distribution for a domain; annotate genomes with protein families and GO terms. InterPro combines 14 databases (e.g., Pfam, CDD) into one searchable resource. InterPro-N significantly expands annotation and sequence coverage with deep learning. Includes domain architecture (IDA) search.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/interpro_database/SKILL.md"
@@ -25672,7 +26050,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-07-16",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:32Z",
@@ -25722,6 +26100,20 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Generic parent 'proteomic-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "previousValue": "4★",
+          "newValue": "3★",
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
         }
       ],
       "trustMagnitude": 100.82,
@@ -25746,7 +26138,7 @@
       "origin": false,
       "genericSkillRef": "genomic-data-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Query the JASPAR database for Transcription Factor (TF) binding profiles. Use when retrieving Position Frequency Matrices (PFMs) or Position Weight Matrices (PWMs) for specific TFs, resolving gene symbols to JASPAR Matrix IDs, or getting TF metadata. Supports multiple output formats (MEME, TRANSFAC, PFM, JASPAR, YAML).",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/jaspar_database/SKILL.md"
@@ -25777,7 +26169,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-07-16",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:32Z",
@@ -25827,6 +26219,20 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Generic parent 'genomic-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "previousValue": "4★",
+          "newValue": "3★",
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
         }
       ],
       "trustMagnitude": 100.82,
@@ -26057,7 +26463,7 @@
       "origin": false,
       "genericSkillRef": "literature-search",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Search Europe PMC for scientific literature and download open-access full texts and PDFs. Retrieve full-text XML/plain text by PMCID, get citation lists and bibliography.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc/SKILL.md"
@@ -26088,7 +26494,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-07-16",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:33Z",
@@ -26138,6 +26544,20 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Generic parent 'literature-search' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "previousValue": "4★",
+          "newValue": "3★",
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
         }
       ],
       "trustMagnitude": 100.82,
@@ -26193,7 +26613,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-07-16",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:34Z",
@@ -26243,6 +26663,12 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Generic parent 'literature-search' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
         }
       ],
       "trustMagnitude": 100.82,
@@ -26267,7 +26693,7 @@
       "origin": false,
       "genericSkillRef": "genomic-data-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Retrieve protein and nucleotide sequences from NCBI databases using E-utilities. Supports direct accession lookup, CDS translation, gene+organism search, locus lookup, PubMed-linked sequences, patent protein extraction, and organism+length fallback search. Use when you need to fetch biological sequences by accession, gene name, locus tag, PubMed ID, or patent number.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch/SKILL.md"
@@ -26298,7 +26724,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-07-16",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:34Z",
@@ -26348,6 +26774,20 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Generic parent 'genomic-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "previousValue": "4★",
+          "newValue": "3★",
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
         }
       ],
       "trustMagnitude": 100.82,
@@ -26372,7 +26812,7 @@
       "origin": false,
       "genericSkillRef": "clinical-data-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Query, search, and download data from the openFDA API for drugs, devices, foods, tobacco, cosmetics, animal and veterinary products, substances, and transparency data. Use for FDA adverse events, recalls, labeling, approvals, shortages, 510(k) clearances, NDC lookups, and any FDA safety or regulatory data query across all 28 API endpoints.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/openfda_database/SKILL.md"
@@ -26403,7 +26843,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-07-16",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:34Z",
@@ -26453,6 +26893,20 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Generic parent 'clinical-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "previousValue": "4★",
+          "newValue": "3★",
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
         }
       ],
       "trustMagnitude": 100.82,
@@ -26477,7 +26931,7 @@
       "origin": false,
       "genericSkillRef": "clinical-data-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Query Open Targets Platform for target-disease associations, drug target discovery, tractability/safety data, genetics/omics evidence, known drugs, for therapeutic target identification.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/opentargets_database/SKILL.md"
@@ -26508,7 +26962,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-07-16",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:35Z",
@@ -26558,6 +27012,20 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Generic parent 'clinical-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "previousValue": "4★",
+          "newValue": "3★",
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
         }
       ],
       "trustMagnitude": 100.82,
@@ -26773,7 +27241,7 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "extra"
+      "type": "fusion"
     },
     {
       "id": "google-deepmind/protein_sequence_similarity_search",
@@ -26782,7 +27250,7 @@
       "origin": false,
       "genericSkillRef": "bioinformatic-sequence-analysis",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Searches for homologous protein sequences using MMseqs2 (fast, default) or BLAST (comprehensive, fallback). Trigger this whenever the user provides a protein sequence or FASTA file and asks to find homologues, sequence matches, or wants to infer protein function based on sequence similarity, but not when the user wants to infer protein function based on structural similarity.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md"
@@ -26822,7 +27290,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-07-16",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:36Z",
@@ -26878,6 +27346,20 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Generic parent 'bioinformatic-sequence-analysis' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "previousValue": "4★",
+          "newValue": "3★",
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
         }
       ],
       "trustMagnitude": 100.82,
@@ -26902,7 +27384,7 @@
       "origin": false,
       "genericSkillRef": "molecular-databases",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Query PubChem, search by name/CID/SMILES, retrieve properties, similarity/substructure searches, bioactivity, for cheminformatics. Use when a user asks about a specific chemical, drug, or molecule.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database/SKILL.md"
@@ -26933,7 +27415,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-07-16",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:36Z",
@@ -26983,6 +27465,20 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Generic parent 'molecular-databases' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "previousValue": "4★",
+          "newValue": "3★",
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
         }
       ],
       "trustMagnitude": 100.82,
@@ -27122,7 +27618,7 @@
       "origin": false,
       "genericSkillRef": "scientific-visualization",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Visualize, analyze, and render protein and molecular structures using PyMOL. Use when the user wants to create images of protein structures, perform structural alignments or superposition, measure distances or contacts, highlight binding sites or active site residues, color by B-factor/pLDDT, or analyze protein-ligand interactions. Do not use for docking, molecular dynamics, or sequence-only analysis.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md"
@@ -27153,7 +27649,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-07-16",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:37Z",
@@ -27203,6 +27699,20 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Generic parent 'scientific-visualization' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "previousValue": "4★",
+          "newValue": "3★",
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
         }
       ],
       "trustMagnitude": 100.82,
@@ -27227,7 +27737,7 @@
       "origin": false,
       "genericSkillRef": "pathway-ontology-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Query the QuickGO and Evidence & Conclusion Ontology (ECO) REST API. Use this when you need to map genes to biological processes, molecular functions, or cellular components, find genes associated with a specific pathway/GO term, or explore the Gene Ontology hierarchy. Do not use for querying drug targets (use OpenTargets) or mechanistic signaling pathway diagrams (use KEGG).",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/quickgo_database/SKILL.md"
@@ -27258,7 +27768,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-07-16",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:37Z",
@@ -27308,6 +27818,20 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Generic parent 'pathway-ontology-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "previousValue": "4★",
+          "newValue": "3★",
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
         }
       ],
       "trustMagnitude": 100.82,
@@ -27332,7 +27856,7 @@
       "origin": false,
       "genericSkillRef": "pathway-ontology-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Query the Reactome database (Analysis and Content Services). Use when the user asks about pathway analysis, gene list enrichment, retrieving results by token, finding unmapped or not-found identifiers, mapping identifiers, reaction participants (inputs, outputs), pathway hierarchy (including top-level pathways), diagram export, cross-reference mapping, or searching the knowledgebase.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database/SKILL.md"
@@ -27363,7 +27887,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-07-16",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:38Z",
@@ -27413,6 +27937,20 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Generic parent 'pathway-ontology-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "previousValue": "4★",
+          "newValue": "3★",
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
         }
       ],
       "trustMagnitude": 100.82,
@@ -27437,7 +27975,7 @@
       "origin": false,
       "genericSkillRef": "core-platform-implementation",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Shared Python package for Science Skills, currently containing http_client -- a unified HTTP client with rate limiting, retries, and exponential backoff. Not a standalone agent skill. Do not invoke directly.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common"
@@ -27468,7 +28006,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-07-16",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:38Z",
@@ -27518,6 +28056,20 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Generic parent 'core-platform-implementation' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "previousValue": "4★",
+          "newValue": "3★",
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
         }
       ],
       "trustMagnitude": 100.82,
@@ -27645,7 +28197,7 @@
       "origin": false,
       "genericSkillRef": "genomic-data-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Fetch Evolutionary Conservation scores (phyloP, phastCons) and Transcription Factor Binding Sites (TFBS) from the UCSC Genome Browser. Use when analyzing whether genomic variants or regions are evolutionarily conserved, functionally important, or bounded by TF regulators across major projects (ENCODE, JASPAR, ReMap).",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/ucsc_conservation_and_tfbs/SKILL.md"
@@ -27676,7 +28228,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-07-16",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:39Z",
@@ -27726,6 +28278,20 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Generic parent 'genomic-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "previousValue": "4★",
+          "newValue": "3★",
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
         }
       ],
       "trustMagnitude": 100.82,
@@ -27750,7 +28316,7 @@
       "origin": false,
       "genericSkillRef": "genomic-data-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Queries the UniBind database for experimentally validated transcription factor (TF) binding sites. Use when retrieving direct TF-DNA interaction datasets, downloading binding site coordinates (BED/FASTA) for local analysis, or listing available datasets by species, cell line, or TF name. Don't use to query specific intervals, locations, genes, motif models or expression data.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database/SKILL.md"
@@ -27781,7 +28347,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-07-16",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:39Z",
@@ -27831,6 +28397,20 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Generic parent 'genomic-data-retrieval' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "previousValue": "4★",
+          "newValue": "3★",
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
         }
       ],
       "trustMagnitude": 100.82,
@@ -27958,7 +28538,7 @@
       "origin": false,
       "genericSkillRef": "core-platform-implementation",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Checks whether the uv Python package manager is installed and installs it if missing. Ensures uv is on PATH. Use when another skill requires uv as a prerequisite.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md"
@@ -27989,7 +28569,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-07-16",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:40Z",
@@ -28039,6 +28619,20 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Generic parent 'core-platform-implementation' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "previousValue": "4★",
+          "newValue": "3★",
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
         }
       ],
       "trustMagnitude": 100.82,
@@ -28063,7 +28657,7 @@
       "origin": false,
       "genericSkillRef": "skill-authoring",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Distills a completed user workflow or interaction into a reusable agent skill. Use when the user asks to turn their workflow, interaction, or multi-step process into a skill, or when they say \"make this a skill\", \"create a skill from what we just did\", \"package this workflow\" or similar. Do not use for creating skills from scratch without an existing workflow (use a generic skill-creator for that).",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md"
@@ -28094,7 +28688,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-07-16",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:40Z",
@@ -28144,6 +28738,20 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 4★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Generic parent 'skill-authoring' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+        },
+        {
+          "timestamp": "2026-07-16T08:36:43Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "previousValue": "4★",
+          "newValue": "3★",
+          "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved"
         }
       ],
       "trustMagnitude": 100.82,
@@ -28159,7 +28767,7 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "extra"
+      "type": "fusion"
     },
     {
       "id": "langgenius/backend-code-review",
@@ -28217,7 +28825,7 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "extra",
+      "type": "fusion",
       "installBody": "No additional setup required. This skill is built into the Dify agent framework.\n\n### Prerequisites\n\n- Access to backend code files in the `api/` directory\n- Python files (`.py` extension) for review\n- Optional: Git staging area for pending changes to review\n\n### How to Use\n\n**Request a code review** by asking the agent to analyze backend code:\n\n```\n\"Review this Python function for security issues\"\n\"Analyze api/app.py for best practices\"\n\"Check my pending changes for quality concerns\"\n```\n\n**Review Modes:**\n\n1. **Pending-Change Review** — Agent inspects staged/working-tree files ready for commit\n2. **Code Snippet Review** — Paste function, class, or module excerpts directly\n3. **File-Focused Review** — Reference specific backend files (e.g., `api/models/user.py`)\n\n### What Gets Checked\n\n- Database schema design (`api/models/`, `api/migrations/`)\n- Architecture patterns (layering, dependency flow)\n- Repository abstraction (CRUD operations)\n- SQLAlchemy patterns (sessions, transactions)\n- General best practices if no specific checklist matches\n\n### Output Format\n\nReviews are categorized as:\n- 🔴 **Critical** (must fix)\n- 🟡 **Suggestions** (should consider)\n- 🟢 **Nits** (optional improvements)\n\nEach finding includes file path, line numbers, explanation, and actionable code fix."
     },
     {
@@ -28335,7 +28943,7 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "extra",
+      "type": "fusion",
       "installBody": "No additional setup required beyond accessing the Dify E2E test suite.\n\n### Prerequisites\n\n- Access to the Dify repository\n- Node.js and pnpm installed\n- Familiarity with Cucumber, Gherkin syntax, and Playwright\n\n### Validation\n\nValidate your E2E test configuration and changes:\n\n```bash\npnpm -C e2e check\n```\n\n### How to Use\n\n**Start here:** Read `e2e/AGENTS.md` for the canonical guide on local architecture and conventions.\n\n**Then examine these files in order:**\n\n1. Target `.feature` files under `e2e/features/`\n2. Related step definitions in `e2e/features/step-definitions/`\n3. Session and state files: `hooks.ts` and `world.ts` (if lifecycle matters)\n4. Execution config: `run-cucumber.ts` and `cucumber.config.ts` (if tags or flow matter)\n\n### Writing Scenarios\n\n- Use Behavior-Driven Development (BDD) syntax with Given-When-Then structure\n- Reuse existing step definitions when possible\n- Prefer user-facing locators over implementation details\n- Validate narrowly before broadening verification\n- Reference Playwright best practices for locators, assertions, and waiting strategies\n\n### Key Principles\n\n- Keep scenarios readable and business-focused\n- Maintain step definition reusability\n- Test user workflows, not implementation details\n- Use Cucumber best practices for scenario wording and step design"
     },
     {
@@ -28394,7 +29002,7 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "extra",
+      "type": "fusion",
       "installBody": "No additional setup required. This skill integrates with Dify's review framework.\n\n### Prerequisites\n\n- Access to frontend source files (`.tsx`, `.ts`, `.js`)\n- Reference documentation at `references/code-quality.md`, `references/performance.md`, and `references/business-logic.md`\n- A code editor or repository with staged/working changes visible\n\n### How to Use\n\n**Request a frontend code review:**\n\n```\n\"Review my frontend code\"\n\"Check this .tsx file for issues\"\n\"Review my pending changes\"\n```\n\n### Review Modes\n\n1. **Pending-change review** — Analyze staged or working-tree files ready for commit\n2. **File-targeted review** — Review specific files you name\n\n### What Gets Checked\n\nThe agent examines:\n- Component/module structure and class names\n- React hooks and prop memoization\n- Styling consistency and organization\n- Cross-referenced against three categories:\n  - **Code Quality** — best practices, readability\n  - **Performance** — bundle size, rendering efficiency\n  - **Business Logic** — requirements compliance\n\n### Output Format\n\nIssues are organized by:\n1. **Urgency** (critical, suggestions, nits)\n2. **Category** (quality, performance, business logic)\n3. **Details** (code snippets and fix suggestions)\n\nMaximum 10 findings per category; excess results summarize as \"10+\""
     },
     {
@@ -28453,7 +29061,7 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "extra",
+      "type": "fusion",
       "installBody": "No additional setup required. Vitest and React Testing Library are pre-configured in Dify.\n\n### Prerequisites\n\n- Node.js and pnpm package manager\n- Access to the Dify repository\n- Familiarity with React and TypeScript\n\n### Quick Start\n\nThe test infrastructure is pre-configured in your Dify workspace:\n\n- **Test runner**: Vitest (configured in `web/vite.config.ts`)\n- **Testing library**: React Testing Library\n- **Setup file**: `web/vitest.setup.ts` (includes global mocks)\n\n### Core Commands\n\nRun from the `web/` directory. From repo root, prefix with `pnpm -C web`:\n\n```bash\n# Execute all tests\npnpm test\n\n# Watch mode for active development\npnpm test --watch\n\n# Run a specific test file\npnpm test path/to/file.spec.tsx\n\n# Generate coverage report\npnpm test --coverage\n\n# Analyze component complexity before testing\npnpm analyze-component <path>\n```\n\n### How to Use This Skill\n\n**Apply when you:**\n- Write or review frontend component/hook/utility tests\n- Work with Vitest, React Testing Library, or spec files\n- Improve test coverage\n- Follow testing patterns in Dify\n\n**Do NOT apply for:**\n- Backend/Python tests\n- E2E tests (Cucumber + Playwright)\n- Conceptual questions without code\n\n### Key Resource\n\nRefer to `web/docs/test.md` for complete specifications and patterns."
     },
     {
@@ -28680,7 +29288,7 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "extra",
+      "type": "fusion",
       "installBody": "No public installable artifact is currently registered for this skill (`installable: false`); it is tracked from its description and announcement only."
     },
     {
@@ -28843,7 +29451,7 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "extra"
+      "type": "fusion"
     },
     {
       "id": "yundu-ai/mcp-tool-developer",

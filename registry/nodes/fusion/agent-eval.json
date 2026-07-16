@@ -1,0 +1,82 @@
+{
+  "id": "agent-eval",
+  "name": "Agent Evaluation",
+  "type": "fusion",
+  "description": "Holistically evaluates an AI agent's performance on multi-step tasks by running standardised benchmarks, scoring full interaction trajectories, and producing reproducible capability reports.",
+  "prerequisites": [
+    "evaluate-output",
+    "score-relevance"
+  ],
+  "derivatives": [
+    "skill-performance-benchmarking"
+  ],
+  "conditions": "",
+  "evidence": [
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2412.14470",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-30",
+      "notes": "Agent-SafetyBench (2024) -- benchmark with 349 interaction environments and 2,000 test cases covering safety risks in agent deployments; establishes reproducible trajectory-level metrics. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/truera/trulens",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-30",
+      "notes": "TruLens -- open-source evaluation and tracking for LLM experiments and AI agents; CI, active maintenance, 5k+ stars. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/Giskard-AI/giskard-oss",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-30",
+      "notes": "Giskard OSS -- testing library for LLM agents with automated vulnerability scanning and RAG evaluation; Apache-2 license. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-04-30",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-13T21:50:25Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 3★ (provisional)",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:57Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2412.14470 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:57Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/truera/trulens as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:57Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/Giskard-AI/giskard-oss as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:16Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

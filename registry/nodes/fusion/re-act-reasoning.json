@@ -1,0 +1,68 @@
+{
+  "id": "re-act-reasoning",
+  "name": "ReAct Reasoning",
+  "type": "fusion",
+  "description": "Interleaves free-form reasoning traces with discrete tool actions in a single loop, enabling agents to plan, act, observe, and update beliefs step-by-step.",
+  "prerequisites": [
+    "plan-decompose",
+    "tool-use"
+  ],
+  "derivatives": [
+    "plan-and-execute",
+    "autonomous-web-research"
+  ],
+  "conditions": "",
+  "evidence": [
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2210.03629",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-28",
+      "notes": "ReAct (Yao et al., 2023) â€” reasoning+acting paradigm; +34% on HotpotQA and +10% on ALFWorld vs chain-of-thought-only baselines. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/ysymyth/ReAct",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-28",
+      "notes": "ReAct repo â€” reproducible prompts and evaluation harness for HotpotQA, FEVER, ALFWorld, and WebShop benchmarks. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-04-28",
+  "updatedAt": "2026-07-16",
+  "version": "0.2.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-13T21:50:25Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 3★ (provisional)",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:03Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2210.03629 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:03Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/ysymyth/ReAct as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:22Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

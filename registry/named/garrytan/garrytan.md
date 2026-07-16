@@ -7,7 +7,7 @@ genericSkillRef: vertical-slice-planning
 status: named
 title: Founder Mode Autoplan
 catalogRef: garrytan-autoplan
-level: 4★
+level: 3★
 description: The definitive autonomous "Founder mode" review and decision suite. An
   auto-review pipeline that reads the full CEO, design, engineering, and DX review
   skills from disk and runs them sequentially with auto-decisions using 6 decision
@@ -21,7 +21,7 @@ tags:
 - ceo-review
 - orchestration
 createdAt: '2026-05-12'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-16'
 suiteRef: garrytan/gstack
 suiteComponents:
 - garrytan/browse
@@ -58,6 +58,18 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:37Z'
   details: TM 0.0 -> 156.0, grade ungraded -> A (direct edit -- CLI gap)
+- timestamp: '2026-07-16T08:36:42Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''vertical-slice-planning'' type: extra/ultimate → fusion
+    (Yggdrasil II taxonomy migration #997)'
+- timestamp: '2026-07-16T08:36:42Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 3★
+  details: 'Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch
+    TM=36.0 (< 100.0)) — demoted to 3★ Evolved'
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/autoplan/SKILL.md

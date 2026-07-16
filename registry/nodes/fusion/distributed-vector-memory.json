@@ -1,0 +1,34 @@
+{
+  "id": "distributed-vector-memory",
+  "name": "Distributed Vector Memory",
+  "type": "fusion",
+  "description": "Sub-millisecond cross-node vector synchronization using QUIC protocol with hybrid metadata-filtered search and MMR diversity retrieval.",
+  "prerequisites": [
+    "vector-search",
+    "memory-manage"
+  ],
+  "derivatives": [],
+  "conditions": "",
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-19",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-19T16:29:16Z",
+      "action": "propose",
+      "contributor": "claude",
+      "details": "Skill created as 3★ (provisional)",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:18Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

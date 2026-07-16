@@ -1,0 +1,46 @@
+{
+  "id": "git-ship-done-pipeline",
+  "name": "Git Ship Done Pipeline",
+  "type": "fusion",
+  "description": "Fuses decision capture, planning, parallel execution, verification, and shipping into a repeatable agentic software delivery pipeline.",
+  "prerequisites": [
+    "brainstorming",
+    "writing-plans",
+    "subagent-driven-development",
+    "verification-before-completion",
+    "finishing-a-development-branch"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-03",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-02T18:18:07Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill git-ship-done-pipeline"
+    },
+    {
+      "timestamp": "2026-07-02T18:18:07Z",
+      "action": "fuse",
+      "contributor": "unknown",
+      "details": "Fused from brainstorming + writing-plans + subagent-driven-development + verification-before-completion + finishing-a-development-branch. Named capstone: gsd-build/get-shit-done. CLI suite-manifest gap tracked in #926."
+    },
+    {
+      "timestamp": "2026-07-02T21:46:19Z",
+      "action": "type_change",
+      "contributor": "unknown",
+      "details": "Reclassified from extra to ultimate"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:26Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from ultimate to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

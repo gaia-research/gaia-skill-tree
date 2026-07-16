@@ -1,0 +1,58 @@
+{
+  "id": "literature-review",
+  "name": "Literature Review",
+  "type": "fusion",
+  "description": "Conducts systematic multi-database academic literature searches following PRISMA/SWARM protocols, screens and synthesises findings, verifies all citations, and generates a structured review report.",
+  "prerequisites": [
+    "cite-sources",
+    "literature-search",
+    "research",
+    "summarize"
+  ],
+  "derivatives": [],
+  "conditions": "Requires access to academic databases (PubMed, bioRxiv, ChEMBL, or equivalent).",
+  "evidence": [
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2501.05468",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-30",
+      "notes": "Rouzrokh et al. (2025) — LatteReview: multi-agent framework for systematic review automation; modular agents for title/abstract screening, relevance scoring, and structured data extraction with RAG and multimodal support. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-04-30",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-13T21:50:25Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 4★ (provisional)",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-06-02T23:45:12Z",
+      "action": "evidence_removed",
+      "contributor": "unknown",
+      "details": "Removed dead/invalid evidence: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/literature-review/SKILL.md"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:01Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2501.05468 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:20Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

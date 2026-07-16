@@ -1,0 +1,41 @@
+{
+  "id": "registry-health-scan",
+  "name": "Gaia Meta Audit",
+  "type": "fusion",
+  "description": "Scans Gaia registry and real-skill catalog entries for review candidates whose evidence may be outdated, superseded, overpromoted, unmapped, stale, or insufficient for their current level or named-skill claim.",
+  "prerequisites": [
+    "registry-entry-audit",
+    "registry-curation",
+    "detect-anomaly"
+  ],
+  "derivatives": [],
+  "conditions": "Requires the current registry, named-skill index, real-skill catalog, and permission to compare against current source URLs or discovery indexes.",
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-03",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-13T21:50:25Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 3★ (provisional)",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-29T18:12:27Z",
+      "action": "rename",
+      "contributor": "unknown",
+      "details": "Renamed from gaia-meta-audit to registry-health-scan"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:23Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "id": "grill-with-docs",
+  "name": "Grill With Docs",
+  "type": "fusion",
+  "description": "The apex of agentic design alignment. Fuses relentless Socratic questioning with deep domain awareness, ensuring every decision is cross-referenced against a persistent ubiquitous language and documented via real-time ADR generation.",
+  "prerequisites": [
+    "grill-me",
+    "ubiquitous-language",
+    "document-editing"
+  ],
+  "derivatives": [],
+  "conditions": "Requires the agent to maintain a live glossary (CONTEXT.md) and generate ADRs for all non-trivial trade-offs discovered during the grill.",
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-15",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "title": "The Domain Sovereign",
+  "timeline": [
+    {
+      "timestamp": "2026-05-14T20:30:46Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 5★ (provisional)",
+      "previousValue": null,
+      "newValue": "5★"
+    },
+    {
+      "timestamp": "2026-05-18T15:45:47Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Type adjusted from ultimate to extra",
+      "previousValue": "ultimate",
+      "newValue": "extra"
+    },
+    {
+      "timestamp": "2026-05-19T22:44:52Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated/demoted rank from 5★ to 3★",
+      "previousValue": "5★",
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-05-25T04:25:33Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from 3★ to 2★"
+    },
+    {
+      "timestamp": "2026-05-25T04:44:23Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated/demoted rank from 3★ to 1★",
+      "previousValue": "3★",
+      "newValue": "1★"
+    },
+    {
+      "timestamp": "2026-06-02T23:45:12Z",
+      "action": "evidence_removed",
+      "contributor": "unknown",
+      "details": "Removed dead/invalid evidence: https://aihero.dev/mattpocock/i-stopped-using-grill-me-for-coding"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:20Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "release-automation",
+  "name": "Release Automation",
+  "type": "fusion",
+  "description": "Automate the full software release cycle: determine semantic version bump, update CHANGELOG, commit, create a git tag, and publish a GitHub release with release notes.",
+  "prerequisites": [
+    "workflow-automation",
+    "code-execution",
+    "generate-text"
+  ],
+  "derivatives": [],
+  "conditions": "Requires write access to the repository and a configured release token.",
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-04-30",
+  "updatedAt": "2026-07-16",
+  "version": "0.2.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-13T21:50:25Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 2★ (provisional)",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:23Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

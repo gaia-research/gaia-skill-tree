@@ -1,0 +1,52 @@
+{
+  "id": "generative-media",
+  "name": "Generative Media",
+  "type": "fusion",
+  "description": "Generates and manipulates images, video, and audio through complex node-based or scripted generative workflows, managing model dependencies and parameter injection.",
+  "prerequisites": [
+    "api-call",
+    "data-visualize"
+  ],
+  "derivatives": [],
+  "conditions": "",
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/comfyanonymous/ComfyUI",
+      "evaluator": "gemini-cli",
+      "date": "2026-05-17",
+      "notes": "ComfyUI -- most powerful and modular stable diffusion GUI and backend; node-based graph execution for generative media. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0
+    }
+  ],
+  "knownAgents": [
+    "NousResearch/hermes-agent"
+  ],
+  "status": "provisional",
+  "createdAt": "2026-05-17",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-17T13:00:26Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 3★ (provisional)",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:00Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/comfyanonymous/ComfyUI as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:19Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

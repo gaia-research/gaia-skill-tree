@@ -5,12 +5,12 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: genomic-data-retrieval
 status: awakened
-level: 4★
+level: 3★
 description: Use when you want to retrieve quantitative RNA expression data and variant
   eQTL information from the GTEx (Genotype-Tissue Expression) Project across 54 non-diseased
   tissue sites.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-16'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/gtex_database/SKILL.md
 evidence:
@@ -67,6 +67,18 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Level updated from 2★ to 4★ per G7 final rankings calibration.
+- timestamp: '2026-07-16T08:36:43Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''genomic-data-retrieval'' type: basic (unchanged; Yggdrasil
+    II taxonomy migration #997)'
+- timestamp: '2026-07-16T08:36:43Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 3★
+  details: 'Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch
+    origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved'
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

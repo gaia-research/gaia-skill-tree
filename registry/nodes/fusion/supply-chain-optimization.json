@@ -1,0 +1,96 @@
+{
+  "id": "supply-chain-optimization",
+  "name": "Supply Chain Optimization",
+  "type": "fusion",
+  "description": "Orchestrates inventory, logistics, and procurement decisions using demand forecasting, EOQ and safety-stock computation, route optimization, and anomaly-aware fulfilment monitoring.",
+  "prerequisites": [
+    "data-analysis",
+    "detect-anomaly",
+    "statistical-analysis"
+  ],
+  "derivatives": [],
+  "evidence": [
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2509.03673",
+      "evaluator": "unknown",
+      "date": "2026-06-03",
+      "notes": "ML-Based Study on Synergistic Optimization of Supply Chain Management and Financial Supply Chains: LSTM demand forecasting + XGBoost credit assessment + Game Theory / RL for inventory-procurement; 30% inventory turnover uplift, >95% order fill rate (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0
+    },
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2503.14556",
+      "evaluator": "unknown",
+      "date": "2026-06-03",
+      "notes": "Designing and Deploying AI Models for Sustainable Logistics Optimization: predictive demand analytics, route optimization via ML, AI-powered fuel efficiency strategies for eco-efficient supply chains (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/kishorkukreja/awesome-supply-chain/blob/main/skills/inventory-optimization/SKILL.md",
+      "evaluator": "unknown",
+      "date": "2026-06-03",
+      "notes": "Comprehensive skill covering EOQ, safety stock, reorder points, ABC-XYZ classification, multi-SKU budget-constrained allocation, and Python implementations for inventory optimization (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-06-03",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-06-03T22:48:52Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill supply-chain-optimization"
+    },
+    {
+      "timestamp": "2026-06-03T22:48:52Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added A evidence from https://arxiv.org/abs/2509.03673"
+    },
+    {
+      "timestamp": "2026-06-03T22:48:52Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added A evidence from https://arxiv.org/abs/2503.14556"
+    },
+    {
+      "timestamp": "2026-06-03T22:48:52Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/kishorkukreja/awesome-supply-chain/blob/main/skills/inventory-optimization/SKILL.md"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:05Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2509.03673 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:06Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2503.14556 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:06Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/kishorkukreja/awesome-supply-chain/blob/main/skills/inventory-optimization/SKILL.md as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:24Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

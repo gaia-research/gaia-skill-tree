@@ -22,7 +22,7 @@ tags:
 - multi-agent
 - platform
 createdAt: '2026-05-19'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-16'
 suiteComponents:
 - ruvnet/agentdb
 - ruvnet/agentdb-advanced
@@ -174,6 +174,11 @@ timeline:
   previousValue: null
   newValue: v3.25.5
   details: first-run baseline
+- timestamp: '2026-07-16T08:36:44Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''multi-topology-orchestration'' type: extra/ultimate →
+    fusion (Yggdrasil II taxonomy migration #997)'
 trustMagnitude: 482.27
 overallTrustGrade: S
 apexGateStatus:

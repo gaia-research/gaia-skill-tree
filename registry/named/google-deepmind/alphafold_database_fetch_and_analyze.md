@@ -5,14 +5,14 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: computational-biology-workflows
 status: awakened
-level: 4★
+level: 3★
 description: Retrieve and analyze AlphaFold predicted structures for a protein. Use
   when the user provides a specific UniProt Accession ID and wants structural confidence
   metrics (pLDDT), domain boundary analysis, or disorder assessment. Do not use if
   the user only has a protein name, gene name, or amino acid sequence — ask for a
   UniProt ID first.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-16'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md
 evidence:
@@ -61,6 +61,18 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T14:32:17Z'
   details: TM 100.82 -> 100.82, grade A -> A (direct edit -- CLI gap)
+- timestamp: '2026-07-16T08:36:42Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''computational-biology-workflows'' type: extra/ultimate
+    → fusion (Yggdrasil II taxonomy migration #997)'
+- timestamp: '2026-07-16T08:36:42Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 3★
+  details: 'Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch
+    origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved'
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

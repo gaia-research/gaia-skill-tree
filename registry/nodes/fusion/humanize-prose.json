@@ -1,0 +1,53 @@
+{
+  "id": "humanize-prose",
+  "name": "Humanize Prose",
+  "type": "fusion",
+  "description": "Audits and rewrites prose to remove generic AI-writing patterns, preserve author intent, and adapt tone toward a more natural human voice.",
+  "prerequisites": [
+    "document-editing",
+    "audience-model",
+    "format-output"
+  ],
+  "derivatives": [],
+  "conditions": "Requires explicit user permission to revise voice, tone, and stylistic markers without changing factual claims.",
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/NousResearch/hermes-agent/blob/main/skills/creative/humanizer/SKILL.md",
+      "evaluator": "openai-codex",
+      "date": "2026-05-06",
+      "notes": "Hermes Agent humanizer skill identifies AI-generated writing patterns and rewrites text to sound more natural while retaining meaning. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0
+    }
+  ],
+  "knownAgents": [
+    "NousResearch/hermes-agent"
+  ],
+  "status": "provisional",
+  "createdAt": "2026-05-06",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-13T21:50:25Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 4★ (provisional)",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:01Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/NousResearch/hermes-agent/blob/main/skills/creative/humanizer/SKILL.md as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:20Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "id": "adversarial-robustness-testing",
+  "name": "Adversarial Robustness Testing",
+  "type": "fusion",
+  "description": "Systematically red-teams models with adversarial and multi-turn jailbreak prompts, input perturbations, and semantic-preserving transformations to measure resilience at scale.",
+  "prerequisites": [
+    "agent-eval",
+    "guardrails",
+    "prompt-injection-defense"
+  ],
+  "derivatives": [],
+  "evidence": [
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2505.04806",
+      "evaluator": "unknown",
+      "date": "2026-06-03",
+      "notes": "Red Teaming the Mind of the Machine — systematic evaluation of 1400+ adversarial prompts across GPT-4/Claude 2/Mistral/Vicuna; roleplay, logic traps, encoding, multi-turn attacks (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0
+    },
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2605.01687",
+      "evaluator": "unknown",
+      "date": "2026-06-03",
+      "notes": "MultiBreak: Scalable Multi-turn Jailbreak Benchmark — 10,389 multi-turn adversarial prompts across 2,665 harmful intents via active learning pipeline (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0
+    },
+    {
+      "class": "C",
+      "source": "https://skillsmp.com/skills/maruakshay-mii-ai-security-skills-adversarial-robustness-skill-md",
+      "evaluator": "unknown",
+      "date": "2026-06-03",
+      "notes": "adversarial-robustness skill on SkillsMP — reviews AI resilience against evasion attacks, input perturbation, semantic-preserving transformations (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-06-03",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-06-03T22:48:56Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill adversarial-robustness-testing"
+    },
+    {
+      "timestamp": "2026-06-03T22:48:56Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added A evidence from https://arxiv.org/abs/2505.04806"
+    },
+    {
+      "timestamp": "2026-06-03T22:48:57Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added A evidence from https://arxiv.org/abs/2605.01687"
+    },
+    {
+      "timestamp": "2026-06-03T22:48:57Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added C evidence from https://skillsmp.com/skills/maruakshay-mii-ai-security-skills-adversarial-robustness-skill-md"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:56Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2505.04806 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:56Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2605.01687 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:57Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://skillsmp.com/skills/maruakshay-mii-ai-security-skills-adversarial-robustness-skill-md as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:16Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

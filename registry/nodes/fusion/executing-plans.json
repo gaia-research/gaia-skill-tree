@@ -1,0 +1,45 @@
+{
+  "id": "executing-plans",
+  "name": "Executing Plans",
+  "type": "fusion",
+  "description": "Loads a written implementation plan, reviews it critically, executes all tasks sequentially, and reports when complete.",
+  "prerequisites": [
+    "writing-plans",
+    "tool-use"
+  ],
+  "derivatives": [
+    "superpowers",
+    "subagent-driven-development"
+  ],
+  "conditions": "",
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-18",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-18T14:11:08Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 2★ (provisional)",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-05-19T13:55:59Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Type adjusted from basic to extra",
+      "previousValue": "basic",
+      "newValue": "extra"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:19Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "id": "scientific-writing",
+  "name": "Scientific Writing",
+  "type": "fusion",
+  "description": "Composes research manuscripts in IMRAD structure with reporting-guideline compliance (CONSORT, STROBE, PRISMA), citation management, publication-quality figures, and LaTeX/PDF formatting.",
+  "prerequisites": [
+    "write-report",
+    "cite-sources",
+    "scientific-visualization"
+  ],
+  "derivatives": [],
+  "conditions": "",
+  "evidence": [
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2405.20477",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-30",
+      "notes": "Chamoun et al. (ACL 2024 Findings) — SWIFT: automated focused feedback for scientific writing; multi-component LLM system (planner, investigator, reviewer, controller) rated more specific and helpful than human reviewers on 300 peer-reviewed manuscripts. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-04-30",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-13T21:50:25Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 3★ (provisional)",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-06-02T23:45:13Z",
+      "action": "evidence_removed",
+      "contributor": "unknown",
+      "details": "Removed dead/invalid evidence: https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/scientific-skills/scientific-writing/SKILL.md"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:04Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2405.20477 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:23Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

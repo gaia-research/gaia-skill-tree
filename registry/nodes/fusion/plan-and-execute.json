@@ -1,0 +1,61 @@
+{
+  "id": "plan-and-execute",
+  "name": "Plan and Execute",
+  "type": "fusion",
+  "description": "Decomposes complex objectives into sub-tasks, selects tools, and orchestrates execution.",
+  "prerequisites": [
+    "route-intent",
+    "plan-decompose",
+    "tool-select"
+  ],
+  "derivatives": [
+    "real-time-voice-assistant"
+  ],
+  "conditions": "",
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/Skyvern-AI/skyvern",
+      "evaluator": "mbtiongson1",
+      "date": "2026-05-17",
+      "notes": "Replaced missing seed evidence with live repository from real-skills catalog. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-04-26",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-13T21:50:25Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 4★ (provisional)",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-18T09:04:22Z",
+      "action": "evidence_added",
+      "contributor": "jules",
+      "details": "Added evidence: https://github.com/Skyvern-AI/skyvern",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:02Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/Skyvern-AI/skyvern as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:22Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "id": "tree-of-thought",
+  "name": "Tree of Thought",
+  "type": "fusion",
+  "description": "Frames problem solving as a search over a tree of partial solutions, using LLM-generated evaluations to prune unpromising branches and backtrack, dramatically improving success on complex reasoning tasks.",
+  "prerequisites": [
+    "chain-of-thought",
+    "plan-decompose"
+  ],
+  "derivatives": [
+    "scientific-discovery"
+  ],
+  "conditions": "",
+  "evidence": [
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2305.10601",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-29",
+      "notes": "Yao et al. (2023) â€” Tree of Thoughts: Deliberate Problem Solving with LLMs; +74% on Game of 24 and +4% on Creative Writing vs chain-of-thought baseline. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/princeton-nlp/tree-of-thought-llm",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-29",
+      "notes": "Princeton-NLP ToT repo â€” reproducible breadth-first and depth-first tree search implementations with evaluation scripts for Game of 24 and Mini Crosswords. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-04-29",
+  "updatedAt": "2026-07-16",
+  "version": "0.2.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-13T21:50:25Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 4★ (provisional)",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:06Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2305.10601 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:07Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/princeton-nlp/tree-of-thought-llm as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:24Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "id": "skill-authoring",
+  "name": "Skill Authoring",
+  "type": "fusion",
+  "description": "Designs, writes, packages, and iteratively improves reusable agent skill directories with metadata, progressive instructions, supporting assets, and measurable trigger criteria.",
+  "prerequisites": [
+    "generate-text",
+    "structured-output",
+    "code-generation"
+  ],
+  "derivatives": [
+    "skill-performance-benchmarking",
+    "registry-curation",
+    "founder-mode-orchestration"
+  ],
+  "conditions": "Requires a target agent skill format and a repeatable evaluation loop for trigger accuracy and task success.",
+  "evidence": [
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2602.08004",
+      "evaluator": "codex",
+      "date": "2026-05-10",
+      "notes": "Agent Skills data-driven analysis characterizes SKILL.md packages as an emerging infrastructure layer and quantifies common design, reuse, and safety patterns. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md",
+      "evaluator": "codex",
+      "date": "2026-05-10",
+      "notes": "Anthropic skill-creator provides a reproducible workflow for creating, editing, evaluating, benchmarking, and optimizing agent skills. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0
+    }
+  ],
+  "knownAgents": [
+    "Claude"
+  ],
+  "status": "provisional",
+  "createdAt": "2026-05-10",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-13T21:50:25Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 4★ (provisional)",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-22T20:20:42Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md"
+    },
+    {
+      "timestamp": "2026-05-22T20:22:43Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md"
+    },
+    {
+      "timestamp": "2026-05-22T20:28:53Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence: https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:05Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2602.08004 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:05Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/anthropics/skills/blob/main/skills/skill-creator/SKILL.md as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:23Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

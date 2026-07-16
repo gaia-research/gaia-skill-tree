@@ -1,0 +1,82 @@
+{
+  "id": "computational-biology-workflows",
+  "name": "Computational Biology Workflows",
+  "type": "fusion",
+  "description": "Integrates structural, genomic, proteomic, and molecular database querying with bioinformatics analysis (such as sequence alignment, structure prediction, and molecular rendering) to solve multi-step, complex computational biology tasks.",
+  "prerequisites": [
+    "bioinformatic-sequence-analysis",
+    "genomic-data-retrieval",
+    "molecular-databases",
+    "protein-structure-analysis",
+    "proteomic-data-retrieval"
+  ],
+  "derivatives": [],
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/google-deepmind/science-skills",
+      "evaluator": "unknown",
+      "date": "2026-05-23",
+      "notes": "Foundational canonical generic skill for Computational Biology Workflows. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-23",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-22T20:22:12Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill computational-biology-workflows"
+    },
+    {
+      "timestamp": "2026-05-22T20:22:12Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/google-deepmind/science-skills"
+    },
+    {
+      "timestamp": "2026-05-22T20:22:40Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md"
+    },
+    {
+      "timestamp": "2026-05-22T20:22:41Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md"
+    },
+    {
+      "timestamp": "2026-05-22T20:22:42Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_msa/SKILL.md"
+    },
+    {
+      "timestamp": "2026-05-22T20:28:53Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 4★ (provisional)",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:58Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/google-deepmind/science-skills as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:18Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

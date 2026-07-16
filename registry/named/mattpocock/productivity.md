@@ -6,11 +6,11 @@ origin: true
 title: The Matt Pocock Productivity Suite
 genericSkillRef: productivity
 status: named
-level: 4★
+level: 3★
 description: Productivity category suite for Matt Pocock's skills. Removed from mattpocock/skills
   suite in v1.0.1.
 createdAt: '2026-05-21'
-updatedAt: '2026-06-10'
+updatedAt: '2026-07-16'
 trustMagnitude: 120.0
 overallTrustGrade: A
 apexGateStatus:
@@ -32,6 +32,18 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:41Z'
   details: TM 0.0 -> 120.0, grade ungraded -> A (direct edit -- CLI gap)
+- timestamp: '2026-07-16T08:36:43Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''productivity'' type: extra/ultimate → fusion (Yggdrasil
+    II taxonomy migration #997)'
+- timestamp: '2026-07-16T08:36:43Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 3★
+  details: 'Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch
+    TM=0.0 (< 100.0)) — demoted to 3★ Evolved'
 suiteRef: mattpocock/skills
 suiteComponents:
 - mattpocock/caveman

@@ -5,14 +5,14 @@ contributor: stanfordnlp
 origin: true
 genericSkillRef: prompt-optimization
 status: named
-level: 4★
+level: 3★
 installable: false
 description: Declarative programming of language model pipelines, automatically optimizing
   prompts and RAG retrieval using bootstrapping and teleprompters.
 title: The Programmatic Prompt Engineer
 catalogRef: stanfordnlp-dspy
 createdAt: '2026-06-02'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-16'
 timeline:
 - timestamp: '2026-06-02T01:44:00Z'
   action: demote
@@ -46,6 +46,18 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Level updated from 1★ to 4★ per G7 final rankings calibration.
+- timestamp: '2026-07-16T08:36:44Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''prompt-optimization'' type: extra/ultimate → fusion (Yggdrasil
+    II taxonomy migration #997)'
+- timestamp: '2026-07-16T08:36:44Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 3★
+  details: 'Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch
+    origin=False TM=100.0 (≥ 100.0)) — demoted to 3★ Evolved'
 trustMagnitude: 100.0
 overallTrustGrade: A
 apexGateStatus:

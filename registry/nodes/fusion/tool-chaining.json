@@ -1,0 +1,65 @@
+{
+  "id": "tool-chaining",
+  "name": "Tool Chaining",
+  "type": "fusion",
+  "description": "Sequences multiple tool invocations into a dependency graph where the output of each tool feeds as structured input to the next, handling state propagation, intermediate result validation, and error recovery across multi-step execution pipelines.",
+  "prerequisites": [
+    "tool-use",
+    "tool-select"
+  ],
+  "derivatives": [],
+  "conditions": "Requires at least two distinct tools whose data schemas are compatible for chaining.",
+  "evidence": [
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2604.07223",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-30",
+      "notes": "TraceSafe (2026) — first benchmark with 1,000+ instances explicitly evaluating sequential multi-step tool-calling trajectories across 12 risk categories; establishes tool-chaining as a distinct, measurable capability surface. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0
+    },
+    {
+      "class": "C",
+      "source": "https://skillsmp.com/api/v1/skills/search?q=tool-chaining",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-30",
+      "notes": "SkillsMP: dependency-aware-tool-chaining, build-agentic-workflows-chaining-tool-calls; emerging community consensus on the pattern. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-04-30",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-13T21:50:25Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 3★ (provisional)",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:06Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2604.07223 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:06Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://skillsmp.com/api/v1/skills/search?q=tool-chaining as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:24Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

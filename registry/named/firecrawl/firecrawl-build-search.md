@@ -8,7 +8,7 @@ status: named
 level: 4★
 description: Integrate Firecrawl web search into product code.
 createdAt: '2026-07-13'
-updatedAt: '2026-07-13'
+updatedAt: '2026-07-16'
 title: Firecrawl Search
 links:
   github: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-search/SKILL.md
@@ -31,6 +31,11 @@ timeline:
   contributor: mbtiongson1
   details: Renamed from firecrawl/web-search-integration to firecrawl/firecrawl-build-search
     — aligned to official firecrawl/skills repo naming
+- timestamp: '2026-07-16T08:36:42Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''web-search'' type: basic (unchanged; Yggdrasil II taxonomy
+    migration #997)'
 evidence:
 - source: https://www.youtube.com/watch?v=tBtPSV_gU6o
   evaluator: unknown
@@ -60,7 +65,7 @@ evidence:
 verification:
   firstEvidenceAt: '2026-07-13T06:22:25Z'
 catalogRef: firecrawl-firecrawl-build-search
-suiteRef: "firecrawl/firecrawl-skills"
+suiteRef: firecrawl/firecrawl-skills
 ---
 
 ## Installation

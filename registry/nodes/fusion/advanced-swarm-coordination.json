@@ -1,0 +1,34 @@
+{
+  "id": "advanced-swarm-coordination",
+  "name": "Advanced Swarm Coordination",
+  "type": "fusion",
+  "description": "Domain-specific swarm patterns for research, development, testing, and analysis workflows with neural learning and cross-session state persistence.",
+  "prerequisites": [
+    "swarm-topology-management",
+    "multi-agent-debate"
+  ],
+  "derivatives": [],
+  "conditions": "",
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-19",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-19T16:29:16Z",
+      "action": "propose",
+      "contributor": "claude",
+      "details": "Skill created as 3★ (provisional)",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:16Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

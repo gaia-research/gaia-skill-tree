@@ -1,0 +1,36 @@
+{
+  "id": "video-intelligence",
+  "name": "Video Intelligence",
+  "type": "fusion",
+  "description": "Processes video streams by extracting frames, transcribing audio, and applying multimodal reasoning to understand temporal and visual context.",
+  "prerequisites": [
+    "multimodal-reasoning",
+    "speech-to-text"
+  ],
+  "derivatives": [
+    "autonomous-web-research"
+  ],
+  "conditions": "Requires FFmpeg and multimodal LLM support.",
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-14",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-14T09:36:10Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 3★ (provisional)",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:25Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

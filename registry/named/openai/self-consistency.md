@@ -7,7 +7,7 @@ genericSkillRef: self-consistency
 status: named
 title: The Majority Consensus
 catalogRef: openai-self-consistency
-level: 4★
+level: 3★
 description: Samples multiple reasoning paths and selects the most consistent answer
   by majority vote.
 links:
@@ -20,7 +20,7 @@ tags:
 - cot
 - unique
 createdAt: '2026-05-15'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-16'
 trustMagnitude: 100.0
 overallTrustGrade: A
 apexGateStatus:
@@ -56,6 +56,18 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Level updated from 2★ to 4★ per G7 final rankings calibration.
+- timestamp: '2026-07-16T08:36:44Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''self-consistency'' type: basic (unchanged; Yggdrasil
+    II taxonomy migration #997)'
+- timestamp: '2026-07-16T08:36:44Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 3★
+  details: 'Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch
+    origin=False TM=100.0 (≥ 100.0)) — demoted to 3★ Evolved'
 evidence:
 - source: https://arxiv.org/abs/2203.11171
   evaluator: mbtiongson1

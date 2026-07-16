@@ -7,7 +7,7 @@ genericSkillRef: firecrawl
 status: named
 title: The Web Infuser
 catalogRef: firecrawl-firecrawl
-level: 4★
+level: 3★
 description: 'Suite of Firecrawl skills for web scraping, search, browser interaction,
   environment setup, and research. Install all skills: `npx -y firecrawl-cli@latest
   init --all --browser`'
@@ -20,7 +20,7 @@ tags:
 - extraction
 - crawler
 createdAt: '2026-05-17'
-updatedAt: '2026-07-13'
+updatedAt: '2026-07-16'
 timeline:
 - timestamp: '2026-06-02T23:33:01Z'
   action: demote
@@ -80,6 +80,18 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-07-13T11:46:14Z'
   details: TM 36.0 -> 223.52, grade C -> A (direct edit -- CLI gap)
+- timestamp: '2026-07-16T08:36:42Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''firecrawl'' type: extra/ultimate → fusion (Yggdrasil
+    II taxonomy migration #997)'
+- timestamp: '2026-07-16T08:36:42Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 3★
+  details: 'Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch
+    TM=73.5 (< 100.0)) — demoted to 3★ Evolved'
 evidence:
 - class: B
   source: https://github.com/firecrawl/firecrawl

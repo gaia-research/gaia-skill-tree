@@ -1,0 +1,36 @@
+{
+  "id": "grill-me",
+  "name": "Grill Me",
+  "type": "fusion",
+  "description": "Conducts a relentless, one-question-at-a-time Socratic interview to stress-test designs and force the resolution of hidden assumptions before code is written.",
+  "prerequisites": [
+    "design-review",
+    "self-critique"
+  ],
+  "derivatives": [
+    "grill-with-docs"
+  ],
+  "conditions": "Enforces a strict questioning loop that prevents the agent from proceeding to implementation until all branches are resolved.",
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-15",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-14T20:30:46Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 4★ (provisional)",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:20Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

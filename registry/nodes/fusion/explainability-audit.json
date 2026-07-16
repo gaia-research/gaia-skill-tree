@@ -1,0 +1,96 @@
+{
+  "id": "explainability-audit",
+  "name": "Explainability Audit",
+  "type": "fusion",
+  "description": "Audits model transparency by computing feature-importance attributions (SHAP, LIME) and intrinsic-interpretability metrics, surfacing them as governance evidence.",
+  "prerequisites": [
+    "data-visualize",
+    "evaluate-output",
+    "statistical-analysis"
+  ],
+  "derivatives": [],
+  "evidence": [
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2502.04695",
+      "evaluator": "unknown",
+      "date": "2026-06-03",
+      "notes": "Bridging the Gap in XAI — reliable explainability metrics as governance tools; EU AI Act compliance framing; 'Governance by Metrics' framework (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0
+    },
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2405.20794",
+      "evaluator": "unknown",
+      "date": "2026-06-03",
+      "notes": "Model Interpretation and Explainability: Towards Creating Transparency in Prediction Models — SHAP/LIME vs intrinsic methods for auditing feature importance (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0
+    },
+    {
+      "class": "C",
+      "source": "https://skillsmp.com/skills/paulpas-agent-skill-router-skills-coding-ds-explainability-skill-md",
+      "evaluator": "unknown",
+      "date": "2026-06-03",
+      "notes": "explainability skill on SkillsMP — model transparency and interpretability for data science workflows (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-06-03",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-06-03T22:48:55Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill explainability-audit"
+    },
+    {
+      "timestamp": "2026-06-03T22:48:55Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added A evidence from https://arxiv.org/abs/2502.04695"
+    },
+    {
+      "timestamp": "2026-06-03T22:48:55Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added A evidence from https://arxiv.org/abs/2405.20794"
+    },
+    {
+      "timestamp": "2026-06-03T22:48:56Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added C evidence from https://skillsmp.com/skills/paulpas-agent-skill-router-skills-coding-ds-explainability-skill-md"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:59Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2502.04695 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:59Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2405.20794 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:59Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://skillsmp.com/skills/paulpas-agent-skill-router-skills-coding-ds-explainability-skill-md as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:19Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

@@ -5,14 +5,14 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: protein-structure-analysis
 status: awakened
-level: 4★
+level: 3★
 description: Performs 3D structural searches of proteins against various databases
   (PDB, AlphaFold, CATH, MGnify, etc.) using the Foldseek API. Use ONLY when the user
   provides a physical 3D coordinate file (.cif, .mmcif, or .pdb) and wants to find
   structurally similar proteins. Do NOT use if the user only provides a protein sequence,
   gene name, or UniProt ID.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-16'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search/SKILL.md
 evidence:
@@ -72,6 +72,18 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Level updated from 2★ to 4★ per G7 final rankings calibration.
+- timestamp: '2026-07-16T08:36:43Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''protein-structure-analysis'' type: basic (unchanged;
+    Yggdrasil II taxonomy migration #997)'
+- timestamp: '2026-07-16T08:36:43Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 3★
+  details: 'Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch
+    origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved'
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

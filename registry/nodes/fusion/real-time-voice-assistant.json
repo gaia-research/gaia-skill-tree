@@ -1,0 +1,90 @@
+{
+  "id": "real-time-voice-assistant",
+  "name": "Real-Time Voice Assistant",
+  "type": "fusion",
+  "description": "Provides low-latency spoken interactions combining real-time speech I/O, persistent memory, and goal-directed task execution across multi-session conversations.",
+  "prerequisites": [
+    "voice-agent",
+    "memory-manage",
+    "plan-and-execute"
+  ],
+  "derivatives": [],
+  "conditions": "Requires real-time audio pipeline, <500ms end-to-end latency target, and persistent session store. Minimum 3 Class A/B evidence sources.",
+  "evidence": [
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2312.11805",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-28",
+      "notes": "AudioPaLM (Google) â€” unified audio language model supporting real-time spoken dialogue; SOTA on ASR and speech translation, demonstrating end-to-end voice assistant capability. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0
+    },
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2305.11206",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-28",
+      "notes": "VoiceBox (Meta AI) â€” generative speech model with zero-shot TTS; enables real-time voice assistants with <100ms synthesis latency benchmarked on VCTK. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/openai/whisper",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-28",
+      "notes": "Whisper + LLM integration demos â€” open-source real-time voice assistant pipelines combining Whisper STT, LLM reasoning, and TTS with documented latency benchmarks. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-04-28",
+  "updatedAt": "2026-07-16",
+  "version": "0.2.0",
+  "title": "Eternal Herald",
+  "timeline": [
+    {
+      "timestamp": "2026-05-13T21:50:25Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 5★ (provisional)",
+      "previousValue": null,
+      "newValue": "5★"
+    },
+    {
+      "timestamp": "2026-05-18T15:45:47Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Type adjusted from ultimate to extra",
+      "previousValue": "ultimate",
+      "newValue": "extra"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:03Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2312.11805 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:03Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2305.11206 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:03Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/openai/whisper as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:22Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

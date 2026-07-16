@@ -8,7 +8,7 @@ status: named
 level: 4★
 description: Integrate Firecrawl page extraction into product code.
 createdAt: '2026-07-13'
-updatedAt: '2026-07-13'
+updatedAt: '2026-07-16'
 title: Firecrawl Scrape
 links:
   github: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-scrape/SKILL.md
@@ -40,6 +40,11 @@ timeline:
   contributor: mbtiongson1
   details: Renamed from firecrawl/web-scrape-integration to firecrawl/firecrawl-build-scrape
     — aligned to official firecrawl/skills repo naming
+- timestamp: '2026-07-16T08:36:42Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''web-scrape'' type: extra/ultimate → fusion (Yggdrasil
+    II taxonomy migration #997)'
 evidence:
 - source: https://www.youtube.com/watch?v=tBtPSV_gU6o
   evaluator: unknown
@@ -79,7 +84,7 @@ evidence:
 verification:
   firstEvidenceAt: '2026-07-13T06:22:24Z'
 catalogRef: firecrawl-firecrawl-build-scrape
-suiteRef: "firecrawl/firecrawl-skills"
+suiteRef: firecrawl/firecrawl-skills
 ---
 
 ## Installation

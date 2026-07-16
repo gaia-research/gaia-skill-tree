@@ -7,7 +7,7 @@ genericSkillRef: dual-mode
 status: named
 title: The Hybrid Conductor
 catalogRef: ruvnet-dual-mode
-level: 4★
+level: 3★
 description: Fuses headless worker spawning, result collection, and hybrid workflow
   coordination into a complete Claude+Codex parallel orchestration pattern.
 links:
@@ -19,7 +19,7 @@ tags:
 - parallel-execution
 - orchestration
 createdAt: '2026-05-19'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-16'
 suiteRef: ruvnet/ruflo
 suiteComponents:
 - ruvnet/dual-collect
@@ -65,6 +65,18 @@ timeline:
   previousValue: null
   newValue: v3.25.5
   details: first-run baseline
+- timestamp: '2026-07-16T08:36:44Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''dual-mode'' type: extra/ultimate → fusion (Yggdrasil
+    II taxonomy migration #997)'
+- timestamp: '2026-07-16T08:36:44Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 3★
+  details: 'Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch
+    TM=36.0 (< 100.0)) — demoted to 3★ Evolved'
 trustMagnitude: 126.0
 overallTrustGrade: A
 apexGateStatus:

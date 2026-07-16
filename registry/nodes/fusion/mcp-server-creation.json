@@ -1,0 +1,85 @@
+{
+  "id": "mcp-server-creation",
+  "name": "MCP Server Creation",
+  "type": "fusion",
+  "description": "Designs and implements Model Context Protocol servers that expose external APIs, files, or services as well-typed tools with clear schemas, authentication, and testable agent workflows.",
+  "prerequisites": [
+    "mcp-integration",
+    "tool-creation",
+    "api-call"
+  ],
+  "derivatives": [
+    "workflow-automation",
+    "tool-chaining",
+    "multi-agent-orchestration-v"
+  ],
+  "conditions": "Requires an integration target, a supported MCP SDK, tool schemas, authentication handling, and local validation against an MCP client.",
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/anthropics/skills/blob/main/skills/mcp-builder/SKILL.md",
+      "evaluator": "codex",
+      "date": "2026-05-10",
+      "notes": "Anthropic mcp-builder skill gives a reproducible guide for building high-quality MCP servers in Python FastMCP or the Node/TypeScript MCP SDK. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/modelcontextprotocol/python-sdk",
+      "evaluator": "codex",
+      "date": "2026-05-10",
+      "notes": "Official MCP Python SDK is active and provides FastMCP server examples for exposing tools, resources, prompts, structured outputs, transports, and inspector-based testing. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0
+    },
+    {
+      "class": "B",
+      "source": "https://raw.githubusercontent.com/sickn33/antigravity-awesome-skills/main/skills/mcp-builder/SKILL.md",
+      "evaluator": "codex",
+      "date": "2026-05-27",
+      "type": "repo",
+      "trustNumber": 70.0,
+      "notes": "(backfilled — class-to-type migration)"
+    }
+  ],
+  "knownAgents": [
+    "Claude"
+  ],
+  "status": "provisional",
+  "createdAt": "2026-05-10",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-27T23:24:31Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added B evidence from https://raw.githubusercontent.com/sickn33/antigravity-awesome-skills/main/skills/mcp-builder/SKILL.md"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:01Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/anthropics/skills/blob/main/skills/mcp-builder/SKILL.md as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:01Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/modelcontextprotocol/python-sdk as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:01Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://raw.githubusercontent.com/sickn33/antigravity-awesome-skills/main/skills/mcp-builder/SKILL.md as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:21Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

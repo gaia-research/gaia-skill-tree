@@ -1,0 +1,52 @@
+{
+  "id": "ml-artifact-management",
+  "name": "ML Artifact Management",
+  "type": "fusion",
+  "description": "Manages machine learning models, datasets, and experiment logs through centralized hub or tracking repositories, handling versioning and metadata extraction.",
+  "prerequisites": [
+    "api-call",
+    "classify"
+  ],
+  "derivatives": [],
+  "conditions": "",
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/huggingface/huggingface_hub",
+      "evaluator": "gemini-cli",
+      "date": "2026-05-17",
+      "notes": "Hugging Face Hub CLI -- standard interface for managing ML artifacts. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0
+    }
+  ],
+  "knownAgents": [
+    "huggingface/hf-cli"
+  ],
+  "status": "provisional",
+  "createdAt": "2026-05-17",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-17T13:00:26Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 2★ (provisional)",
+      "previousValue": null,
+      "newValue": "2★"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:01Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/huggingface/huggingface_hub as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:21Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

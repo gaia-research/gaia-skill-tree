@@ -20,7 +20,7 @@ tags:
 - gpt-3
 - unique
 createdAt: '2026-05-15'
-updatedAt: '2026-07-05'
+updatedAt: '2026-07-16'
 trustMagnitude: 100.0
 overallTrustGrade: A
 apexGateStatus:
@@ -61,6 +61,11 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard
     (type: benchmark-result)'
+- timestamp: '2026-07-16T08:36:44Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''few-shot-learning'' type: basic (unchanged; Yggdrasil
+    II taxonomy migration #997)'
 evidence:
 - source: https://arxiv.org/abs/2005.14165
   evaluator: mbtiongson1

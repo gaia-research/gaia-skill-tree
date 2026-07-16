@@ -1,0 +1,43 @@
+{
+  "id": "graph-driven-issue-triage",
+  "name": "Graph-Driven Issue Triage",
+  "type": "fusion",
+  "description": "Combines codebase or knowledge-graph construction with automated issue triage: ingest a graph artifact, surface architectural debt or missing-prerequisite signals from the graph topology, and convert each finding into a tracked issue with reproducible evidence.",
+  "prerequisites": [
+    "issue-triage",
+    "knowledge-graph-build"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-30",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-29T18:12:50Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill graph-driven-issue-triage to capture the safishamsi/graphify + mattpocock/triage fusion (META §6.2)"
+    },
+    {
+      "timestamp": "2026-05-29T18:13:06Z",
+      "action": "rank_up",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated level from None to 3★"
+    },
+    {
+      "timestamp": "2026-05-29T18:20:48Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added B evidence from https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/graphify-triage/SKILL.md"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:20Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

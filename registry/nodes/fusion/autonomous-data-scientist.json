@@ -1,0 +1,90 @@
+{
+  "id": "autonomous-data-scientist",
+  "name": "Autonomous Data Scientist",
+  "type": "fusion",
+  "description": "Conducts end-to-end data science workflows autonomously: hypothesis generation, data analysis, statistical modeling, and insight reporting.",
+  "prerequisites": [
+    "data-analysis",
+    "math-reason",
+    "research"
+  ],
+  "derivatives": [],
+  "conditions": "Requires dataset access and compute environment. Minimum 3 Class A/B evidence sources.",
+  "evidence": [
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2210.12641",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-28",
+      "notes": "DS-1000 â€” benchmark of 1000 data science problems across NumPy/Pandas/Scikit-learn; GPT-4 achieves 43.3% pass@1, establishing reproducible DS evaluation. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0
+    },
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2208.01756",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-28",
+      "notes": "AutoML Survey (He et al., ACM CSUR) â€” systematic review of autonomous ML pipeline search; demonstrates automated feature engineering, model selection, and HPO. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/microsoft/autogen",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-28",
+      "notes": "AutoGen (Microsoft) â€” multi-agent framework with reproducible data science notebooks; science agent achieves 44.3% on DS-1000 with full execution logs. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-04-28",
+  "updatedAt": "2026-07-16",
+  "version": "0.2.0",
+  "title": "Primordial Oracle",
+  "timeline": [
+    {
+      "timestamp": "2026-05-13T21:50:25Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 5★ (provisional)",
+      "previousValue": null,
+      "newValue": "5★"
+    },
+    {
+      "timestamp": "2026-05-18T15:45:47Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Type adjusted from ultimate to extra",
+      "previousValue": "ultimate",
+      "newValue": "extra"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:57Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2210.12641 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:57Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2208.01756 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:58Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/microsoft/autogen as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:17Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

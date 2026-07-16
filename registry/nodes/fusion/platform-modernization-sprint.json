@@ -1,0 +1,37 @@
+{
+  "id": "platform-modernization-sprint",
+  "name": "Platform Modernization Sprint",
+  "type": "fusion",
+  "description": "Systematic v3 platform overhaul: CLI modernization, core implementation, DDD architecture, deep integration, MCP optimization, memory unification, performance tuning, security overhaul, and swarm coordination.",
+  "prerequisites": [
+    "cli-modernization",
+    "core-platform-implementation",
+    "system-integration",
+    "performance-tuning",
+    "advanced-swarm-coordination"
+  ],
+  "derivatives": [],
+  "conditions": "",
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-19",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-19T16:29:16Z",
+      "action": "propose",
+      "contributor": "claude",
+      "details": "Skill created as 4★ (provisional)",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:22Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

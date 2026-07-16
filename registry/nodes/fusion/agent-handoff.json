@@ -1,0 +1,62 @@
+{
+  "id": "agent-handoff",
+  "name": "agent-handoff",
+  "type": "fusion",
+  "description": "Compacting the current conversation into a summary for a fresh agent.",
+  "prerequisites": [
+    "summarize",
+    "document-editing",
+    "context-compression"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-05-22",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-21T16:23:47Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill agent-handoff"
+    },
+    {
+      "timestamp": "2026-05-21T16:31:25Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 1★ (provisional)",
+      "previousValue": null,
+      "newValue": "1★"
+    },
+    {
+      "timestamp": "2026-05-21T17:16:21Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added B evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff/SKILL.md"
+    },
+    {
+      "timestamp": "2026-05-21T17:19:20Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Calibrated/demoted rank from 1★ to 4★",
+      "previousValue": "1★",
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-05-21T17:19:20Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence: https://github.com/mattpocock/skills/blob/main/skills/productivity/handoff/SKILL.md",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:17Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

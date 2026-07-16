@@ -1,0 +1,53 @@
+{
+  "id": "prediction-market-analysis",
+  "name": "Prediction Market Analysis",
+  "type": "fusion",
+  "description": "Queries prediction-market data, compares market probabilities and price history, and summarizes probabilistic signals for forecasting or decision-support workflows.",
+  "prerequisites": [
+    "data-analysis",
+    "web-search",
+    "statistical-analysis"
+  ],
+  "derivatives": [],
+  "conditions": "Requires read-only market data sources and clear separation between analysis output and financial advice or trade execution.",
+  "evidence": [
+    {
+      "class": "B",
+      "source": "https://github.com/NousResearch/hermes-agent/blob/main/skills/research/polymarket/SKILL.md",
+      "evaluator": "openai-codex",
+      "date": "2026-05-06",
+      "notes": "Hermes Agent polymarket skill queries markets, prices, order books, and historical prediction-market data through public read-only APIs. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0
+    }
+  ],
+  "knownAgents": [
+    "NousResearch/hermes-agent"
+  ],
+  "status": "provisional",
+  "createdAt": "2026-05-06",
+  "updatedAt": "2026-07-16",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-13T21:50:25Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 4★ (provisional)",
+      "previousValue": null,
+      "newValue": "4★"
+    },
+    {
+      "timestamp": "2026-06-14T07:09:03Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/NousResearch/hermes-agent/blob/main/skills/research/polymarket/SKILL.md as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:22Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}

@@ -19,7 +19,7 @@ tags:
 - discipline
 - multi-skill
 createdAt: '2026-05-18'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-16'
 suiteComponents:
 - obra/brainstorming
 - obra/dispatching-parallel-agents
@@ -131,6 +131,11 @@ timeline:
   previousValue: null
   newValue: v6.1.1
   details: first-run baseline
+- timestamp: '2026-07-16T08:36:44Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''superpowers'' type: extra/ultimate → fusion (Yggdrasil
+    II taxonomy migration #997)'
 trustMagnitude: 445.15
 overallTrustGrade: S
 apexGateStatus:

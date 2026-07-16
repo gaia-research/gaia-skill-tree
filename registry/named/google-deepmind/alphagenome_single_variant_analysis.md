@@ -5,7 +5,7 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: computational-biology-workflows
 status: awakened
-level: 4★
+level: 3★
 description: Analyzes genetic variant effects on gene expression (RNA-seq), chromatin
   accessibility (DNASE), histone marks (ChIP), and transcription factors using the
   AlphaGenome API. Use when the user asks about non-coding variant effects, pathogenicity,
@@ -14,7 +14,7 @@ description: Analyzes genetic variant effects on gene expression (RNA-seq), chro
   Also use for resolving biological terms to tissue/cell-type ontologies (UBERON/CL)
   or analyzing variants in chr:pos:ref>alt format.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-16'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md
 evidence:
@@ -73,6 +73,18 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Level updated from 3★ to 4★ per G7 final rankings calibration.
+- timestamp: '2026-07-16T08:36:42Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''computational-biology-workflows'' type: extra/ultimate
+    → fusion (Yggdrasil II taxonomy migration #997)'
+- timestamp: '2026-07-16T08:36:42Z'
+  action: demote
+  contributor: mbtiongson1
+  previousValue: 4★
+  newValue: 3★
+  details: 'Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch
+    origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved'
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

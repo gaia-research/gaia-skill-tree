@@ -1,0 +1,70 @@
+{
+  "id": "browser-automation",
+  "name": "Browser Automation",
+  "type": "fusion",
+  "description": "Navigates web pages, fills forms, clicks elements, and extracts information by combining web search with screenshot-based GUI control to complete multi-step web tasks.",
+  "prerequisites": [
+    "web-search",
+    "computer-use"
+  ],
+  "derivatives": [
+    "autonomous-web-research",
+    "e2e-testing",
+    "x-twitter-automation",
+    "founder-mode-orchestration"
+  ],
+  "conditions": "",
+  "evidence": [
+    {
+      "class": "A",
+      "source": "https://arxiv.org/abs/2401.13919",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-28",
+      "notes": "WebVoyager (He et al., 2024) â€” end-to-end web agent with GPT-4V; 59.1% task success on real-world web tasks across 15 popular websites. (backfilled — class-to-type migration)",
+      "type": "arxiv",
+      "trustNumber": 85.0
+    },
+    {
+      "class": "B",
+      "source": "https://github.com/web-arena-x/webarena",
+      "evaluator": "mbtiongson1",
+      "date": "2026-04-28",
+      "notes": "WebArena â€” self-hosted web environment with 812 realistic tasks; reproducible benchmark with ground-truth evaluation scripts. (backfilled — class-to-type migration)",
+      "type": "repo",
+      "trustNumber": 70.0
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-04-28",
+  "updatedAt": "2026-07-16",
+  "version": "0.2.0",
+  "timeline": [
+    {
+      "timestamp": "2026-05-13T21:50:25Z",
+      "action": "propose",
+      "contributor": "mbtiongson1",
+      "details": "Skill created as 3★ (provisional)",
+      "previousValue": null,
+      "newValue": "3★"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:58Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://arxiv.org/abs/2401.13919 as A (trustNumber: 85.0)"
+    },
+    {
+      "timestamp": "2026-06-14T07:08:58Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Re-graded evidence from https://github.com/web-arena-x/webarena as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-07-16T08:31:17Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)"
+    }
+  ]
+}
