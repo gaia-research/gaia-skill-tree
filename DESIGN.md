@@ -24,15 +24,17 @@ Canonical token values are emitted by `scripts/generateCssTokens.py` to `docs/cs
 
 > **Never hardcode hex in CSS or JS.** The legacy short tokens (`--basic`, `--extra`, `--unique`, `--ultimate`) are kept as aliases so older selectors keep working; the canonical names are `--tier-basic`, `--tier-extra`, `--tier-unique`, `--tier-ultimate` (plus `-rgb`, `-bg`, `-border`, `-symbol` variants).
 
+> **Yggdrasil II note:** `--tier-extra`, `--tier-unique`, and `--tier-ultimate` are **legacy color tokens** retained for visual continuity — they are NOT taxonomy types. Under Yggdrasil II the only taxonomy types are `basic` and `fusion`; these token names survive solely as color aliases for the graph canvas and badge palette.
+
 ---
 
 ## Skill Tiers
 
-Four tiers, each with a fixed color identity and symbolic glyph. (The Unique tier was added after the original three-tier design and is the standalone-mastery branch — a Basic Skill that reached elite rank without ever fusing.)
+Four tiers, each with a fixed color identity and symbolic glyph. (The Unique color tier was added after the original three-tier design and is the standalone-mastery branch — a Basic node that reached elite rank without ever fusing.) These tokens are legacy color aliases retained for visual continuity under Yggdrasil II; they are not taxonomy types.
 
 | Tier | Symbol | Display Name | Hex | RGB |
 |---|---|---|---|---|
-| `basic`     | ○ | Basic Skill    | `#38bdf8` | `56,189,248`  |
+| `basic`     | ○ | Basic          | `#38bdf8` | `56,189,248`  |
 | `extra`     | ◇ | Extra Skill    | `#c084fc` | `192,132,252` |
 | `unique`    | ◉ | Unique Skill   | `#7c3aed` | `124,58,237`  |
 | `ultimate`  | ◆ | Ultimate Skill | `#f59e0b` | `245,158,11`  |
@@ -51,9 +53,21 @@ Card glow per tier (radial gradient, 35% opacity):
 
 Skills level up from 0★ → 6★. Each rank has a distinct RPG-inspired color. Canonical hex values and background tints are defined in `src/gaia_cli/formatting.py::RANK_COLORS` (Python source of truth) and in `docs/css/tokens.css` (`--rank-0` … `--rank-6`). For rank labels and significance, see `META.md §1.1`.
 
-Rank sequence: **Basic (0★) → Awakened (1★) → Named (2★) → Evolved (3★) → Hardened (4★) → Transcendent (5★) → Apex (6★)**. The color sequence intentionally mirrors an RPG rarity ramp: neutral → cold → teal → violet → pink → gold, with the Apex level doubling its background opacity.
+Rank sequence (branch-aware at 4★+):
 
-> **Class column deprecated.** The legacy letter suffixes (D / C / B / A / S / SS) are retained in old code paths only. Generated surfaces no longer emit them — see `plaque-reveal.js`, `generateProfilePages.py`, `generateOgCards.py`. Evidence `class` is fully deprecated per the ratified G7 Trust Taxonomy RFC (`META.md §2.1`); new evidence carries `type` + `grade` instead. The visitor-facing label is **rank name + star count** (e.g. "Hardened · 4★").
+| Stars | Shared (1★–3★) | Suite branch | Unique branch |
+|---|---|---|---|
+| 0★ | **Basic** (starless) | — | — |
+| 1★ | **Awakened** | — | — |
+| 2★ | **Named** | — | — |
+| 3★ | **Evolved** | — | — |
+| 4★ | — | **Extra** | **Unique** |
+| 5★ | — | **Ultimate** | **Unique Ultimate** |
+| 6★ | — | **Apex** | **Unique Impossible** |
+
+Branch forks at 4★: Suite branch applies when the generic parent carries `suiteComponents`; Unique branch applies when it does not. Branch is derived at read-time — never declared on a node. The color sequence mirrors an RPG rarity ramp: neutral → cold → teal → violet → pink → gold, with the Apex level doubling its background opacity.
+
+> **Class column deprecated.** The legacy letter suffixes (D / C / B / A / S / SS) are retained in old code paths only. Generated surfaces no longer emit them — see `plaque-reveal.js`, `generateProfilePages.py`, `generateOgCards.py`. Evidence `class` is fully deprecated per the ratified G7 Trust Taxonomy RFC (`META.md §2.1`); new evidence carries `type` + `grade` instead. The visitor-facing label is **rank name + star count** (e.g. "Extra · 4★" on the Suite branch, "Unique · 4★" on the Unique branch).
 
 ---
 
@@ -82,8 +96,8 @@ Node color encodes **effective rank** (the highest star among a node's named-ski
 | Unranked / Awakened | 0–1★ | `--rank-0` (grey, starless/redacted) |
 | Named | 2★ | `--rank-2` |
 | Evolved | 3★ | `--rank-3` |
-| Hardened | 4★ | `--rank-4` |
-| Transcendent | 5★ | `--rank-5` |
+| Extra / Unique | 4★ | `--rank-4` |
+| Ultimate / Unique Ultimate | 5★ | `--rank-5` |
 | Apex | 6★ | `--rank-6` |
 
 Tokens `--rank-N`, `--rank-N-bg`, `--rank-N-border`, and `--rank-N-edge` follow the same pattern as in `docs/css/tokens.css` (sourced from `src/gaia_cli/formatting.py::RANK_COLORS`). Colored ramp starts at 2★ Named — 0–1★ nodes render grey and land at outer coreness automatically. Unique constellation uses a distinct dark palette separate from the rank ramp (see `docs/architecture/world-tree-model.md` §Y-Fork).
@@ -252,7 +266,7 @@ is retained only on legacy graph surfaces that already use it. The homepage Worl
 
 ## Skill Explorer
 
-The skill explorer overlay (`#skillExplorer`) introduces per-level glow tokens, a shimmer animation for 6★ (Apex) nodes, and a pulse animation for 5★ (Transcendent) nodes. These augment the rank colors defined above.
+The skill explorer overlay (`#skillExplorer`) introduces per-level glow tokens, a shimmer animation for 6★ (Apex) nodes, and a pulse animation for 5★ (Ultimate / Unique Ultimate) nodes. These augment the rank colors defined above.
 
 ### Glow Tokens
 
@@ -260,8 +274,8 @@ The skill explorer overlay (`#skillExplorer`) introduces per-level glow tokens, 
 |---|---|---|---|
 | `--glow-II`  | `0 0 8px #63cab7, 0 0 22px rgba(99,202,183,.35)`   | 2★  | Named |
 | `--glow-III` | `0 0 10px #a78bfa, 0 0 26px rgba(167,139,250,.4)` | 3★  | Evolved |
-| `--glow-IV`  | `0 0 14px #e879f9, 0 0 32px rgba(232,121,249,.45)`| 4★  | Hardened |
-| `--glow-V`   | `0 0 18px #fbbf24, 0 0 40px rgba(251,191,36,.5)`  | 5★  | Transcendent |
+| `--glow-IV`  | `0 0 14px #e879f9, 0 0 32px rgba(232,121,249,.45)`| 4★  | Extra / Unique |
+| `--glow-V`   | `0 0 18px #fbbf24, 0 0 40px rgba(251,191,36,.5)`  | 5★  | Ultimate / Unique Ultimate |
 | `--glow-VI`  | `0 0 20px #fbbf24, 0 0 50px rgba(251,191,36,.6), 0 0 80px rgba(56,189,248,.3)` | 6★ | Apex |
 
 Glow tokens use the same base colors as the rank system above. Tokens are applied as `box-shadow` values on `.flow-node[data-level="X"]` and `.se-hero-card[data-level="X"]`.
@@ -270,7 +284,7 @@ Glow tokens use the same base colors as the rank system above. Tokens are applie
 
 | Animation | Element | Behavior |
 |---|---|---|
-| `se-pulse` / `flow-pulse-V` | 5★ (Transcendent) nodes | Gold `box-shadow` oscillates between `--glow-V` and a brighter `0 0 28px #fbbf24, 0 0 60px rgba(251,191,36,.65)` on a 2.4s loop |
+| `se-pulse` / `flow-pulse-V` | 5★ (Ultimate / Unique Ultimate) nodes | Gold `box-shadow` oscillates between `--glow-V` and a brighter `0 0 28px #fbbf24, 0 0 60px rgba(251,191,36,.65)` on a 2.4s loop |
 | `se-shimmer` / `flow-shimmer-VI` | 6★ (Apex) nodes | `border-color` cycles through cyan → purple → amber → fuchsia on a 3s loop, combined with the pulse |
 
 ### Explorer UI Tokens
