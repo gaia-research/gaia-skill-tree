@@ -8,7 +8,7 @@
       "trustMagnitude": 480.29,
       "overallTrustGrade": "S",
       "contributor": "mattpocock",
-      "type": "ultimate",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/skills.json"
       }
@@ -16,11 +16,11 @@
     {
       "id": "mattpocock/engineering",
       "name": "Engineering",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 270.0,
       "overallTrustGrade": "A",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/engineering.json"
       }
@@ -28,11 +28,11 @@
     {
       "id": "mattpocock/productivity",
       "name": "Productivity",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 120.0,
       "overallTrustGrade": "A",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/productivity.json"
       }
@@ -44,7 +44,7 @@
       "trustMagnitude": 90.38,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/diagnose.json"
       }
@@ -68,7 +68,7 @@
       "trustMagnitude": 90.38,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/obsidian-vault.json"
       }
@@ -80,7 +80,7 @@
       "trustMagnitude": 90.38,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/to-issues.json"
       }
@@ -92,7 +92,7 @@
       "trustMagnitude": 90.38,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/ubiquitous-language.json"
       }
@@ -104,7 +104,7 @@
       "trustMagnitude": 63.71,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/grill-me.json"
       }
@@ -116,7 +116,7 @@
       "trustMagnitude": 63.71,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/grill-with-docs.json"
       }
@@ -128,7 +128,7 @@
       "trustMagnitude": 63.71,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/handoff.json"
       }
@@ -140,7 +140,7 @@
       "trustMagnitude": 63.71,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/to-prd.json"
       }
@@ -152,7 +152,7 @@
       "trustMagnitude": 60.0,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/personal.json"
       }
@@ -164,7 +164,7 @@
       "trustMagnitude": 56.21,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/setup-matt-pocock-skills.json"
       }
@@ -200,7 +200,7 @@
       "trustMagnitude": 45.0,
       "overallTrustGrade": "C",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/write-a-skill.json"
       }
@@ -212,7 +212,7 @@
       "trustMagnitude": 41.21,
       "overallTrustGrade": "C",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/prototype.json"
       }
@@ -236,7 +236,7 @@
       "trustMagnitude": 0.0,
       "overallTrustGrade": "ungraded",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/teach.json"
       }

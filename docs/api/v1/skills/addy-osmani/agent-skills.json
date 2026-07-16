@@ -3,7 +3,7 @@
   "name": "Agent Skills",
   "contributor": "addy-osmani",
   "level": "5★",
-  "type": "ultimate",
+  "type": "fusion",
   "status": "named",
   "trustMagnitude": 293.14,
   "overallTrustGrade": "S",
@@ -148,6 +148,12 @@
       "previousValue": null,
       "newValue": "0.6.3",
       "details": "first-run baseline"
+    },
+    {
+      "timestamp": "2026-07-16T08:36:42Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Generic parent 'git-ship-done-pipeline' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
     }
   ],
   "links": {

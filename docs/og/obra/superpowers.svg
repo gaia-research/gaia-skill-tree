@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
   width="1200" height="630" viewBox="0 0 1200 630"
-  class="plate plate--stellar" data-plate="V" data-type="ultimate" data-level="5">
-  <defs>
-    <radialGradient id="st-core-obra-superpowers" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#fde2a4" stop-opacity="1"/>
-      <stop offset="55%" stop-color="#f59e0b" stop-opacity="0.95"/>
-      <stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-
+  class="plate plate--default" data-plate="basic-skill" data-level="5">
   <rect width="1200" height="630" fill="#0e0d20"/>
 <text x="48.0" y="38" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace" font-size="11" letter-spacing="1.6" fill="#ebe5d4" fill-opacity="0.28" dominant-baseline="middle">— +20°</text>
   <line x1="48.0" y1="22" x2="48.0" y2="30" stroke="#ebe5d4" stroke-opacity="0.22" stroke-width="0.8"/>
@@ -21,37 +13,17 @@
   <line x1="726.0" y1="22" x2="726.0" y2="30" stroke="#ebe5d4" stroke-opacity="0.22" stroke-width="0.8"/>
   <text x="952.0" y="38" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace" font-size="11" letter-spacing="1.6" fill="#ebe5d4" fill-opacity="0.28" dominant-baseline="middle">— −20°</text>
   <line x1="952.0" y1="22" x2="952.0" y2="30" stroke="#ebe5d4" stroke-opacity="0.22" stroke-width="0.8"/>
-<text x="1152" y="38" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace" font-size="18" letter-spacing="3.2" fill="#ebe5d4" fill-opacity="0.7" text-anchor="end" dominant-baseline="middle">Ultimate Skill</text>
+<text x="1152" y="38" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace" font-size="18" letter-spacing="3.2" fill="#ebe5d4" fill-opacity="0.7" text-anchor="end" dominant-baseline="middle">Basic Skill</text>
 <line x1="48" y1="558" x2="1152" y2="558" stroke="#ebe5d4" stroke-opacity="0.35" stroke-width="1"/>
 
-  <!-- Two concentric orbital tracks -->
-  <circle cx="880" cy="290" r="90" fill="none" stroke="#ebe5d4" stroke-opacity="0.45" stroke-width="1" stroke-dasharray="6 4"/><circle cx="880" cy="290" r="150" fill="none" stroke="#ebe5d4" stroke-opacity="0.32" stroke-width="1" stroke-dasharray="8 6"/>
+  <!-- Slash-skill slug (no celestial subject for sub-4★ skills) -->
+  <text x="60" y="290" font-family="'EB Garamond',Georgia,serif" font-weight="600"
+    font-size="72" fill="#ebe5d4" dominant-baseline="middle">/superpowers</text>
 
-  <!-- Companion dots on the orbits -->
-  <circle cx="957.9" cy="245.0" r="3" fill="#ebe5d4" fill-opacity="0.85"/>
-  <circle cx="796.9" cy="324.4" r="3" fill="#ebe5d4" fill-opacity="0.85"/>
-  <circle cx="955.0" cy="419.9" r="3" fill="#ebe5d4" fill-opacity="0.85"/>
-  <circle cx="744.9" cy="224.9" r="3" fill="#ebe5d4" fill-opacity="0.85"/>
-
-  <!-- Main-sequence disc -->
-  <circle cx="880" cy="290" r="72" fill="url(#st-core-obra-superpowers)"/>
-  <circle cx="880" cy="290" r="42" fill="#f59e0b"/>
-
-  <!-- Bayer designation (catalogue prefix) -->
-  <text x="60" y="212" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace"
-    font-size="28" letter-spacing="4.4" fill="#ebe5d4" fill-opacity="0.7">α</text>
-
-  <!-- Slash-skill slug -->
-  <text x="60" y="268" font-family="'EB Garamond',Georgia,serif" font-weight="600"
-    font-size="80" fill="#ebe5d4" dominant-baseline="middle">/superpowers</text>
-
-  <!-- Title kicker -->
-  <text x="60" y="316" font-family="'EB Garamond',Georgia,serif" font-style="italic"
+  <text x="60" y="336" font-family="'EB Garamond',Georgia,serif" font-style="italic"
     font-size="24" fill="#ebe5d4" fill-opacity="0.6" dominant-baseline="middle">'The Complete Agentic Discipline'</text>
 
-  <!-- Discoverer signature -->
   <text x="48" y="538" font-family="'EB Garamond',Georgia,serif" font-size="22" font-style="italic" fill="#ef4444" dominant-baseline="middle"><tspan font-style="normal" fill-opacity="0.82">Cataloged by </tspan><tspan font-weight="600">@obra</tspan> <tspan font-style="normal" letter-spacing="2.2" font-size="18" fill-opacity="0.9">· ORIGIN ·</tspan><tspan font-style="normal" fill-opacity="0.7"> 2026</tspan></text>
 
-  <!-- Marginal magnitude band -->
-  <text x="48" y="586" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace" font-size="13" letter-spacing="1.5" fill="#ebe5d4" fill-opacity="0.7"><tspan>MAG 445.1</tspan><tspan fill-opacity="0.35"> · · · </tspan><tspan>GRADE S</tspan><tspan fill-opacity="0.35"> · · · </tspan><tspan>★★★★★</tspan><tspan fill-opacity="0.35"> · · · </tspan><tspan>α SUPERPOWERS · 2026</tspan></text>
+  <text x="48" y="586" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace" font-size="13" letter-spacing="1.5" fill="#ebe5d4" fill-opacity="0.7"><tspan>MAG 445.1</tspan><tspan fill-opacity="0.35"> · · · </tspan><tspan>GRADE S</tspan><tspan fill-opacity="0.35"> · · · </tspan><tspan>★★★★★</tspan><tspan fill-opacity="0.35"> · · · </tspan><tspan>GAIA · 2026</tspan></text>
 </svg>

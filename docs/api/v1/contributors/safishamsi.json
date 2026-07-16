@@ -4,11 +4,11 @@
     {
       "id": "safishamsi/graphify",
       "name": "Graphify",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 116.57,
       "overallTrustGrade": "A",
       "contributor": "safishamsi",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/safishamsi/graphify.json"
       }
@@ -17,7 +17,7 @@
   "namedSkillsCount": 1,
   "topSkill": {
     "id": "safishamsi/graphify",
-    "level": "4★",
+    "level": "3★",
     "trustMagnitude": 116.57
   },
   "prestigeScore": 116.57,

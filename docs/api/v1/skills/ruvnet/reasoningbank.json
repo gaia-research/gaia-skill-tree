@@ -2,8 +2,8 @@
   "id": "ruvnet/reasoningbank",
   "name": "ReasoningBank",
   "contributor": "ruvnet",
-  "level": "4★",
-  "type": "extra",
+  "level": "3★",
+  "type": "fusion",
   "status": "named",
   "trustMagnitude": 118.5,
   "overallTrustGrade": "A",
@@ -163,6 +163,20 @@
       "previousValue": null,
       "newValue": "v3.25.5",
       "details": "first-run baseline"
+    },
+    {
+      "timestamp": "2026-07-16T08:36:44Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Generic parent 'reasoning-pattern-bank' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+    },
+    {
+      "timestamp": "2026-07-16T08:36:44Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=88.5 (< 100.0)) — demoted to 3★ Evolved"
     }
   ],
   "links": {

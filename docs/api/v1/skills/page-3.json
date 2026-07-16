@@ -7,7 +7,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/garrytan/gstack-upgrade.json"
       }
@@ -19,7 +19,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/garrytan/guard.json"
       }
@@ -31,7 +31,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/garrytan/health.json"
       }
@@ -43,7 +43,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/garrytan/landing-report.json"
       }
@@ -55,7 +55,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/garrytan/learn.json"
       }
@@ -103,7 +103,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/garrytan/plan-tune.json"
       }
@@ -115,7 +115,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/garrytan/qa-only.json"
       }
@@ -127,7 +127,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/garrytan/scrape.json"
       }
@@ -151,7 +151,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/garrytan/setup-deploy.json"
       }
@@ -163,7 +163,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/garrytan/setup-gbrain.json"
       }
@@ -175,7 +175,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/garrytan/sync-gbrain.json"
       }
@@ -187,7 +187,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/garrytan/unfreeze.json"
       }
@@ -223,7 +223,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "karpathy",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/karpathy/autoresearch.json"
       }
@@ -247,7 +247,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "mbtiongson1",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mbtiongson1/gaia-audit.json"
       }
@@ -259,7 +259,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "mbtiongson1",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mbtiongson1/gaia-curation-review.json"
       }
@@ -271,7 +271,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "mbtiongson1",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mbtiongson1/gaia-meta-audit.json"
       }
@@ -283,7 +283,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "mbtiongson1",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mbtiongson1/gaia-preview.json"
       }
@@ -295,7 +295,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "mbtiongson1",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mbtiongson1/graphify-triage.json"
       }
@@ -307,7 +307,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "nexu-io",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/nexu-io/open-design.json"
       }
@@ -331,7 +331,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "obra",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/obra/finishing-a-development-branch.json"
       }
@@ -343,7 +343,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "obra",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/obra/receiving-code-review.json"
       }
@@ -355,7 +355,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "obra",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/obra/requesting-code-review.json"
       }
@@ -367,7 +367,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/ruvnet/agentdb-advanced.json"
       }
@@ -463,7 +463,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/ruvnet/flow-nexus-neural.json"
       }
@@ -475,7 +475,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/ruvnet/flow-nexus-platform.json"
       }
@@ -499,7 +499,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/ruvnet/pair-programming.json"
       }
@@ -535,7 +535,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/ruvnet/swarm-advanced.json"
       }
@@ -583,7 +583,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/ruvnet/v3-ddd-architecture.json"
       }

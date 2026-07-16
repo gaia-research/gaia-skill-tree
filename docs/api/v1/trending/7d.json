@@ -1,12 +1,12 @@
 {
   "window": "7d",
-  "generatedAt": "2026-07-14T17:33:24Z",
+  "generatedAt": "2026-07-16T08:38:54Z",
   "firstRun": false,
   "skills": [
     {
       "id": "firecrawl/firecrawl-skills",
       "name": "Firecrawl Skills",
-      "level": "4★",
+      "level": "3★",
       "contributor": "firecrawl",
       "trustMagnitude": 223.52,
       "overallTrustGrade": "A",
@@ -15,34 +15,6 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
-      }
-    },
-    {
-      "id": "gaia-research/skill-ci-churn",
-      "name": "CI Churn",
-      "level": "2★",
-      "contributor": "gaia-research",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 70.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/gaia-research/skill-ci-churn.json"
-      }
-    },
-    {
-      "id": "gaia-research/skill-fuse",
-      "name": "Skill Fuse",
-      "level": "2★",
-      "contributor": "gaia-research",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 70.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/gaia-research/skill-fuse.json"
       }
     },
     {
@@ -71,6 +43,202 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-search.json"
+      }
+    },
+    {
+      "id": "mattpocock/engineering",
+      "name": "Engineering",
+      "level": "3★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 270.0,
+      "overallTrustGrade": "A",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/engineering.json"
+      }
+    },
+    {
+      "id": "gsd-build/get-shit-done",
+      "name": "Get Shit Done",
+      "level": "3★",
+      "contributor": "gsd-build",
+      "trustMagnitude": 202.16,
+      "overallTrustGrade": "A",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/get-shit-done.json"
+      }
+    },
+    {
+      "id": "ruvnet/agentdb",
+      "name": "AgentDB",
+      "level": "3★",
+      "contributor": "ruvnet",
+      "trustMagnitude": 201.0,
+      "overallTrustGrade": "A",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/agentdb.json"
+      }
+    },
+    {
+      "id": "ruvnet/ruflo-v3",
+      "name": "Ruflo V3",
+      "level": "3★",
+      "contributor": "ruvnet",
+      "trustMagnitude": 186.0,
+      "overallTrustGrade": "A",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/ruflo-v3.json"
+      }
+    },
+    {
+      "id": "garrytan/garrytan",
+      "name": "Autoplan",
+      "level": "3★",
+      "contributor": "garrytan",
+      "trustMagnitude": 156.0,
+      "overallTrustGrade": "A",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/garrytan/garrytan.json"
+      }
+    },
+    {
+      "id": "ruvnet/dual-mode",
+      "name": "Dual Mode",
+      "level": "3★",
+      "contributor": "ruvnet",
+      "trustMagnitude": 126.0,
+      "overallTrustGrade": "A",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/dual-mode.json"
+      }
+    },
+    {
+      "id": "mattpocock/productivity",
+      "name": "Productivity",
+      "level": "3★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 120.0,
+      "overallTrustGrade": "A",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/productivity.json"
+      }
+    },
+    {
+      "id": "ruvnet/reasoningbank",
+      "name": "ReasoningBank",
+      "level": "3★",
+      "contributor": "ruvnet",
+      "trustMagnitude": 118.5,
+      "overallTrustGrade": "A",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/reasoningbank.json"
+      }
+    },
+    {
+      "id": "obra/using-git-worktrees",
+      "name": "Using Git Worktrees",
+      "level": "3★",
+      "contributor": "obra",
+      "trustMagnitude": 117.65,
+      "overallTrustGrade": "A",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/obra/using-git-worktrees.json"
+      }
+    },
+    {
+      "id": "safishamsi/graphify",
+      "name": "Graphify",
+      "level": "3★",
+      "contributor": "safishamsi",
+      "trustMagnitude": 116.57,
+      "overallTrustGrade": "A",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/safishamsi/graphify.json"
+      }
+    },
+    {
+      "id": "obra/writing-plans",
+      "name": "Writing Plans",
+      "level": "3★",
+      "contributor": "obra",
+      "trustMagnitude": 110.15,
+      "overallTrustGrade": "A",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/obra/writing-plans.json"
+      }
+    },
+    {
+      "id": "openai/self-consistency",
+      "name": "Self-Consistency",
+      "level": "3★",
+      "contributor": "openai",
+      "trustMagnitude": 100.0,
+      "overallTrustGrade": "A",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/openai/self-consistency.json"
+      }
+    },
+    {
+      "id": "stanfordnlp/dspy",
+      "name": "DSPy",
+      "level": "3★",
+      "contributor": "stanfordnlp",
+      "trustMagnitude": 100.0,
+      "overallTrustGrade": "A",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/stanfordnlp/dspy.json"
+      }
+    },
+    {
+      "id": "browser-use/browser-harness",
+      "name": "Browser Harness",
+      "level": "3★",
+      "contributor": "browser-use",
+      "trustMagnitude": 73.59,
+      "overallTrustGrade": "B",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/browser-use/browser-harness.json"
       }
     },
     {
@@ -116,7 +284,7 @@
       }
     }
   ],
-  "totalTrending": 8,
+  "totalTrending": 20,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }

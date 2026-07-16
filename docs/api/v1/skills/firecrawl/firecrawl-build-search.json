@@ -83,6 +83,12 @@
       "action": "note",
       "contributor": "mbtiongson1",
       "details": "Renamed from firecrawl/web-search-integration to firecrawl/firecrawl-build-search — aligned to official firecrawl/skills repo naming"
+    },
+    {
+      "timestamp": "2026-07-16T08:36:42Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Generic parent 'web-search' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
     }
   ],
   "links": {

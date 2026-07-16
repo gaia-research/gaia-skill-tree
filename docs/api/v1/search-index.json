@@ -177,7 +177,7 @@
     "id": "mattpocock/engineering",
     "name": "Engineering",
     "contributor": "mattpocock",
-    "level": "4★",
+    "level": "3★",
     "grade": "A",
     "trustMagnitude": 270.0,
     "tokens": [
@@ -199,7 +199,7 @@
     "id": "firecrawl/firecrawl-skills",
     "name": "Firecrawl Skills",
     "contributor": "firecrawl",
-    "level": "4★",
+    "level": "3★",
     "grade": "A",
     "trustMagnitude": 223.52,
     "tokens": [
@@ -230,7 +230,7 @@
     "id": "gsd-build/get-shit-done",
     "name": "Get Shit Done",
     "contributor": "gsd-build",
-    "level": "4★",
+    "level": "3★",
     "grade": "A",
     "trustMagnitude": 202.16,
     "tokens": [
@@ -259,7 +259,7 @@
     "id": "ruvnet/agentdb",
     "name": "AgentDB",
     "contributor": "ruvnet",
-    "level": "4★",
+    "level": "3★",
     "grade": "A",
     "trustMagnitude": 201.0,
     "tokens": [
@@ -290,7 +290,7 @@
     "id": "ruvnet/ruflo-v3",
     "name": "Ruflo V3",
     "contributor": "ruvnet",
-    "level": "4★",
+    "level": "3★",
     "grade": "A",
     "trustMagnitude": 186.0,
     "tokens": [
@@ -321,7 +321,7 @@
     "id": "garrytan/garrytan",
     "name": "Autoplan",
     "contributor": "garrytan",
-    "level": "4★",
+    "level": "3★",
     "grade": "A",
     "trustMagnitude": 156.0,
     "tokens": [
@@ -378,7 +378,7 @@
     "id": "ruvnet/dual-mode",
     "name": "Dual Mode",
     "contributor": "ruvnet",
-    "level": "4★",
+    "level": "3★",
     "grade": "A",
     "trustMagnitude": 126.0,
     "tokens": [
@@ -430,7 +430,7 @@
     "id": "mattpocock/productivity",
     "name": "Productivity",
     "contributor": "mattpocock",
-    "level": "4★",
+    "level": "3★",
     "grade": "A",
     "trustMagnitude": 120.0,
     "tokens": [
@@ -451,7 +451,7 @@
     "id": "ruvnet/reasoningbank",
     "name": "ReasoningBank",
     "contributor": "ruvnet",
-    "level": "4★",
+    "level": "3★",
     "grade": "A",
     "trustMagnitude": 118.5,
     "tokens": [
@@ -518,7 +518,7 @@
     "id": "obra/using-git-worktrees",
     "name": "Using Git Worktrees",
     "contributor": "obra",
-    "level": "4★",
+    "level": "3★",
     "grade": "A",
     "trustMagnitude": 117.65,
     "tokens": [
@@ -553,7 +553,7 @@
     "id": "safishamsi/graphify",
     "name": "Graphify",
     "contributor": "safishamsi",
-    "level": "4★",
+    "level": "3★",
     "grade": "A",
     "trustMagnitude": 116.57,
     "tokens": [
@@ -578,7 +578,7 @@
     "id": "obra/writing-plans",
     "name": "Writing Plans",
     "contributor": "obra",
-    "level": "4★",
+    "level": "3★",
     "grade": "A",
     "trustMagnitude": 110.15,
     "tokens": [
@@ -663,7 +663,7 @@
     "id": "openai/self-consistency",
     "name": "Self-Consistency",
     "contributor": "openai",
-    "level": "4★",
+    "level": "3★",
     "grade": "A",
     "trustMagnitude": 100.0,
     "tokens": [
@@ -688,7 +688,7 @@
     "id": "stanfordnlp/dspy",
     "name": "DSPy",
     "contributor": "stanfordnlp",
-    "level": "4★",
+    "level": "3★",
     "grade": "A",
     "trustMagnitude": 100.0,
     "tokens": [
@@ -1262,7 +1262,7 @@
     "id": "browser-use/browser-harness",
     "name": "Browser Harness",
     "contributor": "browser-use",
-    "level": "4★",
+    "level": "3★",
     "grade": "B",
     "trustMagnitude": 73.59,
     "tokens": [

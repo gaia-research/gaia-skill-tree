@@ -2,8 +2,8 @@
   "id": "firecrawl/firecrawl-skills",
   "name": "Firecrawl Skills",
   "contributor": "firecrawl",
-  "level": "4★",
-  "type": "extra",
+  "level": "3★",
+  "type": "fusion",
   "status": "named",
   "trustMagnitude": 223.52,
   "overallTrustGrade": "A",
@@ -147,6 +147,20 @@
       "action": "migrate_trust_magnitude",
       "timestamp": "2026-07-13T11:46:14Z",
       "details": "TM 36.0 -> 223.52, grade C -> A (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-07-16T08:36:42Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Generic parent 'firecrawl' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+    },
+    {
+      "timestamp": "2026-07-16T08:36:42Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=73.5 (< 100.0)) — demoted to 3★ Evolved"
     }
   ],
   "links": {

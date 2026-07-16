@@ -2,7 +2,7 @@
   "id": "browser-use/browser-harness",
   "name": "Browser Harness",
   "contributor": "browser-use",
-  "level": "4★",
+  "level": "3★",
   "type": "basic",
   "status": "named",
   "trustMagnitude": 73.59,
@@ -152,6 +152,20 @@
       "action": "rank_up",
       "contributor": "mbtiongson1",
       "details": "Level updated from 2★ to 3★ per G7 final rankings calibration."
+    },
+    {
+      "timestamp": "2026-07-16T08:36:42Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Generic parent 'browser-control' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
+    },
+    {
+      "timestamp": "2026-07-16T08:36:42Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=True TM=73.6 (< 100.0)) — demoted to 3★ Evolved"
     }
   ],
   "links": {

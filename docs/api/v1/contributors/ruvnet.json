@@ -8,7 +8,7 @@
       "trustMagnitude": 482.27,
       "overallTrustGrade": "S",
       "contributor": "ruvnet",
-      "type": "ultimate",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/ruvnet/ruflo.json"
       }
@@ -16,11 +16,11 @@
     {
       "id": "ruvnet/agentdb",
       "name": "AgentDB",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 201.0,
       "overallTrustGrade": "A",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/ruvnet/agentdb.json"
       }
@@ -28,11 +28,11 @@
     {
       "id": "ruvnet/ruflo-v3",
       "name": "Ruflo V3",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 186.0,
       "overallTrustGrade": "A",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/ruvnet/ruflo-v3.json"
       }
@@ -40,11 +40,11 @@
     {
       "id": "ruvnet/dual-mode",
       "name": "Dual Mode",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 126.0,
       "overallTrustGrade": "A",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/ruvnet/dual-mode.json"
       }
@@ -52,11 +52,11 @@
     {
       "id": "ruvnet/reasoningbank",
       "name": "ReasoningBank",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 118.5,
       "overallTrustGrade": "A",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/ruvnet/reasoningbank.json"
       }
@@ -68,7 +68,7 @@
       "trustMagnitude": 96.09,
       "overallTrustGrade": "B",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/ruvnet/hive-mind-coordination.json"
       }
@@ -80,7 +80,7 @@
       "trustMagnitude": 96.0,
       "overallTrustGrade": "B",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/ruvnet/flow-nexus.json"
       }
@@ -92,7 +92,7 @@
       "trustMagnitude": 66.0,
       "overallTrustGrade": "B",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/ruvnet/github-suite.json"
       }
@@ -104,7 +104,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/ruvnet/agentdb-advanced.json"
       }
@@ -200,7 +200,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/ruvnet/flow-nexus-neural.json"
       }
@@ -212,7 +212,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/ruvnet/flow-nexus-platform.json"
       }
@@ -236,7 +236,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/ruvnet/pair-programming.json"
       }
@@ -272,7 +272,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/ruvnet/swarm-advanced.json"
       }
@@ -320,7 +320,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/ruvnet/v3-ddd-architecture.json"
       }
@@ -344,7 +344,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/ruvnet/verification-quality.json"
       }

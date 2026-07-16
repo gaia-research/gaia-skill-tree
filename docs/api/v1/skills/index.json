@@ -7,7 +7,7 @@
       "trustMagnitude": 589.32,
       "overallTrustGrade": "S",
       "contributor": "garrytan",
-      "type": "ultimate",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/garrytan/gstack.json"
       }
@@ -19,7 +19,7 @@
       "trustMagnitude": 482.27,
       "overallTrustGrade": "S",
       "contributor": "ruvnet",
-      "type": "ultimate",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/ruvnet/ruflo.json"
       }
@@ -31,7 +31,7 @@
       "trustMagnitude": 480.29,
       "overallTrustGrade": "S",
       "contributor": "mattpocock",
-      "type": "ultimate",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/skills.json"
       }
@@ -43,7 +43,7 @@
       "trustMagnitude": 445.15,
       "overallTrustGrade": "S",
       "contributor": "obra",
-      "type": "ultimate",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/obra/superpowers.json"
       }
@@ -55,7 +55,7 @@
       "trustMagnitude": 293.14,
       "overallTrustGrade": "S",
       "contributor": "addy-osmani",
-      "type": "ultimate",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/agent-skills.json"
       }
@@ -63,11 +63,11 @@
     {
       "id": "mattpocock/engineering",
       "name": "Engineering",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 270.0,
       "overallTrustGrade": "A",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/engineering.json"
       }
@@ -75,11 +75,11 @@
     {
       "id": "firecrawl/firecrawl-skills",
       "name": "Firecrawl Skills",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 223.52,
       "overallTrustGrade": "A",
       "contributor": "firecrawl",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
       }
@@ -87,11 +87,11 @@
     {
       "id": "gsd-build/get-shit-done",
       "name": "Get Shit Done",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 202.16,
       "overallTrustGrade": "A",
       "contributor": "gsd-build",
-      "type": "ultimate",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/gsd-build/get-shit-done.json"
       }
@@ -99,11 +99,11 @@
     {
       "id": "ruvnet/agentdb",
       "name": "AgentDB",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 201.0,
       "overallTrustGrade": "A",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/ruvnet/agentdb.json"
       }
@@ -111,11 +111,11 @@
     {
       "id": "ruvnet/ruflo-v3",
       "name": "Ruflo V3",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 186.0,
       "overallTrustGrade": "A",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/ruvnet/ruflo-v3.json"
       }
@@ -123,11 +123,11 @@
     {
       "id": "garrytan/garrytan",
       "name": "Autoplan",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 156.0,
       "overallTrustGrade": "A",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/garrytan/garrytan.json"
       }
@@ -139,7 +139,7 @@
       "trustMagnitude": 133.54,
       "overallTrustGrade": "A",
       "contributor": "firecrawl",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
       }
@@ -147,11 +147,11 @@
     {
       "id": "ruvnet/dual-mode",
       "name": "Dual Mode",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 126.0,
       "overallTrustGrade": "A",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/ruvnet/dual-mode.json"
       }
@@ -171,11 +171,11 @@
     {
       "id": "mattpocock/productivity",
       "name": "Productivity",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 120.0,
       "overallTrustGrade": "A",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/productivity.json"
       }
@@ -183,11 +183,11 @@
     {
       "id": "ruvnet/reasoningbank",
       "name": "ReasoningBank",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 118.5,
       "overallTrustGrade": "A",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/ruvnet/reasoningbank.json"
       }
@@ -199,7 +199,7 @@
       "trustMagnitude": 117.65,
       "overallTrustGrade": "A",
       "contributor": "obra",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/obra/subagent-driven-development.json"
       }
@@ -207,11 +207,11 @@
     {
       "id": "obra/using-git-worktrees",
       "name": "Using Git Worktrees",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 117.65,
       "overallTrustGrade": "A",
       "contributor": "obra",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/obra/using-git-worktrees.json"
       }
@@ -219,11 +219,11 @@
     {
       "id": "safishamsi/graphify",
       "name": "Graphify",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 116.57,
       "overallTrustGrade": "A",
       "contributor": "safishamsi",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/safishamsi/graphify.json"
       }
@@ -231,11 +231,11 @@
     {
       "id": "obra/writing-plans",
       "name": "Writing Plans",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 110.15,
       "overallTrustGrade": "A",
       "contributor": "obra",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/obra/writing-plans.json"
       }
@@ -267,7 +267,7 @@
     {
       "id": "openai/self-consistency",
       "name": "Self-Consistency",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 100.0,
       "overallTrustGrade": "A",
       "contributor": "openai",
@@ -279,11 +279,11 @@
     {
       "id": "stanfordnlp/dspy",
       "name": "DSPy",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 100.0,
       "overallTrustGrade": "A",
       "contributor": "stanfordnlp",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/stanfordnlp/dspy.json"
       }
@@ -295,7 +295,7 @@
       "trustMagnitude": 96.09,
       "overallTrustGrade": "B",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/ruvnet/hive-mind-coordination.json"
       }
@@ -307,7 +307,7 @@
       "trustMagnitude": 96.0,
       "overallTrustGrade": "B",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/ruvnet/flow-nexus.json"
       }
@@ -319,7 +319,7 @@
       "trustMagnitude": 95.15,
       "overallTrustGrade": "B",
       "contributor": "obra",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/obra/brainstorming.json"
       }
@@ -331,7 +331,7 @@
       "trustMagnitude": 95.15,
       "overallTrustGrade": "B",
       "contributor": "obra",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/obra/executing-plans.json"
       }
@@ -343,7 +343,7 @@
       "trustMagnitude": 95.15,
       "overallTrustGrade": "B",
       "contributor": "obra",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/obra/verification-before-completion.json"
       }
@@ -367,7 +367,7 @@
       "trustMagnitude": 90.38,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/diagnose.json"
       }
@@ -391,7 +391,7 @@
       "trustMagnitude": 90.38,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/obsidian-vault.json"
       }
@@ -403,7 +403,7 @@
       "trustMagnitude": 90.38,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/to-issues.json"
       }
@@ -415,7 +415,7 @@
       "trustMagnitude": 90.38,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/ubiquitous-language.json"
       }
@@ -427,7 +427,7 @@
       "trustMagnitude": 90.0,
       "overallTrustGrade": "B",
       "contributor": "anthropic",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/anthropic/skill-creator.json"
       }
@@ -451,7 +451,7 @@
       "trustMagnitude": 86.0,
       "overallTrustGrade": "B",
       "contributor": "obra",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/obra/dispatching-parallel-agents.json"
       }
@@ -483,7 +483,7 @@
     {
       "id": "browser-use/browser-harness",
       "name": "Browser Harness",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 73.59,
       "overallTrustGrade": "B",
       "contributor": "browser-use",
@@ -511,7 +511,7 @@
       "trustMagnitude": 73.52,
       "overallTrustGrade": "B",
       "contributor": "firecrawl",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
       }
@@ -535,7 +535,7 @@
       "trustMagnitude": 66.0,
       "overallTrustGrade": "B",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/garrytan/careful.json"
       }
@@ -559,7 +559,7 @@
       "trustMagnitude": 66.0,
       "overallTrustGrade": "B",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/garrytan/plan-eng-review.json"
       }
@@ -571,7 +571,7 @@
       "trustMagnitude": 66.0,
       "overallTrustGrade": "B",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/ruvnet/github-suite.json"
       }
@@ -583,7 +583,7 @@
       "trustMagnitude": 65.15,
       "overallTrustGrade": "B",
       "contributor": "obra",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/obra/systematic-debugging.json"
       }

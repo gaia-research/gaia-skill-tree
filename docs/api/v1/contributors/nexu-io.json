@@ -8,7 +8,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "nexu-io",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/nexu-io/open-design.json"
       }

@@ -3,7 +3,7 @@
   "name": "Firecrawl Scrape",
   "contributor": "firecrawl",
   "level": "4★",
-  "type": "extra",
+  "type": "fusion",
   "status": "named",
   "trustMagnitude": 133.54,
   "overallTrustGrade": "A",
@@ -107,6 +107,12 @@
       "action": "note",
       "contributor": "mbtiongson1",
       "details": "Renamed from firecrawl/web-scrape-integration to firecrawl/firecrawl-build-scrape — aligned to official firecrawl/skills repo naming"
+    },
+    {
+      "timestamp": "2026-07-16T08:36:42Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Generic parent 'web-scrape' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
     }
   ],
   "links": {

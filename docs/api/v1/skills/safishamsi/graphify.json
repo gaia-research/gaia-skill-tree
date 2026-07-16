@@ -2,8 +2,8 @@
   "id": "safishamsi/graphify",
   "name": "Graphify",
   "contributor": "safishamsi",
-  "level": "4★",
-  "type": "extra",
+  "level": "3★",
+  "type": "fusion",
   "status": "named",
   "trustMagnitude": 116.57,
   "overallTrustGrade": "A",
@@ -137,6 +137,20 @@
       "action": "rank_up",
       "contributor": "mbtiongson1",
       "details": "Level updated from 1★ to 4★ per G7 final rankings calibration."
+    },
+    {
+      "timestamp": "2026-07-16T08:36:44Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Generic parent 'knowledge-graph-build' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+    },
+    {
+      "timestamp": "2026-07-16T08:36:44Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=122.9 (≥ 100.0)) — demoted to 3★ Evolved"
     }
   ],
   "links": {

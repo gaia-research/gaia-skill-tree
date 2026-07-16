@@ -70,7 +70,7 @@
       "namedSkills": 6,
       "topSkill": {
         "id": "firecrawl/firecrawl-skills",
-        "level": "4★",
+        "level": "3★",
         "trustMagnitude": 223.52
       },
       "prestigeScore": 684.76,
@@ -83,7 +83,7 @@
       "namedSkills": 6,
       "topSkill": {
         "id": "gsd-build/get-shit-done",
-        "level": "4★",
+        "level": "3★",
         "trustMagnitude": 202.16
       },
       "prestigeScore": 462.96,
@@ -148,7 +148,7 @@
       "namedSkills": 1,
       "topSkill": {
         "id": "safishamsi/graphify",
-        "level": "4★",
+        "level": "3★",
         "trustMagnitude": 116.57
       },
       "prestigeScore": 116.57,
@@ -161,7 +161,7 @@
       "namedSkills": 1,
       "topSkill": {
         "id": "stanfordnlp/dspy",
-        "level": "4★",
+        "level": "3★",
         "trustMagnitude": 100.0
       },
       "prestigeScore": 100.0,
@@ -200,7 +200,7 @@
       "namedSkills": 1,
       "topSkill": {
         "id": "browser-use/browser-harness",
-        "level": "4★",
+        "level": "3★",
         "trustMagnitude": 73.59
       },
       "prestigeScore": 73.59,

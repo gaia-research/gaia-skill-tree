@@ -3,7 +3,7 @@
   "name": "Founder Mode",
   "contributor": "garrytan",
   "level": "5★",
-  "type": "ultimate",
+  "type": "fusion",
   "status": "named",
   "trustMagnitude": 589.32,
   "overallTrustGrade": "S",
@@ -125,6 +125,12 @@
       "action": "verified",
       "contributor": "unknown",
       "details": "Apex promotion PR stamped by Marco (founder/mbtiongson1) per #746 directive — gstack qualifies for §11.12.8 (apexPromotionPrSigned)"
+    },
+    {
+      "timestamp": "2026-07-16T08:36:42Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Generic parent 'founder-mode-orchestration' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
     }
   ],
   "links": {

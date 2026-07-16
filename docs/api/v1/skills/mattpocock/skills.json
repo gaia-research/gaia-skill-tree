@@ -3,7 +3,7 @@
   "name": "Matt Pocock Skills",
   "contributor": "mattpocock",
   "level": "5★",
-  "type": "ultimate",
+  "type": "fusion",
   "status": "named",
   "trustMagnitude": 480.29,
   "overallTrustGrade": "S",
@@ -166,6 +166,12 @@
       "previousValue": null,
       "newValue": "v1.1.0",
       "details": "first-run baseline"
+    },
+    {
+      "timestamp": "2026-07-16T08:36:43Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Generic parent 'skill-mastery' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
     }
   ],
   "links": {

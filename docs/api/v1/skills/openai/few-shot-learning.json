@@ -102,6 +102,12 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added evidence from https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard (type: benchmark-result)"
+    },
+    {
+      "timestamp": "2026-07-16T08:36:44Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Generic parent 'few-shot-learning' type: basic (unchanged; Yggdrasil II taxonomy migration #997)"
     }
   ],
   "links": {

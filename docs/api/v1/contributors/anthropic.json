@@ -8,7 +8,7 @@
       "trustMagnitude": 90.0,
       "overallTrustGrade": "B",
       "contributor": "anthropic",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/anthropic/skill-creator.json"
       }

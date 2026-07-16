@@ -3,7 +3,7 @@
   "name": "Superpowers",
   "contributor": "obra",
   "level": "5★",
-  "type": "ultimate",
+  "type": "fusion",
   "status": "named",
   "trustMagnitude": 445.15,
   "overallTrustGrade": "S",
@@ -158,6 +158,12 @@
       "previousValue": null,
       "newValue": "v6.1.1",
       "details": "first-run baseline"
+    },
+    {
+      "timestamp": "2026-07-16T08:36:44Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Generic parent 'superpowers' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
     }
   ],
   "links": {

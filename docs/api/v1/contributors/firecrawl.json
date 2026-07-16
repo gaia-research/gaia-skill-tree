@@ -4,11 +4,11 @@
     {
       "id": "firecrawl/firecrawl-skills",
       "name": "Firecrawl Skills",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 223.52,
       "overallTrustGrade": "A",
       "contributor": "firecrawl",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
       }
@@ -20,7 +20,7 @@
       "trustMagnitude": 133.54,
       "overallTrustGrade": "A",
       "contributor": "firecrawl",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
       }
@@ -56,7 +56,7 @@
       "trustMagnitude": 73.52,
       "overallTrustGrade": "B",
       "contributor": "firecrawl",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
       }
@@ -77,7 +77,7 @@
   "namedSkillsCount": 6,
   "topSkill": {
     "id": "firecrawl/firecrawl-skills",
-    "level": "4★",
+    "level": "3★",
     "trustMagnitude": 223.52
   },
   "prestigeScore": 684.76,

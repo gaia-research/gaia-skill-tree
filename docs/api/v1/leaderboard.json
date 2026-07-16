@@ -7,7 +7,7 @@
     "C": 78,
     "ungraded": 81,
     "floor": 0,
-    "up": 4
+    "up": 43
   },
   "rows": [
     {
@@ -79,7 +79,7 @@
       "id": "mattpocock/engineering",
       "trustMagnitude": 270.0,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "fusion-recipe": 270.0
       },
@@ -89,7 +89,7 @@
       "id": "firecrawl/firecrawl-skills",
       "trustMagnitude": 223.52,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "github-stars-own": 37.52,
@@ -101,7 +101,7 @@
       "id": "gsd-build/get-shit-done",
       "trustMagnitude": 202.16,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "github-stars-own": 16.16,
         "repo-own": 36.0,
@@ -113,7 +113,7 @@
       "id": "ruvnet/agentdb",
       "trustMagnitude": 201.0,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "peer-review": 45.0,
@@ -125,7 +125,7 @@
       "id": "ruvnet/ruflo-v3",
       "trustMagnitude": 186.0,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "fusion-recipe": 150.0
@@ -136,7 +136,7 @@
       "id": "garrytan/garrytan",
       "trustMagnitude": 156.0,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "fusion-recipe": 120.0
@@ -182,7 +182,7 @@
       "id": "ruvnet/dual-mode",
       "trustMagnitude": 126.0,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "fusion-recipe": 90.0
@@ -193,7 +193,7 @@
       "id": "safishamsi/graphify",
       "trustMagnitude": 122.85,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "github-stars-own": 75.05,
         "arxiv": 17.8,
@@ -205,7 +205,7 @@
       "id": "mattpocock/productivity",
       "trustMagnitude": 120.0,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "fusion-recipe": 120.0
       },
@@ -215,7 +215,7 @@
       "id": "ruvnet/reasoningbank",
       "trustMagnitude": 118.5,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "peer-review": 52.5,
@@ -239,7 +239,7 @@
       "id": "obra/using-git-worktrees",
       "trustMagnitude": 117.65,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "peer-review": 52.5,
@@ -251,7 +251,7 @@
       "id": "obra/writing-plans",
       "trustMagnitude": 110.15,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "peer-review": 45.0,
@@ -286,7 +286,7 @@
       "id": "google-deepmind/alphafold_database_fetch_and_analyze",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
@@ -297,7 +297,7 @@
       "id": "google-deepmind/alphagenome_single_variant_analysis",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
@@ -308,7 +308,7 @@
       "id": "google-deepmind/embl_ebi_ols",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
@@ -319,7 +319,7 @@
       "id": "google-deepmind/encode_ccres_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
@@ -330,7 +330,7 @@
       "id": "google-deepmind/ensembl_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
@@ -341,7 +341,7 @@
       "id": "google-deepmind/foldseek_structural_search",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
@@ -352,7 +352,7 @@
       "id": "google-deepmind/gnomad_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
@@ -363,7 +363,7 @@
       "id": "google-deepmind/gtex_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
@@ -374,7 +374,7 @@
       "id": "google-deepmind/human_protein_atlas_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
@@ -385,7 +385,7 @@
       "id": "google-deepmind/interpro_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
@@ -396,7 +396,7 @@
       "id": "google-deepmind/jaspar_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
@@ -407,7 +407,7 @@
       "id": "google-deepmind/literature_search_europepmc",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
@@ -429,7 +429,7 @@
       "id": "google-deepmind/ncbi_sequence_fetch",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
@@ -440,7 +440,7 @@
       "id": "google-deepmind/openfda_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
@@ -451,7 +451,7 @@
       "id": "google-deepmind/opentargets_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
@@ -462,7 +462,7 @@
       "id": "google-deepmind/protein_sequence_similarity_search",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
@@ -473,7 +473,7 @@
       "id": "google-deepmind/pubchem_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
@@ -484,7 +484,7 @@
       "id": "google-deepmind/pymol",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
@@ -495,7 +495,7 @@
       "id": "google-deepmind/quickgo_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
@@ -506,7 +506,7 @@
       "id": "google-deepmind/reactome_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
@@ -517,7 +517,7 @@
       "id": "google-deepmind/science_skills_common",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
@@ -528,7 +528,7 @@
       "id": "google-deepmind/ucsc_conservation_and_tfbs",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
@@ -539,7 +539,7 @@
       "id": "google-deepmind/unibind_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
@@ -550,7 +550,7 @@
       "id": "google-deepmind/uv",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
@@ -561,7 +561,7 @@
       "id": "google-deepmind/workflow_skill_creator",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
@@ -582,7 +582,7 @@
       "id": "openai/self-consistency",
       "trustMagnitude": 100.0,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "arxiv": 100.0
       },
@@ -592,7 +592,7 @@
       "id": "stanfordnlp/dspy",
       "trustMagnitude": 100.0,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "arxiv": 100.0
       },
@@ -776,7 +776,7 @@
       "id": "browser-use/browser-harness",
       "trustMagnitude": 73.59,
       "grade": "B",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "social-signal": 37.59

@@ -7,7 +7,7 @@
       "trustMagnitude": 63.73,
       "overallTrustGrade": "B",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/garrytan/canary.json"
       }
@@ -19,7 +19,7 @@
       "trustMagnitude": 63.73,
       "overallTrustGrade": "B",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/garrytan/cso.json"
       }
@@ -31,7 +31,7 @@
       "trustMagnitude": 63.73,
       "overallTrustGrade": "B",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/garrytan/design-consultation.json"
       }
@@ -55,7 +55,7 @@
       "trustMagnitude": 63.73,
       "overallTrustGrade": "B",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/garrytan/design-shotgun.json"
       }
@@ -79,7 +79,7 @@
       "trustMagnitude": 63.73,
       "overallTrustGrade": "B",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/garrytan/investigate.json"
       }
@@ -91,7 +91,7 @@
       "trustMagnitude": 63.73,
       "overallTrustGrade": "B",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/garrytan/land-and-deploy.json"
       }
@@ -139,7 +139,7 @@
       "trustMagnitude": 63.73,
       "overallTrustGrade": "B",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/garrytan/qa.json"
       }
@@ -151,7 +151,7 @@
       "trustMagnitude": 63.73,
       "overallTrustGrade": "B",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/garrytan/review.json"
       }
@@ -163,7 +163,7 @@
       "trustMagnitude": 63.73,
       "overallTrustGrade": "B",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/garrytan/ship.json"
       }
@@ -175,7 +175,7 @@
       "trustMagnitude": 63.73,
       "overallTrustGrade": "B",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/garrytan/skillify.json"
       }
@@ -187,7 +187,7 @@
       "trustMagnitude": 63.71,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/grill-me.json"
       }
@@ -199,7 +199,7 @@
       "trustMagnitude": 63.71,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/grill-with-docs.json"
       }
@@ -211,7 +211,7 @@
       "trustMagnitude": 63.71,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/handoff.json"
       }
@@ -223,7 +223,7 @@
       "trustMagnitude": 63.71,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/to-prd.json"
       }
@@ -235,7 +235,7 @@
       "trustMagnitude": 60.0,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/personal.json"
       }
@@ -247,7 +247,7 @@
       "trustMagnitude": 56.21,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/setup-matt-pocock-skills.json"
       }
@@ -271,7 +271,7 @@
       "trustMagnitude": 53.14,
       "overallTrustGrade": "B",
       "contributor": "addy-osmani",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/code-review-and-quality.json"
       }
@@ -295,7 +295,7 @@
       "trustMagnitude": 53.14,
       "overallTrustGrade": "B",
       "contributor": "addy-osmani",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/incremental-implementation.json"
       }
@@ -307,7 +307,7 @@
       "trustMagnitude": 53.14,
       "overallTrustGrade": "B",
       "contributor": "addy-osmani",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/planning-and-task-breakdown.json"
       }
@@ -319,7 +319,7 @@
       "trustMagnitude": 53.14,
       "overallTrustGrade": "B",
       "contributor": "addy-osmani",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/shipping-and-launch.json"
       }
@@ -331,7 +331,7 @@
       "trustMagnitude": 53.14,
       "overallTrustGrade": "B",
       "contributor": "addy-osmani",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
       }
@@ -343,7 +343,7 @@
       "trustMagnitude": 52.16,
       "overallTrustGrade": "B",
       "contributor": "gsd-build",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/gsd-build/discuss-phase.json"
       }
@@ -355,7 +355,7 @@
       "trustMagnitude": 52.16,
       "overallTrustGrade": "B",
       "contributor": "gsd-build",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/gsd-build/execute-phase.json"
       }
@@ -367,7 +367,7 @@
       "trustMagnitude": 52.16,
       "overallTrustGrade": "B",
       "contributor": "gsd-build",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/gsd-build/plan-phase.json"
       }
@@ -379,7 +379,7 @@
       "trustMagnitude": 52.16,
       "overallTrustGrade": "B",
       "contributor": "gsd-build",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/gsd-build/ship.json"
       }
@@ -391,7 +391,7 @@
       "trustMagnitude": 52.16,
       "overallTrustGrade": "B",
       "contributor": "gsd-build",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/gsd-build/verify-work.json"
       }
@@ -415,7 +415,7 @@
       "trustMagnitude": 45.0,
       "overallTrustGrade": "C",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/write-a-skill.json"
       }
@@ -427,7 +427,7 @@
       "trustMagnitude": 41.21,
       "overallTrustGrade": "C",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/prototype.json"
       }
@@ -451,7 +451,7 @@
       "trustMagnitude": 41.0,
       "overallTrustGrade": "C",
       "contributor": "gaia-research",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/gaia-research/skill-fuse.json"
       }
@@ -463,7 +463,7 @@
       "trustMagnitude": 37.47,
       "overallTrustGrade": "C",
       "contributor": "bradautomates",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/bradautomates/claude-video.json"
       }
@@ -475,7 +475,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "Manavarya09",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/Manavarya09/design-extract.json"
       }
@@ -511,7 +511,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/garrytan/benchmark-models.json"
       }
@@ -523,7 +523,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/garrytan/codex.json"
       }
@@ -595,7 +595,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/garrytan/freeze.json"
       }

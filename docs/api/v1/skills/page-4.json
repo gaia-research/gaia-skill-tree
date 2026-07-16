@@ -7,7 +7,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/ruvnet/verification-quality.json"
       }
@@ -31,7 +31,7 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "santifer",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/santifer/career-ops.json"
       }
@@ -79,7 +79,7 @@
       "trustMagnitude": 30.0,
       "overallTrustGrade": "C",
       "contributor": "devin-ai",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/devin-ai/autonomous-swe.json"
       }
@@ -103,7 +103,7 @@
       "trustMagnitude": 0.0,
       "overallTrustGrade": "ungraded",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/mattpocock/teach.json"
       }

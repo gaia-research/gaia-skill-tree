@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-07-14T17:33:24Z",
+  "generatedAt": "2026-07-16T08:38:54Z",
   "skills": [
     {
       "id": "firecrawl/firecrawl-skills",
       "name": "Firecrawl Skills",
-      "level": "4★",
+      "level": "3★",
       "contributor": "firecrawl",
       "trustMagnitude": 223.52,
       "overallTrustGrade": "A",
@@ -55,7 +55,7 @@
     {
       "id": "gsd-build/get-shit-done",
       "name": "Get Shit Done",
-      "level": "4★",
+      "level": "3★",
       "contributor": "gsd-build",
       "trustMagnitude": 202.16,
       "overallTrustGrade": "A",
@@ -211,7 +211,7 @@
     {
       "id": "safishamsi/graphify",
       "name": "Graphify",
-      "level": "4★",
+      "level": "3★",
       "contributor": "safishamsi",
       "trustMagnitude": 116.57,
       "overallTrustGrade": "A",
@@ -224,7 +224,7 @@
     {
       "id": "stanfordnlp/dspy",
       "name": "DSPy",
-      "level": "4★",
+      "level": "3★",
       "contributor": "stanfordnlp",
       "trustMagnitude": 100.0,
       "overallTrustGrade": "A",
@@ -276,7 +276,7 @@
     {
       "id": "ruvnet/dual-mode",
       "name": "Dual Mode",
-      "level": "4★",
+      "level": "3★",
       "contributor": "ruvnet",
       "trustMagnitude": 126.0,
       "overallTrustGrade": "A",
@@ -289,7 +289,7 @@
     {
       "id": "ruvnet/reasoningbank",
       "name": "ReasoningBank",
-      "level": "4★",
+      "level": "3★",
       "contributor": "ruvnet",
       "trustMagnitude": 118.5,
       "overallTrustGrade": "A",
@@ -328,7 +328,7 @@
     {
       "id": "obra/writing-plans",
       "name": "Writing Plans",
-      "level": "4★",
+      "level": "3★",
       "contributor": "obra",
       "trustMagnitude": 110.15,
       "overallTrustGrade": "A",
@@ -354,7 +354,7 @@
     {
       "id": "openai/self-consistency",
       "name": "Self-Consistency",
-      "level": "4★",
+      "level": "3★",
       "contributor": "openai",
       "trustMagnitude": 100.0,
       "overallTrustGrade": "A",

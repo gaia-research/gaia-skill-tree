@@ -4,7 +4,7 @@
     {
       "id": "browser-use/browser-harness",
       "name": "Browser Harness",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 73.59,
       "overallTrustGrade": "B",
       "contributor": "browser-use",
@@ -17,7 +17,7 @@
   "namedSkillsCount": 1,
   "topSkill": {
     "id": "browser-use/browser-harness",
-    "level": "4★",
+    "level": "3★",
     "trustMagnitude": 73.59
   },
   "prestigeScore": 73.59,

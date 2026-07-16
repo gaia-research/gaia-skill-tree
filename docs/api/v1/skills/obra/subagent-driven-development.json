@@ -3,7 +3,7 @@
   "name": "Subagent-Driven Development",
   "contributor": "obra",
   "level": "4★",
-  "type": "extra",
+  "type": "fusion",
   "status": "named",
   "trustMagnitude": 117.65,
   "overallTrustGrade": "A",
@@ -173,6 +173,12 @@
       "action": "migrate_trust_magnitude",
       "timestamp": "2026-06-19T14:32:19Z",
       "details": "TM 117.65 -> 117.65, grade A -> A (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-07-16T08:36:44Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Generic parent 'subagent-driven-development' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
     }
   ],
   "links": {

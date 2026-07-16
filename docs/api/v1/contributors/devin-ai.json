@@ -8,7 +8,7 @@
       "trustMagnitude": 30.0,
       "overallTrustGrade": "C",
       "contributor": "devin-ai",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/devin-ai/autonomous-swe.json"
       }

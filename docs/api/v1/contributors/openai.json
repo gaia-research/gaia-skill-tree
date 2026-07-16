@@ -16,7 +16,7 @@
     {
       "id": "openai/self-consistency",
       "name": "Self-Consistency",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 100.0,
       "overallTrustGrade": "A",
       "contributor": "openai",

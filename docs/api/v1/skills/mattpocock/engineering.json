@@ -2,8 +2,8 @@
   "id": "mattpocock/engineering",
   "name": "Engineering",
   "contributor": "mattpocock",
-  "level": "4★",
-  "type": "extra",
+  "level": "3★",
+  "type": "fusion",
   "status": "named",
   "trustMagnitude": 270.0,
   "overallTrustGrade": "A",
@@ -47,6 +47,20 @@
       "action": "demote",
       "contributor": "mbtiongson1",
       "details": "Level updated from 5★ to 4★ per G7 final rankings calibration."
+    },
+    {
+      "timestamp": "2026-07-16T08:36:43Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Generic parent 'engineering-discipline' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+    },
+    {
+      "timestamp": "2026-07-16T08:36:43Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=0.0 (< 100.0)) — demoted to 3★ Evolved"
     }
   ],
   "suiteComponents": [

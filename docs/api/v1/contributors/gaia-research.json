@@ -20,7 +20,7 @@
       "trustMagnitude": 41.0,
       "overallTrustGrade": "C",
       "contributor": "gaia-research",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/gaia-research/skill-fuse.json"
       }

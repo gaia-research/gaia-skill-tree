@@ -8,7 +8,7 @@
       "trustMagnitude": 37.47,
       "overallTrustGrade": "C",
       "contributor": "bradautomates",
-      "type": "extra",
+      "type": "fusion",
       "_links": {
         "self": "/api/v1/skills/bradautomates/claude-video.json"
       }

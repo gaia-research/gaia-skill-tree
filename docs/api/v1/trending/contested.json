@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-14T17:33:24Z",
+  "generatedAt": "2026-07-16T08:38:54Z",
   "buckets": [
     {
       "genericSkillRef": "git-ship-done-pipeline",
@@ -16,7 +16,7 @@
         {
           "id": "gsd-build/get-shit-done",
           "trustMagnitude": 202.16,
-          "level": "4★",
+          "level": "3★",
           "overallTrustGrade": "A",
           "origin": false
         }
@@ -30,7 +30,7 @@
         {
           "id": "garrytan/garrytan",
           "trustMagnitude": 156.0,
-          "level": "4★",
+          "level": "3★",
           "overallTrustGrade": "A",
           "origin": true
         },
@@ -156,7 +156,7 @@
         {
           "id": "obra/writing-plans",
           "trustMagnitude": 110.15,
-          "level": "4★",
+          "level": "3★",
           "overallTrustGrade": "A",
           "origin": true
         },
@@ -177,7 +177,7 @@
         {
           "id": "stanfordnlp/dspy",
           "trustMagnitude": 100.0,
-          "level": "4★",
+          "level": "3★",
           "overallTrustGrade": "A",
           "origin": true
         },
@@ -373,7 +373,7 @@
         {
           "id": "browser-use/browser-harness",
           "trustMagnitude": 73.59,
-          "level": "4★",
+          "level": "3★",
           "overallTrustGrade": "B",
           "origin": false
         },

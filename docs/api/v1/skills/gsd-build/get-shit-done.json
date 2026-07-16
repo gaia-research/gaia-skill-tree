@@ -2,8 +2,8 @@
   "id": "gsd-build/get-shit-done",
   "name": "Get Shit Done",
   "contributor": "gsd-build",
-  "level": "4★",
-  "type": "ultimate",
+  "level": "3★",
+  "type": "fusion",
   "status": "named",
   "trustMagnitude": 202.16,
   "overallTrustGrade": "A",
@@ -135,6 +135,20 @@
       "previousValue": null,
       "newValue": "v1.42.3",
       "details": "first-run baseline"
+    },
+    {
+      "timestamp": "2026-07-16T08:36:43Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Generic parent 'git-ship-done-pipeline' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)"
+    },
+    {
+      "timestamp": "2026-07-16T08:36:43Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=52.2 (< 100.0)) — demoted to 3★ Evolved"
     }
   ],
   "links": {
