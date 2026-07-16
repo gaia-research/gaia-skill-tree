@@ -3748,7 +3748,9 @@ def get_parser():
         "build", help="Regenerate generated documentation regions"
     )
     docs_build.add_argument(
-        "--check", action="store_true", help="Fail if docs are stale without writing"
+        "--check",
+        action="store_true",
+        help="Fail (exit 1) if generated docs drift from source. NOTE: not read-only — it regenerates Class P/S artifacts, then compares; commit any docs/graph/* (Class S) changes it produces.",
     )
     lookup_parser = subparsers.add_parser(
         "lookup", help="Look up a canonical skill and its named implementations"
@@ -4237,7 +4239,9 @@ def get_parser():
         "docs", help="Regenerate generated documentation regions"
     )
     dev_docs.add_argument(
-        "--check", action="store_true", help="Fail if docs are stale without writing"
+        "--check",
+        action="store_true",
+        help="Fail (exit 1) if generated docs drift from source. NOTE: not read-only — it regenerates Class P/S artifacts, then compares; commit any docs/graph/* (Class S) changes it produces.",
     )
 
     dev_mcp = dev_sub.add_parser(

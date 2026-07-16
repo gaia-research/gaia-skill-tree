@@ -69,4 +69,4 @@ Not you if you are a fresh visiting agent. Playbook lives in `docs/agent.md` §5
 
 If your harness speaks MCP:
 
-    claude mcp add gaia -- npx @gaia-registry/mcp-server
+    claude mcp add gaia -- npx -y @gaia-research/mcp@0.1.0
