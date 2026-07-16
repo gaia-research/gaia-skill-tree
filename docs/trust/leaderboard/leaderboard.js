@@ -836,7 +836,7 @@
         fill: 'url(#' + gradId + ')',
         'class': 'lb-bar lb-bar-animated',
         'data-id': ult.id,
-        'data-type': 'ultimate',
+        'data-type': 'suite',
         style: 'animation-delay:' + (i * 120) + 'ms'
       });
       barGroup.appendChild(bar);
@@ -1161,9 +1161,6 @@
       var gs = (typeof window !== 'undefined' && window.GaiaSemantics);
       var suiteBranch = gs ? gs.computeBranch(suite, suite.level) : 'suite';
       var suitePillWord = gs ? gs.rankWord(suite.level, suiteBranch) : 'Suite';
-      var typePillFill = suiteBranch === 'unique'
-        ? 'rgba(var(--tier-unique-rgb), 0.9)'
-        : 'rgba(var(--tier-fusion-rgb), 0.9)';
       var typePill = svgEl('text', {
         x: x + SB / 2, y: contribY + ls.fontPx + 4,
         'text-anchor': 'middle', 'font-size': String(Math.max(8, ls.fontPx - 1)),
@@ -1294,7 +1291,7 @@
         fill: 'rgba(' + rankRgb(seg.rank) + ', 0.6)',
         'class': 'lb-bar',
         'data-id': ult.id,
-        'data-type': 'ultimate',
+        'data-type': 'suite',
         style: 'pointer-events: none;'
       });
       bar.parentNode.insertBefore(rect, bar.nextSibling);
