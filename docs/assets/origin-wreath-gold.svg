@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" role="img" aria-label="Origin contributor laurel wreath" class="origin-wreath">
+  <!--
+    Gaia origin wreath — GOLD avatar frame (Yggdrasil II).
+
+    Replaces the deprecated honor-red origin badge (rubric E4: red then gold).
+    A circular laurel FRAME with an OPEN center so a contributor avatar shows
+    through. Rendered in gold: callers tint via `color` (currentColor) or by
+    overriding the seal-gold / tier-fusion tokens; the built-in gradient uses
+    those tokens with hex fallbacks so it looks correct even standalone.
+
+    Usage — overlay a wreath border around an avatar image; the open center
+    reveals the avatar underneath.
+  -->
+  <defs>
+    <linearGradient id="gaiaWreathGold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="var(--seal-gold, #fbbf24)"/>
+      <stop offset="0.55" stop-color="var(--tier-fusion, #f59e0b)"/>
+      <stop offset="1" stop-color="var(--seal-gold, #d4af37)"/>
+    </linearGradient>
+    <!-- A single laurel leaf: a slim almond pointing up from its stem end. -->
+    <path id="gaiaWreathLeaf" d="M0 0 C 3.4 -2.2 6.2 -6.4 7 -12 C 3.6 -10.4 1 -6.4 0 0 Z"/>
+  </defs>
+
+  <g fill="url(#gaiaWreathGold)" stroke="none">
+    <!-- Left stem arc (bottom → upper-left). Open gap at top for symmetry. -->
+    <path d="M50 87 C 30 86 15 70 14.4 39.8" fill="none"
+          stroke="url(#gaiaWreathGold)" stroke-width="2.2" stroke-linecap="round"/>
+    <!-- Right stem arc (bottom → upper-right). -->
+    <path d="M50 87 C 70 86 85 70 85.6 39.8" fill="none"
+          stroke="url(#gaiaWreathGold)" stroke-width="2.2" stroke-linecap="round"/>
+
+    <!-- Left-side leaves (tangential to the arc, pointing up-and-inward). -->
+    <use href="#gaiaWreathLeaf" transform="translate(43.58 86.44) rotate(190.0)"/>
+    <use href="#gaiaWreathLeaf" transform="translate(30.39 81.38) rotate(212.0)"/>
+    <use href="#gaiaWreathLeaf" transform="translate(20.07 71.75) rotate(234.0)"/>
+    <use href="#gaiaWreathLeaf" transform="translate(14.10 58.95) rotate(256.0)"/>
+    <use href="#gaiaWreathLeaf" transform="translate(13.36 44.85) rotate(278.0)"/>
+
+    <!-- Right-side leaves (mirror of the left branch). -->
+    <use href="#gaiaWreathLeaf" transform="translate(56.42 86.44) rotate(170.0) scale(-1 1)"/>
+    <use href="#gaiaWreathLeaf" transform="translate(69.61 81.38) rotate(148.0) scale(-1 1)"/>
+    <use href="#gaiaWreathLeaf" transform="translate(79.93 71.75) rotate(126.0) scale(-1 1)"/>
+    <use href="#gaiaWreathLeaf" transform="translate(85.90 58.95) rotate(104.0) scale(-1 1)"/>
+    <use href="#gaiaWreathLeaf" transform="translate(86.64 44.85) rotate(82.0) scale(-1 1)"/>
+
+    <!-- Bottom tie: a small berry cluster where the two branches meet. -->
+    <circle cx="50" cy="88.5" r="2.4"/>
+    <circle cx="45.6" cy="86.2" r="1.7"/>
+    <circle cx="54.4" cy="86.2" r="1.7"/>
+  </g>
+</svg>
