@@ -15,7 +15,11 @@ name: PR Author Identity
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    # 'labeled'/'unlabeled' are required so that applying the
+    # 'skip-author-identity-check' bypass label re-triggers this workflow with
+    # an event payload that actually contains the label. Without them, adding
+    # the label has no effect (re-runs reuse the original label-less payload).
+    types: [opened, synchronize, reopened, labeled, unlabeled]
 
 jobs:
   verify-author-identity:
