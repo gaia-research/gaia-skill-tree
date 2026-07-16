@@ -170,7 +170,7 @@ curl https://gaiaskilltree.com/api/v1/leaderboard.json
 **1. CLI
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `6.8.8`.
+Current Gaia CLI version: `6.8.9`.
 
 ```bash
 curl -fsSL https://gaiaskilltree.com/install.sh | sh
@@ -432,6 +432,12 @@ Community contributors (1–2 skills each): [@karpathy](https://github.com/karpa
 | [@balukosuri](https://github.com/balukosuri) | Evidence: community reproduction of Karpathy's autoresearch as a universal skill |
 | [@kriptoburak](https://github.com/kriptoburak) | Evidence evaluator: x-twitter-automation evidence review |
 | [@fahimkarim01](https://github.com/fahimkarim01) | Curation: corrected pexp13/sentiment-analysis metadata links |
+
+### Code & Fixes
+
+| Contributor | Contribution |
+|---|---|
+| [@fazalpsinfo-cmyk](https://github.com/fazalpsinfo-cmyk) | Bug fix: resolved `UnboundLocalError` in `gaia scan` when no custom skills are detected (#1141, PR #1188) |
 
 ### Bots
 

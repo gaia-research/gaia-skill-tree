@@ -60,6 +60,27 @@ If requested to update version files:
    ```
 
 ### 3. Promote GitHub Release to Latest / Production
+
+> **⚠️ Ancestry guard (mandatory — issue: split-brain release state).**
+> Before promoting **or** publishing any tag, verify the tag's commit is an
+> ancestor of `main`. Promoting/publishing a tag whose commit never landed on
+> `main` desyncs the published version from the branch manifests, which makes
+> `sync-artifacts.yml` recompute the *same* patch version on every subsequent
+> merge and hard-fail on `fatal: tag 'vX.Y.Z' already exists` (this is exactly
+> what happened with `v6.8.9`). Run this and **abort** if it fails:
+>
+> ```bash
+> git fetch --tags origin main
+> if ! git merge-base --is-ancestor "$(git rev-list -n1 <tag>)" origin/main; then
+>   echo "ABORT: <tag> commit is not on main — land the version-bump commit first."
+>   exit 1
+> fi
+> ```
+>
+> If the tag is legitimately ahead of `main` (e.g. the release commit is still
+> in flight), do **not** promote/publish yet — merge the bump to `main` first,
+> or reconcile `main`'s manifests to the tag version so the branch owns it.
+
 To change a canary or beta release to the latest production release on GitHub:
 1. Generate the changelog/notes in a markdown file (e.g. `generated-output/changelog_vX.Y.Z.md`).
 2. Run the `gh release edit` command with the appropriate flags to update the title, remove the prerelease flag, mark it as latest, and upload the notes:
@@ -70,6 +91,12 @@ To change a canary or beta release to the latest production release on GitHub:
 
 ### 4. Manually Publish to PyPI
 If the release needs to be manually published to PyPI (e.g., when bypassing automated CI triggers or for manual publication control):
+
+> **⚠️ Apply the same ancestry guard from §3 first.** Publishing a version to
+> PyPI that `main`'s `pyproject.toml` does not carry is unrecoverable (PyPI
+> versions are immutable) and strands `main` behind the published version. Only
+> publish when `main`'s version ≥ the version being published.
+>
 1. Use the GitHub CLI to trigger the `Publish gaia-cli to PyPI` workflow manually. Specify the `main` branch as the reference, which will build the version defined in `pyproject.toml` on the `main` branch:
    ```bash
    gh workflow run publish-pypi.yml --ref main
