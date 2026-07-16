@@ -375,6 +375,26 @@
     parent.appendChild(u);
   }
 
+  // ── AVATAR WREATH HELPER ──
+  // Renders the gold origin-wreath-gold.svg ring OVER a bar-chart avatar circle.
+  // E3: every avatar on every bar chart is framed by the gold wreath, not just origin
+  // skills — the wreath is the Yggdrasil II origin mark and applies universally.
+  // Sized 112% of the avatar diameter so the laurel reads as a border ring (mirrors
+  // the plaque.css pattern: inset:-6%; width:112%).
+  function appendAvatarWreath(parent, cx, cy, r) {
+    var wreathSize = r * 2.24; // 112% of diameter
+    var wreathImg = svgEl('image', {
+      href: ROOT_PREFIX + 'assets/origin-wreath-gold.svg',
+      x: String(cx - wreathSize / 2),
+      y: String(cy - wreathSize / 2),
+      width: String(wreathSize),
+      height: String(wreathSize),
+      'pointer-events': 'none',
+      preserveAspectRatio: 'xMidYMid meet'
+    });
+    parent.appendChild(wreathImg);
+  }
+
   // ── ACTION BUTTONS BUILDER ──
   function buildActionButtons(section) {
     return '<div class="lb-actions">' +
@@ -887,6 +907,9 @@
       });
       barGroup.appendChild(avatarImg);
 
+      // Gold origin-wreath-gold.svg ring — E3: every avatar is framed (Yggdrasil II)
+      appendAvatarWreath(barGroup, avatarCx, avatarCy, avatarR);
+
       // Skill name label (adaptive)
       var labelY = innerH + avatarR * 2 + 14;
       var label = makeLabel(x + UB / 2, labelY, ls.rotation, ls.fontPx);
@@ -1134,6 +1157,9 @@
         preserveAspectRatio: 'xMidYMid slice'
       });
       barGroup.appendChild(avatarImg);
+
+      // Gold origin-wreath-gold.svg ring — E3: every avatar is framed (Yggdrasil II)
+      appendAvatarWreath(barGroup, avatarCx, avatarCy, avatarR);
 
       // Origin laurel-wreath badge (pre-baked by C1) — top-left interior of bar
       if (suite.origin === true) {
@@ -1590,6 +1616,9 @@
         preserveAspectRatio: 'xMidYMid slice'
       });
       barGroup.appendChild(avatarImg);
+
+      // Gold origin-wreath-gold.svg ring — E3: every avatar is framed (Yggdrasil II)
+      appendAvatarWreath(barGroup, avatarCx, avatarCy, avatarR);
 
       // Origin laurel-wreath badge (pre-baked by C1) — top-left interior of bar
       if (skill.origin === true) {
