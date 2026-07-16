@@ -291,6 +291,23 @@ Every reported issue lands here with: source anchor, pattern check, planned fix.
 - **Guard/branch-scope note:** `generateOgCards.py` is `scripts/**` (guard-excluded, Lane C) and its output `docs/og/**` is tracked. Like N-6 badges, regenerating all `docs/og/*/*.svg` is a bulk artifact commit — decide whether it rides the script PR or a separate regen commit. Per CLAUDE.md, `docs/og/**` PNGs are an exempt tracked-binary path.
 - **Planned fix (candidate, unratified):** (1) `/impeccable` design pass on the card composition (reviewer-gated per founder); (2) rewrite plate dispatch in `generateOgCards.py` to `computeBranch`+rank with a composition for all 6 ranks × 2 branches (kills the fallback dead-zone); (3) embed AOV C/D `-hero` art in the art region; (4) branch-aware rank labels + kill banned words (folds N-6/§4.2). **Largest functional+design item.** Its own Lane (D-ogcard), sequenced after §4.1 resolver + §5 asset mapping. Recommend the /impeccable pass produces a single reference plate for reviewer sign-off BEFORE generating all ranks.
 
+### N-9 · MCP relocated to adjacent `gaia-research/gaia-mcp` — stale install instructions site-wide
+- **Source (the flagged surface):** `docs/index.html` L697-703 — homepage Quick Start step IV "Bond your agent": command `claude mcp add gaia -- npx @gaia-registry/mcp-server` + tip linking `packages/mcp` (`https://github.com/gaia-research/gaia-skill-tree/tree/main/packages/mcp`).
+- **Ground truth (Discipline B — canonical is `origin/main:README.md`, NOT this staging branch):** `origin/main` README §4 (L242-248) already carries the NEW shape:
+  - Command: **`claude mcp add gaia -- npx -y @gaia-research/mcp@0.1.0`** (was `npx @gaia-registry/mcp-server`)
+  - Package: **`@gaia-research/mcp`** in the **adjacent `gaia-research/gaia-mcp` repo** (was `@gaia-registry/mcp-server` bundled in this repo's `packages/mcp/`)
+  - Docs link: **`https://research.gaiaskilltree.com/mcp`** (was `packages/mcp/` config examples)
+  - ⚠️ **staging's own README is BEHIND main here** (still shows `@gaia-registry/mcp-server`) — a merge-main-into-staging concern, NOT this nitpick. Use `origin/main` as the copy source.
+- **PATTERN (confirmed — site-wide, not one homepage line):** `@gaia-registry/mcp-server` + `packages/mcp` references are scattered across the whole docs surface, ALL stale:
+  - `docs/index.html` L697-703 (the flagged step IV) — command + `packages/mcp` link.
+  - `docs/en/mcp-server.html` — **~15 hits**: page-badge L547 (`@gaia-registry/mcp-server · v6.4.12`), intro L560/578/588, all config JSON blocks L612-777 (`"args":["@gaia-registry/mcp-server"]` ×7 for Claude/Cursor/VS Code/etc.).
+  - `docs/en/index.html` L486-489 (docs-card → `mcp-server.html`, describes `@gaia-registry/mcp-server`).
+  - `docs/en/faq.html` L297/900, `docs/en/timeline-audit.html` L1019, `docs/js/site-nav.js` L171 (nav label → `mcp-server.html`).
+  - `docs/en/cli-reference.html` L1738 (`cd packages/mcp && npm run build` — now an external repo, this build step is wrong).
+  - **Decision for the plan:** does `docs/en/mcp-server.html` stay as an on-site page (rewritten to point at `@gaia-research/mcp` + the adjacent repo + `research.gaiaskilltree.com/mcp`), or does it become a redirect to the new external docs? The homepage `packages/mcp` link and cli-reference build step definitely change; the standalone MCP doc page is the open question.
+- **Branch-scope/ownership:** all touch points are `docs/**/*.html` + `docs/js/` → Lane B (copy sweep), design-branch-legal. README itself is founder-owned (superadmin) but is a SEPARATE concern — staging README should get main's MCP content via the normal merge-main-into-staging, not hand-patched in this design pass.
+- **Planned fix (candidate, unratified):** (1) `docs/index.html` step IV → new command + link to `research.gaiaskilltree.com/mcp` (or the adjacent repo); (2) sweep all `@gaia-registry/mcp-server` → `@gaia-research/mcp` and `packages/mcp` → adjacent-repo/new-docs across the docs surface; (3) rewrite or redirect `docs/en/mcp-server.html`; (4) fix `cli-reference.html` build step; (5) cache-bust touched HTML pages. Lane B. FLAG the mcp-server.html keep-vs-redirect decision for ratification.
+
 _Further nitpicks appended below as Marcus sends them._
 
 ### N-3 · About page — stale star counts + missing Unique branch styling
