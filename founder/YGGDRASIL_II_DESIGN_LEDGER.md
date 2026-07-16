@@ -27,8 +27,10 @@
 
 | Asset | Path | Wave | Status |
 |---|---|---|---|
-| _(pending W0)_ gold-wreath frame | `docs/assets/origin-wreath-gold.svg` | W0 | pending |
-| _(pending W0)_ shared resolver | `docs/js/skill-semantics.js` | W0 | pending |
+| gold-wreath frame SVG | `docs/assets/origin-wreath-gold.svg` | W0 | ✅ merged (abe32a4bb) |
+| shared client resolver | `docs/js/skill-semantics.js` | W0 | ✅ merged (abe32a4bb) — `window.GaiaSemantics.{computeBranch,rankWord,rankLabel}` |
+| `--tier-unique` token family | `docs/css/tokens.css` | W0 | ✅ merged (abe32a4bb) |
+| plaque.js rewrite (AOV medallions, avatars+wreath, data-branch, no red origin, no GH button) | `docs/js/plaque.js` + `plaque.css` | W0 | ✅ merged (abe32a4bb) |
 
 ---
 
@@ -36,7 +38,12 @@
 
 | Wave | Branch | PR | Merge SHA | Reviewer verdict |
 |---|---|---|---|---|
-| _(pending)_ | | | | |
+| W0 | design/ygg2-w0-foundation | #1204 | abe32a4bb | PASS (adversarial, Playwright: 153 plaques, 119 avatars=119 wreaths, 0 broken, 0 banned words, desktop+mobile clean) |
+
+**Carried to Wave 1 (from W0 blockers):**
+- **W1e MUST teach `scripts/generateCssTokens.py` to emit the `--tier-unique` family** (currently hand-authored in tokens.css; a `gaia dev docs` regen would drop it + re-expose hex fallbacks). May need `registry/schema/meta.json` + a `meta.typeColors.unique` entry — that's a `schema/`-scope change, so W1e (or a sibling schema PR) owns it.
+- **W1 CSS cleanup:** prune orphaned `.plaque-orb--extra/--ultimate` dead classes in plaque.css (~L665-680) referencing nonexistent tokens.
+- **W1 (skill-explorer lane) confirmed dead reads still live:** `skill-explorer.js:2398` `type==='unique'`+hex; `profile-timeline.js` hex; hero "Honor Red" copy.
 
 ---
 
@@ -45,3 +52,4 @@
 Format: `<date> <model> <effort>: <in>k in, <out>k out. ~$<cost>`
 
 - _(pending — logged at each wave close)_
+- 2026-07-17 W0 (Opus 4.8 high, workflow build+review): ~212k subagent tokens (build+adversarial review, 2 agents). Orchestrator planning/verify/merge overhead separate. ~$30 est.
