@@ -1360,8 +1360,9 @@
       var fusionLabel = 'Show Fusion';
       var suiteLabel  = 'Show Suite';
       if (window.GaiaSemantics && window.GaiaSemantics.rankWord) {
-        // suiteComponents present → suite branch; otherwise standard fusion
-        var _faBranch = suiteComponents.length ? 'suite' : 'standard';
+        // E2: use _fcBranch (computed via GaiaSemantics.computeBranch) so unique-branch
+        // 4★+ skills get rankWord(4,'unique')='Unique' not rankWord(4,'standard')='Extra'.
+        var _faBranch = _fcBranch;
         var _faRankWord = window.GaiaSemantics.rankWord(_fcRank, _faBranch);
         if (_faRankWord) fusionLabel = 'Show ' + _faRankWord + ' Path';
         if (suiteComponents.length) {
@@ -2520,12 +2521,9 @@
         } else {
           bHtml += '<span class="atlas-handle">@' + esc(handle) + '</span>';
         }
-        if (!handleRedacted && ns.origin && typeof window.gaiaIcon === 'function') {
-          bHtml += ' <span class="plaque__origin" data-tooltip="Origin contributor: The creator of the first skill version" aria-label="Origin contributor: The creator of the first skill version">' +
-            window.gaiaIcon('origin-badge', { size: 16 }) +
-            '<span class="origin-info" style="margin-left: 3px; color: var(--muted); opacity: 0.7;">' + window.gaiaIcon('info', { size: 10 }) + '</span>' +
-            '</span>';
-        }
+        // E4: deprecated red origin-badge suppressed here; the gold wreath avatar
+        // frame (plaque__avatar-wreath) is the canonical Yggdrasil II origin mark.
+        // Do NOT emit the .plaque__origin inline badge — it renders in honor-red.
         bHtml += '<span style="color:var(--muted); opacity: 0.5; margin: 0 4px;">/</span>';
       }
       var slugStyle = 'font-size: inherit; color: ' + color + ';';
