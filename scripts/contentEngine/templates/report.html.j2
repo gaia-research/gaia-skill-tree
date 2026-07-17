@@ -17,82 +17,469 @@
   <meta property="og:url" content="{{ report.urls.canonical }}">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/svg+xml" href="../../assets/marks/diamond-seal.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="../../css/tokens.css?v={{ report.generatorVersion }}">
   <link rel="stylesheet" href="../../css/styles.css?v={{ report.generatorVersion }}">
   <link rel="alternate" type="application/json" href="{{ report.urls.json }}">
 
   <style>
-    /* ── Deferred-surface WIP banner ──────────────────────────────────────
-       Discloses that this surface renders in its L3-mechanical bridge
-       state pending the Sprint F rendering-layer rewrite (issue #973).
-       Follows the deferred-surface convention in CLAUDE.md §Deferred
-       surface convention. Removed by the port. */
-    .wip-banner {
+    /* ─────────────────────────────────────────────────────────────
+       WEEKLY REPORT — one ISO week of registry movement, read as a
+       ledger. Shares the archive register (.reports-shell): EB Garamond
+       display, Bricolage body, JetBrains Mono for identifiers and
+       numerics. Evidence-grade chips reuse the global .ev-grade family
+       from styles.css ([data-grade] coloring). Body copy sits on
+       --text against --bg for 4.5:1+ contrast. Token-only (rubric E7);
+       mobile-first with min-width breakpoints (rubric E6).
+       ───────────────────────────────────────────────────────────── */
+
+    .report-shell {
       max-width: 62rem;
-      /* Clear the fixed nav (~58px). Matches the 5rem/6rem top-clearance
-         pattern used by .bench-shell and .reports-shell. */
-      margin: 5rem auto 0;
-      padding: 0.75rem 1.5rem;
-      display: flex;
-      align-items: baseline;
-      flex-wrap: wrap;
-      gap: 0.5rem 0.9rem;
-      font-family: var(--font-mono);
-      font-size: 0.78rem;
-      line-height: 1.55;
+      margin: 0 auto;
+      padding: 5rem 1.25rem 6rem;
       color: var(--text);
-      background: rgba(var(--evidence-gold-rgb), 0.06);
-      border: 1px solid rgba(var(--evidence-gold-rgb), 0.28);
-      border-radius: 6px;
-      letter-spacing: 0.02em;
+      font-family: var(--font-body);
     }
     @media (min-width: 768px) {
-      .wip-banner { margin-top: 6rem; }
+      .report-shell { padding: 8rem 2rem 7rem; }
     }
-    .wip-banner .wip-tag {
-      color: var(--evidence-gold);
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
+
+    /* ── Masthead: the report's metadata header ─────────────── */
+    .report-masthead {
+      margin: 0 0 3.5rem;
+      padding-bottom: 1.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .report-eyebrow {
+      font-family: var(--font-mono);
       font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 0.85rem;
     }
-    .wip-banner .wip-body { color: var(--text); opacity: 0.86; }
-    .wip-banner a {
+    .report-masthead h1 {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(2.2rem, 6vw, 3.5rem);
+      line-height: 1.04;
+      letter-spacing: -0.02em;
+      margin: 0 0 1.25rem;
+      color: var(--text);
+      text-wrap: balance;
+    }
+    .report-masthead h1 em {
+      font-style: italic;
+      color: var(--apex-gold);
+      font-weight: 400;
+    }
+    .report-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      line-height: 1.6;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+    .report-meta .rm-item { white-space: nowrap; }
+    .report-meta .rm-item strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+    .report-meta code {
+      font-family: var(--font-mono);
       color: var(--evidence-gold);
-      text-decoration: none;
-      border-bottom: 1px solid rgba(var(--evidence-gold-rgb), 0.45);
-      transition: border-color 160ms ease-out;
+      background: rgba(var(--evidence-gold-rgb), 0.08);
+      border: 1px solid rgba(var(--evidence-gold-rgb), 0.28);
+      padding: 0.05em 0.4em;
+      border-radius: 3px;
+      font-size: 0.9em;
     }
-    .wip-banner a:hover,
-    .wip-banner a:focus-visible {
-      border-bottom-color: var(--evidence-gold);
+    .report-navlinks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.5rem;
+      margin-top: 1.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.02em;
+    }
+    .report-navlinks a {
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: color 160ms ease-out, border-color 160ms ease-out;
+    }
+    .report-navlinks a:hover,
+    .report-navlinks a:focus-visible {
+      color: var(--text);
+      border-bottom-color: var(--border);
       outline: none;
     }
+
+    /* ── Section: a headed block, not a boxed card ──────────── */
+    .report-section { margin-bottom: 3.5rem; }
+    .report-section-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-bottom: 1rem;
+      margin-bottom: 0.25rem;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .report-section-head h2 {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      margin: 0;
+      color: var(--text);
+    }
+    .report-section-note {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Data table ─────────────────────────────────────────── */
+    .report-table-wrap { overflow-x: auto; }
+    .report-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      min-width: 34rem;
+    }
+    .report-table thead th {
+      text-align: left;
+      padding: 0.9rem 0.85rem 0.7rem 0;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+      font-weight: 500;
+    }
+    .report-table thead th.num { text-align: right; }
+    .report-table tbody td {
+      padding: 0.9rem 0.85rem 0.9rem 0;
+      vertical-align: baseline;
+      border-bottom: 1px solid rgba(var(--evidence-platinum-rgb), 0.06);
+      color: var(--text);
+    }
+    .report-table tbody tr:last-child td { border-bottom: none; }
+    .report-table td.num {
+      text-align: right;
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+    }
+    .report-table td.rank {
+      font-family: var(--font-mono);
+      color: var(--muted);
+      font-size: 0.82rem;
+      width: 2.5rem;
+    }
+
+    .rt-skill {
+      color: var(--text);
+      text-decoration: none;
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 500;
+      letter-spacing: -0.005em;
+      border-bottom: 1px solid transparent;
+      transition: color 160ms ease-out, border-color 160ms ease-out;
+    }
+    .rt-skill:hover,
+    .rt-skill:focus-visible {
+      color: var(--apex-gold);
+      border-bottom-color: rgba(var(--apex-gold-rgb), 0.4);
+      outline: none;
+    }
+    .rt-contributor {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+      letter-spacing: 0.02em;
+    }
+    .rt-level {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--text);
+      white-space: nowrap;
+    }
+    .rt-rankchange {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text);
+      white-space: nowrap;
+    }
+    .rt-rankchange .rc-prev { color: var(--muted); }
+    .rt-rankchange .rc-arrow { color: var(--muted); margin: 0 0.25em; }
+    .rt-when {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    /* Grade chip — reuses the global .ev-grade family from styles.css. */
+    .ev-grade { margin-left: 0.4rem; }
+
+    /* Delta / new / origin markers */
+    .rt-tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.04em;
+      padding: 0.08rem 0.4rem;
+      border-radius: 0.25rem;
+      border: 1px solid;
+      vertical-align: middle;
+    }
+    .rt-tag--new {
+      color: var(--apex-gold);
+      border-color: rgba(var(--apex-gold-rgb), 0.4);
+      background: rgba(var(--apex-gold-rgb), 0.08);
+    }
+    .rt-tag--origin {
+      color: var(--apex-gold);
+      border-color: rgba(var(--apex-gold-rgb), 0.4);
+      background: rgba(var(--apex-gold-rgb), 0.08);
+    }
+    .rt-delta { color: var(--muted); font-family: var(--font-mono); }
+    .rt-muted { color: var(--muted); }
+
+    /* ── Contested space sub-block ──────────────────────────── */
+    .report-space { margin-bottom: 2.5rem; }
+    .report-space:last-child { margin-bottom: 0; }
+    .report-space-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .report-space-ref {
+      font-family: var(--font-mono);
+      font-size: 0.92rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .report-space-meta {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Empty section ──────────────────────────────────────── */
+    .report-empty {
+      padding: 1.5rem 0;
+      color: var(--muted);
+      font-style: italic;
+      font-size: 0.9rem;
+    }
+
+    /* ── Footer caption ─────────────────────────────────────── */
+    .report-caption {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      line-height: 1.7;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+    .report-caption a {
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: color 160ms ease-out, border-color 160ms ease-out;
+    }
+    .report-caption a:hover,
+    .report-caption a:focus-visible {
+      color: var(--text);
+      border-bottom-color: var(--border);
+      outline: none;
+    }
+
     @media (prefers-reduced-motion: reduce) {
-      .wip-banner a { transition: none; }
+      .report-navlinks a,
+      .rt-skill,
+      .report-caption a { transition: none; }
     }
   </style>
+<script type="application/ld+json" data-injector="gaia-json-ld">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Gaia Weekly Report — {{ report.reportId }}",
+  "url": "{{ report.urls.canonical }}",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Gaia Skill Tree",
+    "url": "https://gaiaskilltree.com/"
+  }
+}
+</script>
 </head>
 <body>
   <nav id="site-nav"></nav>
   <script src="../../js/mounts.js?v={{ report.generatorVersion }}"></script>
   <script src="../../js/site-nav.js?v={{ report.generatorVersion }}"></script>
 
-  <aside class="wip-banner" role="note" aria-label="Interim rendering notice">
-    <span class="wip-tag">◇ Interim rendering</span>
-    <span class="wip-body">Tables render as source markdown in this bridge state. Leaderboard view lands in Sprint F (<a href="https://github.com/gaia-research/gaia-skill-tree/issues/973">#973</a>). The <a href="{{ report.urls.json }}">canonical JSON</a> is frozen and permanent.</span>
-  </aside>
+  <main class="report-shell">
 
-  <main class="report-body" style="max-width: 72rem; margin: 2rem auto; padding: 0 1.25rem; color: var(--text); font-family: 'EB Garamond', Georgia, serif; line-height: 1.6;">
-    <div style="font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: .75rem; color: var(--muted); letter-spacing: .12em; text-transform: uppercase; margin-bottom: .5rem;">
-      Weekly Report · Salvage Layer {{ report.salvageLayer }}
-    </div>
-    <pre class="report-markdown" style="white-space: pre-wrap; font-family: inherit; font-size: 1rem; background: transparent; padding: 0; margin: 0;">{{ markdownBody }}</pre>
+    <header class="report-masthead">
+      <p class="report-eyebrow">Weekly Report · ISO {{ report.isoYear }}-W{{ '%02d' | format(report.isoWeek) }}</p>
+      <h1>What moved, <em>week {{ report.isoWeek }}</em>.</h1>
+      <div class="report-meta">
+        <span class="rm-item"><strong>Generated</strong> {{ report.generatedAt[:10] }}</span>
+        <span class="rm-item"><strong>Salvage layer</strong> <code>{{ report.salvageLayer }}</code></span>
+        <span class="rm-item"><strong>Generator</strong> gaia-content-engine v{{ report.generatorVersion }}</span>
+      </div>
+      <nav class="report-navlinks" aria-label="Report navigation">
+        <a href="{{ report.urls.previous }}">← Previous week</a>
+        <a href="{{ report.urls.archive }}">Archive</a>
+        <a href="{{ report.urls.json }}">Canonical JSON</a>
+      </nav>
+    </header>
+
+    {# ── Trending ─────────────────────────────────────────── #}
+    {% set trending = report.sections.trending %}
+    <section class="report-section" aria-labelledby="trendingHeading">
+      <div class="report-section-head">
+        <h2 id="trendingHeading">{{ trending.title }}</h2>
+        <span class="report-section-note">by Trust Magnitude</span>
+      </div>
+      {% if trending.entries %}
+      <div class="report-table-wrap">
+        <table class="report-table">
+          <thead><tr>
+            <th>#</th><th>Skill</th><th>Level</th>
+            <th class="num">Trust Magnitude</th><th class="num">Δ TM</th>
+          </tr></thead>
+          <tbody>
+            {% for e in trending.entries %}
+            <tr>
+              <td class="rank">{{ loop.index }}</td>
+              <td>
+                <a class="rt-skill" href="{{ e.url }}">{{ e.name }}</a>
+                <span class="rt-contributor">@{{ e.contributor }}</span>
+              </td>
+              <td><span class="rt-level">{{ e.level }}</span></td>
+              <td class="num">{{ '%.1f' | format(e.trustMagnitude) }}{% if e.trustGrade %}<span class="ev-grade" data-grade="{{ e.trustGrade }}">{{ e.trustGrade }}</span>{% endif %}</td>
+              <td class="num">{% if e.isNew %}<span class="rt-tag rt-tag--new">new</span>{% elif e.tmDelta and e.tmDelta > 0 %}<span class="rt-delta">+{{ '%.1f' | format(e.tmDelta) }}</span>{% else %}<span class="rt-muted">—</span>{% endif %}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <p class="report-empty">No trending skills this week.</p>
+      {% endif %}
+    </section>
+
+    {# ── Ascended ─────────────────────────────────────────── #}
+    {% set ascended = report.sections.ascended %}
+    <section class="report-section" aria-labelledby="ascendedHeading">
+      <div class="report-section-head">
+        <h2 id="ascendedHeading">{{ ascended.title }}</h2>
+        <span class="report-section-note">most recent rank-ups</span>
+      </div>
+      {% if ascended.entries %}
+      <div class="report-table-wrap">
+        <table class="report-table">
+          <thead><tr>
+            <th>Skill</th><th>Rank change</th>
+            <th class="num">Trust Magnitude</th><th>Ascended</th>
+          </tr></thead>
+          <tbody>
+            {% for e in ascended.entries %}
+            <tr>
+              <td>
+                <a class="rt-skill" href="{{ e.url }}">{{ e.name }}</a>
+                <span class="rt-contributor">@{{ e.contributor }}</span>
+              </td>
+              <td>
+                <span class="rt-rankchange">
+                  {% if e.previousLevel %}<span class="rc-prev">{{ e.previousLevel }}</span><span class="rc-arrow">→</span>{% endif %}{{ e.level }}
+                </span>
+              </td>
+              <td class="num">{{ '%.1f' | format(e.trustMagnitude) }}{% if e.trustGrade %}<span class="ev-grade" data-grade="{{ e.trustGrade }}">{{ e.trustGrade }}</span>{% endif %}</td>
+              <td><span class="rt-when">{{ e.ascendedAt[:10] }}</span></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <p class="report-empty">No rank-ups recorded this week.</p>
+      {% endif %}
+    </section>
+
+    {# ── Contested ────────────────────────────────────────── #}
+    {% set contested = report.sections.contested %}
+    <section class="report-section" aria-labelledby="contestedHeading">
+      <div class="report-section-head">
+        <h2 id="contestedHeading">{{ contested.title }}</h2>
+        <span class="report-section-note">most-implemented generic skills</span>
+      </div>
+      {% if contested.entries %}
+        {% for b in contested.entries %}
+        <div class="report-space">
+          <div class="report-space-head">
+            <span class="report-space-ref">{{ b.genericSkillRef }}</span>
+            <span class="report-space-meta">{{ b.implementations }} implementations · top TM {{ '%.1f' | format(b.topTM) }}</span>
+          </div>
+          <div class="report-table-wrap">
+            <table class="report-table">
+              <thead><tr>
+                <th>Skill</th><th>Level</th>
+                <th class="num">Trust Magnitude</th><th>Origin</th>
+              </tr></thead>
+              <tbody>
+                {% for s in b.skills %}
+                <tr>
+                  <td><a class="rt-skill" href="{{ s.url }}">{{ s.id }}</a></td>
+                  <td><span class="rt-level">{{ s.level }}</span></td>
+                  <td class="num">{{ '%.1f' | format(s.trustMagnitude) }}{% if s.trustGrade %}<span class="ev-grade" data-grade="{{ s.trustGrade }}">{{ s.trustGrade }}</span>{% endif %}</td>
+                  <td>{% if s.origin %}<span class="rt-tag rt-tag--origin">origin</span>{% else %}<span class="rt-muted">—</span>{% endif %}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+      <p class="report-empty">No contested spaces this week.</p>
+      {% endif %}
+    </section>
+
+    <footer class="report-caption">
+      Compiled mechanically by the <a href="https://github.com/gaia-research/gaia-skill-tree/tree/main/scripts/contentEngine">Gaia Content Engine</a> from <a href="/api/v1/trending/">/api/v1/trending/*.json</a>, recomputed daily. The <a href="{{ report.urls.json }}">canonical JSON</a> is frozen and permanent. Salvage layer: <code>{{ report.salvageLayer }}</code>.
+    </footer>
+
   </main>
 
-  <footer style="max-width: 72rem; margin: 3rem auto 2rem; padding: 1.5rem 1.25rem 0; color: var(--muted); font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: .75rem; border-top: 1px solid var(--border);">
-    <a href="{{ report.urls.archive }}" style="color: var(--muted); text-decoration: none;">← All reports</a>
-    · <a href="{{ report.urls.json }}" style="color: var(--muted); text-decoration: none;">Canonical JSON</a>
-  </footer>
+  <div id="site-footer-mount"></div>
+  <script src="../../js/site-footer.js?v={{ report.generatorVersion }}"></script>
 </body>
 </html>
