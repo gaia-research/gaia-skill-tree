@@ -523,3 +523,69 @@ This section is the **canonical grading rubric** for the Yggdrasil II design run
 
 ### Reviewer procedure
 Serve `docs/` locally (`python -m http.server`), load the target surface with Playwright at 1280 (desktop) and 390 (mobile), screenshot, and grade against E1–E7. Return a structured verdict: `{pass: bool, failures: [{clause, surface, evidence}], severity}`. Reject-by-default: absence of evidence of compliance is a fail, not a pass.
+
+---
+
+## Yggdrasil II — what shipped (canonical design standard)
+
+This is the definitive `/impeccable-init` record of the Yggdrasil II design language. E1–E7 above are the *enforcement* clauses; this section is the *specification* they enforce. Ratified 2026-07-07, implemented across #998 (EPIC #1002), solidified 2026-07-17.
+
+### The taxonomy — two orthogonal axes
+
+Yggdrasil II split the old single `type`/rank enum into two independent axes:
+
+- **TYPE** (stored, starless/generic nodes): `basic` | `fusion` — and nothing else. `fusion` iff the node has prerequisites; pure structure. **Never consulted for branch or rank vocabulary.** The old type values (`extra`/`ultimate`/`unique`) are a dead enum: any code path switching on them as a *type* is a defect (E1).
+- **BRANCH** (derived at read-time, never stored): `standard` | `suite` | `unique`. Computed from the Named Skill's `suiteComponents` presence and its effective rank — never declared on a node, never read from a `branch`/`tier` field. The formula:
+  - rank 1–3 → **standard** (no fork)
+  - rank ≥ 4 AND `suiteComponents` present → **suite**
+  - rank ≥ 4 AND no `suiteComponents` → **unique**
+
+Type and branch are orthogonal: a `basic`-type generic can back a unique-branch named skill; a `fusion`-type generic can back a suite. Branch is a property of the *named* skill's shape, not the generic parent's `type`.
+
+### The rank ladders — shared 1–3, forked 4–6
+
+| Rank | Standard (1–3) | Suite (4–6) | Unique (4–6) |
+|---|---|---|---|
+| 1★ | Awakened | — | — |
+| 2★ | Named | — | — |
+| 3★ | Evolved | — | — |
+| 4★ | — | Extra | Unique |
+| 5★ | — | Ultimate | Unique Ultimate |
+| 6★ | — | Apex | Unique Impossible |
+
+`Ultimate` is the universal 5★ word (it appears in both the suite ladder and, prefixed, the unique ladder). The `Skill` suffix attaches to RANK words only (`Extra Skill`, `Unique Skill`, `Ultimate Skill`, `Apex Skill` are valid rank phrasings); TYPE words stand bare (`Basic`, `Fusion` — never the type-word-plus-`Skill` bigram). A 4★ Unique reads "Unique" and NEVER "Extra"; a flat rank→name swap that ignores branch is a defect (E2). The two Ygg-I rank words (old 4★/old 5★) are deprecated and banned in new content — see `CONTEXT.md` § Banned synonyms for the literal forms and `scripts/check_rank_vocabulary.py` for the CI enforcement.
+
+### The medallion system
+
+The canonical skill identity is the **plaque medallion**, implemented once in `docs/js/plaque.js` `_fieldAvatar` and routed to every surface (never re-implemented per-surface):
+
+- **Contributor GitHub avatar** (`https://github.com/<handle>.png`) as the core, framed by the **gold origin wreath** (`docs/assets/origin-wreath-gold.svg`).
+- **GitHub-blank / identicon fallback** on avatar error — never an empty hole, never a bare `onerror`-hide.
+- **AOV4 rank stamp** overlaid: Asset C (`aov4-c{1..6}-suite-*`) for the suite branch, Asset D (`aov4-d{4..6}-unique-*`) for the unique branch, selected by `computeBranch` + rank, at the size tier for the surface (`-badge` / `-card` / `-hero`). No CSS-gradient orb stand-ins on named skills.
+- **Branch-keyed plaque register:** Unique = DARKER plaque (violet `--tier-unique`); Suite = GOLD-leaning plaque. Keyed on derived `data-branch`, never `data-type`.
+- The standalone "GitHub" button is removed; the avatar itself links to the repo (`links.github`).
+
+### The gold origin mark (red deprecated)
+
+Origin is rendered in **GOLD** (`--apex-gold` `#fbbf24`, the gold origin token) via the wreath. The honor-red `#ef4444` origin mark / `#origin-badge` laurel is **deprecated** — no red *origin* icons survive anywhere. (`--honor-red` may still serve unrelated link/emphasis use; only the red origin mark is the failure.)
+
+### The cross-brand Rimuru-Blue bridge
+
+Gaia Skill Tree ("The Hunter's Atlas" — serif/gold register) is the flagship of Gaia Research ("The Cyber-Slime Laboratory" — Bebas/Syne, Milim-Pink/Rimuru-Blue register). Surfaces that link OUT to Research products (MCP `@gaia-registry/mcp@0.1.0` + `research.gaiaskilltree.com/mcp`; skill-fuse `github.com/gaia-research/skill-fuse`) use one shared "Research product" affordance in the **Rimuru-Blue `#38bdf8`** bridge language. This is an exact match to this repo's `--tier-basic` token (`#38bdf8`) — the natural bridge color, expressing "one house, two rooms." Cross-repo content/schema is never imported; hyperlinks and sibling brand lockups are fine.
+
+### Shared resolvers — the single source both client and Python read
+
+Branch derivation and rank vocabulary have ONE authority per runtime. No surface re-declares the ladder or re-derives the branch inline:
+
+**Client (browser):** `docs/js/skill-semantics.js` → `window.GaiaSemantics`
+- `computeBranch(node, effRank)` → `'standard' | 'suite' | 'unique'`
+- `rankWord(level, branch)` → the branch-forked rank word
+- `rankLabel(level, branch)` → the full display label
+- Extracted from `world-tree-layout.js resolveSemantics()` (the original correct resolver); imported by `plaque.js`, `heroes.js`, `named-skills.js`, `leaderboard.js`, `skill-explorer.js`. Star GLYPHS remain the province of `rank-badge.js` (the clean chip/star authority); rank WORDS route through `rankWord`.
+
+**Python (CLI + generators):** `gaia_cli`
+- `gaia_cli.trustMagnitude.computeBranch(named, genericSkillMap)` → `'standard' | 'suite' | 'unique'` (never consults `type`)
+- `gaia_cli.formatting.rank_word(level, branch)` + `format_rank_label` + `rank_color_for` (unique gets the violet `RANK_COLORS_UNIQUE` ramp)
+- Scripts (`generateBadges.py`, `generateOgCards.py`, `generateProfilePages.py`, …) import these — they MUST NOT re-declare a flat `rank → name` dict, which silently mislabels every unique-branch skill. Scripts under `scripts/` reach `src/gaia_cli` via `sys.path.insert(0, str(Path(__file__).parent.parent / "src"))`.
+
+The two resolvers are mirror implementations of one formula: the client reads the pre-shipped `type`/`suiteComponents`/`level` fields from `docs/graph/*.json` (browser data carries NO `branch` field — it is always derived), and Python reads the same shape from the registry. When the formula changes, both move together.
