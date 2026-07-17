@@ -11,20 +11,35 @@ from the four live resolvers this module supersedes:
 Nothing consumes this module yet (PR1 is a pure add). Downstream PRs migrate
 each consumer onto these functions; PR3b deletes the JS/Py resolvers above.
 
-Canonical semantics — FOUNDER RULING (do NOT reintroduce JS #1's `type==='basic'`
-guard). Branch is derived from rank + suiteComponents-presence ONLY; `type` is
-never consulted at display time:
+Canonical semantics — FOUNDER RULING v2, the SYNTHESIS rule (do NOT consult
+`type`). Suite-PRESENCE decides branch FIRST (no rank gate); rank only splits
+the no-suite case:
 
-    rank < 4                                  -> 'standard'
-    rank >= 4 AND suiteComponents present     -> 'suite'
-    rank >= 4 AND no suiteComponents          -> 'unique'
+    suiteComponents present                   -> 'suite'   (ANY rank 1..6 —
+                                                 "anything can be a suite")
+    no suiteComponents, rank 1..3             -> 'standard'
+    no suiteComponents, rank 4..6             -> 'unique'
 
-This is Py #3's type-INDEPENDENT logic. It intentionally diverges from JS #1
-(which consults `type`) on `type != 'basic'` nodes at rank >= 4 with no
-suiteComponents. That divergence is deliberate and is pinned by the contract
+This is the synthesis of both legacy resolvers — NEITHER verbatim:
+  * suite-presence-first, no rank gate  = JS #1's suite logic (skill-semantics.js L61)
+  * type-independent unique at 4 stars+  = Python #3's unique logic (trustMagnitude)
+Canonical therefore agrees with JS #1 on the suite class (rank<4 + suite) where
+Python #3 does not, AND agrees with Python #3 on the unique class (fusion rank>=4
+no-suite) where JS #1 does not. Both divergences are pinned by the contract
 oracle (tests/test_taxonomy_contract.py).
 
-Rank ladders (canonical — fork at 4 stars+):
+BRANCH vs DECORATION SPLIT (load-bearing): branch === 'suite' holds from 1 star up
+(for grouping / membership / sorting), BUT the suite rank-WORD (Extra/Ultimate/
+Apex) and the suite GLYPH only render at 4..6 stars — those ladder words simply do
+not exist below 4. So:
+  * rankWord(level, 'suite') for level 1..3  -> the SHARED word (Awakened/Named/
+    Evolved), NOT Extra/etc.; only 4..6 return the suite words.
+  * medallion('suite', rank) -> plain glyph (white diamond) for rank<4, suite
+    glyph (black diamond) for rank 4..6.
+Unique only exists at 4..6 by construction, but the same guard applies (shared
+word / plain glyph below 4) defensively.
+
+Rank ladders (canonical — decoration forks at 4 stars+):
     SHARED  {0 Basic, 1 Awakened, 2 Named, 3 Evolved}
     SUITE   {4 Extra, 5 Ultimate, 6 Apex}
     UNIQUE  {4 Unique, 5 Unique Ultimate, 6 Unique Impossible}
@@ -200,11 +215,13 @@ def normalize(entry: Optional[dict], metaEpoch: str = EPOCH_YGG_II) -> dict:
 def resolveDisplayBranch(normalized: dict) -> str:
     """Return 'standard' | 'suite' | 'unique' from a normalize() shape.
 
-    CANONICAL SEMANTICS — FOUNDER RULING (see module docstring). Type-independent:
+    CANONICAL SEMANTICS — FOUNDER RULING v2, the SYNTHESIS rule (see module
+    docstring). Suite-PRESENCE decides branch FIRST; rank only splits the
+    no-suite case:
 
-        rank < 4                              -> 'standard'
-        rank >= 4 AND suiteComponents present -> 'suite'
-        rank >= 4 AND no suiteComponents      -> 'unique'
+        suiteComponents present        -> 'suite'    (ANY rank 1..6 — no gate)
+        no suiteComponents, rank 1..3  -> 'standard'
+        no suiteComponents, rank 4..6  -> 'unique'
 
     Absent-field fallback: a normalize() shape that already carried a
     pre-resolved `branch` (from an emitted field) is honoured verbatim; only a
@@ -215,11 +232,13 @@ def resolveDisplayBranch(normalized: dict) -> str:
     pre = normalized.get("branch")
     if pre in ("standard", "suite", "unique"):
         return pre
-    if not normalized.get("branchEligible") or normalized.get("rank", 0) < 4:
-        return "standard"
+    # Suite-presence FIRST — no rank gate on branch membership.
     if normalized.get("suiteComponentsPresent"):
         return "suite"
-    return "unique"
+    # No suite: rank splits standard (1..3) from unique (4..6).
+    if normalized.get("rank", 0) >= 4:
+        return "unique"
+    return "standard"
 
 
 def branchFor(entry: dict, metaEpoch: str = EPOCH_YGG_II) -> str:
@@ -239,19 +258,24 @@ def branchFor(entry: dict, metaEpoch: str = EPOCH_YGG_II) -> str:
 def rankWord(level: Any, branch: str = "standard") -> str:
     """Return the bare rank word for a (level, branch) pair.
 
-    1-3 stars (and 0) are the SHARED ladder — branch-agnostic. 4 stars+ forks by
-    branch. Never emits the banned words 'Transcendent' / 'Hardened'.
+    BRANCH vs DECORATION SPLIT (founder ruling v2): a node's `branch` can be
+    'suite' or 'unique' from 1 star up, but the suite/unique rank WORDS only exist
+    at 4..6 stars. So 0..3 stars ALWAYS returns the SHARED ladder word regardless of
+    branch (a 2 stars suite node reads 'Named', not 'Extra'). Only 4..6 fork:
+        4..6 + 'unique' -> Unique / Unique Ultimate / Unique Impossible
+        4..6 + else     -> Extra  / Ultimate        / Apex  (suite ladder)
+    Never emits the banned words 'Transcendent' / 'Hardened'.
 
       level:  "5star" | 5 | "5"
       branch: 'standard' | 'suite' | 'unique' (default 'standard')
     """
     n = levelNum(level)
     if n <= 3:
+        # SHARED ladder for 0..3 stars — branch-agnostic (decoration split).
         return SHARED_WORD.get(n, "Basic")
     # 4 stars+ fork. 'suite' is the neutral default for 4 stars+ (a resolved
-    # 4 stars+ skill is always 'suite' or 'unique' — 'standard' never reaches
-    # this ladder in practice, but if it does it reads as the suite word rather
-    # than crashing).
+    # 4 stars+ non-suite node is 'unique'; a non-branch 'standard' node above
+    # 3 stars reads as the suite word rather than crashing).
     if branch == "unique":
         return UNIQUE_WORD.get(n, UNIQUE_WORD[6])
     return SUITE_WORD.get(n, SUITE_WORD[6])
@@ -268,22 +292,24 @@ def rankLabel(level: Any, branch: str = "standard") -> str:
 # ---------------------------------------------------------------------------
 
 def medallion(branch: str, rank: Any = None) -> str:
-    """Return the structural-class medallion glyph for a resolved branch.
+    """Return the structural-class medallion glyph for a (branch, rank) pair.
 
-    Keyed on the RESOLVED branch (rank is accepted for forward-compat / future
-    rank-scaled art but is not currently consulted — branch already encodes the
-    suite/unique/standard distinction). Sourced from resolveSemantics 3.1/6:
+    BRANCH vs DECORATION SPLIT (founder ruling v2): the custom suite/unique glyph
+    only renders at 4..6 stars. Below 4 stars a suite/unique branch node uses the
+    plain shared glyph (the suite/unique DECORATION does not exist yet), even
+    though its branch is already 'suite'/'unique' for grouping/membership.
 
-        'unique'   -> circled-bullet
-        'suite'    -> black-diamond
-        'standard' -> white-diamond  (neutral crown glyph)
+        4..6 stars + 'unique'   -> circled-bullet
+        4..6 stars + 'suite'    -> black-diamond
+        otherwise (incl. rank<4, standard, unknown) -> white-diamond (plain)
 
-    See the MEDALLION_* module constants for the decision rationale (the root
-    glyph in resolveSemantics is a hemisphere-by-type artifact not reproduced by
-    the type-independent authority).
+    Sourced from resolveSemantics 3.1/6 (the root glyph there is a
+    hemisphere-by-type artifact not reproduced by the type-independent authority).
     """
-    if branch == "unique":
-        return MEDALLION_UNIQUE
-    if branch == "suite":
-        return MEDALLION_SUITE
+    n = levelNum(rank) if rank is not None else 6  # None => assume decorated rank
+    if n >= 4:
+        if branch == "unique":
+            return MEDALLION_UNIQUE
+        if branch == "suite":
+            return MEDALLION_SUITE
     return MEDALLION_STANDARD

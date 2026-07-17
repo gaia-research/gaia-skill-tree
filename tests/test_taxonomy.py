@@ -44,14 +44,15 @@ def test_levelNum(raw, expected):
 # resolveDisplayBranch — canonical (type-independent) semantics
 # ---------------------------------------------------------------------------
 
-def test_branch_standard_below_4():
+def test_branch_standard_below_4_no_suite():
     for lvl in range(0, 4):
         n = taxonomy.normalize({"type": "basic", "level": f"{lvl}★"})
         assert taxonomy.resolveDisplayBranch(n) == "standard", lvl
 
 
-def test_branch_suite_when_4plus_with_suitecomponents():
-    for lvl in (4, 5, 6):
+def test_branch_suite_when_suitecomponents_any_rank():
+    # SYNTHESIS RULE: suite-presence decides branch FIRST — at ANY rank 1..6.
+    for lvl in range(1, 7):
         n = taxonomy.normalize({"type": "fusion", "level": f"{lvl}★",
                                 "suiteComponents": ["a", "b"]})
         assert taxonomy.resolveDisplayBranch(n) == "suite", lvl
@@ -64,17 +65,24 @@ def test_branch_unique_when_4plus_no_suitecomponents():
 
 
 def test_branch_type_independent_basic_4star_no_suite_is_unique():
-    # FOUNDER RULING: a basic 4★ with no suiteComponents is UNIQUE (JS #1 would
-    # also say unique here — the divergence is on type != 'basic', see contract).
+    # A basic 4★ with no suiteComponents is UNIQUE (type is never consulted).
     n = taxonomy.normalize({"type": "basic", "level": "4★"})
     assert taxonomy.resolveDisplayBranch(n) == "unique"
 
 
 def test_branch_basic_carrying_suitecomponents_is_suite():
-    # Orthogonality: a basic node carrying suiteComponents at 4★+ is Suite.
+    # Orthogonality: a basic node carrying suiteComponents is Suite at any rank.
     n = taxonomy.normalize({"type": "basic", "level": "5★",
                             "suiteComponents": ["x"]})
     assert taxonomy.resolveDisplayBranch(n) == "suite"
+
+
+def test_branch_low_rank_suite_is_still_suite():
+    # SYNTHESIS: a 3★ node WITH suiteComponents is 'suite' (NOT 'standard').
+    for lvl in (1, 2, 3):
+        n = taxonomy.normalize({"type": "fusion", "level": f"{lvl}★",
+                                "suiteComponents": ["a"]})
+        assert taxonomy.resolveDisplayBranch(n) == "suite", lvl
 
 
 # ---------------------------------------------------------------------------
@@ -102,11 +110,12 @@ def test_ygg1_unique_maps_to_unique():
     assert taxonomy.resolveDisplayBranch(n) == "unique"
 
 
-def test_ygg1_ultimate_below_4_still_standard():
-    # Even a legacy suite carrier below 4★ reads as the shared standard ladder.
+def test_ygg1_ultimate_below_4_is_suite():
+    # SYNTHESIS: a legacy suite carrier folds to suiteComponentsPresent, and
+    # suite-presence decides branch at any rank -> 'suite' even below 4★.
     n = taxonomy.normalize({"type": "ultimate", "level": "3★"},
                            taxonomy.EPOCH_YGG_I)
-    assert taxonomy.resolveDisplayBranch(n) == "standard"
+    assert taxonomy.resolveDisplayBranch(n) == "suite"
 
 
 def test_ygg2_type_never_consulted():
@@ -224,17 +233,75 @@ def test_normalize_none_entry():
 # medallion
 # ---------------------------------------------------------------------------
 
-def test_medallion_tokens():
-    assert taxonomy.medallion("unique") == taxonomy.MEDALLION_UNIQUE
-    assert taxonomy.medallion("suite") == taxonomy.MEDALLION_SUITE
-    assert taxonomy.medallion("standard") == taxonomy.MEDALLION_STANDARD
+def test_medallion_tokens_decorated_ranks():
+    # 4..6★: the suite/unique glyph renders.
+    assert taxonomy.medallion("unique", 4) == taxonomy.MEDALLION_UNIQUE
+    assert taxonomy.medallion("suite", 6) == taxonomy.MEDALLION_SUITE
+    assert taxonomy.medallion("standard", 5) == taxonomy.MEDALLION_STANDARD
     # unknown branch -> neutral standard glyph
-    assert taxonomy.medallion("wat") == taxonomy.MEDALLION_STANDARD
+    assert taxonomy.medallion("wat", 5) == taxonomy.MEDALLION_STANDARD
 
 
-def test_medallion_distinct():
-    tokens = {taxonomy.medallion(b) for b in ("unique", "suite", "standard")}
+def test_medallion_distinct_at_high_rank():
+    tokens = {taxonomy.medallion(b, 5) for b in ("unique", "suite", "standard")}
     assert len(tokens) == 3
+
+
+def test_medallion_none_rank_assumes_decorated():
+    # rank=None (unknown) => assume decorated so branch glyph still resolves.
+    assert taxonomy.medallion("suite", None) == taxonomy.MEDALLION_SUITE
+    assert taxonomy.medallion("unique", None) == taxonomy.MEDALLION_UNIQUE
+
+
+# ---------------------------------------------------------------------------
+# BRANCH vs DECORATION split (founder ruling v2)
+# ---------------------------------------------------------------------------
+
+def test_suite_below_4_uses_shared_word_not_suite_word():
+    # A suite-branch node at 1/2/3★ reads the SHARED word, NOT Extra/etc.
+    assert taxonomy.rankWord("1★", "suite") == "Awakened"
+    assert taxonomy.rankWord("2★", "suite") == "Named"
+    assert taxonomy.rankWord("3★", "suite") == "Evolved"
+
+
+def test_suite_4to6_uses_suite_words():
+    assert taxonomy.rankWord("4★", "suite") == "Extra"
+    assert taxonomy.rankWord("5★", "suite") == "Ultimate"
+    assert taxonomy.rankWord("6★", "suite") == "Apex"
+
+
+def test_suite_below_4_uses_plain_glyph_not_suite_glyph():
+    # A suite-branch node below 4★ uses the plain glyph, NOT the suite glyph.
+    for lvl in (1, 2, 3):
+        assert taxonomy.medallion("suite", lvl) == taxonomy.MEDALLION_STANDARD, lvl
+
+
+def test_suite_4to6_uses_suite_glyph():
+    for lvl in (4, 5, 6):
+        assert taxonomy.medallion("suite", lvl) == taxonomy.MEDALLION_SUITE, lvl
+
+
+def test_unique_below_4_guard_shared_word_and_plain_glyph():
+    # Unique only exists 4..6 by construction, but guard the below-4 case.
+    assert taxonomy.rankWord("2★", "unique") == "Named"
+    assert taxonomy.medallion("unique", 2) == taxonomy.MEDALLION_STANDARD
+
+
+def test_unique_4to6_words_and_glyph():
+    assert taxonomy.rankWord("4★", "unique") == "Unique"
+    assert taxonomy.rankWord("5★", "unique") == "Unique Ultimate"
+    assert taxonomy.rankWord("6★", "unique") == "Unique Impossible"
+    for lvl in (4, 5, 6):
+        assert taxonomy.medallion("unique", lvl) == taxonomy.MEDALLION_UNIQUE
+
+
+def test_decoration_split_never_banned():
+    # Across every (branch, rank) the decoration split must never emit banned words.
+    for branch in ("standard", "suite", "unique"):
+        for lvl in range(0, 7):
+            word = taxonomy.rankWord(f"{lvl}★", branch)
+            for bad in BANNED:
+                assert bad not in word, (lvl, branch, word)
 
 
 # ---------------------------------------------------------------------------
