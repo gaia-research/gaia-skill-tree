@@ -2026,6 +2026,34 @@ button.plaque__slug:focus-visible {
   margin: 0 auto;
   text-align: center;
 }
+/* Profile-hero medallion (N-13 item 4) — the contributor's wreathed GitHub
+   avatar centered above the handle, with the AOV4 rank stamp orb overlapping
+   its lower edge. Routed through the shared _field_avatar + _field_orb path
+   (server-rendered by generateProfilePages.build_hero_medallion) so it stays
+   byte-identical to the plaque medallion vocabulary. */
+.profile-hero-medallion {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+}
+.profile-hero-medallion .plaque__avatar {
+  --avatar-size: 96px;
+}
+/* The rank stamp orb sits at the lower-right of the avatar, half-overlapping
+   its edge — the same composition the tile/settled medallion header implies. */
+.profile-hero-medallion .plaque-orb--medallion {
+  position: absolute;
+  right: -6%;
+  bottom: -6%;
+  width: 42%;
+  height: 42%;
+}
+.profile-hero-medallion .plaque-orb__stamp {
+  width: 100%;
+  height: 100%;
+}
 /* Back link — mirrors the Explorer modal's se-btn-ghost back affordance:
    flows in-document above the hero so the fixed top-nav never overlaps it. */
 .profile-back {

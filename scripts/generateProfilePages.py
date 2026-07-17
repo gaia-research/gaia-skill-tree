@@ -1008,6 +1008,51 @@ def _build_named_index_for_handle(skills: list) -> dict:
     return index
 
 
+def build_hero_medallion(handle: str, skills: list) -> str:
+    """Build the profile-hero medallion: wreathed GitHub avatar + AOV4 rank stamp.
+
+    N-13 item 4 — the per-user profile hero previously carried only the handle
+    and a meta line, so there was no avatar to center. This routes the hero
+    through the SAME shared medallion path the plaques use (never a bespoke
+    re-implementation): the contributor's GitHub avatar framed by the gold
+    origin wreath (_field_avatar) plus the AOV4 rank stamp orb (_field_orb),
+    picked from the contributor's highest-ranked named skill so the hero
+    reflects their peak standing.
+
+    Returns '' when the contributor has no non-redacted skill (all ≤1★) — a
+    redacted contributor exposes no handle, so showing a resolvable avatar
+    would leak it (mirrors _field_avatar's own redaction guard).
+    """
+    # Pick the highest-ranked skill to drive the medallion branch + rank.
+    def _rank_key(s: dict) -> int:
+        return level_num(s.get("level", ""))
+
+    top = max(skills, key=_rank_key, default=None)
+    if not top or is_redacted(top.get("level", "")):
+        return ""
+
+    # Synthetic ns carrying the contributor + top skill's rank/branch signal.
+    # links omitted so the hero avatar is a non-link portrait (the per-skill
+    # plaques below already link each skill to its repo).
+    ns = {
+        "contributor": handle,
+        "level": top.get("level", ""),
+        "type": top.get("type", "basic"),
+        "suiteComponents": top.get("suiteComponents"),
+        "origin": any(s.get("origin") for s in skills),
+        "links": {},
+    }
+    orb = _field_orb(ns, "lg")
+    avatar = _field_avatar(ns, 96)
+    if not avatar:
+        return ""
+    return (
+        '<div class="profile-hero-medallion">'
+        f'{avatar}{orb}'
+        '</div>'
+    )
+
+
 def build_profile_page(handle: str, skills: list, named_index: dict | None = None) -> str:
     """Build the full HTML for a contributor profile page."""
     safe_handle = html.escape(handle)
@@ -1028,6 +1073,7 @@ def build_profile_page(handle: str, skills: list, named_index: dict | None = Non
     timeline_section_html = _build_timeline_section(tree, named_index)
     hoh_modal_html = _build_hoh_modal()
     skill_explorer_modal_html = _build_skill_explorer_modal()
+    hero_medallion_html = build_hero_medallion(handle, skills)
 
     # OG image tag (vector SVG for social crawlers). Pre-named/demoted skills
     # have no OG card, so pick the first *named* (≥2★) skill; omit the tag
@@ -1096,6 +1142,7 @@ def build_profile_page(handle: str, skills: list, named_index: dict | None = Non
 
       <!-- ─── PROFILE HERO ─── -->
       <div class="profile-hero">
+        {hero_medallion_html}
         <h1 class="profile-handle">{safe_handle}</h1>
         <div class="profile-meta">
           {skill_count} named skill{'s' if skill_count != 1 else ''} · highest rank {highest_level}
