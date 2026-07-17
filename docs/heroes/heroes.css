@@ -691,6 +691,32 @@
   transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
+/* E3 — the AOV4 medallion stamp fills the crest seal. When present it
+   supersedes the legacy ◆ glyph (hidden below); the seal grows slightly so
+   the rank medallion reads. The shared .plaque-orb--medallion img fills it. */
+.hero-card__crest-seal:has(.plaque-orb--medallion) {
+  width: 42px;
+  height: 42px;
+  bottom: -18px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+.hero-card__crest-seal .plaque-orb--medallion {
+  width: 100%;
+  height: 100%;
+}
+.hero-card__crest-seal .plaque-orb__stamp {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.72));
+}
+/* Legacy glyph is the fallback only — hidden whenever the stamp rendered. */
+.hero-card__crest-seal:has(.plaque-orb--medallion:not([data-stamp-fail])) .hero-card__crest-seal-glyph {
+  display: none;
+}
+
 .hero-card__crest-seal-glyph {
   font-family: var(--heroes-font-mono);
   font-size: 0.95rem;

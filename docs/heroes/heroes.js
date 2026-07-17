@@ -181,6 +181,11 @@
     contributor.topSkill.type = named.type || contributor.topSkill.type || 'basic';
     contributor.topSkill.name = named.name || contributor.topSkill.name;
     contributor.topSkill.origin = named.origin;
+    // Carry suiteComponents + links so the AOV4 medallion stamp (crest seal)
+    // resolves the correct branch (suite vs unique) via GaiaSemantics — the
+    // contributors API topSkill blob omits them (E1: branch is read-time).
+    if (named.suiteComponents) contributor.topSkill.suiteComponents = named.suiteComponents;
+    if (named.links) contributor.topSkill.links = named.links;
     return contributor;
   }
 
@@ -247,6 +252,28 @@
       '</span>';
   }
 
+  // ── AOV4 rank medallion stamp (E3) ────────────────────────────
+  // The crest rank marker IS the Ascension-Overdrive v4 stamp — the same
+  // medallion the plaques carry. Routed through the shared plaque._fields.orb
+  // so branch (suite/unique) + rank pick the asset identically everywhere;
+  // never a bespoke per-surface stamp. Falls back to '' if plaque.js is
+  // somehow absent (the legacy ◆ glyph then remains the sole rank marker).
+  function heroRankStampHtml(contributor) {
+    if (!(window.plaque && window.plaque._fields &&
+          typeof window.plaque._fields.orb === 'function')) {
+      return '';
+    }
+    var skill = (contributor && contributor.topSkill) || {};
+    var ns = {
+      contributor: contributor && contributor.handle,
+      level: skill.level,
+      type: skill.type,
+      suiteComponents: skill.suiteComponents,
+    };
+    // 'lg' size modifier → the AOV4 'hero' tier asset (largest stamp).
+    return window.plaque._fields.orb(ns, 'lg');
+  }
+
   function scrollToStage(stage) {
     if (!stage) return;
     stage.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -296,8 +323,16 @@
     html += '<div class="hero-card__crest-square-front">';
     html += heroAvatarHtml(contributor, 200);
     html += '</div>';
+    // E3: rank marker IS the AOV4 medallion stamp (shared plaque orb path).
+    // The legacy ◆ crest-seal glyph is retained as the fallback shown only
+    // when the stamp is unavailable (plaque.js absent / webp 404 → the orb's
+    // own [data-stamp-fail] tint plus this glyph keep a rank marker visible).
+    var rankStamp = heroRankStampHtml(contributor);
     html += '<div class="hero-card__crest-seal" data-level="' + esc(lvl) + '">';
-    html += '<span class="hero-card__crest-seal-glyph">' + esc(glyph) + '</span>';
+    if (rankStamp) {
+      html += rankStamp;
+    }
+    html += '<span class="hero-card__crest-seal-glyph" aria-hidden="true">' + esc(glyph) + '</span>';
     html += '</div>';
     html += '</div>';
 
