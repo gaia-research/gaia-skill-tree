@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-16",
+  "generatedAt": "2026-07-17",
   "buckets": {
     "automated-testing": [
       {
@@ -92,7 +92,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "0xdarkmatter/pytest-patterns",
@@ -156,7 +161,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "design-system-extraction": [
@@ -287,7 +297,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "Manavarya09/design-extract",
@@ -371,7 +386,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "git-ship-done-pipeline": [
@@ -548,7 +568,12 @@
         },
         "type": "fusion",
         "installBody": "Install the full Addy Osmani agent skills suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nThis is the recommended path from the upstream repo's Quick Start.",
-        "role": "origin"
+        "role": "origin",
+        "branch": "suite",
+        "rank": 5,
+        "rankWord": "Ultimate",
+        "medallion": "◆",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "gsd-build/get-shit-done",
@@ -717,7 +742,12 @@
         },
         "type": "fusion",
         "installBody": "Install the full GSD Core software development pipeline with:\n\n```bash\nnpx @opengsd/gsd-core@latest\n```\n\nThis is the recommended path from the upstream repo's Quickstart.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "suite",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "code-review-pipeline": [
@@ -845,7 +875,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "garrytan/plan-eng-review",
@@ -958,7 +993,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "garrytan/review",
@@ -1081,7 +1121,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "ruvnet/github-code-review",
@@ -1143,7 +1188,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "refactor-code": [
@@ -1314,7 +1364,12 @@
         },
         "type": "basic",
         "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "mattpocock/improve-codebase-architecture",
@@ -1416,7 +1471,12 @@
         },
         "type": "basic",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "mattpocock/migrate-to-shoehorn",
@@ -1536,7 +1596,12 @@
         },
         "type": "basic",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "executing-plans": [
@@ -1695,7 +1760,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "addy-osmani/incremental-implementation",
@@ -1821,7 +1891,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "mattpocock/implement",
@@ -1941,7 +2016,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "performance-tuning": [
@@ -2084,7 +2164,12 @@
         },
         "type": "basic",
         "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
-        "role": "origin"
+        "role": "origin",
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "ruvnet/performance-analysis",
@@ -2154,7 +2239,12 @@
         },
         "type": "basic",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "ruvnet/v3-performance-optimization",
@@ -2219,7 +2309,12 @@
         },
         "type": "basic",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "vertical-slice-planning": [
@@ -2345,7 +2440,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin"
+        "role": "origin",
+        "branch": "suite",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "addy-osmani/planning-and-task-breakdown",
@@ -2471,7 +2571,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "mattpocock/to-issues",
@@ -2614,7 +2719,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "finishing-a-development-branch": [
@@ -2745,7 +2855,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "addy-osmani/shipping-and-launch",
@@ -2871,7 +2986,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "gsd-build/ship",
@@ -2997,7 +3117,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is part of the GSD Core pipeline. Install the suite with:\n\n```bash\nnpx @opengsd/gsd-core@latest\n```\n\nThen use the matching phase from the installed GSD workflow.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "obra/finishing-a-development-branch",
@@ -3117,7 +3242,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "prd-generation": [
@@ -3271,7 +3401,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "addy-osmani/spec-driven-development",
@@ -3397,7 +3532,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "test-driven-development": [
@@ -3502,7 +3642,12 @@
         },
         "type": "basic",
         "installBody": "This skill is included in the Addy Osmani agent skills suite. Install the suite with:\n\n```bash\n/plugin marketplace add addyosmani/agent-skills\n/plugin install agent-skills@addy-agent-skills\n```\n\nInvoke the matching slash command from the installed suite.",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "mattpocock/tdd",
@@ -3622,7 +3767,12 @@
         },
         "type": "basic",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "document-editing": [
@@ -3753,7 +3903,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "mattpocock/edit-article",
@@ -3907,7 +4062,12 @@
         },
         "type": "basic",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "anthropic/pptx",
@@ -3994,7 +4154,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "garrytan/document-release",
@@ -4080,7 +4245,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "tool-creation": [
@@ -4231,7 +4401,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "mattpocock/write-a-skill",
@@ -4338,7 +4513,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "video-intelligence": [
@@ -4445,7 +4625,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "browser-control": [
@@ -4624,7 +4809,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "garrytan/browse",
@@ -4805,7 +4995,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "firecrawl/firecrawl-build-interact",
@@ -4879,7 +5074,12 @@
           "apexPromotionPrSigned": false,
           "crossOrgVerifier": null,
           "systemWideCap": null
-        }
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "garrytan/open-gstack-browser",
@@ -4965,7 +5165,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "garrytan/setup-browser-cookies",
@@ -5051,7 +5256,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "browser-automation": [
@@ -5113,7 +5323,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "gooseworks/notte-browser",
@@ -5175,7 +5390,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "ruvnet/browser",
@@ -5239,7 +5459,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "evidence-attestation": [
@@ -5320,7 +5545,12 @@
           "apexPromotionPrSigned": false,
           "crossOrgVerifier": null,
           "systemWideCap": null
-        }
+        },
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "autonomous-debug": [
@@ -5470,7 +5700,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "devin-ai/autonomous-swe",
@@ -5610,7 +5845,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "event-attendance-metrics": [
@@ -5678,7 +5918,12 @@
           "apexPromotionPrSigned": false,
           "crossOrgVerifier": null,
           "systemWideCap": null
-        }
+        },
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "favorchurch/count-checkin-by-church",
@@ -5738,7 +5983,12 @@
           "apexPromotionPrSigned": false,
           "crossOrgVerifier": null,
           "systemWideCap": null
-        }
+        },
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "event-attendee-management": [
@@ -5800,7 +6050,12 @@
           "apexPromotionPrSigned": false,
           "crossOrgVerifier": null,
           "systemWideCap": null
-        }
+        },
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "grant-application-processing": [
@@ -5862,7 +6117,12 @@
           "apexPromotionPrSigned": false,
           "crossOrgVerifier": null,
           "systemWideCap": null
-        }
+        },
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "transactional-email-resend": [
@@ -5924,7 +6184,12 @@
           "apexPromotionPrSigned": false,
           "crossOrgVerifier": null,
           "systemWideCap": null
-        }
+        },
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "humanize-prose": [
@@ -5986,7 +6251,12 @@
           "apexPromotionPrSigned": false,
           "crossOrgVerifier": null,
           "systemWideCap": null
-        }
+        },
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "event-ticket-transfer": [
@@ -6048,7 +6318,12 @@
           "apexPromotionPrSigned": false,
           "crossOrgVerifier": null,
           "systemWideCap": null
-        }
+        },
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "event-support-triage": [
@@ -6110,7 +6385,12 @@
           "apexPromotionPrSigned": false,
           "crossOrgVerifier": null,
           "systemWideCap": null
-        }
+        },
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "crm-data-cleanup": [
@@ -6172,7 +6452,12 @@
           "apexPromotionPrSigned": false,
           "crossOrgVerifier": null,
           "systemWideCap": null
-        }
+        },
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "agent-environment-setup": [
@@ -6284,7 +6569,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "firecrawl/firecrawl-build-onboarding",
@@ -6358,7 +6648,12 @@
           "apexPromotionPrSigned": false,
           "crossOrgVerifier": null,
           "systemWideCap": null
-        }
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "web-scrape": [
@@ -6484,7 +6779,12 @@
           "apexPromotionPrSigned": false,
           "crossOrgVerifier": null,
           "systemWideCap": null
-        }
+        },
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "garrytan/scrape",
@@ -6582,7 +6882,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "web-search": [
@@ -6684,7 +6989,12 @@
           "apexPromotionPrSigned": false,
           "crossOrgVerifier": null,
           "systemWideCap": null
-        }
+        },
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "literature-search": [
@@ -6760,7 +7070,12 @@
           "apexPromotionPrSigned": false,
           "crossOrgVerifier": null,
           "systemWideCap": null
-        }
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "firecrawl": [
@@ -6943,7 +7258,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "suite",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "ci-churn-analysis": [
@@ -7040,7 +7360,12 @@
           "apexPromotionPrSigned": false,
           "crossOrgVerifier": null,
           "systemWideCap": null
-        }
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "skill-fusion": [
@@ -7137,7 +7462,12 @@
           "apexPromotionPrSigned": false,
           "crossOrgVerifier": null,
           "systemWideCap": null
-        }
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "skill-performance-benchmarking": [
@@ -7231,7 +7561,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "ruvnet/worker-benchmarks",
@@ -7295,7 +7630,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "evaluate-output": [
@@ -7420,7 +7760,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "garrytan/plan-ceo-review",
@@ -7543,7 +7888,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "detect-anomaly": [
@@ -7668,7 +8018,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "guardrails": [
@@ -7782,7 +8137,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "garrytan/freeze",
@@ -7868,7 +8228,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "garrytan/guard",
@@ -7960,7 +8325,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "garrytan/unfreeze",
@@ -8046,7 +8416,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "mattpocock/git-guardrails-claude-code",
@@ -8166,7 +8541,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "mattpocock/setup-pre-commit",
@@ -8286,7 +8666,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "multi-agent-debate": [
@@ -8380,7 +8765,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "context-compression": [
@@ -8468,7 +8858,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "garrytan/context-save",
@@ -8554,7 +8949,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "mattpocock/caveman",
@@ -8632,7 +9032,12 @@
         },
         "type": "basic",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "security-audit": [
@@ -8758,7 +9163,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "intelligentcode-ai/security-engineer",
@@ -8876,7 +9286,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "ruvnet/v3-security-overhaul",
@@ -8940,7 +9355,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "code-generation": [
@@ -9071,7 +9491,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "ux-audit": [
@@ -9262,7 +9687,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "origin"
+        "role": "origin",
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "garrytan/plan-design-review",
@@ -9385,7 +9815,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "garrytan/plan-devex-review",
@@ -9508,7 +9943,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "martin-stepanoski/nielsen-heuristics-audit",
@@ -9628,7 +10068,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "garrytan/design-review",
@@ -9732,7 +10177,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "garrytan/devex-review",
@@ -9836,7 +10286,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "design-review": [
@@ -9961,7 +10416,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "mattpocock/grilling",
@@ -10081,7 +10541,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "workspace-automation": [
@@ -10169,7 +10634,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "founder-mode-orchestration": [
@@ -10361,7 +10831,12 @@
         },
         "type": "fusion",
         "installBody": "**Requirements:** [Claude Code](https://docs.anthropic.com/en/docs/claude-code), [Git](https://git-scm.com/), [Bun](https://bun.sh/) v1.0+, [Node.js](https://nodejs.org/) (Windows only)\n\n### Step 1: Install on your machine\n\nOpen Claude Code and paste this. Claude does the rest.\n\n> Install gstack: run **`git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup`** then add a \"gstack\" section to CLAUDE.md that says to use the /browse skill from gstack for all web browsing, never use mcp\\_\\_claude-in-chrome\\_\\_\\* tools, and lists the available skills: /office-hours, /plan-ceo-review, /plan-eng-review, /plan-design-review, /design-consultation, /design-shotgun, /design-html, /review, /ship, /land-and-deploy, /canary, /benchmark, /browse, /connect-chrome, /qa, /qa-only, /design-review, /setup-browser-cookies, /setup-deploy, /setup-gbrain, /retro, /investigate, /document-release, /document-generate, /codex, /cso, /autoplan, /plan-devex-review, /devex-review, /careful, /freeze, /guard, /unfreeze, /gstack-upgrade, /learn. Then ask the user if they also want to add gstack to the current project so teammates get it.\n\n### Step 2: Team mode — auto-update for shared repos (recommended)\n\nFrom inside your repo, paste this. Switches you to team mode, bootstraps the repo so teammates get gstack automatically, and commits the change:\n\n```bash\n(cd ~/.claude/skills/gstack && ./setup --team) && ~/.claude/skills/gstack/bin/gstack-team-init required && git add .claude/ CLAUDE.md && git commit -m \"require gstack for AI-assisted work\"\n```bash\nNo vendored files in your repo, no version drift, no manual upgrades. Every Claude Code session starts with a fast auto-update check (throttled to once/hour, network-failure-safe, completely silent).\n\nSwap `required` for `optional` if you'd rather nudge teammates than block them.\n\n### OpenClaw\n\nOpenClaw spawns Claude Code sessions via ACP, so every gstack skill just works\nwhen Claude Code has gstack installed. Paste this to your OpenClaw agent:\n\n> Install gstack: run `git clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/.claude/skills/gstack && cd ~/.claude/skills/gstack && ./setup` to install gstack for Claude Code. Then add a \"Coding Tasks\" section to AGENTS.md that says: when spawning Claude Code sessions for coding work, tell the session to use gstack skills. Include these examples — security audit: \"Load gstack. Run /cso\", code review: \"Load gstack. Run /review\", QA test a URL: \"Load gstack. Run /qa https://...\", build a feature end-to-end: \"Load gstack. Run /autoplan, implement the plan, then run /ship\", plan before building: \"Load gstack. Run /office-hours then /autoplan. Save the plan, don't implement.\"\n\n**After setup, just talk to your OpenClaw agent naturally:**\n\n| You say | What happens |\n|---------|-------------|\n| \"Fix the typo in README\" | Simple — Claude Code session, no gstack needed |\n| \"Run a security audit on this repo\" | Spawns Claude Code with `Run /cso` |\n| \"Build me a notifications feature\" | Spawns Claude Code with /autoplan → implement → /ship |\n| \"Help me plan the v2 API redesign\" | Spawns Claude Code with /office-hours → /autoplan, saves plan |\n\nSee [docs/OPENCLAW.md](docs/OPENCLAW.md) for advanced dispatch routing and\nthe gstack-lite/gstack-full prompt templates.\n\n### Native OpenClaw Skills (via ClawHub)\n\nFour methodology skills that work directly in your OpenClaw agent, no Claude Code\nsession needed. Install from ClawHub:\n\n```\nclawhub install gstack-openclaw-office-hours gstack-openclaw-ceo-review gstack-openclaw-investigate gstack-openclaw-retro\n```bash\n| Skill | What it does |\n|-------|-------------|\n| `gstack-openclaw-office-hours` | Product interrogation with 6 forcing questions |\n| `gstack-openclaw-ceo-review` | Strategic challenge with 4 scope modes |\n| `gstack-openclaw-investigate` | Root cause debugging methodology |\n| `gstack-openclaw-retro` | Weekly engineering retrospective |\n\nThese are conversational skills. Your OpenClaw agent runs them directly via chat.\n\n### Other AI Agents\n\ngstack works on 10 AI coding agents, not just Claude. Setup auto-detects which\nagents you have installed:\n\n```bash\ngit clone --single-branch --depth 1 https://github.com/garrytan/gstack.git ~/gstack\ncd ~/gstack && ./setup\n```\n\nOr target a specific agent with `./setup --host <name>`:\n\n| Agent | Flag | Skills install to |\n|-------|------|-------------------|\n| OpenAI Codex CLI | `--host codex` | `~/.codex/skills/gstack-*/` |\n| OpenCode | `--host opencode` | `~/.config/opencode/skills/gstack-*/` |\n| Cursor | `--host cursor` | `~/.cursor/skills/gstack-*/` |\n| Factory Droid | `--host factory` | `~/.factory/skills/gstack-*/` |\n| Slate | `--host slate` | `~/.slate/skills/gstack-*/` |\n| Kiro | `--host kiro` | `~/.kiro/skills/gstack-*/` |\n| Hermes | `--host hermes` | `~/.hermes/skills/gstack-*/` |\n| GBrain (mod) | `--host gbrain` | `~/.gbrain/skills/gstack-*/` |\n\n**Want to add support for another agent?** See [docs/ADDING_A_HOST.md](docs/ADDING_A_HOST.md).\nIt's one TypeScript config file, zero code changes.",
-        "role": "origin"
+        "role": "origin",
+        "branch": "suite",
+        "rank": 5,
+        "rankWord": "Ultimate",
+        "medallion": "◆",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "systematic-debugging": [
@@ -10492,7 +10967,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "obra/systematic-debugging",
@@ -10635,7 +11115,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "mattpocock/diagnosing-bugs",
@@ -10755,7 +11240,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "deployment-automation": [
@@ -10880,7 +11370,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "garrytan/setup-deploy",
@@ -10966,7 +11461,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "mbtiongson1/gaia-preview",
@@ -11056,7 +11556,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "intelligentcode-ai/devops-engineer",
@@ -11175,7 +11680,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "project-management": [
@@ -11263,7 +11773,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "ruvnet/github-project-management",
@@ -11326,7 +11841,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "memory-manage": [
@@ -11420,7 +11940,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "ruvnet/v3-memory-unification",
@@ -11484,7 +12009,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "format-output": [
@@ -11590,7 +12120,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "question-answer": [
@@ -11706,7 +12241,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "mcp-integration": [
@@ -11800,7 +12340,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "intelligentcode-ai/mcp-client",
@@ -11916,7 +12461,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "ruvnet/v3-mcp-optimization",
@@ -11980,7 +12530,12 @@
         },
         "type": "basic",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "prompt-optimization": [
@@ -12093,7 +12648,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "garrytan/plan-tune",
@@ -12179,7 +12739,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "e2e-testing": [
@@ -12304,7 +12869,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "garrytan/qa-only",
@@ -12390,7 +12960,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "intelligentcode-ai/user-tester",
@@ -12508,7 +13083,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "write-report": [
@@ -12649,7 +13229,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "spring-ai/readme-generate",
@@ -12736,7 +13321,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "glincker/readme-generator",
@@ -12860,7 +13450,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "knowledge-management": [
@@ -12948,7 +13543,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "garrytan/sync-gbrain",
@@ -13034,7 +13634,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "mattpocock/teach",
@@ -13171,7 +13776,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "skill-authoring": [
@@ -13295,7 +13905,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "mattpocock/scaffold-exercises",
@@ -13415,7 +14030,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "mattpocock/writing-great-skills",
@@ -13535,7 +14155,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "ruvnet/skill-builder",
@@ -13599,7 +14224,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "token-observability": [
@@ -13679,7 +14309,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "brainstorming": [
@@ -13839,7 +14474,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "gsd-build/discuss-phase",
@@ -13971,7 +14611,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is part of the GSD Core pipeline. Install the suite with:\n\n```bash\nnpx @opengsd/gsd-core@latest\n```\n\nThen use the matching phase from the installed GSD workflow.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "subagent-driven-development": [
@@ -14162,7 +14807,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin"
+        "role": "origin",
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "gsd-build/execute-phase",
@@ -14288,7 +14938,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is part of the GSD Core pipeline. Install the suite with:\n\n```bash\nnpx @opengsd/gsd-core@latest\n```\n\nThen use the matching phase from the installed GSD workflow.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "ruvnet/pair-programming",
@@ -14377,7 +15032,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "writing-plans": [
@@ -14598,7 +15258,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "gsd-build/plan-phase",
@@ -14724,7 +15389,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is part of the GSD Core pipeline. Install the suite with:\n\n```bash\nnpx @opengsd/gsd-core@latest\n```\n\nThen use the matching phase from the installed GSD workflow.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "verification-before-completion": [
@@ -14884,7 +15554,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "gsd-build/verify-work",
@@ -15010,7 +15685,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is part of the GSD Core pipeline. Install the suite with:\n\n```bash\nnpx @opengsd/gsd-core@latest\n```\n\nThen use the matching phase from the installed GSD workflow.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "ruvnet/verification-quality",
@@ -15099,7 +15779,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "api-call": [
@@ -15163,7 +15848,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "data-analysis": [
@@ -15227,7 +15917,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "fine-tune": [
@@ -15291,7 +15986,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "literature-review": [
@@ -15355,7 +16055,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "object-detection": [
@@ -15419,7 +16124,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "semantic-cache": [
@@ -15556,7 +16266,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "multimodal-reasoning": [
@@ -15620,7 +16335,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "schema-design": [
@@ -15741,7 +16461,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "parallel-execution": [
@@ -15859,7 +16584,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "release-automation": [
@@ -15979,7 +16709,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "ruvnet/github-release-management",
@@ -16042,7 +16777,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "requirements-analysis": [
@@ -16161,7 +16901,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "autonomous-web-research": [
@@ -16248,7 +16993,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "framework-upgrade": [
@@ -16330,7 +17080,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "route-intent": [
@@ -16496,7 +17251,12 @@
         },
         "type": "basic",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "software-design": [
@@ -16618,7 +17378,12 @@
         },
         "type": "basic",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "domain-modeling": [
@@ -16740,7 +17505,12 @@
         },
         "type": "basic",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "engineering-discipline": [
@@ -16825,7 +17595,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "origin"
+        "role": "origin",
+        "branch": "suite",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "grill-me": [
@@ -16979,7 +17754,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "grill-with-docs": [
@@ -17129,7 +17909,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "agent-handoff": [
@@ -17303,7 +18088,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "personal-knowledge-management": [
@@ -17433,7 +18223,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "personal": [
@@ -17492,7 +18287,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "origin"
+        "role": "origin",
+        "branch": "suite",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "productivity": [
@@ -17565,7 +18365,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "origin"
+        "role": "origin",
+        "branch": "suite",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "prototype": [
@@ -17668,7 +18473,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "git-integration": [
@@ -17774,7 +18584,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "origin"
+        "role": "origin",
+        "branch": "suite",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "mattpocock/resolving-merge-conflicts",
@@ -17894,7 +18709,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "skill-mastery": [
@@ -18099,7 +18919,12 @@
         },
         "type": "fusion",
         "installBody": "Install the full Matt Pocock skills suite with:\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required.",
-        "role": "origin"
+        "role": "origin",
+        "branch": "suite",
+        "rank": 5,
+        "rankWord": "Ultimate",
+        "medallion": "◆",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "issue-triage": [
@@ -18219,7 +19044,12 @@
         },
         "type": "basic",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "mbtiongson1/gaia-triage",
@@ -18284,7 +19114,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "ubiquitous-language": [
@@ -18429,7 +19264,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "ruvnet/v3-ddd-architecture",
@@ -18518,7 +19358,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "code-explain": [
@@ -18584,7 +19429,12 @@
         },
         "type": "basic",
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "registry-entry-audit": [
@@ -18677,7 +19527,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "mbtiongson1/gaia-curation-review",
@@ -18773,7 +19628,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "registry-curation": [
@@ -18846,7 +19706,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "mbtiongson1/gaia-curate",
@@ -18919,7 +19784,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "mbtiongson1/gaia-docs-sync",
@@ -18984,7 +19854,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "mbtiongson1/gaia-draft-curate",
@@ -19055,7 +19930,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "mbtiongson1/gaia-integrity",
@@ -19127,7 +20007,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "mbtiongson1/gaia-wiki-sync",
@@ -19192,7 +20077,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "registry-health-scan": [
@@ -19293,7 +20183,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "graph-driven-issue-triage": [
@@ -19386,7 +20281,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "design-generation": [
@@ -19479,7 +20379,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "feed-monitoring": [
@@ -19574,7 +20479,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "dispatching-parallel-agents": [
@@ -19693,7 +20603,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "receiving-code-review": [
@@ -19795,7 +20710,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "requesting-code-review": [
@@ -19884,7 +20804,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "superpowers": [
@@ -20073,7 +20998,12 @@
         },
         "type": "fusion",
         "installBody": "Installation differs by harness. If you use more than one, install Superpowers separately for each one.\n\n### Claude Code\n\nSuperpowers is available via the [official Claude plugin marketplace](https://claude.com/plugins/superpowers)\n\n#### Official Marketplace\n\n- Install the plugin from Anthropic's official marketplace:\n\n  ```bash\n  /plugin install superpowers@claude-plugins-official\n  ```bash\n#### Superpowers Marketplace\n\nThe Superpowers marketplace provides Superpowers and some other related plugins for Claude Code.\n\n- Register the marketplace:\n\n  ```bash\n  /plugin marketplace add obra/superpowers-marketplace\n  ```\n\n- Install the plugin from this marketplace:\n\n  ```bash\n  /plugin install superpowers@superpowers-marketplace\n  ```\n\n### Antigravity\n\nInstall Superpowers as a plugin from this repository:\n\n```bash\nagy plugin install https://github.com/obra/superpowers\n```bash\nAntigravity runs the plugin's session-start hook, so Superpowers is active from\nthe first message. Reinstall with the same command to update.\n\n### Codex App\n\nSuperpowers is available via the [official Codex plugin marketplace](https://github.com/openai/plugins).\n\n- In the Codex app, click on Plugins in the sidebar.\n- You should see `Superpowers` in the Coding section.\n- Click the `+` next to Superpowers and follow the prompts.\n\n### Codex CLI\n\nSuperpowers is available via the [official Codex plugin marketplace](https://github.com/openai/plugins).\n\n- Open the plugin search interface:\n\n  ```bash\n  /plugins\n  ```\n\n- Search for Superpowers:\n\n  ```bash\n  superpowers\n  ```\n\n- Select `Install Plugin`.\n\n### Cursor\n\n- In Cursor Agent chat, install from marketplace:\n\n  ```bash\n  /add-plugin superpowers\n  ```\n\n- Or search for \"superpowers\" in the plugin marketplace.\n\n### Factory Droid\n\n- Register the marketplace:\n\n  ```bash\n  droid plugin marketplace add https://github.com/obra/superpowers\n  ```\n\n- Install the plugin:\n\n  ```bash\n  droid plugin install superpowers@superpowers\n  ```\n\n### GitHub Copilot CLI\n\n- Register the marketplace:\n\n  ```bash\n  copilot plugin marketplace add obra/superpowers-marketplace\n  ```\n\n- Install the plugin:\n\n  ```bash\n  copilot plugin install superpowers@superpowers-marketplace\n  ```\n\n### Kimi Code\n\nSuperpowers is available in Kimi Code's plugin marketplace.\n\n- Open Kimi Code's plugin manager:\n\n  ```bash\n  /plugins\n  ```\n\n- Go to `Marketplace` > `Superpowers` and install it.\n\n- Or install directly from this repository:\n\n  ```bash\n  /plugins install https://github.com/obra/superpowers\n  ```\n\n- Detailed docs: [docs/README.kimi.md](docs/README.kimi.md)\n\n### OpenCode\n\nOpenCode uses its own plugin install; install Superpowers separately even if you\nalready use it in another harness.\n\n- Tell OpenCode:\n\n  ```\n  Fetch and follow instructions from https://raw.githubusercontent.com/obra/superpowers/refs/heads/main/.opencode/INSTALL.md\n  ```\n\n- Detailed docs: [docs/README.opencode.md](docs/README.opencode.md)\n\n### Pi\n\nInstall Superpowers as a Pi package from this repository:\n\n```bash\npi install git:github.com/obra/superpowers\n```bash\nFor local development, run Pi with this checkout loaded as a temporary package:\n\n```bash\npi -e /path/to/superpowers\n```\n\nThe Pi package loads the Superpowers skills and a small extension that injects the `using-superpowers` bootstrap at session startup and again after compaction. Pi has native skills, so no compatibility `Skill` tool is required. Subagent and task-list tools remain optional Pi companion packages.",
-        "role": "origin"
+        "role": "origin",
+        "branch": "suite",
+        "rank": 5,
+        "rankWord": "Ultimate",
+        "medallion": "◆",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "using-git-worktrees": [
@@ -20280,7 +21210,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "few-shot-learning": [
@@ -20401,7 +21336,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "origin"
+        "role": "origin",
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "self-consistency": [
@@ -20512,7 +21452,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "implement-with-discernment": [
@@ -20595,7 +21540,12 @@
           "apexPromotionPrSigned": false,
           "crossOrgVerifier": null,
           "systemWideCap": null
-        }
+        },
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "distributed-vector-memory": [
@@ -20691,7 +21641,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "agent-memory-learning": [
@@ -20755,7 +21710,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "ruvnet/reasoningbank-agentdb",
@@ -20817,7 +21777,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "memory-pattern-design": [
@@ -20900,7 +21865,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "vector-db-optimization": [
@@ -20983,7 +21953,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "vector-search": [
@@ -21067,7 +22042,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "agent-memory-platform": [
@@ -21226,7 +22206,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "origin"
+        "role": "origin",
+        "branch": "suite",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "git-diff-risk-analysis": [
@@ -21311,7 +22296,12 @@
         },
         "type": "basic",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "headless-worker-collect": [
@@ -21395,7 +22385,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "hybrid-workflow-coordination": [
@@ -21479,7 +22474,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "dual-mode": [
@@ -21601,7 +22601,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "origin"
+        "role": "origin",
+        "branch": "suite",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "headless-worker-spawn": [
@@ -21685,7 +22690,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "distributed-neural-training": [
@@ -21781,7 +22791,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "cloud-platform-management": [
@@ -21877,7 +22892,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "multi-agent-orchestration-v": [
@@ -21942,7 +22962,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "ruvnet/v3-swarm-coordination",
@@ -22006,7 +23031,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "multi-node-orchestration": [
@@ -22111,7 +23141,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "origin"
+        "role": "origin",
+        "branch": "suite",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "multi-repo-coordination": [
@@ -22195,7 +23230,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "workflow-automation": [
@@ -22259,7 +23299,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "ruvnet/hooks-automation",
@@ -22323,7 +23368,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "distributed-consensus-coordination": [
@@ -22531,7 +23581,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "adaptive-pattern-learning": [
@@ -22626,7 +23681,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "reasoning-pattern-bank": [
@@ -22823,7 +23883,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "origin"
+        "role": "origin",
+        "branch": "suite",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "platform-modernization-sprint": [
@@ -22948,7 +24013,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "origin"
+        "role": "origin",
+        "branch": "suite",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "multi-topology-orchestration": [
@@ -23185,7 +24255,12 @@
         },
         "type": "fusion",
         "installBody": "The quickest path to Ruflo:\n\n```bash\nnpx ruflo@latest init\n```\n\nThis launches an interactive wizard that detects your platform and configures\nthe full Ruflo loop (98 agents, 60+ commands, MCP server, hooks, and daemon).\nFor Claude Code plugin installs, Windows specifics, or the complete options\nreference, see the [full installation guide on GitHub](https://github.com/ruvnet/ruflo#installation).",
-        "role": "origin"
+        "role": "origin",
+        "branch": "suite",
+        "rank": 5,
+        "rankWord": "Ultimate",
+        "medallion": "◆",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "agentic-workflow-design": [
@@ -23251,7 +24326,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "sequential-agent-pipeline": [
@@ -23336,7 +24416,12 @@
         },
         "type": "basic",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "advanced-swarm-coordination": [
@@ -23433,7 +24518,12 @@
         },
         "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "swarm-topology-management": [
@@ -23530,7 +24620,12 @@
         },
         "type": "basic",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "cli-modernization": [
@@ -23615,7 +24710,12 @@
         },
         "type": "basic",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "core-platform-implementation": [
@@ -23700,7 +24800,12 @@
         },
         "type": "basic",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "system-integration": [
@@ -23785,7 +24890,12 @@
         },
         "type": "basic",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "worker-agent-dispatch": [
@@ -23870,7 +24980,12 @@
         },
         "type": "basic",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "knowledge-graph-build": [
@@ -24034,7 +25149,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "career-operations": [
@@ -24120,7 +25240,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "generate-test": [
@@ -24239,7 +25364,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "skill-discovery": [
@@ -24321,7 +25451,12 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "origin"
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "rag-pipeline": [
@@ -24387,7 +25522,12 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant"
+        "role": "variant",
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ]
   },
