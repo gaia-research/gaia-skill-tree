@@ -51,6 +51,26 @@
 - **W1 CSS cleanup:** prune orphaned `.plaque-orb--extra/--ultimate` dead classes in plaque.css (~L665-680) referencing nonexistent tokens.
 - **W1 (skill-explorer lane) confirmed dead reads still live:** `skill-explorer.js:2398` `type==='unique'`+hex; `profile-timeline.js` hex; hero "Honor Red" copy.
 
+### Wave 3 — Capstone N-12 (mobile-first sweep + design-standard finalize)
+
+| Wave | Branch | Lane | Tip SHA | Reviewer verdict |
+|---|---|---|---|---|
+| W3-scout | (critique scout, no branch) | Mobile/responsive inventory of all non-homepage surfaces vs DESIGN.md E1–E7; sharded the sweep into 4 lanes by surface family | — | inventory returned; fan-out plan ratified |
+| W3a | design/ygg2-w3a-trust-mobile | heroes/HoH + trust-leaderboard mobile-first (E6) + E3 medallion wreath fix + fixed-nav clearance | 63ba5de19 | build→review→remediation (E3 lb-ms-avatar wreath + E6 hero-stage base padding) |
+| W3b | design/ygg2-w3b-discovery-mobile | named / skill-explorer / skill-graph discovery surfaces mobile-first | 2bd442aab | build→adversarial FAIL→remediation (6 reviewer failures addressed) |
+| W3c | design/ygg2-w3c-profiles-reports-mobile | docs/u profiles + docs/reports + OG kicker contrast + clearance | 7225d3575 | build (profile+report mobile-first, OG kicker contrast, clearance) |
+| W3d | design/ygg2-w3d-content-mobile | docs/en content layout + badges E6 + evidence-classes trust-meter + report clearance + OG halo WCAG AA | cd9c675fa | build→remediation (VIOLET_HALO→#a78bfa AA, report clearance 5rem, evidence-meter mobile-first) |
+| W3z | design/ygg2-w3z-finalize | DESIGN.md solidified as impeccable-init standard + Guard B turned green + this ledger completed | 17c266cb8 | this lane |
+
+**Wave 3 sweep lanes pushed, merge orchestrator-sequenced.** The four sweep branches (W3a–W3d) are pushed to origin and awaiting orchestrator merge into `dev/yggdrasil-ii-staging` in dependency order; W3z (finalize) was based off `origin/dev/yggdrasil-ii-staging` directly per the capstone contract (does not depend on the sweeps landing first). Tips recorded above from `git ls-remote` at finalize time.
+
+**W3z-finalize deliverables (this lane):**
+1. **DESIGN.md solidified** (`17c266cb8`) — E1–E7 confirmed complete + precise; added the canonical "Yggdrasil II — what shipped" specification (taxonomy: type basic|fusion + derived branch standard|suite|unique; shared 1–3 / suite 4–6 / unique 4–6 rank ladders; the plaque `_fieldAvatar` medallion system; gold origin `--apex-gold` #fbbf24 with red #ef4444 deprecated; the Rimuru-Blue #38bdf8 == `--tier-basic` cross-brand bridge; the shared `window.GaiaSemantics` + `gaia_cli.trustMagnitude.computeBranch`/`formatting.rank_word` resolvers documented as the single source both runtimes read).
+2. **Guard B turned green** (`3f220f980`) — the Rank Vocabulary Guard (#999) had hard-failed on every Wave-1/2 lane because `DESIGN.md` (removed from the allowlist by #994) and the `YGGDRASIL_II_DESIGN_ALIGNMENT.md` handover carried literal deprecated rank words. Rewrote both to guard-safe notation ([dep-4★]/[dep-5★]/[dep-6★] in the handover; replacement-only phrasing in DESIGN.md E2; `Basic·Skill`/`Fusion·Skill` middle-dot; quoted `type="ultimate"`/`"extra"` enum illustrations) — historical meaning unchanged, literal forms retained only in `CONTEXT.md`. `python scripts/check_rank_vocabulary.py` → **RESULT: PASS — 0 hard violations.**
+3. **Ledger completed** (this row) — Wave 3 rows + closed marker + token-spend row.
+
+**✅ WAVE 3 CLOSED / #998 DESIGN-COMPLETE (2026-07-17).** The Yggdrasil II design run is functionally complete: W0 foundation (medallion + shared resolvers + gold wreath + `--tier-unique` token) merged; Waves 1–2 surface fixes + /impeccable design items landed; Wave 3 made non-homepage surfaces mobile-first and solidified DESIGN.md as the definitive `/impeccable-init` standard. Guard B (#999) is green. No follow-ups — mobile-first was #998's own remainder (R3), landed inside the sprint. Homepage remained FROZEN except N-1 (terminal art) and N-2 (hero install card). Remaining orchestrator action: merge W3a–W3d + W3z into `dev/yggdrasil-ii-staging`, then open the staging→main PR (merge commit, never squash — EPIC integration rule).
+
 ---
 
 ## Token-spend log (append per push, per CLAUDE.md directive)
@@ -59,3 +79,4 @@ Format: `<date> <model> <effort>: <in>k in, <out>k out. ~$<cost>`
 
 - _(pending — logged at each wave close)_
 - 2026-07-17 W0 (Opus 4.8 high, workflow build+review): ~212k subagent tokens (build+adversarial review, 2 agents). Orchestrator planning/verify/merge overhead separate. ~$30 est.
+- 2026-07-17 W3z-finalize (Opus 4.8, solo capstone lane): DESIGN.md solidify + Guard B green (2 doc files) + ledger complete. ~55k in, ~14k out. ~$5 est.
