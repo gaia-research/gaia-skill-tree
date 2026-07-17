@@ -1596,57 +1596,43 @@ button.plaque__slug:focus-visible {
 .plaque--row .plaque-description {
   display: none; /* CSS-only collapse; markup still present */
 }
+/* E6 mobile-first: phone base (≤480px equivalent) — hide secondary fields,
+   compact padding. Desktop progressively restores them via min-width steps. */
 .plaque--row .plaque__install-row,
 .plaque--row .ns-install-row {
   /* Surface the install command in list rows — was display:none, but
      hiding the canonical CTA in a "scan-all" view defeats the point of
      the list. Compact horizontal variant: smaller font, single line,
      truncates instead of wrapping. */
-  display: inline-flex;
-  flex: 0 1 auto;
-  max-width: 320px;
-  font-size: 11px;
-  padding: 4px 8px;
-  margin: 0;
-  overflow: hidden;
-  white-space: nowrap;
+  display: none; /* hidden on mobile by default */
 }
-.plaque--row .plaque__install-cmd,
-.plaque--row .ns-install-cmd-txt {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.plaque--row .plaque__title,
+.plaque--row .plaque-title,
+.plaque--row .plaque__handle,
+.plaque--row .plaque-contrib-row {
+  display: none; /* phone: drop secondary fields so slug+rank always fit */
 }
-@media (max-width: 700px) {
-  .plaque--row .plaque__install-row,
-  .plaque--row .ns-install-row {
-    display: none; /* density-collapse on narrow viewports */
-  }
-  /* Mobile list rows: prevent rightward bleed from no-wrap children, and
-     let the slug shrink with ellipsis instead of pushing past the edge.
-     Without min-width: 0 on flex children, white-space: nowrap forces
-     overflow rather than shrink — that's what made rows look uncentered
-     (content shifted out of the padded box). */
-  .plaque--row {
-    overflow: hidden;
-    padding: .65rem .85rem;
-    gap: .5rem;
-    min-height: 60px;
-  }
-  .plaque--row .plaque__slug,
-  .plaque--row .plaque-skill-name {
-    font-size: 15px;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+.plaque--row .plaque__slug,
+.plaque--row .plaque-skill-name {
+  font-size: 14px;
+  flex: 1 1 auto;
+}
+.plaque--row {
+  padding: .55rem .75rem;
+  gap: .4rem;
+}
+
+/* ≥481px: restore secondary fields, slightly larger type */
+@media (min-width: 481px) {
   .plaque--row .plaque__title,
   .plaque--row .plaque-title {
+    display: block;
     font-size: 12px;
     min-width: 0;
   }
   .plaque--row .plaque__handle,
   .plaque--row .plaque-contrib-row {
+    display: block;
     font-size: 11px;
     min-width: 0;
     max-width: 35vw;
@@ -1654,28 +1640,36 @@ button.plaque__slug:focus-visible {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-}
-
-/* Phone (≤480px): drop the secondary fields entirely so the slug + rank
-   chip + arrow always fit on a single line. */
-@media (max-width: 480px) {
-  .plaque--row .plaque__title,
-  .plaque--row .plaque-title,
-  .plaque--row .plaque__handle,
-  .plaque--row .plaque-contrib-row {
-    display: none;
-  }
   .plaque--row .plaque__slug,
   .plaque--row .plaque-skill-name {
-    font-size: 14px;
-    flex: 1 1 auto;
+    font-size: 15px;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: unset;
   }
   .plaque--row {
-    padding: .55rem .75rem;
-    gap: .4rem;
+    padding: .65rem .85rem;
+    gap: .5rem;
+    min-height: 60px;
+    overflow: hidden;
   }
 }
 
+/* ≥701px: show install row in full density */
+@media (min-width: 701px) {
+  .plaque--row .plaque__install-row,
+  .plaque--row .ns-install-row {
+    display: inline-flex;
+    flex: 0 1 auto;
+    max-width: 320px;
+    font-size: 11px;
+    padding: 4px 8px;
+    margin: 0;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+}
 
 /* ── .plaque--detail — Skill Explorer modal hero ────────────────
    Two-column layout. Collapses to one column ≤ 700px.
@@ -2771,7 +2765,11 @@ button.plaque__slug:focus-visible {
 .profile-grid-container {
   max-width: 960px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  /* E6 mobile-first: base clears ~58px fixed nav (5rem=80px); desktop step up */
+  padding: 5rem 1.5rem 0;
+}
+@media (min-width: 768px) {
+  .profile-grid-container { padding-top: 6rem; }
 }
 .profile-main {
   min-width: 0;
@@ -2856,10 +2854,6 @@ button.plaque__slug:focus-visible {
 .profile-timeline-filter-btn:hover {
   border-color: var(--tier-basic, #38bdf8);
   color: var(--tier-basic, #38bdf8);
-}
-
-.profile-filter-toggle {
-  display: none; /* Hidden on desktop */
 }
 
 /* Plaque Highlight Styles (Curve Hover Affordance) */
@@ -2958,36 +2952,44 @@ button.plaque__slug:focus-visible {
   background: rgba(255,255,255,0.06);
 }
 
-/* Responsive side-panel behaviour */
-@media (max-width: 860px) {
-  .profile-timeline-filter-btn {
+/* ── Profile: filter toggle (FAB) — visible on mobile, hidden on desktop ── */
+/* E6 mobile-first: FAB is the base (mobile) state; desktop hides it */
+.profile-filter-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--surface, #0f172a);
+  border: 1px solid var(--tier-basic, #38bdf8);
+  color: var(--text, #e2e8f0);
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.7rem 1.2rem;
+  border-radius: 999px;
+  z-index: 9997;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 10px rgba(56, 189, 248, 0.2);
+  transition: transform 0.2s, background 0.2s;
+}
+.profile-filter-toggle:active {
+  transform: scale(0.95);
+}
+
+/* E6 mobile-first: on desktop (wide) the timeline filter btn shows instead */
+.profile-timeline-filter-btn {
+  display: none; /* hidden on mobile — desktop shows it via min-width below */
+}
+@media (min-width: 861px) {
+  .profile-filter-toggle {
     display: none;
   }
-
-  .profile-filter-toggle {
+  .profile-timeline-filter-btn {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    background: var(--surface, #0f172a);
-    border: 1px solid var(--tier-basic, #38bdf8);
-    color: var(--text, #e2e8f0);
-    font-family: var(--font-mono, monospace);
-    font-size: 0.72rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    padding: 0.7rem 1.2rem;
-    border-radius: 999px;
-    z-index: 9997;
-    cursor: pointer;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 10px rgba(56, 189, 248, 0.2);
-    transition: transform 0.2s, background 0.2s;
-  }
-  .profile-filter-toggle:active {
-    transform: scale(0.95);
   }
 }
 

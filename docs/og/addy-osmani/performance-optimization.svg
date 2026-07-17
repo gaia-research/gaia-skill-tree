@@ -19,7 +19,7 @@
   <line x1="720" y1="58" x2="720" y2="550" stroke="#ebe5d4" stroke-opacity="0.16" stroke-width="1"/><line x1="720" y1="230" x2="720" y2="370" stroke="#7c3aed" stroke-opacity="0.55" stroke-width="1.6"/>
 
   <!-- SUBJECT column: the skill's own AOV4 medallion -->
-  <text x="930" y="72" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace" font-size="15" letter-spacing="4.0" fill="#7c3aed" fill-opacity="0.92" text-anchor="middle" dominant-baseline="middle">SINGULARITY</text>
+  <text x="930" y="72" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace" font-size="15" letter-spacing="4.0" fill="#a78bfa" fill-opacity="0.92" text-anchor="middle" dominant-baseline="middle">SINGULARITY</text>
   <defs><clipPath id="med-clip-addy-osmani-performance-optimization"><circle cx="930" cy="300" r="206"/></clipPath><radialGradient id="med-halo-addy-osmani-performance-optimization" cx="50%" cy="50%" r="50%"><stop offset="60%" stop-color="#7c3aed" stop-opacity="0"/><stop offset="100%" stop-color="#7c3aed" stop-opacity="0.22"/></radialGradient></defs><circle cx="930" cy="300" r="232" fill="url(#med-halo-addy-osmani-performance-optimization)"/><image x="664.9" y="34.9" width="530.2" height="530.2" href="/assets/ascension-overdrive/aov4-d4-unique-hero.webp" xlink:href="/assets/ascension-overdrive/aov4-d4-unique-hero.webp" preserveAspectRatio="xMidYMid slice" clip-path="url(#med-clip-addy-osmani-performance-optimization)"/><circle cx="930" cy="300" r="206" fill="none" stroke="#ebe5d4" stroke-opacity="0.30" stroke-width="1"/><circle cx="930" cy="300" r="214" fill="none" stroke="#7c3aed" stroke-opacity="0.35" stroke-width="1.2"/>
 
   <!-- TYPE column: catalogue prefix + slash-slug + title kicker -->
