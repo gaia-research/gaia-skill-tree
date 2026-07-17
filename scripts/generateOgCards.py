@@ -5,27 +5,33 @@ For each named skill, generates a Hall Plate at:
   docs/og/{handle}/{skillId}.svg   — SVG plate (always generated)
   docs/og/{handle}/{skillId}.png   — raster render (if cairosvg or pillow available)
 
-The plates are rendered as entries in *Gaia's Celestial Atlas of Skills*. Three
-celestial subjects, three different plate compositions, **one cartographic style**:
+The plates are rendered as entries in *Gaia's Celestial Atlas of Skills*: a
+two-column engraved catalogue leaf. LEFT column carries the type — plate class,
+slash-slug, discoverer's signature. RIGHT column carries the **subject**: the
+skill's own Ascension-Overdrive V4 medallion, the exact stamp its rank and
+branch earned elsewhere in the graph. One card, one cartographic style, one
+authoritative subject.
 
-  Plate VI  · APEX SUPERNOVA   (suite branch, 6★ — Apex)
-  Plate V   · STELLAR          (suite branch, 4-5★ — Extra / Ultimate)
-  Plate IV  · SINGULARITY      (unique branch, 4★+ — standalone mastery)
-  Plate (default)              (standard branch, 1-3★ — Awakened / Named /
-                                Evolved; not yet a catalogued celestial body)
+  Class · APEX SUPERNOVA   (suite branch, 6★ — Apex)     → aov4-c6 medallion
+  Class · STELLAR          (suite branch, 4-5★)          → aov4-c4/c5 medallion
+  Class · SINGULARITY      (unique branch, 4-6★)         → aov4-d4/d5/d6 medallion
+  Class · FIELD BODY       (standard branch, 1-3★)       → aov4-c1/c2/c3 medallion
 
-Plate dispatch keys on the read-time BRANCH (computeBranch) + rank, NEVER on a
-stored type/tier field (Ygg-II rubric E1).
+The card composition, medallion asset, plate-class word, and rank label are ALL
+driven by the read-time BRANCH (computeBranch) + star rank — NEVER by a stored
+type/tier field (Ygg-II rubric E1). Every graded skill lands a proper plate;
+no skill falls to a barren type-word fallback.
 
 Reference grammar (Bode's Uranographia, Hevelius's Firmamentum):
-  RA/Dec ticks at the top, roman-numeral plate number top-right, discoverer's
-  signature in gold above an engraved rule, marginal magnitude band at
-  the foot of every plate. The reader recognises the atlas; each plate is a
-  unique entry within it.
+  RA/Dec ticks at the top, plate-class number top-right, discoverer's signature
+  in gold above an engraved rule, marginal magnitude band at the foot of every
+  plate. The reader recognises the atlas; each plate is a unique entry within it.
 
-All three plates share one ground (`INK_NIGHT`, the printed night sky) and one
-engraving colour (`CREAM_ENGRAVED`, warm cream linework + type). Each plate
-introduces a single chromatic event — the celestial body itself.
+All plates share one ground (`INK_NIGHT`, the printed night sky) and one
+engraving colour (`CREAM_ENGRAVED`, warm cream linework + type). The single
+chromatic event is the medallion, embedded as a same-origin relative image
+(`/assets/ascension-overdrive/…-hero.webp`) so it renders when the SVG is
+served from Pages, inlined into the share modal, or opened directly on-site.
 
 Usage:
     python scripts/generateOgCards.py [--named PATH] [--out-dir PATH]
@@ -59,7 +65,22 @@ MARGIN = 48                # outer plate margin (top, left, right)
 RULE_Y = 558               # y of the engraved rule above the marginal band
 SIG_Y = 538                # baseline of the discoverer's signature line
 TICK_Y = 38                # baseline of the RA/Dec tick row at the top
-PLATE_NO_Y = 38            # baseline of the roman-numeral plate number
+PLATE_NO_Y = 38            # baseline of the plate-class label
+
+# ─── Two-column engraved-leaf geometry ────────────────────────────────────────
+# The card is one catalogue leaf split into a type column (left) and a subject
+# column (right). The medallion — the skill's own AOV4 stamp — fills the former
+# dead zone on the right; the slug + signature keep the left. A hairline gutter
+# rule separates them, echoing a real atlas plate's central fold.
+COL_SPLIT_X = 720          # x of the vertical gutter rule between columns
+MEDALLION_CX = 930         # centre-x of the medallion in the right column
+MEDALLION_CY = 300         # centre-y of the medallion (optically above the rule)
+MEDALLION_R = 206          # clip radius of the embedded medallion disc
+# The AOV4 hero art is a 2048² image whose ornate ring disc spans ~77.7% of the
+# frame, centred at (1024,1024). Placing the image at 2×MEDALLION_R/0.777 wide
+# and offsetting so its centre lands on (MEDALLION_CX, MEDALLION_CY) fits the
+# full ring inside the clip circle with the black corners cropped away.
+_AOV_DISC_FRAC = 0.777
 
 # ─── Atlas palette ────────────────────────────────────────────────────────────
 # These two pigments are the entire ground+ink of every plate. They are SEALED
@@ -69,32 +90,56 @@ INK_NIGHT = "#0e0d20"          # OKLCH ~ oklch(13% 0.025 275); printed night-sky
 CREAM_ENGRAVED = "#ebe5d4"     # OKLCH ~ oklch(92% 0.015  80); warm cream ink/linework
 
 # ─── Brand voice tokens (resolved from DESIGN.md / styles.css) ────────────────
-# Yggdrasil II rubric E4: the deprecated honor-red origin mark (#ef4444) is
-# replaced by gold. The discoverer's signature + `· ORIGIN ·` token now render
-# in the same gold as the wreath / apex accent — no red anywhere.
+# Yggdrasil II rubric E4: the deprecated honor-red origin mark is replaced by
+# gold. The discoverer's signature + `· ORIGIN ·` token now render in the same
+# gold as the wreath / apex accent — no red anywhere.
 SIGNATURE_GOLD = "#fbbf24"     # discoverer's signature + origin mark (was honor-red)
-APEX_GOLD = "#fbbf24"          # supernova core + filaments (Plate VI)
-AMBER_STAR = "#f59e0b"         # main-sequence star disc (Plate V)
-VIOLET_HALO = "#7c3aed"        # black-hole accretion ring (Plate IV)
+APEX_GOLD = "#fbbf24"          # suite plate-class accent + gutter tint (gold-leaning)
+VIOLET_HALO = "#7c3aed"        # unique plate-class accent + gutter tint (darker register)
+
+# ─── AOV4 medallion resolver (mirrors docs/js/plaque.js `_aovStamp`) ──────────
+# The subject art IS the skill's Ascension-Overdrive V4 stamp — the exact
+# medallion its rank + branch earned across the graph. Suite/standard branches
+# draw from the C family (c1..c6); the Unique branch from the D family (d4..d6).
+# OG is a large surface, so every plate uses the `-hero` size tier.
+AOV_SUITE_STEM = {
+    1: "c1-suite-awakened", 2: "c2-suite-named", 3: "c3-suite-evolved",
+    4: "c4-suite-extra", 5: "c5-suite-ultimate", 6: "c6-suite-apex",
+}
+AOV_UNIQUE_STEM = {
+    4: "d4-unique", 5: "d5-unique-ultimate", 6: "d6-unique-impossible",
+}
+
+
+def aov_medallion_href(branch: str, rank: int) -> str:
+    """Same-origin relative href to the AOV4 `-hero` stamp for branch+rank.
+
+    Root-relative (`/assets/…`) so the medallion resolves identically whether
+    the SVG is served standalone at `/og/<handle>/<slug>.svg`, inlined into the
+    share modal via innerHTML, or opened from a locally-served `docs/` root.
+    """
+    if branch == "unique":
+        stem = AOV_UNIQUE_STEM[max(4, min(6, rank))]
+    else:
+        stem = AOV_SUITE_STEM[max(1, min(6, rank))]
+    return f"/assets/ascension-overdrive/aov4-{stem}-hero.webp"
 
 
 # ─── Branch / rank resolution helpers (Yggdrasil II — read-time) ──────────────
-# Plate dispatch + labels are driven by read-time BRANCH + rank. The old
-# tier-color helpers (tier_palette / rank_palette / resolve_type_for_og) keyed
-# on the dead `type == 'extra'|'ultimate'|'unique'` enum and were removed with
-# the enum dispatch — each plate now hard-codes its own celestial palette
-# (APEX_GOLD / AMBER_STAR / VIOLET_HALO above), so no gaia.json color lookup is
-# needed here.
+# Plate dispatch + labels are driven by read-time BRANCH + rank via
+# computeBranch — never a stored type/tier field. Each plate draws the skill's
+# own AOV4 medallion (see aov_medallion_href) and tints its accent from the
+# derived branch (gold for suite/standard, violet for unique), so no gaia.json
+# colour lookup is needed here.
 
 
 def og_branch(entry: dict) -> str:
     """Read-time branch for a named-skill entry ('standard'|'suite'|'unique').
 
     Delegates to gaia_cli.trustMagnitude.computeBranch (Ygg-II rubric E1) — the
-    plate composition and labels are driven by branch+rank, NEVER by the dead
-    `type == 'ultimate'|'unique'|'extra'` enum that used to key dispatch and
-    sent EVERY named skill to the barren "Basic Skill" fallback plate. The entry
-    carries level+suiteComponents, so no genericSkillMap thread is needed.
+    plate composition and labels are driven by branch+rank, never a stored type
+    enum. The entry carries level+suiteComponents, so no genericSkillMap thread
+    is needed.
     """
     return _compute_branch(entry)
 
@@ -104,12 +149,26 @@ def og_rank_label(rank: int, branch: str) -> str:
 
     Mirrors docs/js/skill-semantics.js rankWord — shared 1-3★
     (Awakened/Named/Evolved), suite 4-6★ (Extra/Ultimate/Apex), unique 4-6★
-    (Unique/Unique Ultimate/Unique Impossible). NEVER emits banned
-    'Hardened'/'Transcendent'. The label reads e.g. "Extra · 4★" so the plate's
-    top-right stamp is meaningful rather than a flat "Basic Skill" fallback.
+    (Unique/Unique Ultimate/Unique Impossible). Never emits a banned legacy rank
+    word. The label reads e.g. "Extra · 4★" so the plate's top-right stamp is
+    meaningful — a graded skill is never labelled a flat type word.
     """
     word = _rank_word(f"{rank}★", branch)
     return f"{word} · {rank}★" if rank > 0 else "Basic"
+
+
+# Plate-class word — the atlas classification for the card's SUBJECT column,
+# keyed on the read-time branch + rank (never a stored type). Reads in the
+# top-left kicker above the plate-class rule; the celestial noun tells the
+# reader what kind of body the medallion depicts.
+def og_plate_class(rank: int, branch: str) -> str:
+    if branch == "unique":
+        return "SINGULARITY"
+    if rank >= 6:
+        return "APEX · SUPERNOVA"
+    if rank >= 4:
+        return "STELLAR"
+    return "FIELD BODY"
 
 
 def level_num(level: str) -> int:
@@ -192,9 +251,12 @@ def autoscale_font(text: str, default_px: int, available_w: float, avg_glyph_rat
 # ─── Shared atlas grammar (every plate uses these) ────────────────────────────
 
 def _radec_ticks() -> str:
-    """Top RA/Dec tick row — five labels in cream Departure Mono at 28% alpha."""
-    labels = ["+20°", "+10°", "0°", "−10°", "−20°"]
-    inner_w = OG_W - MARGIN * 2 - 200  # leave room for PLATE NUMBER on the right
+    """Top RA/Dec tick row — cream Departure Mono labels at 28% alpha.
+
+    Confined to the type column (left of the gutter) so they never collide with
+    the top-right rank label that lives in the subject column."""
+    labels = ["+20°", "+10°", "0°", "−10°"]
+    inner_w = COL_SPLIT_X - MARGIN - 40   # stay left of the gutter
     step = inner_w / (len(labels) - 1)
     parts = []
     for i, lab in enumerate(labels):
@@ -305,219 +367,167 @@ def _shared_frame(plate_label: str) -> str:
     )
 
 
-# ─── Plate VI · APEX SUPERNOVA ────────────────────────────────────────────────
-
-def build_supernova_plate(skill: dict) -> str:
-    """Plate VI — supernova remnant.
-
-    Composition: hot white core disc (left-of-centre) with six radial gold
-    filaments — one per star earned at apex tier — plus the slug, italic
-    kicker, gold signature, and marginal magnitude band reading
-    `MAG 6.0 · CLASS A · ★★★★★★ · α 6 OBS · YYYY`.
-    """
-    contributor = skill.get("contributor", "")
-    title_text = skill.get("title") or skill.get("name") or ""
-    title = html.escape(truncate(title_text, 64))
-    slug_raw = slug_after_slash(skill)
-    slug = html.escape(slug_raw)
-    year = designation_year(skill)
-    is_origin = bool(skill.get("origin"))
-    n_lvl = level_num(skill.get("level", "6★"))
-    sid = (skill.get("id") or "unknown").replace("/", "-").replace(" ", "-")
-
-    # Subject geometry — supernova sits left-of-centre.
-    cx, cy = 360, 290
-    core_r = 12
-
-    # Six radial filaments, one per star. Slight irregularity in length.
-    rays = []
-    ray_lens = [220, 200, 230, 210, 195, 215]
-    for i, length in enumerate(ray_lens):
-        angle = -math.pi / 2 + i * (math.pi * 2 / 6)
-        ex = cx + length * math.cos(angle)
-        ey = cy + length * math.sin(angle)
-        # Mild perpendicular curve so the rays read engraved, not laser-printed.
-        mx = (cx + ex) / 2 + 12 * math.cos(angle + math.pi / 2)
-        my = (cy + ey) / 2 + 12 * math.sin(angle + math.pi / 2)
-        rays.append(
-            f'<path d="M {cx} {cy} Q {mx:.1f} {my:.1f} {ex:.1f} {ey:.1f}" '
-            f'stroke="{APEX_GOLD}" stroke-opacity="0.78" stroke-width="1.5" '
-            f'stroke-linecap="round" fill="none"/>'
-        )
-    rays_svg = "\n  ".join(rays)
-
-    # Faint scatter of stellar-field dots around the supernova.
-    field_dots = []
-    for fx, fy, op in [
-        (180, 200, 0.5), (560, 240, 0.45), (210, 360, 0.5),
-        (520, 380, 0.55), (300, 130, 0.4), (470, 410, 0.4),
-    ]:
-        field_dots.append(
-            f'<circle cx="{fx}" cy="{fy}" r="1.4" fill="{CREAM_ENGRAVED}" fill-opacity="{op}"/>'
-        )
-    field_svg = "\n  ".join(field_dots)
-
-    # Slug + kicker — right of the supernova, vertically centered with the core.
-    slug_x = 660
-    slug_w = OG_W - slug_x - MARGIN
-    slug_size = autoscale_font(slug_raw, default_px=88, available_w=slug_w)
-    slug_y = 286
-    kicker_y = slug_y + 50
-
-    # Magnitude band — apex reads "★★★★★★ · α 6 OBS · YYYY".
-    stars_word = "★" * max(1, min(6, n_lvl))
-    designation = f"α 6 OBS · {year}"
-
-    magVal, gradeVal = resolveTrustData(skill, "6.0")
-
-    return f"""<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="{OG_W}" height="{OG_H}" viewBox="0 0 {OG_W} {OG_H}"
-  class="plate plate--apex" data-plate="VI" data-branch="suite" data-level="{n_lvl}"
-  aria-label="{html.escape(og_rank_label(n_lvl, 'suite'))} — Apex plate">
-  <defs>
-    <radialGradient id="sn-core-{sid}" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#fff7d6" stop-opacity="1"/>
-      <stop offset="40%" stop-color="{APEX_GOLD}" stop-opacity="0.95"/>
-      <stop offset="100%" stop-color="{APEX_GOLD}" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-
-  {_shared_frame(og_rank_label(n_lvl, 'suite'))}
-
-  <!-- Diamond Seal (Apex only — atlas publisher's mark) -->
-  {_diamond_seal(MARGIN, MARGIN + 4, size=28)}
-
-  <!-- Stellar field scatter -->
-  {field_svg}
-
-  <!-- Six radial filaments -->
-  {rays_svg}
-
-  <!-- Hot core: blooming halo + bright disc -->
-  <circle cx="{cx}" cy="{cy}" r="58" fill="url(#sn-core-{sid})"/>
-  <circle cx="{cx}" cy="{cy}" r="{core_r}" fill="#fff7d6"/>
-
-  <!-- SN designation (catalogue prefix) -->
-  <text x="{slug_x}" y="{slug_y - 64}" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace"
-    font-size="28" letter-spacing="4.4" fill="{CREAM_ENGRAVED}" fill-opacity="0.7">SN</text>
-
-  <!-- Slash-skill slug (catalogue designation) -->
-  <text x="{slug_x}" y="{slug_y}" font-family="'EB Garamond',Georgia,serif" font-weight="600"
-    font-size="{slug_size}" fill="{CREAM_ENGRAVED}" dominant-baseline="middle">/{slug}</text>
-
-  <!-- Title kicker -->
-  <text x="{slug_x}" y="{kicker_y}" font-family="'EB Garamond',Georgia,serif" font-style="italic"
-    font-size="24" fill="{CREAM_ENGRAVED}" fill-opacity="0.6" dominant-baseline="middle">'{title}'</text>
-
-  <!-- Discoverer signature -->
-  {_catalog_signature(contributor, is_origin, year)}
-
-  <!-- Marginal magnitude band -->
-  {_magnitude_band(magVal, gradeVal, stars_word, designation)}
-</svg>
-"""
-
-
-# ─── Plate V · STELLAR ────────────────────────────────────────────────────────
-
-def build_stellar_plate(skill: dict) -> str:
-    """Plate V — main-sequence star with two concentric orbital tracks.
-
-    Composition: amber disc centred on the right two-thirds of the plate,
-    two cream hairline orbits, four cream companion dots placed on the
-    orbits (abstract for v1; semantic prereq mapping is a follow-up).
-    Slug uses Bayer convention: `α /sparc-methodology`.
-    """
-    contributor = skill.get("contributor", "")
-    title_text = skill.get("title") or skill.get("name") or ""
-    title = html.escape(truncate(title_text, 64))
-    slug_raw = slug_after_slash(skill)
-    slug = html.escape(slug_raw)
-    year = designation_year(skill)
-    is_origin = bool(skill.get("origin"))
-    n_lvl = level_num(skill.get("level", "5★"))
-    sid = (skill.get("id") or "unknown").replace("/", "-").replace(" ", "-")
-
-    # Star sits right-of-centre. Slug occupies the left third.
-    cx, cy = 880, 290
-    disc_r = 42
-
-    # Two concentric orbits (long-dash hairlines, like real chart plots).
-    r1, r2 = 90, 150
-    orbits = (
-        f'<circle cx="{cx}" cy="{cy}" r="{r1}" fill="none" stroke="{CREAM_ENGRAVED}" '
-        f'stroke-opacity="0.45" stroke-width="1" stroke-dasharray="6 4"/>'
-        f'<circle cx="{cx}" cy="{cy}" r="{r2}" fill="none" stroke="{CREAM_ENGRAVED}" '
-        f'stroke-opacity="0.32" stroke-width="1" stroke-dasharray="8 6"/>'
+def _gutter_rule(accent: str) -> str:
+    """Vertical fold rule separating the type column (left) from the subject
+    column (right). A cream hairline overlaid by a short accent-tinted segment
+    at the medallion's latitude — the atlas's central-fold convention."""
+    top = TICK_Y + 20
+    bot = RULE_Y - 8
+    seg_top = MEDALLION_CY - 70
+    seg_bot = MEDALLION_CY + 70
+    return (
+        f'<line x1="{COL_SPLIT_X}" y1="{top}" x2="{COL_SPLIT_X}" y2="{bot}" '
+        f'stroke="{CREAM_ENGRAVED}" stroke-opacity="0.16" stroke-width="1"/>'
+        f'<line x1="{COL_SPLIT_X}" y1="{seg_top}" x2="{COL_SPLIT_X}" y2="{seg_bot}" '
+        f'stroke="{accent}" stroke-opacity="0.55" stroke-width="1.6"/>'
     )
 
-    # Four companion dots — two per orbit, placed at canonical positions.
-    companion_specs = [
-        (r1, -math.pi / 6),
-        (r1,  math.pi - math.pi / 8),
-        (r2,  math.pi / 3),
-        (r2, -math.pi + math.pi / 7),
-    ]
-    dots = []
-    for r, ang in companion_specs:
-        dx = cx + r * math.cos(ang)
-        dy = cy + r * math.sin(ang)
-        dots.append(
-            f'<circle cx="{dx:.1f}" cy="{dy:.1f}" r="3" fill="{CREAM_ENGRAVED}" fill-opacity="0.85"/>'
-        )
-    dots_svg = "\n  ".join(dots)
 
-    # Slug — left third.
+def _plate_class_kicker(plate_class: str, accent: str) -> str:
+    """Subject-column eyebrow: the celestial classification of the medallion,
+    mono caps in the branch accent, sitting just above the medallion disc."""
+    y = MEDALLION_CY - MEDALLION_R - 22
+    return (
+        f'<text x="{MEDALLION_CX}" y="{y}" '
+        f'font-family="\'Departure Mono\',\'JetBrains Mono\',ui-monospace,monospace" '
+        f'font-size="15" letter-spacing="4.0" fill="{accent}" fill-opacity="0.92" '
+        f'text-anchor="middle" dominant-baseline="middle">{html.escape(plate_class)}</text>'
+    )
+
+
+def _medallion(branch: str, rank: int, sid: str, accent: str) -> str:
+    """Embed the skill's AOV4 `-hero` medallion as the subject art.
+
+    The 2048² hero art (ornate ring disc spanning ~77.7% of the frame, centred
+    at 1024,1024) is drawn at a width that maps that disc to a 2×MEDALLION_R
+    circle, positioned so the disc centre lands on (MEDALLION_CX, MEDALLION_CY),
+    and clipped to a circle so the black corners are cropped. A faint accent
+    halo + cream hairline ring seat the disc into the engraved ground.
+    """
+    href = aov_medallion_href(branch, rank)
+    img_w = 2 * MEDALLION_R / _AOV_DISC_FRAC
+    img_x = MEDALLION_CX - img_w / 2
+    img_y = MEDALLION_CY - img_w / 2
+    clip_id = f"med-clip-{sid}"
+    halo_id = f"med-halo-{sid}"
+    return (
+        f'<defs>'
+        f'<clipPath id="{clip_id}"><circle cx="{MEDALLION_CX}" cy="{MEDALLION_CY}" '
+        f'r="{MEDALLION_R}"/></clipPath>'
+        f'<radialGradient id="{halo_id}" cx="50%" cy="50%" r="50%">'
+        f'<stop offset="60%" stop-color="{accent}" stop-opacity="0"/>'
+        f'<stop offset="100%" stop-color="{accent}" stop-opacity="0.22"/>'
+        f'</radialGradient>'
+        f'</defs>'
+        # accent halo bloom behind the disc
+        f'<circle cx="{MEDALLION_CX}" cy="{MEDALLION_CY}" r="{MEDALLION_R + 26}" '
+        f'fill="url(#{halo_id})"/>'
+        # the medallion art, clipped to the disc
+        f'<image x="{img_x:.1f}" y="{img_y:.1f}" width="{img_w:.1f}" height="{img_w:.1f}" '
+        f'href="{href}" xlink:href="{href}" preserveAspectRatio="xMidYMid slice" '
+        f'clip-path="url(#{clip_id})"/>'
+        # cream hairline ring seating the disc into the plate
+        f'<circle cx="{MEDALLION_CX}" cy="{MEDALLION_CY}" r="{MEDALLION_R}" fill="none" '
+        f'stroke="{CREAM_ENGRAVED}" stroke-opacity="0.30" stroke-width="1"/>'
+        f'<circle cx="{MEDALLION_CX}" cy="{MEDALLION_CY}" r="{MEDALLION_R + 8}" fill="none" '
+        f'stroke="{accent}" stroke-opacity="0.35" stroke-width="1.2"/>'
+    )
+
+
+# ─── Unified atlas plate ──────────────────────────────────────────────────────
+
+def build_plate(skill: dict) -> str:
+    """Render one catalogue leaf for any branch + rank.
+
+    Composition (Ygg-II /impeccable reshape):
+      LEFT column  — plate-class rule (RA/Dec ticks), slash-slug, italic title
+                     kicker, gold discoverer's signature, marginal magnitude band.
+      RIGHT column — the skill's own AOV4 medallion (`build_plate` never draws
+                     procedural line-art; the stamp its rank earned IS the art),
+                     seated under a branch-classed kicker.
+
+    Everything — medallion asset, plate-class word, top-right rank label, gutter
+    tint — is keyed on the read-time BRANCH (computeBranch) + star rank, never a
+    stored type/tier field (E1). Every graded skill lands a proper plate: a 5★
+    suite reads "Ultimate · 5★" over its gold apex-family medallion; a 4★ unique
+    reads "Unique · 4★" over its violet singularity stamp.
+    """
+    contributor = skill.get("contributor", "")
+    title_text = skill.get("title") or skill.get("name") or ""
+    title = html.escape(truncate(title_text, 60))
+    slug_raw = slug_after_slash(skill)
+    slug = html.escape(slug_raw)
+    year = designation_year(skill)
+    is_origin = bool(skill.get("origin"))
+    n_lvl = level_num(skill.get("level", ""))
+    sid = (skill.get("id") or "unknown").replace("/", "-").replace(" ", "-")
+
+    branch = og_branch(skill)
+    accent = VIOLET_HALO if branch == "unique" else APEX_GOLD
+    rank_label = og_rank_label(n_lvl, branch)
+    plate_class = og_plate_class(n_lvl, branch)
+
+    # LEFT column type block. Slug is vertically centred with the medallion so
+    # the two columns balance; the title kicker sits just below it.
     slug_x = MARGIN + 12
-    slug_w = 560
-    slug_size = autoscale_font(slug_raw, default_px=80, available_w=slug_w)
-    slug_y = 268
+    slug_w = COL_SPLIT_X - slug_x - 40
+    # +1 char for the leading slash; 0.53 ratio matches EB Garamond 600 better
+    # than the 0.46 default (which let long slugs overrun into the medallion).
+    slug_size = autoscale_font("/" + slug_raw, default_px=82,
+                               available_w=slug_w, avg_glyph_ratio=0.53)
+    slug_y = MEDALLION_CY - 8
+    prefix_y = slug_y - slug_size * 0.62 - 18
+    kicker_y = slug_y + 50
 
-    # Bayer prefix sits ABOVE the slug.
-    bayer_y = slug_y - 56
-    kicker_y = slug_y + 48
+    # Catalogue prefix above the slug — a mono designation echoing the plate
+    # class (SN for supernova, α for stellar, BH for singularity, GAIA field).
+    prefix_map = {"SINGULARITY": "BH", "APEX · SUPERNOVA": "SN", "STELLAR": "α"}
+    prefix = prefix_map.get(plate_class, "GAIA")
 
-    # Magnitude band — Stellar reads "5.0 · CLASS A · ★★★★★ · α SLUG · YYYY".
-    stars_word = "★" * max(1, min(6, n_lvl))
-    designation = f"α {slug_raw[:18].upper()} · {year}"
+    # Marginal magnitude band. Suite/standard count stars; unique reads its
+    # branch-forked rank word (no stars — a singularity emits no light) — only
+    # the valid Unique ladder words, never a banned legacy rank word (E2).
+    if branch == "unique":
+        rank_word = _rank_word(f"{n_lvl}★", "unique").upper() if n_lvl >= 4 else "AWAITED"
+        stars_or_word = f"⊘ {rank_word}"
+        designation = f"BH {to_roman(max(1, n_lvl))} · {year}"
+        fallback_mag = "∞"
+    else:
+        stars_or_word = "★" * max(1, min(6, n_lvl))
+        if plate_class == "APEX · SUPERNOVA":
+            designation = f"α 6 OBS · {year}"
+        elif plate_class == "STELLAR":
+            designation = f"α {slug_raw[:16].upper()} · {year}"
+        else:
+            designation = f"GAIA · {year}"
+        fallback_mag = f"{n_lvl}.0" if n_lvl > 0 else "·"
 
-    magVal, gradeVal = resolveTrustData(skill, "5.0")
+    mag_val, grade_val = resolveTrustData(skill, fallback_mag)
+
+    # Apex earns the atlas publisher's Diamond Seal in the top-left corner.
+    seal = _diamond_seal(MARGIN, MARGIN + 4, size=28) if n_lvl >= 6 else ""
 
     return f"""<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
   width="{OG_W}" height="{OG_H}" viewBox="0 0 {OG_W} {OG_H}"
-  class="plate plate--stellar" data-plate="V" data-branch="suite" data-level="{n_lvl}"
-  aria-label="{html.escape(og_rank_label(n_lvl, 'suite'))} — Stellar plate">
-  <defs>
-    <radialGradient id="st-core-{sid}" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#fde2a4" stop-opacity="1"/>
-      <stop offset="55%" stop-color="{AMBER_STAR}" stop-opacity="0.95"/>
-      <stop offset="100%" stop-color="{AMBER_STAR}" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
+  class="plate plate--{branch}" data-branch="{branch}" data-level="{n_lvl}"
+  data-plate-class="{html.escape(plate_class)}"
+  aria-label="{html.escape(rank_label)} — {html.escape(plate_class)} plate for /{slug}">
+  {_shared_frame(rank_label)}
+  {seal}
+  {_gutter_rule(accent)}
 
-  {_shared_frame(og_rank_label(n_lvl, 'suite'))}
+  <!-- SUBJECT column: the skill's own AOV4 medallion -->
+  {_plate_class_kicker(plate_class, accent)}
+  {_medallion(branch, n_lvl, sid, accent)}
 
-  <!-- Two concentric orbital tracks -->
-  {orbits}
+  <!-- TYPE column: catalogue prefix + slash-slug + title kicker -->
+  <text x="{slug_x}" y="{prefix_y:.1f}" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace"
+    font-size="26" letter-spacing="4.2" fill="{CREAM_ENGRAVED}" fill-opacity="0.65">{html.escape(prefix)}</text>
 
-  <!-- Companion dots on the orbits -->
-  {dots_svg}
-
-  <!-- Main-sequence disc -->
-  <circle cx="{cx}" cy="{cy}" r="{disc_r + 30}" fill="url(#st-core-{sid})"/>
-  <circle cx="{cx}" cy="{cy}" r="{disc_r}" fill="{AMBER_STAR}"/>
-
-  <!-- Bayer designation (catalogue prefix) -->
-  <text x="{slug_x}" y="{bayer_y}" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace"
-    font-size="28" letter-spacing="4.4" fill="{CREAM_ENGRAVED}" fill-opacity="0.7">α</text>
-
-  <!-- Slash-skill slug -->
   <text x="{slug_x}" y="{slug_y}" font-family="'EB Garamond',Georgia,serif" font-weight="600"
     font-size="{slug_size}" fill="{CREAM_ENGRAVED}" dominant-baseline="middle">/{slug}</text>
 
-  <!-- Title kicker -->
   <text x="{slug_x}" y="{kicker_y}" font-family="'EB Garamond',Georgia,serif" font-style="italic"
     font-size="24" fill="{CREAM_ENGRAVED}" fill-opacity="0.6" dominant-baseline="middle">'{title}'</text>
 
@@ -525,209 +535,24 @@ def build_stellar_plate(skill: dict) -> str:
   {_catalog_signature(contributor, is_origin, year)}
 
   <!-- Marginal magnitude band -->
-  {_magnitude_band(magVal, gradeVal, stars_word, designation)}
-</svg>
-"""
-
-
-# ─── Plate IV · SINGULARITY ───────────────────────────────────────────────────
-
-def build_singularity_plate(skill: dict) -> str:
-    """Plate IV — black hole.
-
-    Composition: a slightly-darker disc (pure negative space) ringed by a
-    thin violet accretion hairline. Four stellar-field dots scattered
-    nearby; two of them displaced toward the void to render gravitational
-    lensing. The marginal magnitude band reads `MAG ∞` — a black hole
-    has mass but no luminosity. The star-count cell is replaced by a word
-    (`HARDENED`, `EVOLVED`, etc.) because there are no stars to count when
-    there's no light.
-    """
-    contributor = skill.get("contributor", "")
-    title_text = skill.get("title") or skill.get("name") or ""
-    title = html.escape(truncate(title_text, 64))
-    slug_raw = slug_after_slash(skill)
-    slug = html.escape(slug_raw)
-    year = designation_year(skill)
-    is_origin = bool(skill.get("origin"))
-    n_lvl = level_num(skill.get("level", "4★"))
-    sid = (skill.get("id") or "unknown").replace("/", "-").replace(" ", "-")
-
-    # Black hole sits left-of-centre. Slug right.
-    cx, cy = 360, 290
-    void_r = 80
-    ring_r_outer = 96
-    ring_r_inner = 90
-
-    # Lensing-displaced stellar field — 4 dots, 2 leaning toward the void.
-    # Original positions vs. lensed positions (the displacement IS the joke).
-    field_dots = []
-    lensed_pairs = [
-        # (x, y, displaced_x, displaced_y, opacity, is_lensed)
-        (180, 200, 195, 215, 0.55, True),    # leans toward void
-        (560, 200, 560, 200, 0.50, False),   # untouched, off to the right
-        (560, 380, 545, 365, 0.55, True),    # leans toward void
-        (180, 400, 180, 400, 0.45, False),   # untouched, lower-left
-        (300, 130, 300, 130, 0.40, False),
-    ]
-    for ox, oy, dx, dy, op, is_lensed in lensed_pairs:
-        field_dots.append(
-            f'<circle cx="{dx}" cy="{dy}" r="1.6" fill="{CREAM_ENGRAVED}" fill-opacity="{op}"/>'
-        )
-        if is_lensed:
-            # Faint streak from original to displaced position — reads as the
-            # lensing path. Cream at very low alpha so it doesn't shout.
-            field_dots.append(
-                f'<line x1="{ox}" y1="{oy}" x2="{dx}" y2="{dy}" stroke="{CREAM_ENGRAVED}" '
-                f'stroke-opacity="0.12" stroke-width="0.6"/>'
-            )
-    field_svg = "\n  ".join(field_dots)
-
-    # Slug — right side.
-    slug_x = 640
-    slug_w = OG_W - slug_x - MARGIN
-    slug_size = autoscale_font(slug_raw, default_px=84, available_w=slug_w)
-    slug_y = 286
-
-    bh_prefix_y = slug_y - 64
-    kicker_y = slug_y + 50
-
-    # Rank word (replaces the star-count cell on the magnitude band). The
-    # Singularity plate is the UNIQUE branch (4★+) — branch-forked words only,
-    # NEVER the banned Hardened/Transcendent (Ygg-II E2).
-    rank_word = _rank_word(f"{n_lvl}★", "unique").upper() if n_lvl >= 2 else "AWAITED"
-    designation = f"BH {to_roman(max(1, n_lvl))} · {year}"
-
-    magVal, gradeVal = resolveTrustData(skill, "∞")
-
-    return f"""<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="{OG_W}" height="{OG_H}" viewBox="0 0 {OG_W} {OG_H}"
-  class="plate plate--singularity" data-plate="IV" data-branch="unique" data-level="{n_lvl}"
-  aria-label="{html.escape(og_rank_label(n_lvl, 'unique'))} — Singularity plate">
-  <defs>
-    <radialGradient id="bh-void-{sid}" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#050410" stop-opacity="1"/>
-      <stop offset="85%" stop-color="#050410" stop-opacity="1"/>
-      <stop offset="100%" stop-color="{INK_NIGHT}" stop-opacity="1"/>
-    </radialGradient>
-  </defs>
-
-  {_shared_frame(og_rank_label(n_lvl, 'unique'))}
-
-  <!-- Lensing-displaced stellar field -->
-  {field_svg}
-
-  <!-- Accretion-disk hairline ring (thin violet) -->
-  <circle cx="{cx}" cy="{cy}" r="{ring_r_outer}" fill="none" stroke="{VIOLET_HALO}"
-    stroke-opacity="0.85" stroke-width="1.4"/>
-  <circle cx="{cx}" cy="{cy}" r="{(ring_r_outer + ring_r_inner) / 2}" fill="none"
-    stroke="{VIOLET_HALO}" stroke-opacity="0.35" stroke-width="0.6"/>
-
-  <!-- The void itself: same colour as the page, slightly darker, no glyph -->
-  <circle cx="{cx}" cy="{cy}" r="{void_r}" fill="url(#bh-void-{sid})"/>
-
-  <!-- BH designation (catalogue prefix) -->
-  <text x="{slug_x}" y="{bh_prefix_y}" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace"
-    font-size="28" letter-spacing="4.4" fill="{CREAM_ENGRAVED}" fill-opacity="0.7">BH-</text>
-
-  <!-- Slash-skill slug -->
-  <text x="{slug_x}" y="{slug_y}" font-family="'EB Garamond',Georgia,serif" font-weight="600"
-    font-size="{slug_size}" fill="{CREAM_ENGRAVED}" dominant-baseline="middle">/{slug}</text>
-
-  <!-- Title kicker -->
-  <text x="{slug_x}" y="{kicker_y}" font-family="'EB Garamond',Georgia,serif" font-style="italic"
-    font-size="24" fill="{CREAM_ENGRAVED}" fill-opacity="0.6" dominant-baseline="middle">'{title}'</text>
-
-  <!-- Discoverer signature -->
-  {_catalog_signature(contributor, is_origin, year)}
-
-  <!-- Marginal magnitude band — MAG ∞ -->
-  {_magnitude_band(magVal, gradeVal, f'⊘ {rank_word}', designation)}
-</svg>
-"""
-
-
-# ─── Default fallback (basic / extra) ─────────────────────────────────────────
-
-def build_default_plate(skill: dict) -> str:
-    """Minimal atlas plate for basic / extra skills.
-
-    These tiers are NOT promoted to the Atlas — the plate exists only to
-    satisfy the cron generator pipeline so it never crashes on a sub-4★
-    skill. Same atlas grammar; no celestial subject; just slug, kicker,
-    signature, and magnitude band. The marginal star count is `· · ·` — the
-    skill has not yet been catalogued as a celestial body.
-    """
-    contributor = skill.get("contributor", "")
-    title_text = skill.get("title") or skill.get("name") or ""
-    title = html.escape(truncate(title_text, 64))
-    slug_raw = slug_after_slash(skill)
-    slug = html.escape(slug_raw)
-    year = designation_year(skill)
-    is_origin = bool(skill.get("origin"))
-    n_lvl = level_num(skill.get("level", "2★"))
-    # Default plate serves the STANDARD branch (1-3★ shared ladder: Awakened /
-    # Named / Evolved). Dispatch (build_og_svg) routes 4★+ suite skills to the
-    # Stellar/Apex plates and unique skills to the Singularity plate, so this
-    # plate no longer keys on the dead `type == 'extra'` enum. The top-right
-    # label is the branch-forked rank word, not a flat "Basic Skill" (E1/E2).
-    branch = og_branch(skill)
-    plate_label = og_rank_label(n_lvl, branch)
-    plate_css_val = f"rank-{n_lvl}"
-
-    slug_x = MARGIN + 12
-    slug_w = OG_W - slug_x - MARGIN
-    slug_size = autoscale_font(slug_raw, default_px=72, available_w=slug_w)
-    slug_y = 290
-    kicker_y = slug_y + 46
-
-    stars = "★" * max(1, min(6, n_lvl))
-    designation = f"GAIA · {year}"
-    fallbackMag = f"{n_lvl}.0" if n_lvl > 0 else "·"
-    magVal, gradeVal = resolveTrustData(skill, fallbackMag)
-
-    return f"""<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-  width="{OG_W}" height="{OG_H}" viewBox="0 0 {OG_W} {OG_H}"
-  class="plate plate--default" data-plate="{plate_css_val}" data-branch="{branch}" data-level="{n_lvl}"
-  aria-label="{html.escape(plate_label)} plate">
-  {_shared_frame(plate_label)}
-
-  <!-- Slash-skill slug (no celestial subject for sub-4★ skills) -->
-  <text x="{slug_x}" y="{slug_y}" font-family="'EB Garamond',Georgia,serif" font-weight="600"
-    font-size="{slug_size}" fill="{CREAM_ENGRAVED}" dominant-baseline="middle">/{slug}</text>
-
-  <text x="{slug_x}" y="{kicker_y}" font-family="'EB Garamond',Georgia,serif" font-style="italic"
-    font-size="24" fill="{CREAM_ENGRAVED}" fill-opacity="0.6" dominant-baseline="middle">'{title}'</text>
-
-  {_catalog_signature(contributor, is_origin, year)}
-
-  {_magnitude_band(magVal, gradeVal, stars, designation)}
+  {_magnitude_band(mag_val, grade_val, stars_or_word, designation)}
 </svg>
 """
 
 
 # ─── Dispatcher ───────────────────────────────────────────────────────────────
 
+
 def build_og_svg(skill: dict) -> str:
-    """Pick the right Hall Plate based on read-time BRANCH + rank (Ygg-II E1).
+    """Render the Hall Plate for a skill via the unified branch+rank builder.
 
-    Dispatch keys on computeBranch(skill) + star rank — NEVER the dead
-    `type == 'ultimate'|'unique'|'extra'` enum. Under the old enum EVERY named
-    skill (type is only ever basic/fusion) fell through to the barren
-    "Basic Skill" default plate; branch dispatch gives all 6 ranks × 2 branches
-    a proper composition:
-
-    - unique branch (4★+)                → Singularity (Plate IV, violet) —
-      the standalone off-spectrum treatment; covers 4/5/6★.
-    - suite branch, 6★                   → Apex Supernova (Plate VI, gold)
-    - suite branch, 4-5★                 → Stellar (Plate V, amber star)
-    - standard branch (1-3★) / sub-4★    → default plate (not yet a celestial
-      body — correct, not a fallback dead-zone)
+    Read-time BRANCH (computeBranch) + star rank drive the whole composition
+    (Ygg-II E1) — never a stored type enum. That enum once sent every named
+    skill (type is only ever basic/fusion) to a barren fallback plate;
+    `build_plate` now classes the subject medallion, the plate-class word, the
+    rank label, and the gutter tint off that branch+rank instead.
     """
     level = skill.get("level", "")
-    n_lvl = level_num(level)
 
     # Defence-in-depth: pre-named/demoted skills get no OG card path at all
     # (the main loop skips them), but if a preview/sample ever renders one,
@@ -737,15 +562,8 @@ def build_og_svg(skill: dict) -> str:
         skill["contributor"] = REDACTED_HANDLE
         skill["origin"] = False
 
-    branch = og_branch(skill)
+    return build_plate(skill)
 
-    if branch == "unique":
-        return build_singularity_plate(skill)
-    if n_lvl >= 6:
-        return build_supernova_plate(skill)
-    if n_lvl >= 4:
-        return build_stellar_plate(skill)
-    return build_default_plate(skill)
 
 
 # ─── Raster fallback (optional cairosvg / wand pipeline) ──────────────────────
