@@ -82,7 +82,7 @@ tracked under #996 (CLI branch-awareness prerequisite).
 | Workflow file | `rank-vocabulary-guard.yml` | `docs-cohesion.yml` |
 | Failure mode | **Hard fail (exit 1)** | PR comment only — no CI failure |
 | Scope | Registry data + all .md + handovers | `docs/js/**`, `docs/css/**`, `*.html` |
-| Banned vocabulary | Yggdrasil II rank/taxonomy synonyms | Rarity-axis vocabulary (`rarity`, `rarityLabels`, `highestRarity`, `rs-legendary`, `legendary`, `epic`, `mythic`, `uncommon`) |
+| Banned vocabulary | Yggdrasil II rank/taxonomy synonyms | The deprecated rarity-axis vocabulary — property keys, label maps, the `rs-` CSS prefix, and the five tier words. See `CONTEXT.md` § Rarity for the canonical literal list. |
 | Issues | #999 (Yggdrasil II CI guards) | Tracks rarity-axis drift in generated HTML/JS/CSS |
 
 Guard B of `docs-cohesion.yml` is a **comment-only** guard on the rarity axis in the generated
