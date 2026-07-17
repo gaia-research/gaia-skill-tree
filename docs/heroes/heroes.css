@@ -23,12 +23,15 @@
 
 
 /* ── Gallery shell ───────────────────────────────────────────── */
+/* padding-top: fixed-nav clearance base 5rem (CLAUDE.md invariant).          */
+/* Full-page shell: enhances to 8rem at desktop (min-width: 1200px).          */
 .heroes-gallery {
   background: var(--heroes-bg-deep);
   min-height: 100vh;
   overflow-x: hidden;
   color: var(--heroes-frost);
   isolation: isolate;
+  padding-top: 5rem;
 }
 
 .heroes-gallery::before {
@@ -47,10 +50,11 @@
 
 
 /* ── Header stage ────────────────────────────────────────────── */
+/* min-height base 70svh (mobile); enhanced to 100svh at min-width: 1200px.  */
 .heroes-header {
   display: grid;
   place-items: center;
-  min-height: 100svh;
+  min-height: 70svh;
   padding: 4rem 2rem;
   position: relative;
   background:
@@ -65,7 +69,7 @@
 
 .heroes-header__title {
   font-family: var(--heroes-font-display);
-  font-size: clamp(3.2rem, 9vw, 6rem);
+  font-size: clamp(2.4rem, 10vw, 3rem);
   font-weight: 600;
   letter-spacing: -0.03em;
   line-height: 1.05;
@@ -126,23 +130,29 @@
 
 
 /* ── Scroll observatory rail ─────────────────────────────────── */
+/* Base = mobile: fixed bottom strip. Enhanced to fixed left side at 820px+. */
 .heroes-ledger-rail {
   --heroes-ledger-progress: 0;
   position: fixed;
-  left: clamp(12px, 2.2vw, 28px);
-  top: 50%;
+  left: 0.65rem;
+  right: 0.65rem;
+  top: auto;
+  bottom: 0.65rem;
   z-index: 12;
-  width: var(--heroes-rail-width);
+  width: auto;
   max-height: none;
   display: grid;
-  grid-template-columns: 12px minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) auto;
   grid-template-areas:
-    "track plate"
-    "track list"
-    "track controls";
-  gap: 12px 14px;
+    "plate controls"
+    "list list";
+  gap: 8px 12px;
+  padding: 10px;
+  border: 1px solid rgba(var(--heroes-gold-rgb), 0.22);
+  border-radius: 8px;
+  background: var(--heroes-bg-ink);
   color: var(--heroes-frost);
-  transform: translateY(-50%);
+  transform: none;
 }
 
 .heroes-ledger-rail[hidden] {
@@ -150,7 +160,7 @@
 }
 
 .heroes-ledger-rail.is-awaiting {
-  opacity: 0.62;
+  display: none;
 }
 
 .heroes-ledger-rail.is-awaiting .heroes-ledger-rail__list {
@@ -159,18 +169,27 @@
 
 .heroes-ledger-rail__plate {
   grid-area: plate;
-  padding: 10px 0 6px;
-  border-bottom: 1px solid rgba(var(--heroes-gold-rgb), 0.22);
+  padding: 0;
+  border-bottom: 0;
 }
 
 .heroes-ledger-rail__kicker,
 .heroes-ledger-rail__meta,
 .heroes-ledger-rail__byline {
-  display: block;
   font-family: var(--heroes-font-mono);
   font-size: 0.64rem;
   letter-spacing: 0.08em;
   color: var(--heroes-frost-dim);
+}
+
+/* meta always visible; kicker + byline hidden on mobile, restored at 560px+. */
+.heroes-ledger-rail__meta {
+  display: block;
+}
+
+.heroes-ledger-rail__kicker,
+.heroes-ledger-rail__byline {
+  display: none;
 }
 
 .heroes-ledger-rail__kicker {
@@ -184,7 +203,7 @@
   max-width: 100%;
   overflow-wrap: anywhere;
   font-family: var(--heroes-font-display);
-  font-size: clamp(1rem, 1.5vw, 1.35rem);
+  font-size: 1rem;
   font-weight: 700;
   line-height: 1.05;
   color: var(--heroes-frost);
@@ -192,7 +211,7 @@
 }
 
 .heroes-ledger-rail__meta {
-  margin-top: 7px;
+  margin-top: 3px;
 }
 
 .heroes-ledger-rail__track {
@@ -225,29 +244,30 @@
 
 .heroes-ledger-rail__list {
   grid-area: list;
-  display: grid;
-  gap: 4px;
+  display: flex;
+  gap: 6px;
   max-height: none;
   margin: 0;
-  padding: 2px 0;
-  overflow: visible;
+  padding: 2px 0 0;
+  overflow-x: auto;
   scrollbar-width: none;
 }
 
 .heroes-ledger-rail__item {
   list-style: none;
+  flex: 0 0 auto;
 }
 
 .heroes-ledger-rail__button {
-  width: 100%;
+  width: 128px;
   display: grid;
-  grid-template-columns: 26px 18px minmax(0, 1fr);
+  grid-template-columns: 22px minmax(0, 1fr);
   align-items: center;
   gap: 8px;
-  padding: 7px 2px;
+  padding: 7px 8px;
   border: 0;
   border-radius: 4px;
-  background: transparent;
+  background: rgba(var(--heroes-gold-rgb), 0.045);
   color: var(--heroes-frost-dim);
   text-align: left;
   cursor: pointer;
@@ -288,7 +308,7 @@
 
 .heroes-ledger-rail__button.is-active {
   color: var(--heroes-gold-warm);
-  transform: translateX(4px);
+  transform: none;
 }
 
 .heroes-ledger-rail__button[data-level="4"].is-active {
@@ -319,8 +339,8 @@
 }
 
 .heroes-ledger-rail__avatar {
-  width: 26px;
-  height: 26px;
+  width: 22px;
+  height: 22px;
   display: block;
   overflow: hidden;
   border: 1px solid rgba(var(--heroes-gold-rgb), 0.26);
@@ -362,6 +382,7 @@
 }
 
 .heroes-ledger-rail__glyph {
+  display: none;
   font-family: var(--heroes-font-mono);
   font-size: 0.8rem;
   text-align: center;
@@ -400,7 +421,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   font-family: var(--heroes-font-body);
-  font-size: 0.95rem;
+  font-size: 0.84rem;
   line-height: 1.1;
 }
 
@@ -416,7 +437,8 @@
   grid-area: controls;
   display: flex;
   gap: 8px;
-  padding-top: 4px;
+  align-self: center;
+  padding-top: 0;
 }
 
 .heroes-ledger-rail__nav {
@@ -470,14 +492,13 @@
 
 
 /* ── Individual hero stage ───────────────────────────────────── */
+/* min-height and padding are set in the responsive block below (mobile-first). */
 .hero-stage {
   --stage-accent: var(--heroes-gold-warm);
   --stage-accent-rgb: var(--heroes-gold-rgb);
   position: relative;
-  min-height: 100svh;
   display: grid;
   place-items: center;
-  padding: 4rem 2rem;
   overflow: hidden;
   opacity: 0;
   transform: translateY(40px);
@@ -580,8 +601,8 @@
 
 .hero-stage__ordinal {
   position: absolute;
-  top: clamp(78px, 10svh, 108px);
-  right: clamp(18px, 4vw, 56px);
+  top: 1rem;
+  right: 1rem;
   z-index: 2;
   font-family: var(--heroes-font-mono);
   font-size: 0.68rem;
@@ -609,13 +630,14 @@
   transform: translateY(-6px);
 }
 
-/* Canvas backdrop for particle effects */
+/* Canvas backdrop for particle effects — hidden on mobile, shown at 820px+. */
 .hero-card__canvas {
   position: absolute;
   inset: -80px;
   pointer-events: none;
   z-index: 0;
   opacity: 0.8;
+  display: none;
 }
 
 /* Crest Wrapper and Diamond Crest */
@@ -626,13 +648,12 @@
 }
 
 /* Crest Layout: Square Front & Diamond Back */
+/* width/height/max-width are controlled by the responsive block (mobile-first). */
 .hero-card__crest-wrapper {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: clamp(180px, 28vw, 240px);
-  height: clamp(180px, 28vw, 240px);
   margin-bottom: 0.5rem;
 }
 
@@ -774,7 +795,7 @@
 
 .hero-card__name {
   font-family: var(--heroes-font-display);
-  font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+  font-size: 1.2rem;
   font-weight: 700;
   color: var(--stage-accent, var(--heroes-gold-warm));
   margin: 0 0 0.3rem;
@@ -804,7 +825,9 @@
 .hero-card__stats {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.8rem;
   font-family: var(--heroes-font-mono);
   font-size: 0.75rem;
   color: var(--heroes-frost);
@@ -1043,12 +1066,14 @@
 
 
 /* ── Footer ──────────────────────────────────────────────────── */
+/* Base: stacked column (mobile); enhanced to row at 820px+. */
 .heroes-footer {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2rem;
-  padding: 4rem 2rem;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 4rem 2rem 8rem;
   background: var(--heroes-bg-deep);
   border-top: 1px solid rgba(251, 191, 36, 0.1);
 }
@@ -1108,81 +1133,29 @@
 }
 
 
-/* ── Responsive ──────────────────────────────────────────────── */
-@media (max-width: 1199px) {
-  .hero-stage {
-    min-height: 80svh;
-    padding: 3rem 1.5rem;
-  }
+/* ── Responsive — mobile-first (E6) ──────────────────────────────
+   The base (non-media-query) declarations above are already the phone
+   layout (≤559px / 390px reference).
+   min-width blocks progressively ENHANCE to tablet and then desktop.
+   No max-width overrides in this section.
+   ──────────────────────────────────────────────────────────────── */
 
-  .hero-card__crest-wrapper {
-    width: clamp(156px, 34vw, 220px);
-    height: clamp(156px, 34vw, 220px);
-  }
-}
-
-@media (max-width: 819px) {
+/* ── 560px+ — slightly wider phone / small tablet ── */
+@media (min-width: 560px) {
   .heroes-ledger-rail {
     left: 1rem;
     right: 1rem;
-    top: auto;
     bottom: 1rem;
-    width: auto;
-    max-height: none;
-    grid-template-columns: minmax(0, 1fr) auto;
-    grid-template-areas:
-      "plate controls"
-      "list list";
-    gap: 8px 12px;
-    padding: 10px;
-    border: 1px solid rgba(var(--heroes-gold-rgb), 0.22);
-    border-radius: 8px;
-    background: var(--heroes-bg-ink);
-    transform: none;
   }
 
-  .heroes-ledger-rail.is-awaiting {
-    display: none;
-  }
-
-  .heroes-ledger-rail__track {
-    display: none;
-  }
-
-  .heroes-ledger-rail__plate {
-    padding: 0;
-    border-bottom: 0;
-  }
-
-  .heroes-ledger-rail__current {
-    font-size: 1rem;
-  }
-
-  .heroes-ledger-rail__meta {
-    margin-top: 3px;
-  }
-
-  .heroes-ledger-rail__list {
-    display: flex;
-    gap: 6px;
-    max-height: none;
-    overflow-x: auto;
-    padding: 2px 0 0;
-  }
-
-  .heroes-ledger-rail__item {
-    flex: 0 0 auto;
+  .heroes-ledger-rail__kicker,
+  .heroes-ledger-rail__byline {
+    display: block;
   }
 
   .heroes-ledger-rail__button {
     width: 164px;
     grid-template-columns: 24px minmax(0, 1fr);
-    padding: 7px 8px;
-    background: rgba(var(--heroes-gold-rgb), 0.045);
-  }
-
-  .heroes-ledger-rail__glyph {
-    display: none;
   }
 
   .heroes-ledger-rail__avatar {
@@ -1190,83 +1163,155 @@
     height: 24px;
   }
 
-  .heroes-ledger-rail__button.is-active {
-    transform: none;
-    background: rgba(var(--heroes-gold-rgb), 0.1);
+  .hero-stage__ordinal {
+    top: clamp(78px, 10svh, 108px);
+    right: clamp(18px, 4vw, 56px);
   }
 
-  .heroes-ledger-rail__controls {
-    align-self: center;
-    padding-top: 0;
+  .heroes-header__title {
+    font-size: clamp(3.2rem, 9vw, 6rem);
   }
 
-  .hero-stage {
-    min-height: auto;
-    padding: 3rem 1rem 7.5rem;
+  .hero-card__name {
+    font-size: clamp(1.4rem, 3.5vw, 2.2rem);
   }
 
-  .hero-card__crest-wrapper {
-    max-width: 100%;
-  }
-
-  .hero-card__canvas {
-    display: none;
-  }
-
-  .heroes-header {
-    min-height: 70svh;
-  }
-
-  .heroes-footer {
-    flex-direction: column;
-    gap: 1rem;
-    padding-bottom: 8rem;
+  .hero-card__stats {
+    flex-wrap: nowrap;
+    justify-content: initial;
+    gap: 1.5rem;
   }
 }
 
-@media (max-width: 559px) {
+/* ── 820px+ — tablet: ledger rail moves to fixed left side ── */
+@media (min-width: 820px) {
   .heroes-ledger-rail {
-    left: 0.65rem;
-    right: 0.65rem;
-    bottom: 0.65rem;
+    left: clamp(12px, 2.2vw, 28px);
+    right: auto;
+    top: 50%;
+    bottom: auto;
+    width: var(--heroes-rail-width);
+    max-height: none;
+    grid-template-columns: 12px minmax(0, 1fr);
+    grid-template-areas:
+      "track plate"
+      "track list"
+      "track controls";
+    gap: 12px 14px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    transform: translateY(-50%);
+  }
+
+  .heroes-ledger-rail.is-awaiting {
+    display: block;
+    opacity: 0.62;
+  }
+
+  .heroes-ledger-rail__track {
+    display: block;
+  }
+
+  .heroes-ledger-rail__plate {
+    padding: 10px 0 6px;
+    border-bottom: 1px solid rgba(var(--heroes-gold-rgb), 0.22);
+  }
+
+  .heroes-ledger-rail__current {
+    font-size: clamp(1rem, 1.5vw, 1.35rem);
+  }
+
+  .heroes-ledger-rail__meta {
+    margin-top: 7px;
+  }
+
+  .heroes-ledger-rail__list {
+    display: grid;
+    gap: 4px;
+    overflow-x: visible;
+    padding: 2px 0;
+  }
+
+  .heroes-ledger-rail__item {
+    flex: initial;
+  }
+
+  .heroes-ledger-rail__button {
+    width: 100%;
+    grid-template-columns: 26px 18px minmax(0, 1fr);
+    padding: 7px 2px;
+    background: transparent;
+  }
+
+  .heroes-ledger-rail__glyph {
+    display: block;
   }
 
   .heroes-ledger-rail__kicker,
   .heroes-ledger-rail__byline {
-    display: none;
-  }
-
-  .heroes-ledger-rail__button {
-    width: 128px;
-    grid-template-columns: 22px minmax(0, 1fr);
+    display: block;
   }
 
   .heroes-ledger-rail__avatar {
-    width: 22px;
-    height: 22px;
+    width: 26px;
+    height: 26px;
   }
 
   .heroes-ledger-rail__name {
-    font-size: 0.84rem;
+    font-size: 0.95rem;
   }
 
-  .hero-stage__ordinal {
-    top: 1rem;
-    right: 1rem;
+  .heroes-ledger-rail__button.is-active {
+    transform: translateX(4px);
+    background: transparent;
   }
 
-  .heroes-header__title {
-    font-size: clamp(2.4rem, 10vw, 3rem);
+  .heroes-ledger-rail__controls {
+    align-self: initial;
+    padding-top: 4px;
   }
 
-  .hero-card__name {
-    font-size: 1.2rem;
+  .hero-stage {
+    min-height: 80svh;
+    padding: 3rem 1.5rem;
   }
 
-  .hero-card__stats {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.8rem;
+  .hero-card__canvas {
+    display: block;
+  }
+
+  .heroes-header {
+    min-height: 80svh;
+  }
+
+  .heroes-footer {
+    flex-direction: row;
+    gap: 2rem;
+    padding-bottom: 4rem;
+  }
+}
+
+/* ── 1200px+ — full desktop: largest stage + crest, deep left rail ── */
+@media (min-width: 1200px) {
+  .heroes-gallery {
+    padding-top: 8rem;
+  }
+
+  .hero-stage {
+    min-height: 100svh;
+    padding: 4rem 2rem;
+  }
+
+  .hero-card__crest-wrapper {
+    width: clamp(180px, 28vw, 240px);
+    height: clamp(180px, 28vw, 240px);
+    max-width: none;
+  }
+
+  .heroes-header {
+    min-height: 100svh;
   }
 }
 
