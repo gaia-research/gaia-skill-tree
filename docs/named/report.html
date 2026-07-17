@@ -39,7 +39,7 @@
       --report-danger-rgb: var(--honor-red-rgb);
     }
 
-    /* ── Layout ── */
+    /* E6 mobile-first: clearance + single-column stacked is the base; 2-col on wider */
     .report-page {
       min-height: 100vh;
       background: var(--bg);
@@ -53,14 +53,11 @@
       align-items: center;
       max-width: 900px;
       margin: 0 auto;
+      /* E6+clearance: base 5rem clears ~58px fixed nav; desktop steps up */
       padding: 5rem 1.5rem 0;
     }
-
-    /* Fixed-nav clearance: body:has(site-nav) zeroes body padding-top;
-       first content row must itself clear the ~58px nav. 5rem (80px) is the
-       CLAUDE.md base value for page-level containers. */
-    body:has(> nav#site-nav) .report-back-row {
-      padding-top: 5rem;
+    @media (min-width: 681px) {
+      .report-back-row { padding-top: 6rem; }
     }
 
     .report-back {
@@ -147,18 +144,20 @@
       justify-content: flex-end;
     }
 
-    /* ── Cards ── */
+    /* ── Cards — E6 mobile-first: 1-col base, 2-col on wider screens ── */
     .report-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       gap: 1rem;
       margin-bottom: 1rem;
     }
+    .report-header { flex-direction: column; }
+    .report-header-badges { justify-content: flex-start; }
 
-    @media (max-width: 680px) {
-      .report-grid { grid-template-columns: 1fr; }
-      .report-header { flex-direction: column; }
-      .report-header-badges { justify-content: flex-start; }
+    @media (min-width: 681px) {
+      .report-grid { grid-template-columns: 1fr 1fr; }
+      .report-header { flex-direction: row; }
+      .report-header-badges { justify-content: flex-end; }
     }
 
     .report-card {

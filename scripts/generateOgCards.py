@@ -95,9 +95,12 @@ CREAM_ENGRAVED = "#ebe5d4"     # OKLCH ~ oklch(92% 0.015  80); warm cream ink/li
 # gold as the wreath / apex accent — no red anywhere.
 SIGNATURE_GOLD = "#fbbf24"     # discoverer's signature + origin mark (was honor-red)
 APEX_GOLD = "#fbbf24"          # suite plate-class accent + gutter tint (gold-leaning)
-VIOLET_HALO = "#a78bfa"        # unique plate-class accent + gutter tint — lightened for WCAG AA
-                               # contrast on INK_NIGHT (#0e0d20): #a78bfa yields ~5.5:1 vs
-                               # the former #7c3aed (3.36:1, failed AA for normal 15px text)
+VIOLET_HALO = "#7c3aed"        # unique plate-class accent + gutter tint (darker register)
+# E2/E7 contrast fix (Ygg-II W3c): VIOLET_HALO is ~3.1:1 on INK_NIGHT — fails WCAG AA.
+# VIOLET_KICKER is the lighter text-safe violet used only for kicker/label fills;
+# VIOLET_HALO stays for decorative strokes (gutter rule, halo ring) where contrast
+# is not a readability requirement. oklch(68% 0.22 285) ≈ #a78bfa → 7.2:1 on INK_NIGHT.
+VIOLET_KICKER = "#a78bfa"      # unique branch kicker text — WCAG AA+ on INK_NIGHT
 
 # ─── AOV4 medallion resolver (mirrors docs/js/plaque.js `_aovStamp`) ──────────
 # The subject art IS the skill's Ascension-Overdrive V4 stamp — the exact
@@ -465,7 +468,10 @@ def build_plate(skill: dict) -> str:
     sid = (skill.get("id") or "unknown").replace("/", "-").replace(" ", "-")
 
     branch = og_branch(skill)
+    # Decorative accent (strokes, gutter rule, halo ring) — can be dark violet
     accent = VIOLET_HALO if branch == "unique" else APEX_GOLD
+    # Text-fill for the plate-class kicker — must pass WCAG AA on INK_NIGHT
+    kicker_fill = VIOLET_KICKER if branch == "unique" else APEX_GOLD
     rank_label = og_rank_label(n_lvl, branch)
     plate_class = og_plate_class(n_lvl, branch)
 
@@ -520,7 +526,7 @@ def build_plate(skill: dict) -> str:
   {_gutter_rule(accent)}
 
   <!-- SUBJECT column: the skill's own AOV4 medallion -->
-  {_plate_class_kicker(plate_class, accent)}
+  {_plate_class_kicker(plate_class, kicker_fill)}
   {_medallion(branch, n_lvl, sid, accent)}
 
   <!-- TYPE column: catalogue prefix + slash-slug + title kicker -->
