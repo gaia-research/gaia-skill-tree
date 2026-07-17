@@ -364,7 +364,8 @@ button.plaque__slug:focus-visible {
 }
 .plaque__origin,
 .ns-origin {
-  color: var(--honor-red, #ef4444);
+  /* E4: origin mark is gold (Yggdrasil II). Red origin mark deprecated. */
+  color: var(--apex-gold, #fbbf24);
   font-size: 12px;
   line-height: 1;
   margin-left: 4px;
@@ -3009,7 +3010,8 @@ button.plaque__slug:focus-visible {
 
 /* Origin badge beside handle ──────────────────────────────────── */
 .plaque__handle .plaque__origin {
-  color: var(--honor-red, #ef4444);
+  /* E4: origin mark is gold (Yggdrasil II). Red origin mark deprecated. */
+  color: var(--apex-gold, #fbbf24);
   margin-left: 4px;
   vertical-align: middle;
 }
