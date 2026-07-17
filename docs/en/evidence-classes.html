@@ -213,19 +213,19 @@
     .deprecated-banner strong { color: var(--text,#e2e8f0); }
     .deprecated-banner p:last-child { margin-bottom: 0; }
 
-    /* trust meter */
+    /* trust meter — mobile-first: column stack on narrow viewports */
     .trust-meter {
-      display: flex; gap: 0; align-items: stretch;
+      display: flex; flex-direction: column; gap: 0; align-items: stretch;
       margin: 1.25rem 0; border-radius: 6px; overflow: hidden;
       border: 1px solid var(--border,#1e293b);
     }
     .trust-segment {
-      flex: 1; text-align: center; padding: 0.75rem 0.4rem;
+      flex: 1; text-align: center; padding: 0.5rem 1rem;
       font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700;
-      display: flex; flex-direction: column; gap: 0.25rem;
-      border-right: 1px solid var(--border,#1e293b);
+      display: flex; flex-direction: row; justify-content: space-between; align-items: center; gap: 0.25rem;
+      border-right: none; border-bottom: 1px solid var(--border,#1e293b);
     }
-    .trust-segment:last-child { border-right: none; }
+    .trust-segment:last-child { border-bottom: none; }
     .trust-segment .seg-name { font-size: 0.65rem; font-weight: 400; opacity: 0.8; }
     .trust-segment .seg-range { font-size: 0.7rem; font-weight: 400; }
     .seg-S { background: rgba(251,191,36,0.14); color: #fbbf24; }
@@ -267,12 +267,10 @@
     @media (min-width: 769px) {
       .docs-layout { grid-template-columns: 220px 1fr; }
       .docs-sidebar { display: flex; }
-    }
-
-    @media (max-width: 768px) {
-      .trust-meter { flex-direction: column; }
-      .trust-segment { border-right: none; border-bottom: 1px solid var(--border,#1e293b); padding: 0.5rem 1rem; flex-direction: row; justify-content: space-between; align-items: center; }
-      .trust-segment:last-child { border-bottom: none; }
+      /* trust-meter: promote to side-by-side row on wide viewports */
+      .trust-meter { flex-direction: row; }
+      .trust-segment { flex-direction: column; padding: 0.75rem 0.4rem; justify-content: center; border-right: 1px solid var(--border,#1e293b); border-bottom: none; }
+      .trust-segment:last-child { border-right: none; border-bottom: none; }
     }
 
     @media (max-width: 480px) {
