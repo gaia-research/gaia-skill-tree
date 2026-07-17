@@ -372,6 +372,7 @@
 .hero-tree-install-copy {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
   gap: .5rem .7rem;
   min-width: 0;
 }

@@ -250,10 +250,7 @@ A GitHub issue opens automatically. Don't worry, we thoroughly review every inta
 **4. MCP Server**
 
 ```bash
-claude mcp add gaia -- npx @gaia-registry/mcp-server
-```
-
-If you wanna be fancy and do all sorts of agentic MCP goodness.
+claude mcp add gaia -- npx @gaia-registry/mcp@0.1.0
 
 ---
 
@@ -345,14 +342,14 @@ Maintainer commands:  gaia dev --help
 
 ## MCP Server Full Instructions
 
-`@gaia-registry/mcp-server` connects Gaia to MCP-compatible agents (Claude Code, Cursor, VS Code, etc.).
+`@gaia-registry/mcp@0.1.0` connects Gaia to MCP-compatible agents (Claude Code, Cursor, VS Code, etc.).
 
 | Agent | Install |
 |-------|---------|
-| Claude Code | `claude mcp add gaia -- npx @gaia-registry/mcp-server` |
-| Any MCP client | Command: `npx`, args: `@gaia-registry/mcp-server` |
+| Claude Code | `claude mcp add gaia -- npx @gaia-registry/mcp@0.1.0` |
+| Any MCP client | Command: `npx`, args: `@gaia-registry/mcp@0.1.0` |
 
-Set `GAIA_USER=your-github-username` and optionally `GITHUB_TOKEN` for PR tools. See [`packages/mcp/`](packages/mcp/) for full docs and agent-specific config examples.
+Set `GAIA_USER=your-github-username` and optionally `GITHUB_TOKEN` for PR tools. Endpoint: `research.gaiaskilltree.com/mcp`. See [`packages/mcp/`](packages/mcp/) for full docs and agent-specific config examples.
 
 ---
 

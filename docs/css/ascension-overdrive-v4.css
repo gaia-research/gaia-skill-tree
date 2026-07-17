@@ -536,6 +536,7 @@
   width: min(24vw, 25rem);
   aspect-ratio: 1.2;
   align-self: center;
+  mix-blend-mode: screen;
 }
 
 .aov-terminal-art img {
