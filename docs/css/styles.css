@@ -36,6 +36,15 @@
   --honor-red-rgb: 239, 68, 68;
   --apex-gold: var(--rank-5);
   --apex-gold-rgb: 251, 191, 36;
+  /* Gaia Research sibling-brand bridge tokens. Rimuru-Blue is the EXACT
+     cross-brand match to --tier-basic (the natural bridge accent); Milim-Pink
+     is the Research counter-accent, already present as --cluster-5. Declared
+     once here as role tokens and only ever referenced via var() — no new hex. */
+  --research-blue: var(--tier-basic);
+  --research-blue-rgb: var(--tier-basic-rgb);
+  --research-pink: var(--cluster-5);
+  --research-pink-rgb: 236, 72, 153;
+  --font-research: 'Syne', 'Bricolage Grotesque', system-ui, sans-serif;
   --font-display: 'EB Garamond', Georgia, serif;
   --font-body: 'Bricolage Grotesque', Inter, system-ui, sans-serif;
   --font-mono: 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace;
@@ -6436,6 +6445,130 @@ footer.footer-v2::before {
   margin: 0;
 }
 
+/* ── Gaia brand family: "one house, two rooms." ──────────────────────
+   The Atlas mark keeps its serif/gold language; the Gaia Research mark
+   is rendered in ITS OWN language (Syne + Rimuru-Blue) as a distinct-but
+   -sibling block, bound by connective copy naming the flagship relation.
+   Rimuru-Blue (--research-blue == --tier-basic) is the exact shared token,
+   so the two rooms visibly belong to one house without merging the two
+   design systems. */
+.footer-v2 .footer-family {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+/* Kinship connector: a short vertical rule graduating from Atlas gold to
+   Research blue, plus the connective copy. The gradient IS the bridge. */
+.footer-v2 .footer-kinship {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  margin-top: .35rem;
+}
+
+.footer-v2 .footer-kinship-line {
+  flex: 0 0 auto;
+  width: 2px;
+  height: 2.1rem;
+  border-radius: 2px;
+  background: linear-gradient(
+    180deg,
+    rgba(var(--apex-gold-rgb), .85) 0%,
+    rgba(var(--research-blue-rgb), .85) 100%
+  );
+}
+
+.footer-v2 .footer-kinship-copy {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: .82rem;
+  line-height: 1.3;
+  color: var(--muted);
+  max-width: 15ch;
+}
+
+/* The Gaia Research lockup — sibling brand in its own visual language. */
+.footer-v2 .footer-research {
+  display: inline-flex;
+  align-items: center;
+  gap: .7rem;
+  padding: .7rem .9rem;
+  border: 1px solid rgba(var(--research-blue-rgb), .28);
+  border-radius: 10px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(var(--research-blue-rgb), .1) 0%,
+      rgba(var(--research-pink-rgb), .07) 100%
+    );
+  text-decoration: none;
+  transition:
+    border-color .32s cubic-bezier(0.16, 1, 0.3, 1),
+    background .32s cubic-bezier(0.16, 1, 0.3, 1),
+    transform .32s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow .32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer-v2 .footer-research:hover,
+.footer-v2 .footer-research:focus-visible {
+  border-color: rgba(var(--research-blue-rgb), .6);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(var(--research-blue-rgb), .18) 0%,
+      rgba(var(--research-pink-rgb), .12) 100%
+    );
+  transform: translateY(-1px);
+  box-shadow:
+    0 0 0 1px rgba(var(--research-blue-rgb), .2),
+    0 8px 22px rgba(var(--research-blue-rgb), .18);
+  outline: none;
+}
+
+/* Hex-lens seal — the shared motif, rendered in Research blue not Atlas gold. */
+.footer-v2 .footer-research-lens {
+  flex: 0 0 auto;
+  display: inline-flex;
+  color: var(--research-blue);
+  filter: drop-shadow(0 0 6px rgba(var(--research-blue-rgb), .45));
+  transition: transform .5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer-v2 .footer-research:hover .footer-research-lens {
+  transform: rotate(30deg);
+}
+
+.footer-v2 .footer-research-mark {
+  display: flex;
+  flex-direction: column;
+  gap: .12rem;
+  line-height: 1.05;
+}
+
+/* Syne wordmark — Research's own display voice. */
+.footer-v2 .footer-research-name {
+  font-family: var(--font-research);
+  font-weight: 700;
+  font-size: .95rem;
+  letter-spacing: -.01em;
+  color: var(--text);
+}
+
+.footer-v2 .footer-research-cta {
+  font-family: var(--font-mono);
+  font-size: .68rem;
+  letter-spacing: .04em;
+  color: var(--research-blue);
+  transition: letter-spacing .32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer-v2 .footer-research:hover .footer-research-cta {
+  letter-spacing: .09em;
+}
+
 /* Link columns grid */
 .footer-v2 .footer-cols {
   display: grid;
@@ -6655,12 +6788,38 @@ footer.footer-v2::before {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.75rem 2.5rem;
   }
+  /* On the stacked layout let the brand family breathe full-width and the
+     Research lockup sit as a comfortable tap target. */
+  .footer-v2 .footer-research {
+    align-self: flex-start;
+  }
 }
 
 @media (max-width: 520px) {
   .footer-v2 .footer-cols {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
+  }
+  .footer-v2 .footer-research {
+    width: 100%;
+  }
+}
+
+/* Kinship gradient + lens rotation are decorative; honor reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  .footer-v2 .footer-research,
+  .footer-v2 .footer-research-lens,
+  .footer-v2 .footer-research-cta {
+    transition: none;
+  }
+  .footer-v2 .footer-research:hover {
+    transform: none;
+  }
+  .footer-v2 .footer-research:hover .footer-research-lens {
+    transform: none;
+  }
+  .footer-v2 .footer-research:hover .footer-research-cta {
+    letter-spacing: .04em;
   }
 }
 

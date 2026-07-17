@@ -7,6 +7,19 @@
   const el = document.getElementById('site-footer-mount');
   if (!el) return;
 
+  // Load the Syne webfont for the Gaia Research sibling lockup. We load it
+  // ourselves (our own CSS/DOM) and never import gaia-research files — the
+  // cross-repo content rule allows hyperlinks + legible kinship, not merger.
+  // Injected once from the footer so it propagates on every page the footer
+  // mounts into, no per-page <head> edits.
+  if (!document.getElementById('gaia-research-font')) {
+    const rf = document.createElement('link');
+    rf.id = 'gaia-research-font';
+    rf.rel = 'stylesheet';
+    rf.href = 'https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&display=swap';
+    document.head.appendChild(rf);
+  }
+
   // Fallback mirrors docs/js/mounts.js — keep in lockstep. Every top-level
   // docs/ subdirectory that uses site-nav or site-footer must appear here so
   // path-depth math still resolves when mounts.js hasn't loaded yet.
@@ -27,13 +40,40 @@
     <footer class="footer-v2">
       <div class="footer-inner">
         <div class="footer-brand-col">
-          <div class="footer-brand-mark">
-            <svg class="ico footer-seal" aria-hidden="true" focusable="false">
-              <use href="${r}assets/icons.svg#seal-diamond"/>
-            </svg>
-            <span class="footer-wordmark">Gaia</span>
+          <div class="footer-family" aria-label="Gaia brand family">
+
+            <div class="footer-brand-mark">
+              <svg class="ico footer-seal" aria-hidden="true" focusable="false">
+                <use href="${r}assets/icons.svg#seal-diamond"/>
+              </svg>
+              <span class="footer-wordmark">Gaia</span>
+            </div>
+            <p class="footer-tagline">An evidence-backed atlas<br>of agent capabilities.</p>
+
+            <div class="footer-kinship">
+              <span class="footer-kinship-line" aria-hidden="true"></span>
+              <p class="footer-kinship-copy">
+                The flagship registry of
+              </p>
+            </div>
+
+            <a class="footer-research" href="https://research.gaiaskilltree.com"
+               target="_blank" rel="noopener"
+               aria-label="Gaia Research — visit research.gaiaskilltree.com">
+              <span class="footer-research-lens" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
+                  <path d="M12 2.5 20.5 7v10L12 21.5 3.5 17V7L12 2.5Z"
+                        stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+                  <circle cx="12" cy="12" r="3.4" stroke="currentColor" stroke-width="1.4"/>
+                </svg>
+              </span>
+              <span class="footer-research-mark">
+                <span class="footer-research-name">Gaia Research</span>
+                <span class="footer-research-cta">Enter the lab <span aria-hidden="true">→</span></span>
+              </span>
+            </a>
+
           </div>
-          <p class="footer-tagline">An evidence-backed atlas<br>of agent capabilities.</p>
         </div>
 
         <nav class="footer-cols" aria-label="Site navigation">
