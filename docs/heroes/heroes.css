@@ -492,7 +492,9 @@
 
 
 /* ── Individual hero stage ───────────────────────────────────── */
-/* min-height and padding are set in the responsive block below (mobile-first). */
+/* Base rule is the mobile (390px) layout; min-width blocks enhance upward. */
+/* Bottom padding (7.5rem) provides clearance above the fixed bottom ledger  */
+/* rail (~80px) on narrow viewports where it renders at the bottom edge.     */
 .hero-stage {
   --stage-accent: var(--heroes-gold-warm);
   --stage-accent-rgb: var(--heroes-gold-rgb);
@@ -503,6 +505,8 @@
   opacity: 0;
   transform: translateY(40px);
   transition: opacity 0.8s ease, transform 0.8s ease;
+  min-height: 60svh;
+  padding: 3rem 1rem 7.5rem;
 }
 
 .hero-stage.is-visible {
