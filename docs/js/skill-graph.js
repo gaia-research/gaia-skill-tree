@@ -255,7 +255,7 @@
 
   function normalizeSkills(graph) {
     const TYPE_ALIASES = { atomic: 'basic', composite: 'extra', legendary: 'ultimate' };
-    const skills = (graph && graph.skills) ? graph.skills : FALLBACK_SKILLS;
+    const skills = (graph && graph.skills) ? graph.skills : [];
     return skills.map(skill => ({
       id: skill.id,
       name: skill.name || skill.id,
@@ -502,8 +502,8 @@
     };
     const NAMED_LEVELS = new Set(['2★', '3★', '4★', '5★', '6★']);
     const state = {
-      skills: FALLBACK_SKILLS,
-      positions: buildPositions(FALLBACK_SKILLS, GRAPH_SCALE),
+      skills: [],
+      positions: buildPositions([], GRAPH_SCALE),
       stars: [],
       width: 0,
       height: 0,
