@@ -7,8 +7,8 @@
  * Yggdrasil II compliance:
  *   E1 — branch derived by GaiaSemantics.computeBranch, never from
  *        skill.type === 'ultimate'|'unique'|'extra' (dead enum, REMOVED).
- *   E2 — rank words forked by branch via rankWord/rankLabel; 'Transcendent'
- *        and 'Hardened' are permanently banned and do not appear.
+ *   E2 — rank words forked by branch via rankWord/rankLabel; banned ladder
+ *        words ('Hardened' and the removed 6★ suite synonym) do not appear.
  *   E3 — every hero card has a GitHub avatar framed by the gold wreath
  *        (origin-wreath-gold.svg), identicon fallback, no standalone
  *        GitHub button.
@@ -86,7 +86,8 @@
 
   // Returns the rank label string for a contributor's top skill.
   // E2: uses rankLabel — emits e.g. "Unique · 4★", "Ultimate · 5★", "Apex · 6★".
-  // BANNED: 'Transcendent', 'Hardened' — neither appears in rankLabel output.
+  // BANNED ladder words — neither 'Hardened' nor the removed 6★ suite synonym
+  // appear in rankLabel output.
   function topSkillRankLabel(contributor) {
     var skill = (contributor && contributor.topSkill) || {};
     var lvl = levelNum(skill.level);

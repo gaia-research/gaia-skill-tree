@@ -520,12 +520,6 @@
     var(--heroes-bg-deep);
 }
 
-.hero-stage--transcendent {
-  background:
-    radial-gradient(ellipse 60% 45% at 50% 50%, rgba(var(--stage-accent-rgb), 0.055) 0%, transparent 65%),
-    var(--heroes-bg-deep);
-}
-
 .hero-stage--unique {
   background:
     radial-gradient(ellipse 60% 45% at 50% 50%, rgba(var(--stage-accent-rgb), 0.06) 0%, transparent 65%),
@@ -934,22 +928,19 @@
 }
 
 .hero-stage--apex.is-visible .hero-card__crest-diamond-back,
-.hero-stage--transcendent.is-visible .hero-card__crest-diamond-back,
 .hero-stage--unique.is-visible .hero-card__crest-diamond-back,
 .hero-stage--named.is-visible .hero-card__crest-diamond-back {
   animation: hero-diamond-enter 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .hero-stage--apex.is-visible .hero-card__crest-square-front,
-.hero-stage--transcendent.is-visible .hero-card__crest-square-front,
 .hero-stage--unique.is-visible .hero-card__crest-square-front,
 .hero-stage--named.is-visible .hero-card__crest-square-front {
   animation: hero-unique-enter 0.8s ease-out both;
   animation-delay: 0.25s;
 }
 
-.hero-stage--apex.is-visible .hero-card__meta,
-.hero-stage--transcendent.is-visible .hero-card__meta {
+.hero-stage--apex.is-visible .hero-card__meta {
   animation: heroes-meta-enter 0.7s ease-out both;
   animation-delay: 0.4s;
 }
