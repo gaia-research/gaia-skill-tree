@@ -1103,8 +1103,26 @@ nav.lb-toc a.is-active .lb-toc-icon { opacity: 1; }
 .lb-ms-item:hover { background: rgba(var(--evidence-platinum-rgb),0.06); color: var(--text); }
 .lb-ms-item.is-checked { color: var(--text); }
 .lb-ms-item input[type="checkbox"] { display: none; }
+/* E3: avatar container — relative so wreath can overlay absolutely; overflow visible so wreath ring spills */
 .lb-ms-avatar {
+  position: relative;
   width: 16px; height: 16px; border-radius: 50%; flex-shrink: 0;
+  overflow: visible;
+}
+/* GitHub avatar photo */
+.lb-ms-avatar-img {
+  display: block;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+/* Gold wreath overlay — 112% so laurel frames the avatar (matches plaque.css pattern) */
+.lb-ms-avatar-wreath {
+  position: absolute;
+  inset: -6%;
+  width: 112%; height: 112%;
+  pointer-events: none;
+  overflow: visible;
 }
 .lb-ms-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .lb-ms-footer {
