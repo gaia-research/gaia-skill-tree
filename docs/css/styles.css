@@ -1185,15 +1185,14 @@ nav.docs-nav:hover .nav-sep {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 0.75rem clamp(1.25rem, 4vw, 2.5rem);
-  margin-top: -54px;
+  padding: 5rem clamp(1.25rem, 4vw, 2.5rem) 0.75rem;
+  margin-top: 0;
   margin-bottom: 0;
   position: relative;
   z-index: 10;
   min-height: 2.75rem;
   max-width: 100%;
   width: 100%;
-  padding-top: calc(0.75rem + 54px);
 }
 
 .profile-back {
@@ -1611,13 +1610,6 @@ section[class*="frontis"],
 }
 
 @media (max-width: 700px) {
-  .profile-back-row {
-    padding: 0.5rem clamp(0.75rem, 3vw, 1.5rem);
-    padding-top: calc(0.5rem + 54px);
-    min-height: 2.5rem;
-    margin-top: -54px;
-  }
-
   .profile-back {
     padding: 0.3rem 0.55rem;
     font-size: 0.85rem;
@@ -1658,13 +1650,6 @@ section[class*="frontis"],
 }
 
 @media (max-width: 500px) {
-  .profile-back-row {
-    padding: 0.4rem clamp(0.5rem, 2vw, 0.75rem);
-    padding-top: calc(0.4rem + 54px);
-    min-height: 2.25rem;
-    margin-top: -54px;
-  }
-
   .profile-back {
     padding: 0.25rem 0.45rem;
     font-size: 0.8rem;
@@ -5406,12 +5391,21 @@ tr:hover td {
   }
 }
 
-/* -- NAMED SKILLS -- */
+/* -- NAMED SKILLS --
+   Mobile-first: base layout is single-column compact (≤700px).
+   Desktop (≥701px) expands to full viewport height + wider padding. */
 #named {
-  min-height: 100vh;
-  padding-top: 4rem;
-  scroll-margin-top: 5rem;
+  min-height: auto;
+  padding: 3rem 1rem 1.5rem;
+  scroll-margin-top: 7rem;
   max-width: none;
+}
+@media (min-width: 701px) {
+  #named {
+    min-height: 100vh;
+    padding: 4rem 0 0;
+    scroll-margin-top: 5rem;
+  }
 }
 
 .ns-controls {
@@ -5423,7 +5417,8 @@ tr:hover td {
 
 /* ── Sticky/floating explorer rail (used on the standalone /named/ page).
    The rail pins below the top nav while the grid scrolls; backdrop blur
-   keeps the strip translucent so it reads as floating, not opaque. */
+   keeps the strip translucent so it reads as floating, not opaque.
+   Mobile-first: base = compact (≤700px), desktop expands via min-width. */
 .ns-controls--sticky {
   position: sticky;
   top: 0;
@@ -5431,23 +5426,30 @@ tr:hover td {
   background: rgba(3, 7, 18, .82);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  padding: .9rem 1rem;
-  margin: 0 -1rem 1.6rem;
+  padding: .7rem .6rem;
+  margin: 0 -.6rem 1.2rem;
   border-bottom: 1px solid var(--border);
   box-shadow: 0 4px 16px -8px rgba(0, 0, 0, .55);
 }
-@media (max-width: 700px) {
+@media (min-width: 701px) {
   .ns-controls--sticky {
-    padding: .7rem .6rem;
-    margin: 0 -.6rem 1.2rem;
+    padding: .9rem 1rem;
+    margin: 0 -1rem 1.6rem;
   }
 }
 
 .ns-filter-row {
   display: flex;
-  align-items: center;
+  align-items: stretch;
+  flex-direction: column;
   gap: .6rem;
   flex-wrap: wrap;
+}
+@media (min-width: 701px) {
+  .ns-filter-row {
+    flex-direction: row;
+    align-items: center;
+  }
 }
 
 .ns-level-tabs {
@@ -5553,11 +5555,17 @@ tr:hover td {
 /* Stage 4 — view grid containers. The per-card glow / data-level / data-type
      visual rules moved to .plaque[data-level][data-type] in plaque.css so a
      single source of truth drives Tile, List, Tree, and any future view mode.
-     What remains here is layout-only (gaps, columns, scroll). */
+     What remains here is layout-only (gaps, columns, scroll).
+     Mobile-first: base = single-column. Desktop (≥701px) gets auto-fill. */
 .ns-grid-tile {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: 1fr;
   gap: 1rem;
+}
+@media (min-width: 701px) {
+  .ns-grid-tile {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
 }
 
 .ns-grid-list {
@@ -6908,7 +6916,7 @@ footer.footer-v2::before {
 .se-breadcrumb {
   font-family: var(--font-body);
   font-size: .85rem;
-  color: #ef4444;
+  color: var(--honor-red);
   flex: 1;
   min-width: 0;
   overflow: hidden;
@@ -6965,7 +6973,7 @@ footer.footer-v2::before {
 
 .se-hero {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 2rem;
   margin-bottom: 2rem;
 }
@@ -6974,9 +6982,9 @@ footer.footer-v2::before {
   min-width: 0;
 }
 
-@media(max-width:700px) {
+@media (min-width: 701px) {
   .se-hero {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 }
 
@@ -8390,19 +8398,9 @@ code {
     word-break: break-all !important;
   }
 
-  /* Named Skills: keep the full explorer visible and usable on narrow screens. */
-  #named {
-    min-height: auto;
-    padding: 3rem 1rem 1.5rem;
-    scroll-margin-top: 7rem
-  }
-
-  .ns-filter-row {
-    align-items: stretch;
-    flex-direction: column;
-    align-items: stretch
-  }
-
+  /* Named Skills: keep the full explorer visible and usable on narrow screens.
+     #named and .ns-filter-row base rules now live in the mobile-first base block
+     above; only the supplemental mobile-specific overrides remain here. */
   .ns-level-tabs {
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -8425,10 +8423,6 @@ code {
 
   .ns-sort-wrap {
     min-height: 2.35rem
-  }
-
-  .ns-grid-tile {
-    grid-template-columns: 1fr
   }
 
   .plaque--row {
@@ -8515,10 +8509,6 @@ code {
   .btn {
     width: 100%;
     text-align: center
-  }
-
-  .ns-grid-tile {
-    grid-template-columns: 1fr
   }
 
   #named {

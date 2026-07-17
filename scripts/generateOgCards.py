@@ -95,7 +95,7 @@ CREAM_ENGRAVED = "#ebe5d4"     # OKLCH ~ oklch(92% 0.015  80); warm cream ink/li
 # gold as the wreath / apex accent — no red anywhere.
 SIGNATURE_GOLD = "#fbbf24"     # discoverer's signature + origin mark (was honor-red)
 APEX_GOLD = "#fbbf24"          # suite plate-class accent + gutter tint (gold-leaning)
-VIOLET_HALO = "#7c3aed"        # unique plate-class accent + gutter tint (darker register)
+VIOLET_HALO = "#a78bfa"        # unique plate-class accent + gutter tint (AA-compliant on INK_NIGHT: 7.0:1)
 
 # ─── AOV4 medallion resolver (mirrors docs/js/plaque.js `_aovStamp`) ──────────
 # The subject art IS the skill's Ascension-Overdrive V4 stamp — the exact
