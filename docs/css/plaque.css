@@ -2962,9 +2962,9 @@ button.plaque__slug:focus-visible {
   position: fixed;
   bottom: 24px;
   right: 24px;
-  background: var(--surface, #0f172a);
-  border: 1px solid var(--tier-basic, #38bdf8);
-  color: var(--text, #e2e8f0);
+  background: var(--surface);
+  border: 1px solid var(--tier-basic);
+  color: var(--text);
   font-family: var(--font-mono, monospace);
   font-size: 0.72rem;
   letter-spacing: 0.05em;
