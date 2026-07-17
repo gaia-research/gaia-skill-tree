@@ -1,9 +1,21 @@
 /**
  * heroes.js — Hall of Heroes orchestrator
- * Fetches contributor data, classifies tiers, renders theatrical stages,
+ * Fetches contributor data, derives semantic branch at read-time via
+ * window.GaiaSemantics (skill-semantics.js), renders theatrical stages,
  * and drives IntersectionObserver for entrance animations.
  *
- * Vanilla JS IIFE, no dependencies beyond plaque.js (for renderOg).
+ * Yggdrasil II compliance:
+ *   E1 — branch derived by GaiaSemantics.computeBranch, never from
+ *        skill.type === 'ultimate'|'unique'|'extra' (dead enum, REMOVED).
+ *   E2 — rank words forked by branch via rankWord/rankLabel; banned ladder
+ *        words ('Hardened' and the removed 6★ suite synonym) do not appear.
+ *   E3 — every hero card has a GitHub avatar framed by the gold wreath
+ *        (origin-wreath-gold.svg), identicon fallback, no standalone
+ *        GitHub button.
+ *   E4 — red origin mark removed; origin rendered as gold wreath frame.
+ *
+ * Vanilla JS IIFE, no dependencies beyond plaque.js + skill-semantics.js.
+ * skill-semantics.js MUST be loaded before this file (heroes.html does so).
  */
 (function () {
   'use strict';
@@ -18,7 +30,7 @@
   var ACTIVE_STAGE = null;
   var LEDGER_ITEMS = [];
 
-  // Hero -> bespoke animation mapping
+  // Hero → bespoke animation mapping (keyed by named-skill id, not type)
   var ULTIMATE_ANIMS = {
     'garrytan/gstack': 'constellation',
     'ruvnet/ruflo': 'sovereign',
@@ -26,7 +38,7 @@
     'obra/superpowers': 'cascade'
   };
 
-  // Epithets for ultimate heroes (ceremonial one-liner)
+  // Epithets for top-tier heroes (ceremonial one-liner, keyed by handle)
   var ULTIMATE_EPITHETS = {
     'garrytan': 'Architect of the Constellation',
     'ruvnet': 'The Sovereign',
@@ -34,21 +46,12 @@
     'obra': 'Master of the Plugin Cascade'
   };
 
-  var TYPE_GLYPH = {
-    ultimate: '\u25C6',  // ◆
-    unique: '\u25C9',    // ◉
-    extra: '\u25C7',     // ◇
-    basic: '\u25CB'      // ○
-  };
-
-  var TIER_LABEL = {
-    ultimate: 'Ultimate',
-    apex: 'Apex',
-    transcendent: 'Transcendent',
-    unique: 'Unique',
-    extra: 'Extra',
-    basic: 'Basic',
-    named: 'Named'
+  // Rubric E1: glyphs keyed by DERIVED branch, never by skill.type.
+  // Mirrors plaque.js BRANCH_GLYPH and tokens.css tier symbols.
+  var BRANCH_GLYPH = {
+    unique:   '◉',  // ◉  — E3: DARKER plaque branch
+    suite:    '◆',  // ◆  — GOLD suite branch
+    standard: '○'  // ○  — standard branch
   };
 
   // ── Utilities ─────────────────────────────────────────────────
@@ -58,64 +61,67 @@
       .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
+  function jsStr(s) {
+    return String(s == null ? '' : s).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+  }
+
   function levelNum(lvl) {
     if (!lvl) return 0;
     var n = parseInt(String(lvl).replace(/[^\d]/g, ''));
     return isNaN(n) ? 0 : n;
   }
 
-  function classifyTier(contributor) {
+  // ── Rubric E1/E2 — read-time branch derivation ────────────────
+  // ALL branch classification MUST go through GaiaSemantics.computeBranch.
+  // NEVER compare contributor.topSkill.type against 'ultimate'|'unique'|'extra'.
+  function computeBranchForTopSkill(contributor) {
+    var skill = (contributor && contributor.topSkill) || {};
+    var lvl = levelNum(skill.level);
+    if (window.GaiaSemantics && typeof window.GaiaSemantics.computeBranch === 'function') {
+      return window.GaiaSemantics.computeBranch(skill, lvl);
+    }
+    // Degrade gracefully if skill-semantics.js somehow failed to load.
+    return 'standard';
+  }
+
+  // Returns the rank label string for a contributor's top skill.
+  // E2: uses rankLabel — emits e.g. "Unique · 4★", "Ultimate · 5★", "Apex · 6★".
+  // BANNED ladder words — neither 'Hardened' nor the removed 6★ suite synonym
+  // appear in rankLabel output.
+  function topSkillRankLabel(contributor) {
+    var skill = (contributor && contributor.topSkill) || {};
+    var lvl = levelNum(skill.level);
+    var branch = computeBranchForTopSkill(contributor);
+    if (window.GaiaSemantics && typeof window.GaiaSemantics.rankLabel === 'function') {
+      return window.GaiaSemantics.rankLabel(lvl, branch);
+    }
+    return lvl + '★';
+  }
+
+  // Returns the CSS tier class suffix for the hero stage background/animation.
+  // Maps branch + rank → presentational CSS class (hero-stage--<suffix>).
+  // E1: derived purely from branch (computeBranch) + numeric rank — no type reads.
+  function stageTierClass(contributor) {
+    var branch = computeBranchForTopSkill(contributor);
     var lvl = levelNum(contributor.topSkill.level);
     var skillId = contributor.topSkill.id || '';
-    var type = contributor.topSkill.type || 'basic';
-    // Ultimate: 5★+ AND is a known ultimate skill
-    if (lvl >= 5 && ULTIMATE_ANIMS[skillId]) return 'ultimate';
-    // Apex: 6★ (non-ultimate suite)
-    if (lvl >= 6) return 'apex';
-    // Transcendent: 5★ (non-ultimate suite)
-    if (lvl === 5) return 'transcendent';
-    // Unique is a skill type, not a star-level synonym.
-    if (type === 'unique') return 'unique';
-    if (type === 'extra') return 'extra';
-    if (type === 'basic') return 'basic';
-    // Named: everything else that passed the filter
-    return 'named';
+
+    if (branch === 'unique') return 'unique';
+
+    if (branch === 'suite') {
+      // Named ultmates with bespoke particle animations get the special class.
+      if (lvl >= 5 && ULTIMATE_ANIMS[skillId]) return 'ultimate';
+      if (lvl >= 6) return 'apex';
+      if (lvl >= 5) return 'apex';
+      return 'extra';
+    }
+
+    // Standard branch
+    return 'basic';
   }
 
   function getAnim(skillId) {
     return ULTIMATE_ANIMS[skillId] || 'constellation';
-  }
-
-  function getTierMarkLabel(contributor) {
-    var lvl = levelNum(contributor.topSkill.level);
-    var type = contributor.topSkill.type || 'basic';
-
-    if (type === 'ultimate') {
-      if (lvl === 6) return 'Ultimate · Apex';
-      if (lvl === 5) return 'Ultimate · Transcendent';
-      return 'Ultimate · Hardened';
-    }
-
-    if (lvl === 6) {
-      if (type === 'unique') return 'Unique · Apex';
-      if (type === 'extra') return 'Extra · Apex';
-      return 'Apex';
-    }
-
-    if (lvl === 5) {
-      if (type === 'unique') return 'Unique · Transcendent';
-      if (type === 'extra') return 'Extra · Transcendent';
-      return 'Transcendent';
-    }
-
-    if (lvl === 4) {
-      if (type === 'unique') return 'Unique';
-      if (type === 'extra') return 'Hardened · Extra';
-      if (type === 'basic') return 'Hardened · Basic';
-      return 'Hardened';
-    }
-
-    return TIER_LABEL[classifyTier(contributor)] || 'Named';
   }
 
   function stageIdFor(contributor) {
@@ -198,6 +204,49 @@
     return 'https://github.com/' + encodeURIComponent(clean) + '.png?size=' + (size || 160);
   }
 
+  // ── Gold-wreath avatar (E3/E4) ────────────────────────────────
+  // Renders the contributor's GitHub avatar framed by origin-wreath-gold.svg.
+  // Identicon fallback on onerror — never hides the frame.
+  // Reuses plaque._fields.avatar when available; falls back to inline pattern.
+  // The red origin mark (E4) is deprecated — gold wreath IS the origin signal.
+  function heroAvatarHtml(contributor, size) {
+    var handle = (contributor && contributor.handle) || '';
+    if (!handle) return '';
+    var clean = String(handle).replace(/^@/, '');
+    size = size || 120;
+
+    // Prefer plaque._fields.avatar so the wreath is always in sync with the
+    // shared component. Construct a minimal ns-like object.
+    if (window.plaque && window.plaque._fields && typeof window.plaque._fields.avatar === 'function') {
+      var ns = {
+        contributor: handle,
+        level: contributor.topSkill && contributor.topSkill.level,
+        origin: !!(contributor.topSkill && contributor.topSkill.origin),
+        links: contributor.topSkill && contributor.topSkill.links || {}
+      };
+      return window.plaque._fields.avatar(ns, { size: size });
+    }
+
+    // Inline fallback — mirrors _fieldAvatar exactly (no hex, no duplication).
+    var avatarSrc = 'https://github.com/' + encodeURIComponent(clean) + '.png?size=' + (size * 2);
+    var identicon = 'https://github.com/identicons/' + encodeURIComponent(clean) + '.png';
+    var wreathSrc = '../assets/origin-wreath-gold.svg';
+    var isOrigin = !!(contributor.topSkill && contributor.topSkill.origin);
+    var title = isOrigin ? 'Origin contributor @' + clean : '@' + clean;
+    var errAttr = "if(this.dataset.fbk){this.onerror=null;}else{this.dataset.fbk='1';this.src='" +
+      jsStr(identicon) + "';}";
+    var imgHtml = '<img class="hero-card__crest-avatar-img" src="' + esc(avatarSrc) + '" ' +
+      'alt="" decoding="async" loading="lazy" referrerpolicy="no-referrer" ' +
+      'onerror="' + errAttr + '">';
+    var wreathHtml = '<img class="hero-card__crest-avatar-wreath" src="' + esc(wreathSrc) + '" ' +
+      'alt="" aria-hidden="true">';
+    return '<span class="hero-card__crest-avatar" title="' + esc(title) + '" ' +
+      'aria-label="' + esc(title) + '"' +
+      (isOrigin ? ' data-origin="true"' : '') + '>' +
+      imgHtml + wreathHtml +
+      '</span>';
+  }
+
   function scrollToStage(stage) {
     if (!stage) return;
     stage.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -212,24 +261,27 @@
   function renderHeroStage(contributor, tier, index, total) {
     var handle = contributor.handle;
     var skillId = contributor.topSkill.id;
-    var skillType = contributor.topSkill.type || 'basic';
     var slug = skillId.split('/').pop();
     var lvl = levelNum(contributor.topSkill.level);
+    var branch = computeBranchForTopSkill(contributor);
     var anim = tier === 'ultimate' ? getAnim(skillId) : '';
     var epithet = ULTIMATE_EPITHETS[handle] || '';
     var stageId = stageIdFor(contributor);
     var titleId = stageId + '-title';
-    var avatarUrl = githubAvatarUrl(handle, 240);
+
+    // E1: glyph from BRANCH_GLYPH — never reads skill.type.
+    var glyph = BRANCH_GLYPH[branch] || BRANCH_GLYPH.standard;
+
+    // E2: tier mark uses rankLabel — branch-forked, no banned words.
+    var tierLabel = topSkillRankLabel(contributor);
 
     var stageClass = 'hero-stage hero-stage--' + tier;
     var animAttr = anim ? ' data-anim="' + anim + '"' : '';
-    var glyphType = contributor.topSkill.type || 'basic';
-    if (tier === 'ultimate') glyphType = 'ultimate';
-    var glyph = TYPE_GLYPH[glyphType] || TYPE_GLYPH.basic;
-    var tierLabel = getTierMarkLabel(contributor);
 
+    // E3: data-skill-type reflects stored type only; visual branch is data-branch
+    // (set by data-tier in CSS for the hero stage context).
     var html = '';
-    html += '<section id="' + esc(stageId) + '" class="' + stageClass + '" data-handle="' + esc(handle) + '" data-skill="' + esc(skillId) + '" data-skill-type="' + esc(skillType) + '" data-tier="' + esc(tier) + '" data-level="' + esc(lvl) + '" data-ledger-index="' + esc(index) + '" data-avatar-url="' + esc(avatarUrl) + '" aria-labelledby="' + esc(titleId) + '">';
+    html += '<section id="' + esc(stageId) + '" class="' + stageClass + '" data-handle="' + esc(handle) + '" data-skill="' + esc(skillId) + '" data-branch="' + esc(branch) + '" data-tier="' + esc(tier) + '" data-level="' + esc(lvl) + '" data-ledger-index="' + esc(index) + '" aria-labelledby="' + esc(titleId) + '">';
     html += '<div class="hero-stage__ordinal" aria-hidden="true">Plate ' + String(index + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0') + '</div>';
     html += '<div class="hero-card">';
 
@@ -238,12 +290,11 @@
       html += '<canvas class="hero-card__canvas" data-hero="' + esc(handle) + '" aria-hidden="true"></canvas>';
     }
 
-    // The share plaque remains available from the action button. The page view
-    // uses a lighter crest so the name/handle block is the single source of truth.
+    // E3: crest wrapper — diamond back + gold-wreath avatar (replaces plain img + red mark).
     html += '<div class="hero-card__crest-wrapper">';
     html += '<div class="hero-card__crest-diamond-back"' + animAttr + ' aria-hidden="true"></div>';
     html += '<div class="hero-card__crest-square-front">';
-    html += '<img src="' + esc(avatarUrl) + '" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentNode.hidden=true">';
+    html += heroAvatarHtml(contributor, 200);
     html += '</div>';
     html += '<div class="hero-card__crest-seal" data-level="' + esc(lvl) + '">';
     html += '<span class="hero-card__crest-seal-glyph">' + esc(glyph) + '</span>';
@@ -252,7 +303,7 @@
 
     // Meta
     html += '<div class="hero-card__meta">';
-    html += '<div class="hero-card__tier-mark" aria-label="' + esc(tierLabel) + ' tier"><span aria-hidden="true">' + esc(glyph) + '</span>' + esc(tierLabel) + '</div>';
+    html += '<div class="hero-card__tier-mark" aria-label="' + esc(tierLabel) + '"><span aria-hidden="true">' + esc(glyph) + '</span>' + esc(tierLabel) + '</div>';
     html += '<h2 class="hero-card__name" id="' + esc(titleId) + '">' + esc(slug) + '</h2>';
     html += '<div class="hero-card__handle">@' + esc(handle) + '</div>';
     if (epithet) {
@@ -266,7 +317,7 @@
     html += '</div>';
 
     // Share button
-    html += '<button class="hero-card__share" data-share-handle="' + esc(handle) + '" data-share-skill="' + esc(skillId) + '" data-share-type="' + esc(skillType) + '">';
+    html += '<button class="hero-card__share" data-share-handle="' + esc(handle) + '" data-share-skill="' + esc(skillId) + '" data-share-branch="' + esc(branch) + '">';
     html += '<svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#link"></use></svg>';
     html += 'Share plaque';
     html += '</button>';
@@ -291,14 +342,15 @@
       var tier = entry.tier;
       var skillId = contributor.topSkill.id || '';
       var slug = skillId.split('/').pop() || contributor.handle;
-      var glyphType = contributor.topSkill.type || 'basic';
-      if (tier === 'ultimate') glyphType = 'ultimate';
+      // E1: glyph keyed by branch, not type.
+      var branch = computeBranchForTopSkill(contributor);
+      var glyph = BRANCH_GLYPH[branch] || BRANCH_GLYPH.standard;
       var avatarUrl = githubAvatarUrl(contributor.handle, 80);
       var lvl = levelNum(contributor.topSkill.level);
       return '<li class="heroes-ledger-rail__item">' +
         '<button class="heroes-ledger-rail__button" type="button" data-ledger-target="' + esc(stageIdFor(contributor)) + '" data-ledger-index="' + esc(index) + '" data-level="' + lvl + '">' +
         '<span class="heroes-ledger-rail__avatar" aria-hidden="true"><img src="' + esc(avatarUrl) + '" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.hidden=true"></span>' +
-        '<span class="heroes-ledger-rail__glyph" aria-hidden="true">' + esc(TYPE_GLYPH[glyphType] || TYPE_GLYPH.basic) + '</span>' +
+        '<span class="heroes-ledger-rail__glyph" aria-hidden="true">' + esc(glyph) + '</span>' +
         '<span class="heroes-ledger-rail__entry">' +
         '<span class="heroes-ledger-rail__name">' + esc(slug) + '</span>' +
         '<span class="heroes-ledger-rail__byline">@' + esc(contributor.handle) + ' · ' + esc(rankText(contributor)) + '</span>' +
@@ -329,7 +381,7 @@
 
   function renderEmptyState() {
     return '<div class="heroes-empty">' +
-      '<p>No heroes have ascended to 4\u2605 yet.<br>The hall awaits its first legends.</p>' +
+      '<p>No heroes have ascended to 4★ yet.<br>The hall awaits its first legends.</p>' +
       '</div>';
   }
 
@@ -475,8 +527,9 @@
     }
 
     if (entry && meta) {
-      var displayLabel = getTierMarkLabel(entry.contributor);
-      meta.textContent = displayLabel + ' · ' + rankText(entry.contributor) + ' · Plate ' + (index + 1) + ' of ' + total;
+      // E2: rankLabel via GaiaSemantics — no banned words in ledger meta.
+      var displayLabel = topSkillRankLabel(entry.contributor);
+      meta.textContent = displayLabel + ' · Plate ' + (index + 1) + ' of ' + total;
     }
 
     if (progress) {
@@ -564,8 +617,8 @@
 
         var ledgerEntries = [];
 
-        // Build HTML in strict TM order. Tier dividers are still rendered,
-        // but they follow the live ranking instead of regrouping the page.
+        // Build HTML in strict TM order. Tier dividers follow live ranking.
+        // E2: divider labels use rankLabel (branch-forked, no banned words).
         var html = '';
         var renderedIndex = 0;
         var totalHeroes = heroes.length;
@@ -577,9 +630,11 @@
         }
 
         heroes.forEach(function (c) {
-          var tier = classifyTier(c);
+          var tier = stageTierClass(c);
           if (tier !== previousTier && previousTier !== null) {
-            html += renderTierDivider(TIER_LABEL[tier] || 'Named');
+            // Use rankLabel for the divider heading — branch-forked, no banned words.
+            var dividerLabel = topSkillRankLabel(c);
+            html += renderTierDivider(dividerLabel);
           }
           appendHeroStage(c, tier);
           previousTier = tier;

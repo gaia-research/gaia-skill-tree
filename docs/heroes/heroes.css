@@ -520,12 +520,6 @@
     var(--heroes-bg-deep);
 }
 
-.hero-stage--transcendent {
-  background:
-    radial-gradient(ellipse 60% 45% at 50% 50%, rgba(var(--stage-accent-rgb), 0.055) 0%, transparent 65%),
-    var(--heroes-bg-deep);
-}
-
 .hero-stage--unique {
   background:
     radial-gradient(ellipse 60% 45% at 50% 50%, rgba(var(--stage-accent-rgb), 0.06) 0%, transparent 65%),
@@ -934,22 +928,19 @@
 }
 
 .hero-stage--apex.is-visible .hero-card__crest-diamond-back,
-.hero-stage--transcendent.is-visible .hero-card__crest-diamond-back,
 .hero-stage--unique.is-visible .hero-card__crest-diamond-back,
 .hero-stage--named.is-visible .hero-card__crest-diamond-back {
   animation: hero-diamond-enter 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .hero-stage--apex.is-visible .hero-card__crest-square-front,
-.hero-stage--transcendent.is-visible .hero-card__crest-square-front,
 .hero-stage--unique.is-visible .hero-card__crest-square-front,
 .hero-stage--named.is-visible .hero-card__crest-square-front {
   animation: hero-unique-enter 0.8s ease-out both;
   animation-delay: 0.25s;
 }
 
-.hero-stage--apex.is-visible .hero-card__meta,
-.hero-stage--transcendent.is-visible .hero-card__meta {
+.hero-stage--apex.is-visible .hero-card__meta {
   animation: heroes-meta-enter 0.7s ease-out both;
   animation-delay: 0.4s;
 }
@@ -1251,6 +1242,54 @@
     justify-content: center;
     gap: 0.8rem;
   }
+}
+
+
+/* ── Gold-wreath avatar inside hero crest (E3/E4) ──────────────
+   hero-card__crest-square-front now contains a .hero-card__crest-avatar
+   (emitted by heroAvatarHtml / plaque._fields.avatar). The wreath overlays
+   the avatar photo exactly as in plaque.css .plaque__avatar-wreath.
+   The red origin mark (E4) is removed — gold wreath IS the origin signal.
+   ============================================================ */
+.hero-card__crest-square-front {
+  /* Allow the wreath to spill slightly outside the square. */
+  overflow: visible;
+}
+
+/* Avatar wrapper (either plaque__avatar or hero-card__crest-avatar) */
+.hero-card__crest-square-front .plaque__avatar,
+.hero-card__crest-avatar {
+  --avatar-size: clamp(110px, 16vw, 140px);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  border-radius: 0;
+}
+
+/* Photo inside the avatar wrapper */
+.hero-card__crest-square-front .plaque__avatar-img,
+.hero-card__crest-avatar-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+  filter: saturate(0.86) contrast(1.08);
+}
+
+/* Gold wreath overlay (E4: replaces red origin mark) */
+.hero-card__crest-square-front .plaque__avatar-wreath,
+.hero-card__crest-avatar-wreath {
+  position: absolute;
+  /* Wreath is 112% of the avatar so it frames the photo. */
+  inset: -6%;
+  width: 112%;
+  height: 112%;
+  pointer-events: none;
+  display: block;
 }
 
 
