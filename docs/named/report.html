@@ -18,30 +18,25 @@
   <link rel="stylesheet" href="../css/plaque.css?v=6.8.8">
   <script src="../js/icons.js?v=6.8.8"></script>
   <script src="../js/atlas-helpers.js?v=6.8.8"></script>
+  <script src="../js/skill-semantics.js?v=6.8.8"></script>
   <script src="../js/rank-badge.js?v=6.8.8"></script>
 
   <style>
-    /* ── Grade color tokens (mirrors GRADE_COLORS in src/gaia_cli/formatting.py) ── */
+    /* ── Report status tokens — semantic aliases over the shared palette.
+       Evidence-grade coloring (S/A/B/C) is owned globally by styles.css via
+       [data-grade] selectors, so no local grade tokens live here. These four
+       cover the pass / next-step / caution / fail states unique to this
+       report surface. All resolve to existing design tokens (rubric E7 —
+       token-only, no raw hex). ── */
     :root {
-      --grade-s: #e2e8f0;
-      --grade-s-bg: rgba(226, 232, 240, 0.12);
-      --grade-s-border: rgba(226, 232, 240, 0.35);
-      --grade-a: #fbbf24;
-      --grade-a-bg: rgba(251, 191, 36, 0.12);
-      --grade-a-border: rgba(251, 191, 36, 0.35);
-      --grade-b: #94a3b8;
-      --grade-b-bg: rgba(148, 163, 184, 0.12);
-      --grade-b-border: rgba(148, 163, 184, 0.35);
-      --grade-c: #b45309;
-      --grade-c-bg: rgba(180, 83, 9, 0.12);
-      --grade-c-border: rgba(180, 83, 9, 0.35);
-      --grade-none: #475569;
-      --grade-none-bg: rgba(71, 85, 105, 0.12);
-      --grade-none-border: rgba(71, 85, 105, 0.35);
-
-      --type-repo: #38bdf8;
-      --type-arxiv: #10b981;
-      --type-github-stars: #fbbf24;
+      --report-ok:        var(--cluster-2);         /* verified · rank-up · pass */
+      --report-ok-rgb:    16, 185, 129;
+      --report-next:      var(--apex-gold);         /* actionable next step */
+      --report-next-rgb:  var(--apex-gold-rgb);
+      --report-warn:      var(--tier-fusion);       /* stale · disputed */
+      --report-warn-rgb:  var(--tier-fusion-rgb);
+      --report-danger:    var(--honor-red);         /* fail · dead link · demote */
+      --report-danger-rgb: var(--honor-red-rgb);
     }
 
     /* ── Layout ── */
@@ -280,9 +275,9 @@
       color: var(--muted);
       vertical-align: middle;
     }
-    .ev-type[data-type="repo"] { color: var(--type-repo); border-color: rgba(56,189,248,.3); }
-    .ev-type[data-type="arxiv"] { color: var(--type-arxiv); border-color: rgba(16,185,129,.3); }
-    .ev-type[data-type="github-stars"] { color: var(--type-github-stars); border-color: rgba(251,191,36,.3); }
+    .ev-type[data-type="repo"] { color: var(--tier-basic); border-color: var(--tier-basic-border); }
+    .ev-type[data-type="arxiv"] { color: var(--report-ok); border-color: rgba(var(--report-ok-rgb),.3); }
+    .ev-type[data-type="github-stars"] { color: var(--apex-gold); border-color: rgba(var(--apex-gold-rgb),.3); }
 
     .ev-source-link {
       color: var(--muted);
@@ -341,9 +336,9 @@
       border-radius: 0.4rem;
     }
 
-    .gap-row--green { border-color: rgba(16,185,129,.3); }
-    .gap-row--amber { border-color: rgba(251,191,36,.3); }
-    .gap-row--red { border-color: rgba(239,68,68,.25); }
+    .gap-row--green { border-color: rgba(var(--report-ok-rgb),.3); }
+    .gap-row--amber { border-color: rgba(var(--report-next-rgb),.3); }
+    .gap-row--red { border-color: rgba(var(--report-danger-rgb),.25); }
 
     .gap-icon {
       width: 1.5rem;
@@ -356,8 +351,8 @@
       flex-shrink: 0;
       margin-top: 0.1rem;
     }
-    .gap-icon--check { background: rgba(16,185,129,.15); color: #10b981; }
-    .gap-icon--next  { background: rgba(251,191,36,.15); color: #fbbf24; }
+    .gap-icon--check { background: rgba(var(--report-ok-rgb),.15); color: var(--report-ok); }
+    .gap-icon--next  { background: rgba(var(--report-next-rgb),.15); color: var(--report-next); }
     .gap-icon--lock  { background: rgba(148,163,184,.1); color: var(--muted); }
 
     .gap-body { flex: 1; min-width: 0; }
@@ -376,8 +371,8 @@
       border: 1px solid;
       margin-bottom: 0.85rem;
     }
-    .gate-status--pass { color: #10b981; background: rgba(16,185,129,.08); border-color: rgba(16,185,129,.3); }
-    .gate-status--fail { color: #ef4444; background: rgba(239,68,68,.07); border-color: rgba(239,68,68,.25); }
+    .gate-status--pass { color: var(--report-ok); background: rgba(var(--report-ok-rgb),.08); border-color: rgba(var(--report-ok-rgb),.3); }
+    .gate-status--fail { color: var(--report-danger); background: rgba(var(--report-danger-rgb),.07); border-color: rgba(var(--report-danger-rgb),.25); }
 
     .gate-reason {
       font-size: 0.85rem;
@@ -422,9 +417,9 @@
       margin-top: 0.05rem;
     }
 
-    .tl-dot--rank_up   { color: #10b981; border-color: rgba(16,185,129,.4); }
-    .tl-dot--evidence  { color: #fbbf24; border-color: rgba(251,191,36,.4); }
-    .tl-dot--demote    { color: #ef4444; border-color: rgba(239,68,68,.4); }
+    .tl-dot--rank_up   { color: var(--report-ok); border-color: rgba(var(--report-ok-rgb),.4); }
+    .tl-dot--evidence  { color: var(--report-next); border-color: rgba(var(--report-next-rgb),.4); }
+    .tl-dot--demote    { color: var(--report-danger); border-color: rgba(var(--report-danger-rgb),.4); }
 
     .tl-body { flex: 1; min-width: 0; }
     .tl-action { font-weight: 600; color: var(--text); margin-bottom: 0.1rem; text-transform: capitalize; }
@@ -456,10 +451,12 @@
     }
 
     /* ── Tier orb colors (mirrors typeColors in gaia.json) ── */
-    .report-header-orb[data-type="basic"]    { color: var(--tier-basic);    background: var(--tier-basic-bg);    border-color: var(--tier-basic-border); }
-    .report-header-orb[data-type="extra"]    { color: var(--tier-extra);    background: var(--tier-extra-bg);    border-color: var(--tier-extra-border); }
-    .report-header-orb[data-type="unique"]   { color: var(--tier-unique);   background: var(--tier-unique-bg);   border-color: var(--tier-unique-border); }
-    .report-header-orb[data-type="ultimate"] { color: var(--tier-ultimate); background: var(--tier-ultimate-bg); border-color: var(--tier-ultimate-border); }
+    /* ── Header orb — keyed on the read-time branch (rubric E1). Never on a
+       dead type enum. computeBranch returns 'standard' | 'suite' | 'unique';
+       standard borrows the basic tier color, suite the fusion color. ── */
+    .report-header-orb[data-branch="standard"] { color: var(--tier-basic);  background: var(--tier-basic-bg);  border-color: var(--tier-basic-border); }
+    .report-header-orb[data-branch="suite"]    { color: var(--tier-fusion); background: var(--tier-fusion-bg); border-color: var(--tier-fusion-border); }
+    .report-header-orb[data-branch="unique"]   { color: var(--tier-unique); background: var(--tier-unique-bg); border-color: var(--tier-unique-border); }
 
     /* ── Inherited evidence label ── */
     .ev-inherited-tag {
@@ -486,10 +483,10 @@
       vertical-align: middle;
       margin-left: 0.25rem;
     }
-    .ev-flag--stale  { color: #f59e0b; border-color: rgba(245,158,11,.4); background: rgba(245,158,11,.07); }
-    .ev-flag--dead   { color: #ef4444; border-color: rgba(239,68,68,.4);  background: rgba(239,68,68,.07); }
-    .ev-flag--verified   { color: #10b981; border-color: rgba(16,185,129,.4); background: rgba(16,185,129,.07); }
-    .ev-flag--disputed   { color: #f59e0b; border-color: rgba(245,158,11,.4); background: rgba(245,158,11,.07); }
+    .ev-flag--stale  { color: var(--report-warn); border-color: rgba(var(--report-warn-rgb),.4); background: rgba(var(--report-warn-rgb),.07); }
+    .ev-flag--dead   { color: var(--report-danger); border-color: rgba(var(--report-danger-rgb),.4);  background: rgba(var(--report-danger-rgb),.07); }
+    .ev-flag--verified   { color: var(--report-ok); border-color: rgba(var(--report-ok-rgb),.4); background: rgba(var(--report-ok-rgb),.07); }
+    .ev-flag--disputed   { color: var(--report-warn); border-color: rgba(var(--report-warn-rgb),.4); background: rgba(var(--report-warn-rgb),.07); }
 
     /* ── Links card ── */
     .links-list {
@@ -516,7 +513,7 @@
       text-overflow: ellipsis;
       white-space: nowrap;
     }
-    .links-row a:hover { color: #38bdf8; }
+    .links-row a:hover { color: var(--tier-basic); }
     .links-kind {
       font-family: var(--font-mono);
       font-size: 0.7rem;
@@ -567,16 +564,16 @@
       transition: border-color 0.15s, color 0.15s;
     }
     .upgrade-chip:hover {
-      border-color: #38bdf8;
-      color: #38bdf8;
+      border-color: var(--tier-basic);
+      color: var(--tier-basic);
     }
     .upgrade-chip--current {
-      background: rgba(251,191,36,0.08);
-      border-color: rgba(251,191,36,0.4);
-      color: #fbbf24;
+      background: rgba(var(--apex-gold-rgb),0.08);
+      border-color: rgba(var(--apex-gold-rgb),0.4);
+      color: var(--apex-gold);
       cursor: default;
     }
-    .upgrade-chip--current:hover { color: #fbbf24; border-color: rgba(251,191,36,0.4); }
+    .upgrade-chip--current:hover { color: var(--apex-gold); border-color: rgba(var(--apex-gold-rgb),0.4); }
     .upgrade-empty {
       font-style: italic;
       color: var(--muted);
@@ -626,16 +623,30 @@
     var NAMED_INDEX_URL = '../graph/named/index.json';
     var GRAPH_URL = '../graph/gaia.json';
 
-    var LEVEL_LABELS = {
-      '0': 'Basic', '1': 'Awakened', '2': 'Named',
-      '3': 'Evolved', '4': 'Hardened', '5': 'Transcendent', '6': 'Apex'
-    };
-
-    var TYPE_SYMBOLS = { basic: '○', extra: '◇', unique: '◉', ultimate: '◆' };
+    /* Branch → header-orb glyph. Mirrors the tier symbol tokens in tokens.css
+       (basic '○', fusion '◆', unique '◉'). Keyed on the read-time branch,
+       never a stored type (rubric E1). */
+    var BRANCH_SYMBOL = { standard: '○', suite: '◆', unique: '◉' };
 
     var GRADE_LABELS = { S: 'Platinum', A: 'Gold', B: 'Silver', C: 'Bronze' };
 
     var GRADE_ORDER = ['S', 'A', 'B', 'C'];
+
+    /* ── Branch + rank vocabulary — delegated to the shared resolver
+       (docs/js/skill-semantics.js). NEVER branch off a stored type such as
+       'ultimate' / 'extra' / 'unique' (rubric E1); NEVER emit the two retired
+       4★/5★ rank words the resolver replaced (rubric E2). The resolver forks
+       rank words by branch at 4★+. ── */
+    function branchOf(skill) {
+      return (window.GaiaSemantics && window.GaiaSemantics.computeBranch)
+        ? window.GaiaSemantics.computeBranch(skill, skill && skill.level)
+        : 'standard';
+    }
+    function rankNameOf(skill) {
+      return (window.GaiaSemantics && window.GaiaSemantics.rankWord)
+        ? window.GaiaSemantics.rankWord(skill && skill.level, branchOf(skill))
+        : ((skill && skill.level) || '');
+    }
 
     /* ── helpers ── */
     function esc(v) {
@@ -733,7 +744,7 @@
 
       return {
         levelNum: levelNum,
-        rankName: LEVEL_LABELS[String(levelNum)] || level,
+        rankName: rankNameOf(skill),
         sinceIso: sinceIso,
         sinceDisplay: fmtDate(sinceIso),
         sinceAgo: daysAgo(sinceIso),
@@ -743,7 +754,10 @@
     /* ── Compute actionable gap ── */
     function computeGap(skill) {
       var grade = (skill.overallTrustGrade || '').trim();
-      var isUltimate = skill.type === 'ultimate';
+      // Suite gate applies to suite-branch skills — derived, never off a type
+      // enum (rubric E1). computeBranch returns 'suite' for skills carrying
+      // suiteComponents.
+      var isSuite = branchOf(skill) === 'suite';
       var evidence = Array.isArray(skill.evidence) ? skill.evidence : [];
       var gateStatus = skill.ultimateGateStatus || null;
 
@@ -789,8 +803,8 @@
         }
       }
 
-      // Suite gate gap (for ultimates)
-      if (isUltimate && gateStatus) {
+      // Suite gate gap (for suite-branch skills)
+      if (isSuite && gateStatus) {
         if (gateStatus.passes) {
           rows.push({
             kind: 'check',
@@ -812,13 +826,13 @@
         rows.push({
           kind: 'next',
           title: 'Rank gap: evidence outpaces current stars',
-          desc: 'Silver (B) evidence supports higher rank than ' + (LEVEL_LABELS[String(levelNum)] || skill.level) + '. Run <code>gaia scan</code> to generate promotion candidates, then <code>gaia promote</code> when eligible.'
+          desc: 'Silver (B) evidence supports higher rank than ' + (rankNameOf(skill) || skill.level) + '. Run <code>gaia scan</code> to generate promotion candidates, then <code>gaia promote</code> when eligible.'
         });
       } else if (levelNum < 4 && grade === 'A') {
         rows.push({
           kind: 'next',
           title: 'Rank gap: Gold evidence supports advancement',
-          desc: 'Gold (A) grade evidence can support progression beyond ' + (LEVEL_LABELS[String(levelNum)] || skill.level) + '. Run <code>gaia scan</code> to check promotion eligibility.'
+          desc: 'Gold (A) grade evidence can support progression beyond ' + (rankNameOf(skill) || skill.level) + '. Run <code>gaia scan</code> to check promotion eligibility.'
         });
       }
 
@@ -839,28 +853,29 @@
     }
 
     function renderHeader(skill) {
-      var type = skill.type || 'basic';
-      var sym = TYPE_SYMBOLS[type] || '○';
+      var branch = branchOf(skill);
+      var sym = BRANCH_SYMBOL[branch] || '○';
       var levelNum = parseLevel(skill.level);
       var rankBadgeHtml = (typeof window.rankBadge === 'function')
         ? window.rankBadge(levelNum, { variant: 'full', size: 'md' })
         : '<span>' + esc(skill.level || '') + '</span>';
 
-      var tierBadge = '<span style="font-family:var(--font-mono);font-size:0.72rem;padding:.2rem .5rem;border-radius:.25rem;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--muted);text-transform:capitalize;">' + esc(type) + '</span>';
+      var branchWord = branch === 'unique' ? 'Unique' : (branch === 'suite' ? 'Suite' : 'Standard');
+      var tierBadge = '<span style="font-family:var(--font-mono);font-size:0.72rem;padding:.2rem .5rem;border-radius:.25rem;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--muted);text-transform:capitalize;">' + esc(branchWord) + '</span>';
 
       document.title = esc(skill.name) + ' — Trust Report · Gaia';
       var titleEl = document.getElementById('pageTitle');
       if (titleEl) titleEl.textContent = skill.name + ' — Trust Report · Gaia';
 
       return '<div class="report-header">' +
-        '<div class="report-header-orb" data-type="' + esc(type) + '">' + esc(sym) + '</div>' +
+        '<div class="report-header-orb" data-branch="' + esc(branch) + '">' + esc(sym) + '</div>' +
         '<div class="report-header-meta">' +
           '<h1 class="report-skill-name">' + esc(skill.name) + '</h1>' +
           (skill.title ? '<div class="report-skill-title">' + esc(skill.title) + '</div>' : '') +
           '<div class="report-skill-contributor">' +
             '<span>by</span>' +
             '<span class="report-contributor-name">@' + esc(skill.contributor || '?') + '</span>' +
-            (skill.origin ? ' <span style="font-size:.7rem;color:#fbbf24;font-family:var(--font-mono);">★ origin</span>' : '') +
+            (skill.origin ? ' <span style="font-size:.7rem;color:var(--apex-gold);font-family:var(--font-mono);">★ origin</span>' : '') +
           '</div>' +
         '</div>' +
         '<div class="report-header-badges">' +
@@ -1057,7 +1072,9 @@
     }
 
     function renderGateCard(skill) {
-      if (skill.type !== 'ultimate') return '';
+      // Suite gate renders only for suite-branch skills — derived at read-time
+      // (rubric E1), never off a 'ultimate' type enum.
+      if (branchOf(skill) !== 'suite') return '';
       var gate = skill.ultimateGateStatus;
       if (!gate) return '';
 
@@ -1310,8 +1327,5 @@
   }());
   </script>
 
-<!-- impeccable-live-start -->
-<script src="http://localhost:8400/live.js"></script>
-<!-- impeccable-live-end -->
 </body>
 </html>
