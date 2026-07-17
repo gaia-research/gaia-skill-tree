@@ -554,7 +554,10 @@ def migrate_named_skills(
 
         # --- Gate evaluation ---
         branch = computeBranch(fm, genericSkillMap)
-        tm = float(computeTrustMagnitude(fm, genericSkillMap, namedSkillMap))
+        # Pre-merge namedSkillMap so suite-component origin IDs resolve in
+        # _gradedOriginCount (named skill IDs miss a generic-only map).
+        mergedMap = {**genericSkillMap, **namedSkillMap}
+        tm = float(computeTrustMagnitude(fm, mergedMap))
         demoted = False
 
         if level == "5★":

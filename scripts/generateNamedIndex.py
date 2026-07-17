@@ -477,7 +477,10 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config):
                 entry["overallTrustGrade"] = fm_grade
             else:
                 # Missing frontmatter values — recompute via G7 path.
-                tm = computeTrustMagnitude(skill_with_effective, generic_skills_map)
+                # Pre-merge namedSkillMap so suite-component origin IDs
+                # (e.g. "gsd-build/discuss-phase") resolve in _gradedOriginCount.
+                merged_map = {**generic_skills_map, **named_skill_map}
+                tm = computeTrustMagnitude(skill_with_effective, merged_map)
                 entry["trustMagnitude"] = round(tm, 2)
                 grade = overall_trust_grade(
                     effective,

@@ -275,7 +275,10 @@ def checkUniqueBranchGate(
 
     # Recompute Trust Magnitude live (effective pool handled internally when a
     # genericSkillMap is supplied). Never trust a precomputed frontmatter value.
-    tm = float(computeTrustMagnitude(named, genericSkillMap, namedSkillMap))
+    # Pre-merge namedSkillMap so suite-component origin IDs (e.g. "gsd-build/discuss-phase")
+    # resolve correctly in _gradedOriginCount — named skill IDs miss a generic-only map.
+    mergedMap = {**(genericSkillMap or {}), **(namedSkillMap or {})}
+    tm = float(computeTrustMagnitude(named, mergedMap))
 
     # Confirm the skill sits on the Unique branch AT the target level.
     branch = computeBranch({**named, "level": level}, genericSkillMap)
