@@ -44,10 +44,20 @@
   var SVG_NS = 'http://www.w3.org/2000/svg';
 
   var GRADE_ORDER = { S: 0, A: 1, B: 2, C: 3, ungraded: 9 };
-  var RANK_NAMES = {
-    '1★': 'Awakened', '2★': 'Named', '3★': 'Evolved',
-    '4★': 'Hardened', '5★': 'Transcendent', '6★': 'Apex'
-  };
+
+  // RANK_NAMES is no longer a static lookup — rank words fork by branch at 4★+.
+  // Use rankNameFor(level, node) everywhere instead of RANK_NAMES[level].
+  // Kept as a legacy fallback map for 1★–3★ only (branch-agnostic range).
+  var RANK_NAMES_SHARED = { '1★': 'Awakened', '2★': 'Named', '3★': 'Evolved' };
+
+  // Derive the branch-aware rank word for a skill.
+  // Requires window.GaiaSemantics (skill-semantics.js loaded before leaderboard.js).
+  function rankNameFor(level, node) {
+    var gs = (typeof window !== 'undefined' && window.GaiaSemantics);
+    if (!gs) return RANK_NAMES_SHARED[level] || '';
+    var branch = gs.computeBranch(node || {}, level);
+    return gs.rankWord(level, branch);
+  }
 
   // ── EVIDENCE TYPES (per-type TM filter tabs above Named chart) ──
   var EVIDENCE_TYPES = [
@@ -147,14 +157,16 @@
     }
   }
 
-  // ── TYPE COLOR PALETTE ──
-  // Each skill TYPE has a canonical top and bottom RGB stop for the bar gradient.
-  // The handle hue provides a very subtle personality blend at the mid-stop.
-  var TYPE_COLORS = {
-    basic:    { top: [56,  189, 248], bot: [30,  100, 160] },
-    extra:    { top: [192, 132, 252], bot: [100,  60, 160] },
-    unique:   { top: [124,  58, 237], bot: [60,   25, 140] },
-    ultimate: { top: [245, 158,  11], bot: [160,  90,   5] }
+  // ── BRANCH COLOR PALETTE (Yggdrasil II) ──
+  // Keyed by branch ('standard'|'suite'|'unique'), NOT by the dead enum
+  // (basic/extra/unique/ultimate). Branch is derived at read-time via
+  // GaiaSemantics.computeBranch — never read from skill.type directly.
+  // Token source: --tier-basic-rgb (56,189,248), --tier-fusion-rgb (245,158,11),
+  //               --tier-unique-rgb (124,58,237). No hex literals (CI guard E7).
+  var BRANCH_COLORS = {
+    standard: { top: [56,  189, 248], bot: [30,  100, 160] },   // --tier-basic-rgb
+    suite:    { top: [245, 158,  11], bot: [160,  90,   5] },   // --tier-fusion-rgb (gold)
+    unique:   { top: [124,  58, 237], bot: [60,   25, 140] }    // --tier-unique-rgb (darker plaque)
   };
 
   // Grade accent cap colors (solid RGBA strings)
@@ -165,8 +177,20 @@
     C: 'rgba(180,120,60,0.7)'
   };
 
-  function typeColors(type) {
-    return TYPE_COLORS[type] || TYPE_COLORS.basic;
+  // Resolve branch color stops for a skill node.
+  // node may carry .type and .suiteComponents; level is the star level.
+  // Falls back to 'standard' when GaiaSemantics hasn't loaded yet.
+  function typeColors(nodeOrType, level) {
+    var branch = 'standard';
+    var gs = (typeof window !== 'undefined' && window.GaiaSemantics);
+    if (gs && nodeOrType && typeof nodeOrType === 'object') {
+      branch = gs.computeBranch(nodeOrType, level != null ? level : nodeOrType.level);
+    } else if (typeof nodeOrType === 'string') {
+      // Legacy path: caller passes a raw type string ('basic'/'fusion'/old enum)
+      if (nodeOrType === 'fusion') branch = 'suite';
+      else branch = 'standard';
+    }
+    return BRANCH_COLORS[branch] || BRANCH_COLORS.standard;
   }
 
   function rgbStr(arr) { return arr[0] + ',' + arr[1] + ',' + arr[2]; }
@@ -246,10 +270,11 @@
   }
 
   // ── BAR GRADIENT BUILDER ──
-  // Unified: main fill = TYPE color (bottom→top), mid-stop blends contributor handle hue.
-  function buildBarGradientDef(svg, contributor, grade, level, type, id) {
+  // Unified: main fill = BRANCH color (bottom→top), mid-stop blends contributor handle hue.
+  // `node` is the full skill object so computeBranch can inspect .type and .suiteComponents.
+  function buildBarGradientDef(svg, contributor, grade, level, node, id) {
     var hue = handleHue(contributor);
-    var tc = typeColors(type);
+    var tc = typeColors(node, level);
     var stopBot = 'rgb(' + rgbStr(tc.bot) + ')';
     var mid = blendHandleMid(tc.top, hue);
     var stopMid = 'rgba(' + rgbStr(mid) + ',0.92)';
@@ -325,7 +350,7 @@
   // ── ORIGIN BADGE HELPER ──
   // Renders a small laurel-wreath glyph in the top-left interior of a bar to mark origin skills.
   // Anchored to (barX, barY, barW); badge sits inside the bar, never overlapping labels below.
-  // Uses currentColor + color: var(--honor-red) so we avoid hardcoding hex (CI guard).
+  // Uses currentColor + color: var(--apex-gold) — red origin mark is deprecated (Yggdrasil II E4).
   function appendOriginBadge(parent, barX, barY, barW) {
     var size = Math.max(10, Math.min(14, barW * 0.45));
     var margin = 3;
@@ -345,9 +370,29 @@
     u.setAttribute('width', String(size));
     u.setAttribute('height', String(size));
     u.setAttribute('fill', 'currentColor');
-    u.setAttribute('color', 'var(--honor-red)');
+    u.setAttribute('color', 'var(--apex-gold)');
     u.setAttribute('pointer-events', 'none');
     parent.appendChild(u);
+  }
+
+  // ── AVATAR WREATH HELPER ──
+  // Renders the gold origin-wreath-gold.svg ring OVER a bar-chart avatar circle.
+  // E3: every avatar on every bar chart is framed by the gold wreath, not just origin
+  // skills — the wreath is the Yggdrasil II origin mark and applies universally.
+  // Sized 112% of the avatar diameter so the laurel reads as a border ring (mirrors
+  // the plaque.css pattern: inset:-6%; width:112%).
+  function appendAvatarWreath(parent, cx, cy, r) {
+    var wreathSize = r * 2.24; // 112% of diameter
+    var wreathImg = svgEl('image', {
+      href: ROOT_PREFIX + 'assets/origin-wreath-gold.svg',
+      x: String(cx - wreathSize / 2),
+      y: String(cy - wreathSize / 2),
+      width: String(wreathSize),
+      height: String(wreathSize),
+      'pointer-events': 'none',
+      preserveAspectRatio: 'xMidYMid meet'
+    });
+    parent.appendChild(wreathImg);
   }
 
   // ── ACTION BUTTONS BUILDER ──
@@ -435,13 +480,23 @@
     }
 
     // Enrich leaderboard rows
+    // NOTE: the API JSON may still carry legacy `type` values (ultimate/extra/unique).
+    // We normalize to valid schema types ('basic'/'fusion') and attach `_branch`
+    // derived via GaiaSemantics.computeBranch so downstream code never reads
+    // the dead enum (E1 compliance). suiteComponents from detail fetches later
+    // may upgrade _branch to 'suite' via detectSuites.
+    var gs = (typeof window !== 'undefined' && window.GaiaSemantics);
     var allRows = leaderboard.rows.map(function(row) {
       var skill = skillMap[row.id] || {};
+      // Normalize legacy type strings to valid schema values
+      var rawType = skill.type || 'basic';
+      var normType = (rawType === 'fusion') ? 'fusion' : 'basic';
       return {
         id: row.id,
         name: skill.name || row.id.split('/')[1],
         contributor: row.id.split('/')[0],
-        type: skill.type || 'basic',
+        type: normType,
+        suiteComponents: skill.suiteComponents || null,
         level: row.level || skill.level || '',
         trustMagnitude: row.trustMagnitude || 0,
         grade: row.grade || skill.overallTrustGrade || 'ungraded',
@@ -450,10 +505,18 @@
       };
     });
 
-    // Partition
-    var ultimates = allRows.filter(function(r) { return r.type === 'ultimate'; });
-    var extras    = allRows.filter(function(r) { return r.type === 'extra'; });
-    var basics    = allRows.filter(function(r) { return r.type !== 'ultimate' && r.type !== 'extra'; });
+    // Partition using branch semantics (never dead enum).
+    // Suites are discovered later by detectSuites (detail fetches); initial
+    // partition splits by whether the skill has suiteComponents in the index.
+    var ultimates = allRows.filter(function(r) {
+      return gs ? gs.computeBranch(r, r.level) === 'suite' : false;
+    });
+    var extras = [];  // extra branch folded into suites under Yggdrasil II
+    var basics = allRows.filter(function(r) {
+      if (!gs) return true;
+      var br = gs.computeBranch(r, r.level);
+      return br === 'standard' || br === 'unique';
+    });
     // Named = graded skills shown in the main bar chart (all tiers, graded only)
     var named     = allRows.filter(function(r) { return r.grade && r.grade !== 'ungraded'; });
     // Ungraded = starless-linked skills awaiting evidence
@@ -736,6 +799,7 @@
     var countEl = document.getElementById('lbUltimateCount');
     if (!container) return;
     if (countEl) countEl.textContent = ultimates.length + ' of ' + ultimates.length + ' ultimates';
+    var gs = (typeof window !== 'undefined' && window.GaiaSemantics);
 
     var SPAD = { top: 24, right: 24, bottom: 0, left: 54 }; // bottom computed below
     var maxTM = TM_CEILING;
@@ -768,7 +832,7 @@
 
     // Build per-bar gradients
     ultimates.forEach(function(ult, i) {
-      buildBarGradientDef(svg, ult.contributor, ult.grade || 'S', ult.level, ult.type, 'ultimate-' + i);
+      buildBarGradientDef(svg, ult.contributor, ult.grade || 'S', ult.level, ult, 'ultimate-' + i);
     });
 
     // Y-axis gridlines
@@ -792,7 +856,7 @@
         fill: 'url(#' + gradId + ')',
         'class': 'lb-bar lb-bar-animated',
         'data-id': ult.id,
-        'data-type': 'ultimate',
+        'data-type': 'suite',
         style: 'animation-delay:' + (i * 120) + 'ms'
       });
       barGroup.appendChild(bar);
@@ -843,6 +907,9 @@
       });
       barGroup.appendChild(avatarImg);
 
+      // Gold origin-wreath-gold.svg ring — E3: every avatar is framed (Yggdrasil II)
+      appendAvatarWreath(barGroup, avatarCx, avatarCy, avatarR);
+
       // Skill name label (adaptive)
       var labelY = innerH + avatarR * 2 + 14;
       var label = makeLabel(x + UB / 2, labelY, ls.rotation, ls.fontPx);
@@ -857,20 +924,22 @@
         y: contribY,
         'text-anchor': 'middle',
         'font-size': String(ls.fontPx),
-        fill: 'rgba(' + TOKENS.honorRed + ', 0.7)'
+        fill: 'rgba(' + TOKENS.gold + ', 0.7)'
       });
       truncLabel(contrib, ult.contributor, Math.max(8, ls.maxChars - 2));
       barGroup.appendChild(contrib);
 
-      // Type badge pill below contributor
+      // Branch pill below contributor — use GaiaSemantics for correct rank word
+      var ultBranch = gs ? gs.computeBranch(ult, ult.level) : 'suite';
+      var ultPillWord = gs ? gs.rankWord(ult.level, ultBranch) : 'Suite';
       var typeBadge = svgEl('text', {
         x: x + UB / 2,
         y: contribY + ls.fontPx + 4,
         'text-anchor': 'middle',
         'font-size': String(Math.max(8, ls.fontPx - 1)),
-        fill: 'rgba(245, 158, 11, 0.7)'
+        fill: 'rgba(' + TOKENS.gold + ', 0.7)'
       });
-      typeBadge.textContent = 'ultimate';
+      typeBadge.textContent = ultPillWord;
       barGroup.appendChild(typeBadge);
     });
 
@@ -887,9 +956,10 @@
     var legendHtml = '<div class="lb-legend">' +
       [2, 3, 4, 5].map(function(n) {
         var rgb = rankRgb(n);
+        var word = rankNameFor(n + '\u2605', {});
         return '<span class="lb-legend-item">' +
           '<span class="lb-legend-swatch" style="background:rgba(' + rgb + ',0.7)"></span>' +
-          n + '\u2605 ' + (RANK_NAMES[n + '\u2605'] || '') +
+          n + '\u2605 ' + word +
         '</span>';
       }).join('') +
     '</div>';
@@ -979,7 +1049,7 @@
 
     // Build per-bar gradients
     visible.forEach(function(suite, i) {
-      buildBarGradientDef(svg, suite.contributor, suite.grade || 'A', suite.level, suite.type, 'suite-' + i);
+      buildBarGradientDef(svg, suite.contributor, suite.grade || 'A', suite.level, suite, 'suite-' + i);
     });
 
     // Y-axis
@@ -1088,6 +1158,9 @@
       });
       barGroup.appendChild(avatarImg);
 
+      // Gold origin-wreath-gold.svg ring — E3: every avatar is framed (Yggdrasil II)
+      appendAvatarWreath(barGroup, avatarCx, avatarCy, avatarR);
+
       // Origin laurel-wreath badge (pre-baked by C1) — top-left interior of bar
       if (suite.origin === true) {
         appendOriginBadge(barGroup, x, y, SB);
@@ -1105,22 +1178,21 @@
       var contrib = svgEl('text', {
         x: x + SB / 2, y: contribY,
         'text-anchor': 'middle', 'font-size': String(ls.fontPx),
-        fill: 'rgba(' + TOKENS.honorRed + ', 0.7)'
+        fill: 'rgba(' + TOKENS.gold + ', 0.7)'
       });
       truncLabel(contrib, suite.contributor, Math.max(8, ls.maxChars - 2));
       barGroup.appendChild(contrib);
 
-      // Type pill (ultimate vs extra) — use TIER colors per DESIGN.md
-      var isUltimate = suite.type === 'ultimate';
-      var typePillFill = isUltimate
-        ? 'rgba(245, 158, 11, 0.9)'
-        : 'rgba(192, 132, 252, 0.85)';
+      // Branch pill — use GaiaSemantics.rankWord for branch-forked name, gold token for suite
+      var gs = (typeof window !== 'undefined' && window.GaiaSemantics);
+      var suiteBranch = gs ? gs.computeBranch(suite, suite.level) : 'suite';
+      var suitePillWord = gs ? gs.rankWord(suite.level, suiteBranch) : 'Suite';
       var typePill = svgEl('text', {
         x: x + SB / 2, y: contribY + ls.fontPx + 4,
         'text-anchor': 'middle', 'font-size': String(Math.max(8, ls.fontPx - 1)),
-        fill: typePillFill
+        fill: suiteBranch === 'unique' ? 'rgba(' + TOKENS.rank4 + ',0.9)' : 'rgba(' + TOKENS.gold + ',0.9)'
       });
-      typePill.textContent = suite.type;
+      typePill.textContent = suitePillWord;
       barGroup.appendChild(typePill);
     });
 
@@ -1245,7 +1317,7 @@
         fill: 'rgba(' + rankRgb(seg.rank) + ', 0.6)',
         'class': 'lb-bar',
         'data-id': ult.id,
-        'data-type': 'ultimate',
+        'data-type': 'suite',
         style: 'pointer-events: none;'
       });
       bar.parentNode.insertBefore(rect, bar.nextSibling);
@@ -1402,7 +1474,7 @@
 
     // Build per-bar gradients
     toShow.forEach(function(skill, i) {
-      buildBarGradientDef(svg, skill.contributor, skill.grade, skill.level, skill.type, 'named-' + i);
+      buildBarGradientDef(svg, skill.contributor, skill.grade, skill.level, skill, 'named-' + i);
     });
 
     // Y-axis gridlines
@@ -1545,6 +1617,9 @@
       });
       barGroup.appendChild(avatarImg);
 
+      // Gold origin-wreath-gold.svg ring — E3: every avatar is framed (Yggdrasil II)
+      appendAvatarWreath(barGroup, avatarCx, avatarCy, avatarR);
+
       // Origin laurel-wreath badge (pre-baked by C1) — top-left interior of bar
       if (skill.origin === true) {
         appendOriginBadge(barGroup, x, y, NB);
@@ -1651,9 +1726,9 @@
       defs.appendChild(cp);
 
       var gradId = 'lb-grad-gen-' + i;
-      // Generic bars use the top child's type color if available, else basic
-      var genType = (node._children && node._children[0] && node._children[0].type) || node.type || 'basic';
-      var gtc = typeColors(genType);
+      // Generic bars use the top child's branch color if available, else standard (basic)
+      var genNode = (node._children && node._children[0]) || node;
+      var gtc = typeColors(genNode, genNode.level);
       var genMid = blendHandleMid(gtc.top, hue);
       var grad = svgEl('linearGradient', { id: gradId, x1: '0', y1: '1', x2: '0', y2: '0' });
       appendStop(grad, '0%',   'rgb(' + rgbStr(gtc.bot) + ')');
@@ -1691,11 +1766,11 @@
           var segFill;
           var segStroke = null;
           if (child.origin) {
-            // Fix 5: origin gets 0.95 opacity + 1px white side strokes — canonical impl undeniable.
-            segFill = 'rgba(' + TOKENS.honorRed + ', 0.95)';
+            // Origin child: apex-gold at 0.95 opacity + 1px white side strokes — canonical impl undeniable.
+            segFill = 'rgba(' + TOKENS.gold + ', 0.95)';
             segStroke = 'rgba(255,255,255,0.85)';
           } else {
-            var childTc = typeColors(child.type || 'basic');
+            var childTc = typeColors(child, child.level);
             segFill = 'rgba(' + rgbStr(childTc.top) + ',0.72)';
           }
           var segAttrs = {
@@ -1760,7 +1835,7 @@
           y: childStartY + (ci * (childFontPx + 3)),
           'text-anchor': 'middle',
           'font-size': String(childFontPx),
-          fill: child.origin ? 'rgba(' + TOKENS.honorRed + ', 0.95)' : 'rgba(148,163,184,0.7)',
+          fill: child.origin ? 'rgba(' + TOKENS.gold + ', 0.95)' : 'rgba(148,163,184,0.7)',
           'font-family': 'var(--font-data)'
         });
         lbl.textContent = truncate(child.contributor, childMaxChars) + (child.origin ? ' ◎' : '');
@@ -1855,9 +1930,12 @@
 
   // ── STARLESS CHART — DEFERRED FETCH OF DETAIL FILES ──
   function buildStarlessChart(allRows) {
-    // Fetch detail files for all graded named skills to get genericSkillRef
+    // Filter graded named skills (exclude suites — they have their own chart)
+    var gsRef = (typeof window !== 'undefined' && window.GaiaSemantics);
     var candidates = allRows.filter(function(r) {
-      return r.grade && r.grade !== 'ungraded' && r.type !== 'ultimate';
+      if (!r.grade || r.grade === 'ungraded') return false;
+      if (!gsRef) return true;
+      return gsRef.computeBranch(r, r.level) !== 'suite';
     });
 
     var fetched = 0;
@@ -2347,7 +2425,7 @@
 
   function buildTooltipHtml(skill, type) {
     var gradeLabel = skill.grade === 'S' ? 'Platinum' : skill.grade === 'A' ? 'Gold' : skill.grade === 'B' ? 'Silver' : skill.grade === 'C' ? 'Bronze' : 'Ungraded';
-    var levelName = RANK_NAMES[skill.level] || '';
+    var levelName = rankNameFor(skill.level, skill);
 
     return '<div class="lb-tt-name">' + esc(skill.name || skill.id.split('/')[1]) + '</div>' +
       '<div class="lb-tt-id">' + esc(skill.id) + '</div>' +
@@ -2355,7 +2433,7 @@
       '<div class="lb-tt-row"><span class="lb-tt-label">Trust Magnitude</span><span class="lb-tt-value">' + (skill.trustMagnitude || 0).toFixed(2) + '</span></div>' +
       '<div class="lb-tt-row"><span class="lb-tt-label">Grade</span><span class="lb-tt-value">' + gradeLabel + ' (' + skill.grade + ')</span></div>' +
       '<div class="lb-tt-row"><span class="lb-tt-label">Level</span><span class="lb-tt-value">' + esc(skill.level) + (levelName ? ' ' + levelName : '') + '</span></div>' +
-      (type === 'ultimate' ? '<div class="lb-tt-row"><span class="lb-tt-label">Type</span><span class="lb-tt-value">Ultimate</span></div>' : '') +
+      (type === 'suite' ? '<div class="lb-tt-row"><span class="lb-tt-label">Branch</span><span class="lb-tt-value">Suite</span></div>' : '') +
       (type === 'generic' && skill._children ?
         '<div class="lb-tt-row"><span class="lb-tt-label">Implementations</span><span class="lb-tt-value">' + skill._children.length + ' named skills</span></div>' +
         skill._children.slice(0, 4).map(function(c) {
