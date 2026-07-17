@@ -307,3 +307,81 @@ def test_no_banned_words_emitted_across_corpus():
         label = taxonomy.rankLabel(effRank, branch)
         for bad in banned:
             assert bad not in label, (sid, label)
+
+
+# ---------------------------------------------------------------------------
+# PR2: named-index emitted shape assertions
+# ---------------------------------------------------------------------------
+
+NAMED_SKILLS_JSON = os.path.join(REPO_ROOT, "registry", "named-skills.json")
+
+VALID_BRANCHES = {"suite", "standard", "unique"}
+VALID_MEDALLIONS = {taxonomy.MEDALLION_SUITE, taxonomy.MEDALLION_STANDARD, taxonomy.MEDALLION_UNIQUE}
+
+
+def test_named_index_emitted_taxonomy_shape():
+    """Every entry in registry/named-skills.json carries the five emitted
+    taxonomy fields with correct types and values (PR2 contract).
+
+    Skipped when the file is absent (Class P — gitignored, not present in CI).
+    """
+    if not os.path.exists(NAMED_SKILLS_JSON):
+        pytest.skip("registry/named-skills.json absent (Class P — run generateNamedIndex.py first)")
+
+    with open(NAMED_SKILLS_JSON, encoding="utf-8") as f:
+        index = json.load(f)
+
+    entries = []
+    for variants in index.get("buckets", {}).values():
+        entries.extend(variants)
+
+    assert entries, "named-skills.json has no entries in .buckets"
+
+    for entry in entries:
+        sid = entry.get("id", "<unknown>")
+        assert "branch" in entry, f"{sid}: missing 'branch'"
+        assert entry["branch"] in VALID_BRANCHES, (
+            f"{sid}: branch {entry['branch']!r} not in {VALID_BRANCHES}"
+        )
+        assert "rank" in entry, f"{sid}: missing 'rank'"
+        assert isinstance(entry["rank"], int), (
+            f"{sid}: rank must be int, got {type(entry['rank']).__name__}"
+        )
+        assert 0 <= entry["rank"] <= 6, (
+            f"{sid}: rank {entry['rank']} out of range 0–6"
+        )
+        assert "rankWord" in entry, f"{sid}: missing 'rankWord'"
+        assert isinstance(entry["rankWord"], str) and entry["rankWord"], (
+            f"{sid}: rankWord must be a non-empty string"
+        )
+        assert "medallion" in entry, f"{sid}: missing 'medallion'"
+        assert entry["medallion"] in VALID_MEDALLIONS, (
+            f"{sid}: medallion {entry['medallion']!r} not in {VALID_MEDALLIONS}"
+        )
+        assert "contractVersion" in entry, f"{sid}: missing 'contractVersion'"
+        assert entry["contractVersion"] == "gaia-public-v1", (
+            f"{sid}: contractVersion {entry['contractVersion']!r} != 'gaia-public-v1'"
+        )
+
+
+def test_named_index_has_suite_and_standard_entries():
+    """At least one suite branch entry and one standard branch entry must exist
+    (structural completeness check — the registry always has both)."""
+    if not os.path.exists(NAMED_SKILLS_JSON):
+        pytest.skip("registry/named-skills.json absent (Class P — run generateNamedIndex.py first)")
+
+    with open(NAMED_SKILLS_JSON, encoding="utf-8") as f:
+        index = json.load(f)
+
+    branches_seen = set()
+    for variants in index.get("buckets", {}).values():
+        for entry in variants:
+            if "branch" in entry:
+                branches_seen.add(entry["branch"])
+
+    assert "suite" in branches_seen, (
+        "No 'suite' branch entry found — registry must contain at least one suite skill"
+    )
+    assert "standard" in branches_seen, (
+        "No 'standard' branch entry found — registry must contain at least one standard skill"
+    )
