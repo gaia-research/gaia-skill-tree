@@ -242,9 +242,13 @@
     .page-footer-right { font-size: 0.8rem; color: var(--muted, #64748b); }
     .page-footer-right a { color: var(--tier-basic, #38bdf8); }
 
+    /* mobile-first: base layout handled by docs-en-shell.css */
+    @media (min-width: 769px) {
+      .page-layout { grid-template-columns: 220px 1fr; }
+      .sidebar { display: block; }
+    }
+
     @media (max-width: 768px) {
-      .page-layout { grid-template-columns: 1fr; }
-      .sidebar { display: none; }
       .main-content { padding: 1.5rem 1.25rem 3rem; }
     }
 

@@ -161,14 +161,20 @@
     /* ── Path cards ── */
     .path-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr;
       gap: 1rem;
       margin: 1.5rem 0;
     }
+    /* mobile-first: base layout handled by docs-en-shell.css */
+    @media (min-width: 861px) {
+      .path-grid { grid-template-columns: 1fr 1fr 1fr; }
+      .page-layout { grid-template-columns: 220px 1fr; }
+      .sidebar { display: block; }
+    }
+
     @media (max-width: 860px) {
       .path-grid { grid-template-columns: 1fr; }
-      .page-layout { grid-template-columns: 1fr; }
-      .sidebar { display: none; }
+      .main-content { padding: 1.5rem 1.25rem 3rem; }
     }
     .path-card {
       border: 1px solid var(--border, #1e293b);

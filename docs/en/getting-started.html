@@ -436,13 +436,13 @@
     }
 
     /* ── Responsive ── */
+    /* mobile-first: base layout handled by docs-en-shell.css */
+    @media (min-width: 769px) {
+      .page-layout { grid-template-columns: 220px 1fr; }
+      .sidebar { display: block; }
+    }
+
     @media (max-width: 768px) {
-      .page-layout {
-        grid-template-columns: 1fr;
-      }
-      .sidebar {
-        display: none;
-      }
       .main {
         padding: 2rem 1.25rem 4rem;
       }
