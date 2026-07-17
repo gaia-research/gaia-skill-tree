@@ -53,7 +53,14 @@
       align-items: center;
       max-width: 900px;
       margin: 0 auto;
-      padding: 1.5rem 1.5rem 0;
+      padding: 5rem 1.5rem 0;
+    }
+
+    /* Fixed-nav clearance: body:has(site-nav) zeroes body padding-top;
+       first content row must itself clear the ~58px nav. 5rem (80px) is the
+       CLAUDE.md base value for page-level containers. */
+    body:has(> nav#site-nav) .report-back-row {
+      padding-top: 5rem;
     }
 
     .report-back {
