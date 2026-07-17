@@ -666,6 +666,18 @@ button.plaque__slug:focus-visible {
   box-shadow: 0 0 12px rgba(var(--tier-fusion-rgb), 0.4);
 }
 
+/* D8 — when the AOV4 stamp LOADS (no data-stamp-fail), the medallion webp IS
+   the rank art. _fieldOrb also stamps a plaque-orb--<branch> class, whose
+   radial-gradient + box-shadow (see .plaque-orb--standard/--suite/--unique
+   below) would otherwise bleed through the stamp's transparent margins as the
+   "old badge behind the medallion". Suppress that branch tint here; it returns
+   only via the [data-stamp-fail] fallbacks above. Specificity (0,2,0) beats the
+   single-class branch rules. Rubric E3. */
+.plaque-orb--medallion:not([data-stamp-fail]) {
+  background: none;
+  box-shadow: none;
+}
+
 /* ── Contributor avatar + gold origin wreath (Yggdrasil II, E3/E4) ─
    _fieldAvatar emits <a|span.plaque__avatar style="--avatar-size:Npx">
      <img.plaque__avatar-img>          ← GitHub avatar (identicon fallback)
@@ -1776,6 +1788,13 @@ button.plaque__slug:focus-visible {
    description from floating. */
 .plaque--detail .plaque-detail-right {
   gap: 0.7rem;
+}
+/* D6 — on the detail hero the rank medallion is the visual anchor: bump it
+   above the 52px --lg default and the 56px avatar so avatar → medallion reads
+   as photo → rank, largest last. */
+.plaque--detail .plaque-orb--medallion {
+  width: 72px;
+  height: 72px;
 }
 .plaque--detail .plaque__description,
 .plaque--detail .plaque-description {
