@@ -61,7 +61,7 @@
       margin: 0 auto;
       padding: 3.5rem 2rem 6rem;
       display: grid;
-      grid-template-columns: 220px 1fr;
+      grid-template-columns: 1fr;
       gap: 3rem;
       align-items: start;
       min-width: 0;
@@ -263,9 +263,13 @@
     .docs-footer-simple a:hover { color: var(--text,#e2e8f0); text-decoration: none; }
     .docs-footer-links { display: flex; gap: 1.5rem; }
 
+    /* mobile-first: base layout handled by docs-en-shell.css */
+    @media (min-width: 769px) {
+      .docs-layout { grid-template-columns: 220px 1fr; }
+      .docs-sidebar { display: flex; }
+    }
+
     @media (max-width: 768px) {
-      .docs-layout { grid-template-columns: 1fr; }
-      .docs-sidebar { display: none; }
       .trust-meter { flex-direction: column; }
       .trust-segment { border-right: none; border-bottom: 1px solid var(--border,#1e293b); padding: 0.5rem 1rem; flex-direction: row; justify-content: space-between; align-items: center; }
       .trust-segment:last-child { border-bottom: none; }

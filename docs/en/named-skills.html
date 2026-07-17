@@ -161,14 +161,15 @@
     /* ── Comparison panel ── */
     .compare-panel {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       gap: 1rem;
       margin: 1.5rem 0;
     }
-    @media (max-width: 860px) {
-      .compare-panel { grid-template-columns: 1fr; }
-      .page-layout { grid-template-columns: 1fr; }
-      .sidebar { display: none; }
+    /* mobile-first: base layout handled by docs-en-shell.css */
+    @media (min-width: 861px) {
+      .compare-panel { grid-template-columns: 1fr 1fr; }
+      .page-layout { grid-template-columns: 220px 1fr; }
+      .sidebar { display: block; }
     }
 
     @media (max-width: 480px) {

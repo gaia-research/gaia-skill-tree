@@ -415,9 +415,13 @@
     .footer-bottom { margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border, #1e293b); display: flex; gap: 1rem; align-items: center; font-size: 0.78rem; color: var(--muted, #64748b); }
     .footer-bottom-sep { opacity: 0.4; }
 
+    /* mobile-first: base layout handled by docs-en-shell.css */
+    @media (min-width: 769px) {
+      .page-layout { grid-template-columns: 220px 1fr; }
+      .sidebar { display: block; }
+    }
+
     @media (max-width: 768px) {
-      .page-layout { grid-template-columns: 1fr; }
-      .sidebar { display: none; }
       .main-content { padding: 1.5rem 1.25rem 3rem; }
     }
 
