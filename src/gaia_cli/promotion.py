@@ -268,7 +268,8 @@ def checkUniqueBranchGate(
           "passed":         bool,
         }
     """
-    from gaia_cli.trustMagnitude import computeTrustMagnitude, computeBranch
+    from gaia_cli.trustMagnitude import computeTrustMagnitude
+    from gaia_cli.taxonomy import branchFor as computeBranch
 
     spec = _UNIQUE_GATE_BY_LEVEL.get(level)
     grade = spec["grade"] if spec else None
@@ -281,7 +282,7 @@ def checkUniqueBranchGate(
     tm = float(computeTrustMagnitude(named, mergedMap))
 
     # Confirm the skill sits on the Unique branch AT the target level.
-    branch = computeBranch({**named, "level": level}, genericSkillMap)
+    branch = computeBranch({**named, "level": level})
 
     # Origin counted in the fusion structure = the generic parent's prerequisites.
     prereqs: list[str] = []

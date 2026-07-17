@@ -1300,11 +1300,8 @@ def computeBranch(
     ``named['level']``; suiteComponents from the named skill (and,
     forward-compatibly, its resolved generic parent via ``genericSkillMap``).
     """
-    if _starRank(named.get("level")) < 4:
-        return "standard"
-    if _suiteComponentsPresent(named, genericSkillMap):
-        return "suite"
-    return "unique"
+    from gaia_cli.taxonomy import branchFor
+    return branchFor(named)
 
 
 # ---------------------------------------------------------------------------

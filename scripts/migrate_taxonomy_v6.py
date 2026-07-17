@@ -55,7 +55,8 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
-from gaia_cli.trustMagnitude import computeBranch, computeTrustMagnitude  # noqa: E402
+from gaia_cli.taxonomy import branchFor as computeBranch  # noqa: E402  Ygg-II branch authority
+from gaia_cli.trustMagnitude import computeTrustMagnitude  # noqa: E402
 from gaia_cli.promotion import checkUniqueBranchGate  # noqa: E402
 
 # ---------------------------------------------------------------------------
@@ -553,7 +554,7 @@ def migrate_named_skills(
         type_changes.append({"skillId": skill_id, "level": level, "details": type_change_details})
 
         # --- Gate evaluation ---
-        branch = computeBranch(fm, genericSkillMap)
+        branch = computeBranch(fm)
         # Pre-merge namedSkillMap so suite-component origin IDs resolve in
         # _gradedOriginCount (named skill IDs miss a generic-only map).
         mergedMap = {**genericSkillMap, **namedSkillMap}

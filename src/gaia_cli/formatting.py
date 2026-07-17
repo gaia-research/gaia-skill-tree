@@ -382,32 +382,22 @@ def format_level_colored(level: str) -> str:
 
 
 def rank_word(level: str, branch: str = "suite") -> str:
-    """Return the bare rank word for a (level, branch) pair (Yggdrasil II v2).
+    """DEPRECATED shim — delegates to taxonomy.rankWord (the canonical authority).
 
-    ``branch`` must be resolved by :func:`gaia_cli.trustMagnitude.computeBranch`
-    at the call site and passed IN as a string ('standard' | 'suite' | 'unique').
-    This keeps formatting.py free of registry-map threading.
-
-      - 1★-3★: shared ladder (Awakened / Named / Evolved) — branch-independent.
-      - 4★ : Extra   (suite) / Unique            (unique)
-      - 5★ : Ultimate(suite) / Unique Ultimate   (unique)
-      - 6★ : Apex    (suite) / Unique Impossible  (unique)
-
-    Suite/shared words come from meta.json (LEVEL_LABELS_SUITE); the Unique-branch
-    alternates are rendered here in code.
+    Retained for backward-compat callers; will be deleted in PR3b once all
+    consumers are migrated onto taxonomy.rankWord directly.
     """
-    if branch == "unique" and level in LEVEL_LABELS_UNIQUE:
-        return LEVEL_LABELS_UNIQUE[level]
-    return LEVEL_LABELS_SUITE.get(level, level)
+    from gaia_cli.taxonomy import rankWord
+    return rankWord(level, branch)
 
 
 def format_rank_label(level: str, branch: str = "suite") -> str:
     """Return the full branch-aware rank label, e.g. '4★ Extra' or '4★ Unique'.
 
-    ``branch`` is a resolved string (see :func:`rank_word`). Defaults to 'suite'
-    (the meta.json labels) so branch-agnostic callers keep the historical labels.
+    Delegates to taxonomy.rankWord (single source of truth for rank vocabulary).
     """
-    word = rank_word(level, branch)
+    from gaia_cli.taxonomy import rankWord
+    word = rankWord(level, branch)
     return f"{level} {word}" if word else level
 
 

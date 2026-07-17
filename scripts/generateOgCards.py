@@ -51,8 +51,8 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT / "src"))
 from gaia_cli.redaction import REDACTED_HANDLE, is_redacted  # noqa: E402  single source of truth
-from gaia_cli.trustMagnitude import computeBranch as _compute_branch  # noqa: E402  Ygg-II read-time branch
-from gaia_cli.formatting import rank_word as _rank_word  # noqa: E402  branch-forked rank vocabulary
+from gaia_cli.taxonomy import branchFor as _compute_branch  # noqa: E402  Ygg-II branch authority
+from gaia_cli.taxonomy import rankWord as _rank_word  # noqa: E402  branch-forked rank vocabulary
 NAMED_JSON = REPO_ROOT / "registry" / "named-skills.json"
 GAIA_JSON = REPO_ROOT / "registry" / "gaia.json"
 DOCS_DIR = REPO_ROOT / "docs"
