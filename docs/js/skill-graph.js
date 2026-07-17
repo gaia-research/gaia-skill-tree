@@ -3087,6 +3087,11 @@
   }
 
   const hero = document.getElementById('hero');
+  // Null guard: skill-graph.js is loaded on the homepage only; if #hero is
+  // absent (e.g. on a standalone page that inadvertently loads this bundle)
+  // abort silently rather than throwing and aborting the entire IIFE, which
+  // would fall through to FALLBACK_SKILLS per known-issues invariant.
+  if (!hero) return;
   const trigger = document.querySelector('[data-graph-trigger]');
   const isMobile = window.matchMedia('(max-width:700px)').matches;
 
@@ -3330,10 +3335,16 @@
     trigger.addEventListener('click', openGraphFullscreen);
   }
 
-  // Close button inside the fullscreen chrome
-  _graphCloseOverlay.querySelector('[data-graph-fullscreen-close]').addEventListener('click', closeGraphFullscreen);
+  // Close button inside the fullscreen chrome.
+  // All three buttons are embedded in _graphCloseOverlay.innerHTML above, so
+  // querySelector will always find them — but defensive null-checks prevent a
+  // silent IIFE abort (and FALLBACK_SKILLS fallthrough) if the DOM is ever
+  // mutated externally or the script loads on an unexpected host page.
+  const _closeBtn = _graphCloseOverlay.querySelector('[data-graph-fullscreen-close]');
+  if (_closeBtn) _closeBtn.addEventListener('click', closeGraphFullscreen);
 
-  _graphCloseOverlay.querySelector('[data-graph-labels]').addEventListener('click', (e) => {
+  const _labelsBtn = _graphCloseOverlay.querySelector('[data-graph-labels]');
+  if (_labelsBtn) _labelsBtn.addEventListener('click', (e) => {
     const btn = e.currentTarget;
     const modes = ['none', 'all'];
     const current = modes.indexOf(heroGraph.getLabelMode());
@@ -3342,7 +3353,8 @@
     btn.classList.toggle('active', next !== 'none');
   });
 
-  _graphCloseOverlay.querySelector('[data-graph-mouse]').addEventListener('click', (e) => {
+  const _mouseBtn = _graphCloseOverlay.querySelector('[data-graph-mouse]');
+  if (_mouseBtn) _mouseBtn.addEventListener('click', (e) => {
     const btn = e.currentTarget;
     const isOrbit = btn.querySelector('span').textContent === 'Orbit';
     const next = isOrbit ? 'pan' : 'orbit';
