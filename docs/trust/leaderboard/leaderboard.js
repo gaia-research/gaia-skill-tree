@@ -2186,11 +2186,22 @@
       var contribs = getContribs();
       var q = (filter || '').toLowerCase();
       var shown = q ? contribs.filter(function(c) { return c.toLowerCase().indexOf(q) !== -1; }) : contribs;
+      var wreathSrc = ROOT_PREFIX + 'assets/origin-wreath-gold.svg';
       listEl.innerHTML = shown.map(function(c) {
         var checked = state.searchContribs.indexOf(c) !== -1;
+        var clean = String(c).replace(/^@/, '');
+        var avatarSrc = 'https://github.com/' + encodeURIComponent(clean) + '.png?size=32';
+        var identicon = 'https://github.com/identicons/' + encodeURIComponent(clean) + '.png';
+        var errAttr = "if(this.dataset.fbk){this.onerror=null;}else{this.dataset.fbk='1';this.src='" + identicon.replace(/'/g, "\\'") + "';}";
+        // E3: GitHub avatar framed by gold wreath (matches chart-bar appendAvatarWreath pattern)
+        var avatarHtml =
+          '<span class="lb-ms-avatar" style="background:oklch(0.55 0.18 ' + handleHue(c) + ')">' +
+            '<img class="lb-ms-avatar-img" src="' + esc(avatarSrc) + '" alt="" decoding="async" loading="lazy" referrerpolicy="no-referrer" onerror="' + errAttr + '">' +
+            '<img class="lb-ms-avatar-wreath" src="' + esc(wreathSrc) + '" alt="" aria-hidden="true">' +
+          '</span>';
         return '<label class="lb-ms-item' + (checked ? ' is-checked' : '') + '">' +
           '<input type="checkbox" value="' + esc(c) + '"' + (checked ? ' checked' : '') + '>' +
-          '<span class="lb-ms-avatar" style="background:oklch(0.55 0.18 ' + handleHue(c) + ')"></span>' +
+          avatarHtml +
           '<span class="lb-ms-name">' + esc(c) + '</span>' +
         '</label>';
       }).join('');
