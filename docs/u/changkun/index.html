@@ -26,18 +26,8 @@
   <!-- Stage 3 — TM config (single source of truth for formulas/RFC), before plaque. -->
   <script src="../../js/tm-config.js?v=6.8.8"></script>
   <!-- Stage 4 — plaque component family, loaded after tm-config.js. -->
-  <script src="../../js/skill-semantics.js?v=6.8.8"></script>
   <script src="../../js/plaque.js?v=6.8.8"></script>
   <script src="../../js/ui.js?v=6.8.8" defer></script>
-<script type="application/ld+json" data-injector="gaia-json-ld">
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "changkun",
-  "url": "https://gaiaskilltree.com/u/changkun/",
-  "sameAs": "https://github.com/changkun"
-}
-</script>
 </head>
 <body class="profile-page">
 
@@ -88,7 +78,7 @@
         <h2 class="profile-section-title">Named Skills</h2>
         <p class="profile-section-sub">All named implementations attributed to @changkun in the Gaia registry.</p>
         <div class="plaque-grid">
-          <article class="plaque plaque--settled" data-skill-id="changkun/plan-decompose-gh-wallfacer" data-type="basic" data-level="1" data-skill-name="Wallfacer"><div class="plaque__header plaque-header"><div class="plaque-orb plaque-orb--basic" aria-hidden="true"></div><div class="plaque__rank"><span class="rank-badge" data-level="1" data-variant="chip" data-size="md" role="img" aria-label="Rank 1 of 6"><span class="rank-badge__chip">1★</span></span></div></div><button type="button" class="plaque__slug plaque-skill-name named-slug" data-skill-id="changkun/plan-decompose-gh-wallfacer" title="changkun/plan-decompose-gh-wallfacer" onclick="event.stopPropagation(); if(window.openSkillExplorer)window.openSkillExplorer('changkun/plan-decompose-gh-wallfacer');">/plan-decompose-gh-wallfacer</button><div class="plaque__title plaque-title">Wallfacer</div><div class="plaque__handle plaque-contrib-row"><span class="plaque__redacted-handle" aria-label="Contributor not yet revealed">@[anonymous]</span></div><p class="plaque__description plaque-description">Chat, specs, tasks, and code. An autonomous engineering platform.</p><div class="plaque__rank"><span class="rank-badge" data-level="1" data-variant="stars" data-size="md" role="img" aria-label="Rank 1 of 6"><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span></div><div class="plaque__underline plaque-underline plaque-underline--settled"></div></article>
+          <article class="plaque plaque--settled" data-skill-id="changkun/plan-decompose-gh-wallfacer" data-type="basic" data-branch="standard" data-level="1" data-skill-name="Wallfacer"><div class="plaque__header plaque-header"><span class="plaque-orb plaque-orb--medallion plaque-orb--standard" data-branch="standard" role="img" aria-label="Awakened medallion"><img class="plaque-orb__stamp" src="../../assets/ascension-overdrive/aov4-c1-suite-awakened-card.webp" alt="" decoding="async" loading="lazy" onerror="this.style.display='none';this.parentNode.setAttribute('data-stamp-fail','true')"></span><div class="plaque__rank"><span class="rank-badge" data-level="1" data-variant="chip" data-size="md" role="img" aria-label="Rank 1 of 6"><span class="rank-badge__chip">1★</span></span></div></div><button type="button" class="plaque__slug plaque-skill-name named-slug" data-skill-id="changkun/plan-decompose-gh-wallfacer" title="changkun/plan-decompose-gh-wallfacer" onclick="event.stopPropagation(); if(window.openSkillExplorer)window.openSkillExplorer('changkun/plan-decompose-gh-wallfacer');">/plan-decompose-gh-wallfacer</button><div class="plaque__title plaque-title">Wallfacer</div><div class="plaque__handle plaque-contrib-row"><span class="plaque__redacted-handle" aria-label="Contributor not yet revealed">@[anonymous]</span></div><p class="plaque__description plaque-description">Chat, specs, tasks, and code. An autonomous engineering platform.</p><div class="plaque__rank"><span class="rank-badge" data-level="1" data-variant="stars" data-size="md" role="img" aria-label="Rank 1 of 6"><span class="rank-badge__stars" aria-hidden="true"><span class="rank-badge__star" data-on="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span><span class="rank-badge__star" data-off="">★</span></span></span></div><div class="plaque__underline plaque-underline plaque-underline--settled"></div></article>
         </div>
       </section>
 
@@ -109,14 +99,13 @@
     <input type="search" id="profileSearch" class="sidebar-search-input" placeholder="Search implementations…" autocomplete="off" aria-label="Search skills">
   </div>
 
-  <!-- Type -->
-  <fieldset class="profile-filter-group" data-filter-type="type">
-    <legend class="profile-filter-legend">Type</legend>
+  <!-- Branch (Yggdrasil II read-time progression fork; rubric E1) -->
+  <fieldset class="profile-filter-group" data-filter-type="branch">
+    <legend class="profile-filter-legend">Branch</legend>
     <div style="display:flex; flex-wrap:wrap; gap:0.4rem; width:100%;">
-      <button class="profile-filter-chip" type="button" data-value="basic" aria-pressed="false"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align:middle;margin-right:3px"><use href="../../assets/icons.svg#tier-glyph-basic"/></svg>Basic</button>
-      <button class="profile-filter-chip" type="button" data-value="extra" aria-pressed="false"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align:middle;margin-right:3px"><use href="../../assets/icons.svg#tier-glyph-extra"/></svg>Extra</button>
-      <button class="profile-filter-chip" type="button" data-value="unique" aria-pressed="false"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align:middle;margin-right:3px"><use href="../../assets/icons.svg#tier-glyph-unique"/></svg>Unique</button>
-      <button class="profile-filter-chip" type="button" data-value="ultimate" aria-pressed="false"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align:middle;margin-right:3px"><use href="../../assets/icons.svg#tier-glyph-ultimate"/></svg>Ultimate</button>
+      <button class="profile-filter-chip" type="button" data-value="standard" aria-pressed="false"><span class="tier-glyph" data-branch="standard" aria-hidden="true" style="margin-right:3px">○</span>Standard</button>
+      <button class="profile-filter-chip" type="button" data-value="suite" aria-pressed="false"><span class="tier-glyph" data-branch="suite" aria-hidden="true" style="margin-right:3px">◆</span>Suite</button>
+      <button class="profile-filter-chip" type="button" data-value="unique" aria-pressed="false"><span class="tier-glyph" data-branch="unique" aria-hidden="true" style="margin-right:3px">◉</span>Unique</button>
     </div>
   </fieldset>
 
@@ -156,7 +145,7 @@
       <select id="profileSort" class="ns-sort-sel" aria-label="Sort skills" style="width:100%; padding-left:30px; font-family:var(--font-mono); font-size:0.72rem;">
         <option value="rank" selected>Rank · high → low</option>
         <option value="alpha">A → Z</option>
-        <option value="type">Type</option>
+        <option value="branch">Branch</option>
       </select>
     </div>
   </div>

@@ -20,14 +20,13 @@
   --tier-fusion-border: rgba(245, 158, 11, 0.35);
   --tier-fusion-edge: rgba(245, 158, 11, 0.55);
   --tier-fusion-symbol: '◆';
-  /* tier: unique — Yggdrasil II legacy color alias (NOT a taxonomy type).
+  /* tier: unique — Yggdrasil II branch color alias (NOT a taxonomy type).
      The Unique branch is the standalone-mastery fork: a Basic node that
      reached elite rank (4★+) without ever fusing. `unique` is derived at
      read-time (see docs/js/skill-semantics.js computeBranch); it is never a
-     gaia.json `type`. This block is authored directly in tokens.css because
-     generateCssTokens.py only emits families for meta.typeColors (basic,
-     fusion). Keep it byte-stable and mirror the --tier-basic/--tier-fusion
-     shape so downstream var(--tier-unique*) reads resolve token-only (E7). */
+     gaia.json `type`, so it is absent from meta.typeColors. Emitted here
+     (UNIQUE_BRANCH_TIER) so downstream var(--tier-unique*) reads resolve
+     token-only and a regen never drops the family (rubric E7). */
   --tier-unique: #7c3aed; /* var(--tier-unique, #7c3aed) */
   --tier-unique-rgb: 124, 58, 237;
   --tier-unique-bg: rgba(124, 58, 237, 0.12);

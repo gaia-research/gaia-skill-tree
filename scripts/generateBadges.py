@@ -42,19 +42,40 @@ sys.path.insert(0, str(REPO_ROOT / "scripts"))
 sys.path.insert(0, str(REPO_ROOT / "src"))
 from _atlas_helpers import named_slug  # noqa: E402
 from gaia_cli.redaction import REDACTED_HANDLE, is_redacted  # noqa: E402  single source of truth
+from gaia_cli.trustMagnitude import computeBranch as _compute_branch  # noqa: E402  Ygg-II read-time branch
+from gaia_cli.formatting import rank_word as _rank_word  # noqa: E402  branch-forked rank vocabulary
 
 
-HONOR_RED = "#ef4444"
+# Origin contributors render in GOLD (Yggdrasil II rubric E4: the deprecated
+# honor-red origin mark is replaced by the gold wreath / gold handle). Mirrors
+# --seal-gold in docs/css/tokens.css and the gold wreath SVG.
+ORIGIN_GOLD = "#fbbf24"
 INK = "#030712"
 SLATE = "#94a3b8"
 AMBER = "#fbbf24"
 WHITE = "#ffffff"
 
-# Rank display names for badge right-panel text (e.g. "Hardened · 4★")
-RANK_NAMES = {
-    1: "Awakened", 2: "Named", 3: "Evolved",
-    4: "Hardened", 5: "Transcendent", 6: "Apex",
-}
+
+def skill_branch(skill: dict) -> str:
+    """Read-time branch for a named-skills entry ('standard'|'suite'|'unique').
+
+    Delegates to the canonical gaia_cli.trustMagnitude.computeBranch — branch is
+    NEVER read from a stored type/tier field (Ygg-II rubric E1). The entry
+    carries `level` + `suiteComponents` directly, so no genericSkillMap thread
+    is needed here.
+    """
+    return _compute_branch(skill)
+
+
+def rank_name_for(rank: int, branch: str = "suite") -> str:
+    """Branch-forked rank word for a badge (e.g. 'Extra', 'Unique Ultimate').
+
+    Mirrors docs/js/skill-semantics.js rankWord: shared 1-3★
+    (Awakened/Named/Evolved), suite 4-6★ (Extra/Ultimate/Apex), unique 4-6★
+    (Unique/Unique Ultimate/Unique Impossible). NEVER emits the banned
+    'Hardened'/'Transcendent' words (rubric E2).
+    """
+    return _rank_word(f"{rank}★", branch)
 
 # Filenames produced by the primary badges — per-skill variants whose slug
 # collides with one of these are renamed with a `~` suffix so they don't
@@ -437,7 +458,7 @@ def badge_handle(handle: str, slash: str, rank: int, label: str, *,
             f'{_gaia_wordmark(seal_only, seal_color)}'
             f'<text x="{left_w + PAD:.1f}" y="{TEXT_Y}" font-family="{FONT}" '
             f'font-size="{FS}" font-weight="700">'
-            f'<tspan fill="{HONOR_RED}">{_xml(handle_text)}</tspan>'
+            f'<tspan fill="{ORIGIN_GOLD}">{_xml(handle_text)}</tspan>'
             f'<tspan fill="{GOLD}">{_xml(slash)}</tspan></text>'
             f'{sep_text}{star_text}{frame}'
         )
@@ -447,7 +468,7 @@ def badge_handle(handle: str, slash: str, rank: int, label: str, *,
             f'{_gaia_wordmark(seal_only, seal_color)}'
             f'<text x="{left_w + PAD:.1f}" y="{TEXT_Y}" font-family="{FONT}" '
             f'font-size="{FS}" font-weight="700">'
-            f'<tspan fill="{HONOR_RED}">{_xml(handle_text)}</tspan>'
+            f'<tspan fill="{ORIGIN_GOLD}">{_xml(handle_text)}</tspan>'
             f'<tspan fill="{accent}">{_xml(slash)}</tspan>'
             f'<tspan fill="{SLATE}">{_xml(sep)}</tspan>'
             f'<tspan fill="{accent}">{_xml(star_value)}</tspan></text>'
@@ -614,8 +635,12 @@ def write_user_badges(handle: str, info: dict,
     user_dir.mkdir(parents=True, exist_ok=True)
 
     if top_rank > 0:
-        rank_name = RANK_NAMES.get(top_rank, f"{top_rank}★")
-        # "Hardened · 4★" — rank class name anchors meaning, star count is numeric
+        # Branch-forked rank word (Ygg-II E1/E2): the highest-ranked named
+        # skill determines the branch. computeBranch reads level+suiteComponents,
+        # NEVER a stored type/tier field.
+        top_branch = skill_branch(info["top_skill"]) if info and info.get("top_skill") else "suite"
+        rank_name = rank_name_for(top_rank, top_branch)
+        # "Extra · 4★" / "Unique · 4★" — rank word anchors meaning, star count numeric
         value = f"{rank_name} · {top_rank}★"
         label = f"Gaia rank: {rank_name} ({top_rank} stars)"
         (user_dir / "rank.svg").write_text(
@@ -638,7 +663,7 @@ def write_user_badges(handle: str, info: dict,
         top = info["top_skill"]
         slash = named_slug(top)
         rank = level_num(top.get("level", ""))
-        is_unique = top.get("type") == "unique"
+        is_unique = skill_branch(top) == "unique"
 
         badge_handle_text = REDACTED_HANDLE if is_redacted(rank) else handle
         label = f"Gaia: @{badge_handle_text}{slash} {rank} stars"
@@ -661,7 +686,7 @@ def write_user_badges(handle: str, info: dict,
             if is_redacted(srank):
                 continue
 
-            is_sunique = skill.get("type") == "unique"
+            is_sunique = skill_branch(skill) == "unique"
             # srank is always ≥ 2 here (≤1★ skipped above) — handle is public.
             badge_handle_text = handle
             slabel = f"Gaia: @{badge_handle_text}{sslash} {srank} stars"
@@ -697,7 +722,9 @@ def write_sample_badges(rank_colors: dict[int, str], out_dir: Path) -> None:
     samples_dir = out_dir / "samples"
     samples_dir.mkdir(parents=True, exist_ok=True)
     for n in range(1, 7):
-        rank_name = RANK_NAMES.get(n, f"{n}★")
+        # Sample ladder shows the shared 1-3★ words + the suite 4-6★ fork
+        # (Extra/Ultimate/Apex); the unique fork gets its own sample below.
+        rank_name = rank_name_for(n, "suite")
         value = f"{rank_name} · {n}★"
         label = f"Gaia rank sample: {rank_name} ({n} stars)"
         (samples_dir / f"rank-{n}.svg").write_text(
@@ -769,15 +796,17 @@ def build_registry(contributors: dict[str, dict]) -> dict:
                 "name": skill.get("name", ""),
                 "rank": level_num(skill.get("level", "")),
                 "type": skill.get("type", ""),
+                "branch": skill_branch(skill),
                 "slash": slash,
                 "file": f"{fname}.svg",
                 "fileSeal": f"{fname}-seal.svg",
             })
-        # Sort: rank desc, then origin first, then alphabetical by id.
-        named_skills_payload.sort(key=lambda s: (-s["rank"], 0 if s.get("type") == "unique" else 1, s["id"]))
+        # Sort: rank desc, then unique-branch first, then alphabetical by id.
+        # Branch is read-time derived (E1) — never the dead `type == "unique"`.
+        named_skills_payload.sort(key=lambda s: (-s["rank"], 0 if s.get("branch") == "unique" else 1, s["id"]))
 
         top_skill_obj = info.get("top_skill")
-        top_is_unique = bool(top_skill_obj and top_skill_obj.get("type") == "unique")
+        top_is_unique = bool(top_skill_obj and skill_branch(top_skill_obj) == "unique")
         out[handle] = {
             "repos": sorted(repos.keys()),
             "skillsByRepo": {r: sorted(ids) for r, ids in repos.items()},

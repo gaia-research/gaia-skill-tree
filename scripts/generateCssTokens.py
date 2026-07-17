@@ -63,6 +63,21 @@ TOKENS_CSS = ROOT / "docs" / "css" / "tokens.css"
 # Background / border opacity defaults if a colour entry only provides ``hex``.
 DEFAULT_BG_ALPHA = 0.12
 DEFAULT_BORDER_ALPHA = 0.35
+
+# Yggdrasil II — the Unique branch tier family. `unique` is NOT a gaia.json
+# `type` (the only valid types are 'basic' and 'fusion'); it is a read-time
+# branch derived by docs/js/skill-semantics.js computeBranch (a Basic node that
+# reached elite rank 4★+ without ever fusing). It therefore never appears in
+# meta.typeColors, but the site's CSS still needs a stable --tier-unique family
+# so downstream var(--tier-unique*) reads resolve token-only (Ygg-II rubric E7).
+# Emitting it here keeps `gaia dev docs` regen from silently dropping the block
+# (which would re-expose hex fallbacks in consumer CSS/JS). Deep-violet accent
+# per design-v6.1.1 §2.2 ("standing stones beside the tree").
+UNIQUE_BRANCH_TIER = {
+    "hex": "#7c3aed",
+    "rgb": "124, 58, 237",
+    "symbol": "◉",
+}
 # Edge (translucent stroke) alpha. Used for ``--tier-*-edge`` and
 # ``--rank-N-edge`` derivatives consumed by DAG arrows and canvas
 # highlighted-neighbor edges.
@@ -160,6 +175,37 @@ def build_tokens_css(gaia: dict) -> str:
     for name, color in type_colors.items():
         body.append(f"  /* tier: {name} */")
         body.extend(_emit_tier_block(name, color, type_symbols.get(name)))
+
+    # Yggdrasil II Unique-branch tier family — always emitted (see
+    # UNIQUE_BRANCH_TIER). `unique` is a read-time branch, not a taxonomy type,
+    # so it is NOT in meta.typeColors; emitting it here keeps regen from
+    # dropping --tier-unique* and re-exposing hex fallbacks (rubric E7).
+    body.append(
+        "  /* tier: unique — Yggdrasil II branch color alias (NOT a taxonomy type)."
+    )
+    body.append(
+        "     The Unique branch is the standalone-mastery fork: a Basic node that"
+    )
+    body.append(
+        "     reached elite rank (4★+) without ever fusing. `unique` is derived at"
+    )
+    body.append(
+        "     read-time (see docs/js/skill-semantics.js computeBranch); it is never a"
+    )
+    body.append(
+        "     gaia.json `type`, so it is absent from meta.typeColors. Emitted here"
+    )
+    body.append(
+        "     (UNIQUE_BRANCH_TIER) so downstream var(--tier-unique*) reads resolve"
+    )
+    body.append("     token-only and a regen never drops the family (rubric E7). */")
+    body.extend(
+        _emit_tier_block(
+            "unique",
+            {"hex": UNIQUE_BRANCH_TIER["hex"], "rgb": UNIQUE_BRANCH_TIER["rgb"]},
+            UNIQUE_BRANCH_TIER["symbol"],
+        )
+    )
 
     body.append("")
     body.append("  /* ── Rank tokens (0★ → 6★) ───────────────────────────────── */")

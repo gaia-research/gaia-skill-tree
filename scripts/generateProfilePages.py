@@ -39,6 +39,29 @@ sys.path.insert(0, str(REPO_ROOT / "scripts"))
 sys.path.insert(0, str(REPO_ROOT / "src"))
 from _atlas_helpers import handle_link, named_slug  # noqa: E402
 from gaia_cli.redaction import is_redacted  # noqa: E402  single source of truth
+from gaia_cli.trustMagnitude import computeBranch as _compute_branch  # noqa: E402  Ygg-II read-time branch
+from gaia_cli.formatting import rank_word as _rank_word  # noqa: E402  branch-forked rank vocabulary
+
+
+def skill_branch(entry: dict) -> str:
+    """Derive the Yggdrasil II progression branch for a named-skill entry.
+
+    Delegates to gaia_cli.trustMagnitude.computeBranch (rubric E1) — the single
+    source of truth. Branch is a READ-TIME function of (suiteComponents present?,
+    rank); the retired `type` enum is NEVER consulted. Returns one of
+    ``'standard'`` (1-3★), ``'suite'`` (4★+ with suiteComponents), or
+    ``'unique'`` (4★+ standalone mastery).
+    """
+    return _compute_branch(entry)
+
+
+def branch_rank_label(level: str, branch: str) -> str:
+    """Human rank word for aria labels, forked by branch (no banned vocabulary).
+
+    e.g. ('3★','standard') -> 'Evolved'; ('5★','suite') -> 'Ultimate';
+    ('4★','unique') -> 'Unique'. Below 2★ the shared ladder still applies.
+    """
+    return _rank_word(level, branch)
 
 
 def _read_version() -> str:
@@ -92,31 +115,6 @@ def _apply_cache_busting(text: str, version: str) -> str:
         text
     )
     return text
-
-
-def load_type_lookup(gaia_path: Path) -> dict:
-    """Return a dict mapping canonical skill id → type (ultimate/unique/extra/basic)."""
-    if not gaia_path.exists():
-        return {}
-    with open(gaia_path, "r", encoding="utf-8") as f:
-        data = json.load(f)
-    return {s.get("id"): s.get("type", "basic") for s in data.get("skills", [])}
-
-
-TYPE_LOOKUP: dict = {}
-
-
-def resolve_type(entry: dict) -> str:
-    """Resolve the canonical type for a named-skill entry, with slug fallback."""
-    ref = entry.get("genericSkillRef")
-    if ref and ref in TYPE_LOOKUP:
-        return TYPE_LOOKUP[ref]
-    raw_id = entry.get("id", "")
-    if "/" in raw_id:
-        slug = raw_id.split("/", 1)[1]
-        if slug in TYPE_LOOKUP:
-            return TYPE_LOOKUP[slug]
-    return "basic"
 
 
 def level_num(level: str) -> int:
@@ -213,10 +211,52 @@ def build_stars(level: str) -> str:
 # Stage 1 — sprite-driven icons. Profile pages live at docs/u/<handle>/index.html
 # so the sprite is two levels above the page (../../assets/icons.svg).
 ICON_SPRITE_REL = "../../assets/icons.svg"
+# Asset base prefix for the per-handle profile page depth (docs/u/<handle>/).
+# Every relative asset URL (AOV4 medallion webp, gold wreath SVG) resolves from
+# here; mirrors docs/js/plaque.js _base() which strips the icons.svg suffix.
+ASSET_BASE_REL = "../../"
 DIAMOND_SEAL_SVG = (
     f'<svg class="ico plaque-seal" aria-hidden="true">'
     f'<use href="{ICON_SPRITE_REL}#seal-diamond"/></svg>'
 )
+
+
+# ── AOV4 medallion resolver (rubric E3) ──────────────────────────────
+# Python sibling of docs/js/plaque.js _aovStamp/_sizeTier. The rank medallion
+# IS the Ascension-Overdrive v4 stamp — never a CSS-gradient orb stand-in on a
+# named skill. Suite/standard branches use the C family (c1..c6); the Unique
+# branch uses the D family (d4..d6). The size tier (badge/card/hero) is chosen
+# by the render variant's legacy size modifier.
+AOV_SUITE_STEM = {
+    1: "c1-suite-awakened", 2: "c2-suite-named", 3: "c3-suite-evolved",
+    4: "c4-suite-extra", 5: "c5-suite-ultimate", 6: "c6-suite-apex",
+}
+AOV_UNIQUE_STEM = {
+    4: "d4-unique", 5: "d5-unique-ultimate", 6: "d6-unique-impossible",
+}
+
+
+def _aov_stamp(branch: str, n: int, tier: str = "card") -> str:
+    """Resolve the AOV4 stamp URL for a branch + rank at a given size tier."""
+    if tier not in ("badge", "card", "hero"):
+        tier = "card"
+    if branch == "unique":
+        stem = AOV_UNIQUE_STEM[max(4, min(6, n))]
+    else:
+        stem = AOV_SUITE_STEM[max(1, min(6, n))]
+    return f"{ASSET_BASE_REL}assets/ascension-overdrive/aov4-{stem}-{tier}.webp"
+
+
+def _size_tier(size_modifier: str = "") -> str:
+    """Map the legacy CSS size modifier to an AOV size tier.
+
+    'sm' -> badge · 'lg' -> hero · (none) -> card. Mirrors plaque.js _sizeTier.
+    """
+    if size_modifier == "sm":
+        return "badge"
+    if size_modifier == "lg":
+        return "hero"
+    return "card"
 
 
 # Stage 3 — Python sibling field helpers. One source of truth per
@@ -225,11 +265,86 @@ DIAMOND_SEAL_SVG = (
 # exactly. The dict below names every slot and the lambda that
 # emits it; the variant functions below assemble them.
 def _field_orb(ns: dict, size_modifier: str = "") -> str:
-    type_str = resolve_type(ns)
+    # Rubric E3: the medallion IS the AOV4 stamp — NO CSS-gradient orb stand-in
+    # on a named skill. Branch (suite/unique/standard) + rank pick the asset;
+    # the surface's size modifier picks badge/card/hero. Standard-branch named
+    # skills (rank 1..3) render the c1..c3 suite stamps. Mirrors docs/js/
+    # plaque.js _fieldOrb: <span.plaque-orb--medallion><img.plaque-orb__stamp></span>.
+    # If the webp 404s, [data-stamp-fail] falls back to a branch-tinted gradient
+    # (plaque.css) so a rank medallion still reads — never an empty hole.
+    branch = skill_branch(ns)
     n = level_num(ns.get("level", ""))
     mod = f" plaque-orb--{size_modifier}" if size_modifier else ""
     apex = " plaque-orb--vi" if n >= 6 else ""
-    return f'<div class="plaque-orb plaque-orb--{type_str}{mod}{apex}" aria-hidden="true"></div>'
+    tier = _size_tier(size_modifier)
+    src = _aov_stamp(branch, n, tier)
+    rank_name = branch_rank_label(ns.get("level", ""), branch)
+    aria = f"{rank_name} medallion" if rank_name else "rank medallion"
+    return (
+        f'<span class="plaque-orb plaque-orb--medallion plaque-orb--{branch}{mod}{apex}" '
+        f'data-branch="{branch}" role="img" aria-label="{html.escape(aria)}">'
+        f'<img class="plaque-orb__stamp" src="{html.escape(src)}" alt="" '
+        f'decoding="async" loading="lazy" '
+        f'onerror="this.style.display=\'none\';this.parentNode.setAttribute(\'data-stamp-fail\',\'true\')">'
+        f'</span>'
+    )
+
+
+def _field_avatar(ns: dict, size: int = 40) -> str:
+    """Contributor GitHub avatar framed by the gold origin wreath (E3/E4).
+
+    Python sibling of docs/js/plaque.js _fieldAvatar. Every skill surface
+    renders the contributor's GitHub avatar framed by the gold origin wreath
+    (docs/assets/origin-wreath-gold.svg) — the NEW origin mark (red -> gold).
+    The avatar links to the skill repo (links.github), replacing the deprecated
+    standalone GitHub button. A missing avatar swaps to the GitHub identicon
+    endpoint (never hides the img -> no empty hole). Redacted (<=1 star) skills
+    expose no handle, so no avatar renders (showing one would leak the handle).
+    """
+    handle = ns.get("contributor", "") or ""
+    if not handle:
+        return ""
+    if is_redacted(ns.get("level", "")):
+        return ""
+    clean = str(handle).lstrip("@")
+    from urllib.parse import quote as _url_quote
+    enc = _url_quote(clean, safe="")
+    wreath_src = f"{ASSET_BASE_REL}assets/origin-wreath-gold.svg"
+    avatar_src = f"https://github.com/{enc}.png?size={size * 2}"
+    identicon = f"https://github.com/identicons/{enc}.png"
+    links = ns.get("links", {}) or {}
+    repo_url = links.get("github") or links.get("npm") or ""
+    is_origin = bool(ns.get("origin"))
+    title = f"Origin contributor @{clean}" if is_origin else f"@{clean}"
+    # onerror: fall back to the identicon once, then stop (avoid loops). Never
+    # set display:none — the frame must never render as an empty hole.
+    err_attr = (
+        "if(this.dataset.fbk){this.onerror=null;}else{this.dataset.fbk='1';"
+        f"this.src='{identicon}';}}"
+    )
+    img = (
+        f'<img class="plaque__avatar-img" src="{html.escape(avatar_src)}" '
+        f'alt="" decoding="async" loading="lazy" referrerpolicy="no-referrer" '
+        f'onerror="{html.escape(err_attr, quote=True)}">'
+    )
+    wreath = (
+        f'<img class="plaque__avatar-wreath" src="{html.escape(wreath_src)}" '
+        f'alt="" aria-hidden="true">'
+    )
+    inner = img + wreath
+    origin_attr = ' data-origin="true"' if is_origin else ""
+    style = f'style="--avatar-size:{int(size)}px"'
+    if repo_url:
+        return (
+            f'<a class="plaque__avatar plaque__avatar--link" href="{html.escape(repo_url)}" '
+            f'target="_blank" rel="noopener" title="{html.escape(title)}" '
+            f'aria-label="{html.escape(title)} — view repository" '
+            f'onclick="event.stopPropagation()" {style}{origin_attr}>{inner}</a>'
+        )
+    return (
+        f'<span class="plaque__avatar" title="{html.escape(title)}" '
+        f'aria-label="{html.escape(title)}" {style}{origin_attr}>{inner}</span>'
+    )
 
 
 def _field_slug(ns: dict) -> str:
@@ -267,8 +382,10 @@ def _field_handle_row(ns: dict, rel: str = "../../u/") -> str:
     )
     if not contributor_link:
         return ""
-    origin_badge = _field_origin_star(ns)
-    return f'<div class="plaque__handle plaque-contrib-row">{contributor_link}{origin_badge}</div>'
+    # Rubric E4: the red inline origin mark is gone — Origin now renders in GOLD
+    # as the wreath framing the contributor avatar (_field_avatar sets
+    # data-origin). Mirrors docs/js/plaque.js _fieldHandleRow.
+    return f'<div class="plaque__handle plaque-contrib-row">{contributor_link}</div>'
 
 
 def _field_description(ns: dict) -> str:
@@ -317,19 +434,11 @@ def _field_install_row(ns: dict) -> str:
 
 
 def _field_gh_link(ns: dict) -> str:
-    links = ns.get("links", {}) or {}
-    url = links.get("github") or links.get("npm") or ""
-    if not url:
-        return ""
-    gh_icon = (
-        f'<svg class="ico" width="14" height="14" aria-hidden="true">'
-        f'<use href="{ICON_SPRITE_REL}#github"/></svg>'
-    )
-    return (
-        f'<a class="plaque__gh-link ns-gh-link" href="{html.escape(url)}" '
-        f'target="_blank" rel="noopener" onclick="event.stopPropagation()" '
-        f'title="View on GitHub">{gh_icon}</a>'
-    )
+    # Deprecated (rubric E3): the standalone "GitHub" button is removed — the
+    # wreathed avatar (_field_avatar) is now the repo link. Kept as a no-op so
+    # any lingering call site emits nothing rather than a duplicate link.
+    # Mirrors docs/js/plaque.js _fieldGhLink.
+    return ""
 
 
 def _field_origin_star(ns: dict) -> str:
@@ -350,6 +459,7 @@ def _field_origin_star(ns: dict) -> str:
 # for the OG generator to reuse the same slot vocabulary.
 PLAQUE_FIELDS = {
     "orb":         _field_orb,
+    "avatar":      _field_avatar,
     "slug":        _field_slug,
     "title":       _field_title,
     "handle":      _field_handle_row,
@@ -366,13 +476,20 @@ def _plaque_shell(variant: str, ns: dict, inner: str, extra_class: str = "", ski
     """Wrap a field-set string in the canonical .plaque shell."""
     n = level_num(ns.get("level", ""))
     apex = " plaque--apex-vi" if n >= 6 else ""
-    type_str = resolve_type(ns)
+    # Rubric E1/E3: stamp the DERIVED data-branch (standard|suite|unique) — every
+    # downstream visual selector (dark unique / gold suite) keys on data-branch,
+    # NOT data-type. Legacy data-type (basic|fusion, the raw taxonomy type) is
+    # retained only for old hooks; it is NEVER the dead progression enum. Mirrors
+    # docs/js/plaque.js _shell().
+    legacy_type = html.escape(str(ns.get("type") or "basic"))
+    branch = skill_branch(ns)
     extra = f" {extra_class}" if extra_class else ""
     skill_id = html.escape(ns.get("id", ""))
     name_attr = f' data-skill-name="{html.escape(skill_name)}"' if skill_name else ""
     return (
         f'<article class="plaque plaque--{variant}{apex}{extra}" '
-        f'data-skill-id="{skill_id}" data-type="{type_str}" data-level="{n}"{name_attr}>'
+        f'data-skill-id="{skill_id}" data-type="{legacy_type}" '
+        f'data-branch="{branch}" data-level="{n}"{name_attr}>'
         f"{inner}"
         f"</article>"
     )
@@ -381,13 +498,14 @@ def _plaque_shell(variant: str, ns: dict, inner: str, extra_class: str = "", ski
 def plaque_mini_html(ns: dict) -> str:
     """Stage 3 — Python sibling of window.plaque.renderMini(ns).
 
-    HoH track plate field set: orb · slug · handle · rank stars.
+    HoH track plate field set: orb · wreathed avatar · handle · rank stars · slug.
     """
     inner = (
         _field_orb(ns)
-        + _field_slug(ns)
+        + _field_avatar(ns, 28)
         + _field_handle_row(ns)
         + _field_rank(ns, "stars")
+        + _field_slug(ns)
     )
     return _plaque_shell("mini", ns, inner)
 
@@ -395,14 +513,14 @@ def plaque_mini_html(ns: dict) -> str:
 def plaque_tile_html(ns: dict) -> str:
     """Stage 3 — Python sibling of window.plaque.renderTile(ns).
 
-    Explorer grid card: header(orb+chip+origin+gh) · slug · title ·
+    Explorer grid card: header(orb + chip + wreathed avatar) · slug · title ·
     handle · description · tags(3) · install row.
     """
     header = (
         '<div class="plaque__header plaque-header">'
         + _field_orb(ns)
         + _field_rank(ns, "chip")
-        + _field_gh_link(ns)
+        + _field_avatar(ns, 32)
         + "</div>"
     )
     inner = (
@@ -470,7 +588,7 @@ def plaque_settled_html(ns: dict, handle: str = "") -> str:
         '<div class="plaque__header plaque-header">'
         + _field_orb(ns)
         + _field_rank(ns, "chip")
-        + _field_gh_link(ns)
+        + _field_avatar(ns, 32)
         + "</div>"
     )
     tgVal = ns.get("overallTrustGrade") or ns.get("trustGrade") or ""
@@ -637,14 +755,13 @@ SIDEBAR_HTML = """<aside class="profile-sidebar" id="profileSidebar" aria-label=
     <input type="search" id="profileSearch" class="sidebar-search-input" placeholder="Search implementations…" autocomplete="off" aria-label="Search skills">
   </div>
 
-  <!-- Type -->
-  <fieldset class="profile-filter-group" data-filter-type="type">
-    <legend class="profile-filter-legend">Type</legend>
+  <!-- Branch (Yggdrasil II read-time progression fork; rubric E1) -->
+  <fieldset class="profile-filter-group" data-filter-type="branch">
+    <legend class="profile-filter-legend">Branch</legend>
     <div style="display:flex; flex-wrap:wrap; gap:0.4rem; width:100%;">
-      <button class="profile-filter-chip" type="button" data-value="basic" aria-pressed="false"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align:middle;margin-right:3px"><use href="../../assets/icons.svg#tier-glyph-basic"/></svg>Basic</button>
-      <button class="profile-filter-chip" type="button" data-value="extra" aria-pressed="false"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align:middle;margin-right:3px"><use href="../../assets/icons.svg#tier-glyph-extra"/></svg>Extra</button>
-      <button class="profile-filter-chip" type="button" data-value="unique" aria-pressed="false"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align:middle;margin-right:3px"><use href="../../assets/icons.svg#tier-glyph-unique"/></svg>Unique</button>
-      <button class="profile-filter-chip" type="button" data-value="ultimate" aria-pressed="false"><svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align:middle;margin-right:3px"><use href="../../assets/icons.svg#tier-glyph-ultimate"/></svg>Ultimate</button>
+      <button class="profile-filter-chip" type="button" data-value="standard" aria-pressed="false"><span class="tier-glyph" data-branch="standard" aria-hidden="true" style="margin-right:3px">○</span>Standard</button>
+      <button class="profile-filter-chip" type="button" data-value="suite" aria-pressed="false"><span class="tier-glyph" data-branch="suite" aria-hidden="true" style="margin-right:3px">◆</span>Suite</button>
+      <button class="profile-filter-chip" type="button" data-value="unique" aria-pressed="false"><span class="tier-glyph" data-branch="unique" aria-hidden="true" style="margin-right:3px">◉</span>Unique</button>
     </div>
   </fieldset>
 
@@ -684,7 +801,7 @@ SIDEBAR_HTML = """<aside class="profile-sidebar" id="profileSidebar" aria-label=
       <select id="profileSort" class="ns-sort-sel" aria-label="Sort skills" style="width:100%; padding-left:30px; font-family:var(--font-mono); font-size:0.72rem;">
         <option value="rank" selected>Rank · high → low</option>
         <option value="alpha">A → Z</option>
-        <option value="type">Type</option>
+        <option value="branch">Branch</option>
       </select>
     </div>
   </div>
@@ -1307,8 +1424,6 @@ def build_directory_page(by_contributor: dict) -> str:
 
 def generate_pages(named_path: Path, out_dir: Path) -> int:
     """Generate all profile pages. Returns number of pages written."""
-    global TYPE_LOOKUP
-    TYPE_LOOKUP = load_type_lookup(GAIA_JSON)
     data = load_named_data(named_path)
     by_contributor = collect_by_contributor(data)
 
