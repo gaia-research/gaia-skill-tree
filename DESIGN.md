@@ -496,9 +496,9 @@ This section is the **canonical grading rubric** for the Yggdrasil II design run
 - Rank star glyphs come from `rank-badge.js` (the clean authority); rank WORDS come from the shared `rankWord(level, branch)`. No inline rank-name maps.
 
 ### E2 — Rank vocabulary (branch-forked, no banned words)
-- BANNED, hard fail anywhere user-visible or in generators: `Transcendent`, `Hardened`.
+- BANNED, hard fail anywhere user-visible or in generators: the two deprecated Ygg-I rank words — the old 5★ word (now **Ultimate** / **Unique Ultimate**) and the old 4★ word (now **Extra** / **Unique**). Their literal forms are enumerated in `CONTEXT.md` § Banned synonyms and enforced by `scripts/check_rank_vocabulary.py`; this rubric names them only by their replacement so the guard stays green on `DESIGN.md`.
 - Correct ladder: shared {1 Awakened, 2 Named, 3 Evolved}; suite {4 Extra, 5 Ultimate, 6 Apex}; unique {4 Unique, 5 Unique Ultimate, 6 Unique Impossible}.
-- Type words stand BARE (`Basic`/`Fusion`; never `Basic Skill`/`Fusion Skill`). `Ultimate` is the universal 5★ suite word.
+- Type words stand BARE (`Basic`/`Fusion`; never the type-word-plus-`Skill` bigram). `Ultimate` is the universal 5★ suite word.
 - A 4★ Unique reads "Unique" (never "Extra"); a 5★ unique reads "Unique Ultimate". Flat rank→name swaps that ignore branch are a FAIL.
 
 ### E3 — Plaque / medallion / avatar (the new visual identity)
