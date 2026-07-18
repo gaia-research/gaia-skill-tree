@@ -165,12 +165,82 @@ def _build_skill_display(skill_id, skill_type, named_map=None, handle_rel=None,
         return named_id_display if named_id else f"/{skill_id}"
     return named_id_display if named_id else f"/{skill_id}"
 
+def _build_generic_branch_map(named_index):
+    """Return {genericSlug: branch} for every bucket in the named index.
+
+    Ygg II branch model (membership, type-blind):
+      suiteComponents present  -> 'suite'
+      rank >= 4, no suite      -> 'unique'
+      else                     -> 'standard'
+
+    We use the EMITTED branch field from the named index rather than
+    re-deriving it locally (single-authority principle, §Ygg-II §4).
+    The bucket's effective branch is the highest-priority branch found
+    across all of its entries: suite > unique > standard.
+    """
+    priority = {"suite": 2, "unique": 1, "standard": 0}
+    out = {}
+    for slug, entries in (named_index.get("buckets", {}) or {}).items():
+        best = "standard"
+        for e in entries:
+            b = e.get("branch", "standard")
+            if priority.get(b, 0) > priority.get(best, 0):
+                best = b
+        out[slug] = best
+    return out
+
+
+def _build_generic_suite_size_map(named_index):
+    """Return {genericSlug: max_suite_component_count} for suite-branch generics.
+
+    Used as the secondary ordering signal for _sorted_ultimates (biggest
+    suite first). Ordering signal comes from the emitted suiteComponents
+    arrays in the named index — no local re-computation.
+    """
+    out = {}
+    for slug, entries in (named_index.get("buckets", {}) or {}).items():
+        counts = [len(e.get("suiteComponents") or []) for e in entries]
+        if counts:
+            out[slug] = max(counts)
+    return out
+
+
+# Populated after the named index is loaded in main(). These are module-level
+# so _sorted_ultimates (called as a callback into render_tree) can read them
+# without threading the maps through every call site.
+_GENERIC_BRANCH_MAP: dict = {}
+_GENERIC_SUITE_SIZE_MAP: dict = {}
+_NAMED_LEVEL_MAP_REF: dict = {}  # mirror of named_level_map for _sorted_ultimates callback
+
+
 def _sorted_ultimates(skills):
-    # Receives only top-level Ultimates (sub-components already filtered by
-    # render_tree). Sort by name so the canonical tree is deterministic.
+    """Return the suite-branch generics (Ygg II 'ultimates'), sorted for the tree.
+
+    Branch membership is read from the EMITTED named index via
+    _GENERIC_BRANCH_MAP — NOT derived from skill.type (which is 'basic' or
+    'fusion' under Ygg II post-#997 and would return nothing).
+
+    Ordering: primary = top named-variant rank desc (biggest suite first);
+    secondary = suiteComponents count desc; tertiary = name asc (deterministic).
+    The suiteComponents count comes from _GENERIC_SUITE_SIZE_MAP, built from
+    the emitted suiteComponents arrays in docs/graph/named/index.json.
+
+    NOTE: if _GENERIC_BRANCH_MAP is empty (e.g. named index absent) this falls
+    back to an empty result — the tree will show only Unique/Basics sections,
+    which is the correct degraded state when no named index is present.
+    """
+    _LEVEL_ORDER = ["2★", "3★", "4★", "5★", "6★"]
+
+    def _sort_key(s):
+        sid = s.get("id", "")
+        # Top named-variant rank from the module-level reference (set in main())
+        star = _LEVEL_ORDER.index(_NAMED_LEVEL_MAP_REF.get(sid)) if _NAMED_LEVEL_MAP_REF.get(sid) in _LEVEL_ORDER else -1
+        suite_size = _GENERIC_SUITE_SIZE_MAP.get(sid, 0)
+        return (-star, -suite_size, s.get("name", ""))
+
     return sorted(
-        [s for s in skills if s.get("type") == "ultimate"],
-        key=lambda s: s.get("name", "")
+        [s for s in skills if _GENERIC_BRANCH_MAP.get(s.get("id")) == "suite"],
+        key=_sort_key,
     )
 
 
@@ -290,6 +360,7 @@ def main():
     named_map = {}
     named_level_map = {}
     named_entry_level = {}  # named_id ("handle/slug") -> its OWN level string
+    nidx = {}  # will be replaced if the index file exists
     named_index_path = os.path.join("registry", "named-skills.json")
     if os.path.isfile(named_index_path):
         with open(named_index_path, "r", encoding="utf-8") as nf:
@@ -307,6 +378,23 @@ def main():
                         named_entry_level[e["id"]] = e.get("level")
         named_level_map = build_named_level_map(nidx)
 
+    # Populate module-level maps used by _sorted_ultimates callback.
+    # These read branch/ordering from the EMITTED named index rather than
+    # re-deriving from skill.type (Ygg II single-authority principle).
+    global _GENERIC_BRANCH_MAP, _GENERIC_SUITE_SIZE_MAP, _NAMED_LEVEL_MAP_REF
+    _GENERIC_BRANCH_MAP = _build_generic_branch_map(nidx)
+    _GENERIC_SUITE_SIZE_MAP = _build_generic_suite_size_map(nidx)
+    _NAMED_LEVEL_MAP_REF = named_level_map
+
+    # Annotate each generic skill with its resolved `branch` from the named
+    # index so render_tree and _sorted_ults can filter by branch without
+    # re-deriving it locally (Ygg II §4 single-authority principle).
+    # This is an additive annotation — the original skill dict is NOT mutated
+    # in place; we work on a copy so registry/gaia.json is never dirtied.
+    skills = [
+        {**s, "branch": _GENERIC_BRANCH_MAP.get(s["id"], "standard")}
+        for s in skills
+    ]
     skill_map = {s["id"]: s for s in skills}
     date_str = timestamp.split("T")[0] if "T" in timestamp else timestamp
 
@@ -488,8 +576,8 @@ def main():
 
         f.write("\n")
 
-        # Unique Skills section
-        unique_skills = [s for s in skills if s.get("type") == "unique"]
+        # Unique Skills section — read branch from named index (Ygg II: type-blind)
+        unique_skills = [s for s in skills if _GENERIC_BRANCH_MAP.get(s.get("id")) == "unique"]
         if unique_skills:
             f.write("## Uniques\n\n")
             f.write("*Singular mastery skills — graph-isolated, with named implementations. Promoted via `/gaia promote --unique`.*\n\n")
@@ -511,7 +599,7 @@ def main():
         for skill in skills:
             if skill["id"] not in orphan_ids:
                 continue
-            if skill.get("type") == "unique":
+            if _GENERIC_BRANCH_MAP.get(skill["id"]) == "unique":
                 continue
             name_display = f"○ {skill.get('name')}"
             skill_call = f"`/{skill.get('id')}`"
@@ -519,8 +607,8 @@ def main():
 
         f.write("\n")
 
-        # Unclaimed Ultimates section
-        unclaimed = [s for s in skills if s.get("type") == "ultimate" and s["id"] not in named_map]
+        # Unclaimed Suites section — suite-branch generics with no named implementation
+        unclaimed = [s for s in skills if _GENERIC_BRANCH_MAP.get(s.get("id")) == "suite" and s["id"] not in named_map]
         if unclaimed:
             f.write("## Ultimate Skills Awaiting Name\n\n")
             f.write(
