@@ -127,7 +127,9 @@ The original inventory (§1) was scoped to this repo's rendering path. Eight sco
 
 ---
 
-## 7. Amendment — Origin mechanic reconciles the starless-graph "stray" (2026-07-18, session audit)
+## 7. Amendment — Origin mechanic reconciles the STARLESS-graph "stray" (2026-07-18, session audit)
+
+**Scope of this section: STARLESS PRESENTATION only** — the graph/tree buckets (`docs/graph/gaia.json`, `docs/tree.md`, per-user `skill-tree.md`). This is where origins and buckets matter *at build time*. Hall-type builds (Hall of Heroes, `/heroes`) do NOT use the bucket/origin surfacing — see §8 for their expected behavior.
 
 **Context.** A post-doc alignment audit on `dev/ygg2-consume-frontend` initially flagged the origin-fix commit `6dc2dc7e8` (which stamps `branch`/`rank`/`rankWord`/`medallion` onto `docs/graph/gaia.json` nodes) as a STRAY from §2's "named-index-only" emission home. That flag was **wrong**, based on a misreading of what a starless node *is*. This amendment records the corrected model so a later session does not act on the bad flag.
 
@@ -145,3 +147,23 @@ This is **already implemented and on-plan**: `scripts/syncDocsGraphAssets.py::_b
 **Stale prose to correct (not a code revisit):** §5 bullet 1 ("No node in `docs/graph/gaia.json` … carries `branch`/`rank`/`medallion`") is now factually stale — `6dc2dc7e8` stamps 79 of 243 nodes (58 standard / 15 suite / 6 unique) via the origin mechanic. The *architecture* (origin-surfaced, named-index-first) is unchanged; only the §5 snapshot predates the stamp. `founder/handovers/archive/YGGDRASIL_II_SUPERSEDED_2026-07-18.md` §5 already carries the correct shape.
 
 **Buildability note (founder).** The origin→bucket surfacing is the pattern going forward and is "very very buildable": presentation structure (fusion/basics visual branching) layers on top without changing the resolution source, and the origin mechanics are already in the pipeline. Future presentation work does not reopen the resolution home.
+
+---
+
+## 8. Hall of Heroes — expected behavior for Hall-type builds (founder, 2026-07-18)
+
+**Hall-type builds are NOT starless-graph builds.** Where §7's starless presentation surfaces one **origin per bucket** onto a generic node, a Hall-type build (Hall of Heroes, the `/heroes` page, and the homepage `#hall-of-heroes` mini-section) presents the **named skills themselves** — every qualifying named entry, not one-per-bucket. Both read the same emitted taxonomy fields (`branch`/`rank`/`rankWord`/`medallion` from the named index); they differ in *selection* and *ordering*.
+
+**Expected behavior (founder-specified):**
+
+1. **No limit on the number.** The Hall shows *all* qualifying named skills — there is no top-N cap, no per-contributor cap, no "8 plates." Any cap in a current build (e.g. the `topSkill.level >= 4` single-skill filter on the contributors API that yields only ~7) is a **defect**, not the intended behavior.
+2. **Ranks presented as Unique·Suite pairs.** Within each star level, the two 4★+ branches are shown as a pair — **Unique before Suite** (`Unique Impossible · Apex` at 6★; `Unique Ultimate · Ultimate` at 5★; `Unique · Extra` at 4★).
+3. **Higher rank to lower rank.** Ordered by star level **descending**: 6★ → 5★ → 4★.
+4. **Down to 4★, in that order.** The Hall floor is **4★** — nothing below 4★ appears (below 4★ there is no branch decoration; the shared ladder Awakened/Named/Evolved is not Hall material). Order stops at the 4★ Unique·Suite pair.
+
+**Canonical order:**
+`6★ Unique Impossible · 6★ Apex → 5★ Unique Ultimate · 5★ Ultimate → 4★ Unique · 4★ Extra`
+
+**Current data (2026-07-18, for reference — no cap applied):** 11 Hall-eligible named skills — `5★ Suite`: agent-skills, gstack, skills, superpowers, ruflo (5); `4★ Unique`: performance-optimization, firecrawl-build-scrape, firecrawl-build-search, impeccable, subagent-driven-development, few-shot-learning (6). No 6★ and no 5★ Unique / 4★ Suite exist yet, so those pair-slots are simply empty until earned.
+
+**Resolution source (do NOT recompute):** Hall builds read the emitted `branch`/`rank` per named entry (via the `GaiaSemantics.branchOf`/`rankWordOf` seam or the emitted field directly). Where a Hall consumer's input blob omits the emitted fields (e.g. `heroes.js` fed by the contributors-API `topSkill` blob), the fix is to **thread the emitted fields into that input**, not to reinstate read-time `computeBranch`. Selection (rank ≥ 4, all entries) and ordering (rank-desc, Unique·Suite pairs) are Hall-layer logic on top of the emitted fields — they are not a second taxonomy resolver.
