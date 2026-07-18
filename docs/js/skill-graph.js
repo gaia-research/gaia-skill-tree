@@ -557,8 +557,10 @@
       nodeAlphas: {},
       searchText: '',
       legendFilterType: null,
+      legendFilterField: null,
       legendFilterRank: null,
       legendHoverType: null,
+      legendHoverField: null,
       legendHoverRank: null,
       legendEl: null,
       showTitles: false,
@@ -1350,11 +1352,11 @@
         if (hovering) {
           targetVis = skill.id === focusId ? 1.0 : neighborSet.has(skill.id) ? 0.88 : 0.12;
         } else if (legendHovering) {
-          const mt = !state.legendHoverType || skill.type === state.legendHoverType;
+          const mt = !state.legendHoverType || (state.legendHoverField === 'branch' ? skill.branch : skill.type) === state.legendHoverType;
           const mr = !state.legendHoverRank || skill.level === state.legendHoverRank;
           targetVis = (mt && mr) ? 1.0 : 0.12;
         } else if (legendFiltering) {
-          const mt = !state.legendFilterType || skill.type === state.legendFilterType;
+          const mt = !state.legendFilterType || (state.legendFilterField === 'branch' ? skill.branch : skill.type) === state.legendFilterType;
           const mr = !state.legendFilterRank || skill.level === state.legendFilterRank;
           const matchesLegend = mt && mr;
           if (isSearchActive) {
@@ -2425,10 +2427,15 @@
         '<span class="graph-legend-rank-pill" data-legend-rank="6★" data-rank="6">6★</span>' +
         '</div></div>' +
         '<div class="graph-legend-section"><div class="graph-legend-heading">Structure <span class="graph-legend-subhead">= glyph</span></div>' +
-        '<div class="graph-legend-item" data-legend-type="basic"><span class="graph-legend-glyph" aria-hidden="true">○</span>Basic</div>' +
-        '<div class="graph-legend-item" data-legend-type="extra"><span class="graph-legend-glyph" aria-hidden="true">◇</span>Fusion</div>' +
-        '<div class="graph-legend-item" data-legend-type="unique"><span class="graph-legend-glyph" aria-hidden="true">◉</span>Unique</div>' +
-        '<div class="graph-legend-item" data-legend-type="ultimate"><span class="graph-legend-glyph" aria-hidden="true">◆</span>Suite</div>' +
+        // Structure filters key on the raw structural `type` (basic/fusion);
+        // membership filters key on the emitted `branch` (unique/suite) — the
+        // Ygg-II authority field. data-legend-field names which axis each item
+        // filters so the predicate reads the right node property (no dead
+        // Ygg-I enum words like extra/ultimate that no node carries anymore).
+        '<div class="graph-legend-item" data-legend-field="type" data-legend-type="basic"><span class="graph-legend-glyph" aria-hidden="true">○</span>Basic</div>' +
+        '<div class="graph-legend-item" data-legend-field="type" data-legend-type="fusion"><span class="graph-legend-glyph" aria-hidden="true">◇</span>Fusion</div>' +
+        '<div class="graph-legend-item" data-legend-field="branch" data-legend-type="unique"><span class="graph-legend-glyph" aria-hidden="true">◉</span>Unique</div>' +
+        '<div class="graph-legend-item" data-legend-field="branch" data-legend-type="suite"><span class="graph-legend-glyph" aria-hidden="true">◆</span>Suite</div>' +
         '</div>' +
         '<div class="graph-legend-section"><div class="graph-legend-heading">View</div>' +
         '<div class="graph-legend-item" data-legend-clusters><span class="graph-legend-swatch" style="width:12px;height:12px;background:var(--honor-red);border-radius:2px"></span>Clusters</div>' +
@@ -2447,11 +2454,12 @@
         });
       }
       legend.querySelectorAll('.graph-legend-item[data-legend-type]').forEach(item => {
-        item.addEventListener('mouseenter', () => { state.legendHoverType = item.dataset.legendType; });
-        item.addEventListener('mouseleave', () => { state.legendHoverType = null; });
+        item.addEventListener('mouseenter', () => { state.legendHoverType = item.dataset.legendType; state.legendHoverField = item.dataset.legendField || 'type'; });
+        item.addEventListener('mouseleave', () => { state.legendHoverType = null; state.legendHoverField = null; });
         item.addEventListener('click', () => {
           const val = state.legendFilterType === item.dataset.legendType ? null : item.dataset.legendType;
           state.legendFilterType = val;
+          state.legendFilterField = val ? (item.dataset.legendField || 'type') : null;
           legend.querySelectorAll('[data-legend-type]').forEach(el => el.classList.remove('active'));
           if (val) item.classList.add('active');
         });
