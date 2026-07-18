@@ -207,25 +207,32 @@ APEX_INK = "#3b2206"    # engraved text on gold — passes AA (white-on-gold did
 _RANK_COLORS: dict[int, str] = {}
 _UNIQUE_COLOR = "#7c3aed"
 
-# v3 amendment (2026-07-18): the Unique DECORATION forks by rank — Membership is
-# `unique` from 4★ up, but the treatment escalates: 4★ violet, 5★ darker gold,
-# 6★ inverted (gold ground / dark ink). Below 4★ a unique-member skill decorates
-# plain (handled by the is_unique guards, which never fire below rank 4 in samples).
-UNIQUE_GOLD_5 = "#c8890a"   # darker gold — Unique Ultimate (5★), deeper than GOLD_DEEP's amber
+# v3 amendment (2026-07-18, colorize LOCKED — "Amethyst→Ember"): the Unique
+# DECORATION forks by rank. Membership is `unique` from 4★ up, but the treatment
+# escalates: 4★ violet, 5★ burnished copper, 6★ inverted (copper ground / dark
+# ink). Deliberately OFF the Suite gold axis so a Unique Impossible never reads
+# as a Suite Apex — Unique is its own prestige track. Below 4★ a unique-member
+# skill decorates plain (is_unique guards never fire below rank 4 in samples).
+UNIQUE_COPPER_5 = "#b26a3a"   # burnished copper — Unique Ultimate (5★)
+UNIQUE_COPPER_6 = "#e0894a"   # inverted copper ground — Unique Impossible (6★)
+UNIQUE_COPPER_6_PALE = "#f0b98a"   # top-lit specular for the 6★ copper gradient
+UNIQUE_COPPER_6_DEEP = "#8f4e24"   # bottom of the 6★ copper gradient
+UNIQUE_INK = "#2a1206"        # dark engraved text on the 6★ copper ground (AA-safe)
 
 
 def unique_hex(rank: int) -> str:
-    """Resolve the Unique-branch DECORATION accent for a given rank (v3 amendment).
+    """Resolve the Unique-branch DECORATION accent for a given rank (v3, LOCKED).
 
       4★ -> violet (base unique color)
-      5★ -> darker gold (Unique Ultimate)
-      6★ -> Apex-metallic gold (Unique Impossible renders inverted; the accent
-             is the gold ground itself)
+      5★ -> burnished copper (Unique Ultimate)
+      6★ -> inverted copper (Unique Impossible; the accent is the copper ground)
+
+    Off the Suite gold axis by design — see UNIQUE_COPPER_* above.
     """
     if rank >= 6:
-        return GOLD
+        return UNIQUE_COPPER_6
     if rank == 5:
-        return UNIQUE_GOLD_5
+        return UNIQUE_COPPER_5
     return _UNIQUE_COLOR
 
 
@@ -311,34 +318,44 @@ def _data_panel(x: float, w: float, rank: int, uid: str, *,
     """
     col = unique_hex(rank) if is_unique else rank_hex(rank)
     apex = rank >= 6 and not is_unique
-    # Unique Impossible (6★ unique) renders INVERTED — the same gold ground as
-    # suite Apex, so it reads as a peer pinnacle rather than a plain violet.
+    # Unique Impossible (6★ unique) renders INVERTED — but on a COPPER ground of
+    # its own (not the suite gold), so it reads as a peer pinnacle on a distinct
+    # prestige track rather than a clone of suite Apex (colorize LOCKED 2026-07-18).
     unique_apex = is_unique and rank >= 6
-    gold_ground = (apex or unique_apex) and gold_fill
+    metal_ground = (apex or unique_apex) and gold_fill
     defs = ""
 
-    if gold_ground:
-        defs += (
-            f'<linearGradient id="au{uid}" x1="0" y1="0" x2="0" y2="1">'
-            f'<stop offset="0" stop-color="{GOLD_PALE}"/>'
-            f'<stop offset="0.46" stop-color="{GOLD}"/>'
-            f'<stop offset="0.62" stop-color="#f7b500"/>'
-            f'<stop offset="1" stop-color="{GOLD_DEEP}"/></linearGradient>'
-        )
+    if metal_ground:
+        if unique_apex:
+            defs += (
+                f'<linearGradient id="au{uid}" x1="0" y1="0" x2="0" y2="1">'
+                f'<stop offset="0" stop-color="{UNIQUE_COPPER_6_PALE}"/>'
+                f'<stop offset="0.46" stop-color="{UNIQUE_COPPER_6}"/>'
+                f'<stop offset="0.62" stop-color="#d47a3e"/>'
+                f'<stop offset="1" stop-color="{UNIQUE_COPPER_6_DEEP}"/></linearGradient>'
+            )
+        else:
+            defs += (
+                f'<linearGradient id="au{uid}" x1="0" y1="0" x2="0" y2="1">'
+                f'<stop offset="0" stop-color="{GOLD_PALE}"/>'
+                f'<stop offset="0.46" stop-color="{GOLD}"/>'
+                f'<stop offset="0.62" stop-color="#f7b500"/>'
+                f'<stop offset="1" stop-color="{GOLD_DEEP}"/></linearGradient>'
+            )
         layers = f'<rect x="{x:.1f}" width="{w:.1f}" height="{H}" fill="url(#au{uid})"/>'
     else:
         bg = "#0a0713" if is_unique else INK
         layers = f'<rect x="{x:.1f}" width="{w:.1f}" height="{H}" fill="{bg}"/>'
 
     # Tier tint — a faint colour wash that turns on at rank 4 (and for Unique),
-    # but NOT over a gold ground (the gold already carries the weight).
-    if ((4 <= rank <= 5) or is_unique) and not gold_ground:
+    # but NOT over a metallic ground (the metal already carries the weight).
+    if ((4 <= rank <= 5) or is_unique) and not metal_ground:
         a = 0.18 if rank >= 5 else 0.14
         layers += f'<rect x="{x:.1f}" width="{w:.1f}" height="{H}" fill="{_rgba(col, a)}"/>'
 
     # Apex sheen — diagonal light sweep, top specular edge, and sparkle glints.
-    # Shared by suite Apex and Unique Impossible (both sit on the gold ground).
-    if gold_ground:
+    # Shared by suite Apex and Unique Impossible (both sit on a metallic ground).
+    if metal_ground:
         sx = x + w * 0.16
         layers += (
             f'<polygon points="{sx+10:.1f},0 {sx+22:.1f},0 {sx+8:.1f},{H} {sx-4:.1f},{H}" '
@@ -355,10 +372,11 @@ def _data_panel(x: float, w: float, rank: int, uid: str, *,
 
 def _frame(width: int, rank: int, is_unique: bool = False) -> str:
     """Full-badge inset border — the plaque rim. Escalates from rank 4 up."""
-    # Apex-gold rim: suite Apex (6★) AND Unique Impossible (6★ unique, inverted).
+    # Apex rim at 6★: suite Apex = gold; Unique Impossible = copper (own track).
     if rank >= 6:
+        rim = _rgba(UNIQUE_COPPER_6_DEEP, 0.9) if is_unique else _rgba(GOLD_DEEP, 0.9)
         return (f'<rect x="0.7" y="0.7" width="{width-1.4:.1f}" height="{H-1.4}" '
-                f'fill="none" stroke="{_rgba(GOLD_DEEP, 0.9)}" stroke-width="1.4" rx="{RX}"/>')
+                f'fill="none" stroke="{rim}" stroke-width="1.4" rx="{RX}"/>')
     if rank >= 4 or is_unique:
         col = unique_hex(rank) if is_unique else rank_hex(rank)
         a = 0.55 if (rank >= 5 or is_unique) else 0.45
@@ -398,8 +416,8 @@ def badge_simple(value: str, rank: int, label: str, *, seal_only: bool = False,
     width = round(left_w + right_w)
     panel_w = width - left_w
     apex = rank >= 6 and not is_unique
-    # Unique Impossible (6★ unique) renders inverted on a gold ground — dark
-    # engraved text like suite Apex (v3 amendment).
+    # Unique Impossible (6★ unique) renders inverted on a COPPER ground — dark
+    # engraved copper ink, its own track (colorize LOCKED 2026-07-18).
     unique_apex = is_unique and rank >= 6
 
     if neutral is not None:
@@ -411,14 +429,20 @@ def badge_simple(value: str, rank: int, label: str, *, seal_only: bool = False,
         text_fill, frame, seal_color = neutral, "", WHITE
     else:
         defs, layers = _data_panel(left_w, panel_w, rank, "s", is_unique=is_unique)
-        if apex or unique_apex:
+        if unique_apex:
+            text_fill = UNIQUE_INK        # dark engraved ink on the copper ground
+        elif apex:
             text_fill = APEX_INK          # dark engraved text on the gold ground
         elif is_unique:
-            text_fill = unique_hex(rank)  # 4★ violet, 5★ darker gold
+            text_fill = unique_hex(rank)  # 4★ violet, 5★ burnished copper
         else:
             text_fill = rank_hex(rank)
         frame = _frame(width, rank, is_unique)
-        seal_color = GOLD if (apex or unique_apex) else WHITE
+        seal_color = (
+            UNIQUE_COPPER_6 if unique_apex
+            else GOLD if apex
+            else WHITE
+        )
 
     body = (
         f'{defs}'

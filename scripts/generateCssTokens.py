@@ -213,21 +213,27 @@ def build_tokens_css(gaia: dict) -> str:
     # These mirror scripts/generateBadges.py unique_hex() so badges, graph
     # medallions, and profile plates render one consistent Unique ladder.
     body.append(
-        "  /* Unique decoration ladder (v3): 4★ = --tier-unique (violet above),"
+        "  /* Unique decoration ladder (v3, colorize LOCKED 2026-07-18 — Amethyst→Ember):"
     )
     body.append(
-        "     5★ = darker gold, 6★ = inverted (gold ground + dark engraved ink)."
+        "     4★ = --tier-unique (violet above), 5★ = burnished copper, 6★ = inverted"
     )
     body.append(
-        "     Mirrors generateBadges.unique_hex(); consumed by badges/graph/profile. */"
+        "     (copper ground + dark engraved ink). Deliberately OFF the Suite gold axis"
     )
-    body.append("  --tier-unique-5: #c8890a;")
-    body.append("  --tier-unique-5-rgb: 200, 137, 10;")
-    body.append("  --tier-unique-5-edge: rgba(200, 137, 10, 0.55);")
-    body.append("  --tier-unique-6: #fbbf24;")
-    body.append("  --tier-unique-6-rgb: 251, 191, 36;")
-    body.append("  --tier-unique-6-ink: #3b2206;")
-    body.append("  --tier-unique-6-edge: rgba(217, 146, 10, 0.9);")
+    body.append(
+        "     so a Unique never reads as a Suite Apex — Unique is its own prestige track."
+    )
+    body.append(
+        "     Mirrors generateBadges.unique_hex()/UNIQUE_INK; consumed by badges/graph/profile. */"
+    )
+    body.append("  --tier-unique-5: #b26a3a;")
+    body.append("  --tier-unique-5-rgb: 178, 106, 58;")
+    body.append("  --tier-unique-5-edge: rgba(178, 106, 58, 0.55);")
+    body.append("  --tier-unique-6: #e0894a;")
+    body.append("  --tier-unique-6-rgb: 224, 137, 74;")
+    body.append("  --tier-unique-6-ink: #2a1206;")
+    body.append("  --tier-unique-6-edge: rgba(224, 137, 74, 0.9);")
 
     body.append("")
     body.append("  /* ── Rank tokens (0★ → 6★) ───────────────────────────────── */")
