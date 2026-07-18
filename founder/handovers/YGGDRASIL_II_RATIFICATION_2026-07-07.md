@@ -62,6 +62,7 @@ Any surface that draws a unique 5★ in plain violet, or a 6★ non-inverted, is
 ### Changes from v1
 
 1. **Branch is derived from `suiteComponents` + rank — NOT from `type`.** `type` is removed from every branch-derivation formula and from the definition of Unique.
+> **[SUPERSEDED 2026-07-18 — membership is suiteComponents-first from any rank; only DECORATION forks at 4★+. See founder/handovers/archive/YGGDRASIL_II_SUPERSEDED_2026-07-18.md]**
 2. **The unique↔suite fork is recognised ONLY at 4★+.** At 1★–3★ there is NO branch distinction — all skills share the ladder: 1★ Awakened, 2★ Named, 3★ Evolved.
 3. **"Transcendent" is DROPPED.** The two 4★+ ladders are:
    - **Suite** (generic parent HAS `suiteComponents`): 4★ **Extra**, 5★ **Ultimate**, 6★ **Apex**
@@ -71,11 +72,14 @@ Any surface that draws a unique 5★ in plain violet, or a 6★ non-inverted, is
 
 `branch = f(suiteComponents present?, rank)`
 
+> **[SUPERSEDED 2026-07-18 — the `rank ≥ 4` conjunct is wrong for MEMBERSHIP. Membership is suiteComponents-first from any rank (suiteComponents present → suite at any rank; else rank ≥ 4 → unique; else standard). Only DECORATION/ladder-word forks at 4★+. See founder/handovers/archive/YGGDRASIL_II_SUPERSEDED_2026-07-18.md]**
 - rank 1–3 → shared ladder (Awakened / Named / Evolved), no branch
 - rank ≥ 4 AND suiteComponents present → Suite ladder (Extra / Ultimate / Apex)
 - rank ≥ 4 AND no suiteComponents → Unique ladder (Unique / Unique Ultimate / Unique Impossible)
 
 ### Rank ladder
+
+> **[SUPERSEDED 2026-07-18 — as a MEMBERSHIP map only. This table is correct as a DECORATION / rank-word ladder (the words rendered per branch per star). Do NOT read the 1★–3★ suite/unique blanks as "no membership": membership is suiteComponents-first from any rank, so a 2★/3★ suite-component skill is already `suite` and merely renders the shared word. See founder/handovers/archive/YGGDRASIL_II_SUPERSEDED_2026-07-18.md]**
 
 | Stars | Shared (no branch) | Suite branch | Unique branch |
 |---|---|---|---|
@@ -170,6 +174,7 @@ Gaia's rank system today conflates two axes into one `type` enum on starless nod
 
 - **Type axis** (starless only, structural): collapses from 4 values to 2 — `{basic, fusion}`.
 - **Branch axis** (named only, progression): `{standard, unique, suite}`, derived at read-time from `(generic.type, generic.suiteComponents present?, named.level)`. Never declared; always computed.
+  > **[SUPERSEDED 2026-07-18 — branch is EMITTED at BUILD time by src/gaia_cli/taxonomy.py onto every named entry (with rank/rankWord/medallion/contractVersion); consumers READ it, not derive it at read-time. (`generic.type` input already retired by v2.) "Never declared on the source node" still holds. See founder/handovers/archive/YGGDRASIL_II_SUPERSEDED_2026-07-18.md]**
 - **Rank names**: 5★ becomes **Ultimate** (Suite branch) / **Unique Ultimate** (Unique branch); 6★ stays **Apex** (Suite) / becomes **Unique Impossible** (Unique). "Ultimate" is henceforth a canonical rank-axis word.
 - **Evidence Floor removed.** Trust Magnitude is the sole gate.
 
@@ -181,6 +186,7 @@ The following terms are the shared vocabulary of Yggdrasil II. They live authori
 
 - **Type axis** — structural, on starless nodes only. Values: `basic` (0 prerequisites) or `fusion` (≥1 prerequisite). Named skills have no `type` field; they inherit via `genericSkillRef`.
 - **Branch axis** — progression, on named skills only. Values: `standard` (1★–3★), `unique` (4★–6★ non-suite), `suite` (4★–6★ suite-based). Always derived, never declared.
+  > **[SUPERSEDED 2026-07-18 — two fixes. (1) Branch is EMITTED at BUILD time by src/gaia_cli/taxonomy.py; consumers READ it. (2) Membership is suiteComponents-first from any rank — a 2★/3★ suite-component skill is `suite`, not `standard`; the 1★–3★/4★–6★ split shown here is a DECORATION ladder, not the membership map. See founder/handovers/archive/YGGDRASIL_II_SUPERSEDED_2026-07-18.md]**
 - **Standard branch** — 1★ Awakened → 2★ Named → 3★ Evolved. The default; every named skill starts here.
 - **Unique branch** — 4★ Unique → 5★ Unique Ultimate → 6★ Unique Impossible. For skills that reach 4★+ *without* being a suite (their generic parent has no `suiteComponents`). Standalone prestige track. Impeccable is the archetype.
   > **[SUPERSEDED by v2 Amendment 2026-07-14]** Branch no longer reads `type`; derived from `(suiteComponents present?, rank)`, fork at 4★+.
@@ -205,7 +211,7 @@ The following terms are the shared vocabulary of Yggdrasil II. They live authori
 | # | Branch | Decision |
 |---|---|---|
 | Q1 | 5★ naming collision | "Ultimate" = 5★ rank universally (Suite: **Ultimate**, Unique: **Unique Ultimate**). Intentional gacha-anchor. The old taxonomy usage retires. |
-| Q2 | Branch declaration | Branch is completely derived from `(generic.type, generic.suiteComponents present?, named.level)`. Never declared on nodes; always computed at read-time.<br>**[SUPERSEDED by v2 Amendment 2026-07-14]** Branch no longer reads `type`; derived from `(suiteComponents present?, rank)`, fork at 4★+. |
+| Q2 | Branch declaration | Branch is completely derived from `(generic.type, generic.suiteComponents present?, named.level)`. Never declared on nodes; always computed at read-time.<br>**[SUPERSEDED by v2 Amendment 2026-07-14]** Branch no longer reads `type`; derived from `(suiteComponents present?, rank)`, fork at 4★+.<br>**[SUPERSEDED 2026-07-18 — "computed at read-time" is wrong: branch is EMITTED at BUILD time by src/gaia_cli/taxonomy.py and read by consumers. "Never declared on the source node" still holds. See founder/handovers/archive/YGGDRASIL_II_SUPERSEDED_2026-07-18.md]** |
 | Q3 | Unique gates | **4★ Unique**: Origin + TM ≥ 100 (A). **5★ Unique Ultimate**: Origin + TM ≥ 250 (S). Origin counted in **fusion structure** (`prerequisites`), not `suiteComponents`. `suiteRef` membership does NOT disqualify from Unique — a "world-renowned handoff skill" that happens to live inside a suite is still Unique. |
 | Q4 | Type field on named skills | **Option D**: type lives on starless only, named inherits via `genericSkillRef` walk. Bulk rewrite: `extra`→`fusion`, `ultimate`→`fusion`, `unique`→`basic`. |
 | Q5 | Suite 5★ gate | **Preserved per #935** (Origin in suiteComponents + 5 A-graded origins in suiteComponents + TM ≥ 250). Asymmetric-by-design — Unique counts fusion-structure origins; Suite counts suiteComponents origins. The 5 existing 5★ Suites keep rank. |

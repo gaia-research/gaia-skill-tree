@@ -362,8 +362,6 @@
   function resolveSemantics(node, effRank, metaIsYggI) {
     node = node || {};
     var type = node.type;
-    var hasSuiteComponents = Array.isArray(node.suiteComponents)
-      && node.suiteComponents.length > 0;
 
     // §3.2 read order is CRITICAL and must not be reordered.
 
@@ -376,18 +374,21 @@
     if (emittedBranch) {
       isUnique = emittedBranch === 'unique';
       isSuite = emittedBranch === 'suite';
+    } else if (metaIsYggI) {
+      // LEGACY FALLBACK — genuinely-old Ygg I data (type ∈ unique/ultimate).
+      // 1. Detect isUnique FIRST → hemisphere 'outside'.
+      // 2. Detect isSuite (Ygg I: type === 'ultimate').
+      isUnique = type === 'unique';
+      isSuite = type === 'ultimate';
     } else {
-      // FALLBACK — starless generic graph (no emitted branch). Frozen recompute.
-      // 1. Detect isUnique FIRST → hemisphere 'outside'. Short-circuits before
-      //    the hemisphere-by-type step so a Ygg II Unique (type='basic') does
-      //    NOT fall into roots.
-      //    Ygg I:  type === 'unique'
-      //    Ygg II: type === 'basic' && effRank >= 4 && !suiteComponents
-      isUnique = metaIsYggI
-        ? type === 'unique'
-        : (type === 'basic' && effRank >= 4 && !hasSuiteComponents);
-      // 2. Detect isSuite. Ygg I: type === 'ultimate'; Ygg II: suiteComponents.
-      isSuite = metaIsYggI ? type === 'ultimate' : hasSuiteComponents;
+      // §Ygg-II ORIGIN RULE — modern starless generic graph with NO emitted
+      // branch. The build stamps branch only when a bucket has a CLI-declared
+      // origin; absence means the node is a PLAIN starless node. We do NOT guess
+      // unique/suite from type+rank+suiteComponents — that client-side guessing
+      // is deleted. Plain node seats as a normal in-tree node (NOT a standing
+      // stone outside, NOT a suite crown).
+      isUnique = false;
+      isSuite = false;
     }
 
     // 3. Hemisphere by membership. Uniques resolved to 'outside' (the standing-

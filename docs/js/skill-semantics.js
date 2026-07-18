@@ -51,11 +51,15 @@
     return isNaN(n) ? 0 : Math.max(0, Math.min(6, n));
   }
 
-  // computeBranch — FALLBACK-ONLY resolver for the STARLESS generic graph.
+  // computeBranch — DORMANT fallback resolver.
   //
-  // Prefer branchOf(entry) (reads the emitted entry.branch). This mirror runs
-  // only when an entry carries no emitted branch — i.e. docs/graph/gaia.json
-  // nodes, which are type basic|fusion with no resolved branch attached.
+  // Yggdrasil II ORIGIN RULE: the starless generic graph (docs/graph/gaia.json)
+  // NO LONGER routes through this. Its nodes now carry a build-time-STAMPED
+  // branch (surfaced from the bucket's CLI-declared origin entry) or none at all
+  // — and skill-graph.js READS node.branch directly, guessing nothing. This
+  // mirror survives only as a defensive fallback inside branchOf(entry) for a
+  // payload that predates the branch emit; no live consumer exercises the
+  // rank-from-type guess for a rank-less node anymore.
   //
   // node:    the source skill object (carries .type, .suiteComponents).
   // effRank: the skill's effective star level ("5★" | 5 | "5" all accepted).

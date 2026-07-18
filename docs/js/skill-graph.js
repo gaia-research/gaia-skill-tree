@@ -261,13 +261,15 @@
     return skills.map(skill => {
       const type = TYPE_ALIASES[skill.type] || skill.type || 'basic';
       const effectiveRank = starsFromLabel(skill.namedMaxLevel != null ? skill.namedMaxLevel : skill.effectiveRank);
-      // §Ygg-II PR3b: attach the resolved BRANCH once, at the join point. The
-      // generic graph (gaia.json) ships STARLESS with no emitted branch, so we
-      // resolve via the frozen contract (GaiaSemantics.branchOf → computeBranch)
-      // off the joined effective rank. Every branch-keyed render decision below
-      // reads skill.branch — never skill.type === 'unique'/'ultimate'.
-      const branch = (window.GaiaSemantics && typeof window.GaiaSemantics.branchOf === 'function')
-        ? window.GaiaSemantics.branchOf({ type: type, level: effectiveRank, suiteComponents: skill.suiteComponents, branch: skill.branch })
+      // §Ygg-II ORIGIN RULE: the generic graph (gaia.json) ships STARLESS. Each
+      // node's branch is now STAMPED at build time by syncDocsGraphAssets.py —
+      // it surfaces the bucket's CLI-declared ORIGIN entry's emitted branch, or
+      // is ABSENT when the bucket has no origin. We READ the emitted field and
+      // NEVER guess: a node with no emitted branch is a plain starless node
+      // ('standard', inert — NOT placed in the unique constellation), not a
+      // client-side computeBranch guess off namedMaxLevel.
+      const branch = (typeof skill.branch === 'string' && skill.branch)
+        ? skill.branch
         : 'standard';
       return {
         id: skill.id,

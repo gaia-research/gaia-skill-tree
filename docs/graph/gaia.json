@@ -1,6 +1,6 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "generatedAt": "2026-07-16T12:33:02Z",
+  "generatedAt": "2026-07-18T07:51:57Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic",
@@ -192,6 +192,10 @@
           -0.5519930808725603
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -250,6 +254,10 @@
           -0.11180847910899314
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -454,7 +462,11 @@
           -0.20365106499212082
         ]
       },
-      "namedMaxLevel": "3★"
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
+      "namedMaxLevel": "2★"
     },
     {
       "id": "agent-eval",
@@ -644,8 +656,7 @@
           0.5590291885778672,
           -0.25018891476146565
         ]
-      },
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "agent-memory-learning",
@@ -812,6 +823,10 @@
           -0.0831007506698602
         ]
       },
+      "branch": "suite",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
@@ -1183,8 +1198,7 @@
           -0.49100373457474017,
           -0.0633204535240036
         ]
-      },
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "autonomous-data-scientist",
@@ -1392,7 +1406,11 @@
           -0.1414991596592959
         ]
       },
-      "namedMaxLevel": "3★"
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
+      "namedMaxLevel": "2★"
     },
     {
       "id": "autonomous-engineering-platform",
@@ -1594,6 +1612,10 @@
           -0.26986373675959563
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -1725,6 +1747,10 @@
           -0.17795917351842325
         ]
       },
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
@@ -1871,6 +1897,10 @@
           0.22151242202580448
         ]
       },
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
@@ -1930,6 +1960,10 @@
           -0.009969752352480514
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -2272,8 +2306,7 @@
           0.8005660109631302,
           0.0005912099613682924
         ]
-      },
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "cite-sources",
@@ -2447,6 +2480,10 @@
           0.4086386437984596
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -2602,6 +2639,10 @@
           0.1462644313458227
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -2877,6 +2918,10 @@
           0.08417632037613275
         ]
       },
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
@@ -2972,8 +3017,7 @@
           -0.7991667988541984,
           -0.00015286971927871323
         ]
-      },
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "collaborative-diagramming",
@@ -3414,8 +3458,7 @@
           0.09247433189730234,
           0.21162312258953953
         ]
-      },
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "conversational-agent",
@@ -3566,6 +3609,10 @@
           0.25047105926335833
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -3918,8 +3965,7 @@
           -0.3558892652417344,
           0.23329593509950078
         ]
-      },
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "design-generation",
@@ -3979,6 +4025,10 @@
           0.23154299841572334
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -4069,8 +4119,7 @@
           -0.21965245422916657,
           -0.260199512436586
         ]
-      },
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "design-system-extraction",
@@ -4131,6 +4180,10 @@
           0.2468655885277367
         ]
       },
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
@@ -4215,8 +4268,7 @@
           -0.28239461201352345,
           -0.4187932910335883
         ]
-      },
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "diff-content",
@@ -4355,6 +4407,10 @@
           0.17618988939974553
         ]
       },
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
@@ -4425,6 +4481,10 @@
           -0.0008584387910010215
         ]
       },
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
@@ -4483,6 +4543,10 @@
           0.1410528491814257
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -4541,6 +4605,10 @@
           0.25253071295027274
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -4702,6 +4770,10 @@
           0.3458054705879209
         ]
       },
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
@@ -4804,6 +4876,10 @@
           0.436653150661433
         ]
       },
+      "branch": "suite",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
@@ -4879,8 +4955,7 @@
           -0.15182693454400498,
           0.09781848583274301
         ]
-      },
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "edge-optimization",
@@ -5183,6 +5258,10 @@
           1.864314385357192e-06
         ]
       },
+      "branch": "suite",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
@@ -5332,8 +5411,7 @@
           -0.5355978340930346,
           -0.25328917171348675
         ]
-      },
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "event-attendance-metrics",
@@ -5732,6 +5810,10 @@
           -0.1290851885883472
         ]
       },
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
@@ -5986,6 +6068,10 @@
           0.002189995885960139
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -6088,6 +6174,10 @@
           0.0879981050582358
         ]
       },
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
       "namedMaxLevel": "4★"
     },
     {
@@ -6375,6 +6465,10 @@
           -0.2119388968546417
         ]
       },
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
@@ -6450,8 +6544,7 @@
           0.35024762979636936,
           0.000996971903239266
         ]
-      },
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "format-output",
@@ -6509,8 +6602,7 @@
           -0.5939225679238803,
           0.5931128359627923
         ]
-      },
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "founder-mode-orchestration",
@@ -6621,6 +6713,10 @@
           0.0009675364168213947
         ]
       },
+      "branch": "suite",
+      "rank": 5,
+      "rankWord": "Ultimate",
+      "medallion": "◆",
       "namedMaxLevel": "5★"
     },
     {
@@ -6668,6 +6764,10 @@
           -0.1369861078610206
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -7017,6 +7117,10 @@
           0.03014741972267937
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -7382,6 +7486,10 @@
           -0.38749561189936865
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -7457,6 +7565,10 @@
           0.0002106639022951782
         ]
       },
+      "branch": "suite",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
@@ -7527,6 +7639,10 @@
           0.0001109274530553013
         ]
       },
+      "branch": "suite",
+      "rank": 5,
+      "rankWord": "Ultimate",
+      "medallion": "◆",
       "namedMaxLevel": "5★"
     },
     {
@@ -7637,6 +7753,10 @@
           -9.131614916663726e-05
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -7696,8 +7816,7 @@
           -0.3133891122278774,
           -0.5099827895562337
         ]
-      },
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "grill-with-docs",
@@ -7793,6 +7912,10 @@
           -0.1268990885144253
         ]
       },
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
@@ -7978,8 +8101,7 @@
           -0.11415025655388851,
           -0.0231223936019307
         ]
-      },
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "headless-worker-collect",
@@ -8026,6 +8148,10 @@
           0.26658525889866597
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -8073,6 +8199,10 @@
           0.45149361022196555
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -8196,6 +8326,10 @@
           0.35240681269032037
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -8671,6 +8805,10 @@
           -0.20477110646453311
         ]
       },
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
@@ -8780,6 +8918,10 @@
           -0.12862074852398042
         ]
       },
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
@@ -8924,8 +9066,7 @@
           0.1976053084635374,
           -0.15900709147784375
         ]
-      },
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "literature-review",
@@ -9103,8 +9244,7 @@
           -0.11075814544165866,
           -0.23354259466235097
         ]
-      },
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "logical-inference",
@@ -9470,8 +9610,7 @@
           -0.07657461606186083,
           0.5429713399304186
         ]
-      },
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "mcp-server-creation",
@@ -9664,8 +9803,7 @@
           0.4678175785898872,
           0.0596632120483718
         ]
-      },
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "memory-pattern-design",
@@ -9712,6 +9850,10 @@
           -0.26732755773650946
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -10060,8 +10202,7 @@
           0.5924945663036952,
           -0.4306970458006359
         ]
-      },
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "multi-agent-orchestration-v",
@@ -10225,6 +10366,10 @@
           0.00011982107910561766
         ]
       },
+      "branch": "suite",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
@@ -10272,6 +10417,10 @@
           0.14460004118577194
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -10346,6 +10495,10 @@
           0.0003166306538175831
         ]
       },
+      "branch": "suite",
+      "rank": 5,
+      "rankWord": "Ultimate",
+      "medallion": "◆",
       "namedMaxLevel": "5★"
     },
     {
@@ -11115,6 +11268,10 @@
           0.06909151375876758
         ]
       },
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
       "namedMaxLevel": "4★"
     },
     {
@@ -11228,6 +11385,10 @@
           0.0009885277721530298
         ]
       },
+      "branch": "suite",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
@@ -11312,8 +11473,7 @@
           0.09436051088870191,
           -0.3143566170014353
         ]
-      },
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "plan-and-execute",
@@ -11534,6 +11694,10 @@
           0.2475198900667251
         ]
       },
+      "branch": "suite",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
@@ -11611,6 +11775,10 @@
           -0.1477475660756709
         ]
       },
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
@@ -11909,6 +12077,10 @@
           0.0007834980839756917
         ]
       },
+      "branch": "suite",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
@@ -11986,8 +12158,7 @@
           -0.22587159023349412,
           -0.03816420940874717
         ]
-      },
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "prompt-injection-defense",
@@ -12173,6 +12344,10 @@
           -0.03951189309544921
         ]
       },
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
@@ -12439,8 +12614,7 @@
           -0.07413190646373216,
           0.18361784654887703
         ]
-      },
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "question-answer",
@@ -12540,6 +12714,10 @@
           -0.17763593191090066
         ]
       },
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
@@ -12962,6 +13140,10 @@
           -0.48629207236311656
         ]
       },
+      "branch": "suite",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
@@ -13030,6 +13212,10 @@
           -0.25944437362539896
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -13169,8 +13355,7 @@
           -0.21743064626428177,
           -0.09666860545050206
         ]
-      },
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "registry-curation",
@@ -13389,6 +13574,10 @@
           -0.0007363643566271265
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -13454,6 +13643,10 @@
           -0.000803810862583404
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -13700,6 +13893,10 @@
           -0.46726481236014034
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -14600,6 +14797,10 @@
           -0.4219607202530703
         ]
       },
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
@@ -14701,8 +14902,7 @@
           0.398308922513185,
           -0.5416535040361306
         ]
-      },
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "self-critique",
@@ -14874,8 +15074,7 @@
           0.47244410336110965,
           -0.13662228143149135
         ]
-      },
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "sentiment-analysis",
@@ -15197,6 +15396,10 @@
           0.2645624781888277
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -15312,8 +15515,7 @@
           0.3428436846492009,
           -0.28784015774574256
         ]
-      },
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "skill-discovery",
@@ -15371,6 +15573,10 @@
           -0.6091639311054794
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -15425,8 +15631,7 @@
           -0.5670675910988842,
           3.5917287460424735e-05
         ]
-      },
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "skill-mastery",
@@ -15584,6 +15789,10 @@
           0.00013668623584485746
         ]
       },
+      "branch": "suite",
+      "rank": 5,
+      "rankWord": "Ultimate",
+      "medallion": "◆",
       "namedMaxLevel": "5★"
     },
     {
@@ -15694,8 +15903,7 @@
           0.2705397314016095,
           -0.288205625323548
         ]
-      },
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "skill-security-analysis",
@@ -16228,6 +16436,10 @@
           -0.23502161921982398
         ]
       },
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
       "namedMaxLevel": "4★"
     },
     {
@@ -16365,6 +16577,10 @@
           -0.07228203771447479
         ]
       },
+      "branch": "suite",
+      "rank": 5,
+      "rankWord": "Ultimate",
+      "medallion": "◆",
       "namedMaxLevel": "5★"
     },
     {
@@ -16531,6 +16747,10 @@
           0.09385840169253545
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -16685,6 +16905,10 @@
           0.45440685347995907
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -16754,6 +16978,10 @@
           -0.5472807003633829
         ]
       },
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
@@ -16839,6 +17067,10 @@
           -0.17294819184310956
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -17269,6 +17501,10 @@
           -0.02401893376197949
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -17509,7 +17745,11 @@
           0.3291714059975364
         ]
       },
-      "namedMaxLevel": "3★"
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
+      "namedMaxLevel": "2★"
     },
     {
       "id": "tool-select",
@@ -18021,8 +18261,7 @@
           0.32664042699354773,
           0.11892969399857552
         ]
-      },
-      "namedMaxLevel": "3★"
+      }
     },
     {
       "id": "using-git-worktrees",
@@ -18090,6 +18329,10 @@
           0.099612171810671
         ]
       },
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
@@ -18155,6 +18398,10 @@
           -0.3882116985928378
         ]
       },
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
       "namedMaxLevel": "4★"
     },
     {
@@ -18202,6 +18449,10 @@
           -0.07959626369098811
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -18249,6 +18500,10 @@
           -0.02843843882848885
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -18318,6 +18573,10 @@
           -0.0552409929296941
         ]
       },
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
@@ -18378,6 +18637,10 @@
           0.11965655833029089
         ]
       },
+      "branch": "suite",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
@@ -18438,6 +18701,10 @@
           0.20494953176575167
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -18955,6 +19222,10 @@
           0.029173231270711135
         ]
       },
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
       "namedMaxLevel": "4★"
     },
     {
@@ -19027,6 +19298,10 @@
           -0.20929101831220923
         ]
       },
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
       "namedMaxLevel": "4★"
     },
     {
@@ -19150,6 +19425,10 @@
           0.04370993943776019
         ]
       },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
       "namedMaxLevel": "2★"
     },
     {
@@ -19335,8 +19614,7 @@
           0.08465440269728762,
           0.3600109796387134
         ]
-      },
-      "namedMaxLevel": "2★"
+      }
     },
     {
       "id": "write-report",
@@ -19409,6 +19687,10 @@
           -0.007572633023823729
         ]
       },
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
@@ -19478,6 +19760,10 @@
           0.030707844911042108
         ]
       },
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "namedMaxLevel": "3★"
     },
     {
