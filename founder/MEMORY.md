@@ -4,6 +4,54 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-18, session — Ygg II oracle HEALED to per-branch delete-gate; P3a/P3b landed; §7 stamp bug fixed; stack relinked; design work verified safe)
+
+### TLDR
+- **Reviewed + fixed the 4-PR Ygg II stack against the authority doc.** Oracle divergence healed, functional fixes (P3a tree generators, P3b Hall/banned-words/rewires) landed on their stack branches, §7 stamp bug fixed, stack relinked to linear. All 4 PRs coherent + correctly chained. Two reds remain — both categorized, both deferred to a dedicated close-out (Marco's call).
+- **Canonical model reconfirmed:** Branch = **MEMBERSHIP, type-blind** (Ygg II). `suiteComponents` present → suite (any rank); else rank≥4 → unique; else standard. `type` NEVER a resolution input — it's the Ygg I read, folded into `taxonomy.py::normalize()`. superpowers/skill-mastery = Suite. `suiteComponents` Named-Skill-only, never on the starless node.
+- **Oracle is INTENTIONALLY per-branch** (Marco ruling: "drop Python xfail on consume-ssr+, honor the flip"). Each branch's delete-gate reflects its REAL resolver-deletion state — this is the doc §3 handshake working, not drift.
+
+### The per-branch oracle cascade (all pushed, all behaving)
+| Branch | PR | Tip SHA | Oracle state | Local pytest |
+|---|---|---|---|---|
+| dev/ygg2-taxonomy-authority | #1232 | 488f00c36 | Python + JS both strict-xfail (legacy alive, no delegation) | (keystone) |
+| dev/ygg2-emit-resolved | #1233 | 6055cee96 | both strict-xfail + Phase-2 index tests | 7 passed, 2 xfailed |
+| dev/ygg2-consume-ssr | #1234 | 2009fc1e1 | Python leg FLIPPED to passing (trustMagnitude.computeBranch delegates to taxonomy.branchFor — collapsed), JS strict-xfail | 8 passed, 1 xfailed |
+| dev/ygg2-consume-frontend | #1235 | 9596813cc | Python gate SATISFIED (resolver DELETED → skip), JS gate open strict-xfail, §7 stamp-honor fix | 6 passed, 1 skipped, 1 xfailed |
+
+- Flip point verified: `trustMagnitude.computeBranch` delegates to canonical from **consume-ssr** onward; **deleted** entirely on consume-frontend; standalone divergent on keystone/emit-resolved.
+- §7 fix: `synthesisBranch` honors a stamped `branch` on bare generic nodes (79 stamped on consume-frontend gaia.json) instead of recomputing — resolved a real hard-fail. JS harness (`tests/harness/js_branch_dump.js`) restored on consume-frontend.
+
+### Functional fixes landed
+- **P3a** (tree generators): merged into consume-ssr. `generateProjections.py` + `_tree_renderer.py` repointed to emitted branch; zero dead `type=='ultimate'/'unique'/'extra'`; tree.md un-collapsed (6 suite ◆ + 6 unique ◉).
+- **P3b** (frontend): merged into consume-frontend. Hall top-8 cap removed (§8), banned Hardened/Transcendent stripped from badges, consumers rewired, grep guard un-gamed. My reconciled authority doc (commit 193788600) stayed intact — P3b never touched it (the apparent "revert" was a merge-base diff artifact).
+
+### Design work SALVAGE — VERIFIED SAFE, no action needed
+Scout confirmed all three valuable targets live on **consume-frontend** (stack head) and will flow to staging via the normal EPIC merge — do NOT cherry-pick into staging (would duplicate + conflict; violates merge-not-cherry-pick rule):
+- Skill-graph design tokens (`--tier-unique-5/-6`, copper #b26a3a→#e0894a): commit 772e6c716.
+- Unique badges Amethyst→Ember (`unique_hex()`, 6★ inversion): commits 8577dafb3 + 46193e20b.
+- Unique-cluster positioning (under branches: OUTSIDE_X_SPREAD=0.30, Z_RATIO=0.14, CANOPY_DROP=0.08): commit 658d9f7c3.
+
+### Two remaining reds (categorized — deferred to close-out)
+1. **world-tree-layout.test.js (`'root' !== 'outside'`)** — NOT drift. `resolveSemantics` in world-tree-layout.js still falls back to `type==='unique'` → uniques resolve to hemisphere 'root' not 'outside'. This IS the JS-resolver divergence the JS strict-xfail gates. Fix = the JS consume-phase deliverable (repoint resolveSemantics fully to emitted branch, drop the type fallback → JS gate flips green → §3 handshake forces marker removal).
+2. **JSON-LD stale (49 `docs/u/*/index.html`)** — pure regen drift. Mechanical `injectJsonLd.py` / `gaia dev docs` regen + commit Class S. No code fix.
+
+### Issues + PRs
+- EPIC #1002 (integration PR #1185 → main; DIRTY, not touched this session — close-out territory).
+- Stack PRs #1232/#1233/#1234/#1235 all OPEN, correctly chained, UNSTABLE (the two reds above).
+
+### Lessons / hazards preserved
+- **Worktree isolation can FAIL to isolate** (Discipline E): a worker's `git checkout -b` switched the MAIN checkout's branch. Recovered via reflog. Rule adopted: orchestrator uses `git -C <path>` / `git show <ref>:` — never `cd` into worktrees. This session used `git -C` for all worktree ops cleanly.
+- **Per-branch oracle is correct, not a smell.** The delete-gate is SUPPOSED to differ per branch as resolvers get deleted — strict-xfail XPASS(strict) hard-failing is the handshake FORCING marker removal. Don't "fix" it to be uniform.
+- **Categorize reds before deferring** (Discipline A/B): initially mis-called the world-tree red "inherited drift" — the actual failure log showed it's the JS-resolver deliverable. Always read the failure, don't infer from the check name.
+- **Compacted summaries go stale on SHAs** — ground-truth every branch tip before acting (keystone was at f4ce012d2, not the summary's dc5696266).
+
+### Quick handoff for next session
+Picking up: **the Ygg II close-out** (two reds). (1) JS resolver collapse — dispatch a worker to repoint `docs/js/world-tree-layout.js::resolveSemantics` (+ any remaining JS derivers per doc §3 rewire list) fully to emitted branch, delete the `type==='unique'` fallback and `skill-semantics.js::computeBranch`; when JS parity becomes real the JS strict-xfail flips → remove the marker (handshake). (2) JSON-LD regen — run `gaia dev docs` / `injectJsonLd.py`, commit the 49 Class-S profile pages. Then Phase 4: full regen, green staging, mark PR #1185 ready, MERGE (never squash) → main. Hard dependency: the design work (tokens/badges/positioning) rides consume-frontend up via merge — do NOT cherry-pick it into staging.
+
+### Token cost (this session)
+- (logged on EPIC #1002 proof-of-work comment)
+
 ## State Snapshot (2026-07-18, session — Unique-cluster placement iterations: right-satellite → front → under-the-branches; PR #1235 updated on remote)
 
 ### TLDR
