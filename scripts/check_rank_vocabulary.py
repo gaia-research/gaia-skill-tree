@@ -176,16 +176,13 @@ ALLOWLIST_PATHS = {
     'docs/superpowers/plans/2026-05-14-hunters-atlas-redesign.md',  # Design plan with old labels
 
     # ── founder/handovers/** ─────────────────────────────────────────────────
-    # AOV/ascension-overdrive design docs — hard-excluded from content review per task spec
-    'founder/handovers/design-v6.1.1-ascension-overdrive-commissions.md',
-    'founder/handovers/design-v6.1.1-ascension-overdrive-commissions-v2.md',
-    'founder/handovers/design-v6.1.1-ascension-overdrive-commissions-v3.md',
-    'founder/handovers/design-v6.1.1-ascension-overdrive-shape.md',
-    'founder/handovers/design-v6.1.1-ascension-overdrive-shape-v2.md',
-    'founder/handovers/design-v6.1.1-ascension-overdrive-shape-v3.md',
-    'founder/handovers/design-v6.1.1-ascension-overdrive-shape-v4.md',  # Design handover; names old terms as banned negative examples
+    # AOV/ascension-overdrive design docs (design-v6.1.1-*) were MOVED into
+    # founder/handovers/archive/ (commit 552c044e2). They are frozen, archived
+    # design docs — exempted via the founder/handovers/archive/ subtree entry in
+    # ALLOWLIST_SUBTREES below (a directory prefix survives future renames/moves,
+    # unlike the brittle per-file paths this replaces).
     'founder/handovers/YGGDRASIL_II_RATIFICATION_2026-07-07.md',  # Ratification doc references both old and new terms
-    'founder/handovers/design-v6.1.1-world-tree-semantic-topology.md',  # v2 topology; changelog names the dropped "Transcendent" term
+    'founder/handovers/YGGDRASIL_II_TAXONOMY_AUTHORITY.md',  # Authority doc; names old terms as banned negative examples + bug descriptions
     'founder/handovers/done/TRUST_METHODOLOGY_REPORT.md',         # Historical report
     'founder/handovers/done/G7_TRUST_TAXONOMY_RFC.md',            # G7 RFC; pre-Yggdrasil-II naming ("Ultimate skill") in engineering spec  # #994
     'founder/handovers/done/g7-mattpocock-audit/_workflow_notes.md',   # Historical workflow notes
@@ -224,6 +221,10 @@ ALLOWLIST_PATHS = {
 # Also allowlist entire docs/archive/ subtree (all are frozen pre-Yggdrasil snapshots)
 ALLOWLIST_SUBTREES = [
     'docs/archive/',
+    # Frozen archived founder design docs (design-v6.1.1-* moved here in 552c044e2).
+    # Directory prefix is move/rename-robust — supersedes the per-file entries that
+    # broke when the docs were relocated out of founder/handovers/ into archive/.
+    'founder/handovers/archive/',
 ]
 
 # ---------------------------------------------------------------------------
