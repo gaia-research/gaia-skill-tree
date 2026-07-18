@@ -155,14 +155,10 @@ def _build_skill_display(skill_id, skill_type, named_map=None, handle_rel=None,
             handle_rel = None  # no profile link for anonymous contributor
 
     named_id_display = _link_named_id(named_id, handle_rel)
-    if skill_type == "ultimate":
-        if named_id:
-            return named_id_display
-        return f"/{skill_id}"
-    if skill_type == "unique":
-        return named_id_display if named_id else f"/{skill_id}"
-    if skill_type == "extra":
-        return named_id_display if named_id else f"/{skill_id}"
+    # Ygg II: branch is resolved from the named index — not re-derived from type.
+    # All branches (suite/unique/standard) use the same display: named_id when
+    # claimed, /slug when unclaimed. The Ygg I tier branches (ultimate/unique/extra)
+    # no longer appear in the generic skill list post-#997.
     return named_id_display if named_id else f"/{skill_id}"
 
 def _build_generic_branch_map(named_index):
@@ -553,7 +549,10 @@ def main():
                 all_prereq_ids.add(pid)
         orphan_ids = {
             s["id"] for s in skills
-            if s.get("type") == "basic"
+            # Ygg II: branch != suite/unique means standard — these are the
+            # orphan basics not wired into any upgrade path. Using the emitted
+            # branch field rather than skill.type avoids the Ygg I type guard.
+            if s.get("branch") not in ("suite", "unique")
             and s["id"] not in all_prereq_ids
             and not s.get("prerequisites")
         }

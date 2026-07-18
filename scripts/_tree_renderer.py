@@ -219,7 +219,10 @@ def render_tree(
         [
             s
             for s in skills
-            if s.get("type") == "basic"
+            # Ygg II: branch != suite/unique means standard — these are the
+            # orphan basics not wired into any upgrade path. Using the emitted
+            # branch field rather than skill.type avoids the Ygg I type guard.
+            if s.get("branch") not in ("suite", "unique")
             and s["id"] not in all_prereq_ids
             and not s.get("prerequisites")
         ],

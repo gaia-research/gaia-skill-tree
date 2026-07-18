@@ -8,6 +8,12 @@ from _tree_renderer import render_tree
 
 # ---------------------------------------------------------------------------
 # Minimal skill fixtures
+#
+# Ygg II (P3a): render_tree reads `branch` (emitted field) instead of `type`
+# to classify suite vs unique vs standard skills.  Fixtures include
+# `branch: "suite"` on all "ultimate" skills so the renderer treats them as
+# top-level upgrade trees — mirroring how generateProjections.py annotates
+# the skill list from the named index before passing it to render_tree.
 # ---------------------------------------------------------------------------
 
 _BASIC = {"id": "search", "name": "Search", "type": "basic", "level": "0★", "prerequisites": []}
@@ -25,6 +31,7 @@ _SUB_ULT = {
     "id": "engineering",
     "name": "Engineering",
     "type": "ultimate",
+    "branch": "suite",   # Ygg II: branch field drives renderer, not type
     "level": "0★",
     "prerequisites": ["deep-search"],
 }
@@ -34,6 +41,7 @@ _PARENT_ULT = {
     "id": "skills",
     "name": "Skills",
     "type": "ultimate",
+    "branch": "suite",   # Ygg II: branch field drives renderer, not type
     "level": "0★",
     "prerequisites": ["engineering"],
 }
@@ -43,6 +51,7 @@ _STANDALONE_ULT = {
     "id": "gstack",
     "name": "Gstack",
     "type": "ultimate",
+    "branch": "suite",   # Ygg II: branch field drives renderer, not type
     "level": "0★",
     "prerequisites": ["search"],
 }
@@ -120,6 +129,7 @@ class TestSubUltimateExclusion:
             "id": "mastery",
             "name": "Mastery",
             "type": "ultimate",
+            "branch": "suite",   # Ygg II: branch field drives renderer
             "level": "0★",
             "prerequisites": ["skills"],   # skills is itself an Ultimate
         }
@@ -163,6 +173,7 @@ class TestUltimateOrdering:
             "id": "orphan",
             "name": "Orphan",
             "type": "ultimate",
+            "branch": "suite",   # Ygg II: branch field drives renderer
             "level": "0★",
             "prerequisites": [],
         }
