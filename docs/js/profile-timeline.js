@@ -269,10 +269,11 @@
     return Math.min(6, (s.match(/★/g) || []).length);
   }
 
-  // PR3b: resolve a skill's branch from the EMITTED field (skill.branch,
-  // supplied by generateProfilePages.py) via the shared GaiaSemantics seam.
-  // Falls back to computeBranch for a payload that predates the branch emit,
-  // and to 'standard' if the seam script failed to load.
+  // Resolve a skill's branch from the EMITTED field (skill.branch, supplied by
+  // generateProfilePages.py) via the shared GaiaSemantics.branchOf seam. When
+  // the field is absent (plain node / pre-emit payload) the seam returns the
+  // neutral 'standard' default — it never guesses from type. Falls back to
+  // 'standard' directly if the seam script failed to load.
   function _branchOf(skill) {
     if (window.GaiaSemantics && typeof window.GaiaSemantics.branchOf === 'function') {
       return window.GaiaSemantics.branchOf(skill);

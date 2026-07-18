@@ -1,12 +1,12 @@
 /**
  * heroes.js — Hall of Heroes orchestrator
- * Fetches contributor data, derives semantic branch at read-time via
+ * Fetches contributor data, READS the emitted semantic branch via
  * window.GaiaSemantics (skill-semantics.js), renders theatrical stages,
  * and drives IntersectionObserver for entrance animations.
  *
  * Yggdrasil II compliance:
- *   E1 — branch derived by GaiaSemantics.computeBranch, never from
- *        skill.type === 'ultimate'|'unique'|'extra' (dead enum, REMOVED).
+ *   E1 — branch READ from the emitted field via GaiaSemantics.branchOf, never
+ *        derived from skill.type === 'ultimate'|'unique'|'extra' (dead enum).
  *   E2 — rank words forked by branch via rankWord/rankLabel; banned ladder
  *        words ('Hardened' and the removed 6★ suite synonym) do not appear.
  *   E3 — every hero card has a GitHub avatar framed by the gold wreath
@@ -71,17 +71,18 @@
     return isNaN(n) ? 0 : n;
   }
 
-  // ── Rubric E1/E2 — read-time branch derivation ────────────────
-  // ALL branch classification MUST go through GaiaSemantics.computeBranch.
-  // NEVER compare contributor.topSkill.type against 'ultimate'|'unique'|'extra'.
+  // ── Rubric E1/E2 — READ the emitted branch, never guess ───────
+  // Branch classification reads the taxonomy authority's emitted field via the
+  // GaiaSemantics.branchOf seam (topSkill blob carries emitted .branch/.rank —
+  // §8 Hall behavior: thread the emitted fields into the input, never re-derive
+  // from type). NEVER compare topSkill.type against 'ultimate'|'unique'|'extra'.
   function computeBranchForTopSkill(contributor) {
     var skill = (contributor && contributor.topSkill) || {};
-    var lvl = levelNum(skill.level);
-    if (window.GaiaSemantics && typeof window.GaiaSemantics.computeBranch === 'function') {
-      return window.GaiaSemantics.computeBranch(skill, lvl);
+    if (window.GaiaSemantics && typeof window.GaiaSemantics.branchOf === 'function') {
+      return window.GaiaSemantics.branchOf(skill);
     }
     // Degrade gracefully if skill-semantics.js somehow failed to load.
-    return 'standard';
+    return (skill && typeof skill.branch === 'string' && skill.branch) || 'standard';
   }
 
   // Returns the rank label string for a contributor's top skill.
@@ -100,7 +101,8 @@
 
   // Returns the CSS tier class suffix for the hero stage background/animation.
   // Maps branch + rank → presentational CSS class (hero-stage--<suffix>).
-  // E1: derived purely from branch (computeBranch) + numeric rank — no type reads.
+  // E1: derived purely from the emitted branch (branchOf seam) + numeric rank —
+  // no type reads.
   function stageTierClass(contributor) {
     var branch = computeBranchForTopSkill(contributor);
     var lvl = levelNum(contributor.topSkill.level);
@@ -181,9 +183,13 @@
     contributor.topSkill.type = named.type || contributor.topSkill.type || 'basic';
     contributor.topSkill.name = named.name || contributor.topSkill.name;
     contributor.topSkill.origin = named.origin;
-    // Carry suiteComponents + links so the AOV4 medallion stamp (crest seal)
-    // resolves the correct branch (suite vs unique) via GaiaSemantics — the
-    // contributors API topSkill blob omits them (E1: branch is read-time).
+    // Thread the EMITTED taxonomy fields from the named index onto the topSkill
+    // blob so GaiaSemantics.branchOf/rankWordOf/medallionOf READ them (§8: the
+    // fix is to thread emitted fields into the input, never re-derive). The
+    // contributors API topSkill blob omits them.
+    if (typeof named.branch === 'string' && named.branch) contributor.topSkill.branch = named.branch;
+    if (typeof named.rankWord === 'string' && named.rankWord) contributor.topSkill.rankWord = named.rankWord;
+    if (typeof named.medallion === 'string' && named.medallion) contributor.topSkill.medallion = named.medallion;
     if (named.suiteComponents) contributor.topSkill.suiteComponents = named.suiteComponents;
     if (named.links) contributor.topSkill.links = named.links;
     return contributor;

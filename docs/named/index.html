@@ -91,8 +91,8 @@
       <div class="ns-filter-row">
         <!-- Yggdrasil II — Type tabs key on the CANONICAL type axis: Fusion / Basic.
              Dead enum values (ultimate/unique/extra) are removed — branch (unique/suite/standard)
-             is derived at read-time from rank+suiteComponents via GaiaSemantics.computeBranch.
-             Glyph colour comes from .tier-glyph[data-type] (tokens.css). -->
+             is READ from the emitted field via GaiaSemantics.branchOf (resolved build-time
+             by the taxonomy authority). Glyph colour comes from .tier-glyph[data-type] (tokens.css). -->
         <div class="ns-type-tabs" id="nsTypeTabs" role="tablist" aria-label="Skill type selection">
           <button class="ns-tab active" type="button" data-type="all" role="tab" aria-selected="true">All</button>
           <button class="ns-tab" type="button" data-type="fusion" role="tab" aria-selected="false"><span class="tier-glyph" data-type="fusion">◆</span> Fusion</button>

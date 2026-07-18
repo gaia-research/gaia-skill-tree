@@ -55,7 +55,7 @@
   function rankNameFor(level, node) {
     var gs = (typeof window !== 'undefined' && window.GaiaSemantics);
     if (!gs) return RANK_NAMES_SHARED[level] || '';
-    var branch = gs.computeBranch(node || {}, level);
+    var branch = gs.branchOf(node || {});
     return gs.rankWord(level, branch);
   }
 
@@ -159,8 +159,8 @@
 
   // ── BRANCH COLOR PALETTE (Yggdrasil II) ──
   // Keyed by branch ('standard'|'suite'|'unique'), NOT by the dead enum
-  // (basic/extra/unique/ultimate). Branch is derived at read-time via
-  // GaiaSemantics.computeBranch — never read from skill.type directly.
+  // (basic/extra/unique/ultimate). Branch is READ from the emitted field via
+  // GaiaSemantics.branchOf — never read from skill.type directly.
   // Token source: --tier-basic-rgb (56,189,248), --tier-fusion-rgb (245,158,11),
   //               --tier-unique-rgb (124,58,237). No hex literals (CI guard E7).
   var BRANCH_COLORS = {
@@ -184,7 +184,7 @@
     var branch = 'standard';
     var gs = (typeof window !== 'undefined' && window.GaiaSemantics);
     if (gs && nodeOrType && typeof nodeOrType === 'object') {
-      branch = gs.computeBranch(nodeOrType, level != null ? level : nodeOrType.level);
+      branch = gs.branchOf(nodeOrType);
     } else if (typeof nodeOrType === 'string') {
       // Legacy path: caller passes a raw type string ('basic'/'fusion'/old enum)
       if (nodeOrType === 'fusion') branch = 'suite';
@@ -271,7 +271,7 @@
 
   // ── BAR GRADIENT BUILDER ──
   // Unified: main fill = BRANCH color (bottom→top), mid-stop blends contributor handle hue.
-  // `node` is the full skill object so computeBranch can inspect .type and .suiteComponents.
+  // `node` is the full skill object carrying the emitted .branch that branchOf reads.
   function buildBarGradientDef(svg, contributor, grade, level, node, id) {
     var hue = handleHue(contributor);
     var tc = typeColors(node, level);
@@ -509,12 +509,12 @@
     // Suites are discovered later by detectSuites (detail fetches); initial
     // partition splits by whether the skill has suiteComponents in the index.
     var ultimates = allRows.filter(function(r) {
-      return gs ? gs.computeBranch(r, r.level) === 'suite' : false;
+      return gs ? gs.branchOf(r) === 'suite' : false;
     });
     var extras = [];  // extra branch folded into suites under Yggdrasil II
     var basics = allRows.filter(function(r) {
       if (!gs) return true;
-      var br = gs.computeBranch(r, r.level);
+      var br = gs.branchOf(r);
       return br === 'standard' || br === 'unique';
     });
     // Named = graded skills shown in the main bar chart (all tiers, graded only)
@@ -930,7 +930,7 @@
       barGroup.appendChild(contrib);
 
       // Branch pill below contributor — use GaiaSemantics for correct rank word
-      var ultBranch = gs ? gs.computeBranch(ult, ult.level) : 'suite';
+      var ultBranch = gs ? gs.branchOf(ult) : 'suite';
       var ultPillWord = gs ? gs.rankWord(ult.level, ultBranch) : 'Suite';
       var typeBadge = svgEl('text', {
         x: x + UB / 2,
@@ -1185,7 +1185,7 @@
 
       // Branch pill — use GaiaSemantics.rankWord for branch-forked name, gold token for suite
       var gs = (typeof window !== 'undefined' && window.GaiaSemantics);
-      var suiteBranch = gs ? gs.computeBranch(suite, suite.level) : 'suite';
+      var suiteBranch = gs ? gs.branchOf(suite) : 'suite';
       var suitePillWord = gs ? gs.rankWord(suite.level, suiteBranch) : 'Suite';
       var typePill = svgEl('text', {
         x: x + SB / 2, y: contribY + ls.fontPx + 4,
@@ -1935,7 +1935,7 @@
     var candidates = allRows.filter(function(r) {
       if (!r.grade || r.grade === 'ungraded') return false;
       if (!gsRef) return true;
-      return gsRef.computeBranch(r, r.level) !== 'suite';
+      return gsRef.branchOf(r) !== 'suite';
     });
 
     var fetched = 0;

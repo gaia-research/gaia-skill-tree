@@ -5,10 +5,10 @@
   var _currentNs = null; // tracks the skill open in the explorer
 
   // ── Yggdrasil II PR3b — READ emitted branch, don't recompute ──────
-  // _seBranchOf prefers the emitted entry.branch (index.json) via the shared
-  // GaiaSemantics seam, falling back to computeBranch only for a starless
-  // generic-graph object with no emitted branch. All branch-keyed color/glyph
-  // logic in this IIFE routes through here so nothing re-derives from type.
+  // _seBranchOf reads the emitted entry.branch (index.json) via the shared
+  // GaiaSemantics.branchOf seam; when the field is absent the seam returns the
+  // neutral 'standard' default (it guesses nothing from type). All branch-keyed
+  // color/glyph logic in this IIFE routes through here so nothing re-derives.
   var SE_UNIQUE = 'unique';
   var SE_SUITE = 'suite';
   function _seBranchOf(entry) {

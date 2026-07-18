@@ -457,8 +457,8 @@
     }
 
     /* ── Tier orb colors (mirrors typeColors in gaia.json) ── */
-    /* ── Header orb — keyed on the read-time branch (rubric E1). Never on a
-       dead type enum. computeBranch returns 'standard' | 'suite' | 'unique';
+    /* ── Header orb — keyed on the emitted branch (rubric E1). Never on a
+       dead type enum. branchOf returns 'standard' | 'suite' | 'unique';
        standard borrows the basic tier color, suite the fusion color. ── */
     .report-header-orb[data-branch="standard"] { color: var(--tier-basic);  background: var(--tier-basic-bg);  border-color: var(--tier-basic-border); }
     .report-header-orb[data-branch="suite"]    { color: var(--tier-fusion); background: var(--tier-fusion-bg); border-color: var(--tier-fusion-border); }
@@ -644,9 +644,9 @@
        4★/5★ rank words the resolver replaced (rubric E2). The resolver forks
        rank words by branch at 4★+. ── */
     function branchOf(skill) {
-      return (window.GaiaSemantics && window.GaiaSemantics.computeBranch)
-        ? window.GaiaSemantics.computeBranch(skill, skill && skill.level)
-        : 'standard';
+      return (window.GaiaSemantics && window.GaiaSemantics.branchOf)
+        ? window.GaiaSemantics.branchOf(skill)
+        : ((skill && typeof skill.branch === 'string' && skill.branch) || 'standard');
     }
     function rankNameOf(skill) {
       return (window.GaiaSemantics && window.GaiaSemantics.rankWord)
@@ -760,9 +760,9 @@
     /* ── Compute actionable gap ── */
     function computeGap(skill) {
       var grade = (skill.overallTrustGrade || '').trim();
-      // Suite gate applies to suite-branch skills — derived, never off a type
-      // enum (rubric E1). computeBranch returns 'suite' for skills carrying
-      // suiteComponents.
+      // Suite gate applies to suite-branch skills — READ from the emitted
+      // branch, never off a type enum (rubric E1). branchOf returns 'suite'
+      // for skills the authority resolved to the suite branch.
       var isSuite = branchOf(skill) === 'suite';
       var evidence = Array.isArray(skill.evidence) ? skill.evidence : [];
       var gateStatus = skill.ultimateGateStatus || null;
