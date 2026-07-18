@@ -4,6 +4,124 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-18, session — ROOT-CAUSE CORRECTION: origin-driven build stamp replaces max-level guess; ratification realigned to ORIGIN rule + superseded docs archived; PR #1235 updated on remote)
+
+### TLDR
+- **The "floating Unique / 4-vs-6" symptom was chasing the wrong layer.** Marco's repeated pushback walked the model to its ratified shape: **PURE BUILD, ORIGIN-driven.** Each bucket has exactly ONE CLI-declared `origin: true` skill; its already-emitted `branch/rank/rankWord/medallion/level` is stamped onto the starless generic node **at build time**. No origin → nothing stamped → node stays **plain starless** (in the default tree as its plain self, NOT decorated, NOT surfaced as named). Browser only READS `node.branch`; it never recomputes. "One origin per bucket. That's the rule."
+- **Root bug fixed** (`6dc2dc7e8`, pushed → **PR #1235** on `dev/ygg2-consume-frontend`): `scripts/syncDocsGraphAssets.py` was reading `max(levels)` per bucket, and the graph JS then *guessed* branch from that rank-less node — which mislabeled `superpowers` (a suite) as unique and produced the wrong count. Replaced `_named_max_levels()` → `_bucket_origins()` (origin reader); deleted client-side branch guessing in `skill-graph.js` + `world-tree-layout.js`.
+- **Verified on served localhost** (`http://localhost:8080/graph/gaia.json`, fresh): 243 skills · **6 unique** / 15 suite / 58 standard / 164 no-branch-key. `superpowers→suite`. Playwright status bar `243 skills · 406 links · 6 Unique` (was "4 Unique" guessed). Guard `check_taxonomy_authority.py` = **PASS** (0 read-time derivation sites). `node --check` PASS ×3.
+- **`/browse` skill BANNED** in CLAUDE.md — never worked (Marco 2026-07-18). Playwright only for all web browsing/screenshots. Removed from the gstack Available list.
+
+### How I aligned on the ratification + archiving (Marco's highlight request)
+| Correction Marco drove | Wrong prior belief | Ratified truth now locked |
+|---|---|---|
+| **Origin, not max-level** | I proposed carrying the bucket's *highest* level onto the node ("max-level"). | It is the **CLI-declared origin** entry (`origin: true`), declared *before* build time. Not max, not derived — *declared*. Verified: 79 buckets one-origin, 61 zero-origin, 0 multi. |
+| **Pure build, no client resolution** | I proposed build-time emit onto `gaia.json` AND kept a client resolver guessing branch. | Browser reads emitted `node.branch` or renders plain. "Read emitted, never recompute" — now true on BOTH graphs (named index + starless). No resolver guessing survives for rank-less nodes. |
+| **No origin → not in canon as decorated** | I proposed no-origin buckets "join membership" / surface as their highest member. | "Not found in canon, not in the tree" (as decorated/named). They stay **starless-only** — the default tree shows them as plain nodes. "Once something is named origin — it shows in the tree." |
+| **Membership-first, decoration-only fork** | I cited v2's "no branch below 4★" membership floor. | Membership (`suiteComponents present → suite` at ANY rank; else standard) is orthogonal to the **decoration** fork that only appears at 4★+. `type` (basic/fusion) is NEVER consulted for branch. |
+| **Vocabulary** | I kept saying "branch." | Marco: "We don't use 'branch' anymore — it's medallion and rank and membership." |
+
+### Archiving decision (Marco: "superseded is fine — put in a folder archive for maximum clarity")
+- **New:** `founder/handovers/archive/YGGDRASIL_II_SUPERSEDED_2026-07-18.md` — quotes **9 superseded passages verbatim** + correction + why, each with source `file:line`:
+  - RATIFICATION L65 ("fork recognised ONLY at 4★+" as a *membership* floor), L74–76 (the `rank ≥ 4 AND` gate on membership), L80–87 (rank ladder — correct as *decoration*, wrong as *membership map*), L172 / L183 / L208 ("derived at read-time / always computed, never declared" — superseded by build-time emit).
+  - DESIGN_ALIGNMENT L55 (read-time derivation), L56–58 (rank≥4 gate), L127 (Scout #1 "no branch field" — marked stale-except-for-starless-`gaia.json`).
+- **v3 Amendment (RATIFICATION L5–56) UNTOUCHED** — remains the single live authority; inline pointers added on each superseded passage in the two live handovers (original text preserved beneath each marker).
+- Rank-vocabulary guard **PASS** (no new violations; archive prose kept banned-word-free).
+
+### What changed this session
+| Layer | State |
+|---|---|
+| Build (`scripts/syncDocsGraphAssets.py`) | ✅ `_named_max_levels()` (max) → `_bucket_origins()` (reads `origin: true`); stamps origin's `branch/rank/rankWord/medallion` + `namedMaxLevel=origin.level` onto matching generic node; no-origin → nothing stamped |
+| Graph JS (3 files) | ✅ `skill-graph.js` normalizeSkills reads emitted `skill.branch` (else inert 'standard'), guess removed; `world-tree-layout.js` resolveSemantics no-emitted-branch case → plain in-tree node (legacy `metaIsYggI` path preserved); `skill-semantics.js` `computeBranch` left dormant (named-entry fallback only), header updated |
+| Class S regen | ✅ `docs/graph/{gaia.json,gaia.gexf,named/index.json}` + `docs/tree.md` — 79 nodes stamped, 6/15/58 dist, 0 null-branch leaks |
+| Docs | ✅ superseded ratifications archived; v3 live authority + inline pointers |
+| Infra | ✅ `/browse` banned in CLAUDE.md |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| dev/ygg2-consume-frontend | 6dc2dc7e8 | Pushed; **PR #1235** updated on remote (`578a69a42..6dc2dc7e8`); origin-fix + archive + /browse-ban in one commit |
+
+### Issues + PRs touched
+- **PR #1235** — origin-fix commit added; PR comment posted with fix summary + verification + token spend.
+
+### Lessons / hazards preserved
+- **`docs/graph/gaia.json` nodes live under `skills`, not `nodes`.** Top-level keys: `$schema, generatedAt, meta, skills, edges`. A recount one-liner keyed on `nodes` returns 0 — key on `skills`.
+- **Origin is declared, not derived.** The whole "suite-vs-unique ambiguity" dissolves because the node carries the origin's already-resolved membership — there is nothing to guess. Any future "resolve branch on the client" instinct is the bug.
+- **Symptom-vs-root discipline:** I burned turns treating "4 Unique" as a stale-cache issue (Playwright with `Network.setCacheDisabled` disproved it — fresh JS, still wrong count) and then over-corrected by removing a `type` gate (count jumped to 11, mislabeling fusion-suites). The fix was upstream in the build, not in the JS resolver. Verify the emitted data before touching the reader.
+
+### Open questions for next orchestrator
+- **~48 `skill-trees/*/skill-tree.md`** modifications sit uncommitted in the working tree — NOT from this correction (another agent/process). Left untouched per data-file no-touch rule; Marco to decide whether to commit or discard.
+- `founder/MEMORY.md` was deliberately NOT staged in `6dc2dc7e8` (this snapshot updates it separately).
+- Downstream PR3b open questions still stand (page-ia.js/badges un-migrated reads, PR3c #1227, PR4 #1000, provisional `--tier-unique-5/-6` hexes).
+
+### Token cost (this session)
+- 2026-07-18 Opus 4.8 (orchestrator inline): ~40k in, ~12k out · ~$3
+- 2026-07-18 subagent (origin-fix, general-purpose): 78,941 out, 55 tool uses · ~$6
+- 2026-07-18 subagent (doc-archive): 116,103 out, 24 tool uses · ~$9
+- **Approx session total ≈ $18** (delegation-heavy; orchestrator stayed in steward mode)
+
+---
+
+## State Snapshot (2026-07-18, session — PR3b frontend JS collapse onto emitted taxonomy + Unique graph node ladder + standing-stones membership fix + shim/harness hard-delete + guard flip; PR #1235 draft, reviewed GO)
+
+### TLDR
+- **PR3b shipped** (`dev/ygg2-consume-frontend`, head `578a69a42`, 1 commit; **draft PR #1235 → `dev/ygg2-consume-ssr`**): the frontend half of the Ygg II consume chain. Browser JS now **reads** emitted `{branch,rank,rankWord,medallion,contractVersion}` from `docs/graph/named/index.json` instead of recomputing branch/rank from the dead `type` enum. PR3a's shims + JS parity harness **hard-deleted**; taxonomy-authority guard **flipped to HARD_FAIL=True**.
+- **Single `dev/*` branch carried all of A–D** (Marco: "don't care about full CI green, simplify" — chose single-branch over the plan's split-branch option). `dev/*` has unrestricted branch-scope so docs/js + Python + tests + workflow live in one diff.
+- **Reviewed GO** — dedicated review agent (130k tok): no CRITICAL/MAJOR regressions; 3 MINOR non-blocking notes. My own independent verification also green (guard PASS/exit 0, contract 6/6, world-tree 27/27, CSS tokens up to date, shims confirmed deleted, clean imports).
+- **Grounded on ratification per Marco's mid-session instruction** — confirmed migration matches v2/v3 Amendments: Membership (`branch`) is the derived axis; `type` (basic/fusion, starless only) is orthogonal, never consulted for branch. Starless `gaia.json` (no emitted branch) keeps the frozen-contract fallback — this is correct and required, not a shortcut.
+
+### Decisions locked this session
+| # | Decision |
+|---|---|
+| Branch structure | **Single `dev/ygg2-consume-frontend` off PR3a HEAD `46193e20b`**, all A–D in one diff. Marco waived the plan's split (design/* for A–C + cli/* for D). Rationale: `dev/*` unrestricted scope, simpler chain, staging reconciles the aggregate. |
+| Emitted-first + fallback | **Prefer emitted field, fall back to frozen recompute ONLY for the starless generic graph.** `gaia.json` carries no branch (basic/fusion only per Ygg II v2 Amendment) → `computeBranch`/`rankWord`/`resolveSemantics` fallbacks RETAINED in skill-semantics.js + world-tree-layout.js as the documented starless path. Full deletion of the JS resolvers is impossible; the migration = "read emitted when present." |
+| Guard exclusions (honest, file-scoped) | **`check_taxonomy_authority.py` excludes 4 files, not by blinding the regex:** the 2 frozen-fallback resolvers (skill-semantics.js, world-tree-layout.js) + 2 un-migrated surfaces **outside PR3b's Section-A file list** (`page-ia.js` = 4 dead reads, `badges/index.html` = 1). Guard still watches every other file for NEW derivation. Review agent independently confirmed exclusions are justified (page-ia/badges are a later lane). |
+| few-shot-learning is now a UNIQUE, seats OUTSIDE | **Plan premise was stale.** Plan described few-shot as a 2★ basic isolate that must seat *inside*. Emitted data has moved: `openai/few-shot-learning` is now **4★ / branch=unique** → correctly seats **outside** as a standing stone. Review agent enumerated all ~30 topological isolates: only few-shot → unique (outside); other 29 (rank 0–3, standard) → inside as seeds. Old edge-count logic flung all 30 into orphan orbit; branch-keyed fix is a strict improvement. **Do NOT hunt for a "floating few-shot" in visual QA — it's legitimately outside.** |
+| 6★ Unique node render = placeholder | **No 6★ Unique exists** (all 6 real uniques are 4★). `drawNodeUnique` 6★ path wired (near-still core + cheap `difference`-composite lensing rim reading `--tier-unique-6`/`-ink`) so it renders when one is earned; kept light, not over-tuned. |
+
+### What changed this session
+| Layer | State |
+|---|---|
+| Frontend JS (7 files) | ✅ skill-semantics.js (emitted-first seams branchOf/rankWordOf/medallionOf + retained fallback), plaque.js, named-skills.js, skill-explorer.js (per-IIFE helpers _seBranchOf/_seBranchColor/_seRankWordOf — no cross-boundary ref), profile-timeline.js (TIER_COLOR/TIER_HEX rekeyed off branch, dead #7c3aed removed), world-tree-layout.js (resolveSemantics compat seam + §B membership gating), skill-graph.js (branch resolved in normalizeSkills, drawNodeUnique rank ladder, orphan-orbit gated) |
+| CSS (2 files) | ✅ plaque.css + styles.css — added standard/suite branch-keyed tooltip/type variants the JS rekey now emits |
+| Python shims | ✅ DELETED formatting.rank_word + format_rank_label (caller cardRenderer.py → taxonomy.rankWord, byte-identical labels); trustMagnitude.computeBranch + _starRank + _suiteComponentsPresent, removed from __all__ |
+| Tests | ✅ deleted tests/harness/js_branch_dump.js + its contract-test legs (kept pure-authority assertions); stale world-tree-layout.test.js metaIsYggI true→false |
+| Guard | ✅ check_taxonomy_authority.py tightened (only genuine .type→branch + shim calls) + HARD_FAIL=True; new .github/workflows/taxonomy-authority-guard.yml (mirrors rank-vocabulary-guard.yml) |
+| Generators | ✅ generateProfilePages.py payload now emits branch+medallion; generateBadges/generateOgCards docstrings re-pointed to taxonomy.branchFor |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| dev/ygg2-consume-frontend | 578a69a42 | Pushed; **draft PR #1235 → dev/ygg2-consume-ssr**; reviewed GO |
+| dev/ygg2-consume-ssr (PR3a) | 46193e20b | PR3b's base |
+
+### Issues + PRs touched
+- **PR #1235** (NEW, draft) — PR3b, targets `dev/ygg2-consume-ssr`. Body has Entrypoints (waived — no new page) + token-spend log.
+- Chain intact: PR1 #1232 → staging, PR2 #1233 → PR1, PR3a #1234 → PR2, **PR3b #1235 → PR3a**.
+
+### Lessons / hazards preserved
+- **Grep guard "0 findings" is unreachable literally** without gutting comments/tokens/data-attrs. The right move (validated by both the impl agent and the review): tighten regexes to flag only genuine `.type === 'unique'` derivation + deleted-shim calls, and **file-scope-exclude** the documented fallbacks + out-of-lane files — NOT broaden exemptions until the count hits 0 (that defeats the guard).
+- **`skill-graph.js` trips `grep` binary detection** from box-drawing chars (`─`) in comment banners — use `grep -a` to force text mode when auditing it.
+- **skill-explorer.js two-IIFE gotcha held** — all shared helpers (_seBranchOf etc.) defined + used within IIFE #1; no cross-boundary ReferenceError.
+
+### Open questions for next orchestrator
+- **page-ia.js (4) + badges/index.html (1) un-migrated `.type` reads** — legitimately out of PR3b's Section-A scope, guard-excluded. Decide their lane (PR3c #1227 rewind? a badges infra PR?). Not a defect; inert (gaia.json is basic/fusion only).
+- **PR #1235 is a DRAFT** — mark ready when the chain is ready to advance, or leave until PR4 aggregate.
+- **PR3c** (#1227 surviving presentation lines) and **PR4** (#1000 agent-skills + final regen + green sweep + #1185 staging→main) still ahead.
+- **`--tier-unique-5/-6` hexes still PROVISIONAL** (from PR3a) — PR3b `var()`s them; existence locked, values re-tunable after full-surface visual review.
+
+### Token cost (this session)
+- 2026-07-18 Opus 4.8 (medium effort), orchestrator + 4 delegated agents:
+  - A–C impl agent: ~280k in/out
+  - A–C resume (confirm + close): ~263k
+  - D impl agent: ~190k
+  - Review agent: ~130k
+  - Orchestrator inline: ~60k
+  - **Total ≈ 923k combined in/out. ~$40–50 est.** (delegation-heavy; orchestrator stayed in steward mode per ORCHESTRATOR delegation triggers)
+
+---
+
 ## State Snapshot (2026-07-18, session — PR3a Python consumer collapse + v3 ratification amendment + Unique badge decoration fork; 3 draft PRs chained on staging)
 
 ### TLDR
