@@ -152,11 +152,11 @@
       /* PR3b: dot classes key on the resolved BRANCH (standard/suite/unique),
          not the dead type enum. Tier color via tokens; unique reads its rgb. */
       '.ptl2__dot--standard { border-color: var(--tier-basic);  background: rgba(56,189,248,.15); }',
-      '.ptl2__dot--suite    { border-color: var(--apex-gold);   background: rgba(245,158,11,.15); }',
+      '.ptl2__dot--suite    { border-color: var(--tier-fusion); background: rgba(var(--tier-fusion-rgb),.15); }',
       '.ptl2__dot--unique   { border-color: var(--tier-unique); background: #000; }',
       '.ptl2__dot--rank { width: 9px; height: 9px; border-width: 2px; }',
       '.ptl2__event--rank-up .ptl2__dot--standard { box-shadow: 0 0 6px rgba(56,189,248,.5); }',
-      '.ptl2__event--rank-up .ptl2__dot--suite    { box-shadow: 0 0 8px rgba(245,158,11,.6); }',
+      '.ptl2__event--rank-up .ptl2__dot--suite    { box-shadow: 0 0 8px rgba(var(--tier-fusion-rgb),.6); }',
       '.ptl2__event--rank-up .ptl2__dot--unique   { box-shadow: 0 0 8px rgba(var(--tier-unique-rgb,124,58,237),.7); }',
 
       /* Card */
@@ -198,7 +198,7 @@
       '.ptl2__chip--ascend   { color: #86efac; background: rgba(134,239,172,.07); border: 1px solid rgba(134,239,172,.2); }',
       '.ptl2__chip--promote  { color: #86efac; background: rgba(134,239,172,.07); border: 1px solid rgba(134,239,172,.2); }',
       '.ptl2__chip--demote   { color: #ef4444; background: rgba(239,68,68,.07);   border: 1px solid rgba(239,68,68,.2); }',
-      '.ptl2__chip--fuse     { color: var(--tier-ultimate,#f59e0b); background: rgba(245,158,11,.07); border: 1px solid rgba(245,158,11,.2); }',
+      '.ptl2__chip--fuse     { color: var(--tier-fusion); background: rgba(var(--tier-fusion-rgb),.07); border: 1px solid rgba(var(--tier-fusion-rgb),.2); }',
       '.ptl2__chip--default  { color: var(--muted,#64748b); background: rgba(100,116,139,.07); border: 1px solid rgba(100,116,139,.15); }',
 
       /* Rank delta */
@@ -287,7 +287,7 @@
   // token-first source the docs-cohesion guard checks.
   var TIER_COLOR = {
     standard: 'var(--tier-basic)',
-    suite:    'var(--apex-gold)',
+    suite:    'var(--tier-fusion)',
     unique:   'var(--tier-unique)',
   };
   // Resolve a `var(--token)` or `var(--token,#fallback)` expression at runtime:
@@ -310,7 +310,7 @@
     function cv(expr) { return resolveVar(s, expr); }
     return {
       standard: cv('var(--tier-basic)'),
-      suite:    cv('var(--apex-gold)'),
+      suite:    cv('var(--tier-fusion)'),
       unique:   cv('var(--tier-unique)'),
     };
   }());
@@ -759,7 +759,7 @@
         var rankNum = ev.newValue ? parseRank(ev.newValue) : 0;
         var rankColor = RANK_HEX[rankNum];
         if (rankColor === 'apex') {
-          nameEl.style.backgroundImage = 'linear-gradient(90deg,var(--rank-5,#fbbf24),var(--tier-ultimate,#f59e0b),var(--rank-4,#e879f9),var(--rank-3,#a78bfa),var(--rank-1,#38bdf8))';
+          nameEl.style.backgroundImage = 'linear-gradient(90deg,var(--rank-5,#fbbf24),var(--tier-fusion),var(--rank-4,#e879f9),var(--rank-3,#a78bfa),var(--rank-1,#38bdf8))';
           nameEl.style.webkitBackgroundClip = 'text';
           nameEl.style.backgroundClip = 'text';
           nameEl.style.webkitTextFillColor = 'transparent';
