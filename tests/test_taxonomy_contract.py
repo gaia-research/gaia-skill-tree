@@ -25,13 +25,14 @@ gate); rank only splits the no-suite case:
 Canonical == synthesis on ALL entries (test_synthesis_ground_truth) — that is
 the primary, resolver-independent correctness check.
 
-DELETE-GATE DISCIPLINE (§2.5): legacy resolvers #1 and #3 are known to diverge
-from the membership authority on ~9 nodes (JS #1, type-gated fusion guard) and
-~12 nodes (Py #3, rank-gated suite check). This drift is NOT blessed or
-ratified — it is RED-by-design. test_four_way_parity_pending_deletion is a
-strict-xfail that must stay xfail until Phase 3 DELETES the legacy resolvers and
-parity actually holds. The moment it flips to XPASS, CI hard-fails, forcing
-removal of the marker. That handshake IS the delete-gate.
+DELETE-GATE DISCIPLINE (authority doc §3): legacy resolvers #1 and #3 are known
+to diverge from the membership authority on ~9 nodes (JS #1, type-gated fusion
+guard) and ~12 nodes (Py #3, rank-gated suite check). This drift is NOT blessed
+or ratified — it is RED-by-design. The legacy-parity legs are strict-xfail
+delete-gates: they XFAIL while the legacy resolvers live and flip to hard
+failure — forcing marker removal — once Phase 3 deletes them and parity is real.
+Do NOT bless the drift green; the gate exists precisely to block deletion until
+parity is real.
 --------------------------------------------------------------------------------
 
 Run: PYTHONIOENCODING=utf-8 PYTHONPATH=./src python -m pytest tests/test_taxonomy_contract.py -q
@@ -101,7 +102,23 @@ ENTRIES = collectEntries()
 
 def synthesisBranch(node, effRank):
     """Direct implementation of the SYNTHESIS rule — the resolver-independent
-    ground truth the authority must match on every entry."""
+    ground truth the authority must match on every entry.
+
+    Per authority doc §7 origin mechanic: a starless generic node from
+    docs/graph/gaia.json may carry a STAMPED branch field surfaced from its
+    bucket's origin. Honor the stamp directly — do not recompute — because bare
+    generics carry no suiteComponents (those live on the named origin entry) and
+    recomputing would wrongly yield 'standard'/'unique' where the stamp says
+    'suite'. This mirrors what taxonomy.normalize()/resolveDisplayBranch already
+    do (pre-resolved branch passthrough). On the keystone branch gaia.json
+    carries zero stamps so this is a harmless no-op; it becomes load-bearing
+    when cascaded to dev/ygg2-consume-frontend where 79 nodes are stamped.
+    """
+    # §7: honor a stamped branch field if present and valid.
+    stamped = node.get("branch") if isinstance(node, dict) else None
+    if stamped in {"standard", "suite", "unique"}:
+        return stamped
+
     rank = taxonomy.levelNum(effRank)
     hasSuite = taxonomy.suiteComponentsPresent(node)
     if hasSuite:
@@ -184,25 +201,44 @@ def test_synthesis_ground_truth():
     assert not mismatches, f"canonical vs synthesis mismatches: {mismatches}"
 
 
-@pytest.mark.xfail(strict=True, reason=(
-    "known Ygg-I-vs-membership drift in legacy resolvers #1 (JS computeBranch, "
-    "type-gated) and #3 (trustMagnitude.computeBranch); resolved by DELETION in "
-    "Phase 3. Strict-xfail is the delete-gate handshake: the day Phase 3 deletes "
-    "the legacy resolvers and parity holds, this flips XPASS -> hard failure, "
-    "forcing the marker's removal."
-))
-def test_four_way_parity_pending_deletion():
-    """RED-by-design: authority == legacy #1 == legacy #3 on every node.
-    Fails until Phase 3 deletes the drifted legacy resolvers (delete-gate)."""
-    jsBranches = runJsHarness(ENTRIES)  # {id: branch} or None-per-node if harness unavailable
+@pytest.mark.xfail(
+    strict=True,
+    reason="DELETE-GATE (authority doc §3): legacy trustMagnitude.computeBranch "
+    "diverges from membership on Class-A/B nodes. This XFAIL is RED-by-design "
+    "and flips to a hard failure — forcing this marker's removal — the moment "
+    "Phase 3 deletes the legacy resolver and parity becomes real. Do NOT bless "
+    "the drift green.",
+)
+def test_legacy_python_parity_delete_gate():
+    """Canonical (membership) == legacy Python #3 on EVERY entry. FAILS now (by
+    design) on the known Ygg-I-vs-membership drift; passes only after Phase 3
+    deletes trustMagnitude.computeBranch."""
     mismatches = []
     for sid, node, effRank in ENTRIES:
         c = canonicalBranch(node, effRank)
         p = pythonBranch(node, effRank)
-        j = jsBranches.get(sid) if jsBranches else None
-        if c != p or (j is not None and c != j):
-            mismatches.append((sid, c, p, j))
-    assert not mismatches, f"drift (canonical, py#3, js#1): {mismatches}"
+        if c != p:
+            mismatches.append((sid, c, p))
+    assert not mismatches, f"legacy Python #3 parity not yet real: {mismatches}"
+
+
+@pytest.mark.skipif(JS_BRANCHES is None, reason="node unavailable")
+@pytest.mark.xfail(
+    strict=True,
+    reason="DELETE-GATE (authority doc §3): legacy JS #1 computeBranch diverges "
+    "from membership on Class-A nodes (type-guard). RED-by-design; flips to hard "
+    "failure when Phase 3 deletes the JS resolver. Do NOT bless the drift green.",
+)
+def test_legacy_js_parity_delete_gate():
+    """Canonical (membership) == legacy JS #1 on EVERY entry. FAILS now (by
+    design); passes only after Phase 3 deletes the JS computeBranch resolver."""
+    mismatches = []
+    for sid, node, effRank in ENTRIES:
+        c = canonicalBranch(node, effRank)
+        j = JS_BRANCHES.get(sid)
+        if j is not None and c != j:
+            mismatches.append((sid, c, j))
+    assert not mismatches, f"legacy JS #1 parity not yet real: {mismatches}"
 
 
 def test_pinned_divergence_is_unique_canonically():
