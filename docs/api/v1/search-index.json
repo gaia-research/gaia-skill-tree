@@ -6,6 +6,7 @@
     "level": "5★",
     "grade": "S",
     "trustMagnitude": 589.32,
+    "branch": "suite",
     "tokens": [
       "agent",
       "audit",
@@ -45,6 +46,7 @@
     "level": "5★",
     "grade": "S",
     "trustMagnitude": 482.27,
+    "branch": "suite",
     "tokens": [
       "6★",
       "agent",
@@ -81,6 +83,7 @@
     "level": "5★",
     "grade": "S",
     "trustMagnitude": 480.29,
+    "branch": "suite",
     "tokens": [
       "all",
       "capstone",
@@ -105,6 +108,7 @@
     "level": "5★",
     "grade": "S",
     "trustMagnitude": 445.15,
+    "branch": "suite",
     "tokens": [
       "agenti",
       "agentic",
@@ -143,6 +147,7 @@
     "level": "5★",
     "grade": "S",
     "trustMagnitude": 293.14,
+    "branch": "suite",
     "tokens": [
       "agent",
       "agents",
@@ -180,6 +185,7 @@
     "level": "3★",
     "grade": "A",
     "trustMagnitude": 270.0,
+    "branch": "suite",
     "tokens": [
       "0",
       "1",
@@ -202,6 +208,7 @@
     "level": "3★",
     "grade": "A",
     "trustMagnitude": 223.52,
+    "branch": "suite",
     "tokens": [
       "`npx",
       "all",
@@ -233,6 +240,7 @@
     "level": "3★",
     "grade": "A",
     "trustMagnitude": 202.16,
+    "branch": "suite",
     "tokens": [
       "agentic",
       "claude",
@@ -262,6 +270,7 @@
     "level": "3★",
     "grade": "A",
     "trustMagnitude": 201.0,
+    "branch": "suite",
     "tokens": [
       "5",
       "agent",
@@ -293,6 +302,7 @@
     "level": "3★",
     "grade": "A",
     "trustMagnitude": 186.0,
+    "branch": "suite",
     "tokens": [
       "architecture",
       "cli",
@@ -324,6 +334,7 @@
     "level": "3★",
     "grade": "A",
     "trustMagnitude": 156.0,
+    "branch": "suite",
     "tokens": [
       "\"founder",
       "auto",
@@ -362,6 +373,7 @@
     "level": "4★",
     "grade": "A",
     "trustMagnitude": 133.54,
+    "branch": "unique",
     "tokens": [
       "code",
       "extraction",
@@ -381,6 +393,7 @@
     "level": "3★",
     "grade": "A",
     "trustMagnitude": 126.0,
+    "branch": "suite",
     "tokens": [
       "claude",
       "claude+codex",
@@ -411,6 +424,7 @@
     "level": "4★",
     "grade": "A",
     "trustMagnitude": 122.8,
+    "branch": "unique",
     "tokens": [
       "ai",
       "audit",
@@ -433,6 +447,7 @@
     "level": "3★",
     "grade": "A",
     "trustMagnitude": 120.0,
+    "branch": "suite",
     "tokens": [
       "0",
       "1",
@@ -454,6 +469,7 @@
     "level": "3★",
     "grade": "A",
     "trustMagnitude": 118.5,
+    "branch": "suite",
     "tokens": [
       "across",
       "adaptive",
@@ -484,6 +500,7 @@
     "level": "4★",
     "grade": "A",
     "trustMagnitude": 117.65,
+    "branch": "unique",
     "tokens": [
       "(spec",
       "agent",
@@ -521,6 +538,7 @@
     "level": "3★",
     "grade": "A",
     "trustMagnitude": 117.65,
+    "branch": "standard",
     "tokens": [
       "available",
       "back",
@@ -556,6 +574,7 @@
     "level": "3★",
     "grade": "A",
     "trustMagnitude": 116.57,
+    "branch": "standard",
     "tokens": [
       "analysis",
       "ast",
@@ -581,6 +600,7 @@
     "level": "3★",
     "grade": "A",
     "trustMagnitude": 110.15,
+    "branch": "standard",
     "tokens": [
       "any",
       "before",
@@ -618,6 +638,7 @@
     "level": "4★",
     "grade": "A",
     "trustMagnitude": 107.14,
+    "branch": "unique",
     "tokens": [
       "code",
       "firecrawl",
@@ -635,6 +656,7 @@
     "level": "4★",
     "grade": "A",
     "trustMagnitude": 100.0,
+    "branch": "unique",
     "tokens": [
       "3",
       "adapt",
@@ -666,6 +688,7 @@
     "level": "3★",
     "grade": "A",
     "trustMagnitude": 100.0,
+    "branch": "standard",
     "tokens": [
       "answer",
       "consistency",
@@ -691,6 +714,7 @@
     "level": "3★",
     "grade": "A",
     "trustMagnitude": 100.0,
+    "branch": "standard",
     "tokens": [
       "automatically",
       "bootstrapping",
@@ -717,6 +741,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 96.09,
+    "branch": "standard",
     "tokens": [
       "agent",
       "byzantine",
@@ -751,6 +776,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 96.0,
+    "branch": "suite",
     "tokens": [
       "ai",
       "assistant",
@@ -780,6 +806,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 95.15,
+    "branch": "standard",
     "tokens": [
       "before",
       "brainstorming",
@@ -811,6 +838,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 95.15,
+    "branch": "standard",
     "tokens": [
       "all",
       "beyond",
@@ -845,6 +873,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 95.15,
+    "branch": "standard",
     "tokens": [
       "any",
       "before",
@@ -879,6 +908,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 94.9,
+    "branch": "standard",
     "tokens": [
       "10",
       "accessibility",
@@ -912,6 +942,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 90.38,
+    "branch": "standard",
     "tokens": [
       "analysis",
       "autonomous",
@@ -953,6 +984,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 90.38,
+    "branch": "standard",
     "tokens": [
       "240",
       "article",
@@ -991,6 +1023,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 90.38,
+    "branch": "standard",
     "tokens": [
       "case",
       "knowledge",
@@ -1015,6 +1048,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 90.38,
+    "branch": "standard",
     "tokens": [
       "acceptance",
       "afk",
@@ -1057,6 +1091,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 90.38,
+    "branch": "standard",
     "tokens": [
       "across",
       "alignment",
@@ -1093,6 +1128,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 90.0,
+    "branch": "standard",
     "tokens": [
       "agent",
       "authoring",
@@ -1132,6 +1168,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 88.5,
+    "branch": "standard",
     "tokens": [
       "browse",
       "browser",
@@ -1162,6 +1199,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 86.0,
+    "branch": "standard",
     "tokens": [
       "agent",
       "agents",
@@ -1195,6 +1233,7 @@
     "level": "4★",
     "grade": "B",
     "trustMagnitude": 83.2,
+    "branch": "unique",
     "tokens": [
       "(n+1",
       "against",
@@ -1233,6 +1272,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 81.0,
+    "branch": "standard",
     "tokens": [
       "action",
       "causes",
@@ -1265,6 +1305,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 73.59,
+    "branch": "standard",
     "tokens": [
       "agents",
       "automation",
@@ -1290,6 +1331,7 @@
     "level": "2★",
     "grade": "B",
     "trustMagnitude": 73.52,
+    "branch": "standard",
     "tokens": [
       "browser",
       "code",
@@ -1309,6 +1351,7 @@
     "level": "2★",
     "grade": "B",
     "trustMagnitude": 73.52,
+    "branch": "standard",
     "tokens": [
       "agent",
       "client",
@@ -1328,6 +1371,7 @@
     "level": "2★",
     "grade": "B",
     "trustMagnitude": 73.52,
+    "branch": "standard",
     "tokens": [
       "academic",
       "firecrawl",
@@ -1347,6 +1391,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 66.0,
+    "branch": "standard",
     "tokens": [
       "actions",
       "activates",
@@ -1378,6 +1423,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 66.0,
+    "branch": "standard",
     "tokens": [
       "(demand",
       "answer",
@@ -1421,6 +1467,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 66.0,
+    "branch": "standard",
     "tokens": [
       "architecture",
       "before",
@@ -1455,6 +1502,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 66.0,
+    "branch": "suite",
     "tokens": [
       "5",
       "automation",
@@ -1487,6 +1535,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 65.15,
+    "branch": "standard",
     "tokens": [
       "any",
       "attempting",
@@ -1522,6 +1571,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 63.73,
+    "branch": "standard",
     "tokens": [
       "across",
       "against",
@@ -1558,6 +1608,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 63.73,
+    "branch": "standard",
     "tokens": [
       "anomaly",
       "baseline",
@@ -1596,6 +1647,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 63.73,
+    "branch": "standard",
     "tokens": [
       "(zer",
       "10",
@@ -1630,6 +1682,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 63.73,
+    "branch": "standard",
     "tokens": [
       "builds",
       "coherent",
@@ -1666,6 +1719,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 63.73,
+    "branch": "standard",
     "tokens": [
       "approved",
       "ceo",
@@ -1703,6 +1757,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 63.73,
+    "branch": "standard",
     "tokens": [
       "ai",
       "board",
@@ -1740,6 +1795,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 63.73,
+    "branch": "standard",
     "tokens": [
       "before",
       "codebase",
@@ -1774,6 +1830,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 63.73,
+    "branch": "standard",
     "tokens": [
       "analysis",
       "cause",
@@ -1808,6 +1865,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 63.73,
+    "branch": "standard",
     "tokens": [
       "automates",
       "automation",
@@ -1849,6 +1907,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 63.73,
+    "branch": "standard",
     "tokens": [
       "architecture",
       "case",
@@ -1885,6 +1944,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 63.73,
+    "branch": "standard",
     "tokens": [
       "accessibility",
       "ai",
@@ -1922,6 +1982,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 63.73,
+    "branch": "standard",
     "tokens": [
       "api",
       "apis",
@@ -1961,6 +2022,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 63.73,
+    "branch": "standard",
     "tokens": [
       "annotated",
       "application",
@@ -1998,6 +2060,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 63.73,
+    "branch": "standard",
     "tokens": [
       "adversarial",
       "agent",
@@ -2033,6 +2096,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 63.73,
+    "branch": "standard",
     "tokens": [
       "automated",
       "automation",
@@ -2073,6 +2137,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 63.73,
+    "branch": "standard",
     "tokens": [
       "authoring",
       "automation",
@@ -2109,6 +2174,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 63.71,
+    "branch": "standard",
     "tokens": [
       "about",
       "answer",
@@ -2147,6 +2213,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 63.71,
+    "branch": "standard",
     "tokens": [
       "adr",
       "against",
@@ -2186,6 +2253,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 63.71,
+    "branch": "standard",
     "tokens": [
       "agent",
       "compacts",
@@ -2206,6 +2274,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 63.71,
+    "branch": "standard",
     "tokens": [
       "(modules",
       "codebase",
@@ -2244,6 +2313,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 60.0,
+    "branch": "suite",
     "tokens": [
       "0",
       "1",
@@ -2265,6 +2335,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 56.21,
+    "branch": "standard",
     "tokens": [
       "(like",
       "agent",
@@ -2291,6 +2362,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 56.21,
+    "branch": "standard",
     "tokens": [
       "(bug",
       "(needs",
@@ -2330,6 +2402,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 53.14,
+    "branch": "standard",
     "tokens": [
       "checking",
       "code",
@@ -2349,6 +2422,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 53.14,
+    "branch": "standard",
     "tokens": [
       "code",
       "cognitive",
@@ -2368,6 +2442,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 53.14,
+    "branch": "standard",
     "tokens": [
       "executing",
       "execution",
@@ -2388,6 +2463,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 53.14,
+    "branch": "standard",
     "tokens": [
       "breakdown",
       "decomposing",
@@ -2409,6 +2485,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 53.14,
+    "branch": "standard",
     "tokens": [
       "branch",
       "checks",
@@ -2429,6 +2506,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 53.14,
+    "branch": "standard",
     "tokens": [
       "any",
       "before",
@@ -2451,6 +2529,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 52.16,
+    "branch": "standard",
     "tokens": [
       "agent",
       "before",
@@ -2477,6 +2556,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 52.16,
+    "branch": "standard",
     "tokens": [
       "clean",
       "context",
@@ -2504,6 +2584,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 52.16,
+    "branch": "standard",
     "tokens": [
       "against",
       "before",
@@ -2529,6 +2610,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 52.16,
+    "branch": "standard",
     "tokens": [
       "archives",
       "branch",
@@ -2555,6 +2637,7 @@
     "level": "3★",
     "grade": "B",
     "trustMagnitude": 52.16,
+    "branch": "standard",
     "tokens": [
       "before",
       "built",
@@ -2579,6 +2662,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 45.0,
+    "branch": "standard",
     "tokens": [
       "architectural",
       "architecture",
@@ -2618,6 +2702,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 45.0,
+    "branch": "standard",
     "tokens": [
       "agent",
       "authoring",
@@ -2657,6 +2742,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 41.21,
+    "branch": "standard",
     "tokens": [
       "answer",
       "before",
@@ -2680,6 +2766,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 41.0,
+    "branch": "standard",
     "tokens": [
       "analysis",
       "avoidable",
@@ -2714,6 +2801,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 41.0,
+    "branch": "standard",
     "tokens": [
       "collecting",
       "component",
@@ -2747,6 +2835,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 37.47,
+    "branch": "standard",
     "tokens": [
       "agents",
       "ai",
@@ -2774,6 +2863,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "any",
       "complete",
@@ -2799,6 +2889,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "(all",
       "agent",
@@ -2846,6 +2937,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "(",
       "agents",
@@ -2885,6 +2977,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "across",
       "benchmark",
@@ -2920,6 +3013,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "adversarial",
       "agent",
@@ -2954,6 +3048,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "can",
       "compression",
@@ -2987,6 +3082,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "be",
       "can",
@@ -3020,6 +3116,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "accessibility",
       "actionable",
@@ -3050,6 +3147,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "api",
       "audit",
@@ -3080,6 +3178,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "between",
       "changelog",
@@ -3108,6 +3207,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "blocks",
       "branches",
@@ -3140,6 +3240,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "automation",
       "bounds",
@@ -3171,6 +3272,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "agent",
       "applies",
@@ -3200,6 +3302,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "any",
       "automated",
@@ -3234,6 +3337,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "commits",
       "generates",
@@ -3266,6 +3370,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "active",
       "back",
@@ -3299,6 +3404,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "consistent",
       "converts",
@@ -3330,6 +3436,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "automation",
       "browser",
@@ -3359,6 +3466,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "agent",
       "agents",
@@ -3391,6 +3499,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "ambiguous",
       "completion",
@@ -3422,6 +3531,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "checks",
       "e2e",
@@ -3452,6 +3562,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "analysis",
       "automation",
@@ -3484,6 +3595,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "access",
       "auth",
@@ -3517,6 +3629,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "automation",
       "before",
@@ -3544,6 +3657,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "bootstraps",
       "creates",
@@ -3572,6 +3686,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "any",
       "counts",
@@ -3601,6 +3716,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "active",
       "change",
@@ -3628,6 +3744,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "across",
       "agent",
@@ -3652,6 +3769,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "cache",
       "caching",
@@ -3678,6 +3796,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "academic",
       "agent",
@@ -3705,6 +3824,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "12",
       "13",
@@ -3740,6 +3860,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "audit",
       "checking",
@@ -3776,6 +3897,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "accuracy",
       "against",
@@ -3813,6 +3935,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "attention",
       "audit",
@@ -3855,6 +3978,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "appear",
       "automation",
@@ -3891,6 +4015,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "analysis",
       "analyzes",
@@ -3925,6 +4050,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "assets",
       "brand",
@@ -3951,6 +4077,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "content",
       "continuous",
@@ -3973,6 +4100,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "branch",
       "build",
@@ -4011,6 +4139,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "applying",
       "before",
@@ -4044,6 +4173,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "before",
       "cascade",
@@ -4079,6 +4209,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "advanced",
       "agentdb",
@@ -4110,6 +4241,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "across",
       "agentdb",
@@ -4140,6 +4272,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "agent",
       "agentdb",
@@ -4167,6 +4300,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "agentdb",
       "cosine",
@@ -4197,6 +4331,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "agentic",
       "analysis",
@@ -4226,6 +4361,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "aggregates",
       "aggregation",
@@ -4257,6 +4393,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "background",
       "between",
@@ -4287,6 +4424,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "background",
       "claude",
@@ -4314,6 +4452,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "across",
       "architectures",
@@ -4346,6 +4485,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "ai",
       "app",
@@ -4380,6 +4520,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "across",
       "automation",
@@ -4408,6 +4549,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "agent",
       "between",
@@ -4436,6 +4578,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "adaptive",
       "agent",
@@ -4464,6 +4607,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "agent",
       "chain",
@@ -4497,6 +4641,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "advanced",
       "analysis",
@@ -4526,6 +4671,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "(hierarchical",
       "agent",
@@ -4558,6 +4704,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "architecture",
       "cli",
@@ -4583,6 +4730,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "api",
       "architecture",
@@ -4612,6 +4760,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "aggregate",
       "applies",
@@ -4640,6 +4789,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "bus",
       "buses",
@@ -4670,6 +4820,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "are",
       "before",
@@ -4694,6 +4845,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "adaptive",
       "agent",
@@ -4723,6 +4875,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "agentic",
       "automates",
@@ -4748,6 +4901,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "annotations",
       "api",
@@ -4778,6 +4932,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 36.0,
+    "branch": "standard",
     "tokens": [
       "auto",
       "category",
@@ -4809,6 +4964,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 33.0,
+    "branch": "standard",
     "tokens": [
       "agent",
       "autonomous",
@@ -4848,6 +5004,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 30.0,
+    "branch": "standard",
     "tokens": [
       "across",
       "agent",
@@ -4876,6 +5033,7 @@
     "level": "2★",
     "grade": "C",
     "trustMagnitude": 30.0,
+    "branch": "standard",
     "tokens": [
       "0",
       "1",
@@ -4907,6 +5065,7 @@
     "level": "2★",
     "grade": "ungraded",
     "trustMagnitude": 0.0,
+    "branch": "standard",
     "tokens": [
       "concept",
       "knowledge",

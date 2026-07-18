@@ -7,6 +7,9 @@
   "status": "named",
   "trustMagnitude": 83.2,
   "overallTrustGrade": "B",
+  "branch": "unique",
+  "rankWord": "Unique",
+  "medallion": "◉",
   "_links": {
     "self": "/api/v1/skills/addy-osmani/performance-optimization.json",
     "contributor": "/api/v1/contributors/addy-osmani.json",

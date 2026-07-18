@@ -8,6 +8,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/gstack-upgrade.json"
       }
@@ -20,6 +23,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/guard.json"
       }
@@ -32,6 +38,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/health.json"
       }
@@ -44,6 +53,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/landing-report.json"
       }
@@ -56,6 +68,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/learn.json"
       }
@@ -68,6 +83,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/make-pdf.json"
       }
@@ -80,6 +98,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/open-gstack-browser.json"
       }
@@ -92,6 +113,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/pair-agent.json"
       }
@@ -104,6 +128,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/plan-tune.json"
       }
@@ -116,6 +143,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/qa-only.json"
       }
@@ -128,6 +158,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/scrape.json"
       }
@@ -140,6 +173,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/setup-browser-cookies.json"
       }
@@ -152,6 +188,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/setup-deploy.json"
       }
@@ -164,6 +203,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/setup-gbrain.json"
       }
@@ -176,6 +218,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/sync-gbrain.json"
       }
@@ -188,6 +233,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/unfreeze.json"
       }
@@ -200,6 +248,9 @@
       "overallTrustGrade": "C",
       "contributor": "getagentseal",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/getagentseal/codeburn.json"
       }
@@ -212,6 +263,9 @@
       "overallTrustGrade": "C",
       "contributor": "huggingface",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/huggingface/semantic-cache.json"
       }
@@ -224,6 +278,9 @@
       "overallTrustGrade": "C",
       "contributor": "karpathy",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/karpathy/autoresearch.json"
       }
@@ -236,6 +293,9 @@
       "overallTrustGrade": "C",
       "contributor": "laravel",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/laravel/upgrade-laravel-v13.json"
       }
@@ -248,6 +308,9 @@
       "overallTrustGrade": "C",
       "contributor": "mbtiongson1",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mbtiongson1/gaia-audit.json"
       }
@@ -260,6 +323,9 @@
       "overallTrustGrade": "C",
       "contributor": "mbtiongson1",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mbtiongson1/gaia-curation-review.json"
       }
@@ -272,6 +338,9 @@
       "overallTrustGrade": "C",
       "contributor": "mbtiongson1",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mbtiongson1/gaia-meta-audit.json"
       }
@@ -284,6 +353,9 @@
       "overallTrustGrade": "C",
       "contributor": "mbtiongson1",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mbtiongson1/gaia-preview.json"
       }
@@ -296,6 +368,9 @@
       "overallTrustGrade": "C",
       "contributor": "mbtiongson1",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mbtiongson1/graphify-triage.json"
       }
@@ -308,6 +383,9 @@
       "overallTrustGrade": "C",
       "contributor": "nexu-io",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/nexu-io/open-design.json"
       }
@@ -320,6 +398,9 @@
       "overallTrustGrade": "C",
       "contributor": "nousresearch",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/nousresearch/feed-monitoring.json"
       }
@@ -332,6 +413,9 @@
       "overallTrustGrade": "C",
       "contributor": "obra",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/obra/finishing-a-development-branch.json"
       }
@@ -344,6 +428,9 @@
       "overallTrustGrade": "C",
       "contributor": "obra",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/obra/receiving-code-review.json"
       }
@@ -356,6 +443,9 @@
       "overallTrustGrade": "C",
       "contributor": "obra",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/obra/requesting-code-review.json"
       }
@@ -368,6 +458,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/agentdb-advanced.json"
       }
@@ -380,6 +473,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/agentdb-memory-patterns.json"
       }
@@ -392,6 +488,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/agentdb-optimization.json"
       }
@@ -404,6 +503,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/agentdb-vector-search.json"
       }
@@ -416,6 +518,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/agentic-jujutsu.json"
       }
@@ -428,6 +533,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/dual-collect.json"
       }
@@ -440,6 +548,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/dual-coordinate.json"
       }
@@ -452,6 +563,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/dual-spawn.json"
       }
@@ -464,6 +578,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/flow-nexus-neural.json"
       }
@@ -476,6 +593,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/flow-nexus-platform.json"
       }
@@ -488,6 +608,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/github-multi-repo.json"
       }
@@ -500,6 +623,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/pair-programming.json"
       }
@@ -512,6 +638,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/reasoningbank-intelligence.json"
       }
@@ -524,6 +653,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/stream-chain.json"
       }
@@ -536,6 +668,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/swarm-advanced.json"
       }
@@ -548,6 +683,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/swarm-orchestration.json"
       }
@@ -560,6 +698,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/v3-cli-modernization.json"
       }
@@ -572,6 +713,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/v3-core-implementation.json"
       }
@@ -584,6 +728,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/v3-ddd-architecture.json"
       }
@@ -596,6 +743,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/v3-integration-deep.json"
       }

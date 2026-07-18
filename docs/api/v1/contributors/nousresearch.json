@@ -9,6 +9,9 @@
       "overallTrustGrade": "C",
       "contributor": "nousresearch",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/nousresearch/feed-monitoring.json"
       }

@@ -7,6 +7,9 @@
   "status": "named",
   "trustMagnitude": 117.65,
   "overallTrustGrade": "A",
+  "branch": "unique",
+  "rankWord": "Unique",
+  "medallion": "◉",
   "_links": {
     "self": "/api/v1/skills/obra/subagent-driven-development.json",
     "contributor": "/api/v1/contributors/obra.json",

@@ -9,6 +9,9 @@
       "overallTrustGrade": "S",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Ultimate",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/garrytan/gstack.json"
       }
@@ -21,6 +24,9 @@
       "overallTrustGrade": "A",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/garrytan.json"
       }
@@ -33,6 +39,9 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/browse.json"
       }
@@ -45,6 +54,9 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/retro.json"
       }
@@ -57,6 +69,9 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/careful.json"
       }
@@ -69,6 +84,9 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/office-hours.json"
       }
@@ -81,6 +99,9 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/plan-eng-review.json"
       }
@@ -93,6 +114,9 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/benchmark.json"
       }
@@ -105,6 +129,9 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/canary.json"
       }
@@ -117,6 +144,9 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/cso.json"
       }
@@ -129,6 +159,9 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/design-consultation.json"
       }
@@ -141,6 +174,9 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/design-html.json"
       }
@@ -153,6 +189,9 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/design-shotgun.json"
       }
@@ -165,6 +204,9 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/document-generate.json"
       }
@@ -177,6 +219,9 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/investigate.json"
       }
@@ -189,6 +234,9 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/land-and-deploy.json"
       }
@@ -201,6 +249,9 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/plan-ceo-review.json"
       }
@@ -213,6 +264,9 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/plan-design-review.json"
       }
@@ -225,6 +279,9 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/plan-devex-review.json"
       }
@@ -237,6 +294,9 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/qa.json"
       }
@@ -249,6 +309,9 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/review.json"
       }
@@ -261,6 +324,9 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/ship.json"
       }
@@ -273,6 +339,9 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/skillify.json"
       }
@@ -285,6 +354,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/benchmark-models.json"
       }
@@ -297,6 +369,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/codex.json"
       }
@@ -309,6 +384,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/context-restore.json"
       }
@@ -321,6 +399,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/context-save.json"
       }
@@ -333,6 +414,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/design-review.json"
       }
@@ -345,6 +429,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/devex-review.json"
       }
@@ -357,6 +444,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/document-release.json"
       }
@@ -369,6 +459,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/freeze.json"
       }
@@ -381,6 +474,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/gstack-upgrade.json"
       }
@@ -393,6 +489,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/guard.json"
       }
@@ -405,6 +504,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/health.json"
       }
@@ -417,6 +519,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/landing-report.json"
       }
@@ -429,6 +534,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/learn.json"
       }
@@ -441,6 +549,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/make-pdf.json"
       }
@@ -453,6 +564,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/open-gstack-browser.json"
       }
@@ -465,6 +579,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/pair-agent.json"
       }
@@ -477,6 +594,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/plan-tune.json"
       }
@@ -489,6 +609,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/qa-only.json"
       }
@@ -501,6 +624,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/scrape.json"
       }
@@ -513,6 +639,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/setup-browser-cookies.json"
       }
@@ -525,6 +654,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/setup-deploy.json"
       }
@@ -537,6 +669,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/setup-gbrain.json"
       }
@@ -549,6 +684,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/sync-gbrain.json"
       }
@@ -561,6 +699,9 @@
       "overallTrustGrade": "C",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/unfreeze.json"
       }

@@ -9,6 +9,9 @@
       "overallTrustGrade": "C",
       "contributor": "bradautomates",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/bradautomates/claude-video.json"
       }

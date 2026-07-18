@@ -7,6 +7,9 @@
   "status": "named",
   "trustMagnitude": 480.29,
   "overallTrustGrade": "S",
+  "branch": "suite",
+  "rankWord": "Ultimate",
+  "medallion": "◆",
   "_links": {
     "self": "/api/v1/skills/mattpocock/skills.json",
     "contributor": "/api/v1/contributors/mattpocock.json",

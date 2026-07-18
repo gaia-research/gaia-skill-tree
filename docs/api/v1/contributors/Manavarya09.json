@@ -9,6 +9,9 @@
       "overallTrustGrade": "C",
       "contributor": "Manavarya09",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/Manavarya09/design-extract.json"
       }

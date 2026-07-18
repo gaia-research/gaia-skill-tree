@@ -7,6 +7,9 @@
   "status": "named",
   "trustMagnitude": 186.0,
   "overallTrustGrade": "A",
+  "branch": "suite",
+  "rankWord": "Evolved",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/ruvnet/ruflo-v3.json",
     "contributor": "/api/v1/contributors/ruvnet.json",

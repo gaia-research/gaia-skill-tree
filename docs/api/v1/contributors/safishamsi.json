@@ -9,6 +9,9 @@
       "overallTrustGrade": "A",
       "contributor": "safishamsi",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/safishamsi/graphify.json"
       }

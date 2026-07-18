@@ -7,6 +7,9 @@
   "status": "named",
   "trustMagnitude": 90.38,
   "overallTrustGrade": "B",
+  "branch": "standard",
+  "rankWord": "Evolved",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/mattpocock/edit-article.json",
     "contributor": "/api/v1/contributors/mattpocock.json",

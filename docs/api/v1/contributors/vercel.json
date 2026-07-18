@@ -9,6 +9,9 @@
       "overallTrustGrade": "C",
       "contributor": "vercel",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/vercel/find-skills.json"
       }

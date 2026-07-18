@@ -7,6 +7,9 @@
   "status": "named",
   "trustMagnitude": 36.0,
   "overallTrustGrade": "C",
+  "branch": "standard",
+  "rankWord": "Named",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/nexu-io/open-design.json",
     "contributor": "/api/v1/contributors/nexu-io.json",

@@ -9,6 +9,9 @@
       "overallTrustGrade": "C",
       "contributor": "karpathy",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/karpathy/autoresearch.json"
       }

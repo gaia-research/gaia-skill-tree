@@ -9,6 +9,9 @@
       "overallTrustGrade": "C",
       "contributor": "mbtiongson1",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mbtiongson1/gaia-audit.json"
       }
@@ -21,6 +24,9 @@
       "overallTrustGrade": "C",
       "contributor": "mbtiongson1",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mbtiongson1/gaia-curation-review.json"
       }
@@ -33,6 +39,9 @@
       "overallTrustGrade": "C",
       "contributor": "mbtiongson1",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mbtiongson1/gaia-meta-audit.json"
       }
@@ -45,6 +54,9 @@
       "overallTrustGrade": "C",
       "contributor": "mbtiongson1",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mbtiongson1/gaia-preview.json"
       }
@@ -57,6 +69,9 @@
       "overallTrustGrade": "C",
       "contributor": "mbtiongson1",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mbtiongson1/graphify-triage.json"
       }

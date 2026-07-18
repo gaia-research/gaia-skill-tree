@@ -7,6 +7,9 @@
   "status": "named",
   "trustMagnitude": 86.0,
   "overallTrustGrade": "B",
+  "branch": "standard",
+  "rankWord": "Evolved",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/obra/dispatching-parallel-agents.json",
     "contributor": "/api/v1/contributors/obra.json",

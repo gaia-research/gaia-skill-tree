@@ -7,6 +7,9 @@
   "status": "named",
   "trustMagnitude": 270.0,
   "overallTrustGrade": "A",
+  "branch": "suite",
+  "rankWord": "Evolved",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/mattpocock/engineering.json",
     "contributor": "/api/v1/contributors/mattpocock.json",

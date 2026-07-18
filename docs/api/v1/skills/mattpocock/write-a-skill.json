@@ -7,6 +7,9 @@
   "status": "named",
   "trustMagnitude": 45.0,
   "overallTrustGrade": "C",
+  "branch": "standard",
+  "rankWord": "Named",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/mattpocock/write-a-skill.json",
     "contributor": "/api/v1/contributors/mattpocock.json",

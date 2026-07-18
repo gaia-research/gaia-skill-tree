@@ -7,6 +7,9 @@
   "status": "named",
   "trustMagnitude": 116.57,
   "overallTrustGrade": "A",
+  "branch": "standard",
+  "rankWord": "Evolved",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/safishamsi/graphify.json",
     "contributor": "/api/v1/contributors/safishamsi.json",

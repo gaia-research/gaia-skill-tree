@@ -7,6 +7,9 @@
   "status": "named",
   "trustMagnitude": 96.0,
   "overallTrustGrade": "B",
+  "branch": "suite",
+  "rankWord": "Evolved",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/ruvnet/flow-nexus.json",
     "contributor": "/api/v1/contributors/ruvnet.json",

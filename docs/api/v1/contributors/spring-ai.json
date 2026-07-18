@@ -9,6 +9,9 @@
       "overallTrustGrade": "C",
       "contributor": "spring-ai",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/spring-ai/readme-generate.json"
       }
