@@ -25,14 +25,24 @@ gate); rank only splits the no-suite case:
 Canonical == synthesis on ALL entries (test_synthesis_ground_truth) — that is
 the primary, resolver-independent correctness check.
 
-DELETE-GATE DISCIPLINE (authority doc §3): legacy resolvers #1 and #3 are known
+DELETE-GATE DISCIPLINE (authority doc §3): legacy resolvers #1 and #3 were known
 to diverge from the membership authority on ~9 nodes (JS #1, type-gated fusion
 guard) and ~12 nodes (Py #3, rank-gated suite check). This drift is NOT blessed
 or ratified — it is RED-by-design. The legacy-parity legs are strict-xfail
-delete-gates: they XFAIL while the legacy resolvers live and flip to hard
-failure — forcing marker removal — once Phase 3 deletes them and parity is real.
-Do NOT bless the drift green; the gate exists precisely to block deletion until
-parity is real.
+delete-gates: each XFAILs while its legacy resolver lives and flips to hard
+failure — forcing marker removal — once that resolver is deleted/collapsed and
+parity is real. Do NOT bless the drift green.
+
+PER-BRANCH FLIP STATE (this branch = consume-ssr and downstream): the Python
+resolver #3 (``trustMagnitude.computeBranch``) has been COLLAPSED onto the
+canonical authority (it delegates to ``taxonomy.branchFor``), so Python parity
+is REAL and ``test_legacy_python_parity_delete_gate`` is a plain passing
+assertion here — the §3 handshake fired and removed that marker. The JS leg #1
+(``skill-semantics.js::computeBranch``) is still a standalone divergent resolver,
+so ``test_legacy_js_parity_delete_gate`` remains strict-xfail until the JS
+resolver is collapsed/deleted in the frontend consume phase. Upstream
+(keystone, emit-resolved) both legs remain strict-xfail — legacy resolvers live
+there.
 --------------------------------------------------------------------------------
 
 Run: PYTHONIOENCODING=utf-8 PYTHONPATH=./src python -m pytest tests/test_taxonomy_contract.py -q
@@ -201,25 +211,25 @@ def test_synthesis_ground_truth():
     assert not mismatches, f"canonical vs synthesis mismatches: {mismatches}"
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="DELETE-GATE (authority doc §3): legacy trustMagnitude.computeBranch "
-    "diverges from membership on Class-A/B nodes. This XFAIL is RED-by-design "
-    "and flips to a hard failure — forcing this marker's removal — the moment "
-    "Phase 3 deletes the legacy resolver and parity becomes real. Do NOT bless "
-    "the drift green.",
-)
 def test_legacy_python_parity_delete_gate():
-    """Canonical (membership) == legacy Python #3 on EVERY entry. FAILS now (by
-    design) on the known Ygg-I-vs-membership drift; passes only after Phase 3
-    deletes trustMagnitude.computeBranch."""
+    """Canonical (membership) == legacy Python #3 on EVERY entry.
+
+    DELETE-GATE FLIPPED (authority doc §3 handshake): on this branch and
+    downstream, ``trustMagnitude.computeBranch`` has been collapsed onto the
+    canonical authority — it now delegates to ``taxonomy.branchFor`` — so the
+    Python-side parity is REAL and this is a plain passing assertion, no longer
+    a strict-xfail. Per §3 the strict-xfail flip to hard-failure FORCED the
+    marker's removal exactly here (the Python collapse landed at consume-ssr).
+    The JS leg below stays strict-xfail until the JS resolver is likewise
+    collapsed/deleted. Do NOT re-add an xfail here — that would re-bless a drift
+    that no longer exists."""
     mismatches = []
     for sid, node, effRank in ENTRIES:
         c = canonicalBranch(node, effRank)
         p = pythonBranch(node, effRank)
         if c != p:
             mismatches.append((sid, c, p))
-    assert not mismatches, f"legacy Python #3 parity not yet real: {mismatches}"
+    assert not mismatches, f"legacy Python #3 parity broke: {mismatches}"
 
 
 @pytest.mark.skipif(JS_BRANCHES is None, reason="node unavailable")
