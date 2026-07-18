@@ -15,11 +15,24 @@
  *   suite  {4 Extra, 5 Ultimate, 6 Apex}
  *   unique {4 Unique, 5 Unique Ultimate, 6 Unique Impossible}
  *
+ * Yggdrasil II PR3b — READ EMITTED FIELDS, don't recompute.
+ * The taxonomy authority (src/gaia_cli/taxonomy.py) now EMITS resolved
+ * { branch, rank, rankWord, medallion } onto every named entry in
+ * docs/graph/named/index.json. Consumers MUST prefer those emitted fields.
+ * The compute* mirror below survives ONLY as the fallback for the STARLESS
+ * generic graph (docs/graph/gaia.json), whose nodes carry no emitted branch
+ * (type is basic|fusion only). branchOf/rankWordOf/medallionOf are the seam:
+ * they read the emitted field when present and recompute otherwise.
+ *
  * Exposes on window (IIFE, no build step, dependency-free, idempotent):
  *   window.GaiaSemantics = {
- *     computeBranch(node, effRank),   // 'standard' | 'suite' | 'unique'
- *     rankWord(level, branch),        // e.g. 'Unique Ultimate'
- *     rankLabel(level, branch),       // e.g. 'Unique Ultimate · 5★'
+ *     branchOf(entry),                // emitted entry.branch, else computeBranch
+ *     rankWordOf(entry),              // emitted entry.rankWord, else rankWord()
+ *     medallionOf(entry),             // emitted entry.medallion, else medallion()
+ *     computeBranch(node, effRank),   // FALLBACK ONLY — starless generic graph
+ *     rankWord(level, branch),        // FALLBACK ONLY — e.g. 'Unique Ultimate'
+ *     rankLabel(level, branch),       // FALLBACK ONLY
+ *     medallion(branch, rank),        // FALLBACK ONLY — ◇ | ◉ | ◆
  *   }
  *
  * Load BEFORE every consumer (plaque.js, heroes.js, named-skills.js, …).
@@ -38,12 +51,17 @@
     return isNaN(n) ? 0 : Math.max(0, Math.min(6, n));
   }
 
-  // computeBranch — the ONLY correct client branch resolver (Ygg II).
+  // computeBranch — FALLBACK-ONLY resolver for the STARLESS generic graph.
+  //
+  // Prefer branchOf(entry) (reads the emitted entry.branch). This mirror runs
+  // only when an entry carries no emitted branch — i.e. docs/graph/gaia.json
+  // nodes, which are type basic|fusion with no resolved branch attached.
   //
   // node:    the source skill object (carries .type, .suiteComponents).
   // effRank: the skill's effective star level ("5★" | 5 | "5" all accepted).
   //
-  // Read order mirrors resolveSemantics §3.2 and must not be reordered:
+  // Read order mirrors resolveSemantics §3.2 and taxonomy.py and must not be
+  // reordered:
   //   1. unique = type === 'basic' && effRank >= 4 && !suiteComponents
   //   2. suite  = suiteComponents present (length > 0)
   //   3. else     standard
@@ -91,10 +109,48 @@
     return rankWord(level, branch) + ' · ' + n + '★';
   }
 
+  // Structural-class medallion glyphs (mirror taxonomy.py MEDALLION_*). Suite +
+  // standard branches share the white diamond until 4★; the unique branch owns
+  // the circled bullet; suite ≥4★ owns the black diamond. FALLBACK ONLY — prefer
+  // the emitted entry.medallion via medallionOf(entry).
+  var MEDALLION_UNIQUE = '◉';
+  var MEDALLION_SUITE = '◆';
+  var MEDALLION_STANDARD = '◇';
+  function medallion(branch, rank) {
+    var n = levelNum(rank);
+    if (n >= 4) {
+      if (branch === 'unique') return MEDALLION_UNIQUE;
+      if (branch === 'suite') return MEDALLION_SUITE;
+    }
+    return MEDALLION_STANDARD;
+  }
+
+  // ── Emitted-field seams (PR3b) — PREFER these everywhere ─────────
+  // branchOf/rankWordOf/medallionOf read the field the taxonomy authority
+  // already resolved onto the entry (docs/graph/named/index.json). They fall
+  // back to the compute* mirror ONLY when the field is absent — i.e. a starless
+  // generic-graph node. entry may be a named entry OR a generic skill object.
+  function branchOf(entry) {
+    if (entry && typeof entry.branch === 'string' && entry.branch) return entry.branch;
+    return computeBranch(entry, entry && entry.level);
+  }
+  function rankWordOf(entry) {
+    if (entry && typeof entry.rankWord === 'string' && entry.rankWord) return entry.rankWord;
+    return rankWord(entry && entry.level, branchOf(entry));
+  }
+  function medallionOf(entry) {
+    if (entry && typeof entry.medallion === 'string' && entry.medallion) return entry.medallion;
+    return medallion(branchOf(entry), entry && entry.level);
+  }
+
   var api = {
+    branchOf: branchOf,
+    rankWordOf: rankWordOf,
+    medallionOf: medallionOf,
     computeBranch: computeBranch,
     rankWord: rankWord,
     rankLabel: rankLabel,
+    medallion: medallion,
   };
 
   if (typeof window !== 'undefined') window.GaiaSemantics = api;

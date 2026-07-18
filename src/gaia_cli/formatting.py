@@ -381,26 +381,6 @@ def format_level_colored(level: str) -> str:
     return f"{_fg(*rank_color)}{level}{_reset()}"
 
 
-def rank_word(level: str, branch: str = "suite") -> str:
-    """DEPRECATED shim — delegates to taxonomy.rankWord (the canonical authority).
-
-    Retained for backward-compat callers; will be deleted in PR3b once all
-    consumers are migrated onto taxonomy.rankWord directly.
-    """
-    from gaia_cli.taxonomy import rankWord
-    return rankWord(level, branch)
-
-
-def format_rank_label(level: str, branch: str = "suite") -> str:
-    """Return the full branch-aware rank label, e.g. '4★ Extra' or '4★ Unique'.
-
-    Delegates to taxonomy.rankWord (single source of truth for rank vocabulary).
-    """
-    from gaia_cli.taxonomy import rankWord
-    word = rankWord(level, branch)
-    return f"{level} {word}" if word else level
-
-
 def rank_color_for(level: str, branch: str = "suite") -> tuple[int, int, int]:
     """Return the RGB for a (level, branch) pair.
 

@@ -350,9 +350,15 @@
     });
   }
 
-  // node: the SOURCE skill object (carries .type, .suiteComponents, .cluster,
-  //       .effectiveRank). effRank: the already-joined effective star rank.
-  // metaIsYggI: result of detectMetaIsYggI on the full node set (feature-check).
+  // node: the SOURCE skill object. May carry EMITTED taxonomy fields
+  //       (.branch, .medallion) when it is a named entry; the starless generic
+  //       graph carries neither (.type is basic|fusion only). effRank: the
+  //       already-joined effective star rank. metaIsYggI: detectMetaIsYggI over
+  //       the full node set (feature-check, used only by the fallback recompute).
+  //
+  // PR3b: this is THE compat seam. When the node carries an emitted branch we
+  // READ it (the taxonomy authority already resolved it); otherwise we fall back
+  // to the frozen Ygg I/II recompute below. The output contract is unchanged.
   function resolveSemantics(node, effRank, metaIsYggI) {
     node = node || {};
     var type = node.type;
@@ -361,22 +367,31 @@
 
     // §3.2 read order is CRITICAL and must not be reordered.
 
-    // 1. Detect isUnique FIRST → hemisphere 'outside'. Short-circuits before the
-    //    hemisphere-by-type step so a Ygg II Unique (type='basic') does NOT fall
-    //    into roots.
-    //    Ygg I:  type === 'unique'
-    //    Ygg II: type === 'basic' && effRank >= 4 && !suiteComponents
-    var isUnique = metaIsYggI
-      ? type === 'unique'
-      : (type === 'basic' && effRank >= 4 && !hasSuiteComponents);
+    // 0. EMITTED branch wins. The authority (taxonomy.py) resolved it and it is
+    //    carried on named entries; membership (unique/suite/standard) drives
+    //    hemisphere + isUnique/isSuite so placement keys on branch, not type.
+    var emittedBranch = (typeof node.branch === 'string' && node.branch) ? node.branch : null;
 
-    // 2. Detect isSuite.
-    //    Ygg I:  type === 'ultimate'
-    //    Ygg II: suiteComponents present
-    var isSuite = metaIsYggI ? type === 'ultimate' : hasSuiteComponents;
+    var isUnique, isSuite;
+    if (emittedBranch) {
+      isUnique = emittedBranch === 'unique';
+      isSuite = emittedBranch === 'suite';
+    } else {
+      // FALLBACK — starless generic graph (no emitted branch). Frozen recompute.
+      // 1. Detect isUnique FIRST → hemisphere 'outside'. Short-circuits before
+      //    the hemisphere-by-type step so a Ygg II Unique (type='basic') does
+      //    NOT fall into roots.
+      //    Ygg I:  type === 'unique'
+      //    Ygg II: type === 'basic' && effRank >= 4 && !suiteComponents
+      isUnique = metaIsYggI
+        ? type === 'unique'
+        : (type === 'basic' && effRank >= 4 && !hasSuiteComponents);
+      // 2. Detect isSuite. Ygg I: type === 'ultimate'; Ygg II: suiteComponents.
+      isSuite = metaIsYggI ? type === 'ultimate' : hasSuiteComponents;
+    }
 
-    // 3. Hemisphere by type. Uniques already resolved to 'outside' above.
-    //    basic → root ; fusion/extra/ultimate → crown.
+    // 3. Hemisphere by membership. Uniques resolved to 'outside' (the standing-
+    //    stones constellation) REGARDLESS of edges. basic → root ; else crown.
     var hemisphere;
     if (isUnique) {
       hemisphere = 'outside';
@@ -388,8 +403,11 @@
     }
 
     // Structural-class glyph (§3.1 / §6): ○ basic · ◇ fusion · ◉ unique · ◆ suite.
+    // Prefer the emitted medallion when present, else derive from membership.
     var glyph;
-    if (isUnique) glyph = '◉';
+    if (typeof node.medallion === 'string' && node.medallion) {
+      glyph = node.medallion;
+    } else if (isUnique) glyph = '◉';
     else if (isSuite) glyph = '◆';
     else if (hemisphere === 'root') glyph = '○';
     else glyph = '◇';
@@ -934,6 +952,14 @@
 
     // Honest unconnected seeds form a compact bulb beneath the root collar.
     // They remain disconnected and never widen the living tree's fit bounds.
+    //
+    // PR3b §B — placement keys on MEMBERSHIP, not edge-count. Every edgeless
+    // node gets a seed base pose here, but the semantic pass below RELOCATES the
+    // Uniques among them onto the outside standing-stones constellation
+    // (sem.hemisphere === 'outside'), REGARDLESS of edges — that gate keys on
+    // branch === 'unique' now, not on the edgeless test. Non-unique isolates
+    // (e.g. a 2★ basic with no prereqs that nothing depends on) KEEP this inside
+    // seed pose, so they seat among the roots instead of floating out of bounds.
     var seedIds = result.isolates.slice().sort(function (a, b) {
       return stableHash(a) - stableHash(b) || compareIds(a, b);
     });
@@ -1037,9 +1063,11 @@
           z: (anchor.z || 0) + uz * radialOffset,
         };
 
-        // §2.2 / §5: uniques are pulled OUT of the wood onto the dark
-        // constellation. This is the one hemisphere whose actual pose we move
-        // (no uniques exist under Ygg I today, so canonical poses are untouched).
+        // §2.2 / §5 + PR3b §B: uniques are pulled OUT of the wood onto the dark
+        // standing-stones constellation. Membership (sem.isUnique, keyed on the
+        // emitted branch === 'unique') drives this — NOT edge-count — so a unique
+        // seats outside whether or not it has prerequisites/derivatives. This is
+        // the one hemisphere whose actual pose we move.
         if (sem.hemisphere === 'outside') {
           var phase = basePose.phase != null ? basePose.phase : (stableHash(id) % 628) / 100;
           result.heroPose[id] = {

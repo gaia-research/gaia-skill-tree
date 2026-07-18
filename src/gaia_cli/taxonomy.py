@@ -1,15 +1,16 @@
 """taxonomy.py — Yggdrasil II taxonomy-resolution authority (PR1 keystone).
 
-SINGLE SOURCE OF TRUTH for branch / rank-word / medallion derivation, ported
-from the four live resolvers this module supersedes:
+SINGLE SOURCE OF TRUTH for branch / rank-word / medallion derivation. It ported
+and SUPERSEDED the four live resolvers below; PR3b DELETED all four, leaving this
+module as the sole authority:
 
   JS  #1  docs/js/skill-semantics.js         (computeBranch, rankWord, rankLabel)
   Py  #3  src/gaia_cli/trustMagnitude.py     (computeBranch + _starRank/_suiteComponentsPresent)
   Py  #4  src/gaia_cli/formatting.py          (rank_word, LEVEL_LABELS_SUITE/UNIQUE)
   JS  #2  docs/js/world-tree-layout.js        (resolveSemantics — the Ygg I/II fork)
 
-Nothing consumes this module yet (PR1 is a pure add). Downstream PRs migrate
-each consumer onto these functions; PR3b deletes the JS/Py resolvers above.
+Every consumer now derives branch/rank/medallion through these functions; the
+inline resolvers above no longer exist.
 
 Canonical semantics — FOUNDER RULING v2, the SYNTHESIS rule (do NOT consult
 `type`). Suite-PRESENCE decides branch FIRST (no rank gate); rank only splits

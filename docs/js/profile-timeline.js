@@ -149,15 +149,15 @@
       '  background: var(--bg,#030712);',
       '  flex-shrink: 0;',
       '}',
-      '.ptl2__dot--basic    { border-color: var(--tier-basic,#38bdf8);    background: rgba(56,189,248,.15); }',
-      '.ptl2__dot--extra    { border-color: var(--tier-extra,#c084fc);    background: rgba(192,132,252,.15); }',
-      '.ptl2__dot--unique   { border-color: var(--tier-unique,#7c3aed);   background: #000; }',
-      '.ptl2__dot--ultimate { border-color: var(--tier-ultimate,#f59e0b); background: rgba(245,158,11,.15); }',
+      /* PR3b: dot classes key on the resolved BRANCH (standard/suite/unique),
+         not the dead type enum. Tier color via tokens; unique reads its rgb. */
+      '.ptl2__dot--standard { border-color: var(--tier-basic);  background: rgba(56,189,248,.15); }',
+      '.ptl2__dot--suite    { border-color: var(--apex-gold);   background: rgba(245,158,11,.15); }',
+      '.ptl2__dot--unique   { border-color: var(--tier-unique); background: #000; }',
       '.ptl2__dot--rank { width: 9px; height: 9px; border-width: 2px; }',
-      '.ptl2__event--rank-up .ptl2__dot--basic    { box-shadow: 0 0 6px rgba(56,189,248,.5); }',
-      '.ptl2__event--rank-up .ptl2__dot--extra    { box-shadow: 0 0 6px rgba(192,132,252,.5); }',
-      '.ptl2__event--rank-up .ptl2__dot--unique   { box-shadow: 0 0 8px rgba(124,58,237,.7); }',
-      '.ptl2__event--rank-up .ptl2__dot--ultimate { box-shadow: 0 0 8px rgba(245,158,11,.6); }',
+      '.ptl2__event--rank-up .ptl2__dot--standard { box-shadow: 0 0 6px rgba(56,189,248,.5); }',
+      '.ptl2__event--rank-up .ptl2__dot--suite    { box-shadow: 0 0 8px rgba(245,158,11,.6); }',
+      '.ptl2__event--rank-up .ptl2__dot--unique   { box-shadow: 0 0 8px rgba(var(--tier-unique-rgb,124,58,237),.7); }',
 
       /* Card */
       '.ptl2__card {',
@@ -269,29 +269,48 @@
     return Math.min(6, (s.match(/★/g) || []).length);
   }
 
+  // PR3b: resolve a skill's branch from the EMITTED field (skill.branch,
+  // supplied by generateProfilePages.py) via the shared GaiaSemantics seam.
+  // Falls back to computeBranch for a payload that predates the branch emit,
+  // and to 'standard' if the seam script failed to load.
+  function _branchOf(skill) {
+    if (window.GaiaSemantics && typeof window.GaiaSemantics.branchOf === 'function') {
+      return window.GaiaSemantics.branchOf(skill);
+    }
+    return 'standard';
+  }
+
+  // Branch → tier color token. Keyed on the resolved BRANCH (standard/suite/
+  // unique), never the dead skill.type enum. Design tokens only — no raw hex.
+  // Concrete resolved values live in TIER_HEX below; these var() forms are the
+  // token-first source the docs-cohesion guard checks.
   var TIER_COLOR = {
-    basic:    'var(--tier-basic,#38bdf8)',
-    extra:    'var(--tier-extra,#c084fc)',
-    unique:   'var(--tier-unique,#7c3aed)',
-    ultimate: 'var(--tier-ultimate,#f59e0b)',
+    standard: 'var(--tier-basic)',
+    suite:    'var(--apex-gold)',
+    unique:   'var(--tier-unique)',
   };
-  // Resolve a `var(--token,#fallback)` expression at runtime: prefer the live
-  // CSS custom property, fall back to the inline hex. Written in var() form so
-  // the docs-cohesion token guard recognises it as token-first (not a bare hex).
+  // Resolve a `var(--token)` or `var(--token,#fallback)` expression at runtime:
+  // prefer the live CSS custom property, fall back to the (optional) inline
+  // fallback. Token-first so the docs-cohesion token guard is satisfied; a
+  // hexless var() resolves purely off the computed property.
   function resolveVar(s, expr) {
-    var m = /^var\((--[^,]+),\s*(.+)\)$/.exec(expr);
-    var prop = m[1], fb = m[2];
+    var m = /^var\((--[^,)]+)(?:,\s*(.+))?\)$/.exec(expr);
+    if (!m) return expr;
+    var prop = m[1], fb = m[2] || '';
     return s ? (s.getPropertyValue(prop).trim() || fb) : fb;
   }
 
+  // Branch → resolved tier color. Keyed on the resolved BRANCH, reading the
+  // same tokens as TIER_COLOR (no raw hex). Used where a concrete color string
+  // is needed (canvas/inline style); missing tokens degrade to the var() form
+  // via TIER_COLOR at the call site.
   var TIER_HEX = (function () {
     var s = typeof getComputedStyle !== 'undefined' ? getComputedStyle(document.documentElement) : null;
     function cv(expr) { return resolveVar(s, expr); }
     return {
-      basic:    cv('var(--tier-basic,#38bdf8)'),
-      extra:    cv('var(--tier-extra,#c084fc)'),
-      unique:   cv('var(--tier-unique,#7c3aed)'),
-      ultimate: cv('var(--tier-ultimate,#f59e0b)'),
+      standard: cv('var(--tier-basic)'),
+      suite:    cv('var(--apex-gold)'),
+      unique:   cv('var(--tier-unique)'),
     };
   }());
 
@@ -367,7 +386,7 @@
 
         events.push({
           ts: ts, skillId: skill.id, skillName: skill.name || skill.id,
-          type: skill.type || 'basic', action: action,
+          branch: _branchOf(skill), action: action,
           newValue: h.level || null, previousValue: idx > 0 ? sortedHistory[idx - 1].level : null,
           diff: diff, details: null
         });
@@ -403,7 +422,7 @@
 
       events.push({
         ts: ts, skillId: ev.skillId, skillName: skill.name || ev.skillId,
-        type: skill.type || 'basic', action: action,
+        branch: _branchOf(skill), action: action,
         newValue: ev.newValue || null, previousValue: ev.previousValue || null,
         diff: diff, details: ev.details || null
       });
@@ -579,7 +598,8 @@
       });
       if (sorted.length === 0) return;
 
-      var color = TIER_HEX[skill.type] || '#64748b';
+      var _skillBranch = _branchOf(skill);
+      var color = TIER_HEX[_skillBranch] || TIER_COLOR[_skillBranch] || TIER_COLOR.standard;
       var grpId = 'ptl2-sg-' + skill.id.replace(/[^a-z0-9]/gi, '-');
 
       var grp = svgEl('g', { 'data-skill-id': skill.id, id: grpId, class: 'ptl2__chart-curve-group' });
@@ -690,7 +710,7 @@
         var chipCls = 'ptl2__chip ptl2__chip--' + (ACTION_CHIP[action] || 'default');
         var chipLabel = ACTION_LABEL[action] || action.replace(/_/g, ' ');
         var isRank = isRankAction(action);
-        var dotCls = 'ptl2__dot ptl2__dot--' + (ev.type || 'basic') + (isRank ? ' ptl2__dot--rank' : '');
+        var dotCls = 'ptl2__dot ptl2__dot--' + (ev.branch || 'standard') + (isRank ? ' ptl2__dot--rank' : '');
         
         var rowCls = 'ptl2__event';
         if (isRank) {
@@ -822,7 +842,8 @@
 
       var dot = document.createElement('span');
       dot.className = 'ptl2__legend-dot';
-      dot.style.background = TIER_HEX[skill.type] || '#64748b';
+      var _legendBranch = _branchOf(skill);
+      dot.style.background = TIER_HEX[_legendBranch] || TIER_COLOR[_legendBranch] || TIER_COLOR.standard;
       item.appendChild(dot);
 
       var label = document.createElement('span');
@@ -970,8 +991,10 @@
           titleRow.appendChild(nameSpan);
 
           var tierSpan = document.createElement('span');
-          tierSpan.className = 'ptl2__tooltip-tier ptl2__tooltip-tier--' + (skillEntry.type || 'basic');
-          tierSpan.textContent = skillEntry.type || 'basic';
+          // PR3b: tooltip tier keys on the resolved BRANCH, not the dead type.
+          var _tipBranch = _branchOf(skillEntry);
+          tierSpan.className = 'ptl2__tooltip-tier ptl2__tooltip-tier--' + _tipBranch;
+          tierSpan.textContent = _tipBranch;
           titleRow.appendChild(tierSpan);
 
           titleRow.appendChild(tierSpan);

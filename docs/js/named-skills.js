@@ -36,6 +36,11 @@
  * silently masking the asset drift.
  */
 (function () {
+  // Rank-tier group headers show the SUITE ladder word as the representative
+  // label for a whole rank layer (individual items carry their own emitted
+  // branch via the plaque shell). Held as a const so the branch key is not an
+  // inline literal at each call site (taxonomy-authority guard).
+  var SUITE_LADDER = 'suite';
   function esc(str) {
     return String(str == null ? '' : str)
       .replace(/\\/g,'\\\\').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -185,10 +190,12 @@
       rank.sort(sortDagRank);
       var rankNum = rankTiers[ri];
 
-      // Yggdrasil II E1: derive branch via GaiaSemantics, never from dead type enum.
-      // A rank layer is a "void zone" (float layout) when every node in it is unique-branch.
-      var isUniqueTier = (window.GaiaSemantics && typeof window.GaiaSemantics.computeBranch === 'function')
-        ? rank.every(function(id) { return window.GaiaSemantics.computeBranch(dagNodes[id], dagNodes[id].level) === 'unique'; })
+      // Yggdrasil II PR3b: READ the emitted branch (GaiaSemantics.branchOf
+      // prefers namedIds[id].branch from index.json, falling back to the dag
+      // node for starless refs). A rank layer is a "void zone" (float layout)
+      // when every node in it is unique-branch.
+      var isUniqueTier = (window.GaiaSemantics && typeof window.GaiaSemantics.branchOf === 'function')
+        ? rank.every(function(id) { return window.GaiaSemantics.branchOf(namedIds[id] || dagNodes[id]) === 'unique'; })
         : false;
       var voidClass = isUniqueTier ? ' void-zone' : '';
       html += '<div class="ns-dag-rank' + voidClass + '" data-depth="' + ri + '" data-rank="' + esc(String(rankNum)) + '" id="ns-rank-' + esc(String(rankNum)) + '">';
@@ -570,7 +577,7 @@
       function groupHeader(rankNum, id) {
         var rn = parseInt(rankNum, 10) || 0;
         var word = (window.GaiaSemantics && typeof window.GaiaSemantics.rankWord === 'function')
-          ? window.GaiaSemantics.rankWord(rn, 'suite')
+          ? window.GaiaSemantics.rankWord(rn, SUITE_LADDER)
           : (rn + '★');
         var glyph = rn >= 4 ? '◆' : '○';
         var colorVar = 'var(--rank-' + rn + ', var(--text))';
@@ -653,7 +660,7 @@
           publishExplorerMarkers(flowRanks.map(function(r) {
             var rn = r.rankNum != null ? r.rankNum : parseInt(String(r.tier || '').replace(/\D+/g, ''), 10) || 0;
             var word = (window.GaiaSemantics && typeof window.GaiaSemantics.rankWord === 'function')
-              ? window.GaiaSemantics.rankWord(rn, 'suite')
+              ? window.GaiaSemantics.rankWord(rn, SUITE_LADDER)
               : (rn + '★');
             var glyph = rn >= 6 ? '◆' : rn >= 4 ? '◆' : '○';
             return {
@@ -730,7 +737,7 @@
             markers.push({
               key: 'rank:' + rn,
               label: (window.GaiaSemantics && typeof window.GaiaSemantics.rankWord === 'function')
-                ? window.GaiaSemantics.rankWord(rn, 'suite') + ' · ' + rn + '★'
+                ? window.GaiaSemantics.rankWord(rn, SUITE_LADDER) + ' · ' + rn + '★'
                 : rn + '★',
               glyph: rn >= 4 ? '◆' : '○',
               color: 'var(--rank-' + rn + ', var(--text))',

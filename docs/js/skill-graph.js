@@ -39,8 +39,10 @@
   // and any host still reading them; new call sites pass effectiveRank.
   const NODE_RADII = {
     ultimate: 12.5, unique: 9.5, extra: 6.9, basic: 3.5,  // legacy type-keyed
-    get: function (rank, type) {
-      if (type === 'unique') rank = 5;
+    get: function (rank, branch) {
+      // Unique nodes render at a floor of rank 5 so the singularity reads large
+      // even before its star rank is joined. Gated on BRANCH (PR3b), not type.
+      if (branch === 'unique') rank = 5;
       // Accept an int effective rank directly, else parse a leading "N★" int.
       const n = (typeof rank === 'number' && Number.isFinite(rank))
         ? Math.max(0, Math.round(rank))
@@ -256,23 +258,36 @@
   function normalizeSkills(graph) {
     const TYPE_ALIASES = { atomic: 'basic', composite: 'extra', legendary: 'ultimate' };
     const skills = (graph && graph.skills) ? graph.skills : [];
-    return skills.map(skill => ({
-      id: skill.id,
-      name: skill.name || skill.id,
-      type: TYPE_ALIASES[skill.type] || skill.type || 'basic',
-      // Generic refs are rank-less — the rank legend/coloring reads the top
-      // named-variant star (namedMaxLevel) supplied by syncDocsGraphAssets.py.
-      level: skill.namedMaxLevel || skill.level || '',
-      effectiveLevel: skill.namedMaxLevel || skill.effectiveLevel || skill.level || '',
-      // §4 effective rank as a small integer (0-6). Parsed from namedMaxLevel;
-      // 0 for starless/≤1★. Color-by-rank + radius-by-rank read this (§6).
-      effectiveRank: starsFromLabel(skill.namedMaxLevel != null ? skill.namedMaxLevel : skill.effectiveRank),
-      demerits: Array.isArray(skill.demerits) ? skill.demerits : [],
-      description: skill.description || '',
-      prerequisites: Array.isArray(skill.prerequisites) ? skill.prerequisites : [],
-      cluster: skill.cluster !== undefined ? skill.cluster : 0,
-      positions: skill.positions || null,
-    })).filter(skill => skill.id);
+    return skills.map(skill => {
+      const type = TYPE_ALIASES[skill.type] || skill.type || 'basic';
+      const effectiveRank = starsFromLabel(skill.namedMaxLevel != null ? skill.namedMaxLevel : skill.effectiveRank);
+      // §Ygg-II PR3b: attach the resolved BRANCH once, at the join point. The
+      // generic graph (gaia.json) ships STARLESS with no emitted branch, so we
+      // resolve via the frozen contract (GaiaSemantics.branchOf → computeBranch)
+      // off the joined effective rank. Every branch-keyed render decision below
+      // reads skill.branch — never skill.type === 'unique'/'ultimate'.
+      const branch = (window.GaiaSemantics && typeof window.GaiaSemantics.branchOf === 'function')
+        ? window.GaiaSemantics.branchOf({ type: type, level: effectiveRank, suiteComponents: skill.suiteComponents, branch: skill.branch })
+        : 'standard';
+      return {
+        id: skill.id,
+        name: skill.name || skill.id,
+        type: type,
+        branch: branch,
+        // Generic refs are rank-less — the rank legend/coloring reads the top
+        // named-variant star (namedMaxLevel) supplied by syncDocsGraphAssets.py.
+        level: skill.namedMaxLevel || skill.level || '',
+        effectiveLevel: skill.namedMaxLevel || skill.effectiveLevel || skill.level || '',
+        // §4 effective rank as a small integer (0-6). Parsed from namedMaxLevel;
+        // 0 for starless/≤1★. Color-by-rank + radius-by-rank read this (§6).
+        effectiveRank: effectiveRank,
+        demerits: Array.isArray(skill.demerits) ? skill.demerits : [],
+        description: skill.description || '',
+        prerequisites: Array.isArray(skill.prerequisites) ? skill.prerequisites : [],
+        cluster: skill.cluster !== undefined ? skill.cluster : 0,
+        positions: skill.positions || null,
+      };
+    }).filter(skill => skill.id);
   }
 
   function esc(s) {
@@ -400,22 +415,25 @@
       return positions;
     }
 
-    // LEGACY Fallback (Spherical)
+    // LEGACY Fallback (Spherical). Only reached when the World Tree layout is
+    // absent (legacy 3D graph); the tree path seats isolates as inside seeds.
     const groups = { basic: [], extra: [], ultimate: [] };
-    const satellite = { unique: [], orphan: [] };
+    const satellite = { unique: [] };
     const allPrereqRefs = new Set();
     skills.forEach(skill => skill.prerequisites.forEach(pid => allPrereqRefs.add(pid)));
     skills.forEach(skill => {
-      if (skill.type === 'unique') { satellite.unique.push(skill); }
-      else if (skill.type === 'basic' && !skill.prerequisites.length && !allPrereqRefs.has(skill.id)) {
-        satellite.orphan.push(skill);
-      } else {
+      // §PR3b §B: the outside/orbit constellation keys on MEMBERSHIP (branch ===
+      // 'unique'), NOT on edge-count. A non-unique edgeless node (e.g.
+      // few-shot-learning, a 2★ basic with no prereqs that nothing depends on)
+      // is NOT flung into an orphan orbit — it seats inside with its group so it
+      // cannot float. Only Uniques become the outside constellation.
+      if (skill.branch === 'unique') { satellite.unique.push(skill); }
+      else {
         (groups[skill.type] || groups.basic).push(skill);
       }
     });
     Object.values(groups).forEach(group => group.sort((a, b) => (a.name || a.id).localeCompare(b.name || b.id)));
     satellite.unique.sort((a, b) => (a.name || a.id).localeCompare(b.name || b.id));
-    satellite.orphan.sort((a, b) => (a.name || a.id).localeCompare(b.name || b.id));
     // Multiply locked SPHERE_RADII (DESIGN.md) by the runtime scale.
     const radii = {
       basic: SPHERE_RADII.basic * scale,
@@ -433,20 +451,6 @@
       positions[skill.id] = {
         ...spherePoint(330 * scale, seed, idx, Math.max(uniqueCount, 1)),
         _satellite: 'unique',
-      };
-    });
-    satellite.orphan.forEach((skill, idx) => {
-      const seed = stableHash(skill.id);
-      const baseR = (320 + (seed % 70)) * scale;
-      const pos = spherePoint(baseR, seed, idx, Math.max(satellite.orphan.length, 1));
-      positions[skill.id] = {
-        ...pos,
-        _satellite: 'orphan',
-        _orbitSpeed: 0.2 + (seed % 100) / 100 * 0.65,
-        _orbitAmp: (22 + (seed % 38)) * scale,
-        _phX: (seed % 628) / 100,
-        _phY: ((seed * 7) % 628) / 100,
-        _phZ: ((seed * 13) % 628) / 100,
       };
     });
     return positions;
@@ -704,12 +708,13 @@
           from,
           to,
           type: byId[to].type,
+          branch: byId[to].branch,
           structural: !hasStructuralHierarchy || structuralKeys.has(from + '\u0000' + to),
         };
       }).filter(Boolean);
       if (!state.treeEdges.length) {
         state.skills.forEach(skill => skill.prerequisites.forEach(parent => {
-          if (byId[parent]) state.treeEdges.push({ from: parent, to: skill.id, type: skill.type });
+          if (byId[parent]) state.treeEdges.push({ from: parent, to: skill.id, type: skill.type, branch: skill.branch });
         }));
       }
 
@@ -733,7 +738,7 @@
       _refreshSearchDatalist();
       if (state.statusEl) {
         const edgeCount = skills.reduce((sum, skill) => sum + skill.prerequisites.length, 0);
-        const uniqueCount = skills.filter(s => s.type === 'unique').length;
+        const uniqueCount = skills.filter(s => s.branch === 'unique').length;
         const mb = (fill) => `<svg class="gst-icon" viewBox="0 0 10 15" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"><rect x=".7" y=".7" width="8.6" height="13.6" rx="4.3"/><path d="M5 .7v5.8" stroke-width="1"/><path d="M.7 6.5h8.6" stroke-width="1"/>${fill}</svg>`;
         const iL = mb('<rect x=".7" y=".7" width="4.3" height="5.8" rx="2" stroke="none" fill="currentColor" opacity=".55"/>');
         const iM = mb('<rect x="3.4" y="1.4" width="3.2" height="4.2" rx="1.6" stroke="none" fill="currentColor" opacity=".55"/>');
@@ -1011,20 +1016,40 @@
       ctx.beginPath(); ctx.arc(sx - r * 0.22, sy - r * 0.22, r * 0.35, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(255,255,255,${(alpha * 0.95).toFixed(2)})`; ctx.fill();
     }
-    function drawNodeUnique(sx, sy, r, alpha, t, p) {
-      // Unique = singularity render. Reads --tier-unique-rgb so the
-      // accretion disk / event horizon ring inherit the canonical
-      // Unique tier hue when a host page reskins the canvas.
-      const uniqueRgb = getCanvasTokens().tier.unique.rgb;
-      // Accretion-disk particles use the Unique tier rgb at lower
-      // alpha rather than introducing a second hue. Visually this
-      // reads as the same hue family as the canonical rank-3 swatch
-      // (the historical particle colour) without re-declaring it
-      // here. When --rank-3-rgb lands in tokens.css we can swap to
-      // it directly.
+    function drawNodeUnique(sx, sy, r, alpha, t, p, rank) {
+      // §PR3b §C — the Unique singularity forks by RANK. ESCALATION reads
+      // CALMER + DENSER, never more frantic:
+      //   4★ (--tier-unique, violet): the base singularity, toned DOWN from the
+      //       historical render — fewer particles, slower spin, tighter pulse.
+      //   5★ (--tier-unique-5, copper): smaller radius, tighter/denser disk,
+      //       calmer than 4★.
+      //   6★ (--tier-unique-6 copper + -ink): PLACEHOLDER — near-still core with
+      //       a cheap "inverted"/lensing hint. No 6★ Unique exists today; wire it
+      //       so it renders when earned. Kept intentionally cheap.
+      const rk = (typeof rank === 'number' && rank >= 4) ? Math.min(6, rank | 0) : 4;
+      const tok = getCanvasTokens();
+      // Rank-specific hue: read the ladder token, fall back to the 4★ violet.
+      function _uniqueRgbFor(n) {
+        if (n >= 6) return _rgbOnly(_readVar('--tier-unique-6-rgb')) || tok.tier.unique.rgb;
+        if (n >= 5) return _rgbOnly(_readVar('--tier-unique-5-rgb')) || tok.tier.unique.rgb;
+        return tok.tier.unique.rgb;
+      }
+      const uniqueRgb = _uniqueRgbFor(rk);
+
+      // Per-rank tuning — higher rank = calmer + denser (slower spin, tighter
+      // orbit pulse, lower particle alpha, smaller disk radius).
+      const cfg = rk >= 6
+        ? { particles: 4,  spinBase: 0.75, spinJitter: 0.10, orbitBase: 1.30, orbitPulse: 0.10, diskR: 0.28, pAlpha: 0.30, spinMul: 1.1, arms: 2 }
+        : rk >= 5
+          ? { particles: 6,  spinBase: 0.90, spinJitter: 0.15, orbitBase: 1.40, orbitPulse: 0.18, diskR: 0.32, pAlpha: 0.42, spinMul: 1.6, arms: 3 }
+          : { particles: 8,  spinBase: 1.00, spinJitter: 0.20, orbitBase: 1.60, orbitPulse: 0.20, diskR: 0.35, pAlpha: 0.55, spinMul: 2.2, arms: 3 };
+
       const phase = p.phase || 0;
-      const spin = t * 2.2 + phase;
-      // Gravitational distortion — concentric rings that darken surrounding space
+      // Spin runs at roughly half the historical 2.2 rate at 4★ and slower still
+      // as rank climbs (spinBase scales it down).
+      const spin = t * (2.2 * cfg.spinBase) + phase;
+
+      // Gravitational distortion — concentric rings that darken surrounding space.
       const distortR = r * 8;
       const rings = 5;
       for (let i = rings; i >= 1; i--) {
@@ -1054,9 +1079,9 @@
       voidGrad.addColorStop(1, `rgba(${uniqueRgb},0)`);
       ctx.beginPath(); ctx.arc(0, 0, voidR, 0, Math.PI * 2);
       ctx.fillStyle = voidGrad; ctx.fill();
-      // Spinning dark arms (like a spiral galaxy but dark)
-      for (let arm = 0; arm < 3; arm++) {
-        const armAngle = (Math.PI * 2 * arm / 3) + spin * 0.7;
+      // Spinning dark arms (fewer + slower at higher rank).
+      for (let arm = 0; arm < cfg.arms; arm++) {
+        const armAngle = (Math.PI * 2 * arm / cfg.arms) + spin * 0.7;
         ctx.beginPath();
         for (let j = 0; j <= 20; j++) {
           const frac = j / 20;
@@ -1071,29 +1096,45 @@
         ctx.stroke();
       }
       ctx.restore();
-      // Accretion disk particles spinning wildly
-      for (let i = 0; i < 16; i++) {
-        const a = (Math.PI * 2 * i / 16) + spin * (1.5 + (i % 4) * 0.4);
-        const orbitR = r * (1.6 + 0.4 * Math.sin(spin * 0.9 + i * 0.7));
+      // Accretion disk particles — fewer, calmer, denser (tighter orbit) as rank
+      // climbs. Particle count, spin multiplier, orbit radius + pulse and alpha
+      // all read from the per-rank cfg.
+      for (let i = 0; i < cfg.particles; i++) {
+        const a = (Math.PI * 2 * i / cfg.particles) + spin * (cfg.spinBase + (i % 4) * cfg.spinJitter);
+        const orbitR = r * (cfg.orbitBase + cfg.orbitPulse * Math.sin(spin * 0.9 + i * 0.7));
         const dx = Math.cos(a) * orbitR;
         const dy = Math.sin(a) * orbitR * 0.35;
-        const particleAlpha = alpha * (0.4 + 0.35 * Math.sin(spin * 2.5 + i * 1.1));
+        const particleAlpha = alpha * (cfg.pAlpha * 0.7 + cfg.pAlpha * 0.6 * Math.sin(spin * cfg.spinMul + i * 1.1));
         const particleR = r * (0.1 + 0.05 * Math.sin(t * 4 + i));
         ctx.beginPath();
         ctx.arc(sx + dx, sy + dy, particleR, 0, Math.PI * 2);
-        // Accretion-disk particle: lighter sibling of Unique hue.
-        ctx.fillStyle = `rgba(${uniqueRgb},${Math.min(particleAlpha * 1.05, 1).toFixed(2)})`;
+        // Accretion-disk particle: lighter sibling of the rank's Unique hue.
+        ctx.fillStyle = `rgba(${uniqueRgb},${Math.min(Math.max(particleAlpha, 0) * 1.05, 1).toFixed(2)})`;
         ctx.fill();
       }
-      // Event horizon ring — bright Unique-tier edge
+      // Event horizon ring — bright rank-Unique edge.
       ctx.beginPath(); ctx.arc(sx, sy, r * 1.12, 0, Math.PI * 2);
       ctx.strokeStyle = `rgba(${uniqueRgb},${(alpha * 0.9).toFixed(2)})`;
       ctx.lineWidth = 2; ctx.stroke();
-      // Void core — fully opaque black
+      // Void core — fully opaque black.
       ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2);
       ctx.fillStyle = '#000';
       ctx.fill();
-      // Inner Unique-tier shimmer at edge of core
+      // 6★ PLACEHOLDER: a cheap "inverted"/lensing hint — literally invert a
+      // small rim of what's behind the core using 'difference' compositing, drawn
+      // in the 6★ ink tone. Kept minimal (single stroked rim, no per-pixel work)
+      // since no 6★ Unique exists yet; it just needs to render when one is earned.
+      if (rk >= 6) {
+        const ink = _readVar('--tier-unique-6-ink');
+        ctx.save();
+        ctx.globalCompositeOperation = 'difference';
+        ctx.beginPath(); ctx.arc(sx, sy, r * 0.92, 0, Math.PI * 2);
+        ctx.strokeStyle = ink ? ink : `rgba(${uniqueRgb},${(alpha * 0.6).toFixed(2)})`;
+        ctx.lineWidth = r * 0.22;
+        ctx.stroke();
+        ctx.restore();
+      }
+      // Inner rank-Unique shimmer at edge of core.
       ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2);
       ctx.strokeStyle = `rgba(${uniqueRgb},${(alpha * 0.5).toFixed(2)})`;
       ctx.lineWidth = r * 0.15; ctx.stroke();
@@ -1103,7 +1144,9 @@
       if (state.labelMode === 'none') return false;
       if (state.labelMode === 'all') return true;
       if (state.labelMode === 'modal') return skill.type !== 'basic' || stableHash(skill.id) % 7 === 0;
-      return skill.type === 'ultimate' || skill.type === 'unique';
+      // §PR3b: priority-label the flashier branches (suite capstones + uniques),
+      // keyed on the resolved branch — never the dead type enum.
+      return skill.branch === 'suite' || skill.branch === 'unique';
     }
 
     function _canonicalSkillColor(skill) {
@@ -1213,7 +1256,12 @@
         } else {
           p = state.positions[id];
         }
-        if (p._satellite === 'orphan') {
+        // §PR3b §B: orbit drift is a Unique-branch-only effect and only exists
+        // in the legacy (non-treeLayout) fallback. It fires solely when a node
+        // carries the unique-satellite tag AND its orbit params — the fallback
+        // no longer produces 'orphan' shells and the World Tree path seats
+        // isolates as inside seeds, so a non-unique isolate can never re-float.
+        if (p._satellite === 'unique' && p._orbitSpeed && p._orbitAmp) {
           const s = p._orbitSpeed, amp = p._orbitAmp;
           p = {
             x: p.x + Math.cos(state.t * s + p._phX) * amp,
@@ -1550,7 +1598,9 @@
         // Line weights locked per DESIGN.md ▸ Graph Canvas. See
         // LINE_WEIGHTS at the top of this file.
         const lw = isNeighborEdge ? LINE_WEIGHTS.highlighted : LINE_WEIGHTS.default;
-        const edgeWidth = edge.type === 'ultimate' ? lw.ultimate : lw.other;
+        // §PR3b: capstone (suite-branch) edges get the heavier weight — keyed on
+        // the target's resolved branch, not the dead 'ultimate' type.
+        const edgeWidth = edge.branch === 'suite' ? lw.ultimate : lw.other;
         const structuralWidth = trunkEdge ? 1.34 : 1.16;
         ctx.lineWidth = isNeighborEdge ? edgeWidth : edgeWidth * (structural ? structuralWidth : 0.58);
         ctx.stroke();
@@ -1576,8 +1626,8 @@
         // §6 radius-by-rank: under the World Tree layout, size reads from the
         // joined effective rank; the legacy 3D graph keeps the level-glyph path.
         const baseR = state.treeLayout
-          ? NODE_RADII.get(skill.effectiveRank, skill.type)
-          : NODE_RADII.get(skill.level, skill.type);
+          ? NODE_RADII.get(skill.effectiveRank, skill.branch)
+          : NODE_RADII.get(skill.level, skill.branch);
         const pulse = 0.84 + 0.16 * Math.sin(state.t * 2.2 + p.phase);
 
         const specialMix = state.treeLayout ? easeWorldTree(state.viewMix) : 1;
@@ -1585,9 +1635,11 @@
         if (skill.level === '6★' && specialMix > 0) {
           if (specialMix < 1) drawNode(pr.sx, pr.sy, nodeRadius, { rgb: getCanvasTokens().apexGoldRgb }, depthAlpha * vis * (1 - specialMix));
           drawNodeVI(pr.sx, pr.sy, nodeRadius, depthAlpha * vis * specialMix, state.t, p);
-        } else if (skill.type === 'unique' && specialMix > 0) {
+        } else if (skill.branch === 'unique' && specialMix > 0) {
           if (specialMix < 1) drawNode(pr.sx, pr.sy, nodeRadius, { rgb: getCanvasTokens().apexGoldRgb }, depthAlpha * vis * (1 - specialMix));
-          drawNodeUnique(pr.sx, pr.sy, nodeRadius, depthAlpha * vis * specialMix, state.t, p);
+          // §PR3b §C: the singularity forks by RANK (4/5/6) — escalation reads
+          // CALMER + DENSER, not more frantic. Pass the effective rank in.
+          drawNodeUnique(pr.sx, pr.sy, nodeRadius, depthAlpha * vis * specialMix, state.t, p, skill.effectiveRank);
         } else if (state.redPillActive && state.namedMap && state.namedMap[skill.id] && specialMix > 0.98) {
           drawNodeNamed(pr.sx, pr.sy, baseR * state.scale * pr.scale * pulse, depthAlpha * vis);
         } else {
@@ -1616,10 +1668,13 @@
           ? tokens.honorRedRgb
           : ((PALETTE[skill.type] || PALETTE.basic).rgb));
 
-        // Registry-3d aesthetic: Use mono font at reduced size for non-highlighted labels
-        const size = highlighted ? (skill.type === 'ultimate' ? 13 : 10) : 9;
-        let role = (highlighted || isNamedHover || state.labelMode === 'all') 
-          ? (skill.type === 'ultimate' ? 'display' : 'handle') 
+        // Registry-3d aesthetic: mono font at reduced size for non-highlighted
+        // labels. §PR3b: the display treatment keys on the suite (capstone)
+        // branch, not the dead 'ultimate' type.
+        const _isCapstone = skill.branch === 'suite';
+        const size = highlighted ? (_isCapstone ? 13 : 10) : 9;
+        let role = (highlighted || isNamedHover || state.labelMode === 'all')
+          ? (_isCapstone ? 'display' : 'handle')
           : 'handle';
 
         ctx.font = canvasFont(role, size * pr.scale * 1.16);
@@ -1701,7 +1756,7 @@
 
       // Final pass: redraw unique void cores on top of everything (labels, other effects)
       nodes.forEach(({ skill }) => {
-        if (skill.type !== 'unique') return;
+        if (skill.branch !== 'unique') return;
         const specialMix = state.treeLayout ? easeWorldTree(state.viewMix) : 1;
         if (specialMix <= 0) return;
         const p = xf[skill.id]; if (!p) return;
@@ -1727,17 +1782,19 @@
           if (displayId !== state.lastHoveredId) {
             const skill = state.skills.find(s => s.id === displayId);
             const col = PALETTE[skill.type] || PALETTE.basic;
-            const typeClass = `skill-tooltip-type-${skill.type}`;
+            // §PR3b: tooltip color class keys on the resolved BRANCH, not type.
+            const typeClass = `skill-tooltip-type-${skill.branch || 'standard'}`;
             const rm = skill.level ? RANK_META[skill.level] : null;
             // §6.1 hover card two channels under the World Tree layout: rank
             // (color) + structural class (glyph). glyph comes from the frozen
-            // resolveSemantics contract (nodeMeta[id].glyph); fall back to a
-            // type→glyph map for the legacy 3D graph. Name color reads the rank
-            // ramp under the tree so color = rank end-to-end.
+            // resolveSemantics contract (nodeMeta[id].glyph, itself the emitted
+            // medallion); fall back to the medallion authority for the legacy 3D
+            // graph. Name color reads the rank ramp under the tree.
             const _tlMeta = (state.treeLayout && state.treeLayout.nodeMeta
               && state.treeLayout.nodeMeta[skill.id]) || null;
-            const _glyphMap = { basic: '○', extra: '◇', ultimate: '◆', unique: '◉' };
-            const structGlyph = (_tlMeta && _tlMeta.glyph) || _glyphMap[skill.type] || '○';
+            const _authGlyph = (window.GaiaSemantics && typeof window.GaiaSemantics.medallionOf === 'function')
+              ? window.GaiaSemantics.medallionOf(skill) : '';
+            const structGlyph = (_tlMeta && _tlMeta.glyph) || _authGlyph || '○';
             const nameRgb = state.treeLayout ? _rankColorRgb(skill.effectiveRank) : col.rgb;
 
             state.tooltipEl.textContent = '';

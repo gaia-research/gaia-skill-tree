@@ -59,7 +59,7 @@ WHITE = "#ffffff"
 def skill_branch(skill: dict) -> str:
     """Read-time branch for a named-skills entry ('standard'|'suite'|'unique').
 
-    Delegates to the canonical gaia_cli.trustMagnitude.computeBranch — branch is
+    Delegates to the canonical gaia_cli.taxonomy.branchFor — branch is
     NEVER read from a stored type/tier field (Ygg-II rubric E1). The entry
     carries `level` + `suiteComponents` directly, so no genericSkillMap thread
     is needed here.

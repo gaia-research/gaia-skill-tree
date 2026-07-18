@@ -141,7 +141,7 @@ def aov_medallion_href(branch: str, rank: int) -> str:
 def og_branch(entry: dict) -> str:
     """Read-time branch for a named-skill entry ('standard'|'suite'|'unique').
 
-    Delegates to gaia_cli.trustMagnitude.computeBranch (Ygg-II rubric E1) — the
+    Delegates to gaia_cli.taxonomy.branchFor (Ygg-II rubric E1) — the
     plate composition and labels are driven by branch+rank, never a stored type
     enum. The entry carries level+suiteComponents, so no genericSkillMap thread
     is needed.

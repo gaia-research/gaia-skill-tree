@@ -41,12 +41,13 @@ from _atlas_helpers import handle_link, named_slug  # noqa: E402
 from gaia_cli.redaction import is_redacted  # noqa: E402  single source of truth
 from gaia_cli.taxonomy import branchFor as _compute_branch  # noqa: E402  Ygg-II branch authority
 from gaia_cli.taxonomy import rankWord as _rank_word  # noqa: E402  branch-forked rank vocabulary
+from gaia_cli.taxonomy import medallion as _medallion, levelNum as _level_num  # noqa: E402  resolved art token
 
 
 def skill_branch(entry: dict) -> str:
     """Derive the Yggdrasil II progression branch for a named-skill entry.
 
-    Delegates to gaia_cli.trustMagnitude.computeBranch (rubric E1) — the single
+    Delegates to gaia_cli.taxonomy.branchFor (rubric E1) — the single
     source of truth. Branch is a READ-TIME function of (suiteComponents present?,
     rank); the retired `type` enum is NEVER consulted. Returns one of
     ``'standard'`` (1-3★), ``'suite'`` (4★+ with suiteComponents), or
@@ -947,10 +948,18 @@ def _build_timeline_section(tree: dict, named_index: dict) -> str:
     for skill in unlocked:
         skill_id = skill.get("skillId") or skill.get("id", "")
         ns_entry = named_index.get(skill_id, {})
+        # Carry the RESOLVED taxonomy branch + medallion (Ygg-II authority) so
+        # profile-timeline.js reads the emitted membership instead of re-deriving
+        # from `type`. Branch is a read-time function of (suiteComponents, rank);
+        # medallion forks the glyph by (branch, rank).
+        branch = _compute_branch(ns_entry)
+        rank = _level_num(ns_entry.get("level"))
         skills_payload.append({
             "id": skill_id,
             "name": ns_entry.get("name") or ns_entry.get("title") or skill_id.split("/")[-1],
             "type": ns_entry.get("type", "basic"),
+            "branch": branch,
+            "medallion": _medallion(branch, rank),
             "origin": bool(ns_entry.get("origin", False)),
             "levelHistory": skill.get("levelHistory", []),
         })

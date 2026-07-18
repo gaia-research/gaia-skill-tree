@@ -495,8 +495,8 @@ test('canonical graph gains ghost armature + routes without disturbing real pose
   const withRank = buildWorldTreeLayout(canonicalGraph);
   assert.ok(withRank.armature, 'canonical layout carries the armature');
   assert.ok(Object.keys(withRank.ghostPose).length > 0);
-  // metaIsYggI: canonical types are basic/extra/ultimate => Ygg I.
-  assert.equal(withRank.metaIsYggI, true);
+  // metaIsYggI: canonical gaia.json migrated to basic/fusion only => Ygg II.
+  assert.equal(withRank.metaIsYggI, false);
   // every real node carries the frozen contract fields.
   withRank.nodes.forEach(({ id }) => {
     const m = withRank.nodeMeta[id];

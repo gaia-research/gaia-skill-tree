@@ -3716,6 +3716,16 @@ tr:hover td {
   color: var(--tier-ultimate)
 }
 
+/* PR3b: branch-keyed tooltip color (skill-graph.js keys on the resolved branch,
+   not the dead type enum). standard→basic hue, suite→apex-gold. */
+.skill-tooltip-type-standard {
+  color: var(--tier-basic)
+}
+
+.skill-tooltip-type-suite {
+  color: var(--apex-gold)
+}
+
 .graph-search-wrap {
   position: absolute;
   top: 110px;

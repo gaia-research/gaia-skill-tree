@@ -2926,6 +2926,10 @@ button.plaque__slug:focus-visible {
 .ptl2__tooltip-tier--extra    { color: var(--tier-extra,#c084fc);    background: rgba(192,132,252,.1); border-color: rgba(192,132,252,.2); }
 .ptl2__tooltip-tier--unique   { color: var(--tier-unique);   background: rgba(var(--tier-unique-rgb),.1); border-color: rgba(var(--tier-unique-rgb),.2); }
 .ptl2__tooltip-tier--ultimate { color: var(--tier-ultimate,#f59e0b); background: rgba(245,158,11,.1); border-color: rgba(245,158,11,.2); }
+/* PR3b: branch-keyed tooltip tiers (standard/suite) — profile-timeline.js now
+   keys the tier chip on the resolved branch, not the dead type enum. */
+.ptl2__tooltip-tier--standard { color: var(--tier-basic,#38bdf8);    background: rgba(56,189,248,.1); border-color: rgba(56,189,248,.2); }
+.ptl2__tooltip-tier--suite    { color: var(--apex-gold);   background: rgba(var(--apex-gold-rgb,245,158,11),.1); border-color: rgba(var(--apex-gold-rgb,245,158,11),.2); }
 
 .ptl2__tooltip-detail-row {
   display: flex;
