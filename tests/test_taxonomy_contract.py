@@ -16,10 +16,11 @@ BRANCH STATE (dev/ygg2-consume-frontend):
   - Python delete-gate SATISFIED: trustMagnitude.computeBranch has been DELETED
     on this branch. test_legacy_python_parity_delete_gate SKIPS — the §3
     handshake is done, the resolver is gone.
-  - JS delete-gate OPEN (strict-xfail): docs/js/skill-semantics.js::computeBranch
-    is still alive (7 refs). test_legacy_js_parity_delete_gate is strict-xfail;
-    if the harness file is present + node is available it XFAILS (RED-by-design);
-    if the harness is missing or node unavailable it SKIPS.
+  - JS delete-gate SATISFIED: docs/js/skill-semantics.js::computeBranch has been
+    DELETED and its Phase-1 harness (tests/harness/js_branch_dump.js) removed.
+    JS_BRANCHES is None (harness missing) so test_legacy_js_parity_delete_gate
+    SKIPS as its terminal state; the strict-xfail marker was REMOVED (§3
+    handshake done). Both legs now terminate as resolver-presence skips.
 
 --------------------------------------------------------------------------------
 SYNTHESIS RULE (founder ruling v2). Suite-presence decides branch FIRST (no rank
@@ -253,31 +254,32 @@ def test_legacy_python_parity_delete_gate():
 
 @pytest.mark.skipif(
     JS_BRANCHES is None,
-    reason="node/harness unavailable — JS delete-gate cannot execute; JS resolver still alive",
-)
-@pytest.mark.xfail(
-    strict=True,
-    reason=(
-        "DELETE-GATE §3: JS computeBranch (docs/js/skill-semantics.js) is still alive "
-        "and divergent from the canonical membership authority on Class-A nodes. "
-        "RED-by-design; this gate flips to hard failure forcing marker removal "
-        "once the JS resolver is deleted/collapsed in the frontend consume phase."
-    ),
+    reason="JS resolver #1 (skill-semantics.js::computeBranch) deleted + harness removed — delete-gate satisfied on this branch",
 )
 def test_legacy_js_parity_delete_gate():
-    """Canonical (membership) == legacy JS #1 on EVERY entry. XFAILS now (by
-    design); passes only after the JS computeBranch resolver is deleted.
+    """Canonical (membership) == legacy JS #1 on EVERY entry.
 
-    When the harness file (tests/harness/js_branch_dump.js) is absent or node
-    is unavailable, this test SKIPS — the JS delete-gate is open but cannot
-    execute. The skip is correct while the harness is missing."""
+    DELETE-GATE SATISFIED (authority doc §3): docs/js/skill-semantics.js::
+    computeBranch has been DELETED and its Phase-1 harness
+    (tests/harness/js_branch_dump.js) removed on this branch. runJsHarness
+    therefore returns None (harness file missing), so JS_BRANCHES is None and
+    this test SKIPS — the resolver is gone, which IS the terminal state of the
+    §3 handshake. The skip here is correct and intentional; the strict-xfail
+    marker was REMOVED once the resolver was deleted (it would XPASS-hard-fail
+    otherwise). Do NOT hand-edit to force-pass or re-add an xfail.
+
+    Mirrors test_legacy_python_parity_delete_gate: both legs terminate as a
+    resolver-presence SKIP once their resolver is deleted. If somehow a harness
+    is restored (e.g. a rebase that resurrects the JS resolver), the body runs
+    and asserts real parity.
+    """
     mismatches = []
     for sid, node, effRank in ENTRIES:
         c = canonicalBranch(node, effRank)
         j = JS_BRANCHES.get(sid)
         if j is not None and c != j:
             mismatches.append((sid, c, j))
-    assert not mismatches, f"legacy JS #1 parity not yet real: {mismatches}"
+    assert not mismatches, f"legacy JS #1 parity broke: {mismatches}"
 
 
 def test_pinned_divergence_is_unique_canonically():
