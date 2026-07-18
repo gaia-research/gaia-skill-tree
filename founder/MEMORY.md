@@ -4,6 +4,44 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-18, session — Unique-cluster placement iterations: right-satellite → front → under-the-branches; PR #1235 updated on remote)
+
+### TLDR
+- **Visual-only follow-up to the origin fix.** Two bounded layout passes on the 6 Unique nodes in the world-tree 3D graph, per Marco's live direction. NO taxonomy/membership/build/data touched — count held at **6 Unique** throughout; served `gaia.json` still 6 unique / 15 suite / 58 standard. Pure coordinate changes in `docs/js/world-tree-layout.js`.
+- **Pass 1** (`6ccb8de11`): moved uniques from the far-right "standing stones" **satellite** to the **front** of the tree. Removed `OUTSIDE_X_RATIO=0.86` right-push; added front-row spread + forward `OUTSIDE_Z_RATIO=0.72` (z≈737). Marco: "too far positionally."
+- **Pass 2** (`658d9f7c3`): reseated them **under the branches** — tucked beneath the crown/bough canopy, part of the silhouette. `OUTSIDE_Z_RATIO` 0.72→**0.14** (z pulled back to ≈245–294, near tree-body mean z≈24); new `OUTSIDE_CANOPY_DROP=0.08` seats the row just below the lowest bough (Y≈92–101, above collar/roots). Marco: "all good."
+- **Both passes Playwright-verified** (localhost:8080, fullscreen via `#hudToggleBtn`, screenshot). Count line unchanged; `node --check` PASS on both JS files each pass.
+
+### Why "outside/under" is correct grammar (not a bug)
+- Unique = the elite branch that ascended alone (no suite, 4★+). The world-tree layout seats **standard** inside as trunk/branches/seeds; **unique** renders as a distinct group. Placement moved from right-satellite → under-canopy per Marco's aesthetic call. This is a DESIGN decision, orthogonal to the ratified ORIGIN taxonomy — do not confuse a placement tweak with a membership change.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| `docs/js/world-tree-layout.js` — `buildArmature()` outside anchors | ✅ Pass 1: front (x centred on spine, z fwd 0.72). Pass 2: under-canopy (z 0.14, `OUTSIDE_CANOPY_DROP` seats Y just below lowest bough via `lowestBoughProgress = 1/(BOUGH_COUNT+1)`) |
+| `docs/js/skill-graph.js` | ✅ UNCHANGED — its `satellite.unique` block (L420-458) is the LEGACY spherical fallback only (fires when `state.treeLayout` absent); live path is world-tree-layout.js |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| dev/ygg2-consume-frontend | 658d9f7c3 | Pushed; **PR #1235** (still draft → dev/ygg2-consume-ssr). Since prior snapshot: `6ccb8de11` (front) + `658d9f7c3` (under branches) |
+
+### Lessons / hazards preserved
+- **The live world-tree unique placement is `buildArmature()` outsideAnchors in `world-tree-layout.js`, NOT the `satellite.unique` block in `skill-graph.js`** (that's the legacy spherical fallback, gated on `state.treeLayout` absent). Edit the armature for any real placement change.
+- **Outside hemisphere adds a fixed radial reach** `OUTSIDE_BOUGH_REACH ≈0.22·width` outward from the spine — with the row near in-plane, that reach points mostly +z, so uniques stay the frontmost band *within* the body. To push them deeper into the trunk, lower `OUTSIDE_BOUGH_REACH` for the outside hemisphere (one-line follow-up, not done — out of scope).
+- **Placement ≠ taxonomy.** Every one of these passes kept `branch === 'unique'` (`sem.hemisphere === 'outside'`) and the emitted-first read intact. A visual reseat must never reach into membership resolution.
+
+### Open questions for next orchestrator
+- Unique anchors: **5 outside anchors for 6 uniques** → two share an anchor (pre-existing). Bump `OUTSIDE_ANCHOR_COUNT` 5→6 if each unique should get its own stem (not done — Marco didn't ask).
+- Everything from the prior snapshot still stands: ~48 uncommitted `skill-trees/*.md` (not ours — Marco's call to commit/discard), PR #1235 draft (mark ready or hold for PR4), page-ia.js/badges un-migrated reads, PR3c #1227, PR4 #1000, provisional `--tier-unique-5/-6` hexes.
+
+### Token cost (this session, cumulative addendum)
+- 2026-07-18 Opus 4.8 (orchestrator inline): ~+15k in, ~6k out · ~$1.5
+- 2026-07-18 subagent (graph reposition, general-purpose, 2 passes): 75,140 + 88,214 out, 54 tool uses · ~$13
+- **Placement-iteration addendum ≈ $15** (on top of the ~$18 origin-fix session earlier today)
+
+---
+
 ## State Snapshot (2026-07-18, session — ROOT-CAUSE CORRECTION: origin-driven build stamp replaces max-level guess; ratification realigned to ORIGIN rule + superseded docs archived; PR #1235 updated on remote)
 
 ### TLDR
