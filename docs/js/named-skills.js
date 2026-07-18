@@ -612,6 +612,17 @@
         document.dispatchEvent(new CustomEvent('gaia:explorer-rendered'));
       }
 
+      // Yggdrasil II — within a rank group, Unique and Suite are DISTINCT
+      // branches and must never co-mingle: cluster Unique first, then Suite,
+      // then standard. Reads the emitted branch via GaiaSemantics.branchOf
+      // (never a client-side type guess).
+      function branchOrder(ns) {
+        var b = (window.GaiaSemantics && typeof window.GaiaSemantics.branchOf === 'function')
+          ? window.GaiaSemantics.branchOf(ns)
+          : (ns && ns.branch) || 'standard';
+        return b === 'unique' ? 0 : b === 'suite' ? 1 : 2;
+      }
+
       function withinGroupSort(items) {
         if (sortMode === 'creator') {
           return items.slice().sort(function(a,b){return (a.contributor||'').localeCompare(b.contributor||'');});
@@ -622,12 +633,17 @@
         if (sortMode === 'level-asc') {
           return items.slice().sort(function(a,b){
             var d = levelNum(a.level) - levelNum(b.level);
-            return d !== 0 ? d : String(a.id).localeCompare(String(b.id));
+            if (d !== 0) return d;
+            var bo = branchOrder(a) - branchOrder(b);
+            if (bo !== 0) return bo;
+            return String(a.id).localeCompare(String(b.id));
           });
         }
         return items.slice().sort(function(a,b){
           var d = levelNum(b.level) - levelNum(a.level);
           if (d !== 0) return d;
+          var bo = branchOrder(a) - branchOrder(b);
+          if (bo !== 0) return bo;
           var tsA = trustScore(a), tsB = trustScore(b);
           if (tsA !== tsB) return tsB - tsA;
           return String(a.id).localeCompare(String(b.id));
@@ -719,10 +735,12 @@
               weight: items.length, targetId: 'ns-group-az-' + L });
           });
         } else {
-          // Yggdrasil II — group by rank INTEGER (6★ first), NOT by dead type enum.
-          // Within each rank group, suite=gold plaque and unique=dark plaque are
-          // VISUAL VARIANTS driven by data-branch on each plaque shell (set by
-          // plaque.js via GaiaSemantics.computeBranch). No separate buckets.
+          // Yggdrasil II — group by rank INTEGER (6★ first), NOT by dead type
+          // enum. Within each rank group, withinGroupSort CLUSTERS by branch
+          // (Unique first, then Suite, then standard) so 4★ Unique standalones
+          // never co-mingle with 4★ Extra suites. Branch read from the emitted
+          // field via GaiaSemantics.branchOf; the plaque shell's data-branch
+          // still drives the gold/dark plaque skin per skill.
           var rankGroups = {};
           champions.forEach(function(ns) {
             var rn = levelNum(ns.level) || 2;
