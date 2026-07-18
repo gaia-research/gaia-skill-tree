@@ -32,6 +32,9 @@
     basic:    'var(--tier-basic)',
     extra:    'var(--tier-extra)',
     ultimate: 'var(--tier-ultimate)',
+    suite:    'var(--tier-ultimate)',
+    unique:   'var(--unique)',
+    standard: 'var(--tier-basic)',
   };
 
   /** Map family id to a human label. */
@@ -39,6 +42,9 @@
     basic:    'Basic',
     extra:    'Extra',
     ultimate: 'Ultimate',
+    suite:    'Suite',
+    unique:   'Unique',
+    standard: 'Standard',
   };
 
   function el(tag, attrs, children) {

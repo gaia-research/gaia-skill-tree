@@ -52,10 +52,6 @@ EXCLUSIONS  (see EXCLUDE_GLOBS for per-entry rationale)
   the two FROZEN-FALLBACK resolvers (skill-semantics.js, world-tree-layout.js)
   — their `type ===` reads live inside an explicitly-documented starless-graph
   fallback block gated behind the emitted-branch read (Task A-C retained code).
-  two un-migrated docs surfaces (page-ia.js, badges/index.html) carrying dead
-  Ygg-I `.type` reads owned by the frontend-migration lane — file-scoped
-  exemptions (narrower than blinding the pattern; the guard still watches every
-  other docs/src/scripts file for NEW derivation).
   this guard file itself (its docstring quotes the flagged signatures).
 
 Force UTF-8 output on Windows (repo has cp1252 glyphs).
@@ -142,11 +138,6 @@ EXCLUDE_GLOBS = [
     # sole fallback for docs/graph/gaia.json generics (no emitted branch).
     "docs/js/skill-semantics.js",
     "docs/js/world-tree-layout.js",
-    # Un-migrated docs surfaces carrying dead Ygg-I `.type` reads owned by the
-    # frontend-migration lane; file-scoped (the guard still watches every other
-    # docs/src/scripts file for NEW derivation).
-    "docs/js/page-ia.js",
-    "docs/badges/index.html",
     # generated / vendored
     "**/__pycache__/**",
     "docs/assets/**",
@@ -233,7 +224,7 @@ def main():
     print("Flags     : `.type ==/=== unique|ultimate|extra` reads + deleted-shim calls")
     print("Authority : route branch/rank through src/gaia_cli/taxonomy.py")
     print(f"Mode      : {'HARD-FAIL' if HARD_FAIL else 'WARN-ONLY'}")
-    print("Excluded  : experiments/samples, frozen-fallback resolvers, un-migrated docs surfaces (see EXCLUDE_GLOBS)")
+    print("Excluded  : experiments/samples, frozen-fallback resolvers (see EXCLUDE_GLOBS)")
     print()
 
     findings = scan(repoRoot)

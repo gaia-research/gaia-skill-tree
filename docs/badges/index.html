@@ -1144,7 +1144,7 @@
           </tr>
           <tr>
             <td>4★</td>
-            <td><span style="color:#e879f9;font-weight:600;">Hardened</span></td>
+            <td><span style="color:#e879f9;font-weight:600;">Extra</span></td>
             <td><span class="bd-rank-swatch" style="background:#e879f9;"></span>Fuchsia</td>
             <td>Class B/A</td>
             <td>Production-ready. Comprehensive tests, active maintenance, and documented reliability in real-world usage.</td>
@@ -1158,7 +1158,7 @@
           </tr>
           <tr>
             <td>5★</td>
-            <td><span style="color:#fbbf24;font-weight:600;">Transcendent</span></td>
+            <td><span style="color:#fbbf24;font-weight:600;">Ultimate</span></td>
             <td><span class="bd-rank-swatch" style="background:#fbbf24;"></span>Amber</td>
             <td>Class B/A + 10k★</td>
             <td>Mastery. Often an Ultimate capstone. Requires a repository with 10,000+ stars and peer-reviewed or battle-tested evidence.</td>
@@ -1168,7 +1168,7 @@
             <td><span style="color:#fbbf24;font-weight:700;letter-spacing:.02em;">Apex</span></td>
             <td><span class="bd-rank-swatch" style="background:linear-gradient(90deg,#fbbf24,#38bdf8);"></span>Gold → Cyan</td>
             <td>Class A + Origin 5★ Fusion</td>
-            <td>The pinnacle of Gaia. Extreme ecosystem impact. Must emerge from a fusion involving at least one Origin 5★ Transcendent skill, with Tier A evidence.</td>
+            <td>The pinnacle of Gaia. Extreme ecosystem impact. Must emerge from a fusion involving at least one Origin 5★ Ultimate skill, with Tier A evidence.</td>
           </tr>
         </tbody>
       </table>
@@ -1620,7 +1620,7 @@
       // Disable already-picked options (except this row's current value) so each row stays unique
       return namedSkills.map((s) => {
         const stars = "★".repeat(s.rank);
-        const label = `${s.slash} · ${stars}${s.type === "unique" ? " · unique" : ""}`;
+        const label = `${s.slash} · ${stars}${s.branch === "unique" ? " · unique" : ""}`;
         const taken = currentState.pickedFiles.includes(s.file) && s.file !== currentValue;
         const sel = s.file === currentValue ? " selected" : "";
         const dis = taken ? " disabled" : "";
