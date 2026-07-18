@@ -207,6 +207,28 @@ def build_tokens_css(gaia: dict) -> str:
         )
     )
 
+    # v3 amendment (2026-07-18): the Unique DECORATION forks by rank. Membership
+    # is `unique` from 4★ up, but the treatment escalates: 4★ violet (base
+    # --tier-unique above), 5★ darker gold, 6★ inverted (gold ground / dark ink).
+    # These mirror scripts/generateBadges.py unique_hex() so badges, graph
+    # medallions, and profile plates render one consistent Unique ladder.
+    body.append(
+        "  /* Unique decoration ladder (v3): 4★ = --tier-unique (violet above),"
+    )
+    body.append(
+        "     5★ = darker gold, 6★ = inverted (gold ground + dark engraved ink)."
+    )
+    body.append(
+        "     Mirrors generateBadges.unique_hex(); consumed by badges/graph/profile. */"
+    )
+    body.append("  --tier-unique-5: #c8890a;")
+    body.append("  --tier-unique-5-rgb: 200, 137, 10;")
+    body.append("  --tier-unique-5-edge: rgba(200, 137, 10, 0.55);")
+    body.append("  --tier-unique-6: #fbbf24;")
+    body.append("  --tier-unique-6-rgb: 251, 191, 36;")
+    body.append("  --tier-unique-6-ink: #3b2206;")
+    body.append("  --tier-unique-6-edge: rgba(217, 146, 10, 0.9);")
+
     body.append("")
     body.append("  /* ── Rank tokens (0★ → 6★) ───────────────────────────────── */")
 

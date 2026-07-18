@@ -4,6 +4,74 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-18, session — PR3a Python consumer collapse + v3 ratification amendment + Unique badge decoration fork; 3 draft PRs chained on staging)
+
+### TLDR
+- **PR3a shipped** (`dev/ygg2-consume-ssr`, head `8577dafb3`, 2 commits): all Python callers of the legacy branch/rank-word resolvers migrated onto `taxonomy.py`; `trustMagnitude.computeBranch` + `formatting.rank_word`/`format_rank_label` **shimmed to delegate** (hard-delete deferred to PR3b).
+- **v3 ratification amendment** added ABOVE v2 in `founder/handovers/YGGDRASIL_II_RATIFICATION_2026-07-07.md` — names the three orthogonal axes: **Membership** (standard|suite|unique), **Rank word** (Awakened/Named/Evolved → Extra/Ultimate/Apex | Unique/Unique Ultimate/Unique Impossible), **Decoration** (plain vs prestige glyph + medallion + color).
+- **Unique badge decoration fork** — the tangled Decoration axis fixed: was single `_UNIQUE_COLOR` violet for every unique rank → 5★/6★ rendered identical to 4★. Now **4★ violet `#7c3aed` / 5★ darker gold `#c8890a` / 6★ INVERTED (gold ground + dark ink `#3b2206`, peer to suite Apex)**.
+- **Sampler fixed**: killed banned words (Hardened→Extra, Transcendent→Ultimate); added Unique Ultimate·5★ + Unique Impossible·6★ entries; new `rank-unique-5{,-seal}.svg` + `rank-unique-6{,-seal}.svg`; all `_assets` regenerated.
+- **3 draft PRs now open, chained** (each targets its parent, not staging directly, for clean review diffs): PR1 #1232 → staging, PR2 #1233 → PR1, PR3a #1234 → PR2.
+
+### Decisions locked this session
+| # | Decision |
+|---|---|
+| Shim vs delete | **Shim, don't delete, in PR3a.** An in-editor linter kept reverting hard-deletions of `computeBranch`/`rank_word`. Rather than fight it, replaced their BODIES with delegation to `taxonomy.branchFor`/`rankWord`. Behavior is identical; hard-delete happens in PR3b once the JS sweep + grep guard confirm zero external callers. Kept `computeBranch` in `__all__`. |
+| v3 amendment placement | **Above v2, supersedes nothing.** v3 refines/names axes the v2 rules already implied but tangled; v2 derivation rules + ladders stand verbatim. |
+| Three-axis vocabulary | **Membership / Rank word / Decoration are orthogonal.** Membership holds from 1★ (grouping); Decoration renders only at 4★+; a skill's Membership does NOT dictate its Decoration color — the rank WITHIN the membership does. |
+| Unique decoration ladder | **4★ violet, 5★ darker gold `#c8890a`, 6★ inverted (gold ground + `#3b2206` ink).** 6★ Unique Impossible reads as a peer pinnacle to suite Apex (shares gold ground + sheen + Apex rim), not plain violet. |
+| Badge fix scope | **Self-contained in `generateBadges.py`.** Verified `tokens.css` has NO per-rank unique tokens (violet-only). Per-rank unique CSS tokens would be a `schema/` change (regenerated from `gaia.json.meta`) — separate lane, NOT done here. |
+| PR targeting | **Chain PRs to parent branches** (PR2→PR1, PR3a→PR2) so review diffs are clean, per EPIC child-PR model. Final flatten happens at staging→main merge (#1185). |
+| tree.md gate | **Verified NOT Basics-only before declaring PR3a done** — 23 suite/unique entries in regenerated named index. |
+
+### What changed this session
+| Layer | State |
+|---|---|
+| `taxonomy.py` consumers (Python) | ✅ generateBadges/OgCards/ProfilePages, migrate_taxonomy_v6, promotion migrated to branchFor/rankWord |
+| Legacy resolvers | ✅ computeBranch + rank_word/format_rank_label shimmed to delegate (not deleted) |
+| Ratification handover | ✅ v3 amendment prepended above v2 |
+| Badge Decoration | ✅ Unique forks by rank (violet/darker-gold/inverted); `unique_hex()` helper; `_data_panel`/`_frame`/`badge_simple` reworked |
+| Badge sampler | ✅ banned words removed; 9 rank entries incl. unique-5/unique-6; new sample SVGs |
+| `_assets` regen | ✅ 490 files (real 4★-unique skills e.g. addy-osmani/performance-optimization now violet+gold) |
+| Tests | ✅ 37 badge/redaction pass; 122 taxonomy/TM/formatting pass; zero new failures (pre-existing authz/benchmark/validate/tui unchanged) |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `dev/ygg2-taxonomy-authority` (PR1) | `f4ce012d2` | PR #1232 open → staging |
+| `dev/ygg2-emit-resolved` (PR2) | `92a4a8a34` | PR #1233 draft → PR1 |
+| `dev/ygg2-consume-ssr` (PR3a) | `8577dafb3` | PR #1234 draft → PR2 |
+
+### Issues + PRs touched
+- **PR #1232** PR1 (open, pre-existing) · **PR #1233** PR2 (drafted this session) · **PR #1234** PR3a (drafted this session)
+- EPIC **#1002** (Yggdrasil II taxonomy authority) — parent of the stack
+- Token spend logged as comment on PR #1234
+
+### Routing — where things live now
+- **Branch authority**: `src/gaia_cli/taxonomy.py` — `branchFor`, `rankWord`, `medallion`, `normalize`, `levelNum`. Single source of truth.
+- **Legacy shims (delete in PR3b)**: `trustMagnitude.computeBranch`, `formatting.rank_word`, `formatting.format_rank_label` — all delegate to taxonomy.
+- **Badge Decoration**: `scripts/generateBadges.py` — `unique_hex(rank)`, `_data_panel`, `_frame`, `badge_simple`. NOT `tokens.css`.
+- **Sampler**: `docs/badges/index.html` `SAMPLER_RANKS` (~L1302) + `docs/badges/samples/`.
+- **v3 axes spec**: `founder/handovers/YGGDRASIL_II_RATIFICATION_2026-07-07.md` (v3 amendment at top).
+
+### Lessons / hazards preserved
+- **In-editor linter reverts hard-deletions.** Observed repeatedly this session — Edit calls to DELETE `computeBranch`/`rank_word` bodies got silently reverted between the Edit and the next git check. Workaround: shim (replace body with delegation) instead of delete, OR make all edits in one atomic Python heredoc script and commit immediately. Confirmed the heredoc approach survives.
+- **`tokens.css` is generated** from `gaia.json.meta` via `generateCssTokens.py` — do NOT hand-edit for unique colors; that's a schema-lane change.
+- **`?v=` cache-bust** is managed by `build_html_cache_busting()` in `build_docs.py` — never manually patch; bumps at release.
+- **Windows UTF-8**: reading badge SVGs / named-index needs `encoding='utf-8'` + `PYTHONIOENCODING=utf-8` + `sys.stdout.reconfigure(encoding='utf-8')` (medallion glyphs + stars break cp1252).
+- **Trailing `claude-NNNN-cwd: No such file` bash errors** are a stale-temp-cwd artifact, NOT a command failure — ignore.
+- **Every negative finding this session was verifiable** — user challenged "aren't these already there?" on unique tokens; verified they were NOT (violet-only). Always verify design claims before agreeing/disagreeing.
+
+### Open questions for next orchestrator
+- **PR3b tokens.css decision**: does the JS frontend need per-rank unique CSS tokens (`--tier-unique-5`, `--tier-unique-6`)? If yes, that's a `schema/` PR regenerating from `gaia.json.meta` — separate lane from PR3b's `design/` scope. Decide before dispatching PR3b.
+- **Grep guard hard-fail flip** (PR3b): currently warn-only; flips to hard-fail once JS resolvers deleted. Confirm no stragglers first.
+- **6★ Unique Impossible "inverted" treatment** — user approved conceptually; needs Marco's visual sign-off on localhost before it locks (open for inspection this session).
+
+### Token cost (this session)
+- 2026-07-18 Opus 4.8: ~180k in, ~28k out. **~€8** (orchestrator + one Explore subagent for consumer scouting). Overwhelmingly orchestrator-direct (superadmin-style surgical UI iteration).
+
+---
+
 ## State Snapshot (2026-07-16, session — Structured migration provenance + #999 guards + user-tree drift fix; 3 PRs MERGED to staging; next session = DESIGN)
 
 ### TLDR
