@@ -19,10 +19,12 @@ Yggdrasil II's design chose **read-time branch derivation** — the `skill-seman
 
 Plus stale Ygg-I enum code in `scripts/generateProjections.py` (`get_tier_symbol`, `_build_skill_display` branch on `type == 'ultimate'/'unique'/'extra'` — matches ZERO nodes post-#997).
 
-**Read order in #1 (must be preserved when porting):**
+**Read order in #1 (legacy Ygg I — reconciled into `normalize()`, NOT the Ygg II resolver):**
 1. `type === 'basic' && rank >= 4 && !hasSuiteComponents` → `unique`
 2. `hasSuiteComponents` → `suite`
 3. else → `standard`
+
+> **Epoch reconciliation (founder, 2026-07-18 — reconciles §1 with §7).** The `type ===`-gated read above is the **Ygg I** behavior, where a node's structural class was carried by `type`. It is **NOT** what the Ygg II resolver evaluates. Under **Ygg II the branch is MEMBERSHIP — resolved TYPE-BLIND**: `suiteComponents` present → `suite` (any rank); else rank 4–6 → `unique`, rank 1–3 → `standard`. `type` (`basic`/`fusion`) is **presentation structure only, never a resolution input** (see §7). Backwards-compat is achieved *inside `taxonomy.py::normalize()`*, which folds the legacy Ygg I `type` signal (`ultimate`/`extra` → suite carrier; `unique` → the unique branch) into the canonical membership shape (`suiteComponentsPresent` + rank) — so `resolveDisplayBranch` stays type-blind for BOTH epochs. "Port #1 exactly" therefore means *reproduce resolver #1's outcomes via the `normalize()` fork*, not *gate the Ygg II resolver on `type`*. A resolver that literally re-introduces the `type==='basic'` gate into `resolveDisplayBranch` is a **regression** (it drags Ygg I into Ygg II) and must be rejected by the parity oracle.
 
 **Rank ladders (canonical, from #1):**
 - SHARED: `{0 Basic, 1 Awakened, 2 Named, 3 Evolved}`
@@ -36,7 +38,7 @@ Reverse rubric E1. **One build-time authority resolves branch/rank/medallion; co
 
 - **Authority module:** `src/gaia_cli/taxonomy.py` (new). Exposes:
   - `normalize(entry, metaEpoch)` — the ONLY meta-version-aware code. Ygg I/II/III forks live here and nowhere else. Maps any-era shape → one canonical internal shape.
-  - `resolveDisplayBranch(normalized) -> 'standard'|'suite'|'unique'` — the single branch resolver (port #1's read-order exactly).
+  - `resolveDisplayBranch(normalized) -> 'standard'|'suite'|'unique'` — the single branch resolver. **Ygg II = MEMBERSHIP, type-blind** (suite-presence first, no rank gate; rank only splits the no-suite case into standard 1–3 / unique 4–6). Reproduce resolver #1's *outcomes* via the `normalize()` Ygg I fork — do NOT re-introduce #1's `type==='basic'` gate into this resolver (that would drag Ygg I into Ygg II; see §1 epoch reconciliation).
   - `rankWord(level, branch)` / `rankLabel(level, branch)` — the single ladder.
   - `medallion(branch, rank)` — resolved art token.
   - **Absent-field fallback (CLI-compat, scout #4):** the resolvers MUST accept both a pre-resolved entry (reads the emitted `branch`/`rank` field) AND a raw entry (field absent → derive). The fallback lives *inside* `taxonomy.py`, so it satisfies the §4 grep guard while letting a stale bundled wheel snapshot (patch releases never refresh the bundle) render correctly before the user's first `gaia pull`. Never hard-index a resolved field anywhere downstream.
@@ -65,8 +67,8 @@ Reverse rubric E1. **One build-time authority resolves branch/rank/medallion; co
 ## 3. Phases (each = one feature branch → staging)
 
 ### Phase 1 — Authority module + contract test (`cli/ygg2-taxonomy-authority`)
-- Write `src/gaia_cli/taxonomy.py` with `normalize`/`resolveDisplayBranch`/`rankWord`/`rankLabel`/`medallion`. Port the agreed logic from resolvers #1 and #3; unit-test BOTH Ygg I and Ygg II input shapes.
-- **Contract test** (`tests/test_taxonomy_contract.py`): for every node/named entry on staging, assert `taxonomy.resolveDisplayBranch` == JS `computeBranch` == Python `trustMagnitude.computeBranch` == `resolveSemantics` isUnique/isSuite. This makes the *current* four-way drift a RED build and guarantees the port is faithful before anything is deleted. (Node the JS side via a small harness or a golden-file dump — do not hand-transcribe.)
+- Write `src/gaia_cli/taxonomy.py` with `normalize`/`resolveDisplayBranch`/`rankWord`/`rankLabel`/`medallion`. Port the agreed logic from resolvers #1 and #3; unit-test BOTH Ygg I and Ygg II input shapes. **The Ygg II resolver is MEMBERSHIP (type-blind); the Ygg I `type` gate is reconciled inside `normalize()`, not inside `resolveDisplayBranch` (§1 epoch reconciliation).**
+- **Contract test** (`tests/test_taxonomy_contract.py`): the PRIMARY, resolver-independent check asserts `taxonomy.resolveDisplayBranch` == the inline **membership** ground truth (`synthesisBranch`) on every node/named entry — that is the canonical correctness oracle. Separately, per-node parity of the authority against the legacy JS `computeBranch` (#1) + Python `trustMagnitude.computeBranch` (#3) is a **RED-by-design delete-gate** (`xfail(strict=True)`): the legacy resolvers diverge from membership on the known Ygg-I-vs-membership drift (fusion rank≥4 no-suite; rank<4 suite parents), so the parity test fails on purpose until Phase 3 DELETES them and parity holds — at which point strict-xfail flips to a hard failure, forcing the marker's removal (the delete-gate handshake). Do NOT bless the drift as "ratified-equivalent green"; the gate exists precisely to block deletion until parity is real. (Node the JS side via a small harness or a golden-file dump — do not hand-transcribe.)
 - **Completeness oracle (Phase 1 mandate, §2.5 principle 3):** the contract test is the completeness mechanism — it asserts per-node parity against *every* live resolver, so a resolver we forgot to port shows up as a parity failure, not a silent survivor. Do NOT rely on the §6 miss-list as a hand checklist; it is a snapshot. The grep guard (§4) + this parity test are what actually enforce completeness. When new derivers are found (as 8 were on 2026-07-18), they get added to the parity cross-check, not just to prose.
 - Nothing consumes the module yet. Pure add + test.
 
