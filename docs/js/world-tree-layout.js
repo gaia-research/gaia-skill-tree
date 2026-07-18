@@ -64,9 +64,15 @@
   var CROWN_BOUGH_REACH = 0.50;     // * width
   var ROOT_BOUGH_REACH = 0.58;      // * width
   var OUTSIDE_BOUGH_REACH = 0.22;   // * width (dark constellation spire stems)
-  var OUTSIDE_SIDE = 1;             // single side of the trunk (positive x); NOT mirrored
-  var OUTSIDE_X_RATIO = 0.86;       // * width, constellation column base offset
-  var OUTSIDE_ANCHOR_COUNT = 5;     // ghost stems in the dark unique constellation
+  // The Unique constellation stands at the FRONT / foreground of the tree
+  // (toward the camera), centred on the trunk's vertical axis — NOT off to the
+  // right. Marco's ratified layout: front-and-centre "standing stones" ahead of
+  // the world-tree body. The stems fan across a narrow horizontal band centred
+  // on the spine (OUTSIDE_X_SPREAD) and are pushed forward in +z toward the
+  // viewer (OUTSIDE_Z_RATIO), keeping them a distinct group clear of the trunk.
+  var OUTSIDE_X_SPREAD = 0.34;      // * width, half-span of the front row about the spine
+  var OUTSIDE_Z_RATIO = 0.72;       // * width, forward (+z) depth toward the camera
+  var OUTSIDE_ANCHOR_COUNT = 5;     // ghost stems in the front unique constellation
 
   function stableHash(value) {
     var text = String(value == null ? '' : value);
@@ -749,19 +755,22 @@
       parentKey: collarKey,
     });
 
-    // Dark unique constellation stems (§2.2 / §5): a single-side vertical column
-    // of faint ghost stems OFF the wood (positive-x only, NOT mirrored). Uniques
-    // attach here; there is no wood connection back to the trunk (standing stones
-    // beside the tree). Given a distinct 'outside' role so the renderer paints
-    // them from the dark palette, not the rank ramp.
+    // Dark unique constellation stems (§2.2 / §5): a row of faint ghost stems
+    // standing at the FRONT / foreground of the tree — centred on the trunk axis
+    // (x ≈ spineX) and pushed forward toward the viewer (+z), NOT off to the
+    // right. Uniques attach here; there is no wood connection back to the trunk
+    // (standing stones in front of the tree). Given a distinct 'outside' role so
+    // the renderer paints them from the dark palette, not the rank ramp.
     var outsideAnchors = [];
-    var outsideBaseX = spineX + OUTSIDE_SIDE * width * OUTSIDE_X_RATIO;
     for (var o = 0; o < OUTSIDE_ANCHOR_COUNT; o += 1) {
       var ot = OUTSIDE_ANCHOR_COUNT > 1 ? o / (OUTSIDE_ANCHOR_COUNT - 1) : 0.5;
-      // span from just above the collar up toward the crown, single side.
-      var oy = groundY - crownHeight * (0.15 + 0.6 * ot);
-      var ox = outsideBaseX + OUTSIDE_SIDE * width * 0.04 * signedHash('outside:' + o);
-      var oz = width * 0.06 * signedHash('outside-z:' + o);
+      // span across a narrow front row centred on the spine (-spread .. +spread).
+      var ox = spineX + width * OUTSIDE_X_SPREAD * (2 * ot - 1)
+        + width * 0.03 * signedHash('outside:' + o);
+      // seat the row just above the collar so it reads in the foreground base.
+      var oy = groundY - crownHeight * (0.10 + 0.14 * ot);
+      // push the whole row forward toward the camera (+z), with a little jitter.
+      var oz = width * OUTSIDE_Z_RATIO + width * 0.05 * signedHash('outside-z:' + o);
       var oKey = ghostKey('outside', String(o));
       outsideAnchors.push(push('outside', oKey, ox, oy, oz, {
         level: 0,
