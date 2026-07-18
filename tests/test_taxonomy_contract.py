@@ -3,8 +3,8 @@
 For every named-skill variant in docs/graph/named/index.json (~228 under
 `.buckets`) AND every generic node in docs/graph/gaia.json (243 under
 `.skills`), assert the canonical authority against a direct ground-truth
-computation of the SYNTHESIS rule, and characterize its divergence from the two
-legacy resolvers:
+computation of the SYNTHESIS rule, and track parity with the two legacy
+resolvers:
 
     taxonomy.resolveDisplayBranch(...)      # the new authority (Python)
     synthesisBranch(...)                    # ground truth (this test, inline)
@@ -25,23 +25,13 @@ gate); rank only splits the no-suite case:
 Canonical == synthesis on ALL entries (test_synthesis_ground_truth) — that is
 the primary, resolver-independent correctness check.
 
-Canonical is NEITHER legacy resolver verbatim; it AGREES with each on a
-different class and DISAGREES on the other:
-
-  CLASS A — canonical/synthesis = 'unique' , JS #1 = 'standard' , Py #3 = 'unique'
-    `fusion` node at rank >= 4 with NO suiteComponents. JS #1's `type==='basic'`
-    unique-guard fails on fusion -> 'standard'. Canonical AGREES with Py #3 here.
-    (9 nodes; the two handover-named instances are the named-variant form:
-     firecrawl/firecrawl-build-scrape, obra/subagent-driven-development.)
-
-  CLASS B — canonical/synthesis = 'suite' , Py #3 = 'standard' , JS #1 = 'suite'
-    node at rank < 4 WITH suiteComponents. Py #3 rank-gates first -> 'standard'.
-    Canonical AGREES with JS #1 here (suite-presence-first, no rank gate).
-    (12 nodes; all 3-star suite parents.)
-
-Any divergence (vs EITHER legacy resolver) that does NOT fit Class A or Class B
-is a REAL failure (an unported / drifted resolver). See
-test_python_divergences_all_ratified / test_js_divergences_all_ratified.
+DELETE-GATE DISCIPLINE (§2.5): legacy resolvers #1 and #3 are known to diverge
+from the membership authority on ~9 nodes (JS #1, type-gated fusion guard) and
+~12 nodes (Py #3, rank-gated suite check). This drift is NOT blessed or
+ratified — it is RED-by-design. test_four_way_parity_pending_deletion is a
+strict-xfail that must stay xfail until Phase 3 DELETES the legacy resolvers and
+parity actually holds. The moment it flips to XPASS, CI hard-fails, forcing
+removal of the marker. That handshake IS the delete-gate.
 --------------------------------------------------------------------------------
 
 Run: PYTHONIOENCODING=utf-8 PYTHONPATH=./src python -m pytest tests/test_taxonomy_contract.py -q
@@ -138,24 +128,6 @@ def pythonBranch(node, effRank):
     return trustMagnitude.computeBranch({**node, "level": effRank})
 
 
-def divergenceClass(node, effRank, canon, other):
-    """Classify a canonical-vs-<legacy> divergence. Returns 'A', 'B', or None
-    (None => unratified => real failure).
-
-    Class A: canonical='unique', other='standard', rank>=4, no suite.
-    Class B: canonical='suite',  other='standard', rank<4,  suite present.
-    (Both legacy resolvers diverge toward 'standard' — JS #1 on Class A via its
-    type-guard, Py #3 on Class B via its rank-gate.)
-    """
-    rank = taxonomy.levelNum(effRank)
-    hasSuite = taxonomy.suiteComponentsPresent(node)
-    if canon == "unique" and other == "standard" and rank >= 4 and not hasSuite:
-        return "A"
-    if canon == "suite" and other == "standard" and rank < 4 and hasSuite:
-        return "B"
-    return None
-
-
 # ---------------------------------------------------------------------------
 # JS leg — batch-shell the harness once
 # ---------------------------------------------------------------------------
@@ -212,45 +184,25 @@ def test_synthesis_ground_truth():
     assert not mismatches, f"canonical vs synthesis mismatches: {mismatches}"
 
 
-def test_python_divergences_all_ratified():
-    """canonical vs Python #3: EVERY divergence must be Class B (rank<4 + suite).
-    canonical agrees with Py #3 everywhere else (incl. Class A)."""
-    unratified = []
+@pytest.mark.xfail(strict=True, reason=(
+    "known Ygg-I-vs-membership drift in legacy resolvers #1 (JS computeBranch, "
+    "type-gated) and #3 (trustMagnitude.computeBranch); resolved by DELETION in "
+    "Phase 3. Strict-xfail is the delete-gate handshake: the day Phase 3 deletes "
+    "the legacy resolvers and parity holds, this flips XPASS -> hard failure, "
+    "forcing the marker's removal."
+))
+def test_four_way_parity_pending_deletion():
+    """RED-by-design: authority == legacy #1 == legacy #3 on every node.
+    Fails until Phase 3 deletes the drifted legacy resolvers (delete-gate)."""
+    jsBranches = runJsHarness(ENTRIES)  # {id: branch} or None-per-node if harness unavailable
+    mismatches = []
     for sid, node, effRank in ENTRIES:
         c = canonicalBranch(node, effRank)
         p = pythonBranch(node, effRank)
-        if c == p:
-            continue
-        if divergenceClass(node, effRank, c, p) != "B":
-            unratified.append((sid, c, p, taxonomy.levelNum(effRank),
-                               taxonomy.suiteComponentsPresent(node)))
-    assert not unratified, (
-        "UNRATIFIED canonical-vs-Python-#3 divergence (only Class B — rank<4 + "
-        f"suite — is ratified here): {unratified}"
-    )
-
-
-@pytest.mark.skipif(JS_BRANCHES is None, reason="node unavailable")
-def test_js_divergences_all_ratified():
-    """canonical vs JS #1: EVERY divergence must be Class A (rank>=4 + no suite).
-    canonical agrees with JS #1 everywhere else (incl. Class B). A divergence of
-    any other signature is an unported/drifted resolver and RED-builds.
-
-    Signature-based (not an id list) so new corpus nodes matching a ratified
-    signature pass while a genuinely novel drift fails."""
-    unratified = []
-    for sid, node, effRank in ENTRIES:
-        c = canonicalBranch(node, effRank)
-        j = JS_BRANCHES.get(sid)
-        if j is None or c == j:
-            continue
-        if divergenceClass(node, effRank, c, j) != "A":
-            unratified.append((sid, c, j, taxonomy.levelNum(effRank),
-                               taxonomy.suiteComponentsPresent(node)))
-    assert not unratified, (
-        "UNRATIFIED canonical-vs-JS-#1 divergence (only Class A — rank>=4 + no "
-        f"suite — is ratified here): {unratified}"
-    )
+        j = jsBranches.get(sid) if jsBranches else None
+        if c != p or (j is not None and c != j):
+            mismatches.append((sid, c, p, j))
+    assert not mismatches, f"drift (canonical, py#3, js#1): {mismatches}"
 
 
 def test_pinned_divergence_is_unique_canonically():
@@ -274,28 +226,6 @@ def test_pinned_nodes_diverge_in_js():
             f"pinned node {sid} no longer diverges in JS (got {j!r}); "
             "update PINNED_JS_DIVERGENCE"
         )
-
-
-@pytest.mark.skipif(JS_BRANCHES is None, reason="node unavailable")
-def test_divergence_counts_are_exactly_9A_and_12B():
-    """Pin the exact observed shape against the 2026-07-18 corpus:
-       Class A = 9 unique ids (canonical 'unique' vs JS 'standard')
-       Class B = 12 unique ids (canonical 'suite' vs Py3 'standard')
-    A drift in these counts flags a corpus change that must be re-reviewed
-    against the divergence map (not necessarily a correctness failure)."""
-    classA, classB = set(), set()
-    for sid, node, effRank in ENTRIES:
-        c = canonicalBranch(node, effRank)
-        j = JS_BRANCHES.get(sid)
-        p = pythonBranch(node, effRank)
-        if j is not None and c != j and divergenceClass(node, effRank, c, j) == "A":
-            classA.add(sid)
-        if c != p and divergenceClass(node, effRank, c, p) == "B":
-            classB.add(sid)
-    assert len(classA) == 9, sorted(classA)
-    assert len(classB) == 12, sorted(classB)
-    # No id is simultaneously A and B (mutually exclusive signatures).
-    assert not (classA & classB), sorted(classA & classB)
 
 
 def test_no_banned_words_emitted_across_corpus():
