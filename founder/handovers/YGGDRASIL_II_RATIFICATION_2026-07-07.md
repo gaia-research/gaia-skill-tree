@@ -2,6 +2,59 @@
 
 ---
 
+## v3 Amendment — 2026-07-18 (Three orthogonal axes: Membership · Rank word · Decoration)
+
+> This amendment refines v2 by naming the three **independent** axes that the v2 rules
+> already implied but did not separate cleanly. It supersedes nothing in v2 — the
+> derivation rules and ladders stand — but it disambiguates the vocabulary so design,
+> copy, and code stop conflating "which branch a skill belongs to" with "how it is
+> decorated." Every consumer (badges, medallions, SSR, JS) must respect the split.
+
+### The three axes
+
+1. **Membership** — which branch a skill *belongs to*, for grouping / sorting / membership.
+   Values: `standard` | `suite` | `unique`.
+   - Membership holds **from 1★ up**. A suite-component skill is `suite` at 2★; a
+     standalone-mastery skill is `unique` at 4★. Membership is derived, never declared:
+     `suiteComponents present → suite`; else `rank ≥ 4 → unique`; else `standard`.
+   - Membership is the axis `taxonomy.branchFor()` returns.
+
+2. **Rank word** — the ladder word for the skill's current star level.
+   Values: `Awakened` (1★), `Named` (2★), `Evolved` (3★) — shared across all membership —
+   then the fork at 4★+: `Extra`/`Ultimate`/`Apex` (suite) or `Unique`/`Unique Ultimate`/`Unique Impossible` (unique).
+   - The rank word is `taxonomy.rankWord(level, branch)`.
+   - **1★–3★ always return the shared word regardless of membership.** A 2★ suite-member
+     reads "Named," never "Extra."
+
+3. **Decoration** — the prestige *treatment*: plain vs. Suite/Unique glyph and medallion,
+   plus the branch's color tokens.
+   - Decoration only *renders* at 4★+. Below 4★ every skill uses the plain glyph
+     (white diamond) and the shared rank color ramp, **even though its Membership is
+     already `suite`/`unique`.**
+   - At 4★+ the decoration forks by Membership:
+     - **Suite** → suite medallion (◆ black diamond) + gold escalation (4★ tint → 5★ deeper → 6★ Apex metallic gold).
+     - **Unique** → unique medallion (◉ circled bullet) + the Unique color ladder:
+       **4★ violet → 5★ darker gold → 6★ inverted (gold ground / dark ink).**
+   - Decoration is `taxonomy.medallion(branch, rank)` for the glyph, plus the per-rank
+     color tokens (`RANK_COLORS`, `RANK_COLORS_UNIQUE`).
+
+### Why the split matters (load-bearing)
+
+The three axes were tangled in the v1/v2 badge generator: `_UNIQUE_COLOR` was a single
+violet applied to every unique rank, so 5★ and 6★ uniques rendered identically to 4★.
+Under v3 the axes are independent — a skill's **Membership** does not dictate its
+**Decoration** color; the rank *within* the membership does. The Unique ladder is:
+
+| Stars | Unique rank word | Unique decoration (color/treatment) |
+|---|---|---|
+| 4★ | Unique | violet (`#7c3aed`) |
+| 5★ | Unique Ultimate | **darker gold** |
+| 6★ | Unique Impossible | **inverted** (gold ground, dark ink) |
+
+Any surface that draws a unique 5★ in plain violet, or a 6★ non-inverted, is wrong.
+
+---
+
 ## v2 Amendment — 2026-07-14 (Branch decoupled from Type)
 
 > This amendment supersedes **Q2** and the **Unique branch**, **Suite branch**, and **`computeBranch`** entries in the Ubiquitous Language section below. Original text for each is preserved with an inline `[SUPERSEDED]` marker.

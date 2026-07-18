@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-16",
+  "generatedAt": "2026-07-17",
   "schema": "gaia-badges-registry/2",
   "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The site Worker at worker/index.js handles /badges/<handle>/<file>.svg (the real SVGs live at /badges/_assets/<handle>/<file>.svg) and serves the `validating\u2026` SVG (docs/badges/not-found.svg) when the `?repo=` query string doesn't match a repo listed here. Schema v2 adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant.",
   "contributors": {
@@ -68,6 +68,7 @@
           "name": "Founder Mode",
           "rank": 5,
           "type": "fusion",
+          "branch": "suite",
           "slash": "/gstack",
           "file": "gstack.svg",
           "fileSeal": "gstack-seal.svg"
@@ -77,6 +78,7 @@
           "name": "Benchmark",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/benchmark",
           "file": "benchmark.svg",
           "fileSeal": "benchmark-seal.svg"
@@ -86,6 +88,7 @@
           "name": "Browse",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/browse",
           "file": "browse.svg",
           "fileSeal": "browse-seal.svg"
@@ -95,6 +98,7 @@
           "name": "Canary",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/canary",
           "file": "canary.svg",
           "fileSeal": "canary-seal.svg"
@@ -104,6 +108,7 @@
           "name": "Careful",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/careful",
           "file": "careful.svg",
           "fileSeal": "careful-seal.svg"
@@ -113,6 +118,7 @@
           "name": "CSO",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/cso",
           "file": "cso.svg",
           "fileSeal": "cso-seal.svg"
@@ -122,6 +128,7 @@
           "name": "Design Consultation",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/design-consultation",
           "file": "design-consultation.svg",
           "fileSeal": "design-consultation-seal.svg"
@@ -131,6 +138,7 @@
           "name": "Design HTML",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/design-html",
           "file": "design-html.svg",
           "fileSeal": "design-html-seal.svg"
@@ -140,6 +148,7 @@
           "name": "Design Shotgun",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/design-shotgun",
           "file": "design-shotgun.svg",
           "fileSeal": "design-shotgun-seal.svg"
@@ -149,6 +158,7 @@
           "name": "Document Generate",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/document-generate",
           "file": "document-generate.svg",
           "fileSeal": "document-generate-seal.svg"
@@ -158,6 +168,7 @@
           "name": "Autoplan",
           "rank": 3,
           "type": "fusion",
+          "branch": "suite",
           "slash": "/garrytan",
           "file": "garrytan.svg",
           "fileSeal": "garrytan-seal.svg"
@@ -167,6 +178,7 @@
           "name": "Investigate",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/investigate",
           "file": "investigate.svg",
           "fileSeal": "investigate-seal.svg"
@@ -176,6 +188,7 @@
           "name": "Land and Deploy",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/land-and-deploy",
           "file": "land-and-deploy.svg",
           "fileSeal": "land-and-deploy-seal.svg"
@@ -185,6 +198,7 @@
           "name": "Office Hours",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/office-hours",
           "file": "office-hours.svg",
           "fileSeal": "office-hours-seal.svg"
@@ -194,6 +208,7 @@
           "name": "Plan CEO Review",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/plan-ceo-review",
           "file": "plan-ceo-review.svg",
           "fileSeal": "plan-ceo-review-seal.svg"
@@ -203,6 +218,7 @@
           "name": "Plan Design Review",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/plan-design-review",
           "file": "plan-design-review.svg",
           "fileSeal": "plan-design-review-seal.svg"
@@ -212,6 +228,7 @@
           "name": "Plan DevEx Review",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/plan-devex-review",
           "file": "plan-devex-review.svg",
           "fileSeal": "plan-devex-review-seal.svg"
@@ -221,6 +238,7 @@
           "name": "Plan Eng Review",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/plan-eng-review",
           "file": "plan-eng-review.svg",
           "fileSeal": "plan-eng-review-seal.svg"
@@ -230,6 +248,7 @@
           "name": "QA",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/qa",
           "file": "qa.svg",
           "fileSeal": "qa-seal.svg"
@@ -239,6 +258,7 @@
           "name": "Retro",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/retro",
           "file": "retro.svg",
           "fileSeal": "retro-seal.svg"
@@ -248,6 +268,7 @@
           "name": "Review",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/review",
           "file": "review.svg",
           "fileSeal": "review-seal.svg"
@@ -257,6 +278,7 @@
           "name": "Ship",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/ship",
           "file": "ship.svg",
           "fileSeal": "ship-seal.svg"
@@ -266,6 +288,7 @@
           "name": "Skillify",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/skillify",
           "file": "skillify.svg",
           "fileSeal": "skillify-seal.svg"
@@ -275,6 +298,7 @@
           "name": "Benchmark Models",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/benchmark-models",
           "file": "benchmark-models.svg",
           "fileSeal": "benchmark-models-seal.svg"
@@ -284,6 +308,7 @@
           "name": "Codex",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/codex",
           "file": "codex.svg",
           "fileSeal": "codex-seal.svg"
@@ -293,6 +318,7 @@
           "name": "Context Restore",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/context-restore",
           "file": "context-restore.svg",
           "fileSeal": "context-restore-seal.svg"
@@ -302,6 +328,7 @@
           "name": "Context Save",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/context-save",
           "file": "context-save.svg",
           "fileSeal": "context-save-seal.svg"
@@ -311,6 +338,7 @@
           "name": "Design Review",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/design-review",
           "file": "design-review.svg",
           "fileSeal": "design-review-seal.svg"
@@ -320,6 +348,7 @@
           "name": "DevEx Review",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/devex-review",
           "file": "devex-review.svg",
           "fileSeal": "devex-review-seal.svg"
@@ -329,6 +358,7 @@
           "name": "Document Release",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/document-release",
           "file": "document-release.svg",
           "fileSeal": "document-release-seal.svg"
@@ -338,6 +368,7 @@
           "name": "Freeze",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/freeze",
           "file": "freeze.svg",
           "fileSeal": "freeze-seal.svg"
@@ -347,6 +378,7 @@
           "name": "GStack Upgrade",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/gstack-upgrade",
           "file": "gstack-upgrade.svg",
           "fileSeal": "gstack-upgrade-seal.svg"
@@ -356,6 +388,7 @@
           "name": "Guard",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/guard",
           "file": "guard.svg",
           "fileSeal": "guard-seal.svg"
@@ -365,6 +398,7 @@
           "name": "Health",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/health",
           "file": "health.svg",
           "fileSeal": "health-seal.svg"
@@ -374,6 +408,7 @@
           "name": "Landing Report",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/landing-report",
           "file": "landing-report.svg",
           "fileSeal": "landing-report-seal.svg"
@@ -383,6 +418,7 @@
           "name": "Learn",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/learn",
           "file": "learn.svg",
           "fileSeal": "learn-seal.svg"
@@ -392,6 +428,7 @@
           "name": "Make PDF",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/make-pdf",
           "file": "make-pdf.svg",
           "fileSeal": "make-pdf-seal.svg"
@@ -401,6 +438,7 @@
           "name": "Open GStack Browser",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/open-gstack-browser",
           "file": "open-gstack-browser.svg",
           "fileSeal": "open-gstack-browser-seal.svg"
@@ -410,6 +448,7 @@
           "name": "Pair Agent",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/pair-agent",
           "file": "pair-agent.svg",
           "fileSeal": "pair-agent-seal.svg"
@@ -419,6 +458,7 @@
           "name": "Plan Tune",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/plan-tune",
           "file": "plan-tune.svg",
           "fileSeal": "plan-tune-seal.svg"
@@ -428,6 +468,7 @@
           "name": "QA Only",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/qa-only",
           "file": "qa-only.svg",
           "fileSeal": "qa-only-seal.svg"
@@ -437,6 +478,7 @@
           "name": "Scrape",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/scrape",
           "file": "scrape.svg",
           "fileSeal": "scrape-seal.svg"
@@ -446,6 +488,7 @@
           "name": "Setup Browser Cookies",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/setup-browser-cookies",
           "file": "setup-browser-cookies.svg",
           "fileSeal": "setup-browser-cookies-seal.svg"
@@ -455,6 +498,7 @@
           "name": "Setup Deploy",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/setup-deploy",
           "file": "setup-deploy.svg",
           "fileSeal": "setup-deploy-seal.svg"
@@ -464,6 +508,7 @@
           "name": "Setup GBrain",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/setup-gbrain",
           "file": "setup-gbrain.svg",
           "fileSeal": "setup-gbrain-seal.svg"
@@ -473,6 +518,7 @@
           "name": "Sync GBrain",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/sync-gbrain",
           "file": "sync-gbrain.svg",
           "fileSeal": "sync-gbrain-seal.svg"
@@ -482,6 +528,7 @@
           "name": "Unfreeze",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/unfreeze",
           "file": "unfreeze.svg",
           "fileSeal": "unfreeze-seal.svg"
@@ -507,6 +554,7 @@
           "name": "Design Extract",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/design-extract",
           "file": "design-extract.svg",
           "fileSeal": "design-extract-seal.svg"
@@ -540,6 +588,7 @@
           "name": "Agent Skills",
           "rank": 5,
           "type": "fusion",
+          "branch": "suite",
           "slash": "/agent-skills",
           "file": "agent-skills.svg",
           "fileSeal": "agent-skills-seal.svg"
@@ -549,6 +598,7 @@
           "name": "Performance Optimization",
           "rank": 4,
           "type": "basic",
+          "branch": "unique",
           "slash": "/performance-optimization",
           "file": "performance-optimization.svg",
           "fileSeal": "performance-optimization-seal.svg"
@@ -558,6 +608,7 @@
           "name": "Code Review and Quality",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/code-review-and-quality",
           "file": "code-review-and-quality.svg",
           "fileSeal": "code-review-and-quality-seal.svg"
@@ -567,6 +618,7 @@
           "name": "Code Simplification",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/code-simplification",
           "file": "code-simplification.svg",
           "fileSeal": "code-simplification-seal.svg"
@@ -576,6 +628,7 @@
           "name": "Incremental Implementation",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/incremental-implementation",
           "file": "incremental-implementation.svg",
           "fileSeal": "incremental-implementation-seal.svg"
@@ -585,6 +638,7 @@
           "name": "Planning and Task Breakdown",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/planning-and-task-breakdown",
           "file": "planning-and-task-breakdown.svg",
           "fileSeal": "planning-and-task-breakdown-seal.svg"
@@ -594,6 +648,7 @@
           "name": "Shipping and Launch",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/shipping-and-launch",
           "file": "shipping-and-launch.svg",
           "fileSeal": "shipping-and-launch-seal.svg"
@@ -603,6 +658,7 @@
           "name": "Spec-Driven Development",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/spec-driven-development",
           "file": "spec-driven-development.svg",
           "fileSeal": "spec-driven-development-seal.svg"
@@ -612,6 +668,7 @@
           "name": "Test-Driven Development",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/test-driven-development",
           "file": "test-driven-development.svg",
           "fileSeal": "test-driven-development-seal.svg"
@@ -642,6 +699,7 @@
           "name": "GSD Discuss Phase",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/discuss-phase",
           "file": "discuss-phase.svg",
           "fileSeal": "discuss-phase-seal.svg"
@@ -651,6 +709,7 @@
           "name": "GSD Execute Phase",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/execute-phase",
           "file": "execute-phase.svg",
           "fileSeal": "execute-phase-seal.svg"
@@ -660,6 +719,7 @@
           "name": "Get Shit Done",
           "rank": 3,
           "type": "fusion",
+          "branch": "suite",
           "slash": "/get-shit-done",
           "file": "get-shit-done.svg",
           "fileSeal": "get-shit-done-seal.svg"
@@ -669,6 +729,7 @@
           "name": "GSD Plan Phase",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/plan-phase",
           "file": "plan-phase.svg",
           "fileSeal": "plan-phase-seal.svg"
@@ -678,6 +739,7 @@
           "name": "GSD Ship",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/ship",
           "file": "ship.svg",
           "fileSeal": "ship-seal.svg"
@@ -687,6 +749,7 @@
           "name": "GSD Verify Work",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/verify-work",
           "file": "verify-work.svg",
           "fileSeal": "verify-work-seal.svg"
@@ -741,6 +804,7 @@
           "name": "Ruflo",
           "rank": 5,
           "type": "fusion",
+          "branch": "suite",
           "slash": "/ruflo",
           "file": "ruflo.svg",
           "fileSeal": "ruflo-seal.svg"
@@ -750,6 +814,7 @@
           "name": "AgentDB",
           "rank": 3,
           "type": "fusion",
+          "branch": "suite",
           "slash": "/agentdb",
           "file": "agentdb.svg",
           "fileSeal": "agentdb-seal.svg"
@@ -759,6 +824,7 @@
           "name": "Dual Mode",
           "rank": 3,
           "type": "fusion",
+          "branch": "suite",
           "slash": "/dual-mode",
           "file": "dual-mode.svg",
           "fileSeal": "dual-mode-seal.svg"
@@ -768,6 +834,7 @@
           "name": "Flow Nexus",
           "rank": 3,
           "type": "fusion",
+          "branch": "suite",
           "slash": "/flow-nexus",
           "file": "flow-nexus.svg",
           "fileSeal": "flow-nexus-seal.svg"
@@ -777,6 +844,7 @@
           "name": "GitHub Suite",
           "rank": 3,
           "type": "fusion",
+          "branch": "suite",
           "slash": "/github-suite",
           "file": "github-suite.svg",
           "fileSeal": "github-suite-seal.svg"
@@ -786,6 +854,7 @@
           "name": "Hive Mind Coordination",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/hive-mind-coordination",
           "file": "hive-mind-coordination.svg",
           "fileSeal": "hive-mind-coordination-seal.svg"
@@ -795,6 +864,7 @@
           "name": "ReasoningBank",
           "rank": 3,
           "type": "fusion",
+          "branch": "suite",
           "slash": "/reasoningbank",
           "file": "reasoningbank.svg",
           "fileSeal": "reasoningbank-seal.svg"
@@ -804,6 +874,7 @@
           "name": "Ruflo V3",
           "rank": 3,
           "type": "fusion",
+          "branch": "suite",
           "slash": "/ruflo-v3",
           "file": "ruflo-v3.svg",
           "fileSeal": "ruflo-v3-seal.svg"
@@ -813,6 +884,7 @@
           "name": "AgentDB Advanced",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/agentdb-advanced",
           "file": "agentdb-advanced.svg",
           "fileSeal": "agentdb-advanced-seal.svg"
@@ -822,6 +894,7 @@
           "name": "AgentDB Memory Patterns",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/agentdb-memory-patterns",
           "file": "agentdb-memory-patterns.svg",
           "fileSeal": "agentdb-memory-patterns-seal.svg"
@@ -831,6 +904,7 @@
           "name": "AgentDB Optimization",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/agentdb-optimization",
           "file": "agentdb-optimization.svg",
           "fileSeal": "agentdb-optimization-seal.svg"
@@ -840,6 +914,7 @@
           "name": "AgentDB Vector Search",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/agentdb-vector-search",
           "file": "agentdb-vector-search.svg",
           "fileSeal": "agentdb-vector-search-seal.svg"
@@ -849,6 +924,7 @@
           "name": "Agentic Jujutsu",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/agentic-jujutsu",
           "file": "agentic-jujutsu.svg",
           "fileSeal": "agentic-jujutsu-seal.svg"
@@ -858,6 +934,7 @@
           "name": "Dual Collect",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/dual-collect",
           "file": "dual-collect.svg",
           "fileSeal": "dual-collect-seal.svg"
@@ -867,6 +944,7 @@
           "name": "Dual Coordinate",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/dual-coordinate",
           "file": "dual-coordinate.svg",
           "fileSeal": "dual-coordinate-seal.svg"
@@ -876,6 +954,7 @@
           "name": "Dual Spawn",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/dual-spawn",
           "file": "dual-spawn.svg",
           "fileSeal": "dual-spawn-seal.svg"
@@ -885,6 +964,7 @@
           "name": "Flow Nexus Neural",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/flow-nexus-neural",
           "file": "flow-nexus-neural.svg",
           "fileSeal": "flow-nexus-neural-seal.svg"
@@ -894,6 +974,7 @@
           "name": "Flow Nexus Platform",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/flow-nexus-platform",
           "file": "flow-nexus-platform.svg",
           "fileSeal": "flow-nexus-platform-seal.svg"
@@ -903,6 +984,7 @@
           "name": "GitHub Multi-Repo",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/github-multi-repo",
           "file": "github-multi-repo.svg",
           "fileSeal": "github-multi-repo-seal.svg"
@@ -912,6 +994,7 @@
           "name": "Pair Programming",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/pair-programming",
           "file": "pair-programming.svg",
           "fileSeal": "pair-programming-seal.svg"
@@ -921,6 +1004,7 @@
           "name": "ReasoningBank Intelligence",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/reasoningbank-intelligence",
           "file": "reasoningbank-intelligence.svg",
           "fileSeal": "reasoningbank-intelligence-seal.svg"
@@ -930,6 +1014,7 @@
           "name": "Stream Chain",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/stream-chain",
           "file": "stream-chain.svg",
           "fileSeal": "stream-chain-seal.svg"
@@ -939,6 +1024,7 @@
           "name": "Swarm Advanced",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/swarm-advanced",
           "file": "swarm-advanced.svg",
           "fileSeal": "swarm-advanced-seal.svg"
@@ -948,6 +1034,7 @@
           "name": "Swarm Orchestration",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/swarm-orchestration",
           "file": "swarm-orchestration.svg",
           "fileSeal": "swarm-orchestration-seal.svg"
@@ -957,6 +1044,7 @@
           "name": "V3 CLI Modernization",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/v3-cli-modernization",
           "file": "v3-cli-modernization.svg",
           "fileSeal": "v3-cli-modernization-seal.svg"
@@ -966,6 +1054,7 @@
           "name": "V3 Core Implementation",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/v3-core-implementation",
           "file": "v3-core-implementation.svg",
           "fileSeal": "v3-core-implementation-seal.svg"
@@ -975,6 +1064,7 @@
           "name": "V3 DDD Architecture",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/v3-ddd-architecture",
           "file": "v3-ddd-architecture.svg",
           "fileSeal": "v3-ddd-architecture-seal.svg"
@@ -984,6 +1074,7 @@
           "name": "V3 Integration Deep",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/v3-integration-deep",
           "file": "v3-integration-deep.svg",
           "fileSeal": "v3-integration-deep-seal.svg"
@@ -993,6 +1084,7 @@
           "name": "Verification Quality",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/verification-quality",
           "file": "verification-quality.svg",
           "fileSeal": "verification-quality-seal.svg"
@@ -1002,6 +1094,7 @@
           "name": "Worker Integration",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/worker-integration",
           "file": "worker-integration.svg",
           "fileSeal": "worker-integration-seal.svg"
@@ -1043,6 +1136,7 @@
           "name": "Matt Pocock Skills",
           "rank": 5,
           "type": "fusion",
+          "branch": "suite",
           "slash": "/skills",
           "file": "skills~.svg",
           "fileSeal": "skills~-seal.svg"
@@ -1052,6 +1146,7 @@
           "name": "Diagnose",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/diagnose",
           "file": "diagnose.svg",
           "fileSeal": "diagnose-seal.svg"
@@ -1061,6 +1156,7 @@
           "name": "Edit Article",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/edit-article",
           "file": "edit-article.svg",
           "fileSeal": "edit-article-seal.svg"
@@ -1070,6 +1166,7 @@
           "name": "Engineering",
           "rank": 3,
           "type": "fusion",
+          "branch": "suite",
           "slash": "/engineering",
           "file": "engineering.svg",
           "fileSeal": "engineering-seal.svg"
@@ -1079,6 +1176,7 @@
           "name": "Grill Me",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/grill-me",
           "file": "grill-me.svg",
           "fileSeal": "grill-me-seal.svg"
@@ -1088,6 +1186,7 @@
           "name": "Grill With Docs",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/grill-with-docs",
           "file": "grill-with-docs.svg",
           "fileSeal": "grill-with-docs-seal.svg"
@@ -1097,6 +1196,7 @@
           "name": "Handoff",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/handoff",
           "file": "handoff.svg",
           "fileSeal": "handoff-seal.svg"
@@ -1106,6 +1206,7 @@
           "name": "Obsidian Vault Manager",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/obsidian-vault",
           "file": "obsidian-vault.svg",
           "fileSeal": "obsidian-vault-seal.svg"
@@ -1115,6 +1216,7 @@
           "name": "Personal",
           "rank": 3,
           "type": "fusion",
+          "branch": "suite",
           "slash": "/personal",
           "file": "personal.svg",
           "fileSeal": "personal-seal.svg"
@@ -1124,6 +1226,7 @@
           "name": "Productivity",
           "rank": 3,
           "type": "fusion",
+          "branch": "suite",
           "slash": "/productivity",
           "file": "productivity.svg",
           "fileSeal": "productivity-seal.svg"
@@ -1133,6 +1236,7 @@
           "name": "Setup Matt Pocock Skills",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/setup-matt-pocock-skills",
           "file": "setup-matt-pocock-skills.svg",
           "fileSeal": "setup-matt-pocock-skills-seal.svg"
@@ -1142,6 +1246,7 @@
           "name": "To Issues",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/to-issues",
           "file": "to-issues.svg",
           "fileSeal": "to-issues-seal.svg"
@@ -1151,6 +1256,7 @@
           "name": "To PRD",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/to-prd",
           "file": "to-prd.svg",
           "fileSeal": "to-prd-seal.svg"
@@ -1160,6 +1266,7 @@
           "name": "Triage",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/triage",
           "file": "triage.svg",
           "fileSeal": "triage-seal.svg"
@@ -1169,6 +1276,7 @@
           "name": "Ubiquitous Language",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/ubiquitous-language",
           "file": "ubiquitous-language.svg",
           "fileSeal": "ubiquitous-language-seal.svg"
@@ -1178,6 +1286,7 @@
           "name": "Caveman Mode",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/caveman",
           "file": "caveman.svg",
           "fileSeal": "caveman-seal.svg"
@@ -1187,6 +1296,7 @@
           "name": "Improve Codebase Architecture",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/improve-codebase-architecture",
           "file": "improve-codebase-architecture.svg",
           "fileSeal": "improve-codebase-architecture-seal.svg"
@@ -1196,6 +1306,7 @@
           "name": "Prototype",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/prototype",
           "file": "prototype.svg",
           "fileSeal": "prototype-seal.svg"
@@ -1205,6 +1316,7 @@
           "name": "Teach",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/teach",
           "file": "teach.svg",
           "fileSeal": "teach-seal.svg"
@@ -1214,6 +1326,7 @@
           "name": "Write a Skill",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/write-a-skill",
           "file": "write-a-skill.svg",
           "fileSeal": "write-a-skill-seal.svg"
@@ -1250,6 +1363,7 @@
           "name": "Superpowers",
           "rank": 5,
           "type": "fusion",
+          "branch": "suite",
           "slash": "/superpowers",
           "file": "superpowers.svg",
           "fileSeal": "superpowers-seal.svg"
@@ -1259,6 +1373,7 @@
           "name": "Subagent-Driven Development",
           "rank": 4,
           "type": "fusion",
+          "branch": "unique",
           "slash": "/subagent-driven-development",
           "file": "subagent-driven-development.svg",
           "fileSeal": "subagent-driven-development-seal.svg"
@@ -1268,6 +1383,7 @@
           "name": "Brainstorming",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/brainstorming",
           "file": "brainstorming.svg",
           "fileSeal": "brainstorming-seal.svg"
@@ -1277,6 +1393,7 @@
           "name": "Dispatching Parallel Agents",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/dispatching-parallel-agents",
           "file": "dispatching-parallel-agents.svg",
           "fileSeal": "dispatching-parallel-agents-seal.svg"
@@ -1286,6 +1403,7 @@
           "name": "Executing Plans",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/executing-plans",
           "file": "executing-plans.svg",
           "fileSeal": "executing-plans-seal.svg"
@@ -1295,6 +1413,7 @@
           "name": "Systematic Debugging",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/systematic-debugging",
           "file": "systematic-debugging.svg",
           "fileSeal": "systematic-debugging-seal.svg"
@@ -1304,6 +1423,7 @@
           "name": "Using Git Worktrees",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/using-git-worktrees",
           "file": "using-git-worktrees.svg",
           "fileSeal": "using-git-worktrees-seal.svg"
@@ -1313,6 +1433,7 @@
           "name": "Verification Before Completion",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/verification-before-completion",
           "file": "verification-before-completion.svg",
           "fileSeal": "verification-before-completion-seal.svg"
@@ -1322,6 +1443,7 @@
           "name": "Writing Plans",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/writing-plans",
           "file": "writing-plans.svg",
           "fileSeal": "writing-plans-seal.svg"
@@ -1331,6 +1453,7 @@
           "name": "Finishing a Development Branch",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/finishing-a-development-branch",
           "file": "finishing-a-development-branch.svg",
           "fileSeal": "finishing-a-development-branch-seal.svg"
@@ -1340,6 +1463,7 @@
           "name": "Receiving Code Review",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/receiving-code-review",
           "file": "receiving-code-review.svg",
           "fileSeal": "receiving-code-review-seal.svg"
@@ -1349,6 +1473,7 @@
           "name": "Requesting Code Review",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/requesting-code-review",
           "file": "requesting-code-review.svg",
           "fileSeal": "requesting-code-review-seal.svg"
@@ -1375,6 +1500,7 @@
           "name": "Skill Creator",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/skill-creator",
           "file": "skill-creator.svg",
           "fileSeal": "skill-creator-seal.svg"
@@ -1384,6 +1510,7 @@
           "name": "PPTX Editor",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/pptx",
           "file": "pptx.svg",
           "fileSeal": "pptx-seal.svg"
@@ -1409,6 +1536,7 @@
           "name": "Claude Video",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/claude-video",
           "file": "claude-video.svg",
           "fileSeal": "claude-video-seal.svg"
@@ -1434,6 +1562,7 @@
           "name": "Browser Harness",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/browser-harness",
           "file": "browser-harness.svg",
           "fileSeal": "browser-harness-seal.svg"
@@ -1459,7 +1588,7 @@
       },
       "topSkill": "firecrawl/firecrawl-build-scrape",
       "topRank": 4,
-      "topIsUnique": false,
+      "topIsUnique": true,
       "count": 6,
       "namedSkills": [
         {
@@ -1467,6 +1596,7 @@
           "name": "Firecrawl Scrape",
           "rank": 4,
           "type": "fusion",
+          "branch": "unique",
           "slash": "/firecrawl-build-scrape",
           "file": "firecrawl-build-scrape.svg",
           "fileSeal": "firecrawl-build-scrape-seal.svg"
@@ -1476,6 +1606,7 @@
           "name": "Firecrawl Search",
           "rank": 4,
           "type": "basic",
+          "branch": "unique",
           "slash": "/firecrawl-build-search",
           "file": "firecrawl-build-search.svg",
           "fileSeal": "firecrawl-build-search-seal.svg"
@@ -1485,6 +1616,7 @@
           "name": "Firecrawl Skills",
           "rank": 3,
           "type": "fusion",
+          "branch": "suite",
           "slash": "/firecrawl-skills",
           "file": "firecrawl-skills.svg",
           "fileSeal": "firecrawl-skills-seal.svg"
@@ -1494,6 +1626,7 @@
           "name": "Firecrawl Interact",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/firecrawl-build-interact",
           "file": "firecrawl-build-interact.svg",
           "fileSeal": "firecrawl-build-interact-seal.svg"
@@ -1503,6 +1636,7 @@
           "name": "Firecrawl Onboarding",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/firecrawl-build-onboarding",
           "file": "firecrawl-build-onboarding.svg",
           "fileSeal": "firecrawl-build-onboarding-seal.svg"
@@ -1512,6 +1646,7 @@
           "name": "Firecrawl Research Index",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/firecrawl-research-index",
           "file": "firecrawl-research-index.svg",
           "fileSeal": "firecrawl-research-index-seal.svg"
@@ -1537,6 +1672,7 @@
           "name": "Autonomous SWE",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/autonomous-swe",
           "file": "autonomous-swe.svg",
           "fileSeal": "autonomous-swe-seal.svg"
@@ -1563,6 +1699,7 @@
           "name": "CI Churn",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/skill-ci-churn",
           "file": "skill-ci-churn.svg",
           "fileSeal": "skill-ci-churn-seal.svg"
@@ -1572,6 +1709,7 @@
           "name": "Skill Fuse",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/skill-fuse",
           "file": "skill-fuse.svg",
           "fileSeal": "skill-fuse-seal.svg"
@@ -1589,7 +1727,7 @@
       },
       "topSkill": "pbakaus/impeccable",
       "topRank": 4,
-      "topIsUnique": false,
+      "topIsUnique": true,
       "count": 1,
       "namedSkills": [
         {
@@ -1597,6 +1735,7 @@
           "name": "Impeccable",
           "rank": 4,
           "type": "basic",
+          "branch": "unique",
           "slash": "/impeccable",
           "file": "impeccable.svg",
           "fileSeal": "impeccable-seal.svg"
@@ -1622,6 +1761,7 @@
           "name": "Nielsen Heuristics Audit",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/nielsen-heuristics-audit",
           "file": "nielsen-heuristics-audit.svg",
           "fileSeal": "nielsen-heuristics-audit-seal.svg"
@@ -1651,6 +1791,7 @@
           "name": "Gaia Audit",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/gaia-audit",
           "file": "gaia-audit.svg",
           "fileSeal": "gaia-audit-seal.svg"
@@ -1660,6 +1801,7 @@
           "name": "Gaia Curation Review",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/gaia-curation-review",
           "file": "gaia-curation-review.svg",
           "fileSeal": "gaia-curation-review-seal.svg"
@@ -1669,6 +1811,7 @@
           "name": "Gaia Meta Audit",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/gaia-meta-audit",
           "file": "gaia-meta-audit.svg",
           "fileSeal": "gaia-meta-audit-seal.svg"
@@ -1678,6 +1821,7 @@
           "name": "Gaia Preview",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/gaia-preview",
           "file": "gaia-preview.svg",
           "fileSeal": "gaia-preview-seal.svg"
@@ -1687,6 +1831,7 @@
           "name": "Graphify Triage",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/graphify-triage",
           "file": "graphify-triage.svg",
           "fileSeal": "graphify-triage-seal.svg"
@@ -1706,6 +1851,7 @@
           "name": "DSPy",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/dspy",
           "file": "dspy.svg",
           "fileSeal": "dspy-seal.svg"
@@ -1731,6 +1877,7 @@
           "name": "REST API README Generator",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/readme-generate",
           "file": "readme-generate.svg",
           "fileSeal": "readme-generate-seal.svg"
@@ -1756,6 +1903,7 @@
           "name": "CodeBurn",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/codeburn",
           "file": "codeburn.svg",
           "fileSeal": "codeburn-seal.svg"
@@ -1775,6 +1923,7 @@
           "name": "Semantic Cache",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/semantic-cache",
           "file": "semantic-cache.svg",
           "fileSeal": "semantic-cache-seal.svg"
@@ -1800,6 +1949,7 @@
           "name": "AutoResearch",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/autoresearch",
           "file": "autoresearch.svg",
           "fileSeal": "autoresearch-seal.svg"
@@ -1825,6 +1975,7 @@
           "name": "Upgrade Laravel v13",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/upgrade-laravel-v13",
           "file": "upgrade-laravel-v13.svg",
           "fileSeal": "upgrade-laravel-v13-seal.svg"
@@ -1850,6 +2001,7 @@
           "name": "Open Design",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/open-design",
           "file": "open-design.svg",
           "fileSeal": "open-design-seal.svg"
@@ -1875,6 +2027,7 @@
           "name": "Feed Monitoring",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/feed-monitoring",
           "file": "feed-monitoring.svg",
           "fileSeal": "feed-monitoring-seal.svg"
@@ -1886,7 +2039,7 @@
       "skillsByRepo": {},
       "topSkill": "openai/few-shot-learning",
       "topRank": 4,
-      "topIsUnique": false,
+      "topIsUnique": true,
       "count": 2,
       "namedSkills": [
         {
@@ -1894,6 +2047,7 @@
           "name": "Few-Shot Learning",
           "rank": 4,
           "type": "basic",
+          "branch": "unique",
           "slash": "/few-shot-learning",
           "file": "few-shot-learning.svg",
           "fileSeal": "few-shot-learning-seal.svg"
@@ -1903,6 +2057,7 @@
           "name": "Self-Consistency",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/self-consistency",
           "file": "self-consistency.svg",
           "fileSeal": "self-consistency-seal.svg"
@@ -1928,6 +2083,7 @@
           "name": "Graphify",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/graphify",
           "file": "graphify.svg",
           "fileSeal": "graphify-seal.svg"
@@ -1953,6 +2109,7 @@
           "name": "Career-Ops",
           "rank": 2,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/career-ops",
           "file": "career-ops.svg",
           "fileSeal": "career-ops-seal.svg"
@@ -1978,6 +2135,7 @@
           "name": "Unittest Generator",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/unittest-generator",
           "file": "unittest-generator.svg",
           "fileSeal": "unittest-generator-seal.svg"
@@ -2003,6 +2161,7 @@
           "name": "Find Skills",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/find-skills",
           "file": "find-skills.svg",
           "fileSeal": "find-skills-seal.svg"
@@ -2028,6 +2187,7 @@
           "name": "Repo Docs Before PR",
           "rank": 2,
           "type": "basic",
+          "branch": "standard",
           "slash": "/repo-docs-before-pr",
           "file": "repo-docs-before-pr.svg",
           "fileSeal": "repo-docs-before-pr-seal.svg"
@@ -2081,7 +2241,7 @@
       },
       "topSkill": "google-deepmind/literature_search_openalex",
       "topRank": 4,
-      "topIsUnique": false,
+      "topIsUnique": true,
       "count": 37,
       "namedSkills": [
         {
@@ -2089,6 +2249,7 @@
           "name": "Literature-Search-Openalex",
           "rank": 4,
           "type": "basic",
+          "branch": "unique",
           "slash": "/literature_search_openalex",
           "file": "literature_search_openalex.svg",
           "fileSeal": "literature_search_openalex-seal.svg"
@@ -2098,6 +2259,7 @@
           "name": "Alphafold-Database-Fetch-And-Analyze",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/alphafold_database_fetch_and_analyze",
           "file": "alphafold_database_fetch_and_analyze.svg",
           "fileSeal": "alphafold_database_fetch_and_analyze-seal.svg"
@@ -2107,6 +2269,7 @@
           "name": "Alphagenome-Single-Variant-Analysis",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/alphagenome_single_variant_analysis",
           "file": "alphagenome_single_variant_analysis.svg",
           "fileSeal": "alphagenome_single_variant_analysis-seal.svg"
@@ -2116,6 +2279,7 @@
           "name": "Chembl-Database",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/chembl_database",
           "file": "chembl_database.svg",
           "fileSeal": "chembl_database-seal.svg"
@@ -2125,6 +2289,7 @@
           "name": "Clinical-Trials-Database",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/clinical_trials_database",
           "file": "clinical_trials_database.svg",
           "fileSeal": "clinical_trials_database-seal.svg"
@@ -2134,6 +2299,7 @@
           "name": "Clinvar-Database",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/clinvar_database",
           "file": "clinvar_database.svg",
           "fileSeal": "clinvar_database-seal.svg"
@@ -2143,6 +2309,7 @@
           "name": "Dbsnp-Database",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/dbsnp_database",
           "file": "dbsnp_database.svg",
           "fileSeal": "dbsnp_database-seal.svg"
@@ -2152,6 +2319,7 @@
           "name": "Embl-Ebi-Ols",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/embl_ebi_ols",
           "file": "embl_ebi_ols.svg",
           "fileSeal": "embl_ebi_ols-seal.svg"
@@ -2161,6 +2329,7 @@
           "name": "Encode-Ccres-Database",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/encode_ccres_database",
           "file": "encode_ccres_database.svg",
           "fileSeal": "encode_ccres_database-seal.svg"
@@ -2170,6 +2339,7 @@
           "name": "Ensembl-Database",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/ensembl_database",
           "file": "ensembl_database.svg",
           "fileSeal": "ensembl_database-seal.svg"
@@ -2179,6 +2349,7 @@
           "name": "Foldseek-Structural-Search",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/foldseek_structural_search",
           "file": "foldseek_structural_search.svg",
           "fileSeal": "foldseek_structural_search-seal.svg"
@@ -2188,6 +2359,7 @@
           "name": "Gnomad-Database",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/gnomad_database",
           "file": "gnomad_database.svg",
           "fileSeal": "gnomad_database-seal.svg"
@@ -2197,6 +2369,7 @@
           "name": "Gtex-Database",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/gtex_database",
           "file": "gtex_database.svg",
           "fileSeal": "gtex_database-seal.svg"
@@ -2206,6 +2379,7 @@
           "name": "Human-Protein-Atlas-Database",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/human_protein_atlas_database",
           "file": "human_protein_atlas_database.svg",
           "fileSeal": "human_protein_atlas_database-seal.svg"
@@ -2215,6 +2389,7 @@
           "name": "Interpro-Database",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/interpro_database",
           "file": "interpro_database.svg",
           "fileSeal": "interpro_database-seal.svg"
@@ -2224,6 +2399,7 @@
           "name": "Jaspar-Database",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/jaspar_database",
           "file": "jaspar_database.svg",
           "fileSeal": "jaspar_database-seal.svg"
@@ -2233,6 +2409,7 @@
           "name": "Literature-Search-Arxiv",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/literature_search_arxiv",
           "file": "literature_search_arxiv.svg",
           "fileSeal": "literature_search_arxiv-seal.svg"
@@ -2242,6 +2419,7 @@
           "name": "Literature-Search-Biorxiv",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/literature_search_biorxiv",
           "file": "literature_search_biorxiv.svg",
           "fileSeal": "literature_search_biorxiv-seal.svg"
@@ -2251,6 +2429,7 @@
           "name": "Literature-Search-Europepmc",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/literature_search_europepmc",
           "file": "literature_search_europepmc.svg",
           "fileSeal": "literature_search_europepmc-seal.svg"
@@ -2260,6 +2439,7 @@
           "name": "Ncbi-Sequence-Fetch",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/ncbi_sequence_fetch",
           "file": "ncbi_sequence_fetch.svg",
           "fileSeal": "ncbi_sequence_fetch-seal.svg"
@@ -2269,6 +2449,7 @@
           "name": "Openfda-Database",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/openfda_database",
           "file": "openfda_database.svg",
           "fileSeal": "openfda_database-seal.svg"
@@ -2278,6 +2459,7 @@
           "name": "Opentargets-Database",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/opentargets_database",
           "file": "opentargets_database.svg",
           "fileSeal": "opentargets_database-seal.svg"
@@ -2287,6 +2469,7 @@
           "name": "Pdb-Database",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/pdb_database",
           "file": "pdb_database.svg",
           "fileSeal": "pdb_database-seal.svg"
@@ -2296,6 +2479,7 @@
           "name": "Protein-Sequence-Msa",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/protein_sequence_msa",
           "file": "protein_sequence_msa.svg",
           "fileSeal": "protein_sequence_msa-seal.svg"
@@ -2305,6 +2489,7 @@
           "name": "Protein-Sequence-Similarity-Search",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/protein_sequence_similarity_search",
           "file": "protein_sequence_similarity_search.svg",
           "fileSeal": "protein_sequence_similarity_search-seal.svg"
@@ -2314,6 +2499,7 @@
           "name": "Pubchem-Database",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/pubchem_database",
           "file": "pubchem_database.svg",
           "fileSeal": "pubchem_database-seal.svg"
@@ -2323,6 +2509,7 @@
           "name": "Pubmed-Database",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/pubmed_database",
           "file": "pubmed_database.svg",
           "fileSeal": "pubmed_database-seal.svg"
@@ -2332,6 +2519,7 @@
           "name": "Pymol",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/pymol",
           "file": "pymol.svg",
           "fileSeal": "pymol-seal.svg"
@@ -2341,6 +2529,7 @@
           "name": "Quickgo-Database",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/quickgo_database",
           "file": "quickgo_database.svg",
           "fileSeal": "quickgo_database-seal.svg"
@@ -2350,6 +2539,7 @@
           "name": "Reactome-Database",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/reactome_database",
           "file": "reactome_database.svg",
           "fileSeal": "reactome_database-seal.svg"
@@ -2359,6 +2549,7 @@
           "name": "Science-Skills-Common",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/science_skills_common",
           "file": "science_skills_common.svg",
           "fileSeal": "science_skills_common-seal.svg"
@@ -2368,6 +2559,7 @@
           "name": "String-Database",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/string_database",
           "file": "string_database.svg",
           "fileSeal": "string_database-seal.svg"
@@ -2377,6 +2569,7 @@
           "name": "Ucsc-Conservation-And-Tfbs",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/ucsc_conservation_and_tfbs",
           "file": "ucsc_conservation_and_tfbs.svg",
           "fileSeal": "ucsc_conservation_and_tfbs-seal.svg"
@@ -2386,6 +2579,7 @@
           "name": "Unibind-Database",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/unibind_database",
           "file": "unibind_database.svg",
           "fileSeal": "unibind_database-seal.svg"
@@ -2395,6 +2589,7 @@
           "name": "Uniprot-Database",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/uniprot_database",
           "file": "uniprot_database.svg",
           "fileSeal": "uniprot_database-seal.svg"
@@ -2404,6 +2599,7 @@
           "name": "Uv",
           "rank": 3,
           "type": "basic",
+          "branch": "standard",
           "slash": "/uv",
           "file": "uv.svg",
           "fileSeal": "uv-seal.svg"
@@ -2413,6 +2609,7 @@
           "name": "Workflow-Skill-Creator",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/workflow_skill_creator",
           "file": "workflow_skill_creator.svg",
           "fileSeal": "workflow_skill_creator-seal.svg"
@@ -2438,6 +2635,7 @@
           "name": "Hermes Tweet",
           "rank": 3,
           "type": "fusion",
+          "branch": "standard",
           "slash": "/hermes-tweet",
           "file": "hermes-tweet.svg",
           "fileSeal": "hermes-tweet-seal.svg"
