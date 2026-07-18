@@ -16,6 +16,7 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 ### Decisions locked this session
 | # | Decision |
 |---|---|
+| **Unique CSS tokens (PROVISIONAL)** | **Ship `--tier-unique-5: #c8890a` + `--tier-unique-6: #fbbf24`/ink `#3b2206` now** (committed `772e6c716`, emitted by `generateCssTokens.py`). Marco's call: "for now this is fine — as long as tier-unique-6 exists." **Still provisional** — the specific darker-gold hex (5★) and the inverted-gold treatment (6★) are subject to visual re-tuning; the requirement that LOCKS is that `--tier-unique-6` must EXIST so PR3b JS/graph/profile can `var()` it instead of hardcoding. Revisit hexes after full-surface visual review. |
 | Shim vs delete | **Shim, don't delete, in PR3a.** An in-editor linter kept reverting hard-deletions of `computeBranch`/`rank_word`. Rather than fight it, replaced their BODIES with delegation to `taxonomy.branchFor`/`rankWord`. Behavior is identical; hard-delete happens in PR3b once the JS sweep + grep guard confirm zero external callers. Kept `computeBranch` in `__all__`. |
 | v3 amendment placement | **Above v2, supersedes nothing.** v3 refines/names axes the v2 rules already implied but tangled; v2 derivation rules + ladders stand verbatim. |
 | Three-axis vocabulary | **Membership / Rank word / Decoration are orthogonal.** Membership holds from 1★ (grouping); Decoration renders only at 4★+; a skill's Membership does NOT dictate its Decoration color — the rank WITHIN the membership does. |
