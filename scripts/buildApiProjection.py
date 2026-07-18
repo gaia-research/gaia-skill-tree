@@ -76,6 +76,11 @@ def _slim_projection(entry: dict) -> dict:
         "overallTrustGrade": entry.get("overallTrustGrade"),
         "contributor": entry.get("contributor", contributor),
         "type": entry.get("type", "basic"),
+        # Resolved taxonomy passthrough (Yggdrasil II authority) — additive.
+        # Read straight off the resolved entry; never recompute from type+rank.
+        "branch": entry.get("branch", "standard"),
+        "rankWord": entry.get("rankWord", entry.get("level", "")),
+        "medallion": entry.get("medallion"),
         "_links": {
             "self": f"/api/v1/skills/{contributor}/{slug}.json",
         },
@@ -112,6 +117,11 @@ def _full_projection(entry: dict) -> dict:
         "status": entry.get("status", "named"),
         "trustMagnitude": entry.get("trustMagnitude", 0),
         "overallTrustGrade": entry.get("overallTrustGrade"),
+        # Resolved taxonomy passthrough (Yggdrasil II authority) — additive.
+        # Read straight off the resolved entry; never recompute from type+rank.
+        "branch": entry.get("branch", "standard"),
+        "rankWord": entry.get("rankWord", entry.get("level", "")),
+        "medallion": entry.get("medallion"),
         "_links": {
             "self": f"/api/v1/skills/{contributor}/{slug}.json",
             "contributor": f"/api/v1/contributors/{contrib}.json",
@@ -364,6 +374,7 @@ def build_search_index(out_dir: Path, skills: list[dict]) -> None:
             "level": entry.get("level", ""),
             "grade": entry.get("overallTrustGrade"),
             "trustMagnitude": entry.get("trustMagnitude", 0),
+            "branch": entry.get("branch", "standard"),
             "tokens": _tokens_for_skill(entry),
         })
     _write_json(out_dir / "search-index.json", entries)
