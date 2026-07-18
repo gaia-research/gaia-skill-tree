@@ -218,6 +218,19 @@
 | · [obra](../docs/u/obra/)/writing-plans | Fusion | 3★ | `/writing-plans` |
 | · /x-twitter-automation | Fusion | — | `/x-twitter-automation` |
 
+## Uniques
+
+*Singular mastery skills — graph-isolated, with named implementations. Promoted via `/gaia promote --unique`.*
+
+| Name | Class | Top ★ | Skill Call |
+|---|---|---|---|
+| ◉ [openai](../docs/u/openai/)/few-shot-learning | Unique Skill | 4★ | `/few-shot-learning` |
+| ◉ [addy-osmani](../docs/u/addy-osmani/)/performance-optimization | Unique Skill | 4★ | `/performance-tuning` |
+| ◉ [obra](../docs/u/obra/)/subagent-driven-development | Unique Skill | 4★ | `/subagent-driven-development` |
+| ◉ [pbakaus](../docs/u/pbakaus/)/impeccable | Unique Skill | 4★ | `/ux-audit` |
+| ◉ [firecrawl](../docs/u/firecrawl/)/firecrawl-build-scrape | Unique Skill | 4★ | `/web-scrape` |
+| ◉ [firecrawl](../docs/u/firecrawl/)/firecrawl-build-search | Unique Skill | 4★ | `/web-search` |
+
 ## Basics
 
 *Basic-tier skills with no connections to the upgrade graph — no prerequisites and not referenced as a component of any other skill.*
@@ -235,7 +248,6 @@
 | ○ Event Support Triage | Intrinsic Skill | — | `/event-support-triage` |
 | ○ Event Ticket Transfer | Intrinsic Skill | — | `/event-ticket-transfer` |
 | ○ evidence-attestation | Intrinsic Skill | — | `/evidence-attestation` |
-| ○ Few-Shot Learning | Intrinsic Skill | 4★ | `/few-shot-learning` |
 | ○ Framework Upgrade | Intrinsic Skill | 2★ | `/framework-upgrade` |
 | ○ Git Diff Risk Analysis | Intrinsic Skill | 2★ | `/git-diff-risk-analysis` |
 | ○ Grant Application Processing | Intrinsic Skill | — | `/grant-application-processing` |
