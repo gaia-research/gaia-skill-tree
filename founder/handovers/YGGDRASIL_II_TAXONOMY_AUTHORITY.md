@@ -124,3 +124,24 @@ The original inventory (§1) was scoped to this repo's rendering path. Eight sco
 **External contracts (must NOT break — §4 lock):** keep emitting `type` (gaia-mcp `source.ts:9-12`); keep `contractVersion="gaia-public-v1"`; don't rename `registry/` fields (gaia-research `sync-skill-tree.ts:36`).
 
 **Verified clean (correct target pattern, do NOT touch):** `leaderboard.js:160-194` (delegates to `GaiaSemantics.computeBranch` — the color table is a consumer, not a resolver; ground-truth read confirmed the 2nd-pass false-positive), `heroes.js`, `named/report.html`, `docs/u/*` profiles, `docs/og/**` SVGs, MCP `packages/mcp/src/*`, `share.py` (provenance label only), `cardRenderer.py` (single-source `format_rank_label`).
+
+---
+
+## 7. Amendment — Origin mechanic reconciles the starless-graph "stray" (2026-07-18, session audit)
+
+**Context.** A post-doc alignment audit on `dev/ygg2-consume-frontend` initially flagged the origin-fix commit `6dc2dc7e8` (which stamps `branch`/`rank`/`rankWord`/`medallion` onto `docs/graph/gaia.json` nodes) as a STRAY from §2's "named-index-only" emission home. That flag was **wrong**, based on a misreading of what a starless node *is*. This amendment records the corrected model so a later session does not act on the bad flag.
+
+**The corrected model (founder, this session).** Starless generic nodes are **buckets for named skills**. Their `type` (`fusion`/`basic`) is **presentation structure only** — how the tree branches visually — never a resolution input. What surfaces onto a bucket is its **origin**: per the Yggdrasil II ORIGIN RULE, each bucket has at most one CLI-declared `origin: true` named entry, and that origin's **already-emitted** `branch`/`rank`/`medallion` (resolved in the named index by `taxonomy.py`) is stamped onto the bucket at build time. No origin → nothing stamped → plain starless node. "Once something is named origin — it shows in the tree."
+
+This is **already implemented and on-plan**: `scripts/syncDocsGraphAssets.py::_bucket_origins()` (L34) maps each generic id → its bucket's origin entry; the sync stamps the origin's emitted fields (L134-138). The named index remains the **single resolution home** (§2); the starless node merely *carries the surfaced value* the graph reads. It reads the emitted field — it does not recompute.
+
+**Corrected Stray assessment:**
+
+| Prior flag | Corrected call |
+|---|---|
+| **Stray #1** — `6dc2dc7e8` stamped gaia.json (should be named-index-only) | **NOT a stray.** The stamp *surfaces* the origin's emitted named-index branch onto its bucket (origin mechanic). Named-index-only emission is honored; the graph reads a surfaced value, not a recompute. On-plan. |
+| **Stray #2** — `skill-semantics.js::computeBranch` frozen, not deleted per §3 | The audit's fallback-vs-stamp parity check (62 identical / 17 differ; fallback resolves 0 suite, mis-labels unique) asked the **wrong question**. `computeBranch` run on a *bare bucket* correctly fails — buckets carry no `suiteComponents`/rank; the **origin entry** does. The fallback was never the intended resolver for starless nodes. Its "insufficiency" is irrelevant: the origin-stamp is the real path. Freezing it as a defensive-only fallback is fine; role to be finalized when the build shape is next revised. |
+
+**Stale prose to correct (not a code revisit):** §5 bullet 1 ("No node in `docs/graph/gaia.json` … carries `branch`/`rank`/`medallion`") is now factually stale — `6dc2dc7e8` stamps 79 of 243 nodes (58 standard / 15 suite / 6 unique) via the origin mechanic. The *architecture* (origin-surfaced, named-index-first) is unchanged; only the §5 snapshot predates the stamp. `founder/handovers/archive/YGGDRASIL_II_SUPERSEDED_2026-07-18.md` §5 already carries the correct shape.
+
+**Buildability note (founder).** The origin→bucket surfacing is the pattern going forward and is "very very buildable": presentation structure (fusion/basics visual branching) layers on top without changing the resolution source, and the origin mechanics are already in the pipeline. Future presentation work does not reopen the resolution home.
