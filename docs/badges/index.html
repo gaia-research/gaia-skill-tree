@@ -1299,16 +1299,19 @@
     });
 
     // ── Sampler ──────────────────────────────────────────────────────────────
+    // Ygg-II §8 canonical order: within each star level Unique precedes its
+    // Suite counterpart, descending 6★→1★. The shared 1★–3★ ladder has no
+    // branch fork so those trail the branch-decorated 4★+ pairs.
     const SAMPLER_RANKS = [
-      { n: 1, label: "Awakened · 1★" },
-      { n: 2, label: "Named · 2★" },
-      { n: 3, label: "Evolved · 3★" },
-      { n: 4, label: "Extra · 4★" },
-      { n: 5, label: "Ultimate · 5★" },
-      { n: 6, label: "Apex · 6★" },
-      { n: "unique", label: "Unique · 4★" },
-      { n: "unique-5", label: "Unique Ultimate · 5★" },
       { n: "unique-6", label: "Unique Impossible · 6★" },
+      { n: 6, label: "Apex · 6★" },
+      { n: "unique-5", label: "Unique Ultimate · 5★" },
+      { n: 5, label: "Ultimate · 5★" },
+      { n: "unique", label: "Unique · 4★" },
+      { n: 4, label: "Extra · 4★" },
+      { n: 3, label: "Evolved · 3★" },
+      { n: 2, label: "Named · 2★" },
+      { n: 1, label: "Awakened · 1★" },
     ];
     let samplerIdx = 0;
     const samplerImg = document.getElementById("bd-sampler-img");
@@ -1617,8 +1620,19 @@
 
     function buildSkillOptions(currentValue) {
       const namedSkills = currentState.namedSkills || [];
+      // Ygg-II §8: order by rank descending, and within a rank Unique before
+      // its Suite counterpart (never co-mingled). Reads the emitted rank/branch;
+      // registry emission order is not relied upon.
+      const branchOrder = (b) => (b === "unique" ? 0 : b === "suite" ? 1 : 2);
+      const ordered = namedSkills.slice().sort((a, b) => {
+        const dr = (b.rank || 0) - (a.rank || 0);
+        if (dr !== 0) return dr;
+        const db = branchOrder(a.branch) - branchOrder(b.branch);
+        if (db !== 0) return db;
+        return String(a.slash || a.file).localeCompare(String(b.slash || b.file));
+      });
       // Disable already-picked options (except this row's current value) so each row stays unique
-      return namedSkills.map((s) => {
+      return ordered.map((s) => {
         const stars = "★".repeat(s.rank);
         const label = `${s.slash} · ${stars}${s.branch === "unique" ? " · unique" : ""}`;
         const taken = currentState.pickedFiles.includes(s.file) && s.file !== currentValue;
