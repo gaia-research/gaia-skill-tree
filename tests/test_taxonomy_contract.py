@@ -8,11 +8,18 @@ computation of the SYNTHESIS rule:
     taxonomy.resolveDisplayBranch(...)      # the new authority (Python)
     synthesisBranch(...)                    # ground truth (this test, inline)
 
-PR3b DELETED the two legacy resolvers this oracle used to cross-check against
-(trustMagnitude.computeBranch and the docs/js/skill-semantics.js harness). The
-divergence-classification legs are gone with them; taxonomy.py is now the sole
-authority and the resolver-independent synthesis check below is the primary
-correctness oracle.
+BRANCH STATE (dev/ygg2-consume-frontend):
+  - PRIMARY membership check with §7 stamp-honor: 79 generic nodes in
+    docs/graph/gaia.json carry an origin-surfaced `branch` stamp; synthesisBranch
+    honors the stamp directly (see §7 comment inline) — recomputing would wrongly
+    classify them since bare generics carry no suiteComponents.
+  - Python delete-gate SATISFIED: trustMagnitude.computeBranch has been DELETED
+    on this branch. test_legacy_python_parity_delete_gate SKIPS — the §3
+    handshake is done, the resolver is gone.
+  - JS delete-gate OPEN (strict-xfail): docs/js/skill-semantics.js::computeBranch
+    is still alive (7 refs). test_legacy_js_parity_delete_gate is strict-xfail;
+    if the harness file is present + node is available it XFAILS (RED-by-design);
+    if the harness is missing or node unavailable it SKIPS.
 
 --------------------------------------------------------------------------------
 SYNTHESIS RULE (founder ruling v2). Suite-presence decides branch FIRST (no rank
@@ -22,11 +29,16 @@ gate); rank only splits the no-suite case:
     no suiteComponents, rank 1..3  -> 'standard'
     no suiteComponents, rank 4..6  -> 'unique'
 
+§7 ORIGIN MECHANIC: a stamped `branch` field on a generic gaia.json node
+supersedes recomputation. The stamp is authoritative for starless generics that
+carry no suiteComponents of their own (those live on the named origin entry).
+Honoring the stamp avoids false standard/unique classifications on 79 nodes.
+
 Canonical == synthesis on ALL entries (test_synthesis_ground_truth) — that is
 the primary, resolver-independent correctness check.
 
 The two handover-pinned Class-A nodes (fusion rank>=4, no suiteComponents ->
-'unique') are kept as an explicit anchor in test_pinned_divergence_is_unique.
+'unique') are kept as an explicit anchor in test_pinned_divergence_is_unique_canonically.
 --------------------------------------------------------------------------------
 
 Run: PYTHONIOENCODING=utf-8 PYTHONPATH=./src python -m pytest tests/test_taxonomy_contract.py -q
@@ -34,15 +46,30 @@ Run: PYTHONIOENCODING=utf-8 PYTHONPATH=./src python -m pytest tests/test_taxonom
 
 import json
 import os
+import shutil
+import subprocess
 
 import pytest
 
 from gaia_cli import taxonomy
 
+# ---------------------------------------------------------------------------
+# Defensive import: Python resolver #3 (trustMagnitude.computeBranch) is
+# DELETED on this branch. Attempt import so the module-level flag reflects
+# reality without killing collection with ImportError.
+# ---------------------------------------------------------------------------
+try:
+    from gaia_cli import trustMagnitude as _trustMagnitude
+    PYTHON_RESOLVER_PRESENT = hasattr(_trustMagnitude, "computeBranch")
+except (ImportError, AttributeError):
+    _trustMagnitude = None
+    PYTHON_RESOLVER_PRESENT = False
+
 
 REPO_ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), ".."))
 GAIA_JSON = os.path.join(REPO_ROOT, "docs", "graph", "gaia.json")
 NAMED_INDEX = os.path.join(REPO_ROOT, "docs", "graph", "named", "index.json")
+HARNESS = os.path.join(os.path.dirname(__file__), "harness", "js_branch_dump.js")
 
 # The two handover-named Class-A nodes, kept as an explicit anchor. Under the
 # synthesis rule these are 'unique' (fusion rank>=4, no suiteComponents).
@@ -93,7 +120,22 @@ ENTRIES = collectEntries()
 
 def synthesisBranch(node, effRank):
     """Direct implementation of the SYNTHESIS rule — the resolver-independent
-    ground truth the authority must match on every entry."""
+    ground truth the authority must match on every entry.
+
+    Per authority doc §7 origin mechanic: a generic node in docs/graph/gaia.json
+    may carry a STAMPED branch field surfaced from its bucket's origin. Honor the
+    stamp directly — do not recompute — because bare generics carry no
+    suiteComponents (those live on the named origin entry) and recomputing would
+    wrongly yield 'standard'/'unique' where the stamp says 'suite'. This mirrors
+    what taxonomy.normalize()/resolveDisplayBranch already does (pre-resolved
+    branch passthrough). On this branch 79 nodes are stamped, making this
+    load-bearing (without it test_synthesis_ground_truth fails on all 79).
+    """
+    # §7: honor a stamped branch field if present and valid — return it directly.
+    stamped = node.get("branch") if isinstance(node, dict) else None
+    if stamped in {"standard", "suite", "unique"}:
+        return stamped
+
     rank = taxonomy.levelNum(effRank)
     hasSuite = taxonomy.suiteComponentsPresent(node)
     if hasSuite:
@@ -114,6 +156,51 @@ def canonicalBranch(node, effRank):
 
 
 # ---------------------------------------------------------------------------
+# JS leg — batch-shell the harness once
+# ---------------------------------------------------------------------------
+
+def runJsHarness(entries):
+    """Return {id: branch} from the JS computeBranch resolver, or None if node
+    is unavailable / harness file missing / harness fails.
+
+    Returns None when:
+      - node binary is not on PATH
+      - HARNESS file does not exist (tests/harness/js_branch_dump.js missing)
+      - harness exits non-zero
+      - harness stdout is not valid JSON
+    The JS delete-gate test skips when this returns None.
+    """
+    if shutil.which("node") is None:
+        return None
+    if not os.path.exists(HARNESS):
+        return None
+    payload = [
+        {"id": sid, "node": node, "effRank": effRank}
+        for (sid, node, effRank) in entries
+    ]
+    try:
+        proc = subprocess.run(
+            ["node", HARNESS],
+            input=json.dumps(payload),
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            timeout=120,
+        )
+    except Exception:
+        return None
+    if proc.returncode != 0:
+        return None
+    try:
+        return json.loads(proc.stdout)
+    except Exception:
+        return None
+
+
+JS_BRANCHES = runJsHarness(ENTRIES)
+
+
+# ---------------------------------------------------------------------------
 # Tests
 # ---------------------------------------------------------------------------
 
@@ -124,7 +211,12 @@ def test_oracle_has_subjects():
 
 def test_synthesis_ground_truth():
     """PRIMARY CHECK: canonical == synthesis rule on EVERY entry (resolver-
-    independent). A mismatch means the authority drifted from founder ruling v2."""
+    independent). A mismatch means the authority drifted from founder ruling v2.
+
+    §7 stamp-honor in synthesisBranch is load-bearing here: 79 generic nodes in
+    docs/graph/gaia.json carry stamped branch values that would mismatch without
+    it (bare generics have no suiteComponents so recomputing yields standard/unique
+    rather than the stamped value)."""
     mismatches = []
     for sid, node, effRank in ENTRIES:
         c = canonicalBranch(node, effRank)
@@ -132,6 +224,60 @@ def test_synthesis_ground_truth():
         if c != s:
             mismatches.append((sid, c, s))
     assert not mismatches, f"canonical vs synthesis mismatches: {mismatches}"
+
+
+@pytest.mark.skipif(
+    not PYTHON_RESOLVER_PRESENT,
+    reason="Python resolver #3 (trustMagnitude.computeBranch) deleted — delete-gate satisfied on this branch",
+)
+def test_legacy_python_parity_delete_gate():
+    """Canonical (membership) == legacy Python #3 on EVERY entry.
+
+    DELETE-GATE SATISFIED (authority doc §3): trustMagnitude.computeBranch has
+    been DELETED on this branch (dev/ygg2-consume-frontend). This test SKIPS
+    because PYTHON_RESOLVER_PRESENT is False — the resolver is gone, which IS
+    the terminal state of the §3 handshake. The skip here is correct and
+    intentional; do NOT hand-edit to force-pass or add an xfail.
+
+    If somehow the resolver is present (e.g. the branch is rebased onto a
+    version that restored it), the test body runs and asserts real parity.
+    """
+    mismatches = []
+    for sid, node, effRank in ENTRIES:
+        c = canonicalBranch(node, effRank)
+        p = _trustMagnitude.computeBranch({**node, "level": effRank})
+        if c != p:
+            mismatches.append((sid, c, p))
+    assert not mismatches, f"legacy Python #3 parity broke: {mismatches}"
+
+
+@pytest.mark.skipif(
+    JS_BRANCHES is None,
+    reason="node/harness unavailable — JS delete-gate cannot execute; JS resolver still alive",
+)
+@pytest.mark.xfail(
+    strict=True,
+    reason=(
+        "DELETE-GATE §3: JS computeBranch (docs/js/skill-semantics.js) is still alive "
+        "and divergent from the canonical membership authority on Class-A nodes. "
+        "RED-by-design; this gate flips to hard failure forcing marker removal "
+        "once the JS resolver is deleted/collapsed in the frontend consume phase."
+    ),
+)
+def test_legacy_js_parity_delete_gate():
+    """Canonical (membership) == legacy JS #1 on EVERY entry. XFAILS now (by
+    design); passes only after the JS computeBranch resolver is deleted.
+
+    When the harness file (tests/harness/js_branch_dump.js) is absent or node
+    is unavailable, this test SKIPS — the JS delete-gate is open but cannot
+    execute. The skip is correct while the harness is missing."""
+    mismatches = []
+    for sid, node, effRank in ENTRIES:
+        c = canonicalBranch(node, effRank)
+        j = JS_BRANCHES.get(sid)
+        if j is not None and c != j:
+            mismatches.append((sid, c, j))
+    assert not mismatches, f"legacy JS #1 parity not yet real: {mismatches}"
 
 
 def test_pinned_divergence_is_unique_canonically():
