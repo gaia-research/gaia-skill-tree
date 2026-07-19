@@ -992,12 +992,15 @@
           titleRow.appendChild(nameSpan);
 
           var tierSpan = document.createElement('span');
-          // PR3b: tooltip tier keys on the resolved BRANCH, not the dead type.
+          // PR3b: tooltip tier COLOR keys on the resolved BRANCH (matches the
+          // --tier-fusion color migration) — but the visible TEXT must be the
+          // emitted RANK word, not the branch word. Read the emitted rankWord
+          // (taxonomy authority) with the star level as fallback; never the
+          // dead type enum and never the branch word.
           var _tipBranch = _branchOf(skillEntry);
+          var _tipRank = skillEntry.rankWord || skillEntry.level || '';
           tierSpan.className = 'ptl2__tooltip-tier ptl2__tooltip-tier--' + _tipBranch;
-          tierSpan.textContent = _tipBranch;
-          titleRow.appendChild(tierSpan);
-
+          tierSpan.textContent = _tipRank;
           titleRow.appendChild(tierSpan);
           tooltip.appendChild(titleRow);
 
@@ -1012,8 +1015,6 @@
           var dateSpan = document.createElement('span');
           dateSpan.className = 'ptl2__tooltip-date';
           dateSpan.textContent = '';
-          detailRow.appendChild(dateSpan);
-
           detailRow.appendChild(dateSpan);
           tooltip.appendChild(detailRow);
 

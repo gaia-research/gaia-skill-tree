@@ -959,6 +959,12 @@ def _build_timeline_section(tree: dict, named_index: dict) -> str:
             "name": ns_entry.get("name") or ns_entry.get("title") or skill_id.split("/")[-1],
             "type": ns_entry.get("type", "basic"),
             "branch": branch,
+            # Ygg-II ORACLE: carry the EMITTED rank taxonomy so the tooltip
+            # displays the RANK word (not the branch word). Read the fields the
+            # build already emitted on the source entry — never re-derive.
+            "rankWord": ns_entry.get("rankWord"),
+            "level": ns_entry.get("level"),
+            "rank": ns_entry.get("rank"),
             "medallion": _medallion(branch, rank),
             "origin": bool(ns_entry.get("origin", False)),
             "levelHistory": skill.get("levelHistory", []),
