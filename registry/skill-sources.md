@@ -15,6 +15,11 @@ Authoritative list of known skill sources and marketplaces. `gaia-curate` agents
 | GLINCKER Claude Marketplace | https://github.com/GLINCKER/claude-code-marketplace | github-repo | `gh api repos/GLINCKER/claude-code-marketplace/contents/skills` |
 | MCP.so Registry | https://mcp.so | mcp-registry | `WebFetch /servers` — list all MCP servers as skill evidence candidates |
 | Smithery MCP Registry | https://smithery.ai | mcp-registry | `WebFetch /` — browse MCP tool listings |
+| Official MCP Registry | https://registry.modelcontextprotocol.io | mcp-registry | `WebFetch /` — search and discover official/community MCP servers |
+| MCP Directory | https://mcp.directory | marketplace | browse and discover MCP servers and agent skills |
+| Glama MCP Registry | https://glama.ai/mcp/servers | mcp-registry | browse Model Context Protocol servers, tools, and integrations |
+| MCP Market | https://mcpmarket.com | marketplace | browse database of MCP servers and tool integrations |
+| AI Agents Directory | https://aiagentsdirectory.com | marketplace | discover and compare top AI agents, frameworks, and skills |
 
 ## GitHub Orgs / Repos with Skill Collections
 
