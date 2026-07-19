@@ -2,6 +2,50 @@
 
 ---
 
+## v4 Amendment — 2026-07-19 (Q3 origin gates: 4★ = bucket-level; 5★+ = fusion-structure)
+
+> This amendment corrects **Q3**. The original Q3 wording — "Origin counted in **fusion
+> structure** (`prerequisites`), not `suiteComponents`" — was written as a single rule for
+> the whole Unique branch, but it conflated the **4★ Unique** gate with the **5★+ Unique
+> Ultimate** gate. META.md §4.1 governs the 4★ gate and it wins. This supersedes the
+> "count origin in fusion structure" wording **for the 4★ Unique gate only**; the 5★+
+> fusion-structure rule stands unchanged.
+
+### The correction
+
+Origin at the Unique-branch gates is evaluated on **two different axes**, one per gate tier:
+
+| Gate | Origin axis | Definition |
+|---|---|---|
+| **4★ Unique** | **Bucket-level** (META.md §4.1) | Does THIS skill hold Origin on the generic bucket it **directly** implements (`genericSkillRef`)? Origin is "the most renowned implementation IN A GENERIC BUCKET … exactly one Origin per bucket." **No prerequisite / fusion-structure check at 4★.** |
+| **5★ Unique Ultimate** | **Fusion-structure** (`prerequisites`) | Does the contributor hold Origin on ≥1 node in the generic parent's `prerequisites` (the fusion recipe they built)? This is where fusion structure matters — the creator must hold the prerequisite skills as part of the fusion. |
+
+### Why the original Q3 was wrong (load-bearing)
+
+A 4★ Unique skill can be the SOLE, world-renowned implementation of a fusion generic whose
+prerequisite sub-nodes have **zero named implementations**. Under the original Q3, its 4★
+Origin was tested against those empty prerequisite buckets — an **unsatisfiable structural
+predicate** — so it demoted for a structural reason rather than on merit. The archetype:
+`safishamsi/graphify` (sole named skill on `knowledge-graph-build`, `origin: true`, prereqs
+`extract-entities` / `logical-inference` with no named implementations) was wrongly demoted
+4★→3★. Under the corrected 4★ gate it holds bucket-level Origin on its own generic and
+passes (TM ≈ 123 ≥ 100).
+
+Fusion-structure / prerequisite Origin is a **5★+** concern — that is the tier at which the
+creator is expected to hold the prerequisite skills that compose the fusion. Pushing that
+requirement down to 4★ punished standalone excellence for a structure it never claimed.
+
+### Where the fix lives
+
+`src/gaia_cli/promotion.py :: checkUniqueBranchGate` now forks the origin predicate by rank:
+4★ → `_holds_bucket_origin(named)` (reads the authoritative stored `origin` flag on the
+skill's own `genericSkillRef` bucket, per §4.1); 5★+ → `_contributor_holds_origin_in(...)`
+against the generic parent's `prerequisites` (unchanged). The stored `origin: true` flag is
+treated as authoritative because §4.1 defines Origin as the curator-granted merit mark,
+singular per bucket — not something re-derived at gate time.
+
+---
+
 ## v3 Amendment — 2026-07-18 (Three orthogonal axes: Membership · Rank word · Decoration)
 
 > This amendment refines v2 by naming the three **independent** axes that the v2 rules
@@ -212,7 +256,7 @@ The following terms are the shared vocabulary of Yggdrasil II. They live authori
 |---|---|---|
 | Q1 | 5★ naming collision | "Ultimate" = 5★ rank universally (Suite: **Ultimate**, Unique: **Unique Ultimate**). Intentional gacha-anchor. The old taxonomy usage retires. |
 | Q2 | Branch declaration | Branch is completely derived from `(generic.type, generic.suiteComponents present?, named.level)`. Never declared on nodes; always computed at read-time.<br>**[SUPERSEDED by v2 Amendment 2026-07-14]** Branch no longer reads `type`; derived from `(suiteComponents present?, rank)`, fork at 4★+.<br>**[SUPERSEDED 2026-07-18 — "computed at read-time" is wrong: branch is EMITTED at BUILD time by src/gaia_cli/taxonomy.py and read by consumers. "Never declared on the source node" still holds. See founder/handovers/archive/YGGDRASIL_II_SUPERSEDED_2026-07-18.md]** |
-| Q3 | Unique gates | **4★ Unique**: Origin + TM ≥ 100 (A). **5★ Unique Ultimate**: Origin + TM ≥ 250 (S). Origin counted in **fusion structure** (`prerequisites`), not `suiteComponents`. `suiteRef` membership does NOT disqualify from Unique — a "world-renowned handoff skill" that happens to live inside a suite is still Unique. |
+| Q3 | Unique gates | **4★ Unique**: Origin + TM ≥ 100 (A). **5★ Unique Ultimate**: Origin + TM ≥ 250 (S). Origin counted in **fusion structure** (`prerequisites`), not `suiteComponents`. `suiteRef` membership does NOT disqualify from Unique — a "world-renowned handoff skill" that happens to live inside a suite is still Unique.<br>**[SUPERSEDED (4★ only) by v4 Amendment 2026-07-19]** The "count origin in fusion structure" rule applies at **5★+ only**. The **4★ Unique** origin is **bucket-level** (META.md §4.1): does the skill hold Origin on the generic it directly implements? No prerequisite/fusion-structure check at 4★. See the v4 Amendment at the top of this doc. |
 | Q4 | Type field on named skills | **Option D**: type lives on starless only, named inherits via `genericSkillRef` walk. Bulk rewrite: `extra`→`fusion`, `ultimate`→`fusion`, `unique`→`basic`. |
 | Q5 | Suite 5★ gate | **Preserved per #935** (Origin in suiteComponents + 5 A-graded origins in suiteComponents + TM ≥ 250). Asymmetric-by-design — Unique counts fusion-structure origins; Suite counts suiteComponents origins. The 5 existing 5★ Suites keep rank. |
 | Q6 | Migration policy | **Hard cutover at implementation-PR land.** All 43 4★s and 5 5★s re-evaluated; failures demote to 3★ Evolved with `type_change` + `demote` timeline events. At least 1 of the 5 5★s will demote (S=4 registry-wide). Impeccable = clean archetype migration to 4★ Unique. |
