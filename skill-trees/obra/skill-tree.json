@@ -150,7 +150,7 @@
     },
     {
       "skillId": "obra/using-git-worktrees",
-      "level": "3★",
+      "level": "4★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "obra/gaia-skill-tree",
       "combinedFrom": [],
@@ -169,6 +169,11 @@
           "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-07-19T01:38:18Z",
+          "source": "promotion"
         }
       ]
     },
@@ -193,7 +198,7 @@
     },
     {
       "skillId": "obra/writing-plans",
-      "level": "3★",
+      "level": "4★",
       "unlockedAt": "2026-05-18T00:00:00Z",
       "unlockedIn": "obra/gaia-skill-tree",
       "combinedFrom": [],
@@ -212,6 +217,11 @@
           "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-07-19T01:38:24Z",
+          "source": "promotion"
         }
       ]
     }
@@ -383,6 +393,22 @@
       "previousValue": "4★",
       "newValue": "3★",
       "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
+      "skillId": "obra/writing-plans"
+    },
+    {
+      "timestamp": "2026-07-19T01:38:18Z",
+      "action": "rank_up",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
+      "skillId": "obra/using-git-worktrees"
+    },
+    {
+      "timestamp": "2026-07-19T01:38:24Z",
+      "action": "rank_up",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "obra/writing-plans"
     }
   ],

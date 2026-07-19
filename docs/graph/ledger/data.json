@@ -1,6 +1,6 @@
 {
-  "version": "6.5.3",
-  "generatedAt": "2026-07-16T12:33:13Z",
+  "version": "6.8.8",
+  "generatedAt": "2026-07-19T01:49:00Z",
   "summary": {
     "total": 280,
     "S": 5,
@@ -9,7 +9,7 @@
     "C": 78,
     "ungraded": 81,
     "floor": 0,
-    "up": 43
+    "up": 41
   },
   "rows": [
     {
@@ -381,11 +381,11 @@
       "skillId": "obra/using-git-worktrees",
       "tm": 117.65,
       "grade": "A",
-      "currentStars": "3★",
+      "currentStars": "4★",
       "mayStars": "2★",
-      "juneStars": "3★",
+      "juneStars": "4★",
       "g7Stars": "4★",
-      "flag": "[up]",
+      "flag": "",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 36.0,
@@ -398,11 +398,11 @@
       "skillId": "obra/writing-plans",
       "tm": 110.15,
       "grade": "A",
-      "currentStars": "3★",
+      "currentStars": "4★",
       "mayStars": "2★",
-      "juneStars": "3★",
+      "juneStars": "4★",
       "g7Stars": "4★",
-      "flag": "[up]",
+      "flag": "",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 36.0,

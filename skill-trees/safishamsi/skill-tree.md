@@ -10,14 +10,14 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ safishamsi/graphify | Basic | 3★ | Evolved | safishamsi/gaia-skill-tree | 2026-05-14T00:00:00Z |
+| ○ safishamsi/graphify | Basic | 4★ | Extra | safishamsi/gaia-skill-tree | 2026-05-14T00:00:00Z |
 
 ---
 
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — safishamsi  ·  generated 2026-07-18
+GAIA SKILL TREE — safishamsi  ·  generated 2026-07-19
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -170,7 +170,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · · garrytan/landing-report  [2★]
   │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  └─ · ○ mattpocock/triage  [3★]
-  └─ · · stanfordnlp/dspy  [3★]
+  └─ · · stanfordnlp/dspy  [4★]
      ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
      └─ · ○ /generate-text  (↑ see above)
 
@@ -232,7 +232,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ /plan-decompose
   │  └─ · ○ ████████/parallel-execution
   ├─ · · obra/executing-plans  [3★]
-  │  ├─ · · obra/writing-plans  [3★]
+  │  ├─ · · obra/writing-plans  [4★]
   │  │  ├─ · ○ /plan-decompose  (↑ see above)
   │  │  └─ · ○ ████████/requirements-engineer  (↑ see above)
   │  └─ · ○ /tool-use
@@ -257,22 +257,22 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · · garrytan/investigate  [3★]
   │  ├─ · ○ /hypothesis-generate
   │  └─ · ○ /error-interpretation
-  ├─ · · obra/using-git-worktrees  [3★]
+  ├─ · · obra/using-git-worktrees  [4★]
   │  ├─ · ○ /code-execution  (↑ see above)
   │  └─ · ○ /tool-use  (↑ see above)
   ├─ · · obra/verification-before-completion  [3★]  (↑ see above)
-  └─ · · obra/writing-plans  [3★]  (↑ see above)
+  └─ · · obra/writing-plans  [4★]  (↑ see above)
 
 · ◆ addy-osmani/agent-skills  [5★]
   ├─ · · obra/brainstorming  [3★]
   │  ├─ · ○ ████████/requirements-engineer
   │  └─ · ○ garrytan/office-hours  [3★]
-  ├─ · · obra/writing-plans  [3★]
+  ├─ · · obra/writing-plans  [4★]
   │  ├─ · ○ /plan-decompose
   │  └─ · ○ ████████/requirements-engineer  (↑ see above)
   ├─ · · obra/subagent-driven-development  [4★]
   │  ├─ · · obra/executing-plans  [3★]
-  │  │  ├─ · · obra/writing-plans  [3★]  (↑ see above)
+  │  │  ├─ · · obra/writing-plans  [4★]  (↑ see above)
   │  │  └─ · ○ /tool-use
   │  ├─ · · obra/dispatching-parallel-agents  [3★]
   │  │  ├─ · ○ /plan-decompose  (↑ see above)
@@ -305,11 +305,15 @@ Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) throu
 ══════════════════════════════════════════════════════════════════════
 
   · ◉ openai/few-shot-learning  [4★]
+  · ◉ safishamsi/graphify  [4★]
   · ◉ addy-osmani/performance-optimization  [4★]
+  · ◉ stanfordnlp/dspy  [4★]
   · ◉ obra/subagent-driven-development  [4★]
+  · ◉ obra/using-git-worktrees  [4★]
   · ◉ pbakaus/impeccable  [4★]
   · ◉ firecrawl/firecrawl-build-scrape  [4★]
   · ◉ firecrawl/firecrawl-build-search  [4★]
+  · ◉ obra/writing-plans  [4★]
 
 ══════════════════════════════════════════════════════════════════════
 Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top named-variant stars; blank = no named implementation.)
@@ -326,7 +330,6 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   · ○ ████████/triage-conference
   · ○ ████████/ticket-transfer
   · ○ ████████/evidence-attestation
-  · ○ openai/few-shot-learning  [4★]
   · ○ laravel/upgrade-laravel-v13  [2★]
   · ○ ruvnet/agentic-jujutsu  [2★]
   · ○ ████████/financial-assistance

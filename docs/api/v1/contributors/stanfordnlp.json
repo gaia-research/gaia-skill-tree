@@ -4,14 +4,14 @@
     {
       "id": "stanfordnlp/dspy",
       "name": "DSPy",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 100.0,
       "overallTrustGrade": "A",
       "contributor": "stanfordnlp",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/stanfordnlp/dspy.json"
       }
@@ -20,7 +20,7 @@
   "namedSkillsCount": 1,
   "topSkill": {
     "id": "stanfordnlp/dspy",
-    "level": "3★",
+    "level": "4★",
     "trustMagnitude": 100.0
   },
   "prestigeScore": 100.0,

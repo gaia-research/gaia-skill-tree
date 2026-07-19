@@ -34,14 +34,14 @@
     {
       "id": "obra/using-git-worktrees",
       "name": "Using Git Worktrees",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 117.65,
       "overallTrustGrade": "A",
       "contributor": "obra",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/obra/using-git-worktrees.json"
       }
@@ -49,14 +49,14 @@
     {
       "id": "obra/writing-plans",
       "name": "Writing Plans",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 110.15,
       "overallTrustGrade": "A",
       "contributor": "obra",
       "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/obra/writing-plans.json"
       }

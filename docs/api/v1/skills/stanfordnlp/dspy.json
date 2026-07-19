@@ -2,14 +2,14 @@
   "id": "stanfordnlp/dspy",
   "name": "DSPy",
   "contributor": "stanfordnlp",
-  "level": "3★",
+  "level": "4★",
   "type": "fusion",
   "status": "named",
   "trustMagnitude": 100.0,
   "overallTrustGrade": "A",
-  "branch": "standard",
-  "rankWord": "Evolved",
-  "medallion": "◇",
+  "branch": "unique",
+  "rankWord": "Unique",
+  "medallion": "◉",
   "_links": {
     "self": "/api/v1/skills/stanfordnlp/dspy.json",
     "contributor": "/api/v1/contributors/stanfordnlp.json",
@@ -108,6 +108,27 @@
       "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.0 (≥ 100.0)) — demoted to 3★ Evolved",
       "metaEpoch": "yggdrasil-ii",
       "migrationBatch": "yggdrasil-ii@2026-07-16"
+    },
+    {
+      "timestamp": "2026-07-19T02:04:16Z",
+      "action": "note",
+      "contributor": "unknown",
+      "details": "Updated GitHub link to https://github.com/stanfordnlp/dspy/blob/main/dspy/__init__.py"
+    },
+    {
+      "timestamp": "2026-07-19T02:04:17Z",
+      "action": "note",
+      "contributor": "unknown",
+      "details": "Set installable to true"
+    },
+    {
+      "timestamp": "2026-07-19T02:05:13Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from 3★ to 4★"
     }
-  ]
+  ],
+  "links": {
+    "github": "https://github.com/stanfordnlp/dspy/blob/main/dspy/__init__.py"
+  }
 }

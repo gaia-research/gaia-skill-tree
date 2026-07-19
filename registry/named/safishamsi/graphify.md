@@ -6,17 +6,17 @@ origin: true
 genericSkillRef: knowledge-graph-build
 status: named
 title: The Structural Muse
-level: 3★
+level: 4★
 description: Maps codebases and documentation into a queryable knowledge graph using
   AST analysis and semantic extraction.
 links:
-  github: https://github.com/safishamsi/graphify
+  github: https://github.com/safishamsi/graphify/blob/v8/graphify/__init__.py
 tags:
 - knowledge-graph
 - rag
 - ast
 createdAt: '2026-05-14'
-updatedAt: '2026-07-16'
+updatedAt: '2026-07-19'
 timeline:
 - timestamp: '2026-06-02T23:48:24Z'
   action: demote
@@ -77,6 +77,14 @@ timeline:
     origin=False TM=122.9 (≥ 100.0)) — demoted to 3★ Evolved'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-16
+- timestamp: '2026-07-19T02:04:09Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/safishamsi/graphify/blob/v8/graphify/__init__.py
+- timestamp: '2026-07-19T02:04:29Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
 trustMagnitude: 116.57
 overallTrustGrade: A
 apexGateStatus:

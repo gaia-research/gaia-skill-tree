@@ -1,6 +1,6 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "generatedAt": "2026-07-18T07:51:57Z",
+  "generatedAt": "2026-07-19T02:06:43Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic",
@@ -8918,11 +8918,11 @@
           -0.12862074852398042
         ]
       },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "namedMaxLevel": "4★"
     },
     {
       "id": "knowledge-harvest",
@@ -12344,11 +12344,11 @@
           -0.03951189309544921
         ]
       },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "namedMaxLevel": "4★"
     },
     {
       "id": "protein-structure-analysis",
@@ -18329,11 +18329,11 @@
           0.099612171810671
         ]
       },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "namedMaxLevel": "4★"
     },
     {
       "id": "ux-audit",
@@ -19760,11 +19760,11 @@
           0.030707844911042108
         ]
       },
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "namedMaxLevel": "4★"
     },
     {
       "id": "x-twitter-automation",
