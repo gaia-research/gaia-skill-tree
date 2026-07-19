@@ -15,11 +15,6 @@ Authoritative list of known skill sources and marketplaces. `gaia-curate` agents
 | GLINCKER Claude Marketplace | https://github.com/GLINCKER/claude-code-marketplace | github-repo | `gh api repos/GLINCKER/claude-code-marketplace/contents/skills` |
 | MCP.so Registry | https://mcp.so | mcp-registry | `WebFetch /servers` — list all MCP servers as skill evidence candidates |
 | Smithery MCP Registry | https://smithery.ai | mcp-registry | `WebFetch /` — browse MCP tool listings |
-| Official MCP Registry | https://registry.modelcontextprotocol.io | mcp-registry | `WebFetch /` — search and discover official/community MCP servers |
-| MCP Directory | https://mcp.directory | marketplace | browse and discover MCP servers and agent skills |
-| Glama MCP Registry | https://glama.ai/mcp/servers | mcp-registry | browse Model Context Protocol servers, tools, and integrations |
-| MCP Market | https://mcpmarket.com | marketplace | browse database of MCP servers and tool integrations |
-| AI Agents Directory | https://aiagentsdirectory.com | marketplace | discover and compare top AI agents, frameworks, and skills |
 
 ## GitHub Orgs / Repos with Skill Collections
 
@@ -37,6 +32,14 @@ Authoritative list of known skill sources and marketplaces. `gaia-curate` agents
 | obra/superpowers | https://github.com/obra/superpowers | github-repo | `gh api repos/obra/superpowers/contents/skills` |
 | google-deepmind/science-skills | https://github.com/google-deepmind/science-skills | github-repo | `gh api repos/google-deepmind/science-skills/contents/skills` |
 | sickn33/antigravity-awesome-skills | https://github.com/sickn33/antigravity-awesome-skills | github-repo | `gh api repos/sickn33/antigravity-awesome-skills/contents/skills` |
+| VoltAgent/awesome-agent-skills | https://github.com/VoltAgent/awesome-agent-skills | github-repo | `gh api repos/VoltAgent/awesome-agent-skills/contents/skills` |
+| alirezarezvani/claude-skills | https://github.com/alirezarezvani/claude-skills | github-repo | `gh api repos/alirezarezvani/claude-skills/contents/skills` |
+| travisvn/awesome-claude-skills | https://github.com/travisvn/awesome-claude-skills | github-repo | curated list of awesome Claude skills and tools |
+| Orchestra-Research/AI-Research-SKILLs | https://github.com/Orchestra-Research/AI-Research-SKILLs | github-repo | AI research and engineering skills collection |
+| Jeffallan/claude-skills | https://github.com/Jeffallan/claude-skills | github-repo | full-stack developer skills for Claude Code |
+| anbeime/skill | https://github.com/anbeime/skill | github-repo | categorized and tagged skills store (auto-scrapes GitHub skills) |
+| davepoon/buildwithclaude | https://github.com/davepoon/buildwithclaude | github-repo | hub for Claude skills, commands, hooks, and plugins |
+| K-Dense-AI/scientific-agent-skills | https://github.com/K-Dense-AI/scientific-agent-skills | github-repo | scientific agent skills library (biology, chemistry, medicine) |
 
 ## Academic / Evidence Sources
 
