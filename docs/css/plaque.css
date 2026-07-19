@@ -418,6 +418,20 @@ button.plaque__slug:focus-visible {
   margin-bottom: 2px;
 }
 
+/* Contributor pair — wreathed avatar sits directly beside the @handle so the
+   PERSON reads as one unit (tile / settled). The medallion + rank chip stay in
+   the header near the slug (the SKILL). Marco layout intent. */
+.plaque__contributor,
+.plaque-contributor-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.plaque__contributor .plaque__handle,
+.plaque__contributor .plaque-contrib-row {
+  margin-top: 0;
+}
+
 /* Install row — mini-terminal. Used by tile / detail / settled / og. */
 .plaque__install-row,
 .ns-install-row {

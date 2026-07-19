@@ -514,21 +514,30 @@ def plaque_mini_html(ns: dict) -> str:
 def plaque_tile_html(ns: dict) -> str:
     """Stage 3 — Python sibling of window.plaque.renderTile(ns).
 
-    Explorer grid card: header(orb + chip + wreathed avatar) · slug · title ·
-    handle · description · tags(3) · install row.
+    Grouped by identity vs skill (Marco layout intent, mirrors plaque.js):
+      SKILL header: medallion orb + rank chip (reads toward the slug directly
+                    below — orb + stars + slug all name the skill/rank).
+      PERSON pair:  wreathed avatar + handle grouped in .plaque__contributor.
+    Explorer grid card: header · slug · title · contributor(avatar+handle) ·
+    description · tags(3) · install row.
     """
     header = (
         '<div class="plaque__header plaque-header">'
         + _field_orb(ns)
         + _field_rank(ns, "chip")
+        + "</div>"
+    )
+    contributor_row = (
+        '<div class="plaque__contributor plaque-contributor-row">'
         + _field_avatar(ns, 32)
+        + _field_handle_row(ns)
         + "</div>"
     )
     inner = (
         header
         + _field_slug(ns)
         + _field_title(ns)
-        + _field_handle_row(ns)
+        + contributor_row
         + _field_description(ns)
         + _field_tags(ns, 3)
         + _field_install_row(ns)
@@ -589,7 +598,12 @@ def plaque_settled_html(ns: dict, handle: str = "") -> str:
         '<div class="plaque__header plaque-header">'
         + _field_orb(ns)
         + _field_rank(ns, "chip")
+        + "</div>"
+    )
+    contributor_row = (
+        '<div class="plaque__contributor plaque-contributor-row">'
         + _field_avatar(ns, 32)
+        + _field_handle_row(ns)
         + "</div>"
     )
     tgVal = ns.get("overallTrustGrade") or ns.get("trustGrade") or ""
@@ -601,7 +615,7 @@ def plaque_settled_html(ns: dict, handle: str = "") -> str:
         header
         + _field_slug(ns)
         + _field_title(ns)
-        + _field_handle_row(ns)
+        + contributor_row
         + _field_description(ns)
         + _field_tags(ns, 5)
         + _field_rank(ns, "stars")
