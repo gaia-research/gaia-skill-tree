@@ -1755,13 +1755,33 @@ button.plaque__slug:focus-visible {
   gap: 0.8rem;
   min-width: 0;
 }
+/* Left column grouping (Marco intent): avatar + handle stack tight at the top
+   as the PERSON pair (column flex keeps them adjacent); a slightly wider gap
+   opens before the slug so the SKILL group (slug → medallion → stars) reads as
+   its own cluster below. */
+.plaque--detail .plaque-detail-left .plaque__avatar {
+  margin-bottom: -0.3rem;
+}
+.plaque--detail .plaque-detail-left .plaque__slug {
+  margin-top: 0.35rem;
+}
 .plaque--detail .plaque__slug,
 .plaque--detail .plaque-skill-name {
   font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+/* Right column reads balanced against the left: the title anchors to the top
+   edge (align-items:start on the grid already), and a calmer rhythm keeps the
+   description from floating. */
+.plaque--detail .plaque-detail-right {
+  gap: 0.7rem;
 }
 .plaque--detail .plaque__description,
 .plaque--detail .plaque-description {
   font-size: 14px;
+  line-height: 1.7;
+  max-width: 68ch;
   -webkit-line-clamp: unset;
   display: block;
 }
