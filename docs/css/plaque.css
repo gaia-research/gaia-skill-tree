@@ -740,10 +740,10 @@ button.plaque__slug:focus-visible {
 .plaque-orb--ultimate,
 .se-node-orb--ultimate {
   background: radial-gradient(circle at 35% 35%,
-    color-mix(in srgb, var(--tier-ultimate) 30%, #fff) 0%,
-    var(--tier-ultimate) 60%,
-    color-mix(in srgb, var(--tier-ultimate) 70%, #000) 100%);
-  box-shadow: 0 0 12px rgba(var(--tier-ultimate-rgb), 0.4);
+    color-mix(in srgb, var(--tier-fusion) 30%, #fff) 0%,
+    var(--tier-fusion) 60%,
+    color-mix(in srgb, var(--tier-fusion) 70%, #000) 100%);
+  box-shadow: 0 0 12px rgba(var(--tier-fusion-rgb), 0.4);
 }
 .plaque-orb--unique,
 .se-node-orb--unique {
@@ -780,9 +780,9 @@ button.plaque__slug:focus-visible {
 .se-node-orb--vi {
   background: radial-gradient(circle at 35% 35%,
     #fff 40%,
-    color-mix(in srgb, var(--tier-ultimate) 30%, #fff) 70%,
-    var(--tier-ultimate)) !important;
-  box-shadow: 0 0 18px rgba(255, 255, 255, 0.6), 0 0 40px rgba(var(--tier-ultimate-rgb), 0.35) !important;
+    color-mix(in srgb, var(--tier-fusion) 30%, #fff) 70%,
+    var(--tier-fusion)) !important;
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.6), 0 0 40px rgba(var(--tier-fusion-rgb), 0.35) !important;
 }
 
 
@@ -2354,9 +2354,9 @@ button.plaque__slug:focus-visible {
   color: var(--tier-unique);
 }
 .profile-filter-group[data-filter-type="type"] .profile-filter-chip[data-value="ultimate"][aria-pressed="true"] {
-  border-color: var(--tier-ultimate);
-  background: var(--tier-ultimate-bg);
-  color: var(--tier-ultimate);
+  border-color: var(--tier-fusion);
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--tier-fusion);
 }
 
 /* Rank-aware active states for Rank filter chips */
@@ -2894,7 +2894,7 @@ button.plaque__slug:focus-visible {
   z-index: 10;
 }
 .plaque.is-highlighted.plaque--ultimate {
-  border-color: var(--tier-ultimate, #f59e0b) !important;
+  border-color: var(--tier-fusion, #f59e0b) !important;
   box-shadow: 0 0 20px rgba(245, 158, 11, 0.35) !important;
 }
 .plaque.is-highlighted.plaque--unique {
@@ -2955,7 +2955,7 @@ button.plaque__slug:focus-visible {
 .ptl2__tooltip-tier--basic    { color: var(--tier-basic,#38bdf8);    background: rgba(56,189,248,.1); border-color: rgba(56,189,248,.2); }
 .ptl2__tooltip-tier--extra    { color: var(--tier-extra,#c084fc);    background: rgba(192,132,252,.1); border-color: rgba(192,132,252,.2); }
 .ptl2__tooltip-tier--unique   { color: var(--tier-unique);   background: rgba(var(--tier-unique-rgb),.1); border-color: rgba(var(--tier-unique-rgb),.2); }
-.ptl2__tooltip-tier--ultimate { color: var(--tier-ultimate,#f59e0b); background: rgba(245,158,11,.1); border-color: rgba(245,158,11,.2); }
+.ptl2__tooltip-tier--ultimate { color: var(--tier-fusion,#f59e0b); background: rgba(245,158,11,.1); border-color: rgba(245,158,11,.2); }
 /* PR3b: branch-keyed tooltip tiers (standard/suite) — profile-timeline.js now
    keys the tier chip on the resolved branch, not the dead type enum. */
 .ptl2__tooltip-tier--standard { color: var(--tier-basic,#38bdf8);    background: rgba(56,189,248,.1); border-color: rgba(56,189,248,.2); }
@@ -3917,7 +3917,7 @@ button.plaque__slug:focus-visible {
   border-block-end: 1px solid var(--border);
   letter-spacing: 0.01em;
 }
-.directory-tier[data-tier="4"] .directory-tier__title { color: var(--tier-ultimate); }
+.directory-tier[data-tier="4"] .directory-tier__title { color: var(--tier-fusion); }
 .directory-tier[data-tier="3"] .directory-tier__title { color: var(--tier-unique); }
 .directory-tier[data-tier="2"] .directory-tier__title { color: var(--tier-extra); }
 .directory-tier[data-tier="1"] .directory-tier__title { color: var(--tier-basic); }
