@@ -567,21 +567,30 @@
   }
 
   // ── variant: tile (explorer grid) ────────────────────────────────
-  // Field set: header (medallion + rank chip + wreathed avatar)
-  //          · slug · title · handle · description · tags (3) · install row.
+  // Grouped by identity vs skill (Marco layout intent):
+  //   SKILL header: medallion + rank chip (reads toward the slug directly
+  //                 below — medallion + stars + slug all name the skill/rank)
+  //          · slug · title
+  //   PERSON pair:  wreathed avatar (32) + handle on one row
+  //          · description · tags (3) · install row.
   function renderTile(ns, opts) {
     var header =
       '<div class="plaque__header plaque-header">' +
         _fieldOrb(ns) +
         _fieldRank(ns, 'chip') +
+      '</div>';
+
+    var contributorRow =
+      '<div class="plaque__contributor plaque-contributor-row">' +
         _fieldAvatar(ns, { size: 32 }) +
+        _fieldHandleRow(ns) +
       '</div>';
 
     var inner =
       header +
       _fieldSlug(ns) +
       _fieldTitle(ns) +
-      _fieldHandleRow(ns) +
+      contributorRow +
       _fieldDescription(ns) +
       _fieldTags(ns, 3) +
       _fieldInstallRow(ns);
@@ -613,8 +622,13 @@
   }
 
   // ── variant: detail (explorer modal hero, two-column) ────────────
-  // Left column: medallion (lg) · wreathed avatar · slug · handle · rank
-  //   (full) · install row · share · claim
+  // Left column grouped by identity vs skill (Marco layout intent):
+  //   PERSON pair:  wreathed avatar (56) · handle row
+  //   SKILL group:  slug · medallion (lg → 72px) · rank stars
+  //   then install row · share · claim
+  // Avatar reads WITH the handle (both name the contributor); the medallion
+  // sits between slug and stars (all three express the skill + its rank), and
+  // the medallion is the largest anchor (72 > 56 avatar).
   // Right column: title · description · tags
   function renderDetail(ns, opts) {
     opts = opts || {};
@@ -660,10 +674,10 @@
 
     var left =
       '<div class="plaque__col plaque-detail-left">' +
-        _fieldOrb(ns, 'lg') +
         _fieldAvatar(ns, { size: 56 }) +
-        _fieldSlug(ns) +
         _fieldHandleRow(ns) +
+        _fieldSlug(ns) +
+        _fieldOrb(ns, 'lg') +
         _fieldRank(ns, 'stars') +
         _fieldInstallRow(ns) +
         ghRow +
@@ -690,7 +704,12 @@
       '<div class="plaque__header plaque-header">' +
         _fieldOrb(ns) +
         _fieldRank(ns, 'chip') +
+      '</div>';
+
+    var contributorRow =
+      '<div class="plaque__contributor plaque-contributor-row">' +
         _fieldAvatar(ns, { size: 32 }) +
+        _fieldHandleRow(ns) +
       '</div>';
 
     var evText = _evidenceClass(ns);
@@ -702,7 +721,7 @@
       header +
       _fieldSlug(ns) +
       _fieldTitle(ns) +
-      _fieldHandleRow(ns) +
+      contributorRow +
       _fieldDescription(ns) +
       _fieldTags(ns, 5) +
       _fieldRank(ns, 'stars') +
