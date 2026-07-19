@@ -2,14 +2,14 @@
   "id": "obra/writing-plans",
   "name": "Writing Plans",
   "contributor": "obra",
-  "level": "3★",
+  "level": "4★",
   "type": "fusion",
   "status": "named",
   "trustMagnitude": 110.15,
   "overallTrustGrade": "A",
-  "branch": "standard",
-  "rankWord": "Evolved",
-  "medallion": "◇",
+  "branch": "unique",
+  "rankWord": "Unique",
+  "medallion": "◉",
   "_links": {
     "self": "/api/v1/skills/obra/writing-plans.json",
     "contributor": "/api/v1/contributors/obra.json",
@@ -214,6 +214,12 @@
       "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=110.1 (≥ 100.0)) — demoted to 3★ Evolved",
       "metaEpoch": "yggdrasil-ii",
       "migrationBatch": "yggdrasil-ii@2026-07-16"
+    },
+    {
+      "timestamp": "2026-07-19T01:38:24Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from 3★ to 4★"
     }
   ],
   "links": {

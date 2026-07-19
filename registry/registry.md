@@ -68,6 +68,7 @@
 | · /explainability-audit | Fusion | — | `/explainability-audit` |
 | ○ /extract-entities | Basic | — | `/extract-entities` |
 | ○ [nousresearch](../docs/u/nousresearch/)/feed-monitoring | Basic | 2★ | `/feed-monitoring` |
+| ○ [openai](../docs/u/openai/)/few-shot-learning | Basic | 4★ | `/few-shot-learning` |
 | · /financial-modeling | Fusion | — | `/financial-modeling` |
 | ○ ████████/huggingface-llm-trainer | Basic | — | `/fine-tune` |
 | · [garrytan](../docs/u/garrytan/)/ship | Fusion | 3★ | `/finishing-a-development-branch` |
@@ -196,7 +197,7 @@
 | · /translation-pipeline | Fusion | — | `/translation-pipeline` |
 | · /tree-of-thought | Fusion | — | `/tree-of-thought` |
 | · [mattpocock](../docs/u/mattpocock/)/ubiquitous-language | Fusion | 3★ | `/ubiquitous-language` |
-| · [obra](../docs/u/obra/)/using-git-worktrees | Fusion | 3★ | `/using-git-worktrees` |
+| · [obra](../docs/u/obra/)/using-git-worktrees | Fusion | 4★ | `/using-git-worktrees` |
 | ○ [pbakaus](../docs/u/pbakaus/)/impeccable | Basic | 4★ | `/ux-audit` |
 | ○ [ruvnet](../docs/u/ruvnet/)/agentdb-optimization | Basic | 2★ | `/vector-db-optimization` |
 | ○ [ruvnet](../docs/u/ruvnet/)/agentdb-vector-search | Basic | 2★ | `/vector-search` |
@@ -215,7 +216,7 @@
 | · ████████/github-workflow-automation | Fusion | — | `/workflow-automation` |
 | · [garrytan](../docs/u/garrytan/)/gstack-upgrade | Fusion | 2★ | `/workspace-automation` |
 | ○ [garrytan](../docs/u/garrytan/)/retro | Basic | 3★ | `/write-report` |
-| · [obra](../docs/u/obra/)/writing-plans | Fusion | 3★ | `/writing-plans` |
+| · [obra](../docs/u/obra/)/writing-plans | Fusion | 4★ | `/writing-plans` |
 | · /x-twitter-automation | Fusion | — | `/x-twitter-automation` |
 
 ## Uniques
@@ -227,9 +228,11 @@
 | ◉ [openai](../docs/u/openai/)/few-shot-learning | Unique Skill | 4★ | `/few-shot-learning` |
 | ◉ [addy-osmani](../docs/u/addy-osmani/)/performance-optimization | Unique Skill | 4★ | `/performance-tuning` |
 | ◉ [obra](../docs/u/obra/)/subagent-driven-development | Unique Skill | 4★ | `/subagent-driven-development` |
+| ◉ [obra](../docs/u/obra/)/using-git-worktrees | Unique Skill | 4★ | `/using-git-worktrees` |
 | ◉ [pbakaus](../docs/u/pbakaus/)/impeccable | Unique Skill | 4★ | `/ux-audit` |
 | ◉ [firecrawl](../docs/u/firecrawl/)/firecrawl-build-scrape | Unique Skill | 4★ | `/web-scrape` |
 | ◉ [firecrawl](../docs/u/firecrawl/)/firecrawl-build-search | Unique Skill | 4★ | `/web-search` |
+| ◉ [obra](../docs/u/obra/)/writing-plans | Unique Skill | 4★ | `/writing-plans` |
 
 ## Basics
 

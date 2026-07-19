@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-18",
+  "generatedAt": "2026-07-19",
   "buckets": {
     "automated-testing": [
       {
@@ -15048,7 +15048,7 @@
         "origin": true,
         "genericSkillRef": "writing-plans",
         "status": "named",
-        "level": "3★",
+        "level": "4★",
         "description": "Writes comprehensive implementation plans that break multi-step tasks into bite-sized, independently executable sub-tasks before any code is touched.",
         "title": "The Blueprint Writer",
         "tags": [
@@ -15133,7 +15133,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-07-16",
+        "updatedAt": "2026-07-19",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:49Z",
@@ -15241,6 +15241,12 @@
             "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=110.1 (≥ 100.0)) — demoted to 3★ Evolved",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-16"
+          },
+          {
+            "timestamp": "2026-07-19T01:38:24Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 3★ to 4★"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -15259,10 +15265,10 @@
         },
         "type": "fusion",
         "role": "origin",
-        "branch": "standard",
-        "rank": 3,
-        "rankWord": "Evolved",
-        "medallion": "◇",
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
         "contractVersion": "gaia-public-v1"
       },
       {
@@ -21014,7 +21020,7 @@
         "origin": true,
         "genericSkillRef": "using-git-worktrees",
         "status": "named",
-        "level": "3★",
+        "level": "4★",
         "description": "Ensures every piece of feature work begins in an isolated workspace — creating a native git worktree when available, falling back to tool-provided isolation otherwise.",
         "title": "The Isolated Workspace",
         "tags": [
@@ -21091,7 +21097,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-07-16",
+        "updatedAt": "2026-07-19",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:49Z",
@@ -21193,6 +21199,12 @@
             "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=117.6 (≥ 100.0)) — demoted to 3★ Evolved",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-16"
+          },
+          {
+            "timestamp": "2026-07-19T01:38:18Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 3★ to 4★"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -21211,10 +21223,10 @@
         },
         "type": "fusion",
         "role": "origin",
-        "branch": "standard",
-        "rank": 3,
-        "rankWord": "Evolved",
-        "medallion": "◇",
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
         "contractVersion": "gaia-public-v1"
       }
     ],

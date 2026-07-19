@@ -7,7 +7,7 @@
     "C": 78,
     "ungraded": 81,
     "floor": 0,
-    "up": 43
+    "up": 41
   },
   "rows": [
     {
@@ -239,7 +239,7 @@
       "id": "obra/using-git-worktrees",
       "trustMagnitude": 117.65,
       "grade": "A",
-      "level": "3★",
+      "level": "4★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "peer-review": 52.5,
@@ -251,7 +251,7 @@
       "id": "obra/writing-plans",
       "trustMagnitude": 110.15,
       "grade": "A",
-      "level": "3★",
+      "level": "4★",
       "typeBreakdown": {
         "repo-own": 36.0,
         "peer-review": 45.0,
