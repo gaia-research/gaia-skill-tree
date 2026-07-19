@@ -5,14 +5,14 @@ contributor: stanfordnlp
 origin: true
 genericSkillRef: prompt-optimization
 status: named
-level: 3★
-installable: false
+level: 4★
+installable: true
 description: Declarative programming of language model pipelines, automatically optimizing
   prompts and RAG retrieval using bootstrapping and teleprompters.
 title: The Programmatic Prompt Engineer
 catalogRef: stanfordnlp-dspy
 createdAt: '2026-06-02'
-updatedAt: '2026-07-16'
+updatedAt: '2026-07-19'
 timeline:
 - timestamp: '2026-06-02T01:44:00Z'
   action: demote
@@ -62,6 +62,18 @@ timeline:
     origin=False TM=100.0 (≥ 100.0)) — demoted to 3★ Evolved'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-16
+- timestamp: '2026-07-19T02:04:16Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/stanfordnlp/dspy/blob/main/dspy/__init__.py
+- timestamp: '2026-07-19T02:04:17Z'
+  action: note
+  contributor: unknown
+  details: Set installable to true
+- timestamp: '2026-07-19T02:05:13Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
 trustMagnitude: 100.0
 overallTrustGrade: A
 apexGateStatus:
@@ -85,6 +97,8 @@ evidence:
 verification:
   firstEvidenceAt: '2026-06-19T09:21:47Z'
 trustMagnitudeInputHash: 379258625357acb056eaaf3a0ff982d04f9b5f903aed8b94ea0614b6277e2645
+links:
+  github: https://github.com/stanfordnlp/dspy/blob/main/dspy/__init__.py
 ---
 
 # DSPy

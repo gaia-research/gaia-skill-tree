@@ -97,7 +97,7 @@
 | ○ /hypothesis-generate | Basic | — | `/hypothesis-generate` |
 | ○ /image-caption | Basic | — | `/image-caption` |
 | ○ [mattpocock](../docs/u/mattpocock/)/triage | Basic | 3★ | `/issue-triage` |
-| · [safishamsi](../docs/u/safishamsi/)/graphify | Fusion | 3★ | `/knowledge-graph-build` |
+| · [safishamsi](../docs/u/safishamsi/)/graphify | Fusion | 4★ | `/knowledge-graph-build` |
 | · /knowledge-harvest | Fusion | — | `/knowledge-harvest` |
 | · [garrytan](../docs/u/garrytan/)/setup-gbrain | Fusion | 2★ | `/knowledge-management` |
 | · ████████/huggingface-papers | Fusion | — | `/literature-review` |
@@ -136,7 +136,7 @@
 | · [mattpocock](../docs/u/mattpocock/)/productivity | Fusion | 3★ | `/productivity` |
 | · [garrytan](../docs/u/garrytan/)/landing-report | Fusion | 2★ | `/project-management` |
 | ○ /prompt-injection-defense | Basic | — | `/prompt-injection-defense` |
-| · [stanfordnlp](../docs/u/stanfordnlp/)/dspy | Fusion | 3★ | `/prompt-optimization` |
+| · [stanfordnlp](../docs/u/stanfordnlp/)/dspy | Fusion | 4★ | `/prompt-optimization` |
 | ○ /protein-structure-analysis | Basic | — | `/protein-structure-analysis` |
 | ○ /proteomic-data-retrieval | Basic | — | `/proteomic-data-retrieval` |
 | · [mattpocock](../docs/u/mattpocock/)/prototype | Fusion | 2★ | `/prototype` |
@@ -226,7 +226,9 @@
 | Name | Class | Top ★ | Skill Call |
 |---|---|---|---|
 | ◉ [openai](../docs/u/openai/)/few-shot-learning | Unique Skill | 4★ | `/few-shot-learning` |
+| ◉ [safishamsi](../docs/u/safishamsi/)/graphify | Unique Skill | 4★ | `/knowledge-graph-build` |
 | ◉ [addy-osmani](../docs/u/addy-osmani/)/performance-optimization | Unique Skill | 4★ | `/performance-tuning` |
+| ◉ [stanfordnlp](../docs/u/stanfordnlp/)/dspy | Unique Skill | 4★ | `/prompt-optimization` |
 | ◉ [obra](../docs/u/obra/)/subagent-driven-development | Unique Skill | 4★ | `/subagent-driven-development` |
 | ◉ [obra](../docs/u/obra/)/using-git-worktrees | Unique Skill | 4★ | `/using-git-worktrees` |
 | ◉ [pbakaus](../docs/u/pbakaus/)/impeccable | Unique Skill | 4★ | `/ux-audit` |

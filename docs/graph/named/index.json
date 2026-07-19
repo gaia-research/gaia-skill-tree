@@ -12546,11 +12546,14 @@
         "origin": true,
         "genericSkillRef": "prompt-optimization",
         "status": "named",
-        "level": "3★",
+        "level": "4★",
         "description": "Declarative programming of language model pipelines, automatically optimizing prompts and RAG retrieval using bootstrapping and teleprompters.",
         "title": "The Programmatic Prompt Engineer",
         "catalogRef": "stanfordnlp-dspy",
-        "installable": false,
+        "installable": true,
+        "links": {
+          "github": "https://github.com/stanfordnlp/dspy/blob/main/dspy/__init__.py"
+        },
         "evidence": [
           {
             "source": "https://arxiv.org/abs/2310.03714",
@@ -12564,7 +12567,7 @@
           }
         ],
         "createdAt": "2026-06-02",
-        "updatedAt": "2026-07-16",
+        "updatedAt": "2026-07-19",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:44:00Z",
@@ -12632,6 +12635,24 @@
             "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.0 (≥ 100.0)) — demoted to 3★ Evolved",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-16"
+          },
+          {
+            "timestamp": "2026-07-19T02:04:16Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/stanfordnlp/dspy/blob/main/dspy/__init__.py"
+          },
+          {
+            "timestamp": "2026-07-19T02:04:17Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Set installable to true"
+          },
+          {
+            "timestamp": "2026-07-19T02:05:13Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 3★ to 4★"
           }
         ],
         "trustMagnitude": 100.0,
@@ -12649,10 +12670,10 @@
         },
         "type": "fusion",
         "role": "origin",
-        "branch": "standard",
-        "rank": 3,
-        "rankWord": "Evolved",
-        "medallion": "◇",
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
         "contractVersion": "gaia-public-v1"
       },
       {
@@ -25008,7 +25029,7 @@
         "origin": true,
         "genericSkillRef": "knowledge-graph-build",
         "status": "named",
-        "level": "3★",
+        "level": "4★",
         "description": "Maps codebases and documentation into a queryable knowledge graph using AST analysis and semantic extraction.",
         "title": "The Structural Muse",
         "tags": [
@@ -25017,7 +25038,7 @@
           "ast"
         ],
         "links": {
-          "github": "https://github.com/safishamsi/graphify"
+          "github": "https://github.com/safishamsi/graphify/blob/v8/graphify/__init__.py"
         },
         "evidence": [
           {
@@ -25060,7 +25081,7 @@
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-07-16",
+        "updatedAt": "2026-07-19",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:24Z",
@@ -25145,6 +25166,18 @@
             "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=122.9 (≥ 100.0)) — demoted to 3★ Evolved",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-16"
+          },
+          {
+            "timestamp": "2026-07-19T02:04:09Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/safishamsi/graphify/blob/v8/graphify/__init__.py"
+          },
+          {
+            "timestamp": "2026-07-19T02:04:29Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 3★ to 4★"
           }
         ],
         "trustMagnitude": 116.57,
@@ -25162,10 +25195,10 @@
         },
         "type": "fusion",
         "role": "origin",
-        "branch": "standard",
-        "rank": 3,
-        "rankWord": "Evolved",
-        "medallion": "◇",
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
         "contractVersion": "gaia-public-v1"
       }
     ],

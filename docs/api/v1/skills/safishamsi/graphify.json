@@ -2,14 +2,14 @@
   "id": "safishamsi/graphify",
   "name": "Graphify",
   "contributor": "safishamsi",
-  "level": "3★",
+  "level": "4★",
   "type": "fusion",
   "status": "named",
   "trustMagnitude": 116.57,
   "overallTrustGrade": "A",
-  "branch": "standard",
-  "rankWord": "Evolved",
-  "medallion": "◇",
+  "branch": "unique",
+  "rankWord": "Unique",
+  "medallion": "◉",
   "_links": {
     "self": "/api/v1/skills/safishamsi/graphify.json",
     "contributor": "/api/v1/contributors/safishamsi.json",
@@ -158,9 +158,21 @@
       "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=122.9 (≥ 100.0)) — demoted to 3★ Evolved",
       "metaEpoch": "yggdrasil-ii",
       "migrationBatch": "yggdrasil-ii@2026-07-16"
+    },
+    {
+      "timestamp": "2026-07-19T02:04:09Z",
+      "action": "note",
+      "contributor": "unknown",
+      "details": "Updated GitHub link to https://github.com/safishamsi/graphify/blob/v8/graphify/__init__.py"
+    },
+    {
+      "timestamp": "2026-07-19T02:04:29Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from 3★ to 4★"
     }
   ],
   "links": {
-    "github": "https://github.com/safishamsi/graphify"
+    "github": "https://github.com/safishamsi/graphify/blob/v8/graphify/__init__.py"
   }
 }
