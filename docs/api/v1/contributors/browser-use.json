@@ -9,6 +9,9 @@
       "overallTrustGrade": "B",
       "contributor": "browser-use",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/browser-use/browser-harness.json"
       }

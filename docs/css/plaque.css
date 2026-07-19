@@ -418,6 +418,20 @@ button.plaque__slug:focus-visible {
   margin-bottom: 2px;
 }
 
+/* Contributor pair — wreathed avatar sits directly beside the @handle so the
+   PERSON reads as one unit (tile / settled). The medallion + rank chip stay in
+   the header near the slug (the SKILL). Marco layout intent. */
+.plaque__contributor,
+.plaque-contributor-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.plaque__contributor .plaque__handle,
+.plaque__contributor .plaque-contrib-row {
+  margin-top: 0;
+}
+
 /* Install row — mini-terminal. Used by tile / detail / settled / og. */
 .plaque__install-row,
 .ns-install-row {
@@ -726,10 +740,10 @@ button.plaque__slug:focus-visible {
 .plaque-orb--ultimate,
 .se-node-orb--ultimate {
   background: radial-gradient(circle at 35% 35%,
-    color-mix(in srgb, var(--tier-ultimate) 30%, #fff) 0%,
-    var(--tier-ultimate) 60%,
-    color-mix(in srgb, var(--tier-ultimate) 70%, #000) 100%);
-  box-shadow: 0 0 12px rgba(var(--tier-ultimate-rgb), 0.4);
+    color-mix(in srgb, var(--tier-fusion) 30%, #fff) 0%,
+    var(--tier-fusion) 60%,
+    color-mix(in srgb, var(--tier-fusion) 70%, #000) 100%);
+  box-shadow: 0 0 12px rgba(var(--tier-fusion-rgb), 0.4);
 }
 .plaque-orb--unique,
 .se-node-orb--unique {
@@ -766,9 +780,9 @@ button.plaque__slug:focus-visible {
 .se-node-orb--vi {
   background: radial-gradient(circle at 35% 35%,
     #fff 40%,
-    color-mix(in srgb, var(--tier-ultimate) 30%, #fff) 70%,
-    var(--tier-ultimate)) !important;
-  box-shadow: 0 0 18px rgba(255, 255, 255, 0.6), 0 0 40px rgba(var(--tier-ultimate-rgb), 0.35) !important;
+    color-mix(in srgb, var(--tier-fusion) 30%, #fff) 70%,
+    var(--tier-fusion)) !important;
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.6), 0 0 40px rgba(var(--tier-fusion-rgb), 0.35) !important;
 }
 
 
@@ -1364,6 +1378,22 @@ button.plaque__slug:focus-visible {
   background: rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(var(--plaque-accent-rgb), 0.08);
   transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+/* Ygg-II: each row's background reflects its rank+branch — Suite (Ultimate/
+   Apex) gold, Unique dark purple, 4★ Extra the 4★ rank purple. Keyed on the
+   data-branch + data-level the row already carries (no JS change); the 1–3★
+   shared ladder keeps the neutral base fill. */
+.plaque--hall .plaque__stack-row[data-branch="suite"] {
+  background: var(--tier-fusion-bg);
+  border-color: rgba(var(--tier-fusion-rgb), 0.28);
+}
+.plaque--hall .plaque__stack-row[data-branch="unique"] {
+  background: var(--tier-unique-bg);
+  border-color: rgba(var(--tier-unique-rgb), 0.28);
+}
+.plaque--hall .plaque__stack-row[data-branch="suite"][data-level="4"] {
+  background: var(--rank-4-bg);
+  border-color: rgba(var(--rank-4-rgb), 0.28);
 }
 .plaque--hall .plaque__stack-row:hover {
   background: rgba(0, 0, 0, 0.45);
@@ -2324,9 +2354,9 @@ button.plaque__slug:focus-visible {
   color: var(--tier-unique);
 }
 .profile-filter-group[data-filter-type="type"] .profile-filter-chip[data-value="ultimate"][aria-pressed="true"] {
-  border-color: var(--tier-ultimate);
-  background: var(--tier-ultimate-bg);
-  color: var(--tier-ultimate);
+  border-color: var(--tier-fusion);
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--tier-fusion);
 }
 
 /* Rank-aware active states for Rank filter chips */
@@ -2864,7 +2894,7 @@ button.plaque__slug:focus-visible {
   z-index: 10;
 }
 .plaque.is-highlighted.plaque--ultimate {
-  border-color: var(--tier-ultimate, #f59e0b) !important;
+  border-color: var(--tier-fusion, #f59e0b) !important;
   box-shadow: 0 0 20px rgba(245, 158, 11, 0.35) !important;
 }
 .plaque.is-highlighted.plaque--unique {
@@ -2925,7 +2955,11 @@ button.plaque__slug:focus-visible {
 .ptl2__tooltip-tier--basic    { color: var(--tier-basic,#38bdf8);    background: rgba(56,189,248,.1); border-color: rgba(56,189,248,.2); }
 .ptl2__tooltip-tier--extra    { color: var(--tier-extra,#c084fc);    background: rgba(192,132,252,.1); border-color: rgba(192,132,252,.2); }
 .ptl2__tooltip-tier--unique   { color: var(--tier-unique);   background: rgba(var(--tier-unique-rgb),.1); border-color: rgba(var(--tier-unique-rgb),.2); }
-.ptl2__tooltip-tier--ultimate { color: var(--tier-ultimate,#f59e0b); background: rgba(245,158,11,.1); border-color: rgba(245,158,11,.2); }
+.ptl2__tooltip-tier--ultimate { color: var(--tier-fusion,#f59e0b); background: rgba(245,158,11,.1); border-color: rgba(245,158,11,.2); }
+/* PR3b: branch-keyed tooltip tiers (standard/suite) — profile-timeline.js now
+   keys the tier chip on the resolved branch, not the dead type enum. */
+.ptl2__tooltip-tier--standard { color: var(--tier-basic,#38bdf8);    background: rgba(56,189,248,.1); border-color: rgba(56,189,248,.2); }
+.ptl2__tooltip-tier--suite    { color: var(--tier-fusion);   background: rgba(var(--tier-fusion-rgb),.1); border-color: rgba(var(--tier-fusion-rgb),.2); }
 
 .ptl2__tooltip-detail-row {
   display: flex;
@@ -3883,7 +3917,7 @@ button.plaque__slug:focus-visible {
   border-block-end: 1px solid var(--border);
   letter-spacing: 0.01em;
 }
-.directory-tier[data-tier="4"] .directory-tier__title { color: var(--tier-ultimate); }
+.directory-tier[data-tier="4"] .directory-tier__title { color: var(--tier-fusion); }
 .directory-tier[data-tier="3"] .directory-tier__title { color: var(--tier-unique); }
 .directory-tier[data-tier="2"] .directory-tier__title { color: var(--tier-extra); }
 .directory-tier[data-tier="1"] .directory-tier__title { color: var(--tier-basic); }

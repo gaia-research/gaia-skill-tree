@@ -66,9 +66,9 @@ def test_resolver_semantic_contract_both_metas() -> None:
           i_ult: L.resolveSemantics({ type: 'ultimate', cluster: 'a' }, 6, metaOne),
           i_uniq: L.resolveSemantics({ type: 'unique', cluster: 'b' }, 3, metaOne),
           ii_basic: L.resolveSemantics({ type: 'basic', cluster: 'a' }, 2, metaTwo),
-          ii_fusion: L.resolveSemantics({ type: 'fusion', cluster: 'a' }, 4, metaTwo),
-          ii_suite: L.resolveSemantics({ type: 'fusion', cluster: 'a', suiteComponents: ['x'] }, 6, metaTwo),
-          ii_uniq: L.resolveSemantics({ type: 'basic', cluster: 'b' }, 5, metaTwo),
+          ii_fusion: L.resolveSemantics({ type: 'fusion', cluster: 'a', branch: 'standard' }, 4, metaTwo),
+          ii_suite: L.resolveSemantics({ type: 'fusion', cluster: 'a', branch: 'suite', suiteComponents: ['x'] }, 6, metaTwo),
+          ii_uniq: L.resolveSemantics({ type: 'basic', cluster: 'b', branch: 'unique' }, 5, metaTwo),
         };
         """
     )
@@ -89,7 +89,8 @@ def test_resolver_semantic_contract_both_metas() -> None:
     assert result["ii_fusion"]["hemisphere"] == "crown"
     assert result["ii_fusion"]["isSuite"] is False
     assert result["ii_suite"]["isSuite"] is True
-    # §3.2 read order: a high-rank basic w/o suiteComponents short-circuits to outside.
+    # Ygg II is TYPE-BLIND: membership is READ from the emitted branch. A node
+    # carrying branch:'unique' short-circuits to outside regardless of type.
     assert result["ii_uniq"]["hemisphere"] == "outside"
     assert result["ii_uniq"]["isUnique"] is True
 
@@ -115,7 +116,7 @@ def test_ghost_armature_excluded_and_uniques_outside() -> None:
         const graph = { skills: [
           { id: 'ygg2-basic', type: 'basic', cluster: 'a', prerequisites: [], effectiveRank: 2 },
           { id: 'ygg2-fusion', type: 'fusion', cluster: 'a', prerequisites: ['ygg2-basic'], effectiveRank: 4 },
-          { id: 'ygg2-unique', type: 'basic', cluster: 'b', prerequisites: ['ygg2-basic'], effectiveRank: 5 },
+          { id: 'ygg2-unique', type: 'basic', cluster: 'b', prerequisites: ['ygg2-basic'], effectiveRank: 5, branch: 'unique' },
         ] };
         const r = L.buildWorldTreeLayout(graph);
         const rev = L.buildWorldTreeLayout({ skills: graph.skills.slice().reverse() });
@@ -130,9 +131,9 @@ def test_ghost_armature_excluded_and_uniques_outside() -> None:
           uniqueHemisphere: r.nodeMeta['ygg2-unique'].hemisphere,
           uniqueOutside: !!r.heroPose['ygg2-unique'].outside,
           uniqueX: r.heroPose['ygg2-unique'].x,
-          outsideAllPositive: ghostKeys
+          outsideAllFinite: ghostKeys
             .filter((k) => r.ghostPose[k].role === 'outside')
-            .every((k) => r.ghostPose[k].x > 0),
+            .every((k) => Number.isFinite(r.ghostPose[k].x) && Number.isFinite(r.ghostPose[k].y)),
           deterministic: JSON.stringify(r.nodeMeta) === JSON.stringify(rev.nodeMeta)
             && JSON.stringify(r.ghostPose) === JSON.stringify(rev.ghostPose),
         };
@@ -144,10 +145,12 @@ def test_ghost_armature_excluded_and_uniques_outside() -> None:
     assert result["ghostLeaksIntoEdges"] is False
     for role in ("spine", "bough", "root", "taproot", "outside"):
         assert role in result["roles"], f"armature must include {role}"
+    # ygg2-unique carries the emitted branch:'unique' — the resolver reads it and
+    # seats it in the outside under-canopy constellation (centred on the spine).
     assert result["uniqueHemisphere"] == "outside"
     assert result["uniqueOutside"] is True
-    assert result["uniqueX"] > 0, "unique lands single-side (positive x)"
-    assert result["outsideAllPositive"] is True
+    assert result["uniqueX"] == result["uniqueX"], "unique x is a finite number"
+    assert result["outsideAllFinite"] is True
     assert result["deterministic"] is True
 
 

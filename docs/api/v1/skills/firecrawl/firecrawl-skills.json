@@ -7,6 +7,9 @@
   "status": "named",
   "trustMagnitude": 223.52,
   "overallTrustGrade": "A",
+  "branch": "suite",
+  "rankWord": "Evolved",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/firecrawl/firecrawl-skills.json",
     "contributor": "/api/v1/contributors/firecrawl.json",

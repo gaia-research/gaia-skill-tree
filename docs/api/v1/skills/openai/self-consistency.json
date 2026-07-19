@@ -7,6 +7,9 @@
   "status": "named",
   "trustMagnitude": 100.0,
   "overallTrustGrade": "A",
+  "branch": "standard",
+  "rankWord": "Evolved",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/openai/self-consistency.json",
     "contributor": "/api/v1/contributors/openai.json",

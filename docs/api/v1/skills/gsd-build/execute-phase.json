@@ -7,6 +7,9 @@
   "status": "named",
   "trustMagnitude": 52.16,
   "overallTrustGrade": "B",
+  "branch": "standard",
+  "rankWord": "Evolved",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/gsd-build/execute-phase.json",
     "contributor": "/api/v1/contributors/gsd-build.json",

@@ -7,6 +7,9 @@
   "status": "named",
   "trustMagnitude": 202.16,
   "overallTrustGrade": "A",
+  "branch": "suite",
+  "rankWord": "Evolved",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/gsd-build/get-shit-done.json",
     "contributor": "/api/v1/contributors/gsd-build.json",

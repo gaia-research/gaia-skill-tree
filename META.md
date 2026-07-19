@@ -30,12 +30,12 @@ Gaia uses a tiered star system (`0★`–`6★`) to rank skills. Levels are both
 - **`basic`** — 0 prerequisites. Root primitive nodes.
 - **`fusion`** — ≥ 1 prerequisite. Any non-basic starless node. PURE STRUCTURE — `type` does **not** determine a named skill's branch. Legacy values `extra`, `ultimate`, and `unique` are retired; all non-basic nodes are `fusion`.
 
-**`suiteComponents`** — the parent-level list of co-located suite components. Its **presence** on a generic node drives the branch fork for all named skills attached to that node and feeds downstream Trust Magnitude (§4.3 depth-2 walker). Independent of `type`.
+**`suiteComponents`** — a **Named-Skill-only** list of co-located suite components (never on the starless generic parent, per #996). Its **presence** puts the Named Skill on the `suite` branch at any rank and feeds downstream Trust Magnitude (§4.3 depth-2 walker). Independent of `type`.
 
-**Branch axis** — named skills only, **derived at read-time, never declared**. Rule: `branch = f(suiteComponents present?, rank)`:
-- **`standard`** — rank 1–3. Shared ladder: 1★ Awakened → 2★ Named → 3★ Evolved. Every named skill starts here regardless of parent `type`.
-- **`suite`** — rank ≥ 4 AND the generic parent carries `suiteComponents`. Suite ladder: 4★ **Extra** → 5★ **Ultimate** → 6★ **Apex**.
-- **`unique`** — rank ≥ 4 AND the generic parent has **no** `suiteComponents`. Unique ladder: 4★ **Unique** → 5★ **Unique Ultimate** → 6★ **Unique Impossible**.
+**Branch axis** — named skills only, **derived at read-time, never declared**. `branch = f(suiteComponents present?, rank)`, **suiteComponents-presence first**:
+- **`suite`** — `suiteComponents` present, at **any rank** (from the 2★ push floor). Suite **ladder words + glyph appear only at 4★+**: 4★ **Extra** → 5★ **Ultimate** → 6★ **Apex**; a 2★/3★ suite shows the shared word (Named/Evolved) + plain glyph. Membership is structural; the 4★ fork is a decoration gate.
+- **`unique`** — no `suiteComponents` AND rank ≥ 4. Unique ladder: 4★ **Unique** → 5★ **Unique Ultimate** → 6★ **Unique Impossible**.
+- **`standard`** — no `suiteComponents` AND rank 1–3. Shared ladder: 1★ Awakened → 2★ Named → 3★ Evolved.
 
 **Orthogonality**: type and branch are fully independent. A `fusion` node without `suiteComponents` yields Unique-branch named skills; a `basic` node with `suiteComponents` yields Suite-branch named skills. Never consult `type` to determine branch.
 

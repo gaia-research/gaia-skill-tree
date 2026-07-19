@@ -9,6 +9,9 @@
       "overallTrustGrade": "A",
       "contributor": "pbakaus",
       "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/pbakaus/impeccable.json"
       }

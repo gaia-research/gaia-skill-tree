@@ -9,6 +9,9 @@
       "overallTrustGrade": "B",
       "contributor": "martin-stepanoski",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/martin-stepanoski/nielsen-heuristics-audit.json"
       }

@@ -269,6 +269,9 @@
         origin: ns.origin,
         level: ns.level,
         type: ns.type,
+        // Pass emitted branch so plaque.branchOf reads the resolved field
+        // directly (Ygg-II: never derive branch from type).
+        branch: ns.branch || '',
         description: ns.description,
         tags: ns.tags
       };
@@ -612,6 +615,7 @@
         name: name,
         level: entry.level || '',
         type: entry.type || 'basic',
+        branch: entry.branch || '',
         origin: !!entry.origin,
         ogPath: ogPath,
         description: entry.description || '',

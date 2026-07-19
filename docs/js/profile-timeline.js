@@ -149,15 +149,15 @@
       '  background: var(--bg,#030712);',
       '  flex-shrink: 0;',
       '}',
-      '.ptl2__dot--basic    { border-color: var(--tier-basic,#38bdf8);    background: rgba(56,189,248,.15); }',
-      '.ptl2__dot--extra    { border-color: var(--tier-extra,#c084fc);    background: rgba(192,132,252,.15); }',
-      '.ptl2__dot--unique   { border-color: var(--tier-unique,#7c3aed);   background: #000; }',
-      '.ptl2__dot--ultimate { border-color: var(--tier-ultimate,#f59e0b); background: rgba(245,158,11,.15); }',
+      /* PR3b: dot classes key on the resolved BRANCH (standard/suite/unique),
+         not the dead type enum. Tier color via tokens; unique reads its rgb. */
+      '.ptl2__dot--standard { border-color: var(--tier-basic);  background: rgba(56,189,248,.15); }',
+      '.ptl2__dot--suite    { border-color: var(--tier-fusion); background: rgba(var(--tier-fusion-rgb),.15); }',
+      '.ptl2__dot--unique   { border-color: var(--tier-unique); background: #000; }',
       '.ptl2__dot--rank { width: 9px; height: 9px; border-width: 2px; }',
-      '.ptl2__event--rank-up .ptl2__dot--basic    { box-shadow: 0 0 6px rgba(56,189,248,.5); }',
-      '.ptl2__event--rank-up .ptl2__dot--extra    { box-shadow: 0 0 6px rgba(192,132,252,.5); }',
-      '.ptl2__event--rank-up .ptl2__dot--unique   { box-shadow: 0 0 8px rgba(124,58,237,.7); }',
-      '.ptl2__event--rank-up .ptl2__dot--ultimate { box-shadow: 0 0 8px rgba(245,158,11,.6); }',
+      '.ptl2__event--rank-up .ptl2__dot--standard { box-shadow: 0 0 6px rgba(56,189,248,.5); }',
+      '.ptl2__event--rank-up .ptl2__dot--suite    { box-shadow: 0 0 8px rgba(var(--tier-fusion-rgb),.6); }',
+      '.ptl2__event--rank-up .ptl2__dot--unique   { box-shadow: 0 0 8px rgba(var(--tier-unique-rgb,124,58,237),.7); }',
 
       /* Card */
       '.ptl2__card {',
@@ -198,7 +198,7 @@
       '.ptl2__chip--ascend   { color: #86efac; background: rgba(134,239,172,.07); border: 1px solid rgba(134,239,172,.2); }',
       '.ptl2__chip--promote  { color: #86efac; background: rgba(134,239,172,.07); border: 1px solid rgba(134,239,172,.2); }',
       '.ptl2__chip--demote   { color: #ef4444; background: rgba(239,68,68,.07);   border: 1px solid rgba(239,68,68,.2); }',
-      '.ptl2__chip--fuse     { color: var(--tier-ultimate,#f59e0b); background: rgba(245,158,11,.07); border: 1px solid rgba(245,158,11,.2); }',
+      '.ptl2__chip--fuse     { color: var(--tier-fusion); background: rgba(var(--tier-fusion-rgb),.07); border: 1px solid rgba(var(--tier-fusion-rgb),.2); }',
       '.ptl2__chip--default  { color: var(--muted,#64748b); background: rgba(100,116,139,.07); border: 1px solid rgba(100,116,139,.15); }',
 
       /* Rank delta */
@@ -269,29 +269,49 @@
     return Math.min(6, (s.match(/★/g) || []).length);
   }
 
+  // Resolve a skill's branch from the EMITTED field (skill.branch, supplied by
+  // generateProfilePages.py) via the shared GaiaSemantics.branchOf seam. When
+  // the field is absent (plain node / pre-emit payload) the seam returns the
+  // neutral 'standard' default — it never guesses from type. Falls back to
+  // 'standard' directly if the seam script failed to load.
+  function _branchOf(skill) {
+    if (window.GaiaSemantics && typeof window.GaiaSemantics.branchOf === 'function') {
+      return window.GaiaSemantics.branchOf(skill);
+    }
+    return 'standard';
+  }
+
+  // Branch → tier color token. Keyed on the resolved BRANCH (standard/suite/
+  // unique), never the dead skill.type enum. Design tokens only — no raw hex.
+  // Concrete resolved values live in TIER_HEX below; these var() forms are the
+  // token-first source the docs-cohesion guard checks.
   var TIER_COLOR = {
-    basic:    'var(--tier-basic,#38bdf8)',
-    extra:    'var(--tier-extra,#c084fc)',
-    unique:   'var(--tier-unique,#7c3aed)',
-    ultimate: 'var(--tier-ultimate,#f59e0b)',
+    standard: 'var(--tier-basic)',
+    suite:    'var(--tier-fusion)',
+    unique:   'var(--tier-unique)',
   };
-  // Resolve a `var(--token,#fallback)` expression at runtime: prefer the live
-  // CSS custom property, fall back to the inline hex. Written in var() form so
-  // the docs-cohesion token guard recognises it as token-first (not a bare hex).
+  // Resolve a `var(--token)` or `var(--token,#fallback)` expression at runtime:
+  // prefer the live CSS custom property, fall back to the (optional) inline
+  // fallback. Token-first so the docs-cohesion token guard is satisfied; a
+  // hexless var() resolves purely off the computed property.
   function resolveVar(s, expr) {
-    var m = /^var\((--[^,]+),\s*(.+)\)$/.exec(expr);
-    var prop = m[1], fb = m[2];
+    var m = /^var\((--[^,)]+)(?:,\s*(.+))?\)$/.exec(expr);
+    if (!m) return expr;
+    var prop = m[1], fb = m[2] || '';
     return s ? (s.getPropertyValue(prop).trim() || fb) : fb;
   }
 
+  // Branch → resolved tier color. Keyed on the resolved BRANCH, reading the
+  // same tokens as TIER_COLOR (no raw hex). Used where a concrete color string
+  // is needed (canvas/inline style); missing tokens degrade to the var() form
+  // via TIER_COLOR at the call site.
   var TIER_HEX = (function () {
     var s = typeof getComputedStyle !== 'undefined' ? getComputedStyle(document.documentElement) : null;
     function cv(expr) { return resolveVar(s, expr); }
     return {
-      basic:    cv('var(--tier-basic,#38bdf8)'),
-      extra:    cv('var(--tier-extra,#c084fc)'),
-      unique:   cv('var(--tier-unique,#7c3aed)'),
-      ultimate: cv('var(--tier-ultimate,#f59e0b)'),
+      standard: cv('var(--tier-basic)'),
+      suite:    cv('var(--tier-fusion)'),
+      unique:   cv('var(--tier-unique)'),
     };
   }());
 
@@ -367,7 +387,7 @@
 
         events.push({
           ts: ts, skillId: skill.id, skillName: skill.name || skill.id,
-          type: skill.type || 'basic', action: action,
+          branch: _branchOf(skill), action: action,
           newValue: h.level || null, previousValue: idx > 0 ? sortedHistory[idx - 1].level : null,
           diff: diff, details: null
         });
@@ -403,7 +423,7 @@
 
       events.push({
         ts: ts, skillId: ev.skillId, skillName: skill.name || ev.skillId,
-        type: skill.type || 'basic', action: action,
+        branch: _branchOf(skill), action: action,
         newValue: ev.newValue || null, previousValue: ev.previousValue || null,
         diff: diff, details: ev.details || null
       });
@@ -579,7 +599,8 @@
       });
       if (sorted.length === 0) return;
 
-      var color = TIER_HEX[skill.type] || '#64748b';
+      var _skillBranch = _branchOf(skill);
+      var color = TIER_HEX[_skillBranch] || TIER_COLOR[_skillBranch] || TIER_COLOR.standard;
       var grpId = 'ptl2-sg-' + skill.id.replace(/[^a-z0-9]/gi, '-');
 
       var grp = svgEl('g', { 'data-skill-id': skill.id, id: grpId, class: 'ptl2__chart-curve-group' });
@@ -690,7 +711,7 @@
         var chipCls = 'ptl2__chip ptl2__chip--' + (ACTION_CHIP[action] || 'default');
         var chipLabel = ACTION_LABEL[action] || action.replace(/_/g, ' ');
         var isRank = isRankAction(action);
-        var dotCls = 'ptl2__dot ptl2__dot--' + (ev.type || 'basic') + (isRank ? ' ptl2__dot--rank' : '');
+        var dotCls = 'ptl2__dot ptl2__dot--' + (ev.branch || 'standard') + (isRank ? ' ptl2__dot--rank' : '');
         
         var rowCls = 'ptl2__event';
         if (isRank) {
@@ -738,7 +759,7 @@
         var rankNum = ev.newValue ? parseRank(ev.newValue) : 0;
         var rankColor = RANK_HEX[rankNum];
         if (rankColor === 'apex') {
-          nameEl.style.backgroundImage = 'linear-gradient(90deg,var(--rank-5,#fbbf24),var(--tier-ultimate,#f59e0b),var(--rank-4,#e879f9),var(--rank-3,#a78bfa),var(--rank-1,#38bdf8))';
+          nameEl.style.backgroundImage = 'linear-gradient(90deg,var(--rank-5,#fbbf24),var(--tier-fusion),var(--rank-4,#e879f9),var(--rank-3,#a78bfa),var(--rank-1,#38bdf8))';
           nameEl.style.webkitBackgroundClip = 'text';
           nameEl.style.backgroundClip = 'text';
           nameEl.style.webkitTextFillColor = 'transparent';
@@ -822,7 +843,8 @@
 
       var dot = document.createElement('span');
       dot.className = 'ptl2__legend-dot';
-      dot.style.background = TIER_HEX[skill.type] || '#64748b';
+      var _legendBranch = _branchOf(skill);
+      dot.style.background = TIER_HEX[_legendBranch] || TIER_COLOR[_legendBranch] || TIER_COLOR.standard;
       item.appendChild(dot);
 
       var label = document.createElement('span');
@@ -970,10 +992,15 @@
           titleRow.appendChild(nameSpan);
 
           var tierSpan = document.createElement('span');
-          tierSpan.className = 'ptl2__tooltip-tier ptl2__tooltip-tier--' + (skillEntry.type || 'basic');
-          tierSpan.textContent = skillEntry.type || 'basic';
-          titleRow.appendChild(tierSpan);
-
+          // PR3b: tooltip tier COLOR keys on the resolved BRANCH (matches the
+          // --tier-fusion color migration) — but the visible TEXT must be the
+          // emitted RANK word, not the branch word. Read the emitted rankWord
+          // (taxonomy authority) with the star level as fallback; never the
+          // dead type enum and never the branch word.
+          var _tipBranch = _branchOf(skillEntry);
+          var _tipRank = skillEntry.rankWord || skillEntry.level || '';
+          tierSpan.className = 'ptl2__tooltip-tier ptl2__tooltip-tier--' + _tipBranch;
+          tierSpan.textContent = _tipRank;
           titleRow.appendChild(tierSpan);
           tooltip.appendChild(titleRow);
 
@@ -988,8 +1015,6 @@
           var dateSpan = document.createElement('span');
           dateSpan.className = 'ptl2__tooltip-date';
           dateSpan.textContent = '';
-          detailRow.appendChild(dateSpan);
-
           detailRow.appendChild(dateSpan);
           tooltip.appendChild(detailRow);
 

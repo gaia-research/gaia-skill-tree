@@ -7,6 +7,9 @@
   "status": "named",
   "trustMagnitude": 56.21,
   "overallTrustGrade": "B",
+  "branch": "standard",
+  "rankWord": "Evolved",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/mattpocock/setup-matt-pocock-skills.json",
     "contributor": "/api/v1/contributors/mattpocock.json",

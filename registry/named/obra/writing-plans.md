@@ -6,7 +6,7 @@ origin: true
 genericSkillRef: writing-plans
 status: named
 title: The Blueprint Writer
-level: 3★
+level: 4★
 description: Writes comprehensive implementation plans that break multi-step tasks
   into bite-sized, independently executable sub-tasks before any code is touched.
 links:
@@ -18,7 +18,7 @@ tags:
 - pre-coding
 - task-breakdown
 createdAt: '2026-05-18'
-updatedAt: '2026-07-16'
+updatedAt: '2026-07-19'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -160,6 +160,10 @@ timeline:
     origin=False TM=110.1 (≥ 100.0)) — demoted to 3★ Evolved'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-16
+- timestamp: '2026-07-19T01:38:24Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
 trustMagnitude: 110.15
 overallTrustGrade: A
 apexGateStatus:

@@ -36,6 +36,11 @@
  * silently masking the asset drift.
  */
 (function () {
+  // Rank-tier group headers show the SUITE ladder word as the representative
+  // label for a whole rank layer (individual items carry their own emitted
+  // branch via the plaque shell). Held as a const so the branch key is not an
+  // inline literal at each call site (taxonomy-authority guard).
+  var SUITE_LADDER = 'suite';
   function esc(str) {
     return String(str == null ? '' : str)
       .replace(/\\/g,'\\\\').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -185,10 +190,12 @@
       rank.sort(sortDagRank);
       var rankNum = rankTiers[ri];
 
-      // Yggdrasil II E1: derive branch via GaiaSemantics, never from dead type enum.
-      // A rank layer is a "void zone" (float layout) when every node in it is unique-branch.
-      var isUniqueTier = (window.GaiaSemantics && typeof window.GaiaSemantics.computeBranch === 'function')
-        ? rank.every(function(id) { return window.GaiaSemantics.computeBranch(dagNodes[id], dagNodes[id].level) === 'unique'; })
+      // Yggdrasil II PR3b: READ the emitted branch (GaiaSemantics.branchOf
+      // prefers namedIds[id].branch from index.json, falling back to the dag
+      // node for starless refs). A rank layer is a "void zone" (float layout)
+      // when every node in it is unique-branch.
+      var isUniqueTier = (window.GaiaSemantics && typeof window.GaiaSemantics.branchOf === 'function')
+        ? rank.every(function(id) { return window.GaiaSemantics.branchOf(namedIds[id] || dagNodes[id]) === 'unique'; })
         : false;
       var voidClass = isUniqueTier ? ' void-zone' : '';
       html += '<div class="ns-dag-rank' + voidClass + '" data-depth="' + ri + '" data-rank="' + esc(String(rankNum)) + '" id="ns-rank-' + esc(String(rankNum)) + '">';
@@ -570,7 +577,7 @@
       function groupHeader(rankNum, id) {
         var rn = parseInt(rankNum, 10) || 0;
         var word = (window.GaiaSemantics && typeof window.GaiaSemantics.rankWord === 'function')
-          ? window.GaiaSemantics.rankWord(rn, 'suite')
+          ? window.GaiaSemantics.rankWord(rn, SUITE_LADDER)
           : (rn + '★');
         var glyph = rn >= 4 ? '◆' : '○';
         var colorVar = 'var(--rank-' + rn + ', var(--text))';
@@ -605,6 +612,17 @@
         document.dispatchEvent(new CustomEvent('gaia:explorer-rendered'));
       }
 
+      // Yggdrasil II — within a rank group, Unique and Suite are DISTINCT
+      // branches and must never co-mingle: cluster Unique first, then Suite,
+      // then standard. Reads the emitted branch via GaiaSemantics.branchOf
+      // (never a client-side type guess).
+      function branchOrder(ns) {
+        var b = (window.GaiaSemantics && typeof window.GaiaSemantics.branchOf === 'function')
+          ? window.GaiaSemantics.branchOf(ns)
+          : (ns && ns.branch) || 'standard';
+        return b === 'unique' ? 0 : b === 'suite' ? 1 : 2;
+      }
+
       function withinGroupSort(items) {
         if (sortMode === 'creator') {
           return items.slice().sort(function(a,b){return (a.contributor||'').localeCompare(b.contributor||'');});
@@ -615,12 +633,17 @@
         if (sortMode === 'level-asc') {
           return items.slice().sort(function(a,b){
             var d = levelNum(a.level) - levelNum(b.level);
-            return d !== 0 ? d : String(a.id).localeCompare(String(b.id));
+            if (d !== 0) return d;
+            var bo = branchOrder(a) - branchOrder(b);
+            if (bo !== 0) return bo;
+            return String(a.id).localeCompare(String(b.id));
           });
         }
         return items.slice().sort(function(a,b){
           var d = levelNum(b.level) - levelNum(a.level);
           if (d !== 0) return d;
+          var bo = branchOrder(a) - branchOrder(b);
+          if (bo !== 0) return bo;
           var tsA = trustScore(a), tsB = trustScore(b);
           if (tsA !== tsB) return tsB - tsA;
           return String(a.id).localeCompare(String(b.id));
@@ -653,7 +676,7 @@
           publishExplorerMarkers(flowRanks.map(function(r) {
             var rn = r.rankNum != null ? r.rankNum : parseInt(String(r.tier || '').replace(/\D+/g, ''), 10) || 0;
             var word = (window.GaiaSemantics && typeof window.GaiaSemantics.rankWord === 'function')
-              ? window.GaiaSemantics.rankWord(rn, 'suite')
+              ? window.GaiaSemantics.rankWord(rn, SUITE_LADDER)
               : (rn + '★');
             var glyph = rn >= 6 ? '◆' : rn >= 4 ? '◆' : '○';
             return {
@@ -712,10 +735,12 @@
               weight: items.length, targetId: 'ns-group-az-' + L });
           });
         } else {
-          // Yggdrasil II — group by rank INTEGER (6★ first), NOT by dead type enum.
-          // Within each rank group, suite=gold plaque and unique=dark plaque are
-          // VISUAL VARIANTS driven by data-branch on each plaque shell (set by
-          // plaque.js via GaiaSemantics.computeBranch). No separate buckets.
+          // Yggdrasil II — group by rank INTEGER (6★ first), NOT by dead type
+          // enum. Within each rank group, withinGroupSort CLUSTERS by branch
+          // (Unique first, then Suite, then standard) so 4★ Unique standalones
+          // never co-mingle with 4★ Extra suites. Branch read from the emitted
+          // field via GaiaSemantics.branchOf; the plaque shell's data-branch
+          // still drives the gold/dark plaque skin per skill.
           var rankGroups = {};
           champions.forEach(function(ns) {
             var rn = levelNum(ns.level) || 2;
@@ -730,7 +755,7 @@
             markers.push({
               key: 'rank:' + rn,
               label: (window.GaiaSemantics && typeof window.GaiaSemantics.rankWord === 'function')
-                ? window.GaiaSemantics.rankWord(rn, 'suite') + ' · ' + rn + '★'
+                ? window.GaiaSemantics.rankWord(rn, SUITE_LADDER) + ' · ' + rn + '★'
                 : rn + '★',
               glyph: rn >= 4 ? '◆' : '○',
               color: 'var(--rank-' + rn + ', var(--text))',

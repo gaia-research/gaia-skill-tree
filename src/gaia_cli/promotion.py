@@ -200,9 +200,19 @@ def top_named_level(named_buckets: dict, skill_id: str) -> str | None:
     return max(levels, key=level_index)
 
 
-# Unique-branch grade gates (Yggdrasil II Q3): 4★ Unique needs A (TM >= 100),
-# 5★ Unique Ultimate needs S (TM >= 250). Origin is counted in the fusion
-# structure (the generic's `prerequisites`), NOT in suiteComponents.
+# Unique-branch grade gates (Yggdrasil II Q3, amended 2026-07-19): 4★ Unique
+# needs A (TM >= 100), 5★ Unique Ultimate needs S (TM >= 250).
+#
+# Origin is evaluated DIFFERENTLY per gate (the two were conflated before the
+# 2026-07-19 amendment — see YGGDRASIL_II_RATIFICATION_2026-07-07.md Q3):
+#   - 4★ Unique          -> BUCKET-LEVEL origin (META.md §4.1): does the skill
+#                           hold Origin on the generic bucket it DIRECTLY
+#                           implements (`genericSkillRef`)?  No fusion/prereq
+#                           check — Origin is "the most renowned implementation
+#                           in a generic bucket", exactly one per bucket.
+#   - 5★+ Unique Ultimate -> FUSION-STRUCTURE origin: the creator must hold
+#                           Origin on >=1 of the generic parent's
+#                           `prerequisites` (the fusion recipe they built).
 _UNIQUE_GATE_BY_LEVEL = {
     "4★": {"grade": "A", "tmFloor": 100.0},
     "5★": {"grade": "S", "tmFloor": 250.0},
@@ -238,6 +248,23 @@ def _contributor_holds_origin_in(
     return False
 
 
+def _holds_bucket_origin(named: dict) -> bool:
+    """True iff ``named`` holds BUCKET-LEVEL Origin on its own generic bucket.
+
+    META.md §4.1: "the most renowned implementation IN A GENERIC BUCKET earns
+    Origin … exactly one Origin per bucket." Origin is the curator-granted merit
+    mark stored on the named skill as ``origin: true``; it is authoritative
+    (singular per bucket by construction). This is the origin predicate for the
+    4★ **Unique** gate — it asks only whether THIS skill is the Origin on the
+    generic it directly implements (``genericSkillRef``), with NO reference to
+    the generic's fusion structure / prerequisites (that belongs to the 5★+
+    gate). A skill with no ``genericSkillRef`` cannot hold bucket origin.
+    """
+    if not named.get("genericSkillRef"):
+        return False
+    return named.get("origin") is True
+
+
 def checkUniqueBranchGate(
     named: dict,
     level: str,
@@ -246,17 +273,23 @@ def checkUniqueBranchGate(
 ) -> dict:
     """Evaluate the Unique-branch promotion gate for a named skill (Yggdrasil II).
 
-    Gate (Q3 decision log):
+    Gate (Q3 decision log, amended 2026-07-19):
       - 4★ **Unique**          = Origin present + TM >= 100 (A-grade)
       - 5★ **Unique Ultimate** = Origin present + TM >= 250 (S-grade)
 
-    ``Origin present`` means the contributor holds Origin status on >=1 node in
-    the generic parent's ``prerequisites`` (the *fusion structure*), NOT in
-    ``suiteComponents``. ``suiteRef`` membership does NOT disqualify — a
-    world-renowned standalone skill that happens to live inside a suite is still
-    Unique. Branch membership is confirmed via :func:`computeBranch` evaluated at
-    the target ``level``. Trust Magnitude is recomputed live via
-    :func:`computeTrustMagnitude` (never a stale precomputed value).
+    ``Origin present`` is evaluated per gate (they were conflated pre-amendment):
+      - **4★ Unique** — BUCKET-LEVEL origin (META.md §4.1): the skill holds
+        Origin on the generic bucket it DIRECTLY implements (``genericSkillRef``).
+        No prerequisite/fusion-structure check at 4★.
+      - **5★ Unique Ultimate** — FUSION-STRUCTURE origin: the contributor holds
+        Origin on >=1 node in the generic parent's ``prerequisites`` (the fusion
+        recipe), NOT in ``suiteComponents``.
+
+    ``suiteRef`` membership does NOT disqualify — a world-renowned standalone
+    skill that happens to live inside a suite is still Unique. Branch membership
+    is confirmed via :func:`computeBranch` evaluated at the target ``level``.
+    Trust Magnitude is recomputed live via :func:`computeTrustMagnitude` (never a
+    stale precomputed value).
 
     Returns a predicate-shaped dict::
 
@@ -268,27 +301,36 @@ def checkUniqueBranchGate(
           "passed":         bool,
         }
     """
-    from gaia_cli.trustMagnitude import computeTrustMagnitude, computeBranch
+    from gaia_cli.trustMagnitude import computeTrustMagnitude
+    from gaia_cli.taxonomy import branchFor as computeBranch
 
     spec = _UNIQUE_GATE_BY_LEVEL.get(level)
     grade = spec["grade"] if spec else None
 
     # Recompute Trust Magnitude live (effective pool handled internally when a
     # genericSkillMap is supplied). Never trust a precomputed frontmatter value.
-    tm = float(computeTrustMagnitude(named, genericSkillMap, namedSkillMap))
+    # Pre-merge namedSkillMap so suite-component origin IDs (e.g. "gsd-build/discuss-phase")
+    # resolve correctly in _gradedOriginCount — named skill IDs miss a generic-only map.
+    mergedMap = {**(genericSkillMap or {}), **(namedSkillMap or {})}
+    tm = float(computeTrustMagnitude(named, mergedMap))
 
     # Confirm the skill sits on the Unique branch AT the target level.
-    branch = computeBranch({**named, "level": level}, genericSkillMap)
+    branch = computeBranch({**named, "level": level})
 
-    # Origin counted in the fusion structure = the generic parent's prerequisites.
-    prereqs: list[str] = []
-    if genericSkillMap is not None:
-        generic = genericSkillMap.get(named.get("genericSkillRef"))
-        if generic:
-            prereqs = list(generic.get("prerequisites") or [])
-    origin_present = _contributor_holds_origin_in(
-        named.get("contributor"), prereqs, namedSkillMap
-    )
+    # Origin predicate FORKS by rank (amended 2026-07-19):
+    #   4★  -> bucket-level origin on the skill's own genericSkillRef (§4.1).
+    #   5★+ -> fusion-structure origin on the generic parent's prerequisites.
+    if level == "4★":
+        origin_present = _holds_bucket_origin(named)
+    else:
+        prereqs: list[str] = []
+        if genericSkillMap is not None:
+            generic = genericSkillMap.get(named.get("genericSkillRef"))
+            if generic:
+                prereqs = list(generic.get("prerequisites") or [])
+        origin_present = _contributor_holds_origin_in(
+            named.get("contributor"), prereqs, namedSkillMap
+        )
 
     tm_threshold_met = bool(spec) and tm >= spec["tmFloor"]
     passed = bool(spec) and branch == "unique" and origin_present and tm_threshold_met

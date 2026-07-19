@@ -53,6 +53,8 @@ The ratified **Yggdrasil II v2** model splits the old single `type`/rank taxonom
 - **TYPE axis** (starless/generic nodes only): `basic` | `fusion`. Pure structure — `fusion` iff the node has prerequisites. **Never consulted for branch.**
 - **`suiteComponents`**: presence on the **Named Skill** drives the branch fork; also feeds Trust Magnitude. Independent of `type`. **`suiteComponents` is a Named-Skill-only field — it never lives on the starless/generic parent.**
 - **BRANCH axis** (named skills only, *derived at read-time, never declared*): `branch = f(the Named Skill's suiteComponents present?, rank)`.
+  > **[SUPERSEDED 2026-07-18 — branch is EMITTED at BUILD time by src/gaia_cli/taxonomy.py onto every named entry; consumers READ it. "Never declared on the source node" still holds; "derived at read-time" does not. Exception: the starless graph (docs/graph/gaia.json) still derives client-side. See founder/handovers/archive/YGGDRASIL_II_SUPERSEDED_2026-07-18.md]**
+  > **[SUPERSEDED 2026-07-18 — the `rank ≥ 4 AND` conjunct is wrong for MEMBERSHIP. Membership is suiteComponents-first from any rank: suiteComponents present → suite (at ANY rank); else rank ≥ 4 → unique; else standard. A 2★/3★ suite-component skill is already `suite`. Only DECORATION/ladder-word forks at 4★+. See founder/handovers/archive/YGGDRASIL_II_SUPERSEDED_2026-07-18.md]**
   - rank 1–3 → **standard** (no branch fork)
   - rank ≥ 4 AND the Named Skill has `suiteComponents` → **suite**
   - rank ≥ 4 AND the Named Skill has **no** `suiteComponents` → **unique**
@@ -123,6 +125,8 @@ The ratified **Yggdrasil II v2** model splits the old single `type`/rank taxonom
 - **Pattern F is functional, not cosmetic** — those JS maps render the wrong rank name live. Highest fix priority alongside the JS enum work (Lane A).
 - **Archival (Pattern I):** dated reports/audits describe ranks *as they were at the time*. A 2026-05 report saying "5★ [dep-5★]" is historically accurate. Options: leave as-is, or add a one-line archival banner. Do NOT rewrite history silently — surface as a ratification micro-decision.
 - **`tui-preview.html` (Pattern G) is generated** by `scripts/render_tui_preview.py` — fixing the HTML directly gets overwritten; fix the script (Lane C). Same for any `SAMPLER_RANKS`/`LEVEL_LABELS` that turn out to be generated.
+
+> **[SUPERSEDED 2026-07-18 — STALE EXCEPT FOR THE STARLESS GRAPH. TRUE only for `docs/graph/gaia.json` (still derives branch client-side). FALSE for `named/index.json`, which now carries the emitted `branch` field written at BUILD time by src/gaia_cli/taxonomy.py (#1232–1234). Consumers of named/index.json read the emitted branch; only the starless graph derives client-side. See founder/handovers/archive/YGGDRASIL_II_SUPERSEDED_2026-07-18.md]**
 
 **Scout #1 (JS enum readers) — RETURNED 2026-07-17. VERDICT: browser data carries NO `branch` field.** `docs/graph/gaia.json` + `named/index.json` ship `type: "basic"|"fusion"` and `suiteComponents`/`level` only. JS MUST derive branch client-side. Canonical implementation already exists in `docs/js/world-tree-layout.js` `resolveSemantics()` (L356-413) — extract as shared helper; **no other JS file has a `computeBranch` equivalent.** Client formula:
 ```js

@@ -39,14 +39,15 @@ sys.path.insert(0, str(REPO_ROOT / "scripts"))
 sys.path.insert(0, str(REPO_ROOT / "src"))
 from _atlas_helpers import handle_link, named_slug  # noqa: E402
 from gaia_cli.redaction import is_redacted  # noqa: E402  single source of truth
-from gaia_cli.trustMagnitude import computeBranch as _compute_branch  # noqa: E402  Ygg-II read-time branch
-from gaia_cli.formatting import rank_word as _rank_word  # noqa: E402  branch-forked rank vocabulary
+from gaia_cli.taxonomy import branchFor as _compute_branch  # noqa: E402  Ygg-II branch authority
+from gaia_cli.taxonomy import rankWord as _rank_word  # noqa: E402  branch-forked rank vocabulary
+from gaia_cli.taxonomy import medallion as _medallion, levelNum as _level_num  # noqa: E402  resolved art token
 
 
 def skill_branch(entry: dict) -> str:
     """Derive the Yggdrasil II progression branch for a named-skill entry.
 
-    Delegates to gaia_cli.trustMagnitude.computeBranch (rubric E1) — the single
+    Delegates to gaia_cli.taxonomy.branchFor (rubric E1) — the single
     source of truth. Branch is a READ-TIME function of (suiteComponents present?,
     rank); the retired `type` enum is NEVER consulted. Returns one of
     ``'standard'`` (1-3★), ``'suite'`` (4★+ with suiteComponents), or
@@ -513,21 +514,30 @@ def plaque_mini_html(ns: dict) -> str:
 def plaque_tile_html(ns: dict) -> str:
     """Stage 3 — Python sibling of window.plaque.renderTile(ns).
 
-    Explorer grid card: header(orb + chip + wreathed avatar) · slug · title ·
-    handle · description · tags(3) · install row.
+    Grouped by identity vs skill (Marco layout intent, mirrors plaque.js):
+      SKILL header: medallion orb + rank chip (reads toward the slug directly
+                    below — orb + stars + slug all name the skill/rank).
+      PERSON pair:  wreathed avatar + handle grouped in .plaque__contributor.
+    Explorer grid card: header · slug · title · contributor(avatar+handle) ·
+    description · tags(3) · install row.
     """
     header = (
         '<div class="plaque__header plaque-header">'
         + _field_orb(ns)
         + _field_rank(ns, "chip")
+        + "</div>"
+    )
+    contributor_row = (
+        '<div class="plaque__contributor plaque-contributor-row">'
         + _field_avatar(ns, 32)
+        + _field_handle_row(ns)
         + "</div>"
     )
     inner = (
         header
         + _field_slug(ns)
         + _field_title(ns)
-        + _field_handle_row(ns)
+        + contributor_row
         + _field_description(ns)
         + _field_tags(ns, 3)
         + _field_install_row(ns)
@@ -588,7 +598,12 @@ def plaque_settled_html(ns: dict, handle: str = "") -> str:
         '<div class="plaque__header plaque-header">'
         + _field_orb(ns)
         + _field_rank(ns, "chip")
+        + "</div>"
+    )
+    contributor_row = (
+        '<div class="plaque__contributor plaque-contributor-row">'
         + _field_avatar(ns, 32)
+        + _field_handle_row(ns)
         + "</div>"
     )
     tgVal = ns.get("overallTrustGrade") or ns.get("trustGrade") or ""
@@ -600,7 +615,7 @@ def plaque_settled_html(ns: dict, handle: str = "") -> str:
         header
         + _field_slug(ns)
         + _field_title(ns)
-        + _field_handle_row(ns)
+        + contributor_row
         + _field_description(ns)
         + _field_tags(ns, 5)
         + _field_rank(ns, "stars")
@@ -947,10 +962,24 @@ def _build_timeline_section(tree: dict, named_index: dict) -> str:
     for skill in unlocked:
         skill_id = skill.get("skillId") or skill.get("id", "")
         ns_entry = named_index.get(skill_id, {})
+        # Carry the RESOLVED taxonomy branch + medallion (Ygg-II authority) so
+        # profile-timeline.js reads the emitted membership instead of re-deriving
+        # from `type`. Branch is a read-time function of (suiteComponents, rank);
+        # medallion forks the glyph by (branch, rank).
+        branch = _compute_branch(ns_entry)
+        rank = _level_num(ns_entry.get("level"))
         skills_payload.append({
             "id": skill_id,
             "name": ns_entry.get("name") or ns_entry.get("title") or skill_id.split("/")[-1],
             "type": ns_entry.get("type", "basic"),
+            "branch": branch,
+            # Ygg-II ORACLE: carry the EMITTED rank taxonomy so the tooltip
+            # displays the RANK word (not the branch word). Read the fields the
+            # build already emitted on the source entry — never re-derive.
+            "rankWord": ns_entry.get("rankWord"),
+            "level": ns_entry.get("level"),
+            "rank": ns_entry.get("rank"),
+            "medallion": _medallion(branch, rank),
             "origin": bool(ns_entry.get("origin", False)),
             "levelHistory": skill.get("levelHistory", []),
         })

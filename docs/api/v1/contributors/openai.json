@@ -9,6 +9,9 @@
       "overallTrustGrade": "A",
       "contributor": "openai",
       "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/openai/few-shot-learning.json"
       }
@@ -21,6 +24,9 @@
       "overallTrustGrade": "A",
       "contributor": "openai",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/openai/self-consistency.json"
       }

@@ -9,6 +9,9 @@
       "overallTrustGrade": "C",
       "contributor": "nexu-io",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/nexu-io/open-design.json"
       }

@@ -7,6 +7,9 @@
   "status": "named",
   "trustMagnitude": 133.54,
   "overallTrustGrade": "A",
+  "branch": "unique",
+  "rankWord": "Unique",
+  "medallion": "◉",
   "_links": {
     "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json",
     "contributor": "/api/v1/contributors/firecrawl.json",

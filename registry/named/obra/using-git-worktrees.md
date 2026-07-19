@@ -6,7 +6,7 @@ origin: true
 genericSkillRef: using-git-worktrees
 status: named
 title: The Isolated Workspace
-level: 3★
+level: 4★
 description: Ensures every piece of feature work begins in an isolated workspace —
   creating a native git worktree when available, falling back to tool-provided isolation
   otherwise.
@@ -19,7 +19,7 @@ tags:
 - branching
 - safety
 createdAt: '2026-05-18'
-updatedAt: '2026-07-16'
+updatedAt: '2026-07-19'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -149,6 +149,10 @@ timeline:
     origin=False TM=117.6 (≥ 100.0)) — demoted to 3★ Evolved'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-16
+- timestamp: '2026-07-19T01:38:18Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 3★ to 4★
 trustMagnitude: 117.65
 overallTrustGrade: A
 apexGateStatus:

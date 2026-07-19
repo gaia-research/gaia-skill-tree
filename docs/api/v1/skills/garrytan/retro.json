@@ -7,6 +7,9 @@
   "status": "named",
   "trustMagnitude": 81.0,
   "overallTrustGrade": "B",
+  "branch": "standard",
+  "rankWord": "Evolved",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/garrytan/retro.json",
     "contributor": "/api/v1/contributors/garrytan.json",

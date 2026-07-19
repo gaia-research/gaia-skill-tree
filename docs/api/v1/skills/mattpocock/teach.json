@@ -7,6 +7,9 @@
   "status": "named",
   "trustMagnitude": 0.0,
   "overallTrustGrade": "ungraded",
+  "branch": "standard",
+  "rankWord": "Named",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/mattpocock/teach.json",
     "contributor": "/api/v1/contributors/mattpocock.json",

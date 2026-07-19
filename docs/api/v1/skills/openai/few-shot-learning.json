@@ -7,6 +7,9 @@
   "status": "named",
   "trustMagnitude": 100.0,
   "overallTrustGrade": "A",
+  "branch": "unique",
+  "rankWord": "Unique",
+  "medallion": "◉",
   "_links": {
     "self": "/api/v1/skills/openai/few-shot-learning.json",
     "contributor": "/api/v1/contributors/openai.json",

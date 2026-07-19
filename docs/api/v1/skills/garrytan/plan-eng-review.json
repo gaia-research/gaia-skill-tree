@@ -7,6 +7,9 @@
   "status": "named",
   "trustMagnitude": 66.0,
   "overallTrustGrade": "B",
+  "branch": "standard",
+  "rankWord": "Evolved",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/garrytan/plan-eng-review.json",
     "contributor": "/api/v1/contributors/garrytan.json",

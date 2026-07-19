@@ -9,6 +9,9 @@
       "overallTrustGrade": "S",
       "contributor": "ruvnet",
       "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Ultimate",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/ruvnet/ruflo.json"
       }
@@ -21,6 +24,9 @@
       "overallTrustGrade": "A",
       "contributor": "ruvnet",
       "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/agentdb.json"
       }
@@ -33,6 +39,9 @@
       "overallTrustGrade": "A",
       "contributor": "ruvnet",
       "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/ruflo-v3.json"
       }
@@ -45,6 +54,9 @@
       "overallTrustGrade": "A",
       "contributor": "ruvnet",
       "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/dual-mode.json"
       }
@@ -57,6 +69,9 @@
       "overallTrustGrade": "A",
       "contributor": "ruvnet",
       "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/reasoningbank.json"
       }
@@ -69,6 +84,9 @@
       "overallTrustGrade": "B",
       "contributor": "ruvnet",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/hive-mind-coordination.json"
       }
@@ -81,6 +99,9 @@
       "overallTrustGrade": "B",
       "contributor": "ruvnet",
       "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/flow-nexus.json"
       }
@@ -93,6 +114,9 @@
       "overallTrustGrade": "B",
       "contributor": "ruvnet",
       "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/github-suite.json"
       }
@@ -105,6 +129,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/agentdb-advanced.json"
       }
@@ -117,6 +144,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/agentdb-memory-patterns.json"
       }
@@ -129,6 +159,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/agentdb-optimization.json"
       }
@@ -141,6 +174,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/agentdb-vector-search.json"
       }
@@ -153,6 +189,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/agentic-jujutsu.json"
       }
@@ -165,6 +204,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/dual-collect.json"
       }
@@ -177,6 +219,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/dual-coordinate.json"
       }
@@ -189,6 +234,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/dual-spawn.json"
       }
@@ -201,6 +249,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/flow-nexus-neural.json"
       }
@@ -213,6 +264,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/flow-nexus-platform.json"
       }
@@ -225,6 +279,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/github-multi-repo.json"
       }
@@ -237,6 +294,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/pair-programming.json"
       }
@@ -249,6 +309,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/reasoningbank-intelligence.json"
       }
@@ -261,6 +324,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/stream-chain.json"
       }
@@ -273,6 +339,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/swarm-advanced.json"
       }
@@ -285,6 +354,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/swarm-orchestration.json"
       }
@@ -297,6 +369,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/v3-cli-modernization.json"
       }
@@ -309,6 +384,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/v3-core-implementation.json"
       }
@@ -321,6 +399,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/v3-ddd-architecture.json"
       }
@@ -333,6 +414,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/v3-integration-deep.json"
       }
@@ -345,6 +429,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/verification-quality.json"
       }
@@ -357,6 +444,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/worker-integration.json"
       }

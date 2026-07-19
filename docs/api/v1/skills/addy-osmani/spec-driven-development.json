@@ -7,6 +7,9 @@
   "status": "named",
   "trustMagnitude": 53.14,
   "overallTrustGrade": "B",
+  "branch": "standard",
+  "rankWord": "Evolved",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/addy-osmani/spec-driven-development.json",
     "contributor": "/api/v1/contributors/addy-osmani.json",

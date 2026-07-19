@@ -17,8 +17,8 @@ from gaia_cli.formatting import (  # single source of truth
     RANK_COLORS,
     TYPE_SYMBOLS,
     TYPE_LABELS,
-    format_rank_label,
 )
+from gaia_cli import taxonomy
 import textwrap
 from typing import Optional
 
@@ -124,12 +124,13 @@ RT = "┤"
 # default glyph until the taxonomy migration (#997) rewrites node types.
 TIER_GLYPHS = TYPE_SYMBOLS
 
-# Level display — routed through formatting.format_rank_label (single source).
-# Yggdrasil II: the Suite/shared ladder (0★ Basic · 1★ Awakened · 2★ Named ·
-# 3★ Evolved · 4★ Extra · 5★ Ultimate · 6★ Apex). Unique-branch alternates are
-# rendered by passing branch="unique" to format_rank_label at the call site.
+# Level display — routed through taxonomy.rankWord (single source of truth for
+# rank vocabulary). Yggdrasil II: the Suite/shared ladder (0★ Basic · 1★ Awakened ·
+# 2★ Named · 3★ Evolved · 4★ Extra · 5★ Ultimate · 6★ Apex). Unique-branch
+# alternates are rendered by passing branch="unique" to taxonomy.rankWord at the
+# call site.
 LEVEL_LABELS = {
-    lv: format_rank_label(lv, "suite")
+    lv: f"{lv} {taxonomy.rankWord(lv, 'suite')}"
     for lv in ("0★", "1★", "2★", "3★", "4★", "5★", "6★")
 }
 

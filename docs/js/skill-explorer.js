@@ -4,6 +4,33 @@
   var lastActiveElement = null;
   var _currentNs = null; // tracks the skill open in the explorer
 
+  // ── Yggdrasil II PR3b — READ emitted branch, don't recompute ──────
+  // _seBranchOf reads the emitted entry.branch (index.json) via the shared
+  // GaiaSemantics.branchOf seam; when the field is absent the seam returns the
+  // neutral 'standard' default (it guesses nothing from type). All branch-keyed
+  // color/glyph logic in this IIFE routes through here so nothing re-derives.
+  var SE_UNIQUE = 'unique';
+  var SE_SUITE = 'suite';
+  function _seBranchOf(entry) {
+    if (window.GaiaSemantics && typeof window.GaiaSemantics.branchOf === 'function') {
+      return window.GaiaSemantics.branchOf(entry);
+    }
+    return 'standard';
+  }
+  // Branch → dot/slug color token. Apex (6★) is white regardless of branch.
+  function _seBranchColor(branch, isApex) {
+    if (isApex) return '#ffffff';
+    if (branch === SE_UNIQUE) return 'var(--tier-unique)';
+    if (branch === SE_SUITE) return 'var(--apex-gold)';
+    return 'var(--tier-basic)';
+  }
+  function _seRankWordOf(entry) {
+    if (window.GaiaSemantics && typeof window.GaiaSemantics.rankWordOf === 'function') {
+      return window.GaiaSemantics.rankWordOf(entry);
+    }
+    return '';
+  }
+
   function _initMeta(meta) {
     if (!meta) return;
     var lc = meta.levelColors || {};
@@ -1310,12 +1337,11 @@
 
     var genericId = generic ? generic.id : ns.genericSkillRef || ns.id;
     var genericObj = sm[genericId] || generic || { id: genericId, type: ns.type, level: ns.level, name: ns.name };
-    // E1: derive branch via GaiaSemantics, never read old type enum for branch logic.
+    // PR3b: READ emitted branch off the named entry (ns.branch); _fcNs carries
+    // the generic type only for the starless recompute fallback in _seBranchOf.
     var _fcRank = parseInt(String((ns && ns.level) || '').replace(/\D+/g, ''), 10) || 0;
     var _fcNs = Object.assign({}, ns, { type: (generic && generic.type) || (ns && ns.type) || 'basic' });
-    var _fcBranch = (window.GaiaSemantics && window.GaiaSemantics.computeBranch)
-      ? window.GaiaSemantics.computeBranch(_fcNs, _fcRank)
-      : 'standard';
+    var _fcBranch = _seBranchOf(ns && ns.branch ? ns : _fcNs);
     var suiteCapstoneId = ns.suiteRef || null;
     var suiteCapstone = suiteCapstoneId ? namedEntryById(suiteCapstoneId) : ns;
     var suiteComponents = [];
@@ -1355,23 +1381,22 @@
     }
 
     // Action-buttons header (Show Fusion / Show Suite).
-    // E2: use GaiaSemantics.rankWord for branch-forked rank labels, no banned words.
+    // PR3b: fusion label reads the emitted rankWord; suite label uses the suite
+    // ladder word for the current rank. No banned words, no type derivation.
     function buildFlowActions() {
       var fusionLabel = 'Show Fusion';
       var suiteLabel  = 'Show Suite';
       if (window.GaiaSemantics && window.GaiaSemantics.rankWord) {
-        // E2: use _fcBranch (computed via GaiaSemantics.computeBranch) so unique-branch
-        // 4★+ skills get rankWord(4,'unique')='Unique' not rankWord(4,'standard')='Extra'.
-        var _faBranch = _fcBranch;
-        var _faRankWord = window.GaiaSemantics.rankWord(_fcRank, _faBranch);
+        // Emitted rankWord for the current skill (unique 4★ → 'Unique', etc.).
+        var _faRankWord = _seRankWordOf(ns);
         if (_faRankWord) fusionLabel = 'Show ' + _faRankWord + ' Path';
         if (suiteComponents.length) {
-          var _sRankWord = window.GaiaSemantics.rankWord(_fcRank, 'suite');
+          var _sRankWord = window.GaiaSemantics.rankWord(_fcRank, SE_SUITE);
           suiteLabel = 'Show ' + (_sRankWord || 'Suite') + ' Path';
         }
       }
       // N-11 Site 2: Research CTA in the flow action area for fuse/suite skills.
-      var ctaHtml = (suiteComponents.length || (_fcBranch === 'suite'))
+      var ctaHtml = (suiteComponents.length || (_fcBranch === SE_SUITE))
         ? _researchProductCta('Fuse skills on Gaia Research →')
         : '';
       return '<div class="se-flow-actions">' +
@@ -1416,16 +1441,9 @@
       var nodeType = entry.type || 'basic';
       var nodeLevel = entry.level || '';
       var isApex = nodeLevel && String(nodeLevel).indexOf('6') !== -1;
-      // E1: derive dot color from computeBranch, not raw type field.
-      var _fNodeRank = parseInt(String(nodeLevel).replace(/\D+/g, ''), 10) || 0;
-      var _fNodeBranch = (window.GaiaSemantics && window.GaiaSemantics.computeBranch)
-        ? window.GaiaSemantics.computeBranch(entry, _fNodeRank)
-        : 'standard';
-      var dotColor = isApex
-        ? '#ffffff'
-        : (_fNodeBranch === 'unique' ? 'var(--tier-unique)' :
-           _fNodeBranch === 'suite'  ? 'var(--apex-gold)'   :
-           'var(--tier-basic)');
+      // PR3b: dot color from the entry's emitted branch, not raw type field.
+      var _fNodeBranch = _seBranchOf(entry);
+      var dotColor = _seBranchColor(_fNodeBranch, isApex);
       var extraMainClass = isMain ? ' git-node--main' : '';
       return '<div class="git-node' + extraMainClass + '"' +
           ' data-id="' + esc(syntheticId) + '"' +
@@ -1439,14 +1457,13 @@
 
     // Short-circuit for Unique-tier current skills: render the current
     // skill alone inside the void zone, with nothing else around it.
-    // E1: use _fcBranch from computeBranch, not dead type field.
-    if (_fcBranch === 'unique') {
-      var uColor = (ns && ns.level && String(ns.level).indexOf('6') !== -1)
-        ? '#ffffff'
-        : 'var(--tier-unique)';
+    // PR3b: gate on the emitted branch (_fcBranch), not a dead type field.
+    if (_fcBranch === SE_UNIQUE) {
+      var _uApex = !!(ns && ns.level && String(ns.level).indexOf('6') !== -1);
+      var uColor = _seBranchColor(SE_UNIQUE, _uApex);
       var labelId = (ns && ns.id) ? ns.id : genericId;
       var uniqueNodeHtml = '<div class="git-node git-node--main" data-id="' + esc(genericId) +
-          '" data-type="unique" data-level="' + esc((ns && ns.level) || '') + '" data-ghost="false">' +
+          '" data-branch="' + esc(_fcBranch) + '" data-level="' + esc((ns && ns.level) || '') + '" data-ghost="false">' +
         '<div class="git-commit-dot" style="--dot-color:' + uColor + '"></div>' +
         createNodeLabel(labelId, null, null, (ns && ns.level) || '') +
       '</div>';
@@ -1518,12 +1535,11 @@
         if (s.level && String(s.level).indexOf('6') !== -1) {
           apexNodes.push(id);
         } else {
-          // E1: derive unique placement via computeBranch, not dead type field.
-          var _sRank = parseInt(String(s.level || '').replace(/\D+/g, ''), 10) || 0;
-          var _sBranch = (window.GaiaSemantics && window.GaiaSemantics.computeBranch)
-            ? window.GaiaSemantics.computeBranch(s, _sRank)
-            : 'standard';
-          if (_sBranch === 'unique') {
+          // PR3b: unique placement reads the emitted branch — prefer the named
+          // entry (buckets[id][0].branch) over the starless generic object.
+          var _sNamed = (buckets[id] && buckets[id].length) ? buckets[id][0] : null;
+          var _sBranch = _seBranchOf(_sNamed || s);
+          if (_sBranch === SE_UNIQUE) {
             uniqueNodes.push(id);
           } else {
             ranks[depth[id]].push(id);
@@ -1561,13 +1577,12 @@
       var rank = ranks[ri];
       if (!rank || !rank.length) continue;
       
-      // E1: derive via computeBranch — never read relatedNodes[id].type directly for branch logic.
+      // PR3b: read the emitted branch (named entry preferred) — never derive
+      // from relatedNodes[id].type.
       var isUniqueRow = rank.every(function(id) {
         var s = relatedNodes[id];
-        var _nr = parseInt(String(s.level || '').replace(/\D+/g, ''), 10) || 0;
-        var _b = (window.GaiaSemantics && window.GaiaSemantics.computeBranch)
-          ? window.GaiaSemantics.computeBranch(s, _nr) : 'standard';
-        return _b === 'unique';
+        var _nbForBranch = (buckets[id] && buckets[id].length) ? buckets[id][0] : s;
+        return _seBranchOf(_nbForBranch) === SE_UNIQUE;
       });
 
       var rowHtml = rank.map(function(id, idx) {
@@ -1581,19 +1596,12 @@
         var namedBucket = buckets[id];
         var hasNamed = !!(namedBucket && namedBucket.length);
         var nb = hasNamed ? namedBucket[0] : null;
-        // E1: use computeBranch for dot color; nodeType only for data-type attr (schema 'basic'|'fusion').
+        // PR3b: dot color from emitted branch; nodeType only for data-type attr (schema 'basic'|'fusion').
         var nodeType = (nb && nb.type) || s.type || 'basic';
         var nodeLevel = (nb && nb.level) || s.level || '';
         var isApex = nodeLevel && String(nodeLevel).indexOf('6') !== -1;
-        var _nodeRank = parseInt(String(nodeLevel).replace(/\D+/g, ''), 10) || 0;
-        var _nodeBranch = (window.GaiaSemantics && window.GaiaSemantics.computeBranch)
-          ? window.GaiaSemantics.computeBranch(nb || s, _nodeRank)
-          : 'standard';
-        var dotColor = isApex
-          ? '#ffffff'
-          : (_nodeBranch === 'unique' ? 'var(--tier-unique)' :
-             _nodeBranch === 'suite'  ? 'var(--apex-gold)'   :
-             'var(--tier-basic)');
+        var _nodeBranch = _seBranchOf(nb || s);
+        var dotColor = _seBranchColor(_nodeBranch, isApex);
 
         // Label source: slash-form for named, raw id for ghost.
         var labelSource = hasNamed ? nb.id : id;
@@ -1908,10 +1916,14 @@
               ' ' + tx + ',' + (ty - ctrlDist) +
               ' ' + tx + ',' + ty;
 
-      // Detect tier from source node — drives CSS color via [data-tier]
+      // Detect tier from source node — drives CSS color via [data-tier].
+      // PR3b: prefer the node's emitted data-branch (unique); fall back to the
+      // legacy data-type only for the schema types the CSS still keys on.
+      var fromBranch = fromEl.getAttribute('data-branch') || '';
       var fromType = fromEl.getAttribute('data-type') || 'basic';
       var fromLevel = fromEl.getAttribute('data-level') || '';
       var tier = fromLevel.indexOf('6') !== -1 ? 'apex'
+               : (fromBranch === SE_UNIQUE || fromBranch === SE_SUITE) ? fromBranch
                : ['ultimate','unique','extra','basic'].indexOf(fromType) !== -1 ? fromType
                : 'basic';
 
@@ -2231,14 +2243,14 @@
   // override the glyph via GaiaSemantics.
   var TYPE_GLYPH = { basic: '○', fusion: '◆' };
 
-  // Return the correct rank glyph for a skill using computeBranch.
+  // Return the correct rank medallion glyph for a skill. Reads the emitted
+  // medallion (GaiaSemantics.medallionOf) when present, else the fallback
+  // resolver; a starless generic object degrades to the schema TYPE_GLYPH.
   function skillGlyph(skill) {
-    var rank = parseInt(String(skill.level || '').replace(/\D+/g, ''), 10) || 0;
-    var branch = (window.GaiaSemantics && window.GaiaSemantics.computeBranch)
-      ? window.GaiaSemantics.computeBranch(skill, rank)
-      : 'standard';
-    if (branch === 'unique') return '◉';
-    if (branch === 'suite')  return '◆';
+    if (window.GaiaSemantics && typeof window.GaiaSemantics.medallionOf === 'function') {
+      var m = window.GaiaSemantics.medallionOf(skill);
+      if (m) return m;
+    }
     return TYPE_GLYPH[skill.type] || '○';
   }
 
@@ -2246,12 +2258,11 @@
     var pop = document.getElementById('unnamedSkillPopup');
     if (!pop) return;
     var glyph = skillGlyph(skill);
-    // Pull tier colour from the canonical tokens (--tier-<name>)
-    // rather than hardcoding per-tier hex codes. Falls back to --tier-basic
-    // for any unrecognised tier.
-    var rootStyle = getComputedStyle(document.documentElement);
-    var glyphColor = rootStyle.getPropertyValue('--tier-' + (skill.type || 'basic')).trim()
-      || rootStyle.getPropertyValue('--tier-basic').trim();
+    // Glyph colour from the emitted/derived branch via the shared branch→token
+    // map (_seBranchColor). Standard→--tier-basic, suite→--apex-gold,
+    // unique→--tier-unique — never --tier-<type> (type is basic|fusion only).
+    var _uspBranch = _seBranchOf(skill);
+    var glyphColor = _seBranchColor(_uspBranch, false);
     document.getElementById('uspGlyph').textContent = glyph;
     document.getElementById('uspGlyph').style.color = glyphColor;
     document.getElementById('uspName').textContent = skill.name || skill.id;
@@ -2500,17 +2511,16 @@
       // LEVEL_META_SE only carries 2★+; a pre-named/demoted (≤1★) skill keeps
       // its plain rank color (--rank-N) — never type rainbow/glow, never the
       // inherited honor-red.
-      // E1/E2: derive branch via GaiaSemantics.computeBranch — never read old type enum.
+      // PR3b: READ the emitted branch off the named entry (ns.branch);
+      // _nsForBranch carries generic type only for the starless fallback.
       var _effRank = parseInt(String(ns.level || '').replace(/\D+/g, ''), 10) || 0;
       var _nsForBranch = Object.assign({}, ns, { type: (generic && generic.type) || ns.type || 'basic' });
-      var _branch = (window.GaiaSemantics && window.GaiaSemantics.computeBranch)
-        ? window.GaiaSemantics.computeBranch(_nsForBranch, _effRank)
-        : 'standard';
+      var _branch = _seBranchOf(ns && ns.branch ? ns : _nsForBranch);
       if (handleRedacted) {
         color = 'var(--rank-' + _effRank + ', var(--tier-basic))';
       } else {
-        if (_branch === 'unique') { color = 'var(--tier-unique)'; }
-        else if (_branch === 'suite') { color = 'var(--apex-gold)'; }
+        if (_branch === SE_UNIQUE) { color = 'var(--tier-unique)'; }
+        else if (_branch === SE_SUITE) { color = 'var(--apex-gold)'; }
       }
 
       var bHtml = '';
@@ -2528,10 +2538,10 @@
       }
       var slugStyle = 'font-size: inherit; color: ' + color + ';';
       if (!handleRedacted) {
-        // E1: derive animation/glow from branch, not dead type enum.
-        if (_branch === 'suite') {
+        // PR3b: animation/glow keyed on the emitted branch, not a dead type enum.
+        if (_branch === SE_SUITE) {
           slugStyle += ' animation: tree-rainbow-glow 4s linear infinite;';
-        } else if (_branch === 'unique') {
+        } else if (_branch === SE_UNIQUE) {
           slugStyle += ' text-shadow: 0 0 12px rgba(var(--tier-unique-rgb,124,58,237),0.6), 0 0 4px rgba(var(--tier-unique-rgb,124,58,237),0.3);';
         }
       }

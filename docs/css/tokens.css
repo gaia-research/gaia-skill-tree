@@ -33,6 +33,18 @@
   --tier-unique-border: rgba(124, 58, 237, 0.35);
   --tier-unique-edge: rgba(124, 58, 237, 0.55);
   --tier-unique-symbol: '◉';
+  /* Unique decoration ladder (v3, colorize LOCKED 2026-07-18 — Amethyst→Ember):
+     4★ = --tier-unique (violet above), 5★ = burnished copper, 6★ = inverted
+     (copper ground + dark engraved ink). Deliberately OFF the Suite gold axis
+     so a Unique never reads as a Suite Apex — Unique is its own prestige track.
+     Mirrors generateBadges.unique_hex()/UNIQUE_INK; consumed by badges/graph/profile. */
+  --tier-unique-5: #b26a3a;
+  --tier-unique-5-rgb: 178, 106, 58;
+  --tier-unique-5-edge: rgba(178, 106, 58, 0.55);
+  --tier-unique-6: #e0894a;
+  --tier-unique-6-rgb: 224, 137, 74;
+  --tier-unique-6-ink: #2a1206;
+  --tier-unique-6-edge: rgba(224, 137, 74, 0.9);
 
   /* ── Rank tokens (0★ → 6★) ───────────────────────────────── */
   /* rank: 0★ */

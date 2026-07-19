@@ -8,6 +8,9 @@
       "overallTrustGrade": "S",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Ultimate",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/garrytan/gstack.json"
       }
@@ -20,6 +23,9 @@
       "overallTrustGrade": "S",
       "contributor": "ruvnet",
       "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Ultimate",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/ruvnet/ruflo.json"
       }
@@ -32,6 +38,9 @@
       "overallTrustGrade": "S",
       "contributor": "mattpocock",
       "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Ultimate",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/mattpocock/skills.json"
       }
@@ -44,6 +53,9 @@
       "overallTrustGrade": "S",
       "contributor": "obra",
       "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Ultimate",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/obra/superpowers.json"
       }
@@ -56,6 +68,9 @@
       "overallTrustGrade": "S",
       "contributor": "addy-osmani",
       "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Ultimate",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/agent-skills.json"
       }
@@ -68,6 +83,9 @@
       "overallTrustGrade": "A",
       "contributor": "mattpocock",
       "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/engineering.json"
       }
@@ -80,6 +98,9 @@
       "overallTrustGrade": "A",
       "contributor": "firecrawl",
       "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
       }
@@ -92,6 +113,9 @@
       "overallTrustGrade": "A",
       "contributor": "gsd-build",
       "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/get-shit-done.json"
       }
@@ -104,6 +128,9 @@
       "overallTrustGrade": "A",
       "contributor": "ruvnet",
       "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/agentdb.json"
       }
@@ -116,6 +143,9 @@
       "overallTrustGrade": "A",
       "contributor": "ruvnet",
       "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/ruflo-v3.json"
       }
@@ -128,6 +158,9 @@
       "overallTrustGrade": "A",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/garrytan.json"
       }
@@ -140,6 +173,9 @@
       "overallTrustGrade": "A",
       "contributor": "firecrawl",
       "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
       }
@@ -152,6 +188,9 @@
       "overallTrustGrade": "A",
       "contributor": "ruvnet",
       "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/dual-mode.json"
       }
@@ -164,6 +203,9 @@
       "overallTrustGrade": "A",
       "contributor": "pbakaus",
       "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/pbakaus/impeccable.json"
       }
@@ -176,6 +218,9 @@
       "overallTrustGrade": "A",
       "contributor": "mattpocock",
       "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/productivity.json"
       }
@@ -188,6 +233,9 @@
       "overallTrustGrade": "A",
       "contributor": "ruvnet",
       "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/reasoningbank.json"
       }
@@ -200,6 +248,9 @@
       "overallTrustGrade": "A",
       "contributor": "obra",
       "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/obra/subagent-driven-development.json"
       }
@@ -207,11 +258,14 @@
     {
       "id": "obra/using-git-worktrees",
       "name": "Using Git Worktrees",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 117.65,
       "overallTrustGrade": "A",
       "contributor": "obra",
       "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/obra/using-git-worktrees.json"
       }
@@ -219,11 +273,14 @@
     {
       "id": "safishamsi/graphify",
       "name": "Graphify",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 116.57,
       "overallTrustGrade": "A",
       "contributor": "safishamsi",
       "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/safishamsi/graphify.json"
       }
@@ -231,11 +288,14 @@
     {
       "id": "obra/writing-plans",
       "name": "Writing Plans",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 110.15,
       "overallTrustGrade": "A",
       "contributor": "obra",
       "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/obra/writing-plans.json"
       }
@@ -248,6 +308,9 @@
       "overallTrustGrade": "A",
       "contributor": "firecrawl",
       "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-search.json"
       }
@@ -260,6 +323,9 @@
       "overallTrustGrade": "A",
       "contributor": "openai",
       "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/openai/few-shot-learning.json"
       }
@@ -272,6 +338,9 @@
       "overallTrustGrade": "A",
       "contributor": "openai",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/openai/self-consistency.json"
       }
@@ -279,11 +348,14 @@
     {
       "id": "stanfordnlp/dspy",
       "name": "DSPy",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 100.0,
       "overallTrustGrade": "A",
       "contributor": "stanfordnlp",
       "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/stanfordnlp/dspy.json"
       }
@@ -296,6 +368,9 @@
       "overallTrustGrade": "B",
       "contributor": "ruvnet",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/hive-mind-coordination.json"
       }
@@ -308,6 +383,9 @@
       "overallTrustGrade": "B",
       "contributor": "ruvnet",
       "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/flow-nexus.json"
       }
@@ -320,6 +398,9 @@
       "overallTrustGrade": "B",
       "contributor": "obra",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/obra/brainstorming.json"
       }
@@ -332,6 +413,9 @@
       "overallTrustGrade": "B",
       "contributor": "obra",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/obra/executing-plans.json"
       }
@@ -344,6 +428,9 @@
       "overallTrustGrade": "B",
       "contributor": "obra",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/obra/verification-before-completion.json"
       }
@@ -356,6 +443,9 @@
       "overallTrustGrade": "B",
       "contributor": "martin-stepanoski",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/martin-stepanoski/nielsen-heuristics-audit.json"
       }
@@ -368,6 +458,9 @@
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/diagnose.json"
       }
@@ -380,6 +473,9 @@
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/edit-article.json"
       }
@@ -392,6 +488,9 @@
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/obsidian-vault.json"
       }
@@ -404,6 +503,9 @@
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/to-issues.json"
       }
@@ -416,6 +518,9 @@
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/ubiquitous-language.json"
       }
@@ -428,6 +533,9 @@
       "overallTrustGrade": "B",
       "contributor": "anthropic",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/anthropic/skill-creator.json"
       }
@@ -440,6 +548,9 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/browse.json"
       }
@@ -452,6 +563,9 @@
       "overallTrustGrade": "B",
       "contributor": "obra",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/obra/dispatching-parallel-agents.json"
       }
@@ -464,6 +578,9 @@
       "overallTrustGrade": "B",
       "contributor": "addy-osmani",
       "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/performance-optimization.json"
       }
@@ -476,6 +593,9 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/retro.json"
       }
@@ -488,6 +608,9 @@
       "overallTrustGrade": "B",
       "contributor": "browser-use",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/browser-use/browser-harness.json"
       }
@@ -500,6 +623,9 @@
       "overallTrustGrade": "B",
       "contributor": "firecrawl",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-interact.json"
       }
@@ -512,6 +638,9 @@
       "overallTrustGrade": "B",
       "contributor": "firecrawl",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
       }
@@ -524,6 +653,9 @@
       "overallTrustGrade": "B",
       "contributor": "firecrawl",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
       }
@@ -536,6 +668,9 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/careful.json"
       }
@@ -548,6 +683,9 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/office-hours.json"
       }
@@ -560,6 +698,9 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/plan-eng-review.json"
       }
@@ -572,6 +713,9 @@
       "overallTrustGrade": "B",
       "contributor": "ruvnet",
       "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/github-suite.json"
       }
@@ -584,6 +728,9 @@
       "overallTrustGrade": "B",
       "contributor": "obra",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/obra/systematic-debugging.json"
       }
@@ -596,6 +743,9 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/benchmark.json"
       }

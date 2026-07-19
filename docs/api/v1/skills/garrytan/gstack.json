@@ -7,6 +7,9 @@
   "status": "named",
   "trustMagnitude": 589.32,
   "overallTrustGrade": "S",
+  "branch": "suite",
+  "rankWord": "Ultimate",
+  "medallion": "◆",
   "_links": {
     "self": "/api/v1/skills/garrytan/gstack.json",
     "contributor": "/api/v1/contributors/garrytan.json",

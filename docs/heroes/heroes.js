@@ -1,12 +1,12 @@
 /**
  * heroes.js — Hall of Heroes orchestrator
- * Fetches contributor data, derives semantic branch at read-time via
+ * Fetches contributor data, READS the emitted semantic branch via
  * window.GaiaSemantics (skill-semantics.js), renders theatrical stages,
  * and drives IntersectionObserver for entrance animations.
  *
  * Yggdrasil II compliance:
- *   E1 — branch derived by GaiaSemantics.computeBranch, never from
- *        skill.type === 'ultimate'|'unique'|'extra' (dead enum, REMOVED).
+ *   E1 — branch READ from the emitted field via GaiaSemantics.branchOf, never
+ *        derived from skill.type === 'ultimate'|'unique'|'extra' (dead enum).
  *   E2 — rank words forked by branch via rankWord/rankLabel; banned ladder
  *        words ('Hardened' and the removed 6★ suite synonym) do not appear.
  *   E3 — every hero card has a GitHub avatar framed by the gold wreath
@@ -71,17 +71,18 @@
     return isNaN(n) ? 0 : n;
   }
 
-  // ── Rubric E1/E2 — read-time branch derivation ────────────────
-  // ALL branch classification MUST go through GaiaSemantics.computeBranch.
-  // NEVER compare contributor.topSkill.type against 'ultimate'|'unique'|'extra'.
+  // ── Rubric E1/E2 — READ the emitted branch, never guess ───────
+  // Branch classification reads the taxonomy authority's emitted field via the
+  // GaiaSemantics.branchOf seam (topSkill blob carries emitted .branch/.rank —
+  // §8 Hall behavior: thread the emitted fields into the input, never re-derive
+  // from type). NEVER compare topSkill.type against 'ultimate'|'unique'|'extra'.
   function computeBranchForTopSkill(contributor) {
     var skill = (contributor && contributor.topSkill) || {};
-    var lvl = levelNum(skill.level);
-    if (window.GaiaSemantics && typeof window.GaiaSemantics.computeBranch === 'function') {
-      return window.GaiaSemantics.computeBranch(skill, lvl);
+    if (window.GaiaSemantics && typeof window.GaiaSemantics.branchOf === 'function') {
+      return window.GaiaSemantics.branchOf(skill);
     }
     // Degrade gracefully if skill-semantics.js somehow failed to load.
-    return 'standard';
+    return (skill && typeof skill.branch === 'string' && skill.branch) || 'standard';
   }
 
   // Returns the rank label string for a contributor's top skill.
@@ -100,7 +101,8 @@
 
   // Returns the CSS tier class suffix for the hero stage background/animation.
   // Maps branch + rank → presentational CSS class (hero-stage--<suffix>).
-  // E1: derived purely from branch (computeBranch) + numeric rank — no type reads.
+  // E1: derived purely from the emitted branch (branchOf seam) + numeric rank —
+  // no type reads.
   function stageTierClass(contributor) {
     var branch = computeBranchForTopSkill(contributor);
     var lvl = levelNum(contributor.topSkill.level);
@@ -174,6 +176,85 @@
     return bySkill;
   }
 
+  // §8 Hall selection — the Hall shows EVERY qualifying named skill (rank >= 4),
+  // NOT one-per-contributor. The contributors-API topSkill blob is capped to a
+  // single max-Trust-Magnitude skill per contributor (so a contributor whose
+  // top skill is < 4★ vanishes, dropping their 4★+ uniques). Instead we read
+  // the named index directly — it carries the emitted branch/rank/rankWord/
+  // medallion per entry — and build one hero per rank>=4 named skill. This
+  // threads the emitted fields into the input (never re-derives from type).
+  function heroesFromNamedIndex(data) {
+    var out = [];
+    // Per-contributor total named-skill count (for the card's "N named skills"
+    // context stat — each hero card is now one skill, but still shows how many
+    // named skills its contributor holds).
+    var countByContributor = {};
+    function tally(entry) {
+      if (entry && entry.contributor) {
+        countByContributor[entry.contributor] = (countByContributor[entry.contributor] || 0) + 1;
+      }
+    }
+    function consider(entry) {
+      if (!entry || !entry.id) return;
+      var rank = (typeof entry.rank === 'number') ? entry.rank : levelNum(entry.level);
+      if (rank < 4) return;
+      // Synthesize a contributor-shaped object so the existing render path
+      // (which reads contributor.topSkill.*) works unchanged. topSkill IS the
+      // named entry, carrying its emitted taxonomy fields.
+      out.push({
+        handle: entry.contributor,
+        namedSkills: 0,
+        topSkill: {
+          id: entry.id,
+          name: entry.name,
+          level: entry.level,
+          type: entry.type,
+          branch: entry.branch,
+          rank: entry.rank,
+          rankWord: entry.rankWord,
+          medallion: entry.medallion,
+          origin: entry.origin,
+          links: entry.links,
+          suiteComponents: entry.suiteComponents,
+          trustMagnitude: entry.trustMagnitude
+        }
+      });
+    }
+    function walkList(list, fn) { if (Array.isArray(list)) list.forEach(fn); }
+    var buckets = data && data.buckets ? data.buckets : {};
+    Object.keys(buckets).forEach(function (key) { walkList(buckets[key], tally); walkList(buckets[key], consider); });
+    walkList(data && data.awaitingClassification, tally);
+    walkList(data && data.awaitingClassification, consider);
+    var byContributor = data && data.byContributor ? data.byContributor : {};
+    Object.keys(byContributor).forEach(function (key) { walkList(byContributor[key], consider); });
+    // De-dupe by skill id (an entry can appear in both a bucket and byContributor),
+    // then stamp each hero with its contributor's total named count.
+    var seen = {};
+    return out.filter(function (h) {
+      var id = h.topSkill.id;
+      if (seen[id]) return false;
+      seen[id] = true;
+      h.namedSkills = countByContributor[h.handle] || 1;
+      return true;
+    });
+  }
+
+  // §8 canonical order: rank descending, and within a rank Unique before its
+  // Suite counterpart (never co-mingled), Trust Magnitude as the final tiebreak.
+  function branchOrder(branch) {
+    return branch === 'unique' ? 0 : branch === 'suite' ? 1 : 2;
+  }
+  function compareHeroes(a, b) {
+    var ra = (typeof a.topSkill.rank === 'number') ? a.topSkill.rank : levelNum(a.topSkill.level);
+    var rb = (typeof b.topSkill.rank === 'number') ? b.topSkill.rank : levelNum(b.topSkill.level);
+    if (ra !== rb) return rb - ra;
+    var boa = branchOrder(a.topSkill.branch), bob = branchOrder(b.topSkill.branch);
+    if (boa !== bob) return boa - bob;
+    var ta = trustMagnitude(a), tb = trustMagnitude(b);
+    if (ta !== tb) return tb - ta;
+    return String(a.topSkill.id).localeCompare(String(b.topSkill.id));
+  }
+
   function withNamedSkillMeta(contributor, namedBySkill) {
     var skillId = contributor.topSkill && contributor.topSkill.id;
     var named = skillId ? namedBySkill[skillId] : null;
@@ -181,9 +262,13 @@
     contributor.topSkill.type = named.type || contributor.topSkill.type || 'basic';
     contributor.topSkill.name = named.name || contributor.topSkill.name;
     contributor.topSkill.origin = named.origin;
-    // Carry suiteComponents + links so the AOV4 medallion stamp (crest seal)
-    // resolves the correct branch (suite vs unique) via GaiaSemantics — the
-    // contributors API topSkill blob omits them (E1: branch is read-time).
+    // Thread the EMITTED taxonomy fields from the named index onto the topSkill
+    // blob so GaiaSemantics.branchOf/rankWordOf/medallionOf READ them (§8: the
+    // fix is to thread emitted fields into the input, never re-derive). The
+    // contributors API topSkill blob omits them.
+    if (typeof named.branch === 'string' && named.branch) contributor.topSkill.branch = named.branch;
+    if (typeof named.rankWord === 'string' && named.rankWord) contributor.topSkill.rankWord = named.rankWord;
+    if (typeof named.medallion === 'string' && named.medallion) contributor.topSkill.medallion = named.medallion;
     if (named.suiteComponents) contributor.topSkill.suiteComponents = named.suiteComponents;
     if (named.links) contributor.topSkill.links = named.links;
     return contributor;
@@ -608,9 +693,13 @@
     container.innerHTML = renderLoadingState();
 
     Promise.all([
+      // Contributors API is no longer the Hall's source (§8 selection now reads
+      // the named index below); kept as a non-fatal fetch for forward-compat and
+      // so a stale/absent API never blanks the Hall.
       fetch(API_URL).then(function (r) {
-        if (!r.ok) throw new Error('Contributors API fetch failed: ' + r.status);
-        return r.json();
+        return r.ok ? r.json() : { contributors: [] };
+      }).catch(function () {
+        return { contributors: [] };
       }),
       fetch(TRUST_LEDGER_URL).then(function (r) {
         if (!r.ok) throw new Error('Trust Ledger fetch failed: ' + r.status);
@@ -628,22 +717,21 @@
       })
     ])
       .then(function (results) {
-        var data = results[0];
         var ledgerBySkill = trustLedgerMap(results[1]);
-        var namedBySkill = namedSkillMap(results[2]);
-        var contributors = data.contributors || [];
+        var namedData = results[2];
+        var namedBySkill = namedSkillMap(namedData);
 
-        // Filter: topSkill.level >= 4★
-        var heroes = contributors.filter(function (c) {
-          return c.topSkill && levelNum(c.topSkill.level) >= 4;
-        }).map(function (c) {
+        // §8: build one hero per qualifying named skill (rank >= 4) from the
+        // named index — NOT one-per-contributor off the capped topSkill blob.
+        // Enrich each with the Trust Ledger magnitude (falls back to the
+        // entry's own trustMagnitude) for the ordering tiebreak.
+        var heroes = heroesFromNamedIndex(namedData).map(function (c) {
           return withLedgerTrustMagnitude(withNamedSkillMeta(c, namedBySkill), ledgerBySkill);
         });
 
-        // Sort by the top skill's Trust Ledger magnitude.
-        heroes.sort(function (a, b) {
-          return trustMagnitude(b) - trustMagnitude(a);
-        });
+        // §8 canonical order: rank desc, Unique before Suite within a rank,
+        // Trust Magnitude tiebreak.
+        heroes.sort(compareHeroes);
 
         if (!heroes.length) {
           container.innerHTML = renderEmptyState();

@@ -9,6 +9,9 @@
       "overallTrustGrade": "A",
       "contributor": "gsd-build",
       "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/get-shit-done.json"
       }
@@ -21,6 +24,9 @@
       "overallTrustGrade": "B",
       "contributor": "gsd-build",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/discuss-phase.json"
       }
@@ -33,6 +39,9 @@
       "overallTrustGrade": "B",
       "contributor": "gsd-build",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/execute-phase.json"
       }
@@ -45,6 +54,9 @@
       "overallTrustGrade": "B",
       "contributor": "gsd-build",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/plan-phase.json"
       }
@@ -57,6 +69,9 @@
       "overallTrustGrade": "B",
       "contributor": "gsd-build",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/ship.json"
       }
@@ -69,6 +84,9 @@
       "overallTrustGrade": "B",
       "contributor": "gsd-build",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/verify-work.json"
       }

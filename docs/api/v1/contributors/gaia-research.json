@@ -9,6 +9,9 @@
       "overallTrustGrade": "C",
       "contributor": "gaia-research",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gaia-research/skill-ci-churn.json"
       }
@@ -21,6 +24,9 @@
       "overallTrustGrade": "C",
       "contributor": "gaia-research",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gaia-research/skill-fuse.json"
       }

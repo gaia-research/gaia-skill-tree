@@ -9,6 +9,9 @@
       "overallTrustGrade": "S",
       "contributor": "addy-osmani",
       "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Ultimate",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/agent-skills.json"
       }
@@ -21,6 +24,9 @@
       "overallTrustGrade": "B",
       "contributor": "addy-osmani",
       "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/performance-optimization.json"
       }
@@ -33,6 +39,9 @@
       "overallTrustGrade": "B",
       "contributor": "addy-osmani",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/code-review-and-quality.json"
       }
@@ -45,6 +54,9 @@
       "overallTrustGrade": "B",
       "contributor": "addy-osmani",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/code-simplification.json"
       }
@@ -57,6 +69,9 @@
       "overallTrustGrade": "B",
       "contributor": "addy-osmani",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/incremental-implementation.json"
       }
@@ -69,6 +84,9 @@
       "overallTrustGrade": "B",
       "contributor": "addy-osmani",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/planning-and-task-breakdown.json"
       }
@@ -81,6 +99,9 @@
       "overallTrustGrade": "B",
       "contributor": "addy-osmani",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/shipping-and-launch.json"
       }
@@ -93,6 +114,9 @@
       "overallTrustGrade": "B",
       "contributor": "addy-osmani",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
       }
@@ -105,6 +129,9 @@
       "overallTrustGrade": "C",
       "contributor": "addy-osmani",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/test-driven-development.json"
       }

@@ -9,6 +9,9 @@
       "overallTrustGrade": "A",
       "contributor": "firecrawl",
       "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
       }
@@ -21,6 +24,9 @@
       "overallTrustGrade": "A",
       "contributor": "firecrawl",
       "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
       }
@@ -33,6 +39,9 @@
       "overallTrustGrade": "A",
       "contributor": "firecrawl",
       "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-search.json"
       }
@@ -45,6 +54,9 @@
       "overallTrustGrade": "B",
       "contributor": "firecrawl",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-interact.json"
       }
@@ -57,6 +69,9 @@
       "overallTrustGrade": "B",
       "contributor": "firecrawl",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
       }
@@ -69,6 +84,9 @@
       "overallTrustGrade": "B",
       "contributor": "firecrawl",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
       }

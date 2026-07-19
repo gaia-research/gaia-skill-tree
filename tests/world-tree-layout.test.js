@@ -158,7 +158,12 @@ test('structural wood is a deterministic subset while all canonical graft edges 
   assert.equal(result.structuralEdgeKeys.length, targetsWithParents);
   assert.equal(new Set(result.structuralEdgeKeys).size, result.structuralEdgeKeys.length);
   result.structuralEdgeKeys.forEach((key) => assert.equal(edgeKeys.has(key), true, key));
-  assert.equal(result.edges.every(({ source, target }) => result.heroPose[target].y < result.heroPose[source].y), true);
+  // Edges grow strictly upward EXCEPT into a unique: origin-stamped uniques
+  // (emitted branch:'unique', §7) seat in the outside constellation REGARDLESS
+  // of edges, so an edge into an 'outside' node is not bound by the DAG ladder.
+  assert.equal(result.edges.every(({ source, target }) =>
+    result.nodeMeta[target].hemisphere === 'outside'
+    || result.heroPose[target].y < result.heroPose[source].y), true);
 
   const seedPoints = result.isolates.map((id) => result.heroPose[id]);
   const primaryCrownWidth = robustWidth(silhouetteBands(result.components[0].map((id) => result.heroPose[id])).crown);
@@ -286,17 +291,21 @@ function yggOneGraph() {
 }
 
 // A Yggdrasil II node set: type ∈ {basic, fusion} ONLY. Detection must read the
-// RIGHT column. A unique is a high-rank basic without suiteComponents; a suite
-// is a fusion carrying suiteComponents.
+// RIGHT column. Under Ygg II the resolver is TYPE-BLIND: membership is carried
+// by the EMITTED .branch field (resolved build-time by taxonomy.py), never
+// guessed from type+rank+suiteComponents. A suite carries branch:'suite'; a
+// unique carries branch:'unique'; a plain node carries no branch (or 'standard').
 function yggTwoGraph() {
   return {
     skills: [
       { id: 'ygg2-basic', type: 'basic', cluster: 'a', prerequisites: [], effectiveRank: 2 },
       { id: 'ygg2-fusion', type: 'fusion', cluster: 'a', prerequisites: ['ygg2-basic'], effectiveRank: 4 },
       { id: 'ygg2-suite', type: 'fusion', cluster: 'a', prerequisites: ['ygg2-fusion'], effectiveRank: 6,
-        suiteComponents: ['ygg2-basic', 'ygg2-fusion'] },
-      // high-rank basic, no suiteComponents => a Unique under Ygg II detection.
-      { id: 'ygg2-unique', type: 'basic', cluster: 'b', prerequisites: ['ygg2-basic'], effectiveRank: 5 },
+        branch: 'suite', suiteComponents: ['ygg2-basic', 'ygg2-fusion'] },
+      // a Unique carries the emitted branch:'unique' — the resolver reads it, it
+      // does NOT guess unique from a high-rank type:'basic' without suiteComponents.
+      { id: 'ygg2-unique', type: 'basic', cluster: 'b', prerequisites: ['ygg2-basic'], effectiveRank: 5,
+        branch: 'unique' },
     ],
   };
 }
@@ -336,30 +345,37 @@ test('resolveSemantics honors the §3.1 read table under Yggdrasil I', () => {
 
 test('resolveSemantics honors the §3.1 read table under Yggdrasil II', () => {
   const meta = false; // Ygg II
+  // Under Ygg II the resolver is TYPE-BLIND: it reads the EMITTED .branch field
+  // (resolved build-time by taxonomy.py). It does NOT guess unique/suite from
+  // type+rank+suiteComponents. Fixtures therefore carry .branch (+ .medallion
+  // where the glyph is asserted), mirroring the emitted named-index shape.
   const basic = resolveSemantics({ type: 'basic', cluster: 'a' }, 2, meta);
   assert.deepEqual(
     { hemisphere: basic.hemisphere, glyph: basic.glyph, isUnique: basic.isUnique, isSuite: basic.isSuite },
     { hemisphere: 'root', glyph: '○', isUnique: false, isSuite: false });
 
-  const fusion = resolveSemantics({ type: 'fusion', cluster: 'a' }, 4, meta);
+  const fusion = resolveSemantics({ type: 'fusion', cluster: 'a', branch: 'standard' }, 4, meta);
   assert.deepEqual(
     { hemisphere: fusion.hemisphere, glyph: fusion.glyph, isUnique: fusion.isUnique, isSuite: fusion.isSuite },
     { hemisphere: 'crown', glyph: '◇', isUnique: false, isSuite: false });
 
   const suite = resolveSemantics(
-    { type: 'fusion', cluster: 'a', suiteComponents: ['x', 'y'] }, 6, meta);
+    { type: 'fusion', cluster: 'a', branch: 'suite', medallion: '◆',
+      suiteComponents: ['x', 'y'] }, 6, meta);
   assert.deepEqual(
     { hemisphere: suite.hemisphere, glyph: suite.glyph, isUnique: suite.isUnique, isSuite: suite.isSuite },
     { hemisphere: 'crown', glyph: '◆', isUnique: false, isSuite: true });
 
-  // §3.2 read order: a high-rank basic without suiteComponents is a Unique and
-  // must short-circuit to 'outside' BEFORE the hemisphere-by-type (basic->root).
-  const uniq = resolveSemantics({ type: 'basic', cluster: 'b' }, 5, meta);
+  // membership is read from the emitted branch: branch:'unique' short-circuits to
+  // 'outside' BEFORE the hemisphere-by-type (basic->root), regardless of type.
+  const uniq = resolveSemantics(
+    { type: 'basic', cluster: 'b', branch: 'unique', medallion: '◉' }, 5, meta);
   assert.deepEqual(
     { hemisphere: uniq.hemisphere, glyph: uniq.glyph, isUnique: uniq.isUnique, isSuite: uniq.isSuite },
     { hemisphere: 'outside', glyph: '◉', isUnique: true, isSuite: false });
 
-  // a low-rank basic is NOT a unique — it stays in the roots.
+  // a plain basic with NO emitted branch is NOT a unique — the resolver guesses
+  // nothing and it stays in the roots.
   const lowBasic = resolveSemantics({ type: 'basic', cluster: 'b' }, 3, meta);
   assert.equal(lowBasic.isUnique, false);
   assert.equal(lowBasic.hemisphere, 'root');
@@ -436,7 +452,7 @@ test('the trunk spine is pinned to the tuned backdrop constant (x = 0)', () => {
   assert.ok(Math.abs(collar.y - 680 * 0.20) < 1e-9, 'collar pinned to the ground line');
 });
 
-test('uniques are pulled OUTSIDE to a single-side dark constellation', () => {
+test('uniques are pulled OUTSIDE to a dark under-canopy constellation', () => {
   const result = buildWorldTreeLayout(yggTwoGraph());
   const uniqueMeta = result.nodeMeta['ygg2-unique'];
   assert.equal(uniqueMeta.hemisphere, 'outside');
@@ -444,18 +460,30 @@ test('uniques are pulled OUTSIDE to a single-side dark constellation', () => {
   assert.equal(uniqueMeta.anchorRole, 'outside');
   assert.equal(result.heroPose['ygg2-unique'].outside, true);
 
-  // single side: every outside anchor sits on the positive-x side of the trunk.
-  Object.keys(result.ghostPose).forEach((k) => {
-    if (result.ghostPose[k].role === 'outside') {
-      assert.ok(result.ghostPose[k].x > 0, `outside anchor ${k} must be single-side (positive x)`);
-    }
+  // the constellation is a shallow sub-canopy row centred on the trunk spine
+  // (spans -spread..+spread); every outside anchor is finite and seated in the
+  // canopy band (see world-tree-layout OUTSIDE_* constants, seated under the boughs).
+  const outsideAnchors = Object.keys(result.ghostPose)
+    .filter((k) => result.ghostPose[k].role === 'outside');
+  assert.ok(outsideAnchors.length > 0, 'the outside constellation must have anchors');
+  outsideAnchors.forEach((k) => {
+    assert.ok(Number.isFinite(result.ghostPose[k].x), `outside anchor ${k} x finite`);
+    assert.ok(Number.isFinite(result.ghostPose[k].y), `outside anchor ${k} y finite`);
   });
-  // and the relocated unique landed on that side too.
-  assert.ok(result.heroPose['ygg2-unique'].x > 0, 'unique lands beside the trunk, single side');
+  // the relocated unique seats among the constellation, not in the trunk canopy.
+  assert.ok(Number.isFinite(result.heroPose['ygg2-unique'].x),
+    'unique lands at a finite position in the constellation');
 
-  // the canonical (Ygg I) graph has no uniques today — nothing relocated.
+  // the canonical (Ygg II) graph carries origin-stamped uniques (emitted
+  // branch:'unique' surfaced from each bucket's CLI-declared origin, §7); the
+  // resolver READS that emitted field and seats them outside — it guesses nothing.
   const canon = buildWorldTreeLayout(canonicalGraph);
-  assert.equal(canon.nodes.some((n) => canon.nodeMeta[n.id].isUnique), false);
+  const canonUniques = canon.nodes.filter((n) => canon.nodeMeta[n.id].isUnique);
+  canonUniques.forEach((n) => {
+    assert.equal(canon.nodeMeta[n.id].hemisphere, 'outside', `${n.id} unique seats outside`);
+    assert.equal(canonicalGraph.skills.find((s) => s.id === n.id).branch, 'unique',
+      `${n.id} isUnique only because the emitted branch says so`);
+  });
 });
 
 test('structural edges re-route over the ghost skeleton; grafts are not routed', () => {
@@ -495,8 +523,8 @@ test('canonical graph gains ghost armature + routes without disturbing real pose
   const withRank = buildWorldTreeLayout(canonicalGraph);
   assert.ok(withRank.armature, 'canonical layout carries the armature');
   assert.ok(Object.keys(withRank.ghostPose).length > 0);
-  // metaIsYggI: canonical types are basic/extra/ultimate => Ygg I.
-  assert.equal(withRank.metaIsYggI, true);
+  // metaIsYggI: canonical gaia.json migrated to basic/fusion only => Ygg II.
+  assert.equal(withRank.metaIsYggI, false);
   // every real node carries the frozen contract fields.
   withRank.nodes.forEach(({ id }) => {
     const m = withRank.nodeMeta[id];

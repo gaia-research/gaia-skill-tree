@@ -43,18 +43,18 @@ _Avoid_: writing `type` on a named-skill frontmatter; using the legacy values `e
 **Nomenclature — the "Skill" suffix** (Yggdrasil II): the proper-noun suffix "Skill" attaches to **rank** names only — **Extra Skill**, **Unique Skill**, **Ultimate Skill**, **Apex Skill** (e.g. "Ultimate Skill: garrytan/gsstack"). **Type** words stand bare: **Basic** and **Fusion** — never "Basic Skill" or "Fusion Skill". Types are structural categories, not ranks. The 1★–3★ shared-ladder rank words (**Awakened** 1★, **Named** 2★, **Evolved** 3★) are always written **star-qualified** as ranks ("2★ Named", "the Named rank") and never take a bare "X Skill" form — so **Named Skill** unambiguously denotes the claimed-skill entity (a contributor's implementation), never "a 2★ skill". Only the 4★+ branch ranks take the "Skill" suffix as rank phrasings.
 
 **Branch axis** (progression — named only):
-Values: `standard`, `unique`, `suite`. Derived at read-time by `computeBranch(named)` from `(the Named Skill's own suiteComponents present?, named.level)` — `suiteComponents` is a **Named-Skill-only field, never present on the starless generic parent**. **Never declared on nodes; always computed.**
+Values: `standard`, `unique`, `suite`. Derived at read-time by `computeBranch(named)` — **suiteComponents-presence decides membership first, then rank**: a Named Skill carrying `suiteComponents` is `suite` at **any rank** (from its 2★ push floor up); a Named Skill without `suiteComponents` is `standard` at 1–3★ and `unique` at 4–6★. `suiteComponents` is a **Named-Skill-only field, never present on the starless generic parent**. **Never declared on nodes; always computed.** *(The 4★ suite/unique ladder words + glyphs are a separate **decoration** gate — see Suite/Unique branch below — not a membership gate.)*
 _Avoid_: writing a `branch` field to a node; treating branch as user-editable.
 
 **Standard branch**:
-1★ Awakened → 2★ Named → 3★ Evolved. Default; every named skill starts here.
+1★ Awakened → 2★ Named → 3★ Evolved. The branch for skills **without** `suiteComponents` below 4★. A skill *with* `suiteComponents` is **Suite-branch from 2★** (see below), even while it shows these shared words below 4★.
 
 **Unique branch**:
 4★ Unique → 5★ Unique Ultimate → 6★ Unique Impossible. For skills that reach 4★+ **without** being a suite (the Named Skill carries no `suiteComponents`). `suiteRef` membership does NOT disqualify — a "world-renowned handoff skill" that happens to live inside a suite is still Unique. Standalone-prestige track. Impeccable is the archetype. Gates: 4★ = Origin + TM ≥ 100 (A); 5★ = Origin + TM ≥ 250 (S); origins counted in **fusion structure** (`prerequisites`), not `suiteComponents`. 6★ Unique Impossible = provisional 5-predicate gate (Apex minus `directNestedSuiteGte1`).
 _Avoid_: treating suite membership as automatically disqualifying from Unique.
 
 **Suite branch**:
-4★ Extra → 5★ Ultimate → 6★ Apex. For Named Skills that carry `suiteComponents` (structural fusion of grouped components). Group-prestige track. 5★ gate preserved per #935 (Origin in `suiteComponents` + 5 A-graded origins in `suiteComponents` + TM ≥ 250). 6★ Apex Gate = the 6-predicate G7 set (preserved).
+For Named Skills that carry `suiteComponents` — **branch = `suite` from the 2★ push floor upward, at any rank.** A suite is a suite the moment it's pushed (2★); evidence climbs it toward 4★. The **custom suite ladder (4★ Extra → 5★ Ultimate → 6★ Apex) and suite glyph (◆) render only at 4★+** — a suite-branch skill at 2★/3★ shows the shared rank word (Named / Evolved) and the plain glyph (◇). Membership is structural (`suiteComponents` present); the 4★ fork is a **decoration** gate earned by evidence, not a membership gate. Group-prestige track. 5★ gate preserved per #935 (Origin in `suiteComponents` + 5 A-graded origins in `suiteComponents` + TM ≥ 250). 6★ Apex Gate = the 6-predicate G7 set (preserved). *(2★/3★ suites gate on the normal per-star evidence progression; suite-specific gates begin at 4★.)*
 
 **Ultimate** _(5★ rank name — Yggdrasil II)_:
 The rank name for **every 5★ skill** across branches. Suite branch: **Ultimate**. Unique branch: **Unique Ultimate**. Intentional gacha-anchor collision — devs should associate "Ultimate" with "5★" universally. Replaces the Yggdrasil I rank name "Transcendent". Deprecates the Yggdrasil I taxonomy usage of "Ultimate" (see `Ultimate Skill` entry above).
@@ -230,7 +230,7 @@ _Yggdrasil II (2026-07-07) updates these relationships. Legacy Yggdrasil I copy 
 
 - A **Basic** (`type=basic`, 0 prerequisites) fuses with other Basics to produce a **Fusion** (`type=fusion`, ≥1 prerequisite). Legacy Yggdrasil I called these "Extras".
 - A **Fusion** can fuse with other Fusions to produce a more complex Fusion.
-- A named skill lives on one of three **branches** (derived, never declared): **Standard** (1★–3★), **Unique** (4★+ non-suite; the Yggdrasil I "Unique" tier now lives here as a *progression path*), or **Suite** (4★+ suite-based; the Yggdrasil I "Extra 4★" + "Ultimate 5★+" ranks now live here).
+- A named skill lives on one of three **branches** (derived, never declared): **Suite** (carries `suiteComponents`, from 2★ up — suite ladder words appear at 4★+), **Unique** (4★+ non-suite; the Yggdrasil I "Unique" tier now lives here as a *progression path*), or **Standard** (no suite, below 4★). Every named skill starts at 2★ — on **Suite** if it carries `suiteComponents`, else **Standard**.
 - A skill becomes a **Named Skill** at 2★, attaching it to its **Origin Contributor**.
 - Every star above 1★ requires graded evidence — an **Evidence Grade** (the deprecated **Evidence Class** axis it replaces). Ranking up gates on **Trust Magnitude** (TM Index (2026 Q2)); the legacy per-star **Evidence Floor** column is retired under Yggdrasil II.
 - The **Registry** is the canonical graph; a **Skill Tree** is one user's view of that graph.

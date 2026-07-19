@@ -8,6 +8,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/verification-quality.json"
       }
@@ -20,6 +23,9 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/worker-integration.json"
       }
@@ -32,6 +38,9 @@
       "overallTrustGrade": "C",
       "contributor": "santifer",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/santifer/career-ops.json"
       }
@@ -44,6 +53,9 @@
       "overallTrustGrade": "C",
       "contributor": "spring-ai",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/spring-ai/readme-generate.json"
       }
@@ -56,6 +68,9 @@
       "overallTrustGrade": "C",
       "contributor": "vercel",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/vercel/find-skills.json"
       }
@@ -68,6 +83,9 @@
       "overallTrustGrade": "C",
       "contributor": "upsonic",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/upsonic/unittest-generator.json"
       }
@@ -80,6 +98,9 @@
       "overallTrustGrade": "C",
       "contributor": "devin-ai",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/devin-ai/autonomous-swe.json"
       }
@@ -92,6 +113,9 @@
       "overallTrustGrade": "C",
       "contributor": "mattpocock",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/caveman.json"
       }
@@ -104,6 +128,9 @@
       "overallTrustGrade": "ungraded",
       "contributor": "mattpocock",
       "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/teach.json"
       }

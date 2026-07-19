@@ -7,6 +7,9 @@
   "status": "named",
   "trustMagnitude": 118.5,
   "overallTrustGrade": "A",
+  "branch": "suite",
+  "rankWord": "Evolved",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/ruvnet/reasoningbank.json",
     "contributor": "/api/v1/contributors/ruvnet.json",

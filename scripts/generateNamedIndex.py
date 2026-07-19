@@ -27,6 +27,7 @@ import datetime
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src"))
 from gaia_cli.redaction import is_redacted, level_num  # noqa: E402  single source of truth
+from gaia_cli.taxonomy import branchFor, rankWord, medallion, normalize  # noqa: E402
 
 REQUIRED_FIELDS = [
     "id",
@@ -477,7 +478,10 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config):
                 entry["overallTrustGrade"] = fm_grade
             else:
                 # Missing frontmatter values — recompute via G7 path.
-                tm = computeTrustMagnitude(skill_with_effective, generic_skills_map)
+                # Pre-merge namedSkillMap so suite-component origin IDs
+                # (e.g. "gsd-build/discuss-phase") resolve in _gradedOriginCount.
+                merged_map = {**generic_skills_map, **named_skill_map}
+                tm = computeTrustMagnitude(skill_with_effective, merged_map)
                 entry["trustMagnitude"] = round(tm, 2)
                 grade = overall_trust_grade(
                     effective,
@@ -494,6 +498,18 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config):
             }
             apex_status = passesSuiteApexGate(skill_with_effective, registry_state)
             entry["apexGateStatus"] = apex_status
+
+            # Resolved taxonomy fields (Yggdrasil II authority — additive, PR2).
+            # Derived purely from entry["level"] + entry.get("suiteComponents");
+            # TM is copy-through (already injected above) — no recompute here.
+            resolved = normalize(entry)
+            rank_int = resolved.get("rank", 0)
+            branch = branchFor(entry)
+            entry["branch"] = branch
+            entry["rank"] = rank_int
+            entry["rankWord"] = rankWord(entry.get("level", ""), branch)
+            entry["medallion"] = medallion(branch, rank_int)
+            entry["contractVersion"] = "gaia-public-v1"
 
             if entry.get("type") == "ultimate":
                 # Score the gate on effective evidence: components via the

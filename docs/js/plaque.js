@@ -63,18 +63,23 @@
   }
 
   // ── Yggdrasil II read-time semantics ─────────────────────────────
-  // Branch is DERIVED, never read from ns.type. Delegates to the shared
-  // resolver (docs/js/skill-semantics.js). Rubric E1: no switching on
-  // type==='ultimate'|'unique'|'extra'. Fallback keeps plaques rendering
-  // if skill-semantics.js somehow failed to load (degrade to 'standard').
+  // Branch/rankWord are READ from the emitted fields the taxonomy authority
+  // resolved onto the entry (docs/graph/named/index.json), via the shared
+  // GaiaSemantics seam (docs/js/skill-semantics.js). Rubric E1: no switching on
+  // ns.type. Fallback keeps plaques rendering if skill-semantics.js somehow
+  // failed to load (degrade to the standard branch) or on a starless entry with
+  // no emitted branch.
   function branchOf(ns) {
-    if (window.GaiaSemantics && typeof window.GaiaSemantics.computeBranch === 'function') {
-      return window.GaiaSemantics.computeBranch(ns, ns && ns.level);
+    if (window.GaiaSemantics && typeof window.GaiaSemantics.branchOf === 'function') {
+      return window.GaiaSemantics.branchOf(ns);
     }
     return 'standard';
   }
 
-  function rankWordOf(level, branch) {
+  function rankWordOf(level, branch, ns) {
+    if (window.GaiaSemantics && typeof window.GaiaSemantics.rankWordOf === 'function' && ns) {
+      return window.GaiaSemantics.rankWordOf(ns);
+    }
     if (window.GaiaSemantics && typeof window.GaiaSemantics.rankWord === 'function') {
       return window.GaiaSemantics.rankWord(level, branch);
     }
@@ -169,7 +174,7 @@
     // named skills (rank 1..3) render the c1..c3 suite stamps.
     var tier = _sizeTier(sizeModifier);
     var src = _aovStamp(branch, n, tier);
-    var rankName = rankWordOf(ns && ns.level, branch);
+    var rankName = rankWordOf(ns && ns.level, branch, ns);
     var alt = rankName ? rankName + ' medallion' : 'rank medallion';
     // Decorative but rank-bearing: keep an accessible label. onerror keeps the
     // element in flow (no empty hole) — falls back to the tier orb styling.

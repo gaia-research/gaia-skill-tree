@@ -4564,6 +4564,9 @@ def trust_explain_command(args):
     # Build maps
     genericSkillMap = {s["id"]: s for s in skills if s.get("id") and not s.get("genericSkillRef")}
     namedSkillMap = {s["id"]: s for s in skills if s.get("id") and s.get("genericSkillRef")}
+    # Pre-merge namedSkillMap so suite-component origin IDs resolve in
+    # _gradedOriginCount (named skill IDs miss a generic-only map).
+    mergedMap = {**genericSkillMap, **namedSkillMap}
 
     # Try named first, then generic
     skill = namedSkillMap.get(skillId) or genericSkillMap.get(skillId)
@@ -4571,7 +4574,7 @@ def trust_explain_command(args):
         print(f"Skill '{skillId}' not found in registry.")
         return 1
 
-    output = explainTrustMagnitude(skill, genericSkillMap=genericSkillMap, namedSkillMap=namedSkillMap)
+    output = explainTrustMagnitude(skill, genericSkillMap=mergedMap, namedSkillMap=namedSkillMap)
     print(output)
     return 0
 

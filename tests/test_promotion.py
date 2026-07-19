@@ -15,6 +15,9 @@ from gaia_cli.promotion import (
     promotion_state,
     _effective_grade,
     _meets_evidence_floor,
+    _holds_bucket_origin,
+    _contributor_holds_origin_in,
+    checkUniqueBranchGate,
 )
 
 
@@ -419,4 +422,121 @@ class TestGradeTranslation:
         assert len(eligible) == 1
         assert eligible[0]["skillId"] == "graded-skill"
         assert eligible[0]["nextLevel"] == "3★"
+
+
+# ---------------------------------------------------------------------------
+# Unique-branch origin gate (Yggdrasil II Q3, amended 2026-07-19)
+# 4★ Unique = BUCKET-LEVEL origin (§4.1); 5★+ = fusion-structure origin.
+# Regression: graphify (sole 4★ named on a fusion generic with 0-named-impl
+# prereqs) must PASS the 4★ gate — its Origin is on its own bucket, not on the
+# prerequisite fusion structure.
+# ---------------------------------------------------------------------------
+class TestBucketOrigin:
+    def test_holds_bucket_origin_true(self):
+        assert _holds_bucket_origin(
+            {"genericSkillRef": "knowledge-graph-build", "origin": True}
+        ) is True
+
+    def test_holds_bucket_origin_false_when_not_origin(self):
+        assert _holds_bucket_origin(
+            {"genericSkillRef": "knowledge-graph-build", "origin": False}
+        ) is False
+
+    def test_holds_bucket_origin_false_without_generic_ref(self):
+        # No bucket to hold Origin on.
+        assert _holds_bucket_origin({"origin": True}) is False
+
+
+class TestUniqueBranchGateOriginFork:
+    """The 4★ Unique gate reads bucket-level origin; 5★ reads fusion structure."""
+
+    def _patch_tm_branch(self, monkeypatch, tm, branch="unique"):
+        import gaia_cli.trustMagnitude as tmm
+        import gaia_cli.taxonomy as tax
+        monkeypatch.setattr(tmm, "computeTrustMagnitude", lambda *a, **k: tm)
+        monkeypatch.setattr(tax, "branchFor", lambda *a, **k: branch)
+
+    def test_4star_passes_on_bucket_origin_despite_empty_prereqs(self, monkeypatch):
+        """Regression for graphify: fusion generic, prereqs have zero named
+        implementations, but the skill holds Origin on its OWN bucket → PASS."""
+        self._patch_tm_branch(monkeypatch, tm=122.85)
+        named = {
+            "id": "safishamsi/graphify",
+            "contributor": "safishamsi",
+            "genericSkillRef": "knowledge-graph-build",
+            "origin": True,
+        }
+        generic_map = {
+            "knowledge-graph-build": {
+                "id": "knowledge-graph-build",
+                "type": "fusion",
+                # prereqs with NO named implementations (unsatisfiable at 5★)
+                "prerequisites": ["extract-entities", "logical-inference"],
+            }
+        }
+        named_map = {named["id"]: named}
+        res = checkUniqueBranchGate(named, "4★", generic_map, named_map)
+        assert res["originPresent"] is True
+        assert res["tmThresholdMet"] is True
+        assert res["passed"] is True
+
+    def test_4star_fails_when_not_bucket_origin(self, monkeypatch):
+        self._patch_tm_branch(monkeypatch, tm=200.0)
+        named = {
+            "id": "someone/impl",
+            "contributor": "someone",
+            "genericSkillRef": "knowledge-graph-build",
+            "origin": False,
+        }
+        generic_map = {"knowledge-graph-build": {"prerequisites": ["a", "b"]}}
+        res = checkUniqueBranchGate(named, "4★", generic_map, {named["id"]: named})
+        assert res["originPresent"] is False
+        assert res["passed"] is False
+
+    def test_5star_still_reads_fusion_structure_origin(self, monkeypatch):
+        """5★ gate is UNCHANGED: origin comes from holding Origin on a
+        prerequisite node, NOT the skill's own bucket flag."""
+        self._patch_tm_branch(monkeypatch, tm=300.0)
+        # This skill holds bucket origin (origin: True) but does NOT hold origin
+        # on any prerequisite node → 5★ fusion-structure origin must be False.
+        named = {
+            "id": "safishamsi/graphify",
+            "contributor": "safishamsi",
+            "genericSkillRef": "knowledge-graph-build",
+            "origin": True,
+        }
+        generic_map = {
+            "knowledge-graph-build": {
+                "prerequisites": ["extract-entities", "logical-inference"],
+            }
+        }
+        # No named skill by this contributor holds origin on a prereq node.
+        named_map = {named["id"]: named}
+        res = checkUniqueBranchGate(named, "5★", generic_map, named_map)
+        assert res["originPresent"] is False
+        assert res["passed"] is False
+
+    def test_5star_passes_when_contributor_holds_prereq_origin(self, monkeypatch):
+        self._patch_tm_branch(monkeypatch, tm=300.0)
+        capstone = {
+            "id": "c/capstone",
+            "contributor": "c",
+            "genericSkillRef": "knowledge-graph-build",
+            "origin": True,
+        }
+        prereq_impl = {
+            "id": "c/entities",
+            "contributor": "c",
+            "genericSkillRef": "extract-entities",
+            "origin": True,
+        }
+        generic_map = {
+            "knowledge-graph-build": {
+                "prerequisites": ["extract-entities", "logical-inference"],
+            }
+        }
+        named_map = {capstone["id"]: capstone, prereq_impl["id"]: prereq_impl}
+        res = checkUniqueBranchGate(capstone, "5★", generic_map, named_map)
+        assert res["originPresent"] is True
+        assert res["passed"] is True
 

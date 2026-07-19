@@ -7,6 +7,9 @@
   "status": "named",
   "trustMagnitude": 37.47,
   "overallTrustGrade": "C",
+  "branch": "standard",
+  "rankWord": "Named",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/bradautomates/claude-video.json",
     "contributor": "/api/v1/contributors/bradautomates.json",

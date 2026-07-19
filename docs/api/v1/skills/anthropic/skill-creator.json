@@ -7,6 +7,9 @@
   "status": "named",
   "trustMagnitude": 90.0,
   "overallTrustGrade": "B",
+  "branch": "standard",
+  "rankWord": "Evolved",
+  "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/anthropic/skill-creator.json",
     "contributor": "/api/v1/contributors/anthropic.json",

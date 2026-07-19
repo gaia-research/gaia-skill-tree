@@ -68,6 +68,7 @@
 | · /explainability-audit | Fusion | — | `/explainability-audit` |
 | ○ /extract-entities | Basic | — | `/extract-entities` |
 | ○ [nousresearch](../docs/u/nousresearch/)/feed-monitoring | Basic | 2★ | `/feed-monitoring` |
+| ○ [openai](../docs/u/openai/)/few-shot-learning | Basic | 4★ | `/few-shot-learning` |
 | · /financial-modeling | Fusion | — | `/financial-modeling` |
 | ○ ████████/huggingface-llm-trainer | Basic | — | `/fine-tune` |
 | · [garrytan](../docs/u/garrytan/)/ship | Fusion | 3★ | `/finishing-a-development-branch` |
@@ -96,7 +97,7 @@
 | ○ /hypothesis-generate | Basic | — | `/hypothesis-generate` |
 | ○ /image-caption | Basic | — | `/image-caption` |
 | ○ [mattpocock](../docs/u/mattpocock/)/triage | Basic | 3★ | `/issue-triage` |
-| · [safishamsi](../docs/u/safishamsi/)/graphify | Fusion | 3★ | `/knowledge-graph-build` |
+| · [safishamsi](../docs/u/safishamsi/)/graphify | Fusion | 4★ | `/knowledge-graph-build` |
 | · /knowledge-harvest | Fusion | — | `/knowledge-harvest` |
 | · [garrytan](../docs/u/garrytan/)/setup-gbrain | Fusion | 2★ | `/knowledge-management` |
 | · ████████/huggingface-papers | Fusion | — | `/literature-review` |
@@ -135,7 +136,7 @@
 | · [mattpocock](../docs/u/mattpocock/)/productivity | Fusion | 3★ | `/productivity` |
 | · [garrytan](../docs/u/garrytan/)/landing-report | Fusion | 2★ | `/project-management` |
 | ○ /prompt-injection-defense | Basic | — | `/prompt-injection-defense` |
-| · [stanfordnlp](../docs/u/stanfordnlp/)/dspy | Fusion | 3★ | `/prompt-optimization` |
+| · [stanfordnlp](../docs/u/stanfordnlp/)/dspy | Fusion | 4★ | `/prompt-optimization` |
 | ○ /protein-structure-analysis | Basic | — | `/protein-structure-analysis` |
 | ○ /proteomic-data-retrieval | Basic | — | `/proteomic-data-retrieval` |
 | · [mattpocock](../docs/u/mattpocock/)/prototype | Fusion | 2★ | `/prototype` |
@@ -196,7 +197,7 @@
 | · /translation-pipeline | Fusion | — | `/translation-pipeline` |
 | · /tree-of-thought | Fusion | — | `/tree-of-thought` |
 | · [mattpocock](../docs/u/mattpocock/)/ubiquitous-language | Fusion | 3★ | `/ubiquitous-language` |
-| · [obra](../docs/u/obra/)/using-git-worktrees | Fusion | 3★ | `/using-git-worktrees` |
+| · [obra](../docs/u/obra/)/using-git-worktrees | Fusion | 4★ | `/using-git-worktrees` |
 | ○ [pbakaus](../docs/u/pbakaus/)/impeccable | Basic | 4★ | `/ux-audit` |
 | ○ [ruvnet](../docs/u/ruvnet/)/agentdb-optimization | Basic | 2★ | `/vector-db-optimization` |
 | ○ [ruvnet](../docs/u/ruvnet/)/agentdb-vector-search | Basic | 2★ | `/vector-search` |
@@ -215,8 +216,25 @@
 | · ████████/github-workflow-automation | Fusion | — | `/workflow-automation` |
 | · [garrytan](../docs/u/garrytan/)/gstack-upgrade | Fusion | 2★ | `/workspace-automation` |
 | ○ [garrytan](../docs/u/garrytan/)/retro | Basic | 3★ | `/write-report` |
-| · [obra](../docs/u/obra/)/writing-plans | Fusion | 3★ | `/writing-plans` |
+| · [obra](../docs/u/obra/)/writing-plans | Fusion | 4★ | `/writing-plans` |
 | · /x-twitter-automation | Fusion | — | `/x-twitter-automation` |
+
+## Uniques
+
+*Singular mastery skills — graph-isolated, with named implementations. Promoted via `/gaia promote --unique`.*
+
+| Name | Class | Top ★ | Skill Call |
+|---|---|---|---|
+| ◉ [openai](../docs/u/openai/)/few-shot-learning | Unique Skill | 4★ | `/few-shot-learning` |
+| ◉ [safishamsi](../docs/u/safishamsi/)/graphify | Unique Skill | 4★ | `/knowledge-graph-build` |
+| ◉ [addy-osmani](../docs/u/addy-osmani/)/performance-optimization | Unique Skill | 4★ | `/performance-tuning` |
+| ◉ [stanfordnlp](../docs/u/stanfordnlp/)/dspy | Unique Skill | 4★ | `/prompt-optimization` |
+| ◉ [obra](../docs/u/obra/)/subagent-driven-development | Unique Skill | 4★ | `/subagent-driven-development` |
+| ◉ [obra](../docs/u/obra/)/using-git-worktrees | Unique Skill | 4★ | `/using-git-worktrees` |
+| ◉ [pbakaus](../docs/u/pbakaus/)/impeccable | Unique Skill | 4★ | `/ux-audit` |
+| ◉ [firecrawl](../docs/u/firecrawl/)/firecrawl-build-scrape | Unique Skill | 4★ | `/web-scrape` |
+| ◉ [firecrawl](../docs/u/firecrawl/)/firecrawl-build-search | Unique Skill | 4★ | `/web-search` |
+| ◉ [obra](../docs/u/obra/)/writing-plans | Unique Skill | 4★ | `/writing-plans` |
 
 ## Basics
 
@@ -235,7 +253,6 @@
 | ○ Event Support Triage | Intrinsic Skill | — | `/event-support-triage` |
 | ○ Event Ticket Transfer | Intrinsic Skill | — | `/event-ticket-transfer` |
 | ○ evidence-attestation | Intrinsic Skill | — | `/evidence-attestation` |
-| ○ Few-Shot Learning | Intrinsic Skill | 4★ | `/few-shot-learning` |
 | ○ Framework Upgrade | Intrinsic Skill | 2★ | `/framework-upgrade` |
 | ○ Git Diff Risk Analysis | Intrinsic Skill | 2★ | `/git-diff-risk-analysis` |
 | ○ Grant Application Processing | Intrinsic Skill | — | `/grant-application-processing` |

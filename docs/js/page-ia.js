@@ -99,12 +99,15 @@
     // don't surface as free-to-claim in the ultimates list.
     (namedData.awaitingClassification || []).forEach(function (e) {
       var primary = e.genericSkillRef || (e.id && e.id.split('/').pop());
-      if (primary && byId[primary] && byId[primary].type === 'ultimate' && !claimedBy[primary]) {
+      // Read the emitted branch field (Ygg-II: type is basic|fusion; suite is the branch).
+      if (primary && byId[primary] && byId[primary].branch === 'suite' && !claimedBy[primary]) {
         claimedBy[primary] = e;
       }
     });
 
-    var ultimates = skills.filter(function (s) { return s.type === 'ultimate'; });
+    // Ygg-II: suite skills have branch === 'suite' (emitted field). Read it
+    // directly — never derive from the dead Ygg-I type === 'ultimate'.
+    var ultimates = skills.filter(function (s) { return s.branch === 'suite'; });
     var unclaimed = ultimates.filter(function (u) { return !claimedBy[u.id]; });
     var apexCount = ultimates.length - unclaimed.length;
 
@@ -123,7 +126,20 @@
     var elUlts = document.getElementById('ledgerUlts');
     var elDate = document.getElementById('ledgerDate');
     if (elSkills) elSkills.textContent = skills.length;
-    if (elUlts) elUlts.textContent = ultimates.length;
+    // §8: an "Ultimate" is a 5★+ Suite NAMED skill, not every suite-branch node.
+    // Count the named entries with branch==='suite' && rank>=5 (dedup by id) —
+    // the true elite tier the Hall calls Ultimates — rather than ultimates.length
+    // (all 15 suite-branch canonical nodes), which over-counts the concept.
+    var ultSeen = {};
+    var ultimateCount = 0;
+    function tallyUltimate(e) {
+      if (!e || !e.id || ultSeen[e.id]) return;
+      var rn = (typeof e.rank === 'number') ? e.rank : 0;
+      if (e.branch === 'suite' && rn >= 5) { ultSeen[e.id] = true; ultimateCount++; }
+    }
+    Object.keys(buckets).forEach(function (k) { (buckets[k] || []).forEach(tallyUltimate); });
+    (namedData.awaitingClassification || []).forEach(tallyUltimate);
+    if (elUlts) elUlts.textContent = ultimateCount;
     var dateStr = formatDate(graphData.generatedAt || (graphData.meta && graphData.meta.updatedAt));
     if (elDate && dateStr) elDate.textContent = dateStr;
 
@@ -217,7 +233,9 @@
       }).join('');
     }
 
-    // Hall of Heroes — diverse top-N origin plates with type-aware glyphs
+    // Hall of Heroes — all qualifying origin entries (§8: no top-N cap).
+    // Selection: rank >= 4 (read from emitted `rank` field, never derived from type).
+    // Order: rank DESC (6★→5★→4★), within same rank: unique before suite.
     var allOrigin = [];
     var totalNamedCount = 0;
     Object.keys(buckets).forEach(function (skillId) {
@@ -227,46 +245,30 @@
         // public Hall of Heroes, even if flagged origin.
         if (window.isRedacted && window.isRedacted(e.level)) return;
         totalNamedCount++;
-        var refId = e.genericSkillRef || skillId;
-        var canonical = byId[refId];
-        if (!canonical && e.id && e.id.indexOf('/') !== -1) {
-          canonical = byId[e.id.split('/').pop()];
-        }
-        if (!canonical) return;
-        var lvlN = levelNum(e.level);
-        var is6Star = (lvlN === 6);
-        var is5Star = (lvlN === 5);
-        var isUnique = (canonical.type === 'unique');
-        if (!is6Star && !is5Star && !isUnique) return;
-        if (canonical.level) e.level = canonical.level;
+        // Hall floor: rank >= 4 (§8: floor at 4★; nothing below 4★ appears).
+        // Read the emitted rank field; fall back to levelNum for entries that
+        // pre-date the Phase 2 emission (absent-field defence).
+        var emittedRank = (typeof e.rank === 'number') ? e.rank : levelNum(e.level);
+        if (emittedRank < 4) return;
+        var emittedBranch = e.branch || 'standard';
         allOrigin.push({
           entry: e,
-          canonicalId: canonical.id,
-          type: canonical.type || 'basic',
+          rank: emittedRank,
+          branch: emittedBranch,
         });
       });
     });
-    // Sort by Trust Magnitude desc, then by level desc, then by type rank.
-    var TYPE_RANK = { ultimate: 0, unique: 1, extra: 2, basic: 3 };
+
     function heroTm(item) {
       return Number((item && item.entry && item.entry.trustMagnitude) || 0);
     }
-    allOrigin.sort(function (a, b) {
-      var td = heroTm(b) - heroTm(a);
-      if (td !== 0) return td;
-      var ld = levelNum(b.entry.level) - levelNum(a.entry.level);
-      if (ld !== 0) return ld;
-      return (TYPE_RANK[a.type] || 9) - (TYPE_RANK[b.type] || 9);
-    });
 
     // Named count for ledger (count of all origin entries)
     var elNamed = document.getElementById('ledgerNamed');
     if (elNamed) elNamed.textContent = totalNamedCount;
 
-    // Pick diverse top-8 contributors: GROUP all of a contributor's
-    // qualifying origin skills into a single plate (instead of dropping
-    // their lower-ranked entries). This lets ruvnet's /ruflo (Ultimate)
-    // and /hive-mind-coordination (Unique) appear in one plate together,
+    // Group all of a contributor's qualifying origin skills into a single
+    // plate so a contributor's Unique and Suite appear in one plate together,
     // each row coloured by its OWN tier/level via .plaque__stack-row.
     var byContrib = Object.create(null);
     allOrigin.forEach(function (item) {
@@ -275,42 +277,30 @@
       if (!byContrib[c]) byContrib[c] = [];
       byContrib[c].push(item);
     });
-    // Sort within each group: highest-TM skill first.
+    // Within each contributor group: unique before suite (§8 Unique·Suite pair),
+    // then rank DESC, then TM DESC.
+    function branchSortOrder(b) { return b === 'unique' ? 0 : b === 'suite' ? 1 : 2; }
     Object.keys(byContrib).forEach(function (c) {
       byContrib[c].sort(function (a, b) {
-        var td = heroTm(b) - heroTm(a);
-        if (td !== 0) return td;
-        var ld = levelNum(b.entry.level) - levelNum(a.entry.level);
-        if (ld !== 0) return ld;
-        return (TYPE_RANK[a.type] || 9) - (TYPE_RANK[b.type] || 9);
+        var rd = b.rank - a.rank;
+        if (rd !== 0) return rd;
+        var bd = branchSortOrder(a.branch) - branchSortOrder(b.branch);
+        if (bd !== 0) return bd;
+        return heroTm(b) - heroTm(a);
       });
     });
-    // Order contributors by their primary (best) skill TM.
+    // Order contributor plates: rank DESC of primary skill, then unique before suite,
+    // then TM DESC. §8: no top-N cap — show ALL qualifying contributors.
     var contribOrder = Object.keys(byContrib).sort(function (a, b) {
       var ai = byContrib[a][0], bi = byContrib[b][0];
-      var td = heroTm(bi) - heroTm(ai);
-      if (td !== 0) return td;
-      var ld = levelNum(bi.entry.level) - levelNum(ai.entry.level);
-      if (ld !== 0) return ld;
-      return (TYPE_RANK[ai.type] || 9) - (TYPE_RANK[bi.type] || 9);
+      var rd = bi.rank - ai.rank;
+      if (rd !== 0) return rd;
+      var bd = branchSortOrder(ai.branch) - branchSortOrder(bi.branch);
+      if (bd !== 0) return bd;
+      return heroTm(bi) - heroTm(ai);
     });
-    var top = contribOrder.slice(0, 8).map(function (c) { return byContrib[c]; });
-    // Diversity guard — ensure ≥2 contributors whose group includes a Unique.
-    var hasUnique = function (group) { return group.some(function (it) { return it.type === 'unique'; }); };
-    var uniqueProviding = top.filter(hasUnique).length;
-    if (uniqueProviding < 2) {
-      var needed = 2 - uniqueProviding;
-      var topContribs = new Set(contribOrder.slice(0, 8));
-      var spareUniqueContribs = contribOrder.slice(8).filter(function (c) {
-        return !topContribs.has(c) && hasUnique(byContrib[c]);
-      }).slice(0, needed);
-      // Replace lowest-ranked non-Unique-providing groups.
-      for (var i = top.length - 1; i >= 0 && spareUniqueContribs.length; i--) {
-        if (!hasUnique(top[i])) {
-          top[i] = byContrib[spareUniqueContribs.shift()];
-        }
-      }
-    }
+    // §8: no cap — map ALL qualifying contributor groups to plates.
+    var top = contribOrder.map(function (c) { return byContrib[c]; });
 
     var plates = document.getElementById('hohPlates');
     if (plates && top.length) {
@@ -330,9 +320,10 @@
             contributor: e.contributor,
             origin: e.origin,
             level: e.level,
-            type: it.type,
+            // Pass emitted branch so plaque.branchOf reads the resolved field
+            // directly (Ygg-II: never derive branch from type).
+            branch: it.branch,
             genericSkillRef: e.genericSkillRef,
-            canonicalId: it.canonicalId,
             trustMagnitude: e.trustMagnitude,
             onclick: '(function(){if(typeof openSkillExplorer===\'function\')openSkillExplorer(\'' +
               jsStr(e.id) + '\');})()',

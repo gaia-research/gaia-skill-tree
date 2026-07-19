@@ -155,14 +155,16 @@ def render_tree(
         return []
 
     def _sorted_ults(sks):
-        # Generic refs are rank-less — order ultimates by top named-variant star
-        # (descending), then name. Unclaimed ultimates sort last.
+        # Ygg II fallback: branch is read from emitted `branch` field on each
+        # skill object when available; does NOT derive from skill.type (which is
+        # 'basic'|'fusion' post-#997 and would return nothing for suite skills).
+        # Primary sort: top named-variant star desc; secondary: name asc.
         def _key(s):
             star = named_level_map.get(s.get("id"))
             rank = _LEVEL_ORDER.index(star) if star in _LEVEL_ORDER else -1
             return (-rank, s.get("name", ""))
         return sorted(
-            [s for s in sks if s.get("type") == "ultimate"],
+            [s for s in sks if s.get("branch") == "suite"],
             key=_key,
         )
 
@@ -183,7 +185,10 @@ def render_tree(
     # another Ultimate is already rendered nested inside that parent tree.
     # Listing it again at the top level is redundant, so we exclude it.
     def _sub_ultimate_ids(all_skills: list, smap: dict) -> set:
-        ultimate_ids = {s["id"] for s in all_skills if s.get("type") == "ultimate"}
+        # Ygg II: suite-branch generics take the role of 'ultimates' in the
+        # upgrade tree. Branch is read from the emitted `branch` field — NOT
+        # from skill.type (which is 'basic'|'fusion' post-#997).
+        ultimate_ids = {s["id"] for s in all_skills if s.get("branch") == "suite"}
         sub: set = set()
 
         def _walk(sid: str, visiting: set) -> None:
@@ -207,14 +212,17 @@ def render_tree(
 
     legendaries = _srt(top_level_skills)
     unique_skills = sorted(
-        [s for s in skills if s.get("type") == "unique"],
+        [s for s in skills if s.get("branch") == "unique"],
         key=lambda s: s.get("id", ""),
     )
     basic_orphans = sorted(
         [
             s
             for s in skills
-            if s.get("type") == "basic"
+            # Ygg II: branch != suite/unique means standard — these are the
+            # orphan basics not wired into any upgrade path. Using the emitted
+            # branch field rather than skill.type avoids the Ygg I type guard.
+            if s.get("branch") not in ("suite", "unique")
             and s["id"] not in all_prereq_ids
             and not s.get("prerequisites")
         ],
