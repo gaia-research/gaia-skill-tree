@@ -21,6 +21,7 @@
 | ◇ [devin-ai](../docs/u/devin-ai/)/autonomous-swe | Extra Skill | 3★ | `/autonomous-debug` |
 | ◇ [karpathy](../docs/u/karpathy/)/autoresearch | Extra Skill | 2★ | `/autonomous-web-research` |
 | ○ /bioinformatic-sequence-analysis | Basic Skill | — | `/bioinformatic-sequence-analysis` |
+| ◇ /bioinformatics-workflow-automation | Extra Skill | — | `/bioinformatics-workflow-automation` |
 | ◇ [obra](../docs/u/obra/)/brainstorming | Extra Skill | 3★ | `/brainstorming` |
 | ◇ ████████/stagehand | Extra Skill | — | `/browser-automation` |
 | ○ [browser-use](../docs/u/browser-use/)/browser-harness | Basic Skill | 4★ | `/browser-control` |
@@ -38,6 +39,7 @@
 | ◇ [addy-osmani](../docs/u/addy-osmani/)/code-review-and-quality | Extra Skill | 3★ | `/code-review-pipeline` |
 | ◇ /collaborative-diagramming | Extra Skill | — | `/collaborative-diagramming` |
 | ◇ /computational-biology-workflows | Extra Skill | — | `/computational-biology-workflows` |
+| ◇ /computational-science-platform | Extra Skill | — | `/computational-science-platform` |
 | ○ /computer-use | Basic Skill | — | `/computer-use` |
 | ◇ /content-moderation | Extra Skill | — | `/content-moderation` |
 | ○ [garrytan](../docs/u/garrytan/)/context-restore | Basic Skill | 2★ | `/context-compression` |
@@ -112,6 +114,7 @@
 | ◇ /ml-artifact-management | Extra Skill | — | `/ml-artifact-management` |
 | ◇ /ml-pipeline | Extra Skill | — | `/ml-pipeline` |
 | ○ /molecular-databases | Basic Skill | — | `/molecular-databases` |
+| ◇ /molecular-visualization | Extra Skill | — | `/molecular-visualization` |
 | ◇ [garrytan](../docs/u/garrytan/)/codex | Extra Skill | 2★ | `/multi-agent-debate` |
 | ◇ ████████/flow-nexus-swarm | Extra Skill | — | `/multi-agent-orchestration-v` |
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus | Extra Skill | 3★ | `/multi-node-orchestration` |
@@ -160,6 +163,7 @@
 | ○ ████████/ask-matt | Basic Skill | — | `/route-intent` |
 | ○ ████████/database-engineer | Basic Skill | — | `/schema-design` |
 | ◇ /scientific-discovery | Extra Skill | — | `/scientific-discovery` |
+| ◇ /scientific-literature-retrieval | Extra Skill | — | `/scientific-literature-retrieval` |
 | ○ /scientific-visualization | Basic Skill | — | `/scientific-visualization` |
 | ◇ /scientific-writing | Extra Skill | — | `/scientific-writing` |
 | ○ /score-relevance | Basic Skill | — | `/score-relevance` |

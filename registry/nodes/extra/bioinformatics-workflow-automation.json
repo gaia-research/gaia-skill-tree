@@ -1,0 +1,22 @@
+{
+  "id": "bioinformatics-workflow-automation",
+  "name": "bioinformatics-workflow-automation",
+  "type": "extra",
+  "description": "Automate and distill multi-step computational biology and bioinformatics analyses into reusable workflows and agent skills.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-19",
+  "updatedAt": "2026-07-19",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-19T13:59:21Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill bioinformatics-workflow-automation"
+    }
+  ]
+}

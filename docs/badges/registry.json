@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-14",
+  "generatedAt": "2026-07-19",
   "schema": "gaia-badges-registry/2",
   "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The site Worker at worker/index.js handles /badges/<handle>/<file>.svg (the real SVGs live at /badges/_assets/<handle>/<file>.svg) and serves the `validating\u2026` SVG (docs/badges/not-found.svg) when the `?repo=` query string doesn't match a repo listed here. Schema v2 adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant.",
   "contributors": {
@@ -2187,7 +2187,7 @@
           "id": "google-deepmind/literature_search_europepmc",
           "name": "Literature-Search-Europepmc",
           "rank": 4,
-          "type": "basic",
+          "type": "extra",
           "slash": "/literature_search_europepmc",
           "file": "literature_search_europepmc.svg",
           "fileSeal": "literature_search_europepmc-seal.svg"
@@ -2196,7 +2196,7 @@
           "id": "google-deepmind/literature_search_openalex",
           "name": "Literature-Search-Openalex",
           "rank": 4,
-          "type": "basic",
+          "type": "extra",
           "slash": "/literature_search_openalex",
           "file": "literature_search_openalex.svg",
           "fileSeal": "literature_search_openalex-seal.svg"
@@ -2250,7 +2250,7 @@
           "id": "google-deepmind/pymol",
           "name": "Pymol",
           "rank": 4,
-          "type": "basic",
+          "type": "extra",
           "slash": "/pymol",
           "file": "pymol.svg",
           "fileSeal": "pymol-seal.svg"
@@ -2277,7 +2277,7 @@
           "id": "google-deepmind/science_skills_common",
           "name": "Science-Skills-Common",
           "rank": 4,
-          "type": "basic",
+          "type": "extra",
           "slash": "/science_skills_common",
           "file": "science_skills_common.svg",
           "fileSeal": "science_skills_common-seal.svg"
@@ -2304,7 +2304,7 @@
           "id": "google-deepmind/uv",
           "name": "Uv",
           "rank": 4,
-          "type": "basic",
+          "type": "extra",
           "slash": "/uv",
           "file": "uv.svg",
           "fileSeal": "uv-seal.svg"
@@ -2358,7 +2358,7 @@
           "id": "google-deepmind/literature_search_arxiv",
           "name": "Literature-Search-Arxiv",
           "rank": 3,
-          "type": "basic",
+          "type": "extra",
           "slash": "/literature_search_arxiv",
           "file": "literature_search_arxiv.svg",
           "fileSeal": "literature_search_arxiv-seal.svg"
@@ -2367,7 +2367,7 @@
           "id": "google-deepmind/literature_search_biorxiv",
           "name": "Literature-Search-Biorxiv",
           "rank": 3,
-          "type": "basic",
+          "type": "extra",
           "slash": "/literature_search_biorxiv",
           "file": "literature_search_biorxiv.svg",
           "fileSeal": "literature_search_biorxiv-seal.svg"
@@ -2394,7 +2394,7 @@
           "id": "google-deepmind/pubmed_database",
           "name": "Pubmed-Database",
           "rank": 3,
-          "type": "basic",
+          "type": "extra",
           "slash": "/pubmed_database",
           "file": "pubmed_database.svg",
           "fileSeal": "pubmed_database-seal.svg"

@@ -3,14 +3,14 @@ id: google-deepmind/science_skills_common
 name: Science-Skills-Common
 contributor: google-deepmind
 origin: false
-genericSkillRef: core-platform-implementation
+genericSkillRef: computational-science-platform
 status: awakened
 level: 4★
 description: Shared Python package for Science Skills, currently containing http_client
   -- a unified HTTP client with rate limiting, retries, and exponential backoff. Not
   a standalone agent skill. Do not invoke directly.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-19'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common
 evidence:

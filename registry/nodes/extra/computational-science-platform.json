@@ -1,0 +1,22 @@
+{
+  "id": "computational-science-platform",
+  "name": "computational-science-platform",
+  "type": "extra",
+  "description": "Core platform tooling, environment managers, and shared libraries that underpin computational science and bioinformatics workflows.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-19",
+  "updatedAt": "2026-07-19",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-19T13:58:54Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill computational-science-platform"
+    }
+  ]
+}

@@ -137,6 +137,13 @@
           <attvalue for="type" value="basic" />
         </attvalues>
       </node>
+      <node id="bioinformatics-workflow-automation" label="bioinformatics-workflow-automation">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="extra" />
+        </attvalues>
+      </node>
       <node id="brainstorming" label="Brainstorming">
         <attvalues>
           <attvalue for="level" value="" />
@@ -264,6 +271,13 @@
         </attvalues>
       </node>
       <node id="computational-biology-workflows" label="Computational Biology Workflows">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="extra" />
+        </attvalues>
+      </node>
+      <node id="computational-science-platform" label="computational-science-platform">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
@@ -886,6 +900,13 @@
           <attvalue for="type" value="basic" />
         </attvalues>
       </node>
+      <node id="molecular-visualization" label="molecular-visualization">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="extra" />
+        </attvalues>
+      </node>
       <node id="multi-agent-debate" label="Multi-Agent Debate">
         <attvalues>
           <attvalue for="level" value="" />
@@ -1244,6 +1265,13 @@
         </attvalues>
       </node>
       <node id="scientific-discovery" label="Autonomous Scientific Discovery">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="extra" />
+        </attvalues>
+      </node>
+      <node id="scientific-literature-retrieval" label="scientific-literature-retrieval">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />

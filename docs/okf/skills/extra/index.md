@@ -116,11 +116,15 @@
 * [X/Twitter Automation](/x-twitter-automation.md) - Coordinates platform-specific X/Twitter search, tweet and reply retrieval, user lookup, follower export, monitoring, and approval-gated write workflows for social-media agent tasks.
 * [agent-environment-setup](/agent-environment-setup.md) - Scaffolding per-repo configuration for other engineering skills.
 * [agent-handoff](/agent-handoff.md) - Compacting the current conversation into a summary for a fresh agent.
+* [bioinformatics-workflow-automation](/bioinformatics-workflow-automation.md) - Automate and distill multi-step computational biology and bioinformatics analyses into reusable workflows and agent skills.
+* [computational-science-platform](/computational-science-platform.md) - Core platform tooling, environment managers, and shared libraries that underpin computational science and bioinformatics workflows.
 * [mattpocock-engineering](/engineering-discipline.md) - Engineering category suite for Matt Pocock's skills.
 * [mattpocock-personal](/personal.md) - Personal category suite for Matt Pocock's skills.
 * [mattpocock-productivity](/productivity.md) - Productivity category suite for Matt Pocock's skills.
+* [molecular-visualization](/molecular-visualization.md) - Visualize, analyze, and render 3D structures of proteins, macromolecules, and molecular complexes.
 * [personal-knowledge-management](/personal-knowledge-management.md) - Managing notes and organization in a specific vault.
 * [prototype](/prototype.md) - Building throwaway prototypes to answer specific design or logic questions.
+* [scientific-literature-retrieval](/scientific-literature-retrieval.md) - Query and retrieve scientific literature, preprints, and academic publications from scholarly databases and biomedical indexes.
 * [search-engine-optimization](/search-engine-optimization.md) - Search Engine Optimization
 * [web-accessibility](/web-accessibility.md) - Accessibility
 * [web-best-practices](/web-best-practices.md) - Web Best Practices

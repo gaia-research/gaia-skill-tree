@@ -3,14 +3,14 @@ id: google-deepmind/literature_search_arxiv
 name: Literature-Search-Arxiv
 contributor: google-deepmind
 origin: false
-genericSkillRef: literature-search
+genericSkillRef: scientific-literature-retrieval
 status: awakened
 level: 3★
 description: Search for scientific papers, preprints, and publications on arXiv. Extract
   metadata, abstracts, and download full-text PDFs or HTML versions of papers. Use
   when the user asks to find research papers, literature, or specific arXiv IDs.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-19'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_arxiv/SKILL.md
 evidence:

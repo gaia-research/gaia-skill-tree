@@ -79,7 +79,7 @@ So that means, its the developers who make skills maintaining this. I have a tho
   │  │  ├─ ○ firecrawl/firecrawl-build-search  [4★]
   │  │  └─ ○ /computer-use
 
-(243 skills total — see docs/tree.md)
+(247 skills total — see docs/tree.md)
 ```
 <!-- gaia:registry-end -->
 

@@ -15,6 +15,7 @@
 | ◇ /autonomous-data-scientist | Extra Skill | Data Analysis, Math Reason, Research | — | Requires dataset access and compute environment. Minimum 3 Class A/B evidence sources. |
 | ◇ [devin-ai](../docs/u/devin-ai/)/autonomous-swe | Extra Skill | Code Generation, Code Execution, Error Interpretation | 3★ |  |
 | ◇ [karpathy](../docs/u/karpathy/)/autoresearch | Extra Skill | Ghostwrite, Knowledge Harvest, Research, Web Scrape, Web Search | 2★ | Requires a multi-step crawling engine and mapping logic to resolve site structures. |
+| ◇ /bioinformatics-workflow-automation | Extra Skill |  | — |  |
 | ◇ [obra](../docs/u/obra/)/brainstorming | Extra Skill | Requirements Analysis, Question Answer | 3★ |  |
 | ◇ ████████/stagehand | Extra Skill | Web Search, Computer Use | — |  |
 | ◇ [santifer](../docs/u/santifer/)/career-ops | Extra Skill | Autonomous Web Research, Summarize, Document Editing | 2★ |  |
@@ -23,6 +24,7 @@
 | ◇ [addy-osmani](../docs/u/addy-osmani/)/code-review-and-quality | Extra Skill | Code Generation, Diff Content, Evaluate Output | 3★ |  |
 | ◇ /collaborative-diagramming | Extra Skill | API Call, Data Visualize | — |  |
 | ◇ /computational-biology-workflows | Extra Skill | Bioinformatic Sequence Analysis, Genomic Data Retrieval, Molecular Databases, Protein Structure Analysis, Proteomic Data Retrieval | — |  |
+| ◇ /computational-science-platform | Extra Skill |  | — |  |
 | ◇ /content-moderation | Extra Skill | Classify, Sentiment Analysis, Extract Entities | — |  |
 | ◇ /conversational-agent | Extra Skill | Question Answer, Memory Manage, Route Intent | — | Requires persistent memory store across turns. |
 | ◇ ████████/huggingface-datasets | Extra Skill | Generate SQL, Data Visualize, Summarize | — |  |
@@ -68,6 +70,7 @@
 | ◇ [garrytan](../docs/u/garrytan/)/learn | Extra Skill | Context Compression, Retrieve | 2★ |  |
 | ◇ /ml-artifact-management | Extra Skill | API Call, Classify | — |  |
 | ◇ /ml-pipeline | Extra Skill | Data Analysis, Automated Testing, Code Generation | — | Requires access to a container orchestration environment and model registry. |
+| ◇ /molecular-visualization | Extra Skill |  | — |  |
 | ◇ [garrytan](../docs/u/garrytan/)/codex | Extra Skill | Self-Critique, Evaluate Output, Chain-of-Thought Reasoning | 2★ |  |
 | ◇ ████████/flow-nexus-swarm | Extra Skill | Plan and Execute, Route Intent, Tool Select | — | Requires extensive multi-system validation before level advancement. |
 | ◇ [ruvnet](../docs/u/ruvnet/)/flow-nexus | Extra Skill | Multi-Agent Orchestration, Cloud Platform Management, Distributed Neural Training | 3★ |  |
@@ -98,6 +101,7 @@
 | ◇ [obra](../docs/u/obra/)/requesting-code-review | Extra Skill | Code Review Pipeline, Dispatching Parallel Agents | 2★ |  |
 | ◇ /research | Extra Skill | Web Search, Summarize, Cite Sources | — |  |
 | ◇ /scientific-discovery | Extra Skill | Computational Biology Workflows, Hypothesis Generation, Math Reason, Research | — | Requires laboratory tool access or simulation environment. Minimum 3 Class A/B evidence sources. |
+| ◇ /scientific-literature-retrieval | Extra Skill |  | — |  |
 | ◇ /scientific-writing | Extra Skill | Write Report, Cite Sources, Scientific Visualization | — |  |
 | ◇ /search-engine-optimization | Extra Skill | Parse HTML, Parse JSON | — |  |
 | ◇ [garrytan](../docs/u/garrytan/)/cso | Extra Skill | Code Review Pipeline, Evaluate Output | 3★ | Requires access to the full codebase or diff; output must include severity classification and reproduction steps. |

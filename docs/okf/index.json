@@ -575,7 +575,7 @@
     },
     {
       "id": "extra",
-      "count": 125,
+      "count": 129,
       "skills": [
         {
           "id": "advanced-swarm-coordination",
@@ -643,6 +643,11 @@
           "summary": "Independently surveys, maps, and extracts structured information from the web by autonomously deciding which domains to crawl and synthesizing data into comprehensive research reports."
         },
         {
+          "id": "bioinformatics-workflow-automation",
+          "name": "bioinformatics-workflow-automation",
+          "summary": "Automate and distill multi-step computational biology and bioinformatics analyses into reusable workflows and agent skills."
+        },
+        {
           "id": "brainstorming",
           "name": "Brainstorming",
           "summary": "Explores user intent, requirements, and design before implementation."
@@ -681,6 +686,11 @@
           "id": "computational-biology-workflows",
           "name": "Computational Biology Workflows",
           "summary": "Integrates structural, genomic, proteomic, and molecular database querying with bioinformatics analysis (such as sequence alignment, structure prediction, and molecular rendering) to solve multi-step, complex computational biology tasks."
+        },
+        {
+          "id": "computational-science-platform",
+          "name": "computational-science-platform",
+          "summary": "Core platform tooling, environment managers, and shared libraries that underpin computational science and bioinformatics workflows."
         },
         {
           "id": "content-moderation",
@@ -898,6 +908,11 @@
           "summary": "Designs and implements production ML pipelines with experiment tracking (MLflow, W&B), feature stores (Feast), orchestration (Kubeflow, Airflow), and automated retraining workflows including model evaluation gates and A/B deployment."
         },
         {
+          "id": "molecular-visualization",
+          "name": "molecular-visualization",
+          "summary": "Visualize, analyze, and render 3D structures of proteins, macromolecules, and molecular complexes."
+        },
+        {
           "id": "multi-agent-debate",
           "name": "Multi-Agent Debate",
           "summary": "Runs multiple LLM agents that propose, critique, and iteratively refine answers across structured debate rounds, converging on more accurate and well-reasoned responses than any single agent achieves."
@@ -1041,6 +1056,11 @@
           "id": "scientific-discovery",
           "name": "Autonomous Scientific Discovery",
           "summary": "Autonomously generates novel scientific hypotheses, designs and executes experiments, analyses results, and produces a written report \\u00e2\\u20ac\\u201d completing a full research cycle without human intervention."
+        },
+        {
+          "id": "scientific-literature-retrieval",
+          "name": "scientific-literature-retrieval",
+          "summary": "Query and retrieve scientific literature, preprints, and academic publications from scholarly databases and biomedical indexes."
         },
         {
           "id": "scientific-writing",

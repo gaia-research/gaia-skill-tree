@@ -1,0 +1,22 @@
+{
+  "id": "scientific-literature-retrieval",
+  "name": "scientific-literature-retrieval",
+  "type": "extra",
+  "description": "Query and retrieve scientific literature, preprints, and academic publications from scholarly databases and biomedical indexes.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-19",
+  "updatedAt": "2026-07-19",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-19T13:56:28Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill scientific-literature-retrieval"
+    }
+  ]
+}

@@ -3,7 +3,7 @@ id: google-deepmind/workflow_skill_creator
 name: Workflow-Skill-Creator
 contributor: google-deepmind
 origin: false
-genericSkillRef: skill-authoring
+genericSkillRef: bioinformatics-workflow-automation
 status: awakened
 level: 4★
 description: Distills a completed user workflow or interaction into a reusable agent
@@ -12,7 +12,7 @@ description: Distills a completed user workflow or interaction into a reusable a
   what we just did", "package this workflow" or similar. Do not use for creating skills
   from scratch without an existing workflow (use a generic skill-creator for that).
 createdAt: '2026-05-23'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-19'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md
 evidence:

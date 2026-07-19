@@ -3,7 +3,7 @@ id: google-deepmind/literature_search_openalex
 name: Literature-Search-Openalex
 contributor: google-deepmind
 origin: true
-genericSkillRef: literature-search
+genericSkillRef: scientific-literature-retrieval
 status: awakened
 level: 4★
 description: Query the OpenAlex scholarly database for research papers, authors, institutions,
@@ -12,7 +12,7 @@ description: Query the OpenAlex scholarly database for research papers, authors,
   publications, aggregating bibliometric data (citation counts, h-index, impact factor),
   exploring the research taxonomies, or performing DOI lookups.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-19'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex/SKILL.md
 evidence:

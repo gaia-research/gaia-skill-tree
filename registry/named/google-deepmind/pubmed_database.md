@@ -3,7 +3,7 @@ id: google-deepmind/pubmed_database
 name: Pubmed-Database
 contributor: google-deepmind
 origin: false
-genericSkillRef: literature-search
+genericSkillRef: scientific-literature-retrieval
 status: awakened
 level: 3★
 description: Search PubMed for scientific literature, including published clinical
@@ -12,7 +12,7 @@ description: Search PubMed for scientific literature, including published clinic
   specific compounds or genes. Verify medical spelling, match raw citations, and cache
   result sets for bulk processing. Interfaces NCBI E-utilities and PMC BioC APIs.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-19'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/pubmed_database/SKILL.md
 evidence:

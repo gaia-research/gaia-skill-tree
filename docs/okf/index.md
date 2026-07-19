@@ -16,7 +16,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [Superpowers](/skills/ultimate/superpowers.md) - A complete software development methodology for coding agents: combines brainstorming, planning, parallel execution, systematic debugging, code review loops, and branch discipline into a unified agentic workflow.
 * [mattpocock-skills](/skills/ultimate/skill-mastery.md) - Ultimate capstone suite for Matt Pocock's skills.
 
-### Extra Skills (125)
+### Extra Skills (129)
 
 * [Advanced Swarm Coordination](/skills/extra/advanced-swarm-coordination.md) - Domain-specific swarm patterns for research, development, testing, and analysis workflows with neural learning and cross-session state persistence.
 * [Adversarial Robustness Testing](/skills/extra/adversarial-robustness-testing.md) - Systematically red-teams models with adversarial and multi-turn jailbreak prompts, input perturbations, and semantic-preserving transformations to measure resilience at scale.
@@ -134,11 +134,15 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [X/Twitter Automation](/skills/extra/x-twitter-automation.md) - Coordinates platform-specific X/Twitter search, tweet and reply retrieval, user lookup, follower export, monitoring, and approval-gated write workflows for social-media agent tasks.
 * [agent-environment-setup](/skills/extra/agent-environment-setup.md) - Scaffolding per-repo configuration for other engineering skills.
 * [agent-handoff](/skills/extra/agent-handoff.md) - Compacting the current conversation into a summary for a fresh agent.
+* [bioinformatics-workflow-automation](/skills/extra/bioinformatics-workflow-automation.md) - Automate and distill multi-step computational biology and bioinformatics analyses into reusable workflows and agent skills.
+* [computational-science-platform](/skills/extra/computational-science-platform.md) - Core platform tooling, environment managers, and shared libraries that underpin computational science and bioinformatics workflows.
 * [mattpocock-engineering](/skills/extra/engineering-discipline.md) - Engineering category suite for Matt Pocock's skills.
 * [mattpocock-personal](/skills/extra/personal.md) - Personal category suite for Matt Pocock's skills.
 * [mattpocock-productivity](/skills/extra/productivity.md) - Productivity category suite for Matt Pocock's skills.
+* [molecular-visualization](/skills/extra/molecular-visualization.md) - Visualize, analyze, and render 3D structures of proteins, macromolecules, and molecular complexes.
 * [personal-knowledge-management](/skills/extra/personal-knowledge-management.md) - Managing notes and organization in a specific vault.
 * [prototype](/skills/extra/prototype.md) - Building throwaway prototypes to answer specific design or logic questions.
+* [scientific-literature-retrieval](/skills/extra/scientific-literature-retrieval.md) - Query and retrieve scientific literature, preprints, and academic publications from scholarly databases and biomedical indexes.
 * [search-engine-optimization](/skills/extra/search-engine-optimization.md) - Search Engine Optimization
 * [web-accessibility](/skills/extra/web-accessibility.md) - Accessibility
 * [web-best-practices](/skills/extra/web-best-practices.md) - Web Best Practices
