@@ -15,7 +15,7 @@ _No skills unlocked yet._
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — arukurmi  ·  generated 2026-07-16
+GAIA SKILL TREE — arukurmi  ·  generated 2026-07-19
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
