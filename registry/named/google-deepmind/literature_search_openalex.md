@@ -12,7 +12,7 @@ description: Query the OpenAlex scholarly database for research papers, authors,
   publications, aggregating bibliometric data (citation counts, h-index, impact factor),
   exploring the research taxonomies, or performing DOI lookups.
 createdAt: '2026-05-23'
-updatedAt: '2026-07-16'
+updatedAt: '2026-07-20'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_openalex/SKILL.md
 evidence:
@@ -77,6 +77,13 @@ timeline:
     II taxonomy migration #997)'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-16
+- timestamp: '2026-07-20T18:16:45Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''literature-search'' type: basic (unchanged; Yggdrasil
+    II taxonomy migration #997)'
+  metaEpoch: yggdrasil-ii
+  migrationBatch: yggdrasil-ii@2026-07-20
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

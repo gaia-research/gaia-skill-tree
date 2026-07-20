@@ -11,7 +11,7 @@
 | · /agent-eval | Fusion | — | `/agent-eval` |
 | · [mattpocock](../docs/u/mattpocock/)/handoff | Fusion | 3★ | `/agent-handoff` |
 | · ████████/agentdb-learning | Fusion | — | `/agent-memory-learning` |
-| · [ruvnet](../docs/u/ruvnet/)/agentdb | Fusion | 3★ | `/agent-memory-platform` |
+| · [ruvnet](../docs/u/ruvnet/)/agentdb | Fusion | 4★ | `/agent-memory-platform` |
 | · ████████/sparc-methodology | Fusion | — | `/agentic-workflow-design` |
 | ○ ████████/hf-cli | Basic | — | `/api-call` |
 | · /architecture-diagram | Fusion | — | `/architecture-diagram` |
@@ -57,11 +57,11 @@
 | · [ruvnet](../docs/u/ruvnet/)/agentdb-advanced | Fusion | 2★ | `/distributed-vector-memory` |
 | · /document-analyst | Fusion | — | `/document-analyst` |
 | ○ [garrytan](../docs/u/garrytan/)/document-generate | Basic | 3★ | `/document-editing` |
-| · [ruvnet](../docs/u/ruvnet/)/dual-mode | Fusion | 3★ | `/dual-mode` |
+| · [ruvnet](../docs/u/ruvnet/)/dual-mode | Fusion | 4★ | `/dual-mode` |
 | · [garrytan](../docs/u/garrytan/)/qa | Fusion | 3★ | `/e2e-testing` |
 | · /edge-optimization | Fusion | — | `/edge-optimization` |
 | ○ /embed-text | Basic | — | `/embed-text` |
-| · [mattpocock](../docs/u/mattpocock/)/engineering | Fusion | 3★ | `/engineering-discipline` |
+| · [mattpocock](../docs/u/mattpocock/)/engineering | Fusion | 4★ | `/engineering-discipline` |
 | ○ /error-interpretation | Basic | — | `/error-interpretation` |
 | ○ [garrytan](../docs/u/garrytan/)/benchmark | Basic | 3★ | `/evaluate-output` |
 | · [obra](../docs/u/obra/)/executing-plans | Fusion | 3★ | `/executing-plans` |
@@ -72,7 +72,7 @@
 | · /financial-modeling | Fusion | — | `/financial-modeling` |
 | ○ ████████/huggingface-llm-trainer | Basic | — | `/fine-tune` |
 | · [garrytan](../docs/u/garrytan/)/ship | Fusion | 3★ | `/finishing-a-development-branch` |
-| · [firecrawl](../docs/u/firecrawl/)/firecrawl-skills | Fusion | 3★ | `/firecrawl` |
+| · [firecrawl](../docs/u/firecrawl/)/firecrawl-skills | Fusion | 4★ | `/firecrawl` |
 | ○ [garrytan](../docs/u/garrytan/)/make-pdf | Basic | 2★ | `/format-output` |
 | · [garrytan](../docs/u/garrytan/)/gstack | Fusion | 5★ | `/founder-mode-orchestration` |
 | · /full-stack-developer | Fusion | — | `/full-stack-developer` |
@@ -130,10 +130,10 @@
 | · [mattpocock](../docs/u/mattpocock/)/obsidian-vault | Fusion | 3★ | `/personal-knowledge-management` |
 | · /plan-and-execute | Fusion | — | `/plan-and-execute` |
 | ○ /plan-decompose | Basic | — | `/plan-decompose` |
-| · [ruvnet](../docs/u/ruvnet/)/ruflo-v3 | Fusion | 3★ | `/platform-modernization-sprint` |
+| · [ruvnet](../docs/u/ruvnet/)/ruflo-v3 | Fusion | 4★ | `/platform-modernization-sprint` |
 | · [mattpocock](../docs/u/mattpocock/)/to-prd | Fusion | 3★ | `/prd-generation` |
 | · /prediction-market-analysis | Fusion | — | `/prediction-market-analysis` |
-| · [mattpocock](../docs/u/mattpocock/)/productivity | Fusion | 3★ | `/productivity` |
+| · [mattpocock](../docs/u/mattpocock/)/productivity | Fusion | 4★ | `/productivity` |
 | · [garrytan](../docs/u/garrytan/)/landing-report | Fusion | 2★ | `/project-management` |
 | ○ /prompt-injection-defense | Basic | — | `/prompt-injection-defense` |
 | · [stanfordnlp](../docs/u/stanfordnlp/)/dspy | Fusion | 4★ | `/prompt-optimization` |
@@ -145,7 +145,7 @@
 | ○ /rank | Basic | — | `/rank` |
 | · /re-act-reasoning | Fusion | — | `/re-act-reasoning` |
 | · /real-time-voice-assistant | Fusion | — | `/real-time-voice-assistant` |
-| · [ruvnet](../docs/u/ruvnet/)/reasoningbank | Fusion | 3★ | `/reasoning-pattern-bank` |
+| · [ruvnet](../docs/u/ruvnet/)/reasoningbank | Fusion | 4★ | `/reasoning-pattern-bank` |
 | · [obra](../docs/u/obra/)/receiving-code-review | Fusion | 2★ | `/receiving-code-review` |
 | · /recursive-self-improvement | Fusion | — | `/recursive-self-improvement` |
 | ○ [addy-osmani](../docs/u/addy-osmani/)/code-simplification | Basic | 3★ | `/refactor-code` |
@@ -202,7 +202,7 @@
 | ○ [ruvnet](../docs/u/ruvnet/)/agentdb-optimization | Basic | 2★ | `/vector-db-optimization` |
 | ○ [ruvnet](../docs/u/ruvnet/)/agentdb-vector-search | Basic | 2★ | `/vector-search` |
 | · [obra](../docs/u/obra/)/verification-before-completion | Fusion | 3★ | `/verification-before-completion` |
-| · [garrytan](../docs/u/garrytan/)/garrytan | Fusion | 3★ | `/vertical-slice-planning` |
+| · [garrytan](../docs/u/garrytan/)/garrytan | Fusion | 4★ | `/vertical-slice-planning` |
 | · [bradautomates](../docs/u/bradautomates/)/claude-video | Fusion | 2★ | `/video-intelligence` |
 | ○ /vision-qa | Basic | — | `/vision-qa` |
 | · /voice-agent | Fusion | — | `/voice-agent` |

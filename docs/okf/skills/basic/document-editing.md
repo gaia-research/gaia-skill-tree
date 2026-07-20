@@ -15,6 +15,6 @@ Reads, edits, repacks, and applies styling or design principles to structured bi
 
 ## Derivatives
 
-- [Humanize Prose](/skills/extra/humanize-prose.md)
-- [Founder Mode](/skills/ultimate/founder-mode-orchestration.md)
+- [Humanize Prose](/skills/fusion/humanize-prose.md)
+- [Founder Mode](/skills/fusion/founder-mode-orchestration.md)
 

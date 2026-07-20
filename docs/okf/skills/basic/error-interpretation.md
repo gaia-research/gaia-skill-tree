@@ -15,8 +15,8 @@ Diagnoses error messages, stack traces, and failure modes to identify root cause
 
 ## Derivatives
 
-- [Autonomous Debug](/skills/extra/autonomous-debug.md)
-- [Automated Testing](/skills/extra/automated-testing.md)
-- [Detect Anomaly](/skills/extra/detect-anomaly.md)
-- [Systematic Debugging](/skills/extra/systematic-debugging.md)
+- [Autonomous Debug](/skills/fusion/autonomous-debug.md)
+- [Automated Testing](/skills/fusion/automated-testing.md)
+- [Detect Anomaly](/skills/fusion/detect-anomaly.md)
+- [Systematic Debugging](/skills/fusion/systematic-debugging.md)
 

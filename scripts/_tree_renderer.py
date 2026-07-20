@@ -20,12 +20,13 @@ if _SCRIPTS_DIR not in sys.path:
 
 # Legend emitted only in canonical mode.
 _LEGEND = (
-    "◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic"
-    "   ·   [N★] = top named-variant stars (blank = no named implementation yet)"
+    "◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic"
+    "   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet)"
     " · (↑ see above) = shared prerequisite"
 )
 
 _LEVEL_ORDER = ["2★", "3★", "4★", "5★", "6★"]
+_RENDER_CACHE = {}
 
 
 def _star_pill(named_level_map, sid) -> str:
@@ -180,39 +181,68 @@ def render_tree(
         for pid in s.get("prerequisites", []):
             all_prereq_ids.add(pid)
 
-    # ── Filter sub-Ultimates ──────────────────────────────────────────────
-    # An Ultimate that appears as a direct or transitive prerequisite of
-    # another Ultimate is already rendered nested inside that parent tree.
-    # Listing it again at the top level is redundant, so we exclude it.
-    def _sub_ultimate_ids(all_skills: list, smap: dict) -> set:
-        # Ygg II: suite-branch generics take the role of 'ultimates' in the
-        # upgrade tree. Branch is read from the emitted `branch` field — NOT
-        # from skill.type (which is 'basic'|'fusion' post-#997).
-        ultimate_ids = {s["id"] for s in all_skills if s.get("branch") == "suite"}
-        sub: set = set()
+    # ── Filter sub-components (with caching) ──────────────────────────────
+    # Cache holds a strong reference to `skills` alongside the id() key so the
+    # list can't be garbage-collected and have its id() reused by an unrelated
+    # later list — a bare id()-keyed cache silently serves stale results once
+    # that happens (caught by test_transitive_sub_ultimate_excluded).
+    cache_key = id(skills)
+    cached = _RENDER_CACHE.get(cache_key)
+    if cached is None or cached[0] is not skills:
+        # 1. Compute orphan basics helper sets
+        prereqs = set()
+        for s in skills:
+            for pid in s.get("prerequisites", []):
+                prereqs.add(pid)
 
-        def _walk(sid: str, visiting: set) -> None:
-            if sid in visiting:
+        # 2. Compute sub-ultimates (O(V+E))
+        ultimate_ids = {s["id"] for s in skills if s.get("branch") == "suite"}
+        sub_ultimates = set()
+        visited_ults = set()
+
+        def _walk_ults(sid: str) -> None:
+            if sid in visited_ults:
                 return
-            visiting.add(sid)
-            sk = smap.get(sid)
+            visited_ults.add(sid)
+            sk = skill_map.get(sid)
             if not sk:
                 return
             for pid in sk.get("prerequisites", []):
                 if pid in ultimate_ids:
-                    sub.add(pid)
-                _walk(pid, visiting)
+                    sub_ultimates.add(pid)
+                _walk_ults(pid)
 
         for uid in ultimate_ids:
-            _walk(uid, set())
-        return sub
+            _walk_ults(uid)
 
-    _sub_ids = _sub_ultimate_ids(skills, skill_map)
+        # 3. Compute sub-uniques (O(V+E))
+        unique_ids = {s["id"] for s in skills if s.get("branch") == "unique"}
+        sub_uniques = set()
+        visited_uniques = set()
+
+        def _walk_uniques(sid: str) -> None:
+            if sid in visited_uniques:
+                return
+            visited_uniques.add(sid)
+            sk = skill_map.get(sid)
+            if not sk:
+                return
+            for pid in sk.get("prerequisites", []):
+                if pid in unique_ids:
+                    sub_uniques.add(pid)
+                _walk_uniques(pid)
+
+        for uuid in unique_ids:
+            _walk_uniques(uuid)
+
+        _RENDER_CACHE[cache_key] = (skills, sub_ultimates, sub_uniques, prereqs)
+
+    _, _sub_ids, _sub_u_ids, all_prereq_ids = _RENDER_CACHE[cache_key]
     top_level_skills = [s for s in skills if s["id"] not in _sub_ids]
 
     legendaries = _srt(top_level_skills)
     unique_skills = sorted(
-        [s for s in skills if s.get("branch") == "unique"],
+        [s for s in skills if s.get("branch") == "unique" and s["id"] not in _sub_u_ids],
         key=lambda s: s.get("id", ""),
     )
     basic_orphans = sorted(
@@ -305,7 +335,7 @@ def render_tree(
     if unique_skills:
         lines.append(_SEP70)
         lines.append(
-            "Uniques — graph-isolated Basic Skills that reached elite mastery"
+            "Uniques — Basic Skills that reached elite mastery"
             " (4★+) through depth alone, with no fusion path forward."
         )
         lines.append(_SEP70)
@@ -320,16 +350,38 @@ def render_tree(
             else:
                 marker = ""
             lines.append(f"  {marker}◉ {display}{star_pill}")
+
+            prereq_ids = us.get("prerequisites", [])
+            if prereq_ids:
+                seen: set = {uid_s}
+                for i, prereq_id in enumerate(prereq_ids):
+                    is_last = i == len(prereq_ids) - 1
+                    for sl in _rst(
+                        prereq_id,
+                        skill_map,
+                        meta,
+                        "    ",
+                        is_last,
+                        seen,
+                        unlocked_ids=owned_ids if is_user else None,
+                        user_id=user_id if is_user else None,
+                        named_map=named_map,
+                        handle_rel=handle_rel,
+                        named_level_map=named_level_map,
+                        named_entry_level=named_entry_level,
+                    ):
+                        lines.append(sl)
         lines.append("")
 
     # ── Basics (orphan basics) ────────────────────────────────────────────
     if basic_orphans:
         lines.append(_SEP70)
         lines.append(
-            "Basics — basic-tier skills not wired into an upgrade path yet."
+            "Basics — basic-tier skills with no prerequisites, listed vertically (not as a single combined line)."
             "  ([N★] = top named-variant stars; blank = no named implementation.)"
         )
         lines.append(_SEP70)
+
         lines.append("")
         for ps in basic_orphans:
             pid = ps.get("id")

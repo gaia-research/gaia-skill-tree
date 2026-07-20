@@ -15,5 +15,5 @@ Extracts structured content from raw HTML, navigating DOM trees and handling mal
 
 ## Derivatives
 
-- [Web Scrape](/skills/extra/web-scrape.md)
+- [Web Scrape](/skills/fusion/web-scrape.md)
 

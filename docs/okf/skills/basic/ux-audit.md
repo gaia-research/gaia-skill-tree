@@ -15,5 +15,5 @@ Systematically evaluates a user interface against established usability heuristi
 
 ## Derivatives
 
-- [Founder Mode](/skills/ultimate/founder-mode-orchestration.md)
+- [Founder Mode](/skills/fusion/founder-mode-orchestration.md)
 

@@ -26,7 +26,7 @@ Useful for tasks that require real-time data fetching, invoking external web ser
 
 ## Derivatives
 
-- [Function Calling](/skills/extra/function-calling.md)
-- [Workflow Automation](/skills/extra/workflow-automation.md)
-- [MCP Server Creation](/skills/extra/mcp-server-creation.md)
+- [Function Calling](/skills/fusion/function-calling.md)
+- [Workflow Automation](/skills/fusion/workflow-automation.md)
+- [MCP Server Creation](/skills/fusion/mcp-server-creation.md)
 

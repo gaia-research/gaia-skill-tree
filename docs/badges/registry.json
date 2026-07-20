@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-17",
+  "generatedAt": "2026-07-20",
   "schema": "gaia-badges-registry/2",
   "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The site Worker at worker/index.js handles /badges/<handle>/<file>.svg (the real SVGs live at /badges/_assets/<handle>/<file>.svg) and serves the `validating\u2026` SVG (docs/badges/not-found.svg) when the `?repo=` query string doesn't match a repo listed here. Schema v2 adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant.",
   "contributors": {
@@ -72,6 +72,16 @@
           "slash": "/gstack",
           "file": "gstack.svg",
           "fileSeal": "gstack-seal.svg"
+        },
+        {
+          "id": "garrytan/garrytan",
+          "name": "Autoplan",
+          "rank": 4,
+          "type": "fusion",
+          "branch": "suite",
+          "slash": "/garrytan",
+          "file": "garrytan.svg",
+          "fileSeal": "garrytan-seal.svg"
         },
         {
           "id": "garrytan/benchmark",
@@ -162,16 +172,6 @@
           "slash": "/document-generate",
           "file": "document-generate.svg",
           "fileSeal": "document-generate-seal.svg"
-        },
-        {
-          "id": "garrytan/garrytan",
-          "name": "Autoplan",
-          "rank": 3,
-          "type": "fusion",
-          "branch": "suite",
-          "slash": "/garrytan",
-          "file": "garrytan.svg",
-          "fileSeal": "garrytan-seal.svg"
         },
         {
           "id": "garrytan/investigate",
@@ -812,7 +812,7 @@
         {
           "id": "ruvnet/agentdb",
           "name": "AgentDB",
-          "rank": 3,
+          "rank": 4,
           "type": "fusion",
           "branch": "suite",
           "slash": "/agentdb",
@@ -822,12 +822,32 @@
         {
           "id": "ruvnet/dual-mode",
           "name": "Dual Mode",
-          "rank": 3,
+          "rank": 4,
           "type": "fusion",
           "branch": "suite",
           "slash": "/dual-mode",
           "file": "dual-mode.svg",
           "fileSeal": "dual-mode-seal.svg"
+        },
+        {
+          "id": "ruvnet/reasoningbank",
+          "name": "ReasoningBank",
+          "rank": 4,
+          "type": "fusion",
+          "branch": "suite",
+          "slash": "/reasoningbank",
+          "file": "reasoningbank.svg",
+          "fileSeal": "reasoningbank-seal.svg"
+        },
+        {
+          "id": "ruvnet/ruflo-v3",
+          "name": "Ruflo V3",
+          "rank": 4,
+          "type": "fusion",
+          "branch": "suite",
+          "slash": "/ruflo-v3",
+          "file": "ruflo-v3.svg",
+          "fileSeal": "ruflo-v3-seal.svg"
         },
         {
           "id": "ruvnet/flow-nexus",
@@ -858,26 +878,6 @@
           "slash": "/hive-mind-coordination",
           "file": "hive-mind-coordination.svg",
           "fileSeal": "hive-mind-coordination-seal.svg"
-        },
-        {
-          "id": "ruvnet/reasoningbank",
-          "name": "ReasoningBank",
-          "rank": 3,
-          "type": "fusion",
-          "branch": "suite",
-          "slash": "/reasoningbank",
-          "file": "reasoningbank.svg",
-          "fileSeal": "reasoningbank-seal.svg"
-        },
-        {
-          "id": "ruvnet/ruflo-v3",
-          "name": "Ruflo V3",
-          "rank": 3,
-          "type": "fusion",
-          "branch": "suite",
-          "slash": "/ruflo-v3",
-          "file": "ruflo-v3.svg",
-          "fileSeal": "ruflo-v3-seal.svg"
         },
         {
           "id": "ruvnet/agentdb-advanced",
@@ -1142,6 +1142,26 @@
           "fileSeal": "skills~-seal.svg"
         },
         {
+          "id": "mattpocock/engineering",
+          "name": "Engineering",
+          "rank": 4,
+          "type": "fusion",
+          "branch": "suite",
+          "slash": "/engineering",
+          "file": "engineering.svg",
+          "fileSeal": "engineering-seal.svg"
+        },
+        {
+          "id": "mattpocock/productivity",
+          "name": "Productivity",
+          "rank": 4,
+          "type": "fusion",
+          "branch": "suite",
+          "slash": "/productivity",
+          "file": "productivity.svg",
+          "fileSeal": "productivity-seal.svg"
+        },
+        {
           "id": "mattpocock/diagnose",
           "name": "Diagnose",
           "rank": 3,
@@ -1160,16 +1180,6 @@
           "slash": "/edit-article",
           "file": "edit-article.svg",
           "fileSeal": "edit-article-seal.svg"
-        },
-        {
-          "id": "mattpocock/engineering",
-          "name": "Engineering",
-          "rank": 3,
-          "type": "fusion",
-          "branch": "suite",
-          "slash": "/engineering",
-          "file": "engineering.svg",
-          "fileSeal": "engineering-seal.svg"
         },
         {
           "id": "mattpocock/grill-me",
@@ -1220,16 +1230,6 @@
           "slash": "/personal",
           "file": "personal.svg",
           "fileSeal": "personal-seal.svg"
-        },
-        {
-          "id": "mattpocock/productivity",
-          "name": "Productivity",
-          "rank": 3,
-          "type": "fusion",
-          "branch": "suite",
-          "slash": "/productivity",
-          "file": "productivity.svg",
-          "fileSeal": "productivity-seal.svg"
         },
         {
           "id": "mattpocock/setup-matt-pocock-skills",
@@ -1379,6 +1379,26 @@
           "fileSeal": "subagent-driven-development-seal.svg"
         },
         {
+          "id": "obra/using-git-worktrees",
+          "name": "Using Git Worktrees",
+          "rank": 4,
+          "type": "fusion",
+          "branch": "unique",
+          "slash": "/using-git-worktrees",
+          "file": "using-git-worktrees.svg",
+          "fileSeal": "using-git-worktrees-seal.svg"
+        },
+        {
+          "id": "obra/writing-plans",
+          "name": "Writing Plans",
+          "rank": 4,
+          "type": "fusion",
+          "branch": "unique",
+          "slash": "/writing-plans",
+          "file": "writing-plans.svg",
+          "fileSeal": "writing-plans-seal.svg"
+        },
+        {
           "id": "obra/brainstorming",
           "name": "Brainstorming",
           "rank": 3,
@@ -1419,16 +1439,6 @@
           "fileSeal": "systematic-debugging-seal.svg"
         },
         {
-          "id": "obra/using-git-worktrees",
-          "name": "Using Git Worktrees",
-          "rank": 3,
-          "type": "fusion",
-          "branch": "standard",
-          "slash": "/using-git-worktrees",
-          "file": "using-git-worktrees.svg",
-          "fileSeal": "using-git-worktrees-seal.svg"
-        },
-        {
           "id": "obra/verification-before-completion",
           "name": "Verification Before Completion",
           "rank": 3,
@@ -1437,16 +1447,6 @@
           "slash": "/verification-before-completion",
           "file": "verification-before-completion.svg",
           "fileSeal": "verification-before-completion-seal.svg"
-        },
-        {
-          "id": "obra/writing-plans",
-          "name": "Writing Plans",
-          "rank": 3,
-          "type": "fusion",
-          "branch": "standard",
-          "slash": "/writing-plans",
-          "file": "writing-plans.svg",
-          "fileSeal": "writing-plans-seal.svg"
         },
         {
           "id": "obra/finishing-a-development-branch",
@@ -1614,7 +1614,7 @@
         {
           "id": "firecrawl/firecrawl-skills",
           "name": "Firecrawl Skills",
-          "rank": 3,
+          "rank": 4,
           "type": "fusion",
           "branch": "suite",
           "slash": "/firecrawl-skills",
@@ -1839,19 +1839,25 @@
       ]
     },
     "stanfordnlp": {
-      "repos": [],
-      "skillsByRepo": {},
+      "repos": [
+        "stanfordnlp/dspy"
+      ],
+      "skillsByRepo": {
+        "stanfordnlp/dspy": [
+          "stanfordnlp/dspy"
+        ]
+      },
       "topSkill": "stanfordnlp/dspy",
-      "topRank": 3,
-      "topIsUnique": false,
+      "topRank": 4,
+      "topIsUnique": true,
       "count": 1,
       "namedSkills": [
         {
           "id": "stanfordnlp/dspy",
           "name": "DSPy",
-          "rank": 3,
+          "rank": 4,
           "type": "fusion",
-          "branch": "standard",
+          "branch": "unique",
           "slash": "/dspy",
           "file": "dspy.svg",
           "fileSeal": "dspy-seal.svg"
@@ -2074,16 +2080,16 @@
         ]
       },
       "topSkill": "safishamsi/graphify",
-      "topRank": 3,
-      "topIsUnique": false,
+      "topRank": 4,
+      "topIsUnique": true,
       "count": 1,
       "namedSkills": [
         {
           "id": "safishamsi/graphify",
           "name": "Graphify",
-          "rank": 3,
+          "rank": 4,
           "type": "fusion",
-          "branch": "standard",
+          "branch": "unique",
           "slash": "/graphify",
           "file": "graphify.svg",
           "fileSeal": "graphify-seal.svg"

@@ -15,9 +15,9 @@ Fetches relevant documents or passages from an indexed corpus given a query.
 
 ## Derivatives
 
-- [Gaia Audit](/skills/extra/registry-entry-audit.md)
-- [Grounding](/skills/extra/grounding.md)
-- [RAG Pipeline](/skills/extra/rag-pipeline.md)
-- [Wiki Search](/skills/extra/wiki-search.md)
-- [Memory Manage](/skills/extra/memory-manage.md)
+- [Gaia Audit](/skills/fusion/registry-entry-audit.md)
+- [Grounding](/skills/fusion/grounding.md)
+- [RAG Pipeline](/skills/fusion/rag-pipeline.md)
+- [Wiki Search](/skills/fusion/wiki-search.md)
+- [Memory Manage](/skills/fusion/memory-manage.md)
 

@@ -15,9 +15,9 @@ Produces structured, multi-section written output with headings, citations, and 
 
 ## Derivatives
 
-- [Ghostwrite](/skills/extra/ghostwrite.md)
-- [PRD Generation](/skills/extra/prd-generation.md)
-- [Scientific Writing](/skills/extra/scientific-writing.md)
-- [Architecture Diagram](/skills/extra/architecture-diagram.md)
-- [Founder Mode](/skills/ultimate/founder-mode-orchestration.md)
+- [Ghostwrite](/skills/fusion/ghostwrite.md)
+- [PRD Generation](/skills/fusion/prd-generation.md)
+- [Scientific Writing](/skills/fusion/scientific-writing.md)
+- [Architecture Diagram](/skills/fusion/architecture-diagram.md)
+- [Founder Mode](/skills/fusion/founder-mode-orchestration.md)
 

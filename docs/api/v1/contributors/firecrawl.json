@@ -4,14 +4,14 @@
     {
       "id": "firecrawl/firecrawl-skills",
       "name": "Firecrawl Skills",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 223.52,
       "overallTrustGrade": "A",
       "contributor": "firecrawl",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "rankWord": "Extra",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
       }
@@ -95,7 +95,7 @@
   "namedSkillsCount": 6,
   "topSkill": {
     "id": "firecrawl/firecrawl-skills",
-    "level": "3★",
+    "level": "4★",
     "trustMagnitude": 223.52
   },
   "prestigeScore": 684.76,

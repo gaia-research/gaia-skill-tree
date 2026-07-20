@@ -4,6 +4,52 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-20, session 3 — 8 target suites recalibrated to 4★; PR 1242 updated; localhost:8092 opened)
+
+### TLDR
+- **8 target suites successfully recalibrated back to 4★.** Reverted Yggdrasil II suite demotions in `.md` files for `firecrawl-skills`, `agentdb`, `dual-mode`, `engineering`, `ruflo-v3`, `productivity`, `reasoningbank`, and `garrytan`.
+- **Firecrawl bucket origin corrected.** Set `origin: true` on `firecrawl-skills.md` as the sole implementation of `firecrawl` bucket.
+- **Rerun migration script.** Corrected migration script execution successfully ran (`python3 scripts/migrate_taxonomy_v6.py --apply`); all 8 target suites passed their gates because their TMs now correctly include component fusions.
+- **User trees aligned.** Aligned timelines and levels in user trees using `python3 scripts/trace_timeline.py --all --apply`.
+- **Class S assets rebuilt & validated.** Rebuilt registry/documentation site (`gaia dev build`) and verified integrity (`gaia dev validate`).
+- **Pushed to PR 1242.** All changes committed and pushed to the current branch `design/ygg2-checklist-fixes`.
+- **Deferred:** Grouping/origin overlap of `gsd-build/get-shit-done` and `addy-osmani/agent-skills` sharing `git-ship-done-pipeline` is deferred since the gates correctly handle it.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| Reverted 9 suites in md files | ✅ Reverted level/timelines to 4★ |
+| Corrected firecrawl origin | ✅ set `origin: true` |
+| Rerun v6 migration | ✅ 8 suites passed gates and stayed 4★; gsd-build/get-shit-done remained 3★ |
+| User trees backfill | ✅ Aligned timelines in user-trees JSON |
+| dev build & validate | ✅ Graph stats and redactions regenerated/validated |
+| Git push to PR 1242 | ✅ `design/ygg2-checklist-fixes` updated |
+| serve dev server | ✅ localhost:8092 opened |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `design/ygg2-checklist-fixes` (PR 1242) | `51cfb478a` | Pushed (updated PR 1242) |
+| `dev/yggdrasil-ii-staging` | — | Integration branch |
+
+### PRs touched
+| PR | Title | State |
+|---|---|---|
+| #1242 | fix(design): Yggdrasil II CHECKLIST — ship-blockers + easy-wins + overhauls | Open (Draft) |
+
+### Routing — where things live now
+- **Recalibrated 4★ suites** are fully updated in `registry/named/`, `docs/graph/named/index.json`, `docs/graph/gaia.json`, and all user trees.
+- **HTTP Server** runs locally on port 8092.
+
+### Lessons / hazards preserved
+- **Migration scripts need merged maps:** `computeTrustMagnitude` ignores the third argument; to resolve named suite components within `_gradedOriginCount`, the caller must pass a merged generic/named map as the second argument (`genericSkillMap`). Passing them separately leads to zeroed fusion-recipe scores and incorrect suite demotions.
+- **Exclusive bucket implementations must have `origin: true`:** When a named skill is the sole implementation of a generic capability bucket, it must hold origin status to satisfy Yggdrasil II's 4★ gate.
+
+### Token cost (this session)
+~$7.32 · Gemini 3.5 Flash (medium/high effort)
+
+---
+
 ## State Snapshot (2026-07-20, session 2 — Bucket-1 recovery complete; all 5 fixes merged to staging via PR #1241; /design-iteration skill created)
 
 ### TLDR

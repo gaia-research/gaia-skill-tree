@@ -12,7 +12,7 @@ description: Declarative programming of language model pipelines, automatically 
 title: The Programmatic Prompt Engineer
 catalogRef: stanfordnlp-dspy
 createdAt: '2026-06-02'
-updatedAt: '2026-07-19'
+updatedAt: '2026-07-20'
 timeline:
 - timestamp: '2026-06-02T01:44:00Z'
   action: demote
@@ -74,6 +74,13 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 3★ to 4★
+- timestamp: '2026-07-20T18:16:45Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''prompt-optimization'' type: extra/ultimate → fusion (Yggdrasil
+    II taxonomy migration #997)'
+  metaEpoch: yggdrasil-ii
+  migrationBatch: yggdrasil-ii@2026-07-20
 trustMagnitude: 100.0
 overallTrustGrade: A
 apexGateStatus:

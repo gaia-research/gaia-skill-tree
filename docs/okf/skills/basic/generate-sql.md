@@ -15,6 +15,6 @@ Translates natural-language data questions into syntactically correct, executabl
 
 ## Derivatives
 
-- [Text-to-SQL Pipeline](/skills/extra/text-to-sql-pipeline.md)
-- [Data Analysis](/skills/extra/data-analysis.md)
+- [Text-to-SQL Pipeline](/skills/fusion/text-to-sql-pipeline.md)
+- [Data Analysis](/skills/fusion/data-analysis.md)
 

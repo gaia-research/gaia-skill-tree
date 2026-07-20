@@ -15,5 +15,5 @@ Transcribes spoken audio into accurate text, handling diverse accents, noise con
 
 ## Derivatives
 
-- [Voice Agent](/skills/extra/voice-agent.md)
+- [Voice Agent](/skills/fusion/voice-agent.md)
 

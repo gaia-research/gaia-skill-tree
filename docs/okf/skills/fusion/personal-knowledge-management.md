@@ -1,0 +1,20 @@
+---
+type: "AI Agent Skill"
+title: "personal-knowledge-management"
+description: "Managing notes and organization in a specific vault."
+resource: "https://gaiaskilltree.com/codex.html#personal-knowledge-management"
+tags: ["gaia-skill-tree", "fusion-skill"]
+timestamp: "2026-07-16T00:00:00Z"
+---
+
+# personal-knowledge-management
+
+## Description
+
+Managing notes and organization in a specific vault.
+
+## Prerequisites
+
+- [Retrieve](/skills/basic/retrieve.md)
+- [Context Compression](/skills/basic/context-compression.md)
+

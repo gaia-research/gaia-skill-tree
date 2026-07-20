@@ -15,5 +15,5 @@ Extracts text, tables, equations, and structure from PDF documents, preserving l
 
 ## Derivatives
 
-- [Document Analyst](/skills/extra/document-analyst.md)
+- [Document Analyst](/skills/fusion/document-analyst.md)
 
