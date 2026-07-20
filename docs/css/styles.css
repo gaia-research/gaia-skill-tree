@@ -4140,10 +4140,10 @@ tr:hover td {
   box-shadow: 0 0 14px rgba(var(--honor-red-rgb), .35);
 }
 
-/* ── Scatter strip (direction rule: top = Ultimate, bottom = Basic).
-     Four-stop gradient runs from --tier-ultimate-edge through
-     --tier-unique-edge → --tier-extra-edge → --tier-basic-edge so the
-     strip visually maps onto the tier hierarchy from apex down. */
+/* ── Scatter strip (direction rule: top = 5★, bottom = Basic).
+     Four-stop gradient runs from --rank-5-edge through
+     --tier-unique-edge → --rank-3-edge → --tier-basic-edge so the
+     strip visually maps onto the rank hierarchy from apex down. */
 .graph-scatter-strip {
   position: absolute;
   left: 0;
@@ -4155,9 +4155,9 @@ tr:hover td {
   flex-direction: column;
   align-items: center;
   background: linear-gradient(to bottom,
-      var(--tier-ultimate-edge) 0%,
+      var(--rank-5-edge) 0%,
       var(--tier-unique-edge) 33%,
-      var(--tier-extra-edge) 66%,
+      var(--rank-3-edge) 66%,
       var(--tier-basic-edge) 100%);
   border-right: 1px solid var(--border);
   cursor: ns-resize;
@@ -4175,7 +4175,7 @@ tr:hover td {
 }
 
 .graph-scatter-edge--top {
-  color: var(--tier-ultimate)
+  color: var(--rank-5)
 }
 
 .graph-scatter-edge--bot {
@@ -4339,7 +4339,7 @@ tr:hover td {
 }
 
 .graph-speed-edge--right {
-  color: var(--tier-extra)
+  color: var(--rank-3)
 }
 
 .graph-speed-track {
