@@ -48,36 +48,43 @@ So that means, its the developers who make skills maintaining this. I have a tho
 <!-- gaia:registry-start -->
 ```text
 ◆ mattpocock/skills  [5★]
-  ├─ ◇ mattpocock/engineering  [4★]
-  │  ├─ ◇ devin-ai/autonomous-swe  [3★]
+  ├─ · mattpocock/engineering  [4★]
+  │  ├─ · devin-ai/autonomous-swe  [3★]
   │  │  ├─ ○ garrytan/design-html  [3★]
   │  │  ├─ ○ /code-execution
   │  │  └─ ○ /error-interpretation
   │  ├─ ○ addy-osmani/code-simplification  [3★]
-  │  ├─ ◇ garrytan/garrytan  [4★]
+  │  ├─ · garrytan/garrytan  [4★]
   │  │  ├─ ○ /plan-decompose
   │  │  └─ ○ ████████/ask-matt
-  │  ├─ ◇ mattpocock/to-prd  [3★]
+  │  ├─ · mattpocock/to-prd  [3★]
   │  │  ├─ ○ garrytan/retro  [3★]
   │  │  └─ ○ /plan-decompose  (↑ see above)
   │  ├─ ○ mattpocock/triage  [3★]
-  │  ├─ ◇ mattpocock/ubiquitous-language  [3★]
+  │  ├─ · mattpocock/ubiquitous-language  [3★]
 
 ◆ garrytan/gstack  [5★]
   ├─ ○ garrytan/office-hours  [3★]
   ├─ ○ garrytan/benchmark  [3★]
-  ├─ ◇ addy-osmani/code-review-and-quality  [3★]
+  ├─ · addy-osmani/code-review-and-quality  [3★]
   │  ├─ ○ garrytan/design-html  [3★]
   │  ├─ ○ /diff-content
   │  └─ ○ garrytan/benchmark  [3★]  (↑ see above)
   ├─ ○ pbakaus/impeccable  [4★]
-  ├─ ◇ garrytan/garrytan  [4★]
+  ├─ · garrytan/garrytan  [4★]
   │  ├─ ○ /plan-decompose
   │  └─ ○ ████████/ask-matt
-  ├─ ◇ garrytan/design-consultation  [3★]
-  │  ├─ ◇ ████████/stagehand
+  ├─ · garrytan/design-consultation  [3★]
+  │  ├─ · ████████/stagehand
   │  │  ├─ ○ firecrawl/firecrawl-build-search  [4★]
   │  │  └─ ○ /computer-use
+
+Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
+  ◉ openai/few-shot-learning  [4★]
+  ◉ safishamsi/graphify  [4★]
+    ├─ ○ /extract-entities
+    └─ ○ /logical-inference
+  ◉ addy-osmani/performance-optimization  [4★]
 
 (243 skills total — see docs/tree.md)
 ```
