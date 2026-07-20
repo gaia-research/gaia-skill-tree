@@ -1606,12 +1606,24 @@ button.plaque__slug {
    ============================================================ */
 .plaque--row {
   --plaque-glow-intensity: 0.25;
+  --plaque-pad: 0px;
   width: 100%;
   max-width: 100%;
   min-height: 72px;
-  padding: 14px 18px;
+  padding: 0 !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  gap: 0 !important;
+}
+
+.plaque__row-content {
+  display: flex;
   flex-direction: row;
   align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  flex: 1;
+  padding: 14px 18px;
   gap: 1rem;
 }
 .plaque--row .plaque__slug,
@@ -1665,7 +1677,7 @@ button.plaque__slug {
   font-size: 14px;
   flex: 1 1 auto;
 }
-.plaque--row {
+.plaque__row-content {
   padding: .55rem .75rem;
   gap: .4rem;
 }
@@ -1697,10 +1709,11 @@ button.plaque__slug {
     flex: unset;
   }
   .plaque--row {
+    min-height: 60px;
+  }
+  .plaque__row-content {
     padding: .65rem .85rem;
     gap: .5rem;
-    min-height: 60px;
-    overflow: hidden;
   }
 }
 
@@ -1716,6 +1729,10 @@ button.plaque__slug {
     margin: 0;
     overflow: hidden;
     white-space: nowrap;
+  }
+  .plaque__row-content {
+    padding: 14px 18px;
+    gap: 1rem;
   }
 }
 
