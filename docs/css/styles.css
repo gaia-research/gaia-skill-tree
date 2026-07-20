@@ -3445,7 +3445,7 @@ tr:hover td {
 }
 
 /* ◉ unique glyphs — branch × rank */
-.tree-glyph-uni {
+.tree-glyph-uni--iv {
   color: var(--tier-unique) !important;
   font-weight: 900 !important;
 }
@@ -3461,6 +3461,7 @@ tr:hover td {
   font-weight: 900 !important;
   text-shadow: var(--glow-VI) !important;
 }
+
 
 /* ○ basic glyph */
 .tree-glyph-basic {
@@ -3569,6 +3570,25 @@ tr:hover td {
   font-weight: 700 !important;
 }
 
+/* Rank-specific colors for suite skill names */
+.tree-suite-skillname--iv,
+.tree-suite-id--iv {
+  color: var(--rank-4) !important;
+}
+
+.tree-suite-skillname--v,
+.tree-suite-id--v {
+  color: var(--rank-5) !important;
+}
+
+.tree-suite-skillname--vi,
+.tree-suite-id--vi {
+  color: var(--rank-6) !important;
+  animation: tree-rainbow-glow 4s ease-in-out infinite !important;
+  text-shadow: var(--glow-VI) !important;
+}
+
+
 .tree-unique-line {
   font-weight: 700 !important;
   color: var(--text) !important;
@@ -3584,23 +3604,27 @@ tr:hover td {
   opacity: 0.5 !important;
 }
 
-.tree-unique-skillname {
+.tree-unique-skillname--iv,
+.tree-unique-id--iv {
   color: var(--tier-unique) !important;
   font-weight: 900 !important;
   text-shadow: 0 0 8px rgba(124, 58, 237, 0.6), 0 0 16px rgba(124, 58, 237, 0.3) !important;
 }
 
-.tree-unique-skillname--v {
+.tree-unique-skillname--v,
+.tree-unique-id--v {
   color: var(--tier-unique-5) !important;
   font-weight: 900 !important;
   text-shadow: 0 0 8px rgba(178, 106, 58, 0.5), 0 0 16px rgba(178, 106, 58, 0.25) !important;
 }
 
-.tree-unique-skillname--vi {
+.tree-unique-skillname--vi,
+.tree-unique-id--vi {
   color: var(--tier-unique-6) !important;
   font-weight: 900 !important;
   text-shadow: var(--glow-VI) !important;
 }
+
 
 .tree-basic-line {
   color: var(--text) !important;

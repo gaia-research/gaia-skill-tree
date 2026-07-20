@@ -305,7 +305,7 @@ def render_tree(
     if unique_skills:
         lines.append(_SEP70)
         lines.append(
-            "Uniques — graph-isolated Basic Skills that reached elite mastery"
+            "Uniques — Basic Skills that reached elite mastery"
             " (4★+) through depth alone, with no fusion path forward."
         )
         lines.append(_SEP70)
@@ -326,10 +326,11 @@ def render_tree(
     if basic_orphans:
         lines.append(_SEP70)
         lines.append(
-            "Basics — basic-tier skills not wired into an upgrade path yet."
+            "Basics — basic-tier skills with no prerequisites, listed vertically (not as a single combined line)."
             "  ([N★] = top named-variant stars; blank = no named implementation.)"
         )
         lines.append(_SEP70)
+
         lines.append("")
         for ps in basic_orphans:
             pid = ps.get("id")

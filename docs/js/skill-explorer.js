@@ -3018,13 +3018,15 @@
         var delay = -((ultIdx++ * 0.9) % 4);
         var slash = skillId.indexOf('/');
         var skillHtml;
+        var suiteSkillClass = 'tree-suite-skillname--' + suiteRank;
+        var suiteIdClass = 'tree-suite-id--' + suiteRank;
         if (slash > 0) {
           var ultHandle = skillId.slice(0, slash);
           skillHtml = handleAnchor(ultHandle, '<span class="tree-suite-contributor">' + esc(ultHandle) + '</span>') +
                       '<span class="tree-suite-slash">/</span>' +
-                      '<span class="tree-suite-skillname">' + esc(skillId.slice(slash + 1)) + '</span>';
+                      '<span class="' + suiteSkillClass + '">' + esc(skillId.slice(slash + 1)) + '</span>';
         } else {
-          skillHtml = '<span class="tree-suite-id">' + esc(skillId) + '</span>';
+          skillHtml = '<span class="' + suiteIdClass + '">' + esc(skillId) + '</span>';
         }
         var suffixHtml = colorizeRankPills(colorizeShared(esc(suffix)));
         output.push('<span class="tree-suite-line ' + suiteGlyphClass + '" style="animation-delay:' + delay + 's">' +
@@ -3032,7 +3034,7 @@
         continue;
       }
 
-      // 2. Unique Skill lines (◉) — rank-keyed: 6★=Unique Impossible ember+VI, 5★=Unique Ultimate copper, 4★=Unique violet
+      // 2. Unique Skill lines (◉) — rank-keyed: 6★=Unique Impossible, 5★=Unique Ultimate, 4★=Unique
       var u = line.match(/^(\s*[·✓]\s*)?([\s│├└─]*)(◉)(\s+)(\S+)(.*)$/);
       if (u) {
         var uOwner = u[1] ? (u[1].indexOf('✓') >= 0
@@ -3040,20 +3042,22 @@
           : '<span class="tree-unowned">·</span> ') : '';
         var uPrefix = esc(u[2]);
         var usuffix = u[6];
-        var uniRank = usuffix.indexOf('6★') >= 0 ? '--vi' : usuffix.indexOf('5★') >= 0 ? '--v' : '';
-        var uGlyph = glyphSpan('tree-glyph-uni' + uniRank, u[3]);
+        var uniRank = usuffix.indexOf('6★') >= 0 ? 'vi' : usuffix.indexOf('5★') >= 0 ? 'v' : 'iv';
+        var uGlyphClass = 'tree-glyph-uni--' + uniRank;
+        var uGlyph = glyphSpan(uGlyphClass, u[3]);
         var uid = u[5];
         var udelay = -((unqIdx++ * 0.9) % 4);
         var uslash = uid.indexOf('/');
         var uskillHtml;
-        var uSkillClass = 'tree-unique-skillname' + uniRank;
+        var uSkillClass = 'tree-unique-skillname--' + uniRank;
+        var uIdClass = 'tree-unique-id--' + uniRank;
         if (uslash > 0) {
           var uHandle = uid.slice(0, uslash);
           uskillHtml = handleAnchor(uHandle, '<span class="tree-unique-contributor">' + esc(uHandle) + '</span>') +
                        '<span class="tree-unique-slash">/</span>' +
                        '<span class="' + uSkillClass + '">' + esc(uid.slice(uslash + 1)) + '</span>';
         } else {
-          uskillHtml = '<span class="' + uSkillClass + '">' + esc(uid) + '</span>';
+          uskillHtml = '<span class="' + uIdClass + '">' + esc(uid) + '</span>';
         }
         var usuffixHtml = colorizeRankPills(colorizeShared(esc(usuffix)));
         output.push('<span class="tree-unique-line" style="animation-delay:' + udelay + 's">' +

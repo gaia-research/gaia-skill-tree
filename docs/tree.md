@@ -2,9 +2,9 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  ·  generated 2026-07-19
+GAIA SKILL TREE  ·  generated 2026-07-20
 ══════════════════════════════════════════════════════════════════════
-◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
+◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
 ══════════════════════════════════════════════════════════════════════
 
@@ -292,7 +292,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   └─ ○ firecrawl/firecrawl-research-index  [2★]
 
 ══════════════════════════════════════════════════════════════════════
-Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
+Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
 ══════════════════════════════════════════════════════════════════════
 
   ◉ openai/few-shot-learning  [4★]
@@ -307,7 +307,7 @@ Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) throu
   ◉ obra/writing-plans  [4★]
 
 ══════════════════════════════════════════════════════════════════════
-Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top named-variant stars; blank = no named implementation.)
+Basics — basic-tier skills with no prerequisites, listed vertically (not as a single combined line).  ([N★] = top named-variant stars; blank = no named implementation.)
 ══════════════════════════════════════════════════════════════════════
 
   ○ /autonomous-engineering-platform
@@ -341,4 +341,4 @@ Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top 
   ○ ████████/resend-conference-emails-carefully-with-smtp
 ```
 
-*Generated from gaia.json on 2026-07-19. Do not edit directly.*
+*Generated from gaia.json on 2026-07-20. Do not edit directly.*
