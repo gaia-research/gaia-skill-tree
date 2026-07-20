@@ -3176,6 +3176,18 @@
 
   treeNavBtn.addEventListener('click', openTreeDialog);
   treeCloseBtn.addEventListener('click', closeTreeDialog);
+
+  // Landing here via a nav redirect (mobile drawer link, or the desktop
+  // "Skill Tree" button on a non-homepage page — see site-nav.js) carries
+  // ?tree=1 instead of a direct click, since #treeDialog didn't exist yet on
+  // the page that redirected. Open it once the dialog is available (#828;
+  // do not let hud-toggle.js's ?field=1/?hud=1 3D-explorer params claim this).
+  try {
+    if (new URLSearchParams(window.location.search).get('tree') === '1') {
+      openTreeDialog();
+    }
+  } catch (_) { /* ignore */ }
+
   treeDialog.addEventListener('click', function(e) {
     if (e.target === treeDialog) closeTreeDialog();
   });
