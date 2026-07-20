@@ -4,6 +4,116 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-20, session — CORRECTION: design-polish layer did NOT land on staging via #1235; two-scout reconciliation → 8 recoverable fixes; #1240 recovers them + INSIGHTS map)
+
+### TLDR
+- **Correction to the 2026-07-19 snapshot below (and the #1227 close-comment):** the claim that "the deferred design items landed on the #1235 stack" was **inaccurate**. Only the plaque *structure* (`_fieldAvatar`/`_fieldHandleRow`) landed with the oracle cut. The plaque **rebalance**, D6/D8 detail order, D3/D18 gold-★ graph mark, DAG-dot color, and contributor-card grouping did **NOT** fold into #1235 → staging. They lived on `design/ygg2-deferred-polish` + the closed #1227 `fixforward-superadmin` + `rem-badges` — branches never on the #1235→staging path.
+- **Second false claim corrected:** the 2026-07-19 snapshot said the gold-★ graph hand-port landed. It did NOT — staging `ac634b9d9` still rendered the deprecated `ORIGIN_PATHS` laurel in `skill-graph.js`. Verified by scout.
+- **Root cause:** this session merged only the #1235 *oracle* stack to staging; the *design-polish* layer was a parallel branch set that was assumed-folded but wasn't. Marco noticed the plaque rebalance missing on staging → triggered the INSIGHTS investigation.
+- **Two read-only scout passes (2026-07-20)** produced a ground-truth cherry-pick map (committed to `founder/reports/design-review-2026-07-20/INSIGHTS.md`, `d247bdb1c`): **8 SAFE-to-recover** (genuinely missing), **6 DO-NOT-reapply** (already fixed differently in #1235 — two would SILENTLY regress the §8 sampler order `a25b7b026` + supersede the named-grid approach `101d2cf42` with no conflict marker), **1 REDUNDANT** (`rem-badges`).
+- **#1240** (`dev/design-review-staging-8515fa` → staging) **recovers the Bucket-1 design fixes** (D6/D8 plaque order, gold-★ mark, detail typography, plaque rebalance JS wiring, D8 stamp-tint suppression) ported onto staging's current code shape — plus the reconciliation docs. Verified: does NOT touch the Bucket-2 traps.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| #1227 close-comment corrected (design items did NOT all land on #1235) | ✅ posted |
+| INSIGHTS.md rewritten — speculative "merge deferred-polish" → verified 3-bucket cherry-pick map | ✅ `d247bdb1c` |
+| MEMORY.md 2026-07-19 snapshot corrected (this entry) | ✅ |
+| #1240 recovers Bucket-1 design fixes + docs, merged → staging | ⏳ merging this turn |
+
+### Branches / PRs at end of session
+| Branch / PR | Head SHA | Status |
+|---|---|---|
+| dev/design-review-staging-8515fa (#1240) | d247bdb1c | Recovered design fixes + INSIGHTS/CHECKLIST/scouts → staging. Merging this turn. |
+| dev/yggdrasil-ii-staging (#1185 head) | ac634b9d9 | OPEN DRAFT → main. |
+| design/ygg2-deferred-polish | 93a187916 | SHA source for Bucket-1 ports; delete after recovery confirmed. |
+| design/ygg2-fixforward-superadmin (#1227) | — | CLOSED. Bucket-1 items (gold-★, D15, live.js, D6) recovered via #1240. |
+| design/ygg2-rem-badges | 1006e5d75 | REDUNDANT — close without merging. |
+
+### Routing — where things live now
+- **Cherry-pick map for next design pass:** `founder/reports/design-review-2026-07-20/INSIGHTS.md` — the canonical, evidence-verified record. Supersedes the prior speculative version.
+- **Bucket-1 (SAFE, missing):** D6/D8 plaque order (`6ed132955`/`e31f58077`), D3/D18 gold-★ (`4801e0c13`), DAG dot color (`8aa300702`), contributor-card header (`e15c7bfae`), badge claim-pin (`18c0dc1a1`), plaque rebalance JS+typography (`f55282253`), D15 prev-week guard (`55a62ac13`), live.js sweep (`a9f4e3124`).
+- **Bucket-2 (DO NOT reapply):** `93a187916` (sampler — would revert §8), `ecd4f7186` (named-grid — superseded by `101d2cf42`), `c0def6d62`/`3555c40da` (client branch derivation — deleted by founder ruling; staging reads emitted branch), `332736ab0`/`04d6114d6` (already present).
+
+### Lessons / hazards preserved
+- **"Assumed-folded" is the failure mode.** A parallel branch set (design-polish) was believed merged because a *related* structural change (plaque scaffolding) landed with the oracle cut. Verify content-presence by SHA-reachability + file:line, NOT by "a similar commit landed." SHA-absence ≠ content-absence, but a related-commit-landed ≠ this-commit-landed either.
+- **`git merge-tree` clean ≠ safe** when branches were cut before divergent fixes. A stale-based branch can show ZERO conflict markers while silently reverting a newer fix (e.g. `93a187916` flips the §8 sampler order back with no marker). Always diff intent against the current tip, don't trust a clean auto-merge.
+- **Record-hygiene:** two false claims (one in a GitHub close-comment, one in a MEMORY snapshot) both traced to the same assumed-fold. When closing a PR as "superseded," verify the superseding content actually exists on the target branch before writing the close-comment.
+
+### Open questions for next orchestrator / deferred
+- **Next design pass:** branch off staging tip, recover any Bucket-1 items #1240 did NOT include (verify #1240's exact coverage — it carries the plaque + gold-★ cluster; DAG-dot color, contributor-card header, badge claim-pin, D15 guard, live.js sweep may still be outstanding). Skip Bucket-2 explicitly.
+- **Close `design/ygg2-rem-badges`** as superseded; delete `design/ygg2-deferred-polish` once ports confirmed.
+- Prior deferred (still open): CLI design-token sweep, docs archival, epic #1185 finish (agent skills + rebase from main), 11 stale worktrees.
+
+### Token cost (this session)
+2026-07-20 Opus (orchestrator inline) + 2 read-only scouts:
+- Scout A (deferred-polish content vs staging): ~69k
+- Scout B (fixforward + badges vs staging): ~83k
+- Orchestrator inline (INSIGHTS rewrite, #1227 comment, this snapshot, #1240 merge): ~90k (est.)
+- **Session total: ~242k in/out. ~$12 (est.)**
+
+---
+
+## State Snapshot (2026-07-19, session — #1235 MERGED to staging; origin-gate §4.1 fix + 4 skills restored; Item 9 token migration; #1227 closed; #1185 draft ready)
+
+### TLDR
+- **#1235 is MERGED to `dev/yggdrasil-ii-staging`** (`ac634b9d9`, `--merge` no-squash). Carries the full Ygg II oracle cut (P3a+P3b, 853 files) PLUS this session's Sprint-Completeness fold-ins. **#1185 (staging→main) remains an OPEN DRAFT** — exactly the target end-state, teed up for the next design/CLI/docs PRs.
+- **Key topology fact:** `dev/yggdrasil-ii-staging` is BOTH #1235's base AND #1185's head. Merging #1235 into staging IS the "#1235 → #1185" step — there is no separate merge. Landing on staging advances #1185 directly.
+- **Origin-gate spec fix (META wins over Ratification Q3):** 4★ Unique origin = **bucket-level** (META §4.1, one Origin per generic bucket), NOT fusion-structure prereqs. Prereq/fusion-structure origin applies only at **5★+**. The v3 Q3 reading was a doc-time conflation; corrected in `promotion.py checkUniqueBranchGate` (forks by rank) + Ratification doc v4 amendment.
+- **4 skills wrongly demoted by the old gate, all restored to 4★ via CLI** (`gaia dev calibrate`, timeline-logged, no hand-edits): obra/using-git-worktrees, obra/writing-plans, safishamsi/graphify, stanfordnlp/dspy.
+- **Item 9 correctly rescoped:** the handover's "migrate ~40 apex-gold" premise was WRONG — `--apex-gold` is a LIVE brand-voice token per DESIGN.md, not legacy. Only 13 dead `--tier-ultimate*` refs migrated → `--tier-fusion*` (zero pixel change). `--apex-gold` left for a later collective visual pass.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| #7 timeline emits rank (rankWord/level) not branch word — payload+consumer lockstep | ✅ `63ed6abd4` |
+| /u/ Python plaque mirror (avatar+handle / medallion+slug grouping) | ✅ `dbfe5be42` |
+| 4★ Unique origin gate → bucket-level §4.1 (7 gate tests pass) | ✅ `88e45d402` |
+| Restore obra×2 3★→4★ (CLI calibrate) | ✅ `8ea5b64c4` |
+| Source real blob URLs + restore graphify (`blob/v8`) + dspy (`blob/main`, installable:true) | ✅ `796158a13` |
+| Item 9: 13 `--tier-ultimate*` → `--tier-fusion*` (zero pixel change) | ✅ `a72777baa` |
+| Merge origin-gate-restore into #1235 | ✅ `6cae4536d` |
+| #1235 PR body broadened-scope addendum (E–I) + proof-of-work + token spend comment | ✅ |
+| **#1235 merged → staging** | ✅ `ac634b9d9` |
+| #1227 (D1–D18 design fix-forward) closed as superseded | ✅ CLOSED |
+
+### Branches / PRs at end of session
+| Branch / PR | Head SHA | Status |
+|---|---|---|
+| dev/yggdrasil-ii-staging (#1185 head) | ac634b9d9 | OPEN DRAFT → main. Carries all Ygg II work + 4 restorations. |
+| dev/ygg2-consume-frontend (#1235) | 6cae4536d | **MERGED** into staging via ac634b9d9. |
+| review/meta/ygg2-origin-gate-restore | 796158a13 | Folded into #1235; can be deleted. |
+| #1227 | — | CLOSED (superseded by #1235 oracle-shape re-cut). |
+
+### Routing — where things live now
+- **Origin definition:** META §4.1 (bucket-level) is authoritative for 4★; Ratification Q3 (fusion-structure) applies 5★+ only. Amendment in `founder/handovers/YGGDRASIL_II_RATIFICATION_2026-07-07.md` v4 (2026-07-19).
+- **Gate logic:** `src/gaia_cli/promotion.py` `checkUniqueBranchGate` forks by rank — 4★ → `_holds_bucket_origin` (reads stored `origin` flag gated on `genericSkillRef`); 5★+ → unchanged fusion-structure `_contributor_holds_origin_in`.
+- **`gaia dev docs` = `scripts/build_docs.py`** — can run the script directly (`PYTHONUTF8=1 PYTHONPATH=src python scripts/build_docs.py`) to bypass the wonky CLI in this Windows env.
+- **Brand tokens (DESIGN.md is authoritative, NOT grep):** `--apex-gold` (#fbbf24) = live carry-everything brand-voice token, NOT legacy. `--tier-ultimate` = legacy alias, undefined in generated tokens.css, successor is `--tier-fusion` (#f59e0b).
+
+### Lessons / hazards preserved
+- **A commit message that overclaims is a lie in the audit log** — the first restore commit (`8ea5b64c4`) named all 4 skills but only 2 landed (graphify+dspy blocked by Star Bar gate needing a verified `blob/` URL). Always name only what actually landed. The sourcing agent correctly named only the 2 it fixed.
+- **Star Bar gate is a correct guardrail:** `gaia dev calibrate` to 4★ requires a verified `blob/branch/subpath` `links.github`. graphify's bare repo root + dspy's missing link legitimately blocked calibrate until real files were sourced (`gh api`-verified). Never fabricate a blob URL to force a pass.
+- **`gaia dev calibrate` does NOT sync the owner's user tree** — leaves `skill-trees/<owner>/skill-tree.json` at old level, fails the Transparency Gate. Fix: `scripts/trace_timeline.py --apply` after calibrate.
+- **DESIGN.md over grep for token semantics** — a grep-based "51 legacy tokens" premise conflated a live brand token (`--apex-gold`) with a real legacy alias (`--tier-ultimate`). Read the design spec before mechanical token sweeps. (Marco caught this before it shipped.)
+- **Regen-after-merge on a branch that already regenerated = pure churn.** When both merged branches ran `build_docs.py`, a fresh regen produced only badge/OG/okf/trending/README noise (badges are infra-only, never committed here). The merged tip was already Class-S consistent → reverted the entire regen.
+
+### Open questions for next orchestrator / deferred (Marco's stated follow-ups — NOT started)
+- **Another design sweep** (`/impeccable critique`) — incl. the collective `--apex-gold` visual pass Marco deferred.
+- **CLI design-token sweep.**
+- **Docs archival & cleaning.**
+- **Epic #1185 finish:** agent skills update, rebase from main, conflict management (the THIRD milestone).
+- **Housekeeping:** 11 stale worktrees on disk (`.claude/worktrees/agent-*`) — safe to clean now #1235 merged.
+
+### Token cost (this session)
+2026-07-19 Opus 4.8 (orchestrator inline, superadmin) + delegated agents:
+- Restore-via-CLI agent (obra×2): ~106k in/out
+- Source-blob-URLs agent (graphify+dspy): ~84k in/out
+- Orchestrator inline (Item 9 edits, verification, merge, PR body, this snapshot): ~120k in/out (est.)
+- **Session total: ~310k in/out. ~$16 (est.)** — spend overwhelmingly orchestrator-inline (superadmin mode) + 2 short worktree agents.
+
+---
+
 ## State Snapshot (2026-07-18, session — Ygg II oracle HEALED to per-branch delete-gate; P3a/P3b landed; §7 stamp bug fixed; stack relinked; design work verified safe)
 
 ### TLDR
