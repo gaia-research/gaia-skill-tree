@@ -4,6 +4,57 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-20, session 2 — Bucket-1 recovery complete; all 5 fixes merged to staging via PR #1241; /design-iteration skill created)
+
+### TLDR
+- **Bucket-1 recovery fully landed.** All 5 remaining fixes from `founder/reports/design-review-2026-07-20/INSIGHTS.md` applied one-by-one on `design/ygg2-bucket1-recovery`, each approved by Marco before commit, then merged → `dev/yggdrasil-ii-staging` via PR #1241.
+- **Fix 3** (badge CLAIM_RANK pin) shipped with a full rank-table overhaul: Ygg II suite/unique split at 4★–6★, TM gates replacing deprecated Class A/B, design-token–aligned colors, `--glow-V`/`--glow-VI` text-shadow for Unique Ultimate / Apex prestige reads. No hex, no gradient text (DESIGN.md guardrails respected).
+- **Fix 4** (reports prev-week guard) crossed `design/` branch-scope into `scripts/` — shipped with `[skip-scope-check]` on the commit per Marco's instruction.
+- **Fix 5** (live.js sweep) removed 3-line dev-reload block from 48 HTML files in one clean `sed` pass.
+- **Bucket-2 items deliberately not touched** — `93a187916`/`ecd4f7186`/`c0def6d62`/`3555c40da`/`332736ab0`/`04d6114d6` all already fixed in #1235; re-applying would silently regress §8 order.
+- **`/design-iteration` skill created** — generalises the approve/reject-per-fix methodology used this session; mirrors to both `.claude/skills/` and `.agents/skills/`.
+- **Token spend ~$5, Sonnet.**
+
+### What changed this session
+| Layer | State |
+|---|---|
+| Fix 1 — DAG dot color by rank (prior session) | ✅ `63f85e9de` |
+| Fix 1b — Skill flowchart DAG (prior session) | ✅ `69cde46ce` |
+| Fix 2 — Contributor-card header (prior session) | ✅ `0a24ff5c7` |
+| Fix 3 — Badge CLAIM_RANK pin + rank table Ygg II overhaul | ✅ `cf656149b` |
+| Fix 4 — Reports prev-week guard (docs + scripts) | ✅ `4ac8a3939` |
+| Fix 5 — live.js sweep (48 files) | ✅ `6eb198aa2` |
+| PR #1241 merged → dev/yggdrasil-ii-staging | ✅ 2026-07-20T08:24:31Z |
+| /design-iteration skill written | ✅ `.claude/skills/design-iteration/` + `.agents/skills/design-iteration/` |
+| MEMORY.md snapshot (this entry) | ✅ |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `design/ygg2-bucket1-recovery` | `6eb198aa2` | MERGED → staging via PR #1241 |
+| `dev/yggdrasil-ii-staging` (#1185 → main) | updated | OPEN DRAFT — Bucket-1 now folded in |
+
+### PRs touched
+| PR | Title | State |
+|---|---|---|
+| #1241 | fix(design): Bucket 1 recovery — Fix 3/4/5 | MERGED |
+
+### Routing — where things live now
+- **All Bucket-1 fixes** now on `dev/yggdrasil-ii-staging`; nothing from INSIGHTS.md Bucket-1 is still missing.
+- **Next design pass** should target the CHECKLIST.md items (SB1–SB3, P-series easy-wins) using the `/design-iteration` skill — same approve/reject gate per fix.
+- **Bucket-2 / Bucket-3** from INSIGHTS.md: do not touch; record remains in `founder/reports/design-review-2026-07-20/INSIGHTS.md`.
+
+### Lessons / hazards preserved
+- **`--glow-V`/`--glow-VI` are defined in `styles.css`, not `tokens.css`** — grep `styles.css` when looking for glow/shimmer tokens, not just `tokens.css`.
+- **`background-clip:text` gradient text is banned by DESIGN.md** (§ Hero titles: "No gradient text"). Use `text-shadow` + token color instead for prestige rank labels.
+- **`sed -i` range delete `/start/,/end/d`** is the right tool for sweeping 3-line blocks across 48 files; verify with `git grep -l` count = 0 after.
+- **`skip-scope-check` in commit message body** (not just PR label) is the correct way to declare scope bypass intent per CLAUDE.md.
+
+### Token cost (this session)
+~$5 total · Sonnet (claude-sonnet-latest) · design agent only, no subagents
+
+---
+
 ## State Snapshot (2026-07-20, session — CORRECTION: design-polish layer did NOT land on staging via #1235; two-scout reconciliation → 8 recoverable fixes; #1240 recovers them + INSIGHTS map)
 
 ### TLDR
