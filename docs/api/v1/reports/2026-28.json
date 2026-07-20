@@ -251,7 +251,7 @@
   "urls": {
     "canonical": "https://gaiaskilltree.com/reports/2026-28/",
     "json": "https://gaiaskilltree.com/api/v1/reports/2026-28.json",
-    "previous": "https://gaiaskilltree.com/reports/2026-27/",
+    "previous": "",
     "archive": "https://gaiaskilltree.com/reports/"
   }
 }
