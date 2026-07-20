@@ -2746,13 +2746,18 @@ button.plaque__slug:focus-visible {
 }
 .contributor-card-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 .contributor-card-handle-wrap {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+}
+.contributor-card-header .rank-badge {
+  margin-left: 0;
 }
 .contributor-card-handle {
   font-family: var(--font-body, 'Bricolage Grotesque', sans-serif);
