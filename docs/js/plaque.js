@@ -607,16 +607,17 @@
       ? '<span class="plaque__ev-badge">' + esc(evText) + '</span>'
       : '';
     var inner =
-      _fieldOrb(ns, 'sm') +
-      _fieldSlug(ns) +
-      _fieldTitle(ns) +
-      _fieldHandleRow(ns) +
-      _fieldTags(ns, 2) +
-      _fieldInstallRow(ns) +
-      _fieldRank(ns, 'chip') +
-      _fieldAvatar(ns, { size: 28 }) +
-      evBadge +
-      '<span class="plaque__arrow ns-lr-arrow" aria-hidden="true">›</span>';
+      '<div class="plaque__row-content">' +
+        _fieldOrb(ns, 'sm') +
+        _fieldSlug(ns) +
+        _fieldTitle(ns) +
+        _fieldHandleRow(ns) +
+        _fieldTags(ns, 2) +
+        _fieldInstallRow(ns) +
+        _fieldRank(ns, 'chip') +
+        _fieldAvatar(ns, { size: 28 }) +
+        evBadge +
+      '</div>';
 
     return _shell('row', ns, inner, opts);
   }
