@@ -565,7 +565,7 @@
       descendantsById: {},
       directNeighborsById: {},
       treeBounds: null,
-      treeSpread: 2,
+      treeSpread: 1,
       viewMix: 0,
       viewFrom: 0,
       viewTarget: 0,
@@ -3106,6 +3106,10 @@
         state.panX = 0;
         state.panY = 0;
         state.zoom = 1;
+        // Explorer3D defaults to a wider 200% spread; the flat 2D hero stays
+        // at 100% (its own initial state / never touches this path).
+        state.treeSpread = 2;
+        if (typeof redrawScatterRuler === 'function') redrawScatterRuler();
       }
       state.viewFrom = state.viewMix;
       state.viewTarget = target;
