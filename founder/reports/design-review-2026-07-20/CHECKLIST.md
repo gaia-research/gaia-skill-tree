@@ -109,3 +109,44 @@ These are too large or too design-load-bearing for a mechanical fix. Each is a *
 2. **Still open (SB3):** duplicate "SHOW ULTIMATE PATH" button — medium, likely rides the O1/rank-word work; not deferred, but not a mechanical one-liner.
 3. **Deferred post-merge (Marco ruled 2026-07-20):** SB4/O5 (grouping label rework); O1 token migration; O2 explorer mobile reflow; O3 3D label LOD; O4 heroes mobile stage.
 4. **Descoped / no-change (Marco ruled 2026-07-20):** P2 (trust bars are grade-colored, not rank — working as intended; consistency note only). P14 (10 Unique is accurate to data — a **curation** verify on the registry, not a design edit).
+
+---
+
+## Unmerged Design Polish Commits (For Review)
+
+During our cherry-picking, we discovered a pattern of "load-bearing" design commits that seem to have been lost (likely during a fast-forward or squashed PR merge) across various `origin/design/*` and `origin/dev/*` branches. 
+
+**Recovered Examples:**
+- `f55282253`: `design(ygg2): rebalance plaque layout — avatar↔handle, medallion↔slug` (Cherry-picked)
+- `e31f58077`: `fix(design): D6/D8 — detail plaque avatar→medallion order + kill orb tint behind loaded stamp` (Cherry-picked)
+- `6ed132955`: `fix(design): D6/D8 plaque avatar→medallion order + D3/D18 graph gold-star mark` (Cherry-picked)
+
+**Additional Marooned Commits for Review:**
+These commits carry similar `design(ygg2)` or `fix(design)` signatures and address specific visual/layout intent. They are currently stranded on `origin/design/*` branches and are NOT reachable from the current `dev/design-review-staging-8515fa` branch:
+
+- **`e15c7bfae`** `design(ygg2): contributor-card header groups handle + rank (surface 3)`
+  - *Context*: Further refines the plaque/card header groupings to match the intended Yggdrasil II layout.
+- **`93a187916`** `fix(ygg2): sampler ascends 1★→6★ (extra-before-unique); mixed grid header names both branches (Unique/Extra)`
+  - *Context*: Adjusts the ordering of the skill sampler and handles branch headers. 
+- **`18c0dc1a1`** `fix(ygg2): badge claim/README pins to 1★, decoupled from sampler cycle (no rank leak)`
+  - *Context*: Fixes a UI bug where the badge claim snippet might leak higher rank states incorrectly.
+- **`8aa300702`** `fix(ygg2): DAG node dot color reads emitted branch, not dead type enum`
+  - *Context*: A graph visualization fix bridging the gap between old `type` and new `branch` data.
+- **`ecd4f7186`** `fix(ygg2): named grid group header/segregation reads emitted branch, not hard-wired suite ladder`
+  - *Context*: Aligns the `/named/` directory grouping logic with the `branch` taxonomy.
+- **`3555c40da`** `fix(design): D74 — homepage '0 ultimates' dead-type read (D9-class)`
+  - *Context*: Fixes a broken stat on the homepage hero reading from a deprecated data field.
+- **`55a62ac13`** `fix(ygg2): D15 — reports grey out '← Previous week' when no prior report exists`
+  - *Context*: UX polish for the `/reports/` navigation controls.
+- **`332736ab0`** `fix(ygg2): D12 — badges page drops banned rank words Hardened/Transcendent`
+  - *Context*: Aligns badge generation language with the finalized rank word vocabulary.
+- **`04d6114d6`** `fix(ygg2): D14 — tree.md renders suites biggest-fusion-first via topological branch resolver`
+  - *Context*: Fixes the topological rendering of suites in the markdown tree.
+- **`c0def6d62`** `fix(design): D9 — derive branch at read-time in 3D graph (suites no longer render as unique)`
+  - *Context*: A critical visualization fix for the 3D graph ensuring suites are styled properly.
+- **`0213d073b`** `design(heroes): fix wreath geometry — size 100% fills crest square, not phantom 200px box`
+  - *Context*: Fixes scaling issues with the gold hero wreaths.
+- **`1006e5d75`** `fix(badges): kill Hardened/Transcendent vocab + regenerate all badge SVGs`
+  - *Context*: Final visual regeneration of the badges to remove deprecated rank terminology.
+
+*Recommendation*: These should be reviewed as a batch, as they represent the finalized polish layer for Yggdrasil II that was accidentally orphaned during branch synchronization.
