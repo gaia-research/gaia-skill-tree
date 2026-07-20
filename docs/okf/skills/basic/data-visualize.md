@@ -15,6 +15,6 @@ Generates charts, graphs, and visual summaries from datasets by selecting approp
 
 ## Derivatives
 
-- [Data Analysis](/skills/extra/data-analysis.md)
-- [Architecture Diagram](/skills/extra/architecture-diagram.md)
+- [Data Analysis](/skills/fusion/data-analysis.md)
+- [Architecture Diagram](/skills/fusion/architecture-diagram.md)
 

@@ -115,13 +115,4 @@
   --grade-B-rgb: var(--evidence-silver-rgb);
   --grade-C: var(--evidence-bronze);
   --grade-C-rgb: var(--evidence-bronze-rgb);
-  /* ── Lowercase aliases (styles.css consumes lowercase) ──────── */
-  --grade-s: var(--grade-S);
-  --grade-s-rgb: var(--grade-S-rgb);
-  --grade-a: var(--grade-A);
-  --grade-a-rgb: var(--grade-A-rgb);
-  --grade-b: var(--grade-B);
-  --grade-b-rgb: var(--grade-B-rgb);
-  --grade-c: var(--grade-C);
-  --grade-c-rgb: var(--grade-C-rgb);
 }

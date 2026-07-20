@@ -15,5 +15,5 @@ Orders a set of candidate items by relevance, quality, or fitness for a given ob
 
 ## Derivatives
 
-- [RAG Pipeline](/skills/extra/rag-pipeline.md)
+- [RAG Pipeline](/skills/fusion/rag-pipeline.md)
 

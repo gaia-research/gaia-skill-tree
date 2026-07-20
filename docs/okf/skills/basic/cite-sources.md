@@ -15,9 +15,9 @@ Attributes claims to specific sources with proper references, URLs, or bibliogra
 
 ## Derivatives
 
-- [Gaia Audit](/skills/extra/registry-entry-audit.md)
-- [Grounding](/skills/extra/grounding.md)
-- [Research](/skills/extra/research.md)
-- [Literature Review](/skills/extra/literature-review.md)
-- [Scientific Writing](/skills/extra/scientific-writing.md)
+- [Gaia Audit](/skills/fusion/registry-entry-audit.md)
+- [Grounding](/skills/fusion/grounding.md)
+- [Research](/skills/fusion/research.md)
+- [Literature Review](/skills/fusion/literature-review.md)
+- [Scientific Writing](/skills/fusion/scientific-writing.md)
 

@@ -19,14 +19,14 @@
     {
       "id": "mattpocock/engineering",
       "name": "Engineering",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 270.0,
       "overallTrustGrade": "A",
       "contributor": "mattpocock",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "rankWord": "Extra",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/mattpocock/engineering.json"
       }
@@ -34,14 +34,14 @@
     {
       "id": "mattpocock/productivity",
       "name": "Productivity",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 120.0,
       "overallTrustGrade": "A",
       "contributor": "mattpocock",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "rankWord": "Extra",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/mattpocock/productivity.json"
       }

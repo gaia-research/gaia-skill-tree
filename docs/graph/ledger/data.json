@@ -1,6 +1,6 @@
 {
-  "version": "6.8.8",
-  "generatedAt": "2026-07-19T01:49:00Z",
+  "version": "5.11.0",
+  "generatedAt": "2026-07-20T18:18:00Z",
   "summary": {
     "total": 280,
     "S": 5,
@@ -9,7 +9,7 @@
     "C": 78,
     "ungraded": 81,
     "floor": 0,
-    "up": 41
+    "up": 31
   },
   "rows": [
     {
@@ -151,11 +151,11 @@
       "skillId": "mattpocock/engineering",
       "tm": 270.0,
       "grade": "A",
-      "currentStars": "3★",
+      "currentStars": "4★",
       "mayStars": "5★",
-      "juneStars": "3★",
+      "juneStars": "4★",
       "g7Stars": "4★",
-      "flag": "[up]",
+      "flag": "",
       "apexResults": null,
       "typeBreakdown": {
         "fusion-recipe": 270.0
@@ -166,18 +166,18 @@
       "skillId": "firecrawl/firecrawl-skills",
       "tm": 223.52,
       "grade": "A",
-      "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
       "g7Stars": "4★",
-      "flag": "[up]",
+      "flag": "",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 36.0,
         "github-stars-own": 37.52,
         "fusion-recipe": 150.0
       },
-      "origin": false
+      "origin": true
     },
     {
       "skillId": "gsd-build/get-shit-done",
@@ -200,11 +200,11 @@
       "skillId": "ruvnet/agentdb",
       "tm": 201.0,
       "grade": "A",
-      "currentStars": "3★",
+      "currentStars": "4★",
       "mayStars": "5★",
-      "juneStars": "3★",
+      "juneStars": "4★",
       "g7Stars": "4★",
-      "flag": "[up]",
+      "flag": "",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 36.0,
@@ -217,11 +217,11 @@
       "skillId": "ruvnet/ruflo-v3",
       "tm": 186.0,
       "grade": "A",
-      "currentStars": "3★",
+      "currentStars": "4★",
       "mayStars": "4★",
-      "juneStars": "3★",
+      "juneStars": "4★",
       "g7Stars": "4★",
-      "flag": "[up]",
+      "flag": "",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 36.0,
@@ -233,11 +233,11 @@
       "skillId": "garrytan/garrytan",
       "tm": 156.0,
       "grade": "A",
-      "currentStars": "3★",
+      "currentStars": "4★",
       "mayStars": "4★",
-      "juneStars": "3★",
+      "juneStars": "4★",
       "g7Stars": "4★",
-      "flag": "[up]",
+      "flag": "",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 36.0,
@@ -299,11 +299,11 @@
       "skillId": "ruvnet/dual-mode",
       "tm": 126.0,
       "grade": "A",
-      "currentStars": "3★",
+      "currentStars": "4★",
       "mayStars": "3★",
-      "juneStars": "3★",
+      "juneStars": "4★",
       "g7Stars": "4★",
-      "flag": "[up]",
+      "flag": "",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 36.0,
@@ -315,11 +315,11 @@
       "skillId": "safishamsi/graphify",
       "tm": 122.85,
       "grade": "A",
-      "currentStars": "3★",
+      "currentStars": "4★",
       "mayStars": "1★",
-      "juneStars": "3★",
+      "juneStars": "4★",
       "g7Stars": "4★",
-      "flag": "[up]",
+      "flag": "",
       "apexResults": null,
       "typeBreakdown": {
         "github-stars-own": 75.05,
@@ -332,11 +332,11 @@
       "skillId": "mattpocock/productivity",
       "tm": 120.0,
       "grade": "A",
-      "currentStars": "3★",
+      "currentStars": "4★",
       "mayStars": "4★",
-      "juneStars": "3★",
+      "juneStars": "4★",
       "g7Stars": "4★",
-      "flag": "[up]",
+      "flag": "",
       "apexResults": null,
       "typeBreakdown": {
         "fusion-recipe": 120.0
@@ -347,11 +347,11 @@
       "skillId": "ruvnet/reasoningbank",
       "tm": 118.5,
       "grade": "A",
-      "currentStars": "3★",
+      "currentStars": "4★",
       "mayStars": "3★",
-      "juneStars": "3★",
+      "juneStars": "4★",
       "g7Stars": "4★",
-      "flag": "[up]",
+      "flag": "",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 36.0,
@@ -894,11 +894,11 @@
       "skillId": "stanfordnlp/dspy",
       "tm": 100.0,
       "grade": "A",
-      "currentStars": "3★",
+      "currentStars": "4★",
       "mayStars": "1★",
-      "juneStars": "3★",
+      "juneStars": "4★",
       "g7Stars": "4★",
-      "flag": "[up]",
+      "flag": "",
       "apexResults": null,
       "typeBreakdown": {
         "arxiv": 100.0

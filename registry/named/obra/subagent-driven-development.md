@@ -19,7 +19,7 @@ tags:
 - two-stage-review
 - multi-agent
 createdAt: '2026-05-18'
-updatedAt: '2026-07-16'
+updatedAt: '2026-07-20'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -137,6 +137,13 @@ timeline:
     fusion (Yggdrasil II taxonomy migration #997)'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-16
+- timestamp: '2026-07-20T18:16:45Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''subagent-driven-development'' type: extra/ultimate →
+    fusion (Yggdrasil II taxonomy migration #997)'
+  metaEpoch: yggdrasil-ii
+  migrationBatch: yggdrasil-ii@2026-07-20
 trustMagnitude: 117.65
 overallTrustGrade: A
 apexGateStatus:

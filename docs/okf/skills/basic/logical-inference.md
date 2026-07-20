@@ -15,6 +15,6 @@ Applies deductive, inductive, or abductive reasoning to derive valid conclusions
 
 ## Derivatives
 
-- [Knowledge Graph Construction](/skills/extra/knowledge-graph-build.md)
-- [Multimodal Reasoning](/skills/extra/multimodal-reasoning.md)
+- [Knowledge Graph Construction](/skills/fusion/knowledge-graph-build.md)
+- [Multimodal Reasoning](/skills/fusion/multimodal-reasoning.md)
 

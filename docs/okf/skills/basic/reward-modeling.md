@@ -15,6 +15,6 @@ Learns a scalar reward signal from human preference comparisons between model ou
 
 ## Derivatives
 
-- [Recursive Self-Improvement](/skills/extra/recursive-self-improvement.md)
-- [Prompt Optimization](/skills/extra/prompt-optimization.md)
+- [Recursive Self-Improvement](/skills/fusion/recursive-self-improvement.md)
+- [Prompt Optimization](/skills/fusion/prompt-optimization.md)
 

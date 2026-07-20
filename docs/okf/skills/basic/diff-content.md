@@ -15,6 +15,6 @@ Compares two versions of content and produces a structured delta highlighting ad
 
 ## Derivatives
 
-- [Code Review Pipeline](/skills/extra/code-review-pipeline.md)
-- [Finishing a Development Branch](/skills/extra/finishing-a-development-branch.md)
+- [Code Review Pipeline](/skills/fusion/code-review-pipeline.md)
+- [Finishing a Development Branch](/skills/fusion/finishing-a-development-branch.md)
 

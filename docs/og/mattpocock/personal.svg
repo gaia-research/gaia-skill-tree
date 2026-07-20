@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
   width="1200" height="630" viewBox="0 0 1200 630"
-  class="plate plate--standard" data-branch="standard" data-level="3"
+  class="plate plate--suite" data-branch="suite" data-level="3"
   data-plate-class="FIELD BODY"
   aria-label="Evolved · 3★ — FIELD BODY plate for /personal">
   <rect width="1200" height="630" fill="#0e0d20"/>

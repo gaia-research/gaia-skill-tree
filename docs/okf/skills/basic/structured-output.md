@@ -15,9 +15,9 @@ Generates output guaranteed to conform to a given schema (JSON, YAML, Pydantic m
 
 ## Derivatives
 
-- [RAG Pipeline](/skills/extra/rag-pipeline.md)
-- [Text-to-SQL Pipeline](/skills/extra/text-to-sql-pipeline.md)
-- [Function Calling](/skills/extra/function-calling.md)
-- [Guardrails](/skills/extra/guardrails.md)
-- [Skill Authoring](/skills/extra/skill-authoring.md)
+- [RAG Pipeline](/skills/fusion/rag-pipeline.md)
+- [Text-to-SQL Pipeline](/skills/fusion/text-to-sql-pipeline.md)
+- [Function Calling](/skills/fusion/function-calling.md)
+- [Guardrails](/skills/fusion/guardrails.md)
+- [Skill Authoring](/skills/fusion/skill-authoring.md)
 

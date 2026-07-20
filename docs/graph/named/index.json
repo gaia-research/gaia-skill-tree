@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-19",
+  "generatedAt": "2026-07-20",
   "buckets": {
     "automated-testing": [
       {
@@ -429,7 +429,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-07-16",
+        "updatedAt": "2026-07-20",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:42:20Z",
@@ -541,6 +541,14 @@
             "details": "Generic parent 'git-ship-done-pipeline' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-16"
+          },
+          {
+            "timestamp": "2026-07-20T18:16:45Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'git-ship-done-pipeline' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-20"
           }
         ],
         "suiteComponents": [
@@ -614,7 +622,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-07-16",
+        "updatedAt": "2026-07-20",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:04:57Z",
@@ -702,22 +710,22 @@
             "details": "first-run baseline"
           },
           {
-            "timestamp": "2026-07-16T08:36:43Z",
+            "timestamp": "2026-07-20T18:16:45Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
             "details": "Generic parent 'git-ship-done-pipeline' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
-            "migrationBatch": "yggdrasil-ii@2026-07-16"
+            "migrationBatch": "yggdrasil-ii@2026-07-20"
           },
           {
-            "timestamp": "2026-07-16T08:36:43Z",
+            "timestamp": "2026-07-20T18:16:45Z",
             "action": "demote",
             "contributor": "mbtiongson1",
             "previousValue": "4★",
             "newValue": "3★",
-            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=52.2 (< 100.0)) — demoted to 3★ Evolved",
+            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch origin=False TM=202.2 (≥ 100.0)) — demoted to 3★ Evolved",
             "metaEpoch": "yggdrasil-ii",
-            "migrationBatch": "yggdrasil-ii@2026-07-16"
+            "migrationBatch": "yggdrasil-ii@2026-07-20"
           }
         ],
         "suiteComponents": [
@@ -2071,7 +2079,7 @@
           }
         ],
         "createdAt": "2026-05-31",
-        "updatedAt": "2026-07-16",
+        "updatedAt": "2026-07-20",
         "timeline": [
           {
             "timestamp": "2026-05-31T02:15:44Z",
@@ -2146,6 +2154,14 @@
             "details": "Generic parent 'performance-tuning' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-16"
+          },
+          {
+            "timestamp": "2026-07-20T18:16:45Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'performance-tuning' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-20"
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
@@ -2325,7 +2341,7 @@
         "origin": true,
         "genericSkillRef": "vertical-slice-planning",
         "status": "named",
-        "level": "3★",
+        "level": "4★",
         "description": "The definitive autonomous \"Founder mode\" review and decision suite. An auto-review pipeline that reads the full CEO, design, engineering, and DX review skills from disk and runs them sequentially with auto-decisions using 6 decision principles.",
         "title": "Founder Mode Autoplan",
         "catalogRef": "garrytan-autoplan",
@@ -2354,7 +2370,7 @@
           }
         ],
         "createdAt": "2026-05-12",
-        "updatedAt": "2026-07-16",
+        "updatedAt": "2026-07-20",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:01Z",
@@ -2401,22 +2417,12 @@
             "details": "TM 0.0 -> 156.0, grade ungraded -> A (direct edit -- CLI gap)"
           },
           {
-            "timestamp": "2026-07-16T08:36:42Z",
+            "timestamp": "2026-07-20T18:16:45Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
             "details": "Generic parent 'vertical-slice-planning' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
-            "migrationBatch": "yggdrasil-ii@2026-07-16"
-          },
-          {
-            "timestamp": "2026-07-16T08:36:42Z",
-            "action": "demote",
-            "contributor": "mbtiongson1",
-            "previousValue": "4★",
-            "newValue": "3★",
-            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=36.0 (< 100.0)) — demoted to 3★ Evolved",
-            "metaEpoch": "yggdrasil-ii",
-            "migrationBatch": "yggdrasil-ii@2026-07-16"
+            "migrationBatch": "yggdrasil-ii@2026-07-20"
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -2442,9 +2448,9 @@
         "type": "fusion",
         "role": "origin",
         "branch": "suite",
-        "rank": 3,
-        "rankWord": "Evolved",
-        "medallion": "◇",
+        "rank": 4,
+        "rankWord": "Extra",
+        "medallion": "◆",
         "contractVersion": "gaia-public-v1"
       },
       {
@@ -6717,7 +6723,7 @@
           }
         ],
         "createdAt": "2026-07-13",
-        "updatedAt": "2026-07-16",
+        "updatedAt": "2026-07-20",
         "timeline": [
           {
             "timestamp": "2026-07-13T06:22:17Z",
@@ -6762,6 +6768,14 @@
             "details": "Generic parent 'web-scrape' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-16"
+          },
+          {
+            "timestamp": "2026-07-20T18:16:45Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'web-scrape' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-20"
           }
         ],
         "suiteRef": "firecrawl/firecrawl-skills",
@@ -6939,7 +6953,7 @@
           }
         ],
         "createdAt": "2026-07-13",
-        "updatedAt": "2026-07-16",
+        "updatedAt": "2026-07-20",
         "timeline": [
           {
             "timestamp": "2026-07-13T06:22:17Z",
@@ -6972,6 +6986,14 @@
             "details": "Generic parent 'web-search' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-16"
+          },
+          {
+            "timestamp": "2026-07-20T18:16:45Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'web-search' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-20"
           }
         ],
         "suiteRef": "firecrawl/firecrawl-skills",
@@ -7083,10 +7105,10 @@
         "id": "firecrawl/firecrawl-skills",
         "name": "Firecrawl Skills",
         "contributor": "firecrawl",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "firecrawl",
         "status": "named",
-        "level": "3★",
+        "level": "4★",
         "description": "Suite of Firecrawl skills for web scraping, search, browser interaction, environment setup, and research. Install all skills: `npx -y firecrawl-cli@latest init --all --browser`",
         "title": "The Web Infuser",
         "catalogRef": "firecrawl-firecrawl",
@@ -7132,7 +7154,7 @@
           }
         ],
         "createdAt": "2026-05-17",
-        "updatedAt": "2026-07-16",
+        "updatedAt": "2026-07-20",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:01Z",
@@ -7219,22 +7241,12 @@
             "details": "TM 36.0 -> 223.52, grade C -> A (direct edit -- CLI gap)"
           },
           {
-            "timestamp": "2026-07-16T08:36:42Z",
+            "timestamp": "2026-07-20T18:17:10Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
             "details": "Generic parent 'firecrawl' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
-            "migrationBatch": "yggdrasil-ii@2026-07-16"
-          },
-          {
-            "timestamp": "2026-07-16T08:36:42Z",
-            "action": "demote",
-            "contributor": "mbtiongson1",
-            "previousValue": "4★",
-            "newValue": "3★",
-            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=73.5 (< 100.0)) — demoted to 3★ Evolved",
-            "metaEpoch": "yggdrasil-ii",
-            "migrationBatch": "yggdrasil-ii@2026-07-16"
+            "migrationBatch": "yggdrasil-ii@2026-07-20"
           }
         ],
         "suiteComponents": [
@@ -7258,11 +7270,11 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "variant",
+        "role": "origin",
         "branch": "suite",
-        "rank": 3,
-        "rankWord": "Evolved",
-        "medallion": "◇",
+        "rank": 4,
+        "rankWord": "Extra",
+        "medallion": "◆",
         "contractVersion": "gaia-public-v1"
       }
     ],
@@ -9580,7 +9592,7 @@
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-07-16",
+        "updatedAt": "2026-07-20",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:42:59Z",
@@ -9671,6 +9683,14 @@
             "details": "Generic parent 'ux-audit' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-16"
+          },
+          {
+            "timestamp": "2026-07-20T18:16:45Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'ux-audit' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-20"
           }
         ],
         "trustMagnitude": 122.8,
@@ -10703,7 +10723,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-07-16",
+        "updatedAt": "2026-07-20",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:22Z",
@@ -10766,6 +10786,14 @@
             "details": "Generic parent 'founder-mode-orchestration' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-16"
+          },
+          {
+            "timestamp": "2026-07-20T18:16:45Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'founder-mode-orchestration' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-20"
           }
         ],
         "suiteComponents": [
@@ -12567,7 +12595,7 @@
           }
         ],
         "createdAt": "2026-06-02",
-        "updatedAt": "2026-07-19",
+        "updatedAt": "2026-07-20",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:44:00Z",
@@ -12653,6 +12681,14 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 3★ to 4★"
+          },
+          {
+            "timestamp": "2026-07-20T18:16:45Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'prompt-optimization' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-20"
           }
         ],
         "trustMagnitude": 100.0,
@@ -14725,7 +14761,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-07-16",
+        "updatedAt": "2026-07-20",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:48Z",
@@ -14811,6 +14847,14 @@
             "details": "Generic parent 'subagent-driven-development' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-16"
+          },
+          {
+            "timestamp": "2026-07-20T18:16:45Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'subagent-driven-development' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-20"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -15154,7 +15198,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-07-19",
+        "updatedAt": "2026-07-20",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:49Z",
@@ -15268,6 +15312,14 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 3★ to 4★"
+          },
+          {
+            "timestamp": "2026-07-20T18:16:45Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'writing-plans' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-20"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -17548,11 +17600,11 @@
         "origin": true,
         "genericSkillRef": "engineering-discipline",
         "status": "named",
-        "level": "3★",
+        "level": "4★",
         "description": "Engineering category suite for Matt Pocock's skills. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Matt Pocock Engineering Discipline",
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-07-16",
+        "updatedAt": "2026-07-20",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -17576,22 +17628,12 @@
             "details": "Level updated from 5★ to 4★ per G7 final rankings calibration."
           },
           {
-            "timestamp": "2026-07-16T08:36:43Z",
+            "timestamp": "2026-07-20T18:16:45Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
             "details": "Generic parent 'engineering-discipline' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
-            "migrationBatch": "yggdrasil-ii@2026-07-16"
-          },
-          {
-            "timestamp": "2026-07-16T08:36:43Z",
-            "action": "demote",
-            "contributor": "mbtiongson1",
-            "previousValue": "4★",
-            "newValue": "3★",
-            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=0.0 (< 100.0)) — demoted to 3★ Evolved",
-            "metaEpoch": "yggdrasil-ii",
-            "migrationBatch": "yggdrasil-ii@2026-07-16"
+            "migrationBatch": "yggdrasil-ii@2026-07-20"
           }
         ],
         "suiteRef": "mattpocock/skills",
@@ -17624,9 +17666,9 @@
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin",
         "branch": "suite",
-        "rank": 3,
-        "rankWord": "Evolved",
-        "medallion": "◇",
+        "rank": 4,
+        "rankWord": "Extra",
+        "medallion": "◆",
         "contractVersion": "gaia-public-v1"
       }
     ],
@@ -18330,11 +18372,11 @@
         "origin": true,
         "genericSkillRef": "productivity",
         "status": "named",
-        "level": "3★",
+        "level": "4★",
         "description": "Productivity category suite for Matt Pocock's skills. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Matt Pocock Productivity Suite",
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-07-16",
+        "updatedAt": "2026-07-20",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -18352,22 +18394,12 @@
             "details": "TM 0.0 -> 120.0, grade ungraded -> A (direct edit -- CLI gap)"
           },
           {
-            "timestamp": "2026-07-16T08:36:43Z",
+            "timestamp": "2026-07-20T18:16:45Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
             "details": "Generic parent 'productivity' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
-            "migrationBatch": "yggdrasil-ii@2026-07-16"
-          },
-          {
-            "timestamp": "2026-07-16T08:36:43Z",
-            "action": "demote",
-            "contributor": "mbtiongson1",
-            "previousValue": "4★",
-            "newValue": "3★",
-            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=0.0 (< 100.0)) — demoted to 3★ Evolved",
-            "metaEpoch": "yggdrasil-ii",
-            "migrationBatch": "yggdrasil-ii@2026-07-16"
+            "migrationBatch": "yggdrasil-ii@2026-07-20"
           }
         ],
         "suiteRef": "mattpocock/skills",
@@ -18394,9 +18426,9 @@
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin",
         "branch": "suite",
-        "rank": 3,
-        "rankWord": "Evolved",
-        "medallion": "◇",
+        "rank": 4,
+        "rankWord": "Extra",
+        "medallion": "◆",
         "contractVersion": "gaia-public-v1"
       }
     ],
@@ -18803,7 +18835,7 @@
           }
         ],
         "createdAt": "2026-05-22",
-        "updatedAt": "2026-07-16",
+        "updatedAt": "2026-07-20",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -18908,6 +18940,14 @@
             "details": "Generic parent 'skill-mastery' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-16"
+          },
+          {
+            "timestamp": "2026-07-20T18:16:45Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'skill-mastery' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-20"
           }
         ],
         "suiteComponents": [
@@ -20897,7 +20937,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-07-16",
+        "updatedAt": "2026-07-20",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:48Z",
@@ -20995,6 +21035,14 @@
             "details": "Generic parent 'superpowers' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-16"
+          },
+          {
+            "timestamp": "2026-07-20T18:16:45Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'superpowers' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-20"
           }
         ],
         "suiteComponents": [
@@ -21118,7 +21166,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-07-19",
+        "updatedAt": "2026-07-20",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:49Z",
@@ -21226,6 +21274,14 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 3★ to 4★"
+          },
+          {
+            "timestamp": "2026-07-20T18:16:45Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'using-git-worktrees' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-20"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -21301,7 +21357,7 @@
           }
         ],
         "createdAt": "2026-05-15",
-        "updatedAt": "2026-07-16",
+        "updatedAt": "2026-07-20",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -21353,6 +21409,14 @@
             "details": "Generic parent 'few-shot-learning' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-16"
+          },
+          {
+            "timestamp": "2026-07-20T18:16:45Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'few-shot-learning' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-20"
           }
         ],
         "trustMagnitude": 100.0,
@@ -22091,7 +22155,7 @@
         "origin": true,
         "genericSkillRef": "agent-memory-platform",
         "status": "named",
-        "level": "3★",
+        "level": "4★",
         "description": "Complete AgentDB vector memory platform fused from 5 discipline skills — QUIC-synchronized distributed storage, pattern learning, memory design, optimization, and vector search.",
         "title": "The Memory Sovereign",
         "catalogRef": "ruvnet-agentdb",
@@ -22138,7 +22202,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-07-16",
+        "updatedAt": "2026-07-20",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:52Z",
@@ -22198,22 +22262,12 @@
             "details": "first-run baseline"
           },
           {
-            "timestamp": "2026-07-16T08:36:44Z",
+            "timestamp": "2026-07-20T18:16:45Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
             "details": "Generic parent 'agent-memory-platform' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
-            "migrationBatch": "yggdrasil-ii@2026-07-16"
-          },
-          {
-            "timestamp": "2026-07-16T08:36:44Z",
-            "action": "demote",
-            "contributor": "mbtiongson1",
-            "previousValue": "4★",
-            "newValue": "3★",
-            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=81.0 (< 100.0)) — demoted to 3★ Evolved",
-            "metaEpoch": "yggdrasil-ii",
-            "migrationBatch": "yggdrasil-ii@2026-07-16"
+            "migrationBatch": "yggdrasil-ii@2026-07-20"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -22241,9 +22295,9 @@
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
         "branch": "suite",
-        "rank": 3,
-        "rankWord": "Evolved",
-        "medallion": "◇",
+        "rank": 4,
+        "rankWord": "Extra",
+        "medallion": "◆",
         "contractVersion": "gaia-public-v1"
       }
     ],
@@ -22523,7 +22577,7 @@
         "origin": true,
         "genericSkillRef": "dual-mode",
         "status": "named",
-        "level": "3★",
+        "level": "4★",
         "description": "Fuses headless worker spawning, result collection, and hybrid workflow coordination into a complete Claude+Codex parallel orchestration pattern.",
         "title": "The Hybrid Conductor",
         "catalogRef": "ruvnet-dual-mode",
@@ -22552,7 +22606,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-07-16",
+        "updatedAt": "2026-07-20",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:53Z",
@@ -22595,22 +22649,12 @@
             "details": "first-run baseline"
           },
           {
-            "timestamp": "2026-07-16T08:36:44Z",
+            "timestamp": "2026-07-20T18:16:45Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
             "details": "Generic parent 'dual-mode' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
-            "migrationBatch": "yggdrasil-ii@2026-07-16"
-          },
-          {
-            "timestamp": "2026-07-16T08:36:44Z",
-            "action": "demote",
-            "contributor": "mbtiongson1",
-            "previousValue": "4★",
-            "newValue": "3★",
-            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=36.0 (< 100.0)) — demoted to 3★ Evolved",
-            "metaEpoch": "yggdrasil-ii",
-            "migrationBatch": "yggdrasil-ii@2026-07-16"
+            "migrationBatch": "yggdrasil-ii@2026-07-20"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -22636,9 +22680,9 @@
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
         "branch": "suite",
-        "rank": 3,
-        "rankWord": "Evolved",
-        "medallion": "◇",
+        "rank": 4,
+        "rankWord": "Extra",
+        "medallion": "◆",
         "contractVersion": "gaia-public-v1"
       }
     ],
@@ -23730,7 +23774,7 @@
         "origin": true,
         "genericSkillRef": "reasoning-pattern-bank",
         "status": "named",
-        "level": "3★",
+        "level": "4★",
         "description": "Fuses adaptive pattern learning with persistent vector memory to build a self-improving agent knowledge base across sessions.",
         "title": "The Pattern Sage",
         "catalogRef": "ruvnet-reasoningbank",
@@ -23800,7 +23844,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-07-16",
+        "updatedAt": "2026-07-20",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:58Z",
@@ -23878,22 +23922,12 @@
             "details": "first-run baseline"
           },
           {
-            "timestamp": "2026-07-16T08:36:44Z",
+            "timestamp": "2026-07-20T18:16:45Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
             "details": "Generic parent 'reasoning-pattern-bank' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
-            "migrationBatch": "yggdrasil-ii@2026-07-16"
-          },
-          {
-            "timestamp": "2026-07-16T08:36:44Z",
-            "action": "demote",
-            "contributor": "mbtiongson1",
-            "previousValue": "4★",
-            "newValue": "3★",
-            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=88.5 (< 100.0)) — demoted to 3★ Evolved",
-            "metaEpoch": "yggdrasil-ii",
-            "migrationBatch": "yggdrasil-ii@2026-07-16"
+            "migrationBatch": "yggdrasil-ii@2026-07-20"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -23918,9 +23952,9 @@
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
         "branch": "suite",
-        "rank": 3,
-        "rankWord": "Evolved",
-        "medallion": "◇",
+        "rank": 4,
+        "rankWord": "Extra",
+        "medallion": "◆",
         "contractVersion": "gaia-public-v1"
       }
     ],
@@ -23932,7 +23966,7 @@
         "origin": true,
         "genericSkillRef": "platform-modernization-sprint",
         "status": "named",
-        "level": "3★",
+        "level": "4★",
         "description": "Complete Ruflo v3 modernization sprint: CLI modernization, core implementation, DDD architecture, MCP optimization, memory unification, performance tuning, security overhaul, and swarm coordination.",
         "title": "The V3 Architect",
         "catalogRef": "ruvnet-ruflo-v3",
@@ -23962,7 +23996,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-07-16",
+        "updatedAt": "2026-07-20",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:58Z",
@@ -23999,22 +24033,12 @@
             "details": "first-run baseline"
           },
           {
-            "timestamp": "2026-07-16T08:36:44Z",
+            "timestamp": "2026-07-20T18:16:45Z",
             "action": "type_change",
             "contributor": "mbtiongson1",
             "details": "Generic parent 'platform-modernization-sprint' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
-            "migrationBatch": "yggdrasil-ii@2026-07-16"
-          },
-          {
-            "timestamp": "2026-07-16T08:36:44Z",
-            "action": "demote",
-            "contributor": "mbtiongson1",
-            "previousValue": "4★",
-            "newValue": "3★",
-            "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch TM=36.0 (< 100.0)) — demoted to 3★ Evolved",
-            "metaEpoch": "yggdrasil-ii",
-            "migrationBatch": "yggdrasil-ii@2026-07-16"
+            "migrationBatch": "yggdrasil-ii@2026-07-20"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -24048,9 +24072,9 @@
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "origin",
         "branch": "suite",
-        "rank": 3,
-        "rankWord": "Evolved",
-        "medallion": "◇",
+        "rank": 4,
+        "rankWord": "Extra",
+        "medallion": "◆",
         "contractVersion": "gaia-public-v1"
       }
     ],
@@ -24128,7 +24152,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-07-16",
+        "updatedAt": "2026-07-20",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:58Z",
@@ -24222,6 +24246,14 @@
             "details": "Generic parent 'multi-topology-orchestration' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-16"
+          },
+          {
+            "timestamp": "2026-07-20T18:16:45Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'multi-topology-orchestration' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-20"
           }
         ],
         "suiteComponents": [
@@ -25081,7 +25113,7 @@
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-07-19",
+        "updatedAt": "2026-07-20",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:24Z",
@@ -25178,6 +25210,14 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 3★ to 4★"
+          },
+          {
+            "timestamp": "2026-07-20T18:16:45Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'knowledge-graph-build' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-20"
           }
         ],
         "trustMagnitude": 116.57,
@@ -27928,7 +27968,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-16",
+      "updatedAt": "2026-07-20",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:34Z",
@@ -27986,6 +28026,14 @@
           "details": "Generic parent 'literature-search' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
           "metaEpoch": "yggdrasil-ii",
           "migrationBatch": "yggdrasil-ii@2026-07-16"
+        },
+        {
+          "timestamp": "2026-07-20T18:16:45Z",
+          "action": "type_change",
+          "contributor": "mbtiongson1",
+          "details": "Generic parent 'literature-search' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+          "metaEpoch": "yggdrasil-ii",
+          "migrationBatch": "yggdrasil-ii@2026-07-20"
         }
       ],
       "trustMagnitude": 100.82,

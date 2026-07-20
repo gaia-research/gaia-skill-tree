@@ -16,5 +16,5 @@ Conditions a language model on a small number of input-output demonstrations wit
 ## Derivatives
 
 - [Chain-of-Thought Reasoning](/skills/basic/chain-of-thought.md)
-- [Conversational Agent](/skills/extra/conversational-agent.md)
+- [Conversational Agent](/skills/fusion/conversational-agent.md)
 

@@ -15,6 +15,6 @@ Classifies the affective polarity (positive / negative / neutral, or fine-graine
 
 ## Derivatives
 
-- [Content Moderation](/skills/extra/content-moderation.md)
-- [Translation Pipeline](/skills/extra/translation-pipeline.md)
+- [Content Moderation](/skills/fusion/content-moderation.md)
+- [Translation Pipeline](/skills/fusion/translation-pipeline.md)
 

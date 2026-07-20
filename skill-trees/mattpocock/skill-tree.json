@@ -61,7 +61,7 @@
     },
     {
       "skillId": "mattpocock/engineering",
-      "level": "3★",
+      "level": "4★",
       "unlockedAt": "2026-05-21T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -80,6 +80,11 @@
           "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-07-20T00:00:01Z",
+          "source": "promotion"
         }
       ]
     },
@@ -189,7 +194,7 @@
     },
     {
       "skillId": "mattpocock/productivity",
-      "level": "3★",
+      "level": "4★",
       "unlockedAt": "2026-05-21T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
@@ -203,6 +208,11 @@
           "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-07-20T00:00:01Z",
+          "source": "promotion"
         }
       ]
     },
@@ -1128,6 +1138,22 @@
       "previousValue": "4★",
       "newValue": "3★",
       "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
+      "skillId": "mattpocock/productivity"
+    },
+    {
+      "timestamp": "2026-07-20T00:00:01Z",
+      "action": "rank_up",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
+      "skillId": "mattpocock/engineering"
+    },
+    {
+      "timestamp": "2026-07-20T00:00:01Z",
+      "action": "rank_up",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
       "skillId": "mattpocock/productivity"
     }
   ],

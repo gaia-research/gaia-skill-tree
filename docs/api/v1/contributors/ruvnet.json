@@ -19,14 +19,14 @@
     {
       "id": "ruvnet/agentdb",
       "name": "AgentDB",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 201.0,
       "overallTrustGrade": "A",
       "contributor": "ruvnet",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "rankWord": "Extra",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/ruvnet/agentdb.json"
       }
@@ -34,14 +34,14 @@
     {
       "id": "ruvnet/ruflo-v3",
       "name": "Ruflo V3",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 186.0,
       "overallTrustGrade": "A",
       "contributor": "ruvnet",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "rankWord": "Extra",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/ruvnet/ruflo-v3.json"
       }
@@ -49,14 +49,14 @@
     {
       "id": "ruvnet/dual-mode",
       "name": "Dual Mode",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 126.0,
       "overallTrustGrade": "A",
       "contributor": "ruvnet",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "rankWord": "Extra",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/ruvnet/dual-mode.json"
       }
@@ -64,14 +64,14 @@
     {
       "id": "ruvnet/reasoningbank",
       "name": "ReasoningBank",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 118.5,
       "overallTrustGrade": "A",
       "contributor": "ruvnet",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "rankWord": "Extra",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/ruvnet/reasoningbank.json"
       }

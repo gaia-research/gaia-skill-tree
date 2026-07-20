@@ -15,7 +15,7 @@ Classifies user intent and directs execution to the appropriate handler, tool, o
 
 ## Derivatives
 
-- [Plan and Execute](/skills/extra/plan-and-execute.md)
-- [Conversational Agent](/skills/extra/conversational-agent.md)
-- [Vertical Slice Planning](/skills/extra/vertical-slice-planning.md)
+- [Plan and Execute](/skills/fusion/plan-and-execute.md)
+- [Conversational Agent](/skills/fusion/conversational-agent.md)
+- [Vertical Slice Planning](/skills/fusion/vertical-slice-planning.md)
 

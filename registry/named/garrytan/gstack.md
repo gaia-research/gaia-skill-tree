@@ -23,7 +23,7 @@ tags:
 - orchestration
 - ultimate
 createdAt: '2026-05-18'
-updatedAt: '2026-07-16'
+updatedAt: '2026-07-20'
 suiteComponents:
 - garrytan/benchmark
 - garrytan/benchmark-models
@@ -152,6 +152,13 @@ timeline:
     (Yggdrasil II taxonomy migration #997)'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-16
+- timestamp: '2026-07-20T18:16:45Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''founder-mode-orchestration'' type: extra/ultimate → fusion
+    (Yggdrasil II taxonomy migration #997)'
+  metaEpoch: yggdrasil-ii
+  migrationBatch: yggdrasil-ii@2026-07-20
 trustMagnitude: 589.32
 overallTrustGrade: S
 apexGateStatus:
