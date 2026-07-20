@@ -15,6 +15,6 @@ Connect to and invoke tools exposed by Model Context Protocol (MCP) servers — 
 
 ## Derivatives
 
-- [MCP Server Creation](/skills/extra/mcp-server-creation.md)
-- [Founder Mode](/skills/ultimate/founder-mode-orchestration.md)
+- [MCP Server Creation](/skills/fusion/mcp-server-creation.md)
+- [Founder Mode](/skills/fusion/founder-mode-orchestration.md)
 

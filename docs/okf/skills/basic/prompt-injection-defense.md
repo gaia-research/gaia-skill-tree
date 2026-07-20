@@ -15,5 +15,5 @@ Detects and neutralizes adversarial instructions injected into agent context fro
 
 ## Derivatives
 
-- [Skill Security Analysis](/skills/extra/skill-security-analysis.md)
+- [Skill Security Analysis](/skills/fusion/skill-security-analysis.md)
 

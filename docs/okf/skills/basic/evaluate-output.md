@@ -15,15 +15,15 @@ Assesses the quality, correctness, or safety of generated output against defined
 
 ## Derivatives
 
-- [Code Review Pipeline](/skills/extra/code-review-pipeline.md)
-- [Gaia Audit](/skills/extra/registry-entry-audit.md)
-- [Grounding](/skills/extra/grounding.md)
-- [Multi-Agent Debate](/skills/extra/multi-agent-debate.md)
-- [Prompt Optimization](/skills/extra/prompt-optimization.md)
-- [Guardrails](/skills/extra/guardrails.md)
-- [Agent Evaluation](/skills/extra/agent-eval.md)
-- [Design Review](/skills/extra/design-review.md)
-- [Security Audit](/skills/extra/security-audit.md)
-- [Founder Mode](/skills/ultimate/founder-mode-orchestration.md)
-- [Detect Anomaly](/skills/extra/detect-anomaly.md)
+- [Code Review Pipeline](/skills/fusion/code-review-pipeline.md)
+- [Gaia Audit](/skills/fusion/registry-entry-audit.md)
+- [Grounding](/skills/fusion/grounding.md)
+- [Multi-Agent Debate](/skills/fusion/multi-agent-debate.md)
+- [Prompt Optimization](/skills/fusion/prompt-optimization.md)
+- [Guardrails](/skills/fusion/guardrails.md)
+- [Agent Evaluation](/skills/fusion/agent-eval.md)
+- [Design Review](/skills/fusion/design-review.md)
+- [Security Audit](/skills/fusion/security-audit.md)
+- [Founder Mode](/skills/fusion/founder-mode-orchestration.md)
+- [Detect Anomaly](/skills/fusion/detect-anomaly.md)
 

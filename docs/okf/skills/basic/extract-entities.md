@@ -15,9 +15,9 @@ Identifies and extracts named entities such as people, organizations, dates, and
 
 ## Derivatives
 
-- [Content Moderation](/skills/extra/content-moderation.md)
-- [Document Analyst](/skills/extra/document-analyst.md)
-- [Knowledge Graph Construction](/skills/extra/knowledge-graph-build.md)
-- [Knowledge Harvest](/skills/extra/knowledge-harvest.md)
-- [Web Scrape](/skills/extra/web-scrape.md)
+- [Content Moderation](/skills/fusion/content-moderation.md)
+- [Document Analyst](/skills/fusion/document-analyst.md)
+- [Knowledge Graph Construction](/skills/fusion/knowledge-graph-build.md)
+- [Knowledge Harvest](/skills/fusion/knowledge-harvest.md)
+- [Web Scrape](/skills/fusion/web-scrape.md)
 

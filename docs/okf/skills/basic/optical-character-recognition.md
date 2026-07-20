@@ -15,5 +15,5 @@ Extracts machine-readable text from raster images, scanned pages, and photo docu
 
 ## Derivatives
 
-- [Document Analyst](/skills/extra/document-analyst.md)
+- [Document Analyst](/skills/fusion/document-analyst.md)
 

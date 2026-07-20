@@ -15,7 +15,7 @@ Adapts tone, complexity, and framing of output to match a target audience profil
 
 ## Derivatives
 
-- [Ghostwrite](/skills/extra/ghostwrite.md)
-- [Translation Pipeline](/skills/extra/translation-pipeline.md)
-- [Humanize Prose](/skills/extra/humanize-prose.md)
+- [Ghostwrite](/skills/fusion/ghostwrite.md)
+- [Translation Pipeline](/skills/fusion/translation-pipeline.md)
+- [Humanize Prose](/skills/fusion/humanize-prose.md)
 

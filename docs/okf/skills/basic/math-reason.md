@@ -15,6 +15,6 @@ Solves multi-step mathematical problems including arithmetic, algebra, calculus,
 
 ## Derivatives
 
-- [Autonomous Data Scientist](/skills/extra/autonomous-data-scientist.md)
-- [Autonomous Scientific Discovery](/skills/extra/scientific-discovery.md)
+- [Autonomous Data Scientist](/skills/fusion/autonomous-data-scientist.md)
+- [Autonomous Scientific Discovery](/skills/fusion/scientific-discovery.md)
 

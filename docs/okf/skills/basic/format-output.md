@@ -15,9 +15,9 @@ Structures raw output into a specified format such as markdown, JSON, CSV, or HT
 
 ## Derivatives
 
-- [Document Analyst](/skills/extra/document-analyst.md)
-- [Text-to-SQL Pipeline](/skills/extra/text-to-sql-pipeline.md)
-- [Humanize Prose](/skills/extra/humanize-prose.md)
-- [Architecture Diagram](/skills/extra/architecture-diagram.md)
-- [Founder Mode](/skills/ultimate/founder-mode-orchestration.md)
+- [Document Analyst](/skills/fusion/document-analyst.md)
+- [Text-to-SQL Pipeline](/skills/fusion/text-to-sql-pipeline.md)
+- [Humanize Prose](/skills/fusion/humanize-prose.md)
+- [Architecture Diagram](/skills/fusion/architecture-diagram.md)
+- [Founder Mode](/skills/fusion/founder-mode-orchestration.md)
 

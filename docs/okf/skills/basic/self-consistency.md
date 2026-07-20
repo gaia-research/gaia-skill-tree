@@ -15,6 +15,6 @@ Samples multiple independent reasoning paths for the same problem and selects th
 
 ## Derivatives
 
-- [Tree of Thought](/skills/extra/tree-of-thought.md)
-- [ReAct Reasoning](/skills/extra/re-act-reasoning.md)
+- [Tree of Thought](/skills/fusion/tree-of-thought.md)
+- [ReAct Reasoning](/skills/fusion/re-act-reasoning.md)
 

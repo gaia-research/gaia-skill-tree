@@ -15,5 +15,5 @@ Generates accurate natural-language descriptions of images, capturing objects, a
 
 ## Derivatives
 
-- [Multimodal Reasoning](/skills/extra/multimodal-reasoning.md)
+- [Multimodal Reasoning](/skills/fusion/multimodal-reasoning.md)
 

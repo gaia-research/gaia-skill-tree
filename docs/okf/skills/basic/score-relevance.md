@@ -15,6 +15,6 @@ Assigns a numerical relevance score to candidate items relative to a query or ob
 
 ## Derivatives
 
-- [RAG Pipeline](/skills/extra/rag-pipeline.md)
-- [Agent Evaluation](/skills/extra/agent-eval.md)
+- [RAG Pipeline](/skills/fusion/rag-pipeline.md)
+- [Agent Evaluation](/skills/fusion/agent-eval.md)
 

@@ -886,9 +886,137 @@
       ctx.beginPath(); ctx.arc(sx - r * 0.28, sy - r * 0.28, r * 0.32, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(255,255,255,${(alpha * 0.65).toFixed(2)})`; ctx.fill();
     }
+    // ── Warm-star helpers (§Ygg-II hot-tier). Blend two "R,G,B" token
+    // triplets so the ember→gold→white-hot ramps stay token-DERIVED — no raw
+    // tier hex re-enters this file. Only 255,255,255 (universal specular/
+    // hot-core white, already used by drawNode/drawNodeVI) is a literal.
+    function _rgbParts(triplet) {
+      return triplet.split(',').map(function (v) { return parseInt(v, 10) || 0; });
+    }
+    function _mixRgb(aTriplet, bTriplet, m) {
+      const a = _rgbParts(aTriplet), b = _rgbParts(bTriplet);
+      return a.map(function (v, i) { return Math.round(v + (b[i] - v) * m); }).join(',');
+    }
+
+    // §Ygg-II hot-tier — 4★ DWARF STAR. Colour is PURPLE, not ember (Marco
+    // correction 2026-07-21): this tier inherits the deprecated 'extra'
+    // identity, which migrates to the violet --rank-3/--rank-4 tokens
+    // everywhere this session (scatter strip, neighbour card, legend glyph).
+    // A small but genuinely BURNING violet dwarf: a white-hot core, a magenta
+    // (--rank-4) flame that flickers, a cooler violet (--rank-3) corona that
+    // shimmers, and a white-hot ember that visibly LICKS around inside the
+    // core. Colours token-derived; combustion faked with layered detuned sines
+    // + a wandering hot-spot offset — no particles, a handful of sin/frame.
+    function drawNodeIV(sx, sy, r, alpha, t, p) {
+      const tok = getCanvasTokens();
+      const flame = tok.rank[4].rgb;                    // magenta flame (#e879f9)
+      const violet = tok.rank[3].rgb;                   // cooler violet (#a78bfa)
+      const core = _mixRgb(flame, '255,255,255', 0.6);  // white-hot centre
+      const phase = p.phase || 0;
+      // Combustion flicker: three detuned sines → irregular, fire-like. High
+      // amplitude so the dwarf visibly BURNS (Marco) rather than sitting static.
+      const flick = 0.78 + 0.22 * (0.5 * Math.sin(t * 8.3 + phase) + 0.3 * Math.sin(t * 5.1 + phase * 1.7) + 0.2 * Math.sin(t * 12.7 + phase * 0.5));
+      // Wandering ember hot-spot — the flame "licks" around the core (cheap
+      // 2-freq offset, wide enough to read as motion at node scale).
+      const wx = Math.cos(t * 3.1 + phase) * r * 0.28 + Math.cos(t * 6.7 + phase) * r * 0.13;
+      const wy = Math.sin(t * 2.7 + phase) * r * 0.28 + Math.sin(t * 5.9 + phase) * r * 0.13;
+      // Shimmering violet corona (footprint lifted toward Unique's weight).
+      const coronaR = r * 4.6 * flick;
+      const corona = ctx.createRadialGradient(sx, sy, r * 0.5, sx, sy, coronaR);
+      corona.addColorStop(0, `rgba(${flame},${(alpha * 0.52).toFixed(2)})`);
+      corona.addColorStop(0.4, `rgba(${violet},${(alpha * 0.26 * flick).toFixed(2)})`);
+      corona.addColorStop(1, `rgba(${violet},0)`);
+      ctx.beginPath(); ctx.arc(sx, sy, coronaR, 0, Math.PI * 2);
+      ctx.fillStyle = corona; ctx.fill();
+      // Burning body: violet disk with a magenta flame and white-hot centre.
+      const body = ctx.createRadialGradient(sx - r * 0.15, sy - r * 0.15, 0, sx, sy, r * 1.05);
+      body.addColorStop(0, `rgba(${core},${Math.min(alpha * 1.2, 1).toFixed(2)})`);
+      body.addColorStop(0.45, `rgba(${flame},${Math.min(alpha * 1.1, 1).toFixed(2)})`);
+      body.addColorStop(1, `rgba(${violet},${(alpha * 0.9).toFixed(2)})`);
+      ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2);
+      ctx.fillStyle = body; ctx.fill();
+      // Moving white-hot ember licking inside the core (the "burning" motion).
+      const emberR = r * 0.62 * (0.8 + 0.35 * flick);
+      const ember = ctx.createRadialGradient(sx + wx, sy + wy, 0, sx + wx, sy + wy, emberR);
+      ember.addColorStop(0, `rgba(${core},${Math.min(alpha * 1.05 * flick, 1).toFixed(2)})`);
+      ember.addColorStop(0.6, `rgba(${flame},${(alpha * 0.35).toFixed(2)})`);
+      ember.addColorStop(1, `rgba(${flame},0)`);
+      ctx.beginPath(); ctx.arc(sx + wx, sy + wy, emberR, 0, Math.PI * 2);
+      ctx.fillStyle = ember; ctx.fill();
+      // Specular hot spot (flickers with the flame).
+      ctx.beginPath(); ctx.arc(sx - r * 0.24, sy - r * 0.24, r * 0.26, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255,255,255,${(alpha * 0.6 * flick).toFixed(2)})`; ctx.fill();
+    }
+
+    // §Ygg-II hot-tier — 5★ BURNING GOLDEN SUN. Bolder than the 4★ dwarf and
+    // clearly below the 6★ pulsar (Marco: push size/brightness/contrast up).
+    // A large, radiant gold corona; a bright white-gold core (NOT the pure
+    // white reserved for the 6★ pulsar); eight waving, SHIMMERING solar flares
+    // that lick outward — deliberately NOT the pulsar's two sharp rotating
+    // beams. Gold from --apex-gold, deep amber toward --honor-red at the flare
+    // edges. Combustion via layered detuned sines; still cheap per frame.
+    function drawNodeV(sx, sy, r, alpha, t, p) {
+      const tok = getCanvasTokens();
+      const gold = tok.apexGoldRgb;                        // 251,191,36
+      const amber = _mixRgb(gold, tok.honorRedRgb, 0.42);  // deep amber flare edge
+      const hot = _mixRgb(gold, '255,255,255', 0.55);      // white-gold centre
+      const phase = p.phase || 0;
+      const breathe = 0.92 + 0.12 * Math.sin(t * 1.3 + phase) + 0.05 * Math.sin(t * 3.7 + phase * 1.4);
+      // Waving + shimmering solar flares (longer, brighter, more numerous than
+      // the dwarf — reads as an actively burning surface).
+      ctx.save();
+      ctx.translate(sx, sy);
+      ctx.rotate(t * 0.3 + phase);
+      const flares = 8;
+      for (let f = 0; f < flares; f++) {
+        const fa = (Math.PI * 2 * f / flares);
+        const len = r * (4.2 + 1.3 * Math.sin(t * 2.0 + f * 1.3) + 0.5 * Math.sin(t * 4.5 + f));
+        const wa = alpha * (0.26 + 0.16 * Math.sin(t * 2.6 + f * 0.8));
+        if (wa < 0.01) continue;
+        const cone = Math.PI * 0.075;
+        const fg = ctx.createLinearGradient(0, 0, Math.cos(fa) * len, Math.sin(fa) * len);
+        fg.addColorStop(0, `rgba(${hot},${wa.toFixed(2)})`);
+        fg.addColorStop(0.4, `rgba(${gold},${(wa * 0.55).toFixed(2)})`);
+        fg.addColorStop(1, `rgba(${amber},0)`);
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(Math.cos(fa - cone) * len, Math.sin(fa - cone) * len);
+        ctx.lineTo(Math.cos(fa + cone) * len, Math.sin(fa + cone) * len);
+        ctx.closePath();
+        ctx.fillStyle = fg; ctx.fill();
+      }
+      ctx.restore();
+      // Big radiant gold corona (bolder: larger + brighter than before).
+      const coronaR = r * 7.4 * breathe;
+      const corona = ctx.createRadialGradient(sx, sy, r * 0.8, sx, sy, coronaR);
+      corona.addColorStop(0, `rgba(${hot},${(alpha * 0.6).toFixed(2)})`);
+      corona.addColorStop(0.3, `rgba(${gold},${(alpha * 0.34).toFixed(2)})`);
+      corona.addColorStop(0.65, `rgba(${amber},${(alpha * 0.13).toFixed(2)})`);
+      corona.addColorStop(1, `rgba(${amber},0)`);
+      ctx.beginPath(); ctx.arc(sx, sy, coronaR, 0, Math.PI * 2);
+      ctx.fillStyle = corona; ctx.fill();
+      // Gold body with a bright white-gold hot centre (pure white is the 6★
+      // pulsar's alone).
+      const body = ctx.createRadialGradient(sx - r * 0.14, sy - r * 0.14, 0, sx, sy, r * 1.05);
+      body.addColorStop(0, `rgba(${hot},${Math.min(alpha * 1.25, 1).toFixed(2)})`);
+      body.addColorStop(0.5, `rgba(${gold},${Math.min(alpha * 1.14, 1).toFixed(2)})`);
+      body.addColorStop(1, `rgba(${amber},${(alpha * 0.95).toFixed(2)})`);
+      ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2);
+      ctx.fillStyle = body; ctx.fill();
+      // Specular.
+      ctx.beginPath(); ctx.arc(sx - r * 0.24, sy - r * 0.24, r * 0.34, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255,255,255,${(alpha * 0.85).toFixed(2)})`; ctx.fill();
+    }
+
     function drawNodeVI(sx, sy, r, alpha, t, p) {
       const phase = p.phase || 0;
       const spin = t * 1.3 + phase;
+
+      // §Ygg-II hot-tier — 6★ PULSAR strobe. A sharpened, periodic brightness
+      // spike (pow(sin) narrows each pulse into a beat) synced near the beam
+      // sweep, so the crown of the ladder reads as a genuinely PULSING beacon,
+      // not the 5★ sun's continuous breathe. Cheap: one Math.sin + pow/frame.
+      const strobe = Math.pow(Math.max(0, Math.sin(t * 2.4 + phase)), 8);
 
       // Impact blink: fires every ~5s, quick flash then gradual fade-out
       // [TEMPORARY] Flash disabled per request.
@@ -948,11 +1076,11 @@
         ctx.fill();
       }
 
-      // ── BRIGHT WHITE ENERGY GLOW ──
-      const glowPulse = 0.9 + 0.1 * Math.sin(t * 1.6 + phase);
+      // ── BRIGHT WHITE ENERGY GLOW ── (strobe widens + brightens on each beat)
+      const glowPulse = 0.9 + 0.1 * Math.sin(t * 1.6 + phase) + 0.28 * strobe;
       const glowR = r * (5.0 * glowPulse);
       const glow = ctx.createRadialGradient(sx, sy, r * 0.1, sx, sy, glowR);
-      glow.addColorStop(0, `rgba(255,255,255,${(alpha * 0.72).toFixed(2)})`);
+      glow.addColorStop(0, `rgba(255,255,255,${Math.min(alpha * (0.72 + 0.28 * strobe), 1).toFixed(2)})`);
       glow.addColorStop(0.15, `rgba(255,255,245,${(alpha * 0.52).toFixed(2)})`);
       glow.addColorStop(0.4, `rgba(255,245,210,${(alpha * 0.22).toFixed(2)})`);
       glow.addColorStop(0.7, `rgba(255,230,160,${(alpha * 0.08).toFixed(2)})`);
@@ -1624,14 +1752,41 @@
 
         const specialMix = state.treeLayout ? easeWorldTree(state.viewMix) : 1;
         const nodeRadius = baseR * state.scale * pr.scale * pulse;
-        if (skill.level === '6★' && specialMix > 0) {
-          if (specialMix < 1) drawNode(pr.sx, pr.sy, nodeRadius, { rgb: getCanvasTokens().apexGoldRgb }, depthAlpha * vis * (1 - specialMix));
-          drawNodeVI(pr.sx, pr.sy, nodeRadius, depthAlpha * vis * specialMix, state.t, p);
-        } else if (skill.branch === 'unique' && specialMix > 0) {
-          if (specialMix < 1) drawNode(pr.sx, pr.sy, nodeRadius, { rgb: getCanvasTokens().apexGoldRgb }, depthAlpha * vis * (1 - specialMix));
-          // §PR3b §C: the singularity forks by RANK (4/5/6) — escalation reads
-          // CALMER + DENSER, not more frantic. Pass the effective rank in.
+        // §Ygg-II hot-tier dispatch. PRECEDENCE — BRANCH WINS OVER RANK: a
+        // 'unique'-branch node stays a black-hole singularity at EVERY rank
+        // (4/5/6), never a hot star. Rationale: 'unique' is a STRUCTURAL
+        // identity (the singularity constellation), and this file's convention
+        // is rank=colour / branch=structure (see the tooltip: branch drives the
+        // type-class, effectiveRank drives colour). drawNodeUnique already
+        // rank-forks the singularity 4→5→6 internally, so a unique's escalation
+        // reads as a DENSER black hole, not a switch into the hot-star family.
+        // All 10 live unique nodes are 4★ today; ordering unique BEFORE the rank
+        // tiers also future-proofs any 5★/6★ unique (previously the level==='6★'
+        // check ran first and would have mis-rendered a 6★ unique as a pulsar).
+        // Hot tiers are keyed on effectiveRank (the joined numeric rank the tree
+        // layout already sizes by), ascending in intensity 4<5<6: dwarf → sun →
+        // pulsar.
+        const eRank = skill.effectiveRank;
+        const _tok = getCanvasTokens();
+        const apexGoldRgb = _tok.apexGoldRgb;
+        // §Ygg-II hot-tier sizing (Marco): the star tiers carry the same visual
+        // WEIGHT as the Unique-branch singularities rather than the plain
+        // standard-node radius. NODE_RADII floors a unique to rank 5 (r≈8);
+        // a ×1.3 lift brings the 4★ dwarf up to that footprint while keeping
+        // the intensity/size ladder strictly ascending 4<5<6.
+        const hotR = nodeRadius * 1.3;
+        if (skill.branch === 'unique' && specialMix > 0) {
+          if (specialMix < 1) drawNode(pr.sx, pr.sy, nodeRadius, { rgb: apexGoldRgb }, depthAlpha * vis * (1 - specialMix));
           drawNodeUnique(pr.sx, pr.sy, nodeRadius, depthAlpha * vis * specialMix, state.t, p, skill.effectiveRank);
+        } else if (eRank >= 6 && specialMix > 0) {
+          if (specialMix < 1) drawNode(pr.sx, pr.sy, nodeRadius, { rgb: apexGoldRgb }, depthAlpha * vis * (1 - specialMix));
+          drawNodeVI(pr.sx, pr.sy, hotR, depthAlpha * vis * specialMix, state.t, p);
+        } else if (eRank === 5 && specialMix > 0) {
+          if (specialMix < 1) drawNode(pr.sx, pr.sy, nodeRadius, { rgb: apexGoldRgb }, depthAlpha * vis * (1 - specialMix));
+          drawNodeV(pr.sx, pr.sy, hotR, depthAlpha * vis * specialMix, state.t, p);
+        } else if (eRank === 4 && specialMix > 0) {
+          if (specialMix < 1) drawNode(pr.sx, pr.sy, nodeRadius, { rgb: _tok.rank[4].rgb }, depthAlpha * vis * (1 - specialMix));
+          drawNodeIV(pr.sx, pr.sy, hotR, depthAlpha * vis * specialMix, state.t, p);
         } else if (state.redPillActive && state.namedMap && state.namedMap[skill.id] && specialMix > 0.98) {
           drawNodeNamed(pr.sx, pr.sy, baseR * state.scale * pr.scale * pulse, depthAlpha * vis);
         } else {
@@ -1929,14 +2084,17 @@
             neighbors.forEach(nid => {
               const ns = state.skills.find(s => s.id === nid);
               if (!ns) return;
-              const col = PALETTE[ns.type] || PALETTE.basic;
               const card = document.createElement('div');
               card.className = 'graph-neighbor-card';
               card.dataset.nid = nid;
-              card.dataset.type = ns.type || 'basic';
-              
+              // §PR3b-consistent: branch drives the structural border class,
+              // rank drives the name color — mirrors the tooltip above, not
+              // the dead type enum (PALETTE has no 'fusion' entry, so keying
+              // on ns.type silently mis-colored fusion neighbors as basic).
+              card.dataset.branch = ns.branch || 'standard';
+
               const span = document.createElement('span');
-              span.style.color = `rgba(${col.rgb},.9)`;
+              span.style.color = `rgba(${_rankColorRgb(ns.effectiveRank)},.9)`;
               span.textContent = ns.name;
               card.appendChild(span);
               
@@ -2526,7 +2684,7 @@
         const dy = scatterLastY - e.clientY;
         scatterLastY = e.clientY;
         if (state.treeLayout) {
-          state.treeSpread = Math.max(0.35, Math.min(2.4, state.treeSpread * Math.exp(dy * 0.007)));
+          state.treeSpread = Math.max(1, Math.min(4, state.treeSpread * Math.exp(dy * 0.007)));
         } else {
           state.scale = Math.max(0.05, Math.min((options.scale || GRAPH_SCALE) * 10, state.scale * Math.exp(dy * 0.007)));
           state.positions = buildPositions(state.skills, state.scale, state.layoutMode);
@@ -2551,7 +2709,7 @@
         if (!factor) return;
         e.preventDefault();
         if (state.treeLayout) {
-          state.treeSpread = Math.max(0.35, Math.min(2.4, state.treeSpread * factor));
+          state.treeSpread = Math.max(1, Math.min(4, state.treeSpread * factor));
         } else {
           state.scale = Math.max(0.05, Math.min((options.scale || GRAPH_SCALE) * 10, state.scale * factor));
           state.positions = buildPositions(state.skills, state.scale, state.layoutMode);
@@ -2913,7 +3071,7 @@
       state.paused = false; state.rotSpeed = 1;
       state.zoom = 1;
       state.scale = options.scale || GRAPH_SCALE;
-      state.treeSpread = 1;
+      state.treeSpread = 2;
       if (!state.treeLayout) state.positions = buildPositions(state.skills, state.scale, state.layoutMode);
       state.nebula = true;
       state.hoverSlowdown = 0;
@@ -3103,6 +3261,10 @@
         state.panX = 0;
         state.panY = 0;
         state.zoom = 1;
+        // Explorer3D defaults to a wider 200% spread; the flat 2D hero stays
+        // at 100% (its own initial state / never touches this path).
+        state.treeSpread = 2;
+        if (typeof redrawScatterRuler === 'function') redrawScatterRuler();
       }
       state.viewFrom = state.viewMix;
       state.viewTarget = target;

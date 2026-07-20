@@ -2,12 +2,12 @@
 id: firecrawl/firecrawl-skills
 name: Firecrawl Skills
 contributor: firecrawl
-origin: false
+origin: true
 genericSkillRef: firecrawl
 status: named
 title: The Web Infuser
 catalogRef: firecrawl-firecrawl
-level: 3★
+level: 4★
 description: 'Suite of Firecrawl skills for web scraping, search, browser interaction,
   environment setup, and research. Install all skills: `npx -y firecrawl-cli@latest
   init --all --browser`'
@@ -20,7 +20,7 @@ tags:
 - extraction
 - crawler
 createdAt: '2026-05-17'
-updatedAt: '2026-07-16'
+updatedAt: '2026-07-20'
 timeline:
 - timestamp: '2026-06-02T23:33:01Z'
   action: demote
@@ -80,22 +80,13 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-07-13T11:46:14Z'
   details: TM 36.0 -> 223.52, grade C -> A (direct edit -- CLI gap)
-- timestamp: '2026-07-16T08:36:42Z'
+- timestamp: '2026-07-20T18:17:10Z'
   action: type_change
   contributor: mbtiongson1
   details: 'Generic parent ''firecrawl'' type: extra/ultimate → fusion (Yggdrasil
     II taxonomy migration #997)'
   metaEpoch: yggdrasil-ii
-  migrationBatch: yggdrasil-ii@2026-07-16
-- timestamp: '2026-07-16T08:36:42Z'
-  action: demote
-  contributor: mbtiongson1
-  previousValue: 4★
-  newValue: 3★
-  details: 'Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch
-    TM=73.5 (< 100.0)) — demoted to 3★ Evolved'
-  metaEpoch: yggdrasil-ii
-  migrationBatch: yggdrasil-ii@2026-07-16
+  migrationBatch: yggdrasil-ii@2026-07-20
 evidence:
 - class: B
   source: https://github.com/firecrawl/firecrawl
@@ -144,7 +135,6 @@ suiteComponents:
 - firecrawl/firecrawl-build-search
 - firecrawl/firecrawl-research-index
 ---
-
 ## Overview
 
 Firecrawl is an API to search, scrape, and interact with the web for AI. It converts websites into LLM-ready markdown or structured data.

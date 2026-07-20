@@ -3355,6 +3355,7 @@ tr:hover td {
 .tree-dialog-body {
   flex: 1;
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
   padding: 1.1rem 1.4rem;
   min-height: 0
 }
@@ -3369,6 +3370,15 @@ tr:hover td {
   border: none;
   margin: 0;
   padding: 0;
+  /* Opt out of the global code-block overflow-safety rule (`pre { word-break:
+     break-all; overflow-wrap: anywhere; }` below). Those force character-level
+     breaks even under white-space: pre, which mangles the box-drawing tree's
+     column alignment instead of just scrolling. This is an ASCII diagram, not
+     prose code — it needs a real horizontal scroll, not a forced wrap. */
+  overflow-wrap: normal;
+  word-break: normal;
+  max-width: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 .tree-skeleton {
@@ -3401,8 +3411,8 @@ tr:hover td {
   }
 
   36% {
-    color: var(--tier-ultimate);
-    text-shadow: 0 0 10px rgba(245, 158, 11, .8), 0 0 22px rgba(245, 158, 11, .4)
+    color: var(--rank-5);
+    text-shadow: 0 0 10px rgba(251, 191, 36, .8), 0 0 22px rgba(251, 191, 36, .4)
   }
 
   54% {
@@ -3411,8 +3421,8 @@ tr:hover td {
   }
 
   72% {
-    color: var(--tier-extra);
-    text-shadow: 0 0 10px rgba(192, 132, 252, .8), 0 0 22px rgba(192, 132, 252, .4)
+    color: var(--rank-4);
+    text-shadow: 0 0 10px rgba(232, 121, 249, .8), 0 0 22px rgba(232, 121, 249, .4)
   }
 
   90% {
@@ -3426,54 +3436,54 @@ tr:hover td {
   }
 }
 
-@keyframes tree-extra-glow {
-
-  0%,
-  100% {
-    color: var(--tier-basic);
-    text-shadow: 0 0 10px rgba(56, 189, 248, .6);
-  }
-
-  20% {
-    color: var(--rank-3);
-    text-shadow: 0 0 10px rgba(167, 139, 250, .6);
-  }
-
-  40% {
-    color: #ef4444;
-    text-shadow: 0 0 10px rgba(239, 68, 68, .6);
-  }
-
-  60% {
-    color: var(--tier-extra);
-    text-shadow: 0 0 10px rgba(192, 132, 252, .6);
-  }
-
-  80% {
-    color: #34d399;
-    text-shadow: 0 0 10px rgba(52, 211, 153, .6);
-  }
-}
-
-/* ── Tree Tier Glyphs — token-bound (Stage 1/5b) ── */
-.tree-glyph-ult {
-  color: var(--tier-ultimate) !important;
+/* ── Tree Glyphs — Ygg II rank × branch taxonomy ── */
+/* ◆ suite glyphs — rank-keyed */
+.tree-glyph-suite--iv {
+  color: var(--rank-4) !important;
   font-weight: 900 !important;
 }
 
-.tree-glyph-ext {
-  color: var(--tier-extra) !important;
-  font-weight: 700 !important;
+.tree-glyph-suite--v {
+  color: var(--rank-5) !important;
+  font-weight: 900 !important;
 }
 
-.tree-glyph-uni {
+.tree-glyph-suite--vi {
+  font-weight: 900 !important;
+  animation: tree-rainbow-glow 4s ease-in-out infinite !important;
+  text-shadow: var(--glow-VI) !important;
+}
+
+/* ◉ unique glyphs — branch × rank */
+.tree-glyph-uni--iv {
   color: var(--tier-unique) !important;
   font-weight: 900 !important;
 }
 
+.tree-glyph-uni--v {
+  color: var(--tier-unique-5) !important;
+  font-weight: 900 !important;
+  text-shadow: 0 0 10px rgba(178, 106, 58, .5) !important;
+}
+
+.tree-glyph-uni--vi {
+  color: var(--tier-unique-6) !important;
+  font-weight: 900 !important;
+  text-shadow: var(--glow-VI) !important;
+}
+
+
+/* ○ basic glyph */
 .tree-glyph-basic {
   color: var(--tier-basic) !important;
 }
+
+/* · fusion glyph */
+.tree-glyph-fusion {
+  color: var(--tier-extra, #c084fc) !important;
+  font-weight: 900 !important;
+}
+
 
 /* ── Rank chips [N★] / [N★ · Name] — token-bound ── */
 .tree-rank {
@@ -3547,27 +3557,47 @@ tr:hover td {
 }
 
 /* ── Tree Highlighting ── */
-.tree-ult-line {
+.tree-suite-line {
   font-weight: 700 !important;
   color: var(--text) !important;
 }
 
-.tree-ult-contributor {
+.tree-suite-contributor {
   color: var(--honor-red) !important;
   font-weight: 800 !important;
   text-shadow: 0 0 8px rgba(239, 68, 68, 0.4) !important;
 }
 
-.tree-ult-slash {
+.tree-suite-slash {
   color: var(--muted) !important;
   opacity: 0.5 !important;
 }
 
-.tree-ult-skillname,
-.tree-ult-id {
-  color: var(--tier-ultimate) !important;
+/* skill name color inherits from glyph class via currentColor on the line */
+.tree-suite-skillname,
+.tree-suite-id {
+  color: inherit !important;
   font-weight: 700 !important;
 }
+
+/* Rank-specific colors for suite skill names */
+.tree-suite-skillname--iv,
+.tree-suite-id--iv {
+  color: var(--rank-4) !important;
+}
+
+.tree-suite-skillname--v,
+.tree-suite-id--v {
+  color: var(--rank-5) !important;
+}
+
+.tree-suite-skillname--vi,
+.tree-suite-id--vi {
+  color: var(--rank-6) !important;
+  animation: tree-rainbow-glow 4s ease-in-out infinite !important;
+  text-shadow: var(--glow-VI) !important;
+}
+
 
 .tree-unique-line {
   font-weight: 700 !important;
@@ -3584,40 +3614,78 @@ tr:hover td {
   opacity: 0.5 !important;
 }
 
-.tree-unique-skillname {
+.tree-unique-skillname--iv,
+.tree-unique-id--iv {
   color: var(--tier-unique) !important;
   font-weight: 900 !important;
   text-shadow: 0 0 8px rgba(124, 58, 237, 0.6), 0 0 16px rgba(124, 58, 237, 0.3) !important;
 }
 
-.tree-unique-gold {
-  color: var(--rank-5) !important;
-  text-shadow: 0 0 8px rgba(251, 191, 36, 0.6), 0 0 16px rgba(251, 191, 36, 0.3) !important;
+.tree-unique-skillname--v,
+.tree-unique-id--v {
+  color: var(--tier-unique-5) !important;
+  font-weight: 900 !important;
+  text-shadow: 0 0 8px rgba(178, 106, 58, 0.5), 0 0 16px rgba(178, 106, 58, 0.25) !important;
 }
 
-.tree-extra-line {
-  font-weight: 600 !important;
-  color: var(--text) !important;
+.tree-unique-skillname--vi,
+.tree-unique-id--vi {
+  color: var(--tier-unique-6) !important;
+  font-weight: 900 !important;
+  text-shadow: var(--glow-VI) !important;
 }
 
-.tree-extra-contributor {
-  color: var(--honor-red) !important;
-  font-weight: 700 !important;
-}
-
-.tree-extra-slash {
-  color: var(--muted) !important;
-  opacity: 0.5 !important;
-}
-
-.tree-extra-skillname,
-.tree-extra-id {
-  color: var(--tier-extra) !important;
-}
 
 .tree-basic-line {
   color: var(--text) !important;
 }
+
+/* ── Tree Fusion/Derivative Skills ── */
+.tree-fusion-line {
+  color: var(--text) !important;
+}
+
+.tree-fusion-contributor {
+  color: var(--honor-red) !important;
+  font-weight: 700 !important;
+}
+
+.tree-fusion-slash {
+  color: var(--muted) !important;
+  opacity: 0.5 !important;
+}
+
+.tree-fusion-skillname,
+.tree-fusion-id {
+  color: var(--rank-0, #94a3b8) !important; /* default to starless grey for no ranks */
+}
+
+/* Rank overrides for fusion skill names */
+.tree-fusion-skillname--ii,
+.tree-fusion-id--ii {
+  color: var(--rank-2) !important;
+}
+
+.tree-fusion-skillname--iii,
+.tree-fusion-id--iii {
+  color: var(--rank-3) !important;
+}
+
+.tree-fusion-skillname--iv,
+.tree-fusion-id--iv {
+  color: var(--rank-4) !important;
+}
+
+.tree-fusion-skillname--v,
+.tree-fusion-id--v {
+  color: var(--rank-5) !important;
+}
+
+.tree-fusion-skillname--vi,
+.tree-fusion-id--vi {
+  color: var(--rank-6) !important;
+}
+
 
 .tree-basic-contributor {
   color: var(--honor-red) !important;
@@ -3963,20 +4031,32 @@ tr:hover td {
   flex-shrink: 0
 }
 
-.graph-legend-swatch[data-tier="basic"] {
-  background: var(--tier-basic)
+/* Legend structural glyphs — colour keyed on the emitted data-legend-type
+   (skill-graph.js ~L2422-2425). basic = neutral outer-bark grey (type spans
+   all ranks, mirrors the rank-pill's 0★ anchor below); unique/suite read
+   their branch tokens (unique = dark violet, suite = gold, per T5's
+   neighbor-card convention). fusion reads --rank-3 (light violet), NOT the
+   generated --tier-fusion (amber) — that token is the literal type:fusion
+   color from meta.typeColors, but it visually collides with Suite's gold
+   here, and this session's T3/T4 fixes both already established
+   old-tier-extra -> --rank-3 as the migration target for this "fusion"
+   concept, distinct from Unique's darker --tier-unique violet. The old
+   [data-tier="basic|extra|unique|ultimate"] swatch rules were dead — JS
+   never emits data-tier or .graph-legend-swatch on these items. */
+.graph-legend-item[data-legend-type="basic"] .graph-legend-glyph {
+  color: var(--rank-0)
 }
 
-.graph-legend-swatch[data-tier="extra"] {
-  background: var(--tier-extra)
+.graph-legend-item[data-legend-type="fusion"] .graph-legend-glyph {
+  color: var(--rank-3)
 }
 
-.graph-legend-swatch[data-tier="unique"] {
-  background: var(--tier-unique)
+.graph-legend-item[data-legend-type="unique"] .graph-legend-glyph {
+  color: var(--tier-unique)
 }
 
-.graph-legend-swatch[data-tier="ultimate"] {
-  background: var(--tier-ultimate)
+.graph-legend-item[data-legend-type="suite"] .graph-legend-glyph {
+  color: var(--rank-5)
 }
 
 .graph-legend-ranks {
@@ -4072,10 +4152,10 @@ tr:hover td {
   box-shadow: 0 0 14px rgba(var(--honor-red-rgb), .35);
 }
 
-/* ── Scatter strip (direction rule: top = Ultimate, bottom = Basic).
-     Four-stop gradient runs from --tier-ultimate-edge through
-     --tier-unique-edge → --tier-extra-edge → --tier-basic-edge so the
-     strip visually maps onto the tier hierarchy from apex down. */
+/* ── Scatter strip (direction rule: top = 5★, bottom = Basic).
+     Four-stop gradient runs from --rank-5-edge through
+     --tier-unique-edge → --rank-3-edge → --tier-basic-edge so the
+     strip visually maps onto the rank hierarchy from apex down. */
 .graph-scatter-strip {
   position: absolute;
   left: 0;
@@ -4087,9 +4167,9 @@ tr:hover td {
   flex-direction: column;
   align-items: center;
   background: linear-gradient(to bottom,
-      var(--tier-ultimate-edge) 0%,
+      var(--rank-5-edge) 0%,
       var(--tier-unique-edge) 33%,
-      var(--tier-extra-edge) 66%,
+      var(--rank-3-edge) 66%,
       var(--tier-basic-edge) 100%);
   border-right: 1px solid var(--border);
   cursor: ns-resize;
@@ -4107,7 +4187,7 @@ tr:hover td {
 }
 
 .graph-scatter-edge--top {
-  color: var(--tier-ultimate)
+  color: var(--rank-5)
 }
 
 .graph-scatter-edge--bot {
@@ -4271,7 +4351,7 @@ tr:hover td {
 }
 
 .graph-speed-edge--right {
-  color: var(--tier-extra)
+  color: var(--rank-3)
 }
 
 .graph-speed-track {
@@ -4795,20 +4875,18 @@ tr:hover td {
   transform: translate(-50%, -120%) scale(1.08);
 }
 
-/* Neighbor card border tints route through --tier-*-border tokens. */
-.graph-neighbor-card[data-type="basic"] {
+/* Neighbor card border tints route through branch (data-branch), not the
+   dead type enum — mirrors the PR3b branch-keyed tooltip (.skill-tooltip-type-*).
+   suite keys through --rank-5-border (a rank token, not a tier alias). */
+.graph-neighbor-card[data-branch="standard"] {
   border-color: var(--tier-basic-border)
 }
 
-.graph-neighbor-card[data-type="extra"] {
-  border-color: var(--tier-extra-border)
+.graph-neighbor-card[data-branch="suite"] {
+  border-color: var(--rank-5-border)
 }
 
-.graph-neighbor-card[data-type="ultimate"] {
-  border-color: var(--tier-ultimate-border)
-}
-
-.graph-neighbor-card[data-type="unique"] {
+.graph-neighbor-card[data-branch="unique"] {
   border-color: var(--tier-unique-border)
 }
 
@@ -5347,11 +5425,21 @@ tr:hover td {
     padding: .5rem .7rem 1rem
   }
 
+  /* ui.js's initCopyButtons() wraps every <pre> in an injected .pre-wrap —
+     the generic mobile `.pre-wrap, pre { background: #0f172a }` rule below
+     paints that wrapper navy, which sits between .tree-dialog-body and the
+     tree's pre. Desktop has no such background so it reads as the dialog's
+     own near-black; this override keeps mobile matching it. */
+  .tree-dialog-body .pre-wrap {
+    background: transparent;
+  }
+
   .tree-dialog-body pre {
     font-size: 0.65rem;
-    /* Stage 7: unified to 1.5 across all breakpoints for consistent
-         monospace tree readability (the 1.3 from Stage 5 was legacy). */
-    line-height: 1.5;
+    /* Matches desktop's 1.65 line-height ratio (not the flat 1.5 this used
+       to unify to) — at the smaller mobile font-size, 1.5 read noticeably
+       more cramped than desktop despite being the "same" line-height. */
+    line-height: 1.65;
     letter-spacing: -0.01em;
   }
 
@@ -5360,13 +5448,15 @@ tr:hover td {
     opacity: 0.5;
   }
 
-  .tree-ult-line,
-  .tree-extra-line,
-  .tree-basic-line,
-  .tree-unique-line {
-    display: block;
-    white-space: nowrap;
-  }
+  /* This block previously forced display:block (doubled row height via a
+     phantom line box from the trailing "\n" text node — see git history)
+     and white-space:nowrap (collapsed the space-runs that form the tree's
+     indentation, since nowrap collapses whitespace same as `normal`, unlike
+     `pre`). Both were wrong: .tree-fusion-line never had either override and
+     was always correct — inline (no extra line box) with white-space
+     inherited as `pre` from the ancestor <pre> (exact spacing preserved).
+     Removing the override entirely makes suite/basic/unique rows behave
+     identically to fusion rows and to desktop (which never had this rule). */
 
   /* Attempt 4-column layout for pure skills if they have the class */
   .tree-pure-container {
@@ -7766,7 +7856,7 @@ h4.se-install-sub-h { font-size: .85rem; }
 
 .flow-node[data-type="extra"][data-level="6★"] .fn-name,
 .se-stack-card[data-type="extra"][data-level="6★"] .fn-name {
-  animation: tree-extra-glow 4s linear infinite;
+  animation: tree-rainbow-glow 4s linear infinite;
 }
 
 /* Unique tier color — fallback if rank color not applied or for specific branding */
@@ -8559,10 +8649,6 @@ code {
     font-size: .88rem
   }
 
-  /* Tree dialog: improve readability at narrow widths (Stage 5b note) */
-  .tree-dialog-body pre {
-    line-height: 1.5
-  }
 }
 
 /* ── Ultra-narrow (≤360px): the iPhone-SE / 320px case ── */

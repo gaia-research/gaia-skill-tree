@@ -15,7 +15,7 @@ Produces coherent natural language output given a prompt, instruction, or contex
 
 ## Derivatives
 
-- [Prompt Optimization](/skills/extra/prompt-optimization.md)
-- [Release Automation](/skills/extra/release-automation.md)
-- [Skill Authoring](/skills/extra/skill-authoring.md)
+- [Prompt Optimization](/skills/fusion/prompt-optimization.md)
+- [Release Automation](/skills/fusion/release-automation.md)
+- [Skill Authoring](/skills/fusion/skill-authoring.md)
 

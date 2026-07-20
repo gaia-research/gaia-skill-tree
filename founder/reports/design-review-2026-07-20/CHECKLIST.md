@@ -150,3 +150,172 @@ These commits carry similar `design(ygg2)` or `fix(design)` signatures and addre
   - *Context*: Final visual regeneration of the badges to remove deprecated rank terminology.
 
 *Recommendation*: These should be reviewed as a batch, as they represent the finalized polish layer for Yggdrasil II that was accidentally orphaned during branch synchronization.
+
+---
+
+## PART 5 — TOKEN MIGRATION: `--tier-extra` / `--tier-ultimate` consumer inventory
+
+> **Context (2026-07-20 session 3):** `--tier-extra` (~60 consumers) and `--tier-ultimate` (~29 consumers) were dropped from `tokens.css` in the Ygg II regen. Many consumers already have `#c084fc` / `#f59e0b` hex fallbacks baked in so they don't visually break — but they are unresolved tokens. Migration is **not a single fix** — consumers are grouped below by feature surface so each can be assessed and fixed individually via `/design-iteration`. Rank tokens (`--rank-0` … `--rank-5`) are the primary axis in Ygg II; tier tokens (`--tier-basic`, `--tier-fusion`) are branch-keyed.
+>
+> **Marco's ruling (2026-07-20):** treat as a dev-scope pass on staging — no CI branch-scope restriction. Assess each group: if the surface should express rank, migrate to `--rank-N`; if it expresses branch identity, alias to `--tier-fusion` (purple) or `--tier-fusion` (gold); if it is Ygg I compat-only with a working fallback, leave it or add a compat alias in `tokens.css`.
+>
+> **Reusable pattern found at T5 (2026-07-20) — check this before assuming a straight CSS token rename:** some of these consumers style JS-emitted, interactive/hover-state elements (node orbs, legend swatches, neighbor cards, flow-graph nodes) where an *older* emitter still writes the dead `type` enum onto `data-type`/inline colors, while a *newer, already-fixed* sibling component in the same file has moved on to the correct model: **rank drives color** (via an existing helper, e.g. `_rankColorRgb()` in `skill-graph.js`), **branch drives the structural/border class** (`data-branch`, e.g. `.skill-tooltip-type-{standard,suite,unique}`). Before migrating T6, T11, T15 (all `data-type`-keyed) or T18 (`data-value`), grep the emitting JS for whether a newer sibling already computes rank/branch correctly (as the hover tooltip did before T5) — the dead-token symptom in CSS can mask a stale color source in JS, and a pure CSS-side token swap won't fix that.
+
+### T1 — `tokens.css` grade case-bug fix
+| Token | Defined as | Consumed as | Effect |
+|---|---|---|---|
+| `--grade-S/A/B/C` | uppercase in `tokens.css` | lowercase `--grade-s/a/b/c` in `styles.css` L12071–12091 | Grade-A pill renders `#fbbf24` amber fallback instead of real `#d4af37` platinum/gold |
+
+**Fix:** add lowercase aliases in `tokens.css` — `--grade-s: var(--grade-S)` etc. (4 lines). No call-site changes needed.
+**Status:** DONE — `f40cab577`
+
+---
+
+### T2 — Tree render glyphs + line colors (`docs/js/` tree output in `styles.css`)
+Consumers: `styles.css` L3460 (`.tree-glyph-ult`), L3465 (`.tree-glyph-ext`), L3568 (`.tree-ult-skillname`), L3615/3708 (`.tree-extra-skillname`, `.tree-extra-id`)
+
+These color the glyph and skill-name text in the `tree.md` CLI render by **old type enum** (`ult`/`ext`). In Ygg II the relevant axis is **rank**, not type.
+- `.tree-glyph-ult` / `.tree-ult-skillname` → `--rank-5` (5★ gold) or `--tier-fusion` (suite gold)?
+- `.tree-glyph-ext` / `.tree-extra-*` → `--rank-3` (3★ violet) or `--tier-unique` (4★ purple)?
+
+**Marco's call needed:** rank-keyed or branch-keyed for tree labels?
+**Status:** PENDING
+
+---
+
+### T3 — Keyframe animations (cycling rank colors)
+Consumers: `styles.css` L3404 (`--tier-ultimate` in rank-cycle keyframe), L3414/3448 (`--tier-extra` in `tree-extra-glow`)
+
+These are decorative CSS animations cycling through colors. The `--tier-ultimate` frame is at the "gold" stop; `--tier-extra` is at the "purple" stop. Both have hardcoded `rgba()` text-shadows beside them that already name the correct color.
+- Straight swap: `--tier-ultimate` → `--rank-5`, `--tier-extra` → `--rank-3` (matches the rgba values already present).
+
+**Status:** NO CHANGES (2026-07-20) — re-verified, no `@keyframes` block references either dead token anymore; the only candidate (`tree-rainbow-glow`) already reads `--rank-3/4/5`/`--tier-basic`, resolved as a side effect of T2's rank-suffixing work.
+
+---
+
+### T4 — 3D skill-graph scatter strip + speed edge (`docs/js/skill-graph.js` CSS)
+Consumers: `styles.css` L4090/4092 (scatter strip gradient: `--tier-ultimate-edge` top, `--tier-extra-edge` 66%), L4110 (`.graph-scatter-edge--top` label color), L4274 (`.graph-speed-edge--right`)
+
+The scatter strip is a vertical gradient mapping the tier hierarchy (apex = top). In Ygg II the hierarchy is rank-based.
+- `--tier-ultimate-edge` → `--rank-5-edge`; `--tier-extra-edge` → `--rank-3-edge`; top label → `--rank-5`; speed right edge → `--rank-3`.
+
+**Status:** DONE — `b3b1b716f`. Live-verified via `getComputedStyle`: resolved colors match `--rank-5`/`--rank-3` exactly.
+
+---
+
+### T5 — 3D skill-graph neighbor card borders + legend swatches
+Consumers: `styles.css` L4804 (`.graph-neighbor-card[data-type="extra"]` border), L4808 (`[data-type="ultimate"]` border)
+
+These key on the old `data-type` attribute. The graph JS may already emit `data-branch` instead — verify before migrating.
+- If `data-type` is still emitted: `--tier-extra-border` → `--rank-3-border`; `--tier-ultimate-border` → `--rank-5-border`.
+- If `data-type` is gone: these rules are dead CSS — remove them.
+
+**Status:** DONE — `6e48e0e84`, but NOT a straight token swap (see Part 5 preamble note above). `data-type`/`PALETTE[ns.type]` was live (initial grep missed the emitter — `skill-graph.js` has an embedded null byte that makes plain `grep` treat it as binary), but a sibling component (hover tooltip, PR3b) had already moved to rank=color/branch=structural-class and this one hadn't been back-migrated. Fixed to match: `data-branch` (`standard`/`suite`/`unique`) drives the border via `--tier-basic-border`/`--rank-5-border`/`--tier-unique-border`; name color now reads `_rankColorRgb(ns.effectiveRank)`. Also fixed a latent bug where fusion-type neighbors fell through `PALETTE` (no `fusion` key) and rendered as basic/blue. Live-verified against real data (`web-scrape`, a `branch:"unique"` 4★ skill, renders rank-4 magenta name + violet unique border).
+
+---
+
+### T6 — Skill Explorer node orbs (`docs/js/skill-explorer.js` CSS in `styles.css`)
+Consumers: `styles.css` L7100 (`.se-node-orb--extra` gradient), L7105 (`.se-node-orb--ultimate` gradient), L7115 (`.se-node-orb--vi` gradient — 6★ Apex)
+
+Orb gradients for the extra/ultimate/vi node types in the skill explorer overlay.
+- `.se-node-orb--extra`: currently purplish — check if `--tier-extra` can become `--tier-unique` (same purple family, defined).
+- `.se-node-orb--ultimate` / `--vi`: gold — `--tier-ultimate` → `--tier-fusion` (amber/gold, defined). `.se-node-orb--vi` is 6★ Apex → `--apex-gold` if that token exists, else `--tier-fusion`.
+
+**Status:** PENDING
+
+---
+
+### T7 — Skill Explorer audit button hover + tab active + dropdown focus
+Consumers: `styles.css` L1403/1414 (`.hero-audit-btn` hover border/arrow), L7426/7427 (`.se-tab-btn.active`), L7477 (`.se-hosts-dropdown` focus border)
+
+All three are "active/focus/hover gold accent" — intentionally gold. `--tier-ultimate` → `--tier-fusion` (the amber token) is the direct swap.
+**Status:** PENDING
+
+---
+
+### T8 — Skill Explorer copy/focus-visible outlines
+Consumers: `styles.css` L5834 (`.ns-install-copy:focus-visible`), L6171 (`.se-hero-copy:focus-visible`), L7373 (`.se-copy-btn:focus-visible`); `plaque.css` L502 (`.share-action:focus-visible`)
+
+Focus rings — purple outline. `--tier-extra` → `--tier-unique` (same violet family, defined) or `--rank-3`.
+**Status:** PENDING
+
+---
+
+### T9 — Skill Explorer flow-btn active state
+Consumer: `styles.css` L6216/6217 (`.se-flow-btn.active` border + color — already has `#c084fc` fallback)
+
+The active path-toggle button. Already has a working fallback. `--tier-extra` → `--tier-unique`.
+**Status:** PENDING
+
+---
+
+### T10 — Named skills chips (`.ns-chip-deriv`, `.ns-chip-variant`)
+Consumers: `styles.css` L5656 (`.ns-chip-deriv` — derivative chip, purple), L5662 (`.ns-chip-variant` — variant chip, gold)
+
+Semantic chip colors — "derivative" is purple, "variant" is gold/amber. `--tier-extra` → `--tier-unique`; `--tier-ultimate` → `--tier-fusion`.
+**Status:** PENDING
+
+---
+
+### T11 — Tier glyph display (`data-type` attribute)
+Consumers: `styles.css` L5770 (`[data-type="extra"]`), L5778 (`[data-type="ultimate"]`)
+
+Same `data-type` question as T5. Verify whether JS still emits `data-type` or has moved to `data-branch`/`data-rank`. If dead → remove. If live → swap to rank tokens.
+**Status:** PENDING (verify JS first)
+
+---
+
+### T12 — Footer column hue
+Consumer: `styles.css` L6661 (`.footer-v2 .footer-col:nth-child(2)` — already has `#c084fc` fallback)
+
+Footer 2nd-column hover hue. Decorative, already fallback-safe. `--tier-extra` → `--tier-unique`.
+**Status:** PENDING
+
+---
+
+### T13 — SE known-agent pill + RS stat number
+Consumers: `styles.css` L7604 (`.se-known-agent` — purple pill), L8887 (`.rs-stat .rs-num` — responsive stat, already `!important`)
+
+Both are purple accents. `--tier-extra` → `--tier-unique`.
+**Status:** PENDING
+
+---
+
+### T14 — Checkbox accent
+Consumer: `styles.css` L9792 (`.agent-skill-label input[type="checkbox"]` accent-color)
+
+Checkbox tint — purple. `--tier-extra` → `--tier-unique`.
+**Status:** PENDING
+
+---
+
+### T15 — Git timeline graph node dots + edges
+Consumers: `styles.css` L10879/10883/10895/10899 (`[data-type="ultimate"/"extra"]` dot border/background), L11008/11012 (edge stroke)
+
+Same `data-type` question as T5/T11. Verify JS before migrating.
+**Status:** PENDING (verify JS first)
+
+---
+
+### T16 — Meta report sidebar button + callout glyph
+Consumers: `styles.css` L11410/11463 (`.nav-meta`, `.callout-glyph` — already have `#c084fc` fallbacks), L11569 (`.meta-btn-icon:hover`)
+
+Sidebar accent — purple. All have fallbacks. `--tier-extra` → `--tier-unique`.
+**Status:** PENDING
+
+---
+
+### T17 — Evidence type pills
+Consumers: `styles.css` L12185/12187/12188 (`github-stars`, `fusion-recipe`, `github-stars-own` — gold), L12191/12192 (`benchmark-result`, `arxiv` — purple), L12311
+
+Gold pills: `--tier-ultimate` → `--tier-fusion`. Purple pills: `--tier-extra` → `--tier-unique`.
+Already have hardcoded `rgba()` backgrounds so visually not broken — just the text color token is unresolved.
+**Status:** PENDING
+
+---
+
+### T18 — `plaque.css` consumers
+Consumers: `plaque.css` L745-750 (`.se-node-orb--extra` gradient in plaque — same as T6 but in plaque scope), L818 (keyframe box-shadow at 66% using `--tier-extra-rgb`), L2387-2389 (profile filter chip `[data-value="extra"]`), L2622-2627 (Instagram share action — already has `#c084fc` fallback), L2700 (`profile-activity-action[data-action="fuse"]` — already fallback), L2950 (`.plaque.is-highlighted.plaque--extra` — already fallback), L3001 (`.ptl2__tooltip-tier--extra` — already fallback), L3952 (`.directory-search:focus` accent), L3967 (`.directory-tier[data-tier="2"]` title color), L4026 (`.plaque__share-btn:focus-visible` outline)
+
+Mixed: focus rings → `--tier-unique`; "extra" profile filter/tooltip → `--tier-unique`; directory tier 2 title → check if tier-2 = 2★ (then `--rank-2`) or branch-extra (then `--tier-unique`); fuse action → `--tier-fusion` (fuse = gold).
+**Status:** PENDING

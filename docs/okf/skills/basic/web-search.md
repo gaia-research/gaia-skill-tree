@@ -15,8 +15,8 @@ Queries external search engines or APIs and retrieves relevant result sets.
 
 ## Derivatives
 
-- [Browser Automation](/skills/extra/browser-automation.md)
-- [Research](/skills/extra/research.md)
-- [Web Scrape](/skills/extra/web-scrape.md)
-- [Prediction Market Analysis](/skills/extra/prediction-market-analysis.md)
+- [Browser Automation](/skills/fusion/browser-automation.md)
+- [Research](/skills/fusion/research.md)
+- [Web Scrape](/skills/fusion/web-scrape.md)
+- [Prediction Market Analysis](/skills/fusion/prediction-market-analysis.md)
 

@@ -15,6 +15,6 @@ Formulates novel, testable scientific hypotheses by synthesising existing litera
 
 ## Derivatives
 
-- [Autonomous Scientific Discovery](/skills/extra/scientific-discovery.md)
-- [Systematic Debugging](/skills/extra/systematic-debugging.md)
+- [Autonomous Scientific Discovery](/skills/fusion/scientific-discovery.md)
+- [Systematic Debugging](/skills/fusion/systematic-debugging.md)
 

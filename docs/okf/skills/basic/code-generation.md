@@ -15,11 +15,11 @@ Produces syntactically correct and functionally appropriate source code from spe
 
 ## Derivatives
 
-- [Autonomous Debug](/skills/extra/autonomous-debug.md)
-- [Code Review Pipeline](/skills/extra/code-review-pipeline.md)
-- [Registry Curation](/skills/extra/registry-curation.md)
-- [Tool Creation](/skills/extra/tool-creation.md)
-- [ML Pipeline](/skills/extra/ml-pipeline.md)
-- [Skill Authoring](/skills/extra/skill-authoring.md)
-- [Founder Mode](/skills/ultimate/founder-mode-orchestration.md)
+- [Autonomous Debug](/skills/fusion/autonomous-debug.md)
+- [Code Review Pipeline](/skills/fusion/code-review-pipeline.md)
+- [Registry Curation](/skills/fusion/registry-curation.md)
+- [Tool Creation](/skills/fusion/tool-creation.md)
+- [ML Pipeline](/skills/fusion/ml-pipeline.md)
+- [Skill Authoring](/skills/fusion/skill-authoring.md)
+- [Founder Mode](/skills/fusion/founder-mode-orchestration.md)
 

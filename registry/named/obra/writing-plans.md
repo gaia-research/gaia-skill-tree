@@ -18,7 +18,7 @@ tags:
 - pre-coding
 - task-breakdown
 createdAt: '2026-05-18'
-updatedAt: '2026-07-19'
+updatedAt: '2026-07-20'
 suiteRef: obra/superpowers
 evidence:
 - class: B
@@ -164,6 +164,13 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 3★ to 4★
+- timestamp: '2026-07-20T18:16:45Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''writing-plans'' type: extra/ultimate → fusion (Yggdrasil
+    II taxonomy migration #997)'
+  metaEpoch: yggdrasil-ii
+  migrationBatch: yggdrasil-ii@2026-07-20
 trustMagnitude: 110.15
 overallTrustGrade: A
 apexGateStatus:

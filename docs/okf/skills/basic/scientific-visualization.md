@@ -23,5 +23,5 @@ When running PyMOL, always set `PYOPENGL_PLATFORM=osmesa` for software rendering
 
 ## Derivatives
 
-- [Scientific Writing](/skills/extra/scientific-writing.md)
+- [Scientific Writing](/skills/fusion/scientific-writing.md)
 

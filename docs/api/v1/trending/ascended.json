@@ -1,10 +1,62 @@
 {
-  "generatedAt": "2026-07-16T08:38:54Z",
+  "generatedAt": "2026-07-20T18:17:25Z",
   "skills": [
+    {
+      "id": "stanfordnlp/dspy",
+      "name": "DSPy",
+      "level": "4★",
+      "contributor": "stanfordnlp",
+      "trustMagnitude": 100.0,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-07-19T02:05:13Z",
+      "_links": {
+        "self": "/api/v1/skills/stanfordnlp/dspy.json"
+      },
+      "previousLevel": "3★"
+    },
+    {
+      "id": "safishamsi/graphify",
+      "name": "Graphify",
+      "level": "4★",
+      "contributor": "safishamsi",
+      "trustMagnitude": 116.57,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-07-19T02:04:29Z",
+      "_links": {
+        "self": "/api/v1/skills/safishamsi/graphify.json"
+      },
+      "previousLevel": "3★"
+    },
+    {
+      "id": "obra/writing-plans",
+      "name": "Writing Plans",
+      "level": "4★",
+      "contributor": "obra",
+      "trustMagnitude": 110.15,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-07-19T01:38:24Z",
+      "_links": {
+        "self": "/api/v1/skills/obra/writing-plans.json"
+      },
+      "previousLevel": "3★"
+    },
+    {
+      "id": "obra/using-git-worktrees",
+      "name": "Using Git Worktrees",
+      "level": "4★",
+      "contributor": "obra",
+      "trustMagnitude": 117.65,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-07-19T01:38:18Z",
+      "_links": {
+        "self": "/api/v1/skills/obra/using-git-worktrees.json"
+      },
+      "previousLevel": "3★"
+    },
     {
       "id": "firecrawl/firecrawl-skills",
       "name": "Firecrawl Skills",
-      "level": "3★",
+      "level": "4★",
       "contributor": "firecrawl",
       "trustMagnitude": 223.52,
       "overallTrustGrade": "A",
@@ -207,188 +259,6 @@
         "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
       },
       "previousLevel": "2★"
-    },
-    {
-      "id": "safishamsi/graphify",
-      "name": "Graphify",
-      "level": "3★",
-      "contributor": "safishamsi",
-      "trustMagnitude": 116.57,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-06-20T06:31:38Z",
-      "_links": {
-        "self": "/api/v1/skills/safishamsi/graphify.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "stanfordnlp/dspy",
-      "name": "DSPy",
-      "level": "3★",
-      "contributor": "stanfordnlp",
-      "trustMagnitude": 100.0,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-06-20T06:31:38Z",
-      "_links": {
-        "self": "/api/v1/skills/stanfordnlp/dspy.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "ruvnet/reasoningbank-intelligence",
-      "name": "ReasoningBank Intelligence",
-      "level": "2★",
-      "contributor": "ruvnet",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "ascendedAt": "2026-06-20T06:31:37Z",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/reasoningbank-intelligence.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "ruvnet/swarm-advanced",
-      "name": "Swarm Advanced",
-      "level": "2★",
-      "contributor": "ruvnet",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "ascendedAt": "2026-06-20T06:31:37Z",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/swarm-advanced.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "ruvnet/swarm-orchestration",
-      "name": "Swarm Orchestration",
-      "level": "2★",
-      "contributor": "ruvnet",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "ascendedAt": "2026-06-20T06:31:37Z",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/swarm-orchestration.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "ruvnet/dual-mode",
-      "name": "Dual Mode",
-      "level": "3★",
-      "contributor": "ruvnet",
-      "trustMagnitude": 126.0,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-06-20T06:31:36Z",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/dual-mode.json"
-      },
-      "previousLevel": "3★"
-    },
-    {
-      "id": "ruvnet/reasoningbank",
-      "name": "ReasoningBank",
-      "level": "3★",
-      "contributor": "ruvnet",
-      "trustMagnitude": 118.5,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-06-20T06:31:36Z",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/reasoningbank.json"
-      },
-      "previousLevel": "3★"
-    },
-    {
-      "id": "ruvnet/flow-nexus-neural",
-      "name": "Flow Nexus Neural",
-      "level": "2★",
-      "contributor": "ruvnet",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "ascendedAt": "2026-06-20T06:31:36Z",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/flow-nexus-neural.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "ruvnet/flow-nexus-platform",
-      "name": "Flow Nexus Platform",
-      "level": "2★",
-      "contributor": "ruvnet",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "ascendedAt": "2026-06-20T06:31:36Z",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/flow-nexus-platform.json"
-      },
-      "previousLevel": "1★"
-    },
-    {
-      "id": "obra/writing-plans",
-      "name": "Writing Plans",
-      "level": "3★",
-      "contributor": "obra",
-      "trustMagnitude": 110.15,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-06-20T06:31:35Z",
-      "_links": {
-        "self": "/api/v1/skills/obra/writing-plans.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "openai/few-shot-learning",
-      "name": "Few-Shot Learning",
-      "level": "4★",
-      "contributor": "openai",
-      "trustMagnitude": 100.0,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-06-20T06:31:35Z",
-      "_links": {
-        "self": "/api/v1/skills/openai/few-shot-learning.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "openai/self-consistency",
-      "name": "Self-Consistency",
-      "level": "3★",
-      "contributor": "openai",
-      "trustMagnitude": 100.0,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-06-20T06:31:35Z",
-      "_links": {
-        "self": "/api/v1/skills/openai/self-consistency.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "obra/verification-before-completion",
-      "name": "Verification Before Completion",
-      "level": "3★",
-      "contributor": "obra",
-      "trustMagnitude": 95.15,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-06-20T06:31:35Z",
-      "_links": {
-        "self": "/api/v1/skills/obra/verification-before-completion.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "ruvnet/agentdb-advanced",
-      "name": "AgentDB Advanced",
-      "level": "2★",
-      "contributor": "ruvnet",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "ascendedAt": "2026-06-20T06:31:35Z",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/agentdb-advanced.json"
-      },
-      "previousLevel": "1★"
     }
   ],
   "_links": {
