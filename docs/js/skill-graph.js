@@ -144,18 +144,6 @@
     return 'bold ' + sz + 'px ' + t.fontBody;
   }
 
-  const ORIGIN_PATHS = [
-    new Path2D("M12 15V9l-2 1"),
-    new Path2D("M12 21c-4-2-7-6-7-11 0-2 1.5-4 2.5-5"),
-    new Path2D("M12 21c4-2 7-6 7-11 0-2-1.5-4-2.5-5"),
-    new Path2D("M5 10c2 1 3 0 3-1"),
-    new Path2D("M5.5 14c2 1 3 0 3-1"),
-    new Path2D("M7 18c2 1 3 0 3-1"),
-    new Path2D("M19 10c-2 1-3 0-3-1"),
-    new Path2D("M18.5 14c-2 1-3 0-3-1"),
-    new Path2D("M17 18c-2 1-3 0-3-1")
-  ];
-
   // ── Per-skill tier palette (rgb triplets), keyed off the canonical
   // tier names. Reads canvas tokens; backwards-compat shim PALETTE so
   // sites that still reference `PALETTE.basic.rgb` keep working until
@@ -1694,7 +1682,10 @@
             ctx.textAlign = 'left';
             const w1 = ctx.measureText(handleTxt).width;
             const w2 = ctx.measureText(slashTxt).width;
-            const badgeW = isOrigin ? 20 * pr.scale : 0;
+            // E4 (rubric): the origin mark is a gold ★ glyph, NOT the deprecated
+            // stroked laurel icon. Matches docs/named/report.html "★ origin".
+            const originTxt = isOrigin ? '  ★' : '';
+            const badgeW = isOrigin ? ctx.measureText(originTxt).width : 0;
             const totalW = w1 + w2 + badgeW;
             const startX = pr.sx - totalW / 2;
             // Redacted handle renders slate, never honor-red.
@@ -1708,16 +1699,9 @@
             ctx.fillText(slashTxt, startX + w1, pr.sy + 18 * pr.scale);
             ctx.globalAlpha = 1.0;
             if (isOrigin) {
-              ctx.save();
-              ctx.translate(startX + w1 + w2 + 10 * pr.scale, pr.sy + 18 * pr.scale);
-              ctx.scale(0.75 * pr.scale, 0.75 * pr.scale);
-              ctx.translate(-12, -12);
-              ctx.lineWidth = 1.5;
-              ctx.lineCap = 'round';
-              ctx.lineJoin = 'round';
-              ctx.strokeStyle = `rgba(${tokens.apexGoldRgb}, ${labelAlpha.toFixed(2)})`;
-              ORIGIN_PATHS.forEach(p => ctx.stroke(p));
-              ctx.restore();
+              // Gold ★ text mark (E4: red→gold, no laurel icon).
+              ctx.fillStyle = `rgba(${tokens.apexGoldRgb},${labelAlpha.toFixed(2)})`;
+              ctx.fillText(originTxt, startX + w1 + w2, pr.sy + 18 * pr.scale);
             }
             return;
           }
