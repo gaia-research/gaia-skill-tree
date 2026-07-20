@@ -158,6 +158,8 @@ These commits carry similar `design(ygg2)` or `fix(design)` signatures and addre
 > **Context (2026-07-20 session 3):** `--tier-extra` (~60 consumers) and `--tier-ultimate` (~29 consumers) were dropped from `tokens.css` in the Ygg II regen. Many consumers already have `#c084fc` / `#f59e0b` hex fallbacks baked in so they don't visually break — but they are unresolved tokens. Migration is **not a single fix** — consumers are grouped below by feature surface so each can be assessed and fixed individually via `/design-iteration`. Rank tokens (`--rank-0` … `--rank-5`) are the primary axis in Ygg II; tier tokens (`--tier-basic`, `--tier-fusion`) are branch-keyed.
 >
 > **Marco's ruling (2026-07-20):** treat as a dev-scope pass on staging — no CI branch-scope restriction. Assess each group: if the surface should express rank, migrate to `--rank-N`; if it expresses branch identity, alias to `--tier-fusion` (purple) or `--tier-fusion` (gold); if it is Ygg I compat-only with a working fallback, leave it or add a compat alias in `tokens.css`.
+>
+> **Reusable pattern found at T5 (2026-07-20) — check this before assuming a straight CSS token rename:** some of these consumers style JS-emitted, interactive/hover-state elements (node orbs, legend swatches, neighbor cards, flow-graph nodes) where an *older* emitter still writes the dead `type` enum onto `data-type`/inline colors, while a *newer, already-fixed* sibling component in the same file has moved on to the correct model: **rank drives color** (via an existing helper, e.g. `_rankColorRgb()` in `skill-graph.js`), **branch drives the structural/border class** (`data-branch`, e.g. `.skill-tooltip-type-{standard,suite,unique}`). Before migrating T6, T11, T15 (all `data-type`-keyed) or T18 (`data-value`), grep the emitting JS for whether a newer sibling already computes rank/branch correctly (as the hover tooltip did before T5) — the dead-token symptom in CSS can mask a stale color source in JS, and a pure CSS-side token swap won't fix that.
 
 ### T1 — `tokens.css` grade case-bug fix
 | Token | Defined as | Consumed as | Effect |
@@ -165,7 +167,7 @@ These commits carry similar `design(ygg2)` or `fix(design)` signatures and addre
 | `--grade-S/A/B/C` | uppercase in `tokens.css` | lowercase `--grade-s/a/b/c` in `styles.css` L12071–12091 | Grade-A pill renders `#fbbf24` amber fallback instead of real `#d4af37` platinum/gold |
 
 **Fix:** add lowercase aliases in `tokens.css` — `--grade-s: var(--grade-S)` etc. (4 lines). No call-site changes needed.
-**Status:** PENDING
+**Status:** DONE — `f40cab577`
 
 ---
 
@@ -187,7 +189,7 @@ Consumers: `styles.css` L3404 (`--tier-ultimate` in rank-cycle keyframe), L3414/
 These are decorative CSS animations cycling through colors. The `--tier-ultimate` frame is at the "gold" stop; `--tier-extra` is at the "purple" stop. Both have hardcoded `rgba()` text-shadows beside them that already name the correct color.
 - Straight swap: `--tier-ultimate` → `--rank-5`, `--tier-extra` → `--rank-3` (matches the rgba values already present).
 
-**Status:** PENDING
+**Status:** NO CHANGES (2026-07-20) — re-verified, no `@keyframes` block references either dead token anymore; the only candidate (`tree-rainbow-glow`) already reads `--rank-3/4/5`/`--tier-basic`, resolved as a side effect of T2's rank-suffixing work.
 
 ---
 
@@ -197,7 +199,7 @@ Consumers: `styles.css` L4090/4092 (scatter strip gradient: `--tier-ultimate-edg
 The scatter strip is a vertical gradient mapping the tier hierarchy (apex = top). In Ygg II the hierarchy is rank-based.
 - `--tier-ultimate-edge` → `--rank-5-edge`; `--tier-extra-edge` → `--rank-3-edge`; top label → `--rank-5`; speed right edge → `--rank-3`.
 
-**Status:** PENDING
+**Status:** DONE — `b3b1b716f`. Live-verified via `getComputedStyle`: resolved colors match `--rank-5`/`--rank-3` exactly.
 
 ---
 
@@ -208,7 +210,7 @@ These key on the old `data-type` attribute. The graph JS may already emit `data-
 - If `data-type` is still emitted: `--tier-extra-border` → `--rank-3-border`; `--tier-ultimate-border` → `--rank-5-border`.
 - If `data-type` is gone: these rules are dead CSS — remove them.
 
-**Status:** PENDING (verify JS first)
+**Status:** DONE — `6e48e0e84`, but NOT a straight token swap (see Part 5 preamble note above). `data-type`/`PALETTE[ns.type]` was live (initial grep missed the emitter — `skill-graph.js` has an embedded null byte that makes plain `grep` treat it as binary), but a sibling component (hover tooltip, PR3b) had already moved to rank=color/branch=structural-class and this one hadn't been back-migrated. Fixed to match: `data-branch` (`standard`/`suite`/`unique`) drives the border via `--tier-basic-border`/`--rank-5-border`/`--tier-unique-border`; name color now reads `_rankColorRgb(ns.effectiveRank)`. Also fixed a latent bug where fusion-type neighbors fell through `PALETTE` (no `fusion` key) and rendered as basic/blue. Live-verified against real data (`web-scrape`, a `branch:"unique"` 4★ skill, renders rank-4 magenta name + violet unique border).
 
 ---
 
