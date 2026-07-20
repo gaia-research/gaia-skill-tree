@@ -122,6 +122,11 @@
       border-bottom-color: var(--border);
       outline: none;
     }
+    .report-navlinks .navlink-disabled {
+      color: var(--border);
+      cursor: default;
+      user-select: none;
+    }
 
     /* ── Section: a headed block, not a boxed card ──────────── */
     .report-section { margin-bottom: 3.5rem; }
@@ -355,7 +360,7 @@
         <span class="rm-item"><strong>Generator</strong> gaia-content-engine v{{ report.generatorVersion }}</span>
       </div>
       <nav class="report-navlinks" aria-label="Report navigation">
-        <a href="{{ report.urls.previous }}">← Previous week</a>
+        {% if report.urls.previous %}<a href="{{ report.urls.previous }}">← Previous week</a>{% else %}<span class="navlink-disabled" aria-disabled="true">← Previous week</span>{% endif %}
         <a href="{{ report.urls.archive }}">Archive</a>
         <a href="{{ report.urls.json }}">Canonical JSON</a>
       </nav>

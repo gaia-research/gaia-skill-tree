@@ -11025,6 +11025,16 @@ button.nav-graph-trigger:hover {
   margin-bottom: 48px;
 }
 
+.ns-dag-rank-label {
+  text-align: center;
+  font-size: 0.65rem;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.7;
+  margin-bottom: 6px;
+}
+
 /* ── Git Branch Flowchart Aesthetic ── */
 .git-node {
   display: flex;

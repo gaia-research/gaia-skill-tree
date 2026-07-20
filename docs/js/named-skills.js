@@ -143,14 +143,13 @@
       });
     });
 
-    // Yggdrasil II — group DAG nodes by rank INTEGER (6→1), not dead type enum.
-    // Branch (suite/unique/standard) is derived per-node at render time via
-    // GaiaSemantics.computeBranch — it is a visual variant within each rank layer,
-    // not a separate tier bucket.
+    // Group DAG nodes by the ORIGIN named skill's rank (ns.level). Starless generic
+    // nodes carry no level of their own — rank comes from namedIds[id].level only.
+    // Ghost nodes (no named skill) land in rank-0 (ungrouped at bottom).
     var dagRankGroups = {};
     Object.keys(dagNodes).forEach(function(id) {
-      var s = dagNodes[id];
-      var rn = parseInt(String(s.level || '').replace(/\D+/g, ''), 10);
+      var ns = namedIds[id];
+      var rn = ns ? parseInt(String(ns.level || '').replace(/\D+/g, ''), 10) : NaN;
       if (isNaN(rn) || rn < 0) rn = 0;
       if (!dagRankGroups[rn]) dagRankGroups[rn] = [];
       dagRankGroups[rn].push(id);
@@ -168,10 +167,10 @@
       return isNaN(n) ? 0 : n;
     }
     function sortDagRank(a, b) {
-      var sa = dagNodes[a], sb = dagNodes[b];
-      var la = levelNum(sa.level), lb = levelNum(sb.level);
+      var nsa = namedIds[a], nsb = namedIds[b];
+      var la = levelNum(nsa && nsa.level), lb = levelNum(nsb && nsb.level);
       if (la !== lb) return lb - la;
-      return (sa.name || a).localeCompare(sb.name || b);
+      return ((nsa && nsa.name) || a).localeCompare((nsb && nsb.name) || b);
     }
     
     function hashString(str) {
@@ -190,17 +189,13 @@
       rank.sort(sortDagRank);
       var rankNum = rankTiers[ri];
 
-      // Yggdrasil II PR3b: READ the emitted branch (GaiaSemantics.branchOf
-      // prefers namedIds[id].branch from index.json, falling back to the dag
-      // node for starless refs). A rank layer is a "void zone" (float layout)
-      // when every node in it is unique-branch.
-      var isUniqueTier = (window.GaiaSemantics && typeof window.GaiaSemantics.branchOf === 'function')
-        ? rank.every(function(id) { return window.GaiaSemantics.branchOf(namedIds[id] || dagNodes[id]) === 'unique'; })
-        : false;
-      var voidClass = isUniqueTier ? ' void-zone' : '';
-      html += '<div class="ns-dag-rank' + voidClass + '" data-depth="' + ri + '" data-rank="' + esc(String(rankNum)) + '" id="ns-rank-' + esc(String(rankNum)) + '">';
+      var rankLabel = (window.GaiaSemantics && typeof window.GaiaSemantics.rankWord === 'function')
+        ? window.GaiaSemantics.rankWord(rankNum, SUITE_LADDER)
+        : (rankNum + '★');
+      html += '<div class="ns-dag-rank-label" style="color:var(--rank-' + rankNum + ',var(--muted))">' + esc(rankLabel) + ' · ' + rankNum + '★</div>';
+      html += '<div class="ns-dag-rank" data-depth="' + ri + '" data-rank="' + esc(String(rankNum)) + '" id="ns-rank-' + esc(String(rankNum)) + '">';
       rank.forEach(function(id, idx) {
-        var staggerY = isUniqueTier ? 0 : (hashString(id) % 150); // don't stagger in void
+        var staggerY = hashString(id) % 150;
         var s = dagNodes[id];
         var ns = namedIds[id];
         var isGhost = !ns;
@@ -225,10 +220,8 @@
         var miniHtml = (window.plaque && typeof window.plaque.renderMini === 'function')
           ? window.plaque.renderMini(miniNs, dagOpts)
           : '';
-        var colorVar = isGhost ? 'var(--muted)' : 'var(--tier-' + (s.type || 'basic') + ', var(--muted))';
-        if (!isGhost && s.level && String(s.level).indexOf('6') !== -1) {
-          colorVar = 'var(--rank-6)';
-        }
+        var dotRank = ns ? levelNum(ns.level) : 0;
+        var colorVar = isGhost ? 'var(--muted)' : 'var(--rank-' + dotRank + ', var(--muted))';
         // Label source: prefer slash-formatted named ID; fall back to generic ID for ghost nodes.
         var labelSource = (ns && ns.id) ? ns.id : id;
         var labelParts = String(labelSource).split('/');

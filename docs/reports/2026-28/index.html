@@ -122,6 +122,11 @@
       border-bottom-color: var(--border);
       outline: none;
     }
+    .report-navlinks .navlink-disabled {
+      color: var(--border);
+      cursor: default;
+      user-select: none;
+    }
 
     /* ── Section: a headed block, not a boxed card ──────────── */
     .report-section { margin-bottom: 3.5rem; }
@@ -361,7 +366,7 @@
         <span class="rm-item"><strong>Generator</strong> gaia-content-engine v6.0.1</span>
       </div>
       <nav class="report-navlinks" aria-label="Report navigation">
-        <a href="https://gaiaskilltree.com/reports/2026-27/">← Previous week</a>
+        <span class="navlink-disabled" aria-disabled="true">← Previous week</span>
         <a href="https://gaiaskilltree.com/reports/">Archive</a>
         <a href="https://gaiaskilltree.com/api/v1/reports/2026-28.json">Canonical JSON</a>
       </nav>
