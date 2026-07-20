@@ -48,43 +48,36 @@ So that means, its the developers who make skills maintaining this. I have a tho
 <!-- gaia:registry-start -->
 ```text
 ◆ mattpocock/skills  [5★]
-  ├─ · mattpocock/engineering  [4★]
-  │  ├─ · devin-ai/autonomous-swe  [3★]
+  ├─ ◇ mattpocock/engineering  [4★]
+  │  ├─ ◇ devin-ai/autonomous-swe  [3★]
   │  │  ├─ ○ garrytan/design-html  [3★]
   │  │  ├─ ○ /code-execution
   │  │  └─ ○ /error-interpretation
   │  ├─ ○ addy-osmani/code-simplification  [3★]
-  │  ├─ · garrytan/garrytan  [4★]
+  │  ├─ ◇ garrytan/garrytan  [4★]
   │  │  ├─ ○ /plan-decompose
   │  │  └─ ○ ████████/ask-matt
-  │  ├─ · mattpocock/to-prd  [3★]
+  │  ├─ ◇ mattpocock/to-prd  [3★]
   │  │  ├─ ○ garrytan/retro  [3★]
   │  │  └─ ○ /plan-decompose  (↑ see above)
   │  ├─ ○ mattpocock/triage  [3★]
-  │  ├─ · mattpocock/ubiquitous-language  [3★]
+  │  ├─ ◇ mattpocock/ubiquitous-language  [3★]
 
 ◆ garrytan/gstack  [5★]
   ├─ ○ garrytan/office-hours  [3★]
   ├─ ○ garrytan/benchmark  [3★]
-  ├─ · addy-osmani/code-review-and-quality  [3★]
+  ├─ ◇ addy-osmani/code-review-and-quality  [3★]
   │  ├─ ○ garrytan/design-html  [3★]
   │  ├─ ○ /diff-content
   │  └─ ○ garrytan/benchmark  [3★]  (↑ see above)
   ├─ ○ pbakaus/impeccable  [4★]
-  ├─ · garrytan/garrytan  [4★]
+  ├─ ◇ garrytan/garrytan  [4★]
   │  ├─ ○ /plan-decompose
   │  └─ ○ ████████/ask-matt
-  ├─ · garrytan/design-consultation  [3★]
-  │  ├─ · ████████/stagehand
+  ├─ ◇ garrytan/design-consultation  [3★]
+  │  ├─ ◇ ████████/stagehand
   │  │  ├─ ○ firecrawl/firecrawl-build-search  [4★]
   │  │  └─ ○ /computer-use
-
-Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
-  ◉ openai/few-shot-learning  [4★]
-  ◉ safishamsi/graphify  [4★]
-    ├─ ○ /extract-entities
-    └─ ○ /logical-inference
-  ◉ addy-osmani/performance-optimization  [4★]
 
 (243 skills total — see docs/tree.md)
 ```
@@ -177,7 +170,7 @@ curl https://gaiaskilltree.com/api/v1/leaderboard.json
 **1. CLI
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `6.8.8`.
+Current Gaia CLI version: `6.8.15`.
 
 ```bash
 curl -fsSL https://gaiaskilltree.com/install.sh | sh
@@ -249,7 +242,10 @@ A GitHub issue opens automatically. Don't worry, we thoroughly review every inta
 **4. MCP Server**
 
 ```bash
-claude mcp add gaia -- npx @gaia-registry/mcp@0.1.0
+claude mcp add gaia -- npx -y @gaia-research/mcp@0.1.0
+```
+
+Connects your AI agent to the public Gaia Skill Tree registry over stdio. Full configuration guidance and planned features are documented on the [Gaia MCP Page](https://research.gaiaskilltree.com/mcp).
 
 ---
 
@@ -341,14 +337,14 @@ Maintainer commands:  gaia dev --help
 
 ## MCP Server Full Instructions
 
-`@gaia-registry/mcp@0.1.0` connects Gaia to MCP-compatible agents (Claude Code, Cursor, VS Code, etc.).
+`@gaia-registry/mcp-server` connects Gaia to MCP-compatible agents (Claude Code, Cursor, VS Code, etc.).
 
 | Agent | Install |
 |-------|---------|
-| Claude Code | `claude mcp add gaia -- npx @gaia-registry/mcp@0.1.0` |
-| Any MCP client | Command: `npx`, args: `@gaia-registry/mcp@0.1.0` |
+| Claude Code | `claude mcp add gaia -- npx @gaia-registry/mcp-server` |
+| Any MCP client | Command: `npx`, args: `@gaia-registry/mcp-server` |
 
-Set `GAIA_USER=your-github-username` and optionally `GITHUB_TOKEN` for PR tools. Endpoint: `research.gaiaskilltree.com/mcp`. See [`packages/mcp/`](packages/mcp/) for full docs and agent-specific config examples.
+Set `GAIA_USER=your-github-username` and optionally `GITHUB_TOKEN` for PR tools. See [`packages/mcp/`](packages/mcp/) for full docs and agent-specific config examples.
 
 ---
 
@@ -436,6 +432,12 @@ Community contributors (1–2 skills each): [@karpathy](https://github.com/karpa
 | [@balukosuri](https://github.com/balukosuri) | Evidence: community reproduction of Karpathy's autoresearch as a universal skill |
 | [@kriptoburak](https://github.com/kriptoburak) | Evidence evaluator: x-twitter-automation evidence review |
 | [@fahimkarim01](https://github.com/fahimkarim01) | Curation: corrected pexp13/sentiment-analysis metadata links |
+
+### Code & Fixes
+
+| Contributor | Contribution |
+|---|---|
+| [@fazalpsinfo-cmyk](https://github.com/fazalpsinfo-cmyk) | Bug fix: resolved `UnboundLocalError` in `gaia scan` when no custom skills are detected (#1141, PR #1188) |
 
 ### Bots
 

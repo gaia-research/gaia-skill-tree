@@ -80,5 +80,10 @@ jobs:
           EOF
           )
 
-          gh pr comment "$PR_NUMBER" --body "$BODY"
-          echo "✓ Advisory posted on PR #$PR_NUMBER."
+          # gh pr comment needs explicit repo context: this workflow never
+          # checks out the repo, so gh cannot infer it from a local git remote
+          # (would fail with "not a git repository"). Pass -R explicitly, and
+          # never let a comment failure red the PR — this guard is advisory only.
+          gh pr comment "$PR_NUMBER" -R "$REPO" --body "$BODY" \
+            || echo "⚠ advisory comment could not be posted (non-fatal)"
+          echo "✓ Advisory step complete for PR #$PR_NUMBER."
