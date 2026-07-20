@@ -3061,6 +3061,43 @@
         continue;
       }
 
+      // 2b. Fusion Skill lines (·) — rank-keyed: 6★=Apex, 5★=Ultimate, 4★=Extra, etc.
+      var f = line.match(/^(\s*[·✓]\s*)?([\s│├└─]*)(·)(\s+)(\S+)(.*)$/);
+      if (f) {
+        var fOwner = f[1] ? (f[1].indexOf('✓') >= 0
+          ? '<span class="tree-owned">✓</span> '
+          : '<span class="tree-unowned">·</span> ') : '';
+        var fPrefix = esc(f[2]);
+        var fsuffix = f[6];
+        var fRank = '';
+        if (fsuffix.indexOf('6★') >= 0) fRank = '--vi';
+        else if (fsuffix.indexOf('5★') >= 0) fRank = '--v';
+        else if (fsuffix.indexOf('4★') >= 0) fRank = '--iv';
+        else if (fsuffix.indexOf('3★') >= 0) fRank = '--iii';
+        else if (fsuffix.indexOf('2★') >= 0) fRank = '--ii';
+        var fGlyphClass = 'tree-glyph-fusion';
+        var fGlyph = glyphSpan(fGlyphClass, f[3]);
+        var fid = f[5];
+        var fdelay = -((unqIdx++ * 0.9) % 4);
+        var fslash = fid.indexOf('/');
+        var fskillHtml;
+        var fSkillClass = 'tree-fusion-skillname' + fRank;
+        var fIdClass = 'tree-fusion-id' + fRank;
+        if (fslash > 0) {
+          var fHandle = fid.slice(0, fslash);
+          fskillHtml = handleAnchor(fHandle, '<span class="tree-fusion-contributor">' + esc(fHandle) + '</span>') +
+                       '<span class="tree-fusion-slash">/</span>' +
+                       '<span class="' + fSkillClass + '">' + esc(fid.slice(fslash + 1)) + '</span>';
+        } else {
+          fskillHtml = '<span class="' + fIdClass + '">' + esc(fid) + '</span>';
+        }
+        var fsuffixHtml = colorizeRankPills(colorizeShared(esc(fsuffix)));
+        output.push('<span class="tree-fusion-line" style="animation-delay:' + fdelay + 's">' +
+               fOwner + fPrefix + fGlyph + esc(f[4]) + fskillHtml + fsuffixHtml + '</span>');
+        continue;
+      }
+
+
       // 3. Basic Skill lines (○)
       var b = line.match(/^(\s*[·✓]\s*)?([\s│├└─]*)(○)(\s+)(\S+)(.*)$/);
       if (b) {
