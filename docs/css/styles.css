@@ -4033,17 +4033,22 @@ tr:hover td {
 
 /* Legend structural glyphs — colour keyed on the emitted data-legend-type
    (skill-graph.js ~L2422-2425). basic = neutral outer-bark grey (type spans
-   all ranks, mirrors the rank-pill's 0★ anchor below); fusion/unique read
-   their structural tokens; suite reads --rank-5 per T5's neighbor-card
-   convention. The old [data-tier="basic|extra|unique|ultimate"] swatch
-   rules were dead — JS never emits data-tier or .graph-legend-swatch on
-   these items. */
+   all ranks, mirrors the rank-pill's 0★ anchor below); unique/suite read
+   their branch tokens (unique = dark violet, suite = gold, per T5's
+   neighbor-card convention). fusion reads --rank-3 (light violet), NOT the
+   generated --tier-fusion (amber) — that token is the literal type:fusion
+   color from meta.typeColors, but it visually collides with Suite's gold
+   here, and this session's T3/T4 fixes both already established
+   old-tier-extra -> --rank-3 as the migration target for this "fusion"
+   concept, distinct from Unique's darker --tier-unique violet. The old
+   [data-tier="basic|extra|unique|ultimate"] swatch rules were dead — JS
+   never emits data-tier or .graph-legend-swatch on these items. */
 .graph-legend-item[data-legend-type="basic"] .graph-legend-glyph {
   color: var(--rank-0)
 }
 
 .graph-legend-item[data-legend-type="fusion"] .graph-legend-glyph {
-  color: var(--tier-fusion)
+  color: var(--rank-3)
 }
 
 .graph-legend-item[data-legend-type="unique"] .graph-legend-glyph {
