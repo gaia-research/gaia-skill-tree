@@ -1929,14 +1929,17 @@
             neighbors.forEach(nid => {
               const ns = state.skills.find(s => s.id === nid);
               if (!ns) return;
-              const col = PALETTE[ns.type] || PALETTE.basic;
               const card = document.createElement('div');
               card.className = 'graph-neighbor-card';
               card.dataset.nid = nid;
-              card.dataset.type = ns.type || 'basic';
-              
+              // §PR3b-consistent: branch drives the structural border class,
+              // rank drives the name color — mirrors the tooltip above, not
+              // the dead type enum (PALETTE has no 'fusion' entry, so keying
+              // on ns.type silently mis-colored fusion neighbors as basic).
+              card.dataset.branch = ns.branch || 'standard';
+
               const span = document.createElement('span');
-              span.style.color = `rgba(${col.rgb},.9)`;
+              span.style.color = `rgba(${_rankColorRgb(ns.effectiveRank)},.9)`;
               span.textContent = ns.name;
               card.appendChild(span);
               
