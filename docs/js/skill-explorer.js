@@ -3006,7 +3006,7 @@
 
       // 1. Suite Skill lines (◆) — rank-keyed: 6★=Apex rainbow, 5★=Ultimate gold, 4★=Extra fuchsia
       var m = line.match(/^(\s*[·✓]\s*)?(◆)(\s+)(\S+)(.*)$/);
-      if (m) {
+      if (m && line.indexOf('◉ Unique') === -1 && line.indexOf('○ Basic') === -1) {
         var ownerMark = m[1] ? (m[1].indexOf('✓') >= 0
           ? '<span class="tree-owned">✓</span> '
           : '<span class="tree-unowned">·</span> ') : '';
@@ -3123,7 +3123,7 @@
           bskillHtml = '<span class="tree-basic-id">' + esc(bid) + '</span>';
         }
         var bsuffixHtml = colorizeRankPills(colorizeShared(esc(bsuffix)));
-        var lineClass = inBasics ? 'tree-basic-line tree-pure-line' : 'tree-basic-line';
+        var lineClass = 'tree-basic-line';
         output.push('<span class="' + lineClass + '">' + bOwner + bPrefix + bGlyph + esc(b[4]) + bskillHtml + bsuffixHtml + '</span>');
         continue;
       }
@@ -3137,8 +3137,10 @@
       var out = esc(line);
       // Colorize standalone glyphs in section headers etc.
       out = out.replace(/○/g, glyphSpan('tree-glyph-basic', '○'));
-      out = out.replace(/◉/g, glyphSpan('tree-glyph-uni', '◉'));
+      out = out.replace(/◉/g, glyphSpan('tree-glyph-uni--iv', '◉'));
       out = out.replace(/◆/g, glyphSpan('tree-glyph-suite--v', '◆'));
+      out = out.replace(/· =/g, glyphSpan('tree-glyph-fusion', '·') + ' =');
+      out = out.replace(/\[N★\]/g, '<span class="tree-rank">[N★]</span>');
       out = colorizeRankPills(out);
       out = colorizeShared(out);
       output.push(out);

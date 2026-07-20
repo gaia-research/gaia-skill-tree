@@ -17,9 +17,9 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — santifer  ·  generated 2026-07-19
+GAIA SKILL TREE — santifer  ·  generated 2026-07-20
 ══════════════════════════════════════════════════════════════════════
-✓ = owned   · = unowned   ◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
+✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
 ══════════════════════════════════════════════════════════════════════
 
@@ -301,22 +301,45 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   └─ · ○ firecrawl/firecrawl-research-index  [2★]
 
 ══════════════════════════════════════════════════════════════════════
-Uniques — graph-isolated Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
+Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
 ══════════════════════════════════════════════════════════════════════
 
   · ◉ openai/few-shot-learning  [4★]
   · ◉ safishamsi/graphify  [4★]
+    ├─ · ○ /extract-entities
+    └─ · ○ /logical-inference
   · ◉ addy-osmani/performance-optimization  [4★]
   · ◉ stanfordnlp/dspy  [4★]
+    ├─ · ○ garrytan/benchmark  [3★]
+    └─ · ○ /generate-text
   · ◉ obra/subagent-driven-development  [4★]
+    ├─ · · obra/executing-plans  [3★]
+    │  ├─ · · obra/writing-plans  [4★]
+    │  │  ├─ · ○ /plan-decompose
+    │  │  └─ · ○ ████████/requirements-engineer
+    │  └─ · ○ /tool-use
+    ├─ · · obra/dispatching-parallel-agents  [3★]
+    │  ├─ · ○ /plan-decompose  (↑ see above)
+    │  └─ · ○ ████████/parallel-execution
+    └─ · · addy-osmani/code-review-and-quality  [3★]
+       ├─ · ○ garrytan/design-html  [3★]
+       ├─ · ○ /diff-content
+       └─ · ○ garrytan/benchmark  [3★]
   · ◉ obra/using-git-worktrees  [4★]
+    ├─ · ○ /code-execution
+    └─ · ○ /tool-use
   · ◉ pbakaus/impeccable  [4★]
   · ◉ firecrawl/firecrawl-build-scrape  [4★]
+    ├─ · ○ firecrawl/firecrawl-build-search  [4★]
+    ├─ · ○ /parse-html
+    └─ · ○ /extract-entities
   · ◉ firecrawl/firecrawl-build-search  [4★]
   · ◉ obra/writing-plans  [4★]
+    ├─ · ○ /plan-decompose
+    └─ · ○ ████████/requirements-engineer
 
 ══════════════════════════════════════════════════════════════════════
-Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top named-variant stars; blank = no named implementation.)
+Basics — basic-tier skills with no prerequisites, listed vertically (not as a single combined line).  ([N★] = top named-variant stars; blank = no named implementation.)
 ══════════════════════════════════════════════════════════════════════
 
   · ○ /autonomous-engineering-platform

@@ -320,6 +320,27 @@ def render_tree(
             else:
                 marker = ""
             lines.append(f"  {marker}◉ {display}{star_pill}")
+
+            prereq_ids = us.get("prerequisites", [])
+            if prereq_ids:
+                seen: set = {uid_s}
+                for i, prereq_id in enumerate(prereq_ids):
+                    is_last = i == len(prereq_ids) - 1
+                    for sl in _rst(
+                        prereq_id,
+                        skill_map,
+                        meta,
+                        "    ",
+                        is_last,
+                        seen,
+                        unlocked_ids=owned_ids if is_user else None,
+                        user_id=user_id if is_user else None,
+                        named_map=named_map,
+                        handle_rel=handle_rel,
+                        named_level_map=named_level_map,
+                        named_entry_level=named_entry_level,
+                    ):
+                        lines.append(sl)
         lines.append("")
 
     # ── Basics (orphan basics) ────────────────────────────────────────────
