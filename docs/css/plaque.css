@@ -968,6 +968,7 @@ button.plaque__slug {
    ============================================================ */
 .plaque--mini {
   --plaque-glow-intensity: 0.5;
+  --plaque-pad: 16px;
   width: 200px;
   max-width: 200px;
   height: auto;
@@ -4083,6 +4084,7 @@ button.plaque__slug {
   align-items: center;
   justify-content: center;
   position: relative;
+  align-self: stretch; /* ensure alignment in center-aligned flex containers */
 }
 
 /* ── Expand on plaque hover ──────────────────────────────────── */
