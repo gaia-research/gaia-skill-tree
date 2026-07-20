@@ -2,6 +2,15 @@
 
 > **Purpose:** a ground-truth cherry-pick map for the next design pass, so the recoverable design work is applied ONCE, safely, without re-litigating what already landed. Every classification below is verified against `origin/dev/yggdrasil-ii-staging` at tip `ac634b9d9` (the #1235 merge) by two read-only scout passes on 2026-07-20 — file:line evidence, not inference.
 
+## Session update — 2026-07-20 (bucket-1 recovery, partial)
+
+- **Fix 1 (DAG dot color + grouping) — APPROVED & COMMITTED** (`63f85e9de`). Approach diverged from the original SHA's branch-token map: dots are now colored by `var(--rank-N)` keyed on `ns.level` (the origin named skill's star rank), and DAG rows are grouped by that same rank. Void-zone unique isolation removed. This is the correct long-term approach.
+- **Fix 1 extended to skill flowchart — APPROVED & COMMITTED** (`69cde46ce`). The same rank-by-`ns.level` color fix applied to the per-skill "Upgrade Path & Adjacent Skills" flowchart DAG in `docs/js/skill-explorer.js`. Ghost nodes render muted; named nodes render `var(--rank-N)`. Void-zone isolation removed there too. Marco noted this had been broken for months.
+- **Fix 2 (contributor-card header) — APPROVED & COMMITTED** (`0a24ff5c7`). Direct port of `e15c7bfae` — `justify-content: flex-start`, `gap: 10px`, `flex-wrap: wrap`, `.contributor-card-header .rank-badge { margin-left: 0 }`.
+- **Fix 3 (CLAIM_RANK badge pin), Fix 4 (reports guard), Fix 5 (live.js sweep)** — not yet started. Continuing in a new session.
+
+
+
 ## What happened (verified)
 
 The Yggdrasil II work split across two layers on separate branches:
