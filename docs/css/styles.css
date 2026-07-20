@@ -3467,6 +3467,13 @@ tr:hover td {
   color: var(--tier-basic) !important;
 }
 
+/* · fusion glyph */
+.tree-glyph-fusion {
+  color: var(--tier-extra, #c084fc) !important;
+  font-weight: 900 !important;
+}
+
+
 /* ── Rank chips [N★] / [N★ · Name] — token-bound ── */
 .tree-rank {
   color: var(--muted) !important;
@@ -3598,6 +3605,53 @@ tr:hover td {
 .tree-basic-line {
   color: var(--text) !important;
 }
+
+/* ── Tree Fusion/Derivative Skills ── */
+.tree-fusion-line {
+  color: var(--text) !important;
+}
+
+.tree-fusion-contributor {
+  color: var(--honor-red) !important;
+  font-weight: 700 !important;
+}
+
+.tree-fusion-slash {
+  color: var(--muted) !important;
+  opacity: 0.5 !important;
+}
+
+.tree-fusion-skillname,
+.tree-fusion-id {
+  color: var(--rank-0, #94a3b8) !important; /* default to starless grey for no ranks */
+}
+
+/* Rank overrides for fusion skill names */
+.tree-fusion-skillname--ii,
+.tree-fusion-id--ii {
+  color: var(--rank-2) !important;
+}
+
+.tree-fusion-skillname--iii,
+.tree-fusion-id--iii {
+  color: var(--rank-3) !important;
+}
+
+.tree-fusion-skillname--iv,
+.tree-fusion-id--iv {
+  color: var(--rank-4) !important;
+}
+
+.tree-fusion-skillname--v,
+.tree-fusion-id--v {
+  color: var(--rank-5) !important;
+}
+
+.tree-fusion-skillname--vi,
+.tree-fusion-id--vi {
+  color: var(--rank-6) !important;
+}
+
 
 .tree-basic-contributor {
   color: var(--honor-red) !important;
