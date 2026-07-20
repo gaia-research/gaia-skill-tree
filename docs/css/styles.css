@@ -3401,8 +3401,8 @@ tr:hover td {
   }
 
   36% {
-    color: var(--tier-ultimate);
-    text-shadow: 0 0 10px rgba(245, 158, 11, .8), 0 0 22px rgba(245, 158, 11, .4)
+    color: var(--rank-5);
+    text-shadow: 0 0 10px rgba(251, 191, 36, .8), 0 0 22px rgba(251, 191, 36, .4)
   }
 
   54% {
@@ -3411,8 +3411,8 @@ tr:hover td {
   }
 
   72% {
-    color: var(--tier-extra);
-    text-shadow: 0 0 10px rgba(192, 132, 252, .8), 0 0 22px rgba(192, 132, 252, .4)
+    color: var(--rank-4);
+    text-shadow: 0 0 10px rgba(232, 121, 249, .8), 0 0 22px rgba(232, 121, 249, .4)
   }
 
   90% {
@@ -3426,51 +3426,43 @@ tr:hover td {
   }
 }
 
-@keyframes tree-extra-glow {
-
-  0%,
-  100% {
-    color: var(--tier-basic);
-    text-shadow: 0 0 10px rgba(56, 189, 248, .6);
-  }
-
-  20% {
-    color: var(--rank-3);
-    text-shadow: 0 0 10px rgba(167, 139, 250, .6);
-  }
-
-  40% {
-    color: #ef4444;
-    text-shadow: 0 0 10px rgba(239, 68, 68, .6);
-  }
-
-  60% {
-    color: var(--tier-extra);
-    text-shadow: 0 0 10px rgba(192, 132, 252, .6);
-  }
-
-  80% {
-    color: #34d399;
-    text-shadow: 0 0 10px rgba(52, 211, 153, .6);
-  }
-}
-
-/* ── Tree Tier Glyphs — token-bound (Stage 1/5b) ── */
-.tree-glyph-ult {
-  color: var(--tier-ultimate) !important;
+/* ── Tree Glyphs — Ygg II rank × branch taxonomy ── */
+/* ◆ suite glyphs — rank-keyed */
+.tree-glyph-suite--iv {
+  color: var(--rank-4) !important;
   font-weight: 900 !important;
 }
 
-.tree-glyph-ext {
-  color: var(--tier-extra) !important;
-  font-weight: 700 !important;
+.tree-glyph-suite--v {
+  color: var(--rank-5) !important;
+  font-weight: 900 !important;
 }
 
+.tree-glyph-suite--vi {
+  font-weight: 900 !important;
+  animation: tree-rainbow-glow 4s ease-in-out infinite !important;
+  text-shadow: var(--glow-VI) !important;
+}
+
+/* ◉ unique glyphs — branch × rank */
 .tree-glyph-uni {
   color: var(--tier-unique) !important;
   font-weight: 900 !important;
 }
 
+.tree-glyph-uni--v {
+  color: var(--tier-unique-5) !important;
+  font-weight: 900 !important;
+  text-shadow: 0 0 10px rgba(178, 106, 58, .5) !important;
+}
+
+.tree-glyph-uni--vi {
+  color: var(--tier-unique-6) !important;
+  font-weight: 900 !important;
+  text-shadow: var(--glow-VI) !important;
+}
+
+/* ○ basic glyph */
 .tree-glyph-basic {
   color: var(--tier-basic) !important;
 }
@@ -3547,25 +3539,26 @@ tr:hover td {
 }
 
 /* ── Tree Highlighting ── */
-.tree-ult-line {
+.tree-suite-line {
   font-weight: 700 !important;
   color: var(--text) !important;
 }
 
-.tree-ult-contributor {
+.tree-suite-contributor {
   color: var(--honor-red) !important;
   font-weight: 800 !important;
   text-shadow: 0 0 8px rgba(239, 68, 68, 0.4) !important;
 }
 
-.tree-ult-slash {
+.tree-suite-slash {
   color: var(--muted) !important;
   opacity: 0.5 !important;
 }
 
-.tree-ult-skillname,
-.tree-ult-id {
-  color: var(--tier-ultimate) !important;
+/* skill name color inherits from glyph class via currentColor on the line */
+.tree-suite-skillname,
+.tree-suite-id {
+  color: inherit !important;
   font-weight: 700 !important;
 }
 
@@ -3590,29 +3583,16 @@ tr:hover td {
   text-shadow: 0 0 8px rgba(124, 58, 237, 0.6), 0 0 16px rgba(124, 58, 237, 0.3) !important;
 }
 
-.tree-unique-gold {
-  color: var(--rank-5) !important;
-  text-shadow: 0 0 8px rgba(251, 191, 36, 0.6), 0 0 16px rgba(251, 191, 36, 0.3) !important;
+.tree-unique-skillname--v {
+  color: var(--tier-unique-5) !important;
+  font-weight: 900 !important;
+  text-shadow: 0 0 8px rgba(178, 106, 58, 0.5), 0 0 16px rgba(178, 106, 58, 0.25) !important;
 }
 
-.tree-extra-line {
-  font-weight: 600 !important;
-  color: var(--text) !important;
-}
-
-.tree-extra-contributor {
-  color: var(--honor-red) !important;
-  font-weight: 700 !important;
-}
-
-.tree-extra-slash {
-  color: var(--muted) !important;
-  opacity: 0.5 !important;
-}
-
-.tree-extra-skillname,
-.tree-extra-id {
-  color: var(--tier-extra) !important;
+.tree-unique-skillname--vi {
+  color: var(--tier-unique-6) !important;
+  font-weight: 900 !important;
+  text-shadow: var(--glow-VI) !important;
 }
 
 .tree-basic-line {
@@ -5360,8 +5340,7 @@ tr:hover td {
     opacity: 0.5;
   }
 
-  .tree-ult-line,
-  .tree-extra-line,
+  .tree-suite-line,
   .tree-basic-line,
   .tree-unique-line {
     display: block;
@@ -7766,7 +7745,7 @@ h4.se-install-sub-h { font-size: .85rem; }
 
 .flow-node[data-type="extra"][data-level="6★"] .fn-name,
 .se-stack-card[data-type="extra"][data-level="6★"] .fn-name {
-  animation: tree-extra-glow 4s linear infinite;
+  animation: tree-rainbow-glow 4s linear infinite;
 }
 
 /* Unique tier color — fallback if rank color not applied or for specific branding */
