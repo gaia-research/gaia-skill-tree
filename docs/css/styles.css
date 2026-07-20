@@ -11024,7 +11024,7 @@ button.nav-graph-trigger:hover {
   position: absolute;
   bottom: 100%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(calc(-50% + var(--hover-shift, 0px)));
   margin-bottom: 8px;
   font-family: var(--font-mono);
   font-size: 0.7rem;
@@ -11144,7 +11144,7 @@ button.nav-graph-trigger:hover {
   position: absolute;
   top: 100%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(calc(-50% + var(--hover-shift, 0px)));
   transition: opacity 0.2s, visibility 0.2s;
   z-index: 10;
   margin-top: 8px;
@@ -11157,7 +11157,7 @@ button.nav-graph-trigger:hover {
   opacity: 1 !important;
   visibility: visible;
   pointer-events: auto;
-  transform: translateX(-50%);
+  transform: translateX(calc(-50% + var(--hover-shift, 0px)));
 }
 
 /* Issue #346 — flowchart popover flicker + stacking.
@@ -11195,7 +11195,7 @@ button.nav-graph-trigger:hover {
 .git-node:hover .git-card:hover,
 .git-node:hover .se-stack-deck:hover,
 .git-node > .plaque:hover {
-  transform: translateX(-50%) !important;
+  transform: translateX(calc(-50% + var(--hover-shift, 0px))) !important;
 }
 
 .git-node:hover .ns-dag-card[data-ghost="true"],
@@ -11213,7 +11213,7 @@ button.nav-graph-trigger:hover {
   opacity: 1 !important;
   visibility: visible;
   pointer-events: auto;
-  transform: translateX(-50%) translateY(0);
+  transform: translateX(calc(-50% + var(--hover-shift, 0px))) translateY(0);
 }
 
 .git-node.selected .git-commit-dot {
@@ -11412,7 +11412,7 @@ button.nav-graph-trigger:hover {
   opacity: 1 !important;
   visibility: visible;
   pointer-events: auto;
-  transform: translateX(-50%);
+  transform: translateX(calc(-50% + var(--hover-shift, 0px)));
 }
 
 /* Void zone for uniques: in-flow zone with violet atmospheric border.
