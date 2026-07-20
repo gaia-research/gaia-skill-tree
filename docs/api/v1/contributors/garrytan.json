@@ -19,14 +19,14 @@
     {
       "id": "garrytan/garrytan",
       "name": "Autoplan",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 156.0,
       "overallTrustGrade": "A",
       "contributor": "garrytan",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "rankWord": "Extra",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/garrytan/garrytan.json"
       }

@@ -15,6 +15,6 @@ Performs hypothesis testing, regression analysis, and Bayesian modelling with ef
 
 ## Derivatives
 
-- [Prediction Market Analysis](/skills/extra/prediction-market-analysis.md)
-- [Skill Performance Benchmarking](/skills/extra/skill-performance-benchmarking.md)
+- [Prediction Market Analysis](/skills/fusion/prediction-market-analysis.md)
+- [Skill Performance Benchmarking](/skills/fusion/skill-performance-benchmarking.md)
 

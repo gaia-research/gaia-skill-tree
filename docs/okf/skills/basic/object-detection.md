@@ -15,6 +15,6 @@ Locates and classifies multiple objects within images by producing bounding boxe
 
 ## Derivatives
 
-- [Multimodal Reasoning](/skills/extra/multimodal-reasoning.md)
-- [Browser Automation](/skills/extra/browser-automation.md)
+- [Multimodal Reasoning](/skills/fusion/multimodal-reasoning.md)
+- [Browser Automation](/skills/fusion/browser-automation.md)
 

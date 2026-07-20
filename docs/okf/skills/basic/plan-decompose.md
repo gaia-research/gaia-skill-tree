@@ -15,13 +15,13 @@ Breaks a complex objective into an ordered sequence of executable sub-tasks.
 
 ## Derivatives
 
-- [Plan and Execute](/skills/extra/plan-and-execute.md)
-- [ReAct Reasoning](/skills/extra/re-act-reasoning.md)
-- [Tree of Thought](/skills/extra/tree-of-thought.md)
-- [Workflow Automation](/skills/extra/workflow-automation.md)
-- [PRD Generation](/skills/extra/prd-generation.md)
-- [Vertical Slice Planning](/skills/extra/vertical-slice-planning.md)
-- [Design Review](/skills/extra/design-review.md)
-- [Dispatching Parallel Agents](/skills/extra/dispatching-parallel-agents.md)
-- [Writing Plans](/skills/extra/writing-plans.md)
+- [Plan and Execute](/skills/fusion/plan-and-execute.md)
+- [ReAct Reasoning](/skills/fusion/re-act-reasoning.md)
+- [Tree of Thought](/skills/fusion/tree-of-thought.md)
+- [Workflow Automation](/skills/fusion/workflow-automation.md)
+- [PRD Generation](/skills/fusion/prd-generation.md)
+- [Vertical Slice Planning](/skills/fusion/vertical-slice-planning.md)
+- [Design Review](/skills/fusion/design-review.md)
+- [Dispatching Parallel Agents](/skills/fusion/dispatching-parallel-agents.md)
+- [Writing Plans](/skills/fusion/writing-plans.md)
 

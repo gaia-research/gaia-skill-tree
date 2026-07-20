@@ -45,7 +45,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ · · ruvnet/flow-nexus-neural  [2★]
   │     ├─ · ○ ████████/parallel-execution
   │     └─ · ○ /embed-text
-  ├─ · · ruvnet/agentdb  [3★]
+  ├─ · · ruvnet/agentdb  [4★]
   │  ├─ · · ruvnet/agentdb-advanced  [2★]
   │  │  ├─ · ○ ruvnet/agentdb-vector-search  [2★]
   │  │  └─ · · garrytan/learn  [2★]
@@ -73,10 +73,10 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  ├─ · ○ ████████/hf-cli  (↑ see above)
   │  │  └─ · ○ mattpocock/triage  [3★]
   │  └─ · · ████████/github-workflow-automation  (↑ see above)
-  ├─ · · ruvnet/reasoningbank  [3★]
+  ├─ · · ruvnet/reasoningbank  [4★]
   │  ├─ · ○ ruvnet/reasoningbank-intelligence  [2★]  (↑ see above)
   │  └─ · · ████████/agentdb-learning  (↑ see above)
-  ├─ · · ruvnet/ruflo-v3  [3★]
+  ├─ · · ruvnet/ruflo-v3  [4★]
   │  ├─ · ○ ruvnet/v3-cli-modernization  [2★]
   │  ├─ · ○ ruvnet/v3-core-implementation  [2★]
   │  ├─ · ○ ruvnet/v3-integration-deep  [2★]
@@ -87,7 +87,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │        ├─ · ○ /self-critique
   │        ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   │        └─ · ○ /chain-of-thought
-  └─ · · ruvnet/dual-mode  [3★]
+  └─ · · ruvnet/dual-mode  [4★]
      ├─ · ○ ruvnet/dual-spawn  [2★]
      ├─ · ○ ruvnet/dual-collect  [2★]
      └─ · ○ ruvnet/dual-coordinate  [2★]
@@ -100,7 +100,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ /diff-content
   │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   ├─ · ○ pbakaus/impeccable  [4★]
-  ├─ · · garrytan/garrytan  [3★]
+  ├─ · · garrytan/garrytan  [4★]
   │  ├─ · ○ /plan-decompose
   │  └─ · ○ ████████/ask-matt
   ├─ · · garrytan/design-consultation  [3★]
@@ -182,13 +182,13 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      └─ · ○ /generate-text  (↑ see above)
 
 · ◆ mattpocock/skills  [5★]
-  ├─ · · mattpocock/engineering  [3★]
+  ├─ · · mattpocock/engineering  [4★]
   │  ├─ · · devin-ai/autonomous-swe  [3★]
   │  │  ├─ · ○ garrytan/design-html  [3★]
   │  │  ├─ · ○ /code-execution
   │  │  └─ · ○ /error-interpretation
   │  ├─ · ○ addy-osmani/code-simplification  [3★]
-  │  ├─ · · garrytan/garrytan  [3★]
+  │  ├─ · · garrytan/garrytan  [4★]
   │  │  ├─ · ○ /plan-decompose
   │  │  └─ · ○ ████████/ask-matt
   │  ├─ · · mattpocock/to-prd  [3★]
@@ -213,7 +213,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ · · firecrawl/firecrawl-build-onboarding  [3★]
   │     ├─ · ○ garrytan/document-generate  [3★]  (↑ see above)
   │     └─ · ○ /tool-use
-  ├─ · · mattpocock/productivity  [3★]
+  ├─ · · mattpocock/productivity  [4★]
   │  ├─ · · mattpocock/handoff  [3★]
   │  │  ├─ · ○ /summarize
   │  │  ├─ · ○ garrytan/document-generate  [3★]  (↑ see above)
@@ -295,7 +295,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      ├─ · · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
      └─ · ○ /diff-content  (↑ see above)
 
-· ◆ firecrawl/firecrawl-skills  [3★]
+· ◆ firecrawl/firecrawl-skills  [4★]
   ├─ · · firecrawl/firecrawl-build-scrape  [4★]
   │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]
   │  ├─ · ○ /parse-html
@@ -340,10 +340,6 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     ├─ · ○ firecrawl/firecrawl-build-search  [4★]
     ├─ · ○ /parse-html
     └─ · ○ /extract-entities
-  · ◉ firecrawl/firecrawl-build-search  [4★]
-  · ◉ obra/writing-plans  [4★]
-    ├─ · ○ /plan-decompose
-    └─ · ○ ████████/requirements-engineer
 
 ══════════════════════════════════════════════════════════════════════
 Basics — basic-tier skills with no prerequisites, listed vertically (not as a single combined line).  ([N★] = top named-variant stars; blank = no named implementation.)

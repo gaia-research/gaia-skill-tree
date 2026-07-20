@@ -8,7 +8,7 @@ status: named
 level: 4★
 description: Integrate Firecrawl web search into product code.
 createdAt: '2026-07-13'
-updatedAt: '2026-07-16'
+updatedAt: '2026-07-20'
 title: Firecrawl Search
 links:
   github: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-search/SKILL.md
@@ -38,6 +38,13 @@ timeline:
     migration #997)'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-16
+- timestamp: '2026-07-20T18:16:45Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''web-search'' type: basic (unchanged; Yggdrasil II taxonomy
+    migration #997)'
+  metaEpoch: yggdrasil-ii
+  migrationBatch: yggdrasil-ii@2026-07-20
 evidence:
 - source: https://www.youtube.com/watch?v=tBtPSV_gU6o
   evaluator: unknown

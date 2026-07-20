@@ -20,7 +20,7 @@ tags:
 - gpt-3
 - unique
 createdAt: '2026-05-15'
-updatedAt: '2026-07-16'
+updatedAt: '2026-07-20'
 trustMagnitude: 100.0
 overallTrustGrade: A
 apexGateStatus:
@@ -68,6 +68,13 @@ timeline:
     II taxonomy migration #997)'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-16
+- timestamp: '2026-07-20T18:16:45Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''few-shot-learning'' type: basic (unchanged; Yggdrasil
+    II taxonomy migration #997)'
+  metaEpoch: yggdrasil-ii
+  migrationBatch: yggdrasil-ii@2026-07-20
 evidence:
 - source: https://arxiv.org/abs/2005.14165
   evaluator: mbtiongson1

@@ -26,6 +26,6 @@ When an agent needs to autonomously browse web pages, extract visual and structu
 
 ## Derivatives
 
-- [Browser Automation](/skills/extra/browser-automation.md)
-- [Founder Mode](/skills/ultimate/founder-mode-orchestration.md)
+- [Browser Automation](/skills/fusion/browser-automation.md)
+- [Founder Mode](/skills/fusion/founder-mode-orchestration.md)
 

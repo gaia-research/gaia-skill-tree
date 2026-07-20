@@ -15,6 +15,6 @@ Searches a skill or tool registry, ranks results by relevance and install count,
 
 ## Derivatives
 
-- [Skill Performance Benchmarking](/skills/extra/skill-performance-benchmarking.md)
-- [Skill Security Analysis](/skills/extra/skill-security-analysis.md)
+- [Skill Performance Benchmarking](/skills/fusion/skill-performance-benchmarking.md)
+- [Skill Security Analysis](/skills/fusion/skill-security-analysis.md)
 

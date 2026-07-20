@@ -15,10 +15,10 @@ Invokes external functions or APIs by generating well-formed call signatures, pa
 
 ## Derivatives
 
-- [ReAct Reasoning](/skills/extra/re-act-reasoning.md)
-- [Tool Creation](/skills/extra/tool-creation.md)
-- [Workflow Automation](/skills/extra/workflow-automation.md)
-- [Tool Chaining](/skills/extra/tool-chaining.md)
-- [Executing Plans](/skills/extra/executing-plans.md)
-- [Using Git Worktrees](/skills/extra/using-git-worktrees.md)
+- [ReAct Reasoning](/skills/fusion/re-act-reasoning.md)
+- [Tool Creation](/skills/fusion/tool-creation.md)
+- [Workflow Automation](/skills/fusion/workflow-automation.md)
+- [Tool Chaining](/skills/fusion/tool-chaining.md)
+- [Executing Plans](/skills/fusion/executing-plans.md)
+- [Using Git Worktrees](/skills/fusion/using-git-worktrees.md)
 

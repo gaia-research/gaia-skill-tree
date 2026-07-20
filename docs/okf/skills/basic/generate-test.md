@@ -23,5 +23,5 @@ Tests must use established frameworks (e.g., `unittest.TestCase` format) with pr
 
 ## Derivatives
 
-- [Automated Testing](/skills/extra/automated-testing.md)
+- [Automated Testing](/skills/fusion/automated-testing.md)
 

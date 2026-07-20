@@ -15,6 +15,6 @@ Extracts structured data from JSON-formatted input, handling nested objects and 
 
 ## Derivatives
 
-- [Document Analyst](/skills/extra/document-analyst.md)
-- [Text-to-SQL Pipeline](/skills/extra/text-to-sql-pipeline.md)
+- [Document Analyst](/skills/fusion/document-analyst.md)
+- [Text-to-SQL Pipeline](/skills/fusion/text-to-sql-pipeline.md)
 

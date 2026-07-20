@@ -8,7 +8,7 @@ status: named
 level: 4★
 description: Integrate Firecrawl page extraction into product code.
 createdAt: '2026-07-13'
-updatedAt: '2026-07-16'
+updatedAt: '2026-07-20'
 title: Firecrawl Scrape
 links:
   github: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-scrape/SKILL.md
@@ -47,6 +47,13 @@ timeline:
     II taxonomy migration #997)'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-16
+- timestamp: '2026-07-20T18:16:45Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''web-scrape'' type: extra/ultimate → fusion (Yggdrasil
+    II taxonomy migration #997)'
+  metaEpoch: yggdrasil-ii
+  migrationBatch: yggdrasil-ii@2026-07-20
 evidence:
 - source: https://www.youtube.com/watch?v=tBtPSV_gU6o
   evaluator: unknown

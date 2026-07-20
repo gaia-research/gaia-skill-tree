@@ -15,6 +15,6 @@ Assigns one or more categorical labels to an input based on learned or rule-base
 
 ## Derivatives
 
-- [Content Moderation](/skills/extra/content-moderation.md)
-- [Guardrails](/skills/extra/guardrails.md)
+- [Content Moderation](/skills/fusion/content-moderation.md)
+- [Guardrails](/skills/fusion/guardrails.md)
 

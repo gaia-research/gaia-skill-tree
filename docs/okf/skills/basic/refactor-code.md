@@ -15,5 +15,5 @@ Restructures existing source code to improve readability, maintainability, or pe
 
 ## Derivatives
 
-- [Full-Stack Developer](/skills/extra/full-stack-developer.md)
+- [Full-Stack Developer](/skills/fusion/full-stack-developer.md)
 

@@ -15,7 +15,7 @@ Iteratively evaluates and refines its own outputs using self-generated feedback,
 
 ## Derivatives
 
-- [Multi-Agent Debate](/skills/extra/multi-agent-debate.md)
-- [Recursive Self-Improvement](/skills/extra/recursive-self-improvement.md)
-- [Verification Before Completion](/skills/extra/verification-before-completion.md)
+- [Multi-Agent Debate](/skills/fusion/multi-agent-debate.md)
+- [Recursive Self-Improvement](/skills/fusion/recursive-self-improvement.md)
+- [Verification Before Completion](/skills/fusion/verification-before-completion.md)
 

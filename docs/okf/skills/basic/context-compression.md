@@ -15,5 +15,5 @@ Reduces the length of prompts or retrieved context to fit token limits while pre
 
 ## Derivatives
 
-- [Memory Manage](/skills/extra/memory-manage.md)
+- [Memory Manage](/skills/fusion/memory-manage.md)
 

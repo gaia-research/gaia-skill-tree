@@ -15,6 +15,6 @@ Generates accurate natural-language explanations of source code, describing inte
 
 ## Derivatives
 
-- [Code Review Pipeline](/skills/extra/code-review-pipeline.md)
-- [Autonomous Debug](/skills/extra/autonomous-debug.md)
+- [Code Review Pipeline](/skills/fusion/code-review-pipeline.md)
+- [Autonomous Debug](/skills/fusion/autonomous-debug.md)
 

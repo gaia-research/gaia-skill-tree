@@ -23,5 +23,5 @@ Prioritize accurate local parsing of multi-tool session logs. Use up-to-date pri
 
 ## Derivatives
 
-- [Data Analysis](/skills/extra/data-analysis.md)
+- [Data Analysis](/skills/fusion/data-analysis.md)
 

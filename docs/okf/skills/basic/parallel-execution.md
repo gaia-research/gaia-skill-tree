@@ -15,5 +15,5 @@ Decompose a task into independent sub-tasks and execute them concurrently, mergi
 
 ## Derivatives
 
-- [Dispatching Parallel Agents](/skills/extra/dispatching-parallel-agents.md)
+- [Dispatching Parallel Agents](/skills/fusion/dispatching-parallel-agents.md)
 

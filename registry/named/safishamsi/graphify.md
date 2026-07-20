@@ -16,7 +16,7 @@ tags:
 - rag
 - ast
 createdAt: '2026-05-14'
-updatedAt: '2026-07-19'
+updatedAt: '2026-07-20'
 timeline:
 - timestamp: '2026-06-02T23:48:24Z'
   action: demote
@@ -85,6 +85,13 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 3★ to 4★
+- timestamp: '2026-07-20T18:16:45Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''knowledge-graph-build'' type: extra/ultimate → fusion
+    (Yggdrasil II taxonomy migration #997)'
+  metaEpoch: yggdrasil-ii
+  migrationBatch: yggdrasil-ii@2026-07-20
 trustMagnitude: 116.57
 overallTrustGrade: A
 apexGateStatus:

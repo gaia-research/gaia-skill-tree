@@ -47,47 +47,46 @@ So that means, its the developers who make skills maintaining this. I have a tho
 
 <!-- gaia:registry-start -->
 ```text
-══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  ·  generated 2026-07-16
-══════════════════════════════════════════════════════════════════════
-◆ Ultimate · ◉ Unique · ◇ Extra · ○ Basic   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
-Shared prerequisites marked (↑ see above) on second occurrence.
-══════════════════════════════════════════════════════════════════════
+◆ mattpocock/skills  [5★]
+  ├─ · mattpocock/engineering  [4★]
+  │  ├─ · devin-ai/autonomous-swe  [3★]
+  │  │  ├─ ○ garrytan/design-html  [3★]
+  │  │  ├─ ○ /code-execution
+  │  │  └─ ○ /error-interpretation
+  │  ├─ ○ addy-osmani/code-simplification  [3★]
+  │  ├─ · garrytan/garrytan  [4★]
+  │  │  ├─ ○ /plan-decompose
+  │  │  └─ ○ ████████/ask-matt
+  │  ├─ · mattpocock/to-prd  [3★]
+  │  │  ├─ ○ garrytan/retro  [3★]
+  │  │  └─ ○ /plan-decompose  (↑ see above)
+  │  ├─ ○ mattpocock/triage  [3★]
+  │  ├─ · mattpocock/ubiquitous-language  [3★]
 
-══════════════════════════════════════════════════════════════════════
-Basics — basic-tier skills not wired into an upgrade path yet.  ([N★] = top named-variant stars; blank = no named implementation.)
-══════════════════════════════════════════════════════════════════════
+◆ garrytan/gstack  [5★]
+  ├─ ○ garrytan/office-hours  [3★]
+  ├─ ○ garrytan/benchmark  [3★]
+  ├─ · addy-osmani/code-review-and-quality  [3★]
+  │  ├─ ○ garrytan/design-html  [3★]
+  │  ├─ ○ /diff-content
+  │  └─ ○ garrytan/benchmark  [3★]  (↑ see above)
+  ├─ ○ pbakaus/impeccable  [4★]
+  ├─ · garrytan/garrytan  [4★]
+  │  ├─ ○ /plan-decompose
+  │  └─ ○ ████████/ask-matt
+  ├─ · garrytan/design-consultation  [3★]
+  │  ├─ · ████████/stagehand
+  │  │  ├─ ○ firecrawl/firecrawl-build-search  [4★]
+  │  │  └─ ○ /computer-use
 
-  ○ /autonomous-engineering-platform
-  ○ gaia-research/skill-ci-churn  [2★]
-  ○ /clinical-data-retrieval
-  ○ ████████/update-unique-churches
-  ○ /cultural-localization
-  ○ ████████/domain-modeling
-  ○ ████████/attendees
-  ○ ████████/export-attendees
-  ○ ████████/triage-conference
-  ○ ████████/ticket-transfer
-  ○ ████████/evidence-attestation
-  ○ openai/few-shot-learning  [4★]
-  ○ laravel/upgrade-laravel-v13  [2★]
-  ○ ruvnet/agentic-jujutsu  [2★]
-  ○ ████████/financial-assistance
-  ○ /image-generate
-  ○ ████████/implement-with-discernment
-  ○ ████████/huggingface-vision-trainer
-  ○ /pathway-ontology-retrieval
-  ○ /probabilistic-programming
-  ○ /reward-modeling
-  ○ openai/self-consistency  [3★]
-  ○ huggingface/semantic-cache  [2★]
-  ○ ruvnet/stream-chain  [2★]
-  ○ ████████/codebase-design
-  ○ /synthetic-data-generation
-  ○ addy-osmani/test-driven-development  [2★]
-  ○ /time-series-forecasting
-  ○ getagentseal/codeburn  [2★]
-  ○ ████████/resend-conference-emails-carefully-with-smtp
+Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
+  ◉ openai/few-shot-learning  [4★]
+  ◉ safishamsi/graphify  [4★]
+    ├─ ○ /extract-entities
+    └─ ○ /logical-inference
+  ◉ addy-osmani/performance-optimization  [4★]
+
+(243 skills total — see docs/tree.md)
 ```
 <!-- gaia:registry-end -->
 
