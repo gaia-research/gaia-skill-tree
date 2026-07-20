@@ -4863,20 +4863,18 @@ tr:hover td {
   transform: translate(-50%, -120%) scale(1.08);
 }
 
-/* Neighbor card border tints route through --tier-*-border tokens. */
-.graph-neighbor-card[data-type="basic"] {
+/* Neighbor card border tints route through branch (data-branch), not the
+   dead type enum — mirrors the PR3b branch-keyed tooltip (.skill-tooltip-type-*).
+   suite keys through --rank-5-border (a rank token, not a tier alias). */
+.graph-neighbor-card[data-branch="standard"] {
   border-color: var(--tier-basic-border)
 }
 
-.graph-neighbor-card[data-type="extra"] {
-  border-color: var(--tier-extra-border)
+.graph-neighbor-card[data-branch="suite"] {
+  border-color: var(--rank-5-border)
 }
 
-.graph-neighbor-card[data-type="ultimate"] {
-  border-color: var(--tier-ultimate-border)
-}
-
-.graph-neighbor-card[data-type="unique"] {
+.graph-neighbor-card[data-branch="unique"] {
   border-color: var(--tier-unique-border)
 }
 
