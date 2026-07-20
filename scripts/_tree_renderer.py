@@ -26,6 +26,7 @@ _LEGEND = (
 )
 
 _LEVEL_ORDER = ["2★", "3★", "4★", "5★", "6★"]
+_RENDER_CACHE = {}
 
 
 def _star_pill(named_level_map, sid) -> str:
@@ -180,39 +181,68 @@ def render_tree(
         for pid in s.get("prerequisites", []):
             all_prereq_ids.add(pid)
 
-    # ── Filter sub-Ultimates ──────────────────────────────────────────────
-    # An Ultimate that appears as a direct or transitive prerequisite of
-    # another Ultimate is already rendered nested inside that parent tree.
-    # Listing it again at the top level is redundant, so we exclude it.
-    def _sub_ultimate_ids(all_skills: list, smap: dict) -> set:
-        # Ygg II: suite-branch generics take the role of 'ultimates' in the
-        # upgrade tree. Branch is read from the emitted `branch` field — NOT
-        # from skill.type (which is 'basic'|'fusion' post-#997).
-        ultimate_ids = {s["id"] for s in all_skills if s.get("branch") == "suite"}
-        sub: set = set()
+    # ── Filter sub-components (with caching) ──────────────────────────────
+    # Cache holds a strong reference to `skills` alongside the id() key so the
+    # list can't be garbage-collected and have its id() reused by an unrelated
+    # later list — a bare id()-keyed cache silently serves stale results once
+    # that happens (caught by test_transitive_sub_ultimate_excluded).
+    cache_key = id(skills)
+    cached = _RENDER_CACHE.get(cache_key)
+    if cached is None or cached[0] is not skills:
+        # 1. Compute orphan basics helper sets
+        prereqs = set()
+        for s in skills:
+            for pid in s.get("prerequisites", []):
+                prereqs.add(pid)
 
-        def _walk(sid: str, visiting: set) -> None:
-            if sid in visiting:
+        # 2. Compute sub-ultimates (O(V+E))
+        ultimate_ids = {s["id"] for s in skills if s.get("branch") == "suite"}
+        sub_ultimates = set()
+        visited_ults = set()
+
+        def _walk_ults(sid: str) -> None:
+            if sid in visited_ults:
                 return
-            visiting.add(sid)
-            sk = smap.get(sid)
+            visited_ults.add(sid)
+            sk = skill_map.get(sid)
             if not sk:
                 return
             for pid in sk.get("prerequisites", []):
                 if pid in ultimate_ids:
-                    sub.add(pid)
-                _walk(pid, visiting)
+                    sub_ultimates.add(pid)
+                _walk_ults(pid)
 
         for uid in ultimate_ids:
-            _walk(uid, set())
-        return sub
+            _walk_ults(uid)
 
-    _sub_ids = _sub_ultimate_ids(skills, skill_map)
+        # 3. Compute sub-uniques (O(V+E))
+        unique_ids = {s["id"] for s in skills if s.get("branch") == "unique"}
+        sub_uniques = set()
+        visited_uniques = set()
+
+        def _walk_uniques(sid: str) -> None:
+            if sid in visited_uniques:
+                return
+            visited_uniques.add(sid)
+            sk = skill_map.get(sid)
+            if not sk:
+                return
+            for pid in sk.get("prerequisites", []):
+                if pid in unique_ids:
+                    sub_uniques.add(pid)
+                _walk_uniques(pid)
+
+        for uuid in unique_ids:
+            _walk_uniques(uuid)
+
+        _RENDER_CACHE[cache_key] = (skills, sub_ultimates, sub_uniques, prereqs)
+
+    _, _sub_ids, _sub_u_ids, all_prereq_ids = _RENDER_CACHE[cache_key]
     top_level_skills = [s for s in skills if s["id"] not in _sub_ids]
 
     legendaries = _srt(top_level_skills)
     unique_skills = sorted(
-        [s for s in skills if s.get("branch") == "unique"],
+        [s for s in skills if s.get("branch") == "unique" and s["id"] not in _sub_u_ids],
         key=lambda s: s.get("id", ""),
     )
     basic_orphans = sorted(
