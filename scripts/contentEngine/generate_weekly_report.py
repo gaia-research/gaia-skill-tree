@@ -231,8 +231,17 @@ def assembleReport(
     salvageLayer: str,
     generatedAt: str,
     version: str,
+    docsRoot: Path | None = None,
 ) -> dict:
     """Build the canonical report dict — this shape is frozen for Sprint F."""
+    # Only surface a "← Previous week" link when that report actually exists on
+    # disk. The very first report (and any week whose predecessor was never
+    # published) has no prior page; emitting the link anyway 404s. The template
+    # renders a greyed-out span when `previous` is falsy.
+    prevLabel = prevWeekLabel(year, week)
+    previousUrl = ""
+    if docsRoot is not None and (docsRoot / "reports" / prevLabel / "index.html").exists():
+        previousUrl = f"https://gaiaskilltree.com/reports/{prevLabel}/"
     return {
         "schemaVersion": "1.0.0",
         "reportId": weekLabel(year, week),
@@ -250,7 +259,7 @@ def assembleReport(
         "urls": {
             "canonical": f"https://gaiaskilltree.com/reports/{weekLabel(year, week)}/",
             "json": f"https://gaiaskilltree.com/api/v1/reports/{weekLabel(year, week)}.json",
-            "previous": f"https://gaiaskilltree.com/reports/{prevWeekLabel(year, week)}/",
+            "previous": previousUrl,
             "archive": "https://gaiaskilltree.com/reports/",
         },
     }
@@ -449,7 +458,7 @@ def run(
     }
 
     # 2. Assemble a first-pass report so synthesize() has a stable input.
-    firstPass = assembleReport(year, week, sections, "L3", generatedAt, version)
+    firstPass = assembleReport(year, week, sections, "L3", generatedAt, version, docsRoot)
 
     # 3. L1 → L2 → L3 salvage — synthesize() reports its own layer flag.
     try:
@@ -458,7 +467,7 @@ def run(
         # L3 refused because ALL sections are empty. Emit a stub report so
         # the URL still exists — the header tells readers no data was available.
         emptyStub = assembleReport(
-            year, week, sections, "L3-empty", generatedAt, version
+            year, week, sections, "L3-empty", generatedAt, version, docsRoot
         )
         emptyStub["notice"] = f"No trending data available: {exc}"
         report, layerFlag = emptyStub, "L3-empty"
