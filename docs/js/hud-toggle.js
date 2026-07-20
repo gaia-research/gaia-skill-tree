@@ -1,7 +1,10 @@
 // <world-tree-url-params>
-//   ?tree=1    — canonical. Opens the interactive 3D World Tree explorer.
-//   ?field=1   — deprecated compatibility alias for ?tree=1.
-//   ?hud=1     — deprecated compatibility alias for ?tree=1.
+//   ?field=1   — canonical. Opens the interactive 3D World Tree explorer.
+//   ?hud=1     — compatibility alias for ?field=1.
+//   NOTE: ?tree=1 is NOT handled here — it is owned by skill-explorer.js's
+//   tree.md text dialog (see #828). Claiming it here previously regressed
+//   the mobile "Skill Tree" nav link into opening the 3D explorer instead
+//   of the text tree (ff9efe302 stomped on 08fd13bf5 — do not re-add 'tree').
 // </world-tree-url-params>
 //
 // This file is intentionally a thin compatibility adapter. The renderer and
@@ -76,7 +79,7 @@
     // Canonical and legacy URL parameters all enter the same tree explorer.
     try {
       var params = new URLSearchParams(window.location.search);
-      if (paramOn(params, 'tree') || paramOn(params, 'field') || paramOn(params, 'hud')) {
+      if (paramOn(params, 'field') || paramOn(params, 'hud')) {
         setTimeout(function () {
           openWorldTree();
         }, 0);
