@@ -3355,6 +3355,7 @@ tr:hover td {
 .tree-dialog-body {
   flex: 1;
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
   padding: 1.1rem 1.4rem;
   min-height: 0
 }
@@ -3369,6 +3370,15 @@ tr:hover td {
   border: none;
   margin: 0;
   padding: 0;
+  /* Opt out of the global code-block overflow-safety rule (`pre { word-break:
+     break-all; overflow-wrap: anywhere; }` below). Those force character-level
+     breaks even under white-space: pre, which mangles the box-drawing tree's
+     column alignment instead of just scrolling. This is an ASCII diagram, not
+     prose code — it needs a real horizontal scroll, not a forced wrap. */
+  overflow-wrap: normal;
+  word-break: normal;
+  max-width: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 .tree-skeleton {
@@ -5405,11 +5415,21 @@ tr:hover td {
     padding: .5rem .7rem 1rem
   }
 
+  /* ui.js's initCopyButtons() wraps every <pre> in an injected .pre-wrap —
+     the generic mobile `.pre-wrap, pre { background: #0f172a }` rule below
+     paints that wrapper navy, which sits between .tree-dialog-body and the
+     tree's pre. Desktop has no such background so it reads as the dialog's
+     own near-black; this override keeps mobile matching it. */
+  .tree-dialog-body .pre-wrap {
+    background: transparent;
+  }
+
   .tree-dialog-body pre {
     font-size: 0.65rem;
-    /* Stage 7: unified to 1.5 across all breakpoints for consistent
-         monospace tree readability (the 1.3 from Stage 5 was legacy). */
-    line-height: 1.5;
+    /* Matches desktop's 1.65 line-height ratio (not the flat 1.5 this used
+       to unify to) — at the smaller mobile font-size, 1.5 read noticeably
+       more cramped than desktop despite being the "same" line-height. */
+    line-height: 1.65;
     letter-spacing: -0.01em;
   }
 
@@ -5418,12 +5438,15 @@ tr:hover td {
     opacity: 0.5;
   }
 
-  .tree-suite-line,
-  .tree-basic-line,
-  .tree-unique-line {
-    display: block;
-    white-space: nowrap;
-  }
+  /* This block previously forced display:block (doubled row height via a
+     phantom line box from the trailing "\n" text node — see git history)
+     and white-space:nowrap (collapsed the space-runs that form the tree's
+     indentation, since nowrap collapses whitespace same as `normal`, unlike
+     `pre`). Both were wrong: .tree-fusion-line never had either override and
+     was always correct — inline (no extra line box) with white-space
+     inherited as `pre` from the ancestor <pre> (exact spacing preserved).
+     Removing the override entirely makes suite/basic/unique rows behave
+     identically to fusion rows and to desktop (which never had this rule). */
 
   /* Attempt 4-column layout for pure skills if they have the class */
   .tree-pure-container {
@@ -8616,10 +8639,6 @@ code {
     font-size: .88rem
   }
 
-  /* Tree dialog: improve readability at narrow widths (Stage 5b note) */
-  .tree-dialog-body pre {
-    line-height: 1.5
-  }
 }
 
 /* ── Ultra-narrow (≤360px): the iPhone-SE / 320px case ── */
