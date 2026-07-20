@@ -228,6 +228,10 @@
   line-height: 1.15;
   letter-spacing: 0.02em;
   color: var(--plaque-accent);
+  display: block;
+  text-decoration: none;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 /* When emitted as a <button> (profile pages), strip native control
    chrome so it renders identically to the legacy <div>. The hover
@@ -244,8 +248,10 @@ button.plaque__slug {
   cursor: pointer;
   display: block;
 }
-button.plaque__slug:hover,
-button.plaque__slug:focus-visible {
+.plaque__slug:hover,
+.plaque__slug:focus-visible,
+.plaque-skill-name:hover,
+.plaque-skill-name:focus-visible {
   text-decoration: underline;
   text-underline-offset: 3px;
   outline: none;
