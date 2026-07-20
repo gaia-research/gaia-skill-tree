@@ -13,6 +13,20 @@ Viewports: 1280×900 (desktop), 390×844 (mobile). Screenshots in scratchpad/sco
 | /named/ catalog | desktop | `plaque__install-cmd` text is clipped/truncated inside its box on many cards (e.g. `gaia install obra/subagent-driven-develo…`, `addy-osmani/performance-opt…`). Truncation is expected for long slugs, but several overflow the pill by 160–250px before the ellipsis, and the copy affordance sits tight against clipped text. | probe `clipped[]` (ow up to 253px); named-desktop-mid.png install rows | Fixed-width install pill with `text-overflow: ellipsis` but the underlying text overflow is large; ellipsis clips mid-word | nit | easy-win |
 | /named/ catalog | desktop | Thin **stray gold/amber hairline underline** appears beneath the tag-pill row on some cards (planning, subagent/orchestration, git-worktrees/isolation, design/audit/frontend, self-learning) but not others — inconsistent decorative accent. | named-desktop-mid/bottom.png (under tag rows) | Likely a dead `--tier-extra`/`--tier-ultimate` token or an underline accent rendering only where a class resolves | nit | easy-win |
 
+### Surface 3 — /badges/?u=mattpocock&s=grill-me
+
+| Surface | Viewport | What looks wrong | Evidence | Suspected cause | Severity | Effort |
+|---|---|---|---|---|---|---|
+| /badges/ | desktop | Two **404s on live data**: `/badges/graph/gaia.json?v=6.8.8` and `/badges/graph/named/index.json?v=6.8.8`. Page fetches `graph/…` relative to `/badges/` → resolves to `/badges/graph/…` which doesn't exist (should be `/graph/…` or `../graph/…`). Badge still renders from fallback, so not blank — but the graph-data hydration silently fails. | b404.js FAILED REQUESTS list; badge-url-full.png (preview still renders) | Relative-path fetch not accounting for `/badges/` base path | polish | easy-win |
+| /badges/ | mobile (390) | **"◇ HONESTY ON" status pill overlaps the H1 "Github Badges"** — the pill sits on the title's right edge instead of clearing it. Cramped collision in the hero. | badges-390.png (pill on top of "Badges" wordmark) | Absolutely/float-positioned pill with no mobile reflow below the H1 | polish | easy-win |
+| /badges/ | desktop | "HONESTY ON" pill floats at an awkward mid-title vertical position (aligned to the middle of the H1's right, not the baseline or a header row) — reads as a stray tag rather than a deliberate status chip. | badges-1280.png | Same absolute-position pill; no desktop anchor | nit | easy-win |
+
+## Verified looks right (Surface 3 /badges/)
+- **Badge is NOT blank** — the required `?u=mattpocock&s=grill-me` URL renders the full builder + README preview (body 5527 chars). No ship-blocker.
+- README preview composes three coherent badges (handle `@mattpocock/grill-me · 3★`, `Ultimate · 5★`, `34 named skills`) with gold-outline pills, Honor-Red handle, star ratings.
+- Variants section (handle/rank/skills/powered-by), the rank-system table (1★→6★ with evidence floors), and "What your badge means" table all render cleanly and read as one system.
+- Footer + nav consistent with the rest of the site.
+
 ## Verified looks right (Surface 1 /named/)
 - Card grid reads as one coherent system across 1★–5★; consistent medallion + level-pill + avatar layout.
 - Suite 5★ plaques (ruflo/skills/gstack/superpowers): gold-ring dark orb medallion (aov4 suite) + gold-wreath avatar; contributor handles in Honor Red.
