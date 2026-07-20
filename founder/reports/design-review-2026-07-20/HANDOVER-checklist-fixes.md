@@ -1,5 +1,6 @@
 # Yggdrasil II — Design Fixes HANDOVER (full CHECKLIST completion)
 
+> **Active Branch:** `design/ygg2-checklist-fixes-t6` (targeting T6 onwards)
 > **For:** the coding agent (Sonnet) running `/design-iteration`.
 > **Goal:** complete the **entire** `founder/reports/design-review-2026-07-20/CHECKLIST.md` in **one PR** — every ship-blocker, every easy-win, and the overhauls folded in — on a branch off `dev/yggdrasil-ii-staging`.
 > **Method:** `/design-iteration` — one fix at a time, present diff, wait for Marco's **APPROVE / REJECT / NO CHANGES**, then commit that single fix and move on. **Never batch. Never self-merge.**
