@@ -1,52 +1,9 @@
 {
   "window": "7d",
-  "generatedAt": "2026-07-19T13:20:36Z",
+  "generatedAt": "2026-07-20T17:35:42Z",
   "firstRun": false,
-  "skills": [
-    {
-      "id": "firecrawl/firecrawl-build-scrape",
-      "name": "Firecrawl Scrape",
-      "level": "4★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 133.54,
-      "overallTrustGrade": "A",
-      "trendingScore": 70.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
-      }
-    },
-    {
-      "id": "firecrawl/firecrawl-skills",
-      "name": "Firecrawl Skills",
-      "level": "4★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 223.52,
-      "overallTrustGrade": "A",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
-      }
-    },
-    {
-      "id": "firecrawl/firecrawl-build-search",
-      "name": "Firecrawl Search",
-      "level": "4★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 107.14,
-      "overallTrustGrade": "A",
-      "trendingScore": 10.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-build-search.json"
-      }
-    }
-  ],
-  "totalTrending": 3,
+  "skills": [],
+  "totalTrending": 0,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }
