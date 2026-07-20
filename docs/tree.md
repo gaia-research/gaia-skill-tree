@@ -297,14 +297,37 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
 
   ◉ openai/few-shot-learning  [4★]
   ◉ safishamsi/graphify  [4★]
+    ├─ ○ /extract-entities
+    └─ ○ /logical-inference
   ◉ addy-osmani/performance-optimization  [4★]
   ◉ stanfordnlp/dspy  [4★]
+    ├─ ○ garrytan/benchmark  [3★]
+    └─ ○ /generate-text
   ◉ obra/subagent-driven-development  [4★]
+    ├─ · obra/executing-plans  [3★]
+    │  ├─ · obra/writing-plans  [4★]
+    │  │  ├─ ○ /plan-decompose
+    │  │  └─ ○ ████████/requirements-engineer
+    │  └─ ○ /tool-use
+    ├─ · obra/dispatching-parallel-agents  [3★]
+    │  ├─ ○ /plan-decompose  (↑ see above)
+    │  └─ ○ ████████/parallel-execution
+    └─ · addy-osmani/code-review-and-quality  [3★]
+       ├─ ○ garrytan/design-html  [3★]
+       ├─ ○ /diff-content
+       └─ ○ garrytan/benchmark  [3★]
   ◉ obra/using-git-worktrees  [4★]
+    ├─ ○ /code-execution
+    └─ ○ /tool-use
   ◉ pbakaus/impeccable  [4★]
   ◉ firecrawl/firecrawl-build-scrape  [4★]
+    ├─ ○ firecrawl/firecrawl-build-search  [4★]
+    ├─ ○ /parse-html
+    └─ ○ /extract-entities
   ◉ firecrawl/firecrawl-build-search  [4★]
   ◉ obra/writing-plans  [4★]
+    ├─ ○ /plan-decompose
+    └─ ○ ████████/requirements-engineer
 
 ══════════════════════════════════════════════════════════════════════
 Basics — basic-tier skills with no prerequisites, listed vertically (not as a single combined line).  ([N★] = top named-variant stars; blank = no named implementation.)
