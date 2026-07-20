@@ -1109,66 +1109,77 @@
             <th>Stars</th>
             <th>Rank</th>
             <th>Color</th>
-            <th>Evidence floor</th>
+            <th>Evidence gate</th>
             <th>What it takes</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td>0★</td>
-            <td><span style="color:#94a3b8;font-weight:600;">Unawakened</span></td>
-            <td><span class="bd-rank-swatch" style="background:#94a3b8;"></span>Slate</td>
-            <td>None</td>
-            <td>Generic primitive — catalogued but not yet verified by any implementation.</td>
+            <td><span style="color:var(--rank-0,#94a3b8);font-weight:600;">Unawakened</span></td>
+            <td><span class="bd-rank-swatch" style="background:var(--rank-0,#94a3b8);"></span>Slate</td>
+            <td>—</td>
+            <td>Catalogued but not yet verified by any implementation.</td>
           </tr>
           <tr>
             <td>1★</td>
-            <td><span style="color:#38bdf8;font-weight:600;">Awakened</span></td>
-            <td><span class="bd-rank-swatch" style="background:#38bdf8;"></span>Sky blue</td>
-            <td>None</td>
-            <td>Verified as a real, distinct capability. First sighting confirmed.</td>
+            <td><span style="color:var(--rank-1,#38bdf8);font-weight:600;">Awakened</span></td>
+            <td><span class="bd-rank-swatch" style="background:var(--rank-1,#38bdf8);"></span>Sky blue</td>
+            <td>—</td>
+            <td>First verified sighting — a real, distinct capability confirmed.</td>
           </tr>
           <tr>
             <td>2★</td>
-            <td><span style="color:#63cab7;font-weight:600;">Named</span></td>
-            <td><span class="bd-rank-swatch" style="background:#63cab7;"></span>Teal</td>
-            <td>Class C</td>
-            <td>Minimum rank for a Named Skill. A contributor's handle goes on the registry permanently at this threshold.</td>
+            <td><span style="color:var(--rank-2,#63cab7);font-weight:600;">Named</span></td>
+            <td><span class="bd-rank-swatch" style="background:var(--rank-2,#63cab7);"></span>Teal</td>
+            <td>Community-verified</td>
+            <td>Handle permanently on the registry. Minimum rank for a Named Skill.</td>
           </tr>
           <tr>
             <td>3★</td>
-            <td><span style="color:#a78bfa;font-weight:600;">Evolved</span></td>
-            <td><span class="bd-rank-swatch" style="background:#a78bfa;"></span>Violet</td>
-            <td>Class B</td>
-            <td>Reproducible and stable. The implementation can be demonstrated consistently, with docs and a public repo link required.</td>
+            <td><span style="color:var(--rank-3,#a78bfa);font-weight:600;">Evolved</span></td>
+            <td><span class="bd-rank-swatch" style="background:var(--rank-3,#a78bfa);"></span>Violet</td>
+            <td>Community-verified</td>
+            <td>Reproducible and stable. Public repo blob link required.</td>
           </tr>
-          <tr>
+          <tr style="border-top:1px solid rgba(232,121,249,.25);">
             <td>4★</td>
-            <td><span style="color:#e879f9;font-weight:600;">Extra</span></td>
-            <td><span class="bd-rank-swatch" style="background:#e879f9;"></span>Fuchsia</td>
-            <td>Class B/A</td>
-            <td>Production-ready. Comprehensive tests, active maintenance, and documented reliability in real-world usage.</td>
+            <td>
+              <span style="color:var(--rank-4,#e879f9);font-weight:600;">◆ Extra</span><br>
+              <span style="color:var(--tier-unique,#7c3aed);font-weight:600;">◉ Unique</span>
+            </td>
+            <td>
+              <span class="bd-rank-swatch" style="background:var(--rank-4,#e879f9);"></span>Fuchsia<br>
+              <span class="bd-rank-swatch" style="background:var(--tier-unique,#7c3aed);"></span>Deep violet
+            </td>
+            <td>TM ≥ 100 (A-grade)</td>
+            <td>Production-depth mastery. <b>◆ Extra</b> — suite branch, verified capstone with components. <b>◉ Unique</b> — depth alone, no fusion path.</td>
           </tr>
-          <tr style="border-top:1px solid rgba(124,58,237,.3);">
-            <td>4★+</td>
-            <td><span style="color:#7c3aed;font-weight:600;">◉ Unique</span></td>
-            <td><span class="bd-rank-swatch" style="background:#7c3aed;"></span>Deep violet</td>
-            <td>Class B/A</td>
-            <td>A separate tier — not a rank step. A Basic Skill that reached elite mastery through depth alone, without ever fusing. Graph-isolated, no fusion path forward. Badge renders in deep violet on a black panel.</td>
-          </tr>
-          <tr>
+          <tr style="border-top:1px solid rgba(251,191,36,.25);">
             <td>5★</td>
-            <td><span style="color:#fbbf24;font-weight:600;">Ultimate</span></td>
-            <td><span class="bd-rank-swatch" style="background:#fbbf24;"></span>Amber</td>
-            <td>Class B/A + 10k★</td>
-            <td>Mastery. Often an Ultimate capstone. Requires a repository with 10,000+ stars and peer-reviewed or battle-tested evidence.</td>
+            <td>
+              <span style="color:var(--rank-5,#fbbf24);font-weight:600;">◆ Ultimate</span><br>
+              <span style="color:var(--rank-5);font-weight:600;text-shadow:var(--glow-V);">◉ Unique Ultimate</span>
+            </td>
+            <td>
+              <span class="bd-rank-swatch" style="background:var(--rank-5,#fbbf24);"></span>Amber gold<br>
+              <span class="bd-rank-swatch" style="background:var(--tier-unique-5,#b26a3a);"></span>Burnished copper
+            </td>
+            <td>TM ≥ 250 (S-grade)<br><small>◆ + Origin on ≥ 1 suite component</small></td>
+            <td>Mastery. <b>◆ Ultimate</b> — suite pinnacle, Origin on ≥ 1 of the ≥ 5 components required. <b>◉ Unique Ultimate</b> — same TM bar, solo track.</td>
           </tr>
-          <tr>
+          <tr style="border-top:1px solid rgba(251,191,36,.4);">
             <td>6★</td>
-            <td><span style="color:#fbbf24;font-weight:700;letter-spacing:.02em;">Apex</span></td>
-            <td><span class="bd-rank-swatch" style="background:linear-gradient(90deg,#fbbf24,#38bdf8);"></span>Gold → Cyan</td>
-            <td>Class A + Origin 5★ Fusion</td>
-            <td>The pinnacle of Gaia. Extreme ecosystem impact. Must emerge from a fusion involving at least one Origin 5★ Ultimate skill, with Tier A evidence.</td>
+            <td>
+              <span style="color:var(--apex-gold);font-weight:700;letter-spacing:.02em;text-shadow:var(--glow-VI);">◆ Apex</span><br>
+              <span style="color:var(--tier-unique-6);font-weight:700;letter-spacing:.02em;text-shadow:var(--glow-VI);">◉ Unique Impossible</span>
+            </td>
+            <td>
+              <span class="bd-rank-swatch" style="background:var(--rank-6,#fbbf24);"></span>Apex gold<br>
+              <span class="bd-rank-swatch" style="background:var(--tier-unique-6,#e0894a);"></span>Ember
+            </td>
+            <td>TM ≥ 250 (S-grade) + predicate gate</td>
+            <td>Pinnacle. <b>◆ Apex</b> — suite, 6-predicate gate, Origin 5★ fusion required. <b>◉ Unique Impossible</b> — solo, 5-predicate gate. Extraordinarily rare.</td>
           </tr>
         </tbody>
       </table>
@@ -1314,6 +1325,12 @@
       { n: 1, label: "Awakened · 1★" },
     ];
     let samplerIdx = 0;
+    // Claim-integrity pin: the "Include in README" / claim preview and its copied
+    // markdown ALWAYS represent 1★ — never the sampler's cycling rank. A higher
+    // rank leaking into a fresh handle's claim would misrepresent standing
+    // (redaction/claim-integrity issue). The sampler may still cycle 1★→6★ as a
+    // demo; the two paths are decoupled. CLAIM_RANK is the fixed 1★ descriptor.
+    const CLAIM_RANK = SAMPLER_RANKS.find(r => r.n === 1) || { n: 1, label: "Awakened · 1★" };
     const samplerImg = document.getElementById("bd-sampler-img");
     const samplerLbl = document.getElementById("bd-sampler-lbl");
     function sampleSrc(n) {
@@ -1325,9 +1342,10 @@
     function refreshSamplerImg() {
       const r = SAMPLER_RANKS[samplerIdx];
       samplerImg.src = sampleSrc(r.n);
-      if (currentState.handle === "gaia-bot") {
-        badges.innerHTML = `<img src="${sampleSrc(r.n)}" alt="${r.label}" style="height:28px;display:block;">`;
-      }
+      // The sampler drives ONLY its own preview (samplerImg/samplerLbl). It must
+      // NOT repaint the claim/README badge preview (`badges`) — that surface is
+      // pinned to CLAIM_RANK by seedSample() and must never inherit the cycling
+      // rank (claim-integrity: no higher-rank leak into a fresh handle's claim).
     }
     document.getElementById("bd-sampler-btn").addEventListener("click", () => {
       samplerIdx = (samplerIdx + 1) % SAMPLER_RANKS.length;
@@ -1922,8 +1940,10 @@
 
       document.getElementById("readme-sim-title").textContent = "my-project";
       rowsEl.innerHTML = "";
-      const seedSampleSrc = sampleSrc(SAMPLER_RANKS[samplerIdx].n);
-      const seedLabel = SAMPLER_RANKS[samplerIdx].label;
+      // Claim preview + README markdown are PINNED to 1★ (CLAIM_RANK), never the
+      // sampler's cycling rank — cycling the demo to 6★ leaves this at 1★.
+      const seedSampleSrc = sampleSrc(CLAIM_RANK.n);
+      const seedLabel = CLAIM_RANK.label;
       badges.innerHTML = `<img src="${seedSampleSrc}" alt="${seedLabel}" style="height:28px;display:block;">`;
 
       // Show rank checkbox only; no copy buttons in seed state
