@@ -565,7 +565,7 @@
       descendantsById: {},
       directNeighborsById: {},
       treeBounds: null,
-      treeSpread: 1,
+      treeSpread: 2,
       viewMix: 0,
       viewFrom: 0,
       viewTarget: 0,
@@ -2529,7 +2529,7 @@
         const dy = scatterLastY - e.clientY;
         scatterLastY = e.clientY;
         if (state.treeLayout) {
-          state.treeSpread = Math.max(0.35, Math.min(2.4, state.treeSpread * Math.exp(dy * 0.007)));
+          state.treeSpread = Math.max(1, Math.min(4, state.treeSpread * Math.exp(dy * 0.007)));
         } else {
           state.scale = Math.max(0.05, Math.min((options.scale || GRAPH_SCALE) * 10, state.scale * Math.exp(dy * 0.007)));
           state.positions = buildPositions(state.skills, state.scale, state.layoutMode);
@@ -2554,7 +2554,7 @@
         if (!factor) return;
         e.preventDefault();
         if (state.treeLayout) {
-          state.treeSpread = Math.max(0.35, Math.min(2.4, state.treeSpread * factor));
+          state.treeSpread = Math.max(1, Math.min(4, state.treeSpread * factor));
         } else {
           state.scale = Math.max(0.05, Math.min((options.scale || GRAPH_SCALE) * 10, state.scale * factor));
           state.positions = buildPositions(state.skills, state.scale, state.layoutMode);
@@ -2916,7 +2916,7 @@
       state.paused = false; state.rotSpeed = 1;
       state.zoom = 1;
       state.scale = options.scale || GRAPH_SCALE;
-      state.treeSpread = 1;
+      state.treeSpread = 2;
       if (!state.treeLayout) state.positions = buildPositions(state.skills, state.scale, state.layoutMode);
       state.nebula = true;
       state.hoverSlowdown = 0;
