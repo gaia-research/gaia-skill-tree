@@ -1442,8 +1442,8 @@
       var nodeLevel = entry.level || '';
       var isApex = nodeLevel && String(nodeLevel).indexOf('6') !== -1;
       // PR3b: dot color from the entry's emitted branch, not raw type field.
-      var _fNodeBranch = _seBranchOf(entry);
-      var dotColor = _seBranchColor(_fNodeBranch, isApex);
+      var _fNodeRank = parseInt(String(nodeLevel).replace(/\D+/g, ''), 10) || 0;
+      var dotColor = 'var(--rank-' + _fNodeRank + ', var(--muted))';
       var extraMainClass = isMain ? ' git-node--main' : '';
       return '<div class="git-node' + extraMainClass + '"' +
           ' data-id="' + esc(syntheticId) + '"' +
@@ -1460,7 +1460,7 @@
     // PR3b: gate on the emitted branch (_fcBranch), not a dead type field.
     if (_fcBranch === SE_UNIQUE) {
       var _uApex = !!(ns && ns.level && String(ns.level).indexOf('6') !== -1);
-      var uColor = _seBranchColor(SE_UNIQUE, _uApex);
+      var uColor = 'var(--rank-' + _fcRank + ', var(--muted))';
       var labelId = (ns && ns.id) ? ns.id : genericId;
       var uniqueNodeHtml = '<div class="git-node git-node--main" data-id="' + esc(genericId) +
           '" data-branch="' + esc(_fcBranch) + '" data-level="' + esc((ns && ns.level) || '') + '" data-ghost="false">' +
@@ -1577,17 +1577,9 @@
       var rank = ranks[ri];
       if (!rank || !rank.length) continue;
       
-      // PR3b: read the emitted branch (named entry preferred) — never derive
-      // from relatedNodes[id].type.
-      var isUniqueRow = rank.every(function(id) {
-        var s = relatedNodes[id];
-        var _nbForBranch = (buckets[id] && buckets[id].length) ? buckets[id][0] : s;
-        return _seBranchOf(_nbForBranch) === SE_UNIQUE;
-      });
-
       var rowHtml = rank.map(function(id, idx) {
         var s = relatedNodes[id];
-        var staggerY = (ri === 0 || isUniqueRow) ? 0 : (hashString(id) % 80);
+        var staggerY = ri === 0 ? 0 : (hashString(id) % 80);
 
         var isMainSkill = (id === genericId || id === ns.id);
         var extraMainClass = isMainSkill ? ' git-node--main' : '';
@@ -1598,10 +1590,9 @@
         var nb = hasNamed ? namedBucket[0] : null;
         // PR3b: dot color from emitted branch; nodeType only for data-type attr (schema 'basic'|'fusion').
         var nodeType = (nb && nb.type) || s.type || 'basic';
-        var nodeLevel = (nb && nb.level) || s.level || '';
-        var isApex = nodeLevel && String(nodeLevel).indexOf('6') !== -1;
-        var _nodeBranch = _seBranchOf(nb || s);
-        var dotColor = _seBranchColor(_nodeBranch, isApex);
+        var nodeLevel = (nb && nb.level) || '';
+        var _nodeRank = parseInt(String(nodeLevel).replace(/\D+/g, ''), 10) || 0;
+        var dotColor = hasNamed ? 'var(--rank-' + _nodeRank + ', var(--muted))' : 'var(--muted)';
 
         // Label source: slash-form for named, raw id for ghost.
         var labelSource = hasNamed ? nb.id : id;
@@ -1626,8 +1617,7 @@
         '</div>';
       }).join('');
       
-      var voidClass = isUniqueRow ? ' void-zone' : '';
-      htmlRows += '<div class="se-flowchart-row' + voidClass + '" data-depth="' + ri + '">' + rowHtml + '</div>';
+      htmlRows += '<div class="se-flowchart-row" data-depth="' + ri + '">' + rowHtml + '</div>';
     }
 
     if (suiteComponents.length) {
