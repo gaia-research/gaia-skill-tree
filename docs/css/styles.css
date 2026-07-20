@@ -4031,20 +4031,27 @@ tr:hover td {
   flex-shrink: 0
 }
 
-.graph-legend-swatch[data-tier="basic"] {
-  background: var(--tier-basic)
+/* Legend structural glyphs — colour keyed on the emitted data-legend-type
+   (skill-graph.js ~L2422-2425). basic = neutral outer-bark grey (type spans
+   all ranks, mirrors the rank-pill's 0★ anchor below); fusion/unique read
+   their structural tokens; suite reads --rank-5 per T5's neighbor-card
+   convention. The old [data-tier="basic|extra|unique|ultimate"] swatch
+   rules were dead — JS never emits data-tier or .graph-legend-swatch on
+   these items. */
+.graph-legend-item[data-legend-type="basic"] .graph-legend-glyph {
+  color: var(--rank-0)
 }
 
-.graph-legend-swatch[data-tier="extra"] {
-  background: var(--tier-extra)
+.graph-legend-item[data-legend-type="fusion"] .graph-legend-glyph {
+  color: var(--tier-fusion)
 }
 
-.graph-legend-swatch[data-tier="unique"] {
-  background: var(--tier-unique)
+.graph-legend-item[data-legend-type="unique"] .graph-legend-glyph {
+  color: var(--tier-unique)
 }
 
-.graph-legend-swatch[data-tier="ultimate"] {
-  background: var(--tier-ultimate)
+.graph-legend-item[data-legend-type="suite"] .graph-legend-glyph {
+  color: var(--rank-5)
 }
 
 .graph-legend-ranks {
