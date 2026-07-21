@@ -119,7 +119,7 @@
   //  - .ns-dag-arrow rule moved to CSS (no inline style).
   //  - Ghost cards (no named implementation) routed through plaque.renderMini
   //    with { ghost: true } so their hatched-border CSS hook is shared.
-  function renderFlowchartView(filteredNamed) {
+  function renderFlowchartView(filteredNamed, sortMode) {
     var skillMap = window._gaiaSkillMap || {};
     var namedIds = {};
     // Pick each bucket's CHAMPION (origin, else highest level) as its
@@ -154,13 +154,12 @@
       if (!dagRankGroups[rn]) dagRankGroups[rn] = [];
       dagRankGroups[rn].push(id);
     });
-    // Rank-descending order (6★ at top, 0★/1★ at bottom).
-    var rankTiers = Object.keys(dagRankGroups).map(Number).sort(function(a, b) { return b - a; });
-    var ranks = rankTiers.map(function(rn) { return dagRankGroups[rn]; });
-    // Record present rank tiers for the global AlphaRail — label via GaiaSemantics.
-    window._gaiaFlowRanks = rankTiers.map(function(rn) {
-      return { tier: 'rank-' + rn, rankNum: rn, count: dagRankGroups[rn].length, targetId: 'ns-rank-' + rn };
+    // Rank order follows the sort direction: level-desc → 6★ at top, level-asc →
+    // 1★ at top (the container's column-reverse maps this list to the display).
+    var rankTiers = Object.keys(dagRankGroups).map(Number).sort(function(a, b) {
+      return (sortMode === 'level-asc') ? (a - b) : (b - a);
     });
+    var ranks = rankTiers.map(function(rn) { return dagRankGroups[rn]; });
 
     function levelNum(level) {
       var n = parseInt(String(level || '').replace(/\D+/g, ''), 10);
@@ -179,74 +178,103 @@
       return Math.abs(h);
     }
 
+    // Flow is declared outside the post-fetch closure, so it can't see
+    // nsBranch/rankWordFor from renderCurrent — resolve branch locally.
+    function fBranch(ns) {
+      return (window.GaiaSemantics && typeof window.GaiaSemantics.branchOf === 'function')
+        ? window.GaiaSemantics.branchOf(ns) : ((ns && ns.branch) || 'standard');
+    }
+    // Renders one DAG node (git-node); shared by single and branch-split layers.
+    function renderDagNode(id) {
+      var staggerY = hashString(id) % 150;
+      var s = dagNodes[id];
+      var ns = namedIds[id];
+      var isGhost = !ns;
+      var miniNs = ns || {
+        id: id,
+        name: s.name || id,
+        level: s.level,
+        type: s.type,
+        links: {},
+        genericSkillRef: id,
+      };
+      var dagOpts = {
+        extraClass: 'ns-dag-card',
+        dagId: id,
+        ghost: isGhost,
+        attrs: ' data-type="' + esc(s.type) + '"',
+      };
+      if (isGhost) {
+        // Ghost plaque click opens the "gaia propose" dialog so the user can claim the unnamed skill.
+        dagOpts.onclick = 'event.stopPropagation();(function(id){var sm=window._gaiaSkillMap||{};var g=sm[id];if(g&&typeof window.openUnnamedPopup===\'function\')window.openUnnamedPopup(g);})(\'' + String(id).replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\')';
+      }
+      var miniHtml = (window.plaque && typeof window.plaque.renderMini === 'function')
+        ? window.plaque.renderMini(miniNs, dagOpts)
+        : '';
+      var dotRank = ns ? levelNum(ns.level) : 0;
+      var colorVar = isGhost ? 'var(--muted)' : 'var(--rank-' + dotRank + ', var(--muted))';
+      // Label source: prefer slash-formatted named ID; fall back to generic ID for ghost nodes.
+      var labelSource = (ns && ns.id) ? ns.id : id;
+      var labelParts = String(labelSource).split('/');
+      var labelContrib = labelParts.length > 1 ? labelParts[0] : '';
+      var labelName = labelParts.length > 1 ? labelParts[1] : labelSource;
+      // Pre-named/demoted (≤1★): redact the contributor segment. Key on the
+      // NAMED skill's own level (ns.level) — the generic node (s.level) is
+      // rank-less, so using it would redact every node (false positive).
+      var labelRedacted = ns && window.isRedacted && window.isRedacted(ns.level);
+      var labelContribHtml = labelRedacted
+        ? '<span class="dag-node-label-contrib plaque__redacted-handle" aria-label="Contributor not yet revealed">████████</span>'
+        : '<span class="dag-node-label-contrib">' + esc(labelContrib) + '</span>';
+      var labelHtml = labelContrib
+        ? '<div class="dag-node-label">' + labelContribHtml + '<span style="color:var(--muted)">/</span><span class="dag-node-label-name">' + esc(labelName) + '</span></div>'
+        : '<div class="dag-node-label"><span class="dag-node-label-name">' + esc(labelSource) + '</span></div>';
+      return '<div class="git-node" data-id="' + esc(id) + '" data-type="' + esc(s.type) + '" data-level="' + esc(s.level || '') + '" data-ghost="' + isGhost + '" style="--staggerY:' + staggerY + 'px"' +
+              ' onclick="if(window.selectNodeTree)window.selectNodeTree(\''+esc(id)+'\')"' +
+              ' onmouseenter="if(!window._selectedTreeNode&&window.highlightPathsTree)window.highlightPathsTree(\''+esc(id)+'\')"' +
+              ' onmouseleave="if(!window._selectedTreeNode&&window.unhighlightPathsTree)window.unhighlightPathsTree()">' +
+              '<div class="git-commit-dot" style="--dot-color: ' + colorVar + '"></div>' +
+              labelHtml +
+              miniHtml +
+              '</div>';
+    }
+    // Emits a labeled DAG layer. At 4★+ `branch` forks the rank word (Extra/
+    // Ultimate/Apex vs Unique/Unique Ultimate/Unique Impossible) and adds the
+    // Standalone (unique) / Suite chip; below 4★ pass null for the shared word.
+    function emitDagLayer(rankNum, depth, layerId, branch, ids) {
+      var word = (window.GaiaSemantics && typeof window.GaiaSemantics.rankWord === 'function')
+        ? window.GaiaSemantics.rankWord(rankNum, branch || SUITE_LADDER) : (rankNum + '★');
+      var kind = branch ? (branch === 'unique' ? 'Standalone' : 'Suite') : '';
+      var out = '<div class="ns-dag-rank-label" style="color:var(--rank-' + rankNum + ',var(--muted))">' +
+        esc(word) + ' · ' + rankNum + '★' + (kind ? '<span class="ns-group-kind">' + kind + '</span>' : '') + '</div>';
+      out += '<div class="ns-dag-rank" data-depth="' + depth + '" data-rank="' + esc(String(rankNum)) + '" id="' + esc(layerId) + '"' + (branch ? ' data-branch="' + esc(branch) + '"' : '') + '>';
+      ids.forEach(function(id) { out += renderDagNode(id); });
+      out += '</div>';
+      return out;
+    }
+
     var html = '<div class="ns-dag-container git-style" id="nsDag">';
     html += '<svg class="ns-dag-svg" id="nsDagSvg"></svg>';
 
-    // Bottom to top (rank 1 → rank 6) in DOM; column-reverse in CSS puts 6★ at top.
+    // DOM is built visual-bottom first; the container's column-reverse flips it,
+    // so rankTiers (already sorted by direction) lands 6★ on top for level-desc.
+    // At 4★+ each rank splits into a SUITE band and a STANDALONE (unique) band;
+    // the suite band is appended first so the unique band renders above it after
+    // column-reverse — matching the tile/list unique-first ordering.
     for (var ri = ranks.length - 1; ri >= 0; ri--) {
       var rank = ranks[ri];
       if (!rank.length) continue;
       rank.sort(sortDagRank);
       var rankNum = rankTiers[ri];
-
-      var rankLabel = (window.GaiaSemantics && typeof window.GaiaSemantics.rankWord === 'function')
-        ? window.GaiaSemantics.rankWord(rankNum, SUITE_LADDER)
-        : (rankNum + '★');
-      html += '<div class="ns-dag-rank-label" style="color:var(--rank-' + rankNum + ',var(--muted))">' + esc(rankLabel) + ' · ' + rankNum + '★</div>';
-      html += '<div class="ns-dag-rank" data-depth="' + ri + '" data-rank="' + esc(String(rankNum)) + '" id="ns-rank-' + esc(String(rankNum)) + '">';
-      rank.forEach(function(id, idx) {
-        var staggerY = hashString(id) % 150;
-        var s = dagNodes[id];
-        var ns = namedIds[id];
-        var isGhost = !ns;
-        var miniNs = ns || {
-          id: id,
-          name: s.name || id,
-          level: s.level,
-          type: s.type,
-          links: {},
-          genericSkillRef: id,
-        };
-        var dagOpts = {
-          extraClass: 'ns-dag-card',
-          dagId: id,
-          ghost: isGhost,
-          attrs: ' data-type="' + esc(s.type) + '"',
-        };
-        if (isGhost) {
-          // Ghost plaque click opens the "gaia propose" dialog so the user can claim the unnamed skill.
-          dagOpts.onclick = 'event.stopPropagation();(function(id){var sm=window._gaiaSkillMap||{};var g=sm[id];if(g&&typeof window.openUnnamedPopup===\'function\')window.openUnnamedPopup(g);})(\'' + String(id).replace(/\\/g,'\\\\').replace(/'/g,"\\'") + '\')';
-        }
-        var miniHtml = (window.plaque && typeof window.plaque.renderMini === 'function')
-          ? window.plaque.renderMini(miniNs, dagOpts)
-          : '';
-        var dotRank = ns ? levelNum(ns.level) : 0;
-        var colorVar = isGhost ? 'var(--muted)' : 'var(--rank-' + dotRank + ', var(--muted))';
-        // Label source: prefer slash-formatted named ID; fall back to generic ID for ghost nodes.
-        var labelSource = (ns && ns.id) ? ns.id : id;
-        var labelParts = String(labelSource).split('/');
-        var labelContrib = labelParts.length > 1 ? labelParts[0] : '';
-        var labelName = labelParts.length > 1 ? labelParts[1] : labelSource;
-        // Pre-named/demoted (≤1★): redact the contributor segment. Key on the
-        // NAMED skill's own level (ns.level) — the generic node (s.level) is
-        // rank-less, so using it would redact every node (false positive).
-        var labelRedacted = ns && window.isRedacted && window.isRedacted(ns.level);
-        var labelContribHtml = labelRedacted
-          ? '<span class="dag-node-label-contrib plaque__redacted-handle" aria-label="Contributor not yet revealed">████████</span>'
-          : '<span class="dag-node-label-contrib">' + esc(labelContrib) + '</span>';
-        var labelHtml = labelContrib
-          ? '<div class="dag-node-label">' + labelContribHtml + '<span style="color:var(--muted)">/</span><span class="dag-node-label-name">' + esc(labelName) + '</span></div>'
-          : '<div class="dag-node-label"><span class="dag-node-label-name">' + esc(labelSource) + '</span></div>';
-        html += '<div class="git-node" data-id="' + esc(id) + '" data-type="' + esc(s.type) + '" data-level="' + esc(s.level || '') + '" data-ghost="' + isGhost + '" style="--staggerY:' + staggerY + 'px"' +
-                ' onclick="if(window.selectNodeTree)window.selectNodeTree(\''+esc(id)+'\')"' +
-                ' onmouseenter="if(!window._selectedTreeNode&&window.highlightPathsTree)window.highlightPathsTree(\''+esc(id)+'\')"' +
-                ' onmouseleave="if(!window._selectedTreeNode&&window.unhighlightPathsTree)window.unhighlightPathsTree()">' +
-                '<div class="git-commit-dot" style="--dot-color: ' + colorVar + '"></div>' +
-                labelHtml +
-                miniHtml +
-                '</div>';
+      if (rankNum < 4) {
+        html += emitDagLayer(rankNum, ri, 'ns-rank-' + rankNum, null, rank);
+        continue;
+      }
+      var uniqueIds = [], suiteIds = [];
+      rank.forEach(function(id) {
+        (fBranch(namedIds[id]) === 'unique' ? uniqueIds : suiteIds).push(id);
       });
-      html += '</div>';
+      if (suiteIds.length) html += emitDagLayer(rankNum, ri, 'ns-rank-' + rankNum + '-suite', 'suite', suiteIds);
+      if (uniqueIds.length) html += emitDagLayer(rankNum, ri, 'ns-rank-' + rankNum + '-unique', 'unique', uniqueIds);
     }
     html += '</div>';
 
@@ -394,6 +422,10 @@
         }
       });
 
+      // Mobile: the narrow column + node stagger turns the vertical-tangent
+      // curves into heavy S-bends. Flatten the control offset on small widths so
+      // edges read as gentle, near-direct veins instead of swooping loops.
+      var isNarrow = cRect.width < 640;
       var paths = '';
       edges.forEach(function(e) {
         var fromEl = nodeEls[e.from];
@@ -410,7 +442,7 @@
 
         var dx = tx - fx;
         var dy = ty - fy;
-        var ctrl = Math.abs(dy) * 0.25 + Math.abs(dx) * 0.05;
+        var ctrl = Math.abs(dy) * (isNarrow ? 0.12 : 0.25) + Math.abs(dx) * (isNarrow ? 0.03 : 0.05);
         var d = 'M' + fx.toFixed(1) + ',' + fy.toFixed(1) +
                 ' C' + fx.toFixed(1) + ',' + (fy + ctrl).toFixed(1) +
                 ' ' + tx.toFixed(1) + ',' + (ty - ctrl).toFixed(1) +
@@ -567,16 +599,27 @@
       // representative label). The suite label is the displayed rank name for the
       // group; unique/standard items within the group carry their own data-branch
       // from the plaque shell (_shell) for visual differentiation (darker/gold).
-      function groupHeader(rankNum, id) {
+      // Rank group header. At 4★+ the rank WORD forks by branch (suite → Extra/
+      // Ultimate/Apex, unique → Unique/Unique Ultimate/Unique Impossible), so the
+      // caller passes the sub-group's branch; below 4★ the word is branch-agnostic
+      // and `branch` is omitted (falls back to the suite ladder default). Glyph is
+      // the branch medallion at 4★+ (◉ unique / ◆ suite), ○ below.
+      function groupHeader(rankNum, id, branch) {
         var rn = parseInt(rankNum, 10) || 0;
         var word = (window.GaiaSemantics && typeof window.GaiaSemantics.rankWord === 'function')
-          ? window.GaiaSemantics.rankWord(rn, SUITE_LADDER)
+          ? window.GaiaSemantics.rankWord(rn, branch || SUITE_LADDER)
           : (rn + '★');
-        var glyph = rn >= 4 ? '◆' : '○';
+        var glyph = (rn >= 4 && window.GaiaSemantics && typeof window.GaiaSemantics.medallion === 'function')
+          ? window.GaiaSemantics.medallion(branch || SUITE_LADDER, rn)
+          : (rn >= 4 ? '◆' : '○');
         var colorVar = 'var(--rank-' + rn + ', var(--text))';
-        return '<div class="ns-group-header ns-group-rank" id="ns-group-' + esc(String(id)) + '" data-rank="' + esc(String(rn)) + '">' +
+        // 4★+ groups carry a branch descriptor: the unique ladder is STANDALONE
+        // skills, the suite ladder (Extra/Ultimate/Apex) is skill SUITES.
+        var kind = branch ? (branch === 'unique' ? 'Standalone' : 'Suite') : '';
+        return '<div class="ns-group-header ns-group-rank" id="ns-group-' + esc(String(id)) + '" data-rank="' + esc(String(rn)) + '"' + (branch ? ' data-branch="' + esc(branch) + '"' : '') + '>' +
           '<span class="ns-group-glyph ns-group-rank-glyph" style="color:' + colorVar + '">' + glyph + '</span>' +
           esc(word) + ' · ' + rn + '★' +
+          (kind ? '<span class="ns-group-kind">' + kind + '</span>' : '') +
         '</div>';
       }
 
@@ -597,22 +640,17 @@
         return (sortMode === 'name' || sortMode === 'creator') ? 'alpha' : 'type';
       }
 
-      // Single re-render hook: publishes the marker descriptors for the current
-      // explorer view so the global AlphaRail (js/index-rail.js) can mirror them,
-      // then fires one event covering every view/sort/filter/search change.
-      function publishExplorerMarkers(descriptors) {
-        window._gaiaExplorerMarkers = descriptors || [];
-        document.dispatchEvent(new CustomEvent('gaia:explorer-rendered'));
-      }
-
       // Yggdrasil II — within a rank group, Unique and Suite are DISTINCT
       // branches and must never co-mingle: cluster Unique first, then Suite,
       // then standard. Reads the emitted branch via GaiaSemantics.branchOf
       // (never a client-side type guess).
-      function branchOrder(ns) {
-        var b = (window.GaiaSemantics && typeof window.GaiaSemantics.branchOf === 'function')
+      function nsBranch(ns) {
+        return (window.GaiaSemantics && typeof window.GaiaSemantics.branchOf === 'function')
           ? window.GaiaSemantics.branchOf(ns)
-          : (ns && ns.branch) || 'standard';
+          : ((ns && ns.branch) || 'standard');
+      }
+      function branchOrder(ns) {
+        var b = nsBranch(ns);
         return b === 'unique' ? 0 : b === 'suite' ? 1 : 2;
       }
 
@@ -654,34 +692,12 @@
           }
           return true;
         });
-        if (!filtered.length) { grid.innerHTML='<div class="ns-empty">No skills match.</div>'; publishExplorerMarkers([]); return; }
+        if (!filtered.length) { grid.innerHTML='<div class="ns-empty">No skills match.</div>'; return; }
 
         if (viewMode === 'flow') {
           grid.className = 'ns-grid-flow';
-          grid.innerHTML = renderFlowchartView(filtered);
+          grid.innerHTML = renderFlowchartView(filtered, sortMode);
           if (typeof window._wireTrustNotches === 'function') window._wireTrustNotches(grid);
-          // Flow markers mirror the DAG rank layers present (highest rank = visual
-          // top, matching column-reverse layout). renderFlowchartView records
-          // them on window._gaiaFlowRanks with { tier, rankNum, count, targetId }.
-          // Yggdrasil II: labels come from GaiaSemantics.rankWord (suite ladder),
-          // color keys on --rank-N token. No dead enum labels.
-          var flowRanks = window._gaiaFlowRanks || [];
-          publishExplorerMarkers(flowRanks.map(function(r) {
-            var rn = r.rankNum != null ? r.rankNum : parseInt(String(r.tier || '').replace(/\D+/g, ''), 10) || 0;
-            var word = (window.GaiaSemantics && typeof window.GaiaSemantics.rankWord === 'function')
-              ? window.GaiaSemantics.rankWord(rn, SUITE_LADDER)
-              : (rn + '★');
-            var glyph = rn >= 6 ? '◆' : rn >= 4 ? '◆' : '○';
-            return {
-              key: 'rank:' + rn,
-              label: word + ' · ' + rn + '★',
-              glyph: glyph,
-              color: 'var(--rank-' + rn + ', var(--text))',
-              weight: r.count,
-              kind: 'group',
-              targetId: r.targetId
-            };
-          }));
           return;
         }
 
@@ -708,7 +724,6 @@
           ? function(ns){ return renderListRow(ns); }
           : function(ns){ return renderTile(ns); };
         var html = '';
-        var markers = [];
 
         if (groupingMode() === 'alpha') {
           // A-Z buckets keyed by display name (name sort) or contributor (creator).
@@ -724,37 +739,58 @@
             var items = withinGroupSort(azGroups[L]);
             html += groupHeaderAlpha(L);
             html += items.map(renderItem).join('');
-            markers.push({ key: 'az:' + L, label: L, glyph: L, kind: 'letter',
-              weight: items.length, targetId: 'ns-group-az-' + L });
           });
         } else {
-          // Yggdrasil II — group by rank INTEGER (6★ first), NOT by dead type
-          // enum. Within each rank group, withinGroupSort CLUSTERS by branch
-          // (Unique first, then Suite, then standard) so 4★ Unique standalones
-          // never co-mingle with 4★ Extra suites. Branch read from the emitted
-          // field via GaiaSemantics.branchOf; the plaque shell's data-branch
-          // still drives the gold/dark plaque skin per skill.
+          // Yggdrasil II E2 — group by rank INTEGER (6★ first), NOT by dead type
+          // enum. At 4★+ the rank WORD forks by branch, so each 4★+ rank is
+          // PARTITIONED into per-branch sub-groups: a 4★ unique standalone reads
+          // "Unique · 4★" and a 4★ suite reads "Extra · 4★" — never co-mingled
+          // under a single suite-word header. Standard 4★+ (no forked word)
+          // collapses into the suite-word bucket (rankWord maps it there), so no
+          // empty/duplicate header appears. Below 4★ the word is branch-agnostic
+          // (Awakened/Named/Evolved) → one group per rank. Branch is read from the
+          // emitted field via GaiaSemantics.branchOf; the plaque shell's
+          // data-branch still drives the gold/dark plaque skin per skill.
           var rankGroups = {};
           champions.forEach(function(ns) {
             var rn = levelNum(ns.level) || 2;
             if (!rankGroups[rn]) rankGroups[rn] = [];
             rankGroups[rn].push(ns);
           });
-          RANK_ORDER.forEach(function(rn) {
+          var rankWordFor = function(rn, branch) {
+            return (window.GaiaSemantics && typeof window.GaiaSemantics.rankWord === 'function')
+              ? window.GaiaSemantics.rankWord(rn, branch) : (rn + '★');
+          };
+          // Group ORDER follows the sort direction: level-desc → 6★ first,
+          // level-asc → 1★ first. RANK_ORDER is descending; reverse it for asc so
+          // the rank headers themselves flip, not just the cards within a group.
+          var rankSeq = (sortMode === 'level-asc') ? RANK_ORDER.slice().reverse() : RANK_ORDER;
+          rankSeq.forEach(function(rn) {
             var items = rankGroups[rn]; if (!items || !items.length) return;
+            // withinGroupSort already clusters unique → suite → standard, so the
+            // first-seen sub-group order below is unique-first (matches branchOrder).
             items = withinGroupSort(items);
-            html += groupHeader(rn, rn);
-            html += items.map(renderItem).join('');
-            markers.push({
-              key: 'rank:' + rn,
-              label: (window.GaiaSemantics && typeof window.GaiaSemantics.rankWord === 'function')
-                ? window.GaiaSemantics.rankWord(rn, SUITE_LADDER) + ' · ' + rn + '★'
-                : rn + '★',
-              glyph: rn >= 4 ? '◆' : '○',
-              color: 'var(--rank-' + rn + ', var(--text))',
-              kind: 'group',
-              weight: items.length,
-              targetId: 'ns-group-' + rn
+            if (rn < 4) {
+              html += groupHeader(rn, rn);
+              html += items.map(renderItem).join('');
+              return;
+            }
+            // Partition this rank by its branch-forked rank WORD. Keying on the
+            // word (not the raw branch) merges standard 4★+ into the suite bucket.
+            var order = [];
+            var sub = {};
+            items.forEach(function(ns) {
+              var word = rankWordFor(rn, nsBranch(ns));
+              if (!sub[word]) {
+                sub[word] = { branch: (word === rankWordFor(rn, 'unique') ? 'unique' : 'suite'), items: [] };
+                order.push(word);
+              }
+              sub[word].items.push(ns);
+            });
+            order.forEach(function(word) {
+              var sg = sub[word];
+              html += groupHeader(rn, rn + '-' + sg.branch, sg.branch);
+              html += sg.items.map(renderItem).join('');
             });
           });
         }
@@ -762,7 +798,6 @@
         grid.className = viewMode === 'list' ? 'ns-grid-list' : 'ns-grid-tile';
         grid.innerHTML = html;
         if (typeof window._wireTrustNotches === 'function') window._wireTrustNotches(grid);
-        publishExplorerMarkers(markers);
       }
 
       if (tabsEl) {
