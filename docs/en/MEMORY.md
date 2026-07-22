@@ -22,7 +22,7 @@ Routine documentation agent triggered; observed repository version bump to `6.8.
 
 ### Issues informed
 - Resolves #1124 (Add `AGENTS.md` discovery reference to documentation)
-- Resolves #917 (Deprecated Evidence Classes audit and package alignment)
+- Partially addressed #917 (Deprecated Evidence Classes) — see continuation below, which actually closes it out.
 
 ### Files created / modified
 - `docs/en/MEMORY.md` (modified)
@@ -40,7 +40,76 @@ Routine documentation agent triggered; observed repository version bump to `6.8.
 - `docs/en/skill-hierarchy.html` (modified)
 - `docs/en/timeline-audit.html` (modified)
 
+### Continued (same day) — Evidence Class residue cleanup, PR #1249 still open
+
+**Task chosen:** Task 5 (edit outdated literature). PR #1249 (`docs/routines/017`) was still open/unmerged
+when this session started, so per branch discipline this continues on the same branch rather than opening 018.
+
+**Trigger:** Checked issue #917 (marked "Resolves" above, prematurely) — its own triage comment
+(nova-gaia, 2026-07-09) flagged a residual "Class C evidence" wording at what was then L880 of
+`skill-hierarchy.html`, asking for a reword to Trust Magnitude / Evidence Grade terms. That specific
+file was already clean (an earlier routine had fixed it), but grepping `docs/en/` for `Class [ABC]`
+turned up the same deprecated phrasing still live in six other places.
+
+**What I did:**
+1. Reworded every residual `Class A/B/C evidence` reference to the current `Grade A/B/C (Gold/Silver/Bronze)`
+   terminology, matching the migration already established in `evidence-classes.html`:
+   `named-skills.html` (7 spots: definition, compare panel, lifecycle steps 3–5, "what you need" list,
+   evidence-types paragraph, CLI example, commit message example), `getting-started.html`,
+   `fusion.html`, `faq.html` (star-tier table, 3 rows), `cli-reference.html` (`gaia propose` description),
+   `contributing.html` (PR title example).
+2. **Found a deeper, separate gap while doing so**: `cli-reference.html`'s `gaia dev evidence` card
+   documented ONLY the deprecated `--class A|B|C` flag — it had never been migrated to the CLI's actual
+   canonical interface (`--type` + `--trust`, confirmed against `src/gaia_cli/impl.py` argparse
+   definitions). Rewrote the whole command card: new flag table rows for `--type`, `--trust`,
+   `--stars/--commits/--contributors`, `--no-build`; kept `--class` documented but marked
+   `[DEPRECATED]`; added a warning callout cross-linking to the Evidence & Trust pitfalls section;
+   updated both shell examples to `--type repo-own --trust 20` / `--type arxiv --trust 100`.
+3. Updated `named-skills.html`'s evidence-types paragraph and CLI walkthrough example to use real
+   type IDs (`repo-own`, `github-stars-own`) instead of the shortened/incorrect `repo`, `github-stars`.
+4. Verified with `grep -rn "Class [ABC]" docs/en/` — zero unintentional matches remain; the two
+   surviving hits are the deliberate Class-vs-Grade contrast sentence in `faq.html` and my own
+   vocabulary note in `DOCS.md`.
+5. Updated `DOCS.md` vocabulary rules (Named Skill definition, evidence axis note) and page map
+   (routine 017 now also touches `getting-started.html`, `cli-reference.html`, `named-skills.html`,
+   `fusion.html`, `faq.html`).
+
+**Design decisions:**
+- Trust numbers used in rewritten CLI examples (20, 50, 100) are chosen to land exactly on the
+  Grade C/B/A boundaries per the real `meta.json` `evidence.gradeThresholds` (S≥250, A≥100, B≥50,
+  C≥20) — confirmed by reading `registry/schema/meta.json` directly, not assumed from the page's
+  own (as it turns out, wrong) numbers.
+- Kept `--class` in the flag table rather than deleting it — the CLI itself still accepts it for
+  back-compat, so hiding it would leave readers of old PRs confused about a flag they'll still see.
+
+**New gap discovered, deliberately NOT fixed here (separate, larger issue filed):**
+`evidence-classes.html` — the canonical Evidence & Trust page — has its own accuracy problems
+unrelated to the Class-wording residue: (a) its Trust Number thresholds table says S≥90/A≥80/B≥60/C≥40,
+but the real `registry/schema/meta.json` → `evidence.gradeThresholds` is S≥250/A≥100/B≥50/C≥20;
+(b) its Evidence Type examples use `repo`/`github-stars`, but the real `evidence.types` list in the
+same schema file is `fusion-recipe`, `github-stars-own`, `proxy-containment`, `verifier-attestation`,
+`benchmark-result`, `arxiv`, `peer-review`, `repo-own`, `self-attestation`, `social-signal` — five
+types aren't mentioned on the page at all; (c) one CLI example uses `--grade A` and `--dry-run`,
+neither of which exist as `gaia dev evidence` flags in `impl.py`. Fixing this properly means
+re-deriving every number and type reference against the schema across a 700+ line file — a distinct,
+larger task from tonight's wording cleanup, so it's filed as its own issue rather than rushed here.
+
+### Issues informed (continuation)
+- Closes #917 (deprecated Evidence Classes) — the residual wording it flagged is gone repo-wide in `docs/en/`.
+- Filed a new issue for the `evidence-classes.html` Trust Number / Evidence Type / CLI-flag accuracy gap (see PR/issue links).
+
+### Files created / modified (continuation)
+- `docs/en/DOCS.md` (modified)
+- `docs/en/MEMORY.md` (modified)
+- `docs/en/named-skills.html` (modified)
+- `docs/en/getting-started.html` (modified)
+- `docs/en/fusion.html` (modified)
+- `docs/en/faq.html` (modified)
+- `docs/en/cli-reference.html` (modified)
+- `docs/en/contributing.html` (modified)
+
 ### Planned next (Routine 018)
+- Fix the `evidence-classes.html` Trust Number threshold / Evidence Type / CLI-flag drift filed above.
 - Audit upcoming CLI commands for `v6.9.0` release features.
 - Maintain and sync documentation for newly curated named skills.
 

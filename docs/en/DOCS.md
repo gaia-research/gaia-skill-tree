@@ -19,15 +19,15 @@ Secondary: Open-source contributors wanting to claim a Named Skill.
 | # | File | Title | Status | Routine |
 |---|------|--------|--------|---------|
 | 1 | `index.html` | Docs Home | ✅ Done (updated 017) | 001, 017 |
-| 2 | `getting-started.html` | Getting Started | ✅ Done (updated 012) | 001 |
-| 3 | `cli-reference.html` | CLI Reference | ✅ Done (updated 012) | 002 |
+| 2 | `getting-started.html` | Getting Started | ✅ Done (updated 017) | 001, 017 |
+| 3 | `cli-reference.html` | CLI Reference | ✅ Done (updated 017) | 002, 017 |
 | 4 | `skill-hierarchy.html` | Skill Hierarchy | ✅ Done | 002 |
 | 5 | `contributing.html` | Contributing | ✅ Done (updated 017) | 003, 017 |
-| 6 | `named-skills.html` | Named Skills & Origin | ✅ Done | 003 |
+| 6 | `named-skills.html` | Named Skills & Origin | ✅ Done (updated 017) | 003, 017 |
 | 7 | `evidence-classes.html` | Evidence & Trust | ✅ Done | 004 |
-| 8 | `fusion.html` | Skill Fusion | ✅ Done | 004 |
+| 8 | `fusion.html` | Skill Fusion | ✅ Done (updated 017) | 004, 017 |
 | 9 | `mcp-server.html` | MCP Server | ✅ Done (updated 017) | 005, 017 |
-| 10 | `faq.html` | FAQ | ✅ Done | 005 |
+| 10 | `faq.html` | FAQ | ✅ Done (updated 017) | 005, 017 |
 | 11 | `share-bundles.html` | Share Bundles | ✅ Done | 006 |
 | 12 | `timeline-audit.html` | Timeline Audit & Repair | ✅ Done | 008 |
 
@@ -84,8 +84,8 @@ Interactive & Copy UI:
 - Stars axis: 0★ → 6★. Never call it "rank" or "level" alone.
 - Rank names: Unawakened, Awakened, Named, Evolved, Hardened, Transcendent, Transcendent ★
 - Fusion: combining skills. Never "merge", "combine", "compose".
-- Named Skill: a skill claimed by a real contributor with Class C evidence or better.
-- Evidence Class: C (first sighting), B (reproducible), A (battle-tested, peer-reviewed).
+- Named Skill: a skill claimed by a real contributor with Grade C (Bronze) evidence or better.
+- Evidence Grade (current, S/A/B/C → Platinum/Gold/Silver/Bronze): the quality axis. Evidence Type (arxiv, repo-own, github-stars-own, etc.): the provenance axis. Evidence Class (deprecated, letters A/B/C): the legacy single axis these two replaced — never conflate Class A/B with Grade A/B.
 - Do NOT mention rarity (deprecated axis).
 
 ---
