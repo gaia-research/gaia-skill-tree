@@ -2,6 +2,50 @@
 
 ---
 
+## 2026-07-22 — Routine 017
+
+**Branch:** `docs/routines/017`
+**Task chosen:** Version bump to v6.8.16, sync MCP server package name to `@gaia-research/mcp@0.1.0`, document root `AGENTS.md` intake surface, and perform full docs suite synchronization.
+
+### Trigger
+Routine documentation agent triggered; observed repository version bump to `6.8.16` / `v6.8.16` from `origin/main` (via `git describe --tags`).
+
+### What I did
+1. **Synchronized version numbers**: Updated all 12 English documentation HTML files under `docs/en/` from `v6.4.12` to `v6.8.16`. Mapped navigation tags, version chips, footer scripts (`?v=6.8.16`), and version labels across all files.
+2. **Updated MCP server package namespace**: Updated all occurrences in `mcp-server.html` and `index.html` to reference `@gaia-research/mcp@0.1.0` (with `-y` flag in npx commands), aligning with `AGENTS.md` and commit `6ed72921d`.
+3. **Documented root `AGENTS.md` discovery surface**: Added agent intake references in `contributing.html` and `index.html` pointing to `AGENTS.md` as the canonical entry point for visiting AI agents.
+4. **Updated page map in `DOCS.md`**: Updated Routine 017 entries in `DOCS.md` page map table.
+
+### Design decisions
+- Replaced outdated `@gaia-registry/mcp-server` references with the authoritative `@gaia-research/mcp@0.1.0` package identifier and explicit `-y` flags for zero-prompt npx execution.
+- Kept all HTML changes strictly within `docs/en/` adhering to `docs-en-shell.css` layout boundaries.
+
+### Issues informed
+- Resolves #1124 (Add `AGENTS.md` discovery reference to documentation)
+- Resolves #917 (Deprecated Evidence Classes audit and package alignment)
+
+### Files created / modified
+- `docs/en/MEMORY.md` (modified)
+- `docs/en/DOCS.md` (modified)
+- `docs/en/index.html` (modified)
+- `docs/en/mcp-server.html` (modified)
+- `docs/en/contributing.html` (modified)
+- `docs/en/cli-reference.html` (modified)
+- `docs/en/evidence-classes.html` (modified)
+- `docs/en/faq.html` (modified)
+- `docs/en/fusion.html` (modified)
+- `docs/en/getting-started.html` (modified)
+- `docs/en/named-skills.html` (modified)
+- `docs/en/share-bundles.html` (modified)
+- `docs/en/skill-hierarchy.html` (modified)
+- `docs/en/timeline-audit.html` (modified)
+
+### Planned next (Routine 018)
+- Audit upcoming CLI commands for `v6.9.0` release features.
+- Maintain and sync documentation for newly curated named skills.
+
+---
+
 ## 2026-07-11 — Routine 016
 
 **Branch:** `docs/routines/016`

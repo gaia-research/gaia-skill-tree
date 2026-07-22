@@ -385,19 +385,17 @@
 
   <!-- Main site nav (hamburger on mobile, full menu on desktop) -->
   <nav id="site-nav"></nav>
-  <script src="../js/mounts.js?v=6.4.12"></script>
-  <script src="../js/site-nav.js?v=6.4.12"></script>
-  <script src="../js/ui.js?v=6.4.12"></script>
-
-
+  <script src="../js/mounts.js?v=6.8.16"></script>
+  <script src="../js/site-nav.js?v=6.8.16"></script>
+  <script src="../js/ui.js?v=6.8.16"></script>
 
   <!-- nav -->
   <nav class="docs-nav">
-    <a href="../index.html" class="docs-nav-logo">Gaia <span>◆</span></a>
-    <span class="docs-nav-sep">/</span>
-    <a href="index.html" class="docs-nav-link active">Docs</a>
-    <div class="docs-nav-spacer"></div>
-    <span class="docs-nav-version" id="ver">v6.4.12</span>
+    <a href="../index.html" class="nav-logo">Gaia <span>◆</span></a>
+    <span class="nav-sep">/</span>
+    <span class="nav-crumb current">Docs</span>
+    <span class="nav-spacer"></span>
+    <span class="docs-nav-version" id="ver">v6.8.16</span>
   </nav>
 
   <!-- hero -->
@@ -413,12 +411,12 @@
   <!-- what's new -->
   <div class="whats-new">
     <div class="whats-new-inner">
-      <span class="whats-new-tag">v6.4.12</span>
+      <span class="whats-new-tag">v6.8.16</span>
       <span class="whats-new-text">
-        <strong>Upstream watch & Agent shortcuts.</strong>
-        Gaia v6.4.12 adds upstream tracking with <code>gaia dev sync-upstream</code> and <code>gaia dev freeze</code>. Use <code>python -m gaia_cli</code> in blocked environments. Read <code>AGENTS.md</code> at the repo root for the fast-path intake guide.
+        <strong>Official MCP package & AGENTS.md entry.</strong>
+        Gaia v6.8.16 updates the official MCP server package to <code>@gaia-research/mcp@0.1.0</code> and documents the root <code>AGENTS.md</code> discovery surface for fast AI agent intake.
       </span>
-      <a class="whats-new-link" href="getting-started.html">Read the guide →</a>
+      <a class="whats-new-link" href="mcp-server.html">Read the guide →</a>
     </div>
   </div>
 
@@ -486,7 +484,7 @@
     <a class="docs-card" href="mcp-server.html">
       <span class="docs-card-icon">🔌</span>
       <span class="docs-card-title">MCP Server</span>
-      <span class="docs-card-desc">Use <code>@gaia-registry/mcp-server</code> to give any MCP-compatible agent access to the skill graph at runtime.</span>
+      <span class="docs-card-desc">Use <code>@gaia-research/mcp@0.1.0</code> to give any MCP-compatible agent access to the skill graph at runtime.</span>
       <span class="docs-card-badge new">● New</span>
     </a>
     <a class="docs-card" href="share-bundles.html">
@@ -610,7 +608,7 @@
     <div class="footer-bottom">
       <span>MIT License</span>
       <span class="footer-bottom-sep" aria-hidden="true">·</span>
-      <span id="footerVersion">v6.4.12</span>
+      <span id="footerVersion">v6.8.16</span>
       <span class="footer-bottom-sep" aria-hidden="true">·</span>
       <span>© 2026 Gaia</span>
     </div>
