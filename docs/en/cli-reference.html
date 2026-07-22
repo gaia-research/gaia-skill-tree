@@ -1617,7 +1617,7 @@
           <div class="cmd-body">
             <ul class="cmd-desc">
               <li>Submits a proposal to claim an unclaimed canonical skill.</li>
-              <li>Requires Class C evidence or better to propose.</li>
+              <li>Requires Grade C (Bronze) evidence or better to propose.</li>
               <li>Attaches your name as the official Origin Contributor on approval.</li>
             </ul>
             <table class="flag-table">
@@ -2042,16 +2042,22 @@
         <div class="cmd-card" id="dev-evidence">
           <div class="cmd-card-header">
             <span class="cmd-name">gaia dev evidence</span>
-            <span class="cmd-signature">&lt;skill_id&gt; &lt;url&gt; [--class A|B|C] [--evaluator &lt;handle&gt;]
-              [--notes &lt;text&gt;]</span>
+            <span class="cmd-signature">&lt;skill_id&gt; &lt;url&gt; [--type &lt;type&gt;] [--trust &lt;number&gt;]
+              [--evaluator &lt;handle&gt;] [--notes &lt;text&gt;]</span>
             <span class="gate-badge verifier">◇ verifier</span>
           </div>
           <div class="cmd-body">
             <ul class="cmd-desc">
               <li>Attaches evaluation URLs to specific skill nodes.</li>
-              <li>Categorizes evidence into levels A (high), B (medium), or C (low).</li>
+              <li>Records an Evidence Type (provenance) and a Trust Magnitude number; the Evidence Grade (S/A/B/C — Platinum/Gold/Silver/Bronze) is auto-derived from the number, never set directly.</li>
               <li>Influences the speed of skill star upgrades.</li>
             </ul>
+            <div class="callout warn" style="margin-bottom:0.85rem;">
+              <strong>⚠️ --class is deprecated.</strong> The legacy <code>--class A|B|C</code> flag still
+              works for backward compatibility, but new evidence should always use <code>--type</code> +
+              <code>--trust</code>. Class letters and Grade letters are <em>not</em> equivalent — see
+              <a href="evidence-classes.html#pitfalls">Evidence &amp; Trust — common pitfalls</a>.
+            </div>
             <table class="flag-table">
               <thead>
                 <tr>
@@ -2062,9 +2068,24 @@
               </thead>
               <tbody>
                 <tr>
+                  <td>--type &lt;type&gt;</td>
+                  <td>Evidence Type — provenance of the demonstration. Validated against <code>meta.json</code> <code>evidence.types</code> (e.g. <code>repo-own</code>, <code>github-stars-own</code>, <code>arxiv</code>, <code>peer-review</code>, <code>benchmark-result</code>, <code>self-attestation</code>, <code>social-signal</code>).</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--trust &lt;number&gt;</td>
+                  <td>Trust Magnitude value. Evidence Grade is auto-derived: S ≥ 250, A ≥ 100, B ≥ 50, C ≥ 20; below 20 is ungraded.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
                   <td>--class A|B|C</td>
-                  <td>Evidence quality class.</td>
-                  <td>C</td>
+                  <td><span style="color:#f59e0b;">[DEPRECATED]</span> Legacy evidence quality class. Prefer <code>--trust</code>.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--stars / --commits / --contributors &lt;N&gt;</td>
+                  <td>Type-specific metrics (e.g. star count for <code>github-stars-own</code>, commit/contributor counts for <code>repo-own</code>) used by the Trust Magnitude formula for that type.</td>
+                  <td>—</td>
                 </tr>
                 <tr>
                   <td>--evaluator &lt;handle&gt;</td>
@@ -2081,18 +2102,23 @@
                   <td>Context note attached to this evidence entry.</td>
                   <td>—</td>
                 </tr>
+                <tr>
+                  <td>--no-build</td>
+                  <td>Skip rebuilding docs and graph assets after adding evidence.</td>
+                  <td>false</td>
+                </tr>
               </tbody>
             </table>
             <div class="example-block">
               <div class="example-label">examples</div>
-              <pre><span class="c"># Add Class B evidence (reproducible repo link)</span>
+              <pre><span class="c"># Add repo-own evidence (Trust 20 → Grade C / Bronze)</span>
 <span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev evidence</span> \
-  <span class="arg">web-search https://github.com/anthropics/cookbook --class B</span>
+  <span class="arg">web-search https://github.com/anthropics/cookbook --type repo-own --trust 20</span>
 
-<span class="c"># Add Class A evidence with an evaluator note</span>
+<span class="c"># Add arXiv evidence with an evaluator note (Trust 100 → Grade A / Gold)</span>
 <span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev evidence</span> \
   <span class="arg">autonomous-research-agent https://arxiv.org/abs/2401.00000 \
-  --class A --evaluator alice --notes "Peer-reviewed benchmark, 2024"</span></pre>
+  --type arxiv --trust 100 --evaluator alice --notes "Peer-reviewed benchmark, 2024"</span></pre>
             </div>
           </div>
         </div>
