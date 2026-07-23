@@ -762,7 +762,7 @@ def render_promotion_prompt(
 ) -> str:
     """Prompt shown when a skill is eligible for promotion."""
     skill_id = skill_data.get("id", "?")
-    skill_type = skill_data.get("type", "extra")
+    skill_type = skill_data.get("type", "fusion")
     prereqs = skill_data.get("prerequisites", [])
     gc = fg(*COLOR_GOLD)
     tc = fg(*TIER_COLORS.get(skill_type, COLOR_GOLD))
