@@ -261,11 +261,11 @@ def build_skill_batch(raw_tokens, config, registry_root, now=None, source_repo=N
                     if isinstance(data, dict):
                         sources = data.get("sources", [])
                         level = data.get("level", "1★")
-                        stype = data.get("type", "extra")
+                        stype = data.get("type", "fusion")
                     else:
                         sources = data
                         level = "1★"
-                        stype = "extra"
+                        stype = "fusion"
                     
                     proposed_combos.append({
                         "candidateResult": target,

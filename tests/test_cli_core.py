@@ -226,7 +226,7 @@ class TestHelp:
             run_cli(monkeypatch, ["--help"])
         out = strip_ansi(capsys.readouterr().out)
         # These appear in COMMAND_USAGE epilog
-        for cmd in ("init", "scan", "push", "tree", "promote"):
+        for cmd in ("init", "scan", "push", "tree", "fuse"):
             assert cmd in out, f"Expected '{cmd}' in --help output"
 
 
@@ -715,6 +715,53 @@ class TestFetch:
 
         data = json.loads((project / ".gaia" / "registry" / "gaia.json").read_text(encoding="utf-8"))
         assert data["version"] == "fetched"
+
+    def test_fetch_unpacks_enriched_docs_graph(self, project: Path, monkeypatch: pytest.MonkeyPatch):
+        """fetch must unpack docs/graph/ from the tarball into .gaia/registry/graph/.
+
+        The enriched World Tree graph (docs/graph/gaia.json) carries branch/
+        namedMaxLevel/cluster fields the lean registry/gaia.json lacks. `gaia
+        graph` prefers this copy for the full 3D view.
+        """
+        import io
+        import tarfile as _tarfile
+
+        buf = io.BytesIO()
+        with _tarfile.open(fileobj=buf, mode="w:gz") as tar:
+            gaia_data = json.dumps({"version": "test", "skills": []}).encode("utf-8")
+            info = _tarfile.TarInfo(name="registry/gaia.json")
+            info.size = len(gaia_data)
+            tar.addfile(info, io.BytesIO(gaia_data))
+            named_data = json.dumps({"buckets": {}}).encode("utf-8")
+            info2 = _tarfile.TarInfo(name="registry/named-skills.json")
+            info2.size = len(named_data)
+            tar.addfile(info2, io.BytesIO(named_data))
+            # Enriched docs/graph/gaia.json (carries branch/namedMaxLevel)
+            enriched = json.dumps({
+                "version": "test",
+                "skills": [{"id": "web-search", "branch": "research", "namedMaxLevel": "3★"}],
+            }).encode("utf-8")
+            info3 = _tarfile.TarInfo(name="docs/graph/gaia.json")
+            info3.size = len(enriched)
+            tar.addfile(info3, io.BytesIO(enriched))
+            # a nested member to confirm the whole tree is copied
+            idx = json.dumps({"index": []}).encode("utf-8")
+            info4 = _tarfile.TarInfo(name="docs/graph/named/index.json")
+            info4.size = len(idx)
+            tar.addfile(info4, io.BytesIO(idx))
+        tarball = buf.getvalue()
+
+        _patch_fetch_urlopen(monkeypatch, tarball)
+        run_cli(monkeypatch, ["fetch"])
+
+        graph_dir = project / ".gaia" / "registry" / "graph"
+        assert (graph_dir / "gaia.json").exists(), \
+            ".gaia/registry/graph/gaia.json must be written by fetch"
+        assert (graph_dir / "named" / "index.json").exists(), \
+            "the whole docs/graph/ tree must be copied, including nested members"
+        enriched_data = json.loads((graph_dir / "gaia.json").read_text(encoding="utf-8"))
+        assert enriched_data["skills"][0]["branch"] == "research"
+        assert enriched_data["skills"][0]["namedMaxLevel"] == "3★"
 
     def test_fetch_downgrade_blocked(self, project: Path, monkeypatch: pytest.MonkeyPatch, capsys):
         """Attempting to fetch an older registry version must block and exit with 1."""

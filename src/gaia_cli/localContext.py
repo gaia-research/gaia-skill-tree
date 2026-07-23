@@ -144,18 +144,18 @@ class LocalContext:
                             skill_map[target] = {
                                 "id": target,
                                 "name": target,
-                                "type": "extra",
+                                "type": "fusion",
                                 "level": "1★",
                                 "prerequisites": sources,
                                 "description": f"Custom fusion of {', '.join(sources)}",
                                 "local": True
                             }
                         else:
-                            # Existing skill: ensure it has the prerequisites and type 'extra'
+                            # Existing skill: ensure it has the prerequisites and type 'fusion'
                             sdata = skill_map[target]
                             sdata["prerequisites"] = list(set(sdata.get("prerequisites", [])) | set(sources))
                             if sdata.get("type") == "basic":
-                                sdata["type"] = "extra"
+                                sdata["type"] = "fusion"
             except Exception:
                 pass
 

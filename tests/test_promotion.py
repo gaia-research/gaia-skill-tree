@@ -1,8 +1,9 @@
-"""Tests for src/gaia_cli/promotion.py — level promotion logic."""
+"""Tests for src/gaia_cli/promotion.py — canon-side rank/grade helpers.
 
-import json
-import os
-from datetime import date
+Under Yggdrasil II the self-promote machinery (candidate handshake, level
+writes into user trees) has been retired. These tests cover the surviving
+canon-curation helpers plus the pure level/evidence helpers.
+"""
 
 import pytest
 
@@ -10,9 +11,6 @@ from gaia_cli.promotion import (
     LEVEL_ORDER,
     LEVEL_NAMES,
     next_level,
-    check_promotion_eligibility,
-    promote_skill,
-    promotion_state,
     _effective_grade,
     _meets_evidence_floor,
     _holds_bucket_origin,
@@ -24,11 +22,6 @@ from gaia_cli.promotion import (
 # ---------------------------------------------------------------------------
 # Fixtures
 # ---------------------------------------------------------------------------
-
-
-def _make_graph(*skills):
-    """Build a minimal graph_data dict from skill dicts."""
-    return {"skills": list(skills), "edges": []}
 
 
 def _make_skill(skill_id, name=None, level="0★", evidence=None, demerits=None):
@@ -50,39 +43,6 @@ def _make_skill(skill_id, name=None, level="0★", evidence=None, demerits=None)
         "version": "0.1.0",
         "demerits": demerits or [],
     }
-
-
-def _make_tree(username, unlocked_skills):
-    """Build a minimal tree_data dict."""
-    return {
-        "userId": username,
-        "updatedAt": "2026-01-01",
-        "unlockedSkills": unlocked_skills,
-        "pendingCombinations": [],
-        "stats": {
-            "totalUnlocked": len(unlocked_skills),
-            "deepestLineage": 0,
-        },
-    }
-
-
-def _make_unlocked(skill_id, level="1★"):
-    """Build a minimal unlockedSkill entry."""
-    return {
-        "skillId": skill_id,
-        "level": level,
-        "unlockedAt": "2026-01-01",
-        "unlockedIn": "test/repo",
-    }
-
-
-def _write_tree(tmp_path, username, tree_data):
-    """Write tree_data to the expected file path under tmp_path."""
-    tree_dir = tmp_path / "skill-trees" / username
-    tree_dir.mkdir(parents=True, exist_ok=True)
-    tree_path = tree_dir / "skill-tree.json"
-    tree_path.write_text(json.dumps(tree_data, indent=2))
-    return tree_path
 
 
 # ---------------------------------------------------------------------------
@@ -119,222 +79,6 @@ class TestNextLevel:
 
 
 # ---------------------------------------------------------------------------
-# Tests: check_promotion_eligibility
-# ---------------------------------------------------------------------------
-
-
-class TestCheckPromotionEligibility:
-    def test_basic_skill_eligible_no_evidence_needed(self):
-        """0★★ -> 1★ requires no evidence, so skill is eligible."""
-        graph = _make_graph(_make_skill("tokenize"))
-        tree = _make_tree("alice", [_make_unlocked("tokenize", "0★")])
-        eligible = check_promotion_eligibility(graph, tree)
-        assert len(eligible) == 1
-        assert eligible[0]["skillId"] == "tokenize"
-        assert eligible[0]["currentLevel"] == "0★"
-        assert eligible[0]["nextLevel"] == "1★"
-
-    def test_level_I_to_II_eligible_with_class_C_evidence(self):
-        """1★ -> 2★ requires class C/B/A evidence."""
-        ev = [{"class": "C", "source": "http://example.com", "evaluator": "x", "date": "2026-01-01", "notes": ""}]
-        graph = _make_graph(_make_skill("tokenize", evidence=ev))
-        tree = _make_tree("alice", [_make_unlocked("tokenize", "1★")])
-        eligible = check_promotion_eligibility(graph, tree)
-        assert len(eligible) == 1
-        assert eligible[0]["nextLevel"] == "2★"
-
-    def test_level_I_to_II_eligible_without_floor(self):
-        """Post-Yggdrasil II: 1★ -> 2★ is not blocked by absent evidence.
-        The Evidence Floor was removed (ratified 2026-07-07); Trust Magnitude is
-        the sole gate, and check_promotion_eligibility no longer rejects on
-        grade. (Was: test_level_I_to_II_not_eligible_without_evidence expecting 0.)"""
-        graph = _make_graph(_make_skill("tokenize"))
-        tree = _make_tree("alice", [_make_unlocked("tokenize", "1★")])
-        eligible = check_promotion_eligibility(graph, tree)
-        assert len(eligible) == 1
-        assert eligible[0]["nextLevel"] == "2★"
-
-    def test_level_II_to_III_eligible_without_floor(self):
-        """Post-Yggdrasil II: C-grade evidence no longer blocks 2★ -> 3★.
-        With evidenceFloors removed, the floor no longer demands class B/A;
-        Trust Magnitude gates promotion. (Was: test_level_II_to_III_requires_class_B
-        expecting 0 for C-only evidence.)"""
-        ev_c_only = [{"class": "C", "source": "http://x.com", "evaluator": "x", "date": "2026-01-01", "notes": ""}]
-        graph = _make_graph(_make_skill("tokenize", evidence=ev_c_only))
-        tree = _make_tree("alice", [_make_unlocked("tokenize", "2★")])
-        eligible = check_promotion_eligibility(graph, tree)
-        assert len(eligible) == 1  # no floor to reject C anymore
-        assert eligible[0]["nextLevel"] == "3★"
-
-    def test_level_II_to_III_eligible_with_class_B(self):
-        ev_b = [{"class": "B", "source": "http://x.com", "evaluator": "x", "date": "2026-01-01", "notes": ""}]
-        graph = _make_graph(_make_skill("tokenize", evidence=ev_b))
-        tree = _make_tree("alice", [_make_unlocked("tokenize", "2★")])
-        eligible = check_promotion_eligibility(graph, tree)
-        assert len(eligible) == 1
-        assert eligible[0]["nextLevel"] == "3★"
-
-    def test_max_level_not_eligible(self):
-        """A skill at 6★ cannot be promoted further."""
-        ev = [{"class": "A", "source": "http://x.com", "evaluator": "x", "date": "2026-01-01", "notes": ""}]
-        graph = _make_graph(_make_skill("tokenize", evidence=ev))
-        tree = _make_tree("alice", [_make_unlocked("tokenize", "6★")])
-        eligible = check_promotion_eligibility(graph, tree)
-        assert len(eligible) == 0
-
-    def test_multiple_skills_mixed_eligibility(self):
-        """Both non-max-level skills are eligible under the TM-only contract.
-        Post-Yggdrasil II the Evidence Floor is gone, so an evidence-less 1★
-        skill is no longer blocked here — only max-level and demerit ceilings
-        gate. (Was: expected 1, excluding the evidence-less classify skill.)
-        Demerits and max-level are still exercised by the tests below."""
-        ev_b = [{"class": "B", "source": "http://x.com", "evaluator": "x", "date": "2026-01-01", "notes": ""}]
-        graph = _make_graph(
-            _make_skill("tokenize", evidence=ev_b),
-            _make_skill("classify"),  # no evidence — still eligible (no floor)
-        )
-        tree = _make_tree("alice", [
-            _make_unlocked("tokenize", "0★"),   # eligible (0★->1★)
-            _make_unlocked("classify", "1★"),   # eligible too now (no floor for 1★->2★)
-        ])
-        eligible = check_promotion_eligibility(graph, tree)
-        assert len(eligible) == 2
-        assert {e["skillId"] for e in eligible} == {"tokenize", "classify"}
-
-    def test_skill_not_in_graph_skipped(self):
-        """If a tree skill doesn't exist in the graph, it's skipped."""
-        graph = _make_graph()  # empty graph
-        tree = _make_tree("alice", [_make_unlocked("phantom", "1★")])
-        eligible = check_promotion_eligibility(graph, tree)
-        assert len(eligible) == 0
-
-    def test_promotion_blocked_by_demerit_ceiling(self):
-        """One demerit can lower effective ceiling so next level is blocked."""
-        ev_b = [{"class": "B", "source": "http://x.com", "evaluator": "x", "date": "2026-01-01", "notes": ""}]
-        graph = _make_graph(
-            _make_skill(
-                "tokenize",
-                level="3★",
-                evidence=ev_b,
-                demerits=["heavyweight-dependency"],
-            )
-        )
-        tree = _make_tree("alice", [_make_unlocked("tokenize", "2★")])
-        eligible = check_promotion_eligibility(graph, tree)
-        assert len(eligible) == 0
-
-
-# ---------------------------------------------------------------------------
-# Tests: promote_skill
-# ---------------------------------------------------------------------------
-
-
-class TestPromoteSkill:
-    def test_promotes_skill_one_level(self, tmp_path):
-        tree_data = _make_tree("alice", [_make_unlocked("tokenize", "1★")])
-        _write_tree(tmp_path, "alice", tree_data)
-        result = promote_skill("alice", "tokenize", str(tmp_path), new_display_name="Tokenize")
-        assert result["skillId"] == "tokenize"
-        assert result["previousLevel"] == "1★"
-        assert result["newLevel"] == "2★"
-        assert result["displayName"] == "Tokenize"
-
-    def test_persists_new_level_to_disk(self, tmp_path):
-        tree_data = _make_tree("bob", [_make_unlocked("classify", "2★")])
-        _write_tree(tmp_path, "bob", tree_data)
-        promote_skill("bob", "classify", str(tmp_path), new_display_name="Classify")
-        # Re-read from disk
-        tree_path = tmp_path / "skill-trees" / "bob" / "skill-tree.json"
-        saved = json.loads(tree_path.read_text())
-        entry = next(s for s in saved["unlockedSkills"] if s["skillId"] == "classify")
-        assert entry["level"] == "3★"
-
-    def test_updates_updated_at(self, tmp_path):
-        tree_data = _make_tree("carol", [_make_unlocked("tokenize", "0★")])
-        _write_tree(tmp_path, "carol", tree_data)
-        promote_skill("carol", "tokenize", str(tmp_path), new_display_name="Tokenize")
-        tree_path = tmp_path / "skill-trees" / "carol" / "skill-tree.json"
-        saved = json.loads(tree_path.read_text())
-        assert saved["updatedAt"] == date.today().isoformat()
-
-    def test_raises_if_no_tree(self, tmp_path):
-        with pytest.raises(ValueError, match="No skill tree found"):
-            promote_skill("nobody", "tokenize", str(tmp_path))
-
-    def test_raises_if_skill_not_in_tree(self, tmp_path):
-        tree_data = _make_tree("alice", [_make_unlocked("tokenize", "1★")])
-        _write_tree(tmp_path, "alice", tree_data)
-        with pytest.raises(ValueError, match="not found"):
-            promote_skill("alice", "nonexistent", str(tmp_path))
-
-    def test_raises_if_already_max_level(self, tmp_path):
-        tree_data = _make_tree("alice", [_make_unlocked("tokenize", "6★")])
-        _write_tree(tmp_path, "alice", tree_data)
-        with pytest.raises(ValueError, match="maximum level"):
-            promote_skill("alice", "tokenize", str(tmp_path))
-
-    def test_reads_display_name_from_graph_when_not_provided(self, tmp_path):
-        tree_data = _make_tree("alice", [_make_unlocked("tokenize", "1★")])
-        _write_tree(tmp_path, "alice", tree_data)
-        # Write a graph file
-        graph_dir = tmp_path / "registry"
-        graph_dir.mkdir(parents=True, exist_ok=True)
-        graph_data = _make_graph(_make_skill("tokenize", name="Tokenize"))
-        (graph_dir / "gaia.json").write_text(json.dumps(graph_data))
-        result = promote_skill("alice", "tokenize", str(tmp_path))
-        assert result["displayName"] == "Tokenize"
-
-    def test_fallback_display_name_when_no_graph(self, tmp_path):
-        tree_data = _make_tree("alice", [_make_unlocked("tokenize", "1★")])
-        _write_tree(tmp_path, "alice", tree_data)
-        # No graph file exists
-        result = promote_skill("alice", "tokenize", str(tmp_path))
-        assert result["displayName"] == "tokenize"
-
-
-# ---------------------------------------------------------------------------
-# Tests: promotion_state
-# ---------------------------------------------------------------------------
-
-
-class TestPromotionState:
-    def test_not_unlocked(self):
-        graph = _make_graph(_make_skill("tokenize"))
-        tree = _make_tree("alice", [])
-        assert promotion_state("tokenize", tree, graph) == "not_unlocked"
-
-    def test_max_level(self):
-        graph = _make_graph(_make_skill("tokenize"))
-        tree = _make_tree("alice", [_make_unlocked("tokenize", "6★")])
-        assert promotion_state("tokenize", tree, graph) == "max_level"
-
-    def test_eligible_no_evidence_needed(self):
-        graph = _make_graph(_make_skill("tokenize"))
-        tree = _make_tree("alice", [_make_unlocked("tokenize", "0★")])
-        assert promotion_state("tokenize", tree, graph) == "eligible"
-
-    def test_eligible_with_evidence(self):
-        ev = [{"class": "B", "source": "http://x.com", "evaluator": "x", "date": "2026-01-01", "notes": ""}]
-        graph = _make_graph(_make_skill("tokenize", evidence=ev))
-        tree = _make_tree("alice", [_make_unlocked("tokenize", "1★")])
-        assert promotion_state("tokenize", tree, graph) == "eligible"
-
-    def test_no_floor_means_eligible_without_evidence(self):
-        """Post-Yggdrasil II: a skill with no evidence is 'eligible', not
-        'blocked'. The Evidence Floor was removed; promotion_state no longer
-        returns 'blocked' on missing evidence (Trust Magnitude is the sole gate).
-        (Was: test_blocked_by_evidence expecting 'blocked'.)"""
-        graph = _make_graph(_make_skill("tokenize"))  # no evidence
-        tree = _make_tree("alice", [_make_unlocked("tokenize", "1★")])
-        assert promotion_state("tokenize", tree, graph) == "eligible"
-
-    def test_blocked_skill_not_in_graph(self):
-        graph = _make_graph()  # empty
-        tree = _make_tree("alice", [_make_unlocked("phantom", "2★")])
-        assert promotion_state("phantom", tree, graph) == "blocked"
-
-
-# ---------------------------------------------------------------------------
 # Tests: Constants
 # ---------------------------------------------------------------------------
 
@@ -356,21 +100,11 @@ class TestConstants:
 
 
 class TestGradeTranslation:
-    """Tests for _meets_evidence_floor under the Yggdrasil II TM-only contract.
+    """Tests for evidence grade/class fallback logic in _meets_evidence_floor.
 
-    Yggdrasil II (ratified 2026-07-07, founder/handovers/
-    YGGDRASIL_II_RATIFICATION_2026-07-07.md § "Evidence Floor removed") makes
-    Trust Magnitude the SOLE promotion gate: the per-star Evidence Floor
-    duplicated the TM Grade thresholds, so PR #995 removed the ``evidenceFloors``
-    block from registry/schema/meta.json (both dirs) and made the consumer a
-    no-op via ``.get("evidenceFloors", {})``.
-
-    With no floor configured, ``_meets_evidence_floor`` returns True for EVERY
-    target level regardless of evidence grade — there is nothing to fail. These
-    tests pin that no-floor behavior. The grade/class fallback in
-    ``_effective_grade`` (grade S/A/B/C supersedes legacy class A/B/C; S > A > B > C)
-    is still exercised where it feeds Trust Magnitude, but it no longer rejects
-    promotion here.
+    Per G7 Trust Taxonomy RFC: evidence[].grade (S/A/B/C) supersedes the
+    legacy evidence[].class (A/B/C).  Floor lists encode "at least one row at
+    grade >= the weakest letter in the list".  Grade ordering: S > A > B > C.
     """
 
     # 1. Legacy: class-only row passes a ["B","A"] floor.
@@ -410,9 +144,9 @@ class TestGradeTranslation:
     # 4. TM-only: grade="C" only now PASSES — no floor is configured to reject it.
     def test_grade_c_fails_b_floor(self):
         """Post-Yggdrasil II: a row with only grade="C" passes the (removed) 3★
-        floor. With ``evidenceFloors`` gone, ``_meets_evidence_floor`` has
-        nothing to fail against and returns True; Trust Magnitude is the sole
-        gate. (Was: expected False under the old floor-rejects contract.)"""
+        floor. With ``evidenceFloors`` gone (ratified 2026-07-07), Trust
+        Magnitude is the sole gate and ``_meets_evidence_floor`` has nothing to
+        fail against. (Was: expected False under the old floor-rejects contract.)"""
         skill = _make_skill(
             "weak-skill",
             evidence=[{"grade": "C", "source": "http://x.com", "evaluator": "x",
@@ -434,36 +168,14 @@ class TestGradeTranslation:
     def test_ungraded_entry_ignored(self):
         """Post-Yggdrasil II: an entry with neither class nor grade still passes.
         The removed floor was the only thing that could reject it; with
-        ``evidenceFloors`` gone, ``_meets_evidence_floor`` returns True and
-        Trust Magnitude gates promotion. (Was: expected False.)"""
+        ``evidenceFloors`` gone (ratified 2026-07-07), ``_meets_evidence_floor``
+        returns True and Trust Magnitude gates promotion. (Was: expected False.)"""
         skill = _make_skill(
             "ungraded-skill",
             evidence=[{"source": "http://x.com", "evaluator": "x",
                         "date": "2026-01-01", "notes": "no grade or class"}],
         )
         assert _meets_evidence_floor(skill, "2★") is True
-
-    # 7. TM-only no-floor path (explicit): no evidence at all still passes the
-    #    floor check — promotion is decided by Trust Magnitude, not this helper.
-    def test_no_floor_configured_passes_regardless(self):
-        """With ``evidenceFloors`` removed (Yggdrasil II), the helper is a no-op:
-        even a skill with zero evidence passes _meets_evidence_floor at any
-        target level. Keeps an explicit assertion of the no-floor contract."""
-        skill = _make_skill("floorless-skill", evidence=[])
-        assert _meets_evidence_floor(skill, "3★") is True
-        assert _meets_evidence_floor(skill, "6★") is True
-
-    # Integration: grade-only evidence propagates through check_promotion_eligibility.
-    def test_grade_only_evidence_enables_eligibility(self):
-        """A skill with grade-only evidence is included in promotion candidates."""
-        ev = [{"grade": "B", "source": "http://x.com", "evaluator": "x",
-               "date": "2026-01-01", "notes": ""}]
-        graph = _make_graph(_make_skill("graded-skill", evidence=ev))
-        tree = _make_tree("alice", [_make_unlocked("graded-skill", "2★")])
-        eligible = check_promotion_eligibility(graph, tree)
-        assert len(eligible) == 1
-        assert eligible[0]["skillId"] == "graded-skill"
-        assert eligible[0]["nextLevel"] == "3★"
 
 
 # ---------------------------------------------------------------------------
