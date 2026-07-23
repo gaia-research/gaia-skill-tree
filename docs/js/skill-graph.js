@@ -1796,19 +1796,25 @@
         // a ×1.3 lift brings the 4★ dwarf up to that footprint while keeping
         // the intensity/size ladder strictly ascending 4<5<6.
         const hotR = nodeRadius * 1.3;
-        if (skill.branch === 'unique' && specialMix > 0) {
+        // §Ygg-II PR 3c: a user's OWN custom/uncanonized skill is GREEN-STARLESS
+        // — it must always land in the plain drawNode branch (which honors `col`,
+        // the green from _displaySkillColor), never a hot-tier / unique fork that
+        // computes its own color and would silently discard the green. Guarding
+        // each fork with `!skill.custom` keeps a custom node starless even in the
+        // edge case where the CLI stamps `custom` onto a node carrying a rank.
+        if (skill.branch === 'unique' && !skill.custom && specialMix > 0) {
           if (specialMix < 1) drawNode(pr.sx, pr.sy, nodeRadius, { rgb: apexGoldRgb }, depthAlpha * vis * (1 - specialMix));
           drawNodeUnique(pr.sx, pr.sy, nodeRadius, depthAlpha * vis * specialMix, state.t, p, skill.effectiveRank);
-        } else if (eRank >= 6 && specialMix > 0) {
+        } else if (eRank >= 6 && !skill.custom && specialMix > 0) {
           if (specialMix < 1) drawNode(pr.sx, pr.sy, nodeRadius, { rgb: apexGoldRgb }, depthAlpha * vis * (1 - specialMix));
           drawNodeVI(pr.sx, pr.sy, hotR, depthAlpha * vis * specialMix, state.t, p);
-        } else if (eRank === 5 && specialMix > 0) {
+        } else if (eRank === 5 && !skill.custom && specialMix > 0) {
           if (specialMix < 1) drawNode(pr.sx, pr.sy, nodeRadius, { rgb: apexGoldRgb }, depthAlpha * vis * (1 - specialMix));
           drawNodeV(pr.sx, pr.sy, hotR, depthAlpha * vis * specialMix, state.t, p);
-        } else if (eRank === 4 && specialMix > 0) {
+        } else if (eRank === 4 && !skill.custom && specialMix > 0) {
           if (specialMix < 1) drawNode(pr.sx, pr.sy, nodeRadius, { rgb: _tok.rank[4].rgb }, depthAlpha * vis * (1 - specialMix));
           drawNodeIV(pr.sx, pr.sy, hotR, depthAlpha * vis * specialMix, state.t, p);
-        } else if (state.redPillActive && state.namedMap && state.namedMap[skill.id] && specialMix > 0.98) {
+        } else if (state.redPillActive && !skill.custom && state.namedMap && state.namedMap[skill.id] && specialMix > 0.98) {
           drawNodeNamed(pr.sx, pr.sy, baseR * state.scale * pr.scale * pulse, depthAlpha * vis);
         } else {
           drawNode(pr.sx, pr.sy, nodeRadius, col, depthAlpha * vis);
@@ -1846,7 +1852,12 @@
           : 'handle';
 
         ctx.font = canvasFont(role, size * pr.scale * 1.16);
-        const namedId = (state.redPillActive && state.namedMap && state.namedMap[skill.id]) ? state.namedMap[skill.id] : null;
+        // §Ygg-II PR 3c: a user's OWN custom node keeps its GREEN label — never
+        // the named-handle (honor-red / rank-color) override. Skipping the
+        // namedId branch here routes a custom node to the centered label path
+        // below, which paints with `colRgb` (the green forwarded from the draw
+        // loop). Canon named nodes (no `custom` flag) are unaffected.
+        const namedId = (!skill.custom && state.redPillActive && state.namedMap && state.namedMap[skill.id]) ? state.namedMap[skill.id] : null;
         if (namedId) {
           const parts = namedId.split('/');
           if (parts.length === 2) {
