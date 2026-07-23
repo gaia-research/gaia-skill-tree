@@ -73,6 +73,57 @@ def load_named_skills(registry_path: str | os.PathLike[str] = ".") -> dict[str, 
         return json.load(f)
 
 
+def resolve_enriched_graph_path(root: Path, custom: str | os.PathLike[str] | None = None) -> Path | None:
+    """Locate the enriched 3D World Tree graph, if one is available locally.
+
+    The lean registry/gaia.json lacks the branch/namedMaxLevel/cluster/rank
+    fields the site's 3D renderer needs for a non-degraded view. Those are baked
+    into docs/graph/gaia.json at release time. This picks the enriched copy when
+    present, in priority order:
+
+      (a) an explicit path passed by the caller,
+      (b) .gaia/registry/graph/gaia.json  (written by `gaia fetch`),
+      (c) <root>/docs/graph/gaia.json     (a repo checkout).
+
+    Returns the first existing path, or None if no enriched graph is found (the
+    caller then falls back to the lean registry/gaia.json).
+    """
+    if custom is not None:
+        p = Path(custom)
+        if p.exists():
+            return p
+    candidates = [
+        Path.cwd() / ".gaia" / "registry" / "graph" / "gaia.json",
+        root / "docs" / "graph" / "gaia.json",
+    ]
+    for cand in candidates:
+        if cand.exists():
+            return cand
+    return None
+
+
+def load_enriched_graph(path: Path) -> dict[str, Any]:
+    """Load an enriched graph JSON from `path`."""
+    with path.open("r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+_ENRICHED_WARNED = False
+
+
+def _warn_enriched_missing_once() -> None:
+    """Print a one-time stderr hint when no enriched 3D graph is found locally."""
+    global _ENRICHED_WARNED
+    if _ENRICHED_WARNED:
+        return
+    _ENRICHED_WARNED = True
+    print(
+        "Note: run 'gaia fetch' for the full 3D skill-tree view "
+        "(enriched graph not found locally).",
+        file=sys.stderr,
+    )
+
+
 def _stable_angle(skill_id: str, index: int, total: int) -> float:
     # Deterministic jitter prevents same-type nodes from forming a perfectly
     # uniform ring while keeping output stable across machines.
@@ -440,6 +491,10 @@ def render_html(
     if "meta" not in graph:
         graph["meta"] = {"levelColors": {}, "levelLabels": {}}
 
+    # Read the version dynamically from the embedded graph rather than hardcoding
+    # (decorative surfaces must never carry a stale baked-in version — see #807).
+    _graph_version = escape(str(graph.get("version", "")), quote=True)
+
     watermark_style = ""
     watermark_html = ""
     if is_workspace_mode:
@@ -484,7 +539,7 @@ def render_html(
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{_display_title}</title>
   <script>
-    window.GAIA_VERSION = "4.3.12";
+    window.GAIA_VERSION = "{_graph_version}";
     // Point icon base to a path that we will intercept in fetch
     window.gaiaIconBase = function() {{ return 'assets/icons.svg'; }};
   </script>
@@ -568,7 +623,14 @@ def write_graph_artifact(
     is_workspace: bool = False,
 ) -> tuple[Path, dict[str, Any]]:
     root = _registry_root(registry_path)
-    graph = load_graph(root)
+    enriched_path = resolve_enriched_graph_path(root)
+    if enriched_path is not None:
+        graph = load_enriched_graph(enriched_path)
+    else:
+        graph = load_graph(root)
+        # Degrade gracefully: the lean registry/gaia.json renders the 3D tree
+        # all-grey/collapsed. Hint the user (once) toward the enriched view.
+        _warn_enriched_missing_once()
     named_buckets = load_named_skills(root).get("buckets", {})
 
     if custom:
@@ -633,6 +695,9 @@ def write_graph_artifact(
                     "type": "basic",
                     "level": "0★",
                     "prerequisites": csk.get("prerequisites", []),
+                    # Mark uncanonized local skills so the frontend (PR 3c) can
+                    # render them green-starless. Canon skills never carry this.
+                    "custom": True,
                 }
 
         if known_only:
