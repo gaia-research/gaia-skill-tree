@@ -88,8 +88,8 @@ pip install -e ".[docs]"
 | `gaia dev docs` | Regenerate documentation and assets locally (`gaia docs build` is a deprecated shim) |
 | `gaia dev docs --check` | Regenerate + compare generated docs; fails (exit 1) on drift. NOT read-only — rewrites Class P/S artifacts locally (runs in CI) |
 | `gaia init --user <username>` | Initialize your local Gaia user profile |
-| `gaia scan` | Scan configured paths for skill evidence and generate promotion candidates |
-| `gaia promote <skillId>` | Promote a skill in your tree after a scan |
+| `gaia scan` | Scan configured paths for skill evidence and detect fusions you can propose |
+| `gaia fuse <skillId>` | Confirm a detected combination or declare a custom fusion locally, then `gaia push` to propose it to canon |
 | `gaia tree` | View your local-first user skill tree |
 | `gaia dev list --generic --named` | List generic and named skills |
 | `gaia dev evidence <skillId> <url> --class <S\|A\|B\|C\|D> --type <type>` | Add an evidence row to a skill (use the typed numeric flags below to drive Trust Magnitude correctly) |
@@ -119,7 +119,7 @@ The console script `gaia` is defined in `pyproject.toml` as `gaia = "gaia_cli.ma
 gaia <anything>   ≡   python -m gaia_cli <anything>
 ```
 
-There is nothing to memorize per command — **prefix any `gaia …` invocation with `python -m gaia_cli` instead of `gaia`.** This holds for every top-level command (`scan`, `tree`, `promote`, `skills …`) and every `gaia dev` subcommand. Global flags (`--registry`, `--global/-g`, `--canon`, `--version/-v`) work identically because they live on the root parser.
+There is nothing to memorize per command — **prefix any `gaia …` invocation with `python -m gaia_cli` instead of `gaia`.** This holds for every top-level command (`scan`, `tree`, `fuse`, `skills …`) and every `gaia dev` subcommand. Global flags (`--registry`, `--global/-g`, `--canon`, `--version/-v`) work identically because they live on the root parser.
 
 ```bash
 # Blocked:            gaia dev validate
