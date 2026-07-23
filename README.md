@@ -280,7 +280,7 @@ Navigate skills:
 <!-- gaia:cli-start -->
 ```text
 usage: gaia [-h] [--registry REGISTRY] [--global] [--version]
-            {help,init,scan,fetch,pull,update,install,uninstall,share,tree,push,propose,version,whoami,login,logout,reset,graph,stats,appraise,promote,fuse,lookup,path,dev,skills}
+            {help,init,scan,fetch,pull,update,install,uninstall,share,tree,push,propose,version,whoami,login,logout,reset,graph,stats,appraise,fuse,lookup,path,dev,skills}
             ...
 
 Gaia Registry CLI
@@ -303,7 +303,6 @@ Getting started:
 
 Daily commands:
   gaia tree [--named] [--title]
-  gaia promote [<skillId>] [--all] [--name <name>]
   gaia appraise [<skillId>]
   gaia stats
   gaia pull

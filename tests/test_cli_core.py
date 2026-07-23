@@ -226,7 +226,7 @@ class TestHelp:
             run_cli(monkeypatch, ["--help"])
         out = strip_ansi(capsys.readouterr().out)
         # These appear in COMMAND_USAGE epilog
-        for cmd in ("init", "scan", "push", "tree", "promote"):
+        for cmd in ("init", "scan", "push", "tree", "fuse"):
             assert cmd in out, f"Expected '{cmd}' in --help output"
 
 

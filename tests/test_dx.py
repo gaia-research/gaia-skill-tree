@@ -144,7 +144,6 @@ def test_top_level_help_shows_all_public_commands_with_usage(monkeypatch, capsys
         "release",
         "graph",
         "appraise",
-        "promote",
         "docs",
         "lookup",
         "skills",
@@ -222,9 +221,11 @@ def test_skills_info_accepts_leading_slash_named_skill_id(tmp_path, monkeypatch,
     assert "Test skill." in output
 
 
-def test_promote_label_override_is_not_available(monkeypatch):
+def test_promote_command_is_retired(monkeypatch):
+    """Ygg II no-self-promote: `gaia promote` is fully removed and falls to
+    argparse's invalid-choice error (exit 2)."""
     with pytest.raises(SystemExit) as exc:
-        run_cli(monkeypatch, ["promote", "web-search", "--label", "3★"])
+        run_cli(monkeypatch, ["promote", "web-search"])
     assert exc.value.code == 2
 
 
