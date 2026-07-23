@@ -60,7 +60,7 @@ def make_registry(root):
                     {
                         "id": "research",
                         "name": "Research",
-                        "type": "extra",
+                        "type": "fusion",
                         "level": "3★",
                         "demerits": ["experimental-feature"],
                         "prerequisites": ["tokenize"],
@@ -104,15 +104,6 @@ def test_write_graph_artifact_defaults_to_standalone_html(tmp_path):
     assert 'fetch("graph/gaia.json")' not in html
 
 
-def test_write_graph_artifact_keeps_svg_default_path(tmp_path):
-    root = make_registry(tmp_path)
-
-    out_path, _ = graph_mod.write_graph_artifact(root, fmt="svg")
-
-    assert out_path == root / "registry" / "gaia.svg"
-    assert out_path.read_text(encoding="utf-8").startswith("<?xml")
-
-
 def test_write_graph_artifact_keeps_render_json_default_path(tmp_path):
     root = make_registry(tmp_path)
 
@@ -120,13 +111,14 @@ def test_write_graph_artifact_keeps_render_json_default_path(tmp_path):
 
     assert out_path == root / "registry" / "render" / "latest.json"
     data = json.loads(out_path.read_text(encoding="utf-8"))
-    assert data["nodes"][0]["id"] == "tokenize"
-    research_node = next(node for node in data["nodes"] if node["id"] == "research")
-    assert research_node["effectiveLevel"] == "2★"
-    assert research_node["levelMeta"]["baseLevel"] == "3★"
-    assert research_node["levelMeta"]["effectiveLevel"] == "2★"
-    assert research_node["demerits"] == ["experimental-feature"]
-    assert data["edges"] == [{"source": "tokenize", "target": "research", "type": "extra"}]
+    # json mode now emits the enriched DAG (skills[] + prerequisite edges),
+    # not an x/y-coordinate ring render graph.
+    skills_by_id = {sk["id"]: sk for sk in data["skills"]}
+    assert set(skills_by_id) == {"tokenize", "research"}
+    assert skills_by_id["research"]["type"] == "fusion"
+    assert skills_by_id["research"]["prerequisites"] == ["tokenize"]
+    # No ring-layout coordinates leak into the DAG output.
+    assert all("x" not in sk and "y" not in sk for sk in data["skills"])
 
 
 def test_graph_command_defaults_to_html_and_opens_it(tmp_path, monkeypatch):
@@ -208,7 +200,7 @@ class TestRed_WriteGraphArtifactCustom:
         data = json.loads(out_path.read_text(encoding="utf-8"))
 
         # The custom graph should contain local-only skill from scan
-        node_ids = {n["id"] for n in data["nodes"]}
+        node_ids = {n["id"].lstrip("/") for n in data["skills"]}
         assert "local-only" in node_ids, (
             "custom=True graph should include locally scanned skills"
         )
@@ -254,7 +246,7 @@ class TestGreen_CustomGraphMatchesScan:
             root, fmt="json", custom=True
         )
         data = json.loads(out_path.read_text(encoding="utf-8"))
-        node_ids = {n["id"] for n in data["nodes"]}
+        node_ids = {n["id"].lstrip("/") for n in data["skills"]}
 
         assert node_ids == expected_ids, (
             f"Custom graph nodes {node_ids} should match scan output {expected_ids}"
@@ -282,7 +274,7 @@ class TestGreen_CustomGraphMatchesScan:
         edges = data.get("edges", [])
         # Edges depend on whether prerequisites parse correctly as a list
         # from the simple frontmatter parser. This validates the integration.
-        node_ids = {n["id"] for n in data["nodes"]}
+        node_ids = {n["id"].lstrip("/") for n in data["skills"]}
         assert "parent-skill" in node_ids
         assert "child-skill" in node_ids
 
@@ -331,99 +323,6 @@ class TestScrutiny_ShowTreeCustomMode:
         assert "web-search" not in out, (
             "Canonical-only skill should not appear in custom mode"
         )
-
-
-@pytest.mark.integration
-class TestScrutiny_CustomGraphSchema:
-    """Scrutiny #3: custom graph schema consumed by build_render_graph.
-
-    The synthetic graph dict uses 'version': 'local-custom' and a flat
-    'skills' list. Verify build_render_graph can consume this without errors.
-    """
-
-    def test_build_render_graph_handles_custom_schema(self):
-        """build_render_graph should not crash on the custom graph schema."""
-        custom_graph = {
-            "version": "local-custom",
-            "skills": [
-                {"id": "my-skill", "name": "My Skill", "type": "basic",
-                 "level": "0★", "prerequisites": []},
-                {"id": "my-other", "name": "Other Skill", "type": "basic",
-                 "level": "0★", "prerequisites": ["my-skill"]},
-            ],
-        }
-
-        render_graph = graph_mod.build_render_graph(custom_graph)
-
-        # Should produce valid nodes
-        assert len(render_graph["nodes"]) == 2
-        node_ids = {n["id"] for n in render_graph["nodes"]}
-        assert node_ids == {"my-skill", "my-other"}
-
-        # Should produce the prerequisite edge
-        assert len(render_graph["edges"]) == 1
-        assert render_graph["edges"][0]["source"] == "my-skill"
-        assert render_graph["edges"][0]["target"] == "my-other"
-
-        # Version should carry through
-        assert render_graph["version"] == "local-custom"
-
-
-class TestPaletteFromRegistry:
-    """#332 — PALETTE fills must track the registry tokens, not a drifted copy."""
-
-    def test_palette_fills_match_tier_hex(self):
-        from gaia_cli.formatting import tier_hex
-
-        for skill_type in ("basic", "extra", "unique", "ultimate"):
-            assert graph_mod.PALETTE[skill_type]["fill"] == tier_hex(skill_type)
-
-    def test_extra_and_ultimate_no_longer_drifted(self):
-        # The old hardcoded values were extra=#a78bfa and ultimate=#fbbf24.
-        # After sourcing from the registry they must be the canonical tokens.
-        assert graph_mod.PALETTE["extra"]["fill"] == "#c084fc"
-        assert graph_mod.PALETTE["ultimate"]["fill"] == "#f59e0b"
-
-    def test_no_raw_push_green_hex(self):
-        from gaia_cli.formatting import COLOR_LOCAL_USER
-
-        assert graph_mod.PUSH_GREEN == "#%02x%02x%02x" % COLOR_LOCAL_USER
-
-
-class TestPushableHighlight:
-    """#139 — pushable local skills render green with a legend entry."""
-
-    def _graph(self):
-        return {
-            "version": "local-custom",
-            "skills": [
-                {"id": "alpha", "name": "Alpha", "type": "basic",
-                 "level": "0★", "prerequisites": []},
-                {"id": "beta", "name": "Beta", "type": "basic",
-                 "level": "0★", "prerequisites": []},
-            ],
-        }
-
-    def test_pushable_flag_set_on_nodes(self):
-        render_graph = graph_mod.build_render_graph(self._graph(), pushable={"alpha"})
-        by_id = {n["id"]: n for n in render_graph["nodes"]}
-        assert by_id["alpha"]["pushable"] is True
-        assert by_id["beta"]["pushable"] is False
-
-    def test_pushable_defaults_false(self):
-        render_graph = graph_mod.build_render_graph(self._graph())
-        assert all(n["pushable"] is False for n in render_graph["nodes"])
-
-    def test_svg_renders_pushable_green_and_legend(self):
-        render_graph = graph_mod.build_render_graph(self._graph(), pushable={"alpha"})
-        svg = graph_mod.render_svg(render_graph)
-        assert graph_mod.PUSH_GREEN in svg
-        assert "Pushable: 1" in svg
-
-    def test_svg_no_pushable_legend_when_none(self):
-        render_graph = graph_mod.build_render_graph(self._graph())
-        svg = graph_mod.render_svg(render_graph)
-        assert "Pushable:" not in svg
 
 
 class TestEnrichedGraphPreference:

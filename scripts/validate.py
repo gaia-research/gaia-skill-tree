@@ -851,6 +851,15 @@ def main():
     parser.add_argument("--graph", default=None, help="Path to gaia.json")
     parser.add_argument("--schema-dir", default=None, help="Path to schema directory")
     parser.add_argument(
+        "--named-dir", default=None,
+        help=(
+            "Path to the named-skills directory. When omitted and --graph points "
+            "at a mock graph, this is derived from the graph's sibling 'named' dir "
+            "so a mock --graph validates its own named skills, not the real "
+            "registry/named (#1223). With neither flag, the real registry is used."
+        ),
+    )
+    parser.add_argument(
         "--check-meta-sync", action="store_true",
         help="Verify meta.json is in sync with gaia.json and bundled copies"
     )
@@ -887,6 +896,25 @@ def main():
         graph_path = args.graph or os.path.join(repo_root, "registry", "gaia.json")
 
     schema_dir = args.schema_dir or os.path.join(repo_root, "registry", "schema")
+
+    # Resolve the named-skills directory. Priority:
+    #   1. explicit --named-dir
+    #   2. derived from a mock --graph (its sibling 'named' dir), so validating a
+    #      mock graph checks the mock's named skills — not the real registry/named
+    #      (#1223).
+    #   3. None → validate_named_skills defaults to the real registry/named.
+    # With neither --graph nor --named-dir, named_dir stays None so real-repo
+    # behavior is unchanged.
+    named_dir = args.named_dir
+    if named_dir is None and args.graph:
+        graph_arg = os.path.abspath(args.graph)
+        base = graph_arg if os.path.isdir(graph_arg) else os.path.dirname(graph_arg)
+        # <base>/named if it exists, else <parent>/named (covers --graph pointing
+        # at a nodes/ dir whose sibling is named/, or at a mock registry root).
+        cand = os.path.join(base, "named")
+        if not os.path.isdir(cand):
+            cand = os.path.join(os.path.dirname(base), "named")
+        named_dir = cand
 
     if not os.path.exists(graph_path):
         print(f"❌ Graph file not found: {graph_path}")
@@ -933,7 +961,7 @@ def main():
 
     # 9. Named skills validation (includes reviewer gate + catalog cross-refs)
     print("   [9/12] Named skills validation...")
-    all_errors.extend(validate_named_skills(graph))
+    all_errors.extend(validate_named_skills(graph, named_dir=named_dir))
 
     # 10. Skill suites validation
     print("   [10/12] Skill suites validation...")
