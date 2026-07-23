@@ -143,20 +143,28 @@ class TestCheckPromotionEligibility:
         assert len(eligible) == 1
         assert eligible[0]["nextLevel"] == "2★"
 
-    def test_level_I_to_II_not_eligible_without_evidence(self):
-        """1★ -> 2★ blocked if no evidence at all."""
+    def test_level_I_to_II_eligible_without_floor(self):
+        """Post-Yggdrasil II: 1★ -> 2★ is not blocked by absent evidence.
+        The Evidence Floor was removed (ratified 2026-07-07); Trust Magnitude is
+        the sole gate, and check_promotion_eligibility no longer rejects on
+        grade. (Was: test_level_I_to_II_not_eligible_without_evidence expecting 0.)"""
         graph = _make_graph(_make_skill("tokenize"))
         tree = _make_tree("alice", [_make_unlocked("tokenize", "1★")])
         eligible = check_promotion_eligibility(graph, tree)
-        assert len(eligible) == 0
+        assert len(eligible) == 1
+        assert eligible[0]["nextLevel"] == "2★"
 
-    def test_level_II_to_III_requires_class_B(self):
-        """2★ -> 3★ requires class B or A evidence."""
+    def test_level_II_to_III_eligible_without_floor(self):
+        """Post-Yggdrasil II: C-grade evidence no longer blocks 2★ -> 3★.
+        With evidenceFloors removed, the floor no longer demands class B/A;
+        Trust Magnitude gates promotion. (Was: test_level_II_to_III_requires_class_B
+        expecting 0 for C-only evidence.)"""
         ev_c_only = [{"class": "C", "source": "http://x.com", "evaluator": "x", "date": "2026-01-01", "notes": ""}]
         graph = _make_graph(_make_skill("tokenize", evidence=ev_c_only))
         tree = _make_tree("alice", [_make_unlocked("tokenize", "2★")])
         eligible = check_promotion_eligibility(graph, tree)
-        assert len(eligible) == 0  # C is not enough for 3★
+        assert len(eligible) == 1  # no floor to reject C anymore
+        assert eligible[0]["nextLevel"] == "3★"
 
     def test_level_II_to_III_eligible_with_class_B(self):
         ev_b = [{"class": "B", "source": "http://x.com", "evaluator": "x", "date": "2026-01-01", "notes": ""}]
@@ -175,19 +183,23 @@ class TestCheckPromotionEligibility:
         assert len(eligible) == 0
 
     def test_multiple_skills_mixed_eligibility(self):
-        """Only eligible skills appear in the result list."""
+        """Both non-max-level skills are eligible under the TM-only contract.
+        Post-Yggdrasil II the Evidence Floor is gone, so an evidence-less 1★
+        skill is no longer blocked here — only max-level and demerit ceilings
+        gate. (Was: expected 1, excluding the evidence-less classify skill.)
+        Demerits and max-level are still exercised by the tests below."""
         ev_b = [{"class": "B", "source": "http://x.com", "evaluator": "x", "date": "2026-01-01", "notes": ""}]
         graph = _make_graph(
             _make_skill("tokenize", evidence=ev_b),
-            _make_skill("classify"),  # no evidence
+            _make_skill("classify"),  # no evidence — still eligible (no floor)
         )
         tree = _make_tree("alice", [
-            _make_unlocked("tokenize", "0★"),   # eligible (no evidence needed for 0★->1★)
-            _make_unlocked("classify", "1★"),   # not eligible (no evidence for 1★->2★)
+            _make_unlocked("tokenize", "0★"),   # eligible (0★->1★)
+            _make_unlocked("classify", "1★"),   # eligible too now (no floor for 1★->2★)
         ])
         eligible = check_promotion_eligibility(graph, tree)
-        assert len(eligible) == 1
-        assert eligible[0]["skillId"] == "tokenize"
+        assert len(eligible) == 2
+        assert {e["skillId"] for e in eligible} == {"tokenize", "classify"}
 
     def test_skill_not_in_graph_skipped(self):
         """If a tree skill doesn't exist in the graph, it's skipped."""
@@ -307,10 +319,14 @@ class TestPromotionState:
         tree = _make_tree("alice", [_make_unlocked("tokenize", "1★")])
         assert promotion_state("tokenize", tree, graph) == "eligible"
 
-    def test_blocked_by_evidence(self):
+    def test_no_floor_means_eligible_without_evidence(self):
+        """Post-Yggdrasil II: a skill with no evidence is 'eligible', not
+        'blocked'. The Evidence Floor was removed; promotion_state no longer
+        returns 'blocked' on missing evidence (Trust Magnitude is the sole gate).
+        (Was: test_blocked_by_evidence expecting 'blocked'.)"""
         graph = _make_graph(_make_skill("tokenize"))  # no evidence
         tree = _make_tree("alice", [_make_unlocked("tokenize", "1★")])
-        assert promotion_state("tokenize", tree, graph) == "blocked"
+        assert promotion_state("tokenize", tree, graph) == "eligible"
 
     def test_blocked_skill_not_in_graph(self):
         graph = _make_graph()  # empty
@@ -340,11 +356,21 @@ class TestConstants:
 
 
 class TestGradeTranslation:
-    """Tests for evidence grade/class fallback logic in _meets_evidence_floor.
+    """Tests for _meets_evidence_floor under the Yggdrasil II TM-only contract.
 
-    Per G7 Trust Taxonomy RFC: evidence[].grade (S/A/B/C) supersedes the
-    legacy evidence[].class (A/B/C).  Floor lists encode "at least one row at
-    grade >= the weakest letter in the list".  Grade ordering: S > A > B > C.
+    Yggdrasil II (ratified 2026-07-07, founder/handovers/
+    YGGDRASIL_II_RATIFICATION_2026-07-07.md § "Evidence Floor removed") makes
+    Trust Magnitude the SOLE promotion gate: the per-star Evidence Floor
+    duplicated the TM Grade thresholds, so PR #995 removed the ``evidenceFloors``
+    block from registry/schema/meta.json (both dirs) and made the consumer a
+    no-op via ``.get("evidenceFloors", {})``.
+
+    With no floor configured, ``_meets_evidence_floor`` returns True for EVERY
+    target level regardless of evidence grade — there is nothing to fail. These
+    tests pin that no-floor behavior. The grade/class fallback in
+    ``_effective_grade`` (grade S/A/B/C supersedes legacy class A/B/C; S > A > B > C)
+    is still exercised where it feeds Trust Magnitude, but it no longer rejects
+    promotion here.
     """
 
     # 1. Legacy: class-only row passes a ["B","A"] floor.
@@ -381,15 +407,18 @@ class TestGradeTranslation:
         )
         assert _meets_evidence_floor(skill, "3★") is True
 
-    # 4. Boundary: grade="C" only FAILS a ["B","A"] floor.
+    # 4. TM-only: grade="C" only now PASSES — no floor is configured to reject it.
     def test_grade_c_fails_b_floor(self):
-        """A row with only grade="C" does NOT satisfy a ["B","A"] floor."""
+        """Post-Yggdrasil II: a row with only grade="C" passes the (removed) 3★
+        floor. With ``evidenceFloors`` gone, ``_meets_evidence_floor`` has
+        nothing to fail against and returns True; Trust Magnitude is the sole
+        gate. (Was: expected False under the old floor-rejects contract.)"""
         skill = _make_skill(
             "weak-skill",
             evidence=[{"grade": "C", "source": "http://x.com", "evaluator": "x",
                         "date": "2026-01-01", "notes": ""}],
         )
-        assert _meets_evidence_floor(skill, "3★") is False
+        assert _meets_evidence_floor(skill, "3★") is True
 
     # 5. Bonus: S satisfies an A floor (["A"]).
     def test_grade_s_satisfies_a_floor(self):
@@ -401,15 +430,28 @@ class TestGradeTranslation:
         )
         assert _meets_evidence_floor(skill, "6★") is True
 
-    # 6. Ungraded entry (no class, no grade) is ignored.
+    # 6. TM-only: an ungraded entry (no class, no grade) no longer blocks.
     def test_ungraded_entry_ignored(self):
-        """An entry with neither class nor grade does not satisfy any floor."""
+        """Post-Yggdrasil II: an entry with neither class nor grade still passes.
+        The removed floor was the only thing that could reject it; with
+        ``evidenceFloors`` gone, ``_meets_evidence_floor`` returns True and
+        Trust Magnitude gates promotion. (Was: expected False.)"""
         skill = _make_skill(
             "ungraded-skill",
             evidence=[{"source": "http://x.com", "evaluator": "x",
                         "date": "2026-01-01", "notes": "no grade or class"}],
         )
-        assert _meets_evidence_floor(skill, "2★") is False
+        assert _meets_evidence_floor(skill, "2★") is True
+
+    # 7. TM-only no-floor path (explicit): no evidence at all still passes the
+    #    floor check — promotion is decided by Trust Magnitude, not this helper.
+    def test_no_floor_configured_passes_regardless(self):
+        """With ``evidenceFloors`` removed (Yggdrasil II), the helper is a no-op:
+        even a skill with zero evidence passes _meets_evidence_floor at any
+        target level. Keeps an explicit assertion of the no-floor contract."""
+        skill = _make_skill("floorless-skill", evidence=[])
+        assert _meets_evidence_floor(skill, "3★") is True
+        assert _meets_evidence_floor(skill, "6★") is True
 
     # Integration: grade-only evidence propagates through check_promotion_eligibility.
     def test_grade_only_evidence_enables_eligibility(self):
