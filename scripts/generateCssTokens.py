@@ -282,6 +282,21 @@ def build_tokens_css(gaia: dict) -> str:
         body.append(f"  --grade-{grade}: var(--evidence-{label});")
         body.append(f"  --grade-{grade}-rgb: var(--evidence-{label}-rgb);")
 
+    # §Ygg-II PR 3c: local/custom-user green. A user's OWN uncanonized
+    # fusion/custom skill renders GREEN-STARLESS in the 3D World Tree
+    # (`gaia graph` custom mode) and in `gaia tree`. Mirrors the CLI's
+    # COLOR_LOCAL_USER = (134, 239, 172) = #86efac (src/gaia_cli/formatting.py).
+    # A fixed constant (like UNIQUE_BRANCH_TIER above) rather than a gaia.json
+    # meta color: it is a client/user-state accent, not a taxonomy tier or rank.
+    body.append("")
+    body.append("  /* ── Local / custom-user accent (Yggdrasil II PR 3c) ───────── */")
+    body.append("  /* Green-starless treatment for a user's OWN uncanonized skills.")
+    body.append("     Matches the CLI COLOR_LOCAL_USER (134,239,172 / #86efac). */")
+    _local_user_hex = "#86efac"
+    _local_user_rgb = _rgb_str(_hex_to_rgb_triplet(_local_user_hex))
+    body.append(f"  --color-local-user: {_local_user_hex};")
+    body.append(f"  --color-local-user-rgb: {_local_user_rgb};")
+
     body.append("}")
     body.append("")
     return "\n".join(body)
