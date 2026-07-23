@@ -62,7 +62,6 @@ from gaia_cli.registry import (
     generated_output_dir,
     embeddings_path,
     named_skills_index_path,
-    promotion_candidates_path,
     registry_graph_path,
     skill_batches_dir,
     user_tree_path,
@@ -81,13 +80,6 @@ from gaia_cli.cardRenderer import (
     render_appraise_card,
     render_unlock_card,
     render_path_summary,
-)
-from gaia_cli.promotion import (
-    load_promotion_candidates,
-    promote_from_candidates,
-    promotable_candidates,
-    promotion_state,
-    LEVEL_NAMES,
 )
 from gaia_cli.hook import hook_entry
 from gaia_cli.formatting import (
@@ -118,7 +110,6 @@ from gaia_cli.cardRenderer import render_fusion_diagram
 from gaia_cli.interactive import (
     select_skill,
     select_fusion_candidate,
-    select_promotion_candidate,
     select_multiple_skills,
     select_fusion_to_edit,
     _has_interactive,
@@ -151,7 +142,6 @@ Getting started:
 
 Daily commands:
   {_fg(*C5)}gaia tree{_reset()} [--named] [--title]
-  {_fg(*C5)}gaia promote{_reset()} [<skillId>] [--all] [--name <name>]
   {_fg(*C4)}gaia appraise{_reset()} [<skillId>]
   {_fg(*C4)}gaia stats{_reset()}
   {_fg(*C3)}gaia pull{_reset()}
@@ -245,7 +235,6 @@ PUBLIC_COMMANDS = (
     "graph",
     "stats",
     "appraise",
-    "promote",
     "fuse",
     "lookup",
     "path",
@@ -1200,19 +1189,6 @@ def render_user_tree_outputs(
     return html_path, md_path
 
 
-def promote_all_candidates(username: str, registry_path: str) -> list[dict]:
-    promoted = []
-    for candidate in promotable_candidates(registry_path, username=username):
-        promoted.append(
-            promote_from_candidates(
-                username,
-                candidate["skillId"],
-                registry_path,
-            )
-        )
-    return promoted
-
-
 def _entry_role(entry):
     return entry.get("role") or ("origin" if entry.get("origin") is True else "variant")
 
@@ -1399,10 +1375,6 @@ def appraise_command(args):
     actions = []
     if not owned and all(prereq_status.values()) and prereq_status:
         actions.append("[F] Fuse")
-    if owned:
-        state = promotion_state(skill_id, tree, graph_data)
-        if state == "eligible":
-            actions.append("[P] Promote")
     actions.append("[S] Scan")
     if derivatives:
         actions.append("[→] Paths")
@@ -1423,96 +1395,6 @@ def appraise_command(args):
             display_name=display_name,
         )
     )
-    try:
-        candidates = load_promotion_candidates(args.registry).get("candidates", [])
-        matching = [c for c in candidates if c.get("skillId") == skill_id]
-        if matching:
-            labels = ", ".join(c.get("suggestedLevel", "?") for c in matching)
-            print(f"\nLast scan flagged this skill as promotable to: {labels}")
-    except ValueError:
-        pass
-
-
-def promote_command(args):
-    """Run promotion flow for an eligible skill."""
-    config = load_config()
-    if not config:
-        print("Gaia not initialized.")
-        return
-
-    username = config.get("gaiaUser")
-    graph_path = registry_graph_path(args.registry)
-
-    if not os.path.exists(graph_path):
-        print("Registry graph not found.")
-        return
-
-    with open(graph_path, "r", encoding="utf-8") as f:
-        graph_data = json.load(f)
-
-    tree = load_tree(username, registry_path=args.registry)
-    if not tree:
-        if not os.path.exists(promotion_candidates_path(args.registry)):
-            print(
-                "No promotion candidates found. Run `gaia scan` first to detect skills.",
-                file=sys.stderr,
-            )
-        else:
-            print(f"No skill tree found for user '{_fg(*COLOR_LOCAL_USER)}{username}{_reset()}'.", file=sys.stderr)
-        return
-
-    skill_id = getattr(args, "skillId", None)
-    display_name = getattr(args, "name", None)
-
-    try:
-        if getattr(args, "all", False):
-            results = promote_all_candidates(username, args.registry)
-            if not results:
-                print("No skills eligible for promotion.")
-                return
-            for result in results:
-                print(f"Promoted /{result['skillId']} to Level {result['newLevel']}.")
-            return
-        if not skill_id:
-            # Try interactive picker
-            candidates = promotable_candidates(args.registry, username)
-            if candidates:
-                picked = select_promotion_candidate(
-                    candidates, "Select skill to promote:"
-                )
-                if picked:
-                    skill_id = picked
-            if not skill_id:
-                from gaia_cli.registry import promotion_candidates_path
-
-                if not os.path.exists(promotion_candidates_path(args.registry)):
-                    print(
-                        "No promotion candidates found. Run `gaia scan` first to detect skills.",
-                        file=sys.stderr,
-                    )
-                else:
-                    print(
-                        "Usage: gaia promote <skill> or gaia promote --all",
-                        file=sys.stderr,
-                    )
-                sys.exit(2)
-        result = promote_from_candidates(
-            username, skill_id, args.registry, new_display_name=display_name
-        )
-    except ValueError as exc:
-        print(str(exc), file=sys.stderr)
-        sys.exit(1)
-
-    # Show celebration
-    skill_map = {s["id"]: s for s in graph_data.get("skills", [])}
-    skill = skill_map.get(skill_id, {"id": skill_id, "name": skill_id, "type": "basic"})
-    level_name = LEVEL_NAMES.get(result["newLevel"], result["newLevel"])
-    print(
-        f"\n✦ {skill.get('name', skill_id)} promoted to Level {result['newLevel']} ({level_name})!"
-    )
-    if display_name:
-        print(f"  Renamed to: {display_name}")
-    print()
 
 
 def propose_command(args):
@@ -1863,19 +1745,6 @@ def fuse_command(args):
                     )
                 )
 
-            # Check for promotions
-            promo_payload = {}
-            try:
-                promo_payload = load_promotion_candidates(registry_path)
-                if promo_payload.get("candidates"):
-                    choices.append(
-                        questionary.Choice(
-                            "Promote a skill (level-up)", value="promote"
-                        )
-                    )
-            except:
-                pass
-
             choices.extend(
                 [
                     questionary.Choice("Create new custom fusion path", value="new"),
@@ -1902,14 +1771,6 @@ def fuse_command(args):
                 picked = select_fusion_candidate(
                     pending_combos, "Select fusion candidate:"
                 )
-                if picked:
-                    target = picked
-                    break  # Exit loop to perform fusion
-                continue  # Back to menu
-
-            elif choice == "promote":
-                candidates = promo_payload.get("candidates", [])
-                picked = select_promotion_candidate(candidates)
                 if picked:
                     target = picked
                     break  # Exit loop to perform fusion
@@ -1999,15 +1860,6 @@ def fuse_command(args):
                 if not selected:
                     continue  # Back to menu
 
-                # Calculate max star count from prerequisites
-                max_stars = 0
-                for sid in selected:
-                    ss = scan_map.get(sid) or {}
-                    sinfo = skill_info_map.get(sid, {})
-                    lvl = ss.get("level") or sinfo.get("level") or ctx._effective_ranks.get(sid, "0★")
-                    max_stars = max(max_stars, level_num(lvl))
-                max_stars_str = f"{max_stars}★"
-
                 if not target:
                     # Stage 2: pick the target from the same installed/detected list
                     target = select_skill(
@@ -2019,18 +1871,20 @@ def fuse_command(args):
                 if not target:
                     continue  # Back to menu
 
-                # Save fusion with metadata (EXTRA type and inherited level)
+                # Save the custom fusion structurally (Yggdrasil II: type is
+                # `fusion` for any node with >=1 prerequisite; no level is
+                # written locally — rank is assigned only by canon curation
+                # once the structure is pushed and awakened).
                 custom_state.setdefault("customFusions", {})[target] = {
                     "sources": selected,
-                    "type": "extra",
-                    "level": max_stars_str,
+                    "type": "fusion",
                 }
                 os.makedirs(".gaia", exist_ok=True)
                 with open(custom_state_path, "w", encoding="utf-8") as f:
                     json.dump(custom_state, f, indent=2)
 
                 print(
-                    f"\n✓ Saved custom fusion: {' + '.join('/' + s for s in selected)} → /{target} (EXTRA {max_stars_str})"
+                    f"\n✓ Saved custom fusion: {' + '.join('/' + s for s in selected)} → /{target}"
                 )
                 print(
                     f"\n{_fg(*fuse_color)}Note: Custom fusions are saved locally in .gaia/custom_state.json.{_reset()}"
@@ -2040,7 +1894,7 @@ def fuse_command(args):
                 )
                 return
 
-    # If we have a target but didn't go through 'new' flow, it might be a pending combo or promotion
+    # If we have a target but didn't go through 'new' flow, it might be a pending combo
     if not target:
         print(
             f"{_fg(*fuse_color)}Usage: gaia fuse <skill_id>{_reset()}", file=sys.stderr
@@ -2086,24 +1940,8 @@ def fuse_command(args):
         open_pr(username, tree, candidate_result=target)
         return
 
-    # Check promotions next
-    try:
-        payload = load_promotion_candidates(registry_path)
-        if any(c.get("skillId") == target for c in payload.get("candidates", [])):
-            print(f"{_fg(*fuse_color)}Fusing promotion for /{target}...{_reset()}")
-            result = promote_from_candidates(
-                username,
-                target,
-                registry_path,
-                new_display_name=getattr(args, "name", None),
-            )
-            print(f"Promoted /{result['skillId']} to Level {result['newLevel']}.")
-            return
-    except Exception:
-        pass
-
     print(
-        f"{_fg(*fuse_color)}Skill /{target} is not a valid combination or promotion candidate.{_reset()}"
+        f"{_fg(*fuse_color)}Skill /{target} is not a valid combination.{_reset()}"
     )
     print(
         f"{_fg(*fuse_color)}Run `gaia scan` to refresh candidates, or use interactive `{_fg(*COLOR_FUSE_PURPLE)}gaia fuse{_reset()}{_fg(*fuse_color)}` to create a custom path.{_reset()}"
@@ -3698,18 +3536,6 @@ def get_parser():
         default=None,
         help="Skill ID to appraise (default: most recent)",
     )
-    promote_parser = subparsers.add_parser(
-        "promote", help="Promote a skill eligible for level-up"
-    )
-    promote_parser.add_argument(
-        "skillId", nargs="?", default=None, help="Skill ID to promote"
-    )
-    promote_parser.add_argument(
-        "--all", action="store_true", help="Promote every candidate from the last scan"
-    )
-    promote_parser.add_argument(
-        "--name", help="Optional display name for the promoted skill"
-    )
     fuse_parser = subparsers.add_parser(
         "fuse", help="Confirm a skill combination or create a custom fusion path"
     )
@@ -4455,8 +4281,6 @@ def main():
         stats_command(args)
     elif args.command == "appraise":
         appraise_command(args)
-    elif args.command == "promote":
-        promote_command(args)
     elif args.command == "fuse":
         try:
             fuse_command(args)
