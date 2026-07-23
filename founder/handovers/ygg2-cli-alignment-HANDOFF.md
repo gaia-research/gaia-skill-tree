@@ -3,7 +3,7 @@
 **For the next agent picking up `cli/yggdrasil-ii-meta-schema-alignment` (base `dev/yggdrasil-ii-staging`).**
 
 ## Your task
-Execute the batch plan in [`ygg2-cli-alignment-plan.md`](./ygg2-cli-alignment-plan.md) (same directory).
+Execute the batch plan in [`docs/agents/ygg2-cli-alignment-plan.md`](../../docs/agents/ygg2-cli-alignment-plan.md).
 Read it in full first — it is the authoritative spec, approved by the user. Do NOT re-plan; do NOT
 re-explore scope that's already settled there. Implement **Batches 1 → 2 → 3 in order**, each as its
 own PR into this CLI integration branch, each with a human gate + a reviewer-subagent assurance pass
