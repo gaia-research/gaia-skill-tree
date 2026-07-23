@@ -13,6 +13,7 @@ from gaia_cli.formatting import (
     TIER_COLORS,
     RANK_COLORS,
     TYPE_SYMBOLS,
+    TYPE_LABELS,
     _use_color,
     _fg,
     _reset,
@@ -23,13 +24,6 @@ from gaia_cli.registry import (
     registry_graph_path,
     named_skills_index_path,
 )
-
-TYPE_LABELS = {
-    "basic": "Basic Skill",
-    "extra": "Extra Skill",
-    "unique": "Unique Skill",
-    "ultimate": "Ultimate Skill",
-}
 
 LEVEL_LABELS = {
     "0★": "Basic",
@@ -42,7 +36,10 @@ LEVEL_LABELS = {
 }
 
 LEVEL_ORDER = ("0★", "1★", "2★", "3★", "4★", "5★", "6★")
-TYPE_ORDER = ("basic", "extra", "unique", "ultimate")
+# Type axis is meta.json-driven ({basic, fusion} in Yggdrasil II); derive the
+# render order from the imported meta-driven TYPE_LABELS keys rather than
+# re-authoring the legacy 4-type literal.
+TYPE_ORDER = tuple(TYPE_LABELS.keys())
 EVIDENCE_ORDER = ("A", "B", "C")
 _EVIDENCE_RANK = {
     klass: rank for rank, klass in enumerate(reversed(EVIDENCE_ORDER), start=1)
