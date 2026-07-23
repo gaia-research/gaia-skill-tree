@@ -484,7 +484,7 @@ def render_html(
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{_display_title}</title>
   <script>
-    window.GAIA_VERSION = "4.3.12";
+    window.GAIA_VERSION = "{escape(str(graph.get('version') or ''))}";
     // Point icon base to a path that we will intercept in fetch
     window.gaiaIconBase = function() {{ return 'assets/icons.svg'; }};
   </script>
