@@ -149,7 +149,7 @@ Daily commands:
   {_fg(*C5)}gaia path{_reset()} <skillId> [--owned-only] [--json]
   {_fg(*C2)}gaia lookup{_reset()} <skillId>
   {_fg(*C1)}gaia graph{_reset()} [--format html|json] [-o <path>] [--no-open]
-  {_fg(*COLOR_FUSE_PURPLE)}gaia propose{_reset()} [<skillId>] [--ultimate] [--target <name>] [--no-pr]
+  {_fg(*COLOR_FUSE_PURPLE)}gaia propose{_reset()} [<skillId>] [--target <name>] [--no-pr]
 
 Skills:
   {_rainbow_text("gaia skills")} <list|search|info|install|uninstall>
@@ -1064,7 +1064,7 @@ def scan_command(args):
                 print("\nNew fusion candidates:")
                 for c in combos:
                     result_skill = skill_map.get(c["candidateResult"], {})
-                    result_type = result_skill.get("type", "extra")
+                    result_type = result_skill.get("type", "fusion")
                     print(
                         render_fusion_diagram(
                             c["detectedSkills"],
@@ -1412,16 +1412,6 @@ def propose_command(args):
     if not skill:
         print(f"Skill '{skill_id}' not found in canonical graph.")
         return
-    if getattr(args, "ultimate", False) and skill.get("type") != "ultimate":
-        print(
-            f"Skill '{skill_id}' is not an ultimate skill. Use --ultimate only for ultimate skills."
-        )
-        return
-    if not getattr(args, "ultimate", False) and skill.get("type") == "ultimate":
-        print(
-            "Tip: this is an ultimate skill. Re-run with `gaia propose /<skill> --ultimate`."
-        )
-
     print(f"Appraisal: /{skill['id']} ({skill.get('type', 'unknown')})")
     print(f"Name: {skill.get('name', skill['id'])}")
     print(f"Description: {skill.get('description', '')}")
@@ -2347,7 +2337,7 @@ def install_command(args):
         sys.exit(2)
 
     # Use suite logic if flagged or implicitly requested
-    if getattr(args, "ultimate", False) or getattr(args, "suite", False):
+    if getattr(args, "suite", False):
         success = install_suite(args.skill_id, args.registry, location=location)
     else:
         success = install_skill(args.skill_id, args.registry, location=location)
@@ -3320,11 +3310,6 @@ def get_parser():
         help="List and interactively select skills to install",
     )
     install_parser.add_argument(
-        "--ultimate",
-        action="store_true",
-        help="Batch-install all component skills (alias for --suite)",
-    )
-    install_parser.add_argument(
         "--suite",
         action="store_true",
         help="Batch-install all component skills for a suite",
@@ -3428,11 +3413,6 @@ def get_parser():
     )
     propose_parser.add_argument(
         "--target", help="Named skill target in contributor/skill-name format"
-    )
-    propose_parser.add_argument(
-        "--ultimate",
-        action="store_true",
-        help="Require that the selected skill is ultimate",
     )
     propose_parser.add_argument(
         "--yes", "-y", "--y", action="store_true", help="Use defaults without interactive prompts"

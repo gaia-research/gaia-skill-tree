@@ -57,7 +57,7 @@ def _make_custom_state(tmp_dir):
         "customFusions": {
             "/research-fusion": {
                 "sources": ["/web-search", "/semantic-search"],
-                "type": "extra",
+                "type": "fusion",
                 "level": "1★",
             }
         },

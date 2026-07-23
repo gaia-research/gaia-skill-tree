@@ -39,11 +39,6 @@ class InstallCommand(Command):
             help="List and interactively select skills to install",
         )
         parser.add_argument(
-            "--ultimate",
-            action="store_true",
-            help="Batch-install all component skills (alias for --suite)",
-        )
-        parser.add_argument(
             "--suite",
             action="store_true",
             help="Batch-install all component skills for a suite",
