@@ -116,6 +116,12 @@
       honorRedRgb: _rgbOnly(_readVar('--honor-red-rgb')),
       apexGold: _readVar('--apex-gold'),
       apexGoldRgb: _rgbOnly(_readVar('--apex-gold-rgb')),
+      // §Ygg-II PR 3c: local/custom-user green (#86efac / 134,239,172), matching
+      // the CLI's COLOR_LOCAL_USER. Sourced from tokens.css (--color-local-user*,
+      // emitted by scripts/generateCssTokens.py) so the canvas reads the TOKEN,
+      // not a hardcoded hex.
+      localUser: _readVar('--color-local-user'),
+      localUserRgb: _rgbOnly(_readVar('--color-local-user-rgb')),
       muted: _readVar('--muted'),
       // --muted-rgb isn't emitted by tokens.css yet; canvas tooltips
       // and ruler ticks fall back to the slate-400 triplet which is
@@ -276,6 +282,12 @@
         prerequisites: Array.isArray(skill.prerequisites) ? skill.prerequisites : [],
         cluster: skill.cluster !== undefined ? skill.cluster : 0,
         positions: skill.positions || null,
+        // §Ygg-II PR 3c: a user's OWN uncanonized fusion/custom skill (stamped
+        // by `gaia graph` custom mode, PR 3a) renders GREEN-STARLESS in the
+        // World Tree — the same local-skill treatment `gaia tree` uses. The
+        // canonical registry graph never carries this flag, so canon nodes are
+        // untouched. Accept both the `custom` and legacy `pushable` stamp.
+        custom: skill.custom === true || skill.pushable === true,
       };
     }).filter(skill => skill.id);
   }
@@ -1284,6 +1296,15 @@
     }
 
     function _displaySkillColor(skill) {
+      // §Ygg-II PR 3c: a user's OWN uncanonized fusion/custom skill renders
+      // GREEN-STARLESS — the same local-skill treatment `gaia tree` uses
+      // (#86efac / COLOR_LOCAL_USER). This is an early override that applies in
+      // BOTH the legacy 3D graph and the World Tree layout; canon nodes (no
+      // `custom` flag) fall through to the unchanged tier/rank coloring below.
+      if (skill && skill.custom) {
+        const t = getCanvasTokens();
+        return { rgb: t.localUserRgb || '134,239,172', hex: t.localUser || '#86efac' };
+      }
       const canonical = _canonicalSkillColor(skill);
       // Legacy 3D graph (no World Tree layout): keep the canonical tier/cluster
       // color unchanged.
