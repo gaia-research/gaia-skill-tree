@@ -424,3 +424,106 @@ class TestPushableHighlight:
         render_graph = graph_mod.build_render_graph(self._graph())
         svg = graph_mod.render_svg(render_graph)
         assert "Pushable:" not in svg
+
+
+class TestEnrichedGraphPreference:
+    """Batch 3a - gaia graph prefers the enriched 3D World Tree graph."""
+
+    def _write_enriched(self, root, *, version="9.9.9"):
+        """Write an enriched .gaia/registry/graph/gaia.json carrying branch/namedMaxLevel."""
+        graph_dir = root / ".gaia" / "registry" / "graph"
+        graph_dir.mkdir(parents=True, exist_ok=True)
+        enriched = {
+            "version": version,
+            "generatedAt": "2026-07-23",
+            "skills": [
+                {
+                    "id": "tokenize",
+                    "name": "Tokenize",
+                    "type": "basic",
+                    "level": "1★",
+                    "branch": "core",
+                    "namedMaxLevel": "4★",
+                    "cluster": "foundations",
+                    "prerequisites": [],
+                },
+            ],
+        }
+        (graph_dir / "gaia.json").write_text(json.dumps(enriched), encoding="utf-8")
+        return graph_dir / "gaia.json"
+
+    def test_resolve_prefers_fetched_graph(self, tmp_path, monkeypatch):
+        root = make_registry(tmp_path)
+        monkeypatch.chdir(tmp_path)
+        enriched_path = self._write_enriched(tmp_path)
+
+        resolved = graph_mod.resolve_enriched_graph_path(graph_mod._registry_root(root))
+        assert resolved == enriched_path
+
+    def test_resolve_returns_none_when_absent(self, tmp_path, monkeypatch):
+        root = make_registry(tmp_path)
+        monkeypatch.chdir(tmp_path)
+        assert graph_mod.resolve_enriched_graph_path(graph_mod._registry_root(root)) is None
+
+    def test_render_html_embeds_enriched_graph(self, tmp_path, monkeypatch):
+        """render_html must embed the enriched graph (branch/namedMaxLevel), not the lean one."""
+        root = make_registry(tmp_path)
+        monkeypatch.chdir(tmp_path)
+        self._write_enriched(tmp_path)
+
+        out_path, graph = graph_mod.write_graph_artifact(root, fmt="html")
+        html = out_path.read_text(encoding="utf-8")
+
+        assert '"branch": "core"' in html
+        assert '"namedMaxLevel"' in html
+        assert '"id": "research"' not in html
+        assert graph.get("skills", [{}])[0].get("branch") == "core"
+
+    def test_lean_fallback_warns_once(self, tmp_path, monkeypatch, capsys):
+        """With no enriched graph, render falls back to lean + a stderr hint."""
+        root = make_registry(tmp_path)
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setattr(graph_mod, "_ENRICHED_WARNED", False)
+
+        out_path, graph = graph_mod.write_graph_artifact(root, fmt="html")
+        html = out_path.read_text(encoding="utf-8")
+        err = capsys.readouterr().err
+
+        assert '"id": "research"' in html
+        assert "run 'gaia fetch'" in err
+
+    def test_version_read_from_graph_not_hardcoded(self, tmp_path, monkeypatch):
+        """window.GAIA_VERSION must reflect the embedded graph version, not a baked-in literal."""
+        root = make_registry(tmp_path)
+        monkeypatch.chdir(tmp_path)
+        self._write_enriched(tmp_path, version="12.3.4")
+
+        out_path, _ = graph_mod.write_graph_artifact(root, fmt="html")
+        html = out_path.read_text(encoding="utf-8")
+        assert 'window.GAIA_VERSION = "12.3.4"' in html
+        assert "4.3.12" not in html
+
+
+class TestCustomNodeFlag:
+    """Batch 3a - uncanonized local skills carry a `custom` flag for the frontend."""
+
+    def test_custom_skill_carries_custom_flag(self, tmp_path, monkeypatch):
+        root = _make_registry(tmp_path, skills=[
+            {"id": "registry-skill", "name": "Registry Skill", "type": "basic",
+             "level": "1★", "prerequisites": []},
+        ])
+        _make_skill(tmp_path, os.path.join(".agents", "skills"), "local-only",
+                     name="Local Only", description="A local-only custom skill")
+        monkeypatch.chdir(tmp_path)
+
+        _, graph = graph_mod.write_graph_artifact(root, fmt="json", custom=True)
+        by_id = {sk["id"].lstrip("/"): sk for sk in graph["skills"]}
+        assert by_id["local-only"].get("custom") is True
+
+    def test_canon_skill_has_no_custom_flag(self, tmp_path, monkeypatch):
+        root = make_registry(tmp_path)
+        monkeypatch.chdir(tmp_path)
+
+        _, graph = graph_mod.write_graph_artifact(root, fmt="html")
+        for sk in graph.get("skills", []):
+            assert "custom" not in sk
