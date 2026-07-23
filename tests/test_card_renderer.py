@@ -12,7 +12,7 @@ from gaia_cli.cardRenderer import (
     render_card,
     render_card_compact,
     render_cards,
-    render_promotion_prompt,
+    render_fusion_awaken_card,
     render_fusion_diagram,
     load_and_render,
     _pad,
@@ -361,47 +361,64 @@ class TestRenderCards:
         assert result == ""
 
 
-class TestRenderPromotionPrompt:
+class TestRenderFusionAwakenCard:
     def test_shows_skill_id_with_slash(self):
-        prompt = render_promotion_prompt(
-            {"id": "plan-and-execute", "name": "Different Registry Name", "type": "extra", "prerequisites": ["a", "b"]},
-            "4★",
+        card = render_fusion_awaken_card(
+            {"id": "plan-and-execute", "name": "Different Registry Name", "type": "fusion", "prerequisites": ["a", "b"]},
         )
-        assert "/plan-and-execute" in prompt
-        assert "gaia promote plan-and-execute" in prompt
+        assert "/plan-and-execute" in card
 
-    def test_shows_level_and_rank_name(self):
-        prompt = render_promotion_prompt({"id": "research-agent", "type": "extra", "prerequisites": ["x"]}, "3★")
-        assert "3★" in prompt
-        assert "gaia promote research-agent" in prompt
+    def test_quotes_no_level_or_medallion(self):
+        """Ygg II: the card quotes NO star level and no Extra/Unique decoration."""
+        card = render_fusion_awaken_card(
+            {"id": "research-agent", "type": "fusion", "prerequisites": ["x"]},
+        )
+        assert "Level" not in card
+        assert "★" not in card
+        assert "Extra" not in card and "Unique" not in card
+        assert "gaia promote" not in card
+
+    def test_awaken_hint_shows_when_parent_empty(self):
+        card = render_fusion_awaken_card(
+            {"id": "research", "type": "fusion", "prerequisites": ["web-search"]},
+            parent_has_named=False,
+        )
+        assert "gaia fuse research" in card
+        assert "gaia push" in card
+
+    def test_awaken_hint_hidden_when_parent_has_named(self):
+        card = render_fusion_awaken_card(
+            {"id": "research", "type": "fusion", "prerequisites": ["web-search"]},
+            parent_has_named=True,
+        )
+        assert "gaia fuse" not in card
+        assert "gaia push" not in card
 
     def test_shows_fusion_diagram_when_prereqs_exist(self):
-        prompt = render_promotion_prompt(
-            {"id": "research", "type": "extra", "prerequisites": ["web-search", "summarize"]},
-            "3★",
+        card = render_fusion_awaken_card(
+            {"id": "research", "type": "fusion", "prerequisites": ["web-search", "summarize"]},
         )
-        assert "──▶" in prompt
+        assert "──▶" in card
 
     def test_box_closes_and_no_cutoff(self):
-        """Regression for #118: the promotion box must size to its content so the
-        Rename? hint is never clipped, and every content row must close with the
-        right border aligned to the top/bottom rules."""
+        """Regression for #118: the box must size to its content so the widest
+        row is never clipped, and every content row must close with the right
+        border aligned to the top/bottom rules."""
         import re
 
-        # A long skill id makes the Rename? line the widest row — the old fixed
-        # 55-dash border cut it off.
-        prompt = render_promotion_prompt(
-            {"id": "autonomous-research-and-synthesis-agent", "type": "extra", "prerequisites": []},
-            "4★",
+        # A long skill id makes the awaken line the widest row.
+        card = render_fusion_awaken_card(
+            {"id": "autonomous-research-and-synthesis-agent", "type": "fusion", "prerequisites": []},
+            parent_has_named=False,
         )
         ansi = re.compile(r"\x1b\[[0-9;]*m")
         box_lines = [
             ansi.sub("", ln)
-            for ln in prompt.split("\n")
+            for ln in card.split("\n")
             if "│" in ln or "┌" in ln or "└" in ln
         ]
-        # The full rename command must appear intact (not truncated with an ellipsis).
-        assert 'gaia promote autonomous-research-and-synthesis-agent --name' in prompt
+        # The full awaken command must appear intact (not truncated).
+        assert "gaia fuse autonomous-research-and-synthesis-agent" in card
         assert "…" not in "".join(box_lines)
         # Top, content, and bottom rows all share one right-edge column.
         edge_cols = {ln.rstrip().index("┐") if "┐" in ln
