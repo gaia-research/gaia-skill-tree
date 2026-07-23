@@ -10,6 +10,7 @@ from gaia_cli.resolver import resolve_skills
 from gaia_cli.scanner import load_config, scan_repo_detailed
 from gaia_cli.treeManager import load_tree
 from gaia_cli.leveling import level_summary
+from gaia_cli.taxonomy import isFusion
 
 PATHS_FILE = ".gaia/paths.json"
 MAX_BFS_DISTANCE = 5
@@ -217,7 +218,7 @@ def compute_paths(graph_data: dict, owned_ids: list, detected_ids: list, novel_i
     # ... loop through skills ...
 
     for skill in graph_data.get("skills", []):
-        if skill.get("type") not in ("extra", "ultimate"):
+        if not isFusion(skill):
             continue
         sid = skill["id"]
         if sid in available:
