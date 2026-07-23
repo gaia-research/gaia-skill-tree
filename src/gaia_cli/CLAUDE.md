@@ -212,7 +212,7 @@ rm-evidence, link, reclassify, update-named, timeline, rm, verify, build) are ga
 `require_operator()` in `authz.py` at the dispatch level in `main.py` (`MUTATING_DEV_COMMANDS`
 set).  Read-only subcommands (`list`, `audit`, `diff`) are intentionally ungated.
 
-**Player-facing flows** (`gaia promote`, `gaia fuse`, `gaia scan`, `gaia push`) are
+**Player-facing flows** (`gaia fuse`, `gaia scan`, `gaia push`) are
 **never** gated — only `gaia dev` mutations route through the Verifier check.
 
 **Authorization hierarchy** (`via` values shown in `gaia whoami`):
