@@ -116,6 +116,12 @@
       honorRedRgb: _rgbOnly(_readVar('--honor-red-rgb')),
       apexGold: _readVar('--apex-gold'),
       apexGoldRgb: _rgbOnly(_readVar('--apex-gold-rgb')),
+      // §Ygg-II PR 3c: local/custom-user green (#86efac / 134,239,172), matching
+      // the CLI's COLOR_LOCAL_USER. Sourced from tokens.css (--color-local-user*,
+      // emitted by scripts/generateCssTokens.py) so the canvas reads the TOKEN,
+      // not a hardcoded hex.
+      localUser: _readVar('--color-local-user'),
+      localUserRgb: _rgbOnly(_readVar('--color-local-user-rgb')),
       muted: _readVar('--muted'),
       // --muted-rgb isn't emitted by tokens.css yet; canvas tooltips
       // and ruler ticks fall back to the slate-400 triplet which is
@@ -276,6 +282,12 @@
         prerequisites: Array.isArray(skill.prerequisites) ? skill.prerequisites : [],
         cluster: skill.cluster !== undefined ? skill.cluster : 0,
         positions: skill.positions || null,
+        // §Ygg-II PR 3c: a user's OWN uncanonized fusion/custom skill (stamped
+        // by `gaia graph` custom mode, PR 3a) renders GREEN-STARLESS in the
+        // World Tree — the same local-skill treatment `gaia tree` uses. The
+        // canonical registry graph never carries this flag, so canon nodes are
+        // untouched. Accept both the `custom` and legacy `pushable` stamp.
+        custom: skill.custom === true || skill.pushable === true,
       };
     }).filter(skill => skill.id);
   }
@@ -1284,6 +1296,15 @@
     }
 
     function _displaySkillColor(skill) {
+      // §Ygg-II PR 3c: a user's OWN uncanonized fusion/custom skill renders
+      // GREEN-STARLESS — the same local-skill treatment `gaia tree` uses
+      // (#86efac / COLOR_LOCAL_USER). This is an early override that applies in
+      // BOTH the legacy 3D graph and the World Tree layout; canon nodes (no
+      // `custom` flag) fall through to the unchanged tier/rank coloring below.
+      if (skill && skill.custom) {
+        const t = getCanvasTokens();
+        return { rgb: t.localUserRgb || '134,239,172', hex: t.localUser || '#86efac' };
+      }
       const canonical = _canonicalSkillColor(skill);
       // Legacy 3D graph (no World Tree layout): keep the canonical tier/cluster
       // color unchanged.
@@ -1775,19 +1796,25 @@
         // a ×1.3 lift brings the 4★ dwarf up to that footprint while keeping
         // the intensity/size ladder strictly ascending 4<5<6.
         const hotR = nodeRadius * 1.3;
-        if (skill.branch === 'unique' && specialMix > 0) {
+        // §Ygg-II PR 3c: a user's OWN custom/uncanonized skill is GREEN-STARLESS
+        // — it must always land in the plain drawNode branch (which honors `col`,
+        // the green from _displaySkillColor), never a hot-tier / unique fork that
+        // computes its own color and would silently discard the green. Guarding
+        // each fork with `!skill.custom` keeps a custom node starless even in the
+        // edge case where the CLI stamps `custom` onto a node carrying a rank.
+        if (skill.branch === 'unique' && !skill.custom && specialMix > 0) {
           if (specialMix < 1) drawNode(pr.sx, pr.sy, nodeRadius, { rgb: apexGoldRgb }, depthAlpha * vis * (1 - specialMix));
           drawNodeUnique(pr.sx, pr.sy, nodeRadius, depthAlpha * vis * specialMix, state.t, p, skill.effectiveRank);
-        } else if (eRank >= 6 && specialMix > 0) {
+        } else if (eRank >= 6 && !skill.custom && specialMix > 0) {
           if (specialMix < 1) drawNode(pr.sx, pr.sy, nodeRadius, { rgb: apexGoldRgb }, depthAlpha * vis * (1 - specialMix));
           drawNodeVI(pr.sx, pr.sy, hotR, depthAlpha * vis * specialMix, state.t, p);
-        } else if (eRank === 5 && specialMix > 0) {
+        } else if (eRank === 5 && !skill.custom && specialMix > 0) {
           if (specialMix < 1) drawNode(pr.sx, pr.sy, nodeRadius, { rgb: apexGoldRgb }, depthAlpha * vis * (1 - specialMix));
           drawNodeV(pr.sx, pr.sy, hotR, depthAlpha * vis * specialMix, state.t, p);
-        } else if (eRank === 4 && specialMix > 0) {
+        } else if (eRank === 4 && !skill.custom && specialMix > 0) {
           if (specialMix < 1) drawNode(pr.sx, pr.sy, nodeRadius, { rgb: _tok.rank[4].rgb }, depthAlpha * vis * (1 - specialMix));
           drawNodeIV(pr.sx, pr.sy, hotR, depthAlpha * vis * specialMix, state.t, p);
-        } else if (state.redPillActive && state.namedMap && state.namedMap[skill.id] && specialMix > 0.98) {
+        } else if (state.redPillActive && !skill.custom && state.namedMap && state.namedMap[skill.id] && specialMix > 0.98) {
           drawNodeNamed(pr.sx, pr.sy, baseR * state.scale * pr.scale * pulse, depthAlpha * vis);
         } else {
           drawNode(pr.sx, pr.sy, nodeRadius, col, depthAlpha * vis);
@@ -1825,7 +1852,12 @@
           : 'handle';
 
         ctx.font = canvasFont(role, size * pr.scale * 1.16);
-        const namedId = (state.redPillActive && state.namedMap && state.namedMap[skill.id]) ? state.namedMap[skill.id] : null;
+        // §Ygg-II PR 3c: a user's OWN custom node keeps its GREEN label — never
+        // the named-handle (honor-red / rank-color) override. Skipping the
+        // namedId branch here routes a custom node to the centered label path
+        // below, which paints with `colRgb` (the green forwarded from the draw
+        // loop). Canon named nodes (no `custom` flag) are unaffected.
+        const namedId = (!skill.custom && state.redPillActive && state.namedMap && state.namedMap[skill.id]) ? state.namedMap[skill.id] : null;
         if (namedId) {
           const parts = namedId.split('/');
           if (parts.length === 2) {
