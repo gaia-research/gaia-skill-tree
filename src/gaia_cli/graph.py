@@ -8,7 +8,6 @@ clone without Graphviz, Matplotlib, or a browser automation dependency.
 from __future__ import annotations
 
 import json
-import math
 import os
 import subprocess
 import sys
@@ -19,35 +18,7 @@ from html import escape
 from pathlib import Path
 from typing import Any
 
-from gaia_cli.formatting import COLOR_LOCAL_USER, tier_hex
-from gaia_cli.leveling import level_summary
 from gaia_cli.registry import named_skills_index_path, registry_graph_path, registry_nodes_dir
-
-# Node fills are sourced from the registry palette (meta.typeColors) via tier_hex so
-# the SVG never drifts from the canonical tokens. Stroke tints are lighter accents
-# with no registry equivalent, so they stay local (issue #332).
-_STROKE_TINTS = {
-    "basic": "#7dd3fc",
-    "extra": "#c4b5fd",
-    "unique": "#a78bfa",
-    "ultimate": "#fde68a",
-}
-_TYPE_LABELS = {
-    "basic": "Basic",
-    "extra": "Extra",
-    "unique": "Unique",
-    "ultimate": "Ultimate",
-}
-PALETTE = {
-    t: {"fill": tier_hex(t), "stroke": _STROKE_TINTS[t], "label": _TYPE_LABELS[t]}
-    for t in _TYPE_LABELS
-}
-# Green highlight for pushable local skills (issue #139), sourced from the shared
-# COLOR_LOCAL_USER token rather than a raw hex literal.
-PUSH_GREEN = "#%02x%02x%02x" % COLOR_LOCAL_USER
-TYPE_ORDER = {"basic": 0, "extra": 1, "unique": 2, "ultimate": 3}
-RADIUS_BY_TYPE = {"basic": 285, "extra": 170, "unique": 112, "ultimate": 54}
-NODE_RADIUS = {"basic": 6, "extra": 10, "unique": 13, "ultimate": 15}
 
 
 def _registry_root(registry_path: str | os.PathLike[str]) -> Path:
@@ -122,109 +93,6 @@ def _warn_enriched_missing_once() -> None:
         "(enriched graph not found locally).",
         file=sys.stderr,
     )
-
-
-def _stable_angle(skill_id: str, index: int, total: int) -> float:
-    # Deterministic jitter prevents same-type nodes from forming a perfectly
-    # uniform ring while keeping output stable across machines.
-    seed = sum((i + 1) * ord(ch) for i, ch in enumerate(skill_id))
-    jitter = ((seed % 997) / 997.0 - 0.5) * (math.tau / max(total, 1)) * 0.35
-    return math.tau * index / max(total, 1) + jitter - math.pi / 2
-
-
-def _named_max_levels(named_buckets: dict[str, Any]) -> dict[str, str]:
-    """Map generic skill id -> highest named-variant star (generics are rank-less)."""
-    order = ["2★", "3★", "4★", "5★", "6★"]
-    out: dict[str, str] = {}
-    for ref, entries in (named_buckets or {}).items():
-        levels = [e.get("level") for e in entries if e.get("level") in order]
-        if levels:
-            out[ref] = max(levels, key=order.index)
-    return out
-
-
-def build_render_graph(
-    graph: dict[str, Any], width: int = 1280, height: int = 880,
-    named_buckets: dict[str, Any] | None = None,
-    pushable: set[str] | None = None,
-) -> dict[str, Any]:
-    skills = graph.get("skills", [])
-    pushable = pushable or set()
-    named_max = _named_max_levels(named_buckets or {})
-    groups: dict[str, list[dict[str, Any]]] = {
-        "basic": [],
-        "extra": [],
-        "unique": [],
-        "ultimate": [],
-    }
-    for skill in skills:
-        groups.setdefault(skill.get("type", "basic"), []).append(skill)
-
-    for bucket in groups.values():
-        bucket.sort(
-            key=lambda s: (str(named_max.get(s.get("id"), "")), str(s.get("name", s.get("id", ""))))
-        )
-
-    cx, cy = width / 2, height / 2
-    nodes: list[dict[str, Any]] = []
-    for skill_type in ("basic", "extra", "unique", "ultimate"):
-        bucket = groups.get(skill_type, [])
-        radius = RADIUS_BY_TYPE.get(skill_type, 220)
-        for i, skill in enumerate(bucket):
-            sid = (skill.get("id") or "").lstrip("/")
-            angle = _stable_angle(sid, i, len(bucket))
-            local_radius = radius if len(bucket) > 1 else 0
-            x = cx + math.cos(angle) * local_radius
-            y = cy + math.sin(angle) * local_radius
-            star = named_max.get(skill.get("id")) or named_max.get(sid)
-            level_meta = level_summary(skill)
-            nodes.append(
-                {
-                    "id": sid,
-                    "label": skill.get("name") or sid,
-                    "type": skill_type,
-                    # Generic refs are rank-less — prefer the top named-variant
-                    # star; fall back to any legacy level for back-compat.
-                    "level": star or skill.get("level", ""),
-                    "effectiveLevel": star or level_meta["effectiveLevel"],
-                    "levelMeta": level_meta,
-                    "demerits": level_meta["demerits"],
-                    "description": skill.get("description", ""),
-                    "x": round(x, 3),
-                    "y": round(y, 3),
-                    "radius": NODE_RADIUS.get(skill_type, 7),
-                    "pushable": sid in pushable,
-                }
-            )
-
-    skill_ids = {node["id"] for node in nodes}
-    edges: list[dict[str, Any]] = []
-    for skill in skills:
-        target = (skill.get("id") or "").lstrip("/")
-        if target not in skill_ids:
-            continue
-        for source in skill.get("prerequisites", []) or []:
-            source = source.lstrip("/")
-            if source in skill_ids:
-                edges.append(
-                    {
-                        "source": source,
-                        "target": target,
-                        "type": skill.get("type", "basic"),
-                    }
-                )
-
-    nodes.sort(
-        key=lambda n: (TYPE_ORDER.get(str(n.get("type")), 9), str(n.get("label", "")))
-    )
-    return {
-        "version": graph.get("version"),
-        "generatedAt": graph.get("generatedAt"),
-        "width": width,
-        "height": height,
-        "nodes": nodes,
-        "edges": edges,
-    }
 
 
 def write_gexf(
@@ -357,116 +225,6 @@ def write_gexf(
         tree.write(f, xml_declaration=True, encoding="UTF-8")
 
     return out_path
-
-
-def render_svg(render_graph: dict[str, Any], is_workspace_mode: bool = False) -> str:
-    width = int(render_graph.get("width", 1280))
-    height = int(render_graph.get("height", 880))
-    nodes = render_graph.get("nodes", [])
-    edges = render_graph.get("edges", [])
-    node_by_id = {node["id"]: node for node in nodes}
-
-    lines = [
-        '<?xml version="1.0" encoding="UTF-8"?>',
-        f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}" role="img" aria-labelledby="title desc">',
-        '<title id="title">Gaia AI Agent Skill Graph</title>',
-        '<desc id="desc">Canonical Gaia skill graph rendered from registry/gaia.json, with basic skills on the outer ring, extra skills in the middle ring, and ultimate skills at the core.</desc>',
-        "<defs>",
-        '<radialGradient id="bg" cx="50%" cy="45%" r="70%"><stop offset="0%" stop-color="#172554"/><stop offset="55%" stop-color="#06111f"/><stop offset="100%" stop-color="#030712"/></radialGradient>',
-        '<filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>',
-        "</defs>",
-        f'<rect width="{width}" height="{height}" fill="url(#bg)"/>',
-        '<g opacity="0.32" stroke="#334155" stroke-width="1" fill="none">',
-        f'<circle cx="{width / 2:.1f}" cy="{height / 2:.1f}" r="{RADIUS_BY_TYPE["basic"]}"/>',
-        f'<circle cx="{width / 2:.1f}" cy="{height / 2:.1f}" r="{RADIUS_BY_TYPE["extra"]}"/>',
-        f'<circle cx="{width / 2:.1f}" cy="{height / 2:.1f}" r="{RADIUS_BY_TYPE["ultimate"]}"/>',
-        "</g>",
-        '<g class="edges" fill="none">',
-    ]
-
-    for edge in edges:
-        source = node_by_id.get(edge.get("source"))
-        target = node_by_id.get(edge.get("target"))
-        if not source or not target:
-            continue
-        color = PALETTE.get(str(edge.get("type")), PALETTE["basic"])["fill"]
-        lines.append(
-            f'<line x1="{source["x"]}" y1="{source["y"]}" x2="{target["x"]}" y2="{target["y"]}" stroke="{color}" stroke-opacity="0.32" stroke-width="1.15"/>'
-        )
-    lines.append("</g>")
-
-    lines.append('<g class="nodes" filter="url(#glow)">')
-    for node in nodes:
-        color = PALETTE.get(str(node.get("type")), PALETTE["basic"])
-        # Pushable local skills (issue #139) are highlighted green so the operator
-        # can see at a glance what `gaia push` would propose.
-        if node.get("pushable"):
-            fill = stroke = PUSH_GREEN
-        else:
-            fill, stroke = color["fill"], color["stroke"]
-        lines.append(
-            f'<circle cx="{node["x"]}" cy="{node["y"]}" r="{node["radius"]}" fill="{fill}" stroke="{stroke}" stroke-width="1.6"><title>{escape(str(node.get("label", "")))}</title></circle>'
-        )
-    lines.append("</g>")
-
-    lines.append(
-        '<g class="labels" font-family="Inter, ui-sans-serif, system-ui, sans-serif" text-anchor="middle">'
-    )
-    for node in nodes:
-        typ = str(node.get("type"))
-        if (
-            typ == "basic"
-            and int(sum(ord(c) for c in str(node.get("id", ""))) % 4) != 0
-        ):
-            continue
-        color = PALETTE.get(typ, PALETTE["basic"])["fill"]
-        size = 10 if typ == "basic" else 12 if typ == "extra" else 16
-        weight = 600 if typ != "ultimate" else 800
-        y = float(node["y"]) - float(node["radius"]) - 7
-        lines.append(
-            f'<text x="{node["x"]}" y="{y:.1f}" fill="{color}" font-size="{size}" font-weight="{weight}" opacity="0.92">{escape(str(node.get("label", "")))}</text>'
-        )
-    lines.append("</g>")
-
-    legend_x = 44
-    legend_y = height - 110
-    lines.extend(
-        [
-            '<g font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="14" fill="#cbd5e1">',
-            f'<text x="{legend_x}" y="{legend_y - 22}" font-size="20" font-weight="800" fill="#e2e8f0">Gaia Skill Graph</text>',
-        ]
-    )
-    for i, skill_type in enumerate(("basic", "extra", "unique", "ultimate")):
-        y = legend_y + i * 28
-        color = PALETTE[skill_type]
-        count = sum(1 for node in nodes if node.get("type") == skill_type)
-        lines.append(
-            f'<circle cx="{legend_x + 8}" cy="{y - 5}" r="6" fill="{color["fill"]}"/>'
-        )
-        lines.append(
-            f'<text x="{legend_x + 24}" y="{y}">{color["label"]}: {count}</text>'
-        )
-    # Pushable highlight legend (issue #139) — only shown when the local graph has
-    # skills that `gaia push` would propose.
-    pushable_count = sum(1 for node in nodes if node.get("pushable"))
-    if pushable_count:
-        y = legend_y + 4 * 28
-        lines.append(
-            f'<circle cx="{legend_x + 8}" cy="{y - 5}" r="6" fill="{PUSH_GREEN}"/>'
-        )
-        lines.append(
-            f'<text x="{legend_x + 24}" y="{y}">Pushable: {pushable_count}</text>'
-        )
-    lines.append("</g>")
-    if is_workspace_mode:
-        # Semi-transparent diagonal watermark text overlay
-        lines.append(
-            f'<text x="{width / 2:.1f}" y="{height / 2:.1f}" fill="#334155" opacity="0.15" '
-            f'font-size="64" font-weight="900" font-family="sans-serif" text-anchor="middle" '
-            f'transform="rotate(-30 {width / 2:.1f} {height / 2:.1f})">WORKSPACE ONLY</text>'
-        )
-    lines.append("</svg>")
-    return "\n".join(lines) + "\n"
 
 
 def _html_json(data: dict[str, Any]) -> str:
@@ -718,26 +476,12 @@ def write_graph_artifact(
         graph["skills"] = [sk for sk in canon_skills.values() if sk["id"] in display_ids]
         graph["version"] = "local-custom"
 
-    # Highlight the skills that `gaia push` would propose (issue #139). Only the
-    # local/custom graph carries this — the canonical registry graph has no
-    # per-user push state.
-    pushable_ids: set[str] = set()
-    if custom:
-        try:
-            from gaia_cli import scanner
-            from gaia_cli.push import pushable_skill_ids
-            pushable_ids = pushable_skill_ids(scanner.load_config(), str(root))
-        except Exception:
-            pushable_ids = set()
-    render_graph = build_render_graph(graph, named_buckets=named_buckets, pushable=pushable_ids)
     fmt = fmt.lower()
     if output is None:
         if custom:
             local_dir = Path(".gaia")
             if fmt == "html":
                 output = local_dir / "render" / "gaia.html"
-            elif fmt == "svg":
-                output = local_dir / "gaia.svg"
             else:
                 output = local_dir / "render" / "latest.json"
         else:
@@ -745,8 +489,6 @@ def write_graph_artifact(
             reg_dir = Path(registry_dir(root))
             if fmt == "html":
                 output = reg_dir / "render" / "gaia.html"
-            elif fmt == "svg":
-                output = reg_dir / "gaia.svg"
             else:
                 output = reg_dir / "render" / "latest.json"
     out_path = Path(output)
@@ -769,10 +511,11 @@ def write_graph_artifact(
             render_html(graph, load_named_skills(root), user_ctx=user_ctx, icons_svg=icons_svg, is_workspace_mode=is_workspace),
             encoding="utf-8",
         )
-    elif fmt == "svg":
-        out_path.write_text(render_svg(render_graph, is_workspace_mode=is_workspace), encoding="utf-8")
     elif fmt == "json":
-        out_path.write_text(json.dumps(render_graph, indent=2) + "\n", encoding="utf-8")
+        # Emit the same enriched DAG the HTML path embeds (skills[] with
+        # type/branch/namedMaxLevel/… + prerequisite edges), NOT an x/y ring
+        # render graph — `gaia graph` is a thin data-pump for the 3D World Tree.
+        out_path.write_text(json.dumps(graph, indent=2) + "\n", encoding="utf-8")
     else:
         raise ValueError(f"Unsupported graph format: {fmt}")
     return out_path, graph
