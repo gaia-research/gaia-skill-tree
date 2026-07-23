@@ -130,6 +130,22 @@ def suiteComponentsPresent(entry: dict) -> bool:
     return bool(sc) and isinstance(sc, (list, tuple)) and len(sc) > 0
 
 
+def isFusion(entry: dict) -> bool:
+    """True iff a node is composite (fusion) — STRUCTURAL, type-independent.
+
+    Yggdrasil II collapsed the type axis to {basic, fusion}: `basic` = 0
+    prerequisites, `fusion` = >=1 prerequisite. The distinction is PURE
+    STRUCTURE (do NOT consult `type`) — this predicate is the single gate that
+    replaced the retired `type in ('extra','ultimate','unique')` filters.
+
+    Because the retired Ygg I composites (`extra`/`ultimate`/`unique`) all
+    carry prerequisites by construction, keying on prerequisite-count keeps
+    legacy Ygg I data consumable automatically without reading any type literal.
+    """
+    prereqs = (entry or {}).get("prerequisites") or []
+    return len(prereqs) >= 1
+
+
 # ---------------------------------------------------------------------------
 # normalize — the ONLY meta-version-aware code (absorbs resolveSemantics fork)
 # ---------------------------------------------------------------------------

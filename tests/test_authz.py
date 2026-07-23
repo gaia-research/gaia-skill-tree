@@ -271,14 +271,14 @@ def test_whoami_output_bootstrap(monkeypatch, registry_bootstrap, capsys):
 
 # ── Regression: player-facing flows are NOT gated ────────────────────────────
 
-def test_promote_command_not_gated(monkeypatch, registry_with_verifier):
-    """gaia promote is player-facing and must never require Verifier auth."""
+def test_fuse_command_not_gated(monkeypatch, registry_with_verifier):
+    """gaia fuse is player-facing and must never require Verifier auth."""
     monkeypatch.setattr("gaia_cli.authz._gaia_user", lambda: "bob")
     monkeypatch.setattr(sys, "argv", [
-        "gaia", "--registry", str(registry_with_verifier), "promote",
+        "gaia", "--registry", str(registry_with_verifier), "fuse",
     ])
-    # gaia promote without a scan candidate just exits(0) or prints a message;
-    # the important invariant is it does NOT exit(1) with an authz error.
+    # gaia fuse without a target just prints a usage message; the important
+    # invariant is it does NOT exit(1) with an authz error.
     try:
         main()
     except SystemExit as e:

@@ -159,8 +159,7 @@ Every change to a user's `skill-trees/<username>/skill-tree.json` **must** be ac
 
 | Operation | CLI command |
 |---|---|
-| Unlock / rank up via scan | `gaia scan` then `gaia promote <skillId>` |
-| Fuse skills | `gaia fuse <skillId>` |
+| Fuse skills (confirm/declare a fusion locally) | `gaia fuse <skillId>` |
 | Append event at current time | `gaia dev timeline <skillId> --user <username> --action <action> --notes "..."` |
 | Backfill a historical event | `gaia dev timeline <skillId> --user <username> --action <action> --notes "..." --timestamp "YYYY-MM-DDTHH:MM:SSZ"` |
 
@@ -189,7 +188,7 @@ All commands default to **local-first** output (user's own skill levels, detecte
 All mutating `gaia dev` subcommands (add, merge, split, rename, calibrate, evidence,
 rm-evidence, link, reclassify, update-named, timeline, rm, verify, build) require
 **Verifier authorization**.  Read-only subcommands (`list`, `audit`, `diff`) and all
-player-facing commands (`gaia promote`, `gaia fuse`, `gaia scan`, `gaia push`) are
+player-facing commands (`gaia fuse`, `gaia scan`, `gaia push`) are
 **never** gated.
 
 Run `gaia whoami` to check your current authorization status and see which path
@@ -232,9 +231,9 @@ Bot actors (`*[bot]`, `jules`, `codex`, `claude-bot`, `gemini-bot`) are always a
 
 CI enforces scope via `.github/workflows/branch-scope.yml`. Schema changes (`registry/schema/`) MUST use a `schema/` branch. Label `skip-scope-check` to bypass in emergencies.
 
-## Promotion Rule
+## No self-promote (Yggdrasil II)
 
-`gaia scan` writes `generated-output/promotion-candidates.json` and renders the user's tree. `gaia promote <skill> --label <level>` may only promote a pair listed in that file; stale candidate files are rejected after 24 hours.
+Rank/level is assigned ONLY by canon curation (dev-gated). The non-dev CLI's job ends at *propose*: `gaia scan` detects the fusions you have the prerequisites for and renders your tree; `gaia fuse` confirms a detected combination or declares a custom fusion locally (levelless — `type: fusion`); `gaia push` proposes the structure to canon, where curation "awakens" it and assigns rank. No non-dev CLI path writes rank/level into `skill-trees/<user>/skill-tree.json`. (There is no `gaia promote` — it was retired in the Ygg II CLI alignment.)
 
 ## Versioning
 
