@@ -148,7 +148,7 @@ Daily commands:
   {_fg(*COLOR_FUSE_PURPLE)}gaia fuse{_reset()} <skillId> [--name <name>]
   {_fg(*C5)}gaia path{_reset()} <skillId> [--owned-only] [--json]
   {_fg(*C2)}gaia lookup{_reset()} <skillId>
-  {_fg(*C1)}gaia graph{_reset()} [--format html|svg|json] [-o <path>] [--no-open]
+  {_fg(*C1)}gaia graph{_reset()} [--format html|json] [-o <path>] [--no-open]
   {_fg(*COLOR_FUSE_PURPLE)}gaia propose{_reset()} [<skillId>] [--ultimate] [--target <name>] [--no-pr]
 
 Skills:
@@ -3496,7 +3496,7 @@ def get_parser():
     )
     graph_parser.add_argument(
         "--format",
-        choices=("html", "svg", "json"),
+        choices=("html", "json"),
         default="html",
         help="Graph artifact format (default: html)",
     )
