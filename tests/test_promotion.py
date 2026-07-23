@@ -141,15 +141,18 @@ class TestGradeTranslation:
         )
         assert _meets_evidence_floor(skill, "3★") is True
 
-    # 4. Boundary: grade="C" only FAILS a ["B","A"] floor.
+    # 4. TM-only: grade="C" only now PASSES — no floor is configured to reject it.
     def test_grade_c_fails_b_floor(self):
-        """A row with only grade="C" does NOT satisfy a ["B","A"] floor."""
+        """Post-Yggdrasil II: a row with only grade="C" passes the (removed) 3★
+        floor. With ``evidenceFloors`` gone (ratified 2026-07-07), Trust
+        Magnitude is the sole gate and ``_meets_evidence_floor`` has nothing to
+        fail against. (Was: expected False under the old floor-rejects contract.)"""
         skill = _make_skill(
             "weak-skill",
             evidence=[{"grade": "C", "source": "http://x.com", "evaluator": "x",
                         "date": "2026-01-01", "notes": ""}],
         )
-        assert _meets_evidence_floor(skill, "3★") is False
+        assert _meets_evidence_floor(skill, "3★") is True
 
     # 5. Bonus: S satisfies an A floor (["A"]).
     def test_grade_s_satisfies_a_floor(self):
@@ -161,15 +164,18 @@ class TestGradeTranslation:
         )
         assert _meets_evidence_floor(skill, "6★") is True
 
-    # 6. Ungraded entry (no class, no grade) is ignored.
+    # 6. TM-only: an ungraded entry (no class, no grade) no longer blocks.
     def test_ungraded_entry_ignored(self):
-        """An entry with neither class nor grade does not satisfy any floor."""
+        """Post-Yggdrasil II: an entry with neither class nor grade still passes.
+        The removed floor was the only thing that could reject it; with
+        ``evidenceFloors`` gone (ratified 2026-07-07), ``_meets_evidence_floor``
+        returns True and Trust Magnitude gates promotion. (Was: expected False.)"""
         skill = _make_skill(
             "ungraded-skill",
             evidence=[{"source": "http://x.com", "evaluator": "x",
                         "date": "2026-01-01", "notes": "no grade or class"}],
         )
-        assert _meets_evidence_floor(skill, "2★") is False
+        assert _meets_evidence_floor(skill, "2★") is True
 
 
 # ---------------------------------------------------------------------------
