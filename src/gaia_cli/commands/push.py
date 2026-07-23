@@ -160,11 +160,6 @@ class ProposeCommand(Command):
             "--target", help="Named skill target in contributor/skill-name format"
         )
         parser.add_argument(
-            "--ultimate",
-            action="store_true",
-            help="Require that the selected skill is ultimate",
-        )
-        parser.add_argument(
             "--yes", "-y", "--y", action="store_true", help="Use defaults without interactive prompts"
         )
         parser.add_argument(
