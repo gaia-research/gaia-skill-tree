@@ -2,6 +2,92 @@
 
 ---
 
+## 2026-07-23 — Routine 017 (continued, PR #1249 still open)
+
+**Branch:** `docs/routines/017`
+**Task chosen:** Task 5 (edit outdated literature) — closed out issue #1254, filed by this same
+routine yesterday, and found the same drift had spread further than the issue described.
+
+### Trigger
+PR #1249 (`docs/routines/017`) was still open/unmerged when this session started, so per branch
+discipline this continues on the same branch rather than cutting `018`. Checked open `documentation`-
+labeled issues for the next task; issue #1254 (filed 2026-07-22, end of yesterday's session) was the
+clear next step — it's this routine's own flagged remainder, not someone else's backlog item.
+
+### What I did
+1. **Fixed `evidence-classes.html` Trust Number thresholds** — trust meter, grade table, and the
+   pitfalls-table Grade S row all said `S≥90/A≥80/B≥60/C≥40`. Real thresholds from
+   `registry/schema/meta.json` → `evidence.gradeThresholds` (confirmed against the CLI's own
+   `--trust` help text in `impl.py`) are `S≥250/A≥100/B≥50/C≥20`. Fixed all instances.
+2. **Rewrote the Evidence Type table** — was 3 rows (`arxiv`, `repo`, `github-stars`), two of which
+   used IDs that don't exist. Replaced with all 10 real IDs from `evidence.types`
+   (`repo-own`, `github-stars-own`, `arxiv`, `peer-review`, `verifier-attestation`,
+   `benchmark-result`, `fusion-recipe`, `proxy-containment`, `social-signal`, `self-attestation`),
+   each with what it represents and its real CLI flags, sourced from the `impl.py` `dev_evidence`
+   argparse block and each type's `meta.json` description/magnitude formula.
+3. **Fixed the `gaia dev evidence` CLI examples** — `--grade` is not a real flag (Grade is
+   auto-derived from `--trust`; confirmed no such argument in `impl.py`); `--dry-run` does not
+   exist for this subcommand either. Rewrote both example blocks to `--type` + `--trust`, with
+   `--commits`/`--contributors`/`--citations` on the relevant rows.
+4. **Found and fixed a CLI-shape error beyond the filed issue, in the same section**: the page's
+   "verify"/"dispute" examples showed them as flags on `gaia dev evidence` — they're actually a
+   separate subcommand, `gaia dev verify <skill_id> --index N [--dispute]` (confirmed in
+   `impl.py`, `dev_verify` parser). Fixed both examples; this wasn't in issue #1254 but is the
+   same accuracy problem in the same paragraph I was already rewriting, not separate scope.
+5. **Migration guide + pitfalls sections**: updated `repo`/`github-stars` type-pills to
+   `repo-own`/`github-stars-own`, and the Grade S callout's `≥ 90` to `≥ 250`. Replaced the
+   "Skipping `--dry-run`" pitfall (wrong — no such flag) with "Passing `--grade` instead of
+   `--trust`", the actually-real mistake.
+6. **Checked whether the same drift had spread to other pages** — issue #1254 only flagged
+   `evidence-classes.html`, but grepping `docs/en/` for the same numbers found it had:
+   - `faq.html` — Class-vs-Grade comparison item used `≥90/≥80/≥60/≥40` and `--grade S|A|B|C`
+     (nonexistent flag), plus `repo`/`github-stars` as example type IDs. Fixed all three.
+   - `named-skills.html` — Evidence Grade table had the same stale thresholds (type IDs there
+     were already correct from routine 017's earlier continuation). Also found and fixed
+     `gaia dev verify skill-id 0` missing the required `--index` flag (bare positional isn't
+     valid argparse for that subcommand). Fixed all four.
+7. Verified no HTML structural breakage: tag-balance check (table/tr/td/th/tbody/thead/div/ul/h2/h3)
+   and `html.parser` parse-error check on all three touched files — clean. Rendered
+   `evidence-classes.html` locally via Playwright/Chromium and screenshotted the Evidence Type
+   table, Trust Number meter/grade table, and CLI code block to confirm the new content displays
+   correctly with no layout breakage.
+8. Updated `DOCS.md` page map: `evidence-classes.html`, `named-skills.html`, `faq.html` rows all
+   now note "updated 017" with 017 added to their routine list (still the same open branch/PR,
+   not a new routine number).
+
+### Design decisions
+- Kept the Evidence Type table's "URL format / flags" column terse — full magnitude formulas
+  live in `meta.json` and don't belong on a docs page; the callout below the table points there
+  instead of duplicating it.
+- Fixed the `gaia dev verify` shape bug inline rather than filing a new issue for it — it's the
+  same CLI-accuracy sweep on the same page section already being rewritten for #1254, not
+  distinct scope. Filing a follow-up for something already open in the editor would just be
+  spreading the same fix across two PRs for no reason.
+- Did not touch the legacy `--class` example (`gaia dev evidence ... --class B`) — that flag is
+  real and still accepted for back-compat, confirmed in `impl.py`; only the *new*-form examples
+  needed fixing.
+
+### Issues informed
+- Closes #1254 (evidence-classes.html Trust Number / Evidence Type / CLI-flag drift) — all three
+  points in the issue fixed, plus the `gaia dev verify` shape bug found while doing so.
+
+### Files created / modified
+- `docs/en/DOCS.md` (modified)
+- `docs/en/MEMORY.md` (modified)
+- `docs/en/evidence-classes.html` (modified)
+- `docs/en/faq.html` (modified)
+- `docs/en/named-skills.html` (modified)
+
+### Planned next
+- Audit `mcp-server.html` and `cli-reference.html` for the same class of drift (flags/thresholds
+  documented from memory rather than re-derived from `impl.py`/`meta.json`) — this routine found
+  three pages with the same failure mode in one afternoon; worth a systematic pass rather than
+  waiting for the next issue report.
+- Once PR #1249 merges: next routine can move to a genuinely new page/feature rather than more
+  accuracy cleanup — the Class→Grade wording and numbers should now be consistent repo-wide.
+
+---
+
 ## 2026-07-22 — Routine 017
 
 **Branch:** `docs/routines/017`

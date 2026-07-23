@@ -24,7 +24,7 @@ Secondary: Open-source contributors wanting to claim a Named Skill.
 | 4 | `skill-hierarchy.html` | Skill Hierarchy | ✅ Done | 002 |
 | 5 | `contributing.html` | Contributing | ✅ Done (updated 017) | 003, 017 |
 | 6 | `named-skills.html` | Named Skills & Origin | ✅ Done (updated 017) | 003, 017 |
-| 7 | `evidence-classes.html` | Evidence & Trust | ✅ Done | 004 |
+| 7 | `evidence-classes.html` | Evidence & Trust | ✅ Done (updated 017) | 004, 017 |
 | 8 | `fusion.html` | Skill Fusion | ✅ Done (updated 017) | 004, 017 |
 | 9 | `mcp-server.html` | MCP Server | ✅ Done (updated 017) | 005, 017 |
 | 10 | `faq.html` | FAQ | ✅ Done (updated 017) | 005, 017 |

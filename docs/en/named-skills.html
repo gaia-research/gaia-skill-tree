@@ -844,14 +844,14 @@ links:
               <tr><th>Grade</th><th>Label</th><th>Trust number threshold</th></tr>
             </thead>
             <tbody>
-              <tr><td><span class="grade-badge g-s">S</span></td><td>Platinum</td><td>≥ 90</td></tr>
-              <tr><td><span class="grade-badge g-a">A</span></td><td>Gold</td><td>≥ 80</td></tr>
-              <tr><td><span class="grade-badge g-b">B</span></td><td>Silver</td><td>≥ 60</td></tr>
-              <tr><td><span class="grade-badge g-c">C</span></td><td>Bronze</td><td>≥ 40</td></tr>
+              <tr><td><span class="grade-badge g-s">S</span></td><td>Platinum</td><td>≥ 250</td></tr>
+              <tr><td><span class="grade-badge g-a">A</span></td><td>Gold</td><td>≥ 100</td></tr>
+              <tr><td><span class="grade-badge g-b">B</span></td><td>Silver</td><td>≥ 50</td></tr>
+              <tr><td><span class="grade-badge g-c">C</span></td><td>Bronze</td><td>≥ 20</td></tr>
               <tr>
                 <td><span style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:#64748b;">ungraded</span></td>
                 <td>Below threshold</td>
-                <td>&lt; 40 — on the record but counts toward no gate</td>
+                <td>&lt; 20 — on the record but counts toward no gate</td>
               </tr>
             </tbody>
           </table>
@@ -871,7 +871,7 @@ gaia dev evidence skill-id "https://github.com/owner/repo/blob/main/SKILL.md" \
 
 <span class="c"># Verify an evidence entry (requires Verifier authorization)</span>
 <span class="c"># Sets evidence.verified: true in the node</span>
-gaia dev verify skill-id 0   <span class="c"># index of the evidence entry</span></pre>
+gaia dev verify skill-id <span class="flag">--index</span> 0   <span class="c"># index of the evidence entry</span></pre>
         </div>
       </section>
 
