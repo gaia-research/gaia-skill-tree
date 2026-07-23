@@ -162,7 +162,7 @@ since it's test-harness correctness and shares the reviewer's "isolated validati
 | File | Need | Kind |
 |---|---|---|
 | `src/gaia_cli/graph.py` (L29–50: `_STROKE_TINTS`, `_TYPE_LABELS`, `PALETTE`, `TYPE_ORDER`, `RADIUS_BY_TYPE`, `NODE_RADIUS`; render loops L105/119/322/330/372/388) | definitely | **DISPLAY-token-consume** — rekey extra/ultimate/unique → basic/fusion; fills via `tier_hex` (no raw hex); legacy tier tokens = color aliases only. |
-| `tests/test_graph.py` (L63 fixture `type:extra`, L129 edge assertion, L372–385 PALETTE drift test) | definitely | **TEST** — fixtures → `fusion`; drift test asserts basic/fusion via token source, not legacy hex. |
+| `tests/test_graph.py` (L63 legacy-`extra` fixture, L129 edge assertion, L372–385 PALETTE drift test) | definitely | **TEST** — fixtures → `fusion`; drift test asserts basic/fusion via token source, not legacy hex. |
 | `scripts/validate.py` (`validate_named_skills` default ~L536; `main()` L849) | definitely | **LOGIC (infra)** — add `--named-dir`; default derived from `--graph` dir; wire in `main()` so a mock `--graph` validates the mock's named dir, not real `registry/named` (#1223). |
 
 - **Reviewer subagent verifies:** all six L29–50 dicts + six render loops rekeyed to basic/fusion; no raw hex authored (fills via `tier_hex`; stroke tints are sanctioned local accents per #332); `test_graph.py` green and asserting basic/fusion; `validate.py --graph <mock>` emits zero spurious missing-ID errors; real-repo default behavior unchanged when no flag given.
