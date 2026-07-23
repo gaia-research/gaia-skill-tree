@@ -2778,6 +2778,7 @@ def fetch_command(args):
                 if m.name.startswith("registry/gaia.json")
                 or m.name.startswith("registry/named-skills.json")
                 or m.name.startswith("registry/named/")
+                or m.name.startswith("docs/graph/")
             ]
             tar.extractall(path=Path(tmpdir) / "unpacked", members=members_to_extract, filter="data")
 
@@ -2833,7 +2834,20 @@ def fetch_command(args):
                 shutil.rmtree(dest_named_dir)
             shutil.copytree(src_named_dir, dest_named_dir)
 
+        # enriched 3D graph (docs/graph/) — the site-served World Tree assets.
+        # The lean registry/gaia.json lacks the branch/namedMaxLevel/cluster/rank
+        # fields the 3D renderer needs; docs/graph/gaia.json carries them. `gaia
+        # graph` prefers this enriched copy when embedding.
+        src_graph_dir = Path(tmpdir) / "unpacked" / "docs" / "graph"
+        dest_graph_dir = registry_dir / "graph"
+        if src_graph_dir.exists():
+            if dest_graph_dir.exists():
+                shutil.rmtree(dest_graph_dir)
+            shutil.copytree(src_graph_dir, dest_graph_dir)
+
     print(f"Registry updated to {tag} at {registry_dir}/")
+    if (registry_dir / "graph").exists():
+        print("Enriched 3D graph updated — run `gaia graph` for the full World Tree view.")
     print("Run `gaia scan` to update your skill tree against the new registry.")
 
 
