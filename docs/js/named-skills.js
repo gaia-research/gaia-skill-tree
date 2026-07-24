@@ -686,16 +686,26 @@
         var word = (window.GaiaSemantics && typeof window.GaiaSemantics.rankWord === 'function')
           ? window.GaiaSemantics.rankWord(rn, branch || SUITE_LADDER)
           : (rn + '★');
-        var glyph = (rn >= 4 && window.GaiaSemantics && typeof window.GaiaSemantics.medallion === 'function')
-          ? window.GaiaSemantics.medallion(branch || SUITE_LADDER, rn)
-          : (rn >= 4 ? '◆' : '○');
-        var colorVar = 'var(--rank-' + rn + ', var(--text))';
+        var colorVar = branch === 'suite'
+          ? 'var(--tier-fusion)'
+          : branch === 'unique'
+            ? 'var(--tier-unique)'
+            : 'var(--rank-' + rn + ', var(--muted))';
+        var _base = (typeof window.gaiaIconBase === 'function')
+          ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '') : '';
+        var _suiteMap = { 1:'c1-suite-awakened', 2:'c2-suite-named', 3:'c3-suite-evolved',
+                          4:'c4-suite-extra', 5:'c5-suite-ultimate', 6:'c6-suite-apex' };
+        var _uniqueMap = { 4:'d4-unique', 5:'d5-unique-ultimate', 6:'d6-unique-impossible' };
+        var _stem = ((branch === 'unique') ? _uniqueMap : _suiteMap)[rn];
+        var medallionHtml = _stem
+          ? '<img class="ns-zone-medallion" src="' + esc(_base + 'assets/ascension-overdrive/aov4-' + _stem + '-badge.webp') + '" alt="" aria-hidden="true" width="20" height="20">'
+          : '';
         // 4★+ groups carry a branch descriptor: the unique ladder is STANDALONE
         // skills, the suite ladder (Extra/Ultimate/Apex) is skill SUITES.
         var kind = branch ? (branch === 'unique' ? 'Standalone' : 'Suite') : '';
         return '<div class="ns-group-header ns-group-rank" id="ns-group-' + esc(String(id)) + '" data-rank="' + esc(String(rn)) + '"' + (branch ? ' data-branch="' + esc(branch) + '"' : '') + '>' +
-          '<span class="ns-group-glyph ns-group-rank-glyph" style="color:' + colorVar + '">' + glyph + '</span>' +
-          esc(word) + ' · ' + rn + '★' +
+          medallionHtml +
+          '<span class="ns-group-rank-word" style="color:' + colorVar + '">' + esc(word) + ' · ' + rn + '★</span>' +
           (kind ? '<span class="ns-group-kind">' + kind + '</span>' : '') +
         '</div>';
       }
