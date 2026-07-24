@@ -31,18 +31,18 @@ The separation matters: always audit first and review the payloads before syncin
 
 ```bash
 # Phase 1: generate and review proposed issues
-uv run ~/.Codex/skills/graphify-triage/scripts/triage.py audit --path . --output payloads.json
+uv run ~/.claude/skills/graphify-triage/scripts/triage.py audit --path . --output payloads.json
 
 # Inspect payloads.json, edit or remove entries as needed, then:
 
 # Phase 2: push to GitHub
-uv run ~/.Codex/skills/graphify-triage/scripts/triage.py sync --input payloads.json
+uv run ~/.claude/skills/graphify-triage/scripts/triage.py sync --input payloads.json
 ```
 
 To target a specific repo (e.g. when the CWD origin differs):
 
 ```bash
-uv run ~/.Codex/skills/graphify-triage/scripts/triage.py sync --input payloads.json --repo owner/repo
+uv run ~/.claude/skills/graphify-triage/scripts/triage.py sync --input payloads.json --repo owner/repo
 ```
 
 ## Workflow Steps

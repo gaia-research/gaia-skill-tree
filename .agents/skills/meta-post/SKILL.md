@@ -128,6 +128,7 @@ git commit -m "post: add <type> — <title> [skip-gen]"
 
 ## Constraints
 
+- Use `Gaia Research` as the default report author unless the user explicitly requests a different byline.
 - Avoid banned vocabulary from `CONTEXT.md` (apex tier, Atomic Basics, card, etc.).
 - All section headings in report Markdown should use `##` (rendered with auto-numbered LaTeX counter). Use `###` for subsections.
 - The `## Abstract` section in the Markdown body is rendered as the indented italic abstract block in the paper; do not repeat it under a different heading.
