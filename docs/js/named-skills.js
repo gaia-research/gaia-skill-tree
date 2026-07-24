@@ -321,16 +321,26 @@
         html += out;
       }
     } else {
+      // Build the full expected rank ladder so every tier always gets a zone,
+      // even when no named skills occupy it (empty zones show the label only).
+      var FULL_LADDER = sortMode === 'level-asc'
+        ? [0, 1, 2, 3, 4, 5, 6]
+        : [6, 5, 4, 3, 2, 1, 0];
+
+      // Merge observed rank tiers with the full ladder so we never drop a tier.
+      var seenRanks = {};
+      rankTiers.forEach(function(rn) { seenRanks[rn] = true; });
+
       // DOM is built visual-bottom first; the container's column-reverse flips it,
       // so rankTiers (already sorted by direction) lands 6★ on top for level-desc.
       // At 4★+ each rank splits into a SUITE band and a STANDALONE (unique) band;
       // the suite band is appended first so the unique band renders above it after
       // column-reverse — matching the tile/list unique-first ordering.
-      for (var ri = ranks.length - 1; ri >= 0; ri--) {
-        var rank = ranks[ri];
-        if (!rank.length) continue;
+      var allRanks = sortMode === 'level-asc' ? [6, 5, 4, 3, 2, 1, 0] : [0, 1, 2, 3, 4, 5, 6];
+      for (var ri = 0; ri < allRanks.length; ri++) {
+        var rankNum = allRanks[ri];
+        var rank = (dagRankGroups[rankNum] || []).slice();
         rank.sort(sortDagRank);
-        var rankNum = rankTiers[ri];
         if (rankNum < 4) {
           html += emitDagLayer(rankNum, ri, 'ns-rank-' + rankNum, null, rank);
           continue;
