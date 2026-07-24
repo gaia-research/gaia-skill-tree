@@ -4,6 +4,100 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-25 — Yggdrasil II design sprint T6–T18 COMPLETE; merging PR #1246 → dev/yggdrasil-ii-staging; T19 handed off)
+
+### 1. Final decisions + T19 handoff (TOPMOST)
+
+**PR #1246 merge model:**
+- PR #1246 merges into `dev/yggdrasil-ii-staging` (**NOT main** — EPIC integration model). Merge-ready: CLEAN/MERGEABLE, design-scope CI green.
+- Regen is **STAGING-ONLY**. Do NOT regen `tokens.css` locally — the local `registry/gaia.json` is a stale Class-P snapshot that predates the fusion/unique type migration; an in-branch regen would emit stale `meta.typeColors`.
+- **Infra PR #1269** (`infra/ev-type-tokens`) is separate, targets **main**, generator-only (adds `--ev-type-*` block). It must land AND staging must regen before evidence-pill tokens resolve to non-fallback values. Until then, hex fallbacks render the correct colors.
+
+**T19 (NEW — its own design PR per Marco): site-wide token un-pollution sweep.**
+- T16–T18 fixed ONLY `styles.css`, `plaque.css`, `leaderboard.css`. The SAME `--tier-extra`/`--tier-ultimate` + bare `--extra`/`--ultimate` rank-substitute pollution ("bad-init spread") remains in ~25 more `docs/` files.
+- **Known consumers:**
+  - `docs/trust/ledger/ledger.css` (~12 occurrences)
+  - `docs/codex/trust-methodology.html` + `docs/codex.html`
+  - `docs/en/*.html` (many — mostly WITH `#hex` fallbacks, so they render on dead tokens)
+  - `docs/samples/{foundation,tree}.html`
+  - `docs/share/styles.css`
+  - `docs/skills/index.js`
+  - `docs/js/page-ia.js`
+  - `docs/meta.html`
+  - `docs/archive/{ADOPTION,SHOWCASE}.html` (archived — likely SKIP)
+- **MIGRATION RULE (same as T16–T18):**
+  - rank-word surfaces → `--rank-4` (#e879f9 fuchsia) / `--rank-5` (#fbbf24 amber) / `--rank-6` (apex gold)
+  - decorative accents → `--rank-4`
+  - evidence-type → `--ev-type-*`
+  - LEAVE legit `--tier-fusion` / `--tier-unique` / `--basic` alone.
+- **PRIORITY:** bare no-fallback `--extra`/`--ultimate` forms render as `inherit` (silent fail — exactly the leaderboard CTA bug) — **fix those FIRST.**
+- **Sources of truth:** META.md (Extra=4★, Ultimate=5★, Apex=6★) + `/badges/` (rank palette).
+- **Full map:** `founder/reports/design-review-2026-07-20/TOKEN-POLLUTION-AUDIT.md`.
+
+### 2. Token spend ledger (Marco tracks ~€70/day for the PR)
+
+**Day-rate basis (Marco's tracking):** PR #1246 opened 2026-07-20, merging 2026-07-25 = ~6 days × ~€70/day ≈ **~€420** total tracked for the PR lifetime. This is the fuller figure for the whole 6-day PR.
+
+**Per-session comment ledger (from PoW comments; logging began 2026-07-24):**
+| Date | Model | Work | In | Out | Est. |
+|---|---|---|---|---|---|
+| 2026-07-24 | Opus 4.8 | DAG reshape Steps 1–5 + corrections | ~700k | ~90k | ~$12 |
+| 2026-07-25 | Opus 4.8 | Step 6 CTA reframe (5 iterations) | ~180k | ~14k | ~$4 |
+| 2026-07-25 | Opus 4.8 (superadmin) | T15 bonus DAG scatter | ~120k | ~15k | ~$3 |
+| 2026-07-25 | Opus 4.8 (superadmin) | T16–T18 audit + 3-bucket migration + infra generator | ~900k | ~110k | ~$16 |
+| 2026-07-25 (PR #1269) | Opus 4.8 (superadmin) | `--ev-type-*` generator block | ~15k | ~4k | ~$1.5 |
+
+- **SUM (comment ledger): ~$36.5.** NOTE: comment logging only began 2026-07-24, so the day-rate (~€420) is the fuller figure for the whole 6-day PR.
+
+### 3. Checklist final status (T6–T19)
+
+- **T6** — Approved (landed)
+- **T7** — Approved (landed)
+- **T8** — Approved (landed)
+- **T9** — Approved (landed)
+- **T9+** — Approved (landed)
+- **T10** — no-op (orphan CSS, no live emitter)
+- **T11** — Approved (landed)
+- **T12** — Approved (landed)
+- **T13** — Approved (landed)
+- **T14** — Rejected/reverted (no code)
+- **T15** — Approved (landed)
+- **T16** — RESOLVED by commit `0f4d7e27f` (PR-body table still shows PENDING — stale doc-drift, NOT open work)
+- **T17** — RESOLVED by commit `0f4d7e27f` (same stale doc-drift caveat)
+- **T18** — RESOLVED by commit `0f4d7e27f` (same stale doc-drift caveat)
+- **T19** — PENDING / deferred to its own design PR
+
+### 4. The rest
+
+**Commit themes (T6 branch's own work):**
+- Footer/nav reshape
+- T6–T13 plaque/list/flow token work
+- T15 timeline + DAG-edge rank recoloring
+- DAG reshape Steps 1–6: header → "Path"; lens chips Path·Fusion·Suite; hover tooltips; suite/fusion as lenses over one canonical path with synthetic nodes removed; `/fuse` CTA
+- T15-bonus DAG scatter
+- T16–T18 un-pollution; leaderboard fix
+
+**Key ratified design model:** the per-skill Upgrade-Path DAG is the ONE canonical starless prerequisite graph; **Path / Fusion / Suite are FILTERS (lenses), not separate structures.** Basics render as a single apex node.
+
+**Leaderboard bug root cause (verified fixed on preview):** `.lb-cta-link` used bare `var(--tier-extra)` (dead token, no fallback) → color resolved to nothing → link rendered as plain body text. Fixed → `var(--rank-4, #e879f9)`.
+
+**Verification:** preview deployed via `cf-pr-preview.yml` at https://gaia-skill-tree.marco-tngsn.workers.dev/ ; confirmed `--rank-4` defined in live `tokens.css` and `.lb-cta-link` resolves.
+
+**Open caveats:**
+1. Regen staging-only.
+2. #1269 dependency for ev-type resolution.
+3. Stale PR-body table (T16–T18 shown PENDING).
+4. Diff shows 1680 inherited files from the `dev/yggdrasil-ii-staging` base — T6's OWN work is only **15 in-scope files** (`docs/css/*`, `docs/js/*`, `docs/named/index.html`, `founder/reports/design-review-2026-07-20/*`).
+
+### Branches at end of session
+| Branch | Role | Status |
+|---|---|---|
+| `design/ygg2-checklist-fixes-t6` | T6 checklist-fixes work | PR #1246 merge-ready (CLEAN/MERGEABLE, CI green) |
+| `dev/yggdrasil-ii-staging` | EPIC integration branch | Merge target for #1246 |
+| `infra/ev-type-tokens` | `--ev-type-*` generator block | PR #1269 (targets main, generator-only) |
+
+---
+
 ## State Snapshot (2026-07-20, session 3 — 8 target suites recalibrated to 4★; PR 1242 updated; localhost:8092 opened)
 
 ### TLDR
