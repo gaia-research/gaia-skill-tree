@@ -3,6 +3,46 @@
   var GRAPH_URL = 'graph/gaia.json' + version;
   var NAMED_URL = 'graph/named/index.json' + version;
 
+  // ── SHARED JSON FETCH CACHE ────────────────────────────────────
+  // graph/gaia.json is ~733 KB and graph/named/index.json is ~1.29 MB.
+  // The homepage loads both skill-graph.js and page-ia.js, which each
+  // fetched the same two URLs independently — ~2 MB of duplicate
+  // transfer on every load. Both files install this identical, idempotent
+  // helper: whoever runs first creates window.GAIA_JSON_CACHE and the
+  // other reuses it, so each URL is fetched at most once per page load
+  // and both consumers await the same in-flight promise.
+  //
+  // Deliberately self-contained and duplicated rather than split into a
+  // fourth script file — either consumer must work standalone (codex.html,
+  // privacy.html and starless.html load page-ia.js without skill-graph.js)
+  // with no load-order requirement between them.
+  if (!window.GAIA_JSON_CACHE) {
+    window.GAIA_JSON_CACHE = {
+      inflight: {},
+      // Resolves with parsed JSON. Rejections are not cached, so a later
+      // caller can retry a URL that failed.
+      fetchJson: function (url, init) {
+        var store = this.inflight;
+        if (!store[url]) {
+          store[url] = fetch(url, init).then(function (response) {
+            if (!response.ok) throw new Error('HTTP ' + response.status + ' from ' + url);
+            var ct = response.headers.get('content-type') || '';
+            if (ct.indexOf('json') === -1 && ct.indexOf('text/plain') === -1) {
+              return response.text().then(function (body) {
+                throw new Error('Expected JSON, got ' + (ct || 'no content-type') + '; body starts: ' + body.slice(0, 80));
+              });
+            }
+            return response.json();
+          }).catch(function (err) {
+            delete store[url];
+            throw err;
+          });
+        }
+        return store[url];
+      },
+    };
+  }
+
   var TYPE_GLYPH = {
     ultimate: '◆',
     unique: '◉',
@@ -68,8 +108,8 @@
   window.openClaim = openClaim;
 
   Promise.all([
-    fetch(GRAPH_URL).then(function (r) { return r.ok ? r.json() : Promise.reject(); }),
-    fetch(NAMED_URL).then(function (r) { return r.ok ? r.json() : Promise.reject(); }),
+    window.GAIA_JSON_CACHE.fetchJson(GRAPH_URL),
+    window.GAIA_JSON_CACHE.fetchJson(NAMED_URL),
   ]).then(function (results) {
     var graphData = results[0];
     var namedData = results[1];
