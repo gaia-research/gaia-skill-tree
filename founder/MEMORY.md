@@ -96,6 +96,65 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 | `dev/yggdrasil-ii-staging` | EPIC integration branch | Merge target for #1246 |
 | `infra/ev-type-tokens-staging` | `--ev-type-*` generator block | PR #1270 (targets `dev/yggdrasil-ii-staging`, generator-only) |
 
+## State Snapshot (2026-07-24, session — CLI branch fully integrated into `dev/yggdrasil-ii-staging`; DoD #2 follow-up cleanup landed)
+
+### TLDR
+- **Located the handover.** The CLI follow-up work wasn't in PR #1248's own comments — it was the "Handover — DoD #2 follow-up (legacy type literals in `cli/` scope)" comment on umbrella **#1225** (2026-07-23T16:06:58Z), flagging leftover `type: "extra"` literals in `localContext.py`/`push.py`/`impl.py` and two now-dead `--ultimate` flags.
+- **Marco ratified 3 decisions:** `gaia propose --ultimate` removed entirely (propose now works uniformly on basic/fusion, no type gate); `gaia install --ultimate` removed entirely (`--suite` is the sole batch flag); the `extra`→`fusion` literal rekeys approved as straight sweeps.
+- **Cleanup PR #1263** (`cli/ygg2-legacy-type-literal-cleanup` → `cli/yggdrasil-ii-meta-schema-alignment`) — Opus subagent made the mechanical edits, reviewed diff matched exactly what was approved, merged (`ce9ee4430`).
+- **Synced staging into CLI branch** (`2e201a29b`) — resolved the one known conflict flagged in the prior `ygg2-batch23-HANDOFF.md`: `graph.py`'s `window.GAIA_VERSION` stamp (PR #1259 vs infra guard #1260). Kept #1259's canonical `_graph_version` form per that handover's explicit instruction.
+- **PR #1248 merged into `dev/yggdrasil-ii-staging`** (`3eb8b0b49`) — the entire CLI Yggdrasil II alignment branch (Batches 0–3 + this cleanup) is now fully integrated into staging. **NOT merged to `main`** — staying put per EPIC #1002 protocol until sprint closure, as instructed.
+- **Filed #1264** for the remaining `share.py:38` `_TYPE_SYMBOL` map (still keyed on `extra`/`ultimate`/`unique`) — deliberately deferred, natural touchpoint for the upcoming `gaia share` work rather than a standalone swap.
+- No `gaia dev docs` regeneration was run at any point this session (explicit instruction — Marco will batch-regenerate separately). No CI-green requirement applied to any of the above.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| Legacy `extra`→`fusion` literal rekeys | ✅ `localContext.py`, `push.py`, `impl.py`, `tests/test_push.py` fixture |
+| `gaia propose --ultimate` | ✅ Removed (dead gate — already matched zero skills post-Yggdrasil-II) |
+| `gaia install --ultimate` | ✅ Removed (dead alias for `--suite`) |
+| CLI branch ↔ staging sync | ✅ `graph.py` GAIA_VERSION conflict resolved, kept `_graph_version` form |
+| CLI branch → staging merge | ✅ PR #1248 merged (`3eb8b0b49`) |
+| `share.py:38` `_TYPE_SYMBOL` | ⏳ Deferred — issue #1264 filed, tied to future `gaia share` work |
+| Staging → `main` | ❌ Explicitly NOT done — holds until EPIC #1002 sprint closure |
+| `gaia dev docs` regeneration | ❌ Explicitly NOT run — Marco doing this as a separate batch |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `dev/yggdrasil-ii-staging` | `3eb8b0b49` | CLI branch now fully merged in; local checkout fast-forwarded to match |
+| `cli/yggdrasil-ii-meta-schema-alignment` | `2e201a29b` | Merged into staging via #1248; scratch sync/cleanup branches deleted post-merge |
+| `main` | v6.8.16 (unchanged) | Untouched — EPIC #1002 still holds the staging→main merge for sprint closure |
+
+### Issues + PRs touched
+| # | Title | State |
+|---|---|---|
+| #1263 | cli: rekey legacy extra->fusion literals; prune --ultimate flags | Merged → `ce9ee4430` |
+| #1248 | cli: align CLI codebase to Yggdrasil II meta schema | Merged → `3eb8b0b49` (into staging) |
+| #1264 | cli(share.py): `_TYPE_SYMBOL` keyed on retired extra/ultimate/unique type literals | Open (new, filed this session) |
+| #1225 (umbrella) | CLI Alignment to Yggdrasil II Meta Schema | Comment added confirming DoD #2 follow-up landed |
+| #1002 (EPIC) | Yggdrasil II | Proof-of-work + token-spend comment added; **kept open, not closed** |
+
+### Routing — where things live now
+- The DoD #2 follow-up trail: #1225 comment (2026-07-23T16:06:58Z) → PR #1263 (fix) → this snapshot (closure record) → #1264 (the one deliberately-deferred remainder).
+- `founder/handovers/ygg2-batch23-HANDOFF.md` and `ygg2-batch0-no-self-promote-HANDOFF.md` remain the authoritative blast-map references for anyone touching this area next; both are now fully executed.
+- Next real gate is the EPIC #1002 sprint closure: `dev/yggdrasil-ii-staging` → `main`, which per the EPIC body must regenerate the 17 Class-S generated-file conflicts (not hand-merge) and is explicitly Marco's to run as a batch, not this session's.
+
+### Lessons / hazards preserved
+- **`graph.py`'s `GAIA_VERSION` conflict is a recurring merge hazard** between any branch touching the dynamic-version-stamp fix and staging — always keep the `_graph_version` precomputed-var form (from PR #1259), not the inline `escape(str(graph.get('version') or ''))` form (from #1260). Same one-line conflict will likely resurface if more branches touch `graph.py` before the EPIC closes.
+- **Two `--ultimate` flags existed with different meanings** — `gaia install --ultimate` was a harmless dead alias for `--suite` (no type-check involvement), while `gaia propose --ultimate` was an actually-broken type gate that permanently rejected itself post-Yggdrasil-II. Don't conflate the two when auditing "ultimate" references — the fix path differed for each.
+- **impl.py carries a fully dead duplicate argparse parser** (`get_parser()` around L3300–3440) that isn't wired into `main.py` (which uses `discover_commands()` from `commands/` instead). Any CLI flag audit must grep both the live `commands/*.py` wiring AND this dead duplicate, or a rename will look "done" while the dead copy still lies around.
+
+### Open questions for next orchestrator
+- The two founder decisions flagged in the original batch23 handover (`evidenceFloors` schema drop, dead `select_promotion_candidate`) — evidenceFloors appears resolved via PR #1257 per the #1225 comment trail; `select_promotion_candidate` cleanup status wasn't re-verified this session.
+- DoD #6 (full `pytest tests/` green on the integration branch) is still held/undiagnosed from the prior handover — 15 failed/147 errors, suspected gitignored Class-P data (`registry/gaia.json`) missing in a fresh checkout rather than real regressions. Not diagnosed this session either; still needs doing before the EPIC main merge.
+- Staging→main merge itself (17 Class-S conflicts) is explicitly **not this session's job** — EPIC #1002 stays open, Marco runs that merge as its own batch.
+
+### Token cost (this session)
+2026-07-24 · Opus 4.8 (orchestrator: review, merge sequencing, conflict resolution, issue filing): ~35k in, ~9k out
+2026-07-24 · Opus 4.8 (implementation subagent, cleanup edits): ~65k in, ~5k out
+~$3 est.
+
 ---
 
 ## State Snapshot (2026-07-20, session 3 — 8 target suites recalibrated to 4★; PR 1242 updated; localhost:8092 opened)

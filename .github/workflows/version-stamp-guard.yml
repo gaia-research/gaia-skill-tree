@@ -1,0 +1,45 @@
+name: Version Stamp Guard
+
+on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'registry/render/**'
+      - 'scripts/check_version_stamps.py'
+      - '.github/workflows/version-stamp-guard.yml'
+  push:
+    branches:
+      - 'main'
+      - 'dev/**'
+      - 'infra/**'
+    paths:
+      - 'src/**'
+      - 'registry/render/**'
+      - 'scripts/check_version_stamps.py'
+      - '.github/workflows/version-stamp-guard.yml'
+  # Allow manual runs for debugging
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  version-stamp-guard:
+    name: Version Stamp Guard (literal-semver GAIA_VERSION)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run version-stamp guard
+        run: python scripts/check_version_stamps.py
+        # Exit code 0  → pass (no literal version stamps in scope)
+        # Exit code 1  → fail (hardcoded window.GAIA_VERSION = "X.Y.Z" found)

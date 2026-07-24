@@ -234,6 +234,67 @@ class TestComputePaths:
 
 
 # ---------------------------------------------------------------------------
+# Yggdrasil II fusion-detection (structural, type-independent) — regression
+# for #1220/#1221: filters keyed on retired ('extra','ultimate') matched
+# nothing against the ratified {basic, fusion} schema.
+# ---------------------------------------------------------------------------
+
+class TestYggIIFusionDetection:
+    @pytest.fixture
+    def ygg2_graph(self):
+        """Ygg II graph: 2 basic + 1 fusion (type='fusion', >=1 prereq)."""
+        return {
+            "skills": [
+                {"id": "base-a", "name": "Base A", "type": "basic", "level": "0★", "prerequisites": [], "derivatives": ["combo"]},
+                {"id": "base-b", "name": "Base B", "type": "basic", "level": "0★", "prerequisites": [], "derivatives": ["combo"]},
+                {"id": "combo", "name": "Combo", "type": "fusion", "level": "1★", "prerequisites": ["base-a", "base-b"], "derivatives": []},
+            ]
+        }
+
+    def test_fusion_near_unlock(self, ygg2_graph):
+        """A type='fusion' node whose prereqs are owned is a near-unlock."""
+        result = compute_paths(ygg2_graph, ["base-a", "base-b"], [])
+        near_ids = [e["skillId"] for e in result["nearUnlocks"]]
+        assert "combo" in near_ids
+
+    def test_fusion_one_away(self, ygg2_graph):
+        """A type='fusion' node missing one prereq is one-away."""
+        result = compute_paths(ygg2_graph, ["base-a"], [])
+        one_away = {e["skillId"]: e for e in result["oneAway"]}
+        assert "combo" in one_away
+        assert one_away["combo"]["missingPrereq"] == "base-b"
+
+    def test_basic_with_prereqs_is_structural_fusion(self):
+        """Composite membership is STRUCTURAL: a node carrying >=1 prereq is a
+        fusion regardless of its type literal (do NOT consult `type`)."""
+        graph = {
+            "skills": [
+                {"id": "a", "name": "A", "type": "basic", "prerequisites": [], "derivatives": []},
+                # legacy-shaped node whose type literal is not 'fusion' but has a prereq:
+                {"id": "c", "name": "C", "type": "basic", "prerequisites": ["a"], "derivatives": []},
+            ]
+        }
+        result = compute_paths(graph, ["a"], [])
+        near_ids = [e["skillId"] for e in result["nearUnlocks"]]
+        assert "c" in near_ids
+
+    def test_zero_prereq_never_composite(self):
+        """A node with no prerequisites is never near-unlock/one-away even if
+        its type literal is 'fusion' (structural rule: len(prereqs) >= 1)."""
+        graph = {
+            "skills": [
+                {"id": "lonely", "name": "Lonely", "type": "fusion", "prerequisites": [], "derivatives": []},
+            ]
+        }
+        result = compute_paths(graph, [], [])
+        all_ids = (
+            [e["skillId"] for e in result["nearUnlocks"]]
+            + [e["skillId"] for e in result["oneAway"]]
+        )
+        assert "lonely" not in all_ids
+
+
+# ---------------------------------------------------------------------------
 # diff_paths tests
 # ---------------------------------------------------------------------------
 
