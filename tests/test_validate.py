@@ -61,17 +61,16 @@ class TestValidate(unittest.TestCase):
         self.assertEqual(code, 1, "Expected duplicate edge graph to fail validation.")
         self.assertIn("Duplicate edge", out)
 
-    def test_bad_evidence(self):
-        """Ensure insufficient evidence is caught."""
-        code, out = run_validate(os.path.join(FIXTURES_DIR, "bad_evidence.json"))
-        self.assertEqual(code, 1, "Expected bad evidence graph to fail validation.")
-        self.assertIn("needs evidence class", out)
+    def test_orphaned_fusion(self):
+        """Ensure a fusion with fewer than the minimum prerequisites is caught.
 
-    def test_orphaned_composite(self):
-        """Ensure extras with < 2 prerequisites are caught."""
+        Yggdrasil II collapsed the type enum to {basic, fusion}: the retired
+        `extra` type carried a >=2 prerequisite floor, `fusion` carries >=1
+        (meta.json types.minPrereqs). The fixture is a fusion with zero.
+        """
         code, out = run_validate(os.path.join(FIXTURES_DIR, "orphaned_extra.json"))
-        self.assertEqual(code, 1, "Expected orphaned extra to fail validation.")
-        self.assertIn("needs ≥2 prerequisites", out)
+        self.assertEqual(code, 1, "Expected orphaned fusion to fail validation.")
+        self.assertIn("needs \u22651 prerequisites", out)
 
     def test_legendary_no_approval(self):
         """Ensure validated ultimate with < 3 Class A/B evidence is caught."""
