@@ -21,7 +21,16 @@
       "Bash(git commit -m 'refactor: reorganize help layout — move '\\\\''gaia'\\\\'' to end of Getting started, rename to Daily commands *)",
       "Bash(python3 -c \"import sys; sys.path.insert\\(0, '/Users/marcotiongson/Documents/gaia-skill-tree/src'\\); from gaia_cli.formatting import RANK_COLORS, _fg, _reset, _bold, C1=None; print\\(RANK_COLORS\\)\")",
       "Bash(python3 *)",
-      "Bash(python *)"
+      "Bash(python *)",
+      "Bash(git fetch *)",
+      "Bash(git ls-tree *)",
+      "Bash(awk '{s+=$4} END {print s/1048576\" MB total docs/\"}')",
+      "Bash(sort -k4 -n -r)",
+      "Bash(awk '{sum+=$4} END {print sum}')",
+      "Bash(awk '$1==\"100644\" && $NF ~ /\\\\.html$/ {sum+=$4} END {print sum}')",
+      "Bash(awk '$NF ~ /\\\\.json$/ {sum+=$4} END {print sum}')",
+      "Bash(mkdir -p /tmp/claude-0/-home-user-gaia-skill-tree/37347896-7854-5b82-8f1a-a52c5d267c28/scratchpad)",
+      "Bash(git grep *)"
     ]
   },
   "skillOverrides": {
