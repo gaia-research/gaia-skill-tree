@@ -1380,23 +1380,26 @@
       return '<div class="dag-node-label"' + navAttr + '>' + inner + '</div>';
     }
 
-    // Filter chip-set for the flowchart canvas. Three segments, one active at
-    // a time: Path (default = show everything), Fusion (focus the prerequisite
-    // origin subgraph), Suite (focus the suite-capstone subgraph). Fusion/Suite
-    // reuse the showFusionOnly spotlight; Path clears it. Suite only renders
-    // when the skill carries suiteComponents.
-    // Read-only: no branch/type derivation, no rank-word resolution here — the
-    // segment labels ARE the lens names (see taxonomy build-time authority).
-    // The data-tip copy is CONTEXT.md-faithful and surfaces as a hover tooltip
-    // (styled via .se-lens-chip[data-tip]::after) — static prose, not resolved.
+    // Filter chip-set for the flowchart canvas. Path is always present (the
+    // whole path). Fusion appears only when the skill actually fuses something
+    // — i.e. its node has ≥1 prerequisite (a layer below to spotlight); a
+    // basic-type skill with no prerequisites has nothing to fuse, so no Fusion
+    // lens. Suite appears only when the skill carries suiteComponents.
+    // Read-only: reads emitted prerequisites / suiteComponents; no branch/type
+    // derivation, no rank-word resolution — segment labels ARE the lens names.
+    // data-tip copy is CONTEXT.md-faithful (hover tooltip via CSS).
     function buildFlowActions() {
+      var _gen = genericId ? sm[genericId] : null;
+      var hasFusion = !!(_gen && Array.isArray(_gen.prerequisites) && _gen.prerequisites.length);
       return '<div class="se-flow-lens" role="tablist" aria-label="Progression view">' +
         '<button type="button" class="se-lens-chip active" data-lens="path" role="tab" aria-selected="true" data-tip="The skills leading to this one.">' +
           'Path' +
         '</button>' +
-        '<button type="button" class="se-lens-chip" data-lens="fusion" role="tab" aria-selected="false" data-tip="Two or more skills combined into a single, higher-complexity skill.">' +
-          _se_icon('sparkle') + 'Fusion' +
-        '</button>' +
+        (hasFusion
+          ? '<button type="button" class="se-lens-chip" data-lens="fusion" role="tab" aria-selected="false" data-tip="Two or more skills combined into a single, higher-complexity skill.">' +
+              _se_icon('sparkle') + 'Fusion' +
+            '</button>'
+          : '') +
         (suiteComponents.length
           ? '<button type="button" class="se-lens-chip" data-lens="suite" role="tab" aria-selected="false" data-tip="Sibling components installed together as one Suite.">' +
               _se_icon('sparkle') + 'Suite' +
@@ -1432,6 +1435,7 @@
         // spotlight so "Path" shows everything.
         document.querySelectorAll('.git-node.selected').forEach(function(n) { n.classList.remove('selected'); });
         document.querySelectorAll('.git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
+        document.querySelectorAll('.git-node.suite-lit').forEach(function(n) { n.classList.remove('suite-lit'); });
         document.querySelectorAll('.git-path').forEach(function(p) { p.classList.remove('active-path', 'dimmed'); });
         window._selectedFlowNode = null;
       }
@@ -1444,68 +1448,26 @@
           if (lens === 'path') {
             clearFocus();
           } else if (lens === 'suite') {
-            // Suite lens = the installed deliverable set. Light the component
-            // handlers + capstone, not the ancestor origin chain.
+            // Suite lens = highlight the installed deliverable set (canonical
+            // nodes the suiteComponents resolve to) as a filter over the path.
             if (window.showSuiteOnly && suiteFocusId) window.showSuiteOnly(suiteFocusId);
             else if (window.showFusionOnly) window.showFusionOnly(suiteFocusId || fusionFocusId);
           } else {
-            // Fusion lens = origins. Trace the prerequisite ancestry.
+            // Fusion lens = direct prerequisite children (one layer down).
             if (window.showFusionOnly) window.showFusionOnly(fusionFocusId);
           }
         });
       });
     }
 
-    function renderNamedFusionNode(skillId, syntheticId, isMain) {
-      var entry = namedEntryById(skillId);
-      if (!entry) return '';
-      var nodeType = entry.type || 'basic';
-      var nodeLevel = entry.level || '';
-      var isApex = nodeLevel && String(nodeLevel).indexOf('6') !== -1;
-      // PR3b: dot color from the entry's emitted branch, not raw type field.
-      var _fNodeRank = parseInt(String(nodeLevel).replace(/\D+/g, ''), 10) || 0;
-      var dotColor = 'var(--rank-' + _fNodeRank + ', var(--muted))';
-      var extraMainClass = isMain ? ' git-node--main' : '';
-      return '<div class="git-node' + extraMainClass + '"' +
-          ' data-id="' + esc(syntheticId) + '"' +
-          ' data-type="' + esc(nodeType) + '"' +
-          ' data-level="' + esc(nodeLevel) + '"' +
-          ' data-ghost="false">' +
-        '<div class="git-commit-dot" style="--dot-color: ' + dotColor + '"></div>' +
-        createNodeLabel(skillId, 'named', skillId, nodeLevel) +
-      '</div>';
-    }
-
-    // Short-circuit for Unique-tier current skills: render the current
-    // skill alone inside the void zone, with nothing else around it.
-    // PR3b: gate on the emitted branch (_fcBranch), not a dead type field.
-    if (_fcBranch === SE_UNIQUE) {
-      var _uApex = !!(ns && ns.level && String(ns.level).indexOf('6') !== -1);
-      var uColor = 'var(--rank-' + _fcRank + ', var(--muted))';
-      var labelId = (ns && ns.id) ? ns.id : genericId;
-      var uniqueNodeHtml = '<div class="git-node git-node--main" data-id="' + esc(genericId) +
-          '" data-branch="' + esc(_fcBranch) + '" data-level="' + esc((ns && ns.level) || '') + '" data-ghost="false">' +
-        '<div class="git-commit-dot" style="--dot-color:' + uColor + '"></div>' +
-        createNodeLabel(labelId, null, null, (ns && ns.level) || '') +
-      '</div>';
-
-      el.innerHTML = '<div class="se-flow-h">' +
-          '<span class="se-flow-h__lede">' + _se_icon('sparkle') +
-            '<span class="se-flow-eyebrow">Progression</span>' +
-            '<span class="se-flow-title">Path</span>' +
-          '</span>' + buildFlowActions() + '</div>' +
-        '<div class="se-flowchart-wrap" id="seFlowWrap">' +
-          '<div class="se-flowchart-rows unique-alone">' +
-            '<div class="se-flowchart-row void-zone" data-depth="0">' + uniqueNodeHtml + '</div>' +
-          '</div>' +
-          '<svg class="se-flowchart-svg" id="seFlowSvg"></svg>' +
-        '</div>';
-      wireFlowActions(genericId, null);
-      return;
-    }
-
     var relatedNodes = {};
-    
+
+    // The path is the skill's prerequisite ANCESTRY — the fusion chain leading
+    // UP to this skill. We do NOT walk derivatives: downstream skills are not
+    // "the path to this one". A basic-type skill (0 prerequisites) therefore
+    // renders as just its own apex node — there is nothing to fuse, so there is
+    // nothing to show but the skill itself. Fusion-type skills render their
+    // full prerequisite tree. (META.md: basic = 0 prereqs, fusion = ≥1.)
     function collectAncestors(id) {
       if (relatedNodes[id]) return;
       var s = sm[id];
@@ -1513,22 +1475,10 @@
       relatedNodes[id] = s;
       (s.prerequisites || []).forEach(collectAncestors);
     }
-    
-    function collectDescendants(id) {
-      if (relatedNodes[id]) return;
-      var s = sm[id];
-      if (!s) return;
-      relatedNodes[id] = s;
-      (s.prerequisites || []).forEach(function(pid) {
-        if (!relatedNodes[pid] && sm[pid]) collectAncestors(pid);
-      });
-      (s.derivatives || []).forEach(collectDescendants);
-    }
-    
+
     if (genericId) {
       relatedNodes[genericId] = sm[genericId] || {id: genericId, name: ns.name, type: ns.type, level: ns.level, prerequisites: generic ? generic.prerequisites : [], derivatives: generic ? generic.derivatives : []};
       (relatedNodes[genericId].prerequisites || []).forEach(collectAncestors);
-      (relatedNodes[genericId].derivatives || []).forEach(collectDescendants);
     }
 
     var depth = {};
@@ -1552,28 +1502,19 @@
     var ranks = [];
     for (var r = 0; r <= maxD; r++) ranks.push([]);
     var apexNodes = [];
-    var uniqueNodes = [];
     Object.keys(relatedNodes).forEach(function(id) {
       if (depth[id] >= 0) {
         var s = relatedNodes[id];
         if (s.level && String(s.level).indexOf('6') !== -1) {
           apexNodes.push(id);
         } else {
-          // PR3b: unique placement reads the emitted branch — prefer the named
-          // entry (buckets[id][0].branch) over the starless generic object.
-          var _sNamed = (buckets[id] && buckets[id].length) ? buckets[id][0] : null;
-          var _sBranch = _seBranchOf(_sNamed || s);
-          if (_sBranch === SE_UNIQUE) {
-            uniqueNodes.push(id);
-          } else {
-            ranks[depth[id]].push(id);
-          }
+          // Unique is a BRANCH, not a special layout — unique-branch nodes place
+          // by depth like any other skill (a basic unique with 0 prereqs is just
+          // its own apex at depth 0). No separate void/unique zone.
+          ranks[depth[id]].push(id);
         }
       }
     });
-    if (uniqueNodes.length) {
-      ranks.push(uniqueNodes);
-    }
     if (apexNodes.length) {
       ranks.push(apexNodes);
       maxD = ranks.length - 1;
@@ -1644,26 +1585,39 @@
       htmlRows += '<div class="se-flowchart-row" data-depth="' + ri + '">' + rowHtml + '</div>';
     }
 
+    // Suite membership as a FILTER over the canonical path — no synthetic
+    // nodes. Every suite component is already a node in this DAG (the path is
+    // built from the canonical starless-node prereq graph; a named skill sits
+    // in a bucket keyed to its node via genericSkillRef). So the Suite lens
+    // just needs the set of GENERIC node ids the components resolve to, then
+    // lights those already-rendered nodes. Recursive: a component that is
+    // itself a suite contributes its own components' generic ids. Read-only:
+    // reads suiteComponents + genericSkillRef; no new graph, no derivation.
+    var suiteNodeIds = {};   // generic node id -> true (canonical data-id to light)
     if (suiteComponents.length) {
-      var suiteMemberHtml = suiteComponents.map(function(skillId) {
-        return renderNamedFusionNode(skillId, 'suite-member:' + skillId, skillId === ns.id);
-      }).join('');
-      var suiteTargetId = suiteCapstoneId || ns.id;
-      var suiteCapstoneHtml = renderNamedFusionNode(
-        suiteTargetId,
-        'suite-capstone:' + suiteTargetId,
-        !suiteCapstoneId
-      );
-      if (suiteMemberHtml && suiteCapstoneHtml) {
-        var suiteBaseDepth = maxD + 1;
-        htmlRows += '<div class="se-flowchart-row" data-depth="' + suiteBaseDepth + '">' + suiteMemberHtml + '</div>';
-        htmlRows += '<div class="se-flowchart-row" data-depth="' + (suiteBaseDepth + 1) + '">' + suiteCapstoneHtml + '</div>';
-        suiteComponents.forEach(function(skillId) {
-          edges.push({ from: 'suite-member:' + skillId, to: 'suite-capstone:' + suiteTargetId });
+      var _suiteSeen = {};
+      (function collectSuiteNodes(compList) {
+        (compList || []).forEach(function(compNamedId) {
+          if (_suiteSeen[compNamedId]) return;
+          _suiteSeen[compNamedId] = true;
+          var entry = namedEntryById(compNamedId);
+          if (!entry) return;
+          var gid = entry.genericSkillRef;
+          // Only nodes actually RENDERED on this path can light — in
+          // relatedNodes AND placed at a real depth (depth >= 0). A suite may
+          // install skills that aren't prerequisites of the capstone; those
+          // aren't on this canvas, so we don't claim or count them.
+          if (gid && relatedNodes[gid] && depth[gid] >= 0) suiteNodeIds[gid] = true;
+          if (Array.isArray(entry.suiteComponents) && entry.suiteComponents.length) {
+            collectSuiteNodes(entry.suiteComponents);  // recurse into nested suites
+          }
         });
-        suiteFocusId = 'suite-capstone:' + suiteTargetId;
-      }
+      })(suiteComponents);
+      // The skill itself (apex) is part of its own suite deliverable.
+      if (genericId && relatedNodes[genericId] && depth[genericId] >= 0) suiteNodeIds[genericId] = true;
+      suiteFocusId = genericId;
     }
+    var suiteNodeCount = Object.keys(suiteNodeIds).length;
 
     // Lens-scoped count chips: each carries data-lens so CSS reveals it only
     // when its lens is active (fusion count under Fusion, suite count under
@@ -1676,8 +1630,9 @@
       fusionLabels.push('<div class="se-fusion-label" data-lens="fusion">' + _se_icon('sparkle') + ' Fusion of ' + _pc + ' origin skill' + (_pc === 1 ? '' : 's') + '</div>');
     }
     if (suiteComponents.length) {
-      var _sc = suiteComponents.length;
-      fusionLabels.push('<div class="se-fusion-label" data-lens="suite">' + _se_icon('sparkle') + ' Suite installs ' + _sc + ' component' + (_sc === 1 ? '' : 's') + ' together</div>');
+      // Count = the lit deliverable set on this path (matches suite-lit dots).
+      var _sc = suiteNodeCount;
+      fusionLabels.push('<div class="se-fusion-label" data-lens="suite">' + _se_icon('sparkle') + ' Suite: ' + _sc + ' skill' + (_sc === 1 ? '' : 's') + ' on this path</div>');
     }
     var fusionHtml = fusionLabels.join('');
 
@@ -1730,10 +1685,10 @@
       el._flowWired = true;
     }
 
-    setTimeout(function(){ drawFlowEdges(edges); }, 80);
+    setTimeout(function(){ drawFlowEdges(edges, suiteNodeIds); }, 80);
   }
 
-  function drawFlowEdges(edges) {
+  function drawFlowEdges(edges, suiteNodeIds) {
     var wrap = document.getElementById('seFlowWrap');
     var svg = document.getElementById('seFlowSvg');
     if (!wrap || !svg) return;
@@ -1854,21 +1809,23 @@
       });
     };
 
-    // Show Fusion / Show Suite: lock the focus node and reveal only its
-    // upstream chain (recursive ancestors). Descendants and sibling branches dim out.
+    // Fusion lens: spotlight the focus node and ONLY its direct prerequisite
+    // children one layer below — the immediate skills that fuse INTO this node
+    // (its makeup). Not the full recursive ancestry; "fusion" means the
+    // one-layer-down composition of THIS node. Deeper origins and sibling
+    // branches dim. Read-only: walks emitted prereq edges, no derivation.
+    // Cross-contributor origins that share a node ARE allowed here (unlike the
+    // owner-bounded Suite lens).
     window.showFusionOnly = function(nodeId) {
-      var ancestors = {};
-      function traceAncestors(id) {
-        if (ancestors[id]) return;
-        ancestors[id] = true;
-        (edges || []).forEach(function(e) {
-          if (e.to === id) traceAncestors(e.from);
-        });
-      }
-      traceAncestors(nodeId);
+      var lit = {};
+      lit[nodeId] = true;
+      (edges || []).forEach(function(e) {
+        if (e.to === nodeId) lit[e.from] = true;   // direct children (depth -1)
+      });
 
       document.querySelectorAll('.git-node.selected').forEach(function(n) { n.classList.remove('selected'); });
       document.querySelectorAll('.git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
+      document.querySelectorAll('.git-node.suite-lit').forEach(function(n) { n.classList.remove('suite-lit'); });
       document.querySelectorAll('.git-path').forEach(function(p) { p.classList.remove('active-path','dimmed'); });
 
       var focus = document.querySelector('.git-node[data-id="' + nodeId.replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
@@ -1876,41 +1833,40 @@
       window._selectedFlowNode = nodeId;
 
       (edges || []).forEach(function(e) {
-        var inAncestry = ancestors[e.from] && ancestors[e.to];
-        var pathId = 'path-' + e.from + '-' + e.to;
-        var p = document.getElementById(pathId);
+        var active = (e.to === nodeId && lit[e.from]);
+        var p = document.getElementById('path-' + e.from + '-' + e.to);
         if (!p) return;
-        if (inAncestry) p.classList.add('active-path');
+        if (active) p.classList.add('active-path');
         else p.classList.add('dimmed');
       });
 
-      Object.keys(ancestors).forEach(function(id) {
+      Object.keys(lit).forEach(function(id) {
         var n = document.querySelector('.git-node[data-id="' + id.replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
         if (n) n.classList.add('show-label');
       });
     };
 
-    // Suite lens: spotlight the installed DELIVERABLE set — the component
-    // handler skills plus the capstone they install as — rather than the
-    // origin ancestry Fusion traces. The suite membership is already emitted
-    // as edges (suite-member:X → suite-capstone:Y); this reads those edges,
-    // it does not derive membership from type/suiteComponents. Presentation
-    // only: the distinction is which nodes light, not any new resolution.
-    window.showSuiteOnly = function(capstoneId) {
-      var inSuite = {};
-      inSuite[capstoneId] = true;
-      (edges || []).forEach(function(e) {
-        if (e.to === capstoneId) inSuite[e.from] = true; // the component handlers
-      });
+    // Suite lens: highlight the installed DELIVERABLE set as a FILTER over the
+    // canonical path — no synthetic nodes. suiteNodeIds is the set of generic
+    // node ids the components (recursively) resolve to, computed at render time
+    // from suiteComponents + genericSkillRef. Those nodes are ALREADY on the
+    // canvas (the path is the canonical prereq graph). We light their dots
+    // (gold ring) and dim the rest. Owner-bounded by construction (suite
+    // recursion never crosses a contributor namespace). Labels reveal on hover
+    // — the set can be large. Read-only: the set was built from emitted fields.
+    window.showSuiteOnly = function(focusId) {
+      var inSuite = suiteNodeIds || {};
 
       document.querySelectorAll('.git-node.selected').forEach(function(n) { n.classList.remove('selected'); });
       document.querySelectorAll('.git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
+      document.querySelectorAll('.git-node.suite-lit').forEach(function(n) { n.classList.remove('suite-lit'); });
       document.querySelectorAll('.git-path').forEach(function(p) { p.classList.remove('active-path','dimmed'); });
 
-      var focus = document.querySelector('.git-node[data-id="' + capstoneId.replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
+      var focus = document.querySelector('.git-node[data-id="' + String(focusId).replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
       if (focus) focus.classList.add('selected');
-      window._selectedFlowNode = capstoneId;
+      window._selectedFlowNode = focusId;
 
+      // Active edges = both endpoints in the suite set; everything else dims.
       (edges || []).forEach(function(e) {
         var inSet = inSuite[e.from] && inSuite[e.to];
         var p = document.getElementById('path-' + e.from + '-' + e.to);
@@ -1919,10 +1875,12 @@
         else p.classList.add('dimmed');
       });
 
+      // Light the deliverable dots; labels stay hover-reveal (set can be wide).
       Object.keys(inSuite).forEach(function(id) {
         var n = document.querySelector('.git-node[data-id="' + id.replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
-        if (n) n.classList.add('show-label');
+        if (n) n.classList.add('suite-lit');
       });
+      if (focus) focus.classList.add('show-label');
     };
 
     // Layout thrashing optimization: Pre-calculate all node rects in a single pass

@@ -6309,15 +6309,21 @@ tr:hover td {
 }
 .se-fusion-label svg { width: 13px; height: 13px; opacity: .85; }
 
-/* Node framing per lens — origins (Fusion, violet) vs installed handlers
+/* Node framing per lens — origins (Fusion, violet) vs installed deliverables
    (Suite, gold). The ring is a UI affordance keyed off the container lens
-   state, not a resolved branch color. Only the spotlit (show-label) nodes
-   in the active set carry it. */
+   state, not a resolved branch color. Fusion rings the spotlit direct children
+   (.show-label); Suite rings the full lit deliverable set (.suite-lit). */
 #se-upgrade.lens-fusion .git-node.show-label .git-commit-dot {
   box-shadow: 0 0 0 3px rgba(var(--tier-unique-rgb, 124, 58, 237), .35);
 }
+#se-upgrade.lens-suite .git-node.suite-lit .git-commit-dot,
 #se-upgrade.lens-suite .git-node.show-label .git-commit-dot {
   box-shadow: 0 0 0 3px rgba(var(--apex-gold-rgb, 251, 191, 36), .35);
+}
+/* Under the Suite lens, dim canonical nodes that are NOT in the deliverable
+   set so the installed suite reads as a distinct region of the path. */
+#se-upgrade.lens-suite .git-node:not(.suite-lit):not(.selected) {
+  opacity: .3;
 }
 
 /* Progression lens filter — a segmented pill control sitting on the right of
@@ -6441,21 +6447,6 @@ tr:hover td {
 
 #se-upgrade .dag-node-label:hover {
   border-color: var(--text);
-}
-
-/* Lone unique zone — current skill stands alone inside the void. */
-.se-flowchart-rows.unique-alone {
-  min-height: 200px;
-  align-items: center;
-  justify-content: center;
-}
-
-.se-flowchart-rows.unique-alone .se-flowchart-row.void-zone {
-  min-width: 280px;
-  min-height: 160px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 /* Subtle marker for the current/main node so the user knows which
@@ -11632,35 +11623,6 @@ button.nav-graph-trigger:hover {
   visibility: visible;
   pointer-events: auto;
   transform: translateX(calc(-50% + var(--hover-shift, 0px)));
-}
-
-/* Void zone for uniques: in-flow zone with violet atmospheric border.
-   Sits ABOVE the SVG vein layer (including active-path glows) so the
-   zone reads as a self-contained "well" that lines flow into. */
-.void-zone {
-  background: linear-gradient(135deg, rgba(124, 58, 237, .16) 0%, rgba(76, 29, 149, .10) 100%);
-  border: 1px dashed rgba(124, 58, 237, .4);
-  border-radius: 20px;
-  padding: 28px 36px;
-  position: relative;
-  z-index: 5;
-  backdrop-filter: blur(2px);
-  box-shadow: inset 0 0 40px rgba(124, 58, 237, .1);
-}
-
-.void-zone::before {
-  content: 'VOID';
-  position: absolute;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  color: var(--tier-unique);
-  letter-spacing: 0.35em;
-  opacity: 0.6;
-  pointer-events: none;
-  z-index: 6;
 }
 
 /* Prerequisites (bottom row in skill explorer) stay in one layer if possible, or scroll horizontally */
