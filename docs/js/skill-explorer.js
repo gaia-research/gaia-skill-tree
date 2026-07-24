@@ -1468,8 +1468,11 @@
         createNodeLabel(labelId, null, null, (ns && ns.level) || '') +
       '</div>';
 
-      el.innerHTML = '<div class="se-flow-h">' + _se_icon('sparkle') +
-          ' Upgrade Path &amp; Adjacent Skills' + buildFlowActions() + '</div>' +
+      el.innerHTML = '<div class="se-flow-h">' +
+          '<span class="se-flow-h__lede">' + _se_icon('sparkle') +
+            '<span class="se-flow-eyebrow">Progression</span>' +
+            '<span class="se-flow-title">Path</span>' +
+          '</span>' + buildFlowActions() + '</div>' +
         '<div class="se-flowchart-wrap" id="seFlowWrap">' +
           '<div class="se-flowchart-rows unique-alone">' +
             '<div class="se-flowchart-row void-zone" data-depth="0">' + uniqueNodeHtml + '</div>' +
@@ -1651,8 +1654,11 @@
     }
     var fusionHtml = fusionLabels.join('');
 
-    el.innerHTML = '<div class="se-flow-h">' + _se_icon('sparkle') +
-        ' Upgrade Path &amp; Adjacent Skills' + buildFlowActions() + '</div>' +
+    el.innerHTML = '<div class="se-flow-h">' +
+        '<span class="se-flow-h__lede">' + _se_icon('sparkle') +
+          '<span class="se-flow-eyebrow">Progression</span>' +
+          '<span class="se-flow-title">Path</span>' +
+        '</span>' + buildFlowActions() + '</div>' +
       '<div class="se-flowchart-wrap" id="seFlowWrap">' +
         '<div class="se-flowchart-rows">' + htmlRows + '</div>' +
         '<svg class="se-flowchart-svg" id="seFlowSvg"></svg>' +

@@ -7388,15 +7388,68 @@ footer.footer-v2::before {
 }
 
 .se-flow-h {
-  font-size: .72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .12em;
-  color: var(--muted);
+  width: 100%;
   margin-bottom: 1.4rem;
   display: flex;
-  align-items: center;
-  gap: .5rem;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .75rem 1rem;
+}
+
+/* Left lockup: sparkle icon + stacked eyebrow/title. The icon floats at the
+   top-left so the eyebrow (kicker) and display title stack cleanly beside it. */
+.se-flow-h__lede {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .15rem;
+  padding-left: 1.6rem;
+}
+
+.se-flow-h__lede svg {
+  position: absolute;
+  left: 0;
+  top: .35rem;
+}
+
+/* Small uppercase eyebrow — the old .se-flow-h treatment, demoted to a kicker
+   above the display title so "Path" can carry the visual weight. */
+.se-flow-eyebrow {
+  font-size: .62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  color: var(--muted);
+}
+
+/* The display title. Serif, generous size — anchors the DAG column. */
+.se-flow-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -.01em;
+  color: var(--text);
+}
+
+/* Hairline rule trailing off the title, claiming the DAG column as its own
+   region. Sits between the title lockup and the action buttons. */
+.se-flow-h::after {
+  content: "";
+  order: 1;
+  flex: 1 1 auto;
+  min-width: 40px;
+  height: 1px;
+  align-self: flex-end;
+  margin: 0 .25rem 1rem;
+  background: linear-gradient(90deg, var(--border), transparent);
+}
+
+.se-flow-h > *:not(.se-flow-h__lede) {
+  order: 2;
 }
 
 .se-flow-h svg {
