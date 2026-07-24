@@ -10976,8 +10976,8 @@ button.nav-graph-trigger:hover {
   box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
 }
 
-/* Branch-aware dot colors — keyed on data-branch of the parent rank row.
-   suite = fusion gold, unique = unique violet, standard/unset = rank token.
+/* Branch-aware dot colors — keyed on data-branch + data-rank of the rank row.
+   unique = unique violet; suite 5★+ = fusion gold; suite 4★ = rank-4 fuchsia.
    The old data-type rules used undefined --tier-extra/--tier-ultimate tokens;
    replaced with branch tokens which are the correct axis post-Yggdrasil II. */
 .ns-dag-rank[data-branch="unique"] .git-commit-dot {
@@ -10988,14 +10988,19 @@ button.nav-graph-trigger:hover {
   background: var(--tier-unique);
   border-color: var(--tier-unique);
 }
-.ns-dag-rank[data-branch="suite"] .git-commit-dot {
+/* 5★ and 6★ suite: fusion gold */
+.ns-dag-rank[data-branch="suite"][data-rank="5"] .git-commit-dot,
+.ns-dag-rank[data-branch="suite"][data-rank="6"] .git-commit-dot {
   border-color: var(--tier-fusion);
 }
-.ns-dag-rank[data-branch="suite"] .git-node.selected .git-commit-dot,
-.ns-dag-rank[data-branch="suite"] .git-node:hover .git-commit-dot {
+.ns-dag-rank[data-branch="suite"][data-rank="5"] .git-node.selected .git-commit-dot,
+.ns-dag-rank[data-branch="suite"][data-rank="5"] .git-node:hover .git-commit-dot,
+.ns-dag-rank[data-branch="suite"][data-rank="6"] .git-node.selected .git-commit-dot,
+.ns-dag-rank[data-branch="suite"][data-rank="6"] .git-node:hover .git-commit-dot {
   background: var(--tier-fusion);
   border-color: var(--tier-fusion);
 }
+/* 4★ suite (Extra): rank-4 fuchsia — let the inline --dot-color: var(--rank-4) win */
 
 
 .git-node-label {
@@ -11215,11 +11220,33 @@ button.nav-graph-trigger:hover {
    rank-row rule below). A hovered node lifted to z-index: 30 is still trapped
    *inside* its own row's context, so its downward popover was painted over by
    the NEXT row's nodes. Lift the row that actually contains the hovered node
-   above its sibling rows. */
+   above its sibling rows. Selected rows lift even higher so a locked plaque
+   is never trampled by a hovered node in another row. */
 .ns-dag-rank:has(.git-node:hover),
 .se-flowchart-row:has(.git-node:hover),
 .git-rank-row:has(.git-node:hover) {
   z-index: 30;
+}
+.ns-dag-rank:has(.git-node.selected),
+.se-flowchart-row:has(.git-node.selected),
+.git-rank-row:has(.git-node.selected) {
+  z-index: 50;
+}
+/* Zone wrapper: selected zone must also clear sibling zones */
+.ns-dag-zone:has(.git-node.selected) {
+  z-index: 50;
+}
+/* Plaque card order: plaque slug > node dot > edges > overlay.
+   Give visible plaque cards a z above the dot (z-index:3) and the node (z-index:30). */
+.git-node:hover .ns-dag-card,
+.git-node:hover .flow-node,
+.git-node:hover .git-card,
+.git-node:hover .se-stack-deck,
+.git-node.selected .ns-dag-card,
+.git-node.selected .flow-node,
+.git-node.selected .git-card,
+.git-node.selected .se-stack-deck {
+  z-index: 60;
 }
 
 /* Root cause 1 — the popover card is positioned with transform:
