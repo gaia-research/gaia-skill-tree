@@ -206,9 +206,9 @@
   el.innerHTML =
     // Logo + (optional) breadcrumb sit together as the left cluster.
     '<div class="nav-left">' +
-      '<a href="' + root + 'index.html" class="nav-logo" aria-label="Gaia home">' +
+      '<a href="' + root + 'index.html" class="nav-logo" aria-label="Gaia Skill Tree home">' +
         SEAL_SVG +
-        '<span class="nav-wordmark">Gaia</span>' +
+        '<span class="nav-wordmark">Gaia Skill Tree</span>' +
       '</a>' +
       renderBreadcrumb() +
     '</div>' +
