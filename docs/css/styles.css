@@ -11116,15 +11116,12 @@ button.nav-graph-trigger:hover {
   margin-bottom: 0;
 }
 
-/* ── Zone wrapper — groups label + rank row, carries the color overlay ── */
+/* ── Zone wrapper — groups label + rank row ── */
 .ns-dag-zone {
   position: relative;
   width: 100%;
-  border-radius: 10px;
-  margin-bottom: 32px;
-  padding: 28px 16px 16px;
-  border-left: 2px solid color-mix(in srgb, var(--zone-color) 30%, transparent);
-  background: color-mix(in srgb, var(--zone-color) 5%, transparent);
+  margin-bottom: 0;
+  padding: 28px 16px 0;
 }
 .ns-dag-zone[data-branch="suite"]  { --zone-color: var(--tier-fusion); }
 .ns-dag-zone[data-branch="unique"] { --zone-color: var(--tier-unique); }

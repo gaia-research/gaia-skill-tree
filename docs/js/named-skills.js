@@ -282,26 +282,66 @@
     var html = '<div class="ns-dag-container git-style" id="nsDag">';
     html += '<svg class="ns-dag-svg" id="nsDagSvg"></svg>';
 
-    // DOM is built visual-bottom first; the container's column-reverse flips it,
-    // so rankTiers (already sorted by direction) lands 6★ on top for level-desc.
-    // At 4★+ each rank splits into a SUITE band and a STANDALONE (unique) band;
-    // the suite band is appended first so the unique band renders above it after
-    // column-reverse — matching the tile/list unique-first ordering.
-    for (var ri = ranks.length - 1; ri >= 0; ri--) {
-      var rank = ranks[ri];
-      if (!rank.length) continue;
-      rank.sort(sortDagRank);
-      var rankNum = rankTiers[ri];
-      if (rankNum < 4) {
-        html += emitDagLayer(rankNum, ri, 'ns-rank-' + rankNum, null, rank);
-        continue;
-      }
-      var uniqueIds = [], suiteIds = [];
-      rank.forEach(function(id) {
-        (fBranch(namedIds[id]) === 'unique' ? uniqueIds : suiteIds).push(id);
+    if (sortMode === 'name' || sortMode === 'creator') {
+      // A-Z mode: bucket all DAG nodes by first letter of name or contributor,
+      // emit one zone per letter (no branch split — alpha grouping overrides rank).
+      var keyOf = sortMode === 'creator'
+        ? function(id) {
+            var ns = namedIds[id];
+            var contrib = ns ? (ns.contributor || String(ns.id || id).split('/')[0]) : String(id).split('/')[0];
+            var c = String(contrib).trim().charAt(0).toUpperCase();
+            return /[A-Z]/.test(c) ? c : '#';
+          }
+        : function(id) {
+            var ns = namedIds[id];
+            var name = ns ? (ns.name || ns.id || id) : id;
+            var c = String(name).trim().charAt(0).toUpperCase();
+            return /[A-Z]/.test(c) ? c : '#';
+          };
+      var azBuckets = {};
+      Object.keys(dagNodes).forEach(function(id) {
+        var letter = keyOf(id);
+        if (!azBuckets[letter]) azBuckets[letter] = [];
+        azBuckets[letter].push(id);
       });
-      if (suiteIds.length) html += emitDagLayer(rankNum, ri, 'ns-rank-' + rankNum + '-suite', 'suite', suiteIds);
-      if (uniqueIds.length) html += emitDagLayer(rankNum, ri, 'ns-rank-' + rankNum + '-unique', 'unique', uniqueIds);
+      var letters = Object.keys(azBuckets).sort();
+      // column-reverse: emit Z→A so A renders at top
+      for (var li = letters.length - 1; li >= 0; li--) {
+        var letter = letters[li];
+        var ids = azBuckets[letter].sort(function(a, b) {
+          return keyOf(a).localeCompare(keyOf(b)) || (namedIds[a] && namedIds[b]
+            ? (namedIds[a].name || a).localeCompare(namedIds[b].name || b) : 0);
+        });
+        var zoneColor = 'var(--muted)';
+        var out = '<div class="ns-dag-zone" data-az="' + esc(letter) + '" style="--zone-color:' + zoneColor + '">';
+        out += '<div class="ns-dag-rank-label"><span class="ns-zone-word" style="color:var(--muted)">' + esc(letter) + '</span></div>';
+        out += '<div class="ns-dag-rank" data-rank="az" id="ns-rank-az-' + esc(letter) + '">';
+        ids.forEach(function(id) { out += renderDagNode(id); });
+        out += '</div></div>';
+        html += out;
+      }
+    } else {
+      // DOM is built visual-bottom first; the container's column-reverse flips it,
+      // so rankTiers (already sorted by direction) lands 6★ on top for level-desc.
+      // At 4★+ each rank splits into a SUITE band and a STANDALONE (unique) band;
+      // the suite band is appended first so the unique band renders above it after
+      // column-reverse — matching the tile/list unique-first ordering.
+      for (var ri = ranks.length - 1; ri >= 0; ri--) {
+        var rank = ranks[ri];
+        if (!rank.length) continue;
+        rank.sort(sortDagRank);
+        var rankNum = rankTiers[ri];
+        if (rankNum < 4) {
+          html += emitDagLayer(rankNum, ri, 'ns-rank-' + rankNum, null, rank);
+          continue;
+        }
+        var uniqueIds = [], suiteIds = [];
+        rank.forEach(function(id) {
+          (fBranch(namedIds[id]) === 'unique' ? uniqueIds : suiteIds).push(id);
+        });
+        if (suiteIds.length) html += emitDagLayer(rankNum, ri, 'ns-rank-' + rankNum + '-suite', 'suite', suiteIds);
+        if (uniqueIds.length) html += emitDagLayer(rankNum, ri, 'ns-rank-' + rankNum + '-unique', 'unique', uniqueIds);
+      }
     }
     html += '</div>';
 
