@@ -1557,10 +1557,20 @@
       
       var rowHtml = rank.map(function(id, idx) {
         var s = relatedNodes[id];
-        var staggerY = ri === 0 ? 0 : (hashString(id) % 80);
+        // Scatter: independent X/Y jitter per node so wrapped rows read as an
+        // organic cloud, not a grid. Two decorrelated hashes (id, and id+idx
+        // salted) keep X and Y from lining up into diagonals. The bottom row
+        // (leaf origins) scatters too — previously it was pinned flat (ri===0
+        // ? 0), which is what made the widest rank look orderly.
+        var hY = hashString(id);
+        var hX = hashString(id + '::' + idx + '::x');
+        var staggerY = (hY % 96) - 24;          // -24..+71px vertical drift
+        var staggerX = (hX % 44) - 22;          // -22..+22px horizontal jitter
 
         var isMainSkill = (id === genericId || id === ns.id);
         var extraMainClass = isMainSkill ? ' git-node--main' : '';
+        // The apex ("you are here") stays anchored — no scatter on the main node.
+        if (isMainSkill) { staggerY = 0; staggerX = 0; }
 
         // Resolve the node's data: prefer a named impl, fall back to generic/ghost.
         var namedBucket = buckets[id];
@@ -1588,7 +1598,7 @@
             ' data-type="' + esc(nodeType) + '"' +
             ' data-level="' + esc(nodeLevel) + '"' +
             ' data-ghost="' + (hasNamed ? 'false' : 'true') + '"' +
-            ' style="--staggerY:' + staggerY + 'px"' +
+            ' style="--staggerY:' + staggerY + 'px; --staggerX:' + staggerX + 'px"' +
             '>' +
           '<div class="git-commit-dot" style="--dot-color: ' + dotColor + '"></div>' +
           createNodeLabel(labelSource, hasNamed ? 'named' : 'ghost', hasNamed ? nb.id : id, nodeLevel) +
