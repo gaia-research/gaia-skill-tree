@@ -1875,10 +1875,11 @@
         else p.classList.add('dimmed');
       });
 
-      // Light the deliverable dots; labels stay hover-reveal (set can be wide).
+      // Light the deliverable dots AND reveal their labels — the suite shows
+      // exactly which skills install, named.
       Object.keys(inSuite).forEach(function(id) {
         var n = document.querySelector('.git-node[data-id="' + id.replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
-        if (n) n.classList.add('suite-lit');
+        if (n) { n.classList.add('suite-lit'); n.classList.add('show-label'); }
       });
       if (focus) focus.classList.add('show-label');
     };
