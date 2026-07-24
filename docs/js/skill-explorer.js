@@ -1906,22 +1906,20 @@
               ' ' + tx + ',' + (ty - ctrlDist) +
               ' ' + tx + ',' + ty;
 
-      // Detect tier from source node — drives CSS color via [data-tier].
-      // PR3b: prefer the node's emitted data-branch (unique); fall back to the
-      // legacy data-type only for the schema types the CSS still keys on.
-      var fromBranch = fromEl.getAttribute('data-branch') || '';
-      var fromType = fromEl.getAttribute('data-type') || 'basic';
+      // Edge color follows the RANK of the source (parent) node — a 5★ parent
+      // feeds gold veins, a 3★ parent violet, etc. Ranks only, mirroring the
+      // Progression Timeline. Read the parent's emitted data-level (e.g. "3★"
+      // or "3"); the CSS keys .git-path on [data-rank]. 6★ still reads gold via
+      // --rank-6.
       var fromLevel = fromEl.getAttribute('data-level') || '';
-      var tier = fromLevel.indexOf('6') !== -1 ? 'apex'
-               : (fromBranch === SE_UNIQUE || fromBranch === SE_SUITE) ? fromBranch
-               : ['ultimate','unique','extra','basic'].indexOf(fromType) !== -1 ? fromType
-               : 'basic';
+      var lvlMatch = String(fromLevel).match(/\d/);
+      var fromRank = lvlMatch ? Math.min(6, parseInt(lvlMatch[0], 10)) : 0;
 
       var path = document.createElementNS('http://www.w3.org/2000/svg','path');
       path.setAttribute('id', 'path-' + e.from + '-' + e.to);
       path.setAttribute('d', d);
       path.setAttribute('class', 'git-path');
-      path.setAttribute('data-tier', tier);
+      path.setAttribute('data-rank', String(fromRank));
       fragment.appendChild(path);
     });
 
