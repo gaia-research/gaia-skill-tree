@@ -105,6 +105,7 @@ from gaia_cli.formatting import (
     _use_color,
 )
 from gaia_cli.localContext import LocalContext
+from gaia_cli.taxonomy import isFusion
 from gaia_cli.redaction import level_num
 from gaia_cli.cardRenderer import render_fusion_diagram
 from gaia_cli.interactive import (
@@ -1435,7 +1436,15 @@ def propose_command(args):
     proposed_skill["description"] = skill.get(
         "description", proposed_skill["description"]
     )
-    proposed_skill["type"] = skill.get("type", "basic")
+    # Normalize the canonical node's type through the Yggdrasil II taxonomy
+    # authority rather than copying the literal. `skill` is read from the
+    # canonical graph, which may be a STALE BUNDLED WHEEL SNAPSHOT (refreshed
+    # only on vX.Y.0 releases) still carrying a retired Ygg I type
+    # (extra/unique/ultimate). Copying that literal verbatim would emit a batch
+    # that skillBatch.schema.json now rejects. isFusion() is the ratified
+    # type-blind predicate (0 prerequisites = basic, >=1 = fusion), so legacy
+    # snapshots map onto the {basic, fusion} enum automatically.
+    proposed_skill["type"] = "fusion" if isFusion(skill) else "basic"
     batch = {
         "batchId": f"proposal-{skill_id}-{date.today().isoformat()}",
         "userId": config.get("gaiaUser", "unknown"),

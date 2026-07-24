@@ -32,7 +32,7 @@
         "properties": {
           "id": { "type": "string", "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$" },
           "name": { "type": "string", "minLength": 1 },
-          "type": { "type": "string", "enum": ["basic", "extra", "unique", "ultimate"] },
+          "type": { "type": "string", "enum": ["basic", "fusion"], "description": "Yggdrasil II skill taxonomy: basic (0 prerequisites) or fusion (≥1 prerequisite). Must stay identical to skill.schema.json properties.type — the intake layer may not admit a type the canonical schema rejects. The legacy values extra/unique/ultimate are retired as types; Extra/Ultimate/Apex survive only as RANK WORDS, and Suite/Unique are read-time-derived branches." },
           "description": { "type": "string", "minLength": 10 },
           "sourceRepo": { "type": "string", "minLength": 1 },
           "lifecycle": { "type": "string", "enum": ["pending", "awakened", "named"], "default": "pending" },
