@@ -84,7 +84,7 @@ git log origin/main..HEAD --oneline
 
 Before printing the final summary, run the `/ci-churn` script to measure how
 many commits and CI-compute seconds were burned on avoidable push rounds.
-See `.agents/skills/ci-churn/SKILL.md` for full documentation.
+See `.claude/skills/ci-churn/SKILL.md` for full documentation.
 
 ```bash
 python3 scripts/ci_churn.py "$pr" 2>/dev/null

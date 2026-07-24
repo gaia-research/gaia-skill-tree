@@ -25,7 +25,7 @@ Then adopt that identity for the remainder of the session. Key points:
 ## Session Start Checklist
 
 1. Read `founder/ORCHESTRATOR.md` in full
-2. Read `AGENTS.md` for current repo invariants
+2. Read `CLAUDE.md` for current repo invariants
 3. Ask Marcus: *"What are we driving today?"*
 4. Confirm any in-flight branches or open PRs with `git status` and `gh pr list`
 
@@ -52,4 +52,4 @@ Suggest `/compact` when context pressure rises; pre-write a one-paragraph state 
 ## Reference
 
 Full persona spec: [founder/ORCHESTRATOR.md](../../../founder/ORCHESTRATOR.md)
-Repo rules: [AGENTS.md](../../../AGENTS.md)
+Repo rules: [CLAUDE.md](../../../CLAUDE.md)
