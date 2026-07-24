@@ -1403,6 +1403,19 @@
       '</div>';
     }
 
+    // One-line explainer beneath the header, swapped when the lens changes.
+    // Copy is CONTEXT.md-faithful (Fusion = combine into higher-complexity;
+    // Suite = sibling components installed together). Static prose — not a
+    // resolved rank-word, so no taxonomy derivation here.
+    var LENS_COPY = {
+      path:   'The skills leading to this one.',
+      fusion: 'Two or more skills combined into a single, higher-complexity skill.',
+      suite:  'Sibling components installed together as one Suite.'
+    };
+    function buildLensExplainer() {
+      return '<p class="se-lens-explainer" data-lens="path">' + LENS_COPY.path + '</p>';
+    }
+
     // Wire the lens chips. Called after innerHTML set. Path = reset focus;
     // Fusion/Suite = spotlight the respective subgraph via showFusionOnly.
     function wireFlowActions(fusionFocusId, suiteFocusId) {
@@ -1414,6 +1427,11 @@
           c.classList.toggle('active', on);
           c.setAttribute('aria-selected', on ? 'true' : 'false');
         });
+        var exp = document.querySelector('.se-lens-explainer');
+        if (exp && LENS_COPY[lens]) {
+          exp.textContent = LENS_COPY[lens];
+          exp.setAttribute('data-lens', lens);
+        }
       }
       function clearFocus() {
         // Restore the full canvas: drop selection/dim/active-path from a prior
@@ -1477,6 +1495,7 @@
             '<span class="se-flow-eyebrow">Progression</span>' +
             '<span class="se-flow-title">Path</span>' +
           '</span>' + buildFlowActions() + '</div>' +
+        buildLensExplainer() +
         '<div class="se-flowchart-wrap" id="seFlowWrap">' +
           '<div class="se-flowchart-rows unique-alone">' +
             '<div class="se-flowchart-row void-zone" data-depth="0">' + uniqueNodeHtml + '</div>' +
@@ -1663,6 +1682,7 @@
           '<span class="se-flow-eyebrow">Progression</span>' +
           '<span class="se-flow-title">Path</span>' +
         '</span>' + buildFlowActions() + '</div>' +
+      buildLensExplainer() +
       '<div class="se-flowchart-wrap" id="seFlowWrap">' +
         '<div class="se-flowchart-rows">' + htmlRows + '</div>' +
         '<svg class="se-flowchart-svg" id="seFlowSvg"></svg>' +
