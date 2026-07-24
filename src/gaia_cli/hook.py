@@ -9,10 +9,47 @@ import os
 
 from gaia_cli.scanner import load_config, scan_repo_detailed
 from gaia_cli.resolver import resolve_skills
-from gaia_cli.registry import registry_graph_path, resolve_registry_path
+from gaia_cli.registry import (
+    registry_graph_path,
+    resolve_registry_path,
+    named_skills_index_path,
+)
 from gaia_cli.treeManager import load_tree
 from gaia_cli.pathEngine import compute_paths, load_paths, save_paths, diff_paths
-from gaia_cli.cardRenderer import render_unlock_card, render_path_summary, render_promotion_prompt
+from gaia_cli.cardRenderer import (
+    render_unlock_card,
+    render_path_summary,
+    render_fusion_awaken_card,
+)
+
+
+def _named_generic_refs(registry_path: str) -> set:
+    """Return the set of generic skill IDs that already have a named
+    implementation (via named-skills.json ``genericSkillRef``).
+
+    Used to decide whether a fusion's generic parent is still EMPTY — the
+    awaken hint (`gaia fuse` + `gaia push`) only shows when it is, so the user
+    can be first to propose an implementation to canon. If the index is
+    unavailable, returns an empty set (treat every parent as empty).
+    """
+    refs: set = set()
+    index_path = named_skills_index_path(registry_path)
+    if not os.path.isfile(index_path):
+        return refs
+    try:
+        with open(index_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+    except (OSError, json.JSONDecodeError):
+        return refs
+    entries = []
+    for skills in data.get("buckets", {}).values():
+        entries.extend(skills)
+    entries.extend(data.get("awaitingClassification", []))
+    for entry in entries:
+        ref = entry.get("genericSkillRef")
+        if ref:
+            refs.add(ref)
+    return refs
 
 
 def should_trigger(changed_files: list[str] | None, config: dict) -> bool:
@@ -38,9 +75,8 @@ def hook_entry(event: str = "file_edit", registry_path: str | None = None) -> No
     2. Loads previous paths
     3. Runs scan + resolve + compute
     4. Diffs old vs new paths
-    5. If new nearUnlocks: prints unlock card(s)
-    6. If promotions available: prints promotion prompt
-    7. Saves updated paths
+    5. If new nearUnlocks: prints unlock card(s) + fusion/awaken card(s)
+    6. Saves updated paths
     """
     config = load_config()
     if not config:
@@ -108,15 +144,21 @@ def hook_entry(event: str = "file_edit", registry_path: str | None = None) -> No
         print(render_path_summary(new_paths))
         print()
 
-    # Show promotion prompts
-    if changes.get("promotions_available"):
-        from gaia_cli.promotion import check_promotion_eligibility
-        if tree_data:
-            eligible = check_promotion_eligibility(graph_data, tree_data)
-            for promo in eligible[:2]:
-                skill = skill_map.get(promo["skillId"])
-                if skill:
-                    print(render_promotion_prompt(skill, promo.get("nextLevel", "2★")))
+    # Show fusion/awaken cards for newly-completed fusions. Computed fresh from
+    # nearUnlocks (owned prereqs) — no promote-candidate handshake. The awaken
+    # hint appears only when the fusion's generic parent has no named
+    # implementation yet (the user can be first to propose one to canon).
+    if changes.get("new_near_unlocks"):
+        named_refs = _named_generic_refs(registry)
+        for skill_id in changes["new_near_unlocks"][:2]:
+            skill = skill_map.get(skill_id)
+            if skill:
+                print(
+                    render_fusion_awaken_card(
+                        skill,
+                        parent_has_named=skill_id in named_refs,
+                    )
+                )
 
     # Persist
     save_paths(new_paths)

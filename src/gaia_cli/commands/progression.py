@@ -18,33 +18,13 @@ class AppraiseCommand(Command):
         appraise_command(args)
         return 0
 
-class PromoteCommand(Command):
-    name = "promote"
-    help = "Promote a skill eligible for level-up"
-
-    def configure(self, parser: argparse.ArgumentParser) -> None:
-        parser.add_argument(
-            "skillId", nargs="?", default=None, help="Skill ID to promote"
-        )
-        parser.add_argument(
-            "--all", action="store_true", help="Promote every candidate from the last scan"
-        )
-        parser.add_argument(
-            "--name", help="Optional display name for the promoted skill"
-        )
-
-    def execute(self, args: argparse.Namespace) -> int | None:
-        from gaia_cli.main import promote_command
-        promote_command(args)
-        return 0
-
 class FuseCommand(Command):
     name = "fuse"
     help = "Confirm a skill combination or create a custom fusion path"
 
     def configure(self, parser: argparse.ArgumentParser) -> None:
         parser.add_argument(
-            "skillId", nargs="?", default=None, help="Skill ID to fuse or promote"
+            "skillId", nargs="?", default=None, help="Skill ID to fuse"
         )
         parser.add_argument("--name", help="Optional display name for the skill")
         parser.add_argument(
@@ -63,4 +43,4 @@ class FuseCommand(Command):
             pass
         return 0
 
-COMMANDS = [AppraiseCommand(), PromoteCommand(), FuseCommand()]
+COMMANDS = [AppraiseCommand(), FuseCommand()]

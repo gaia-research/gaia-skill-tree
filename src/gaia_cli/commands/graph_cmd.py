@@ -8,7 +8,7 @@ class GraphCommand(Command):
     def configure(self, parser: argparse.ArgumentParser) -> None:
         parser.add_argument(
             "--format",
-            choices=("html", "svg", "json"),
+            choices=("html", "json"),
             default="html",
             help="Graph artifact format (default: html)",
         )

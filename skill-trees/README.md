@@ -45,11 +45,13 @@ written to `generated-output/tree.md` and `generated-output/tree.html`.
 ## How Skill Trees Grow
 
 1. Run `gaia init --user <you>` in a project.
-2. Run `gaia scan` to detect skills and render your local tree.
-3. Review `generated-output/promotion-candidates.json` for recommended level-ups.
-4. Run `gaia promote <skill>` or `gaia promote --all` to apply only scan-approved
-   promotions. Gaia uses the level suggested by the scan.
-5. Run `gaia push` when you want to submit new skill intake for review.
+2. Run `gaia scan` to detect skills and render your local tree. Scan surfaces
+   the fusions you already have the prerequisites for.
+3. Run `gaia fuse <skill>` to confirm a detected combination or declare a
+   custom fusion locally.
+4. Run `gaia push` to propose new skill intake — including your fusions — for
+   review. Rank/level is assigned only by canon curation; the local CLI never
+   self-assigns a level.
 
 The skill tree is the heart of Gaia: it is the map of what an agent can actually
 do, how those skills combine, and what evidence supports each level.
