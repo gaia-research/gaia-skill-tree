@@ -7703,7 +7703,7 @@ h4.se-install-sub-h { font-size: .85rem; }
   display: inline-block;
   background: rgba(192, 132, 252, .1);
   border: 1px solid rgba(192, 132, 252, .25);
-  color: var(--tier-extra);
+  color: var(--tier-unique);
   padding: .22rem .65rem;
   border-radius: 20px;
   font-size: .78rem;
@@ -8982,7 +8982,7 @@ code {
   }
 
   .rs-stat .rs-num[style] {
-    color: var(--tier-extra) !important
+    color: var(--tier-unique) !important
   }
 
 }
