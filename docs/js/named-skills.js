@@ -244,10 +244,37 @@
       var word = (window.GaiaSemantics && typeof window.GaiaSemantics.rankWord === 'function')
         ? window.GaiaSemantics.rankWord(rankNum, branch || SUITE_LADDER) : (rankNum + '★');
       var kind = branch ? (branch === 'unique' ? 'Standalone' : 'Suite') : '';
-      var out = '<div class="ns-dag-rank-label" style="color:var(--rank-' + rankNum + ',var(--muted))">' +
-        esc(word) + ' · ' + rankNum + '★' + (kind ? '<span class="ns-group-kind">' + kind + '</span>' : '') + '</div>';
+
+      // Branch-aware zone color token
+      var zoneColor = branch === 'suite'
+        ? 'var(--tier-fusion)'
+        : branch === 'unique'
+          ? 'var(--tier-unique)'
+          : 'var(--rank-' + rankNum + ',var(--muted))';
+
+      // AOV4 badge medallion for this rank+branch
+      var base = (typeof window.gaiaIconBase === 'function')
+        ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '')
+        : '';
+      var AOV_SUITE = { 1:'c1-suite-awakened', 2:'c2-suite-named', 3:'c3-suite-evolved',
+                        4:'c4-suite-extra', 5:'c5-suite-ultimate', 6:'c6-suite-apex' };
+      var AOV_UNIQUE = { 4:'d4-unique', 5:'d5-unique-ultimate', 6:'d6-unique-impossible' };
+      var stemMap = (branch === 'unique') ? AOV_UNIQUE : AOV_SUITE;
+      var stem = stemMap[rankNum];
+      var medallionHtml = stem
+        ? '<img class="ns-zone-medallion" src="' + esc(base + 'assets/ascension-overdrive/aov4-' + stem + '-badge.webp') + '" alt="" aria-hidden="true" width="20" height="20">'
+        : '';
+
+      var out = '<div class="ns-dag-zone" data-branch="' + esc(branch || '') + '" data-rank="' + esc(String(rankNum)) + '" style="--zone-color:' + zoneColor + '">';
+      // Top-left label with medallion
+      out += '<div class="ns-dag-rank-label">' +
+        medallionHtml +
+        '<span class="ns-zone-word" style="color:' + zoneColor + '">' + esc(word) + ' · ' + rankNum + '★</span>' +
+        (kind ? '<span class="ns-group-kind">' + esc(kind) + '</span>' : '') +
+        '</div>';
       out += '<div class="ns-dag-rank" data-depth="' + depth + '" data-rank="' + esc(String(rankNum)) + '" id="' + esc(layerId) + '"' + (branch ? ' data-branch="' + esc(branch) + '"' : '') + '>';
       ids.forEach(function(id) { out += renderDagNode(id); });
+      out += '</div>';
       out += '</div>';
       return out;
     }

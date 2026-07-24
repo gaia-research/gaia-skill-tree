@@ -10976,38 +10976,27 @@ button.nav-graph-trigger:hover {
   box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
 }
 
-/* Tier-specific dot colors */
-.git-node[data-type="ultimate"] .git-node-dot {
-  border-color: var(--tier-ultimate);
-}
-
-.git-node[data-type="extra"] .git-node-dot {
-  border-color: var(--tier-extra);
-}
-
-.git-node[data-type="unique"] .git-node-dot {
+/* Branch-aware dot colors — keyed on data-branch of the parent rank row.
+   suite = fusion gold, unique = unique violet, standard/unset = rank token.
+   The old data-type rules used undefined --tier-extra/--tier-ultimate tokens;
+   replaced with branch tokens which are the correct axis post-Yggdrasil II. */
+.ns-dag-rank[data-branch="unique"] .git-commit-dot {
   border-color: var(--tier-unique);
 }
-
-.git-node[data-type="basic"] .git-node-dot {
-  border-color: var(--tier-basic);
-}
-
-.git-node[data-type="ultimate"].current .git-node-dot {
-  background: var(--tier-ultimate);
-}
-
-.git-node[data-type="extra"].current .git-node-dot {
-  background: var(--tier-extra);
-}
-
-.git-node[data-type="unique"].current .git-node-dot {
+.ns-dag-rank[data-branch="unique"] .git-node.selected .git-commit-dot,
+.ns-dag-rank[data-branch="unique"] .git-node:hover .git-commit-dot {
   background: var(--tier-unique);
+  border-color: var(--tier-unique);
+}
+.ns-dag-rank[data-branch="suite"] .git-commit-dot {
+  border-color: var(--tier-fusion);
+}
+.ns-dag-rank[data-branch="suite"] .git-node.selected .git-commit-dot,
+.ns-dag-rank[data-branch="suite"] .git-node:hover .git-commit-dot {
+  background: var(--tier-fusion);
+  border-color: var(--tier-fusion);
 }
 
-.git-node[data-type="basic"].current .git-node-dot {
-  background: var(--tier-basic);
-}
 
 .git-node-label {
   position: absolute;
@@ -11124,17 +11113,52 @@ button.nav-graph-trigger:hover {
 
 .ns-dag-container.git-style .ns-dag-rank {
   gap: 40px;
-  margin-bottom: 48px;
+  margin-bottom: 0;
 }
 
+/* ── Zone wrapper — groups label + rank row, carries the color overlay ── */
+.ns-dag-zone {
+  position: relative;
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 32px;
+  padding: 28px 16px 16px;
+  border-left: 2px solid color-mix(in srgb, var(--zone-color) 30%, transparent);
+  background: color-mix(in srgb, var(--zone-color) 5%, transparent);
+}
+.ns-dag-zone[data-branch="suite"]  { --zone-color: var(--tier-fusion); }
+.ns-dag-zone[data-branch="unique"] { --zone-color: var(--tier-unique); }
+.ns-dag-zone[data-rank="5"]:not([data-branch]) { --zone-color: var(--rank-5); }
+.ns-dag-zone[data-rank="4"]:not([data-branch]) { --zone-color: var(--rank-4); }
+.ns-dag-zone[data-rank="3"]:not([data-branch]) { --zone-color: var(--rank-3); }
+.ns-dag-zone[data-rank="2"]:not([data-branch]) { --zone-color: var(--rank-2); }
+.ns-dag-zone[data-rank="1"]:not([data-branch]) { --zone-color: var(--rank-1); }
+.ns-dag-zone[data-rank="0"]:not([data-branch]) { --zone-color: var(--rank-0); }
+
 .ns-dag-rank-label {
-  text-align: center;
-  font-size: 0.65rem;
+  position: absolute;
+  top: 6px;
+  left: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.6rem;
   font-family: var(--font-mono);
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  opacity: 0.7;
-  margin-bottom: 6px;
+  opacity: 0.85;
+  z-index: 2;
+  pointer-events: none;
+}
+.ns-zone-medallion {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+.ns-zone-word {
+  /* color set inline via --zone-color */
 }
 
 /* ── Git Branch Flowchart Aesthetic ── */
