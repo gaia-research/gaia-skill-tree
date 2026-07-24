@@ -6354,11 +6354,13 @@ tr:hover td {
 }
 
 /* Hover/focus tooltip carrying the lens explainer copy (data-tip). Positioned
-   below the chip, escaping the pill. Pure CSS — no JS, read-only prose. */
+   ABOVE the chip, escaping the pill. Border + accent tint match each lens's
+   active-state color (Fusion → unique violet, Suite → apex gold, Path →
+   neutral). Pure CSS — no JS, read-only prose. */
 .se-lens-chip[data-tip]::after {
   content: attr(data-tip);
   position: absolute;
-  top: calc(100% + 8px);
+  bottom: calc(100% + 8px);
   right: 0;
   z-index: 20;
   width: max-content;
@@ -6378,9 +6380,20 @@ tr:hover td {
   white-space: normal;
   box-shadow: 0 8px 24px -8px rgba(0, 0, 0, .6);
   opacity: 0;
-  transform: translateY(-3px);
+  transform: translateY(3px);
   pointer-events: none;
   transition: opacity .14s ease, transform .14s ease;
+}
+
+/* Per-lens accent — same tokens as the active chip state. */
+.se-lens-chip[data-lens="fusion"][data-tip]::after {
+  border-color: rgba(var(--tier-unique-rgb, 124, 58, 237), .45);
+  color: var(--tier-unique);
+}
+
+.se-lens-chip[data-lens="suite"][data-tip]::after {
+  border-color: rgba(var(--apex-gold-rgb, 251, 191, 36), .45);
+  color: var(--apex-gold);
 }
 
 .se-lens-chip[data-tip]:hover::after,
