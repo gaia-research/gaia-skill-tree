@@ -5856,6 +5856,10 @@ tr:hover td {
   color: var(--tier-basic);
 }
 
+.tier-glyph[data-type="fusion"] {
+  color: var(--tier-unique);
+}
+
 .tier-glyph[data-type="extra"] {
   color: var(--tier-extra);
 }
