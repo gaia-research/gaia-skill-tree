@@ -11305,6 +11305,10 @@ button.nav-graph-trigger:hover {
   width: 24px;
   height: 24px;
   margin-top: var(--staggerY, 0);
+  /* Horizontal jitter (independent of --staggerY) so wrapped rows scatter as a
+     cloud instead of aligning into columns. translateX keeps flex flow intact
+     and edges follow (drawFlowEdges reads the transformed dot rect). */
+  transform: translateX(var(--staggerX, 0));
 }
 
 .git-node .ns-dag-card,
@@ -11625,13 +11629,11 @@ button.nav-graph-trigger:hover {
   transform: translateX(calc(-50% + var(--hover-shift, 0px)));
 }
 
-/* Prerequisites (bottom row in skill explorer) stay in one layer if possible, or scroll horizontally */
-.se-flowchart-row[data-depth="0"] {
-  flex-wrap: nowrap !important;
-  width: max-content;
-  margin-left: auto;
-  margin-right: auto;
-}
+/* Prerequisites (bottom row / leaf origins) intentionally have NO special-case
+   layout: they fall through to the base .se-flowchart-row (flex-wrap:wrap,
+   justify-content:center, max-width:100%) so a wide fan-out wraps and stays
+   inside the canvas instead of running off the sides (and clipping on mobile).
+   Per-node --staggerY keeps the wrapped rows scattered, not a uniform grid. */
 
 @media (max-width: 700px) {
   .ns-dag-rank {
@@ -11652,6 +11654,9 @@ button.nav-graph-trigger:hover {
 
   .git-node {
     margin-top: calc(var(--staggerY, 0) * 0.3) !important;
+    /* Dampen horizontal jitter on narrow screens too, so scatter stays subtle
+       and the wrapped fan doesn't push nodes toward the edges. */
+    transform: translateX(calc(var(--staggerX, 0) * 0.4));
   }
 }
 
