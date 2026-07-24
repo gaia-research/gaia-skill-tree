@@ -1,5 +1,15 @@
 # Token Pollution Audit — `--tier-*` used as rank substitutes
 
+> **RESOLVED 2026-07-25.** All three buckets migrated on `design/ygg2-checklist-fixes-t6`
+> (commit `0f4d7e27f`, PR #1246). `--ev-type-*` token definitions added to the generator on
+> `infra/ev-type-tokens` (PR #1269). Decisions: Bucket A → `--rank-4`/`--rank-5`/`--rank-6`;
+> directory-tier[1-4] → `--rank-1..4`; Bucket B → dedicated `--ev-type-*` axis (per-type hues
+> from `/evidence/`); Bucket C → `--tier-extra`/`--extra` → `--rank-4`, `--tier-ultimate`/
+> `--ultimate` → `--rank-5` (fuse action → `--rank-4`). Also swept the 23 bare `--extra`/
+> `--ultimate` alias consumers. tokens.css NOT regenerated in-branch (stale local Class-P
+> gaia.json); staging regen materializes both the retired-type cleanup and `--ev-type-*`.
+
+
 **Ground truth:** META.md §1.1 (rank ladder) + `/badges/` (faithful rank colors).
 
 | Rank | Suite word | Unique word | Color token | Hex |
