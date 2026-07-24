@@ -524,7 +524,13 @@
       scale: options.scale || GRAPH_SCALE,
       zoom: 1,
       statusEl: options.statusEl || null,
-      running: options.autostart !== false,
+      // running  = the rAF loop is actively cycling right now
+      // wantRunning = the caller's intent (start/stop); gated by visibility
+      // inView   = canvas intersects the viewport (defaults true so an
+      //            unsupported IntersectionObserver never strands the loop)
+      running: false,
+      wantRunning: options.autostart !== false,
+      inView: true,
       frame: null,
       orbitX: 0,
       orbitY: 0,
@@ -2164,16 +2170,66 @@
       state.frame = requestAnimationFrame(draw);
     }
 
+    // ── VISIBILITY-GATED RENDER LOOP ────────────────────────────
+    // draw() recurses through requestAnimationFrame forever. Without a
+    // gate it burns GPU/CPU even when the canvas is scrolled out of view
+    // or the tab is backgrounded. wantRunning holds the caller's intent;
+    // inView and document.hidden decide whether that intent is honoured
+    // right now. Every transition cancels the pending frame so nothing
+    // stays queued across a pause.
+    function _docHidden() {
+      return typeof document !== 'undefined' && document.hidden === true;
+    }
+
+    function _shouldAnimate() {
+      return state.wantRunning && state.inView && !_docHidden();
+    }
+
+    function _syncRunning() {
+      const should = _shouldAnimate();
+      if (should === state.running) return;
+      if (should) {
+        state.running = true;
+        state.lastDrawAt = 0;   // drop stale frame timing across the pause
+        draw();
+      } else {
+        state.running = false;
+        if (state.frame) cancelAnimationFrame(state.frame);
+        state.frame = null;
+      }
+    }
+
     function start() {
-      if (state.running) return;
-      state.running = true;
-      draw();
+      state.wantRunning = true;
+      _syncRunning();
     }
 
     function stop() {
-      state.running = false;
-      if (state.frame) cancelAnimationFrame(state.frame);
-      state.frame = null;
+      state.wantRunning = false;
+      _syncRunning();
+    }
+
+    // Pause while the canvas is outside the viewport. rootMargin resumes
+    // the loop just before it scrolls back in, so there is no visible
+    // cold-start. Guarded: a missing/throwing IntersectionObserver leaves
+    // inView at its default true and the loop behaves exactly as before.
+    if (canvas && typeof IntersectionObserver === 'function') {
+      try {
+        const _visibilityObserver = new IntersectionObserver(function (entries) {
+          const entry = entries && entries[entries.length - 1];
+          if (!entry) return;
+          state.inView = !!entry.isIntersecting;
+          _syncRunning();
+        }, { rootMargin: '200px' });
+        _visibilityObserver.observe(canvas);
+      } catch (err) {
+        state.inView = true;
+      }
+    }
+
+    // Pause while the tab is backgrounded.
+    if (typeof document !== 'undefined' && document.addEventListener) {
+      document.addEventListener('visibilitychange', function () { _syncRunning(); });
     }
 
     resize();
@@ -3142,7 +3198,11 @@
         drawRuler(state.speedRulerCanvas, 0, { vertical: false, pxPerUnit: 42, minorStep: 0.1, majorEvery: 5 });
       }
     }
-    if (state.running) draw();
+    // Kick the loop off (honours options.autostart via state.wantRunning).
+    // _syncRunning is the single entry point — it will decline to start if
+    // the canvas is offscreen or the tab is hidden, and the observers above
+    // will start it as soon as that changes.
+    _syncRunning();
     function _refreshSearchDatalist() {
       if (!state.searchDatalist || !state.skills) return;
       const seen = new Set();
