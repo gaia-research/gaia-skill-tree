@@ -1076,7 +1076,7 @@
         <div class="cmd-card" id="scan">
           <div class="cmd-card-header">
             <span class="cmd-name">gaia scan</span>
-            <span class="cmd-signature">[--quiet] [--auto-promote] [--json]</span>
+            <span class="cmd-signature">[--quiet] [--auto-promote] [--json] [--dir DIR]...</span>
             <span class="gate-badge open">● open</span>
           </div>
           <div class="cmd-body">
@@ -1109,6 +1109,11 @@
                   <td>Write scan results to stdout as machine-readable JSON instead of rendering the tree.</td>
                   <td>false</td>
                 </tr>
+                <tr>
+                  <td>--dir DIR</td>
+                  <td>Scan an extra skill root beyond configured paths (repeatable). Accepts home-relative, absolute, or relative paths. Equivalent to adding to <code>.gaia/config.toml skillDirs=[...]</code>.</td>
+                  <td>—</td>
+                </tr>
               </tbody>
             </table>
             <div class="example-block">
@@ -1120,7 +1125,10 @@
 <span class="cmd">gaia scan</span> <span class="arg">--quiet --json</span> <span class="kw">| jq '.candidates'</span>
 
 <span class="c"># Promote everything the scanner detects, no prompts</span>
-<span class="cmd">gaia scan</span> <span class="arg">--auto-promote</span></pre>
+<span class="cmd">gaia scan</span> <span class="arg">--auto-promote</span>
+
+<span class="c"># Scan configured paths plus two extra directories</span>
+<span class="cmd">gaia scan</span> <span class="arg">--dir ~/my-skills --dir ./local-agents</span></pre>
             </div>
           </div>
         </div>
