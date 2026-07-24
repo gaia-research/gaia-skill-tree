@@ -22,10 +22,10 @@ Core Maintainers have final approval authority and manage:
 - Project vision and roadmap.
 - Repository settings and branch protection.
 - Dispute resolution.
-- Ultimate skill validation (requires two Core Maintainer approvals). See [META.md](META.md#42-ultimate--apex-pathways) for the technical promotion criteria.
+- 5★ Ultimate / 6★ Apex rank validation (requires two Core Maintainer approvals). See [META.md](META.md#42-suite-branch-56-pathways) for the technical promotion criteria.
 
 ### 1.4 Verifiers
-Verifiers are trusted members of the community who hold at least one **4★ (Hardened)** skill implementation. They have the authority to:
+Verifiers are trusted members of the community who hold at least one **4★ (Extra / Unique)** skill implementation. They have the authority to:
 - Review evidence for new skill submissions.
 - Mark evidence as `verified` or `disputed` via the `gaia dev verify` command.
 - Verification from a Verifier reduces the requirement for Maintainer review for 3★ promotions.
@@ -34,8 +34,8 @@ Verifiers are trusted members of the community who hold at least one **4★ (Har
 ## 2. Decision Making
 
 Decisions are made through Pull Requests. Most PRs require one Maintainer approval.
-- **Basic/Extra Skills**: 1 Maintainer approval.
-- **Ultimate Skills**: 2 Core Maintainer approvals. (named-fusion criteria apply — see §2.2)
+- **Basic / Fusion nodes**: 1 Maintainer approval.
+- **5★ Ultimate / 6★ Apex promotions**: 2 Core Maintainer approvals. (named-fusion criteria apply — see §2.2)
 - **Schema Changes**: 2 Core Maintainer approvals.
 - **Named Skills**: 1 Maintainer approval (standard intake process, then `gaia propose` promotion).
 
@@ -57,20 +57,20 @@ Decisions are made through Pull Requests. Most PRs require one Maintainer approv
 - If two contributors claim origin status for the same bucket, priority goes to the earlier `createdAt` date.
 - Disputes follow the same 14-day resolution process as generic skill disputes (see § 3).
 
-### Unclaimed Ultimate Claiming
-- Unclaimed Ultimate skills appear as `◆ /skill-id [Unclaimed ✦]` in the registry — no named implementation exists yet.
-- The first contributor to run `gaia propose` against an awakened intake record whose `genericSkillRef` points to an unclaimed Ultimate automatically becomes the origin contributor and the seed title stored in `gaia.json` becomes visible in projections.
+### Unclaimed Capstone Claiming
+- Unclaimed Fusion capstones appear as `◆ /skill-id [Unclaimed ✦]` in the registry — no named implementation exists yet.
+- The first contributor to run `gaia propose` against an awakened intake record whose `genericSkillRef` points to an unclaimed Fusion capstone automatically becomes the origin contributor and the seed title stored in `gaia.json` becomes visible in projections.
 - Claiming priority follows the same rule as named skill origin status: the earlier `createdAt` date wins if two contributors submit simultaneously.
 - Once claimed, the display changes from `[Unclaimed ✦]` to `Ultimate Skill: contributor/skill-name`.
 
-## 2.2 Ultimate Skill Promotion
+## 2.2 Fusion Capstone Promotion
 
-Technical requirements for Ultimate and Apex skills (prerequisite counts, origin fusion, and evidence floors) are maintained in the central meta-strategy document.
+Technical requirements for the 5★ Ultimate and 6★ Apex ranks (prerequisite counts, origin fusion, and Trust Magnitude gates) are maintained in the central meta-strategy document. The per-star Evidence Floor is retired under Yggdrasil II — Trust Magnitude is the sole promotion gate.
 
-> **Technical Specification:** See [META.md](META.md#42-ultimate--apex-pathways) for promotion pathways and the Grandmaster path criteria.
+> **Technical Specification:** See [META.md](META.md#42-suite-branch-56-pathways) for promotion pathways and the Grandmaster path criteria.
 
 ### Reclassification Notice
-Existing Ultimate skills registered under the old 3-prerequisite rule that do not meet the current criteria will be reclassified to `extra` tier in a `review/meta/` follow-up PR.
+Existing capstones registered under the old 3-prerequisite rule that do not meet the current criteria keep `type: fusion` and are re-ranked down the shared ladder in a `review/meta/` follow-up PR. (`extra` is a retired Yggdrasil I type; the type axis is `{basic, fusion}` only.)
 
 ## 3. Dispute Resolution
 
@@ -86,7 +86,7 @@ If a skill's definition, level, or evidence is disputed:
 Every 90 days, the maintainers will conduct a full re-audit of the registry to:
 - Review `provisional` skills for potential validation.
 - Re-assess `disputed` skills.
-- Verify ultimate status requirements.
+- Verify 5★ Ultimate / 6★ Apex rank requirements.
 - Identify stale skills (not updated or referenced in 180 days).
 
 ## 5. Release Cadence
