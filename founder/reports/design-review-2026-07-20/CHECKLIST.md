@@ -319,3 +319,30 @@ Consumers: `plaque.css` L745-750 (`.se-node-orb--extra` gradient in plaque — s
 
 Mixed: focus rings → `--tier-unique`; "extra" profile filter/tooltip → `--tier-unique`; directory tier 2 title → check if tier-2 = 2★ (then `--rank-2`) or branch-extra (then `--tier-unique`); fuse action → `--tier-fusion` (fuse = gold).
 **Status:** PENDING
+
+> **Correction (2026-07-25, T16–T18 pass):** the "→ `--tier-unique`/`--tier-fusion`" guidance
+> above is itself the pollution. Per META.md (Extra=4★, Ultimate=5★) + `/badges/`, rank-word
+> surfaces must use **rank** tokens: `--tier-extra` → `--rank-4` (#e879f9), `--tier-ultimate`
+> → `--rank-5` (#fbbf24), fuse action → `--rank-4`. Resolved in PR #1246 / #1269. See
+> `TOKEN-POLLUTION-AUDIT.md`.
+
+---
+
+### T19 (NEW, 2026-07-25) — site-wide `--tier-extra`/`--tier-ultimate` / bare `--extra`/`--ultimate` sweep
+The T16–T18 pass fixed `styles.css`, `plaque.css`, and `docs/trust/leaderboard/leaderboard.css`.
+A repo-wide grep shows the **same rank-substitute pollution remains in ~25 more files** (the
+bad-init spread) — NOT yet touched. Marco to scout/scope later. Known consumers:
+
+- `docs/trust/ledger/ledger.css` (~12 occurrences — lb-arrow/flag, glyphs)
+- `docs/codex/trust-methodology.html`, `docs/codex.html` (step-nodes, fusion-recipe, glyphs)
+- `docs/en/*.html` (nav-logo span, code-block `.str`/`.arg`, tier-pills, tier-cards, skill-hierarchy glyphs — most already carry `#c084fc`/`#f59e0b` fallbacks so they render, but on dead tokens)
+- `docs/samples/foundation.html`, `docs/samples/tree.html` (tier swatches/glyphs)
+- `docs/share/styles.css` (`share-skill-row__glyph[data-tier=extra|ultimate]`)
+- `docs/skills/index.js`, `docs/js/page-ia.js` (JS color maps: `extra`/`ultimate` → `var(--tier-*)`/`var(--extra)`)
+- `docs/meta.html` (`border-color: --tier-ultimate`)
+- `docs/archive/ADOPTION.html`, `docs/archive/SHOWCASE.html` (archived — likely skip)
+
+Rule: same as T16–T18 (rank-word → `--rank-4`/`--rank-5`; decorative → `--rank-4`; evidence-type
+→ `--ev-type-*`; leave legit `--tier-fusion`/`--tier-unique`/`--basic`). **Bare no-fallback forms
+render as `inherit` (silent fail) — prioritize those.**
+**Status:** PENDING — deferred (out of T16–T18 scope; filed as follow-up per Marco 2026-07-25)

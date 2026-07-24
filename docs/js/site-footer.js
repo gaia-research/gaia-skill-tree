@@ -38,110 +38,80 @@
 
   el.innerHTML = `
     <footer class="footer-v2">
+      <div class="footer-roots" style="--footer-tree:url('${r}assets/world-tree/yggdrasil-backdrop-941.webp')" aria-hidden="true"></div>
+
       <div class="footer-inner">
-        <div class="footer-brand-col">
-          <div class="footer-family" aria-label="Gaia brand family">
 
-            <div class="footer-brand-mark">
-              <svg class="ico footer-seal" aria-hidden="true" focusable="false">
-                <use href="${r}assets/icons.svg#seal-diamond"/>
-              </svg>
-              <span class="footer-wordmark">Gaia</span>
-            </div>
-            <p class="footer-tagline">An evidence-backed atlas<br>of agent capabilities.</p>
-
-            <div class="footer-kinship">
-              <span class="footer-kinship-line" aria-hidden="true"></span>
-              <p class="footer-kinship-copy">
-                The flagship registry of
-              </p>
-            </div>
-
-            <a class="footer-research" href="https://research.gaiaskilltree.com"
-               target="_blank" rel="noopener"
-               aria-label="Gaia Research — visit research.gaiaskilltree.com">
-              <span class="footer-research-lens" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
-                  <path d="M12 2.5 20.5 7v10L12 21.5 3.5 17V7L12 2.5Z"
-                        stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
-                  <circle cx="12" cy="12" r="3.4" stroke="currentColor" stroke-width="1.4"/>
-                </svg>
-              </span>
-              <span class="footer-research-mark">
-                <span class="footer-research-name">Gaia Research</span>
-                <span class="footer-research-cta">Enter the lab <span aria-hidden="true">→</span></span>
-              </span>
-            </a>
-
-          </div>
+        <!-- Closing invitation — the emotional sign-off, one clear action, centered. -->
+        <div class="footer-close">
+          <svg class="ico footer-close-seal" aria-hidden="true" focusable="false">
+            <use href="${r}assets/icons.svg#seal-diamond"/>
+          </svg>
+          <h2 class="footer-close-headline">Every capability, earned.</h2>
+          <p class="footer-close-sub">An evidence-backed atlas of what agents can really do.</p>
+          <a class="footer-close-cta" href="${r}index.html" aria-label="Explore the Gaia Skill Tree">
+            <span>Explore the Skill Tree</span>
+            <span class="footer-close-cta-arrow" aria-hidden="true">→</span>
+          </a>
         </div>
 
-        <nav class="footer-cols" aria-label="Site navigation">
-
-          <div class="footer-col">
-            <span class="footer-col-heading">Registry</span>
-            <ul>
-              <li><a href="${r}index.html">Home</a></li>
-              <li><a href="${r}index.html">Skill Tree</a></li>
-              <li><a href="${r}index.html?field=1">Skill Graph</a></li>
-              <li><a href="${r}starless.html">Starless</a></li>
-              <li><a href="${r}meta.html">Meta Changelog</a></li>
-            </ul>
+        <!-- Horizontal nav rail — every section, one wrapping row, grouped by heading. -->
+        <nav class="footer-rail" aria-label="Site navigation">
+          <div class="footer-rail-group">
+            <span class="footer-rail-heading">Registry</span>
+            <a href="${r}index.html">Home</a>
+            <a href="${r}index.html?field=1">Skill Graph</a>
+            <a href="${r}starless.html">Starless</a>
+            <a href="${r}meta.html">Meta Changelog</a>
           </div>
-
-          <div class="footer-col">
-            <span class="footer-col-heading">Discover</span>
-            <ul>
-              <li><a href="${r}codex.html">The Codex</a></li>
-              <li><a href="${r}named/">Named Skills</a></li>
-              <li><a href="${r}u/">Named Contributors</a></li>
-              <li><a href="${r}badges/">GitHub Badges</a></li>
-            </ul>
+          <div class="footer-rail-group">
+            <span class="footer-rail-heading">Discover</span>
+            <a href="${r}codex.html">The Codex</a>
+            <a href="${r}named/">Named Skills</a>
+            <a href="${r}u/">Contributors</a>
+            <a href="${r}badges/">GitHub Badges</a>
           </div>
-
-          <div class="footer-col">
-            <span class="footer-col-heading">Evidence</span>
-            <ul>
-              <li><a href="${r}benchmarks/">Benchmarks</a></li>
-              <li><a href="${r}reports/">Weekly Reports</a></li>
-              <li><a href="${r}trending/">Trending</a></li>
-              <li><a href="${r}heroes/">Hall of Heroes</a></li>
-            </ul>
+          <div class="footer-rail-group">
+            <span class="footer-rail-heading">Evidence</span>
+            <a href="${r}benchmarks/">Benchmarks</a>
+            <a href="${r}reports/">Weekly Reports</a>
+            <a href="${r}trending/">Trending</a>
+            <a href="${r}heroes/">Hall of Heroes</a>
           </div>
-
-          <div class="footer-col">
-            <span class="footer-col-heading">Docs</span>
-            <ul>
-              <li><a href="${r}en/">Docs Home</a></li>
-              <li><a href="${r}en/getting-started.html">Getting Started</a></li>
-              <li><a href="${r}en/cli-reference.html">CLI Reference</a></li>
-            </ul>
+          <div class="footer-rail-group">
+            <span class="footer-rail-heading">Docs</span>
+            <a href="${r}en/">Docs Home</a>
+            <a href="${r}en/getting-started.html">Getting Started</a>
+            <a href="${r}en/cli-reference.html">CLI Reference</a>
           </div>
-
-          <div class="footer-col">
-            <span class="footer-col-heading">Contribute</span>
-            <ul>
-              <li><a href="${r}index.html#paths">Push a skill</a></li>
-              <li><a href="https://github.com/gaia-research/gaia-skill-tree" target="_blank" rel="noopener" class="footer-ext">GitHub</a></li>
-              <li><a href="https://github.com/gaia-research/gaia-skill-tree/issues" target="_blank" rel="noopener" class="footer-ext">Open Issues</a></li>
-            </ul>
+          <div class="footer-rail-group">
+            <span class="footer-rail-heading">Contribute</span>
+            <a href="${r}index.html#paths">Push a skill</a>
+            <a href="https://github.com/gaia-research/gaia-skill-tree" target="_blank" rel="noopener" class="footer-ext">GitHub</a>
+            <a href="https://github.com/gaia-research/gaia-skill-tree/issues" target="_blank" rel="noopener" class="footer-ext">Open Issues</a>
           </div>
-
-          <div class="footer-col">
-            <span class="footer-col-heading">About</span>
-            <ul>
-              <li><a href="${r}about.html">About Gaia</a></li>
-              <li><a href="https://github.com/mbtiongson1" target="_blank" rel="noopener" class="footer-link-honor">@mbtiongson1</a></li>
-              <li><a href="${r}privacy.html">Privacy</a></li>
-              <li>
-                <button id="copyAgentFooterBtn" type="button" class="footer-link-btn" aria-label="Copy page context for agents">
-                  Copy Page
-                </button>
-              </li>
-            </ul>
+          <div class="footer-rail-group">
+            <span class="footer-rail-heading">About</span>
+            <a href="${r}about.html">About Gaia</a>
+            <a href="https://github.com/mbtiongson1" target="_blank" rel="noopener" class="footer-link-honor">@mbtiongson1</a>
+            <a href="${r}privacy.html">Privacy</a>
+            <button id="copyAgentFooterBtn" type="button" class="footer-link-btn" aria-label="Copy page context for agents">Copy Page</button>
           </div>
-
         </nav>
+      </div>
+
+      <!-- Root anchor — the site's name at full scale, growing from the roots,
+           with the parent-org attribution tucked beside it. -->
+      <div class="footer-anchor">
+        <span class="footer-display-word" aria-hidden="true">Skill Tree</span>
+        <p class="footer-parentage">
+          A project of
+          <a class="footer-parent-link" href="https://research.gaiaskilltree.com"
+             target="_blank" rel="noopener"
+             aria-label="Gaia Research — the parent lab, at research.gaiaskilltree.com">
+            Gaia Research<span class="footer-parent-arrow" aria-hidden="true">↗</span>
+          </a>
+        </p>
       </div>
 
       <div class="footer-bottom">
@@ -149,7 +119,7 @@
           <use href="${r}assets/icons.svg#seal-diamond"/>
         </svg>
         <span class="footer-bottom-sep">—</span>
-        <span>Gaia Registry</span>
+        <span>Gaia Skill Tree</span>
         <span class="footer-bottom-sep">·</span>
         <a href="https://github.com/gaia-research/gaia-skill-tree" target="_blank" rel="noopener">GitHub</a>
         <span class="footer-bottom-sep">·</span>

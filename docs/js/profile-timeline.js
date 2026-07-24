@@ -329,6 +329,26 @@
     };
   }());
 
+  // Final-rank line/dot color. The Progression Timeline colors each skill by
+  // the rank it FINISHES at (its peak on the chart), not by branch — a 5★ line
+  // reads gold, a 3★ line violet, etc. Reads the same --rank-N tokens as
+  // RANK_HEX; 6★ ('apex' gradient) degrades to --rank-6 for a flat SVG stroke,
+  // rank 0 to the muted token. Token-first (no raw hex) for the docs guard.
+  var RANK_LINE = (function () {
+    var s = typeof getComputedStyle !== 'undefined' ? getComputedStyle(document.documentElement) : null;
+    function cv(expr) { return resolveVar(s, expr); }
+    return {
+      0: cv('var(--rank-0,#94a3b8)'),
+      6: cv('var(--rank-6,#fbbf24)'),
+    };
+  }());
+  function rankColorFor(rank) {
+    if (rank >= 6) return RANK_LINE[6];
+    if (rank <= 0) return RANK_LINE[0];
+    var c = RANK_HEX[rank];
+    return (c && c !== 'apex') ? c : RANK_LINE[6];
+  }
+
   var ACTION_CHIP = {
     register: 'register', propose: 'propose', add: 'add',
     rank_up: 'rank_up', rank_down: 'demote', rank_retain: 'default',
@@ -599,8 +619,11 @@
       });
       if (sorted.length === 0) return;
 
-      var _skillBranch = _branchOf(skill);
-      var color = TIER_HEX[_skillBranch] || TIER_COLOR[_skillBranch] || TIER_COLOR.standard;
+      // Color the whole series by the rank the skill FINISHES at (its peak on
+      // the chart) — final rank drives color, per the Progression Timeline
+      // design. Branch is still used for dots in the event feed, not here.
+      var _finalRank = parseRank(sorted[sorted.length - 1].level);
+      var color = rankColorFor(_finalRank);
       var grpId = 'ptl2-sg-' + skill.id.replace(/[^a-z0-9]/gi, '-');
 
       var grp = svgEl('g', { 'data-skill-id': skill.id, id: grpId, class: 'ptl2__chart-curve-group' });
@@ -843,8 +866,12 @@
 
       var dot = document.createElement('span');
       dot.className = 'ptl2__legend-dot';
-      var _legendBranch = _branchOf(skill);
-      dot.style.background = TIER_HEX[_legendBranch] || TIER_COLOR[_legendBranch] || TIER_COLOR.standard;
+      // Match the skill's line: color by the rank it finishes at, not branch.
+      var _legendSorted = (skill.levelHistory || []).slice().sort(function (a, b) {
+        return new Date(a.achievedAt) - new Date(b.achievedAt);
+      });
+      var _legendRank = _legendSorted.length ? parseRank(_legendSorted[_legendSorted.length - 1].level) : 0;
+      dot.style.background = rankColorFor(_legendRank);
       item.appendChild(dot);
 
       var label = document.createElement('span');
