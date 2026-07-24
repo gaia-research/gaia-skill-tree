@@ -6352,24 +6352,6 @@ tr:hover td {
   opacity: .8;
 }
 
-/* Swapping one-line caption under the lens chips — explains the active view.
-   Quiet by default; picks up the lens accent when Fusion/Suite is active. */
-.se-lens-explainer {
-  margin: -0.6rem 0 1rem;
-  font-family: var(--font-body);
-  font-size: .82rem;
-  line-height: 1.4;
-  color: var(--muted);
-}
-
-.se-lens-explainer[data-lens="fusion"] {
-  color: var(--tier-unique);
-}
-
-.se-lens-explainer[data-lens="suite"] {
-  color: var(--apex-gold);
-}
-
 /* Slash labels above dots are click-through by default; in the
      upgrade-path view they need to be clickable for navigation
      (named → openSkillExplorer, ghost → openUnnamedPopup). */
