@@ -1417,6 +1417,16 @@
           c.setAttribute('aria-selected', on ? 'true' : 'false');
         });
       }
+      // Canvas lens state lives on the #se-upgrade container so both the
+      // in-canvas node accents AND the sibling count chips can key off it:
+      // lens-fusion (origins, violet) vs lens-suite (installed handlers, gold).
+      function setLens(lens) {
+        var host = document.getElementById('se-upgrade');
+        if (host) {
+          host.classList.remove('lens-fusion', 'lens-suite');
+          if (lens === 'fusion' || lens === 'suite') host.classList.add('lens-' + lens);
+        }
+      }
       function clearFocus() {
         // Restore the full canvas: drop selection/dim/active-path from a prior
         // spotlight so "Path" shows everything.
@@ -1430,11 +1440,16 @@
           e.stopPropagation();
           var lens = chip.getAttribute('data-lens');
           setActive(lens);
+          setLens(lens);
           if (lens === 'path') {
             clearFocus();
           } else if (lens === 'suite') {
-            if (window.showFusionOnly) window.showFusionOnly(suiteFocusId || fusionFocusId);
+            // Suite lens = the installed deliverable set. Light the component
+            // handlers + capstone, not the ancestor origin chain.
+            if (window.showSuiteOnly && suiteFocusId) window.showSuiteOnly(suiteFocusId);
+            else if (window.showFusionOnly) window.showFusionOnly(suiteFocusId || fusionFocusId);
           } else {
+            // Fusion lens = origins. Trace the prerequisite ancestry.
             if (window.showFusionOnly) window.showFusionOnly(fusionFocusId);
           }
         });
@@ -1650,13 +1665,19 @@
       }
     }
 
-    // Fusion requirements label
+    // Lens-scoped count chips: each carries data-lens so CSS reveals it only
+    // when its lens is active (fusion count under Fusion, suite count under
+    // Suite; both hidden under Path). Copy reflects the framing — Fusion counts
+    // origins combined, Suite counts installed handler components. Read-only:
+    // the counts come from already-collected prerequisites / suiteComponents.
     var fusionLabels = [];
     if (relatedNodes[genericId] && relatedNodes[genericId].prerequisites && relatedNodes[genericId].prerequisites.length >= 2) {
-      fusionLabels.push('<div class="se-fusion-label">&#x2728; Generic fusion: ' + relatedNodes[genericId].prerequisites.length + ' prerequisite' + (relatedNodes[genericId].prerequisites.length === 1 ? '' : 's') + '</div>');
+      var _pc = relatedNodes[genericId].prerequisites.length;
+      fusionLabels.push('<div class="se-fusion-label" data-lens="fusion">' + _se_icon('sparkle') + ' Fusion of ' + _pc + ' origin skill' + (_pc === 1 ? '' : 's') + '</div>');
     }
     if (suiteComponents.length) {
-      fusionLabels.push('<div class="se-fusion-label">&#x2728; Suite fusion: ' + suiteComponents.length + ' component' + (suiteComponents.length === 1 ? '' : 's') + '</div>');
+      var _sc = suiteComponents.length;
+      fusionLabels.push('<div class="se-fusion-label" data-lens="suite">' + _se_icon('sparkle') + ' Suite installs ' + _sc + ' component' + (_sc === 1 ? '' : 's') + ' together</div>');
     }
     var fusionHtml = fusionLabels.join('');
 
@@ -1864,6 +1885,41 @@
       });
 
       Object.keys(ancestors).forEach(function(id) {
+        var n = document.querySelector('.git-node[data-id="' + id.replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
+        if (n) n.classList.add('show-label');
+      });
+    };
+
+    // Suite lens: spotlight the installed DELIVERABLE set — the component
+    // handler skills plus the capstone they install as — rather than the
+    // origin ancestry Fusion traces. The suite membership is already emitted
+    // as edges (suite-member:X → suite-capstone:Y); this reads those edges,
+    // it does not derive membership from type/suiteComponents. Presentation
+    // only: the distinction is which nodes light, not any new resolution.
+    window.showSuiteOnly = function(capstoneId) {
+      var inSuite = {};
+      inSuite[capstoneId] = true;
+      (edges || []).forEach(function(e) {
+        if (e.to === capstoneId) inSuite[e.from] = true; // the component handlers
+      });
+
+      document.querySelectorAll('.git-node.selected').forEach(function(n) { n.classList.remove('selected'); });
+      document.querySelectorAll('.git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
+      document.querySelectorAll('.git-path').forEach(function(p) { p.classList.remove('active-path','dimmed'); });
+
+      var focus = document.querySelector('.git-node[data-id="' + capstoneId.replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
+      if (focus) focus.classList.add('selected');
+      window._selectedFlowNode = capstoneId;
+
+      (edges || []).forEach(function(e) {
+        var inSet = inSuite[e.from] && inSuite[e.to];
+        var p = document.getElementById('path-' + e.from + '-' + e.to);
+        if (!p) return;
+        if (inSet) p.classList.add('active-path');
+        else p.classList.add('dimmed');
+      });
+
+      Object.keys(inSuite).forEach(function(id) {
         var n = document.querySelector('.git-node[data-id="' + id.replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
         if (n) n.classList.add('show-label');
       });

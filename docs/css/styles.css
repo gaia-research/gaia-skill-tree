@@ -6289,6 +6289,35 @@ tr:hover td {
   margin-top: 1rem;
   text-align: center;
   font-family: var(--font-body);
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+}
+
+/* Lens-scoped count chips: each declares the lens it belongs to and only
+   surfaces when #se-upgrade carries the matching lens- state. Under Path
+   (no lens class) both stay hidden, keeping the canvas quiet. The count is
+   read-only reinforcement of the active framing, not ambient noise. */
+.se-fusion-label[data-lens] { display: none; }
+#se-upgrade.lens-fusion .se-fusion-label[data-lens="fusion"] {
+  display: inline-flex;
+  color: var(--tier-unique);
+}
+#se-upgrade.lens-suite .se-fusion-label[data-lens="suite"] {
+  display: inline-flex;
+  color: var(--apex-gold);
+}
+.se-fusion-label svg { width: 13px; height: 13px; opacity: .85; }
+
+/* Node framing per lens — origins (Fusion, violet) vs installed handlers
+   (Suite, gold). The ring is a UI affordance keyed off the container lens
+   state, not a resolved branch color. Only the spotlit (show-label) nodes
+   in the active set carry it. */
+#se-upgrade.lens-fusion .git-node.show-label .git-commit-dot {
+  box-shadow: 0 0 0 3px rgba(var(--tier-unique-rgb, 124, 58, 237), .35);
+}
+#se-upgrade.lens-suite .git-node.show-label .git-commit-dot {
+  box-shadow: 0 0 0 3px rgba(var(--apex-gold-rgb, 251, 191, 36), .35);
 }
 
 /* Progression lens filter — a segmented pill control sitting on the right of
