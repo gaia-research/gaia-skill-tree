@@ -913,7 +913,7 @@ nav.lb-toc a.is-active .lb-toc-icon { opacity: 1; }
 }
 
 .lb-cta-link {
-  color: var(--tier-extra);
+  color: var(--rank-4, #e879f9);
   text-decoration: none;
   border-bottom: 1px solid currentColor;
   font-family: var(--font-body);
