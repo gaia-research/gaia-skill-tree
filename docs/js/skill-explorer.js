@@ -1906,13 +1906,13 @@
               ' ' + tx + ',' + (ty - ctrlDist) +
               ' ' + tx + ',' + ty;
 
-      // Edge color follows the RANK of the source (parent) node — a 5★ parent
-      // feeds gold veins, a 3★ parent violet, etc. Ranks only, mirroring the
-      // Progression Timeline. Read the parent's emitted data-level (e.g. "3★"
-      // or "3"); the CSS keys .git-path on [data-rank]. 6★ still reads gold via
-      // --rank-6.
-      var fromLevel = fromEl.getAttribute('data-level') || '';
-      var lvlMatch = String(fromLevel).match(/\d/);
+      // Edge color follows the RANK of the PARENT node — the higher-rank skill
+      // the edge feeds INTO (e.to / toEl), not the prerequisite it comes from.
+      // The parent owns the tree, so its rank wins. Ranks only, mirroring the
+      // Progression Timeline and the /named/ flow. Read the parent's emitted
+      // data-level (e.g. "3★" or "3"); the CSS keys .git-path on [data-rank].
+      var toLevel = toEl.getAttribute('data-level') || '';
+      var lvlMatch = String(toLevel).match(/\d/);
       var fromRank = lvlMatch ? Math.min(6, parseInt(lvlMatch[0], 10)) : 0;
 
       var path = document.createElementNS('http://www.w3.org/2000/svg','path');
