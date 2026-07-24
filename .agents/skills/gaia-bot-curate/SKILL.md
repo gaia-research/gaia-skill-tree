@@ -57,7 +57,7 @@ Narrow context keeps triage agents fast and prevents one noisy source from pollu
 
 **Require needs-evidence (defer)** for MCP servers, API connectors, and tool extensions unless they include a specific agent playbook (e.g., `AGENTS.md`, `AGENTS.md`, `.Codex/skills/`, or documented autonomous agent workflows). The presence of a server does not demonstrate skill mastery; a playbook does.
 
-**Fusion analysis** — for each accepted item, ask: does it combine multiple basic capabilities in a novel way? If so, propose a new Extra skill rather than shoe-horning it into an existing generic. Combinations like `web-scrape + browser-automation` warrant their own taxonomy node.
+**Fusion analysis** — for each accepted item, ask: does it combine multiple basic capabilities in a novel way? If so, propose a new Fusion (`type: fusion`) rather than shoe-horning it into an existing generic. Combinations like `web-scrape + browser-automation` warrant their own taxonomy node.
 
 **Demerit assignment** — apply demerits only at Level 3★ (Evolved) or higher. Below that threshold, leniency serves registry growth. Assign a demerit only when it breaks the "Install Anywhere" promise for a typical developer:
 - `heavyweight-dependency`: requires massive local infrastructure (e.g., full Airflow stack, 10 GB+ Docker images)

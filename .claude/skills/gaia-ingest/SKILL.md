@@ -92,8 +92,9 @@ PYTHONPATH=src python3 scripts/trust_appraise.py --skill <contributor/skill-id>
 ```
 
 Report the new TM, Overall Trust Grade, per-row score, and whether the source
-is implementation-specific. Propose a calibration only when the evidence floor
-and Star Bar are met. Do **not** run `gaia dev calibrate` without explicit
+is implementation-specific. Propose a calibration only when Trust Magnitude clears
+the gate and the Star Bar is met (the per-star Evidence Floor is retired under
+Yggdrasil II — TM is the sole promotion gate). Do **not** run `gaia dev calibrate` without explicit
 operator approval.
 
 ## Finalization
