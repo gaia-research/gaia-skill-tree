@@ -7409,7 +7409,9 @@ footer.footer-v2::before {
 
   .se-hero #se-upgrade .se-flowchart-wrap {
     min-height: 160px;
-    padding: 0.5rem 0;
+    /* Keep top clearance for the main node's always-on slug label (see the
+       base .se-flowchart-wrap rule) even in the compact hero layout. */
+    padding: 3rem 0 0.5rem;
   }
 
   .se-hero #se-upgrade .se-flowchart-rows {
@@ -7837,7 +7839,10 @@ h4.se-install-sub-h { font-size: .85rem; }
   position: relative;
   overflow: visible;
   min-height: 320px;
-  padding: 1.5rem 1rem;
+  /* Extra top padding clears the topmost (main) node's always-on slug label,
+     which renders above its dot (.dag-node-label { bottom:100% }) and would
+     otherwise collide with the Path header + lens chips. */
+  padding: 3.25rem 1rem 1.5rem;
 }
 
 .se-flowchart-svg {
