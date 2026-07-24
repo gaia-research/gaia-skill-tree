@@ -306,7 +306,7 @@ body {
 }
 
 /* ── NAV ── */
-nav:not(.footer-cols) {
+nav:not(.footer-cols):not(.footer-rail) {
   position: fixed;
   top: 0;
   left: 0;
@@ -6543,290 +6543,170 @@ footer.footer-v2::before {
   background: linear-gradient(90deg, transparent, rgba(56, 189, 248, .3) 20%, rgba(192, 132, 252, .3) 50%, rgba(245, 158, 11, .3) 80%, transparent);
 }
 
+/* ── FOOTER v2 — "Roots of the Tree" ─────────────────────────────────────
+   UX inversion from the old brand-left / nav-grid-right split: the footer
+   now reads as a single vertical descent — a centered closing invitation
+   (the one action), a compact horizontal nav rail (everything else), and a
+   full-scale "Skill Tree" root anchor with the parent-org signature. The
+   Yggdrasil backdrop sits faint behind the whole thing as the roots. */
+.footer-v2 .footer-roots {
+  position: absolute;
+  inset: 0;
+  background-image: var(--footer-tree);
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: min(1100px, 120%) auto;
+  opacity: .05;
+  filter: grayscale(.3) brightness(1.1);
+  pointer-events: none;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 45%, #000 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 45%, #000 100%);
+}
+
 .footer-v2 .footer-inner {
   max-width: 1100px;
   margin: 0 auto;
-  padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 4vw, 2.5rem) clamp(2.5rem, 5vw, 4rem);
-  display: grid;
-  grid-template-columns: minmax(170px, 230px) 1fr;
-  gap: 3rem 4rem;
-  align-items: start;
+  padding: clamp(3.5rem, 7vw, 6rem) clamp(1.5rem, 4vw, 2.5rem) clamp(2rem, 4vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.75rem, 6vw, 4.5rem);
   width: 100%;
   box-sizing: border-box;
+  position: relative;
+  z-index: 1;
 }
 
-/* Brand column */
-.footer-v2 .footer-brand-col {
+/* ── Closing invitation — centered emotional sign-off + one primary CTA ── */
+.footer-v2 .footer-close {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-}
-
-.footer-v2 .footer-brand-mark {
-  display: flex;
   align-items: center;
-  gap: .6rem;
-}
-
-.footer-v2 .footer-seal {
-  width: 26px;
-  height: 26px;
-}
-
-.footer-v2 .footer-wordmark {
-  font-size: 1.15rem;
-}
-
-.footer-v2 .footer-tagline {
-  font-family: var(--font-body);
-  font-size: .8rem;
-  line-height: 1.6;
-  color: var(--muted);
-  margin: 0;
-}
-
-/* ── Gaia brand family: "one house, two rooms." ──────────────────────
-   The Atlas mark keeps its serif/gold language; the Gaia Research mark
-   is rendered in ITS OWN language (Syne + Rimuru-Blue) as a distinct-but
-   -sibling block, bound by connective copy naming the flagship relation.
-   Rimuru-Blue (--research-blue == --tier-basic) is the exact shared token,
-   so the two rooms visibly belong to one house without merging the two
-   design systems. */
-.footer-v2 .footer-family {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  align-items: flex-start;
-}
-
-/* Kinship copy — the "one family, two rooms" line that heads the sibling
-   stack. Set in the Atlas display voice, italic, quiet. */
-.footer-v2 .footer-kinship-copy {
-  margin: .35rem 0 0;
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: .84rem;
-  line-height: 1.3;
-  color: var(--muted);
-  max-width: 22ch;
-}
-
-/* ── The sibling stack: two rooms of one house ─────────────────────────
-   A single vertical kinship rail (Atlas gold → Research blue) runs the
-   height of both CTA cards — it IS the bridge, literally binding the two
-   marks into one family. Each card keeps its own voice: the Atlas card
-   speaks gold + display serif, the Research card speaks Rimuru-blue + Syne.
-   Matched geometry (same padding, radius, glyph size) makes them read as
-   siblings; divergent hue + type makes them read as distinct rooms. */
-.footer-v2 .footer-siblings {
-  display: flex;
-  align-items: stretch;
+  text-align: center;
   gap: .85rem;
-  margin-top: .3rem;
 }
 
-.footer-v2 .footer-kinship-line {
-  flex: 0 0 auto;
-  align-self: stretch;
-  width: 2px;
-  border-radius: 2px;
-  background: linear-gradient(
-    180deg,
-    rgba(var(--apex-gold-rgb), .9) 0%,
-    rgba(var(--research-blue-rgb), .9) 100%
-  );
+.footer-v2 .footer-close-seal {
+  width: 40px;
+  height: 40px;
+  color: var(--apex-gold);
+  filter: drop-shadow(0 0 12px rgba(var(--apex-gold-rgb), .35));
 }
 
-.footer-v2 .footer-sibling-stack {
-  display: flex;
-  flex-direction: column;
-  gap: .55rem;
-  flex: 1 1 auto;
-  min-width: 0;
-}
-
-/* Shared sibling-card chassis — identical geometry, hue set per variant. */
-.footer-v2 .footer-sib {
-  --sib-rgb: var(--research-blue-rgb);
-  --sib-hue: var(--research-blue);
-  display: inline-flex;
-  align-items: center;
-  gap: .7rem;
-  padding: .65rem .85rem;
-  border: 1px solid rgba(var(--sib-rgb), .28);
-  border-radius: 10px;
-  background: linear-gradient(
-    135deg,
-    rgba(var(--sib-rgb), .1) 0%,
-    rgba(var(--sib-rgb), .03) 100%
-  );
-  text-decoration: none;
-  transition:
-    border-color .32s cubic-bezier(0.16, 1, 0.3, 1),
-    background .32s cubic-bezier(0.16, 1, 0.3, 1),
-    transform .32s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow .32s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.footer-v2 .footer-sib-atlas {
-  --sib-rgb: var(--apex-gold-rgb);
-  --sib-hue: var(--apex-gold);
-}
-
-.footer-v2 .footer-sib-research {
-  --sib-rgb: var(--research-blue-rgb);
-  --sib-hue: var(--research-blue);
-  /* Research card blends a whisper of Milim-pink so its counter-accent reads. */
-  background: linear-gradient(
-    135deg,
-    rgba(var(--research-blue-rgb), .1) 0%,
-    rgba(var(--research-pink-rgb), .06) 100%
-  );
-}
-
-.footer-v2 .footer-sib:hover,
-.footer-v2 .footer-sib:focus-visible {
-  border-color: rgba(var(--sib-rgb), .6);
-  background: linear-gradient(
-    135deg,
-    rgba(var(--sib-rgb), .2) 0%,
-    rgba(var(--sib-rgb), .08) 100%
-  );
-  transform: translateY(-1px);
-  box-shadow:
-    0 0 0 1px rgba(var(--sib-rgb), .2),
-    0 8px 22px rgba(var(--sib-rgb), .18);
-  outline: none;
-}
-
-/* Hex-seal glyph — the shared motif, tinted per room's hue. */
-.footer-v2 .footer-sib-glyph {
-  flex: 0 0 auto;
-  display: inline-flex;
-  color: var(--sib-hue);
-  filter: drop-shadow(0 0 6px rgba(var(--sib-rgb), .45));
-  transition: transform .5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.footer-v2 .footer-sib:hover .footer-sib-glyph {
-  transform: rotate(30deg);
-}
-
-.footer-v2 .footer-sib-mark {
-  display: flex;
-  flex-direction: column;
-  gap: .12rem;
-  line-height: 1.05;
-  min-width: 0;
-}
-
-.footer-v2 .footer-sib-name {
-  font-weight: 700;
-  font-size: .95rem;
-  letter-spacing: -.01em;
+.footer-v2 .footer-close-headline {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  line-height: 1.1;
+  letter-spacing: -.02em;
   color: var(--text);
 }
 
-/* Atlas room speaks the display serif; Research room speaks Syne. */
-.footer-v2 .footer-sib-name-atlas {
+.footer-v2 .footer-close-sub {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: .9rem;
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 42ch;
+}
+
+/* Primary CTA — the single confident action, gold pill with a sliding arrow. */
+.footer-v2 .footer-close-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  margin-top: .5rem;
+  padding: .7rem 1.4rem;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--apex-gold-rgb), .45);
+  background: rgba(var(--apex-gold-rgb), .08);
+  color: var(--apex-gold);
   font-family: var(--font-display);
+  font-size: 1.02rem;
   font-weight: 600;
+  letter-spacing: -.01em;
+  text-decoration: none;
+  transition:
+    border-color .3s cubic-bezier(0.16, 1, 0.3, 1),
+    background .3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow .3s cubic-bezier(0.16, 1, 0.3, 1),
+    transform .3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.footer-v2 .footer-sib-name-research {
-  font-family: var(--font-research);
-}
-
-.footer-v2 .footer-sib-cta {
+.footer-v2 .footer-close-cta-arrow {
   font-family: var(--font-mono);
-  font-size: .68rem;
-  letter-spacing: .04em;
-  color: var(--sib-hue);
-  transition: letter-spacing .32s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform .32s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.footer-v2 .footer-sib:hover .footer-sib-cta {
-  letter-spacing: .09em;
+.footer-v2 .footer-close-cta:hover,
+.footer-v2 .footer-close-cta:focus-visible {
+  border-color: rgba(var(--apex-gold-rgb), .8);
+  background: rgba(var(--apex-gold-rgb), .16);
+  box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), .25), 0 10px 30px rgba(var(--apex-gold-rgb), .18);
+  transform: translateY(-1px);
+  outline: none;
 }
 
-/* Link columns grid */
-.footer-v2 .footer-cols {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
-  align-items: start;
-  width: 100%;
+.footer-v2 .footer-close-cta:hover .footer-close-cta-arrow,
+.footer-v2 .footer-close-cta:focus-visible .footer-close-cta-arrow {
+  transform: translateX(4px);
 }
 
-.footer-v2 .footer-col {
+/* ── Horizontal nav rail — every section, one wrapping row ──────────────── */
+.footer-v2 .footer-rail {
   display: flex;
-  flex-direction: column;
-  gap: .7rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem 2.75rem;
+  padding-top: clamp(1.5rem, 3vw, 2.25rem);
+  border-top: 1px solid var(--border);
 }
 
-.footer-v2 .footer-col-heading {
+.footer-v2 .footer-rail-group {
+  --col-hue: var(--tier-basic, #38bdf8);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .35rem .85rem;
+}
+.footer-v2 .footer-rail-group:nth-child(1) { --col-hue: var(--tier-basic, #38bdf8); }
+.footer-v2 .footer-rail-group:nth-child(2) { --col-hue: var(--tier-unique, #c084fc); }
+.footer-v2 .footer-rail-group:nth-child(3) { --col-hue: var(--tier-basic, #38bdf8); }
+.footer-v2 .footer-rail-group:nth-child(4) { --col-hue: var(--tier-unique, #c084fc); }
+.footer-v2 .footer-rail-group:nth-child(5) { --col-hue: var(--apex-gold, #fbbf24); }
+.footer-v2 .footer-rail-group:nth-child(6) { --col-hue: var(--honor-red, #ef4444); }
+
+.footer-v2 .footer-rail-heading {
   font-family: var(--font-display);
   font-style: italic;
-  font-size: .875rem;
+  font-size: .8rem;
   font-weight: 400;
-  color: var(--muted);
+  color: var(--col-hue);
+  opacity: .85;
   letter-spacing: .01em;
-  line-height: 1;
+  margin-right: .15rem;
 }
 
-.footer-v2 .footer-col ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: .45rem;
-}
-
-.footer-v2 .footer-col ul li a,
-.footer-v2 .footer-col ul li button.footer-link-btn {
+.footer-v2 .footer-rail-group > a,
+.footer-v2 .footer-rail-group > button.footer-link-btn {
+  position: relative;
   font-family: var(--font-body);
   font-size: .82rem;
   color: var(--muted);
   text-decoration: none;
-  transition: color .18s;
-  display: inline;
   border: none;
   background: none;
   cursor: pointer;
   padding: 0;
-  font: inherit;
-}
-
-.footer-v2 .footer-col ul li a:hover,
-.footer-v2 .footer-col ul li button.footer-link-btn:hover {
-  color: var(--text);
-}
-
-/* ── Footer link motion: each column gets a tier hue, links adopt it
-     on hover via currentColor — underline wipe + glow + 1px shift.
-     Honor handle stays Honor Red end-to-end. ─────────────────────── */
-.footer-v2 .footer-col              { --col-hue: var(--tier-basic, #38bdf8); }
-.footer-v2 .footer-col:nth-child(1) { --col-hue: var(--tier-basic, #38bdf8); }
-.footer-v2 .footer-col:nth-child(2) { --col-hue: var(--tier-unique, #c084fc); }
-.footer-v2 .footer-col:nth-child(3) { --col-hue: var(--tier-basic, #38bdf8); }
-.footer-v2 .footer-col:nth-child(4) { --col-hue: var(--apex-gold, #fbbf24); }
-.footer-v2 .footer-col:nth-child(5) { --col-hue: var(--honor-red, #ef4444); }
-
-.footer-v2 .footer-col ul li a,
-.footer-v2 .footer-col ul li button.footer-link-btn {
-  position: relative;
-  display: inline-block;
   letter-spacing: .005em;
   transition:
     color .26s cubic-bezier(0.16, 1, 0.3, 1),
-    transform .32s cubic-bezier(0.16, 1, 0.3, 1),
-    letter-spacing .32s cubic-bezier(0.16, 1, 0.3, 1),
     text-shadow .26s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.footer-v2 .footer-col ul li a::after,
-.footer-v2 .footer-col ul li button.footer-link-btn::after {
+.footer-v2 .footer-rail-group > a::after,
+.footer-v2 .footer-rail-group > button.footer-link-btn::after {
   content: "";
   position: absolute;
   left: 0;
@@ -6844,48 +6724,29 @@ footer.footer-v2::before {
   border-radius: 1px;
 }
 
-.footer-v2 .footer-col ul li a:hover,
-.footer-v2 .footer-col ul li button.footer-link-btn:hover,
-.footer-v2 .footer-col ul li a:focus-visible,
-.footer-v2 .footer-col ul li button.footer-link-btn:focus-visible {
+.footer-v2 .footer-rail-group > a:hover,
+.footer-v2 .footer-rail-group > a:focus-visible,
+.footer-v2 .footer-rail-group > button.footer-link-btn:hover,
+.footer-v2 .footer-rail-group > button.footer-link-btn:focus-visible {
   color: var(--col-hue);
-  letter-spacing: .03em;
-  transform: translateX(2px);
   text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+  outline: none;
 }
 
-.footer-v2 .footer-col ul li a:hover::after,
-.footer-v2 .footer-col ul li button.footer-link-btn:hover::after,
-.footer-v2 .footer-col ul li a:focus-visible::after,
-.footer-v2 .footer-col ul li button.footer-link-btn:focus-visible::after {
+.footer-v2 .footer-rail-group > a:hover::after,
+.footer-v2 .footer-rail-group > a:focus-visible::after,
+.footer-v2 .footer-rail-group > button.footer-link-btn:hover::after,
+.footer-v2 .footer-rail-group > button.footer-link-btn:focus-visible::after {
   transform: scaleX(1);
   box-shadow: 0 0 8px currentColor, 0 0 18px currentColor;
 }
 
-/* Column heading also breathes the hue when the column is hovered. */
-.footer-v2 .footer-col-heading {
-  transition: color .3s cubic-bezier(0.16, 1, 0.3, 1),
-              text-shadow .3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.footer-v2 .footer-col:hover .footer-col-heading,
-.footer-v2 .footer-col:focus-within .footer-col-heading {
-  color: var(--col-hue);
-  text-shadow: 0 0 12px currentColor;
-}
-
-/* Honor attribution — contributor handle only */
+/* Honor attribution — contributor handle keeps Honor Red end-to-end. */
 .footer-v2 .footer-link-honor {
   color: var(--honor-red) !important;
 }
-
-.footer-v2 .footer-link-honor:hover {
-  color: var(--text) !important;
-}
-
-/* Honor handle keeps red end-to-end, but still gets the glow treatment
-   from currentColor — the column-hue rule above shouldn't override it. */
-.footer-v2 .footer-col ul li a.footer-link-honor:hover,
-.footer-v2 .footer-col ul li a.footer-link-honor:focus-visible {
+.footer-v2 .footer-rail-group > a.footer-link-honor:hover,
+.footer-v2 .footer-rail-group > a.footer-link-honor:focus-visible {
   color: var(--honor-red) !important;
   text-shadow: 0 0 10px var(--honor-red), 0 0 22px var(--honor-red);
 }
@@ -6936,44 +6797,92 @@ footer.footer-v2::before {
   opacity: .6;
 }
 
-/* ── Big display wordmark — the footer's typographic anchor ──────────────
-   A large, near-decorative "GAIA" spanning the footer bottom, echoing the
-   Arcade.dev/Antigravity move where the brand owns the page bottom. The
-   fill is the kinship gradient itself (Atlas gold → Research blue), so the
-   "one family" metaphor is stated one final time at full scale. Purely
-   decorative (aria-hidden); it names nothing the nav doesn't already say. */
-.footer-v2 .footer-display {
+/* ── Root anchor — the site's name at full scale + parent-org signature ───
+   "Skill Tree" grows edge-to-edge from the footer baseline (Arcade.dev move:
+   the brand owns the page bottom). Gold-dominant gradient with a whisper of
+   Research blue at the tail — the parent hue is present but subordinate. The
+   "A project of Gaia Research" line sits centered above it as attribution. */
+.footer-v2 .footer-anchor {
+  position: relative;
+  z-index: 1;
   max-width: 1100px;
   margin: 0 auto;
   padding: 0 clamp(1.5rem, 4vw, 2.5rem);
-  overflow: hidden;
-  line-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .4rem;
+}
+
+.footer-v2 .footer-parentage {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: .82rem;
+  line-height: 1.5;
+  color: var(--muted);
+  text-align: center;
+}
+
+.footer-v2 .footer-parent-link {
+  color: var(--research-blue);
+  font-family: var(--font-research);
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: -.01em;
+  transition:
+    color .28s cubic-bezier(0.16, 1, 0.3, 1),
+    text-shadow .28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer-v2 .footer-parent-arrow {
+  font-size: .75em;
+  margin-left: .12em;
+  opacity: .7;
+  display: inline-block;
+  transition: transform .28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer-v2 .footer-parent-link:hover,
+.footer-v2 .footer-parent-link:focus-visible {
+  color: var(--research-blue);
+  text-shadow: 0 0 14px rgba(var(--research-blue-rgb), .5);
+  outline: none;
+}
+
+.footer-v2 .footer-parent-link:hover .footer-parent-arrow,
+.footer-v2 .footer-parent-link:focus-visible .footer-parent-arrow {
+  transform: translate(2px, -2px);
+  opacity: 1;
 }
 
 .footer-v2 .footer-display-word {
   display: block;
+  width: 100%;
+  text-align: center;
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(4.5rem, 20vw, 15rem);
-  line-height: .82;
+  font-size: clamp(3rem, 15vw, 12rem);
+  line-height: .9;
   letter-spacing: -.03em;
   white-space: nowrap;
+  overflow: hidden;
   background: linear-gradient(
     100deg,
-    rgba(var(--apex-gold-rgb), .9) 0%,
-    rgba(var(--research-blue-rgb), .9) 100%
+    rgba(var(--apex-gold-rgb), .95) 0%,
+    rgba(var(--apex-gold-rgb), .9) 60%,
+    rgba(var(--research-blue-rgb), .8) 100%
   );
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
-  opacity: .16;
+  opacity: .2;
   transition: opacity .5s cubic-bezier(0.16, 1, 0.3, 1);
   user-select: none;
 }
 
 .footer-v2:hover .footer-display-word {
-  opacity: .28;
+  opacity: .32;
 }
 
 /* Bottom strip */
@@ -7000,47 +6909,49 @@ footer.footer-v2::before {
 
 /* Responsive */
 @media (max-width: 900px) {
-  .footer-v2 .footer-inner {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
+  .footer-v2 .footer-rail {
+    gap: 1.25rem 2rem;
   }
-  .footer-v2 .footer-cols {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.75rem 2.5rem;
-  }
-  /* On the stacked layout let the brand family breathe full-width and the
-     sibling CTAs sit as comfortable tap targets. */
-  .footer-v2 .footer-siblings {
-    max-width: 340px;
+  .footer-v2 .footer-display-word {
+    font-size: clamp(2.75rem, 17vw, 9rem);
   }
 }
 
 @media (max-width: 520px) {
-  .footer-v2 .footer-cols {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
+  /* Stack the rail groups so each section reads as its own tidy line. */
+  .footer-v2 .footer-rail {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
   }
-  .footer-v2 .footer-siblings {
-    max-width: none;
+  .footer-v2 .footer-rail-group {
+    justify-content: center;
+  }
+  .footer-v2 .footer-close-headline {
+    font-size: 1.4rem;
   }
 }
 
-/* Kinship gradient + glyph rotation are decorative; honor reduced motion. */
+/* CTA lift, arrow slide, and display fade are decorative; honor reduced motion. */
 @media (prefers-reduced-motion: reduce) {
-  .footer-v2 .footer-sib,
-  .footer-v2 .footer-sib-glyph,
-  .footer-v2 .footer-sib-cta,
+  .footer-v2 .footer-close-cta,
+  .footer-v2 .footer-close-cta-arrow,
+  .footer-v2 .footer-parent-link,
+  .footer-v2 .footer-parent-arrow,
   .footer-v2 .footer-display-word {
     transition: none;
   }
-  .footer-v2 .footer-sib:hover {
+  .footer-v2 .footer-close-cta:hover,
+  .footer-v2 .footer-close-cta:focus-visible {
     transform: none;
   }
-  .footer-v2 .footer-sib:hover .footer-sib-glyph {
+  .footer-v2 .footer-close-cta:hover .footer-close-cta-arrow,
+  .footer-v2 .footer-close-cta:focus-visible .footer-close-cta-arrow {
     transform: none;
   }
-  .footer-v2 .footer-sib:hover .footer-sib-cta {
-    letter-spacing: .04em;
+  .footer-v2 .footer-parent-link:hover .footer-parent-arrow,
+  .footer-v2 .footer-parent-link:focus-visible .footer-parent-arrow {
+    transform: none;
   }
 }
 
