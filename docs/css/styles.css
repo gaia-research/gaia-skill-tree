@@ -1891,7 +1891,7 @@ h1 em {
 .ns-tab:focus-visible,
 .os-tab:focus-visible,
 .se-tab-btn:focus-visible,
-.se-flow-btn:focus-visible,
+.se-lens-chip:focus-visible,
 .tree-act-btn:focus-visible,
 .tree-close-x:focus-visible,
 .graph-legend-drawer-toggle:focus-visible,
@@ -6291,46 +6291,65 @@ tr:hover td {
   font-family: var(--font-body);
 }
 
-/* Upgrade-path action buttons (Show Fusion / Recenter) live on the
-     right side of the .se-flow-h header. */
-.se-flow-actions {
-  margin-left: auto;
-  display: flex;
-  gap: .35rem;
+/* Progression lens filter — a segmented pill control sitting on the right of
+   the .se-flow-h header. One segment active at a time: Path (all) / Fusion /
+   Suite. Replaces the old .se-flow-actions "Show X" buttons. */
+.se-flow-lens {
+  display: inline-flex;
+  align-items: stretch;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: rgba(0, 0, 0, .35);
 }
 
-.se-flow-btn {
+.se-lens-chip {
   display: inline-flex;
   align-items: center;
-  gap: .35rem;
+  gap: .3rem;
   background: transparent;
-  border: 1px solid var(--border);
+  border: none;
   color: var(--muted);
   font-family: var(--font-mono);
   font-size: .68rem;
   letter-spacing: .08em;
   text-transform: uppercase;
-  padding: .3rem .6rem;
+  padding: .3rem .7rem;
   border-radius: 6px;
   cursor: pointer;
-  transition: border-color .15s, color .15s, background .15s;
+  transition: color .15s, background .15s;
 }
 
-.se-flow-btn:hover {
-  border-color: var(--text);
+.se-lens-chip:hover {
   color: var(--text);
-  background: rgba(255, 255, 255, .03);
+  background: rgba(255, 255, 255, .04);
 }
 
-.se-flow-btn.active {
-  border-color: var(--tier-extra, #c084fc);
-  color: var(--tier-extra, #c084fc);
-  background: rgba(192, 132, 252, .08);
+.se-lens-chip.active {
+  color: var(--text);
+  background: rgba(255, 255, 255, .08);
+  box-shadow: inset 0 0 0 1px var(--border);
 }
 
-.se-flow-btn svg {
+/* Lens-tinted active states: Fusion → unique violet, Suite → apex gold.
+   Colors are UI affordances for the lens, not resolved branch values. */
+.se-lens-chip[data-lens="fusion"].active {
+  color: var(--tier-unique);
+  box-shadow: inset 0 0 0 1px rgba(var(--tier-unique-rgb, 124, 58, 237), .45);
+  background: rgba(var(--tier-unique-rgb, 124, 58, 237), .1);
+}
+
+.se-lens-chip[data-lens="suite"].active {
+  color: var(--apex-gold);
+  box-shadow: inset 0 0 0 1px rgba(var(--apex-gold-rgb, 251, 191, 36), .45);
+  background: rgba(var(--apex-gold-rgb, 251, 191, 36), .1);
+}
+
+.se-lens-chip svg {
   width: 12px;
   height: 12px;
+  opacity: .8;
 }
 
 /* Slash labels above dots are click-through by default; in the
