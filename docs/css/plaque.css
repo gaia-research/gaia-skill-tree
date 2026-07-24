@@ -1602,138 +1602,235 @@ button.plaque__slug {
 
 
 /* ── .plaque--row — Named Skills Explorer list row ──────────────
-   Horizontal flex. ~72 px tall. Description hidden in CSS only.
-   Glow intensity 25%.
+   Outer card: row flex — content area + MAG notch side by side so
+   the notch expansion naturally pushes content leftward.
    ============================================================ */
 .plaque--row {
   --plaque-glow-intensity: 0.25;
   --plaque-pad: 0px;
   width: 100%;
   max-width: 100%;
-  min-height: 72px;
+  overflow: hidden;
+  min-height: 64px;
   padding: 0 !important;
-  flex-direction: column !important;
+  flex-direction: row !important;  /* outer: content + notch side-by-side */
   align-items: stretch !important;
   gap: 0 !important;
 }
 
+/* ── Inner content row ──────────────────────────────────────── */
 .plaque__row-content {
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 100%;
+  min-width: 0;
+  flex: 1 1 auto;
   box-sizing: border-box;
-  flex: 1;
-  padding: 14px 18px;
-  gap: 1rem;
+  padding: 0 16px;
+  gap: 12px;
+  /* Desired visual order:
+     medallion(0) > slug(1) > title(2) > tags(3) > handle(4) > avatar(5) > install(6) > rank(7) */
 }
+
+/* ── Field order overrides ──────────────────────────────────── */
+.plaque--row .plaque-orb--medallion              { order: 0; flex-shrink: 0; }
+.plaque--row .plaque__slug,
+.plaque--row .plaque-skill-name                  { order: 1; }
+.plaque--row .plaque__title,
+.plaque--row .plaque-title                       { order: 2; }
+.plaque--row .plaque__tags,
+.plaque--row .plaque-tags                        { order: 3; }
+.plaque--row .plaque__handle,
+.plaque--row .plaque-contrib-row                 { order: 4; }
+.plaque--row .plaque__avatar                     { order: 5; flex-shrink: 0; }
+.plaque--row .plaque__install-row,
+.plaque--row .ns-install-row                     { order: 6; }
+.plaque--row .plaque__rank                       { order: 7; flex-shrink: 0; }
+.plaque--row .plaque__ev-badge                   { display: none; }
+
+/* ── Slug ───────────────────────────────────────────────────── */
 .plaque--row .plaque__slug,
 .plaque--row .plaque-skill-name {
-  font-size: 18px;
-  flex: 0 1 auto;
+  font-size: 16px;
+  font-weight: 600;
+  flex: 0 0 auto;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
 }
+
+/* ── Title ──────────────────────────────────────────────────── */
 .plaque--row .plaque__title,
 .plaque--row .plaque-title {
-  font-size: 14px;
+  font-size: 12px;
   flex: 1 1 auto;
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  opacity: 0.6;
 }
-.plaque--row .plaque__handle,
-.plaque--row .plaque-contrib-row {
-  font-size: 12px;
-  margin-top: 0;
-  flex-shrink: 0;
-}
+
+/* ── Tags ───────────────────────────────────────────────────── */
 .plaque--row .plaque__tags,
 .plaque--row .plaque-tags {
-  flex-shrink: 0;
-  max-width: 240px;
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 4px;
   overflow: hidden;
+  max-width: 180px;
 }
-.plaque--row .plaque__description,
-.plaque--row .plaque-description {
-  display: none; /* CSS-only collapse; markup still present */
+
+/* ── Handle ─────────────────────────────────────────────────── */
+.plaque--row .plaque__handle,
+.plaque--row .plaque-contrib-row {
+  font-size: 11px;
+  flex: 0 0 auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
+  margin-top: 0;
 }
-/* E6 mobile-first: phone base (≤480px equivalent) — hide secondary fields,
-   compact padding. Desktop progressively restores them via min-width steps. */
+
+/* ── Install row — fixed width so it never squishes ─────────── */
 .plaque--row .plaque__install-row,
 .plaque--row .ns-install-row {
-  /* Surface the install command in list rows — was display:none, but
-     hiding the canonical CTA in a "scan-all" view defeats the point of
-     the list. Compact horizontal variant: smaller font, single line,
-     truncates instead of wrapping. */
-  display: none; /* hidden on mobile by default */
+  flex: 0 0 300px;
+  width: 300px;
+  min-width: 0;
+  font-size: 11px;
+  padding: 4px 8px;
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-flex;
 }
+
+/* Grade border looks odd as a narrow strip — suppress on row notch, keep fill */
+.plaque--row .plaque__trust-notch[data-trust-grade="S"],
+.plaque--row .plaque__trust-notch[data-trust-grade="A"],
+.plaque--row .plaque__trust-notch[data-trust-grade="B"],
+.plaque--row .plaque__trust-notch[data-trust-grade="C"] {
+  border: none;
+  box-shadow: none;
+}
+
+/* ── Description — always hidden in list ───────────────────── */
+.plaque--row .plaque__description,
+.plaque--row .plaque-description {
+  display: none;
+}
+
+/* ── Mobile base (≤480px): strip to essentials ──────────────── */
 .plaque--row .plaque__title,
 .plaque--row .plaque-title,
 .plaque--row .plaque__handle,
-.plaque--row .plaque-contrib-row {
-  display: none; /* phone: drop secondary fields so slug+rank always fit */
+.plaque--row .plaque-contrib-row,
+.plaque--row .plaque__tags,
+.plaque--row .plaque-tags,
+.plaque--row .plaque__install-row,
+.plaque--row .ns-install-row {
+  display: none;
 }
 .plaque--row .plaque__slug,
 .plaque--row .plaque-skill-name {
   font-size: 14px;
+  max-width: 55vw;
   flex: 1 1 auto;
 }
 .plaque__row-content {
-  padding: .55rem .75rem;
-  gap: .4rem;
+  padding: 0 10px;
+  gap: 8px;
 }
 
-/* ≥481px: restore secondary fields, slightly larger type */
+/* ≥481px: restore secondary fields */
 @media (min-width: 481px) {
   .plaque--row .plaque__title,
-  .plaque--row .plaque-title {
-    display: block;
-    font-size: 12px;
-    min-width: 0;
-  }
+  .plaque--row .plaque-title,
   .plaque--row .plaque__handle,
   .plaque--row .plaque-contrib-row {
     display: block;
-    font-size: 11px;
-    min-width: 0;
-    max-width: 35vw;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  }
+  .plaque--row .plaque__tags,
+  .plaque--row .plaque-tags {
+    display: flex;
   }
   .plaque--row .plaque__slug,
   .plaque--row .plaque-skill-name {
     font-size: 15px;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    flex: unset;
-  }
-  .plaque--row {
-    min-height: 60px;
+    max-width: 180px;
+    flex: 0 0 auto;
   }
   .plaque__row-content {
-    padding: .65rem .85rem;
-    gap: .5rem;
+    padding: 0 14px;
+    gap: 10px;
   }
 }
 
-/* ≥701px: show install row in full density */
+/* ≥701px: show install row */
 @media (min-width: 701px) {
   .plaque--row .plaque__install-row,
   .plaque--row .ns-install-row {
     display: inline-flex;
-    flex: 0 1 auto;
-    max-width: 320px;
-    font-size: 11px;
-    padding: 4px 8px;
-    margin: 0;
-    overflow: hidden;
-    white-space: nowrap;
+  }
+  .plaque--row .plaque__slug,
+  .plaque--row .plaque-skill-name {
+    max-width: 200px;
   }
   .plaque__row-content {
-    padding: 14px 18px;
-    gap: 1rem;
+    padding: 0 16px;
+    gap: 12px;
+  }
+}
+
+/* ── MAG notch — fixed right slot, rotated label, nothing shifts ─
+   Always 28px wide — sits as the last flex child of .plaque--row,
+   after the rank badge. Label opacity-fades on hover; no layout shift.
+   On mobile collapses to a 4px grade-color accent sliver, no label.
+   ============================================================ */
+.plaque--row .plaque__trust-notch {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+  flex: 0 0 28px;
+  width: 28px;
+  align-self: stretch;
+  height: auto !important;
+  transition: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 0;
+  position: static;
+}
+.plaque--row:hover .plaque__trust-notch {
+  width: 28px;
+  flex-basis: 28px;
+}
+/* Label: rotated 90° CW (reads bottom-to-top), fades in on hover */
+.plaque--row .trust-notch-label {
+  white-space: nowrap;
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.plaque--row:hover .trust-notch-label {
+  opacity: 1;
+}
+@media (max-width: 480px) {
+  .plaque--row .plaque__trust-notch {
+    flex: 0 0 4px;
+    width: 4px;
+  }
+  .plaque--row .trust-notch-label {
+    display: none;
   }
 }
 
@@ -4166,6 +4263,7 @@ button.plaque__slug {
    Shown at the end of list-view rows as a small muted label.
    Positioned just before the › arrow. */
 .plaque--row .plaque__ev-badge {
+  display: none; /* trust magnitude already encodes the grade — negative space preferred */
   font-size: 0.6rem;
   font-weight: 700;
   letter-spacing: 0.08em;
