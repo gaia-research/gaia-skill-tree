@@ -426,3 +426,87 @@ class TestCustomNodeFlag:
         _, graph = graph_mod.write_graph_artifact(root, fmt="html")
         for sk in graph.get("skills", []):
             assert "custom" not in sk
+
+
+# ---------------------------------------------------------------------------
+# Palette contract — Yggdrasil II collapsed the type axis to {basic, fusion}
+# ---------------------------------------------------------------------------
+#
+# Replaces TestPaletteFromRegistry::test_extra_and_ultimate_no_longer_drifted
+# (deleted in 74dae4ce7), which asserted that the retired `extra` and
+# `ultimate` types shared a colour slot. Both types are gone from the taxonomy,
+# so the drift it guarded cannot occur. What still needs guarding is the new
+# contract: the tier palette has exactly two members, sourced from
+# meta.json `types.colors`, and no consumer may index a retired type key.
+class TestPaletteContractYggdrasilII:
+    def _meta_types(self):
+        import json as _json
+        import os as _os
+
+        repo_root = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+        with open(
+            _os.path.join(repo_root, "registry", "schema", "meta.json"),
+            "r",
+            encoding="utf-8",
+        ) as f:
+            return _json.load(f)["types"]
+
+    def test_type_axis_is_exactly_basic_and_fusion(self):
+        types = self._meta_types()
+        assert types["order"] == ["basic", "fusion"]
+        assert set(types["colors"]) == {"basic", "fusion"}
+        # Retired Yggdrasil I types must not reappear on the colour axis.
+        for retired in ("extra", "ultimate", "unique"):
+            assert retired not in types["colors"], (
+                f"`{retired}` is a retired Yggdrasil I type; `unique` in "
+                "particular is a read-time BRANCH (taxonomy.branchFor), never a "
+                "`type`, and must not gain a typeColors slot."
+            )
+
+    def test_tier_palette_has_no_shared_slots(self):
+        """Each surviving type owns a distinct hue.
+
+        The old test existed because `extra` and `ultimate` had drifted onto the
+        same hex. With two types left, distinctness is the whole contract.
+        """
+        colors = self._meta_types()["colors"]
+        hexes = [v["hex"].lower() for v in colors.values()]
+        assert len(set(hexes)) == len(hexes), f"Tier colours collide: {colors}"
+        assert colors["basic"]["hex"].lower() == "#38bdf8"
+        assert colors["fusion"]["hex"].lower() == "#f59e0b"
+
+    def test_runtime_tier_colors_match_meta(self):
+        """`formatting.TIER_COLORS` (registry-loaded, with a hard-coded fallback)
+        must agree with meta.json — the fallback is the wheel's cold-start
+        palette and silently drifting it repaints the CLI."""
+        from gaia_cli.formatting import _hex_to_rgb, TIER_COLORS
+
+        expected = {
+            k: _hex_to_rgb(v["hex"]) for k, v in self._meta_types()["colors"].items()
+        }
+        assert TIER_COLORS == expected
+
+    def test_no_module_hard_indexes_a_retired_tier_key(self):
+        """Regression: `TIER_COLORS['ultimate']` raised KeyError at runtime once
+        the palette collapsed. Any retired key must be reached via `.get()` with
+        a live-key fallback, never by subscript."""
+        import glob as _glob
+        import os as _os
+        import re as _re
+
+        src_root = _os.path.join(
+            _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))),
+            "src",
+            "gaia_cli",
+        )
+        pattern = _re.compile(r"""TIER_COLORS\[\s*['"](extra|ultimate|unique)['"]""")
+        offenders = []
+        for path in _glob.glob(_os.path.join(src_root, "**", "*.py"), recursive=True):
+            with open(path, "r", encoding="utf-8") as f:
+                for lineno, line in enumerate(f, 1):
+                    if pattern.search(line):
+                        offenders.append(f"{_os.path.relpath(path, src_root)}:{lineno}")
+        assert not offenders, (
+            "Retired tier key indexed by subscript (KeyError under Yggdrasil II): "
+            + ", ".join(offenders)
+        )

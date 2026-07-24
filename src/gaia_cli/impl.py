@@ -638,7 +638,7 @@ def init_command(args):
                     if _use_color():
                         prompt = (
                             f"\n{_bold()}{_fg(*(TIER_COLORS.get('extra') or TIER_COLORS.get('fusion') or (192, 132, 252)))}⚡ {_fg(255, 255, 255)}Detected repo: {_fg(*RANK_COLORS['2★'])}{source}{_reset()}\n"
-                            f"{_bold()}{_fg(*TIER_COLORS['ultimate'])}? {_fg(255, 255, 255)}Initialize Gaia on this repository? "
+                            f"{_bold()}{_fg(*TIER_COLORS['fusion'])}? {_fg(255, 255, 255)}Initialize Gaia on this repository? "
                             f"{_fg(*RANK_COLORS['0★'])}[{_fg(*COLOR_LOCAL_USER)}Y{_fg(*RANK_COLORS['0★'])}/n]: {_reset()}"
                         )
                     else:
@@ -2228,7 +2228,7 @@ def push_command(args):
                 push_color = COLOR_LOCAL_USER
                 grey = RANK_COLORS["0★"]
                 prompt = (
-                    f"{_bold()}{_fg(*TIER_COLORS['ultimate'])}? {_fg(255, 255, 255)}Push selected items to gaia registry from {_fg(*RANK_COLORS['2★'])}{batch['sourceRepo']}{_reset()}{_fg(255, 255, 255)}? "
+                    f"{_bold()}{_fg(*TIER_COLORS['fusion'])}? {_fg(255, 255, 255)}Push selected items to gaia registry from {_fg(*RANK_COLORS['2★'])}{batch['sourceRepo']}{_reset()}{_fg(255, 255, 255)}? "
                     f"{_fg(*grey)}[{_fg(*push_color)}Y{_fg(*grey)}/n]: {_reset()}"
                 )
             else:
