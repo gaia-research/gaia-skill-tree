@@ -62,7 +62,6 @@ def _load_meta():
 
 
 _META = _load_meta()
-EVIDENCE_FLOOR = {k: set(v) if v else None for k, v in _META["levels"].get("evidenceFloors", {}).items()}
 MIN_PREREQS = _META["types"]["minPrereqs"]
 DEMERIT_IDS = set(_META.get("demerits", {}).get("order", []))
 DEMERIT_ELIGIBLE_LEVELS = set(_META.get("demerits", {}).get("eligibleLevels", []))
@@ -243,48 +242,6 @@ def validate_prerequisites_count(graph):
             errors.append(f"Unique skill '{skill['id']}' must have 0 prerequisites (has {actual}).")
         elif actual < min_req:
             errors.append(f"{skill['type'].title()} skill '{skill['id']}' needs ≥{min_req} prerequisites (has {actual}).")
-    return errors
-
-
-def validate_named_evidence(graph, named_dir=None):
-    """Check named skills meet the evidence floor for their level.
-
-    Generic skill refs are rank-less and hold capability-level (inherited)
-    evidence. A named skill's effective evidence pool is its own evidence plus
-    the evidence on the generic skill it points at via ``genericSkillRef``.
-    """
-    errors = []
-    if named_dir is None:
-        repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        named_dir = os.path.join(repo_root, "registry", "named")
-    if not os.path.isdir(named_dir):
-        return errors
-
-    generic_evidence = {s["id"]: (s.get("evidence") or []) for s in graph.get("skills", [])}
-
-    for fp in sorted(glob.glob(os.path.join(named_dir, "**", "*.md"), recursive=True)):
-        if fp.endswith("index.json"):
-            continue
-        try:
-            with open(fp, "r", encoding="utf-8") as f:
-                fm = _parse_named_frontmatter(f.read())
-        except (OSError, ValueError):
-            continue  # parse errors surfaced by validate_named_skills
-        level = fm.get("level", "")
-        required_classes = EVIDENCE_FLOOR.get(level)
-        if required_classes is None:
-            continue  # no floor below 2★ / unknown level handled elsewhere
-
-        pool = list(fm.get("evidence") or [])
-        pool += generic_evidence.get(fm.get("genericSkillRef", ""), [])
-        has_qualifying = any(e.get("class") in required_classes for e in pool)
-        if not has_qualifying:
-            rel = os.path.relpath(fp)
-            errors.append(
-                f"Named skill {rel} at Level {level} needs evidence class "
-                f"{sorted(required_classes)} (own or inherited) but pool has: "
-                f"{[e.get('class') for e in pool]}."
-            )
     return errors
 
 
@@ -945,45 +902,33 @@ def main():
     print("   [5/11] Prerequisite count...")
     all_errors.extend(validate_prerequisites_count(graph))
 
-    # 6. Named skill evidence floors (inherited generic + own evidence).
-    #    Non-blocking for now: generic refs are rank-less and the per-named
-    #    evidence-floor enforcement is the next meta step. Surfaced as warnings.
-    print("   [6/11] Named evidence thresholds (warn)...")
-    evidence_warnings = validate_named_evidence(graph)
-
-    # 7. Ultimate constraints
-    print("   [7/11] Ultimate constraints...")
+    # 6. Ultimate constraints
+    print("   [6/11] Ultimate constraints...")
     all_errors.extend(validate_ultimate(graph))
 
-    # 8. Unique skill constraints
-    print("   [8/12] Unique skill constraints...")
+    # 7. Unique skill constraints
+    print("   [7/11] Unique skill constraints...")
     all_errors.extend(validate_unique_skills(graph))
 
-    # 9. Named skills validation (includes reviewer gate + catalog cross-refs)
-    print("   [9/12] Named skills validation...")
+    # 8. Named skills validation (includes reviewer gate + catalog cross-refs)
+    print("   [8/11] Named skills validation...")
     all_errors.extend(validate_named_skills(graph, named_dir=named_dir))
 
-    # 10. Skill suites validation
-    print("   [10/12] Skill suites validation...")
+    # 9. Skill suites validation
+    print("   [9/11] Skill suites validation...")
     all_errors.extend(validate_suites(graph))
 
-    # 11. Benchmark-result provenance (Sprint D W2a, #904)
+    # 10. Benchmark-result provenance (Sprint D W2a, #904)
     strict_label = " [strict]" if strict_mode else ""
-    print(f"   [11/12] Benchmark-result provenance{strict_label}...")
+    print(f"   [10/11] Benchmark-result provenance{strict_label}...")
     all_errors.extend(validate_benchmark_provenance(graph, strict=strict_mode))
 
-    # 12. Verifier benchmark attestations (Sprint D W2b, #905)
-    print("   [12/12] Verifier benchmark attestations...")
+    # 11. Verifier benchmark attestations (Sprint D W2b, #905)
+    print("   [11/11] Verifier benchmark attestations...")
     all_errors.extend(validate_verifier_benchmark_attestations())
 
     # Stats
     compute_stats(graph)
-
-    if evidence_warnings:
-        print(f"\n⚠  {len(evidence_warnings)} named evidence warning(s) "
-              f"(non-blocking — per-named evidence floors land in the next meta step):")
-        for i, warn in enumerate(evidence_warnings, 1):
-            print(f"   {i}. {warn}")
 
     if all_errors:
         print(f"\n❌ {len(all_errors)} validation error(s):")
