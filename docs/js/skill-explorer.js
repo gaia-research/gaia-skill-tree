@@ -1387,16 +1387,18 @@
     // when the skill carries suiteComponents.
     // Read-only: no branch/type derivation, no rank-word resolution here — the
     // segment labels ARE the lens names (see taxonomy build-time authority).
+    // The data-tip copy is CONTEXT.md-faithful and surfaces as a hover tooltip
+    // (styled via .se-lens-chip[data-tip]::after) — static prose, not resolved.
     function buildFlowActions() {
       return '<div class="se-flow-lens" role="tablist" aria-label="Progression view">' +
-        '<button type="button" class="se-lens-chip active" data-lens="path" role="tab" aria-selected="true" title="Show the full path">' +
+        '<button type="button" class="se-lens-chip active" data-lens="path" role="tab" aria-selected="true" data-tip="The skills leading to this one.">' +
           'Path' +
         '</button>' +
-        '<button type="button" class="se-lens-chip" data-lens="fusion" role="tab" aria-selected="false" title="Focus the fusion origins">' +
+        '<button type="button" class="se-lens-chip" data-lens="fusion" role="tab" aria-selected="false" data-tip="Two or more skills combined into a single, higher-complexity skill.">' +
           _se_icon('sparkle') + 'Fusion' +
         '</button>' +
         (suiteComponents.length
-          ? '<button type="button" class="se-lens-chip" data-lens="suite" role="tab" aria-selected="false" title="Focus the suite components">' +
+          ? '<button type="button" class="se-lens-chip" data-lens="suite" role="tab" aria-selected="false" data-tip="Sibling components installed together as one Suite.">' +
               _se_icon('sparkle') + 'Suite' +
             '</button>'
           : '') +
