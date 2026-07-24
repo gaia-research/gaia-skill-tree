@@ -2,6 +2,34 @@
 
 ---
 
+## 2026-07-24 — Routine 017 (continued, PR #1249 still open)
+
+**Branch:** `docs/routines/017`
+**Task chosen:** Rotate least-recently-touched page — `cli-reference.html` — for ongoing audit and sync with new CLI features.
+
+### Trigger
+PR #1249 (`docs/routines/017`) still open/unmerged; per branch discipline, continue on the same routine branch. DOCS.md page map shows `cli-reference.html` last touched in routine 012; the planned next from routine 017's 2026-07-23 session flagged this page as needing systematic audit for CLI-shape drift.
+
+### What I did
+1. **Added `gaia scan --dir` flag documentation** — CLI feature from commit `3cee7a4cc` (feat(scan): add repeatable --dir flag for nonstandard skill roots #1159) was live but not yet documented. Updated `cli-reference.html` scan command card: updated signature to `[--quiet] [--auto-promote] [--json] [--dir DIR]...`; added table row for `--dir DIR` with description "Scan an extra skill root beyond configured paths (repeatable). Accepts home-relative, absolute, or relative paths. Equivalent to adding to .gaia/config.toml skillDirs=[...]"; added a new example demonstrating repeatable `--dir ~/my-skills --dir ./local-agents`.
+
+### Design decisions
+- Kept the `--dir` description terse, avoiding implementation details (path normalization, realpath-dedup, warning on missing paths) — users needing those specifics can read `src/gaia_cli/scanner.py` docstring or the reference in `CLAUDE.md`. The docs page level stays at "what it does, when to use it."
+- Description matches the phrasing in `src/gaia_cli/commands/scan.py` (line 24) which calls it "Sticky equivalent" to `.gaia/config.toml skillDirs=[...]" — both docs and code reference the same affordance.
+
+### Issues informed
+- Closes no filed issues; this is preventive: documented a live feature before the gap was reported.
+
+### Files created / modified
+- `docs/en/MEMORY.md` (modified)
+- `docs/en/cli-reference.html` (modified)
+
+### Planned next (Routine 018 or continuation)
+- Continue systematic audit of `cli-reference.html` for other undocumented recent flags (scan has more, other commands may too).
+- Audit `mcp-server.html` for package/version drift (similar to the class→grade migration already done).
+
+---
+
 ## 2026-07-23 — Routine 017 (continued, PR #1249 still open)
 
 **Branch:** `docs/routines/017`
