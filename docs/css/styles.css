@@ -6599,51 +6599,67 @@ footer.footer-v2::before {
   align-items: flex-start;
 }
 
-/* Kinship connector: a short vertical rule graduating from Atlas gold to
-   Research blue, plus the connective copy. The gradient IS the bridge. */
-.footer-v2 .footer-kinship {
+/* Kinship copy — the "one family, two rooms" line that heads the sibling
+   stack. Set in the Atlas display voice, italic, quiet. */
+.footer-v2 .footer-kinship-copy {
+  margin: .35rem 0 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: .84rem;
+  line-height: 1.3;
+  color: var(--muted);
+  max-width: 22ch;
+}
+
+/* ── The sibling stack: two rooms of one house ─────────────────────────
+   A single vertical kinship rail (Atlas gold → Research blue) runs the
+   height of both CTA cards — it IS the bridge, literally binding the two
+   marks into one family. Each card keeps its own voice: the Atlas card
+   speaks gold + display serif, the Research card speaks Rimuru-blue + Syne.
+   Matched geometry (same padding, radius, glyph size) makes them read as
+   siblings; divergent hue + type makes them read as distinct rooms. */
+.footer-v2 .footer-siblings {
   display: flex;
-  align-items: center;
-  gap: .6rem;
-  margin-top: .35rem;
+  align-items: stretch;
+  gap: .85rem;
+  margin-top: .3rem;
 }
 
 .footer-v2 .footer-kinship-line {
   flex: 0 0 auto;
+  align-self: stretch;
   width: 2px;
-  height: 2.1rem;
   border-radius: 2px;
   background: linear-gradient(
     180deg,
-    rgba(var(--apex-gold-rgb), .85) 0%,
-    rgba(var(--research-blue-rgb), .85) 100%
+    rgba(var(--apex-gold-rgb), .9) 0%,
+    rgba(var(--research-blue-rgb), .9) 100%
   );
 }
 
-.footer-v2 .footer-kinship-copy {
-  margin: 0;
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: .82rem;
-  line-height: 1.3;
-  color: var(--muted);
-  max-width: 15ch;
+.footer-v2 .footer-sibling-stack {
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
-/* The Gaia Research lockup — sibling brand in its own visual language. */
-.footer-v2 .footer-research {
+/* Shared sibling-card chassis — identical geometry, hue set per variant. */
+.footer-v2 .footer-sib {
+  --sib-rgb: var(--research-blue-rgb);
+  --sib-hue: var(--research-blue);
   display: inline-flex;
   align-items: center;
   gap: .7rem;
-  padding: .7rem .9rem;
-  border: 1px solid rgba(var(--research-blue-rgb), .28);
+  padding: .65rem .85rem;
+  border: 1px solid rgba(var(--sib-rgb), .28);
   border-radius: 10px;
-  background:
-    linear-gradient(
-      135deg,
-      rgba(var(--research-blue-rgb), .1) 0%,
-      rgba(var(--research-pink-rgb), .07) 100%
-    );
+  background: linear-gradient(
+    135deg,
+    rgba(var(--sib-rgb), .1) 0%,
+    rgba(var(--sib-rgb), .03) 100%
+  );
   text-decoration: none;
   transition:
     border-color .32s cubic-bezier(0.16, 1, 0.3, 1),
@@ -6652,60 +6668,84 @@ footer.footer-v2::before {
     box-shadow .32s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.footer-v2 .footer-research:hover,
-.footer-v2 .footer-research:focus-visible {
-  border-color: rgba(var(--research-blue-rgb), .6);
-  background:
-    linear-gradient(
-      135deg,
-      rgba(var(--research-blue-rgb), .18) 0%,
-      rgba(var(--research-pink-rgb), .12) 100%
-    );
+.footer-v2 .footer-sib-atlas {
+  --sib-rgb: var(--apex-gold-rgb);
+  --sib-hue: var(--apex-gold);
+}
+
+.footer-v2 .footer-sib-research {
+  --sib-rgb: var(--research-blue-rgb);
+  --sib-hue: var(--research-blue);
+  /* Research card blends a whisper of Milim-pink so its counter-accent reads. */
+  background: linear-gradient(
+    135deg,
+    rgba(var(--research-blue-rgb), .1) 0%,
+    rgba(var(--research-pink-rgb), .06) 100%
+  );
+}
+
+.footer-v2 .footer-sib:hover,
+.footer-v2 .footer-sib:focus-visible {
+  border-color: rgba(var(--sib-rgb), .6);
+  background: linear-gradient(
+    135deg,
+    rgba(var(--sib-rgb), .2) 0%,
+    rgba(var(--sib-rgb), .08) 100%
+  );
   transform: translateY(-1px);
   box-shadow:
-    0 0 0 1px rgba(var(--research-blue-rgb), .2),
-    0 8px 22px rgba(var(--research-blue-rgb), .18);
+    0 0 0 1px rgba(var(--sib-rgb), .2),
+    0 8px 22px rgba(var(--sib-rgb), .18);
   outline: none;
 }
 
-/* Hex-lens seal — the shared motif, rendered in Research blue not Atlas gold. */
-.footer-v2 .footer-research-lens {
+/* Hex-seal glyph — the shared motif, tinted per room's hue. */
+.footer-v2 .footer-sib-glyph {
   flex: 0 0 auto;
   display: inline-flex;
-  color: var(--research-blue);
-  filter: drop-shadow(0 0 6px rgba(var(--research-blue-rgb), .45));
+  color: var(--sib-hue);
+  filter: drop-shadow(0 0 6px rgba(var(--sib-rgb), .45));
   transition: transform .5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.footer-v2 .footer-research:hover .footer-research-lens {
+.footer-v2 .footer-sib:hover .footer-sib-glyph {
   transform: rotate(30deg);
 }
 
-.footer-v2 .footer-research-mark {
+.footer-v2 .footer-sib-mark {
   display: flex;
   flex-direction: column;
   gap: .12rem;
   line-height: 1.05;
+  min-width: 0;
 }
 
-/* Syne wordmark — Research's own display voice. */
-.footer-v2 .footer-research-name {
-  font-family: var(--font-research);
+.footer-v2 .footer-sib-name {
   font-weight: 700;
   font-size: .95rem;
   letter-spacing: -.01em;
   color: var(--text);
 }
 
-.footer-v2 .footer-research-cta {
+/* Atlas room speaks the display serif; Research room speaks Syne. */
+.footer-v2 .footer-sib-name-atlas {
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+.footer-v2 .footer-sib-name-research {
+  font-family: var(--font-research);
+}
+
+.footer-v2 .footer-sib-cta {
   font-family: var(--font-mono);
   font-size: .68rem;
   letter-spacing: .04em;
-  color: var(--research-blue);
+  color: var(--sib-hue);
   transition: letter-spacing .32s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.footer-v2 .footer-research:hover .footer-research-cta {
+.footer-v2 .footer-sib:hover .footer-sib-cta {
   letter-spacing: .09em;
 }
 
@@ -6896,6 +6936,46 @@ footer.footer-v2::before {
   opacity: .6;
 }
 
+/* ── Big display wordmark — the footer's typographic anchor ──────────────
+   A large, near-decorative "GAIA" spanning the footer bottom, echoing the
+   Arcade.dev/Antigravity move where the brand owns the page bottom. The
+   fill is the kinship gradient itself (Atlas gold → Research blue), so the
+   "one family" metaphor is stated one final time at full scale. Purely
+   decorative (aria-hidden); it names nothing the nav doesn't already say. */
+.footer-v2 .footer-display {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 clamp(1.5rem, 4vw, 2.5rem);
+  overflow: hidden;
+  line-height: 0;
+}
+
+.footer-v2 .footer-display-word {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(4.5rem, 20vw, 15rem);
+  line-height: .82;
+  letter-spacing: -.03em;
+  white-space: nowrap;
+  background: linear-gradient(
+    100deg,
+    rgba(var(--apex-gold-rgb), .9) 0%,
+    rgba(var(--research-blue-rgb), .9) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  opacity: .16;
+  transition: opacity .5s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.footer-v2:hover .footer-display-word {
+  opacity: .28;
+}
+
 /* Bottom strip */
 .footer-v2 .footer-bottom {
   border-top: 1px solid var(--border);
@@ -6929,9 +7009,9 @@ footer.footer-v2::before {
     gap: 1.75rem 2.5rem;
   }
   /* On the stacked layout let the brand family breathe full-width and the
-     Research lockup sit as a comfortable tap target. */
-  .footer-v2 .footer-research {
-    align-self: flex-start;
+     sibling CTAs sit as comfortable tap targets. */
+  .footer-v2 .footer-siblings {
+    max-width: 340px;
   }
 }
 
@@ -6940,25 +7020,26 @@ footer.footer-v2::before {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
   }
-  .footer-v2 .footer-research {
-    width: 100%;
+  .footer-v2 .footer-siblings {
+    max-width: none;
   }
 }
 
-/* Kinship gradient + lens rotation are decorative; honor reduced motion. */
+/* Kinship gradient + glyph rotation are decorative; honor reduced motion. */
 @media (prefers-reduced-motion: reduce) {
-  .footer-v2 .footer-research,
-  .footer-v2 .footer-research-lens,
-  .footer-v2 .footer-research-cta {
+  .footer-v2 .footer-sib,
+  .footer-v2 .footer-sib-glyph,
+  .footer-v2 .footer-sib-cta,
+  .footer-v2 .footer-display-word {
     transition: none;
   }
-  .footer-v2 .footer-research:hover {
+  .footer-v2 .footer-sib:hover {
     transform: none;
   }
-  .footer-v2 .footer-research:hover .footer-research-lens {
+  .footer-v2 .footer-sib:hover .footer-sib-glyph {
     transform: none;
   }
-  .footer-v2 .footer-research:hover .footer-research-cta {
+  .footer-v2 .footer-sib:hover .footer-sib-cta {
     letter-spacing: .04em;
   }
 }

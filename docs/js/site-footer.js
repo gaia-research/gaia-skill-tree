@@ -50,28 +50,45 @@
             </div>
             <p class="footer-tagline">An evidence-backed atlas<br>of agent capabilities.</p>
 
-            <div class="footer-kinship">
-              <span class="footer-kinship-line" aria-hidden="true"></span>
-              <p class="footer-kinship-copy">
-                The flagship registry of
-              </p>
-            </div>
+            <p class="footer-kinship-copy">One family, two rooms.</p>
 
-            <a class="footer-research" href="https://research.gaiaskilltree.com"
-               target="_blank" rel="noopener"
-               aria-label="Gaia Research — visit research.gaiaskilltree.com">
-              <span class="footer-research-lens" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
-                  <path d="M12 2.5 20.5 7v10L12 21.5 3.5 17V7L12 2.5Z"
-                        stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
-                  <circle cx="12" cy="12" r="3.4" stroke="currentColor" stroke-width="1.4"/>
-                </svg>
-              </span>
-              <span class="footer-research-mark">
-                <span class="footer-research-name">Gaia Research</span>
-                <span class="footer-research-cta">Enter the lab <span aria-hidden="true">→</span></span>
-              </span>
-            </a>
+            <div class="footer-siblings" role="group" aria-label="Enter the Gaia family">
+              <span class="footer-kinship-line" aria-hidden="true"></span>
+
+              <div class="footer-sibling-stack">
+                <a class="footer-sib footer-sib-atlas" href="${r}index.html"
+                   aria-label="The Gaia Skill Tree — enter the atlas">
+                  <span class="footer-sib-glyph" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+                      <path d="M12 2.5 20.5 7v10L12 21.5 3.5 17V7L12 2.5Z"
+                            stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+                      <path d="M12 7.5 16 10v4l-4 2.5L8 14v-4l4-2.5Z"
+                            stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                  <span class="footer-sib-mark">
+                    <span class="footer-sib-name footer-sib-name-atlas">The Skill Tree</span>
+                    <span class="footer-sib-cta footer-sib-cta-atlas">Enter the atlas <span aria-hidden="true">→</span></span>
+                  </span>
+                </a>
+
+                <a class="footer-sib footer-sib-research" href="https://research.gaiaskilltree.com"
+                   target="_blank" rel="noopener"
+                   aria-label="Gaia Research — visit research.gaiaskilltree.com">
+                  <span class="footer-sib-glyph" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none">
+                      <path d="M12 2.5 20.5 7v10L12 21.5 3.5 17V7L12 2.5Z"
+                            stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
+                      <circle cx="12" cy="12" r="3.4" stroke="currentColor" stroke-width="1.4"/>
+                    </svg>
+                  </span>
+                  <span class="footer-sib-mark">
+                    <span class="footer-sib-name footer-sib-name-research">Gaia Research</span>
+                    <span class="footer-sib-cta footer-sib-cta-research">Enter the lab <span aria-hidden="true">→</span></span>
+                  </span>
+                </a>
+              </div>
+            </div>
 
           </div>
         </div>
@@ -144,12 +161,16 @@
         </nav>
       </div>
 
+      <div class="footer-display" aria-hidden="true">
+        <span class="footer-display-word">GAIA</span>
+      </div>
+
       <div class="footer-bottom">
         <svg class="ico footer-seal" width="16" height="16" aria-hidden="true">
           <use href="${r}assets/icons.svg#seal-diamond"/>
         </svg>
         <span class="footer-bottom-sep">—</span>
-        <span>Gaia Registry</span>
+        <span>Gaia</span>
         <span class="footer-bottom-sep">·</span>
         <a href="https://github.com/gaia-research/gaia-skill-tree" target="_blank" rel="noopener">GitHub</a>
         <span class="footer-bottom-sep">·</span>
