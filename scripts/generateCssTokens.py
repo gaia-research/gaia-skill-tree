@@ -208,6 +208,35 @@ def build_tokens_css(gaia: dict) -> str:
         body.append(f"  --grade-{grade}: var(--evidence-{label});")
         body.append(f"  --grade-{grade}-rgb: var(--evidence-{label}-rgb);")
 
+    # ── Evidence TYPE tokens (provenance color axis) ─────────────────────────
+    # Evidence Type ≠ rank ≠ branch. Each canonical evidence type gets its own
+    # --ev-type-<name> color so pills stop borrowing --tier-*/--rank-* (which
+    # conflated provenance with skill rank — see TOKEN-POLLUTION-AUDIT.md).
+    # Hues are the source of truth from docs/evidence/ (the evidence library
+    # page). Kebab-case names match the schema evidence.types values and the
+    # .ev-type-pill.type-<name> consumer classes in styles.css.
+    body.append(
+        "  /* ── Evidence Type tokens (provenance axis — NOT rank/branch) ─── */"
+    )
+    ev_type_colors = {
+        "repo": "#38bdf8",
+        "repo-own": "#38bdf8",
+        "peer-review": "#38bdf8",
+        "github-stars": "#f59e0b",
+        "github-stars-own": "#f59e0b",
+        "fusion-recipe": "#f59e0b",
+        "proxy-containment": "#7c3aed",
+        "verifier-attestation": "#e879f9",
+        "benchmark-result": "#c084fc",
+        "arxiv": "#c084fc",
+        "self-attestation": "#94a3b8",
+        "social-signal": "#34d399",
+    }
+    for name, hex_val in ev_type_colors.items():
+        rgb_triplet = _rgb_str(_hex_to_rgb_triplet(hex_val))
+        body.append(f"  --ev-type-{name}: {hex_val};")
+        body.append(f"  --ev-type-{name}-rgb: {rgb_triplet};")
+
     body.append("}")
     body.append("")
     return "\n".join(body)
