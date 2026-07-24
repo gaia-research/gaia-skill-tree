@@ -31,7 +31,14 @@ def _load_meta():
 _META = _load_meta()
 LEVEL_ORDER = _META["levels"]["order"]
 LEVEL_NAMES = _META["levels"]["labels"]
-EVIDENCE_FLOOR = {k: set(v) if v else None for k, v in _META["levels"].get("evidenceFloors", {}).items()}
+
+# NOTE (Yggdrasil II, ratified 2026-07-07): the **Evidence Floor** is gone.
+# `meta.json levels.evidenceFloors` was dropped from the schema and Trust
+# Magnitude (`gaia_cli.trustMagnitude`) is now the SOLE promotion gate. The
+# former `EVIDENCE_FLOOR` constant and `_meets_evidence_floor()` helper were
+# deleted here rather than left returning an unconditional True — a gate that
+# always passes reads like a gate and invites re-wiring. Do not reintroduce a
+# per-level evidence-class floor; raise the TM threshold instead.
 
 
 def next_level(current: str) -> str | None:
@@ -104,36 +111,6 @@ def effectiveGrade(entry: dict) -> str | None:
     Shared helper exposed for verification.py (G4 #709 TODO collapse).
     """
     return _effective_grade(entry)
-
-
-def _meets_evidence_floor(graph_skill: dict, target_level: str) -> bool:
-    """Check whether the graph skill has evidence meeting the floor for target_level.
-
-    The floor list (e.g. ["B", "A"]) means "at least one evidence row whose
-    effective grade is >= the weakest letter in the list".  Grade ordering is
-    S > A > B > C so S satisfies any floor including ["A"].
-
-    Evidence rows are evaluated via :func:`_effective_grade`, which reads the
-    ``grade`` field first (new) and falls back to ``class`` (legacy).  Rows
-    with neither field are ignored.
-    """
-    required_classes = EVIDENCE_FLOOR.get(target_level)
-    if required_classes is None:
-        return True
-    # The floor list encodes "at least one row at grade >= min(floor)".
-    # Determine the weakest acceptable grade index (highest index in _GRADE_ORDER).
-    floor_index = max(
-        (_GRADE_ORDER.index(f) for f in required_classes if f in _GRADE_ORDER),
-        default=len(_GRADE_ORDER),
-    )
-    evidence_list = graph_skill.get("evidence", [])
-    for ev in evidence_list:
-        grade = _effective_grade(ev)
-        if grade is None:
-            continue
-        if _GRADE_ORDER.index(grade) <= floor_index:
-            return True
-    return False
 
 
 # Unique-branch grade gates (Yggdrasil II Q3, amended 2026-07-19): 4★ Unique
