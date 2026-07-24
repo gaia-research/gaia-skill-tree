@@ -11123,6 +11123,11 @@ button.nav-graph-trigger:hover {
   margin-bottom: 0;
   padding: 28px 16px 0;
 }
+/* Translucent overlay only for rank/branch zones (level sort), not A-Z */
+.ns-dag-zone:not([data-az]) {
+  border-left: 2px solid color-mix(in srgb, var(--zone-color) 30%, transparent);
+  background: color-mix(in srgb, var(--zone-color) 5%, transparent);
+}
 .ns-dag-zone[data-branch="suite"]  { --zone-color: var(--tier-fusion); }
 .ns-dag-zone[data-branch="unique"] { --zone-color: var(--tier-unique); }
 .ns-dag-zone[data-rank="5"]:not([data-branch]) { --zone-color: var(--rank-5); }
