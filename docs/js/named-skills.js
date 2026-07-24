@@ -365,10 +365,14 @@
 
       // Yggdrasil II E1: path color keys on rank integer, never dead type enum.
       // The data-rank attribute is set on the parent .ns-dag-rank layer.
-      function tierFor(fromEl) {
+      // Edge color follows the RANK of the source (parent) node's layer. The
+      // parent .ns-dag-rank carries data-rank="<star rank>" (0..6); the CSS keys
+      // .git-path on [data-rank]. Mirrors the per-skill DAG in skill-explorer.js.
+      // A-Z sort layers carry data-rank="az" → parses to 0 (neutral gray edge).
+      function rankFor(fromEl) {
         var rankLayer = fromEl.closest ? fromEl.closest('.ns-dag-rank') : null;
         var rn = rankLayer ? (parseInt(rankLayer.getAttribute('data-rank') || '', 10) || 0) : 0;
-        return 'rank-' + rn;
+        return rn;
       }
 
       function getRelatedTreeNodes(nodeId) {
@@ -525,8 +529,11 @@
                 ' ' + tx.toFixed(1) + ',' + (ty - ctrl).toFixed(1) +
                 ' ' + tx.toFixed(1) + ',' + ty.toFixed(1);
 
-        var tier = tierFor(fromEl);
-        paths += '<path id="path-tree-' + e.from + '-' + e.to + '" class="git-path" data-tier="' + tier + '" d="' + d + '"/>';
+        // Color by the PARENT skill's rank — the higher-rank node the edge
+        // feeds INTO (e.to), not the prerequisite it comes from. The parent
+        // owns the tree, so its rank wins.
+        var rank = rankFor(toEl);
+        paths += '<path id="path-tree-' + e.from + '-' + e.to + '" class="git-path" data-rank="' + rank + '" d="' + d + '"/>';
       });
       svg.innerHTML = paths;
     }, 60);
