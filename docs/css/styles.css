@@ -6768,7 +6768,7 @@ footer.footer-v2::before {
      Honor handle stays Honor Red end-to-end. ─────────────────────── */
 .footer-v2 .footer-col              { --col-hue: var(--tier-basic, #38bdf8); }
 .footer-v2 .footer-col:nth-child(1) { --col-hue: var(--tier-basic, #38bdf8); }
-.footer-v2 .footer-col:nth-child(2) { --col-hue: var(--tier-extra, #c084fc); }
+.footer-v2 .footer-col:nth-child(2) { --col-hue: var(--tier-unique, #c084fc); }
 .footer-v2 .footer-col:nth-child(3) { --col-hue: var(--tier-basic, #38bdf8); }
 .footer-v2 .footer-col:nth-child(4) { --col-hue: var(--apex-gold, #fbbf24); }
 .footer-v2 .footer-col:nth-child(5) { --col-hue: var(--honor-red, #ef4444); }
