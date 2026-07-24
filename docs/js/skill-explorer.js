@@ -78,31 +78,37 @@
   function _missingDriversHint(t) { return _DRIVER_HINTS[t] || 'metric fields'; }
 
   // ── N-11 Research-product CTA (shared helper, Rimuru-Blue bridge) ─────────
-  // Renders a compact two-link "Research product" affordance for every
-  // fuse/suite section.  Uses var(--tier-basic) which is the Rimuru-Blue
-  // cross-brand bridge token (E5).  No hex literals here — uses CSS token vars.
-  // ctaLabel: optional override for the primary CTA text.
+  // The skill-fuse TOOL affordance, rendered near the DAG on suite/fusion
+  // skills. `/fuse` composes your OWN fusion from origin skills — a generative
+  // command, not a "reconstruct this suite" button. The skill name links to
+  // its repo; a copyable install command sits below (same .se-copy-btn pattern
+  // as the Install block — wire it wherever this is mounted). Uses
+  // var(--tier-basic), the Rimuru-Blue cross-brand bridge token (E5). No hex.
+  // ctaLabel: optional override for the lead text.
   function _researchProductCta(ctaLabel) {
-    var label = ctaLabel || 'Fuse skills on Gaia Research →';
+    var lead = ctaLabel || 'create your own path';
+    var repoUrl = 'https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/skill-fuse/SKILL.md';
+    var installCmd = 'gaia install gaia-research/skill-fuse';
     return '<div class="se-research-cta" style="' +
         'margin-top:1rem;padding:.65rem .9rem;' +
         'border:1px solid rgba(var(--tier-basic-rgb,56,189,248),.25);' +
         'border-radius:8px;' +
         'background:rgba(var(--tier-basic-rgb,56,189,248),.06);' +
-        'display:flex;flex-direction:column;gap:.35rem;' +
+        'display:flex;flex-direction:column;gap:.5rem;' +
       '">' +
-      '<a href="https://research.gaiaskilltree.com/labs/infinite-skill-craft"' +
-          ' target="_blank" rel="noopener"' +
-          ' style="color:var(--tier-basic);font-size:.8rem;font-weight:600;text-decoration:none;"' +
-          ' title="Try the live Gaia Research fusion product">' +
-        esc(label) +
-      '</a>' +
-      '<a href="https://github.com/gaia-research/skill-fuse"' +
-          ' target="_blank" rel="noopener"' +
-          ' style="color:var(--tier-basic);opacity:.75;font-size:.75rem;font-family:var(--font-mono);text-decoration:none;"' +
-          ' title="Open-source skill-fuse repository on GitHub">' +
-        'gaia-research/skill-fuse' +
-      '</a>' +
+      '<div style="color:var(--tier-basic);font-size:.75rem;font-weight:600;">' +
+        'Use <a href="' + repoUrl + '" target="_blank" rel="noopener"' +
+          ' style="color:var(--tier-basic);font-weight:800;text-decoration:none;font-family:var(--font-mono);"' +
+          ' title="Open the skill-fuse skill on GitHub">/fuse</a> to ' + esc(lead) +
+      '</div>' +
+      '<div style="display:flex;align-items:center;gap:.4rem;">' +
+        '<code style="color:var(--tier-basic);opacity:.85;font-size:.72rem;' +
+            'font-family:var(--font-mono);white-space:nowrap;overflow:auto;">' +
+          '$ ' + esc(installCmd) +
+        '</code>' +
+        '<button class="se-copy-btn" title="Copy to clipboard" aria-label="Copy to clipboard"' +
+          ' data-cmd="' + esc(installCmd) + '">' + COPY_ICON() + '</button>' +
+      '</div>' +
     '</div>';
   }
 
@@ -496,6 +502,15 @@
         var ctaDiv = document.createElement('div');
         ctaDiv.innerHTML = _researchProductCta();
         heroEl.appendChild(ctaDiv);
+        // Wire the copyable install command (hero is outside #se-install's handler scope).
+        ctaDiv.querySelectorAll('.se-copy-btn').forEach(function(btn){
+          btn.onclick = function(){
+            navigator.clipboard.writeText(btn.dataset.cmd).then(function(){
+              btn.innerHTML = _se_icon('copy-check', 15);
+              setTimeout(function(){ btn.innerHTML = COPY_ICON(); }, 1600);
+            }).catch(function(){ btn.textContent = '!'; setTimeout(function(){ btn.innerHTML = COPY_ICON(); }, 1600); });
+          };
+        });
       }
     }
   }
@@ -1176,8 +1191,6 @@
               notesHtml +
               metricsHtml +
               originsHtml +
-              // N-11 Site 4: Research CTA on every fusion-recipe evidence tile.
-              (rawType === 'fusion-recipe' ? _researchProductCta() : '') +
             '</div>' +
             magBarHtml +
           '</div>';
