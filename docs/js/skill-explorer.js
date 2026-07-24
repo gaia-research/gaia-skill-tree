@@ -1380,59 +1380,63 @@
       return '<div class="dag-node-label"' + navAttr + '>' + inner + '</div>';
     }
 
-    // Action-buttons header (Show Fusion / Show Suite).
-    // PR3b: fusion label reads the emitted rankWord; suite label uses the suite
-    // ladder word for the current rank. No banned words, no type derivation.
+    // Filter chip-set for the flowchart canvas. Three segments, one active at
+    // a time: Path (default = show everything), Fusion (focus the prerequisite
+    // origin subgraph), Suite (focus the suite-capstone subgraph). Fusion/Suite
+    // reuse the showFusionOnly spotlight; Path clears it. Suite only renders
+    // when the skill carries suiteComponents.
+    // Read-only: no branch/type derivation, no rank-word resolution here — the
+    // segment labels ARE the lens names (see taxonomy build-time authority).
     function buildFlowActions() {
-      var fusionLabel = 'Show Fusion';
-      var suiteLabel  = 'Show Suite';
-      if (window.GaiaSemantics && window.GaiaSemantics.rankWord) {
-        // Emitted rankWord for the current skill (unique 4★ → 'Unique', etc.).
-        var _faRankWord = _seRankWordOf(ns);
-        if (_faRankWord) fusionLabel = 'Show ' + _faRankWord + ' Path';
-        if (suiteComponents.length) {
-          var _sRankWord = window.GaiaSemantics.rankWord(_fcRank, SE_SUITE);
-          suiteLabel = 'Show ' + (_sRankWord || 'Suite') + ' Path';
-        }
-      }
-      // N-11 Site 2: Research CTA in the flow action area for fuse/suite skills.
-      var ctaHtml = (suiteComponents.length || (_fcBranch === SE_SUITE))
-        ? _researchProductCta('Fuse skills on Gaia Research →')
-        : '';
-      return '<div class="se-flow-actions">' +
-        '<button type="button" class="se-flow-btn" id="seFlowShowFusion" title="Highlight the fusion graph">' +
-          _se_icon('sparkle') + fusionLabel +
+      return '<div class="se-flow-lens" role="tablist" aria-label="Progression view">' +
+        '<button type="button" class="se-lens-chip active" data-lens="path" role="tab" aria-selected="true" title="Show the full path">' +
+          'Path' +
+        '</button>' +
+        '<button type="button" class="se-lens-chip" data-lens="fusion" role="tab" aria-selected="false" title="Focus the fusion origins">' +
+          _se_icon('sparkle') + 'Fusion' +
         '</button>' +
         (suiteComponents.length
-          ? '<button type="button" class="se-flow-btn" id="seFlowShowSuite" title="Highlight the suite structure">' +
-              _se_icon('sparkle') + suiteLabel +
+          ? '<button type="button" class="se-lens-chip" data-lens="suite" role="tab" aria-selected="false" title="Focus the suite components">' +
+              _se_icon('sparkle') + 'Suite' +
             '</button>'
           : '') +
-      '</div>' + ctaHtml;
+      '</div>';
     }
 
-    // Wire flow action button handlers. Called after innerHTML set.
+    // Wire the lens chips. Called after innerHTML set. Path = reset focus;
+    // Fusion/Suite = spotlight the respective subgraph via showFusionOnly.
     function wireFlowActions(fusionFocusId, suiteFocusId) {
-      var btnFusion = document.getElementById('seFlowShowFusion');
-      var btnSuite = document.getElementById('seFlowShowSuite');
-      function setActive(activeBtn) {
-        if (btnFusion) btnFusion.classList.toggle('active', activeBtn === btnFusion);
-        if (btnSuite) btnSuite.classList.toggle('active', activeBtn === btnSuite);
-      }
-      if (btnFusion) {
-        btnFusion.addEventListener('click', function(e) {
-          e.stopPropagation();
-          if (window.showFusionOnly) window.showFusionOnly(fusionFocusId);
-          setActive(btnFusion);
+      var chips = document.querySelectorAll('.se-lens-chip');
+      if (!chips.length) return;
+      function setActive(lens) {
+        chips.forEach(function(c) {
+          var on = c.getAttribute('data-lens') === lens;
+          c.classList.toggle('active', on);
+          c.setAttribute('aria-selected', on ? 'true' : 'false');
         });
       }
-      if (btnSuite) {
-        btnSuite.addEventListener('click', function(e) {
-          e.stopPropagation();
-          if (window.showFusionOnly) window.showFusionOnly(suiteFocusId || fusionFocusId);
-          setActive(btnSuite);
-        });
+      function clearFocus() {
+        // Restore the full canvas: drop selection/dim/active-path from a prior
+        // spotlight so "Path" shows everything.
+        document.querySelectorAll('.git-node.selected').forEach(function(n) { n.classList.remove('selected'); });
+        document.querySelectorAll('.git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
+        document.querySelectorAll('.git-path').forEach(function(p) { p.classList.remove('active-path', 'dimmed'); });
+        window._selectedFlowNode = null;
       }
+      chips.forEach(function(chip) {
+        chip.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var lens = chip.getAttribute('data-lens');
+          setActive(lens);
+          if (lens === 'path') {
+            clearFocus();
+          } else if (lens === 'suite') {
+            if (window.showFusionOnly) window.showFusionOnly(suiteFocusId || fusionFocusId);
+          } else {
+            if (window.showFusionOnly) window.showFusionOnly(fusionFocusId);
+          }
+        });
+      });
     }
 
     function renderNamedFusionNode(skillId, syntheticId, isMain) {
