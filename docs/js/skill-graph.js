@@ -30,6 +30,47 @@
   const GRAPH_JSON_URL = prefix + 'graph/gaia.json' + version;
   const GRAPH_SCALE = 1.625;
 
+  // ── SHARED JSON FETCH CACHE ────────────────────────────────────
+  // graph/gaia.json is ~733 KB and graph/named/index.json is ~1.29 MB.
+  // The homepage loads both skill-graph.js and page-ia.js, which each
+  // fetched the same two URLs independently — ~2 MB of duplicate
+  // transfer on every load. Both files install this identical, idempotent
+  // helper: whoever runs first creates window.GAIA_JSON_CACHE and the
+  // other reuses it, so each URL is fetched at most once per page load
+  // and both consumers await the same in-flight promise.
+  //
+  // Deliberately self-contained and duplicated rather than split into a
+  // fourth script file — either consumer must work standalone (codex.html,
+  // privacy.html and starless.html load page-ia.js without skill-graph.js)
+  // with no load-order requirement between them.
+  if (!window.GAIA_JSON_CACHE) {
+    window.GAIA_JSON_CACHE = {
+      inflight: {},
+      // Resolves with parsed JSON. Rejections are not cached, so a later
+      // caller can retry a URL that failed.
+      fetchJson: function (url, init) {
+        var store = this.inflight;
+        if (!store[url]) {
+          store[url] = fetch(url, init).then(function (response) {
+            if (!response.ok) throw new Error('HTTP ' + response.status + ' from ' + url);
+            var ct = response.headers.get('content-type') || '';
+            if (ct.indexOf('json') === -1 && ct.indexOf('text/plain') === -1) {
+              return response.text().then(function (body) {
+                throw new Error('Expected JSON, got ' + (ct || 'no content-type') + '; body starts: ' + body.slice(0, 80));
+              });
+            }
+            return response.json();
+          }).catch(function (err) {
+            delete store[url];
+            throw err;
+          });
+        }
+        return store[url];
+      },
+    };
+  }
+  const NAMED_JSON_URL = prefix + 'graph/named/index.json' + version;
+
   // ── Locked canvas geometry (DESIGN.md ▸ Graph Canvas) ──────────
   // §6 node-radius re-axis: radius is keyed to EFFECTIVE RANK (bigger = more
   // proven), not type. NODE_RADII.get(rankOrLabel, type) accepts either an
@@ -3743,17 +3784,11 @@
   const _pingOk = fetch(prefix + 'graph/ping.json', { cache: 'no-store' })
     .then(r => r.ok && r.json()).then(d => !!(d && d.ok)).catch(() => false);
 
-  fetch(GRAPH_JSON_URL, { cache: 'reload' })
-    .then(response => {
-      if (!response.ok) throw new Error(`HTTP ${response.status} from ${GRAPH_JSON_URL}`);
-      const ct = response.headers.get('content-type') || '';
-      if (!ct.includes('json') && !ct.includes('text/plain')) {
-        return response.text().then(body => {
-          throw new Error(`Expected JSON, got ${ct || 'no content-type'}; body starts: ${body.slice(0, 80)}`);
-        });
-      }
-      return response.json();
-    })
+  // No `cache: 'reload'` here — that bypassed the HTTP cache and forced a
+  // full re-download of gaia.json on every visit, repeat visits included.
+  // Freshness is already handled by the site-wide ?v= cache-bust convention.
+  // The shared cache also collapses this into one request with page-ia.js.
+  window.GAIA_JSON_CACHE.fetchJson(GRAPH_JSON_URL)
     .then(graph => {
       _initMetaGraph(graph.meta);
       if (heroGraph) heroGraph.setMeta(graph.meta);
@@ -3801,8 +3836,7 @@
       });
     });
 
-  fetch(prefix + 'graph/named/index.json' + version)
-    .then(r => r.ok ? r.json() : Promise.reject())
+  window.GAIA_JSON_CACHE.fetchJson(NAMED_JSON_URL)
     .then(indexData => {
       const map = {};
       const titleMap = {};
