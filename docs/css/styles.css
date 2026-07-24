@@ -306,7 +306,7 @@ body {
 }
 
 /* ── NAV ── */
-nav:not(.footer-cols) {
+nav:not(.footer-cols):not(.footer-rail) {
   position: fixed;
   top: 0;
   left: 0;
@@ -878,7 +878,7 @@ nav a:hover {
 }
 
 .nav-tree {
-  color: var(--ultimate) !important;
+  color: var(--rank-5, #fbbf24) !important;
   font-family: var(--font-body);
   font-size: .9rem;
   letter-spacing: .01em
@@ -1400,7 +1400,7 @@ section[class*="frontis"],
 }
 
 .hero-audit-btn:hover {
-  border-color: var(--tier-ultimate);
+  border-color: var(--rank-5, #fbbf24);
   background: #111;
   transform: translateX(-4px);
 }
@@ -1411,7 +1411,7 @@ section[class*="frontis"],
 }
 
 .hero-audit-btn:hover .hero-audit-btn-arrow {
-  color: var(--tier-ultimate);
+  color: var(--rank-5, #fbbf24);
 }
 
 
@@ -1476,7 +1476,7 @@ section[class*="frontis"],
   border: none;
   padding: .45rem 1.05rem;
   border-radius: 999px;
-  background: linear-gradient(135deg, var(--basic) 0%, var(--extra) 50%, var(--ultimate) 100%);
+  background: linear-gradient(135deg, var(--basic) 0%, var(--rank-4, #e879f9) 50%, var(--rank-5, #fbbf24) 100%);
   box-shadow: 0 0 24px rgba(56, 189, 248, .22);
 }
 
@@ -1891,7 +1891,7 @@ h1 em {
 .ns-tab:focus-visible,
 .os-tab:focus-visible,
 .se-tab-btn:focus-visible,
-.se-flow-btn:focus-visible,
+.se-lens-chip:focus-visible,
 .tree-act-btn:focus-visible,
 .tree-close-x:focus-visible,
 .graph-legend-drawer-toggle:focus-visible,
@@ -1931,7 +1931,7 @@ h1 em {
 .bd-copy-all:focus-visible,
 .bd-copy-perline:focus-visible,
 .se-close-x:focus-visible {
-  outline: 2px solid var(--tier-extra);
+  outline: 2px solid var(--rank-4, #e879f9);
   outline-offset: 2px;
 }
 
@@ -2247,13 +2247,13 @@ h2 {
 
 .badge-extra {
   background: rgba(192, 132, 252, .15);
-  color: var(--extra);
+  color: var(--rank-4, #e879f9);
   border: 1px solid rgba(192, 132, 252, .3)
 }
 
 .badge-ultimate {
   background: rgba(245, 158, 11, .15);
-  color: var(--ultimate);
+  color: var(--rank-5, #fbbf24);
   border: 1px solid rgba(245, 158, 11, .3)
 }
 
@@ -2295,7 +2295,7 @@ h2 {
   font-weight: 800;
   font-size: 1rem;
   flex-shrink: 0;
-  background: linear-gradient(135deg, var(--basic), var(--extra));
+  background: linear-gradient(135deg, var(--basic), var(--rank-4, #e879f9));
   color: #fff;
   box-shadow: 0 0 16px rgba(56, 189, 248, .35);
 }
@@ -2368,7 +2368,7 @@ pre {
 }
 
 .copy-btn:focus-visible {
-  outline: 2px solid var(--tier-extra);
+  outline: 2px solid var(--rank-4, #e879f9);
   outline-offset: 2px;
 }
 
@@ -2488,7 +2488,7 @@ tr:hover td {
 .callout-title {
   font-weight: 700;
   margin-bottom: .5rem;
-  color: var(--extra)
+  color: var(--rank-4, #e879f9)
 }
 
 .callout p {
@@ -2692,7 +2692,7 @@ tr:hover td {
 }
 
 .usp-copy:focus-visible {
-  outline: 2px solid var(--tier-extra);
+  outline: 2px solid var(--rank-4, #e879f9);
   outline-offset: 2px;
 }
 
@@ -2819,7 +2819,7 @@ tr:hover td {
 
 .codex-toc__list a:hover,
 .codex-toc__list a:focus {
-  color: var(--tier-extra);
+  color: var(--rank-4, #e879f9);
   border-block-end-color: currentColor;
 }
 
@@ -2921,7 +2921,7 @@ tr:hover td {
 }
 
 .process-check span {
-  color: var(--extra);
+  color: var(--rank-4, #e879f9);
   font-weight: 800
 }
 
@@ -2975,7 +2975,7 @@ tr:hover td {
 }
 
 .branch-table td code {
-  color: var(--extra);
+  color: var(--rank-4, #e879f9);
   font-size: .8rem
 }
 
@@ -3480,7 +3480,7 @@ tr:hover td {
 
 /* · fusion glyph */
 .tree-glyph-fusion {
-  color: var(--tier-extra, #c084fc) !important;
+  color: var(--rank-4, #e879f9) !important;
   font-weight: 900 !important;
 }
 
@@ -3773,7 +3773,7 @@ tr:hover td {
 }
 
 .skill-tooltip-type-extra {
-  color: var(--tier-extra)
+  color: var(--rank-4, #e879f9)
 }
 
 .skill-tooltip-type-unique {
@@ -3781,7 +3781,7 @@ tr:hover td {
 }
 
 .skill-tooltip-type-ultimate {
-  color: var(--tier-ultimate)
+  color: var(--rank-5, #fbbf24)
 }
 
 /* PR3b: branch-keyed tooltip color (skill-graph.js keys on the resolved branch,
@@ -4554,13 +4554,13 @@ tr:hover td {
 }
 
 .graph-skill-panel-cmd.copied {
-  border-color: rgba(var(--tier-extra-rgb), .5);
-  color: var(--tier-extra)
+  border-color: rgba(var(--rank-4-rgb, 232, 121, 249), .5);
+  color: var(--rank-4, #e879f9)
 }
 
 .graph-skill-panel-cmd.copied::after {
   content: ' ✓ copied';
-  color: rgba(var(--tier-extra-rgb), .7);
+  color: rgba(var(--rank-4-rgb, 232, 121, 249), .7);
   font-size: .65rem
 }
 
@@ -4681,7 +4681,7 @@ tr:hover td {
 
 .graph-collection-copy-all.copied {
   color: var(--text);
-  border-color: rgba(var(--tier-extra-rgb), .5);
+  border-color: rgba(var(--rank-4-rgb, 232, 121, 249), .5);
 }
 
 .graph-collection-clear-all:hover {
@@ -4801,8 +4801,8 @@ tr:hover td {
 }
 
 .graph-collection-cmd.copied {
-  border-color: rgba(var(--tier-extra-rgb), .5);
-  color: var(--tier-extra);
+  border-color: rgba(var(--rank-4-rgb, 232, 121, 249), .5);
+  color: var(--rank-4, #e879f9);
 }
 
 .graph-collection-share,
@@ -5723,7 +5723,7 @@ tr:hover td {
   padding: .16rem .48rem;
   border-radius: 999px;
   background: rgba(245, 158, 11, .12);
-  color: var(--ultimate);
+  color: var(--rank-5, #fbbf24);
   border: 1px solid rgba(245, 158, 11, .3);
 }
 
@@ -5743,13 +5743,13 @@ tr:hover td {
 }
 
 .ns-chip-deriv {
-  color: var(--tier-extra);
+  color: var(--rank-4, #e879f9);
   background: rgba(192, 132, 252, .08);
   border-color: rgba(192, 132, 252, .25)
 }
 
 .ns-chip-variant {
-  color: var(--tier-ultimate);
+  color: var(--rank-5, #fbbf24);
   background: rgba(245, 158, 11, .08);
   border-color: rgba(245, 158, 11, .25)
 }
@@ -5856,8 +5856,12 @@ tr:hover td {
   color: var(--tier-basic);
 }
 
+.tier-glyph[data-type="fusion"] {
+  color: var(--tier-unique);
+}
+
 .tier-glyph[data-type="extra"] {
-  color: var(--tier-extra);
+  color: var(--rank-4, #e879f9);
 }
 
 .tier-glyph[data-type="unique"] {
@@ -5865,7 +5869,7 @@ tr:hover td {
 }
 
 .tier-glyph[data-type="ultimate"] {
-  color: var(--tier-ultimate);
+  color: var(--rank-5, #fbbf24);
 }
 
 /* ── terminal install row (inside cards) ── */
@@ -5921,7 +5925,7 @@ tr:hover td {
 }
 
 .ns-install-copy:focus-visible {
-  outline: 2px solid var(--tier-extra);
+  outline: 2px solid var(--rank-4, #e879f9);
   outline-offset: 2px;
 }
 
@@ -5992,6 +5996,22 @@ tr:hover td {
 
 .ns-group-glyph {
   font-size: 1rem;
+}
+
+/* Branch descriptor chip on 4★+ group headers — makes the taxonomy explicit:
+   the Unique ladder (Unique / Unique Ultimate / Unique Impossible) is STANDALONE
+   skills; the suite ladder (Extra / Ultimate / Apex) is skill SUITES. Sits at the
+   trailing edge of the header row. */
+.ns-group-kind {
+  margin-left: auto;
+  font-size: .6rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: .1rem .45rem;
+  opacity: .85;
 }
 
 /* grab-to-scroll cursor on grid area. The explorer no longer scrolls
@@ -6258,7 +6278,7 @@ tr:hover td {
 }
 
 .se-hero-copy:focus-visible {
-  outline: 2px solid var(--tier-extra);
+  outline: 2px solid var(--rank-4, #e879f9);
   outline-offset: 2px
 }
 
@@ -6269,48 +6289,152 @@ tr:hover td {
   margin-top: 1rem;
   text-align: center;
   font-family: var(--font-body);
-}
-
-/* Upgrade-path action buttons (Show Fusion / Recenter) live on the
-     right side of the .se-flow-h header. */
-.se-flow-actions {
-  margin-left: auto;
-  display: flex;
-  gap: .35rem;
-}
-
-.se-flow-btn {
   display: inline-flex;
   align-items: center;
   gap: .35rem;
-  background: transparent;
+}
+
+/* Lens-scoped count chips: each declares the lens it belongs to and only
+   surfaces when #se-upgrade carries the matching lens- state. Under Path
+   (no lens class) both stay hidden, keeping the canvas quiet. The count is
+   read-only reinforcement of the active framing, not ambient noise. */
+.se-fusion-label[data-lens] { display: none; }
+#se-upgrade.lens-fusion .se-fusion-label[data-lens="fusion"] {
+  display: inline-flex;
+  color: var(--tier-unique);
+}
+#se-upgrade.lens-suite .se-fusion-label[data-lens="suite"] {
+  display: inline-flex;
+  color: var(--apex-gold);
+}
+.se-fusion-label svg { width: 13px; height: 13px; opacity: .85; }
+
+/* Node framing per lens — origins (Fusion, violet) vs installed deliverables
+   (Suite, gold). The ring is a UI affordance keyed off the container lens
+   state, not a resolved branch color. Fusion rings the spotlit direct children
+   (.show-label); Suite rings the full lit deliverable set (.suite-lit). */
+#se-upgrade.lens-fusion .git-node.show-label .git-commit-dot {
+  box-shadow: 0 0 0 3px rgba(var(--tier-unique-rgb, 124, 58, 237), .35);
+}
+#se-upgrade.lens-suite .git-node.suite-lit .git-commit-dot,
+#se-upgrade.lens-suite .git-node.show-label .git-commit-dot {
+  box-shadow: 0 0 0 3px rgba(var(--apex-gold-rgb, 251, 191, 36), .35);
+}
+/* Under the Suite lens, dim canonical nodes that are NOT in the deliverable
+   set so the installed suite reads as a distinct region of the path. */
+#se-upgrade.lens-suite .git-node:not(.suite-lit):not(.selected) {
+  opacity: .3;
+}
+
+/* Progression lens filter — a segmented pill control sitting on the right of
+   the .se-flow-h header. One segment active at a time: Path (all) / Fusion /
+   Suite. Replaces the old .se-flow-actions "Show X" buttons. */
+.se-flow-lens {
+  display: inline-flex;
+  align-items: stretch;
+  gap: 2px;
+  padding: 3px;
   border: 1px solid var(--border);
+  border-radius: 9px;
+  background: rgba(0, 0, 0, .35);
+}
+
+.se-lens-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  background: transparent;
+  border: none;
   color: var(--muted);
   font-family: var(--font-mono);
   font-size: .68rem;
   letter-spacing: .08em;
   text-transform: uppercase;
-  padding: .3rem .6rem;
+  padding: .3rem .7rem;
   border-radius: 6px;
   cursor: pointer;
-  transition: border-color .15s, color .15s, background .15s;
+  transition: color .15s, background .15s;
 }
 
-.se-flow-btn:hover {
-  border-color: var(--text);
+.se-lens-chip:hover {
   color: var(--text);
-  background: rgba(255, 255, 255, .03);
+  background: rgba(255, 255, 255, .04);
 }
 
-.se-flow-btn.active {
-  border-color: var(--tier-extra, #c084fc);
-  color: var(--tier-extra, #c084fc);
-  background: rgba(192, 132, 252, .08);
+.se-lens-chip.active {
+  color: var(--text);
+  background: rgba(255, 255, 255, .08);
+  box-shadow: inset 0 0 0 1px var(--border);
 }
 
-.se-flow-btn svg {
+/* Lens-tinted active states: Fusion → unique violet, Suite → apex gold.
+   Colors are UI affordances for the lens, not resolved branch values. */
+.se-lens-chip[data-lens="fusion"].active {
+  color: var(--tier-unique);
+  box-shadow: inset 0 0 0 1px rgba(var(--tier-unique-rgb, 124, 58, 237), .45);
+  background: rgba(var(--tier-unique-rgb, 124, 58, 237), .1);
+}
+
+.se-lens-chip[data-lens="suite"].active {
+  color: var(--apex-gold);
+  box-shadow: inset 0 0 0 1px rgba(var(--apex-gold-rgb, 251, 191, 36), .45);
+  background: rgba(var(--apex-gold-rgb, 251, 191, 36), .1);
+}
+
+.se-lens-chip svg {
   width: 12px;
   height: 12px;
+  opacity: .8;
+}
+
+/* Hover/focus tooltip carrying the lens explainer copy (data-tip). Positioned
+   ABOVE the chip, escaping the pill. Border + accent tint match each lens's
+   active-state color (Fusion → unique violet, Suite → apex gold, Path →
+   neutral). Pure CSS — no JS, read-only prose. */
+.se-lens-chip[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  right: 0;
+  z-index: 20;
+  width: max-content;
+  max-width: 240px;
+  padding: .45rem .6rem;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: .76rem;
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: 0;
+  text-transform: none;
+  text-align: left;
+  white-space: normal;
+  box-shadow: 0 8px 24px -8px rgba(0, 0, 0, .6);
+  opacity: 0;
+  transform: translateY(3px);
+  pointer-events: none;
+  transition: opacity .14s ease, transform .14s ease;
+}
+
+/* Per-lens accent — same tokens as the active chip state. */
+.se-lens-chip[data-lens="fusion"][data-tip]::after {
+  border-color: rgba(var(--tier-unique-rgb, 124, 58, 237), .45);
+  color: var(--tier-unique);
+}
+
+.se-lens-chip[data-lens="suite"][data-tip]::after {
+  border-color: rgba(var(--apex-gold-rgb, 251, 191, 36), .45);
+  color: var(--apex-gold);
+}
+
+.se-lens-chip[data-tip]:hover::after,
+.se-lens-chip[data-tip]:focus-visible::after {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Slash labels above dots are click-through by default; in the
@@ -6323,21 +6447,6 @@ tr:hover td {
 
 #se-upgrade .dag-node-label:hover {
   border-color: var(--text);
-}
-
-/* Lone unique zone — current skill stands alone inside the void. */
-.se-flowchart-rows.unique-alone {
-  min-height: 200px;
-  align-items: center;
-  justify-content: center;
-}
-
-.se-flowchart-rows.unique-alone .se-flowchart-row.void-zone {
-  min-width: 280px;
-  min-height: 160px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 /* Subtle marker for the current/main node so the user knows which
@@ -6523,250 +6632,170 @@ footer.footer-v2::before {
   background: linear-gradient(90deg, transparent, rgba(56, 189, 248, .3) 20%, rgba(192, 132, 252, .3) 50%, rgba(245, 158, 11, .3) 80%, transparent);
 }
 
+/* ── FOOTER v2 — "Roots of the Tree" ─────────────────────────────────────
+   UX inversion from the old brand-left / nav-grid-right split: the footer
+   now reads as a single vertical descent — a centered closing invitation
+   (the one action), a compact horizontal nav rail (everything else), and a
+   full-scale "Skill Tree" root anchor with the parent-org signature. The
+   Yggdrasil backdrop sits faint behind the whole thing as the roots. */
+.footer-v2 .footer-roots {
+  position: absolute;
+  inset: 0;
+  background-image: var(--footer-tree);
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: min(1100px, 120%) auto;
+  opacity: .05;
+  filter: grayscale(.3) brightness(1.1);
+  pointer-events: none;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 45%, #000 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 45%, #000 100%);
+}
+
 .footer-v2 .footer-inner {
   max-width: 1100px;
   margin: 0 auto;
-  padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 4vw, 2.5rem) clamp(2.5rem, 5vw, 4rem);
-  display: grid;
-  grid-template-columns: minmax(170px, 230px) 1fr;
-  gap: 3rem 4rem;
-  align-items: start;
+  padding: clamp(3.5rem, 7vw, 6rem) clamp(1.5rem, 4vw, 2.5rem) clamp(2rem, 4vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.75rem, 6vw, 4.5rem);
   width: 100%;
   box-sizing: border-box;
+  position: relative;
+  z-index: 1;
 }
 
-/* Brand column */
-.footer-v2 .footer-brand-col {
+/* ── Closing invitation — centered emotional sign-off + one primary CTA ── */
+.footer-v2 .footer-close {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-}
-
-.footer-v2 .footer-brand-mark {
-  display: flex;
   align-items: center;
-  gap: .6rem;
+  text-align: center;
+  gap: .85rem;
 }
 
-.footer-v2 .footer-seal {
-  width: 26px;
-  height: 26px;
+.footer-v2 .footer-close-seal {
+  width: 40px;
+  height: 40px;
+  color: var(--apex-gold);
+  filter: drop-shadow(0 0 12px rgba(var(--apex-gold-rgb), .35));
 }
 
-.footer-v2 .footer-wordmark {
-  font-size: 1.15rem;
-}
-
-.footer-v2 .footer-tagline {
-  font-family: var(--font-body);
-  font-size: .8rem;
-  line-height: 1.6;
-  color: var(--muted);
-  margin: 0;
-}
-
-/* ── Gaia brand family: "one house, two rooms." ──────────────────────
-   The Atlas mark keeps its serif/gold language; the Gaia Research mark
-   is rendered in ITS OWN language (Syne + Rimuru-Blue) as a distinct-but
-   -sibling block, bound by connective copy naming the flagship relation.
-   Rimuru-Blue (--research-blue == --tier-basic) is the exact shared token,
-   so the two rooms visibly belong to one house without merging the two
-   design systems. */
-.footer-v2 .footer-family {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  align-items: flex-start;
-}
-
-/* Kinship connector: a short vertical rule graduating from Atlas gold to
-   Research blue, plus the connective copy. The gradient IS the bridge. */
-.footer-v2 .footer-kinship {
-  display: flex;
-  align-items: center;
-  gap: .6rem;
-  margin-top: .35rem;
-}
-
-.footer-v2 .footer-kinship-line {
-  flex: 0 0 auto;
-  width: 2px;
-  height: 2.1rem;
-  border-radius: 2px;
-  background: linear-gradient(
-    180deg,
-    rgba(var(--apex-gold-rgb), .85) 0%,
-    rgba(var(--research-blue-rgb), .85) 100%
-  );
-}
-
-.footer-v2 .footer-kinship-copy {
+.footer-v2 .footer-close-headline {
   margin: 0;
   font-family: var(--font-display);
-  font-style: italic;
-  font-size: .82rem;
-  line-height: 1.3;
-  color: var(--muted);
-  max-width: 15ch;
-}
-
-/* The Gaia Research lockup — sibling brand in its own visual language. */
-.footer-v2 .footer-research {
-  display: inline-flex;
-  align-items: center;
-  gap: .7rem;
-  padding: .7rem .9rem;
-  border: 1px solid rgba(var(--research-blue-rgb), .28);
-  border-radius: 10px;
-  background:
-    linear-gradient(
-      135deg,
-      rgba(var(--research-blue-rgb), .1) 0%,
-      rgba(var(--research-pink-rgb), .07) 100%
-    );
-  text-decoration: none;
-  transition:
-    border-color .32s cubic-bezier(0.16, 1, 0.3, 1),
-    background .32s cubic-bezier(0.16, 1, 0.3, 1),
-    transform .32s cubic-bezier(0.16, 1, 0.3, 1),
-    box-shadow .32s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.footer-v2 .footer-research:hover,
-.footer-v2 .footer-research:focus-visible {
-  border-color: rgba(var(--research-blue-rgb), .6);
-  background:
-    linear-gradient(
-      135deg,
-      rgba(var(--research-blue-rgb), .18) 0%,
-      rgba(var(--research-pink-rgb), .12) 100%
-    );
-  transform: translateY(-1px);
-  box-shadow:
-    0 0 0 1px rgba(var(--research-blue-rgb), .2),
-    0 8px 22px rgba(var(--research-blue-rgb), .18);
-  outline: none;
-}
-
-/* Hex-lens seal — the shared motif, rendered in Research blue not Atlas gold. */
-.footer-v2 .footer-research-lens {
-  flex: 0 0 auto;
-  display: inline-flex;
-  color: var(--research-blue);
-  filter: drop-shadow(0 0 6px rgba(var(--research-blue-rgb), .45));
-  transition: transform .5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.footer-v2 .footer-research:hover .footer-research-lens {
-  transform: rotate(30deg);
-}
-
-.footer-v2 .footer-research-mark {
-  display: flex;
-  flex-direction: column;
-  gap: .12rem;
-  line-height: 1.05;
-}
-
-/* Syne wordmark — Research's own display voice. */
-.footer-v2 .footer-research-name {
-  font-family: var(--font-research);
-  font-weight: 700;
-  font-size: .95rem;
-  letter-spacing: -.01em;
+  font-weight: 600;
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  line-height: 1.1;
+  letter-spacing: -.02em;
   color: var(--text);
 }
 
-.footer-v2 .footer-research-cta {
+.footer-v2 .footer-close-sub {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: .9rem;
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 42ch;
+}
+
+/* Primary CTA — the single confident action, gold pill with a sliding arrow. */
+.footer-v2 .footer-close-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  margin-top: .5rem;
+  padding: .7rem 1.4rem;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--apex-gold-rgb), .45);
+  background: rgba(var(--apex-gold-rgb), .08);
+  color: var(--apex-gold);
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  text-decoration: none;
+  transition:
+    border-color .3s cubic-bezier(0.16, 1, 0.3, 1),
+    background .3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow .3s cubic-bezier(0.16, 1, 0.3, 1),
+    transform .3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer-v2 .footer-close-cta-arrow {
   font-family: var(--font-mono);
-  font-size: .68rem;
-  letter-spacing: .04em;
-  color: var(--research-blue);
-  transition: letter-spacing .32s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: transform .32s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.footer-v2 .footer-research:hover .footer-research-cta {
-  letter-spacing: .09em;
+.footer-v2 .footer-close-cta:hover,
+.footer-v2 .footer-close-cta:focus-visible {
+  border-color: rgba(var(--apex-gold-rgb), .8);
+  background: rgba(var(--apex-gold-rgb), .16);
+  box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), .25), 0 10px 30px rgba(var(--apex-gold-rgb), .18);
+  transform: translateY(-1px);
+  outline: none;
 }
 
-/* Link columns grid */
-.footer-v2 .footer-cols {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
-  align-items: start;
-  width: 100%;
+.footer-v2 .footer-close-cta:hover .footer-close-cta-arrow,
+.footer-v2 .footer-close-cta:focus-visible .footer-close-cta-arrow {
+  transform: translateX(4px);
 }
 
-.footer-v2 .footer-col {
+/* ── Horizontal nav rail — every section, one wrapping row ──────────────── */
+.footer-v2 .footer-rail {
   display: flex;
-  flex-direction: column;
-  gap: .7rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem 2.75rem;
+  padding-top: clamp(1.5rem, 3vw, 2.25rem);
+  border-top: 1px solid var(--border);
 }
 
-.footer-v2 .footer-col-heading {
+.footer-v2 .footer-rail-group {
+  --col-hue: var(--tier-basic, #38bdf8);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .35rem .85rem;
+}
+.footer-v2 .footer-rail-group:nth-child(1) { --col-hue: var(--tier-basic, #38bdf8); }
+.footer-v2 .footer-rail-group:nth-child(2) { --col-hue: var(--tier-unique, #c084fc); }
+.footer-v2 .footer-rail-group:nth-child(3) { --col-hue: var(--tier-basic, #38bdf8); }
+.footer-v2 .footer-rail-group:nth-child(4) { --col-hue: var(--tier-unique, #c084fc); }
+.footer-v2 .footer-rail-group:nth-child(5) { --col-hue: var(--apex-gold, #fbbf24); }
+.footer-v2 .footer-rail-group:nth-child(6) { --col-hue: var(--honor-red, #ef4444); }
+
+.footer-v2 .footer-rail-heading {
   font-family: var(--font-display);
   font-style: italic;
-  font-size: .875rem;
+  font-size: .8rem;
   font-weight: 400;
-  color: var(--muted);
+  color: var(--col-hue);
+  opacity: .85;
   letter-spacing: .01em;
-  line-height: 1;
+  margin-right: .15rem;
 }
 
-.footer-v2 .footer-col ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: .45rem;
-}
-
-.footer-v2 .footer-col ul li a,
-.footer-v2 .footer-col ul li button.footer-link-btn {
+.footer-v2 .footer-rail-group > a,
+.footer-v2 .footer-rail-group > button.footer-link-btn {
+  position: relative;
   font-family: var(--font-body);
   font-size: .82rem;
   color: var(--muted);
   text-decoration: none;
-  transition: color .18s;
-  display: inline;
   border: none;
   background: none;
   cursor: pointer;
   padding: 0;
-  font: inherit;
-}
-
-.footer-v2 .footer-col ul li a:hover,
-.footer-v2 .footer-col ul li button.footer-link-btn:hover {
-  color: var(--text);
-}
-
-/* ── Footer link motion: each column gets a tier hue, links adopt it
-     on hover via currentColor — underline wipe + glow + 1px shift.
-     Honor handle stays Honor Red end-to-end. ─────────────────────── */
-.footer-v2 .footer-col              { --col-hue: var(--tier-basic, #38bdf8); }
-.footer-v2 .footer-col:nth-child(1) { --col-hue: var(--tier-basic, #38bdf8); }
-.footer-v2 .footer-col:nth-child(2) { --col-hue: var(--tier-extra, #c084fc); }
-.footer-v2 .footer-col:nth-child(3) { --col-hue: var(--tier-basic, #38bdf8); }
-.footer-v2 .footer-col:nth-child(4) { --col-hue: var(--apex-gold, #fbbf24); }
-.footer-v2 .footer-col:nth-child(5) { --col-hue: var(--honor-red, #ef4444); }
-
-.footer-v2 .footer-col ul li a,
-.footer-v2 .footer-col ul li button.footer-link-btn {
-  position: relative;
-  display: inline-block;
   letter-spacing: .005em;
   transition:
     color .26s cubic-bezier(0.16, 1, 0.3, 1),
-    transform .32s cubic-bezier(0.16, 1, 0.3, 1),
-    letter-spacing .32s cubic-bezier(0.16, 1, 0.3, 1),
     text-shadow .26s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.footer-v2 .footer-col ul li a::after,
-.footer-v2 .footer-col ul li button.footer-link-btn::after {
+.footer-v2 .footer-rail-group > a::after,
+.footer-v2 .footer-rail-group > button.footer-link-btn::after {
   content: "";
   position: absolute;
   left: 0;
@@ -6784,48 +6813,29 @@ footer.footer-v2::before {
   border-radius: 1px;
 }
 
-.footer-v2 .footer-col ul li a:hover,
-.footer-v2 .footer-col ul li button.footer-link-btn:hover,
-.footer-v2 .footer-col ul li a:focus-visible,
-.footer-v2 .footer-col ul li button.footer-link-btn:focus-visible {
+.footer-v2 .footer-rail-group > a:hover,
+.footer-v2 .footer-rail-group > a:focus-visible,
+.footer-v2 .footer-rail-group > button.footer-link-btn:hover,
+.footer-v2 .footer-rail-group > button.footer-link-btn:focus-visible {
   color: var(--col-hue);
-  letter-spacing: .03em;
-  transform: translateX(2px);
   text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+  outline: none;
 }
 
-.footer-v2 .footer-col ul li a:hover::after,
-.footer-v2 .footer-col ul li button.footer-link-btn:hover::after,
-.footer-v2 .footer-col ul li a:focus-visible::after,
-.footer-v2 .footer-col ul li button.footer-link-btn:focus-visible::after {
+.footer-v2 .footer-rail-group > a:hover::after,
+.footer-v2 .footer-rail-group > a:focus-visible::after,
+.footer-v2 .footer-rail-group > button.footer-link-btn:hover::after,
+.footer-v2 .footer-rail-group > button.footer-link-btn:focus-visible::after {
   transform: scaleX(1);
   box-shadow: 0 0 8px currentColor, 0 0 18px currentColor;
 }
 
-/* Column heading also breathes the hue when the column is hovered. */
-.footer-v2 .footer-col-heading {
-  transition: color .3s cubic-bezier(0.16, 1, 0.3, 1),
-              text-shadow .3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.footer-v2 .footer-col:hover .footer-col-heading,
-.footer-v2 .footer-col:focus-within .footer-col-heading {
-  color: var(--col-hue);
-  text-shadow: 0 0 12px currentColor;
-}
-
-/* Honor attribution — contributor handle only */
+/* Honor attribution — contributor handle keeps Honor Red end-to-end. */
 .footer-v2 .footer-link-honor {
   color: var(--honor-red) !important;
 }
-
-.footer-v2 .footer-link-honor:hover {
-  color: var(--text) !important;
-}
-
-/* Honor handle keeps red end-to-end, but still gets the glow treatment
-   from currentColor — the column-hue rule above shouldn't override it. */
-.footer-v2 .footer-col ul li a.footer-link-honor:hover,
-.footer-v2 .footer-col ul li a.footer-link-honor:focus-visible {
+.footer-v2 .footer-rail-group > a.footer-link-honor:hover,
+.footer-v2 .footer-rail-group > a.footer-link-honor:focus-visible {
   color: var(--honor-red) !important;
   text-shadow: 0 0 10px var(--honor-red), 0 0 22px var(--honor-red);
 }
@@ -6876,6 +6886,94 @@ footer.footer-v2::before {
   opacity: .6;
 }
 
+/* ── Root anchor — the site's name at full scale + parent-org signature ───
+   "Skill Tree" grows edge-to-edge from the footer baseline (Arcade.dev move:
+   the brand owns the page bottom). Gold-dominant gradient with a whisper of
+   Research blue at the tail — the parent hue is present but subordinate. The
+   "A project of Gaia Research" line sits centered above it as attribution. */
+.footer-v2 .footer-anchor {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 clamp(1.5rem, 4vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .4rem;
+}
+
+.footer-v2 .footer-parentage {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: .82rem;
+  line-height: 1.5;
+  color: var(--muted);
+  text-align: center;
+}
+
+.footer-v2 .footer-parent-link {
+  color: var(--research-blue);
+  font-family: var(--font-research);
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: -.01em;
+  transition:
+    color .28s cubic-bezier(0.16, 1, 0.3, 1),
+    text-shadow .28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer-v2 .footer-parent-arrow {
+  font-size: .75em;
+  margin-left: .12em;
+  opacity: .7;
+  display: inline-block;
+  transition: transform .28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer-v2 .footer-parent-link:hover,
+.footer-v2 .footer-parent-link:focus-visible {
+  color: var(--research-blue);
+  text-shadow: 0 0 14px rgba(var(--research-blue-rgb), .5);
+  outline: none;
+}
+
+.footer-v2 .footer-parent-link:hover .footer-parent-arrow,
+.footer-v2 .footer-parent-link:focus-visible .footer-parent-arrow {
+  transform: translate(2px, -2px);
+  opacity: 1;
+}
+
+.footer-v2 .footer-display-word {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(3rem, 15vw, 12rem);
+  line-height: .9;
+  letter-spacing: -.03em;
+  white-space: nowrap;
+  overflow: hidden;
+  background: linear-gradient(
+    100deg,
+    rgba(var(--apex-gold-rgb), .95) 0%,
+    rgba(var(--apex-gold-rgb), .9) 60%,
+    rgba(var(--research-blue-rgb), .8) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  opacity: .2;
+  transition: opacity .5s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.footer-v2:hover .footer-display-word {
+  opacity: .32;
+}
+
 /* Bottom strip */
 .footer-v2 .footer-bottom {
   border-top: 1px solid var(--border);
@@ -6900,46 +6998,49 @@ footer.footer-v2::before {
 
 /* Responsive */
 @media (max-width: 900px) {
-  .footer-v2 .footer-inner {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
+  .footer-v2 .footer-rail {
+    gap: 1.25rem 2rem;
   }
-  .footer-v2 .footer-cols {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.75rem 2.5rem;
-  }
-  /* On the stacked layout let the brand family breathe full-width and the
-     Research lockup sit as a comfortable tap target. */
-  .footer-v2 .footer-research {
-    align-self: flex-start;
+  .footer-v2 .footer-display-word {
+    font-size: clamp(2.75rem, 17vw, 9rem);
   }
 }
 
 @media (max-width: 520px) {
-  .footer-v2 .footer-cols {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
+  /* Stack the rail groups so each section reads as its own tidy line. */
+  .footer-v2 .footer-rail {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
   }
-  .footer-v2 .footer-research {
-    width: 100%;
+  .footer-v2 .footer-rail-group {
+    justify-content: center;
+  }
+  .footer-v2 .footer-close-headline {
+    font-size: 1.4rem;
   }
 }
 
-/* Kinship gradient + lens rotation are decorative; honor reduced motion. */
+/* CTA lift, arrow slide, and display fade are decorative; honor reduced motion. */
 @media (prefers-reduced-motion: reduce) {
-  .footer-v2 .footer-research,
-  .footer-v2 .footer-research-lens,
-  .footer-v2 .footer-research-cta {
+  .footer-v2 .footer-close-cta,
+  .footer-v2 .footer-close-cta-arrow,
+  .footer-v2 .footer-parent-link,
+  .footer-v2 .footer-parent-arrow,
+  .footer-v2 .footer-display-word {
     transition: none;
   }
-  .footer-v2 .footer-research:hover {
+  .footer-v2 .footer-close-cta:hover,
+  .footer-v2 .footer-close-cta:focus-visible {
     transform: none;
   }
-  .footer-v2 .footer-research:hover .footer-research-lens {
+  .footer-v2 .footer-close-cta:hover .footer-close-cta-arrow,
+  .footer-v2 .footer-close-cta:focus-visible .footer-close-cta-arrow {
     transform: none;
   }
-  .footer-v2 .footer-research:hover .footer-research-cta {
-    letter-spacing: .04em;
+  .footer-v2 .footer-parent-link:hover .footer-parent-arrow,
+  .footer-v2 .footer-parent-link:focus-visible .footer-parent-arrow {
+    transform: none;
   }
 }
 
@@ -7072,8 +7173,8 @@ footer.footer-v2::before {
 }
 
 .se-btn-action:hover {
-  border-color: var(--extra);
-  color: var(--extra);
+  border-color: var(--rank-4, #e879f9);
+  color: var(--rank-4, #e879f9);
 }
 
 .se-body {
@@ -7187,12 +7288,12 @@ footer.footer-v2::before {
 }
 
 .se-node-orb--extra {
-  background: radial-gradient(circle at 35% 35%, #e9d5ff, var(--tier-extra) 60%, #7c3aed);
+  background: radial-gradient(circle at 35% 35%, #e9d5ff, var(--rank-4, #e879f9) 60%, #7c3aed);
   box-shadow: 0 0 12px rgba(192, 132, 252, .4)
 }
 
 .se-node-orb--ultimate {
-  background: radial-gradient(circle at 35% 35%, #fef3c7, var(--tier-ultimate) 60%, #d97706);
+  background: radial-gradient(circle at 35% 35%, #fef3c7, var(--rank-5, #fbbf24) 60%, #d97706);
   box-shadow: 0 0 12px rgba(245, 158, 11, .4)
 }
 
@@ -7202,7 +7303,7 @@ footer.footer-v2::before {
 }
 
 .se-node-orb--vi {
-  background: radial-gradient(circle at 35% 35%, #fff 40%, #fef3c7 70%, var(--tier-ultimate)) !important;
+  background: radial-gradient(circle at 35% 35%, #fff 40%, #fef3c7 70%, var(--rank-6, #fbbf24)) !important;
   box-shadow: 0 0 18px rgba(255, 255, 255, .6), 0 0 40px rgba(245, 158, 11, .35) !important
 }
 
@@ -7328,7 +7429,9 @@ footer.footer-v2::before {
 
   .se-hero #se-upgrade .se-flowchart-wrap {
     min-height: 160px;
-    padding: 0.5rem 0;
+    /* Keep top clearance for the main node's always-on slug label (see the
+       base .se-flowchart-wrap rule) even in the compact hero layout. */
+    padding: 3rem 0 0.5rem;
   }
 
   .se-hero #se-upgrade .se-flowchart-rows {
@@ -7376,15 +7479,68 @@ footer.footer-v2::before {
 }
 
 .se-flow-h {
-  font-size: .72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .12em;
-  color: var(--muted);
+  width: 100%;
   margin-bottom: 1.4rem;
   display: flex;
-  align-items: center;
-  gap: .5rem;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .75rem 1rem;
+}
+
+/* Left lockup: sparkle icon + stacked eyebrow/title. The icon floats at the
+   top-left so the eyebrow (kicker) and display title stack cleanly beside it. */
+.se-flow-h__lede {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .15rem;
+  padding-left: 1.6rem;
+}
+
+.se-flow-h__lede svg {
+  position: absolute;
+  left: 0;
+  top: .35rem;
+}
+
+/* Small uppercase eyebrow — the old .se-flow-h treatment, demoted to a kicker
+   above the display title so "Path" can carry the visual weight. */
+.se-flow-eyebrow {
+  font-size: .62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  color: var(--muted);
+}
+
+/* The display title. Serif, generous size — anchors the DAG column. */
+.se-flow-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -.01em;
+  color: var(--text);
+}
+
+/* Hairline rule trailing off the title, claiming the DAG column as its own
+   region. Sits between the title lockup and the action buttons. */
+.se-flow-h::after {
+  content: "";
+  order: 1;
+  flex: 1 1 auto;
+  min-width: 40px;
+  height: 1px;
+  align-self: flex-end;
+  margin: 0 .25rem 1rem;
+  background: linear-gradient(90deg, var(--border), transparent);
+}
+
+.se-flow-h > *:not(.se-flow-h__lede) {
+  order: 2;
 }
 
 .se-flow-h svg {
@@ -7460,7 +7616,7 @@ footer.footer-v2::before {
 }
 
 .se-copy-btn:focus-visible {
-  outline: 2px solid var(--tier-extra);
+  outline: 2px solid var(--rank-4, #e879f9);
   outline-offset: 2px;
 }
 
@@ -7513,8 +7669,8 @@ footer.footer-v2::before {
 }
 
 .se-tab-btn.active {
-  color: var(--tier-ultimate, #f59e0b);
-  border-bottom-color: var(--tier-ultimate, #f59e0b);
+  color: var(--rank-5, #fbbf24);
+  border-bottom-color: var(--rank-5, #fbbf24);
   font-weight: 600;
 }
 
@@ -7564,7 +7720,7 @@ footer.footer-v2::before {
 }
 
 .se-hosts-dropdown:hover, .se-hosts-dropdown:focus {
-  border-color: var(--tier-ultimate, #f59e0b);
+  border-color: var(--rank-5, #fbbf24);
 }
 
 .se-target-path {
@@ -7669,7 +7825,7 @@ h4.se-install-sub-h { font-size: .85rem; }
   font-family: var(--font-mono);
   font-weight: 700;
   min-width: 28px;
-  color: var(--ultimate);
+  color: var(--rank-5, #fbbf24);
 }
 
 .se-ev-link {
@@ -7691,7 +7847,7 @@ h4.se-install-sub-h { font-size: .85rem; }
   display: inline-block;
   background: rgba(192, 132, 252, .1);
   border: 1px solid rgba(192, 132, 252, .25);
-  color: var(--tier-extra);
+  color: var(--tier-unique);
   padding: .22rem .65rem;
   border-radius: 20px;
   font-size: .78rem;
@@ -7703,7 +7859,10 @@ h4.se-install-sub-h { font-size: .85rem; }
   position: relative;
   overflow: visible;
   min-height: 320px;
-  padding: 1.5rem 1rem;
+  /* Extra top padding clears the topmost (main) node's always-on slug label,
+     which renders above its dot (.dag-node-label { bottom:100% }) and would
+     otherwise collide with the Path header + lens chips. */
+  padding: 3.25rem 1rem 1.5rem;
 }
 
 .se-flowchart-svg {
@@ -7956,11 +8115,11 @@ h4.se-install-sub-h { font-size: .85rem; }
 .se-tl-dot[data-action="rank_up"]  { background: var(--apex-gold);  box-shadow: 0 0 6px rgba(var(--apex-gold-rgb),.35); }
 .se-tl-dot[data-action="ascend"]   { background: #fff;             box-shadow: 0 0 8px #fff; }
 .se-tl-dot[data-action="name"]     { background: var(--honor-red);  box-shadow: 0 0 6px rgba(var(--honor-red-rgb),.35); }
-.se-tl-dot[data-action="fuse"]     { background: var(--extra);      box-shadow: 0 0 6px rgba(192,132,252,.35); }
+.se-tl-dot[data-action="fuse"]     { background: var(--rank-4, #e879f9);      box-shadow: 0 0 6px rgba(232,121,249,.35); }
 .se-tl-dot[data-action="push"]     { background: var(--basic);      box-shadow: 0 0 5px rgba(56,189,248,.25); }
 .se-tl-dot[data-action="evidence"] { background: var(--rank-3);     box-shadow: 0 0 5px rgba(167,139,250,.25); }
 .se-tl-dot[data-action="demote"]   { background: var(--muted); }
-.se-tl-dot[data-action="propose"]  { background: var(--ultimate);   box-shadow: 0 0 6px rgba(245,158,11,.35); }
+.se-tl-dot[data-action="propose"]  { background: var(--rank-5, #fbbf24);   box-shadow: 0 0 6px rgba(251,191,36,.35); }
 .se-tl-dot[data-action="commit"]   { background: var(--muted); }
 
 .se-tl-body {
@@ -7999,10 +8158,10 @@ h4.se-install-sub-h { font-size: .85rem; }
 .se-tl-action[data-action="rank_up"]  { color: var(--apex-gold);  border-color: rgba(var(--apex-gold-rgb),.2); background: rgba(var(--apex-gold-rgb),.05); }
 .se-tl-action[data-action="ascend"]   { color: var(--apex-gold);  border-color: rgba(var(--apex-gold-rgb),.25); background: rgba(var(--apex-gold-rgb),.07); }
 .se-tl-action[data-action="name"]     { color: var(--honor-red);  border-color: rgba(var(--honor-red-rgb),.2); background: rgba(var(--honor-red-rgb),.05); }
-.se-tl-action[data-action="fuse"]     { color: var(--extra);      border-color: rgba(192,132,252,.2); background: rgba(192,132,252,.05); }
+.se-tl-action[data-action="fuse"]     { color: var(--rank-4, #e879f9);      border-color: rgba(232,121,249,.2); background: rgba(232,121,249,.05); }
 .se-tl-action[data-action="evidence"] { color: var(--rank-3);     border-color: rgba(167,139,250,.2); background: rgba(167,139,250,.05); }
 .se-tl-action[data-action="push"]     { color: var(--basic);      border-color: rgba(56,189,248,.15); background: rgba(56,189,248,.04); }
-.se-tl-action[data-action="propose"]  { color: var(--ultimate);   border-color: rgba(245,158,11,.2); background: rgba(245,158,11,.05); }
+.se-tl-action[data-action="propose"]  { color: var(--rank-5, #fbbf24);   border-color: rgba(251,191,36,.2); background: rgba(251,191,36,.05); }
 .se-tl-action[data-action="demote"]   { color: var(--muted);      border-color: rgba(100,116,139,.2); background: rgba(100,116,139,.05); }
 
 .se-tl-date {
@@ -8243,11 +8402,11 @@ details[open] .se-tl-group-toggle::before { content: '▾ '; }
 .mr-dot[data-action="rank_up"]  { background: var(--apex-gold);  box-shadow: 0 0 8px rgba(var(--apex-gold-rgb),.4); }
 .mr-dot[data-action="ascend"]   { background: #fff;             box-shadow: 0 0 12px #fff, 0 0 4px rgba(var(--apex-gold-rgb),.6); }
 .mr-dot[data-action="name"]     { background: var(--honor-red);  box-shadow: 0 0 8px rgba(var(--honor-red-rgb),.4); }
-.mr-dot[data-action="fuse"]     { background: var(--extra);      box-shadow: 0 0 8px rgba(192,132,252,.4); }
+.mr-dot[data-action="fuse"]     { background: var(--rank-4, #e879f9);      box-shadow: 0 0 8px rgba(232,121,249,.4); }
 .mr-dot[data-action="push"]     { background: var(--basic);      box-shadow: 0 0 6px rgba(56,189,248,.3); }
 .mr-dot[data-action="evidence"] { background: var(--rank-3);     box-shadow: 0 0 6px rgba(167,139,250,.3); }
 .mr-dot[data-action="demote"]   { background: var(--muted);      box-shadow: none; }
-.mr-dot[data-action="propose"]  { background: var(--ultimate);   box-shadow: 0 0 8px rgba(245,158,11,.4); }
+.mr-dot[data-action="propose"]  { background: var(--rank-5, #fbbf24);   box-shadow: 0 0 8px rgba(251,191,36,.4); }
 .mr-dot[data-action="bond"]     { background: var(--basic); }
 .mr-dot[data-action="register"] { background: #22c55e;           box-shadow: 0 0 6px rgba(34,197,94,.3); }
 
@@ -8283,10 +8442,10 @@ details[open] .se-tl-group-toggle::before { content: '▾ '; }
 .mr-action[data-action="rank_up"]  { color: var(--apex-gold);  border-color: rgba(var(--apex-gold-rgb),.25); background: rgba(var(--apex-gold-rgb),.06); }
 .mr-action[data-action="ascend"]   { color: var(--apex-gold);  border-color: rgba(var(--apex-gold-rgb),.3);  background: rgba(var(--apex-gold-rgb),.08); }
 .mr-action[data-action="name"]     { color: var(--honor-red);  border-color: rgba(var(--honor-red-rgb),.25); background: rgba(var(--honor-red-rgb),.06); }
-.mr-action[data-action="fuse"]     { color: var(--extra);      border-color: rgba(192,132,252,.25); background: rgba(192,132,252,.06); }
+.mr-action[data-action="fuse"]     { color: var(--rank-4, #e879f9);      border-color: rgba(232,121,249,.25); background: rgba(232,121,249,.06); }
 .mr-action[data-action="evidence"] { color: var(--rank-3);     border-color: rgba(167,139,250,.25); background: rgba(167,139,250,.06); }
 .mr-action[data-action="push"]     { color: var(--basic);      border-color: rgba(56,189,248,.2);   background: rgba(56,189,248,.05); }
-.mr-action[data-action="propose"]  { color: var(--ultimate);   border-color: rgba(245,158,11,.25);  background: rgba(245,158,11,.06); }
+.mr-action[data-action="propose"]  { color: var(--rank-5, #fbbf24);   border-color: rgba(251,191,36,.25);  background: rgba(251,191,36,.06); }
 .mr-action[data-action="demote"]   { color: var(--muted);      border-color: rgba(100,116,139,.2);  background: rgba(100,116,139,.05); }
 
 .mr-skill-wrap {
@@ -8302,9 +8461,9 @@ details[open] .se-tl-group-toggle::before { content: '▾ '; }
   flex-shrink: 0;
 }
 
-.mr-tier-glyph[data-type="ultimate"] { color: var(--ultimate); }
+.mr-tier-glyph[data-type="ultimate"] { color: var(--rank-5, #fbbf24); }
 .mr-tier-glyph[data-type="unique"]   { color: var(--tier-unique); }
-.mr-tier-glyph[data-type="extra"]    { color: var(--extra); }
+.mr-tier-glyph[data-type="extra"]    { color: var(--rank-4, #e879f9); }
 .mr-tier-glyph[data-type="basic"]    { color: var(--basic); }
 
 .mr-skill {
@@ -8970,7 +9129,7 @@ code {
   }
 
   .rs-stat .rs-num[style] {
-    color: var(--tier-extra) !important
+    color: var(--tier-unique) !important
   }
 
 }
@@ -9875,7 +10034,7 @@ button.nav-graph-trigger:hover {
 
 .agent-skill-label input[type="checkbox"] {
   margin: 0;
-  accent-color: var(--tier-extra);
+  accent-color: var(--rank-4, #e879f9);
 }
 
 @media (max-width: 480px) {
@@ -10960,38 +11119,32 @@ button.nav-graph-trigger:hover {
   box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
 }
 
-/* Tier-specific dot colors */
-.git-node[data-type="ultimate"] .git-node-dot {
-  border-color: var(--tier-ultimate);
-}
-
-.git-node[data-type="extra"] .git-node-dot {
-  border-color: var(--tier-extra);
-}
-
-.git-node[data-type="unique"] .git-node-dot {
+/* Branch-aware dot colors — keyed on data-branch + data-rank of the rank row.
+   unique = unique violet; suite 5★+ = fusion gold; suite 4★ = rank-4 fuchsia.
+   The old data-type rules used undefined --tier-extra/--tier-ultimate tokens;
+   replaced with branch tokens which are the correct axis post-Yggdrasil II. */
+.ns-dag-rank[data-branch="unique"] .git-commit-dot {
   border-color: var(--tier-unique);
 }
-
-.git-node[data-type="basic"] .git-node-dot {
-  border-color: var(--tier-basic);
-}
-
-.git-node[data-type="ultimate"].current .git-node-dot {
-  background: var(--tier-ultimate);
-}
-
-.git-node[data-type="extra"].current .git-node-dot {
-  background: var(--tier-extra);
-}
-
-.git-node[data-type="unique"].current .git-node-dot {
+.ns-dag-rank[data-branch="unique"] .git-node.selected .git-commit-dot,
+.ns-dag-rank[data-branch="unique"] .git-node:hover .git-commit-dot {
   background: var(--tier-unique);
+  border-color: var(--tier-unique);
 }
+/* 5★ and 6★ suite: fusion gold */
+.ns-dag-rank[data-branch="suite"][data-rank="5"] .git-commit-dot,
+.ns-dag-rank[data-branch="suite"][data-rank="6"] .git-commit-dot {
+  border-color: var(--tier-fusion);
+}
+.ns-dag-rank[data-branch="suite"][data-rank="5"] .git-node.selected .git-commit-dot,
+.ns-dag-rank[data-branch="suite"][data-rank="5"] .git-node:hover .git-commit-dot,
+.ns-dag-rank[data-branch="suite"][data-rank="6"] .git-node.selected .git-commit-dot,
+.ns-dag-rank[data-branch="suite"][data-rank="6"] .git-node:hover .git-commit-dot {
+  background: var(--tier-fusion);
+  border-color: var(--tier-fusion);
+}
+/* 4★ suite (Extra): rank-4 fuchsia — let the inline --dot-color: var(--rank-4) win */
 
-.git-node[data-type="basic"].current .git-node-dot {
-  background: var(--tier-basic);
-}
 
 .git-node-label {
   position: absolute;
@@ -11024,7 +11177,7 @@ button.nav-graph-trigger:hover {
   position: absolute;
   bottom: 100%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(calc(-50% + var(--hover-shift, 0px)));
   margin-bottom: 8px;
   font-family: var(--font-mono);
   font-size: 0.7rem;
@@ -11089,36 +11242,56 @@ button.nav-graph-trigger:hover {
   stroke-width: 5;
 }
 
-/* Specific edge colors by target tier */
-.git-edge[data-target-type="ultimate"] {
-  stroke: var(--tier-ultimate);
-}
-
-.git-edge[data-target-type="extra"] {
-  stroke: var(--tier-extra);
-}
-
-.git-edge[data-target-type="unique"] {
-  stroke: var(--tier-unique);
-}
-
-.git-edge[data-target-type="basic"] {
-  stroke: var(--tier-basic);
-}
-
 .ns-dag-container.git-style .ns-dag-rank {
   gap: 40px;
-  margin-bottom: 48px;
+  margin-bottom: 0;
 }
 
+/* ── Zone wrapper — groups label + rank row ── */
+.ns-dag-zone {
+  position: relative;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 28px 16px 0;
+}
+/* Translucent overlay only for rank/branch zones (level sort), not A-Z */
+.ns-dag-zone:not([data-az]) {
+  border-left: 2px solid color-mix(in srgb, var(--zone-color) 30%, transparent);
+  background: color-mix(in srgb, var(--zone-color) 5%, transparent);
+}
+.ns-dag-zone[data-branch="suite"]  { --zone-color: var(--tier-fusion); }
+.ns-dag-zone[data-branch="unique"] { --zone-color: var(--tier-unique); }
+.ns-dag-zone[data-rank="5"]:not([data-branch]) { --zone-color: var(--rank-5); }
+.ns-dag-zone[data-rank="4"]:not([data-branch]) { --zone-color: var(--rank-4); }
+.ns-dag-zone[data-rank="3"]:not([data-branch]) { --zone-color: var(--rank-3); }
+.ns-dag-zone[data-rank="2"]:not([data-branch]) { --zone-color: var(--rank-2); }
+.ns-dag-zone[data-rank="1"]:not([data-branch]) { --zone-color: var(--rank-1); }
+.ns-dag-zone[data-rank="0"]:not([data-branch]) { --zone-color: var(--rank-0); }
+
 .ns-dag-rank-label {
-  text-align: center;
-  font-size: 0.65rem;
+  position: absolute;
+  top: 6px;
+  left: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.6rem;
   font-family: var(--font-mono);
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  opacity: 0.7;
-  margin-bottom: 6px;
+  opacity: 0.85;
+  z-index: 2;
+  pointer-events: none;
+}
+.ns-zone-medallion {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+.ns-zone-word {
+  /* color set inline via --zone-color */
 }
 
 /* ── Git Branch Flowchart Aesthetic ── */
@@ -11132,6 +11305,10 @@ button.nav-graph-trigger:hover {
   width: 24px;
   height: 24px;
   margin-top: var(--staggerY, 0);
+  /* Horizontal jitter (independent of --staggerY) so wrapped rows scatter as a
+     cloud instead of aligning into columns. translateX keeps flex flow intact
+     and edges follow (drawFlowEdges reads the transformed dot rect). */
+  transform: translateX(var(--staggerX, 0));
 }
 
 .git-node .ns-dag-card,
@@ -11144,7 +11321,7 @@ button.nav-graph-trigger:hover {
   position: absolute;
   top: 100%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(calc(-50% + var(--hover-shift, 0px)));
   transition: opacity 0.2s, visibility 0.2s;
   z-index: 10;
   margin-top: 8px;
@@ -11157,7 +11334,7 @@ button.nav-graph-trigger:hover {
   opacity: 1 !important;
   visibility: visible;
   pointer-events: auto;
-  transform: translateX(-50%);
+  transform: translateX(calc(-50% + var(--hover-shift, 0px)));
 }
 
 /* Issue #346 — flowchart popover flicker + stacking.
@@ -11173,11 +11350,33 @@ button.nav-graph-trigger:hover {
    rank-row rule below). A hovered node lifted to z-index: 30 is still trapped
    *inside* its own row's context, so its downward popover was painted over by
    the NEXT row's nodes. Lift the row that actually contains the hovered node
-   above its sibling rows. */
+   above its sibling rows. Selected rows lift even higher so a locked plaque
+   is never trampled by a hovered node in another row. */
 .ns-dag-rank:has(.git-node:hover),
 .se-flowchart-row:has(.git-node:hover),
 .git-rank-row:has(.git-node:hover) {
   z-index: 30;
+}
+.ns-dag-rank:has(.git-node.selected),
+.se-flowchart-row:has(.git-node.selected),
+.git-rank-row:has(.git-node.selected) {
+  z-index: 50;
+}
+/* Zone wrapper: selected zone must also clear sibling zones */
+.ns-dag-zone:has(.git-node.selected) {
+  z-index: 50;
+}
+/* Plaque card order: plaque slug > node dot > edges > overlay.
+   Give visible plaque cards a z above the dot (z-index:3) and the node (z-index:30). */
+.git-node:hover .ns-dag-card,
+.git-node:hover .flow-node,
+.git-node:hover .git-card,
+.git-node:hover .se-stack-deck,
+.git-node.selected .ns-dag-card,
+.git-node.selected .flow-node,
+.git-node.selected .git-card,
+.git-node.selected .se-stack-deck {
+  z-index: 60;
 }
 
 /* Root cause 1 — the popover card is positioned with transform:
@@ -11195,7 +11394,7 @@ button.nav-graph-trigger:hover {
 .git-node:hover .git-card:hover,
 .git-node:hover .se-stack-deck:hover,
 .git-node > .plaque:hover {
-  transform: translateX(-50%) !important;
+  transform: translateX(calc(-50% + var(--hover-shift, 0px))) !important;
 }
 
 .git-node:hover .ns-dag-card[data-ghost="true"],
@@ -11213,7 +11412,7 @@ button.nav-graph-trigger:hover {
   opacity: 1 !important;
   visibility: visible;
   pointer-events: auto;
-  transform: translateX(-50%) translateY(0);
+  transform: translateX(calc(-50% + var(--hover-shift, 0px))) translateY(0);
 }
 
 .git-node.selected .git-commit-dot {
@@ -11237,7 +11436,7 @@ button.nav-graph-trigger:hover {
 
 /* Hover no longer scales the dot — keeps the layout calm. The selected
    state (.git-node.selected .git-commit-dot) still amplifies on lock. */
-/* Base: structure only — color comes from [data-tier] rules below */
+/* Base: structure only — color comes from [data-rank] rules below */
 .git-path {
   fill: none;
   stroke: rgba(148, 163, 184, .3);
@@ -11248,39 +11447,48 @@ button.nav-graph-trigger:hover {
   transition: stroke-width 0.3s, opacity 0.3s, filter 0.3s;
 }
 
-/* Tier-based vein colors: each edge color matches its source node's tier */
-.git-path[data-tier="apex"] {
-  stroke: rgba(255, 255, 255, .8);
+/* Rank-based vein colors: each edge color matches its source (parent) node's
+   rank, ranks only. Tokens --rank-N / -edge; higher rank = thicker, glowier. */
+.git-path[data-rank="6"] {
+  stroke: var(--rank-6-edge);
   stroke-width: 2px;
-  filter: drop-shadow(0 0 6px rgba(255, 255, 255, .45));
+  filter: drop-shadow(0 0 6px var(--rank-6-edge));
   opacity: .65;
 }
 
-.git-path[data-tier="ultimate"] {
-  stroke: rgba(245, 158, 11, .75);
+.git-path[data-rank="5"] {
+  stroke: var(--rank-5-edge);
   stroke-width: 1.8px;
-  filter: drop-shadow(0 0 5px rgba(245, 158, 11, .35));
+  filter: drop-shadow(0 0 5px var(--rank-5-edge));
   opacity: .55;
 }
 
-.git-path[data-tier="unique"] {
-  stroke: rgba(124, 58, 237, .7);
+.git-path[data-rank="4"] {
+  stroke: var(--rank-4-edge);
   stroke-width: 1.6px;
-  filter: drop-shadow(0 0 4px rgba(124, 58, 237, .3));
+  filter: drop-shadow(0 0 4px var(--rank-4-edge));
   opacity: .5;
 }
 
-.git-path[data-tier="extra"] {
-  stroke: rgba(192, 132, 252, .65);
-  stroke-width: 1.4px;
-  filter: drop-shadow(0 0 4px rgba(192, 132, 252, .25));
+.git-path[data-rank="3"] {
+  stroke: var(--rank-3-edge);
+  stroke-width: 1.5px;
+  filter: drop-shadow(0 0 4px var(--rank-3-edge));
   opacity: .5;
 }
 
-.git-path[data-tier="basic"] {
-  stroke: rgba(56, 189, 248, .6);
+.git-path[data-rank="2"] {
+  stroke: var(--rank-2-edge);
+  stroke-width: 1.3px;
+  filter: drop-shadow(0 0 3px var(--rank-2-edge));
+  opacity: .48;
+}
+
+.git-path[data-rank="1"],
+.git-path[data-rank="0"] {
+  stroke: var(--rank-1-edge);
   stroke-width: 1.2px;
-  filter: drop-shadow(0 0 3px rgba(56, 189, 248, .2));
+  filter: drop-shadow(0 0 3px var(--rank-1-edge));
   opacity: .45;
 }
 
@@ -11292,29 +11500,35 @@ button.nav-graph-trigger:hover {
   filter: drop-shadow(0 0 8px currentColor);
 }
 
-.git-path[data-tier="apex"].active-path {
+.git-path[data-rank="6"].active-path {
   stroke-width: 3.5px;
-  filter: drop-shadow(0 0 14px rgba(255, 255, 255, .7));
+  filter: drop-shadow(0 0 14px var(--rank-6-edge));
 }
 
-.git-path[data-tier="ultimate"].active-path {
+.git-path[data-rank="5"].active-path {
   stroke-width: 3px;
-  filter: drop-shadow(0 0 12px rgba(245, 158, 11, .6));
+  filter: drop-shadow(0 0 12px var(--rank-5-edge));
 }
 
-.git-path[data-tier="unique"].active-path {
+.git-path[data-rank="4"].active-path {
   stroke-width: 2.8px;
-  filter: drop-shadow(0 0 11px rgba(124, 58, 237, .55));
+  filter: drop-shadow(0 0 11px var(--rank-4-edge));
 }
 
-.git-path[data-tier="extra"].active-path {
+.git-path[data-rank="3"].active-path {
   stroke-width: 2.6px;
-  filter: drop-shadow(0 0 10px rgba(192, 132, 252, .5));
+  filter: drop-shadow(0 0 10px var(--rank-3-edge));
 }
 
-.git-path[data-tier="basic"].active-path {
+.git-path[data-rank="2"].active-path {
+  stroke-width: 2.5px;
+  filter: drop-shadow(0 0 9px var(--rank-2-edge));
+}
+
+.git-path[data-rank="1"].active-path,
+.git-path[data-rank="0"].active-path {
   stroke-width: 2.4px;
-  filter: drop-shadow(0 0 9px rgba(56, 189, 248, .45));
+  filter: drop-shadow(0 0 9px var(--rank-1-edge));
 }
 
 /* Dimmed paths when node selected */
@@ -11412,45 +11626,14 @@ button.nav-graph-trigger:hover {
   opacity: 1 !important;
   visibility: visible;
   pointer-events: auto;
-  transform: translateX(-50%);
+  transform: translateX(calc(-50% + var(--hover-shift, 0px)));
 }
 
-/* Void zone for uniques: in-flow zone with violet atmospheric border.
-   Sits ABOVE the SVG vein layer (including active-path glows) so the
-   zone reads as a self-contained "well" that lines flow into. */
-.void-zone {
-  background: linear-gradient(135deg, rgba(124, 58, 237, .16) 0%, rgba(76, 29, 149, .10) 100%);
-  border: 1px dashed rgba(124, 58, 237, .4);
-  border-radius: 20px;
-  padding: 28px 36px;
-  position: relative;
-  z-index: 5;
-  backdrop-filter: blur(2px);
-  box-shadow: inset 0 0 40px rgba(124, 58, 237, .1);
-}
-
-.void-zone::before {
-  content: 'VOID';
-  position: absolute;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  color: var(--tier-unique);
-  letter-spacing: 0.35em;
-  opacity: 0.6;
-  pointer-events: none;
-  z-index: 6;
-}
-
-/* Prerequisites (bottom row in skill explorer) stay in one layer if possible, or scroll horizontally */
-.se-flowchart-row[data-depth="0"] {
-  flex-wrap: nowrap !important;
-  width: max-content;
-  margin-left: auto;
-  margin-right: auto;
-}
+/* Prerequisites (bottom row / leaf origins) intentionally have NO special-case
+   layout: they fall through to the base .se-flowchart-row (flex-wrap:wrap,
+   justify-content:center, max-width:100%) so a wide fan-out wraps and stays
+   inside the canvas instead of running off the sides (and clipping on mobile).
+   Per-node --staggerY keeps the wrapped rows scattered, not a uniform grid. */
 
 @media (max-width: 700px) {
   .ns-dag-rank {
@@ -11471,6 +11654,9 @@ button.nav-graph-trigger:hover {
 
   .git-node {
     margin-top: calc(var(--staggerY, 0) * 0.3) !important;
+    /* Dampen horizontal jitter on narrow screens too, so scatter stays subtle
+       and the wrapped fan doesn't push nodes toward the edges. */
+    transform: translateX(calc(var(--staggerX, 0) * 0.4));
   }
 }
 
@@ -11493,7 +11679,7 @@ button.nav-graph-trigger:hover {
 
 /* Nav button styling */
 .nav-meta {
-  color: var(--tier-extra, #c084fc) !important;
+  color: var(--rank-4, #e879f9) !important;
   font-family: var(--font-body);
   font-size: .9rem;
   letter-spacing: .01em;
@@ -11546,7 +11732,7 @@ button.nav-graph-trigger:hover {
 
 .callout-glyph {
   font-size: 2.2rem;
-  color: var(--tier-extra, #c084fc);
+  color: var(--rank-4, #e879f9);
   display: block;
   margin-bottom: 1rem;
   text-shadow: 0 0 15px rgba(192, 132, 252, 0.5);
@@ -11652,7 +11838,7 @@ button.nav-graph-trigger:hover {
 }
 
 .meta-btn-icon:hover {
-  border-color: var(--tier-extra, #c084fc);
+  border-color: var(--rank-4, #e879f9);
   color: var(--text);
   background: rgba(192, 132, 252, 0.08);
   filter: drop-shadow(0 0 6px rgba(192, 132, 252, 0.35));
@@ -12266,20 +12452,25 @@ body[data-overall-grade="S"] .report-card {
   white-space: nowrap;
   display: inline-block;
 }
+/* Evidence-type pills — colored by Evidence Type (provenance), NOT rank or
+   branch. Each references its own --ev-type-<name> token (defined in the
+   generator; hues sourced from /evidence/) with the canonical hue as fallback
+   so they resolve correctly pre-regen. Do NOT reuse --tier-*/--rank-* here —
+   evidence type is its own color axis. */
 /* Legacy aliases */
-.ev-type-pill.type-repo          { background: rgba(56,189,248,.10); color: var(--tier-basic); border: 1px solid rgba(56,189,248,.2); }
-.ev-type-pill.type-github-stars  { background: rgba(245,158,11,.12); color: var(--tier-ultimate); border: 1px solid rgba(245,158,11,.25); }
+.ev-type-pill.type-repo          { background: rgba(56,189,248,.10); color: var(--ev-type-repo, #38bdf8); border: 1px solid rgba(56,189,248,.2); }
+.ev-type-pill.type-github-stars  { background: rgba(245,158,11,.12); color: var(--ev-type-github-stars, #f59e0b); border: 1px solid rgba(245,158,11,.25); }
 /* Canonical types */
-.ev-type-pill.type-fusion-recipe        { background: rgba(245,158,11,.15); color: var(--tier-ultimate); border: 1px solid rgba(245,158,11,.3); }
-.ev-type-pill.type-github-stars-own     { background: rgba(245,158,11,.12); color: var(--tier-ultimate); border: 1px solid rgba(245,158,11,.25); }
-.ev-type-pill.type-proxy-containment    { background: rgba(124,58,237,.12); color: var(--tier-unique); border: 1px solid rgba(124,58,237,.25); }
-.ev-type-pill.type-verifier-attestation { background: rgba(232,121,249,.12); color: var(--rank-4); border: 1px solid rgba(232,121,249,.25); }
-.ev-type-pill.type-benchmark-result     { background: rgba(192,132,252,.12); color: var(--tier-extra); border: 1px solid rgba(192,132,252,.25); }
-.ev-type-pill.type-arxiv                { background: rgba(192,132,252,.12); color: var(--tier-extra); border: 1px solid rgba(192,132,252,.25); }
-.ev-type-pill.type-peer-review          { background: rgba(56,189,248,.12);  color: var(--tier-basic); border: 1px solid rgba(56,189,248,.25); }
-.ev-type-pill.type-repo-own             { background: rgba(56,189,248,.10);  color: var(--tier-basic); border: 1px solid rgba(56,189,248,.2); }
-.ev-type-pill.type-self-attestation     { background: rgba(100,116,139,.12); color: var(--rank-0); border: 1px solid rgba(100,116,139,.25); }
-.ev-type-pill.type-social-signal        { background: rgba(52,211,153,.12);  color: #34d399; border: 1px solid rgba(52,211,153,.25); }
+.ev-type-pill.type-fusion-recipe        { background: rgba(245,158,11,.15); color: var(--ev-type-fusion-recipe, #f59e0b); border: 1px solid rgba(245,158,11,.3); }
+.ev-type-pill.type-github-stars-own     { background: rgba(245,158,11,.12); color: var(--ev-type-github-stars-own, #f59e0b); border: 1px solid rgba(245,158,11,.25); }
+.ev-type-pill.type-proxy-containment    { background: rgba(124,58,237,.12); color: var(--ev-type-proxy-containment, #7c3aed); border: 1px solid rgba(124,58,237,.25); }
+.ev-type-pill.type-verifier-attestation { background: rgba(232,121,249,.12); color: var(--ev-type-verifier-attestation, #e879f9); border: 1px solid rgba(232,121,249,.25); }
+.ev-type-pill.type-benchmark-result     { background: rgba(192,132,252,.12); color: var(--ev-type-benchmark-result, #c084fc); border: 1px solid rgba(192,132,252,.25); }
+.ev-type-pill.type-arxiv                { background: rgba(192,132,252,.12); color: var(--ev-type-arxiv, #c084fc); border: 1px solid rgba(192,132,252,.25); }
+.ev-type-pill.type-peer-review          { background: rgba(56,189,248,.12);  color: var(--ev-type-peer-review, #38bdf8); border: 1px solid rgba(56,189,248,.25); }
+.ev-type-pill.type-repo-own             { background: rgba(56,189,248,.10);  color: var(--ev-type-repo-own, #38bdf8); border: 1px solid rgba(56,189,248,.2); }
+.ev-type-pill.type-self-attestation     { background: rgba(100,116,139,.12); color: var(--ev-type-self-attestation, #94a3b8); border: 1px solid rgba(100,116,139,.25); }
+.ev-type-pill.type-social-signal        { background: rgba(52,211,153,.12);  color: var(--ev-type-social-signal, #34d399); border: 1px solid rgba(52,211,153,.25); }
 
 /* ── Per-skill modal evidence cards — mosaic layout ──
    CSS columns fill top-to-bottom then wrap left-to-right, packing tiles
@@ -12394,7 +12585,7 @@ body[data-overall-grade="S"] .report-card {
   border: 1px solid rgba(52,211,153,0.2);
 }
 .se-ev-freshness--stale {
-  color: var(--tier-ultimate);
+  color: var(--rank-5, #fbbf24);
   background: rgba(245,158,11,0.08);
   border: 1px solid rgba(245,158,11,0.2);
 }

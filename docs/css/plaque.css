@@ -228,6 +228,10 @@
   line-height: 1.15;
   letter-spacing: 0.02em;
   color: var(--plaque-accent);
+  display: block;
+  text-decoration: none;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 /* When emitted as a <button> (profile pages), strip native control
    chrome so it renders identically to the legacy <div>. The hover
@@ -244,8 +248,10 @@ button.plaque__slug {
   cursor: pointer;
   display: block;
 }
-button.plaque__slug:hover,
-button.plaque__slug:focus-visible {
+.plaque__slug:hover,
+.plaque__slug:focus-visible,
+.plaque-skill-name:hover,
+.plaque-skill-name:focus-visible {
   text-decoration: underline;
   text-underline-offset: 3px;
   outline: none;
@@ -462,7 +468,7 @@ button.plaque__slug:focus-visible {
 /* Foundation icon-state spec alignment for the plaque install-copy button.
    hover = --tier-basic + drop-shadow glow
    active = --apex-gold
-   focus-visible = 2px --tier-extra outline
+   focus-visible = 2px --rank-4 outline
    disabled = muted + opacity .35 */
 .plaque__install-copy,
 .ns-install-copy {
@@ -499,7 +505,7 @@ button.plaque__slug:focus-visible {
 .hoh-fs-copy-btn:focus-visible,
 .share-action:focus-visible,
 .share-modal__close:focus-visible {
-  outline: 2px solid var(--tier-extra);
+  outline: 2px solid var(--rank-4, #e879f9);
   outline-offset: 2px;
 }
 .plaque__install-copy[disabled],
@@ -744,10 +750,10 @@ button.plaque__slug:focus-visible {
 .plaque-orb--extra,
 .se-node-orb--extra {
   background: radial-gradient(circle at 35% 35%,
-    color-mix(in srgb, var(--tier-extra) 35%, #fff) 0%,
-    var(--tier-extra) 60%,
-    color-mix(in srgb, var(--tier-extra) 60%, var(--tier-unique)) 100%);
-  box-shadow: 0 0 12px rgba(var(--tier-extra-rgb), 0.4);
+    color-mix(in srgb, var(--rank-4, #e879f9) 35%, #fff) 0%,
+    var(--rank-4, #e879f9) 60%,
+    color-mix(in srgb, var(--rank-4, #e879f9) 60%, var(--tier-unique)) 100%);
+  box-shadow: 0 0 12px rgba(var(--rank-4-rgb, 232, 121, 249), 0.4);
 }
 .plaque-orb--ultimate,
 .se-node-orb--ultimate {
@@ -815,7 +821,7 @@ button.plaque__slug:focus-visible {
   16%  { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(167,139,250,0.3); }
   33%  { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(var(--apex-gold-rgb),0.45); }
   50%  { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(239,68,68,0.3); }
-  66%  { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(var(--tier-extra-rgb),0.3); }
+  66%  { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(var(--rank-4-rgb, 232, 121, 249),0.3); }
   83%  { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(52,211,153,0.25); }
   100% { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(var(--tier-basic-rgb),0.3); }
 }
@@ -962,6 +968,7 @@ button.plaque__slug:focus-visible {
    ============================================================ */
 .plaque--mini {
   --plaque-glow-intensity: 0.5;
+  --plaque-pad: 16px;
   width: 200px;
   max-width: 200px;
   height: auto;
@@ -1595,121 +1602,235 @@ button.plaque__slug:focus-visible {
 
 
 /* ── .plaque--row — Named Skills Explorer list row ──────────────
-   Horizontal flex. ~72 px tall. Description hidden in CSS only.
-   Glow intensity 25%.
+   Outer card: row flex — content area + MAG notch side by side so
+   the notch expansion naturally pushes content leftward.
    ============================================================ */
 .plaque--row {
   --plaque-glow-intensity: 0.25;
+  --plaque-pad: 0px;
   width: 100%;
   max-width: 100%;
-  min-height: 72px;
-  padding: 14px 18px;
+  overflow: hidden;
+  min-height: 64px;
+  padding: 0 !important;
+  flex-direction: row !important;  /* outer: content + notch side-by-side */
+  align-items: stretch !important;
+  gap: 0 !important;
+}
+
+/* ── Inner content row ──────────────────────────────────────── */
+.plaque__row-content {
+  display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 1rem;
+  min-width: 0;
+  flex: 1 1 auto;
+  box-sizing: border-box;
+  padding: 0 16px;
+  gap: 12px;
+  /* Desired visual order:
+     medallion(0) > slug(1) > title(2) > tags(3) > handle(4) > avatar(5) > install(6) > rank(7) */
 }
+
+/* ── Field order overrides ──────────────────────────────────── */
+.plaque--row .plaque-orb--medallion              { order: 0; flex-shrink: 0; }
+.plaque--row .plaque__slug,
+.plaque--row .plaque-skill-name                  { order: 1; }
+.plaque--row .plaque__title,
+.plaque--row .plaque-title                       { order: 2; }
+.plaque--row .plaque__tags,
+.plaque--row .plaque-tags                        { order: 3; }
+.plaque--row .plaque__handle,
+.plaque--row .plaque-contrib-row                 { order: 4; }
+.plaque--row .plaque__avatar                     { order: 5; flex-shrink: 0; }
+.plaque--row .plaque__install-row,
+.plaque--row .ns-install-row                     { order: 6; }
+.plaque--row .plaque__rank                       { order: 7; flex-shrink: 0; }
+.plaque--row .plaque__ev-badge                   { display: none; }
+
+/* ── Slug ───────────────────────────────────────────────────── */
 .plaque--row .plaque__slug,
 .plaque--row .plaque-skill-name {
-  font-size: 18px;
-  flex: 0 1 auto;
+  font-size: 16px;
+  font-weight: 600;
+  flex: 0 0 auto;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
 }
+
+/* ── Title ──────────────────────────────────────────────────── */
 .plaque--row .plaque__title,
 .plaque--row .plaque-title {
-  font-size: 14px;
+  font-size: 12px;
   flex: 1 1 auto;
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  opacity: 0.6;
 }
-.plaque--row .plaque__handle,
-.plaque--row .plaque-contrib-row {
-  font-size: 12px;
-  margin-top: 0;
-  flex-shrink: 0;
-}
+
+/* ── Tags ───────────────────────────────────────────────────── */
 .plaque--row .plaque__tags,
 .plaque--row .plaque-tags {
-  flex-shrink: 0;
-  max-width: 240px;
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 4px;
   overflow: hidden;
+  max-width: 180px;
 }
-.plaque--row .plaque__description,
-.plaque--row .plaque-description {
-  display: none; /* CSS-only collapse; markup still present */
+
+/* ── Handle ─────────────────────────────────────────────────── */
+.plaque--row .plaque__handle,
+.plaque--row .plaque-contrib-row {
+  font-size: 11px;
+  flex: 0 0 auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
+  margin-top: 0;
 }
-/* E6 mobile-first: phone base (≤480px equivalent) — hide secondary fields,
-   compact padding. Desktop progressively restores them via min-width steps. */
+
+/* ── Install row — fixed width so it never squishes ─────────── */
 .plaque--row .plaque__install-row,
 .plaque--row .ns-install-row {
-  /* Surface the install command in list rows — was display:none, but
-     hiding the canonical CTA in a "scan-all" view defeats the point of
-     the list. Compact horizontal variant: smaller font, single line,
-     truncates instead of wrapping. */
-  display: none; /* hidden on mobile by default */
+  flex: 0 0 300px;
+  width: 300px;
+  min-width: 0;
+  font-size: 11px;
+  padding: 4px 8px;
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  display: inline-flex;
 }
+
+/* Grade border looks odd as a narrow strip — suppress on row notch, keep fill */
+.plaque--row .plaque__trust-notch[data-trust-grade="S"],
+.plaque--row .plaque__trust-notch[data-trust-grade="A"],
+.plaque--row .plaque__trust-notch[data-trust-grade="B"],
+.plaque--row .plaque__trust-notch[data-trust-grade="C"] {
+  border: none;
+  box-shadow: none;
+}
+
+/* ── Description — always hidden in list ───────────────────── */
+.plaque--row .plaque__description,
+.plaque--row .plaque-description {
+  display: none;
+}
+
+/* ── Mobile base (≤480px): strip to essentials ──────────────── */
 .plaque--row .plaque__title,
 .plaque--row .plaque-title,
 .plaque--row .plaque__handle,
-.plaque--row .plaque-contrib-row {
-  display: none; /* phone: drop secondary fields so slug+rank always fit */
+.plaque--row .plaque-contrib-row,
+.plaque--row .plaque__tags,
+.plaque--row .plaque-tags,
+.plaque--row .plaque__install-row,
+.plaque--row .ns-install-row {
+  display: none;
 }
 .plaque--row .plaque__slug,
 .plaque--row .plaque-skill-name {
   font-size: 14px;
+  max-width: 55vw;
   flex: 1 1 auto;
 }
-.plaque--row {
-  padding: .55rem .75rem;
-  gap: .4rem;
+.plaque__row-content {
+  padding: 0 10px;
+  gap: 8px;
 }
 
-/* ≥481px: restore secondary fields, slightly larger type */
+/* ≥481px: restore secondary fields */
 @media (min-width: 481px) {
   .plaque--row .plaque__title,
-  .plaque--row .plaque-title {
-    display: block;
-    font-size: 12px;
-    min-width: 0;
-  }
+  .plaque--row .plaque-title,
   .plaque--row .plaque__handle,
   .plaque--row .plaque-contrib-row {
     display: block;
-    font-size: 11px;
-    min-width: 0;
-    max-width: 35vw;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  }
+  .plaque--row .plaque__tags,
+  .plaque--row .plaque-tags {
+    display: flex;
   }
   .plaque--row .plaque__slug,
   .plaque--row .plaque-skill-name {
     font-size: 15px;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    flex: unset;
+    max-width: 180px;
+    flex: 0 0 auto;
   }
-  .plaque--row {
-    padding: .65rem .85rem;
-    gap: .5rem;
-    min-height: 60px;
-    overflow: hidden;
+  .plaque__row-content {
+    padding: 0 14px;
+    gap: 10px;
   }
 }
 
-/* ≥701px: show install row in full density */
+/* ≥701px: show install row */
 @media (min-width: 701px) {
   .plaque--row .plaque__install-row,
   .plaque--row .ns-install-row {
     display: inline-flex;
-    flex: 0 1 auto;
-    max-width: 320px;
-    font-size: 11px;
-    padding: 4px 8px;
-    margin: 0;
-    overflow: hidden;
-    white-space: nowrap;
+  }
+  .plaque--row .plaque__slug,
+  .plaque--row .plaque-skill-name {
+    max-width: 200px;
+  }
+  .plaque__row-content {
+    padding: 0 16px;
+    gap: 12px;
+  }
+}
+
+/* ── MAG notch — fixed right slot, rotated label, nothing shifts ─
+   Always 28px wide — sits as the last flex child of .plaque--row,
+   after the rank badge. Label opacity-fades on hover; no layout shift.
+   On mobile collapses to a 4px grade-color accent sliver, no label.
+   ============================================================ */
+.plaque--row .plaque__trust-notch {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+  flex: 0 0 28px;
+  width: 28px;
+  align-self: stretch;
+  height: auto !important;
+  transition: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 0;
+  position: static;
+}
+.plaque--row:hover .plaque__trust-notch {
+  width: 28px;
+  flex-basis: 28px;
+}
+/* Label: rotated 90° CW (reads bottom-to-top), fades in on hover */
+.plaque--row .trust-notch-label {
+  white-space: nowrap;
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.plaque--row:hover .trust-notch-label {
+  opacity: 1;
+}
+@media (max-width: 480px) {
+  .plaque--row .plaque__trust-notch {
+    flex: 0 0 4px;
+    width: 4px;
+  }
+  .plaque--row .trust-notch-label {
+    display: none;
   }
 }
 
@@ -2384,9 +2505,9 @@ button.plaque__slug:focus-visible {
   color: var(--tier-basic);
 }
 .profile-filter-group[data-filter-type="type"] .profile-filter-chip[data-value="extra"][aria-pressed="true"] {
-  border-color: var(--tier-extra);
-  background: var(--tier-extra-bg);
-  color: var(--tier-extra);
+  border-color: var(--rank-4, #e879f9);
+  background: var(--rank-4-bg, rgba(232,121,249,.15));
+  color: var(--rank-4, #e879f9);
 }
 .profile-filter-group[data-filter-type="type"] .profile-filter-chip[data-value="unique"][aria-pressed="true"] {
   border-color: var(--tier-unique);
@@ -2617,14 +2738,14 @@ button.plaque__slug:focus-visible {
 .share-action--x:hover {
   border-color: var(--text, #e2e8f0);
 }
-/* Instagram: var(--tier-extra) border suggests gradient without new colors */
+/* Instagram: var(--rank-4) border suggests gradient without new colors */
 .share-action--instagram {
-  border-color: var(--tier-extra, #c084fc);
-  color: var(--tier-extra, #c084fc);
+  border-color: var(--rank-4, #e879f9);
+  color: var(--rank-4, #e879f9);
 }
 .share-action--instagram:hover {
-  background: rgba(192, 132, 252, 0.07);
-  border-color: var(--tier-extra, #c084fc);
+  background: rgba(232, 121, 249, 0.07);
+  border-color: var(--rank-4, #e879f9);
 }
 
 .share-modal__toast {
@@ -2697,7 +2818,7 @@ button.plaque__slug:focus-visible {
 }
 /* Per-action color via data attribute */
 .profile-activity-action[data-action="rank_up"]  { color: var(--rank-3, #a78bfa); }
-.profile-activity-action[data-action="fuse"]     { color: var(--tier-extra, #c084fc); }
+.profile-activity-action[data-action="fuse"]     { color: var(--rank-4, #e879f9); }
 .profile-activity-action[data-action="ascend"]   { color: var(--apex-gold, #fbbf24); }
 .profile-activity-action[data-action="name"]     { color: var(--tier-basic, #38bdf8); }
 .profile-activity-action[data-action="promote"]  { color: var(--apex-gold, #fbbf24); }
@@ -2947,8 +3068,8 @@ button.plaque__slug:focus-visible {
   box-shadow: 0 0 20px rgba(var(--tier-unique-rgb), 0.35) !important;
 }
 .plaque.is-highlighted.plaque--extra {
-  border-color: var(--tier-extra, #c084fc) !important;
-  box-shadow: 0 0 20px rgba(192, 132, 252, 0.35) !important;
+  border-color: var(--rank-4, #e879f9) !important;
+  box-shadow: 0 0 20px rgba(232, 121, 249, 0.35) !important;
 }
 
 /* ── Interactive Progression Tooltip ── */
@@ -2998,9 +3119,9 @@ button.plaque__slug:focus-visible {
   border: 1px solid rgba(100,116,139,0.2);
 }
 .ptl2__tooltip-tier--basic    { color: var(--tier-basic,#38bdf8);    background: rgba(56,189,248,.1); border-color: rgba(56,189,248,.2); }
-.ptl2__tooltip-tier--extra    { color: var(--tier-extra,#c084fc);    background: rgba(192,132,252,.1); border-color: rgba(192,132,252,.2); }
+.ptl2__tooltip-tier--extra    { color: var(--rank-4,#e879f9);    background: rgba(232,121,249,.1); border-color: rgba(232,121,249,.2); }
 .ptl2__tooltip-tier--unique   { color: var(--tier-unique);   background: rgba(var(--tier-unique-rgb),.1); border-color: rgba(var(--tier-unique-rgb),.2); }
-.ptl2__tooltip-tier--ultimate { color: var(--tier-fusion,#f59e0b); background: rgba(245,158,11,.1); border-color: rgba(245,158,11,.2); }
+.ptl2__tooltip-tier--ultimate { color: var(--rank-5,#fbbf24); background: rgba(251,191,36,.1); border-color: rgba(251,191,36,.2); }
 /* PR3b: branch-keyed tooltip tiers (standard/suite) — profile-timeline.js now
    keys the tier chip on the resolved branch, not the dead type enum. */
 .ptl2__tooltip-tier--standard { color: var(--tier-basic,#38bdf8);    background: rgba(56,189,248,.1); border-color: rgba(56,189,248,.2); }
@@ -3949,7 +4070,7 @@ button.plaque__slug:focus-visible {
   transition: border-color 0.2s;
 }
 .directory-search:focus {
-  border-color: var(--accent, var(--tier-extra));
+  border-color: var(--accent, var(--rank-4, #e879f9));
 }
 
 /* Tier sections — contributors are grouped by peak rank into bands. */
@@ -3962,10 +4083,10 @@ button.plaque__slug:focus-visible {
   border-block-end: 1px solid var(--border);
   letter-spacing: 0.01em;
 }
-.directory-tier[data-tier="4"] .directory-tier__title { color: var(--tier-fusion); }
-.directory-tier[data-tier="3"] .directory-tier__title { color: var(--tier-unique); }
-.directory-tier[data-tier="2"] .directory-tier__title { color: var(--tier-extra); }
-.directory-tier[data-tier="1"] .directory-tier__title { color: var(--tier-basic); }
+.directory-tier[data-tier="4"] .directory-tier__title { color: var(--rank-4, #e879f9); }
+.directory-tier[data-tier="3"] .directory-tier__title { color: var(--rank-3, #a78bfa); }
+.directory-tier[data-tier="2"] .directory-tier__title { color: var(--rank-2, #63cab7); }
+.directory-tier[data-tier="1"] .directory-tier__title { color: var(--rank-1, #38bdf8); }
 
 /* ── Mystery redaction — 0★ / 1★ pre-named skills ──────────────────────────
    The contributor handle is withheld until the skill is officially named (2★+).
@@ -4023,7 +4144,7 @@ button.plaque__slug:focus-visible {
 .profile-filter-reset:focus-visible,
 .plaque__share-btn:focus-visible,
 .plaque__claim-btn:focus-visible {
-  outline: 2px solid var(--tier-extra);
+  outline: 2px solid var(--rank-4, #e879f9);
   outline-offset: 2px;
 }
 
@@ -4060,6 +4181,7 @@ button.plaque__slug:focus-visible {
   align-items: center;
   justify-content: center;
   position: relative;
+  align-self: stretch; /* ensure alignment in center-aligned flex containers */
 }
 
 /* ── Expand on plaque hover ──────────────────────────────────── */
@@ -4141,6 +4263,7 @@ button.plaque__slug:focus-visible {
    Shown at the end of list-view rows as a small muted label.
    Positioned just before the › arrow. */
 .plaque--row .plaque__ev-badge {
+  display: none; /* trust magnitude already encodes the grade — negative space preferred */
   font-size: 0.6rem;
   font-weight: 700;
   letter-spacing: 0.08em;
