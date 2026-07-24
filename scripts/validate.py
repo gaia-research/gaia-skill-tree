@@ -6,17 +6,31 @@ Validates registry/gaia.json against:
 2. Unique skill IDs and edge declarations.
 3. DAG cycle detection (DFS from all root nodes).
 4. Reference integrity (every parent ID resolves to an existing node).
-5. Prerequisite minimums by skill type.
-6. Named skill evidence floors (inherited generic + own evidence; non-blocking).
-7. Ultimate approval count check (placeholder).
-8. Unique skill constraints.
-9. Named skill frontmatter consistency.
-10. Skill suites validation.
-11. Benchmark-result provenance gate (Sprint D W2a, #904).
-12. Verifier benchmark attestation format & authorization (Sprint D W2b, #905).
+5. Prerequisite minimums by skill type (meta.json types.minPrereqs).
+6. Named skill frontmatter consistency.
+7. Skill suites validation.
+8. Benchmark-result provenance gate (Sprint D W2a, #904).
+9. Verifier benchmark attestation format & authorization (Sprint D W2b, #905).
 
 Generic skill refs are rank-less — stars live only on named skills — so there is
 no generic level/demerit validation.
+
+Yggdrasil II (#997/#1002) retired THREE former steps from this pipeline, all of
+which had become checks that could never fire:
+
+  * "Named evidence thresholds" — the Evidence Floor, superseded by Trust
+    Magnitude as the sole gate (#995 dropped levels.evidenceFloors).
+  * "Ultimate constraints" and "Unique skill constraints" — both filtered on the
+    retired `extra`/`unique`/`ultimate` skill TYPES. The type enum is now exactly
+    {basic, fusion}, so both matched zero nodes post-migration and always
+    returned clean while the pipeline still printed a step for them.
+
+The latter two are deleted rather than re-targeted; the rationale for each is
+recorded inline where they used to live (above
+validate_verifier_benchmark_attestations). `Ultimate`, `Apex` and `Extra`
+survive only as RANK WORDS on named skills, and Suite / Unique are read-time-
+derived BRANCHES resolved TYPE-BLIND by src/gaia_cli/taxonomy.py — neither is
+addressable from a canonical graph node.
 
 Usage:
     python scripts/validate.py [--graph PATH] [--strict]
@@ -231,84 +245,58 @@ def validate_references(graph):
 
 
 def validate_prerequisites_count(graph):
-    """Check that each skill type has the minimum required number of prerequisites."""
+    """Check that each skill type meets its meta.json ``minPrereqs`` floor.
+
+    Yggdrasil II collapsed the type axis to ``{basic, fusion}`` — basic = 0
+    prerequisites, fusion = ≥1 (``meta.json types.minPrereqs``). The retired
+    ``unique`` type had its own "must have 0 prerequisites" rule; that rule is
+    gone with the type. ``unique`` is now a read-time-derived BRANCH (rank ≥4
+    with no ``suiteComponents``), and a unique-branch named skill maps back to
+    a ``fusion`` generic node that legitimately carries prerequisites.
+    """
     errors = []
     for skill in graph.get("skills", []):
         min_req = MIN_PREREQS.get(skill["type"], 0)
         actual = len(skill.get("prerequisites", []))
         if skill["type"] == "basic" and actual > 0:
             errors.append(f"Basic skill '{skill['id']}' must have 0 prerequisites (has {actual}).")
-        elif skill["type"] == "unique" and actual > 0:
-            errors.append(f"Unique skill '{skill['id']}' must have 0 prerequisites (has {actual}).")
         elif actual < min_req:
             errors.append(f"{skill['type'].title()} skill '{skill['id']}' needs ≥{min_req} prerequisites (has {actual}).")
     return errors
 
 
-def validate_ultimate(graph):
-    """Check ultimate-specific constraints."""
-    errors = []
-    for skill in graph.get("skills", []):
-        if skill["type"] != "ultimate":
-            continue
-
-        # Provisional ultimate stubs are allowed without evidence
-        if skill["status"] == "provisional":
-            continue
-
-        # Validated ultimates need 3+ Class A/B evidence
-        if skill["status"] == "validated":
-            ab_evidence = [e for e in skill.get("evidence", []) if e.get("class") in ("A", "B")]
-            if len(ab_evidence) < 3:
-                errors.append(
-                    f"Validated ultimate '{skill['id']}' needs ≥3 Class A/B evidence "
-                    f"sources (has {len(ab_evidence)})."
-                )
-    return errors
-
-
-def validate_unique_skills(graph):
-    """Check unique-type-specific constraints: 0 prerequisites, graph-isolated, has named impl.
-
-    (Generic refs are rank-less; the star comes from the named implementation,
-    so there is no generic-level floor to check here anymore.)
-    """
-    errors = []
-    all_prereq_refs = set()
-    for skill in graph.get("skills", []):
-        for pid in skill.get("prerequisites", []):
-            all_prereq_refs.add(pid)
-
-    repo_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    named_index_path = os.path.join(repo_root, "registry", "named-skills.json")
-    named_buckets = {}
-    if os.path.isfile(named_index_path):
-        with open(named_index_path, "r", encoding="utf-8") as f:
-            named_buckets = json.load(f).get("buckets", {})
-
-    for skill in graph.get("skills", []):
-        if skill["type"] != "unique":
-            continue
-
-        if skill.get("prerequisites", []):
-            errors.append(
-                f"Unique skill '{skill['id']}' must have 0 prerequisites "
-                f"(has {len(skill['prerequisites'])})."
-            )
-
-        if skill["id"] in all_prereq_refs:
-            errors.append(
-                f"Unique skill '{skill['id']}' is referenced as a prerequisite "
-                f"by another skill — unique skills must be graph-isolated."
-            )
-
-        if skill["id"] not in named_buckets or not named_buckets[skill["id"]]:
-            errors.append(
-                f"Unique skill '{skill['id']}' has no named implementation — "
-                f"unique skills require at least one entry in named-skills.json."
-            )
-
-    return errors
+# ---------------------------------------------------------------------------
+# RETIRED under Yggdrasil II (see module docstring):
+#
+#   validate_ultimate()      — filtered on `type == "ultimate"` and required
+#       ≥3 Class A/B evidence rows on validated nodes. Both halves are retired:
+#       (a) `ultimate` is no longer a type — it is the 5★ SUITE rank WORD, and
+#           ranks live on named skills, never on canonical graph nodes
+#           ("generic skill refs are rank-less"). No canonical node can be
+#           identified as an ultimate, so the filter matched nothing.
+#       (b) The Class-A/B COUNT floor it enforced was superseded by Trust
+#           Magnitude. META.md §"Suite 5★ Ultimate pathway": "TM is the sole
+#           numeric gate" (TM ≥ 250 / S-grade); #995 dropped
+#           `levels.evidenceFloors` from meta.json for the same reason, and
+#           `evidence.class` is marked DEPRECATED in skill.schema.json.
+#       Re-targeting it at `type == "fusion"` would have imposed a brand-new
+#       Class-A/B floor on all 130 fusion nodes — a constraint that was never
+#       ratified and that contradicts the "TM is the sole numeric gate" ruling.
+#
+#   validate_unique_skills() — filtered on `type == "unique"` and required 0
+#       prerequisites + graph isolation + a named implementation. `unique` is
+#       no longer a type; it is a read-time-derived BRANCH (rank ≥4 AND no
+#       `suiteComponents` — src/gaia_cli/taxonomy.py resolveDisplayBranch).
+#       Neither input exists on a canonical node: `skill.schema.json` is
+#       `additionalProperties: false` and defines neither `rank`/`level` nor
+#       `suiteComponents` (suiteComponents lives on namedSkill.schema.json).
+#       The branch is therefore unresolvable at this layer, and its old
+#       constraints actively contradict Yggdrasil II — a unique-branch named
+#       skill resolves back to a `fusion` node that has prerequisites and is
+#       referenced by other nodes. "Has a named implementation" is likewise
+#       tautological now: rank comes from `namedMaxLevel`, so rank ≥4 cannot
+#       hold without one.
+# ---------------------------------------------------------------------------
 
 
 def validate_verifier_benchmark_attestations():
@@ -435,10 +423,16 @@ def compute_stats(graph):
     for root in roots:
         depth_dfs(root, 0)
 
-    # Find orphaned composites
+    # Find orphaned composites — a composite node that does not actually
+    # compose anything. Yggdrasil II collapsed the composite types
+    # (`extra`/`ultimate`) into `fusion`, so the old `type in ("extra",
+    # "ultimate")` filter matched nothing. The threshold is read from
+    # meta.json rather than hard-coded: the retired literal `2` was Ygg I's
+    # `extra` floor, and Ygg II ratified `fusion: 1`.
+    fusion_floor = MIN_PREREQS.get("fusion", 1)
     orphaned = []
     for s in skills:
-        if s["type"] in ("extra", "ultimate") and len(s.get("prerequisites", [])) < 2:
+        if s["type"] == "fusion" and len(s.get("prerequisites", [])) < fusion_floor:
             orphaned.append(s["id"])
 
     print("\n📊 Graph Statistics")
@@ -449,7 +443,7 @@ def compute_stats(graph):
     print(f"   Max lineage depth: {max_depth}")
     print(f"   Root nodes (basics): {len(roots)}")
     if orphaned:
-        print(f"   ⚠ Orphaned extras: {orphaned}")
+        print(f"   ⚠ Orphaned fusions: {orphaned}")
 
 
 _NAMED_REQUIRED_FIELDS = [
@@ -883,48 +877,46 @@ def main():
     all_errors = []
 
     # 1. Schema validation
-    print("   [1/11] Schema validation...")
+    print("   [1/9] Schema validation...")
     all_errors.extend(validate_schema(graph, schema_dir))
 
     # 2. Unique identifiers
-    print("   [2/11] Unique identifiers...")
+    print("   [2/9] Unique identifiers...")
     all_errors.extend(validate_unique_ids(graph))
 
     # 3. DAG cycle detection
-    print("   [3/11] DAG cycle detection...")
+    print("   [3/9] DAG cycle detection...")
     all_errors.extend(validate_dag(graph))
 
     # 4. Reference integrity
-    print("   [4/11] Reference integrity...")
+    print("   [4/9] Reference integrity...")
     all_errors.extend(validate_references(graph))
 
     # 5. Prerequisite count
-    print("   [5/11] Prerequisite count...")
+    print("   [5/9] Prerequisite count...")
     all_errors.extend(validate_prerequisites_count(graph))
 
-    # 6. Ultimate constraints
-    print("   [6/11] Ultimate constraints...")
-    all_errors.extend(validate_ultimate(graph))
+    # Yggdrasil II retired three former steps here, across two commits on this
+    # stack: "Named evidence thresholds" (Evidence Floor — TM is the sole gate),
+    # "Ultimate constraints" and "Unique skill constraints" (both filtered on
+    # retired type literals and validated nothing). See the module docstring and
+    # the retirement note above validate_verifier_benchmark_attestations.
 
-    # 7. Unique skill constraints
-    print("   [7/11] Unique skill constraints...")
-    all_errors.extend(validate_unique_skills(graph))
-
-    # 8. Named skills validation (includes reviewer gate + catalog cross-refs)
-    print("   [8/11] Named skills validation...")
+    # 6. Named skills validation (includes reviewer gate + catalog cross-refs)
+    print("   [6/9] Named skills validation...")
     all_errors.extend(validate_named_skills(graph, named_dir=named_dir))
 
-    # 9. Skill suites validation
-    print("   [9/11] Skill suites validation...")
+    # 7. Skill suites validation
+    print("   [7/9] Skill suites validation...")
     all_errors.extend(validate_suites(graph))
 
-    # 10. Benchmark-result provenance (Sprint D W2a, #904)
+    # 8. Benchmark-result provenance (Sprint D W2a, #904)
     strict_label = " [strict]" if strict_mode else ""
-    print(f"   [10/11] Benchmark-result provenance{strict_label}...")
+    print(f"   [8/9] Benchmark-result provenance{strict_label}...")
     all_errors.extend(validate_benchmark_provenance(graph, strict=strict_mode))
 
-    # 11. Verifier benchmark attestations (Sprint D W2b, #905)
-    print("   [11/11] Verifier benchmark attestations...")
+    # 9. Verifier benchmark attestations (Sprint D W2b, #905)
+    print("   [9/9] Verifier benchmark attestations...")
     all_errors.extend(validate_verifier_benchmark_attestations())
 
     # Stats
