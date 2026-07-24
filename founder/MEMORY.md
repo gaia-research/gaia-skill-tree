@@ -11,7 +11,7 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 **PR #1246 merge model:**
 - PR #1246 merges into `dev/yggdrasil-ii-staging` (**NOT main** — EPIC integration model). Merge-ready: CLEAN/MERGEABLE, design-scope CI green.
 - Regen is **STAGING-ONLY**. Do NOT regen `tokens.css` locally — the local `registry/gaia.json` is a stale Class-P snapshot that predates the fusion/unique type migration; an in-branch regen would emit stale `meta.typeColors`.
-- **Infra PR #1269** (`infra/ev-type-tokens`) is separate, targets **main**, generator-only (adds `--ev-type-*` block). It must land AND staging must regen before evidence-pill tokens resolve to non-fallback values. Until then, hex fallbacks render the correct colors.
+- **Infra PR #1270** (`infra/ev-type-tokens-staging`) is separate, targets **`dev/yggdrasil-ii-staging`** (rebased off staging — the staging generator carries a `--color-local-user` block main's lacks, so a main base would have drifted; original main-based #1269 was closed/superseded). Generator-only (adds `--ev-type-*` block). It must land AND staging must regen before evidence-pill tokens resolve to non-fallback values. Until then, hex fallbacks render the correct colors.
 
 **T19 (NEW — its own design PR per Marco): site-wide token un-pollution sweep.**
 - T16–T18 fixed ONLY `styles.css`, `plaque.css`, `leaderboard.css`. The SAME `--tier-extra`/`--tier-ultimate` + bare `--extra`/`--ultimate` rank-substitute pollution ("bad-init spread") remains in ~25 more `docs/` files.
@@ -45,7 +45,7 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 | 2026-07-25 | Opus 4.8 | Step 6 CTA reframe (5 iterations) | ~180k | ~14k | ~$4 |
 | 2026-07-25 | Opus 4.8 (superadmin) | T15 bonus DAG scatter | ~120k | ~15k | ~$3 |
 | 2026-07-25 | Opus 4.8 (superadmin) | T16–T18 audit + 3-bucket migration + infra generator | ~900k | ~110k | ~$16 |
-| 2026-07-25 (PR #1269) | Opus 4.8 (superadmin) | `--ev-type-*` generator block | ~15k | ~4k | ~$1.5 |
+| 2026-07-25 (PR #1270) | Opus 4.8 (superadmin) | `--ev-type-*` generator block (rebased onto staging) | ~55k | ~11k | ~$4 |
 
 - **SUM (comment ledger): ~$36.5.** NOTE: comment logging only began 2026-07-24, so the day-rate (~€420) is the fuller figure for the whole 6-day PR.
 
@@ -85,7 +85,7 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 **Open caveats:**
 1. Regen staging-only.
-2. #1269 dependency for ev-type resolution.
+2. #1270 dependency for ev-type resolution.
 3. Stale PR-body table (T16–T18 shown PENDING).
 4. Diff shows 1680 inherited files from the `dev/yggdrasil-ii-staging` base — T6's OWN work is only **15 in-scope files** (`docs/css/*`, `docs/js/*`, `docs/named/index.html`, `founder/reports/design-review-2026-07-20/*`).
 
@@ -94,7 +94,7 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 |---|---|---|
 | `design/ygg2-checklist-fixes-t6` | T6 checklist-fixes work | PR #1246 merge-ready (CLEAN/MERGEABLE, CI green) |
 | `dev/yggdrasil-ii-staging` | EPIC integration branch | Merge target for #1246 |
-| `infra/ev-type-tokens` | `--ev-type-*` generator block | PR #1269 (targets main, generator-only) |
+| `infra/ev-type-tokens-staging` | `--ev-type-*` generator block | PR #1270 (targets `dev/yggdrasil-ii-staging`, generator-only) |
 
 ---
 
