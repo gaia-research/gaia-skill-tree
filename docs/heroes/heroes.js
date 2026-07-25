@@ -570,6 +570,7 @@
     if (!rail) return;
 
     rail.removeAttribute('data-active-level');
+    rail.removeAttribute('data-active-branch');
     rail.classList.add('is-awaiting');
     rail.querySelectorAll('[data-ledger-target]').forEach(function (button) {
       button.classList.remove('is-active');
@@ -630,6 +631,12 @@
 
     var lvl = stage.getAttribute('data-level') || '4';
     rail.setAttribute('data-active-level', lvl);
+    var activeBranch = stage.getAttribute('data-branch') || '';
+    if (activeBranch) {
+      rail.setAttribute('data-active-branch', activeBranch);
+    } else {
+      rail.removeAttribute('data-active-branch');
+    }
 
     buttons.forEach(function (button) {
       var isActive = button.getAttribute('data-ledger-target') === stage.id;
