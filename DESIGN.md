@@ -42,7 +42,7 @@ Under Yggdrasil II there are **two structural types**, and they are the only `ty
 | `basic`  | ○ | Basic  | `--tier-basic`  | `#38bdf8` | `56,189,248` |
 | `fusion` | ◇ | Fusion | `--tier-fusion` | `#f59e0b` | `245,158,11` |
 
-Types are structural categories, not ranks — write them bare ("Basic", "Fusion"), never "Basic Skill" / "Fusion Skill" (see `CONTEXT.md` § Nomenclature). The Yggdrasil-I quartet (`basic`/`extra`/`unique`/`ultimate`) collapsed into these two: `extra`→`fusion`, `ultimate`→`fusion`, `unique`→`basic`. **"Extra", "Unique", and "Ultimate" survive only as *rank* words on the branch ladders below — never as `type` values.**
+Types are structural categories, not ranks — write them bare ("Basic", "Fusion"), never suffix a type with the word "Skill" (see `CONTEXT.md` § Nomenclature). The Yggdrasil-I quartet (`basic`/`extra`/`unique`/`ultimate`) collapsed into these two: `extra`→`fusion`, `ultimate`→`fusion`, `unique`→`basic`. **"Extra", "Unique", and "Ultimate" survive only as *rank* words on the branch ladders below — never as `type` values.**
 
 Type badge styling: `rgba({rgb}, .15)` background, `rgba({rgb}, .3)` border, solid hex text. Type card glow (radial gradient, 35% opacity): Basic `rgba(56,189,248,.4)`, Fusion `rgba(245,158,11,.4)`.
 
