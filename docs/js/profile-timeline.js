@@ -153,11 +153,11 @@
          not the dead type enum. Tier color via tokens; unique reads its rgb. */
       '.ptl2__dot--standard { border-color: var(--tier-basic);  background: rgba(56,189,248,.15); }',
       '.ptl2__dot--suite    { border-color: var(--tier-fusion); background: rgba(var(--tier-fusion-rgb),.15); }',
-      '.ptl2__dot--unique   { border-color: var(--tier-unique); background: #000; }',
+      '.ptl2__dot--unique   { border-color: var(--rank-4-unique); background: #000; }',
       '.ptl2__dot--rank { width: 9px; height: 9px; border-width: 2px; }',
       '.ptl2__event--rank-up .ptl2__dot--standard { box-shadow: 0 0 6px rgba(56,189,248,.5); }',
       '.ptl2__event--rank-up .ptl2__dot--suite    { box-shadow: 0 0 8px rgba(var(--tier-fusion-rgb),.6); }',
-      '.ptl2__event--rank-up .ptl2__dot--unique   { box-shadow: 0 0 8px rgba(var(--tier-unique-rgb,124,58,237),.7); }',
+      '.ptl2__event--rank-up .ptl2__dot--unique   { box-shadow: 0 0 8px rgba(var(--rank-4-unique-rgb,124,58,237),.7); }',
 
       /* Card */
       '.ptl2__card {',
@@ -288,7 +288,7 @@
   var TIER_COLOR = {
     standard: 'var(--tier-basic)',
     suite:    'var(--tier-fusion)',
-    unique:   'var(--tier-unique)',
+    unique:   'var(--rank-4-unique)',
   };
   // Resolve a `var(--token)` or `var(--token,#fallback)` expression at runtime:
   // prefer the live CSS custom property, fall back to the (optional) inline
@@ -311,7 +311,7 @@
     return {
       standard: cv('var(--tier-basic)'),
       suite:    cv('var(--tier-fusion)'),
-      unique:   cv('var(--tier-unique)'),
+      unique:   cv('var(--rank-4-unique)'),
     };
   }());
 
