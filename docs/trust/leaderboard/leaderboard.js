@@ -118,6 +118,9 @@
     rank6: tok('--rank-6-rgb') || '251, 191, 36',
     honorRed: tok('--honor-red-rgb') || '239, 68, 68',
     basic: tok('--tier-basic-rgb') || '56, 189, 248',
+    unique4: tok('--tier-unique-rgb') || '124, 58, 237',
+    unique5: tok('--tier-unique-5-rgb') || '178, 106, 58',
+    unique6: tok('--tier-unique-6-rgb') || '224, 137, 74',
     muted: tok('--muted') || 'rgb(100, 116, 139)',
     text: tok('--text') || 'rgb(226, 232, 240)',
     border: tok('--border') || 'rgb(30, 41, 59)'
@@ -184,13 +187,32 @@
   // Keyed by branch ('standard'|'suite'|'unique'), NOT by the dead enum
   // (basic/extra/unique/ultimate). Branch is READ from the emitted field via
   // GaiaSemantics.branchOf — never read from skill.type directly.
-  // Token source: --tier-basic-rgb (56,189,248), --tier-fusion-rgb (245,158,11),
-  //               --tier-unique-rgb (124,58,237). No hex literals (CI guard E7).
+  // Token source: --tier-basic-rgb (56,189,248), --tier-fusion-rgb (245,158,11).
+  // Unique branch is level-sensitive — see uniqueColors(). No hex literals (CI guard E7).
   var BRANCH_COLORS = {
     standard: { top: [56,  189, 248], bot: [30,  100, 160] },   // --tier-basic-rgb
-    suite:    { top: [245, 158,  11], bot: [160,  90,   5] },   // --tier-fusion-rgb (gold)
-    unique:   { top: [124,  58, 237], bot: [60,   25, 140] }    // --tier-unique-rgb (darker plaque)
+    suite:    { top: [245, 158,  11], bot: [160,  90,   5] }    // --tier-fusion-rgb (gold)
   };
+
+  // Level-sensitive color stops for the unique branch.
+  // 4★ = --tier-unique-rgb (violet), 5★ = --tier-unique-5-rgb (burnished copper),
+  // 6★ = --tier-unique-6-rgb (ember copper). Deliberately off the suite gold axis.
+  function uniqueColors(level) {
+    var n = parseInt(level) || 0;
+    var rawMap = {
+      6: TOKENS.unique6 || '224, 137, 74',
+      5: TOKENS.unique5 || '178, 106, 58'
+    };
+    var raw = (n >= 6 ? rawMap[6] : (n === 5 ? rawMap[5] : (TOKENS.unique4 || '124, 58, 237')));
+    var parts = raw.split(',').map(function(s) { return parseInt(s.trim(), 10) || 0; });
+    var top = [parts[0], parts[1], parts[2]];
+    var bot = [
+      Math.round(top[0] * 0.55),
+      Math.round(top[1] * 0.55),
+      Math.round(top[2] * 0.55)
+    ];
+    return { top: top, bot: bot };
+  }
 
   // Grade accent cap colors (solid RGBA strings)
   var GRADE_CAP_COLOR = {
@@ -203,6 +225,7 @@
   // Resolve branch color stops for a skill node.
   // node may carry .type and .suiteComponents; level is the star level.
   // Falls back to 'standard' when GaiaSemantics hasn't loaded yet.
+  // Unique branch is level-sensitive — delegates to uniqueColors(level).
   function typeColors(nodeOrType, level) {
     var branch = 'standard';
     var gs = (typeof window !== 'undefined' && window.GaiaSemantics);
@@ -213,6 +236,7 @@
       if (nodeOrType === 'fusion') branch = 'suite';
       else branch = 'standard';
     }
+    if (branch === 'unique') return uniqueColors(level);
     return BRANCH_COLORS[branch] || BRANCH_COLORS.standard;
   }
 
