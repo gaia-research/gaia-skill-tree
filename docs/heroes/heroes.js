@@ -468,7 +468,7 @@
       var avatarUrl = githubAvatarUrl(contributor.handle, 80);
       var lvl = levelNum(contributor.topSkill.level);
       return '<li class="heroes-ledger-rail__item">' +
-        '<button class="heroes-ledger-rail__button" type="button" data-ledger-target="' + esc(stageIdFor(contributor)) + '" data-ledger-index="' + esc(index) + '" data-level="' + lvl + '">' +
+        '<button class="heroes-ledger-rail__button" type="button" data-ledger-target="' + esc(stageIdFor(contributor)) + '" data-ledger-index="' + esc(index) + '" data-branch="' + esc(branch) + '" data-level="' + lvl + '">' +
         '<span class="heroes-ledger-rail__avatar" aria-hidden="true"><img src="' + esc(avatarUrl) + '" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.hidden=true"></span>' +
         '<span class="heroes-ledger-rail__glyph" aria-hidden="true">' + esc(glyph) + '</span>' +
         '<span class="heroes-ledger-rail__entry">' +
@@ -570,6 +570,7 @@
     if (!rail) return;
 
     rail.removeAttribute('data-active-level');
+    rail.removeAttribute('data-active-branch');
     rail.classList.add('is-awaiting');
     rail.querySelectorAll('[data-ledger-target]').forEach(function (button) {
       button.classList.remove('is-active');
@@ -630,6 +631,12 @@
 
     var lvl = stage.getAttribute('data-level') || '4';
     rail.setAttribute('data-active-level', lvl);
+    var activeBranch = stage.getAttribute('data-branch') || '';
+    if (activeBranch) {
+      rail.setAttribute('data-active-branch', activeBranch);
+    } else {
+      rail.removeAttribute('data-active-branch');
+    }
 
     buttons.forEach(function (button) {
       var isActive = button.getAttribute('data-ledger-target') === stage.id;
