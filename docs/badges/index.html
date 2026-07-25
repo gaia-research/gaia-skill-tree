@@ -1900,47 +1900,113 @@
         // No approved repos — push the user to Path A.
         ctaBlock.classList.add("bd-cta-register");
         ctaBlock.style.display = "block";
-        ctaBlock.innerHTML = `
-          <h3 class="bd-cta-title">
-            <svg class="ico bd-cta-icon" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#info"/></svg>
-            Your badge isn't repo-locked yet
-          </h3>
-          <p class="bd-cta-sub">
-            Register a repo to lock your badge to it. Run <code>gaia push</code> from your project, then return here.
-          </p>
-          <div class="bd-cta-actions">
-            <a class="bd-cta-btn bd-cta-btn-primary" href="../index.html#paths">
-              Push your repo
-              <span aria-hidden="true" style="font-size: .85rem; line-height: 1;">→</span>
-            </a>
-            <a class="bd-cta-btn" href="../codex.html">
-              Browse the Codex
-            </a>
-          </div>
-        `;
+
+        const h3 = document.createElement("h3");
+        h3.className = "bd-cta-title";
+        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.setAttribute("class", "ico bd-cta-icon");
+        svg.setAttribute("width", "14");
+        svg.setAttribute("height", "14");
+        svg.setAttribute("aria-hidden", "true");
+        const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
+        use.setAttribute("href", "../assets/icons.svg#info");
+        svg.appendChild(use);
+        h3.appendChild(svg);
+        h3.appendChild(document.createTextNode(" Your badge isn't repo-locked yet"));
+
+        const p = document.createElement("p");
+        p.className = "bd-cta-sub";
+        p.appendChild(document.createTextNode("Register a repo to lock your badge to it. Run "));
+        const code = document.createElement("code");
+        code.textContent = "gaia push";
+        p.appendChild(code);
+        p.appendChild(document.createTextNode(" from your project, then return here."));
+
+        const actions = document.createElement("div");
+        actions.className = "bd-cta-actions";
+        const a1 = document.createElement("a");
+        a1.className = "bd-cta-btn bd-cta-btn-primary";
+        a1.href = "../index.html#paths";
+        a1.appendChild(document.createTextNode("Push your repo "));
+        const arrow = document.createElement("span");
+        arrow.setAttribute("aria-hidden", "true");
+        arrow.style.fontSize = ".85rem";
+        arrow.style.lineHeight = "1";
+        arrow.textContent = "→";
+        a1.appendChild(arrow);
+
+        const a2 = document.createElement("a");
+        a2.className = "bd-cta-btn";
+        a2.href = "../codex.html";
+        a2.textContent = "Browse the Codex";
+
+        actions.appendChild(a1);
+        actions.appendChild(a2);
+
+        ctaBlock.appendChild(h3);
+        ctaBlock.appendChild(p);
+        ctaBlock.appendChild(actions);
         return;
       }
 
       // Approved repos exist — surface direct edit links.
       ctaBlock.style.display = "block";
-      const repoRows = repos.map((repo) => `
-        <div class="bd-cta-repo-row">
-          <span class="bd-cta-repo-name" title="${repo}">${repo}</span>
-          <a class="bd-cta-btn" href="https://github.com/${repo}/edit/main/README.md" target="_blank" rel="noopener noreferrer">
-            Edit README <span aria-hidden="true">↗</span>
-          </a>
-          <a class="bd-cta-btn" href="https://github.com/${repo}" target="_blank" rel="noopener noreferrer">
-            View repo <span aria-hidden="true">↗</span>
-          </a>
-        </div>
-      `).join("");
-      ctaBlock.innerHTML = `
-        <h3 class="bd-cta-title">Drop the markdown above into one of your approved repos</h3>
-        <p class="bd-cta-sub">
-          GitHub's <code>/edit/main/README.md</code> deep-link opens the README in their in-browser editor. If your default branch isn't <code>main</code>, GitHub redirects you to the right one.
-        </p>
-        ${repoRows}
-      `;
+
+      const h3 = document.createElement("h3");
+      h3.className = "bd-cta-title";
+      h3.textContent = "Drop the markdown above into one of your approved repos";
+
+      const p = document.createElement("p");
+      p.className = "bd-cta-sub";
+      p.appendChild(document.createTextNode("GitHub's "));
+      const code = document.createElement("code");
+      code.textContent = "/edit/main/README.md";
+      p.appendChild(code);
+      p.appendChild(document.createTextNode(" deep-link opens the README in their in-browser editor. If your default branch isn't "));
+      const code2 = document.createElement("code");
+      code2.textContent = "main";
+      p.appendChild(code2);
+      p.appendChild(document.createTextNode(", GitHub redirects you to the right one."));
+
+      ctaBlock.appendChild(h3);
+      ctaBlock.appendChild(p);
+
+      repos.forEach((repo) => {
+        const row = document.createElement("div");
+        row.className = "bd-cta-repo-row";
+
+        const nameSpan = document.createElement("span");
+        nameSpan.className = "bd-cta-repo-name";
+        nameSpan.title = repo;
+        nameSpan.textContent = repo;
+
+        const editLink = document.createElement("a");
+        editLink.className = "bd-cta-btn";
+        editLink.href = `https://github.com/${repo}/edit/main/README.md`;
+        editLink.target = "_blank";
+        editLink.rel = "noopener noreferrer";
+        editLink.appendChild(document.createTextNode("Edit README "));
+        const ext1 = document.createElement("span");
+        ext1.setAttribute("aria-hidden", "true");
+        ext1.textContent = "↗";
+        editLink.appendChild(ext1);
+
+        const viewLink = document.createElement("a");
+        viewLink.className = "bd-cta-btn";
+        viewLink.href = `https://github.com/${repo}`;
+        viewLink.target = "_blank";
+        viewLink.rel = "noopener noreferrer";
+        viewLink.appendChild(document.createTextNode("View repo "));
+        const ext2 = document.createElement("span");
+        ext2.setAttribute("aria-hidden", "true");
+        ext2.textContent = "↗";
+        viewLink.appendChild(ext2);
+
+        row.appendChild(nameSpan);
+        row.appendChild(editLink);
+        row.appendChild(viewLink);
+        ctaBlock.appendChild(row);
+      });
     }
 
     goBtn.addEventListener("click", generate);
@@ -1977,7 +2043,13 @@
       // sampler's cycling rank — cycling the demo to 6★ leaves this at 1★.
       const seedSampleSrc = sampleSrc(CLAIM_RANK.n);
       const seedLabel = CLAIM_RANK.label;
-      badges.innerHTML = `<img src="${seedSampleSrc}" alt="${seedLabel}" style="height:28px;display:block;">`;
+      badges.replaceChildren();
+      const seedImg = document.createElement("img");
+      seedImg.src = seedSampleSrc;
+      seedImg.alt = seedLabel;
+      seedImg.style.height = "28px";
+      seedImg.style.display = "block";
+      badges.appendChild(seedImg);
 
       // Show rank checkbox only; no copy buttons in seed state
       checksEl.classList.add("is-visible");
@@ -1990,7 +2062,10 @@
       item.className = "bd-row-item";
       const thumb = document.createElement("div");
       thumb.className = "bd-row-badge";
-      thumb.innerHTML = `<img src="${seedSampleSrc}" alt="${seedLabel}">`;
+      const thumbImg = document.createElement("img");
+      thumbImg.src = seedSampleSrc;
+      thumbImg.alt = seedLabel;
+      thumb.appendChild(thumbImg);
       item.appendChild(thumb);
       const row = document.createElement("div");
       row.className = "usp-row";

@@ -144,7 +144,7 @@ EXCLUDE_GLOBS = [
 # CodeQL's py/bad-tag-filter guidance: match `</script` then any run of
 # whitespace/attribute chars before `>` (HTML lets `</script\t\n foo>` close a
 # block), so a crafted end tag can't smuggle script past the guard.
-SCRIPT_BLOCK = re.compile(r"<script\b[^>]*>(.*?)</script[^>]*>", re.IGNORECASE | re.DOTALL)
+SCRIPT_BLOCK = re.compile(r"<script\b[^>]*>(.*?)</script\s*[^>]*>", re.IGNORECASE | re.DOTALL)
 
 
 def isComment(line: str) -> bool:

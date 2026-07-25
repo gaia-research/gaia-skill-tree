@@ -860,7 +860,7 @@
         isRunning = true;
         startBtn.disabled = true;
         startBtn.innerText = "Running...";
-        consoleBox.innerHTML = "";
+        consoleBox.replaceChildren();
         
         // Remove existing simulating classes
         nodes.forEach(n => n.classList.remove("simulating", "active"));
