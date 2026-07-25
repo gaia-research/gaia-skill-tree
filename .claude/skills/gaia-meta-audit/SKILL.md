@@ -56,9 +56,9 @@ Work through these checks in order. Stop when you have enough candidates to fill
 - **Mis-attributed `origin: true`**: per META §4.1, "lives in this repo" does not equal origin. The earliest `createdAt` wins.
 
 ### P3 — Registry hygiene
-- **Broad `genericSkillRef` mapping**: implementation skill mapped to a much larger generic when a more specific one exists (e.g. mapped to a Basic 0★ node when an Extra-level generic is available).
+- **Broad `genericSkillRef` mapping**: implementation skill mapped to a much larger generic when a more specific one exists (e.g. mapped to a broad 0★ generic when a narrower generic is available).
 - **Duplicate or superseded skills**: multiple named skills from the same author or tool family doing the same thing. Flag clusters that should consolidate.
-- **Semantic Fusion candidate** (META §6.2): two or more named skills that compose two existing Extra generics into one orchestrated workflow. Propose a new Extra generic; do not confuse this with an Ultimate fusion (which requires ≥10k repo stars).
+- **Semantic Fusion candidate** (META §6.2): two or more named skills that compose two existing generics into one orchestrated workflow. Propose a new `fusion` generic; do not confuse this with a top-rank (Ultimate 5★+) fusion, which requires ≥10k repo stars.
 
 ### P4 — Documentation cleanup
 - **Placeholder bodies**: named-skill markdown with only boilerplate `## Installation\nAdd installation instructions here.` — flag for a real `## Overview`.
@@ -109,4 +109,4 @@ After any mutation: `gaia dev validate` then `gaia dev docs`.
 
 ## Canonical worked example
 
-PR #525 (`review/meta/mbtiongson1-audit`, 2026-05-30) ran every red-flag category above on 14 named skills and produced: 2 named removals (P0), 2 generic renames (P1), 1 new Extra generic via Semantic Fusion (P3), 5 `genericSkillRef` remaps, 7 `links.github` casing fixes, and 12 placeholder body backfills. Read `AUDIT-mbtiongson1.md` and the PR description for the full flag-to-action mapping.
+PR #525 (`review/meta/mbtiongson1-audit`, 2026-05-30) ran every red-flag category above on 14 named skills and produced: 2 named removals (P0), 2 generic renames (P1), 1 new `fusion` generic via Semantic Fusion (P3), 5 `genericSkillRef` remaps, 7 `links.github` casing fixes, and 12 placeholder body backfills. Read `AUDIT-mbtiongson1.md` and the PR description for the full flag-to-action mapping.

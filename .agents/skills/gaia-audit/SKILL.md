@@ -87,7 +87,7 @@ git diff --check
 These are hard rules — they apply regardless of how prominent or well-known the skill is:
 
 - **3★+ without a working `links.github` blob URL** → demote to 2★ (Named)
-- **Unique skill demoted below 4★** → must be reclassified to Basic or Extra (`gaia dev reclassify`)
+- **Unique-branch skill demoted below 4★** → it loses its Unique-branch rank status; if its structure no longer warrants `fusion`, reclassify the generic to `basic` (`gaia dev reclassify` accepts only `basic` / `fusion`)
 - **Dead evidence links** → remove/replace the entry and add a `demote` timeline event
 - **Placeholder or non-verifiable evidence only** → demote to Awakened (1★) via `gaia dev update-named --status awakened`
 - **Suite components**: the suite itself does not need `links.github`, but each component must have a specific `blob/branch/subpath` URL
