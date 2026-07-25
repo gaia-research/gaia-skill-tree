@@ -19,6 +19,10 @@
   --heroes-font-mono: var(--font-mono, 'Departure Mono', monospace);
   --heroes-stage-gap: 0;
   --heroes-rail-width: clamp(176px, 15vw, 232px);
+  /* Shared content column width so stacked stage sections line up (800px). */
+  --heroes-content-max: 800px;
+  /* Narrower reading measure for the intro title/subtitle prose block. */
+  --heroes-prose-max: 680px;
 }
 
 
@@ -64,7 +68,7 @@
 
 .heroes-header__inner {
   text-align: center;
-  max-width: 680px;
+  max-width: var(--heroes-prose-max);
 }
 
 .heroes-header__title {
@@ -711,7 +715,7 @@
 .hero-card {
   position: relative;
   width: 100%;
-  max-width: 720px;
+  max-width: var(--heroes-content-max);
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -974,7 +978,7 @@
   align-items: center;
   gap: 1.5rem;
   padding: 3rem 2rem;
-  max-width: 800px;
+  max-width: var(--heroes-content-max);
   margin: 0 auto;
 }
 
