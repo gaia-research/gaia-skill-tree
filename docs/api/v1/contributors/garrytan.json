@@ -14,7 +14,56 @@
       "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/garrytan/gstack.json"
-      }
+      },
+      "genericSkillRef": "founder-mode-orchestration",
+      "suiteComponents": [
+        "garrytan/benchmark",
+        "garrytan/benchmark-models",
+        "garrytan/browse",
+        "garrytan/canary",
+        "garrytan/careful",
+        "garrytan/codex",
+        "garrytan/context-restore",
+        "garrytan/context-save",
+        "garrytan/cso",
+        "garrytan/design-consultation",
+        "garrytan/design-html",
+        "garrytan/design-review",
+        "garrytan/design-shotgun",
+        "garrytan/devex-review",
+        "garrytan/document-generate",
+        "garrytan/document-release",
+        "garrytan/freeze",
+        "garrytan/garrytan",
+        "garrytan/gstack-upgrade",
+        "garrytan/guard",
+        "garrytan/health",
+        "garrytan/investigate",
+        "garrytan/land-and-deploy",
+        "garrytan/landing-report",
+        "garrytan/learn",
+        "garrytan/make-pdf",
+        "garrytan/office-hours",
+        "garrytan/open-gstack-browser",
+        "garrytan/pair-agent",
+        "garrytan/plan-ceo-review",
+        "garrytan/plan-design-review",
+        "garrytan/plan-devex-review",
+        "garrytan/plan-eng-review",
+        "garrytan/plan-tune",
+        "garrytan/qa",
+        "garrytan/qa-only",
+        "garrytan/retro",
+        "garrytan/review",
+        "garrytan/scrape",
+        "garrytan/setup-browser-cookies",
+        "garrytan/setup-deploy",
+        "garrytan/setup-gbrain",
+        "garrytan/ship",
+        "garrytan/skillify",
+        "garrytan/sync-gbrain",
+        "garrytan/unfreeze"
+      ]
     },
     {
       "id": "garrytan/garrytan",
@@ -29,7 +78,14 @@
       "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/garrytan/garrytan.json"
-      }
+      },
+      "genericSkillRef": "vertical-slice-planning",
+      "suiteComponents": [
+        "garrytan/browse",
+        "garrytan/cso",
+        "garrytan/design-review",
+        "garrytan/office-hours"
+      ]
     },
     {
       "id": "garrytan/browse",
@@ -44,7 +100,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/browse.json"
-      }
+      },
+      "genericSkillRef": "browser-control"
     },
     {
       "id": "garrytan/retro",
@@ -59,7 +116,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/retro.json"
-      }
+      },
+      "genericSkillRef": "write-report"
     },
     {
       "id": "garrytan/careful",
@@ -74,7 +132,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/careful.json"
-      }
+      },
+      "genericSkillRef": "guardrails"
     },
     {
       "id": "garrytan/office-hours",
@@ -89,7 +148,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/office-hours.json"
-      }
+      },
+      "genericSkillRef": "question-answer"
     },
     {
       "id": "garrytan/plan-eng-review",
@@ -104,7 +164,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/plan-eng-review.json"
-      }
+      },
+      "genericSkillRef": "code-review-pipeline"
     },
     {
       "id": "garrytan/benchmark",
@@ -119,7 +180,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/benchmark.json"
-      }
+      },
+      "genericSkillRef": "evaluate-output"
     },
     {
       "id": "garrytan/canary",
@@ -134,7 +196,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/canary.json"
-      }
+      },
+      "genericSkillRef": "detect-anomaly"
     },
     {
       "id": "garrytan/cso",
@@ -149,7 +212,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/cso.json"
-      }
+      },
+      "genericSkillRef": "security-audit"
     },
     {
       "id": "garrytan/design-consultation",
@@ -164,7 +228,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/design-consultation.json"
-      }
+      },
+      "genericSkillRef": "design-system-extraction"
     },
     {
       "id": "garrytan/design-html",
@@ -179,7 +244,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/design-html.json"
-      }
+      },
+      "genericSkillRef": "code-generation"
     },
     {
       "id": "garrytan/design-shotgun",
@@ -194,7 +260,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/design-shotgun.json"
-      }
+      },
+      "genericSkillRef": "design-review"
     },
     {
       "id": "garrytan/document-generate",
@@ -209,7 +276,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/document-generate.json"
-      }
+      },
+      "genericSkillRef": "document-editing"
     },
     {
       "id": "garrytan/investigate",
@@ -224,7 +292,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/investigate.json"
-      }
+      },
+      "genericSkillRef": "systematic-debugging"
     },
     {
       "id": "garrytan/land-and-deploy",
@@ -239,7 +308,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/land-and-deploy.json"
-      }
+      },
+      "genericSkillRef": "deployment-automation"
     },
     {
       "id": "garrytan/plan-ceo-review",
@@ -254,7 +324,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/plan-ceo-review.json"
-      }
+      },
+      "genericSkillRef": "evaluate-output"
     },
     {
       "id": "garrytan/plan-design-review",
@@ -269,7 +340,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/plan-design-review.json"
-      }
+      },
+      "genericSkillRef": "ux-audit"
     },
     {
       "id": "garrytan/plan-devex-review",
@@ -284,7 +356,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/plan-devex-review.json"
-      }
+      },
+      "genericSkillRef": "ux-audit"
     },
     {
       "id": "garrytan/qa",
@@ -299,7 +372,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/qa.json"
-      }
+      },
+      "genericSkillRef": "e2e-testing"
     },
     {
       "id": "garrytan/review",
@@ -314,7 +388,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/review.json"
-      }
+      },
+      "genericSkillRef": "code-review-pipeline"
     },
     {
       "id": "garrytan/ship",
@@ -329,7 +404,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/ship.json"
-      }
+      },
+      "genericSkillRef": "finishing-a-development-branch"
     },
     {
       "id": "garrytan/skillify",
@@ -344,7 +420,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/skillify.json"
-      }
+      },
+      "genericSkillRef": "skill-authoring"
     },
     {
       "id": "garrytan/benchmark-models",
@@ -359,7 +436,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/benchmark-models.json"
-      }
+      },
+      "genericSkillRef": "skill-performance-benchmarking"
     },
     {
       "id": "garrytan/codex",
@@ -374,7 +452,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/codex.json"
-      }
+      },
+      "genericSkillRef": "multi-agent-debate"
     },
     {
       "id": "garrytan/context-restore",
@@ -389,7 +468,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/context-restore.json"
-      }
+      },
+      "genericSkillRef": "context-compression"
     },
     {
       "id": "garrytan/context-save",
@@ -404,7 +484,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/context-save.json"
-      }
+      },
+      "genericSkillRef": "context-compression"
     },
     {
       "id": "garrytan/design-review",
@@ -419,7 +500,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/design-review.json"
-      }
+      },
+      "genericSkillRef": "ux-audit"
     },
     {
       "id": "garrytan/devex-review",
@@ -434,7 +516,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/devex-review.json"
-      }
+      },
+      "genericSkillRef": "ux-audit"
     },
     {
       "id": "garrytan/document-release",
@@ -449,7 +532,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/document-release.json"
-      }
+      },
+      "genericSkillRef": "document-editing"
     },
     {
       "id": "garrytan/freeze",
@@ -464,7 +548,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/freeze.json"
-      }
+      },
+      "genericSkillRef": "guardrails"
     },
     {
       "id": "garrytan/gstack-upgrade",
@@ -479,7 +564,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/gstack-upgrade.json"
-      }
+      },
+      "genericSkillRef": "workspace-automation"
     },
     {
       "id": "garrytan/guard",
@@ -494,7 +580,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/guard.json"
-      }
+      },
+      "genericSkillRef": "guardrails"
     },
     {
       "id": "garrytan/health",
@@ -509,7 +596,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/health.json"
-      }
+      },
+      "genericSkillRef": "automated-testing"
     },
     {
       "id": "garrytan/landing-report",
@@ -524,7 +612,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/landing-report.json"
-      }
+      },
+      "genericSkillRef": "project-management"
     },
     {
       "id": "garrytan/learn",
@@ -539,7 +628,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/learn.json"
-      }
+      },
+      "genericSkillRef": "memory-manage"
     },
     {
       "id": "garrytan/make-pdf",
@@ -554,7 +644,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/make-pdf.json"
-      }
+      },
+      "genericSkillRef": "format-output"
     },
     {
       "id": "garrytan/open-gstack-browser",
@@ -569,7 +660,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/open-gstack-browser.json"
-      }
+      },
+      "genericSkillRef": "browser-control"
     },
     {
       "id": "garrytan/pair-agent",
@@ -584,7 +676,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/pair-agent.json"
-      }
+      },
+      "genericSkillRef": "mcp-integration"
     },
     {
       "id": "garrytan/plan-tune",
@@ -599,7 +692,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/plan-tune.json"
-      }
+      },
+      "genericSkillRef": "prompt-optimization"
     },
     {
       "id": "garrytan/qa-only",
@@ -614,7 +708,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/qa-only.json"
-      }
+      },
+      "genericSkillRef": "e2e-testing"
     },
     {
       "id": "garrytan/scrape",
@@ -629,7 +724,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/scrape.json"
-      }
+      },
+      "genericSkillRef": "web-scrape"
     },
     {
       "id": "garrytan/setup-browser-cookies",
@@ -644,7 +740,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/setup-browser-cookies.json"
-      }
+      },
+      "genericSkillRef": "browser-control"
     },
     {
       "id": "garrytan/setup-deploy",
@@ -659,7 +756,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/setup-deploy.json"
-      }
+      },
+      "genericSkillRef": "deployment-automation"
     },
     {
       "id": "garrytan/setup-gbrain",
@@ -674,7 +772,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/setup-gbrain.json"
-      }
+      },
+      "genericSkillRef": "knowledge-management"
     },
     {
       "id": "garrytan/sync-gbrain",
@@ -689,7 +788,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/sync-gbrain.json"
-      }
+      },
+      "genericSkillRef": "knowledge-management"
     },
     {
       "id": "garrytan/unfreeze",
@@ -704,7 +804,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/unfreeze.json"
-      }
+      },
+      "genericSkillRef": "guardrails"
     }
   ],
   "namedSkillsCount": 47,

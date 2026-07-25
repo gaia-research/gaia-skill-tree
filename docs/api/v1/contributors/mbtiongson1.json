@@ -14,7 +14,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mbtiongson1/gaia-audit.json"
-      }
+      },
+      "genericSkillRef": "registry-entry-audit"
     },
     {
       "id": "mbtiongson1/gaia-curation-review",
@@ -29,7 +30,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mbtiongson1/gaia-curation-review.json"
-      }
+      },
+      "genericSkillRef": "registry-entry-audit"
     },
     {
       "id": "mbtiongson1/gaia-meta-audit",
@@ -44,7 +46,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mbtiongson1/gaia-meta-audit.json"
-      }
+      },
+      "genericSkillRef": "registry-health-scan"
     },
     {
       "id": "mbtiongson1/gaia-preview",
@@ -59,7 +62,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mbtiongson1/gaia-preview.json"
-      }
+      },
+      "genericSkillRef": "deployment-automation"
     },
     {
       "id": "mbtiongson1/graphify-triage",
@@ -74,7 +78,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mbtiongson1/graphify-triage.json"
-      }
+      },
+      "genericSkillRef": "graph-driven-issue-triage"
     }
   ],
   "namedSkillsCount": 5,

@@ -65,10 +65,37 @@ def _slug_from_id(skill_id: str) -> tuple[str, str]:
     return skill_id, skill_id
 
 
+def _suite_components(entry: dict) -> list | None:
+    """Normalize suiteComponents to a list of ID strings (never inline objects).
+
+    Returns None when the entry carries no suiteComponents at all, so callers
+    can omit the key entirely rather than emitting a null.
+    """
+    suite_raw = entry.get("suiteComponents")
+    if suite_raw and isinstance(suite_raw, list):
+        suite = []
+        for item in suite_raw:
+            if isinstance(item, str):
+                suite.append(item)
+            elif isinstance(item, dict):
+                # Flatten: use 'id' key if present, else str representation
+                suite.append(item.get("id", str(item)))
+        return suite
+    if suite_raw is None:
+        return None
+    return suite_raw
+
+
 def _slim_projection(entry: dict) -> dict:
-    """Return the slim fields used in list/pagination responses."""
+    """Return the slim fields used in list/pagination responses.
+
+    `suiteComponents` and `genericSkillRef` are carried here (not only in the
+    full per-skill record) so list consumers never have to fan out to N detail
+    files just to read one field.  Both follow the full projection's
+    convention: omitted entirely when absent, never emitted as null.
+    """
     contributor, slug = _slug_from_id(entry.get("id", ""))
-    return {
+    result = {
         "id": entry.get("id", ""),
         "name": entry.get("name", ""),
         "level": entry.get("level", ""),
@@ -86,6 +113,15 @@ def _slim_projection(entry: dict) -> dict:
         },
     }
 
+    if "genericSkillRef" in entry:
+        result["genericSkillRef"] = entry["genericSkillRef"]
+
+    suite_components = _suite_components(entry)
+    if suite_components is not None:
+        result["suiteComponents"] = suite_components
+
+    return result
+
 
 def _full_projection(entry: dict) -> dict:
     """Return the full record including evidence, timeline, suiteComponents, etc."""
@@ -93,20 +129,7 @@ def _full_projection(entry: dict) -> dict:
     contrib = entry.get("contributor", contributor)
 
     # suiteComponents must be list of ID strings, NOT inline objects
-    suite_raw = entry.get("suiteComponents")
-    if suite_raw and isinstance(suite_raw, list):
-        suite = []
-        for item in suite_raw:
-            if isinstance(item, str):
-                suite.append(item)
-            elif isinstance(item, dict):
-                # Flatten: use 'id' key if present, else str representation
-                suite.append(item.get("id", str(item)))
-        suite_components = suite
-    elif suite_raw is None:
-        suite_components = None
-    else:
-        suite_components = suite_raw
+    suite_components = _suite_components(entry)
 
     result: dict = {
         "id": entry.get("id", ""),

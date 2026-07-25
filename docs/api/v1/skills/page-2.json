@@ -13,7 +13,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/canary.json"
-      }
+      },
+      "genericSkillRef": "detect-anomaly"
     },
     {
       "id": "garrytan/cso",
@@ -28,7 +29,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/cso.json"
-      }
+      },
+      "genericSkillRef": "security-audit"
     },
     {
       "id": "garrytan/design-consultation",
@@ -43,7 +45,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/design-consultation.json"
-      }
+      },
+      "genericSkillRef": "design-system-extraction"
     },
     {
       "id": "garrytan/design-html",
@@ -58,7 +61,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/design-html.json"
-      }
+      },
+      "genericSkillRef": "code-generation"
     },
     {
       "id": "garrytan/design-shotgun",
@@ -73,7 +77,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/design-shotgun.json"
-      }
+      },
+      "genericSkillRef": "design-review"
     },
     {
       "id": "garrytan/document-generate",
@@ -88,7 +93,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/document-generate.json"
-      }
+      },
+      "genericSkillRef": "document-editing"
     },
     {
       "id": "garrytan/investigate",
@@ -103,7 +109,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/investigate.json"
-      }
+      },
+      "genericSkillRef": "systematic-debugging"
     },
     {
       "id": "garrytan/land-and-deploy",
@@ -118,7 +125,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/land-and-deploy.json"
-      }
+      },
+      "genericSkillRef": "deployment-automation"
     },
     {
       "id": "garrytan/plan-ceo-review",
@@ -133,7 +141,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/plan-ceo-review.json"
-      }
+      },
+      "genericSkillRef": "evaluate-output"
     },
     {
       "id": "garrytan/plan-design-review",
@@ -148,7 +157,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/plan-design-review.json"
-      }
+      },
+      "genericSkillRef": "ux-audit"
     },
     {
       "id": "garrytan/plan-devex-review",
@@ -163,7 +173,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/plan-devex-review.json"
-      }
+      },
+      "genericSkillRef": "ux-audit"
     },
     {
       "id": "garrytan/qa",
@@ -178,7 +189,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/qa.json"
-      }
+      },
+      "genericSkillRef": "e2e-testing"
     },
     {
       "id": "garrytan/review",
@@ -193,7 +205,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/review.json"
-      }
+      },
+      "genericSkillRef": "code-review-pipeline"
     },
     {
       "id": "garrytan/ship",
@@ -208,7 +221,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/ship.json"
-      }
+      },
+      "genericSkillRef": "finishing-a-development-branch"
     },
     {
       "id": "garrytan/skillify",
@@ -223,7 +237,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/skillify.json"
-      }
+      },
+      "genericSkillRef": "skill-authoring"
     },
     {
       "id": "mattpocock/grill-me",
@@ -238,7 +253,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/grill-me.json"
-      }
+      },
+      "genericSkillRef": "grill-me"
     },
     {
       "id": "mattpocock/grill-with-docs",
@@ -253,7 +269,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/grill-with-docs.json"
-      }
+      },
+      "genericSkillRef": "grill-with-docs"
     },
     {
       "id": "mattpocock/handoff",
@@ -268,7 +285,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/handoff.json"
-      }
+      },
+      "genericSkillRef": "agent-handoff"
     },
     {
       "id": "mattpocock/to-prd",
@@ -283,7 +301,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/to-prd.json"
-      }
+      },
+      "genericSkillRef": "prd-generation"
     },
     {
       "id": "mattpocock/personal",
@@ -298,7 +317,12 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/personal.json"
-      }
+      },
+      "genericSkillRef": "personal",
+      "suiteComponents": [
+        "mattpocock/edit-article",
+        "mattpocock/obsidian-vault"
+      ]
     },
     {
       "id": "mattpocock/setup-matt-pocock-skills",
@@ -313,7 +337,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/setup-matt-pocock-skills.json"
-      }
+      },
+      "genericSkillRef": "agent-environment-setup"
     },
     {
       "id": "mattpocock/triage",
@@ -328,7 +353,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/triage.json"
-      }
+      },
+      "genericSkillRef": "issue-triage"
     },
     {
       "id": "addy-osmani/code-review-and-quality",
@@ -343,7 +369,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/code-review-and-quality.json"
-      }
+      },
+      "genericSkillRef": "code-review-pipeline"
     },
     {
       "id": "addy-osmani/code-simplification",
@@ -358,7 +385,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/code-simplification.json"
-      }
+      },
+      "genericSkillRef": "refactor-code"
     },
     {
       "id": "addy-osmani/incremental-implementation",
@@ -373,7 +401,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/incremental-implementation.json"
-      }
+      },
+      "genericSkillRef": "executing-plans"
     },
     {
       "id": "addy-osmani/planning-and-task-breakdown",
@@ -388,7 +417,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/planning-and-task-breakdown.json"
-      }
+      },
+      "genericSkillRef": "vertical-slice-planning"
     },
     {
       "id": "addy-osmani/shipping-and-launch",
@@ -403,7 +433,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/shipping-and-launch.json"
-      }
+      },
+      "genericSkillRef": "finishing-a-development-branch"
     },
     {
       "id": "addy-osmani/spec-driven-development",
@@ -418,7 +449,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
-      }
+      },
+      "genericSkillRef": "prd-generation"
     },
     {
       "id": "gsd-build/discuss-phase",
@@ -433,7 +465,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/discuss-phase.json"
-      }
+      },
+      "genericSkillRef": "brainstorming"
     },
     {
       "id": "gsd-build/execute-phase",
@@ -448,7 +481,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/execute-phase.json"
-      }
+      },
+      "genericSkillRef": "subagent-driven-development"
     },
     {
       "id": "gsd-build/plan-phase",
@@ -463,7 +497,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/plan-phase.json"
-      }
+      },
+      "genericSkillRef": "writing-plans"
     },
     {
       "id": "gsd-build/ship",
@@ -478,7 +513,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/ship.json"
-      }
+      },
+      "genericSkillRef": "finishing-a-development-branch"
     },
     {
       "id": "gsd-build/verify-work",
@@ -493,7 +529,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/verify-work.json"
-      }
+      },
+      "genericSkillRef": "verification-before-completion"
     },
     {
       "id": "mattpocock/improve-codebase-architecture",
@@ -508,7 +545,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/improve-codebase-architecture.json"
-      }
+      },
+      "genericSkillRef": "refactor-code"
     },
     {
       "id": "mattpocock/write-a-skill",
@@ -523,7 +561,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/write-a-skill.json"
-      }
+      },
+      "genericSkillRef": "tool-creation"
     },
     {
       "id": "mattpocock/prototype",
@@ -538,7 +577,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/prototype.json"
-      }
+      },
+      "genericSkillRef": "prototype"
     },
     {
       "id": "gaia-research/skill-ci-churn",
@@ -553,7 +593,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gaia-research/skill-ci-churn.json"
-      }
+      },
+      "genericSkillRef": "ci-churn-analysis"
     },
     {
       "id": "gaia-research/skill-fuse",
@@ -568,7 +609,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gaia-research/skill-fuse.json"
-      }
+      },
+      "genericSkillRef": "skill-fusion"
     },
     {
       "id": "bradautomates/claude-video",
@@ -583,7 +625,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/bradautomates/claude-video.json"
-      }
+      },
+      "genericSkillRef": "video-intelligence"
     },
     {
       "id": "Manavarya09/design-extract",
@@ -598,7 +641,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/Manavarya09/design-extract.json"
-      }
+      },
+      "genericSkillRef": "design-system-extraction"
     },
     {
       "id": "addy-osmani/test-driven-development",
@@ -613,7 +657,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/test-driven-development.json"
-      }
+      },
+      "genericSkillRef": "test-driven-development"
     },
     {
       "id": "anthropic/pptx",
@@ -628,7 +673,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/anthropic/pptx.json"
-      }
+      },
+      "genericSkillRef": "document-editing"
     },
     {
       "id": "garrytan/benchmark-models",
@@ -643,7 +689,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/benchmark-models.json"
-      }
+      },
+      "genericSkillRef": "skill-performance-benchmarking"
     },
     {
       "id": "garrytan/codex",
@@ -658,7 +705,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/codex.json"
-      }
+      },
+      "genericSkillRef": "multi-agent-debate"
     },
     {
       "id": "garrytan/context-restore",
@@ -673,7 +721,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/context-restore.json"
-      }
+      },
+      "genericSkillRef": "context-compression"
     },
     {
       "id": "garrytan/context-save",
@@ -688,7 +737,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/context-save.json"
-      }
+      },
+      "genericSkillRef": "context-compression"
     },
     {
       "id": "garrytan/design-review",
@@ -703,7 +753,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/design-review.json"
-      }
+      },
+      "genericSkillRef": "ux-audit"
     },
     {
       "id": "garrytan/devex-review",
@@ -718,7 +769,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/devex-review.json"
-      }
+      },
+      "genericSkillRef": "ux-audit"
     },
     {
       "id": "garrytan/document-release",
@@ -733,7 +785,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/document-release.json"
-      }
+      },
+      "genericSkillRef": "document-editing"
     },
     {
       "id": "garrytan/freeze",
@@ -748,7 +801,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/freeze.json"
-      }
+      },
+      "genericSkillRef": "guardrails"
     }
   ],
   "page": 2,

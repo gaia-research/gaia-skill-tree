@@ -483,8 +483,9 @@
     // NOTE: the API JSON may still carry legacy `type` values (ultimate/extra/unique).
     // We normalize to valid schema types ('basic'/'fusion') and attach `_branch`
     // derived via GaiaSemantics.computeBranch so downstream code never reads
-    // the dead enum (E1 compliance). suiteComponents from detail fetches later
-    // may upgrade _branch to 'suite' via detectSuites.
+    // the dead enum (E1 compliance). suiteComponents and genericSkillRef both
+    // ship on the paginated skills index, so every consumer below reads them
+    // off skillMap — no per-skill detail fetch anywhere on this page.
     var gs = (typeof window !== 'undefined' && window.GaiaSemantics);
     var allRows = leaderboard.rows.map(function(row) {
       var skill = skillMap[row.id] || {};
@@ -497,6 +498,7 @@
         contributor: row.id.split('/')[0],
         type: normType,
         suiteComponents: skill.suiteComponents || null,
+        genericSkillRef: skill.genericSkillRef || null,
         level: row.level || skill.level || '',
         trustMagnitude: row.trustMagnitude || 0,
         grade: row.grade || skill.overallTrustGrade || 'ungraded',
@@ -506,8 +508,8 @@
     });
 
     // Partition using branch semantics (never dead enum).
-    // Suites are discovered later by detectSuites (detail fetches); initial
-    // partition splits by whether the skill has suiteComponents in the index.
+    // Suites are discovered later by detectSuites, which reads suiteComponents
+    // straight off the skills index.
     var ultimates = allRows.filter(function(r) {
       return gs ? gs.branchOf(r) === 'suite' : false;
     });
@@ -546,10 +548,10 @@
     wireSkillSearch();
     renderLedger();
 
-    // Fetch ultimate component details for stacked bars
-    fetchUltimateComponents(ultimates);
+    // Overlay stacked component bars on any ultimate bars already drawn
+    fetchUltimateComponents(ultimates, skillMap);
 
-    // Detect suites (skills with suiteComponents) via detail fetches
+    // Detect suites (skills with suiteComponents) from the skills index
     detectSuites(allRows, skillMap);
 
     // Sticky TOC active-state observer
@@ -967,45 +969,35 @@
   }
 
   // ── SUITE DETECTION ──
+  // Reads suiteComponents straight off the paginated skills index (skillMap).
+  // This used to fan out one detail fetch per candidate — an N+1 that cost ~100
+  // requests per page load just to read one array length. The list projection
+  // now carries suiteComponents, so this is synchronous and request-free.
+  // Skills absent from skillMap (redacted 1★ — deliberately excluded from the
+  // API projection) simply have no components and are skipped, exactly as the
+  // old 404-swallowing catch handler did.
   function detectSuites(allRows, skillMap) {
-    // Fetch detail files for high-TM skills to find suiteComponents
     var candidates = allRows.filter(function(r) { return r.trustMagnitude >= 60; });
-    var fetched = 0;
     var suiteRows = [];
 
     if (candidates.length === 0) return;
 
     candidates.forEach(function(row) {
-      var parts = row.id.split('/');
-      fetch(BASE + 'skills/' + parts[0] + '/' + parts[1] + '.json' + VER)
-        .then(function(r) { return r.json(); })
-        .then(function(detail) {
-          fetched++;
-          if (detail.suiteComponents && detail.suiteComponents.length > 0) {
-            // Enrich the row with component count
-            row._suiteComponents = detail.suiteComponents;
-            row._componentCount = detail.suiteComponents.length;
-            suiteRows.push(row);
-          }
-          if (fetched === candidates.length) {
-            // All fetches done — sort and render
-            suiteRows.sort(function(a, b) { return b.trustMagnitude - a.trustMagnitude; });
-            state.suiteSkills = suiteRows;
-            renderSuiteChart(suiteRows);
-            var countEl = document.getElementById('lbSuiteCount');
-            if (countEl) countEl.textContent = suiteRows.length + ' suites';
-          }
-        }).catch(function() {
-          fetched++;
-          if (fetched === candidates.length && suiteRows.length > 0) {
-            suiteRows.sort(function(a, b) { return b.trustMagnitude - a.trustMagnitude; });
-            state.suiteSkills = suiteRows;
-            renderSuiteChart(suiteRows);
-            var countEl2 = document.getElementById('lbSuiteCount');
-            if (countEl2) countEl2.textContent = suiteRows.length + ' suites';
-          }
-        });
+      var indexed = (skillMap && skillMap[row.id]) || {};
+      var components = indexed.suiteComponents || row.suiteComponents;
+      if (components && components.length > 0) {
+        // Enrich the row with component count
+        row._suiteComponents = components;
+        row._componentCount = components.length;
+        suiteRows.push(row);
+      }
     });
+
+    suiteRows.sort(function(a, b) { return b.trustMagnitude - a.trustMagnitude; });
+    state.suiteSkills = suiteRows;
+    renderSuiteChart(suiteRows);
+    var countEl = document.getElementById('lbSuiteCount');
+    if (countEl) countEl.textContent = suiteRows.length + ' suites';
   }
 
   // ── SUITE BAR CHART ──
@@ -1270,18 +1262,18 @@
     });
   }
 
-  function fetchUltimateComponents(ultimates) {
+  // Overlays stacked rank segments on each suite bar. Reads the components
+  // array off the row (populated in boot() from the paginated skills index) —
+  // formerly one detail fetch per ultimate, purely to read `.length`.
+  // A row with no components is skipped, matching the old silent catch.
+  function fetchUltimateComponents(ultimates, skillMap) {
     ultimates.forEach(function(ult) {
-      var parts = ult.id.split('/');
-      fetch(BASE + 'skills/' + parts[0] + '/' + parts[1] + '.json' + VER)
-        .then(function(r) { return r.json(); })
-        .then(function(detail) {
-          // Read the components array (installation-concept API field)
-          var components = (detail['\x73uiteComponents']) || detail.components;
-          if (components && components.length > 0) {
-            renderStackedOverlay(ult, components.length);
-          }
-        }).catch(function() { /* silent */ });
+      var indexed = (skillMap && skillMap[ult.id]) || {};
+      // Read the components array (installation-concept API field)
+      var components = indexed.suiteComponents || ult.suiteComponents || ult.components;
+      if (components && components.length > 0) {
+        renderStackedOverlay(ult, components.length);
+      }
     });
   }
 
@@ -1928,7 +1920,15 @@
     }
   }
 
-  // ── STARLESS CHART — DEFERRED FETCH OF DETAIL FILES ──
+  // ── STARLESS CHART ──
+  // Groups graded named skills under their generic (starless) skill.
+  // genericSkillRef now ships on the paginated skills index, so this reads from
+  // skillMap instead of fetching one detail file per candidate (~160 requests,
+  // ~78 of them 404s against redacted 1★ skills that have no detail file).
+  // A row missing from skillMap has no ref and is skipped — identical to the
+  // old catch handler swallowing its 404. `origin` comes from the leaderboard
+  // row, which carries the same value the detail file did (verified equal for
+  // every skill that has a detail file).
   function buildStarlessChart(allRows) {
     // Filter graded named skills (exclude suites — they have their own chart)
     var gsRef = (typeof window !== 'undefined' && window.GaiaSemantics);
@@ -1938,7 +1938,6 @@
       return gsRef.branchOf(r) !== 'suite';
     });
 
-    var fetched = 0;
     var genericRefMap = {};
 
     // Show loading state
@@ -1953,32 +1952,22 @@
     }
 
     candidates.forEach(function(row) {
-      var parts = row.id.split('/');
-      fetch(BASE + 'skills/' + parts[0] + '/' + parts[1] + '.json' + VER)
-        .then(function(r) { return r.json(); })
-        .then(function(detail) {
-          var ref = detail.genericSkillRef;
-          if (ref) {
-            if (!genericRefMap[ref]) genericRefMap[ref] = [];
-            genericRefMap[ref].push({
-              id: row.id,
-              name: row.name,
-              contributor: row.contributor,
-              trustMagnitude: row.trustMagnitude,
-              grade: row.grade,
-              level: row.level,
-              type: row.type,
-              origin: detail.origin === true
-            });
-          }
-          fetched++;
-          if (fetched === candidates.length) { finishStarless(genericRefMap); }
-        })
-        .catch(function() {
-          fetched++;
-          if (fetched === candidates.length) { finishStarless(genericRefMap); }
-        });
+      var ref = row.genericSkillRef;
+      if (!ref) return;
+      if (!genericRefMap[ref]) genericRefMap[ref] = [];
+      genericRefMap[ref].push({
+        id: row.id,
+        name: row.name,
+        contributor: row.contributor,
+        trustMagnitude: row.trustMagnitude,
+        grade: row.grade,
+        level: row.level,
+        type: row.type,
+        origin: row.origin === true
+      });
     });
+
+    finishStarless(genericRefMap);
   }
 
   function finishStarless(genericRefMap) {

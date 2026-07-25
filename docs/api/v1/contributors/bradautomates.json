@@ -14,7 +14,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/bradautomates/claude-video.json"
-      }
+      },
+      "genericSkillRef": "video-intelligence"
     }
   ],
   "namedSkillsCount": 1,
