@@ -686,8 +686,13 @@
 
     if (entry && meta) {
       // E2: rankLabel via GaiaSemantics — no banned words in ledger meta.
+      // Plate ordinal matches the stage ordinal EXACTLY (zero-padded "Plate NN
+      // / NN") so the two "Plate N" strings on screen never disagree — both
+      // derive from index+1 off the same active index.
       var displayLabel = topSkillRankLabel(entry.contributor);
-      meta.textContent = displayLabel + ' · Plate ' + (index + 1) + ' of ' + total;
+      var plateOrdinal = 'Plate ' + String(index + 1).padStart(2, '0') +
+        ' / ' + String(total).padStart(2, '0');
+      meta.textContent = displayLabel + ' · ' + plateOrdinal;
     }
 
     if (progress) {
