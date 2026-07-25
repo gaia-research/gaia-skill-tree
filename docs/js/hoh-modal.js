@@ -88,15 +88,39 @@
     brand.className = 'hoh-fs-brand';
     brand.href = root + 'index.html';
     brand.setAttribute('aria-label', 'Gaia Skill Tree home');
-    // Diamond seal mirrors site-nav SEAL_SVG; wordmark = the product name.
-    brand.innerHTML =
-      '<svg class="hoh-fs-brand-seal" viewBox="0 0 64 64" aria-hidden="true" focusable="false">' +
-        '<path d="M 32 4 L 60 32 L 32 60 L 4 32 Z" fill="none" stroke="currentColor" ' +
-        'stroke-width="2.5" stroke-linejoin="miter"/>' +
-        '<text x="32" y="34" font-family="EB Garamond, Georgia, serif" font-weight="600" ' +
-        'font-size="28" fill="currentColor" text-anchor="middle" dominant-baseline="central">G</text>' +
-      '</svg>' +
-      '<span class="hoh-fs-brand-word">Gaia Skill Tree</span>';
+
+    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('class', 'hoh-fs-brand-seal');
+    svg.setAttribute('viewBox', '0 0 64 64');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('focusable', 'false');
+
+    var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', 'M 32 4 L 60 32 L 32 60 L 4 32 Z');
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke', 'currentColor');
+    path.setAttribute('stroke-width', '2.5');
+    path.setAttribute('stroke-linejoin', 'miter');
+    svg.appendChild(path);
+
+    var textNode = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    textNode.setAttribute('x', '32');
+    textNode.setAttribute('y', '34');
+    textNode.setAttribute('font-family', 'EB Garamond, Georgia, serif');
+    textNode.setAttribute('font-weight', '600');
+    textNode.setAttribute('font-size', '28');
+    textNode.setAttribute('fill', 'currentColor');
+    textNode.setAttribute('text-anchor', 'middle');
+    textNode.setAttribute('dominant-baseline', 'central');
+    textNode.textContent = 'G';
+    svg.appendChild(textNode);
+
+    var word = document.createElement('span');
+    word.className = 'hoh-fs-brand-word';
+    word.textContent = 'Gaia Skill Tree';
+
+    brand.appendChild(svg);
+    brand.appendChild(word);
     modal.appendChild(brand);
   }
 
@@ -255,15 +279,24 @@
 
   function showCopySuccess(btn) {
     btn.classList.add('copied');
-    var originalHtml = btn.innerHTML;
     var iconBase = (typeof window.gaiaIconBase === 'function')
       ? window.gaiaIconBase()
       : 'assets/icons.svg';
-    btn.innerHTML = '<svg class="ico" width="14" height="14" aria-hidden="true"><use href="' +
-      iconBase + '#copy-check"></use></svg>';
+    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('class', 'ico');
+    svg.setAttribute('width', '14');
+    svg.setAttribute('height', '14');
+    svg.setAttribute('aria-hidden', 'true');
+    var use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+    use.setAttribute('href', iconBase + '#copy-check');
+    svg.appendChild(use);
+
+    var origChildren = Array.prototype.slice.call(btn.childNodes);
+    btn.replaceChildren(svg);
+
     setTimeout(function () {
       btn.classList.remove('copied');
-      btn.innerHTML = originalHtml;
+      btn.replaceChildren.apply(btn, origChildren);
     }, 1800);
   }
 
@@ -369,7 +402,9 @@
       var renderMock = function () {
         if (window.plaque && typeof window.plaque.renderOg === 'function') {
           // renderOg sanitizes all interpolated values via escapeHtml; safe by construction.
-          stage.innerHTML = window.plaque.renderOg(ogNs);
+          var mockMarkup = window.plaque.renderOg(ogNs);
+          var doc = new DOMParser().parseFromString(mockMarkup, 'text/html');
+          stage.replaceChildren.apply(stage, Array.prototype.slice.call(doc.body.childNodes));
         }
       };
       var ogPath = ns.ogPath || '';

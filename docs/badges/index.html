@@ -1439,8 +1439,8 @@
     // ── Per-badge rows renderer ───────────────────────────────────────────────
     function renderRows() {
       const { handle, selectedRepo, hasRank, hasSkills, hasHandle, linkTarget, pickedFiles, namedSkills } = currentState;
-      rowsEl.innerHTML = "";
-      badges.innerHTML = "";
+      rowsEl.replaceChildren();
+      badges.replaceChildren();
 
       const q = selectedRepo ? `?repo=${encodeURIComponent(selectedRepo)}` : "";
       // Map a wordmark filename to its seal-only sibling. The generator
@@ -1599,7 +1599,7 @@
       currentState.selectedRepo = repos[0];
       // Build radio labels via the DOM API so repo names (user-derived) are set
       // as text/value properties and never reinterpreted as HTML (avoids DOM-XSS).
-      repoList.innerHTML = "";
+      repoList.replaceChildren();
       repos.forEach((r, i) => {
         const label = document.createElement("label");
         const input = document.createElement("input");
@@ -1621,7 +1621,7 @@
 
     function renderSkillPicker(namedSkills, topSkillId) {
       currentState.namedSkills = namedSkills;
-      skillRowsEl.innerHTML = "";
+      skillRowsEl.replaceChildren();
       currentState.pickedFiles = [];
       if (!namedSkills || namedSkills.length === 0) {
         pickerWrap.style.display = "none";
@@ -1786,7 +1786,7 @@
     });
 
     skillClearBtn.addEventListener("click", () => {
-      skillRowsEl.innerHTML = "";
+      skillRowsEl.replaceChildren();
       currentState.pickedFiles = [];
       updatePickerActions();
       renderRows();
@@ -1826,8 +1826,8 @@
       status.textContent = "Checking…";
       status.style.display = "";
       status.classList.remove("is-error");
-      rowsEl.innerHTML = "";
-      badges.innerHTML = "";
+      rowsEl.replaceChildren();
+      badges.replaceChildren();
       repoBlock.style.display = "none";
       pickerWrap.style.display = "none";
       checksEl.classList.remove("is-visible");
@@ -1890,7 +1890,7 @@
     // in immediately.
     function renderCTAs(handle, repos) {
       ctaBlock.classList.remove("bd-cta-register");
-      ctaBlock.innerHTML = "";
+      ctaBlock.replaceChildren();
       if (!handle || handle === "gaia-bot") {
         ctaBlock.style.display = "none";
         return;
@@ -1972,7 +1972,7 @@
       };
 
       document.getElementById("readme-sim-title").textContent = "my-project";
-      rowsEl.innerHTML = "";
+      rowsEl.replaceChildren();
       // Claim preview + README markdown are PINNED to 1★ (CLAIM_RANK), never the
       // sampler's cycling rank — cycling the demo to 6★ leaves this at 1★.
       const seedSampleSrc = sampleSrc(CLAIM_RANK.n);
