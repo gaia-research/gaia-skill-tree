@@ -20,3 +20,7 @@ Execute these steps in order to perform a skill fusion:
 | 2 | **Compose** -- read sources and apply the fusion prompt | [reference/compose.md](reference/compose.md) |
 | 3 | **Name** -- propose, validate, and select a target name | [reference/name.md](reference/name.md) |
 | 4 | **Register** -- write the files and log the fusion event | [reference/register.md](reference/register.md) |
+
+## Package
+
+Standalone-package docs and metadata: [README.md](README.md), [LICENSE](LICENSE), [CITATION.cff](CITATION.cff). Install helper: [install.sh](install.sh). Attribution mark: [powered-by-gaia.svg](powered-by-gaia.svg).

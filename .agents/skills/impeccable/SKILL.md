@@ -143,6 +143,7 @@ If someone could look at this interface and say "AI made that" without doubt, it
 | `adapt [target]` | Fix | Adapt for different devices and screen sizes | [reference/adapt.md](reference/adapt.md) |
 | `optimize [target]` | Fix | Diagnose and fix UI performance | [reference/optimize.md](reference/optimize.md) |
 | `live` | Iterate | Visual variant mode: pick elements in the browser, generate alternatives | [reference/live.md](reference/live.md) |
+| `hooks` | Manage | Toggle the per-project design-detector hook (enable/disable/quiet/log) | [reference/hooks.md](reference/hooks.md) |
 
 Plus two management commands: `pin <command>` and `unpin <command>`, detailed below.
 
