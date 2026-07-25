@@ -29,6 +29,13 @@
   var SCROLL_TICKING = false;
   var ACTIVE_STAGE = null;
   var LEDGER_ITEMS = [];
+  // Windowed locator (desktop ≥820px): show only a neighborhood of rows around
+  // the active plate instead of all N. Chosen as prev 2 / current / next 3 — a
+  // 6-row window reads as "where am I + what's next" without overflowing the
+  // fixed rail at ~820–900px, while still previewing the immediate ascent path.
+  var LEDGER_WINDOW_BEFORE = 2;
+  var LEDGER_WINDOW_AFTER = 3;
+  var LEDGER_ACTIVE_INDEX = -1;
 
   // Hero → bespoke animation mapping (keyed by named-skill id, not type)
   var ULTIMATE_ANIMS = {
@@ -473,13 +480,15 @@
         '<span class="heroes-ledger-rail__glyph" aria-hidden="true">' + esc(glyph) + '</span>' +
         '<span class="heroes-ledger-rail__entry">' +
         '<span class="heroes-ledger-rail__name">' + esc(slug) + '</span>' +
-        '<span class="heroes-ledger-rail__byline">@' + esc(contributor.handle) + ' · ' + esc(rankText(contributor)) + '</span>' +
+        '<span class="heroes-ledger-rail__byline">@' + esc(contributor.handle) + '</span>' +
         '</span>' +
         '</button>' +
         '</li>';
     }).join('');
 
     LEDGER_ITEMS = heroes;
+    LEDGER_ACTIVE_INDEX = -1;
+    applyLedgerWindow(-1);
     setLedgerAwaiting();
     rail.hidden = false;
   }
@@ -617,6 +626,31 @@
     requestAnimationFrame(updateActiveStage);
   }
 
+  // Reveal only the window of rows around the active index (desktop rail). Cheap
+  // on scroll: toggles a class per <li> rather than rebuilding innerHTML. The
+  // full list stays in the DOM (the "all plates" panel and prev/next walk it);
+  // CSS hides non-windowed rows at ≥820px only, so the mobile carousel is
+  // unaffected (it keeps showing every chip and scrolls horizontally).
+  function applyLedgerWindow(activeIndex) {
+    var list = document.getElementById('heroesLedgerList');
+    if (!list) return;
+    var items = list.children;
+    var total = items.length;
+    if (!total) return;
+
+    var lo = activeIndex - LEDGER_WINDOW_BEFORE;
+    var hi = activeIndex + LEDGER_WINDOW_AFTER;
+    // Slide the window so it stays full-width at the ends (clamp, then shift).
+    if (lo < 0) { hi += -lo; lo = 0; }
+    if (hi > total - 1) { lo -= (hi - (total - 1)); hi = total - 1; }
+    if (lo < 0) lo = 0;
+
+    for (var i = 0; i < total; i++) {
+      var inWindow = (activeIndex < 0) ? (i <= LEDGER_WINDOW_BEFORE + LEDGER_WINDOW_AFTER) : (i >= lo && i <= hi);
+      items[i].classList.toggle('is-in-window', inWindow);
+    }
+  }
+
   function updateLedgerForStage(stage) {
     var rail = document.getElementById('heroesLedgerRail');
     if (!rail) return;
@@ -628,6 +662,9 @@
     var progress = document.getElementById('heroesLedgerProgress');
     var buttons = rail.querySelectorAll('[data-ledger-target]');
     var total = LEDGER_ITEMS.length || buttons.length || 1;
+
+    LEDGER_ACTIVE_INDEX = index;
+    applyLedgerWindow(index);
 
     var lvl = stage.getAttribute('data-level') || '4';
     rail.setAttribute('data-active-level', lvl);
