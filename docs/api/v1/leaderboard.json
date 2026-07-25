@@ -21,7 +21,8 @@
         "social-signal": 45.59,
         "fusion-recipe": 480.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "suite"
     },
     {
       "id": "mattpocock/skills",
@@ -35,7 +36,8 @@
         "peer-review": 30.0,
         "fusion-recipe": 367.08
       },
-      "origin": true
+      "origin": true,
+      "branch": "suite"
     },
     {
       "id": "ruvnet/ruflo",
@@ -48,7 +50,8 @@
         "arxiv": 4.0,
         "fusion-recipe": 427.28
       },
-      "origin": true
+      "origin": true,
+      "branch": "suite"
     },
     {
       "id": "obra/superpowers",
@@ -61,7 +64,8 @@
         "social-signal": 29.15,
         "fusion-recipe": 330.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "suite"
     },
     {
       "id": "addy-osmani/agent-skills",
@@ -73,7 +77,8 @@
         "repo-own": 36.0,
         "fusion-recipe": 240.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "suite"
     },
     {
       "id": "mattpocock/engineering",
@@ -83,7 +88,8 @@
       "typeBreakdown": {
         "fusion-recipe": 270.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "suite"
     },
     {
       "id": "firecrawl/firecrawl-skills",
@@ -95,7 +101,8 @@
         "github-stars-own": 37.52,
         "fusion-recipe": 150.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "suite"
     },
     {
       "id": "gsd-build/get-shit-done",
@@ -107,7 +114,8 @@
         "repo-own": 36.0,
         "fusion-recipe": 150.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "suite"
     },
     {
       "id": "ruvnet/agentdb",
@@ -119,7 +127,8 @@
         "peer-review": 45.0,
         "fusion-recipe": 120.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "suite"
     },
     {
       "id": "ruvnet/ruflo-v3",
@@ -130,7 +139,8 @@
         "repo-own": 36.0,
         "fusion-recipe": 150.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "suite"
     },
     {
       "id": "garrytan/garrytan",
@@ -141,7 +151,8 @@
         "repo-own": 36.0,
         "fusion-recipe": 120.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "suite"
     },
     {
       "id": "firecrawl/firecrawl-build-scrape",
@@ -153,7 +164,8 @@
         "github-stars-own": 37.52,
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "unique"
     },
     {
       "id": "pbakaus/impeccable",
@@ -166,7 +178,8 @@
         "arxiv": 3.8,
         "peer-review": 45.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "unique"
     },
     {
       "id": "pexp13/sentiment-analysis",
@@ -176,7 +189,8 @@
       "typeBreakdown": {
         "arxiv": 126.07
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/dual-mode",
@@ -187,7 +201,8 @@
         "repo-own": 36.0,
         "fusion-recipe": 90.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "suite"
     },
     {
       "id": "safishamsi/graphify",
@@ -199,7 +214,8 @@
         "arxiv": 17.8,
         "peer-review": 30.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "unique"
     },
     {
       "id": "mattpocock/productivity",
@@ -209,7 +225,8 @@
       "typeBreakdown": {
         "fusion-recipe": 120.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "suite"
     },
     {
       "id": "ruvnet/reasoningbank",
@@ -221,7 +238,8 @@
         "peer-review": 52.5,
         "fusion-recipe": 30.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "suite"
     },
     {
       "id": "obra/subagent-driven-development",
@@ -233,7 +251,8 @@
         "peer-review": 52.5,
         "social-signal": 29.15
       },
-      "origin": true
+      "origin": true,
+      "branch": "unique"
     },
     {
       "id": "obra/using-git-worktrees",
@@ -245,7 +264,8 @@
         "peer-review": 52.5,
         "social-signal": 29.15
       },
-      "origin": true
+      "origin": true,
+      "branch": "unique"
     },
     {
       "id": "obra/writing-plans",
@@ -257,7 +277,8 @@
         "peer-review": 45.0,
         "social-signal": 29.15
       },
-      "origin": true
+      "origin": true,
+      "branch": "unique"
     },
     {
       "id": "firecrawl/firecrawl-build-search",
@@ -269,7 +290,8 @@
         "github-stars-own": 37.52,
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "unique"
     },
     {
       "id": "addy-osmani/performance-optimization",
@@ -280,7 +302,8 @@
         "repo-own": 36.0,
         "github-stars-own": 68.29
       },
-      "origin": true
+      "origin": true,
+      "branch": "unique"
     },
     {
       "id": "google-deepmind/alphafold_database_fetch_and_analyze",
@@ -291,7 +314,8 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/alphagenome_single_variant_analysis",
@@ -302,7 +326,8 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/embl_ebi_ols",
@@ -313,7 +338,8 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/encode_ccres_database",
@@ -324,7 +350,8 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/ensembl_database",
@@ -335,7 +362,8 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/foldseek_structural_search",
@@ -346,7 +374,8 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/gnomad_database",
@@ -357,7 +386,8 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/gtex_database",
@@ -368,7 +398,8 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/human_protein_atlas_database",
@@ -379,7 +410,8 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/interpro_database",
@@ -390,7 +422,8 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/jaspar_database",
@@ -401,7 +434,8 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/literature_search_europepmc",
@@ -412,7 +446,8 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/literature_search_openalex",
@@ -423,7 +458,8 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "unique"
     },
     {
       "id": "google-deepmind/ncbi_sequence_fetch",
@@ -434,7 +470,8 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/openfda_database",
@@ -445,7 +482,8 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/opentargets_database",
@@ -456,7 +494,8 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/protein_sequence_similarity_search",
@@ -467,7 +506,8 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/pubchem_database",
@@ -478,7 +518,8 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/pymol",
@@ -489,7 +530,8 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/quickgo_database",
@@ -500,7 +542,8 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/reactome_database",
@@ -511,7 +554,8 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/science_skills_common",
@@ -522,7 +566,8 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/ucsc_conservation_and_tfbs",
@@ -533,7 +578,8 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/unibind_database",
@@ -544,7 +590,8 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/uv",
@@ -555,7 +602,8 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/workflow_skill_creator",
@@ -566,7 +614,8 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "openai/few-shot-learning",
@@ -576,7 +625,8 @@
       "typeBreakdown": {
         "arxiv": 100.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "unique"
     },
     {
       "id": "openai/self-consistency",
@@ -586,7 +636,8 @@
       "typeBreakdown": {
         "arxiv": 100.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "stanfordnlp/dspy",
@@ -596,7 +647,8 @@
       "typeBreakdown": {
         "arxiv": 100.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "unique"
     },
     {
       "id": "ruvnet/hive-mind-coordination",
@@ -608,7 +660,8 @@
         "repo-own": 36.0,
         "social-signal": 45.02
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/flow-nexus",
@@ -619,7 +672,8 @@
         "repo-own": 36.0,
         "fusion-recipe": 60.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "suite"
     },
     {
       "id": "obra/brainstorming",
@@ -631,7 +685,8 @@
         "peer-review": 30.0,
         "social-signal": 29.15
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "obra/executing-plans",
@@ -643,7 +698,8 @@
         "peer-review": 30.0,
         "social-signal": 29.15
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "obra/verification-before-completion",
@@ -655,7 +711,8 @@
         "social-signal": 29.15,
         "peer-review": 30.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "martin-stepanoski/nielsen-heuristics-audit",
@@ -666,7 +723,8 @@
         "repo-own": 4.9,
         "peer-review": 90.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/diagnose",
@@ -678,7 +736,8 @@
         "github-stars-own": 38.09,
         "social-signal": 44.92
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/edit-article",
@@ -690,7 +749,8 @@
         "github-stars-own": 38.09,
         "social-signal": 44.92
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/obsidian-vault",
@@ -702,7 +762,8 @@
         "github-stars-own": 38.09,
         "social-signal": 44.92
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/to-issues",
@@ -714,7 +775,8 @@
         "github-stars-own": 38.09,
         "social-signal": 44.92
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/ubiquitous-language",
@@ -726,7 +788,8 @@
         "github-stars-own": 38.09,
         "social-signal": 44.92
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "anthropic/skill-creator",
@@ -737,7 +800,8 @@
         "arxiv": 60.0,
         "peer-review": 30.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/browse",
@@ -748,7 +812,8 @@
         "repo-own": 36.0,
         "peer-review": 52.5
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "obra/dispatching-parallel-agents",
@@ -759,7 +824,8 @@
         "repo-own": 36.0,
         "github-stars-own": 50.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "garrytan/retro",
@@ -770,7 +836,8 @@
         "repo-own": 36.0,
         "peer-review": 45.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "browser-use/browser-harness",
@@ -781,7 +848,8 @@
         "repo-own": 36.0,
         "social-signal": 37.59
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "firecrawl/firecrawl-build-interact",
@@ -792,7 +860,8 @@
         "github-stars-own": 37.52,
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "firecrawl/firecrawl-build-onboarding",
@@ -803,7 +872,8 @@
         "github-stars-own": 37.52,
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "firecrawl/firecrawl-research-index",
@@ -814,7 +884,8 @@
         "github-stars-own": 37.52,
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/chembl_database",
@@ -825,7 +896,8 @@
         "repo-own": 10.82,
         "peer-review": 60.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/clinical_trials_database",
@@ -836,7 +908,8 @@
         "repo-own": 10.82,
         "peer-review": 60.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/clinvar_database",
@@ -847,7 +920,8 @@
         "repo-own": 10.82,
         "peer-review": 60.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/dbsnp_database",
@@ -858,7 +932,8 @@
         "repo-own": 10.82,
         "peer-review": 60.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/literature_search_arxiv",
@@ -869,7 +944,8 @@
         "repo-own": 10.82,
         "peer-review": 60.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/literature_search_biorxiv",
@@ -880,7 +956,8 @@
         "repo-own": 10.82,
         "peer-review": 60.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/pdb_database",
@@ -891,7 +968,8 @@
         "repo-own": 10.82,
         "peer-review": 60.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/protein_sequence_msa",
@@ -902,7 +980,8 @@
         "repo-own": 10.82,
         "peer-review": 60.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/pubmed_database",
@@ -913,7 +992,8 @@
         "repo-own": 10.82,
         "peer-review": 60.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/string_database",
@@ -924,7 +1004,8 @@
         "repo-own": 10.82,
         "peer-review": 60.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/uniprot_database",
@@ -935,7 +1016,8 @@
         "repo-own": 10.82,
         "peer-review": 60.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/careful",
@@ -946,7 +1028,8 @@
         "repo-own": 36.0,
         "peer-review": 30.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/office-hours",
@@ -957,7 +1040,8 @@
         "repo-own": 36.0,
         "peer-review": 30.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "garrytan/plan-eng-review",
@@ -968,7 +1052,8 @@
         "repo-own": 36.0,
         "peer-review": 30.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/github-suite",
@@ -979,7 +1064,8 @@
         "repo-own": 36.0,
         "fusion-recipe": 30.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "suite"
     },
     {
       "id": "garrytan/benchmark",
@@ -990,7 +1076,8 @@
         "repo-own": 36.0,
         "github-stars-own": 29.64
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/canary",
@@ -1001,7 +1088,8 @@
         "repo-own": 36.0,
         "github-stars-own": 29.64
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/cso",
@@ -1012,7 +1100,8 @@
         "repo-own": 36.0,
         "github-stars-own": 29.64
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "garrytan/design-consultation",
@@ -1023,7 +1112,8 @@
         "repo-own": 36.0,
         "github-stars-own": 29.64
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "garrytan/design-html",
@@ -1034,7 +1124,8 @@
         "repo-own": 36.0,
         "github-stars-own": 29.64
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "garrytan/design-shotgun",
@@ -1045,7 +1136,8 @@
         "repo-own": 36.0,
         "github-stars-own": 29.64
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/document-generate",
@@ -1056,7 +1148,8 @@
         "repo-own": 36.0,
         "github-stars-own": 29.64
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "garrytan/investigate",
@@ -1067,7 +1160,8 @@
         "repo-own": 36.0,
         "github-stars-own": 29.64
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "garrytan/land-and-deploy",
@@ -1078,7 +1172,8 @@
         "repo-own": 36.0,
         "github-stars-own": 29.64
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/plan-ceo-review",
@@ -1089,7 +1184,8 @@
         "repo-own": 36.0,
         "github-stars-own": 29.64
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/plan-design-review",
@@ -1100,7 +1196,8 @@
         "repo-own": 36.0,
         "github-stars-own": 29.64
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/plan-devex-review",
@@ -1111,7 +1208,8 @@
         "repo-own": 36.0,
         "github-stars-own": 29.64
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/qa",
@@ -1122,7 +1220,8 @@
         "repo-own": 36.0,
         "github-stars-own": 29.64
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/review",
@@ -1133,7 +1232,8 @@
         "repo-own": 36.0,
         "github-stars-own": 29.64
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/ship",
@@ -1144,7 +1244,8 @@
         "repo-own": 36.0,
         "github-stars-own": 29.64
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "garrytan/skillify",
@@ -1155,7 +1256,8 @@
         "repo-own": 36.0,
         "github-stars-own": 29.64
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "obra/systematic-debugging",
@@ -1166,7 +1268,8 @@
         "repo-own": 36.0,
         "social-signal": 29.15
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/grill-me",
@@ -1177,7 +1280,8 @@
         "repo-own": 11.21,
         "peer-review": 52.5
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/grill-with-docs",
@@ -1188,7 +1292,8 @@
         "repo-own": 11.21,
         "peer-review": 52.5
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/handoff",
@@ -1199,7 +1304,8 @@
         "repo-own": 11.21,
         "peer-review": 52.5
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/to-prd",
@@ -1210,7 +1316,8 @@
         "repo-own": 11.21,
         "peer-review": 52.5
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/personal",
@@ -1220,7 +1327,8 @@
       "typeBreakdown": {
         "fusion-recipe": 60.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "suite"
     },
     {
       "id": "mattpocock/setup-matt-pocock-skills",
@@ -1231,7 +1339,8 @@
         "repo-own": 11.21,
         "peer-review": 45.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/triage",
@@ -1242,7 +1351,8 @@
         "repo-own": 11.21,
         "peer-review": 45.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "addy-osmani/code-review-and-quality",
@@ -1253,7 +1363,8 @@
         "github-stars-own": 17.14,
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "addy-osmani/code-simplification",
@@ -1264,7 +1375,8 @@
         "github-stars-own": 17.14,
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "addy-osmani/incremental-implementation",
@@ -1275,7 +1387,8 @@
         "github-stars-own": 17.14,
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "addy-osmani/planning-and-task-breakdown",
@@ -1286,7 +1399,8 @@
         "github-stars-own": 17.14,
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "addy-osmani/shipping-and-launch",
@@ -1297,7 +1411,8 @@
         "github-stars-own": 17.14,
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "addy-osmani/spec-driven-development",
@@ -1308,7 +1423,8 @@
         "github-stars-own": 17.14,
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "gsd-build/discuss-phase",
@@ -1319,7 +1435,8 @@
         "github-stars-own": 16.16,
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "gsd-build/execute-phase",
@@ -1330,7 +1447,8 @@
         "github-stars-own": 16.16,
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "gsd-build/plan-phase",
@@ -1341,7 +1459,8 @@
         "github-stars-own": 16.16,
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "gsd-build/ship",
@@ -1352,7 +1471,8 @@
         "github-stars-own": 16.16,
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "gsd-build/verify-work",
@@ -1363,7 +1483,8 @@
         "github-stars-own": 16.16,
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/improve-codebase-architecture",
@@ -1373,7 +1494,8 @@
       "typeBreakdown": {
         "peer-review": 45.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/write-a-skill",
@@ -1383,7 +1505,8 @@
       "typeBreakdown": {
         "peer-review": 45.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/teach",
@@ -1394,7 +1517,8 @@
         "self-attestation": 5.0,
         "social-signal": 39.48
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "xquik-dev/hermes-tweet",
@@ -1405,7 +1529,8 @@
         "repo-own": 6.12,
         "social-signal": 36.35
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/prototype",
@@ -1416,7 +1541,8 @@
         "repo-own": 11.21,
         "peer-review": 30.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "gaia-research/skill-ci-churn",
@@ -1427,7 +1553,8 @@
         "repo-own": 36.0,
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "gaia-research/skill-fuse",
@@ -1438,7 +1565,8 @@
         "repo-own": 36.0,
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "bradautomates/claude-video",
@@ -1449,7 +1577,8 @@
         "repo-own": 1.22,
         "social-signal": 36.25
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "Manavarya09/design-extract",
@@ -1459,7 +1588,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "addy-osmani/test-driven-development",
@@ -1469,7 +1599,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "anthropic/pptx",
@@ -1479,7 +1610,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "gaiabot/repo-docs-before-pr",
@@ -1489,7 +1621,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/benchmark-models",
@@ -1499,7 +1632,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/codex",
@@ -1509,7 +1643,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/context-restore",
@@ -1519,7 +1654,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/context-save",
@@ -1529,7 +1665,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/design-review",
@@ -1539,7 +1676,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/devex-review",
@@ -1549,7 +1687,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/document-release",
@@ -1559,7 +1698,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/freeze",
@@ -1569,7 +1709,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/gstack-upgrade",
@@ -1579,7 +1720,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/guard",
@@ -1589,7 +1731,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/health",
@@ -1599,7 +1742,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/landing-report",
@@ -1609,7 +1753,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/learn",
@@ -1619,7 +1764,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/make-pdf",
@@ -1629,7 +1775,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/open-gstack-browser",
@@ -1639,7 +1786,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/pair-agent",
@@ -1649,7 +1797,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/plan-tune",
@@ -1659,7 +1808,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/qa-only",
@@ -1669,7 +1819,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/scrape",
@@ -1679,7 +1830,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/setup-browser-cookies",
@@ -1689,7 +1841,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/setup-deploy",
@@ -1699,7 +1852,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/setup-gbrain",
@@ -1709,7 +1863,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/sync-gbrain",
@@ -1719,7 +1874,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "garrytan/unfreeze",
@@ -1729,7 +1885,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "getagentseal/codeburn",
@@ -1739,7 +1896,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "huggingface/semantic-cache",
@@ -1749,7 +1907,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "karpathy/autoresearch",
@@ -1759,7 +1918,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "laravel/upgrade-laravel-v13",
@@ -1769,7 +1929,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "mbtiongson1/gaia-audit",
@@ -1779,7 +1940,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "mbtiongson1/gaia-curation-review",
@@ -1789,7 +1951,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mbtiongson1/gaia-meta-audit",
@@ -1799,7 +1962,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "mbtiongson1/gaia-preview",
@@ -1809,7 +1973,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mbtiongson1/graphify-triage",
@@ -1819,7 +1984,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "nexu-io/open-design",
@@ -1829,7 +1995,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "nousresearch/feed-monitoring",
@@ -1839,7 +2006,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "obra/finishing-a-development-branch",
@@ -1849,7 +2017,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "obra/receiving-code-review",
@@ -1859,7 +2028,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "obra/requesting-code-review",
@@ -1869,7 +2039,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/agentdb-advanced",
@@ -1879,7 +2050,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/agentdb-memory-patterns",
@@ -1889,7 +2061,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/agentdb-optimization",
@@ -1899,7 +2072,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/agentdb-vector-search",
@@ -1909,7 +2083,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/agentic-jujutsu",
@@ -1919,7 +2094,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/dual-collect",
@@ -1929,7 +2105,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/dual-coordinate",
@@ -1939,7 +2116,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/dual-spawn",
@@ -1949,7 +2127,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/flow-nexus-neural",
@@ -1959,7 +2138,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/flow-nexus-platform",
@@ -1969,7 +2149,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/github-multi-repo",
@@ -1979,7 +2160,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/pair-programming",
@@ -1989,7 +2171,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/reasoningbank-intelligence",
@@ -1999,7 +2182,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/stream-chain",
@@ -2009,7 +2193,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/swarm-advanced",
@@ -2019,7 +2204,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/swarm-orchestration",
@@ -2029,7 +2215,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/v3-cli-modernization",
@@ -2039,7 +2226,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/v3-core-implementation",
@@ -2049,7 +2237,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/v3-ddd-architecture",
@@ -2059,7 +2248,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/v3-integration-deep",
@@ -2069,7 +2259,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/verification-quality",
@@ -2079,7 +2270,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/worker-integration",
@@ -2089,7 +2281,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "santifer/career-ops",
@@ -2099,7 +2292,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "spring-ai/readme-generate",
@@ -2109,7 +2303,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "vercel/find-skills",
@@ -2119,7 +2314,8 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "upsonic/unittest-generator",
@@ -2130,7 +2326,8 @@
         "arxiv": 3.0,
         "peer-review": 30.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "devin-ai/autonomous-swe",
@@ -2140,7 +2337,8 @@
       "typeBreakdown": {
         "peer-review": 30.0
       },
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/caveman",
@@ -2150,7 +2348,8 @@
       "typeBreakdown": {
         "peer-review": 30.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "caioribeiroclw-pixel/evidence-attestation",
@@ -2161,7 +2360,8 @@
         "self-attestation": 5.0,
         "repo-own": 2.34
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "intelligentcode-ai/database-engineer",
@@ -2172,7 +2372,8 @@
         "repo-own": 1.3,
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "intelligentcode-ai/devops-engineer",
@@ -2183,7 +2384,8 @@
         "repo-own": 1.3,
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "intelligentcode-ai/mcp-client",
@@ -2194,7 +2396,8 @@
         "repo-own": 1.3,
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "intelligentcode-ai/parallel-execution",
@@ -2205,7 +2408,8 @@
         "repo-own": 1.3,
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "intelligentcode-ai/release",
@@ -2216,7 +2420,8 @@
         "repo-own": 1.3,
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "intelligentcode-ai/requirements-engineer",
@@ -2227,7 +2432,8 @@
         "repo-own": 1.3,
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "intelligentcode-ai/security-engineer",
@@ -2238,7 +2444,8 @@
         "repo-own": 1.3,
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "intelligentcode-ai/user-tester",
@@ -2249,7 +2456,8 @@
         "repo-own": 1.3,
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "glincker/readme-generator",
@@ -2260,7 +2468,8 @@
         "repo-own": 1.22,
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "favorchurch/attendees",
@@ -2270,7 +2479,8 @@
       "typeBreakdown": {
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "favorchurch/count-checkin-by-church",
@@ -2280,7 +2490,8 @@
       "typeBreakdown": {
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "favorchurch/export-attendees",
@@ -2290,7 +2501,8 @@
       "typeBreakdown": {
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "favorchurch/financial-assistance",
@@ -2300,7 +2512,8 @@
       "typeBreakdown": {
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "favorchurch/resend-conference-emails-carefully-with-smtp",
@@ -2310,7 +2523,8 @@
       "typeBreakdown": {
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "favorchurch/speak-like-favor",
@@ -2320,7 +2534,8 @@
       "typeBreakdown": {
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "favorchurch/ticket-transfer",
@@ -2330,7 +2545,8 @@
       "typeBreakdown": {
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "favorchurch/triage-conference",
@@ -2340,7 +2556,8 @@
       "typeBreakdown": {
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "favorchurch/update-unique-churches",
@@ -2350,7 +2567,8 @@
       "typeBreakdown": {
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/ask-matt",
@@ -2360,7 +2578,8 @@
       "typeBreakdown": {
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/codebase-design",
@@ -2370,7 +2589,8 @@
       "typeBreakdown": {
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/diagnosing-bugs",
@@ -2380,7 +2600,8 @@
       "typeBreakdown": {
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/domain-modeling",
@@ -2390,7 +2611,8 @@
       "typeBreakdown": {
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/git-guardrails-claude-code",
@@ -2400,7 +2622,8 @@
       "typeBreakdown": {
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/grilling",
@@ -2410,7 +2633,8 @@
       "typeBreakdown": {
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/implement",
@@ -2420,7 +2644,8 @@
       "typeBreakdown": {
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/migrate-to-shoehorn",
@@ -2430,7 +2655,8 @@
       "typeBreakdown": {
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/resolving-merge-conflicts",
@@ -2440,7 +2666,8 @@
       "typeBreakdown": {
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/scaffold-exercises",
@@ -2450,7 +2677,8 @@
       "typeBreakdown": {
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/setup-pre-commit",
@@ -2460,7 +2688,8 @@
       "typeBreakdown": {
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/tdd",
@@ -2470,7 +2699,8 @@
       "typeBreakdown": {
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/writing-great-skills",
@@ -2480,7 +2710,8 @@
       "typeBreakdown": {
         "self-attestation": 5.0
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "rico-favor/implement-with-discernment",
@@ -2491,7 +2722,8 @@
         "repo-own": 1.49,
         "arxiv": 0.7
       },
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "0xdarkmatter/pytest-patterns",
@@ -2499,7 +2731,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "Taoidle/plan-decompose-gh-plan-cascade",
@@ -2507,7 +2740,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "browserbase/stagehand",
@@ -2515,7 +2749,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "changkun/plan-decompose-gh-wallfacer",
@@ -2523,7 +2758,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "gaiabot/gaia-triage",
@@ -2531,7 +2767,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "gooseworks/notte-browser",
@@ -2539,7 +2776,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "huggingface/hf-cli",
@@ -2547,7 +2785,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "huggingface/huggingface-datasets",
@@ -2555,7 +2794,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "huggingface/huggingface-llm-trainer",
@@ -2563,7 +2803,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "huggingface/huggingface-papers",
@@ -2571,7 +2812,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "huggingface/huggingface-vision-trainer",
@@ -2579,7 +2821,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "huggingface/transformers-js",
@@ -2587,7 +2830,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "langgenius/backend-code-review",
@@ -2595,7 +2839,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "langgenius/component-refactoring",
@@ -2603,7 +2848,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "langgenius/e2e-cucumber-playwright",
@@ -2611,7 +2857,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "langgenius/frontend-code-review",
@@ -2619,7 +2866,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "langgenius/frontend-testing",
@@ -2627,7 +2875,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/zoom-out",
@@ -2635,7 +2884,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "mbtiongson1/gaia-bot-curate",
@@ -2643,7 +2893,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mbtiongson1/gaia-curate",
@@ -2651,7 +2902,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "mbtiongson1/gaia-docs-sync",
@@ -2659,7 +2911,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mbtiongson1/gaia-draft-curate",
@@ -2667,7 +2920,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mbtiongson1/gaia-integrity",
@@ -2675,7 +2929,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mbtiongson1/gaia-triage",
@@ -2683,7 +2938,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mbtiongson1/gaia-wiki-sync",
@@ -2691,7 +2947,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/agentdb-learning",
@@ -2699,7 +2956,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/browser",
@@ -2707,7 +2965,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/flow-nexus-swarm",
@@ -2715,7 +2974,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/github-code-review",
@@ -2723,7 +2983,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/github-project-management",
@@ -2731,7 +2992,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/github-release-management",
@@ -2739,7 +3001,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/github-workflow-automation",
@@ -2747,7 +3010,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/hooks-automation",
@@ -2755,7 +3019,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/performance-analysis",
@@ -2763,7 +3028,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/reasoningbank-agentdb",
@@ -2771,7 +3037,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/skill-builder",
@@ -2779,7 +3046,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/sparc-methodology",
@@ -2787,7 +3055,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/v3-mcp-optimization",
@@ -2795,7 +3064,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/v3-memory-unification",
@@ -2803,7 +3073,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/v3-performance-optimization",
@@ -2811,7 +3082,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/v3-security-overhaul",
@@ -2819,7 +3091,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/v3-swarm-coordination",
@@ -2827,7 +3100,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "ruvnet/worker-benchmarks",
@@ -2835,7 +3109,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "sickn33/ai-dev-jobs-mcp",
@@ -2843,7 +3118,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "sickn33/mcp-builder",
@@ -2851,7 +3127,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "sickn33/n8n-mcp-tools-expert",
@@ -2859,7 +3136,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "yonatangross/orchestkit-rag",
@@ -2867,7 +3145,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": true
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "yundu-ai/mcp-tool-developer",
@@ -2875,7 +3154,8 @@
       "grade": "ungraded",
       "level": "1★",
       "typeBreakdown": {},
-      "origin": false
+      "origin": false,
+      "branch": "standard"
     }
   ],
   "_links": {

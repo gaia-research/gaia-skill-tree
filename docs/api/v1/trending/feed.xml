@@ -5,56 +5,42 @@
     <link>https://gaiaskilltree.com/trending/</link>
     <description>Skills gaining trust this week — ranked by evidence velocity, not hype.</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 20 Jul 2026 18:17:25 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 25 Jul 2026 23:03:44 +0000</lastBuildDate>
     <atom:link href="https://gaiaskilltree.com/api/v1/trending/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
       <title>Get Shit Done</title>
       <link>https://gaiaskilltree.com/named/#explorer/gsd-build/get-shit-done</link>
       <description>Trust Magnitude: 202.2 · Grade A</description>
-      <pubDate>Mon, 20 Jul 2026 18:17:25 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-gsd-build/get-shit-done-2026-07-20</guid>
+      <pubDate>Sat, 25 Jul 2026 23:03:44 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-gsd-build/get-shit-done-2026-07-25</guid>
     </item>
     <item>
       <title>Using Git Worktrees</title>
       <link>https://gaiaskilltree.com/named/#explorer/obra/using-git-worktrees</link>
       <description>Trust Magnitude: 117.7 · Grade A</description>
-      <pubDate>Mon, 20 Jul 2026 18:17:25 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-obra/using-git-worktrees-2026-07-20</guid>
+      <pubDate>Sat, 25 Jul 2026 23:03:44 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-obra/using-git-worktrees-2026-07-25</guid>
     </item>
     <item>
       <title>Graphify</title>
       <link>https://gaiaskilltree.com/named/#explorer/safishamsi/graphify</link>
       <description>Trust Magnitude: 116.6 · Grade A</description>
-      <pubDate>Mon, 20 Jul 2026 18:17:25 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-safishamsi/graphify-2026-07-20</guid>
+      <pubDate>Sat, 25 Jul 2026 23:03:44 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-safishamsi/graphify-2026-07-25</guid>
     </item>
     <item>
       <title>Writing Plans</title>
       <link>https://gaiaskilltree.com/named/#explorer/obra/writing-plans</link>
       <description>Trust Magnitude: 110.2 · Grade A</description>
-      <pubDate>Mon, 20 Jul 2026 18:17:25 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-obra/writing-plans-2026-07-20</guid>
-    </item>
-    <item>
-      <title>Self-Consistency</title>
-      <link>https://gaiaskilltree.com/named/#explorer/openai/self-consistency</link>
-      <description>Trust Magnitude: 100.0 · Grade A</description>
-      <pubDate>Mon, 20 Jul 2026 18:17:25 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-openai/self-consistency-2026-07-20</guid>
+      <pubDate>Sat, 25 Jul 2026 23:03:44 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-obra/writing-plans-2026-07-25</guid>
     </item>
     <item>
       <title>DSPy</title>
       <link>https://gaiaskilltree.com/named/#explorer/stanfordnlp/dspy</link>
       <description>Trust Magnitude: 100.0 · Grade A</description>
-      <pubDate>Mon, 20 Jul 2026 18:17:25 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-stanfordnlp/dspy-2026-07-20</guid>
-    </item>
-    <item>
-      <title>Browser Harness</title>
-      <link>https://gaiaskilltree.com/named/#explorer/browser-use/browser-harness</link>
-      <description>Trust Magnitude: 73.6 · Grade B</description>
-      <pubDate>Mon, 20 Jul 2026 18:17:25 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-browser-use/browser-harness-2026-07-20</guid>
+      <pubDate>Sat, 25 Jul 2026 23:03:44 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-stanfordnlp/dspy-2026-07-25</guid>
     </item>
   </channel>
 </rss>

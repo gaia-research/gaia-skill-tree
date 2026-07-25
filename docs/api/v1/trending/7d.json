@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-07-20T18:17:25Z",
+  "generatedAt": "2026-07-25T23:03:44Z",
   "firstRun": false,
   "skills": [
     {
@@ -60,20 +60,6 @@
       }
     },
     {
-      "id": "openai/self-consistency",
-      "name": "Self-Consistency",
-      "level": "3★",
-      "contributor": "openai",
-      "trustMagnitude": 100.0,
-      "overallTrustGrade": "A",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/openai/self-consistency.json"
-      }
-    },
-    {
       "id": "stanfordnlp/dspy",
       "name": "DSPy",
       "level": "4★",
@@ -86,23 +72,9 @@
       "_links": {
         "self": "/api/v1/skills/stanfordnlp/dspy.json"
       }
-    },
-    {
-      "id": "browser-use/browser-harness",
-      "name": "Browser Harness",
-      "level": "3★",
-      "contributor": "browser-use",
-      "trustMagnitude": 73.59,
-      "overallTrustGrade": "B",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/browser-use/browser-harness.json"
-      }
     }
   ],
-  "totalTrending": 7,
+  "totalTrending": 5,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }
