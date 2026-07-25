@@ -62,15 +62,15 @@ def sync_docs_graph_assets(root: Path = ROOT) -> None:
 
     # Stage 1 — CSS tokens are derived from registry/gaia.json.meta and must
     # never drift behind a registry update. Run this BEFORE the artifact
-    # copy so a missing tree.md or gaia.svg doesn't block the token refresh.
+    # copy so a missing tree.md doesn't block the token refresh.
     _regenerate_css_tokens(root)
 
-    required = ("registry/gaia.json", "registry/gaia.gexf", "registry/gaia.svg")
+    required = ("registry/gaia.json", "registry/gaia.gexf")
     missing = [rel for rel in required if not (root / rel).exists()]
     if missing:
         raise FileNotFoundError(
             "Missing generated graph artifact(s): " + ", ".join(missing) +
-            ". Run scripts/exportGexf.py and scripts/renderGraphSvg.py first."
+            ". Run scripts/exportGexf.py first."
         )
 
     # Load layout nodes once so we can enrich gaia.json during the copy.
