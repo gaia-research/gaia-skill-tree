@@ -496,6 +496,12 @@
         name: skill.name || row.id.split('/')[1],
         contributor: row.id.split('/')[0],
         type: normType,
+        // Carry the taxonomy-resolved branch off the skills index so
+        // GaiaSemantics.branchOf reads a real value (it reads entry.branch and
+        // otherwise falls back to 'standard'). Without this every allRows-derived
+        // object partitions as 'standard' — ultimates is always empty and the
+        // Suites chart / stacked component overlay never render.
+        branch: skill.branch || null,
         suiteComponents: skill.suiteComponents || null,
         level: row.level || skill.level || '',
         trustMagnitude: row.trustMagnitude || 0,
@@ -1365,6 +1371,7 @@
         name: g.primary.name,
         contributor: g.primary.contributor,
         type: g.primary.type,
+        branch: g.primary.branch || null,
         level: g.primary.level,
         trustMagnitude: g.primary.trustMagnitude,
         grade: g.primary.grade,
