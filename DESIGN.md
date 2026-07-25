@@ -20,32 +20,33 @@ Public curated outputs, such as `registry/gaia.svg`, `registry/gaia.gexf`, `regi
 
 ## Color Palette
 
-Canonical token values are emitted by `scripts/generateCssTokens.py` to `docs/css/tokens.css` from `registry/gaia.json.meta.typeColors`. See that file for the authoritative CSS custom property definitions. The tier/rank names and semantic roles are documented in the sections below.
+**The rank schema is the heart of Yggdrasil II — everything else follows it.** Color is driven by two orthogonal axes, and only two:
 
-> **Never hardcode hex in CSS or JS.** The legacy short tokens (`--basic`, `--extra`, `--unique`, `--ultimate`) are kept as aliases so older selectors keep working; the canonical names are `--tier-basic`, `--tier-extra`, `--tier-unique`, `--tier-ultimate` (plus `-rgb`, `-bg`, `-border`, `-symbol` variants).
+1. **Type** (structural taxonomy) — exactly two values, `basic` and `fusion`. Tokens: `--tier-basic`, `--tier-fusion`. Emitted by `scripts/generateCssTokens.py` from `registry/gaia.json.meta.typeColors`. ("Tier" is retained only as the token *prefix* for these two type colors — it does not name a rank or a branch.)
+2. **Rank** (0★ → 6★ maturity) — one axis, two branch ladders that fork at 4★. Tokens: `--rank-N` (shared 0★–3★ and the **Suite** branch at 4★+) and `--rank-N-unique` (the **Unique** branch at 4★+). Both ladders are emitted to `docs/css/tokens.css`; the Suite side from `meta.levelColors`, the Unique side from the generator's locked `UNIQUE_RANK_LADDER` constant (Unique is a read-time *branch*, not a `type`, so it is absent from `meta.typeColors`).
 
-> **Yggdrasil II note:** `--tier-extra`, `--tier-unique`, and `--tier-ultimate` are **legacy color tokens** retained for visual continuity — they are NOT taxonomy types. Under Yggdrasil II the only taxonomy types are `basic` and `fusion`; these token names survive solely as color aliases for the graph canvas and badge palette.
+> **Never hardcode hex in CSS or JS.** Use `var(--…)`. If a fallback is needed, write `var(--token, #hex)` — a bare `#hex` is rejected by CI Guard A (`scripts/check_hex_colors.py`).
+
+> **Retired tokens — do NOT reintroduce.** `--tier-extra`, `--tier-ultimate`, `--tier-unique` (and bare `--extra`/`--ultimate`) are **dead**. They were Yggdrasil-I "tier" names that flattened rank and type into one confused axis. Every rank use migrates to `--rank-N` (Suite) or `--rank-N-unique` (Unique); the two live type colors are `--tier-basic` and `--tier-fusion`. Per `CONTEXT.md`, "tier" no longer names a rank or a branch — it survives only as the prefix on the two type-color tokens.
+
+> **Ygg III forward-compat:** because color is `gaia.json.meta` → `generateCssTokens.py` → `tokens.css` (Suite/type) plus one locked generator constant (Unique ladder), a future palette swap is a one-file `meta` edit + regen — no CSS hand-editing, no token renaming.
 
 ---
 
-## Skill Tiers
+## Skill Types
 
-Four tiers, each with a fixed color identity and symbolic glyph. (The Unique color tier was added after the original three-tier design and is the standalone-mastery branch — a Basic node that reached elite rank without ever fusing.) These tokens are legacy color aliases retained for visual continuity under Yggdrasil II; they are not taxonomy types.
+Under Yggdrasil II there are **two structural types**, and they are the only `type` values that exist on a node:
 
-| Tier | Symbol | Display Name | Hex | RGB |
-|---|---|---|---|---|
-| `basic`     | ○ | Basic          | `#38bdf8` | `56,189,248`  |
-| `extra`     | ◇ | Extra Skill    | `#c084fc` | `192,132,252` |
-| `unique`    | ◉ | Unique Skill   | `#7c3aed` | `124,58,237`  |
-| `ultimate`  | ◆ | Ultimate Skill | `#f59e0b` | `245,158,11`  |
+| Type | Symbol | Display Name | Token | Hex | RGB |
+|---|---|---|---|---|---|
+| `basic`  | ○ | Basic  | `--tier-basic`  | `#38bdf8` | `56,189,248` |
+| `fusion` | ◇ | Fusion | `--tier-fusion` | `#f59e0b` | `245,158,11` |
 
-Badge styles follow a consistent formula: `rgba({rgb}, .15)` background, `rgba({rgb}, .3)` border, solid hex text.
+Types are structural categories, not ranks — write them bare ("Basic", "Fusion"), never "Basic Skill" / "Fusion Skill" (see `CONTEXT.md` § Nomenclature). The Yggdrasil-I quartet (`basic`/`extra`/`unique`/`ultimate`) collapsed into these two: `extra`→`fusion`, `ultimate`→`fusion`, `unique`→`basic`. **"Extra", "Unique", and "Ultimate" survive only as *rank* words on the branch ladders below — never as `type` values.**
 
-Card glow per tier (radial gradient, 35% opacity):
-- Basic: `rgba(56,189,248,.4)`
-- Extra: `rgba(192,132,252,.4)`
-- Unique: `rgba(124,58,237,.4)`
-- Ultimate: `rgba(245,158,11,.4)`
+Type badge styling: `rgba({rgb}, .15)` background, `rgba({rgb}, .3)` border, solid hex text. Type card glow (radial gradient, 35% opacity): Basic `rgba(56,189,248,.4)`, Fusion `rgba(245,158,11,.4)`.
+
+The **branch identity** of a Unique or Suite skill (glyph ◉ / ◆, plaque tint, accent) is NOT a separate axis — it is keyed to **rank**, because a skill is only Unique or Suite-decorated at 4★+. See the Rank System below: the ◉ mark is `--rank-4-unique-symbol` (the 4★ entry rung of the Unique ladder), not a standalone "branch color."
 
 ---
 
@@ -91,31 +92,35 @@ The World Tree (hero 2D + 3D Explorer) re-axes color and glyph away from the fou
 
 Node color encodes **effective rank** (the highest star among a node's named-skill children, joined at runtime from `docs/graph/named/index.json`). Use the existing rank tokens — no hex fallbacks.
 
-| Rank | Stars | Token |
-|---|---|---|
-| Unranked / Awakened | 0–1★ | `--rank-0` (grey, starless/redacted) |
-| Named | 2★ | `--rank-2` |
-| Evolved | 3★ | `--rank-3` |
-| Extra / Unique | 4★ | `--rank-4` |
-| Ultimate / Unique Ultimate | 5★ | `--rank-5` |
-| Apex | 6★ | `--rank-6` |
+**Rank forks into two branch ladders at 4★.** 0★–3★ are shared. At 4★+ a node is on the **Suite** branch (`--rank-N`) or the **Unique** branch (`--rank-N-unique`) — never collapse the two onto a single `--rank-N` ramp; that flattening hides the Unique ladder and is the exact token confusion this schema retired.
 
-Tokens `--rank-N`, `--rank-N-bg`, `--rank-N-border`, and `--rank-N-edge` follow the same pattern as in `docs/css/tokens.css` (sourced from `src/gaia_cli/formatting.py::RANK_COLORS`). Colored ramp starts at 2★ Named — 0–1★ nodes render grey and land at outer coreness automatically. Unique constellation uses a distinct dark palette separate from the rank ramp (see `docs/architecture/world-tree-model.md` §Y-Fork).
+| Rank | Stars | Suite branch token | Unique branch token | Unique hex (design-locked) |
+|---|---|---|---|---|
+| Unranked / Awakened | 0–1★ | `--rank-0` (grey, starless/redacted) | `--rank-0` (shared) | — |
+| Named    | 2★ | `--rank-2` | `--rank-2` (shared) | — |
+| Evolved  | 3★ | `--rank-3` | `--rank-3` (shared) | — |
+| 4★ entry | 4★ | `--rank-4` (Extra, `#e879f9` fuchsia) | `--rank-4-unique` (Unique, `#7c3aed` violet) | `#7c3aed` |
+| 5★       | 5★ | `--rank-5` (Ultimate, `#fbbf24`) | `--rank-5-unique` (Unique Ultimate, `#b26a3a`) | `#b26a3a` burnished copper |
+| 6★ Apex  | 6★ | `--rank-6` (Apex, `#fbbf24`*) | `--rank-6-unique` (Unique Impossible, `#e0894a`) | `#e0894a` ember copper (`-ink #2a1206`) |
+
+\* `--rank-5` and `--rank-6` share `#fbbf24`; Apex differentiates by **doubled background opacity**, not hue — not a bug.
+
+Both ladders carry the full suffix family — `-rgb`, `-bg`, `-border`, `-edge` (and the Unique 6★ `-ink`) — mirroring `docs/css/tokens.css`. The Suite side is sourced from `registry/gaia.json.meta.levelColors` via `scripts/generateCssTokens.py`; the Unique side from the generator's locked `UNIQUE_RANK_LADDER` constant (Unique is a read-time branch, not a `type`). `src/gaia_cli/formatting.py` mirrors both: `RANK_COLORS` (Suite) and `RANK_COLORS_UNIQUE` (Unique, reconciled to the CSS-locked Amethyst→Ember values — CSS is the source of truth). Colored ramp starts at 2★ Named — 0–1★ nodes render grey and land at outer coreness automatically. See `docs/architecture/world-tree-model.md` §Y-Fork.
 
 In the **hero (2D editorial)** pose, rank is positional only — all nodes use the single-gold editorial palette (`--apex-gold` / `--apex-gold-rgb` alpha values); color-by-rank is suppressed so the silhouette stays monochrome. Color-by-rank activates only in the **3D Explorer** view.
 
 ### Glyph = structural class
 
-Node glyph encodes **structural class** (independent of type vocabulary, stable across the Ygg I → II migration):
+Node glyph encodes **structural class**, derived at read time from type + effective rank + `suiteComponents` (stable across the Ygg I → II migration). Under Ygg II there are only two `type` values (`basic`/`fusion`); the ◉ Unique and ◆ Suite glyphs are **rank-branch** marks (a node only carries them at 4★+), not `type` values:
 
-| Structural class | Glyph | Type source |
-|---|---|---|
-| Basic primitive | ○ | `type === 'basic'` (not Unique) |
-| Fusion / Extra | ◇ | `type === 'extra'` (Ygg I) or `type === 'fusion'` (Ygg II) |
-| Unique | ◉ | Ygg I: `type === 'unique'` · Ygg II: `type === 'basic' && effRank ≥ 4★ && !suiteComponents` |
-| Suite / Ultimate | ◆ | Ygg I: `type === 'ultimate'` · II: `suiteComponents` present |
+| Structural class | Glyph | Ygg II derivation | Ygg I `type` (historical) |
+|---|---|---|---|
+| Basic primitive | ○ | `type === 'basic'` and not on a 4★+ branch | `basic` |
+| Fusion          | ◇ | `type === 'fusion'` | `extra` |
+| Unique          | ◉ | `type === 'basic' && effRank ≥ 4★ && !suiteComponents` | `unique` |
+| Suite           | ◆ | `suiteComponents` present | `ultimate` |
 
-These glyphs match `META.md §1.2`. All meta-aware detection lives in `resolveSemantics` in `docs/js/world-tree-layout.js`; the render layer consumes the output contract's `glyph` field only.
+The ◉ mark tints with the Unique rank branch (`--rank-4-unique-symbol` at 4★, ramping to `--rank-6-unique`); the ◆ Suite mark tints with `--rank-N`. These glyphs match `META.md §1.2`. All meta-aware detection lives in `resolveSemantics` in `docs/js/world-tree-layout.js`; the render layer consumes the output contract's `glyph` field only.
 
 ### Node radius
 
@@ -149,15 +154,17 @@ Their visual representations use horizontal metric bars with the following styli
 
 | Evidence type | `color:` token | Semantic mapping |
 |---|---|---|
-| `repo`, `peer-review`, `repo-own` | `var(--tier-basic)` | Basic-tier blue (`#38bdf8`) |
-| `github-stars`, `fusion-recipe`, `github-stars-own` | `var(--tier-ultimate)` | Ultimate amber (`#f59e0b`) |
-| `proxy-containment` | `var(--tier-unique)` | Unique deep violet (`#7c3aed`) |
-| `verifier-attestation` | `var(--rank-4)` | Rank-4 fuchsia (`#e879f9`) |
-| `benchmark-result`, `arxiv` | `var(--tier-extra)` | Extra purple (`#c084fc`) |
+| `repo`, `peer-review`, `repo-own` | `var(--tier-basic)` | Basic type blue (`#38bdf8`) |
+| `github-stars`, `fusion-recipe`, `github-stars-own` | `var(--rank-5)` | 5★ Ultimate amber (`#fbbf24`) |
+| `proxy-containment` | `var(--rank-4-unique)` | 4★ Unique branch violet (`#7c3aed`) |
+| `verifier-attestation` | `var(--rank-4)` | 4★ Extra fuchsia (`#e879f9`) |
+| `benchmark-result`, `arxiv` | `var(--rank-4)` | 4★ Extra fuchsia (`#e879f9`) |
 | `self-attestation` | `var(--rank-0)` | Slate / unawakened (`#94a3b8`) |
 | `social-signal` | `#34d399` | Emerald green — not in the banned-hex set; no current token alias |
 
 The `social-signal` green (`#34d399`) is not in `tokens.css` and is not on the Guard A banned-hex list. If a token is added later, update this table and the selector in `docs/css/styles.css`.
+
+> The dead `--tier-extra` / `--tier-ultimate` / `--tier-unique` tokens these pills previously named are retired; the pill selectors in `docs/css/styles.css` are migrated to the rank tokens above. The three-way collapse (`benchmark-result`/`arxiv` and `verifier-attestation` all landing on `--rank-4`) is intentional — they are distinct evidence types that share the 4★ Extra fuchsia.
 
 ---
 
@@ -179,26 +186,28 @@ Gold dominates the outer fringe (`hsl(45,…)`) so the node reads as amber at a 
 
 ## Graph Canvas
 
+> **Legacy vocabulary — radius only, no color.** The radius/layout keys below use the Yggdrasil-I four-`type` names (`ultimate`/`unique`/`extra`/`basic`). These are **historical structural buckets for node sizing**, not live Ygg-II `type` values or color tokens — under Ygg II, size derives from effective rank + branch (`suiteComponents` ⇒ Suite/◆ largest; 4★+ Unique ⇒ ◉; `fusion` ⇒ ◇; `basic` ⇒ ○). Color comes from the rank ladders above, never from these names. Retained here as the sizing contract the canvas still honors during the migration window.
+
 Node radii (before depth/projection scale):
 
-| Type | Base radius |
-|---|---|
-| `ultimate`  | 12.5 |
-| `unique`    | 9.5  |
-| `extra`     | 6.9  |
-| `basic`     | 3.5  |
+| Legacy sizing bucket | Base radius | Ygg II equivalent |
+|---|---|---|
+| `ultimate`  | 12.5 | Suite (◆) |
+| `unique`    | 9.5  | Unique branch (◉, 4★+) |
+| `extra`     | 6.9  | Fusion (◇) |
+| `basic`     | 3.5  | Basic (○) |
 
 Edge line width:
 
-| Condition | Ultimate | Other |
+| Condition | Suite (◆) | Other |
 |---|---|---|
 | Highlighted (hover neighbor) | 2.2 px | 1.4 px |
 | Default | 1.55 px | 0.92 px |
 
 Sphere layout radii (at scale 1.25):
-- Basic: 250 × scale = **312 px**
-- Extra: 145 × scale = **181 px**
-- Ultimate: 44 × scale = **55 px** (innermost)
+- Basic (○): 250 × scale = **312 px**
+- Fusion (◇): 145 × scale = **181 px**
+- Suite (◆): 44 × scale = **55 px** (innermost)
 
 ---
 
@@ -306,11 +315,13 @@ Rarity is derived from real agent prevalence by `scripts/computeRarity.py` — n
 
 ---
 
-## Skill Type Color Cycling
+## Rank-Branch Color Cycling
 
-Skill types (Ultimate, Extra) get animated color-cycling effects wherever they appear. Basic skills remain static.
+Fusion and high-rank branch glyphs get animated color-cycling effects wherever they appear; Basic nodes remain static. The two cycles below are keyed to the **rank branch**, not to a `type` — "Ultimate" and "Extra" here are the legacy animation names for the 6-stop and 5-stop keyframes (retained as CSS identifiers), NOT `type` values. Under Ygg II the 6-stop cycle rides the top Suite/Fusion rungs (◆ / ◇ at 5★+) and the 5-stop cycle the 4★ Fusion entry.
 
-### Ultimate Skill Cycle (6-stop, ~4s loop)
+> **Code-side note:** the `#hex` literals inside these `@keyframes` are a known exception — CSS `@keyframes` steps cannot read `var(--…)` reliably across all engines, so the cycle stops are inlined. They are the animation's own palette, decorative and NOT rank-token values, so they do not fall under the token source-of-truth chain. Do not "migrate" them to `--rank-*`; if the cycle palette changes, edit the keyframes directly.
+
+### 6-stop cycle (`tree-rainbow-glow`, ~4s loop)
 
 Sequence: **blue → purple → gold → red → purple → green → (loop)**
 
@@ -327,7 +338,7 @@ Sequence: **blue → purple → gold → red → purple → green → (loop)**
 
 Each color step also carries a matching `text-shadow` glow at 80% opacity inner / 40% outer.
 
-### Extra Skill Cycle (5-stop, ~4s loop, NO gold)
+### 5-stop cycle (`tree-extra-glow`, ~4s loop, NO gold)
 
 Sequence: **blue → purple → red → purple → green → (loop)**
 
@@ -343,9 +354,9 @@ Sequence: **blue → purple → red → purple → green → (loop)**
 
 ### Application Rules
 
-| Area | Ultimate | Extra | Basic |
+| Area | 6-stop (`tree-rainbow-glow`) | 5-stop (`tree-extra-glow`) | Basic |
 |------|----------|-------|-------|
-| Tree dialog lines | `tree-rainbow-glow` on `◆ Ultimate Skill:` label | `tree-extra-glow` on `◇ Extra Skill:` label | Static cyan glyph |
+| Tree dialog lines | on the `◆ Suite` label | on the `◇ Fusion` label | Static cyan glyph |
 | Named Skills cards | Name text cycles `tree-rainbow-glow` | Name text cycles `tree-extra-glow` | No animation |
 | Skill Graph labels | Canvas `cycleColor()` with `ULT_STOPS` | Canvas `cycleColor()` with `EXTRA_STOPS` | Static `PALETTE.basic` |
 | Skill Graph nodes | Existing `drawNodeVI` (rainbow hue rotation) | New `drawNodeExtra` (subtle cycling glow) | Standard `drawNode` |
@@ -504,7 +515,7 @@ This section is the **canonical grading rubric** for the Yggdrasil II design run
 ### E3 — Plaque / medallion / avatar (the new visual identity)
 - Every skill surface renders a **contributor GitHub avatar** (`https://github.com/<handle>.png`), framed by the **gold origin wreath** (`docs/assets/origin-wreath-gold.svg`). Missing avatar → GitHub-blank/identicon fallback, NEVER an empty hole (no bare `onerror`-hides).
 - The medallion is the AOV4 stamp (`aov4-c{1..6}` suite / `aov4-d{4..6}` unique) at the size tier for the surface (`-badge`/`-card`/`-hero`), selected by `computeBranch` + rank. No CSS-gradient orb stand-ins on named skills.
-- **Unique = DARKER plaque** (violet `--tier-unique` register); **Suite = GOLD-leaning** plaque. The distinction MUST be keyed on derived `data-branch`, not `data-type`.
+- **Unique = DARKER plaque** (violet `--rank-4-unique` register); **Suite = GOLD-leaning** plaque. The distinction MUST be keyed on derived `data-branch`, not `data-type`.
 - The standalone "GitHub" button is removed; the avatar links to the repo.
 
 ### E4 — Origin mark deprecation (red → gold)
@@ -562,7 +573,7 @@ The canonical skill identity is the **plaque medallion**, implemented once in `d
 - **Contributor GitHub avatar** (`https://github.com/<handle>.png`) as the core, framed by the **gold origin wreath** (`docs/assets/origin-wreath-gold.svg`).
 - **GitHub-blank / identicon fallback** on avatar error — never an empty hole, never a bare `onerror`-hide.
 - **AOV4 rank stamp** overlaid: Asset C (`aov4-c{1..6}-suite-*`) for the suite branch, Asset D (`aov4-d{4..6}-unique-*`) for the unique branch, selected by `computeBranch` + rank, at the size tier for the surface (`-badge` / `-card` / `-hero`). No CSS-gradient orb stand-ins on named skills.
-- **Branch-keyed plaque register:** Unique = DARKER plaque (violet `--tier-unique`); Suite = GOLD-leaning plaque. Keyed on derived `data-branch`, never `data-type`.
+- **Branch-keyed plaque register:** Unique = DARKER plaque (violet `--rank-4-unique`); Suite = GOLD-leaning plaque. Keyed on derived `data-branch`, never `data-type`.
 - The standalone "GitHub" button is removed; the avatar itself links to the repo (`links.github`).
 
 ### The gold origin mark (red deprecated)
