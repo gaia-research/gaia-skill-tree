@@ -154,5 +154,4 @@ If you are an agent modifying this repository, you must adhere to these rules:
 ## 6. Accessing the Graph Data
 *   **Full Graph (JSON):** [gaia.json](./graph/gaia.json)
 *   **Graph Exchange XML (GEXF):** [gaia.gexf](./graph/gaia.gexf)
-*   **Graph Diagram (SVG):** [gaia.svg](./graph/gaia.svg)
 *   **Text Tree Diagram:** [tree.md](./tree.md)

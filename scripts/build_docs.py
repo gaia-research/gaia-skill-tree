@@ -1459,16 +1459,6 @@ def build_gexf(check: bool) -> bool:
         raise RuntimeError(f"exportGexf.py failed: rc={rc}")
     return False
 
-def build_svg(check: bool) -> bool:
-    """Run renderGraphSvg.py."""
-    script = SCRIPTS / "renderGraphSvg.py"
-    if not script.exists():
-        return False
-    rc, output = _run_script(script, ["--format", "svg"])
-    if rc != 0:
-        raise RuntimeError(f"renderGraphSvg.py failed: rc={rc}")
-    return False
-
 def build_docs_graph_assets(check: bool) -> bool:
     """Run syncDocsGraphAssets.py."""
     script = SCRIPTS / "syncDocsGraphAssets.py"
@@ -1567,9 +1557,10 @@ def main(argv: list[str] | None = None) -> int:
     tree_changed = _run_step("tree-md", build_tree_md, args.check)
     ruflo_curation_changed = _run_step("ruflo-curation", build_ruflo_curation, args.check)
     
-    # Extra artifacts
+    # Extra artifacts. The registry/gaia.svg graph render was retired under
+    # Yggdrasil II (the 3D World Tree superseded the static SVG atlas); only
+    # the GEXF export survives alongside the Class S gaia.json.
     gexf_changed = _run_step("gexf", build_gexf, args.check)
-    svg_changed = _run_step("svg", build_svg, args.check)
     sync_assets_changed = _run_step("docs-graph-assets", build_docs_graph_assets, args.check)
 
     # Local sections (README + index.html stats + tokens.css).
@@ -1645,7 +1636,6 @@ def main(argv: list[str] | None = None) -> int:
         or tree_changed
         or ruflo_curation_changed
         or gexf_changed
-        or svg_changed
         or sync_assets_changed
         # okf_bundle_changed: intentionally omitted — see warn-only block above.
     )
