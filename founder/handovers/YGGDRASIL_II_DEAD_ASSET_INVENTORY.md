@@ -1,131 +1,120 @@
-# Yggdrasil II — Dead Asset Inventory (`docs/assets/`)
+# `docs/assets/` — Unreferenced File List
 
-**Status:** Inventory only. **Nothing is deleted by this document or the PR that carries it.**
-**Date:** 2026-07-24 · **Branch:** `dev/yggdrasil-ii-staging` @ `052fb6c`
-**Decision:** Founder elected *inventory-only* for the Yggdrasil II sprint. Deletion is a
-separate, deliberate design-side call — see "Before deleting anything" below.
+**Status:** List only. Nothing deleted. Founder reviews and decides what stays.
+**Date:** 2026-07-25 · **Branch:** `dev/yggdrasil-ii-staging`
 
----
+## How this was produced
 
-## Headline
+Every blob under `docs/assets/` was matched by **basename** against every asset
+filename referenced in `docs/**/*.{html,js,css}`. Anything unmatched is listed below.
 
-| Bucket | Size | Files |
-|---|---|---|
-| **Referenced web assets** (live — do not touch) | 18.9 MB | — |
-| **Unreferenced web assets** | **45.90 MB** | 68 |
-| Design tooling checked into `docs/assets/` (scripts/READMEs/manifests) | 0.01 MB | 9 |
-| **`docs/assets/` total** | 64.8 MB | — |
+## Read this before acting on the list
 
-**71% of `docs/assets/` is referenced by no HTML, CSS, or JS in the repo.**
+The match is a heuristic and **will contain false positives.** Known limits:
 
-### One important caveat, stated up front
+- Only these extensions were scanned for references: `webp png jpg jpeg gif mp4 svg avif`.
+  A confirmed miss from this: `DepartureMono-Regular.woff2` is referenced at
+  `docs/css/styles.css:19` via `@font-face` but was absent from the reference set.
+  It has been removed from the list; other non-scanned types may be similarly wrong.
+- Files referenced only from dead code scan as unreferenced. `docs/js/ascension-overdrive-v2.js`
+  and its CSS are loaded by no HTML file, so anything only they mention appears here.
+- Assets whose URLs are built at runtime are matched only where the literal filename
+  appears. Three dynamic call sites exist, all on the `aov4-` prefix
+  (`plaque.js:127`, `named-skills.js:265`, `named-skills.js:708`). No `aov4-` file
+  appears below.
+- `.py`, `.md`, `.json`, `.txt` entries are design tooling, not web assets.
 
-**This is not a page-speed problem.** Unreferenced means never fetched — a browser
-loading gaiaskilltree.com does not download any of these bytes. This is **repository and
-GitHub Pages hygiene**, not site latency. The real latency defects are tracked separately
-(RAF gating, JSON double-fetch, render-blocking scripts, the `live.js` injector) and are
-fixed in the accompanying PR.
+Some entries are certainly worth keeping. Treat this as a starting inventory, not a delete list.
 
-Deleting these files from `HEAD` also does **not** shrink clone size, because the blobs
-remain in history. A history rewrite (as was done in PR #1185 for PNGs and the Asset E
-MP4s) would be required for that, and is explicitly **out of scope**.
+## Note on impact
 
----
+Unreferenced assets are never fetched by a browser, so removing them does not affect
+page speed. This is repository and Pages-storage weight. Deleting from `HEAD` also
+does not reduce clone size — the blobs remain in history.
 
-## Method
+## List
 
-1. Enumerated every blob under `docs/assets/` on `origin/dev/yggdrasil-ii-staging`.
-2. Extracted every asset filename referenced from `docs/**/*.{html,js,css}`.
-3. Matched by basename; treated anything unmatched as a candidate.
-4. **Manually audited the candidate list for false positives** (see below) — the raw
-   automated result was wrong in one place and is corrected here.
+**80 files · 45.93 MB**
 
-### Known false positive, corrected
-
-The first automated pass flagged `docs/assets/fonts/DepartureMono-Regular.woff2` as dead.
-**It is not** — it is referenced at `docs/css/styles.css:19` via `@font-face`. The
-extension filter omitted `.woff2`. The font, its `LICENSE.txt`, and the `.gitkeep`
-have been removed from the inventory below. No other font/webmanifest assets exist.
-
-### Dynamic references were checked
-
-Three call sites build asset URLs at runtime rather than as literals:
-
-- `docs/js/plaque.js:127` → `assets/ascension-overdrive/aov4-<stem>-<tier>.webp`
-- `docs/js/named-skills.js:265` and `:708` → `assets/ascension-overdrive/aov4-<stem>-badge.webp`
-
-All are confined to the `aov4-` prefix. **Zero `aov4-*` assets appear in the dead list** —
-the live Ascension Overdrive V4 set is fully intact. Everything below is V2/V3-era residue.
-
----
-
-## Breakdown
-
-| Group | Size | Files | Notes |
-|---|---|---|---|
-| V3 motion loops (`.mp4`) | 24.82 MB | 3 | `unique-5-loop.mp4` alone is **18.96 MB** |
-| `rimuru.gif` | 5.10 MB | 1 | |
-| `f-rank-*-hero.webp` | 4.48 MB | 6 | V2 rank plates |
-| `Asset F/` | 4.48 MB | 6 | **byte-identical duplicates** of the row above (same blob SHAs) |
-| `aov3-*` | 3.81 MB | 32 | superseded V3 generation |
-| V2/V3 loose scene art | 3.16 MB | 17 | `apex-*`, `rank-*`, `ledger-*`, `unique-*` |
-| other | 0.06 MB | 3 | incl. 2 unreferenced `marks/*.svg` |
-
-### Largest single items
-
-```
-18.96 MB  docs/assets/ascension-overdrive/unique-5-loop.mp4
- 5.10 MB  docs/assets/rimuru.gif
- 3.67 MB  docs/assets/ascension-overdrive/unique-4-loop.mp4
- 2.19 MB  docs/assets/ascension-overdrive/unique-6-loop.mp4
- 1.04 MB  docs/assets/ascension-overdrive/apex-arch.webp
- 0.86 MB  docs/assets/ascension-overdrive/f-rank-5-hero.webp
- 0.86 MB  docs/assets/Asset F/webp/asset-f-rank-5-transcendent-plate-4k.webp
-```
-
-The `f-rank-*-hero.webp` / `Asset F/webp/asset-f-rank-*-plate-4k.webp` pairs are the same
-six blobs stored twice under two paths — 4.48 MB of pure duplication independent of
-whether the art is still wanted.
-
----
-
-## Related: dead frontend code
-
-`docs/js/ascension-overdrive-v2.js` (22 KB) and `docs/css/ascension-overdrive-v2.css` are
-loaded by **no HTML file in the repo** — superseded by the V4 runtime. The "Asset F"
-references that survive in the tree are *comments inside these two dead files*, which is
-why the `f-rank-*` art scans as orphaned.
-
-Two consequences worth noting:
-
-- Any future grep for "is Asset F still used?" will get misleading hits from dead code.
-- Deleting the V2 art without deleting the V2 JS/CSS leaves broken references in files
-  that nothing loads — harmless, but confusing to the next reader. Treat them as one unit.
-
----
-
-## Path hazard: `docs/assets/Asset F/` and `Asset G/`
-
-Both directory names contain a **space**. Nothing currently builds a URL to either, so
-there is no live 404. But if a future build script or CSS rule references them without
-percent-encoding (`Asset%20F`), it will silently 404 on GitHub Pages. If these directories
-are kept rather than deleted, **rename them without spaces**.
-
----
-
-## Before deleting anything
-
-These are design work product, not build output. Recommended sequence when the design
-side is ready:
-
-1. Confirm with the design owner that the V2/V3 generations are genuinely superseded and
-   no longer needed as source material for future regeneration.
-2. Delete the V2 runtime (`ascension-overdrive-v2.js` / `.css`) **together with** the V2/V3
-   art, so no dangling references remain.
-3. Resolve the `Asset F/` duplication either way — if the art is kept, keep exactly one
-   copy and drop the space from the directory name.
-4. Re-run the reference scan afterward to confirm no live asset was caught in the sweep,
-   paying particular attention to the three dynamic `aov4-` call sites listed above.
-
-Do **not** fold this into a history rewrite without a separate, explicit decision — the
-last rewrite (PR #1185) required every collaborator to re-clone.
+| MB | Path |
+|---:|---|
+| 18.96 | `docs/assets/ascension-overdrive/unique-5-loop.mp4` |
+| 5.10 | `docs/assets/rimuru.gif` |
+| 3.67 | `docs/assets/ascension-overdrive/unique-4-loop.mp4` |
+| 2.19 | `docs/assets/ascension-overdrive/unique-6-loop.mp4` |
+| 1.04 | `docs/assets/ascension-overdrive/apex-arch.webp` |
+| 0.86 | `docs/assets/ascension-overdrive/f-rank-5-hero.webp` |
+| 0.86 | `docs/assets/Asset F/webp/asset-f-rank-5-transcendent-plate-4k.webp` |
+| 0.82 | `docs/assets/ascension-overdrive/f-rank-2-hero.webp` |
+| 0.82 | `docs/assets/Asset F/webp/asset-f-rank-2-named-plate-4k.webp` |
+| 0.79 | `docs/assets/ascension-overdrive/f-rank-3-hero.webp` |
+| 0.79 | `docs/assets/Asset F/webp/asset-f-rank-3-evolved-plate-4k.webp` |
+| 0.73 | `docs/assets/ascension-overdrive/f-rank-4-hero.webp` |
+| 0.73 | `docs/assets/Asset F/webp/asset-f-rank-4-hardened-plate-4k.webp` |
+| 0.72 | `docs/assets/ascension-overdrive/f-rank-1-hero.webp` |
+| 0.72 | `docs/assets/Asset F/webp/asset-f-rank-1-awakened-plate-4k.webp` |
+| 0.55 | `docs/assets/ascension-overdrive/f-rank-6-hero.webp` |
+| 0.55 | `docs/assets/Asset F/webp/asset-f-rank-6-apex-plate-4k.webp` |
+| 0.28 | `docs/assets/ascension-overdrive/aov3-unique-impossible-terminal-mobile.webp` |
+| 0.28 | `docs/assets/ascension-overdrive/aov3-unique-impossible-terminal.webp` |
+| 0.24 | `docs/assets/ascension-overdrive/unique-6-impossible.webp` |
+| 0.24 | `docs/assets/ascension-overdrive/aov3-astrolabe-substrate.webp` |
+| 0.24 | `docs/assets/ascension-overdrive/unique-5-ultimate.webp` |
+| 0.21 | `docs/assets/ascension-overdrive/rank-4-hardened.webp` |
+| 0.17 | `docs/assets/ascension-overdrive/aov3-suite-stamp-3-evolved-card.webp` |
+| 0.17 | `docs/assets/ascension-overdrive/unique-4.webp` |
+| 0.17 | `docs/assets/ascension-overdrive/aov3-suite-stamp-2-named.webp` |
+| 0.17 | `docs/assets/ascension-overdrive/aov3-suite-stamp-5-ultimate.webp` |
+| 0.17 | `docs/assets/ascension-overdrive/aov3-suite-stamp-1-awakened.webp` |
+| 0.17 | `docs/assets/ascension-overdrive/aov3-suite-stamp-4-extra-card.webp` |
+| 0.17 | `docs/assets/ascension-overdrive/aov3-suite-stamp-5-ultimate-card.webp` |
+| 0.17 | `docs/assets/ascension-overdrive/aov3-suite-stamp-1-awakened-card.webp` |
+| 0.17 | `docs/assets/ascension-overdrive/aov3-suite-stamp-6-apex-card.webp` |
+| 0.17 | `docs/assets/ascension-overdrive/aov3-suite-stamp-2-named-card.webp` |
+| 0.17 | `docs/assets/ascension-overdrive/aov3-suite-stamp-6-apex.webp` |
+| 0.16 | `docs/assets/ascension-overdrive/aov3-astrolabe-substrate-mobile.webp` |
+| 0.16 | `docs/assets/ascension-overdrive/apex-component-classical-stele.webp` |
+| 0.16 | `docs/assets/ascension-overdrive/apex-component-grand-arch.webp` |
+| 0.15 | `docs/assets/ascension-overdrive/aov3-suite-plate-6-apex.webp` |
+| 0.15 | `docs/assets/ascension-overdrive/aov3-suite-stamp-4-extra.webp` |
+| 0.15 | `docs/assets/ascension-overdrive/aov3-suite-stamp-3-evolved.webp` |
+| 0.14 | `docs/assets/ascension-overdrive/rank-3-evolved.webp` |
+| 0.12 | `docs/assets/ascension-overdrive/rank-5-ultimate.webp` |
+| 0.12 | `docs/assets/ascension-overdrive/rank-2-named.webp` |
+| 0.11 | `docs/assets/ascension-overdrive/aov3-y-fork.webp` |
+| 0.11 | `docs/assets/ascension-overdrive/apex-component-column-crowned.webp` |
+| 0.11 | `docs/assets/ascension-overdrive/apex-component-column-finial.webp` |
+| 0.09 | `docs/assets/ascension-overdrive/aov3-unique-stamp-6-impossible.webp` |
+| 0.09 | `docs/assets/ascension-overdrive/aov3-unique-stamp-4.webp` |
+| 0.09 | `docs/assets/ascension-overdrive/aov3-suite-plate-6-apex-mobile.webp` |
+| 0.09 | `docs/assets/ascension-overdrive/apex-component-pillar-with-plant.webp` |
+| 0.08 | `docs/assets/ascension-overdrive/aov3-y-fork-mobile.webp` |
+| 0.08 | `docs/assets/ascension-overdrive/apex-component-stele-with-foliage.webp` |
+| 0.08 | `docs/assets/ascension-overdrive/ledger-texture.webp` |
+| 0.07 | `docs/assets/ascension-overdrive/aov3-unique-stamp-5-ultimate.webp` |
+| 0.06 | `docs/assets/Asset G/outputs/asset-g-haze.webp` |
+| 0.05 | `docs/assets/ascension-overdrive/rank-1-awakened.webp` |
+| 0.05 | `docs/assets/ascension-overdrive/ledger-texture-variant.webp` |
+| 0.03 | `docs/assets/ascension-overdrive/aov3-unique-stamp-4-mobile.webp` |
+| 0.02 | `docs/assets/ascension-overdrive/aov3-unique-stamp-6-impossible-mobile.webp` |
+| 0.02 | `docs/assets/ascension-overdrive/aov3-unique-stamp-5-ultimate-mobile.webp` |
+| 0.02 | `docs/assets/ascension-overdrive/aov3-suite-stamp-4-extra-badge.webp` |
+| 0.02 | `docs/assets/fonts/DepartureMono-Regular.woff2` |
+| 0.02 | `docs/assets/ascension-overdrive/aov3-suite-stamp-3-evolved-badge.webp` |
+| 0.02 | `docs/assets/ascension-overdrive/aov3-suite-stamp-6-apex-badge.webp` |
+| 0.02 | `docs/assets/ascension-overdrive/aov3-suite-stamp-5-ultimate-badge.webp` |
+| 0.01 | `docs/assets/ascension-overdrive/aov3-suite-stamp-2-named-badge.webp` |
+| 0.01 | `docs/assets/ascension-overdrive/aov3-suite-stamp-1-awakened-badge.webp` |
+| 0.00 | `docs/assets/Asset G/scripts/make_asset_g_haze.py` |
+| 0.00 | `docs/assets/Asset D/remove_white_borders_helper.py` |
+| 0.00 | `docs/assets/Asset F/manifest.json` |
+| 0.00 | `docs/assets/Asset G/scripts/audit_asset_g.py` |
+| 0.00 | `docs/assets/Asset G/README.md` |
+| 0.00 | `docs/assets/fonts/DepartureMono-LICENSE.txt` |
+| 0.00 | `docs/assets/fonts/.gitkeep` |
+| 0.00 | `docs/assets/marks/diamond-seal-preview.svg` |
+| 0.00 | `docs/assets/Asset G/manifest.json` |
+| 0.00 | `docs/assets/Asset F/README.md` |
+| 0.00 | `docs/assets/Asset G/scripts/asset_g_css_snippet.css` |
+| 0.00 | `docs/assets/marks/diamond-seal-favicon.svg` |
+| 0.00 | `docs/assets/Asset G/scripts/asset_g_parallax_snippet.js` |
