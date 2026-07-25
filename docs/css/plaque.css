@@ -163,15 +163,15 @@
   --plaque-accent-bg: var(--tier-fusion-bg);
 }
 .plaque[data-branch="unique"] {
-  --plaque-accent: var(--tier-unique);
-  --plaque-accent-rgb: var(--tier-unique-rgb);
-  --plaque-accent-bg: var(--tier-unique-bg);
+  --plaque-accent: var(--rank-4-unique);
+  --plaque-accent-rgb: var(--rank-4-unique-rgb);
+  --plaque-accent-bg: var(--rank-4-unique-bg);
 }
 .plaque[data-branch="unique"]:hover {
   box-shadow:
-    0 0 0 1px rgba(var(--tier-unique-rgb), 0.3),
+    0 0 0 1px rgba(var(--rank-4-unique-rgb), 0.3),
     0 16px 48px rgba(0, 0, 0, 0.6),
-    0 0 20px rgba(var(--tier-unique-rgb), 0.5);
+    0 0 20px rgba(var(--rank-4-unique-rgb), 0.5);
 }
 
 
@@ -593,17 +593,17 @@ button.plaque__slug {
 .plaque[data-branch="unique"] .plaque-skill-name.named-slug,
 .plaque__stack-row[data-branch="unique"] .plaque__slug.named-slug,
 .plaque__stack-row[data-branch="unique"] .plaque-skill-name.named-slug {
-  color: var(--tier-unique);
+  color: var(--rank-4-unique);
 }
 /* Unique branch always overrides level-based rank color on stars */
 .plaque[data-branch="unique"] .rank-badge__star[data-on],
 .plaque__stack-row[data-branch="unique"] .rank-badge__star[data-on] {
-  color: var(--tier-unique);
-  text-shadow: 0 0 6px rgba(var(--tier-unique-rgb), .5);
+  color: var(--rank-4-unique);
+  text-shadow: 0 0 6px rgba(var(--rank-4-unique-rgb), .5);
 }
 .plaque[data-branch="unique"] .rank-badge__star[data-off],
 .plaque__stack-row[data-branch="unique"] .rank-badge__star[data-off] {
-  color: rgba(var(--tier-unique-rgb), .15);
+  color: rgba(var(--rank-4-unique-rgb), .15);
 }
 .plaque[data-branch="suite"][data-level="5"] .plaque__slug.named-slug,
 .plaque[data-branch="suite"][data-level="5"] .plaque-skill-name.named-slug,
@@ -659,9 +659,9 @@ button.plaque__slug {
 /* Fallback tint keyed on derived branch (not type) when the stamp fails. */
 .plaque-orb--medallion[data-stamp-fail][data-branch="unique"] {
   background: radial-gradient(circle at 50% 50%,
-    #000 55%, var(--tier-unique) 80%,
-    color-mix(in srgb, var(--tier-unique) 70%, #000) 100%);
-  box-shadow: 0 0 14px rgba(var(--tier-unique-rgb), 0.5), inset 0 0 6px rgba(var(--tier-unique-rgb), 0.3);
+    #000 55%, var(--rank-4-unique) 80%,
+    color-mix(in srgb, var(--rank-4-unique) 70%, #000) 100%);
+  box-shadow: 0 0 14px rgba(var(--rank-4-unique-rgb), 0.5), inset 0 0 6px rgba(var(--rank-4-unique-rgb), 0.3);
 }
 .plaque-orb--medallion[data-stamp-fail][data-branch="suite"],
 .plaque-orb--medallion[data-stamp-fail][data-branch="standard"] {
@@ -752,7 +752,7 @@ button.plaque__slug {
   background: radial-gradient(circle at 35% 35%,
     color-mix(in srgb, var(--rank-4, #e879f9) 35%, #fff) 0%,
     var(--rank-4, #e879f9) 60%,
-    color-mix(in srgb, var(--rank-4, #e879f9) 60%, var(--tier-unique)) 100%);
+    color-mix(in srgb, var(--rank-4, #e879f9) 60%, var(--rank-4-unique)) 100%);
   box-shadow: 0 0 12px rgba(var(--rank-4-rgb, 232, 121, 249), 0.4);
 }
 .plaque-orb--ultimate,
@@ -767,9 +767,9 @@ button.plaque__slug {
 .se-node-orb--unique {
   background: radial-gradient(circle at 50% 50%,
     #000 55%,
-    var(--tier-unique) 80%,
-    color-mix(in srgb, var(--tier-unique) 70%, #000) 100%);
-  box-shadow: 0 0 14px rgba(var(--tier-unique-rgb), 0.5), inset 0 0 6px rgba(var(--tier-unique-rgb), 0.3);
+    var(--rank-4-unique) 80%,
+    color-mix(in srgb, var(--rank-4-unique) 70%, #000) 100%);
+  box-shadow: 0 0 14px rgba(var(--rank-4-unique-rgb), 0.5), inset 0 0 6px rgba(var(--rank-4-unique-rgb), 0.3);
 }
 /* Yggdrasil II branch-keyed orbs (rubric E1). Server-rendered profile plaques
    (scripts/generateProfilePages.py _field_orb) emit a plain <div> keyed on the
@@ -1407,8 +1407,8 @@ button.plaque__slug {
   border-color: rgba(var(--tier-fusion-rgb), 0.28);
 }
 .plaque--hall .plaque__stack-row[data-branch="unique"] {
-  background: var(--tier-unique-bg);
-  border-color: rgba(var(--tier-unique-rgb), 0.28);
+  background: var(--rank-4-unique-bg);
+  border-color: rgba(var(--rank-4-unique-rgb), 0.28);
 }
 .plaque--hall .plaque__stack-row[data-branch="suite"][data-level="4"] {
   background: var(--rank-4-bg);
@@ -1478,14 +1478,14 @@ button.plaque__slug {
    so slug + stars stay in lockstep. Rubric E1: keyed on derived branch. */
 .plaque--hall .plaque__stack-row[data-branch="unique"] .plaque-skill-name.named-slug,
 .plaque--hall .plaque__stack-row[data-branch="unique"] .plaque__slug.named-slug {
-  color: var(--tier-unique);
+  color: var(--rank-4-unique);
 }
 .plaque--hall .plaque__stack-row[data-branch="unique"] .rank-badge__star[data-on] {
-  color: var(--tier-unique);
-  text-shadow: 0 0 6px rgba(var(--tier-unique-rgb), .5);
+  color: var(--rank-4-unique);
+  text-shadow: 0 0 6px rgba(var(--rank-4-unique-rgb), .5);
 }
 .plaque--hall .plaque__stack-row[data-branch="unique"] .rank-badge__star[data-off] {
-  color: rgba(var(--tier-unique-rgb), .15);
+  color: rgba(var(--rank-4-unique-rgb), .15);
 }
 
 .plaque--hall .plaque__stack-rank {
@@ -2510,9 +2510,9 @@ button.plaque__slug {
   color: var(--rank-4, #e879f9);
 }
 .profile-filter-group[data-filter-type="type"] .profile-filter-chip[data-value="unique"][aria-pressed="true"] {
-  border-color: var(--tier-unique);
-  background: var(--tier-unique-bg);
-  color: var(--tier-unique);
+  border-color: var(--rank-4-unique);
+  background: var(--rank-4-unique-bg);
+  color: var(--rank-4-unique);
 }
 .profile-filter-group[data-filter-type="type"] .profile-filter-chip[data-value="ultimate"][aria-pressed="true"] {
   border-color: var(--tier-fusion);
@@ -3064,8 +3064,8 @@ button.plaque__slug {
   box-shadow: 0 0 20px rgba(245, 158, 11, 0.35) !important;
 }
 .plaque.is-highlighted.plaque--unique {
-  border-color: var(--tier-unique) !important;
-  box-shadow: 0 0 20px rgba(var(--tier-unique-rgb), 0.35) !important;
+  border-color: var(--rank-4-unique) !important;
+  box-shadow: 0 0 20px rgba(var(--rank-4-unique-rgb), 0.35) !important;
 }
 .plaque.is-highlighted.plaque--extra {
   border-color: var(--rank-4, #e879f9) !important;
@@ -3120,7 +3120,7 @@ button.plaque__slug {
 }
 .ptl2__tooltip-tier--basic    { color: var(--tier-basic,#38bdf8);    background: rgba(56,189,248,.1); border-color: rgba(56,189,248,.2); }
 .ptl2__tooltip-tier--extra    { color: var(--rank-4,#e879f9);    background: rgba(232,121,249,.1); border-color: rgba(232,121,249,.2); }
-.ptl2__tooltip-tier--unique   { color: var(--tier-unique);   background: rgba(var(--tier-unique-rgb),.1); border-color: rgba(var(--tier-unique-rgb),.2); }
+.ptl2__tooltip-tier--unique   { color: var(--rank-4-unique);   background: rgba(var(--rank-4-unique-rgb),.1); border-color: rgba(var(--rank-4-unique-rgb),.2); }
 .ptl2__tooltip-tier--ultimate { color: var(--rank-5,#fbbf24); background: rgba(251,191,36,.1); border-color: rgba(251,191,36,.2); }
 /* PR3b: branch-keyed tooltip tiers (standard/suite) — profile-timeline.js now
    keys the tier chip on the resolved branch, not the dead type enum. */
