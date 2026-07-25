@@ -19,6 +19,10 @@
   --heroes-font-mono: var(--font-mono, 'Departure Mono', monospace);
   --heroes-stage-gap: 0;
   --heroes-rail-width: clamp(176px, 15vw, 232px);
+  /* Shared content column width so stacked stage sections line up (800px). */
+  --heroes-content-max: 800px;
+  /* Narrower reading measure for the intro title/subtitle prose block. */
+  --heroes-prose-max: 680px;
 }
 
 
@@ -64,7 +68,7 @@
 
 .heroes-header__inner {
   text-align: center;
-  max-width: 680px;
+  max-width: var(--heroes-prose-max);
 }
 
 .heroes-header__title {
@@ -174,21 +178,19 @@
 }
 
 .heroes-ledger-rail__kicker,
-.heroes-ledger-rail__meta,
-.heroes-ledger-rail__byline {
+.heroes-ledger-rail__meta {
   font-family: var(--heroes-font-mono);
   font-size: 0.64rem;
   letter-spacing: 0.08em;
   color: var(--heroes-frost-dim);
 }
 
-/* meta always visible; kicker + byline hidden on mobile, restored at 560px+. */
+/* meta always visible; kicker hidden on mobile, restored at 560px+. */
 .heroes-ledger-rail__meta {
   display: block;
 }
 
-.heroes-ledger-rail__kicker,
-.heroes-ledger-rail__byline {
+.heroes-ledger-rail__kicker {
   display: none;
 }
 
@@ -488,26 +490,15 @@
   text-shadow: 0 0 8px rgba(224, 137, 74, 0.5);
 }
 
-.heroes-ledger-rail__entry {
-  min-width: 0;
-}
-
 .heroes-ledger-rail__name {
   display: block;
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   font-family: var(--heroes-font-body);
   font-size: 0.84rem;
   line-height: 1.1;
-}
-
-.heroes-ledger-rail__byline {
-  margin-top: 2px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  color: color-mix(in oklch, var(--heroes-frost-dim) 78%, transparent);
 }
 
 .heroes-ledger-rail__controls {
@@ -557,6 +548,218 @@
 .heroes-ledger-rail[data-active-level="6"] .heroes-ledger-rail__nav:hover,
 .heroes-ledger-rail[data-active-level="6"] .heroes-ledger-rail__nav:focus-visible {
   border-color: var(--rank-5, #fbbf24);
+}
+
+
+/* ── "All plates" trigger (opens the full index dialog) ──────────
+   Spans its own full-width row in both the mobile strip and the desktop rail
+   grid (grid-column: 1 / -1). Injected by heroes.js after the list.          */
+.heroes-ledger-rail__all {
+  grid-column: 1 / -1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 6px 10px;
+  border: 1px solid rgba(var(--heroes-gold-rgb), 0.42);
+  border-radius: 4px;
+  background: rgba(var(--heroes-gold-rgb), 0.07);
+  color: var(--heroes-frost);
+  font-family: var(--heroes-font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 180ms ease, background 180ms ease, border-color 180ms ease;
+}
+
+.heroes-ledger-rail__all:hover {
+  color: var(--heroes-frost);
+  background: rgba(var(--heroes-gold-rgb), 0.12);
+  border-color: rgba(var(--heroes-gold-rgb), 0.6);
+}
+
+.heroes-ledger-rail__all:focus-visible {
+  outline: 2px solid var(--heroes-gold-warm);
+  outline-offset: 2px;
+}
+
+.heroes-ledger-rail__all-caret {
+  font-family: var(--heroes-font-mono);
+  line-height: 1;
+}
+
+
+/* ── "All plates" full-index dialog ──────────────────────────────
+   Native <dialog>: Esc dismiss + focus trap for free. Scrollable list of every
+   hero, keyed to the same scroll-to path as the rail.                         */
+.heroes-ledger-all {
+  width: min(92vw, 460px);
+  max-height: min(80vh, 640px);
+  padding: 0;
+  border: 1px solid rgba(var(--heroes-gold-rgb), 0.28);
+  border-radius: 12px;
+  background: var(--heroes-bg-ink);
+  color: var(--heroes-frost);
+  overflow: hidden;
+}
+
+.heroes-ledger-all::backdrop {
+  background: rgba(0, 0, 0, 0.62);
+}
+
+.heroes-ledger-all[open] {
+  display: flex;
+  flex-direction: column;
+  animation: heroes-all-in 180ms ease-out both;
+}
+
+@keyframes heroes-all-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.heroes-ledger-all__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid rgba(var(--heroes-gold-rgb), 0.18);
+}
+
+.heroes-ledger-all__title {
+  margin: 0;
+  font-family: var(--heroes-font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--heroes-gold-warm);
+}
+
+.heroes-ledger-all__close {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(var(--heroes-gold-rgb), 0.28);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--heroes-frost-dim);
+  cursor: pointer;
+  transition: color 180ms ease, border-color 180ms ease;
+}
+
+.heroes-ledger-all__close:hover {
+  color: var(--heroes-frost);
+  border-color: var(--heroes-gold-warm);
+}
+
+.heroes-ledger-all__close:focus-visible {
+  outline: 2px solid var(--heroes-gold-warm);
+  outline-offset: 2px;
+}
+
+.heroes-ledger-all__list {
+  margin: 0;
+  padding: 0.5rem;
+  list-style: none;
+  overflow-y: auto;
+}
+
+.heroes-ledger-all__item {
+  list-style: none;
+}
+
+.heroes-ledger-all__entry {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--heroes-frost);
+  text-align: left;
+  cursor: pointer;
+  transition: background 160ms ease;
+}
+
+.heroes-ledger-all__entry:hover {
+  background: rgba(var(--heroes-gold-rgb), 0.07);
+}
+
+.heroes-ledger-all__entry:focus-visible {
+  outline: 2px solid var(--heroes-gold-warm);
+  outline-offset: -2px;
+}
+
+.heroes-ledger-all__entry[data-level="4"]:focus-visible {
+  outline-color: var(--rank-4, #e879f9);
+}
+
+.heroes-ledger-all__entry[data-level="5"]:focus-visible,
+.heroes-ledger-all__entry[data-level="6"]:focus-visible {
+  outline-color: var(--rank-5, #fbbf24);
+}
+
+.heroes-ledger-all__entry[data-branch="unique"][data-level="4"]:focus-visible {
+  outline-color: var(--rank-4-unique, #7c3aed);
+}
+
+.heroes-ledger-all__entry[data-branch="unique"][data-level="5"]:focus-visible,
+.heroes-ledger-all__entry[data-branch="unique"][data-level="6"]:focus-visible {
+  outline-color: var(--rank-5-unique, #b26a3a);
+}
+
+.heroes-ledger-all__glyph {
+  font-family: var(--heroes-font-mono);
+  font-size: 0.9rem;
+  text-align: center;
+  color: var(--rank-5, #fbbf24);
+}
+
+.heroes-ledger-all__entry[data-level="4"] .heroes-ledger-all__glyph {
+  color: var(--rank-4, #e879f9);
+}
+
+.heroes-ledger-all__entry[data-branch="unique"][data-level="4"] .heroes-ledger-all__glyph {
+  color: var(--rank-4-unique, #7c3aed);
+}
+
+.heroes-ledger-all__entry[data-branch="unique"][data-level="5"] .heroes-ledger-all__glyph,
+.heroes-ledger-all__entry[data-branch="unique"][data-level="6"] .heroes-ledger-all__glyph {
+  color: var(--rank-5-unique, #b26a3a);
+}
+
+.heroes-ledger-all__body {
+  min-width: 0;
+}
+
+.heroes-ledger-all__name {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--heroes-font-body);
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+
+.heroes-ledger-all__by {
+  display: block;
+  margin-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--heroes-font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  color: var(--heroes-frost-dim);
 }
 
 
@@ -711,7 +914,7 @@
 .hero-card {
   position: relative;
   width: 100%;
-  max-width: 720px;
+  max-width: var(--heroes-content-max);
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -974,7 +1177,7 @@
   align-items: center;
   gap: 1.5rem;
   padding: 3rem 2rem;
-  max-width: 800px;
+  max-width: var(--heroes-content-max);
   margin: 0 auto;
 }
 
@@ -1243,8 +1446,7 @@
     bottom: 1rem;
   }
 
-  .heroes-ledger-rail__kicker,
-  .heroes-ledger-rail__byline {
+  .heroes-ledger-rail__kicker {
     display: block;
   }
 
@@ -1329,8 +1531,24 @@
     padding: 2px 0;
   }
 
+  /* Windowed locator: at desktop the rail shows only the neighborhood of rows
+     around the active plate (set by applyLedgerWindow). Non-windowed rows are
+     removed from flow so the rail stays bounded regardless of hero count. The
+     full <ol> remains in the DOM — the "all plates" panel and prev/next walk
+     every item. Mobile (<820px) keeps all chips (this rule is desktop-only). */
   .heroes-ledger-rail__item {
+    display: none;
     flex: initial;
+  }
+
+  .heroes-ledger-rail__item.is-in-window {
+    display: block;
+    animation: heroes-ledger-row-in 200ms ease-out both;
+  }
+
+  @keyframes heroes-ledger-row-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
   }
 
   .heroes-ledger-rail__button {
@@ -1344,8 +1562,7 @@
     display: block;
   }
 
-  .heroes-ledger-rail__kicker,
-  .heroes-ledger-rail__byline {
+  .heroes-ledger-rail__kicker {
     display: block;
   }
 
@@ -1481,6 +1698,14 @@
   .hero-stage::after,
   .hero-card {
     transition: none !important;
+  }
+
+  .heroes-ledger-rail__item.is-in-window {
+    animation: none !important;
+  }
+
+  .heroes-ledger-all[open] {
+    animation: none !important;
   }
 
   .hero-stage {
