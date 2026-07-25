@@ -20,31 +20,6 @@
   --tier-fusion-border: rgba(245, 158, 11, 0.35);
   --tier-fusion-edge: rgba(245, 158, 11, 0.55);
   --tier-fusion-symbol: '◆';
-  /* tier: unique — Yggdrasil II branch color alias (NOT a taxonomy type).
-     The Unique branch is the standalone-mastery fork: a Basic node that
-     reached elite rank (4★+) without ever fusing. `unique` is derived at
-     read-time (see docs/js/skill-semantics.js computeBranch); it is never a
-     gaia.json `type`, so it is absent from meta.typeColors. Emitted here
-     (UNIQUE_BRANCH_TIER) so downstream var(--tier-unique*) reads resolve
-     token-only and a regen never drops the family (rubric E7). */
-  --tier-unique: #7c3aed; /* var(--tier-unique, #7c3aed) */
-  --tier-unique-rgb: 124, 58, 237;
-  --tier-unique-bg: rgba(124, 58, 237, 0.12);
-  --tier-unique-border: rgba(124, 58, 237, 0.35);
-  --tier-unique-edge: rgba(124, 58, 237, 0.55);
-  --tier-unique-symbol: '◉';
-  /* Unique decoration ladder (v3, colorize LOCKED 2026-07-18 — Amethyst→Ember):
-     4★ = --tier-unique (violet above), 5★ = burnished copper, 6★ = inverted
-     (copper ground + dark engraved ink). Deliberately OFF the Suite gold axis
-     so a Unique never reads as a Suite Apex — Unique is its own prestige track.
-     Mirrors generateBadges.unique_hex()/UNIQUE_INK; consumed by badges/graph/profile. */
-  --tier-unique-5: #b26a3a;
-  --tier-unique-5-rgb: 178, 106, 58;
-  --tier-unique-5-edge: rgba(178, 106, 58, 0.55);
-  --tier-unique-6: #e0894a;
-  --tier-unique-6-rgb: 224, 137, 74;
-  --tier-unique-6-ink: #2a1206;
-  --tier-unique-6-edge: rgba(224, 137, 74, 0.9);
 
   /* ── Rank tokens (0★ → 6★) ───────────────────────────────── */
   /* rank: 0★ */
@@ -89,6 +64,22 @@
   --rank-6-bg: rgba(251,191,36,.22);
   --rank-6-border: rgba(251,191,36,.55);
   --rank-6-edge: rgba(251, 191, 36, 0.55);
+  /* rank: 4★ unique (Unique branch ENTRY / base default) */
+  --rank-4-unique: #7c3aed; /* var(--rank-4-unique, #7c3aed) */
+  --rank-4-unique-rgb: 124, 58, 237;
+  --rank-4-unique-bg: rgba(124, 58, 237, 0.12);
+  --rank-4-unique-border: rgba(124, 58, 237, 0.35);
+  --rank-4-unique-edge: rgba(124, 58, 237, 0.55);
+  --rank-4-unique-symbol: '◉';
+  /* rank: 5★ unique (burnished copper) */
+  --rank-5-unique: #b26a3a;
+  --rank-5-unique-rgb: 178, 106, 58;
+  --rank-5-unique-edge: rgba(178, 106, 58, 0.55);
+  /* rank: 6★ unique (ember copper, inverted — copper ground + dark ink) */
+  --rank-6-unique: #e0894a;
+  --rank-6-unique-rgb: 224, 137, 74;
+  --rank-6-unique-ink: #2a1206;
+  --rank-6-unique-edge: rgba(224, 137, 74, 0.9);
 
   /* ── Legacy short aliases ─────────────────────────────────── */
   /* Bridge for code that predates the --tier-* canonicalization. */
