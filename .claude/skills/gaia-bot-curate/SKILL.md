@@ -73,7 +73,7 @@ The `gaia dev` mutation verbs are the only sanctioned way to write to `registry/
 
 **Generic (starless) nodes:**
 ```bash
-gaia dev add "Skill Name" --id <id> --type extra --description "..."
+gaia dev add "Skill Name" --id <id> --type basic --description "..."
 ```
 Generic skills have no `--level` flag; they are rank-less taxonomy entries.
 

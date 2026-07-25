@@ -57,7 +57,7 @@ All mutations go through the CLI, not direct file edits — this preserves timel
 # Adjust rank (named skills only — use contributor/skill format, not bare generic IDs)
 gaia dev calibrate <contributor/skill_id> <N>★
 
-# Change generic type (basic / extra / unique)
+# Change generic type (basic / fusion)
 gaia dev reclassify <generic_id> <type>
 
 # Update named status (awakened / named / etc.)
