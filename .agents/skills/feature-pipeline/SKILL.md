@@ -152,7 +152,7 @@ Brief:
 > Read the full diff (`git diff origin/main...HEAD`). For each changed public
 > surface or behaviour: write a RED test (must fail before the fix — verify by
 > temporarily reverting, running, re-applying) and a GREEN test (must pass with
-> fix). Run `gaia validate` for schema changes; `gaia docs build --check` for
+> fix). Run `gaia dev validate` for schema changes; `gaia dev docs --check` for
 > doc changes. Post this review comment to the PR:
 >
 > ```markdown

@@ -84,8 +84,8 @@ pip install -e ".[docs]"
 
 | Command | Purpose |
 |---|---|
-| `gaia dev validate` | Validate schema, identifiers, DAG cycles, and timelines (`gaia validate` is a deprecated shim) |
-| `gaia dev docs` | Regenerate documentation and assets locally (`gaia docs build` is a deprecated shim) |
+| `gaia dev validate` | Validate schema, identifiers, DAG cycles, and timelines (top-level `gaia validate` was retired in v7.0.0) |
+| `gaia dev docs` | Regenerate documentation and assets locally (top-level `gaia docs build` was retired in v7.0.0) |
 | `gaia dev docs --check` | Regenerate + compare generated docs; fails (exit 1) on drift. NOT read-only — rewrites Class P/S artifacts locally (runs in CI) |
 | `gaia init --user <username>` | Initialize your local Gaia user profile |
 | `gaia scan` | Scan configured paths for skill evidence and detect fusions you can propose |

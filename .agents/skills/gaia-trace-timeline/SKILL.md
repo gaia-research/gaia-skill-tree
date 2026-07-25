@@ -86,7 +86,7 @@ gaia dev timeline <handle>/<slug> --user <owner> --action demote \
 ### 4. Regenerate and verify
 
 ```bash
-GAIA_OPERATOR_OVERRIDE=1 gaia docs build   # regenerate profiles/charts
+GAIA_OPERATOR_OVERRIDE=1 gaia dev docs   # regenerate profiles/charts
 python scripts/validate_timelines.py        # must print ✓ for all skills
 ```
 
@@ -97,7 +97,7 @@ git checkout HEAD -- registry/gaia.json docs/graph/gaia.json \
   registry/gaia.gexf docs/css/tokens.css
 ```
 
-These files get touched by `gaia docs build` even when the content is
+These files get touched by `gaia dev docs` even when the content is
 unchanged — staging them inflates the diff and trips unrelated CI guards.
 
 ## Finding the reason for a demotion note
