@@ -20,7 +20,7 @@
   // Branch → dot/slug color token. Apex (6★) is white regardless of branch.
   function _seBranchColor(branch, isApex) {
     if (isApex) return '#ffffff';
-    if (branch === SE_UNIQUE) return 'var(--tier-unique)';
+    if (branch === SE_UNIQUE) return 'var(--rank-4-unique)';
     if (branch === SE_SUITE) return 'var(--apex-gold)';
     return 'var(--tier-basic)';
   }
@@ -2298,7 +2298,7 @@
     var glyph = skillGlyph(skill);
     // Glyph colour from the emitted/derived branch via the shared branch→token
     // map (_seBranchColor). Standard→--tier-basic, suite→--apex-gold,
-    // unique→--tier-unique — never --tier-<type> (type is basic|fusion only).
+    // unique→--rank-4-unique — never --tier-<type> (type is basic|fusion only).
     var _uspBranch = _seBranchOf(skill);
     var glyphColor = _seBranchColor(_uspBranch, false);
     document.getElementById('uspGlyph').textContent = glyph;
@@ -2557,7 +2557,7 @@
       if (handleRedacted) {
         color = 'var(--rank-' + _effRank + ', var(--tier-basic))';
       } else {
-        if (_branch === SE_UNIQUE) { color = 'var(--tier-unique)'; }
+        if (_branch === SE_UNIQUE) { color = 'var(--rank-4-unique)'; }
         else if (_branch === SE_SUITE) { color = 'var(--apex-gold)'; }
       }
 
@@ -2580,7 +2580,7 @@
         if (_branch === SE_SUITE) {
           slugStyle += ' animation: tree-rainbow-glow 4s linear infinite;';
         } else if (_branch === SE_UNIQUE) {
-          slugStyle += ' text-shadow: 0 0 12px rgba(var(--tier-unique-rgb,124,58,237),0.6), 0 0 4px rgba(var(--tier-unique-rgb,124,58,237),0.3);';
+          slugStyle += ' text-shadow: 0 0 12px rgba(var(--rank-4-unique-rgb,124,58,237),0.6), 0 0 4px rgba(var(--rank-4-unique-rgb,124,58,237),0.3);';
         }
       }
       bHtml += '<span class="plaque__slug" style="' + slugStyle + '">' + esc(skillName) + '</span>';
