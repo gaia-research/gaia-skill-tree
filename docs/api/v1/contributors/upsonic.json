@@ -14,7 +14,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/upsonic/unittest-generator.json"
-      }
+      },
+      "genericSkillRef": "generate-test"
     }
   ],
   "namedSkillsCount": 1,
