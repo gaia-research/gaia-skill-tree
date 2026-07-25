@@ -392,11 +392,11 @@
 }
 
 .sim-action-select:focus {
-  border-color: var(--tier-ultimate);
+  border-color: var(--rank-5);
 }
 
 .sim-submit-btn {
-  background: var(--tier-ultimate);
+  background: var(--rank-5);
   color: #000;
   border: none;
   padding: 0.4rem 0.8rem;
@@ -513,7 +513,7 @@
         </div>
 
         <!-- Node L3 -->
-        <div class="step-node" data-step="3" style="--step-color: var(--tier-extra); --step-glow: rgba(192, 132, 252, 0.25);">
+        <div class="step-node" data-step="3" style="--step-color: var(--rank-4); --step-glow: rgba(192, 132, 252, 0.25);">
           <div class="step-num">L3</div>
           <div class="step-title">Schema Mapping</div>
           <div class="step-agent">HEAVIER Agent</div>
@@ -525,7 +525,7 @@
         </div>
 
         <!-- Node L4 -->
-        <div class="step-node" data-step="4" style="--step-color: var(--tier-ultimate); --step-glow: rgba(245, 158, 11, 0.25);">
+        <div class="step-node" data-step="4" style="--step-color: var(--rank-5); --step-glow: rgba(245, 158, 11, 0.25);">
           <div class="step-num">L4</div>
           <div class="step-title">Human Review</div>
           <div class="step-agent">Manual Gate</div>
@@ -673,7 +673,7 @@
         num: "L3",
         title: "Schema Mapping & Design",
         role: "HEAVIER Reasoning Sub-Agent",
-        color: "var(--tier-extra)",
+        color: "var(--rank-4)",
         glow: "rgba(192, 132, 252, 0.25)",
         desc: "Fuses vendor-specific implementations into single generic concepts. Maps candidates into a CLI-compatible batch with appropriate tiers, levels, and prerequisite DAGs.",
         inputs: [
@@ -694,7 +694,7 @@
         num: "L4",
         title: "Human Review",
         role: "Contributor / Maintainer",
-        color: "var(--tier-ultimate)",
+        color: "var(--rank-5)",
         glow: "rgba(245, 158, 11, 0.25)",
         desc: "A mandatory human-in-the-loop review. The orchestrator presents the designed batch table, letting the human review, rename, or filter proposed nodes.",
         inputs: [
