@@ -474,6 +474,15 @@
       var branch = computeBranchForTopSkill(contributor);
       var glyph = BRANCH_GLYPH[branch] || BRANCH_GLYPH.standard;
       var avatarUrl = githubAvatarUrl(contributor.handle, 80);
+      // Degrade to the GitHub identicon on avatar error (same fallback the stage
+      // crest uses) rather than hiding the cell — hiding collapsed the 26px grid
+      // gutter and shifted glyph+name left, misaligning the row vs neighbors.
+      // The identicon keeps SOMETHING in the cell so the gutter never empties;
+      // the data-fbk guard stops an infinite onerror loop if it also 404s.
+      var cleanHandle = String(contributor.handle || '').replace(/^@/, '');
+      var identicon = 'https://github.com/identicons/' + encodeURIComponent(cleanHandle) + '.png';
+      var avatarErr = "if(this.dataset.fbk){this.onerror=null;}else{this.dataset.fbk='1';this.src='" +
+        jsStr(identicon) + "';}";
       var lvl = levelNum(contributor.topSkill.level);
       // The rail row shows only the (truncatable) slug, so carry the full
       // identifier on the button title for hover recovery: full skill name plus
@@ -483,7 +492,7 @@
       var title = fullName + (handle ? ' — @' + handle : '');
       return '<li class="heroes-ledger-rail__item">' +
         '<button class="heroes-ledger-rail__button" type="button" title="' + esc(title) + '" data-ledger-target="' + esc(stageIdFor(contributor)) + '" data-ledger-index="' + esc(index) + '" data-branch="' + esc(branch) + '" data-level="' + lvl + '">' +
-        '<span class="heroes-ledger-rail__avatar" aria-hidden="true"><img src="' + esc(avatarUrl) + '" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.hidden=true"></span>' +
+        '<span class="heroes-ledger-rail__avatar" aria-hidden="true"><img src="' + esc(avatarUrl) + '" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="' + esc(avatarErr) + '"></span>' +
         '<span class="heroes-ledger-rail__glyph" aria-hidden="true">' + esc(glyph) + '</span>' +
         '<span class="heroes-ledger-rail__name">' + esc(slug) + '</span>' +
         '</button>' +
