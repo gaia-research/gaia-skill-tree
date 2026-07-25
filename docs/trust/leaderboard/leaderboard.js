@@ -118,9 +118,9 @@
     rank6: tok('--rank-6-rgb') || '251, 191, 36',
     honorRed: tok('--honor-red-rgb') || '239, 68, 68',
     basic: tok('--tier-basic-rgb') || '56, 189, 248',
-    unique4: tok('--tier-unique-rgb') || '124, 58, 237',
-    unique5: tok('--tier-unique-5-rgb') || '178, 106, 58',
-    unique6: tok('--tier-unique-6-rgb') || '224, 137, 74',
+    unique4: tok('--rank-4-unique-rgb') || '124, 58, 237',
+    unique5: tok('--rank-5-unique-rgb') || '178, 106, 58',
+    unique6: tok('--rank-6-unique-rgb') || '224, 137, 74',
     muted: tok('--muted') || 'rgb(100, 116, 139)',
     text: tok('--text') || 'rgb(226, 232, 240)',
     border: tok('--border') || 'rgb(30, 41, 59)'
@@ -195,8 +195,8 @@
   };
 
   // Level-sensitive color stops for the unique branch.
-  // 4★ = --tier-unique-rgb (violet), 5★ = --tier-unique-5-rgb (burnished copper),
-  // 6★ = --tier-unique-6-rgb (ember copper). Deliberately off the suite gold axis.
+  // 4★ = --rank-4-unique-rgb (violet), 5★ = --rank-5-unique-rgb (burnished copper),
+  // 6★ = --rank-6-unique-rgb (ember copper). Deliberately off the suite gold axis.
   function uniqueColors(level) {
     var n = parseInt(level) || 0;
     var rawMap = {
