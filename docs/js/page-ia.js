@@ -51,9 +51,9 @@
   };
   var TYPE_COLOR_VAR = {
     ultimate: 'var(--apex-gold)',
-    unique: 'var(--tier-unique)',
+    unique: 'var(--rank-4-unique)',
     extra: 'var(--rank-4)',
-    basic: 'var(--basic)',
+    basic: 'var(--tier-basic)',
   };
 
   function esc(str) {
