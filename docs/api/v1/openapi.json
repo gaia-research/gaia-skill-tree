@@ -253,6 +253,8 @@
           "overallTrustGrade": { "type": "string", "enum": ["S", "A", "B", "C", "D", "F"], "description": "Letter grade derived from Trust Magnitude", "example": "S" },
           "contributor": { "type": "string", "description": "GitHub handle of the skill contributor", "example": "garrytan" },
           "type": { "type": "string", "enum": ["basic", "extra", "unique", "ultimate"], "description": "Skill tier", "example": "ultimate" },
+          "genericSkillRef": { "type": "string", "description": "ID of the canonical generic skill this named skill implements. Omitted when absent. Carried in list responses so clients never fan out to per-skill detail files just to read it.", "example": "founder-mode-orchestration" },
+          "suiteComponents": { "type": "array", "items": { "type": "string" }, "description": "Component skill IDs when this skill is a suite capstone. Omitted when absent. Carried in list responses so clients never fan out to per-skill detail files just to read it.", "example": ["garrytan/gstack-ship"] },
           "_links": {
             "type": "object",
             "properties": {
