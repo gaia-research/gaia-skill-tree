@@ -116,11 +116,13 @@ def test_graph_watermark_injected(monkeypatch, tmp_path):
     )
     (registry / "named-skills.json").write_text(json.dumps({"buckets": {}}), encoding="utf-8")
     
-    # Render SVG with is_workspace=True
-    out_svg, _ = graph_mod.write_graph_artifact(tmp_path, fmt="svg", is_workspace=True)
-    svg_content = out_svg.read_text(encoding="utf-8")
-    assert "WORKSPACE ONLY" in svg_content
-    
+    # Yggdrasil II retired the SVG renderer from `gaia graph` (write_graph_artifact
+    # now raises ValueError for fmt="svg"; docs/graph/gaia.svg is produced by the
+    # separate `gaia dev docs` Class S pipeline). The watermark contract survives
+    # on the HTML surface only.
+    with pytest.raises(ValueError, match="Unsupported graph format: svg"):
+        graph_mod.write_graph_artifact(tmp_path, fmt="svg", is_workspace=True)
+
     # Render HTML with is_workspace=True
     out_html, _ = graph_mod.write_graph_artifact(tmp_path, fmt="html", is_workspace=True)
     html_content = out_html.read_text(encoding="utf-8")

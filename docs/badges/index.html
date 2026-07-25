@@ -878,6 +878,14 @@
   "url": "https://gaiaskilltree.com/badges/"
 }
 </script>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TS7N9T92BM" data-ga4="G-TS7N9T92BM"></script>
+  <script data-ga4="G-TS7N9T92BM">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-TS7N9T92BM');
+  </script>
 </head>
 <body class="process-page">
   <nav id="site-nav"></nav>
@@ -1575,9 +1583,20 @@
       }
       repoBlock.style.display = "block";
       currentState.selectedRepo = repos[0];
-      repoList.innerHTML = repos.map((r, i) =>
-        `<label><input type="radio" name="bd-repo" value="${r}" ${i === 0 ? "checked" : ""}>${r}</label>`
-      ).join("");
+      // Build radio labels via the DOM API so repo names (user-derived) are set
+      // as text/value properties and never reinterpreted as HTML (avoids DOM-XSS).
+      repoList.innerHTML = "";
+      repos.forEach((r, i) => {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "bd-repo";
+        input.value = r;
+        if (i === 0) input.checked = true;
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(r));
+        repoList.appendChild(label);
+      });
       repoList.querySelectorAll("input[name='bd-repo']").forEach((el) => {
         el.addEventListener("change", () => {
           currentState.selectedRepo = el.value;

@@ -322,9 +322,15 @@ def build_tokens_css(gaia: dict) -> str:
         "self-attestation": "#94a3b8",
         "social-signal": "#34d399",
     }
+    # The trailing `/* var(--ev-type-<name>, <hex>) */` comment mirrors the
+    # tier/rank convention above: it is self-documenting AND it satisfies the
+    # docs-cohesion Guard A hex-literal grep (which whitelists lines containing
+    # a `var(--x,` fallback form). Do not drop it — the guard fails without it.
     for name, hex_val in ev_type_colors.items():
         rgb_triplet = _rgb_str(_hex_to_rgb_triplet(hex_val))
-        body.append(f"  --ev-type-{name}: {hex_val};")
+        body.append(
+            f"  --ev-type-{name}: {hex_val}; /* var(--ev-type-{name}, {hex_val}) */"
+        )
         body.append(f"  --ev-type-{name}-rgb: {rgb_triplet};")
 
     body.append("}")

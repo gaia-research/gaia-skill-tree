@@ -14,7 +14,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/laravel/upgrade-laravel-v13.json"
-      }
+      },
+      "genericSkillRef": "framework-upgrade"
     }
   ],
   "namedSkillsCount": 1,

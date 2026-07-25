@@ -10,7 +10,7 @@ brand
 
 **Primary:** AI agent developers using Claude Code, Codex, Cursor, Devin, and similar
 tool-calling frameworks. They're builders running agents day-to-day. They come to the
-Atlas to discover unclaimed Ultimate skills, verify named contributors, and register
+Atlas to discover unclaimed Fusion capstones, verify named contributors, and register
 their repos to claim origin status on skills they've demonstrated. Technically fluent;
 they distrust hype; they respond to evidence and provenance.
 
@@ -31,7 +31,7 @@ permanently attributed, verifiably earned.
 Gaia is the open, evidence-backed skill graph for AI agents. It exists because there
 is no canonical registry of what agents can do — capabilities are scattered,
 undocumented, and unverified. Gaia provides a DAG where every capability is catalogued by
-tier (Basic / Extra / Unique / Ultimate) as a **starless** generic reference — rank-less
+type (Basic / Fusion) as a **starless** generic reference — rank-less
 taxonomy that carries no stars of its own — and each named implementation hanging off it is
 ranked by evidence (0★–6★), attributed to the Origin Contributor who first demonstrated it,
 and composable into emergent fusions. A starless reference's effective rank is the top star
@@ -87,11 +87,11 @@ meticulously. The data speaks. The prose doesn't oversell it.
 1. **The ledger precedes the interface.** `registry/gaia.json` is ground truth. Every
    screen is a window into it. Design should feel like the UI came second, not first.
 
-2. **Evidence is the credential.** Wherever a star rank appears, its Evidence Class
+2. **Evidence is the credential.** Wherever a star rank appears, its Evidence Grade
    and source must be reachable. A 5★ skill with no visible provenance is a failure.
 
 3. **Apex must feel genuinely rare.** The visual distance between 0★ and 6★
-   Transcendent ★ must be unmistakable. Level VI shimmer, orbit sparkles, and Apex
+   Apex must be unmistakable. Level VI shimmer, orbit sparkles, and Apex
    Gold are hard-locked to that tier only — never repurposed as decoration elsewhere.
 
 4. **Attribution is structural, not decorative.** Origin Contributor handles always

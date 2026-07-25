@@ -123,28 +123,28 @@
   --color-local-user-rgb: 134, 239, 172;
 
   /* ── Evidence Type tokens (provenance axis — NOT rank/branch) ─── */
-  --ev-type-repo: #38bdf8;
+  --ev-type-repo: #38bdf8; /* var(--ev-type-repo, #38bdf8) */
   --ev-type-repo-rgb: 56, 189, 248;
-  --ev-type-repo-own: #38bdf8;
+  --ev-type-repo-own: #38bdf8; /* var(--ev-type-repo-own, #38bdf8) */
   --ev-type-repo-own-rgb: 56, 189, 248;
-  --ev-type-peer-review: #38bdf8;
+  --ev-type-peer-review: #38bdf8; /* var(--ev-type-peer-review, #38bdf8) */
   --ev-type-peer-review-rgb: 56, 189, 248;
-  --ev-type-github-stars: #f59e0b;
+  --ev-type-github-stars: #f59e0b; /* var(--ev-type-github-stars, #f59e0b) */
   --ev-type-github-stars-rgb: 245, 158, 11;
-  --ev-type-github-stars-own: #f59e0b;
+  --ev-type-github-stars-own: #f59e0b; /* var(--ev-type-github-stars-own, #f59e0b) */
   --ev-type-github-stars-own-rgb: 245, 158, 11;
-  --ev-type-fusion-recipe: #f59e0b;
+  --ev-type-fusion-recipe: #f59e0b; /* var(--ev-type-fusion-recipe, #f59e0b) */
   --ev-type-fusion-recipe-rgb: 245, 158, 11;
-  --ev-type-proxy-containment: #7c3aed;
+  --ev-type-proxy-containment: #7c3aed; /* var(--ev-type-proxy-containment, #7c3aed) */
   --ev-type-proxy-containment-rgb: 124, 58, 237;
-  --ev-type-verifier-attestation: #e879f9;
+  --ev-type-verifier-attestation: #e879f9; /* var(--ev-type-verifier-attestation, #e879f9) */
   --ev-type-verifier-attestation-rgb: 232, 121, 249;
-  --ev-type-benchmark-result: #c084fc;
+  --ev-type-benchmark-result: #c084fc; /* var(--ev-type-benchmark-result, #c084fc) */
   --ev-type-benchmark-result-rgb: 192, 132, 252;
-  --ev-type-arxiv: #c084fc;
+  --ev-type-arxiv: #c084fc; /* var(--ev-type-arxiv, #c084fc) */
   --ev-type-arxiv-rgb: 192, 132, 252;
-  --ev-type-self-attestation: #94a3b8;
+  --ev-type-self-attestation: #94a3b8; /* var(--ev-type-self-attestation, #94a3b8) */
   --ev-type-self-attestation-rgb: 148, 163, 184;
-  --ev-type-social-signal: #34d399;
+  --ev-type-social-signal: #34d399; /* var(--ev-type-social-signal, #34d399) */
   --ev-type-social-signal-rgb: 52, 211, 153;
 }

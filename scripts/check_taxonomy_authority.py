@@ -144,7 +144,7 @@ EXCLUDE_GLOBS = [
 ]
 
 # Inline <script> extraction for .html files.
-SCRIPT_BLOCK = re.compile(r"<script\b[^>]*>(.*?)</script>", re.IGNORECASE | re.DOTALL)
+SCRIPT_BLOCK = re.compile(r"<script\b[^>]*>(.*?)</script\s*>", re.IGNORECASE | re.DOTALL)
 
 
 def isComment(line: str, isPython: bool) -> bool:

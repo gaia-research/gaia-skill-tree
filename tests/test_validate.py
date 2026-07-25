@@ -61,24 +61,35 @@ class TestValidate(unittest.TestCase):
         self.assertEqual(code, 1, "Expected duplicate edge graph to fail validation.")
         self.assertIn("Duplicate edge", out)
 
-    def test_bad_evidence(self):
-        """Ensure insufficient evidence is caught."""
-        code, out = run_validate(os.path.join(FIXTURES_DIR, "bad_evidence.json"))
-        self.assertEqual(code, 1, "Expected bad evidence graph to fail validation.")
-        self.assertIn("needs evidence class", out)
+    def test_orphaned_fusion(self):
+        """Ensure a fusion with fewer than the minimum prerequisites is caught.
 
-    def test_orphaned_composite(self):
-        """Ensure extras with < 2 prerequisites are caught."""
+        Yggdrasil II collapsed the type enum to {basic, fusion}: the retired
+        `extra` type carried a >=2 prerequisite floor, `fusion` carries >=1
+        (meta.json types.minPrereqs). The fixture is a fusion with zero.
+        """
         code, out = run_validate(os.path.join(FIXTURES_DIR, "orphaned_extra.json"))
-        self.assertEqual(code, 1, "Expected orphaned extra to fail validation.")
-        self.assertIn("needs ≥2 prerequisites", out)
+        self.assertEqual(code, 1, "Expected orphaned fusion to fail validation.")
+        self.assertIn("needs \u22651 prerequisites", out)
 
-    def test_legendary_no_approval(self):
-        """Ensure validated ultimate with < 3 Class A/B evidence is caught."""
-        code, out = run_validate(os.path.join(FIXTURES_DIR, "ultimate_no_approval.json"))
-        self.assertEqual(code, 1, "Expected ultimate with no approval to fail validation.")
-        self.assertIn("Validated ultimate", out)
-        self.assertIn("needs ≥3 Class A/B evidence", out)
+    # test_legendary_no_approval was DELETED under Yggdrasil II, together with
+    # its fixture tests/fixtures/ultimate_no_approval.json. It asserted that
+    # validate.py emits "Validated ultimate ... needs >=3 Class A/B evidence"
+    # for a `type: "ultimate"` node. Both halves of that contract are retired:
+    # `ultimate` is no longer a type (the enum is {basic, fusion}; Ultimate is
+    # now only the 5-star SUITE rank WORD, and ranks live on named skills), and
+    # the Class-A/B COUNT floor was superseded by Trust Magnitude as the sole
+    # numeric gate (META.md "Suite 5-star Ultimate pathway"; #995). The producing
+    # function validate_ultimate() is gone — see the retirement note in
+    # scripts/validate.py.
+    #
+    # The test was also already passing for the wrong reason: all four fixture
+    # nodes omit the required `knownAgents` property, so run_validate returned
+    # exit 1 from schema errors alone, independent of the ultimate check. Same
+    # masked-failure pattern as the old orphaned_extra.json fixture.
+    #
+    # TM-as-sole-gate is covered by
+    # tests/test_promotion.py::TestTrustMagnitudeIsTheSoleGate.
 
     def test_atomic_with_prerequisites(self):
         """Ensure a basic skill that declares prerequisites is rejected."""

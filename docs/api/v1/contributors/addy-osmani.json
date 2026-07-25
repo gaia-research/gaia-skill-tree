@@ -14,7 +14,18 @@
       "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/agent-skills.json"
-      }
+      },
+      "genericSkillRef": "git-ship-done-pipeline",
+      "suiteComponents": [
+        "addy-osmani/code-review-and-quality",
+        "addy-osmani/code-simplification",
+        "addy-osmani/incremental-implementation",
+        "addy-osmani/performance-optimization",
+        "addy-osmani/planning-and-task-breakdown",
+        "addy-osmani/shipping-and-launch",
+        "addy-osmani/spec-driven-development",
+        "addy-osmani/test-driven-development"
+      ]
     },
     {
       "id": "addy-osmani/performance-optimization",
@@ -29,7 +40,8 @@
       "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/performance-optimization.json"
-      }
+      },
+      "genericSkillRef": "performance-tuning"
     },
     {
       "id": "addy-osmani/code-review-and-quality",
@@ -44,7 +56,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/code-review-and-quality.json"
-      }
+      },
+      "genericSkillRef": "code-review-pipeline"
     },
     {
       "id": "addy-osmani/code-simplification",
@@ -59,7 +72,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/code-simplification.json"
-      }
+      },
+      "genericSkillRef": "refactor-code"
     },
     {
       "id": "addy-osmani/incremental-implementation",
@@ -74,7 +88,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/incremental-implementation.json"
-      }
+      },
+      "genericSkillRef": "executing-plans"
     },
     {
       "id": "addy-osmani/planning-and-task-breakdown",
@@ -89,7 +104,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/planning-and-task-breakdown.json"
-      }
+      },
+      "genericSkillRef": "vertical-slice-planning"
     },
     {
       "id": "addy-osmani/shipping-and-launch",
@@ -104,7 +120,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/shipping-and-launch.json"
-      }
+      },
+      "genericSkillRef": "finishing-a-development-branch"
     },
     {
       "id": "addy-osmani/spec-driven-development",
@@ -119,7 +136,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
-      }
+      },
+      "genericSkillRef": "prd-generation"
     },
     {
       "id": "addy-osmani/test-driven-development",
@@ -134,7 +152,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/test-driven-development.json"
-      }
+      },
+      "genericSkillRef": "test-driven-development"
     }
   ],
   "namedSkillsCount": 9,

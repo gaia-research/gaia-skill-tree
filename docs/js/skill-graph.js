@@ -30,6 +30,47 @@
   const GRAPH_JSON_URL = prefix + 'graph/gaia.json' + version;
   const GRAPH_SCALE = 1.625;
 
+  // ── SHARED JSON FETCH CACHE ────────────────────────────────────
+  // graph/gaia.json is ~733 KB and graph/named/index.json is ~1.29 MB.
+  // The homepage loads both skill-graph.js and page-ia.js, which each
+  // fetched the same two URLs independently — ~2 MB of duplicate
+  // transfer on every load. Both files install this identical, idempotent
+  // helper: whoever runs first creates window.GAIA_JSON_CACHE and the
+  // other reuses it, so each URL is fetched at most once per page load
+  // and both consumers await the same in-flight promise.
+  //
+  // Deliberately self-contained and duplicated rather than split into a
+  // fourth script file — either consumer must work standalone (codex.html,
+  // privacy.html and starless.html load page-ia.js without skill-graph.js)
+  // with no load-order requirement between them.
+  if (!window.GAIA_JSON_CACHE) {
+    window.GAIA_JSON_CACHE = {
+      inflight: {},
+      // Resolves with parsed JSON. Rejections are not cached, so a later
+      // caller can retry a URL that failed.
+      fetchJson: function (url, init) {
+        var store = this.inflight;
+        if (!store[url]) {
+          store[url] = fetch(url, init).then(function (response) {
+            if (!response.ok) throw new Error('HTTP ' + response.status + ' from ' + url);
+            var ct = response.headers.get('content-type') || '';
+            if (ct.indexOf('json') === -1 && ct.indexOf('text/plain') === -1) {
+              return response.text().then(function (body) {
+                throw new Error('Expected JSON, got ' + (ct || 'no content-type') + '; body starts: ' + body.slice(0, 80));
+              });
+            }
+            return response.json();
+          }).catch(function (err) {
+            delete store[url];
+            throw err;
+          });
+        }
+        return store[url];
+      },
+    };
+  }
+  const NAMED_JSON_URL = prefix + 'graph/named/index.json' + version;
+
   // ── Locked canvas geometry (DESIGN.md ▸ Graph Canvas) ──────────
   // §6 node-radius re-axis: radius is keyed to EFFECTIVE RANK (bigger = more
   // proven), not type. NODE_RADII.get(rankOrLabel, type) accepts either an
@@ -528,7 +569,13 @@
       scale: options.scale || GRAPH_SCALE,
       zoom: 1,
       statusEl: options.statusEl || null,
-      running: options.autostart !== false,
+      // running  = the rAF loop is actively cycling right now
+      // wantRunning = the caller's intent (start/stop); gated by visibility
+      // inView   = canvas intersects the viewport (defaults true so an
+      //            unsupported IntersectionObserver never strands the loop)
+      running: false,
+      wantRunning: options.autostart !== false,
+      inView: true,
       frame: null,
       orbitX: 0,
       orbitY: 0,
@@ -2169,16 +2216,66 @@
       state.frame = requestAnimationFrame(draw);
     }
 
+    // ── VISIBILITY-GATED RENDER LOOP ────────────────────────────
+    // draw() recurses through requestAnimationFrame forever. Without a
+    // gate it burns GPU/CPU even when the canvas is scrolled out of view
+    // or the tab is backgrounded. wantRunning holds the caller's intent;
+    // inView and document.hidden decide whether that intent is honoured
+    // right now. Every transition cancels the pending frame so nothing
+    // stays queued across a pause.
+    function _docHidden() {
+      return typeof document !== 'undefined' && document.hidden === true;
+    }
+
+    function _shouldAnimate() {
+      return state.wantRunning && state.inView && !_docHidden();
+    }
+
+    function _syncRunning() {
+      const should = _shouldAnimate();
+      if (should === state.running) return;
+      if (should) {
+        state.running = true;
+        state.lastDrawAt = 0;   // drop stale frame timing across the pause
+        draw();
+      } else {
+        state.running = false;
+        if (state.frame) cancelAnimationFrame(state.frame);
+        state.frame = null;
+      }
+    }
+
     function start() {
-      if (state.running) return;
-      state.running = true;
-      draw();
+      state.wantRunning = true;
+      _syncRunning();
     }
 
     function stop() {
-      state.running = false;
-      if (state.frame) cancelAnimationFrame(state.frame);
-      state.frame = null;
+      state.wantRunning = false;
+      _syncRunning();
+    }
+
+    // Pause while the canvas is outside the viewport. rootMargin resumes
+    // the loop just before it scrolls back in, so there is no visible
+    // cold-start. Guarded: a missing/throwing IntersectionObserver leaves
+    // inView at its default true and the loop behaves exactly as before.
+    if (canvas && typeof IntersectionObserver === 'function') {
+      try {
+        const _visibilityObserver = new IntersectionObserver(function (entries) {
+          const entry = entries && entries[entries.length - 1];
+          if (!entry) return;
+          state.inView = !!entry.isIntersecting;
+          _syncRunning();
+        }, { rootMargin: '200px' });
+        _visibilityObserver.observe(canvas);
+      } catch (err) {
+        state.inView = true;
+      }
+    }
+
+    // Pause while the tab is backgrounded.
+    if (typeof document !== 'undefined' && document.addEventListener) {
+      document.addEventListener('visibilitychange', function () { _syncRunning(); });
     }
 
     resize();
@@ -3147,7 +3244,11 @@
         drawRuler(state.speedRulerCanvas, 0, { vertical: false, pxPerUnit: 42, minorStep: 0.1, majorEvery: 5 });
       }
     }
-    if (state.running) draw();
+    // Kick the loop off (honours options.autostart via state.wantRunning).
+    // _syncRunning is the single entry point — it will decline to start if
+    // the canvas is offscreen or the tab is hidden, and the observers above
+    // will start it as soon as that changes.
+    _syncRunning();
     function _refreshSearchDatalist() {
       if (!state.searchDatalist || !state.skills) return;
       const seen = new Set();
@@ -3718,17 +3819,11 @@
   const _pingOk = fetch(prefix + 'graph/ping.json', { cache: 'no-store' })
     .then(r => r.ok && r.json()).then(d => !!(d && d.ok)).catch(() => false);
 
-  fetch(GRAPH_JSON_URL, { cache: 'reload' })
-    .then(response => {
-      if (!response.ok) throw new Error(`HTTP ${response.status} from ${GRAPH_JSON_URL}`);
-      const ct = response.headers.get('content-type') || '';
-      if (!ct.includes('json') && !ct.includes('text/plain')) {
-        return response.text().then(body => {
-          throw new Error(`Expected JSON, got ${ct || 'no content-type'}; body starts: ${body.slice(0, 80)}`);
-        });
-      }
-      return response.json();
-    })
+  // No `cache: 'reload'` here — that bypassed the HTTP cache and forced a
+  // full re-download of gaia.json on every visit, repeat visits included.
+  // Freshness is already handled by the site-wide ?v= cache-bust convention.
+  // The shared cache also collapses this into one request with page-ia.js.
+  window.GAIA_JSON_CACHE.fetchJson(GRAPH_JSON_URL)
     .then(graph => {
       _initMetaGraph(graph.meta);
       if (heroGraph) heroGraph.setMeta(graph.meta);
@@ -3776,8 +3871,7 @@
       });
     });
 
-  fetch(prefix + 'graph/named/index.json' + version)
-    .then(r => r.ok ? r.json() : Promise.reject())
+  window.GAIA_JSON_CACHE.fetchJson(NAMED_JSON_URL)
     .then(indexData => {
       const map = {};
       const titleMap = {};

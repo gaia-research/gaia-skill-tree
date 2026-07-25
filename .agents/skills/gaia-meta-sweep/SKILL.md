@@ -1,13 +1,11 @@
 ---
 name: gaia-meta-sweep
 description: >
-  Orchestrate a whole-registry Gaia meta sweep. Use when the user asks to run
-  a meta sweep, full meta audit, audit the whole registry against META.md,
-  find systemic nomenclature/evidence/type issues, surface Semantic Fusion
-  candidates, find missing GitHub links, or produce a durable report under
-  docs/meta/reports/. This is the macro companion to /gaia-meta-audit and
-  /gaia-audit: it fans out audit agents, adversarially verifies findings, and
-  synthesizes a publishable report.
+  Orchestrate a whole-registry sweep of Gaia — fan out 12 parallel audit agents across every skill, run adversarial verification, surface Semantic Fusion candidates, propose new generic skill references, and synthesize a publish-ready HTML report under docs/meta/reports/.
+
+  Use this skill for broad, systemic analysis across many skills at once: "run a meta sweep", "sweep the meta", "full meta audit", "audit the whole registry against META.md", "widespread nomenclature issues", "find all skills missing a GitHub link", "produce a meta report", "check for evidence type mismatches across the registry", or explicitly types /gaia-meta-sweep.
+
+  This is the registry-wide macro companion to /gaia-meta-audit (a prioritized queue, single-pass) and /gaia-audit (fixes one skill). Use it when you need the full surface — 12 audit dimensions, adversarial verification, fusion proposals, and a durable findings artifact — not just a queue.
 ---
 
 # gaia-meta-sweep
@@ -28,7 +26,7 @@ Ask the user (or infer from context) before kicking off. These four parameters g
 
 ## Pre-flight
 
-1. Confirm working tree is on a branch you may write to. Registry mutations follow the `review/meta/<slug>` branch prefix (see `AGENTS.md` Branch Naming). Refuse to mutate `main` directly unless the user explicitly says so.
+1. Confirm working tree is on a branch you may write to. Registry mutations follow the `review/meta/<slug>` branch prefix (see `CLAUDE.md` Branch Naming). Refuse to mutate `main` directly unless the user explicitly says so.
 
 2. Read `META.md` once and cache its key sections in the workflow prompt — this avoids each sub-agent re-reading the full file, which adds latency and drift:
    - §1 Taxonomy (star tiers, skill types)
