@@ -223,9 +223,9 @@ LEVEL_LABELS_UNIQUE = {
 # tree" — design-v6.1.1 §2.2). Only the 4★-6★ fork carries a distinct color;
 # 1★-3★ share the standard rank ramp.
 RANK_COLORS_UNIQUE = {
-    "4★": (139, 92, 246),   # #8b5cf6 violet
-    "5★": (124, 58, 237),   # #7c3aed deep violet
-    "6★": (109, 40, 217),   # #6d28d9 darkest violet (Impossible)
+    "4★": (124, 58, 237),   # #7c3aed violet (Amethyst — Unique branch entry)
+    "5★": (178, 106, 58),   # #b26a3a burnished copper (Unique Ultimate)
+    "6★": (224, 137, 74),   # #e0894a ember copper (Unique Impossible)
 }
 
 # Evidence Grade colors — single source of truth for grade design tokens.
