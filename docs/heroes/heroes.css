@@ -411,6 +411,83 @@
   text-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
 }
 
+/* ---- Unique-branch rail overrides — swap Suite rank color for the Unique token at 4/5/6★.
+   Extra [data-branch="unique"] / [data-active-branch="unique"] attribute raises specificity,
+   so these win over the Suite base rules above. Only color-bearing declarations are re-declared. */
+.heroes-ledger-rail__button[data-branch="unique"][data-level="4"]:hover,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="4"]:focus-visible {
+  background: rgba(124, 58, 237, 0.07);
+}
+.heroes-ledger-rail__button[data-branch="unique"][data-level="5"]:hover,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="5"]:focus-visible,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="6"]:hover,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="6"]:focus-visible {
+  background: rgba(224, 137, 74, 0.07);
+}
+
+.heroes-ledger-rail__button[data-branch="unique"][data-level="4"]:focus-visible {
+  outline-color: var(--rank-4-unique, #7c3aed);
+}
+.heroes-ledger-rail__button[data-branch="unique"][data-level="5"]:focus-visible,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="6"]:focus-visible {
+  outline-color: var(--rank-5-unique, #b26a3a);
+}
+
+.heroes-ledger-rail__button[data-branch="unique"][data-level="4"].is-active {
+  color: var(--rank-4-unique, #7c3aed);
+}
+.heroes-ledger-rail__button[data-branch="unique"][data-level="5"].is-active,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="6"].is-active {
+  color: var(--rank-5-unique, #b26a3a);
+}
+
+.heroes-ledger-rail[data-active-branch="unique"][data-active-level="4"] .heroes-ledger-rail__kicker {
+  color: var(--rank-4-unique, #7c3aed);
+}
+.heroes-ledger-rail[data-active-branch="unique"][data-active-level="4"] .heroes-ledger-rail__plate {
+  border-bottom-color: rgba(124, 58, 237, 0.22);
+}
+.heroes-ledger-rail[data-active-branch="unique"][data-active-level="5"] .heroes-ledger-rail__kicker {
+  color: var(--rank-5-unique, #b26a3a);
+}
+.heroes-ledger-rail[data-active-branch="unique"][data-active-level="6"] .heroes-ledger-rail__kicker {
+  color: var(--rank-6-unique, #e0894a);
+}
+
+.heroes-ledger-rail__button[data-branch="unique"][data-level="4"]:hover .heroes-ledger-rail__avatar,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="4"]:focus-visible .heroes-ledger-rail__avatar,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="4"].is-active .heroes-ledger-rail__avatar {
+  border-color: rgba(124, 58, 237, 0.7);
+}
+.heroes-ledger-rail__button[data-branch="unique"][data-level="5"]:hover .heroes-ledger-rail__avatar,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="5"]:focus-visible .heroes-ledger-rail__avatar,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="5"].is-active .heroes-ledger-rail__avatar,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="6"]:hover .heroes-ledger-rail__avatar,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="6"]:focus-visible .heroes-ledger-rail__avatar,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="6"].is-active .heroes-ledger-rail__avatar {
+  border-color: rgba(224, 137, 74, 0.7);
+}
+
+.heroes-ledger-rail__button[data-branch="unique"][data-level="4"] .heroes-ledger-rail__glyph {
+  color: var(--rank-4-unique, #7c3aed);
+}
+.heroes-ledger-rail[data-active-branch="unique"][data-active-level="4"] .heroes-ledger-rail__button.is-active .heroes-ledger-rail__glyph,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="4"].is-active .heroes-ledger-rail__glyph {
+  color: var(--rank-4-unique, #7c3aed);
+  text-shadow: 0 0 8px rgba(124, 58, 237, 0.5);
+}
+.heroes-ledger-rail__button[data-branch="unique"][data-level="5"] .heroes-ledger-rail__glyph,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="6"] .heroes-ledger-rail__glyph {
+  color: var(--rank-5-unique, #b26a3a);
+}
+.heroes-ledger-rail[data-active-branch="unique"][data-active-level="5"] .heroes-ledger-rail__button.is-active .heroes-ledger-rail__glyph,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="5"].is-active .heroes-ledger-rail__glyph,
+.heroes-ledger-rail[data-active-branch="unique"][data-active-level="6"] .heroes-ledger-rail__button.is-active .heroes-ledger-rail__glyph,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="6"].is-active .heroes-ledger-rail__glyph {
+  color: var(--rank-5-unique, #b26a3a);
+  text-shadow: 0 0 8px rgba(224, 137, 74, 0.5);
+}
+
 .heroes-ledger-rail__entry {
   min-width: 0;
 }
@@ -530,6 +607,20 @@
 .hero-stage[data-level="6"] {
   --stage-accent: var(--rank-6, #fbbf24);
   --stage-accent-rgb: 251, 191, 36;
+}
+
+/* Unique-branch stage accents — override Suite rank color at 4/5/6★ */
+.hero-stage[data-branch="unique"][data-level="4"] {
+  --stage-accent: var(--rank-4-unique, #7c3aed);
+  --stage-accent-rgb: 124, 58, 237;
+}
+.hero-stage[data-branch="unique"][data-level="5"] {
+  --stage-accent: var(--rank-5-unique, #b26a3a);
+  --stage-accent-rgb: 178, 106, 58;
+}
+.hero-stage[data-branch="unique"][data-level="6"] {
+  --stage-accent: var(--rank-6-unique, #e0894a);
+  --stage-accent-rgb: 224, 137, 74;
 }
 
 /* Tier-specific stage backgrounds */
