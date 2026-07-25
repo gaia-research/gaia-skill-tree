@@ -14,7 +14,7 @@
   // ║                                                                ║
   // ║   --tier-basic / -rgb / -edge                                  ║
   // ║   --tier-extra / -rgb / -edge                                  ║
-  // ║   --tier-unique / -rgb / -edge                                 ║
+  // ║   --rank-4-unique / -rgb / -edge  (5★ -5, 6★ -6, -ink)         ║
   // ║   --tier-ultimate / -rgb / -edge                               ║
   // ║   --rank-0 … --rank-6 / -bg / -border / -edge                  ║
   // ║   --honor-red / --honor-red-rgb                                ║
@@ -129,6 +129,16 @@
         edge: _readVar('--tier-' + name + '-edge') || ('rgba(' + rgb + ',.55)'),
       };
     }
+    // Unique is a RANK-axis branch (4★ = Unique entry / base), so its base hue
+    // reads the --rank-4-unique* ladder tokens, not a --tier-* token.
+    function uniqueTier() {
+      const rgb = _rgbOnly(_readVar('--rank-4-unique-rgb'));
+      return {
+        hex: _readVar('--rank-4-unique'),
+        rgb: rgb,
+        edge: _readVar('--rank-4-unique-edge') || ('rgba(' + rgb + ',.55)'),
+      };
+    }
     function rank(n) {
       // §6 color-by-rank re-axis. tokens.css DOES emit --rank-N-rgb (grey
       // 148,163,184 at 0★ … apex-gold 251,191,36 at 6★); read it so the canvas
@@ -146,7 +156,7 @@
       tier: {
         basic: tier('basic'),
         extra: tier('extra'),
-        unique: tier('unique'),
+        unique: uniqueTier(),
         ultimate: tier('ultimate'),
       },
       rank: {
@@ -1203,19 +1213,19 @@
     function drawNodeUnique(sx, sy, r, alpha, t, p, rank) {
       // §PR3b §C — the Unique singularity forks by RANK. ESCALATION reads
       // CALMER + DENSER, never more frantic:
-      //   4★ (--tier-unique, violet): the base singularity, toned DOWN from the
+      //   4★ (--rank-4-unique, violet): the base singularity, toned DOWN from the
       //       historical render — fewer particles, slower spin, tighter pulse.
-      //   5★ (--tier-unique-5, copper): smaller radius, tighter/denser disk,
+      //   5★ (--rank-5-unique, copper): smaller radius, tighter/denser disk,
       //       calmer than 4★.
-      //   6★ (--tier-unique-6 copper + -ink): PLACEHOLDER — near-still core with
+      //   6★ (--rank-6-unique copper + -ink): PLACEHOLDER — near-still core with
       //       a cheap "inverted"/lensing hint. No 6★ Unique exists today; wire it
       //       so it renders when earned. Kept intentionally cheap.
       const rk = (typeof rank === 'number' && rank >= 4) ? Math.min(6, rank | 0) : 4;
       const tok = getCanvasTokens();
       // Rank-specific hue: read the ladder token, fall back to the 4★ violet.
       function _uniqueRgbFor(n) {
-        if (n >= 6) return _rgbOnly(_readVar('--tier-unique-6-rgb')) || tok.tier.unique.rgb;
-        if (n >= 5) return _rgbOnly(_readVar('--tier-unique-5-rgb')) || tok.tier.unique.rgb;
+        if (n >= 6) return _rgbOnly(_readVar('--rank-6-unique-rgb')) || tok.tier.unique.rgb;
+        if (n >= 5) return _rgbOnly(_readVar('--rank-5-unique-rgb')) || tok.tier.unique.rgb;
         return tok.tier.unique.rgb;
       }
       const uniqueRgb = _uniqueRgbFor(rk);
@@ -1309,7 +1319,7 @@
       // in the 6★ ink tone. Kept minimal (single stroked rim, no per-pixel work)
       // since no 6★ Unique exists yet; it just needs to render when one is earned.
       if (rk >= 6) {
-        const ink = _readVar('--tier-unique-6-ink');
+        const ink = _readVar('--rank-6-unique-ink');
         ctx.save();
         ctx.globalCompositeOperation = 'difference';
         ctx.beginPath(); ctx.arc(sx, sy, r * 0.92, 0, Math.PI * 2);
