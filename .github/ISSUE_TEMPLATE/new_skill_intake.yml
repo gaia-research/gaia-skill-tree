@@ -213,7 +213,7 @@ body:
         | `needs-evidence` | Hold — state what Grade B+ source is needed |
         | `reject` | Close with explanation |
 
-        After all skills are decided: run `gaia validate` + `gaia dev docs`,
+        After all skills are decided: run `gaia dev validate` + `gaia dev docs`,
         open a `review/meta/` PR, and close this issue with a link to the PR.
 
         For any accepted skill that also has a `named:` block: open a separate

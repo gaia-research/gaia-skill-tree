@@ -98,7 +98,7 @@ for — this avoids hand-edits that skip timeline logging.
 | Named-skill `level` / `links.github` / `description` / body | Direct YAML edit — CLI does not expose these |
 | Named-skill removal | Delete the markdown file — `gaia dev rm` is generic-only |
 
-After any mutation: `gaia validate` then `gaia docs build`.
+After any mutation: `gaia dev validate` then `gaia dev docs`.
 
 ## Common pitfalls
 

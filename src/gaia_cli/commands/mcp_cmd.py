@@ -1,27 +1,9 @@
-import argparse
-from gaia_cli.commands.base import Command
+"""Helper for the canonical `gaia dev mcp` command.
 
-class McpCommand(Command):
-    name = "mcp"
-    help = "argparse.SUPPRESS"
-    description = (
-        "Start the Gaia MCP (Model Context Protocol) server, which exposes the skill registry "
-        "to AI tools and IDE integrations via stdio. "
-        "Requires building the server first: run `npm run build` inside packages/mcp/."
-    )
-
-    def configure(self, parser: argparse.ArgumentParser) -> None:
-        pass
-
-    def execute(self, args: argparse.Namespace) -> int | None:
-        import sys
-        print(
-            "WARNING: 'gaia mcp' is DEPRECATED and will be removed in v7.0.0. Use 'gaia dev mcp' instead.",
-            file=sys.stderr,
-        )
-        from gaia_cli.main import mcp_command
-        mcp_command(args)
-        return 0
+The deprecated top-level `gaia mcp` shim was retired in v7.0.0. Only the
+`execute_dev_mcp` helper remains here, invoked by `gaia dev mcp` via
+`gaia_cli.commands.dev`.
+"""
 
 
 def execute_dev_mcp(args) -> int | None:
@@ -40,7 +22,7 @@ def execute_dev_mcp(args) -> int | None:
 
         env = os.environ.copy()
         env["GAIA_REGISTRY_PATH"] = str(args.registry)
-        
+
         from gaia_cli.scanner import load_config
         config = load_config()
         if config and config.get("gaiaUser"):
@@ -52,7 +34,3 @@ def execute_dev_mcp(args) -> int | None:
         from gaia_cli.impl import mcp_command
         mcp_command(args)
         return 0
-
-
-COMMAND = McpCommand()
-

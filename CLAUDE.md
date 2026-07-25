@@ -246,7 +246,7 @@ The pre-commit hook keeps these in lockstep:
 
 If they disagree before the bump, the hook fails loudly. Use `gaia dev release <type> --sync` to force-align manifests to the highest version before bumping. Use `gaia dev release patch|minor|major` to bump all at once.
 
-> **Deprecation:** `gaia release` is a shim delegating to `gaia dev release` with a warning; removed in v7.0.0. Use `gaia dev release` directly.
+> **Retired (v7.0.0):** the top-level `gaia release` shim is gone — use `gaia dev release` directly. Likewise `gaia mcp`, `gaia validate`, `gaia test`, `gaia docs build`, and `gaia _hook` were removed; their canonical forms live under `gaia dev`.
 
 ### Decorative assets must NOT carry version metadata
 

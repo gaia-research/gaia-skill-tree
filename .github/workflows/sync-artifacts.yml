@@ -52,7 +52,7 @@ jobs:
         run: pip install -e ".[dev]"
 
       - name: Configure git identity
-        # Must run BEFORE `gaia release`, which creates its own version-bump
+        # Must run BEFORE `gaia dev release`, which creates its own version-bump
         # commit. Without an identity here git aborts with "empty ident name".
         run: |
           git config --global user.name "github-actions[bot]"
@@ -82,7 +82,7 @@ jobs:
           echo "Bump: $BUMP → channel: $CHANNEL"
 
           # 2. Apply version bump and regenerate artifacts via CLI
-          # We use --no-push because gaia release uses GITHUB_TOKEN by default,
+          # We use --no-push because gaia dev release uses GITHUB_TOKEN by default,
           # which won't trigger the Release workflow on tag push.
           gaia dev release "$BUMP" --sync --no-push
           gaia dev docs
@@ -161,7 +161,7 @@ jobs:
             exit 0
           fi
 
-          # Extract version from pyproject.toml (source of truth after gaia release).
+          # Extract version from pyproject.toml (source of truth after gaia dev release).
           VERSION=$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
           TAG="v${VERSION}"
 

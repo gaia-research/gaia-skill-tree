@@ -1575,8 +1575,6 @@ def path_command(args):
 
 def hook_command(args):
     """Internal command invoked by Claude Code hook."""
-    if args.command == "_hook":
-        print("WARNING: 'gaia _hook' is DEPRECATED and will be removed in v7.0.0. Use 'gaia dev hook' instead.", file=sys.stderr)
     hook_entry(event=getattr(args, "event", "file_edit"))
 
 
@@ -3051,8 +3049,6 @@ def version_command(args):
 
 
 def mcp_command(args):
-    if args.command == "mcp":
-        print("WARNING: 'gaia mcp' is DEPRECATED and will be removed in v7.0.0. Use 'gaia dev mcp' instead.", file=sys.stderr)
     script = Path(args.registry) / "packages" / "mcp" / "dist" / "bin" / "gaia-mcp.js"
     if not script.exists():
         print(f"MCP server build not found: {script}", file=sys.stderr)
@@ -3070,8 +3066,6 @@ def mcp_command(args):
 
 
 def docs_command(args):
-    if args.command == "docs":
-        print("WARNING: 'gaia docs build' is DEPRECATED and will be removed in v7.0.0. Use 'gaia dev docs' instead.", file=sys.stderr)
     script = Path(args.registry) / "scripts" / "build_docs.py"
     cmd = [sys.executable, str(script)]
     if getattr(args, "check", False):
@@ -3080,8 +3074,6 @@ def docs_command(args):
 
 
 def release_command(args):
-    if args.command == "release":
-        print("WARNING: 'gaia release' is DEPRECATED and will be removed in v7.0.0. Use 'gaia dev release' instead.", file=sys.stderr)
     from gaia_cli.versioning import bump_versions, read_versions, sync_versions
 
     if args.sync:
@@ -3457,29 +3449,6 @@ def get_parser():
     reset_parser.add_argument(
         "--yes", "-y", "--y", action="store_true", help="Skip confirmation prompt"
     )
-    subparsers.add_parser(
-        "mcp",
-        help=argparse.SUPPRESS,
-        description=(
-            "Start the Gaia MCP (Model Context Protocol) server, which exposes the skill registry "
-            "to AI tools and IDE integrations via stdio. "
-            "Requires building the server first: run `npm run build` inside packages/mcp/."
-        ),
-    )
-    release_parser = subparsers.add_parser(
-        "release", help=argparse.SUPPRESS
-    )
-    release_parser.add_argument("release_type", choices=("patch", "minor", "major"))
-    release_parser.add_argument(
-        "--sync",
-        action="store_true",
-        help="Force sync versions if they disagree before bump",
-    )
-    release_parser.add_argument(
-        "--no-push",
-        action="store_true",
-        help="Skip git push (commit and tag locally only)",
-    )
     graph_parser = subparsers.add_parser(
         "graph", help="Generate and open the Gaia skill graph"
     )
@@ -3551,18 +3520,6 @@ def get_parser():
     )
     fuse_parser.add_argument(
         "--delete", action="store_true", help="Delete an existing custom fusion"
-    )
-    docs_parser = subparsers.add_parser(
-        "docs", help=argparse.SUPPRESS
-    )
-    docs_sub = docs_parser.add_subparsers(dest="docs_command")
-    docs_build = docs_sub.add_parser(
-        "build", help="Regenerate generated documentation regions"
-    )
-    docs_build.add_argument(
-        "--check",
-        action="store_true",
-        help="Fail (exit 1) if generated docs drift from source. NOTE: not read-only — it regenerates Class P/S artifacts, then compares; commit any docs/graph/* (Class S) changes it produces.",
     )
     lookup_parser = subparsers.add_parser(
         "lookup", help="Look up a canonical skill and its named implementations"
@@ -4080,23 +4037,6 @@ def get_parser():
         "skillId", help="Canonical skill ID to explain"
     )
 
-    validate_parser = subparsers.add_parser(
-        "validate", help=argparse.SUPPRESS
-    )
-    validate_parser.add_argument(
-        "--intake",
-        action="store_true",
-        help="Validate intake batches instead of canonical graph",
-    )
-    validate_parser.add_argument(
-        "--meta-sync",
-        action="store_true",
-        help="Verify meta.json is in sync with gaia.json",
-    )
-
-    test_parser = subparsers.add_parser("test", help=argparse.SUPPRESS)
-    test_parser.add_argument("suite", choices=("meta", "all"), help="Test suite to run")
-
     skills_parser = subparsers.add_parser(
         "skills",
         help="Browse and manage named skills",
@@ -4141,18 +4081,11 @@ def get_parser():
         "uninstall", help="Uninstall a named skill"
     )
     skills_uninstall.add_argument("skill_id", help="Skill ID to uninstall")
-    hook_parser = subparsers.add_parser("_hook", help=argparse.SUPPRESS)
-    subparsers._choices_actions = [
-        action for action in subparsers._choices_actions if action.dest != "_hook"
-    ]
-    hook_parser.add_argument("--event", default="file_edit", help=argparse.SUPPRESS)
     return parser, skills_parser
 
 
 def validate_command(args):
     """Run registry validation."""
-    if args.command == "validate":
-        print("WARNING: 'gaia validate' is DEPRECATED and will be removed in v7.0.0. Use 'gaia dev validate' instead.", file=sys.stderr)
     repo_root = Path(args.registry)
     if args.intake:
         script = repo_root / "scripts" / "validate_intake.py"
@@ -4183,8 +4116,6 @@ def validate_command(args):
 
 def test_command(args):
     """Run self-verification tests."""
-    if args.command == "test":
-        print("WARNING: 'gaia test' is DEPRECATED and will be removed in v7.0.0. Use 'gaia dev test' instead.", file=sys.stderr)
     repo_root = Path(__file__).parent.parent.parent
 
     # Always use the same Python that is running gaia so the test process
@@ -4272,12 +4203,6 @@ def main():
         logout_command(args)
     elif args.command == "reset":
         reset_command(args)
-    elif args.command == "mcp":
-        print("WARNING: 'gaia mcp' is DEPRECATED and will be removed in v7.0.0. Use 'gaia dev mcp' instead.", file=sys.stderr)
-        mcp_command(args)
-    elif args.command == "release":
-        print("WARNING: 'gaia release' is DEPRECATED and will be removed in v7.0.0. Use 'gaia dev release' instead.", file=sys.stderr)
-        release_command(args)
     elif args.command == "graph":
         graph_command(args)
     elif args.command == "stats":
@@ -4289,9 +4214,6 @@ def main():
             fuse_command(args)
         except FuseCancelled:
             pass
-    elif args.command == "docs" and getattr(args, "docs_command", None) == "build":
-        print("WARNING: 'gaia docs build' is DEPRECATED and will be removed in v7.0.0. Use 'gaia dev docs' instead.", file=sys.stderr)
-        docs_command(args)
     elif args.command == "lookup":
         lookup_command(args)
     elif args.command == "dev":
@@ -4361,12 +4283,6 @@ def main():
         else:
             _, subparsers = get_parser()
             subparsers.choices["trust"].print_help()
-    elif args.command == "validate":
-        print("WARNING: 'gaia validate' is DEPRECATED and will be removed in v7.0.0. Use 'gaia dev validate' instead.", file=sys.stderr)
-        validate_command(args)
-    elif args.command == "test":
-        print("WARNING: 'gaia test' is DEPRECATED and will be removed in v7.0.0. Use 'gaia dev test' instead.", file=sys.stderr)
-        test_command(args)
     elif args.command == "skills":
         if not getattr(args, "skills_command", None):
             try:
@@ -4376,9 +4292,6 @@ def main():
                 skills_parser.print_help()
             return
         skills_command(args)
-    elif args.command == "_hook":
-        print("WARNING: 'gaia _hook' is DEPRECATED and will be removed in v7.0.0. Use 'gaia dev hook' instead.", file=sys.stderr)
-        hook_command(args)
     else:
         parser.print_help()
 

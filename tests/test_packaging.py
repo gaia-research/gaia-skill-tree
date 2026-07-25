@@ -301,9 +301,9 @@ def test_registry_clone_auto_resolves_without_gaia_config(tmp_path):
 
 @pytest.mark.timeout(300)
 def test_docs_build_can_run_from_registry_clone_without_registry_flag(tmp_path):
-    # Build inside a temporary clone of the registry so that 'gaia docs build'
+    # Build inside a temporary clone of the registry so that 'gaia dev docs'
     # never writes to the real repo's docs/, registry/, skill-trees/, or
-    # README.md.  The test's real intent is to verify that 'docs build'
+    # README.md.  The test's real intent is to verify that 'dev docs'
     # auto-resolves the registry from CWD (read_cwd_registry) without requiring
     # an explicit --registry flag.
     #
@@ -326,7 +326,7 @@ def test_docs_build_can_run_from_registry_clone_without_registry_flag(tmp_path):
     clone = tmp_path / "clone"
     clone.mkdir()
 
-    # Copy every directory/file that gaia docs build reads or writes.
+    # Copy every directory/file that gaia dev docs reads or writes.
     # registry/  — gaia.json, nodes/, named/, named-skills.json, schema/
     # docs/      — the output target; must pre-exist so build steps can update in-place
     # scripts/   — build_docs.py and all helper scripts (ROOT derives from __file__)
@@ -344,7 +344,7 @@ def test_docs_build_can_run_from_registry_clone_without_registry_flag(tmp_path):
             shutil.copy2(src, clone / name)
 
     result = run_python(
-        ["-m", "gaia_cli", "docs", "build"],
+        ["-m", "gaia_cli", "dev", "docs"],
         cwd=clone,
         env={"GAIA_HOME": str(tmp_path / "home")},
     )
