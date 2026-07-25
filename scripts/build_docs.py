@@ -1414,6 +1414,14 @@ def build_docs_graph_assets(check: bool) -> bool:
         return False
     rc, output = _run_script(script, [])
     if rc != 0:
+        # The sync now aborts loudly rather than writing a degraded Class S
+        # gaia.json when its layout inputs are missing (issue #1275). Surface
+        # that as a drift line in --check so the gate fails on the guard
+        # instead of swallowing it into a _run_step warning.
+        if check:
+            print(f"diff docs/graph/ (sync aborted: rc={rc})")
+            print(output)
+            return True
         raise RuntimeError(f"syncDocsGraphAssets.py failed: rc={rc}")
     return False
 
