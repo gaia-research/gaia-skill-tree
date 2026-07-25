@@ -1514,20 +1514,34 @@
       const allMd = entries.map(e => e.md).join(" ");
       const perLineMd = entries.map(e => e.md).join("<br>\n");
 
+      function setBtnContent(btn, iconId, labelText) {
+        btn.replaceChildren();
+        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.setAttribute("class", "ico");
+        svg.setAttribute("width", "13");
+        svg.setAttribute("height", "13");
+        svg.setAttribute("aria-hidden", "true");
+        const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
+        use.setAttribute("href", `../assets/icons.svg#${iconId}`);
+        svg.appendChild(use);
+        btn.appendChild(svg);
+        btn.appendChild(document.createTextNode(` ${labelText}`));
+      }
+
       function makeCopyGroupBtn(cls, label) {
         const btn = document.createElement("button");
         btn.className = cls;
         btn.type = "button";
-        btn.innerHTML = `<svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#copy"/></svg> ${label}`;
+        setBtnContent(btn, "copy", label);
         return btn;
       }
 
       const copyAllBtn = makeCopyGroupBtn("bd-copy-all", "One-liner");
       copyAllBtn.addEventListener("click", () => {
         navigator.clipboard.writeText(allMd).then(() => {
-          copyAllBtn.innerHTML = '<svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#copy-check"/></svg> Copied';
+          setBtnContent(copyAllBtn, "copy-check", "Copied");
           setTimeout(() => {
-            copyAllBtn.innerHTML = '<svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#copy"/></svg> One-liner';
+            setBtnContent(copyAllBtn, "copy", "One-liner");
           }, 1600);
         });
       });
@@ -1535,9 +1549,9 @@
       const copyPerLineBtn = makeCopyGroupBtn("bd-copy-perline", "Per line");
       copyPerLineBtn.addEventListener("click", () => {
         navigator.clipboard.writeText(perLineMd).then(() => {
-          copyPerLineBtn.innerHTML = '<svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#copy-check"/></svg> Copied';
+          setBtnContent(copyPerLineBtn, "copy-check", "Copied");
           setTimeout(() => {
-            copyPerLineBtn.innerHTML = '<svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#copy"/></svg> Per line';
+            setBtnContent(copyPerLineBtn, "copy", "Per line");
           }, 1600);
         });
       });

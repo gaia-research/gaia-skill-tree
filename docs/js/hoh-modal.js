@@ -381,20 +381,13 @@
           ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '')
           : '';
         var svgPath = docRoot + ogPath.replace(/\.png(\?.*)?$/, '.svg');
-        fetch(svgPath)
-          .then(function (r) { return r.ok ? r.text() : Promise.reject(); })
-          .then(function (svgText) {
-            // Strip XML prolog so the SVG inlines cleanly.
-            var clean = svgText.replace(/^<\?xml[^>]*\?>\s*/, '');
-            // Parse as SVG and adopt the root node rather than assigning
-            // innerHTML with fetched text (avoids DOM-XSS from the fetch sink).
-            var doc = new DOMParser().parseFromString(clean, 'image/svg+xml');
-            var svgEl = doc.documentElement;
-            if (svgEl && svgEl.nodeName.toLowerCase() === 'svg') {
-              stage.replaceChildren(document.importNode(svgEl, true));
-            }
-          })
-          .catch(function () { /* keep mock */ });
+        var imgEl = document.createElement('img');
+        imgEl.src = svgPath;
+        imgEl.alt = ns.name || ns.id || '';
+        imgEl.style.width = '100%';
+        imgEl.style.height = '100%';
+        imgEl.onload = function () { stage.replaceChildren(imgEl); };
+        imgEl.onerror = function () { renderMock(); };
       } else {
         renderMock();
       }
