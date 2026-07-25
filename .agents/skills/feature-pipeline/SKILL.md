@@ -44,7 +44,7 @@ pipeline is only valuable if the right model tier does the right work.
 Before Phase 1, initialise pipeline state (requires `jq`):
 
 ```bash
-bash .Codex/skills/feature-pipeline/scripts/state.sh init "{{feature}}"
+bash .claude/skills/feature-pipeline/scripts/state.sh init "{{feature}}"
 ```
 
 This writes `.fp-state.json` with all fields at their defaults. Use `state.sh
@@ -65,7 +65,7 @@ track progress. `state.sh show` at any point gives the full snapshot.
 
 | Harness | Spawn mechanism |
 |---------|-----------------|
-| Codex | `Agent` tool (`subagent_type`, `model`) |
+| Claude Code | `Agent` tool (`subagent_type`, `model`) |
 | Cursor | Background agents / `@agent` — pass brief as system prompt |
 | Codex CLI | `codex run --agent --instructions "..."` |
 | Windsurf Cascade | Cascade sub-tasks — delegate via task handoff |

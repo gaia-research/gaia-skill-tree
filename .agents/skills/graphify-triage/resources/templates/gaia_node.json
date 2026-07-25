@@ -1,7 +1,7 @@
 {
   "id": "graphify-triage",
   "name": "Graphify Triage",
-  "type": "extra",
+  "type": "fusion",
   "summary": "Automates architectural health checks by bridging Graphify analysis with GitHub issue management.",
   "prerequisites": ["graphify", "github-cli"],
   "tier": 2,

@@ -8,7 +8,7 @@ description: >-
   MEMORY.md, prepends a dated entry above the previous snapshot (newest first), preserves
   every existing entry (NEVER overwrites or truncates), and reports back the file path +
   byte delta. Not for one-off feedback memories (use the user-level memory system at
-  ~/.Codex/.../memory/ for those). Not for trimming or deleting old entries.
+  ~/.claude/.../memory/ for those). Not for trimming or deleting old entries.
 version: 1.0.0
 argument-hint: "<optional one-line headline for the snapshot>"
 ---
@@ -36,9 +36,9 @@ Trigger on any of:
 
 Do NOT use for:
 
-- User-level feedback memories (use `~/.Codex/projects/<repo>/memory/*.md` with frontmatter)
+- User-level feedback memories (use `~/.claude/projects/<repo>/memory/*.md` with frontmatter)
 - Trimming, editing, or deleting existing snapshots (separate manual operation)
-- The orchestrator's `/AGENTS.md` — that's a static rulebook, not a session log
+- The orchestrator's `/CLAUDE.md` — that's a static rulebook, not a session log
 
 ## Operating contract — additive only
 
@@ -96,8 +96,9 @@ The skill assumes the calling conversation has the relevant context. Pull from:
 - `gh issue list --search "involves:@me" --json number,title,state` for issues touched
 - The TaskList at end of session for what got done vs. deferred
 - Any explicit headline the user provided as `argument-hint`
-- Token spend (sum from `founder/COST.md` if it exists; else estimate from the message
-  count + average tokens-per-turn)
+- Token spend:
+  - If in the Pi harness (indicated by `PI_CODING_AGENT=true` in `env`), run the `pi-cost` skill (`python3 .claude/skills/pi-cost/scripts/pi_cost.py` or `/skill:pi-cost`) to obtain the exact session token counts, subagent breakdown, and calculated session cost.
+  - Otherwise, pull from `founder/COST.md` if it exists, or estimate from the message count + average tokens-per-turn.
 
 ## Failure modes — refuse cleanly
 
@@ -134,10 +135,10 @@ The skill removes the variance. One slash command, one consistent additive write
 ## Out of scope (route elsewhere)
 
 - **User-level feedback memories** → write directly to
-  `~/.Codex/projects/<repo-slug>/memory/*.md` with frontmatter. That's a different
+  `~/.claude/projects/<repo-slug>/memory/*.md` with frontmatter. That's a different
   surface (cross-session, frontmatter-indexed) for a different purpose (your guidance to
-  Codex vs. orchestrator's own state log).
+  Claude vs. orchestrator's own state log).
 - **Trimming MEMORY.md** when it grows too large → manual operation (the orchestrator
   reviews + collapses old snapshots into a "## Archive" section, never silently).
-- **Updating AGENTS.md / GIT.md** with rules that emerged this session → those are
+- **Updating CLAUDE.md / GIT.md** with rules that emerged this session → those are
   rulebooks, not logs. Edit them directly, don't route through this skill.
