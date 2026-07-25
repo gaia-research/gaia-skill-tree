@@ -641,8 +641,8 @@
 .heroes-ledger-all__close {
   display: grid;
   place-items: center;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border: 1px solid rgba(var(--heroes-gold-rgb), 0.28);
   border-radius: 6px;
   background: transparent;
