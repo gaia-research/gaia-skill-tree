@@ -6,7 +6,7 @@ Writes ``docs/graph/ledger/data.json`` containing:
     {
       "version":   "<gaia.json version>",
       "generatedAt": "<ISO 8601 UTC>",
-      "rows": [ { skillId, tm, grade, currentStars, mayStars, juneStars, g7Stars, flag, apexResults }, ... ],
+      "rows": [ { skillId, tm, grade, currentStars, mayStars, juneStars, g7Stars, flag, apexResults, branch }, ... ],
       "summary": { total, S, A, B, C, ungraded, floor, up }
     }
 
@@ -42,6 +42,7 @@ from gaia_cli.trustMagnitude import (  # noqa: E402
     computeTrustMagnitudeByType,
     passesSuiteApexGate,
 )
+from gaia_cli.taxonomy import branchFor  # noqa: E402
 
 DEFAULT_OUT = REPO_ROOT / "docs" / "graph" / "ledger" / "data.json"
 GAIA_JSON = REPO_ROOT / "registry" / "gaia.json"
@@ -122,6 +123,12 @@ def buildRows() -> list[dict]:
         if grade == "S":
             apexResults = passesSuiteApexGate(fm, apexState)
 
+        # Branch fork ('standard'|'suite'|'unique') — canonical read-time
+        # derivation (gaia_cli.taxonomy.branchFor). Ships in the row so the
+        # ledger can color Unique-branch star badges in copper/ember rather
+        # than Suite gold (EPIC #1002). NEVER read from a stored type field.
+        branch = branchFor(fm)
+
         rows.append({
             "skillId":      skillId,
             "tm":           round(tm, 2),
@@ -134,6 +141,7 @@ def buildRows() -> list[dict]:
             "apexResults":  apexResults,
             "typeBreakdown": typeBreakdown,
             "origin":       origin,
+            "branch":       branch,
         })
 
     rows.sort(key=lambda r: (-r["tm"], r["skillId"]))
