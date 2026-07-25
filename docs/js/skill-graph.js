@@ -582,6 +582,7 @@
       directNeighborsById: {},
       treeBounds: null,
       treeSpread: 1,
+      treeSpreadFrom: 1,
       viewMix: 0,
       viewFrom: 0,
       viewTarget: 0,
@@ -810,7 +811,7 @@
         heroCenterRatio,
         heroFit,
         fieldFit,
-        spread: state.treeSpread || 1,
+        spread: lerp(state.treeSpreadFrom != null ? state.treeSpreadFrom : state.treeSpread, state.treeSpread, state.viewTarget === 0 ? 1 - mix : mix),
         cameraDistance: Math.max(bounds.width, bounds.height, bounds.maxZ * 2, 1) * 2.35,
         fieldZoom: lerp(1, state.zoom, mix),
       };
@@ -3301,6 +3302,7 @@
           state.zoom = _explorerViewStash.zoom;
           state.panX = _explorerViewStash.panX;
           state.panY = _explorerViewStash.panY;
+          state.treeSpreadFrom = state.treeSpread;
           state.treeSpread = _explorerViewStash.treeSpread;
         } else {
           state.panX = 0;
@@ -3308,6 +3310,7 @@
           state.zoom = 1;
           // Explorer3D defaults to a wider 200% spread; the flat 2D hero stays
           // at 100% (its own initial state / never touches this path).
+          state.treeSpreadFrom = state.treeSpread;
           state.treeSpread = 2;
         }
         if (typeof redrawScatterRuler === 'function') redrawScatterRuler();
@@ -3326,6 +3329,7 @@
         state.zoom = 1;
         state.panX = 0;
         state.panY = 0;
+        state.treeSpreadFrom = state.treeSpread;
         state.treeSpread = 1;
         if (typeof redrawScatterRuler === 'function') redrawScatterRuler();
       }
