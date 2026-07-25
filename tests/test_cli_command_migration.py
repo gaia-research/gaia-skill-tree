@@ -1,4 +1,10 @@
-"""Test CLI Command Migration under gaia dev namespace and deprecation warnings."""
+"""Test the canonical `gaia dev` command namespace.
+
+The deprecated top-level shims (`gaia release`, `gaia _hook`, `gaia docs build`,
+`gaia mcp`, `gaia validate`, `gaia test`) were retired in v7.0.0. These tests
+verify the canonical `gaia dev X` forms still dispatch and that the retired
+top-level forms no longer resolve (argparse exits non-zero).
+"""
 
 import sys
 import os
@@ -18,6 +24,32 @@ def run_cli(monkeypatch, argv: list[str]):
     monkeypatch.setattr(sys, "argv", ["gaia", *argv])
     main()
 
+
+# ---------------------------------------------------------------------------
+# Retired top-level shims no longer resolve (argparse rejects the choice).
+# ---------------------------------------------------------------------------
+class TestRetiredTopLevelShims:
+    @pytest.mark.parametrize(
+        "argv",
+        [
+            ["release", "patch"],
+            ["mcp"],
+            ["validate"],
+            ["test", "all"],
+            ["docs", "build"],
+            ["_hook"],
+        ],
+    )
+    def test_retired_shim_errors(self, monkeypatch: pytest.MonkeyPatch, capsys, tmp_path: Path, argv):
+        """test retired top-level shim exits non-zero (unknown command)."""
+        with pytest.raises(SystemExit) as exc:
+            run_cli(monkeypatch, ["--registry", str(tmp_path), *argv])
+        # argparse rejects an unknown subcommand with exit code 2.
+        assert exc.value.code != 0
+        err = capsys.readouterr().err
+        assert "invalid choice" in err
+
+
 # ---------------------------------------------------------------------------
 # Cycle 1: gaia dev validate invokes validation pipeline
 # ---------------------------------------------------------------------------
@@ -28,55 +60,28 @@ class TestDevValidate:
         registry_path = tmp_path
         (registry_path / "registry").mkdir(parents=True, exist_ok=True)
         (registry_path / "registry" / "gaia.json").write_text('{"skills": []}', encoding="utf-8")
-        
+
         # Mock subprocess.call inside main.py to verify it's called with validate.py
         called_cmds = []
         import subprocess
         monkeypatch.setattr(subprocess, "call", lambda cmd, **kwargs: called_cmds.append(cmd) or 0)
-        
+
         # Mock sys.exit to raise instead of terminating the test runner
         monkeypatch.setattr(sys, "exit", lambda code: pytest.fail(f"sys.exit called with {code}") if code != 0 else None)
-        
+
         # We also need to avoid calling redaction_script/timeline_script if they don't exist
         # actually, validate_command checks for existence of scripts, which is good.
-        
+
         # Run command: gaia dev validate
         with pytest.raises(SystemExit) as exc:
             run_cli(monkeypatch, ["--registry", str(registry_path), "dev", "validate"])
-        
+
         assert exc.value.code == 0
         assert any("validate.py" in str(cmd) for cmd in called_cmds)
 
 
 # ---------------------------------------------------------------------------
-# Cycle 2: gaia validate prints deprecation warning and delegates
-# ---------------------------------------------------------------------------
-class TestShimValidate:
-    def test_validate_deprecation_warning(self, monkeypatch: pytest.MonkeyPatch, capsys, tmp_path: Path):
-        """test 'gaia validate' prints deprecation warning and runs validation."""
-        registry_path = tmp_path
-        (registry_path / "registry").mkdir(parents=True, exist_ok=True)
-        (registry_path / "registry" / "gaia.json").write_text('{"skills": []}', encoding="utf-8")
-        
-        called_cmds = []
-        import subprocess
-        monkeypatch.setattr(subprocess, "call", lambda cmd, **kwargs: called_cmds.append(cmd) or 0)
-        monkeypatch.setattr(sys, "exit", lambda code: pytest.fail(f"sys.exit called with {code}") if code != 0 else None)
-        
-        with pytest.raises(SystemExit) as exc:
-            run_cli(monkeypatch, ["--registry", str(registry_path), "validate"])
-            
-        assert exc.value.code == 0
-        assert any("validate.py" in str(cmd) for cmd in called_cmds)
-        
-        # Verify deprecation warning was printed to stderr
-        err = capsys.readouterr().err
-        assert "DEPRECATED" in err or "deprecated" in err
-        assert "gaia dev validate" in err
-
-
-# ---------------------------------------------------------------------------
-# Cycle 3: gaia dev release bumps version, gaia release prints warning
+# Cycle 3: gaia dev release bumps version
 # ---------------------------------------------------------------------------
 class TestReleaseMigration:
     def test_dev_release(self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path):
@@ -87,38 +92,20 @@ class TestReleaseMigration:
             called.append(args)
             raise SystemExit(0)
         monkeypatch.setattr(gaia_main, "release_command", mock_release)
-        
+
         # Mock authz require_operator
         from gaia_cli import authz
         monkeypatch.setattr(authz, "require_operator", lambda *a, **kw: None)
-        
+
         with pytest.raises(SystemExit) as exc:
             run_cli(monkeypatch, ["--registry", str(tmp_path), "dev", "release", "patch", "--no-push"])
         assert exc.value.code == 0
         assert len(called) == 1
         assert called[0].release_type == "patch"
 
-    def test_release_deprecation(self, monkeypatch: pytest.MonkeyPatch, capsys, tmp_path: Path):
-        """test 'gaia release patch' warns and delegates."""
-        called = []
-        import gaia_cli.main as gaia_main
-        def mock_release(args):
-            called.append(args)
-            raise SystemExit(0)
-        monkeypatch.setattr(gaia_main, "release_command", mock_release)
-        
-        with pytest.raises(SystemExit) as exc:
-            run_cli(monkeypatch, ["--registry", str(tmp_path), "release", "patch", "--no-push"])
-        
-        assert exc.value.code == 0
-        assert len(called) == 1
-        err = capsys.readouterr().err
-        assert "DEPRECATED" in err or "deprecated" in err
-        assert "gaia dev release" in err
-
 
 # ---------------------------------------------------------------------------
-# Cycle 4: gaia dev test and gaia test shim
+# Cycle 4: gaia dev test
 # ---------------------------------------------------------------------------
 class TestTestMigration:
     def test_dev_test(self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path):
@@ -129,34 +116,16 @@ class TestTestMigration:
             called.append(args)
             raise SystemExit(0)
         monkeypatch.setattr(gaia_main, "test_command", mock_test)
-        
+
         with pytest.raises(SystemExit) as exc:
             run_cli(monkeypatch, ["--registry", str(tmp_path), "dev", "test", "all"])
         assert exc.value.code == 0
         assert len(called) == 1
         assert called[0].suite == "all"
 
-    def test_test_deprecation(self, monkeypatch: pytest.MonkeyPatch, capsys, tmp_path: Path):
-        """test 'gaia test all' warns and delegates."""
-        called = []
-        import gaia_cli.main as gaia_main
-        def mock_test(args):
-            called.append(args)
-            raise SystemExit(0)
-        monkeypatch.setattr(gaia_main, "test_command", mock_test)
-        
-        with pytest.raises(SystemExit) as exc:
-            run_cli(monkeypatch, ["--registry", str(tmp_path), "test", "all"])
-        
-        assert exc.value.code == 0
-        assert len(called) == 1
-        err = capsys.readouterr().err
-        assert "DEPRECATED" in err or "deprecated" in err
-        assert "gaia dev test" in err
-
 
 # ---------------------------------------------------------------------------
-# Cycle 5: gaia dev docs and gaia docs build shim
+# Cycle 5: gaia dev docs
 # ---------------------------------------------------------------------------
 class TestDocsMigration:
     def test_dev_docs(self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path):
@@ -167,34 +136,16 @@ class TestDocsMigration:
             called.append(args)
             raise SystemExit(0)
         monkeypatch.setattr(gaia_main, "docs_command", mock_docs)
-        
+
         with pytest.raises(SystemExit) as exc:
             run_cli(monkeypatch, ["--registry", str(tmp_path), "dev", "docs", "--check"])
         assert exc.value.code == 0
         assert len(called) == 1
         assert called[0].check is True
 
-    def test_docs_deprecation(self, monkeypatch: pytest.MonkeyPatch, capsys, tmp_path: Path):
-        """test 'gaia docs build' warns and delegates."""
-        called = []
-        import gaia_cli.main as gaia_main
-        def mock_docs(args):
-            called.append(args)
-            raise SystemExit(0)
-        monkeypatch.setattr(gaia_main, "docs_command", mock_docs)
-        
-        with pytest.raises(SystemExit) as exc:
-            run_cli(monkeypatch, ["--registry", str(tmp_path), "docs", "build"])
-        
-        assert exc.value.code == 0
-        assert len(called) == 1
-        err = capsys.readouterr().err
-        assert "DEPRECATED" in err or "deprecated" in err
-        assert "gaia dev docs" in err
-
 
 # ---------------------------------------------------------------------------
-# Cycle 6: gaia dev mcp and gaia mcp shim
+# Cycle 6: gaia dev mcp
 # ---------------------------------------------------------------------------
 class TestMcpMigration:
     def test_dev_mcp(self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path):
@@ -205,33 +156,15 @@ class TestMcpMigration:
             called.append(args)
             raise SystemExit(0)
         monkeypatch.setattr(gaia_main, "mcp_command", mock_mcp)
-        
+
         with pytest.raises(SystemExit) as exc:
             run_cli(monkeypatch, ["--registry", str(tmp_path), "dev", "mcp"])
         assert exc.value.code == 0
         assert len(called) == 1
 
-    def test_mcp_deprecation(self, monkeypatch: pytest.MonkeyPatch, capsys, tmp_path: Path):
-        """test 'gaia mcp' warns and delegates."""
-        called = []
-        import gaia_cli.main as gaia_main
-        def mock_mcp(args):
-            called.append(args)
-            raise SystemExit(0)
-        monkeypatch.setattr(gaia_main, "mcp_command", mock_mcp)
-        
-        with pytest.raises(SystemExit) as exc:
-            run_cli(monkeypatch, ["--registry", str(tmp_path), "mcp"])
-        
-        assert exc.value.code == 0
-        assert len(called) == 1
-        err = capsys.readouterr().err
-        assert "DEPRECATED" in err or "deprecated" in err
-        assert "gaia dev mcp" in err
-
 
 # ---------------------------------------------------------------------------
-# Cycle 8: gaia dev hook and gaia _hook shim
+# Cycle 8: gaia dev hook
 # ---------------------------------------------------------------------------
 class TestHookMigration:
     def test_dev_hook(self, monkeypatch: pytest.MonkeyPatch, tmp_path: Path):
@@ -242,28 +175,9 @@ class TestHookMigration:
             called.append(args)
             raise SystemExit(0)
         monkeypatch.setattr(gaia_main, "hook_command", mock_hook)
-        
+
         with pytest.raises(SystemExit) as exc:
             run_cli(monkeypatch, ["--registry", str(tmp_path), "dev", "hook", "--event", "test"])
         assert exc.value.code == 0
         assert len(called) == 1
         assert called[0].event == "test"
-
-    def test_hook_deprecation(self, monkeypatch: pytest.MonkeyPatch, capsys, tmp_path: Path):
-        """test 'gaia _hook' warns and delegates."""
-        called = []
-        import gaia_cli.main as gaia_main
-        def mock_hook(args):
-            called.append(args)
-            raise SystemExit(0)
-        monkeypatch.setattr(gaia_main, "hook_command", mock_hook)
-        
-        with pytest.raises(SystemExit) as exc:
-            run_cli(monkeypatch, ["--registry", str(tmp_path), "_hook", "--event", "test"])
-        
-        assert exc.value.code == 0
-        assert len(called) == 1
-        err = capsys.readouterr().err
-        assert "DEPRECATED" in err or "deprecated" in err
-        assert "gaia dev hook" in err
-

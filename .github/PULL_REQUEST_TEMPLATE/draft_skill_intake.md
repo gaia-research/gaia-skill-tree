@@ -25,6 +25,6 @@ For each proposed skill, mark one outcome in review comments:
 ### Maintainer Promotion Checklist
 
 - [ ] Accepted draft skills are promoted into `registry/gaia.json` in a follow-up PR.
-- [ ] `gaia validate` passes for promotion PR.
-- [ ] `gaia validate --intake` passes for promotion PR.
+- [ ] `gaia dev validate` passes for promotion PR.
+- [ ] `gaia dev validate --intake` passes for promotion PR.
 - [ ] Promotion PR links back to this intake PR.

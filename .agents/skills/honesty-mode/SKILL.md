@@ -35,7 +35,7 @@ When the user says `/honesty-mode on`, set the constant to `true`. When they say
 
 5. **Verify the chip painting still matches.** Sanity-check that the indicator-paint lines (`honestyPill.dataset.state = HONESTY_MODE ? "on" : "off"` and the `.bd-honesty-state` text) are still present and read from the constant. If they've drifted, fix them in the same edit.
 
-6. **Don't run `gaia docs build`.** This flag only affects `docs/badges/index.html` — none of the generated artifacts (`registry/gaia.json`, `docs/graph/`, `tree.md`) depend on it. A rebuild is unnecessary noise.
+6. **Don't run `gaia dev docs`.** This flag only affects `docs/badges/index.html` — none of the generated artifacts (`registry/gaia.json`, `docs/graph/`, `tree.md`) depend on it. A rebuild is unnecessary noise.
 
 ## Branch + PR convention
 

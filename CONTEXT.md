@@ -220,7 +220,7 @@ event** so a skill's history tells the whole truth. A demotion that silently
 lowers a star without a `demote` event is a transparency failure, not a cosmetic
 one. This is a *mindset*, not just a rule: prefer the CLI precisely because it
 logs the event for you, and never hand-lower a level without recording why. The
-**Transparency Gate** (`scripts/validate_timelines.py`, run in `gaia validate`
+**Transparency Gate** (`scripts/validate_timelines.py`, run in `gaia dev validate`
 and release CI) enforces it — every user-tree timeline must explain its skill's
 current rank, or the build fails.
 
@@ -359,7 +359,7 @@ _Avoid_: Dual CTA, A/B paths.
 | **Fuse** | Combine two or more skills into a higher-complexity skill | `gaia fuse` |
 | **Claim · Propose** | Take an unclaimed Ultimate (Claim = brand voice; Propose = CLI) | `gaia propose` |
 | **Ascend** | Reach Apex (6★, Suite branch) or Unique Impossible (6★, Unique branch) | (no CLI verb — emerges from `gaia promote` reaching 6★) |
-| **Bond** | Link an AI agent to Gaia via MCP | `gaia mcp` install flow |
+| **Bond** | Link an AI agent to Gaia via MCP | `gaia dev mcp` install flow |
 | **Register** | First connect a repo to Gaia | `gaia init` |
 | **Scan** | Detect demonstrated skills in a repo | `gaia scan` |
 | **Install** | Add a Named Skill to a local skills directory | `gaia install` / `gaia skills install` |
