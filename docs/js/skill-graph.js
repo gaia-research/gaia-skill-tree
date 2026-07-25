@@ -12,11 +12,10 @@
   // ║ custom property on :root. A host page can override any token  ║
   // ║ to retheme the graph (e.g. local skill-tree views).           ║
   // ║                                                                ║
-  // ║   --tier-basic / -rgb / -edge                                  ║
-  // ║   --tier-extra / -rgb / -edge                                  ║
+  // ║   --tier-basic / -rgb / -edge   (type: basic ○)                ║
+  // ║   --tier-fusion / -rgb / -edge  (type: fusion ◇)               ║
   // ║   --rank-4-unique / -rgb / -edge  (5★ -5, 6★ -6, -ink)         ║
-  // ║   --tier-ultimate / -rgb / -edge                               ║
-  // ║   --rank-0 … --rank-6 / -bg / -border / -edge                  ║
+  // ║   --rank-0 … --rank-6 / -bg / -border / -edge  (Suite ladder)  ║
   // ║   --honor-red / --honor-red-rgb                                ║
   // ║   --apex-gold / --apex-gold-rgb                                ║
   // ║   --muted / --text                                             ║
