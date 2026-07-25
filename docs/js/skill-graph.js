@@ -3795,8 +3795,7 @@
   // Provide role=img + a rich aria-label that summarises counts so
   // screen readers get a meaningful description. The label is
   // refreshed after the skills array and the named-skill index both
-  // resolve. A hidden offscreen link points keyboard / AT users to
-  // the static SVG fallback at graph/gaia.svg.
+  // resolve.
   const _canvas3d = document.getElementById('canvas3d');
   let _ariaSkillsCount = 0;
   let _ariaEdgesCount = 0;
@@ -3814,14 +3813,6 @@
     );
   }
   _refreshCanvasAria();
-  // Hidden SVG fallback link inside #hero — visually offscreen but
-  // present in the DOM for screen readers and as a no-CSS fallback.
-  const _svgFallbackLink = document.createElement('a');
-  _svgFallbackLink.className = 'sr-only';
-  _svgFallbackLink.href = 'graph/gaia.svg';
-  _svgFallbackLink.textContent = 'Static SVG version of the skill graph';
-  _svgFallbackLink.style.cssText = 'position:absolute;left:-9999px;';
-  hero.appendChild(_svgFallbackLink);
 
   // Probe the graph directory first so we get a clear diagnostic if the
   // static-asset host isn't serving JSON files from graph/.

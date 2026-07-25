@@ -22,7 +22,6 @@ _GENERATED_PREFIXES = (
     "docs/",
     "skill-trees/",
     "registry/gaia.gexf",
-    "registry/gaia.svg",
     "registry/named-skills.json",
     "registry/combinations.md",
     "registry/registry.md",
