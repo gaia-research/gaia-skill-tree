@@ -830,6 +830,13 @@ def _build_hoh_modal() -> str:
     """HOH fullscreen share modal — same experience as docs/index.html."""
     ic = ICON_SPRITE_REL
     return f"""<div id="hohFullscreenModal" class="hoh-fs-modal" aria-hidden="true" tabindex="-1">
+  <div class="hoh-fs-parallax-bg" aria-hidden="true">
+    <img src="{ASSET_BASE_REL}assets/world-tree/yggdrasil-backdrop-941.webp" alt="">
+  </div>
+  <a class="hoh-fs-brand" href="{ASSET_BASE_REL}index.html" aria-label="Gaia Skill Tree home">
+    <svg class="hoh-fs-brand-seal" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path d="M 32 4 L 60 32 L 32 60 L 4 32 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="miter"/><text x="32" y="34" font-family="EB Garamond, Georgia, serif" font-weight="600" font-size="28" fill="currentColor" text-anchor="middle" dominant-baseline="central">G</text></svg>
+    <span class="hoh-fs-brand-word">Gaia Skill Tree</span>
+  </a>
   <div class="hoh-fs-header">
     <button class="hoh-fs-btn hoh-fs-btn--close" data-fs-action="close" title="Close modal" aria-label="Close modal">
       <svg class="ico" width="16" height="16" aria-hidden="true"><use href="{ic}#close-x"></use></svg>

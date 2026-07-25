@@ -755,7 +755,6 @@
 
     var inner =
       header +
-      _fieldOrb(ns, 'lg') +
       _fieldAvatar(ns, { size: 44 }) +
       _fieldSlug(ns) +
       _fieldTitle(ns) +
@@ -909,18 +908,22 @@
         '</div>';
     }
 
-    var primaryGlyph = BRANCH_GLYPH[primaryBranch] || BRANCH_GLYPH.standard;
     // Crest uses the contributor's GitHub avatar; the OG art remains as backdrop.
+    // Fix 3c: replace the glyph badge with the gold origin wreath (E4 rule).
+    var wreathSrc = _base() + 'assets/origin-wreath-gold.svg';
     var crestImg = avatarUrl
       ? '<img class="plaque__hall-crest-img" src="' + esc(avatarUrl) + '" alt="" ' +
           'decoding="async" loading="lazy" referrerpolicy="no-referrer" ' +
           'onerror="this.parentNode.setAttribute(\'data-crest-fail\',\'true\');this.style.display=\'none\'">'
       : '';
+    var crestWreath = anyOrigin
+      ? '<img class="plaque__hall-crest-wreath" src="' + esc(wreathSrc) + '" alt="" aria-hidden="true">'
+      : '';
     var crestHtml =
       '<div class="plaque__hall-crest" data-branch="' + esc(primaryBranch) + '" ' +
         'data-level="' + esc(levelNum(primary.level)) + '">' +
         crestImg +
-        '<span class="plaque__hall-crest-glyph" aria-hidden="true">' + primaryGlyph + '</span>' +
+        crestWreath +
       '</div>';
 
     // Meta row: handle + share button.

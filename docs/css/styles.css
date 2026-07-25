@@ -10278,7 +10278,7 @@ button.nav-graph-trigger:hover {
   width: min(100%, 1180px);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(250px, 0.62fr) minmax(0, 1.38fr);
+  grid-template-columns: minmax(280px, 1fr) minmax(0, 1.6fr);
   gap: clamp(2rem, 5vw, 4rem);
   align-items: start;
 }
@@ -10408,6 +10408,32 @@ button.nav-graph-trigger:hover {
   box-shadow: 0 0 12px rgba(var(--apex-gold-rgb), 0.18);
 }
 
+.hoh-stage-browse {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.1rem;
+  padding-left: 0;
+}
+
+.hoh-stage-browse-link {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+  text-decoration: none;
+  opacity: 0.72;
+  transition: opacity 0.18s, color 0.18s;
+}
+
+.hoh-stage-browse-link:hover,
+.hoh-stage-browse-link:focus-visible {
+  opacity: 1;
+  color: var(--text-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 /* Phase 9 — HoH plate redesign.
    Layout is a featured row (1–2 large plates whose primary skill is 6★)
    stacked above a uniform grid of standard plates. CSS Grid (not flex-
@@ -10484,6 +10510,29 @@ button.nav-graph-trigger:hover {
   background:
     radial-gradient(circle at 50% -24%, rgba(var(--plaque-accent-rgb), 0.075), transparent 58%),
     rgba(15, 23, 42, 0.72);
+}
+
+/* Fix 3b — rank-token backgrounds for HoH cards (rank 4–6 override the default blue-tinted base) */
+.hoh-section--mini .plaque--hall[data-level="4"] {
+  --plaque-accent-rgb: var(--rank-4-rgb);
+  background:
+    radial-gradient(circle at 50% -24%, rgba(var(--rank-4-rgb), 0.10), transparent 58%),
+    rgba(15, 23, 42, 0.72);
+  border-color: rgba(var(--rank-4-rgb), 0.35);
+}
+.hoh-section--mini .plaque--hall[data-level="5"] {
+  --plaque-accent-rgb: var(--rank-5-rgb);
+  background:
+    radial-gradient(circle at 50% -24%, rgba(var(--rank-5-rgb), 0.12), transparent 58%),
+    rgba(15, 23, 42, 0.72);
+  border-color: rgba(var(--rank-5-rgb), 0.38);
+}
+.hoh-section--mini .plaque--hall[data-level="6"] {
+  --plaque-accent-rgb: var(--rank-6-rgb);
+  background:
+    radial-gradient(circle at 50% -24%, rgba(var(--rank-6-rgb), 0.14), transparent 58%),
+    rgba(15, 23, 42, 0.72);
+  border-color: rgba(var(--rank-6-rgb), 0.45);
 }
 
 .hoh-section--mini .plaque--hall:not(.plaque--apex-vi)::before {

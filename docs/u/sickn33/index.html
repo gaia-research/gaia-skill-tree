@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-icon-base="../../assets/icons.svg">
 <head>
-  <script>window.GAIA_VERSION = "6.8.8";</script>
+  <script>window.GAIA_VERSION = "6.8.18";</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>@sickn33 — Gaia Skill Registry</title>
@@ -16,41 +16,24 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
-  <link rel="stylesheet" href="../../css/tokens.css?v=6.8.8">
-  <link rel="stylesheet" href="../../css/styles.css?v=6.8.8">
-  <link rel="stylesheet" href="../../css/plaque.css?v=6.8.8">
+  <link rel="stylesheet" href="../../css/tokens.css?v=6.8.18">
+  <link rel="stylesheet" href="../../css/styles.css?v=6.8.18">
+  <link rel="stylesheet" href="../../css/plaque.css?v=6.8.18">
   <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
-  <script src="../../js/icons.js?v=6.8.8"></script>
+  <script src="../../js/icons.js?v=6.8.18"></script>
   <!-- Stage 2 — rank-badge component, loaded after icons.js. -->
-  <script src="../../js/rank-badge.js?v=6.8.8"></script>
+  <script src="../../js/rank-badge.js?v=6.8.18"></script>
   <!-- Stage 3 — TM config (single source of truth for formulas/RFC), before plaque. -->
-  <script src="../../js/tm-config.js?v=6.8.8"></script>
+  <script src="../../js/tm-config.js?v=6.8.18"></script>
   <!-- Stage 4 — plaque component family, loaded after tm-config.js. -->
-  <script src="../../js/plaque.js?v=6.8.8"></script>
-  <script src="../../js/ui.js?v=6.8.8" defer></script>
-<script type="application/ld+json" data-injector="gaia-json-ld">
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "sickn33",
-  "url": "https://gaiaskilltree.com/u/sickn33/",
-  "sameAs": "https://github.com/sickn33"
-}
-</script>
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TS7N9T92BM" data-ga4="G-TS7N9T92BM"></script>
-  <script data-ga4="G-TS7N9T92BM">
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-TS7N9T92BM');
-  </script>
+  <script src="../../js/plaque.js?v=6.8.18"></script>
+  <script src="../../js/ui.js?v=6.8.18" defer></script>
 </head>
 <body class="profile-page">
 
   <nav id="site-nav"></nav>
-<script src="../../js/mounts.js?v=6.8.8"></script>
-<script src="../../js/site-nav.js?v=6.8.8"></script>
+<script src="../../js/mounts.js?v=6.8.18"></script>
+<script src="../../js/site-nav.js?v=6.8.18"></script>
 
   <div class="profile-grid-container">
     <main class="profile-main">
@@ -177,14 +160,14 @@
 
   <!-- ─── FOOTER ─── -->
 <div id="site-footer-mount"></div>
-<script src="../../js/site-footer.js?v=6.8.8"></script>
+<script src="../../js/site-footer.js?v=6.8.18"></script>
 
-  <script src="../../js/plaque-reveal.js?v=6.8.8" defer></script>
-  <script src="../../js/profile-timeline.js?v=6.8.8" defer></script>
-  <script src="../../js/profile-filter.js?v=6.8.8" defer></script>
-  <script src="../../js/named-skills.js?v=6.8.8" defer></script>
-  <script src="../../js/skill-explorer.js?v=6.8.8" defer></script>
-  <script src="../../js/hoh-modal.js?v=6.8.8" defer></script>
+  <script src="../../js/plaque-reveal.js?v=6.8.18" defer></script>
+  <script src="../../js/profile-timeline.js?v=6.8.18" defer></script>
+  <script src="../../js/profile-filter.js?v=6.8.18" defer></script>
+  <script src="../../js/named-skills.js?v=6.8.18" defer></script>
+  <script src="../../js/skill-explorer.js?v=6.8.18" defer></script>
+  <script src="../../js/hoh-modal.js?v=6.8.18" defer></script>
 
   <button id="scrollToTop" class="scroll-to-top" aria-label="Scroll to top">
     <svg class="ico" width="20" height="20" aria-hidden="true"><use href="../../assets/icons.svg#arrow-up"/></svg>
@@ -198,6 +181,13 @@
   </button>
 
   <div id="hohFullscreenModal" class="hoh-fs-modal" aria-hidden="true" tabindex="-1">
+  <div class="hoh-fs-parallax-bg" aria-hidden="true">
+    <img src="../../assets/world-tree/yggdrasil-backdrop-941.webp" alt="">
+  </div>
+  <a class="hoh-fs-brand" href="../../index.html" aria-label="Gaia Skill Tree home">
+    <svg class="hoh-fs-brand-seal" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path d="M 32 4 L 60 32 L 32 60 L 4 32 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="miter"/><text x="32" y="34" font-family="EB Garamond, Georgia, serif" font-weight="600" font-size="28" fill="currentColor" text-anchor="middle" dominant-baseline="central">G</text></svg>
+    <span class="hoh-fs-brand-word">Gaia Skill Tree</span>
+  </a>
   <div class="hoh-fs-header">
     <button class="hoh-fs-btn hoh-fs-btn--close" data-fs-action="close" title="Close modal" aria-label="Close modal">
       <svg class="ico" width="16" height="16" aria-hidden="true"><use href="../../assets/icons.svg#close-x"></use></svg>

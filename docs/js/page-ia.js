@@ -285,11 +285,11 @@
         // public Hall of Heroes, even if flagged origin.
         if (window.isRedacted && window.isRedacted(e.level)) return;
         totalNamedCount++;
-        // Hall floor: rank >= 4 (§8: floor at 4★; nothing below 4★ appears).
+        // Hall floor: rank >= 5 (homepage HoH only shows 5★+).
         // Read the emitted rank field; fall back to levelNum for entries that
         // pre-date the Phase 2 emission (absent-field defence).
         var emittedRank = (typeof e.rank === 'number') ? e.rank : levelNum(e.level);
-        if (emittedRank < 4) return;
+        if (emittedRank < 5) return;
         var emittedBranch = e.branch || 'standard';
         allOrigin.push({
           entry: e,

@@ -7,8 +7,8 @@
 
 /* ── Page tokens ─────────────────────────────────────────────── */
 :root {
-  --heroes-bg-deep: oklch(0.12 0.02 250);
-  --heroes-bg-ink: oklch(0.09 0.018 250);
+  --heroes-bg-deep: oklch(0.10 0 0);
+  --heroes-bg-ink: oklch(0.07 0 0);
   --heroes-gold-warm: oklch(0.78 0.15 80);
   --heroes-gold-rgb: 251, 191, 36;
   --heroes-frost: oklch(0.92 0.01 220);
@@ -36,6 +36,11 @@
   color: var(--heroes-frost);
   isolation: isolate;
   padding-top: 5rem;
+}
+
+/* Force body background to match so no blue-dark bleed shows on the sides. */
+body:has(.heroes-gallery) {
+  background: var(--heroes-bg-deep);
 }
 
 .heroes-gallery::before {
@@ -830,7 +835,7 @@
 .hero-stage--ultimate {
   background:
     radial-gradient(ellipse 70% 50% at 50% 40%, rgba(var(--stage-accent-rgb), 0.08) 0%, transparent 70%),
-    linear-gradient(180deg, var(--heroes-bg-deep) 0%, oklch(0.10 0.02 250) 100%);
+    var(--heroes-bg-deep);
 }
 
 .hero-stage--apex {
@@ -975,11 +980,13 @@
   z-index: 2;
   width: clamp(110px, 16vw, 140px);
   height: clamp(110px, 16vw, 140px);
-  overflow: hidden;
-  border: 1px solid rgba(var(--stage-accent-rgb), 0.28);
+  overflow: visible;
+  border-radius: 50%;
+  border: 2px solid rgba(var(--stage-accent-rgb), 0.45);
   background: var(--heroes-bg-ink);
   box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.65);
+    0 8px 32px rgba(0, 0, 0, 0.65),
+    0 0 0 4px rgba(var(--stage-accent-rgb), 0.1);
   transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
@@ -993,20 +1000,21 @@
 
 .hero-card__crest-seal {
   position: absolute;
-  bottom: -14px;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: -4px;
+  right: -4px;
+  left: auto;
+  transform: none;
   z-index: 10;
-  width: 32px;
-  height: 32px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   display: grid;
   place-items: center;
   background: var(--heroes-bg-ink);
-  border: 1.5px solid var(--stage-accent);
+  border: 2px solid var(--stage-accent);
   box-shadow:
-    0 3px 10px rgba(0, 0, 0, 0.72),
-    0 0 15px rgba(var(--stage-accent-rgb), 0.4);
+    0 4px 14px rgba(0, 0, 0, 0.8),
+    0 0 20px rgba(var(--stage-accent-rgb), 0.5);
   transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
@@ -1014,9 +1022,10 @@
    supersedes the legacy ◆ glyph (hidden below); the seal grows slightly so
    the rank medallion reads. The shared .plaque-orb--medallion img fills it. */
 .hero-card__crest-seal:has(.plaque-orb--medallion) {
-  width: 42px;
-  height: 42px;
-  bottom: -18px;
+  width: 56px;
+  height: 56px;
+  bottom: -8px;
+  right: -8px;
   background: transparent;
   border: none;
   box-shadow: none;
@@ -1482,6 +1491,10 @@
 
 /* ── 820px+ — tablet: ledger rail moves to fixed left side ── */
 @media (min-width: 820px) {
+  /* Rail is position:fixed — it does NOT affect stage layout flow.
+     Stage content stays centered on the full viewport width, same as
+     the header title. No grid column offset needed or wanted. */
+
   .heroes-ledger-rail {
     left: clamp(12px, 2.2vw, 28px);
     right: auto;
@@ -1616,14 +1629,27 @@
     padding: 4rem 2rem;
   }
 
+  .heroes-header {
+    min-height: 100svh;
+  }
+
   .hero-card__crest-wrapper {
-    width: clamp(180px, 28vw, 240px);
-    height: clamp(180px, 28vw, 240px);
+    width: clamp(180px, 22vw, 240px);
+    height: clamp(180px, 22vw, 240px);
     max-width: none;
   }
 
-  .heroes-header {
-    min-height: 100svh;
+  .hero-card__crest-square-front,
+  .hero-card__crest-square-front .plaque__avatar,
+  .hero-card__crest-avatar {
+    width: clamp(160px, 20vw, 220px);
+    height: clamp(160px, 20vw, 220px);
+    --avatar-size: clamp(160px, 20vw, 220px);
+  }
+
+  .hero-card__crest-diamond-back {
+    width: clamp(200px, 26vw, 270px);
+    height: clamp(200px, 26vw, 270px);
   }
 }
 
@@ -1635,7 +1661,7 @@
    The red origin mark (E4) is removed — gold wreath IS the origin signal.
    ============================================================ */
 .hero-card__crest-square-front {
-  /* Allow the wreath to spill slightly outside the square. */
+  /* Allow the wreath and medallion to spill outside the circle. */
   overflow: visible;
 }
 
@@ -1649,7 +1675,7 @@
   justify-content: center;
   width: var(--avatar-size);
   height: var(--avatar-size);
-  border-radius: 0;
+  border-radius: 50%;
 }
 
 /* Photo inside the avatar wrapper */
@@ -1659,7 +1685,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 0;
+  border-radius: 50%;
   filter: saturate(0.86) contrast(1.08);
 }
 

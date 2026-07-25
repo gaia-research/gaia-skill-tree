@@ -1241,6 +1241,19 @@ button.plaque__slug {
   font-size: 13px;
 }
 
+/* Fix 3c — gold origin wreath framing the hall crest avatar (E4 rule).
+   Replaces the glyph badge; renders as a full-circle laurel ring at +10%
+   of the crest diameter so it reads as a frame, not a badge overlay. */
+.plaque--hall .plaque__hall-crest-wreath {
+  position: absolute;
+  inset: -8%;
+  width: 116%;
+  height: 116%;
+  pointer-events: none;
+  display: block;
+  z-index: 2;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .plaque--hall:hover .plaque__hall-crest {
     transform: scale(1.05);
@@ -3430,16 +3443,25 @@ button.plaque__slug {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Full-Screen Premium Modal (/impeccable) */
+/* Full-Screen Premium Modal — Direction A "Cinematic" (/impeccable)
+   Full-bleed dark stage; the OG card is the single hero, wrapped in a
+   rank-colored ambient glow that pools on the floor of the frame. The
+   rank accent is carried by --hoh-rk-rgb, set per-skill by hoh-modal.js
+   (falls back to the basic tier tokens so the glow is never colorless). */
 .hoh-fs-modal {
+  --hoh-rk-rgb: var(--tier-basic-rgb);
+  --hoh-rk: var(--tier-basic);
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(3, 7, 18, 0.76);
-  backdrop-filter: blur(12px) saturate(180%);
-  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  /* Deeper, near-black cinematic ground so the rank glow reads as light. */
+  background:
+    radial-gradient(120% 82% at 50% 116%, rgba(var(--hoh-rk-rgb), 0.16), transparent 60%),
+    rgba(2, 5, 14, 0.86);
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
   z-index: 1000;
   display: flex;
   flex-direction: column;
@@ -3451,12 +3473,38 @@ button.plaque__slug {
   overflow: hidden;
 }
 
+/* Ambient rank-colored glow floor — pools under the centered card so the
+   rank identity reads from the light itself, not a chip. Sits above the
+   parallax backdrop (z:1) but below the stage (z:2). */
+.hoh-fs-modal::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -34%;
+  transform: translateX(-50%);
+  width: 150%;
+  height: 78%;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(closest-side,
+    rgba(var(--hoh-rk-rgb), 0.30),
+    rgba(var(--hoh-rk-rgb), 0.10) 46%,
+    transparent 72%);
+  filter: blur(26px);
+  opacity: 0;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hoh-fs-modal.is-active::before { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .hoh-fs-modal::before { transition: none; }
+}
+
 .hoh-fs-parallax-bg {
   position: absolute;
   inset: -15% 0;
   z-index: 1;
   pointer-events: none;
-  opacity: 0.15;
+  opacity: 0.18;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -3488,14 +3536,63 @@ button.plaque__slug {
   z-index: 1010;
 }
 
-/* Share/download actions — bottom right */
+/* Gaia Skill Tree brand lockup — pinned top-left of every share modal so the
+   logo + name are always present on the share surface (founder directive,
+   2026-07-26). Mirrors the site-nav seal + wordmark; quiet by default, links
+   home. Fades with the rest of the chrome on idle. */
+.hoh-fs-brand {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  z-index: 1010;
+  text-decoration: none;
+  color: rgba(226, 232, 240, 0.72);
+  transition: color 0.2s ease, opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hoh-fs-brand:hover,
+.hoh-fs-brand:focus-visible {
+  color: var(--text);
+  outline: none;
+}
+.hoh-fs-brand .hoh-fs-brand-seal {
+  width: 26px;
+  height: 26px;
+  display: block;
+  color: var(--hoh-rk, var(--tier-basic));
+}
+.hoh-fs-brand .hoh-fs-brand-word {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.hoh-fs-modal.is-idle .hoh-fs-brand {
+  opacity: 0;
+  pointer-events: none;
+}
+@media (max-width: 640px) {
+  .hoh-fs-brand .hoh-fs-brand-word { display: none; }
+}
+
+/* Share/download actions — Direction A: quiet centered baseline rail. */
 .hoh-fs-footer {
   position: absolute;
-  bottom: 24px;
-  right: 24px;
+  bottom: 26px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   gap: 12px;
   align-items: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(6, 10, 22, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   z-index: 1010;
 }
 
@@ -3517,8 +3614,9 @@ button.plaque__slug {
 
 .hoh-fs-btn:hover {
   color: var(--text);
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(var(--hoh-rk-rgb), 0.55);
   background: rgba(30, 41, 59, 0.8);
+  box-shadow: 0 0 18px rgba(var(--hoh-rk-rgb), 0.22);
   transform: translateY(-2px);
 }
 
@@ -3553,13 +3651,18 @@ button.plaque__slug {
   transform: scale(1) translateY(0);
 }
 
-/* Limit the size of --og card inside stage */
+/* Limit the size of --og card inside stage. Direction A: the card is the
+   single hero — a rank-colored ambient halo (via --hoh-rk-rgb) replaces the
+   generic accent glow so the register reads immediately. */
 .hoh-fs-stage .plaque--og {
   width: 1200px;
   height: 630px;
   transform-origin: center center;
-  transform: scale(0.85); /* Scale slightly to fit laptop displays nicely */
-  box-shadow: 0 32px 64px rgba(0, 0, 0, 0.6), 0 0 100px rgba(var(--plaque-accent-rgb), 0.15);
+  transform: scale(0.88); /* Slightly larger hero than before (was 0.85) */
+  box-shadow:
+    0 40px 80px rgba(0, 0, 0, 0.62),
+    0 0 120px rgba(var(--hoh-rk-rgb), 0.28),
+    0 0 0 1px rgba(var(--hoh-rk-rgb), 0.22);
 }
 /* When the stage hosts the canonical inline SVG (svg.plaque--og), make
    sure its intrinsic width/height attributes don't fight the scale rule.
@@ -3568,25 +3671,34 @@ button.plaque__slug {
 .hoh-fs-stage svg.plaque--og {
   display: block;
   border-radius: 14px;
+  transform: scale(0.88);
+  box-shadow:
+    0 40px 80px rgba(0, 0, 0, 0.62),
+    0 0 120px rgba(var(--hoh-rk-rgb), 0.28),
+    0 0 0 1px rgba(var(--hoh-rk-rgb), 0.22);
 }
 
 @media (max-width: 1400px) {
-  .hoh-fs-stage .plaque--og {
+  .hoh-fs-stage .plaque--og,
+  .hoh-fs-stage svg.plaque--og {
     transform: scale(0.7);
   }
 }
 @media (max-width: 1200px) {
-  .hoh-fs-stage .plaque--og {
+  .hoh-fs-stage .plaque--og,
+  .hoh-fs-stage svg.plaque--og {
     transform: scale(0.55);
   }
 }
 @media (max-width: 800px) {
-  .hoh-fs-stage .plaque--og {
+  .hoh-fs-stage .plaque--og,
+  .hoh-fs-stage svg.plaque--og {
     transform: scale(0.4);
   }
 }
 @media (max-width: 500px) {
-  .hoh-fs-stage .plaque--og {
+  .hoh-fs-stage .plaque--og,
+  .hoh-fs-stage svg.plaque--og {
     transform: scale(0.28);
   }
 }
@@ -3609,7 +3721,7 @@ button.plaque__slug {
   box-sizing: border-box;
   
   position: absolute;
-  bottom: 40px;
+  bottom: 92px;
   left: 50%;
   transform: translateX(-50%) translateY(40px);
   opacity: 0;
@@ -3747,22 +3859,24 @@ button.plaque__slug {
               transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ─── Compact confirm pill ─── */
+/* ─── Compact confirm pill — Direction A: caption zone below the hero ─── */
 .hoh-fs-confirm {
   position: absolute;
-  top: 28px;
+  bottom: 92px;
   left: 50%;
   transform: translateX(-50%);
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 8px 14px;
+  padding: 8px 8px 8px 16px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(var(--hoh-rk-rgb), 0.38);
+  background: rgba(6, 10, 22, 0.72);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.4),
+    0 0 24px rgba(var(--hoh-rk-rgb), 0.12);
   font-family: var(--font-mono, ui-monospace, monospace);
   font-size: 12px;
   letter-spacing: 0.02em;
@@ -3771,7 +3885,7 @@ button.plaque__slug {
 }
 .hoh-fs-confirm[hidden] { display: none; }
 .hoh-fs-confirm-text #hohFsHandleText {
-  color: var(--honor-red, #ef4444);
+  color: var(--hoh-rk, var(--honor-red, #ef4444));
   font-weight: 600;
 }
 .hoh-fs-confirm-btn {
@@ -3878,10 +3992,11 @@ button.plaque__slug {
 }
 .hoh-fs-overlay-ctl .ico { display: block; }
 
-/* Minimized chip — shows when the README panel is collapsed. */
+/* Minimized chip — shows when the README panel is collapsed. Sits in the
+   caption zone above the quiet action rail (Direction A). */
 .hoh-fs-overlay-restore {
   position: absolute;
-  bottom: 32px;
+  bottom: 92px;
   left: 50%;
   transform: translateX(-50%);
   display: inline-flex;
@@ -3889,8 +4004,8 @@ button.plaque__slug {
   gap: 8px;
   padding: 8px 14px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(var(--hoh-rk-rgb), 0.35);
+  background: rgba(6, 10, 22, 0.72);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   color: rgba(226, 232, 240, 0.85);

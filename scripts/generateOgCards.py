@@ -360,6 +360,20 @@ def _diamond_seal(x: float, y: float, size: float = 28.0) -> str:
     )
 
 
+def _brand_lockup() -> str:
+    """Gaia logo + wordmark, top-left corner of every plate."""
+    seal = _diamond_seal(MARGIN, MARGIN - 6, size=26)
+    word_x = MARGIN + 36
+    word_y = MARGIN + 7
+    wordmark = (
+        f'<text x="{word_x}" y="{word_y}" text-anchor="start" '
+        f'font-family="\'Departure Mono\',\'JetBrains Mono\',ui-monospace,monospace" '
+        f'font-size="13" letter-spacing="2.4" fill="{CREAM_ENGRAVED}" fill-opacity="0.60" '
+        f'dominant-baseline="middle">GAIA SKILL TREE</text>'
+    )
+    return f'<g class="plate-brand" aria-hidden="true">{seal}{wordmark}</g>'
+
+
 def _shared_frame(plate_label: str) -> str:
     """The four pieces every plate shares: ground, RA/Dec ticks, plate label,
     engraved rule. Caller is responsible for the magnitude band + signature
@@ -522,6 +536,7 @@ def build_plate(skill: dict) -> str:
   data-plate-class="{html.escape(plate_class)}"
   aria-label="{html.escape(rank_label)} — {html.escape(plate_class)} plate for /{slug}">
   {_shared_frame(rank_label)}
+  {_brand_lockup()}
   {seal}
   {_gutter_rule(accent)}
 
