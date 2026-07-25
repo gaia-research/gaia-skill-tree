@@ -26,7 +26,7 @@
   const MOUNTS = window.GAIA_MOUNTS || [
     'named', 'en', 'badges', 'u', 'samples', 'graph',
     'evidence', 'share', 'trust', 'api', 'codex', 'trending', 'heroes',
-    'reports', 'benchmarks', 'skills',
+    'reports', 'benchmarks',
   ];
   const segs = window.location.pathname.replace(/\/+$/, '').split('/').filter(Boolean);
   const dir = /\.html?$/i.test(segs[segs.length - 1]) ? segs.slice(0, -1) : segs;
