@@ -50,6 +50,20 @@ jobs:
       - name: Install development dependencies
         run: python -m pip install -e ".[dev]"
 
+      # Class P artifacts (registry/gaia.json, registry/named-skills.json) are
+      # gitignored — they never exist in a fresh CI checkout. The integration /
+      # slow tier reads them from the real repo (not tmp_path), so without this
+      # step `gaia dev test all` fails with ~29 errors: FileNotFoundError on
+      # registry/gaia.json and "AssertionError: Registry graph not found."
+      # (test_path_command, test_push, test_intake, test_validate, test_timelines,
+      # test_redaction, test_tui_tokens, test_verify_evidence, test_packaging).
+      # `validate.yml` already carries the identical step for the same reason;
+      # this keeps the two workflows consistent. See CLAUDE.md § Class P vs Class S.
+      - name: Build intermediate registry artifacts (Class P)
+        run: |
+          python scripts/assemble_gaia.py
+          python scripts/generateNamedIndex.py
+
       - name: Fast tests (unit gate)
         # -n auto parallelizes the fast tier across cores. Safe here: unmarked
         # tests are pure-Python against tmp_path / in-memory objects (issue #684
