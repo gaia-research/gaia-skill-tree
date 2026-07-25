@@ -33,13 +33,16 @@ jobs:
         id: hardcoded-colors
         run: |
           set +e
-          HITS=$(grep -REn '#(38bdf8|c084fc|f59e0b|7c3aed|fbbf24|94a3b8|63cab7|a78bfa|e879f9)' \
-               docs/js/ docs/css/ \
-               --include='*.js' --include='*.css' \
-               --exclude-dir='archive' \
-               2>/dev/null | grep -v 'var(--[^,]*,' || true)
+          # scripts/check_hex_colors.py replaces the old inline grep. grep
+          # silently skips files containing a NUL byte (binary-file skip), so a
+          # source file with a literal '\0' was never scanned; the Python
+          # scanner reads every file as text and strips // and /* */ comments so
+          # a documented hex no longer trips the guard while a live-code literal
+          # still does. Exit 1 + file:line:hex on failure.
+          HITS=$(python scripts/check_hex_colors.py 2>&1)
+          EXIT=$?
 
-          if [ -n "$HITS" ]; then
+          if [ $EXIT -ne 0 ]; then
             echo "found=true" >> $GITHUB_OUTPUT
             echo "hits<<EOF" >> $GITHUB_OUTPUT
             echo "$HITS" >> $GITHUB_OUTPUT
