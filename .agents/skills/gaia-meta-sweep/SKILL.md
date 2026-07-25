@@ -141,7 +141,7 @@ Spawn one agent that reads `registry/schema/meta.json` plus the Phase-1 findings
     "properties":{
       "id":{"type":"string","pattern":"^[a-z0-9-]+$"},
       "name":{"type":"string"},
-      "type":{"enum":["basic","extra","unique"]},
+      "type":{"enum":["basic","fusion"]},
       "description":{"type":"string","minLength":10},
       "prerequisites":{"type":"array","items":{"type":"string"}},
       "reasoning":{"type":"string"}
