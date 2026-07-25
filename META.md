@@ -22,7 +22,7 @@ Gaia uses a tiered star system (`0★`–`6★`) to rank skills. Levels are both
 | **3★** | **Evolved** | Demonstrates reproducibility and stability. | community-verified / benchmark-verified |
 | **4★** | **Extra** (Suite branch) / **Unique** (Unique branch) | Proved at production depth; branch forks here. TM gate: ≥ 100 (A-grade). | up to security-reviewed |
 | **5★** | **Ultimate** (Suite branch) / **Unique Ultimate** (Unique branch) | Mastery level — 'Ultimate' is the universal 5★ word. TM gate: ≥ 250 (S-grade). | up to enterprise-ready |
-| **6★** | **Apex** (Suite branch) / **Unique Impossible** (Unique branch) | The pinnacle of Gaia; extreme ecosystem impact. 6-predicate Apex gate (§4.3). | enterprise-ready required |
+| **6★** | **Apex** (Suite branch) / **Unique Impossible** (Unique branch) | The pinnacle of Gaia; extreme ecosystem impact. 6-predicate Apex gate (Suite, §4.3); provisional 5-predicate Unique Impossible gate (Unique, §4.4). | enterprise-ready required |
 
 ### 1.2 Node Types and Branch Axis (Yggdrasil II, 2026-07-07)
 
@@ -98,7 +98,7 @@ This keeps the starless reference rank-less while still letting it carry the sha
 
 Per the G7 Trust Taxonomy RFC, each evidence row carries two independent fields:
 
-- **Evidence Type** — *where* the demonstration comes from (provenance). Values are kebab-case, list-driven from `registry/schema/meta.json` `evidence.types`. Initial canonical types: `arxiv`, `repo`, `github-stars`. The `benchmark-result` type is reserved by the Benchmark Framework RFC (`docs/architecture/benchmark-framework.md`). Always write the full phrase "Evidence Type"; never the bare word "type", which names the skill taxonomy field (Basic/Extra/Unique/Ultimate).
+- **Evidence Type** — *where* the demonstration comes from (provenance). Values are kebab-case, list-driven from `registry/schema/meta.json` `evidence.types`. Initial canonical types: `arxiv`, `repo`, `github-stars`. The `benchmark-result` type is reserved by the Benchmark Framework RFC (`docs/architecture/benchmark-framework.md`). Always write the full phrase "Evidence Type"; never the bare word "type", which names the skill taxonomy field (basic / fusion).
 
 - **Evidence Grade** — *how strong* the demonstration is, on an **S / A / B / C** scale (Platinum / Gold / Silver / Bronze). Derived from the evidence row's `trustNumber` via `registry/schema/meta.json` `evidence.gradeThresholds` (S ≥ 90, A ≥ 80, B ≥ 60, C ≥ 40). Evidence whose `trustNumber` falls below 40 is **ungraded** — on the record but counting toward no gate. Grade A/B are deliberately distinct from the deprecated Class A/B.
 
@@ -192,6 +192,25 @@ Reaching or retaining 6★ Apex rank requires satisfying the six **active** pred
 Enforcement is **live in code** as of Phase 1.5 (`src/gaia_cli/trustMagnitude.py::checkApexGate*` family). Top-4 S-grade skills (`garrytan/gstack`, `ruvnet/ruflo`, `mattpocock/skills`, `obra/superpowers`) currently pass 4/6 predicates each — §11.12.1 (A-graded origins) and §11.12.7 (tenure) await deeper origin curation and historical `sourceStartedAt` backfill respectively.
 
 The G7 RFC is the normative spec; META.md is a summary.
+
+### 4.4 Unique Impossible (6★) Gate — Provisional 5-Predicate Requirements (Unique branch)
+
+Under Yggdrasil II there are **two distinct 6★ paths**, one per branch:
+
+- **Suite branch → 6★ Apex** — the 6-predicate gate in §4.3.
+- **Unique branch → 6★ Unique Impossible** — a **provisional 5-predicate gate**: the Apex set **minus `directNestedSuiteGte1`** (§11.12.2). A Unique-branch skill has no `suiteComponents` by definition, so the directly-nested-suite composition-depth predicate does not apply; the remaining five carry over unchanged. **Formal ratification is deferred to Yggdrasil III** (the branch-aware Trust Magnitude formula rebuild) — until then this gate is provisional, not RFC-ratified.
+
+The five active Unique Impossible predicates:
+
+1. **§11.12.1 — ≥ 5 A-graded origins** in the transitive origin closure (deduplicated; `role='origin'` only — pure suite variants do not count).
+2. **§11.12.3 — ≥ 1 node reachable only at depth ≥ 2** (provenance depth, not installation breadth; suite-only reachability excluded).
+3. **§11.12.4 — Overall Trust Grade S** (Trust Magnitude ≥ 250 with the diversity gate satisfied).
+4. **§11.12.7 — Tenure ≥ 180 days** (earliest A/S evidence row's public source continuously available ≥ 180 calendar days).
+5. **§11.12.8 — `apexPromotionPrSigned`** by the verifier at promotion time (sole human-attestation gate during bootstrap; cosigner quorum once cross-org verifiers exist).
+
+**Dropped for the Unique branch:** §11.12.2 `directNestedSuiteGte1` (no nested suite exists on a Unique skill). **Feature-flagged OFF (both branches):** §11.12.5 `crossOrgVerifierGte2` and §11.12.6 `systemWideCapRespected` — return skipped, not failed, until 2026-Q4 review.
+
+The Evidence Floor requirement has been retired: **Trust Magnitude is the sole promotion gate** on both branches. The branch-aware split is authoritatively rendered in `docs/codex/trust-methodology.html` §5 (Apex Gate — Suite Branch, with the Yggdrasil II branch-aware callout); META.md mirrors it. The G7 RFC remains the normative spec for the shared predicate definitions.
 
 ---
 

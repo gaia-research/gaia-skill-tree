@@ -113,7 +113,7 @@ Alternative descriptor for the Unawakened (0★) rank — used as a per-skill pi
 _Avoid_: "Pure skill" to mean a Basic-tier skill; "Pure / Undeveloped" as a section header (conflates the tier and stars axes).
 
 **Rank up / Level up**:
-Equivalent verbs for ascending one or more stars; both valid in copy and the CLI surface (`gaia promote`).
+Equivalent verbs for ascending one or more stars; both valid in copy. There is no self-promote CLI verb under Yggdrasil II — rank is assigned by canon curation, not by the contributor.
 _Avoid_: upgrade, promote-up.
 
 **Demote**:
@@ -129,7 +129,7 @@ _Avoid_: proof level, evidence tier; using Class for new evidence; equating Clas
 The #646 trust model splits the old single `class` letter into two orthogonal axes — **Evidence Type** (provenance) and **Evidence Grade** (quality) — and adds the skill-level **Overall Trust Grade**. These materialise in generated catalogs; they are computed by the build pipeline, never declared.
 
 **Evidence Type**:
-The provenance of one demonstration — *where* it comes from, not how good it is. Values are kebab-case and list-driven from `meta.json` `evidence.types` (initially `arxiv`, `repo`, `github-stars`), so new sources extend the list without a schema change. Always write the full phrase "Evidence Type"; never the bare word "type", which names the Basic/Extra/Unique/Ultimate taxonomy field.
+The provenance of one demonstration — *where* it comes from, not how good it is. Values are kebab-case and list-driven from `meta.json` `evidence.types` (initially `arxiv`, `repo`, `github-stars`), so new sources extend the list without a schema change. Always write the full phrase "Evidence Type"; never the bare word "type", which names the basic / fusion taxonomy field.
 _Avoid_: reusing **Evidence Class** for provenance; "source class"; the bare "type" for provenance.
 
 **Evidence Grade**:
@@ -175,12 +175,12 @@ The collective noun for contributors who hold one or more Named Skills — used 
 _Avoid_: claimers, owners list, top namers, leaderboard.
 
 **Promote**:
-The CLI action (`gaia promote`) that ranks up a skill, gated by evidence. In the brand voice, **rank up** or **level up** are the visitor-facing verbs.
-_Avoid_: lift, advance.
+The brand-voice concept of a skill ranking up on the verified-maturity axis, gated by evidence. **Rank up** or **level up** are the visitor-facing verbs. Under Yggdrasil II there is **no self-promote CLI verb** — rank is assigned by canon curation (dev-gated), not by the contributor. (`gaia promote` was retired in the Ygg II CLI alignment.)
+_Avoid_: lift, advance, self-promote.
 
 **Propose**:
-The CLI action (`gaia propose`) that claims an unclaimed Ultimate skill by submitting an implementation for review.
-_Avoid_: submit, request.
+The CLI action (`gaia propose`) that submits an implementation of a canonical skill as a named PR for review.
+_Avoid_: submit, request, claim.
 
 ### Registry mechanics
 
@@ -239,16 +239,16 @@ _Yggdrasil II (2026-07-07) updates these relationships. Legacy Yggdrasil I copy 
 
 > **Dev:** "Karpathy demonstrated `/autoresearch` — does that make it a Named Skill?"
 > **Maintainer:** "It does, but only after `gaia propose` lands with Class C evidence or stronger. Until then it sits in **Intake**. Once accepted, Karpathy becomes the **Origin Contributor** and the skill ranks up to **Named** (2★)."
-> **Dev:** "And if `/autoresearch` is an Ultimate, the same contributor stays attached as it climbs?"
+> **Dev:** "And if `/autoresearch` climbs to Ultimate rank, the same contributor stays attached as it climbs?"
 > **Maintainer:** "Yes — Origin sticks for the life of the skill, even at 6★."
-> **Dev:** "Can two Extra Skills fuse into a new Extra?"
-> **Maintainer:** "They can. Fusion isn't restricted to Basics-only; an Extra can compose with another Extra and still land as an Extra if it doesn't cross the Ultimate complexity bar."
+> **Dev:** "Can two fusion skills fuse into a new fusion?"
+> **Maintainer:** "They can. Fusion isn't restricted to basics-only; a `fusion`-type skill can compose with another and the result is still `fusion` by **type**. Where it lands on the star axis — 4★ **Extra**, 5★ **Ultimate**, 6★ **Apex** (Suite branch) — is a **rank** question, decided by Trust Magnitude at curation, not by the type."
 
 ## Flagged ambiguities
 
 - "Rank" was used loosely as both the axis name and the label name. Resolved: **stars** is the axis (0★–6★); **rank** is only valid as a noun paired with the rank name (e.g. "the Apex rank").
 - "Level" was used loosely for both stars and the taxonomic categories (Basic/Extra/Unique/Ultimate). Resolved: stars is the maturity axis; **type** (`basic` / `fusion`) is the structural taxonomy (Yggdrasil II); named-skill progression is captured by the derived **branch** axis (`standard` / `suite` / `unique`). "Level up" as a verb is fine and is synonymous with **rank up**.
-- "Claim" is the brand-voice verb a visitor sees; **Propose** is the canonical CLI command beneath it. The two refer to the same action against an unclaimed Ultimate.
+- "Claim" is retired brand voice. Starless (generic) skills no longer carry a rank, so there is no "unclaimed Ultimate" to claim — everything is simply a **skill**. The canonical CLI action for submitting an implementation is `gaia propose`.
 
 ---
 
@@ -302,9 +302,9 @@ _Avoid_: Get started, Quickstart, Onboarding.
 The brand-voice label for the MCP-install moment, where a contributor's AI agent links to the Gaia registry.
 _Avoid_: Connect MCP, Add Gaia to your agent.
 
-**Available Ultimates**:
-The list of unclaimed Ultimate skills shown in Path B of the Two Doors home. Each row carries the tier glow on hover and a `Claim →` action.
-_Avoid_: Open Ultimates, Unclaimed Ultimates (acceptable; less preferred), Ultimate marketplace.
+**Browse named skills**:
+The catalog of named skills reachable from the home page (and via `Browse named skills →`). Rows carry the rank glow on hover and open the skill's plaque. Starless (generic) skills are unranked, so there is no "claim" action and no "Ultimate" as a claimable noun — every row is simply a skill.
+_Avoid_: Available Ultimates, unclaimed Ultimates, Open Ultimates, Ultimate marketplace, Claim →.
 
 **Ascension Cycle**:
 The lifecycle diagram showing how a contributor's skill travels from Register → Scan → Rank up → Name → Fuse → Apex. Replaces the old "Skill Lifecycle" arrow flow.
@@ -346,19 +346,19 @@ Priority D of the plaque — the moment of being named, rendered as a Solo-Level
 _Avoid_: Award animation, Level-up animation.
 
 **Two Doors**:
-The home-page IA pattern — a forked CTA pair ("Register your repo →" / "Claim an Ultimate ◆") that splits the page into two parallel path columns reconverging at Hall of Heroes. The visitor picks a door within 10 seconds; both lead to the canonical registry.
-_Avoid_: Dual CTA, A/B paths.
+The home-page IA pattern — a forked path pair (**Path A — Human**: connect a repo and browse; **Path B — Agent**: delegate to an AI agent) that splits the page into two parallel columns reconverging at Hall of Heroes. The visitor picks a door within 10 seconds; both lead to the canonical registry.
+_Avoid_: Dual CTA, A/B paths, "Claim an Ultimate".
 
 ### Verbs (use in copy)
 
 | Verb | Brand-voice gloss | CLI equivalent |
 |---|---|---|
-| **Rank up · Level up** | Ascend one or more stars on the verified-maturity axis | `gaia promote` |
+| **Rank up · Level up** | Ascend one or more stars on the verified-maturity axis | (no CLI verb — rank is assigned by canon curation, not self-promoted) |
 | **Demote** | Drop a skill back one or more stars (demerit or retracted evidence) | (no CLI verb yet) |
 | **Name · Be named** | The 2★ moment a skill claims its Origin Contributor; uses honor red | `gaia push` (when accepted) |
 | **Fuse** | Combine two or more skills into a higher-complexity skill | `gaia fuse` |
-| **Claim · Propose** | Take an unclaimed Ultimate (Claim = brand voice; Propose = CLI) | `gaia propose` |
-| **Ascend** | Reach Apex (6★, Suite branch) or Unique Impossible (6★, Unique branch) | (no CLI verb — emerges from `gaia promote` reaching 6★) |
+| **Propose** | Submit an implementation of a canonical skill as a named PR | `gaia propose` |
+| **Ascend** | Reach Apex (6★, Suite branch) or Unique Impossible (6★, Unique branch) | (no CLI verb — assigned by curation when the 6★ gate passes) |
 | **Bond** | Link an AI agent to Gaia via MCP | `gaia dev mcp` install flow |
 | **Register** | First connect a repo to Gaia | `gaia init` |
 | **Scan** | Detect demonstrated skills in a repo | `gaia scan` |
