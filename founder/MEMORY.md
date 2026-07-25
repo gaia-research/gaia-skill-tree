@@ -3,6 +3,7 @@
 Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
+
 ## State Snapshot (2026-07-25, session — PR #1185 unblocked: staging was UNVALIDATED not green; 312→5 homepage requests; PR #1274 open)
 
 ### TLDR
