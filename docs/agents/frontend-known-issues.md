@@ -72,3 +72,27 @@ Both scripts fall back to an inline copy if `mounts.js` hasn't loaded yet, but t
 **CI guard:** `scripts/check_nav_mounts.py` (Guard D in `.github/workflows/docs-cohesion.yml`) fails the PR if any HTML file uses `site-nav.js` without loading `mounts.js` first, or if an active `docs/` subdirectory is missing from `window.GAIA_MOUNTS`.
 
 Run locally to verify: `python scripts/check_nav_mounts.py`
+
+## Unsafe HTML Sinks (DOM-XSS) — `check_html_sinks.py`
+
+Codified after PR #1185's CodeQL run flagged 8 high-severity alerts — 6 of them the same shape: a runtime value string-built into an HTML sink (`el.innerHTML = \`...${x}...\``) when a DOM API was available. Prevention is a fast grep guard that runs **before** CodeQL and gives instant review feedback.
+
+**The rule:** don't string-build HTML with dynamic values. Default to the DOM API — `createElement` + `textContent` / `createTextNode`, or move existing child nodes rather than round-tripping `innerHTML`. Reserve `innerHTML` for **static** author-controlled markup (`= ''` to clear, or a constant literal with no `${}` / no `+`).
+
+**The guard:** `scripts/check_html_sinks.py` scans `docs/**/*.js` and inline `<script>` blocks in `docs/**/*.html` for the unambiguously-dangerous forms:
+- `.innerHTML`/`.outerHTML` assigned a template literal with `${}` interpolation,
+- the same built by string concatenation (`'...' + x`),
+- `insertAdjacentHTML` / `document.write(ln)` with a dynamic argument.
+
+It does **not** flag bare-identifier assignments (`el.innerHTML = someVar`) — whether `someVar` is tainted is a dataflow question that stays CodeQL's job. This guard is the fast first line; CodeQL is the backstop.
+
+**Posture:** WARN-ONLY today (`HARD_FAIL = False`). The repo carries ~14 pre-existing interpolating sinks; the guard surfaces them as a ratchet without red-building staging. When they reach zero — each converted to a DOM API or annotated — flip `HARD_FAIL = True`.
+
+**Suppressing a reviewed-safe sink:** append a trailing marker with a required reason:
+```js
+el.innerHTML = `<use href="#${ICON}"/>`;  // gaia-html-sink-ok: ICON is a build-time constant
+```
+A bare marker with no reason is rejected.
+
+**CI:** `.github/workflows/html-sink-guard.yml` runs the guard plus its classifier self-tests (`python scripts/check_html_sinks.py --selftest`). Run locally: `python scripts/check_html_sinks.py`.
+
