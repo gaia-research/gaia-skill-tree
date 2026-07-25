@@ -1333,8 +1333,24 @@
     padding: 2px 0;
   }
 
+  /* Windowed locator: at desktop the rail shows only the neighborhood of rows
+     around the active plate (set by applyLedgerWindow). Non-windowed rows are
+     removed from flow so the rail stays bounded regardless of hero count. The
+     full <ol> remains in the DOM — the "all plates" panel and prev/next walk
+     every item. Mobile (<820px) keeps all chips (this rule is desktop-only). */
   .heroes-ledger-rail__item {
+    display: none;
     flex: initial;
+  }
+
+  .heroes-ledger-rail__item.is-in-window {
+    display: block;
+    animation: heroes-ledger-row-in 200ms ease-out both;
+  }
+
+  @keyframes heroes-ledger-row-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
   }
 
   .heroes-ledger-rail__button {
@@ -1485,6 +1501,10 @@
   .hero-stage::after,
   .hero-card {
     transition: none !important;
+  }
+
+  .heroes-ledger-rail__item.is-in-window {
+    animation: none !important;
   }
 
   .hero-stage {
