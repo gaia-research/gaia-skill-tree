@@ -33,6 +33,20 @@ Generate yours at **[gaiaskilltree.com/badges/](https://gaiaskilltree.com/badges
 
 ---
 
+## Change Management — Yggdrasil II (July 2026)
+
+Gaia has moved from **Yggdrasil I** to **Yggdrasil II**, the ratified meta that governs how skills are typed, ranked, and trusted. If you last looked before July 2026, three things changed:
+
+- **Trust Magnitude is the sole promotion gate.** The old per-star *Evidence Floor* is retired. A skill rises by accumulating Trust Magnitude — an unbounded score summed across ten evidence types (`magnitude × weight × freshness`), graded S ≥ 250 / A ≥ 100 / B ≥ 50 / C ≥ 20. The legacy "≥ 10k repository stars" hard requirement for the top pathways is gone; TM is the only numeric gate.
+- **Two node types, not five.** `extra`, `ultimate`, and `unique` are retired — every non-basic node is now `fusion`. Type is pure structure and lives only on starless (generic) references; **named skills carry no type**.
+- **Branch is derived, never declared.** A named skill's branch is computed at read-time from `branch = f(suiteComponents present?, rank)` — `suite` (has suiteComponents, any rank; ladder words Extra → Ultimate → Apex appear at 4★+), `unique` (no suiteComponents, rank ≥ 4; ladder Unique → Unique Ultimate → Unique Impossible), or `standard` (rank 1–3). No hand-maintained branch field to drift. The two 6★ pinnacles are **Apex** (suite branch) and **Unique Impossible** (unique branch).
+
+Stars now live on **named skills only**; generic references are *starless* — rank-less taxonomy nodes whose effective rank is the top star among their named children.
+
+**The full ruleset lives in [META.md](META.md)** (the single source of truth) and [CONTEXT.md](CONTEXT.md) (vocabulary). Explore it live at **[gaiaskilltree.com](https://gaiaskilltree.com/)** — the redesigned site renders the graph, per-contributor trees, the public [Trust leaderboard](https://gaiaskilltree.com/trust/leaderboard/), and every skill's evidence ledger.
+
+---
+
 # Who maintains this?
 
 Right now just me.
