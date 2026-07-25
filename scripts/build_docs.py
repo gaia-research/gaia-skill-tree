@@ -323,17 +323,79 @@ def build_okf_bundle(check: bool) -> bool:
         res = subprocess.run([sys.executable, str(script_path)], capture_output=True, text=True)
         return res.returncode == 0
 
-    # In --check mode, do NOT compare build_okf_bundle.py's output against the
-    # committed docs/okf/index.json. Two scripts write that same path in main():
-    # build_okf_bundle (registry/gaia.json) runs first, then build_skills_index
-    # (buildSkillsIndex.py, reads docs/okf/skills/*.md) runs last and wins in
-    # write mode — so the committed index.json is buildSkillsIndex's output.
-    # build_okf_bundle.py only classifies `basic` skills (extra/ultimate come out
-    # empty), so its output can never match the committed file, making this check
-    # a permanent false positive (`diff okf_dir diff_files: ['index.json']`).
-    # build_skills_index (the authoritative writer) has its own --check step, so
-    # genuine docs/okf/index.json drift is still caught there.
-    return False
+    # In --check mode, regenerate into a tempdir and diff only the `.md`
+    # outputs (root index.md, per-type skills/{type}/index.md, per-skill
+    # skills/{type}/{id}.md) against the committed docs/okf/.
+    #
+    # index.json is deliberately EXCLUDED from the comparison. Two scripts
+    # write that same path in main(): build_okf_bundle (registry/gaia.json)
+    # runs first, then build_skills_index (buildSkillsIndex.py, reads
+    # docs/okf/skills/*.md) runs last and wins in write mode — so the committed
+    # index.json is buildSkillsIndex's output. build_okf_bundle.py only
+    # classifies `basic` skills (extra/ultimate come out empty), so its output
+    # can never match the committed file, making that comparison a permanent
+    # false positive (`diff okf_dir diff_files: ['index.json']`).
+    # build_skills_index (the authoritative writer) has its own --check step,
+    # so genuine docs/okf/index.json drift is still caught there.
+    #
+    # Previously this branch returned False unconditionally, which silenced the
+    # index.json false positive at the cost of every other OKF output: real
+    # drift in any generated `.md` went undetected.
+    committed = ROOT / "docs" / "okf"
+    if not committed.is_dir():
+        print("diff docs/okf/ (missing)")
+        return True
+    with tempfile.TemporaryDirectory() as tmp:
+        out_dir = Path(tmp) / "okf"
+        res = subprocess.run(
+            [sys.executable, str(script_path), str(out_dir)],
+            capture_output=True, text=True,
+        )
+        if res.returncode != 0:
+            print(f"diff docs/okf/ (regen failed: rc={res.returncode})")
+            print((res.stdout or "") + (res.stderr or ""))
+            return True
+        if not out_dir.is_dir():
+            # The script exits 0 even when registry/gaia.json (Class P) is
+            # missing, writing nothing at all. Report that rather than
+            # mistaking an empty tempdir for "every committed file drifted".
+            print("diff docs/okf/ (regen produced no output -- missing registry/gaia.json?)")
+            return True
+        drifts = _diff_md_generated(committed, out_dir)
+        for d in drifts:
+            print(f"diff docs/okf/{d}")
+        return bool(drifts)
+
+
+def _diff_md_generated(committed: Path, generated: Path) -> list[str]:
+    """Return relative `.md` paths where `committed` disagrees with a fresh build.
+
+    Scoped counterpart to `_diff_tree` for bundles where only the Markdown
+    outputs are authoritative (see `build_okf_bundle`). Direction is deliberate:
+    only files the generator currently EMITS are compared. A path is reported
+    when the generated file is missing from the committed tree or its contents
+    differ; comparison goes through `_equal_ignoring_dates` so volatile
+    timestamps do not register as drift, matching the rest of this file.
+
+    Committed-only files are ignored on purpose. `build_okf_bundle.py` writes in
+    place and never deletes, so write mode cannot resolve that class of drift —
+    reporting it would leave `--check` permanently red with no fix command to
+    offer, which is the trap the previous unconditional `return False` fell
+    into. Concretely, `docs/okf/skills/extra/` and `docs/okf/skills/ultimate/`
+    are orphans of the Yggdrasil II taxonomy rename (those types folded into
+    `fusion`); they are unreferenced by the regenerated index.md and want a
+    deliberate cleanup commit, not a standing CI warning.
+    """
+    drifts: list[str] = []
+    for gen_path in sorted(generated.rglob("*.md"), key=str):
+        rel = gen_path.relative_to(generated)
+        committed_path = committed / rel
+        if not committed_path.is_file():
+            drifts.append(str(rel))
+            continue
+        if not _equal_ignoring_dates(committed_path, gen_path):
+            drifts.append(str(rel))
+    return drifts
 
 
 def build_skills_index(check: bool) -> bool:
@@ -1414,6 +1476,14 @@ def build_docs_graph_assets(check: bool) -> bool:
         return False
     rc, output = _run_script(script, [])
     if rc != 0:
+        # The sync now aborts loudly rather than writing a degraded Class S
+        # gaia.json when its layout inputs are missing (issue #1275). Surface
+        # that as a drift line in --check so the gate fails on the guard
+        # instead of swallowing it into a _run_step warning.
+        if check:
+            print(f"diff docs/graph/ (sync aborted: rc={rc})")
+            print(output)
+            return True
         raise RuntimeError(f"syncDocsGraphAssets.py failed: rc={rc}")
     return False
 

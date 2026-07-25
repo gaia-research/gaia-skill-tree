@@ -85,6 +85,36 @@ def sync_docs_graph_assets(root: Path = ROOT) -> None:
         if committed_src.exists():
             layout_nodes = json.loads(committed_src.read_text(encoding="utf-8")).get("nodes", {})
 
+    # Sanity guard (#1275) — same shape as build_badges()'s catastrophic-drop
+    # abort. registry/layouts_3d.json is Class P and gitignored, so a fresh
+    # clone or a CI runner can be missing BOTH layout inputs. Writing
+    # docs/graph/gaia.json without them silently strips positions/cluster from
+    # every skill (plus meta.centroids/clusterNames) — and docs/graph is Class
+    # S, the bytes GitHub Pages serves, so committing that degraded copy
+    # flattens the live 3D graph and World Tree. Refuse to overwrite a
+    # populated artifact with a positionless one. A committed copy that is
+    # already positionless is legitimate and passes through untouched.
+    if not layout_nodes:
+        committed_graph = docs_graph / "gaia.json"
+        positioned = 0
+        if committed_graph.exists():
+            try:
+                committed_data = json.loads(committed_graph.read_text(encoding="utf-8"))
+            except (json.JSONDecodeError, OSError):
+                committed_data = {}
+            positioned = sum(
+                1 for s in committed_data.get("skills", [])
+                if s.get("positions") or s.get("cluster")
+            )
+        if positioned:
+            raise RuntimeError(
+                "Refusing to write docs/graph/gaia.json without "
+                "registry/layouts_3d.json or generated-output/layouts.json — "
+                f"the committed copy has {positioned} skills with "
+                "positions/cluster; the regenerated copy would have 0. Run "
+                "scripts/exportGexf.py's layout step or `gaia pull` first."
+            )
+
     # Load ultimate gate config for trust grade injection
     _gate_config: dict = {}
     _meta_path = root / "registry" / "schema" / "meta.json"
