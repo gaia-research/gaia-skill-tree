@@ -13,93 +13,6 @@
   var idleTimer = null;
   var idleHandlersBound = false;
 
-  // ── Direction A "Cinematic": rank accent resolver ────────────────
-  // The ambient glow floor + card halo + action-rail tint all read the
-  // CSS custom props --hoh-rk / --hoh-rk-rgb set on the modal. We resolve
-  // the correct rank token NAME per level + branch (matching tokens.css and
-  // the 9-variant register), then let CSS pull the -rgb companion. This keeps
-  // the modal glow in lockstep with the plaque's own data-branch accent.
-  function levelNum(level) {
-    if (level == null) return 0;
-    if (typeof level === 'number') return level | 0;
-    var n = parseInt(String(level).replace(/[^\d]/g, ''), 10);
-    return isNaN(n) ? 0 : Math.max(0, Math.min(6, n));
-  }
-  function branchFor(ns) {
-    // Read the resolved branch via the shared semantics seam when present;
-    // fall back to the emitted field, then 'standard'. Never derive from type.
-    if (window.GaiaSemantics && typeof window.GaiaSemantics.branchOf === 'function') {
-      try { return window.GaiaSemantics.branchOf(ns) || 'standard'; } catch (_e) {}
-    }
-    return (ns && ns.branch) || 'standard';
-  }
-  // Returns the token STEM (e.g. 'rank-4-unique'); CSS reads var(--<stem>) and
-  // var(--<stem>-rgb). Every stem below exists in tokens.css.
-  function rankTokenStem(ns) {
-    var n = levelNum(ns && ns.level);
-    var branch = branchFor(ns);
-    if (branch === 'unique') {
-      // Unique ladder: 4★ violet, 5★ burnished copper, 6★ ember copper.
-      if (n >= 6) return 'rank-6-unique';
-      if (n >= 5) return 'rank-5-unique';
-      return 'rank-4-unique';
-    }
-    // Suite + standard share the numeric rank tokens (0★→6★).
-    return 'rank-' + n;
-  }
-  function applyRankAccent(modal, ns) {
-    if (!modal) return;
-    var stem = rankTokenStem(ns);
-    modal.style.setProperty('--hoh-rk', 'var(--' + stem + ')');
-    modal.style.setProperty('--hoh-rk-rgb', 'var(--' + stem + '-rgb)');
-  }
-
-  // Ensure the cinematic parallax backdrop exists. Only docs/index.html ships
-  // the .hoh-fs-parallax-bg markup inline; the generated profile/named pages
-  // and the hand-authored heroes page do not. Inject it once so every surface
-  // gets the same full-bleed backdrop without editing 50 generated files.
-  function ensureParallaxBg(modal) {
-    if (!modal || modal.querySelector('.hoh-fs-parallax-bg')) return;
-    var root = (typeof window.gaiaIconBase === 'function')
-      ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '')
-      : '';
-    var bg = document.createElement('div');
-    bg.className = 'hoh-fs-parallax-bg';
-    bg.setAttribute('aria-hidden', 'true');
-    var img = document.createElement('img');
-    img.src = root + 'assets/world-tree/yggdrasil-backdrop-941.webp';
-    img.alt = '';
-    bg.appendChild(img);
-    // Insert as the first child so it sits behind the stage/chrome.
-    modal.insertBefore(bg, modal.firstChild);
-  }
-
-  // Ensure the Gaia Skill Tree brand lockup (seal + wordmark) exists on the
-  // share modal. Every share surface must carry the logo + name (founder
-  // directive, 2026-07-26). Injected once so all pages match without editing
-  // 50 generated files; inline markup on index/heroes/generated pages is a
-  // no-op here thanks to the presence guard.
-  function ensureBrandLockup(modal) {
-    if (!modal || modal.querySelector('.hoh-fs-brand')) return;
-    var root = (typeof window.gaiaIconBase === 'function')
-      ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '')
-      : '';
-    var brand = document.createElement('a');
-    brand.className = 'hoh-fs-brand';
-    brand.href = root + 'index.html';
-    brand.setAttribute('aria-label', 'Gaia Skill Tree home');
-    // Diamond seal mirrors site-nav SEAL_SVG; wordmark = the product name.
-    brand.innerHTML =
-      '<svg class="hoh-fs-brand-seal" viewBox="0 0 64 64" aria-hidden="true" focusable="false">' +
-        '<path d="M 32 4 L 60 32 L 32 60 L 4 32 Z" fill="none" stroke="currentColor" ' +
-        'stroke-width="2.5" stroke-linejoin="miter"/>' +
-        '<text x="32" y="34" font-family="EB Garamond, Georgia, serif" font-weight="600" ' +
-        'font-size="28" fill="currentColor" text-anchor="middle" dominant-baseline="central">G</text>' +
-      '</svg>' +
-      '<span class="hoh-fs-brand-word">Gaia Skill Tree</span>';
-    modal.appendChild(brand);
-  }
-
   function setIdle(modal) {
     modal.classList.add('is-idle');
   }
@@ -342,10 +255,6 @@
       showToast('This skill is not yet named — sharing unlocks at 2★.');
       return;
     }
-
-    // Direction A: paint the modal's rank accent BEFORE the stage renders so
-    // the ambient glow floor + card halo animate in already-colored.
-    applyRankAccent(modal, ns);
 
     // Center Stage: render the canonical OG SVG (docs/og/{handle}/{slug}.svg)
     // when available, falling back to plaque.renderOg() HTML mock if the
@@ -662,12 +571,6 @@
   function init() {
     var modal = document.getElementById('hohFullscreenModal');
     if (!modal) return;
-
-    // Direction A: guarantee the cinematic backdrop on every page (the inline
-    // markup only exists in docs/index.html).
-    ensureParallaxBg(modal);
-    // Every share surface carries the Gaia Skill Tree logo + name.
-    ensureBrandLockup(modal);
 
     // Delegated click listener to catch plaque__fs-btn clicks dynamically
     document.addEventListener('click', function (e) {
