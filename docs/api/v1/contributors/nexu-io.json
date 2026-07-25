@@ -14,7 +14,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/nexu-io/open-design.json"
-      }
+      },
+      "genericSkillRef": "design-generation"
     }
   ],
   "namedSkillsCount": 1,

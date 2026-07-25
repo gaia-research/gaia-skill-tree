@@ -14,7 +14,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/vercel/find-skills.json"
-      }
+      },
+      "genericSkillRef": "skill-discovery"
     }
   ],
   "namedSkillsCount": 1,

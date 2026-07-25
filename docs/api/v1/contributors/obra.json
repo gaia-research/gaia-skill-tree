@@ -14,7 +14,21 @@
       "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/obra/superpowers.json"
-      }
+      },
+      "genericSkillRef": "superpowers",
+      "suiteComponents": [
+        "obra/brainstorming",
+        "obra/dispatching-parallel-agents",
+        "obra/executing-plans",
+        "obra/finishing-a-development-branch",
+        "obra/receiving-code-review",
+        "obra/requesting-code-review",
+        "obra/subagent-driven-development",
+        "obra/systematic-debugging",
+        "obra/using-git-worktrees",
+        "obra/verification-before-completion",
+        "obra/writing-plans"
+      ]
     },
     {
       "id": "obra/subagent-driven-development",
@@ -29,7 +43,8 @@
       "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/obra/subagent-driven-development.json"
-      }
+      },
+      "genericSkillRef": "subagent-driven-development"
     },
     {
       "id": "obra/using-git-worktrees",
@@ -44,7 +59,8 @@
       "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/obra/using-git-worktrees.json"
-      }
+      },
+      "genericSkillRef": "using-git-worktrees"
     },
     {
       "id": "obra/writing-plans",
@@ -59,7 +75,8 @@
       "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/obra/writing-plans.json"
-      }
+      },
+      "genericSkillRef": "writing-plans"
     },
     {
       "id": "obra/brainstorming",
@@ -74,7 +91,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/obra/brainstorming.json"
-      }
+      },
+      "genericSkillRef": "brainstorming"
     },
     {
       "id": "obra/executing-plans",
@@ -89,7 +107,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/obra/executing-plans.json"
-      }
+      },
+      "genericSkillRef": "executing-plans"
     },
     {
       "id": "obra/verification-before-completion",
@@ -104,7 +123,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/obra/verification-before-completion.json"
-      }
+      },
+      "genericSkillRef": "verification-before-completion"
     },
     {
       "id": "obra/dispatching-parallel-agents",
@@ -119,7 +139,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/obra/dispatching-parallel-agents.json"
-      }
+      },
+      "genericSkillRef": "dispatching-parallel-agents"
     },
     {
       "id": "obra/systematic-debugging",
@@ -134,7 +155,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/obra/systematic-debugging.json"
-      }
+      },
+      "genericSkillRef": "systematic-debugging"
     },
     {
       "id": "obra/finishing-a-development-branch",
@@ -149,7 +171,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/obra/finishing-a-development-branch.json"
-      }
+      },
+      "genericSkillRef": "finishing-a-development-branch"
     },
     {
       "id": "obra/receiving-code-review",
@@ -164,7 +187,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/obra/receiving-code-review.json"
-      }
+      },
+      "genericSkillRef": "receiving-code-review"
     },
     {
       "id": "obra/requesting-code-review",
@@ -179,7 +203,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/obra/requesting-code-review.json"
-      }
+      },
+      "genericSkillRef": "requesting-code-review"
     }
   ],
   "namedSkillsCount": 12,
