@@ -1,3 +1,8 @@
+---
+name: design-iteration
+description: 'One-fix-at-a-time, approval-gated design fix recovery. Given a checklist of fixes (handover doc, CHECKLIST.md, or inline list), applies each individually, presents a diff, and waits for an explicit APPROVE / REJECT / NO CHANGES decision before committing. Trigger phrases: /design-iteration, "go through the checklist one by one", "fix these one at a time", "bucket recovery", "design fix pass".'
+---
+
 # /design-iteration
 
 A **one-fix-at-a-time, approval-gated** design fix recovery skill. Given a checklist of
