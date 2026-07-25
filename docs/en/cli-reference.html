@@ -811,9 +811,9 @@
 
   <!-- Main site nav (hamburger on mobile, full menu on desktop) -->
   <nav id="site-nav"></nav>
-  <script src="../js/mounts.js?v=6.4.12"></script>
-  <script src="../js/site-nav.js?v=6.4.12"></script>
-  <script src="../js/ui.js?v=6.4.12"></script>
+  <script src="../js/mounts.js?v=6.8.16"></script>
+  <script src="../js/site-nav.js?v=6.8.16"></script>
+  <script src="../js/ui.js?v=6.8.16"></script>
 
 
 
@@ -825,7 +825,7 @@
     <span class="nav-sep">/</span>
     <span class="nav-crumb current">CLI Reference</span>
     <div class="nav-spacer"></div>
-    <span class="nav-version">v6.4.12</span>
+    <span class="nav-version">v6.8.16</span>
   </nav>
 
   <div class="page-layout">
@@ -931,7 +931,7 @@
             <li><a href="#init"><code>init</code> — Initialize config</a></li>
             <li><a href="#scan"><code>scan</code> — Scan for evidence</a></li>
             <li><a href="#promote"><code>promote</code> — Rank up skill</a></li>
-            <li><a href="#fuse"><code>fuse</code> — Combine skills</a></li>
+            <li><a href="#fuse"><code>fuse</code> — Fuse skills</a></li>
             <li><a href="#tree"><code>tree</code> — Render skill tree</a></li>
             <li><a href="#push"><code>push</code> — Submit intake batch</a></li>
           </ul>
@@ -1076,7 +1076,7 @@
         <div class="cmd-card" id="scan">
           <div class="cmd-card-header">
             <span class="cmd-name">gaia scan</span>
-            <span class="cmd-signature">[--quiet] [--auto-promote] [--json]</span>
+            <span class="cmd-signature">[--quiet] [--all] [--json] [--dir DIR]...</span>
             <span class="gate-badge open">● open</span>
           </div>
           <div class="cmd-body">
@@ -1100,14 +1100,19 @@
                   <td>false</td>
                 </tr>
                 <tr>
-                  <td>--auto-promote</td>
-                  <td>Automatically promote every scan candidate without prompting.</td>
+                  <td>--all</td>
+                  <td>Scan globally installed skills in addition to the local repository.</td>
                   <td>false</td>
                 </tr>
                 <tr>
                   <td>--json</td>
                   <td>Write scan results to stdout as machine-readable JSON instead of rendering the tree.</td>
                   <td>false</td>
+                </tr>
+                <tr>
+                  <td>--dir DIR</td>
+                  <td>Scan an extra skill root beyond configured paths (repeatable). Accepts home-relative, absolute, or relative paths. Equivalent to adding to <code>.gaia/config.toml skillDirs=[...]</code>.</td>
+                  <td>—</td>
                 </tr>
               </tbody>
             </table>
@@ -1119,8 +1124,11 @@
 <span class="c"># Quiet scan, then inspect candidates in JSON</span>
 <span class="cmd">gaia scan</span> <span class="arg">--quiet --json</span> <span class="kw">| jq '.candidates'</span>
 
-<span class="c"># Promote everything the scanner detects, no prompts</span>
-<span class="cmd">gaia scan</span> <span class="arg">--auto-promote</span></pre>
+<span class="c"># Include globally installed skills, not just this repo</span>
+<span class="cmd">gaia scan</span> <span class="arg">--all</span>
+
+<span class="c"># Scan configured paths plus two extra directories</span>
+<span class="cmd">gaia scan</span> <span class="arg">--dir ~/my-skills --dir ./local-agents</span></pre>
             </div>
           </div>
         </div>
@@ -1617,7 +1625,7 @@
           <div class="cmd-body">
             <ul class="cmd-desc">
               <li>Submits a proposal to claim an unclaimed canonical skill.</li>
-              <li>Requires Class C evidence or better to propose.</li>
+              <li>Requires Grade C (Bronze) evidence or better to propose.</li>
               <li>Attaches your name as the official Origin Contributor on approval.</li>
             </ul>
             <table class="flag-table">
@@ -2042,16 +2050,22 @@
         <div class="cmd-card" id="dev-evidence">
           <div class="cmd-card-header">
             <span class="cmd-name">gaia dev evidence</span>
-            <span class="cmd-signature">&lt;skill_id&gt; &lt;url&gt; [--class A|B|C] [--evaluator &lt;handle&gt;]
-              [--notes &lt;text&gt;]</span>
+            <span class="cmd-signature">&lt;skill_id&gt; &lt;url&gt; [--type &lt;type&gt;] [--trust &lt;number&gt;]
+              [--evaluator &lt;handle&gt;] [--notes &lt;text&gt;]</span>
             <span class="gate-badge verifier">◇ verifier</span>
           </div>
           <div class="cmd-body">
             <ul class="cmd-desc">
               <li>Attaches evaluation URLs to specific skill nodes.</li>
-              <li>Categorizes evidence into levels A (high), B (medium), or C (low).</li>
+              <li>Records an Evidence Type (provenance) and a Trust Magnitude number; the Evidence Grade (S/A/B/C — Platinum/Gold/Silver/Bronze) is auto-derived from the number, never set directly.</li>
               <li>Influences the speed of skill star upgrades.</li>
             </ul>
+            <div class="callout warn" style="margin-bottom:0.85rem;">
+              <strong>⚠️ --class is deprecated.</strong> The legacy <code>--class A|B|C</code> flag still
+              works for backward compatibility, but new evidence should always use <code>--type</code> +
+              <code>--trust</code>. Class letters and Grade letters are <em>not</em> equivalent — see
+              <a href="evidence-classes.html#pitfalls">Evidence &amp; Trust — common pitfalls</a>.
+            </div>
             <table class="flag-table">
               <thead>
                 <tr>
@@ -2062,9 +2076,24 @@
               </thead>
               <tbody>
                 <tr>
+                  <td>--type &lt;type&gt;</td>
+                  <td>Evidence Type — provenance of the demonstration. Validated against <code>meta.json</code> <code>evidence.types</code> (e.g. <code>repo-own</code>, <code>github-stars-own</code>, <code>arxiv</code>, <code>peer-review</code>, <code>benchmark-result</code>, <code>self-attestation</code>, <code>social-signal</code>).</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--trust &lt;number&gt;</td>
+                  <td>Trust Magnitude value. Evidence Grade is auto-derived: S ≥ 250, A ≥ 100, B ≥ 50, C ≥ 20; below 20 is ungraded.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
                   <td>--class A|B|C</td>
-                  <td>Evidence quality class.</td>
-                  <td>C</td>
+                  <td><span style="color:#f59e0b;">[DEPRECATED]</span> Legacy evidence quality class. Prefer <code>--trust</code>.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--stars / --commits / --contributors &lt;N&gt;</td>
+                  <td>Type-specific metrics (e.g. star count for <code>github-stars-own</code>, commit/contributor counts for <code>repo-own</code>) used by the Trust Magnitude formula for that type.</td>
+                  <td>—</td>
                 </tr>
                 <tr>
                   <td>--evaluator &lt;handle&gt;</td>
@@ -2081,18 +2110,23 @@
                   <td>Context note attached to this evidence entry.</td>
                   <td>—</td>
                 </tr>
+                <tr>
+                  <td>--no-build</td>
+                  <td>Skip rebuilding docs and graph assets after adding evidence.</td>
+                  <td>false</td>
+                </tr>
               </tbody>
             </table>
             <div class="example-block">
               <div class="example-label">examples</div>
-              <pre><span class="c"># Add Class B evidence (reproducible repo link)</span>
+              <pre><span class="c"># Add repo-own evidence (Trust 20 → Grade C / Bronze)</span>
 <span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev evidence</span> \
-  <span class="arg">web-search https://github.com/anthropics/cookbook --class B</span>
+  <span class="arg">web-search https://github.com/anthropics/cookbook --type repo-own --trust 20</span>
 
-<span class="c"># Add Class A evidence with an evaluator note</span>
+<span class="c"># Add arXiv evidence with an evaluator note (Trust 100 → Grade A / Gold)</span>
 <span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev evidence</span> \
   <span class="arg">autonomous-research-agent https://arxiv.org/abs/2401.00000 \
-  --class A --evaluator alice --notes "Peer-reviewed benchmark, 2024"</span></pre>
+  --type arxiv --trust 100 --evaluator alice --notes "Peer-reviewed benchmark, 2024"</span></pre>
             </div>
           </div>
         </div>
@@ -2444,7 +2478,7 @@
 
   <!-- footer -->
   <footer class="docs-footer">
-    <span class="docs-footer-left">Gaia Registry v6.4.12 — open, evidence-backed skill graph for AI agents.</span>
+    <span class="docs-footer-left">Gaia Registry v6.8.16 — open, evidence-backed skill graph for AI agents.</span>
     <div class="docs-footer-right">
       <a href="index.html" style="color:var(--muted,#64748b);">Docs</a>
       <a href="../index.html" style="color:var(--muted,#64748b);">Atlas</a>
