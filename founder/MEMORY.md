@@ -4,6 +4,76 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-26, Session 4 — Token-eradication COMPLETE on staging; all 3 workstreams (P5 rename + Hall-of-Heroes /impeccable + samples cleanup) merged; staging CI-clean; #1185 endgame is next, founder resolves the conflict personally)
+
+### TLDR
+- **The centerpiece landed.** The Unique-branch rank ladder is fully migrated OFF `--tier-unique*` ONTO the rank axis, symmetric with Suite: `--tier-unique`→`--rank-4-unique` (#7c3aed violet), `--tier-unique-5`→`--rank-5-unique` (#b26a3a copper), `--tier-unique-6`→`--rank-6-unique` (#e0894a ember, -ink #2a1206). Both branches now sit on ONE rank axis (`--rank-N` Suite / `--rank-N-unique` Unique). That asymmetry WAS the recurring T19 pollution — it is closed.
+- **~16 PRs merged to `dev/yggdrasil-ii-staging` this session** (tip **f9cbc8943**): the 12-PR P5 rename stack (#1283 generator first, then 11 disjoint consumers #1284–1294/#1288), P6 Hall-of-Heroes redesign (#1297 branch-fork + #1299 impeccable fixes), P4 samples/dead-token cleanup (#1296), and the final remainder #1300 (skill-graph canvas-tokens contract comment).
+- **Role A vs Role B classification held.** 37 Role-A `--tier-unique*` hits across 6 files renamed to `--rank-*-unique`; ~90 Role-B branch-identity uses (◉ glyph symbol, plaque orbs, generic accent) correctly KEPT as `--tier-unique`. One genuine correction (not a rename): `.tier-glyph[data-type="fusion"]` misuse → `--tier-fusion`.
+- **Both verification gates PASS on the merged staging tip.** GATE 1: zero LIVE dead `--tier-extra/-ultimate` tokens (only the documented harmless historical comment at `styles.css:11124` remains — it *describes* the eradication, references no live token). GATE 2: zero Role-A `--tier-unique*` at all 6 renamed files. Guard A (hex) exit 0; `generateCssTokens.py --check` reports tokens.css up to date.
+- **The Session-3 `.nav-meta` regression I introduced is RESOLVED** — reverted from `--rank-3` back to `--rank-4` in commit `538b509b6` (part of the P1 workstream this session).
+- **Hall of Heroes redesigned** to a windowed-locator rail (active-plate header + ~6-hero window + prev/next + "▾ ALL N PLATES" native `<dialog>`), plus the P1 Suite/Unique branch-fork color bug fixed (rail + stage now key on `data-branch`, not just `data-level`). Render-verified via Playwright (v2 + v3 screenshots). /impeccable critique scored 33/40 design health, no P0/P1 code defects.
+- **Founder ruling captured as a user-memory:** repo reports/.md docs are point-in-time DECISIONS, not standing ratifications — a later in-session founder ruling supersedes an earlier written report without editing it first. (The adversarial review HOLD on the rename — citing the stale `tier-unique-classification.md` "~90 keeps" — was correctly overridden by the founder's "There is NO TIER UNIQUE... full rename now" ruling.) See `~/.claude/.../memory/reports-are-decisions-not-ratifications.md`.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| P1 — `.nav-meta` Session-3 regression | ✅ Reverted `--rank-3`→`--rank-4` (commit `538b509b6`) |
+| P2 — 4 LIVE Suite/Unique branch-fork bugs (hero cards, HoH rail, ledger badges, badges legend) | ✅ Fixed: `[data-branch=unique]` overrides + `data-branch` emission on rail button + badges legend copper rows (`b16dc96db`, `cb87e6c40`, `6e1c500b9`) |
+| P3 — DESIGN.md truth-up (both ladders explicit) | ✅ Own PR, merged |
+| P4 — `docs/samples/*` + ledger/codex dead-token cleanup | ✅ PR #1296 merged (foundation/tree/nav/registry-3d-fonts.html, codex.html, page-ia.js, share/styles.css) |
+| P5 — ALL Role-A `--tier-unique*` → `--rank-*-unique` (one-rule) | ✅ 12-PR disjoint stack #1283–1294/#1288; generator (`generateCssTokens.py`) + `formatting.py RANK_COLORS_UNIQUE` reconciled to CSS-locked Amethyst→Ember (CSS wins) |
+| P6 — Hall of Heroes /impeccable redesign | ✅ Windowed locator + dialog + branch-fork; PRs #1297, #1299 |
+| Final remainder — skill-graph canvas-tokens contract comment | ✅ PR #1300 (dead `--tier-extra/-ultimate` in the doc comment → `--tier-fusion` + Suite ladder) |
+| Guard A scope broadening | ✅ `check_hex_colors.py` glob → `docs/**/*.{js,css}` (commit `4aed8f8e5`) |
+| Staging CI-clean gates | ✅ Guard A exit 0, `generateCssTokens.py --check` up to date |
+| #1185 endgame (Class-S regen, merge-conflict, merge to main) | ⏳ NOT started — founder resolves the 19-file conflict personally next |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `main` | `7b784f868` (v6.8.18) | unchanged this session |
+| `dev/yggdrasil-ii-staging` | `f9cbc8943` | Token eradication COMPLETE; all P1–P6 + remainder landed; CI-clean |
+| ~16 `design/ygg2-*` feature branches | — | Merged, auto-deleted on merge |
+
+### Issues + PRs touched
+| # | Title | State |
+|---|---|---|
+| #1283–1294, #1288 | P5 Unique-rename disjoint stack (generator + 11 consumers) | All merged → staging |
+| #1296 | P4 samples + dead-token cleanup | Merged → staging |
+| #1297 | Hall of Heroes Suite/Unique branch-fork | Merged → staging |
+| #1299 | Hall of Heroes /impeccable fixes (windowed locator) | Merged → staging |
+| #1300 | skill-graph canvas-tokens contract comment (final remainder) | Merged → staging |
+| #1185 | EPIC aggregate PR → main | Blocked on 19-file merge conflict; founder handling personally |
+| #1002 | EPIC (Yggdrasil II) | Closure review pending (#998/#999/#1000 checkmark verification) |
+
+### Routing — where things live now
+- **Token source of truth (unchanged, still correct):** `registry/gaia.json → meta` ({typeColors, levelColors, typeSymbols}) → `scripts/generateCssTokens.py` → `docs/css/tokens.css`. Unique ladder is hardcoded in the generator (`UNIQUE_BRANCH_TIER`) because `unique` is a read-time branch, not a `type`. Ygg III palette swap = edit `gaia.json.meta` + regen.
+- **The two surviving TYPE tokens:** `--tier-basic` (#38bdf8, ○), `--tier-fusion` (#f59e0b, ◇). All rank color now lives on `--rank-N` (Suite) / `--rank-N-unique` (Unique). "There is NO TIER UNIQUE."
+- **Dispatch + classification docs** (now landed-and-superseded, keep for audit): `founder/reports/2026-07-25-token-eradication-dispatch.md`, `founder/reports/2026-07-25-tier-unique-classification.md` (both untracked in the working tree — decide whether to commit or leave as local artifacts).
+- **Harmless historical comment (leave alone):** `docs/css/styles.css:11124` — documents the eradication, references no live token; NOT a defect.
+
+### Lessons / hazards preserved
+1. **Reports are decisions, not ratifications** (new founder ruling, captured as user-memory). A later in-session founder ruling supersedes an earlier written report without editing it first. Don't block a ship on a stale spec; surface the conflict with a recommendation (Discipline C), don't blindly obey or silently override.
+2. **`--tier-unique` had DUAL DUTY — the rename was NOT a mechanical find-replace.** Classifying all 127 hits Role-A (rank tint → rename) vs Role-B (branch identity → keep) before swapping is what kept the ◉ glyph and plaque orbs intact. Adversarial verification of the classification prevented the T19-recurrence blind-swap.
+3. **12 disjoint PRs beat one mega-PR for a cross-file rename.** Verified ZERO file-overlap across the P5 stack before batch-merging; merged the generator PR (#1283, defines `--rank-*-unique`) FIRST for semantic correctness, then the consumers. Each merged PR is a permanent, revertible lock-in.
+4. **`gh pr merge` empty output is ambiguous — always verify state separately.** Confirmed each merge via `gh pr view <n> --json state,mergeCommit`. #1300 recorded as a fast-forward (branch strictly ahead, no divergence) — that still preserves the commit exactly (no squash), satisfying the EPIC no-squash rule.
+5. **Label atomicity footgun:** `gh pr edit --add-label "a,b"` fails ALL if any one label is invalid. This repo's functional doc label is `documentation` (NOT `docs`); `frontend` exists; `design` does NOT. Apply valid labels separately or pre-create.
+6. **Sprint-completeness catch:** the P4 samples fix existed on a branch (#1296) but hadn't merged — staging still had 8 dead-token hits. The sprint's own remainder must actually LAND in-sprint, not just exist on a branch. Same for the skill-graph comment (#1300).
+
+### Open questions for next orchestrator
+- **#1185 endgame sequence** (founder-owned): (1) regen Class-S (`gaia dev docs`), restore `docs/graph/` if the run dirties it (#1275 hazard), commit on an infra/ or design/ PR; (2) **founder personally resolves the 19-file merge conflict** vs `main` (script-survivor call: `skill-semantics.js` vs `plaque-reveal.js`, site-dark risk — do NOT dispatch); (3) CodeQL triage (7 alerts, likely diff-size artifact); (4) mark #1185 ready; (5) **merge with a MERGE COMMIT, never squash.**
+- **#1002 closure review** still pending: verify #998/#999/#1000 PR-body checkmarks against live state and check them. Confirm no follow-ups (the flowchart.html attr-vocab defer is documented pre-existing, NOT a filed follow-up).
+- **RFC issue (#10)** — reports-as-decisions discipline + root lexicon — HOLD until AFTER #1185 merges (genuinely-new out-of-scope work, allowed under sprint-completeness).
+- **Founder's own next-session work (NOT the orchestrator's):** their own review + a Ygg-II meta-post skill about the new meta landing as a workflow.
+- The two `founder/reports/2026-07-25-*.md` dispatch/classification files are untracked — decide commit-vs-discard.
+
+### Token cost (this session)
+- Continued from a compacted session; exact per-model counts not instrumented in this harness. Spend is overwhelmingly orchestrator (inline) + the P5/P6 dispatch subagents from the earlier (pre-compaction) leg.
+- Proof-of-work token-spend log to be posted on PR #1185 as part of the endgame (#14), per the token-logging directive.
+
+---
+
 ## State Snapshot (2026-07-25, Session 3 — #1275/okf/T19/CI-green fixes merged to staging; Suite-vs-Unique branch-fork bug class discovered, 4 confirmed live bugs open; ONE unresolved regression I introduced)
 
 ### TLDR

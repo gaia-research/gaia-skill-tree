@@ -74,7 +74,6 @@ registry/skills/
 # registry/nodes/ + registry/named/ sources via `gaia dev docs`).
 /registry/gaia.json
 /registry/gaia.gexf
-/registry/gaia.svg
 /registry/layouts_3d.json
 /registry/named-skills.json
 /registry/real-skills.json
@@ -85,7 +84,7 @@ registry/skills/
 # byproducts. GitHub Pages publishes from main:/docs — files removed from git
 # are removed from the live site. They MUST stay tracked. Re-tracked 2026-06-22
 # after the #de3e77f7e untrack revealed the site went dark for /graph/gaia.json,
-# /graph/named/index.json, /graph/gaia.gexf, /graph/gaia.svg.
+# /graph/named/index.json, /graph/gaia.gexf.
 
 # Bundled registry snapshot (regenerated at CI release time for vX.Y.0 wheels)
 src/gaia_cli/data/registry/gaia.json
