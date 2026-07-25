@@ -450,8 +450,8 @@
     var badgesLink = document.getElementById('hohFsBadgesLink');
 
     var slug = ns.id ? ns.id.split('/').pop() : ns.contributor;
-    var badgeBase = 'https://gaiaskilltree.com/badges/_assets/' + ns.contributor + '/' + slug + '.svg';
-    var profileUrl = 'https://gaiaskilltree.com/u/' + ns.contributor + '/';
+    var badgeBase = 'https://gaiaskilltree.com/badges/_assets/' + encodeURIComponent(ns.contributor) + '/' + encodeURIComponent(slug) + '.svg';
+    var profileUrl = 'https://gaiaskilltree.com/u/' + encodeURIComponent(ns.contributor) + '/';
 
     // Set immediately without ?repo= so the badge shows right away, then
     // update both src and markdown once the registry resolves.
