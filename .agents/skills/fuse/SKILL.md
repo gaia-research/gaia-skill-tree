@@ -1,6 +1,6 @@
 ---
 name: fuse
-description: Combine two AI agent skills into one. Trigger phrases: /fuse, "fuse these skills", "combine skills", "merge these two skills", "create a fusion skill"
+description: 'Combine two AI agent skills into one. Trigger phrases: /fuse, "fuse these skills", "combine skills", "merge these two skills", "create a fusion skill"'
 ---
 
 A sequential routing pipeline to compose two installed skills into a single integrated agent capability.
