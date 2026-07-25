@@ -28,7 +28,7 @@ These skills are available under both `.claude/skills/` and `.agents/skills/`. C
 | `/trust-appraise` | Non-mutating TM dry-run. Use `--skill contributor/id` for curated registry nodes (shows per-row artifact scores); use `--repo owner/repo` for proposed suites (live GitHub signals). Run during L4 human review before signing off. |
 | `/trust-appraise-all` | Bulk TM appraisal across all curated registry entries. |
 | `/gaia-trace-timeline` | Audit and repair user-tree timelines — backfills missing demote/rank_up events so every skill's rank is explained by its Hero's Journey. |
-| `/gaia-fuse-full-suite` | Fuse one contributor's named skills into a single ultimate. |
+| `/gaia-fuse-full-suite` | Fuse one contributor's named skills into a single fusion capstone. |
 | `/ev-pipeline` | Full evidence verification pipeline (collect → star-verify → adversarial audit → link-validate). Run before ingesting any evidence into the registry. |
 | `/gaia-integrity` | Cross-registry integrity checks — schema, DAG, redaction invariants. |
 | `/gaia-triage` | Triage open issues and PRs, apply canonical labels, route to correct workflow. |
@@ -120,7 +120,7 @@ gaia dev split source-id target-id-1 target-id-2
 gaia dev add "New Skill Name" --type basic --description "..." [--status awakened] [--title "Lore Title"] [--level "2★"]
 
 # Reclassify a generic skill (change type)
-gaia dev reclassify skill-id ultimate
+gaia dev reclassify skill-id fusion
 
 # Add evidence with raw source measurements; Gaia computes derived scores
 gaia dev evidence skill-id "https://example.com/demo" \
@@ -204,7 +204,7 @@ Hard rule: any schema file change must come from a `schema/...` branch.
 
 - Skill IDs: `kebab-case` (`web-scrape`, `parse-json`)
 - Display names: Title Case
-- Skill types in graph: `basic`, `extra`, `ultimate`
+- Skill types in graph: `basic`, `fusion` (Yggdrasil II collapsed the type axis; `extra`, `ultimate` and `unique` are retired)
 - Keep skills vendor-agnostic
 
 ### Starless generic references vs. named skills
@@ -213,21 +213,21 @@ Generic skill references are **starless** — rank-less taxonomy nodes that carr
 
 A starless reference holds the **inherited capability pool**: capability-level (Class A / academic) evidence for the abstract capability itself, which every named child inherits as a baseline. Named skills then add their own implementation-specific evidence on top.
 
-> **Upcoming meta shift.** Per-named evidence-floor enforcement (gating each named child on its own evidence) and finer-grained advanced evidence tiers are on the roadmap — forward-looking direction, not yet enforced. See [META.md](META.md#2-evidence-methodology-the-trust-stack).
+> **Meta shift (Yggdrasil II, 2026-07-07).** The per-star **Evidence Floor** is retired — **Trust Magnitude** is the sole promotion gate. Each named child is scored on its own evidence inventory; finer-grained advanced evidence types remain on the roadmap. See [META.md](META.md#2-evidence-methodology-the-trust-stack).
 
 ### Evidence by star level (named implementations)
 
-Taxonomy definitions, evidence floors, and ranking rules have been consolidated.
+Taxonomy definitions, Trust Magnitude gates, and ranking rules have been consolidated.
 
 > **Source of Truth:** See [META.md](META.md) for the full evidence methodology, star tiers, and ranking rules.
 
-Named skills now read evidence `grade` (S/A/B/C, S strongest) as the primary floor signal per the G7 Trust Taxonomy RFC (`founder/handovers/G7_TRUST_TAXONOMY_RFC.md`), with fallback to the deprecated `class` field for existing rows during the migration window. Grade A is not Class A — never conflate the two axes. See [META.md §2](META.md#2-evidence-methodology-the-trust-stack) for the full dual-axis spec.
+Named skills now read evidence `grade` (S/A/B/C, S strongest) as the primary quality signal feeding Trust Magnitude, per the G7 Trust Taxonomy RFC (`founder/handovers/G7_TRUST_TAXONOMY_RFC.md`), with fallback to the deprecated `class` field for existing rows during the migration window. Grade A is not Class A — never conflate the two axes. See [META.md §2](META.md#2-evidence-methodology-the-trust-stack) for the full dual-axis spec.
 
 The skill-level **Trust Magnitude** (the unbounded set-bonus aggregate that derives the Overall Trust Grade) is computed live from each skill's evidence inventory. Browse the public ranking at [`docs/trust/leaderboard/`](../docs/trust/leaderboard/) (deployed at <https://gaiaskilltree.com/trust/leaderboard/>) to see current S/A/B/C tier counts and the top-scoring skills before opening a calibration PR.
 
-### Ultimate (`ultimate`) requirements
+### Fusion capstone (`fusion`) requirements
 
-See [META.md](META.md#42-ultimate--apex-pathways) for the detailed fusion and origin requirements for Ultimate skills.
+See [META.md](META.md#42-suite-branch-56-pathways) for the detailed fusion and origin requirements for 5★ Ultimate and 6★ Apex capstones.
 
 ### Demerits and effective level
 
@@ -249,7 +249,7 @@ See [META.md](META.md#3-effective-level--demerits) for demerit IDs and effective
 
 Examples:
 - `[basic] parse-csv — add CSV parsing primitive`
-- `[extra] autonomous-debug — compose debug workflow`
+- `[fusion] autonomous-debug — compose debug workflow`
 - `[reclassify] web-scrape — promote with new evidence`
 
 ---
@@ -308,13 +308,13 @@ gaia promote <skill-id> --unique
 
 ---
 
-## 10) Ultimate Installation Templates
+## 10) Suite Installation Templates
 
-Ultimate suites (like `garrytan/gstack`) can define premium, multi-step installation instructions. The Gaia Skill Explorer automatically compiles these instructions into an interactive, tabbed setup interface.
+Suite capstones (like `garrytan/gstack`) can define premium, multi-step installation instructions. The Gaia Skill Explorer automatically compiles these instructions into an interactive, tabbed setup interface.
 
 ### How to Author a Custom Suite Setup
 
-To enable this tabbed setup UI for an ultimate suite, follow these three steps:
+To enable this tabbed setup UI for a suite capstone, follow these three steps:
 
 1. **Configure Frontmatter on the Capstone named skill:**
    On the main capstone named skill markdown file (e.g., `registry/named/garrytan/gstack.md`), add the list of constituent named skill IDs under `suiteComponents` in the frontmatter:
@@ -424,7 +424,7 @@ git checkout -b review/meta/<YYYY-MM>-meta-sweep
 The skill orchestrates a 5-phase Workflow:
 
 1. **Survey** — 12 parallel agents, one per audit dimension from META.md §2.4 + §3 (Star Bar, Liveness Heartbeat, Origin attribution, level overshoot, brand-coupled IDs, missing demerits, installability, placeholder bodies, `testuser` timelines, Champion clusters, Unique isolation, evidence Class mismatch).
-2. **Fuse** — surface Semantic Fusion candidates per META §6.2. Ultimate-tier fusions (≥10k★) are **not** in scope here — route those to `/gaia-fuse-full-suite`.
+2. **Fuse** — surface Semantic Fusion candidates per META §6.2. Full-suite capstone fusions are **not** in scope here — route those to `/gaia-fuse-full-suite`.
 3. **Propose** — propose new generic skill IDs for the schema where repeated named skills lack a canonical generic to map to.
 4. **Verify** — adversarial 3-skeptic pass per finding; only findings ≥2/3 of skeptics agree are real survive.
 5. **Report** — emit the HTML report (LaTeX-journal layout matching the existing 2026-05-25 report), the timeline JSON, and the findings JSON.
@@ -450,7 +450,7 @@ A "Mutations Applied" or "Mutations Proposed" section lists every `gaia dev` com
 
 ### Reference run
 
-The May 2026 sweep (`docs/meta/reports/2026-05-25-programmatic-registry-audit.html` + PR #525) is the canonical worked example. It exercised all 12 audit dimensions on mbtiongson1's 14 named skills and produced 2 removals, 2 generic renames, 1 new Extra fusion generic, 5 `genericSkillRef` remaps, 1 origin flip, 1 level demotion, 9 link fixes, and 24 placeholder/timeline backfills.
+The May 2026 sweep (`docs/meta/reports/2026-05-25-programmatic-registry-audit.html` + PR #525) is the canonical worked example. It exercised all 12 audit dimensions on mbtiongson1's 14 named skills and produced 2 removals, 2 generic renames, 1 new Fusion generic, 5 `genericSkillRef` remaps, 1 origin flip, 1 level demotion, 9 link fixes, and 24 placeholder/timeline backfills.
 
 ---
 
