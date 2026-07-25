@@ -921,8 +921,8 @@
     // + a wandering hot-spot offset — no particles, a handful of sin/frame.
     function drawNodeIV(sx, sy, r, alpha, t, p) {
       const tok = getCanvasTokens();
-      const flame = tok.rank[4].rgb;                    // magenta flame (#e879f9)
-      const violet = tok.rank[3].rgb;                   // cooler violet (#a78bfa)
+      const flame = tok.rank[4].rgb;                    // rank-4 token (magenta)
+      const violet = tok.rank[3].rgb;                   // rank-3 token (violet)
       const core = _mixRgb(flame, '255,255,255', 0.6);  // white-hot centre
       const phase = p.phase || 0;
       // Combustion flicker: three detuned sines → irregular, fire-like. High
@@ -1710,7 +1710,7 @@
         // needs a faint direct-arc echo at rest — the route is the resting
         // silhouette. On neighbor-highlight it flares to full weight.
         const drapedRoute = structural && structuralRouteKeys
-          && structuralRouteKeys.has(edge.from + ' ' + edge.to);
+          && structuralRouteKeys.has(edge.from + '\u0000' + edge.to);
         const structuralArcScale = (drapedRoute && !isNeighborEdge) ? 0.35 : 1;
         const baseEdgeAlpha = (isNeighborEdge
           ? 0.78
