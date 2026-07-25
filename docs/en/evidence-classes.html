@@ -377,20 +377,21 @@
 
   <!-- Main site nav (hamburger on mobile, full menu on desktop) -->
   <nav id="site-nav"></nav>
-  <script src="../js/mounts.js?v=6.4.12"></script>
-  <script src="../js/site-nav.js?v=6.4.12"></script>
-  <script src="../js/ui.js?v=6.4.12"></script>
+  <script src="../js/mounts.js?v=6.8.16"></script>
+  <script src="../js/site-nav.js?v=6.8.16"></script>
+  <script src="../js/ui.js?v=6.8.16"></script>
 
 
 
+  <!-- nav -->
   <nav class="docs-nav">
-    <a href="../index.html" class="docs-nav-logo">Gaia <span>◆</span></a>
-    <span class="docs-nav-sep">/</span>
-    <a href="index.html" class="docs-nav-link">Docs</a>
-    <span class="docs-nav-sep">/</span>
-    <span class="docs-nav-link active">Evidence &amp; Trust</span>
-    <div class="docs-nav-spacer"></div>
-    <span class="docs-nav-version" id="ver">v6.4.12</span>
+    <a href="../index.html" class="nav-logo">Gaia <span>◆</span></a>
+    <span class="nav-sep">/</span>
+    <a href="index.html" class="nav-crumb">Docs</a>
+    <span class="nav-sep">/</span>
+    <span class="nav-crumb current">Evidence Classes</span>
+    <span class="nav-spacer"></span>
+    <span class="docs-nav-version" id="ver">v6.8.16</span>
   </nav>
 
   <div class="docs-layout">
@@ -472,29 +473,63 @@
       <p>Always write the full phrase <strong>Evidence Type</strong>; never the bare word "type", which refers to the Basic / Extra / Unique / Ultimate taxonomy field.</p>
       <div class="docs-table-wrap">
         <table class="docs-table">
-          <thead><tr><th>Type value</th><th>What it represents</th><th>URL format</th></tr></thead>
+          <thead><tr><th>Type value</th><th>What it represents</th><th>URL format / flags</th></tr></thead>
           <tbody>
             <tr>
+              <td><span class="type-pill">repo-own</span></td>
+              <td>Artifact volume from the contributor's own repository — commit and contributor counts.</td>
+              <td>Must use <code>blob/branch/subpath</code> — never <code>tree/</code>. Pass <code>--commits</code> / <code>--contributors</code>.</td>
+            </tr>
+            <tr>
+              <td><span class="type-pill">github-stars-own</span></td>
+              <td>Stars on the skill's own repository. Discounted when the repo bundles multiple skills (mothership discount).</td>
+              <td>Bare repo URL: <code>https://github.com/owner/repo</code>. Pass <code>--stars</code> and, if applicable, <code>--skill-count-in-repo</code>.</td>
+            </tr>
+            <tr>
               <td><span class="type-pill">arxiv</span></td>
-              <td>A published academic paper on arXiv demonstrating the capability.</td>
-              <td>Abstract URL: <code>https://arxiv.org/abs/&lt;id&gt;</code> — not the PDF link.</td>
+              <td>Academic citation count for a published paper demonstrating the capability.</td>
+              <td>Abstract URL: <code>https://arxiv.org/abs/&lt;id&gt;</code> — not the PDF link. Pass <code>--citations</code>.</td>
             </tr>
             <tr>
-              <td><span class="type-pill">repo</span></td>
-              <td>A GitHub repository with a <code>SKILL.md</code> at a <code>blob/</code> path.</td>
-              <td>Must use <code>blob/branch/subpath</code> — never <code>tree/</code>. The installer and evidence resolver only accept the blob form.</td>
+              <td><span class="type-pill">peer-review</span></td>
+              <td>Structured walkthrough with written critique by 4★+ reviewers — distinct from a Verifier attestation.</td>
+              <td>URL to the review thread/writeup. Pass <code>--reviewers</code>.</td>
             </tr>
             <tr>
-              <td><span class="type-pill">github-stars</span></td>
-              <td>Repository star count as a secondary proxy for adoption signal.</td>
-              <td>Bare repo URL: <code>https://github.com/owner/repo</code>. Build pipeline reads the live count at build time.</td>
+              <td><span class="type-pill">verifier-attestation</span></td>
+              <td>A 4★+ Verifier signs an attestation that the skill is real and graded fairly.</td>
+              <td>URL to the attestation record. No self-attestation — the evaluator must hold a Verifier-tier Named Skill.</td>
+            </tr>
+            <tr>
+              <td><span class="type-pill">benchmark-result</span></td>
+              <td>A reproducible benchmark on a public dataset, scored as percentile rank within the field.</td>
+              <td>URL to the benchmark/leaderboard entry. Requires a <code>percentile</code> value (0–100) — a raw score alone does not resolve to a magnitude.</td>
+            </tr>
+            <tr>
+              <td><span class="type-pill">fusion-recipe</span></td>
+              <td>Auto-derived for every fused/Ultimate skill from its <code>suiteComponents</code>. Only origins graded ≥C count toward the tally.</td>
+              <td>Not hand-submitted — written by <code>gaia dev fuse</code> / <code>merge</code> when a suite skill is built.</td>
+            </tr>
+            <tr>
+              <td><span class="type-pill">proxy-containment</span></td>
+              <td>The skill's artifact is bundled inside a separately-starred external project.</td>
+              <td>URL to the containing project. Max 3 entries per skill; magnitude plateaus on repeated entries.</td>
+            </tr>
+            <tr>
+              <td><span class="type-pill">social-signal</span></td>
+              <td>Creator/audience evidence — video views, engagement, topical authority from external creators.</td>
+              <td>URL to the video/post. Pass <code>--views</code>; a view-count floor applies before this counts toward any magnitude.</td>
+            </tr>
+            <tr>
+              <td><span class="type-pill">self-attestation</span></td>
+              <td>Contributor declaration that the skill exists and is real. Flat, low magnitude — a placeholder, not proof.</td>
+              <td>Any URL documenting the claim. Max one entry per skill.</td>
             </tr>
           </tbody>
         </table>
       </div>
       <div class="callout info">
-        <p><strong>RFC #654</strong> is tracking additional Evidence Types — community posts, YouTube / social views,
-        and download counts. New types extend <code>meta.json</code> <code>evidence.types</code> without a schema version bump.</p>
+        <p>The full list lives in <code>meta.json</code> → <code>evidence.types</code>, alongside the magnitude formula and cap for each. New types extend that list without a schema version bump.</p>
       </div>
 
       <h2 id="evidence-grade">Evidence Grade</h2>
@@ -507,11 +542,11 @@
       </p>
 
       <div class="trust-meter">
-        <div class="trust-segment seg-S"><span>S</span><span class="seg-name">Platinum</span><span class="seg-range">≥ 90</span></div>
-        <div class="trust-segment seg-A"><span>A</span><span class="seg-name">Gold</span><span class="seg-range">≥ 80</span></div>
-        <div class="trust-segment seg-B"><span>B</span><span class="seg-name">Silver</span><span class="seg-range">≥ 60</span></div>
-        <div class="trust-segment seg-C"><span>C</span><span class="seg-name">Bronze</span><span class="seg-range">≥ 40</span></div>
-        <div class="trust-segment seg-U"><span>—</span><span class="seg-name">Ungraded</span><span class="seg-range">&lt; 40</span></div>
+        <div class="trust-segment seg-S"><span>S</span><span class="seg-name">Platinum</span><span class="seg-range">≥ 250</span></div>
+        <div class="trust-segment seg-A"><span>A</span><span class="seg-name">Gold</span><span class="seg-range">≥ 100</span></div>
+        <div class="trust-segment seg-B"><span>B</span><span class="seg-name">Silver</span><span class="seg-range">≥ 50</span></div>
+        <div class="trust-segment seg-C"><span>C</span><span class="seg-name">Bronze</span><span class="seg-range">≥ 20</span></div>
+        <div class="trust-segment seg-U"><span>—</span><span class="seg-name">Ungraded</span><span class="seg-range">&lt; 20</span></div>
       </div>
 
       <div class="docs-table-wrap">
@@ -519,23 +554,23 @@
           <thead><tr><th>Grade</th><th>Label</th><th>Trust #</th><th>What qualifies</th></tr></thead>
           <tbody>
             <tr>
-              <td><span class="grade grade-S">S</span></td><td>Platinum</td><td>≥ 90</td>
+              <td><span class="grade grade-S">S</span></td><td>Platinum</td><td>≥ 250</td>
               <td>Definitive, peer-reviewed, widely-cited evidence. Reserved for capabilities established beyond reasonable doubt in literature — extremely rare.</td>
             </tr>
             <tr>
-              <td><span class="grade grade-A">A</span></td><td>Gold</td><td>≥ 80</td>
+              <td><span class="grade grade-A">A</span></td><td>Gold</td><td>≥ 100</td>
               <td>Battle-tested in production; corroborated by multiple independent sources. A library with 10k+ stars backed by a SKILL.md and a supporting paper qualifies.</td>
             </tr>
             <tr>
-              <td><span class="grade grade-B">B</span></td><td>Silver</td><td>≥ 60</td>
+              <td><span class="grade grade-B">B</span></td><td>Silver</td><td>≥ 50</td>
               <td>Reproducible and documented. A SKILL.md with working examples and a verifiable demo at 100+ stars typically lands here.</td>
             </tr>
             <tr>
-              <td><span class="grade grade-C">C</span></td><td>Bronze</td><td>≥ 40</td>
+              <td><span class="grade grade-C">C</span></td><td>Bronze</td><td>≥ 20</td>
               <td>First sighting — observed at least once, basic documentation present. The minimum to count toward Named (2★) status.</td>
             </tr>
             <tr>
-              <td><span class="grade grade-U">—</span></td><td>Ungraded</td><td>&lt; 40</td>
+              <td><span class="grade grade-U">—</span></td><td>Ungraded</td><td>&lt; 20</td>
               <td>On the record but does not count toward any star gate. Useful for logging an observation without making a quality claim.</td>
             </tr>
           </tbody>
@@ -604,38 +639,40 @@
         <pre><span class="cmd">gaia dev evidence</span> <span class="val">registry-curation</span> <span class="str">"https://github.com/owner/repo/blob/main/skills/foo/SKILL.md"</span> <span class="flag">--class</span> B</pre>
       </div>
 
-      <h3>New form (Type + Grade)</h3>
+      <h3>New form (Type + Trust)</h3>
+      <p>
+        Grade is never set directly — it is <em>auto-derived</em> from the <code>--trust</code> number you pass
+        (S≥250, A≥100, B≥50, C≥20; below 20 the entry stays on record but ungraded).
+      </p>
       <div class="code-block">
         <div class="code-block-header"><span class="code-block-label">shell</span></div>
-        <pre><span class="c"># repo evidence at Grade B (Silver) — always use blob/, not tree/</span>
+        <pre><span class="c"># repo-own evidence, trust 50 → Grade B (Silver) — always use blob/, not tree/</span>
 <span class="cmd">gaia dev evidence</span> <span class="val">registry-curation</span> <span class="str">"https://github.com/owner/repo/blob/main/skills/foo/SKILL.md"</span> \
-  <span class="flag">--type</span> repo \
-  <span class="flag">--grade</span> B
+  <span class="flag">--type</span> repo-own \
+  <span class="flag">--trust</span> 50 \
+  <span class="flag">--commits</span> 400 <span class="flag">--contributors</span> 6
 
-<span class="c"># arXiv paper at Grade A (Gold)</span>
+<span class="c"># arXiv paper, trust 100 → Grade A (Gold)</span>
 <span class="cmd">gaia dev evidence</span> <span class="val">multimodal-reasoning</span> <span class="str">"https://arxiv.org/abs/2504.00001"</span> \
   <span class="flag">--type</span> arxiv \
-  <span class="flag">--grade</span> A
+  <span class="flag">--trust</span> 100 \
+  <span class="flag">--citations</span> 500
 
-<span class="c"># always dry-run first</span>
-<span class="cmd">gaia dev evidence</span> <span class="val">multimodal-reasoning</span> <span class="str">"https://arxiv.org/abs/2504.00001"</span> \
-  <span class="flag">--type</span> arxiv <span class="flag">--grade</span> A <span class="flag">--dry-run</span>
-
-<span class="c"># verify an entry (Verifier-only)</span>
-<span class="cmd">gaia dev evidence</span> <span class="val">registry-curation</span> <span class="flag">--verify</span> <span class="str">"https://github.com/owner/repo/blob/main/skills/foo/SKILL.md"</span>
+<span class="c"># verify an entry (Verifier-only — a separate subcommand, not a flag on `evidence`)</span>
+<span class="cmd">gaia dev verify</span> <span class="val">registry-curation</span> <span class="flag">--index</span> 0
 
 <span class="c"># dispute an entry (Verifier-only)</span>
-<span class="cmd">gaia dev evidence</span> <span class="val">registry-curation</span> <span class="flag">--dispute</span> <span class="str">"https://github.com/owner/repo/blob/main/skills/foo/SKILL.md"</span></pre>
+<span class="cmd">gaia dev verify</span> <span class="val">registry-curation</span> <span class="flag">--index</span> 0 <span class="flag">--dispute</span></pre>
       </div>
       <div class="callout warn">
-        <p><strong>Always run <code>--dry-run</code> first.</strong> Evidence writes directly to a registry node. A bad URL or wrong skill ID produces invalid JSON that will fail CI.</p>
+        <p><strong>Check <code>gaia whoami</code> before writing.</strong> Evidence writes directly to a registry node under Verifier authorization — a bad URL or wrong skill ID produces invalid JSON that will fail CI. Pass <code>--no-build</code> to skip the doc/graph rebuild while iterating.</p>
       </div>
 
       <h3>URL format rules per type</h3>
       <ul>
-        <li><strong><code>repo</code>:</strong> Use <code>blob/branch/subpath</code>. GitHub directory URLs use <code>tree/</code> — convert manually. The resolver rejects <code>tree/</code> with a schema error.</li>
+        <li><strong><code>repo-own</code>:</strong> Use <code>blob/branch/subpath</code>. GitHub directory URLs use <code>tree/</code> — convert manually. The resolver rejects <code>tree/</code> with a schema error.</li>
         <li><strong><code>arxiv</code>:</strong> Use the abstract URL (<code>https://arxiv.org/abs/&lt;id&gt;</code>), not the PDF link. The build pipeline normalises to the abstract for deduplication.</li>
-        <li><strong><code>github-stars</code>:</strong> Bare repo URL (<code>https://github.com/owner/repo</code>). Star count is read live at build time.</li>
+        <li><strong><code>github-stars-own</code>:</strong> Bare repo URL (<code>https://github.com/owner/repo</code>). Star count is read live at build time.</li>
       </ul>
 
       <h2 id="migration">Migration Guide</h2>
@@ -650,13 +687,13 @@
           <tbody>
             <tr>
               <td><code>class: C</code></td>
-              <td><span class="type-pill">repo</span></td>
+              <td><span class="type-pill">repo-own</span></td>
               <td><span class="grade grade-C">C</span> Bronze</td>
               <td>First sighting. Verify the URL still resolves before converting.</td>
             </tr>
             <tr>
               <td><code>class: B</code></td>
-              <td><span class="type-pill">repo</span></td>
+              <td><span class="type-pill">repo-own</span></td>
               <td><span class="grade grade-C">C</span> – <span class="grade grade-B">B</span></td>
               <td>Grade B if repo has examples + demos + ≥100 stars. Grade C if thin. Check star count at migration time.</td>
             </tr>
@@ -668,7 +705,7 @@
             </tr>
             <tr>
               <td><code>class: A</code> (repo)</td>
-              <td><span class="type-pill">repo</span> + <span class="type-pill">github-stars</span></td>
+              <td><span class="type-pill">repo-own</span> + <span class="type-pill">github-stars-own</span></td>
               <td><span class="grade grade-A">A</span> – <span class="grade grade-S">S</span></td>
               <td>Battle-tested repos (10k+ stars, independent reproductions). Verify evidence still exists before upgrading.</td>
             </tr>
@@ -690,7 +727,7 @@
             <tr><td><code>C</code></td><td>First sighting</td><td><span class="grade grade-C">C</span> Bronze</td><td>Closest mapping — both mean first sighting.</td></tr>
             <tr><td><code>B</code></td><td>Reproducible</td><td><span class="grade grade-B">B</span> Silver</td><td>Similar concept, but Grade B requires a higher trust number than Class B implied.</td></tr>
             <tr><td><code>A</code></td><td>Battle-tested, peer-reviewed</td><td><span class="grade grade-A">A</span> Gold</td><td>Class A was the top of a 3-rung ladder. Grade A is second-highest on a 5-rung ladder. Converting 1:1 is a downgrade for some skills, an upgrade for others.</td></tr>
-            <tr><td class="muted">—</td><td class="muted">(no equivalent)</td><td><span class="grade grade-S">S</span> Platinum</td><td>Grade S (≥ 90) has no Class equivalent — it represents certainty that Class A rarely achieved.</td></tr>
+            <tr><td class="muted">—</td><td class="muted">(no equivalent)</td><td><span class="grade grade-S">S</span> Platinum</td><td>Grade S (≥ 250) has no Class equivalent — it represents certainty that Class A rarely achieved.</td></tr>
           </tbody>
         </table>
       </div>
@@ -698,11 +735,11 @@
       <h3>Using <code>tree/</code> instead of <code>blob/</code></h3>
       <p>GitHub's directory view uses <code>tree/branch/path</code>. The evidence resolver and installer only accept <code>blob/branch/path</code>. The CLI rejects <code>tree/</code> URLs with a schema error.</p>
 
-      <h3>Using <code>github-stars</code> as sole evidence</h3>
-      <p>Star counts are volatile and subject to farming. Never use <code>github-stars</code> as the sole evidence for a skill — always pair it with at least one <code>repo</code> entry pointing to a SKILL.md.</p>
+      <h3>Using <code>github-stars-own</code> as sole evidence</h3>
+      <p>Star counts are volatile and subject to farming. Never use <code>github-stars-own</code> as the sole evidence for a skill — always pair it with at least one <code>repo-own</code> entry pointing to a SKILL.md.</p>
 
-      <h3>Skipping <code>--dry-run</code></h3>
-      <p><code>gaia dev evidence</code> writes directly to a registry node under Programmatic-First rules. A bad URL or wrong skill ID writes invalid JSON that CI will fail on. Run <code>--dry-run</code> every time before committing.</p>
+      <h3>Passing <code>--grade</code> instead of <code>--trust</code></h3>
+      <p><code>gaia dev evidence</code> has no <code>--grade</code> flag — Grade is always auto-derived from the <code>--trust</code> number you supply (see thresholds above). There is also no <code>--dry-run</code> mode for this subcommand; it writes directly to the registry node under Verifier authorization, so confirm the skill ID and URL before running it. Pass <code>--no-build</code> to skip the doc/graph rebuild while iterating.</p>
 
     </main>
   </div>

@@ -2,6 +2,261 @@
 
 ---
 
+## 2026-07-25 — Routine 017 — Editor pass (ship gate, PR #1249)
+
+**Role:** Weekly editor. Reviewed the week's accreted commits on `docs/routines/017`, verified claims against the actual product, fixed what didn't hold up, and shipped.
+
+### What I verified and fixed
+1. **`gaia scan` flag table had a fictional flag.** The 2026-07-24 session added `--dir` correctly but left `--auto-promote` in the signature/table/example — that flag does not exist on `gaia scan` (confirmed via `python -m gaia_cli.main scan --help` and `commands/scan.py`). The real, undocumented flag was `--all` ("scan globally installed skills in addition to the local repository"). Replaced `--auto-promote` with `--all` in `cli-reference.html` (signature, table row, example).
+2. **MCP server package name was wrong across two pages.** The 2026-07-22 session changed `mcp-server.html` and `index.html` to `@gaia-research/mcp@0.1.0`, citing `AGENTS.md` and commit `6ed72921d`. That commit itself was bad — `packages/mcp/package.json` (and its own README, and the root README's install table) has always published as `@gaia-registry/mcp-server`. Reverted both pages to the real package name and dropped the stale `-y`/version-pin flourishes to match the canonical README's install commands exactly.
+3. **Self-contradiction in `faq.html`.** This week's own `evidence-classes.html` fix added an explicit "do not call it 'trust score'" pitfall — but `faq.html` still said "trust score tier" two lines away in spirit. Changed to "quality tier."
+4. **Verified the big one held up.** The Trust Number threshold rewrite (S≥250/A≥100/B≥50/C≥20, replacing stale S≥90/A≥80/B≥60/C≥40) and the 10-row Evidence Type table were checked against `registry/schema/meta.json` and live `--help` output for `gaia dev evidence` / `gaia dev verify` — all accurate. Good work, kept as-is.
+5. **Two small pre-existing vocabulary nits caught in the same files while verifying:** "feed the same review queue" → "feed the same intake" (`contributing.html`; CONTEXT.md: Intake, avoid "queue"), and a TOC entry "Combine skills" → "Fuse skills" (`cli-reference.html`; CONTEXT.md: Fusion, avoid "combine"). Left the rest of the site's vocabulary alone — didn't do a full 12-page nomenclature sweep this round.
+
+### What I checked and left alone
+- Hex colors added this week (`#34d399` checkmarks, `#f59e0b` deprecated tag, `var(--muted, #64748b)` fallbacks) all match long-established, pervasive site-wide convention (same raw values already used in `styles.css` and sibling pages) — not new drift, not touched.
+- Version chips: all 12 pages consistently at `v6.8.16`, matching the latest tag and `pyproject.toml`. No stragglers.
+- Links/anchors added this week (`evidence-classes.html#pitfalls`, etc.) all resolve.
+- Rendered all 5 touched pages via Playwright — no console errors, nav clearance and TOC intact.
+
+### Verification
+`git status` scoped to `docs/en/**` only. HTML tag-balance check clean on all touched files. CI on PR #1249 all green (CodeQL, branch-scope, commit-attribution, design-system lint, docs-cohesion) before this pass; re-verified after.
+
+### Files modified this pass
+`docs/en/cli-reference.html`, `docs/en/contributing.html`, `docs/en/faq.html`, `docs/en/index.html`, `docs/en/mcp-server.html`.
+
+### Shipped
+Squash-merged PR #1249 into `main`. `docs/routines/017` closes; `docs/routines/018` opens next.
+
+---
+
+## 2026-07-24 — Routine 017 (continued, PR #1249 still open)
+
+**Branch:** `docs/routines/017`
+**Task chosen:** Rotate least-recently-touched page — `cli-reference.html` — for ongoing audit and sync with new CLI features.
+
+### Trigger
+PR #1249 (`docs/routines/017`) still open/unmerged; per branch discipline, continue on the same routine branch. DOCS.md page map shows `cli-reference.html` last touched in routine 012; the planned next from routine 017's 2026-07-23 session flagged this page as needing systematic audit for CLI-shape drift.
+
+### What I did
+1. **Added `gaia scan --dir` flag documentation** — CLI feature from commit `3cee7a4cc` (feat(scan): add repeatable --dir flag for nonstandard skill roots #1159) was live but not yet documented. Updated `cli-reference.html` scan command card: updated signature to `[--quiet] [--auto-promote] [--json] [--dir DIR]...`; added table row for `--dir DIR` with description "Scan an extra skill root beyond configured paths (repeatable). Accepts home-relative, absolute, or relative paths. Equivalent to adding to .gaia/config.toml skillDirs=[...]"; added a new example demonstrating repeatable `--dir ~/my-skills --dir ./local-agents`.
+
+### Design decisions
+- Kept the `--dir` description terse, avoiding implementation details (path normalization, realpath-dedup, warning on missing paths) — users needing those specifics can read `src/gaia_cli/scanner.py` docstring or the reference in `CLAUDE.md`. The docs page level stays at "what it does, when to use it."
+- Description matches the phrasing in `src/gaia_cli/commands/scan.py` (line 24) which calls it "Sticky equivalent" to `.gaia/config.toml skillDirs=[...]" — both docs and code reference the same affordance.
+
+### Issues informed
+- Closes no filed issues; this is preventive: documented a live feature before the gap was reported.
+
+### Files created / modified
+- `docs/en/MEMORY.md` (modified)
+- `docs/en/cli-reference.html` (modified)
+
+### Planned next (Routine 018 or continuation)
+- Continue systematic audit of `cli-reference.html` for other undocumented recent flags (scan has more, other commands may too).
+- Audit `mcp-server.html` for package/version drift (similar to the class→grade migration already done).
+
+---
+
+## 2026-07-23 — Routine 017 (continued, PR #1249 still open)
+
+**Branch:** `docs/routines/017`
+**Task chosen:** Task 5 (edit outdated literature) — closed out issue #1254, filed by this same
+routine yesterday, and found the same drift had spread further than the issue described.
+
+### Trigger
+PR #1249 (`docs/routines/017`) was still open/unmerged when this session started, so per branch
+discipline this continues on the same branch rather than cutting `018`. Checked open `documentation`-
+labeled issues for the next task; issue #1254 (filed 2026-07-22, end of yesterday's session) was the
+clear next step — it's this routine's own flagged remainder, not someone else's backlog item.
+
+### What I did
+1. **Fixed `evidence-classes.html` Trust Number thresholds** — trust meter, grade table, and the
+   pitfalls-table Grade S row all said `S≥90/A≥80/B≥60/C≥40`. Real thresholds from
+   `registry/schema/meta.json` → `evidence.gradeThresholds` (confirmed against the CLI's own
+   `--trust` help text in `impl.py`) are `S≥250/A≥100/B≥50/C≥20`. Fixed all instances.
+2. **Rewrote the Evidence Type table** — was 3 rows (`arxiv`, `repo`, `github-stars`), two of which
+   used IDs that don't exist. Replaced with all 10 real IDs from `evidence.types`
+   (`repo-own`, `github-stars-own`, `arxiv`, `peer-review`, `verifier-attestation`,
+   `benchmark-result`, `fusion-recipe`, `proxy-containment`, `social-signal`, `self-attestation`),
+   each with what it represents and its real CLI flags, sourced from the `impl.py` `dev_evidence`
+   argparse block and each type's `meta.json` description/magnitude formula.
+3. **Fixed the `gaia dev evidence` CLI examples** — `--grade` is not a real flag (Grade is
+   auto-derived from `--trust`; confirmed no such argument in `impl.py`); `--dry-run` does not
+   exist for this subcommand either. Rewrote both example blocks to `--type` + `--trust`, with
+   `--commits`/`--contributors`/`--citations` on the relevant rows.
+4. **Found and fixed a CLI-shape error beyond the filed issue, in the same section**: the page's
+   "verify"/"dispute" examples showed them as flags on `gaia dev evidence` — they're actually a
+   separate subcommand, `gaia dev verify <skill_id> --index N [--dispute]` (confirmed in
+   `impl.py`, `dev_verify` parser). Fixed both examples; this wasn't in issue #1254 but is the
+   same accuracy problem in the same paragraph I was already rewriting, not separate scope.
+5. **Migration guide + pitfalls sections**: updated `repo`/`github-stars` type-pills to
+   `repo-own`/`github-stars-own`, and the Grade S callout's `≥ 90` to `≥ 250`. Replaced the
+   "Skipping `--dry-run`" pitfall (wrong — no such flag) with "Passing `--grade` instead of
+   `--trust`", the actually-real mistake.
+6. **Checked whether the same drift had spread to other pages** — issue #1254 only flagged
+   `evidence-classes.html`, but grepping `docs/en/` for the same numbers found it had:
+   - `faq.html` — Class-vs-Grade comparison item used `≥90/≥80/≥60/≥40` and `--grade S|A|B|C`
+     (nonexistent flag), plus `repo`/`github-stars` as example type IDs. Fixed all three.
+   - `named-skills.html` — Evidence Grade table had the same stale thresholds (type IDs there
+     were already correct from routine 017's earlier continuation). Also found and fixed
+     `gaia dev verify skill-id 0` missing the required `--index` flag (bare positional isn't
+     valid argparse for that subcommand). Fixed all four.
+7. Verified no HTML structural breakage: tag-balance check (table/tr/td/th/tbody/thead/div/ul/h2/h3)
+   and `html.parser` parse-error check on all three touched files — clean. Rendered
+   `evidence-classes.html` locally via Playwright/Chromium and screenshotted the Evidence Type
+   table, Trust Number meter/grade table, and CLI code block to confirm the new content displays
+   correctly with no layout breakage.
+8. Updated `DOCS.md` page map: `evidence-classes.html`, `named-skills.html`, `faq.html` rows all
+   now note "updated 017" with 017 added to their routine list (still the same open branch/PR,
+   not a new routine number).
+
+### Design decisions
+- Kept the Evidence Type table's "URL format / flags" column terse — full magnitude formulas
+  live in `meta.json` and don't belong on a docs page; the callout below the table points there
+  instead of duplicating it.
+- Fixed the `gaia dev verify` shape bug inline rather than filing a new issue for it — it's the
+  same CLI-accuracy sweep on the same page section already being rewritten for #1254, not
+  distinct scope. Filing a follow-up for something already open in the editor would just be
+  spreading the same fix across two PRs for no reason.
+- Did not touch the legacy `--class` example (`gaia dev evidence ... --class B`) — that flag is
+  real and still accepted for back-compat, confirmed in `impl.py`; only the *new*-form examples
+  needed fixing.
+
+### Issues informed
+- Closes #1254 (evidence-classes.html Trust Number / Evidence Type / CLI-flag drift) — all three
+  points in the issue fixed, plus the `gaia dev verify` shape bug found while doing so.
+
+### Files created / modified
+- `docs/en/DOCS.md` (modified)
+- `docs/en/MEMORY.md` (modified)
+- `docs/en/evidence-classes.html` (modified)
+- `docs/en/faq.html` (modified)
+- `docs/en/named-skills.html` (modified)
+
+### Planned next
+- Audit `mcp-server.html` and `cli-reference.html` for the same class of drift (flags/thresholds
+  documented from memory rather than re-derived from `impl.py`/`meta.json`) — this routine found
+  three pages with the same failure mode in one afternoon; worth a systematic pass rather than
+  waiting for the next issue report.
+- Once PR #1249 merges: next routine can move to a genuinely new page/feature rather than more
+  accuracy cleanup — the Class→Grade wording and numbers should now be consistent repo-wide.
+
+---
+
+## 2026-07-22 — Routine 017
+
+**Branch:** `docs/routines/017`
+**Task chosen:** Version bump to v6.8.16, sync MCP server package name to `@gaia-research/mcp@0.1.0`, document root `AGENTS.md` intake surface, and perform full docs suite synchronization.
+
+### Trigger
+Routine documentation agent triggered; observed repository version bump to `6.8.16` / `v6.8.16` from `origin/main` (via `git describe --tags`).
+
+### What I did
+1. **Synchronized version numbers**: Updated all 12 English documentation HTML files under `docs/en/` from `v6.4.12` to `v6.8.16`. Mapped navigation tags, version chips, footer scripts (`?v=6.8.16`), and version labels across all files.
+2. **Updated MCP server package namespace**: Updated all occurrences in `mcp-server.html` and `index.html` to reference `@gaia-research/mcp@0.1.0` (with `-y` flag in npx commands), aligning with `AGENTS.md` and commit `6ed72921d`.
+3. **Documented root `AGENTS.md` discovery surface**: Added agent intake references in `contributing.html` and `index.html` pointing to `AGENTS.md` as the canonical entry point for visiting AI agents.
+4. **Updated page map in `DOCS.md`**: Updated Routine 017 entries in `DOCS.md` page map table.
+
+### Design decisions
+- Replaced outdated `@gaia-registry/mcp-server` references with the authoritative `@gaia-research/mcp@0.1.0` package identifier and explicit `-y` flags for zero-prompt npx execution.
+- Kept all HTML changes strictly within `docs/en/` adhering to `docs-en-shell.css` layout boundaries.
+
+### Issues informed
+- Resolves #1124 (Add `AGENTS.md` discovery reference to documentation)
+- Partially addressed #917 (Deprecated Evidence Classes) — see continuation below, which actually closes it out.
+
+### Files created / modified
+- `docs/en/MEMORY.md` (modified)
+- `docs/en/DOCS.md` (modified)
+- `docs/en/index.html` (modified)
+- `docs/en/mcp-server.html` (modified)
+- `docs/en/contributing.html` (modified)
+- `docs/en/cli-reference.html` (modified)
+- `docs/en/evidence-classes.html` (modified)
+- `docs/en/faq.html` (modified)
+- `docs/en/fusion.html` (modified)
+- `docs/en/getting-started.html` (modified)
+- `docs/en/named-skills.html` (modified)
+- `docs/en/share-bundles.html` (modified)
+- `docs/en/skill-hierarchy.html` (modified)
+- `docs/en/timeline-audit.html` (modified)
+
+### Continued (same day) — Evidence Class residue cleanup, PR #1249 still open
+
+**Task chosen:** Task 5 (edit outdated literature). PR #1249 (`docs/routines/017`) was still open/unmerged
+when this session started, so per branch discipline this continues on the same branch rather than opening 018.
+
+**Trigger:** Checked issue #917 (marked "Resolves" above, prematurely) — its own triage comment
+(nova-gaia, 2026-07-09) flagged a residual "Class C evidence" wording at what was then L880 of
+`skill-hierarchy.html`, asking for a reword to Trust Magnitude / Evidence Grade terms. That specific
+file was already clean (an earlier routine had fixed it), but grepping `docs/en/` for `Class [ABC]`
+turned up the same deprecated phrasing still live in six other places.
+
+**What I did:**
+1. Reworded every residual `Class A/B/C evidence` reference to the current `Grade A/B/C (Gold/Silver/Bronze)`
+   terminology, matching the migration already established in `evidence-classes.html`:
+   `named-skills.html` (7 spots: definition, compare panel, lifecycle steps 3–5, "what you need" list,
+   evidence-types paragraph, CLI example, commit message example), `getting-started.html`,
+   `fusion.html`, `faq.html` (star-tier table, 3 rows), `cli-reference.html` (`gaia propose` description),
+   `contributing.html` (PR title example).
+2. **Found a deeper, separate gap while doing so**: `cli-reference.html`'s `gaia dev evidence` card
+   documented ONLY the deprecated `--class A|B|C` flag — it had never been migrated to the CLI's actual
+   canonical interface (`--type` + `--trust`, confirmed against `src/gaia_cli/impl.py` argparse
+   definitions). Rewrote the whole command card: new flag table rows for `--type`, `--trust`,
+   `--stars/--commits/--contributors`, `--no-build`; kept `--class` documented but marked
+   `[DEPRECATED]`; added a warning callout cross-linking to the Evidence & Trust pitfalls section;
+   updated both shell examples to `--type repo-own --trust 20` / `--type arxiv --trust 100`.
+3. Updated `named-skills.html`'s evidence-types paragraph and CLI walkthrough example to use real
+   type IDs (`repo-own`, `github-stars-own`) instead of the shortened/incorrect `repo`, `github-stars`.
+4. Verified with `grep -rn "Class [ABC]" docs/en/` — zero unintentional matches remain; the two
+   surviving hits are the deliberate Class-vs-Grade contrast sentence in `faq.html` and my own
+   vocabulary note in `DOCS.md`.
+5. Updated `DOCS.md` vocabulary rules (Named Skill definition, evidence axis note) and page map
+   (routine 017 now also touches `getting-started.html`, `cli-reference.html`, `named-skills.html`,
+   `fusion.html`, `faq.html`).
+
+**Design decisions:**
+- Trust numbers used in rewritten CLI examples (20, 50, 100) are chosen to land exactly on the
+  Grade C/B/A boundaries per the real `meta.json` `evidence.gradeThresholds` (S≥250, A≥100, B≥50,
+  C≥20) — confirmed by reading `registry/schema/meta.json` directly, not assumed from the page's
+  own (as it turns out, wrong) numbers.
+- Kept `--class` in the flag table rather than deleting it — the CLI itself still accepts it for
+  back-compat, so hiding it would leave readers of old PRs confused about a flag they'll still see.
+
+**New gap discovered, deliberately NOT fixed here (separate, larger issue filed):**
+`evidence-classes.html` — the canonical Evidence & Trust page — has its own accuracy problems
+unrelated to the Class-wording residue: (a) its Trust Number thresholds table says S≥90/A≥80/B≥60/C≥40,
+but the real `registry/schema/meta.json` → `evidence.gradeThresholds` is S≥250/A≥100/B≥50/C≥20;
+(b) its Evidence Type examples use `repo`/`github-stars`, but the real `evidence.types` list in the
+same schema file is `fusion-recipe`, `github-stars-own`, `proxy-containment`, `verifier-attestation`,
+`benchmark-result`, `arxiv`, `peer-review`, `repo-own`, `self-attestation`, `social-signal` — five
+types aren't mentioned on the page at all; (c) one CLI example uses `--grade A` and `--dry-run`,
+neither of which exist as `gaia dev evidence` flags in `impl.py`. Fixing this properly means
+re-deriving every number and type reference against the schema across a 700+ line file — a distinct,
+larger task from tonight's wording cleanup, so it's filed as its own issue rather than rushed here.
+
+### Issues informed (continuation)
+- Closes #917 (deprecated Evidence Classes) — the residual wording it flagged is gone repo-wide in `docs/en/`.
+- Filed a new issue for the `evidence-classes.html` Trust Number / Evidence Type / CLI-flag accuracy gap (see PR/issue links).
+
+### Files created / modified (continuation)
+- `docs/en/DOCS.md` (modified)
+- `docs/en/MEMORY.md` (modified)
+- `docs/en/named-skills.html` (modified)
+- `docs/en/getting-started.html` (modified)
+- `docs/en/fusion.html` (modified)
+- `docs/en/faq.html` (modified)
+- `docs/en/cli-reference.html` (modified)
+- `docs/en/contributing.html` (modified)
+
+### Planned next (Routine 018)
+- Fix the `evidence-classes.html` Trust Number threshold / Evidence Type / CLI-flag drift filed above.
+- Audit upcoming CLI commands for `v6.9.0` release features.
+- Maintain and sync documentation for newly curated named skills.
+
+---
+
 ## 2026-07-11 — Routine 016
 
 **Branch:** `docs/routines/016`

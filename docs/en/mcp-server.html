@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MCP Server — Gaia Docs</title>
-  <meta name="description" content="@gaia-registry/mcp@0.1.0: connect Gaia to Claude Code, Cursor, VS Code, and any MCP-compatible agent. Tool reference, configuration, and known issues.">
+  <meta name="description" content="@gaia-registry/mcp-server: connect Gaia to Claude Code, Cursor, VS Code, and any MCP-compatible agent. Tool reference, configuration, and known issues.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -47,7 +47,7 @@
       color: var(--text, #e2e8f0);
       letter-spacing: .02em;
     }
-    .nav-logo span { color: var(--rank-5); }
+    .nav-logo span { color: var(--tier-ultimate, #f59e0b); }
     .nav-sep { color: var(--muted, #64748b); font-size: 0.85rem; }
     .nav-crumb { font-size: 0.82rem; color: var(--muted, #64748b); }
     .nav-crumb:hover { color: var(--text, #e2e8f0); text-decoration: none; }
@@ -203,7 +203,7 @@
     .code-block pre .c  { color: var(--muted, #64748b); }
     .code-block pre .cmd{ color: #86efac; }
     .code-block pre .kw { color: var(--tier-basic, #38bdf8); }
-    .code-block pre .str{ color: var(--rank-4); }
+    .code-block pre .str{ color: var(--tier-extra, #c084fc); }
     .code-block pre .val{ color: #f59e0b; }
     code {
       font-family: 'JetBrains Mono', monospace;
@@ -415,13 +415,9 @@
     .footer-bottom { margin-top: 2.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border, #1e293b); display: flex; gap: 1rem; align-items: center; font-size: 0.78rem; color: var(--muted, #64748b); }
     .footer-bottom-sep { opacity: 0.4; }
 
-    /* mobile-first: base layout handled by docs-en-shell.css */
-    @media (min-width: 769px) {
-      .page-layout { grid-template-columns: 220px 1fr; }
-      .sidebar { display: block; }
-    }
-
     @media (max-width: 768px) {
+      .page-layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
       .main-content { padding: 1.5rem 1.25rem 3rem; }
     }
 
@@ -488,22 +484,14 @@
   "url": "https://gaiaskilltree.com/en/mcp-server.html"
 }
 </script>
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TS7N9T92BM" data-ga4="G-TS7N9T92BM"></script>
-  <script data-ga4="G-TS7N9T92BM">
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-TS7N9T92BM');
-  </script>
 </head>
 <body>
 
   <!-- Main site nav (hamburger on mobile, full menu on desktop) -->
   <nav id="site-nav"></nav>
-  <script src="../js/mounts.js?v=6.4.12"></script>
-  <script src="../js/site-nav.js?v=6.4.12"></script>
-  <script src="../js/ui.js?v=6.4.12"></script>
+  <script src="../js/mounts.js?v=6.8.16"></script>
+  <script src="../js/site-nav.js?v=6.8.16"></script>
+  <script src="../js/ui.js?v=6.8.16"></script>
 
 
 
@@ -515,7 +503,7 @@
     <span class="nav-sep">/</span>
     <span class="nav-crumb current">MCP Server</span>
     <span class="nav-spacer"></span>
-    <span class="nav-version">v6.4.12</span>
+    <span class="nav-version">v6.8.16</span>
   </nav>
 
   <div class="page-layout">
@@ -556,7 +544,7 @@
 
     <!-- main -->
     <main class="main-content">
-      <div class="page-badge">● @gaia-registry/mcp@0.1.0</div>
+      <div class="page-badge">● @gaia-registry/mcp-server · v6.8.16</div>
       <h1 class="page-title">MCP Server</h1>
       <p class="page-lead">
         Connect Gaia to any MCP-compatible agent — Claude Code, Claude Desktop, Cursor,
@@ -569,7 +557,7 @@
         <h2 class="section-title">Overview</h2>
         <div class="section-body">
           <p>
-            <code>@gaia-registry/mcp@0.1.0</code> is a
+            <code>@gaia-registry/mcp-server</code> is a
             <a href="https://modelcontextprotocol.io" rel="noopener" target="_blank">Model Context Protocol</a>
             server that exposes Gaia's registry to your AI agent at inference time.
             Instead of copying skill IDs into prompts, the agent calls structured tools
@@ -587,7 +575,7 @@
         <div class="callout callout-info">
           <span class="callout-label">💡 Quick start</span>
           <p>Using Claude Code? Run one command and you're done:</p>
-          <p><code>claude mcp add gaia -- npx @gaia-registry/mcp@0.1.0</code></p>
+          <p><code>claude mcp add gaia -- npx @gaia-registry/mcp-server</code></p>
           <p>Then ask: <em>"Use gaia_lookup to find the rag-pipeline skill."</em></p>
         </div>
       </section>
@@ -597,9 +585,9 @@
         <h2 class="section-title">Installation</h2>
         <div class="section-body">
           <p>
-            The universal install shape is <code>npx @gaia-registry/mcp@0.1.0</code>
+            The universal install shape is <code>npx @gaia-registry/mcp-server</code>
             with an optional <code>GAIA_USER</code> env var set to your GitHub username.
-            Platform specifics follow. Research endpoint: <code>research.gaiaskilltree.com/mcp</code>.
+            Platform specifics follow.
           </p>
         </div>
 
@@ -621,10 +609,10 @@
           <div class="code-block">
             <div class="code-block-header"><span class="code-block-label">bash</span></div>
             <pre><span class="c"># project-local (adds to .claude/settings.json)</span>
-<span class="cmd">claude mcp add gaia</span> -- npx @gaia-registry/mcp@0.1.0
+<span class="cmd">claude mcp add gaia</span> -- npx @gaia-registry/mcp-server
 
 <span class="c"># global (available in every project)</span>
-<span class="cmd">claude mcp add gaia</span> --global -- npx @gaia-registry/mcp@0.1.0</pre>
+<span class="cmd">claude mcp add gaia</span> --global -- npx @gaia-registry/mcp-server</pre>
           </div>
           <div class="section-body">
             <p>To pass <code>GAIA_USER</code> and <code>GITHUB_TOKEN</code>, edit <code>.claude/settings.json</code> directly:</p>
@@ -635,7 +623,7 @@
   <span class="str">"mcpServers"</span>: {
     <span class="str">"gaia"</span>: {
       <span class="str">"command"</span>: <span class="str">"npx"</span>,
-      <span class="str">"args"</span>: [<span class="str">"@gaia-registry/mcp@0.1.0"</span>],
+      <span class="str">"args"</span>: [<span class="str">"@gaia-registry/mcp-server"</span>],
       <span class="str">"env"</span>: {
         <span class="str">"GAIA_USER"</span>: <span class="str">"your-github-username"</span>,
         <span class="str">"GITHUB_TOKEN"</span>: <span class="str">"ghp_..."</span>
@@ -674,7 +662,7 @@
   <span class="str">"mcpServers"</span>: {
     <span class="str">"gaia"</span>: {
       <span class="str">"command"</span>: <span class="str">"npx"</span>,
-      <span class="str">"args"</span>: [<span class="str">"@gaia-registry/mcp@0.1.0"</span>],
+      <span class="str">"args"</span>: [<span class="str">"@gaia-registry/mcp-server"</span>],
       <span class="str">"env"</span>: {
         <span class="str">"GAIA_USER"</span>: <span class="str">"your-github-username"</span>
       }
@@ -700,7 +688,7 @@
   <span class="str">"mcpServers"</span>: {
     <span class="str">"gaia"</span>: {
       <span class="str">"command"</span>: <span class="str">"npx"</span>,
-      <span class="str">"args"</span>: [<span class="str">"@gaia-registry/mcp@0.1.0"</span>],
+      <span class="str">"args"</span>: [<span class="str">"@gaia-registry/mcp-server"</span>],
       <span class="str">"env"</span>: {
         <span class="str">"GAIA_USER"</span>: <span class="str">"your-github-username"</span>
       }
@@ -726,7 +714,7 @@
   <span class="str">"servers"</span>: {
     <span class="str">"gaia"</span>: {
       <span class="str">"command"</span>: <span class="str">"npx"</span>,
-      <span class="str">"args"</span>: [<span class="str">"@gaia-registry/mcp@0.1.0"</span>],
+      <span class="str">"args"</span>: [<span class="str">"@gaia-registry/mcp-server"</span>],
       <span class="str">"env"</span>: {
         <span class="str">"GAIA_USER"</span>: <span class="str">"your-github-username"</span>
       }
@@ -744,7 +732,7 @@
     <span class="str">"servers"</span>: {
       <span class="str">"gaia"</span>: {
         <span class="str">"command"</span>: <span class="str">"npx"</span>,
-        <span class="str">"args"</span>: [<span class="str">"@gaia-registry/mcp@0.1.0"</span>],
+        <span class="str">"args"</span>: [<span class="str">"@gaia-registry/mcp-server"</span>],
         <span class="str">"env"</span>: { <span class="str">"GAIA_USER"</span>: <span class="str">"your-github-username"</span> }
       }
     }
@@ -765,7 +753,7 @@
   <span class="str">"mcpServers"</span>: {
     <span class="str">"gaia"</span>: {
       <span class="str">"command"</span>: <span class="str">"npx"</span>,
-      <span class="str">"args"</span>: [<span class="str">"@gaia-registry/mcp@0.1.0"</span>],
+      <span class="str">"args"</span>: [<span class="str">"@gaia-registry/mcp-server"</span>],
       <span class="str">"env"</span>: { <span class="str">"GAIA_USER"</span>: <span class="str">"your-github-username"</span> }
     }
   }
@@ -786,7 +774,7 @@
             <div class="code-block-header"><span class="code-block-label">universal shape</span></div>
             <pre>{
   <span class="str">"command"</span>: <span class="str">"npx"</span>,
-  <span class="str">"args"</span>: [<span class="str">"@gaia-registry/mcp@0.1.0"</span>],
+  <span class="str">"args"</span>: [<span class="str">"@gaia-registry/mcp-server"</span>],
   <span class="str">"env"</span>: {
     <span class="str">"GAIA_USER"</span>: <span class="str">"your-github-username"</span>,
     <span class="str">"GITHUB_TOKEN"</span>: <span class="str">"ghp_..."</span>   <span class="c">// required for gaia_propose</span>
@@ -1175,7 +1163,7 @@
     <div class="footer-bottom">
       <span>MIT License</span>
       <span class="footer-bottom-sep" aria-hidden="true">·</span>
-      <span>v6.4.12</span>
+      <span>v6.8.16</span>
       <span class="footer-bottom-sep" aria-hidden="true">·</span>
       <span>© 2026 Gaia</span>
     </div>
@@ -1214,5 +1202,8 @@
       });
     })();
   </script>
+<!-- impeccable-live-start -->
+<script src="http://localhost:8400/live.js"></script>
+<!-- impeccable-live-end -->
 </body>
 </html>

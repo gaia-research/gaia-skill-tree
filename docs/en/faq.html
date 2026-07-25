@@ -264,9 +264,9 @@
 
   <!-- Main site nav (hamburger on mobile, full menu on desktop) -->
   <nav id="site-nav"></nav>
-  <script src="../js/mounts.js?v=6.4.12"></script>
-  <script src="../js/site-nav.js?v=6.4.12"></script>
-  <script src="../js/ui.js?v=6.4.12"></script>
+  <script src="../js/mounts.js?v=6.8.16"></script>
+  <script src="../js/site-nav.js?v=6.8.16"></script>
+  <script src="../js/ui.js?v=6.8.16"></script>
 
 
 
@@ -278,7 +278,7 @@
     <span class="nav-sep">/</span>
     <span class="nav-crumb current">FAQ</span>
     <span class="nav-spacer"></span>
-    <span class="nav-version">v6.4.12</span>
+    <span class="nav-version">v6.8.16</span>
   </nav>
 
   <div class="page-layout">
@@ -506,22 +506,22 @@
                   <tr style="border-bottom:1px solid rgba(30,41,59,0.5);">
                     <td style="padding:0.45rem 0.6rem; color:var(--text,#e2e8f0);">1★</td>
                     <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Awakened</td>
-                    <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">First sighting / Class C evidence</td>
+                    <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">First sighting / Grade C (Bronze) evidence</td>
                   </tr>
                   <tr style="border-bottom:1px solid rgba(30,41,59,0.5);">
                     <td style="padding:0.45rem 0.6rem; color:var(--text,#e2e8f0);">2★</td>
                     <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Named</td>
-                    <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Claimed by a real contributor (Class C+ evidence)</td>
+                    <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Claimed by a real contributor (Grade C+ evidence)</td>
                   </tr>
                   <tr style="border-bottom:1px solid rgba(30,41,59,0.5);">
                     <td style="padding:0.45rem 0.6rem; color:var(--text,#e2e8f0);">3★</td>
                     <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Evolved</td>
-                    <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Reproducible evidence (Class B)</td>
+                    <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Reproducible evidence (Grade B / Silver)</td>
                   </tr>
                   <tr style="border-bottom:1px solid rgba(30,41,59,0.5);">
                     <td style="padding:0.45rem 0.6rem; color:var(--text,#e2e8f0);">4★</td>
                     <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Hardened</td>
-                    <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Verifier threshold — peer-reviewed or battle-tested (Class A)</td>
+                    <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Verifier threshold — peer-reviewed or battle-tested (Grade A / Gold)</td>
                   </tr>
                   <tr style="border-bottom:1px solid rgba(30,41,59,0.5);">
                     <td style="padding:0.45rem 0.6rem; color:var(--text,#e2e8f0);">5★</td>
@@ -579,7 +579,7 @@
               </div>
               <ul>
                 <li><strong>Evidence Class (legacy)</strong> — provenance tier. <code>C</code> = first sighting; <code>B</code> = reproducible; <code>A</code> = battle-tested, peer-reviewed. Added via <code>--class C|B|A</code>.</li>
-                <li><strong>Evidence Grade (new)</strong> — trust score tier. <code>S</code> ≥ 90; <code>A</code> ≥ 80; <code>B</code> ≥ 60; <code>C</code> ≥ 40. Added via <code>--grade S|A|B|C</code>. Paired with a <strong>Grade Type</strong> (arxiv, repo, github-stars, etc.) added via <code>--type</code>.</li>
+                <li><strong>Evidence Grade (new)</strong> — quality tier, auto-derived from a trust number. <code>S</code> ≥ 250; <code>A</code> ≥ 100; <code>B</code> ≥ 50; <code>C</code> ≥ 20. Added via <code>--trust &lt;number&gt;</code> (there is no <code>--grade</code> flag). Paired with an <strong>Evidence Type</strong> (<code>arxiv</code>, <code>repo-own</code>, <code>github-stars-own</code>, etc.) added via <code>--type</code>.</li>
               </ul>
               <p>
                 The overall <strong>Trust Grade</strong> per skill is aggregated from all grade entries at build time.
@@ -919,7 +919,7 @@
     <div class="footer-bottom">
       <span>MIT License</span>
       <span class="footer-bottom-sep" aria-hidden="true">·</span>
-      <span>v6.4.12</span>
+      <span>v6.8.16</span>
       <span class="footer-bottom-sep" aria-hidden="true">·</span>
       <span>© 2026 Gaia</span>
     </div>

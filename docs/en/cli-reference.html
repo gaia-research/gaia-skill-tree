@@ -65,7 +65,7 @@
     }
 
     .nav-logo span {
-      color: var(--rank-5);
+      color: var(--tier-ultimate, #f59e0b);
     }
 
     .nav-sep {
@@ -289,7 +289,7 @@
     .flag-table td:first-child {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.78rem;
-      color: var(--rank-4);
+      color: var(--tier-extra, #c084fc);
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -349,7 +349,7 @@
     }
 
     .example-block pre .arg {
-      color: var(--rank-4);
+      color: var(--tier-extra, #c084fc);
     }
 
     .example-block pre .kw {
@@ -420,7 +420,7 @@
     .gate-badge.verifier {
       background: rgba(192, 132, 252, 0.12);
       border: 1px solid rgba(192, 132, 252, 0.3);
-      color: var(--rank-4);
+      color: var(--tier-extra, #c084fc);
     }
 
     .gate-badge.open {
@@ -470,13 +470,15 @@
       text-decoration: none;
     }
 
-    /* mobile-first: base layout handled by docs-en-shell.css */
-    @media (min-width: 821px) {
-      .page-layout { grid-template-columns: 220px 1fr; }
-      .sidebar { display: block; }
-    }
-
     @media (max-width: 820px) {
+      .page-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
       .main-content {
         padding: 1.5rem 1.25rem 3rem;
       }
@@ -803,23 +805,15 @@
   "url": "https://gaiaskilltree.com/en/cli-reference.html"
 }
 </script>
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TS7N9T92BM" data-ga4="G-TS7N9T92BM"></script>
-  <script data-ga4="G-TS7N9T92BM">
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-TS7N9T92BM');
-  </script>
 </head>
 
 <body>
 
   <!-- Main site nav (hamburger on mobile, full menu on desktop) -->
   <nav id="site-nav"></nav>
-  <script src="../js/mounts.js?v=6.4.12"></script>
-  <script src="../js/site-nav.js?v=6.4.12"></script>
-  <script src="../js/ui.js?v=6.4.12"></script>
+  <script src="../js/mounts.js?v=6.8.16"></script>
+  <script src="../js/site-nav.js?v=6.8.16"></script>
+  <script src="../js/ui.js?v=6.8.16"></script>
 
 
 
@@ -831,7 +825,7 @@
     <span class="nav-sep">/</span>
     <span class="nav-crumb current">CLI Reference</span>
     <div class="nav-spacer"></div>
-    <span class="nav-version">v6.4.12</span>
+    <span class="nav-version">v6.8.16</span>
   </nav>
 
   <div class="page-layout">
@@ -842,6 +836,7 @@
         <ul class="sidebar-links">
           <li><a href="#init"><code>init</code></a></li>
           <li><a href="#scan"><code>scan</code></a></li>
+          <li><a href="#promote"><code>promote</code></a></li>
           <li><a href="#fuse"><code>fuse</code></a></li>
           <li><a href="#tree"><code>tree</code></a></li>
           <li><a href="#push"><code>push</code></a></li>
@@ -935,7 +930,8 @@
           <ul class="toc-section-list">
             <li><a href="#init"><code>init</code> — Initialize config</a></li>
             <li><a href="#scan"><code>scan</code> — Scan for evidence</a></li>
-            <li><a href="#fuse"><code>fuse</code> — Combine skills</a></li>
+            <li><a href="#promote"><code>promote</code> — Rank up skill</a></li>
+            <li><a href="#fuse"><code>fuse</code> — Fuse skills</a></li>
             <li><a href="#tree"><code>tree</code> — Render skill tree</a></li>
             <li><a href="#push"><code>push</code> — Submit intake batch</a></li>
           </ul>
@@ -989,7 +985,7 @@
       <!-- ═══════════════ PLAYER WORKFLOW ═══════════════ -->
       <section class="section" id="player-workflow">
         <h2 class="section-title">Player workflow</h2>
-        <p class="section-desc">Use these commands to scan your local code, fuse your skills, and propose your progress to canon.
+        <p class="section-desc">Use these commands to scan your local code, promote your skills, and save your progress.
         </p>
 
         <!-- init -->
@@ -1080,13 +1076,14 @@
         <div class="cmd-card" id="scan">
           <div class="cmd-card-header">
             <span class="cmd-name">gaia scan</span>
-            <span class="cmd-signature">[--quiet] [--json]</span>
+            <span class="cmd-signature">[--quiet] [--all] [--json] [--dir DIR]...</span>
             <span class="gate-badge open">● open</span>
           </div>
           <div class="cmd-body">
             <ul class="cmd-desc">
               <li>Scans configured paths for <code>SKILL.md</code> files and agent folders.</li>
-              <li>Detects the fusions you have the prerequisites for and renders your tree.</li>
+              <li>Saves promotion candidates to your output folder.</li>
+              <li>Expires scan candidate files after 24 hours.</li>
             </ul>
             <table class="flag-table">
               <thead>
@@ -1099,7 +1096,12 @@
               <tbody>
                 <tr>
                   <td>--quiet</td>
-                  <td>Suppress per-file scan output; show only the final summary.</td>
+                  <td>Suppress per-file scan output; show only the final candidate summary.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--all</td>
+                  <td>Scan globally installed skills in addition to the local repository.</td>
                   <td>false</td>
                 </tr>
                 <tr>
@@ -1107,15 +1109,88 @@
                   <td>Write scan results to stdout as machine-readable JSON instead of rendering the tree.</td>
                   <td>false</td>
                 </tr>
+                <tr>
+                  <td>--dir DIR</td>
+                  <td>Scan an extra skill root beyond configured paths (repeatable). Accepts home-relative, absolute, or relative paths. Equivalent to adding to <code>.gaia/config.toml skillDirs=[...]</code>.</td>
+                  <td>—</td>
+                </tr>
               </tbody>
             </table>
             <div class="example-block">
               <div class="example-label">examples</div>
-              <pre><span class="c"># Standard scan — shows detected skills and ready fusions</span>
+              <pre><span class="c"># Standard scan — shows detected skills and promotion candidates</span>
 <span class="cmd">gaia scan</span>
 
-<span class="c"># Quiet scan, then inspect results in JSON</span>
-<span class="cmd">gaia scan</span> <span class="arg">--quiet --json</span></pre>
+<span class="c"># Quiet scan, then inspect candidates in JSON</span>
+<span class="cmd">gaia scan</span> <span class="arg">--quiet --json</span> <span class="kw">| jq '.candidates'</span>
+
+<span class="c"># Include globally installed skills, not just this repo</span>
+<span class="cmd">gaia scan</span> <span class="arg">--all</span>
+
+<span class="c"># Scan configured paths plus two extra directories</span>
+<span class="cmd">gaia scan</span> <span class="arg">--dir ~/my-skills --dir ./local-agents</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- promote -->
+        <div class="cmd-card" id="promote">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia promote</span>
+            <span class="cmd-signature">[&lt;skillId&gt;] [--all] [--unique] [--name &lt;label&gt;]</span>
+            <span class="gate-badge open">● open</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Promotes one skill or all candidates from your last scan.</li>
+              <li>Requires candidate skills to be listed in a non-stale file.</li>
+              <li>Appends a timeline event to your skill tree file.</li>
+            </ul>
+            <table class="flag-table">
+              <thead>
+                <tr>
+                  <th>Flag</th>
+                  <th>Description</th>
+                  <th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>&lt;skillId&gt;</td>
+                  <td>Slash-prefixed or bare canonical skill ID, e.g. <code>/web-search</code> or
+                    <code>web-search</code>.
+                  </td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--all</td>
+                  <td>Promote every candidate from the most recent scan in one pass.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--unique</td>
+                  <td>Promote a Basic skill to the Unique tier (requires 4★ and graph-isolation with a named
+                    implementation).</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--name &lt;label&gt;</td>
+                  <td>Optional display name for the skill entry in your tree.</td>
+                  <td>canonical name</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Promote a single skill after scanning</span>
+<span class="cmd">gaia scan</span>
+<span class="cmd">gaia promote</span> <span class="arg">/web-search</span>
+
+<span class="c"># Promote every candidate from the last scan</span>
+<span class="cmd">gaia promote</span> <span class="arg">--all</span>
+
+<span class="c"># Promote a Basic skill to Unique tier</span>
+<span class="cmd">gaia promote</span> <span class="arg">code-review --unique</span></pre>
             </div>
           </div>
         </div>
@@ -1372,7 +1447,7 @@
           <div class="cmd-body">
             <ul class="cmd-desc">
               <li>Renders a status card for a specific skill.</li>
-              <li>Displays stars, possible actions (<a href="#fuse">fuse</a>, <a
+              <li>Displays stars, possible actions (<a href="#promote">promote</a>, <a href="#fuse">fuse</a>, <a
                   href="#propose">propose</a>), evidence, and installation status.</li>
               <li>Defaults to your last active skill if no argument is passed.</li>
             </ul>
@@ -1550,7 +1625,7 @@
           <div class="cmd-body">
             <ul class="cmd-desc">
               <li>Submits a proposal to claim an unclaimed canonical skill.</li>
-              <li>Requires Class C evidence or better to propose.</li>
+              <li>Requires Grade C (Bronze) evidence or better to propose.</li>
               <li>Attaches your name as the official Origin Contributor on approval.</li>
             </ul>
             <table class="flag-table">
@@ -1975,16 +2050,22 @@
         <div class="cmd-card" id="dev-evidence">
           <div class="cmd-card-header">
             <span class="cmd-name">gaia dev evidence</span>
-            <span class="cmd-signature">&lt;skill_id&gt; &lt;url&gt; [--class A|B|C] [--evaluator &lt;handle&gt;]
-              [--notes &lt;text&gt;]</span>
+            <span class="cmd-signature">&lt;skill_id&gt; &lt;url&gt; [--type &lt;type&gt;] [--trust &lt;number&gt;]
+              [--evaluator &lt;handle&gt;] [--notes &lt;text&gt;]</span>
             <span class="gate-badge verifier">◇ verifier</span>
           </div>
           <div class="cmd-body">
             <ul class="cmd-desc">
               <li>Attaches evaluation URLs to specific skill nodes.</li>
-              <li>Categorizes evidence into levels A (high), B (medium), or C (low).</li>
+              <li>Records an Evidence Type (provenance) and a Trust Magnitude number; the Evidence Grade (S/A/B/C — Platinum/Gold/Silver/Bronze) is auto-derived from the number, never set directly.</li>
               <li>Influences the speed of skill star upgrades.</li>
             </ul>
+            <div class="callout warn" style="margin-bottom:0.85rem;">
+              <strong>⚠️ --class is deprecated.</strong> The legacy <code>--class A|B|C</code> flag still
+              works for backward compatibility, but new evidence should always use <code>--type</code> +
+              <code>--trust</code>. Class letters and Grade letters are <em>not</em> equivalent — see
+              <a href="evidence-classes.html#pitfalls">Evidence &amp; Trust — common pitfalls</a>.
+            </div>
             <table class="flag-table">
               <thead>
                 <tr>
@@ -1995,9 +2076,24 @@
               </thead>
               <tbody>
                 <tr>
+                  <td>--type &lt;type&gt;</td>
+                  <td>Evidence Type — provenance of the demonstration. Validated against <code>meta.json</code> <code>evidence.types</code> (e.g. <code>repo-own</code>, <code>github-stars-own</code>, <code>arxiv</code>, <code>peer-review</code>, <code>benchmark-result</code>, <code>self-attestation</code>, <code>social-signal</code>).</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--trust &lt;number&gt;</td>
+                  <td>Trust Magnitude value. Evidence Grade is auto-derived: S ≥ 250, A ≥ 100, B ≥ 50, C ≥ 20; below 20 is ungraded.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
                   <td>--class A|B|C</td>
-                  <td>Evidence quality class.</td>
-                  <td>C</td>
+                  <td><span style="color:#f59e0b;">[DEPRECATED]</span> Legacy evidence quality class. Prefer <code>--trust</code>.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--stars / --commits / --contributors &lt;N&gt;</td>
+                  <td>Type-specific metrics (e.g. star count for <code>github-stars-own</code>, commit/contributor counts for <code>repo-own</code>) used by the Trust Magnitude formula for that type.</td>
+                  <td>—</td>
                 </tr>
                 <tr>
                   <td>--evaluator &lt;handle&gt;</td>
@@ -2014,18 +2110,23 @@
                   <td>Context note attached to this evidence entry.</td>
                   <td>—</td>
                 </tr>
+                <tr>
+                  <td>--no-build</td>
+                  <td>Skip rebuilding docs and graph assets after adding evidence.</td>
+                  <td>false</td>
+                </tr>
               </tbody>
             </table>
             <div class="example-block">
               <div class="example-label">examples</div>
-              <pre><span class="c"># Add Class B evidence (reproducible repo link)</span>
+              <pre><span class="c"># Add repo-own evidence (Trust 20 → Grade C / Bronze)</span>
 <span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev evidence</span> \
-  <span class="arg">web-search https://github.com/anthropics/cookbook --class B</span>
+  <span class="arg">web-search https://github.com/anthropics/cookbook --type repo-own --trust 20</span>
 
-<span class="c"># Add Class A evidence with an evaluator note</span>
+<span class="c"># Add arXiv evidence with an evaluator note (Trust 100 → Grade A / Gold)</span>
 <span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev evidence</span> \
   <span class="arg">autonomous-research-agent https://arxiv.org/abs/2401.00000 \
-  --class A --evaluator alice --notes "Peer-reviewed benchmark, 2024"</span></pre>
+  --type arxiv --trust 100 --evaluator alice --notes "Peer-reviewed benchmark, 2024"</span></pre>
             </div>
           </div>
         </div>
@@ -2377,7 +2478,7 @@
 
   <!-- footer -->
   <footer class="docs-footer">
-    <span class="docs-footer-left">Gaia Registry v6.4.12 — open, evidence-backed skill graph for AI agents.</span>
+    <span class="docs-footer-left">Gaia Registry v6.8.16 — open, evidence-backed skill graph for AI agents.</span>
     <div class="docs-footer-right">
       <a href="index.html" style="color:var(--muted,#64748b);">Docs</a>
       <a href="../index.html" style="color:var(--muted,#64748b);">Atlas</a>
@@ -2446,16 +2547,9 @@
             const cmdCard = row.closest('.cmd-card');
             let cmdName = cmdCard ? cmdCard.querySelector('.cmd-name').textContent.trim() : '';
 
-            // Wrap the original flag content inside a .flag-text span by moving
-            // the existing child nodes (not via innerHTML round-trip, which would
-            // re-parse cell content as HTML — avoids DOM-XSS).
-            const flagSpan = document.createElement('span');
-            flagSpan.className = 'flag-text copyable-flag-text';
-            flagSpan.title = 'Click to copy flag name';
-            while (firstCell.firstChild) {
-              flagSpan.appendChild(firstCell.firstChild);
-            }
-            firstCell.appendChild(flagSpan);
+            // Wrap the original flag content inside a .flag-text span
+            const originalHTML = firstCell.innerHTML;
+            firstCell.innerHTML = `<span class="flag-text copyable-flag-text" title="Click to copy flag name">${originalHTML}</span>`;
 
             // Click listener for the flag name text to copy just the flag option
             const flagText = firstCell.querySelector('.flag-text');
@@ -2535,6 +2629,9 @@
       });
     })();
   </script>
+<!-- impeccable-live-start -->
+<script src="http://localhost:8400/live.js"></script>
+<!-- impeccable-live-end -->
 </body>
 
 </html>
