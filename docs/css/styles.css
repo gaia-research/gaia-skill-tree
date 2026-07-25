@@ -1959,7 +1959,7 @@ h1 em {
 
 /* Tier-4 (Unique) button — used for "Open Meta Reports" on the home page
    and any other CTA that surfaces the Unique-tier reporting/governance
-   surfaces. Reads tier-unique tokens so it tracks the canonical tier color. */
+   surfaces. Reads --rank-4-unique tokens so it tracks the 4★ Unique branch color. */
 .btn-unique {
   background: transparent;
   color: var(--rank-4-unique);
@@ -11679,7 +11679,7 @@ button.nav-graph-trigger:hover {
 
 /* Nav button styling */
 .nav-meta {
-  color: var(--rank-3, #a78bfa) !important;
+  color: var(--rank-4, #e879f9) !important;
   font-family: var(--font-body);
   font-size: .9rem;
   letter-spacing: .01em;
