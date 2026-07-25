@@ -25,7 +25,7 @@ proposing a fix guarantees you either widen or narrow it incorrectly:
 | **Concept** — what the numbers mean and why they exist | `docs/codex/trust-methodology.html` (also mirrored in `docs/meta/2026-06-trust-methodology.md` and the G7 supersession note at `docs/meta/2026-06-17-g7-trust-magnitude-supersession.md`) |
 | **Compute** — how the numbers are actually produced | `src/gaia_cli/trustMagnitude.py` (backend); `docs/js/tm-config.js` (frontend SoT) |
 | **Persistence** — what shape the CLI writes and the schema bounds | `src/gaia_cli/commands/dev/evidence.py` (writer) + `registry/schema/skill.schema.json` + `registry/schema/namedSkill.schema.json` (bounds) |
-| **Star level gates** — what a skill must satisfy to hold 0★–6★ | `META.md` §2 (Star Bar, installability, blob-link requirement, 4★+ live evidence rule, Specialist Path rubric, Apex 6-predicate gate) |
+| **Star level gates** — what a skill must satisfy to hold 0★–6★ | `META.md` §2 (Star Bar, installability, blob-link requirement, 4★+ live evidence rule, Specialist Path rubric, Apex 6-predicate gate (Suite branch, §4.3) and the provisional Unique Impossible 5-predicate gate (Unique branch, §4.4)) |
 
 When an issue lands as "CLI gap" or "schema gap" on this surface, ONE of those
 layers is out of step with the other two. Your first job is to identify which.
@@ -42,7 +42,8 @@ The TM methodology page covers *how scores are computed*. It does **not** cover
 | 3★+ | `links.github` **must** be a verified blob URL (`.../blob/<branch>/...`). Bare repo root → hard-demote to 1★. |
 | 4★+ | Live, verifiable usage evidence required. Seed/placeholder evidence is insufficient. |
 | 4★+ Specialist | Vendor-locked skills: Depth-of-Integration rubric (META.md §2.3) |
-| 6★ Apex | Grade S + 6 active predicates from G7 Trust Taxonomy RFC |
+| 6★ Suite (Apex) | Grade S + 6-predicate Apex gate (META.md §4.3) |
+| 6★ Unique (Unique Impossible) | Grade S + provisional 5-predicate gate (Apex set minus directNestedSuiteGte1, META.md §4.4; deferred to Yggdrasil III) |
 
 When asked "should this skill be 4★?", run this check **before** computing TM:
 1. Does `links.github` point to a concrete file via `/blob/`?

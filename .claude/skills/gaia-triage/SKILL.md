@@ -112,12 +112,12 @@ For each skill in the batch, work through these checks in order:
 
 1. **Schema validity** — does the node satisfy the canonical JSON schema?
    ```bash
-   gaia validate --intake
+   gaia dev validate --intake
    ```
 2. **Nomenclature** — does the skill name and description match `CONTEXT.md` vocabulary?
    Flag banned synonyms; the rarity field is deprecated and should not appear in new proposals.
-3. **Evidence quality** — at minimum one Class B source (a real published artifact, not a homepage).
-   Class C-only evidence is grounds for rejection unless the skill is clearly foundational.
+3. **Evidence quality** — each above-1★ claim needs graded evidence with a valid Evidence Type (arxiv|repo|github-stars) and a derived Evidence Grade;
+   weak/ungraded-only evidence is grounds for `needs-info`. Ranking up gates on Trust Magnitude, not an evidence-class floor.
 4. **Prerequisite existence** — all `prerequisites[]` IDs must resolve in the current registry.
    ```bash
    gaia dev list --generic | grep <prerequisite-id>
@@ -141,7 +141,7 @@ For approved skills, promote via CLI (never hand-edit registry nodes directly):
 
 ```bash
 gaia dev add "<Skill Name>" --type basic --description "<description>"
-gaia dev evidence <skill-id> "<url>" --class B
+gaia dev evidence <skill-id> "<url>" --type repo --trust <value>
 ```
 
 After promotion, regenerate Class S artifacts:

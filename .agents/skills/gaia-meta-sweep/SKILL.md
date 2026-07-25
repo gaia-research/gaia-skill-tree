@@ -87,8 +87,8 @@ Dimensions:
 8. `placeholder-bodies` — named markdown with stub `## Installation` only (no `## Overview`)
 9. `testuser-timelines` — `contributor: testuser` survivors that were never cleaned up
 10. `champion-cluster` — generics where multi-implementation clusters exist but no Champion is set (META §6.1)
-11. `unique-isolation` — Unique skills with prerequisites or whose top named star is below 4★ (META §1.2 — Unique = 4★+ named star, 0 prereqs)
-12. `class-mismatch` — evidence claiming Class A without peer-review/10k★ marker (META §2.1)
+11. `unique-isolation` — named skills on the Unique branch (no `suiteComponents`, rank ≥ 4★) that fail a Unique-branch gate — e.g. top named star below 4★ despite Unique labeling, or a Unique skill carrying `suiteComponents` (which would make it Suite branch) (META §1.2 — Unique branch = no suiteComponents AND rank ≥ 4; NOT a prerequisite-count rule)
+12. `grade-mismatch` — evidence whose declared Evidence Grade (S/A/B/C, §2.1b) is unsupported by its Evidence Type/trustNumber, or Trust Magnitude that does not clear the claimed star's TM gate (§2.1c)
 
 Each agent returns structured findings so Phase 4 can process them programmatically without re-parsing prose:
 
@@ -109,7 +109,7 @@ Each agent returns structured findings so Phase 4 can process them programmatica
 
 ### Phase 2 — Fuse (Semantic Fusion candidates)
 
-Spawn one agent that walks named skills pairwise within shared topical clusters and surfaces fusion candidates per META §6.2. Aggressiveness controls the cap (3–8 moderate vs. 10–20 aggressive). Reject any candidate requiring ≥10k stars — that threshold implies a top-rank (Ultimate 5★+) fusion; redirect to `/gaia-fuse-full-suite` instead.
+Spawn one agent that walks named skills pairwise within shared topical clusters and surfaces fusion candidates per META §6.2. Aggressiveness controls the cap (3–8 moderate vs. 10–20 aggressive). Reject any candidate whose composite would require S-grade Trust Magnitude (TM ≥ 250, the 5★ Ultimate gate per §1.1/§4.2) — that implies a top-rank fusion; redirect to `/gaia-fuse-full-suite` instead.
 
 Reference the worked example from PR #525 (`safishamsi/graphify` + `mattpocock/triage` → `graph-driven-issue-triage` 3★).
 
@@ -189,9 +189,9 @@ After Phase 5 produces the findings.json, replay the high-confidence subset prog
 |---|---|
 | Brand-coupled generic ID | `gaia dev rename <old> <new>` |
 | Unbacked named star | `gaia dev calibrate <author/skill> N★` or direct YAML edit on the named markdown |
-| Missing 3★+ evidence | `gaia dev evidence <id> <url> --class B --evaluator <user>` |
+| Missing 3★+ evidence | `gaia dev evidence <id> <url> --type repo --trust <value> --evaluator <user>` (grade auto-derives from Trust Magnitude) |
 | Dead evidence link | Remove/replace the offending evidence entry + log a `demote` timeline event |
-| Unique reclassification (top named star below 4★) | `gaia dev reclassify <id> basic` |
+| Unique named star dropped below 4★ | `gaia dev calibrate <author/skill> N★` on the NAMED skill — the branch re-derives to `standard` automatically; do NOT reclassify the generic (that strips prerequisites) |
 
 After every mutation, validate immediately — a half-applied set that fails CI is worse than no mutations at all:
 

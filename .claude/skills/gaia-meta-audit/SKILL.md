@@ -38,7 +38,7 @@ Before scanning, load and re-read these sources so your flags reference the corr
 Work through these checks in order. Stop when you have enough candidates to fill a meaningful queue — do not perform every focused audit inline.
 
 ### P0 — Critical integrity violations
-- **Unsupported Ultimate claim**: a named skill at 5★–6★ with no `repo-own` evidence at ≥10k GitHub stars (META §1.2).
+- **Unsupported top-rank claim**: a named skill at 5★ whose Trust Magnitude is < 250 (S-grade), or a 6★ skill that fails its branch gate — Suite 6-predicate Apex (META §4.3) or Unique 5-predicate Unique Impossible (META §4.4). TM is the sole numeric gate; there is no repository-star floor.
 - **Unsupported named-origin claim**: `origin: true` on a named skill that is not the earliest (`createdAt`) named skill mapped to that `genericSkillRef`. Verify by pivoting all named skills on the generic and sorting by `createdAt` — only one can be origin.
 - **Named claim with no implementation file**: `links.github` points to a repo root, a 404, or a path that doesn't contain a `SKILL.md`.
 
@@ -58,7 +58,7 @@ Work through these checks in order. Stop when you have enough candidates to fill
 ### P3 — Registry hygiene
 - **Broad `genericSkillRef` mapping**: implementation skill mapped to a much larger generic when a more specific one exists (e.g. mapped to a broad 0★ generic when a narrower generic is available).
 - **Duplicate or superseded skills**: multiple named skills from the same author or tool family doing the same thing. Flag clusters that should consolidate.
-- **Semantic Fusion candidate** (META §6.2): two or more named skills that compose two existing generics into one orchestrated workflow. Propose a new `fusion` generic; do not confuse this with a top-rank (Ultimate 5★+) fusion, which requires ≥10k repo stars.
+- **Semantic Fusion candidate** (META §6.2): two or more named skills that compose two existing generics into one orchestrated workflow. Propose a new `fusion` generic; do not confuse this with a top-rank (5★+ Ultimate) fusion, which is gated by Trust Magnitude (≥ 250, S-grade) and the branch predicate closure (META §4.2–4.4), not a repository-star threshold.
 
 ### P4 — Documentation cleanup
 - **Placeholder bodies**: named-skill markdown with only boilerplate `## Installation\nAdd installation instructions here.` — flag for a real `## Overview`.
