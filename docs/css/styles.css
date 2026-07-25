@@ -11679,7 +11679,7 @@ button.nav-graph-trigger:hover {
 
 /* Nav button styling */
 .nav-meta {
-  color: var(--rank-4, #e879f9) !important;
+  color: var(--rank-3, #a78bfa) !important;
   font-family: var(--font-body);
   font-size: .9rem;
   letter-spacing: .01em;
