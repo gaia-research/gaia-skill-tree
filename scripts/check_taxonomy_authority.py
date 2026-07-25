@@ -143,8 +143,10 @@ EXCLUDE_GLOBS = [
     "docs/assets/**",
 ]
 
-# Inline <script> extraction for .html files.
-SCRIPT_BLOCK = re.compile(r"<script\b[^>]*>(.*?)</script\s*>", re.IGNORECASE | re.DOTALL)
+# Inline <script> extraction for .html files. Closing-tag pattern per CodeQL
+# py/bad-tag-filter guidance: `</script` + any whitespace/attribute run before
+# `>` (HTML closes on `</script\t\n foo>`), so a crafted end tag can't hide text.
+SCRIPT_BLOCK = re.compile(r"<script\b[^>]*>(.*?)</script[^>]*>", re.IGNORECASE | re.DOTALL)
 
 
 def isComment(line: str, isPython: bool) -> bool:
