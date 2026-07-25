@@ -14,8 +14,10 @@ The match is a heuristic and **will contain false positives.** Known limits:
 
 - Only these extensions were scanned for references: `webp png jpg jpeg gif mp4 svg avif`.
   A confirmed miss from this: `DepartureMono-Regular.woff2` is referenced at
-  `docs/css/styles.css:19` via `@font-face` but was absent from the reference set.
-  It has been removed from the list; other non-scanned types may be similarly wrong.
+  `docs/css/styles.css:19` via `@font-face`, so it and its sibling `LICENSE.txt` /
+  `.gitkeep` are **false positives — keep them**. They are left in the table below
+  rather than silently pruned, so the list stays a complete raw scan. Other
+  non-scanned types may be wrong the same way.
 - Files referenced only from dead code scan as unreferenced. `docs/js/ascension-overdrive-v2.js`
   and its CSS are loaded by no HTML file, so anything only they mention appears here.
 - Assets whose URLs are built at runtime are matched only where the literal filename
