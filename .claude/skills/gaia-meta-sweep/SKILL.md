@@ -197,8 +197,8 @@ After every mutation, validate immediately — a half-applied set that fails CI 
 
 ```bash
 gaia validate
-gaia validate --intake
-gaia docs build
+gaia dev validate --intake
+gaia dev docs
 ```
 
 If any check fails, abort the apply pass and revert (`git checkout -- registry/`); leave the report as findings-only.
@@ -219,5 +219,5 @@ Report back:
 - Force-push doesn't always re-trigger path-filtered workflows; use `gh workflow run validate.yml --ref <branch>` after `--force-with-lease`.
 - The `gaia dev` timeline contributor lands as `unknown` if local git config isn't picked up — patch JSON to set the actual user before committing.
 - Renames leave orphan `registry/skills/<type>/<old-id>.md`; delete by hand after rename.
-- `gaia docs build` needs `numpy` + `scipy`; install via `pip install -e ".[docs]"` or `pip install -e ".[dev]"`.
+- `gaia dev docs` needs `numpy` + `scipy`; install via `pip install -e ".[docs]"` or `pip install -e ".[dev]"`.
 - The rarity axis is deprecated — do not flag rarity issues; the schema still requires the field but it carries no review signal.
