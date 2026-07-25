@@ -1452,7 +1452,8 @@
 
       // Local previews always read from _assets/ — these don't go through the
       // Cloudflare Worker, so they render correctly in any environment.
-      const previewSrc = (file) => `./_assets/${handle}/${file}`;
+      const safeHandle = encodeURIComponent(handle.replace(/[^a-zA-Z0-9_\-\.]/g, ''));
+      const previewSrc = (file) => `./_assets/${safeHandle}/${encodeURIComponent(file)}`;
 
       const entries = [];
       if (hasHandle && chkHandle.checked) {

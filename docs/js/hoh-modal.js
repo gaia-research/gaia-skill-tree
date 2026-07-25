@@ -401,10 +401,11 @@
       };
       var renderMock = function () {
         if (window.plaque && typeof window.plaque.renderOg === 'function') {
-          // renderOg sanitizes all interpolated values via escapeHtml; safe by construction.
           var mockMarkup = window.plaque.renderOg(ogNs);
-          var doc = new DOMParser().parseFromString(mockMarkup, 'text/html');
-          stage.replaceChildren.apply(stage, Array.prototype.slice.call(doc.body.childNodes));
+          var doc = new DOMParser().parseFromString(mockMarkup, 'image/svg+xml');
+          if (doc.documentElement && doc.documentElement.nodeName.toLowerCase() === 'svg') {
+            stage.replaceChildren(doc.documentElement);
+          }
         }
       };
       var ogPath = ns.ogPath || '';
@@ -431,12 +432,14 @@
     // Set dynamic handle texts
     var handleText = document.getElementById('hohFsHandleText');
     if (handleText) {
-      handleText.textContent = '@' + ns.contributor;
+      var cleanContrib = String(ns.contributor || '').replace(/[^a-zA-Z0-9_\-\.]/g, '');
+      handleText.textContent = '@' + cleanContrib;
     }
     var disclaimer = document.getElementById('hohFsDisclaimer');
     if (disclaimer) {
+      var cleanContrib = String(ns.contributor || '').replace(/[^a-zA-Z0-9_\-\.]/g, '');
       disclaimer.querySelectorAll('.hoh-fs-disclaimer-handle').forEach(function (el) {
-        el.textContent = '@' + ns.contributor;
+        el.textContent = '@' + cleanContrib;
       });
     }
 
