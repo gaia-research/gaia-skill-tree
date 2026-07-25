@@ -562,10 +562,10 @@
   gap: 6px;
   min-height: 34px;
   padding: 6px 10px;
-  border: 1px solid rgba(var(--heroes-gold-rgb), 0.24);
+  border: 1px solid rgba(var(--heroes-gold-rgb), 0.42);
   border-radius: 4px;
-  background: rgba(var(--heroes-gold-rgb), 0.04);
-  color: var(--heroes-frost-dim);
+  background: rgba(var(--heroes-gold-rgb), 0.07);
+  color: var(--heroes-frost);
   font-family: var(--heroes-font-mono);
   font-size: 0.64rem;
   letter-spacing: 0.08em;
@@ -576,8 +576,8 @@
 
 .heroes-ledger-rail__all:hover {
   color: var(--heroes-frost);
-  background: rgba(var(--heroes-gold-rgb), 0.08);
-  border-color: rgba(var(--heroes-gold-rgb), 0.4);
+  background: rgba(var(--heroes-gold-rgb), 0.12);
+  border-color: rgba(var(--heroes-gold-rgb), 0.6);
 }
 
 .heroes-ledger-rail__all:focus-visible {

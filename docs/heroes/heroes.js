@@ -729,7 +729,7 @@
       trigger.setAttribute('aria-controls', 'heroesLedgerAllPanel');
       trigger.innerHTML =
         '<span class="heroes-ledger-rail__all-caret" aria-hidden="true">▾</span>' +
-        '<span class="heroes-ledger-rail__all-label">all plates</span>';
+        '<span class="heroes-ledger-rail__all-label"></span>';
       // Insert after the list, before the controls, so it reads as "expand the
       // ledger" beneath the windowed rows.
       var controls = rail.querySelector('.heroes-ledger-rail__controls');
@@ -741,6 +741,12 @@
       trigger.addEventListener('click', openAllPlates);
       ALL_PLATES_TRIGGER = trigger;
     }
+
+    // Surface the real count so the button reads as the primary "see everything"
+    // affordance ("all N plates"). Derived from LEDGER_ITEMS.length, not a
+    // hardcoded 24, and refreshed on every render so it tracks the live list.
+    var allLabel = ALL_PLATES_TRIGGER.querySelector('.heroes-ledger-rail__all-label');
+    if (allLabel) allLabel.textContent = 'all ' + LEDGER_ITEMS.length + ' plates';
 
     if (!ALL_PLATES_DIALOG && typeof document.createElement('dialog').showModal === 'function') {
       var dialog = document.createElement('dialog');
@@ -802,8 +808,13 @@
     if (!ALL_PLATES_DIALOG) return;
     renderAllPlatesList();
     ALL_PLATES_DIALOG.showModal();
-    // Land focus on the active entry so keyboard users start in context.
-    var active = ALL_PLATES_DIALOG.querySelector('[data-ledger-index="' + LEDGER_ACTIVE_INDEX + '"]');
+    // Land focus on the active entry so keyboard users start in context. When
+    // LEDGER_ACTIVE_INDEX is -1 (awaiting state, before any scroll) that lookup
+    // matches nothing — fall back to the first entry, then the close button, so
+    // focus always lands somewhere inside the dialog.
+    var active = ALL_PLATES_DIALOG.querySelector('[data-ledger-index="' + LEDGER_ACTIVE_INDEX + '"]') ||
+      ALL_PLATES_DIALOG.querySelector('.heroes-ledger-all__entry') ||
+      ALL_PLATES_DIALOG.querySelector('.heroes-ledger-all__close');
     if (active) active.focus();
   }
 
