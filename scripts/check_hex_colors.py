@@ -26,8 +26,9 @@ Allowed forms (not flagged):
     custom-property fallback (`var(--x, ...)`) is treated as token-anchored, the
     same allowance the original inline grep encoded with `grep -v 'var(--[^,]*,'`.
 
-Scanned scope: docs/js/**/*.js and docs/css/**/*.css — the live design-system
-code Guard A has always enforced. Two categories are exempt:
+Scanned scope: docs/**/*.js and docs/**/*.css — every live design-system JS/CSS
+file under docs/, not just docs/js and docs/css (so section-local stylesheets
+like docs/heroes/heroes.css are covered too). Two categories are exempt:
   - docs/css/tokens.css — the GENERATED token-definition source (built by
     scripts/generateCssTokens.py from registry/gaia.json). It is *supposed* to
     contain every raw hex; it is the single place they are allowed to live.
@@ -113,7 +114,7 @@ def scan_file(path: Path):
 
 
 def iter_target_files():
-    for pattern in ("js/**/*.js", "css/**/*.css"):
+    for pattern in ("**/*.js", "**/*.css"):
         for path in DOCS.glob(pattern):
             if not path.is_file():
                 continue
