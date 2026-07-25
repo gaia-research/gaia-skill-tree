@@ -85,7 +85,7 @@ for — this avoids hand-edits that skip timeline logging.
 | Mutation | Command |
 |---|---|
 | Generic rename (cascades prereqs + named refs) | `gaia dev rename old new` |
-| Add new generic | `gaia dev add "Name" --id <slug> --type extra --description "..."` |
+| Add new generic | `gaia dev add "Name" --id <slug> --type basic --description "..."` |
 | Set generic prereqs | `gaia dev link <id> a,b,c` |
 | Calibrate **named-skill** star | `gaia dev calibrate <contributor/skill> 3★` |
 | Add capability evidence to a generic | `gaia dev evidence <id> <url> --class B --evaluator <user>` |
