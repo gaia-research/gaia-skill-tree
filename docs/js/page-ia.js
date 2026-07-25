@@ -52,7 +52,7 @@
   var TYPE_COLOR_VAR = {
     ultimate: 'var(--apex-gold)',
     unique: 'var(--unique)',
-    extra: 'var(--extra)',
+    extra: 'var(--rank-4)',
     basic: 'var(--basic)',
   };
 
