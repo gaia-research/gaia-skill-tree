@@ -1,0 +1,51 @@
+name: HTML Sink Guard (DOM-XSS pre-CodeQL)
+
+on:
+  pull_request:
+    paths:
+      # Trigger on any change to the scanned browser surface or the guard itself
+      - 'docs/**/*.js'
+      - 'docs/**/*.html'
+      - 'scripts/check_html_sinks.py'
+      - '.github/workflows/html-sink-guard.yml'
+  push:
+    branches:
+      - 'main'
+      - 'dev/**'
+      - 'infra/**'
+    paths:
+      - 'docs/**/*.js'
+      - 'docs/**/*.html'
+      - 'scripts/check_html_sinks.py'
+      - '.github/workflows/html-sink-guard.yml'
+  # Allow manual runs for debugging
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  html-sink-guard:
+    name: HTML Sink Guard (pre-CodeQL DOM-XSS)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run html-sink guard
+        run: |
+          PYTHONIOENCODING=utf-8 python scripts/check_html_sinks.py
+        # WARN-ONLY posture: always exits 0 today (ratchet, not blocker).
+        # Flip HARD_FAIL=True in the script once interpolating sinks reach zero.
+
+      - name: Guard classifier self-tests
+        run: |
+          PYTHONIOENCODING=utf-8 python scripts/check_html_sinks.py --selftest

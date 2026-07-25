@@ -7,15 +7,23 @@ canon-curation helpers plus the pure level/evidence helpers.
 
 import pytest
 
+import gaia_cli.promotion as promotion_mod
 from gaia_cli.promotion import (
     LEVEL_ORDER,
     LEVEL_NAMES,
     next_level,
     _effective_grade,
-    _meets_evidence_floor,
     _holds_bucket_origin,
     _contributor_holds_origin_in,
     checkUniqueBranchGate,
+)
+from gaia_cli.trustMagnitude import (
+    GRADE_A_FLOOR,
+    GRADE_B_FLOOR,
+    GRADE_C_FLOOR,
+    GRADE_S_FLOOR,
+    computeOverallTrustGrade,
+    computeOverallTrustGradeFromSkill,
 )
 
 
@@ -95,87 +103,161 @@ class TestConstants:
 
 
 # ---------------------------------------------------------------------------
-# Tests: _effective_grade and _meets_evidence_floor (grade/class translation)
+# Tests: _effective_grade (grade/class translation on a single row)
 # ---------------------------------------------------------------------------
 
 
 class TestGradeTranslation:
-    """Tests for evidence grade/class fallback logic in _meets_evidence_floor.
+    """`_effective_grade` reads evidence[].grade first, evidence[].class second.
 
-    Per G7 Trust Taxonomy RFC: evidence[].grade (S/A/B/C) supersedes the
-    legacy evidence[].class (A/B/C).  Floor lists encode "at least one row at
-    grade >= the weakest letter in the list".  Grade ordering: S > A > B > C.
+    Per G7 Trust Taxonomy RFC the new ``grade`` field (S/A/B/C) supersedes the
+    legacy ``class`` (A/B/C). This helper survives Yggdrasil II because
+    verification.py still reports a per-row letter; what it NO LONGER does is
+    gate promotion (see TestEvidenceFloorRemoved).
     """
 
-    # 1. Legacy: class-only row passes a ["B","A"] floor.
-    def test_legacy_class_only_passes_floor(self):
-        """A row with only class="B" (no grade field) satisfies a ["B","A"] floor."""
-        skill = _make_skill(
-            "legacy-skill",
-            evidence=[{"class": "B", "source": "http://x.com", "evaluator": "x",
-                        "date": "2026-01-01", "notes": ""}],
-        )
-        assert _meets_evidence_floor(skill, "3★") is True
+    def test_grade_field_wins(self):
+        assert _effective_grade({"grade": "S", "class": "C"}) == "S"
 
-    # 2. New: grade-only row passes a ["B","A"] floor.
-    def test_new_grade_only_passes_floor(self):
-        """A row with only grade="B" (no class field) satisfies a ["B","A"] floor."""
-        skill = _make_skill(
-            "graded-skill",
-            evidence=[{"grade": "B", "source": "http://x.com", "evaluator": "x",
-                        "date": "2026-01-01", "notes": ""}],
-        )
-        assert _meets_evidence_floor(skill, "3★") is True
+    def test_class_is_the_legacy_fallback(self):
+        assert _effective_grade({"class": "B"}) == "B"
 
-    # 3. Mixed list: one class-only + one grade-only together pass a ["B","A"] floor.
-    def test_mixed_class_and_grade_rows_pass_floor(self):
-        """A list with one class-only (C) and one grade-only (B) entry passes ["B","A"]."""
+    def test_unrecognised_row_is_ungraded(self):
+        assert _effective_grade({"source": "http://x.com"}) is None
+        assert _effective_grade({"grade": "Z"}) is None
+
+
+# ---------------------------------------------------------------------------
+# Tests: the Evidence Floor is GONE — Trust Magnitude is the sole gate
+# ---------------------------------------------------------------------------
+
+
+class TestEvidenceFloorRemoved:
+    """Yggdrasil II (ratified 2026-07-07) removed the **Evidence Floor**.
+
+    Pre-Ygg-II, promotion needed at least one evidence row whose letter grade
+    met a per-level floor (``meta.json levels.evidenceFloors``), enforced by
+    ``promotion._meets_evidence_floor``. Both the schema block and the helper
+    are deleted; Trust Magnitude alone decides.
+
+    These tests are the tripwire: they fail loudly if anyone reintroduces a
+    per-level evidence-class gate, in the schema OR in code.
+    """
+
+    def test_promotion_module_exposes_no_evidence_floor(self):
+        assert not hasattr(promotion_mod, "EVIDENCE_FLOOR"), (
+            "EVIDENCE_FLOOR is back — Yggdrasil II made Trust Magnitude the "
+            "sole promotion gate; raise the TM threshold instead of adding a "
+            "per-level evidence-class floor."
+        )
+        assert not hasattr(promotion_mod, "_meets_evidence_floor"), (
+            "_meets_evidence_floor is back — see promotion.py's Yggdrasil II note."
+        )
+
+    def test_schema_declares_no_evidence_floors(self):
+        levels = promotion_mod._META["levels"]
+        assert "evidenceFloors" not in levels, (
+            "registry/schema/meta.json levels.evidenceFloors was dropped in "
+            "Yggdrasil II; reintroducing it re-splits the promotion gate."
+        )
+
+
+# ---------------------------------------------------------------------------
+# Tests: TM-only gating — magnitude decides, the row's letter does not
+# ---------------------------------------------------------------------------
+
+
+class TestTrustMagnitudeIsTheSoleGate:
+    """The promotion verdict is a function of Trust Magnitude, not row letters.
+
+    Each test below states the pre-Yggdrasil-II floor behaviour it inverts, so
+    a reader can see exactly which invariant was retired.
+    """
+
+    def _stars_row(self, url, stars=120_000, **extra):
+        """A github-stars-own row worth TM 120 (min(200, stars/1000) x weight 1.0).
+
+        github-stars-own does not decay (no freshness rate), so the magnitude
+        is stable over calendar time — these tests will not rot.
+        """
+        row = {
+            "type": "github-stars-own",
+            "source": url,
+            "stars": stars,
+            "skillCountInRepo": 1,
+            "date": "2026-06-01",
+            "evaluator": "test",
+            "notes": "",
+        }
+        row.update(extra)
+        return row
+
+    def test_grade_ladder_is_a_pure_function_of_magnitude(self):
+        """computeOverallTrustGrade takes NO evidence-letter input at all."""
+        assert computeOverallTrustGrade(GRADE_S_FLOOR, 3, True) == "S"
+        assert computeOverallTrustGrade(GRADE_A_FLOOR, 1, False) == "A"
+        assert computeOverallTrustGrade(GRADE_B_FLOOR, 1, False) == "B"
+        assert computeOverallTrustGrade(GRADE_C_FLOOR, 0, False) == "C"
+        assert computeOverallTrustGrade(GRADE_C_FLOOR - 1, 0, False) == "ungraded"
+
+    def test_c_graded_row_still_reaches_A(self):
+        """WAS: a lone grade="C" row failed the 3★ ["B","A"] floor outright.
+
+        NOW: the letter is inert. A C-graded row carrying 120k stars is worth
+        TM 120, which clears the A floor.
+        """
         skill = _make_skill(
-            "mixed-skill",
+            "weak-letter-strong-magnitude",
+            evidence=[self._stars_row("https://github.com/a/b", grade="C")],
+        )
+        assert computeOverallTrustGradeFromSkill(skill) == "A"
+
+    def test_ungraded_row_scores_identically_to_a_graded_one(self):
+        """WAS: a row with neither `class` nor `grade` was skipped by the floor.
+
+        NOW: it contributes exactly the same magnitude as the graded twin — the
+        letter is not an input to the score.
+        """
+        graded = _make_skill(
+            "graded",
+            evidence=[self._stars_row("https://github.com/a/b", grade="A")],
+        )
+        ungraded = _make_skill(
+            "ungraded",
+            evidence=[self._stars_row("https://github.com/a/b")],
+        )
+        assert computeOverallTrustGradeFromSkill(ungraded) == (
+            computeOverallTrustGradeFromSkill(graded)
+        )
+        assert computeOverallTrustGradeFromSkill(ungraded) == "A"
+
+    def test_s_graded_row_of_low_magnitude_does_not_confer_rank(self):
+        """WAS: grade="S" satisfied EVERY floor, including the 6★ ["A"] gate.
+
+        NOW: a self-attestation is worth 5 TM no matter what letter it carries,
+        so it lands below even the C floor. This is the load-bearing direction —
+        it is what stops a curator from minting rank with a letter.
+        """
+        skill = _make_skill(
+            "strong-letter-weak-magnitude",
             evidence=[
-                {"class": "C", "source": "http://c.com", "evaluator": "x",
-                 "date": "2026-01-01", "notes": "class-only"},
-                {"grade": "B", "source": "http://b.com", "evaluator": "x",
-                 "date": "2026-01-01", "notes": "grade-only"},
+                {
+                    "type": "self-attestation",
+                    "grade": "S",
+                    "source": "https://example.com/claim",
+                    "date": "2026-06-01",
+                    "evaluator": "test",
+                    "notes": "",
+                }
             ],
         )
-        assert _meets_evidence_floor(skill, "3★") is True
+        assert computeOverallTrustGradeFromSkill(skill) == "ungraded"
 
-    # 4. TM-only: grade="C" only now PASSES — no floor is configured to reject it.
-    def test_grade_c_fails_b_floor(self):
-        """Post-Yggdrasil II: a row with only grade="C" passes the (removed) 3★
-        floor. With ``evidenceFloors`` gone (ratified 2026-07-07), Trust
-        Magnitude is the sole gate and ``_meets_evidence_floor`` has nothing to
-        fail against. (Was: expected False under the old floor-rejects contract.)"""
-        skill = _make_skill(
-            "weak-skill",
-            evidence=[{"grade": "C", "source": "http://x.com", "evaluator": "x",
-                        "date": "2026-01-01", "notes": ""}],
-        )
-        assert _meets_evidence_floor(skill, "3★") is True
-
-    # 5. Bonus: S satisfies an A floor (["A"]).
-    def test_grade_s_satisfies_a_floor(self):
-        """A row with grade="S" satisfies a ["A"] floor (6★ gate). S > A."""
-        skill = _make_skill(
-            "apex-skill",
-            evidence=[{"grade": "S", "source": "http://x.com", "evaluator": "x",
-                        "date": "2026-01-01", "notes": ""}],
-        )
-        assert _meets_evidence_floor(skill, "6★") is True
-
-    # 6. TM-only: an ungraded entry (no class, no grade) no longer blocks.
-    def test_ungraded_entry_ignored(self):
-        """Post-Yggdrasil II: an entry with neither class nor grade still passes.
-        The removed floor was the only thing that could reject it; with
-        ``evidenceFloors`` gone (ratified 2026-07-07), ``_meets_evidence_floor``
-        returns True and Trust Magnitude gates promotion. (Was: expected False.)"""
-        skill = _make_skill(
-            "ungraded-skill",
-            evidence=[{"source": "http://x.com", "evaluator": "x",
-                        "date": "2026-01-01", "notes": "no grade or class"}],
-        )
-        assert _meets_evidence_floor(skill, "2★") is True
+    def test_no_evidence_is_ungraded_not_blocked(self):
+        """An empty pool scores 0 and grades `ungraded` — a magnitude verdict,
+        not a floor rejection. There is no separate "blocked by evidence" state
+        left in the model."""
+        assert computeOverallTrustGradeFromSkill(_make_skill("bare")) == "ungraded"
 
 
 # ---------------------------------------------------------------------------
@@ -269,6 +351,38 @@ class TestUniqueBranchGateOriginFork:
         res = checkUniqueBranchGate(named, "5★", generic_map, named_map)
         assert res["originPresent"] is False
         assert res["passed"] is False
+
+    def test_tm_floor_is_the_only_numeric_gate(self, monkeypatch):
+        """Origin + Trust Magnitude are the whole 4-star Unique gate.
+
+        The skill below carries ZERO evidence rows, so under the retired
+        Evidence Floor it could never promote. Here the verdict flips purely on
+        whether the live TM clears `_UNIQUE_GATE_BY_LEVEL["4★"]["tmFloor"]`
+        (100.0) — nothing consults an evidence-class letter.
+        """
+        named = {
+            "id": "someone/impl",
+            "contributor": "someone",
+            "genericSkillRef": "knowledge-graph-build",
+            "origin": True,
+            "evidence": [],
+        }
+        generic_map = {"knowledge-graph-build": {"prerequisites": ["a", "b"]}}
+        named_map = {named["id"]: named}
+
+        self._patch_tm_branch(monkeypatch, tm=99.9)
+        below = checkUniqueBranchGate(named, "4★", generic_map, named_map)
+        assert below["originPresent"] is True
+        assert below["tmThresholdMet"] is False
+        assert below["passed"] is False
+
+        self._patch_tm_branch(monkeypatch, tm=100.0)
+        at_floor = checkUniqueBranchGate(named, "4★", generic_map, named_map)
+        assert at_floor["tmThresholdMet"] is True
+        assert at_floor["passed"] is True, (
+            "A 4-star Unique with Origin and TM >= 100 must pass with an empty "
+            "evidence list — reintroducing an evidence floor would break this."
+        )
 
     def test_5star_passes_when_contributor_holds_prereq_origin(self, monkeypatch):
         self._patch_tm_branch(monkeypatch, tm=300.0)

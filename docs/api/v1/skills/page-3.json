@@ -13,7 +13,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/gstack-upgrade.json"
-      }
+      },
+      "genericSkillRef": "workspace-automation"
     },
     {
       "id": "garrytan/guard",
@@ -28,7 +29,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/guard.json"
-      }
+      },
+      "genericSkillRef": "guardrails"
     },
     {
       "id": "garrytan/health",
@@ -43,7 +45,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/health.json"
-      }
+      },
+      "genericSkillRef": "automated-testing"
     },
     {
       "id": "garrytan/landing-report",
@@ -58,7 +61,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/landing-report.json"
-      }
+      },
+      "genericSkillRef": "project-management"
     },
     {
       "id": "garrytan/learn",
@@ -73,7 +77,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/learn.json"
-      }
+      },
+      "genericSkillRef": "memory-manage"
     },
     {
       "id": "garrytan/make-pdf",
@@ -88,7 +93,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/make-pdf.json"
-      }
+      },
+      "genericSkillRef": "format-output"
     },
     {
       "id": "garrytan/open-gstack-browser",
@@ -103,7 +109,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/open-gstack-browser.json"
-      }
+      },
+      "genericSkillRef": "browser-control"
     },
     {
       "id": "garrytan/pair-agent",
@@ -118,7 +125,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/pair-agent.json"
-      }
+      },
+      "genericSkillRef": "mcp-integration"
     },
     {
       "id": "garrytan/plan-tune",
@@ -133,7 +141,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/plan-tune.json"
-      }
+      },
+      "genericSkillRef": "prompt-optimization"
     },
     {
       "id": "garrytan/qa-only",
@@ -148,7 +157,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/qa-only.json"
-      }
+      },
+      "genericSkillRef": "e2e-testing"
     },
     {
       "id": "garrytan/scrape",
@@ -163,7 +173,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/scrape.json"
-      }
+      },
+      "genericSkillRef": "web-scrape"
     },
     {
       "id": "garrytan/setup-browser-cookies",
@@ -178,7 +189,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/setup-browser-cookies.json"
-      }
+      },
+      "genericSkillRef": "browser-control"
     },
     {
       "id": "garrytan/setup-deploy",
@@ -193,7 +205,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/setup-deploy.json"
-      }
+      },
+      "genericSkillRef": "deployment-automation"
     },
     {
       "id": "garrytan/setup-gbrain",
@@ -208,7 +221,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/setup-gbrain.json"
-      }
+      },
+      "genericSkillRef": "knowledge-management"
     },
     {
       "id": "garrytan/sync-gbrain",
@@ -223,7 +237,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/sync-gbrain.json"
-      }
+      },
+      "genericSkillRef": "knowledge-management"
     },
     {
       "id": "garrytan/unfreeze",
@@ -238,7 +253,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/unfreeze.json"
-      }
+      },
+      "genericSkillRef": "guardrails"
     },
     {
       "id": "getagentseal/codeburn",
@@ -253,7 +269,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/getagentseal/codeburn.json"
-      }
+      },
+      "genericSkillRef": "token-observability"
     },
     {
       "id": "huggingface/semantic-cache",
@@ -268,7 +285,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/huggingface/semantic-cache.json"
-      }
+      },
+      "genericSkillRef": "semantic-cache"
     },
     {
       "id": "karpathy/autoresearch",
@@ -283,7 +301,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/karpathy/autoresearch.json"
-      }
+      },
+      "genericSkillRef": "autonomous-web-research"
     },
     {
       "id": "laravel/upgrade-laravel-v13",
@@ -298,7 +317,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/laravel/upgrade-laravel-v13.json"
-      }
+      },
+      "genericSkillRef": "framework-upgrade"
     },
     {
       "id": "mbtiongson1/gaia-audit",
@@ -313,7 +333,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mbtiongson1/gaia-audit.json"
-      }
+      },
+      "genericSkillRef": "registry-entry-audit"
     },
     {
       "id": "mbtiongson1/gaia-curation-review",
@@ -328,7 +349,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mbtiongson1/gaia-curation-review.json"
-      }
+      },
+      "genericSkillRef": "registry-entry-audit"
     },
     {
       "id": "mbtiongson1/gaia-meta-audit",
@@ -343,7 +365,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mbtiongson1/gaia-meta-audit.json"
-      }
+      },
+      "genericSkillRef": "registry-health-scan"
     },
     {
       "id": "mbtiongson1/gaia-preview",
@@ -358,7 +381,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mbtiongson1/gaia-preview.json"
-      }
+      },
+      "genericSkillRef": "deployment-automation"
     },
     {
       "id": "mbtiongson1/graphify-triage",
@@ -373,7 +397,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mbtiongson1/graphify-triage.json"
-      }
+      },
+      "genericSkillRef": "graph-driven-issue-triage"
     },
     {
       "id": "nexu-io/open-design",
@@ -388,7 +413,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/nexu-io/open-design.json"
-      }
+      },
+      "genericSkillRef": "design-generation"
     },
     {
       "id": "nousresearch/feed-monitoring",
@@ -403,7 +429,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/nousresearch/feed-monitoring.json"
-      }
+      },
+      "genericSkillRef": "feed-monitoring"
     },
     {
       "id": "obra/finishing-a-development-branch",
@@ -418,7 +445,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/obra/finishing-a-development-branch.json"
-      }
+      },
+      "genericSkillRef": "finishing-a-development-branch"
     },
     {
       "id": "obra/receiving-code-review",
@@ -433,7 +461,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/obra/receiving-code-review.json"
-      }
+      },
+      "genericSkillRef": "receiving-code-review"
     },
     {
       "id": "obra/requesting-code-review",
@@ -448,7 +477,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/obra/requesting-code-review.json"
-      }
+      },
+      "genericSkillRef": "requesting-code-review"
     },
     {
       "id": "ruvnet/agentdb-advanced",
@@ -463,7 +493,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/agentdb-advanced.json"
-      }
+      },
+      "genericSkillRef": "distributed-vector-memory"
     },
     {
       "id": "ruvnet/agentdb-memory-patterns",
@@ -478,7 +509,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/agentdb-memory-patterns.json"
-      }
+      },
+      "genericSkillRef": "memory-pattern-design"
     },
     {
       "id": "ruvnet/agentdb-optimization",
@@ -493,7 +525,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/agentdb-optimization.json"
-      }
+      },
+      "genericSkillRef": "vector-db-optimization"
     },
     {
       "id": "ruvnet/agentdb-vector-search",
@@ -508,7 +541,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/agentdb-vector-search.json"
-      }
+      },
+      "genericSkillRef": "vector-search"
     },
     {
       "id": "ruvnet/agentic-jujutsu",
@@ -523,7 +557,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/agentic-jujutsu.json"
-      }
+      },
+      "genericSkillRef": "git-diff-risk-analysis"
     },
     {
       "id": "ruvnet/dual-collect",
@@ -538,7 +573,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/dual-collect.json"
-      }
+      },
+      "genericSkillRef": "headless-worker-collect"
     },
     {
       "id": "ruvnet/dual-coordinate",
@@ -553,7 +589,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/dual-coordinate.json"
-      }
+      },
+      "genericSkillRef": "hybrid-workflow-coordination"
     },
     {
       "id": "ruvnet/dual-spawn",
@@ -568,7 +605,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/dual-spawn.json"
-      }
+      },
+      "genericSkillRef": "headless-worker-spawn"
     },
     {
       "id": "ruvnet/flow-nexus-neural",
@@ -583,7 +621,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/flow-nexus-neural.json"
-      }
+      },
+      "genericSkillRef": "distributed-neural-training"
     },
     {
       "id": "ruvnet/flow-nexus-platform",
@@ -598,7 +637,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/flow-nexus-platform.json"
-      }
+      },
+      "genericSkillRef": "cloud-platform-management"
     },
     {
       "id": "ruvnet/github-multi-repo",
@@ -613,7 +653,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/github-multi-repo.json"
-      }
+      },
+      "genericSkillRef": "multi-repo-coordination"
     },
     {
       "id": "ruvnet/pair-programming",
@@ -628,7 +669,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/pair-programming.json"
-      }
+      },
+      "genericSkillRef": "subagent-driven-development"
     },
     {
       "id": "ruvnet/reasoningbank-intelligence",
@@ -643,7 +685,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/reasoningbank-intelligence.json"
-      }
+      },
+      "genericSkillRef": "adaptive-pattern-learning"
     },
     {
       "id": "ruvnet/stream-chain",
@@ -658,7 +701,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/stream-chain.json"
-      }
+      },
+      "genericSkillRef": "sequential-agent-pipeline"
     },
     {
       "id": "ruvnet/swarm-advanced",
@@ -673,7 +717,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/swarm-advanced.json"
-      }
+      },
+      "genericSkillRef": "advanced-swarm-coordination"
     },
     {
       "id": "ruvnet/swarm-orchestration",
@@ -688,7 +733,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/swarm-orchestration.json"
-      }
+      },
+      "genericSkillRef": "swarm-topology-management"
     },
     {
       "id": "ruvnet/v3-cli-modernization",
@@ -703,7 +749,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/v3-cli-modernization.json"
-      }
+      },
+      "genericSkillRef": "cli-modernization"
     },
     {
       "id": "ruvnet/v3-core-implementation",
@@ -718,7 +765,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/v3-core-implementation.json"
-      }
+      },
+      "genericSkillRef": "core-platform-implementation"
     },
     {
       "id": "ruvnet/v3-ddd-architecture",
@@ -733,7 +781,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/v3-ddd-architecture.json"
-      }
+      },
+      "genericSkillRef": "ubiquitous-language"
     },
     {
       "id": "ruvnet/v3-integration-deep",
@@ -748,7 +797,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/v3-integration-deep.json"
-      }
+      },
+      "genericSkillRef": "system-integration"
     }
   ],
   "page": 3,

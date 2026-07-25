@@ -14,7 +14,8 @@
       "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/stanfordnlp/dspy.json"
-      }
+      },
+      "genericSkillRef": "prompt-optimization"
     }
   ],
   "namedSkillsCount": 1,

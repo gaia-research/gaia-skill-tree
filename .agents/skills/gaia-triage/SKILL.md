@@ -71,9 +71,9 @@ gh issue close <issue-number> --repo gaia-research/gaia-skill-tree \
 `--close-resolved` flags. Run without flags to preview all comments before posting:
 
 ```bash
-bash .Codex/skills/gaia-triage/scripts/triage_batch.sh
+bash .claude/skills/gaia-triage/scripts/triage_batch.sh
 # Then, when ready:
-bash .Codex/skills/gaia-triage/scripts/triage_batch.sh --apply --close-resolved
+bash .claude/skills/gaia-triage/scripts/triage_batch.sh --apply --close-resolved
 ```
 
 ### Decision guide

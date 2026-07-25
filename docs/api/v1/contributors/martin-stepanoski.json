@@ -14,7 +14,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/martin-stepanoski/nielsen-heuristics-audit.json"
-      }
+      },
+      "genericSkillRef": "ux-audit"
     }
   ],
   "namedSkillsCount": 1,

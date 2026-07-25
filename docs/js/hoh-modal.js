@@ -295,7 +295,13 @@
           .then(function (svgText) {
             // Strip XML prolog so the SVG inlines cleanly.
             var clean = svgText.replace(/^<\?xml[^>]*\?>\s*/, '');
-            stage.innerHTML = clean;
+            // Parse as SVG and adopt the root node rather than assigning
+            // innerHTML with fetched text (avoids DOM-XSS from the fetch sink).
+            var doc = new DOMParser().parseFromString(clean, 'image/svg+xml');
+            var svgEl = doc.documentElement;
+            if (svgEl && svgEl.nodeName.toLowerCase() === 'svg') {
+              stage.replaceChildren(document.importNode(svgEl, true));
+            }
           })
           .catch(function () { /* keep mock */ });
       } else {

@@ -14,7 +14,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/browser-use/browser-harness.json"
-      }
+      },
+      "genericSkillRef": "browser-control"
     }
   ],
   "namedSkillsCount": 1,

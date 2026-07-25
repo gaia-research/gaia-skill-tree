@@ -134,6 +134,14 @@
   "url": "https://gaiaskilltree.com/starless.html"
 }
 </script>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TS7N9T92BM" data-ga4="G-TS7N9T92BM"></script>
+  <script data-ga4="G-TS7N9T92BM">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-TS7N9T92BM');
+  </script>
 </head>
 <body class="process-page">
 
@@ -432,10 +440,26 @@
       });
       csvBtn.addEventListener("click", copyCsv);
 
-      // Load
+      // Load.
+      // Route through the shared window.GAIA_JSON_CACHE (installed by
+      // js/page-ia.js and js/skill-graph.js) so gaia.json + named/index.json
+      // are transferred once per page load instead of once per consumer.
+      // This block runs before those scripts, so the cache may not exist
+      // yet — fall back to a plain fetch. Either way the URLs now carry the
+      // same ?v= cache-bust as every other consumer, so the two requests
+      // share one HTTP cache entry rather than being distinct resources.
+      var _v = window.GAIA_VERSION ? "?v=" + window.GAIA_VERSION : "";
+      function loadJson(url) {
+        return (window.GAIA_JSON_CACHE && window.GAIA_JSON_CACHE.fetchJson)
+          ? window.GAIA_JSON_CACHE.fetchJson(url)
+          : fetch(url).then(function (r) {
+              if (!r.ok) throw new Error("HTTP " + r.status + " from " + url);
+              return r.json();
+            });
+      }
       Promise.all([
-        fetch("graph/gaia.json").then(function (r) { return r.json(); }),
-        fetch("graph/named/index.json").then(function (r) { return r.json(); })
+        loadJson("graph/gaia.json" + _v),
+        loadJson("graph/named/index.json" + _v)
       ]).then(function (res) {
         allSkills = (res[0] && res[0].skills) || [];
         buckets   = (res[1] && res[1].buckets) || {};
@@ -456,8 +480,5 @@
   <script src="js/ui.js?v=6.8.15"></script>
   <script src="js/page-ia.js?v=6.8.15"></script>
 
-<!-- impeccable-live-start -->
-<script src="http://localhost:8400/live.js"></script>
-<!-- impeccable-live-end -->
 </body>
 </html>

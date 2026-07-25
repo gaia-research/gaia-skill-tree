@@ -296,6 +296,14 @@
   }
 }
 </script>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TS7N9T92BM" data-ga4="G-TS7N9T92BM"></script>
+  <script data-ga4="G-TS7N9T92BM">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-TS7N9T92BM');
+  </script>
 </head>
 
 <body class="home-page">
@@ -1299,17 +1307,17 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
 
   <!-- ─── SCRIPTS ─── -->
   <!-- icons.js already loaded in <head> so gaiaIcon() is available before any of these. -->
-  <script src="js/atlas-helpers.js?v=6.8.15"></script>
-  <script src="js/world-tree-layout.js?v=6.8.15"></script>
-  <script src="js/skill-graph.js?v=6.8.15"></script>
-  <script src="js/hud-toggle.js?v=6.8.15"></script>
-  <script src="js/scroll-reveal.js?v=6.8.15"></script>
+  <script src="js/atlas-helpers.js?v=6.8.15" defer></script>
+  <script src="js/world-tree-layout.js?v=6.8.15" defer></script>
+  <script src="js/skill-graph.js?v=6.8.15" defer></script>
+  <script src="js/hud-toggle.js?v=6.8.15" defer></script>
+  <script src="js/scroll-reveal.js?v=6.8.15" defer></script>
   <!-- Universal AlphaRail component + page-wide integration (section markers
        above the explorer; dynamic type/letter/tier markers inside it). -->
-  <script src="js/alpha-rail.js?v=6.8.15"></script>
-  <script src="js/skill-explorer.js?v=6.8.15"></script>
-  <script src="js/ui.js?v=6.8.15"></script>
-  <script src="js/page-ia.js?v=6.8.15"></script>
+  <script src="js/alpha-rail.js?v=6.8.15" defer></script>
+  <script src="js/skill-explorer.js?v=6.8.15" defer></script>
+  <script src="js/ui.js?v=6.8.15" defer></script>
+  <script src="js/page-ia.js?v=6.8.15" defer></script>
   <script src="js/plaque-reveal.js?v=6.8.15" defer></script>
   <script src="js/ascension-overdrive-v4.js?v=6.8.15" defer></script>
 
@@ -1451,8 +1459,8 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
 
   <div id="hohFsToast" class="hoh-fs-toast" role="status" aria-live="polite">Permalink copied!</div>
 
-  <script src="js/profile-share.js?v=6.8.15"></script>
-  <script src="js/hoh-modal.js?v=6.8.15"></script>
+  <script src="js/profile-share.js?v=6.8.15" defer></script>
+  <script src="js/hoh-modal.js?v=6.8.15" defer></script>
 
   <!-- ─── REVIEW SHOWCASE SIMULATOR ─── -->
   <script>
@@ -1550,9 +1558,6 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
        src="https://static.scarf.sh/a.png?x-pxid=b8e05c84-1886-4b68-b80c-7b00cdb68f94"
        alt="" style="display:none" />
 
-<!-- impeccable-live-start -->
-<script src="http://localhost:8400/live.js"></script>
-<!-- impeccable-live-end -->
 </body>
 
 </html>

@@ -324,20 +324,16 @@ Available (excluding the banned `/browse`): `/office-hours`, `/plan-ceo-review`,
 
 See [DEV.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/DEV.md) for setup, testing, and CI troubleshooting.
 
-## Agent-Managed Files (Hermes Ownership)
+## Agent-Managed Files (Hermes Ownership) — RETIRED 2026-07-25
 
-Do **not** modify, stage, or delete these (managed by the Hermes agent):
+The Hermes ownership regime is **obsolete**. All twelve files it covered are gone
+from the tree: ten had already been removed in earlier passes, and the last two
+(`docs/archive/ADOPTION.html`, `docs/archive/SHOWCASE.html`) were deleted under
+Yggdrasil II with founder approval. Nothing linked to either page.
 
-- `STEWARDSHIP_PLAN.md`
-- `scripts/marketing_engine.py`
-- `scripts/email_sender.py`
-- `scripts/share_deliverable.py`
-- `scripts/generate_adoption_dashboard.py`
-- `scripts/generate_showcase.py`
-- `docs/ADOPTION.html`
-- `docs/SHOWCASE.html`
-- `docs/WHY-GAIA.md`
-- `docs/QUICKSTART.md`
+There are no agent-managed files today. Do not re-add this restriction for the
+retired paths — if a future agent needs exclusive ownership of a file, record it
+here fresh with the owner and the reason.
 
 ## Workspace Rules (Agent Directives)
 

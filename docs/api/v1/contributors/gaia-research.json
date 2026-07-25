@@ -14,7 +14,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gaia-research/skill-ci-churn.json"
-      }
+      },
+      "genericSkillRef": "ci-churn-analysis"
     },
     {
       "id": "gaia-research/skill-fuse",
@@ -29,7 +30,8 @@
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gaia-research/skill-fuse.json"
-      }
+      },
+      "genericSkillRef": "skill-fusion"
     }
   ],
   "namedSkillsCount": 2,
