@@ -323,8 +323,8 @@ Daily commands:
   gaia fuse <skillId> [--name <name>]
   gaia path <skillId> [--owned-only] [--json]
   gaia lookup <skillId>
-  gaia graph [--format html|svg|json] [-o <path>] [--no-open]
-  gaia propose [<skillId>] [--ultimate] [--target <name>] [--no-pr]
+  gaia graph [--format html|json] [-o <path>] [--no-open]
+  gaia propose [<skillId>] [--target <name>] [--no-pr]
 
 Skills:
   gaia skills <list|search|info|install|uninstall>
