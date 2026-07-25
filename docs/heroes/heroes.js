@@ -138,10 +138,6 @@
     return 'hero-' + String(raw).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
   }
 
-  function rankText(contributor) {
-    return contributor.topSkill && contributor.topSkill.level ? contributor.topSkill.level : 'Unranked';
-  }
-
   function trustMagnitude(contributor) {
     if (contributor.heroTrustMagnitude != null) return contributor.heroTrustMagnitude;
     return contributor.topSkill && contributor.topSkill.trustMagnitude != null
@@ -478,10 +474,7 @@
         '<button class="heroes-ledger-rail__button" type="button" data-ledger-target="' + esc(stageIdFor(contributor)) + '" data-ledger-index="' + esc(index) + '" data-branch="' + esc(branch) + '" data-level="' + lvl + '">' +
         '<span class="heroes-ledger-rail__avatar" aria-hidden="true"><img src="' + esc(avatarUrl) + '" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.hidden=true"></span>' +
         '<span class="heroes-ledger-rail__glyph" aria-hidden="true">' + esc(glyph) + '</span>' +
-        '<span class="heroes-ledger-rail__entry">' +
         '<span class="heroes-ledger-rail__name">' + esc(slug) + '</span>' +
-        '<span class="heroes-ledger-rail__byline">@' + esc(contributor.handle) + '</span>' +
-        '</span>' +
         '</button>' +
         '</li>';
     }).join('');
