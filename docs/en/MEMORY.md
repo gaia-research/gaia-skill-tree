@@ -2,6 +2,34 @@
 
 ---
 
+## 2026-07-25 — Routine 017 — Editor pass (ship gate, PR #1249)
+
+**Role:** Weekly editor. Reviewed the week's accreted commits on `docs/routines/017`, verified claims against the actual product, fixed what didn't hold up, and shipped.
+
+### What I verified and fixed
+1. **`gaia scan` flag table had a fictional flag.** The 2026-07-24 session added `--dir` correctly but left `--auto-promote` in the signature/table/example — that flag does not exist on `gaia scan` (confirmed via `python -m gaia_cli.main scan --help` and `commands/scan.py`). The real, undocumented flag was `--all` ("scan globally installed skills in addition to the local repository"). Replaced `--auto-promote` with `--all` in `cli-reference.html` (signature, table row, example).
+2. **MCP server package name was wrong across two pages.** The 2026-07-22 session changed `mcp-server.html` and `index.html` to `@gaia-research/mcp@0.1.0`, citing `AGENTS.md` and commit `6ed72921d`. That commit itself was bad — `packages/mcp/package.json` (and its own README, and the root README's install table) has always published as `@gaia-registry/mcp-server`. Reverted both pages to the real package name and dropped the stale `-y`/version-pin flourishes to match the canonical README's install commands exactly.
+3. **Self-contradiction in `faq.html`.** This week's own `evidence-classes.html` fix added an explicit "do not call it 'trust score'" pitfall — but `faq.html` still said "trust score tier" two lines away in spirit. Changed to "quality tier."
+4. **Verified the big one held up.** The Trust Number threshold rewrite (S≥250/A≥100/B≥50/C≥20, replacing stale S≥90/A≥80/B≥60/C≥40) and the 10-row Evidence Type table were checked against `registry/schema/meta.json` and live `--help` output for `gaia dev evidence` / `gaia dev verify` — all accurate. Good work, kept as-is.
+5. **Two small pre-existing vocabulary nits caught in the same files while verifying:** "feed the same review queue" → "feed the same intake" (`contributing.html`; CONTEXT.md: Intake, avoid "queue"), and a TOC entry "Combine skills" → "Fuse skills" (`cli-reference.html`; CONTEXT.md: Fusion, avoid "combine"). Left the rest of the site's vocabulary alone — didn't do a full 12-page nomenclature sweep this round.
+
+### What I checked and left alone
+- Hex colors added this week (`#34d399` checkmarks, `#f59e0b` deprecated tag, `var(--muted, #64748b)` fallbacks) all match long-established, pervasive site-wide convention (same raw values already used in `styles.css` and sibling pages) — not new drift, not touched.
+- Version chips: all 12 pages consistently at `v6.8.16`, matching the latest tag and `pyproject.toml`. No stragglers.
+- Links/anchors added this week (`evidence-classes.html#pitfalls`, etc.) all resolve.
+- Rendered all 5 touched pages via Playwright — no console errors, nav clearance and TOC intact.
+
+### Verification
+`git status` scoped to `docs/en/**` only. HTML tag-balance check clean on all touched files. CI on PR #1249 all green (CodeQL, branch-scope, commit-attribution, design-system lint, docs-cohesion) before this pass; re-verified after.
+
+### Files modified this pass
+`docs/en/cli-reference.html`, `docs/en/contributing.html`, `docs/en/faq.html`, `docs/en/index.html`, `docs/en/mcp-server.html`.
+
+### Shipped
+Squash-merged PR #1249 into `main`. `docs/routines/017` closes; `docs/routines/018` opens next.
+
+---
+
 ## 2026-07-24 — Routine 017 (continued, PR #1249 still open)
 
 **Branch:** `docs/routines/017`
