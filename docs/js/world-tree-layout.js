@@ -90,6 +90,7 @@
     return String(a).localeCompare(String(b));
   }
 
+  // KEY FORMAT: "<source>\u0000<target>" — NUL separator; must use text escape \u0000, never a literal NUL byte (causes grep binary-skip in Guard A).
   function edgeKey(source, target) {
     return source + '\u0000' + target;
   }
