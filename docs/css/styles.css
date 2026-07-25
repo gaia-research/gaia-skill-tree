@@ -155,11 +155,11 @@
 
 /* Unique tier rank badge — black background with bright purple glow. */
 .rank-badge[data-tier="unique"] .rank-badge__chip {
-  color: var(--tier-unique);
+  color: var(--rank-4-unique);
   background: #000000;
-  border: 1.5px solid var(--tier-unique);
-  box-shadow: 0 0 12px var(--tier-unique), 0 0 4px rgba(var(--tier-unique-rgb), 0.5);
-  text-shadow: 0 0 8px rgba(var(--tier-unique-rgb), 0.4);
+  border: 1.5px solid var(--rank-4-unique);
+  box-shadow: 0 0 12px var(--rank-4-unique), 0 0 4px rgba(var(--rank-4-unique-rgb), 0.5);
+  text-shadow: 0 0 8px rgba(var(--rank-4-unique-rgb), 0.4);
 }
 
 /* Size modifiers — sampler density only. Default is md. */
@@ -1962,14 +1962,14 @@ h1 em {
    surfaces. Reads tier-unique tokens so it tracks the canonical tier color. */
 .btn-unique {
   background: transparent;
-  color: var(--tier-unique);
-  border: 1px solid rgba(var(--tier-unique-rgb), .55);
-  box-shadow: 0 0 0 1px rgba(var(--tier-unique-rgb), .12) inset;
+  color: var(--rank-4-unique);
+  border: 1px solid rgba(var(--rank-4-unique-rgb), .55);
+  box-shadow: 0 0 0 1px rgba(var(--rank-4-unique-rgb), .12) inset;
 }
 
 .btn-unique:hover {
-  border-color: var(--tier-unique);
-  box-shadow: 0 0 24px rgba(var(--tier-unique-rgb), .25);
+  border-color: var(--rank-4-unique);
+  box-shadow: 0 0 24px rgba(var(--rank-4-unique-rgb), .25);
   transform: translateY(-1px);
 }
 
@@ -2235,7 +2235,7 @@ h2 {
 }
 
 .tier-card.unique .tier-icon {
-  color: var(--tier-unique);
+  color: var(--rank-4-unique);
   text-shadow: 0 0 12px rgba(124, 58, 237, .6)
 }
 
@@ -3129,7 +3129,7 @@ tr:hover td {
 
 .gst-stat .gst-unique,
 .gst-stat .gst-unique-count {
-  color: var(--tier-unique)
+  color: var(--rank-4-unique)
 }
 
 .gst-dim {
@@ -3456,18 +3456,18 @@ tr:hover td {
 
 /* ◉ unique glyphs — branch × rank */
 .tree-glyph-uni--iv {
-  color: var(--tier-unique) !important;
+  color: var(--rank-4-unique) !important;
   font-weight: 900 !important;
 }
 
 .tree-glyph-uni--v {
-  color: var(--tier-unique-5) !important;
+  color: var(--rank-5-unique) !important;
   font-weight: 900 !important;
   text-shadow: 0 0 10px rgba(178, 106, 58, .5) !important;
 }
 
 .tree-glyph-uni--vi {
-  color: var(--tier-unique-6) !important;
+  color: var(--rank-6-unique) !important;
   font-weight: 900 !important;
   text-shadow: var(--glow-VI) !important;
 }
@@ -3616,21 +3616,21 @@ tr:hover td {
 
 .tree-unique-skillname--iv,
 .tree-unique-id--iv {
-  color: var(--tier-unique) !important;
+  color: var(--rank-4-unique) !important;
   font-weight: 900 !important;
   text-shadow: 0 0 8px rgba(124, 58, 237, 0.6), 0 0 16px rgba(124, 58, 237, 0.3) !important;
 }
 
 .tree-unique-skillname--v,
 .tree-unique-id--v {
-  color: var(--tier-unique-5) !important;
+  color: var(--rank-5-unique) !important;
   font-weight: 900 !important;
   text-shadow: 0 0 8px rgba(178, 106, 58, 0.5), 0 0 16px rgba(178, 106, 58, 0.25) !important;
 }
 
 .tree-unique-skillname--vi,
 .tree-unique-id--vi {
-  color: var(--tier-unique-6) !important;
+  color: var(--rank-6-unique) !important;
   font-weight: 900 !important;
   text-shadow: var(--glow-VI) !important;
 }
@@ -3777,7 +3777,7 @@ tr:hover td {
 }
 
 .skill-tooltip-type-unique {
-  color: var(--tier-unique)
+  color: var(--rank-4-unique)
 }
 
 .skill-tooltip-type-ultimate {
@@ -4040,7 +4040,7 @@ tr:hover td {
    color from meta.typeColors, but it visually collides with Suite's gold
    here, and this session's T3/T4 fixes both already established
    old-tier-extra -> --rank-3 as the migration target for this "fusion"
-   concept, distinct from Unique's darker --tier-unique violet. The old
+   concept, distinct from Unique's darker --rank-4-unique violet. The old
    [data-tier="basic|extra|unique|ultimate"] swatch rules were dead — JS
    never emits data-tier or .graph-legend-swatch on these items. */
 .graph-legend-item[data-legend-type="basic"] .graph-legend-glyph {
@@ -4052,7 +4052,7 @@ tr:hover td {
 }
 
 .graph-legend-item[data-legend-type="unique"] .graph-legend-glyph {
-  color: var(--tier-unique)
+  color: var(--rank-4-unique)
 }
 
 .graph-legend-item[data-legend-type="suite"] .graph-legend-glyph {
@@ -4154,7 +4154,7 @@ tr:hover td {
 
 /* ── Scatter strip (direction rule: top = 5★, bottom = Basic).
      Four-stop gradient runs from --rank-5-edge through
-     --tier-unique-edge → --rank-3-edge → --tier-basic-edge so the
+     --rank-4-unique-edge → --rank-3-edge → --tier-basic-edge so the
      strip visually maps onto the rank hierarchy from apex down. */
 .graph-scatter-strip {
   position: absolute;
@@ -4168,7 +4168,7 @@ tr:hover td {
   align-items: center;
   background: linear-gradient(to bottom,
       var(--rank-5-edge) 0%,
-      var(--tier-unique-edge) 33%,
+      var(--rank-4-unique-edge) 33%,
       var(--rank-3-edge) 66%,
       var(--tier-basic-edge) 100%);
   border-right: 1px solid var(--border);
@@ -4887,7 +4887,7 @@ tr:hover td {
 }
 
 .graph-neighbor-card[data-branch="unique"] {
-  border-color: var(--tier-unique-border)
+  border-color: var(--rank-4-unique-border)
 }
 
 @media(max-width:700px) {
@@ -5857,7 +5857,7 @@ tr:hover td {
 }
 
 .tier-glyph[data-type="fusion"] {
-  color: var(--tier-unique);
+  color: var(--tier-fusion);
 }
 
 .tier-glyph[data-type="extra"] {
@@ -5865,7 +5865,7 @@ tr:hover td {
 }
 
 .tier-glyph[data-type="unique"] {
-  color: var(--tier-unique);
+  color: var(--rank-4-unique);
 }
 
 .tier-glyph[data-type="ultimate"] {
@@ -6301,7 +6301,7 @@ tr:hover td {
 .se-fusion-label[data-lens] { display: none; }
 #se-upgrade.lens-fusion .se-fusion-label[data-lens="fusion"] {
   display: inline-flex;
-  color: var(--tier-unique);
+  color: var(--rank-4-unique);
 }
 #se-upgrade.lens-suite .se-fusion-label[data-lens="suite"] {
   display: inline-flex;
@@ -6314,7 +6314,7 @@ tr:hover td {
    state, not a resolved branch color. Fusion rings the spotlit direct children
    (.show-label); Suite rings the full lit deliverable set (.suite-lit). */
 #se-upgrade.lens-fusion .git-node.show-label .git-commit-dot {
-  box-shadow: 0 0 0 3px rgba(var(--tier-unique-rgb, 124, 58, 237), .35);
+  box-shadow: 0 0 0 3px rgba(var(--rank-4-unique-rgb, 124, 58, 237), .35);
 }
 #se-upgrade.lens-suite .git-node.suite-lit .git-commit-dot,
 #se-upgrade.lens-suite .git-node.show-label .git-commit-dot {
@@ -6371,9 +6371,9 @@ tr:hover td {
 /* Lens-tinted active states: Fusion → unique violet, Suite → apex gold.
    Colors are UI affordances for the lens, not resolved branch values. */
 .se-lens-chip[data-lens="fusion"].active {
-  color: var(--tier-unique);
-  box-shadow: inset 0 0 0 1px rgba(var(--tier-unique-rgb, 124, 58, 237), .45);
-  background: rgba(var(--tier-unique-rgb, 124, 58, 237), .1);
+  color: var(--rank-4-unique);
+  box-shadow: inset 0 0 0 1px rgba(var(--rank-4-unique-rgb, 124, 58, 237), .45);
+  background: rgba(var(--rank-4-unique-rgb, 124, 58, 237), .1);
 }
 
 .se-lens-chip[data-lens="suite"].active {
@@ -6422,8 +6422,8 @@ tr:hover td {
 
 /* Per-lens accent — same tokens as the active chip state. */
 .se-lens-chip[data-lens="fusion"][data-tip]::after {
-  border-color: rgba(var(--tier-unique-rgb, 124, 58, 237), .45);
-  color: var(--tier-unique);
+  border-color: rgba(var(--rank-4-unique-rgb, 124, 58, 237), .45);
+  color: var(--rank-4-unique);
 }
 
 .se-lens-chip[data-lens="suite"][data-tip]::after {
@@ -6760,9 +6760,9 @@ footer.footer-v2::before {
   gap: .35rem .85rem;
 }
 .footer-v2 .footer-rail-group:nth-child(1) { --col-hue: var(--tier-basic, #38bdf8); }
-.footer-v2 .footer-rail-group:nth-child(2) { --col-hue: var(--tier-unique, #c084fc); }
+.footer-v2 .footer-rail-group:nth-child(2) { --col-hue: var(--rank-4-unique, #c084fc); }
 .footer-v2 .footer-rail-group:nth-child(3) { --col-hue: var(--tier-basic, #38bdf8); }
-.footer-v2 .footer-rail-group:nth-child(4) { --col-hue: var(--tier-unique, #c084fc); }
+.footer-v2 .footer-rail-group:nth-child(4) { --col-hue: var(--rank-4-unique, #c084fc); }
 .footer-v2 .footer-rail-group:nth-child(5) { --col-hue: var(--apex-gold, #fbbf24); }
 .footer-v2 .footer-rail-group:nth-child(6) { --col-hue: var(--honor-red, #ef4444); }
 
@@ -7298,7 +7298,7 @@ footer.footer-v2::before {
 }
 
 .se-node-orb--unique {
-  background: radial-gradient(circle at 50% 50%, #000 55%, var(--tier-unique) 80%, #5b21b6);
+  background: radial-gradient(circle at 50% 50%, #000 55%, var(--rank-4-unique) 80%, #5b21b6);
   box-shadow: 0 0 14px rgba(124, 58, 237, .5), inset 0 0 6px rgba(124, 58, 237, .3)
 }
 
@@ -7847,7 +7847,7 @@ h4.se-install-sub-h { font-size: .85rem; }
   display: inline-block;
   background: rgba(192, 132, 252, .1);
   border: 1px solid rgba(192, 132, 252, .25);
-  color: var(--tier-unique);
+  color: var(--rank-4-unique);
   padding: .22rem .65rem;
   border-radius: 20px;
   font-size: .78rem;
@@ -8021,7 +8021,7 @@ h4.se-install-sub-h { font-size: .85rem; }
 /* Unique tier color — fallback if rank color not applied or for specific branding */
 .flow-node[data-type="unique"] .fn-name,
 .se-stack-card[data-type="unique"] .fn-name {
-  color: var(--tier-unique);
+  color: var(--rank-4-unique);
   text-shadow: 0 0 12px rgba(124, 58, 237, 0.4);
 }
 
@@ -8462,7 +8462,7 @@ details[open] .se-tl-group-toggle::before { content: '▾ '; }
 }
 
 .mr-tier-glyph[data-type="ultimate"] { color: var(--rank-5, #fbbf24); }
-.mr-tier-glyph[data-type="unique"]   { color: var(--tier-unique); }
+.mr-tier-glyph[data-type="unique"]   { color: var(--rank-4-unique); }
 .mr-tier-glyph[data-type="extra"]    { color: var(--rank-4, #e879f9); }
 .mr-tier-glyph[data-type="basic"]    { color: var(--basic); }
 
@@ -9129,7 +9129,7 @@ code {
   }
 
   .rs-stat .rs-num[style] {
-    color: var(--tier-unique) !important
+    color: var(--rank-4-unique) !important
   }
 
 }
@@ -11124,12 +11124,12 @@ button.nav-graph-trigger:hover {
    The old data-type rules used undefined --tier-extra/--tier-ultimate tokens;
    replaced with branch tokens which are the correct axis post-Yggdrasil II. */
 .ns-dag-rank[data-branch="unique"] .git-commit-dot {
-  border-color: var(--tier-unique);
+  border-color: var(--rank-4-unique);
 }
 .ns-dag-rank[data-branch="unique"] .git-node.selected .git-commit-dot,
 .ns-dag-rank[data-branch="unique"] .git-node:hover .git-commit-dot {
-  background: var(--tier-unique);
-  border-color: var(--tier-unique);
+  background: var(--rank-4-unique);
+  border-color: var(--rank-4-unique);
 }
 /* 5★ and 6★ suite: fusion gold */
 .ns-dag-rank[data-branch="suite"][data-rank="5"] .git-commit-dot,
@@ -11260,7 +11260,7 @@ button.nav-graph-trigger:hover {
   background: color-mix(in srgb, var(--zone-color) 5%, transparent);
 }
 .ns-dag-zone[data-branch="suite"]  { --zone-color: var(--tier-fusion); }
-.ns-dag-zone[data-branch="unique"] { --zone-color: var(--tier-unique); }
+.ns-dag-zone[data-branch="unique"] { --zone-color: var(--rank-4-unique); }
 .ns-dag-zone[data-rank="5"]:not([data-branch]) { --zone-color: var(--rank-5); }
 .ns-dag-zone[data-rank="4"]:not([data-branch]) { --zone-color: var(--rank-4); }
 .ns-dag-zone[data-rank="3"]:not([data-branch]) { --zone-color: var(--rank-3); }
