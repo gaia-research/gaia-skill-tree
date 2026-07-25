@@ -175,6 +175,12 @@
     var gradeKey = gradeRaw === 'ungraded' ? 'none' : gradeRaw;
     var gradeLabel = gradeRaw === 'ungraded' ? '—' : gradeRaw;
 
+    // Branch fork ('standard'|'suite'|'unique') — colors the star badges so a
+    // Unique-branch entry renders in copper/ember rather than Suite gold
+    // (EPIC #1002). Derived upstream by scripts/generateLeaderboardData.py via
+    // the canonical gaia_cli.taxonomy.branchFor; 'standard' when absent.
+    var branch = (r.branch === 'suite' || r.branch === 'unique') ? r.branch : 'standard';
+
     // Stars-direction arrow inline with TM
     var mayOrd = STARS_ORDER.hasOwnProperty(mayStars) ? STARS_ORDER[mayStars] : -1;
     var juneOrd = STARS_ORDER.hasOwnProperty(juneStars) ? STARS_ORDER[juneStars] : -1;
@@ -207,8 +213,8 @@
         '<td class="col-grade">' +
           '<span class="lb-grade-pill" data-trust-grade="' + esc(gradeKey) + '">' + esc(gradeLabel) + '</span>' +
         '</td>' +
-        '<td class="col-stars"><span class="lb-stars ' + mayCls + '" title="' + esc(mayTitle) + '">' + esc(mayStars) + '</span></td>' +
-        '<td class="col-g7"><span class="lb-stars ' + juneCls + '" title="' + esc(juneTitle) + '">' + esc(juneStars) + '</span>' + apexInfo + '</td>' +
+        '<td class="col-stars"><span class="lb-stars ' + mayCls + '" data-branch="' + esc(branch) + '" title="' + esc(mayTitle) + '">' + esc(mayStars) + '</span></td>' +
+        '<td class="col-g7"><span class="lb-stars ' + juneCls + '" data-branch="' + esc(branch) + '" title="' + esc(juneTitle) + '">' + esc(juneStars) + '</span>' + apexInfo + '</td>' +
       '</tr>';
   }
 
