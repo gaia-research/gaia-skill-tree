@@ -2192,7 +2192,7 @@
         var clean = String(c).replace(/^@/, '');
         var avatarSrc = 'https://github.com/' + encodeURIComponent(clean) + '.png?size=32';
         var identicon = 'https://github.com/identicons/' + encodeURIComponent(clean) + '.png';
-        var errAttr = "if(this.dataset.fbk){this.onerror=null;}else{this.dataset.fbk='1';this.src='" + identicon.replace(/'/g, "\\'") + "';}";
+        var errAttr = "if(this.dataset.fbk){this.onerror=null;}else{this.dataset.fbk='1';this.src='" + identicon.replace(/\\/g, "\\\\").replace(/'/g, "\\'") + "';}";
         // E3: GitHub avatar framed by gold wreath (matches chart-bar appendAvatarWreath pattern)
         var avatarHtml =
           '<span class="lb-ms-avatar" style="background:oklch(0.55 0.18 ' + handleHue(c) + ')">' +
