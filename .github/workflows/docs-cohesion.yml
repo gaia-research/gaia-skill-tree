@@ -28,6 +28,29 @@ jobs:
         with:
           fetch-depth: 0
 
+      # ── Guard A — Binary-source detector (runs BEFORE the hex scan) ──────
+      # A NUL byte in a .js/.css source makes GNU grep treat the file as binary
+      # and silently skip it, which is exactly how two banned hexes hid in
+      # docs/js/skill-graph.js undetected. Fail loudly if any source under docs/
+      # carries a NUL byte so a skipped-file gap can never recur silently.
+      - name: Guard A — Detect NUL bytes in JS/CSS sources
+        run: |
+          set +e
+          # -a forces grep to scan files it would otherwise treat as binary and
+          # SKIP — without it this detector would itself miss the NUL-carrying
+          # file, reproducing the very blind spot it exists to close.
+          OFFENDERS=$(grep -ralP '\x00' docs/js/ docs/css/ 2>/dev/null | grep -E '\.(js|css)$')
+          if [ -n "$OFFENDERS" ]; then
+            echo "::error::NUL byte found in JS/CSS source(s) under docs/. A NUL"
+            echo "::error::makes grep treat the file as binary and silently skip"
+            echo "::error::it (Guard A hex scan blind spot). Use a text escape"
+            echo "::error::like '\\u0000' instead of a literal NUL byte."
+            echo "Offending files:"
+            echo "$OFFENDERS"
+            exit 1
+          fi
+          echo "No NUL bytes in JS/CSS sources under docs/."
+
       # ── Guard A — Token-only colour enforcement ──────────────────────────
       - name: Guard A — Scan for hardcoded colors
         id: hardcoded-colors
