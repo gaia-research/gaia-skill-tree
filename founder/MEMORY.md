@@ -4,6 +4,72 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-26, Session 5 — SVG-graph retirement + v7.0.0 CLI-shim retirement landed on staging; lexicon RFC #1302 filed; #1185 endgame is all that remains, founder resolves the conflict personally)
+
+### TLDR
+- **Three things landed on `dev/yggdrasil-ii-staging` since the Session-4 snapshot** (tip now **`7ad2709dc`**, was `f9cbc8943`): the static SVG-graph retirement (#1301 → `b134471b6`), the v7.0.0 CLI-shim retirement (#1303 → `7ad2709dc`), and the lexicon-of-record RFC (#1302, an *issue* — not merged, it's a discussion artifact).
+- **SVG-graph retirement (#1301).** Retired the static `registry/gaia.svg` / `docs/graph/gaia.svg` render — the 3D World Tree (`#canvas3d`) superseded it. Verified no site-dark risk: only `docs/archive/**` and `docs/superpowers/plans/**` reference the removed svg (historical, no runtime fetch). Diff was 13 files (SVG pipeline + scripts + docs prose), no `docs/graph/*` regen churn leaked.
+- **v7.0.0 CLI-shim retirement (#1303).** Ygg II lands on v7.0.0, so the six top-level shims marked "removed in v7.0.0" are now officially retired: `gaia release|_hook|docs build|mcp|validate|test` → all now error `invalid choice`; each has an unchanged canonical `gaia dev X` equivalent (no CLI gap). Deleted `commands/{release,hook_cmd,docs_cmd,validate_cmd}.py`, dropped top-level `McpCommand` (kept `execute_dev_mcp`), cleaned the `impl.py` legacy-monolith mirror (subparsers + dispatch + WARNING guards). 35 CLI+packaging tests pass. Nested Opus-medium review: **CONFIRMED-CLEAN**.
+- **Lexicon RFC #1302 filed.** Ports the `gaia-research` lexicon-of-record pattern (`founder/lexicon.json` machine-source → generated `LEXICON.md` → `RATIFICATION.md` ledger → `check-lexicon` CI gate) into gaia-skill-tree. Encodes the reports-as-decisions discipline as data (`canonical` is not inherited from a citation; unshipped surfaces stay `parked`). Proposes consolidating CONTEXT.md/DESIGN.md/PRODUCT.md/META.md/meta.json term-authority into one lexicon. 4-tier authority hierarchy (living founder ruling > CLAUDE.md/lexicon invariants > reports/RFCs > generated artifacts). Cross-linked #1104 (actor-authority governance — complementary, not duplicative). Labels: RFC, documentation.
+- **Both staging CI reds are pre-existing baseline conditions, NOT regressions** — confirmed identical across #1301 and #1303: (1) **Agent Skill Quality Gates** = `.agents/skills/fuse` YAML frontmatter parse error (pre-existing skill defect, untouched by either PR); (2) **Schema + DAG + Integrity Checks** "docs stale" = non-deterministic spectral-embedding coords + `generatedAt`/`lastmodifieddate` timestamps; the gate is push-triggered **only on `branches: [main]`** so it never runs on the staging line and the drift accumulates undetected. Both PRs touch no `registry/`/`docs/graph/*` source. **Test, Build, and Smoke Test = GREEN** on both.
+- **#1185 is all that remains** — the 19-file merge-conflict resolution → main. **Founder handles this personally** (site-dark risk on the script-survivor call). Do NOT dispatch or resolve it.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| #1301 — static SVG-graph retirement (3D World Tree superseded it) | ✅ Merged → staging (`b134471b6`); no site-dark risk verified |
+| #1303 — v7.0.0 CLI-shim retirement + WARNING removal | ✅ Merged → staging (`7ad2709dc`); 35 tests pass; nested review CONFIRMED-CLEAN |
+| #1302 — lexicon-of-record RFC (reports-as-decisions + SoT consolidation) | ✅ Filed as issue; cross-linked #1104; NOT a merge (discussion artifact) |
+| Staging CI green-verification | ✅ Test/Build/Smoke GREEN on both PRs; two reds diagnosed as pre-existing baseline (fuse YAML + docs-stale-on-staging-line) |
+| Durable-fix note (NOT filed — founder's call) | ⏳ Seed spectral layout deterministically + drop ledger version stamp (#807) + trigger Schema+DAG on staging → separate infra PR, post-Ygg-II |
+| #1185 endgame (Class-S regen, 19-file merge-conflict, merge to main) | ⏳ NOT started — founder resolves personally |
+| EPIC #1002 closure (#998/#999/#1000 checkmark verification) | ⏳ Pending — verify PR-body checkmarks vs live state, confirm no follow-ups |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `main` | `7b784f868` (v6.8.18) | unchanged this session |
+| `dev/yggdrasil-ii-staging` | `7ad2709dc` | SVG-graph + v7 CLI retirement landed; Test/Build/Smoke green; #1185 endgame next |
+| `dev/ygg2-retire-graph-svg` | `3e499e727` | Merged via #1301, worktree still on disk (checked-out at repo root) |
+| `dev/ygg2-retire-v7-cli` | `b35f48150` | Merged via #1303; agent worktree removed + branch pruned |
+
+### Issues + PRs touched
+| # | Title | State |
+|---|---|---|
+| #1301 | Retire static registry/gaia.svg graph render (Ygg II) | Merged → staging (`b134471b6`) |
+| #1302 | RFC: lexicon-of-record — SoT consolidation + reports-as-decisions authority | Filed (issue, open) |
+| #1303 | Retire v7.0.0-deprecated CLI command shims (Ygg II) | Merged → staging (`7ad2709dc`) |
+| #1185 | EPIC aggregate PR → main | Blocked on 19-file merge conflict; founder handling personally |
+| #1002 | EPIC (Yggdrasil II) | Closure verification pending |
+| #1104 | RFC: Governance of the Canonical Graph (actor authority) | Cross-linked from #1302 (complementary axis) |
+
+### Routing — where things live now
+- **Retired CLI shims:** the six top-level verbs are gone; only `gaia dev {release,hook,docs,mcp,validate,test}` remain. Dynamic discovery (`commands/__init__.py::discover_commands`) drops a registration automatically once its `COMMAND` export is deleted. `impl.py` is the legacy-monolith mirror — was cleaned in lockstep.
+- **Retired SVG render:** `scripts/renderGraphSvg.py` deleted; `scripts/build_docs.py` build_svg step removed; `scripts/syncDocsGraphAssets.py` dropped `registry/gaia.svg` from its required tuple. The 3D World Tree (`#canvas3d`) is the graph surface now.
+- **Lexicon reference implementation:** `gaia-research/gaia-research` `founder/lexicon.json` (schema `1`, namespace `core`, landed 2026-07-25). The RFC #1302 body is the porting plan.
+- **The two surviving TYPE tokens (unchanged):** `--tier-basic` (#38bdf8, ○), `--tier-fusion` (#f59e0b, ◇). All rank color on `--rank-N` (Suite) / `--rank-N-unique` (Unique). "There is NO TIER UNIQUE."
+
+### Lessons / hazards preserved
+1. **The Schema+DAG gate never runs on the staging line.** It's push-triggered only on `branches: [main]`, so `docs/graph/gaia.json` spectral-layout non-determinism + timestamp drift accumulate undetected on staging and only surface as a PR-check red. Committing the ~62.6k-line regen churn does NOT fix it — it re-arms on the next CI date/layout recompute. Correct posture: document the red as baseline, merge on the green Test/Build/Smoke gate, and file the durable fix (seed layout + drop ledger version stamp per #807 + trigger the gate on staging) as a separate infra PR.
+2. **`.agents/skills/fuse` has a pre-existing YAML frontmatter parse error** that reds the "Agent Skill Quality Gates" job on every staging PR. Not introduced by #1301/#1303. If it needs fixing it's its own tiny PR, not a merge-blocker for unrelated work.
+3. **Windows Git-Bash `/tmp` ≠ `C:/tmp`.** The Write tool's `C:/tmp/...` maps to a different directory than Git-Bash's `/tmp` (→ `AppData\Local\Temp`). RFC #1302 was first filed with a stale body because `gh issue create --body-file /tmp/...` read the old heredoc draft, not the Write-tool output at `C:/tmp/...`. Fix: always `--body-file "C:/tmp/..."` (absolute Windows path) and verify with `gh issue view --json body`.
+4. **v7.0.0 shim retirement had zero CLI gap** — every retired top-level verb already had a canonical `gaia dev X` equivalent present. Confirmed via `gaia dev --help` showing all six before deleting the shims. Retiring a command is only safe when its replacement is already the documented path.
+
+### Open questions for next orchestrator / founder
+1. **#1185 merge-conflict (19 files) → main** — founder's personal job. The script-survivor call carries site-dark risk.
+2. **EPIC #1002 closure** — verify #998/#999/#1000 PR-body checkmarks against live state; confirm no follow-ups (sprint-completeness: the flowchart.html attr-vocab defer is documented pre-existing, NOT a filed follow-up).
+3. **Durable Schema+DAG fix** — file as post-Ygg-II infra PR? (seed spectral layout, drop ledger version stamp #807, trigger gate on staging). Founder's call whether to file now or after the epic closes.
+4. **RFC #1302 shaping questions** (5 open in the issue body) — json-vs-md source, namespace/scope, meta.json seam, /impeccable↔DESIGN.md highest-risk seam, RATIFICATION.md bootstrap. For founder + next-session discussion.
+5. **Untracked founder reports** (`2026-07-25-token-eradication-dispatch.md`, `2026-07-25-tier-unique-classification.md`) + `screenshots/` — decide commit-or-leave.
+
+### Token cost (this session)
+- `2026-07-26 Opus (SVG-retirement + 5-agent CI-diagnosis workflow): ~253k workflow tokens + ~orchestrator overhead. ~$14`
+- `2026-07-26 Opus (v7 CLI retirement subagent + nested Opus-med review): ~161k combined, 155 tool calls. ~$8`
+- `2026-07-26 Opus (orchestrator: RFC #1302 authoring, PR opens, merges, this snapshot): ~40k in / ~12k out. ~$4`
+- **Session-5 total ≈ $26.** Logged on PRs #1301/#1303 per the token-spend-logging constraint.
+
+---
+
 ## State Snapshot (2026-07-26, Session 4 — Token-eradication COMPLETE on staging; all 3 workstreams (P5 rename + Hall-of-Heroes /impeccable + samples cleanup) merged; staging CI-clean; #1185 endgame is next, founder resolves the conflict personally)
 
 ### TLDR
