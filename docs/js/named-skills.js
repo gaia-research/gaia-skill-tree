@@ -249,7 +249,7 @@
       var zoneColor = branch === 'suite'
         ? 'var(--tier-fusion)'
         : branch === 'unique'
-          ? 'var(--tier-unique)'
+          ? 'var(--rank-4-unique)'
           : 'var(--rank-' + rankNum + ',var(--muted))';
 
       // AOV4 badge medallion for this rank+branch
@@ -696,7 +696,7 @@
         var colorVar = branch === 'suite'
           ? 'var(--tier-fusion)'
           : branch === 'unique'
-            ? 'var(--tier-unique)'
+            ? 'var(--rank-4-unique)'
             : 'var(--rank-' + rn + ', var(--muted))';
         var _base = (typeof window.gaiaIconBase === 'function')
           ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '') : '';
