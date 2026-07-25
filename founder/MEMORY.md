@@ -4,6 +4,69 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-26, Session 6 — EPIC 1002 close-out: SAP-email fully eradicated, severed ancestry repaired (#1185 MERGEABLE), founder archive pass, Ygg II meta-post published, README Change Management section; awaiting CI-green human gate before the v7.0.0 merge)
+
+### TLDR
+- **The banned commit email `marco.tiongson@sap.com` is 0 across ALL refs** (metadata + bodies). Resolution followed the founder ruling verbatim ("if it leaked on main, mailmap remap; if only in this PR, history rewrite; no force-push to main; never compromise company identity"): origin/main never carried it (0 → no main rewrite), staging was cleaned by a prior staging-only git-filter-repo email remap, and the remaining 24 occurrences lived only on ~22 stale pre-rewrite ygg2 sprint branches (local + 3 on origin) — all deleted. Company identity preserved (author *name* "Marco Tiongson" kept; only *email* remapped to the GitHub no-reply). See `~/.claude/.../memory/sap-email-eradication-ygg2.md`.
+- **Severed ancestry repaired → PR #1185 MERGEABLE.** The filter-repo email rewrite had severed main's ancestry with staging; fixed by re-merging origin/main into rewritten staging (merge commit `8ee6021f1`, tree byte-identical to pre-merge staging, main tip `7b784f868` restored as ancestor).
+- **founder/ archive pass complete** (`bb41f7d97`). All handovers except `GAIA_BENCH_VISION.md` archived under `founder/handovers/archive/`; roadmaps v1–v3 → `archive/roadmaps/`; 7 non-operational root docs → `archive/root-docs/`; sprint-done marker written. `founder/CLAUDE.md` Key References table reconciled to the surviving docs. Roadmap v5 deferred (future write).
+- **Ygg II meta-post PUBLISHED** (`c1ddb6235`) — the July 2026 Yggdrasil I → II report, authored by a 7-agent verification workflow, every number checked against the live registry (113 basic + 130 fusion = 243 starless nodes; TM grades S=4/A=42/B=56/C=76/ungraded=71 across 249 named skills). Show-don't-tell: two worked examples (`obra/writing-plans` drift case; the retired 10k-stars gate blocking three real A-grade skills). Rendered LaTeX HTML + patched posts.json/index.html/meta.html.
+- **README Change Management section added** (same commit) — highlights the Ygg II meta shift (type collapse, Evidence Floor → Trust Magnitude, derived branch axis, two 6★ paths), points to gaiaskilltree.com + META.md.
+- **NEXT: CI green → HUMAN GATE → v7.0.0 merge.** The staging→main merge is the ONLY mandated hard human gate. The merge commit MUST use `feat!:` / `BREAKING CHANGE:` to trigger the v7.0.0 major bump via auto-sync. Then verify release CD, PyPI, closed issues, main health.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| SAP-email eradication (all refs → 0) | ✅ origin/main clean (no rewrite); staging clean (prior rewrite); 24 stale-branch occurrences deleted; company identity preserved |
+| Severed-ancestry repair (#1185) | ✅ Re-merge `8ee6021f1`; main tip restored as ancestor; PR MERGEABLE |
+| founder/ archive pass + sprint-done markers | ✅ `bb41f7d97`; all handovers except GAIA_BENCH_VISION archived; roadmaps v1–v3 + 7 root docs moved; CLAUDE.md Key References reconciled |
+| Ygg II meta-post (7-agent verified workflow) | ✅ Published `c1ddb6235`; every stat verified vs live registry; two worked examples |
+| README Change Management section | ✅ `c1ddb6235`; Ygg II shift + gaiaskilltree.com + META.md |
+| memory-snapshot (this block) | ✅ In progress → this write |
+| /epic-close skill (generalize meta-post + versioning) | ⏳ Next in Task #5 |
+| CI green + human gate before v7.0.0 merge | ⏳ Mandated hard stop — founder's explicit go required |
+| v7.0.0 release (auto from merge) + verify | ⏳ Blocked on merge; merge commit MUST carry `feat!:`/`BREAKING CHANGE:` |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `main` | `7b784f868` (v6.8.18) | unchanged this session; ancestor of staging again |
+| `dev/yggdrasil-ii-staging` | `c1ddb6235` | email-clean; #1185 MERGEABLE; meta-post + README + archive landed; awaiting v7.0.0 merge |
+
+Cleanup bonus: removed 22 leftover agent/workflow worktrees and 55 stale branches per the session-close ritual.
+
+### Issues + PRs touched
+| # | Title | State |
+|---|---|---|
+| #1185 | EPIC aggregate PR → main | MERGEABLE (ancestry repaired); awaiting CI-green human gate for v7.0.0 merge |
+| #1002 | EPIC (Yggdrasil II) | Close-out in progress (archive + meta-post done; release pending) |
+
+### Routing — where things live now
+- **Ygg II meta-post source:** `docs/meta/2026-07-yggdrasil-ii-meta-shift.md` → rendered `docs/meta/reports/2026-07-26-yggdrasil-ii-two-types-one-trust-gate-and-a-branch-axis-that-is-never-declared.html`. Published via `scripts/add_post.py report ... --author "Marcus Rafael Tiongson, Founder" --label "Meta Shift"`.
+- **README Change Management section:** after the keywords/`---` block, before "Who maintains this?".
+- **founder archive:** `founder/handovers/archive/` (README carries the EPIC-1002 sprint-done marker + catalog); `archive/roadmaps/` (v1–v3); `archive/root-docs/` (7 non-operational docs). Kept live: `GAIA_BENCH_VISION.md`, `GAIA_ROADMAP v4 (BUILD).md`, `BACKLOG_ERADICATION_TRACKER.md`, and the operational root docs.
+- **Email eradication record:** `~/.claude/projects/C--Users-C5396183-gaia-skill-tree/memory/sap-email-eradication-ygg2.md`.
+
+### Lessons / hazards preserved
+1. **git-filter-repo email remap on a branch severs ancestry with any sibling that forked before the rewrite.** Expect to (a) re-merge main into the rewritten branch to restore the ancestor, and (b) find the same banned commits duplicated across every sibling sprint branch — audit ALL refs (local + origin), not just the PR branch.
+2. **"If it leaked on main → mailmap; if only in this PR → history rewrite; never force-push to main."** origin/main carrying 0 banned commits meant no main rewrite was needed at all — verify the leak surface (`git log --all --format='%ae' | grep`) BEFORE choosing remap vs rewrite.
+3. **The meta-post workflow verifies every number against the live registry.** A 7-agent fact-find→synthesize→verify pipeline (opus synthesizer) produces publishable stats without hand-rework. The `add_post.py` report renderer's embedded LaTeX `<style>` block carries hex colors, but the hex CI guard (`check_hex_colors.py`) scans only `docs/**/*.js` + `docs/**/*.css` — HTML `<style>` is explicitly out of scope, so report HTML is safe (all prior reports share the identical template hex and pass CI).
+4. **Regen belongs in a clean Linux env, not hand-curated from Windows.** A local `gaia dev docs` regen flipped CRLF EOL on hundreds of files (noise) — discarded all regen output and committed the merge with the tree byte-identical to pre-merge staging. Class-S regen for the final merge should run in CI or a Linux worktree.
+5. **Windows cp1252 encoding:** reads of `registry/gaia.json` need `encoding='utf-8'`; scripts emitting emoji need `PYTHONUTF8=1 PYTHONIOENCODING=utf-8`.
+
+### Open questions for next orchestrator / founder
+1. **CI-green human gate (Task #6)** — the staging→main merge is the ONLY mandated hard stop. Founder's explicit go required once checks are green.
+2. **v7.0.0 merge-commit message MUST carry `feat!:` or `BREAKING CHANGE:`** so auto-sync classifies a major bump. A plain merge commit ships the wrong version.
+3. **Post-merge verify (Task #8):** release CD reached v7.0.0, PyPI received the new CLI wheel (with bundled fresh registry snapshot — vX.Y.0 triggers the snapshot step), EPIC issues closed, main healthy.
+4. **CHANGELOG.md v7.0.0 entry** — author the full changelog for the major.
+5. **/epic-close skill** — still to write (Task #5 remainder): generalize the meta-post authoring + versioning flow into a reusable skill.
+
+### Token cost (this session)
+- Meta-post workflow: 7 agents, 0 errors, ~339k subagent tokens, 45 tool uses.
+- Orchestrator (this session): dominated by git-forensics + archive + publish + snapshot; not separately metered. Log the precise split to the #1002 EPIC comment + COST.md at session close per the token-spend-logging directive.
+
+---
+
 ## State Snapshot (2026-07-26, Session 5 — SVG-graph retirement + v7.0.0 CLI-shim retirement landed on staging; lexicon RFC #1302 filed; #1185 endgame is all that remains, founder resolves the conflict personally)
 
 ### TLDR
