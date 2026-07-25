@@ -475,8 +475,14 @@
       var glyph = BRANCH_GLYPH[branch] || BRANCH_GLYPH.standard;
       var avatarUrl = githubAvatarUrl(contributor.handle, 80);
       var lvl = levelNum(contributor.topSkill.level);
+      // The rail row shows only the (truncatable) slug, so carry the full
+      // identifier on the button title for hover recovery: full skill name plus
+      // @handle when available.
+      var fullName = contributor.topSkill.name || slug;
+      var handle = contributor.handle;
+      var title = fullName + (handle ? ' — @' + handle : '');
       return '<li class="heroes-ledger-rail__item">' +
-        '<button class="heroes-ledger-rail__button" type="button" data-ledger-target="' + esc(stageIdFor(contributor)) + '" data-ledger-index="' + esc(index) + '" data-branch="' + esc(branch) + '" data-level="' + lvl + '">' +
+        '<button class="heroes-ledger-rail__button" type="button" title="' + esc(title) + '" data-ledger-target="' + esc(stageIdFor(contributor)) + '" data-ledger-index="' + esc(index) + '" data-branch="' + esc(branch) + '" data-level="' + lvl + '">' +
         '<span class="heroes-ledger-rail__avatar" aria-hidden="true"><img src="' + esc(avatarUrl) + '" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.hidden=true"></span>' +
         '<span class="heroes-ledger-rail__glyph" aria-hidden="true">' + esc(glyph) + '</span>' +
         '<span class="heroes-ledger-rail__name">' + esc(slug) + '</span>' +
