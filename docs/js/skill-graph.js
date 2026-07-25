@@ -506,6 +506,10 @@
       zoomable: options.zoomable || false,
       hoverable: options.hoverable || false,
     };
+    // Session-only stash of the explorer camera (zoom/pan/spread). Captured on
+    // exit so re-entering restores exactly where the user left off instead of
+    // snapping back to a fresh 200% spread. In-memory only — never persisted.
+    let _explorerViewStash = null;
     const NAMED_LEVELS = new Set(['2★', '3★', '4★', '5★', '6★']);
     const state = {
       skills: [],
@@ -3290,12 +3294,39 @@
         state.t = 0;
         state.orbitX = 0;
         state.orbitY = 0;
+        if (_explorerViewStash) {
+          // Re-enter: restore the camera the user left the explorer with so a
+          // 150%-panned-left view comes back exactly, rather than snapping to a
+          // fresh 200% spread.
+          state.zoom = _explorerViewStash.zoom;
+          state.panX = _explorerViewStash.panX;
+          state.panY = _explorerViewStash.panY;
+          state.treeSpread = _explorerViewStash.treeSpread;
+        } else {
+          state.panX = 0;
+          state.panY = 0;
+          state.zoom = 1;
+          // Explorer3D defaults to a wider 200% spread; the flat 2D hero stays
+          // at 100% (its own initial state / never touches this path).
+          state.treeSpread = 2;
+        }
+        if (typeof redrawScatterRuler === 'function') redrawScatterRuler();
+      }
+      if (target === 0) {
+        // Exit: stash the live explorer camera (session-only) so re-entry can
+        // restore it, then reset zoom/pan/spread to their hero defaults so the
+        // reverse morph animates back to the true 100% default view instead of
+        // freezing at wherever the user was.
+        _explorerViewStash = {
+          zoom: state.zoom,
+          panX: state.panX,
+          panY: state.panY,
+          treeSpread: state.treeSpread,
+        };
+        state.zoom = 1;
         state.panX = 0;
         state.panY = 0;
-        state.zoom = 1;
-        // Explorer3D defaults to a wider 200% spread; the flat 2D hero stays
-        // at 100% (its own initial state / never touches this path).
-        state.treeSpread = 2;
+        state.treeSpread = 1;
         if (typeof redrawScatterRuler === 'function') redrawScatterRuler();
       }
       state.viewFrom = state.viewMix;
