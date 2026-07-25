@@ -348,7 +348,7 @@
     if (typeof window.gaiaIconBase === 'function') {
       return window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '');
     }
-    var mounts = ['named', 'en', 'badges', 'u', 'samples', 'graph', 'evidence', 'share', 'trust', 'api', 'codex', 'trending', 'heroes', 'reports', 'benchmarks', 'skills'];
+    var mounts = ['named', 'en', 'badges', 'u', 'samples', 'graph', 'evidence', 'share', 'trust', 'api', 'codex', 'trending', 'heroes', 'reports', 'benchmarks'];
     var segs = window.location.pathname.replace(/\/+$/, '').split('/').filter(Boolean);
     var dir = /\.html?$/i.test(segs[segs.length - 1]) ? segs.slice(0, -1) : segs;
     var depth = 0;
@@ -2975,7 +2975,7 @@
     if (typeof window.gaiaIconBase === 'function') {
       return window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '');
     }
-    var mounts = ['named', 'en', 'badges', 'u', 'samples', 'graph', 'evidence', 'share', 'trust', 'api', 'codex', 'trending', 'heroes', 'reports', 'benchmarks', 'skills'];
+    var mounts = ['named', 'en', 'badges', 'u', 'samples', 'graph', 'evidence', 'share', 'trust', 'api', 'codex', 'trending', 'heroes', 'reports', 'benchmarks'];
     var segs = window.location.pathname.replace(/\/+$/, '').split('/').filter(Boolean);
     var dir = /\.html?$/i.test(segs[segs.length - 1]) ? segs.slice(0, -1) : segs;
     var depth = 0;
