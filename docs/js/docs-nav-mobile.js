@@ -59,7 +59,7 @@
     '<button type="button" class="close-btn" aria-label="Close menu">×</button>',
     '<a href="' + root + 'index.html" style="color:var(--text)">Home</a>',
     '<a href="' + root + 'about.html" style="color:var(--apex-gold)">About</a>',
-    '<a href="' + root + 'badges/' + v + '" style="color:var(--tier-unique)">GitHub Badges</a>',
+    '<a href="' + root + 'badges/' + v + '" style="color:var(--rank-4-unique)">GitHub Badges</a>',
     '<a href="' + root + 'named/' + v + '" style="color:var(--honor-red)">Skills</a>',
     '<a href="index.html" style="color:var(--tier-basic)">Docs</a>',
     '<div class="group-label">More</div>',

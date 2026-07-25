@@ -55,7 +55,7 @@
     {
       href: root + 'badges/',
       label: 'GitHub Badges',
-      color: 'var(--tier-unique)',
+      color: 'var(--rank-4-unique)',
       icon: function() { return '<svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align:-2px;margin-right:.35em"><use href="' + iconBase() + '#github"/></svg>'; },
       i: 2
     },
