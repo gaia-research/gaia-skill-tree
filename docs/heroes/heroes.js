@@ -364,7 +364,12 @@
 
   function scrollToStage(stage) {
     if (!stage) return;
-    stage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // Honor prefers-reduced-motion: skip the smooth animation for users who
+    // asked for reduced motion. Gated once here so every caller (dialog entry,
+    // rail row, nav arrow) inherits the behavior.
+    var prefersReduced = window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    stage.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'center' });
   }
 
   function notifyStageVisible(stage) {
