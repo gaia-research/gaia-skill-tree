@@ -564,6 +564,218 @@
 }
 
 
+/* ── "All plates" trigger (opens the full index dialog) ──────────
+   Spans its own full-width row in both the mobile strip and the desktop rail
+   grid (grid-column: 1 / -1). Injected by heroes.js after the list.          */
+.heroes-ledger-rail__all {
+  grid-column: 1 / -1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 6px 10px;
+  border: 1px solid rgba(var(--heroes-gold-rgb), 0.24);
+  border-radius: 4px;
+  background: rgba(var(--heroes-gold-rgb), 0.04);
+  color: var(--heroes-frost-dim);
+  font-family: var(--heroes-font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 180ms ease, background 180ms ease, border-color 180ms ease;
+}
+
+.heroes-ledger-rail__all:hover {
+  color: var(--heroes-frost);
+  background: rgba(var(--heroes-gold-rgb), 0.08);
+  border-color: rgba(var(--heroes-gold-rgb), 0.4);
+}
+
+.heroes-ledger-rail__all:focus-visible {
+  outline: 2px solid var(--heroes-gold-warm);
+  outline-offset: 2px;
+}
+
+.heroes-ledger-rail__all-caret {
+  font-family: var(--heroes-font-mono);
+  line-height: 1;
+}
+
+
+/* ── "All plates" full-index dialog ──────────────────────────────
+   Native <dialog>: Esc dismiss + focus trap for free. Scrollable list of every
+   hero, keyed to the same scroll-to path as the rail.                         */
+.heroes-ledger-all {
+  width: min(92vw, 460px);
+  max-height: min(80vh, 640px);
+  padding: 0;
+  border: 1px solid rgba(var(--heroes-gold-rgb), 0.28);
+  border-radius: 12px;
+  background: var(--heroes-bg-ink);
+  color: var(--heroes-frost);
+  overflow: hidden;
+}
+
+.heroes-ledger-all::backdrop {
+  background: rgba(0, 0, 0, 0.62);
+}
+
+.heroes-ledger-all[open] {
+  display: flex;
+  flex-direction: column;
+  animation: heroes-all-in 180ms ease-out both;
+}
+
+@keyframes heroes-all-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.heroes-ledger-all__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid rgba(var(--heroes-gold-rgb), 0.18);
+}
+
+.heroes-ledger-all__title {
+  margin: 0;
+  font-family: var(--heroes-font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--heroes-gold-warm);
+}
+
+.heroes-ledger-all__close {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(var(--heroes-gold-rgb), 0.28);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--heroes-frost-dim);
+  cursor: pointer;
+  transition: color 180ms ease, border-color 180ms ease;
+}
+
+.heroes-ledger-all__close:hover {
+  color: var(--heroes-frost);
+  border-color: var(--heroes-gold-warm);
+}
+
+.heroes-ledger-all__close:focus-visible {
+  outline: 2px solid var(--heroes-gold-warm);
+  outline-offset: 2px;
+}
+
+.heroes-ledger-all__list {
+  margin: 0;
+  padding: 0.5rem;
+  list-style: none;
+  overflow-y: auto;
+}
+
+.heroes-ledger-all__item {
+  list-style: none;
+}
+
+.heroes-ledger-all__entry {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--heroes-frost);
+  text-align: left;
+  cursor: pointer;
+  transition: background 160ms ease;
+}
+
+.heroes-ledger-all__entry:hover {
+  background: rgba(var(--heroes-gold-rgb), 0.07);
+}
+
+.heroes-ledger-all__entry:focus-visible {
+  outline: 2px solid var(--heroes-gold-warm);
+  outline-offset: -2px;
+}
+
+.heroes-ledger-all__entry[data-level="4"]:focus-visible {
+  outline-color: var(--rank-4, #e879f9);
+}
+
+.heroes-ledger-all__entry[data-level="5"]:focus-visible,
+.heroes-ledger-all__entry[data-level="6"]:focus-visible {
+  outline-color: var(--rank-5, #fbbf24);
+}
+
+.heroes-ledger-all__entry[data-branch="unique"][data-level="4"]:focus-visible {
+  outline-color: var(--rank-4-unique, #7c3aed);
+}
+
+.heroes-ledger-all__entry[data-branch="unique"][data-level="5"]:focus-visible,
+.heroes-ledger-all__entry[data-branch="unique"][data-level="6"]:focus-visible {
+  outline-color: var(--rank-5-unique, #b26a3a);
+}
+
+.heroes-ledger-all__glyph {
+  font-family: var(--heroes-font-mono);
+  font-size: 0.9rem;
+  text-align: center;
+  color: var(--rank-5, #fbbf24);
+}
+
+.heroes-ledger-all__entry[data-level="4"] .heroes-ledger-all__glyph {
+  color: var(--rank-4, #e879f9);
+}
+
+.heroes-ledger-all__entry[data-branch="unique"][data-level="4"] .heroes-ledger-all__glyph {
+  color: var(--rank-4-unique, #7c3aed);
+}
+
+.heroes-ledger-all__entry[data-branch="unique"][data-level="5"] .heroes-ledger-all__glyph,
+.heroes-ledger-all__entry[data-branch="unique"][data-level="6"] .heroes-ledger-all__glyph {
+  color: var(--rank-5-unique, #b26a3a);
+}
+
+.heroes-ledger-all__body {
+  min-width: 0;
+}
+
+.heroes-ledger-all__name {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--heroes-font-body);
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+
+.heroes-ledger-all__by {
+  display: block;
+  margin-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--heroes-font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  color: var(--heroes-frost-dim);
+}
+
+
 /* ── Stages container ────────────────────────────────────────── */
 .heroes-stages {
   display: flex;
@@ -1504,6 +1716,10 @@
   }
 
   .heroes-ledger-rail__item.is-in-window {
+    animation: none !important;
+  }
+
+  .heroes-ledger-all[open] {
     animation: none !important;
   }
 

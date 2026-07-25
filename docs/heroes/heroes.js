@@ -489,6 +489,7 @@
     LEDGER_ITEMS = heroes;
     LEDGER_ACTIVE_INDEX = -1;
     applyLedgerWindow(-1);
+    ensureAllPlatesPanel();
     setLedgerAwaiting();
     rail.hidden = false;
   }
@@ -701,6 +702,111 @@
     }
 
     rail.style.setProperty('--heroes-ledger-progress', ((index + 1) / total).toFixed(4));
+  }
+
+  // ── "All plates" full index (opened on demand from the rail) ──
+  // The windowed rail only shows a neighborhood; this native <dialog> is how
+  // EVERY hero stays reachable. It reads LEDGER_ITEMS (the full list), reuses
+  // the data-ledger-target scroll-to path, and gets Esc dismiss + focus trap
+  // for free from <dialog>.showModal(). Trigger + dialog are injected here so
+  // the static index.html markup is untouched.
+  var ALL_PLATES_TRIGGER = null;
+  var ALL_PLATES_DIALOG = null;
+
+  function ensureAllPlatesPanel() {
+    var rail = document.getElementById('heroesLedgerRail');
+    if (!rail) return;
+
+    if (!ALL_PLATES_TRIGGER) {
+      var trigger = document.createElement('button');
+      trigger.type = 'button';
+      trigger.className = 'heroes-ledger-rail__all';
+      trigger.id = 'heroesLedgerAll';
+      trigger.setAttribute('aria-haspopup', 'dialog');
+      trigger.setAttribute('aria-controls', 'heroesLedgerAllPanel');
+      trigger.innerHTML =
+        '<span class="heroes-ledger-rail__all-caret" aria-hidden="true">▾</span>' +
+        '<span class="heroes-ledger-rail__all-label">all plates</span>';
+      // Insert after the list, before the controls, so it reads as "expand the
+      // ledger" beneath the windowed rows.
+      var controls = rail.querySelector('.heroes-ledger-rail__controls');
+      if (controls) {
+        rail.insertBefore(trigger, controls);
+      } else {
+        rail.appendChild(trigger);
+      }
+      trigger.addEventListener('click', openAllPlates);
+      ALL_PLATES_TRIGGER = trigger;
+    }
+
+    if (!ALL_PLATES_DIALOG && typeof document.createElement('dialog').showModal === 'function') {
+      var dialog = document.createElement('dialog');
+      dialog.className = 'heroes-ledger-all';
+      dialog.id = 'heroesLedgerAllPanel';
+      dialog.setAttribute('aria-label', 'All plates in the Hall of Heroes');
+      dialog.innerHTML =
+        '<div class="heroes-ledger-all__head">' +
+        '<h2 class="heroes-ledger-all__title">All Plates</h2>' +
+        '<button class="heroes-ledger-all__close" type="button" aria-label="Close all-plates index">' +
+        '<svg class="ico" width="16" height="16" aria-hidden="true"><use href="../assets/icons.svg#close-x"></use></svg>' +
+        '</button>' +
+        '</div>' +
+        '<ol class="heroes-ledger-all__list" id="heroesLedgerAllList"></ol>';
+      document.body.appendChild(dialog);
+
+      // Close on the X, on backdrop click, and (native) on Esc.
+      dialog.querySelector('.heroes-ledger-all__close').addEventListener('click', closeAllPlates);
+      dialog.addEventListener('click', function (e) {
+        if (e.target === dialog) closeAllPlates();
+      });
+      // Clicking an entry scrolls to that plate, then dismisses.
+      dialog.addEventListener('click', function (e) {
+        var btn = e.target.closest('[data-ledger-target]');
+        if (!btn) return;
+        closeAllPlates();
+        scrollToStage(document.getElementById(btn.getAttribute('data-ledger-target')));
+      });
+      ALL_PLATES_DIALOG = dialog;
+    }
+  }
+
+  function renderAllPlatesList() {
+    var listEl = document.getElementById('heroesLedgerAllList');
+    if (!listEl) return;
+    listEl.innerHTML = LEDGER_ITEMS.map(function (entry, index) {
+      var contributor = entry.contributor;
+      var skillId = contributor.topSkill.id || '';
+      var slug = skillId.split('/').pop() || contributor.handle;
+      var branch = computeBranchForTopSkill(contributor);
+      var glyph = BRANCH_GLYPH[branch] || BRANCH_GLYPH.standard;
+      var lvl = levelNum(contributor.topSkill.level);
+      // The full index CAN carry @handle + rank — it is the reference view, not
+      // the scannable rail. rankLabel is branch-forked (E2), no banned words.
+      var rankLabel = topSkillRankLabel(contributor);
+      return '<li class="heroes-ledger-all__item">' +
+        '<button class="heroes-ledger-all__entry" type="button" data-ledger-target="' + esc(stageIdFor(contributor)) + '" data-ledger-index="' + esc(index) + '" data-branch="' + esc(branch) + '" data-level="' + lvl + '">' +
+        '<span class="heroes-ledger-all__glyph" aria-hidden="true">' + esc(glyph) + '</span>' +
+        '<span class="heroes-ledger-all__body">' +
+        '<span class="heroes-ledger-all__name">' + esc(slug) + '</span>' +
+        '<span class="heroes-ledger-all__by">@' + esc(contributor.handle) + ' &middot; ' + esc(rankLabel) + '</span>' +
+        '</span>' +
+        '</button>' +
+        '</li>';
+    }).join('');
+  }
+
+  function openAllPlates() {
+    if (!ALL_PLATES_DIALOG) return;
+    renderAllPlatesList();
+    ALL_PLATES_DIALOG.showModal();
+    // Land focus on the active entry so keyboard users start in context.
+    var active = ALL_PLATES_DIALOG.querySelector('[data-ledger-index="' + LEDGER_ACTIVE_INDEX + '"]');
+    if (active) active.focus();
+  }
+
+  function closeAllPlates() {
+    if (ALL_PLATES_DIALOG && ALL_PLATES_DIALOG.open) ALL_PLATES_DIALOG.close();
+    if (ALL_PLATES_TRIGGER) ALL_PLATES_TRIGGER.focus();
   }
 
   function setupLedgerRail() {
