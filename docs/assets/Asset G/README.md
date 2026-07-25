@@ -1,5 +1,8 @@
 # Asset G Trial — Parallax Haze Layer
 
+**Status: COMPLETE — no further work planned.**
+Asset G was a trial parallax haze layer. Design work is done; scripts and outputs are preserved for reference only.
+
 Generated Asset G as an alpha-native warm-sepia haze layer.
 
 ## Recommended files
