@@ -2438,9 +2438,16 @@
             const cmdCard = row.closest('.cmd-card');
             let cmdName = cmdCard ? cmdCard.querySelector('.cmd-name').textContent.trim() : '';
 
-            // Wrap the original flag content inside a .flag-text span
-            const originalHTML = firstCell.innerHTML;
-            firstCell.innerHTML = `<span class="flag-text copyable-flag-text" title="Click to copy flag name">${originalHTML}</span>`;
+            // Wrap the original flag content inside a .flag-text span by moving
+            // the existing child nodes (not via innerHTML round-trip, which would
+            // re-parse cell content as HTML — avoids DOM-XSS).
+            const flagSpan = document.createElement('span');
+            flagSpan.className = 'flag-text copyable-flag-text';
+            flagSpan.title = 'Click to copy flag name';
+            while (firstCell.firstChild) {
+              flagSpan.appendChild(firstCell.firstChild);
+            }
+            firstCell.appendChild(flagSpan);
 
             // Click listener for the flag name text to copy just the flag option
             const flagText = firstCell.querySelector('.flag-text');
