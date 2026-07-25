@@ -109,7 +109,7 @@ Each agent returns structured findings so Phase 4 can process them programmatica
 
 ### Phase 2 — Fuse (Semantic Fusion candidates)
 
-Spawn one agent that walks named skills pairwise within shared topical clusters and surfaces fusion candidates per META §6.2. Aggressiveness controls the cap (3–8 moderate vs. 10–20 aggressive). Reject any candidate requiring ≥10k stars — that threshold is an Ultimate; redirect to `/gaia-fuse-full-suite` instead.
+Spawn one agent that walks named skills pairwise within shared topical clusters and surfaces fusion candidates per META §6.2. Aggressiveness controls the cap (3–8 moderate vs. 10–20 aggressive). Reject any candidate requiring ≥10k stars — that threshold implies a top-rank (Ultimate 5★+) fusion; redirect to `/gaia-fuse-full-suite` instead.
 
 Reference the worked example from PR #525 (`safishamsi/graphify` + `mattpocock/triage` → `graph-driven-issue-triage` 3★).
 
@@ -131,7 +131,7 @@ Reference the worked example from PR #525 (`safishamsi/graphify` + `mattpocock/t
 Spawn one agent that reads `registry/schema/meta.json` plus the Phase-1 findings and proposes new generic node IDs for capabilities being repeatedly named without a canonical generic to anchor them. Focus on:
 
 - Brand-coupled generics renamed to abstract phrases (from Phase 1 dimension 5)
-- Repeated `genericSkillRef` collisions where a more specific Extra would reduce mis-attribution
+- Repeated `genericSkillRef` collisions where a more specific generic would reduce mis-attribution
 - Schema additions implied by fusion candidates (Phase 2 prerequisites that don't exist yet)
 
 ```json
