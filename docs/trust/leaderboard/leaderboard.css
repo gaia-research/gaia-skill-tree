@@ -28,13 +28,15 @@
 }
 
 /* ── Sticky left-rail Table of Contents (desktop only) ──
-   Selector must be nav.lb-toc (not .lb-toc) to outweigh the global
-   `nav:not(.footer-cols)` rule in docs/css/styles.css L300, which otherwise
-   forces position:fixed across the top of the viewport and removes the TOC
-   from the grid — collapsing the layout to look single-column.
-   Specificity ties at (0,1,1); leaderboard.css loads after styles.css so it wins.
-   We also explicitly null the inherited fixed/background/border/padding/z-index. */
-nav.lb-toc {
+   Selector must out-weigh the global `nav:not(.footer-cols):not(.footer-rail)`
+   rule in docs/css/styles.css, which otherwise forces position:fixed across the
+   top of the viewport and removes the TOC from the grid — collapsing column 1
+   to 220px and jamming the whole page into it (blank main panel).
+   That global rule is specificity (0,2,1) (element + two :not() classes), so a
+   bare `nav.lb-toc` at (0,1,1) LOSES and the TOC pops out of flow. We mirror the
+   global's :not() chain to reach (0,3,1), which strictly beats it regardless of
+   load order. Also explicitly null the inherited fixed/background/border/padding/z-index. */
+nav.lb-toc:not(.footer-cols):not(.footer-rail) {
   position: sticky;
   top: 140px;
   left: auto;
@@ -976,7 +978,7 @@ nav.lb-toc a.is-active .lb-toc-icon { opacity: 1; }
     grid-template-columns: 220px 1fr;
     gap: 2rem;
   }
-  nav.lb-toc {
+  nav.lb-toc:not(.footer-cols):not(.footer-rail) {
     display: flex;
   }
   .lb-registry-grid {

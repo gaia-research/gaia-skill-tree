@@ -147,6 +147,29 @@
     return map[n] || map[0];
   }
 
+  // Rank-colored gradient stops (Named chart — founder decision: standard-branch
+  // main bars color by star level, not the flat blue tier color).
+  // COLOR SOURCE OF TRUTH: the canonical rank palette lives in meta.json's
+  // `levelColors` and is emitted as `--rank-N-rgb` CSS tokens by
+  // scripts/generateCssTokens.py. We read those tokens via TOKENS.rankN so this
+  // chart never forks the palette; rankRgb() is only a defensive floor if a token
+  // failed to load. Returns { top, bot } mirroring BRANCH_COLORS so
+  // buildBarGradientDef reuses the same gradient machinery. `bot` is a darkened
+  // (~55%) form of the rank color so the bottom-to-top gradient still reads.
+  function rankColors(level) {
+    var n = parseInt(level) || 0;
+    var tokenRgb = TOKENS['rank' + n];
+    var raw = (tokenRgb && tokenRgb.trim()) ? tokenRgb : rankRgb(level);
+    var parts = raw.split(',').map(function(s) { return parseInt(s.trim(), 10) || 0; });
+    var top = [parts[0], parts[1], parts[2]];
+    var bot = [
+      Math.round(top[0] * 0.55),
+      Math.round(top[1] * 0.55),
+      Math.round(top[2] * 0.55)
+    ];
+    return { top: top, bot: bot };
+  }
+
   function gradeColor(grade) {
     switch (grade) {
       case 'S': return TOKENS.platinum;
@@ -232,6 +255,27 @@
     return Math.min(vw - 40, 1280);
   }
 
+  // ── MOBILE BAR-FIT (founder decision) ──
+  // On narrow viewports the Named chart must NOT cram every bar into view by
+  // shrinking bar width — bars stay a consistent fixed width and the chart shows
+  // only as many as fit, hiding the overflow (revealed via the "Show all" button).
+  // MOBILE_BREAKPOINT mirrors the 700px mobile cutover in docs/css/styles.css.
+  var MOBILE_BREAKPOINT = 700;
+  var MOBILE_BAR_W = 22;     // fixed bar width on mobile
+  var MOBILE_GAP_RATIO = 0.5; // gap = barW * ratio
+
+  function isMobileViewport() {
+    var vw = (typeof window !== 'undefined' && window.innerWidth) || 1024;
+    return vw <= MOBILE_BREAKPOINT;
+  }
+
+  // How many fixed-width bars fit in the container at mobile bar width.
+  function mobileBarFit(containerW, padL, padR) {
+    var available = Math.max(40, containerW - padL - padR);
+    var pitch = MOBILE_BAR_W * (1 + MOBILE_GAP_RATIO);
+    return Math.max(1, Math.floor(available / pitch));
+  }
+
   // Emit a label <text> with optional rotation. Caller still calls truncLabel.
   function makeLabel(x, y, rotation, fontPx, extraAttrs) {
     var attrs;
@@ -272,9 +316,21 @@
   // ── BAR GRADIENT BUILDER ──
   // Unified: main fill = BRANCH color (bottom→top), mid-stop blends contributor handle hue.
   // `node` is the full skill object carrying the emitted .branch that branchOf reads.
-  function buildBarGradientDef(svg, contributor, grade, level, node, id) {
+  // byRank (optional): when true, color the STANDARD branch by star level via
+  // rankColors(level) instead of the flat blue tier color (founder decision — the
+  // Named chart was a wall of blue). The 'suite' (gold) and 'unique' (purple)
+  // branches KEEP their distinct branch color so those forks stay visible.
+  function buildBarGradientDef(svg, contributor, grade, level, node, id, byRank) {
     var hue = handleHue(contributor);
-    var tc = typeColors(node, level);
+    var tc;
+    if (byRank) {
+      var gs = (typeof window !== 'undefined' && window.GaiaSemantics);
+      var branch = (gs && node && typeof node === 'object') ? gs.branchOf(node) : 'standard';
+      // Only recolor standard-branch bars by rank; preserve suite/unique branch color.
+      tc = (branch === 'standard') ? rankColors(level) : typeColors(node, level);
+    } else {
+      tc = typeColors(node, level);
+    }
     var stopBot = 'rgb(' + rgbStr(tc.bot) + ')';
     var mid = blendHandleMid(tc.top, hue);
     var stopMid = 'rgba(' + rgbStr(mid) + ',0.92)';
@@ -496,12 +552,15 @@
         name: skill.name || row.id.split('/')[1],
         contributor: row.id.split('/')[0],
         type: normType,
-        // Carry the taxonomy-resolved branch off the skills index so
+        // Carry the taxonomy-resolved branch/rankWord off the skills index so
         // GaiaSemantics.branchOf reads a real value (it reads entry.branch and
         // otherwise falls back to 'standard'). Without this every allRows-derived
-        // object partitions as 'standard' — ultimates is always empty and the
-        // Suites chart / stacked component overlay never render.
+        // object partitions as 'standard' — ultimates is always empty, the Suites
+        // chart / stacked overlay never render, AND the Named chart hides the
+        // 'unique' (purple) / 'suite' (gold) forks (founder ruling 2026-07-18:
+        // never re-derive branch on the client).
         branch: skill.branch || null,
+        rankWord: skill.rankWord || undefined,
         suiteComponents: skill.suiteComponents || null,
         level: row.level || skill.level || '',
         trustMagnitude: row.trustMagnitude || 0,
@@ -1371,7 +1430,11 @@
         name: g.primary.name,
         contributor: g.primary.contributor,
         type: g.primary.type,
+        // Carry the emitted branch/rankWord so branchOf() on the collapsed bar
+        // still resolves suite/unique — otherwise a grouped unique/suite bar
+        // falls back to 'standard' and is mis-colored by rank.
         branch: g.primary.branch || null,
+        rankWord: g.primary.rankWord,
         level: g.primary.level,
         trustMagnitude: g.primary.trustMagnitude,
         grade: g.primary.grade,
@@ -1408,6 +1471,21 @@
     var groupedCount = visible.length - collapsed.length; // how many were collapsed away
     state.collapsedNamed = collapsed;
 
+    // Mobile: keep a fixed bar width and HIDE overflow instead of shrinking every
+    // bar to fit (founder decision). Cap toShow to the number that fit at
+    // MOBILE_BAR_W; the "Show all" pagination still reveals the rest.
+    var mobile = isMobileViewport();
+    if (mobile && !state.namedExpanded) {
+      var fit = mobileBarFit(chartContainerW(), NPAD.left, NPAD.right);
+      if (toShow.length > fit) {
+        toShow = toShow.slice(0, fit);
+        collapsedShown = toShow;
+        // Ensure the "Show all" toggle appears even for small datasets that only
+        // overflow because of the mobile fixed-width cap.
+        needsPagination = true;
+      }
+    }
+
     if (countEl) {
       var countText = '(showing ' + collapsedShown.length + ' bars' +
         (groupedCount > 0 ? ', ' + groupedCount + ' grouped' : '') +
@@ -1435,8 +1513,12 @@
       return;
     }
 
-    // Fix 1: dynamic bar metrics
-    var metrics = computeBarMetrics(toShow.length, chartContainerW(), NPAD.left, NPAD.right, 10, 24, 0.5);
+    // Fix 1: dynamic bar metrics. On mobile, pin bar width (min=max=MOBILE_BAR_W)
+    // so bars stay a consistent width and the fitted count (above) governs how
+    // many render — no shrink-to-fit.
+    var metrics = mobile
+      ? computeBarMetrics(toShow.length, chartContainerW(), NPAD.left, NPAD.right, MOBILE_BAR_W, MOBILE_BAR_W, MOBILE_GAP_RATIO)
+      : computeBarMetrics(toShow.length, chartContainerW(), NPAD.left, NPAD.right, 10, 24, 0.5);
     var NB = metrics.barW;
     var NG = metrics.gap;
     var barSpacing = NB + NG;
@@ -1479,9 +1561,10 @@
     appendWatermark(svg, totalW);
     appendUpdatedBadge(svg, state.updatedDate);
 
-    // Build per-bar gradients
+    // Build per-bar gradients — Named bars color by rank/star level (founder decision),
+    // not branch/tier, so the chart isn't a wall of blue standard-branch bars.
     toShow.forEach(function(skill, i) {
-      buildBarGradientDef(svg, skill.contributor, skill.grade, skill.level, skill, 'named-' + i);
+      buildBarGradientDef(svg, skill.contributor, skill.grade, skill.level, skill, 'named-' + i, true);
     });
 
     // Y-axis gridlines
