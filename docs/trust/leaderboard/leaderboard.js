@@ -917,10 +917,9 @@
         height: h,
         rx: 4,
         fill: 'url(#' + gradId + ')',
-        'class': 'lb-bar lb-bar-animated',
+        'class': 'lb-bar',
         'data-id': ult.id,
-        'data-type': 'suite',
-        style: 'animation-delay:' + (i * 120) + 'ms'
+        'data-type': 'suite'
       });
       barGroup.appendChild(bar);
 
@@ -1120,10 +1119,9 @@
       var bar = svgEl('rect', {
         x: x, y: y, width: SB, height: h, rx: 4,
         fill: 'url(#' + gradId + ')',
-        'class': 'lb-bar lb-bar-animated',
+        'class': 'lb-bar',
         'data-id': suite.id,
-        'data-type': 'suite',
-        style: 'animation-delay:' + (i * 80) + 'ms'
+        'data-type': 'suite'
       });
       barGroup.appendChild(bar);
 
@@ -1595,10 +1593,9 @@
         height: h,
         rx: 3,
         fill: 'url(#' + gradId + ')',
-        'class': 'lb-bar lb-bar-animated',
+        'class': 'lb-bar',
         'data-id': skill.id,
-        'data-type': 'named',
-        style: 'animation-delay:' + (i * 30) + 'ms'
+        'data-type': 'named'
       });
       barGroup.appendChild(bar);
 
@@ -1817,9 +1814,8 @@
       var bar = svgEl('rect', {
         x: x, y: y, width: GB, height: h, rx: 2,
         fill: 'url(#lb-grad-gen-' + i + ')',
-        'class': 'lb-bar lb-bar-animated',
-        'data-id': node.id, 'data-type': 'generic',
-        style: 'animation-delay:' + (i * 20) + 'ms'
+        'class': 'lb-bar',
+        'data-id': node.id, 'data-type': 'generic'
       });
       barGroup.appendChild(bar);
 
