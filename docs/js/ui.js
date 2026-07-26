@@ -556,7 +556,6 @@ window.switchOsTab = function(btn) {
     initCopyButtons();
     initHeroInstallCopy();
     initNavSheet();
-    initFirstLoadReveal();
     initScrollToTop();
     initAgentCopyBtn();
     initAgentPrompts();

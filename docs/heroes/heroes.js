@@ -901,8 +901,73 @@
     requestActiveStageUpdate();
   }
 
+  // ── First-load reveal sequence (Hall of Heroes ceremonial entrance) ──
+  function initFirstLoadReveal() {
+    var SEEN_KEY = 'gaia-heroes-intro-seen';
+    if (typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (sessionStorage.getItem(SEEN_KEY)) return;
+    sessionStorage.setItem(SEEN_KEY, '1');
+
+    var overlay = document.createElement('div');
+    overlay.className = 'intro-overlay';
+    overlay.setAttribute('aria-hidden', 'true');
+
+    var line1 = document.createElement('div');
+    line1.className = 'intro-reveal-line';
+    line1.textContent = 'Skills are catalogued.';
+
+    var line2 = document.createElement('div');
+    line2.className = 'intro-reveal-line';
+    line2.textContent = 'Names are earned.';
+
+    var line3 = document.createElement('div');
+    line3.className = 'intro-reveal-line';
+    line3.textContent = 'Apex is rare.';
+
+    var skipHint = document.createElement('div');
+    skipHint.className = 'intro-skip';
+    skipHint.textContent = 'click anywhere to skip';
+
+    overlay.appendChild(line1);
+    overlay.appendChild(line2);
+    overlay.appendChild(line3);
+    overlay.appendChild(skipHint);
+    document.body.appendChild(overlay);
+
+    var skipped = false;
+    var timers = [];
+
+    function dismiss() {
+      if (skipped) return;
+      skipped = true;
+      timers.forEach(clearTimeout);
+      overlay.classList.add('fading');
+      setTimeout(function () {
+        overlay.classList.add('done');
+        if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+      }, 1250);
+    }
+
+    document.addEventListener('click', dismiss, { once: true });
+    document.addEventListener('keydown', dismiss, { once: true });
+
+    timers.push(setTimeout(function () {
+      if (!skipped) line1.classList.add('visible');
+    }, 300));
+    timers.push(setTimeout(function () {
+      if (!skipped) line2.classList.add('visible');
+    }, 900));
+    timers.push(setTimeout(function () {
+      if (!skipped) line3.classList.add('visible');
+    }, 1500));
+    timers.push(setTimeout(function () {
+      dismiss();
+    }, 2400));
+  }
+
   // ── Main init ─────────────────────────────────────────────────
   function init() {
+    initFirstLoadReveal();
     var container = document.getElementById('heroesStages');
     if (!container) return;
 
