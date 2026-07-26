@@ -981,8 +981,8 @@ body:has(.heroes-gallery) {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: clamp(110px, 16vw, 140px);
-  height: clamp(110px, 16vw, 140px);
+  width: clamp(120px, 18vw, 150px);
+  height: clamp(120px, 18vw, 150px);
   overflow: visible;
   border-radius: 50%;
   border: 2px solid rgba(var(--stage-accent-rgb), 0.45);
@@ -1664,9 +1664,9 @@ body:has(.heroes-gallery) {
   .hero-card__crest-square-front,
   .hero-card__crest-square-front .plaque__avatar,
   .hero-card__crest-avatar {
-    width: clamp(160px, 20vw, 220px);
-    height: clamp(160px, 20vw, 220px);
-    --avatar-size: clamp(160px, 20vw, 220px);
+    width: clamp(170px, 22vw, 230px);
+    height: clamp(170px, 22vw, 230px);
+    --avatar-size: clamp(170px, 22vw, 230px);
   }
 
   .hero-card__crest-diamond-back {
@@ -1703,12 +1703,12 @@ body:has(.heroes-gallery) {
   border-radius: 50%;
 }
 
-/* Photo inside the avatar wrapper — 90% to fill the circular crest frame */
+/* Photo inside the avatar wrapper — 96% to fill the circular crest frame */
 .hero-card__crest-square-front .plaque__avatar-img,
 .hero-card__crest-avatar-img {
   display: block;
-  width: 90% !important;
-  height: 90% !important;
+  width: 96% !important;
+  height: 96% !important;
   object-fit: cover;
   border-radius: 50%;
   filter: saturate(0.86) contrast(1.08);
@@ -1718,10 +1718,10 @@ body:has(.heroes-gallery) {
 .hero-card__crest-square-front .plaque__avatar-wreath,
 .hero-card__crest-avatar-wreath {
   position: absolute;
-  /* Wreath is 116% of the avatar wrapper so it frames the 90% photo to fit the circular crest. */
-  inset: -8%;
-  width: 116%;
-  height: 116%;
+  /* Wreath is 124% of the avatar wrapper so it frames the 96% photo outside the circle. */
+  inset: -12% !important;
+  width: 124% !important;
+  height: 124% !important;
   pointer-events: none;
   display: block;
 }
