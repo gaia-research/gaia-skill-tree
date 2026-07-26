@@ -220,6 +220,7 @@
           medallion: entry.medallion,
           origin: entry.origin,
           links: entry.links,
+          genericSkillRef: entry.genericSkillRef,
           suiteComponents: entry.suiteComponents,
           trustMagnitude: entry.trustMagnitude
         }
@@ -274,6 +275,7 @@
     if (typeof named.branch === 'string' && named.branch) contributor.topSkill.branch = named.branch;
     if (typeof named.rankWord === 'string' && named.rankWord) contributor.topSkill.rankWord = named.rankWord;
     if (typeof named.medallion === 'string' && named.medallion) contributor.topSkill.medallion = named.medallion;
+    if (named.genericSkillRef) contributor.topSkill.genericSkillRef = named.genericSkillRef;
     if (named.suiteComponents) contributor.topSkill.suiteComponents = named.suiteComponents;
     if (named.links) contributor.topSkill.links = named.links;
     return contributor;
