@@ -1587,7 +1587,19 @@
         var nodeType = (nb && nb.type) || s.type || 'basic';
         var nodeLevel = (nb && nb.level) || '';
         var _nodeRank = parseInt(String(nodeLevel).replace(/\D+/g, ''), 10) || 0;
-        var dotColor = hasNamed ? 'var(--rank-' + _nodeRank + ', var(--muted))' : 'var(--muted)';
+        var _nodeBranch = nb ? _seBranchOf(nb) : 'standard';
+        var dotColor;
+        if (hasNamed) {
+          if (_nodeBranch === 'unique') {
+            dotColor = _nodeRank >= 6 ? 'var(--rank-6-unique)' : (_nodeRank === 5 ? 'var(--rank-5-unique)' : 'var(--rank-4-unique)');
+          } else if (_nodeBranch === 'suite' && _nodeRank >= 5) {
+            dotColor = 'var(--apex-gold)';
+          } else {
+            dotColor = 'var(--rank-' + _nodeRank + ', var(--muted))';
+          }
+        } else {
+          dotColor = 'var(--muted)';
+        }
 
         // Label source: slash-form for named, raw id for ghost.
         var labelSource = hasNamed ? nb.id : id;
@@ -1603,6 +1615,7 @@
         return '<div class="git-node' + extraMainClass + '"' +
             ' data-id="' + esc(id) + '"' +
             ' data-type="' + esc(nodeType) + '"' +
+            ' data-branch="' + esc(_nodeBranch) + '"' +
             ' data-level="' + esc(nodeLevel) + '"' +
             ' data-ghost="' + (hasNamed ? 'false' : 'true') + '"' +
             ' style="--staggerY:' + staggerY + 'px; --staggerX:' + staggerX + 'px"' +
