@@ -1033,15 +1033,13 @@ body:has(#hero.hero-graph-fullscreen) {
        reads as atmosphere rather than a busy diagram. */
     filter:
       contrast(1.05)
-      saturate(.78)
       brightness(.8)
-      blur(.4px)
       drop-shadow(0 0 1.8rem rgba(var(--apex-gold-rgb), .18));
     transform: translate3d(
       var(--hero-tree-parallax-x, 0px),
       calc(-3% + var(--hero-tree-parallax-y, 0px)),
       0
-    ) scale(1.5);
+    );
   }
 
   #hero.hero-tree-shell #canvas3d {
