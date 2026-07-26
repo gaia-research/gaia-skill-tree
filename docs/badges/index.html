@@ -1830,7 +1830,7 @@
     async function generate() {
       const raw = handleInput.value.trim().replace(/^@/, "");
       if (!raw) return;
-      const handle = raw;
+      const handle = raw.replace(/[^a-zA-Z0-9_\-\.]/g, "");
       preview.classList.add("is-visible");
       status.textContent = "Checking…";
       status.style.display = "";

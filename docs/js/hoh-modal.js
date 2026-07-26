@@ -415,10 +415,11 @@
           ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '')
           : '';
         var svgPath = docRoot + ogPath.replace(/\.png(\?.*)?$/, '.svg');
-        // Guard against non-http URLs (e.g. javascript:) before assigning to src.
-        if (!/^https?:\/\/|^\/|^\.\/|^\.\.\//.test(svgPath)) { svgPath = ''; }
         var imgEl = document.createElement('img');
-        imgEl.src = svgPath;
+        try {
+          var resolvedUrl = new URL(svgPath, document.baseURI);
+          imgEl.src = (resolvedUrl.protocol === 'https:' || resolvedUrl.protocol === 'http:') ? resolvedUrl.href : '';
+        } catch (_e) { imgEl.src = ''; }
         imgEl.alt = ns.name || ns.id || '';
         imgEl.style.width = '100%';
         imgEl.style.height = '100%';
@@ -544,7 +545,11 @@
             ? dlRoot + 'og/' + ns.contributor + '/' + slug + '.png'
             : dlRoot + (ns.ogPath || 'og/' + ns.contributor + '/' + slug + '.svg');
           var a = document.createElement('a');
-          a.href = href;
+          try {
+            var dlUrl = new URL(href, document.baseURI);
+            if (dlUrl.protocol !== 'https:' && dlUrl.protocol !== 'http:') return;
+            a.href = dlUrl.href;
+          } catch (_e) { return; }
           a.download = ns.contributor + '-' + slug + '.' + fmt;
           document.body.appendChild(a);
           a.click();
