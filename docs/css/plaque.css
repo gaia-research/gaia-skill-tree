@@ -157,15 +157,51 @@
   --plaque-accent-rgb: var(--tier-basic-rgb);
   --plaque-accent-bg: var(--tier-basic-bg);
 }
+.plaque[data-branch="standard"][data-level="1"] {
+  --plaque-accent: var(--rank-1, #38bdf8);
+  --plaque-accent-rgb: var(--rank-1-rgb, 56, 189, 248);
+  --plaque-accent-bg: var(--rank-1-bg, rgba(56, 189, 248, 0.12));
+}
+.plaque[data-branch="standard"][data-level="2"] {
+  --plaque-accent: var(--rank-2, #63cab7);
+  --plaque-accent-rgb: var(--rank-2-rgb, 99, 202, 183);
+  --plaque-accent-bg: var(--rank-2-bg, rgba(99, 202, 183, 0.15));
+}
+.plaque[data-branch="standard"][data-level="3"] {
+  --plaque-accent: var(--rank-3, #a78bfa);
+  --plaque-accent-rgb: var(--rank-3-rgb, 167, 139, 250);
+  --plaque-accent-bg: var(--rank-3-bg, rgba(167, 139, 250, 0.15));
+}
 .plaque[data-branch="suite"] {
   --plaque-accent: var(--tier-fusion);
   --plaque-accent-rgb: var(--tier-fusion-rgb);
   --plaque-accent-bg: var(--tier-fusion-bg);
 }
+.plaque[data-branch="suite"][data-level="4"] {
+  --plaque-accent: var(--rank-4, #e879f9);
+  --plaque-accent-rgb: var(--rank-4-rgb, 232, 121, 249);
+  --plaque-accent-bg: var(--rank-4-bg, rgba(232, 121, 249, 0.15));
+}
+.plaque[data-branch="suite"][data-level="5"],
+.plaque[data-branch="suite"][data-level="6"] {
+  --plaque-accent: var(--apex-gold, #fbbf24);
+  --plaque-accent-rgb: var(--apex-gold-rgb, 251, 191, 36);
+  --plaque-accent-bg: var(--rank-5-bg, rgba(251, 191, 36, 0.15));
+}
 .plaque[data-branch="unique"] {
   --plaque-accent: var(--rank-4-unique);
   --plaque-accent-rgb: var(--rank-4-unique-rgb);
   --plaque-accent-bg: var(--rank-4-unique-bg);
+}
+.plaque[data-branch="unique"][data-level="5"] {
+  --plaque-accent: var(--rank-5-unique, #b26a3a);
+  --plaque-accent-rgb: var(--rank-5-unique-rgb, 178, 106, 58);
+  --plaque-accent-bg: rgba(178, 106, 58, 0.12);
+}
+.plaque[data-branch="unique"][data-level="6"] {
+  --plaque-accent: var(--rank-6-unique, #e0894a);
+  --plaque-accent-rgb: var(--rank-6-unique-rgb, 224, 137, 74);
+  --plaque-accent-bg: rgba(224, 137, 74, 0.12);
 }
 .plaque[data-branch="unique"]:hover {
   box-shadow:
