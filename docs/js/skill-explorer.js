@@ -1593,7 +1593,7 @@
           if (nodeBranch === 'unique' && _nodeRank >= 4) {
             dotColor = _nodeRank >= 6 ? 'var(--rank-6-unique)' : (_nodeRank === 5 ? 'var(--rank-5-unique)' : 'var(--rank-4-unique)');
           } else if (nodeBranch === 'suite' && _nodeRank >= 5) {
-            dotColor = _nodeRank >= 6 ? 'var(--rank-6, var(--apex-gold))' : 'var(--rank-5, var(--apex-gold))';
+            dotColor = 'var(--apex-gold)';
           } else {
             dotColor = 'var(--rank-' + _nodeRank + ', var(--muted))';
           }

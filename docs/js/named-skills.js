@@ -246,11 +246,14 @@
       var kind = branch ? (branch === 'unique' ? 'Standalone' : 'Suite') : '';
 
       // Branch-aware zone color token
-      var zoneColor = branch === 'suite'
-        ? 'var(--tier-fusion)'
-        : branch === 'unique'
-          ? 'var(--rank-4-unique)'
-          : 'var(--rank-' + rankNum + ',var(--muted))';
+      var zoneColor;
+      if (branch === 'unique' && rankNum >= 4) {
+        zoneColor = rankNum >= 6 ? 'var(--rank-6-unique)' : (rankNum === 5 ? 'var(--rank-5-unique)' : 'var(--rank-4-unique)');
+      } else if (branch === 'suite' && rankNum >= 5) {
+        zoneColor = 'var(--apex-gold)';
+      } else {
+        zoneColor = 'var(--rank-' + rankNum + ', var(--muted))';
+      }
 
       // AOV4 badge medallion for this rank+branch
       var base = (typeof window.gaiaIconBase === 'function')
@@ -694,7 +697,7 @@
           ? window.GaiaSemantics.rankWord(rn, branch || SUITE_LADDER)
           : (rn + '★');
         var colorVar;
-        if (branch === 'unique') {
+        if (branch === 'unique' && rn >= 4) {
           colorVar = rn >= 6 ? 'var(--rank-6-unique)' : (rn === 5 ? 'var(--rank-5-unique)' : 'var(--rank-4-unique)');
         } else if (branch === 'suite' && rn >= 5) {
           colorVar = 'var(--apex-gold)';
