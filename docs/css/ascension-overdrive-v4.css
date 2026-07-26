@@ -585,7 +585,10 @@
   width: 100%;
   aspect-ratio: 1;
   opacity: 1;
-  filter: drop-shadow(0 0 2.2rem color-mix(in oklab, var(--rank-6-unique) 42%, transparent));
+  filter:
+    drop-shadow(0 0 1.1rem color-mix(in oklab, var(--rank-6-unique) 68%, transparent))
+    drop-shadow(0 0 3.4rem color-mix(in oklab, var(--rank-6-unique) 46%, transparent))
+    drop-shadow(0 0 6.5rem color-mix(in oklab, var(--rank-6-unique) 24%, transparent));
 }
 
 .aov-terminal-seal::before {
@@ -834,24 +837,29 @@
 }
 
 .aov-rail--unique > .aov-apex-effect--unique {
-  inset: 4%;
-  border-radius: 3rem;
+  inset: -13% auto auto 50%;
+  width: min(34vw, 34rem);
+  aspect-ratio: 1;
+  transform: translateX(-50%);
+  border-radius: 50%;
   background:
-    radial-gradient(circle at 42% 34%, transparent 0 12%, color-mix(in oklab, var(--aov-unique-singularity) 72%, transparent) 13%, transparent 25%),
-    radial-gradient(circle at center, var(--aov-unique-void) 0 28%, color-mix(in oklab, var(--aov-unique-singularity) 22%, transparent) 45%, transparent 72%);
-  opacity: 0.94;
+    radial-gradient(circle at center, var(--aov-unique-void) 0 20%, color-mix(in oklab, var(--rank-6-unique) 30%, transparent) 33%, transparent 40%),
+    radial-gradient(circle at center, color-mix(in oklab, var(--rank-6-unique) 60%, transparent) 26%, color-mix(in oklab, var(--rank-6-unique) 30%, transparent) 46%, transparent 66%);
+  opacity: 0.96;
 }
 
 .aov-apex-effect--unique::before {
-  inset: 9%;
-  background: radial-gradient(circle, var(--aov-unique-void) 0 38%, color-mix(in oklab, var(--aov-unique-singularity) 68%, transparent) 41% 46%, transparent 64%);
+  inset: 6%;
+  background:
+    radial-gradient(circle, var(--aov-unique-void) 0 30%, color-mix(in oklab, var(--rank-6-unique) 66%, transparent) 34% 42%, transparent 60%),
+    radial-gradient(circle, transparent 0 22%, color-mix(in oklab, var(--aov-unique-singularity) 38%, transparent) 24% 27%, transparent 33%);
   animation: aov4-void-lens 7.2s ease-in-out infinite;
 }
 
 .aov-apex-effect--unique::after {
   inset: 2%;
-  background: conic-gradient(from 210deg, transparent 0 18%, color-mix(in oklab, var(--aov-unique-singularity) 55%, transparent), color-mix(in oklab, var(--rank-3) 48%, transparent), transparent 46% 72%, color-mix(in oklab, var(--rank-1) 32%, transparent), transparent);
-  opacity: 0.54;
+  background: conic-gradient(from 210deg, transparent 0 14%, color-mix(in oklab, var(--rank-6-unique) 62%, transparent), color-mix(in oklab, var(--rank-5-unique) 52%, transparent), transparent 44% 70%, color-mix(in oklab, var(--rank-6-unique) 40%, transparent), transparent);
+  opacity: 0.6;
   animation: aov4-void-inversion 20s linear infinite reverse;
 }
 
@@ -1030,7 +1038,8 @@
   }
 
   .aov-rail--unique > .aov-apex-effect--unique {
-    inset: 2%;
+    inset: -8% auto auto 50%;
+    width: min(80vw, 26rem);
   }
 
   .aov-rail {
