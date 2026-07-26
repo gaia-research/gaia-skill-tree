@@ -26,12 +26,9 @@
     return isNaN(n) ? 0 : Math.max(0, Math.min(6, n));
   }
   function branchFor(ns) {
-    // Read the resolved branch via the shared semantics seam when present;
-    // fall back to the emitted field, then 'standard'. Never derive from type.
-    if (window.GaiaSemantics && typeof window.GaiaSemantics.branchOf === 'function') {
-      try { return window.GaiaSemantics.branchOf(ns) || 'standard'; } catch (_e) {}
-    }
-    return (ns && ns.branch) || 'standard';
+    // Build-first: read the named index's ratified field; never resolve here.
+    var emitted = String(ns && ns.branch || '').toLowerCase();
+    return /^(standard|suite|unique)$/.test(emitted) ? emitted : 'standard';
   }
   // Returns the token STEM (e.g. 'rank-4-unique'); CSS reads var(--<stem>) and
   // var(--<stem>-rgb). Every stem below exists in tokens.css.
@@ -277,6 +274,66 @@
     }, 3000);
   }
 
+  function blobToDataUrl(blob) {
+    return new Promise(function (resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function () { resolve(String(reader.result || '')); };
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  function triggerBlobDownload(blob, filename) {
+    var href = URL.createObjectURL(blob);
+    var anchor = document.createElement('a');
+    anchor.href = href;
+    anchor.download = filename;
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+    setTimeout(function () { URL.revokeObjectURL(href); }, 0);
+  }
+
+  function downloadStandaloneSvg(svgUrl, filename) {
+    return fetch(svgUrl)
+      .then(function (response) {
+        if (!response.ok) throw new Error('SVG download failed');
+        return response.text();
+      })
+      .then(function (source) {
+        var doc = new DOMParser().parseFromString(source, 'image/svg+xml');
+        if (!doc.documentElement || doc.querySelector('parsererror')) {
+          throw new Error('Invalid SVG');
+        }
+        var images = Array.prototype.slice.call(doc.querySelectorAll('image'));
+        return Promise.all(images.map(function (image) {
+          var raw = image.getAttribute('href') ||
+            image.getAttributeNS('http://www.w3.org/1999/xlink', 'href');
+          if (!raw || raw.indexOf('data:') === 0) return Promise.resolve();
+          var assetUrl = new URL(raw, svgUrl);
+          if (assetUrl.protocol !== 'http:' && assetUrl.protocol !== 'https:') {
+            return Promise.resolve();
+          }
+          return fetch(assetUrl.href)
+            .then(function (response) {
+              if (!response.ok) throw new Error('SVG asset download failed');
+              return response.blob();
+            })
+            .then(blobToDataUrl)
+            .then(function (dataUrl) {
+              image.setAttribute('href', dataUrl);
+              image.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', dataUrl);
+            });
+        })).then(function () {
+          var serialized = new XMLSerializer().serializeToString(doc.documentElement);
+          triggerBlobDownload(
+            new Blob(['<?xml version="1.0" encoding="UTF-8"?>\n' + serialized], { type: 'image/svg+xml' }),
+            filename
+          );
+        });
+      });
+  }
+
   function showCopySuccess(btn) {
     btn.classList.add('copied');
     var iconBase = (typeof window.gaiaIconBase === 'function')
@@ -380,10 +437,10 @@
     // the ambient glow floor + card halo animate in already-colored.
     applyRankAccent(modal, ns);
 
-    // Center Stage: render the canonical OG SVG (docs/og/{handle}/{slug}.svg)
-    // when available, falling back to plaque.renderOg() HTML mock if the
-    // SVG hasn't been generated yet (e.g. brand-new contributor before the
-    // next `gaia docs build`).
+    // Center Stage: show the build-rendered PNG. Loading an SVG through <img>
+    // blocks that SVG's external WebP medallion in browsers; the generated PNG
+    // is self-contained and matches the downloaded share image exactly.
+    // Fall back to plaque.renderOg() when the build artifact is absent.
     var stage = document.getElementById('hohFsStage');
     if (stage) {
       var ogNs = {
@@ -394,6 +451,7 @@
         level: String(ns.level || ''),
         type: String(ns.type || ''),
         branch: String(ns.branch || ''),
+        rankWord: String(ns.rankWord || ''),
         description: String(ns.description || ''),
         tags: Array.isArray(ns.tags) ? ns.tags.map(function (t) { return String(t); }) : []
       };
@@ -414,10 +472,10 @@
         var docRoot = (typeof window.gaiaIconBase === 'function')
           ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '')
           : '';
-        var svgPath = docRoot + ogPath.replace(/\.png(\?.*)?$/, '.svg');
+        var pngPath = docRoot + ogPath.replace(/\.svg(\?.*)?$/, '.png');
         var imgEl = document.createElement('img');
         try {
-          var resolvedUrl = new URL(svgPath, document.baseURI);
+          var resolvedUrl = new URL(pngPath, document.baseURI);
           imgEl.src = (resolvedUrl.protocol === 'https:' || resolvedUrl.protocol === 'http:') ? resolvedUrl.href : '';
         } catch (_e) { imgEl.src = ''; }
         imgEl.alt = ns.name || ns.id || '';
@@ -544,18 +602,27 @@
           var href = fmt === 'png'
             ? dlRoot + 'og/' + ns.contributor + '/' + slug + '.png'
             : dlRoot + (ns.ogPath || 'og/' + ns.contributor + '/' + slug + '.svg');
-          var a = document.createElement('a');
+          var resolvedHref = '';
           try {
             var dlUrl = new URL(href, document.baseURI);
             if (dlUrl.protocol !== 'https:' && dlUrl.protocol !== 'http:') return;
-            a.href = dlUrl.href;
+            resolvedHref = dlUrl.href;
           } catch (_e) { return; }
-          a.download = ns.contributor + '-' + slug + '.' + fmt;
+          closeDlPopover();
+          if (fmt === 'svg') {
+            showToast('Preparing self-contained SVG card…');
+            downloadStandaloneSvg(resolvedHref, ns.contributor + '-' + slug + '.svg')
+              .then(function () { showToast('Downloaded self-contained SVG card.'); })
+              .catch(function () { showToast('SVG download failed. Please try again.'); });
+            return;
+          }
+          var a = document.createElement('a');
+          a.href = resolvedHref;
+          a.download = ns.contributor + '-' + slug + '.png';
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
-          closeDlPopover();
-          showToast('Downloading ' + fmt.toUpperCase() + ' card…');
+          showToast('Downloading PNG card…');
         };
       });
     }

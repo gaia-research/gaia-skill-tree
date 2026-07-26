@@ -34,7 +34,7 @@ from collections import defaultdict
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-NAMED_JSON = REPO_ROOT / "registry" / "named-skills.json"
+NAMED_JSON = REPO_ROOT / "docs" / "graph" / "named" / "index.json"
 TOKENS_CSS = REPO_ROOT / "docs" / "css" / "tokens.css"
 OUT_DIR = REPO_ROOT / "docs" / "badges"
 
@@ -42,8 +42,6 @@ sys.path.insert(0, str(REPO_ROOT / "scripts"))
 sys.path.insert(0, str(REPO_ROOT / "src"))
 from _atlas_helpers import named_slug  # noqa: E402
 from gaia_cli.redaction import REDACTED_HANDLE, is_redacted  # noqa: E402  single source of truth
-from gaia_cli.taxonomy import branchFor as _compute_branch  # noqa: E402  Ygg-II branch authority
-from gaia_cli.taxonomy import rankWord as _rank_word  # noqa: E402  branch-forked rank vocabulary
 
 
 # Origin contributors render in GOLD (Yggdrasil II rubric E4: the deprecated
@@ -57,25 +55,27 @@ WHITE = "#ffffff"
 
 
 def skill_branch(skill: dict) -> str:
-    """Read-time branch for a named-skills entry ('standard'|'suite'|'unique').
+    """Read the build-emitted branch, failing on stale/unbuilt input."""
+    branch = str(skill.get("branch") or "").strip().lower()
+    if branch not in {"standard", "suite", "unique"}:
+        skill_id = skill.get("id") or skill.get("name") or "<unknown>"
+        raise ValueError(
+            f"{skill_id}: missing/invalid emitted branch {branch!r}; "
+            "rebuild docs/graph/named/index.json first"
+        )
+    return branch
 
-    Delegates to the canonical gaia_cli.taxonomy.branchFor — branch is
-    NEVER read from a stored type/tier field (Ygg-II rubric E1). The entry
-    carries `level` + `suiteComponents` directly, so no genericSkillMap thread
-    is needed here.
-    """
-    return _compute_branch(skill)
 
-
-def rank_name_for(rank: int, branch: str = "suite") -> str:
-    """Branch-forked rank word for a badge (e.g. 'Extra', 'Unique Ultimate').
-
-    Mirrors docs/js/skill-semantics.js rankWord: shared 1-3★
-    (Awakened/Named/Evolved), suite 4-6★ (Extra/Ultimate/Apex), unique 4-6★
-    (Unique/Unique Ultimate/Unique Impossible). NEVER emits the banned
-    'Hardened'/'Transcendent' words (rubric E2).
-    """
-    return _rank_word(f"{rank}★", branch)
+def emitted_rank_word(skill: dict) -> str:
+    """Read the rank word emitted by the named-index build."""
+    word = str(skill.get("rankWord") or "").strip()
+    if not word:
+        skill_id = skill.get("id") or skill.get("name") or "<unknown>"
+        raise ValueError(
+            f"{skill_id}: missing emitted rankWord; "
+            "rebuild docs/graph/named/index.json first"
+        )
+    return word
 
 # Filenames produced by the primary badges — per-skill variants whose slug
 # collides with one of these are renamed with a `~` suffix so they don't
@@ -698,8 +698,8 @@ def write_user_badges(handle: str, info: dict,
         # Branch-forked rank word (Ygg-II E1/E2): the highest-ranked named
         # skill determines the branch. computeBranch reads level+suiteComponents,
         # NEVER a stored type/tier field.
-        top_branch = skill_branch(info["top_skill"]) if info and info.get("top_skill") else "suite"
-        rank_name = rank_name_for(top_rank, top_branch)
+        top_skill = info.get("top_skill") if info else None
+        rank_name = emitted_rank_word(top_skill) if top_skill else "Awakened"
         # "Extra · 4★" / "Unique · 4★" — rank word anchors meaning, star count numeric
         value = f"{rank_name} · {top_rank}★"
         label = f"Gaia rank: {rank_name} ({top_rank} stars)"
@@ -781,10 +781,10 @@ def write_sample_badges(rank_colors: dict[int, str], out_dir: Path) -> None:
     can preview the seal-only mode under the "Hide Gaia" toggle."""
     samples_dir = out_dir / "samples"
     samples_dir.mkdir(parents=True, exist_ok=True)
-    for n in range(1, 7):
+    suite_words = ("Awakened", "Named", "Evolved", "Extra", "Ultimate", "Apex")
+    for n, rank_name in enumerate(suite_words, start=1):
         # Sample ladder shows the shared 1-3★ words + the suite 4-6★ fork
         # (Extra/Ultimate/Apex); the unique fork gets its own sample below.
-        rank_name = rank_name_for(n, "suite")
         value = f"{rank_name} · {n}★"
         label = f"Gaia rank sample: {rank_name} ({n} stars)"
         (samples_dir / f"rank-{n}.svg").write_text(

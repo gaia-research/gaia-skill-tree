@@ -28,7 +28,7 @@ import re
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-NAMED_JSON = REPO_ROOT / "registry" / "named-skills.json"
+NAMED_JSON = REPO_ROOT / "docs" / "graph" / "named" / "index.json"
 GAIA_JSON = REPO_ROOT / "registry" / "gaia.json"
 DOCS_DIR = REPO_ROOT / "docs"
 OUT_DIR = DOCS_DIR / "u"
@@ -39,30 +39,30 @@ sys.path.insert(0, str(REPO_ROOT / "scripts"))
 sys.path.insert(0, str(REPO_ROOT / "src"))
 from _atlas_helpers import handle_link, named_slug  # noqa: E402
 from gaia_cli.redaction import is_redacted  # noqa: E402  single source of truth
-from gaia_cli.taxonomy import branchFor as _compute_branch  # noqa: E402  Ygg-II branch authority
-from gaia_cli.taxonomy import rankWord as _rank_word  # noqa: E402  branch-forked rank vocabulary
-from gaia_cli.taxonomy import medallion as _medallion, levelNum as _level_num  # noqa: E402  resolved art token
 
 
 def skill_branch(entry: dict) -> str:
-    """Derive the Yggdrasil II progression branch for a named-skill entry.
+    """Read the build-emitted branch, failing on stale/unbuilt input."""
+    branch = str(entry.get("branch") or "").strip().lower()
+    if branch not in {"standard", "suite", "unique"}:
+        skill_id = entry.get("id") or entry.get("name") or "<unknown>"
+        raise ValueError(
+            f"{skill_id}: missing/invalid emitted branch {branch!r}; "
+            "rebuild docs/graph/named/index.json first"
+        )
+    return branch
 
-    Delegates to gaia_cli.taxonomy.branchFor (rubric E1) — the single
-    source of truth. Branch is a READ-TIME function of (suiteComponents present?,
-    rank); the retired `type` enum is NEVER consulted. Returns one of
-    ``'standard'`` (1-3★), ``'suite'`` (4★+ with suiteComponents), or
-    ``'unique'`` (4★+ standalone mastery).
-    """
-    return _compute_branch(entry)
 
-
-def branch_rank_label(level: str, branch: str) -> str:
-    """Human rank word for aria labels, forked by branch (no banned vocabulary).
-
-    e.g. ('3★','standard') -> 'Evolved'; ('5★','suite') -> 'Ultimate';
-    ('4★','unique') -> 'Unique'. Below 2★ the shared ladder still applies.
-    """
-    return _rank_word(level, branch)
+def branch_rank_label(entry: dict) -> str:
+    """Read the rank word emitted by the named-index build."""
+    word = str(entry.get("rankWord") or "").strip()
+    if not word:
+        skill_id = entry.get("id") or entry.get("name") or "<unknown>"
+        raise ValueError(
+            f"{skill_id}: missing emitted rankWord; "
+            "rebuild docs/graph/named/index.json first"
+        )
+    return word
 
 
 def _read_version() -> str:
@@ -279,7 +279,7 @@ def _field_orb(ns: dict, size_modifier: str = "") -> str:
     apex = " plaque-orb--vi" if n >= 6 else ""
     tier = _size_tier(size_modifier)
     src = _aov_stamp(branch, n, tier)
-    rank_name = branch_rank_label(ns.get("level", ""), branch)
+    rank_name = branch_rank_label(ns)
     aria = f"{rank_name} medallion" if rank_name else "rank medallion"
     return (
         f'<span class="plaque-orb plaque-orb--medallion plaque-orb--{branch}{mod}{apex}" '
@@ -477,7 +477,7 @@ def _plaque_shell(variant: str, ns: dict, inner: str, extra_class: str = "", ski
     """Wrap a field-set string in the canonical .plaque shell."""
     n = level_num(ns.get("level", ""))
     apex = " plaque--apex-vi" if n >= 6 else ""
-    # Rubric E1/E3: stamp the DERIVED data-branch (standard|suite|unique) — every
+    # Rubric E1/E3: stamp the build-emitted data-branch — every
     # downstream visual selector (dark unique / gold suite) keys on data-branch,
     # NOT data-type. Legacy data-type (basic|fusion, the raw taxonomy type) is
     # retained only for old hooks; it is NEVER the dead progression enum. Mirrors
@@ -969,12 +969,10 @@ def _build_timeline_section(tree: dict, named_index: dict) -> str:
     for skill in unlocked:
         skill_id = skill.get("skillId") or skill.get("id", "")
         ns_entry = named_index.get(skill_id, {})
-        # Carry the RESOLVED taxonomy branch + medallion (Ygg-II authority) so
-        # profile-timeline.js reads the emitted membership instead of re-deriving
-        # from `type`. Branch is a read-time function of (suiteComponents, rank);
-        # medallion forks the glyph by (branch, rank).
-        branch = _compute_branch(ns_entry)
-        rank = _level_num(ns_entry.get("level"))
+        # Carry the build-emitted taxonomy fields verbatim. The profile
+        # timeline is a read-only consumer and never invokes a resolver.
+        # Personal-tree events without a named-index row remain unclassified.
+        branch = skill_branch(ns_entry) if ns_entry else None
         skills_payload.append({
             "id": skill_id,
             "name": ns_entry.get("name") or ns_entry.get("title") or skill_id.split("/")[-1],
@@ -986,7 +984,7 @@ def _build_timeline_section(tree: dict, named_index: dict) -> str:
             "rankWord": ns_entry.get("rankWord"),
             "level": ns_entry.get("level"),
             "rank": ns_entry.get("rank"),
-            "medallion": _medallion(branch, rank),
+            "medallion": ns_entry.get("medallion"),
             "origin": bool(ns_entry.get("origin", False)),
             "levelHistory": skill.get("levelHistory", []),
         })
@@ -1071,9 +1069,12 @@ def build_hero_medallion(handle: str, skills: list) -> str:
     # links omitted so the hero avatar is a non-link portrait (the per-skill
     # plaques below already link each skill to its repo).
     ns = {
+        "id": top.get("id", ""),
         "contributor": handle,
         "level": top.get("level", ""),
         "type": top.get("type", "basic"),
+        "branch": top.get("branch"),
+        "rankWord": top.get("rankWord"),
         "suiteComponents": top.get("suiteComponents"),
         "origin": any(s.get("origin") for s in skills),
         "links": {},
@@ -1539,12 +1540,13 @@ def generate_pages(named_path: Path, out_dir: Path) -> int:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Generate contributor profile pages from named-skills.json"
+        description="Generate contributor profile pages from the built named index"
     )
     parser.add_argument(
         "--named",
         default=str(NAMED_JSON),
-        help="Path to named-skills.json (default: registry/named-skills.json)",
+        help="Path to the built named index "
+             "(default: docs/graph/named/index.json)",
     )
     parser.add_argument(
         "--out-dir",

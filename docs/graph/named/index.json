@@ -25665,7 +25665,12 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "installBody": "No public installable artifact is currently registered for this skill; it is tracked from its description only."
+      "installBody": "No public installable artifact is currently registered for this skill; it is tracked from its description only.",
+      "branch": "standard",
+      "rank": 1,
+      "rankWord": "Awakened",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "changkun/plan-decompose-gh-wallfacer",
@@ -25715,7 +25720,12 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "installBody": "No public installable artifact is currently registered for this skill; it is tracked from its description only."
+      "installBody": "No public installable artifact is currently registered for this skill; it is tracked from its description only.",
+      "branch": "standard",
+      "rank": 1,
+      "rankWord": "Awakened",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "gaiabot/gaia-triage",
@@ -25774,7 +25784,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 1,
+      "rankWord": "Awakened",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "gaiabot/repo-docs-before-pr",
@@ -25858,7 +25873,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/alphafold_database_fetch_and_analyze",
@@ -25963,7 +25983,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "fusion"
+      "type": "fusion",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/alphagenome_single_variant_analysis",
@@ -26084,7 +26109,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "fusion"
+      "type": "fusion",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/chembl_database",
@@ -26187,7 +26217,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/clinical_trials_database",
@@ -26290,7 +26325,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/clinvar_database",
@@ -26393,7 +26433,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/dbsnp_database",
@@ -26496,7 +26541,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/embl_ebi_ols",
@@ -26619,7 +26669,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/encode_ccres_database",
@@ -26742,7 +26797,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/ensembl_database",
@@ -26865,7 +26925,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/foldseek_structural_search",
@@ -26988,7 +27053,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/gnomad_database",
@@ -27109,7 +27179,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/gtex_database",
@@ -27230,7 +27305,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/human_protein_atlas_database",
@@ -27353,7 +27433,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/interpro_database",
@@ -27476,7 +27561,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/jaspar_database",
@@ -27599,7 +27689,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/literature_search_arxiv",
@@ -27702,7 +27797,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/literature_search_biorxiv",
@@ -27805,7 +27905,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/literature_search_europepmc",
@@ -27928,7 +28033,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/literature_search_openalex",
@@ -28049,7 +28159,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/ncbi_sequence_fetch",
@@ -28172,7 +28287,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/openfda_database",
@@ -28295,7 +28415,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/opentargets_database",
@@ -28418,7 +28543,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/pdb_database",
@@ -28521,7 +28651,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/protein_sequence_msa",
@@ -28618,7 +28753,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "fusion"
+      "type": "fusion",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/protein_sequence_similarity_search",
@@ -28756,7 +28896,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/pubchem_database",
@@ -28879,7 +29024,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/pubmed_database",
@@ -28994,7 +29144,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/pymol",
@@ -29117,7 +29272,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/quickgo_database",
@@ -29240,7 +29400,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/reactome_database",
@@ -29363,7 +29528,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/science_skills_common",
@@ -29486,7 +29656,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/string_database",
@@ -29589,7 +29764,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/ucsc_conservation_and_tfbs",
@@ -29712,7 +29892,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/unibind_database",
@@ -29835,7 +30020,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/uniprot_database",
@@ -29938,7 +30128,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/uv",
@@ -30061,7 +30256,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/workflow_skill_creator",
@@ -30184,7 +30384,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "fusion"
+      "type": "fusion",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "langgenius/backend-code-review",
@@ -30243,7 +30448,12 @@
         "systemWideCap": null
       },
       "type": "fusion",
-      "installBody": "No additional setup required. This skill is built into the Dify agent framework.\n\n### Prerequisites\n\n- Access to backend code files in the `api/` directory\n- Python files (`.py` extension) for review\n- Optional: Git staging area for pending changes to review\n\n### How to Use\n\n**Request a code review** by asking the agent to analyze backend code:\n\n```\n\"Review this Python function for security issues\"\n\"Analyze api/app.py for best practices\"\n\"Check my pending changes for quality concerns\"\n```\n\n**Review Modes:**\n\n1. **Pending-Change Review** — Agent inspects staged/working-tree files ready for commit\n2. **Code Snippet Review** — Paste function, class, or module excerpts directly\n3. **File-Focused Review** — Reference specific backend files (e.g., `api/models/user.py`)\n\n### What Gets Checked\n\n- Database schema design (`api/models/`, `api/migrations/`)\n- Architecture patterns (layering, dependency flow)\n- Repository abstraction (CRUD operations)\n- SQLAlchemy patterns (sessions, transactions)\n- General best practices if no specific checklist matches\n\n### Output Format\n\nReviews are categorized as:\n- 🔴 **Critical** (must fix)\n- 🟡 **Suggestions** (should consider)\n- 🟢 **Nits** (optional improvements)\n\nEach finding includes file path, line numbers, explanation, and actionable code fix."
+      "installBody": "No additional setup required. This skill is built into the Dify agent framework.\n\n### Prerequisites\n\n- Access to backend code files in the `api/` directory\n- Python files (`.py` extension) for review\n- Optional: Git staging area for pending changes to review\n\n### How to Use\n\n**Request a code review** by asking the agent to analyze backend code:\n\n```\n\"Review this Python function for security issues\"\n\"Analyze api/app.py for best practices\"\n\"Check my pending changes for quality concerns\"\n```\n\n**Review Modes:**\n\n1. **Pending-Change Review** — Agent inspects staged/working-tree files ready for commit\n2. **Code Snippet Review** — Paste function, class, or module excerpts directly\n3. **File-Focused Review** — Reference specific backend files (e.g., `api/models/user.py`)\n\n### What Gets Checked\n\n- Database schema design (`api/models/`, `api/migrations/`)\n- Architecture patterns (layering, dependency flow)\n- Repository abstraction (CRUD operations)\n- SQLAlchemy patterns (sessions, transactions)\n- General best practices if no specific checklist matches\n\n### Output Format\n\nReviews are categorized as:\n- 🔴 **Critical** (must fix)\n- 🟡 **Suggestions** (should consider)\n- 🟢 **Nits** (optional improvements)\n\nEach finding includes file path, line numbers, explanation, and actionable code fix.",
+      "branch": "standard",
+      "rank": 1,
+      "rankWord": "Awakened",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "langgenius/component-refactoring",
@@ -30302,7 +30512,12 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "installBody": "No additional setup required. This skill uses Dify's existing frontend toolchain.\n\n### Prerequisites\n\n- Access to Dify frontend codebase (`web/` directory)\n- Node.js environment with `pnpm` package manager\n- Basic understanding of React hooks and component architecture\n\n### Quick Start\n\nNavigate to the web directory and verify component metrics:\n\n```bash\ncd web\npnpm analyze-component <path>\npnpm analyze-component <path> --json\n```\n\n### How to Use\n\n**Request refactoring analysis** when you have high-complexity components:\n\n```bash\npnpm refactor-component <path>\npnpm refactor-component <path> --json\n```\n\nThe `--json` flag outputs structured data for programmatic use.\n\n### Complexity Thresholds\n\n| Score | Status | Recommendation |\n|-------|--------|-----------------|\n| 0-25 | ✅ Simple | Ready to test |\n| 26-50 | ⚠️ Medium | Minor refactoring optional |\n| 51-75 | ⛔ Complex | Refactor before testing |\n| 76-100 | ⛔ Critical | Must refactor |\n\n**Apply refactoring when:**\n- Complexity score exceeds 50 (on a 0-100 scale)\n- Line count surpasses 300\n- Users request code splitting or hook extraction\n- Tools warn to refactor before testing"
+      "installBody": "No additional setup required. This skill uses Dify's existing frontend toolchain.\n\n### Prerequisites\n\n- Access to Dify frontend codebase (`web/` directory)\n- Node.js environment with `pnpm` package manager\n- Basic understanding of React hooks and component architecture\n\n### Quick Start\n\nNavigate to the web directory and verify component metrics:\n\n```bash\ncd web\npnpm analyze-component <path>\npnpm analyze-component <path> --json\n```\n\n### How to Use\n\n**Request refactoring analysis** when you have high-complexity components:\n\n```bash\npnpm refactor-component <path>\npnpm refactor-component <path> --json\n```\n\nThe `--json` flag outputs structured data for programmatic use.\n\n### Complexity Thresholds\n\n| Score | Status | Recommendation |\n|-------|--------|-----------------|\n| 0-25 | ✅ Simple | Ready to test |\n| 26-50 | ⚠️ Medium | Minor refactoring optional |\n| 51-75 | ⛔ Complex | Refactor before testing |\n| 76-100 | ⛔ Critical | Must refactor |\n\n**Apply refactoring when:**\n- Complexity score exceeds 50 (on a 0-100 scale)\n- Line count surpasses 300\n- Users request code splitting or hook extraction\n- Tools warn to refactor before testing",
+      "branch": "standard",
+      "rank": 1,
+      "rankWord": "Awakened",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "langgenius/e2e-cucumber-playwright",
@@ -30361,7 +30576,12 @@
         "systemWideCap": null
       },
       "type": "fusion",
-      "installBody": "No additional setup required beyond accessing the Dify E2E test suite.\n\n### Prerequisites\n\n- Access to the Dify repository\n- Node.js and pnpm installed\n- Familiarity with Cucumber, Gherkin syntax, and Playwright\n\n### Validation\n\nValidate your E2E test configuration and changes:\n\n```bash\npnpm -C e2e check\n```\n\n### How to Use\n\n**Start here:** Read `e2e/AGENTS.md` for the canonical guide on local architecture and conventions.\n\n**Then examine these files in order:**\n\n1. Target `.feature` files under `e2e/features/`\n2. Related step definitions in `e2e/features/step-definitions/`\n3. Session and state files: `hooks.ts` and `world.ts` (if lifecycle matters)\n4. Execution config: `run-cucumber.ts` and `cucumber.config.ts` (if tags or flow matter)\n\n### Writing Scenarios\n\n- Use Behavior-Driven Development (BDD) syntax with Given-When-Then structure\n- Reuse existing step definitions when possible\n- Prefer user-facing locators over implementation details\n- Validate narrowly before broadening verification\n- Reference Playwright best practices for locators, assertions, and waiting strategies\n\n### Key Principles\n\n- Keep scenarios readable and business-focused\n- Maintain step definition reusability\n- Test user workflows, not implementation details\n- Use Cucumber best practices for scenario wording and step design"
+      "installBody": "No additional setup required beyond accessing the Dify E2E test suite.\n\n### Prerequisites\n\n- Access to the Dify repository\n- Node.js and pnpm installed\n- Familiarity with Cucumber, Gherkin syntax, and Playwright\n\n### Validation\n\nValidate your E2E test configuration and changes:\n\n```bash\npnpm -C e2e check\n```\n\n### How to Use\n\n**Start here:** Read `e2e/AGENTS.md` for the canonical guide on local architecture and conventions.\n\n**Then examine these files in order:**\n\n1. Target `.feature` files under `e2e/features/`\n2. Related step definitions in `e2e/features/step-definitions/`\n3. Session and state files: `hooks.ts` and `world.ts` (if lifecycle matters)\n4. Execution config: `run-cucumber.ts` and `cucumber.config.ts` (if tags or flow matter)\n\n### Writing Scenarios\n\n- Use Behavior-Driven Development (BDD) syntax with Given-When-Then structure\n- Reuse existing step definitions when possible\n- Prefer user-facing locators over implementation details\n- Validate narrowly before broadening verification\n- Reference Playwright best practices for locators, assertions, and waiting strategies\n\n### Key Principles\n\n- Keep scenarios readable and business-focused\n- Maintain step definition reusability\n- Test user workflows, not implementation details\n- Use Cucumber best practices for scenario wording and step design",
+      "branch": "standard",
+      "rank": 1,
+      "rankWord": "Awakened",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "langgenius/frontend-code-review",
@@ -30420,7 +30640,12 @@
         "systemWideCap": null
       },
       "type": "fusion",
-      "installBody": "No additional setup required. This skill integrates with Dify's review framework.\n\n### Prerequisites\n\n- Access to frontend source files (`.tsx`, `.ts`, `.js`)\n- Reference documentation at `references/code-quality.md`, `references/performance.md`, and `references/business-logic.md`\n- A code editor or repository with staged/working changes visible\n\n### How to Use\n\n**Request a frontend code review:**\n\n```\n\"Review my frontend code\"\n\"Check this .tsx file for issues\"\n\"Review my pending changes\"\n```\n\n### Review Modes\n\n1. **Pending-change review** — Analyze staged or working-tree files ready for commit\n2. **File-targeted review** — Review specific files you name\n\n### What Gets Checked\n\nThe agent examines:\n- Component/module structure and class names\n- React hooks and prop memoization\n- Styling consistency and organization\n- Cross-referenced against three categories:\n  - **Code Quality** — best practices, readability\n  - **Performance** — bundle size, rendering efficiency\n  - **Business Logic** — requirements compliance\n\n### Output Format\n\nIssues are organized by:\n1. **Urgency** (critical, suggestions, nits)\n2. **Category** (quality, performance, business logic)\n3. **Details** (code snippets and fix suggestions)\n\nMaximum 10 findings per category; excess results summarize as \"10+\""
+      "installBody": "No additional setup required. This skill integrates with Dify's review framework.\n\n### Prerequisites\n\n- Access to frontend source files (`.tsx`, `.ts`, `.js`)\n- Reference documentation at `references/code-quality.md`, `references/performance.md`, and `references/business-logic.md`\n- A code editor or repository with staged/working changes visible\n\n### How to Use\n\n**Request a frontend code review:**\n\n```\n\"Review my frontend code\"\n\"Check this .tsx file for issues\"\n\"Review my pending changes\"\n```\n\n### Review Modes\n\n1. **Pending-change review** — Analyze staged or working-tree files ready for commit\n2. **File-targeted review** — Review specific files you name\n\n### What Gets Checked\n\nThe agent examines:\n- Component/module structure and class names\n- React hooks and prop memoization\n- Styling consistency and organization\n- Cross-referenced against three categories:\n  - **Code Quality** — best practices, readability\n  - **Performance** — bundle size, rendering efficiency\n  - **Business Logic** — requirements compliance\n\n### Output Format\n\nIssues are organized by:\n1. **Urgency** (critical, suggestions, nits)\n2. **Category** (quality, performance, business logic)\n3. **Details** (code snippets and fix suggestions)\n\nMaximum 10 findings per category; excess results summarize as \"10+\"",
+      "branch": "standard",
+      "rank": 1,
+      "rankWord": "Awakened",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "langgenius/frontend-testing",
@@ -30479,7 +30704,12 @@
         "systemWideCap": null
       },
       "type": "fusion",
-      "installBody": "No additional setup required. Vitest and React Testing Library are pre-configured in Dify.\n\n### Prerequisites\n\n- Node.js and pnpm package manager\n- Access to the Dify repository\n- Familiarity with React and TypeScript\n\n### Quick Start\n\nThe test infrastructure is pre-configured in your Dify workspace:\n\n- **Test runner**: Vitest (configured in `web/vite.config.ts`)\n- **Testing library**: React Testing Library\n- **Setup file**: `web/vitest.setup.ts` (includes global mocks)\n\n### Core Commands\n\nRun from the `web/` directory. From repo root, prefix with `pnpm -C web`:\n\n```bash\n# Execute all tests\npnpm test\n\n# Watch mode for active development\npnpm test --watch\n\n# Run a specific test file\npnpm test path/to/file.spec.tsx\n\n# Generate coverage report\npnpm test --coverage\n\n# Analyze component complexity before testing\npnpm analyze-component <path>\n```\n\n### How to Use This Skill\n\n**Apply when you:**\n- Write or review frontend component/hook/utility tests\n- Work with Vitest, React Testing Library, or spec files\n- Improve test coverage\n- Follow testing patterns in Dify\n\n**Do NOT apply for:**\n- Backend/Python tests\n- E2E tests (Cucumber + Playwright)\n- Conceptual questions without code\n\n### Key Resource\n\nRefer to `web/docs/test.md` for complete specifications and patterns."
+      "installBody": "No additional setup required. Vitest and React Testing Library are pre-configured in Dify.\n\n### Prerequisites\n\n- Node.js and pnpm package manager\n- Access to the Dify repository\n- Familiarity with React and TypeScript\n\n### Quick Start\n\nThe test infrastructure is pre-configured in your Dify workspace:\n\n- **Test runner**: Vitest (configured in `web/vite.config.ts`)\n- **Testing library**: React Testing Library\n- **Setup file**: `web/vitest.setup.ts` (includes global mocks)\n\n### Core Commands\n\nRun from the `web/` directory. From repo root, prefix with `pnpm -C web`:\n\n```bash\n# Execute all tests\npnpm test\n\n# Watch mode for active development\npnpm test --watch\n\n# Run a specific test file\npnpm test path/to/file.spec.tsx\n\n# Generate coverage report\npnpm test --coverage\n\n# Analyze component complexity before testing\npnpm analyze-component <path>\n```\n\n### How to Use This Skill\n\n**Apply when you:**\n- Write or review frontend component/hook/utility tests\n- Work with Vitest, React Testing Library, or spec files\n- Improve test coverage\n- Follow testing patterns in Dify\n\n**Do NOT apply for:**\n- Backend/Python tests\n- E2E tests (Cucumber + Playwright)\n- Conceptual questions without code\n\n### Key Resource\n\nRefer to `web/docs/test.md` for complete specifications and patterns.",
+      "branch": "standard",
+      "rank": 1,
+      "rankWord": "Awakened",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "pexp13/sentiment-analysis",
@@ -30593,7 +30823,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic"
+      "type": "basic",
+      "branch": "standard",
+      "rank": 1,
+      "rankWord": "Awakened",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "sickn33/ai-dev-jobs-mcp",
@@ -30643,7 +30878,12 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "installBody": "No public installable artifact is currently registered for this skill; it is tracked from its description only."
+      "installBody": "No public installable artifact is currently registered for this skill; it is tracked from its description only.",
+      "branch": "standard",
+      "rank": 1,
+      "rankWord": "Awakened",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "sickn33/mcp-builder",
@@ -30706,7 +30946,12 @@
         "systemWideCap": null
       },
       "type": "fusion",
-      "installBody": "No public installable artifact is currently registered for this skill (`installable: false`); it is tracked from its description and announcement only."
+      "installBody": "No public installable artifact is currently registered for this skill (`installable: false`); it is tracked from its description and announcement only.",
+      "branch": "standard",
+      "rank": 1,
+      "rankWord": "Awakened",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "sickn33/n8n-mcp-tools-expert",
@@ -30756,7 +31001,12 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "installBody": "No public installable artifact is currently registered for this skill; it is tracked from its description only."
+      "installBody": "No public installable artifact is currently registered for this skill; it is tracked from its description only.",
+      "branch": "standard",
+      "rank": 1,
+      "rankWord": "Awakened",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "xquik-dev/hermes-tweet",
@@ -30868,7 +31118,12 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "fusion"
+      "type": "fusion",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     },
     {
       "id": "yundu-ai/mcp-tool-developer",
@@ -30918,7 +31173,12 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "installBody": "No public installable artifact is currently registered for this skill; it is tracked from its description only."
+      "installBody": "No public installable artifact is currently registered for this skill; it is tracked from its description only.",
+      "branch": "standard",
+      "rank": 1,
+      "rankWord": "Awakened",
+      "medallion": "◇",
+      "contractVersion": "gaia-public-v1"
     }
   ],
   "byContributor": {

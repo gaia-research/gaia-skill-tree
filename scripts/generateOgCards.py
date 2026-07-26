@@ -18,8 +18,8 @@ authoritative subject.
   Class · FIELD BODY       (standard branch, 1-3★)       → aov4-c1/c2/c3 medallion
 
 The card composition, medallion asset, plate-class word, and rank label are ALL
-driven by the read-time BRANCH (computeBranch) + star rank — NEVER by a stored
-type/tier field (Ygg-II rubric E1). Every graded skill lands a proper plate;
+driven by the named-index build's emitted branch/rank fields — NEVER by a
+stored type/tier field or downstream resolver. Every graded skill lands a proper plate;
 no skill falls to a barren type-word fallback.
 
 Reference grammar (Bode's Uranographia, Hevelius's Firmamentum):
@@ -42,6 +42,7 @@ Exit codes:
 """
 
 import argparse
+import base64
 import html
 import json
 import math
@@ -51,9 +52,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT / "src"))
 from gaia_cli.redaction import REDACTED_HANDLE, is_redacted  # noqa: E402  single source of truth
-from gaia_cli.taxonomy import branchFor as _compute_branch  # noqa: E402  Ygg-II branch authority
-from gaia_cli.taxonomy import rankWord as _rank_word  # noqa: E402  branch-forked rank vocabulary
-NAMED_JSON = REPO_ROOT / "registry" / "named-skills.json"
+NAMED_JSON = REPO_ROOT / "docs" / "graph" / "named" / "index.json"
 GAIA_JSON = REPO_ROOT / "registry" / "gaia.json"
 DOCS_DIR = REPO_ROOT / "docs"
 OUT_DIR = DOCS_DIR / "og"
@@ -101,8 +100,19 @@ VIOLET_HALO = "#7c3aed"        # unique plate-class accent + gutter tint (darker
 # VIOLET_HALO stays for decorative strokes (gutter rule, halo ring) where contrast
 # is not a readability requirement. oklch(68% 0.22 285) ≈ #a78bfa → 7.2:1 on INK_NIGHT.
 VIOLET_KICKER = "#a78bfa"      # unique branch kicker text — WCAG AA+ on INK_NIGHT
+SYMBOL_FONT = "'Apple Symbols','Arial Unicode MS','Noto Sans Symbols 2',sans-serif"
 
-# ─── AOV4 medallion resolver (mirrors docs/js/plaque.js `_aovStamp`) ──────────
+
+def _svg_text(value: object) -> str:
+    """Escape text and route Gaia/star symbols through a raster-safe font."""
+    escaped = html.escape(str(value))
+    for glyph in ("★", "⊘", "◉", "◆", "◇"):
+        escaped = escaped.replace(
+            glyph, f'<tspan font-family="{SYMBOL_FONT}">{glyph}</tspan>'
+        )
+    return escaped
+
+# ─── AOV4 medallion lookup (mirrors docs/js/plaque.js `_aovStamp`) ────────────
 # The subject art IS the skill's Ascension-Overdrive V4 stamp — the exact
 # medallion its rank + branch earned across the graph. Suite/standard branches
 # draw from the C family (c1..c6); the Unique branch from the D family (d4..d6).
@@ -116,6 +126,15 @@ AOV_UNIQUE_STEM = {
 }
 
 
+def aov_medallion_path(branch: str, rank: int) -> Path:
+    """Repository path to the AOV4 `-hero` stamp for branch+rank."""
+    if branch == "unique":
+        stem = AOV_UNIQUE_STEM[max(4, min(6, rank))]
+    else:
+        stem = AOV_SUITE_STEM[max(1, min(6, rank))]
+    return DOCS_DIR / "assets" / "ascension-overdrive" / f"aov4-{stem}-hero.webp"
+
+
 def aov_medallion_href(branch: str, rank: int) -> str:
     """Same-origin relative href to the AOV4 `-hero` stamp for branch+rank.
 
@@ -123,47 +142,57 @@ def aov_medallion_href(branch: str, rank: int) -> str:
     the SVG is served standalone at `/og/<handle>/<slug>.svg`, inlined into the
     share modal via innerHTML, or opened from a locally-served `docs/` root.
     """
-    if branch == "unique":
-        stem = AOV_UNIQUE_STEM[max(4, min(6, rank))]
-    else:
-        stem = AOV_SUITE_STEM[max(1, min(6, rank))]
-    return f"/assets/ascension-overdrive/aov4-{stem}-hero.webp"
+    return "/" + aov_medallion_path(branch, rank).relative_to(DOCS_DIR).as_posix()
 
 
-# ─── Branch / rank resolution helpers (Yggdrasil II — read-time) ──────────────
-# Plate dispatch + labels are driven by read-time BRANCH + rank via
-# computeBranch — never a stored type/tier field. Each plate draws the skill's
-# own AOV4 medallion (see aov_medallion_href) and tints its accent from the
-# derived branch (gold for suite/standard, violet for unique), so no gaia.json
-# colour lookup is needed here.
+def _inline_medallion_assets(svg_content: str) -> str:
+    """Inline AOV WebPs for standalone SVG downloads and raster rendering."""
+    for path in sorted((DOCS_DIR / "assets" / "ascension-overdrive").glob("aov4-*-hero.webp")):
+        href = "/" + path.relative_to(DOCS_DIR).as_posix()
+        if href not in svg_content:
+            continue
+        encoded = base64.b64encode(path.read_bytes()).decode("ascii")
+        svg_content = svg_content.replace(href, f"data:image/webp;base64,{encoded}")
+    return svg_content
+
+
+# ─── Branch / rank readers (Yggdrasil II — build-first) ───────────────────────
+# Taxonomy is resolved once by the named-index build. OG generation is a strict,
+# read-only consumer of its emitted `branch` and `rankWord` fields: this module
+# must never call a taxonomy resolver or derive a branch from `type`.
 
 
 def og_branch(entry: dict) -> str:
-    """Read-time branch for a named-skill entry ('standard'|'suite'|'unique').
+    """Read the build-emitted branch, failing on stale/unbuilt input."""
+    branch = str(entry.get("branch") or "").strip().lower()
+    if branch not in {"standard", "suite", "unique"}:
+        skill_id = entry.get("id") or entry.get("name") or "<unknown>"
+        raise ValueError(
+            f"{skill_id}: missing/invalid emitted branch {branch!r}; "
+            "rebuild docs/graph/named/index.json first"
+        )
+    return branch
 
-    Delegates to gaia_cli.taxonomy.branchFor (Ygg-II rubric E1) — the
-    plate composition and labels are driven by branch+rank, never a stored type
-    enum. The entry carries level+suiteComponents, so no genericSkillMap thread
-    is needed.
-    """
-    return _compute_branch(entry)
+
+def og_rank_word(entry: dict) -> str:
+    """Read the build-emitted rank word, failing on stale/unbuilt input."""
+    word = str(entry.get("rankWord") or "").strip()
+    if not word:
+        skill_id = entry.get("id") or entry.get("name") or "<unknown>"
+        raise ValueError(
+            f"{skill_id}: missing emitted rankWord; "
+            "rebuild docs/graph/named/index.json first"
+        )
+    return word
 
 
-def og_rank_label(rank: int, branch: str) -> str:
-    """Top-right plate label: branch-forked rank word (Ygg-II E2).
-
-    Mirrors docs/js/skill-semantics.js rankWord — shared 1-3★
-    (Awakened/Named/Evolved), suite 4-6★ (Extra/Ultimate/Apex), unique 4-6★
-    (Unique/Unique Ultimate/Unique Impossible). Never emits a banned legacy rank
-    word. The label reads e.g. "Extra · 4★" so the plate's top-right stamp is
-    meaningful — a graded skill is never labelled a flat type word.
-    """
-    word = _rank_word(f"{rank}★", branch)
-    return f"{word} · {rank}★" if rank > 0 else "Basic"
+def og_rank_label(rank: int, emitted_word: str) -> str:
+    """Top-right plate label from the build-emitted rank vocabulary."""
+    return f"{emitted_word} · {rank}★" if rank > 0 else "Basic"
 
 
 # Plate-class word — the atlas classification for the card's SUBJECT column,
-# keyed on the read-time branch + rank (never a stored type). Reads in the
+# keyed on the build-emitted branch + rank (never a stored type). Reads in the
 # top-left kicker above the plate-class rule; the celestial noun tells the
 # reader what kind of body the medallion depicts.
 def og_plate_class(rank: int, branch: str) -> str:
@@ -282,10 +311,12 @@ def _radec_ticks() -> str:
 def _plate_number(label: str) -> str:
     """Top-right skill-type label, mono caps tracked +0.18em."""
     return (
-        f'<text x="{OG_W - MARGIN}" y="{PLATE_NO_Y}" '
+        # Leave room for symbol-font glyph metrics: Cairo does not include the
+        # terminal star tspan reliably in text-anchor width calculations.
+        f'<text x="{OG_W - MARGIN - 20}" y="{PLATE_NO_Y}" '
         f'font-family="\'Departure Mono\',\'JetBrains Mono\',ui-monospace,monospace" '
         f'font-size="18" letter-spacing="3.2" fill="{CREAM_ENGRAVED}" fill-opacity="0.7" '
-        f'text-anchor="end" dominant-baseline="middle">{html.escape(label)}</text>'
+        f'text-anchor="end" dominant-baseline="middle">{_svg_text(label)}</text>'
     )
 
 
@@ -303,13 +334,13 @@ def _magnitude_band(magnitude: str, ev_class: str, stars_or_word: str, designati
     sep = '<tspan fill-opacity="0.35"> · · · </tspan>'
     cells = []
     if magnitude and magnitude != "·":
-        cells.append(f'<tspan>MAG {html.escape(magnitude)}</tspan>')
+        cells.append(f'<tspan>MAG {_svg_text(magnitude)}</tspan>')
     if ev_class:
-        cells.append(f'<tspan>{html.escape(ev_class)}</tspan>')
+        cells.append(f'<tspan>{_svg_text(ev_class)}</tspan>')
     if stars_or_word:
-        cells.append(f'<tspan>{html.escape(stars_or_word)}</tspan>')
+        cells.append(f'<tspan>{_svg_text(stars_or_word)}</tspan>')
     if designation:
-        cells.append(f'<tspan>{html.escape(designation)}</tspan>')
+        cells.append(f'<tspan>{_svg_text(designation)}</tspan>')
     inner = sep.join(cells)
     return (
         f'<text x="{MARGIN}" y="{y}" '
@@ -466,7 +497,7 @@ def build_plate(skill: dict) -> str:
                      seated under a branch-classed kicker.
 
     Everything — medallion asset, plate-class word, top-right rank label, gutter
-    tint — is keyed on the read-time BRANCH (computeBranch) + star rank, never a
+    tint — is keyed on the build-emitted branch + star rank, never a
     stored type/tier field (E1). Every graded skill lands a proper plate: a 5★
     suite reads "Ultimate · 5★" over its gold apex-family medallion; a 4★ unique
     reads "Unique · 4★" over its violet singularity stamp.
@@ -482,11 +513,12 @@ def build_plate(skill: dict) -> str:
     sid = (skill.get("id") or "unknown").replace("/", "-").replace(" ", "-")
 
     branch = og_branch(skill)
+    rank_word = og_rank_word(skill)
     # Decorative accent (strokes, gutter rule, halo ring) — can be dark violet
     accent = VIOLET_HALO if branch == "unique" else APEX_GOLD
     # Text-fill for the plate-class kicker — must pass WCAG AA on INK_NIGHT
     kicker_fill = VIOLET_KICKER if branch == "unique" else APEX_GOLD
-    rank_label = og_rank_label(n_lvl, branch)
+    rank_label = og_rank_label(n_lvl, rank_word)
     plate_class = og_plate_class(n_lvl, branch)
 
     # LEFT column type block. Slug is vertically centred with the medallion so
@@ -510,8 +542,7 @@ def build_plate(skill: dict) -> str:
     # branch-forked rank word (no stars — a singularity emits no light) — only
     # the valid Unique ladder words, never a banned legacy rank word (E2).
     if branch == "unique":
-        rank_word = _rank_word(f"{n_lvl}★", "unique").upper() if n_lvl >= 4 else "AWAITED"
-        stars_or_word = f"⊘ {rank_word}"
+        stars_or_word = f"⊘ {rank_word.upper()}"
         designation = f"BH {to_roman(max(1, n_lvl))} · {year}"
         fallback_mag = "∞"
     else:
@@ -569,7 +600,7 @@ def build_plate(skill: dict) -> str:
 def build_og_svg(skill: dict) -> str:
     """Render the Hall Plate for a skill via the unified branch+rank builder.
 
-    Read-time BRANCH (computeBranch) + star rank drive the whole composition
+    Build-emitted branch + star rank drive the whole composition
     (Ygg-II E1) — never a stored type enum. That enum once sent every named
     skill (type is only ever basic/fusion) to a barren fallback plate;
     `build_plate` now classes the subject medallion, the plate-class word, the
@@ -593,10 +624,11 @@ def build_og_svg(skill: dict) -> str:
 
 def try_render_png(svg_content: str, out_path: Path) -> bool:
     """Try to render SVG to PNG using cairosvg or pillow. Returns True on success."""
+    raster_svg = _inline_medallion_assets(svg_content)
     try:
         import cairosvg
         cairosvg.svg2png(
-            bytestring=svg_content.encode("utf-8"),
+            bytestring=raster_svg.encode("utf-8"),
             write_to=str(out_path),
             output_width=OG_W,
             output_height=OG_H,
@@ -609,7 +641,7 @@ def try_render_png(svg_content: str, out_path: Path) -> bool:
 
     try:
         from wand.image import Image as WandImage
-        with WandImage(blob=svg_content.encode("utf-8"), format="svg") as img:
+        with WandImage(blob=raster_svg.encode("utf-8"), format="svg") as img:
             img.format = "png"
             img.save(filename=str(out_path))
         return True
@@ -691,10 +723,11 @@ def generate_og_cards(named_path: Path, out_dir: Path) -> int:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Generate Hall Plate share cards from named-skills.json"
+        description="Generate Hall Plate share cards from the built named index"
     )
     parser.add_argument("--named", default=str(NAMED_JSON),
-                        help="Path to named-skills.json (default: registry/named-skills.json)")
+                        help="Path to the built named index "
+                             "(default: docs/graph/named/index.json)")
     parser.add_argument("--out-dir", default=str(OUT_DIR),
                         help="Output directory for plates (default: docs/og/)")
     args = parser.parse_args()

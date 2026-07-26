@@ -409,6 +409,18 @@ def validate_and_group(named_skills, graph_data, skill_to_suite=None, suite_to_c
     return errors, buckets, awaiting_classification, by_contributor
 
 
+def _inject_resolved_taxonomy(entry):
+    """Emit the Yggdrasil II fields every downstream surface reads."""
+    resolved = normalize(entry)
+    rank_int = resolved.get("rank", 0)
+    branch = branchFor(entry)
+    entry["branch"] = branch
+    entry["rank"] = rank_int
+    entry["rankWord"] = rankWord(entry.get("level", ""), branch)
+    entry["medallion"] = medallion(branch, rank_int)
+    entry["contractVersion"] = "gaia-public-v1"
+
+
 def _inject_trust_grades(buckets, generic_skills_map, gate_config):
     """Annotate each named-skill bucket entry with overallTrustGrade, trustMagnitude,
     and apexGateStatus.
@@ -502,14 +514,7 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config):
             # Resolved taxonomy fields (Yggdrasil II authority — additive, PR2).
             # Derived purely from entry["level"] + entry.get("suiteComponents");
             # TM is copy-through (already injected above) — no recompute here.
-            resolved = normalize(entry)
-            rank_int = resolved.get("rank", 0)
-            branch = branchFor(entry)
-            entry["branch"] = branch
-            entry["rank"] = rank_int
-            entry["rankWord"] = rankWord(entry.get("level", ""), branch)
-            entry["medallion"] = medallion(branch, rank_int)
-            entry["contractVersion"] = "gaia-public-v1"
+            _inject_resolved_taxonomy(entry)
 
             if entry.get("type") == "ultimate":
                 # Score the gate on effective evidence: components via the
@@ -528,6 +533,8 @@ def write_index(buckets, awaiting_classification, by_contributor, output_path, t
     """Write the named skill index JSON file."""
     if generic_skills_map is not None:
         _inject_trust_grades(buckets, generic_skills_map, gate_config or {})
+    for entry in awaiting_classification:
+        _inject_resolved_taxonomy(entry)
 
     index = {
         "generatedAt": today,

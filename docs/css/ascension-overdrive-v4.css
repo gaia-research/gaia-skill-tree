@@ -530,13 +530,14 @@
 }
 
 .aov-terminal-art {
-  position: relative;
+  position: absolute;
   z-index: 1;
+  inset: -18%;
   display: block;
-  width: min(24vw, 25rem);
-  aspect-ratio: 1.2;
-  align-self: center;
+  width: auto;
+  aspect-ratio: auto;
   mix-blend-mode: screen;
+  opacity: 0.42;
 }
 
 .aov-terminal-art img {
@@ -546,8 +547,8 @@
 }
 
 .aov-terminal-art--impossible {
-  width: min(27vw, 28rem);
-  aspect-ratio: 1.5;
+  width: auto;
+  aspect-ratio: auto;
 }
 
 .aov-terminal-visual {
@@ -557,6 +558,11 @@
   aspect-ratio: 1;
   align-self: center;
   justify-self: center;
+}
+
+.aov-terminal-visual--unique {
+  width: min(23vw, 24rem);
+  isolation: isolate;
 }
 
 .aov-terminal-aperture {
@@ -574,12 +580,13 @@
 }
 
 .aov-terminal-seal {
-  position: absolute;
-  z-index: 2;
-  inset: 1rem 1rem auto auto;
-  width: clamp(4rem, 7vw, 7rem);
+  position: relative;
+  z-index: 3;
+  display: block;
+  width: 100%;
   aspect-ratio: 1;
-  opacity: 0.82;
+  opacity: 1;
+  filter: drop-shadow(0 0 2.2rem color-mix(in oklab, var(--rank-6-unique) 42%, transparent));
 }
 
 .aov-terminal-seal img {
@@ -768,7 +775,14 @@
   row-gap: clamp(0.75rem, 1.5vh, 1.25rem);
 }
 
-.aov-scene[data-rank="6"] .aov-terminal-visual--suite {
+.aov-scene[data-rank="6"] .aov-rail--unique.aov-rail--terminal {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(15rem, 0.9fr) auto 1fr;
+  row-gap: clamp(0.75rem, 1.5vh, 1.25rem);
+}
+
+.aov-scene[data-rank="6"] .aov-terminal-visual--suite,
+.aov-scene[data-rank="6"] .aov-terminal-visual--unique {
   width: min(25vw, 25rem);
   max-width: 100%;
 }
@@ -863,8 +877,7 @@
   }
 
   .aov-rail-stamp,
-  .aov-terminal-art,
-  .aov-terminal-art--impossible {
+  .aov-terminal-visual--unique {
     width: min(32vw, 17rem);
   }
 
@@ -1003,6 +1016,10 @@
     width: min(82vw, 25rem);
   }
 
+  .aov-scene[data-rank="6"] .aov-terminal-visual--unique {
+    width: min(76vw, 23rem);
+  }
+
   .aov-rail--unique > .aov-apex-effect--unique {
     inset: 2%;
   }
@@ -1015,8 +1032,7 @@
   }
 
   .aov-rail-stamp,
-  .aov-terminal-art,
-  .aov-terminal-art--impossible {
+  .aov-terminal-visual--unique {
     width: min(38vw, 17rem);
   }
 
@@ -1127,8 +1143,7 @@
   }
 
   .aov-rail-stamp,
-  .aov-terminal-art,
-  .aov-terminal-art--impossible {
+  .aov-terminal-visual--unique {
     width: min(70vw, 19rem);
   }
 

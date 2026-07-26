@@ -13,9 +13,9 @@
  *                                     the canonical OG is server-rendered
  *                                     by scripts/generateOgCards.py)
  *
- * All variants emit `.plaque` + `.plaque--<variant>` with the DERIVED
- * `data-branch="<standard|suite|unique>"` (rubric E1 — computed at read-time
- * via window.GaiaSemantics, never from ns.type) plus `data-level="N"`. A
+ * All variants emit `.plaque` + `.plaque--<variant>` with the BUILD-EMITTED
+ * `data-branch="<standard|suite|unique>"` (rubric E1 — read from the named
+ * index, never recomputed from ns.type) plus `data-level="N"`. A
  * legacy `data-type="<basic|fusion>"` is retained for old hooks only; visual
  * selectors key on data-branch. Apex (6★) adds `plaque--apex-vi` for the
  * rainbow shimmer shadow animation defined in plaque.css.
@@ -62,32 +62,21 @@
     return window.rankBadge(level, opts || {});
   }
 
-  // ── Yggdrasil II read-time semantics ─────────────────────────────
-  // Branch/rankWord are READ from the emitted fields the taxonomy authority
-  // resolved onto the entry (docs/graph/named/index.json), via the shared
-  // GaiaSemantics seam (docs/js/skill-semantics.js). Rubric E1: no switching on
-  // ns.type. Fallback keeps plaques rendering if skill-semantics.js somehow
-  // failed to load (degrade to the standard branch) or on a starless entry with
-  // no emitted branch.
+  // ── Yggdrasil II build-first semantics ───────────────────────────
+  // Taxonomy is ratified by the named-index build. Plaques only read its
+  // emitted branch/rankWord fields; they never invoke a resolver or switch on
+  // ns.type. The standard fallback is display-only for stale, pre-build data.
   function branchOf(ns) {
-    if (window.GaiaSemantics && typeof window.GaiaSemantics.branchOf === 'function') {
-      return window.GaiaSemantics.branchOf(ns);
-    }
-    return 'standard';
+    var emitted = String(ns && ns.branch || '').toLowerCase();
+    return /^(standard|suite|unique)$/.test(emitted) ? emitted : 'standard';
   }
 
   function rankWordOf(level, branch, ns) {
-    if (window.GaiaSemantics && typeof window.GaiaSemantics.rankWordOf === 'function' && ns) {
-      return window.GaiaSemantics.rankWordOf(ns);
-    }
-    if (window.GaiaSemantics && typeof window.GaiaSemantics.rankWord === 'function') {
-      return window.GaiaSemantics.rankWord(level, branch);
-    }
-    return '';
+    return String(ns && ns.rankWord || '');
   }
 
   // Branch-keyed glyph + sort priority for the multi-skill stack variants
-  // (mini-stack, hall plate). Rubric E1: keyed by the DERIVED branch, never by
+  // (mini-stack, hall plate). Rubric E1: keyed by the emitted branch, never by
   // ns.type. Glyphs mirror the tokens.css tier symbols (unique ◉, suite ◆,
   // standard ○). Sort priority ranks the flashier branches first within a
   // level tie (unique → suite → standard).
@@ -755,13 +744,16 @@
 
     var inner =
       header +
+      '<div class="plaque__og-medallion">' + _fieldOrb(ns, 'lg') + '</div>' +
+      '<div class="plaque__og-copy">' +
       _fieldAvatar(ns, { size: 44 }) +
       _fieldSlug(ns) +
       _fieldTitle(ns) +
       _fieldHandleRow(ns) +
       _fieldDescription(ns) +
       _fieldTags(ns, 4) +
-      _fieldInstallRow(ns);
+      _fieldInstallRow(ns) +
+      '</div>';
 
     var shellOpts = Object.assign({}, opts, { click: false });
     return _shell('og', ns, inner, shellOpts);
@@ -781,7 +773,7 @@
   function renderMiniStack(skills, opts) {
     opts = opts || {};
     if (!Array.isArray(skills) || !skills.length) return '';
-    // Rubric E1: sort by level, then by DERIVED branch (unique → suite →
+    // Rubric E1: sort by level, then by emitted branch (unique → suite →
     // standard) — never by ns.type.
     var sorted = skills.slice().sort(function (a, b) {
       var ld = levelNum(b.level) - levelNum(a.level);
@@ -802,6 +794,8 @@
       origin: anyOrigin,
       level: primary.level,
       type: primary.type,
+      branch: primary.branch,
+      rankWord: primary.rankWord,
       suiteComponents: primary.suiteComponents,
       links: primary.links,
     };
@@ -857,7 +851,7 @@
   function renderHallPlate(skills, opts) {
     opts = opts || {};
     if (!Array.isArray(skills) || !skills.length) return '';
-    // Rubric E1: sort by level, then by DERIVED branch — never by ns.type.
+    // Rubric E1: sort by level, then by emitted branch — never by ns.type.
     var sorted = skills.slice().sort(function (a, b) {
       var ld = levelNum(b.level) - levelNum(a.level);
       if (ld !== 0) return ld;
@@ -877,6 +871,8 @@
       origin: anyOrigin,
       level: primary.level,
       type: primary.type,
+      branch: primary.branch,
+      rankWord: primary.rankWord,
       suiteComponents: primary.suiteComponents,
       links: primary.links,
       trustMagnitude: primary.trustMagnitude,
