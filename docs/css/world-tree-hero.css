@@ -516,11 +516,12 @@
 #hero.hero-tree-shell .hero-tree-utilities {
   position: absolute;
   z-index: 8;
-  top: 4.4rem;
+  top: 4.2rem;
   right: clamp(1rem, 3vw, 3rem);
   display: flex;
-  justify-content: flex-end;
-  gap: .55rem;
+  flex-direction: column;
+  align-items: stretch;
+  gap: .35rem;
   margin: 0;
   pointer-events: auto;
 }
@@ -597,24 +598,17 @@
 }
 
 #hero.hero-tree-shell .hero-audit-btn {
-  /* Latest-report notification pinned top-left across ALL breakpoints — peer to
-     the top-right "Explore in 3D" utility. It was previously bottom-anchored on
-     desktop/tablet, which read as a stray footnote; promoting it to the top
-     strip makes the automated report notice a first-class banner everywhere. */
-  position: absolute;
-  z-index: 8;
-  top: 4.4rem;
-  right: auto;
-  bottom: auto;
-  left: clamp(1rem, 3vw, 3rem);
-  display: inline-flex;
+  position: static;
+  z-index: auto;
+  display: flex;
   align-items: center;
+  justify-content: center;
   gap: .35rem;
   min-height: 2.75rem;
   padding: .6rem .75rem;
-  color: var(--muted);
+  color: var(--rank-4);
   background: var(--bg);
-  border: 1px solid var(--border);
+  border: 1px solid var(--rank-4-border);
   border-radius: .3rem;
   box-shadow: none;
   opacity: .72;
@@ -625,8 +619,8 @@
 
 #hero.hero-tree-shell .hero-audit-btn:hover,
 #hero.hero-tree-shell .hero-audit-btn:focus-visible {
-  color: var(--text);
-  border-color: rgba(var(--apex-gold-rgb), .42);
+  color: var(--rank-4);
+  border-color: var(--rank-4-border);
   background: var(--bg);
   opacity: 1;
   transform: none;
@@ -973,11 +967,6 @@ body:has(#hero.hero-graph-fullscreen) {
     width: 100%;
     min-height: 5.2rem;
   }
-
-  #hero.hero-tree-shell .hero-audit-btn {
-    top: 4.4rem;
-    left: 1rem;
-  }
 }
 
 @media (max-width: 700px) {
@@ -1065,23 +1054,10 @@ body:has(#hero.hero-graph-fullscreen) {
   /* Top utility strip: "Explore in 3D" on the right, the automated latest-report
      notification (hero-audit-btn) promoted to the left as its peer. */
   #hero.hero-tree-shell .hero-tree-utilities {
-    top: 4.65rem;
+    top: 4.2rem;
     right: .75rem;
     left: auto;
-    justify-content: flex-end;
     gap: .4rem;
-  }
-
-  #hero.hero-tree-shell .hero-audit-btn {
-    position: absolute;
-    z-index: 8;
-    top: 4.65rem;
-    right: auto;
-    bottom: auto;
-    left: .75rem;
-    width: max-content;
-    max-width: calc(100% - 12rem);
-    margin: 0;
   }
 
   #hero.hero-tree-shell .field-trigger {
