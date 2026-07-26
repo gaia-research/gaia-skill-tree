@@ -292,11 +292,12 @@ def _field_orb(ns: dict, size_modifier: str = "") -> str:
 
 
 def _field_avatar(ns: dict, size: int = 40) -> str:
-    """Contributor GitHub avatar framed by the gold origin wreath (E3/E4).
+    """Contributor GitHub avatar with an origin-only gold wreath (E3/E4).
 
     Python sibling of docs/js/plaque.js _fieldAvatar. Every skill surface
-    renders the contributor's GitHub avatar framed by the gold origin wreath
-    (docs/assets/origin-wreath-gold.svg) — the NEW origin mark (red -> gold).
+    renders the contributor's GitHub avatar; only a skill with ``origin: true``
+    receives the gold origin wreath (docs/assets/origin-wreath-gold.svg), the
+    NEW origin mark (red -> gold).
     The avatar links to the skill repo (links.github), replacing the deprecated
     standalone GitHub button. A missing avatar swaps to the GitHub identicon
     endpoint (never hides the img -> no empty hole). Redacted (<=1 star) skills
@@ -331,6 +332,8 @@ def _field_avatar(ns: dict, size: int = 40) -> str:
     wreath = (
         f'<img class="plaque__avatar-wreath" src="{html.escape(wreath_src)}" '
         f'alt="" aria-hidden="true">'
+        if is_origin
+        else ""
     )
     inner = img + wreath
     origin_attr = ' data-origin="true"' if is_origin else ""
