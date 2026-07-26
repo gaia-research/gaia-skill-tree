@@ -1191,7 +1191,7 @@ button.plaque__slug {
   box-shadow:
     0 0 18px rgba(var(--plaque-accent-rgb), 0.32),
     inset 0 0 12px rgba(0, 0, 0, 0.55);
-  overflow: hidden;
+  overflow: visible;
   display: grid;
   place-items: center;
   flex-shrink: 0;

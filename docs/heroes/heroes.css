@@ -978,6 +978,9 @@ body:has(.heroes-gallery) {
 .hero-card__crest-square-front {
   position: relative;
   z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: clamp(110px, 16vw, 140px);
   height: clamp(110px, 16vw, 140px);
   overflow: visible;
@@ -1663,27 +1666,30 @@ body:has(.heroes-gallery) {
 .hero-card__crest-square-front {
   /* Allow the wreath and medallion to spill outside the circle. */
   overflow: visible;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Avatar wrapper (either plaque__avatar or hero-card__crest-avatar) */
 .hero-card__crest-square-front .plaque__avatar,
 .hero-card__crest-avatar {
-  --avatar-size: clamp(110px, 16vw, 140px);
+  --avatar-size: 100%;
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: var(--avatar-size);
-  height: var(--avatar-size);
+  width: 100% !important;
+  height: 100% !important;
   border-radius: 50%;
 }
 
-/* Photo inside the avatar wrapper */
+/* Photo inside the avatar wrapper — 82% so the wreath frames it from the outside */
 .hero-card__crest-square-front .plaque__avatar-img,
 .hero-card__crest-avatar-img {
   display: block;
-  width: 100%;
-  height: 100%;
+  width: 82% !important;
+  height: 82% !important;
   object-fit: cover;
   border-radius: 50%;
   filter: saturate(0.86) contrast(1.08);
@@ -1693,7 +1699,7 @@ body:has(.heroes-gallery) {
 .hero-card__crest-square-front .plaque__avatar-wreath,
 .hero-card__crest-avatar-wreath {
   position: absolute;
-  /* Wreath is 112% of the avatar so it frames the photo. */
+  /* Wreath is 112% of the avatar wrapper so it frames the photo outside the circle. */
   inset: -6%;
   width: 112%;
   height: 112%;
