@@ -219,10 +219,13 @@ jobs:
           fi
 
           echo "Packaging generated registry and graph artifacts..."
+          # registry/gaia.svg was retired under Yggdrasil II (the 3D World Tree
+          # superseded the static SVG atlas; only the GEXF export survives — see
+          # scripts/build_docs.py). `gaia dev docs` no longer emits it, so listing
+          # it here made `set -e` tar exit 2 and skip the PyPI/Cloudflare steps.
           tar -czf gaia-artifacts.tar.gz \
             registry/gaia.json \
             registry/gaia.gexf \
-            registry/gaia.svg \
             registry/layouts_3d.json \
             registry/named-skills.json \
             registry/real-skills.json \
