@@ -387,17 +387,15 @@
     var stage = document.getElementById('hohFsStage');
     if (stage) {
       var ogNs = {
-        id: ns.id,
-        name: ns.name,
-        contributor: ns.contributor,
-        origin: ns.origin,
-        level: ns.level,
-        type: ns.type,
-        // Pass emitted branch so plaque.branchOf reads the resolved field
-        // directly (Ygg-II: never derive branch from type).
-        branch: ns.branch || '',
-        description: ns.description,
-        tags: ns.tags
+        id: String(ns.id || ''),
+        name: String(ns.name || ''),
+        contributor: String(ns.contributor || ''),
+        origin: !!ns.origin,
+        level: String(ns.level || ''),
+        type: String(ns.type || ''),
+        branch: String(ns.branch || ''),
+        description: String(ns.description || ''),
+        tags: Array.isArray(ns.tags) ? ns.tags.map(function (t) { return String(t); }) : []
       };
       var renderMock = function () {
         if (window.plaque && typeof window.plaque.renderOg === 'function') {
@@ -417,6 +415,8 @@
           ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '')
           : '';
         var svgPath = docRoot + ogPath.replace(/\.png(\?.*)?$/, '.svg');
+        // Guard against non-http URLs (e.g. javascript:) before assigning to src.
+        if (!/^https?:\/\/|^\/|^\.\/|^\.\.\//.test(svgPath)) { svgPath = ''; }
         var imgEl = document.createElement('img');
         imgEl.src = svgPath;
         imgEl.alt = ns.name || ns.id || '';

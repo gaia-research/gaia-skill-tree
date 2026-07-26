@@ -1445,9 +1445,16 @@
       const q = selectedRepo ? `?repo=${encodeURIComponent(selectedRepo)}` : "";
       // Map a wordmark filename to its seal-only sibling. The generator
       // guarantees both exist; if seal is checked, every URL swaps.
+      // Allowlist file against known registry filenames before use in URLs.
+      const FIXED_FILES = new Set(["handle.svg", "rank.svg", "skills.svg", "handle-seal.svg", "rank-seal.svg", "skills-seal.svg"]);
+      const knownFiles = new Set((namedSkills || []).flatMap(s => [s.file, s.file.replace(/\.svg$/, "-seal.svg")]));
+      const safeFile = (file) => {
+        const f = String(file);
+        return (FIXED_FILES.has(f) || knownFiles.has(f)) ? f : "handle.svg";
+      };
       const sealify = (file) => chkSeal.checked
-        ? file.replace(/\.svg$/, "-seal.svg")
-        : file;
+        ? safeFile(file).replace(/\.svg$/, "-seal.svg")
+        : safeFile(file);
       const files = (pickedFiles && pickedFiles.length) ? pickedFiles : ["handle.svg"];
 
       // Local previews always read from _assets/ — these don't go through the
