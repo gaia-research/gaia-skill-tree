@@ -469,8 +469,8 @@
     // Meta
     html += '<div class="hero-card__meta">';
     html += '<div class="hero-card__tier-mark" aria-label="' + esc(tierLabel) + '"><span aria-hidden="true">' + esc(glyph) + '</span>' + esc(tierLabel) + '</div>';
-    html += '<h2 class="hero-card__name" id="' + esc(titleId) + '">' + esc(slug) + '</h2>';
-    html += '<div class="hero-card__handle">@' + esc(handle) + '</div>';
+    html += '<h2 class="hero-card__name" id="' + esc(titleId) + '"><a class="hero-card__name-link" href="../named/#explorer/' + esc(skillId) + '">' + esc(slug) + '</a></h2>';
+    html += '<div class="hero-card__handle"><a class="hero-card__handle-link" href="../u/' + esc(handle) + '/">@' + esc(handle) + '</a></div>';
     if (epithet) {
       html += '<p class="hero-card__epithet">' + esc(epithet) + '</p>';
     }

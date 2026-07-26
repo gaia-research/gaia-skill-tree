@@ -1113,6 +1113,25 @@ body:has(.heroes-gallery) {
   text-wrap: balance;
 }
 
+.hero-card__name-link,
+.hero-card__handle-link {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.hero-card__name-link:hover,
+.hero-card__name-link:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.hero-card__handle-link:hover,
+.hero-card__handle-link:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .hero-card__handle {
   font-family: var(--heroes-font-mono);
   font-size: 0.9rem;
@@ -1684,12 +1703,12 @@ body:has(.heroes-gallery) {
   border-radius: 50%;
 }
 
-/* Photo inside the avatar wrapper — 82% so the wreath frames it from the outside */
+/* Photo inside the avatar wrapper — 90% to fill the circular crest frame */
 .hero-card__crest-square-front .plaque__avatar-img,
 .hero-card__crest-avatar-img {
   display: block;
-  width: 82% !important;
-  height: 82% !important;
+  width: 90% !important;
+  height: 90% !important;
   object-fit: cover;
   border-radius: 50%;
   filter: saturate(0.86) contrast(1.08);
@@ -1699,10 +1718,10 @@ body:has(.heroes-gallery) {
 .hero-card__crest-square-front .plaque__avatar-wreath,
 .hero-card__crest-avatar-wreath {
   position: absolute;
-  /* Wreath is 112% of the avatar wrapper so it frames the photo outside the circle. */
-  inset: -6%;
-  width: 112%;
-  height: 112%;
+  /* Wreath is 116% of the avatar wrapper so it frames the 90% photo to fit the circular crest. */
+  inset: -8%;
+  width: 116%;
+  height: 116%;
   pointer-events: none;
   display: block;
 }
