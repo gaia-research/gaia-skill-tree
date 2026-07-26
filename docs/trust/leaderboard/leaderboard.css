@@ -375,24 +375,28 @@ nav.lb-toc a.is-active .lb-toc-icon { opacity: 1; }
   font-style: italic;
 }
 
-/* ── Bar-style "Show all" — bottom-right of chart panel ── */
+/* ── Bar-style pagination, overlaid within the chart instead of adding a row ── */
 .lb-show-all-btn {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  margin: 0.5rem 0.9rem 0.9rem auto;
   padding: 0.35rem 0.85rem;
   border: 1px solid var(--border);
   border-radius: 6px;
-  background: transparent;
+  background: var(--bg);
   color: var(--muted);
   font-family: var(--font-data);
   font-size: 0.78rem;
   letter-spacing: 0.03em;
   cursor: pointer;
   transition: color 0.15s, border-color 0.15s, background 0.15s;
-  float: right;
-  clear: both;
+}
+.lb-show-all-btn--in-chart {
+  position: sticky;
+  top: 0.75rem;
+  left: calc(100% - 10.5rem);
+  z-index: 3;
+  margin: 0.75rem 0 -2.75rem;
 }
 .lb-show-all-btn:hover {
   color: var(--text);

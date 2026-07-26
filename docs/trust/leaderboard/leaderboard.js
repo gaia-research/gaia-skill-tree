@@ -427,34 +427,6 @@
     svg.appendChild(g);
   }
 
-  // ── ORIGIN BADGE HELPER ──
-  // Renders a small laurel-wreath glyph in the top-left interior of a bar to mark origin skills.
-  // Anchored to (barX, barY, barW); badge sits inside the bar, never overlapping labels below.
-  // Uses currentColor + color: var(--apex-gold) — red origin mark is deprecated (Yggdrasil II E4).
-  function appendOriginBadge(parent, barX, barY, barW) {
-    var size = Math.max(10, Math.min(14, barW * 0.45));
-    var margin = 3;
-    // Soft dark scrim behind the glyph so it stays legible against light bars
-    var scrim = svgEl('circle', {
-      cx: barX + margin + size / 2,
-      cy: barY + margin + size / 2,
-      r: String(size / 2 + 1.5),
-      fill: 'rgba(0,0,0,0.45)',
-      'pointer-events': 'none'
-    });
-    parent.appendChild(scrim);
-    var u = document.createElementNS(SVG_NS, 'use');
-    u.setAttribute('href', ROOT_PREFIX + 'assets/icons.svg#origin-badge');
-    u.setAttribute('x', String(barX + margin));
-    u.setAttribute('y', String(barY + margin));
-    u.setAttribute('width', String(size));
-    u.setAttribute('height', String(size));
-    u.setAttribute('fill', 'currentColor');
-    u.setAttribute('color', 'var(--apex-gold)');
-    u.setAttribute('pointer-events', 'none');
-    parent.appendChild(u);
-  }
-
   // ── AVATAR WREATH HELPER ──
   // Renders the gold origin-wreath-gold.svg ring OVER an origin skill's
   // bar-chart avatar circle. Sized 112% of the avatar diameter so the laurel
@@ -824,6 +796,7 @@
     el.querySelectorAll('.lb-named-filter').forEach(function(btn) {
       btn.addEventListener('click', function() {
         state.grade = btn.dataset.view === 'all' ? 'all' : btn.dataset.view;
+        state.namedExpanded = false;
         state.showCount = INITIAL_BARS;
         el.querySelectorAll('.lb-named-filter').forEach(function(b) {
           b.classList.toggle('is-active', b === btn);
@@ -1241,11 +1214,6 @@
       // Gold origin wreath identifies an Origin skill only.
       appendAvatarWreath(barGroup, avatarCx, avatarCy, avatarR, !!suite.origin);
 
-      // Origin laurel-wreath badge (pre-baked by C1) — top-left interior of bar
-      if (suite.origin === true) {
-        appendOriginBadge(barGroup, x, y, SB);
-      }
-
       // Skill name label (slash-named form: contributor/skill, adaptive rotation/font/truncation)
       var labelY = innerH + avatarR * 2 + 14;
       var label = makeLabel(x + SB / 2, labelY, ls.rotation, ls.fontPx);
@@ -1291,7 +1259,7 @@
       if (existing) existing.remove();
       var btn = document.createElement('button');
       btn.id = 'lbSuiteToggle';
-      btn.className = 'lb-show-all-btn';
+      btn.className = 'lb-show-all-btn lb-show-all-btn--in-chart';
       btn.type = 'button';
       btn.innerHTML = state.suitesExpanded
         ? '<span>Show fewer</span><svg class="lb-show-all-icon" aria-hidden="true" viewBox="0 0 16 16"><path d="M3 10 L8 5 L13 10" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'
@@ -1300,7 +1268,7 @@
         state.suitesExpanded = !state.suitesExpanded;
         renderSuiteChart(suites);
       });
-      container.parentNode.insertBefore(btn, container.nextSibling);
+      container.insertBefore(btn, container.firstChild);
     }
 
     // Update count to show '8 of 14 suites' when truncated
@@ -1725,11 +1693,6 @@
       // Gold origin wreath identifies an Origin skill only.
       appendAvatarWreath(barGroup, avatarCx, avatarCy, avatarR, !!skill.origin);
 
-      // Origin laurel-wreath badge (pre-baked by C1) — top-left interior of bar
-      if (skill.origin === true) {
-        appendOriginBadge(barGroup, x, y, NB);
-      }
-
       // Skill name label (slash-named form: contributor/skill, adaptive rotation/font/truncation)
       var labelY = innerH + avatarR * 2 + 14;
       var label = makeLabel(x + NB / 2, labelY, ls.rotation, ls.fontPx);
@@ -1755,18 +1718,18 @@
     if (!needsPagination) return;
     var btn = document.createElement('button');
     btn.id = 'lbNamedPaginateBtn';
-    btn.className = 'lb-show-all-btn';
+    btn.className = 'lb-show-all-btn lb-show-all-btn--in-chart';
     btn.type = 'button';
     btn.innerHTML = state.namedExpanded
       ? '<span>Show fewer</span><svg class="lb-show-all-icon" aria-hidden="true" viewBox="0 0 16 16"><path d="M3 10 L8 5 L13 10" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'
       : '<span>Show all <em>(' + total + ')</em></span><svg class="lb-show-all-icon" aria-hidden="true" viewBox="0 0 16 16"><path d="M3 6 L8 11 L13 6" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>';
     btn.addEventListener('click', function() {
       state.namedExpanded = !state.namedExpanded;
-      if (state.namedExpanded) state.showCount = total;
+      state.showCount = state.namedExpanded ? total : INITIAL_BARS;
       renderNamedChart(state.namedSkills);
       wireActionButtons();
     });
-    container.parentNode.insertBefore(btn, container.nextSibling);
+    container.insertBefore(btn, container.firstChild);
   }
 
   // ── GENERIC/STARLESS SKILLS BAR CHART ──
@@ -1928,11 +1891,6 @@
       var rotatedLabelH = Math.abs(Math.sin(ls.rotation * Math.PI / 180)) * ls.fontPx * 18;
       var childStartY = nameY + rotatedLabelH + ls.fontPx + 8;
 
-      // Origin laurel-wreath badge for parent generic node (pre-baked by C1) — top-left interior of bar
-      if (node.origin === true) {
-        appendOriginBadge(barGroup, x, y, GB);
-      }
-
       var shownChildren = children.slice(0, 3);
       shownChildren.forEach(function(child, ci) {
         var lbl = svgEl('text', {
@@ -1976,7 +1934,7 @@
     if (!needsPagination) return;
     var btn = document.createElement('button');
     btn.id = 'lbGenericPaginateBtn';
-    btn.className = 'lb-show-all-btn';
+    btn.className = 'lb-show-all-btn lb-show-all-btn--in-chart';
     btn.type = 'button';
     btn.innerHTML = state.genericExpanded
       ? '<span>Show fewer</span><svg class="lb-show-all-icon" aria-hidden="true" viewBox="0 0 16 16"><path d="M3 10 L8 5 L13 10" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>'
@@ -1986,7 +1944,7 @@
       renderGenericChart(state.starlessNodes);
       wireActionButtons();
     });
-    container.parentNode.insertBefore(btn, container.nextSibling);
+    container.insertBefore(btn, container.firstChild);
   }
 
   // ── REGISTRY COMPACT LIST ──
@@ -2120,6 +2078,7 @@
       var btn = e.target.closest('.lb-stab[data-view]');
       if (!btn) return;
       state.grade = btn.dataset.view === 'all' ? 'all' : btn.dataset.view;
+      state.namedExpanded = false;
       state.showCount = INITIAL_BARS;
       btn.closest('.lb-section-tabs').querySelectorAll('.lb-stab').forEach(function(b) {
         b.classList.toggle('is-active', b === btn);
@@ -2133,6 +2092,7 @@
     if (sortSel) {
       sortSel.addEventListener('change', function() {
         state.sort = sortSel.value;
+        state.namedExpanded = false;
         state.showCount = INITIAL_BARS;
         renderNamedChart(state.namedSkills);
         wireActionButtons();
@@ -2146,6 +2106,7 @@
         state.grouped = !state.grouped;
         groupToggle.textContent = state.grouped ? '\u229e Grouped' : '\u229f Expanded';
         groupToggle.classList.toggle('is-active', state.grouped);
+        state.namedExpanded = false;
         state.showCount = INITIAL_BARS;
         renderNamedChart(state.namedSkills);
         wireActionButtons();
@@ -2354,6 +2315,7 @@
         }
         cb.closest('.lb-ms-item').classList.toggle('is-checked', cb.checked);
         updateLabel();
+        state.namedExpanded = false;
         state.showCount = INITIAL_BARS;
         renderNamedChart(state.namedSkills);
         wireActionButtons();
@@ -2365,6 +2327,7 @@
         state.searchContribs = [];
         updateLabel();
         renderList(searchInput ? searchInput.value : '');
+        state.namedExpanded = false;
         state.showCount = INITIAL_BARS;
         renderNamedChart(state.namedSkills);
         wireActionButtons();
@@ -2378,6 +2341,8 @@
     if (skillSearchEl) {
       skillSearchEl.addEventListener('input', function() {
         state.skillSearchQuery = this.value.toLowerCase().trim();
+        state.namedExpanded = false;
+        state.showCount = INITIAL_BARS;
         renderNamedChart(state.namedSkills);
       });
     }
