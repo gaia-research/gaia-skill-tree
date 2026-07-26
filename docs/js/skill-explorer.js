@@ -1587,13 +1587,13 @@
         var nodeType = (nb && nb.type) || s.type || 'basic';
         var nodeLevel = (nb && nb.level) || '';
         var _nodeRank = parseInt(String(nodeLevel).replace(/\D+/g, ''), 10) || 0;
-        var _nodeBranch = nb ? _seBranchOf(nb) : 'standard';
+        var nodeBranch = nb ? _seBranchOf(nb) : 'standard';
         var dotColor;
         if (hasNamed) {
-          if (_nodeBranch === 'unique') {
+          if (nodeBranch === 'unique' && _nodeRank >= 4) {
             dotColor = _nodeRank >= 6 ? 'var(--rank-6-unique)' : (_nodeRank === 5 ? 'var(--rank-5-unique)' : 'var(--rank-4-unique)');
-          } else if (_nodeBranch === 'suite' && _nodeRank >= 5) {
-            dotColor = 'var(--apex-gold)';
+          } else if (nodeBranch === 'suite' && _nodeRank >= 5) {
+            dotColor = _nodeRank >= 6 ? 'var(--rank-6, var(--apex-gold))' : 'var(--rank-5, var(--apex-gold))';
           } else {
             dotColor = 'var(--rank-' + _nodeRank + ', var(--muted))';
           }
@@ -1615,7 +1615,7 @@
         return '<div class="git-node' + extraMainClass + '"' +
             ' data-id="' + esc(id) + '"' +
             ' data-type="' + esc(nodeType) + '"' +
-            ' data-branch="' + esc(_nodeBranch) + '"' +
+            ' data-branch="' + esc(nodeBranch) + '"' +
             ' data-level="' + esc(nodeLevel) + '"' +
             ' data-ghost="' + (hasNamed ? 'false' : 'true') + '"' +
             ' style="--staggerY:' + staggerY + 'px; --staggerX:' + staggerX + 'px"' +
