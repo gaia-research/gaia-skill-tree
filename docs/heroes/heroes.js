@@ -360,6 +360,7 @@
       contributor: contributor && contributor.handle,
       level: skill.level,
       type: skill.type,
+      branch: computeBranchForTopSkill(contributor),
       suiteComponents: skill.suiteComponents,
     };
     // 'lg' size modifier → the AOV4 'hero' tier asset (largest stamp).
