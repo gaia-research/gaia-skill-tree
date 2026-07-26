@@ -24,6 +24,7 @@
   var API_URL = '../api/v1/contributors/index.json';
   var TRUST_LEDGER_URL = '../graph/ledger/data.json';
   var NAMED_INDEX_URL = '../graph/named/index.json';
+  var GRAPH_URL = '../graph/gaia.json';
   var DETAIL_URL_TEMPLATE = '../api/v1/contributors/{handle}.json';
   var INTERSECTION_THRESHOLD = 0.3;
   var SCROLL_TICKING = false;
@@ -36,6 +37,7 @@
   var LEDGER_WINDOW_BEFORE = 2;
   var LEDGER_WINDOW_AFTER = 3;
   var LEDGER_ACTIVE_INDEX = -1;
+  var GAIA_SKILL_MAP = {};
 
   // Hero → bespoke animation mapping (keyed by named-skill id, not type)
   var ULTIMATE_ANIMS = {
@@ -385,11 +387,29 @@
   }
 
   function fusedCount(contributor) {
-    var skill = contributor && contributor.topSkill;
-    if (skill && Array.isArray(skill.suiteComponents)) {
-      return skill.suiteComponents.length;
+    var topSkill = contributor && contributor.topSkill;
+    if (!topSkill) return 0;
+    var genericRef = topSkill.genericSkillRef || (topSkill.id ? topSkill.id.split('/').pop() : '');
+    var generic = GAIA_SKILL_MAP[genericRef];
+    if (!generic || generic.type !== 'fusion') return 0;
+
+    var visited = {};
+    function walk(id) {
+      if (!id || visited[id] || !GAIA_SKILL_MAP[id]) return;
+      visited[id] = true;
+      var node = GAIA_SKILL_MAP[id];
+      var prereqs = Array.isArray(node.prerequisites) ? node.prerequisites : [];
+      prereqs.forEach(function (p) {
+        walk(p);
+      });
     }
-    return 0;
+
+    var directPrereqs = Array.isArray(generic.prerequisites) ? generic.prerequisites : [];
+    directPrereqs.forEach(function (p) {
+      walk(p);
+    });
+
+    return Object.keys(visited).length;
   }
 
   function renderHeroStage(contributor, tier, index, total) {
@@ -907,12 +927,26 @@
       }).catch(function (err) {
         console.warn('[heroes] Named index unavailable; falling back to basic/extra metadata from contributors API:', err);
         return {};
+      }),
+      fetch(GRAPH_URL).then(function (r) {
+        if (!r.ok) throw new Error('Graph gaia.json fetch failed: ' + r.status);
+        return r.json();
+      }).catch(function (err) {
+        console.warn('[heroes] Graph gaia.json unavailable:', err);
+        return { skills: [] };
       })
     ])
       .then(function (results) {
         var ledgerBySkill = trustLedgerMap(results[1]);
         var namedData = results[2];
+        var gaiaData = results[3];
         var namedBySkill = namedSkillMap(namedData);
+
+        GAIA_SKILL_MAP = {};
+        var gList = (gaiaData && Array.isArray(gaiaData.skills)) ? gaiaData.skills : [];
+        gList.forEach(function (s) {
+          if (s && s.id) GAIA_SKILL_MAP[s.id] = s;
+        });
 
         // §8: build one hero per qualifying named skill (rank >= 4) from the
         // named index — NOT one-per-contributor off the capped topSkill blob.
