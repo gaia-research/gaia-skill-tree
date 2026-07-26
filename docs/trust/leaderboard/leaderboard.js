@@ -456,12 +456,11 @@
   }
 
   // ── AVATAR WREATH HELPER ──
-  // Renders the gold origin-wreath-gold.svg ring OVER a bar-chart avatar circle.
-  // E3: every avatar on every bar chart is framed by the gold wreath, not just origin
-  // skills — the wreath is the Yggdrasil II origin mark and applies universally.
-  // Sized 112% of the avatar diameter so the laurel reads as a border ring (mirrors
-  // the plaque.css pattern: inset:-6%; width:112%).
-  function appendAvatarWreath(parent, cx, cy, r) {
+  // Renders the gold origin-wreath-gold.svg ring OVER an origin skill's
+  // bar-chart avatar circle. Sized 112% of the avatar diameter so the laurel
+  // reads as a border ring (mirrors the plaque.css pattern: inset:-6%; width:112%).
+  function appendAvatarWreath(parent, cx, cy, r, isOrigin) {
+    if (!isOrigin) return;
     var wreathSize = r * 2.24; // 112% of diameter
     var wreathImg = svgEl('image', {
       href: ROOT_PREFIX + 'assets/origin-wreath-gold.svg',
@@ -998,8 +997,8 @@
       });
       barGroup.appendChild(avatarImg);
 
-      // Gold origin-wreath-gold.svg ring — E3: every avatar is framed (Yggdrasil II)
-      appendAvatarWreath(barGroup, avatarCx, avatarCy, avatarR);
+      // Gold origin wreath identifies an Origin skill only.
+      appendAvatarWreath(barGroup, avatarCx, avatarCy, avatarR, !!ult.origin);
 
       // Skill name label (adaptive)
       var labelY = innerH + avatarR * 2 + 14;
@@ -1239,8 +1238,8 @@
       });
       barGroup.appendChild(avatarImg);
 
-      // Gold origin-wreath-gold.svg ring — E3: every avatar is framed (Yggdrasil II)
-      appendAvatarWreath(barGroup, avatarCx, avatarCy, avatarR);
+      // Gold origin wreath identifies an Origin skill only.
+      appendAvatarWreath(barGroup, avatarCx, avatarCy, avatarR, !!suite.origin);
 
       // Origin laurel-wreath badge (pre-baked by C1) — top-left interior of bar
       if (suite.origin === true) {
@@ -1723,8 +1722,8 @@
       });
       barGroup.appendChild(avatarImg);
 
-      // Gold origin-wreath-gold.svg ring — E3: every avatar is framed (Yggdrasil II)
-      appendAvatarWreath(barGroup, avatarCx, avatarCy, avatarR);
+      // Gold origin wreath identifies an Origin skill only.
+      appendAvatarWreath(barGroup, avatarCx, avatarCy, avatarR, !!skill.origin);
 
       // Origin laurel-wreath badge (pre-baked by C1) — top-left interior of bar
       if (skill.origin === true) {
@@ -2292,15 +2291,19 @@
       var wreathSrc = ROOT_PREFIX + 'assets/origin-wreath-gold.svg';
       listEl.innerHTML = shown.map(function(c) {
         var checked = state.searchContribs.indexOf(c) !== -1;
+        // This avatar represents a contributor rather than one named skill:
+        // show Origin only if they hold it on at least one listed skill.
+        var hasOrigin = state.namedSkills.some(function(s) {
+          return s.contributor === c && s.origin === true;
+        });
         var clean = String(c).replace(/^@/, '');
         var avatarSrc = 'https://github.com/' + encodeURIComponent(clean) + '.png?size=32';
         var identicon = 'https://github.com/identicons/' + encodeURIComponent(clean) + '.png';
         var errAttr = "if(this.dataset.fbk){this.onerror=null;}else{this.dataset.fbk='1';this.src='" + identicon.replace(/\\/g, "\\\\").replace(/'/g, "\\'") + "';}";
-        // E3: GitHub avatar framed by gold wreath (matches chart-bar appendAvatarWreath pattern)
         var avatarHtml =
           '<span class="lb-ms-avatar" style="background:oklch(0.55 0.18 ' + handleHue(c) + ')">' +
             '<img class="lb-ms-avatar-img" src="' + esc(avatarSrc) + '" alt="" decoding="async" loading="lazy" referrerpolicy="no-referrer" onerror="' + errAttr + '">' +
-            '<img class="lb-ms-avatar-wreath" src="' + esc(wreathSrc) + '" alt="" aria-hidden="true">' +
+            (hasOrigin ? '<img class="lb-ms-avatar-wreath" src="' + esc(wreathSrc) + '" alt="" aria-hidden="true">' : '') +
           '</span>';
         return '<label class="lb-ms-item' + (checked ? ' is-checked' : '') + '">' +
           '<input type="checkbox" value="' + esc(c) + '"' + (checked ? ' checked' : '') + '>' +

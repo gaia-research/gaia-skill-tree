@@ -301,8 +301,9 @@
     return 'https://github.com/' + encodeURIComponent(clean) + '.png?size=' + (size || 160);
   }
 
-  // ── Gold-wreath avatar (E3/E4) ────────────────────────────────
-  // Renders the contributor's GitHub avatar framed by origin-wreath-gold.svg.
+  // ── Origin-gated gold-wreath avatar (E3/E4) ───────────────────
+  // Renders the contributor's GitHub avatar; origin-wreath-gold.svg appears
+  // only when the contributor's top skill is marked `origin: true`.
   // Identicon fallback on onerror — never hides the frame.
   // Reuses plaque._fields.avatar when available; falls back to inline pattern.
   // The red origin mark (E4) is deprecated — gold wreath IS the origin signal.
@@ -335,9 +336,10 @@
     var imgHtml = '<img class="hero-card__crest-avatar-img" src="' + esc(avatarSrc) + '" ' +
       'alt="" decoding="async" loading="lazy" referrerpolicy="no-referrer" ' +
       'onerror="' + errAttr + '">';
-    var wreathHtml = '<img class="hero-card__crest-avatar-wreath" src="' + esc(wreathSrc) + '" ' +
-      'alt="" aria-hidden="true">';
-    return '<span class="hero-card__crest-avatar" title="' + esc(title) + '" ' +
+    var wreathHtml = isOrigin
+      ? '<img class="hero-card__crest-avatar-wreath" src="' + esc(wreathSrc) + '" alt="" aria-hidden="true">'
+      : '';
+    return '<span class="hero-card__crest-avatar" title="' + esc(title) + '" '
       'aria-label="' + esc(title) + '"' +
       (isOrigin ? ' data-origin="true"' : '') + '>' +
       imgHtml + wreathHtml +
