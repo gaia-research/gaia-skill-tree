@@ -1057,6 +1057,13 @@ body:has(#hero.hero-graph-fullscreen) {
     mask: radial-gradient(ellipse 80% 64% at 50% 32%, rgba(0, 0, 0, 1) 42%, rgba(0, 0, 0, 0) 92%);
   }
 
+  /* The painted tree remains the mobile backdrop. Hide the live DAG projection
+     in its resting pose so node dots do not compete with the hero copy; the
+     selector releases as soon as the 3D explorer starts. */
+  #hero.hero-tree-shell[data-tree-state="hero2d"] #canvas3d {
+    opacity: 0;
+  }
+
   /* Top utility strip: "Explore in 3D" on the right, the automated latest-report
      notification (hero-audit-btn) promoted to the left as its peer. */
   #hero.hero-tree-shell .hero-tree-utilities {
