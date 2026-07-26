@@ -384,6 +384,14 @@
     return s.charAt(0) === '/' ? s : '/' + s;
   }
 
+  function fusedCount(contributor) {
+    var skill = contributor && contributor.topSkill;
+    if (skill && Array.isArray(skill.suiteComponents)) {
+      return skill.suiteComponents.length;
+    }
+    return 0;
+  }
+
   function renderHeroStage(contributor, tier, index, total) {
     var handle = contributor.handle;
     var skillId = contributor.topSkill.id;
@@ -445,7 +453,7 @@
     }
     html += '<div class="hero-card__stats">';
     html += '<span><span class="hero-card__stat-value">' + contributor.namedSkills + '</span> named skills</span>';
-    html += '<span><span class="hero-card__stat-value">' + contributor.topSkill.level + '</span> top rank</span>';
+    html += '<span><span class="hero-card__stat-value">' + fusedCount(contributor) + '</span> fused</span>';
     html += '<span><span class="hero-card__stat-value">' + formatTrustMagnitude(trustMagnitude(contributor)) + '</span> Trust Magnitude</span>';
     html += '</div>';
     html += '</div>';
