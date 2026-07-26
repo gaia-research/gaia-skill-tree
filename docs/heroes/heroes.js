@@ -378,10 +378,16 @@
 
   // ── Render functions ──────────────────────────────────────────
 
+  function namedSlugText(id) {
+    if (!id) return '';
+    var s = String(id).indexOf('/') !== -1 ? String(id).split('/', 2)[1] : String(id);
+    return s.charAt(0) === '/' ? s : '/' + s;
+  }
+
   function renderHeroStage(contributor, tier, index, total) {
     var handle = contributor.handle;
     var skillId = contributor.topSkill.id;
-    var slug = skillId.split('/').pop();
+    var slug = namedSlugText(skillId);
     var lvl = levelNum(contributor.topSkill.level);
     var branch = computeBranchForTopSkill(contributor);
     var anim = tier === 'ultimate' ? getAnim(skillId) : '';
@@ -469,7 +475,7 @@
       var contributor = entry.contributor;
       var tier = entry.tier;
       var skillId = contributor.topSkill.id || '';
-      var slug = skillId.split('/').pop() || contributor.handle;
+      var slug = namedSlugText(skillId) || contributor.handle;
       // E1: glyph keyed by branch, not type.
       var branch = computeBranchForTopSkill(contributor);
       var glyph = BRANCH_GLYPH[branch] || BRANCH_GLYPH.standard;
@@ -700,7 +706,7 @@
     });
 
     if (entry && current) {
-      var slug = (entry.contributor.topSkill.id || '').split('/').pop() || entry.contributor.handle;
+      var slug = namedSlugText(entry.contributor.topSkill.id) || entry.contributor.handle;
       current.textContent = slug;
     }
 
@@ -800,7 +806,7 @@
     listEl.innerHTML = LEDGER_ITEMS.map(function (entry, index) {
       var contributor = entry.contributor;
       var skillId = contributor.topSkill.id || '';
-      var slug = skillId.split('/').pop() || contributor.handle;
+      var slug = namedSlugText(skillId) || contributor.handle;
       var branch = computeBranchForTopSkill(contributor);
       var glyph = BRANCH_GLYPH[branch] || BRANCH_GLYPH.standard;
       var lvl = levelNum(contributor.topSkill.level);
