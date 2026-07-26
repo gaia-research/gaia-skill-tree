@@ -920,17 +920,12 @@
     line2.className = 'intro-reveal-line';
     line2.textContent = 'Names are earned.';
 
-    var line3 = document.createElement('div');
-    line3.className = 'intro-reveal-line';
-    line3.textContent = 'Apex is rare.';
-
     var skipHint = document.createElement('div');
     skipHint.className = 'intro-skip';
     skipHint.textContent = 'click anywhere to skip';
 
     overlay.appendChild(line1);
     overlay.appendChild(line2);
-    overlay.appendChild(line3);
     overlay.appendChild(skipHint);
     document.body.appendChild(overlay);
 
@@ -958,11 +953,8 @@
       if (!skipped) line2.classList.add('visible');
     }, 900));
     timers.push(setTimeout(function () {
-      if (!skipped) line3.classList.add('visible');
-    }, 1500));
-    timers.push(setTimeout(function () {
       dismiss();
-    }, 2400));
+    }, 1800));
   }
 
   // ── Main init ─────────────────────────────────────────────────
