@@ -33,7 +33,7 @@ Generate yours at **[gaiaskilltree.com/badges/](https://gaiaskilltree.com/badges
 
 ---
 
-## Change Management — Yggdrasil II (July 2026)
+## Yggdrasil II just dropped! (July 2026)
 
 Gaia has moved from **Yggdrasil I** to **Yggdrasil II**, the ratified meta that governs how skills are typed, ranked, and trusted. If you last looked before July 2026, three things changed:
 
