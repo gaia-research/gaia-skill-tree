@@ -1003,13 +1003,13 @@ body:has(.heroes-gallery) {
 
 .hero-card__crest-seal {
   position: absolute;
-  bottom: -4px;
-  right: -4px;
+  bottom: -2px;
+  right: -2px;
   left: auto;
   transform: none;
   z-index: 10;
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   display: grid;
   place-items: center;
@@ -1025,10 +1025,10 @@ body:has(.heroes-gallery) {
    supersedes the legacy ◆ glyph (hidden below); the seal grows slightly so
    the rank medallion reads. The shared .plaque-orb--medallion img fills it. */
 .hero-card__crest-seal:has(.plaque-orb--medallion) {
-  width: 56px;
-  height: 56px;
-  bottom: -8px;
-  right: -8px;
+  width: 46px;
+  height: 46px;
+  bottom: -4px;
+  right: -4px;
   background: transparent;
   border: none;
   box-shadow: none;
@@ -1065,7 +1065,8 @@ body:has(.heroes-gallery) {
     0 0 54px rgba(var(--stage-accent-rgb), 0.22);
 }
 
-.hero-stage.is-active .hero-card__crest-square-front {
+.hero-stage.is-active .hero-card__crest-square-front,
+.hero-stage.is-active .hero-card__crest-seal {
   transform: scale(1.04);
   border-color: rgba(var(--stage-accent-rgb), 0.45);
 }
@@ -1078,7 +1079,8 @@ body:has(.heroes-gallery) {
     0 0 60px rgba(var(--stage-accent-rgb), 0.28);
 }
 
-.hero-card__crest-wrapper:hover .hero-card__crest-square-front {
+.hero-card__crest-wrapper:hover .hero-card__crest-square-front,
+.hero-card__crest-wrapper:hover .hero-card__crest-seal {
   transform: translateY(-4px) scale(1.06);
   border-color: var(--stage-accent);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.75);
@@ -1277,7 +1279,8 @@ body:has(.heroes-gallery) {
   animation: hero-cascade 1.3s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.hero-stage.is-visible .hero-card__crest-square-front {
+.hero-stage.is-visible .hero-card__crest-square-front,
+.hero-stage.is-visible .hero-card__crest-seal {
   animation: hero-unique-enter 0.8s ease-out both;
   animation-delay: 0.25s;
 }
@@ -1313,7 +1316,10 @@ body:has(.heroes-gallery) {
 
 .hero-stage--apex.is-visible .hero-card__crest-square-front,
 .hero-stage--unique.is-visible .hero-card__crest-square-front,
-.hero-stage--named.is-visible .hero-card__crest-square-front {
+.hero-stage--named.is-visible .hero-card__crest-square-front,
+.hero-stage--apex.is-visible .hero-card__crest-seal,
+.hero-stage--unique.is-visible .hero-card__crest-seal,
+.hero-stage--named.is-visible .hero-card__crest-seal {
   animation: hero-unique-enter 0.8s ease-out both;
   animation-delay: 0.25s;
 }
