@@ -10543,7 +10543,16 @@ button.nav-graph-trigger:hover {
   pointer-events: none;
   opacity: 0.78;
   background: var(--hoh-card-atmosphere);
-  transform: translate3d(0, 0, 0);
+}
+
+/* Only promote the atmosphere layer to its own compositing layer at the
+   desktop breakpoint, where it actually animates (hoh-mini-atmosphere-drift).
+   On mobile there is no animation, so forcing a GPU layer per plate is pure
+   overhead — leave it on the normal paint path. */
+@media (min-width: 768px) {
+  .hoh-section--mini .plaque--hall:not(.plaque--apex-vi)::before {
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 .hoh-section--mini .hoh-featured > .plaque--hall:nth-child(2n) {
@@ -10629,6 +10638,13 @@ button.nav-graph-trigger:hover {
     padding:
       clamp(3.25rem, 14vw, 4.25rem)
       1rem;
+  }
+
+  /* Drop the decorative masked grid overlay on mobile — it's a full-section
+     extra paint/compositing layer (mask-image radial gradient) that is
+     barely perceptible at 0.45 opacity yet costs real paint time on phones. */
+  .hoh-section--mini::before {
+    display: none;
   }
 
   .hoh-mini-stage {

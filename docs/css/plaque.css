@@ -1155,10 +1155,20 @@ button.plaque__slug {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: blur(14px) saturate(1.15);
+  /* Mobile default: a light 4px blur. The backdrop only shows at
+     ~0.04–0.11 opacity, so a heavy real-time blur is imperceptible yet
+     pays full GPU cost per plate — the dominant cause of scroll jank on
+     mobile. The richer 14px blur is restored at the desktop breakpoint
+     below, where the GPU budget is not the bottleneck. */
+  filter: blur(4px) saturate(1.15);
   display: block;
 }
-@media (prefers-reduced-motion: no-preference) {
+@media (min-width: 768px) {
+  .plaque--hall .plaque__hall-backdrop img {
+    filter: blur(14px) saturate(1.15);
+  }
+}
+@media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
   .plaque--hall:hover .plaque__hall-backdrop {
     transform: scale(1.06) translateY(-2px);
   }
