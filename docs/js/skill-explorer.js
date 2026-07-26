@@ -375,6 +375,8 @@
     var redacted = window.isRedacted && window.isRedacted(ns.level);
     var repoUrl = (!redacted && (links.github || links.npm)) || '';
 
+    var branch = (ns && ns.branch) || (window.GaiaSemantics && typeof window.GaiaSemantics.branchOf === 'function' ? window.GaiaSemantics.branchOf(ns) : 'standard');
+
     // Build the entry passed to plaque.renderDetail. Use the generic
     // type if the named entry doesn't carry one. Description falls
     // back to the generic description so the right column is never
@@ -385,6 +387,11 @@
       title: ns.title,
       level: ns.level,
       type: type,
+      branch: branch,
+      rank: ns.rank,
+      rankWord: ns.rankWord,
+      medallion: ns.medallion,
+      suiteComponents: ns.suiteComponents,
       contributor: ns.contributor,
       origin: ns.origin,
       description: ns.description || (generic && generic.description) || '',
