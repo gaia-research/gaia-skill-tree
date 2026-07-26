@@ -208,10 +208,11 @@
     return '<div class="plaque__handle plaque-contrib-row">' + contribLink + '</div>';
   }
 
-  // ── contributor avatar framed by the gold origin wreath (E3/E4) ──
-  // Every skill surface renders the contributor's GitHub avatar, framed by
-  // the gold origin wreath (docs/assets/origin-wreath-gold.svg) — this is the
-  // NEW origin mark (red → gold). The avatar links to the skill's repo
+  // ── contributor avatar, optionally framed by the gold origin wreath (E3/E4) ──
+  // Every skill surface renders the contributor's GitHub avatar. Only the
+  // skill marked `origin: true` receives the gold origin wreath
+  // (docs/assets/origin-wreath-gold.svg); it is the NEW origin mark (red → gold).
+  // The avatar links to the skill's repo
   // (links.github), replacing the standalone GitHub button.
   //
   // Fallback: a missing avatar swaps to the GitHub identicon endpoint
@@ -241,7 +242,9 @@
     var img = '<img class="plaque__avatar-img" src="' + esc(avatarSrc) + '" ' +
       'alt="" decoding="async" loading="lazy" referrerpolicy="no-referrer" ' +
       'onerror="' + errAttr + '">';
-    var wreath = '<img class="plaque__avatar-wreath" src="' + esc(wreathSrc) + '" alt="" aria-hidden="true">';
+    var wreath = isOrigin
+      ? '<img class="plaque__avatar-wreath" src="' + esc(wreathSrc) + '" alt="" aria-hidden="true">'
+      : '';
     var inner = img + wreath;
     var body;
     if (repoUrl) {
