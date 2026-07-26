@@ -218,6 +218,10 @@
   filter: drop-shadow(0 0 .35rem rgba(var(--apex-gold-rgb), .2));
 }
 
+.footer-sakura-branch {
+  display: none;
+}
+
 .hero-sakura-stem {
   fill: none;
   stroke: currentColor;

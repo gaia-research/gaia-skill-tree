@@ -6945,6 +6945,7 @@ footer.footer-v2::before {
 }
 
 .footer-v2 .footer-display-word {
+  position: relative;
   display: block;
   width: 100%;
   text-align: center;
@@ -6954,7 +6955,7 @@ footer.footer-v2::before {
   line-height: .9;
   letter-spacing: -.03em;
   white-space: nowrap;
-  overflow: hidden;
+  overflow: visible;
   background: linear-gradient(
     100deg,
     rgba(var(--apex-gold-rgb), .95) 0%,
@@ -6968,6 +6969,15 @@ footer.footer-v2::before {
   opacity: .2;
   transition: opacity .5s cubic-bezier(0.16, 1, 0.3, 1);
   user-select: none;
+}
+
+.footer-v2 .footer-sakura-branch {
+  color: var(--apex-gold);
+  -webkit-text-fill-color: initial;
+}
+
+.footer-v2 .footer-display-tree {
+  position: relative;
 }
 
 .footer-v2:hover .footer-display-word {
