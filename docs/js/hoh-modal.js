@@ -479,8 +479,6 @@
           imgEl.src = (resolvedUrl.protocol === 'https:' || resolvedUrl.protocol === 'http:') ? resolvedUrl.href : '';
         } catch (_e) { imgEl.src = ''; }
         imgEl.alt = ns.name || ns.id || '';
-        imgEl.style.width = '100%';
-        imgEl.style.height = '100%';
         imgEl.onload = function () { stage.replaceChildren(imgEl); };
         imgEl.onerror = function () { renderMock(); };
       } else {

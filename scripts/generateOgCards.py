@@ -101,6 +101,10 @@ VIOLET_HALO = "#7c3aed"        # unique plate-class accent + gutter tint (darker
 # is not a readability requirement. oklch(68% 0.22 285) ≈ #a78bfa → 7.2:1 on INK_NIGHT.
 VIOLET_KICKER = "#a78bfa"      # unique branch kicker text — WCAG AA+ on INK_NIGHT
 SYMBOL_FONT = "'Apple Symbols','Arial Unicode MS','Noto Sans Symbols 2',sans-serif"
+# Cairo/fontconfig on macOS resolves Georgia and a missing EB Garamond to
+# Hiragino Sans. PT Serif is available to Cairo and macOS SVG viewers; the
+# DejaVu fallback keeps Linux builds in the same serif register.
+DISPLAY_FONT = "'PT Serif','DejaVu Serif','Times New Roman',serif"
 
 
 def _svg_text(value: object) -> str:
@@ -269,7 +273,7 @@ def designation_year(skill: dict) -> str:
 def autoscale_font(text: str, default_px: int, available_w: float, avg_glyph_ratio: float = 0.46) -> int:
     """Roughly fit `text` into `available_w` by shrinking the font size.
 
-    EB Garamond at weight 600 averages ~0.46× the font-size per glyph at the
+    PT Serif at weight 600 averages ~0.46× the font-size per glyph at the
     sizes we render. This is approximate but good enough for the slug — long
     skill slugs (e.g. /agent-systems-architecture-toolkit) need to drop from
     88px down toward 56px to clear the right margin.
@@ -310,13 +314,30 @@ def _radec_ticks() -> str:
 
 def _plate_number(label: str) -> str:
     """Top-right skill-type label, mono caps tracked +0.18em."""
+    has_star = label.rstrip().endswith("★")
+    text_label = label.rstrip()[:-1].rstrip() if has_star else label
+    star_cx = OG_W - MARGIN - 8
+    text_x = star_cx - 13 if has_star else OG_W - MARGIN
+    star = ""
+    if has_star:
+        points = []
+        for i in range(10):
+            radius = 7.5 if i % 2 == 0 else 3.2
+            angle = math.radians(-90 + i * 36)
+            points.append(
+                f"{star_cx + radius * math.cos(angle):.2f},"
+                f"{PLATE_NO_Y + radius * math.sin(angle):.2f}"
+            )
+        star = (
+            f'<polygon points="{" ".join(points)}" fill="{CREAM_ENGRAVED}" '
+            f'fill-opacity="0.7"/>'
+        )
     return (
-        # Leave room for symbol-font glyph metrics: Cairo does not include the
-        # terminal star tspan reliably in text-anchor width calculations.
-        f'<text x="{OG_W - MARGIN - 20}" y="{PLATE_NO_Y}" '
+        f'<text x="{text_x}" y="{PLATE_NO_Y}" '
         f'font-family="\'Departure Mono\',\'JetBrains Mono\',ui-monospace,monospace" '
         f'font-size="18" letter-spacing="3.2" fill="{CREAM_ENGRAVED}" fill-opacity="0.7" '
-        f'text-anchor="end" dominant-baseline="middle">{_svg_text(label)}</text>'
+        f'text-anchor="end" dominant-baseline="middle">{_svg_text(text_label)}</text>'
+        f'{star}'
     )
 
 
@@ -351,7 +372,7 @@ def _magnitude_band(magnitude: str, ev_class: str, stars_or_word: str, designati
 
 
 def _catalog_signature(contributor: str, is_origin: bool, year: str) -> str:
-    """Discoverer's signature in gold (E4: was honor-red), EB Garamond italic 22px.
+    """Discoverer's signature in gold (E4: was honor-red), PT Serif italic 22px.
 
     Atlas convention: the literal word "Cataloged", then the @handle, then —
     if origin is set — an inline `· ORIGIN ·` token, then the year.
@@ -371,7 +392,7 @@ def _catalog_signature(contributor: str, is_origin: bool, year: str) -> str:
     parts.append(f'<tspan font-style="normal" fill-opacity="0.7"> {html.escape(year)}</tspan>')
     body = "".join(parts)
     return (
-        f'<text x="{MARGIN}" y="{SIG_Y}" font-family="\'EB Garamond\',Georgia,serif" '
+        f'<text x="{MARGIN}" y="{SIG_Y}" font-family="{DISPLAY_FONT}" '
         f'font-size="22" font-style="italic" fill="{SIGNATURE_GOLD}" '
         f'dominant-baseline="middle">{body}</text>'
     )
@@ -384,7 +405,7 @@ def _diamond_seal(x: float, y: float, size: float = 28.0) -> str:
         f'<svg x="{x:.1f}" y="{y:.1f}" width="{size}" height="{size}" viewBox="0 0 64 64">'
         f'<path d="M 32 4 L 60 32 L 32 60 L 4 32 Z" fill="none" '
         f'stroke="{CREAM_ENGRAVED}" stroke-width="2.4" stroke-linejoin="miter" opacity="0.78"/>'
-        f'<text x="32" y="34" font-family="\'EB Garamond\',Georgia,serif" font-weight="600" '
+        f'<text x="32" y="34" font-family="{DISPLAY_FONT}" font-weight="600" '
         f'font-size="28" fill="{CREAM_ENGRAVED}" text-anchor="middle" dominant-baseline="central" '
         f'opacity="0.8">G</text>'
         f'</svg>'
@@ -525,7 +546,7 @@ def build_plate(skill: dict) -> str:
     # the two columns balance; the title kicker sits just below it.
     slug_x = MARGIN + 12
     slug_w = COL_SPLIT_X - slug_x - 40
-    # +1 char for the leading slash; 0.53 ratio matches EB Garamond 600 better
+    # +1 char for the leading slash; 0.53 ratio matches PT Serif 600 better
     # than the 0.46 default (which let long slugs overrun into the medallion).
     slug_size = autoscale_font("/" + slug_raw, default_px=82,
                                available_w=slug_w, avg_glyph_ratio=0.53)
@@ -579,10 +600,10 @@ def build_plate(skill: dict) -> str:
   <text x="{slug_x}" y="{prefix_y:.1f}" font-family="'Departure Mono','JetBrains Mono',ui-monospace,monospace"
     font-size="26" letter-spacing="4.2" fill="{CREAM_ENGRAVED}" fill-opacity="0.65">{html.escape(prefix)}</text>
 
-  <text x="{slug_x}" y="{slug_y}" font-family="'EB Garamond',Georgia,serif" font-weight="600"
+  <text x="{slug_x}" y="{slug_y}" font-family="{DISPLAY_FONT}" font-weight="600"
     font-size="{slug_size}" fill="{CREAM_ENGRAVED}" dominant-baseline="middle">/{slug}</text>
 
-  <text x="{slug_x}" y="{kicker_y}" font-family="'EB Garamond',Georgia,serif" font-style="italic"
+  <text x="{slug_x}" y="{kicker_y}" font-family="{DISPLAY_FONT}" font-style="italic"
     font-size="24" fill="{CREAM_ENGRAVED}" fill-opacity="0.6" dominant-baseline="middle">'{title}'</text>
 
   <!-- Discoverer signature -->

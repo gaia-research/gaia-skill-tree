@@ -3703,6 +3703,35 @@ button.plaque__slug {
     0 0 0 1px rgba(var(--hoh-rk-rgb), 0.22);
 }
 
+/* Build-rendered share preview. Preserve the plate's intrinsic 40:21 ratio;
+   assigning both axes to the portrait stage stretches the 1200×630 PNG on
+   mobile. Width/height stay auto and the viewport only supplies maxima, so
+   either constraint scales the image proportionally. */
+.hoh-fs-stage > img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(1200px, calc(100vw - 80px));
+  max-height: calc(100dvh - 160px);
+  object-fit: contain;
+  border-radius: 14px;
+  box-shadow:
+    0 40px 80px rgba(0, 0, 0, 0.62),
+    0 0 120px rgba(var(--hoh-rk-rgb), 0.28),
+    0 0 0 1px rgba(var(--hoh-rk-rgb), 0.22);
+}
+
+@media (max-width: 500px) {
+  .hoh-fs-stage {
+    padding: 72px 20px 112px;
+  }
+
+  .hoh-fs-stage > img {
+    max-width: calc(100vw - 40px);
+    max-height: calc(100dvh - 184px);
+  }
+}
+
 @media (max-width: 1400px) {
   .hoh-fs-stage .plaque--og,
   .hoh-fs-stage svg.plaque--og {
