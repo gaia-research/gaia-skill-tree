@@ -8,10 +8,35 @@
       "trustMagnitude": 480.29,
       "overallTrustGrade": "S",
       "contributor": "mattpocock",
-      "type": "ultimate",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Ultimate",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/mattpocock/skills.json"
-      }
+      },
+      "genericSkillRef": "skill-mastery",
+      "suiteComponents": [
+        "mattpocock/caveman",
+        "mattpocock/diagnose",
+        "mattpocock/edit-article",
+        "mattpocock/engineering",
+        "mattpocock/grill-me",
+        "mattpocock/grill-with-docs",
+        "mattpocock/handoff",
+        "mattpocock/improve-codebase-architecture",
+        "mattpocock/obsidian-vault",
+        "mattpocock/personal",
+        "mattpocock/productivity",
+        "mattpocock/prototype",
+        "mattpocock/setup-matt-pocock-skills",
+        "mattpocock/to-issues",
+        "mattpocock/to-prd",
+        "mattpocock/triage",
+        "mattpocock/ubiquitous-language",
+        "mattpocock/write-a-skill",
+        "mattpocock/zoom-out"
+      ]
     },
     {
       "id": "mattpocock/engineering",
@@ -20,10 +45,26 @@
       "trustMagnitude": 270.0,
       "overallTrustGrade": "A",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/mattpocock/engineering.json"
-      }
+      },
+      "genericSkillRef": "engineering-discipline",
+      "suiteComponents": [
+        "mattpocock/diagnose",
+        "mattpocock/grill-with-docs",
+        "mattpocock/improve-codebase-architecture",
+        "mattpocock/prototype",
+        "mattpocock/setup-matt-pocock-skills",
+        "mattpocock/to-issues",
+        "mattpocock/to-prd",
+        "mattpocock/triage",
+        "mattpocock/ubiquitous-language",
+        "mattpocock/zoom-out"
+      ]
     },
     {
       "id": "mattpocock/productivity",
@@ -32,10 +73,20 @@
       "trustMagnitude": 120.0,
       "overallTrustGrade": "A",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/mattpocock/productivity.json"
-      }
+      },
+      "genericSkillRef": "productivity",
+      "suiteComponents": [
+        "mattpocock/caveman",
+        "mattpocock/grill-me",
+        "mattpocock/handoff",
+        "mattpocock/write-a-skill"
+      ]
     },
     {
       "id": "mattpocock/diagnose",
@@ -44,10 +95,14 @@
       "trustMagnitude": 90.38,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/diagnose.json"
-      }
+      },
+      "genericSkillRef": "autonomous-debug"
     },
     {
       "id": "mattpocock/edit-article",
@@ -57,9 +112,13 @@
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/edit-article.json"
-      }
+      },
+      "genericSkillRef": "document-editing"
     },
     {
       "id": "mattpocock/obsidian-vault",
@@ -68,10 +127,14 @@
       "trustMagnitude": 90.38,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/obsidian-vault.json"
-      }
+      },
+      "genericSkillRef": "personal-knowledge-management"
     },
     {
       "id": "mattpocock/to-issues",
@@ -80,10 +143,14 @@
       "trustMagnitude": 90.38,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/to-issues.json"
-      }
+      },
+      "genericSkillRef": "vertical-slice-planning"
     },
     {
       "id": "mattpocock/ubiquitous-language",
@@ -92,10 +159,14 @@
       "trustMagnitude": 90.38,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/ubiquitous-language.json"
-      }
+      },
+      "genericSkillRef": "ubiquitous-language"
     },
     {
       "id": "mattpocock/grill-me",
@@ -104,10 +175,14 @@
       "trustMagnitude": 63.71,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/grill-me.json"
-      }
+      },
+      "genericSkillRef": "grill-me"
     },
     {
       "id": "mattpocock/grill-with-docs",
@@ -116,10 +191,14 @@
       "trustMagnitude": 63.71,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/grill-with-docs.json"
-      }
+      },
+      "genericSkillRef": "grill-with-docs"
     },
     {
       "id": "mattpocock/handoff",
@@ -128,10 +207,14 @@
       "trustMagnitude": 63.71,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/handoff.json"
-      }
+      },
+      "genericSkillRef": "agent-handoff"
     },
     {
       "id": "mattpocock/to-prd",
@@ -140,10 +223,14 @@
       "trustMagnitude": 63.71,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/to-prd.json"
-      }
+      },
+      "genericSkillRef": "prd-generation"
     },
     {
       "id": "mattpocock/personal",
@@ -152,10 +239,18 @@
       "trustMagnitude": 60.0,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/personal.json"
-      }
+      },
+      "genericSkillRef": "personal",
+      "suiteComponents": [
+        "mattpocock/edit-article",
+        "mattpocock/obsidian-vault"
+      ]
     },
     {
       "id": "mattpocock/setup-matt-pocock-skills",
@@ -164,10 +259,14 @@
       "trustMagnitude": 56.21,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/setup-matt-pocock-skills.json"
-      }
+      },
+      "genericSkillRef": "agent-environment-setup"
     },
     {
       "id": "mattpocock/triage",
@@ -177,9 +276,13 @@
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/triage.json"
-      }
+      },
+      "genericSkillRef": "issue-triage"
     },
     {
       "id": "mattpocock/improve-codebase-architecture",
@@ -189,9 +292,13 @@
       "overallTrustGrade": "C",
       "contributor": "mattpocock",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/improve-codebase-architecture.json"
-      }
+      },
+      "genericSkillRef": "refactor-code"
     },
     {
       "id": "mattpocock/write-a-skill",
@@ -200,10 +307,14 @@
       "trustMagnitude": 45.0,
       "overallTrustGrade": "C",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/write-a-skill.json"
-      }
+      },
+      "genericSkillRef": "tool-creation"
     },
     {
       "id": "mattpocock/prototype",
@@ -212,10 +323,14 @@
       "trustMagnitude": 41.21,
       "overallTrustGrade": "C",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/prototype.json"
-      }
+      },
+      "genericSkillRef": "prototype"
     },
     {
       "id": "mattpocock/caveman",
@@ -225,9 +340,13 @@
       "overallTrustGrade": "C",
       "contributor": "mattpocock",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/caveman.json"
-      }
+      },
+      "genericSkillRef": "context-compression"
     },
     {
       "id": "mattpocock/teach",
@@ -236,10 +355,14 @@
       "trustMagnitude": 0.0,
       "overallTrustGrade": "ungraded",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/teach.json"
-      }
+      },
+      "genericSkillRef": "knowledge-management"
     }
   ],
   "namedSkillsCount": 20,

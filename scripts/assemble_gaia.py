@@ -72,7 +72,8 @@ def assemble(registry_root="."):
             "levelColors": meta_src["levels"]["colors"],
             "typeColors": meta_src["types"]["colors"],
             "typeSymbols": meta_src["types"]["symbols"],
-            "demeritLabels": meta_src["demerits"]["labels"]
+            "demeritLabels": meta_src["demerits"]["labels"],
+            "metaEpochs": meta_src.get("metaEpochs", {})
         }
     else:
         meta_mapped = old_data.get("meta", {})

@@ -4,14 +4,25 @@
     {
       "id": "gsd-build/get-shit-done",
       "name": "Get Shit Done",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 202.16,
       "overallTrustGrade": "A",
       "contributor": "gsd-build",
-      "type": "ultimate",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/get-shit-done.json"
-      }
+      },
+      "genericSkillRef": "git-ship-done-pipeline",
+      "suiteComponents": [
+        "gsd-build/discuss-phase",
+        "gsd-build/execute-phase",
+        "gsd-build/plan-phase",
+        "gsd-build/ship",
+        "gsd-build/verify-work"
+      ]
     },
     {
       "id": "gsd-build/discuss-phase",
@@ -20,10 +31,14 @@
       "trustMagnitude": 52.16,
       "overallTrustGrade": "B",
       "contributor": "gsd-build",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/discuss-phase.json"
-      }
+      },
+      "genericSkillRef": "brainstorming"
     },
     {
       "id": "gsd-build/execute-phase",
@@ -32,10 +47,14 @@
       "trustMagnitude": 52.16,
       "overallTrustGrade": "B",
       "contributor": "gsd-build",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/execute-phase.json"
-      }
+      },
+      "genericSkillRef": "subagent-driven-development"
     },
     {
       "id": "gsd-build/plan-phase",
@@ -44,10 +63,14 @@
       "trustMagnitude": 52.16,
       "overallTrustGrade": "B",
       "contributor": "gsd-build",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/plan-phase.json"
-      }
+      },
+      "genericSkillRef": "writing-plans"
     },
     {
       "id": "gsd-build/ship",
@@ -56,10 +79,14 @@
       "trustMagnitude": 52.16,
       "overallTrustGrade": "B",
       "contributor": "gsd-build",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/ship.json"
-      }
+      },
+      "genericSkillRef": "finishing-a-development-branch"
     },
     {
       "id": "gsd-build/verify-work",
@@ -68,16 +95,20 @@
       "trustMagnitude": 52.16,
       "overallTrustGrade": "B",
       "contributor": "gsd-build",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/verify-work.json"
-      }
+      },
+      "genericSkillRef": "verification-before-completion"
     }
   ],
   "namedSkillsCount": 6,
   "topSkill": {
     "id": "gsd-build/get-shit-done",
-    "level": "4★",
+    "level": "3★",
     "trustMagnitude": 202.16
   },
   "prestigeScore": 462.96,

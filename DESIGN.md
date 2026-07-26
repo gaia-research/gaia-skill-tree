@@ -20,30 +20,33 @@ Public curated outputs, such as `registry/gaia.svg`, `registry/gaia.gexf`, `regi
 
 ## Color Palette
 
-Canonical token values are emitted by `scripts/generateCssTokens.py` to `docs/css/tokens.css` from `registry/gaia.json.meta.typeColors`. See that file for the authoritative CSS custom property definitions. The tier/rank names and semantic roles are documented in the sections below.
+**The rank schema is the heart of Yggdrasil II — everything else follows it.** Color is driven by two orthogonal axes, and only two:
 
-> **Never hardcode hex in CSS or JS.** The legacy short tokens (`--basic`, `--extra`, `--unique`, `--ultimate`) are kept as aliases so older selectors keep working; the canonical names are `--tier-basic`, `--tier-extra`, `--tier-unique`, `--tier-ultimate` (plus `-rgb`, `-bg`, `-border`, `-symbol` variants).
+1. **Type** (structural taxonomy) — exactly two values, `basic` and `fusion`. Tokens: `--tier-basic`, `--tier-fusion`. Emitted by `scripts/generateCssTokens.py` from `registry/gaia.json.meta.typeColors`. ("Tier" is retained only as the token *prefix* for these two type colors — it does not name a rank or a branch.)
+2. **Rank** (0★ → 6★ maturity) — one axis, two branch ladders that fork at 4★. Tokens: `--rank-N` (shared 0★–3★ and the **Suite** branch at 4★+) and `--rank-N-unique` (the **Unique** branch at 4★+). Both ladders are emitted to `docs/css/tokens.css`; the Suite side from `meta.levelColors`, the Unique side from the generator's locked `UNIQUE_RANK_LADDER` constant (Unique is a read-time *branch*, not a `type`, so it is absent from `meta.typeColors`).
+
+> **Never hardcode hex in CSS or JS.** Use `var(--…)`. If a fallback is needed, write `var(--token, #hex)` — a bare `#hex` is rejected by CI Guard A (`scripts/check_hex_colors.py`).
+
+> **Retired tokens — do NOT reintroduce.** `--tier-extra`, `--tier-ultimate`, `--tier-unique` (and bare `--extra`/`--ultimate`) are **dead**. They were Yggdrasil-I "tier" names that flattened rank and type into one confused axis. Every rank use migrates to `--rank-N` (Suite) or `--rank-N-unique` (Unique); the two live type colors are `--tier-basic` and `--tier-fusion`. Per `CONTEXT.md`, "tier" no longer names a rank or a branch — it survives only as the prefix on the two type-color tokens.
+
+> **Ygg III forward-compat:** because color is `gaia.json.meta` → `generateCssTokens.py` → `tokens.css` (Suite/type) plus one locked generator constant (Unique ladder), a future palette swap is a one-file `meta` edit + regen — no CSS hand-editing, no token renaming.
 
 ---
 
-## Skill Tiers
+## Skill Types
 
-Four tiers, each with a fixed color identity and symbolic glyph. (The Unique tier was added after the original three-tier design and is the standalone-mastery branch — a Basic Skill that reached elite rank without ever fusing.)
+Under Yggdrasil II there are **two structural types**, and they are the only `type` values that exist on a node:
 
-| Tier | Symbol | Display Name | Hex | RGB |
-|---|---|---|---|---|
-| `basic`     | ○ | Basic Skill    | `#38bdf8` | `56,189,248`  |
-| `extra`     | ◇ | Extra Skill    | `#c084fc` | `192,132,252` |
-| `unique`    | ◉ | Unique Skill   | `#7c3aed` | `124,58,237`  |
-| `ultimate`  | ◆ | Ultimate Skill | `#f59e0b` | `245,158,11`  |
+| Type | Symbol | Display Name | Token | Hex | RGB |
+|---|---|---|---|---|---|
+| `basic`  | ○ | Basic  | `--tier-basic`  | `#38bdf8` | `56,189,248` |
+| `fusion` | ◇ | Fusion | `--tier-fusion` | `#f59e0b` | `245,158,11` |
 
-Badge styles follow a consistent formula: `rgba({rgb}, .15)` background, `rgba({rgb}, .3)` border, solid hex text.
+Types are structural categories, not ranks — write them bare ("Basic", "Fusion"), never suffix a type with the word "Skill" (see `CONTEXT.md` § Nomenclature). The Yggdrasil-I quartet (`basic`/`extra`/`unique`/`ultimate`) collapsed into these two: `extra`→`fusion`, `ultimate`→`fusion`, `unique`→`basic`. **"Extra", "Unique", and "Ultimate" survive only as *rank* words on the branch ladders below — never as `type` values.**
 
-Card glow per tier (radial gradient, 35% opacity):
-- Basic: `rgba(56,189,248,.4)`
-- Extra: `rgba(192,132,252,.4)`
-- Unique: `rgba(124,58,237,.4)`
-- Ultimate: `rgba(245,158,11,.4)`
+Type badge styling: `rgba({rgb}, .15)` background, `rgba({rgb}, .3)` border, solid hex text. Type card glow (radial gradient, 35% opacity): Basic `rgba(56,189,248,.4)`, Fusion `rgba(245,158,11,.4)`.
+
+The **branch identity** of a Unique or Suite skill (glyph ◉ / ◆, plaque tint, accent) is NOT a separate axis — it is keyed to **rank**, because a skill is only Unique or Suite-decorated at 4★+. See the Rank System below: the ◉ mark is `--rank-4-unique-symbol` (the 4★ entry rung of the Unique ladder), not a standalone "branch color."
 
 ---
 
@@ -51,9 +54,21 @@ Card glow per tier (radial gradient, 35% opacity):
 
 Skills level up from 0★ → 6★. Each rank has a distinct RPG-inspired color. Canonical hex values and background tints are defined in `src/gaia_cli/formatting.py::RANK_COLORS` (Python source of truth) and in `docs/css/tokens.css` (`--rank-0` … `--rank-6`). For rank labels and significance, see `META.md §1.1`.
 
-Rank sequence: **Basic (0★) → Awakened (1★) → Named (2★) → Evolved (3★) → Hardened (4★) → Transcendent (5★) → Apex (6★)**. The color sequence intentionally mirrors an RPG rarity ramp: neutral → cold → teal → violet → pink → gold, with the Apex level doubling its background opacity.
+Rank sequence (branch-aware at 4★+):
 
-> **Class column deprecated.** The legacy letter suffixes (D / C / B / A / S / SS) are retained in old code paths only. Generated surfaces no longer emit them — see `plaque-reveal.js`, `generateProfilePages.py`, `generateOgCards.py`. Evidence `class` is fully deprecated per the ratified G7 Trust Taxonomy RFC (`META.md §2.1`); new evidence carries `type` + `grade` instead. The visitor-facing label is **rank name + star count** (e.g. "Hardened · 4★").
+| Stars | Shared (1★–3★) | Suite branch | Unique branch |
+|---|---|---|---|
+| 0★ | **Basic** (starless) | — | — |
+| 1★ | **Awakened** | — | — |
+| 2★ | **Named** | — | — |
+| 3★ | **Evolved** | — | — |
+| 4★ | — | **Extra** | **Unique** |
+| 5★ | — | **Ultimate** | **Unique Ultimate** |
+| 6★ | — | **Apex** | **Unique Impossible** |
+
+Branch forks at 4★: Suite branch applies when the generic parent carries `suiteComponents`; Unique branch applies when it does not. Branch is derived at read-time — never declared on a node. The color sequence mirrors an RPG rarity ramp: neutral → cold → teal → violet → pink → gold, with the Apex level doubling its background opacity.
+
+> **Class column deprecated.** The legacy letter suffixes (D / C / B / A / S / SS) are retained in old code paths only. Generated surfaces no longer emit them — see `plaque-reveal.js`, `generateProfilePages.py`, `generateOgCards.py`. Evidence `class` is fully deprecated per the ratified G7 Trust Taxonomy RFC (`META.md §2.1`); new evidence carries `type` + `grade` instead. The visitor-facing label is **rank name + star count** (e.g. "Extra · 4★" on the Suite branch, "Unique · 4★" on the Unique branch).
 
 ---
 
@@ -66,6 +81,50 @@ Generic skill references are **starless** — rank-less taxonomy nodes that carr
 - The word "generic" is retained as the technical descriptor alongside the *starless* brand noun.
 
 A starless ref's *effective rank* (the top star among its named variants) may be shown beside it for context, but the reference glyph and label themselves stay muted and italic so the eye reads them as taxonomy, not as an earned rank.
+
+---
+
+## World Tree Color and Glyph Re-axis
+
+The World Tree (hero 2D + 3D Explorer) re-axes color and glyph away from the four-type identity used elsewhere in the graph canvas, for two reasons: only two types (`basic` / `fusion`) will exist at Yggdrasil II cutover, making type-color redundant; and rank is meta-invariant — stars are stars in both Ygg I and Ygg II.
+
+### Color = effective rank
+
+Node color encodes **effective rank** (the highest star among a node's named-skill children, joined at runtime from `docs/graph/named/index.json`). Use the existing rank tokens — no hex fallbacks.
+
+**Rank forks into two branch ladders at 4★.** 0★–3★ are shared. At 4★+ a node is on the **Suite** branch (`--rank-N`) or the **Unique** branch (`--rank-N-unique`) — never collapse the two onto a single `--rank-N` ramp; that flattening hides the Unique ladder and is the exact token confusion this schema retired.
+
+| Rank | Stars | Suite branch token | Unique branch token | Unique hex (design-locked) |
+|---|---|---|---|---|
+| Unranked / Awakened | 0–1★ | `--rank-0` (grey, starless/redacted) | `--rank-0` (shared) | — |
+| Named    | 2★ | `--rank-2` | `--rank-2` (shared) | — |
+| Evolved  | 3★ | `--rank-3` | `--rank-3` (shared) | — |
+| 4★ entry | 4★ | `--rank-4` (Extra, `#e879f9` fuchsia) | `--rank-4-unique` (Unique, `#7c3aed` violet) | `#7c3aed` |
+| 5★       | 5★ | `--rank-5` (Ultimate, `#fbbf24`) | `--rank-5-unique` (Unique Ultimate, `#b26a3a`) | `#b26a3a` burnished copper |
+| 6★ Apex  | 6★ | `--rank-6` (Apex, `#fbbf24`*) | `--rank-6-unique` (Unique Impossible, `#e0894a`) | `#e0894a` ember copper (`-ink #2a1206`) |
+
+\* `--rank-5` and `--rank-6` share `#fbbf24`; Apex differentiates by **doubled background opacity**, not hue — not a bug.
+
+Both ladders carry the full suffix family — `-rgb`, `-bg`, `-border`, `-edge` (and the Unique 6★ `-ink`) — mirroring `docs/css/tokens.css`. The Suite side is sourced from `registry/gaia.json.meta.levelColors` via `scripts/generateCssTokens.py`; the Unique side from the generator's locked `UNIQUE_RANK_LADDER` constant (Unique is a read-time branch, not a `type`). `src/gaia_cli/formatting.py` mirrors both: `RANK_COLORS` (Suite) and `RANK_COLORS_UNIQUE` (Unique, reconciled to the CSS-locked Amethyst→Ember values — CSS is the source of truth). Colored ramp starts at 2★ Named — 0–1★ nodes render grey and land at outer coreness automatically. See `docs/architecture/world-tree-model.md` §Y-Fork.
+
+In the **hero (2D editorial)** pose, rank is positional only — all nodes use the single-gold editorial palette (`--apex-gold` / `--apex-gold-rgb` alpha values); color-by-rank is suppressed so the silhouette stays monochrome. Color-by-rank activates only in the **3D Explorer** view.
+
+### Glyph = structural class
+
+Node glyph encodes **structural class**, derived at read time from type + effective rank + `suiteComponents` (stable across the Ygg I → II migration). Under Ygg II there are only two `type` values (`basic`/`fusion`); the ◉ Unique and ◆ Suite glyphs are **rank-branch** marks (a node only carries them at 4★+), not `type` values:
+
+| Structural class | Glyph | Ygg II derivation | Ygg I `type` (historical) |
+|---|---|---|---|
+| Basic primitive | ○ | `type === 'basic'` and not on a 4★+ branch | `basic` |
+| Fusion          | ◇ | `type === 'fusion'` | `extra` |
+| Unique          | ◉ | `type === 'basic' && effRank ≥ 4★ && !suiteComponents` | `unique` |
+| Suite           | ◆ | `suiteComponents` present | `ultimate` |
+
+The ◉ mark tints with the Unique rank branch (`--rank-4-unique-symbol` at 4★, ramping to `--rank-6-unique`); the ◆ Suite mark tints with `--rank-N`. These glyphs match `META.md §1.2`. All meta-aware detection lives in `resolveSemantics` in `docs/js/world-tree-layout.js`; the render layer consumes the output contract's `glyph` field only.
+
+### Node radius
+
+Node radius also keys to rank (bigger = more proven), extending the existing `NODE_RADII` convention in `docs/js/skill-graph.js`. The exact tuning is an Agent 2 implementation detail; the design constraint is that radius must increase monotonically with effective rank.
 
 ---
 
@@ -95,15 +154,17 @@ Their visual representations use horizontal metric bars with the following styli
 
 | Evidence type | `color:` token | Semantic mapping |
 |---|---|---|
-| `repo`, `peer-review`, `repo-own` | `var(--tier-basic)` | Basic-tier blue (`#38bdf8`) |
-| `github-stars`, `fusion-recipe`, `github-stars-own` | `var(--tier-ultimate)` | Ultimate amber (`#f59e0b`) |
-| `proxy-containment` | `var(--tier-unique)` | Unique deep violet (`#7c3aed`) |
-| `verifier-attestation` | `var(--rank-4)` | Rank-4 fuchsia (`#e879f9`) |
-| `benchmark-result`, `arxiv` | `var(--tier-extra)` | Extra purple (`#c084fc`) |
+| `repo`, `peer-review`, `repo-own` | `var(--tier-basic)` | Basic type blue (`#38bdf8`) |
+| `github-stars`, `fusion-recipe`, `github-stars-own` | `var(--rank-5)` | 5★ Ultimate amber (`#fbbf24`) |
+| `proxy-containment` | `var(--rank-4-unique)` | 4★ Unique branch violet (`#7c3aed`) |
+| `verifier-attestation` | `var(--rank-4)` | 4★ Extra fuchsia (`#e879f9`) |
+| `benchmark-result`, `arxiv` | `var(--rank-4)` | 4★ Extra fuchsia (`#e879f9`) |
 | `self-attestation` | `var(--rank-0)` | Slate / unawakened (`#94a3b8`) |
 | `social-signal` | `#34d399` | Emerald green — not in the banned-hex set; no current token alias |
 
 The `social-signal` green (`#34d399`) is not in `tokens.css` and is not on the Guard A banned-hex list. If a token is added later, update this table and the selector in `docs/css/styles.css`.
+
+> The dead `--tier-extra` / `--tier-ultimate` / `--tier-unique` tokens these pills previously named are retired; the pill selectors in `docs/css/styles.css` are migrated to the rank tokens above. The three-way collapse (`benchmark-result`/`arxiv` and `verifier-attestation` all landing on `--rank-4`) is intentional — they are distinct evidence types that share the 4★ Extra fuchsia.
 
 ---
 
@@ -125,26 +186,28 @@ Gold dominates the outer fringe (`hsl(45,…)`) so the node reads as amber at a 
 
 ## Graph Canvas
 
+> **Legacy vocabulary — radius only, no color.** The radius/layout keys below use the Yggdrasil-I four-`type` names (`ultimate`/`unique`/`extra`/`basic`). These are **historical structural buckets for node sizing**, not live Ygg-II `type` values or color tokens — under Ygg II, size derives from effective rank + branch (`suiteComponents` ⇒ Suite/◆ largest; 4★+ Unique ⇒ ◉; `fusion` ⇒ ◇; `basic` ⇒ ○). Color comes from the rank ladders above, never from these names. Retained here as the sizing contract the canvas still honors during the migration window.
+
 Node radii (before depth/projection scale):
 
-| Type | Base radius |
-|---|---|
-| `ultimate`  | 12.5 |
-| `unique`    | 9.5  |
-| `extra`     | 6.9  |
-| `basic`     | 3.5  |
+| Legacy sizing bucket | Base radius | Ygg II equivalent |
+|---|---|---|
+| `ultimate`  | 12.5 | Suite (◆) |
+| `unique`    | 9.5  | Unique branch (◉, 4★+) |
+| `extra`     | 6.9  | Fusion (◇) |
+| `basic`     | 3.5  | Basic (○) |
 
 Edge line width:
 
-| Condition | Ultimate | Other |
+| Condition | Suite (◆) | Other |
 |---|---|---|
 | Highlighted (hover neighbor) | 2.2 px | 1.4 px |
 | Default | 1.55 px | 0.92 px |
 
 Sphere layout radii (at scale 1.25):
-- Basic: 250 × scale = **312 px**
-- Extra: 145 × scale = **181 px**
-- Ultimate: 44 × scale = **55 px** (innermost)
+- Basic (○): 250 × scale = **312 px**
+- Fusion (◇): 145 × scale = **181 px**
+- Suite (◆): 44 × scale = **55 px** (innermost)
 
 ---
 
@@ -176,13 +239,17 @@ Syntax highlighting in `<pre>` blocks:
 
 **Nav** — sits on a 1px hairline divider in `var(--border)` over `var(--bg)`. No glassmorphism on the main nav (the previous frosted-glass treatment is retired here). Diamond Seal mark + wordmark on the left, destination links on the right.
 
-**Hero titles** — solid `var(--text)` in EB Garamond at weight 600 (`var(--font-display)`). No gradient text. Emphasis words (e.g., "rare", "earned") may carry a single hairline gold underline using `border-bottom: 1px solid var(--apex-gold)` or an equivalent inline `<span>` underline accent. The previous three-stop tier-gradient sweep on titles is retired.
+**Hero titles** — solid `var(--text)` in EB Garamond at weight 600 (`var(--font-display)`). No gradient text. Emphasis words (e.g., "rare", "earned") may carry a single hairline gold underline using `border-bottom: 1px solid var(--apex-gold)` or an equivalent inline `<span>` underline accent. The homepage's exact `Gaia Skill Tree` title may set `Skill Tree` in solid Apex Gold as part of the World Tree brand lock-up. The previous three-stop tier-gradient sweep on titles is retired.
+
+**World Tree brand-mark exception** — the homepage World Tree is Gaia's living brand mark, generated from the canonical DAG rather than added as decoration. In its front-facing hero pose, every real node and edge may use one tonal gold family built from low-alpha `--apex-gold` / `--apex-gold-rgb` values. Root, trunk, ordinary branches, and buds stay antique or muted; full-strength `--apex-gold`, larger diamond geometry, and rings remain reserved for Ultimate/Apex emphasis. The fine sakura branch attached to the `Gaia Skill Tree` title is a decorative typesetting cue only, visually lighter than the graph and never counted as a skill or prerequisite edge. This exception applies only to the complete World Tree silhouette and does not license gold paragraph copy, generic gold UI, or removal of non-colour rank signals. When the same objects enter **Tree Explorer**, they recover the current canonical tier/rank colours through the visual-role adapter while Ultimate and Apex identities remain explicit by label and geometry.
+
+**Yggdrasil image and graph contract** — the approved gold Yggdrasil artwork may sit behind the live canvas as a responsive raster atmosphere, but the canonical graph remains the semantic tree. In the hero, the two layers align into one silhouette: the raster supplies fine bark and root texture while every live node and all canonical edges remain projected above it as brighter ray-tracing marks. In Tree Explorer, the raster recedes to a faint, front-facing reference plane while the live graph alone gains depth, orbit, tier colour, hover, and collection behavior. The layout derives one deterministic structural parent edge per non-root node to describe the readable trunk and bough hierarchy; every remaining canonical edge is retained as a quieter graft. Intake growth may change counts and depth without changing renderer code or introducing decorative graph edges.
 
 **Hero tier gradient (retained, scoped)** — the three-stop sweep
 ```
 linear-gradient(135deg, #38bdf8 0%, #c084fc 50%, #f59e0b 100%)
 ```
-is retained ONLY as the background fill for the floating hero CTA pills (`◆ Open full graph`, `⇄ Field view`). It is no longer used on titles or body copy.
+is retained only on legacy graph surfaces that already use it. The homepage World Tree, its `Explore in 3D` control, titles, and body copy do not use this sweep.
 
 **Buttons**
 - Primary: solid `var(--apex-gold)` background on a midnight (`var(--bg)`) border, white-on-midnight text (`color: var(--text)`), `box-shadow: 0 0 24px rgba(var(--apex-gold-rgb), .3)`. Used only for Apex affordances.
@@ -208,7 +275,7 @@ is retained ONLY as the background fill for the floating hero CTA pills (`◆ Op
 
 ## Skill Explorer
 
-The skill explorer overlay (`#skillExplorer`) introduces per-level glow tokens, a shimmer animation for 6★ (Apex) nodes, and a pulse animation for 5★ (Transcendent) nodes. These augment the rank colors defined above.
+The skill explorer overlay (`#skillExplorer`) introduces per-level glow tokens, a shimmer animation for 6★ (Apex) nodes, and a pulse animation for 5★ (Ultimate / Unique Ultimate) nodes. These augment the rank colors defined above.
 
 ### Glow Tokens
 
@@ -216,8 +283,8 @@ The skill explorer overlay (`#skillExplorer`) introduces per-level glow tokens, 
 |---|---|---|---|
 | `--glow-II`  | `0 0 8px #63cab7, 0 0 22px rgba(99,202,183,.35)`   | 2★  | Named |
 | `--glow-III` | `0 0 10px #a78bfa, 0 0 26px rgba(167,139,250,.4)` | 3★  | Evolved |
-| `--glow-IV`  | `0 0 14px #e879f9, 0 0 32px rgba(232,121,249,.45)`| 4★  | Hardened |
-| `--glow-V`   | `0 0 18px #fbbf24, 0 0 40px rgba(251,191,36,.5)`  | 5★  | Transcendent |
+| `--glow-IV`  | `0 0 14px #e879f9, 0 0 32px rgba(232,121,249,.45)`| 4★  | Extra / Unique |
+| `--glow-V`   | `0 0 18px #fbbf24, 0 0 40px rgba(251,191,36,.5)`  | 5★  | Ultimate / Unique Ultimate |
 | `--glow-VI`  | `0 0 20px #fbbf24, 0 0 50px rgba(251,191,36,.6), 0 0 80px rgba(56,189,248,.3)` | 6★ | Apex |
 
 Glow tokens use the same base colors as the rank system above. Tokens are applied as `box-shadow` values on `.flow-node[data-level="X"]` and `.se-hero-card[data-level="X"]`.
@@ -226,7 +293,7 @@ Glow tokens use the same base colors as the rank system above. Tokens are applie
 
 | Animation | Element | Behavior |
 |---|---|---|
-| `se-pulse` / `flow-pulse-V` | 5★ (Transcendent) nodes | Gold `box-shadow` oscillates between `--glow-V` and a brighter `0 0 28px #fbbf24, 0 0 60px rgba(251,191,36,.65)` on a 2.4s loop |
+| `se-pulse` / `flow-pulse-V` | 5★ (Ultimate / Unique Ultimate) nodes | Gold `box-shadow` oscillates between `--glow-V` and a brighter `0 0 28px #fbbf24, 0 0 60px rgba(251,191,36,.65)` on a 2.4s loop |
 | `se-shimmer` / `flow-shimmer-VI` | 6★ (Apex) nodes | `border-color` cycles through cyan → purple → amber → fuchsia on a 3s loop, combined with the pulse |
 
 ### Explorer UI Tokens
@@ -248,11 +315,13 @@ Rarity is derived from real agent prevalence by `scripts/computeRarity.py` — n
 
 ---
 
-## Skill Type Color Cycling
+## Rank-Branch Color Cycling
 
-Skill types (Ultimate, Extra) get animated color-cycling effects wherever they appear. Basic skills remain static.
+Fusion and high-rank branch glyphs get animated color-cycling effects wherever they appear; Basic nodes remain static. The two cycles below are keyed to the **rank branch**, not to a `type` — "Ultimate" and "Extra" here are the legacy animation names for the 6-stop and 5-stop keyframes (retained as CSS identifiers), NOT `type` values. Under Ygg II the 6-stop cycle rides the top Suite/Fusion rungs (◆ / ◇ at 5★+) and the 5-stop cycle the 4★ Fusion entry.
 
-### Ultimate Skill Cycle (6-stop, ~4s loop)
+> **Code-side note:** the `#hex` literals inside these `@keyframes` are a known exception — CSS `@keyframes` steps cannot read `var(--…)` reliably across all engines, so the cycle stops are inlined. They are the animation's own palette, decorative and NOT rank-token values, so they do not fall under the token source-of-truth chain. Do not "migrate" them to `--rank-*`; if the cycle palette changes, edit the keyframes directly.
+
+### 6-stop cycle (`tree-rainbow-glow`, ~4s loop)
 
 Sequence: **blue → purple → gold → red → purple → green → (loop)**
 
@@ -269,7 +338,7 @@ Sequence: **blue → purple → gold → red → purple → green → (loop)**
 
 Each color step also carries a matching `text-shadow` glow at 80% opacity inner / 40% outer.
 
-### Extra Skill Cycle (5-stop, ~4s loop, NO gold)
+### 5-stop cycle (`tree-extra-glow`, ~4s loop, NO gold)
 
 Sequence: **blue → purple → red → purple → green → (loop)**
 
@@ -285,9 +354,9 @@ Sequence: **blue → purple → red → purple → green → (loop)**
 
 ### Application Rules
 
-| Area | Ultimate | Extra | Basic |
+| Area | 6-stop (`tree-rainbow-glow`) | 5-stop (`tree-extra-glow`) | Basic |
 |------|----------|-------|-------|
-| Tree dialog lines | `tree-rainbow-glow` on `◆ Ultimate Skill:` label | `tree-extra-glow` on `◇ Extra Skill:` label | Static cyan glyph |
+| Tree dialog lines | on the `◆ Suite` label | on the `◇ Fusion` label | Static cyan glyph |
 | Named Skills cards | Name text cycles `tree-rainbow-glow` | Name text cycles `tree-extra-glow` | No animation |
 | Skill Graph labels | Canvas `cycleColor()` with `ULT_STOPS` | Canvas `cycleColor()` with `EXTRA_STOPS` | Static `PALETTE.basic` |
 | Skill Graph nodes | Existing `drawNodeVI` (rainbow hue rotation) | New `drawNodeExtra` (subtle cycling glow) | Standard `drawNode` |
@@ -323,7 +392,7 @@ These role tokens layer on top of the locked tier and rank colour tables. They d
 |---|---|---|
 | `--honor-red` | `#ef4444` | Contributor handle colour. Used wherever a real contributor name appears (graph labels, plaques, named-skills cards, nav `Named` link). Never decorative. |
 | `--honor-red-rgb` | `239, 68, 68` | RGB triplet for composing `rgba(var(--honor-red-rgb), α)` overlays and shadows. |
-| `--apex-gold` | `#fbbf24` | 6★ / Ultimate / Diamond Seal mark accent. Used for Apex affordances only — the seal mark, the apex CTA pill, the Hall of Heroes apex glyph. Never decorative; never as a paragraph-level accent. |
+| `--apex-gold` | `#fbbf24` | 6★ / Ultimate / Diamond Seal mark accent. Used at full strength for Apex affordances only — the seal mark, apex CTA, Hall glyph, and Ultimate/Apex marks inside the World Tree. Lower World Tree structure may use alpha-derived values under the narrow brand-mark exception above. Never decorative; never as a paragraph-level accent. |
 | `--apex-gold-rgb` | `251, 191, 36` | RGB triplet for composing `rgba(var(--apex-gold-rgb), α)` glows, button shadows, ledger-strip highlights. |
 | `--font-display` | `'EB Garamond', Georgia, serif` | Display face. Hero titles, plate headings, section h2 only. |
 | `--font-body` | `'Bricolage Grotesque', Inter, system-ui, sans-serif` | Body face. All paragraph and UI text. |
@@ -340,7 +409,7 @@ Gaia's public surface (`gaiaskilltree.com`) is the **Hunter's Atlas**: a Sacred-
 
 On top of the locked tier and rank colour tokens, two brand-voice tokens do the carry-everything work: **Honor Red (`--honor-red`)** is reserved for contributor handles; **Apex Gold (`--apex-gold`)** is reserved for 6★/Ultimate/Diamond-Seal moments and Apex-only affordances. Tier and rank colour tokens, 6★ Apex shimmer, the graph canvas geometry, the Skill Explorer glow tokens, and the Ultimate/Extra cycling animations are all hard-locked and survive unchanged into this lane.
 
-The 3D canvas (`canvas3d`) is **preserved** as a secondary view — repurposed as an ambient parallax background behind the 2D graph hero, and reachable as the primary view via a `⇄ Field view` toggle. The 2D skill graph is the primary hero. The Diamond Seal mark (`◇G` lock-up) is the brand mark; the apex `◆` glyph remains free for its tier role. Per `CONTEXT.md:137-139`, "HUD" is internal-only nomenclature (used in code class names like `.hud-trigger` and file names like `hud-toggle.js`); user-facing copy uses **Field view** for the toggle and **Registry** for any view of the public skill graph.
+The World Tree uses one `canvas3d` and one stable set of graph objects. Its default hero pose is front-facing, visually 2D, and gold. **Explore in 3D** expands that same canvas to fullscreen while the objects gain depth, canonical tier/rank colour, orbit controls, hover states, and collection tools; exit reverses the morph to the exact hero pose. **Field view is deprecated**: `?tree=1` is canonical, while `?field=1` and `?hud=1` may remain compatibility aliases to Tree Explorer. The explorer is tree-only—no semantic/spectral constellation mode or crossfade to a second renderer. The Diamond Seal mark (`◇G` lock-up) remains the brand mark; the apex `◆` glyph remains free for its tier role. "HUD" may survive only as internal legacy nomenclature in class and file names.
 
 ## Anti-references & accessibility (see PRODUCT.md)
 
@@ -359,7 +428,7 @@ Use for background image layers on signature sections only. The primary use case
 - Implementation: `requestAnimationFrame` + `translateY` — never `background-attachment: fixed` (breaks on iOS Safari)
 - Background element: absolutely positioned, `inset: -30% 0` to allow vertical travel without white-edge gaps, `will-change: transform`
 - Overlay: `rgba(3,7,18, 0.82)` minimum for text readability; `0.88` on mobile
-- Disable below 768px: use `window.matchMedia('(min-width: 768px) and (prefers-reduced-motion: no-preference)')` guard
+- Disable below 768px: use `window.matchMedia('(min-width: 768px) and (prefers-reduced-motion: no-preference)')` guard. **Exception:** the World Tree hero's vertical scroll parallax runs at all widths (it is guarded on `prefers-reduced-motion` only, not on width) because on mobile the tree is a full-bleed backdrop, not a sidebar decoration — see the World Tree hero parallax subsection.
 - `prefers-reduced-motion`: skip the scroll listener entirely when reduced motion is preferred
 
 ### Scroll-triggered entrance (one-shot)
@@ -372,9 +441,22 @@ Use for card grids and tile lists where items appear on first scroll into view. 
 - Default state: `opacity: 0` in CSS so items are invisible before animation fires
 - `prefers-reduced-motion`: reset to `opacity: 1; animation: none`
 
+### World Tree hero — sticky vertical scroll parallax (exception)
+
+The homepage World Tree hero is the **one** hero that carries parallax, because the tree is Gaia's living brand mark, not read-copy competing for attention. The raster plate and the live `#canvas3d` are two layers of one silhouette and must travel together as the page scrolls.
+
+**Spec** (`docs/js/hud-toggle.js` + `docs/css/world-tree-hero.css`):
+- **Vertical only, scroll-linked.** Never pointer/hover parallax — a mouse-reactive parallax decoupled the plate from the canvas and was explicitly rejected.
+- Both layers read one shared custom property, `--hero-tree-parallax-y`, composed with the base offset `--hero-tree-shift-y` (default `-4%`) so raster + canvas move as a single object. The raster also carries a static `translate(22%)` in X (its projection origin differs from the canvas at `72% 50%`); there is no X parallax term.
+- Depth factor `-0.08` (tree lags the page at ~8% of scroll travel), clamped to ±64px so it never drifts off-frame. One `requestAnimationFrame` write per scroll frame.
+- Only active while `hero.dataset.treeState === 'hero2d'`; zeroed when the 3D Explorer is open.
+- `prefers-reduced-motion: reduce` skips the scroll listener entirely (no fallback motion needed — the static shifted pose is the reduced state).
+
+This exception is scoped to the World Tree hero silhouette only; it does not license parallax on any other hero or on read-copy sections (see *What does NOT get parallax* below).
+
 ### What does NOT get parallax
 
-- Hero sections (the text IS the content; parallax would compete)
+- Hero **copy** sections where the text is the content (parallax would compete). The World Tree hero is exempt because its parallax layer is the brand-mark tree, not text — see the subsection above.
 - Navigation and footer
 - Form elements or interactive controls
 - Any element the user is actively scrolling to read
@@ -397,7 +479,124 @@ All new CSS is written from the 320px baseline upward. `min-width` breakpoints o
 ### Mobile-specific rules
 
 - Cards and panels with `border-radius` become full-bleed on `< 480px` (no radius, negative margin to escape padding, no left/right border)
-- Parallax disabled on mobile (static background, overlay lifted)
+- Parallax disabled on mobile (static background, overlay lifted) — **except** the World Tree hero, whose vertical scroll parallax is width-independent (see the parallax section).
 - Font sizes use `clamp()` with a floor that works at 320px
 - Touch targets minimum 44×44px
 - No `position: fixed` for decorative elements on mobile (performance)
+
+### World Tree hero — mobile full-bleed backdrop pattern
+
+On mobile (`max-width: 700px`) the World Tree hero is **not** the desktop split-grid scaled down; the tree becomes a full-bleed atmospheric backdrop with the copy overlaid, per the brand register's image-led move ("let the photograph be the design"). Rebuilt after the v6.4.x mobile review, where the tree had been boxed into a cramped ~44svh top band with the copy pushed beneath it.
+
+**Pattern** (`docs/css/world-tree-hero.css` `@media (max-width: 700px)`):
+- The shell is `display: flex; flex-direction: column; justify-content: flex-end` so the copy anchors to the lower third and rises out of the tree's base. No large `padding-top` offset on `.hero-content`.
+- Both tree layers (`.hero-tree-raster` and `#canvas3d`) are `inset: 0`, full height, `object-position` / `transform-origin` at `50% 30%` so the crown breathes in the upper third.
+- **Noise control (depth-of-field, not a flat dim):** a radial vignette `mask` fades the scattered edge starfield into darkness so the periphery stops competing; a slight `blur(.4px)` + `saturate(.78)` on the raster calms the dense midfield tangle so it reads as atmosphere, not a busy diagram. This was the fix for the critique's weak axis (aesthetic/minimalist 2/4).
+- A top→bottom `::after` scrim keeps the crown airy, darkens the lower half into a legibility bed for the headline, and resolves to `var(--bg)` at ~97% so the roots dissolve into the page.
+- **Top utility strip:** `Explore in 3D` sits top-right; the automated latest-report notification (`.hero-audit-btn`, DOM-managed by `scripts/add_post.py` between the `gaia-hero-post` markers) is promoted to top-left as its peer. The desktop floating-bottom-chip placement is overridden in the mobile block only; `add_post.py` is never edited from a `design/` branch.
+
+---
+
+## Yggdrasil II Enforcement Rubric (impeccable-init standard — solidified 2026-07-17)
+
+This section is the **canonical grading rubric** for the Yggdrasil II design run (#998). Every review/critique agent grades each surface against these clauses, reject-by-default. A surface PASSES only when it satisfies every applicable clause. "Legacy design" (Ygg I) is a hard fail — the site must not render old plaques, red origin icons, or dead type-enum vocabulary anywhere.
+
+### E1 — Schema-read correctness (no dead enum)
+- Branch MUST be derived at read-time via the shared resolver (`docs/js/skill-semantics.js` `computeBranch`, mirroring `world-tree-layout.js resolveSemantics`) — never from `skill.type === 'ultimate'|'unique'|'extra'` and never from a stored `branch`/`tier` field.
+- The only valid `type` values are `basic` and `fusion`. Any code path that switches on `ultimate`/`unique`/`extra` as a *type* is a FAIL.
+- Rank star glyphs come from `rank-badge.js` (the clean authority); rank WORDS come from the shared `rankWord(level, branch)`. No inline rank-name maps.
+
+### E2 — Rank vocabulary (branch-forked, no banned words)
+- BANNED, hard fail anywhere user-visible or in generators: the two deprecated Ygg-I rank words — the old 5★ word (now **Ultimate** / **Unique Ultimate**) and the old 4★ word (now **Extra** / **Unique**). Their literal forms are enumerated in `CONTEXT.md` § Banned synonyms and enforced by `scripts/check_rank_vocabulary.py`; this rubric names them only by their replacement so the guard stays green on `DESIGN.md`.
+- Correct ladder: shared {1 Awakened, 2 Named, 3 Evolved}; suite {4 Extra, 5 Ultimate, 6 Apex}; unique {4 Unique, 5 Unique Ultimate, 6 Unique Impossible}.
+- Type words stand BARE (`Basic`/`Fusion`; never the type-word-plus-`Skill` bigram). `Ultimate` is the universal 5★ suite word.
+- A 4★ Unique reads "Unique" (never "Extra"); a 5★ unique reads "Unique Ultimate". Flat rank→name swaps that ignore branch are a FAIL.
+
+### E3 — Plaque / medallion / avatar (the new visual identity)
+- Every skill surface renders a **contributor GitHub avatar** (`https://github.com/<handle>.png`), framed by the **gold origin wreath** (`docs/assets/origin-wreath-gold.svg`). Missing avatar → GitHub-blank/identicon fallback, NEVER an empty hole (no bare `onerror`-hides).
+- The medallion is the AOV4 stamp (`aov4-c{1..6}` suite / `aov4-d{4..6}` unique) at the size tier for the surface (`-badge`/`-card`/`-hero`), selected by `computeBranch` + rank. No CSS-gradient orb stand-ins on named skills.
+- **Unique = DARKER plaque** (violet `--rank-4-unique` register); **Suite = GOLD-leaning** plaque. The distinction MUST be keyed on derived `data-branch`, not `data-type`.
+- The standalone "GitHub" button is removed; the avatar links to the repo.
+
+### E4 — Origin mark deprecation (red → gold)
+- The honor-red `#ef4444` origin mark / `#origin-badge` laurel is DEPRECATED. Origin is rendered in GOLD (the wreath). No red origin icons survive.
+- `--honor-red` may remain for unrelated link/emphasis use; the FAIL is specifically a red *origin* mark.
+
+### E5 — Cross-brand Research bridge
+- Links out to Gaia Research products (MCP `@gaia-registry/mcp@0.1.0` + `research.gaiaskilltree.com/mcp`; skill-fuse `github.com/gaia-research/skill-fuse`) use the shared "Research product" affordance in the Rimuru-Blue (`#38bdf8`) bridge language — "one house, two rooms." Content/schema never imported cross-repo; hyperlinks are fine.
+
+### E6 — Mobile-first (non-homepage surfaces)
+- Built 320px-up, `min-width` breakpoints (scale: sm 480 / md 768 / lg 1024 / xl 1280). Touch targets ≥44×44px. Font sizes `clamp()` with a 320px-safe floor. No `position:fixed` decoration on mobile.
+- Homepage is FROZEN except N-1 (terminal art) and N-2 (hero install card). Critique agents must NOT propose homepage layout changes.
+
+### E7 — Tokens & regen hygiene
+- No hardcoded hex in CSS/JS — design tokens only. Prefer the Python design scripts for generated surfaces (badges, OG, profile pages). Revert Class-P timestamp noise before committing. Class-S artifacts (`docs/graph/*`) commit with their source change.
+
+### Reviewer procedure
+Serve `docs/` locally (`python -m http.server`), load the target surface with Playwright at 1280 (desktop) and 390 (mobile), screenshot, and grade against E1–E7. Return a structured verdict: `{pass: bool, failures: [{clause, surface, evidence}], severity}`. Reject-by-default: absence of evidence of compliance is a fail, not a pass.
+
+---
+
+## Yggdrasil II — what shipped (canonical design standard)
+
+This is the definitive `/impeccable-init` record of the Yggdrasil II design language. E1–E7 above are the *enforcement* clauses; this section is the *specification* they enforce. Ratified 2026-07-07, implemented across #998 (EPIC #1002), solidified 2026-07-17.
+
+### The taxonomy — two orthogonal axes
+
+Yggdrasil II split the old single `type`/rank enum into two independent axes:
+
+- **TYPE** (stored, starless/generic nodes): `basic` | `fusion` — and nothing else. `fusion` iff the node has prerequisites; pure structure. **Never consulted for branch or rank vocabulary.** The old type values (`extra`/`ultimate`/`unique`) are a dead enum: any code path switching on them as a *type* is a defect (E1).
+- **BRANCH** (derived at read-time, never stored): `standard` | `suite` | `unique`. Computed from the Named Skill's `suiteComponents` presence and its effective rank — never declared on a node, never read from a `branch`/`tier` field. The formula:
+  - rank 1–3 → **standard** (no fork)
+  - rank ≥ 4 AND `suiteComponents` present → **suite**
+  - rank ≥ 4 AND no `suiteComponents` → **unique**
+
+Type and branch are orthogonal: a `basic`-type generic can back a unique-branch named skill; a `fusion`-type generic can back a suite. Branch is a property of the *named* skill's shape, not the generic parent's `type`.
+
+### The rank ladders — shared 1–3, forked 4–6
+
+| Rank | Standard (1–3) | Suite (4–6) | Unique (4–6) |
+|---|---|---|---|
+| 1★ | Awakened | — | — |
+| 2★ | Named | — | — |
+| 3★ | Evolved | — | — |
+| 4★ | — | Extra | Unique |
+| 5★ | — | Ultimate | Unique Ultimate |
+| 6★ | — | Apex | Unique Impossible |
+
+`Ultimate` is the universal 5★ word (it appears in both the suite ladder and, prefixed, the unique ladder). The `Skill` suffix attaches to RANK words only (`Extra Skill`, `Unique Skill`, `Ultimate Skill`, `Apex Skill` are valid rank phrasings); TYPE words stand bare (`Basic`, `Fusion` — never the type-word-plus-`Skill` bigram). A 4★ Unique reads "Unique" and NEVER "Extra"; a flat rank→name swap that ignores branch is a defect (E2). The two Ygg-I rank words (old 4★/old 5★) are deprecated and banned in new content — see `CONTEXT.md` § Banned synonyms for the literal forms and `scripts/check_rank_vocabulary.py` for the CI enforcement.
+
+### The medallion system
+
+The canonical skill identity is the **plaque medallion**, implemented once in `docs/js/plaque.js` `_fieldAvatar` and routed to every surface (never re-implemented per-surface):
+
+- **Contributor GitHub avatar** (`https://github.com/<handle>.png`) as the core, framed by the **gold origin wreath** (`docs/assets/origin-wreath-gold.svg`).
+- **GitHub-blank / identicon fallback** on avatar error — never an empty hole, never a bare `onerror`-hide.
+- **AOV4 rank stamp** overlaid: Asset C (`aov4-c{1..6}-suite-*`) for the suite branch, Asset D (`aov4-d{4..6}-unique-*`) for the unique branch, selected by `computeBranch` + rank, at the size tier for the surface (`-badge` / `-card` / `-hero`). No CSS-gradient orb stand-ins on named skills.
+- **Branch-keyed plaque register:** Unique = DARKER plaque (violet `--rank-4-unique`); Suite = GOLD-leaning plaque. Keyed on derived `data-branch`, never `data-type`.
+- The standalone "GitHub" button is removed; the avatar itself links to the repo (`links.github`).
+
+### The gold origin mark (red deprecated)
+
+Origin is rendered in **GOLD** (`--apex-gold` `#fbbf24`, the gold origin token) via the wreath. The honor-red `#ef4444` origin mark / `#origin-badge` laurel is **deprecated** — no red *origin* icons survive anywhere. (`--honor-red` may still serve unrelated link/emphasis use; only the red origin mark is the failure.)
+
+### The cross-brand Rimuru-Blue bridge
+
+Gaia Skill Tree ("The Hunter's Atlas" — serif/gold register) is the flagship of Gaia Research ("The Cyber-Slime Laboratory" — Bebas/Syne, Milim-Pink/Rimuru-Blue register). Surfaces that link OUT to Research products (MCP `@gaia-registry/mcp@0.1.0` + `research.gaiaskilltree.com/mcp`; skill-fuse `github.com/gaia-research/skill-fuse`) use one shared "Research product" affordance in the **Rimuru-Blue `#38bdf8`** bridge language. This is an exact match to this repo's `--tier-basic` token (`#38bdf8`) — the natural bridge color, expressing "one house, two rooms." Cross-repo content/schema is never imported; hyperlinks and sibling brand lockups are fine.
+
+### Shared resolvers — the single source both client and Python read
+
+Branch derivation and rank vocabulary have ONE authority per runtime. No surface re-declares the ladder or re-derives the branch inline:
+
+**Client (browser):** `docs/js/skill-semantics.js` → `window.GaiaSemantics`
+- `computeBranch(node, effRank)` → `'standard' | 'suite' | 'unique'`
+- `rankWord(level, branch)` → the branch-forked rank word
+- `rankLabel(level, branch)` → the full display label
+- Extracted from `world-tree-layout.js resolveSemantics()` (the original correct resolver); imported by `plaque.js`, `heroes.js`, `named-skills.js`, `leaderboard.js`, `skill-explorer.js`. Star GLYPHS remain the province of `rank-badge.js` (the clean chip/star authority); rank WORDS route through `rankWord`.
+
+**Python (CLI + generators):** `gaia_cli`
+- `gaia_cli.trustMagnitude.computeBranch(named, genericSkillMap)` → `'standard' | 'suite' | 'unique'` (never consults `type`)
+- `gaia_cli.formatting.rank_word(level, branch)` + `format_rank_label` + `rank_color_for` (unique gets the violet `RANK_COLORS_UNIQUE` ramp)
+- Scripts (`generateBadges.py`, `generateOgCards.py`, `generateProfilePages.py`, …) import these — they MUST NOT re-declare a flat `rank → name` dict, which silently mislabels every unique-branch skill. Scripts under `scripts/` reach `src/gaia_cli` via `sys.path.insert(0, str(Path(__file__).parent.parent / "src"))`.
+
+The two resolvers are mirror implementations of one formula: the client reads the pre-shipped `type`/`suiteComponents`/`level` fields from `docs/graph/*.json` (browser data carries NO `branch` field — it is always derived), and Python reads the same shape from the registry. When the formula changes, both move together.

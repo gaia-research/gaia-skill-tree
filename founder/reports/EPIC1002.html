@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EPIC #1002 — Yggdrasil II — Insights Report — Gaia</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@300;400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Design Tokens */
+      --bg: #020617;
+      --surface: #0f172a;
+      --surface-glass: rgba(15, 23, 42, 0.6);
+      --border: #1e293b;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+
+      /* Accent Gradients */
+      --grad-purple: linear-gradient(135deg, #a78bfa, #7c3aed);
+      --grad-blue: linear-gradient(135deg, #38bdf8, #0284c7);
+      --grad-amber: linear-gradient(135deg, #fbbf24, #d97706);
+      --grad-emerald: linear-gradient(135deg, #34d399, #059669);
+      --grad-rose: linear-gradient(135deg, #f43f5e, #be123c);
+
+      /* Colors */
+      --color-purple: #7c3aed;
+      --color-blue: #38bdf8;
+      --color-amber: #fbbf24;
+      --color-emerald: #34d399;
+      --color-rose: #f43f5e;
+      --color-fuchsia: #e879f9;
+
+      /* Fonts */
+      --font-body: 'Bricolage Grotesque', Inter, system-ui, sans-serif;
+      --font-display: 'EB Garamond', Georgia, serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+      --shadow-premium: 0 10px 40px -10px rgba(0, 0, 0, 0.7);
+      --border-glow: 0 0 20px rgba(124, 58, 237, 0.15);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg);
+      background-image:
+        radial-gradient(at 0% 0%, rgba(124, 58, 237, 0.05) 0px, transparent 40%),
+        radial-gradient(at 100% 100%, rgba(56, 189, 248, 0.05) 0px, transparent 40%);
+      color: var(--text);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      padding: 3rem 1.5rem;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; }
+
+    /* Header */
+    header { text-align: center; margin-bottom: 3rem; position: relative; }
+
+    .diamond-seal {
+      margin-bottom: 1.5rem;
+      display: inline-block;
+      filter: drop-shadow(0 0 12px rgba(124, 58, 237, 0.3));
+    }
+
+    header h1 {
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      font-weight: 700;
+      font-family: var(--font-display);
+      color: var(--text);
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+    }
+
+    .underline-accent {
+      background: linear-gradient(90deg, var(--color-purple), var(--color-blue));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      border-bottom: 2px solid rgba(124, 58, 237, 0.3);
+    }
+
+    header p {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 760px;
+      margin: 0.5rem auto 0 auto;
+      font-weight: 300;
+    }
+
+    .subtitle-meta {
+      margin-top: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+    .subtitle-meta .pill {
+      display: inline-block;
+      padding: 0.15rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+      margin: 0 0.2rem;
+    }
+    .pill.status-open {
+      color: var(--color-amber);
+      border-color: rgba(251,191,36,0.3);
+      background: rgba(251,191,36,0.06);
+    }
+    .pill.status-mergeable {
+      color: var(--color-emerald);
+      border-color: rgba(52,211,153,0.3);
+      background: rgba(52,211,153,0.06);
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 3rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.5rem;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      color: var(--muted);
+      padding: 0.5rem 1.25rem;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 0.98rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      border-radius: 6px;
+    }
+    .tab-btn:hover { color: var(--text); background: rgba(255, 255, 255, 0.03); }
+    .tab-btn.active { color: var(--color-purple); background: rgba(124, 58, 237, 0.08); font-weight: 600; }
+
+    /* Cards */
+    .card {
+      background: var(--surface-glass);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-premium);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover { border-color: rgba(124, 58, 237, 0.3); box-shadow: var(--border-glow), var(--shadow-premium); }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 600;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.75rem;
+    }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
+    @media (max-width: 900px) { .grid-2 { grid-template-columns: 1fr; } }
+
+    .lead {
+      font-size: 1.02rem;
+      color: #cbd5e1;
+      margin-bottom: 0.5rem;
+    }
+    .lead strong { color: var(--text); }
+
+    /* At-a-glance panels */
+    .glance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    @media (max-width: 900px) { .glance-grid { grid-template-columns: 1fr; } }
+
+    .glance-panel {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 1.4rem;
+      background: rgba(255,255,255,0.01);
+    }
+    .glance-panel h4 {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .glance-panel p { font-size: 0.9rem; color: #cbd5e1; }
+    .glance-panel.g-work { border-color: rgba(52,211,153,0.25); }
+    .glance-panel.g-work h4 { color: var(--color-emerald); }
+    .glance-panel.g-hinder { border-color: rgba(244,63,94,0.25); }
+    .glance-panel.g-hinder h4 { color: var(--color-rose); }
+    .glance-panel.g-quick { border-color: rgba(56,189,248,0.25); }
+    .glance-panel.g-quick h4 { color: var(--color-blue); }
+    .glance-panel.g-amb { border-color: rgba(124,58,237,0.3); }
+    .glance-panel.g-amb h4 { color: var(--color-purple); }
+
+    /* Stats */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+    }
+    .stat-box {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+    }
+    .stat-num {
+      font-size: 1.4rem;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      color: var(--color-blue);
+      line-height: 1.2;
+    }
+    .stat-label {
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      margin-top: 0.4rem;
+    }
+
+    /* Feature list (what worked / decisions) */
+    .feature-list { list-style: none; }
+    .feature-item {
+      padding: 1rem 0;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.06);
+    }
+    .feature-item:last-child { border-bottom: none; }
+    .feature-title {
+      font-size: 1.02rem;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+      display: flex;
+      align-items: baseline;
+      gap: 0.6rem;
+    }
+    .feature-title .marker { color: var(--color-emerald); font-family: var(--font-mono); font-size: 0.85rem; }
+    .feature-desc { font-size: 0.9rem; color: var(--muted); }
+
+    .decision-list .feature-title .marker { color: var(--color-purple); }
+
+    /* Friction accordions */
+    .accordion {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin-bottom: 0.75rem;
+      overflow: hidden;
+    }
+    .accordion-header {
+      background: rgba(255, 255, 255, 0.01);
+      padding: 0.85rem 1.25rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: 500;
+      transition: background-color 0.2s ease;
+      gap: 1rem;
+    }
+    .accordion-header:hover { background: rgba(255, 255, 255, 0.03); }
+    .accordion-header .cat-name { display: flex; align-items: center; gap: 0.6rem; }
+    .accordion-header .cat-tag {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      padding: 0.1rem 0.45rem;
+      border-radius: 3px;
+      background: rgba(244,63,94,0.08);
+      color: var(--color-rose);
+      border: 1px solid rgba(244,63,94,0.2);
+      white-space: nowrap;
+    }
+    .accordion-content {
+      padding: 1rem 1.25rem;
+      background: rgba(0, 0, 0, 0.2);
+      border-top: 1px solid var(--border);
+      font-size: 0.9rem;
+      display: none;
+    }
+    .accordion-content > p { margin-bottom: 0.75rem; color: #cbd5e1; }
+    .accordion-content ul { margin-left: 1.1rem; }
+    .accordion-content li { font-size: 0.85rem; color: var(--muted); margin-bottom: 0.5rem; }
+    .accordion-content li code { color: var(--color-blue); }
+    .accordion.active .accordion-content { display: block; }
+    .chevron { transition: transform 0.2s ease; flex-shrink: 0; }
+    .accordion.active .chevron { transform: rotate(180deg); }
+
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.85em;
+      background: rgba(255,255,255,0.04);
+      padding: 0.05rem 0.3rem;
+      border-radius: 3px;
+    }
+
+    /* Horizon cards */
+    .horizon-card {
+      background: rgba(124,58,237,0.03);
+      border: 1px solid rgba(124,58,237,0.2);
+      border-radius: 12px;
+      padding: 1.25rem 1.4rem;
+      margin-bottom: 1rem;
+    }
+    .horizon-card h4 {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .horizon-card p { font-size: 0.9rem; color: var(--muted); }
+
+    /* Timeline */
+    .timeline { position: relative; padding-left: 1.75rem; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 6px;
+      bottom: 6px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--color-purple), var(--color-blue), var(--color-emerald));
+    }
+    .tl-item { position: relative; padding-bottom: 1.4rem; }
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: -1.75rem;
+      top: 4px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--color-purple);
+      border: 2px solid var(--bg);
+      box-shadow: 0 0 0 2px rgba(124,58,237,0.3);
+    }
+    .tl-item:last-child::before { background: var(--color-emerald); box-shadow: 0 0 0 2px rgba(52,211,153,0.35); }
+    .tl-date {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--color-blue);
+      margin-bottom: 0.2rem;
+    }
+    .tl-event { font-size: 0.9rem; color: #cbd5e1; }
+
+    /* Git topology */
+    .branching-chart {
+      background: #020617;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      overflow-x: auto;
+    }
+    .git-line {
+      display: flex;
+      align-items: flex-start;
+      margin: 0.9rem 0;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+    }
+    .git-branch-indicator {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 1rem;
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+    .branch-main { background: var(--color-rose); }
+    .branch-integration { background: var(--color-purple); }
+    .branch-feature { background: var(--color-blue); }
+    .git-branch-name { color: var(--text); font-weight: 500; white-space: nowrap; margin-right: 0.75rem; }
+    .git-note { color: var(--muted); font-size: 0.78rem; }
+    .git-legend { display: flex; gap: 1.5rem; margin-bottom: 1.25rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--muted); flex-wrap: wrap; }
+    .git-legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
+    .git-legend .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+
+    /* Fun ending */
+    .war-story {
+      background: rgba(244, 63, 94, 0.03);
+      border: 1px solid rgba(244, 63, 94, 0.18);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-top: 1rem;
+    }
+    .war-story .ws-head {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      color: var(--color-rose);
+      margin-bottom: 1rem;
+      line-height: 1.25;
+    }
+    .war-story p { color: #cbd5e1; font-size: 0.95rem; }
+
+    footer {
+      text-align: center;
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.8rem;
+      font-family: var(--font-mono);
+    }
+    .tab-content { animation: fade 0.3s ease; }
+    @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <header>
+      <svg class="diamond-seal" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M24 4L44 24L24 44L4 24Z" stroke="var(--color-purple)" stroke-width="1.5" stroke-linejoin="miter"/>
+        <text x="24" y="30" font-family="'EB Garamond', Georgia, serif" font-size="21" font-weight="600" fill="var(--text)" text-anchor="middle">G</text>
+      </svg>
+
+      <h1>EPIC #1002 <span class="underline-accent">Yggdrasil II</span></h1>
+      <p>Insights report for the taxonomy migration &amp; v7.0.0 release — synthesized from the Orchestrator's memory log across the full sprint arc (2026-07-07 → 2026-07-26).</p>
+      <div class="subtitle-meta">
+        <span class="pill">12 sessions mined</span>
+        <span class="pill status-open">EPIC #1002 · close-out in progress</span>
+        <span class="pill status-mergeable">PR #1185 · MERGEABLE</span>
+        <span class="pill">awaiting v7.0.0 human gate</span>
+      </div>
+    </header>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(event,'overview')">Overview</button>
+      <button class="tab-btn" onclick="switchTab(event,'worked')">What Worked &amp; Friction</button>
+      <button class="tab-btn" onclick="switchTab(event,'decisions')">Decisions &amp; Horizon</button>
+      <button class="tab-btn" onclick="switchTab(event,'topology')">Timeline &amp; Git Topology</button>
+    </div>
+
+    <!-- TAB 1: OVERVIEW -->
+    <div id="tab-overview" class="tab-content">
+
+      <div class="card">
+        <h2 class="card-title">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-purple)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+          What EPIC #1002 Was
+        </h2>
+        <p class="lead"><strong>Yggdrasil II</strong> collapsed the skill <strong>type</strong> enum from four values down to two surviving structural types (<code>basic</code>, <code>fusion</code>), retired the <strong>Evidence Floor</strong> as a gate and made <strong>Trust Magnitude</strong> the sole gate, and — most load-bearing — decoupled the <strong>branch</strong> axis from type entirely.</p>
+        <p class="lead">Branch became a read-time derivation from <code>f(suiteComponents present?, rank)</code>, with the fork recognized only at 4★ and above: a <strong>Suite</strong> ladder (Extra / Ultimate / Apex) and a <strong>Unique</strong> ladder (Unique / Unique Ultimate / Unique Impossible), yielding two distinct 6★ pinnacles. <code>type</code> became pure structural metadata (fusion iff it has prerequisites) and is <em>never</em> consulted for branch.</p>
+        <p class="lead">The arc ran from v2 ratification through schema <code>#995</code>, CLI <code>#996</code>, taxonomy migration <code>#997</code> and docs <code>#994</code>; a semantic world-tree hero and Ascension Overdrive V4 asset set; a full frontend/CLI collapse onto an emitted taxonomy (PR3a/PR3b, the 853-file oracle cut <code>#1235</code>); a design-polish and token-eradication campaign (T6–T19, P1–P6); and finally SVG-graph retirement (<code>#1301</code>) and the v7.0.0 CLI-shim retirement (<code>#1303</code>).</p>
+        <p class="lead">It ended with the integration branch <code>dev/yggdrasil-ii-staging</code> CI-clean at <code>c1ddb6235</code>, a leaked author email eradicated to 0 across all refs, ancestry with <code>main</code> repaired so PR <code>#1185</code> (staging→main) is <strong>MERGEABLE</strong> — everything awaiting the single mandated hard gate: the founder's go on green CI, after which the merge commit's <code>feat!:</code>/<code>BREAKING CHANGE:</code> triggers the v7.0.0 major bump.</p>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          At a Glance
+        </h2>
+        <div class="glance-grid">
+          <div class="glance-panel g-work">
+            <h4>✓ What Worked</h4>
+            <p>Delegated, verification-first workflows carried the epic. The Yggdrasil I→II meta-post shipped through a 7-agent pipeline with every number checked against the live registry — 0 errors across ~339k tokens. The cross-file Unique-rename went out as 12 disjoint PRs (generator <code>#1283</code> first for semantic correctness, then 11 consumers) with zero file-overlap verified before batch-merge. A destructive git-filter-repo history purge (95 PNGs + 3 MP4s, repo 41% lighter) ran planned → adversarially reviewed → rehearsed on a throwaway mirror → founder-gated → executed, with a pristine offline backup retained.</p>
+          </div>
+          <div class="glance-panel g-hinder">
+            <h4>✗ What Hindered</h4>
+            <p>Windows was a persistent tax: local <code>gaia dev docs</code> flipped CRLF on hundreds of files, Git-Bash <code>/tmp</code> mapped away from the Write tool's <code>C:/tmp</code> (filing RFC #1302 with a stale body), cp1252 crashed on validator glyphs, and the <code>gaia dev docs</code> shim was simply broken. Beyond the OS, unprotected staging meant reds merged anyway, silenced/unfailable tests read green forever, and stale audit docs modeled Suite/Unique as one column when the implementation forks them.</p>
+          </div>
+          <div class="glance-panel g-quick">
+            <h4>⚡ Quick Wins</h4>
+            <p>Several high-leverage bugs were on nobody's list until stumbled into. The homepage N+1 was cut from 312 API requests to 5 (<code>#1229</code>). A <code>gaia init</code>/<code>gaia push</code> crash from a <code>TIER_COLORS['ultimate']</code> subscript — the dict is <code>{basic, fusion}</code> post-#995 — was fixed. Dead validators (<code>validate_ultimate</code>, <code>validate_unique_skills</code>) matching zero skills were removed, and the leaderboard blank panel was root-caused to a single CSS specificity miss.</p>
+          </div>
+          <div class="glance-panel g-amb">
+            <h4>◆ Ambitious</h4>
+            <p>The reach items reshaped the product. The world tree became a semantically-placed hero where position means something (hemisphere by type, coreness by effective rank) rather than a DAG over a raster, retaining all 235 nodes and 401 edges. Ascension Overdrive V4 delivered a 45-reference WebP set on one antique-medallion chassis with two cosmologies — Suite emits outward, Unique collapses inward. And structured migration provenance (<code>#1190</code>) replaced fragile prose/time-window markers with schema-backed <code>metaEpoch</code>/<code>migrationBatch</code> that generalizes to every future meta with zero validator edits.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-amber)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+          Stat Highlights
+        </h2>
+        <div class="stats-row" id="stats-row"></div>
+      </div>
+
+    </div>
+
+    <!-- TAB 2: WHAT WORKED & FRICTION -->
+    <div id="tab-worked" class="tab-content" style="display:none;">
+      <div class="grid-2">
+        <div class="left">
+          <div class="card">
+            <h2 class="card-title">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-emerald)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              Impressive Workflows
+            </h2>
+            <ul class="feature-list" id="worked-list"></ul>
+          </div>
+        </div>
+        <div class="right">
+          <div class="card">
+            <h2 class="card-title" style="color: var(--color-rose);">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-rose)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+              Where Things Went Wrong
+            </h2>
+            <p style="color: var(--muted); font-size: 0.88rem; margin-bottom: 1.25rem;">Friction clustered into four categories. Click each to expand the concrete examples pulled from the session log.</p>
+            <div id="friction-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: DECISIONS & HORIZON -->
+    <div id="tab-decisions" class="tab-content" style="display:none;">
+      <div class="grid-2">
+        <div class="left">
+          <div class="card">
+            <h2 class="card-title">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-purple)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+              Load-Bearing Decisions
+            </h2>
+            <ul class="feature-list decision-list" id="decisions-list"></ul>
+          </div>
+        </div>
+        <div class="right">
+          <div class="card">
+            <h2 class="card-title">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+              On the Horizon
+            </h2>
+            <div id="horizon-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: TIMELINE & GIT TOPOLOGY -->
+    <div id="tab-topology" class="tab-content" style="display:none;">
+      <div class="grid-2">
+        <div class="left">
+          <div class="card">
+            <h2 class="card-title">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-purple)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              Sprint Timeline
+            </h2>
+            <div class="timeline" id="timeline-list"></div>
+          </div>
+        </div>
+        <div class="right">
+          <div class="card">
+            <h2 class="card-title">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+              Git Topology
+            </h2>
+            <div class="git-legend">
+              <span><span class="dot branch-main"></span> main</span>
+              <span><span class="dot branch-integration"></span> integration</span>
+              <span><span class="dot branch-feature"></span> feature / PR</span>
+            </div>
+            <div class="branching-chart" id="topology-list"></div>
+          </div>
+
+          <div class="card">
+            <h2 class="card-title" style="color: var(--color-rose);">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-rose)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l1.5 5h5l-4 3.5 1.5 5-4-3-4 3 1.5-5-4-3.5h5z"/></svg>
+              War Story
+            </h2>
+            <div class="war-story">
+              <div class="ws-head" id="ws-head"></div>
+              <p id="ws-detail"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>GAIA Skill Tree • EPIC #1002 (Yggdrasil II) Insights • Synthesized from founder/MEMORY.md by a verified multi-agent pipeline.</p>
+    </footer>
+
+  </div>
+
+  <script>
+    const DATA = {
+      statHighlights: [
+        { label: "Leaked author email across all refs (final)", value: "0 ← 24" },
+        { label: "Repo size after binary purge", value: "329→195 MB" },
+        { label: "Homepage API requests (#1229)", value: "312 → 5" },
+        { label: "Starless nodes in registry", value: "243" },
+        { label: "= basic + fusion", value: "113 + 130" },
+        { label: "Served branch distribution (u/s/std)", value: "6 / 15 / 58" },
+        { label: "4★→3★ demotions (Evidence Floor)", value: "40 of 47" },
+        { label: "User-tree drift reconciled", value: "78 → 0" },
+        { label: "P5 Unique-rename stack", value: "12 PRs" },
+        { label: "T19 dead-token renames", value: "68 / 25 files" },
+        { label: "#1235 oracle cut", value: "853 files" },
+        { label: "Hero DAG fidelity retained", value: "235n / 401e" },
+        { label: "320px Explorer idle (perf pass)", value: "323 / 150 ms" },
+        { label: "v7.0.0 CLI-shim tests passing", value: "35" },
+        { label: "Ascension Overdrive V4 assets", value: "45 WebP" },
+        { label: "Meta-post pipeline", value: "7 agents · 0 err" }
+      ],
+      whatWorked: [
+        { title: "7-agent verified meta-post pipeline, 0 errors", description: "The Yggdrasil I→II report (c1ddb6235) was published with every number cross-checked against the live registry and two worked examples (obra/writing-plans drift, retired 10k-stars gate). 7 agents, 0 errors, ~339k tokens, 45 tool uses. Rendered LaTeX HTML plus patched posts.json/index.html/meta.html." },
+        { title: "12 disjoint PRs beat one mega-PR for the cross-file rename", description: "The P5 Unique-rename stack (#1283–1294/#1288) verified zero file-overlap before batch-merging; generator PR #1283 merged FIRST for semantic correctness, then the 11 consumers. Each merged PR is a permanent, revertible lock-in — the opposite of a single unreviewable mega-diff." },
+        { title: "Destructive history rewrite executed with a full safety chain", description: "The binary-master purge (95 PNG + 3 MP4 from ALL history, repo 329→195 MB, 41% lighter) and the later leaked-email eradication both ran planned → adversarially reviewed (4 live-verified blockers found) → rehearsed on a throwaway --mirror → founder-gated → executed, with a pristine offline backup mirror kept for rollback and a .gitignore guard added." },
+        { title: "Root-cause correction to a pure-build, origin-driven model", description: "The floating 4-vs-6 unique symptom was chased through the wrong layers (stale cache, then over-removing a type gate spiking the count to 11) before the real fix landed upstream: replace max(levels) bucket reads with an origin reader so starless generic nodes get stamped with the CLI-declared origin's branch/rank/medallion at build time. Verified on localhost: 6 unique / 15 suite / 58 standard. Browser now reads emitted node.branch and never recomputes." },
+        { title: "Structured migration provenance as a meta-agnostic scheme", description: "#1190 replaced fragile prose-marker/time-window timeline pairing with schema-backed metaEpoch/migrationBatch fields (canonical + bundled, lockstep). It generalizes to all future metas (Ygg III, Sequoia I) with ZERO validator edits and backfilled the Ygg II batch with zero legacy debt." }
+      ],
+      frictionAnalysis: [
+        { category: "windows-environment", tag: "environment", description: "The orchestrator ran on Windows, which repeatedly diverged from the Linux CI it was building for. Regen belongs in a clean Linux env, not hand-curated from Windows.", examples: [
+          "Local <code>gaia dev docs</code> regen flipped CRLF EOL on hundreds of files; all output discarded and the merge committed byte-identical to pre-merge staging",
+          "Git-Bash <code>/tmp</code> maps to <code>AppData\\Local\\Temp</code>, not the Write tool's <code>C:/tmp</code> — RFC #1302 was filed with a stale heredoc body via <code>gh issue create --body-file</code>",
+          "<code>validate_timelines.py</code> and other validators print glyphs that crash Windows cp1252; must prefix <code>PYTHONIOENCODING=utf-8</code> (Linux CI unaffected)",
+          "The <code>gaia dev docs</code> shim is broken on Windows; must invoke <code>PYTHONPATH=./src python -m gaia_cli dev docs</code> or <code>scripts/build_docs.py</code> directly"
+        ]},
+        { category: "unprotected-staging &amp; silent greens", tag: "ci", description: "dev/yggdrasil-ii-staging carried no required checks, so reds merged and gates that only run on branches:[main] never fired — letting real problems read as green.", examples: [
+          "Session 1 staging was UNVALIDATED not green: PR #1185 ran only 9 checks; pytest, validate.py and four guards were path-filtered out",
+          "'7 pre-existing pytest reds' had been deleted and replaced with assertions of <code>_meets_evidence_floor(...) is True</code> on a function returning unconditional True — green forever",
+          "Schema+DAG and Test/Build/Smoke checks have not run since 2026-07-20 because they are push-triggered only on main and blocked behind the #1185 merge conflict",
+          "Two persistent staging reds (fuse YAML frontmatter parse error; docs-stale from non-deterministic spectral-embedding coords) persist only because the gate runs on branches:[main]"
+        ]},
+        { category: "stale artifacts &amp; overclaiming", tag: "self-report", description: "Compacted summaries, audit docs, and commit messages went stale on SHAs or mismodeled the taxonomy; ground truth repeatedly beat the self-report.", examples: [
+          "The 2026-07-19 snapshot falsely claimed the design-polish layer landed on #1235; a two-scout reconciliation found only the plaque STRUCTURE landed, rebalance/D6-D8/gold-star mark lived on parallel branches",
+          "TOKEN-POLLUTION-AUDIT.md flattens the two distinct Suite/Unique rank ladders into one column; trusting it as a color model was flagged by the founder",
+          "The first restore commit (8ea5b64c4) named all 4 skills but only 2 landed (graphify+dspy blocked by the Star Bar gate needing a verified blob URL) — an overclaim is a lie in the audit log",
+          "<code>git merge-tree</code> showed clean while silently reverting newer fixes (Bucket-2 sampler order, named-grid) because branches were cut before divergent fixes"
+        ]},
+        { category: "concurrency &amp; worktree isolation", tag: "topology", description: "isolation:'worktree' proved unreliable; concurrent processes under the same identity switched branches mid-operation and landed commits on the wrong branch.", examples: [
+          "Three agents landed in the shared checkout; one had its HEAD switched mid-task by another; rule adopted: orchestrator uses <code>git -C</code> / <code>git show &lt;ref&gt;:</code> and never cd into worktrees",
+          "A worker's <code>git checkout -b</code> switched the MAIN checkout's branch; recovered via reflog",
+          "A second process under mbtiongson1 created docs/contributors-update-rico-caio and landed a reconcile commit on the wrong branch; recovered by cherry-pick to #996 + reset",
+          "The Guard A hardening commit 89b27d50a landed directly on staging due to branch switching mid-session — content correct, topology wrong"
+        ]}
+      ],
+      keyDecisions: [
+        { title: "Type collapse — 'There is NO TIER UNIQUE'", detail: "Ygg II collapses to two surviving TYPE tokens (--tier-basic, --tier-fusion); all rank color moves to --rank-N (Suite) / --rank-N-unique (Unique). Unique is a read-time branch, not a type; the ladder is hardcoded in the generator (UNIQUE_BRANCH_TIER)." },
+        { title: "Type is orthogonal to Branch (Type ⟂ Branch); fork only at 4★+", detail: "type is pure structural metadata (basic|fusion; fusion iff it has prerequisites) and is NEVER consulted for branch. Branch derives from (suiteComponents present?, rank). 1–3★ share Awakened/Named/Evolved; the Suite/Unique fork appears only at 4★+." },
+        { title: "Origin is declared, not derived", detail: "Each generic bucket has exactly one CLI-declared origin:true skill whose emitted branch/rank/medallion/level is stamped onto the starless node at build time; no origin → node stays plain starless. Walked to a PURE BUILD shape: the browser reads emitted node.branch and never recomputes. Origin-gate is bucket-level at 4★ (META wins over Ratification Q3); prereq/fusion-structure origin applies only at 5★+." },
+        { title: "Reports are decisions, not ratifications", detail: "A later in-session founder ruling supersedes an earlier written report without editing it first. The adversarial HOLD citing the stale tier-unique-classification.md '~90 keeps' was correctly overridden by the founder's 'full rename now' ruling. Captured as user-memory." },
+        { title: "Email-leak resolution rule", detail: "Founder ruling: if it leaked on main → mailmap remap; if only in this PR → history rewrite; no force-push to main; never compromise contributor identity. Verify the leak surface with git log --all before choosing; origin/main had 0 so no main rewrite. The leaked author email was rewritten to a GitHub no-reply address." },
+        { title: "EPIC #1002 closes at a single staging→main merge, never squashed", detail: "The EPIC closes at the one dev/yggdrasil-ii-staging → main merge (PR #1185) once CI is green and the founder gives explicit go. It must use a merge commit (never squash — squash destroys child-PR topology) carrying feat!:/BREAKING CHANGE: to trigger the v7.0.0 major bump. The founder personally resolves the 19-file conflict given the site-dark risk of picking surviving script tags." },
+        { title: "Integrate by merge, not rebase", detail: "Rebase silently drops merge commits and multiplies conflict rounds; merge resolves once and preserves topology. Recorded as the ratified branch strategy in ORCHESTRATOR.md; staging absorbed main's 65 unique commits this way." },
+        { title: "skill-trees/ RETAINED — drift is fixed, not hidden", detail: "skill-trees/ powers live profile Progression Timelines, leaderboard, badges and projections; the earlier 'migrate to a separate repo' idea was never ratified. Drift is FIXED via trace_timeline, not decoupled — directly reversing a prior session's 'out of scope noise' call." },
+        { title: "Retire a command only when its replacement is already documented", detail: "The v7.0.0 shim retirement (release|_hook|docs build|mcp|validate|test) was safe because every retired top-level verb already had a canonical gaia dev X equivalent, confirmed via gaia dev --help before deletion." }
+      ],
+      onTheHorizon: [
+        { title: "v7.0.0 release merge", whatsPossible: "With staging CI-clean and #1185 MERGEABLE, the only remaining step is the founder's go on green CI, then a personally-resolved 19-file merge whose feat!:/BREAKING CHANGE: commit ships v7.0.0. The single mandated hard gate for the whole epic." },
+        { title: "Durable Schema+DAG gate fix (post-Ygg-II infra PR)", whatsPossible: "The docs-stale red is baseline non-determinism (spectral-embedding coords + timestamps) on a gate that only runs on branches:[main]. The durable fix — seed the spectral layout deterministically, drop the ledger version stamp (#807), and trigger the gate on staging — is scoped as its own infra PR, founder's call whether to file now." },
+        { title: "Deferred CLI/share cleanup and TM history", whatsPossible: "share.py's _TYPE_SYMBOL map (#1264) is still keyed on the retired extra/ultimate/unique and was deferred to upcoming gaia share work; the lexicon-of-record RFC (#1302) proposes source-of-truth consolidation; and #1194 tracks a TM-over-time chart needing a Trust Magnitude history series." }
+      ],
+      timeline: [
+        { date: "2026-07-07", event: "Yggdrasil II ratification handover authored (YGGDRASIL_II_RATIFICATION_2026-07-07.md, v2 Amendment block)." },
+        { date: "2026-07-12", event: "World-tree semantic topology ratified (#1125); Yggdrasil hero raster-backed living DAG ready for preview on design/homepage-gaia-tree-hero." },
+        { date: "2026-07-14", event: "Ygg II v2 taxonomy ratified — branch decoupled from type; #1170/#1169/#1172 merged to staging; AOV V4 shape founder-approved." },
+        { date: "2026-07-15", event: "#995 schema + #996 CLI merged as a stacked pair; binary-master history purge (95 PNG + 3 MP4, repo 41% lighter); main merged into staging by merge; fresh aggregate PR #1185 opened; AOV V4 45-WebP set delivered." },
+        { date: "2026-07-16", event: "#997 taxonomy migration + #994 docs merged (113 basic / 130 fusion); Extra=Unique 4★ gate ratified; 40 4★→3★ recalibration; structured provenance #1190 + #999 guard cleanup + user-tree drift fix (78→0) merged; EPIC to 5/7+." },
+        { date: "2026-07-18", event: "PR3a Python consumer collapse onto taxonomy.py (shims delegate); PR3b frontend JS reads emitted taxonomy; origin-driven build stamp replaces max-level guess (6 unique verified on localhost); unique-cluster placement iterated to under-the-branches (approved); /browse banned." },
+        { date: "2026-07-19", event: "#1235 MERGED to staging no-squash (853-file oracle cut); origin-gate §4.1 fix; 4 skills restored to 4★; #1185 draft ready." },
+        { date: "2026-07-20", event: "CORRECTION via two-scout reconciliation: design-polish did NOT fully land on #1235; #1240 recovers Bucket-1 (8 SAFE / 6 DO-NOT / 1 REDUNDANT); 8 suites recalibrated to 4★; #1241 merged; /design-iteration skill created. Last date Schema+DAG and Test/Build/Smoke actually ran." },
+        { date: "2026-07-24", event: "CLI Ygg II alignment #1248 fully integrated into staging (3eb8b0b49); DoD #2 cleanup #1263 merged; DAG reshape Steps 1-6 shipped; #1264 filed; EPIC kept open." },
+        { date: "2026-07-25", event: "Ygg II design sprint T6-T18 complete (#1246); PR #1185 discovered UNVALIDATED not green; homepage 312→5 optimization; Sessions 1-3 merged #1274/#1276/#1277/#1278 then #1279/#1280/#1281/#1282; Suite-vs-Unique branch-fork bug class discovered (4 live bugs); .nav-meta regression introduced." },
+        { date: "2026-07-26 · S4", event: "Token-eradication COMPLETE on staging: P1-P6 + remainder merged (~16 PRs); Unique-branch rank ladder migrated onto rank axis; both verification gates pass; staging CI-clean (tip f9cbc8943)." },
+        { date: "2026-07-26 · S5", event: "SVG-graph retirement (#1301 → b134471b6) + v7.0.0 CLI-shim retirement (#1303 → 7ad2709dc) landed on staging; lexicon-of-record RFC #1302 filed as issue." },
+        { date: "2026-07-26 · S6", event: "EPIC close-out: leaked author email eradicated to 0 across all refs; severed ancestry repaired (merge 8ee6021f1) making #1185 MERGEABLE; founder/ archive pass (bb41f7d97); Ygg II meta-post published (c1ddb6235) + README Change Management section. Awaiting CI-green human gate before v7.0.0 merge." }
+      ],
+      gitTopology: [
+        { branch: "main", note: "7b784f868 (v6.8.18); unchanged across Sessions 4-6; restored as ancestor of staging after ancestry repair; GitHub Pages source. Holds the staging→main merge for sprint closure.", kind: "main" },
+        { branch: "dev/yggdrasil-ii-staging", note: "EPIC integration branch; tip c1ddb6235 at S6 close (was 7ad2709dc S5, f9cbc8943 S4); email-clean, #1185 MERGEABLE. Unprotected (no required checks). Sole intended merge base for the sprint.", kind: "integration" },
+        { branch: "PR #1185", note: "EPIC aggregate PR → main; ancestry repaired → MERGEABLE; real 19-file merge conflict (skill-semantics.js vs plaque-reveal.js) resolved by founder personally; awaiting CI-green human gate for v7.0.0.", kind: "feature" },
+        { branch: "EPIC #1002", note: "Yggdrasil II umbrella; close-out in progress — archive + meta-post done, release pending; points to ratification handover docs rather than re-declaring the model.", kind: "feature" },
+        { branch: "PR #1235 · dev/ygg2-consume-frontend", note: "PR3b frontend JS collapse onto emitted taxonomy; 853-file oracle cut (P3a+P3b); MERGED into staging no-squash at ac634b9d9.", kind: "feature" },
+        { branch: "PR #1283-1294 · #1288", note: "P5 Unique-rename disjoint stack (generator #1283 first + 11 consumers); zero file-overlap verified; all merged → staging.", kind: "feature" },
+        { branch: "PR #1301 · dev/ygg2-retire-graph-svg", note: "Retire static registry/gaia.svg + docs/graph/gaia.svg (superseded by 3D World Tree); merged → staging (b134471b6), 13-file diff.", kind: "feature" },
+        { branch: "PR #1303 · dev/ygg2-retire-v7-cli", note: "Retire v7.0.0-deprecated CLI command shims to 'invalid choice'; merged → staging (7ad2709dc); 35 tests pass; nested review CONFIRMED-CLEAN.", kind: "feature" },
+        { branch: "PR #1173/#1175 (#995/#996)", note: "Schema enum collapse + Evidence Floor removal, then CLI computeBranch/Unique gates/Suite-Apex rename; merged as a stacked pair to staging.", kind: "feature" },
+        { branch: "PR #1186/#1187 (#997/#994)", note: "Taxonomy migration (extra/ultimate dirs → fusion/ via git mv) and docs Ygg II vocabulary migration; merged + deleted; EPIC to 4/7.", kind: "feature" },
+        { branch: "PR #1274", note: "Yggdrasil II unblock-staging: CI green + perf, 31 commits, 1780 passing; merged 8ebb7a8be; leaked author email rewritten here via rebase/force-push.", kind: "feature" },
+        { branch: "PR #1302 · #1104", note: "RFC lexicon-of-record (SoT consolidation + reports-as-decisions authority); filed as open issue, not merged; cross-linked to governance RFC #1104.", kind: "feature" }
+      ],
+      funEnding: {
+        headline: "The email that had to die 24 times — and took main's bloodline with it",
+        detail: "A banned author email (redacted) wasn't a main problem: origin/main carried 0 occurrences. But 24 copies lurked on ~22 stale pre-rewrite ygg2 sprint branches (local + 3 on origin), each hunted down and deleted. When git-filter-repo remapped the email on staging, it severed staging's ancestry with main entirely — so a re-merge of origin/main (merge commit 8ee6021f1, tree byte-identical to pre-merge staging) had to graft main's tip 7b784f868 back as an ancestor before #1185 would go MERGEABLE. The founder's rule held throughout: leaked on main → mailmap; only in the PR → rewrite; never force-push main; never compromise the contributor identity (author name kept, only the email remapped to a GitHub no-reply address). Zero occurrences remained — and the epic's last act was proving a dead email stays dead across every single ref."
+      }
+    };
+
+    // ---- Renderers ----
+    function esc(s) { return s; } // content is trusted (authored inline)
+
+    function renderStats() {
+      document.getElementById('stats-row').innerHTML = DATA.statHighlights.map(s =>
+        `<div class="stat-box"><div class="stat-num">${s.value}</div><div class="stat-label">${s.label}</div></div>`
+      ).join('');
+    }
+
+    function renderWorked() {
+      document.getElementById('worked-list').innerHTML = DATA.whatWorked.map(w =>
+        `<li class="feature-item"><div class="feature-title"><span class="marker">✓</span>${w.title}</div><div class="feature-desc">${w.description}</div></li>`
+      ).join('');
+    }
+
+    function renderFriction() {
+      document.getElementById('friction-list').innerHTML = DATA.frictionAnalysis.map(f =>
+        `<div class="accordion">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <span class="cat-name">${f.category}<span class="cat-tag">${f.tag}</span></span>
+            <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </div>
+          <div class="accordion-content">
+            <p>${f.description}</p>
+            <ul>${f.examples.map(e => `<li>${e}</li>`).join('')}</ul>
+          </div>
+        </div>`
+      ).join('');
+    }
+
+    function renderDecisions() {
+      document.getElementById('decisions-list').innerHTML = DATA.keyDecisions.map(d =>
+        `<li class="feature-item"><div class="feature-title"><span class="marker">◆</span>${d.title}</div><div class="feature-desc">${d.detail}</div></li>`
+      ).join('');
+    }
+
+    function renderHorizon() {
+      document.getElementById('horizon-list').innerHTML = DATA.onTheHorizon.map(h =>
+        `<div class="horizon-card"><h4>→ ${h.title}</h4><p>${h.whatsPossible}</p></div>`
+      ).join('');
+    }
+
+    function renderTimeline() {
+      document.getElementById('timeline-list').innerHTML = DATA.timeline.map(t =>
+        `<div class="tl-item"><div class="tl-date">${t.date}</div><div class="tl-event">${t.event}</div></div>`
+      ).join('');
+    }
+
+    function renderTopology() {
+      document.getElementById('topology-list').innerHTML = DATA.gitTopology.map(g => {
+        const cls = g.kind === 'main' ? 'branch-main' : (g.kind === 'integration' ? 'branch-integration' : 'branch-feature');
+        const indent = g.kind === 'feature' ? 'margin-left:20px;' : '';
+        return `<div class="git-line" style="${indent}"><span class="git-branch-indicator ${cls}"></span><span><span class="git-branch-name">${g.branch}</span><span class="git-note">${g.note}</span></span></div>`;
+      }).join('');
+    }
+
+    function renderFunEnding() {
+      document.getElementById('ws-head').innerText = DATA.funEnding.headline;
+      document.getElementById('ws-detail').innerText = DATA.funEnding.detail;
+    }
+
+    function switchTab(ev, tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById('tab-' + tabId).style.display = 'block';
+      ev.target.classList.add('active');
+    }
+
+    function toggleAccordion(header) {
+      header.parentElement.classList.toggle('active');
+    }
+
+    // init
+    renderStats();
+    renderWorked();
+    renderFriction();
+    renderDecisions();
+    renderHorizon();
+    renderTimeline();
+    renderTopology();
+    renderFunEnding();
+  </script>
+</body>
+</html>

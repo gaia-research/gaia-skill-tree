@@ -3,10 +3,13 @@
   "name": "Productivity",
   "contributor": "mattpocock",
   "level": "4★",
-  "type": "extra",
+  "type": "fusion",
   "status": "named",
   "trustMagnitude": 120.0,
   "overallTrustGrade": "A",
+  "branch": "suite",
+  "rankWord": "Extra",
+  "medallion": "◆",
   "_links": {
     "self": "/api/v1/skills/mattpocock/productivity.json",
     "contributor": "/api/v1/contributors/mattpocock.json",
@@ -41,6 +44,14 @@
       "action": "migrate_trust_magnitude",
       "timestamp": "2026-06-19T13:26:41Z",
       "details": "TM 0.0 -> 120.0, grade ungraded -> A (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-07-20T18:16:45Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Generic parent 'productivity' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+      "metaEpoch": "yggdrasil-ii",
+      "migrationBatch": "yggdrasil-ii@2026-07-20"
     }
   ],
   "suiteComponents": [

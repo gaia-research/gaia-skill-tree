@@ -1,0 +1,1629 @@
+/* ============================================================
+   Ascension Overdrive · v2 (Issue #975, bold direction preview)
+   ------------------------------------------------------------
+   Sibling to v1 (PR #988). Same mechanic content, viewport-scale
+   execution. Full-page bleed, sticky-pinned scenes across
+   ~9 viewport heights, real scroll-linked multi-layer parallax,
+   display-poster typography.
+
+   Design source: founder/handovers/design-v6.1.1-ascension-overdrive-shape-v2.md
+   Motion driver: docs/js/ascension-overdrive-v2.js
+   Assets:        docs/assets/ascension-overdrive/*.{png,mp4}
+   Content:       META.md §1.1 / §2.4 (rank ladder + Star Bar tags)
+                  founder/handovers/G7_TRUST_TAXONOMY_RFC.md §11.12 (predicates)
+
+   Token discipline: only existing --rank-N, --tier-*, --apex-gold,
+   --evidence-gold, --font-{display,body,mono}, --bg, --surface,
+   --border, --text, --muted. No new hex codes anywhere.
+   No mix-blend-mode PNG keying. No glassmorphism.
+   Frame-not-key: opaque asset backgrounds are accepted and framed
+   into their plate rather than blended.
+   ============================================================ */
+
+/* ── SECTION SHELL · full-viewport bleed ─────────────────────── */
+/* Escapes the site's main content column by using a symmetric
+   negative-margin trick. `margin-inline: calc(50% - 50vw)` places
+   the section's left/right edges at the viewport edges no matter
+   how narrow the parent column is. `max-width: 100vw` clamps the
+   painting rectangle so background layers know their extent.
+
+   `overflow: clip` (with `overflow-x` fallback) prevents any
+   riser / ledger from bleeding sideways into other sections; we
+   still want vertical scroll unaffected.
+
+   `--aov-scene-vh` and `--aov-apex-vh` are private locals used to
+   compose the section height and predicate segment lengths; they
+   are not tokens (no new tokens are introduced by v2). */
+.aov {
+  --aov-scene-vh: 100;                      /* one scene = 100vh */
+  --aov-apex-vh: 350;                       /* Apex Gate pin duration */
+  /* Scene count: title + R1..R4 + Unique + R5 + Apex(2vh) + coda = 9
+     narrative beats over ~1000vh unpinned. Number is documentation
+     only; layout does not compute against it. */
+  --aov-scene-count: 9;
+
+  position: relative;
+  isolation: isolate;
+  /* Bleed the section to viewport edges via negative margin-inline.
+     Deliberately NOT using `width: 100vw` here — that measures
+     including the vertical scrollbar (~15–17px on Windows) and
+     overshoots the body's usable width, cropping content on the
+     right. `margin-inline: calc(50% - 50vw)` handles the escape
+     from the parent column without the scrollbar mismatch.
+
+     The `.home-page #ascension` selector in styles.css caps this
+     section at 960px — defeated by the .home-page #ascension.aov
+     override further below in this file (compound-selector
+     specificity 0,2,1 vs the base 0,1,1). */
+  margin-inline: calc(50% - 50vw);
+  max-width: 100vw;
+  overflow-x: clip;
+  color: var(--text);
+  background: var(--bg);
+  /* Preserve fixed-nav clearance for #ascension anchor jumps. */
+  scroll-margin-top: 5rem;
+}
+
+/* Section-level bleed override ─────────────────────────────────
+   The global `.home-page #ascension` rule in styles.css:11927 caps
+   this section at max-width: 960px, and a sibling rule at :11891
+   adds 1.5rem inline padding to every `.home-page > section` except
+   #hero + a few named exceptions. Both defeat the v2 viewport-bleed
+   direction entirely (section renders at half-viewport width;
+   everything right of center gets cropped, plus 24px gutters).
+
+   The max-width override compounds `.aov` onto the base ID selector
+   (specificity 0,2,1 beats 0,1,1). The padding-block override needs
+   to match the base's own multi-:not chain to beat its 0,4,1
+   specificity, hence the mirrored :not() list. No `!important`. */
+.home-page #ascension.aov {
+  max-width: 100vw;
+}
+.home-page > section#ascension.aov:not(#hero):not(.hoh-section--mini):not(.trust-preview) {
+  padding: 0;
+}
+
+/* ── ATMOSPHERE · sticky background pinned to viewport ───────── */
+/* Held sticky at top:0 for the full section scroll. Inside sits
+   the ledger, an optional fog placeholder, and the Apex arch.
+   Each inner layer's translateY is written by rAF from the
+   section's scroll progress (see docs/js/ascension-overdrive-v2.js).
+
+   The atmosphere pins BEHIND the scene stages (z-index 0) while
+   scene stages pin at z-index 2. Both siblings can be `sticky`
+   at the same top:0 because sticky positions relative to the
+   nearest scroll container, so the atmosphere holds the viewport
+   for the whole section and each scene stage takes over inside
+   its own scene box.
+
+   `height: 100vh` clamps the atmosphere to one viewport frame so
+   its contents render at consistent scale regardless of scroll
+   position. */
+.aov-atmosphere {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  /* Neutral surface behind the parallax layers so the ledger's
+     warm sepia reads against a matching page tone. */
+  background: var(--bg);
+}
+
+/* Plane -2 · Ledger paper. Parallax rate 0.15× (barely drifts;
+   sets the ceremonial ground). Scaled up so translateY doesn't
+   expose an edge at the extremes of section scroll.
+
+   G1 realignment (Issue #975): opacity lifted 0.32 → 0.48 and the
+   0.7 saturation clamp dropped so the parchment reads warm sepia
+   rather than the greyed-out noise the /impeccable critique surfaced.
+   The ledger is meant to feel like an old atlas page, not a shadow. */
+.aov-ledger {
+  position: absolute;
+  inset: -20% -5%;
+  width: 110%;
+  height: 140%;
+  background-image: url('../assets/ascension-overdrive/ledger-texture.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  opacity: 0.48;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Ledger opacity is scroll-linked from JS on the section's normalized
+   scroll progress (Issue #975 R3/R4): full at title / apex / coda
+   scenes (~0.48), fades to a whisper (~0.08) through the rank and
+   Unique scenes so the parchment doesn't fight the Asset F hero
+   plates nor paint a horizontal band across the top of the Unique
+   branch scene. See docs/js/ascension-overdrive-v2.js `tick()`. */
+
+/* Plane -1b · Asset G haze layer. Warm-sepia dust/smoke overlay
+   sitting between the ledger paper (Plane -2) and the riser lines
+   (Plane -1). Adds atmospheric depth without becoming a fog wall.
+
+   Asset G specs (docs/assets/Asset G/manifest.json):
+     2000x1200 alpha-native WebP, ~62KB, warm sepia palette,
+     recommended base opacity 0.18, parallax rate 0.25x.
+
+   Regeneration script lives at
+   `docs/assets/Asset G/scripts/make_asset_g_haze.py`. The raw
+   Asset G directory is gitignored; only the compressed served
+   copy at `docs/assets/ascension-overdrive/haze.webp` is tracked.
+
+   Opacity is scroll-linked from JS on the same ramp as the ledger,
+   at roughly half strength (0.18 base, 0.03 valley) so the haze
+   fades during rank/unique scenes and restores during title /
+   apex / coda. Parallax translateY at 0.25x is written by the
+   same rAF tick as the other atmosphere layers. */
+.aov-fog {
+  position: absolute;
+  inset: -10%;
+  width: 120%;
+  height: 120%;
+  background-image: url('../assets/ascension-overdrive/haze.webp');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.18;
+  mix-blend-mode: normal;
+  pointer-events: none;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Plane +1 · Apex arch. Sits behind Apex Gate scene and drifts
+   *toward* the viewer as the user descends into the terminal
+   pin. Parallax rate 0.60×. The arch PNG is transparent line-art
+   now, so no framing/keying is needed. Its opacity is scroll-driven
+   from JS (0 in early scenes → 0.70 by the Apex Gate pin).
+
+   G4 realignment (Issue #975): peak opacity lifted 0.55 → 0.70 (in
+   the JS clamp) and the sepia/contrast filter dropped — the arch is
+   transparent line-art now, so tone-mapping muddied it rather than
+   warming it. Read the arch as a monumental gate at the terminus,
+   not a faint watermark. */
+.aov-arch {
+  position: absolute;
+  left: 50%;
+  top: 6vh;
+  width: min(120vw, 1800px);
+  height: auto;
+  transform: translate3d(-50%, 0, 0);
+  opacity: 0;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+/* Asset A gold filter (Issue #975 R5). The Asset A line-art PNG
+   ships as near-black strokes on a transparent ground, which reads
+   as invisible against the dark section backdrop. This filter chain
+   inverts it to white, then tone-maps toward the apex gold via a
+   sepia + saturation lift + slight hue rotation, then dims a hair
+   with brightness so the arch reads as illuminated gold rather than
+   bleached highlight. Scoped to the arch <img> only — the sibling
+   .aov-apex-hero is an Asset F composed backdrop (already toned in
+   its own palette) and does NOT get the invert chain. */
+.aov-arch img {
+  display: block;
+  width: 100%;
+  height: auto;
+  filter: invert(1) sepia(1) saturate(3.2) hue-rotate(-12deg) brightness(0.85);
+}
+
+/* Plane +1a · Apex hero plate (Asset F rank 6). Sits inside the
+   atmosphere as a sibling of the arch, one z-layer below so the
+   arch line-art paints on top. Full-viewport bleed; opacity is
+   scroll-driven from JS (0 in early scenes → ~0.55 at Apex pin
+   mid, keeping the arch dominant above). Frame-not-key: the plate
+   already has its own atmospheric background baked in. */
+.aov-apex-hero {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity;
+  z-index: 0;
+}
+.aov-apex-hero img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+/* Plane -1 · Riser lines. Rendered inside each rank scene at
+   the scene's mid-height, drawn on scroll progress by JS
+   (stroke-dashoffset). Placed absolute to bleed to the full
+   viewport width. */
+.aov-riser {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 1;
+}
+/* G6 realignment (Issue #975): stroke-width 1.5 → 2.5 and rank-
+   stroke opacity bumped to 65% across the board so the chromatic
+   climb reads as intended. Prior spec ran too shy against the dark
+   ground and the risers registered as artifacts, not a plane. */
+.aov-riser__line {
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-dasharray: var(--aov-riser-len, 100vw);
+  stroke-dashoffset: var(--aov-riser-len, 100vw);
+  transition: none;                         /* JS-driven, not time */
+}
+.aov-scene[data-rank="1"] .aov-riser__line { stroke: color-mix(in oklab, var(--rank-1) 65%, transparent); }
+.aov-scene[data-rank="2"] .aov-riser__line { stroke: color-mix(in oklab, var(--rank-2) 65%, transparent); }
+.aov-scene[data-rank="3"] .aov-riser__line { stroke: color-mix(in oklab, var(--rank-3) 65%, transparent); }
+.aov-scene[data-rank="4"] .aov-riser__line { stroke: color-mix(in oklab, var(--rank-4) 65%, transparent); }
+.aov-scene[data-rank="5"] .aov-riser__line { stroke: color-mix(in oklab, var(--rank-5) 70%, transparent); }
+.aov-scene[data-rank="6"] .aov-riser__line { stroke: color-mix(in oklab, var(--apex-gold) 75%, transparent); }
+
+/* Plane +2 · Gold thread. One continuous SVG spanning the full
+   section height. `stroke-dashoffset` is a linear function of
+   section scroll progress (bidirectional: draws on scroll-down,
+   undraws on scroll-up). Placed absolute inside .aov, above the
+   atmosphere but behind the scene stages so it reads as the
+   ledger's spine.
+
+   The SVG uses `preserveAspectRatio="none"` so its 100-unit
+   virtual grid maps into the section's actual pixel dimensions
+   regardless of aspect ratio. */
+.aov-thread {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.85;
+}
+.aov-thread__path {
+  fill: none;
+  stroke: var(--apex-gold);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 3px rgba(var(--apex-gold-rgb), 0.35));
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: var(--aov-thread-len, 4000);
+  stroke-dashoffset: var(--aov-thread-len, 4000);
+}
+
+/* ── SCENES · one 100vh box per beat ─────────────────────────── */
+.aov-scene {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  z-index: 2;
+}
+/* Apex Gate scene is 350vh — the terminal pin gives each active
+   predicate ~50vh of scroll range to break its seal, plus a ~40vh
+   overhead for the arch fade-in and closing-line reveal.
+
+   Formula:
+     apex_min_height = max(300vh, N_active * 50vh + 40vh)
+
+   Recomputed manually whenever active predicate count changes.
+   Currently 6 active + 1 disabled = 7 rows visually; 6 * 50 + 40 =
+   340vh, rounded to 350vh for comfortable padding. The disabled
+   row still occupies list space but has no scroll trigger, so its
+   50vh allocation is visual only. See docs/js/ascension-overdrive-v2.js
+   `tick()` — the unlock math auto-distributes across whatever
+   `.aov-pred[data-state="locked"]` rows exist in the DOM. */
+.aov-scene[data-scene="apex"] {
+  min-height: 350vh;
+}
+/* Coda scene is 180vh (Issue #975 R6). The prior 100vh scene left
+   `codaRange = cr.height - vh = 0` in the rAF math, which meant
+   only the top rung ever illuminated. Extending to 180vh gives ~80vh
+   of sticky-pin scroll, over which the 9 rungs assemble top-to-bottom
+   (fully lit by ~50vh into the pin per the shape brief). The sticky
+   stage stays 100vh so the pin releases cleanly at scene end. */
+.aov-scene[data-scene="coda"] {
+  min-height: 180vh;
+}
+
+/* Stage · the sticky viewport-locked composition per scene. */
+.aov-stage {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  width: 100%;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 5rem clamp(1.25rem, 4vw, 4rem) 3rem;
+}
+
+/* ── SCENE 1 · TITLE ─────────────────────────────────────────── */
+/* The massive "Ascension" display-poster. This is the scene
+   the operator wants to feel like the destination of the site,
+   so type is `clamp(6rem, 22vw, 20rem)` per Axis 3 of the brief.
+   Tight letter-spacing, line-height 0.9, EB Garamond. */
+.aov-stage--title {
+  grid-template-columns: 1fr;
+  place-items: center;
+  text-align: center;
+}
+.aov-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(6rem, 22vw, 20rem);
+  line-height: 0.88;
+  letter-spacing: -0.035em;
+  margin: 0;
+  color: var(--text);
+  /* Subtle gold-lit backing to hint the ascension without going
+     into gradient text (banned per SKILL.md Absolute bans). We
+     use a text-shadow at 12% apex-gold to warm the letters
+     without applying a fill gradient. */
+  text-shadow: 0 0 30px rgba(var(--apex-gold-rgb), 0.12);
+}
+.aov-title-sub {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.1rem, 2vw, 1.8rem);
+  color: var(--muted);
+  margin: 1.5rem 0 0;
+  letter-spacing: 0.02em;
+}
+.aov-title-eyebrow {
+  font-family: var(--font-mono);
+  font-size: clamp(0.72rem, 0.9vw, 0.95rem);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  margin: 0 0 2rem;
+}
+
+/* ── SCENES 2..6 · RANK STAGES ───────────────────────────────── */
+/* Composition (post R1 realignment, Issue #975):
+   - Rank hero plate (Asset F) as full-viewport backdrop, opacity
+     scroll-linked, sits behind everything at z-index 0. The Asset F
+     hero is the sole totem now; the earlier Asset C rank stamp has
+     been retired from these scenes (files preserved for reuse in
+     other surfaces).
+   - Rank body (display-poster type + Star Bar) centered inside the
+     stage on top of the hero, at z-index 2.
+
+   The stage remains flex-centered so the body sits at the viewport
+   center. `data-align="left|right"` is preserved on the markup for
+   possible future use but no longer gates layout (both sides collapse
+   to center now that there's no second child to swap). */
+.aov-stage--rank {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-inline: clamp(2rem, 8vw, 8rem);
+}
+.aov-stage--rank .aov-rank-body {
+  flex: 0 1 auto;
+  align-self: center;
+  max-width: min(60rem, 78%);
+  text-align: center;
+}
+
+/* Rank hero plate (Asset F, G7 realignment, Issue #975).
+   Full-viewport backdrop per rank scene. Absolute-positioned inside
+   the stage, inset:0, z-index 0 — sits behind stamp/body but above
+   the ledger (ledger lives in .aov-atmosphere at z-index 0 outside
+   this stacking context; the scene at z-index 2 already stacks its
+   descendants above the atmosphere).
+
+   Opacity is scroll-linked from rAF: fades in over the first ~30vh
+   of each scene, peaks at ~0.55 at scene mid, fades out over the
+   final ~30vh of scene exit. Rest opacity 0 so the hero is dormant
+   when the scene isn't in view.
+
+   Mobile (<900px): hero pins at 0.25 opacity (JS + CSS collaboration;
+   see the mobile block below). */
+.aov-rank-hero {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity;
+  z-index: 0;
+}
+.aov-rank-hero img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Rank body — the display-poster typography. z-index 2 sits above
+   the rank hero backdrop (Asset F). */
+.aov-rank-body {
+  position: relative;
+  z-index: 2;
+  will-change: transform, opacity;
+  transform: translate3d(0, 40px, 0);
+  opacity: 0;
+}
+.aov-scene.is-active .aov-rank-body {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* CSS Star Bar (Issue #975 R2): hidden on rank scenes. The Asset F
+   hero plates ship with their own rating stars baked into the
+   illustration, so a second CSS star row produced a double-star
+   display. Star Bar stays on Unique branch cards (D-glyphs have no
+   embedded rating stars) — see .aov-ucard__stars rules below. */
+.aov-scene[data-scene="rank"] .aov-rank-stars {
+  display: none;
+}
+.aov-rank-stars {
+  display: inline-flex;
+  gap: 0.15em;
+  font-family: var(--font-mono);
+  font-size: clamp(1.5rem, 3vw, 3rem);
+  color: var(--muted);
+  line-height: 1;
+  margin-bottom: 1.2rem;
+  letter-spacing: 0.05em;
+}
+.aov-rank-stars .filled { color: var(--rank-active, var(--apex-gold)); }
+.aov-scene[data-rank="1"] .aov-rank-stars .filled { color: var(--rank-1); }
+.aov-scene[data-rank="2"] .aov-rank-stars .filled { color: var(--rank-2); }
+.aov-scene[data-rank="3"] .aov-rank-stars .filled { color: var(--rank-3); }
+.aov-scene[data-rank="4"] .aov-rank-stars .filled { color: var(--rank-4); }
+.aov-scene[data-rank="5"] .aov-rank-stars .filled { color: var(--rank-5); }
+.aov-scene[data-rank="6"] .aov-rank-stars .filled { color: var(--apex-gold); }
+
+.aov-rank-name {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(3rem, 12vw, 10rem);
+  line-height: 0.88;
+  letter-spacing: -0.03em;
+  margin: 0 0 1.5rem;
+  color: var(--text);
+}
+.aov-rank-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+  justify-content: center;
+}
+
+.aov-tag {
+  display: inline-block;
+  padding: 0.32rem 0.7rem;
+  font-family: var(--font-mono);
+  font-size: clamp(0.72rem, 0.9vw, 0.9rem);
+  letter-spacing: 0.02em;
+  color: var(--text);
+  background: rgba(148, 163, 184, 0.08);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  white-space: nowrap;
+}
+.aov-rank-caption {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1rem, 1.4vw, 1.35rem);
+  color: var(--muted);
+  margin: 0 auto;
+  max-width: 44ch;
+  line-height: 1.4;
+}
+
+/* ── SCENE 7 · UNIQUE BRANCH ─────────────────────────────────── */
+/* One plate holds all three Unique cards. The branch is a "you
+   can also go this way" beat; visual rhythm: header top, three
+   cards on a row, hairline connecting them + branching in from
+   the previous R4 scene (drawn by a small connector SVG).
+
+   Post-ratification (2026-07-06): the tier-ordering rule ("Unique
+   sits one prestige level above the same-rank normal") is made
+   legible via two on-page treatments: a scene-entry header line
+   (fades in on scroll) and per-card ordering pills. Motion loops
+   (Asset E) are dropped; cards are static-poster only. */
+.aov-stage--unique {
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+  gap: 2.5rem;
+  align-content: center;
+  place-items: center;
+  padding: 5rem clamp(1.25rem, 4vw, 4rem) 3rem;
+  text-align: center;
+}
+.aov-unique-header {
+  max-width: 62rem;
+}
+.aov-eyebrow {
+  font-family: var(--font-mono);
+  font-size: clamp(0.72rem, 0.85vw, 0.9rem);
+  color: var(--rank-4-unique);
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  margin: 0 0 1rem;
+}
+.aov-unique-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2.5rem, 8vw, 6rem);
+  line-height: 0.9;
+  letter-spacing: -0.025em;
+  margin: 0 0 1rem;
+  color: var(--text);
+}
+.aov-unique-lede {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 1.2vw, 1.2rem);
+  color: var(--muted);
+  line-height: 1.5;
+  max-width: 48rem;
+  margin: 0 auto 1.5rem;
+}
+/* Tier-ordering header line — one italic sentence, fades in on
+   scroll across the first 20vh of the Unique scene pin. Opacity
+   is written by rAF (see docs/js/ascension-overdrive-v2.js); the
+   at-rest value is 0. Reduced-motion + mobile bypass this and
+   pin the line to opacity 1. */
+.aov-unique-header-line {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  line-height: 1.4;
+  color: color-mix(in oklab, var(--muted) 88%, var(--apex-gold) 12%);
+  max-width: 52rem;
+  margin: 0.5rem auto 0;
+  letter-spacing: 0.005em;
+  opacity: 0;
+  will-change: opacity;
+}
+.aov-unique-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1rem, 2vw, 2rem);
+  width: min(100%, 92rem);
+  align-items: stretch;
+  position: relative;
+}
+.aov-unique-hairline {
+  position: absolute;
+  top: 50%;
+  left: 4%;
+  right: 4%;
+  height: 1px;
+  background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--rank-4-unique) 15%,
+      var(--rank-4-unique) 85%,
+      transparent 100%);
+  opacity: 0.4;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.aov-ucard {
+  position: relative;
+  z-index: 1;
+  padding: 1.4rem;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid var(--rank-4-unique-border);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  will-change: transform, opacity;
+  transform: translate3d(0, 30px, 0);
+  opacity: 0;
+  transition: transform 700ms cubic-bezier(0.22, 0.61, 0.36, 1),
+              opacity 700ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.aov-scene.is-active .aov-ucard { opacity: 1; transform: translate3d(0, 0, 0); }
+.aov-scene.is-active .aov-ucard[data-rank="5"] { transition-delay: 120ms; }
+.aov-scene.is-active .aov-ucard[data-rank="6"] { transition-delay: 240ms; }
+
+.aov-ucard[data-rank="5"] {
+  /* 5★ Unique Ultimate — deep sinking radial, gold accretion ring */
+  background:
+    radial-gradient(ellipse at center,
+      #050202 0%,
+      #050202 40%,
+      rgba(15, 23, 42, 0.85) 100%);
+  border-color: rgba(var(--apex-gold-rgb), 0.4);
+  box-shadow:
+    0 0 0 1px rgba(var(--apex-gold-rgb), 0.08) inset,
+    0 0 40px -10px rgba(var(--apex-gold-rgb), 0.15);
+}
+.aov-ucard[data-rank="6"] {
+  /* 6★ Unique Apex / Unique Impossible — same void with a white
+     singularity core. The image drives the visual; the card frame
+     stays restrained. */
+  background:
+    radial-gradient(ellipse at center,
+      #050202 0%,
+      #050202 30%,
+      rgba(15, 23, 42, 0.85) 100%);
+  border-color: rgba(var(--evidence-gold-rgb), 0.4);
+  box-shadow:
+    0 0 0 1px rgba(var(--evidence-gold-rgb), 0.1) inset,
+    0 0 60px -20px rgba(var(--evidence-gold-rgb), 0.2);
+}
+
+.aov-ucard__plate {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.aov-ucard__plate img,
+.aov-ucard__plate video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  /* `contain` (not cover) preserves the illustration aspect ratio
+     without cropping the top or bottom — the Asset D glyphs are
+     slightly portrait (roughly 916×1072) and the container is
+     square, so cover was hiding the bottom star crown. */
+  object-fit: contain;
+  display: block;
+}
+.aov-ucard__plate video { opacity: 0; transition: opacity 400ms ease-out; }
+.aov-ucard__plate video.is-loaded { opacity: 1; }
+
+.aov-ucard__rankline {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+.aov-ucard__num {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--rank-4-unique);
+  letter-spacing: 0.06em;
+}
+.aov-ucard[data-rank="5"] .aov-ucard__num { color: var(--apex-gold); }
+.aov-ucard[data-rank="6"] .aov-ucard__num { color: var(--evidence-gold); }
+
+.aov-ucard__name {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.4rem, 2vw, 2rem);
+  line-height: 1;
+  color: var(--text);
+  letter-spacing: -0.015em;
+}
+/* Ordering pill — one line below each Unique card's title.
+   Understated, semantic ("this tier sits above that rank"),
+   not decorative. Departure Mono, small, muted. */
+.aov-unique-ordering-pill {
+  font-family: var(--font-mono);
+  font-size: clamp(0.75rem, 0.9vw, 0.9rem);
+  color: var(--muted);
+  letter-spacing: 0.02em;
+  margin: -0.25rem 0 0;
+  line-height: 1.35;
+}
+.aov-ucard__prestige {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(0.9rem, 1.1vw, 1.05rem);
+  color: var(--muted);
+}
+.aov-ucard[data-rank="6"] .aov-ucard__prestige {
+  color: var(--evidence-gold);
+  font-style: normal;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.aov-ucard__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.aov-ucard__tag {
+  display: inline-block;
+  padding: 0.24rem 0.55rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  background: rgba(148, 163, 184, 0.06);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+.aov-ucard__caption {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.98rem;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* ── SCENE 8 · APEX GATE TERMINAL ────────────────────────────── */
+/* 200vh scene pin. Six brass-tag predicates arranged as a
+   staircase, each illuminating as scroll progresses through its
+   ~33vh (200 / 6) segment of the pin. Closing line "Six predicates.
+   All required. No exceptions." fades in at the last 20vh. */
+.aov-stage--apex {
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr auto;
+  gap: 1rem;
+  place-items: center;
+  padding: 3rem clamp(1.25rem, 4vw, 4rem) 2rem;
+  text-align: center;
+  position: relative;
+}
+.aov-apex-header {
+  max-width: 62rem;
+  z-index: 3;
+}
+.aov-apex-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2.5rem, 7.5vw, 5.5rem);
+  line-height: 0.9;
+  letter-spacing: -0.035em;
+  margin: 0.3rem 0 0;
+  color: var(--text);
+  text-shadow: 0 0 40px rgba(var(--apex-gold-rgb), 0.2);
+}
+.aov-apex-eyebrow {
+  font-family: var(--font-mono);
+  font-size: clamp(0.75rem, 0.95vw, 1rem);
+  color: var(--apex-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  margin: 0;
+}
+.aov-apex-lede {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1rem, 1.3vw, 1.25rem);
+  color: var(--muted);
+  margin: 0.6rem 0 0;
+  max-width: 42rem;
+  line-height: 1.4;
+}
+
+/* Apex predicates — modular latch-and-seal state machine.
+   ------------------------------------------------------------
+   Each `.aov-pred` row supports THREE states via `data-state`:
+
+     locked   (default) - closed padlock, chain seal visible,
+                          muted colours, dark row background,
+                          solid muted left border.
+     unlocked           - open padlock, seal fades away, gold-
+                          tinted row background, apex-gold id,
+                          solid gold left border. Set by JS on
+                          scroll. Add-only — persists on scroll-back.
+     disabled           - reserved for future/inactive gates. Half-
+                          opacity, dashed left border, closed pad-
+                          lock at 40%, italic reserved note in the
+                          description. Set explicitly in HTML; JS
+                          never toggles it.
+
+   Data-driven, predicate-count-agnostic: the scene divides its
+   scroll range evenly across whatever rows have `data-state=
+   "locked"` at page-load time. Adding new predicates requires
+   only appending markup — no CSS or JS changes.
+
+   `.is-breaking` is a transient class added ~15% of a segment
+   before the unlock threshold; it shudders the latch and fades
+   the seal, and is removed once the row flips to unlocked.
+
+   Trust-methodology (docs/codex/trust-methodology.html §Apex Gate)
+   is the canonical source for the current 6 predicates; future
+   additions (e.g. crossOrgCosignerGte1) can land as `disabled`
+   and later flip to `locked` per the RFC note about cross-org
+   cosigners as the ecosystem matures. */
+.aov-predicates {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.55rem;
+  width: min(100%, 68rem);
+  z-index: 3;
+}
+
+/* Row shell — shared across all three states. Layout is a
+   two-row, three-column grid so the latch and seal glyphs each
+   own one flanking column while the id + desc stack in between. */
+.aov-pred {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-areas:
+    "latch id   seal"
+    "latch desc seal";
+  column-gap: clamp(0.75rem, 1.5vw, 1.4rem);
+  row-gap: 0.2rem;
+  align-items: center;
+  padding: 0.65rem clamp(0.9rem, 1.6vw, 1.3rem) 0.65rem 1.3rem;
+  background: color-mix(in oklab, var(--border) 40%, transparent);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border);
+  border-radius: 2px;
+  text-align: left;
+  color: var(--muted);
+  transform: translate3d(0, 10px, 0);
+  opacity: 0;
+  transition:
+    border-left-color 480ms cubic-bezier(0.4, 0, 0.2, 1),
+    background-color  480ms cubic-bezier(0.4, 0, 0.2, 1),
+    color             480ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow        480ms cubic-bezier(0.4, 0, 0.2, 1),
+    padding           480ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform         600ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    opacity           600ms ease-out;
+}
+
+/* Staircase indent — each row shifts right slightly as the
+   ladder climbs. Also carries over to any future data-step
+   beyond 6 via the nth-child fallback below. */
+.aov-pred[data-step="2"] { margin-left: clamp(0px, 1vw, 16px); }
+.aov-pred[data-step="3"] { margin-left: clamp(0px, 2vw, 32px); }
+.aov-pred[data-step="4"] { margin-left: clamp(0px, 3vw, 48px); }
+.aov-pred[data-step="5"] { margin-left: clamp(0px, 4vw, 64px); }
+.aov-pred[data-step="6"] { margin-left: clamp(0px, 5vw, 80px); }
+.aov-pred[data-step="7"] { margin-left: clamp(0px, 6vw, 96px); }
+.aov-pred[data-step="8"] { margin-left: clamp(0px, 7vw, 112px); }
+
+/* Scene-entry fade-in — shared across states, preserved from
+   prior implementation so rows still assemble as the pin starts. */
+.aov-scene[data-scene="apex"].is-entering .aov-pred,
+.aov-scene[data-scene="apex"].is-active   .aov-pred {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Grid cell placement per glyph. */
+.aov-pred__latch { grid-area: latch; align-self: center; display: inline-flex; }
+.aov-pred__id    { grid-area: id;    align-self: end; }
+.aov-pred__desc  { grid-area: desc;  align-self: start; }
+.aov-pred__seal  { grid-area: seal;  align-self: center; display: inline-flex; }
+
+/* Latch + seal SVGs inherit currentColor from the row so state
+   transitions on `color` also recolour the strokes. */
+.aov-pred__latch-svg,
+.aov-pred__seal-svg {
+  display: block;
+  color: inherit;
+}
+.aov-pred__seal-svg {
+  transition:
+    opacity   400ms cubic-bezier(0.4, 0, 0.2, 1),
+    transform 400ms cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+.aov-pred__latch-shackle {
+  transform-origin: 8px 10px;
+  transition: transform 520ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Predicate id typography — mono, letterspaced. Colour tightens
+   in the unlocked state (letters draw closer as the seal breaks). */
+.aov-pred__id {
+  font-family: var(--font-mono);
+  font-size: clamp(0.85rem, 1.1vw, 1.05rem);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  transition:
+    color 500ms cubic-bezier(0.4, 0, 0.2, 1),
+    letter-spacing 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.aov-pred__desc {
+  font-family: var(--font-body);
+  font-size: clamp(0.9rem, 1.05vw, 1.05rem);
+  line-height: 1.5;
+}
+
+/* ------------------------------------------------------------
+   State: locked (default). Muted glyphs, chain visible.
+   ------------------------------------------------------------ */
+.aov-pred[data-state="locked"] {
+  color: var(--muted);
+  background: color-mix(in oklab, var(--border) 40%, transparent);
+  border-left-color: var(--border);
+}
+.aov-pred[data-state="locked"] .aov-pred__id {
+  color: color-mix(in oklab, var(--muted) 85%, var(--rank-4-unique) 15%);
+}
+
+/* ------------------------------------------------------------
+   State: is-breaking (transient). Latch shudders in place and
+   the chain-link seal begins to fade out. This class is added
+   ~15% of a segment before the unlock threshold and removed the
+   moment `data-state="unlocked"` lands.
+   ------------------------------------------------------------ */
+.aov-pred.is-breaking .aov-pred__latch-svg {
+  animation: aov-latch-shudder 300ms ease-in-out 2;
+}
+.aov-pred.is-breaking .aov-pred__seal-svg {
+  opacity: 0;
+  transform: scale(0.85) translateX(4px);
+}
+
+/* ------------------------------------------------------------
+   State: unlocked. Gold-tinted row, open padlock, seal gone.
+   Set by JS on scroll. Add-only — persists on scroll-back.
+   ------------------------------------------------------------ */
+.aov-pred[data-state="unlocked"] {
+  color: var(--text);
+  background: color-mix(in oklab, var(--apex-gold) 8%, transparent);
+  border-left-color: var(--apex-gold);
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  box-shadow:
+    0 0 0 1px rgba(var(--apex-gold-rgb), 0.10) inset,
+    0 0 24px -6px rgba(var(--apex-gold-rgb), 0.30);
+}
+.aov-pred[data-state="unlocked"] .aov-pred__id {
+  color: var(--apex-gold);
+  letter-spacing: 0.02em;
+}
+.aov-pred[data-state="unlocked"] .aov-pred__latch-shackle {
+  /* Shackle rotates up-and-left to read as "opened". */
+  transform: rotate(-25deg) translateX(-2px);
+}
+.aov-pred[data-state="unlocked"] .aov-pred__seal-svg {
+  opacity: 0;
+  transform: scale(0.8) translateX(6px);
+}
+.aov-pred[data-state="unlocked"] .aov-pred__seal {
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------
+   State: disabled. Reserved for future/inactive gates. Dashed
+   left border, half-opacity, closed padlock, italic reserved
+   note. Never receives `is-breaking` or `unlocked` transitions.
+   ------------------------------------------------------------ */
+.aov-pred[data-state="disabled"] {
+  color: color-mix(in oklab, var(--muted) 70%, transparent);
+  background: transparent;
+  border-left-color: color-mix(in oklab, var(--muted) 55%, transparent);
+  border-left-style: dashed;
+  opacity: 0.6;
+}
+.aov-pred[data-state="disabled"] .aov-pred__latch-svg {
+  opacity: 0.55;
+}
+/* Diagonal strike across the latch so a disabled row reads as
+   "this seal is not part of the current promotion path". Rendered
+   as a pseudo-element so the SVG itself stays state-agnostic. */
+.aov-pred[data-state="disabled"] .aov-pred__latch {
+  position: relative;
+}
+.aov-pred[data-state="disabled"] .aov-pred__latch::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      to top right,
+      transparent calc(50% - 1px),
+      color-mix(in oklab, var(--muted) 60%, transparent) 50%,
+      transparent calc(50% + 1px)
+    );
+  opacity: 0.55;
+}
+.aov-pred[data-state="disabled"] .aov-pred__seal-svg {
+  opacity: 0.4;
+}
+.aov-pred__reserved-note {
+  display: block;
+  margin-top: 0.35rem;
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: 0.78em;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: color-mix(in oklab, var(--muted) 75%, var(--evidence-gold) 25%);
+}
+
+/* Shudder played by `.is-breaking`. Small ±2px horizontal jitter
+   over 300ms, two iterations, so the latch reads as "straining"
+   just before the seal snaps. */
+@keyframes aov-latch-shudder {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-2px); }
+  75%      { transform: translateX(2px); }
+}
+
+.aov-apex-coda {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.5rem, 3vw, 3rem);
+  line-height: 1.2;
+  color: var(--apex-gold);
+  margin: 1.5rem 0 0;
+  text-shadow: 0 0 20px rgba(var(--apex-gold-rgb), 0.3);
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+  transition: opacity 800ms ease-out, transform 800ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  z-index: 3;
+}
+.aov-apex-coda.is-revealed {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* ── SCENE 9 · THE ORDER CODA ────────────────────────────────── */
+/* 100vh pin. The 9-rung prestige ladder assembles top-to-bottom
+   as scroll passes each rung's scene-local threshold. Full assembly
+   completes at ~50% of the scene's scroll range; the scene then
+   releases. Rungs start at rest opacity 0 and animate to their
+   composed opacity via .is-lit written by rAF.
+
+   Colour ladder:
+     Rung 1 (Unique Apex / Impossible) : --apex-gold, opacity 1.0
+     Rung 2 (Apex)                     : --apex-gold, opacity 0.85
+     Rung 3 (Unique Ultimate)          : --apex-gold, opacity 0.70
+     Rung 4 (Ultimate)                 : --rank-5 → --muted mix
+     Rung 5 (Unique)                   : --rank-4-unique → --muted
+     Rung 6-9 (Hardened..Awakened)     : --rank-N → --muted mix,
+                                         darker as rank descends
+
+   Reduced-motion / mobile: rungs render fully composed on entry. */
+.aov-stage--coda {
+  grid-template-columns: 1fr;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 1.5rem;
+  place-items: center;
+  padding: 5rem clamp(1.25rem, 4vw, 4rem) 4rem;
+  text-align: center;
+}
+.aov-order-eyebrow {
+  font-family: var(--font-mono);
+  font-size: clamp(0.72rem, 0.9vw, 0.95rem);
+  color: var(--apex-gold);
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  margin: 0;
+}
+.aov-order-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+  color: var(--apex-gold);
+  margin: 0;
+  text-shadow: 0 0 25px rgba(var(--apex-gold-rgb), 0.25);
+}
+.aov-order-ladder {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(0.1rem, 0.4vw, 0.4rem);
+  width: min(100%, 62rem);
+}
+.aov-order-rung {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(1.5rem, 4vw, 3.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  color: var(--muted);
+  opacity: 0;
+  transform: translate3d(0, 12px, 0);
+  transition:
+    opacity 600ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 600ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    color 400ms ease-out;
+  will-change: opacity, transform;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.4em;
+  flex-wrap: wrap;
+}
+.aov-order-rung.is-lit {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Top of the ladder — the two crown rungs get bespoke shape
+   treatments (Issue #975 R7 + shape brief).
+
+   Apex (prestige rank 2): solid white, weight 700, subtle gold halo.
+   The destination made real. Font-materialization on scroll-entry:
+   letter-spacing collapses from 0.5em → -0.02em over 800ms and
+   opacity ramps 0 → 1 in parallel, driven by a state class the JS
+   toggles when the rung's scroll threshold passes. Class is one-
+   shot (add-only), so scrolling back up leaves it composed. */
+.aov-order-rung[data-tier="apex"] {
+  color: var(--text);
+  font-weight: 700;
+  letter-spacing: 0.5em;
+  text-shadow: 0 0 20px color-mix(in oklab, var(--apex-gold) 40%, transparent);
+  transition:
+    opacity 800ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    letter-spacing 800ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 600ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.aov-order-rung[data-tier="apex"].is-lit,
+.aov-order-rung[data-tier="apex"].is-materializing {
+  opacity: 1;
+  letter-spacing: -0.02em;
+}
+
+/* Unique Apex (prestige rank 1, "Impossible"): outline-only gold,
+   weight 800, no fill. Reads as a photonegative Apex — the same
+   silhouette in the ladder as Apex directly beneath, but hollow:
+   the letters ARE the shadow of what should be there. No text-shadow
+   (halo would fill the outline and defeat the treatment).
+
+   Font-materialization on scroll-entry, two-stage:
+     Stage 1 (0–600ms):  opacity 0 → 1, scale 1.005 → 1.0
+     Stage 2 (600–1400ms): stroke-width breathes 3px → 2px once
+   Stage 2 is the `uapex-outline-breathe` keyframe below, triggered
+   by `.is-materializing` with a 200ms lead-in delay so Stage 1's
+   settle-in reads before the outline breath begins.
+
+   The (IMPOSSIBLE) prestige tag inherits the outline treatment at a
+   thinner 1px stroke; it fades in ~800ms after the crown letters
+   start materializing (delay handled inline via the prestige-tag
+   transition below). */
+.aov-order-rung[data-tier="unique-apex"] {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--apex-gold);
+  font-weight: 800;
+  letter-spacing: 0.5em;
+  transform: translate3d(0, 12px, 0) scale(1.005);
+  transition:
+    opacity 600ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    letter-spacing 800ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 600ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.aov-order-rung[data-tier="unique-apex"].is-lit,
+.aov-order-rung[data-tier="unique-apex"].is-materializing {
+  opacity: 1;
+  letter-spacing: -0.02em;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+.aov-order-rung[data-tier="unique-apex"].is-materializing {
+  animation: uapex-outline-breathe 1400ms cubic-bezier(0.4, 0, 0.2, 1) 200ms 1;
+}
+@keyframes uapex-outline-breathe {
+  0%   { -webkit-text-stroke-width: 2px; }
+  30%  { -webkit-text-stroke-width: 3px; }
+  100% { -webkit-text-stroke-width: 2px; }
+}
+
+/* Unique Ultimate (prestige rank 3): solid apex-gold at 100%, weight
+   600. Sits between the crown pair (outline / solid-white) and the
+   opacity-graded rest of the ladder. */
+.aov-order-rung[data-tier="unique-ultimate"] {
+  color: var(--apex-gold);
+  font-weight: 600;
+}
+.aov-order-rung[data-tier="unique-ultimate"].is-lit { opacity: 1; }
+
+/* Ultimate: solid apex-gold at 70% opacity, weight 600. */
+.aov-order-rung[data-tier="ultimate"] {
+  color: var(--apex-gold);
+  font-weight: 600;
+}
+.aov-order-rung[data-tier="ultimate"].is-lit { opacity: 0.7; }
+
+/* Unique: solid rank-4-unique, weight 500. */
+.aov-order-rung[data-tier="unique"] {
+  color: var(--rank-4-unique);
+  font-weight: 500;
+}
+.aov-order-rung[data-tier="unique"].is-lit { opacity: 1; }
+
+/* Standard rank rungs — solid rank colour, opacity descends. */
+.aov-order-rung[data-tier="hardened"] {
+  color: var(--rank-4);
+  font-weight: 500;
+}
+.aov-order-rung[data-tier="hardened"].is-lit { opacity: 0.8; }
+.aov-order-rung[data-tier="evolved"] {
+  color: var(--rank-3);
+  font-weight: 400;
+}
+.aov-order-rung[data-tier="evolved"].is-lit { opacity: 0.65; }
+.aov-order-rung[data-tier="named"] {
+  color: var(--rank-2);
+  font-weight: 400;
+}
+.aov-order-rung[data-tier="named"].is-lit { opacity: 0.5; }
+.aov-order-rung[data-tier="awakened"] {
+  color: var(--muted);
+  font-weight: 400;
+}
+.aov-order-rung[data-tier="awakened"].is-lit { opacity: 0.4; }
+
+/* (IMPOSSIBLE) prestige tag on the Unique Apex crown rung — same
+   outline treatment at a thinner 1px stroke so the tag reads as a
+   subordinate echo of the crown letters. Fades in ~800ms after the
+   parent rung starts materializing. */
+.aov-order-rung[data-tier="unique-apex"] .aov-order-rung__prestige {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--apex-gold);
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 400ms cubic-bezier(0.22, 0.61, 0.36, 1) 800ms;
+}
+.aov-order-rung[data-tier="unique-apex"].is-lit .aov-order-rung__prestige,
+.aov-order-rung[data-tier="unique-apex"].is-materializing .aov-order-rung__prestige {
+  opacity: 1;
+}
+
+.aov-order-footer {
+  font-family: var(--font-mono);
+  font-size: clamp(0.75rem, 0.9vw, 0.9rem);
+  color: var(--muted);
+  letter-spacing: 0.02em;
+  margin: 1.5rem 0 0;
+  max-width: 40rem;
+}
+
+/* Cross-section refs link, rendered outside the sticky pin so it
+   sits below the terminal scene when the section unpins. */
+.aov-refs {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  padding: 3rem 1.25rem 5rem;
+  font-family: var(--font-body);
+  margin: 0;
+}
+.aov-refs a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 2px;
+  transition: color 200ms, border-color 200ms;
+}
+.aov-refs a:hover,
+.aov-refs a:focus-visible {
+  color: var(--apex-gold);
+  border-bottom-color: var(--apex-gold);
+}
+
+/* ── MOBILE (<900px) · collapse sticky pins to static flow ───── */
+/* Sticky pinning is jank-prone on mobile Safari; collapse to a
+   simpler stacked layout. Parallax rates → 1.0× (JS reads the
+   media query and disables). Rank names scale down; unique cards
+   go single-column; predicates lose staircase indent. */
+@media (max-width: 899px) {
+  .aov {
+    --aov-scene-vh: 100;
+    overflow-x: clip;
+  }
+  .aov-atmosphere {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+  /* Atmosphere-scoped Apex overlays (`.aov-apex-hero`, `.aov-arch`)
+     are designed as VIEWPORT-sized layers gated by scroll-linked
+     opacity during the sticky Apex pin on desktop. On mobile the
+     atmosphere flips to `position: absolute; height: 100%` so it
+     spans the entire section (~9040px on a 390-wide viewport),
+     and the JS opacity ramp is disabled — which means these
+     overlays render at their static CSS opacity across the WHOLE
+     scroll, painting faint sepia noise over every scene.
+     Simplest fix: retire them on mobile. The Apex scene keeps its
+     text-driven visual weight (title + predicates + coda) and the
+     mobile atmosphere still gets ledger + fog + scene-scoped rank
+     heroes for depth. */
+  .aov-apex-hero,
+  .aov-arch {
+    display: none;
+  }
+  .aov-scene,
+  .aov-scene[data-scene="apex"] {
+    min-height: auto;
+  }
+  .aov-stage,
+  .aov-stage--title,
+  .aov-stage--rank,
+  .aov-stage--unique,
+  .aov-stage--apex,
+  .aov-stage--coda {
+    position: static;
+    height: auto;
+    min-height: 80vh;
+    grid-template-columns: 1fr;
+    padding: 4rem 1.25rem;
+    gap: 1.5rem;
+  }
+
+  .aov-title {
+    font-size: clamp(3rem, 15vw, 6rem);
+  }
+
+  /* Rank stages stack: stamp above body, both centered. */
+  .aov-stage--rank {
+    /* Restore positioning context lost by the static reset above,
+       so .aov-rank-hero (position:absolute; inset:0) stays inside
+       the stage rather than escaping to the section. */
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-inline: 1.25rem;
+  }
+  .aov-stage--rank[data-align="right"] {
+    flex-direction: column;
+  }
+  .aov-stage--rank .aov-rank-body,
+  .aov-stage--rank[data-align="right"] .aov-rank-body {
+    max-width: 100%;
+    text-align: center;
+  }
+  .aov-stage--rank[data-align="right"] .aov-rank-caption { margin-left: 0; }
+  .aov-stage--rank[data-align="right"] .aov-rank-tags { justify-content: center; }
+  .aov-rank-name {
+    font-size: clamp(2rem, 10vw, 5rem);
+  }
+
+  /* Rank hero + apex hero: pinned at low opacity on mobile so the
+     scene still reads as distinct without dominating the compressed
+     portrait viewport. Reduced from 0.25 to 0.15 per operator
+     nitpick 2026-07-07 — even 25% was visually oversized on 390px
+     viewports because the illustrator's warm-sepia palette reads
+     prominently against the dark bg at any level. */
+  .aov-rank-hero,
+  .aov-apex-hero {
+    opacity: 0.15 !important;
+  }
+
+  .aov-unique-cards {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+  /* Header line + ordering pills stay legible on mobile;
+     no scroll-linked fade (motion is disabled here). */
+  .aov-unique-header-line {
+    opacity: 1 !important;
+    font-size: clamp(1.05rem, 3.5vw, 1.5rem);
+    padding: 0 0.5rem;
+  }
+  .aov-unique-ordering-pill {
+    font-size: 0.78rem;
+  }
+  .aov-unique-hairline {
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    right: auto;
+    width: 1px;
+    height: auto;
+    background: linear-gradient(
+        180deg,
+        transparent 0%,
+        var(--rank-4-unique) 15%,
+        var(--rank-4-unique) 85%,
+        transparent 100%);
+  }
+
+  .aov-apex-title {
+    font-size: clamp(3rem, 12vw, 6rem);
+  }
+  .aov-pred,
+  .aov-pred[data-step="2"],
+  .aov-pred[data-step="3"],
+  .aov-pred[data-step="4"],
+  .aov-pred[data-step="5"],
+  .aov-pred[data-step="6"],
+  .aov-pred[data-step="7"],
+  .aov-pred[data-step="8"] {
+    margin-left: 0;
+  }
+  .aov-pred {
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas:
+      "latch id   seal"
+      "latch desc seal";
+    column-gap: 0.75rem;
+    row-gap: 0.2rem;
+  }
+
+  /* The Order coda — left-align on mobile per spec, fully
+     composed on entry (no scroll-linked reveal). */
+  .aov-stage--coda {
+    text-align: left;
+    align-items: stretch;
+  }
+  .aov-order-ladder {
+    align-items: flex-start;
+  }
+  .aov-order-rung {
+    justify-content: flex-start;
+    font-size: clamp(1.2rem, 6vw, 2.4rem);
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  .aov-order-title {
+    align-self: flex-start;
+    font-size: clamp(1.75rem, 8vw, 3rem);
+  }
+  .aov-order-footer {
+    text-align: left;
+  }
+
+  /* All parallax layers snap to rest — mobile does NOT run the
+     scroll-linked ledger/fog opacity ramp (that would double up
+     with the parallax-only mobile path), so we pin them to LOW
+     static values here. Previous value was `opacity: 1` which
+     flooded the small viewport with warm sepia and dominated the
+     dark navy background. Now: 0.20 ledger + 0.10 fog reads as a
+     subtle paper wash without swallowing content, matching the
+     desktop rest state (which averages ~0.28 ledger across the
+     section). */
+  .aov-ledger,
+  .aov-fog,
+  .aov-arch,
+  .aov-rank-body {
+    will-change: auto;
+    transform: none;
+  }
+  .aov-ledger { opacity: 0.20; }
+  .aov-fog    { opacity: 0.10; }
+  .aov-arch   { opacity: 0.35; }
+  .aov-rank-body { opacity: 1; }
+  .aov-ucard { opacity: 1; transform: none; }
+  .aov-pred { opacity: 1; transform: none; }
+  /* Gold thread becomes a vertical spine centred on the section. */
+  .aov-thread {
+    left: 50%;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(
+        180deg,
+        transparent 0%,
+        rgba(var(--apex-gold-rgb), 0.35) 8%,
+        rgba(var(--apex-gold-rgb), 0.55) 50%,
+        rgba(var(--apex-gold-rgb), 0.35) 92%,
+        transparent 100%);
+    opacity: 0.6;
+  }
+  .aov-thread svg,
+  .aov-thread__path {
+    display: none;
+  }
+}
+
+/* ── REDUCED MOTION · composed rest state ─────────────────────── */
+/* Parallax rates collapse to 1.0× (JS detects the query and stops
+   writing transforms). Sticky pins remain but sub-scene animations
+   pin to their fully-composed end state on scene entry. Gold thread
+   renders fully drawn. No cross-fades. */
+@media (prefers-reduced-motion: reduce) {
+  .aov-ledger,
+  .aov-fog,
+  .aov-arch,
+  .aov-apex-hero,
+  .aov-rank-hero {
+    will-change: auto;
+    transform: none;
+  }
+  .aov-arch { opacity: 0.35; }
+  /* Rank + apex hero backdrops pin at a composed dim state so each
+     scene still reads as distinct without scroll-linked motion. */
+  .aov-rank-hero { opacity: 0.35; }
+  .aov-apex-hero { opacity: 0.35; }
+  .aov-thread__path {
+    stroke-dashoffset: 0 !important;
+  }
+  .aov-riser__line {
+    stroke-dashoffset: 0 !important;
+  }
+  .aov-rank-body,
+  .aov-ucard,
+  .aov-pred {
+    transform: none !important;
+    opacity: 1 !important;
+    transition: none !important;
+  }
+  /* Predicates render at their composed rest state — all locked
+     rows read as still-sealed (this is a static preview of the
+     gate, not the animated unlock). Disabled rows keep their
+     dashed/half-opacity treatment via the state selectors above,
+     which the !important opacity here intentionally overrides so
+     the row is still legible; the dashed border stays. */
+  .aov-pred[data-state="unlocked"] {
+    color: var(--text);
+    border-left-color: var(--apex-gold);
+  }
+  .aov-pred[data-state="unlocked"] .aov-pred__id { color: var(--apex-gold); }
+  .aov-pred[data-state="unlocked"] .aov-pred__latch-shackle {
+    transform: rotate(-25deg) translateX(-2px);
+  }
+  .aov-pred[data-state="unlocked"] .aov-pred__seal-svg {
+    opacity: 0;
+  }
+  .aov-pred.is-breaking .aov-pred__latch-svg {
+    animation: none !important;
+  }
+  .aov-apex-coda {
+    opacity: 1;
+    transform: none;
+  }
+  /* Coda ladder + Unique header line: fully composed on entry;
+     the scroll-linked ladder assembly is a motion effect. */
+  .aov-unique-header-line {
+    opacity: 1 !important;
+  }
+  .aov-order-rung {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+  /* Crown-pair shape treatments (Issue #975 R7): reduced-motion
+     pins the outline breathe and letter-spacing collapse at their
+     composed end state — the shape is preserved, the animation
+     isn't. */
+  .aov-order-rung[data-tier="apex"],
+  .aov-order-rung[data-tier="unique-apex"] {
+    animation: none !important;
+    letter-spacing: -0.02em !important;
+    opacity: 1 !important;
+  }
+  .aov-order-rung[data-tier="unique-apex"] .aov-order-rung__prestige {
+    opacity: 1 !important;
+    transition: none !important;
+  }
+  .aov-order-rung[data-tier="ultimate"] { opacity: 0.7 !important; }
+  .aov-order-rung[data-tier="hardened"] { opacity: 0.8 !important; }
+  .aov-order-rung[data-tier="evolved"] { opacity: 0.65 !important; }
+  .aov-order-rung[data-tier="named"] { opacity: 0.5 !important; }
+  .aov-order-rung[data-tier="awakened"] { opacity: 0.4 !important; }
+}
+
+/* ── PRINT · straightforward document flow ───────────────────── */
+@media print {
+  .aov-atmosphere,
+  .aov-thread,
+  .aov-riser,
+  .aov-arch,
+  .aov-apex-hero,
+  .aov-rank-hero {
+    display: none;
+  }
+  .aov-stage,
+  .aov-scene {
+    position: static;
+    height: auto;
+    min-height: auto;
+  }
+}

@@ -17,7 +17,7 @@ tags:
 - frontend
 - polishing
 createdAt: '2026-05-14'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-20'
 evidence:
 - class: B
   source: https://github.com/pbakaus/impeccable
@@ -128,6 +128,20 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:43Z'
   details: TM 0.0 -> 122.8, grade ungraded -> A (direct edit -- CLI gap)
+- timestamp: '2026-07-16T08:36:44Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''ux-audit'' type: basic (unchanged; Yggdrasil II taxonomy
+    migration #997)'
+  metaEpoch: yggdrasil-ii
+  migrationBatch: yggdrasil-ii@2026-07-16
+- timestamp: '2026-07-20T18:16:45Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''ux-audit'' type: basic (unchanged; Yggdrasil II taxonomy
+    migration #997)'
+  metaEpoch: yggdrasil-ii
+  migrationBatch: yggdrasil-ii@2026-07-20
 trustMagnitude: 122.8
 overallTrustGrade: A
 apexGateStatus:

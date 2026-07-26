@@ -9,9 +9,13 @@
       "overallTrustGrade": "C",
       "contributor": "getagentseal",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/getagentseal/codeburn.json"
-      }
+      },
+      "genericSkillRef": "token-observability"
     }
   ],
   "namedSkillsCount": 1,

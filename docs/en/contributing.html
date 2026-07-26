@@ -47,7 +47,7 @@
       color: var(--text, #e2e8f0);
       letter-spacing: .02em;
     }
-    .nav-logo span { color: var(--tier-ultimate, #f59e0b); }
+    .nav-logo span { color: var(--rank-5); }
     .nav-sep { color: var(--muted, #64748b); font-size: 0.85rem; }
     .nav-crumb { font-size: 0.82rem; color: var(--muted, #64748b); }
     .nav-crumb:hover { color: var(--text, #e2e8f0); text-decoration: none; }
@@ -161,14 +161,20 @@
     /* ── Path cards ── */
     .path-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr;
       gap: 1rem;
       margin: 1.5rem 0;
     }
+    /* mobile-first: base layout handled by docs-en-shell.css */
+    @media (min-width: 861px) {
+      .path-grid { grid-template-columns: 1fr 1fr 1fr; }
+      .page-layout { grid-template-columns: 220px 1fr; }
+      .sidebar { display: block; }
+    }
+
     @media (max-width: 860px) {
       .path-grid { grid-template-columns: 1fr; }
-      .page-layout { grid-template-columns: 1fr; }
-      .sidebar { display: none; }
+      .main-content { padding: 1.5rem 1.25rem 3rem; }
     }
     .path-card {
       border: 1px solid var(--border, #1e293b);
@@ -457,6 +463,14 @@
   "url": "https://gaiaskilltree.com/en/contributing.html"
 }
 </script>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TS7N9T92BM" data-ga4="G-TS7N9T92BM"></script>
+  <script data-ga4="G-TS7N9T92BM">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-TS7N9T92BM');
+  </script>
 </head>
 <body>
 
@@ -857,8 +871,5 @@ gaia dev validate --intake   <span class="c"># validate intake batch too</span><
     }, { rootMargin: '-20% 0px -70% 0px' });
     sections.forEach(s => observer.observe(s));
   </script>
-<!-- impeccable-live-start -->
-<script src="http://localhost:8400/live.js"></script>
-<!-- impeccable-live-end -->
 </body>
 </html>

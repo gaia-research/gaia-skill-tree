@@ -30,24 +30,20 @@ The Orchestrator: tracks high-level goals against the roadmap, audits GitHub sta
 - **Never modify the adjacent `gaia-skill-tree` repository.** Reading it is fine. All implementation goes through handover documents consumed by Claude Code sessions or coding agents.
 - **Every GitHub write (issues, labels, comments, board moves, milestones) is drafted first and executed only after Marco approves.** No exceptions (decision 2026-06-10).
   - **Standing pre-approval (2026-06-18):** the `skip-scope-check` label is pre-authorized on any PR being merged — apply it without a separate confirm when branch-scope blocks an otherwise-clean merge. This avoids the back-and-forth on PRs whose scope is justified but tripped the CI guard. The pre-approval covers labelling only; the merge itself still routes through Marco unless he says otherwise.
-- **Roadmap files (GAIA_ROADMAP.md, v2) are edited only with Marco's approval**, via the doc-coauthoring workflow.
+- **The roadmap file (`GAIA_ROADMAP v4 (BUILD).md`) is edited only with Marco's approval**, via the doc-coauthoring workflow. (v1–v3 are archived; v5 is a future write.)
 - Never store credentials (PATs, tokens) in this folder.
 
 ## Key References
 
 | File | Purpose |
 |---|---|
-| `GAIA_ROADMAP.md` | Strategic phases (v1) — source for milestone descriptions |
-| `GAIA_ROADMAP v2 (BUILD).md` | Build roadmap — execution backbone, sprint order, feature specs |
+| `GAIA_ROADMAP v4 (BUILD).md` | Current build roadmap (v4). v1–v3 archived under `handovers/archive/roadmaps/`; v5 is a future write. |
 | `GIT.md` | GitHub operations guide: milestones, board, PR rules, stale triage |
-| `PHASE1_PLAN.md` | Strategic Phase-1 plan (kept for reference) |
 | `MEMORY.md` | Orchestrator memory: goals, decisions, session log, open questions |
-| `handovers/G7_IMPLEMENTATION_HANDOVER.md` | Active I1–I7 spec (Phase 1.5) |
-| `handovers/G7_TRUST_TAXONOMY_RFC.md` | G7 Trust Magnitude RFC v2 (ratified 2026-06-18) |
-| `handovers/G7_HANDOVER_DELTA_2026-06-17.md` | Amendments to G7 handover (apex gate 9→6 predicates, I7 addition) |
-| `handovers/WORKFLOW_PATTERNS.md` | Dynamic-workflow patterns: synthesizer-fallback (L1→L2→L3 mechanical), commit-frequently, recovery paths |
-| `handovers/phase-1.5/` | Per-issue specs I1–I9 + P6 zero-evidence skills list |
-| `handovers/done/` | Archived handovers (Phase 1 pre-G7 plans, hygiene batch, G7 proposals) |
+| `BACKLOG_ERADICATION_TRACKER.md` | Post-#1185 clean-state / issue-tracking plan (the one operational tracker kept after EPIC 1002) |
+| `handovers/GAIA_BENCH_VISION.md` | Forward-looking gaia bench vision (kept live; exempt from the EPIC-1002 archive pass) |
+| `handovers/archive/` | All completed handovers (Ygg II ratification/authority, G7 specs, Sprint B/D, phase-1.5, roadmaps v1–v3). Ygg II is now ratified into `../../META.md` — treat that as the live source of truth, not these. |
+| `handovers/done/` | Older archived handovers (Phase 1 pre-G7 plans, hygiene batch, G7 proposals) |
 | `sources/` | Pre-collected evidence data lake (tiers 1–6) — verify before ingesting into registry |
 
 ## Project Facts

@@ -50,7 +50,7 @@
 }
 
 .lb-hero .process-lede a {
-  color: var(--tier-extra);
+  color: var(--rank-4);
   text-decoration: none;
   border-bottom: 1px solid currentColor;
 }
@@ -226,7 +226,7 @@
 }
 
 .lb-dist-meta-pill strong {
-  color: var(--tier-extra);
+  color: var(--rank-4);
   font-weight: 600;
 }
 
@@ -260,8 +260,8 @@
 }
 
 .lb-search:focus-within {
-  border-color: var(--tier-extra-border);
-  color: var(--tier-extra);
+  border-color: var(--rank-4-border);
+  color: var(--rank-4);
 }
 
 .lb-search input {
@@ -379,7 +379,7 @@
 
 .lb-table thead th[aria-sort] .lb-sort {
   opacity: 1;
-  color: var(--tier-extra);
+  color: var(--rank-4);
 }
 
 .lb-table tbody td {
@@ -427,7 +427,7 @@
 }
 
 .lb-table .col-id a:hover {
-  color: var(--tier-extra);
+  color: var(--rank-4);
   border-bottom-color: currentColor;
 }
 
@@ -448,7 +448,7 @@
   font-size: 0.78em;
   vertical-align: 0.06em;
 }
-.lb-arrow--up   { color: var(--tier-extra); }
+.lb-arrow--up   { color: var(--rank-4); }
 .lb-arrow--down { color: #fb7185; }
 .lb-arrow--flat { color: var(--muted); opacity: 0.5; }
 
@@ -490,8 +490,8 @@
 }
 
 .lb-apex-info--apex {
-  color: var(--tier-ultimate);
-  border-color: var(--tier-ultimate);
+  color: var(--rank-5);
+  border-color: var(--rank-5);
 }
 
 /* ── Per-row grade pill (no circles) ───────────────────────── */
@@ -536,6 +536,25 @@
   .lb-stars--6 { animation: none; color: var(--rank-6); }
 }
 
+/* ── Unique-branch fork (EPIC #1002) ─────────────────────────────
+   Unique-branch skills (4★+) use a copper/ember accent instead of the
+   Suite gold ladder. data-branch="unique" is emitted by ledger.js on the
+   same .lb-stars span, so .lb-stars--N[data-branch="unique"] (specificity
+   0,2,0) beats the base .lb-stars--N (0,1,0). -unique tokens land in
+   tokens.css via PR #1283; carry a hex fallback until then. */
+.lb-stars--4[data-branch="unique"] { color: var(--rank-4-unique, #7c3aed); }
+.lb-stars--5[data-branch="unique"] { color: var(--rank-5-unique, #b26a3a); }
+.lb-stars--6[data-branch="unique"] {
+  /* Solid ember — the Suite rainbow cycle is Suite-only. */
+  animation: none;
+  color: var(--rank-6-unique, #e0894a);
+  text-shadow: 0 0 6px currentColor;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lb-stars--6[data-branch="unique"] { color: var(--rank-6-unique, #e0894a); }
+}
+
 /* ── Flags ──────────────────────────────────────────────────── */
 .lb-flag {
   display: inline-block;
@@ -547,7 +566,7 @@
 }
 
 .lb-flag--floor { color: var(--tier-basic); background: var(--tier-basic-bg); border: 1px solid var(--tier-basic-border); }
-.lb-flag--up    { color: var(--tier-extra); background: var(--tier-extra-bg); border: 1px solid var(--tier-extra-border); }
+.lb-flag--up    { color: var(--rank-4); background: var(--rank-4-bg); border: 1px solid var(--rank-4-border); }
 .lb-flag-empty  { color: var(--border); }
 
 /* ── Apex cell ──────────────────────────────────────────────
@@ -595,7 +614,7 @@
 }
 
 .lb-ledger__key {
-  color: var(--tier-extra);
+  color: var(--rank-4);
   letter-spacing: 0.04em;
   font-weight: 600;
 }

@@ -8,10 +8,14 @@
       "trustMagnitude": 116.57,
       "overallTrustGrade": "A",
       "contributor": "safishamsi",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/safishamsi/graphify.json"
-      }
+      },
+      "genericSkillRef": "knowledge-graph-build"
     }
   ],
   "namedSkillsCount": 1,

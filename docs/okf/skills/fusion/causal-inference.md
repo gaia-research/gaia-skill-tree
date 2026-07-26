@@ -1,0 +1,21 @@
+---
+type: "AI Agent Skill"
+title: "Causal Inference"
+description: "Estimates treatment effects and identifies causal relationships from observational and experimental data using propensity scoring, instrumental variables, and causal graphs."
+resource: "https://gaiaskilltree.com/codex.html#causal-inference"
+tags: ["gaia-skill-tree", "fusion-skill"]
+timestamp: "2026-07-16T00:00:00Z"
+---
+
+# Causal Inference
+
+## Description
+
+Estimates treatment effects and identifies causal relationships from observational and experimental data using propensity scoring, instrumental variables, and causal graphs.
+
+## Prerequisites
+
+- [Hypothesis Generation](/skills/basic/hypothesis-generate.md)
+- [Logical Inference](/skills/basic/logical-inference.md)
+- [Statistical Analysis](/skills/basic/statistical-analysis.md)
+

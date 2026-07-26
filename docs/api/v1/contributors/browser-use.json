@@ -4,20 +4,24 @@
     {
       "id": "browser-use/browser-harness",
       "name": "Browser Harness",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 73.59,
       "overallTrustGrade": "B",
       "contributor": "browser-use",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/browser-use/browser-harness.json"
-      }
+      },
+      "genericSkillRef": "browser-control"
     }
   ],
   "namedSkillsCount": 1,
   "topSkill": {
     "id": "browser-use/browser-harness",
-    "level": "4★",
+    "level": "3★",
     "trustMagnitude": 73.59
   },
   "prestigeScore": 73.59,

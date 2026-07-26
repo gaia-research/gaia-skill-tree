@@ -62,6 +62,15 @@ def test_badge_registry_generated_at_mirrors_source(tmp_path, monkeypatch):
 
 
 def test_build_docs_check_message_uses_copyable_python_command(monkeypatch, capsys):
+    # This test inspects stdout only — it has no reason to regenerate real
+    # artifacts. Left unstubbed, `main(["--check"])` runs the whole pipeline
+    # against the live tree and rewrites tracked Class S files (docs/graph/
+    # gaia.json shrank 733533 -> 603305 bytes whenever this test ran, because
+    # the gitignored layout input is absent). Stub every build step, then
+    # re-stub the two the assertions depend on. See issue #1275.
+    for name in dir(build_docs):
+        if name.startswith("build_") and callable(getattr(build_docs, name)):
+            monkeypatch.setattr(build_docs, name, lambda check=False: False)
     monkeypatch.setattr(build_docs, "build_readme", lambda check: True)
     monkeypatch.setattr(build_docs, "build_docs_index", lambda check: False)
 

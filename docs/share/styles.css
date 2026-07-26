@@ -170,9 +170,9 @@
 }
 
 .share-skill-row__glyph[data-tier="basic"]    { color: var(--tier-basic); }
-.share-skill-row__glyph[data-tier="extra"]    { color: var(--tier-extra); }
-.share-skill-row__glyph[data-tier="unique"]   { color: var(--tier-unique); }
-.share-skill-row__glyph[data-tier="ultimate"] { color: var(--tier-ultimate); }
+.share-skill-row__glyph[data-tier="extra"]    { color: var(--rank-4); }
+.share-skill-row__glyph[data-tier="unique"]   { color: var(--rank-4-unique); }
+.share-skill-row__glyph[data-tier="ultimate"] { color: var(--rank-5); }
 
 /* Skill name + contributor, stacked */
 .share-skill-row__info {

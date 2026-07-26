@@ -20,6 +20,7 @@
 <script src="js/rank-badge.js?v=6.8.18"></script>
 <!-- Stage 3 — plaque component family. -->
 <script src="js/tm-config.js?v=6.8.18"></script>
+<script src="js/skill-semantics.js?v=6.8.18"></script>
 <script src="js/plaque.js?v=6.8.18"></script>
 <style>
   .meta-report-grid {
@@ -40,7 +41,7 @@
   }
   .meta-report-card:hover {
     transform: translateY(-4px);
-    border-color: var(--tier-ultimate);
+    border-color: var(--rank-5);
   }
   .meta-report-date {
     font-family: var(--font-mono);
@@ -106,6 +107,14 @@
   "url": "https://gaiaskilltree.com/meta.html"
 }
 </script>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TS7N9T92BM" data-ga4="G-TS7N9T92BM"></script>
+  <script data-ga4="G-TS7N9T92BM">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-TS7N9T92BM');
+  </script>
 </head>
 <body class="process-page">
 
@@ -141,6 +150,28 @@
     
     <div class="meta-report-grid">
       <!-- gaia-meta-cards-start -->
+      <article class="meta-report-card">
+        <div class="meta-report-date">July 26, 2026</div>
+        <h3 class="meta-report-title">Yggdrasil II: Two Types, One Trust Gate, and a Branch Axis That Is Never Declared</h3>
+        <p class="meta-report-summary">The Yggdrasil I to II meta shift collapses three node types to two, derives the branch axis at read-time, and retires the Evidence Floor so Trust Magnitude is the sole promotion gate.</p>
+        <div class="meta-report-footer">
+          <a href="meta/reports/2026-07-26-yggdrasil-ii-two-types-one-trust-gate-and-a-branch-axis-that-is-never-declared.html" class="btn btn-ghost meta-report-link">Read Full Report →</a>
+          <button type="button" class="meta-report-action" aria-label="Share report" data-report-url="meta/reports/2026-07-26-yggdrasil-ii-two-types-one-trust-gate-and-a-branch-axis-that-is-never-declared.html" data-report-title="Yggdrasil II: Two Types, One Trust Gate, and a Branch Axis That Is Never Declared" onclick="metaReportShare(this)"><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#share"/></svg></button>
+          <a href="meta/reports/2026-07-26-yggdrasil-ii-two-types-one-trust-gate-and-a-branch-axis-that-is-never-declared.html" download="2026-07-26-yggdrasil-ii-two-types-one-trust-gate-and-a-branch-axis-that-is-never-declared.html" class="meta-report-action" aria-label="Download report"><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"/></svg></a>
+          <button type="button" class="meta-report-action" aria-label="Copy link" data-report-url="meta/reports/2026-07-26-yggdrasil-ii-two-types-one-trust-gate-and-a-branch-axis-that-is-never-declared.html" onclick="metaReportCopyLink(this)"><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#link"/></svg></button>
+        </div>
+      </article>
+      <article class="meta-report-card">
+        <div class="meta-report-date">July 13, 2026</div>
+        <h3 class="meta-report-title">Firecrawl Suite Curation and Origin Recalibration</h3>
+        <p class="meta-report-summary">Five named Firecrawl components plus a capstone enter the registry; five buckets recalibrate to a single origin each; gaia dev fuse timeline bug fixed.</p>
+        <div class="meta-report-footer">
+          <a href="meta/reports/2026-07-13-firecrawl-suite-curation-and-origin-recalibration.html" class="btn btn-ghost meta-report-link">Read Full Report →</a>
+          <button type="button" class="meta-report-action" aria-label="Share report" data-report-url="meta/reports/2026-07-13-firecrawl-suite-curation-and-origin-recalibration.html" data-report-title="Firecrawl Suite Curation and Origin Recalibration" onclick="metaReportShare(this)"><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#share"/></svg></button>
+          <a href="meta/reports/2026-07-13-firecrawl-suite-curation-and-origin-recalibration.html" download="2026-07-13-firecrawl-suite-curation-and-origin-recalibration.html" class="meta-report-action" aria-label="Download report"><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#download"/></svg></a>
+          <button type="button" class="meta-report-action" aria-label="Copy link" data-report-url="meta/reports/2026-07-13-firecrawl-suite-curation-and-origin-recalibration.html" onclick="metaReportCopyLink(this)"><svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#link"/></svg></button>
+        </div>
+      </article>
       <article class="meta-report-card">
         <div class="meta-report-date">July 3, 2026</div>
         <h3 class="meta-report-title">Curation Report: Addy Osmani 7-Skill Suite Integration</h3>
@@ -313,8 +344,5 @@
   }
   </script>
 
-<!-- impeccable-live-start -->
-<script src="http://localhost:8400/live.js"></script>
-<!-- impeccable-live-end -->
 </body>
 </html>

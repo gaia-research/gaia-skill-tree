@@ -3,10 +3,13 @@
   "name": "Autoplan",
   "contributor": "garrytan",
   "level": "4★",
-  "type": "extra",
+  "type": "fusion",
   "status": "named",
   "trustMagnitude": 156.0,
   "overallTrustGrade": "A",
+  "branch": "suite",
+  "rankWord": "Extra",
+  "medallion": "◆",
   "_links": {
     "self": "/api/v1/skills/garrytan/garrytan.json",
     "contributor": "/api/v1/contributors/garrytan.json",
@@ -91,6 +94,14 @@
       "action": "migrate_trust_magnitude",
       "timestamp": "2026-06-19T13:26:37Z",
       "details": "TM 0.0 -> 156.0, grade ungraded -> A (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-07-20T18:16:45Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Generic parent 'vertical-slice-planning' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+      "metaEpoch": "yggdrasil-ii",
+      "migrationBatch": "yggdrasil-ii@2026-07-20"
     }
   ],
   "links": {

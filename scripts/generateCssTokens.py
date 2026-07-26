@@ -25,6 +25,18 @@ Rank (one block per ``"N★"`` key in ``levelColors``, where N ∈ 0..6)::
     --rank-<N>-border      /* rgba(..., .35-.55) */
     --rank-<N>-edge        /* rgba(..., .55) — translucent stroke for arrows */
 
+Unique rank ladder (Yggdrasil II — the SECOND ladder on the ONE rank axis)::
+
+    --rank-4-unique[-rgb/-bg/-border/-edge/-symbol]   /* 4★ = branch entry / base */
+    --rank-5-unique[-rgb/-edge]                        /* 5★ = burnished copper */
+    --rank-6-unique[-rgb/-ink/-edge]                   /* 6★ = ember copper, inverted */
+
+Suite and Unique are two ladders on ONE rank axis: Suite = ``--rank-N`` (from
+``gaia.json.meta.levelColors``), Unique = ``--rank-N-unique`` (from the
+``UNIQUE_RANK_LADDER`` generator constant, since ``unique`` is a read-time branch
+— see that constant). A skill is only Unique at 4★+, so the ladder starts at rank 4.
+There is NO ``--tier-unique*`` family and NO branch-generic token divorced from rank.
+
 Edge derivatives (Stage 5 — Hunter's Atlas DAG / 3D Registry arrows)::
 
     --tier-<name>-edge     /* rgba(<rgb>, .55) — translucent tier stroke */
@@ -63,6 +75,35 @@ TOKENS_CSS = ROOT / "docs" / "css" / "tokens.css"
 # Background / border opacity defaults if a colour entry only provides ``hex``.
 DEFAULT_BG_ALPHA = 0.12
 DEFAULT_BORDER_ALPHA = 0.35
+
+# Yggdrasil II RANK SCHEMA — Suite and Unique are two ladders on ONE rank axis:
+# Suite = --rank-N (0..6, from gaia.json.meta.levelColors), Unique = --rank-N-unique.
+# There is NO separate "tier unique" and NO branch-generic token divorced from rank.
+# A skill is only Unique at 4★+, so every Unique-flavored token keys to the RANK it
+# represents: 4★ is where the Unique branch BEGINS (also the base/branch-generic
+# default), then the decoration escalates by rank.
+#
+# `unique` is NOT a gaia.json `type` (the only valid types are 'basic' and 'fusion');
+# it is a read-time branch derived by docs/js/skill-semantics.js computeBranch (a Basic
+# node that reached elite rank 4★+ without ever fusing). Because it is a read-time
+# branch — not a taxonomy tier and not a levelColors entry — the Unique rank ladder
+# lives here as a generator constant rather than in gaia.json.meta. (The Suite/type
+# tokens still read from gaia.json.meta, so an Ygg III palette swap of the Suite axis
+# stays a one-file meta edit + regen; the Unique ladder is the one branch-specific
+# constant the generator owns.)
+#
+# Colorize LOCKED 2026-07-18 (Amethyst→Ember) — do NOT change any hex:
+#   4★ = #7c3aed violet (branch entry / base default)
+#   5★ = #b26a3a burnished copper
+#   6★ = #e0894a ember copper (inverted: copper ground + #2a1206 dark engraved ink)
+# Deliberately OFF the Suite gold axis so a Unique never reads as a Suite Apex —
+# Unique is its own prestige track. Mirrors scripts/generateBadges.py unique_hex()/
+# UNIQUE_INK so badges, graph medallions, and profile plates render one Unique ladder.
+UNIQUE_RANK_LADDER = {
+    "hex": "#7c3aed",
+    "rgb": "124, 58, 237",
+    "symbol": "◉",
+}
 # Edge (translucent stroke) alpha. Used for ``--tier-*-edge`` and
 # ``--rank-N-edge`` derivatives consumed by DAG arrows and canvas
 # highlighted-neighbor edges.
@@ -161,6 +202,12 @@ def build_tokens_css(gaia: dict) -> str:
         body.append(f"  /* tier: {name} */")
         body.extend(_emit_tier_block(name, color, type_symbols.get(name)))
 
+    # Yggdrasil II Unique rank ladder — emitted under the RANK axis (see below),
+    # NOT here. The Unique branch is not a taxonomy tier; it is a rank-keyed
+    # decoration (--rank-N-unique) applied once a Basic node reaches 4★+ without
+    # fusing. See the rank-tokens section for the emission and UNIQUE_RANK_LADDER
+    # for the locked palette. No --tier-unique* family is emitted anymore.
+
     body.append("")
     body.append("  /* ── Rank tokens (0★ → 6★) ───────────────────────────────── */")
 
@@ -175,6 +222,39 @@ def build_tokens_css(gaia: dict) -> str:
     for star, color in parsed_ranks:
         body.append(f"  /* rank: {star}★ */")
         body.extend(_emit_rank_block(star, color))
+
+    # Yggdrasil II Unique rank ladder (--rank-N-unique) — the SECOND ladder on the
+    # rank axis. Suite = --rank-N (above, from gaia.json.meta.levelColors); Unique =
+    # --rank-N-unique (here, from the UNIQUE_RANK_LADDER generator constant because
+    # `unique` is a read-time branch, not a levelColors entry — see the constant's
+    # comment). Membership begins at 4★ (a Basic node that reached elite rank without
+    # fusing), so the ladder starts at rank 4 and escalates 4→5→6. Colorize LOCKED
+    # 2026-07-18 (Amethyst→Ember): 4★ violet (branch entry / base default), 5★
+    # burnished copper, 6★ ember copper inverted (copper ground + dark engraved ink).
+    # Mirrors generateBadges.unique_hex()/UNIQUE_INK; consumed by badges/graph/profile.
+    body.append("  /* rank: 4★ unique (Unique branch ENTRY / base default) */")
+    _u4_rgb = UNIQUE_RANK_LADDER["rgb"]
+    body.append(
+        f"  --rank-4-unique: {UNIQUE_RANK_LADDER['hex']}; "
+        f"/* var(--rank-4-unique, {UNIQUE_RANK_LADDER['hex']}) */"
+    )
+    body.append(f"  --rank-4-unique-rgb: {_u4_rgb};")
+    body.append(f"  --rank-4-unique-bg: rgba({_u4_rgb}, {DEFAULT_BG_ALPHA});")
+    body.append(f"  --rank-4-unique-border: rgba({_u4_rgb}, {DEFAULT_BORDER_ALPHA});")
+    body.append(f"  --rank-4-unique-edge: rgba({_u4_rgb}, {DEFAULT_EDGE_ALPHA});")
+    escaped_symbol = (
+        UNIQUE_RANK_LADDER["symbol"].replace("\\", "\\\\").replace("'", "\\'")
+    )
+    body.append(f"  --rank-4-unique-symbol: '{escaped_symbol}';")
+    body.append("  /* rank: 5★ unique (burnished copper) */")
+    body.append("  --rank-5-unique: #b26a3a;")
+    body.append("  --rank-5-unique-rgb: 178, 106, 58;")
+    body.append("  --rank-5-unique-edge: rgba(178, 106, 58, 0.55);")
+    body.append("  /* rank: 6★ unique (ember copper, inverted — copper ground + dark ink) */")
+    body.append("  --rank-6-unique: #e0894a;")
+    body.append("  --rank-6-unique-rgb: 224, 137, 74;")
+    body.append("  --rank-6-unique-ink: #2a1206;")
+    body.append("  --rank-6-unique-edge: rgba(224, 137, 74, 0.9);")
 
     body.append("")
     body.append("  /* ── Legacy short aliases ─────────────────────────────────── */")
@@ -207,6 +287,57 @@ def build_tokens_css(gaia: dict) -> str:
     for grade, label in grade_aliases.items():
         body.append(f"  --grade-{grade}: var(--evidence-{label});")
         body.append(f"  --grade-{grade}-rgb: var(--evidence-{label}-rgb);")
+
+    # §Ygg-II PR 3c: local/custom-user green. A user's OWN uncanonized
+    # fusion/custom skill renders GREEN-STARLESS in the 3D World Tree
+    # (`gaia graph` custom mode) and in `gaia tree`. Mirrors the CLI's
+    # COLOR_LOCAL_USER = (134, 239, 172) = #86efac (src/gaia_cli/formatting.py).
+    # A fixed constant (like UNIQUE_RANK_LADDER above) rather than a gaia.json
+    # meta color: it is a client/user-state accent, not a taxonomy tier or rank.
+    body.append("")
+    body.append("  /* ── Local / custom-user accent (Yggdrasil II PR 3c) ───────── */")
+    body.append("  /* Green-starless treatment for a user's OWN uncanonized skills.")
+    body.append("     Matches the CLI COLOR_LOCAL_USER (134,239,172 / #86efac). */")
+    _local_user_hex = "#86efac"
+    _local_user_rgb = _rgb_str(_hex_to_rgb_triplet(_local_user_hex))
+    body.append(f"  --color-local-user: {_local_user_hex};")
+    body.append(f"  --color-local-user-rgb: {_local_user_rgb};")
+
+    # ── Evidence TYPE tokens (provenance color axis) ─────────────────────────
+    # Evidence Type ≠ rank ≠ branch. Each canonical evidence type gets its own
+    # --ev-type-<name> color so pills stop borrowing --tier-*/--rank-* (which
+    # conflated provenance with skill rank — see TOKEN-POLLUTION-AUDIT.md, T16-T18).
+    # Hues are the source of truth from docs/evidence/ (the evidence library
+    # page). Kebab-case names match the schema evidence.types values and the
+    # .ev-type-pill.type-<name> consumer classes in styles.css.
+    body.append("")
+    body.append(
+        "  /* ── Evidence Type tokens (provenance axis — NOT rank/branch) ─── */"
+    )
+    ev_type_colors = {
+        "repo": "#38bdf8",
+        "repo-own": "#38bdf8",
+        "peer-review": "#38bdf8",
+        "github-stars": "#f59e0b",
+        "github-stars-own": "#f59e0b",
+        "fusion-recipe": "#f59e0b",
+        "proxy-containment": "#7c3aed",
+        "verifier-attestation": "#e879f9",
+        "benchmark-result": "#c084fc",
+        "arxiv": "#c084fc",
+        "self-attestation": "#94a3b8",
+        "social-signal": "#34d399",
+    }
+    # The trailing `/* var(--ev-type-<name>, <hex>) */` comment mirrors the
+    # tier/rank convention above: it is self-documenting AND it satisfies the
+    # docs-cohesion Guard A hex-literal grep (which whitelists lines containing
+    # a `var(--x,` fallback form). Do not drop it — the guard fails without it.
+    for name, hex_val in ev_type_colors.items():
+        rgb_triplet = _rgb_str(_hex_to_rgb_triplet(hex_val))
+        body.append(
+            f"  --ev-type-{name}: {hex_val}; /* var(--ev-type-{name}, {hex_val}) */"
+        )
+        body.append(f"  --ev-type-{name}-rgb: {rgb_triplet};")
 
     body.append("}")
     body.append("")

@@ -12,7 +12,13 @@ import sys
 
 from gaia_cli.leveling import level_summary
 from gaia_cli.registry import registry_graph_path
-from gaia_cli.formatting import TIER_COLORS, RANK_COLORS  # single source of truth
+from gaia_cli.formatting import (  # single source of truth
+    TIER_COLORS,
+    RANK_COLORS,
+    TYPE_SYMBOLS,
+    TYPE_LABELS,
+)
+from gaia_cli import taxonomy
 import textwrap
 from typing import Optional
 
@@ -113,24 +119,19 @@ V = "│"
 LT = "├"
 RT = "┤"
 
-# Tier glyphs
-TIER_GLYPHS = {
-    "basic": "○",  # ○
-    "extra": "◇",  # ◇
-    "ultimate": "◆",  # ◆
-}
+# Tier glyphs — single source of truth: TYPE_SYMBOLS (meta.json `types.symbols`).
+# Yggdrasil II type axis is {basic, fusion}; legacy tiers fall back to the
+# default glyph until the taxonomy migration (#997) rewrites node types.
+TIER_GLYPHS = TYPE_SYMBOLS
 
-# 6★ label uses the brand-voice shorthand "Apex" per CONTEXT.md (Maturity > Apex).
-# Long-form surfaces use "Transcendent ★" in full; CLI plaques use the shorthand.
-# Level display
+# Level display — routed through taxonomy.rankWord (single source of truth for
+# rank vocabulary). Yggdrasil II: the Suite/shared ladder (0★ Basic · 1★ Awakened ·
+# 2★ Named · 3★ Evolved · 4★ Extra · 5★ Ultimate · 6★ Apex). Unique-branch
+# alternates are rendered by passing branch="unique" to taxonomy.rankWord at the
+# call site.
 LEVEL_LABELS = {
-    "0★": "0★ Basic",
-    "1★": "1★ Awakened",
-    "2★": "2★ Named",
-    "3★": "3★ Evolved",
-    "4★": "4★ Hardened",
-    "5★": "5★ Transcendent",
-    "6★": "6★ Apex",
+    lv: f"{lv} {taxonomy.rankWord(lv, 'suite')}"
+    for lv in ("0★", "1★", "2★", "3★", "4★", "5★", "6★")
 }
 
 
@@ -471,7 +472,7 @@ def render_appraise_card(
         skill_data: skill dict from gaia.json
         prereq_status: {prereq_id: True/False} — True = user has it
         derivatives: list of derivative skill dicts [{id, name, type}]
-        actions: list of action labels (e.g. ["[F] Fuse", "[P] Promote"])
+        actions: list of action labels (e.g. ["[F] Fuse", "[S] Scan"])
         owned: whether user owns this skill
         canon: if True, show slash-prefixed IDs
         display_name: optional override for skill name
@@ -538,13 +539,8 @@ def render_appraise_card(
     # Thin divider
     lines.append(f"{bc}{V}{r} {fg(*COLOR_MUTED)}{H * inner}{r} {bc}{V}{r}")
 
-    # Type (using proper type labels)
-    type_labels = {
-        "basic": "Basic Skill",
-        "extra": "Extra Skill",
-        "ultimate": "Ultimate Skill",
-    }
-    meta = f"Type: {type_labels.get(tier, tier.capitalize())}"
+    # Type (labels sourced from the single meta-backed source)
+    meta = f"Type: {TYPE_LABELS.get(tier, tier.capitalize())}"
     lines.append(f"{bc}{V}{r} {fg(*COLOR_MUTED)}{_pad(meta, inner)}{r} {bc}{V}{r}")
 
     # Blank
@@ -755,27 +751,30 @@ def render_path_summary(paths: dict) -> str:
     return f"⚡ {' │ '.join(parts)}"
 
 
-# ─── Promotion prompt ──────────────────────────────────────────────────────
+# ─── Fusion / awaken card ──────────────────────────────────────────────────
 
 
-def render_promotion_prompt(
+def render_fusion_awaken_card(
     skill_data: dict,
-    proposed_level: str,
     canon: bool = False,
     ctx: Optional["LocalContext"] = None,
+    parent_has_named: bool = False,
 ) -> str:
-    """Prompt shown when a skill is eligible for promotion."""
+    """Card shown when the user owns the prerequisites for a fusion.
+
+    Yggdrasil II model: the card ALWAYS shows the fusion (a real generic skill
+    exists) but quotes NO star level — rank is assigned only by canon curation.
+    The "awaken" message (``gaia fuse`` + ``gaia push``) appears ONLY when the
+    generic parent is still EMPTY (no named implementation claimed yet), i.e.
+    the user could be the first to propose an implementation.
+    """
     skill_id = skill_data.get("id", "?")
-    skill_type = skill_data.get("type", "extra")
+    skill_type = skill_data.get("type", "fusion")
     prereqs = skill_data.get("prerequisites", [])
     gc = fg(*COLOR_GOLD)
     tc = fg(*TIER_COLORS.get(skill_type, COLOR_GOLD))
     r = reset()
     b = bold()
-
-    from gaia_cli.promotion import LEVEL_NAMES
-
-    level_name = LEVEL_NAMES.get(proposed_level, proposed_level)
 
     lines = [""]
     # Show fusion diagram if skill has prerequisites
@@ -799,23 +798,24 @@ def render_promotion_prompt(
 
     # Build each content row as a (plain, colored) pair. The plain twin drives
     # the box width so the fixed-dash borders can no longer clip the longest
-    # line (issue #118: the Rename? hint overran the old hardcoded 55-dash box).
-    rename_name = display.lstrip("/")
+    # line (issue #118). No level is quoted — rank is a canon-curation concept.
     rows = [
         (
-            f"  {display} can rank up to Level {proposed_level} ({level_name})",
-            f"  {display_colored} can rank up to {b}Level {proposed_level}{r} ({level_name})",
-        ),
-        (
-            f"  Run: gaia promote {skill_id}",
-            f"  Run: {b}gaia promote {skill_id}{r}",
-        ),
-        (
-            f'  Rename? gaia promote {skill_id} --name "{rename_name}"',
-            f'  Rename? {b}gaia promote {skill_id} --name "{rename_name}"{r}',
+            f"  {display} — prerequisites complete",
+            f"  {display_colored} — prerequisites complete",
         ),
     ]
-    title_seg = "─ Promotion Available "
+    # The awaken hint only shows when the generic parent has no named
+    # implementation yet: the user can be first to propose one to canon.
+    if not parent_has_named:
+        rows.append(
+            (
+                f"  Awaken it: gaia fuse {skill_id} → gaia push",
+                f"  Awaken it: {b}gaia fuse {skill_id}{r} → {b}gaia push{r}",
+            )
+        )
+
+    title_seg = "─ Fusion Ready "
     # Inner width spans the space between the ┌ ┐ corners. Size to the widest
     # content row (plus a trailing pad) but never narrower than the title.
     inner = max(*(len(plain) for plain, _ in rows), len(title_seg)) + 1
@@ -834,12 +834,18 @@ def render_promotion_prompt(
 def render_fusion_diagram(
     prereqs: list[str],
     result: str,
-    result_type: str = "extra",
+    result_type: str = "fusion",
     canon: bool = False,
     ctx: Optional["LocalContext"] = None,
 ) -> str:
     """Render a Unicode fusion flow diagram showing skill combination."""
-    tier_color = TIER_COLORS.get(result_type, TIER_COLORS["extra"])
+    # Defensive default: the retired 'extra' palette key no longer exists after
+    # the Yggdrasil II type collapse, so fall back to fusion then a slate grey.
+    tier_color = (
+        TIER_COLORS.get(result_type)
+        or TIER_COLORS.get("fusion")
+        or (192, 132, 252)
+    )
     glyph = TIER_GLYPHS.get(result_type, "◇")
 
     mc = fg(*COLOR_MUTED)

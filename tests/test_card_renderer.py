@@ -12,7 +12,7 @@ from gaia_cli.cardRenderer import (
     render_card,
     render_card_compact,
     render_cards,
-    render_promotion_prompt,
+    render_fusion_awaken_card,
     render_fusion_diagram,
     load_and_render,
     _pad,
@@ -50,7 +50,7 @@ def extra_skill():
     return {
         "id": "rag-pipeline",
         "name": "RAG Pipeline",
-        "type": "extra",
+        "type": "fusion",
         "level": "2★",
         "demerits": ["experimental-feature"],
         "description": "Retrieval-augmented generation pipeline combining retrieval, ranking, and synthesis.",
@@ -70,7 +70,7 @@ def ultimate_skill():
     return {
         "id": "autonomous-research-agent",
         "name": "Autonomous Research Agent",
-        "type": "ultimate",
+        "type": "fusion",
         "level": "3★",
         "description": "Fully autonomous agent that formulates hypotheses, designs experiments, collects evidence, and synthesizes findings.",
         "prerequisites": ["rag-pipeline", "code-generation", "tool-use", "planning"],
@@ -210,15 +210,15 @@ class TestRenderCard:
 
     def test_extra_skill_shows_diamond(self, extra_skill):
         card = render_card(extra_skill)
-        assert TIER_GLYPHS["extra"] in card
+        assert TIER_GLYPHS["fusion"] in card
 
     def test_ultimate_skill_shows_filled_diamond(self, ultimate_skill):
         card = render_card(ultimate_skill)
-        assert TIER_GLYPHS["ultimate"] in card
+        assert TIER_GLYPHS["fusion"] in card
 
     def test_ultimate_skill_shows_tier_label(self, ultimate_skill):
         card = render_card(ultimate_skill)
-        assert "Ultimate Skill" in card
+        assert "Fusion" in card
 
     def test_long_description_truncated(self):
         skill = {
@@ -275,7 +275,7 @@ class TestRenderCard:
     def test_compact_card_omits_effective_arrow(self, extra_skill):
         compact = render_card_compact(extra_skill)
         assert "2★→1★" not in compact
-        assert TIER_GLYPHS["extra"] in compact
+        assert TIER_GLYPHS["fusion"] in compact
         assert "/rag-pipeline" in compact
         assert " — " in compact
         assert "Retrieval-augmented generation" in compact
@@ -361,47 +361,64 @@ class TestRenderCards:
         assert result == ""
 
 
-class TestRenderPromotionPrompt:
+class TestRenderFusionAwakenCard:
     def test_shows_skill_id_with_slash(self):
-        prompt = render_promotion_prompt(
-            {"id": "plan-and-execute", "name": "Different Registry Name", "type": "extra", "prerequisites": ["a", "b"]},
-            "4★",
+        card = render_fusion_awaken_card(
+            {"id": "plan-and-execute", "name": "Different Registry Name", "type": "fusion", "prerequisites": ["a", "b"]},
         )
-        assert "/plan-and-execute" in prompt
-        assert "gaia promote plan-and-execute" in prompt
+        assert "/plan-and-execute" in card
 
-    def test_shows_level_and_rank_name(self):
-        prompt = render_promotion_prompt({"id": "research-agent", "type": "extra", "prerequisites": ["x"]}, "3★")
-        assert "3★" in prompt
-        assert "gaia promote research-agent" in prompt
+    def test_quotes_no_level_or_medallion(self):
+        """Ygg II: the card quotes NO star level and no Extra/Unique decoration."""
+        card = render_fusion_awaken_card(
+            {"id": "research-agent", "type": "fusion", "prerequisites": ["x"]},
+        )
+        assert "Level" not in card
+        assert "★" not in card
+        assert "Extra" not in card and "Unique" not in card
+        assert "gaia promote" not in card
+
+    def test_awaken_hint_shows_when_parent_empty(self):
+        card = render_fusion_awaken_card(
+            {"id": "research", "type": "fusion", "prerequisites": ["web-search"]},
+            parent_has_named=False,
+        )
+        assert "gaia fuse research" in card
+        assert "gaia push" in card
+
+    def test_awaken_hint_hidden_when_parent_has_named(self):
+        card = render_fusion_awaken_card(
+            {"id": "research", "type": "fusion", "prerequisites": ["web-search"]},
+            parent_has_named=True,
+        )
+        assert "gaia fuse" not in card
+        assert "gaia push" not in card
 
     def test_shows_fusion_diagram_when_prereqs_exist(self):
-        prompt = render_promotion_prompt(
-            {"id": "research", "type": "extra", "prerequisites": ["web-search", "summarize"]},
-            "3★",
+        card = render_fusion_awaken_card(
+            {"id": "research", "type": "fusion", "prerequisites": ["web-search", "summarize"]},
         )
-        assert "──▶" in prompt
+        assert "──▶" in card
 
     def test_box_closes_and_no_cutoff(self):
-        """Regression for #118: the promotion box must size to its content so the
-        Rename? hint is never clipped, and every content row must close with the
-        right border aligned to the top/bottom rules."""
+        """Regression for #118: the box must size to its content so the widest
+        row is never clipped, and every content row must close with the right
+        border aligned to the top/bottom rules."""
         import re
 
-        # A long skill id makes the Rename? line the widest row — the old fixed
-        # 55-dash border cut it off.
-        prompt = render_promotion_prompt(
-            {"id": "autonomous-research-and-synthesis-agent", "type": "extra", "prerequisites": []},
-            "4★",
+        # A long skill id makes the awaken line the widest row.
+        card = render_fusion_awaken_card(
+            {"id": "autonomous-research-and-synthesis-agent", "type": "fusion", "prerequisites": []},
+            parent_has_named=False,
         )
         ansi = re.compile(r"\x1b\[[0-9;]*m")
         box_lines = [
             ansi.sub("", ln)
-            for ln in prompt.split("\n")
+            for ln in card.split("\n")
             if "│" in ln or "┌" in ln or "└" in ln
         ]
-        # The full rename command must appear intact (not truncated with an ellipsis).
-        assert 'gaia promote autonomous-research-and-synthesis-agent --name' in prompt
+        # The full awaken command must appear intact (not truncated).
+        assert "gaia fuse autonomous-research-and-synthesis-agent" in card
         assert "…" not in "".join(box_lines)
         # Top, content, and bottom rows all share one right-edge column.
         edge_cols = {ln.rstrip().index("┐") if "┐" in ln
@@ -497,7 +514,7 @@ class TestRenderFusionDiagram:
         assert "────▶" in output
         assert "/web-search" in output
         assert "/research" in output
-        assert "◇" in output  # default extra glyph
+        assert "◆" in output  # default fusion glyph
 
     def test_two_prereqs_bracket_and_connector(self):
         """Two prereqs render top bracket, connector row, bottom bracket."""
@@ -508,7 +525,7 @@ class TestRenderFusionDiagram:
         assert "├──▶" in lines[1]
         assert "─┘" in lines[2]
         assert "/pair-program" in output
-        assert "◇" in output
+        assert "◆" in output
 
     def test_three_prereqs_midpoint_arrow(self):
         """Three prereqs: first ─┐, middle ─┼──▶, last ─┘."""
@@ -521,14 +538,14 @@ class TestRenderFusionDiagram:
         assert "─┼──▶" in lines[1]
         assert "─┘" in lines[2]
         assert "/research" in output
-        assert "◇" in output
+        assert "◆" in output
 
     def test_four_prereqs_structure(self):
         """Four prereqs: first ─┐, middle ─┤ and ─┼──▶, last ─┘."""
         output = render_fusion_diagram(
             ["web-search", "summarize", "cite-sources", "knowledge"],
             "autonomous-research",
-            result_type="ultimate",
+            result_type="fusion",
         )
         lines = output.split("\n")
         assert len(lines) == 4
@@ -537,7 +554,7 @@ class TestRenderFusionDiagram:
         # Arrow is on the midpoint row (index 2 for 4 items)
         assert "──▶" in output
         assert "/autonomous-research" in output
-        assert "◆" in output  # ultimate glyph
+        assert "◆" in output  # fusion glyph
 
     def test_basic_tier_glyph(self):
         """Basic tier uses the circle glyph."""

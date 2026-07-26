@@ -15,8 +15,8 @@ Produces explicit intermediate reasoning steps before arriving at a final answer
 
 ## Derivatives
 
-- [Multi-Agent Debate](/skills/extra/multi-agent-debate.md)
-- [ReAct Reasoning](/skills/extra/re-act-reasoning.md)
-- [Autonomous Scientific Discovery](/skills/extra/scientific-discovery.md)
-- [Tree of Thought](/skills/extra/tree-of-thought.md)
+- [Multi-Agent Debate](/skills/fusion/multi-agent-debate.md)
+- [ReAct Reasoning](/skills/fusion/re-act-reasoning.md)
+- [Autonomous Scientific Discovery](/skills/fusion/scientific-discovery.md)
+- [Tree of Thought](/skills/fusion/tree-of-thought.md)
 

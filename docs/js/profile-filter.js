@@ -4,7 +4,7 @@
   // Active filter state
   const state = {
     search: '',
-    types: new Set(),
+    branches: new Set(),
     ranks: new Set(),
     preset: 'all', // '30d', '6m', 'all'
     minDate: '',
@@ -41,11 +41,11 @@
 
           if (isPressed) {
             chip.setAttribute('aria-pressed', 'false');
-            if (filterType === 'type') state.types.delete(val);
+            if (filterType === 'branch') state.branches.delete(val);
             if (filterType === 'rank') state.ranks.delete(val);
           } else {
             chip.setAttribute('aria-pressed', 'true');
-            if (filterType === 'type') state.types.add(val);
+            if (filterType === 'branch') state.branches.add(val);
             if (filterType === 'rank') state.ranks.add(val);
           }
           applyFilters();
@@ -124,7 +124,7 @@
     if (resetBtn) {
       resetBtn.addEventListener('click', () => {
         state.search = '';
-        state.types.clear();
+        state.branches.clear();
         state.ranks.clear();
         state.preset = 'all';
         state.minDate = '';
@@ -194,25 +194,25 @@
     articles.forEach(article => {
       const skillId = article.getAttribute('data-skill-id') || '';
       const skillName = (article.getAttribute('data-skill-name') || '').toLowerCase();
-      const type = article.getAttribute('data-type') || 'basic';
+      const branch = article.getAttribute('data-branch') || 'standard';
       const level = parseInt(article.getAttribute('data-level') || '0', 10);
       const desc = (article.querySelector('.plaque__desc') ? article.querySelector('.plaque__desc').textContent : '').toLowerCase();
       const tags = (article.getAttribute('data-tags') || '').toLowerCase();
 
       // Text query match (ID, name, description, tags)
-      const textMatch = !state.search || 
-        skillId.toLowerCase().includes(state.search) || 
-        skillName.includes(state.search) || 
-        desc.includes(state.search) || 
+      const textMatch = !state.search ||
+        skillId.toLowerCase().includes(state.search) ||
+        skillName.includes(state.search) ||
+        desc.includes(state.search) ||
         tags.includes(state.search);
 
-      // Type match
-      const typeMatch = state.types.size === 0 || state.types.has(type);
+      // Branch match (Yggdrasil II read-time fork: standard | suite | unique)
+      const branchMatch = state.branches.size === 0 || state.branches.has(branch);
 
       // Rank match
       const rankMatch = state.ranks.size === 0 || state.ranks.has(String(level));
 
-      if (textMatch && typeMatch && rankMatch) {
+      if (textMatch && branchMatch && rankMatch) {
         article.removeAttribute('hidden');
         matchingSkillIds.add(skillId);
       } else {
@@ -262,11 +262,14 @@
         const nameA = (a.getAttribute('data-skill-name') || a.getAttribute('data-skill-id') || '').toLowerCase();
         const nameB = (b.getAttribute('data-skill-name') || b.getAttribute('data-skill-id') || '').toLowerCase();
         return nameA.localeCompare(nameB);
-      } else if (state.sort === 'type') {
-        const typeOrder = { ultimate: 0, unique: 1, extra: 2, basic: 3 };
-        const typeA = typeOrder[a.getAttribute('data-type')] || 999;
-        const typeB = typeOrder[b.getAttribute('data-type')] || 999;
-        if (typeA !== typeB) return typeA - typeB;
+      } else if (state.sort === 'branch') {
+        // Yggdrasil II fork order: flashier branches first (unique, then suite,
+        // then the shared standard ladder) — keyed on the DERIVED data-branch,
+        // never the retired type enum.
+        const branchOrder = { unique: 0, suite: 1, standard: 2 };
+        const branchA = branchOrder[a.getAttribute('data-branch')] ?? 999;
+        const branchB = branchOrder[b.getAttribute('data-branch')] ?? 999;
+        if (branchA !== branchB) return branchA - branchB;
 
         const levelA = parseInt(a.getAttribute('data-level') || '0', 10);
         const levelB = parseInt(b.getAttribute('data-level') || '0', 10);

@@ -79,15 +79,6 @@ def _build_catalogue() -> list[tuple[str, list[MenuItem]]]:
         ],
     )
 
-    promote_item = MenuItem(
-        label="promote", rank="5★", desc="Rank up a detected skill",
-        argv=["promote"],
-        flags=[
-            ("--all", "Promote all candidates"),
-            ("--unique", "Unique skills only"),
-        ],
-    )
-
     graph_item = MenuItem(
         label="graph", rank="1★", desc="Open skills graph",
         argv=["graph"],
@@ -138,7 +129,6 @@ def _build_catalogue() -> list[tuple[str, list[MenuItem]]]:
 
     daily = [
         tree_item,
-        promote_item,
         MenuItem(label="fuse",    rank="5★", desc="Create a skill fusion",  argv=["fuse"]),
         MenuItem(label="pull",    rank="3★", desc="Fetch latest registry",  argv=["pull"]),
         MenuItem(label="appraise",rank="4★", desc="Appraise a skill",       argv=["appraise"]),

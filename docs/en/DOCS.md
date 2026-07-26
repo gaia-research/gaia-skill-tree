@@ -57,9 +57,9 @@ Text colors: Main content headings, introductions (`.page-lead`), section descri
 
 Color vocabulary:
 - Basic tier: `--tier-basic` `#38bdf8`
-- Extra tier: `--tier-extra` `#c084fc`
 - Unique tier: `--tier-unique` `#7c3aed`
-- Ultimate tier: `--tier-ultimate` `#f59e0b`
+- 4★ rank: `--rank-4` `#e879f9`
+- 5★ rank: `--rank-5` `#fbbf24`
 
 Rank colors (0★ → 6★): slate → sky-blue → teal → violet → fuchsia → amber → amber-bright.
 

@@ -1,14 +1,14 @@
-// <field-view-url-params>
-//   ?field=1   — preferred. Opens the page directly into fullscreen
-//                graph mode (interactive canvas, labels, full controls).
-//   ?hud=1     — legacy alias. Same behaviour as ?field=1.
-// </field-view-url-params>
+// <world-tree-url-params>
+//   ?field=1   — canonical. Opens the interactive 3D World Tree explorer.
+//   ?hud=1     — compatibility alias for ?field=1.
+//   NOTE: ?tree=1 is NOT handled here — it is owned by skill-explorer.js's
+//   tree.md text dialog (see #828). Claiming it here previously regressed
+//   the mobile "Skill Tree" nav link into opening the 3D explorer instead
+//   of the text tree (ff9efe302 stomped on 08fd13bf5 — do not re-add 'tree').
+// </world-tree-url-params>
 //
-// The Field view button has two interaction modes:
-//   HOVER → field view (hero-hud-mode): remove glass blur so the
-//           ambient canvas shows through, dimming hero text.
-//   CLICK → fullscreen graph: enter interactive fullscreen mode via
-//           the Graph (3D) trigger (same as the nav button).
+// This file is intentionally a thin compatibility adapter. The renderer and
+// lifecycle live in skill-graph.js behind window.gaiaWorldTree.
 (function () {
   'use strict';
 
@@ -23,39 +23,66 @@
     var btn = document.getElementById('hudToggleBtn');
     if (!hero || !btn) return;
 
-    var isMobile = window.matchMedia('(max-width:700px)').matches;
-
-    // ── HOVER: toggle field view (glass-off peek) — desktop only ──
-    if (!isMobile) {
-      btn.addEventListener('mouseenter', function () {
-        hero.classList.add('hero-hud-mode');
-      });
-      btn.addEventListener('mouseleave', function () {
-        hero.classList.remove('hero-hud-mode');
-      });
+    function openWorldTree() {
+      if (window.gaiaWorldTree && typeof window.gaiaWorldTree.open === 'function') {
+        window.gaiaWorldTree.open();
+        return;
+      }
+      // Defensive fallback for a stale cached skill-graph.js.
+      var trigger = document.querySelector('[data-graph-trigger]');
+      if (trigger && trigger !== btn) trigger.click();
     }
 
-    // ── CLICK: open fullscreen graph mode ──
     btn.addEventListener('click', function () {
-      hero.classList.remove('hero-hud-mode');
-      var trigger = document.querySelector('[data-graph-trigger]');
-      if (trigger) trigger.click();
+      openWorldTree();
     });
 
-    // ── URL param auto-open ──
+    // The supplied gold-tree plate and the live canvas are two layers of one
+    // tree. Give them a shared VERTICAL scroll parallax so the whole tree
+    // sticks together and drifts as the page scrolls — never a pointer/hover
+    // parallax (that decoupled the plate from the canvas and reacted to the
+    // mouse, which the design explicitly rejects). Both layers read the same
+    // --hero-tree-parallax-y var (see world-tree-hero.css), so they move as one.
+    // One rAF write per scroll frame; disabled under reduced-motion.
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!reduceMotion) {
+      // Depth factor: the tree travels a fraction of the scroll distance, so it
+      // lags the page and reads as behind-glass parallax. Negative sign lifts
+      // the tree as you scroll down (crown rises out of view last).
+      var PARALLAX_DEPTH = -0.08;
+      var PARALLAX_MAX = 64; // px clamp so the tree never drifts off its frame
+      var parallaxFrame = 0;
+      var paintParallax = function () {
+        parallaxFrame = 0;
+        if (hero.dataset.treeState !== 'hero2d') {
+          hero.style.setProperty('--hero-tree-parallax-y', '0px');
+          return;
+        }
+        var rect = hero.getBoundingClientRect();
+        // Progress of the hero through the viewport: 0 when its top is at the
+        // top of the screen, growing as it scrolls up and out.
+        var travel = -rect.top * PARALLAX_DEPTH;
+        if (travel > PARALLAX_MAX) travel = PARALLAX_MAX;
+        else if (travel < -PARALLAX_MAX) travel = -PARALLAX_MAX;
+        hero.dataset.treeParallax = 'active';
+        hero.style.setProperty('--hero-tree-parallax-y', travel.toFixed(2) + 'px');
+      };
+      var onScroll = function () {
+        if (!parallaxFrame) parallaxFrame = window.requestAnimationFrame(paintParallax);
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+      // Prime once so the shift is applied before the first scroll.
+      onScroll();
+    }
+
+    // Canonical and legacy URL parameters all enter the same tree explorer.
     try {
       var params = new URLSearchParams(window.location.search);
       if (paramOn(params, 'field') || paramOn(params, 'hud')) {
         setTimeout(function () {
-          var trigger = document.querySelector('[data-graph-trigger]');
-          if (trigger) trigger.click();
-        }, 800);
-      }
-      if (paramOn(params, 'tree')) {
-        setTimeout(function () {
-          var treeBtn = document.getElementById('treeNavBtn');
-          if (treeBtn) treeBtn.click();
-        }, 800);
+          openWorldTree();
+        }, 0);
       }
     } catch (_) { /* ignore */ }
   }

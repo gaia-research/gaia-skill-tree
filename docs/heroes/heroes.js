@@ -1,9 +1,21 @@
 /**
  * heroes.js — Hall of Heroes orchestrator
- * Fetches contributor data, classifies tiers, renders theatrical stages,
+ * Fetches contributor data, READS the emitted semantic branch via
+ * window.GaiaSemantics (skill-semantics.js), renders theatrical stages,
  * and drives IntersectionObserver for entrance animations.
  *
- * Vanilla JS IIFE, no dependencies beyond plaque.js (for renderOg).
+ * Yggdrasil II compliance:
+ *   E1 — branch READ from the emitted field via GaiaSemantics.branchOf, never
+ *        derived from skill.type === 'ultimate'|'unique'|'extra' (dead enum).
+ *   E2 — rank words forked by branch via rankWord/rankLabel; banned ladder
+ *        words ('Hardened' and the removed 6★ suite synonym) do not appear.
+ *   E3 — every hero card has a GitHub avatar framed by the gold wreath
+ *        (origin-wreath-gold.svg), identicon fallback, no standalone
+ *        GitHub button.
+ *   E4 — red origin mark removed; origin rendered as gold wreath frame.
+ *
+ * Vanilla JS IIFE, no dependencies beyond plaque.js + skill-semantics.js.
+ * skill-semantics.js MUST be loaded before this file (heroes.html does so).
  */
 (function () {
   'use strict';
@@ -12,13 +24,22 @@
   var API_URL = '../api/v1/contributors/index.json';
   var TRUST_LEDGER_URL = '../graph/ledger/data.json';
   var NAMED_INDEX_URL = '../graph/named/index.json';
+  var GRAPH_URL = '../graph/gaia.json';
   var DETAIL_URL_TEMPLATE = '../api/v1/contributors/{handle}.json';
   var INTERSECTION_THRESHOLD = 0.3;
   var SCROLL_TICKING = false;
   var ACTIVE_STAGE = null;
   var LEDGER_ITEMS = [];
+  // Windowed locator (desktop ≥820px): show only a neighborhood of rows around
+  // the active plate instead of all N. Chosen as prev 2 / current / next 3 — a
+  // 6-row window reads as "where am I + what's next" without overflowing the
+  // fixed rail at ~820–900px, while still previewing the immediate ascent path.
+  var LEDGER_WINDOW_BEFORE = 2;
+  var LEDGER_WINDOW_AFTER = 3;
+  var LEDGER_ACTIVE_INDEX = -1;
+  var GAIA_SKILL_MAP = {};
 
-  // Hero -> bespoke animation mapping
+  // Hero → bespoke animation mapping (keyed by named-skill id, not type)
   var ULTIMATE_ANIMS = {
     'garrytan/gstack': 'constellation',
     'ruvnet/ruflo': 'sovereign',
@@ -26,7 +47,7 @@
     'obra/superpowers': 'cascade'
   };
 
-  // Epithets for ultimate heroes (ceremonial one-liner)
+  // Epithets for top-tier heroes (ceremonial one-liner, keyed by handle)
   var ULTIMATE_EPITHETS = {
     'garrytan': 'Architect of the Constellation',
     'ruvnet': 'The Sovereign',
@@ -34,21 +55,12 @@
     'obra': 'Master of the Plugin Cascade'
   };
 
-  var TYPE_GLYPH = {
-    ultimate: '\u25C6',  // ◆
-    unique: '\u25C9',    // ◉
-    extra: '\u25C7',     // ◇
-    basic: '\u25CB'      // ○
-  };
-
-  var TIER_LABEL = {
-    ultimate: 'Ultimate',
-    apex: 'Apex',
-    transcendent: 'Transcendent',
-    unique: 'Unique',
-    extra: 'Extra',
-    basic: 'Basic',
-    named: 'Named'
+  // Rubric E1: glyphs keyed by DERIVED branch, never by skill.type.
+  // Mirrors plaque.js BRANCH_GLYPH and tokens.css tier symbols.
+  var BRANCH_GLYPH = {
+    unique:   '◉',  // ◉  — E3: DARKER plaque branch
+    suite:    '◆',  // ◆  — GOLD suite branch
+    standard: '○'  // ○  — standard branch
   };
 
   // ── Utilities ─────────────────────────────────────────────────
@@ -58,73 +70,74 @@
       .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
+  function jsStr(s) {
+    return String(s == null ? '' : s).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+  }
+
   function levelNum(lvl) {
     if (!lvl) return 0;
     var n = parseInt(String(lvl).replace(/[^\d]/g, ''));
     return isNaN(n) ? 0 : n;
   }
 
-  function classifyTier(contributor) {
+  // ── Rubric E1/E2 — READ the emitted branch, never guess ───────
+  // Branch classification reads the taxonomy authority's emitted field via the
+  // GaiaSemantics.branchOf seam (topSkill blob carries emitted .branch/.rank —
+  // §8 Hall behavior: thread the emitted fields into the input, never re-derive
+  // from type). NEVER compare topSkill.type against 'ultimate'|'unique'|'extra'.
+  function computeBranchForTopSkill(contributor) {
+    var skill = (contributor && contributor.topSkill) || {};
+    if (window.GaiaSemantics && typeof window.GaiaSemantics.branchOf === 'function') {
+      return window.GaiaSemantics.branchOf(skill);
+    }
+    // Degrade gracefully if skill-semantics.js somehow failed to load.
+    return (skill && typeof skill.branch === 'string' && skill.branch) || 'standard';
+  }
+
+  // Returns the rank label string for a contributor's top skill.
+  // E2: uses rankLabel — emits e.g. "Unique · 4★", "Ultimate · 5★", "Apex · 6★".
+  // BANNED ladder words — neither 'Hardened' nor the removed 6★ suite synonym
+  // appear in rankLabel output.
+  function topSkillRankLabel(contributor) {
+    var skill = (contributor && contributor.topSkill) || {};
+    var lvl = levelNum(skill.level);
+    var branch = computeBranchForTopSkill(contributor);
+    if (window.GaiaSemantics && typeof window.GaiaSemantics.rankLabel === 'function') {
+      return window.GaiaSemantics.rankLabel(lvl, branch);
+    }
+    return lvl + '★';
+  }
+
+  // Returns the CSS tier class suffix for the hero stage background/animation.
+  // Maps branch + rank → presentational CSS class (hero-stage--<suffix>).
+  // E1: derived purely from the emitted branch (branchOf seam) + numeric rank —
+  // no type reads.
+  function stageTierClass(contributor) {
+    var branch = computeBranchForTopSkill(contributor);
     var lvl = levelNum(contributor.topSkill.level);
     var skillId = contributor.topSkill.id || '';
-    var type = contributor.topSkill.type || 'basic';
-    // Ultimate: 5★+ AND is a known ultimate skill
-    if (lvl >= 5 && ULTIMATE_ANIMS[skillId]) return 'ultimate';
-    // Apex: 6★ (non-ultimate suite)
-    if (lvl >= 6) return 'apex';
-    // Transcendent: 5★ (non-ultimate suite)
-    if (lvl === 5) return 'transcendent';
-    // Unique is a skill type, not a star-level synonym.
-    if (type === 'unique') return 'unique';
-    if (type === 'extra') return 'extra';
-    if (type === 'basic') return 'basic';
-    // Named: everything else that passed the filter
-    return 'named';
+
+    if (branch === 'unique') return 'unique';
+
+    if (branch === 'suite') {
+      // Named ultmates with bespoke particle animations get the special class.
+      if (lvl >= 5 && ULTIMATE_ANIMS[skillId]) return 'ultimate';
+      if (lvl >= 6) return 'apex';
+      if (lvl >= 5) return 'apex';
+      return 'extra';
+    }
+
+    // Standard branch
+    return 'basic';
   }
 
   function getAnim(skillId) {
     return ULTIMATE_ANIMS[skillId] || 'constellation';
   }
 
-  function getTierMarkLabel(contributor) {
-    var lvl = levelNum(contributor.topSkill.level);
-    var type = contributor.topSkill.type || 'basic';
-
-    if (type === 'ultimate') {
-      if (lvl === 6) return 'Ultimate · Apex';
-      if (lvl === 5) return 'Ultimate · Transcendent';
-      return 'Ultimate · Hardened';
-    }
-
-    if (lvl === 6) {
-      if (type === 'unique') return 'Unique · Apex';
-      if (type === 'extra') return 'Extra · Apex';
-      return 'Apex';
-    }
-
-    if (lvl === 5) {
-      if (type === 'unique') return 'Unique · Transcendent';
-      if (type === 'extra') return 'Extra · Transcendent';
-      return 'Transcendent';
-    }
-
-    if (lvl === 4) {
-      if (type === 'unique') return 'Unique';
-      if (type === 'extra') return 'Hardened · Extra';
-      if (type === 'basic') return 'Hardened · Basic';
-      return 'Hardened';
-    }
-
-    return TIER_LABEL[classifyTier(contributor)] || 'Named';
-  }
-
   function stageIdFor(contributor) {
     var raw = contributor.handle + '-' + contributor.topSkill.id;
     return 'hero-' + String(raw).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-  }
-
-  function rankText(contributor) {
-    return contributor.topSkill && contributor.topSkill.level ? contributor.topSkill.level : 'Unranked';
   }
 
   function trustMagnitude(contributor) {
@@ -168,6 +181,86 @@
     return bySkill;
   }
 
+  // §8 Hall selection — the Hall shows EVERY qualifying named skill (rank >= 4),
+  // NOT one-per-contributor. The contributors-API topSkill blob is capped to a
+  // single max-Trust-Magnitude skill per contributor (so a contributor whose
+  // top skill is < 4★ vanishes, dropping their 4★+ uniques). Instead we read
+  // the named index directly — it carries the emitted branch/rank/rankWord/
+  // medallion per entry — and build one hero per rank>=4 named skill. This
+  // threads the emitted fields into the input (never re-derives from type).
+  function heroesFromNamedIndex(data) {
+    var out = [];
+    // Per-contributor total named-skill count (for the card's "N named skills"
+    // context stat — each hero card is now one skill, but still shows how many
+    // named skills its contributor holds).
+    var countByContributor = {};
+    function tally(entry) {
+      if (entry && entry.contributor) {
+        countByContributor[entry.contributor] = (countByContributor[entry.contributor] || 0) + 1;
+      }
+    }
+    function consider(entry) {
+      if (!entry || !entry.id) return;
+      var rank = (typeof entry.rank === 'number') ? entry.rank : levelNum(entry.level);
+      if (rank < 4) return;
+      // Synthesize a contributor-shaped object so the existing render path
+      // (which reads contributor.topSkill.*) works unchanged. topSkill IS the
+      // named entry, carrying its emitted taxonomy fields.
+      out.push({
+        handle: entry.contributor,
+        namedSkills: 0,
+        topSkill: {
+          id: entry.id,
+          name: entry.name,
+          level: entry.level,
+          type: entry.type,
+          branch: entry.branch,
+          rank: entry.rank,
+          rankWord: entry.rankWord,
+          medallion: entry.medallion,
+          origin: entry.origin,
+          links: entry.links,
+          genericSkillRef: entry.genericSkillRef,
+          suiteComponents: entry.suiteComponents,
+          trustMagnitude: entry.trustMagnitude
+        }
+      });
+    }
+    function walkList(list, fn) { if (Array.isArray(list)) list.forEach(fn); }
+    var buckets = data && data.buckets ? data.buckets : {};
+    Object.keys(buckets).forEach(function (key) { walkList(buckets[key], tally); walkList(buckets[key], consider); });
+    walkList(data && data.awaitingClassification, tally);
+    walkList(data && data.awaitingClassification, consider);
+    var byContributor = data && data.byContributor ? data.byContributor : {};
+    Object.keys(byContributor).forEach(function (key) { walkList(byContributor[key], consider); });
+    // De-dupe by skill id (an entry can appear in both a bucket and byContributor),
+    // then stamp each hero with its contributor's total named count.
+    var seen = {};
+    return out.filter(function (h) {
+      var id = h.topSkill.id;
+      if (seen[id]) return false;
+      seen[id] = true;
+      h.namedSkills = countByContributor[h.handle] || 1;
+      return true;
+    });
+  }
+
+  // §8 canonical order: rank descending, and within a rank Unique before its
+  // Suite counterpart (never co-mingled), Trust Magnitude as the final tiebreak.
+  function branchOrder(branch) {
+    return branch === 'unique' ? 0 : branch === 'suite' ? 1 : 2;
+  }
+  function compareHeroes(a, b) {
+    var ra = (typeof a.topSkill.rank === 'number') ? a.topSkill.rank : levelNum(a.topSkill.level);
+    var rb = (typeof b.topSkill.rank === 'number') ? b.topSkill.rank : levelNum(b.topSkill.level);
+    if (ra !== rb) return rb - ra;
+    var boa = branchOrder(a.topSkill.branch), bob = branchOrder(b.topSkill.branch);
+    if (boa !== bob) return boa - bob;
+    var ta = trustMagnitude(a), tb = trustMagnitude(b);
+    if (ta !== tb) return tb - ta;
+    return String(a.topSkill.id).localeCompare(String(b.topSkill.id));
+  }
+
   function withNamedSkillMeta(contributor, namedBySkill) {
     var skillId = contributor.topSkill && contributor.topSkill.id;
     var named = skillId ? namedBySkill[skillId] : null;
@@ -175,6 +268,16 @@
     contributor.topSkill.type = named.type || contributor.topSkill.type || 'basic';
     contributor.topSkill.name = named.name || contributor.topSkill.name;
     contributor.topSkill.origin = named.origin;
+    // Thread the EMITTED taxonomy fields from the named index onto the topSkill
+    // blob so GaiaSemantics.branchOf/rankWordOf/medallionOf READ them (§8: the
+    // fix is to thread emitted fields into the input, never re-derive). The
+    // contributors API topSkill blob omits them.
+    if (typeof named.branch === 'string' && named.branch) contributor.topSkill.branch = named.branch;
+    if (typeof named.rankWord === 'string' && named.rankWord) contributor.topSkill.rankWord = named.rankWord;
+    if (typeof named.medallion === 'string' && named.medallion) contributor.topSkill.medallion = named.medallion;
+    if (named.genericSkillRef) contributor.topSkill.genericSkillRef = named.genericSkillRef;
+    if (named.suiteComponents) contributor.topSkill.suiteComponents = named.suiteComponents;
+    if (named.links) contributor.topSkill.links = named.links;
     return contributor;
   }
 
@@ -198,9 +301,82 @@
     return 'https://github.com/' + encodeURIComponent(clean) + '.png?size=' + (size || 160);
   }
 
+  // ── Origin-gated gold-wreath avatar (E3/E4) ───────────────────
+  // Renders the contributor's GitHub avatar; origin-wreath-gold.svg appears
+  // only when the contributor's top skill is marked `origin: true`.
+  // Identicon fallback on onerror — never hides the frame.
+  // Reuses plaque._fields.avatar when available; falls back to inline pattern.
+  // The red origin mark (E4) is deprecated — gold wreath IS the origin signal.
+  function heroAvatarHtml(contributor, size) {
+    var handle = (contributor && contributor.handle) || '';
+    if (!handle) return '';
+    var clean = String(handle).replace(/^@/, '');
+    size = size || 120;
+
+    // Prefer plaque._fields.avatar so the wreath is always in sync with the
+    // shared component. Construct a minimal ns-like object.
+    if (window.plaque && window.plaque._fields && typeof window.plaque._fields.avatar === 'function') {
+      var ns = {
+        contributor: handle,
+        level: contributor.topSkill && contributor.topSkill.level,
+        origin: !!(contributor.topSkill && contributor.topSkill.origin),
+        links: contributor.topSkill && contributor.topSkill.links || {}
+      };
+      return window.plaque._fields.avatar(ns, { size: size });
+    }
+
+    // Inline fallback — mirrors _fieldAvatar exactly (no hex, no duplication).
+    var avatarSrc = 'https://github.com/' + encodeURIComponent(clean) + '.png?size=' + (size * 2);
+    var identicon = 'https://github.com/identicons/' + encodeURIComponent(clean) + '.png';
+    var wreathSrc = '../assets/origin-wreath-gold.svg';
+    var isOrigin = !!(contributor.topSkill && contributor.topSkill.origin);
+    var title = isOrigin ? 'Origin contributor @' + clean : '@' + clean;
+    var errAttr = "if(this.dataset.fbk){this.onerror=null;}else{this.dataset.fbk='1';this.src='" +
+      jsStr(identicon) + "';}";
+    var imgHtml = '<img class="hero-card__crest-avatar-img" src="' + esc(avatarSrc) + '" ' +
+      'alt="" decoding="async" loading="lazy" referrerpolicy="no-referrer" ' +
+      'onerror="' + errAttr + '">';
+    var wreathHtml = isOrigin
+      ? '<img class="hero-card__crest-avatar-wreath" src="' + esc(wreathSrc) + '" alt="" aria-hidden="true">'
+      : '';
+    return '<span class="hero-card__crest-avatar" title="' + esc(title) + '" '
+      'aria-label="' + esc(title) + '"' +
+      (isOrigin ? ' data-origin="true"' : '') + '>' +
+      imgHtml + wreathHtml +
+      '</span>';
+  }
+
+  // ── AOV4 rank medallion stamp (E3) ────────────────────────────
+  // The crest rank marker IS the Ascension-Overdrive v4 stamp — the same
+  // medallion the plaques carry. Routed through the shared plaque._fields.orb
+  // so branch (suite/unique) + rank pick the asset identically everywhere;
+  // never a bespoke per-surface stamp. Falls back to '' if plaque.js is
+  // somehow absent (the legacy ◆ glyph then remains the sole rank marker).
+  function heroRankStampHtml(contributor) {
+    if (!(window.plaque && window.plaque._fields &&
+          typeof window.plaque._fields.orb === 'function')) {
+      return '';
+    }
+    var skill = (contributor && contributor.topSkill) || {};
+    var ns = {
+      contributor: contributor && contributor.handle,
+      level: skill.level,
+      type: skill.type,
+      branch: computeBranchForTopSkill(contributor),
+      suiteComponents: skill.suiteComponents,
+    };
+    // 'lg' size modifier → the AOV4 'hero' tier asset (largest stamp).
+    return window.plaque._fields.orb(ns, 'lg');
+  }
+
   function scrollToStage(stage) {
     if (!stage) return;
-    stage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // Honor prefers-reduced-motion: skip the smooth animation for users who
+    // asked for reduced motion. Gated once here so every caller (dialog entry,
+    // rail row, nav arrow) inherits the behavior.
+    var prefersReduced = window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    stage.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'center' });
   }
 
   function notifyStageVisible(stage) {
@@ -209,27 +385,62 @@
 
   // ── Render functions ──────────────────────────────────────────
 
+  function namedSlugText(id) {
+    if (!id) return '';
+    var s = String(id).indexOf('/') !== -1 ? String(id).split('/', 2)[1] : String(id);
+    return s.charAt(0) === '/' ? s : '/' + s;
+  }
+
+  function fusedCount(contributor) {
+    var topSkill = contributor && contributor.topSkill;
+    if (!topSkill) return 0;
+    var genericRef = topSkill.genericSkillRef || (topSkill.id ? topSkill.id.split('/').pop() : '');
+    var generic = GAIA_SKILL_MAP[genericRef];
+    if (!generic || generic.type !== 'fusion') return 0;
+
+    var visited = {};
+    function walk(id) {
+      if (!id || visited[id] || !GAIA_SKILL_MAP[id]) return;
+      visited[id] = true;
+      var node = GAIA_SKILL_MAP[id];
+      var prereqs = Array.isArray(node.prerequisites) ? node.prerequisites : [];
+      prereqs.forEach(function (p) {
+        walk(p);
+      });
+    }
+
+    var directPrereqs = Array.isArray(generic.prerequisites) ? generic.prerequisites : [];
+    directPrereqs.forEach(function (p) {
+      walk(p);
+    });
+
+    return Object.keys(visited).length;
+  }
+
   function renderHeroStage(contributor, tier, index, total) {
     var handle = contributor.handle;
     var skillId = contributor.topSkill.id;
-    var skillType = contributor.topSkill.type || 'basic';
-    var slug = skillId.split('/').pop();
+    var slug = namedSlugText(skillId);
     var lvl = levelNum(contributor.topSkill.level);
+    var branch = computeBranchForTopSkill(contributor);
     var anim = tier === 'ultimate' ? getAnim(skillId) : '';
     var epithet = ULTIMATE_EPITHETS[handle] || '';
     var stageId = stageIdFor(contributor);
     var titleId = stageId + '-title';
-    var avatarUrl = githubAvatarUrl(handle, 240);
+
+    // E1: glyph from BRANCH_GLYPH — never reads skill.type.
+    var glyph = BRANCH_GLYPH[branch] || BRANCH_GLYPH.standard;
+
+    // E2: tier mark uses rankLabel — branch-forked, no banned words.
+    var tierLabel = topSkillRankLabel(contributor);
 
     var stageClass = 'hero-stage hero-stage--' + tier;
     var animAttr = anim ? ' data-anim="' + anim + '"' : '';
-    var glyphType = contributor.topSkill.type || 'basic';
-    if (tier === 'ultimate') glyphType = 'ultimate';
-    var glyph = TYPE_GLYPH[glyphType] || TYPE_GLYPH.basic;
-    var tierLabel = getTierMarkLabel(contributor);
 
+    // E3: data-skill-type reflects stored type only; visual branch is data-branch
+    // (set by data-tier in CSS for the hero stage context).
     var html = '';
-    html += '<section id="' + esc(stageId) + '" class="' + stageClass + '" data-handle="' + esc(handle) + '" data-skill="' + esc(skillId) + '" data-skill-type="' + esc(skillType) + '" data-tier="' + esc(tier) + '" data-level="' + esc(lvl) + '" data-ledger-index="' + esc(index) + '" data-avatar-url="' + esc(avatarUrl) + '" aria-labelledby="' + esc(titleId) + '">';
+    html += '<section id="' + esc(stageId) + '" class="' + stageClass + '" data-handle="' + esc(handle) + '" data-skill="' + esc(skillId) + '" data-branch="' + esc(branch) + '" data-tier="' + esc(tier) + '" data-level="' + esc(lvl) + '" data-ledger-index="' + esc(index) + '" aria-labelledby="' + esc(titleId) + '">';
     html += '<div class="hero-stage__ordinal" aria-hidden="true">Plate ' + String(index + 1).padStart(2, '0') + ' / ' + String(total).padStart(2, '0') + '</div>';
     html += '<div class="hero-card">';
 
@@ -238,35 +449,42 @@
       html += '<canvas class="hero-card__canvas" data-hero="' + esc(handle) + '" aria-hidden="true"></canvas>';
     }
 
-    // The share plaque remains available from the action button. The page view
-    // uses a lighter crest so the name/handle block is the single source of truth.
+    // E3: crest wrapper — diamond back + gold-wreath avatar (replaces plain img + red mark).
     html += '<div class="hero-card__crest-wrapper">';
     html += '<div class="hero-card__crest-diamond-back"' + animAttr + ' aria-hidden="true"></div>';
     html += '<div class="hero-card__crest-square-front">';
-    html += '<img src="' + esc(avatarUrl) + '" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentNode.hidden=true">';
+    html += heroAvatarHtml(contributor, 200);
     html += '</div>';
+    // E3: rank marker IS the AOV4 medallion stamp (shared plaque orb path).
+    // The legacy ◆ crest-seal glyph is retained as the fallback shown only
+    // when the stamp is unavailable (plaque.js absent / webp 404 → the orb's
+    // own [data-stamp-fail] tint plus this glyph keep a rank marker visible).
+    var rankStamp = heroRankStampHtml(contributor);
     html += '<div class="hero-card__crest-seal" data-level="' + esc(lvl) + '">';
-    html += '<span class="hero-card__crest-seal-glyph">' + esc(glyph) + '</span>';
+    if (rankStamp) {
+      html += rankStamp;
+    }
+    html += '<span class="hero-card__crest-seal-glyph" aria-hidden="true">' + esc(glyph) + '</span>';
     html += '</div>';
     html += '</div>';
 
     // Meta
     html += '<div class="hero-card__meta">';
-    html += '<div class="hero-card__tier-mark" aria-label="' + esc(tierLabel) + ' tier"><span aria-hidden="true">' + esc(glyph) + '</span>' + esc(tierLabel) + '</div>';
-    html += '<h2 class="hero-card__name" id="' + esc(titleId) + '">' + esc(slug) + '</h2>';
-    html += '<div class="hero-card__handle">@' + esc(handle) + '</div>';
+    html += '<div class="hero-card__tier-mark" aria-label="' + esc(tierLabel) + '"><span aria-hidden="true">' + esc(glyph) + '</span>' + esc(tierLabel) + '</div>';
+    html += '<h2 class="hero-card__name" id="' + esc(titleId) + '"><a class="hero-card__name-link" href="../named/#explorer/' + esc(skillId) + '">' + esc(slug) + '</a></h2>';
+    html += '<div class="hero-card__handle"><a class="hero-card__handle-link" href="../u/' + esc(handle) + '/">@' + esc(handle) + '</a></div>';
     if (epithet) {
       html += '<p class="hero-card__epithet">' + esc(epithet) + '</p>';
     }
     html += '<div class="hero-card__stats">';
     html += '<span><span class="hero-card__stat-value">' + contributor.namedSkills + '</span> named skills</span>';
-    html += '<span><span class="hero-card__stat-value">' + contributor.topSkill.level + '</span> top rank</span>';
+    html += '<span><span class="hero-card__stat-value">' + fusedCount(contributor) + '</span> fused</span>';
     html += '<span><span class="hero-card__stat-value">' + formatTrustMagnitude(trustMagnitude(contributor)) + '</span> Trust Magnitude</span>';
     html += '</div>';
     html += '</div>';
 
     // Share button
-    html += '<button class="hero-card__share" data-share-handle="' + esc(handle) + '" data-share-skill="' + esc(skillId) + '" data-share-type="' + esc(skillType) + '">';
+    html += '<button class="hero-card__share" data-share-handle="' + esc(handle) + '" data-share-skill="' + esc(skillId) + '" data-share-branch="' + esc(branch) + '">';
     html += '<svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#link"></use></svg>';
     html += 'Share plaque';
     html += '</button>';
@@ -290,24 +508,40 @@
       var contributor = entry.contributor;
       var tier = entry.tier;
       var skillId = contributor.topSkill.id || '';
-      var slug = skillId.split('/').pop() || contributor.handle;
-      var glyphType = contributor.topSkill.type || 'basic';
-      if (tier === 'ultimate') glyphType = 'ultimate';
+      var slug = namedSlugText(skillId) || contributor.handle;
+      // E1: glyph keyed by branch, not type.
+      var branch = computeBranchForTopSkill(contributor);
+      var glyph = BRANCH_GLYPH[branch] || BRANCH_GLYPH.standard;
       var avatarUrl = githubAvatarUrl(contributor.handle, 80);
+      // Degrade to the GitHub identicon on avatar error (same fallback the stage
+      // crest uses) rather than hiding the cell — hiding collapsed the 26px grid
+      // gutter and shifted glyph+name left, misaligning the row vs neighbors.
+      // The identicon keeps SOMETHING in the cell so the gutter never empties;
+      // the data-fbk guard stops an infinite onerror loop if it also 404s.
+      var cleanHandle = String(contributor.handle || '').replace(/^@/, '');
+      var identicon = 'https://github.com/identicons/' + encodeURIComponent(cleanHandle) + '.png';
+      var avatarErr = "if(this.dataset.fbk){this.onerror=null;}else{this.dataset.fbk='1';this.src='" +
+        jsStr(identicon) + "';}";
       var lvl = levelNum(contributor.topSkill.level);
+      // The rail row shows only the (truncatable) slug, so carry the full
+      // identifier on the button title for hover recovery: full skill name plus
+      // @handle when available.
+      var fullName = contributor.topSkill.name || slug;
+      var handle = contributor.handle;
+      var title = fullName + (handle ? ' — @' + handle : '');
       return '<li class="heroes-ledger-rail__item">' +
-        '<button class="heroes-ledger-rail__button" type="button" data-ledger-target="' + esc(stageIdFor(contributor)) + '" data-ledger-index="' + esc(index) + '" data-level="' + lvl + '">' +
-        '<span class="heroes-ledger-rail__avatar" aria-hidden="true"><img src="' + esc(avatarUrl) + '" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="this.parentElement.hidden=true"></span>' +
-        '<span class="heroes-ledger-rail__glyph" aria-hidden="true">' + esc(TYPE_GLYPH[glyphType] || TYPE_GLYPH.basic) + '</span>' +
-        '<span class="heroes-ledger-rail__entry">' +
+        '<button class="heroes-ledger-rail__button" type="button" title="' + esc(title) + '" data-ledger-target="' + esc(stageIdFor(contributor)) + '" data-ledger-index="' + esc(index) + '" data-branch="' + esc(branch) + '" data-level="' + lvl + '">' +
+        '<span class="heroes-ledger-rail__avatar" aria-hidden="true"><img src="' + esc(avatarUrl) + '" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer" onerror="' + esc(avatarErr) + '"></span>' +
+        '<span class="heroes-ledger-rail__glyph" aria-hidden="true">' + esc(glyph) + '</span>' +
         '<span class="heroes-ledger-rail__name">' + esc(slug) + '</span>' +
-        '<span class="heroes-ledger-rail__byline">@' + esc(contributor.handle) + ' · ' + esc(rankText(contributor)) + '</span>' +
-        '</span>' +
         '</button>' +
         '</li>';
     }).join('');
 
     LEDGER_ITEMS = heroes;
+    LEDGER_ACTIVE_INDEX = -1;
+    applyLedgerWindow(-1);
+    ensureAllPlatesPanel();
     setLedgerAwaiting();
     rail.hidden = false;
   }
@@ -329,7 +563,7 @@
 
   function renderEmptyState() {
     return '<div class="heroes-empty">' +
-      '<p>No heroes have ascended to 4\u2605 yet.<br>The hall awaits its first legends.</p>' +
+      '<p>No heroes have ascended to 4★ yet.<br>The hall awaits its first legends.</p>' +
       '</div>';
   }
 
@@ -398,6 +632,7 @@
     if (!rail) return;
 
     rail.removeAttribute('data-active-level');
+    rail.removeAttribute('data-active-branch');
     rail.classList.add('is-awaiting');
     rail.querySelectorAll('[data-ledger-target]').forEach(function (button) {
       button.classList.remove('is-active');
@@ -444,6 +679,31 @@
     requestAnimationFrame(updateActiveStage);
   }
 
+  // Reveal only the window of rows around the active index (desktop rail). Cheap
+  // on scroll: toggles a class per <li> rather than rebuilding innerHTML. The
+  // full list stays in the DOM (the "all plates" panel and prev/next walk it);
+  // CSS hides non-windowed rows at ≥820px only, so the mobile carousel is
+  // unaffected (it keeps showing every chip and scrolls horizontally).
+  function applyLedgerWindow(activeIndex) {
+    var list = document.getElementById('heroesLedgerList');
+    if (!list) return;
+    var items = list.children;
+    var total = items.length;
+    if (!total) return;
+
+    var lo = activeIndex - LEDGER_WINDOW_BEFORE;
+    var hi = activeIndex + LEDGER_WINDOW_AFTER;
+    // Slide the window so it stays full-width at the ends (clamp, then shift).
+    if (lo < 0) { hi += -lo; lo = 0; }
+    if (hi > total - 1) { lo -= (hi - (total - 1)); hi = total - 1; }
+    if (lo < 0) lo = 0;
+
+    for (var i = 0; i < total; i++) {
+      var inWindow = (activeIndex < 0) ? (i <= LEDGER_WINDOW_BEFORE + LEDGER_WINDOW_AFTER) : (i >= lo && i <= hi);
+      items[i].classList.toggle('is-in-window', inWindow);
+    }
+  }
+
   function updateLedgerForStage(stage) {
     var rail = document.getElementById('heroesLedgerRail');
     if (!rail) return;
@@ -456,8 +716,17 @@
     var buttons = rail.querySelectorAll('[data-ledger-target]');
     var total = LEDGER_ITEMS.length || buttons.length || 1;
 
+    LEDGER_ACTIVE_INDEX = index;
+    applyLedgerWindow(index);
+
     var lvl = stage.getAttribute('data-level') || '4';
     rail.setAttribute('data-active-level', lvl);
+    var activeBranch = stage.getAttribute('data-branch') || '';
+    if (activeBranch) {
+      rail.setAttribute('data-active-branch', activeBranch);
+    } else {
+      rail.removeAttribute('data-active-branch');
+    }
 
     buttons.forEach(function (button) {
       var isActive = button.getAttribute('data-ledger-target') === stage.id;
@@ -470,13 +739,19 @@
     });
 
     if (entry && current) {
-      var slug = (entry.contributor.topSkill.id || '').split('/').pop() || entry.contributor.handle;
+      var slug = namedSlugText(entry.contributor.topSkill.id) || entry.contributor.handle;
       current.textContent = slug;
     }
 
     if (entry && meta) {
-      var displayLabel = getTierMarkLabel(entry.contributor);
-      meta.textContent = displayLabel + ' · ' + rankText(entry.contributor) + ' · Plate ' + (index + 1) + ' of ' + total;
+      // E2: rankLabel via GaiaSemantics — no banned words in ledger meta.
+      // Plate ordinal matches the stage ordinal EXACTLY (zero-padded "Plate NN
+      // / NN") so the two "Plate N" strings on screen never disagree — both
+      // derive from index+1 off the same active index.
+      var displayLabel = topSkillRankLabel(entry.contributor);
+      var plateOrdinal = 'Plate ' + String(index + 1).padStart(2, '0') +
+        ' / ' + String(total).padStart(2, '0');
+      meta.textContent = displayLabel + ' · ' + plateOrdinal;
     }
 
     if (progress) {
@@ -484,6 +759,122 @@
     }
 
     rail.style.setProperty('--heroes-ledger-progress', ((index + 1) / total).toFixed(4));
+  }
+
+  // ── "All plates" full index (opened on demand from the rail) ──
+  // The windowed rail only shows a neighborhood; this native <dialog> is how
+  // EVERY hero stays reachable. It reads LEDGER_ITEMS (the full list), reuses
+  // the data-ledger-target scroll-to path, and gets Esc dismiss + focus trap
+  // for free from <dialog>.showModal(). Trigger + dialog are injected here so
+  // the static index.html markup is untouched.
+  var ALL_PLATES_TRIGGER = null;
+  var ALL_PLATES_DIALOG = null;
+
+  function ensureAllPlatesPanel() {
+    var rail = document.getElementById('heroesLedgerRail');
+    if (!rail) return;
+
+    if (!ALL_PLATES_TRIGGER) {
+      var trigger = document.createElement('button');
+      trigger.type = 'button';
+      trigger.className = 'heroes-ledger-rail__all';
+      trigger.id = 'heroesLedgerAll';
+      trigger.setAttribute('aria-haspopup', 'dialog');
+      trigger.setAttribute('aria-controls', 'heroesLedgerAllPanel');
+      trigger.innerHTML =
+        '<span class="heroes-ledger-rail__all-caret" aria-hidden="true">▾</span>' +
+        '<span class="heroes-ledger-rail__all-label"></span>';
+      // Insert after the list, before the controls, so it reads as "expand the
+      // ledger" beneath the windowed rows.
+      var controls = rail.querySelector('.heroes-ledger-rail__controls');
+      if (controls) {
+        rail.insertBefore(trigger, controls);
+      } else {
+        rail.appendChild(trigger);
+      }
+      trigger.addEventListener('click', openAllPlates);
+      ALL_PLATES_TRIGGER = trigger;
+    }
+
+    // Surface the real count so the button reads as the primary "see everything"
+    // affordance ("all N plates"). Derived from LEDGER_ITEMS.length, not a
+    // hardcoded 24, and refreshed on every render so it tracks the live list.
+    var allLabel = ALL_PLATES_TRIGGER.querySelector('.heroes-ledger-rail__all-label');
+    if (allLabel) allLabel.textContent = 'all ' + LEDGER_ITEMS.length + ' plates';
+
+    if (!ALL_PLATES_DIALOG && typeof document.createElement('dialog').showModal === 'function') {
+      var dialog = document.createElement('dialog');
+      dialog.className = 'heroes-ledger-all';
+      dialog.id = 'heroesLedgerAllPanel';
+      dialog.setAttribute('aria-label', 'All plates in the Hall of Heroes');
+      dialog.innerHTML =
+        '<div class="heroes-ledger-all__head">' +
+        '<h2 class="heroes-ledger-all__title">All Plates</h2>' +
+        '<button class="heroes-ledger-all__close" type="button" aria-label="Close all-plates index">' +
+        '<svg class="ico" width="16" height="16" aria-hidden="true"><use href="../assets/icons.svg#close-x"></use></svg>' +
+        '</button>' +
+        '</div>' +
+        '<ol class="heroes-ledger-all__list" id="heroesLedgerAllList"></ol>';
+      document.body.appendChild(dialog);
+
+      // Close on the X, on backdrop click, and (native) on Esc.
+      dialog.querySelector('.heroes-ledger-all__close').addEventListener('click', closeAllPlates);
+      dialog.addEventListener('click', function (e) {
+        if (e.target === dialog) closeAllPlates();
+      });
+      // Clicking an entry scrolls to that plate, then dismisses.
+      dialog.addEventListener('click', function (e) {
+        var btn = e.target.closest('[data-ledger-target]');
+        if (!btn) return;
+        closeAllPlates();
+        scrollToStage(document.getElementById(btn.getAttribute('data-ledger-target')));
+      });
+      ALL_PLATES_DIALOG = dialog;
+    }
+  }
+
+  function renderAllPlatesList() {
+    var listEl = document.getElementById('heroesLedgerAllList');
+    if (!listEl) return;
+    listEl.innerHTML = LEDGER_ITEMS.map(function (entry, index) {
+      var contributor = entry.contributor;
+      var skillId = contributor.topSkill.id || '';
+      var slug = namedSlugText(skillId) || contributor.handle;
+      var branch = computeBranchForTopSkill(contributor);
+      var glyph = BRANCH_GLYPH[branch] || BRANCH_GLYPH.standard;
+      var lvl = levelNum(contributor.topSkill.level);
+      // The full index CAN carry @handle + rank — it is the reference view, not
+      // the scannable rail. rankLabel is branch-forked (E2), no banned words.
+      var rankLabel = topSkillRankLabel(contributor);
+      return '<li class="heroes-ledger-all__item">' +
+        '<button class="heroes-ledger-all__entry" type="button" data-ledger-target="' + esc(stageIdFor(contributor)) + '" data-ledger-index="' + esc(index) + '" data-branch="' + esc(branch) + '" data-level="' + lvl + '">' +
+        '<span class="heroes-ledger-all__glyph" aria-hidden="true">' + esc(glyph) + '</span>' +
+        '<span class="heroes-ledger-all__body">' +
+        '<span class="heroes-ledger-all__name">' + esc(slug) + '</span>' +
+        '<span class="heroes-ledger-all__by">@' + esc(contributor.handle) + ' &middot; ' + esc(rankLabel) + '</span>' +
+        '</span>' +
+        '</button>' +
+        '</li>';
+    }).join('');
+  }
+
+  function openAllPlates() {
+    if (!ALL_PLATES_DIALOG) return;
+    renderAllPlatesList();
+    ALL_PLATES_DIALOG.showModal();
+    // Land focus on the active entry so keyboard users start in context. When
+    // LEDGER_ACTIVE_INDEX is -1 (awaiting state, before any scroll) that lookup
+    // matches nothing — fall back to the first entry, then the close button, so
+    // focus always lands somewhere inside the dialog.
+    var active = ALL_PLATES_DIALOG.querySelector('[data-ledger-index="' + LEDGER_ACTIVE_INDEX + '"]') ||
+      ALL_PLATES_DIALOG.querySelector('.heroes-ledger-all__entry') ||
+      ALL_PLATES_DIALOG.querySelector('.heroes-ledger-all__close');
+    if (active) active.focus();
+  }
+
+  function closeAllPlates() {
+    if (ALL_PLATES_DIALOG && ALL_PLATES_DIALOG.open) ALL_PLATES_DIALOG.close();
+    if (ALL_PLATES_TRIGGER) ALL_PLATES_TRIGGER.focus();
   }
 
   function setupLedgerRail() {
@@ -512,17 +903,78 @@
     requestActiveStageUpdate();
   }
 
+  // ── First-load reveal sequence (Hall of Heroes ceremonial entrance) ──
+  function initFirstLoadReveal() {
+    var SEEN_KEY = 'gaia-heroes-intro-seen';
+    if (typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (sessionStorage.getItem(SEEN_KEY)) return;
+    sessionStorage.setItem(SEEN_KEY, '1');
+
+    var overlay = document.createElement('div');
+    overlay.className = 'intro-overlay';
+    overlay.setAttribute('aria-hidden', 'true');
+
+    var line1 = document.createElement('div');
+    line1.className = 'intro-reveal-line';
+    line1.textContent = 'Skills are catalogued.';
+
+    var line2 = document.createElement('div');
+    line2.className = 'intro-reveal-line';
+    line2.textContent = 'Names are earned.';
+
+    var skipHint = document.createElement('div');
+    skipHint.className = 'intro-skip';
+    skipHint.textContent = 'click anywhere to skip';
+
+    overlay.appendChild(line1);
+    overlay.appendChild(line2);
+    overlay.appendChild(skipHint);
+    document.body.appendChild(overlay);
+
+    var skipped = false;
+    var timers = [];
+
+    function dismiss() {
+      if (skipped) return;
+      skipped = true;
+      timers.forEach(clearTimeout);
+      overlay.classList.add('fading');
+      setTimeout(function () {
+        overlay.classList.add('done');
+        if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+      }, 1250);
+    }
+
+    document.addEventListener('click', dismiss, { once: true });
+    document.addEventListener('keydown', dismiss, { once: true });
+
+    timers.push(setTimeout(function () {
+      if (!skipped) line1.classList.add('visible');
+    }, 300));
+    timers.push(setTimeout(function () {
+      if (!skipped) line2.classList.add('visible');
+    }, 900));
+    timers.push(setTimeout(function () {
+      dismiss();
+    }, 1800));
+  }
+
   // ── Main init ─────────────────────────────────────────────────
   function init() {
+    initFirstLoadReveal();
     var container = document.getElementById('heroesStages');
     if (!container) return;
 
     container.innerHTML = renderLoadingState();
 
     Promise.all([
+      // Contributors API is no longer the Hall's source (§8 selection now reads
+      // the named index below); kept as a non-fatal fetch for forward-compat and
+      // so a stale/absent API never blanks the Hall.
       fetch(API_URL).then(function (r) {
-        if (!r.ok) throw new Error('Contributors API fetch failed: ' + r.status);
-        return r.json();
+        return r.ok ? r.json() : { contributors: [] };
+      }).catch(function () {
+        return { contributors: [] };
       }),
       fetch(TRUST_LEDGER_URL).then(function (r) {
         if (!r.ok) throw new Error('Trust Ledger fetch failed: ' + r.status);
@@ -537,25 +989,38 @@
       }).catch(function (err) {
         console.warn('[heroes] Named index unavailable; falling back to basic/extra metadata from contributors API:', err);
         return {};
+      }),
+      fetch(GRAPH_URL).then(function (r) {
+        if (!r.ok) throw new Error('Graph gaia.json fetch failed: ' + r.status);
+        return r.json();
+      }).catch(function (err) {
+        console.warn('[heroes] Graph gaia.json unavailable:', err);
+        return { skills: [] };
       })
     ])
       .then(function (results) {
-        var data = results[0];
         var ledgerBySkill = trustLedgerMap(results[1]);
-        var namedBySkill = namedSkillMap(results[2]);
-        var contributors = data.contributors || [];
+        var namedData = results[2];
+        var gaiaData = results[3];
+        var namedBySkill = namedSkillMap(namedData);
 
-        // Filter: topSkill.level >= 4★
-        var heroes = contributors.filter(function (c) {
-          return c.topSkill && levelNum(c.topSkill.level) >= 4;
-        }).map(function (c) {
+        GAIA_SKILL_MAP = {};
+        var gList = (gaiaData && Array.isArray(gaiaData.skills)) ? gaiaData.skills : [];
+        gList.forEach(function (s) {
+          if (s && s.id) GAIA_SKILL_MAP[s.id] = s;
+        });
+
+        // §8: build one hero per qualifying named skill (rank >= 4) from the
+        // named index — NOT one-per-contributor off the capped topSkill blob.
+        // Enrich each with the Trust Ledger magnitude (falls back to the
+        // entry's own trustMagnitude) for the ordering tiebreak.
+        var heroes = heroesFromNamedIndex(namedData).map(function (c) {
           return withLedgerTrustMagnitude(withNamedSkillMeta(c, namedBySkill), ledgerBySkill);
         });
 
-        // Sort by the top skill's Trust Ledger magnitude.
-        heroes.sort(function (a, b) {
-          return trustMagnitude(b) - trustMagnitude(a);
-        });
+        // §8 canonical order: rank desc, Unique before Suite within a rank,
+        // Trust Magnitude tiebreak.
+        heroes.sort(compareHeroes);
 
         if (!heroes.length) {
           container.innerHTML = renderEmptyState();
@@ -564,8 +1029,8 @@
 
         var ledgerEntries = [];
 
-        // Build HTML in strict TM order. Tier dividers are still rendered,
-        // but they follow the live ranking instead of regrouping the page.
+        // Build HTML in strict TM order. Tier dividers follow live ranking.
+        // E2: divider labels use rankLabel (branch-forked, no banned words).
         var html = '';
         var renderedIndex = 0;
         var totalHeroes = heroes.length;
@@ -577,9 +1042,11 @@
         }
 
         heroes.forEach(function (c) {
-          var tier = classifyTier(c);
+          var tier = stageTierClass(c);
           if (tier !== previousTier && previousTier !== null) {
-            html += renderTierDivider(TIER_LABEL[tier] || 'Named');
+            // Use rankLabel for the divider heading — branch-forked, no banned words.
+            var dividerLabel = topSkillRankLabel(c);
+            html += renderTierDivider(dividerLabel);
           }
           appendHeroStage(c, tier);
           previousTier = tier;

@@ -212,6 +212,7 @@ def _rainbow_text(text):
 
 def _color_entry(symbol, plain_label, tier, is_named, level, current_user=None, is_unowned=False, is_custom=False, is_origin=False, is_fused=False):
     from gaia_cli.cardRenderer import fg, reset, bold, _use_color, TIER_COLORS, RANK_COLORS, COLOR_CONTRIBUTOR, COLOR_LOCAL_USER
+    from gaia_cli.formatting import COLOR_FUSION
     
     if not _use_color():
         return f"{symbol} {plain_label}"
@@ -255,7 +256,10 @@ def _color_entry(symbol, plain_label, tier, is_named, level, current_user=None, 
 
     # Priority 4: Fused custom
     if is_fused:
-        fuse_purple = TIER_COLORS.get("extra", (192, 132, 252))
+        # `extra` was retired as a type in Yggdrasil II, so this lookup
+        # always missed and fell through to the literal. COLOR_FUSION *is*
+        # that literal (#c084fc, the old extra hex) — same pixels.
+        fuse_purple = COLOR_FUSION
         return f"{fg(*fuse_purple)}{symbol} {plain_label}{reset()}"
 
     # Priority 5: Custom
@@ -267,11 +271,15 @@ def _color_entry(symbol, plain_label, tier, is_named, level, current_user=None, 
 
 def _render_legend():
     from gaia_cli.cardRenderer import fg, reset, bold, COLOR_CONTRIBUTOR, COLOR_LOCAL_USER, RANK_COLORS, _use_color, TIER_COLORS
+    from gaia_cli.formatting import COLOR_FUSION
     if not _use_color():
         return
 
     slate_blue = (148, 163, 184)
-    fuse_purple = TIER_COLORS.get("extra", (192, 132, 252))
+    # `extra` was retired as a type in Yggdrasil II, so this lookup always
+    # missed and fell through to the literal. COLOR_FUSION *is* that
+    # literal (#c084fc, the old extra hex) — same pixels, live constant.
+    fuse_purple = COLOR_FUSION
     
     print("  " + f"{fg(*slate_blue)}○ starless{reset()}  " +
           f"{bold()}{fg(*COLOR_CONTRIBUTOR)}○ named{reset()}  " +
@@ -730,9 +738,7 @@ def show_color_check():
     from gaia_cli.cardRenderer import fg, reset, _use_color, TIER_COLORS, RANK_COLORS
 
     TIER_GLYPHS = {
-        "ultimate": "◆",
-        "unique":   "◉",
-        "extra":    "◇",
+        "fusion":   "◆",
         "basic":    "○",
     }
     RANK_LABELS = ["0★", "1★", "2★", "3★", "4★", "5★", "6★"]

@@ -7,6 +7,9 @@
   "status": "named",
   "trustMagnitude": 83.2,
   "overallTrustGrade": "B",
+  "branch": "unique",
+  "rankWord": "Unique",
+  "medallion": "◉",
   "_links": {
     "self": "/api/v1/skills/addy-osmani/performance-optimization.json",
     "contributor": "/api/v1/contributors/addy-osmani.json",
@@ -124,6 +127,22 @@
       "action": "rank_up",
       "contributor": "unknown",
       "details": "Calibrated level from 3★ to 4★"
+    },
+    {
+      "timestamp": "2026-07-16T08:36:42Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Generic parent 'performance-tuning' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+      "metaEpoch": "yggdrasil-ii",
+      "migrationBatch": "yggdrasil-ii@2026-07-16"
+    },
+    {
+      "timestamp": "2026-07-20T18:16:45Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Generic parent 'performance-tuning' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+      "metaEpoch": "yggdrasil-ii",
+      "migrationBatch": "yggdrasil-ii@2026-07-20"
     }
   ],
   "links": {

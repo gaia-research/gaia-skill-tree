@@ -7,8 +7,8 @@
 
 /* ── Page tokens ─────────────────────────────────────────────── */
 :root {
-  --heroes-bg-deep: oklch(0.12 0.02 250);
-  --heroes-bg-ink: oklch(0.09 0.018 250);
+  --heroes-bg-deep: oklch(0.10 0 0);
+  --heroes-bg-ink: oklch(0.07 0 0);
   --heroes-gold-warm: oklch(0.78 0.15 80);
   --heroes-gold-rgb: 251, 191, 36;
   --heroes-frost: oklch(0.92 0.01 220);
@@ -19,16 +19,28 @@
   --heroes-font-mono: var(--font-mono, 'Departure Mono', monospace);
   --heroes-stage-gap: 0;
   --heroes-rail-width: clamp(176px, 15vw, 232px);
+  /* Shared content column width so stacked stage sections line up (800px). */
+  --heroes-content-max: 800px;
+  /* Narrower reading measure for the intro title/subtitle prose block. */
+  --heroes-prose-max: 680px;
 }
 
 
 /* ── Gallery shell ───────────────────────────────────────────── */
+/* padding-top: fixed-nav clearance base 5rem (CLAUDE.md invariant).          */
+/* Full-page shell: enhances to 8rem at desktop (min-width: 1200px).          */
 .heroes-gallery {
   background: var(--heroes-bg-deep);
   min-height: 100vh;
   overflow-x: hidden;
   color: var(--heroes-frost);
   isolation: isolate;
+  padding-top: 5rem;
+}
+
+/* Force body background to match so no blue-dark bleed shows on the sides. */
+body:has(.heroes-gallery) {
+  background: var(--heroes-bg-deep);
 }
 
 .heroes-gallery::before {
@@ -47,10 +59,11 @@
 
 
 /* ── Header stage ────────────────────────────────────────────── */
+/* min-height base 70svh (mobile); enhanced to 100svh at min-width: 1200px.  */
 .heroes-header {
   display: grid;
   place-items: center;
-  min-height: 100svh;
+  min-height: 70svh;
   padding: 4rem 2rem;
   position: relative;
   background:
@@ -60,12 +73,12 @@
 
 .heroes-header__inner {
   text-align: center;
-  max-width: 680px;
+  max-width: var(--heroes-prose-max);
 }
 
 .heroes-header__title {
   font-family: var(--heroes-font-display);
-  font-size: clamp(3.2rem, 9vw, 6rem);
+  font-size: clamp(2.4rem, 10vw, 3rem);
   font-weight: 600;
   letter-spacing: -0.03em;
   line-height: 1.05;
@@ -126,23 +139,29 @@
 
 
 /* ── Scroll observatory rail ─────────────────────────────────── */
+/* Base = mobile: fixed bottom strip. Enhanced to fixed left side at 820px+. */
 .heroes-ledger-rail {
   --heroes-ledger-progress: 0;
   position: fixed;
-  left: clamp(12px, 2.2vw, 28px);
-  top: 50%;
+  left: 0.65rem;
+  right: 0.65rem;
+  top: auto;
+  bottom: 0.65rem;
   z-index: 12;
-  width: var(--heroes-rail-width);
+  width: auto;
   max-height: none;
   display: grid;
-  grid-template-columns: 12px minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) auto;
   grid-template-areas:
-    "track plate"
-    "track list"
-    "track controls";
-  gap: 12px 14px;
+    "plate controls"
+    "list list";
+  gap: 8px 12px;
+  padding: 10px;
+  border: 1px solid rgba(var(--heroes-gold-rgb), 0.22);
+  border-radius: 8px;
+  background: var(--heroes-bg-ink);
   color: var(--heroes-frost);
-  transform: translateY(-50%);
+  transform: none;
 }
 
 .heroes-ledger-rail[hidden] {
@@ -150,7 +169,7 @@
 }
 
 .heroes-ledger-rail.is-awaiting {
-  opacity: 0.62;
+  display: none;
 }
 
 .heroes-ledger-rail.is-awaiting .heroes-ledger-rail__list {
@@ -159,18 +178,25 @@
 
 .heroes-ledger-rail__plate {
   grid-area: plate;
-  padding: 10px 0 6px;
-  border-bottom: 1px solid rgba(var(--heroes-gold-rgb), 0.22);
+  padding: 0;
+  border-bottom: 0;
 }
 
 .heroes-ledger-rail__kicker,
-.heroes-ledger-rail__meta,
-.heroes-ledger-rail__byline {
-  display: block;
+.heroes-ledger-rail__meta {
   font-family: var(--heroes-font-mono);
   font-size: 0.64rem;
   letter-spacing: 0.08em;
   color: var(--heroes-frost-dim);
+}
+
+/* meta always visible; kicker hidden on mobile, restored at 560px+. */
+.heroes-ledger-rail__meta {
+  display: block;
+}
+
+.heroes-ledger-rail__kicker {
+  display: none;
 }
 
 .heroes-ledger-rail__kicker {
@@ -184,7 +210,7 @@
   max-width: 100%;
   overflow-wrap: anywhere;
   font-family: var(--heroes-font-display);
-  font-size: clamp(1rem, 1.5vw, 1.35rem);
+  font-size: 1rem;
   font-weight: 700;
   line-height: 1.05;
   color: var(--heroes-frost);
@@ -192,7 +218,7 @@
 }
 
 .heroes-ledger-rail__meta {
-  margin-top: 7px;
+  margin-top: 3px;
 }
 
 .heroes-ledger-rail__track {
@@ -225,29 +251,30 @@
 
 .heroes-ledger-rail__list {
   grid-area: list;
-  display: grid;
-  gap: 4px;
+  display: flex;
+  gap: 6px;
   max-height: none;
   margin: 0;
-  padding: 2px 0;
-  overflow: visible;
+  padding: 2px 0 0;
+  overflow-x: auto;
   scrollbar-width: none;
 }
 
 .heroes-ledger-rail__item {
   list-style: none;
+  flex: 0 0 auto;
 }
 
 .heroes-ledger-rail__button {
-  width: 100%;
+  width: 128px;
   display: grid;
-  grid-template-columns: 26px 18px minmax(0, 1fr);
+  grid-template-columns: 22px minmax(0, 1fr);
   align-items: center;
   gap: 8px;
-  padding: 7px 2px;
+  padding: 7px 8px;
   border: 0;
   border-radius: 4px;
-  background: transparent;
+  background: rgba(var(--heroes-gold-rgb), 0.045);
   color: var(--heroes-frost-dim);
   text-align: left;
   cursor: pointer;
@@ -288,7 +315,7 @@
 
 .heroes-ledger-rail__button.is-active {
   color: var(--heroes-gold-warm);
-  transform: translateX(4px);
+  transform: none;
 }
 
 .heroes-ledger-rail__button[data-level="4"].is-active {
@@ -319,8 +346,8 @@
 }
 
 .heroes-ledger-rail__avatar {
-  width: 26px;
-  height: 26px;
+  width: 22px;
+  height: 22px;
   display: block;
   overflow: hidden;
   border: 1px solid rgba(var(--heroes-gold-rgb), 0.26);
@@ -362,6 +389,7 @@
 }
 
 .heroes-ledger-rail__glyph {
+  display: none;
   font-family: var(--heroes-font-mono);
   font-size: 0.8rem;
   text-align: center;
@@ -390,33 +418,100 @@
   text-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
 }
 
-.heroes-ledger-rail__entry {
-  min-width: 0;
+/* ---- Unique-branch rail overrides — swap Suite rank color for the Unique token at 4/5/6★.
+   Extra [data-branch="unique"] / [data-active-branch="unique"] attribute raises specificity,
+   so these win over the Suite base rules above. Only color-bearing declarations are re-declared. */
+.heroes-ledger-rail__button[data-branch="unique"][data-level="4"]:hover,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="4"]:focus-visible {
+  background: rgba(124, 58, 237, 0.07);
+}
+.heroes-ledger-rail__button[data-branch="unique"][data-level="5"]:hover,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="5"]:focus-visible,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="6"]:hover,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="6"]:focus-visible {
+  background: rgba(224, 137, 74, 0.07);
+}
+
+.heroes-ledger-rail__button[data-branch="unique"][data-level="4"]:focus-visible {
+  outline-color: var(--rank-4-unique, #7c3aed);
+}
+.heroes-ledger-rail__button[data-branch="unique"][data-level="5"]:focus-visible,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="6"]:focus-visible {
+  outline-color: var(--rank-5-unique, #b26a3a);
+}
+
+.heroes-ledger-rail__button[data-branch="unique"][data-level="4"].is-active {
+  color: var(--rank-4-unique, #7c3aed);
+}
+.heroes-ledger-rail__button[data-branch="unique"][data-level="5"].is-active,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="6"].is-active {
+  color: var(--rank-5-unique, #b26a3a);
+}
+
+.heroes-ledger-rail[data-active-branch="unique"][data-active-level="4"] .heroes-ledger-rail__kicker {
+  color: var(--rank-4-unique, #7c3aed);
+}
+.heroes-ledger-rail[data-active-branch="unique"][data-active-level="4"] .heroes-ledger-rail__plate {
+  border-bottom-color: rgba(124, 58, 237, 0.22);
+}
+.heroes-ledger-rail[data-active-branch="unique"][data-active-level="5"] .heroes-ledger-rail__kicker {
+  color: var(--rank-5-unique, #b26a3a);
+}
+.heroes-ledger-rail[data-active-branch="unique"][data-active-level="6"] .heroes-ledger-rail__kicker {
+  color: var(--rank-6-unique, #e0894a);
+}
+
+.heroes-ledger-rail__button[data-branch="unique"][data-level="4"]:hover .heroes-ledger-rail__avatar,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="4"]:focus-visible .heroes-ledger-rail__avatar,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="4"].is-active .heroes-ledger-rail__avatar {
+  border-color: rgba(124, 58, 237, 0.7);
+}
+.heroes-ledger-rail__button[data-branch="unique"][data-level="5"]:hover .heroes-ledger-rail__avatar,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="5"]:focus-visible .heroes-ledger-rail__avatar,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="5"].is-active .heroes-ledger-rail__avatar,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="6"]:hover .heroes-ledger-rail__avatar,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="6"]:focus-visible .heroes-ledger-rail__avatar,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="6"].is-active .heroes-ledger-rail__avatar {
+  border-color: rgba(224, 137, 74, 0.7);
+}
+
+.heroes-ledger-rail__button[data-branch="unique"][data-level="4"] .heroes-ledger-rail__glyph {
+  color: var(--rank-4-unique, #7c3aed);
+}
+.heroes-ledger-rail[data-active-branch="unique"][data-active-level="4"] .heroes-ledger-rail__button.is-active .heroes-ledger-rail__glyph,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="4"].is-active .heroes-ledger-rail__glyph {
+  color: var(--rank-4-unique, #7c3aed);
+  text-shadow: 0 0 8px rgba(124, 58, 237, 0.5);
+}
+.heroes-ledger-rail__button[data-branch="unique"][data-level="5"] .heroes-ledger-rail__glyph,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="6"] .heroes-ledger-rail__glyph {
+  color: var(--rank-5-unique, #b26a3a);
+}
+.heroes-ledger-rail[data-active-branch="unique"][data-active-level="5"] .heroes-ledger-rail__button.is-active .heroes-ledger-rail__glyph,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="5"].is-active .heroes-ledger-rail__glyph,
+.heroes-ledger-rail[data-active-branch="unique"][data-active-level="6"] .heroes-ledger-rail__button.is-active .heroes-ledger-rail__glyph,
+.heroes-ledger-rail__button[data-branch="unique"][data-level="6"].is-active .heroes-ledger-rail__glyph {
+  color: var(--rank-5-unique, #b26a3a);
+  text-shadow: 0 0 8px rgba(224, 137, 74, 0.5);
 }
 
 .heroes-ledger-rail__name {
   display: block;
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   font-family: var(--heroes-font-body);
-  font-size: 0.95rem;
+  font-size: 0.84rem;
   line-height: 1.1;
-}
-
-.heroes-ledger-rail__byline {
-  margin-top: 2px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  color: color-mix(in oklch, var(--heroes-frost-dim) 78%, transparent);
 }
 
 .heroes-ledger-rail__controls {
   grid-area: controls;
   display: flex;
   gap: 8px;
-  padding-top: 4px;
+  align-self: center;
+  padding-top: 0;
 }
 
 .heroes-ledger-rail__nav {
@@ -461,6 +556,218 @@
 }
 
 
+/* ── "All plates" trigger (opens the full index dialog) ──────────
+   Spans its own full-width row in both the mobile strip and the desktop rail
+   grid (grid-column: 1 / -1). Injected by heroes.js after the list.          */
+.heroes-ledger-rail__all {
+  grid-column: 1 / -1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 6px 10px;
+  border: 1px solid rgba(var(--heroes-gold-rgb), 0.42);
+  border-radius: 4px;
+  background: rgba(var(--heroes-gold-rgb), 0.07);
+  color: var(--heroes-frost);
+  font-family: var(--heroes-font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 180ms ease, background 180ms ease, border-color 180ms ease;
+}
+
+.heroes-ledger-rail__all:hover {
+  color: var(--heroes-frost);
+  background: rgba(var(--heroes-gold-rgb), 0.12);
+  border-color: rgba(var(--heroes-gold-rgb), 0.6);
+}
+
+.heroes-ledger-rail__all:focus-visible {
+  outline: 2px solid var(--heroes-gold-warm);
+  outline-offset: 2px;
+}
+
+.heroes-ledger-rail__all-caret {
+  font-family: var(--heroes-font-mono);
+  line-height: 1;
+}
+
+
+/* ── "All plates" full-index dialog ──────────────────────────────
+   Native <dialog>: Esc dismiss + focus trap for free. Scrollable list of every
+   hero, keyed to the same scroll-to path as the rail.                         */
+.heroes-ledger-all {
+  width: min(92vw, 460px);
+  max-height: min(80vh, 640px);
+  padding: 0;
+  border: 1px solid rgba(var(--heroes-gold-rgb), 0.28);
+  border-radius: 12px;
+  background: var(--heroes-bg-ink);
+  color: var(--heroes-frost);
+  overflow: hidden;
+}
+
+.heroes-ledger-all::backdrop {
+  background: rgba(0, 0, 0, 0.62);
+}
+
+.heroes-ledger-all[open] {
+  display: flex;
+  flex-direction: column;
+  animation: heroes-all-in 180ms ease-out both;
+}
+
+@keyframes heroes-all-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.heroes-ledger-all__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid rgba(var(--heroes-gold-rgb), 0.18);
+}
+
+.heroes-ledger-all__title {
+  margin: 0;
+  font-family: var(--heroes-font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--heroes-gold-warm);
+}
+
+.heroes-ledger-all__close {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(var(--heroes-gold-rgb), 0.28);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--heroes-frost-dim);
+  cursor: pointer;
+  transition: color 180ms ease, border-color 180ms ease;
+}
+
+.heroes-ledger-all__close:hover {
+  color: var(--heroes-frost);
+  border-color: var(--heroes-gold-warm);
+}
+
+.heroes-ledger-all__close:focus-visible {
+  outline: 2px solid var(--heroes-gold-warm);
+  outline-offset: 2px;
+}
+
+.heroes-ledger-all__list {
+  margin: 0;
+  padding: 0.5rem;
+  list-style: none;
+  overflow-y: auto;
+}
+
+.heroes-ledger-all__item {
+  list-style: none;
+}
+
+.heroes-ledger-all__entry {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--heroes-frost);
+  text-align: left;
+  cursor: pointer;
+  transition: background 160ms ease;
+}
+
+.heroes-ledger-all__entry:hover {
+  background: rgba(var(--heroes-gold-rgb), 0.07);
+}
+
+.heroes-ledger-all__entry:focus-visible {
+  outline: 2px solid var(--heroes-gold-warm);
+  outline-offset: -2px;
+}
+
+.heroes-ledger-all__entry[data-level="4"]:focus-visible {
+  outline-color: var(--rank-4, #e879f9);
+}
+
+.heroes-ledger-all__entry[data-level="5"]:focus-visible,
+.heroes-ledger-all__entry[data-level="6"]:focus-visible {
+  outline-color: var(--rank-5, #fbbf24);
+}
+
+.heroes-ledger-all__entry[data-branch="unique"][data-level="4"]:focus-visible {
+  outline-color: var(--rank-4-unique, #7c3aed);
+}
+
+.heroes-ledger-all__entry[data-branch="unique"][data-level="5"]:focus-visible,
+.heroes-ledger-all__entry[data-branch="unique"][data-level="6"]:focus-visible {
+  outline-color: var(--rank-5-unique, #b26a3a);
+}
+
+.heroes-ledger-all__glyph {
+  font-family: var(--heroes-font-mono);
+  font-size: 0.9rem;
+  text-align: center;
+  color: var(--rank-5, #fbbf24);
+}
+
+.heroes-ledger-all__entry[data-level="4"] .heroes-ledger-all__glyph {
+  color: var(--rank-4, #e879f9);
+}
+
+.heroes-ledger-all__entry[data-branch="unique"][data-level="4"] .heroes-ledger-all__glyph {
+  color: var(--rank-4-unique, #7c3aed);
+}
+
+.heroes-ledger-all__entry[data-branch="unique"][data-level="5"] .heroes-ledger-all__glyph,
+.heroes-ledger-all__entry[data-branch="unique"][data-level="6"] .heroes-ledger-all__glyph {
+  color: var(--rank-5-unique, #b26a3a);
+}
+
+.heroes-ledger-all__body {
+  min-width: 0;
+}
+
+.heroes-ledger-all__name {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--heroes-font-body);
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+
+.heroes-ledger-all__by {
+  display: block;
+  margin-top: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--heroes-font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  color: var(--heroes-frost-dim);
+}
+
+
 /* ── Stages container ────────────────────────────────────────── */
 .heroes-stages {
   display: flex;
@@ -470,18 +777,21 @@
 
 
 /* ── Individual hero stage ───────────────────────────────────── */
+/* Base rule is the mobile (390px) layout; min-width blocks enhance upward. */
+/* Bottom padding (7.5rem) provides clearance above the fixed bottom ledger  */
+/* rail (~80px) on narrow viewports where it renders at the bottom edge.     */
 .hero-stage {
   --stage-accent: var(--heroes-gold-warm);
   --stage-accent-rgb: var(--heroes-gold-rgb);
   position: relative;
-  min-height: 100svh;
   display: grid;
   place-items: center;
-  padding: 4rem 2rem;
   overflow: hidden;
   opacity: 0;
   transform: translateY(40px);
   transition: opacity 0.8s ease, transform 0.8s ease;
+  min-height: 60svh;
+  padding: 3rem 1rem 7.5rem;
 }
 
 .hero-stage.is-visible {
@@ -507,22 +817,30 @@
   --stage-accent-rgb: 251, 191, 36;
 }
 
+/* Unique-branch stage accents — override Suite rank color at 4/5/6★ */
+.hero-stage[data-branch="unique"][data-level="4"] {
+  --stage-accent: var(--rank-4-unique, #7c3aed);
+  --stage-accent-rgb: 124, 58, 237;
+}
+.hero-stage[data-branch="unique"][data-level="5"] {
+  --stage-accent: var(--rank-5-unique, #b26a3a);
+  --stage-accent-rgb: 178, 106, 58;
+}
+.hero-stage[data-branch="unique"][data-level="6"] {
+  --stage-accent: var(--rank-6-unique, #e0894a);
+  --stage-accent-rgb: 224, 137, 74;
+}
+
 /* Tier-specific stage backgrounds */
 .hero-stage--ultimate {
   background:
     radial-gradient(ellipse 70% 50% at 50% 40%, rgba(var(--stage-accent-rgb), 0.08) 0%, transparent 70%),
-    linear-gradient(180deg, var(--heroes-bg-deep) 0%, oklch(0.10 0.02 250) 100%);
+    var(--heroes-bg-deep);
 }
 
 .hero-stage--apex {
   background:
     radial-gradient(ellipse 60% 45% at 50% 50%, rgba(var(--stage-accent-rgb), 0.07) 0%, transparent 65%),
-    var(--heroes-bg-deep);
-}
-
-.hero-stage--transcendent {
-  background:
-    radial-gradient(ellipse 60% 45% at 50% 50%, rgba(var(--stage-accent-rgb), 0.055) 0%, transparent 65%),
     var(--heroes-bg-deep);
 }
 
@@ -586,8 +904,8 @@
 
 .hero-stage__ordinal {
   position: absolute;
-  top: clamp(78px, 10svh, 108px);
-  right: clamp(18px, 4vw, 56px);
+  top: 1rem;
+  right: 1rem;
   z-index: 2;
   font-family: var(--heroes-font-mono);
   font-size: 0.68rem;
@@ -601,7 +919,7 @@
 .hero-card {
   position: relative;
   width: 100%;
-  max-width: 720px;
+  max-width: var(--heroes-content-max);
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -615,13 +933,14 @@
   transform: translateY(-6px);
 }
 
-/* Canvas backdrop for particle effects */
+/* Canvas backdrop for particle effects — hidden on mobile, shown at 820px+. */
 .hero-card__canvas {
   position: absolute;
   inset: -80px;
   pointer-events: none;
   z-index: 0;
   opacity: 0.8;
+  display: none;
 }
 
 /* Crest Wrapper and Diamond Crest */
@@ -632,13 +951,12 @@
 }
 
 /* Crest Layout: Square Front & Diamond Back */
+/* width/height/max-width are controlled by the responsive block (mobile-first). */
 .hero-card__crest-wrapper {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: clamp(180px, 28vw, 240px);
-  height: clamp(180px, 28vw, 240px);
   margin-bottom: 0.5rem;
 }
 
@@ -660,13 +978,18 @@
 .hero-card__crest-square-front {
   position: relative;
   z-index: 2;
-  width: clamp(110px, 16vw, 140px);
-  height: clamp(110px, 16vw, 140px);
-  overflow: hidden;
-  border: 1px solid rgba(var(--stage-accent-rgb), 0.28);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(120px, 18vw, 150px);
+  height: clamp(120px, 18vw, 150px);
+  overflow: visible;
+  border-radius: 50%;
+  border: 2px solid rgba(var(--stage-accent-rgb), 0.45);
   background: var(--heroes-bg-ink);
   box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.65);
+    0 8px 32px rgba(0, 0, 0, 0.65),
+    0 0 0 4px rgba(var(--stage-accent-rgb), 0.1);
   transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
@@ -680,21 +1003,49 @@
 
 .hero-card__crest-seal {
   position: absolute;
-  bottom: -14px;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: -2px;
+  right: -2px;
+  left: auto;
+  transform: none;
   z-index: 10;
-  width: 32px;
-  height: 32px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
   display: grid;
   place-items: center;
   background: var(--heroes-bg-ink);
-  border: 1.5px solid var(--stage-accent);
+  border: 2px solid var(--stage-accent);
   box-shadow:
-    0 3px 10px rgba(0, 0, 0, 0.72),
-    0 0 15px rgba(var(--stage-accent-rgb), 0.4);
+    0 4px 14px rgba(0, 0, 0, 0.8),
+    0 0 20px rgba(var(--stage-accent-rgb), 0.5);
   transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* E3 — the AOV4 medallion stamp fills the crest seal. When present it
+   supersedes the legacy ◆ glyph (hidden below); the seal grows slightly so
+   the rank medallion reads. The shared .plaque-orb--medallion img fills it. */
+.hero-card__crest-seal:has(.plaque-orb--medallion) {
+  width: 46px;
+  height: 46px;
+  bottom: -4px;
+  right: -4px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+.hero-card__crest-seal .plaque-orb--medallion {
+  width: 100%;
+  height: 100%;
+}
+.hero-card__crest-seal .plaque-orb__stamp {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.72));
+}
+/* Legacy glyph is the fallback only — hidden whenever the stamp rendered. */
+.hero-card__crest-seal:has(.plaque-orb--medallion:not([data-stamp-fail])) .hero-card__crest-seal-glyph {
+  display: none;
 }
 
 .hero-card__crest-seal-glyph {
@@ -714,7 +1065,8 @@
     0 0 54px rgba(var(--stage-accent-rgb), 0.22);
 }
 
-.hero-stage.is-active .hero-card__crest-square-front {
+.hero-stage.is-active .hero-card__crest-square-front,
+.hero-stage.is-active .hero-card__crest-seal {
   transform: scale(1.04);
   border-color: rgba(var(--stage-accent-rgb), 0.45);
 }
@@ -727,7 +1079,8 @@
     0 0 60px rgba(var(--stage-accent-rgb), 0.28);
 }
 
-.hero-card__crest-wrapper:hover .hero-card__crest-square-front {
+.hero-card__crest-wrapper:hover .hero-card__crest-square-front,
+.hero-card__crest-wrapper:hover .hero-card__crest-seal {
   transform: translateY(-4px) scale(1.06);
   border-color: var(--stage-accent);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.75);
@@ -754,12 +1107,31 @@
 
 .hero-card__name {
   font-family: var(--heroes-font-display);
-  font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+  font-size: 1.2rem;
   font-weight: 700;
   color: var(--stage-accent, var(--heroes-gold-warm));
   margin: 0 0 0.3rem;
   letter-spacing: 0.02em;
   text-wrap: balance;
+}
+
+.hero-card__name-link,
+.hero-card__handle-link {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.hero-card__name-link:hover,
+.hero-card__name-link:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.hero-card__handle-link:hover,
+.hero-card__handle-link:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .hero-card__handle {
@@ -784,7 +1156,9 @@
 .hero-card__stats {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.8rem;
   font-family: var(--heroes-font-mono);
   font-size: 0.75rem;
   color: var(--heroes-frost);
@@ -836,7 +1210,7 @@
   align-items: center;
   gap: 1.5rem;
   padding: 3rem 2rem;
-  max-width: 800px;
+  max-width: var(--heroes-content-max);
   margin: 0 auto;
 }
 
@@ -905,7 +1279,8 @@
   animation: hero-cascade 1.3s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.hero-stage.is-visible .hero-card__crest-square-front {
+.hero-stage.is-visible .hero-card__crest-square-front,
+.hero-stage.is-visible .hero-card__crest-seal {
   animation: hero-unique-enter 0.8s ease-out both;
   animation-delay: 0.25s;
 }
@@ -934,22 +1309,22 @@
 }
 
 .hero-stage--apex.is-visible .hero-card__crest-diamond-back,
-.hero-stage--transcendent.is-visible .hero-card__crest-diamond-back,
 .hero-stage--unique.is-visible .hero-card__crest-diamond-back,
 .hero-stage--named.is-visible .hero-card__crest-diamond-back {
   animation: hero-diamond-enter 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
 .hero-stage--apex.is-visible .hero-card__crest-square-front,
-.hero-stage--transcendent.is-visible .hero-card__crest-square-front,
 .hero-stage--unique.is-visible .hero-card__crest-square-front,
-.hero-stage--named.is-visible .hero-card__crest-square-front {
+.hero-stage--named.is-visible .hero-card__crest-square-front,
+.hero-stage--apex.is-visible .hero-card__crest-seal,
+.hero-stage--unique.is-visible .hero-card__crest-seal,
+.hero-stage--named.is-visible .hero-card__crest-seal {
   animation: hero-unique-enter 0.8s ease-out both;
   animation-delay: 0.25s;
 }
 
-.hero-stage--apex.is-visible .hero-card__meta,
-.hero-stage--transcendent.is-visible .hero-card__meta {
+.hero-stage--apex.is-visible .hero-card__meta {
   animation: heroes-meta-enter 0.7s ease-out both;
   animation-delay: 0.4s;
 }
@@ -1026,12 +1401,14 @@
 
 
 /* ── Footer ──────────────────────────────────────────────────── */
+/* Base: stacked column (mobile); enhanced to row at 820px+. */
 .heroes-footer {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2rem;
-  padding: 4rem 2rem;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 4rem 2rem 8rem;
   background: var(--heroes-bg-deep);
   border-top: 1px solid rgba(251, 191, 36, 0.1);
 }
@@ -1091,81 +1468,28 @@
 }
 
 
-/* ── Responsive ──────────────────────────────────────────────── */
-@media (max-width: 1199px) {
-  .hero-stage {
-    min-height: 80svh;
-    padding: 3rem 1.5rem;
-  }
+/* ── Responsive — mobile-first (E6) ──────────────────────────────
+   The base (non-media-query) declarations above are already the phone
+   layout (≤559px / 390px reference).
+   min-width blocks progressively ENHANCE to tablet and then desktop.
+   No max-width overrides in this section.
+   ──────────────────────────────────────────────────────────────── */
 
-  .hero-card__crest-wrapper {
-    width: clamp(156px, 34vw, 220px);
-    height: clamp(156px, 34vw, 220px);
-  }
-}
-
-@media (max-width: 819px) {
+/* ── 560px+ — slightly wider phone / small tablet ── */
+@media (min-width: 560px) {
   .heroes-ledger-rail {
     left: 1rem;
     right: 1rem;
-    top: auto;
     bottom: 1rem;
-    width: auto;
-    max-height: none;
-    grid-template-columns: minmax(0, 1fr) auto;
-    grid-template-areas:
-      "plate controls"
-      "list list";
-    gap: 8px 12px;
-    padding: 10px;
-    border: 1px solid rgba(var(--heroes-gold-rgb), 0.22);
-    border-radius: 8px;
-    background: var(--heroes-bg-ink);
-    transform: none;
   }
 
-  .heroes-ledger-rail.is-awaiting {
-    display: none;
-  }
-
-  .heroes-ledger-rail__track {
-    display: none;
-  }
-
-  .heroes-ledger-rail__plate {
-    padding: 0;
-    border-bottom: 0;
-  }
-
-  .heroes-ledger-rail__current {
-    font-size: 1rem;
-  }
-
-  .heroes-ledger-rail__meta {
-    margin-top: 3px;
-  }
-
-  .heroes-ledger-rail__list {
-    display: flex;
-    gap: 6px;
-    max-height: none;
-    overflow-x: auto;
-    padding: 2px 0 0;
-  }
-
-  .heroes-ledger-rail__item {
-    flex: 0 0 auto;
+  .heroes-ledger-rail__kicker {
+    display: block;
   }
 
   .heroes-ledger-rail__button {
     width: 164px;
     grid-template-columns: 24px minmax(0, 1fr);
-    padding: 7px 8px;
-    background: rgba(var(--heroes-gold-rgb), 0.045);
-  }
-
-  .heroes-ledger-rail__glyph {
-    display: none;
   }
 
   .heroes-ledger-rail__avatar {
@@ -1173,84 +1497,239 @@
     height: 24px;
   }
 
-  .heroes-ledger-rail__button.is-active {
-    transform: none;
-    background: rgba(var(--heroes-gold-rgb), 0.1);
-  }
-
-  .heroes-ledger-rail__controls {
-    align-self: center;
-    padding-top: 0;
-  }
-
-  .hero-stage {
-    min-height: auto;
-    padding: 3rem 1rem 7.5rem;
-  }
-
-  .hero-card__crest-wrapper {
-    max-width: 100%;
-  }
-
-  .hero-card__canvas {
-    display: none;
-  }
-
-  .heroes-header {
-    min-height: 70svh;
-  }
-
-  .heroes-footer {
-    flex-direction: column;
-    gap: 1rem;
-    padding-bottom: 8rem;
-  }
-}
-
-@media (max-width: 559px) {
-  .heroes-ledger-rail {
-    left: 0.65rem;
-    right: 0.65rem;
-    bottom: 0.65rem;
-  }
-
-  .heroes-ledger-rail__kicker,
-  .heroes-ledger-rail__byline {
-    display: none;
-  }
-
-  .heroes-ledger-rail__button {
-    width: 128px;
-    grid-template-columns: 22px minmax(0, 1fr);
-  }
-
-  .heroes-ledger-rail__avatar {
-    width: 22px;
-    height: 22px;
-  }
-
-  .heroes-ledger-rail__name {
-    font-size: 0.84rem;
-  }
-
   .hero-stage__ordinal {
-    top: 1rem;
-    right: 1rem;
+    top: clamp(78px, 10svh, 108px);
+    right: clamp(18px, 4vw, 56px);
   }
 
   .heroes-header__title {
-    font-size: clamp(2.4rem, 10vw, 3rem);
+    font-size: clamp(3.2rem, 9vw, 6rem);
   }
 
   .hero-card__name {
-    font-size: 1.2rem;
+    font-size: clamp(1.4rem, 3.5vw, 2.2rem);
   }
 
   .hero-card__stats {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.8rem;
+    flex-wrap: nowrap;
+    justify-content: initial;
+    gap: 1.5rem;
   }
+}
+
+/* ── 820px+ — tablet: ledger rail moves to fixed left side ── */
+@media (min-width: 820px) {
+  /* Rail is position:fixed — it does NOT affect stage layout flow.
+     Stage content stays centered on the full viewport width, same as
+     the header title. No grid column offset needed or wanted. */
+
+  .heroes-ledger-rail {
+    left: clamp(12px, 2.2vw, 28px);
+    right: auto;
+    top: 50%;
+    bottom: auto;
+    width: var(--heroes-rail-width);
+    max-height: none;
+    grid-template-columns: 12px minmax(0, 1fr);
+    grid-template-areas:
+      "track plate"
+      "track list"
+      "track controls";
+    gap: 12px 14px;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    transform: translateY(-50%);
+  }
+
+  .heroes-ledger-rail.is-awaiting {
+    display: block;
+    opacity: 0.62;
+  }
+
+  .heroes-ledger-rail__track {
+    display: block;
+  }
+
+  .heroes-ledger-rail__plate {
+    padding: 10px 0 6px;
+    border-bottom: 1px solid rgba(var(--heroes-gold-rgb), 0.22);
+  }
+
+  .heroes-ledger-rail__current {
+    font-size: clamp(1rem, 1.5vw, 1.35rem);
+  }
+
+  .heroes-ledger-rail__meta {
+    margin-top: 7px;
+  }
+
+  .heroes-ledger-rail__list {
+    display: grid;
+    gap: 4px;
+    overflow-x: visible;
+    padding: 2px 0;
+  }
+
+  /* Windowed locator: at desktop the rail shows only the neighborhood of rows
+     around the active plate (set by applyLedgerWindow). Non-windowed rows are
+     removed from flow so the rail stays bounded regardless of hero count. The
+     full <ol> remains in the DOM — the "all plates" panel and prev/next walk
+     every item. Mobile (<820px) keeps all chips (this rule is desktop-only). */
+  .heroes-ledger-rail__item {
+    display: none;
+    flex: initial;
+  }
+
+  .heroes-ledger-rail__item.is-in-window {
+    display: block;
+    animation: heroes-ledger-row-in 200ms ease-out both;
+  }
+
+  @keyframes heroes-ledger-row-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  .heroes-ledger-rail__button {
+    width: 100%;
+    grid-template-columns: 26px 18px minmax(0, 1fr);
+    padding: 7px 2px;
+    background: transparent;
+  }
+
+  .heroes-ledger-rail__glyph {
+    display: block;
+  }
+
+  .heroes-ledger-rail__kicker {
+    display: block;
+  }
+
+  .heroes-ledger-rail__avatar {
+    width: 26px;
+    height: 26px;
+  }
+
+  .heroes-ledger-rail__name {
+    font-size: 0.95rem;
+  }
+
+  .heroes-ledger-rail__button.is-active {
+    transform: translateX(4px);
+    background: transparent;
+  }
+
+  .heroes-ledger-rail__controls {
+    align-self: initial;
+    padding-top: 4px;
+  }
+
+  .hero-stage {
+    min-height: 80svh;
+    padding: 3rem 1.5rem;
+  }
+
+  .hero-card__canvas {
+    display: block;
+  }
+
+  .heroes-header {
+    min-height: 80svh;
+  }
+
+  .heroes-footer {
+    flex-direction: row;
+    gap: 2rem;
+    padding-bottom: 4rem;
+  }
+}
+
+/* ── 1200px+ — full desktop: largest stage + crest, deep left rail ── */
+@media (min-width: 1200px) {
+  .heroes-gallery {
+    padding-top: 8rem;
+  }
+
+  .hero-stage {
+    min-height: 100svh;
+    padding: 4rem 2rem;
+  }
+
+  .heroes-header {
+    min-height: 100svh;
+  }
+
+  .hero-card__crest-wrapper {
+    width: clamp(180px, 22vw, 240px);
+    height: clamp(180px, 22vw, 240px);
+    max-width: none;
+  }
+
+  .hero-card__crest-square-front,
+  .hero-card__crest-square-front .plaque__avatar,
+  .hero-card__crest-avatar {
+    width: clamp(170px, 22vw, 230px);
+    height: clamp(170px, 22vw, 230px);
+    --avatar-size: clamp(170px, 22vw, 230px);
+  }
+
+  .hero-card__crest-diamond-back {
+    width: clamp(200px, 26vw, 270px);
+    height: clamp(200px, 26vw, 270px);
+  }
+}
+
+
+/* ── Gold-wreath avatar inside hero crest (E3/E4) ──────────────
+   hero-card__crest-square-front now contains a .hero-card__crest-avatar
+   (emitted by heroAvatarHtml / plaque._fields.avatar). The wreath overlays
+   the avatar photo exactly as in plaque.css .plaque__avatar-wreath.
+   The red origin mark (E4) is removed — gold wreath IS the origin signal.
+   ============================================================ */
+.hero-card__crest-square-front {
+  /* Allow the wreath and medallion to spill outside the circle. */
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Avatar wrapper (either plaque__avatar or hero-card__crest-avatar) */
+.hero-card__crest-square-front .plaque__avatar,
+.hero-card__crest-avatar {
+  --avatar-size: 100%;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 50%;
+}
+
+/* Photo inside the avatar wrapper — 96% to fill the circular crest frame */
+.hero-card__crest-square-front .plaque__avatar-img,
+.hero-card__crest-avatar-img {
+  display: block;
+  width: 96% !important;
+  height: 96% !important;
+  object-fit: cover;
+  border-radius: 50%;
+  filter: saturate(0.86) contrast(1.08);
+}
+
+/* Gold wreath overlay (E4: replaces red origin mark) */
+.hero-card__crest-square-front .plaque__avatar-wreath,
+.hero-card__crest-avatar-wreath {
+  position: absolute;
+  /* Wreath is 124% of the avatar wrapper so it frames the 96% photo outside the circle. */
+  inset: -12% !important;
+  width: 124% !important;
+  height: 124% !important;
+  pointer-events: none;
+  display: block;
 }
 
 
@@ -1276,6 +1755,14 @@
   .hero-stage::after,
   .hero-card {
     transition: none !important;
+  }
+
+  .heroes-ledger-rail__item.is-in-window {
+    animation: none !important;
+  }
+
+  .heroes-ledger-all[open] {
+    animation: none !important;
   }
 
   .hero-stage {

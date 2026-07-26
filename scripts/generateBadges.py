@@ -34,7 +34,7 @@ from collections import defaultdict
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-NAMED_JSON = REPO_ROOT / "registry" / "named-skills.json"
+NAMED_JSON = REPO_ROOT / "docs" / "graph" / "named" / "index.json"
 TOKENS_CSS = REPO_ROOT / "docs" / "css" / "tokens.css"
 OUT_DIR = REPO_ROOT / "docs" / "badges"
 
@@ -44,17 +44,38 @@ from _atlas_helpers import named_slug  # noqa: E402
 from gaia_cli.redaction import REDACTED_HANDLE, is_redacted  # noqa: E402  single source of truth
 
 
-HONOR_RED = "#ef4444"
+# Origin contributors render in GOLD (Yggdrasil II rubric E4: the deprecated
+# honor-red origin mark is replaced by the gold wreath / gold handle). Mirrors
+# --seal-gold in docs/css/tokens.css and the gold wreath SVG.
+ORIGIN_GOLD = "#fbbf24"
 INK = "#030712"
 SLATE = "#94a3b8"
 AMBER = "#fbbf24"
 WHITE = "#ffffff"
 
-# Rank display names for badge right-panel text (e.g. "Hardened · 4★")
-RANK_NAMES = {
-    1: "Awakened", 2: "Named", 3: "Evolved",
-    4: "Hardened", 5: "Transcendent", 6: "Apex",
-}
+
+def skill_branch(skill: dict) -> str:
+    """Read the build-emitted branch, failing on stale/unbuilt input."""
+    branch = str(skill.get("branch") or "").strip().lower()
+    if branch not in {"standard", "suite", "unique"}:
+        skill_id = skill.get("id") or skill.get("name") or "<unknown>"
+        raise ValueError(
+            f"{skill_id}: missing/invalid emitted branch {branch!r}; "
+            "rebuild docs/graph/named/index.json first"
+        )
+    return branch
+
+
+def emitted_rank_word(skill: dict) -> str:
+    """Read the rank word emitted by the named-index build."""
+    word = str(skill.get("rankWord") or "").strip()
+    if not word:
+        skill_id = skill.get("id") or skill.get("name") or "<unknown>"
+        raise ValueError(
+            f"{skill_id}: missing emitted rankWord; "
+            "rebuild docs/graph/named/index.json first"
+        )
+    return word
 
 # Filenames produced by the primary badges — per-skill variants whose slug
 # collides with one of these are renamed with a `~` suffix so they don't
@@ -186,6 +207,34 @@ APEX_INK = "#3b2206"    # engraved text on gold — passes AA (white-on-gold did
 _RANK_COLORS: dict[int, str] = {}
 _UNIQUE_COLOR = "#7c3aed"
 
+# v3 amendment (2026-07-18, colorize LOCKED — "Amethyst→Ember"): the Unique
+# DECORATION forks by rank. Membership is `unique` from 4★ up, but the treatment
+# escalates: 4★ violet, 5★ burnished copper, 6★ inverted (copper ground / dark
+# ink). Deliberately OFF the Suite gold axis so a Unique Impossible never reads
+# as a Suite Apex — Unique is its own prestige track. Below 4★ a unique-member
+# skill decorates plain (is_unique guards never fire below rank 4 in samples).
+UNIQUE_COPPER_5 = "#b26a3a"   # burnished copper — Unique Ultimate (5★)
+UNIQUE_COPPER_6 = "#e0894a"   # inverted copper ground — Unique Impossible (6★)
+UNIQUE_COPPER_6_PALE = "#f0b98a"   # top-lit specular for the 6★ copper gradient
+UNIQUE_COPPER_6_DEEP = "#8f4e24"   # bottom of the 6★ copper gradient
+UNIQUE_INK = "#2a1206"        # dark engraved text on the 6★ copper ground (AA-safe)
+
+
+def unique_hex(rank: int) -> str:
+    """Resolve the Unique-branch DECORATION accent for a given rank (v3, LOCKED).
+
+      4★ -> violet (base unique color)
+      5★ -> burnished copper (Unique Ultimate)
+      6★ -> inverted copper (Unique Impossible; the accent is the copper ground)
+
+    Off the Suite gold axis by design — see UNIQUE_COPPER_* above.
+    """
+    if rank >= 6:
+        return UNIQUE_COPPER_6
+    if rank == 5:
+        return UNIQUE_COPPER_5
+    return _UNIQUE_COLOR
+
 
 def rank_hex(rank: int) -> str:
     return _RANK_COLORS.get(rank, AMBER)
@@ -261,31 +310,52 @@ def _data_panel(x: float, w: float, rank: int, uid: str, *,
     metallic gold + light sheen + sparkle glints (6, Apex). `gold_fill=False`
     keeps the panel dark even at Apex (handle badges, where the honor-red handle
     needs a dark ground and the gold lives in the star pill instead).
+
+    v3 amendment (2026-07-18): the Unique DECORATION forks by rank —
+    4★ violet, 5★ darker gold, 6★ inverted (gold ground / dark ink). The gold
+    Apex ground and sparkle sheen are shared with suite-Apex; only the accent
+    color and the 6★ inversion switch on Membership.
     """
-    col = _UNIQUE_COLOR if is_unique else rank_hex(rank)
+    col = unique_hex(rank) if is_unique else rank_hex(rank)
     apex = rank >= 6 and not is_unique
+    # Unique Impossible (6★ unique) renders INVERTED — but on a COPPER ground of
+    # its own (not the suite gold), so it reads as a peer pinnacle on a distinct
+    # prestige track rather than a clone of suite Apex (colorize LOCKED 2026-07-18).
+    unique_apex = is_unique and rank >= 6
+    metal_ground = (apex or unique_apex) and gold_fill
     defs = ""
 
-    if apex and gold_fill:
-        defs += (
-            f'<linearGradient id="au{uid}" x1="0" y1="0" x2="0" y2="1">'
-            f'<stop offset="0" stop-color="{GOLD_PALE}"/>'
-            f'<stop offset="0.46" stop-color="{GOLD}"/>'
-            f'<stop offset="0.62" stop-color="#f7b500"/>'
-            f'<stop offset="1" stop-color="{GOLD_DEEP}"/></linearGradient>'
-        )
+    if metal_ground:
+        if unique_apex:
+            defs += (
+                f'<linearGradient id="au{uid}" x1="0" y1="0" x2="0" y2="1">'
+                f'<stop offset="0" stop-color="{UNIQUE_COPPER_6_PALE}"/>'
+                f'<stop offset="0.46" stop-color="{UNIQUE_COPPER_6}"/>'
+                f'<stop offset="0.62" stop-color="#d47a3e"/>'
+                f'<stop offset="1" stop-color="{UNIQUE_COPPER_6_DEEP}"/></linearGradient>'
+            )
+        else:
+            defs += (
+                f'<linearGradient id="au{uid}" x1="0" y1="0" x2="0" y2="1">'
+                f'<stop offset="0" stop-color="{GOLD_PALE}"/>'
+                f'<stop offset="0.46" stop-color="{GOLD}"/>'
+                f'<stop offset="0.62" stop-color="#f7b500"/>'
+                f'<stop offset="1" stop-color="{GOLD_DEEP}"/></linearGradient>'
+            )
         layers = f'<rect x="{x:.1f}" width="{w:.1f}" height="{H}" fill="url(#au{uid})"/>'
     else:
         bg = "#0a0713" if is_unique else INK
         layers = f'<rect x="{x:.1f}" width="{w:.1f}" height="{H}" fill="{bg}"/>'
 
-    # Tier tint — a faint colour wash that turns on at rank 4 (and for Unique).
-    if (4 <= rank <= 5) or is_unique:
+    # Tier tint — a faint colour wash that turns on at rank 4 (and for Unique),
+    # but NOT over a metallic ground (the metal already carries the weight).
+    if ((4 <= rank <= 5) or is_unique) and not metal_ground:
         a = 0.18 if rank >= 5 else 0.14
         layers += f'<rect x="{x:.1f}" width="{w:.1f}" height="{H}" fill="{_rgba(col, a)}"/>'
 
-    # Apex-only: diagonal light sweep, top specular edge, and sparkle glints.
-    if apex and gold_fill:
+    # Apex sheen — diagonal light sweep, top specular edge, and sparkle glints.
+    # Shared by suite Apex and Unique Impossible (both sit on a metallic ground).
+    if metal_ground:
         sx = x + w * 0.16
         layers += (
             f'<polygon points="{sx+10:.1f},0 {sx+22:.1f},0 {sx+8:.1f},{H} {sx-4:.1f},{H}" '
@@ -302,11 +372,13 @@ def _data_panel(x: float, w: float, rank: int, uid: str, *,
 
 def _frame(width: int, rank: int, is_unique: bool = False) -> str:
     """Full-badge inset border — the plaque rim. Escalates from rank 4 up."""
-    if rank >= 6 and not is_unique:
+    # Apex rim at 6★: suite Apex = gold; Unique Impossible = copper (own track).
+    if rank >= 6:
+        rim = _rgba(UNIQUE_COPPER_6_DEEP, 0.9) if is_unique else _rgba(GOLD_DEEP, 0.9)
         return (f'<rect x="0.7" y="0.7" width="{width-1.4:.1f}" height="{H-1.4}" '
-                f'fill="none" stroke="{_rgba(GOLD_DEEP, 0.9)}" stroke-width="1.4" rx="{RX}"/>')
+                f'fill="none" stroke="{rim}" stroke-width="1.4" rx="{RX}"/>')
     if rank >= 4 or is_unique:
-        col = _UNIQUE_COLOR if is_unique else rank_hex(rank)
+        col = unique_hex(rank) if is_unique else rank_hex(rank)
         a = 0.55 if (rank >= 5 or is_unique) else 0.45
         return (f'<rect x="0.6" y="0.6" width="{width-1.2:.1f}" height="{H-1.2}" '
                 f'fill="none" stroke="{_rgba(col, a)}" stroke-width="1" rx="{RX}"/>')
@@ -344,6 +416,9 @@ def badge_simple(value: str, rank: int, label: str, *, seal_only: bool = False,
     width = round(left_w + right_w)
     panel_w = width - left_w
     apex = rank >= 6 and not is_unique
+    # Unique Impossible (6★ unique) renders inverted on a COPPER ground — dark
+    # engraved copper ink, its own track (colorize LOCKED 2026-07-18).
+    unique_apex = is_unique and rank >= 6
 
     if neutral is not None:
         defs = ""
@@ -354,14 +429,20 @@ def badge_simple(value: str, rank: int, label: str, *, seal_only: bool = False,
         text_fill, frame, seal_color = neutral, "", WHITE
     else:
         defs, layers = _data_panel(left_w, panel_w, rank, "s", is_unique=is_unique)
-        if apex:
-            text_fill = APEX_INK
+        if unique_apex:
+            text_fill = UNIQUE_INK        # dark engraved ink on the copper ground
+        elif apex:
+            text_fill = APEX_INK          # dark engraved text on the gold ground
         elif is_unique:
-            text_fill = _UNIQUE_COLOR
+            text_fill = unique_hex(rank)  # 4★ violet, 5★ burnished copper
         else:
             text_fill = rank_hex(rank)
         frame = _frame(width, rank, is_unique)
-        seal_color = GOLD if apex else WHITE
+        seal_color = (
+            UNIQUE_COPPER_6 if unique_apex
+            else GOLD if apex
+            else WHITE
+        )
 
     body = (
         f'{defs}'
@@ -437,7 +518,7 @@ def badge_handle(handle: str, slash: str, rank: int, label: str, *,
             f'{_gaia_wordmark(seal_only, seal_color)}'
             f'<text x="{left_w + PAD:.1f}" y="{TEXT_Y}" font-family="{FONT}" '
             f'font-size="{FS}" font-weight="700">'
-            f'<tspan fill="{HONOR_RED}">{_xml(handle_text)}</tspan>'
+            f'<tspan fill="{ORIGIN_GOLD}">{_xml(handle_text)}</tspan>'
             f'<tspan fill="{GOLD}">{_xml(slash)}</tspan></text>'
             f'{sep_text}{star_text}{frame}'
         )
@@ -447,7 +528,7 @@ def badge_handle(handle: str, slash: str, rank: int, label: str, *,
             f'{_gaia_wordmark(seal_only, seal_color)}'
             f'<text x="{left_w + PAD:.1f}" y="{TEXT_Y}" font-family="{FONT}" '
             f'font-size="{FS}" font-weight="700">'
-            f'<tspan fill="{HONOR_RED}">{_xml(handle_text)}</tspan>'
+            f'<tspan fill="{ORIGIN_GOLD}">{_xml(handle_text)}</tspan>'
             f'<tspan fill="{accent}">{_xml(slash)}</tspan>'
             f'<tspan fill="{SLATE}">{_xml(sep)}</tspan>'
             f'<tspan fill="{accent}">{_xml(star_value)}</tspan></text>'
@@ -614,8 +695,12 @@ def write_user_badges(handle: str, info: dict,
     user_dir.mkdir(parents=True, exist_ok=True)
 
     if top_rank > 0:
-        rank_name = RANK_NAMES.get(top_rank, f"{top_rank}★")
-        # "Hardened · 4★" — rank class name anchors meaning, star count is numeric
+        # Branch-forked rank word (Ygg-II E1/E2): the highest-ranked named
+        # skill determines the branch. computeBranch reads level+suiteComponents,
+        # NEVER a stored type/tier field.
+        top_skill = info.get("top_skill") if info else None
+        rank_name = emitted_rank_word(top_skill) if top_skill else "Awakened"
+        # "Extra · 4★" / "Unique · 4★" — rank word anchors meaning, star count numeric
         value = f"{rank_name} · {top_rank}★"
         label = f"Gaia rank: {rank_name} ({top_rank} stars)"
         (user_dir / "rank.svg").write_text(
@@ -638,7 +723,7 @@ def write_user_badges(handle: str, info: dict,
         top = info["top_skill"]
         slash = named_slug(top)
         rank = level_num(top.get("level", ""))
-        is_unique = top.get("type") == "unique"
+        is_unique = skill_branch(top) == "unique"
 
         badge_handle_text = REDACTED_HANDLE if is_redacted(rank) else handle
         label = f"Gaia: @{badge_handle_text}{slash} {rank} stars"
@@ -661,7 +746,7 @@ def write_user_badges(handle: str, info: dict,
             if is_redacted(srank):
                 continue
 
-            is_sunique = skill.get("type") == "unique"
+            is_sunique = skill_branch(skill) == "unique"
             # srank is always ≥ 2 here (≤1★ skipped above) — handle is public.
             badge_handle_text = handle
             slabel = f"Gaia: @{badge_handle_text}{sslash} {srank} stars"
@@ -696,24 +781,30 @@ def write_sample_badges(rank_colors: dict[int, str], out_dir: Path) -> None:
     can preview the seal-only mode under the "Hide Gaia" toggle."""
     samples_dir = out_dir / "samples"
     samples_dir.mkdir(parents=True, exist_ok=True)
-    for n in range(1, 7):
-        rank_name = RANK_NAMES.get(n, f"{n}★")
+    suite_words = ("Awakened", "Named", "Evolved", "Extra", "Ultimate", "Apex")
+    for n, rank_name in enumerate(suite_words, start=1):
+        # Sample ladder shows the shared 1-3★ words + the suite 4-6★ fork
+        # (Extra/Ultimate/Apex); the unique fork gets its own sample below.
         value = f"{rank_name} · {n}★"
         label = f"Gaia rank sample: {rank_name} ({n} stars)"
         (samples_dir / f"rank-{n}.svg").write_text(
             badge_simple(value, n, label), encoding="utf-8")
         (samples_dir / f"rank-{n}-seal.svg").write_text(
             badge_simple(value, n, label, seal_only=True), encoding="utf-8")
-    # Unique tier — a 4★ skill that reached elite rank without ever fusing; it
-    # reads as "off-spectrum" via the deep-violet treatment in _data_panel.
-    unique_value = "Unique · 4★"
-    unique_label = "Gaia rank sample: Unique (4 stars)"
-    (samples_dir / "rank-unique.svg").write_text(
-        badge_simple(unique_value, 4, unique_label, is_unique=True),
-        encoding="utf-8")
-    (samples_dir / "rank-unique-seal.svg").write_text(
-        badge_simple(unique_value, 4, unique_label, seal_only=True, is_unique=True),
-        encoding="utf-8")
+    # Unique branch samples — 4★/5★/6★ (Unique / Unique Ultimate / Unique Impossible)
+    for u_n, u_word, u_slug in [
+        (4, "Unique", "unique"),
+        (5, "Unique Ultimate", "unique-5"),
+        (6, "Unique Impossible", "unique-6"),
+    ]:
+        u_value = f"{u_word} · {u_n}★"
+        u_label = f"Gaia rank sample: {u_word} ({u_n} stars)"
+        (samples_dir / f"rank-{u_slug}.svg").write_text(
+            badge_simple(u_value, u_n, u_label, is_unique=True),
+            encoding="utf-8")
+        (samples_dir / f"rank-{u_slug}-seal.svg").write_text(
+            badge_simple(u_value, u_n, u_label, seal_only=True, is_unique=True),
+            encoding="utf-8")
 
 
 def extract_repo(url: str) -> str | None:
@@ -769,15 +860,17 @@ def build_registry(contributors: dict[str, dict]) -> dict:
                 "name": skill.get("name", ""),
                 "rank": level_num(skill.get("level", "")),
                 "type": skill.get("type", ""),
+                "branch": skill_branch(skill),
                 "slash": slash,
                 "file": f"{fname}.svg",
                 "fileSeal": f"{fname}-seal.svg",
             })
-        # Sort: rank desc, then origin first, then alphabetical by id.
-        named_skills_payload.sort(key=lambda s: (-s["rank"], 0 if s.get("type") == "unique" else 1, s["id"]))
+        # Sort: rank desc, then unique-branch first, then alphabetical by id.
+        # Branch is read-time derived (E1) — never the dead `type == "unique"`.
+        named_skills_payload.sort(key=lambda s: (-s["rank"], 0 if s.get("branch") == "unique" else 1, s["id"]))
 
         top_skill_obj = info.get("top_skill")
-        top_is_unique = bool(top_skill_obj and top_skill_obj.get("type") == "unique")
+        top_is_unique = bool(top_skill_obj and skill_branch(top_skill_obj) == "unique")
         out[handle] = {
             "repos": sorted(repos.keys()),
             "skillsByRepo": {r: sorted(ids) for r, ids in repos.items()},

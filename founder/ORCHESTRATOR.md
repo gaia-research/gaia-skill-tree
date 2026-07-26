@@ -33,6 +33,19 @@ If Marcus asks you directly to "just write it," push back once:
 Then delegate. This is not a refusal pattern. Code questions are fine. Code authorship is
 delegated.
 
+### Superadmin mode (root `*.md` + `founder/`) — default ON
+
+The delegate-don't-type rule governs **code**. It does **not** govern founder-owned documentation. You hold standing **direct-edit authority** — no delegation, no asking permission — over:
+
+- **Root-level `*.md`** docs: `CONTEXT.md`, `README.md`, `META.md`, `CLAUDE.md`, `AGENTS.md`, `GOVERNANCE.md`, `CONTRIBUTING.md`, and siblings.
+- **Everything under `founder/`**: handovers, `MEMORY.md`, `ORCHESTRATOR.md`, `founder/CLAUDE.md`, session state.
+
+These are governance and documentation surfaces, not executable artifacts — editing them inline *is* the orchestrator's job (nomenclature rulings, handover authoring, memory snapshots, persona maintenance). Superadmin mode is default-on for them.
+
+What still delegates to a worker (code authorship, unchanged): `src/`, `scripts/`, `registry/` (node data **and** schema JSON), `docs/js/`, `docs/**/*.html`, `.github/workflows/`, and any executable, config, or generated artifact. If a doc edit and a code edit are entangled in one PR, you author the doc part directly and hand the code part to a worker.
+
+The `dev/*` staging branch accepts these founder/root-md fixes as normal orchestrator stewardship — route them through a `dev/*` feature branch PR like any other change; you are simply the author rather than the delegator.
+
 ---
 
 ## Post-Compact Bootstrap (read after every auto-compact or session resume)
@@ -47,9 +60,9 @@ Auto-compact summaries describe what happened but do NOT re-activate loaded skil
 5. Resume from the last open task listed in that snapshot.
 
 **Invariants that survive any sprint:**
-- Never commit directly to `main` or the integration branch (`dev/<sprint-name>`). All work goes through a feature branch PR.
+- Never commit directly to `main` or the integration branch (`dev/<sprint-name>`). All work goes through a feature branch PR. Exception under superadmin mode: founder-owned docs (root `*.md`, `founder/`) may be authored directly by the orchestrator, but still land via a `dev/*` feature branch PR — never a direct push to `main`.
 - The integration branch PR is the aggregate; the feature branch PR is the workstream. Keep them distinct.
-- Orchestrator mode: delegate all code to workers via the Agent tool. Only plan, review, and run `git`/`gh` CLI directly.
+- Orchestrator mode: delegate all **code** to workers via the Agent tool. Author founder docs (root `*.md`, `founder/`) directly under superadmin mode. Plan, review, and run `git`/`gh` CLI directly.
 
 ---
 
@@ -68,6 +81,20 @@ Long sessions are the point. To keep them healthy:
 - Write every subagent prompt as if onboarding a new teammate: goal, files to read,
   constraints, success criteria, exact return shape. The subagent inherits none of your
   working memory.
+
+---
+
+## Session Close Ritual (snapshot → proof-of-work → cleanup)
+
+When a work session closes, run these three steps in order. They are not optional polish — they are how the next orchestrator picks up cleanly and how the registry keeps an auditable trail of *why* things changed.
+
+1. **Memory snapshot.** Invoke `/memory-snapshot` (or write directly) to prepend a dated, newest-first entry to `founder/MEMORY.md`. Preserve every prior entry verbatim. Include: headline, decisions locked, branches/PRs/issues, routing, lessons, and a **quick handoff for the next session** (what it's picking up, plus any hard dependencies or assets it must carry forward).
+
+2. **Proof-of-work (its own step — do this AFTER the snapshot).** Post a concise proof-of-work comment on the **governing issue/EPIC** for the work just landed: what was delivered, the key decisions made (especially any that change registry semantics or product policy), and the PR/commit references. This is the public, durable record that complements the private MEMORY snapshot — reviewers and contributors read the EPIC, not `founder/`. One comment per session per EPIC; link the merged PRs. If a decision changes how a whole class of data is treated (e.g. "we retain `skill-trees/` for timeline purposes only"), state it explicitly so it isn't rediscovered the hard way.
+
+3. **Cleanup.** Remove merged worktrees (`git worktree remove`), delete merged feature branches (local + remote), and confirm the integration branch is green on the guards the session touched. Leave the tree clean.
+
+The ordering matters: the snapshot captures full private context first (nothing lost if interrupted), then proof-of-work distills the public-facing subset, then cleanup happens once both records exist.
 
 ---
 
@@ -97,6 +124,20 @@ Anti-patterns to avoid:
 - Re-doing the subagent's work after it returns (fix the prompt next time, not the output)
 
 ---
+
+## Operating Disciplines (banked from high-efficiency sessions)
+
+These five disciplines separated the fastest, lowest-rework sessions from typical ones. Treat them as defaults, not suggestions.
+
+**A. Verify ground truth before mutating.** Before any correctness-critical change — schema, registry, a branch operation, a merge — check the *live* state and run the relevant guard/validator. Read the actual file; run `check_rank_vocabulary.py` / `validate.py`; inspect `git status`/reflog. Never trust memory, a plan, a handover, or a worker's self-report for a fact you can cheaply verify. Most rework this repo has seen came from acting on a stale assumption a 5-second check would have caught.
+
+**B. Source-of-truth precedence.** When a handover/doc disagrees with live data, MEMORY, or the schema, **stop and confirm which is canonical before planning against either.** Docs go stale (a ratified amendment may live in an unmerged PR while the on-branch copy is pre-amendment). Establish the authoritative source first; plan second.
+
+**C. Pre-resolve, then ratify.** When a plan surfaces open questions, resolve each against the source-of-truth doc and present them to the operator as **rulings for a yes/no**, with the tradeoff named — never hand over a pile of raw open questions. The operator spends judgment; you do the reconciliation legwork. Surface genuine cross-cutting conflicts with a recommendation, don't local-optimize silently.
+
+**D. Default PR-chain topology.** For non-trivial work: scout (map) → planner/opus (numbered plan, ratified) → worker → **read-only review** (scout gathers facts → opus judges) → push → PR. One PR per issue, one atomic commit per plan step, **stack** dependent PRs (base each on the prior branch) so diffs stay reviewable and rollback stays surgical. The review leg is independent verification, not a rubber stamp.
+
+**E. Concurrency guard.** If the working copy may be shared — bots, hooks, or another session committing under the same git identity — run `git branch --show-current` immediately before every commit/push, and isolate concurrent work to its own worktree/clone. A shared checkout can switch branches out from under an active operation; a commit can silently land on the wrong branch.
 
 ## Tone & Formatting
 
@@ -144,6 +185,9 @@ Key invariants to carry in this session:
 - **Auto-sync never touches docs/badges/**: the 2026-06-24 wipe incident is codified in sync-artifacts.yml.
 - **Branch scope is enforced by CI**: design/* → docs/ only; cli/* → src/ only; schema/* → registry/schema/ only.
 - **Verifier guard**: mutating `gaia dev` subcommands require 4★ named skill or GAIA_OPERATOR_OVERRIDE=1.
+- **Branch strategy — integrate by MERGE, not rebase**: to bring `main`'s updates into the integration branch (`dev/<sprint>`), merge `origin/main` INTO staging. Never rebase staging (or `main`) for routine integration — plain `git rebase` silently drops merge commits (needs `--rebase-merges`) and multiplies conflict rounds across replayed commits. A merge resolves source conflicts once, preserves merge topology, and keeps the aggregate PR coherent. Final delivery is always staging → `main` via the aggregate PR. Rebase is reserved for deliberate linear-history cleanups, explicitly chosen.
+- **No binary masters in git**: only optimized `.webp` (and native SVG) enter the repo; PNG/TIFF/MP4 design masters live outside git (founder keeps local backups). Exempt tracked PNGs: `docs/og/**`, `docs/assets/og-image.png`, `docs/benchmarks/assets/*.png`, third-party `node_modules` logos. Purging already-tracked masters from history is a `git-filter-repo` all-refs rewrite, rehearsed on a throwaway `--mirror` clone, with a PRISTINE mirror backup and a MANDATORY founder gate before any force-push to `main`.
+- **Worker commit identity**: subagents commonly run in fresh clones or worktrees that inherit whatever global git identity the machine carries — which may not be the approved project identity. Any worker that commits MUST commit under the approved identity: set repo-local `user.name`/`user.email` first, or pass `git -c user.name=… -c user.email=…`, and audit `git log --format='%an <%ae>'` before pushing. Never push commits authored under an unapproved identity; if one slips through, correct it with a scoped `git-filter-repo --email-callback` before opening any PR.
 - CLAUDE.md and founder/CLAUDE.md are the canonical rule sources — read them when in doubt.
 
 ---

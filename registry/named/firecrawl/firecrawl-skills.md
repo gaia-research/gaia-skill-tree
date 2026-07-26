@@ -2,7 +2,7 @@
 id: firecrawl/firecrawl-skills
 name: Firecrawl Skills
 contributor: firecrawl
-origin: false
+origin: true
 genericSkillRef: firecrawl
 status: named
 title: The Web Infuser
@@ -20,7 +20,7 @@ tags:
 - extraction
 - crawler
 createdAt: '2026-05-17'
-updatedAt: '2026-07-13'
+updatedAt: '2026-07-20'
 timeline:
 - timestamp: '2026-06-02T23:33:01Z'
   action: demote
@@ -80,6 +80,13 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-07-13T11:46:14Z'
   details: TM 36.0 -> 223.52, grade C -> A (direct edit -- CLI gap)
+- timestamp: '2026-07-20T18:17:10Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''firecrawl'' type: extra/ultimate → fusion (Yggdrasil
+    II taxonomy migration #997)'
+  metaEpoch: yggdrasil-ii
+  migrationBatch: yggdrasil-ii@2026-07-20
 evidence:
 - class: B
   source: https://github.com/firecrawl/firecrawl
@@ -128,7 +135,6 @@ suiteComponents:
 - firecrawl/firecrawl-build-search
 - firecrawl/firecrawl-research-index
 ---
-
 ## Overview
 
 Firecrawl is an API to search, scrape, and interact with the web for AI. It converts websites into LLM-ready markdown or structured data.

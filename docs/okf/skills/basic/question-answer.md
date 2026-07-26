@@ -15,9 +15,9 @@ Produces accurate, context-grounded answers to natural-language questions, handl
 
 ## Derivatives
 
-- [Conversational Agent](/skills/extra/conversational-agent.md)
-- [Multimodal Reasoning](/skills/extra/multimodal-reasoning.md)
-- [Voice Agent](/skills/extra/voice-agent.md)
-- [Founder Mode](/skills/ultimate/founder-mode-orchestration.md)
-- [Brainstorming](/skills/extra/brainstorming.md)
+- [Conversational Agent](/skills/fusion/conversational-agent.md)
+- [Multimodal Reasoning](/skills/fusion/multimodal-reasoning.md)
+- [Voice Agent](/skills/fusion/voice-agent.md)
+- [Founder Mode](/skills/fusion/founder-mode-orchestration.md)
+- [Brainstorming](/skills/fusion/brainstorming.md)
 

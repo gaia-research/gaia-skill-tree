@@ -8,10 +8,14 @@
       "trustMagnitude": 37.47,
       "overallTrustGrade": "C",
       "contributor": "bradautomates",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/bradautomates/claude-video.json"
-      }
+      },
+      "genericSkillRef": "video-intelligence"
     }
   ],
   "namedSkillsCount": 1,

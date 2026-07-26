@@ -13,10 +13,12 @@
  *                                     the canonical OG is server-rendered
  *                                     by scripts/generateOgCards.py)
  *
- * All variants emit `.plaque` + `.plaque--<variant>` with the existing
- * `data-type="<basic|extra|unique|ultimate>"` and `data-level="N"`
- * attributes. Apex (6★) adds `plaque--apex-vi` for the rainbow shimmer
- * shadow animation defined in plaque.css.
+ * All variants emit `.plaque` + `.plaque--<variant>` with the BUILD-EMITTED
+ * `data-branch="<standard|suite|unique>"` (rubric E1 — read from the named
+ * index, never recomputed from ns.type) plus `data-level="N"`. A
+ * legacy `data-type="<basic|fusion>"` is retained for old hooks only; visual
+ * selectors key on data-branch. Apex (6★) adds `plaque--apex-vi` for the
+ * rainbow shimmer shadow animation defined in plaque.css.
  *
  * Forbidden: inline SVG strings, inline hex codes, inline rank chips.
  * - Icons: window.gaiaIcon(id, opts).
@@ -60,6 +62,69 @@
     return window.rankBadge(level, opts || {});
   }
 
+  // ── Yggdrasil II build-first semantics ───────────────────────────
+  // Taxonomy is ratified by the named-index build. Plaques only read its
+  // emitted branch/rankWord fields; they never invoke a resolver or switch on
+  // ns.type. The standard fallback is display-only for stale, pre-build data.
+  function branchOf(ns) {
+    var emitted = String(ns && ns.branch || '').toLowerCase();
+    return /^(standard|suite|unique)$/.test(emitted) ? emitted : 'standard';
+  }
+
+  function rankWordOf(level, branch, ns) {
+    return String(ns && ns.rankWord || '');
+  }
+
+  // Branch-keyed glyph + sort priority for the multi-skill stack variants
+  // (mini-stack, hall plate). Rubric E1: keyed by the emitted branch, never by
+  // ns.type. Glyphs mirror the tokens.css tier symbols (unique ◉, suite ◆,
+  // standard ○). Sort priority ranks the flashier branches first within a
+  // level tie (unique → suite → standard).
+  var BRANCH_GLYPH = { unique: '◉', suite: '◆', standard: '○' };
+  var BRANCH_SORT = { unique: 0, suite: 1, standard: 2 };
+
+  // ── AOV4 medallion resolver ──────────────────────────────────────
+  // The rank medallion IS the Ascension-Overdrive v4 stamp. Suite/standard
+  // branches use the C family (c1..c6); the Unique branch uses the D family
+  // (d4..d6). Size tier (badge/card/hero) is picked by the render variant.
+  var AOV_SUITE_STEM = {
+    1: 'c1-suite-awakened', 2: 'c2-suite-named', 3: 'c3-suite-evolved',
+    4: 'c4-suite-extra', 5: 'c5-suite-ultimate', 6: 'c6-suite-apex',
+  };
+  var AOV_UNIQUE_STEM = {
+    4: 'd4-unique', 5: 'd5-unique-ultimate', 6: 'd6-unique-impossible',
+  };
+
+  // Base path prefix ('' at site root, '../../' on profile pages). Reuses the
+  // same derivation the icon sprite uses so relative asset URLs resolve on
+  // every page depth.
+  function _base() {
+    return (typeof window.gaiaIconBase === 'function')
+      ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '')
+      : '';
+  }
+
+  // Resolve an AOV4 stamp URL for a branch + rank at a given size tier.
+  function _aovStamp(branch, n, tier) {
+    tier = (tier === 'badge' || tier === 'card' || tier === 'hero') ? tier : 'card';
+    var stem;
+    if (branch === 'unique') {
+      stem = AOV_UNIQUE_STEM[Math.max(4, Math.min(6, n))];
+    } else {
+      stem = AOV_SUITE_STEM[Math.max(1, Math.min(6, n))];
+    }
+    return _base() + 'assets/ascension-overdrive/aov4-' + stem + '-' + tier + '.webp';
+  }
+
+  // Map the legacy CSS size modifier to an AOV size tier.
+  //   'sm' → badge · 'lg' → hero · (none) → card
+  function _sizeTier(sizeModifier) {
+    if (sizeModifier === 'sm') return 'badge';
+    if (sizeModifier === 'lg') return 'hero';
+    return 'card';
+  }
+
+
   function namedSlug(ns) {
     if (typeof window.namedSlug === 'function' && window.namedSlug !== namedSlug) return window.namedSlug(ns);
     if (!ns) return '';
@@ -88,11 +153,25 @@
   // chrome lives in CSS, never JS.
 
   function _fieldOrb(ns, sizeModifier) {
-    var type = (ns && ns.type) || 'basic';
+    var branch = branchOf(ns);
     var n = levelNum(ns && ns.level);
     var mod = sizeModifier ? ' plaque-orb--' + sizeModifier : '';
     var apex = n >= 6 ? ' plaque-orb--vi' : '';
-    return '<div class="plaque-orb plaque-orb--' + esc(type) + mod + apex + '" aria-hidden="true"></div>';
+    // The medallion IS the AOV4 stamp (rubric E3): no CSS-gradient orb
+    // stand-in on named skills. Branch (suite/unique) + rank pick the asset;
+    // the surface's size modifier picks badge/card/hero. Standard-branch
+    // named skills (rank 1..3) render the c1..c3 suite stamps.
+    var tier = _sizeTier(sizeModifier);
+    var src = _aovStamp(branch, n, tier);
+    var rankName = rankWordOf(ns && ns.level, branch, ns);
+    var alt = rankName ? rankName + ' medallion' : 'rank medallion';
+    // Decorative but rank-bearing: keep an accessible label. onerror keeps the
+    // element in flow (no empty hole) — falls back to the tier orb styling.
+    return '<span class="plaque-orb plaque-orb--medallion plaque-orb--' + esc(branch) + mod + apex +
+      '" data-branch="' + esc(branch) + '" role="img" aria-label="' + esc(alt) + '">' +
+      '<img class="plaque-orb__stamp" src="' + esc(src) + '" alt="" decoding="async" loading="lazy" ' +
+      'onerror="this.style.display=\'none\';this.parentNode.setAttribute(\'data-stamp-fail\',\'true\')">' +
+      '</span>';
   }
 
   function _fieldSlug(ns) {
@@ -117,14 +196,69 @@
     // a redaction marker where there is no handle to hide).
     if (!contributor) return '';
     var level = ns && ns.level;
-    // Pre-named/demoted (≤1★): redact the handle (slate, no honor-red link) and
-    // drop the origin badge — a pre-named skill has no Origin standing.
+    // Pre-named/demoted (≤1★): redact the handle (slate, no honor-red link).
+    // A pre-named skill has no Origin standing.
     if (window.isRedacted && window.isRedacted(level)) {
       return '<div class="plaque__handle plaque-contrib-row">' + window.redactedHandle() + '</div>';
     }
     var contribLink = handleLink(contributor, { level: level });
     if (!contribLink) return '';
-    return '<div class="plaque__handle plaque-contrib-row">' + contribLink + _fieldOriginBadge(ns) + '</div>';
+    // Rubric E4: the red inline origin mark is gone — Origin now renders in
+    // GOLD as the wreath framing the contributor avatar (_fieldAvatar).
+    return '<div class="plaque__handle plaque-contrib-row">' + contribLink + '</div>';
+  }
+
+  // ── contributor avatar, optionally framed by the gold origin wreath (E3/E4) ──
+  // Every skill surface renders the contributor's GitHub avatar. Only the
+  // skill marked `origin: true` receives the gold origin wreath
+  // (docs/assets/origin-wreath-gold.svg); it is the NEW origin mark (red → gold).
+  // The avatar links to the skill's repo
+  // (links.github), replacing the standalone GitHub button.
+  //
+  // Fallback: a missing avatar swaps to the GitHub identicon endpoint
+  // (github.com/identicons/<handle>.png), NEVER hides the img (no empty hole).
+  //
+  // Redacted (≤1★) skills expose no handle → no avatar (handle is withheld
+  // everywhere else too; showing a resolvable avatar would leak the handle).
+  //   opts.size   px for the avatar (default 40)
+  function _fieldAvatar(ns, opts) {
+    opts = opts || {};
+    var handle = (ns && ns.contributor) || '';
+    if (!handle) return '';
+    if (window.isRedacted && window.isRedacted(ns && ns.level)) return '';
+    var clean = String(handle).replace(/^@/, '');
+    var size = opts.size || 40;
+    var wreathSrc = _base() + 'assets/origin-wreath-gold.svg';
+    var avatarSrc = 'https://github.com/' + encodeURIComponent(clean) + '.png?size=' + (size * 2);
+    var identicon = 'https://github.com/identicons/' + encodeURIComponent(clean) + '.png';
+    var links = (ns && ns.links) || {};
+    var repoUrl = links.github || links.npm || '';
+    var isOrigin = !!(ns && ns.origin);
+    var title = isOrigin ? 'Origin contributor @' + clean : '@' + clean;
+    // onerror: fall back to the identicon once, then stop (avoid loops). Never
+    // set display:none — the frame must never render as an empty hole.
+    var errAttr = "if(this.dataset.fbk){this.onerror=null;}else{this.dataset.fbk='1';this.src='" +
+      jsStr(identicon) + "';}";
+    var img = '<img class="plaque__avatar-img" src="' + esc(avatarSrc) + '" ' +
+      'alt="" decoding="async" loading="lazy" referrerpolicy="no-referrer" ' +
+      'onerror="' + errAttr + '">';
+    var wreath = isOrigin
+      ? '<img class="plaque__avatar-wreath" src="' + esc(wreathSrc) + '" alt="" aria-hidden="true">'
+      : '';
+    var inner = img + wreath;
+    var body;
+    if (repoUrl) {
+      body = '<a class="plaque__avatar plaque__avatar--link" href="' + esc(repoUrl) + '" ' +
+        'target="_blank" rel="noopener" title="' + esc(title) + '" ' +
+        'aria-label="' + esc(title) + ' — view repository" ' +
+        'onclick="event.stopPropagation()" style="--avatar-size:' + (size | 0) + 'px"' +
+        (isOrigin ? ' data-origin="true"' : '') + '>' + inner + '</a>';
+    } else {
+      body = '<span class="plaque__avatar" title="' + esc(title) + '" ' +
+        'aria-label="' + esc(title) + '" style="--avatar-size:' + (size | 0) + 'px"' +
+        (isOrigin ? ' data-origin="true"' : '') + '>' + inner + '</span>';
+    }
+    return body;
   }
 
   function _fieldDescription(ns) {
@@ -146,19 +280,19 @@
 
   function _fieldRank(ns, variant) {
     var v = variant || 'stars';
-    var type = (ns && ns.type) || 'basic';
-    var html = rankBadge(ns && ns.level, { variant: v, label: ns && ns.level, tier: type });
+    // Rubric E1/E2: pass the DERIVED branch (not ns.type) so rank-badge.js
+    // colours the stars by branch register (unique = violet, suite = gold).
+    var branch = branchOf(ns);
+    var html = rankBadge(ns && ns.level, { variant: v, label: ns && ns.level, tier: branch });
     if (!html) return '';
     return '<div class="plaque__rank">' + html + '</div>';
   }
 
+  // Deprecated — the standalone "GitHub" button is removed (rubric E3): the
+  // wreathed avatar (_fieldAvatar) is now the repo link. Kept as a no-op so
+  // any lingering call site emits nothing rather than a duplicate link.
   function _fieldGhLink(ns) {
-    var links = (ns && ns.links) || {};
-    var url = links.github || links.npm || '';
-    if (!url) return '';
-    return '<a class="plaque__gh-link ns-gh-link" href="' + esc(url) +
-      '" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View on GitHub">' +
-      icon('github', 14) + '</a>';
+    return '';
   }
 
   function _fieldVariantsBadge(ns) {
@@ -169,14 +303,12 @@
       '</div>';
   }
 
+  // Deprecated (rubric E4): the honor-red #origin-badge laurel is gone.
+  // Origin is now rendered in GOLD as the wreath framing the contributor
+  // avatar (_fieldAvatar sets data-origin). No red origin icon survives —
+  // this returns nothing so the old inline red mark never renders.
   function _fieldOriginBadge(ns) {
-    if (!ns || !ns.origin) return '';
-    // Stage 4 — render the origin badge from the shared sprite so it inherits
-    // --honor-red via currentColor. Include a small (i) icon for context on hover.
-    return '<span class="plaque__origin" data-tooltip="Origin contributor: The creator of the first skill version" aria-label="Origin contributor: The creator of the first skill version">' +
-      icon('origin-badge', 16) +
-      '<span class="origin-info" style="margin-left: 3px; color: var(--muted); opacity: 0.7;">' + icon('info', 10) + '</span>' +
-      '</span>';
+    return '';
   }
 
   // Install row — shared mini-terminal block (used by tile / detail / settled).
@@ -361,6 +493,7 @@
   // ── plaque shell ─────────────────────────────────────────────────
   function _shell(variant, ns, innerHtml, extraOpts) {
     var type = (ns && ns.type) || 'basic';
+    var branch = branchOf(ns);
     var n = levelNum(ns && ns.level);
     var apex = n >= 6 ? ' plaque--apex-vi' : '';
     extraOpts = extraOpts || {};
@@ -378,8 +511,12 @@
     var isMiniStack = extraOpts.extraClass &&
       extraOpts.extraClass.indexOf('plaque--mini-stack') !== -1;
     var trustNotch = (!isMiniStack) ? _fieldTrustNotch(ns) : '';
+    // Rubric E3/E1: stamp the DERIVED data-branch (standard|suite|unique).
+    // Every downstream visual selector (dark unique / gold suite) keys on
+    // data-branch, NOT data-type. data-type is retained for legacy hooks only.
     return '<article class="plaque plaque--' + esc(variant) + apex + extraCls +
-      '" data-type="' + esc(type) + '" data-level="' + esc(n) +
+      '" data-type="' + esc(type) + '" data-branch="' + esc(branch) +
+      '" data-level="' + esc(n) +
       '" data-skill-id="' + esc(ns && ns.id || '') + '"' +
       clickAttr + role + extraAttrs + '>' +
       innerHtml +
@@ -412,31 +549,40 @@
 
     var inner =
       _fieldOrb(ns) +
+      (isGhost ? '' : _fieldAvatar(ns, { size: 28 })) +
       (isGhost ? '' : _fieldHandleRow(ns)) +
       (isGhost ? '' : _fieldRank(ns, 'stars')) +
       (isGhost ? _fieldSlug(ns) : _fieldSlugInteractive(ns, slugOnclick)) +
-      (isGhost ? '' : _fieldFullscreenBtn(ns)) +
-      (isGhost ? '' : _fieldGhLink(ns));
+      (isGhost ? '' : _fieldFullscreenBtn(ns));
 
     return _shell('mini', ns, inner, shellOpts);
   }
 
   // ── variant: tile (explorer grid) ────────────────────────────────
-  // Field set: header (orb + level chip + origin star + gh link)
-  //          · slug · title · handle · description · tags (3) · install row.
+  // Grouped by identity vs skill (Marco layout intent):
+  //   SKILL header: medallion + rank chip (reads toward the slug directly
+  //                 below — medallion + stars + slug all name the skill/rank)
+  //          · slug · title
+  //   PERSON pair:  wreathed avatar (32) + handle on one row
+  //          · description · tags (3) · install row.
   function renderTile(ns, opts) {
     var header =
       '<div class="plaque__header plaque-header">' +
         _fieldOrb(ns) +
         _fieldRank(ns, 'chip') +
-        _fieldGhLink(ns) +
+      '</div>';
+
+    var contributorRow =
+      '<div class="plaque__contributor plaque-contributor-row">' +
+        _fieldAvatar(ns, { size: 32 }) +
+        _fieldHandleRow(ns) +
       '</div>';
 
     var inner =
       header +
       _fieldSlug(ns) +
       _fieldTitle(ns) +
-      _fieldHandleRow(ns) +
+      contributorRow +
       _fieldDescription(ns) +
       _fieldTags(ns, 3) +
       _fieldInstallRow(ns);
@@ -453,22 +599,29 @@
       ? '<span class="plaque__ev-badge">' + esc(evText) + '</span>'
       : '';
     var inner =
-      _fieldOrb(ns, 'sm') +
-      _fieldSlug(ns) +
-      _fieldTitle(ns) +
-      _fieldHandleRow(ns) +
-      _fieldTags(ns, 2) +
-      _fieldInstallRow(ns) +
-      _fieldRank(ns, 'chip') +
-      _fieldGhLink(ns) +
-      evBadge +
-      '<span class="plaque__arrow ns-lr-arrow" aria-hidden="true">›</span>';
+      '<div class="plaque__row-content">' +
+        _fieldOrb(ns, 'sm') +
+        _fieldSlug(ns) +
+        _fieldTitle(ns) +
+        _fieldHandleRow(ns) +
+        _fieldTags(ns, 2) +
+        _fieldInstallRow(ns) +
+        _fieldRank(ns, 'chip') +
+        _fieldAvatar(ns, { size: 28 }) +
+        evBadge +
+      '</div>';
 
     return _shell('row', ns, inner, opts);
   }
 
   // ── variant: detail (explorer modal hero, two-column) ────────────
-  // Left column: orb (lg) · slug · handle · rank (full) · install row · gh link
+  // Left column grouped by identity vs skill (Marco layout intent):
+  //   PERSON pair:  wreathed avatar (56) · handle row
+  //   SKILL group:  slug · medallion (lg → 72px) · rank stars
+  //   then install row · share · claim
+  // Avatar reads WITH the handle (both name the contributor); the medallion
+  // sits between slug and stars (all three express the skill + its rank), and
+  // the medallion is the largest anchor (72 > 56 avatar).
   // Right column: title · description · tags
   function renderDetail(ns, opts) {
     opts = opts || {};
@@ -476,12 +629,6 @@
     // README" (badges?u=<handle>) all expose the handle — suppress them until
     // the skill is named (2★+).
     var redacted = window.isRedacted && window.isRedacted(ns && ns.level);
-    var links = (ns && ns.links) || {};
-    var repoUrl = (!redacted && (links.github || links.npm)) || '';
-    var ghLink = repoUrl
-      ? '<a class="plaque__gh-link ns-gh-link" href="' + esc(repoUrl) + '" target="_blank" rel="noopener" aria-label="Show on GitHub">' +
-          icon('github', 14) + '</a>'
-      : '';
 
     var skillId = (ns && ns.id) || '';
     var slashIdx = skillId.indexOf('/');
@@ -499,8 +646,10 @@
         icon('share', 14) +
       '</button>';
 
-    var ghRow = (ghLink || shareBtn)
-      ? '<div class="plaque__gh-row">' + ghLink + shareBtn + '</div>'
+    // Rubric E3: the standalone "GitHub" button is removed — the wreathed
+    // avatar (below) is the repo link. Only the share button remains here.
+    var ghRow = shareBtn
+      ? '<div class="plaque__gh-row">' + shareBtn + '</div>'
       : '';
 
     var prefix = (typeof window.gaiaIconBase === 'function')
@@ -518,9 +667,10 @@
 
     var left =
       '<div class="plaque__col plaque-detail-left">' +
-        _fieldOrb(ns, 'lg') +
-        _fieldSlug(ns) +
+        _fieldAvatar(ns, { size: 56 }) +
         _fieldHandleRow(ns) +
+        _fieldSlug(ns) +
+        _fieldOrb(ns, 'lg') +
         _fieldRank(ns, 'stars') +
         _fieldInstallRow(ns) +
         ghRow +
@@ -547,7 +697,12 @@
       '<div class="plaque__header plaque-header">' +
         _fieldOrb(ns) +
         _fieldRank(ns, 'chip') +
-        _fieldGhLink(ns) +
+      '</div>';
+
+    var contributorRow =
+      '<div class="plaque__contributor plaque-contributor-row">' +
+        _fieldAvatar(ns, { size: 32 }) +
+        _fieldHandleRow(ns) +
       '</div>';
 
     var evText = _evidenceClass(ns);
@@ -559,7 +714,7 @@
       header +
       _fieldSlug(ns) +
       _fieldTitle(ns) +
-      _fieldHandleRow(ns) +
+      contributorRow +
       _fieldDescription(ns) +
       _fieldTags(ns, 5) +
       _fieldRank(ns, 'stars') +
@@ -592,13 +747,16 @@
 
     var inner =
       header +
-      _fieldOrb(ns, 'lg') +
+      '<div class="plaque__og-medallion">' + _fieldOrb(ns, 'lg') + '</div>' +
+      '<div class="plaque__og-copy">' +
+      _fieldAvatar(ns, { size: 44 }) +
       _fieldSlug(ns) +
       _fieldTitle(ns) +
       _fieldHandleRow(ns) +
       _fieldDescription(ns) +
       _fieldTags(ns, 4) +
-      _fieldInstallRow(ns);
+      _fieldInstallRow(ns) +
+      '</div>';
 
     var shellOpts = Object.assign({}, opts, { click: false });
     return _shell('og', ns, inner, shellOpts);
@@ -618,11 +776,13 @@
   function renderMiniStack(skills, opts) {
     opts = opts || {};
     if (!Array.isArray(skills) || !skills.length) return '';
-    var TYPE_RANK = { ultimate: 0, unique: 1, extra: 2, basic: 3 };
+    // Rubric E1: sort by level, then by emitted branch (unique → suite →
+    // standard) — never by ns.type.
     var sorted = skills.slice().sort(function (a, b) {
       var ld = levelNum(b.level) - levelNum(a.level);
       if (ld !== 0) return ld;
-      return (TYPE_RANK[a.type] || 9) - (TYPE_RANK[b.type] || 9);
+      return (BRANCH_SORT[branchOf(a)] != null ? BRANCH_SORT[branchOf(a)] : 9) -
+             (BRANCH_SORT[branchOf(b)] != null ? BRANCH_SORT[branchOf(b)] : 9);
     });
     var primary = sorted[0];
     var maxRows = (typeof opts.maxRows === 'number') ? opts.maxRows : 3;
@@ -637,29 +797,33 @@
       origin: anyOrigin,
       level: primary.level,
       type: primary.type,
+      branch: primary.branch,
+      rankWord: primary.rankWord,
+      suiteComponents: primary.suiteComponents,
+      links: primary.links,
     };
-
-    var TIER_GLYPH = { ultimate: '◆', unique: '◉', extra: '◇', basic: '○' };
 
     var header =
       '<div class="plaque__stack-header">' +
         _fieldOrb(primaryNs) +
         _fieldHandleRow(primaryNs) +
+        _fieldAvatar(primaryNs, { size: 28 }) +
         _fieldFullscreenBtn(primaryNs) +
       '</div>';
 
     var rows = visible.map(function (s) {
       var n = levelNum(s.level);
-      var glyph = TIER_GLYPH[s.type] || TIER_GLYPH.basic;
+      var branch = branchOf(s);
+      var glyph = BRANCH_GLYPH[branch] || BRANCH_GLYPH.standard;
       var slug = namedSlug(s);
       var slugTitle = s.id || '';
       var clickAttr = s.onclick
         ? 'event.stopPropagation(); ' + s.onclick
         : '(function(id){if(typeof openSkillExplorer===\'function\')openSkillExplorer(id);})(\'' + jsStr(s.canonicalId || s.id) + '\')';
-      var stars = rankBadge(s.level, { variant: 'stars', label: s.level, tier: s.type });
-      return '<div class="plaque__stack-row" data-type="' + esc(s.type || 'basic') +
+      var stars = rankBadge(s.level, { variant: 'stars', label: s.level, tier: branch });
+      return '<div class="plaque__stack-row" data-branch="' + esc(branch) +
         '" data-level="' + esc(n) + '">' +
-          '<span class="plaque__stack-glyph tier-glyph" data-type="' + esc(s.type || 'basic') +
+          '<span class="plaque__stack-glyph tier-glyph" data-branch="' + esc(branch) +
             '" aria-hidden="true">' + glyph + '</span>' +
           '<button class="plaque__slug plaque-skill-name named-slug plaque__slug--clickable" type="button" ' +
             'title="' + esc(slugTitle) + '" onclick="' + clickAttr + '">' + esc(slug) + '</button>' +
@@ -690,11 +854,12 @@
   function renderHallPlate(skills, opts) {
     opts = opts || {};
     if (!Array.isArray(skills) || !skills.length) return '';
-    var TYPE_RANK = { ultimate: 0, unique: 1, extra: 2, basic: 3 };
+    // Rubric E1: sort by level, then by emitted branch — never by ns.type.
     var sorted = skills.slice().sort(function (a, b) {
       var ld = levelNum(b.level) - levelNum(a.level);
       if (ld !== 0) return ld;
-      return (TYPE_RANK[a.type] || 9) - (TYPE_RANK[b.type] || 9);
+      return (BRANCH_SORT[branchOf(a)] != null ? BRANCH_SORT[branchOf(a)] : 9) -
+             (BRANCH_SORT[branchOf(b)] != null ? BRANCH_SORT[branchOf(b)] : 9);
     });
     var primary = sorted[0];
     var maxRows = (typeof opts.maxRows === 'number') ? opts.maxRows : 3;
@@ -709,10 +874,13 @@
       origin: anyOrigin,
       level: primary.level,
       type: primary.type,
+      branch: primary.branch,
+      rankWord: primary.rankWord,
+      suiteComponents: primary.suiteComponents,
+      links: primary.links,
       trustMagnitude: primary.trustMagnitude,
     };
-
-    var TIER_GLYPH = { ultimate: '◆', unique: '◉', extra: '◇', basic: '○' };
+    var primaryBranch = branchOf(primary);
 
     // Resolve OG art path (primary skill).
     var handle = primary.contributor || '';
@@ -739,18 +907,22 @@
         '</div>';
     }
 
-    var primaryGlyph = TIER_GLYPH[primary.type] || TIER_GLYPH.basic;
     // Crest uses the contributor's GitHub avatar; the OG art remains as backdrop.
+    // Fix 3c: replace the glyph badge with the gold origin wreath (E4 rule).
+    var wreathSrc = _base() + 'assets/origin-wreath-gold.svg';
     var crestImg = avatarUrl
       ? '<img class="plaque__hall-crest-img" src="' + esc(avatarUrl) + '" alt="" ' +
           'decoding="async" loading="lazy" referrerpolicy="no-referrer" ' +
           'onerror="this.parentNode.setAttribute(\'data-crest-fail\',\'true\');this.style.display=\'none\'">'
       : '';
+    var crestWreath = anyOrigin
+      ? '<img class="plaque__hall-crest-wreath" src="' + esc(wreathSrc) + '" alt="" aria-hidden="true">'
+      : '';
     var crestHtml =
-      '<div class="plaque__hall-crest" data-type="' + esc(primary.type || 'basic') + '" ' +
+      '<div class="plaque__hall-crest" data-branch="' + esc(primaryBranch) + '" ' +
         'data-level="' + esc(levelNum(primary.level)) + '">' +
         crestImg +
-        '<span class="plaque__hall-crest-glyph" aria-hidden="true">' + primaryGlyph + '</span>' +
+        crestWreath +
       '</div>';
 
     // Meta row: handle + share button.
@@ -776,16 +948,17 @@
     // tier-aware per-row CSS in plaque.css just works.
     var rows = visible.map(function (s, idx) {
       var n = levelNum(s.level);
-      var glyph = TIER_GLYPH[s.type] || TIER_GLYPH.basic;
+      var branch = branchOf(s);
+      var glyph = BRANCH_GLYPH[branch] || BRANCH_GLYPH.standard;
       var slug = namedSlug(s);
       var slugTitle = s.id || '';
       var clickAttr = s.onclick
         ? 'event.stopPropagation(); ' + s.onclick
         : '(function(id){if(typeof openSkillExplorer===\'function\')openSkillExplorer(id);})(\'' + jsStr(s.canonicalId || s.id) + '\')';
-      var stars = rankBadge(s.level, { variant: 'stars', label: s.level, tier: s.type });
-      return '<div class="plaque__stack-row" data-type="' + esc(s.type || 'basic') +
+      var stars = rankBadge(s.level, { variant: 'stars', label: s.level, tier: branch });
+      return '<div class="plaque__stack-row" data-branch="' + esc(branch) +
         '" data-level="' + esc(n) + '" style="--row-index:' + idx + '">' +
-          '<span class="plaque__stack-glyph tier-glyph" data-type="' + esc(s.type || 'basic') +
+          '<span class="plaque__stack-glyph tier-glyph" data-branch="' + esc(branch) +
             '" aria-hidden="true">' + glyph + '</span>' +
           '<button class="plaque__slug plaque-skill-name named-slug plaque__slug--clickable" type="button" ' +
             'title="' + esc(slugTitle) + '" onclick="' + clickAttr + '">' + esc(slug) + '</button>' +
@@ -825,6 +998,7 @@
     // in call-site code — the public render methods are the contract.
     _fields: {
       orb: _fieldOrb,
+      avatar: _fieldAvatar,
       slug: _fieldSlug,
       title: _fieldTitle,
       handle: _fieldHandleRow,
@@ -832,8 +1006,6 @@
       tags: _fieldTags,
       rank: _fieldRank,
       install: _fieldInstallRow,
-      gh: _fieldGhLink,
-      origin: _fieldOriginBadge,
     },
   };
 

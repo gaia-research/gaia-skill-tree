@@ -8,10 +8,14 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "mbtiongson1",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mbtiongson1/gaia-audit.json"
-      }
+      },
+      "genericSkillRef": "registry-entry-audit"
     },
     {
       "id": "mbtiongson1/gaia-curation-review",
@@ -20,10 +24,14 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "mbtiongson1",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mbtiongson1/gaia-curation-review.json"
-      }
+      },
+      "genericSkillRef": "registry-entry-audit"
     },
     {
       "id": "mbtiongson1/gaia-meta-audit",
@@ -32,10 +40,14 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "mbtiongson1",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mbtiongson1/gaia-meta-audit.json"
-      }
+      },
+      "genericSkillRef": "registry-health-scan"
     },
     {
       "id": "mbtiongson1/gaia-preview",
@@ -44,10 +56,14 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "mbtiongson1",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mbtiongson1/gaia-preview.json"
-      }
+      },
+      "genericSkillRef": "deployment-automation"
     },
     {
       "id": "mbtiongson1/graphify-triage",
@@ -56,10 +72,14 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "mbtiongson1",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mbtiongson1/graphify-triage.json"
-      }
+      },
+      "genericSkillRef": "graph-driven-issue-triage"
     }
   ],
   "namedSkillsCount": 5,

@@ -104,10 +104,10 @@ def _hex_to_rgb(hex_str: str) -> tuple[int, int, int]:
 def _load_palette_from_registry() -> tuple[dict, dict]:
     """Parse TIER_COLORS and RANK_COLORS from gaia.json at module load."""
     _fallback_tier = {
+        # Yggdrasil II collapsed the type axis to {basic, fusion}. Mirrors
+        # meta.json types.colors so the fallback matches the registry palette.
         "basic": (56, 189, 248),
-        "extra": (192, 132, 252),
-        "unique": (124, 58, 237),
-        "ultimate": (245, 158, 11),
+        "fusion": (245, 158, 11),
     }
     _fallback_rank = {
         "0★": (148, 163, 184),
@@ -141,7 +141,92 @@ def _load_palette_from_registry() -> tuple[dict, dict]:
 
 TIER_COLORS, RANK_COLORS = _load_palette_from_registry()
 
-TYPE_SYMBOLS = {"basic": "○", "extra": "◇", "unique": "◉", "ultimate": "◆"}
+
+def _load_types_from_meta() -> tuple[dict, dict]:
+    """Load the canonical type labels + symbols from registry/schema/meta.json.
+
+    Single source of truth for the Yggdrasil II {basic, fusion} type axis. The
+    schema meta block (`types.labels`, `types.symbols`) is authoritative; the
+    hard-coded fallback mirrors it so the CLI still renders if meta.json is
+    unreadable in a stripped install.
+    """
+    _fallback_symbols = {"basic": "○", "fusion": "◆"}
+    _fallback_labels = {"basic": "Basic", "fusion": "Fusion"}
+    candidates = [
+        os.path.join(os.path.dirname(__file__), "..", "..", "registry", "schema", "meta.json"),
+        os.path.join(os.path.dirname(__file__), "data", "registry", "schema", "meta.json"),
+    ]
+    for p in candidates:
+        resolved = os.path.normpath(p)
+        if not os.path.isfile(resolved):
+            continue
+        try:
+            with open(resolved, "r", encoding="utf-8") as f:
+                types = json.load(f).get("types", {})
+            symbols = dict(types.get("symbols") or {}) or _fallback_symbols
+            labels = dict(types.get("labels") or {}) or _fallback_labels
+            return symbols, labels
+        except Exception:
+            break
+    return _fallback_symbols, _fallback_labels
+
+
+# Type glyphs + labels — single source of truth: meta.json `types` block.
+# Yggdrasil II collapsed the type axis to {basic, fusion}; type words stand
+# bare ("Basic", "Fusion") with NO "Skill" suffix (that suffix is a rank-word
+# convention — see check_rank_vocabulary.py).
+TYPE_SYMBOLS, TYPE_LABELS = _load_types_from_meta()
+
+
+def _load_level_labels_from_meta() -> dict:
+    """Load the Suite/shared rank labels from registry/schema/meta.json.
+
+    meta.json `levels.labels` holds the Suite-branch (and 1-3★ shared) defaults:
+    0★ Basic · 1★ Awakened · 2★ Named · 3★ Evolved · 4★ Extra · 5★ Ultimate ·
+    6★ Apex. The Unique-branch alternates are rendered in code (below), not stored
+    in meta.
+    """
+    _fallback = {
+        "0★": "Basic", "1★": "Awakened", "2★": "Named", "3★": "Evolved",
+        "4★": "Extra", "5★": "Ultimate", "6★": "Apex",
+    }
+    candidates = [
+        os.path.join(os.path.dirname(__file__), "..", "..", "registry", "schema", "meta.json"),
+        os.path.join(os.path.dirname(__file__), "data", "registry", "schema", "meta.json"),
+    ]
+    for p in candidates:
+        resolved = os.path.normpath(p)
+        if not os.path.isfile(resolved):
+            continue
+        try:
+            with open(resolved, "r", encoding="utf-8") as f:
+                labels = json.load(f).get("levels", {}).get("labels") or {}
+            return dict(labels) or _fallback
+        except Exception:
+            break
+    return _fallback
+
+
+# Suite / shared rank labels (meta.json defaults) and the Unique-branch alternates.
+# Yggdrasil II v2 ladders (fork at 4★+):
+#   Suite : 4★ Extra  · 5★ Ultimate         · 6★ Apex
+#   Unique: 4★ Unique · 5★ Unique Ultimate  · 6★ Unique Impossible
+# 1★-3★ are the shared ladder (no branch distinction).
+LEVEL_LABELS_SUITE = _load_level_labels_from_meta()
+LEVEL_LABELS_UNIQUE = {
+    "4★": "Unique",
+    "5★": "Unique Ultimate",
+    "6★": "Unique Impossible",
+}
+
+# Distinct dark-violet accent for the Unique branch ("standing stones beside the
+# tree" — design-v6.1.1 §2.2). Only the 4★-6★ fork carries a distinct color;
+# 1★-3★ share the standard rank ramp.
+RANK_COLORS_UNIQUE = {
+    "4★": (124, 58, 237),   # #7c3aed violet (Amethyst — Unique branch entry)
+    "5★": (178, 106, 58),   # #b26a3a burnished copper (Unique Ultimate)
+    "6★": (224, 137, 74),   # #e0894a ember copper (Unique Impossible)
+}
 
 # Evidence Grade colors — single source of truth for grade design tokens.
 # Platinum (S) / Gold (A) / Silver (B) / Bronze (C)
@@ -273,10 +358,13 @@ def format_skill_colored(skill_id: str, level: str = "0★", *,
 
 
 def format_type_label(skill_type: str) -> str:
-    """Return type glyph + label like '○ Basic Skill'."""
-    labels = {"basic": "Basic Skill", "extra": "Extra Skill", "unique": "Unique Skill", "ultimate": "Ultimate Skill"}
+    """Return type glyph + label like '○ Basic'.
+
+    Yggdrasil II: type words stand bare (no "Skill" suffix). Labels + glyphs are
+    sourced from meta.json via TYPE_LABELS / TYPE_SYMBOLS (single source).
+    """
     symbol = TYPE_SYMBOLS.get(skill_type, "?")
-    label = labels.get(skill_type, skill_type)
+    label = TYPE_LABELS.get(skill_type, skill_type.capitalize())
     return f"{symbol} {label}"
 
 
@@ -291,6 +379,17 @@ def format_level_colored(level: str) -> str:
     """Return level badge colored by rank."""
     rank_color = RANK_COLORS.get(level, RANK_COLORS["0★"])
     return f"{_fg(*rank_color)}{level}{_reset()}"
+
+
+def rank_color_for(level: str, branch: str = "suite") -> tuple[int, int, int]:
+    """Return the RGB for a (level, branch) pair.
+
+    The Unique branch (4★+) uses the distinct dark-violet accent; every other
+    case falls back to the standard rank ramp (RANK_COLORS).
+    """
+    if branch == "unique" and level in RANK_COLORS_UNIQUE:
+        return RANK_COLORS_UNIQUE[level]
+    return RANK_COLORS.get(level, RANK_COLORS["0★"])
 
 
 def rank_hex(rank: str) -> str:

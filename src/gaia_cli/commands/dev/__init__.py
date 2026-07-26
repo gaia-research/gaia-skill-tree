@@ -71,7 +71,7 @@ Registry development commands (requires Verifier authorization):
   gaia dev evidence <skillId> <source> [--trust <0-100>] [--type <type>] [--evaluator <user>]
   gaia dev rm-evidence <skill_id> (--index N | --source URL) [--yes]
   gaia dev timeline <skill_id> --action <action> --notes <notes> [--user <username>]
-  gaia dev fuse <generic_id> [--name ...] [--type ultimate|extra|unique|basic] [--prereqs a,b,c] \\
+  gaia dev fuse <generic_id> [--name ...] [--prereqs a,b,c] \\
                 [--named-capstone contributor/slug] [--suite-components a,b,c]
   gaia dev build
   gaia dev verify <skill_id>
@@ -215,9 +215,10 @@ class DevCommand(Command):
         )
         dev_add.add_argument(
             "--type",
-            choices=("basic", "extra", "ultimate", "unique"),
+            choices=("basic", "fusion"),
             default="basic",
-            help="Skill type (default: basic)",
+            help="Structural type of the starless node: 'basic' (0 prerequisites) "
+                 "or 'fusion' (>=1 prerequisite). Default: basic. (Yggdrasil II)",
         )
         dev_add.add_argument("--description", help="Skill description")
         dev_add.add_argument(
@@ -281,8 +282,9 @@ class DevCommand(Command):
         dev_reclassify.add_argument("skill_id", help="Generic skill ID to reclassify")
         dev_reclassify.add_argument(
             "new_type",
-            choices=("basic", "extra", "ultimate", "unique"),
-            help="New skill type",
+            choices=("basic", "fusion"),
+            help="New structural type: 'basic' (0 prerequisites) or 'fusion' "
+                 "(>=1 prerequisite). (Yggdrasil II)",
         )
         dev_reclassify.add_argument(
             "--no-build",
@@ -624,11 +626,6 @@ class DevCommand(Command):
         dev_fuse.add_argument(
             "--description",
             help="Description for the generic fusion node (>=10 chars; required if creating).",
-        )
-        dev_fuse.add_argument(
-            "--type",
-            choices=("basic", "extra", "ultimate", "unique"),
-            help="Skill type for the generic fusion node (default: ultimate).",
         )
         dev_fuse.add_argument(
             "--prereqs",

@@ -33,6 +33,20 @@ Generate yours at **[gaiaskilltree.com/badges/](https://gaiaskilltree.com/badges
 
 ---
 
+## Change Management — Yggdrasil II (July 2026)
+
+Gaia has moved from **Yggdrasil I** to **Yggdrasil II**, the ratified meta that governs how skills are typed, ranked, and trusted. If you last looked before July 2026, three things changed:
+
+- **Trust Magnitude is the sole promotion gate.** The old per-star *Evidence Floor* is retired. A skill rises by accumulating Trust Magnitude — an unbounded score summed across ten evidence types (`magnitude × weight × freshness`), graded S ≥ 250 / A ≥ 100 / B ≥ 50 / C ≥ 20. The legacy "≥ 10k repository stars" hard requirement for the top pathways is gone; TM is the only numeric gate.
+- **Two node types, not five.** `extra`, `ultimate`, and `unique` are retired — every non-basic node is now `fusion`. Type is pure structure and lives only on starless (generic) references; **named skills carry no type**.
+- **Branch is derived, never declared.** A named skill's branch is computed at read-time from `branch = f(suiteComponents present?, rank)` — `suite` (has suiteComponents, any rank; ladder words Extra → Ultimate → Apex appear at 4★+), `unique` (no suiteComponents, rank ≥ 4; ladder Unique → Unique Ultimate → Unique Impossible), or `standard` (rank 1–3). No hand-maintained branch field to drift. The two 6★ pinnacles are **Apex** (suite branch) and **Unique Impossible** (unique branch).
+
+Stars now live on **named skills only**; generic references are *starless* — rank-less taxonomy nodes whose effective rank is the top star among their named children.
+
+**The full ruleset lives in [META.md](META.md)** (the single source of truth) and [CONTEXT.md](CONTEXT.md) (vocabulary). Explore it live at **[gaiaskilltree.com](https://gaiaskilltree.com/)** — the redesigned site renders the graph, per-contributor trees, the public [Trust leaderboard](https://gaiaskilltree.com/trust/leaderboard/), and every skill's evidence ledger.
+
+---
+
 # Who maintains this?
 
 Right now just me.
@@ -48,36 +62,43 @@ So that means, its the developers who make skills maintaining this. I have a tho
 <!-- gaia:registry-start -->
 ```text
 ◆ mattpocock/skills  [5★]
-  ├─ ◇ mattpocock/engineering  [4★]
-  │  ├─ ◇ devin-ai/autonomous-swe  [3★]
+  ├─ · mattpocock/engineering  [4★]
+  │  ├─ · devin-ai/autonomous-swe  [3★]
   │  │  ├─ ○ garrytan/design-html  [3★]
   │  │  ├─ ○ /code-execution
   │  │  └─ ○ /error-interpretation
   │  ├─ ○ addy-osmani/code-simplification  [3★]
-  │  ├─ ◇ garrytan/garrytan  [4★]
+  │  ├─ · garrytan/garrytan  [4★]
   │  │  ├─ ○ /plan-decompose
   │  │  └─ ○ ████████/ask-matt
-  │  ├─ ◇ mattpocock/to-prd  [3★]
+  │  ├─ · mattpocock/to-prd  [3★]
   │  │  ├─ ○ garrytan/retro  [3★]
   │  │  └─ ○ /plan-decompose  (↑ see above)
   │  ├─ ○ mattpocock/triage  [3★]
-  │  ├─ ◇ mattpocock/ubiquitous-language  [3★]
+  │  ├─ · mattpocock/ubiquitous-language  [3★]
 
 ◆ garrytan/gstack  [5★]
   ├─ ○ garrytan/office-hours  [3★]
   ├─ ○ garrytan/benchmark  [3★]
-  ├─ ◇ addy-osmani/code-review-and-quality  [3★]
+  ├─ · addy-osmani/code-review-and-quality  [3★]
   │  ├─ ○ garrytan/design-html  [3★]
   │  ├─ ○ /diff-content
   │  └─ ○ garrytan/benchmark  [3★]  (↑ see above)
   ├─ ○ pbakaus/impeccable  [4★]
-  ├─ ◇ garrytan/garrytan  [4★]
+  ├─ · garrytan/garrytan  [4★]
   │  ├─ ○ /plan-decompose
   │  └─ ○ ████████/ask-matt
-  ├─ ◇ garrytan/design-consultation  [3★]
-  │  ├─ ◇ ████████/stagehand
+  ├─ · garrytan/design-consultation  [3★]
+  │  ├─ · ████████/stagehand
   │  │  ├─ ○ firecrawl/firecrawl-build-search  [4★]
   │  │  └─ ○ /computer-use
+
+Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
+  ◉ openai/few-shot-learning  [4★]
+  ◉ safishamsi/graphify  [4★]
+    ├─ ○ /extract-entities
+    └─ ○ /logical-inference
+  ◉ addy-osmani/performance-optimization  [4★]
 
 (243 skills total — see docs/tree.md)
 ```
@@ -273,7 +294,7 @@ Navigate skills:
 <!-- gaia:cli-start -->
 ```text
 usage: gaia [-h] [--registry REGISTRY] [--global] [--version]
-            {help,init,scan,fetch,pull,update,install,uninstall,share,tree,push,propose,version,whoami,login,logout,reset,graph,stats,appraise,promote,fuse,lookup,path,dev,skills}
+            {help,init,scan,fetch,pull,update,install,uninstall,share,tree,push,propose,version,whoami,login,logout,reset,graph,stats,appraise,fuse,lookup,path,dev,skills}
             ...
 
 Gaia Registry CLI
@@ -296,15 +317,14 @@ Getting started:
 
 Daily commands:
   gaia tree [--named] [--title]
-  gaia promote [<skillId>] [--all] [--name <name>]
   gaia appraise [<skillId>]
   gaia stats
   gaia pull
   gaia fuse <skillId> [--name <name>]
   gaia path <skillId> [--owned-only] [--json]
   gaia lookup <skillId>
-  gaia graph [--format html|svg|json] [-o <path>] [--no-open]
-  gaia propose [<skillId>] [--ultimate] [--target <name>] [--no-pr]
+  gaia graph [--format html|json] [-o <path>] [--no-open]
+  gaia propose [<skillId>] [--target <name>] [--no-pr]
 
 Skills:
   gaia skills <list|search|info|install|uninstall>

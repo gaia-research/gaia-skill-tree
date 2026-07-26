@@ -8,10 +8,14 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "Manavarya09",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/Manavarya09/design-extract.json"
-      }
+      },
+      "genericSkillRef": "design-system-extraction"
     }
   ],
   "namedSkillsCount": 1,

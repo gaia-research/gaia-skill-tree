@@ -27,6 +27,7 @@ import datetime
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "src"))
 from gaia_cli.redaction import is_redacted, level_num  # noqa: E402  single source of truth
+from gaia_cli.taxonomy import branchFor, rankWord, medallion, normalize  # noqa: E402
 
 REQUIRED_FIELDS = [
     "id",
@@ -408,6 +409,18 @@ def validate_and_group(named_skills, graph_data, skill_to_suite=None, suite_to_c
     return errors, buckets, awaiting_classification, by_contributor
 
 
+def _inject_resolved_taxonomy(entry):
+    """Emit the Yggdrasil II fields every downstream surface reads."""
+    resolved = normalize(entry)
+    rank_int = resolved.get("rank", 0)
+    branch = branchFor(entry)
+    entry["branch"] = branch
+    entry["rank"] = rank_int
+    entry["rankWord"] = rankWord(entry.get("level", ""), branch)
+    entry["medallion"] = medallion(branch, rank_int)
+    entry["contractVersion"] = "gaia-public-v1"
+
+
 def _inject_trust_grades(buckets, generic_skills_map, gate_config):
     """Annotate each named-skill bucket entry with overallTrustGrade, trustMagnitude,
     and apexGateStatus.
@@ -433,7 +446,7 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config):
     """
     from gaia_cli.grading import overall_trust_grade, check_ultimate_gate
     from gaia_cli.evidence import inherited_evidence
-    from gaia_cli.trustMagnitude import computeTrustMagnitude, passesApexGate
+    from gaia_cli.trustMagnitude import computeTrustMagnitude, passesSuiteApexGate
 
     def _effective(entry):
         generic_node = generic_skills_map.get(entry.get("genericSkillRef"))
@@ -477,7 +490,10 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config):
                 entry["overallTrustGrade"] = fm_grade
             else:
                 # Missing frontmatter values — recompute via G7 path.
-                tm = computeTrustMagnitude(skill_with_effective, generic_skills_map)
+                # Pre-merge namedSkillMap so suite-component origin IDs
+                # (e.g. "gsd-build/discuss-phase") resolve in _gradedOriginCount.
+                merged_map = {**generic_skills_map, **named_skill_map}
+                tm = computeTrustMagnitude(skill_with_effective, merged_map)
                 entry["trustMagnitude"] = round(tm, 2)
                 grade = overall_trust_grade(
                     effective,
@@ -492,8 +508,13 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config):
                 "genericSkillMap": generic_skills_map,
                 "namedSkillMap": named_skill_map,
             }
-            apex_status = passesApexGate(skill_with_effective, registry_state)
+            apex_status = passesSuiteApexGate(skill_with_effective, registry_state)
             entry["apexGateStatus"] = apex_status
+
+            # Resolved taxonomy fields (Yggdrasil II authority — additive, PR2).
+            # Derived purely from entry["level"] + entry.get("suiteComponents");
+            # TM is copy-through (already injected above) — no recompute here.
+            _inject_resolved_taxonomy(entry)
 
             if entry.get("type") == "ultimate":
                 # Score the gate on effective evidence: components via the
@@ -512,6 +533,8 @@ def write_index(buckets, awaiting_classification, by_contributor, output_path, t
     """Write the named skill index JSON file."""
     if generic_skills_map is not None:
         _inject_trust_grades(buckets, generic_skills_map, gate_config or {})
+    for entry in awaiting_classification:
+        _inject_resolved_taxonomy(entry)
 
     index = {
         "generatedAt": today,

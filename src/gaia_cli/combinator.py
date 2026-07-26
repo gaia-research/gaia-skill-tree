@@ -1,13 +1,17 @@
 from .leveling import effective_level
+from .taxonomy import isFusion
 
 
 def transitive_close(graph_data: dict, skill_ids: set) -> set:
     """Expand a set of skill IDs by iteratively unlocking reachable composites.
 
-    Starting from *skill_ids*, any extra/ultimate skill whose every prerequisite
+    Starting from *skill_ids*, any fusion skill whose every prerequisite
     is already in the expanding set is added.  The process repeats until no new
     skills are discovered (fixpoint).  Cycles are safe because once an id is in
     the expanding set it is never revisited.
+
+    Composite membership is STRUCTURAL (``isFusion``: >=1 prerequisite), not a
+    ``type`` literal — Yggdrasil II collapsed the type axis to {basic, fusion}.
 
     Args:
         graph_data: parsed gaia.json (needs ``skills`` list).
@@ -19,7 +23,7 @@ def transitive_close(graph_data: dict, skill_ids: set) -> set:
     available = set(skill_ids)
     composites = [
         s for s in graph_data.get('skills', [])
-        if s.get('type') in ('extra', 'ultimate') and s.get('prerequisites')
+        if isFusion(s)
     ]
     changed = True
     while changed:
@@ -55,7 +59,7 @@ def detect_combinations(graph_data, owned_skills, detected_skills):
     skill_map = {s['id']: s for s in graph_data.get('skills', [])}
 
     for skill in graph_data.get('skills', []):
-        if skill.get('type') not in ['extra', 'ultimate']:
+        if not isFusion(skill):
             continue
 
         prereqs = skill.get('prerequisites', [])
@@ -86,7 +90,7 @@ def detect_combinations(graph_data, owned_skills, detected_skills):
                 chain_steps = []
                 for step_id in missing_direct:
                     step = skill_map.get(step_id)
-                    if step and step.get('type') in ('extra', 'ultimate'):
+                    if step and isFusion(step):
                         chain_steps.append(step_id)
                 combinations.append({
                     'candidateResult': sid,

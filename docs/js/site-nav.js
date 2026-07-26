@@ -20,7 +20,7 @@
   if (!el) return;
 
   // ── Path / depth detection ─────────────────────────────────────────────
-  const MOUNTS = window.GAIA_MOUNTS || ['named', 'en', 'badges', 'u', 'samples', 'graph', 'evidence', 'share', 'trust', 'api', 'codex', 'trending', 'heroes', 'reports', 'benchmarks', 'skills'];
+  const MOUNTS = window.GAIA_MOUNTS || ['named', 'en', 'badges', 'u', 'samples', 'graph', 'evidence', 'share', 'trust', 'api', 'codex', 'trending', 'heroes', 'reports', 'benchmarks'];
   const segs = window.location.pathname.replace(/\/+$/, '').split('/').filter(Boolean);
   const dir = /\.html?$/i.test(segs[segs.length - 1]) ? segs.slice(0, -1) : segs;
 
@@ -55,7 +55,7 @@
     {
       href: root + 'badges/',
       label: 'GitHub Badges',
-      color: 'var(--tier-unique)',
+      color: 'var(--rank-4-unique)',
       icon: function() { return '<svg class="ico" width="13" height="13" aria-hidden="true" style="vertical-align:-2px;margin-right:.35em"><use href="' + iconBase() + '#github"/></svg>'; },
       i: 2
     },
@@ -90,7 +90,6 @@
     { type: 'link', href: root + 'evidence/',     label: 'Evidence Library',   color: 'var(--rank-3)' },
     { type: 'link', href: root + 'reports/',      label: 'Weekly Reports',     color: 'var(--evidence-gold)' },
     { type: 'link', href: root + 'benchmarks/',   label: 'Benchmarks',         color: 'var(--evidence-gold)' },
-    { type: 'link', href: root + 'skills/',        label: 'Skill Index',        color: 'var(--tier-basic)' },
   ];
 
   function anchorHtml(item) {
@@ -206,9 +205,9 @@
   el.innerHTML =
     // Logo + (optional) breadcrumb sit together as the left cluster.
     '<div class="nav-left">' +
-      '<a href="' + root + 'index.html" class="nav-logo" aria-label="Gaia home">' +
+      '<a href="' + root + 'index.html" class="nav-logo" aria-label="Gaia Skill Tree home">' +
         SEAL_SVG +
-        '<span class="nav-wordmark">Gaia</span>' +
+        '<span class="nav-wordmark">Gaia Skill Tree</span>' +
       '</a>' +
       renderBreadcrumb() +
     '</div>' +

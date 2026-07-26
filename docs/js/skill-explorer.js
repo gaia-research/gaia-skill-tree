@@ -4,6 +4,33 @@
   var lastActiveElement = null;
   var _currentNs = null; // tracks the skill open in the explorer
 
+  // ── Yggdrasil II PR3b — READ emitted branch, don't recompute ──────
+  // _seBranchOf reads the emitted entry.branch (index.json) via the shared
+  // GaiaSemantics.branchOf seam; when the field is absent the seam returns the
+  // neutral 'standard' default (it guesses nothing from type). All branch-keyed
+  // color/glyph logic in this IIFE routes through here so nothing re-derives.
+  var SE_UNIQUE = 'unique';
+  var SE_SUITE = 'suite';
+  function _seBranchOf(entry) {
+    if (window.GaiaSemantics && typeof window.GaiaSemantics.branchOf === 'function') {
+      return window.GaiaSemantics.branchOf(entry);
+    }
+    return 'standard';
+  }
+  // Branch → dot/slug color token. Apex (6★) is white regardless of branch.
+  function _seBranchColor(branch, isApex) {
+    if (isApex) return '#ffffff';
+    if (branch === SE_UNIQUE) return 'var(--rank-4-unique)';
+    if (branch === SE_SUITE) return 'var(--apex-gold)';
+    return 'var(--tier-basic)';
+  }
+  function _seRankWordOf(entry) {
+    if (window.GaiaSemantics && typeof window.GaiaSemantics.rankWordOf === 'function') {
+      return window.GaiaSemantics.rankWordOf(entry);
+    }
+    return '';
+  }
+
   function _initMeta(meta) {
     if (!meta) return;
     var lc = meta.levelColors || {};
@@ -49,6 +76,41 @@
     'fusion-recipe':        'origins (or gradedOriginCount)',
   };
   function _missingDriversHint(t) { return _DRIVER_HINTS[t] || 'metric fields'; }
+
+  // ── N-11 Research-product CTA (shared helper, Rimuru-Blue bridge) ─────────
+  // The skill-fuse TOOL affordance, rendered near the DAG on suite/fusion
+  // skills. `/fuse` composes your OWN fusion from origin skills — a generative
+  // command, not a "reconstruct this suite" button. The skill name links to
+  // its repo; a copyable install command sits below (same .se-copy-btn pattern
+  // as the Install block — wire it wherever this is mounted). Uses
+  // var(--tier-basic), the Rimuru-Blue cross-brand bridge token (E5). No hex.
+  // ctaLabel: optional override for the lead text.
+  function _researchProductCta(ctaLabel) {
+    var lead = ctaLabel || 'create your own path';
+    var repoUrl = 'https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/skill-fuse/SKILL.md';
+    var installCmd = 'gaia install gaia-research/skill-fuse';
+    return '<div class="se-research-cta" style="' +
+        'margin-top:1rem;padding:.65rem .9rem;' +
+        'border:1px solid rgba(var(--tier-basic-rgb,56,189,248),.25);' +
+        'border-radius:8px;' +
+        'background:rgba(var(--tier-basic-rgb,56,189,248),.06);' +
+        'display:flex;flex-direction:column;gap:.5rem;' +
+      '">' +
+      '<div style="color:var(--tier-basic);font-size:.75rem;font-weight:600;">' +
+        'Use <a href="' + repoUrl + '" target="_blank" rel="noopener"' +
+          ' style="color:var(--tier-basic);font-weight:800;text-decoration:none;font-family:var(--font-mono);"' +
+          ' title="Open the skill-fuse skill on GitHub">/fuse</a> to ' + esc(lead) +
+      '</div>' +
+      '<div style="display:flex;align-items:center;gap:.4rem;">' +
+        '<code style="color:var(--tier-basic);opacity:.85;font-size:.72rem;' +
+            'font-family:var(--font-mono);white-space:nowrap;overflow:auto;">' +
+          '$ ' + esc(installCmd) +
+        '</code>' +
+        '<button class="se-copy-btn" title="Copy to clipboard" aria-label="Copy to clipboard"' +
+          ' data-cmd="' + esc(installCmd) + '">' + COPY_ICON() + '</button>' +
+      '</div>' +
+    '</div>';
+  }
 
   // Derive the pre-weight artifact magnitude (for tooltip chain display only).
   // Returns the capped base magnitude — used as input to _deriveWeightedScore.
@@ -286,7 +348,7 @@
     if (typeof window.gaiaIconBase === 'function') {
       return window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '');
     }
-    var mounts = ['named', 'en', 'badges', 'u', 'samples', 'graph', 'evidence', 'share', 'trust', 'api', 'codex', 'trending', 'heroes', 'reports', 'benchmarks', 'skills'];
+    var mounts = ['named', 'en', 'badges', 'u', 'samples', 'graph', 'evidence', 'share', 'trust', 'api', 'codex', 'trending', 'heroes', 'reports', 'benchmarks'];
     var segs = window.location.pathname.replace(/\/+$/, '').split('/').filter(Boolean);
     var dir = /\.html?$/i.test(segs[segs.length - 1]) ? segs.slice(0, -1) : segs;
     var depth = 0;
@@ -313,6 +375,8 @@
     var redacted = window.isRedacted && window.isRedacted(ns.level);
     var repoUrl = (!redacted && (links.github || links.npm)) || '';
 
+    var branch = _seBranchOf(ns);
+
     // Build the entry passed to plaque.renderDetail. Use the generic
     // type if the named entry doesn't carry one. Description falls
     // back to the generic description so the right column is never
@@ -323,6 +387,11 @@
       title: ns.title,
       level: ns.level,
       type: type,
+      branch: branch,
+      rank: ns.rank,
+      rankWord: ns.rankWord,
+      medallion: ns.medallion,
+      suiteComponents: ns.suiteComponents,
       contributor: ns.contributor,
       origin: ns.origin,
       description: ns.description || (generic && generic.description) || '',
@@ -433,6 +502,22 @@
           infoBtn.textContent = 'i';
           notch.appendChild(infoBtn);
         }
+      }
+      // N-11 Site 1: Research CTA below the plaque for suite/fusion skills.
+      // Append after the trust notch so it follows the hero without disrupting layout.
+      if (Array.isArray(ns.suiteComponents) && ns.suiteComponents.length) {
+        var ctaDiv = document.createElement('div');
+        ctaDiv.innerHTML = _researchProductCta();
+        heroEl.appendChild(ctaDiv);
+        // Wire the copyable install command (hero is outside #se-install's handler scope).
+        ctaDiv.querySelectorAll('.se-copy-btn').forEach(function(btn){
+          btn.onclick = function(){
+            navigator.clipboard.writeText(btn.dataset.cmd).then(function(){
+              btn.innerHTML = _se_icon('copy-check', 15);
+              setTimeout(function(){ btn.innerHTML = COPY_ICON(); }, 1600);
+            }).catch(function(){ btn.textContent = '!'; setTimeout(function(){ btn.innerHTML = COPY_ICON(); }, 1600); });
+          };
+        });
       }
     }
   }
@@ -816,7 +901,10 @@
       '</div>';
     }
 
-    var isUlt = ns.level === '5★';
+    // SE-3 fix: do NOT tie suite-install label to a hard-coded star string.
+    // A skill is a suite (install --ultimate) if it has suiteComponents, not
+    // purely by rank-level string comparison.
+    var isUlt = !!(ns.suiteComponents && ns.suiteComponents.length);
     // Pre-named/demoted (≤1★): withhold the handle in the install id, and hide
     // the npx/git-clone methods (their repo URLs expose the contributor). This
     // is lifted once the skill is named (2★+).
@@ -825,14 +913,17 @@
       ? ((window.REDACTED_BLOCK || '████████') + '/' + id.split('/').slice(1).join('/'))
       : id;
     var gaiaCmd = isUlt ? 'gaia install --ultimate ' + installId : 'gaia install ' + installId;
-    var gaiaLabel = isUlt ? '◆ ultimate suite' : '★ recommended';
-    var showGaia = ns.installable !== false;
+    var gaiaLabel = isUlt ? '◆ suite install' : '★ recommended';
+    // showGaia: a suite skill is always gaia-installable; non-suite requires installable flag or a github link.
+    var showGaia = isUlt ? true : (ns.installable !== false);
     var gaiaBlock = showGaia ? installBlock('Gaia', gaiaLabel, gaiaCmd, true) : '';
 
     if (ns.suiteComponents && ns.suiteComponents.length > 0 && ns.installBody) {
+      // N-11 Site 3: Research CTA in the suite install block.
       el.innerHTML = '<div class="se-flow-h">' + COPY_ICON() + ' Installation</div>' +
         gaiaBlock +
-        (redacted ? '' : _renderTabbedInstall(ns));
+        (redacted ? '' : _renderTabbedInstall(ns)) +
+        _researchProductCta();
     } else if (redacted) {
       el.innerHTML = '<div class="se-flow-h">' + COPY_ICON() + ' Installation</div>' +
         gaiaBlock +
@@ -1266,7 +1357,11 @@
 
     var genericId = generic ? generic.id : ns.genericSkillRef || ns.id;
     var genericObj = sm[genericId] || generic || { id: genericId, type: ns.type, level: ns.level, name: ns.name };
-    var currentType = (ns && ns.type) || genericObj.type || 'basic';
+    // PR3b: READ emitted branch off the named entry (ns.branch); _fcNs carries
+    // the generic type only for the starless recompute fallback in _seBranchOf.
+    var _fcRank = parseInt(String((ns && ns.level) || '').replace(/\D+/g, ''), 10) || 0;
+    var _fcNs = Object.assign({}, ns, { type: (generic && generic.type) || (ns && ns.type) || 'basic' });
+    var _fcBranch = _seBranchOf(ns && ns.branch ? ns : _fcNs);
     var suiteCapstoneId = ns.suiteRef || null;
     var suiteCapstone = suiteCapstoneId ? namedEntryById(suiteCapstoneId) : ns;
     var suiteComponents = [];
@@ -1305,91 +1400,94 @@
       return '<div class="dag-node-label"' + navAttr + '>' + inner + '</div>';
     }
 
-    // Action-buttons header (Show Fusion / Show Suite).
+    // Filter chip-set for the flowchart canvas. Path is always present (the
+    // whole path). Fusion appears only when the skill actually fuses something
+    // — i.e. its node has ≥1 prerequisite (a layer below to spotlight); a
+    // basic-type skill with no prerequisites has nothing to fuse, so no Fusion
+    // lens. Suite appears only when the skill carries suiteComponents.
+    // Read-only: reads emitted prerequisites / suiteComponents; no branch/type
+    // derivation, no rank-word resolution — segment labels ARE the lens names.
+    // data-tip copy is CONTEXT.md-faithful (hover tooltip via CSS).
     function buildFlowActions() {
-      return '<div class="se-flow-actions">' +
-        '<button type="button" class="se-flow-btn" id="seFlowShowFusion" title="Highlight the fusion graph">' +
-          _se_icon('sparkle') + 'Show Fusion' +
+      var _gen = genericId ? sm[genericId] : null;
+      var hasFusion = !!(_gen && Array.isArray(_gen.prerequisites) && _gen.prerequisites.length);
+      return '<div class="se-flow-lens" role="tablist" aria-label="Progression view">' +
+        '<button type="button" class="se-lens-chip active" data-lens="path" role="tab" aria-selected="true" data-tip="The skills leading to this one.">' +
+          'Path' +
         '</button>' +
+        (hasFusion
+          ? '<button type="button" class="se-lens-chip" data-lens="fusion" role="tab" aria-selected="false" data-tip="Two or more skills combined into a single, higher-complexity skill.">' +
+              _se_icon('sparkle') + 'Fusion' +
+            '</button>'
+          : '') +
         (suiteComponents.length
-          ? '<button type="button" class="se-flow-btn" id="seFlowShowSuite" title="Highlight the suite structure">' +
-              _se_icon('sparkle') + 'Show Suite' +
+          ? '<button type="button" class="se-lens-chip" data-lens="suite" role="tab" aria-selected="false" data-tip="Sibling components installed together as one Suite.">' +
+              _se_icon('sparkle') + 'Suite' +
             '</button>'
           : '') +
       '</div>';
     }
 
-    // Wire flow action button handlers. Called after innerHTML set.
+    // Wire the lens chips. Called after innerHTML set. Path = reset focus;
+    // Fusion/Suite = spotlight the respective subgraph via showFusionOnly.
     function wireFlowActions(fusionFocusId, suiteFocusId) {
-      var btnFusion = document.getElementById('seFlowShowFusion');
-      var btnSuite = document.getElementById('seFlowShowSuite');
-      function setActive(activeBtn) {
-        if (btnFusion) btnFusion.classList.toggle('active', activeBtn === btnFusion);
-        if (btnSuite) btnSuite.classList.toggle('active', activeBtn === btnSuite);
-      }
-      if (btnFusion) {
-        btnFusion.addEventListener('click', function(e) {
-          e.stopPropagation();
-          if (window.showFusionOnly) window.showFusionOnly(fusionFocusId);
-          setActive(btnFusion);
+      var chips = document.querySelectorAll('.se-lens-chip');
+      if (!chips.length) return;
+      function setActive(lens) {
+        chips.forEach(function(c) {
+          var on = c.getAttribute('data-lens') === lens;
+          c.classList.toggle('active', on);
+          c.setAttribute('aria-selected', on ? 'true' : 'false');
         });
       }
-      if (btnSuite) {
-        btnSuite.addEventListener('click', function(e) {
-          e.stopPropagation();
-          if (window.showFusionOnly) window.showFusionOnly(suiteFocusId || fusionFocusId);
-          setActive(btnSuite);
-        });
+      // Canvas lens state lives on the #se-upgrade container so both the
+      // in-canvas node accents AND the sibling count chips can key off it:
+      // lens-fusion (origins, violet) vs lens-suite (installed handlers, gold).
+      function setLens(lens) {
+        var host = document.getElementById('se-upgrade');
+        if (host) {
+          host.classList.remove('lens-fusion', 'lens-suite');
+          if (lens === 'fusion' || lens === 'suite') host.classList.add('lens-' + lens);
+        }
       }
-    }
-
-    function renderNamedFusionNode(skillId, syntheticId, isMain) {
-      var entry = namedEntryById(skillId);
-      if (!entry) return '';
-      var nodeType = entry.type || 'basic';
-      var nodeLevel = entry.level || '';
-      var isApex = nodeLevel && String(nodeLevel).indexOf('6') !== -1;
-      var dotColor = isApex
-        ? '#ffffff'
-        : 'var(--tier-' + nodeType + ', var(--muted))';
-      var extraMainClass = isMain ? ' git-node--main' : '';
-      return '<div class="git-node' + extraMainClass + '"' +
-          ' data-id="' + esc(syntheticId) + '"' +
-          ' data-type="' + esc(nodeType) + '"' +
-          ' data-level="' + esc(nodeLevel) + '"' +
-          ' data-ghost="false">' +
-        '<div class="git-commit-dot" style="--dot-color: ' + dotColor + '"></div>' +
-        createNodeLabel(skillId, 'named', skillId, nodeLevel) +
-      '</div>';
-    }
-
-    // Short-circuit for Unique-tier current skills: render the current
-    // skill alone inside the void zone, with nothing else around it.
-    if (currentType === 'unique') {
-      var uColor = (ns && ns.level && String(ns.level).indexOf('6') !== -1)
-        ? '#ffffff'
-        : 'var(--tier-unique, var(--muted))';
-      var labelId = (ns && ns.id) ? ns.id : genericId;
-      var uniqueNodeHtml = '<div class="git-node git-node--main" data-id="' + esc(genericId) +
-          '" data-type="unique" data-level="' + esc((ns && ns.level) || '') + '" data-ghost="false">' +
-        '<div class="git-commit-dot" style="--dot-color:' + uColor + '"></div>' +
-        createNodeLabel(labelId, null, null, (ns && ns.level) || '') +
-      '</div>';
-
-      el.innerHTML = '<div class="se-flow-h">' + _se_icon('sparkle') +
-          ' Upgrade Path &amp; Adjacent Skills' + buildFlowActions() + '</div>' +
-        '<div class="se-flowchart-wrap" id="seFlowWrap">' +
-          '<div class="se-flowchart-rows unique-alone">' +
-            '<div class="se-flowchart-row void-zone" data-depth="0">' + uniqueNodeHtml + '</div>' +
-          '</div>' +
-          '<svg class="se-flowchart-svg" id="seFlowSvg"></svg>' +
-        '</div>';
-      wireFlowActions(genericId, null);
-      return;
+      function clearFocus() {
+        // Restore the full canvas: drop selection/dim/active-path from a prior
+        // spotlight so "Path" shows everything.
+        document.querySelectorAll('.git-node.selected').forEach(function(n) { n.classList.remove('selected'); });
+        document.querySelectorAll('.git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
+        document.querySelectorAll('.git-node.suite-lit').forEach(function(n) { n.classList.remove('suite-lit'); });
+        document.querySelectorAll('.git-path').forEach(function(p) { p.classList.remove('active-path', 'dimmed'); });
+        window._selectedFlowNode = null;
+      }
+      chips.forEach(function(chip) {
+        chip.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var lens = chip.getAttribute('data-lens');
+          setActive(lens);
+          setLens(lens);
+          if (lens === 'path') {
+            clearFocus();
+          } else if (lens === 'suite') {
+            // Suite lens = highlight the installed deliverable set (canonical
+            // nodes the suiteComponents resolve to) as a filter over the path.
+            if (window.showSuiteOnly && suiteFocusId) window.showSuiteOnly(suiteFocusId);
+            else if (window.showFusionOnly) window.showFusionOnly(suiteFocusId || fusionFocusId);
+          } else {
+            // Fusion lens = direct prerequisite children (one layer down).
+            if (window.showFusionOnly) window.showFusionOnly(fusionFocusId);
+          }
+        });
+      });
     }
 
     var relatedNodes = {};
-    
+
+    // The path is the skill's prerequisite ANCESTRY — the fusion chain leading
+    // UP to this skill. We do NOT walk derivatives: downstream skills are not
+    // "the path to this one". A basic-type skill (0 prerequisites) therefore
+    // renders as just its own apex node — there is nothing to fuse, so there is
+    // nothing to show but the skill itself. Fusion-type skills render their
+    // full prerequisite tree. (META.md: basic = 0 prereqs, fusion = ≥1.)
     function collectAncestors(id) {
       if (relatedNodes[id]) return;
       var s = sm[id];
@@ -1397,22 +1495,10 @@
       relatedNodes[id] = s;
       (s.prerequisites || []).forEach(collectAncestors);
     }
-    
-    function collectDescendants(id) {
-      if (relatedNodes[id]) return;
-      var s = sm[id];
-      if (!s) return;
-      relatedNodes[id] = s;
-      (s.prerequisites || []).forEach(function(pid) {
-        if (!relatedNodes[pid] && sm[pid]) collectAncestors(pid);
-      });
-      (s.derivatives || []).forEach(collectDescendants);
-    }
-    
+
     if (genericId) {
       relatedNodes[genericId] = sm[genericId] || {id: genericId, name: ns.name, type: ns.type, level: ns.level, prerequisites: generic ? generic.prerequisites : [], derivatives: generic ? generic.derivatives : []};
       (relatedNodes[genericId].prerequisites || []).forEach(collectAncestors);
-      (relatedNodes[genericId].derivatives || []).forEach(collectDescendants);
     }
 
     var depth = {};
@@ -1436,22 +1522,19 @@
     var ranks = [];
     for (var r = 0; r <= maxD; r++) ranks.push([]);
     var apexNodes = [];
-    var uniqueNodes = [];
     Object.keys(relatedNodes).forEach(function(id) {
       if (depth[id] >= 0) {
         var s = relatedNodes[id];
         if (s.level && String(s.level).indexOf('6') !== -1) {
           apexNodes.push(id);
-        } else if (s.type === 'unique') {
-          uniqueNodes.push(id);
         } else {
+          // Unique is a BRANCH, not a special layout — unique-branch nodes place
+          // by depth like any other skill (a basic unique with 0 prereqs is just
+          // its own apex at depth 0). No separate void/unique zone.
           ranks[depth[id]].push(id);
         }
       }
     });
-    if (uniqueNodes.length) {
-      ranks.push(uniqueNodes);
-    }
     if (apexNodes.length) {
       ranks.push(apexNodes);
       maxD = ranks.length - 1;
@@ -1479,25 +1562,44 @@
       var rank = ranks[ri];
       if (!rank || !rank.length) continue;
       
-      var isUniqueRow = rank.every(function(id) { return relatedNodes[id].type === 'unique'; });
-      
       var rowHtml = rank.map(function(id, idx) {
         var s = relatedNodes[id];
-        var staggerY = (ri === 0 || isUniqueRow) ? 0 : (hashString(id) % 80);
+        // Scatter: independent X/Y jitter per node so wrapped rows read as an
+        // organic cloud, not a grid. Two decorrelated hashes (id, and id+idx
+        // salted) keep X and Y from lining up into diagonals. The bottom row
+        // (leaf origins) scatters too — previously it was pinned flat (ri===0
+        // ? 0), which is what made the widest rank look orderly.
+        var hY = hashString(id);
+        var hX = hashString(id + '::' + idx + '::x');
+        var staggerY = (hY % 96) - 24;          // -24..+71px vertical drift
+        var staggerX = (hX % 44) - 22;          // -22..+22px horizontal jitter
 
         var isMainSkill = (id === genericId || id === ns.id);
         var extraMainClass = isMainSkill ? ' git-node--main' : '';
+        // The apex ("you are here") stays anchored — no scatter on the main node.
+        if (isMainSkill) { staggerY = 0; staggerX = 0; }
 
         // Resolve the node's data: prefer a named impl, fall back to generic/ghost.
         var namedBucket = buckets[id];
         var hasNamed = !!(namedBucket && namedBucket.length);
         var nb = hasNamed ? namedBucket[0] : null;
+        // PR3b: dot color from emitted branch; nodeType only for data-type attr (schema 'basic'|'fusion').
         var nodeType = (nb && nb.type) || s.type || 'basic';
-        var nodeLevel = (nb && nb.level) || s.level || '';
-        var isApex = nodeLevel && String(nodeLevel).indexOf('6') !== -1;
-        var dotColor = isApex
-          ? '#ffffff'
-          : 'var(--tier-' + nodeType + ', var(--muted))';
+        var nodeLevel = (nb && nb.level) || '';
+        var _nodeRank = parseInt(String(nodeLevel).replace(/\D+/g, ''), 10) || 0;
+        var nodeBranch = nb ? _seBranchOf(nb) : 'standard';
+        var dotColor;
+        if (hasNamed) {
+          if (nodeBranch === 'unique' && _nodeRank >= 4) {
+            dotColor = _nodeRank >= 6 ? 'var(--rank-6-unique)' : (_nodeRank === 5 ? 'var(--rank-5-unique)' : 'var(--rank-4-unique)');
+          } else if (nodeBranch === 'suite' && _nodeRank >= 5) {
+            dotColor = 'var(--apex-gold)';
+          } else {
+            dotColor = 'var(--rank-' + _nodeRank + ', var(--muted))';
+          }
+        } else {
+          dotColor = 'var(--muted)';
+        }
 
         // Label source: slash-form for named, raw id for ghost.
         var labelSource = hasNamed ? nb.id : id;
@@ -1513,52 +1615,75 @@
         return '<div class="git-node' + extraMainClass + '"' +
             ' data-id="' + esc(id) + '"' +
             ' data-type="' + esc(nodeType) + '"' +
+            ' data-branch="' + esc(nodeBranch) + '"' +
             ' data-level="' + esc(nodeLevel) + '"' +
             ' data-ghost="' + (hasNamed ? 'false' : 'true') + '"' +
-            ' style="--staggerY:' + staggerY + 'px"' +
+            ' style="--staggerY:' + staggerY + 'px; --staggerX:' + staggerX + 'px"' +
             '>' +
           '<div class="git-commit-dot" style="--dot-color: ' + dotColor + '"></div>' +
           createNodeLabel(labelSource, hasNamed ? 'named' : 'ghost', hasNamed ? nb.id : id, nodeLevel) +
         '</div>';
       }).join('');
       
-      var voidClass = isUniqueRow ? ' void-zone' : '';
-      htmlRows += '<div class="se-flowchart-row' + voidClass + '" data-depth="' + ri + '">' + rowHtml + '</div>';
+      htmlRows += '<div class="se-flowchart-row" data-depth="' + ri + '">' + rowHtml + '</div>';
     }
 
+    // Suite membership as a FILTER over the canonical path — no synthetic
+    // nodes. Every suite component is already a node in this DAG (the path is
+    // built from the canonical starless-node prereq graph; a named skill sits
+    // in a bucket keyed to its node via genericSkillRef). So the Suite lens
+    // just needs the set of GENERIC node ids the components resolve to, then
+    // lights those already-rendered nodes. Recursive: a component that is
+    // itself a suite contributes its own components' generic ids. Read-only:
+    // reads suiteComponents + genericSkillRef; no new graph, no derivation.
+    var suiteNodeIds = {};   // generic node id -> true (canonical data-id to light)
     if (suiteComponents.length) {
-      var suiteMemberHtml = suiteComponents.map(function(skillId) {
-        return renderNamedFusionNode(skillId, 'suite-member:' + skillId, skillId === ns.id);
-      }).join('');
-      var suiteTargetId = suiteCapstoneId || ns.id;
-      var suiteCapstoneHtml = renderNamedFusionNode(
-        suiteTargetId,
-        'suite-capstone:' + suiteTargetId,
-        !suiteCapstoneId
-      );
-      if (suiteMemberHtml && suiteCapstoneHtml) {
-        var suiteBaseDepth = maxD + 1;
-        htmlRows += '<div class="se-flowchart-row" data-depth="' + suiteBaseDepth + '">' + suiteMemberHtml + '</div>';
-        htmlRows += '<div class="se-flowchart-row" data-depth="' + (suiteBaseDepth + 1) + '">' + suiteCapstoneHtml + '</div>';
-        suiteComponents.forEach(function(skillId) {
-          edges.push({ from: 'suite-member:' + skillId, to: 'suite-capstone:' + suiteTargetId });
+      var _suiteSeen = {};
+      (function collectSuiteNodes(compList) {
+        (compList || []).forEach(function(compNamedId) {
+          if (_suiteSeen[compNamedId]) return;
+          _suiteSeen[compNamedId] = true;
+          var entry = namedEntryById(compNamedId);
+          if (!entry) return;
+          var gid = entry.genericSkillRef;
+          // Only nodes actually RENDERED on this path can light — in
+          // relatedNodes AND placed at a real depth (depth >= 0). A suite may
+          // install skills that aren't prerequisites of the capstone; those
+          // aren't on this canvas, so we don't claim or count them.
+          if (gid && relatedNodes[gid] && depth[gid] >= 0) suiteNodeIds[gid] = true;
+          if (Array.isArray(entry.suiteComponents) && entry.suiteComponents.length) {
+            collectSuiteNodes(entry.suiteComponents);  // recurse into nested suites
+          }
         });
-        suiteFocusId = 'suite-capstone:' + suiteTargetId;
-      }
+      })(suiteComponents);
+      // The skill itself (apex) is part of its own suite deliverable.
+      if (genericId && relatedNodes[genericId] && depth[genericId] >= 0) suiteNodeIds[genericId] = true;
+      suiteFocusId = genericId;
     }
+    var suiteNodeCount = Object.keys(suiteNodeIds).length;
 
-    // Fusion requirements label
+    // Lens-scoped count chips: each carries data-lens so CSS reveals it only
+    // when its lens is active (fusion count under Fusion, suite count under
+    // Suite; both hidden under Path). Copy reflects the framing — Fusion counts
+    // origins combined, Suite counts installed handler components. Read-only:
+    // the counts come from already-collected prerequisites / suiteComponents.
     var fusionLabels = [];
     if (relatedNodes[genericId] && relatedNodes[genericId].prerequisites && relatedNodes[genericId].prerequisites.length >= 2) {
-      fusionLabels.push('<div class="se-fusion-label">&#x2728; Generic fusion: ' + relatedNodes[genericId].prerequisites.length + ' prerequisite' + (relatedNodes[genericId].prerequisites.length === 1 ? '' : 's') + '</div>');
+      var _pc = relatedNodes[genericId].prerequisites.length;
+      fusionLabels.push('<div class="se-fusion-label" data-lens="fusion">' + _se_icon('sparkle') + ' Fusion of ' + _pc + ' origin skill' + (_pc === 1 ? '' : 's') + '</div>');
     }
     if (suiteComponents.length) {
-      fusionLabels.push('<div class="se-fusion-label">&#x2728; Suite fusion: ' + suiteComponents.length + ' component' + (suiteComponents.length === 1 ? '' : 's') + '</div>');
+      // Count = the lit deliverable set on this path (matches suite-lit dots).
+      var _sc = suiteNodeCount;
+      fusionLabels.push('<div class="se-fusion-label" data-lens="suite">' + _se_icon('sparkle') + ' Suite: ' + _sc + ' skill' + (_sc === 1 ? '' : 's') + ' on this path</div>');
     }
     var fusionHtml = fusionLabels.join('');
 
-    el.innerHTML = '<div class="se-flow-h">' + _se_icon('sparkle') +
-        ' Upgrade Path &amp; Adjacent Skills' + buildFlowActions() + '</div>' +
+    el.innerHTML = '<div class="se-flow-h">' +
+        '<span class="se-flow-h__lede">' + _se_icon('sparkle') +
+          '<span class="se-flow-eyebrow">Progression</span>' +
+          '<span class="se-flow-title">Path</span>' +
+        '</span>' + buildFlowActions() + '</div>' +
       '<div class="se-flowchart-wrap" id="seFlowWrap">' +
         '<div class="se-flowchart-rows">' + htmlRows + '</div>' +
         '<svg class="se-flowchart-svg" id="seFlowSvg"></svg>' +
@@ -1603,10 +1728,10 @@
       el._flowWired = true;
     }
 
-    setTimeout(function(){ drawFlowEdges(edges); }, 80);
+    setTimeout(function(){ drawFlowEdges(edges, suiteNodeIds); }, 80);
   }
 
-  function drawFlowEdges(edges) {
+  function drawFlowEdges(edges, suiteNodeIds) {
     var wrap = document.getElementById('seFlowWrap');
     var svg = document.getElementById('seFlowSvg');
     if (!wrap || !svg) return;
@@ -1727,21 +1852,23 @@
       });
     };
 
-    // Show Fusion / Show Suite: lock the focus node and reveal only its
-    // upstream chain (recursive ancestors). Descendants and sibling branches dim out.
+    // Fusion lens: spotlight the focus node and ONLY its direct prerequisite
+    // children one layer below — the immediate skills that fuse INTO this node
+    // (its makeup). Not the full recursive ancestry; "fusion" means the
+    // one-layer-down composition of THIS node. Deeper origins and sibling
+    // branches dim. Read-only: walks emitted prereq edges, no derivation.
+    // Cross-contributor origins that share a node ARE allowed here (unlike the
+    // owner-bounded Suite lens).
     window.showFusionOnly = function(nodeId) {
-      var ancestors = {};
-      function traceAncestors(id) {
-        if (ancestors[id]) return;
-        ancestors[id] = true;
-        (edges || []).forEach(function(e) {
-          if (e.to === id) traceAncestors(e.from);
-        });
-      }
-      traceAncestors(nodeId);
+      var lit = {};
+      lit[nodeId] = true;
+      (edges || []).forEach(function(e) {
+        if (e.to === nodeId) lit[e.from] = true;   // direct children (depth -1)
+      });
 
       document.querySelectorAll('.git-node.selected').forEach(function(n) { n.classList.remove('selected'); });
       document.querySelectorAll('.git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
+      document.querySelectorAll('.git-node.suite-lit').forEach(function(n) { n.classList.remove('suite-lit'); });
       document.querySelectorAll('.git-path').forEach(function(p) { p.classList.remove('active-path','dimmed'); });
 
       var focus = document.querySelector('.git-node[data-id="' + nodeId.replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
@@ -1749,18 +1876,55 @@
       window._selectedFlowNode = nodeId;
 
       (edges || []).forEach(function(e) {
-        var inAncestry = ancestors[e.from] && ancestors[e.to];
-        var pathId = 'path-' + e.from + '-' + e.to;
-        var p = document.getElementById(pathId);
+        var active = (e.to === nodeId && lit[e.from]);
+        var p = document.getElementById('path-' + e.from + '-' + e.to);
         if (!p) return;
-        if (inAncestry) p.classList.add('active-path');
+        if (active) p.classList.add('active-path');
         else p.classList.add('dimmed');
       });
 
-      Object.keys(ancestors).forEach(function(id) {
+      Object.keys(lit).forEach(function(id) {
         var n = document.querySelector('.git-node[data-id="' + id.replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
         if (n) n.classList.add('show-label');
       });
+    };
+
+    // Suite lens: highlight the installed DELIVERABLE set as a FILTER over the
+    // canonical path — no synthetic nodes. suiteNodeIds is the set of generic
+    // node ids the components (recursively) resolve to, computed at render time
+    // from suiteComponents + genericSkillRef. Those nodes are ALREADY on the
+    // canvas (the path is the canonical prereq graph). We light their dots
+    // (gold ring) and dim the rest. Owner-bounded by construction (suite
+    // recursion never crosses a contributor namespace). Labels reveal on hover
+    // — the set can be large. Read-only: the set was built from emitted fields.
+    window.showSuiteOnly = function(focusId) {
+      var inSuite = suiteNodeIds || {};
+
+      document.querySelectorAll('.git-node.selected').forEach(function(n) { n.classList.remove('selected'); });
+      document.querySelectorAll('.git-node.show-label').forEach(function(n) { n.classList.remove('show-label'); });
+      document.querySelectorAll('.git-node.suite-lit').forEach(function(n) { n.classList.remove('suite-lit'); });
+      document.querySelectorAll('.git-path').forEach(function(p) { p.classList.remove('active-path','dimmed'); });
+
+      var focus = document.querySelector('.git-node[data-id="' + String(focusId).replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
+      if (focus) focus.classList.add('selected');
+      window._selectedFlowNode = focusId;
+
+      // Active edges = both endpoints in the suite set; everything else dims.
+      (edges || []).forEach(function(e) {
+        var inSet = inSuite[e.from] && inSuite[e.to];
+        var p = document.getElementById('path-' + e.from + '-' + e.to);
+        if (!p) return;
+        if (inSet) p.classList.add('active-path');
+        else p.classList.add('dimmed');
+      });
+
+      // Light the deliverable dots AND reveal their labels — the suite shows
+      // exactly which skills install, named.
+      Object.keys(inSuite).forEach(function(id) {
+        var n = document.querySelector('.git-node[data-id="' + id.replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
+        if (n) { n.classList.add('suite-lit'); n.classList.add('show-label'); }
+      });
+      if (focus) focus.classList.add('show-label');
     };
 
     // Layout thrashing optimization: Pre-calculate all node rects in a single pass
@@ -1812,18 +1976,20 @@
               ' ' + tx + ',' + (ty - ctrlDist) +
               ' ' + tx + ',' + ty;
 
-      // Detect tier from source node — drives CSS color via [data-tier]
-      var fromType = fromEl.getAttribute('data-type') || 'basic';
-      var fromLevel = fromEl.getAttribute('data-level') || '';
-      var tier = fromLevel.indexOf('6') !== -1 ? 'apex'
-               : ['ultimate','unique','extra','basic'].indexOf(fromType) !== -1 ? fromType
-               : 'basic';
+      // Edge color follows the RANK of the PARENT node — the higher-rank skill
+      // the edge feeds INTO (e.to / toEl), not the prerequisite it comes from.
+      // The parent owns the tree, so its rank wins. Ranks only, mirroring the
+      // Progression Timeline and the /named/ flow. Read the parent's emitted
+      // data-level (e.g. "3★" or "3"); the CSS keys .git-path on [data-rank].
+      var toLevel = toEl.getAttribute('data-level') || '';
+      var lvlMatch = String(toLevel).match(/\d/);
+      var fromRank = lvlMatch ? Math.min(6, parseInt(lvlMatch[0], 10)) : 0;
 
       var path = document.createElementNS('http://www.w3.org/2000/svg','path');
       path.setAttribute('id', 'path-' + e.from + '-' + e.to);
       path.setAttribute('d', d);
       path.setAttribute('class', 'git-path');
-      path.setAttribute('data-tier', tier);
+      path.setAttribute('data-rank', String(fromRank));
       fragment.appendChild(path);
     });
 
@@ -2130,23 +2296,36 @@
   }
 
   // ── MAIN OPEN / CLOSE ────────────────────────────────────────
-  var TYPE_GLYPH = { ultimate: '◆', extra: '◇', basic: '○' };
+  // E1: glyph is now branch-derived; TYPE_GLYPH kept only for the 'basic'/'fusion'
+  // schema types (the only valid values). Rank-derived branches (suite, unique)
+  // override the glyph via GaiaSemantics.
+  var TYPE_GLYPH = { basic: '○', fusion: '◆' };
+
+  // Return the correct rank medallion glyph for a skill. Reads the emitted
+  // medallion (GaiaSemantics.medallionOf) when present, else the fallback
+  // resolver; a starless generic object degrades to the schema TYPE_GLYPH.
+  function skillGlyph(skill) {
+    if (window.GaiaSemantics && typeof window.GaiaSemantics.medallionOf === 'function') {
+      var m = window.GaiaSemantics.medallionOf(skill);
+      if (m) return m;
+    }
+    return TYPE_GLYPH[skill.type] || '○';
+  }
 
   window.openUnnamedPopup = function(skill) {
     var pop = document.getElementById('unnamedSkillPopup');
     if (!pop) return;
-    var glyph = TYPE_GLYPH[skill.type] || '◇';
-    // Stage 4 — pull tier colour from the canonical tokens (--tier-<name>)
-    // rather than hardcoding per-tier hex codes. Falls back to --tier-basic
-    // for any unrecognised tier.
-    var rootStyle = getComputedStyle(document.documentElement);
-    var glyphColor = rootStyle.getPropertyValue('--tier-' + (skill.type || 'basic')).trim()
-      || rootStyle.getPropertyValue('--tier-basic').trim();
+    var glyph = skillGlyph(skill);
+    // Glyph colour from the emitted/derived branch via the shared branch→token
+    // map (_seBranchColor). Standard→--tier-basic, suite→--apex-gold,
+    // unique→--rank-4-unique — never --tier-<type> (type is basic|fusion only).
+    var _uspBranch = _seBranchOf(skill);
+    var glyphColor = _seBranchColor(_uspBranch, false);
     document.getElementById('uspGlyph').textContent = glyph;
     document.getElementById('uspGlyph').style.color = glyphColor;
     document.getElementById('uspName').textContent = skill.name || skill.id;
     document.getElementById('uspId').textContent = skill.id;
-    var cmd = 'gaia propose /' + skill.id + (skill.type === 'ultimate' ? ' --ultimate' : '');
+    var cmd = 'gaia propose /' + skill.id + (skill.suiteComponents && skill.suiteComponents.length ? ' --ultimate' : '');
     document.getElementById('uspCmd').textContent = cmd;
     document.getElementById('uspCmd').dataset.cmd = cmd;
     var bodyEl = pop.querySelector('.usp-body');
@@ -2164,7 +2343,7 @@
     // Stage 4 — fall back to --tier-basic via the token system (no hardcoded hex).
     var _rootStyle = getComputedStyle(document.documentElement);
     var _fallbackTier = _rootStyle.getPropertyValue('--tier-basic').trim();
-    document.getElementById('uspGlyph').textContent = TYPE_GLYPH[ns.type] || '◇';
+    document.getElementById('uspGlyph').textContent = skillGlyph(ns);
     document.getElementById('uspGlyph').style.color = lmEntry.color || _fallbackTier;
     // Phase 8c — wrap contributor mentions in handleLink so they route to
     // the profile page. uspName retains the slug + handle layout but the
@@ -2385,18 +2564,21 @@
       var skillName = parts[1] || handle;
       var hasSlash = parts.length > 1;
 
-      var type = (generic && generic.type) || ns.type || 'basic';
       var handleRedacted = window.isRedacted && window.isRedacted(ns.level);
       var color = (LEVEL_META_SE && LEVEL_META_SE[ns.level]) ? LEVEL_META_SE[ns.level].color : 'inherit';
       // LEVEL_META_SE only carries 2★+; a pre-named/demoted (≤1★) skill keeps
       // its plain rank color (--rank-N) — never type rainbow/glow, never the
       // inherited honor-red.
+      // PR3b: READ the emitted branch off the named entry (ns.branch);
+      // _nsForBranch carries generic type only for the starless fallback.
+      var _effRank = parseInt(String(ns.level || '').replace(/\D+/g, ''), 10) || 0;
+      var _nsForBranch = Object.assign({}, ns, { type: (generic && generic.type) || ns.type || 'basic' });
+      var _branch = _seBranchOf(ns && ns.branch ? ns : _nsForBranch);
       if (handleRedacted) {
-        var _lvlN = parseInt(String(ns.level || '').replace(/\D+/g, ''), 10) || 0;
-        color = 'var(--rank-' + _lvlN + ', #38bdf8)';
+        color = 'var(--rank-' + _effRank + ', var(--tier-basic))';
       } else {
-        if (type === 'unique') { color = 'var(--tier-unique, #7c3aed)'; }
-        else if (type === 'ultimate') { color = 'var(--apex-gold, #fbbf24)'; }
+        if (_branch === SE_UNIQUE) { color = 'var(--rank-4-unique)'; }
+        else if (_branch === SE_SUITE) { color = 'var(--apex-gold)'; }
       }
 
       var bHtml = '';
@@ -2407,22 +2589,18 @@
         } else {
           bHtml += '<span class="atlas-handle">@' + esc(handle) + '</span>';
         }
-        if (!handleRedacted && ns.origin && typeof window.gaiaIcon === 'function') {
-          bHtml += ' <span class="plaque__origin" data-tooltip="Origin contributor: The creator of the first skill version" aria-label="Origin contributor: The creator of the first skill version">' +
-            window.gaiaIcon('origin-badge', { size: 16 }) +
-            '<span class="origin-info" style="margin-left: 3px; color: var(--muted); opacity: 0.7;">' + window.gaiaIcon('info', { size: 10 }) + '</span>' +
-            '</span>';
-        }
+        // E4: deprecated red origin-badge suppressed here; the gold wreath avatar
+        // frame (plaque__avatar-wreath) is the canonical Yggdrasil II origin mark.
+        // Do NOT emit the .plaque__origin inline badge — it renders in honor-red.
         bHtml += '<span style="color:var(--muted); opacity: 0.5; margin: 0 4px;">/</span>';
       }
       var slugStyle = 'font-size: inherit; color: ' + color + ';';
       if (!handleRedacted) {
-        if (type === 'ultimate') {
+        // PR3b: animation/glow keyed on the emitted branch, not a dead type enum.
+        if (_branch === SE_SUITE) {
           slugStyle += ' animation: tree-rainbow-glow 4s linear infinite;';
-        } else if (type === 'extra') {
-          slugStyle += ' animation: tree-extra-glow 4s linear infinite;';
-        } else if (type === 'unique') {
-          slugStyle += ' text-shadow: 0 0 12px rgba(124,58,237,0.6), 0 0 4px rgba(124,58,237,0.3);';
+        } else if (_branch === SE_UNIQUE) {
+          slugStyle += ' text-shadow: 0 0 12px rgba(var(--rank-4-unique-rgb,124,58,237),0.6), 0 0 4px rgba(var(--rank-4-unique-rgb,124,58,237),0.3);';
         }
       }
       bHtml += '<span class="plaque__slug" style="' + slugStyle + '">' + esc(skillName) + '</span>';
@@ -2817,7 +2995,7 @@
     if (typeof window.gaiaIconBase === 'function') {
       return window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '');
     }
-    var mounts = ['named', 'en', 'badges', 'u', 'samples', 'graph', 'evidence', 'share', 'trust', 'api', 'codex', 'trending', 'heroes', 'reports', 'benchmarks', 'skills'];
+    var mounts = ['named', 'en', 'badges', 'u', 'samples', 'graph', 'evidence', 'share', 'trust', 'api', 'codex', 'trending', 'heroes', 'reports', 'benchmarks'];
     var segs = window.location.pathname.replace(/\/+$/, '').split('/').filter(Boolean);
     var dir = /\.html?$/i.test(segs[segs.length - 1]) ? segs.slice(0, -1) : segs;
     var depth = 0;
@@ -2894,54 +3072,60 @@
         inBasics = true;
       }
 
-      // 1. Ultimate Skill lines (◆)
+      // 1. Suite Skill lines (◆) — rank-keyed: 6★=Apex rainbow, 5★=Ultimate gold, 4★=Extra fuchsia
       var m = line.match(/^(\s*[·✓]\s*)?(◆)(\s+)(\S+)(.*)$/);
-      if (m) {
+      if (m && line.indexOf('◉ Unique') === -1 && line.indexOf('○ Basic') === -1) {
         var ownerMark = m[1] ? (m[1].indexOf('✓') >= 0
           ? '<span class="tree-owned">✓</span> '
           : '<span class="tree-unowned">·</span> ') : '';
-        var glyph = glyphSpan('tree-glyph-ult', m[2]);
-        var skillId = m[4];
         var suffix = m[5];
+        var suiteRank = suffix.indexOf('6★') >= 0 ? 'vi' : suffix.indexOf('5★') >= 0 ? 'v' : 'iv';
+        var suiteGlyphClass = 'tree-glyph-suite--' + suiteRank;
+        var glyph = glyphSpan(suiteGlyphClass, m[2]);
+        var skillId = m[4];
         var delay = -((ultIdx++ * 0.9) % 4);
         var slash = skillId.indexOf('/');
         var skillHtml;
+        var suiteSkillClass = 'tree-suite-skillname--' + suiteRank;
+        var suiteIdClass = 'tree-suite-id--' + suiteRank;
         if (slash > 0) {
           var ultHandle = skillId.slice(0, slash);
-          skillHtml = handleAnchor(ultHandle, '<span class="tree-ult-contributor">' + esc(ultHandle) + '</span>') +
-                      '<span class="tree-ult-slash">/</span>' +
-                      '<span class="tree-ult-skillname">' + esc(skillId.slice(slash + 1)) + '</span>';
+          skillHtml = handleAnchor(ultHandle, '<span class="tree-suite-contributor">' + esc(ultHandle) + '</span>') +
+                      '<span class="tree-suite-slash">/</span>' +
+                      '<span class="' + suiteSkillClass + '">' + esc(skillId.slice(slash + 1)) + '</span>';
         } else {
-          skillHtml = '<span class="tree-ult-id">' + esc(skillId) + '</span>';
+          skillHtml = '<span class="' + suiteIdClass + '">' + esc(skillId) + '</span>';
         }
         var suffixHtml = colorizeRankPills(colorizeShared(esc(suffix)));
-        output.push('<span class="tree-ult-line" style="animation-delay:' + delay + 's">' +
+        output.push('<span class="tree-suite-line ' + suiteGlyphClass + '" style="animation-delay:' + delay + 's">' +
                ownerMark + glyph + esc(m[3]) + skillHtml + suffixHtml + '</span>');
         continue;
       }
 
-      // 2. Unique Skill lines (◉)
+      // 2. Unique Skill lines (◉) — rank-keyed: 6★=Unique Impossible, 5★=Unique Ultimate, 4★=Unique
       var u = line.match(/^(\s*[·✓]\s*)?([\s│├└─]*)(◉)(\s+)(\S+)(.*)$/);
       if (u) {
         var uOwner = u[1] ? (u[1].indexOf('✓') >= 0
           ? '<span class="tree-owned">✓</span> '
           : '<span class="tree-unowned">·</span> ') : '';
         var uPrefix = esc(u[2]);
-        var uGlyph = glyphSpan('tree-glyph-uni', u[3]);
-        var uid = u[5];
         var usuffix = u[6];
+        var uniRank = usuffix.indexOf('6★') >= 0 ? 'vi' : usuffix.indexOf('5★') >= 0 ? 'v' : 'iv';
+        var uGlyphClass = 'tree-glyph-uni--' + uniRank;
+        var uGlyph = glyphSpan(uGlyphClass, u[3]);
+        var uid = u[5];
         var udelay = -((unqIdx++ * 0.9) % 4);
         var uslash = uid.indexOf('/');
         var uskillHtml;
-        var isGold = usuffix.indexOf('5★') >= 0 || usuffix.indexOf('6★') >= 0;
-        var uniqueClass = isGold ? 'tree-unique-skillname tree-unique-gold' : 'tree-unique-skillname';
+        var uSkillClass = 'tree-unique-skillname--' + uniRank;
+        var uIdClass = 'tree-unique-id--' + uniRank;
         if (uslash > 0) {
           var uHandle = uid.slice(0, uslash);
           uskillHtml = handleAnchor(uHandle, '<span class="tree-unique-contributor">' + esc(uHandle) + '</span>') +
                        '<span class="tree-unique-slash">/</span>' +
-                       '<span class="' + uniqueClass + '">' + esc(uid.slice(uslash + 1)) + '</span>';
+                       '<span class="' + uSkillClass + '">' + esc(uid.slice(uslash + 1)) + '</span>';
         } else {
-          uskillHtml = '<span class="' + uniqueClass + '">' + esc(uid) + '</span>';
+          uskillHtml = '<span class="' + uIdClass + '">' + esc(uid) + '</span>';
         }
         var usuffixHtml = colorizeRankPills(colorizeShared(esc(usuffix)));
         output.push('<span class="tree-unique-line" style="animation-delay:' + udelay + 's">' +
@@ -2949,32 +3133,44 @@
         continue;
       }
 
-      // 3. Extra Skill lines (◇)
-      var e = line.match(/^(\s*[·✓]\s*)?([\s│├└─]*)(◇)(\s+)(\S+)(.*)$/);
-      if (e) {
-        var eOwner = e[1] ? (e[1].indexOf('✓') >= 0
+      // 2b. Fusion Skill lines (·) — rank-keyed: 6★=Apex, 5★=Ultimate, 4★=Extra, etc.
+      var f = line.match(/^(\s*[·✓]\s*)?([\s│├└─]*)(·)(\s+)(\S+)(.*)$/);
+      if (f) {
+        var fOwner = f[1] ? (f[1].indexOf('✓') >= 0
           ? '<span class="tree-owned">✓</span> '
           : '<span class="tree-unowned">·</span> ') : '';
-        var ePrefix = esc(e[2]);
-        var eGlyph = glyphSpan('tree-glyph-ext', e[3]);
-        var eid = e[5];
-        var esuffix = e[6];
-        var eslash = eid.indexOf('/');
-        var eskillHtml;
-        if (eslash > 0) {
-          var eHandle = eid.slice(0, eslash);
-          eskillHtml = handleAnchor(eHandle, '<span class="tree-extra-contributor">' + esc(eHandle) + '</span>') +
-                       '<span class="tree-extra-slash">/</span>' +
-                       '<span class="tree-extra-skillname">' + esc(eid.slice(eslash + 1)) + '</span>';
+        var fPrefix = esc(f[2]);
+        var fsuffix = f[6];
+        var fRank = '';
+        if (fsuffix.indexOf('6★') >= 0) fRank = '--vi';
+        else if (fsuffix.indexOf('5★') >= 0) fRank = '--v';
+        else if (fsuffix.indexOf('4★') >= 0) fRank = '--iv';
+        else if (fsuffix.indexOf('3★') >= 0) fRank = '--iii';
+        else if (fsuffix.indexOf('2★') >= 0) fRank = '--ii';
+        var fGlyphClass = 'tree-glyph-fusion';
+        var fGlyph = glyphSpan(fGlyphClass, f[3]);
+        var fid = f[5];
+        var fdelay = -((unqIdx++ * 0.9) % 4);
+        var fslash = fid.indexOf('/');
+        var fskillHtml;
+        var fSkillClass = 'tree-fusion-skillname' + fRank;
+        var fIdClass = 'tree-fusion-id' + fRank;
+        if (fslash > 0) {
+          var fHandle = fid.slice(0, fslash);
+          fskillHtml = handleAnchor(fHandle, '<span class="tree-fusion-contributor">' + esc(fHandle) + '</span>') +
+                       '<span class="tree-fusion-slash">/</span>' +
+                       '<span class="' + fSkillClass + '">' + esc(fid.slice(fslash + 1)) + '</span>';
         } else {
-          eskillHtml = '<span class="tree-extra-id">' + esc(eid) + '</span>';
+          fskillHtml = '<span class="' + fIdClass + '">' + esc(fid) + '</span>';
         }
-        var esuffixHtml = colorizeRankPills(colorizeShared(esc(esuffix)));
-        output.push('<span class="tree-extra-line">' + eOwner + ePrefix + eGlyph + esc(e[4]) + eskillHtml + esuffixHtml + '</span>');
+        var fsuffixHtml = colorizeRankPills(colorizeShared(esc(fsuffix)));
+        output.push('<span class="tree-fusion-line" style="animation-delay:' + fdelay + 's">' +
+               fOwner + fPrefix + fGlyph + esc(f[4]) + fskillHtml + fsuffixHtml + '</span>');
         continue;
       }
 
-      // 4. Basic Skill lines (○)
+
+      // 3. Basic Skill lines (○)
       var b = line.match(/^(\s*[·✓]\s*)?([\s│├└─]*)(○)(\s+)(\S+)(.*)$/);
       if (b) {
         var bOwner = b[1] ? (b[1].indexOf('✓') >= 0
@@ -2995,23 +3191,24 @@
           bskillHtml = '<span class="tree-basic-id">' + esc(bid) + '</span>';
         }
         var bsuffixHtml = colorizeRankPills(colorizeShared(esc(bsuffix)));
-        var lineClass = inBasics ? 'tree-basic-line tree-pure-line' : 'tree-basic-line';
+        var lineClass = 'tree-basic-line';
         output.push('<span class="' + lineClass + '">' + bOwner + bPrefix + bGlyph + esc(b[4]) + bskillHtml + bsuffixHtml + '</span>');
         continue;
       }
 
-      // 5. Separators and Catch-alls
+      // 4. Separators and Catch-alls
       if (/^[═─]{3,}/.test(line.trim())) {
         output.push('<span class="tree-sep">' + esc(line) + '</span>');
         continue;
       }
 
       var out = esc(line);
-      // Colorize standalone glyphs in non-skill lines (section headers etc.)
-      out = out.replace(/◇/g, glyphSpan('tree-glyph-ext', '◇'));
+      // Colorize standalone glyphs in section headers etc.
       out = out.replace(/○/g, glyphSpan('tree-glyph-basic', '○'));
-      out = out.replace(/◉/g, glyphSpan('tree-glyph-uni', '◉'));
-      out = out.replace(/◆/g, glyphSpan('tree-glyph-ult', '◆'));
+      out = out.replace(/◉/g, glyphSpan('tree-glyph-uni--iv', '◉'));
+      out = out.replace(/◆/g, glyphSpan('tree-glyph-suite--v', '◆'));
+      out = out.replace(/· =/g, glyphSpan('tree-glyph-fusion', '·') + ' =');
+      out = out.replace(/\[N★\]/g, '<span class="tree-rank">[N★]</span>');
       out = colorizeRankPills(out);
       out = colorizeShared(out);
       output.push(out);
@@ -3047,6 +3244,18 @@
 
   treeNavBtn.addEventListener('click', openTreeDialog);
   treeCloseBtn.addEventListener('click', closeTreeDialog);
+
+  // Landing here via a nav redirect (mobile drawer link, or the desktop
+  // "Skill Tree" button on a non-homepage page — see site-nav.js) carries
+  // ?tree=1 instead of a direct click, since #treeDialog didn't exist yet on
+  // the page that redirected. Open it once the dialog is available (#828;
+  // do not let hud-toggle.js's ?field=1/?hud=1 3D-explorer params claim this).
+  try {
+    if (new URLSearchParams(window.location.search).get('tree') === '1') {
+      openTreeDialog();
+    }
+  } catch (_) { /* ignore */ }
+
   treeDialog.addEventListener('click', function(e) {
     if (e.target === treeDialog) closeTreeDialog();
   });

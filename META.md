@@ -12,23 +12,32 @@ Gaia uses a tiered star system (`0★`–`6★`) to rank skills. Levels are both
 
 ### 1.1 Star Tiers & Rank Labels (named implementations)
 
-> **Evidence Floor reads from `grade` first.** Per the G7 Trust Taxonomy RFC (`founder/handovers/G7_TRUST_TAXONOMY_RFC.md`, ratified 2026-06-16), evidence rows now carry a `grade` field (S/A/B/C, S strongest) as the primary quality signal. The promotion engine (`src/gaia_cli/promotion.py`) reads `grade` first and falls back to the deprecated `class` field (A/B/C legacy) during the migration window. The two axes are distinct — Grade A is not Class A; never conflate them. See `CONTEXT.md` § Evidence Class for the deprecation notice and §2.1b below for the full dual-axis description.
+> **Evidence Floor retired — Trust Magnitude is the sole gate.** Per the Yggdrasil II ratification (2026-07-07), the per-star **Evidence Floor** column is removed; **Trust Magnitude (TM)** is the sole promotion gate. Evidence rows carry a `grade` field (S/A/B/C, Platinum → Bronze) as a quality signal that feeds TM scoring. The promotion engine (`src/gaia_cli/promotion.py`) reads `grade` first and falls back to the deprecated `class` field (A/B/C legacy) during the migration window — Grade A ≠ Class A; never conflate them. See §2.1b for the TM formula and `CONTEXT.md` § Evidence Class for the deprecation notice.
 
-| Level | Label | Significance | Evidence Floor | Verification Tier (max) |
-|---|---|---|---|---|
-| **0★** | **Basic** | Pre-named primitive — a freshly scanned candidate against a starless reference. | None | — |
-| **1★** | **Awakened** | Verified candidate, not yet named. | None | — |
-| **2★** | **Named** | Minimum level for named implementations. | Grade C+ | community-verified |
-| **3★** | **Evolved** | Demonstrates reproducibility and stability. | Grade B+ | community-verified / benchmark-verified |
-| **4★** | **Hardened** | Production-ready, well-documented, reliable. | Grade B+ (rank-floor protected) | up to security-reviewed |
-| **5★** | **Transcendent** | Mastery level, often an Ultimate capstone. | Grade B+ (rank-floor protected) | up to enterprise-ready |
-| **6★** | **Apex** | The pinnacle of Gaia; extreme ecosystem impact. | Grade S + 6-predicate gate (was 9, see §4.3) | enterprise-ready required |
+| Level | Label | Significance | Verification Tier (max) |
+|---|---|---|---|
+| **0★** | **Basic** | Pre-named primitive — a freshly scanned candidate against a starless reference. | — |
+| **1★** | **Awakened** | Verified candidate, not yet named. | — |
+| **2★** | **Named** | Minimum level for named implementations. | community-verified |
+| **3★** | **Evolved** | Demonstrates reproducibility and stability. | community-verified / benchmark-verified |
+| **4★** | **Extra** (Suite branch) / **Unique** (Unique branch) | Proved at production depth; branch forks here. TM gate: ≥ 100 (A-grade). | up to security-reviewed |
+| **5★** | **Ultimate** (Suite branch) / **Unique Ultimate** (Unique branch) | Mastery level — 'Ultimate' is the universal 5★ word. TM gate: ≥ 250 (S-grade). | up to enterprise-ready |
+| **6★** | **Apex** (Suite branch) / **Unique Impossible** (Unique branch) | The pinnacle of Gaia; extreme ecosystem impact. 6-predicate Apex gate (Suite, §4.3); provisional 5-predicate Unique Impossible gate (Unique, §4.4). | enterprise-ready required |
 
-### 1.2 Skill Types
-- **○ Basic Skill**: Root primitives. 0 prerequisites.
-- **◇ Extra Skill**: Composite workflows. Requires ≥ 2 prerequisites.
-- **◉ Unique Skill**: Specialized depth. Level 4★+, 0 prerequisites, graph-isolated.
-- **◆ Ultimate Skill**: Platform capstones. Requires ≥ 5 named prerequisites + Origin Fusion. **Requirement**: ≥ 10k repository stars.
+### 1.2 Node Types and Branch Axis (Yggdrasil II, 2026-07-07)
+
+**Type axis** — starless / generic nodes only. Named skills carry no `type` field; they inherit via `genericSkillRef` walk:
+- **`basic`** — 0 prerequisites. Root primitive nodes.
+- **`fusion`** — ≥ 1 prerequisite. Any non-basic starless node. PURE STRUCTURE — `type` does **not** determine a named skill's branch. Legacy values `extra`, `ultimate`, and `unique` are retired; all non-basic nodes are `fusion`.
+
+**`suiteComponents`** — a **Named-Skill-only** list of co-located suite components (never on the starless generic parent, per #996). Its **presence** puts the Named Skill on the `suite` branch at any rank and feeds downstream Trust Magnitude (§4.3 depth-2 walker). Independent of `type`.
+
+**Branch axis** — named skills only, **derived at read-time, never declared**. `branch = f(suiteComponents present?, rank)`, **suiteComponents-presence first**:
+- **`suite`** — `suiteComponents` present, at **any rank** (from the 2★ push floor). Suite **ladder words + glyph appear only at 4★+**: 4★ **Extra** → 5★ **Ultimate** → 6★ **Apex**; a 2★/3★ suite shows the shared word (Named/Evolved) + plain glyph. Membership is structural; the 4★ fork is a decoration gate.
+- **`unique`** — no `suiteComponents` AND rank ≥ 4. Unique ladder: 4★ **Unique** → 5★ **Unique Ultimate** → 6★ **Unique Impossible**.
+- **`standard`** — no `suiteComponents` AND rank 1–3. Shared ladder: 1★ Awakened → 2★ Named → 3★ Evolved.
+
+**Orthogonality**: type and branch are fully independent. A `fusion` node without `suiteComponents` yields Unique-branch named skills; a `basic` node with `suiteComponents` yields Suite-branch named skills. Never consult `type` to determine branch.
 
 ### 1.3 Redaction of Pre-Named & Demoted Handles
 
@@ -89,7 +98,7 @@ This keeps the starless reference rank-less while still letting it carry the sha
 
 Per the G7 Trust Taxonomy RFC, each evidence row carries two independent fields:
 
-- **Evidence Type** — *where* the demonstration comes from (provenance). Values are kebab-case, list-driven from `registry/schema/meta.json` `evidence.types`. Initial canonical types: `arxiv`, `repo`, `github-stars`. The `benchmark-result` type is reserved by the Benchmark Framework RFC (`docs/architecture/benchmark-framework.md`). Always write the full phrase "Evidence Type"; never the bare word "type", which names the skill taxonomy field (Basic/Extra/Unique/Ultimate).
+- **Evidence Type** — *where* the demonstration comes from (provenance). Values are kebab-case, list-driven from `registry/schema/meta.json` `evidence.types`. Initial canonical types: `arxiv`, `repo`, `github-stars`. The `benchmark-result` type is reserved by the Benchmark Framework RFC (`docs/architecture/benchmark-framework.md`). Always write the full phrase "Evidence Type"; never the bare word "type", which names the skill taxonomy field (basic / fusion).
 
 - **Evidence Grade** — *how strong* the demonstration is, on an **S / A / B / C** scale (Platinum / Gold / Silver / Bronze). Derived from the evidence row's `trustNumber` via `registry/schema/meta.json` `evidence.gradeThresholds` (S ≥ 90, A ≥ 80, B ≥ 60, C ≥ 40). Evidence whose `trustNumber` falls below 40 is **ungraded** — on the record but counting toward no gate. Grade A/B are deliberately distinct from the deprecated Class A/B.
 
@@ -119,12 +128,12 @@ Per G7 RFC §10.14: every non-fusion-recipe evidence row must be **physically pr
 
 ### 2.2 The "Prestige Pivot" Roadmap (RFC #457)
 
-- **Web of Trust**: Contributors holding a **4★ (Hardened)** skill may act as "Verifiers" for new evidence, reducing reliance on central maintainers. Verified evidence is marked in the schema and visualized in the Skill Explorer history.
+- **Web of Trust**: Contributors holding a **4★+** skill may act as "Verifiers" for new evidence, reducing reliance on central maintainers. Verified evidence is marked in the schema and visualized in the Skill Explorer history.
 - **Liveness Heartbeat**: Automated monthly checks for URL health and repository activity. Dead or inactive repositories are flagged for demotion. Stable, "finished" software with Class A/B evidence is protected from rot demerits.
 - **Specialist Path**: A rubric allowing vendor-locked skills (e.g., Palantir, Salesforce) to reach 4★+ by proving "Depth of Integration" (robustness and production usage) rather than general portability.
 
 ### 2.3 Specialist Path Rubric (4★+ Promotion)
-To reach Hardened (4★) or higher as a Specialist (vendor-locked) skill, the implementation must meet the **Depth of Integration** bar:
+To reach 4★ or higher as a Specialist (vendor-locked) skill, the implementation must meet the **Depth of Integration** bar:
 1. **Production Evidence**: Documented usage in a real-world production environment (Case study, blog post, or Class A/B evidence).
 2. **Robustness**: Comprehensive test suite covering edge cases of the vendor's API/Platform.
 3. **Documentation**: Detailed "How-to" and "Reference" docs specifically for the vendor-locked context.
@@ -161,9 +170,9 @@ The **Canonical Level** (e.g., 4★) is the claimed tier based on evidence. The 
 - **Named**: Promoted by a reviewer once a unique RPG `title` or `catalogRef` is assigned.
 - **Origin Status**: The **most renowned** implementation in a generic bucket earns "Origin" — the highest-rated named skill (ties broken by most-attributed / Trust Score), **not** necessarily the earliest. An early implementation may be **superseded** when a stronger one earns the rank. Origin is a mark of merit granted to the implementation that earned it, in keeping with the product motif. Exactly one Origin exists per bucket. *(Updated 2026-06-02: Origin is merit-based; this supersedes the earlier "first contributor / earliest" rule, since an early entry can be outclassed by a better one.)*
 
-### 4.2 Ultimate & Apex Pathways
-- **Ultimate Fusion**: Proposer must hold Origin status on at least 1 of the 5+ named prerequisites. Requires ≥ 10k repository stars.
-- **The Ascension Cycle (6★ Apex)**: Reaching the **Apex** rank requires Grade A evidence AND that the skill is the product of a fusion involving at least one **Origin 5★ Transcendent** skill. Additionally, any skill currently recorded at 6★ before the G7 cutover will be subject to demotion review against the new 9-predicate gate (§4.3) at migration time.
+### 4.2 Suite-Branch 5★/6★ Pathways
+- **Suite 5★ Ultimate pathway**: Proposer must hold Origin status on at least 1 of the ≥ 5 `suiteComponents`. Trust Magnitude ≥ 250 (S-grade) required. The legacy "≥ 10k repository stars" hard-requirement is retired under Yggdrasil II; TM is the sole numeric gate.
+- **The Ascension Cycle (6★ Apex, Suite branch)**: Reaching **Apex** requires TM ≥ 250 (S-grade) and the full 6-predicate gate (§4.3), including at least one direct component that is itself a suite. Any skill recorded at 6★ before the G7 cutover was subject to demotion review against the original 9-predicate gate at migration time; the active set is now 6 predicates (§4.3).
 
 ### 4.3 Apex (6★) Gate — 6-Predicate Requirements (active set, post-2026-06-17 delta)
 
@@ -183,6 +192,25 @@ Reaching or retaining 6★ Apex rank requires satisfying the six **active** pred
 Enforcement is **live in code** as of Phase 1.5 (`src/gaia_cli/trustMagnitude.py::checkApexGate*` family). Top-4 S-grade skills (`garrytan/gstack`, `ruvnet/ruflo`, `mattpocock/skills`, `obra/superpowers`) currently pass 4/6 predicates each — §11.12.1 (A-graded origins) and §11.12.7 (tenure) await deeper origin curation and historical `sourceStartedAt` backfill respectively.
 
 The G7 RFC is the normative spec; META.md is a summary.
+
+### 4.4 Unique Impossible (6★) Gate — Provisional 5-Predicate Requirements (Unique branch)
+
+Under Yggdrasil II there are **two distinct 6★ paths**, one per branch:
+
+- **Suite branch → 6★ Apex** — the 6-predicate gate in §4.3.
+- **Unique branch → 6★ Unique Impossible** — a **provisional 5-predicate gate**: the Apex set **minus `directNestedSuiteGte1`** (§11.12.2). A Unique-branch skill has no `suiteComponents` by definition, so the directly-nested-suite composition-depth predicate does not apply; the remaining five carry over unchanged. **Formal ratification is deferred to Yggdrasil III** (the branch-aware Trust Magnitude formula rebuild) — until then this gate is provisional, not RFC-ratified.
+
+The five active Unique Impossible predicates:
+
+1. **§11.12.1 — ≥ 5 A-graded origins** in the transitive origin closure (deduplicated; `role='origin'` only — pure suite variants do not count).
+2. **§11.12.3 — ≥ 1 node reachable only at depth ≥ 2** (provenance depth, not installation breadth; suite-only reachability excluded).
+3. **§11.12.4 — Overall Trust Grade S** (Trust Magnitude ≥ 250 with the diversity gate satisfied).
+4. **§11.12.7 — Tenure ≥ 180 days** (earliest A/S evidence row's public source continuously available ≥ 180 calendar days).
+5. **§11.12.8 — `apexPromotionPrSigned`** by the verifier at promotion time (sole human-attestation gate during bootstrap; cosigner quorum once cross-org verifiers exist).
+
+**Dropped for the Unique branch:** §11.12.2 `directNestedSuiteGte1` (no nested suite exists on a Unique skill). **Feature-flagged OFF (both branches):** §11.12.5 `crossOrgVerifierGte2` and §11.12.6 `systemWideCapRespected` — return skipped, not failed, until 2026-Q4 review.
+
+The Evidence Floor requirement has been retired: **Trust Magnitude is the sole promotion gate** on both branches. The branch-aware split is authoritatively rendered in `docs/codex/trust-methodology.html` §5 (Apex Gate — Suite Branch, with the Yggdrasil II branch-aware callout); META.md mirrors it. The G7 RFC remains the normative spec for the shared predicate definitions.
 
 ---
 
@@ -219,7 +247,7 @@ The following `action` values are defined in `registry/schema/skill.schema.json`
 - **`evidence_removed`**: Recorded when an evidence row is retracted.
 - **`evidence_graded`**: Recorded when an evidence row's grade is updated.
 - **`security_scan_passed`**: Recorded when a skill's content passes the defensive security scanner clean. Read by the `security-reviewed` verification tier (G4). The scanner-to-timeline emit wiring is a follow-up PR; the action enum entry is live in the schema as of PR #709.
-- **`type_change`**: Recorded when the skill's taxonomy type changes (e.g. `basic` → `unique`).
+- **`type_change`**: Recorded when the skill's taxonomy type changes (e.g. `basic` → `fusion`). Under Yggdrasil II the only valid type values for starless nodes are `basic` and `fusion`.
 - **`apex_pr_signed`**: Recorded when a verifier signs the apex-promotion PR for a 6★ candidate (G7 RFC §11.12.8). Sets `apexGateStatus.apexPromotionPrSigned` on the named skill. Ratified in v3 (`founder/handovers/G7_RFC_V3_RATIFICATION_2026-06-20.md`).
 
 ---
@@ -234,8 +262,8 @@ To maintain high prestige and avoid "Vendor Bloat," Gaia employs a proactive pru
 - Other implementations remain accessible as variants but do not clutter the primary graph view.
 
 ### 6.2 Semantic Fusion
-- When multiple distinct named skills represent specialized capabilities that can be orchestrated in a single high-level workflow, they are fused into a new **Extra (Master)** generic skill.
-- The original basic skills are linked as prerequisites, and the composite named implementations are promoted to higher star tiers (3★ or 4★).
+- When multiple distinct named skills represent specialized capabilities that can be orchestrated in a single high-level workflow, they are fused into a new **`fusion`-type** generic skill.
+- The original `basic` nodes are linked as prerequisites, and the composite named implementations are promoted to higher star tiers (3★ or 4★).
 
 ---
 
@@ -258,8 +286,8 @@ To maintain high prestige and avoid "Vendor Bloat," Gaia employs a proactive pru
 |---|---|---|
 | Star Tiers (0★–6★) | ✅ Implemented | `registry/schema/meta.json` |
 | Demerits & Effective Level | ✅ Implemented | `GOVERNANCE.md` |
-| Unique Skill Promotion | ✅ Implemented | `CONTRIBUTING.md` |
-| Ultimate Fusion Criteria (5-Prereq) | ✅ Implemented | `GOVERNANCE.md` |
+| Unique-branch Promotion (4★+, no `suiteComponents` on parent) | ✅ Implemented | `CONTRIBUTING.md` |
+| Suite-branch 5★ gate (`suiteComponents`, TM ≥ 250) | ✅ Implemented | `GOVERNANCE.md` |
 | Timeline Schema | ✅ Implemented | `registry/schema/namedSkill.schema.json` |
 | Web of Trust / Verification | ✅ Implemented | [Issue #457](https://github.com/gaia-research/gaia-skill-tree/issues/457) |
 | Liveness Heartbeat Script | ✅ Implemented | `scripts/verify_evidence.py` |

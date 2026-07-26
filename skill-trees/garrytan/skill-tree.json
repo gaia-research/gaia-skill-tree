@@ -336,6 +336,16 @@
           "level": "4★",
           "achievedAt": "2026-06-03T05:51:37Z",
           "source": "demote"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-16T00:00:01Z",
+          "source": "demote"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-07-20T00:00:01Z",
+          "source": "promotion"
         }
       ]
     },
@@ -1505,6 +1515,22 @@
       "newValue": "3★",
       "details": "Level updated from 4★ to 3★ per G7 final rankings calibration.",
       "skillId": "garrytan/skillify"
+    },
+    {
+      "timestamp": "2026-07-16T00:00:01Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
+      "skillId": "garrytan/garrytan"
+    },
+    {
+      "timestamp": "2026-07-20T00:00:01Z",
+      "action": "rank_up",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
+      "skillId": "garrytan/garrytan"
     }
   ],
   "stats": {

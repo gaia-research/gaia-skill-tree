@@ -49,7 +49,7 @@
       letter-spacing: .02em;
     }
 
-    .nav-logo span { color: var(--tier-ultimate, #f59e0b); }
+    .nav-logo span { color: var(--rank-5); }
     .nav-sep { color: var(--muted, #64748b); font-size: 0.85rem; }
     .nav-crumb { font-size: 0.82rem; color: var(--muted, #64748b); }
     .nav-crumb.current { color: var(--text, #e2e8f0); }
@@ -240,7 +240,7 @@
     .code-fence pre .c  { color: #4b5563; }          /* comment */
     .code-fence pre .kw { color: var(--tier-basic, #38bdf8); }
     .code-fence pre .cmd { color: #86efac; }          /* command highlight */
-    .code-fence pre .arg { color: var(--tier-extra, #c084fc); }
+    .code-fence pre .arg { color: var(--rank-4); }
     .code-fence pre .str { color: #fbbf24; }
     .code-fence pre .pl  { color: #a78bfa; }          /* placeholder */
 
@@ -370,9 +370,9 @@
     }
 
     .tier-pill.basic   { background: var(--tier-basic-bg, rgba(56,189,248,.12)); border: 1px solid var(--tier-basic-border, rgba(56,189,248,.35)); color: var(--tier-basic, #38bdf8); }
-    .tier-pill.extra   { background: var(--tier-extra-bg, rgba(192,132,252,.12)); border: 1px solid var(--tier-extra-border, rgba(192,132,252,.35)); color: var(--tier-extra, #c084fc); }
+    .tier-pill.extra   { background: var(--rank-4-bg); border: 1px solid var(--rank-4-border); color: var(--rank-4); }
     .tier-pill.unique  { background: var(--tier-unique-bg, rgba(124,58,237,.12)); border: 1px solid var(--tier-unique-border, rgba(124,58,237,.35)); color: var(--tier-unique, #7c3aed); }
-    .tier-pill.ultimate { background: var(--tier-ultimate-bg, rgba(245,158,11,.12)); border: 1px solid var(--tier-ultimate-border, rgba(245,158,11,.35)); color: var(--tier-ultimate, #f59e0b); }
+    .tier-pill.ultimate { background: var(--rank-5-bg); border: 1px solid var(--rank-5-border); color: var(--rank-5); }
 
     /* ── On-this-page jump links ── */
     .otp {
@@ -436,13 +436,13 @@
     }
 
     /* ── Responsive ── */
+    /* mobile-first: base layout handled by docs-en-shell.css */
+    @media (min-width: 769px) {
+      .page-layout { grid-template-columns: 220px 1fr; }
+      .sidebar { display: block; }
+    }
+
     @media (max-width: 768px) {
-      .page-layout {
-        grid-template-columns: 1fr;
-      }
-      .sidebar {
-        display: none;
-      }
       .main {
         padding: 2rem 1.25rem 4rem;
       }
@@ -491,6 +491,14 @@
   "url": "https://gaiaskilltree.com/en/getting-started.html"
 }
 </script>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TS7N9T92BM" data-ga4="G-TS7N9T92BM"></script>
+  <script data-ga4="G-TS7N9T92BM">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-TS7N9T92BM');
+  </script>
 </head>
 <body>
 
@@ -1007,8 +1015,5 @@
     })();
   </script>
 
-<!-- impeccable-live-start -->
-<script src="http://localhost:8400/live.js"></script>
-<!-- impeccable-live-end -->
 </body>
 </html>

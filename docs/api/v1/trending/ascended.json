@@ -1,6 +1,58 @@
 {
-  "generatedAt": "2026-07-25T05:07:33Z",
+  "generatedAt": "2026-07-25T23:03:44Z",
   "skills": [
+    {
+      "id": "stanfordnlp/dspy",
+      "name": "DSPy",
+      "level": "4★",
+      "contributor": "stanfordnlp",
+      "trustMagnitude": 100.0,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-07-19T02:05:13Z",
+      "_links": {
+        "self": "/api/v1/skills/stanfordnlp/dspy.json"
+      },
+      "previousLevel": "3★"
+    },
+    {
+      "id": "safishamsi/graphify",
+      "name": "Graphify",
+      "level": "4★",
+      "contributor": "safishamsi",
+      "trustMagnitude": 116.57,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-07-19T02:04:29Z",
+      "_links": {
+        "self": "/api/v1/skills/safishamsi/graphify.json"
+      },
+      "previousLevel": "3★"
+    },
+    {
+      "id": "obra/writing-plans",
+      "name": "Writing Plans",
+      "level": "4★",
+      "contributor": "obra",
+      "trustMagnitude": 110.15,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-07-19T01:38:24Z",
+      "_links": {
+        "self": "/api/v1/skills/obra/writing-plans.json"
+      },
+      "previousLevel": "3★"
+    },
+    {
+      "id": "obra/using-git-worktrees",
+      "name": "Using Git Worktrees",
+      "level": "4★",
+      "contributor": "obra",
+      "trustMagnitude": 117.65,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-07-19T01:38:18Z",
+      "_links": {
+        "self": "/api/v1/skills/obra/using-git-worktrees.json"
+      },
+      "previousLevel": "3★"
+    },
     {
       "id": "firecrawl/firecrawl-skills",
       "name": "Firecrawl Skills",
@@ -55,7 +107,7 @@
     {
       "id": "gsd-build/get-shit-done",
       "name": "Get Shit Done",
-      "level": "4★",
+      "level": "3★",
       "contributor": "gsd-build",
       "trustMagnitude": 202.16,
       "overallTrustGrade": "A",

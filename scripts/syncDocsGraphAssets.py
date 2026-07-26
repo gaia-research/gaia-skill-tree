@@ -31,18 +31,28 @@ def _regenerate_css_tokens(root: Path) -> None:
     print(f"Regenerated {out_path.relative_to(root)}")
 
 
-def _named_max_levels(root: Path) -> dict:
-    """Map generic skill id -> highest named-variant star across its bucket."""
-    order = ["2★", "3★", "4★", "5★", "6★"]
+def _bucket_origins(root: Path) -> dict:
+    """Map generic skill id -> its bucket's single CLI-declared origin entry.
+
+    Yggdrasil II ORIGIN RULE (the crux): each bucket in named-skills.json has AT
+    MOST ONE entry flagged ``origin: true`` (declared via the CLI before build).
+    The generic/starless node surfaces THAT entry's already-emitted taxonomy
+    fields (branch/rank/rankWord/medallion/level) — NOT the max-level entry.
+
+    Buckets with zero origins are simply absent from the returned map: the
+    generic node then gets nothing stamped and stays a plain starless node.
+    There is deliberately NO max-level fallback — origin is the entire pipeline.
+    """
     src = root / "registry" / "named-skills.json"
     if not src.exists():
         return {}
     buckets = json.loads(src.read_text(encoding="utf-8")).get("buckets", {})
     out = {}
     for ref, entries in buckets.items():
-        levels = [e.get("level") for e in entries if e.get("level") in order]
-        if levels:
-            out[ref] = max(levels, key=order.index)
+        origins = [e for e in entries if e.get("origin") is True]
+        if origins:
+            # Exactly one by construction; if data ever regressed, first wins.
+            out[ref] = origins[0]
     return out
 
 
@@ -52,15 +62,15 @@ def sync_docs_graph_assets(root: Path = ROOT) -> None:
 
     # Stage 1 — CSS tokens are derived from registry/gaia.json.meta and must
     # never drift behind a registry update. Run this BEFORE the artifact
-    # copy so a missing tree.md or gaia.svg doesn't block the token refresh.
+    # copy so a missing tree.md doesn't block the token refresh.
     _regenerate_css_tokens(root)
 
-    required = ("registry/gaia.json", "registry/gaia.gexf", "registry/gaia.svg")
+    required = ("registry/gaia.json", "registry/gaia.gexf")
     missing = [rel for rel in required if not (root / rel).exists()]
     if missing:
         raise FileNotFoundError(
             "Missing generated graph artifact(s): " + ", ".join(missing) +
-            ". Run scripts/exportGexf.py and scripts/renderGraphSvg.py first."
+            ". Run scripts/exportGexf.py first."
         )
 
     # Load layout nodes once so we can enrich gaia.json during the copy.
@@ -74,6 +84,36 @@ def sync_docs_graph_assets(root: Path = ROOT) -> None:
         committed_src = root / "registry" / "layouts_3d.json"
         if committed_src.exists():
             layout_nodes = json.loads(committed_src.read_text(encoding="utf-8")).get("nodes", {})
+
+    # Sanity guard (#1275) — same shape as build_badges()'s catastrophic-drop
+    # abort. registry/layouts_3d.json is Class P and gitignored, so a fresh
+    # clone or a CI runner can be missing BOTH layout inputs. Writing
+    # docs/graph/gaia.json without them silently strips positions/cluster from
+    # every skill (plus meta.centroids/clusterNames) — and docs/graph is Class
+    # S, the bytes GitHub Pages serves, so committing that degraded copy
+    # flattens the live 3D graph and World Tree. Refuse to overwrite a
+    # populated artifact with a positionless one. A committed copy that is
+    # already positionless is legitimate and passes through untouched.
+    if not layout_nodes:
+        committed_graph = docs_graph / "gaia.json"
+        positioned = 0
+        if committed_graph.exists():
+            try:
+                committed_data = json.loads(committed_graph.read_text(encoding="utf-8"))
+            except (json.JSONDecodeError, OSError):
+                committed_data = {}
+            positioned = sum(
+                1 for s in committed_data.get("skills", [])
+                if s.get("positions") or s.get("cluster")
+            )
+        if positioned:
+            raise RuntimeError(
+                "Refusing to write docs/graph/gaia.json without "
+                "registry/layouts_3d.json or generated-output/layouts.json — "
+                f"the committed copy has {positioned} skills with "
+                "positions/cluster; the regenerated copy would have 0. Run "
+                "scripts/exportGexf.py's layout step or `gaia pull` first."
+            )
 
     # Load ultimate gate config for trust grade injection
     _gate_config: dict = {}
@@ -97,9 +137,12 @@ def sync_docs_graph_assets(root: Path = ROOT) -> None:
             # failures. Strip on sync so the file is unambiguously a runtime
             # asset, not a release manifest.
             gaia_data.pop("version", None)
-            # Generic refs are rank-less — the web graph's rank legend reads the
-            # top named-variant star (namedMaxLevel) instead of a generic level.
-            named_max = _named_max_levels(root)
+            # Generic refs are rank-less. Each bucket's CLI-declared ORIGIN
+            # entry (origin: true) carries the taxonomy fields the browser reads;
+            # surface them onto the generic node at build time (PURE BUILD — the
+            # client never resolves branch on the starless graph). Buckets with
+            # no origin leave their generic node untouched (plain starless node).
+            bucket_origins = _bucket_origins(root)
             skills_list = gaia_data.get("skills", [])
             generic_skills_map = {s.get("id"): s for s in skills_list}
 
@@ -112,8 +155,17 @@ def sync_docs_graph_assets(root: Path = ROOT) -> None:
                 if layout_nodes and sid in layout_nodes:
                     skill["cluster"] = layout_nodes[sid]["cluster"]
                     skill["positions"] = layout_nodes[sid]["positions"]
-                if sid in named_max:
-                    skill["namedMaxLevel"] = named_max[sid]
+                if sid in bucket_origins:
+                    origin = bucket_origins[sid]
+                    # Stamp the ORIGIN's already-emitted taxonomy fields. The
+                    # graph JS reads node.branch/medallion directly and reads
+                    # namedMaxLevel for rank color/size — namedMaxLevel now
+                    # carries the ORIGIN's level (not the bucket max).
+                    skill["branch"] = origin.get("branch")
+                    skill["rank"] = origin.get("rank")
+                    skill["rankWord"] = origin.get("rankWord")
+                    skill["medallion"] = origin.get("medallion")
+                    skill["namedMaxLevel"] = origin.get("level")
                 # Inject overall trust grade (computed, not stored in nodes)
                 grade = overall_trust_grade(skill.get("evidence") or [])
                 if grade is not None:

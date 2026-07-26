@@ -13,6 +13,114 @@
   var idleTimer = null;
   var idleHandlersBound = false;
 
+  // ── Direction A "Cinematic": rank accent resolver ────────────────
+  // The ambient glow floor + card halo + action-rail tint all read the
+  // CSS custom props --hoh-rk / --hoh-rk-rgb set on the modal. We resolve
+  // the correct rank token NAME per level + branch (matching tokens.css and
+  // the 9-variant register), then let CSS pull the -rgb companion. This keeps
+  // the modal glow in lockstep with the plaque's own data-branch accent.
+  function levelNum(level) {
+    if (level == null) return 0;
+    if (typeof level === 'number') return level | 0;
+    var n = parseInt(String(level).replace(/[^\d]/g, ''), 10);
+    return isNaN(n) ? 0 : Math.max(0, Math.min(6, n));
+  }
+  function branchFor(ns) {
+    // Build-first: read the named index's ratified field; never resolve here.
+    var emitted = String(ns && ns.branch || '').toLowerCase();
+    return /^(standard|suite|unique)$/.test(emitted) ? emitted : 'standard';
+  }
+  // Returns the token STEM (e.g. 'rank-4-unique'); CSS reads var(--<stem>) and
+  // var(--<stem>-rgb). Every stem below exists in tokens.css.
+  function rankTokenStem(ns) {
+    var n = levelNum(ns && ns.level);
+    var branch = branchFor(ns);
+    if (branch === 'unique') {
+      // Unique ladder: 4★ violet, 5★ burnished copper, 6★ ember copper.
+      if (n >= 6) return 'rank-6-unique';
+      if (n >= 5) return 'rank-5-unique';
+      return 'rank-4-unique';
+    }
+    // Suite + standard share the numeric rank tokens (0★→6★).
+    return 'rank-' + n;
+  }
+  function applyRankAccent(modal, ns) {
+    if (!modal) return;
+    var stem = rankTokenStem(ns);
+    modal.style.setProperty('--hoh-rk', 'var(--' + stem + ')');
+    modal.style.setProperty('--hoh-rk-rgb', 'var(--' + stem + '-rgb)');
+  }
+
+  // Ensure the cinematic parallax backdrop exists. Only docs/index.html ships
+  // the .hoh-fs-parallax-bg markup inline; the generated profile/named pages
+  // and the hand-authored heroes page do not. Inject it once so every surface
+  // gets the same full-bleed backdrop without editing 50 generated files.
+  function ensureParallaxBg(modal) {
+    if (!modal || modal.querySelector('.hoh-fs-parallax-bg')) return;
+    var root = (typeof window.gaiaIconBase === 'function')
+      ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '')
+      : '';
+    var bg = document.createElement('div');
+    bg.className = 'hoh-fs-parallax-bg';
+    bg.setAttribute('aria-hidden', 'true');
+    var img = document.createElement('img');
+    img.src = root + 'assets/world-tree/yggdrasil-backdrop-941.webp';
+    img.alt = '';
+    bg.appendChild(img);
+    // Insert as the first child so it sits behind the stage/chrome.
+    modal.insertBefore(bg, modal.firstChild);
+  }
+
+  // Ensure the Gaia Skill Tree brand lockup (seal + wordmark) exists on the
+  // share modal. Every share surface must carry the logo + name (founder
+  // directive, 2026-07-26). Injected once so all pages match without editing
+  // 50 generated files; inline markup on index/heroes/generated pages is a
+  // no-op here thanks to the presence guard.
+  function ensureBrandLockup(modal) {
+    if (!modal || modal.querySelector('.hoh-fs-brand')) return;
+    var root = (typeof window.gaiaIconBase === 'function')
+      ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '')
+      : '';
+    var brand = document.createElement('a');
+    brand.className = 'hoh-fs-brand';
+    brand.href = root + 'index.html';
+    brand.setAttribute('aria-label', 'Gaia Skill Tree home');
+
+    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('class', 'hoh-fs-brand-seal');
+    svg.setAttribute('viewBox', '0 0 64 64');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('focusable', 'false');
+
+    var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', 'M 32 4 L 60 32 L 32 60 L 4 32 Z');
+    path.setAttribute('fill', 'none');
+    path.setAttribute('stroke', 'currentColor');
+    path.setAttribute('stroke-width', '2.5');
+    path.setAttribute('stroke-linejoin', 'miter');
+    svg.appendChild(path);
+
+    var textNode = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    textNode.setAttribute('x', '32');
+    textNode.setAttribute('y', '34');
+    textNode.setAttribute('font-family', 'EB Garamond, Georgia, serif');
+    textNode.setAttribute('font-weight', '600');
+    textNode.setAttribute('font-size', '28');
+    textNode.setAttribute('fill', 'currentColor');
+    textNode.setAttribute('text-anchor', 'middle');
+    textNode.setAttribute('dominant-baseline', 'central');
+    textNode.textContent = 'G';
+    svg.appendChild(textNode);
+
+    var word = document.createElement('span');
+    word.className = 'hoh-fs-brand-word';
+    word.textContent = 'Gaia Skill Tree';
+
+    brand.appendChild(svg);
+    brand.appendChild(word);
+    modal.appendChild(brand);
+  }
+
   function setIdle(modal) {
     modal.classList.add('is-idle');
   }
@@ -31,6 +139,21 @@
     modal.addEventListener('mousedown', wake);
     modal.addEventListener('keydown', wake);
     modal.addEventListener('touchstart', wake, { passive: true });
+
+    // Premium parallax backdrop logic — translates background based on cursor offsets
+    var bg = modal.querySelector('.hoh-fs-parallax-bg');
+    if (bg) {
+      modal.addEventListener('mousemove', function (e) {
+        if (prefersReducedMotion()) return;
+        var cx = window.innerWidth / 2;
+        var cy = window.innerHeight / 2;
+        var dx = (e.clientX - cx) / cx;
+        var dy = (e.clientY - cy) / cy;
+        // Shift up to 25px max based on cursor offset
+        bg.style.transform = 'translate3d(' + (dx * 25) + 'px, ' + (dy * 25) + 'px, 0)';
+      });
+    }
+
     // Keep chrome visible while pointer is over an actionable region.
     modal.querySelectorAll('.hoh-fs-header, .hoh-fs-confirm, .hoh-fs-overlay').forEach(function (region) {
       region.addEventListener('mouseenter', wake);
@@ -151,17 +274,86 @@
     }, 3000);
   }
 
+  function blobToDataUrl(blob) {
+    return new Promise(function (resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function () { resolve(String(reader.result || '')); };
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  function triggerBlobDownload(blob, filename) {
+    var href = URL.createObjectURL(blob);
+    var anchor = document.createElement('a');
+    anchor.href = href;
+    anchor.download = filename;
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+    setTimeout(function () { URL.revokeObjectURL(href); }, 0);
+  }
+
+  function downloadStandaloneSvg(svgUrl, filename) {
+    return fetch(svgUrl)
+      .then(function (response) {
+        if (!response.ok) throw new Error('SVG download failed');
+        return response.text();
+      })
+      .then(function (source) {
+        var doc = new DOMParser().parseFromString(source, 'image/svg+xml');
+        if (!doc.documentElement || doc.querySelector('parsererror')) {
+          throw new Error('Invalid SVG');
+        }
+        var images = Array.prototype.slice.call(doc.querySelectorAll('image'));
+        return Promise.all(images.map(function (image) {
+          var raw = image.getAttribute('href') ||
+            image.getAttributeNS('http://www.w3.org/1999/xlink', 'href');
+          if (!raw || raw.indexOf('data:') === 0) return Promise.resolve();
+          var assetUrl = new URL(raw, svgUrl);
+          if (assetUrl.protocol !== 'http:' && assetUrl.protocol !== 'https:') {
+            return Promise.resolve();
+          }
+          return fetch(assetUrl.href)
+            .then(function (response) {
+              if (!response.ok) throw new Error('SVG asset download failed');
+              return response.blob();
+            })
+            .then(blobToDataUrl)
+            .then(function (dataUrl) {
+              image.setAttribute('href', dataUrl);
+              image.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', dataUrl);
+            });
+        })).then(function () {
+          var serialized = new XMLSerializer().serializeToString(doc.documentElement);
+          triggerBlobDownload(
+            new Blob(['<?xml version="1.0" encoding="UTF-8"?>\n' + serialized], { type: 'image/svg+xml' }),
+            filename
+          );
+        });
+      });
+  }
+
   function showCopySuccess(btn) {
     btn.classList.add('copied');
-    var originalHtml = btn.innerHTML;
     var iconBase = (typeof window.gaiaIconBase === 'function')
       ? window.gaiaIconBase()
       : 'assets/icons.svg';
-    btn.innerHTML = '<svg class="ico" width="14" height="14" aria-hidden="true"><use href="' +
-      iconBase + '#copy-check"></use></svg>';
+    var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('class', 'ico');
+    svg.setAttribute('width', '14');
+    svg.setAttribute('height', '14');
+    svg.setAttribute('aria-hidden', 'true');
+    var use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+    use.setAttribute('href', iconBase + '#copy-check');
+    svg.appendChild(use);
+
+    var origChildren = Array.prototype.slice.call(btn.childNodes);
+    btn.replaceChildren(svg);
+
     setTimeout(function () {
       btn.classList.remove('copied');
-      btn.innerHTML = originalHtml;
+      btn.replaceChildren.apply(btn, origChildren);
     }, 1800);
   }
 
@@ -241,26 +433,35 @@
       return;
     }
 
-    // Center Stage: render the canonical OG SVG (docs/og/{handle}/{slug}.svg)
-    // when available, falling back to plaque.renderOg() HTML mock if the
-    // SVG hasn't been generated yet (e.g. brand-new contributor before the
-    // next `gaia docs build`).
+    // Direction A: paint the modal's rank accent BEFORE the stage renders so
+    // the ambient glow floor + card halo animate in already-colored.
+    applyRankAccent(modal, ns);
+
+    // Center Stage: show the build-rendered PNG. Loading an SVG through <img>
+    // blocks that SVG's external WebP medallion in browsers; the generated PNG
+    // is self-contained and matches the downloaded share image exactly.
+    // Fall back to plaque.renderOg() when the build artifact is absent.
     var stage = document.getElementById('hohFsStage');
     if (stage) {
       var ogNs = {
-        id: ns.id,
-        name: ns.name,
-        contributor: ns.contributor,
-        origin: ns.origin,
-        level: ns.level,
-        type: ns.type,
-        description: ns.description,
-        tags: ns.tags
+        id: String(ns.id || ''),
+        name: String(ns.name || ''),
+        contributor: String(ns.contributor || ''),
+        origin: !!ns.origin,
+        level: String(ns.level || ''),
+        type: String(ns.type || ''),
+        branch: String(ns.branch || ''),
+        rankWord: String(ns.rankWord || ''),
+        description: String(ns.description || ''),
+        tags: Array.isArray(ns.tags) ? ns.tags.map(function (t) { return String(t); }) : []
       };
       var renderMock = function () {
         if (window.plaque && typeof window.plaque.renderOg === 'function') {
-          // renderOg sanitizes all interpolated values via escapeHtml; safe by construction.
-          stage.innerHTML = window.plaque.renderOg(ogNs);
+          var mockMarkup = window.plaque.renderOg(ogNs);
+          var doc = new DOMParser().parseFromString(mockMarkup, 'image/svg+xml');
+          if (doc.documentElement && doc.documentElement.nodeName.toLowerCase() === 'svg') {
+            stage.replaceChildren(doc.documentElement);
+          }
         }
       };
       var ogPath = ns.ogPath || '';
@@ -271,15 +472,15 @@
         var docRoot = (typeof window.gaiaIconBase === 'function')
           ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '')
           : '';
-        var svgPath = docRoot + ogPath.replace(/\.png(\?.*)?$/, '.svg');
-        fetch(svgPath)
-          .then(function (r) { return r.ok ? r.text() : Promise.reject(); })
-          .then(function (svgText) {
-            // Strip XML prolog so the SVG inlines cleanly.
-            var clean = svgText.replace(/^<\?xml[^>]*\?>\s*/, '');
-            stage.innerHTML = clean;
-          })
-          .catch(function () { /* keep mock */ });
+        var pngPath = docRoot + ogPath.replace(/\.svg(\?.*)?$/, '.png');
+        var imgEl = document.createElement('img');
+        try {
+          var resolvedUrl = new URL(pngPath, document.baseURI);
+          imgEl.src = (resolvedUrl.protocol === 'https:' || resolvedUrl.protocol === 'http:') ? resolvedUrl.href : '';
+        } catch (_e) { imgEl.src = ''; }
+        imgEl.alt = ns.name || ns.id || '';
+        imgEl.onload = function () { stage.replaceChildren(imgEl); };
+        imgEl.onerror = function () { renderMock(); };
       } else {
         renderMock();
       }
@@ -288,12 +489,14 @@
     // Set dynamic handle texts
     var handleText = document.getElementById('hohFsHandleText');
     if (handleText) {
-      handleText.textContent = '@' + ns.contributor;
+      var cleanContrib = String(ns.contributor || '').replace(/[^a-zA-Z0-9_\-\.]/g, '');
+      handleText.textContent = '@' + cleanContrib;
     }
     var disclaimer = document.getElementById('hohFsDisclaimer');
     if (disclaimer) {
+      var cleanContrib = String(ns.contributor || '').replace(/[^a-zA-Z0-9_\-\.]/g, '');
       disclaimer.querySelectorAll('.hoh-fs-disclaimer-handle').forEach(function (el) {
-        el.textContent = '@' + ns.contributor;
+        el.textContent = '@' + cleanContrib;
       });
     }
 
@@ -304,8 +507,8 @@
     var badgesLink = document.getElementById('hohFsBadgesLink');
 
     var slug = ns.id ? ns.id.split('/').pop() : ns.contributor;
-    var badgeBase = 'https://gaiaskilltree.com/badges/_assets/' + ns.contributor + '/' + slug + '.svg';
-    var profileUrl = 'https://gaiaskilltree.com/u/' + ns.contributor + '/';
+    var badgeBase = 'https://gaiaskilltree.com/badges/_assets/' + encodeURIComponent(ns.contributor) + '/' + encodeURIComponent(slug) + '.svg';
+    var profileUrl = 'https://gaiaskilltree.com/u/' + encodeURIComponent(ns.contributor) + '/';
 
     // Set immediately without ?repo= so the badge shows right away, then
     // update both src and markdown once the registry resolves.
@@ -397,14 +600,27 @@
           var href = fmt === 'png'
             ? dlRoot + 'og/' + ns.contributor + '/' + slug + '.png'
             : dlRoot + (ns.ogPath || 'og/' + ns.contributor + '/' + slug + '.svg');
+          var resolvedHref = '';
+          try {
+            var dlUrl = new URL(href, document.baseURI);
+            if (dlUrl.protocol !== 'https:' && dlUrl.protocol !== 'http:') return;
+            resolvedHref = dlUrl.href;
+          } catch (_e) { return; }
+          closeDlPopover();
+          if (fmt === 'svg') {
+            showToast('Preparing self-contained SVG card…');
+            downloadStandaloneSvg(resolvedHref, ns.contributor + '-' + slug + '.svg')
+              .then(function () { showToast('Downloaded self-contained SVG card.'); })
+              .catch(function () { showToast('SVG download failed. Please try again.'); });
+            return;
+          }
           var a = document.createElement('a');
-          a.href = href;
-          a.download = ns.contributor + '-' + slug + '.' + fmt;
+          a.href = resolvedHref;
+          a.download = ns.contributor + '-' + slug + '.png';
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
-          closeDlPopover();
-          showToast('Downloading ' + fmt.toUpperCase() + ' card…');
+          showToast('Downloading PNG card…');
         };
       });
     }
@@ -548,6 +764,12 @@
     var modal = document.getElementById('hohFullscreenModal');
     if (!modal) return;
 
+    // Direction A: guarantee the cinematic backdrop on every page (the inline
+    // markup only exists in docs/index.html).
+    ensureParallaxBg(modal);
+    // Every share surface carries the Gaia Skill Tree logo + name.
+    ensureBrandLockup(modal);
+
     // Delegated click listener to catch plaque__fs-btn clicks dynamically
     document.addEventListener('click', function (e) {
       var btn = e.target.closest('.plaque__fs-btn');
@@ -597,6 +819,7 @@
         name: name,
         level: entry.level || '',
         type: entry.type || 'basic',
+        branch: entry.branch || '',
         origin: !!entry.origin,
         ogPath: ogPath,
         description: entry.description || '',

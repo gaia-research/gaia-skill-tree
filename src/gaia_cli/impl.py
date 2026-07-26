@@ -62,7 +62,6 @@ from gaia_cli.registry import (
     generated_output_dir,
     embeddings_path,
     named_skills_index_path,
-    promotion_candidates_path,
     registry_graph_path,
     skill_batches_dir,
     user_tree_path,
@@ -81,13 +80,6 @@ from gaia_cli.cardRenderer import (
     render_appraise_card,
     render_unlock_card,
     render_path_summary,
-)
-from gaia_cli.promotion import (
-    load_promotion_candidates,
-    promote_from_candidates,
-    promotable_candidates,
-    promotion_state,
-    LEVEL_NAMES,
 )
 from gaia_cli.hook import hook_entry
 from gaia_cli.formatting import (
@@ -113,12 +105,12 @@ from gaia_cli.formatting import (
     _use_color,
 )
 from gaia_cli.localContext import LocalContext
+from gaia_cli.taxonomy import isFusion
 from gaia_cli.redaction import level_num
 from gaia_cli.cardRenderer import render_fusion_diagram
 from gaia_cli.interactive import (
     select_skill,
     select_fusion_candidate,
-    select_promotion_candidate,
     select_multiple_skills,
     select_fusion_to_edit,
     _has_interactive,
@@ -151,15 +143,14 @@ Getting started:
 
 Daily commands:
   {_fg(*C5)}gaia tree{_reset()} [--named] [--title]
-  {_fg(*C5)}gaia promote{_reset()} [<skillId>] [--all] [--name <name>]
   {_fg(*C4)}gaia appraise{_reset()} [<skillId>]
   {_fg(*C4)}gaia stats{_reset()}
   {_fg(*C3)}gaia pull{_reset()}
   {_fg(*COLOR_FUSE_PURPLE)}gaia fuse{_reset()} <skillId> [--name <name>]
   {_fg(*C5)}gaia path{_reset()} <skillId> [--owned-only] [--json]
   {_fg(*C2)}gaia lookup{_reset()} <skillId>
-  {_fg(*C1)}gaia graph{_reset()} [--format html|svg|json] [-o <path>] [--no-open]
-  {_fg(*COLOR_FUSE_PURPLE)}gaia propose{_reset()} [<skillId>] [--ultimate] [--target <name>] [--no-pr]
+  {_fg(*C1)}gaia graph{_reset()} [--format html|json] [-o <path>] [--no-open]
+  {_fg(*COLOR_FUSE_PURPLE)}gaia propose{_reset()} [<skillId>] [--target <name>] [--no-pr]
 
 Skills:
   {_rainbow_text("gaia skills")} <list|search|info|install|uninstall>
@@ -245,7 +236,6 @@ PUBLIC_COMMANDS = (
     "graph",
     "stats",
     "appraise",
-    "promote",
     "fuse",
     "lookup",
     "path",
@@ -648,8 +638,8 @@ def init_command(args):
                 try:
                     if _use_color():
                         prompt = (
-                            f"\n{_bold()}{_fg(*TIER_COLORS['extra'])}⚡ {_fg(255, 255, 255)}Detected repo: {_fg(*RANK_COLORS['2★'])}{source}{_reset()}\n"
-                            f"{_bold()}{_fg(*TIER_COLORS['ultimate'])}? {_fg(255, 255, 255)}Initialize Gaia on this repository? "
+                            f"\n{_bold()}{_fg(*(TIER_COLORS.get('extra') or TIER_COLORS.get('fusion') or (192, 132, 252)))}⚡ {_fg(255, 255, 255)}Detected repo: {_fg(*RANK_COLORS['2★'])}{source}{_reset()}\n"
+                            f"{_bold()}{_fg(*TIER_COLORS['fusion'])}? {_fg(255, 255, 255)}Initialize Gaia on this repository? "
                             f"{_fg(*RANK_COLORS['0★'])}[{_fg(*COLOR_LOCAL_USER)}Y{_fg(*RANK_COLORS['0★'])}/n]: {_reset()}"
                         )
                     else:
@@ -1075,7 +1065,7 @@ def scan_command(args):
                 print("\nNew fusion candidates:")
                 for c in combos:
                     result_skill = skill_map.get(c["candidateResult"], {})
-                    result_type = result_skill.get("type", "extra")
+                    result_type = result_skill.get("type", "fusion")
                     print(
                         render_fusion_diagram(
                             c["detectedSkills"],
@@ -1198,19 +1188,6 @@ def render_user_tree_outputs(
     if not quiet:
         print(f"\n{_fg(*COLOR_GREY)}→ Saved {md_path} & {html_path}{_reset()}")
     return html_path, md_path
-
-
-def promote_all_candidates(username: str, registry_path: str) -> list[dict]:
-    promoted = []
-    for candidate in promotable_candidates(registry_path, username=username):
-        promoted.append(
-            promote_from_candidates(
-                username,
-                candidate["skillId"],
-                registry_path,
-            )
-        )
-    return promoted
 
 
 def _entry_role(entry):
@@ -1399,10 +1376,6 @@ def appraise_command(args):
     actions = []
     if not owned and all(prereq_status.values()) and prereq_status:
         actions.append("[F] Fuse")
-    if owned:
-        state = promotion_state(skill_id, tree, graph_data)
-        if state == "eligible":
-            actions.append("[P] Promote")
     actions.append("[S] Scan")
     if derivatives:
         actions.append("[→] Paths")
@@ -1423,110 +1396,6 @@ def appraise_command(args):
             display_name=display_name,
         )
     )
-    try:
-        candidates = load_promotion_candidates(args.registry).get("candidates", [])
-        matching = [c for c in candidates if c.get("skillId") == skill_id]
-        if matching:
-            labels = ", ".join(c.get("suggestedLevel", "?") for c in matching)
-            print(f"\nLast scan flagged this skill as promotable to: {labels}")
-    except ValueError:
-        pass
-
-
-def promote_command(args):
-    """Run promotion flow for an eligible skill."""
-    config = load_config()
-    if not config:
-        print("Gaia not initialized.")
-        return
-
-    username = config.get("gaiaUser")
-    graph_path = registry_graph_path(args.registry)
-
-    if not os.path.exists(graph_path):
-        print("Registry graph not found.")
-        return
-
-    with open(graph_path, "r", encoding="utf-8") as f:
-        graph_data = json.load(f)
-
-    tree = load_tree(username, registry_path=args.registry)
-    if not tree:
-        if not os.path.exists(promotion_candidates_path(args.registry)):
-            print(
-                "No promotion candidates found. Run `gaia scan` first to detect skills.",
-                file=sys.stderr,
-            )
-        else:
-            print(f"No skill tree found for user '{_fg(*COLOR_LOCAL_USER)}{username}{_reset()}'.", file=sys.stderr)
-        return
-
-    skill_id = getattr(args, "skillId", None)
-    display_name = getattr(args, "name", None)
-
-    try:
-        if getattr(args, "unique", False):
-            if not skill_id:
-                print("Usage: gaia promote <skill> --unique", file=sys.stderr)
-                sys.exit(2)
-            from .promotion import promote_to_unique
-
-            result = promote_to_unique(skill_id, args.registry)
-            print(
-                f"\n◉ {result['displayName']} promoted to Unique Skill (type: unique)!"
-            )
-            print(f"  Level: {result['level']}")
-            print()
-            return
-
-        if getattr(args, "all", False):
-            results = promote_all_candidates(username, args.registry)
-            if not results:
-                print("No skills eligible for promotion.")
-                return
-            for result in results:
-                print(f"Promoted /{result['skillId']} to Level {result['newLevel']}.")
-            return
-        if not skill_id:
-            # Try interactive picker
-            candidates = promotable_candidates(args.registry, username)
-            if candidates:
-                picked = select_promotion_candidate(
-                    candidates, "Select skill to promote:"
-                )
-                if picked:
-                    skill_id = picked
-            if not skill_id:
-                from gaia_cli.registry import promotion_candidates_path
-
-                if not os.path.exists(promotion_candidates_path(args.registry)):
-                    print(
-                        "No promotion candidates found. Run `gaia scan` first to detect skills.",
-                        file=sys.stderr,
-                    )
-                else:
-                    print(
-                        "Usage: gaia promote <skill> or gaia promote --all",
-                        file=sys.stderr,
-                    )
-                sys.exit(2)
-        result = promote_from_candidates(
-            username, skill_id, args.registry, new_display_name=display_name
-        )
-    except ValueError as exc:
-        print(str(exc), file=sys.stderr)
-        sys.exit(1)
-
-    # Show celebration
-    skill_map = {s["id"]: s for s in graph_data.get("skills", [])}
-    skill = skill_map.get(skill_id, {"id": skill_id, "name": skill_id, "type": "basic"})
-    level_name = LEVEL_NAMES.get(result["newLevel"], result["newLevel"])
-    print(
-        f"\n✦ {skill.get('name', skill_id)} promoted to Level {result['newLevel']} ({level_name})!"
-    )
-    if display_name:
-        print(f"  Renamed to: {display_name}")
-    print()
 
 
 def propose_command(args):
@@ -1544,16 +1413,6 @@ def propose_command(args):
     if not skill:
         print(f"Skill '{skill_id}' not found in canonical graph.")
         return
-    if getattr(args, "ultimate", False) and skill.get("type") != "ultimate":
-        print(
-            f"Skill '{skill_id}' is not an ultimate skill. Use --ultimate only for ultimate skills."
-        )
-        return
-    if not getattr(args, "ultimate", False) and skill.get("type") == "ultimate":
-        print(
-            "Tip: this is an ultimate skill. Re-run with `gaia propose /<skill> --ultimate`."
-        )
-
     print(f"Appraisal: /{skill['id']} ({skill.get('type', 'unknown')})")
     print(f"Name: {skill.get('name', skill['id'])}")
     print(f"Description: {skill.get('description', '')}")
@@ -1577,7 +1436,15 @@ def propose_command(args):
     proposed_skill["description"] = skill.get(
         "description", proposed_skill["description"]
     )
-    proposed_skill["type"] = skill.get("type", "basic")
+    # Normalize the canonical node's type through the Yggdrasil II taxonomy
+    # authority rather than copying the literal. `skill` is read from the
+    # canonical graph, which may be a STALE BUNDLED WHEEL SNAPSHOT (refreshed
+    # only on vX.Y.0 releases) still carrying a retired Ygg I type
+    # (extra/unique/ultimate). Copying that literal verbatim would emit a batch
+    # that skillBatch.schema.json now rejects. isFusion() is the ratified
+    # type-blind predicate (0 prerequisites = basic, >=1 = fusion), so legacy
+    # snapshots map onto the {basic, fusion} enum automatically.
+    proposed_skill["type"] = "fusion" if isFusion(skill) else "basic"
     batch = {
         "batchId": f"proposal-{skill_id}-{date.today().isoformat()}",
         "userId": config.get("gaiaUser", "unknown"),
@@ -1708,8 +1575,6 @@ def path_command(args):
 
 def hook_command(args):
     """Internal command invoked by Claude Code hook."""
-    if args.command == "_hook":
-        print("WARNING: 'gaia _hook' is DEPRECATED and will be removed in v7.0.0. Use 'gaia dev hook' instead.", file=sys.stderr)
     hook_entry(event=getattr(args, "event", "file_edit"))
 
 
@@ -1803,7 +1668,9 @@ def fuse_command(args):
             pass
 
     # Handle --delete
-    fuse_color = TIER_COLORS["extra"]
+    # Yggdrasil II collapsed the type palette to {basic, fusion}; the retired
+    # 'extra' key no longer exists. Fall back to fusion, then the fuse purple.
+    fuse_color = TIER_COLORS.get("extra") or TIER_COLORS.get("fusion") or (192, 132, 252)
     if getattr(args, "delete", False):
         target = getattr(args, "skillId", None)
         fusions = custom_state.get("customFusions", {})
@@ -1875,19 +1742,6 @@ def fuse_command(args):
                     )
                 )
 
-            # Check for promotions
-            promo_payload = {}
-            try:
-                promo_payload = load_promotion_candidates(registry_path)
-                if promo_payload.get("candidates"):
-                    choices.append(
-                        questionary.Choice(
-                            "Promote a skill (level-up)", value="promote"
-                        )
-                    )
-            except:
-                pass
-
             choices.extend(
                 [
                     questionary.Choice("Create new custom fusion path", value="new"),
@@ -1914,14 +1768,6 @@ def fuse_command(args):
                 picked = select_fusion_candidate(
                     pending_combos, "Select fusion candidate:"
                 )
-                if picked:
-                    target = picked
-                    break  # Exit loop to perform fusion
-                continue  # Back to menu
-
-            elif choice == "promote":
-                candidates = promo_payload.get("candidates", [])
-                picked = select_promotion_candidate(candidates)
                 if picked:
                     target = picked
                     break  # Exit loop to perform fusion
@@ -2011,15 +1857,6 @@ def fuse_command(args):
                 if not selected:
                     continue  # Back to menu
 
-                # Calculate max star count from prerequisites
-                max_stars = 0
-                for sid in selected:
-                    ss = scan_map.get(sid) or {}
-                    sinfo = skill_info_map.get(sid, {})
-                    lvl = ss.get("level") or sinfo.get("level") or ctx._effective_ranks.get(sid, "0★")
-                    max_stars = max(max_stars, level_num(lvl))
-                max_stars_str = f"{max_stars}★"
-
                 if not target:
                     # Stage 2: pick the target from the same installed/detected list
                     target = select_skill(
@@ -2031,18 +1868,20 @@ def fuse_command(args):
                 if not target:
                     continue  # Back to menu
 
-                # Save fusion with metadata (EXTRA type and inherited level)
+                # Save the custom fusion structurally (Yggdrasil II: type is
+                # `fusion` for any node with >=1 prerequisite; no level is
+                # written locally — rank is assigned only by canon curation
+                # once the structure is pushed and awakened).
                 custom_state.setdefault("customFusions", {})[target] = {
                     "sources": selected,
-                    "type": "extra",
-                    "level": max_stars_str,
+                    "type": "fusion",
                 }
                 os.makedirs(".gaia", exist_ok=True)
                 with open(custom_state_path, "w", encoding="utf-8") as f:
                     json.dump(custom_state, f, indent=2)
 
                 print(
-                    f"\n✓ Saved custom fusion: {' + '.join('/' + s for s in selected)} → /{target} (EXTRA {max_stars_str})"
+                    f"\n✓ Saved custom fusion: {' + '.join('/' + s for s in selected)} → /{target}"
                 )
                 print(
                     f"\n{_fg(*fuse_color)}Note: Custom fusions are saved locally in .gaia/custom_state.json.{_reset()}"
@@ -2052,7 +1891,7 @@ def fuse_command(args):
                 )
                 return
 
-    # If we have a target but didn't go through 'new' flow, it might be a pending combo or promotion
+    # If we have a target but didn't go through 'new' flow, it might be a pending combo
     if not target:
         print(
             f"{_fg(*fuse_color)}Usage: gaia fuse <skill_id>{_reset()}", file=sys.stderr
@@ -2098,24 +1937,8 @@ def fuse_command(args):
         open_pr(username, tree, candidate_result=target)
         return
 
-    # Check promotions next
-    try:
-        payload = load_promotion_candidates(registry_path)
-        if any(c.get("skillId") == target for c in payload.get("candidates", [])):
-            print(f"{_fg(*fuse_color)}Fusing promotion for /{target}...{_reset()}")
-            result = promote_from_candidates(
-                username,
-                target,
-                registry_path,
-                new_display_name=getattr(args, "name", None),
-            )
-            print(f"Promoted /{result['skillId']} to Level {result['newLevel']}.")
-            return
-    except Exception:
-        pass
-
     print(
-        f"{_fg(*fuse_color)}Skill /{target} is not a valid combination or promotion candidate.{_reset()}"
+        f"{_fg(*fuse_color)}Skill /{target} is not a valid combination.{_reset()}"
     )
     print(
         f"{_fg(*fuse_color)}Run `gaia scan` to refresh candidates, or use interactive `{_fg(*COLOR_FUSE_PURPLE)}gaia fuse{_reset()}{_fg(*fuse_color)}` to create a custom path.{_reset()}"
@@ -2412,7 +2235,7 @@ def push_command(args):
                 push_color = COLOR_LOCAL_USER
                 grey = RANK_COLORS["0★"]
                 prompt = (
-                    f"{_bold()}{_fg(*TIER_COLORS['ultimate'])}? {_fg(255, 255, 255)}Push selected items to gaia registry from {_fg(*RANK_COLORS['2★'])}{batch['sourceRepo']}{_reset()}{_fg(255, 255, 255)}? "
+                    f"{_bold()}{_fg(*TIER_COLORS['fusion'])}? {_fg(255, 255, 255)}Push selected items to gaia registry from {_fg(*RANK_COLORS['2★'])}{batch['sourceRepo']}{_reset()}{_fg(255, 255, 255)}? "
                     f"{_fg(*grey)}[{_fg(*push_color)}Y{_fg(*grey)}/n]: {_reset()}"
                 )
             else:
@@ -2521,7 +2344,7 @@ def install_command(args):
         sys.exit(2)
 
     # Use suite logic if flagged or implicitly requested
-    if getattr(args, "ultimate", False) or getattr(args, "suite", False):
+    if getattr(args, "suite", False):
         success = install_suite(args.skill_id, args.registry, location=location)
     else:
         success = install_skill(args.skill_id, args.registry, location=location)
@@ -2952,6 +2775,7 @@ def fetch_command(args):
                 if m.name.startswith("registry/gaia.json")
                 or m.name.startswith("registry/named-skills.json")
                 or m.name.startswith("registry/named/")
+                or m.name.startswith("docs/graph/")
             ]
             tar.extractall(path=Path(tmpdir) / "unpacked", members=members_to_extract, filter="data")
 
@@ -3007,7 +2831,20 @@ def fetch_command(args):
                 shutil.rmtree(dest_named_dir)
             shutil.copytree(src_named_dir, dest_named_dir)
 
+        # enriched 3D graph (docs/graph/) — the site-served World Tree assets.
+        # The lean registry/gaia.json lacks the branch/namedMaxLevel/cluster/rank
+        # fields the 3D renderer needs; docs/graph/gaia.json carries them. `gaia
+        # graph` prefers this enriched copy when embedding.
+        src_graph_dir = Path(tmpdir) / "unpacked" / "docs" / "graph"
+        dest_graph_dir = registry_dir / "graph"
+        if src_graph_dir.exists():
+            if dest_graph_dir.exists():
+                shutil.rmtree(dest_graph_dir)
+            shutil.copytree(src_graph_dir, dest_graph_dir)
+
     print(f"Registry updated to {tag} at {registry_dir}/")
+    if (registry_dir / "graph").exists():
+        print("Enriched 3D graph updated — run `gaia graph` for the full World Tree view.")
     print("Run `gaia scan` to update your skill tree against the new registry.")
 
 
@@ -3212,8 +3049,6 @@ def version_command(args):
 
 
 def mcp_command(args):
-    if args.command == "mcp":
-        print("WARNING: 'gaia mcp' is DEPRECATED and will be removed in v7.0.0. Use 'gaia dev mcp' instead.", file=sys.stderr)
     script = Path(args.registry) / "packages" / "mcp" / "dist" / "bin" / "gaia-mcp.js"
     if not script.exists():
         print(f"MCP server build not found: {script}", file=sys.stderr)
@@ -3231,8 +3066,6 @@ def mcp_command(args):
 
 
 def docs_command(args):
-    if args.command == "docs":
-        print("WARNING: 'gaia docs build' is DEPRECATED and will be removed in v7.0.0. Use 'gaia dev docs' instead.", file=sys.stderr)
     script = Path(args.registry) / "scripts" / "build_docs.py"
     cmd = [sys.executable, str(script)]
     if getattr(args, "check", False):
@@ -3241,8 +3074,6 @@ def docs_command(args):
 
 
 def release_command(args):
-    if args.command == "release":
-        print("WARNING: 'gaia release' is DEPRECATED and will be removed in v7.0.0. Use 'gaia dev release' instead.", file=sys.stderr)
     from gaia_cli.versioning import bump_versions, read_versions, sync_versions
 
     if args.sync:
@@ -3480,11 +3311,6 @@ def get_parser():
         help="List and interactively select skills to install",
     )
     install_parser.add_argument(
-        "--ultimate",
-        action="store_true",
-        help="Batch-install all component skills (alias for --suite)",
-    )
-    install_parser.add_argument(
         "--suite",
         action="store_true",
         help="Batch-install all component skills for a suite",
@@ -3590,11 +3416,6 @@ def get_parser():
         "--target", help="Named skill target in contributor/skill-name format"
     )
     propose_parser.add_argument(
-        "--ultimate",
-        action="store_true",
-        help="Require that the selected skill is ultimate",
-    )
-    propose_parser.add_argument(
         "--yes", "-y", "--y", action="store_true", help="Use defaults without interactive prompts"
     )
     propose_parser.add_argument(
@@ -3628,35 +3449,12 @@ def get_parser():
     reset_parser.add_argument(
         "--yes", "-y", "--y", action="store_true", help="Skip confirmation prompt"
     )
-    subparsers.add_parser(
-        "mcp",
-        help=argparse.SUPPRESS,
-        description=(
-            "Start the Gaia MCP (Model Context Protocol) server, which exposes the skill registry "
-            "to AI tools and IDE integrations via stdio. "
-            "Requires building the server first: run `npm run build` inside packages/mcp/."
-        ),
-    )
-    release_parser = subparsers.add_parser(
-        "release", help=argparse.SUPPRESS
-    )
-    release_parser.add_argument("release_type", choices=("patch", "minor", "major"))
-    release_parser.add_argument(
-        "--sync",
-        action="store_true",
-        help="Force sync versions if they disagree before bump",
-    )
-    release_parser.add_argument(
-        "--no-push",
-        action="store_true",
-        help="Skip git push (commit and tag locally only)",
-    )
     graph_parser = subparsers.add_parser(
         "graph", help="Generate and open the Gaia skill graph"
     )
     graph_parser.add_argument(
         "--format",
-        choices=("html", "svg", "json"),
+        choices=("html", "json"),
         default="html",
         help="Graph artifact format (default: html)",
     )
@@ -3710,23 +3508,6 @@ def get_parser():
         default=None,
         help="Skill ID to appraise (default: most recent)",
     )
-    promote_parser = subparsers.add_parser(
-        "promote", help="Promote a skill eligible for level-up"
-    )
-    promote_parser.add_argument(
-        "skillId", nargs="?", default=None, help="Skill ID to promote"
-    )
-    promote_parser.add_argument(
-        "--all", action="store_true", help="Promote every candidate from the last scan"
-    )
-    promote_parser.add_argument(
-        "--unique",
-        action="store_true",
-        help="Promote a basic skill to unique type (4★+ graph-isolated with named impl)",
-    )
-    promote_parser.add_argument(
-        "--name", help="Optional display name for the promoted skill"
-    )
     fuse_parser = subparsers.add_parser(
         "fuse", help="Confirm a skill combination or create a custom fusion path"
     )
@@ -3739,18 +3520,6 @@ def get_parser():
     )
     fuse_parser.add_argument(
         "--delete", action="store_true", help="Delete an existing custom fusion"
-    )
-    docs_parser = subparsers.add_parser(
-        "docs", help=argparse.SUPPRESS
-    )
-    docs_sub = docs_parser.add_subparsers(dest="docs_command")
-    docs_build = docs_sub.add_parser(
-        "build", help="Regenerate generated documentation regions"
-    )
-    docs_build.add_argument(
-        "--check",
-        action="store_true",
-        help="Fail (exit 1) if generated docs drift from source. NOTE: not read-only — it regenerates Class P/S artifacts, then compares; commit any docs/graph/* (Class S) changes it produces.",
     )
     lookup_parser = subparsers.add_parser(
         "lookup", help="Look up a canonical skill and its named implementations"
@@ -3904,7 +3673,7 @@ def get_parser():
     )
     dev_add.add_argument(
         "--type",
-        choices=("basic", "extra", "ultimate", "unique"),
+        choices=("basic", "fusion"),
         default="basic",
         help="Skill type (default: basic)",
     )
@@ -3970,7 +3739,7 @@ def get_parser():
     dev_reclassify.add_argument("skill_id", help="Generic skill ID to reclassify")
     dev_reclassify.add_argument(
         "new_type",
-        choices=("basic", "extra", "ultimate", "unique"),
+        choices=("basic", "fusion"),
         help="New skill type",
     )
     dev_reclassify.add_argument(
@@ -4268,23 +4037,6 @@ def get_parser():
         "skillId", help="Canonical skill ID to explain"
     )
 
-    validate_parser = subparsers.add_parser(
-        "validate", help=argparse.SUPPRESS
-    )
-    validate_parser.add_argument(
-        "--intake",
-        action="store_true",
-        help="Validate intake batches instead of canonical graph",
-    )
-    validate_parser.add_argument(
-        "--meta-sync",
-        action="store_true",
-        help="Verify meta.json is in sync with gaia.json",
-    )
-
-    test_parser = subparsers.add_parser("test", help=argparse.SUPPRESS)
-    test_parser.add_argument("suite", choices=("meta", "all"), help="Test suite to run")
-
     skills_parser = subparsers.add_parser(
         "skills",
         help="Browse and manage named skills",
@@ -4329,18 +4081,11 @@ def get_parser():
         "uninstall", help="Uninstall a named skill"
     )
     skills_uninstall.add_argument("skill_id", help="Skill ID to uninstall")
-    hook_parser = subparsers.add_parser("_hook", help=argparse.SUPPRESS)
-    subparsers._choices_actions = [
-        action for action in subparsers._choices_actions if action.dest != "_hook"
-    ]
-    hook_parser.add_argument("--event", default="file_edit", help=argparse.SUPPRESS)
     return parser, skills_parser
 
 
 def validate_command(args):
     """Run registry validation."""
-    if args.command == "validate":
-        print("WARNING: 'gaia validate' is DEPRECATED and will be removed in v7.0.0. Use 'gaia dev validate' instead.", file=sys.stderr)
     repo_root = Path(args.registry)
     if args.intake:
         script = repo_root / "scripts" / "validate_intake.py"
@@ -4371,8 +4116,6 @@ def validate_command(args):
 
 def test_command(args):
     """Run self-verification tests."""
-    if args.command == "test":
-        print("WARNING: 'gaia test' is DEPRECATED and will be removed in v7.0.0. Use 'gaia dev test' instead.", file=sys.stderr)
     repo_root = Path(__file__).parent.parent.parent
 
     # Always use the same Python that is running gaia so the test process
@@ -4460,28 +4203,17 @@ def main():
         logout_command(args)
     elif args.command == "reset":
         reset_command(args)
-    elif args.command == "mcp":
-        print("WARNING: 'gaia mcp' is DEPRECATED and will be removed in v7.0.0. Use 'gaia dev mcp' instead.", file=sys.stderr)
-        mcp_command(args)
-    elif args.command == "release":
-        print("WARNING: 'gaia release' is DEPRECATED and will be removed in v7.0.0. Use 'gaia dev release' instead.", file=sys.stderr)
-        release_command(args)
     elif args.command == "graph":
         graph_command(args)
     elif args.command == "stats":
         stats_command(args)
     elif args.command == "appraise":
         appraise_command(args)
-    elif args.command == "promote":
-        promote_command(args)
     elif args.command == "fuse":
         try:
             fuse_command(args)
         except FuseCancelled:
             pass
-    elif args.command == "docs" and getattr(args, "docs_command", None) == "build":
-        print("WARNING: 'gaia docs build' is DEPRECATED and will be removed in v7.0.0. Use 'gaia dev docs' instead.", file=sys.stderr)
-        docs_command(args)
     elif args.command == "lookup":
         lookup_command(args)
     elif args.command == "dev":
@@ -4551,12 +4283,6 @@ def main():
         else:
             _, subparsers = get_parser()
             subparsers.choices["trust"].print_help()
-    elif args.command == "validate":
-        print("WARNING: 'gaia validate' is DEPRECATED and will be removed in v7.0.0. Use 'gaia dev validate' instead.", file=sys.stderr)
-        validate_command(args)
-    elif args.command == "test":
-        print("WARNING: 'gaia test' is DEPRECATED and will be removed in v7.0.0. Use 'gaia dev test' instead.", file=sys.stderr)
-        test_command(args)
     elif args.command == "skills":
         if not getattr(args, "skills_command", None):
             try:
@@ -4566,9 +4292,6 @@ def main():
                 skills_parser.print_help()
             return
         skills_command(args)
-    elif args.command == "_hook":
-        print("WARNING: 'gaia _hook' is DEPRECATED and will be removed in v7.0.0. Use 'gaia dev hook' instead.", file=sys.stderr)
-        hook_command(args)
     else:
         parser.print_help()
 
@@ -4585,6 +4308,9 @@ def trust_explain_command(args):
     # Build maps
     genericSkillMap = {s["id"]: s for s in skills if s.get("id") and not s.get("genericSkillRef")}
     namedSkillMap = {s["id"]: s for s in skills if s.get("id") and s.get("genericSkillRef")}
+    # Pre-merge namedSkillMap so suite-component origin IDs resolve in
+    # _gradedOriginCount (named skill IDs miss a generic-only map).
+    mergedMap = {**genericSkillMap, **namedSkillMap}
 
     # Try named first, then generic
     skill = namedSkillMap.get(skillId) or genericSkillMap.get(skillId)
@@ -4592,7 +4318,7 @@ def trust_explain_command(args):
         print(f"Skill '{skillId}' not found in registry.")
         return 1
 
-    output = explainTrustMagnitude(skill, genericSkillMap=genericSkillMap, namedSkillMap=namedSkillMap)
+    output = explainTrustMagnitude(skill, genericSkillMap=mergedMap, namedSkillMap=namedSkillMap)
     print(output)
     return 0
 

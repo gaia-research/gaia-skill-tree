@@ -15,6 +15,6 @@ Elicit and structure requirements from stakeholder inputs into formal specificat
 
 ## Derivatives
 
-- [Writing Plans](/skills/extra/writing-plans.md)
-- [Brainstorming](/skills/extra/brainstorming.md)
+- [Writing Plans](/skills/fusion/writing-plans.md)
+- [Brainstorming](/skills/fusion/brainstorming.md)
 

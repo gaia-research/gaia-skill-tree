@@ -370,4 +370,55 @@
     observeHoHPlates();
   }
 
+  /* ── Dynamic Tooltip & Popover Viewport Edge Alignment ── */
+  document.addEventListener('mouseover', function (e) {
+    var node = e.target.closest('.git-node');
+    if (!node || node._adjusted) return;
+    node._adjusted = true;
+
+    // Find all floating popovers/labels inside this node
+    var floatingElements = node.querySelectorAll('.dag-node-label, .ns-dag-card, .flow-node, .git-card');
+    if (!floatingElements.length) return;
+
+    var container = node.closest('.ns-dag-container, .se-flowchart-wrap');
+    var containerRect = container ? container.getBoundingClientRect() : { left: 0, right: window.innerWidth };
+
+    floatingElements.forEach(function (el) {
+      // Reset any previous --hover-shift
+      el.style.setProperty('--hover-shift', '0px');
+
+      var rect = el.getBoundingClientRect();
+      var offsetLeft = rect.left - containerRect.left;
+      var offsetRight = containerRect.right - rect.right;
+
+      var shift = 0;
+      if (offsetLeft < 12) {
+        shift = 12 - offsetLeft; // Keep 12px margin from left edge
+      } else if (offsetRight < 12) {
+        shift = -(12 - offsetRight); // Keep 12px margin from right edge
+      }
+
+      if (shift !== 0) {
+        el.style.setProperty('--hover-shift', shift + 'px');
+      }
+    });
+  });
+
+  document.addEventListener('mouseout', function (e) {
+    var node = e.target.closest('.git-node');
+    if (!node) return;
+
+    var related = e.relatedTarget;
+    if (!related || !node.contains(related)) {
+      node._adjusted = false;
+      // Do not clear the shift if the node is currently selected or has a persistent label
+      if (!node.classList.contains('selected') && !node.classList.contains('show-label')) {
+        var floatingElements = node.querySelectorAll('.dag-node-label, .ns-dag-card, .flow-node, .git-card');
+        floatingElements.forEach(function (el) {
+          el.style.setProperty('--hover-shift', '0px');
+        });
+      }
+    }
+  });
+
 })();

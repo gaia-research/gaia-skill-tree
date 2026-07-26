@@ -44,8 +44,8 @@ Execute the sync with your chosen bump type. Replace `BUMP` with `patch`, `minor
 
 ```bash
 cd <project-root>
-gaia release BUMP
-gaia docs build
+gaia dev release BUMP
+gaia dev docs
 ```
 
 ### Step 4: Verify Generated Changes

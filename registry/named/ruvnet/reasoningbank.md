@@ -18,7 +18,7 @@ tags:
 - memory-integration
 - self-improvement
 createdAt: '2026-05-19'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-20'
 suiteRef: ruvnet/ruflo
 suiteComponents:
 - ruvnet/reasoningbank-agentdb
@@ -128,6 +128,13 @@ timeline:
   previousValue: null
   newValue: v3.25.5
   details: first-run baseline
+- timestamp: '2026-07-20T18:16:45Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''reasoning-pattern-bank'' type: extra/ultimate → fusion
+    (Yggdrasil II taxonomy migration #997)'
+  metaEpoch: yggdrasil-ii
+  migrationBatch: yggdrasil-ii@2026-07-20
 trustMagnitude: 118.5
 overallTrustGrade: A
 apexGateStatus:
@@ -150,7 +157,6 @@ upstream:
   syncedAt: '2026-07-08T19:57:22Z'
   version: v3.25.5
 ---
-
 ## Overview
 
 ReasoningBank is a 3★ fusion of the two ReasoningBank discipline skills: `reasoningbank-intelligence` (adaptive pattern recognition and reasoning strategy selection) and `reasoningbank-agentdb` (AgentDB-backed persistent vector memory for cross-session knowledge retention). Together they form a self-improving agent knowledge base that learns from every interaction, stores reasoning patterns in durable vector storage, and retrieves relevant patterns to accelerate future problem solving.

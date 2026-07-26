@@ -47,7 +47,7 @@
       color: var(--text, #e2e8f0);
       letter-spacing: .02em;
     }
-    .nav-logo span { color: var(--tier-ultimate, #f59e0b); }
+    .nav-logo span { color: var(--rank-5); }
     .nav-sep { color: var(--muted, #64748b); font-size: 0.85rem; }
     .nav-crumb { font-size: 0.82rem; color: var(--muted, #64748b); }
     .nav-crumb:hover { color: var(--text, #e2e8f0); text-decoration: none; }
@@ -190,7 +190,7 @@
     .code-block pre .c { color: var(--muted, #64748b); }
     .code-block pre .cmd { color: #86efac; }
     .code-block pre .kw { color: var(--tier-basic, #38bdf8); }
-    .code-block pre .str { color: var(--tier-extra, #c084fc); }
+    .code-block pre .str { color: var(--rank-4); }
     .code-block pre .val { color: #f59e0b; }
     code {
       font-family: 'JetBrains Mono', monospace;
@@ -398,9 +398,13 @@
     .journey-step.active .journey-name { color: #c084fc; }
 
     /* ── Responsive ── */
+    /* mobile-first: base layout handled by docs-en-shell.css */
+    @media (min-width: 861px) {
+      .page-layout { grid-template-columns: 220px 1fr; }
+      .sidebar { display: block; }
+    }
+
     @media (max-width: 860px) {
-      .page-layout { grid-template-columns: 1fr; }
-      .sidebar { display: none; }
       .main-content { padding: 2rem 1.5rem 4rem; }
     }
 
@@ -509,6 +513,14 @@
   "url": "https://gaiaskilltree.com/en/fusion.html"
 }
 </script>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TS7N9T92BM" data-ga4="G-TS7N9T92BM"></script>
+  <script data-ga4="G-TS7N9T92BM">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-TS7N9T92BM');
+  </script>
 </head>
 <body>
 
@@ -1054,8 +1066,5 @@
       sections.forEach(s => obs.observe(s));
     })();
   </script>
-<!-- impeccable-live-start -->
-<script src="http://localhost:8400/live.js"></script>
-<!-- impeccable-live-end -->
 </body>
 </html>

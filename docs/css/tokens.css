@@ -13,27 +13,13 @@
   --tier-basic-border: rgba(56, 189, 248, 0.35);
   --tier-basic-edge: rgba(56, 189, 248, 0.55);
   --tier-basic-symbol: '○';
-  /* tier: extra */
-  --tier-extra: #c084fc; /* var(--tier-extra, #c084fc) */
-  --tier-extra-rgb: 192, 132, 252;
-  --tier-extra-bg: rgba(192, 132, 252, 0.12);
-  --tier-extra-border: rgba(192, 132, 252, 0.35);
-  --tier-extra-edge: rgba(192, 132, 252, 0.55);
-  --tier-extra-symbol: '◇';
-  /* tier: unique */
-  --tier-unique: #7c3aed; /* var(--tier-unique, #7c3aed) */
-  --tier-unique-rgb: 124, 58, 237;
-  --tier-unique-bg: rgba(124, 58, 237, 0.12);
-  --tier-unique-border: rgba(124, 58, 237, 0.35);
-  --tier-unique-edge: rgba(124, 58, 237, 0.55);
-  --tier-unique-symbol: '◉';
-  /* tier: ultimate */
-  --tier-ultimate: #f59e0b; /* var(--tier-ultimate, #f59e0b) */
-  --tier-ultimate-rgb: 245, 158, 11;
-  --tier-ultimate-bg: rgba(245, 158, 11, 0.12);
-  --tier-ultimate-border: rgba(245, 158, 11, 0.35);
-  --tier-ultimate-edge: rgba(245, 158, 11, 0.55);
-  --tier-ultimate-symbol: '◆';
+  /* tier: fusion */
+  --tier-fusion: #f59e0b; /* var(--tier-fusion, #f59e0b) */
+  --tier-fusion-rgb: 245, 158, 11;
+  --tier-fusion-bg: rgba(245, 158, 11, 0.12);
+  --tier-fusion-border: rgba(245, 158, 11, 0.35);
+  --tier-fusion-edge: rgba(245, 158, 11, 0.55);
+  --tier-fusion-symbol: '◆';
 
   /* ── Rank tokens (0★ → 6★) ───────────────────────────────── */
   /* rank: 0★ */
@@ -78,14 +64,28 @@
   --rank-6-bg: rgba(251,191,36,.22);
   --rank-6-border: rgba(251,191,36,.55);
   --rank-6-edge: rgba(251, 191, 36, 0.55);
+  /* rank: 4★ unique (Unique branch ENTRY / base default) */
+  --rank-4-unique: #7c3aed; /* var(--rank-4-unique, #7c3aed) */
+  --rank-4-unique-rgb: 124, 58, 237;
+  --rank-4-unique-bg: rgba(124, 58, 237, 0.12);
+  --rank-4-unique-border: rgba(124, 58, 237, 0.35);
+  --rank-4-unique-edge: rgba(124, 58, 237, 0.55);
+  --rank-4-unique-symbol: '◉';
+  /* rank: 5★ unique (burnished copper) */
+  --rank-5-unique: #b26a3a;
+  --rank-5-unique-rgb: 178, 106, 58;
+  --rank-5-unique-edge: rgba(178, 106, 58, 0.55);
+  /* rank: 6★ unique (ember copper, inverted — copper ground + dark ink) */
+  --rank-6-unique: #e0894a;
+  --rank-6-unique-rgb: 224, 137, 74;
+  --rank-6-unique-ink: #2a1206;
+  --rank-6-unique-edge: rgba(224, 137, 74, 0.9);
 
   /* ── Legacy short aliases ─────────────────────────────────── */
   /* Bridge for code that predates the --tier-* canonicalization. */
   /* Single source of truth stays in gaia.json.meta.typeColors. */
   --basic: var(--tier-basic);
-  --extra: var(--tier-extra);
-  --unique: var(--tier-unique);
-  --ultimate: var(--tier-ultimate);
+  --fusion: var(--tier-fusion);
 
   /* ── Evidence Grade semantic tokens ─────────────────────────── */
   /* New labels for the evidence-grade philosophy; legacy aliases keep existing UI hooks working. */
@@ -106,4 +106,36 @@
   --grade-B-rgb: var(--evidence-silver-rgb);
   --grade-C: var(--evidence-bronze);
   --grade-C-rgb: var(--evidence-bronze-rgb);
+
+  /* ── Local / custom-user accent (Yggdrasil II PR 3c) ───────── */
+  /* Green-starless treatment for a user's OWN uncanonized skills.
+     Matches the CLI COLOR_LOCAL_USER (134,239,172 / #86efac). */
+  --color-local-user: #86efac;
+  --color-local-user-rgb: 134, 239, 172;
+
+  /* ── Evidence Type tokens (provenance axis — NOT rank/branch) ─── */
+  --ev-type-repo: #38bdf8; /* var(--ev-type-repo, #38bdf8) */
+  --ev-type-repo-rgb: 56, 189, 248;
+  --ev-type-repo-own: #38bdf8; /* var(--ev-type-repo-own, #38bdf8) */
+  --ev-type-repo-own-rgb: 56, 189, 248;
+  --ev-type-peer-review: #38bdf8; /* var(--ev-type-peer-review, #38bdf8) */
+  --ev-type-peer-review-rgb: 56, 189, 248;
+  --ev-type-github-stars: #f59e0b; /* var(--ev-type-github-stars, #f59e0b) */
+  --ev-type-github-stars-rgb: 245, 158, 11;
+  --ev-type-github-stars-own: #f59e0b; /* var(--ev-type-github-stars-own, #f59e0b) */
+  --ev-type-github-stars-own-rgb: 245, 158, 11;
+  --ev-type-fusion-recipe: #f59e0b; /* var(--ev-type-fusion-recipe, #f59e0b) */
+  --ev-type-fusion-recipe-rgb: 245, 158, 11;
+  --ev-type-proxy-containment: #7c3aed; /* var(--ev-type-proxy-containment, #7c3aed) */
+  --ev-type-proxy-containment-rgb: 124, 58, 237;
+  --ev-type-verifier-attestation: #e879f9; /* var(--ev-type-verifier-attestation, #e879f9) */
+  --ev-type-verifier-attestation-rgb: 232, 121, 249;
+  --ev-type-benchmark-result: #c084fc; /* var(--ev-type-benchmark-result, #c084fc) */
+  --ev-type-benchmark-result-rgb: 192, 132, 252;
+  --ev-type-arxiv: #c084fc; /* var(--ev-type-arxiv, #c084fc) */
+  --ev-type-arxiv-rgb: 192, 132, 252;
+  --ev-type-self-attestation: #94a3b8; /* var(--ev-type-self-attestation, #94a3b8) */
+  --ev-type-self-attestation-rgb: 148, 163, 184;
+  --ev-type-social-signal: #34d399; /* var(--ev-type-social-signal, #34d399) */
+  --ev-type-social-signal-rgb: 52, 211, 153;
 }

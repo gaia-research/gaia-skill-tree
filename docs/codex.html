@@ -20,6 +20,7 @@
 <!-- Stage 2 — shared rank-badge primitive. -->
 <script src="js/rank-badge.js?v=6.8.18"></script>
 <!-- Stage 3 — plaque component family. -->
+<script src="js/skill-semantics.js?v=6.8.18"></script>
 <script src="js/plaque.js?v=6.8.18"></script>
 <style>
 /* Curate Chain CSS definitions */
@@ -391,11 +392,11 @@
 }
 
 .sim-action-select:focus {
-  border-color: var(--tier-ultimate);
+  border-color: var(--rank-5);
 }
 
 .sim-submit-btn {
-  background: var(--tier-ultimate);
+  background: var(--rank-5);
   color: #000;
   border: none;
   padding: 0.4rem 0.8rem;
@@ -439,6 +440,14 @@
   "url": "https://gaiaskilltree.com/codex.html"
 }
 </script>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TS7N9T92BM" data-ga4="G-TS7N9T92BM"></script>
+  <script data-ga4="G-TS7N9T92BM">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-TS7N9T92BM');
+  </script>
 </head>
 <body class="process-page">
 
@@ -504,7 +513,7 @@
         </div>
 
         <!-- Node L3 -->
-        <div class="step-node" data-step="3" style="--step-color: var(--tier-extra); --step-glow: rgba(192, 132, 252, 0.25);">
+        <div class="step-node" data-step="3" style="--step-color: var(--rank-4); --step-glow: rgba(192, 132, 252, 0.25);">
           <div class="step-num">L3</div>
           <div class="step-title">Schema Mapping</div>
           <div class="step-agent">HEAVIER Agent</div>
@@ -516,7 +525,7 @@
         </div>
 
         <!-- Node L4 -->
-        <div class="step-node" data-step="4" style="--step-color: var(--tier-ultimate); --step-glow: rgba(245, 158, 11, 0.25);">
+        <div class="step-node" data-step="4" style="--step-color: var(--rank-5); --step-glow: rgba(245, 158, 11, 0.25);">
           <div class="step-num">L4</div>
           <div class="step-title">Human Review</div>
           <div class="step-agent">Manual Gate</div>
@@ -528,7 +537,7 @@
         </div>
 
         <!-- Node L5 -->
-        <div class="step-node" data-step="5" style="--step-color: var(--tier-unique); --step-glow: rgba(124, 58, 237, 0.25);">
+        <div class="step-node" data-step="5" style="--step-color: var(--rank-4-unique); --step-glow: rgba(124, 58, 237, 0.25);">
           <div class="step-num">L5</div>
           <div class="step-title">Execute Mutations</div>
           <div class="step-agent">CLI Mutations</div>
@@ -664,7 +673,7 @@
         num: "L3",
         title: "Schema Mapping & Design",
         role: "HEAVIER Reasoning Sub-Agent",
-        color: "var(--tier-extra)",
+        color: "var(--rank-4)",
         glow: "rgba(192, 132, 252, 0.25)",
         desc: "Fuses vendor-specific implementations into single generic concepts. Maps candidates into a CLI-compatible batch with appropriate tiers, levels, and prerequisite DAGs.",
         inputs: [
@@ -685,7 +694,7 @@
         num: "L4",
         title: "Human Review",
         role: "Contributor / Maintainer",
-        color: "var(--tier-ultimate)",
+        color: "var(--rank-5)",
         glow: "rgba(245, 158, 11, 0.25)",
         desc: "A mandatory human-in-the-loop review. The orchestrator presents the designed batch table, letting the human review, rename, or filter proposed nodes.",
         inputs: [
@@ -704,7 +713,7 @@
         num: "L5",
         title: "Execute Mutations",
         role: "CLI Curation Engine",
-        color: "var(--tier-unique)",
+        color: "var(--rank-4-unique)",
         glow: "rgba(124, 58, 237, 0.25)",
         desc: "Applies mutations exclusively via programmatic CLI tools. Modifying nodes directly by hand is strictly forbidden to prevent registry inconsistency.",
         inputs: [
@@ -826,10 +835,21 @@
     const consoleBox = document.getElementById("simulatorConsole");
     let isRunning = false;
 
-    function addLog(msg, type = "system") {
+    const escLog = (s) => String(s).replace(/[&<>"']/g, (c) => (
+      { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]
+    ));
+
+    // Plain text by default (msg is escaped). Pass { html: true } only for
+    // author-controlled markup strings — any interpolated runtime value inside
+    // those must be run through escLog() at the call site first.
+    function addLog(msg, type = "system", opts = {}) {
       const line = document.createElement("div");
       line.className = `console-line ${type}`;
-      line.innerHTML = msg;
+      if (opts.html) {
+        line.innerHTML = msg;
+      } else {
+        line.textContent = msg;
+      }
       consoleBox.appendChild(line);
       consoleBox.scrollTop = consoleBox.scrollHeight;
     }
@@ -840,7 +860,7 @@
         isRunning = true;
         startBtn.disabled = true;
         startBtn.innerText = "Running...";
-        consoleBox.innerHTML = "";
+        consoleBox.replaceChildren();
         
         // Remove existing simulating classes
         nodes.forEach(n => n.classList.remove("simulating", "active"));
@@ -975,9 +995,9 @@
 
                   promptBox.remove();
                   addLog(`[User] Submitted Review Decisions:`, "user");
-                  addLog(` - <code>literature-search</code>: <strong>${dec1.toUpperCase()}</strong>`, "user");
-                  addLog(` - <code>openai/swarm</code>: <strong>${dec2.toUpperCase()}</strong>`, "user");
-                  addLog(` - <code>arxiv-lookup</code>: <strong>${dec3.toUpperCase()}</strong>`, "user");
+                  addLog(` - <code>literature-search</code>: <strong>${escLog(dec1.toUpperCase())}</strong>`, "user", { html: true });
+                  addLog(` - <code>openai/swarm</code>: <strong>${escLog(dec2.toUpperCase())}</strong>`, "user", { html: true });
+                  addLog(` - <code>arxiv-lookup</code>: <strong>${escLog(dec3.toUpperCase())}</strong>`, "user", { html: true });
 
                   const acceptedCount = (dec1 === 'accept' ? 1 : 0) + (dec2 === 'accept' || dec2 === 'rename' ? 1 : 0) + (dec3 === 'accept' ? 1 : 0);
 
@@ -1107,8 +1127,5 @@
   <script src="js/ui.js?v=6.8.18"></script>
   <script src="js/page-ia.js?v=6.8.18"></script>
 
-<!-- impeccable-live-start -->
-<script src="http://localhost:8400/live.js"></script>
-<!-- impeccable-live-end -->
 </body>
 </html>

@@ -15,7 +15,7 @@ Chooses the most appropriate tool or API from a set of available options given a
 
 ## Derivatives
 
-- [Plan and Execute](/skills/extra/plan-and-execute.md)
-- [Function Calling](/skills/extra/function-calling.md)
-- [Tool Chaining](/skills/extra/tool-chaining.md)
+- [Plan and Execute](/skills/fusion/plan-and-execute.md)
+- [Function Calling](/skills/fusion/function-calling.md)
+- [Tool Chaining](/skills/fusion/tool-chaining.md)
 

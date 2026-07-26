@@ -88,7 +88,7 @@ def _rm_args(root: str, skill_id: str = "existing-skill", **kw) -> SimpleNamespa
     return SimpleNamespace(**base)
 
 
-def _reclassify_args(root: str, skill_id: str = "existing-skill", new_type: str = "extra", **kw) -> SimpleNamespace:
+def _reclassify_args(root: str, skill_id: str = "existing-skill", new_type: str = "fusion", **kw) -> SimpleNamespace:
     base = dict(registry=root, skill_id=skill_id, new_type=new_type, no_build=True)
     base.update(kw)
     return SimpleNamespace(**base)
@@ -226,7 +226,7 @@ def test_reclassify_moves_skill_file(tmp_path):
     root = _make_registry(tmp_path)
     meta_reclassify_command(_reclassify_args(root))
     assert not (Path(root) / "registry" / "nodes" / "basic" / "existing-skill.json").exists()
-    assert (Path(root) / "registry" / "nodes" / "extra" / "existing-skill.json").exists()
+    assert (Path(root) / "registry" / "nodes" / "fusion" / "existing-skill.json").exists()
 
 
 def test_reclassify_missing_skill_exits(tmp_path):
@@ -238,7 +238,7 @@ def test_reclassify_missing_skill_exits(tmp_path):
 
 def test_reclassify_destination_collision_exits_before_write(tmp_path, capsys):
     root = _make_registry(tmp_path)
-    dest_dir = Path(root) / "registry" / "nodes" / "extra"
+    dest_dir = Path(root) / "registry" / "nodes" / "fusion"
     dest_dir.mkdir(parents=True)
     dest_file = dest_dir / "existing-skill.json"
     dest_file.write_text('{"id":"stale"}\n', encoding="utf-8")

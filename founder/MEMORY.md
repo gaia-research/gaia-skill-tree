@@ -4,6 +4,1614 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-26, Session 6 — EPIC 1002 close-out: SAP-email fully eradicated, severed ancestry repaired (#1185 MERGEABLE), founder archive pass, Ygg II meta-post published, README Change Management section; awaiting CI-green human gate before the v7.0.0 merge)
+
+### TLDR
+- **The banned commit email `marco.tiongson@sap.com` is 0 across ALL refs** (metadata + bodies). Resolution followed the founder ruling verbatim ("if it leaked on main, mailmap remap; if only in this PR, history rewrite; no force-push to main; never compromise company identity"): origin/main never carried it (0 → no main rewrite), staging was cleaned by a prior staging-only git-filter-repo email remap, and the remaining 24 occurrences lived only on ~22 stale pre-rewrite ygg2 sprint branches (local + 3 on origin) — all deleted. Company identity preserved (author *name* "Marco Tiongson" kept; only *email* remapped to the GitHub no-reply). See `~/.claude/.../memory/sap-email-eradication-ygg2.md`.
+- **Severed ancestry repaired → PR #1185 MERGEABLE.** The filter-repo email rewrite had severed main's ancestry with staging; fixed by re-merging origin/main into rewritten staging (merge commit `8ee6021f1`, tree byte-identical to pre-merge staging, main tip `7b784f868` restored as ancestor).
+- **founder/ archive pass complete** (`bb41f7d97`). All handovers except `GAIA_BENCH_VISION.md` archived under `founder/handovers/archive/`; roadmaps v1–v3 → `archive/roadmaps/`; 7 non-operational root docs → `archive/root-docs/`; sprint-done marker written. `founder/CLAUDE.md` Key References table reconciled to the surviving docs. Roadmap v5 deferred (future write).
+- **Ygg II meta-post PUBLISHED** (`c1ddb6235`) — the July 2026 Yggdrasil I → II report, authored by a 7-agent verification workflow, every number checked against the live registry (113 basic + 130 fusion = 243 starless nodes; TM grades S=4/A=42/B=56/C=76/ungraded=71 across 249 named skills). Show-don't-tell: two worked examples (`obra/writing-plans` drift case; the retired 10k-stars gate blocking three real A-grade skills). Rendered LaTeX HTML + patched posts.json/index.html/meta.html.
+- **README Change Management section added** (same commit) — highlights the Ygg II meta shift (type collapse, Evidence Floor → Trust Magnitude, derived branch axis, two 6★ paths), points to gaiaskilltree.com + META.md.
+- **NEXT: CI green → HUMAN GATE → v7.0.0 merge.** The staging→main merge is the ONLY mandated hard human gate. The merge commit MUST use `feat!:` / `BREAKING CHANGE:` to trigger the v7.0.0 major bump via auto-sync. Then verify release CD, PyPI, closed issues, main health.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| SAP-email eradication (all refs → 0) | ✅ origin/main clean (no rewrite); staging clean (prior rewrite); 24 stale-branch occurrences deleted; company identity preserved |
+| Severed-ancestry repair (#1185) | ✅ Re-merge `8ee6021f1`; main tip restored as ancestor; PR MERGEABLE |
+| founder/ archive pass + sprint-done markers | ✅ `bb41f7d97`; all handovers except GAIA_BENCH_VISION archived; roadmaps v1–v3 + 7 root docs moved; CLAUDE.md Key References reconciled |
+| Ygg II meta-post (7-agent verified workflow) | ✅ Published `c1ddb6235`; every stat verified vs live registry; two worked examples |
+| README Change Management section | ✅ `c1ddb6235`; Ygg II shift + gaiaskilltree.com + META.md |
+| memory-snapshot (this block) | ✅ In progress → this write |
+| /epic-close skill (generalize meta-post + versioning) | ⏳ Next in Task #5 |
+| CI green + human gate before v7.0.0 merge | ⏳ Mandated hard stop — founder's explicit go required |
+| v7.0.0 release (auto from merge) + verify | ⏳ Blocked on merge; merge commit MUST carry `feat!:`/`BREAKING CHANGE:` |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `main` | `7b784f868` (v6.8.18) | unchanged this session; ancestor of staging again |
+| `dev/yggdrasil-ii-staging` | `c1ddb6235` | email-clean; #1185 MERGEABLE; meta-post + README + archive landed; awaiting v7.0.0 merge |
+
+Cleanup bonus: removed 22 leftover agent/workflow worktrees and 55 stale branches per the session-close ritual.
+
+### Issues + PRs touched
+| # | Title | State |
+|---|---|---|
+| #1185 | EPIC aggregate PR → main | MERGEABLE (ancestry repaired); awaiting CI-green human gate for v7.0.0 merge |
+| #1002 | EPIC (Yggdrasil II) | Close-out in progress (archive + meta-post done; release pending) |
+
+### Routing — where things live now
+- **Ygg II meta-post source:** `docs/meta/2026-07-yggdrasil-ii-meta-shift.md` → rendered `docs/meta/reports/2026-07-26-yggdrasil-ii-two-types-one-trust-gate-and-a-branch-axis-that-is-never-declared.html`. Published via `scripts/add_post.py report ... --author "Marcus Rafael Tiongson, Founder" --label "Meta Shift"`.
+- **README Change Management section:** after the keywords/`---` block, before "Who maintains this?".
+- **founder archive:** `founder/handovers/archive/` (README carries the EPIC-1002 sprint-done marker + catalog); `archive/roadmaps/` (v1–v3); `archive/root-docs/` (7 non-operational docs). Kept live: `GAIA_BENCH_VISION.md`, `GAIA_ROADMAP v4 (BUILD).md`, `BACKLOG_ERADICATION_TRACKER.md`, and the operational root docs.
+- **Email eradication record:** `~/.claude/projects/C--Users-C5396183-gaia-skill-tree/memory/sap-email-eradication-ygg2.md`.
+
+### Lessons / hazards preserved
+1. **git-filter-repo email remap on a branch severs ancestry with any sibling that forked before the rewrite.** Expect to (a) re-merge main into the rewritten branch to restore the ancestor, and (b) find the same banned commits duplicated across every sibling sprint branch — audit ALL refs (local + origin), not just the PR branch.
+2. **"If it leaked on main → mailmap; if only in this PR → history rewrite; never force-push to main."** origin/main carrying 0 banned commits meant no main rewrite was needed at all — verify the leak surface (`git log --all --format='%ae' | grep`) BEFORE choosing remap vs rewrite.
+3. **The meta-post workflow verifies every number against the live registry.** A 7-agent fact-find→synthesize→verify pipeline (opus synthesizer) produces publishable stats without hand-rework. The `add_post.py` report renderer's embedded LaTeX `<style>` block carries hex colors, but the hex CI guard (`check_hex_colors.py`) scans only `docs/**/*.js` + `docs/**/*.css` — HTML `<style>` is explicitly out of scope, so report HTML is safe (all prior reports share the identical template hex and pass CI).
+4. **Regen belongs in a clean Linux env, not hand-curated from Windows.** A local `gaia dev docs` regen flipped CRLF EOL on hundreds of files (noise) — discarded all regen output and committed the merge with the tree byte-identical to pre-merge staging. Class-S regen for the final merge should run in CI or a Linux worktree.
+5. **Windows cp1252 encoding:** reads of `registry/gaia.json` need `encoding='utf-8'`; scripts emitting emoji need `PYTHONUTF8=1 PYTHONIOENCODING=utf-8`.
+
+### Open questions for next orchestrator / founder
+1. **CI-green human gate (Task #6)** — the staging→main merge is the ONLY mandated hard stop. Founder's explicit go required once checks are green.
+2. **v7.0.0 merge-commit message MUST carry `feat!:` or `BREAKING CHANGE:`** so auto-sync classifies a major bump. A plain merge commit ships the wrong version.
+3. **Post-merge verify (Task #8):** release CD reached v7.0.0, PyPI received the new CLI wheel (with bundled fresh registry snapshot — vX.Y.0 triggers the snapshot step), EPIC issues closed, main healthy.
+4. **CHANGELOG.md v7.0.0 entry** — author the full changelog for the major.
+5. **/epic-close skill** — still to write (Task #5 remainder): generalize the meta-post authoring + versioning flow into a reusable skill.
+
+### Token cost (this session)
+- Meta-post workflow: 7 agents, 0 errors, ~339k subagent tokens, 45 tool uses.
+- Orchestrator (this session): dominated by git-forensics + archive + publish + snapshot; not separately metered. Log the precise split to the #1002 EPIC comment + COST.md at session close per the token-spend-logging directive.
+
+---
+
+## State Snapshot (2026-07-26, Session 5 — SVG-graph retirement + v7.0.0 CLI-shim retirement landed on staging; lexicon RFC #1302 filed; #1185 endgame is all that remains, founder resolves the conflict personally)
+
+### TLDR
+- **Three things landed on `dev/yggdrasil-ii-staging` since the Session-4 snapshot** (tip now **`7ad2709dc`**, was `f9cbc8943`): the static SVG-graph retirement (#1301 → `b134471b6`), the v7.0.0 CLI-shim retirement (#1303 → `7ad2709dc`), and the lexicon-of-record RFC (#1302, an *issue* — not merged, it's a discussion artifact).
+- **SVG-graph retirement (#1301).** Retired the static `registry/gaia.svg` / `docs/graph/gaia.svg` render — the 3D World Tree (`#canvas3d`) superseded it. Verified no site-dark risk: only `docs/archive/**` and `docs/superpowers/plans/**` reference the removed svg (historical, no runtime fetch). Diff was 13 files (SVG pipeline + scripts + docs prose), no `docs/graph/*` regen churn leaked.
+- **v7.0.0 CLI-shim retirement (#1303).** Ygg II lands on v7.0.0, so the six top-level shims marked "removed in v7.0.0" are now officially retired: `gaia release|_hook|docs build|mcp|validate|test` → all now error `invalid choice`; each has an unchanged canonical `gaia dev X` equivalent (no CLI gap). Deleted `commands/{release,hook_cmd,docs_cmd,validate_cmd}.py`, dropped top-level `McpCommand` (kept `execute_dev_mcp`), cleaned the `impl.py` legacy-monolith mirror (subparsers + dispatch + WARNING guards). 35 CLI+packaging tests pass. Nested Opus-medium review: **CONFIRMED-CLEAN**.
+- **Lexicon RFC #1302 filed.** Ports the `gaia-research` lexicon-of-record pattern (`founder/lexicon.json` machine-source → generated `LEXICON.md` → `RATIFICATION.md` ledger → `check-lexicon` CI gate) into gaia-skill-tree. Encodes the reports-as-decisions discipline as data (`canonical` is not inherited from a citation; unshipped surfaces stay `parked`). Proposes consolidating CONTEXT.md/DESIGN.md/PRODUCT.md/META.md/meta.json term-authority into one lexicon. 4-tier authority hierarchy (living founder ruling > CLAUDE.md/lexicon invariants > reports/RFCs > generated artifacts). Cross-linked #1104 (actor-authority governance — complementary, not duplicative). Labels: RFC, documentation.
+- **Both staging CI reds are pre-existing baseline conditions, NOT regressions** — confirmed identical across #1301 and #1303: (1) **Agent Skill Quality Gates** = `.agents/skills/fuse` YAML frontmatter parse error (pre-existing skill defect, untouched by either PR); (2) **Schema + DAG + Integrity Checks** "docs stale" = non-deterministic spectral-embedding coords + `generatedAt`/`lastmodifieddate` timestamps; the gate is push-triggered **only on `branches: [main]`** so it never runs on the staging line and the drift accumulates undetected. Both PRs touch no `registry/`/`docs/graph/*` source. **Test, Build, and Smoke Test = GREEN** on both.
+- **#1185 is all that remains** — the 19-file merge-conflict resolution → main. **Founder handles this personally** (site-dark risk on the script-survivor call). Do NOT dispatch or resolve it.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| #1301 — static SVG-graph retirement (3D World Tree superseded it) | ✅ Merged → staging (`b134471b6`); no site-dark risk verified |
+| #1303 — v7.0.0 CLI-shim retirement + WARNING removal | ✅ Merged → staging (`7ad2709dc`); 35 tests pass; nested review CONFIRMED-CLEAN |
+| #1302 — lexicon-of-record RFC (reports-as-decisions + SoT consolidation) | ✅ Filed as issue; cross-linked #1104; NOT a merge (discussion artifact) |
+| Staging CI green-verification | ✅ Test/Build/Smoke GREEN on both PRs; two reds diagnosed as pre-existing baseline (fuse YAML + docs-stale-on-staging-line) |
+| Durable-fix note (NOT filed — founder's call) | ⏳ Seed spectral layout deterministically + drop ledger version stamp (#807) + trigger Schema+DAG on staging → separate infra PR, post-Ygg-II |
+| #1185 endgame (Class-S regen, 19-file merge-conflict, merge to main) | ⏳ NOT started — founder resolves personally |
+| EPIC #1002 closure (#998/#999/#1000 checkmark verification) | ⏳ Pending — verify PR-body checkmarks vs live state, confirm no follow-ups |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `main` | `7b784f868` (v6.8.18) | unchanged this session |
+| `dev/yggdrasil-ii-staging` | `7ad2709dc` | SVG-graph + v7 CLI retirement landed; Test/Build/Smoke green; #1185 endgame next |
+| `dev/ygg2-retire-graph-svg` | `3e499e727` | Merged via #1301, worktree still on disk (checked-out at repo root) |
+| `dev/ygg2-retire-v7-cli` | `b35f48150` | Merged via #1303; agent worktree removed + branch pruned |
+
+### Issues + PRs touched
+| # | Title | State |
+|---|---|---|
+| #1301 | Retire static registry/gaia.svg graph render (Ygg II) | Merged → staging (`b134471b6`) |
+| #1302 | RFC: lexicon-of-record — SoT consolidation + reports-as-decisions authority | Filed (issue, open) |
+| #1303 | Retire v7.0.0-deprecated CLI command shims (Ygg II) | Merged → staging (`7ad2709dc`) |
+| #1185 | EPIC aggregate PR → main | Blocked on 19-file merge conflict; founder handling personally |
+| #1002 | EPIC (Yggdrasil II) | Closure verification pending |
+| #1104 | RFC: Governance of the Canonical Graph (actor authority) | Cross-linked from #1302 (complementary axis) |
+
+### Routing — where things live now
+- **Retired CLI shims:** the six top-level verbs are gone; only `gaia dev {release,hook,docs,mcp,validate,test}` remain. Dynamic discovery (`commands/__init__.py::discover_commands`) drops a registration automatically once its `COMMAND` export is deleted. `impl.py` is the legacy-monolith mirror — was cleaned in lockstep.
+- **Retired SVG render:** `scripts/renderGraphSvg.py` deleted; `scripts/build_docs.py` build_svg step removed; `scripts/syncDocsGraphAssets.py` dropped `registry/gaia.svg` from its required tuple. The 3D World Tree (`#canvas3d`) is the graph surface now.
+- **Lexicon reference implementation:** `gaia-research/gaia-research` `founder/lexicon.json` (schema `1`, namespace `core`, landed 2026-07-25). The RFC #1302 body is the porting plan.
+- **The two surviving TYPE tokens (unchanged):** `--tier-basic` (#38bdf8, ○), `--tier-fusion` (#f59e0b, ◇). All rank color on `--rank-N` (Suite) / `--rank-N-unique` (Unique). "There is NO TIER UNIQUE."
+
+### Lessons / hazards preserved
+1. **The Schema+DAG gate never runs on the staging line.** It's push-triggered only on `branches: [main]`, so `docs/graph/gaia.json` spectral-layout non-determinism + timestamp drift accumulate undetected on staging and only surface as a PR-check red. Committing the ~62.6k-line regen churn does NOT fix it — it re-arms on the next CI date/layout recompute. Correct posture: document the red as baseline, merge on the green Test/Build/Smoke gate, and file the durable fix (seed layout + drop ledger version stamp per #807 + trigger the gate on staging) as a separate infra PR.
+2. **`.agents/skills/fuse` has a pre-existing YAML frontmatter parse error** that reds the "Agent Skill Quality Gates" job on every staging PR. Not introduced by #1301/#1303. If it needs fixing it's its own tiny PR, not a merge-blocker for unrelated work.
+3. **Windows Git-Bash `/tmp` ≠ `C:/tmp`.** The Write tool's `C:/tmp/...` maps to a different directory than Git-Bash's `/tmp` (→ `AppData\Local\Temp`). RFC #1302 was first filed with a stale body because `gh issue create --body-file /tmp/...` read the old heredoc draft, not the Write-tool output at `C:/tmp/...`. Fix: always `--body-file "C:/tmp/..."` (absolute Windows path) and verify with `gh issue view --json body`.
+4. **v7.0.0 shim retirement had zero CLI gap** — every retired top-level verb already had a canonical `gaia dev X` equivalent present. Confirmed via `gaia dev --help` showing all six before deleting the shims. Retiring a command is only safe when its replacement is already the documented path.
+
+### Open questions for next orchestrator / founder
+1. **#1185 merge-conflict (19 files) → main** — founder's personal job. The script-survivor call carries site-dark risk.
+2. **EPIC #1002 closure** — verify #998/#999/#1000 PR-body checkmarks against live state; confirm no follow-ups (sprint-completeness: the flowchart.html attr-vocab defer is documented pre-existing, NOT a filed follow-up).
+3. **Durable Schema+DAG fix** — file as post-Ygg-II infra PR? (seed spectral layout, drop ledger version stamp #807, trigger gate on staging). Founder's call whether to file now or after the epic closes.
+4. **RFC #1302 shaping questions** (5 open in the issue body) — json-vs-md source, namespace/scope, meta.json seam, /impeccable↔DESIGN.md highest-risk seam, RATIFICATION.md bootstrap. For founder + next-session discussion.
+5. **Untracked founder reports** (`2026-07-25-token-eradication-dispatch.md`, `2026-07-25-tier-unique-classification.md`) + `screenshots/` — decide commit-or-leave.
+
+### Token cost (this session)
+- `2026-07-26 Opus (SVG-retirement + 5-agent CI-diagnosis workflow): ~253k workflow tokens + ~orchestrator overhead. ~$14`
+- `2026-07-26 Opus (v7 CLI retirement subagent + nested Opus-med review): ~161k combined, 155 tool calls. ~$8`
+- `2026-07-26 Opus (orchestrator: RFC #1302 authoring, PR opens, merges, this snapshot): ~40k in / ~12k out. ~$4`
+- **Session-5 total ≈ $26.** Logged on PRs #1301/#1303 per the token-spend-logging constraint.
+
+---
+
+## State Snapshot (2026-07-26, Session 4 — Token-eradication COMPLETE on staging; all 3 workstreams (P5 rename + Hall-of-Heroes /impeccable + samples cleanup) merged; staging CI-clean; #1185 endgame is next, founder resolves the conflict personally)
+
+### TLDR
+- **The centerpiece landed.** The Unique-branch rank ladder is fully migrated OFF `--tier-unique*` ONTO the rank axis, symmetric with Suite: `--tier-unique`→`--rank-4-unique` (#7c3aed violet), `--tier-unique-5`→`--rank-5-unique` (#b26a3a copper), `--tier-unique-6`→`--rank-6-unique` (#e0894a ember, -ink #2a1206). Both branches now sit on ONE rank axis (`--rank-N` Suite / `--rank-N-unique` Unique). That asymmetry WAS the recurring T19 pollution — it is closed.
+- **~16 PRs merged to `dev/yggdrasil-ii-staging` this session** (tip **f9cbc8943**): the 12-PR P5 rename stack (#1283 generator first, then 11 disjoint consumers #1284–1294/#1288), P6 Hall-of-Heroes redesign (#1297 branch-fork + #1299 impeccable fixes), P4 samples/dead-token cleanup (#1296), and the final remainder #1300 (skill-graph canvas-tokens contract comment).
+- **Role A vs Role B classification held.** 37 Role-A `--tier-unique*` hits across 6 files renamed to `--rank-*-unique`; ~90 Role-B branch-identity uses (◉ glyph symbol, plaque orbs, generic accent) correctly KEPT as `--tier-unique`. One genuine correction (not a rename): `.tier-glyph[data-type="fusion"]` misuse → `--tier-fusion`.
+- **Both verification gates PASS on the merged staging tip.** GATE 1: zero LIVE dead `--tier-extra/-ultimate` tokens (only the documented harmless historical comment at `styles.css:11124` remains — it *describes* the eradication, references no live token). GATE 2: zero Role-A `--tier-unique*` at all 6 renamed files. Guard A (hex) exit 0; `generateCssTokens.py --check` reports tokens.css up to date.
+- **The Session-3 `.nav-meta` regression I introduced is RESOLVED** — reverted from `--rank-3` back to `--rank-4` in commit `538b509b6` (part of the P1 workstream this session).
+- **Hall of Heroes redesigned** to a windowed-locator rail (active-plate header + ~6-hero window + prev/next + "▾ ALL N PLATES" native `<dialog>`), plus the P1 Suite/Unique branch-fork color bug fixed (rail + stage now key on `data-branch`, not just `data-level`). Render-verified via Playwright (v2 + v3 screenshots). /impeccable critique scored 33/40 design health, no P0/P1 code defects.
+- **Founder ruling captured as a user-memory:** repo reports/.md docs are point-in-time DECISIONS, not standing ratifications — a later in-session founder ruling supersedes an earlier written report without editing it first. (The adversarial review HOLD on the rename — citing the stale `tier-unique-classification.md` "~90 keeps" — was correctly overridden by the founder's "There is NO TIER UNIQUE... full rename now" ruling.) See `~/.claude/.../memory/reports-are-decisions-not-ratifications.md`.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| P1 — `.nav-meta` Session-3 regression | ✅ Reverted `--rank-3`→`--rank-4` (commit `538b509b6`) |
+| P2 — 4 LIVE Suite/Unique branch-fork bugs (hero cards, HoH rail, ledger badges, badges legend) | ✅ Fixed: `[data-branch=unique]` overrides + `data-branch` emission on rail button + badges legend copper rows (`b16dc96db`, `cb87e6c40`, `6e1c500b9`) |
+| P3 — DESIGN.md truth-up (both ladders explicit) | ✅ Own PR, merged |
+| P4 — `docs/samples/*` + ledger/codex dead-token cleanup | ✅ PR #1296 merged (foundation/tree/nav/registry-3d-fonts.html, codex.html, page-ia.js, share/styles.css) |
+| P5 — ALL Role-A `--tier-unique*` → `--rank-*-unique` (one-rule) | ✅ 12-PR disjoint stack #1283–1294/#1288; generator (`generateCssTokens.py`) + `formatting.py RANK_COLORS_UNIQUE` reconciled to CSS-locked Amethyst→Ember (CSS wins) |
+| P6 — Hall of Heroes /impeccable redesign | ✅ Windowed locator + dialog + branch-fork; PRs #1297, #1299 |
+| Final remainder — skill-graph canvas-tokens contract comment | ✅ PR #1300 (dead `--tier-extra/-ultimate` in the doc comment → `--tier-fusion` + Suite ladder) |
+| Guard A scope broadening | ✅ `check_hex_colors.py` glob → `docs/**/*.{js,css}` (commit `4aed8f8e5`) |
+| Staging CI-clean gates | ✅ Guard A exit 0, `generateCssTokens.py --check` up to date |
+| #1185 endgame (Class-S regen, merge-conflict, merge to main) | ⏳ NOT started — founder resolves the 19-file conflict personally next |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `main` | `7b784f868` (v6.8.18) | unchanged this session |
+| `dev/yggdrasil-ii-staging` | `f9cbc8943` | Token eradication COMPLETE; all P1–P6 + remainder landed; CI-clean |
+| ~16 `design/ygg2-*` feature branches | — | Merged, auto-deleted on merge |
+
+### Issues + PRs touched
+| # | Title | State |
+|---|---|---|
+| #1283–1294, #1288 | P5 Unique-rename disjoint stack (generator + 11 consumers) | All merged → staging |
+| #1296 | P4 samples + dead-token cleanup | Merged → staging |
+| #1297 | Hall of Heroes Suite/Unique branch-fork | Merged → staging |
+| #1299 | Hall of Heroes /impeccable fixes (windowed locator) | Merged → staging |
+| #1300 | skill-graph canvas-tokens contract comment (final remainder) | Merged → staging |
+| #1185 | EPIC aggregate PR → main | Blocked on 19-file merge conflict; founder handling personally |
+| #1002 | EPIC (Yggdrasil II) | Closure review pending (#998/#999/#1000 checkmark verification) |
+
+### Routing — where things live now
+- **Token source of truth (unchanged, still correct):** `registry/gaia.json → meta` ({typeColors, levelColors, typeSymbols}) → `scripts/generateCssTokens.py` → `docs/css/tokens.css`. Unique ladder is hardcoded in the generator (`UNIQUE_BRANCH_TIER`) because `unique` is a read-time branch, not a `type`. Ygg III palette swap = edit `gaia.json.meta` + regen.
+- **The two surviving TYPE tokens:** `--tier-basic` (#38bdf8, ○), `--tier-fusion` (#f59e0b, ◇). All rank color now lives on `--rank-N` (Suite) / `--rank-N-unique` (Unique). "There is NO TIER UNIQUE."
+- **Dispatch + classification docs** (now landed-and-superseded, keep for audit): `founder/reports/2026-07-25-token-eradication-dispatch.md`, `founder/reports/2026-07-25-tier-unique-classification.md` (both untracked in the working tree — decide whether to commit or leave as local artifacts).
+- **Harmless historical comment (leave alone):** `docs/css/styles.css:11124` — documents the eradication, references no live token; NOT a defect.
+
+### Lessons / hazards preserved
+1. **Reports are decisions, not ratifications** (new founder ruling, captured as user-memory). A later in-session founder ruling supersedes an earlier written report without editing it first. Don't block a ship on a stale spec; surface the conflict with a recommendation (Discipline C), don't blindly obey or silently override.
+2. **`--tier-unique` had DUAL DUTY — the rename was NOT a mechanical find-replace.** Classifying all 127 hits Role-A (rank tint → rename) vs Role-B (branch identity → keep) before swapping is what kept the ◉ glyph and plaque orbs intact. Adversarial verification of the classification prevented the T19-recurrence blind-swap.
+3. **12 disjoint PRs beat one mega-PR for a cross-file rename.** Verified ZERO file-overlap across the P5 stack before batch-merging; merged the generator PR (#1283, defines `--rank-*-unique`) FIRST for semantic correctness, then the consumers. Each merged PR is a permanent, revertible lock-in.
+4. **`gh pr merge` empty output is ambiguous — always verify state separately.** Confirmed each merge via `gh pr view <n> --json state,mergeCommit`. #1300 recorded as a fast-forward (branch strictly ahead, no divergence) — that still preserves the commit exactly (no squash), satisfying the EPIC no-squash rule.
+5. **Label atomicity footgun:** `gh pr edit --add-label "a,b"` fails ALL if any one label is invalid. This repo's functional doc label is `documentation` (NOT `docs`); `frontend` exists; `design` does NOT. Apply valid labels separately or pre-create.
+6. **Sprint-completeness catch:** the P4 samples fix existed on a branch (#1296) but hadn't merged — staging still had 8 dead-token hits. The sprint's own remainder must actually LAND in-sprint, not just exist on a branch. Same for the skill-graph comment (#1300).
+
+### Open questions for next orchestrator
+- **#1185 endgame sequence** (founder-owned): (1) regen Class-S (`gaia dev docs`), restore `docs/graph/` if the run dirties it (#1275 hazard), commit on an infra/ or design/ PR; (2) **founder personally resolves the 19-file merge conflict** vs `main` (script-survivor call: `skill-semantics.js` vs `plaque-reveal.js`, site-dark risk — do NOT dispatch); (3) CodeQL triage (7 alerts, likely diff-size artifact); (4) mark #1185 ready; (5) **merge with a MERGE COMMIT, never squash.**
+- **#1002 closure review** still pending: verify #998/#999/#1000 PR-body checkmarks against live state and check them. Confirm no follow-ups (the flowchart.html attr-vocab defer is documented pre-existing, NOT a filed follow-up).
+- **RFC issue (#10)** — reports-as-decisions discipline + root lexicon — HOLD until AFTER #1185 merges (genuinely-new out-of-scope work, allowed under sprint-completeness).
+- **Founder's own next-session work (NOT the orchestrator's):** their own review + a Ygg-II meta-post skill about the new meta landing as a workflow.
+- The two `founder/reports/2026-07-25-*.md` dispatch/classification files are untracked — decide commit-vs-discard.
+
+### Token cost (this session)
+- Continued from a compacted session; exact per-model counts not instrumented in this harness. Spend is overwhelmingly orchestrator (inline) + the P5/P6 dispatch subagents from the earlier (pre-compaction) leg.
+- Proof-of-work token-spend log to be posted on PR #1185 as part of the endgame (#14), per the token-logging directive.
+
+---
+
+## State Snapshot (2026-07-25, Session 3 — #1275/okf/T19/CI-green fixes merged to staging; Suite-vs-Unique branch-fork bug class discovered, 4 confirmed live bugs open; ONE unresolved regression I introduced)
+
+### TLDR
+- **4 PRs merged this session:** #1279 (ORCHESTRATOR.md correction → `main`), #1280 (#1275 Class S guard + okf check-mode fix → staging), #1282 (CI fix: Class P generation in `python-package.yml` → staging), #1281 (T19 token-unpollution: retired `docs/skills/`, renamed 68 dead `--tier-extra`/`--tier-ultimate` reads → `--rank-4`/`--rank-5` → staging).
+- **Founder caught two of my own reasoning errors this session** — both instructive, both logged below. (1) Trusted `TOKEN-POLLUTION-AUDIT.md` (T16-T18) as if it modeled Suite/Unique colors correctly; it doesn't — it flattens two deliberately-distinct rank ladders into one column. (2) Applied a "quick patch" to `.nav-meta` based on a literal misread of "directory token purple," landing `--rank-3` (Directory-page tier-3 lavender) instead of `--rank-4` (the actual intended Suite purple) — **this is currently live/merged on staging, unresolved.**
+- **Real discovery once the correct model was triangulated** (confirmed independently from `scripts/generateCssTokens.py`, `src/gaia_cli/formatting.py` `RANK_COLORS_UNIQUE`, and `docs/js/skill-semantics.js` `SUITE_WORD`/`UNIQUE_WORD`): ranks 4★-6★ fork into two parallel, deliberately-distinct ladders — **Suite** (Extra/Ultimate/Apex → `--rank-4`/`--rank-5`/`--rank-6`) and **Unique** (Unique/Unique Ultimate/Unique Impossible → `--tier-unique`/`--tier-unique-5`/`--tier-unique-6`). A follow-up audit found this fork is silently missing in several live, high-traffic components — real Unique-branch skills are rendering in Suite gold/fuchsia on the site today.
+- **#1185 diagnosis corrected a stale assumption**: the two checks memory expected to be red ("Schema + DAG", "Test/Build/Smoke") haven't actually *run* since 2026-07-20 — not failing, never scheduled — because #1185 has a genuine, non-mechanical 19-file merge conflict against `main` (real content divergence: `main` dropped `skill-semantics.js`/added `plaque-reveal.js`; staging still carries `skill-semantics.js`/`world-tree-layout.js`/AOV4 CSS). That conflict is the actual gate on #1185, not a CI bug. CodeQL shows 7 new high-severity alerts but is unverifiable this session (code-scanning API blocked); likely a diff-too-large attribution artifact per its own summary text.
+- **#1229 stays open** (founder decision) — confirmed via scout that "closed by #1274" in last session's memory was wrong: PR merges into `dev/yggdrasil-ii-staging` never fire GitHub's auto-close keyword (only merges to the default branch do). Will close for real once #1185 lands on `main`.
+- Founder is taking the #1185 CI/merge-conflict resolution personally next session — explicitly did not want it dispatched to an agent given the judgment/site-dark risk in picking surviving script tags.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| `founder/ORCHESTRATOR.md` — stale Operator/tools identity, hard "Claude" branding | ✅ Fixed, PR #1279 merged → `main` |
+| Issue #1275 — Class S `docs/graph/gaia.json` silently degrades when `layouts_3d.json` absent | ✅ Guard added (`syncDocsGraphAssets.py`), test isolated from tracked artifacts; PR #1280 merged → staging. **Issue stays open** (staging merge, same non-default-branch auto-close gap as #1229) |
+| `build_okf_bundle()` `--check` mode — was a dead no-op (`return False` unconditionally) | ✅ Restored real `.md`-diff detection, `index.json` false-positive still correctly skipped; part of PR #1280 |
+| `python-package.yml` — missing Class P artifact generation before tests (34 failures) | ✅ Fixed, verified green in real CI on PR #1282, merged → staging |
+| T19 — `docs/skills/` retirement + nav | ✅ Deleted `docs/skills/{index.html,index.js}`; removed from `mounts.js`, `site-nav.js` (2 spots), plus 2 extra fallback-array files found (`site-footer.js`, `skill-explorer.js`); PR #1281 |
+| T19 — dead `--tier-extra`/`--tier-ultimate`/bare `--extra`/`--ultimate` rename | ✅ 68 occurrences across 25 files → `--rank-4`/`--rank-5`; Guard A (hex) + Guard D (nav mounts) pass; PR #1281 |
+| `page-ia.js:54` `unique: 'var(--unique)'` (undefined bare token) | ✅ Fixed → `var(--tier-unique)`, confirmed correct against source-of-truth generator |
+| `.nav-meta` color (`docs/css/styles.css:11682`) | ❌ **REGRESSION — I broke this.** Was already correct at `--rank-4` pre-session (untouched by T19). I "fixed" it to `--rank-3` based on a wrong literal reading of "directory token purple." Founder caught it; **not yet reverted — still `--rank-3` on staging HEAD `2b54decea` right now.** |
+| Cloudflare preview of staging | ✅ Deployed, `https://gaia-skill-tree.marco-tngsn.workers.dev/` (reflects HEAD as of `d8e53f8`, before the last 2 merges — not re-deployed after #1281/#1282) |
+| MEMORY.md consistency scout | ✅ Ran, found #1229 wrongly marked closed (see TLDR); everything else in the 07-24/07-25 entries verified accurate |
+| Suite-vs-Unique branch-fork audit | ✅ Ran, found 4 confirmed live bugs + 3 dead-sample-page bugs + 3 ambiguous cases — see "Open questions" below, all deliberately left unfixed this session |
+| #1185 merge-conflict + CodeQL | ⏳ Diagnosed only; founder handling personally next session |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `main` | `7b784f868` (v6.8.18) | + PR #1279 (ORCHESTRATOR.md) |
+| `dev/yggdrasil-ii-staging` | `2b54decea` | + PRs #1280, #1282, #1281 merged this session. **Carries the unresolved `.nav-meta` regression.** |
+| `claude/founder-memory-pr-1185-8pwbci` | (session branch) | Used for PR #1279 only |
+| `claude/1275-docs-graph-guard`, `infra/1185-ci-green`, `design/t19-token-unpollution` | — | Merged, safe to delete |
+
+### Issues + PRs touched
+| # | Title | State |
+|---|---|---|
+| #1279 | docs(founder): correct ORCHESTRATOR.md | Merged → `main` |
+| #1280 | fix(docs): Class S graph guard + okf check-mode fix | Merged → staging |
+| #1282 | fix(ci): Class P generation in python-package.yml | Merged → staging |
+| #1281 | design(T19): retire docs/skills/ + rank-4/5 token rename | Merged → staging (carries the nav-meta regression) |
+| #1275 | docs build silently degrades Class S gaia.json | Fixed on staging, **issue still open** (non-default-branch merge) |
+| #1229 | (homepage N+1, closed-by-#1274 claim) | **Left open** per founder decision, will auto-close when #1185 lands |
+| #1185 | EPIC aggregate PR | Still draft/blocked — real 19-file merge conflict vs `main`, not a CI bug |
+
+### Routing — where things live now
+- Suite-vs-Unique ground truth: `scripts/generateCssTokens.py` (`UNIQUE_BRANCH_TIER`, "Unique decoration ladder" comment ~L210-236), `src/gaia_cli/formatting.py` (`RANK_COLORS_UNIQUE`, `rank_color_for`), `docs/js/skill-semantics.js` (`SUITE_WORD`/`UNIQUE_WORD`). **Do not use `TOKEN-POLLUTION-AUDIT.md` as a model reference — it's confirmed stale/misleading on this specific question**, even though its file-level rename guidance (T16-T18 scope) was otherwise accurate.
+- Full audit findings (4 confirmed live bugs, 3 dead-sample bugs, 3 ambiguous, full correct-inventory) are in this session's transcript only — **not yet written to a durable file.** Next session should either action them directly or park them in a `founder/reports/` file before they age out of context.
+- #1185 merge-conflict specifics (which script tags survive) are in this session's transcript only, also not yet durably filed.
+
+### Lessons / hazards preserved
+1. **`TOKEN-POLLUTION-AUDIT.md` (T16-T18) is stale on the Suite-vs-Unique question** — it models rank-4/5/6 colors as one shared column, but the actual implementation forks Suite (`--rank-N`) and Unique (`--tier-unique*`) into two deliberately-distinct ladders. Confirmed via 3 independent source files (see Routing). Don't trust the audit doc's color model without cross-checking the generator.
+2. **"Directory token" is ambiguous shorthand — don't guess, ask or verify against source.** I read it as "the color used on the literal `/u/` Directory page" (`--rank-3`); founder meant "the generic/Suite-context purple used across the site's directory of skills" (`--rank-4`, which was already correct before I touched it). Cost: one live regression, still unresolved on staging.
+3. **A "quick patch" instruction on a token/color value is still a coding change with the same correctness bar as anything else** — verify against the actual generator/source before editing, especially on a design system the founder has explicitly flagged as failure-prone (T19 exists because this exact class of confusion happened before).
+4. **Suite/Unique branch-fork bugs cluster where an element carries `data-level` but not `data-branch`**, or where a shared helper (`colorizeRankPills`, `ledger.js` row renderer) was never given branch context to begin with. When auditing this axis again, grep for `data-level="4"` /`data-level="5"`/`data-level="6"` CSS selectors first and check whether a sibling `[data-branch="unique"]` rule exists — its absence is the single strongest bug signal found this session.
+5. **PR merges into `dev/yggdrasil-ii-staging` never fire GitHub's `Closes #N` auto-close** — only merges to the repo's default branch (`main`) do. Any PR body claiming "Closes #N" while targeting staging will leave the issue open; don't trust issue state claims in memory without checking the merge target.
+6. **#1185's `mergeable_state: "dirty"` is NOT mechanical drift** — verified real content divergence (script files added/removed differently on each side), not just `?v=` cache-bust noise. Resolving it needs a founder-level call on which frontend surface wins, per the site-dark risk called out in `CLAUDE.md`'s null-selector warning. Do not dispatch this to an agent without very explicit constraints.
+
+### Open questions for next orchestrator
+1. **Revert or fix `.nav-meta`** (`docs/css/styles.css:11682`) from `var(--rank-3, #a78bfa)` back to `var(--rank-4, #e879f9)` — currently wrong and live on staging. Small, unambiguous, do this first.
+2. **4 confirmed live Suite/Unique bugs, ready to fix:**
+   - Hero cards (`docs/heroes/heroes.css:499-532` + `data-branch="unique"` override needed) — highest impact, ~25 dependent accent rules.
+   - Hall of Heroes side-rail (`docs/heroes/heroes.js:471` needs `data-branch` added to markup + matching CSS).
+   - Trust Ledger star badges (`ledger.js` needs branch data joined in; `ledger.css` needs `[data-branch="unique"]` rules) — no branch awareness at all currently.
+   - `docs/badges/index.html:1170` — the site's own canonical color-ladder legend has its 5★ Unique row mislabeled in Suite gold.
+3. **3 confirmed dead-token bugs in `docs/samples/*`** (`foundation.html`, `tree.html`, `registry-3d-fonts.html`) — same 3 files explicitly skipped for T19 scope, but independently confirmed broken (reference tokens that don't exist / stale hex fallbacks). Founder should decide whether "skip samples" still holds now that these are confirmed real bugs, not just T19-adjacent cleanup.
+4. **3 ambiguous cases needing a founder design call** (not bugs by default): tree-dialog rank-pill digit never forks by branch (`skill-explorer.js` `colorizeRankPills`) even though the glyph beside it does; `.tier-glyph[data-type="fusion"]` reuses `--tier-unique` violet for an unrelated *type* axis concept; `profile-timeline.js` intentionally colors by finishing rank not branch (confirmed correct, just flagging so it isn't "fixed" by mistake).
+5. **#1185 merge-conflict resolution** — founder taking this personally next session. 19 files, real content divergence, needs a call on `js/skill-semantics.js` vs `js/plaque-reveal.js` and which CSS/JS survive. Once resolved: re-run `gaia dev docs` (48 `docs/u/*/index.html` pages will need regen), re-check CodeQL, then #1185 can go ready.
+6. **Cloudflare preview is stale** — last deployed at staging `d8e53f8`, before #1281/#1282 merged. Re-deploy via `/gaia-preview` before eyeballing the current staging state.
+7. Write the full audit findings (item 2-4 above) to a durable `founder/reports/` file if not actioned soon — currently only in this session's transcript.
+
+### Token cost (this session)
+2026-07-25 · Session 3 · Sonnet (orchestrator) + 7 delegated agents (Opus ×3, Sonnet/Explore ×4) ≈ **~920k subagent tokens** (fix #1275: 145k · review #1280: 138k · T19 scout: 72k · MEMORY.md scout: 74k · T19 dispatch: 120k · #1185 CI diagnose/fix: 178k · Suite/Unique audit: 192k) + orchestrator overhead. Rough est. **~$25–30**. Logged on #1185 proof-of-work comment.
+
+---
+
+## State Snapshot (2026-07-25, Session 2 — all staging blockers resolved; #1274/#1276/#1277/#1278 merged; #1185 proof-of-work posted)
+
+### TLDR
+- **4 PRs merged to staging:** #1274 (CI green + perf), #1277 (Guard A hardening), #1276 (leaderboard fix + suite bars + unique colors), #1278 (world tree scatter reset + smooth lerp).
+- **All session-1 open questions answered:** test fixtures confirmed migration artifacts (signed off); Guard A NUL byte fixed + full hardening shipped; leaderboard blank panel root-caused (CSS specificity) and fixed; suite bars confirmed working end-to-end via Playwright (16 suites render).
+- **Key identity fix:** SAP email `marco.tiongson@sap.com` banned by author-attribution CI guard — rewritten to `mbtiongson1@users.noreply.github.com` via rebase. All agents must use GitHub no-reply going forward.
+- **Staging is now materially closer to merge-ready.** Remaining blockers on #1185 are documented and scoped.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| PR #1274 — CI greening, perf, security | ✅ Merged (`8ebb7a8be`) |
+| PR #1277 — Guard A hardening | ✅ Merged (`d25c8048d`) |
+| PR #1276 — Leaderboard blank panel + suite bars + unique colors | ✅ Merged (`8e6bd1a44`) |
+| PR #1278 — World tree scatter reset + smooth lerp | ✅ Merged (`30ce491cf`) |
+| `docs/guard-topology.md` banned-synonym fix | ✅ On staging (`0fae4d8ac`) |
+| Asset deletions (AOV3 MP4s + duplicate f-rank webps) | ✅ On staging (`c22110b21`) |
+| Test fixtures sign-off | ✅ Confirmed migration artifacts — `bad_evidence.json` + `ultimate_no_approval.json` deleted correctly; `orphaned_extra.json` retype correct |
+| Guard A NUL byte (`skill-graph.js`) | ✅ `'\0'` → `' '`; plus binary detector + comment-exclusion rewrite + standalone validator |
+| Leaderboard blank panel | ✅ CSS specificity bug fixed — `nav.lb-toc` raised to (0,3,1) to beat global `nav:not()` rule |
+| `fetchUltimateComponents` dead code | ✅ `branch` now carried in `allRows` projection — 16 suite skills render |
+| Unique branch level-sensitive colors | ✅ 4★ violet / 5★ burnished copper / 6★ ember copper via `--tier-unique-*-rgb` tokens |
+| World tree scatter reset | ✅ Exit resets to 100% with `treeSpread` lerp over 900ms morph; stash/restore on re-enter |
+| SAP email rewrite on #1274 | ✅ Force-pushed with `mbtiongson1@users.noreply.github.com` |
+| Merged branch cleanup | ✅ 4 local + remote branches deleted |
+| Proof-of-work comment | ✅ Posted on #1185 |
+| `build_docs.py` okf gap (reviewer finding) | ⏳ Known, deferred to #1185 final pass |
+| T19 token un-pollution (~25 files) | ⏳ Deferred — own design PR, not scheduled |
+| Schema + DAG / #1275 | ⏳ Pre-existing — `layouts_3d.json` absent in CI; needs fix before #1185 → main |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `dev/yggdrasil-ii-staging` | `8ebb7a8be` (post #1274 merge) | Integration branch — updated, 4 PRs merged in |
+| `infra/ga4-seo-inject` | (current local checkout context) | SEO branch — absorbed into #1274, closed |
+
+### Issues + PRs touched
+| # | Title | State |
+|---|---|---|
+| #1274 | Yggdrasil II — unblock staging | Merged `8ebb7a8be` |
+| #1277 | infra(guard-a): harden hex-color guard | Merged `d25c8048d` |
+| #1276 | fix(leaderboard): suite bars + blank panel + unique colors | Merged `8e6bd1a44` |
+| #1278 | fix(world-tree): scatter reset + smooth lerp | Merged `30ce491cf` |
+| #1185 | EPIC aggregate PR | Open — proof-of-work comment posted, blockers documented |
+| #1275 | docs build degrades Class S when layouts_3d absent | Open — pre-existing, not fixed |
+
+### Routing — where things live now
+- **Dead-asset inventory decisions:** `founder/handovers/YGGDRASIL_II_DEAD_ASSET_INVENTORY.md` — AOV3 webps kept, 3 MP4s + 6 f-rank duplicates deleted.
+- **Guard A hardening:** `scripts/check_hex_colors.py`, `scripts/check_no_binary_sources.py`, `.github/workflows/docs-cohesion.yml`.
+- **Leaderboard fix:** `docs/trust/leaderboard/leaderboard.js` — specificity fix + `branch` in `allRows` + `uniqueColors(level)`.
+- **World tree fix:** `docs/js/skill-graph.js` — `_explorerViewStash` + `treeSpreadFrom` lerp.
+- **Session review screenshot:** `screenshots/leaderboard-fix-verify.png`.
+
+### Lessons / hazards preserved
+1. **SAP email is banned by author-attribution CI guard.** Always use `mbtiongson1@users.noreply.github.com` in agent dispatch prompts. The guard checks GitHub API `author_login` — must resolve to a real GitHub account.
+2. **Guard A agents must use `grep -a` in the NUL detector** — otherwise the detector is itself blinded by binary-skip. The hardening agent got this right.
+3. **Branch contention in shared worktree:** the Guard A hardening agent's first commit (`89b27d50a`) landed directly on staging due to branch switching mid-session. Content was correct but topology was wrong. Always verify `git branch --show-current` before committing when multiple agents are active.
+4. **Draft PRs must be marked ready before merging** — `gh pr merge` fails on draft with a clear error; `gh pr ready` first.
+5. **`treeSpread` not lerped = snap on exit** — any state variable read directly per-frame bypasses the morph. Always check what the render loop reads raw vs. what it lerps.
+6. **CSS specificity beats load order when `:not()` pseudoclasses are involved.** The global `nav:not(.footer-cols):not(.footer-rail)` rule was (0,2,1) — enough to beat a plain `nav.lb-toc` (0,1,1). Fix: match the `:not()` chain on the override.
+
+### Open questions for next orchestrator
+1. **`build_docs.py` `build_okf_bundle` gap** — `639b4effc` skips the entire bundle check; OKF `.md` drift is now undetected. Fix: skip `index.json` diff only, keep `.md` diffs. Small surgical change on #1274 branch or a new infra commit on staging.
+2. **T19 token un-pollution** — `--tier-extra`/`--tier-ultimate` + bare `--extra`/`--ultimate` in ~25 `docs/` files. Full map in `founder/reports/design-review-2026-07-20/TOKEN-POLLUTION-AUDIT.md`. Needs its own design PR.
+3. **Schema + DAG #1275** — `renderGraphSvg.py` + `syncDocsGraphAssets.py` fail in CI because `registry/layouts_3d.json` is gitignored and absent on fresh checkout. Blocks #1185 → main. Needs either a CI fix (skip these steps in `--check` if layouts absent) or a committed layouts snapshot.
+4. **`gaia init` / `gaia push` CLI confirm prompts** — KeyError fixed in #1274; should be re-verified end-to-end before #1185 closes.
+5. **#1185 final merge** — staging is now materially green. Path: fix #1275 → address `build_docs` gap → T19 (optional, can defer) → mark #1185 ready → merge with merge commit (never squash).
+
+### Token cost (this session)
+2026-07-25 · Session 2 · Sonnet (orchestrator) + ~12 delegated agents (Opus/Sonnet mix) · est. **~$15–20**. Logged on #1185 proof-of-work comment.
+
+---
+
+## State Snapshot (2026-07-25, session — PR #1185 unblocked: staging was UNVALIDATED not green; 312→5 homepage requests; PR #1274 open)
+
+### TLDR
+- **PR #1185 was never validated, not "nearly green."** Only 9 checks ran on head `052fb6c`; pytest, `validate.py`, and four guards were all path-filtered out. They fire on `push` to `main` against the full 1,693-file diff — every one would have gone red **after** the merge.
+- **The "7 pre-existing pytest reds" no longer existed.** They were deleted (`2b2ee9838`, `74dae4ce7`) and replaced with six assertions of `_meets_evidence_floor(...) is True` annotated `(Was: expected False)` — assertions that **cannot fail**. Worse than red, because it reads green.
+- **`gaia init` and `gaia push` were crashing on every invocation** — `TIER_COLORS['ultimate']` by subscript at `impl.py:641`/`:2231`; dict is `{basic, fusion}` post-#995.
+- **Homepage fired 312 API requests, 307 of them per-skill files to read ONE field each.** Now 5. Closes #1229.
+- **PR #1274** open → `dev/yggdrasil-ii-staging` (31 commits, ready for review). Suite: **1780 passed** vs staging base **8 failed / 1758 passed**.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| CI Guard A (`tokens.css` 11 hex literals) | ✅ Fixed in `scripts/generateCssTokens.py` — generator, not hand-edited CSS |
+| CodeQL 8 high alerts | ✅ Absorbed from #1271 (DOM-safe rewrites, not suppressions) |
+| Evidence-Floor dead code + unfailable tests | ✅ `EVIDENCE_FLOOR` + `_meets_evidence_floor()` deleted from `promotion.py` AND `validate.py`; tests assert TM-only gating |
+| `gaia init` / `gaia push` KeyError crash | ✅ Fixed — was on nobody's list |
+| `scripts/validate.py` dead validators | ✅ `validate_ultimate()` + `validate_unique_skills()` matched **zero** skills; removed, renumbered `[1/9]`–`[9/9]` |
+| `skillBatch.schema.json` retired-type enum | ✅ `{basic, fusion}` in both lockstep copies; `propose_command()` routed through `taxonomy.isFusion()` |
+| #1000 agent skills | ✅ Mirror repaired; templates emitting `type:"ultimate"`/`"extra"` fixed |
+| API N+1 (#1229) | ✅ 312→5 requests, 307→0 per-skill, +14.6 KB payload, render byte-identical |
+| rAF gating / JSON dedup / defer | ✅ 15→0 callbacks when hidden; `gaia.json` 2→1; `domInteractive` −37% |
+| `live.js` dev injector in 6 prod pages | ✅ Removed |
+| Hermes ownership regime | ✅ Retired; last 2 files deleted, CLAUDE.md section replaced with retirement note |
+| GA4 (SEO) | ✅ 99 pages, async snippet, idempotent injector |
+| `docs/assets/` unreferenced files | ⏳ **Inventory only, nothing deleted** — founder adjudicates |
+| Guard A blind spot on `skill-graph.js` | ⏳ Documented, not changed (founder decision) |
+| Class S corruption (#1275) | ⏳ Filed, not fixed — pre-existing |
+| Test fixtures | ⏳ Founder investigating later |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `claude/epic-1002-blockers-optimization-7ukbbq` | `975c13871` | **PR #1274**, ready for review, 31 commits |
+| `claude/epic-1002-ci-greening` | `319c100e4` | merged into above |
+| `claude/epic-1002-perf` | `74e3bf8fa` | merged into above (contains ci-greening) |
+| `claude/epic-1002-agent-skills` | `9089eef0c` | merged into above |
+| `claude/epic-1002-validate-schema` | `f731be02a` | merged into above |
+| `claude/epic-1002-api-n1` | `9a41a9968` | merged into above |
+| `dev/yggdrasil-ii-staging` | `7c142331d` | integration branch, merged into work branch |
+
+### Issues + PRs touched
+- **#1274** opened → staging. Ready for review.
+- **#1275** filed — docs build silently degrades Class S `gaia.json`.
+- **#1229** closed by #1274.
+- **#1185** proof-of-work comment posted.
+- **#1271 / #1272 / #1273** absorbed as donor commits, closed with absorption notes.
+
+### Routing — where things live now
+- Dead-asset list: `founder/handovers/YGGDRASIL_II_DEAD_ASSET_INVENTORY.md` (raw scan incl. known false positives, founder adjudicates).
+- Frontend audit consensus: `founder/reports/2026-07-25-frontend-staging-audit-consensus.md` (reviewed; recommended as its own sprint AFTER v7).
+- HTML sink guard: `scripts/check_html_sinks.py` — **warn-only ratchet**, 19 tracked, flip `HARD_FAIL` at zero.
+
+### Lessons / hazards preserved
+1. **Path-filtered `pull_request` workflows evaluate against the LAST PUSH's diff, not the PR's cumulative diff.** A PR whose final commit touches one file can show green while its entire diff is unvalidated. Always confirm which checks actually ran before trusting a green PR.
+2. **A silenced test is more dangerous than a red one.** Assertions rewritten to match broken behavior (`is True` on a function returning unconditional `True`) read as passing forever. When a handover says "pre-existing reds, modernize later," verify the tests still exist.
+3. **Running `pytest tests/` rewrites three tracked Class S artifacts** (`gaia.json` 733,533→603,305, `gaia.gexf`, `gaia.svg`) via `test_docs_site.py::test_build_docs_check_message_uses_copyable_python_command`. A `git add -A` after a test run ships a flattened graph to the live site. **Always `git restore docs/graph/` after running the suite.** See #1275.
+4. **The `gaia.json` shrink is NOT taxonomy staleness** — the hypothesis was wrong. Same 243 skills, same 406 edges, zero other field changes; the delta is entirely `positions`/`cluster`/`centroids`/`clusterNames`, lost because `registry/layouts_3d.json` (Class P, gitignored) is absent. `world-tree-layout.test.js` was correctly detecting real corruption.
+5. **Guard A cannot scan `docs/js/skill-graph.js`.** A literal NUL byte (`edge.from + '\0' + edge.to`, offset ~90374) makes GNU grep classify it binary and suppress matches; the workflow's `2>/dev/null` hides the warning. Two banned hexes sit there undetected. Removing the NUL turns Guard A red immediately.
+6. **`isolation: "worktree"` is unreliable in this environment.** Three agents landed in the shared checkout; one had its HEAD switched mid-task by another. Dispatch prompts must instruct agents to verify `pwd` and create their own worktree.
+7. **Don't commit an agent's in-flight work assuming it stalled.** Did this with the `defer` pass, claimed "verified" on a correctness-only check; the agent had *measured* that deferring head scripts regresses FCP ~800 ms (`site-nav.js` injection IS first contentful paint). Its follow-up corrected it.
+8. **`.agents/skills/` was corrupted by a blind `CLAUDE.md`→`AGENTS.md` / `.claude`→`.Codex` substitution.** `.Codex/` does not exist. When reconciling mirrors, read both sides — `fp-drift` and `gaia-release` were genuinely newer on the `.agents` side.
+9. **Deleting unreferenced assets is NOT a page-speed fix.** Unreferenced means never fetched. 45.9 MB of dead assets is repo/Pages hygiene; the actual lag was the 307-request N+1.
+
+### Open questions for next orchestrator
+- **Test fixtures** — `bad_evidence.json` (deleted), `orphaned_extra.json` (retyped), `ultimate_no_approval.json` (deleted). Founder deferred sign-off.
+- **`fetchUltimateComponents` is dead code** — `branchOf` reads `entry.branch`, which `boot()` never sets, so suite bars never render. Needs a `branch` field on `allRows`.
+- **GA4 covers 12 `docs/en/` pages** that PR #1249 is editing. Additive + idempotent injector, so it's a re-run not a merge fight.
+- **Frontend audit (#audit consensus doc)** — recommended as a post-v7 sprint. Its headline should be the N+1 class of fix, not page pruning. Also proposed deleting Hermes files (now done) and reducing nav to 4 links (an IA decision, not cleanup).
+- Next founder pass: **CLI crashes found here, blocker decisions, final checks.**
+
+### Token cost (this session)
+2026-07-25 · Opus 5 · orchestrator + 9 delegated agents ≈ **1.02M** subagent tokens (harness does not break out in/out per agent). Est. **~$28–33**. Logged on #1185 and #1274.
+
+---
+
+## State Snapshot (2026-07-25 — Yggdrasil II design sprint T6–T18 COMPLETE; merging PR #1246 → dev/yggdrasil-ii-staging; T19 handed off)
+
+### 1. Final decisions + T19 handoff (TOPMOST)
+
+**PR #1246 merge model:**
+- PR #1246 merges into `dev/yggdrasil-ii-staging` (**NOT main** — EPIC integration model). Merge-ready: CLEAN/MERGEABLE, design-scope CI green.
+- Regen is **STAGING-ONLY**. Do NOT regen `tokens.css` locally — the local `registry/gaia.json` is a stale Class-P snapshot that predates the fusion/unique type migration; an in-branch regen would emit stale `meta.typeColors`.
+- **Infra PR #1270** (`infra/ev-type-tokens-staging`) is separate, targets **`dev/yggdrasil-ii-staging`** (rebased off staging — the staging generator carries a `--color-local-user` block main's lacks, so a main base would have drifted; original main-based #1269 was closed/superseded). Generator-only (adds `--ev-type-*` block). It must land AND staging must regen before evidence-pill tokens resolve to non-fallback values. Until then, hex fallbacks render the correct colors.
+
+**T19 (NEW — its own design PR per Marco): site-wide token un-pollution sweep.**
+- T16–T18 fixed ONLY `styles.css`, `plaque.css`, `leaderboard.css`. The SAME `--tier-extra`/`--tier-ultimate` + bare `--extra`/`--ultimate` rank-substitute pollution ("bad-init spread") remains in ~25 more `docs/` files.
+- **Known consumers:**
+  - `docs/trust/ledger/ledger.css` (~12 occurrences)
+  - `docs/codex/trust-methodology.html` + `docs/codex.html`
+  - `docs/en/*.html` (many — mostly WITH `#hex` fallbacks, so they render on dead tokens)
+  - `docs/samples/{foundation,tree}.html`
+  - `docs/share/styles.css`
+  - `docs/skills/index.js`
+  - `docs/js/page-ia.js`
+  - `docs/meta.html`
+  - `docs/archive/{ADOPTION,SHOWCASE}.html` (archived — likely SKIP)
+- **MIGRATION RULE (same as T16–T18):**
+  - rank-word surfaces → `--rank-4` (#e879f9 fuchsia) / `--rank-5` (#fbbf24 amber) / `--rank-6` (apex gold)
+  - decorative accents → `--rank-4`
+  - evidence-type → `--ev-type-*`
+  - LEAVE legit `--tier-fusion` / `--tier-unique` / `--basic` alone.
+- **PRIORITY:** bare no-fallback `--extra`/`--ultimate` forms render as `inherit` (silent fail — exactly the leaderboard CTA bug) — **fix those FIRST.**
+- **Sources of truth:** META.md (Extra=4★, Ultimate=5★, Apex=6★) + `/badges/` (rank palette).
+- **Full map:** `founder/reports/design-review-2026-07-20/TOKEN-POLLUTION-AUDIT.md`.
+
+### 2. Token spend ledger (Marco tracks ~€70/day for the PR)
+
+**Day-rate basis (Marco's tracking):** PR #1246 opened 2026-07-20, merging 2026-07-25 = ~6 days × ~€70/day ≈ **~€420** total tracked for the PR lifetime. This is the fuller figure for the whole 6-day PR.
+
+**Per-session comment ledger (from PoW comments; logging began 2026-07-24):**
+| Date | Model | Work | In | Out | Est. |
+|---|---|---|---|---|---|
+| 2026-07-24 | Opus 4.8 | DAG reshape Steps 1–5 + corrections | ~700k | ~90k | ~$12 |
+| 2026-07-25 | Opus 4.8 | Step 6 CTA reframe (5 iterations) | ~180k | ~14k | ~$4 |
+| 2026-07-25 | Opus 4.8 (superadmin) | T15 bonus DAG scatter | ~120k | ~15k | ~$3 |
+| 2026-07-25 | Opus 4.8 (superadmin) | T16–T18 audit + 3-bucket migration + infra generator | ~900k | ~110k | ~$16 |
+| 2026-07-25 (PR #1270) | Opus 4.8 (superadmin) | `--ev-type-*` generator block (rebased onto staging) | ~55k | ~11k | ~$4 |
+
+- **SUM (comment ledger): ~$36.5.** NOTE: comment logging only began 2026-07-24, so the day-rate (~€420) is the fuller figure for the whole 6-day PR.
+
+### 3. Checklist final status (T6–T19)
+
+- **T6** — Approved (landed)
+- **T7** — Approved (landed)
+- **T8** — Approved (landed)
+- **T9** — Approved (landed)
+- **T9+** — Approved (landed)
+- **T10** — no-op (orphan CSS, no live emitter)
+- **T11** — Approved (landed)
+- **T12** — Approved (landed)
+- **T13** — Approved (landed)
+- **T14** — Rejected/reverted (no code)
+- **T15** — Approved (landed)
+- **T16** — RESOLVED by commit `0f4d7e27f` (PR-body table still shows PENDING — stale doc-drift, NOT open work)
+- **T17** — RESOLVED by commit `0f4d7e27f` (same stale doc-drift caveat)
+- **T18** — RESOLVED by commit `0f4d7e27f` (same stale doc-drift caveat)
+- **T19** — PENDING / deferred to its own design PR
+
+### 4. The rest
+
+**Commit themes (T6 branch's own work):**
+- Footer/nav reshape
+- T6–T13 plaque/list/flow token work
+- T15 timeline + DAG-edge rank recoloring
+- DAG reshape Steps 1–6: header → "Path"; lens chips Path·Fusion·Suite; hover tooltips; suite/fusion as lenses over one canonical path with synthetic nodes removed; `/fuse` CTA
+- T15-bonus DAG scatter
+- T16–T18 un-pollution; leaderboard fix
+
+**Key ratified design model:** the per-skill Upgrade-Path DAG is the ONE canonical starless prerequisite graph; **Path / Fusion / Suite are FILTERS (lenses), not separate structures.** Basics render as a single apex node.
+
+**Leaderboard bug root cause (verified fixed on preview):** `.lb-cta-link` used bare `var(--tier-extra)` (dead token, no fallback) → color resolved to nothing → link rendered as plain body text. Fixed → `var(--rank-4, #e879f9)`.
+
+**Verification:** preview deployed via `cf-pr-preview.yml` at https://gaia-skill-tree.marco-tngsn.workers.dev/ ; confirmed `--rank-4` defined in live `tokens.css` and `.lb-cta-link` resolves.
+
+**Open caveats:**
+1. Regen staging-only.
+2. #1270 dependency for ev-type resolution.
+3. Stale PR-body table (T16–T18 shown PENDING).
+4. Diff shows 1680 inherited files from the `dev/yggdrasil-ii-staging` base — T6's OWN work is only **15 in-scope files** (`docs/css/*`, `docs/js/*`, `docs/named/index.html`, `founder/reports/design-review-2026-07-20/*`).
+
+### Branches at end of session
+| Branch | Role | Status |
+|---|---|---|
+| `design/ygg2-checklist-fixes-t6` | T6 checklist-fixes work | PR #1246 merge-ready (CLEAN/MERGEABLE, CI green) |
+| `dev/yggdrasil-ii-staging` | EPIC integration branch | Merge target for #1246 |
+| `infra/ev-type-tokens-staging` | `--ev-type-*` generator block | PR #1270 (targets `dev/yggdrasil-ii-staging`, generator-only) |
+
+## State Snapshot (2026-07-24, session — CLI branch fully integrated into `dev/yggdrasil-ii-staging`; DoD #2 follow-up cleanup landed)
+
+### TLDR
+- **Located the handover.** The CLI follow-up work wasn't in PR #1248's own comments — it was the "Handover — DoD #2 follow-up (legacy type literals in `cli/` scope)" comment on umbrella **#1225** (2026-07-23T16:06:58Z), flagging leftover `type: "extra"` literals in `localContext.py`/`push.py`/`impl.py` and two now-dead `--ultimate` flags.
+- **Marco ratified 3 decisions:** `gaia propose --ultimate` removed entirely (propose now works uniformly on basic/fusion, no type gate); `gaia install --ultimate` removed entirely (`--suite` is the sole batch flag); the `extra`→`fusion` literal rekeys approved as straight sweeps.
+- **Cleanup PR #1263** (`cli/ygg2-legacy-type-literal-cleanup` → `cli/yggdrasil-ii-meta-schema-alignment`) — Opus subagent made the mechanical edits, reviewed diff matched exactly what was approved, merged (`ce9ee4430`).
+- **Synced staging into CLI branch** (`2e201a29b`) — resolved the one known conflict flagged in the prior `ygg2-batch23-HANDOFF.md`: `graph.py`'s `window.GAIA_VERSION` stamp (PR #1259 vs infra guard #1260). Kept #1259's canonical `_graph_version` form per that handover's explicit instruction.
+- **PR #1248 merged into `dev/yggdrasil-ii-staging`** (`3eb8b0b49`) — the entire CLI Yggdrasil II alignment branch (Batches 0–3 + this cleanup) is now fully integrated into staging. **NOT merged to `main`** — staying put per EPIC #1002 protocol until sprint closure, as instructed.
+- **Filed #1264** for the remaining `share.py:38` `_TYPE_SYMBOL` map (still keyed on `extra`/`ultimate`/`unique`) — deliberately deferred, natural touchpoint for the upcoming `gaia share` work rather than a standalone swap.
+- No `gaia dev docs` regeneration was run at any point this session (explicit instruction — Marco will batch-regenerate separately). No CI-green requirement applied to any of the above.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| Legacy `extra`→`fusion` literal rekeys | ✅ `localContext.py`, `push.py`, `impl.py`, `tests/test_push.py` fixture |
+| `gaia propose --ultimate` | ✅ Removed (dead gate — already matched zero skills post-Yggdrasil-II) |
+| `gaia install --ultimate` | ✅ Removed (dead alias for `--suite`) |
+| CLI branch ↔ staging sync | ✅ `graph.py` GAIA_VERSION conflict resolved, kept `_graph_version` form |
+| CLI branch → staging merge | ✅ PR #1248 merged (`3eb8b0b49`) |
+| `share.py:38` `_TYPE_SYMBOL` | ⏳ Deferred — issue #1264 filed, tied to future `gaia share` work |
+| Staging → `main` | ❌ Explicitly NOT done — holds until EPIC #1002 sprint closure |
+| `gaia dev docs` regeneration | ❌ Explicitly NOT run — Marco doing this as a separate batch |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `dev/yggdrasil-ii-staging` | `3eb8b0b49` | CLI branch now fully merged in; local checkout fast-forwarded to match |
+| `cli/yggdrasil-ii-meta-schema-alignment` | `2e201a29b` | Merged into staging via #1248; scratch sync/cleanup branches deleted post-merge |
+| `main` | v6.8.16 (unchanged) | Untouched — EPIC #1002 still holds the staging→main merge for sprint closure |
+
+### Issues + PRs touched
+| # | Title | State |
+|---|---|---|
+| #1263 | cli: rekey legacy extra->fusion literals; prune --ultimate flags | Merged → `ce9ee4430` |
+| #1248 | cli: align CLI codebase to Yggdrasil II meta schema | Merged → `3eb8b0b49` (into staging) |
+| #1264 | cli(share.py): `_TYPE_SYMBOL` keyed on retired extra/ultimate/unique type literals | Open (new, filed this session) |
+| #1225 (umbrella) | CLI Alignment to Yggdrasil II Meta Schema | Comment added confirming DoD #2 follow-up landed |
+| #1002 (EPIC) | Yggdrasil II | Proof-of-work + token-spend comment added; **kept open, not closed** |
+
+### Routing — where things live now
+- The DoD #2 follow-up trail: #1225 comment (2026-07-23T16:06:58Z) → PR #1263 (fix) → this snapshot (closure record) → #1264 (the one deliberately-deferred remainder).
+- `founder/handovers/ygg2-batch23-HANDOFF.md` and `ygg2-batch0-no-self-promote-HANDOFF.md` remain the authoritative blast-map references for anyone touching this area next; both are now fully executed.
+- Next real gate is the EPIC #1002 sprint closure: `dev/yggdrasil-ii-staging` → `main`, which per the EPIC body must regenerate the 17 Class-S generated-file conflicts (not hand-merge) and is explicitly Marco's to run as a batch, not this session's.
+
+### Lessons / hazards preserved
+- **`graph.py`'s `GAIA_VERSION` conflict is a recurring merge hazard** between any branch touching the dynamic-version-stamp fix and staging — always keep the `_graph_version` precomputed-var form (from PR #1259), not the inline `escape(str(graph.get('version') or ''))` form (from #1260). Same one-line conflict will likely resurface if more branches touch `graph.py` before the EPIC closes.
+- **Two `--ultimate` flags existed with different meanings** — `gaia install --ultimate` was a harmless dead alias for `--suite` (no type-check involvement), while `gaia propose --ultimate` was an actually-broken type gate that permanently rejected itself post-Yggdrasil-II. Don't conflate the two when auditing "ultimate" references — the fix path differed for each.
+- **impl.py carries a fully dead duplicate argparse parser** (`get_parser()` around L3300–3440) that isn't wired into `main.py` (which uses `discover_commands()` from `commands/` instead). Any CLI flag audit must grep both the live `commands/*.py` wiring AND this dead duplicate, or a rename will look "done" while the dead copy still lies around.
+
+### Open questions for next orchestrator
+- The two founder decisions flagged in the original batch23 handover (`evidenceFloors` schema drop, dead `select_promotion_candidate`) — evidenceFloors appears resolved via PR #1257 per the #1225 comment trail; `select_promotion_candidate` cleanup status wasn't re-verified this session.
+- DoD #6 (full `pytest tests/` green on the integration branch) is still held/undiagnosed from the prior handover — 15 failed/147 errors, suspected gitignored Class-P data (`registry/gaia.json`) missing in a fresh checkout rather than real regressions. Not diagnosed this session either; still needs doing before the EPIC main merge.
+- Staging→main merge itself (17 Class-S conflicts) is explicitly **not this session's job** — EPIC #1002 stays open, Marco runs that merge as its own batch.
+
+### Token cost (this session)
+2026-07-24 · Opus 4.8 (orchestrator: review, merge sequencing, conflict resolution, issue filing): ~35k in, ~9k out
+2026-07-24 · Opus 4.8 (implementation subagent, cleanup edits): ~65k in, ~5k out
+~$3 est.
+
+---
+
+## State Snapshot (2026-07-20, session 3 — 8 target suites recalibrated to 4★; PR 1242 updated; localhost:8092 opened)
+
+### TLDR
+- **8 target suites successfully recalibrated back to 4★.** Reverted Yggdrasil II suite demotions in `.md` files for `firecrawl-skills`, `agentdb`, `dual-mode`, `engineering`, `ruflo-v3`, `productivity`, `reasoningbank`, and `garrytan`.
+- **Firecrawl bucket origin corrected.** Set `origin: true` on `firecrawl-skills.md` as the sole implementation of `firecrawl` bucket.
+- **Rerun migration script.** Corrected migration script execution successfully ran (`python3 scripts/migrate_taxonomy_v6.py --apply`); all 8 target suites passed their gates because their TMs now correctly include component fusions.
+- **User trees aligned.** Aligned timelines and levels in user trees using `python3 scripts/trace_timeline.py --all --apply`.
+- **Class S assets rebuilt & validated.** Rebuilt registry/documentation site (`gaia dev build`) and verified integrity (`gaia dev validate`).
+- **Pushed to PR 1242.** All changes committed and pushed to the current branch `design/ygg2-checklist-fixes`.
+- **Deferred:** Grouping/origin overlap of `gsd-build/get-shit-done` and `addy-osmani/agent-skills` sharing `git-ship-done-pipeline` is deferred since the gates correctly handle it.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| Reverted 9 suites in md files | ✅ Reverted level/timelines to 4★ |
+| Corrected firecrawl origin | ✅ set `origin: true` |
+| Rerun v6 migration | ✅ 8 suites passed gates and stayed 4★; gsd-build/get-shit-done remained 3★ |
+| User trees backfill | ✅ Aligned timelines in user-trees JSON |
+| dev build & validate | ✅ Graph stats and redactions regenerated/validated |
+| Git push to PR 1242 | ✅ `design/ygg2-checklist-fixes` updated |
+| serve dev server | ✅ localhost:8092 opened |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `design/ygg2-checklist-fixes` (PR 1242) | `51cfb478a` | Pushed (updated PR 1242) |
+| `dev/yggdrasil-ii-staging` | — | Integration branch |
+
+### PRs touched
+| PR | Title | State |
+|---|---|---|
+| #1242 | fix(design): Yggdrasil II CHECKLIST — ship-blockers + easy-wins + overhauls | Open (Draft) |
+
+### Routing — where things live now
+- **Recalibrated 4★ suites** are fully updated in `registry/named/`, `docs/graph/named/index.json`, `docs/graph/gaia.json`, and all user trees.
+- **HTTP Server** runs locally on port 8092.
+
+### Lessons / hazards preserved
+- **Migration scripts need merged maps:** `computeTrustMagnitude` ignores the third argument; to resolve named suite components within `_gradedOriginCount`, the caller must pass a merged generic/named map as the second argument (`genericSkillMap`). Passing them separately leads to zeroed fusion-recipe scores and incorrect suite demotions.
+- **Exclusive bucket implementations must have `origin: true`:** When a named skill is the sole implementation of a generic capability bucket, it must hold origin status to satisfy Yggdrasil II's 4★ gate.
+
+### Token cost (this session)
+~$7.32 · Gemini 3.5 Flash (medium/high effort)
+
+---
+
+## State Snapshot (2026-07-20, session 2 — Bucket-1 recovery complete; all 5 fixes merged to staging via PR #1241; /design-iteration skill created)
+
+### TLDR
+- **Bucket-1 recovery fully landed.** All 5 remaining fixes from `founder/reports/design-review-2026-07-20/INSIGHTS.md` applied one-by-one on `design/ygg2-bucket1-recovery`, each approved by Marco before commit, then merged → `dev/yggdrasil-ii-staging` via PR #1241.
+- **Fix 3** (badge CLAIM_RANK pin) shipped with a full rank-table overhaul: Ygg II suite/unique split at 4★–6★, TM gates replacing deprecated Class A/B, design-token–aligned colors, `--glow-V`/`--glow-VI` text-shadow for Unique Ultimate / Apex prestige reads. No hex, no gradient text (DESIGN.md guardrails respected).
+- **Fix 4** (reports prev-week guard) crossed `design/` branch-scope into `scripts/` — shipped with `[skip-scope-check]` on the commit per Marco's instruction.
+- **Fix 5** (live.js sweep) removed 3-line dev-reload block from 48 HTML files in one clean `sed` pass.
+- **Bucket-2 items deliberately not touched** — `93a187916`/`ecd4f7186`/`c0def6d62`/`3555c40da`/`332736ab0`/`04d6114d6` all already fixed in #1235; re-applying would silently regress §8 order.
+- **`/design-iteration` skill created** — generalises the approve/reject-per-fix methodology used this session; mirrors to both `.claude/skills/` and `.agents/skills/`.
+- **Token spend ~$5, Sonnet.**
+
+### What changed this session
+| Layer | State |
+|---|---|
+| Fix 1 — DAG dot color by rank (prior session) | ✅ `63f85e9de` |
+| Fix 1b — Skill flowchart DAG (prior session) | ✅ `69cde46ce` |
+| Fix 2 — Contributor-card header (prior session) | ✅ `0a24ff5c7` |
+| Fix 3 — Badge CLAIM_RANK pin + rank table Ygg II overhaul | ✅ `cf656149b` |
+| Fix 4 — Reports prev-week guard (docs + scripts) | ✅ `4ac8a3939` |
+| Fix 5 — live.js sweep (48 files) | ✅ `6eb198aa2` |
+| PR #1241 merged → dev/yggdrasil-ii-staging | ✅ 2026-07-20T08:24:31Z |
+| /design-iteration skill written | ✅ `.claude/skills/design-iteration/` + `.agents/skills/design-iteration/` |
+| MEMORY.md snapshot (this entry) | ✅ |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `design/ygg2-bucket1-recovery` | `6eb198aa2` | MERGED → staging via PR #1241 |
+| `dev/yggdrasil-ii-staging` (#1185 → main) | updated | OPEN DRAFT — Bucket-1 now folded in |
+
+### PRs touched
+| PR | Title | State |
+|---|---|---|
+| #1241 | fix(design): Bucket 1 recovery — Fix 3/4/5 | MERGED |
+
+### Routing — where things live now
+- **All Bucket-1 fixes** now on `dev/yggdrasil-ii-staging`; nothing from INSIGHTS.md Bucket-1 is still missing.
+- **Next design pass** should target the CHECKLIST.md items (SB1–SB3, P-series easy-wins) using the `/design-iteration` skill — same approve/reject gate per fix.
+- **Bucket-2 / Bucket-3** from INSIGHTS.md: do not touch; record remains in `founder/reports/design-review-2026-07-20/INSIGHTS.md`.
+
+### Lessons / hazards preserved
+- **`--glow-V`/`--glow-VI` are defined in `styles.css`, not `tokens.css`** — grep `styles.css` when looking for glow/shimmer tokens, not just `tokens.css`.
+- **`background-clip:text` gradient text is banned by DESIGN.md** (§ Hero titles: "No gradient text"). Use `text-shadow` + token color instead for prestige rank labels.
+- **`sed -i` range delete `/start/,/end/d`** is the right tool for sweeping 3-line blocks across 48 files; verify with `git grep -l` count = 0 after.
+- **`skip-scope-check` in commit message body** (not just PR label) is the correct way to declare scope bypass intent per CLAUDE.md.
+
+### Token cost (this session)
+~$5 total · Sonnet (claude-sonnet-latest) · design agent only, no subagents
+
+---
+
+## State Snapshot (2026-07-20, session — CORRECTION: design-polish layer did NOT land on staging via #1235; two-scout reconciliation → 8 recoverable fixes; #1240 recovers them + INSIGHTS map)
+
+### TLDR
+- **Correction to the 2026-07-19 snapshot below (and the #1227 close-comment):** the claim that "the deferred design items landed on the #1235 stack" was **inaccurate**. Only the plaque *structure* (`_fieldAvatar`/`_fieldHandleRow`) landed with the oracle cut. The plaque **rebalance**, D6/D8 detail order, D3/D18 gold-★ graph mark, DAG-dot color, and contributor-card grouping did **NOT** fold into #1235 → staging. They lived on `design/ygg2-deferred-polish` + the closed #1227 `fixforward-superadmin` + `rem-badges` — branches never on the #1235→staging path.
+- **Second false claim corrected:** the 2026-07-19 snapshot said the gold-★ graph hand-port landed. It did NOT — staging `ac634b9d9` still rendered the deprecated `ORIGIN_PATHS` laurel in `skill-graph.js`. Verified by scout.
+- **Root cause:** this session merged only the #1235 *oracle* stack to staging; the *design-polish* layer was a parallel branch set that was assumed-folded but wasn't. Marco noticed the plaque rebalance missing on staging → triggered the INSIGHTS investigation.
+- **Two read-only scout passes (2026-07-20)** produced a ground-truth cherry-pick map (committed to `founder/reports/design-review-2026-07-20/INSIGHTS.md`, `d247bdb1c`): **8 SAFE-to-recover** (genuinely missing), **6 DO-NOT-reapply** (already fixed differently in #1235 — two would SILENTLY regress the §8 sampler order `a25b7b026` + supersede the named-grid approach `101d2cf42` with no conflict marker), **1 REDUNDANT** (`rem-badges`).
+- **#1240** (`dev/design-review-staging-8515fa` → staging) **recovers the Bucket-1 design fixes** (D6/D8 plaque order, gold-★ mark, detail typography, plaque rebalance JS wiring, D8 stamp-tint suppression) ported onto staging's current code shape — plus the reconciliation docs. Verified: does NOT touch the Bucket-2 traps.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| #1227 close-comment corrected (design items did NOT all land on #1235) | ✅ posted |
+| INSIGHTS.md rewritten — speculative "merge deferred-polish" → verified 3-bucket cherry-pick map | ✅ `d247bdb1c` |
+| MEMORY.md 2026-07-19 snapshot corrected (this entry) | ✅ |
+| #1240 recovers Bucket-1 design fixes + docs, merged → staging | ⏳ merging this turn |
+
+### Branches / PRs at end of session
+| Branch / PR | Head SHA | Status |
+|---|---|---|
+| dev/design-review-staging-8515fa (#1240) | d247bdb1c | Recovered design fixes + INSIGHTS/CHECKLIST/scouts → staging. Merging this turn. |
+| dev/yggdrasil-ii-staging (#1185 head) | ac634b9d9 | OPEN DRAFT → main. |
+| design/ygg2-deferred-polish | 93a187916 | SHA source for Bucket-1 ports; delete after recovery confirmed. |
+| design/ygg2-fixforward-superadmin (#1227) | — | CLOSED. Bucket-1 items (gold-★, D15, live.js, D6) recovered via #1240. |
+| design/ygg2-rem-badges | 1006e5d75 | REDUNDANT — close without merging. |
+
+### Routing — where things live now
+- **Cherry-pick map for next design pass:** `founder/reports/design-review-2026-07-20/INSIGHTS.md` — the canonical, evidence-verified record. Supersedes the prior speculative version.
+- **Bucket-1 (SAFE, missing):** D6/D8 plaque order (`6ed132955`/`e31f58077`), D3/D18 gold-★ (`4801e0c13`), DAG dot color (`8aa300702`), contributor-card header (`e15c7bfae`), badge claim-pin (`18c0dc1a1`), plaque rebalance JS+typography (`f55282253`), D15 prev-week guard (`55a62ac13`), live.js sweep (`a9f4e3124`).
+- **Bucket-2 (DO NOT reapply):** `93a187916` (sampler — would revert §8), `ecd4f7186` (named-grid — superseded by `101d2cf42`), `c0def6d62`/`3555c40da` (client branch derivation — deleted by founder ruling; staging reads emitted branch), `332736ab0`/`04d6114d6` (already present).
+
+### Lessons / hazards preserved
+- **"Assumed-folded" is the failure mode.** A parallel branch set (design-polish) was believed merged because a *related* structural change (plaque scaffolding) landed with the oracle cut. Verify content-presence by SHA-reachability + file:line, NOT by "a similar commit landed." SHA-absence ≠ content-absence, but a related-commit-landed ≠ this-commit-landed either.
+- **`git merge-tree` clean ≠ safe** when branches were cut before divergent fixes. A stale-based branch can show ZERO conflict markers while silently reverting a newer fix (e.g. `93a187916` flips the §8 sampler order back with no marker). Always diff intent against the current tip, don't trust a clean auto-merge.
+- **Record-hygiene:** two false claims (one in a GitHub close-comment, one in a MEMORY snapshot) both traced to the same assumed-fold. When closing a PR as "superseded," verify the superseding content actually exists on the target branch before writing the close-comment.
+
+### Open questions for next orchestrator / deferred
+- **Next design pass:** branch off staging tip, recover any Bucket-1 items #1240 did NOT include (verify #1240's exact coverage — it carries the plaque + gold-★ cluster; DAG-dot color, contributor-card header, badge claim-pin, D15 guard, live.js sweep may still be outstanding). Skip Bucket-2 explicitly.
+- **Close `design/ygg2-rem-badges`** as superseded; delete `design/ygg2-deferred-polish` once ports confirmed.
+- Prior deferred (still open): CLI design-token sweep, docs archival, epic #1185 finish (agent skills + rebase from main), 11 stale worktrees.
+
+### Token cost (this session)
+2026-07-20 Opus (orchestrator inline) + 2 read-only scouts:
+- Scout A (deferred-polish content vs staging): ~69k
+- Scout B (fixforward + badges vs staging): ~83k
+- Orchestrator inline (INSIGHTS rewrite, #1227 comment, this snapshot, #1240 merge): ~90k (est.)
+- **Session total: ~242k in/out. ~$12 (est.)**
+
+---
+
+## State Snapshot (2026-07-19, session — #1235 MERGED to staging; origin-gate §4.1 fix + 4 skills restored; Item 9 token migration; #1227 closed; #1185 draft ready)
+
+### TLDR
+- **#1235 is MERGED to `dev/yggdrasil-ii-staging`** (`ac634b9d9`, `--merge` no-squash). Carries the full Ygg II oracle cut (P3a+P3b, 853 files) PLUS this session's Sprint-Completeness fold-ins. **#1185 (staging→main) remains an OPEN DRAFT** — exactly the target end-state, teed up for the next design/CLI/docs PRs.
+- **Key topology fact:** `dev/yggdrasil-ii-staging` is BOTH #1235's base AND #1185's head. Merging #1235 into staging IS the "#1235 → #1185" step — there is no separate merge. Landing on staging advances #1185 directly.
+- **Origin-gate spec fix (META wins over Ratification Q3):** 4★ Unique origin = **bucket-level** (META §4.1, one Origin per generic bucket), NOT fusion-structure prereqs. Prereq/fusion-structure origin applies only at **5★+**. The v3 Q3 reading was a doc-time conflation; corrected in `promotion.py checkUniqueBranchGate` (forks by rank) + Ratification doc v4 amendment.
+- **4 skills wrongly demoted by the old gate, all restored to 4★ via CLI** (`gaia dev calibrate`, timeline-logged, no hand-edits): obra/using-git-worktrees, obra/writing-plans, safishamsi/graphify, stanfordnlp/dspy.
+- **Item 9 correctly rescoped:** the handover's "migrate ~40 apex-gold" premise was WRONG — `--apex-gold` is a LIVE brand-voice token per DESIGN.md, not legacy. Only 13 dead `--tier-ultimate*` refs migrated → `--tier-fusion*` (zero pixel change). `--apex-gold` left for a later collective visual pass.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| #7 timeline emits rank (rankWord/level) not branch word — payload+consumer lockstep | ✅ `63ed6abd4` |
+| /u/ Python plaque mirror (avatar+handle / medallion+slug grouping) | ✅ `dbfe5be42` |
+| 4★ Unique origin gate → bucket-level §4.1 (7 gate tests pass) | ✅ `88e45d402` |
+| Restore obra×2 3★→4★ (CLI calibrate) | ✅ `8ea5b64c4` |
+| Source real blob URLs + restore graphify (`blob/v8`) + dspy (`blob/main`, installable:true) | ✅ `796158a13` |
+| Item 9: 13 `--tier-ultimate*` → `--tier-fusion*` (zero pixel change) | ✅ `a72777baa` |
+| Merge origin-gate-restore into #1235 | ✅ `6cae4536d` |
+| #1235 PR body broadened-scope addendum (E–I) + proof-of-work + token spend comment | ✅ |
+| **#1235 merged → staging** | ✅ `ac634b9d9` |
+| #1227 (D1–D18 design fix-forward) closed as superseded | ✅ CLOSED |
+
+### Branches / PRs at end of session
+| Branch / PR | Head SHA | Status |
+|---|---|---|
+| dev/yggdrasil-ii-staging (#1185 head) | ac634b9d9 | OPEN DRAFT → main. Carries all Ygg II work + 4 restorations. |
+| dev/ygg2-consume-frontend (#1235) | 6cae4536d | **MERGED** into staging via ac634b9d9. |
+| review/meta/ygg2-origin-gate-restore | 796158a13 | Folded into #1235; can be deleted. |
+| #1227 | — | CLOSED (superseded by #1235 oracle-shape re-cut). |
+
+### Routing — where things live now
+- **Origin definition:** META §4.1 (bucket-level) is authoritative for 4★; Ratification Q3 (fusion-structure) applies 5★+ only. Amendment in `founder/handovers/YGGDRASIL_II_RATIFICATION_2026-07-07.md` v4 (2026-07-19).
+- **Gate logic:** `src/gaia_cli/promotion.py` `checkUniqueBranchGate` forks by rank — 4★ → `_holds_bucket_origin` (reads stored `origin` flag gated on `genericSkillRef`); 5★+ → unchanged fusion-structure `_contributor_holds_origin_in`.
+- **`gaia dev docs` = `scripts/build_docs.py`** — can run the script directly (`PYTHONUTF8=1 PYTHONPATH=src python scripts/build_docs.py`) to bypass the wonky CLI in this Windows env.
+- **Brand tokens (DESIGN.md is authoritative, NOT grep):** `--apex-gold` (#fbbf24) = live carry-everything brand-voice token, NOT legacy. `--tier-ultimate` = legacy alias, undefined in generated tokens.css, successor is `--tier-fusion` (#f59e0b).
+
+### Lessons / hazards preserved
+- **A commit message that overclaims is a lie in the audit log** — the first restore commit (`8ea5b64c4`) named all 4 skills but only 2 landed (graphify+dspy blocked by Star Bar gate needing a verified `blob/` URL). Always name only what actually landed. The sourcing agent correctly named only the 2 it fixed.
+- **Star Bar gate is a correct guardrail:** `gaia dev calibrate` to 4★ requires a verified `blob/branch/subpath` `links.github`. graphify's bare repo root + dspy's missing link legitimately blocked calibrate until real files were sourced (`gh api`-verified). Never fabricate a blob URL to force a pass.
+- **`gaia dev calibrate` does NOT sync the owner's user tree** — leaves `skill-trees/<owner>/skill-tree.json` at old level, fails the Transparency Gate. Fix: `scripts/trace_timeline.py --apply` after calibrate.
+- **DESIGN.md over grep for token semantics** — a grep-based "51 legacy tokens" premise conflated a live brand token (`--apex-gold`) with a real legacy alias (`--tier-ultimate`). Read the design spec before mechanical token sweeps. (Marco caught this before it shipped.)
+- **Regen-after-merge on a branch that already regenerated = pure churn.** When both merged branches ran `build_docs.py`, a fresh regen produced only badge/OG/okf/trending/README noise (badges are infra-only, never committed here). The merged tip was already Class-S consistent → reverted the entire regen.
+
+### Open questions for next orchestrator / deferred (Marco's stated follow-ups — NOT started)
+- **Another design sweep** (`/impeccable critique`) — incl. the collective `--apex-gold` visual pass Marco deferred.
+- **CLI design-token sweep.**
+- **Docs archival & cleaning.**
+- **Epic #1185 finish:** agent skills update, rebase from main, conflict management (the THIRD milestone).
+- **Housekeeping:** 11 stale worktrees on disk (`.claude/worktrees/agent-*`) — safe to clean now #1235 merged.
+
+### Token cost (this session)
+2026-07-19 Opus 4.8 (orchestrator inline, superadmin) + delegated agents:
+- Restore-via-CLI agent (obra×2): ~106k in/out
+- Source-blob-URLs agent (graphify+dspy): ~84k in/out
+- Orchestrator inline (Item 9 edits, verification, merge, PR body, this snapshot): ~120k in/out (est.)
+- **Session total: ~310k in/out. ~$16 (est.)** — spend overwhelmingly orchestrator-inline (superadmin mode) + 2 short worktree agents.
+
+---
+
+## State Snapshot (2026-07-18, session — Ygg II oracle HEALED to per-branch delete-gate; P3a/P3b landed; §7 stamp bug fixed; stack relinked; design work verified safe)
+
+### TLDR
+- **Reviewed + fixed the 4-PR Ygg II stack against the authority doc.** Oracle divergence healed, functional fixes (P3a tree generators, P3b Hall/banned-words/rewires) landed on their stack branches, §7 stamp bug fixed, stack relinked to linear. All 4 PRs coherent + correctly chained. Two reds remain — both categorized, both deferred to a dedicated close-out (Marco's call).
+- **Canonical model reconfirmed:** Branch = **MEMBERSHIP, type-blind** (Ygg II). `suiteComponents` present → suite (any rank); else rank≥4 → unique; else standard. `type` NEVER a resolution input — it's the Ygg I read, folded into `taxonomy.py::normalize()`. superpowers/skill-mastery = Suite. `suiteComponents` Named-Skill-only, never on the starless node.
+- **Oracle is INTENTIONALLY per-branch** (Marco ruling: "drop Python xfail on consume-ssr+, honor the flip"). Each branch's delete-gate reflects its REAL resolver-deletion state — this is the doc §3 handshake working, not drift.
+
+### The per-branch oracle cascade (all pushed, all behaving)
+| Branch | PR | Tip SHA | Oracle state | Local pytest |
+|---|---|---|---|---|
+| dev/ygg2-taxonomy-authority | #1232 | 488f00c36 | Python + JS both strict-xfail (legacy alive, no delegation) | (keystone) |
+| dev/ygg2-emit-resolved | #1233 | 6055cee96 | both strict-xfail + Phase-2 index tests | 7 passed, 2 xfailed |
+| dev/ygg2-consume-ssr | #1234 | 2009fc1e1 | Python leg FLIPPED to passing (trustMagnitude.computeBranch delegates to taxonomy.branchFor — collapsed), JS strict-xfail | 8 passed, 1 xfailed |
+| dev/ygg2-consume-frontend | #1235 | 9596813cc | Python gate SATISFIED (resolver DELETED → skip), JS gate open strict-xfail, §7 stamp-honor fix | 6 passed, 1 skipped, 1 xfailed |
+
+- Flip point verified: `trustMagnitude.computeBranch` delegates to canonical from **consume-ssr** onward; **deleted** entirely on consume-frontend; standalone divergent on keystone/emit-resolved.
+- §7 fix: `synthesisBranch` honors a stamped `branch` on bare generic nodes (79 stamped on consume-frontend gaia.json) instead of recomputing — resolved a real hard-fail. JS harness (`tests/harness/js_branch_dump.js`) restored on consume-frontend.
+
+### Functional fixes landed
+- **P3a** (tree generators): merged into consume-ssr. `generateProjections.py` + `_tree_renderer.py` repointed to emitted branch; zero dead `type=='ultimate'/'unique'/'extra'`; tree.md un-collapsed (6 suite ◆ + 6 unique ◉).
+- **P3b** (frontend): merged into consume-frontend. Hall top-8 cap removed (§8), banned Hardened/Transcendent stripped from badges, consumers rewired, grep guard un-gamed. My reconciled authority doc (commit 193788600) stayed intact — P3b never touched it (the apparent "revert" was a merge-base diff artifact).
+
+### Design work SALVAGE — VERIFIED SAFE, no action needed
+Scout confirmed all three valuable targets live on **consume-frontend** (stack head) and will flow to staging via the normal EPIC merge — do NOT cherry-pick into staging (would duplicate + conflict; violates merge-not-cherry-pick rule):
+- Skill-graph design tokens (`--tier-unique-5/-6`, copper #b26a3a→#e0894a): commit 772e6c716.
+- Unique badges Amethyst→Ember (`unique_hex()`, 6★ inversion): commits 8577dafb3 + 46193e20b.
+- Unique-cluster positioning (under branches: OUTSIDE_X_SPREAD=0.30, Z_RATIO=0.14, CANOPY_DROP=0.08): commit 658d9f7c3.
+
+### Two remaining reds (categorized — deferred to close-out)
+1. **world-tree-layout.test.js (`'root' !== 'outside'`)** — NOT drift. `resolveSemantics` in world-tree-layout.js still falls back to `type==='unique'` → uniques resolve to hemisphere 'root' not 'outside'. This IS the JS-resolver divergence the JS strict-xfail gates. Fix = the JS consume-phase deliverable (repoint resolveSemantics fully to emitted branch, drop the type fallback → JS gate flips green → §3 handshake forces marker removal).
+2. **JSON-LD stale (49 `docs/u/*/index.html`)** — pure regen drift. Mechanical `injectJsonLd.py` / `gaia dev docs` regen + commit Class S. No code fix.
+
+### Issues + PRs
+- EPIC #1002 (integration PR #1185 → main; DIRTY, not touched this session — close-out territory).
+- Stack PRs #1232/#1233/#1234/#1235 all OPEN, correctly chained, UNSTABLE (the two reds above).
+
+### Lessons / hazards preserved
+- **Worktree isolation can FAIL to isolate** (Discipline E): a worker's `git checkout -b` switched the MAIN checkout's branch. Recovered via reflog. Rule adopted: orchestrator uses `git -C <path>` / `git show <ref>:` — never `cd` into worktrees. This session used `git -C` for all worktree ops cleanly.
+- **Per-branch oracle is correct, not a smell.** The delete-gate is SUPPOSED to differ per branch as resolvers get deleted — strict-xfail XPASS(strict) hard-failing is the handshake FORCING marker removal. Don't "fix" it to be uniform.
+- **Categorize reds before deferring** (Discipline A/B): initially mis-called the world-tree red "inherited drift" — the actual failure log showed it's the JS-resolver deliverable. Always read the failure, don't infer from the check name.
+- **Compacted summaries go stale on SHAs** — ground-truth every branch tip before acting (keystone was at f4ce012d2, not the summary's dc5696266).
+
+### Quick handoff for next session
+Picking up: **the Ygg II close-out** (two reds). (1) JS resolver collapse — dispatch a worker to repoint `docs/js/world-tree-layout.js::resolveSemantics` (+ any remaining JS derivers per doc §3 rewire list) fully to emitted branch, delete the `type==='unique'` fallback and `skill-semantics.js::computeBranch`; when JS parity becomes real the JS strict-xfail flips → remove the marker (handshake). (2) JSON-LD regen — run `gaia dev docs` / `injectJsonLd.py`, commit the 49 Class-S profile pages. Then Phase 4: full regen, green staging, mark PR #1185 ready, MERGE (never squash) → main. Hard dependency: the design work (tokens/badges/positioning) rides consume-frontend up via merge — do NOT cherry-pick it into staging.
+
+### Token cost (this session)
+- (logged on EPIC #1002 proof-of-work comment)
+
+## State Snapshot (2026-07-18, session — Unique-cluster placement iterations: right-satellite → front → under-the-branches; PR #1235 updated on remote)
+
+### TLDR
+- **Visual-only follow-up to the origin fix.** Two bounded layout passes on the 6 Unique nodes in the world-tree 3D graph, per Marco's live direction. NO taxonomy/membership/build/data touched — count held at **6 Unique** throughout; served `gaia.json` still 6 unique / 15 suite / 58 standard. Pure coordinate changes in `docs/js/world-tree-layout.js`.
+- **Pass 1** (`6ccb8de11`): moved uniques from the far-right "standing stones" **satellite** to the **front** of the tree. Removed `OUTSIDE_X_RATIO=0.86` right-push; added front-row spread + forward `OUTSIDE_Z_RATIO=0.72` (z≈737). Marco: "too far positionally."
+- **Pass 2** (`658d9f7c3`): reseated them **under the branches** — tucked beneath the crown/bough canopy, part of the silhouette. `OUTSIDE_Z_RATIO` 0.72→**0.14** (z pulled back to ≈245–294, near tree-body mean z≈24); new `OUTSIDE_CANOPY_DROP=0.08` seats the row just below the lowest bough (Y≈92–101, above collar/roots). Marco: "all good."
+- **Both passes Playwright-verified** (localhost:8080, fullscreen via `#hudToggleBtn`, screenshot). Count line unchanged; `node --check` PASS on both JS files each pass.
+
+### Why "outside/under" is correct grammar (not a bug)
+- Unique = the elite branch that ascended alone (no suite, 4★+). The world-tree layout seats **standard** inside as trunk/branches/seeds; **unique** renders as a distinct group. Placement moved from right-satellite → under-canopy per Marco's aesthetic call. This is a DESIGN decision, orthogonal to the ratified ORIGIN taxonomy — do not confuse a placement tweak with a membership change.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| `docs/js/world-tree-layout.js` — `buildArmature()` outside anchors | ✅ Pass 1: front (x centred on spine, z fwd 0.72). Pass 2: under-canopy (z 0.14, `OUTSIDE_CANOPY_DROP` seats Y just below lowest bough via `lowestBoughProgress = 1/(BOUGH_COUNT+1)`) |
+| `docs/js/skill-graph.js` | ✅ UNCHANGED — its `satellite.unique` block (L420-458) is the LEGACY spherical fallback only (fires when `state.treeLayout` absent); live path is world-tree-layout.js |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| dev/ygg2-consume-frontend | 658d9f7c3 | Pushed; **PR #1235** (still draft → dev/ygg2-consume-ssr). Since prior snapshot: `6ccb8de11` (front) + `658d9f7c3` (under branches) |
+
+### Lessons / hazards preserved
+- **The live world-tree unique placement is `buildArmature()` outsideAnchors in `world-tree-layout.js`, NOT the `satellite.unique` block in `skill-graph.js`** (that's the legacy spherical fallback, gated on `state.treeLayout` absent). Edit the armature for any real placement change.
+- **Outside hemisphere adds a fixed radial reach** `OUTSIDE_BOUGH_REACH ≈0.22·width` outward from the spine — with the row near in-plane, that reach points mostly +z, so uniques stay the frontmost band *within* the body. To push them deeper into the trunk, lower `OUTSIDE_BOUGH_REACH` for the outside hemisphere (one-line follow-up, not done — out of scope).
+- **Placement ≠ taxonomy.** Every one of these passes kept `branch === 'unique'` (`sem.hemisphere === 'outside'`) and the emitted-first read intact. A visual reseat must never reach into membership resolution.
+
+### Open questions for next orchestrator
+- Unique anchors: **5 outside anchors for 6 uniques** → two share an anchor (pre-existing). Bump `OUTSIDE_ANCHOR_COUNT` 5→6 if each unique should get its own stem (not done — Marco didn't ask).
+- Everything from the prior snapshot still stands: ~48 uncommitted `skill-trees/*.md` (not ours — Marco's call to commit/discard), PR #1235 draft (mark ready or hold for PR4), page-ia.js/badges un-migrated reads, PR3c #1227, PR4 #1000, provisional `--tier-unique-5/-6` hexes.
+
+### Token cost (this session, cumulative addendum)
+- 2026-07-18 Opus 4.8 (orchestrator inline): ~+15k in, ~6k out · ~$1.5
+- 2026-07-18 subagent (graph reposition, general-purpose, 2 passes): 75,140 + 88,214 out, 54 tool uses · ~$13
+- **Placement-iteration addendum ≈ $15** (on top of the ~$18 origin-fix session earlier today)
+
+---
+
+## State Snapshot (2026-07-18, session — ROOT-CAUSE CORRECTION: origin-driven build stamp replaces max-level guess; ratification realigned to ORIGIN rule + superseded docs archived; PR #1235 updated on remote)
+
+### TLDR
+- **The "floating Unique / 4-vs-6" symptom was chasing the wrong layer.** Marco's repeated pushback walked the model to its ratified shape: **PURE BUILD, ORIGIN-driven.** Each bucket has exactly ONE CLI-declared `origin: true` skill; its already-emitted `branch/rank/rankWord/medallion/level` is stamped onto the starless generic node **at build time**. No origin → nothing stamped → node stays **plain starless** (in the default tree as its plain self, NOT decorated, NOT surfaced as named). Browser only READS `node.branch`; it never recomputes. "One origin per bucket. That's the rule."
+- **Root bug fixed** (`6dc2dc7e8`, pushed → **PR #1235** on `dev/ygg2-consume-frontend`): `scripts/syncDocsGraphAssets.py` was reading `max(levels)` per bucket, and the graph JS then *guessed* branch from that rank-less node — which mislabeled `superpowers` (a suite) as unique and produced the wrong count. Replaced `_named_max_levels()` → `_bucket_origins()` (origin reader); deleted client-side branch guessing in `skill-graph.js` + `world-tree-layout.js`.
+- **Verified on served localhost** (`http://localhost:8080/graph/gaia.json`, fresh): 243 skills · **6 unique** / 15 suite / 58 standard / 164 no-branch-key. `superpowers→suite`. Playwright status bar `243 skills · 406 links · 6 Unique` (was "4 Unique" guessed). Guard `check_taxonomy_authority.py` = **PASS** (0 read-time derivation sites). `node --check` PASS ×3.
+- **`/browse` skill BANNED** in CLAUDE.md — never worked (Marco 2026-07-18). Playwright only for all web browsing/screenshots. Removed from the gstack Available list.
+
+### How I aligned on the ratification + archiving (Marco's highlight request)
+| Correction Marco drove | Wrong prior belief | Ratified truth now locked |
+|---|---|---|
+| **Origin, not max-level** | I proposed carrying the bucket's *highest* level onto the node ("max-level"). | It is the **CLI-declared origin** entry (`origin: true`), declared *before* build time. Not max, not derived — *declared*. Verified: 79 buckets one-origin, 61 zero-origin, 0 multi. |
+| **Pure build, no client resolution** | I proposed build-time emit onto `gaia.json` AND kept a client resolver guessing branch. | Browser reads emitted `node.branch` or renders plain. "Read emitted, never recompute" — now true on BOTH graphs (named index + starless). No resolver guessing survives for rank-less nodes. |
+| **No origin → not in canon as decorated** | I proposed no-origin buckets "join membership" / surface as their highest member. | "Not found in canon, not in the tree" (as decorated/named). They stay **starless-only** — the default tree shows them as plain nodes. "Once something is named origin — it shows in the tree." |
+| **Membership-first, decoration-only fork** | I cited v2's "no branch below 4★" membership floor. | Membership (`suiteComponents present → suite` at ANY rank; else standard) is orthogonal to the **decoration** fork that only appears at 4★+. `type` (basic/fusion) is NEVER consulted for branch. |
+| **Vocabulary** | I kept saying "branch." | Marco: "We don't use 'branch' anymore — it's medallion and rank and membership." |
+
+### Archiving decision (Marco: "superseded is fine — put in a folder archive for maximum clarity")
+- **New:** `founder/handovers/archive/YGGDRASIL_II_SUPERSEDED_2026-07-18.md` — quotes **9 superseded passages verbatim** + correction + why, each with source `file:line`:
+  - RATIFICATION L65 ("fork recognised ONLY at 4★+" as a *membership* floor), L74–76 (the `rank ≥ 4 AND` gate on membership), L80–87 (rank ladder — correct as *decoration*, wrong as *membership map*), L172 / L183 / L208 ("derived at read-time / always computed, never declared" — superseded by build-time emit).
+  - DESIGN_ALIGNMENT L55 (read-time derivation), L56–58 (rank≥4 gate), L127 (Scout #1 "no branch field" — marked stale-except-for-starless-`gaia.json`).
+- **v3 Amendment (RATIFICATION L5–56) UNTOUCHED** — remains the single live authority; inline pointers added on each superseded passage in the two live handovers (original text preserved beneath each marker).
+- Rank-vocabulary guard **PASS** (no new violations; archive prose kept banned-word-free).
+
+### What changed this session
+| Layer | State |
+|---|---|
+| Build (`scripts/syncDocsGraphAssets.py`) | ✅ `_named_max_levels()` (max) → `_bucket_origins()` (reads `origin: true`); stamps origin's `branch/rank/rankWord/medallion` + `namedMaxLevel=origin.level` onto matching generic node; no-origin → nothing stamped |
+| Graph JS (3 files) | ✅ `skill-graph.js` normalizeSkills reads emitted `skill.branch` (else inert 'standard'), guess removed; `world-tree-layout.js` resolveSemantics no-emitted-branch case → plain in-tree node (legacy `metaIsYggI` path preserved); `skill-semantics.js` `computeBranch` left dormant (named-entry fallback only), header updated |
+| Class S regen | ✅ `docs/graph/{gaia.json,gaia.gexf,named/index.json}` + `docs/tree.md` — 79 nodes stamped, 6/15/58 dist, 0 null-branch leaks |
+| Docs | ✅ superseded ratifications archived; v3 live authority + inline pointers |
+| Infra | ✅ `/browse` banned in CLAUDE.md |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| dev/ygg2-consume-frontend | 6dc2dc7e8 | Pushed; **PR #1235** updated on remote (`578a69a42..6dc2dc7e8`); origin-fix + archive + /browse-ban in one commit |
+
+### Issues + PRs touched
+- **PR #1235** — origin-fix commit added; PR comment posted with fix summary + verification + token spend.
+
+### Lessons / hazards preserved
+- **`docs/graph/gaia.json` nodes live under `skills`, not `nodes`.** Top-level keys: `$schema, generatedAt, meta, skills, edges`. A recount one-liner keyed on `nodes` returns 0 — key on `skills`.
+- **Origin is declared, not derived.** The whole "suite-vs-unique ambiguity" dissolves because the node carries the origin's already-resolved membership — there is nothing to guess. Any future "resolve branch on the client" instinct is the bug.
+- **Symptom-vs-root discipline:** I burned turns treating "4 Unique" as a stale-cache issue (Playwright with `Network.setCacheDisabled` disproved it — fresh JS, still wrong count) and then over-corrected by removing a `type` gate (count jumped to 11, mislabeling fusion-suites). The fix was upstream in the build, not in the JS resolver. Verify the emitted data before touching the reader.
+
+### Open questions for next orchestrator
+- **~48 `skill-trees/*/skill-tree.md`** modifications sit uncommitted in the working tree — NOT from this correction (another agent/process). Left untouched per data-file no-touch rule; Marco to decide whether to commit or discard.
+- `founder/MEMORY.md` was deliberately NOT staged in `6dc2dc7e8` (this snapshot updates it separately).
+- Downstream PR3b open questions still stand (page-ia.js/badges un-migrated reads, PR3c #1227, PR4 #1000, provisional `--tier-unique-5/-6` hexes).
+
+### Token cost (this session)
+- 2026-07-18 Opus 4.8 (orchestrator inline): ~40k in, ~12k out · ~$3
+- 2026-07-18 subagent (origin-fix, general-purpose): 78,941 out, 55 tool uses · ~$6
+- 2026-07-18 subagent (doc-archive): 116,103 out, 24 tool uses · ~$9
+- **Approx session total ≈ $18** (delegation-heavy; orchestrator stayed in steward mode)
+
+---
+
+## State Snapshot (2026-07-18, session — PR3b frontend JS collapse onto emitted taxonomy + Unique graph node ladder + standing-stones membership fix + shim/harness hard-delete + guard flip; PR #1235 draft, reviewed GO)
+
+### TLDR
+- **PR3b shipped** (`dev/ygg2-consume-frontend`, head `578a69a42`, 1 commit; **draft PR #1235 → `dev/ygg2-consume-ssr`**): the frontend half of the Ygg II consume chain. Browser JS now **reads** emitted `{branch,rank,rankWord,medallion,contractVersion}` from `docs/graph/named/index.json` instead of recomputing branch/rank from the dead `type` enum. PR3a's shims + JS parity harness **hard-deleted**; taxonomy-authority guard **flipped to HARD_FAIL=True**.
+- **Single `dev/*` branch carried all of A–D** (Marco: "don't care about full CI green, simplify" — chose single-branch over the plan's split-branch option). `dev/*` has unrestricted branch-scope so docs/js + Python + tests + workflow live in one diff.
+- **Reviewed GO** — dedicated review agent (130k tok): no CRITICAL/MAJOR regressions; 3 MINOR non-blocking notes. My own independent verification also green (guard PASS/exit 0, contract 6/6, world-tree 27/27, CSS tokens up to date, shims confirmed deleted, clean imports).
+- **Grounded on ratification per Marco's mid-session instruction** — confirmed migration matches v2/v3 Amendments: Membership (`branch`) is the derived axis; `type` (basic/fusion, starless only) is orthogonal, never consulted for branch. Starless `gaia.json` (no emitted branch) keeps the frozen-contract fallback — this is correct and required, not a shortcut.
+
+### Decisions locked this session
+| # | Decision |
+|---|---|
+| Branch structure | **Single `dev/ygg2-consume-frontend` off PR3a HEAD `46193e20b`**, all A–D in one diff. Marco waived the plan's split (design/* for A–C + cli/* for D). Rationale: `dev/*` unrestricted scope, simpler chain, staging reconciles the aggregate. |
+| Emitted-first + fallback | **Prefer emitted field, fall back to frozen recompute ONLY for the starless generic graph.** `gaia.json` carries no branch (basic/fusion only per Ygg II v2 Amendment) → `computeBranch`/`rankWord`/`resolveSemantics` fallbacks RETAINED in skill-semantics.js + world-tree-layout.js as the documented starless path. Full deletion of the JS resolvers is impossible; the migration = "read emitted when present." |
+| Guard exclusions (honest, file-scoped) | **`check_taxonomy_authority.py` excludes 4 files, not by blinding the regex:** the 2 frozen-fallback resolvers (skill-semantics.js, world-tree-layout.js) + 2 un-migrated surfaces **outside PR3b's Section-A file list** (`page-ia.js` = 4 dead reads, `badges/index.html` = 1). Guard still watches every other file for NEW derivation. Review agent independently confirmed exclusions are justified (page-ia/badges are a later lane). |
+| few-shot-learning is now a UNIQUE, seats OUTSIDE | **Plan premise was stale.** Plan described few-shot as a 2★ basic isolate that must seat *inside*. Emitted data has moved: `openai/few-shot-learning` is now **4★ / branch=unique** → correctly seats **outside** as a standing stone. Review agent enumerated all ~30 topological isolates: only few-shot → unique (outside); other 29 (rank 0–3, standard) → inside as seeds. Old edge-count logic flung all 30 into orphan orbit; branch-keyed fix is a strict improvement. **Do NOT hunt for a "floating few-shot" in visual QA — it's legitimately outside.** |
+| 6★ Unique node render = placeholder | **No 6★ Unique exists** (all 6 real uniques are 4★). `drawNodeUnique` 6★ path wired (near-still core + cheap `difference`-composite lensing rim reading `--tier-unique-6`/`-ink`) so it renders when one is earned; kept light, not over-tuned. |
+
+### What changed this session
+| Layer | State |
+|---|---|
+| Frontend JS (7 files) | ✅ skill-semantics.js (emitted-first seams branchOf/rankWordOf/medallionOf + retained fallback), plaque.js, named-skills.js, skill-explorer.js (per-IIFE helpers _seBranchOf/_seBranchColor/_seRankWordOf — no cross-boundary ref), profile-timeline.js (TIER_COLOR/TIER_HEX rekeyed off branch, dead #7c3aed removed), world-tree-layout.js (resolveSemantics compat seam + §B membership gating), skill-graph.js (branch resolved in normalizeSkills, drawNodeUnique rank ladder, orphan-orbit gated) |
+| CSS (2 files) | ✅ plaque.css + styles.css — added standard/suite branch-keyed tooltip/type variants the JS rekey now emits |
+| Python shims | ✅ DELETED formatting.rank_word + format_rank_label (caller cardRenderer.py → taxonomy.rankWord, byte-identical labels); trustMagnitude.computeBranch + _starRank + _suiteComponentsPresent, removed from __all__ |
+| Tests | ✅ deleted tests/harness/js_branch_dump.js + its contract-test legs (kept pure-authority assertions); stale world-tree-layout.test.js metaIsYggI true→false |
+| Guard | ✅ check_taxonomy_authority.py tightened (only genuine .type→branch + shim calls) + HARD_FAIL=True; new .github/workflows/taxonomy-authority-guard.yml (mirrors rank-vocabulary-guard.yml) |
+| Generators | ✅ generateProfilePages.py payload now emits branch+medallion; generateBadges/generateOgCards docstrings re-pointed to taxonomy.branchFor |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| dev/ygg2-consume-frontend | 578a69a42 | Pushed; **draft PR #1235 → dev/ygg2-consume-ssr**; reviewed GO |
+| dev/ygg2-consume-ssr (PR3a) | 46193e20b | PR3b's base |
+
+### Issues + PRs touched
+- **PR #1235** (NEW, draft) — PR3b, targets `dev/ygg2-consume-ssr`. Body has Entrypoints (waived — no new page) + token-spend log.
+- Chain intact: PR1 #1232 → staging, PR2 #1233 → PR1, PR3a #1234 → PR2, **PR3b #1235 → PR3a**.
+
+### Lessons / hazards preserved
+- **Grep guard "0 findings" is unreachable literally** without gutting comments/tokens/data-attrs. The right move (validated by both the impl agent and the review): tighten regexes to flag only genuine `.type === 'unique'` derivation + deleted-shim calls, and **file-scope-exclude** the documented fallbacks + out-of-lane files — NOT broaden exemptions until the count hits 0 (that defeats the guard).
+- **`skill-graph.js` trips `grep` binary detection** from box-drawing chars (`─`) in comment banners — use `grep -a` to force text mode when auditing it.
+- **skill-explorer.js two-IIFE gotcha held** — all shared helpers (_seBranchOf etc.) defined + used within IIFE #1; no cross-boundary ReferenceError.
+
+### Open questions for next orchestrator
+- **page-ia.js (4) + badges/index.html (1) un-migrated `.type` reads** — legitimately out of PR3b's Section-A scope, guard-excluded. Decide their lane (PR3c #1227 rewind? a badges infra PR?). Not a defect; inert (gaia.json is basic/fusion only).
+- **PR #1235 is a DRAFT** — mark ready when the chain is ready to advance, or leave until PR4 aggregate.
+- **PR3c** (#1227 surviving presentation lines) and **PR4** (#1000 agent-skills + final regen + green sweep + #1185 staging→main) still ahead.
+- **`--tier-unique-5/-6` hexes still PROVISIONAL** (from PR3a) — PR3b `var()`s them; existence locked, values re-tunable after full-surface visual review.
+
+### Token cost (this session)
+- 2026-07-18 Opus 4.8 (medium effort), orchestrator + 4 delegated agents:
+  - A–C impl agent: ~280k in/out
+  - A–C resume (confirm + close): ~263k
+  - D impl agent: ~190k
+  - Review agent: ~130k
+  - Orchestrator inline: ~60k
+  - **Total ≈ 923k combined in/out. ~$40–50 est.** (delegation-heavy; orchestrator stayed in steward mode per ORCHESTRATOR delegation triggers)
+
+---
+
+## State Snapshot (2026-07-18, session — PR3a Python consumer collapse + v3 ratification amendment + Unique badge decoration fork; 3 draft PRs chained on staging)
+
+### TLDR
+- **PR3a shipped** (`dev/ygg2-consume-ssr`, head `8577dafb3`, 2 commits): all Python callers of the legacy branch/rank-word resolvers migrated onto `taxonomy.py`; `trustMagnitude.computeBranch` + `formatting.rank_word`/`format_rank_label` **shimmed to delegate** (hard-delete deferred to PR3b).
+- **v3 ratification amendment** added ABOVE v2 in `founder/handovers/YGGDRASIL_II_RATIFICATION_2026-07-07.md` — names the three orthogonal axes: **Membership** (standard|suite|unique), **Rank word** (Awakened/Named/Evolved → Extra/Ultimate/Apex | Unique/Unique Ultimate/Unique Impossible), **Decoration** (plain vs prestige glyph + medallion + color).
+- **Unique badge decoration fork** — the tangled Decoration axis fixed: was single `_UNIQUE_COLOR` violet for every unique rank → 5★/6★ rendered identical to 4★. Now **4★ violet `#7c3aed` / 5★ darker gold `#c8890a` / 6★ INVERTED (gold ground + dark ink `#3b2206`, peer to suite Apex)**.
+- **Sampler fixed**: killed banned words (Hardened→Extra, Transcendent→Ultimate); added Unique Ultimate·5★ + Unique Impossible·6★ entries; new `rank-unique-5{,-seal}.svg` + `rank-unique-6{,-seal}.svg`; all `_assets` regenerated.
+- **3 draft PRs now open, chained** (each targets its parent, not staging directly, for clean review diffs): PR1 #1232 → staging, PR2 #1233 → PR1, PR3a #1234 → PR2.
+
+### Decisions locked this session
+| # | Decision |
+|---|---|
+| **Unique CSS tokens (PROVISIONAL)** | **Ship `--tier-unique-5: #c8890a` + `--tier-unique-6: #fbbf24`/ink `#3b2206` now** (committed `772e6c716`, emitted by `generateCssTokens.py`). Marco's call: "for now this is fine — as long as tier-unique-6 exists." **Still provisional** — the specific darker-gold hex (5★) and the inverted-gold treatment (6★) are subject to visual re-tuning; the requirement that LOCKS is that `--tier-unique-6` must EXIST so PR3b JS/graph/profile can `var()` it instead of hardcoding. Revisit hexes after full-surface visual review. |
+| Shim vs delete | **Shim, don't delete, in PR3a.** An in-editor linter kept reverting hard-deletions of `computeBranch`/`rank_word`. Rather than fight it, replaced their BODIES with delegation to `taxonomy.branchFor`/`rankWord`. Behavior is identical; hard-delete happens in PR3b once the JS sweep + grep guard confirm zero external callers. Kept `computeBranch` in `__all__`. |
+| v3 amendment placement | **Above v2, supersedes nothing.** v3 refines/names axes the v2 rules already implied but tangled; v2 derivation rules + ladders stand verbatim. |
+| Three-axis vocabulary | **Membership / Rank word / Decoration are orthogonal.** Membership holds from 1★ (grouping); Decoration renders only at 4★+; a skill's Membership does NOT dictate its Decoration color — the rank WITHIN the membership does. |
+| Unique decoration ladder | **4★ violet, 5★ darker gold `#c8890a`, 6★ inverted (gold ground + `#3b2206` ink).** 6★ Unique Impossible reads as a peer pinnacle to suite Apex (shares gold ground + sheen + Apex rim), not plain violet. |
+| Badge fix scope | **Self-contained in `generateBadges.py`.** Verified `tokens.css` has NO per-rank unique tokens (violet-only). Per-rank unique CSS tokens would be a `schema/` change (regenerated from `gaia.json.meta`) — separate lane, NOT done here. |
+| PR targeting | **Chain PRs to parent branches** (PR2→PR1, PR3a→PR2) so review diffs are clean, per EPIC child-PR model. Final flatten happens at staging→main merge (#1185). |
+| tree.md gate | **Verified NOT Basics-only before declaring PR3a done** — 23 suite/unique entries in regenerated named index. |
+
+### What changed this session
+| Layer | State |
+|---|---|
+| `taxonomy.py` consumers (Python) | ✅ generateBadges/OgCards/ProfilePages, migrate_taxonomy_v6, promotion migrated to branchFor/rankWord |
+| Legacy resolvers | ✅ computeBranch + rank_word/format_rank_label shimmed to delegate (not deleted) |
+| Ratification handover | ✅ v3 amendment prepended above v2 |
+| Badge Decoration | ✅ Unique forks by rank (violet/darker-gold/inverted); `unique_hex()` helper; `_data_panel`/`_frame`/`badge_simple` reworked |
+| Badge sampler | ✅ banned words removed; 9 rank entries incl. unique-5/unique-6; new sample SVGs |
+| `_assets` regen | ✅ 490 files (real 4★-unique skills e.g. addy-osmani/performance-optimization now violet+gold) |
+| Tests | ✅ 37 badge/redaction pass; 122 taxonomy/TM/formatting pass; zero new failures (pre-existing authz/benchmark/validate/tui unchanged) |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `dev/ygg2-taxonomy-authority` (PR1) | `f4ce012d2` | PR #1232 open → staging |
+| `dev/ygg2-emit-resolved` (PR2) | `92a4a8a34` | PR #1233 draft → PR1 |
+| `dev/ygg2-consume-ssr` (PR3a) | `8577dafb3` | PR #1234 draft → PR2 |
+
+### Issues + PRs touched
+- **PR #1232** PR1 (open, pre-existing) · **PR #1233** PR2 (drafted this session) · **PR #1234** PR3a (drafted this session)
+- EPIC **#1002** (Yggdrasil II taxonomy authority) — parent of the stack
+- Token spend logged as comment on PR #1234
+
+### Routing — where things live now
+- **Branch authority**: `src/gaia_cli/taxonomy.py` — `branchFor`, `rankWord`, `medallion`, `normalize`, `levelNum`. Single source of truth.
+- **Legacy shims (delete in PR3b)**: `trustMagnitude.computeBranch`, `formatting.rank_word`, `formatting.format_rank_label` — all delegate to taxonomy.
+- **Badge Decoration**: `scripts/generateBadges.py` — `unique_hex(rank)`, `_data_panel`, `_frame`, `badge_simple`. NOT `tokens.css`.
+- **Sampler**: `docs/badges/index.html` `SAMPLER_RANKS` (~L1302) + `docs/badges/samples/`.
+- **v3 axes spec**: `founder/handovers/YGGDRASIL_II_RATIFICATION_2026-07-07.md` (v3 amendment at top).
+
+### Lessons / hazards preserved
+- **In-editor linter reverts hard-deletions.** Observed repeatedly this session — Edit calls to DELETE `computeBranch`/`rank_word` bodies got silently reverted between the Edit and the next git check. Workaround: shim (replace body with delegation) instead of delete, OR make all edits in one atomic Python heredoc script and commit immediately. Confirmed the heredoc approach survives.
+- **`tokens.css` is generated** from `gaia.json.meta` via `generateCssTokens.py` — do NOT hand-edit for unique colors; that's a schema-lane change.
+- **`?v=` cache-bust** is managed by `build_html_cache_busting()` in `build_docs.py` — never manually patch; bumps at release.
+- **Windows UTF-8**: reading badge SVGs / named-index needs `encoding='utf-8'` + `PYTHONIOENCODING=utf-8` + `sys.stdout.reconfigure(encoding='utf-8')` (medallion glyphs + stars break cp1252).
+- **Trailing `claude-NNNN-cwd: No such file` bash errors** are a stale-temp-cwd artifact, NOT a command failure — ignore.
+- **Every negative finding this session was verifiable** — user challenged "aren't these already there?" on unique tokens; verified they were NOT (violet-only). Always verify design claims before agreeing/disagreeing.
+
+### Open questions for next orchestrator
+- **PR3b tokens.css decision**: does the JS frontend need per-rank unique CSS tokens (`--tier-unique-5`, `--tier-unique-6`)? If yes, that's a `schema/` PR regenerating from `gaia.json.meta` — separate lane from PR3b's `design/` scope. Decide before dispatching PR3b.
+- **Grep guard hard-fail flip** (PR3b): currently warn-only; flips to hard-fail once JS resolvers deleted. Confirm no stragglers first.
+- **6★ Unique Impossible "inverted" treatment** — user approved conceptually; needs Marco's visual sign-off on localhost before it locks (open for inspection this session).
+
+### Token cost (this session)
+- 2026-07-18 Opus 4.8: ~180k in, ~28k out. **~€8** (orchestrator + one Explore subagent for consumer scouting). Overwhelmingly orchestrator-direct (superadmin-style surgical UI iteration).
+
+---
+
+## State Snapshot (2026-07-16, session — Structured migration provenance + #999 guards + user-tree drift fix; 3 PRs MERGED to staging; next session = DESIGN)
+
+### TLDR
+- **Three PRs merged to `dev/yggdrasil-ii-staging`** (merge head `58bc0468d`); staging is GREEN on everything touched (`validate_timelines` exit 0, `check_rank_vocabulary` PASS, `validate.py` PASS, schema lockstep PASS).
+- **#1190 — Structured migration provenance (#1189):** replaced the fragile prose-marker/time-window timeline pairing with a **schema-backed, meta-agnostic** scheme. Added `metaEpochs` enum + optional `metaEpoch`/`migrationBatch` fields on timeline events (canonical + bundled, lockstep). Reworked `migrate_taxonomy_v6.py` to stamp both `type_change` and paired `demote`, with a `--backfill-only` in-place upgrade path. Backfilled the Ygg II batch (130 node + 52 named `type_change`, 40 named `demote`). Validator invariant: *any `demote` carrying `migrationBatch` MUST have a same-skill `type_change` sharing that batch* — no epoch hardcoded, no time window; Ygg I exempt by field-absence. Generalizes to all future metas (Ygg III, Sequoia I) with ZERO validator edits.
+- **#1192 — #999 guard cleanup:** case-sensitive `Extra skill`/`Ultimate skill` bans (capital-S rank phrasing stays valid) + `type=extra`/`type=ultimate`; path-scoped `G7`/`G8` ban (docs-only, `founder/handovers/**` exempt); `apex tier` taxonomy-synonym ban (case-insensitive; `scripts/**` hard-excluded so product usage safe); new `docs/guard-topology.md`.
+- **#1193 — user-tree drift backfill:** `trace_timeline.py --all --apply` synthesized 41 `(reconciled)` demote events across 39 skills / 10 contributors, fixing 78→0 drift and regenerating 10 profile pages. This corrected VISIBLE stale ranks on live profile Progression Timelines.
+- Also: Class S regen committed directly to staging (`e0c68ab0f`); TM-timeline backlog filed (**#1194**, next sprint).
+
+### Decisions locked this session
+| # | Decision |
+|---|---|
+| Provenance design | **Path A — structured, backfilled.** Chose schema-backed `metaEpoch`/`migrationBatch` over prose marker + ≤60s window. Backfilled Ygg II now (only legacy batch in existence) → zero legacy debt, no validator special-cases ever |
+| Field names | `metaEpoch` (kebab slug, `yggdrasil-ii`), `migrationBatch` (`slug@YYYY-MM-DD`); events only, NO node-level field; **registry named-skills only** (user-trees excluded — their action enum has no `type_change`) |
+| Guard E is mechanical | Guard E (docs-cohesion) is a **co-presence tripwire** (registry changed ⇒ `docs/graph/` must be in same PR diff), NOT a content validator. The real result-checker is `gaia dev docs --check`. Nothing Yggdrasil-II-specific to "ratify" into Guard E |
+| Banned-synonym home | Yggdrasil II terms live in `check_rank_vocabulary.py` (hard-fail) ONLY; docs-cohesion "Guard B" is a separate comment-only rarity-axis guard (#999 issue text mislabeled A/B — fixed via `docs/guard-topology.md`) |
+| **skill-trees/ RETAINED** | **We are keeping `skill-trees/` — for TIMELINE PURPOSES ONLY.** It is NOT dead noise: it powers the live profile "Progression Timeline" (`generateProfilePages.py` → `window.PROFILE_TIMELINE` → `profile-timeline.js`) plus leaderboard/badges/projections. The "migrate to separate repo" idea in prior MEMORY was NEVER officially ratified. Because it renders live, its drift must be FIXED (trace), not decoupled/hidden |
+| apex tier retirement | Mechanical — already ratified in CONTEXT.md §447 (Ultimate=5★ rank, Apex=6★ Suite rank); no separate sign-off |
+
+### Branches at end of session
+| Branch | Head | Status |
+|---|---|---|
+| `dev/yggdrasil-ii-staging` | `58bc0468d` | Integration branch; +3 merges this session; GREEN on all touched guards. PR #1185 (draft → main) is still the aggregate collector |
+| `dev/provenance-foundation`, `dev/999-guard-cleanup`, `dev/trace-usertree-drift` | merged + deleted (local + remote) | — |
+
+### Issues + PRs touched
+- **PR #1190 / #1192 / #1193** — all MERGED to staging. **Issue #1189** (provenance foundation) created + resolved by #1190. **Issue #1194** — TM-timeline, filed for NEXT sprint.
+- **EPIC #1002** — proof-of-work comment posted (what we did + key decisions, incl. skill-trees retention). Still 5/7+; remaining sub-issues: **#998 Frontend**, **#1000 Agent skills**.
+
+### Routing — where things live now
+- Provenance scheme: `metaEpochs` in `registry/schema/meta.json` (+ bundled mirror); fields in `namedSkill.schema.json` AND `skill.schema.json`; invariant in `scripts/validate_timelines.py::check_migration_provenance()`; migration in `scripts/migrate_taxonomy_v6.py` (`--backfill-only`, `META_EPOCH`/`MIGRATION_BATCH` consts).
+- Guard topology reference: `docs/guard-topology.md` (records which guard owns which invariant; kills the #999 Guard A/B mislabel).
+- `gaia dev docs` works on this Windows box via `PYTHONPATH=./src python -m gaia_cli dev docs` (not "broken", just needs the module invocation in the strict env).
+- `validate_timelines.py` prints a `✗`/`●` glyph that crashes Windows cp1252 — prefix with `PYTHONIOENCODING=utf-8` (Linux CI unaffected).
+
+### Lessons / hazards preserved
+- **Verify ground truth beats plan/self-report — twice this session:** (1) a *partial* Class S regen was sitting on staging (missing `docs/graph/`); re-running the canonical generator caught it before commit. (2) "skill-trees/ is disposable noise" was FALSE — tracing where it's consumed showed it renders live profiles, so "decouple the gate" would have shipped a visible bug. Always trace consumers before deciding data is dead.
+- **Reconcile disputed counts, don't average them:** a review scout's buckets-only count (15/26) disagreed with the validator (40/280); resolved by discovering `_named_registry_entries()` = buckets + `awaitingClassification`. A clean-source rebuild proved the invariant is NOT vacuously green.
+- **Structured provenance > prose/heuristics for versioned data:** correlation-id pairing (`migrationBatch`) needs no epoch names or time windows and survives arbitrarily many future metas.
+- **Worktrees for parallel workers:** ran Branch 2 + drift fix concurrently in isolated checkouts (`../gaia-drift-usertree`) to respect the concurrency guard; both sonnet, disjoint trees, zero collision.
+- **Cross-PR merge conflicts are almost always regenerated artifacts** — only `docs/graph/ledger/data.json` conflicted; resolved by one full `gaia dev docs` regen on the merged state.
+
+### NEXT SESSION = DESIGN — quick handoff
+- Focus: **EPIC #1002 #998 Frontend** (heavy; expect double PRs with new assets across many surfaces; website is locked in monorepo-style, no blockers).
+- **Ascension Overdrive V4 assets MUST be incorporated into the new skill plaques — specifically Asset C and Asset D.** (V4 45-reference WebP set already landed on `design/yggdrasil-ii-aov-v3`; see prior 2026-07-15 AOV snapshots for asset routing.) Plaque redesign should pull C + D in.
+- `skill-trees/` stays (timeline-only) — do NOT plan its removal; profile Progression Timeline depends on it.
+- Backlog to slot: **TM-timeline (#1194)** — TM-over-time chart alongside the rank timeline; needs a TM history series (currently TM is computed live, not historized).
+
+### Token cost (this session)
+| Field | Value |
+|---|---|
+| Cache (Write / Read) | 818,815 / 28,750,600 |
+| Est. cost (CU / €) | ~22.14 / €11.95 |
+| Total requests | 400 |
+| Tokens (Out / In) | 328,660 / 1,044 |
+| Context used | ~21.5% — subagent-heavy, high cache-hit; one of the most efficient sessions |
+
+---
+
+## State Snapshot (2026-07-16, session — Yggdrasil II #997 migration + #994 docs MERGED to staging; Extra=Unique gate ratified; 40 4★→3★ recalibration)
+
+### TLDR
+- **#997 taxonomy migration MERGED to `dev/yggdrasil-ii-staging`** (merge commit `428ea9b9`, PR #1186). `scripts/migrate_taxonomy_v6.py` (dry-run default, `--apply`, idempotent) collapsed `registry/nodes/{extra,ultimate}/` → `fusion/` via `git mv` (113 basic stay, 130 fusion), rewrote `type`, appended `type_change` events. Named recalibration: all 4★/5★ got `type_change`; **40 of 47 4★s demoted to 3★** with paired `type_change`+`demote` events; all **5 5★ Suites retained**.
+- **#994 docs ratification MERGED** (merge commit `3f1943e9`, PR #1187). DESIGN.md, docs/agent.md, docs/codex/trust-methodology.html migrated to Yggdrasil II vocabulary; DESIGN.md + docs/agent.md de-allowlisted in `check_rank_vocabulary.py` (guard now enforces them, PASS). META.md/CONTEXT.md already compliant; archival audits deferred.
+- **EPIC #1002 now 4/7 on staging:** #994 ✅ #995 ✅ #996 ✅ #997 ✅. Remaining: #998 Frontend, #999 CI guards, #1000 Agent skills (+ follow-on #1174).
+- **Root-cause settled:** the 130 legacy-typed nodes were **#995's incomplete follow-through** (schema enum collapsed, data never migrated), NOT the main→staging merge (merge only added +1 `firecrawl` extra node). Confirmed via git forensics.
+
+### Decisions locked this session
+| # | Decision |
+|---|---|
+| Node dir layout | **Complete rewrite** to `basic/` + `fusion/`; legacy `extra/`/`ultimate/` dirs removed |
+| Extra 4★ gate | **= Unique 4★ gate (Origin + TM≥100)** — both branches share 4★ gate semantics; only the label differs. Ratified live; F-1 code fix folded into #1186 |
+| 5★ Suites | **All 5 retained** (halt rule + #935): addy-osmani/agent-skills, garrytan/gstack, mattpocock/skills, obra/superpowers, ruvnet/ruflo. Impeccable = 4★ Unique archetype, out of scope |
+| 40 demotions | **Accepted** as intended spec outcome — Evidence-Floor removal + TM/Origin gating working as designed |
+| skill-trees/ | **Out of scope NOISE** — migrates wholesale to a separate `your-skill-tree` repo; README notice placed; scripts to be pointed away in a later infra pass. Never officially ratified as a feature |
+| CI on staging | **Not gated** on staging PRs — batch-fixed under #999 before staging→main |
+| Next task | **#999 CI guards** (NOT #998) — Frontend is very heavy, likely double PRs w/ new assets everywhere; website locked in monorepo-style, no blockers |
+
+### Branches at end of session
+| Branch | Head | Status |
+|---|---|---|
+| `dev/yggdrasil-ii-staging` | post #1186 + #1187 merges | PR #1185 (draft → main) is the aggregate collector; CI intentionally red until #999 |
+| `dev/997-migrate-taxonomy-v6` | merged + deleted | — |
+| `dev/994-docs-ratification` | merged + deleted | — |
+
+### Issues + PRs touched
+- **PR #1186** — #997 migration → staging (MERGED). Proof-of-work comment on #1002.
+- **PR #1187** — #994 docs → staging (MERGED).
+- **EPIC #1002** — checkboxes updated (#994–#997 checked); proof-of-work comment posted.
+- #994/#997 will NOT auto-close (resolve to *main*, not staging — correct per single-merge-at-closure protocol).
+
+### Routing — where things live now
+- Migration tool: `scripts/migrate_taxonomy_v6.py` (idempotent; re-run = no-op; report to gitignored `generated-output/`).
+- `gaia dev docs` shim broken on this Windows box — use `PYTHONPATH=./src python -m gaia_cli dev docs`.
+- Spec source of truth: `founder/handovers/YGGDRASIL_II_RATIFICATION_2026-07-07.md` (v2 Amendment + Q1–Q10). Extra-gate resolution now recorded on #1002.
+
+### Lessons / hazards preserved
+- **Guard E (`validate_timelines.py`) checks USER TREES vs registry level, not node-timeline pairs.** Since skill-trees/ is deliberately untouched, expect Guard E red on staging — fix under #999.
+- **`_origin_ok_for_unique` on basic-type parents** falls back to `named.origin is True` (0-prereq generics have no fusion structure to hold origin). Drove 25 google-deepmind `origin:false` demotions — spec-faithful.
+- A few skills carry **stale stored `trustMagnitude`** (e.g. addy-osmani/performance-optimization 83.2 vs live 104.29); migration used live values. Fold into next TM recompute.
+- **Opus (claude-4.8-opus) is platform-rate-limited (429)** even at concurrency 1 — fell back to sonnet-worker for both #997 and #994; both clean via worker→reviewer.
+
+### Open questions for next orchestrator
+1. **#999 CI guards is NEXT** — batch-fix staging to green: Guard E/timeline (decouple from skill-trees), branch-scope, node-pair `type_change`+`demote` verification. Then #998 Frontend (heavy, double PRs), then #1000.
+2. EPIC #1002 closes at the single `dev/yggdrasil-ii-staging` → `main` merge (PR #1185) once all 7 sub-issues land + CI batch-fixed.
+3. Clear the `gaia-purge/` scratch dir after remote health confirmed.
+
+### Token cost (this session)
+| Field | Value |
+|---|---|
+| Cache (Write / Read) | 1,016,472 / 28,016,040 |
+| Est. cost (USD / €) | ~$20.32 / €10.97 |
+| Total requests | 590 |
+| Tokens (Out / In) | 303,181 / 1,324 |
+
+---
+
+## State Snapshot (2026-07-15, session — Binary-master history purge + main→staging merge integration; fresh aggregate PR)
+
+### TLDR
+- **Purged all ascension/design binary masters from ALL git history** via `git-filter-repo` (95 PNGs + 3 MP4s). Repo is webp-only for those assets now; a fresh clone is **~134 MB / 41% lighter** (329→195 MB). `.gitignore` guard added so they can't be re-tracked.
+- **Integrated `main` into staging by MERGE** (not rebase) — staging now contains main's 65 unique commits (security fixes, schema #1151, `scan --dir` #1159, favorchurch #1160, releases → v6.8.8). This became the ratified branch strategy (recorded in ORCHESTRATOR.md).
+- **Opened fresh aggregate PR #1185** (`dev/yggdrasil-ii-staging` → `main`, draft) superseding auto-closed #1005/#1171.
+- Operation was planned → adversarially reviewed → rehearsed on throwaway mirror → founder-gated → executed. PRISTINE mirror backup retained for rollback.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| Diagnosis: why #1005 conflicted | ✅ add/add binary PNG conflicts — both main & staging independently committed divergent ascension assets past a shared v6.5.3 merge-base |
+| Plan → review → edit chain | ✅ planner drafted, adversarial reviewer found 4 live-verified blockers (rebase base, glob gaps, conflict count, dropped merge commits), plan corrected |
+| filter-repo purge (all refs) | ✅ 95 PNG + 3 MP4 targets expunged from all history; keeps (og, benchmark, webp, handover .md, loop mp4s) verified intact |
+| Integration by merge | ✅ main merged into staging; source files (`fuse.py`/`impl.py`) merged retaining BOTH intents; index.html kept V4 hero |
+| Verification | ✅ fresh-clone proof: targets gone, keeps survive, staging-contains-main, production homepage has no dead image links |
+| Real-remote push | ✅ 16 side branches + 364 tags + main + staging force-pushed (no branch protection existed) |
+| Commit-identity audit + correction | ✅ two worker-authored commits carried an unapproved global identity; rewritten to the approved identity via scoped `--email-callback`, main+staging re-pushed, 0 unapproved identities remain |
+| ORCHESTRATOR.md | ✅ recorded merge-based branch strategy, no-binary-masters rule, and worker commit-identity enforcement |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `main` | `703ca2d7` | Rewritten (PNG-free) + guard commit; force-pushed; Pages source |
+| `dev/yggdrasil-ii-staging` | `ca170d5d` | Rewritten + main merged + memory/rule commits; PR #1185 head |
+| 16 side branches + 364 tags | (rewritten) | Force-pushed PNG-free; unaffected by the identity fix |
+| PRISTINE backup mirror | `f54c4716` (orig main) | Offline rollback source in scratch; keep until confirmed healthy |
+
+### Issues + PRs touched
+- **PR #1185** — fresh aggregate staging→main (draft). Opened this session.
+- **PR #1005 / #1171** — auto-closed by the history rewrite; un-reopenable. #1171 was alignment-only. #1005 superseded by #1185.
+
+### Routing — where things live now
+- Purge/integration plan: `C:/Users/C5396183/gaia-purge-plan-v2.md`; full evidence log + PRISTINE mirror + scratch clones under the OS temp `gaia-purge/` dir.
+- Branch/identity/binary-master rules: `founder/ORCHESTRATOR.md` (Repo Context invariants).
+- Served runtime unchanged on staging (V4 hero); `main` still shows pre-V4 homepage until #1185 merges.
+
+### Lessons / hazards preserved
+- **Never track binary masters** — they produce unmergeable add/add conflicts on divergent branches and bloat every clone. Only optimized webp/SVG belong in-repo.
+- **Integrate by merge, not rebase** — rebase silently drops merge commits and multiplies conflict rounds; merge resolves once and preserves topology.
+- **Enforce worker commit identity** — subagents in fresh clones can inherit an unapproved global git identity; set repo-local identity or `-c user.email/name`, and audit `git log --format='%ae'` before pushing. Correct any slip with a scoped `--email-callback` before opening a PR.
+- **History rewrites invalidate everything** — all branch/tag SHAs changed; every other clone and the bot crawler must re-clone or hard-reset. Open PRs auto-close.
+- Always rehearse a destructive rewrite on a throwaway `--mirror` first; keep a PRISTINE offline backup; gate the irreversible push on explicit founder approval.
+
+### Open questions for next orchestrator
+1. When the sprint's second half is done, mark PR #1185 ready and deliver staging → main.
+2. After confirming remote health over a day or two, clear the scratch `gaia-purge/` dir (PRISTINE mirror included).
+3. Pre-existing history carries legacy non-canonical author identities (out of scope this session) — decide separately whether a broader identity normalization is warranted.
+
+### Token cost (this session)
+Not separately metered; no telemetry inferred.
+
+## State Snapshot (2026-07-15, session — Ascension Overdrive V4 commission and merge closeout)
+
+### TLDR
+- Ascension Overdrive V4 is complete on the dedicated `design/yggdrasil-ii-aov-v3` worktree: the full 45-reference WebP set, V4 runtime, responsive/reduced-motion QA, and final copy/design corrections are in place.
+- PR #1156 was rebased onto current `dev/yggdrasil-ii-staging`; the rebased local head is ready to push, and the founder explicitly requested merge after push without waiting for green checks. PR #1171 remains unmerged and is alignment context only.
+- Issue #1002 and issue #975 progress comments are the next hygiene pass after the push/merge operation.
+
+### What changed this session
+| Step | State |
+|---|---|
+| V4 source-of-truth read | ✅ Read the founder-approved V4 brief and production appendix, then read PR #1171's design-alignment considerations and consolidated the relevant terminology/shape guidance without merging #1171 |
+| Immutable V4 production archive | ✅ Created and populated `/Users/marcotiongson/Documents/gaia-asset-masters/ascension-overdrive-v4/` with incoming, workbench, approved, review, and tools surfaces; preserved immutable source hashes and manifest |
+| Geometry/chassis | ✅ Froze the shared medallion geometry contract and exact mirrored Y-fork control points; validated neutral chassis, ring occupancy, endpoint alignment, and equal rails |
+| Substrate and supporting art | ✅ Produced and validated B astrolabe substrate, H fork, six Apex micro-seals, F1–F3 subjectless fields, and the external contact/validation sheets; V3 masters remain preserved |
+| Suite/Unique ladder | ✅ Produced and validated C1–C3, exact paired C4/D4, revised C5/D5, and revised C6/D6 hero/card/badge derivatives; C5 was whitened and its branches restrained, while D5 retained its stronger cosmic collapse |
+| Apex/terminal direction | ✅ Broke the legacy Apex frame, shifted C6/D6 to custom frameless cosmic designs with stronger white bloom, void black, hazy aura, and inverted spectral hue, and derived I directly from approved D6 |
+| V4 runtime | ✅ Added `docs/css/ascension-overdrive-v4.css` and `docs/js/ascension-overdrive-v4.js`; wired `docs/index.html` to the complete V4 set with exact geometry, preserved V3 archive, removed the legacy Apex frame, and retained mobile copy cues |
+| Runtime polish | ✅ Fixed Apex copy legibility, kept effects bounded and reduced-motion static, and preserved the exact geometry as a single runtime source |
+| QA and refs | ✅ Confirmed 45 V4 asset references, dimensions/alpha/metadata, responsive widths 1440/900/768/390/375, reduced-motion behavior, no horizontal overflow, and no console/asset errors |
+| PR closeout | ✅ Updated PR #1156 title/body and pushed the V4 work; then rebased the branch onto the current staging tip. Merge is explicitly requested after push without waiting for green checks |
+
+### Branches at end of session
+| Branch / ref | Head SHA | Status |
+|---|---|---|
+| `design/yggdrasil-ii-aov-v3` (local rebased worktree) | `54c8c1b2f5ee5507bb7f1f239c3a1450d82a5fc2` | Clean; rebased onto current staging, ready for the next push |
+| `origin/dev/yggdrasil-ii-staging` | `96c4184f55c9a44c66856505bd8c853bab1263cf` | Current PR base at snapshot time; staging may move independently |
+| PR #1156 `design: ship Ascension Overdrive V4` | remote head `70b02444eb003e60ff042b7b0edcb0ca2cb67f4d` at inspection | OPEN; local rebased head supersedes this remote head pending push; merge requested without waiting for green |
+| PR #1171 `docs(yggdrasil-ii): design-branch alignment handover` | `6da4f11aa1f8d30f9d02b4d9a1ba7057d7090db5` | OPEN and unmerged; use as alignment context, do not merge as part of this closeout |
+
+### Issues + PRs touched
+- **PR #1156** — Ascension Overdrive V4 asset/runtime delivery; title/body updated, pushed previously, then rebased onto current staging. Push the rebased head and merge per founder direction without waiting for green checks.
+- **PR #1171** — read and consolidated for terminology/design alignment only; remains OPEN and unmerged.
+- **Issue #1002** — Yggdrasil II epic; add a closeout/progress comment after the PR push/merge.
+- **Issue #975** — Ascension Cycle Overdrive tracking issue; add a closeout/progress comment after the PR push/merge.
+
+### Routing — where things live now
+- **Approved brief and appendix:** `founder/handovers/design-v6.1.1-ascension-overdrive-shape-v4.md`.
+- **Immutable V4 archive:** `/Users/marcotiongson/Documents/gaia-asset-masters/ascension-overdrive-v4/`; manifest at `incoming/MANIFEST.json` and TSV at `incoming/MANIFEST.tsv`.
+- **Geometry contract:** `approved/AOV4-GEOMETRY-CONTRACT.md`, `approved/asset-h/aov4-geometry-contract.json`, and generator `tools/generate_geometry_contract.py`.
+- **Geometry validation/contact:** `review/neutral-chassis/aov4-neutral-chassis-validation.md` and `review/neutral-chassis/aov4-neutral-chassis-contact-sheet.png`.
+- **Rank-pair contacts:** `review/asset-cd/rank-5/aov4-c5-d5-hero-contact-sheet-v2.png`, `review/asset-cd/rank-6/aov4-c6-d6-cosmic-hero-contact-sheet-v2.png`, and the final derivative contact sheets under their rank directories.
+- **Terminal lineage contact:** `review/asset-i/aov4-d6-i-terminal-lineage-contact-sheet-v1.png`; approved I WebPs are under `approved/asset-i/`.
+- **Served runtime:** `docs/index.html`, `docs/css/ascension-overdrive-v4.css`, `docs/js/ascension-overdrive-v4.js`, and the `docs/assets/ascension-overdrive/aov4-*` WebPs.
+
+### Lessons / hazards preserved
+- Preserve the V3 archive and all immutable masters; do not overwrite V3 assets or silently mix V3 and V4 imagery on the review surface.
+- Do not merge PR #1171 as part of the AOV closeout; it is alignment context and remains unmerged.
+- Staging can move after this snapshot; verify the base and remote head before force-pushing the rebased branch.
+- Keep the 45 V4 WebP references complete, with lossless masters outside Git; no docs regeneration or full build was required for this design sprint.
+- C5 may retain a regular tree, but branches must remain restrained and the star brighter/whiter; C6/D6 must remain more intense than D5, frameless, custom, cosmic, white/bloom-heavy, and void/inverted-hue rather than botanical.
+- Keep exact shared geometry, alpha-safe derivatives, bounded effect layers, reduced-motion static behavior, and mobile copy legibility intact.
+
+### Open questions for next orchestrator
+1. Push the rebased `design/yggdrasil-ii-aov-v3` head to PR #1156 and merge without waiting for green checks, as explicitly requested.
+2. Add progress/closeout comments to issues #1002 and #975 and bring the progress tracker in line with the delivered V4 design branch.
+3. Reconcile any staging movement after the merge; do not pull PR #1171 into this branch unless separately authorized.
+
+### Token cost (this session)
+Operator-supplied commission statistics for `design/*` Overdrive work; exact values preserved below and no additional telemetry inferred.
+
+#### Daily rollup (operator supplied)
+| Date | Spend | Requests |
+|---|---:|---:|
+| 07-11 | $123.46 | 1463 |
+| 07-12 | $85.04 | 970 |
+| 07-13 | $145.65 | 1271 |
+| 07-14 | $144.76 | 1578 |
+| 07-15 | $29.52 | 347 |
+| **Derived subtotal** | **$528.43** | **5,629** |
+
+#### Model rollup (operator supplied)
+| Model | Spend | Quality | Requests | Quality |
+|---|---:|---:|---:|---:|
+| gpt-5.6-sol | $467.72 | 95.1% | 4018 | 97.0% |
+| gpt-5.6-terra | $42.52 | 93.7% | 704 | 97.4% |
+| Gemini 3.5 Fla | $16.93 | 89.6% | 546 | 100.0% |
+| Gemini 3.1 Pro | $15.56 | 94.8% | 390 | 100.0% |
+| **Derived subtotal** | **$542.73** | — | **5,658** | — |
+
+The model-rollup request total is the arithmetic sum of the supplied rows; no token/cost telemetry beyond these operator-supplied commission statistics was inferred.
+
+## State Snapshot (2026-07-15, session — Yggdrasil II code path: #995 schema + #996 CLI branch-axis merged to staging; nomenclature reconciled)
+
+### TLDR
+- **#995 (schema) + #996 (CLI) are MERGED to `dev/yggdrasil-ii-staging`** as a stacked pair (PRs #1173, #1175). Type enum collapsed to `{basic,fusion}`; Evidence Floor removed (TM sole gate, readers guarded); `computeBranch`/Unique gates/Suite-Apex rename/branch-aware labels shipped.
+- **`suiteComponents` is NAMED-SKILL-ONLY** — never on the starless/generic parent. Branch = `f(the Named Skill's suiteComponents present?, rank)`; `type` never consulted. Corrected in CONTEXT.md, the v2 ratification handover, and #1171.
+- **"Skill"-suffix convention ratified:** the suffix attaches to **rank** words (Extra/Unique/Ultimate/Apex Skill are valid); **type words stand bare** (Basic, Fusion). `Basic Skill`/`Fusion Skill` are now guard-banned; `Extra Skill`/`Ultimate Skill` un-banned. 1★–3★ ladder words (Awakened/Named/Evolved) are always star-qualified — so **Named Skill** = the claimed-skill entity, never "a 2★ skill". `scripts/check_rank_vocabulary.py` reconciled to match.
+- **Orchestrator superadmin mode codified** in `founder/ORCHESTRATOR.md`: direct-edit authority over root `*.md` + `founder/`; all code still delegated to workers.
+- **Option C in effect:** staging `validate.py` is red with **129 legacy-enum node errors** (124 `extra` + 5 `ultimate`) — EXPECTED until #997 migration rewrites node types. Guard is green. CI reconciled at sprint close.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| #995 schema (enum collapse, evidenceFloors removal+guard, meta labels, v2 docs fetched, 4★→Extra, guard reconcile) | ✅ Merged → staging (PR #1173) |
+| #996 CLI (computeBranch named-only, Unique/UniqueImpossible gates, Suite-Apex rename, branch-aware labels, --type/--unique removal) | ✅ Merged → staging (PR #1175) |
+| CONTEXT.md nomenclature (Skill-suffix carve-out + suiteComponents named-only) | ✅ on staging |
+| founder/ORCHESTRATOR.md superadmin mode | ✅ on staging |
+| reclassify deprecation | ✅ filed #1174 (in-sprint, compat-hold — keep verb, deprecate later) |
+| #1171 design-alignment handover | ✅ spot-fixed (suiteComponents named-only + Skill-suffix); ⏳ OPEN, needs rebase onto staging when actioned post-#997 |
+| #1168 v2 taxonomy PR | ⚠ RECOMMEND CLOSE — superseded (its v2 handover docs are now on staging via #995); stale branch would REVERT the #1169 guard if merged |
+| Code path #997 migration → #998 frontend | ⏳ NOT started — #996 gates now available; unblocked |
+
+### Branches at end of session
+| Branch | Head | Status |
+|---|---|---|
+| dev/yggdrasil-ii-staging | a6236c829 | integration — #995+#996 merged |
+| dev/yggdrasil-ii-995-schema | 397b717e5 | merged to staging |
+| dev/yggdrasil-ii-996-cli | ad3226605 | merged to staging |
+| docs/yggdrasil-ii-design-alignment | 6da4f11aa | #1171 OPEN, spot-fixed, behind staging |
+| docs/contributors-update-rico-caio | f0d6e84f2 | NOT ours — concurrent process (Caio/rico README ack); restored, untouched |
+
+### Lessons / hazards preserved
+- **CONCURRENCY HAZARD:** a second process operates in THIS working copy under the `mbtiongson1` identity (created `docs/contributors-update-rico-caio`; a `fix/pr-1162-author` linked worktree exists). It switched branches mid-operation and my reconcile commit landed on the wrong branch. Recovered cleanly (cherry-picked to #996, reset the other branch). **Recommend: isolate concurrent sessions to their own worktree/clone.** Always `git branch --show-current` before commit/push.
+- **computeBranch has a dead generic-fallback** (reads named-first, then generic — but generic never has suiteComponents). Functionally correct (named-first always resolves); the fallback is dead code that contradicts the doc. Trivial cleanup follow-up.
+- **#1168 is a stale-branch trap:** diffed against staging it shows the #1169 guard as "deleted". Never merge it wholesale.
+- Verify-before-mutate paid off repeatedly (caught pre-v2 stale handover, evidenceFloors crash, 4★ Hardened, CRLF risk, guard-vs-convention conflict, the branch mishap).
+
+### Open questions for next orchestrator
+1. **Close #1168?** (superseded + stale-branch hazard) — needs founder call.
+2. **#997 migration is next** — hard cutover: rewrites 129 node types (extra/ultimate→fusion) + re-evaluates 43 4★s + 5 5★s against new gates, emitting `type_change`+`demote` events. ≥1 5★ demotes by design. This clears the 129 validate errors.
+3. Remove the dead generic-fallback in `computeBranch` to match the doc.
+4. Rebase #1171 onto staging when actioned (post-#997).
+
+### Token cost (this session)
+- Raw meter (concurrent-contaminated): Cache W/R 964,750 | 51,381,901 · Cost 39.39 CU | €21.27 · Requests 584 · Tokens Out/In 393,145 | 1,421.
+- **Interpolated (−~$5 concurrent work):** effective session cost ≈ **~€16.7 / ~31 CU**. Requests/tokens raw are inflated by the concurrent process; treat as upper bound.
+- Note: exceptionally efficient run — full 2-PR stack (schema + CLI) plus a mid-sprint nomenclature reconciliation, all landed, at ~€17.
+
+## State Snapshot (2026-07-14, session — Yggdrasil II **v2** taxonomy ratified; branch decoupled from type; #1170/#1169/#1172 merged to staging)
+
+### TLDR
+- **Ratified Yggdrasil II v2.** Branch is now derived from `(suiteComponents present?, rank)` — **NOT `type`**. `type` is pure structural metadata (`basic`|`fusion`; fusion iff has prerequisites) and is never consulted for branch. Fork recognised only at **4★+**; 1–3★ share **Awakened / Named / Evolved**. Suite ladder: **Extra / Ultimate / Apex**. Unique ladder: **Unique / Unique Ultimate / Unique Impossible**. "Transcendent" and "Hardened" are **banned**. Type ⟂ Branch (a `fusion` w/o suiteComponents is Unique; a `basic` w/ them is Suite). `suiteComponents` also feeds Trust Magnitude.
+- **Source of truth (read these, don't re-derive):** `founder/handovers/YGGDRASIL_II_RATIFICATION_2026-07-07.md` (v2 Amendment block at top supersedes Q2 + Unique/Suite/computeBranch language) and `founder/handovers/design-v6.1.1-world-tree-semantic-topology.md` (v2). **EPIC #1002 now POINTS to these instead of declaring the model** — do not re-duplicate the taxonomy into the issue.
+- **Merged to staging:** #1170 (#994 docs consolidation — META/CONTEXT/trust-methodology to v2), #1169 (#999 rank-vocabulary CI guard), #1172 (MEMORY baseline refresh).
+- **HELD:** #1168 (the two v2 source-of-truth handover docs) — design assets still flowing on `design/yggdrasil-ii-aov-v3` (#1156); merge once assets settle. **Open:** #1171 (design-branch alignment handover).
+
+### What changed this session
+| Layer | State |
+|---|---|
+| v2 model ratification (2 handover docs) | ⏳ PR #1168 OPEN — **HELD** (design assets in flight) |
+| EPIC #1002 body | ✅ De-duplicated → points to ratification doc (no more model restatement) |
+| Canonical prose docs (META, CONTEXT, trust-methodology) → v2 | ✅ Merged #1170 → staging (full hand-rewrite; main had *reverted* the model, so no cherry-pick) |
+| CI rank-vocabulary guard (bans Transcendent/Hardened, "Extra Skill"/"Ultimate Skill") | ✅ Merged #1169 → staging; META + trust-methodology **un-allowlisted** (now enforced); CONTEXT.md stays allowlisted (lexicon) |
+| Design-branch alignment handover (`founder/handovers/YGGDRASIL_II_DESIGN_ALIGNMENT.md`) | ✅ PR #1171 OPEN — action **after** #995/#996/#997 land |
+| MEMORY baseline | ✅ Refreshed with 7/14 AOV V4 block (#1172) |
+| Code path (#995 schema → #996 CLI → #997 migration → #998 frontend) | ⏳ NOT started — model now locked; unblocked |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `dev/yggdrasil-ii-staging` | `dc86630ee` | #1170 / #1169 / #1172 merged in |
+| `design/yggdrasil-ii-taxonomy-v2` | `2eb7ab68c` | PR #1168 OPEN — HELD (v2 source-of-truth docs) |
+| `docs/yggdrasil-ii-design-alignment` | `1c4c8b8e2` | PR #1171 OPEN (design alignment handover) |
+| `design/yggdrasil-ii-aov-v3` | `12247f8ac` | #1156 — design assets in flight; leave chilling |
+
+### Issues + PRs touched
+- **EPIC #1002** — body rewritten to POINT to source-of-truth handover (de-dupe).
+- **#994** → PR #1170 **MERGED**. Residual deferred: `registry/combinations.md` + `registry/registry.md` (129 "Extra Skill" hits each — regenerate via migration/docs), `DESIGN.md` (deferred to design branch per #1171).
+- **#999** → PR #1169 **MERGED** (guard + allowlist of 33 pre-existing-violation files pending #994 cleanup).
+- **#1168** (v2 docs) OPEN/HELD · **#1171** (alignment handover) OPEN · **#1172** (memory baseline) MERGED.
+
+### Routing — where things live now
+- **v2 model:** the two handover docs above (v2). Everything downstream mirrors them.
+- **Rank-vocab guard:** `scripts/check_rank_vocabulary.py` + `.github/workflows/rank-vocabulary-guard.yml`. Word-boundary regex: bare `Extra`/`Ultimate` (ranks) pass; `Extra Skill`/`Ultimate Skill` (old type labels), `Transcendent`, `Hardened` fail. Blocked scripts (generateBadges.py, generateOgCards.py, inspectTrustMagnitude.py, generate_ruflo_curation.py) + `registry/schema/**` hard-excluded (need #996 branch-aware naming).
+- **Design alignment checklist:** `founder/handovers/YGGDRASIL_II_DESIGN_ALIGNMENT.md` (#1171) — file:line anchors for DESIGN.md, skill-graph.js legacy reads, `--tier-fusion`, HTML branch copy, AOV medallion labels.
+
+### Lessons / hazards preserved
+- **Frontend raced ahead of schema.** `docs/js/world-tree-layout.js` already reads Ygg II fields (`type`, `suiteComponents`, `effectiveRank`) and derives branch; but `docs/js/skill-graph.js` still has legacy `type==='unique'` (~L409) and `type==='ultimate'` (~L1106) reads that BREAK the instant the enum collapses. **#995 (schema) and #998 (frontend) are HARD-COUPLED; #995 + #997 must land in the same merge window.**
+- **`main` has REVERTED the Yggdrasil II model** in CONTEXT.md (restored Transcendent, dropped Fusion Skill). Confirm `dev/yggdrasil-ii-staging` is the SOLE merge base for the whole sprint before closure, or that revert will fight us.
+- **CLI `computeBranch` (#996) must be byte-identical to the JS twin** or site and CLI disagree on Unique vs Suite.
+- **Guard allowlist merge-ordering rule:** whichever of a docs-cleanup PR / guard PR merges *second* must drop now-clean files from the allowlist (applied for #1170→#1169).
+- **Staging is UNPROTECTED** (no required checks) — merges land even with red non-blocking checks. Known pre-existing red: Design-lint Guard A hardcoded-color hit at `docs/css/world-tree-hero.css:297` (a CSS comment; design-side, not taxonomy).
+
+### Open questions for next orchestrator
+- Green-light **#1168** (v2 source-of-truth) merge once AOV assets settle.
+- Open the code path with **#995 schema** — needs a `schema/` branch; mutating `gaia dev` requires a 4★ named skill or `GAIA_OPERATOR_OVERRIDE=1` (verifier guard).
+- Confirm the registry data model for **`suiteComponents`** — ratified as independent of `prerequisites`/fusion parents; presence drives branch fork + feeds TM.
+- #994 residual: `registry/combinations.md` + `registry.md` clean up via migration/docs regen; `DESIGN.md` via the design branch (#1171).
+
+### Token cost (this session)
+- ~**19.31 CU / €10.43** · 284 requests · cache W/R ≈ 1.04M / 16.87M · out ≈ 280k tokens. Heavy multi-subagent session: scouts (frontend/doc survey), parallel doc + CI-guard workers, opus review + design-alignment handover, forensic object-DB sweep.
+
+---
+
+## 2026-07-14 — Ascension Cycle Overdrive V4 shape approved and production handoff
+
+### TLDR
+- Founder approved the V4 shape for Ascension Cycle Overdrive. The source of truth for the next orchestrator is `founder/handovers/design-v6.1.1-ascension-overdrive-shape-v4.md`; read it in full, including its production-handoff appendix, before modifying commissions, assets, or runtime.
+- The governing idea is **one antique medallion chassis, two paired stellar cosmologies**. Suite emits outward through stellar ascension; Unique collapses inward through gravitational failure. Rank color establishes identity, while material and cosmological behavior establish class.
+- Suite 4★ Extra is a fuchsia young-tree dwarf star; 5★ Ultimate is a burning-gold mature tree-star; 6★ Apex is a white-hot supernova Yggdrasil using the canonical `DESIGN.md` Level VI light language. Unique 4★–6★ use the same rank-paired chassis but progress inward from rooted void to accretion to impossible singularity.
+- This session completed shaping and handoff documentation only. V3 remains the implemented and remotely published state. No V4 images, runtime changes, commit, push, or PR comment were made during brainstorming.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| V4 visual thesis | ✅ Founder-approved: shared antique chassis, outward Suite stellar ladder, inward Unique collapse ladder |
+| Tier color | ✅ Promoted from faint trim to primary rank identity; branch cosmology/material carries class identity |
+| Suite 4★–6★ | ✅ Reframed from weak botanical plates to dwarf-star → mature tree-star → supernova Yggdrasil |
+| Unique 4★–6★ | ✅ Rejoined to the Suite family through matched rank chassis, crop, optical weight, and shared tree lineage |
+| Asset B | ✅ Direction fixed: keep the astrolabe/copperplate idea but reduce wallpaper dominance and preserve content legibility |
+| Asset F | ✅ Ranks 1★–3★ must lose candle/signet/compass subjects while preserving the blue/teal/violet atmospheric fields |
+| Asset H | ✅ Geometry fix specified: restore symmetry after the Y-fork and keep Unique inside the stage margin |
+| Apex micro-seals | ✅ Replace opaque white-ground miniatures with simplified transparent brass seals legible at rendered size |
+| Asset E motion | ⏳ Explicitly deferred to last priority; static D remains the approved fallback |
+| V4 production | ⏳ Not started; no generated or edited V4 asset should precede the V4 commission/harness update |
+
+### Branches at end of brainstorming
+| Branch / worktree | Head SHA | Status |
+|---|---|---|
+| `design/yggdrasil-ii-aov-v3` | `1175d8ef2567115ce56f1309578afad44a2ba1d4` | Local HEAD equals `origin/design/yggdrasil-ii-aov-v3`; V4 shape brief and this snapshot are local documentation changes only |
+| `/Users/marcotiongson/Documents/gaia-skill-tree/.worktrees/ascension-overdrive-v3-assets` | same | Dedicated Ascension worktree; continue here |
+| `dev/yggdrasil-ii-staging` | `6d06ad488a17516eead108ddfd2dede0d56efd7a` at verification | PR base; do not retarget without founder direction |
+
+### Issues + PRs touched
+- **PR #1156** — `design: ship Ascension Overdrive V3`: OPEN, ready (`isDraft: false`), merge state CLEAN at verification; head `design/yggdrasil-ii-aov-v3`, base `dev/yggdrasil-ii-staging`.
+- URL: `https://github.com/gaia-research/gaia-skill-tree/pull/1156`.
+- The remote PR still ends at `1175d8ef2`. No commit, push, force-push, PR-body mutation, or PR comment was performed in the V4 brainstorming session.
+
+### Founder decisions — preserve exactly
+- **Shared chassis:** C and D ranks 4★–6★ use the same silhouette, diameter, crop, camera, apparent depth, lighting direction, visual center, registration points, ring occupancy, tree occupancy, relief depth, and hero/card/badge optical sizing.
+- **Suite emits outward:** 1★ stellar seed → 2★ structured sapling → 3★ Y-crowned young tree → 4★ fuchsia young-tree dwarf star → 5★ burning-gold mature tree-star → 6★ white-hot supernova Yggdrasil.
+- **Unique collapses inward:** retain the conceptual power of the older Asset D art, but route the same stellar-tree lineage through rooted void → accretion/gravity → impossible singularity rather than unrelated gates or geometric posters.
+- **Color semantics:** tier/rank color is the first identity signal and must occupy a meaningful continuous area, not a faint rim. Antique brass is the shared family material. Cosmology distinguishes Suite from Unique.
+- **Apex behavior:** Suite 6★ may breach the medallion through restrained ejecta, corona, and orbit sparks. Its white-hot core and cyan/violet/amber-fuchsia spectral cycle come from the existing Level VI recipe in `DESIGN.md`.
+- **Backdrop and layout:** B can be reprocessed rather than automatically regenerated. F1–3 keep their atmospheric fields but lose foreground subjects. H is a deterministic geometry/layout repair. Small Apex seals must work without white rectangles.
+- **Motion:** E remains last priority. If motion production is unavailable or unjustified, D is the intended static fallback; do not block the V4 static suite on E.
+
+### Routing — read and work from these sources
+- **Approved V4 brief / first read:** `founder/handovers/design-v6.1.1-ascension-overdrive-shape-v4.md`. Its production appendix is the operational manifest for skills, source assets, required generations, naming, output sizes, and QA.
+- **Prior briefs retained as evidence:** `founder/handovers/design-v6.1.1-ascension-overdrive-shape-v3.md` and `founder/handovers/design-v6.1.1-ascension-overdrive-commissions-v3.md`. V4 overrides either wherever they conflict; preserve them as history.
+- **Design tokens and product context:** `DESIGN.md`, `PRODUCT.md`, and `docs/css/tokens.css`.
+- **Current V3 runtime:** `docs/index.html`, `docs/css/ascension-overdrive-v3.css`, `docs/js/ascension-overdrive-v3.js`, and `docs/assets/ascension-overdrive/aov3-*`. These remain unchanged until V4 craft is approved.
+- **V2 trunk-field sources:** `docs/assets/ascension-overdrive/f-rank-1-hero.webp`, `f-rank-2-hero.webp`, and `f-rank-3-hero.webp`.
+- **Older Unique concept sources:** `founder/handovers/design-v6.1.1-assets/Asset D/ascension-overdrive-unique-{4star-structural,5star-gravitational,6star-impossible}-v1.png` plus the neighboring variations folder.
+- **Apex reference sources:** `founder/handovers/design-v6.1.1-assets/Asset A/ascension-overdrive-apex-arch-v1.png` and `founder/handovers/design-v6.1.1-assets/Asset A/Individual/*.png`; current served derivatives are `docs/assets/ascension-overdrive/apex-arch.webp` and `apex-component-*.webp`.
+- **Immutable V3 masters and reviews:** `/Users/marcotiongson/Documents/gaia-asset-masters/ascension-overdrive-v3/` (`incoming/`, `approved/`, `review/`, `workbench/`, `tools/`). Preserve it. Start V4 in `/Users/marcotiongson/Documents/gaia-asset-masters/ascension-overdrive-v4/` and hash any selected V3 references copied into its immutable incoming archive.
+- **Useful V3 deterministic helpers:** `/Users/marcotiongson/Documents/gaia-asset-masters/ascension-overdrive-v3/tools/produce_b_c_g.py`, `workbench/generate_h_d.py`, and `workbench/asset-fi-production.py`. Treat them as starting points, not as V4 truth.
+
+### Skills + tools the next orchestrator must load or route through
+- Orchestration: `.agents/skills/gaia-orchestrator/SKILL.md` plus `founder/ORCHESTRATOR.md`; cache with `CLAUDE.md` as required by the repo instructions.
+- Visual shaping/craft: `/Users/marcotiongson/Documents/gaia-research/.claude/skills/impeccable/SKILL.md`, especially `reference/shape.md` and `reference/brand.md`.
+- Local production harness: `.agents/skills/gaia-image-production/SKILL.md` in this dedicated worktree. **Hazard:** it is V3-specific and hardcodes the V3 brief, `aov3-` naming, and reuse of F1–3 unchanged. Adapt it for V4 or explicitly subordinate those clauses to the approved V4 brief before running it.
+- Built-in generation/editing: `/Users/marcotiongson/.codex/skills/.system/imagegen/SKILL.md` and the `image_gen` tool. Use GPT Image 2 by default; inspect every local edit target first. For chroma-key alpha cleanup, use `/Users/marcotiongson/.codex/skills/.system/imagegen/scripts/remove_chroma_key.py`. Do not silently switch to a separate native-transparency model path.
+- Adjacent original reference only: `/Users/marcotiongson/Documents/gaia-research/.agents/skills/gaia-image-production/SKILL.md`. It documents an older Sharp/TypeScript ledger workflow for a different repo; do not run it directly against gaia-skill-tree.
+- Deterministic stack: Pillow, `cwebp`, `ffmpeg`/`ffprobe`, `sips`, and `shasum` for crop, resize, grade, alpha cleanup, encode, contact sheets, validation, and immutable-source hashes.
+- QA/publishing: local dev server plus desktop/mobile browser inspection first; `.agents/skills/gaia-preview/SKILL.md` only after a useful commit is pushed. Use `git`/`gh` for the same-PR flow.
+
+### Required V4 production shape
+- **B:** desktop and mobile outputs. Reprocess the existing master first; regenerate only if a proof cannot achieve the quieter copperplate/astrolabe role.
+- **C:** align 1★–3★ to seed/sapling/Y-crown and strengthen rank ownership as needed; structurally replace 4★–6★. If the full ladder refreshes, produce hero 2048², card/mobile 800², and badge 240² variants for each rank.
+- **D:** structurally replace ranks 4★–6★ on the exact paired C chassis; produce hero 2048², card/mobile 800², and badge 240² variants for each rank.
+- **F:** subject-remove/inpaint ranks 1★–3★ while preserving their existing tier-colored fields; produce desktop and mobile derivatives. Retain/regrade F4–6 unless the architecture still competes with the stellar medallion.
+- **H:** repair as deterministic vector/layout work, with a new V4 master outside Git and optimized WebP fallback(s) in the repo. Suite and Unique paths must share a geometry source.
+- **Apex micro-seals:** derive six simplified transparent brass seals from Asset A first; regenerate only if tracing/simplification fails at final size.
+- **I:** derive desktop/mobile terminal art directly from approved D6 so the endpoint cannot drift.
+- **G:** reuse or regrade existing haze; generate only if compositing fails.
+- **E:** defer. A later motion pass, if authorized, follows the V3 delivery matrix and uses D as poster/fallback.
+- Lossless masters remain outside Git. Repo raster delivery is optimized WebP with an `aov4-` prefix. Preserve V3 files rather than overwriting them.
+
+### Next implementation sequence
+1. Load the Gaia orchestrator, Impeccable, and image-production instructions; read the approved V4 brief and appendix in full.
+2. Create a V4 commission/handoff from the V3 commission, resolving every conflicting V3 prompt and filename before image generation.
+3. Make the local image-production harness V4-aware: `aov4-` outputs, new V4 master root, revised F1–3 policy, current source hashes, and V4 validation/contact-sheet rules.
+4. Establish the V4 archive and deterministic baseline; then prove B, F, H, Apex micro-seals, and rank-color treatment without unnecessary regeneration.
+5. Generate/edit the paired C/D ladder rank-by-rank, comparing equal-size pairs and hero/card/badge reductions before accepting a rank. Derive I from accepted D6.
+6. After asset approval, add V4 runtime files (`docs/css/ascension-overdrive-v4.css`, `docs/js/ascension-overdrive-v4.js`) and wire `docs/index.html`; keep V3 as an archive.
+7. QA at 1440, 900, 768, 390, and 375px in normal and reduced motion. Check pair-family resemblance, rank-color ownership, optical scale, alpha halos, margin containment, and small-size seal legibility.
+8. Commit and push milestones to PR #1156. Comment on the PR only when the V4 deliverable is genuinely complete.
+
+### Lessons / hazards preserved
+- The worktree-local `gaia-image-production` skill is a useful harness but not a current brief. Its V3 hardcodes can quietly recreate the rejected V3 decisions unless corrected first.
+- Preserve immutable originals and V3 approvals. Never edit `incoming/` or overwrite V3 masters; create versioned V4 workbench and approved outputs.
+- Do not treat added ornament as progression. Suite advances by mass, heat, radiance, and scale; Unique advances by gravity, occlusion, structural interruption, and collapse.
+- Do not let white transparency proxies survive into repo derivatives. Inspect alpha at card/badge size on actual Suite and Unique backgrounds.
+- C/D pairing must be reviewed with labels and stars hidden. If the chassis, crop, tree axis, or optical weight diverges, the pair fails even when each image is attractive alone.
+- B should remain atmospheric, F should remain a field, H should remain contained, and I must be a derivative of D6. These roles prevent background assets from competing with medallions.
+- Do not let E motion delay the static V4 pass.
+
+### Open questions for next orchestrator
+- Decide by visual proof, not assumption, whether C1–3 need deterministic edits or full regeneration; the approved concept is fixed, but the minimum-change production method remains open.
+- Test whether F4–6 survive a regrade after the new C4–6 medallions exist. Regenerate only if the existing architecture remains the dominant subject.
+- Confirm exact V4 encode budgets and any native SVG exception in the V4 commission before export; the repo default remains WebP-only raster delivery.
+- Reverify branch/base/PR state and remote head at the start of implementation because those facts can drift after this snapshot.
+
+### Token cost (this brainstorming + shaping session)
+Exact token and dollar telemetry was unavailable in this harness. Approximate only: the root orchestrator plus delegated brief/visual scouts and V4 document writers likely used **150k–250k input tokens** and **20k–35k output tokens**. No exact dollar cost is claimed.
+
+---
+
+## State Snapshot (2026-07-12, session — world-tree semantic topology ratified, sub-agents dispatched)
+
+### TLDR
+- PR **#1125** hero-tree reshape entering a new phase: from "living DAG over a raster" to a **semantically-placed tree**. Nodes will read as a tree because *position means something* — not just curve-bundling.
+- Ratified model: **two orthogonal axes** — hemisphere (type → crown for fusion/extra/ultimate, root for basic) and **coreness** (effective rank → radius; 6★ heartwood center → 0★ outer twigs). Bough angle = cluster group. Promotion = motion inward toward the core.
+- **Y-fork:** Uniques are NOT graph-isolated (corrected from first draft) but render **outside** the tree as a **dark single-side constellation** ("standing stones"). Suites converge to crown-core.
+- **Compatibility:** ONE function `resolveSemantics()` maps both Ygg I (`basic/extra/ultimate/unique`) and Ygg II (`basic/fusion`+branch) onto a frozen output contract. Meta detected by feature-check, no version flag. Cutover = edit one function.
+- **Effective rank** joined at RUNTIME from `docs/graph/named/index.json` buckets (starless graph has `level:null`); no artifact/pipeline change (design-branch scope). **Color→rank, glyph→type** in explorer; hero stays positional-only monochrome gold.
+- Spec: `founder/handovers/design-v6.1.1-world-tree-semantic-topology.md` (committed `f0b9c2b84`). Also fixed the `gaia-preview` skill (was pointing at main-gated `sync-artifacts.yml`; now `cf-pr-preview.yml`, `9832bce55`).
+
+### DoD (operator-ratified)
+1. Hero 2D reads as a tree (trunk, forks, roots aligned to backdrop) · 2. 3D graph shapes as tree with correct layering + color-by-rank/glyph-by-type · 3. Ygg I compat works today · 4. Performance optimized (no per-frame regressions).
+
+### Dispatch (3 sub-agents, all → `design/homepage-gaia-tree-hero`)
+- Agent 1: `world-tree-layout.js` resolver + synthetic armature + coreness + unique-outside + edge re-routing + tests. Freezes the contract.
+- Agent 2: `skill-graph.js` runtime rank-join + armature/spire render + color/glyph re-axis + legend/hover + perf. Consumes Agent 1.
+- Agent 3: `docs/` mechanics note + `DESIGN.md` token notes.
+- No merging this session — post PR comment when done. Additional PRs (if any) merge INTO this design branch.
+
+### Branch at start of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `design/homepage-gaia-tree-hero` | `f0b9c2b84` | topology handover + preview-skill fix pushed; PR #1125 into `dev/yggdrasil-ii-staging`, MERGEABLE |
+
+---
+
+## State Snapshot (2026-07-12, Yggdrasil hero final — raster-backed living DAG ready for preview)
+
+### TLDR
+- Draft PR **#1125** now presents the homepage as an unmistakable gold Gaia Skill Tree: the approved Yggdrasil backdrop supplies fine bark/root atmosphere and the complete canonical DAG supplies the brighter semantic ray-tracing layer.
+- The same singleton graph morphs into the fullscreen Tree Explorer, recovers true tier colors, retains orbit/hover/filter/collection behavior, and reverses to the exact 2D hero pose. Field View remains deprecated.
+- Browser-verified at 1280x720, 390x844, and 320x568. The tree remains tree-shaped from frontal and side orbits; mobile chrome no longer overlaps and expanded Collection stays above the bottom rail.
+- Performance pass reduced the 320px Explorer two-second idle window from about **999ms task / 706ms script** to **323ms task / 150ms script**. The source 1.2MB PNG is delivered as responsive **48KB / 153KB WebP** assets.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| Approved gold Yggdrasil backdrop | ✅ Responsive raster composite, fine-pointer parallax, roots visible beneath the live hero projection |
+| Dynamic DAG shape | ✅ Root flare, narrow trunk, rounded crown, high tip, stable golden-angle bough placement |
+| Edge fidelity | ✅ All 235 nodes and all 401 canonical edges retained; 129 structural wood edges and 272 quieter grafts; no invented edges |
+| 2D → 3D state | ✅ Raster recedes to a faint front reference plane; live nodes gain cylindrical depth and canonical tier colors |
+| Mobile Explorer layout | ✅ One-row controls at 320px, status below toolbar, Collection above rail, zero document overflow |
+| Performance | ✅ Per-frame projection inputs cached; mobile idle rendering capped near 30fps while morph/drag/hover/pin stay responsive |
+| Accessibility | ✅ 44px hero targets, modal semantics, Escape reversal, normal and reduced-motion focus restoration |
+| Design contract | ✅ `DESIGN.md` and the approved World Tree implementation brief document raster/semantic-layer and structural/graft rules |
+
+### Branches at end of session
+| Branch | Head SHA | Status |
+|---|---|---|
+| `design/homepage-gaia-tree-hero` | `d4bf636a9` | Pushed; draft PR #1125 into `dev/yggdrasil-ii-staging` |
+| `dev/yggdrasil-ii-staging` | PR base | Intentionally unchanged |
+
+### Commits shipped this final pass
+| SHA | Message |
+|---|---|
+| `1a89dd685` | `feat(home): layer the living DAG over Yggdrasil` |
+| `d4bf636a9` | `docs(home): codify the Yggdrasil graph contract` |
+
+### Issues + PRs touched
+- **PR #1125** — `design(home): grow the Gaia Skill Tree hero` (draft), related to Yggdrasil II masterplan #1002.
+- No registry/schema, Fusion/Unique, Hall, nav, Ascension, or generated artifact mutation was performed.
+
+### Routing — where things live now
+- Hero/raster composition and mobile Explorer rules: `docs/css/world-tree-hero.css`.
+- Canonical adaptive tree layout and structural/graft classification: `docs/js/world-tree-layout.js`.
+- Singleton projection, morph, interaction, performance cache, and modal lifecycle: `docs/js/skill-graph.js`.
+- Responsive approved backdrop: `docs/assets/world-tree/yggdrasil-backdrop-480.webp` and `yggdrasil-backdrop-941.webp`.
+- Shape contract: `docs/superpowers/plans/2026-07-11-gaia-world-tree-hero.md`; brand exception: `DESIGN.md`.
+- Final local browser captures: `~/.codex/visualizations/2026/07/12/yggdrasil-final/`.
+
+### Verification
+- `node --test tests/world-tree-layout.test.js`: **12 passing** including canonical edge fidelity, deep 120-node intake chains, stable bough slots, and structural-parent selection.
+- `pytest tests/test_world_tree_layout.py`: **1 passing**; `pytest tests/test_graph.py`: **18 passing**.
+- JavaScript syntax, `scripts/check_nav_mounts.py`, and `git diff --check`: passing.
+- Chromium interaction replay: normal/reduced motion, open/close, Escape, focus restoration, Collection expand, front/side orbit, desktop and two mobile widths.
+- Local generated skill-detail requests still return known 404s because artifacts were intentionally not regenerated for this design pass; staging docs sync remains the correct later step.
+
+### Lessons / hazards preserved
+- The backdrop is atmospheric only. Never replace the live graph with a raster or infer prerequisite edges from the artwork.
+- Use one deterministic real parent edge per non-root as structural wood and retain every other real edge as a graft; this preserves all-edge truth while keeping arbitrary intake growth readable.
+- Reduced-motion transitions can complete synchronously. Capture opener focus and set modal semantics before calling `setViewMode()`, not afterward.
+- Avoid per-node/per-edge `getComputedStyle()` and `matchMedia()` inside projection; cache those inputs once per frame.
+- Existing unrelated `.gitignore`, `.claude/skills/gaia-image-production/`, `.claude/skills/mockup-iteration/`, and `founder/yggdrasil-commission.md` worktree changes were deliberately left untouched and uncommitted.
+
+### Open questions for next orchestrator
+- Dispatch and visually inspect the Gaia preview for PR #1125; keep the PR draft while the new meta is staged.
+- Later staging work may regenerate Class S artifacts and resolve the known local skill-detail 404s; do not fold that into this design commit.
+- Yggdrasil II's future schema adapter may add ratified Suite/Unique semantics, but the layout, edge-preservation contract, and interaction model should remain unchanged.
+
+### Token cost (this session)
+Estimated only; `/pi-cost` intentionally skipped per operator instruction. Across the long design/iteration chain and continuations: roughly **180k–260k input tokens** and **25k–40k output tokens**.
+
+---
+
 ## ⚡ Ready-to-dispatch — W4 design approved, PR #958 ready for merge (READ THIS FIRST NEXT SESSION)
 
 **W4 frontend design approved.** Marcus reviewed and approved the `/benchmarks/` redesign in session 35. PR #958 (`dev/sprint-d-benchmark-leaderboard → dev/sprint-d`) is ready to merge — no outstanding blockers.
@@ -16,6 +1624,18 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 5. Close EPIC **#902** (auto-closes via `Resolves` clause).
 
 **GSB tracking issue:** #964 (`feat(gsb): bootstrap gaia-skill-bench repo`) filed this session. Not Sprint D work — deferred until after `gaia-research` website launches.
+
+---
+
+## State Snapshot (2026-07-09/10 — v6.4.0 release cut + `release.yml` repair)
+
+Release session. Did NOT rebase and did NOT touch this branch's tree — all work landed on `main` via three short-lived branches; snapshotting here only because the operator asked to record it on `dev/*`.
+
+- **Two triage-sprint follow-ups landed to main as complete work** (no deferred follow-ups, per the new sprint-completeness rule in CLAUDE.md): **#1110** made trending drift warn-only in `gaia dev docs --check` (kills the UTC-day-rollover false positive that failed unrelated PRs; closes **#1108**), and **#1111** codified the "sprints ship complete — spillover is scoped during staging, not deferred" rule (carried **#611**, which had shipped in #1107).
+- **Root-caused + fixed the 100%-failing `Release` workflow (#1112, yml-only per operator constraint — Class P/S handling untouched).** `release.yml`'s `validate-graph` job ran `validate_redaction.py`/`validate_timelines.py` against the gitignored Class P `registry/named-skills.json` **without regenerating it first**, so the gate failed on every tagged release and no Release was ever created through that path since v5.0.0. Fix mirrors `validate.yml`: `pip install -e ".[dev]"` + a "Build intermediate registry artifacts" step (`assemble_gaia.py` + `generateNamedIndex.py` + `docs/graph/named/index.json` mirror). **Proof:** v6.4.0's release.yml run = ✅ success (first green through that path; v6.0.0 and v5.1.0 both ❌).
+- **Cut v6.4.0** — first Production/Latest since v6.0.0, a 139-commit consolidation of the v6.1.x–v6.3.x canary line. Promoted to Latest with curated notes (`generated-output/changelog_v6.4.0.md`); published to **PyPI** (live: `latest 6.4.0`, both wheel + sdist). Lockstep confirmed across the three tracked manifests.
+- **Unfixed CLI bug (noted, not fixed):** `gaia dev release` git-adds the gitignored `registry/gaia.json` — its `os.path.exists` filter doesn't exclude gitignored-but-present files — so the local release commit aborts. Worked around by hand (staged only the three tracked manifests). Candidate backlog item; not filed pending operator go-ahead.
+- Token spend logged as a comment on **#1112**.
 
 ---
 

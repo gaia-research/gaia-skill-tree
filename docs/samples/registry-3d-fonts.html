@@ -199,7 +199,7 @@
         ctx.fillStyle = readVar('--honor-red');
         ctx.fillText(handleTxt, paddingX, h / 2);
         var w1 = ctx.measureText(handleTxt).width;
-        ctx.fillStyle = readVar('--tier-ultimate'); // mock rank color
+        ctx.fillStyle = readVar('--rank-5'); // mock rank color
         ctx.fillText(slashTxt, paddingX + w1, h / 2);
         var w2 = ctx.measureText(slashTxt).width;
         
@@ -263,8 +263,5 @@
       window.addEventListener('load', build);
     }
   </script>
-<!-- impeccable-live-start -->
-<script src="http://localhost:8400/live.js"></script>
-<!-- impeccable-live-end -->
 </body>
 </html>

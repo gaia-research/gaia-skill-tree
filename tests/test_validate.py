@@ -61,24 +61,35 @@ class TestValidate(unittest.TestCase):
         self.assertEqual(code, 1, "Expected duplicate edge graph to fail validation.")
         self.assertIn("Duplicate edge", out)
 
-    def test_bad_evidence(self):
-        """Ensure insufficient evidence is caught."""
-        code, out = run_validate(os.path.join(FIXTURES_DIR, "bad_evidence.json"))
-        self.assertEqual(code, 1, "Expected bad evidence graph to fail validation.")
-        self.assertIn("needs evidence class", out)
+    def test_orphaned_fusion(self):
+        """Ensure a fusion with fewer than the minimum prerequisites is caught.
 
-    def test_orphaned_composite(self):
-        """Ensure extras with < 2 prerequisites are caught."""
+        Yggdrasil II collapsed the type enum to {basic, fusion}: the retired
+        `extra` type carried a >=2 prerequisite floor, `fusion` carries >=1
+        (meta.json types.minPrereqs). The fixture is a fusion with zero.
+        """
         code, out = run_validate(os.path.join(FIXTURES_DIR, "orphaned_extra.json"))
-        self.assertEqual(code, 1, "Expected orphaned extra to fail validation.")
-        self.assertIn("needs ≥2 prerequisites", out)
+        self.assertEqual(code, 1, "Expected orphaned fusion to fail validation.")
+        self.assertIn("needs \u22651 prerequisites", out)
 
-    def test_legendary_no_approval(self):
-        """Ensure validated ultimate with < 3 Class A/B evidence is caught."""
-        code, out = run_validate(os.path.join(FIXTURES_DIR, "ultimate_no_approval.json"))
-        self.assertEqual(code, 1, "Expected ultimate with no approval to fail validation.")
-        self.assertIn("Validated ultimate", out)
-        self.assertIn("needs ≥3 Class A/B evidence", out)
+    # test_legendary_no_approval was DELETED under Yggdrasil II, together with
+    # its fixture tests/fixtures/ultimate_no_approval.json. It asserted that
+    # validate.py emits "Validated ultimate ... needs >=3 Class A/B evidence"
+    # for a `type: "ultimate"` node. Both halves of that contract are retired:
+    # `ultimate` is no longer a type (the enum is {basic, fusion}; Ultimate is
+    # now only the 5-star SUITE rank WORD, and ranks live on named skills), and
+    # the Class-A/B COUNT floor was superseded by Trust Magnitude as the sole
+    # numeric gate (META.md "Suite 5-star Ultimate pathway"; #995). The producing
+    # function validate_ultimate() is gone — see the retirement note in
+    # scripts/validate.py.
+    #
+    # The test was also already passing for the wrong reason: all four fixture
+    # nodes omit the required `knownAgents` property, so run_validate returned
+    # exit 1 from schema errors alone, independent of the ultimate check. Same
+    # masked-failure pattern as the old orphaned_extra.json fixture.
+    #
+    # TM-as-sole-gate is covered by
+    # tests/test_promotion.py::TestTrustMagnitudeIsTheSoleGate.
 
     def test_atomic_with_prerequisites(self):
         """Ensure a basic skill that declares prerequisites is rejected."""
@@ -253,6 +264,60 @@ class TestNamedSkillValidation(unittest.TestCase):
             )
         finally:
             shutil.rmtree(temp_named_dir)
+
+
+class TestMetaEpochsMetaSync(unittest.TestCase):
+    """Regression guard for the Yggdrasil II structured-provenance schema (#1189).
+
+    Ensures the metaEpochs enum and the optional metaEpoch/migrationBatch timeline
+    fields exist in lockstep across the canonical registry/schema/ tree and the
+    bundled src/gaia_cli/data/registry/schema/ mirror, and that the pre-existing
+    timeline action enum still admits type_change (which the invariant pairs against).
+    """
+
+    CANONICAL_META = os.path.join(REPO_ROOT, "registry", "schema", "meta.json")
+    BUNDLED_META = os.path.join(
+        REPO_ROOT, "src", "gaia_cli", "data", "registry", "schema", "meta.json")
+    CANONICAL_NAMED = os.path.join(REPO_ROOT, "registry", "schema", "namedSkill.schema.json")
+    BUNDLED_NAMED = os.path.join(
+        REPO_ROOT, "src", "gaia_cli", "data", "registry", "schema", "namedSkill.schema.json")
+    SYNC_SCRIPT = os.path.join(REPO_ROOT, "scripts", "sync_bundled_schemas.py")
+
+    @staticmethod
+    def _load(path):
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+
+    def test_meta_epochs_present_in_both_meta_copies(self):
+        """metaEpochs.order exists and matches in canonical and bundled meta.json."""
+        canonical = self._load(self.CANONICAL_META).get("metaEpochs", {})
+        bundled = self._load(self.BUNDLED_META).get("metaEpochs", {})
+        self.assertIn("yggdrasil-ii", canonical.get("order", []))
+        self.assertIn("yggdrasil-i", canonical.get("order", []))
+        self.assertEqual(canonical.get("order"), bundled.get("order"))
+        self.assertEqual(canonical.get("labels"), bundled.get("labels"))
+
+    def test_bundle_is_byte_identical(self):
+        """sync_bundled_schemas.py --check exits 0 (bundle byte-identical to canonical)."""
+        result = subprocess.run(
+            [sys.executable, self.SYNC_SCRIPT, "--check"],
+            cwd=REPO_ROOT, capture_output=True, text=True,
+        )
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_named_schema_declares_provenance_fields_in_both_copies(self):
+        """Both namedSkill.schema.json copies declare metaEpoch and migrationBatch."""
+        for path in (self.CANONICAL_NAMED, self.BUNDLED_NAMED):
+            props = (self._load(path)["definitions"]["timelineEvent"]["properties"])
+            self.assertIn("metaEpoch", props, f"metaEpoch missing in {path}")
+            self.assertIn("migrationBatch", props, f"migrationBatch missing in {path}")
+            # migrationBatch must keep its <slug>@YYYY-MM-DD pattern
+            self.assertIn("@", props["migrationBatch"].get("pattern", ""))
+
+    def test_timeline_action_enum_still_contains_type_change(self):
+        """The timeline action enum still admits type_change (paired by the invariant)."""
+        props = self._load(self.CANONICAL_NAMED)["definitions"]["timelineEvent"]["properties"]
+        self.assertIn("type_change", props["action"]["enum"])
 
 
 if __name__ == "__main__":

@@ -9,9 +9,13 @@
       "overallTrustGrade": "C",
       "contributor": "laravel",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/laravel/upgrade-laravel-v13.json"
-      }
+      },
+      "genericSkillRef": "framework-upgrade"
     }
   ],
   "namedSkillsCount": 1,

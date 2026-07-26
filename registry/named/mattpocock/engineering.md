@@ -10,7 +10,7 @@ level: 4★
 description: Engineering category suite for Matt Pocock's skills. Removed from mattpocock/skills
   suite in v1.0.1.
 createdAt: '2026-05-21'
-updatedAt: '2026-06-10'
+updatedAt: '2026-07-20'
 trustMagnitude: 270.0
 overallTrustGrade: A
 apexGateStatus:
@@ -36,6 +36,13 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 5★ to 4★ per G7 final rankings calibration.
+- timestamp: '2026-07-20T18:16:45Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''engineering-discipline'' type: extra/ultimate → fusion
+    (Yggdrasil II taxonomy migration #997)'
+  metaEpoch: yggdrasil-ii
+  migrationBatch: yggdrasil-ii@2026-07-20
 suiteRef: mattpocock/skills
 suiteComponents:
 - mattpocock/diagnose
@@ -50,7 +57,6 @@ suiteComponents:
 - mattpocock/zoom-out
 trustMagnitudeInputHash: 4c0c7b233e624b41fc0b52204b68f31891b2e5d33b311a17b288573ab2927bca
 ---
-
 ## Overview
 
 The Matt Pocock Engineering Discipline is a suite of ten complementary skills that cover the full engineering workflow: orientation (Zoom Out, Triage), diagnosis (Diagnose), design review (Grill with Docs, Improve Codebase Architecture), decomposition (To PRD, To Issues), domain modelling (Ubiquitous Language), rapid validation (Prototype), and onboarding (Setup Matt Pocock Skills). The skills are designed to be used together — Zoom Out and Triage orient the agent, Diagnose drives a feedback-loop-first debugging discipline, To PRD and To Issues decompose work into tracked units, and Improve Codebase Architecture deepens modules using the domain glossary produced by Ubiquitous Language.

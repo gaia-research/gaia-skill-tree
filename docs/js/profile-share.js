@@ -141,6 +141,57 @@
     }
   }
 
+  function blobToDataUrl(blob) {
+    return new Promise(function (resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function () { resolve(String(reader.result || '')); };
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  }
+
+  function downloadStandaloneSvg(svgUrl, filename) {
+    return fetch(svgUrl)
+      .then(function (response) {
+        if (!response.ok) throw new Error('SVG download failed');
+        return response.text();
+      })
+      .then(function (source) {
+        var doc = new DOMParser().parseFromString(source, 'image/svg+xml');
+        if (!doc.documentElement || doc.querySelector('parsererror')) throw new Error('Invalid SVG');
+        var images = Array.prototype.slice.call(doc.querySelectorAll('image'));
+        return Promise.all(images.map(function (image) {
+          var raw = image.getAttribute('href') ||
+            image.getAttributeNS('http://www.w3.org/1999/xlink', 'href');
+          if (!raw || raw.indexOf('data:') === 0) return Promise.resolve();
+          var assetUrl = new URL(raw, svgUrl);
+          if (assetUrl.protocol !== 'http:' && assetUrl.protocol !== 'https:') return Promise.resolve();
+          return fetch(assetUrl.href)
+            .then(function (response) {
+              if (!response.ok) throw new Error('SVG asset download failed');
+              return response.blob();
+            })
+            .then(blobToDataUrl)
+            .then(function (dataUrl) {
+              image.setAttribute('href', dataUrl);
+              image.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', dataUrl);
+            });
+        })).then(function () {
+          var body = '<?xml version="1.0" encoding="UTF-8"?>\n' +
+            new XMLSerializer().serializeToString(doc.documentElement);
+          var blob = new Blob([body], { type: 'image/svg+xml' });
+          var blobUrl = URL.createObjectURL(blob);
+          var anchor = document.createElement('a');
+          anchor.href = blobUrl;
+          anchor.download = filename;
+          document.body.appendChild(anchor);
+          anchor.click();
+          document.body.removeChild(anchor);
+          setTimeout(function () { URL.revokeObjectURL(blobUrl); }, 0);
+        });
+      });
+  }
+
   // ─── Open ─────────────────────────────────────────────────────────────────
 
   // Resolve data-og against location.origin and reject anything that isn't an
@@ -178,8 +229,15 @@
     // Update preview image.
     var preview = qs('[data-share-preview]', modal);
     if (preview) {
-      preview.src = ogUrl;
+      // SVGs loaded through <img> cannot fetch their external WebP medallion;
+      // show the self-contained PNG produced by the same build instead.
+      var previewUrl = ogUrl.replace(/\.svg(\?.*)?$/, '.png');
+      preview.src = previewUrl;
       preview.alt = 'OG card for ' + skillName + ' by @' + handle;
+      preview.onerror = function () {
+        preview.onerror = null;
+        if (previewUrl !== ogUrl) preview.src = ogUrl;
+      };
     }
 
     // Update caption.
@@ -193,6 +251,13 @@
     if (downloadEl) {
       downloadEl.href = ogUrl;
       downloadEl.setAttribute('download', handle + '-' + skillIdShort + '.svg');
+      downloadEl.onclick = function (e) {
+        e.preventDefault();
+        showToast('Preparing self-contained SVG card…');
+        downloadStandaloneSvg(ogUrl, handle + '-' + skillIdShort + '.svg')
+          .then(function () { showToast('Downloaded self-contained SVG card.'); })
+          .catch(function () { showToast('SVG download failed. Please try again.'); });
+      };
       // download anchor is same-origin — no rel="noopener" needed.
     }
 

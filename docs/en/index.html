@@ -51,7 +51,7 @@
     }
 
     .docs-nav-logo span {
-      color: var(--tier-ultimate, #f59e0b);
+      color: var(--rank-5);
     }
 
     .docs-nav-sep {
@@ -85,8 +85,8 @@
     /* ── Hero ── */
     .docs-hero {
       max-width: 860px;
-      margin: 5rem auto 0;
-      padding: 0 2rem;
+      margin: 6rem auto 0;
+      padding: 0 1.25rem;
       text-align: center;
     }
 
@@ -120,9 +120,9 @@
     .docs-grid {
       max-width: 1000px;
       margin: 4rem auto 5rem;
-      padding: 0 2rem;
+      padding: 0 1.25rem;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-template-columns: 1fr;
       gap: 1.25rem;
     }
 
@@ -253,7 +253,7 @@
 
     .code-fence pre .c { color: var(--muted, #64748b); }
     .code-fence pre .kw { color: var(--tier-basic, #38bdf8); }
-    .code-fence pre .str { color: var(--tier-extra, #c084fc); }
+    .code-fence pre .str { color: var(--rank-4); }
     .code-fence pre .cmd { color: #86efac; }
 
     /* ── Footer ── */
@@ -329,16 +329,15 @@
       white-space: nowrap;
     }
 
-    @media (max-width: 640px) {
-      .docs-hero { margin-top: 6rem; }
-      .docs-hero-eyebrow { margin-top: 0; margin-bottom: 0.5rem; }
-      .docs-grid { grid-template-columns: 1fr; }
-      .docs-footer { justify-content: center; text-align: center; }
+    /* mobile-first: base is single-column, 390px reads as stacked; desktop gets grid */
+    @media (min-width: 641px) {
+      .docs-hero { margin-top: 5rem; padding: 0 2rem; }
+      .docs-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); padding: 0 2rem; }
+      .docs-footer { justify-content: space-between; text-align: left; }
     }
 
     /* Mobile Navigation Fixes */
     @media (max-width: 600px) {
-      .docs-hero { margin-top: 7rem; }
       .docs-nav {
         padding: 0 1rem;
         gap: 0.5rem;
@@ -380,6 +379,14 @@
   "url": "https://gaiaskilltree.com/en/"
 }
 </script>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TS7N9T92BM" data-ga4="G-TS7N9T92BM"></script>
+  <script data-ga4="G-TS7N9T92BM">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-TS7N9T92BM');
+  </script>
 </head>
 <body>
 
@@ -484,7 +491,7 @@
     <a class="docs-card" href="mcp-server.html">
       <span class="docs-card-icon">🔌</span>
       <span class="docs-card-title">MCP Server</span>
-      <span class="docs-card-desc">Use <code>@gaia-registry/mcp-server</code> to give any MCP-compatible agent access to the skill graph at runtime.</span>
+      <span class="docs-card-desc">Use <code>@gaia-registry/mcp@0.1.0</code> to give any MCP-compatible agent access to the skill graph at runtime.</span>
       <span class="docs-card-badge new">● New</span>
     </a>
     <a class="docs-card" href="share-bundles.html">
@@ -620,8 +627,5 @@
       if (window.GAIA_VERSION && verEl) verEl.textContent = 'v' + window.GAIA_VERSION;
     })();
   </script>
-<!-- impeccable-live-start -->
-<script src="http://localhost:8400/live.js"></script>
-<!-- impeccable-live-end -->
 </body>
 </html>

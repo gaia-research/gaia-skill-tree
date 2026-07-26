@@ -15,5 +15,5 @@ Converts text from one natural language to another while preserving meaning, ton
 
 ## Derivatives
 
-- [Translation Pipeline](/skills/extra/translation-pipeline.md)
+- [Translation Pipeline](/skills/fusion/translation-pipeline.md)
 

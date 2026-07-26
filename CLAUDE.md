@@ -159,8 +159,7 @@ Every change to a user's `skill-trees/<username>/skill-tree.json` **must** be ac
 
 | Operation | CLI command |
 |---|---|
-| Unlock / rank up via scan | `gaia scan` then `gaia promote <skillId>` |
-| Fuse skills | `gaia fuse <skillId>` |
+| Fuse skills (confirm/declare a fusion locally) | `gaia fuse <skillId>` |
 | Append event at current time | `gaia dev timeline <skillId> --user <username> --action <action> --notes "..."` |
 | Backfill a historical event | `gaia dev timeline <skillId> --user <username> --action <action> --notes "..." --timestamp "YYYY-MM-DDTHH:MM:SSZ"` |
 
@@ -189,7 +188,7 @@ All commands default to **local-first** output (user's own skill levels, detecte
 All mutating `gaia dev` subcommands (add, merge, split, rename, calibrate, evidence,
 rm-evidence, link, reclassify, update-named, timeline, rm, verify, build) require
 **Verifier authorization**.  Read-only subcommands (`list`, `audit`, `diff`) and all
-player-facing commands (`gaia promote`, `gaia fuse`, `gaia scan`, `gaia push`) are
+player-facing commands (`gaia fuse`, `gaia scan`, `gaia push`) are
 **never** gated.
 
 Run `gaia whoami` to check your current authorization status and see which path
@@ -232,9 +231,9 @@ Bot actors (`*[bot]`, `jules`, `codex`, `claude-bot`, `gemini-bot`) are always a
 
 CI enforces scope via `.github/workflows/branch-scope.yml`. Schema changes (`registry/schema/`) MUST use a `schema/` branch. Label `skip-scope-check` to bypass in emergencies.
 
-## Promotion Rule
+## No self-promote (Yggdrasil II)
 
-`gaia scan` writes `generated-output/promotion-candidates.json` and renders the user's tree. `gaia promote <skill> --label <level>` may only promote a pair listed in that file; stale candidate files are rejected after 24 hours.
+Rank/level is assigned ONLY by canon curation (dev-gated). The non-dev CLI's job ends at *propose*: `gaia scan` detects the fusions you have the prerequisites for and renders your tree; `gaia fuse` confirms a detected combination or declares a custom fusion locally (levelless — `type: fusion`); `gaia push` proposes the structure to canon, where curation "awakens" it and assigns rank. No non-dev CLI path writes rank/level into `skill-trees/<user>/skill-tree.json`. (There is no `gaia promote` — it was retired in the Ygg II CLI alignment.)
 
 ## Versioning
 
@@ -247,7 +246,7 @@ The pre-commit hook keeps these in lockstep:
 
 If they disagree before the bump, the hook fails loudly. Use `gaia dev release <type> --sync` to force-align manifests to the highest version before bumping. Use `gaia dev release patch|minor|major` to bump all at once.
 
-> **Deprecation:** `gaia release` is a shim delegating to `gaia dev release` with a warning; removed in v7.0.0. Use `gaia dev release` directly.
+> **Retired (v7.0.0):** the top-level `gaia release` shim is gone — use `gaia dev release` directly. Likewise `gaia mcp`, `gaia validate`, `gaia test`, `gaia docs build`, and `gaia _hook` were removed; their canonical forms live under `gaia dev`.
 
 ### Decorative assets must NOT carry version metadata
 
@@ -300,9 +299,11 @@ When touching any of these, route registry mutations through `gaia dev add`/`mer
 
 ## gstack
 
-Installed at `~/.claude/skills/gstack`. Use the `/browse` skill from gstack for **all web browsing**. Never use `mcp__claude-in-chrome__*` tools.
+Installed at `~/.claude/skills/gstack`.
 
-Available: `/office-hours`, `/plan-ceo-review`, `/plan-eng-review`, `/plan-design-review`, `/design-consultation`, `/design-shotgun`, `/design-html`, `/review`, `/ship`, `/land-and-deploy`, `/canary`, `/benchmark`, `/browse`, `/connect-chrome`, `/qa`, `/qa-only`, `/design-review`, `/setup-browser-cookies`, `/setup-deploy`, `/setup-gbrain`, `/retro`, `/investigate`, `/document-release`, `/document-generate`, `/codex`, `/cso`, `/autoplan`, `/plan-devex-review`, `/devex-review`, `/careful`, `/freeze`, `/guard`, `/unfreeze`, `/gstack-upgrade`, `/learn`
+**Web browsing — Playwright ONLY.** The `/browse` skill is **BANNED** (never worked reliably — Marco, 2026-07-18). Do NOT invoke `/browse`, and do NOT use `mcp__claude-in-chrome__*` tools. All web browsing, page rendering, and screenshots go through Playwright.
+
+Available (excluding the banned `/browse`): `/office-hours`, `/plan-ceo-review`, `/plan-eng-review`, `/plan-design-review`, `/design-consultation`, `/design-shotgun`, `/design-html`, `/review`, `/ship`, `/land-and-deploy`, `/canary`, `/benchmark`, `/connect-chrome`, `/qa`, `/qa-only`, `/design-review`, `/setup-browser-cookies`, `/setup-deploy`, `/setup-gbrain`, `/retro`, `/investigate`, `/document-release`, `/document-generate`, `/codex`, `/cso`, `/autoplan`, `/plan-devex-review`, `/devex-review`, `/careful`, `/freeze`, `/guard`, `/unfreeze`, `/gstack-upgrade`, `/learn`
 
 ## Known Frontend Issues — Badges, Graph, Skill Explorer, Nav/Footer
 
@@ -323,20 +324,16 @@ Available: `/office-hours`, `/plan-ceo-review`, `/plan-eng-review`, `/plan-desig
 
 See [DEV.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/DEV.md) for setup, testing, and CI troubleshooting.
 
-## Agent-Managed Files (Hermes Ownership)
+## Agent-Managed Files (Hermes Ownership) — RETIRED 2026-07-25
 
-Do **not** modify, stage, or delete these (managed by the Hermes agent):
+The Hermes ownership regime is **obsolete**. All twelve files it covered are gone
+from the tree: ten had already been removed in earlier passes, and the last two
+(`docs/archive/ADOPTION.html`, `docs/archive/SHOWCASE.html`) were deleted under
+Yggdrasil II with founder approval. Nothing linked to either page.
 
-- `STEWARDSHIP_PLAN.md`
-- `scripts/marketing_engine.py`
-- `scripts/email_sender.py`
-- `scripts/share_deliverable.py`
-- `scripts/generate_adoption_dashboard.py`
-- `scripts/generate_showcase.py`
-- `docs/ADOPTION.html`
-- `docs/SHOWCASE.html`
-- `docs/WHY-GAIA.md`
-- `docs/QUICKSTART.md`
+There are no agent-managed files today. Do not re-add this restriction for the
+retired paths — if a future agent needs exclusive ownership of a file, record it
+here fresh with the owner and the reason.
 
 ## Workspace Rules (Agent Directives)
 

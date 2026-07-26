@@ -3,10 +3,13 @@
   "name": "AgentDB",
   "contributor": "ruvnet",
   "level": "4★",
-  "type": "extra",
+  "type": "fusion",
   "status": "named",
   "trustMagnitude": 201.0,
   "overallTrustGrade": "A",
+  "branch": "suite",
+  "rankWord": "Extra",
+  "medallion": "◆",
   "_links": {
     "self": "/api/v1/skills/ruvnet/agentdb.json",
     "contributor": "/api/v1/contributors/ruvnet.json",
@@ -122,6 +125,14 @@
       "previousValue": null,
       "newValue": "v3.25.5",
       "details": "first-run baseline"
+    },
+    {
+      "timestamp": "2026-07-20T18:16:45Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Generic parent 'agent-memory-platform' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
+      "metaEpoch": "yggdrasil-ii",
+      "migrationBatch": "yggdrasil-ii@2026-07-20"
     }
   ],
   "links": {

@@ -7,10 +7,62 @@
       "trustMagnitude": 589.32,
       "overallTrustGrade": "S",
       "contributor": "garrytan",
-      "type": "ultimate",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Ultimate",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/garrytan/gstack.json"
-      }
+      },
+      "genericSkillRef": "founder-mode-orchestration",
+      "suiteComponents": [
+        "garrytan/benchmark",
+        "garrytan/benchmark-models",
+        "garrytan/browse",
+        "garrytan/canary",
+        "garrytan/careful",
+        "garrytan/codex",
+        "garrytan/context-restore",
+        "garrytan/context-save",
+        "garrytan/cso",
+        "garrytan/design-consultation",
+        "garrytan/design-html",
+        "garrytan/design-review",
+        "garrytan/design-shotgun",
+        "garrytan/devex-review",
+        "garrytan/document-generate",
+        "garrytan/document-release",
+        "garrytan/freeze",
+        "garrytan/garrytan",
+        "garrytan/gstack-upgrade",
+        "garrytan/guard",
+        "garrytan/health",
+        "garrytan/investigate",
+        "garrytan/land-and-deploy",
+        "garrytan/landing-report",
+        "garrytan/learn",
+        "garrytan/make-pdf",
+        "garrytan/office-hours",
+        "garrytan/open-gstack-browser",
+        "garrytan/pair-agent",
+        "garrytan/plan-ceo-review",
+        "garrytan/plan-design-review",
+        "garrytan/plan-devex-review",
+        "garrytan/plan-eng-review",
+        "garrytan/plan-tune",
+        "garrytan/qa",
+        "garrytan/qa-only",
+        "garrytan/retro",
+        "garrytan/review",
+        "garrytan/scrape",
+        "garrytan/setup-browser-cookies",
+        "garrytan/setup-deploy",
+        "garrytan/setup-gbrain",
+        "garrytan/ship",
+        "garrytan/skillify",
+        "garrytan/sync-gbrain",
+        "garrytan/unfreeze"
+      ]
     },
     {
       "id": "ruvnet/ruflo",
@@ -19,10 +71,63 @@
       "trustMagnitude": 482.27,
       "overallTrustGrade": "S",
       "contributor": "ruvnet",
-      "type": "ultimate",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Ultimate",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/ruvnet/ruflo.json"
-      }
+      },
+      "genericSkillRef": "multi-topology-orchestration",
+      "suiteComponents": [
+        "ruvnet/agentdb",
+        "ruvnet/agentdb-advanced",
+        "ruvnet/agentdb-learning",
+        "ruvnet/agentdb-memory-patterns",
+        "ruvnet/agentdb-optimization",
+        "ruvnet/agentdb-vector-search",
+        "ruvnet/agentic-jujutsu",
+        "ruvnet/browser",
+        "ruvnet/dual-collect",
+        "ruvnet/dual-coordinate",
+        "ruvnet/dual-mode",
+        "ruvnet/dual-spawn",
+        "ruvnet/flow-nexus",
+        "ruvnet/flow-nexus-neural",
+        "ruvnet/flow-nexus-platform",
+        "ruvnet/flow-nexus-swarm",
+        "ruvnet/github-code-review",
+        "ruvnet/github-multi-repo",
+        "ruvnet/github-project-management",
+        "ruvnet/github-release-management",
+        "ruvnet/github-suite",
+        "ruvnet/github-workflow-automation",
+        "ruvnet/hive-mind-coordination",
+        "ruvnet/hooks-automation",
+        "ruvnet/pair-programming",
+        "ruvnet/performance-analysis",
+        "ruvnet/reasoningbank",
+        "ruvnet/reasoningbank-agentdb",
+        "ruvnet/reasoningbank-intelligence",
+        "ruvnet/ruflo-v3",
+        "ruvnet/skill-builder",
+        "ruvnet/sparc-methodology",
+        "ruvnet/stream-chain",
+        "ruvnet/swarm-advanced",
+        "ruvnet/swarm-orchestration",
+        "ruvnet/v3-cli-modernization",
+        "ruvnet/v3-core-implementation",
+        "ruvnet/v3-ddd-architecture",
+        "ruvnet/v3-integration-deep",
+        "ruvnet/v3-mcp-optimization",
+        "ruvnet/v3-memory-unification",
+        "ruvnet/v3-performance-optimization",
+        "ruvnet/v3-security-overhaul",
+        "ruvnet/v3-swarm-coordination",
+        "ruvnet/verification-quality",
+        "ruvnet/worker-benchmarks",
+        "ruvnet/worker-integration"
+      ]
     },
     {
       "id": "mattpocock/skills",
@@ -31,10 +136,35 @@
       "trustMagnitude": 480.29,
       "overallTrustGrade": "S",
       "contributor": "mattpocock",
-      "type": "ultimate",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Ultimate",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/mattpocock/skills.json"
-      }
+      },
+      "genericSkillRef": "skill-mastery",
+      "suiteComponents": [
+        "mattpocock/caveman",
+        "mattpocock/diagnose",
+        "mattpocock/edit-article",
+        "mattpocock/engineering",
+        "mattpocock/grill-me",
+        "mattpocock/grill-with-docs",
+        "mattpocock/handoff",
+        "mattpocock/improve-codebase-architecture",
+        "mattpocock/obsidian-vault",
+        "mattpocock/personal",
+        "mattpocock/productivity",
+        "mattpocock/prototype",
+        "mattpocock/setup-matt-pocock-skills",
+        "mattpocock/to-issues",
+        "mattpocock/to-prd",
+        "mattpocock/triage",
+        "mattpocock/ubiquitous-language",
+        "mattpocock/write-a-skill",
+        "mattpocock/zoom-out"
+      ]
     },
     {
       "id": "obra/superpowers",
@@ -43,10 +173,27 @@
       "trustMagnitude": 445.15,
       "overallTrustGrade": "S",
       "contributor": "obra",
-      "type": "ultimate",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Ultimate",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/obra/superpowers.json"
-      }
+      },
+      "genericSkillRef": "superpowers",
+      "suiteComponents": [
+        "obra/brainstorming",
+        "obra/dispatching-parallel-agents",
+        "obra/executing-plans",
+        "obra/finishing-a-development-branch",
+        "obra/receiving-code-review",
+        "obra/requesting-code-review",
+        "obra/subagent-driven-development",
+        "obra/systematic-debugging",
+        "obra/using-git-worktrees",
+        "obra/verification-before-completion",
+        "obra/writing-plans"
+      ]
     },
     {
       "id": "addy-osmani/agent-skills",
@@ -55,10 +202,24 @@
       "trustMagnitude": 293.14,
       "overallTrustGrade": "S",
       "contributor": "addy-osmani",
-      "type": "ultimate",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Ultimate",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/agent-skills.json"
-      }
+      },
+      "genericSkillRef": "git-ship-done-pipeline",
+      "suiteComponents": [
+        "addy-osmani/code-review-and-quality",
+        "addy-osmani/code-simplification",
+        "addy-osmani/incremental-implementation",
+        "addy-osmani/performance-optimization",
+        "addy-osmani/planning-and-task-breakdown",
+        "addy-osmani/shipping-and-launch",
+        "addy-osmani/spec-driven-development",
+        "addy-osmani/test-driven-development"
+      ]
     },
     {
       "id": "mattpocock/engineering",
@@ -67,10 +228,26 @@
       "trustMagnitude": 270.0,
       "overallTrustGrade": "A",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/mattpocock/engineering.json"
-      }
+      },
+      "genericSkillRef": "engineering-discipline",
+      "suiteComponents": [
+        "mattpocock/diagnose",
+        "mattpocock/grill-with-docs",
+        "mattpocock/improve-codebase-architecture",
+        "mattpocock/prototype",
+        "mattpocock/setup-matt-pocock-skills",
+        "mattpocock/to-issues",
+        "mattpocock/to-prd",
+        "mattpocock/triage",
+        "mattpocock/ubiquitous-language",
+        "mattpocock/zoom-out"
+      ]
     },
     {
       "id": "firecrawl/firecrawl-skills",
@@ -79,22 +256,44 @@
       "trustMagnitude": 223.52,
       "overallTrustGrade": "A",
       "contributor": "firecrawl",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
-      }
+      },
+      "genericSkillRef": "firecrawl",
+      "suiteComponents": [
+        "firecrawl/firecrawl-build-interact",
+        "firecrawl/firecrawl-build-onboarding",
+        "firecrawl/firecrawl-build-scrape",
+        "firecrawl/firecrawl-build-search",
+        "firecrawl/firecrawl-research-index"
+      ]
     },
     {
       "id": "gsd-build/get-shit-done",
       "name": "Get Shit Done",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 202.16,
       "overallTrustGrade": "A",
       "contributor": "gsd-build",
-      "type": "ultimate",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/gsd-build/get-shit-done.json"
-      }
+      },
+      "genericSkillRef": "git-ship-done-pipeline",
+      "suiteComponents": [
+        "gsd-build/discuss-phase",
+        "gsd-build/execute-phase",
+        "gsd-build/plan-phase",
+        "gsd-build/ship",
+        "gsd-build/verify-work"
+      ]
     },
     {
       "id": "ruvnet/agentdb",
@@ -103,10 +302,21 @@
       "trustMagnitude": 201.0,
       "overallTrustGrade": "A",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/ruvnet/agentdb.json"
-      }
+      },
+      "genericSkillRef": "agent-memory-platform",
+      "suiteComponents": [
+        "ruvnet/agentdb-advanced",
+        "ruvnet/agentdb-learning",
+        "ruvnet/agentdb-memory-patterns",
+        "ruvnet/agentdb-optimization",
+        "ruvnet/agentdb-vector-search"
+      ]
     },
     {
       "id": "ruvnet/ruflo-v3",
@@ -115,10 +325,27 @@
       "trustMagnitude": 186.0,
       "overallTrustGrade": "A",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/ruvnet/ruflo-v3.json"
-      }
+      },
+      "genericSkillRef": "platform-modernization-sprint",
+      "suiteComponents": [
+        "ruvnet/swarm-advanced",
+        "ruvnet/swarm-orchestration",
+        "ruvnet/v3-cli-modernization",
+        "ruvnet/v3-core-implementation",
+        "ruvnet/v3-ddd-architecture",
+        "ruvnet/v3-integration-deep",
+        "ruvnet/v3-mcp-optimization",
+        "ruvnet/v3-memory-unification",
+        "ruvnet/v3-performance-optimization",
+        "ruvnet/v3-security-overhaul",
+        "ruvnet/v3-swarm-coordination"
+      ]
     },
     {
       "id": "garrytan/garrytan",
@@ -127,10 +354,20 @@
       "trustMagnitude": 156.0,
       "overallTrustGrade": "A",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/garrytan/garrytan.json"
-      }
+      },
+      "genericSkillRef": "vertical-slice-planning",
+      "suiteComponents": [
+        "garrytan/browse",
+        "garrytan/cso",
+        "garrytan/design-review",
+        "garrytan/office-hours"
+      ]
     },
     {
       "id": "firecrawl/firecrawl-build-scrape",
@@ -139,10 +376,14 @@
       "trustMagnitude": 133.54,
       "overallTrustGrade": "A",
       "contributor": "firecrawl",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
-      }
+      },
+      "genericSkillRef": "web-scrape"
     },
     {
       "id": "ruvnet/dual-mode",
@@ -151,10 +392,19 @@
       "trustMagnitude": 126.0,
       "overallTrustGrade": "A",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/ruvnet/dual-mode.json"
-      }
+      },
+      "genericSkillRef": "dual-mode",
+      "suiteComponents": [
+        "ruvnet/dual-collect",
+        "ruvnet/dual-coordinate",
+        "ruvnet/dual-spawn"
+      ]
     },
     {
       "id": "pbakaus/impeccable",
@@ -164,9 +414,13 @@
       "overallTrustGrade": "A",
       "contributor": "pbakaus",
       "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/pbakaus/impeccable.json"
-      }
+      },
+      "genericSkillRef": "ux-audit"
     },
     {
       "id": "mattpocock/productivity",
@@ -175,10 +429,20 @@
       "trustMagnitude": 120.0,
       "overallTrustGrade": "A",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/mattpocock/productivity.json"
-      }
+      },
+      "genericSkillRef": "productivity",
+      "suiteComponents": [
+        "mattpocock/caveman",
+        "mattpocock/grill-me",
+        "mattpocock/handoff",
+        "mattpocock/write-a-skill"
+      ]
     },
     {
       "id": "ruvnet/reasoningbank",
@@ -187,10 +451,18 @@
       "trustMagnitude": 118.5,
       "overallTrustGrade": "A",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/ruvnet/reasoningbank.json"
-      }
+      },
+      "genericSkillRef": "reasoning-pattern-bank",
+      "suiteComponents": [
+        "ruvnet/reasoningbank-agentdb",
+        "ruvnet/reasoningbank-intelligence"
+      ]
     },
     {
       "id": "obra/subagent-driven-development",
@@ -199,10 +471,14 @@
       "trustMagnitude": 117.65,
       "overallTrustGrade": "A",
       "contributor": "obra",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/obra/subagent-driven-development.json"
-      }
+      },
+      "genericSkillRef": "subagent-driven-development"
     },
     {
       "id": "obra/using-git-worktrees",
@@ -211,10 +487,14 @@
       "trustMagnitude": 117.65,
       "overallTrustGrade": "A",
       "contributor": "obra",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/obra/using-git-worktrees.json"
-      }
+      },
+      "genericSkillRef": "using-git-worktrees"
     },
     {
       "id": "safishamsi/graphify",
@@ -223,10 +503,14 @@
       "trustMagnitude": 116.57,
       "overallTrustGrade": "A",
       "contributor": "safishamsi",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/safishamsi/graphify.json"
-      }
+      },
+      "genericSkillRef": "knowledge-graph-build"
     },
     {
       "id": "obra/writing-plans",
@@ -235,10 +519,14 @@
       "trustMagnitude": 110.15,
       "overallTrustGrade": "A",
       "contributor": "obra",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/obra/writing-plans.json"
-      }
+      },
+      "genericSkillRef": "writing-plans"
     },
     {
       "id": "firecrawl/firecrawl-build-search",
@@ -248,9 +536,13 @@
       "overallTrustGrade": "A",
       "contributor": "firecrawl",
       "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-search.json"
-      }
+      },
+      "genericSkillRef": "web-search"
     },
     {
       "id": "openai/few-shot-learning",
@@ -260,21 +552,29 @@
       "overallTrustGrade": "A",
       "contributor": "openai",
       "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/openai/few-shot-learning.json"
-      }
+      },
+      "genericSkillRef": "few-shot-learning"
     },
     {
       "id": "openai/self-consistency",
       "name": "Self-Consistency",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 100.0,
       "overallTrustGrade": "A",
       "contributor": "openai",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/openai/self-consistency.json"
-      }
+      },
+      "genericSkillRef": "self-consistency"
     },
     {
       "id": "stanfordnlp/dspy",
@@ -283,10 +583,14 @@
       "trustMagnitude": 100.0,
       "overallTrustGrade": "A",
       "contributor": "stanfordnlp",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/stanfordnlp/dspy.json"
-      }
+      },
+      "genericSkillRef": "prompt-optimization"
     },
     {
       "id": "ruvnet/hive-mind-coordination",
@@ -295,10 +599,14 @@
       "trustMagnitude": 96.09,
       "overallTrustGrade": "B",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/hive-mind-coordination.json"
-      }
+      },
+      "genericSkillRef": "distributed-consensus-coordination"
     },
     {
       "id": "ruvnet/flow-nexus",
@@ -307,10 +615,19 @@
       "trustMagnitude": 96.0,
       "overallTrustGrade": "B",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/flow-nexus.json"
-      }
+      },
+      "genericSkillRef": "multi-node-orchestration",
+      "suiteComponents": [
+        "ruvnet/flow-nexus-neural",
+        "ruvnet/flow-nexus-platform",
+        "ruvnet/flow-nexus-swarm"
+      ]
     },
     {
       "id": "obra/brainstorming",
@@ -319,10 +636,14 @@
       "trustMagnitude": 95.15,
       "overallTrustGrade": "B",
       "contributor": "obra",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/obra/brainstorming.json"
-      }
+      },
+      "genericSkillRef": "brainstorming"
     },
     {
       "id": "obra/executing-plans",
@@ -331,10 +652,14 @@
       "trustMagnitude": 95.15,
       "overallTrustGrade": "B",
       "contributor": "obra",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/obra/executing-plans.json"
-      }
+      },
+      "genericSkillRef": "executing-plans"
     },
     {
       "id": "obra/verification-before-completion",
@@ -343,10 +668,14 @@
       "trustMagnitude": 95.15,
       "overallTrustGrade": "B",
       "contributor": "obra",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/obra/verification-before-completion.json"
-      }
+      },
+      "genericSkillRef": "verification-before-completion"
     },
     {
       "id": "martin-stepanoski/nielsen-heuristics-audit",
@@ -356,9 +685,13 @@
       "overallTrustGrade": "B",
       "contributor": "martin-stepanoski",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/martin-stepanoski/nielsen-heuristics-audit.json"
-      }
+      },
+      "genericSkillRef": "ux-audit"
     },
     {
       "id": "mattpocock/diagnose",
@@ -367,10 +700,14 @@
       "trustMagnitude": 90.38,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/diagnose.json"
-      }
+      },
+      "genericSkillRef": "autonomous-debug"
     },
     {
       "id": "mattpocock/edit-article",
@@ -380,9 +717,13 @@
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/edit-article.json"
-      }
+      },
+      "genericSkillRef": "document-editing"
     },
     {
       "id": "mattpocock/obsidian-vault",
@@ -391,10 +732,14 @@
       "trustMagnitude": 90.38,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/obsidian-vault.json"
-      }
+      },
+      "genericSkillRef": "personal-knowledge-management"
     },
     {
       "id": "mattpocock/to-issues",
@@ -403,10 +748,14 @@
       "trustMagnitude": 90.38,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/to-issues.json"
-      }
+      },
+      "genericSkillRef": "vertical-slice-planning"
     },
     {
       "id": "mattpocock/ubiquitous-language",
@@ -415,10 +764,14 @@
       "trustMagnitude": 90.38,
       "overallTrustGrade": "B",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/ubiquitous-language.json"
-      }
+      },
+      "genericSkillRef": "ubiquitous-language"
     },
     {
       "id": "anthropic/skill-creator",
@@ -427,10 +780,14 @@
       "trustMagnitude": 90.0,
       "overallTrustGrade": "B",
       "contributor": "anthropic",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/anthropic/skill-creator.json"
-      }
+      },
+      "genericSkillRef": "tool-creation"
     },
     {
       "id": "garrytan/browse",
@@ -440,9 +797,13 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/browse.json"
-      }
+      },
+      "genericSkillRef": "browser-control"
     },
     {
       "id": "obra/dispatching-parallel-agents",
@@ -451,10 +812,14 @@
       "trustMagnitude": 86.0,
       "overallTrustGrade": "B",
       "contributor": "obra",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/obra/dispatching-parallel-agents.json"
-      }
+      },
+      "genericSkillRef": "dispatching-parallel-agents"
     },
     {
       "id": "addy-osmani/performance-optimization",
@@ -464,9 +829,13 @@
       "overallTrustGrade": "B",
       "contributor": "addy-osmani",
       "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/performance-optimization.json"
-      }
+      },
+      "genericSkillRef": "performance-tuning"
     },
     {
       "id": "garrytan/retro",
@@ -476,21 +845,29 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/retro.json"
-      }
+      },
+      "genericSkillRef": "write-report"
     },
     {
       "id": "browser-use/browser-harness",
       "name": "Browser Harness",
-      "level": "4★",
+      "level": "3★",
       "trustMagnitude": 73.59,
       "overallTrustGrade": "B",
       "contributor": "browser-use",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/browser-use/browser-harness.json"
-      }
+      },
+      "genericSkillRef": "browser-control"
     },
     {
       "id": "firecrawl/firecrawl-build-interact",
@@ -500,9 +877,13 @@
       "overallTrustGrade": "B",
       "contributor": "firecrawl",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-interact.json"
-      }
+      },
+      "genericSkillRef": "browser-control"
     },
     {
       "id": "firecrawl/firecrawl-build-onboarding",
@@ -511,10 +892,14 @@
       "trustMagnitude": 73.52,
       "overallTrustGrade": "B",
       "contributor": "firecrawl",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
-      }
+      },
+      "genericSkillRef": "agent-environment-setup"
     },
     {
       "id": "firecrawl/firecrawl-research-index",
@@ -524,9 +909,13 @@
       "overallTrustGrade": "B",
       "contributor": "firecrawl",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
-      }
+      },
+      "genericSkillRef": "literature-search"
     },
     {
       "id": "garrytan/careful",
@@ -535,10 +924,14 @@
       "trustMagnitude": 66.0,
       "overallTrustGrade": "B",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/careful.json"
-      }
+      },
+      "genericSkillRef": "guardrails"
     },
     {
       "id": "garrytan/office-hours",
@@ -548,9 +941,13 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/office-hours.json"
-      }
+      },
+      "genericSkillRef": "question-answer"
     },
     {
       "id": "garrytan/plan-eng-review",
@@ -559,10 +956,14 @@
       "trustMagnitude": 66.0,
       "overallTrustGrade": "B",
       "contributor": "garrytan",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/plan-eng-review.json"
-      }
+      },
+      "genericSkillRef": "code-review-pipeline"
     },
     {
       "id": "ruvnet/github-suite",
@@ -571,10 +972,21 @@
       "trustMagnitude": 66.0,
       "overallTrustGrade": "B",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/github-suite.json"
-      }
+      },
+      "genericSkillRef": "git-integration",
+      "suiteComponents": [
+        "ruvnet/github-code-review",
+        "ruvnet/github-multi-repo",
+        "ruvnet/github-project-management",
+        "ruvnet/github-release-management",
+        "ruvnet/github-workflow-automation"
+      ]
     },
     {
       "id": "obra/systematic-debugging",
@@ -583,10 +995,14 @@
       "trustMagnitude": 65.15,
       "overallTrustGrade": "B",
       "contributor": "obra",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/obra/systematic-debugging.json"
-      }
+      },
+      "genericSkillRef": "systematic-debugging"
     },
     {
       "id": "garrytan/benchmark",
@@ -596,9 +1012,13 @@
       "overallTrustGrade": "B",
       "contributor": "garrytan",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/garrytan/benchmark.json"
-      }
+      },
+      "genericSkillRef": "evaluate-output"
     }
   ],
   "page": 1,

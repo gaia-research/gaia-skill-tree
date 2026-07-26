@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-07-25T05:07:33Z",
+  "generatedAt": "2026-07-25T23:03:44Z",
   "firstRun": false,
   "skills": [
     {
@@ -104,7 +104,7 @@
     {
       "id": "gsd-build/get-shit-done",
       "name": "Get Shit Done",
-      "level": "4★",
+      "level": "3★",
       "contributor": "gsd-build",
       "trustMagnitude": 202.16,
       "overallTrustGrade": "A",
@@ -314,7 +314,7 @@
     {
       "id": "openai/self-consistency",
       "name": "Self-Consistency",
-      "level": "4★",
+      "level": "3★",
       "contributor": "openai",
       "trustMagnitude": 100.0,
       "overallTrustGrade": "A",
@@ -566,7 +566,7 @@
     {
       "id": "browser-use/browser-harness",
       "name": "Browser Harness",
-      "level": "4★",
+      "level": "3★",
       "contributor": "browser-use",
       "trustMagnitude": 73.59,
       "overallTrustGrade": "B",

@@ -23,10 +23,6 @@
   <link rel="icon" type="image/svg+xml" href="../assets/marks/diamond-seal.svg">
   <link rel="stylesheet" href="../css/styles.css?v=6.8.18">
   <link rel="stylesheet" href="../css/plaque.css?v=6.8.18">
-  <!-- AlphaRail temporarily disabled — keep the stylesheet reference here so
-       re-enabling is one uncomment away. The page-wide rail script + integration
-       are commented out near the bottom of <body>. -->
-  <!-- <link rel="stylesheet" href="../css/alpha-rail.css?v=6.8.18"> -->
   <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
   <script src="../js/icons.js?v=6.8.18"></script>
   <script src="../js/atlas-helpers.js?v=6.8.18"></script>
@@ -34,6 +30,7 @@
   <script src="../js/rank-badge.js?v=6.8.18"></script>
   <!-- Stage 3 — plaque component family, loaded after rank-badge. -->
   <script src="../js/tm-config.js?v=6.8.18"></script>
+  <script src="../js/skill-semantics.js?v=6.8.18"></script>
   <script src="../js/plaque.js?v=6.8.18"></script>
 <script type="application/ld+json" data-injector="gaia-json-ld">
 {
@@ -43,6 +40,14 @@
   "url": "https://gaiaskilltree.com/named/"
 }
 </script>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TS7N9T92BM" data-ga4="G-TS7N9T92BM"></script>
+  <script data-ga4="G-TS7N9T92BM">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-TS7N9T92BM');
+  </script>
 </head>
 
 <body class="named-explorer-page">
@@ -88,15 +93,14 @@
       <input type="search" id="nsSearch" class="ns-search" aria-label="Search skills, tags, contributors" placeholder="Search skills, tags, contributors…"
         autocomplete="off">
       <div class="ns-filter-row">
-        <!-- Stage 4 — Direction rule: tier tabs read Ultimate→Unique→Extra→Basic
-             so the first tab after "All" targets the most-prestigious tier.
-             Glyph colour comes from .tier-glyph[data-type] (tokens.css). -->
-        <div class="ns-type-tabs" id="nsTypeTabs" role="tablist" aria-label="Skill tier selection">
+        <!-- Yggdrasil II — Type tabs key on the CANONICAL type axis: Fusion / Basic.
+             Dead enum values (ultimate/unique/extra) are removed — branch (unique/suite/standard)
+             is READ from the emitted field via GaiaSemantics.branchOf (resolved build-time
+             by the taxonomy authority). Glyph colour comes from .tier-glyph[data-type] (tokens.css). -->
+        <div class="ns-type-tabs" id="nsTypeTabs" role="tablist" aria-label="Skill type selection">
           <button class="ns-tab active" type="button" data-type="all" role="tab" aria-selected="true">All</button>
-          <button class="ns-tab" type="button" data-type="ultimate" role="tab" aria-selected="false"><span class="tier-glyph" data-type="ultimate">◆</span> Ultimate</button>
-          <button class="ns-tab" type="button" data-type="unique" role="tab" aria-selected="false"><span class="tier-glyph" data-type="unique">◉</span> Unique</button>
-          <button class="ns-tab" type="button" data-type="extra" role="tab" aria-selected="false"><span class="tier-glyph" data-type="extra">◇</span> Extra</button>
-          <button class="ns-tab" type="button" data-type="basic" role="tab" aria-selected="false"><span class="tier-glyph" data-type="basic">○</span> Basic</button>
+          <button class="ns-tab" type="button" data-type="fusion" role="tab" aria-selected="false"><span class="tier-glyph" data-type="fusion">◆</span> Fusion</button>
+          <button class="ns-tab" type="button" data-type="basic" role="tab" aria-selected="false"><span class="tier-glyph" data-type="basic">◇</span> Basic</button>
         </div>
         <!-- Stage 4 — view-toggle SVGs sourced from the shared sprite. -->
         <div class="ns-view-btns" id="nsViewBtns" role="group" aria-label="View mode">
@@ -213,10 +217,6 @@
   <script src="../js/atlas-helpers.js?v=6.8.18"></script>
   <script src="../js/scroll-reveal.js?v=6.8.18"></script>
   <script src="../js/named-skills.js?v=6.8.18"></script>
-  <!-- AlphaRail temporarily disabled. Uncomment both <script> tags to re-enable
-       the section + dynamic letter/tier markers inside the explorer. -->
-  <!-- <script src="../js/alpha-rail.js?v=6.8.18"></script> -->
-  <!-- <script src="../js/index-rail.js?v=6.8.18"></script> -->
   <script src="../js/skill-explorer.js?v=6.8.18"></script>
   <script src="../js/ui.js?v=6.8.18"></script>
   <script src="../js/plaque-reveal.js?v=6.8.18" defer></script>
@@ -317,9 +317,6 @@
 
   <script src="../js/hoh-modal.js?v=6.8.18"></script>
 
-<!-- impeccable-live-start -->
-<script src="http://localhost:8400/live.js"></script>
-<!-- impeccable-live-end -->
 </body>
 
 </html>

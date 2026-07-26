@@ -18,12 +18,12 @@ A registry that ranks skills invites a tempting shortcut: reduce every skill to 
 
 The model instead keeps the human-legible signal — a skill's **stars**, on the 0★–6★ maturity axis — as the headline, and grounds it in graded evidence. The internal **trust number** still exists, but only as the input a grade is derived from; it is never shown in copy. Surfaces display the **grade** the number yields, not the raw number.
 
-## Two Standing Axes: Tier and Stars
+## Two Standing Axes: Type and Stars
 
-Every skill sits on two orthogonal axes that predate the trust model and remain unchanged:
+Every skill sits on two structural axes that predate the trust model and remain unchanged:
 
-- **Tier** — the taxonomy of what a skill *is*: Basic, Extra, Unique, or Ultimate.
-- **Stars** — verified maturity from 0★ to 6★, derived from evidence and never declared. Each star value has a **rank name** used only when paired (for example, "the Hardened rank"); the bare word is never used for the axis itself.
+- **Type** — the structural taxonomy of a *starless* (generic) node: `basic` (0 prerequisites) or `fusion` (≥ 1 prerequisite). Named skills carry no `type` field; they inherit via `genericSkillRef` walk. Under Yggdrasil II (ratified 2026-07-07), the legacy type values `extra`, `ultimate`, and `unique` are retired; all non-basic starless nodes carry `fusion`. Note that **branch** — the named-skill progression path (`standard` / `suite` / `unique`, derived at read-time) — is independent of `type`; it is driven by whether the parent generic carries `suiteComponents` and by the named skill's current rank.
+- **Stars** — verified maturity from 0★ to 6★, derived from evidence and never declared. Each star value has a **rank name** used only when paired (for example, "the Named rank" or "the Apex rank"); the bare word is never used for the axis itself.
 
 The trust model does not touch these axes. It governs the *evidence* that justifies a skill's stars, and the aggregate standing that evidence implies.
 
@@ -103,9 +103,9 @@ After resolving each component to its **named** effective evidence:
 
 The gate now reports real, actionable gaps — "needs one component graded S" — instead of the lookup artifact.
 
-## Suite Ultimates: the Pillar Gate
+## Suite-Branch 5★ Gate: the Pillar Rule
 
-An **Ultimate**-tier skill that fuses a suite of components is held to a pillar rule, expressed in `meta.json` `evidence.ultimateGate`: at least **three** components carrying graded evidence, of which at least **one** is graded S and at least **two** are graded A or better, with **no** component below the C floor. The gate scores each component by its child effective grade, not the shared parent grade, so a suite's standing reflects the real strength of its implementations.
+A **Suite-branch** skill (4★+; its generic parent carries `suiteComponents`) seeking to reach 5★ Ultimate is held to a pillar rule, expressed in `meta.json` `evidence.ultimateGate`: at least **three** components carrying graded evidence, of which at least **one** is graded S and at least **two** are graded A or better, with **no** component below the C floor. The gate scores each component by its child effective grade, not the shared parent grade, so a suite's standing reflects the real strength of its implementations.
 
 By design, mechanical backfill alone does not let any suite pass: clearing the gate requires at least one component graded S, and awarding S is an editorial judgement reserved for a 4★+ Verifier reviewing a genuine demonstration. A gate that has not yet been cleared now reports an accurate gap (for example, "needs one component graded S") rather than a lookup artifact.
 

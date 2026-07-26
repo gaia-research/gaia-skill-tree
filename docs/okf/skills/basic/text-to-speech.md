@@ -15,5 +15,5 @@ Synthesizes natural-sounding speech audio from text input, supporting voice clon
 
 ## Derivatives
 
-- [Voice Agent](/skills/extra/voice-agent.md)
+- [Voice Agent](/skills/fusion/voice-agent.md)
 

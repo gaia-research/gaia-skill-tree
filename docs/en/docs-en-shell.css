@@ -42,3 +42,54 @@ body:has(> nav#site-nav) .sidebar {
 body:has(> nav#site-nav) :is(h1, h2, h3, [id]) {
   scroll-margin-top: calc(var(--docs-en-site-nav-height) + 0.75rem);
 }
+
+/* ── Mobile-first layout — base is single-column, sidebar hidden ──────────
+   Every docs/en/*.html declares:
+     .page-layout { display: grid; grid-template-columns: 220px 1fr; ... }
+   That 2-column declaration is the desktop intent. We override it here at
+   the base (mobile) and restore it at ≥769px so the breakpoint direction
+   is min-width (mobile-first) rather than max-width (desktop-first).
+
+   Side-effect: the per-file @media (max-width: 768px|860px|820px|800px)
+   that each file used to have for the identical layout collapse is now
+   redundant — those blocks are kept for historical clarity but this sheet
+   takes precedence via specificity on :has() selectors.
+   ────────────────────────────────────────────────────────────────────── */
+
+/* Mobile base: single-column, sidebar hidden */
+body:has(> nav#site-nav) .page-layout,
+body:has(> nav#site-nav) .docs-layout {
+  grid-template-columns: 1fr;
+}
+
+body:has(> nav#site-nav) .sidebar,
+body:has(> nav#site-nav) .docs-sidebar {
+  display: none;
+}
+
+/* Main content: comfortable mobile padding */
+body:has(> nav#site-nav) .main-content,
+body:has(> nav#site-nav) .main {
+  padding-inline: 1.25rem;
+}
+
+/* Desktop (≥769px): restore 2-column sidebar+content layout */
+@media (min-width: 769px) {
+  body:has(> nav#site-nav) .page-layout {
+    grid-template-columns: 220px 1fr;
+  }
+
+  body:has(> nav#site-nav) .docs-layout {
+    grid-template-columns: 220px 1fr;
+  }
+
+  body:has(> nav#site-nav) .sidebar,
+  body:has(> nav#site-nav) .docs-sidebar {
+    display: block;
+  }
+
+  body:has(> nav#site-nav) .main-content,
+  body:has(> nav#site-nav) .main {
+    padding-inline: revert;
+  }
+}

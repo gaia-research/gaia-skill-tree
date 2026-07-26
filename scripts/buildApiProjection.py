@@ -65,29 +65,12 @@ def _slug_from_id(skill_id: str) -> tuple[str, str]:
     return skill_id, skill_id
 
 
-def _slim_projection(entry: dict) -> dict:
-    """Return the slim fields used in list/pagination responses."""
-    contributor, slug = _slug_from_id(entry.get("id", ""))
-    return {
-        "id": entry.get("id", ""),
-        "name": entry.get("name", ""),
-        "level": entry.get("level", ""),
-        "trustMagnitude": entry.get("trustMagnitude", 0),
-        "overallTrustGrade": entry.get("overallTrustGrade"),
-        "contributor": entry.get("contributor", contributor),
-        "type": entry.get("type", "basic"),
-        "_links": {
-            "self": f"/api/v1/skills/{contributor}/{slug}.json",
-        },
-    }
+def _suite_components(entry: dict) -> list | None:
+    """Normalize suiteComponents to a list of ID strings (never inline objects).
 
-
-def _full_projection(entry: dict) -> dict:
-    """Return the full record including evidence, timeline, suiteComponents, etc."""
-    contributor, slug = _slug_from_id(entry.get("id", ""))
-    contrib = entry.get("contributor", contributor)
-
-    # suiteComponents must be list of ID strings, NOT inline objects
+    Returns None when the entry carries no suiteComponents at all, so callers
+    can omit the key entirely rather than emitting a null.
+    """
     suite_raw = entry.get("suiteComponents")
     if suite_raw and isinstance(suite_raw, list):
         suite = []
@@ -97,11 +80,56 @@ def _full_projection(entry: dict) -> dict:
             elif isinstance(item, dict):
                 # Flatten: use 'id' key if present, else str representation
                 suite.append(item.get("id", str(item)))
-        suite_components = suite
-    elif suite_raw is None:
-        suite_components = None
-    else:
-        suite_components = suite_raw
+        return suite
+    if suite_raw is None:
+        return None
+    return suite_raw
+
+
+def _slim_projection(entry: dict) -> dict:
+    """Return the slim fields used in list/pagination responses.
+
+    `suiteComponents` and `genericSkillRef` are carried here (not only in the
+    full per-skill record) so list consumers never have to fan out to N detail
+    files just to read one field.  Both follow the full projection's
+    convention: omitted entirely when absent, never emitted as null.
+    """
+    contributor, slug = _slug_from_id(entry.get("id", ""))
+    result = {
+        "id": entry.get("id", ""),
+        "name": entry.get("name", ""),
+        "level": entry.get("level", ""),
+        "trustMagnitude": entry.get("trustMagnitude", 0),
+        "overallTrustGrade": entry.get("overallTrustGrade"),
+        "contributor": entry.get("contributor", contributor),
+        "type": entry.get("type", "basic"),
+        # Resolved taxonomy passthrough (Yggdrasil II authority) — additive.
+        # Read straight off the resolved entry; never recompute from type+rank.
+        "branch": entry.get("branch", "standard"),
+        "rankWord": entry.get("rankWord", entry.get("level", "")),
+        "medallion": entry.get("medallion"),
+        "_links": {
+            "self": f"/api/v1/skills/{contributor}/{slug}.json",
+        },
+    }
+
+    if "genericSkillRef" in entry:
+        result["genericSkillRef"] = entry["genericSkillRef"]
+
+    suite_components = _suite_components(entry)
+    if suite_components is not None:
+        result["suiteComponents"] = suite_components
+
+    return result
+
+
+def _full_projection(entry: dict) -> dict:
+    """Return the full record including evidence, timeline, suiteComponents, etc."""
+    contributor, slug = _slug_from_id(entry.get("id", ""))
+    contrib = entry.get("contributor", contributor)
+
+    # suiteComponents must be list of ID strings, NOT inline objects
+    suite_components = _suite_components(entry)
 
     result: dict = {
         "id": entry.get("id", ""),
@@ -112,6 +140,11 @@ def _full_projection(entry: dict) -> dict:
         "status": entry.get("status", "named"),
         "trustMagnitude": entry.get("trustMagnitude", 0),
         "overallTrustGrade": entry.get("overallTrustGrade"),
+        # Resolved taxonomy passthrough (Yggdrasil II authority) — additive.
+        # Read straight off the resolved entry; never recompute from type+rank.
+        "branch": entry.get("branch", "standard"),
+        "rankWord": entry.get("rankWord", entry.get("level", "")),
+        "medallion": entry.get("medallion"),
         "_links": {
             "self": f"/api/v1/skills/{contributor}/{slug}.json",
             "contributor": f"/api/v1/contributors/{contrib}.json",
@@ -364,6 +397,7 @@ def build_search_index(out_dir: Path, skills: list[dict]) -> None:
             "level": entry.get("level", ""),
             "grade": entry.get("overallTrustGrade"),
             "trustMagnitude": entry.get("trustMagnitude", 0),
+            "branch": entry.get("branch", "standard"),
             "tokens": _tokens_for_skill(entry),
         })
     _write_json(out_dir / "search-index.json", entries)

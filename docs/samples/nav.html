@@ -32,11 +32,10 @@
     }
     .sampler-banner b { color: var(--honor-red); font-weight: 500; }
 
-    /* Mock hero — stand-in for the live #canvas3d. Uses the static
-       gaia.svg as the "atlas behind" so we can prototype peek + glow
-       without booting Three.js. The real glass + noise layers are
-       cloned 1:1 from index.html so the masked CSS hits the same
-       selectors. */
+    /* Mock hero — stand-in for the live #canvas3d 3D World Tree, so we
+       can prototype peek + glow without booting Three.js. The real
+       glass + noise layers are cloned 1:1 from index.html so the masked
+       CSS hits the same selectors. */
     #hero {
       position: relative;
       min-height: 100vh;
@@ -45,13 +44,6 @@
       text-align: center;
       padding: 8rem 1.5rem 4rem;
       overflow: hidden;
-    }
-    #hero .mock-atlas {
-      position: absolute; inset: 0;
-      width: 100%; height: 100%;
-      object-fit: cover;
-      pointer-events: none;
-      filter: brightness(0.85) saturate(1.1);
     }
     /* These two layers match the production CSS for .hero-glass-blur
        and .hero-glass-noise. Replicated locally so the sample doesn't
@@ -213,16 +205,14 @@
     <ul class="nav-primary">
       <li style="--nav-i:0"><a href="#" style="color: var(--text);">Home</a></li>
       <li style="--nav-i:1"><a href="#" style="color: var(--apex-gold);">About</a></li>
-      <li style="--nav-i:2"><a href="#" style="color: var(--tier-unique);">GitHub Badges</a></li>
+      <li style="--nav-i:2"><a href="#" style="color: var(--rank-4-unique);">GitHub Badges</a></li>
       <li style="--nav-i:3"><a href="#" style="color: var(--honor-red);">Skills</a></li>
       <li style="--nav-i:4"><a href="#" style="color: var(--tier-basic);">Docs</a></li>
     </ul>
   </nav>
 
-  <!-- ─── HERO ─── (mock — uses ../graph/gaia.svg as a static atlas
-       stand-in for the live #canvas3d) -->
+  <!-- ─── HERO ─── (mock stand-in for the live #canvas3d 3D World Tree) -->
   <section id="hero">
-    <img class="mock-atlas" src="../graph/gaia.svg" alt="" aria-hidden="true">
     <div class="hero-glass-blur"></div>
     <div class="hero-glass-noise"></div>
     <!-- New layer: red diffuse glow that follows the cursor -->
@@ -381,8 +371,5 @@
       e.currentTarget.textContent = panel.classList.contains('collapsed') ? '+' : '−';
     });
   </script>
-<!-- impeccable-live-start -->
-<script src="http://localhost:8400/live.js"></script>
-<!-- impeccable-live-end -->
 </body>
 </html>

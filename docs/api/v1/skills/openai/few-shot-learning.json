@@ -7,6 +7,9 @@
   "status": "named",
   "trustMagnitude": 100.0,
   "overallTrustGrade": "A",
+  "branch": "unique",
+  "rankWord": "Unique",
+  "medallion": "◉",
   "_links": {
     "self": "/api/v1/skills/openai/few-shot-learning.json",
     "contributor": "/api/v1/contributors/openai.json",
@@ -102,6 +105,22 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added evidence from https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard (type: benchmark-result)"
+    },
+    {
+      "timestamp": "2026-07-16T08:36:44Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Generic parent 'few-shot-learning' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+      "metaEpoch": "yggdrasil-ii",
+      "migrationBatch": "yggdrasil-ii@2026-07-16"
+    },
+    {
+      "timestamp": "2026-07-20T18:16:45Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Generic parent 'few-shot-learning' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+      "metaEpoch": "yggdrasil-ii",
+      "migrationBatch": "yggdrasil-ii@2026-07-20"
     }
   ],
   "links": {

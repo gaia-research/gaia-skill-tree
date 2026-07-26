@@ -64,6 +64,64 @@ def _latest_level_event(timeline: list, skill_id: str) -> str | None:
     return _norm(evs[-1].get("newValue"))
 
 
+def _named_registry_entries() -> list:
+    """All registry named-skill index entries (buckets + awaiting classification)."""
+    data = json.loads(NAMED_JSON.read_text(encoding="utf-8"))
+    entries = [e for arr in (data.get("buckets") or {}).values() for e in arr]
+    entries += data.get("awaitingClassification") or []
+    return entries
+
+
+def check_migration_provenance() -> list[str]:
+    """Structural, meta-agnostic migration-provenance invariant (#1189).
+
+    Scans **registry named-skill** timelines only (from ``registry/named-skills.json``).
+    For every ``demote`` event that carries a ``migrationBatch``, the SAME skill must
+    also have a ``type_change`` event whose ``migrationBatch`` is identical. This pairs
+    a taxonomy reclassification with the demotion it triggered, so provenance is
+    verifiable from structured fields alone.
+
+    The rule is deliberately meta-agnostic: no epoch is hardcoded and no time window
+    is applied. Events lacking a ``migrationBatch`` (e.g. pre-provenance Yggdrasil I
+    demotions) are **exempt by absence** — the invariant never fires on them.
+
+    User-tree timelines are out of scope (their action enum has no ``type_change``).
+
+    Returns a list of human-readable violation strings (empty when the invariant holds).
+    """
+    violations: list[str] = []
+    entries = _named_registry_entries()
+    demotes_checked = 0
+
+    for e in entries:
+        sid = e.get("id") or "<unknown>"
+        timeline = e.get("timeline") or []
+        # migrationBatch values present on this skill's type_change events
+        type_change_batches = {
+            ev.get("migrationBatch")
+            for ev in timeline
+            if isinstance(ev, dict)
+            and ev.get("action") == "type_change"
+            and ev.get("migrationBatch")
+        }
+        for ev in timeline:
+            if not isinstance(ev, dict) or ev.get("action") != "demote":
+                continue
+            batch = ev.get("migrationBatch")
+            if not batch:
+                continue  # exempt by absence
+            demotes_checked += 1
+            if batch not in type_change_batches:
+                violations.append(
+                    f"[{sid}] demote carries migrationBatch '{batch}' but no "
+                    f"type_change on this skill shares that batch"
+                )
+
+    print(f"Migration-provenance invariant: {demotes_checked} batched demote(s) "
+          f"checked across {len(entries)} registry named skill(s).")
+    return violations
+
+
 def main() -> int:
     if not NAMED_JSON.exists():
         print(f"timelines: cannot find {NAMED_JSON}", file=sys.stderr)
@@ -112,6 +170,7 @@ def main() -> int:
 
     print(f"Transparency Gate — timeline integrity: {skills_checked} owned named "
           f"skill(s) across {trees_checked} tree(s).")
+    failed = False
     if violations:
         print(f"\n✗ {len(violations)} untracked rank change(s) — transparency violated:\n")
         for v in violations:
@@ -120,10 +179,25 @@ def main() -> int:
               "/gaia-trace-timeline skill or `gaia dev timeline <id> --user <owner> "
               "--action demote|rank_up --timestamp <iso> --notes \"…\"`, then "
               "`gaia docs build`.")
-        return 1
-    print("✓ Transparency Gate: every user-tree timeline explains its skill's "
-          "current rank — no untracked rank changes.")
-    return 0
+        failed = True
+    else:
+        print("✓ Transparency Gate: every user-tree timeline explains its skill's "
+              "current rank — no untracked rank changes.")
+
+    # Migration-provenance invariant (#1189) — registry named-skill timelines only.
+    prov_violations = check_migration_provenance()
+    if prov_violations:
+        print(f"\n✗ {len(prov_violations)} migration-provenance violation(s):\n")
+        for v in prov_violations:
+            print(f"  • {v}")
+        print("\nEvery batched demote must be paired with a same-skill type_change "
+              "sharing its migrationBatch (structured migration provenance, #1189).")
+        failed = True
+    else:
+        print("✓ Migration-provenance invariant: every batched demote is paired with "
+              "a same-skill type_change sharing its migrationBatch.")
+
+    return 1 if failed else 0
 
 
 if __name__ == "__main__":

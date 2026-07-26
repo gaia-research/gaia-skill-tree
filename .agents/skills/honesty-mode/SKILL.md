@@ -27,7 +27,7 @@ When the user says `/honesty-mode on`, set the constant to `true`. When they say
 
 1. **Parse the argument.** Accept `on`, `off`, `true`, `false`, `enable`, `disable` (case-insensitive). If the argument is missing or just `status`, report the current value of `HONESTY_MODE` from `docs/badges/index.html` and stop.
 
-2. **Read the current value.** Grep for `const HONESTY_MODE = ` in `docs/badges/index.html`. If the line is missing, surface that and stop — the flag may have been ripped out per the removal plan in `docs/badges/AGENTS.md`.
+2. **Read the current value.** Grep for `const HONESTY_MODE = ` in `docs/badges/index.html`. If the line is missing, surface that and stop — the flag may have been ripped out per the removal plan in `docs/badges/CLAUDE.md`.
 
 3. **No-op check.** If the requested state already matches, say so and stop. Don't open a PR for a no-op edit.
 
@@ -35,11 +35,11 @@ When the user says `/honesty-mode on`, set the constant to `true`. When they say
 
 5. **Verify the chip painting still matches.** Sanity-check that the indicator-paint lines (`honestyPill.dataset.state = HONESTY_MODE ? "on" : "off"` and the `.bd-honesty-state` text) are still present and read from the constant. If they've drifted, fix them in the same edit.
 
-6. **Don't run `gaia docs build`.** This flag only affects `docs/badges/index.html` — none of the generated artifacts (`registry/gaia.json`, `docs/graph/`, `tree.md`) depend on it. A rebuild is unnecessary noise.
+6. **Don't run `gaia dev docs`.** This flag only affects `docs/badges/index.html` — none of the generated artifacts (`registry/gaia.json`, `docs/graph/`, `tree.md`) depend on it. A rebuild is unnecessary noise.
 
 ## Branch + PR convention
 
-Per `AGENTS.md` § Branch Naming, this is a `design/` change (website behavior, `docs/` HTML/CSS/JS).
+Per `CLAUDE.md` § Branch Naming, this is a `design/` change (website behavior, `docs/` HTML/CSS/JS).
 
 1. **Branch.** `git checkout -b design/honesty-mode-{on,off}` from the current branch (or `main` if the user asks for a clean branch). Don't push to `main`.
 
@@ -52,14 +52,14 @@ Per `AGENTS.md` § Branch Naming, this is a `design/` change (website behavior, 
 3. **Push and open PR.** `git push -u origin <branch>` then `gh pr create` with a body that:
    - States the new value (`HONESTY_MODE = true` / `false`).
    - Explains the practical effect (which URL shape lands in the user's clipboard).
-   - Links to `docs/badges/AGENTS.md` for the full rationale.
-   - Does NOT mark the PR as ready-to-merge if turning OFF — call out the worker-deployed prerequisite from `docs/badges/AGENTS.md` § "When to flip Honesty Mode OFF".
+   - Links to `docs/badges/CLAUDE.md` for the full rationale.
+   - Does NOT mark the PR as ready-to-merge if turning OFF — call out the worker-deployed prerequisite from `docs/badges/CLAUDE.md` § "When to flip Honesty Mode OFF".
 
 4. **Report PR URL** back to the user. Don't merge.
 
 ## Anti-patterns
 
-- **Don't add a runtime toggle back.** The whole point of this flag being build-time is that "the URL you see copied is the URL everyone else gets." See `docs/badges/AGENTS.md` § "Why no runtime/localStorage toggle?".
+- **Don't add a runtime toggle back.** The whole point of this flag being build-time is that "the URL you see copied is the URL everyone else gets." See `docs/badges/CLAUDE.md` § "Why no runtime/localStorage toggle?".
 - **Don't touch `_assets/` detection or local previews.** Those always read from `_assets/` regardless of mode — that's how the page renders before the worker runs. Honesty Mode only swaps the *copied markdown URL*.
 - **Don't bump versions.** This change touches one HTML file's script constant; the four-file version lockstep (pyproject / cli-npm / mcp / gaia.json) doesn't apply.
 - **Don't edit `worker/index.js`.** The worker stays as-is — Honesty Mode just routes around it for embedded badges.

@@ -19,7 +19,7 @@ tags:
 - parallel-execution
 - orchestration
 createdAt: '2026-05-19'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-20'
 suiteRef: ruvnet/ruflo
 suiteComponents:
 - ruvnet/dual-collect
@@ -65,6 +65,13 @@ timeline:
   previousValue: null
   newValue: v3.25.5
   details: first-run baseline
+- timestamp: '2026-07-20T18:16:45Z'
+  action: type_change
+  contributor: mbtiongson1
+  details: 'Generic parent ''dual-mode'' type: extra/ultimate → fusion (Yggdrasil
+    II taxonomy migration #997)'
+  metaEpoch: yggdrasil-ii
+  migrationBatch: yggdrasil-ii@2026-07-20
 trustMagnitude: 126.0
 overallTrustGrade: A
 apexGateStatus:
@@ -85,7 +92,6 @@ upstream:
   syncedAt: '2026-07-08T19:56:47Z'
   version: v3.25.5
 ---
-
 ## Overview
 
 Dual Mode is a 3★ fusion of the three dual-mode sub-skills: `dual-spawn` (headless Codex worker launch), `dual-coordinate` (hybrid task routing and workflow management), and `dual-collect` (result harvesting and aggregation). Together they form the complete spawn→coordinate→collect pipeline for running Claude+Codex hybrid workflows. Claude handles interactive reasoning and architecture decisions while Codex workers execute parallelizable implementation tasks in the background.

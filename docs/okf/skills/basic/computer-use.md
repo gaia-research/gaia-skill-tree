@@ -15,5 +15,5 @@ Controls desktop GUIs and web browsers by interpreting screenshots, issuing mous
 
 ## Derivatives
 
-- [Browser Automation](/skills/extra/browser-automation.md)
+- [Browser Automation](/skills/fusion/browser-automation.md)
 

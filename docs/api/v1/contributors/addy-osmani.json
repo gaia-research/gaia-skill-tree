@@ -8,10 +8,24 @@
       "trustMagnitude": 293.14,
       "overallTrustGrade": "S",
       "contributor": "addy-osmani",
-      "type": "ultimate",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Ultimate",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/agent-skills.json"
-      }
+      },
+      "genericSkillRef": "git-ship-done-pipeline",
+      "suiteComponents": [
+        "addy-osmani/code-review-and-quality",
+        "addy-osmani/code-simplification",
+        "addy-osmani/incremental-implementation",
+        "addy-osmani/performance-optimization",
+        "addy-osmani/planning-and-task-breakdown",
+        "addy-osmani/shipping-and-launch",
+        "addy-osmani/spec-driven-development",
+        "addy-osmani/test-driven-development"
+      ]
     },
     {
       "id": "addy-osmani/performance-optimization",
@@ -21,9 +35,13 @@
       "overallTrustGrade": "B",
       "contributor": "addy-osmani",
       "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/performance-optimization.json"
-      }
+      },
+      "genericSkillRef": "performance-tuning"
     },
     {
       "id": "addy-osmani/code-review-and-quality",
@@ -32,10 +50,14 @@
       "trustMagnitude": 53.14,
       "overallTrustGrade": "B",
       "contributor": "addy-osmani",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/code-review-and-quality.json"
-      }
+      },
+      "genericSkillRef": "code-review-pipeline"
     },
     {
       "id": "addy-osmani/code-simplification",
@@ -45,9 +67,13 @@
       "overallTrustGrade": "B",
       "contributor": "addy-osmani",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/code-simplification.json"
-      }
+      },
+      "genericSkillRef": "refactor-code"
     },
     {
       "id": "addy-osmani/incremental-implementation",
@@ -56,10 +82,14 @@
       "trustMagnitude": 53.14,
       "overallTrustGrade": "B",
       "contributor": "addy-osmani",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/incremental-implementation.json"
-      }
+      },
+      "genericSkillRef": "executing-plans"
     },
     {
       "id": "addy-osmani/planning-and-task-breakdown",
@@ -68,10 +98,14 @@
       "trustMagnitude": 53.14,
       "overallTrustGrade": "B",
       "contributor": "addy-osmani",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/planning-and-task-breakdown.json"
-      }
+      },
+      "genericSkillRef": "vertical-slice-planning"
     },
     {
       "id": "addy-osmani/shipping-and-launch",
@@ -80,10 +114,14 @@
       "trustMagnitude": 53.14,
       "overallTrustGrade": "B",
       "contributor": "addy-osmani",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/shipping-and-launch.json"
-      }
+      },
+      "genericSkillRef": "finishing-a-development-branch"
     },
     {
       "id": "addy-osmani/spec-driven-development",
@@ -92,10 +130,14 @@
       "trustMagnitude": 53.14,
       "overallTrustGrade": "B",
       "contributor": "addy-osmani",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
-      }
+      },
+      "genericSkillRef": "prd-generation"
     },
     {
       "id": "addy-osmani/test-driven-development",
@@ -105,9 +147,13 @@
       "overallTrustGrade": "C",
       "contributor": "addy-osmani",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/test-driven-development.json"
-      }
+      },
+      "genericSkillRef": "test-driven-development"
     }
   ],
   "namedSkillsCount": 9,

@@ -33,8 +33,8 @@ from gaia_cli.trustMagnitude import (  # noqa: E402
     computeTrustMagnitude,
     computeOverallTrustGradeFromSkill,
     explainTrustMagnitude,
-    passesApexGate,
-    isApex,
+    passesSuiteApexGate,
+    isSuiteApex,
 )
 from auditApexAtG7 import formatPredicateDetail  # noqa: E402
 
@@ -195,8 +195,8 @@ def mostEfficientNextType(skill: dict, mergedMap: dict) -> str:
 def formatApexGateLines(skill: dict, mergedMap: dict, namedSkillMap: dict) -> list[str]:
     """Return formatted lines for the apex gate (6-star predicates)."""
     state = {"genericSkillMap": mergedMap, "namedSkillMap": namedSkillMap}
-    results = passesApexGate(skill, state)
-    apex = isApex(results)
+    results = passesSuiteApexGate(skill, state)
+    apex = isSuiteApex(results)
     activeResults = {k: v for k, v in results.items() if v is not None}
     passedCount = sum(1 for v in activeResults.values() if v)
 
@@ -297,7 +297,7 @@ def leaderboardMode() -> int:
 
         apexResults = None
         if grade == "S":
-            apexResults = passesApexGate(fm, apexState)
+            apexResults = passesSuiteApexGate(fm, apexState)
 
         rows.append({
             "skillId": skillId,
@@ -414,7 +414,7 @@ def buildSkillJson(skillId: str, mergedMap: dict, namedSkillMap: dict) -> dict |
     apexResults = None
     if grade == "S":
         state = {"genericSkillMap": mergedMap, "namedSkillMap": namedSkillMap}
-        apexResults = passesApexGate(fm, state)
+        apexResults = passesSuiteApexGate(fm, state)
 
     # Evidence rows
     evidenceRows = []
@@ -496,7 +496,7 @@ def buildLeaderboardRows() -> list[dict]:
         grade = computeOverallTrustGradeFromSkill(fm, mergedMap)
         currentStars = fm.get("level") or fm.get("rank") or "?"
         g7Stars, flag = effectiveRank(grade, currentStars)
-        apexResults = passesApexGate(fm, apexState) if grade == "S" else None
+        apexResults = passesSuiteApexGate(fm, apexState) if grade == "S" else None
 
         rows.append({
             "skillId": skillId,

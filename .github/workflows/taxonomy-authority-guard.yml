@@ -1,0 +1,52 @@
+name: Taxonomy Authority Guard (Yggdrasil II)
+
+on:
+  pull_request:
+    paths:
+      # Trigger on any change to the scanned content surface or the guard itself
+      - 'docs/**/*.js'
+      - 'docs/**/*.html'
+      - 'src/**/*.py'
+      - 'scripts/**/*.py'
+      - 'scripts/check_taxonomy_authority.py'
+      - '.github/workflows/taxonomy-authority-guard.yml'
+  push:
+    branches:
+      - 'main'
+      - 'dev/**'
+      - 'infra/**'
+    paths:
+      - 'docs/**/*.js'
+      - 'docs/**/*.html'
+      - 'src/**/*.py'
+      - 'scripts/**/*.py'
+      - 'scripts/check_taxonomy_authority.py'
+      - '.github/workflows/taxonomy-authority-guard.yml'
+  # Allow manual runs for debugging
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  taxonomy-authority-guard:
+    name: Yggdrasil II Branch-Authority Check (Refs #999)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Full history not needed; shallow clone is fine
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run taxonomy-authority guard
+        run: |
+          PYTHONIOENCODING=utf-8 python scripts/check_taxonomy_authority.py
+        # Exit code 0  → pass (no read-time type->branch derivation / deleted-shim calls)
+        # Exit code 1  → fail (a new derivation site or resurrected shim call found)

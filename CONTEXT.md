@@ -8,25 +8,89 @@ _See also: `PRODUCT.md` for audience, product purpose, and the design-principle 
 
 ### Skill taxonomy (the categories)
 
-**Basic Skill (○)**:
+**Basic (○)**:
 A primitive, indivisible capability — the genome of every agent. In catalog section headers, write **Basics** verbatim.
 _Avoid_: primitive, atomic skill, Atomic Basics, Unwired Basics, Pure / Undeveloped (as a section label — conflates the tier and stars axes).
 
-**Extra Skill (◇)**:
-A capability that emerges when two or more lower-tier skills fuse; can itself fuse with other **Extra Skills** to produce more complex Extras. In catalog section headers, write **Extras** verbatim.
-_Avoid_: composite skill, compound skill.
+**Extra Skill (◇)** _(legacy — Yggdrasil I taxonomy word; superseded under Yggdrasil II by **Fusion**)_:
+A capability that emerged when two or more lower-tier skills fused. Under **Yggdrasil II** (2026-07-07), `Extra` retires as a taxonomy word; the structural role collapses into `type=fusion`. The 4★ Suite-branch rank is also named **Extra** (rank sense only, not taxonomy). In legacy catalog section headers, **Extras** verbatim.
+_Avoid_: using "Extra Skill" as a taxonomy category (post-Yggdrasil II); composite skill, compound skill.
 
 **Unique Skill (◉)**:
-A graph-isolated **Basic Skill** that reached elite mastery through depth alone, with no fusion path forward. In catalog section headers, write **Uniques** verbatim.
-_Avoid_: standalone skill, solo skill, graph-isolated singularities.
+A 4★+ named skill on the **Unique branch** — a Named Skill that carries no `suiteComponents`, reaching high mastery through depth alone. Under **Yggdrasil II**, "Unique" is a valid **branch** word (progression path) rather than a `type` value; the Yggdrasil I structural meaning (`type=unique`) is retired. In catalog section headers, write **Uniques** verbatim.
+_Avoid_: standalone skill, solo skill, graph-isolated singularities; treating "Unique" as a `type` value (post-Yggdrasil II).
 
-**Ultimate Skill (◆)**:
-A high-complexity emergent capability found in fewer than 1% of agents — the apex tier. In catalog section headers, write **Ultimates** verbatim.
-_Avoid_: legendary skill, top-tier skill, mythic.
+**Ultimate Skill (◆)** _(legacy — Yggdrasil I taxonomy word; retiring under Yggdrasil II)_:
+A high-complexity emergent capability. Historically the taxonomy word for `type=ultimate` starless nodes (0.5-prereq structural rule). Under **Yggdrasil II** (2026-07-07), `Ultimate` retires as a taxonomy word and becomes the **5★ rank name**; the structural role collapses into `type=fusion`. See § Taxonomy v6 (Yggdrasil II) below.
+_Avoid_: legendary skill, top-tier skill, mythic, "Ultimate skill" in the taxonomy sense (post-Yggdrasil II).
 
 **Fusion**:
-The act of combining two or more skills into a single higher-complexity skill, formalised in the registry via `gaia fuse`. Basics can fuse into Extras or Ultimates; Extras can fuse with other Extras.
+The act of combining two or more skills into a single higher-complexity skill, formalised in the registry via `gaia fuse`. Under Yggdrasil II, every non-Basic starless node carries `type=fusion`; a fusion is any skill with ≥1 prerequisite.
 _Avoid_: combination, merge, composition.
+
+**Fusion (◇)** _(Yggdrasil II canonical — replaces Extra Skill and taxonomy-Ultimate)_:
+The unified taxonomy label for starless nodes with `type=fusion` (any skill with ≥1 prerequisite). Replaces the Yggdrasil I trio `Extra` + `Ultimate` (taxonomy sense) + `Unique` (structural sense) with a single structural category. Ranks and branches live on named skills, not on the starless taxonomy. In catalog section headers, write **Fusions** verbatim (Yggdrasil II) or **Extras** verbatim (legacy Yggdrasil I copy).
+_Avoid_: composite skill, compound skill, extra skill (post-Yggdrasil II).
+
+### Taxonomy v6 (Yggdrasil II)
+
+Ratified 2026-07-07 (`founder/handovers/YGGDRASIL_II_RATIFICATION_2026-07-07.md`). Splits the single legacy `type` axis into two orthogonal axes.
+
+**Type axis** (structural — starless only):
+Values: `basic` (0 prerequisites) or `fusion` (≥1 prerequisite). Lives on starless nodes only. **Named skills have no `type` field** — they inherit via `genericSkillRef` walk (**Option D**). Simplifies both axes: starless is purely structural, named is purely progression.
+_Avoid_: writing `type` on a named-skill frontmatter; using the legacy values `extra`, `ultimate`, `unique` on new nodes (bulk rewrite: `extra`→`fusion`, `ultimate`→`fusion`, `unique`→`basic`).
+
+**Nomenclature — the "Skill" suffix** (Yggdrasil II): the proper-noun suffix "Skill" attaches to **rank** names only — **Extra Skill**, **Unique Skill**, **Ultimate Skill**, **Apex Skill** (e.g. "Ultimate Skill: garrytan/gsstack"). **Type** words stand bare: **Basic** and **Fusion** — never "Basic Skill" or "Fusion Skill". Types are structural categories, not ranks. The 1★–3★ shared-ladder rank words (**Awakened** 1★, **Named** 2★, **Evolved** 3★) are always written **star-qualified** as ranks ("2★ Named", "the Named rank") and never take a bare "X Skill" form — so **Named Skill** unambiguously denotes the claimed-skill entity (a contributor's implementation), never "a 2★ skill". Only the 4★+ branch ranks take the "Skill" suffix as rank phrasings.
+
+**Branch axis** (progression — named only):
+Values: `standard`, `unique`, `suite`. Derived at read-time by `computeBranch(named)` — **suiteComponents-presence decides membership first, then rank**: a Named Skill carrying `suiteComponents` is `suite` at **any rank** (from its 2★ push floor up); a Named Skill without `suiteComponents` is `standard` at 1–3★ and `unique` at 4–6★. `suiteComponents` is a **Named-Skill-only field, never present on the starless generic parent**. **Never declared on nodes; always computed.** *(The 4★ suite/unique ladder words + glyphs are a separate **decoration** gate — see Suite/Unique branch below — not a membership gate.)*
+_Avoid_: writing a `branch` field to a node; treating branch as user-editable.
+
+**Standard branch**:
+1★ Awakened → 2★ Named → 3★ Evolved. The branch for skills **without** `suiteComponents` below 4★. A skill *with* `suiteComponents` is **Suite-branch from 2★** (see below), even while it shows these shared words below 4★.
+
+**Unique branch**:
+4★ Unique → 5★ Unique Ultimate → 6★ Unique Impossible. For skills that reach 4★+ **without** being a suite (the Named Skill carries no `suiteComponents`). `suiteRef` membership does NOT disqualify — a "world-renowned handoff skill" that happens to live inside a suite is still Unique. Standalone-prestige track. Impeccable is the archetype. Gates: 4★ = Origin + TM ≥ 100 (A); 5★ = Origin + TM ≥ 250 (S); origins counted in **fusion structure** (`prerequisites`), not `suiteComponents`. 6★ Unique Impossible = provisional 5-predicate gate (Apex minus `directNestedSuiteGte1`).
+_Avoid_: treating suite membership as automatically disqualifying from Unique.
+
+**Suite branch**:
+For Named Skills that carry `suiteComponents` — **branch = `suite` from the 2★ push floor upward, at any rank.** A suite is a suite the moment it's pushed (2★); evidence climbs it toward 4★. The **custom suite ladder (4★ Extra → 5★ Ultimate → 6★ Apex) and suite glyph (◆) render only at 4★+** — a suite-branch skill at 2★/3★ shows the shared rank word (Named / Evolved) and the plain glyph (◇). Membership is structural (`suiteComponents` present); the 4★ fork is a **decoration** gate earned by evidence, not a membership gate. Group-prestige track. 5★ gate preserved per #935 (Origin in `suiteComponents` + 5 A-graded origins in `suiteComponents` + TM ≥ 250). 6★ Apex Gate = the 6-predicate G7 set (preserved). *(2★/3★ suites gate on the normal per-star evidence progression; suite-specific gates begin at 4★.)*
+
+**Ultimate** _(5★ rank name — Yggdrasil II)_:
+The rank name for **every 5★ skill** across branches. Suite branch: **Ultimate**. Unique branch: **Unique Ultimate**. Intentional gacha-anchor collision — devs should associate "Ultimate" with "5★" universally. Replaces the Yggdrasil I rank name "Transcendent". Deprecates the Yggdrasil I taxonomy usage of "Ultimate" (see `Ultimate Skill` entry above).
+_Avoid_: using "Ultimate" as a taxonomy word (post-Yggdrasil II); using "Transcendent" as a rank name (deprecated).
+
+**Unique Ultimate** _(5★ rank name, Unique branch — Yggdrasil II)_:
+The rank name for a 5★ Unique-branch skill. Renders alongside "Ultimate" in Suite branch copy; both are 5★.
+_Avoid_: dropping the "Unique" qualifier in copy that references the Unique branch.
+
+**Unique Impossible** _(6★ rank name, Unique branch — Yggdrasil II)_:
+The rank name for a 6★ Unique-branch skill. Provisional 5-predicate gate; formal ratification deferred to a follow-up RFC (Yggdrasil III candidate). Expected to be extraordinarily rare.
+_Avoid_: using "Apex" for a Unique-branch 6★ (Apex is Suite-branch only, post-Yggdrasil II).
+
+**Fusion structure**:
+The `prerequisites` graph of a starless node — the fusion-recipe origin edges that produce a `type=fusion` skill. Distinct from `suiteComponents` (co-located sibling components of a Suite). Unique gates count origins in fusion structure; Suite gates count origins in `suiteComponents`.
+_Avoid_: conflating fusion structure with suite components.
+
+**`computeBranch(named)`**:
+The read-time helper that reads the Named Skill's own `suiteComponents` (a **Named-Skill-only field**) and returns the branch label given the named skill's current level. It does **not** walk to the generic parent for branch — `suiteComponents` never lives on the starless node. (`generic.type` is accessed by the separate type-inheritance walk — **Option D** — not by branch derivation.) Lives in `src/gaia_cli/trustMagnitude.py`.
+_Avoid_: reading `branch` from a node; caching the result across level changes.
+
+**Option D** _(Yggdrasil II design choice)_:
+The named-skill-type-by-inheritance rule: starless nodes carry `type`, named skills do not. Named skills inherit type via `genericSkillRef` walk. Named `suiteRef` does not affect branch derivation — branch is shaped by the Named Skill's own `suiteComponents` + rank/level. (`type` governs type-inheritance: named skills inherit the generic's `type` via this walk; it does not feed into branch computation.)
+_Avoid_: adding a `type` field to `namedSkill.schema.json`.
+
+**Meta Schema RFC** _(Series A — Yggdrasil)_:
+The naming series for schema-type Meta Shifts that reshape the skill tree's structure or vocabulary. Yggdrasil I = original taxonomy establishment (2025, retroactive). Yggdrasil II = this ratification (2026-07-07). Future entries: Yggdrasil III, IV, ….
+_Avoid_: inventing parallel schema-RFC names.
+
+**TM Index** _(Series B — Trust Magnitude cadence)_:
+The public-facing name for the Trust Magnitude scoring engine, versioned by calendar quarter. **TM Index (2026 Q2)** = the G7 Trust Taxonomy RFC (ratified 2026-06-16). **TM Index (2026 Q3)** = planned branch-aware formula rebuild (blocked by Yggdrasil II). The G-series (G7, G8, …) is the internal engineering codename; **TM Index (YYYY QN)** is the public label.
+_Avoid_: using the G-series codename in external docs or changelogs.
+
+**Meta Shift**:
+The umbrella term for any ratified change to the registry's meta-rules. Encompasses both Meta Schema RFCs (Yggdrasil series) and TM Index revisions.
+_Avoid_: using "Meta Shift" for a non-ratified proposal; using it interchangeably with "PR" or "commit".
 
 ### Maturity (the level)
 
@@ -35,21 +99,21 @@ A skill's verified maturity on a 0★ to 6★ axis, derived from evidence — ne
 _Avoid_: rank (the axis), level (the axis), tier (tier means the taxonomy above).
 
 **Rank**:
-The named label for a specific star value, valid only when paired with the name. Examples: "the Hardened rank", "Transcendent rank". Never used as the axis name.
+The named label for a specific star value, valid only when paired with the name. Examples: "the Evolved rank", "the Apex rank". Never used as the axis name.
 _Avoid_: using "rank" alone to mean stars; using "rank" as a verb (the verb is rank up).
 
-The rank names, in order: **Unawakened** (0★), **Awakened** (1★), **Named** (2★), **Evolved** (3★), **Hardened** (4★), **Transcendent** (5★), **Transcendent ★** (6★ apex).
+The rank names, in order (Yggdrasil II, 2026-07-07): **Unawakened** (0★), **Awakened** (1★), **Named** (2★), **Evolved** (3★), **Extra** (4★ Suite) / **Unique** (4★ Unique branch), **Ultimate** (5★ Suite) / **Unique Ultimate** (5★ Unique branch), **Apex** (6★ Suite) / **Unique Impossible** (6★ Unique branch). The Yggdrasil I labels "Hardened" (4★), "Transcendent" (5★), and "Transcendent ★" (6★) are deprecated — Extra/Unique replace Hardened at 4★; Ultimate replaces Transcendent at 5★; Apex remains for 6★ Suite; Unique Impossible is the new 6★ Unique label. See § Taxonomy v6 (Yggdrasil II).
 
 **Apex**:
-Brand-voice shorthand for the **Transcendent ★** rank (6★). Pair with the rank symbol on first mention on a surface (e.g. `6★ Apex`); the bare word is reserved for hero / ceremonial copy and section endpoints (e.g. the Ascension Cycle terminus). Long-form documentation uses **Transcendent ★** in full; compact CLI plaques and home-page affordances may use **Apex** alone.
-_Avoid_: using "Apex" for any rank below 6★; using "apex tier" as a synonym for "Ultimate tier" (Apex is a stars-axis word, Ultimate is a taxonomy-axis word).
+Brand-voice shorthand for the **6★ Suite-branch** rank (post-Yggdrasil II, 2026-07-07). Pair with the rank symbol on first mention on a surface (e.g. `6★ Apex`); the bare word is reserved for hero / ceremonial copy and section endpoints (e.g. the Ascension Cycle terminus). Long-form documentation uses **Apex** in full. Under Yggdrasil II, Apex is Suite-branch-only — the 6★ Unique-branch rank is **Unique Impossible**.
+_Avoid_: using "Apex" for any rank below 6★; using "Apex" for a Unique-branch 6★ (Yggdrasil II); "apex tier" as a synonym for the retired taxonomy word "Ultimate".
 
 **Pure**:
 Alternative descriptor for the Unawakened (0★) rank — used as a per-skill pill (e.g. `[0★ · Pure]` in tree renders) where a 0★ skill needs a one-word label distinct from "Unawakened." Strictly a stars-axis term; never used as a section header or as a tier synonym.
 _Avoid_: "Pure skill" to mean a Basic-tier skill; "Pure / Undeveloped" as a section header (conflates the tier and stars axes).
 
 **Rank up / Level up**:
-Equivalent verbs for ascending one or more stars; both valid in copy and the CLI surface (`gaia promote`).
+Equivalent verbs for ascending one or more stars; both valid in copy. There is no self-promote CLI verb under Yggdrasil II — rank is assigned by canon curation, not by the contributor.
 _Avoid_: upgrade, promote-up.
 
 **Demote**:
@@ -65,7 +129,7 @@ _Avoid_: proof level, evidence tier; using Class for new evidence; equating Clas
 The #646 trust model splits the old single `class` letter into two orthogonal axes — **Evidence Type** (provenance) and **Evidence Grade** (quality) — and adds the skill-level **Overall Trust Grade**. These materialise in generated catalogs; they are computed by the build pipeline, never declared.
 
 **Evidence Type**:
-The provenance of one demonstration — *where* it comes from, not how good it is. Values are kebab-case and list-driven from `meta.json` `evidence.types` (initially `arxiv`, `repo`, `github-stars`), so new sources extend the list without a schema change. Always write the full phrase "Evidence Type"; never the bare word "type", which names the Basic/Extra/Unique/Ultimate taxonomy field.
+The provenance of one demonstration — *where* it comes from, not how good it is. Values are kebab-case and list-driven from `meta.json` `evidence.types` (initially `arxiv`, `repo`, `github-stars`), so new sources extend the list without a schema change. Always write the full phrase "Evidence Type"; never the bare word "type", which names the basic / fusion taxonomy field.
 _Avoid_: reusing **Evidence Class** for provenance; "source class"; the bare "type" for provenance.
 
 **Evidence Grade**:
@@ -81,7 +145,7 @@ A skill's *aggregate* standing — the accumulation of its individual **Evidence
 _Avoid_: storing it on a node; conflating it with one entry's Evidence Grade; "trust rating".
 
 **rank tenure**:
-How long a skill has held its current stars, derived from its timeline `rank_up` / `demote` events and rendered as "held the *[rank name]* rank since *[date]*." Computed, never stored. In copy always pair the word "rank" with the rank name (e.g. "the Hardened rank since 2026-03-01"); never write "rank" alone to mean the stars axis.
+How long a skill has held its current stars, derived from its timeline `rank_up` / `demote` events and rendered as "held the *[rank name]* rank since *[date]*." Computed, never stored. In copy always pair the word "rank" with the rank name (e.g. "the Evolved rank since 2026-03-01"); never write "rank" alone to mean the stars axis.
 _Avoid_: "rank since" with no rank name; storing tenure on a node; "rank age".
 
 **Verification levels**:
@@ -111,12 +175,12 @@ The collective noun for contributors who hold one or more Named Skills — used 
 _Avoid_: claimers, owners list, top namers, leaderboard.
 
 **Promote**:
-The CLI action (`gaia promote`) that ranks up a skill, gated by evidence. In the brand voice, **rank up** or **level up** are the visitor-facing verbs.
-_Avoid_: lift, advance.
+The brand-voice concept of a skill ranking up on the verified-maturity axis, gated by evidence. **Rank up** or **level up** are the visitor-facing verbs. Under Yggdrasil II there is **no self-promote CLI verb** — rank is assigned by canon curation (dev-gated), not by the contributor. (`gaia promote` was retired in the Ygg II CLI alignment.)
+_Avoid_: lift, advance, self-promote.
 
 **Propose**:
-The CLI action (`gaia propose`) that claims an unclaimed Ultimate skill by submitting an implementation for review.
-_Avoid_: submit, request.
+The CLI action (`gaia propose`) that submits an implementation of a canonical skill as a named PR for review.
+_Avoid_: submit, request, claim.
 
 ### Registry mechanics
 
@@ -156,33 +220,35 @@ event** so a skill's history tells the whole truth. A demotion that silently
 lowers a star without a `demote` event is a transparency failure, not a cosmetic
 one. This is a *mindset*, not just a rule: prefer the CLI precisely because it
 logs the event for you, and never hand-lower a level without recording why. The
-**Transparency Gate** (`scripts/validate_timelines.py`, run in `gaia validate`
+**Transparency Gate** (`scripts/validate_timelines.py`, run in `gaia dev validate`
 and release CI) enforces it — every user-tree timeline must explain its skill's
 current rank, or the build fails.
 
 ## Relationships
 
-- A **Basic Skill** fuses with other **Basic Skills** to produce an **Extra Skill**.
-- An **Extra Skill** can fuse with other **Extra Skills** to produce a more complex **Extra Skill**, or chain into an **Ultimate Skill**.
-- A **Unique Skill** is a **Basic Skill** that ranked up without ever fusing.
+_Yggdrasil II (2026-07-07) updates these relationships. Legacy Yggdrasil I copy retained where still accurate._
+
+- A **Basic** (`type=basic`, 0 prerequisites) fuses with other Basics to produce a **Fusion** (`type=fusion`, ≥1 prerequisite). Legacy Yggdrasil I called these "Extras".
+- A **Fusion** can fuse with other Fusions to produce a more complex Fusion.
+- A named skill lives on one of three **branches** (derived, never declared): **Suite** (carries `suiteComponents`, from 2★ up — suite ladder words appear at 4★+), **Unique** (4★+ non-suite; the Yggdrasil I "Unique" tier now lives here as a *progression path*), or **Standard** (no suite, below 4★). Every named skill starts at 2★ — on **Suite** if it carries `suiteComponents`, else **Standard**.
 - A skill becomes a **Named Skill** at 2★, attaching it to its **Origin Contributor**.
-- Every star above 1★ requires graded evidence — an **Evidence Grade** (the **Evidence Class** axis it replaces is deprecated); ranking up across stars gates on it.
+- Every star above 1★ requires graded evidence — an **Evidence Grade** (the deprecated **Evidence Class** axis it replaces). Ranking up gates on **Trust Magnitude** (TM Index (2026 Q2)); the legacy per-star **Evidence Floor** column is retired under Yggdrasil II.
 - The **Registry** is the canonical graph; a **Skill Tree** is one user's view of that graph.
 
 ## Example dialogue
 
 > **Dev:** "Karpathy demonstrated `/autoresearch` — does that make it a Named Skill?"
 > **Maintainer:** "It does, but only after `gaia propose` lands with Class C evidence or stronger. Until then it sits in **Intake**. Once accepted, Karpathy becomes the **Origin Contributor** and the skill ranks up to **Named** (2★)."
-> **Dev:** "And if `/autoresearch` is an Ultimate, the same contributor stays attached as it climbs?"
+> **Dev:** "And if `/autoresearch` climbs to Ultimate rank, the same contributor stays attached as it climbs?"
 > **Maintainer:** "Yes — Origin sticks for the life of the skill, even at 6★."
-> **Dev:** "Can two Extra Skills fuse into a new Extra?"
-> **Maintainer:** "They can. Fusion isn't restricted to Basics-only; an Extra can compose with another Extra and still land as an Extra if it doesn't cross the Ultimate complexity bar."
+> **Dev:** "Can two fusion skills fuse into a new fusion?"
+> **Maintainer:** "They can. Fusion isn't restricted to basics-only; a `fusion`-type skill can compose with another and the result is still `fusion` by **type**. Where it lands on the star axis — 4★ **Extra**, 5★ **Ultimate**, 6★ **Apex** (Suite branch) — is a **rank** question, decided by Trust Magnitude at curation, not by the type."
 
 ## Flagged ambiguities
 
-- "Rank" was used loosely as both the axis name and the label name. Resolved: **stars** is the axis (0★–6★); **rank** is only valid as a noun paired with the rank name (e.g. "the Hardened rank").
-- "Level" was used loosely for both stars and the taxonomic categories (Basic/Extra/Unique/Ultimate). Resolved: stars is the maturity axis; **tier** or the specific category name (Basic/Extra/Unique/Ultimate) is the taxonomy axis. "Level up" as a verb is fine and is synonymous with **rank up**.
-- "Claim" is the brand-voice verb a visitor sees; **Propose** is the canonical CLI command beneath it. The two refer to the same action against an unclaimed Ultimate.
+- "Rank" was used loosely as both the axis name and the label name. Resolved: **stars** is the axis (0★–6★); **rank** is only valid as a noun paired with the rank name (e.g. "the Apex rank").
+- "Level" was used loosely for both stars and the taxonomic categories (Basic/Extra/Unique/Ultimate). Resolved: stars is the maturity axis; **type** (`basic` / `fusion`) is the structural taxonomy (Yggdrasil II); named-skill progression is captured by the derived **branch** axis (`standard` / `suite` / `unique`). "Level up" as a verb is fine and is synonymous with **rank up**.
+- "Claim" is retired brand voice. Starless (generic) skills no longer carry a rank, so there is no "unclaimed Ultimate" to claim — everything is simply a **skill**. The canonical CLI action for submitting an implementation is `gaia propose`.
 
 ---
 
@@ -209,7 +275,7 @@ The role token for contributor handles wherever they appear (`#ef4444`). The sin
 _Avoid_: contributor red, name red.
 
 **Apex Gold**:
-The role token for the 6★ Transcendent ★ tier, Ultimate accent moments, the Diamond Seal mark, and other apex affordances (`#fbbf24`, deepening to `hsl(45,100%,45%)` at fringes per `drawNodeVI`). Never used as a decorative accent on lower tiers.
+The role token for the 6★ Apex tier, Ultimate accent moments, the Diamond Seal mark, and other apex affordances (`#fbbf24`, deepening to `hsl(45,100%,45%)` at fringes per `drawNodeVI`). Never used as a decorative accent on lower tiers.
 _Avoid_: Ultimate gold, accent gold.
 
 ### Nomenclature decisions
@@ -236,9 +302,9 @@ _Avoid_: Get started, Quickstart, Onboarding.
 The brand-voice label for the MCP-install moment, where a contributor's AI agent links to the Gaia registry.
 _Avoid_: Connect MCP, Add Gaia to your agent.
 
-**Available Ultimates**:
-The list of unclaimed Ultimate skills shown in Path B of the Two Doors home. Each row carries the tier glow on hover and a `Claim →` action.
-_Avoid_: Open Ultimates, Unclaimed Ultimates (acceptable; less preferred), Ultimate marketplace.
+**Browse named skills**:
+The catalog of named skills reachable from the home page (and via `Browse named skills →`). Rows carry the rank glow on hover and open the skill's plaque. Starless (generic) skills are unranked, so there is no "claim" action and no "Ultimate" as a claimable noun — every row is simply a skill.
+_Avoid_: Available Ultimates, unclaimed Ultimates, Open Ultimates, Ultimate marketplace, Claim →.
 
 **Ascension Cycle**:
 The lifecycle diagram showing how a contributor's skill travels from Register → Scan → Rank up → Name → Fuse → Apex. Replaces the old "Skill Lifecycle" arrow flow.
@@ -280,20 +346,20 @@ Priority D of the plaque — the moment of being named, rendered as a Solo-Level
 _Avoid_: Award animation, Level-up animation.
 
 **Two Doors**:
-The home-page IA pattern — a forked CTA pair ("Register your repo →" / "Claim an Ultimate ◆") that splits the page into two parallel path columns reconverging at Hall of Heroes. The visitor picks a door within 10 seconds; both lead to the canonical registry.
-_Avoid_: Dual CTA, A/B paths.
+The home-page IA pattern — a forked path pair (**Path A — Human**: connect a repo and browse; **Path B — Agent**: delegate to an AI agent) that splits the page into two parallel columns reconverging at Hall of Heroes. The visitor picks a door within 10 seconds; both lead to the canonical registry.
+_Avoid_: Dual CTA, A/B paths, "Claim an Ultimate".
 
 ### Verbs (use in copy)
 
 | Verb | Brand-voice gloss | CLI equivalent |
 |---|---|---|
-| **Rank up · Level up** | Ascend one or more stars on the verified-maturity axis | `gaia promote` |
+| **Rank up · Level up** | Ascend one or more stars on the verified-maturity axis | (no CLI verb — rank is assigned by canon curation, not self-promoted) |
 | **Demote** | Drop a skill back one or more stars (demerit or retracted evidence) | (no CLI verb yet) |
 | **Name · Be named** | The 2★ moment a skill claims its Origin Contributor; uses honor red | `gaia push` (when accepted) |
 | **Fuse** | Combine two or more skills into a higher-complexity skill | `gaia fuse` |
-| **Claim · Propose** | Take an unclaimed Ultimate (Claim = brand voice; Propose = CLI) | `gaia propose` |
-| **Ascend** | Reach Apex (6★ Transcendent ★) | (no CLI verb — emerges from `gaia promote` reaching 6★) |
-| **Bond** | Link an AI agent to Gaia via MCP | `gaia mcp` install flow |
+| **Propose** | Submit an implementation of a canonical skill as a named PR | `gaia propose` |
+| **Ascend** | Reach Apex (6★, Suite branch) or Unique Impossible (6★, Unique branch) | (no CLI verb — assigned by curation when the 6★ gate passes) |
+| **Bond** | Link an AI agent to Gaia via MCP | `gaia dev mcp` install flow |
 | **Register** | First connect a repo to Gaia | `gaia init` |
 | **Scan** | Detect demonstrated skills in a repo | `gaia scan` |
 | **Install** | Add a Named Skill to a local skills directory | `gaia install` / `gaia skills install` |
@@ -378,30 +444,34 @@ Copy rules: write the channel names capitalised — **Production**, **Beta**,
 
 Single source of truth for CI grep. Any term below appearing in user-facing copy (`docs/**.html`, `docs/js/`, `docs/css/`, generated artifacts under `docs/`, `scripts/generate*.py`, `src/gaia_cli/`) fails the lint. Alphabetised.
 
-- `apex tier` (as Ultimate-tier synonym) — Apex is a stars-axis word; use **Ultimate** for the taxonomy or **Apex** only when meaning 6★ Transcendent ★
+- `apex tier` (as taxonomy-Ultimate synonym) — the old "Apex is stars-axis, Ultimate is taxonomy-axis" rule retires under Yggdrasil II. **Ultimate is now the 5★ rank name; Apex is the 6★ Suite-branch rank name.** Never use "apex tier" as a taxonomy synonym.
 - `Atomic Basics` — section label; use **Basics**
-- `Atomic skill` / `atomic skill` — tier synonym; use **Basic Skill**
+- `Atomic skill` / `atomic skill` — tier synonym; use **Basic**
+- `Basic Skill` (as a type term) — the "Skill" suffix is a rank-word convention; the `type=basic` label stands bare. Use **Basic**.
 - `card` — for plaque; use **Plaque**
 - `claimers` — collective noun for contributors; use **Named Contributors**
 - `claimed skill` — use **Named Skill**
 - `common` — never a **tier** or **rank** name (it was a rarity-axis value; see Rarity section above — never surfaced in user-facing copy)
-- `composite skill` / `compound skill` — for Extra; use **Extra Skill**
+- `composite skill` / `compound skill` — for Fusion; use **Fusion** (Yggdrasil II) or **Extra Skill** (legacy)
 - `Connect MCP` / `Add Gaia to your agent` — MCP install copy; use **Bond your agent**
 - `dashboard` / `profile` (as skill-tree synonym) — use **Skill Tree** or **Your Tree**
 - `database` / `catalog` / `index` — for Registry; use **Registry**
 - `Documentation` / `How we do things` / `How We Work` — page name; use **The Codex**
+- `Extra skill` / `type=extra` — legacy Yggdrasil I taxonomy word; use **Fusion** / `type=fusion` (Yggdrasil II)
 - `Field view` is the **only** user-facing label for the immersive canvas toggle — banned alternatives: `View as HUD`, `HUD mode`, `Heads-up display`, `Open HUD`, `Constellation view`
+- `Fusion Skill` (as a type term) — the "Skill" suffix is a rank-word convention; the `type=fusion` label stands bare. Use **Fusion**.
+- `G7` / `G8` (in external / public docs) — use **TM Index (2026 Q2)** / **TM Index (2026 Q3)**; the G-series is internal engineering codename only
 - `Get started` / `Quickstart` / `Onboarding` — setup copy; use **The Initiate's Rite**
 - `graph-isolated singularities` — for Unique section; use **Uniques**
 - `Highest Tier: common` — broken stat label; emit the rank name or `—`
-- `legendary` / `legendary skill` — banned synonym for **Ultimate** tier (it was a rarity-axis value; the axis is removed)
+- `legendary` / `legendary skill` — banned synonym for **Ultimate** rank (it was a rarity-axis value; the axis is removed)
 - `leaderboard` (as Hall-of-Heroes synonym) — use **Hall of Heroes**
 - `Level lifecycle` / `Progression flow` / `Workflow` — diagram name; use **Ascension Cycle**
 - `mythic` — banned synonym for Ultimate
 - `owners list` — collective; use **Named Contributors**
 - `owner` / `author` / `creator` — for Origin Contributor; use **Origin Contributor**
 - `Pokédex` / `RPG site` / `game UI` / `anime UI` — brand-stance violations
-- `primitive` — for Basic Skill; use **Basic Skill**
+- `primitive` — for Basic; use **Basic**
 - `Pure / Undeveloped` — section label that conflates tier and stars axes; section header is **Basics**, and a 0★ skill can carry the **Pure** pill inline
 - `Pure skill` — as tier synonym; "Pure" is only a 0★ stars-axis descriptor
 - `rank` / `level` / `tier` — when used alone to mean the **stars axis** (these are reserved for the rank-name label, the verbs, and the tier taxonomy respectively)
@@ -411,7 +481,10 @@ Single source of truth for CI grep. Any term below appearing in user-facing copy
 - `Top contributors` / `Named contributors section` — section; use **Hall of Heroes**
 - `top namers` — collective; use **Named Contributors**
 - `top-tier skill` — banned synonym for Ultimate
+- `Transcendent` (as rank name) — deprecated under Yggdrasil II; use **Ultimate** (5★ Suite) / **Unique Ultimate** (5★ Unique)
+- `Transcendent ★` (as rank name) — deprecated under Yggdrasil II; use **Apex** (6★ Suite) / **Unique Impossible** (6★ Unique)
 - `trophy` (as plaque synonym in copy) — use **Plaque**
+- `Ultimate skill` (in the taxonomy sense — post-Yggdrasil II) — "Ultimate" is now a 5★ rank name only; the taxonomy word retires. Use **Fusion** for the structural role.
 - `Undeveloped` — pejorative; not in vocabulary
 - `Unwired Basics` — section label; use **Basics**
 - `upgrade` / `promote-up` — for rank-up verb; use **Rank up** or **Level up**

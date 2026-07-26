@@ -8,10 +8,14 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "nexu-io",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/nexu-io/open-design.json"
-      }
+      },
+      "genericSkillRef": "design-generation"
     }
   ],
   "namedSkillsCount": 1,

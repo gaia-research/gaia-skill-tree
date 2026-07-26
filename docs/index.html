@@ -36,15 +36,20 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="icon" type="image/svg+xml" href="assets/marks/diamond-seal.svg">
   <link rel="stylesheet" href="css/styles.css?v=6.8.18">
+  <link rel="stylesheet" href="css/ascension-overdrive-v4.css?v=6.8.18">
   <link rel="stylesheet" href="css/plaque.css?v=6.8.18">
   <!-- Universal AlphaRail (page-wide section + explorer index). -->
   <link rel="stylesheet" href="css/alpha-rail.css?v=6.8.18">
+  <!-- Homepage-only World Tree composition and 2D ↔ 3D explorer shell. -->
+  <link rel="stylesheet" href="css/world-tree-hero.css?v=6.8.18">
+
   <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
   <script src="js/icons.js?v=6.8.18"></script>
   <!-- Stage 2 — shared rank-badge primitive, loaded after icons. -->
   <script src="js/rank-badge.js?v=6.8.18"></script>
   <!-- Stage 3 — plaque component family, loaded after rank-badge. -->
   <script src="js/tm-config.js?v=6.8.18"></script>
+  <script src="js/skill-semantics.js?v=6.8.18"></script>
   <script src="js/plaque.js?v=6.8.18"></script>
   <style>
   /* Review Section & Side-by-Side Simulator styling */
@@ -291,6 +296,14 @@
   }
 }
 </script>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TS7N9T92BM" data-ga4="G-TS7N9T92BM"></script>
+  <script data-ga4="G-TS7N9T92BM">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-TS7N9T92BM');
+  </script>
 </head>
 
 <body class="home-page">
@@ -301,37 +314,97 @@
   <script src="js/site-nav.js?v=6.8.18"></script>
 
   <!-- ─── HERO ─── -->
-  <section id="hero">
-    <canvas id="canvas3d" aria-label="4D semantic skill graph of 200 skills across tier and cluster dimensions"></canvas>
-    <div class="hero-mobile-graph" aria-hidden="true">
-      <img src="graph/gaia.svg" alt="" width="600" height="600">
+  <section id="hero" class="hero-tree-shell" data-tree-state="hero2d" aria-labelledby="heroTreeTitle">
+    <picture class="hero-tree-raster" aria-hidden="true">
+      <source
+        type="image/webp"
+        srcset="assets/world-tree/yggdrasil-backdrop-480.webp 480w, assets/world-tree/yggdrasil-backdrop-941.webp 941w"
+        sizes="(max-width: 700px) 200vw, 56vw">
+      <img
+        src="assets/world-tree/yggdrasil-backdrop-941.webp"
+        width="941"
+        height="1672"
+        alt=""
+        decoding="async"
+        fetchpriority="high">
+    </picture>
+    <canvas id="canvas3d" aria-label="Gaia Skill Tree, rendered as a golden Yggdrasil from the live skill graph"></canvas>
+    <div class="hero-tree-atmosphere" aria-hidden="true"></div>
+    <div class="hero-pills hero-tree-utilities" aria-label="Registry utilities">
+      <button class="field-trigger hero-tree-explore" type="button" id="hudToggleBtn" aria-pressed="false" aria-label="Explore the Gaia Skill Tree in 3D">
+        <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#view-tree"/></svg>
+        <span>Explore in 3D</span>
+      </button>
+      <!-- gaia-hero-post-start -->
+      <a href="meta/reports/2026-07-26-yggdrasil-ii-two-types-one-trust-gate-and-a-branch-axis-that-is-never-declared.html" class="hero-audit-btn" target="_blank" aria-label="View Meta Shift">
+        <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#info"/></svg>
+        <span>Yggdrasil II just dropped</span>
+        <span class="hero-audit-btn-arrow">↗</span>
+      </a>
+      <!-- gaia-hero-post-end -->
     </div>
-    <div class="hero-glass-blur"></div>
-    <div class="hero-glass-noise"></div>
     <div class="hero-content">
-      <div class="hero-pills">
-        <button class="field-trigger" type="button" id="hudToggleBtn" aria-pressed="false" aria-label="Toggle field view"><svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#hud-toggle"/></svg> Field view</button>
-        <a class="field-trigger" href="trust/ledger/" aria-label="Trust Ledger" style="text-decoration:none;">◆ Trust Ledger</a>
+      <div class="hero-tree-copy">
+        <p class="hero-tree-kicker">Evidence-backed agent capabilities</p>
+        <h1 class="hero-title" id="heroTreeTitle">
+          <span>Gaia</span>
+          <span class="hero-title-tree">Skill Tree
+            <svg class="hero-sakura-branch" viewBox="0 0 180 88" aria-hidden="true" focusable="false">
+              <defs>
+                <g id="heroSakuraBloom">
+                  <ellipse cx="0" cy="-4.4" rx="2.5" ry="4.1"/>
+                  <ellipse cx="0" cy="-4.4" rx="2.5" ry="4.1" transform="rotate(72)"/>
+                  <ellipse cx="0" cy="-4.4" rx="2.5" ry="4.1" transform="rotate(144)"/>
+                  <ellipse cx="0" cy="-4.4" rx="2.5" ry="4.1" transform="rotate(216)"/>
+                  <ellipse cx="0" cy="-4.4" rx="2.5" ry="4.1" transform="rotate(288)"/>
+                  <circle cx="0" cy="0" r="1.35"/>
+                </g>
+              </defs>
+              <path class="hero-sakura-stem" pathLength="1" d="M4 73C36 70 56 56 82 47c29-10 58-14 92-37"/>
+              <path class="hero-sakura-stem hero-sakura-stem--twig" pathLength="1" d="M69 51c8-16 18-28 31-38M112 37c14 7 26 13 43 13M137 28c7-10 14-17 25-22"/>
+              <use class="hero-sakura-bloom hero-sakura-bloom--1" href="#heroSakuraBloom" transform="translate(100 13) scale(.88)"/>
+              <use class="hero-sakura-bloom hero-sakura-bloom--2" href="#heroSakuraBloom" transform="translate(154 50) scale(.72)"/>
+              <use class="hero-sakura-bloom hero-sakura-bloom--3" href="#heroSakuraBloom" transform="translate(163 6) scale(.62)"/>
+              <circle class="hero-sakura-bud hero-sakura-bloom--4" cx="126" cy="34" r="2.25"/>
+              <circle class="hero-sakura-bud hero-sakura-bloom--5" cx="173" cy="10" r="1.8"/>
+            </svg>
+          </span>
+        </h1>
+        <p class="hero-sub">See what agents can do, who proved it first, and the evidence behind every claim.</p>
+        <div class="hero-tree-actions" aria-label="Choose a Gaia action">
+          <div class="hero-tree-action hero-tree-action--primary hero-tree-install" aria-label="Install Gaia">
+            <span class="hero-tree-action-glyph" aria-hidden="true">◆</span>
+            <span class="hero-tree-install-copy">
+              <strong>Install the Gaia CLI</strong>
+              <span class="hero-tree-install-platforms" role="group" aria-label="Choose an install command">
+                <button class="hero-tree-install-platform is-active" type="button" data-hero-install-platform="curl" aria-pressed="true" onclick="var command='curl -fsSL https://gaiaskilltree.com/install.sh | sh';var copy=document.querySelector('[data-hero-install-copy]');copy.dataset.heroInstallCopy=command;copy.setAttribute('aria-label','Copy the macOS and Linux install command');document.querySelector('[data-hero-install-output]').textContent=command;document.querySelectorAll('[data-hero-install-platform]').forEach(function(button){var active=button===this;button.classList.toggle('is-active',active);button.setAttribute('aria-pressed',active?'true':'false');},this)">curl</button>
+                <button class="hero-tree-install-platform" type="button" data-hero-install-platform="windows" aria-pressed="false" onclick="var command='iex (irm https://gaiaskilltree.com/install.ps1)';var copy=document.querySelector('[data-hero-install-copy]');copy.dataset.heroInstallCopy=command;copy.setAttribute('aria-label','Copy the Windows install command');document.querySelector('[data-hero-install-output]').textContent=command;document.querySelectorAll('[data-hero-install-platform]').forEach(function(button){var active=button===this;button.classList.toggle('is-active',active);button.setAttribute('aria-pressed',active?'true':'false');},this)">iex (Windows)</button>
+              </span>
+              <span class="hero-tree-install-command">
+                <code data-hero-install-output>curl -fsSL https://gaiaskilltree.com/install.sh | sh</code>
+                <button class="hero-tree-install-copy-button" type="button" data-hero-install-copy="curl -fsSL https://gaiaskilltree.com/install.sh | sh" aria-label="Copy the macOS and Linux install command" title="Copy install command">
+                  <svg class="ico" width="15" height="15" aria-hidden="true"><use href="assets/icons.svg#copy"/></svg>
+                </button>
+              </span>
+            </span>
+          </div>
+          <a href="#paths" class="hero-tree-action">
+            <span class="hero-tree-action-glyph" aria-hidden="true">↑</span>
+            <span>
+              <strong>Submit a skill</strong>
+              <small>Send public repository evidence for review</small>
+            </span>
+          </a>
+          <a href="badges/" class="hero-tree-action">
+            <span class="hero-tree-action-glyph" aria-hidden="true">◇</span>
+            <span>
+              <strong>Get a README badge</strong>
+              <small>Carry your Named Skill and earned stars</small>
+            </span>
+          </a>
+        </div>
       </div>
-      <h1 class="hero-title">
-        Skills are catalogued.<br>
-        Names are <em>earned</em>.<br>
-        Apex is <span>rare</span>.
-      </h1>
-      <p class="hero-sub">An evidence-backed Registry of agent capabilities, catalogued with public provenance. Bring your repo, claim your name.</p>
-      <div class="two-doors">
-        <a href="#paths" class="door door-a door--primary">
-          <span class="door-icon">◆</span>
-          <span class="door-label">Push your repo</span>
-          <span class="door-caption">4 steps to register</span>
-        </a>
-        <a href="#ultimates" class="door door-b">
-          <span class="door-icon">◈</span>
-          <span class="door-label">Claim an Ultimate</span>
-          <span class="door-caption" id="doorBCaption">Browse all</span>
-        </a>
-      </div>
-      <div class="ledger-strip">
+      <div class="ledger-strip" aria-label="Live registry totals">
         <span class="ls-stat">
           <span class="ls-num" id="ledgerSkills">—</span>
           <span class="ls-label">skills</span>
@@ -347,16 +420,12 @@
           <span class="ls-label">ultimates</span>
         </span>
         <span class="ls-sep">/</span>
-        <span class="ls-updated" id="ledgerDate"></span>
+        <span class="ls-updated">
+          <span class="ls-label">updated</span>
+          <span id="ledgerDate"></span>
+        </span>
       </div>
     </div>
-    <!-- gaia-hero-post-start -->
-    <a href="meta/reports/2026-07-13-firecrawl-suite-curation-and-origin-recalibration.html" class="hero-audit-btn" target="_blank" aria-label="View Suite Curation">
-      <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#info"/></svg>
-      <span>Suite Curation</span>
-      <span class="hero-audit-btn-arrow">↗</span>
-    </a>
-    <!-- gaia-hero-post-end -->
     <div class="scroll-hint">
       <span>scroll</span>
       <svg class="ico" aria-hidden="true"><use href="assets/icons.svg#chevron-down"/></svg>
@@ -399,8 +468,6 @@
         </div>
         <div class="hoh-footer" aria-label="Hall of Heroes links">
           <a href="heroes/" class="btn btn-ghost hoh-primary-link">View Hall of Heroes →</a>
-          <a href="named/" class="btn btn-ghost" id="browseAllBtn">Browse named skills →</a>
-          <a href="u/" class="btn btn-ghost">Named contributors →</a>
         </div>
       </div>
       <div class="hoh-mini-stage" aria-label="Featured contributors">
@@ -413,6 +480,10 @@
           <div class="hoh-track" id="hohPlates">
             Populated by page-ia.js
           </div>
+        </div>
+        <div class="hoh-stage-browse" aria-label="Browse links">
+          <a href="named/" class="hoh-stage-browse-link" id="browseAllBtn">Skills →</a>
+          <a href="u/" class="hoh-stage-browse-link">Contributors →</a>
         </div>
       </div>
     </div>
@@ -486,8 +557,8 @@
           </div>
           <div class="lb-chart-wrap lb-chart-wrap--scrollable" id="lbNamedChart"></div>
           <div class="lb-origin-tip" aria-label="About origin skills">
-            <svg class="lb-origin-tip-icon" aria-hidden="true"><use href="assets/icons.svg#origin-badge"/></svg>
-            <span><strong>Origin skills</strong> — the canonical implementation by the contributor who first published the technique. Marked with the laurel-wreath inside the bar.</span>
+            <img class="lb-origin-tip-icon" src="assets/origin-wreath-gold.svg" alt="" aria-hidden="true">
+            <span><strong>Origin skills</strong> — the canonical implementation by the contributor who first published the technique. Marked with the golden avatar wreath inside the bar.</span>
           </div>
           <section class="lb-tm-accordion" id="lbTmAccordion" aria-label="Trust Magnitude methodology">
             <button class="lb-tm-toggle" id="lbTmToggle" type="button" aria-expanded="false">
@@ -551,169 +622,187 @@
 
   <!-- ─── PATHS ─── -->
   <section id="paths" class="reveal" data-section="paths">
+    <div class="rite-entry" id="install-cli" aria-labelledby="riteInstallTitle">
+      <div class="rite-entry-bg" aria-hidden="true">
+        <svg class="rite-entry-logo" viewBox="0 0 64 64" aria-hidden="true"><use href="assets/icons.svg#seal-diamond"/></svg>
+        <img class="rite-entry-tree" src="assets/world-tree/yggdrasil-backdrop-941.webp" alt="">
+      </div>
+      <div class="rite-entry-copy">
+        <span class="path-plate-num">Recommended</span>
+        <h2 id="riteInstallTitle">Install the CLI</h2>
+      </div>
+      <div class="rite-entry-terminal">
+        <div class="rite-platform" role="tablist" aria-label="Use these commands for">
+          <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)" role="tab" aria-selected="true">macOS · Linux</button>
+          <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)" role="tab" aria-selected="false">Windows</button>
+          <button type="button" class="os-tab" data-os="pipx" onclick="switchOsTab(this)" role="tab" aria-selected="false">pipx</button>
+        </div>
+        <div class="rite-install-command">
+          <div class="os-panel active" data-os="unix" role="tabpanel"><pre><span class="cmd">curl -fsSL</span> https://gaiaskilltree.com/install.sh | sh</pre></div>
+          <div class="os-panel" data-os="win" role="tabpanel"><pre><span class="cmd">iex (irm</span> https://gaiaskilltree.com/install.ps1)</pre></div>
+          <div class="os-panel" data-os="pipx" role="tabpanel"><pre><span class="cmd">pipx install</span> gaia-cli</pre></div>
+        </div>
+      </div>
+    </div>
+
     <div class="paths-wrap">
 
       <!-- Path A — Initiate's Rite -->
       <div class="path-a">
-        <div class="path-plate-num">Path A — Initiate's Rite</div>
-        <h2>Register Your Repo</h2>
-        <p class="section-sub mt-sm">Four evidence-backed steps from a public repo to a catalogued entry in the canonical Registry.</p>
+        <div class="path-plate-num">Path A — DIY</div>
+        <h2>Submit Your Repo Skills</h2>
+        <p class="section-sub mt-sm">Run three commands yourself.</p>
         <ol class="rite-steps">
           <li class="rite-step">
             <div class="rite-meta">
               <span class="rite-numeral" aria-hidden="true">I.</span>
               <div class="rite-desc">
-                <strong>Install the CLI</strong>
-                <p>Puts <code>gaia</code> on your PATH.</p>
+                <strong>Initialise</strong>
+                <p>Non-interactive defaults; add <code>--force</code> only when replacing existing config.</p>
               </div>
             </div>
             <div class="rite-term">
-              <div class="os-tabs" role="tablist" aria-label="Operating System selection">
-                <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)" role="tab" aria-selected="true">macOS · Linux</button>
-                <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)" role="tab" aria-selected="false">Windows</button>
-                <button type="button" class="os-tab" data-os="pipx" onclick="switchOsTab(this)" role="tab" aria-selected="false">pipx (Python)</button>
-              </div>
-              <div class="os-panel active" data-os="unix" role="tabpanel">
-                <pre><span class="cmd">curl -fsSL</span> https://gaiaskilltree.com/install.sh | sh</pre>
-              </div>
-              <div class="os-panel" data-os="win" role="tabpanel">
-                <pre><span class="cmd">py -m pip install</span> gaia-cli</pre>
-                <pre class="mt-sm"><span class="cmd">$env:PATH</span> += <span class="str">";"</span> + (python -c <span class="str">"import sysconfig; print(sysconfig.get_path('scripts', 'nt_user'))"</span>)</pre>
-                <div class="qs-tip mt-sm"><span class="qs-tip-icon">💡</span><span>Run the second command if <code>gaia</code> isn't found after install — it adds the Python user Scripts directory to your current PowerShell session's PATH.</span></div>
-              </div>
-              <div class="os-panel" data-os="pipx" role="tabpanel">
-                <pre><span class="cmd">pipx install</span> gaia-cli</pre>
-                <div class="qs-tip mt-sm"><span class="qs-tip-icon">💡</span><span>Installs <code>gaia</code> in an isolated virtual environment and automatically handles PATH configurations. Requires Python 3.8+ and <code>pipx</code>.</span></div>
-              </div>
+              <div class="os-panel active" data-os="unix" role="tabpanel"><pre><span class="cmd">gaia init --yes</span></pre></div>
+              <div class="os-panel" data-os="win" role="tabpanel"><pre><span class="cmd">py -m gaia_cli init --yes</span></pre></div>
+              <div class="os-panel" data-os="pipx" role="tabpanel"><pre><span class="cmd">gaia init --yes</span></pre></div>
             </div>
           </li>
           <li class="rite-step">
             <div class="rite-meta">
               <span class="rite-numeral" aria-hidden="true">II.</span>
               <div class="rite-desc">
-                <strong>Initialise profile</strong>
-                <p>Set up your local profile.</p>
-              </div>
-            </div>
-            <div class="rite-term">
-              <div class="os-tabs" role="tablist" aria-label="Operating System selection">
-                <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)" role="tab" aria-selected="true">macOS · Linux</button>
-                <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)" role="tab" aria-selected="false">Windows</button>
-              </div>
-              <div class="os-panel active" data-os="unix" role="tabpanel">
-                <pre><span class="cmd">gaia init</span></pre>
-              </div>
-              <div class="os-panel" data-os="win" role="tabpanel">
-                <pre><span class="cmd">py -m gaia_cli init</span></pre>
-              </div>
-            </div>
-          </li>
-          <li class="rite-step">
-            <div class="rite-meta">
-              <span class="rite-numeral" aria-hidden="true">III.</span>
-              <div class="rite-desc">
-                <strong>Scan workspace</strong>
+                <strong>Scan</strong>
                 <p>Detect demonstrated skills.</p>
               </div>
             </div>
             <div class="rite-term">
-              <div class="os-tabs" role="tablist" aria-label="Operating System selection">
-                <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)" role="tab" aria-selected="true">macOS · Linux</button>
-                <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)" role="tab" aria-selected="false">Windows</button>
-              </div>
-              <div class="os-panel active" data-os="unix" role="tabpanel">
-                <pre><span class="cmd">gaia scan</span></pre>
-              </div>
-              <div class="os-panel" data-os="win" role="tabpanel">
-                <pre><span class="cmd">py -m gaia_cli scan</span></pre>
-              </div>
+              <div class="os-panel active" data-os="unix" role="tabpanel"><pre><span class="cmd">gaia scan</span></pre></div>
+              <div class="os-panel" data-os="win" role="tabpanel"><pre><span class="cmd">py -m gaia_cli scan</span></pre></div>
+              <div class="os-panel" data-os="pipx" role="tabpanel"><pre><span class="cmd">gaia scan</span></pre></div>
             </div>
           </li>
-          <li class="rite-step">
+          <li class="rite-step" id="push-for-review">
             <div class="rite-meta">
-              <span class="rite-numeral" aria-hidden="true">IV.</span>
+              <span class="rite-numeral" aria-hidden="true">III.</span>
               <div class="rite-desc">
-                <strong>Push for review</strong>
-                <p>Submit your repository.</p>
+                <strong>Push</strong>
+                <p>Preview with <code>gaia push --dry-run</code>, then submit.</p>
               </div>
             </div>
             <div class="rite-term">
-              <div class="os-tabs" role="tablist" aria-label="Operating System selection">
-                <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)" role="tab" aria-selected="true">macOS · Linux</button>
-                <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)" role="tab" aria-selected="false">Windows</button>
-              </div>
-              <div class="os-panel active" data-os="unix" role="tabpanel">
-                <pre><span class="cmd">gaia push</span></pre>
-              </div>
-              <div class="os-panel" data-os="win" role="tabpanel">
-                <pre><span class="cmd">py -m gaia_cli push</span></pre>
-              </div>
+              <div class="os-panel active" data-os="unix" role="tabpanel"><pre><span class="cmd">gaia push</span></pre></div>
+              <div class="os-panel" data-os="win" role="tabpanel"><pre><span class="cmd">py -m gaia_cli push</span></pre></div>
+              <div class="os-panel" data-os="pipx" role="tabpanel"><pre><span class="cmd">gaia push</span></pre></div>
             </div>
           </li>
         </ol>
 
         <!-- Post-register: optional follow-ups that don't gate the contribution. -->
         <details class="rite-steps-after">
-          <summary>After you've registered <span class="rite-after-hint">— optional follow-ups</span></summary>
-          <ol class="rite-steps rite-steps--after" start="5">
+          <summary>Continue with Gaia <span class="rite-after-hint">Optional follow-ups</span></summary>
+          <ol class="rite-steps rite-steps--after" start="4">
           <li class="rite-step">
             <div class="rite-meta">
-              <span class="rite-numeral" aria-hidden="true">V.</span>
+              <span class="rite-numeral" aria-hidden="true">IV.</span>
               <div class="rite-desc">
-                <strong>Bond your agent MCP</strong>
-                <p>Wire Gaia to Claude Code in one command.</p>
+                <strong>Bond your agent</strong>
+                <p>Give an MCP-compatible agent access to the Registry.</p>
               </div>
             </div>
             <div class="rite-term">
-              <pre><span class="cmd">claude mcp add</span> <span class="str">gaia</span> -- <span class="cmd">npx</span> <span class="str">@gaia-registry/mcp-server</span></pre>
-              <div class="qs-tip mt-sm"><span class="qs-tip-icon">💡</span><span>Any MCP-compatible agent: use <code>npx @gaia-registry/mcp-server</code>. See <a href="https://github.com/gaia-research/gaia-skill-tree/tree/main/packages/mcp" target="_blank" class="text-tier-basic">packages/mcp</a> for config-file examples.</span></div>
+              <pre><span class="cmd">claude mcp add</span> <span class="str">gaia</span> -- <span class="cmd">npx</span> <span class="str">@gaia-registry/mcp@0.1.0</span></pre>
+              <div class="qs-tip mt-sm"><span class="qs-tip-icon">💡</span><span>Any MCP-compatible agent: use <code>npx @gaia-registry/mcp@0.1.0</code>. Endpoint: <code>research.gaiaskilltree.com/mcp</code>. See <a href="https://github.com/gaia-research/gaia-skill-tree/tree/main/packages/mcp" target="_blank" class="text-tier-basic">packages/mcp</a> for config-file examples.</span></div>
             </div>
           </li>
           <li class="rite-step">
             <div class="rite-meta">
-              <span class="rite-numeral" aria-hidden="true">VI.</span>
+              <span class="rite-numeral" aria-hidden="true">V.</span>
               <div class="rite-desc">
-                <strong>Explore interactively (optional)</strong>
-                <p>Launch the agent-first Terminal UI with no arguments.</p>
+                <strong>Open the Terminal UI</strong>
+                <p>Browse Gaia without memorising commands.</p>
               </div>
             </div>
             <div class="rite-term">
-              <div class="os-tabs" role="tablist" aria-label="Operating System selection">
-                <button type="button" class="os-tab active" data-os="unix" onclick="switchOsTab(this)" role="tab" aria-selected="true">macOS · Linux</button>
-                <button type="button" class="os-tab" data-os="win" onclick="switchOsTab(this)" role="tab" aria-selected="false">Windows</button>
-              </div>
-              <div class="os-panel active" data-os="unix" role="tabpanel">
-                <pre><span class="cmd">gaia</span></pre>
-              </div>
-              <div class="os-panel" data-os="win" role="tabpanel">
-                <pre><span class="cmd">py -m gaia_cli</span></pre>
-              </div>
-              <div class="qs-tip mt-sm"><span class="qs-tip-icon">💡</span><span>The Terminal UI is new and experimental — designed for AI agents like Claude Code and Codex. Keyboard-native, fuzzy searchable, no CLI memorization required.</span></div>
+              <div class="os-panel active" data-os="unix" role="tabpanel"><pre><span class="cmd">gaia</span></pre></div>
+              <div class="os-panel" data-os="win" role="tabpanel"><pre><span class="cmd">py -m gaia_cli</span></pre></div>
+              <div class="os-panel" data-os="pipx" role="tabpanel"><pre><span class="cmd">gaia</span></pre></div>
+              <div class="qs-tip mt-sm"><span class="qs-tip-icon">◇</span><span>The Terminal UI is experimental: keyboard-native, fuzzy searchable, and built for agent-driven work.</span></div>
             </div>
           </li>
           </ol>
         </details>
       </div>
 
-      <!-- Path B — Unclaimed Ultimates -->
-      <div class="path-b" id="ultimates">
-        <div class="path-plate-num">Path B — Unclaimed Ultimates</div>
-        <h2>Claim an Ultimate</h2>
-        <p class="path-intro mt-sm">The highest-tier skills in the registry. If you own an ultimate, claim your badge for your README — or implement a new one to get on the list.</p>
-        <div class="ultimates-list" id="ultimatesList" aria-live="polite">
-          <div class="ult-loading">Loading ultimates…</div>
-        </div>
-        <div class="path-cta" style="display:flex;gap:.75rem;flex-wrap:wrap;align-items:center;">
-          <a href="https://github.com/gaia-research/gaia-skill-tree/issues" target="_blank" rel="noopener" class="btn btn-ghost propose-cta text-sm">
-            <svg class="ico propose-gh" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#github"/></svg>
-            Propose a new Ultimate →
-          </a>
-          <a href="badges/" class="btn btn-ghost propose-cta text-sm">
-            <svg class="ico propose-gh" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#seal-diamond"/></svg>
-            Get Badges →
-          </a>
-        </div>
+      <!-- Path B — Delegate to an agent -->
+      <div class="path-b path-b--prompts" id="agent-path">
+        <div class="path-plate-num">Path B — Agent</div>
+        <h2>Prompt Your Agent</h2>
+        <p class="path-intro mt-sm">Your agent handles the mechanics and asks before submitting.</p>
 
+        <div class="agent-container">
+          <div class="agent-tabs" role="tablist" aria-label="Prompt options">
+            <button type="button" class="os-tab active" data-os="full-repo" onclick="switchOsTab(this)" role="tab" aria-selected="true">Full Repo</button>
+            <button type="button" class="os-tab" data-os="standalone" onclick="switchOsTab(this)" role="tab" aria-selected="false">Standalone Skills</button>
+          </div>
+
+          <div class="agent-repo-field" aria-label="Optional target repository">
+            <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#github"/></svg>
+            <input type="url" id="agentRepoInput" placeholder="https://github.com/owner/repo (optional)" autocomplete="off" spellcheck="false">
+          </div>
+
+          <div class="agent-panels">
+            <div class="os-panel active" data-os="full-repo" role="tabpanel">
+              <section class="agent-prompt" aria-labelledby="agentRepoTitle">
+                <pre id="agentRepoPrompt" class="agent-prompt-body">Work in my current repository and register it with Gaia. The Gaia CLI operates inside the target repository. If a target URL is provided and it is not already available locally, clone a temporary copy and work there.
+
+1. Read the current instructions at https://github.com/gaia-research/gaia-skill-tree. Install Gaia if missing; if it already exists, upgrade `gaia-cli` with its package manager before continuing. Print `gaia version` and report the install method used.
+2. Run `gaia init --yes` inside the target repository. If `.gaia/config.toml` already exists, inspect it first and ask before replacing it; only then use `gaia init --force --yes`.
+3. Run `gaia scan`. If scanning fails, stop and show the error rather than continuing with stale state.
+4. Run `gaia push --dry-run`. This must only print the proposed batch; do not open an issue or write an Intake submission.
+5. Summarise detected skills, proposed evidence, attribution, warnings, and exactly what the real push will submit.
+6. Ask: “Submit this Gaia Intake now? [Y/n]”
+7. Only after I confirm, run `gaia push --yes` and return the resulting Intake issue or pull-request URL. Never use `git commit` or `git push` on the target repository, and do not edit Registry data by hand.
+8. If a temporary clone was used, optionally ask if I want to delete it.</pre>
+              </section>
+            </div>
+
+            <div class="os-panel" data-os="standalone" role="tabpanel">
+              <div id="agentSkillFetcher" class="agent-skill-fetcher" hidden>
+                <div class="agent-skill-fetcher-header">
+                  <span class="agent-skill-fetcher-title">Found GitHub URL. Select skills to include?</span>
+                  <button type="button" id="fetchSkillsBtn" class="btn btn-ghost" style="padding:.2rem .6rem;font-size:.7rem;min-height:auto">Fetch SKILL.md files</button>
+                </div>
+                <div id="agentSkillTools" class="agent-skill-tools" hidden>
+                  <input type="text" id="agentSkillSearch" class="agent-skill-search" placeholder="Filter skills..." autocomplete="off">
+                  <div class="agent-skill-bulk">
+                    <button type="button" id="agentSkillSelectAll">All</button>
+                    <button type="button" id="agentSkillSelectNone">None</button>
+                  </div>
+                </div>
+                <div id="agentSkillCheckboxes" class="agent-skill-checkboxes"></div>
+              </div>
+              <section class="agent-prompt" aria-labelledby="agentStandaloneTitle">
+                <pre id="agentStandalonePrompt" class="agent-prompt-body">Prepare one standalone skill for Gaia Intake on my behalf. The Gaia CLI operates inside the target repository. If a target URL is provided and it is not already available locally, clone a temporary copy and work there.
+
+Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and follow `.github/ISSUE_TEMPLATE/new_skill_intake.yml` exactly.
+
+1. Determine my authenticated GitHub username with `gh api user --jq .login` and show it to me.
+2. Clarify the skill name, falsifiable capability, source repository, and any evidence I provide.
+3. Check the existing Registry for overlap before proposing a new kebab-case ID.
+4. Curate real, resolvable evidence. Include my supplied evidence, preserve its source, use GitHub `blob/` links rather than `tree/`, and never invent metrics or claims.
+5. Treat this as `self-made` and attribute the named submission to my authenticated GitHub username only if the sources confirm I am the Origin Contributor. If they indicate another origin, stop and explain the attribution conflict.
+6. Draft the complete Yggdrasil II Intake YAML, including `basic` or `fusion`, prerequisites, attribution, Grade B-or-better evidence, and the optional named block when valid. Validate it against the issue template; if Gaia is installed, also run `gaia push --from-file skills.yml --dry-run` and treat any failure as blocking.
+7. Before opening anything, summarise the proposed skill, attribution, evidence, exact issue title, and the validated YAML. Ask: “Open this skill Intake as @&lt;my-handle&gt;? [Y/n]”
+8. Only after I confirm, submit through the Skill Intake issue template—or run `gaia push --from-file skills.yml --yes`—and return the issue URL. Never use both routes, never commit or push to the target repository, and do not modify canonical Registry files directly.
+9. If a temporary clone was used, optionally ask if I want to delete it.</pre>
+              </section>
+            </div>
+          </div>
+        </div>
+        <p class="agent-prompt-warning">
+          <svg class="ico" width="13" height="13" aria-hidden="true"><use href="assets/icons.svg#info"/></svg>
+          <span>Always review an agent's proposed plan before giving it permission to push.</span>
+        </p>
       </div>
 
     </div>
@@ -770,55 +859,254 @@
 
   <div class="section-divider"></div>
 
-  <!-- ─── ASCENSION CYCLE ─── -->
-  <!-- Stage 2/4 — the Ascension Cycle is the SOLE catalog that reads
-       ascending (journey). data-pattern="journey" annotates the exempt
-       direction; every other catalog reads descending (apex first).
-       Per-rank colour comes from .rank-badge[data-level="N"] tokens. -->
-  <section id="ascension" class="reveal ascension-section" data-section="ascension">
-    <h2>The Ascension Cycle</h2>
-    <p class="section-sub">Skills advance through evidence, not declaration. Each rank unlocks the next.</p>
-    <div class="ascension-track" data-pattern="journey">
-      <div class="asc-stage">
-        <div class="asc-node">
-          <span class="asc-label">Awakened</span>
-          <span class="asc-sub"><span class="rank-badge" data-level="1" data-variant="chip" role="img" aria-label="Rank 1 of 6"><span class="rank-badge__chip">1★</span></span></span>
-        </div>
-        <span class="asc-arrow">→</span>
+  <!-- ─── ASCENSION CYCLE · OVERDRIVE v4 (Cosmic Y-Fork Edition, Issue #998) ─── -->
+  <section id="ascension" class="aov" data-section="ascension" aria-labelledby="aov-title">
+    <div class="aov-atmosphere" aria-hidden="true">
+      <picture class="aov-substrate" data-aov-parallax="0.15">
+        <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov4-astrolabe-substrate-mobile.webp">
+        <img src="assets/ascension-overdrive/aov4-astrolabe-substrate.webp" alt="" width="3840" height="2160" decoding="async">
+      </picture>
+      <picture class="aov-haze aov-haze--suite" data-aov-parallax="0.25">
+        <img src="assets/ascension-overdrive/aov3-haze-suite.webp" alt="" width="2560" height="1440" loading="lazy" decoding="async">
+      </picture>
+      <picture class="aov-haze aov-haze--unique" data-aov-parallax="0.25">
+        <img src="assets/ascension-overdrive/aov3-haze-unique.webp" alt="" width="2560" height="1440" loading="lazy" decoding="async">
+      </picture>
+    </div>
+
+    <div class="aov-scene aov-scene--opening" data-aov-scene="opening">
+      <div class="aov-stage aov-stage--opening">
+        <p class="aov-eyebrow">The Ascension Cycle</p>
+        <h2 id="aov-title" class="aov-title">Ascension</h2>
+        <p class="aov-title-sub">Rank is earned. Branch is chosen.</p>
       </div>
-      <div class="asc-stage">
-        <div class="asc-node">
-          <span class="asc-label">Named</span>
-          <span class="asc-sub"><span class="rank-badge" data-level="2" data-variant="chip" role="img" aria-label="Rank 2 of 6"><span class="rank-badge__chip">2★</span></span></span>
+    </div>
+
+    <div class="aov-scene aov-scene--trunk" data-aov-scene="rank-1" data-rank="1">
+      <div class="aov-stage aov-stage--rank">
+        <picture class="aov-rank-plate" aria-hidden="true">
+          <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov4-rank-1-field-mobile.webp">
+          <img src="assets/ascension-overdrive/aov4-rank-1-field.webp" alt="" width="2560" height="1440" loading="lazy" decoding="async">
+        </picture>
+        <picture class="aov-stamp">
+          <source media="(max-width: 520px)" srcset="assets/ascension-overdrive/aov4-c1-suite-awakened-badge.webp">
+          <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov4-c1-suite-awakened-card.webp">
+          <img src="assets/ascension-overdrive/aov4-c1-suite-awakened-hero.webp" alt="Awakened rank medallion" width="2048" height="2048" loading="lazy" decoding="async">
+        </picture>
+        <div class="aov-rank-copy">
+          <p class="aov-act">Act I · The trunk</p>
+          <p class="aov-stars" role="img" aria-label="One out of six stars"><span aria-hidden="true">★☆☆☆☆☆</span></p>
+          <h3 class="aov-rank-name">Awakened</h3>
+          <p class="aov-rank-caption">A real skill enters the tree. The first seal is set.</p>
+          <ul class="aov-tags" role="list"><li>verified as real skill</li><li>standard branch</li></ul>
         </div>
-        <span class="asc-arrow">→</span>
       </div>
-      <div class="asc-stage">
-        <div class="asc-node">
-          <span class="asc-label">Evolved</span>
-          <span class="asc-sub"><span class="rank-badge" data-level="3" data-variant="chip" role="img" aria-label="Rank 3 of 6"><span class="rank-badge__chip">3★</span></span></span>
+    </div>
+
+    <div class="aov-scene aov-scene--trunk" data-aov-scene="rank-2" data-rank="2">
+      <div class="aov-stage aov-stage--rank aov-stage--reverse">
+        <picture class="aov-rank-plate" aria-hidden="true">
+          <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov4-rank-2-field-mobile.webp">
+          <img src="assets/ascension-overdrive/aov4-rank-2-field.webp" alt="" width="2560" height="1440" loading="lazy" decoding="async">
+        </picture>
+        <picture class="aov-stamp">
+          <source media="(max-width: 520px)" srcset="assets/ascension-overdrive/aov4-c2-suite-named-badge.webp">
+          <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov4-c2-suite-named-card.webp">
+          <img src="assets/ascension-overdrive/aov4-c2-suite-named-hero.webp" alt="Named rank medallion" width="2048" height="2048" loading="lazy" decoding="async">
+        </picture>
+        <div class="aov-rank-copy">
+          <p class="aov-act">Act I · The trunk</p>
+          <p class="aov-stars" role="img" aria-label="Two out of six stars"><span aria-hidden="true">★★☆☆☆☆</span></p>
+          <h3 class="aov-rank-name">Named</h3>
+          <p class="aov-rank-caption">Given an identity, a signet, and a place in the atlas.</p>
+          <ul class="aov-tags" role="list"><li>named implementation</li><li>standard branch</li></ul>
         </div>
-        <span class="asc-arrow">→</span>
       </div>
-      <div class="asc-stage">
-        <div class="asc-node">
-          <span class="asc-label">Hardened</span>
-          <span class="asc-sub"><span class="rank-badge" data-level="4" data-variant="chip" role="img" aria-label="Rank 4 of 6"><span class="rank-badge__chip">4★</span></span></span>
+    </div>
+
+    <div class="aov-scene aov-scene--trunk" data-aov-scene="rank-3" data-rank="3">
+      <div class="aov-stage aov-stage--rank">
+        <picture class="aov-rank-plate" aria-hidden="true">
+          <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov4-rank-3-field-mobile.webp">
+          <img src="assets/ascension-overdrive/aov4-rank-3-field.webp" alt="" width="2560" height="1440" loading="lazy" decoding="async">
+        </picture>
+        <picture class="aov-stamp">
+          <source media="(max-width: 520px)" srcset="assets/ascension-overdrive/aov4-c3-suite-evolved-badge.webp">
+          <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov4-c3-suite-evolved-card.webp">
+          <img src="assets/ascension-overdrive/aov4-c3-suite-evolved-hero.webp" alt="Evolved rank medallion" width="2048" height="2048" loading="lazy" decoding="async">
+        </picture>
+        <div class="aov-rank-copy">
+          <p class="aov-act">Act I · The trunk</p>
+          <p class="aov-stars" role="img" aria-label="Three out of six stars"><span aria-hidden="true">★★★☆☆☆</span></p>
+          <h3 class="aov-rank-name">Evolved</h3>
+          <p class="aov-rank-caption">Reproducible, installable, and traceable to its source.</p>
+          <ul class="aov-tags" role="list"><li>verified source</li><li>standard branch</li></ul>
         </div>
-        <span class="asc-arrow">→</span>
       </div>
-      <div class="asc-stage">
-        <div class="asc-node">
-          <span class="asc-label">Transcendent</span>
-          <span class="asc-sub"><span class="rank-badge" data-level="5" data-variant="chip" role="img" aria-label="Rank 5 of 6"><span class="rank-badge__chip">5★</span></span></span>
+    </div>
+
+    <div class="aov-scene aov-scene--fork" data-aov-scene="fork">
+      <div class="aov-stage aov-stage--fork">
+        <picture class="aov-fork-art" aria-hidden="true">
+          <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov4-y-fork-mobile.webp">
+          <img src="assets/ascension-overdrive/aov4-y-fork.webp" alt="" width="3840" height="2160" loading="lazy" decoding="async">
+        </picture>
+        <svg class="aov-thread" viewBox="0 0 3840 2160" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+          <path id="aov4-fork-trunk" class="aov-thread__path aov-thread__path--trunk" pathLength="1" stroke-width="6"/>
+          <path id="aov4-fork-branch-suite" class="aov-thread__path aov-thread__path--suite" pathLength="1" stroke-width="6"/>
+          <path id="aov4-fork-branch-unique" class="aov-thread__path aov-thread__path--unique" pathLength="1" stroke-width="6"/>
+        </svg>
+        <div class="aov-fork-copy">
+          <p class="aov-act">Act II · The fork</p>
+          <h3>One trunk. Two branches.</h3>
+          <p>At three stars, every named skill has walked the same trunk. Awakened, Named, Evolved. The fourth star is where the tree forks. A named skill with <strong>suiteComponents</strong> ascends the Suite branch. A named skill without suiteComponents ascends the Unique branch. The choice is not made at promotion time; it is derived from the named skill's structure at read time. Read the derivation in the <a href="codex/trust-methodology.html#branches">Suite or Unique branch</a> reference in the Codex.</p>
+          <div class="aov-fork-labels" aria-label="The two ascension branches">
+            <span>Suite · ordered structure</span>
+            <span>Unique · standalone distinction</span>
+          </div>
         </div>
-        <span class="asc-arrow">→</span>
       </div>
-      <div class="asc-stage">
-        <div class="asc-node is-apex">
-          <span class="asc-label">Apex</span>
-          <span class="asc-sub"><span class="rank-badge" data-level="6" data-variant="chip" role="img" aria-label="Rank 6 of 6"><span class="rank-badge__chip">6★</span></span></span>
+    </div>
+
+    <div class="aov-scene aov-scene--paired" data-aov-scene="paired-4" data-rank="4">
+      <div class="aov-stage aov-stage--paired">
+        <p class="aov-mobile-branch-tag" aria-label="Unique branch follows Suite">→ Unique</p>
+        <div class="aov-pair-grid">
+          <article class="aov-rail aov-rail--suite" aria-labelledby="aov-extra-title">
+            <picture class="aov-rail-plate" aria-hidden="true">
+              <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov3-suite-plate-4-extra-mobile.webp">
+              <img src="assets/ascension-overdrive/aov3-suite-plate-4-extra.webp" alt="" width="2560" height="1440" loading="lazy" decoding="async">
+            </picture>
+            <picture class="aov-rail-stamp">
+              <source media="(max-width: 520px)" srcset="assets/ascension-overdrive/aov4-c4-suite-extra-badge.webp">
+              <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov4-c4-suite-extra-card.webp">
+              <img src="assets/ascension-overdrive/aov4-c4-suite-extra-hero.webp" alt="Extra rank medallion" width="2048" height="2048" loading="lazy" decoding="async">
+            </picture>
+            <div class="aov-rail-copy">
+              <p class="aov-rail-label">Suite branch · ceremonial</p>
+              <p class="aov-stars" role="img" aria-label="Four out of six stars"><span aria-hidden="true">★★★★☆☆</span></p>
+              <h3 id="aov-extra-title">Extra</h3>
+              <p>The Suite rank is earned. The reinforced seal is set.</p>
+              <ul class="aov-tags" role="list"><li>suiteComponents present</li><li>ordered fusion</li></ul>
+            </div>
+          </article>
+          <article class="aov-rail aov-rail--unique" aria-labelledby="aov-unique-title">
+            <picture class="aov-rail-stamp">
+              <source media="(max-width: 520px)" srcset="assets/ascension-overdrive/aov4-d4-unique-badge.webp">
+              <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov4-d4-unique-card.webp">
+              <img src="assets/ascension-overdrive/aov4-d4-unique-hero.webp" alt="Unique rank stellar medallion" width="2048" height="2048" loading="lazy" decoding="async">
+            </picture>
+            <div class="aov-rail-copy">
+              <p class="aov-rail-label">Unique branch · void</p>
+              <p class="aov-stars" role="img" aria-label="Four out of six stars"><span aria-hidden="true">★★★★☆☆</span></p>
+              <h3 id="aov-unique-title">Unique</h3>
+              <p>The path bends. The standard structural rule does not apply.</p>
+              <ul class="aov-tags" role="list"><li>named skill</li><li>no suiteComponents</li></ul>
+            </div>
+          </article>
         </div>
+      </div>
+    </div>
+
+    <div class="aov-scene aov-scene--paired" data-aov-scene="paired-5" data-rank="5">
+      <div class="aov-stage aov-stage--paired">
+        <p class="aov-mobile-branch-tag" aria-label="Unique branch follows Suite">→ Unique</p>
+        <div class="aov-pair-grid">
+          <article class="aov-rail aov-rail--suite" aria-labelledby="aov-ultimate-title">
+            <picture class="aov-rail-plate" aria-hidden="true">
+              <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov3-suite-plate-5-ultimate-mobile.webp">
+              <img src="assets/ascension-overdrive/aov3-suite-plate-5-ultimate.webp" alt="" width="2560" height="1440" loading="lazy" decoding="async">
+            </picture>
+            <picture class="aov-rail-stamp">
+              <source media="(max-width: 520px)" srcset="assets/ascension-overdrive/aov4-c5-suite-ultimate-badge.webp">
+              <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov4-c5-suite-ultimate-card.webp">
+              <img src="assets/ascension-overdrive/aov4-c5-suite-ultimate-hero.webp" alt="Ultimate rank stellar medallion" width="2048" height="2048" loading="lazy" decoding="async">
+            </picture>
+            <div class="aov-rail-copy">
+              <p class="aov-rail-label">Suite branch · ceremonial</p>
+              <p class="aov-stars" role="img" aria-label="Five out of six stars"><span aria-hidden="true">★★★★★☆</span></p>
+              <h3 id="aov-ultimate-title">Ultimate</h3>
+              <p>The Suite 5★ rank name. Ultimate is the ceiling of the standard promotion path when the branch is Suite.</p>
+              <ul class="aov-tags" role="list"><li>Suite branch</li><li>5★ rank</li></ul>
+            </div>
+          </article>
+          <article class="aov-rail aov-rail--unique" aria-labelledby="aov-unique-ultimate-title">
+            <picture class="aov-rail-stamp">
+              <source media="(max-width: 520px)" srcset="assets/ascension-overdrive/aov4-d5-unique-ultimate-badge.webp">
+              <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov4-d5-unique-ultimate-card.webp">
+              <img src="assets/ascension-overdrive/aov4-d5-unique-ultimate-hero.webp" alt="Unique Ultimate black-hole medallion" width="2048" height="2048" loading="lazy" decoding="async">
+            </picture>
+            <div class="aov-rail-copy">
+              <p class="aov-rail-label">Unique branch · void</p>
+              <p class="aov-stars" role="img" aria-label="Five out of six stars"><span aria-hidden="true">★★★★★☆</span></p>
+              <h3 id="aov-unique-ultimate-title">Unique Ultimate</h3>
+              <p>The Unique 5★ rank name. Ultimate is the shared 5★ label across both branches; the Unique prefix marks the branch.</p>
+              <ul class="aov-tags" role="list"><li>Unique branch</li><li>5★ rank</li></ul>
+            </div>
+          </article>
+        </div>
+        <p class="aov-shared-caption">Ultimate is a rank, not a class. Every 5★ skill is Ultimate; the branch prefix tells you which lane it rose through.</p>
+      </div>
+    </div>
+
+    <div class="aov-scene aov-scene--paired aov-scene--terminal" data-aov-scene="paired-6" data-rank="6">
+      <div class="aov-stage aov-stage--paired aov-stage--terminal">
+        <p class="aov-mobile-branch-tag" aria-label="Unique branch follows Suite">→ Unique</p>
+        <div class="aov-pair-grid">
+          <article class="aov-rail aov-rail--suite aov-rail--terminal" aria-labelledby="aov-apex-title">
+            <div class="aov-terminal-visual aov-terminal-visual--suite">
+              <span class="aov-apex-effect aov-apex-effect--suite" aria-hidden="true"></span>
+              <picture class="aov-terminal-aperture">
+                <source media="(max-width: 520px)" srcset="assets/ascension-overdrive/aov4-c6-suite-apex-badge.webp">
+                <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov4-c6-suite-apex-card.webp">
+                <img src="assets/ascension-overdrive/aov4-c6-suite-apex-hero.webp" alt="Apex white-hot supernova medallion" width="2048" height="2048" loading="lazy" decoding="async">
+              </picture>
+            </div>
+            <div class="aov-rail-copy aov-terminal-copy">
+              <p class="aov-rail-label">Suite terminal · six predicates</p>
+              <p class="aov-stars" role="img" aria-label="Six out of six stars"><span aria-hidden="true">★★★★★★</span></p>
+              <h3 id="aov-apex-title">Apex</h3>
+              <p>The Suite terminal. Six predicates, all required. The Suite Apex Gate is unchanged from Yggdrasil I.</p>
+            </div>
+            <ol class="aov-gate" aria-label="Suite Apex Gate predicates">
+              <li><img class="aov-predicate-component" src="assets/ascension-overdrive/aov4-apex-seal-classical-stele.webp" alt="" aria-hidden="true" width="240" height="240" loading="lazy" decoding="async"><code>aGradedOriginsGte5</code><span>Five A-graded origins</span></li>
+              <li><img class="aov-predicate-component" src="assets/ascension-overdrive/aov4-apex-seal-column-crowned.webp" alt="" aria-hidden="true" width="240" height="240" loading="lazy" decoding="async"><code>directNestedSuiteGte1</code><span>One directly nested Suite</span></li>
+              <li><img class="aov-predicate-component" src="assets/ascension-overdrive/aov4-apex-seal-column-finial.webp" alt="" aria-hidden="true" width="240" height="240" loading="lazy" decoding="async"><code>depth2OnlyReachableGte1</code><span>One depth-two-only origin</span></li>
+              <li><img class="aov-predicate-component" src="assets/ascension-overdrive/aov4-apex-seal-grand-arch.webp" alt="" aria-hidden="true" width="240" height="240" loading="lazy" decoding="async"><code>overallGradeS</code><span>Overall Trust Grade S</span></li>
+              <li><img class="aov-predicate-component" src="assets/ascension-overdrive/aov4-apex-seal-pillar-with-plant.webp" alt="" aria-hidden="true" width="240" height="240" loading="lazy" decoding="async"><code>sourceTenureDaysGte180AorS</code><span>A or S source held for 180 days</span></li>
+              <li><img class="aov-predicate-component" src="assets/ascension-overdrive/aov4-apex-seal-stele-with-foliage.webp" alt="" aria-hidden="true" width="240" height="240" loading="lazy" decoding="async"><code>apexPromotionPrSigned</code><span>Promotion pull request signed</span></li>
+            </ol>
+          </article>
+          <article class="aov-rail aov-rail--unique aov-rail--terminal" aria-labelledby="aov-impossible-title">
+            <span class="aov-apex-effect aov-apex-effect--unique" aria-hidden="true"></span>
+            <div class="aov-terminal-visual aov-terminal-visual--unique">
+              <picture class="aov-terminal-art aov-terminal-art--impossible" aria-hidden="true">
+                <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov4-unique-impossible-terminal-mobile.webp">
+                <img src="assets/ascension-overdrive/aov4-unique-impossible-terminal.webp" alt="" width="3840" height="2160" loading="lazy" decoding="async">
+              </picture>
+              <picture class="aov-terminal-seal">
+                <source media="(max-width: 520px)" srcset="assets/ascension-overdrive/aov4-d6-unique-impossible-badge.webp">
+                <source media="(max-width: 899px)" srcset="assets/ascension-overdrive/aov4-d6-unique-impossible-card.webp">
+                <img src="assets/ascension-overdrive/aov4-d6-unique-impossible-hero.webp" alt="Unique Impossible ember-void medallion" width="2048" height="2048" loading="lazy" decoding="async">
+              </picture>
+            </div>
+            <div class="aov-rail-copy aov-terminal-copy">
+              <p class="aov-rail-label">Unique terminal · five predicates</p>
+              <p class="aov-stars" role="img" aria-label="Six out of six stars"><span aria-hidden="true">★★★★★★</span></p>
+              <h3 id="aov-impossible-title">Unique Impossible <button class="aov-provisional" type="button" aria-describedby="aov-provisional-note">◇ Provisional</button></h3>
+              <span class="aov-tooltip" id="aov-provisional-note" role="tooltip">The five-predicate gate is an explicit bridge state. Formal Yggdrasil III ratification is pending; no tracking issue exists yet.</span>
+              <p>The Unique terminal. Five predicates, provisional. The Unique Impossible Gate is the Suite Apex Gate minus the directNestedSuiteGte1 predicate. Formal ratification pending.</p>
+            </div>
+            <ol class="aov-gate" aria-label="Provisional Unique Impossible Gate predicates">
+              <li><code>aGradedOriginsGte5</code><span>Five A-graded origins</span></li>
+              <li><code>depth2OnlyReachableGte1</code><span>One depth-two-only origin</span></li>
+              <li><code>overallGradeS</code><span>Overall Trust Grade S</span></li>
+              <li><code>sourceTenureDaysGte180AorS</code><span>A or S source held for 180 days</span></li>
+              <li><code>apexPromotionPrSigned</code><span>Promotion pull request signed</span></li>
+            </ol>
+          </article>
+        </div>
+        <p class="aov-shared-caption">Two terminals. Two gates. Both are Apex-grade trust, earned through opposite structural paths.</p>
       </div>
     </div>
   </section>
@@ -899,6 +1187,11 @@
     <p class="section-sub">Recent registry curation, schema migrations, and audit passes.</p>
     <div class="path-meta-queue" id="meta-report-callout">
       <!-- gaia-posts-start -->
+          <a href="meta/reports/2026-07-26-yggdrasil-ii-two-types-one-trust-gate-and-a-branch-axis-that-is-never-declared.html" class="pmq-post">
+            <span class="pmq-label">Meta Shift</span>
+            <h4 class="pmq-title">Yggdrasil II: Two Types, One Trust Gate, and a Branch Axis That Is Never Declared <span class="meta-peek-arrow" style="float: right;">↗</span></h4>
+            <p class="pmq-summary">The Yggdrasil I to II meta shift collapses three node types to two, derives the branch axis at read-time, and retires the Evidence Floor so Trust Magnitude is the sole promotion gate.</p>
+          </a>
           <a href="meta/reports/2026-07-13-firecrawl-suite-curation-and-origin-recalibration.html" class="pmq-post">
             <span class="pmq-label">Suite Curation</span>
             <h4 class="pmq-title">Firecrawl Suite Curation and Origin Recalibration <span class="meta-peek-arrow" style="float: right;">↗</span></h4>
@@ -908,11 +1201,6 @@
             <span class="pmq-label">Curation</span>
             <h4 class="pmq-title">Curation Report: Addy Osmani 7-Skill Suite Integration <span class="meta-peek-arrow" style="float: right;">↗</span></h4>
             <p class="pmq-summary">Gaia integrates Addy Osmani's 7-Skill developer suite and applies mothership discounting.</p>
-          </a>
-          <a href="meta/reports/2026-07-03-gsd-suite-curation.html" class="pmq-post">
-            <span class="pmq-label">Curation</span>
-            <h4 class="pmq-title">GSD Suite Curation <span class="meta-peek-arrow" style="float: right;">↗</span></h4>
-            <p class="pmq-summary">Gaia adds the GSD pipeline as a named suite candidate and introduces stricter trust appraisal for high-star suite curation.</p>
           </a>
           <!-- gaia-posts-end -->
       <button type="button" class="pmq-changelog-btn" id="metaChangelogBtnPath">Open Meta Changelog →</button>
@@ -1023,17 +1311,20 @@
 
   <!-- ─── SCRIPTS ─── -->
   <!-- icons.js already loaded in <head> so gaiaIcon() is available before any of these. -->
-  <script src="js/atlas-helpers.js?v=6.8.18"></script>
-  <script src="js/skill-graph.js?v=6.8.18"></script>
-  <script src="js/hud-toggle.js?v=6.8.18"></script>
-  <script src="js/scroll-reveal.js?v=6.8.18"></script>
+  <script src="js/atlas-helpers.js?v=6.8.18" defer></script>
+  <script src="js/world-tree-layout.js?v=6.8.18" defer></script>
+  <script src="js/skill-graph.js?v=6.8.18" defer></script>
+  <script src="js/hud-toggle.js?v=6.8.18" defer></script>
+  <script src="js/scroll-reveal.js?v=6.8.18" defer></script>
   <!-- Universal AlphaRail component + page-wide integration (section markers
        above the explorer; dynamic type/letter/tier markers inside it). -->
-  <script src="js/alpha-rail.js?v=6.8.18"></script>
-  <script src="js/skill-explorer.js?v=6.8.18"></script>
-  <script src="js/ui.js?v=6.8.18"></script>
-  <script src="js/page-ia.js?v=6.8.18"></script>
+  <script src="js/alpha-rail.js?v=6.8.18" defer></script>
+  <script src="js/skill-explorer.js?v=6.8.18" defer></script>
+  <script src="js/ui.js?v=6.8.18" defer></script>
+  <script src="js/page-ia.js?v=6.8.18" defer></script>
   <script src="js/plaque-reveal.js?v=6.8.18" defer></script>
+  <script src="js/ascension-overdrive-v4.js?v=6.8.18" defer></script>
+
 
   <!-- ── Share modal (single instance) — opened from plaque__share-btn ── -->
   <div class="share-modal" hidden role="dialog" aria-modal="true" aria-labelledby="share-modal-title" id="shareModal">
@@ -1069,6 +1360,13 @@
 
   <!-- ─── HALL OF HEROES FULLSCREEN OG VIEW ─── -->
   <div id="hohFullscreenModal" class="hoh-fs-modal" aria-hidden="true" tabindex="-1">
+    <div class="hoh-fs-parallax-bg" aria-hidden="true">
+      <img src="assets/world-tree/yggdrasil-backdrop-941.webp" alt="">
+    </div>
+    <a class="hoh-fs-brand" href="index.html" aria-label="Gaia Skill Tree home">
+      <svg class="hoh-fs-brand-seal" viewBox="0 0 64 64" aria-hidden="true" focusable="false"><path d="M 32 4 L 60 32 L 32 60 L 4 32 Z" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="miter"/><text x="32" y="34" font-family="EB Garamond, Georgia, serif" font-weight="600" font-size="28" fill="currentColor" text-anchor="middle" dominant-baseline="central">G</text></svg>
+      <span class="hoh-fs-brand-word">Gaia Skill Tree</span>
+    </a>
     <div class="hoh-fs-header">
       <button class="hoh-fs-btn hoh-fs-btn--close" data-fs-action="close" title="Close modal" aria-label="Close modal">
         <svg class="ico" width="16" height="16" aria-hidden="true"><use href="assets/icons.svg#close-x"></use></svg>
@@ -1169,8 +1467,8 @@
 
   <div id="hohFsToast" class="hoh-fs-toast" role="status" aria-live="polite">Permalink copied!</div>
 
-  <script src="js/profile-share.js?v=6.8.18"></script>
-  <script src="js/hoh-modal.js?v=6.8.18"></script>
+  <script src="js/profile-share.js?v=6.8.18" defer></script>
+  <script src="js/hoh-modal.js?v=6.8.18" defer></script>
 
   <!-- ─── REVIEW SHOWCASE SIMULATOR ─── -->
   <script>
@@ -1268,9 +1566,6 @@
        src="https://static.scarf.sh/a.png?x-pxid=b8e05c84-1886-4b68-b80c-7b00cdb68f94"
        alt="" style="display:none" />
 
-<!-- impeccable-live-start -->
-<script src="http://localhost:8400/live.js"></script>
-<!-- impeccable-live-end -->
 </body>
 
 </html>

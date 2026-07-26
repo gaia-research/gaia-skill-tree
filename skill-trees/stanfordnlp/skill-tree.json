@@ -23,6 +23,16 @@
           "level": "4★",
           "achievedAt": "2026-06-20T06:31:38Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-16T00:00:01Z",
+          "source": "demote"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-07-19T02:05:13Z",
+          "source": "promotion"
         }
       ]
     }
@@ -50,6 +60,22 @@
       "previousValue": "1★",
       "newValue": "4★",
       "details": "Level updated from 1★ to 4★ per G7 final rankings calibration.",
+      "skillId": "stanfordnlp/dspy"
+    },
+    {
+      "timestamp": "2026-07-16T00:00:01Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
+      "skillId": "stanfordnlp/dspy"
+    },
+    {
+      "timestamp": "2026-07-19T02:05:13Z",
+      "action": "rank_up",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
       "skillId": "stanfordnlp/dspy"
     }
   ],

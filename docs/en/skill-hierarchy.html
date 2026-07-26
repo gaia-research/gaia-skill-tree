@@ -47,7 +47,7 @@
       color: var(--text, #e2e8f0);
       letter-spacing: .02em;
     }
-    .nav-logo span { color: var(--tier-ultimate, #f59e0b); }
+    .nav-logo span { color: var(--rank-5); }
     .nav-sep { color: var(--muted, #64748b); font-size: 0.85rem; }
     .nav-crumb { font-size: 0.82rem; color: var(--muted, #64748b); }
     .nav-crumb:hover { color: var(--text, #e2e8f0); text-decoration: none; }
@@ -161,7 +161,7 @@
     /* ── Tier cards ── */
     .tier-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       gap: 1rem;
       margin: 1.5rem 0;
     }
@@ -175,9 +175,9 @@
     .tier-card:hover { border-color: rgba(56,189,248,0.25); }
 
     .tier-card.basic  { border-left: 3px solid var(--tier-basic, #38bdf8); }
-    .tier-card.extra  { border-left: 3px solid var(--tier-extra, #c084fc); }
+    .tier-card.extra  { border-left: 3px solid var(--rank-4); }
     .tier-card.unique { border-left: 3px solid var(--tier-unique, #7c3aed); }
-    .tier-card.ultimate { border-left: 3px solid var(--tier-ultimate, #f59e0b); }
+    .tier-card.ultimate { border-left: 3px solid var(--rank-5); }
 
     .tier-card-glyph {
       font-size: 1.4rem;
@@ -185,9 +185,9 @@
       margin-bottom: 0.6rem;
     }
     .tier-card.basic  .tier-card-glyph { color: var(--tier-basic, #38bdf8); }
-    .tier-card.extra  .tier-card-glyph { color: var(--tier-extra, #c084fc); }
+    .tier-card.extra  .tier-card-glyph { color: var(--rank-4); }
     .tier-card.unique .tier-card-glyph { color: var(--tier-unique, #7c3aed); }
-    .tier-card.ultimate .tier-card-glyph { color: var(--tier-ultimate, #f59e0b); }
+    .tier-card.ultimate .tier-card-glyph { color: var(--rank-5); }
 
     .tier-card-name {
       font-size: 1rem;
@@ -276,7 +276,7 @@
     .skill-pill.extra {
       background: rgba(192,132,252,0.1);
       border: 1px solid rgba(192,132,252,0.25);
-      color: var(--tier-extra, #c084fc);
+      color: var(--rank-4);
     }
     .skill-pill.unique {
       background: rgba(124,58,237,0.12);
@@ -286,7 +286,7 @@
     .skill-pill.ultimate {
       background: rgba(245,158,11,0.1);
       border: 1px solid rgba(245,158,11,0.25);
-      color: var(--tier-ultimate, #f59e0b);
+      color: var(--rank-5);
     }
     .fusion-arrow {
       color: var(--muted, #64748b);
@@ -380,7 +380,7 @@
     }
     .code-fence pre .c { color: var(--muted, #64748b); }
     .code-fence pre .cmd { color: #86efac; }
-    .code-fence pre .arg { color: var(--tier-extra, #c084fc); }
+    .code-fence pre .arg { color: var(--rank-4); }
 
     hr.section-hr {
       border: none;
@@ -438,11 +438,15 @@
     }
     .docs-footer-right a:hover { color: var(--text, #e2e8f0); text-decoration: none; }
 
+    /* mobile-first: base layout handled by docs-en-shell.css */
+    @media (min-width: 821px) {
+      .page-layout { grid-template-columns: 220px 1fr; }
+      .sidebar { display: block; }
+      .tier-grid { grid-template-columns: 1fr 1fr; }
+    }
+
     @media (max-width: 820px) {
-      .page-layout { grid-template-columns: 1fr; }
-      .sidebar { display: none; }
       .main-content { padding: 1.5rem 1.25rem 3rem; }
-      .tier-grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 480px) {
@@ -507,6 +511,14 @@
   "url": "https://gaiaskilltree.com/en/skill-hierarchy.html"
 }
 </script>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TS7N9T92BM" data-ga4="G-TS7N9T92BM"></script>
+  <script data-ga4="G-TS7N9T92BM">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-TS7N9T92BM');
+  </script>
 </head>
 <body>
 
@@ -589,7 +601,7 @@
                 <span style="color:var(--muted,#64748b);font-size:0.8rem;">primitive, indivisible</span>
               </div>
               <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.875rem;">
-                <span style="color:var(--tier-extra,#c084fc);font-size:1rem;">◇</span>
+                <span style="color:var(--rank-4);font-size:1rem;">◇</span>
                 <span style="color:var(--text,#e2e8f0);">Extra</span>
                 <span style="color:var(--muted,#64748b);font-size:0.8rem;">emergent via fusion</span>
               </div>
@@ -599,7 +611,7 @@
                 <span style="color:var(--muted,#64748b);font-size:0.8rem;">elite Basic, no fusion path</span>
               </div>
               <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.875rem;">
-                <span style="color:var(--tier-ultimate,#f59e0b);font-size:1rem;">◆</span>
+                <span style="color:var(--rank-5);font-size:1rem;">◆</span>
                 <span style="color:var(--text,#e2e8f0);">Ultimate</span>
                 <span style="color:var(--muted,#64748b);font-size:0.8rem;">apex complexity, &lt;1% of agents</span>
               </div>
@@ -1058,8 +1070,5 @@
       onScroll();
     })();
   </script>
-<!-- impeccable-live-start -->
-<script src="http://localhost:8400/live.js"></script>
-<!-- impeccable-live-end -->
 </body>
 </html>

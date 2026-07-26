@@ -7,6 +7,9 @@
   "status": "named",
   "trustMagnitude": 107.14,
   "overallTrustGrade": "A",
+  "branch": "unique",
+  "rankWord": "Unique",
+  "medallion": "◉",
   "_links": {
     "self": "/api/v1/skills/firecrawl/firecrawl-build-search.json",
     "contributor": "/api/v1/contributors/firecrawl.json",
@@ -83,6 +86,22 @@
       "action": "note",
       "contributor": "mbtiongson1",
       "details": "Renamed from firecrawl/web-search-integration to firecrawl/firecrawl-build-search — aligned to official firecrawl/skills repo naming"
+    },
+    {
+      "timestamp": "2026-07-16T08:36:42Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Generic parent 'web-search' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+      "metaEpoch": "yggdrasil-ii",
+      "migrationBatch": "yggdrasil-ii@2026-07-16"
+    },
+    {
+      "timestamp": "2026-07-20T18:16:45Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Generic parent 'web-search' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+      "metaEpoch": "yggdrasil-ii",
+      "migrationBatch": "yggdrasil-ii@2026-07-20"
     }
   ],
   "links": {

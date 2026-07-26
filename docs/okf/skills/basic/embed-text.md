@@ -15,7 +15,7 @@ Converts text into dense vector representations suitable for similarity search a
 
 ## Derivatives
 
-- [RAG Pipeline](/skills/extra/rag-pipeline.md)
-- [Knowledge Harvest](/skills/extra/knowledge-harvest.md)
-- [Wiki Search](/skills/extra/wiki-search.md)
+- [RAG Pipeline](/skills/fusion/rag-pipeline.md)
+- [Knowledge Harvest](/skills/fusion/knowledge-harvest.md)
+- [Wiki Search](/skills/fusion/wiki-search.md)
 

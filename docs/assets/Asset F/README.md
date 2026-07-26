@@ -4,8 +4,10 @@ This bundle contains the six standalone Asset F rank hero plates upscaled to **3
 
 Included formats:
 
-- `png/` — PNG source/export copies
+- `png/` — PNG source/export copies (design masters, kept outside git)
 - `webp/` — WebP copies for site use and preview
 - `manifest.json` — file sizes and source mapping
 
-Note: this is a resolution upscale pass from the generated 16:9 drafts. It does not perform subject alpha extraction yet.
+**Status: COMPLETE — no further work planned.**
+These are the canonical high-quality rank plate masters for the Ascension Overdrive design system.
+The production site uses AOV4 assets; these plates remain as reference-quality masters.

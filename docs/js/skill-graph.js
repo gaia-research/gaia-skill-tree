@@ -12,11 +12,10 @@
   // ║ custom property on :root. A host page can override any token  ║
   // ║ to retheme the graph (e.g. local skill-tree views).           ║
   // ║                                                                ║
-  // ║   --tier-basic / -rgb / -edge                                  ║
-  // ║   --tier-extra / -rgb / -edge                                  ║
-  // ║   --tier-unique / -rgb / -edge                                 ║
-  // ║   --tier-ultimate / -rgb / -edge                               ║
-  // ║   --rank-0 … --rank-6 / -bg / -border / -edge                  ║
+  // ║   --tier-basic / -rgb / -edge   (type: basic ○)                ║
+  // ║   --tier-fusion / -rgb / -edge  (type: fusion ◇)               ║
+  // ║   --rank-4-unique / -rgb / -edge  (5★ -5, 6★ -6, -ink)         ║
+  // ║   --rank-0 … --rank-6 / -bg / -border / -edge  (Suite ladder)  ║
   // ║   --honor-red / --honor-red-rgb                                ║
   // ║   --apex-gold / --apex-gold-rgb                                ║
   // ║   --muted / --text                                             ║
@@ -30,12 +29,64 @@
   const GRAPH_JSON_URL = prefix + 'graph/gaia.json' + version;
   const GRAPH_SCALE = 1.625;
 
+  // ── SHARED JSON FETCH CACHE ────────────────────────────────────
+  // graph/gaia.json is ~733 KB and graph/named/index.json is ~1.29 MB.
+  // The homepage loads both skill-graph.js and page-ia.js, which each
+  // fetched the same two URLs independently — ~2 MB of duplicate
+  // transfer on every load. Both files install this identical, idempotent
+  // helper: whoever runs first creates window.GAIA_JSON_CACHE and the
+  // other reuses it, so each URL is fetched at most once per page load
+  // and both consumers await the same in-flight promise.
+  //
+  // Deliberately self-contained and duplicated rather than split into a
+  // fourth script file — either consumer must work standalone (codex.html,
+  // privacy.html and starless.html load page-ia.js without skill-graph.js)
+  // with no load-order requirement between them.
+  if (!window.GAIA_JSON_CACHE) {
+    window.GAIA_JSON_CACHE = {
+      inflight: {},
+      // Resolves with parsed JSON. Rejections are not cached, so a later
+      // caller can retry a URL that failed.
+      fetchJson: function (url, init) {
+        var store = this.inflight;
+        if (!store[url]) {
+          store[url] = fetch(url, init).then(function (response) {
+            if (!response.ok) throw new Error('HTTP ' + response.status + ' from ' + url);
+            var ct = response.headers.get('content-type') || '';
+            if (ct.indexOf('json') === -1 && ct.indexOf('text/plain') === -1) {
+              return response.text().then(function (body) {
+                throw new Error('Expected JSON, got ' + (ct || 'no content-type') + '; body starts: ' + body.slice(0, 80));
+              });
+            }
+            return response.json();
+          }).catch(function (err) {
+            delete store[url];
+            throw err;
+          });
+        }
+        return store[url];
+      },
+    };
+  }
+  const NAMED_JSON_URL = prefix + 'graph/named/index.json' + version;
+
   // ── Locked canvas geometry (DESIGN.md ▸ Graph Canvas) ──────────
+  // §6 node-radius re-axis: radius is keyed to EFFECTIVE RANK (bigger = more
+  // proven), not type. NODE_RADII.get(rankOrLabel, type) accepts either an
+  // integer effective rank or an "N★" glyph string and returns the rank-curve
+  // radius. The per-type numeric constants below (ultimate/unique/extra/basic)
+  // are LEGACY — retained only for the unique-void redraw pass (NODE_RADII.unique)
+  // and any host still reading them; new call sites pass effectiveRank.
   const NODE_RADII = {
-    ultimate: 12.5, unique: 9.5, extra: 6.9, basic: 3.5,
-    get: function (rank, type) {
-      if (type === 'unique') rank = '5★';
-      const n = parseInt(rank, 10) || 0;
+    ultimate: 12.5, unique: 9.5, extra: 6.9, basic: 3.5,  // legacy type-keyed
+    get: function (rank, branch) {
+      // Unique nodes render at a floor of rank 5 so the singularity reads large
+      // even before its star rank is joined. Gated on BRANCH (PR3b), not type.
+      if (branch === 'unique') rank = 5;
+      // Accept an int effective rank directly, else parse a leading "N★" int.
+      const n = (typeof rank === 'number' && Number.isFinite(rank))
+        ? Math.max(0, Math.round(rank))
+        : (parseInt(rank, 10) || 0);
       // Boosted exponential curve for visibility: r = a * e^(b * n)
       // r(1) = 3.0, r(6) = 10.0
       if (n === 0) return 2.5;
@@ -77,12 +128,24 @@
         edge: _readVar('--tier-' + name + '-edge') || ('rgba(' + rgb + ',.55)'),
       };
     }
+    // Unique is a RANK-axis branch (4★ = Unique entry / base), so its base hue
+    // reads the --rank-4-unique* ladder tokens, not a --tier-* token.
+    function uniqueTier() {
+      const rgb = _rgbOnly(_readVar('--rank-4-unique-rgb'));
+      return {
+        hex: _readVar('--rank-4-unique'),
+        rgb: rgb,
+        edge: _readVar('--rank-4-unique-edge') || ('rgba(' + rgb + ',.55)'),
+      };
+    }
     function rank(n) {
-      // Rank tokens don't have an explicit -rgb form yet; derive it
-      // from the hex when we need an rgba() with custom alpha. For
-      // now we only need bg/border/edge which are precomputed.
+      // §6 color-by-rank re-axis. tokens.css DOES emit --rank-N-rgb (grey
+      // 148,163,184 at 0★ … apex-gold 251,191,36 at 6★); read it so the canvas
+      // can build rgba() with a custom alpha for the rank ramp. bg/border/edge
+      // are precomputed convenience forms.
       return {
         hex: _readVar('--rank-' + n),
+        rgb: _rgbOnly(_readVar('--rank-' + n + '-rgb')),
         bg: _readVar('--rank-' + n + '-bg'),
         border: _readVar('--rank-' + n + '-border'),
         edge: _readVar('--rank-' + n + '-edge'),
@@ -92,7 +155,7 @@
       tier: {
         basic: tier('basic'),
         extra: tier('extra'),
-        unique: tier('unique'),
+        unique: uniqueTier(),
         ultimate: tier('ultimate'),
       },
       rank: {
@@ -103,6 +166,12 @@
       honorRedRgb: _rgbOnly(_readVar('--honor-red-rgb')),
       apexGold: _readVar('--apex-gold'),
       apexGoldRgb: _rgbOnly(_readVar('--apex-gold-rgb')),
+      // §Ygg-II PR 3c: local/custom-user green (#86efac / 134,239,172), matching
+      // the CLI's COLOR_LOCAL_USER. Sourced from tokens.css (--color-local-user*,
+      // emitted by scripts/generateCssTokens.py) so the canvas reads the TOKEN,
+      // not a hardcoded hex.
+      localUser: _readVar('--color-local-user'),
+      localUserRgb: _rgbOnly(_readVar('--color-local-user-rgb')),
       muted: _readVar('--muted'),
       // --muted-rgb isn't emitted by tokens.css yet; canvas tooltips
       // and ruler ticks fall back to the slate-400 triplet which is
@@ -130,18 +199,6 @@
     if (role === 'handle') return '600 ' + sz + 'px ' + t.fontMono;
     return 'bold ' + sz + 'px ' + t.fontBody;
   }
-
-  const ORIGIN_PATHS = [
-    new Path2D("M12 15V9l-2 1"),
-    new Path2D("M12 21c-4-2-7-6-7-11 0-2 1.5-4 2.5-5"),
-    new Path2D("M12 21c4-2 7-6 7-11 0-2-1.5-4-2.5-5"),
-    new Path2D("M5 10c2 1 3 0 3-1"),
-    new Path2D("M5.5 14c2 1 3 0 3-1"),
-    new Path2D("M7 18c2 1 3 0 3-1"),
-    new Path2D("M19 10c-2 1-3 0-3-1"),
-    new Path2D("M18.5 14c-2 1-3 0-3-1"),
-    new Path2D("M17 18c-2 1-3 0-3-1")
-  ];
 
   // ── Per-skill tier palette (rgb triplets), keyed off the canonical
   // tier names. Reads canvas tokens; backwards-compat shim PALETTE so
@@ -244,21 +301,45 @@
 
   function normalizeSkills(graph) {
     const TYPE_ALIASES = { atomic: 'basic', composite: 'extra', legendary: 'ultimate' };
-    const skills = (graph && graph.skills) ? graph.skills : FALLBACK_SKILLS;
-    return skills.map(skill => ({
-      id: skill.id,
-      name: skill.name || skill.id,
-      type: TYPE_ALIASES[skill.type] || skill.type || 'basic',
-      // Generic refs are rank-less — the rank legend/coloring reads the top
-      // named-variant star (namedMaxLevel) supplied by syncDocsGraphAssets.py.
-      level: skill.namedMaxLevel || skill.level || '',
-      effectiveLevel: skill.namedMaxLevel || skill.effectiveLevel || skill.level || '',
-      demerits: Array.isArray(skill.demerits) ? skill.demerits : [],
-      description: skill.description || '',
-      prerequisites: Array.isArray(skill.prerequisites) ? skill.prerequisites : [],
-      cluster: skill.cluster !== undefined ? skill.cluster : 0,
-      positions: skill.positions || null,
-    })).filter(skill => skill.id);
+    const skills = (graph && graph.skills) ? graph.skills : [];
+    return skills.map(skill => {
+      const type = TYPE_ALIASES[skill.type] || skill.type || 'basic';
+      const effectiveRank = starsFromLabel(skill.namedMaxLevel != null ? skill.namedMaxLevel : skill.effectiveRank);
+      // §Ygg-II ORIGIN RULE: the generic graph (gaia.json) ships STARLESS. Each
+      // node's branch is now STAMPED at build time by syncDocsGraphAssets.py —
+      // it surfaces the bucket's CLI-declared ORIGIN entry's emitted branch, or
+      // is ABSENT when the bucket has no origin. We READ the emitted field and
+      // NEVER guess: a node with no emitted branch is a plain starless node
+      // ('standard', inert — NOT placed in the unique constellation), not a
+      // client-side computeBranch guess off namedMaxLevel.
+      const branch = (typeof skill.branch === 'string' && skill.branch)
+        ? skill.branch
+        : 'standard';
+      return {
+        id: skill.id,
+        name: skill.name || skill.id,
+        type: type,
+        branch: branch,
+        // Generic refs are rank-less — the rank legend/coloring reads the top
+        // named-variant star (namedMaxLevel) supplied by syncDocsGraphAssets.py.
+        level: skill.namedMaxLevel || skill.level || '',
+        effectiveLevel: skill.namedMaxLevel || skill.effectiveLevel || skill.level || '',
+        // §4 effective rank as a small integer (0-6). Parsed from namedMaxLevel;
+        // 0 for starless/≤1★. Color-by-rank + radius-by-rank read this (§6).
+        effectiveRank: effectiveRank,
+        demerits: Array.isArray(skill.demerits) ? skill.demerits : [],
+        description: skill.description || '',
+        prerequisites: Array.isArray(skill.prerequisites) ? skill.prerequisites : [],
+        cluster: skill.cluster !== undefined ? skill.cluster : 0,
+        positions: skill.positions || null,
+        // §Ygg-II PR 3c: a user's OWN uncanonized fusion/custom skill (stamped
+        // by `gaia graph` custom mode, PR 3a) renders GREEN-STARLESS in the
+        // World Tree — the same local-skill treatment `gaia tree` uses. The
+        // canonical registry graph never carries this flag, so canon nodes are
+        // untouched. Accept both the `custom` and legacy `pushable` stamp.
+        custom: skill.custom === true || skill.pushable === true,
+      };
+    }).filter(skill => skill.id);
   }
 
   function esc(s) {
@@ -276,6 +357,74 @@
       h = Math.imul(h, 16777619);
     }
     return Math.abs(h >>> 0);
+  }
+
+  // §4 runtime effective-rank join. gaia.json ships STARLESS (level: null on
+  // every node — stars live on named skills only, per META.md §1). Each source
+  // skill already carries `namedMaxLevel` — the max star among its named
+  // children, pre-joined by syncDocsGraphAssets.py — as an "N★" glyph string.
+  // We ONLY parse that leading integer; no new fetch, no walking of
+  // named/index.json buckets (namedMaxLevel already encodes that join). 0-1★ or
+  // absent → 0 (outer bark; the colored ramp begins at 2★ Named per the
+  // redaction cutline). The parsed int is attached as `effectiveRank` on the
+  // source skill BEFORE world-tree-layout.js runs (it reads node.effectiveRank).
+  function starsFromLabel(label) {
+    const n = parseInt(String(label == null ? '' : label), 10);
+    return Number.isFinite(n) && n > 0 ? n : 0;
+  }
+
+  function clamp01(value) {
+    return Math.max(0, Math.min(1, value));
+  }
+
+  function easeWorldTree(value) {
+    // Smoothstep keeps the object morph reversible without a velocity snap.
+    const t = clamp01(value);
+    return t * t * (3 - 2 * t);
+  }
+
+  function lerp(a, b, amount) {
+    return a + (b - a) * amount;
+  }
+
+  function asIdObject(value) {
+    if (!value) return {};
+    if (value instanceof Map) return Object.fromEntries(value.entries());
+    return value;
+  }
+
+  function asIdSet(value) {
+    if (!value) return new Set();
+    if (value instanceof Set) return value;
+    if (Array.isArray(value)) return new Set(value);
+    return new Set(Object.keys(value).filter(key => value[key]));
+  }
+
+  function rgbFromHex(hex) {
+    const raw = String(hex || '').trim().replace(/^#/, '');
+    if (!/^[0-9a-f]{6}$/i.test(raw)) return '';
+    return `${parseInt(raw.slice(0, 2), 16)},${parseInt(raw.slice(2, 4), 16)},${parseInt(raw.slice(4, 6), 16)}`;
+  }
+
+  function mixRgb(from, to, amount) {
+    const a = String(from || '').split(',').map(Number);
+    const b = String(to || '').split(',').map(Number);
+    if (a.length !== 3 || b.length !== 3 || a.some(Number.isNaN) || b.some(Number.isNaN)) return to || from;
+    return [0, 1, 2].map(index => Math.round(lerp(a[index], b[index], amount))).join(',');
+  }
+
+  // §6 color-by-rank ramp. Maps an effective star rank (0-6 int) to a rank-token
+  // rgb triplet. The redaction cutline (§4) collapses 0-1★ to grey (--rank-0);
+  // the colored ramp begins at 2★ and climbs to apex-gold at 6★. No hex
+  // fallbacks — the triplets come straight from tokens.css via getCanvasTokens.
+  function _rankColorRgb(effRank) {
+    const t = getCanvasTokens();
+    let n = Math.round(Number(effRank));
+    if (!Number.isFinite(n) || n < 0) n = 0;
+    if (n > 6) n = 6;
+    const key = n <= 1 ? 0 : n;   // 0-1★ share the grey bark swatch
+    const entry = t.rank[key] || t.rank[0];
+    return (entry && entry.rgb) ? entry.rgb : t.rank[0].rgb;
   }
 
   function spherePoint(radius, seed, index, count) {
@@ -318,22 +467,25 @@
       return positions;
     }
 
-    // LEGACY Fallback (Spherical)
+    // LEGACY Fallback (Spherical). Only reached when the World Tree layout is
+    // absent (legacy 3D graph); the tree path seats isolates as inside seeds.
     const groups = { basic: [], extra: [], ultimate: [] };
-    const satellite = { unique: [], orphan: [] };
+    const satellite = { unique: [] };
     const allPrereqRefs = new Set();
     skills.forEach(skill => skill.prerequisites.forEach(pid => allPrereqRefs.add(pid)));
     skills.forEach(skill => {
-      if (skill.type === 'unique') { satellite.unique.push(skill); }
-      else if (skill.type === 'basic' && !skill.prerequisites.length && !allPrereqRefs.has(skill.id)) {
-        satellite.orphan.push(skill);
-      } else {
+      // §PR3b §B: the outside/orbit constellation keys on MEMBERSHIP (branch ===
+      // 'unique'), NOT on edge-count. A non-unique edgeless node (e.g.
+      // few-shot-learning, a 2★ basic with no prereqs that nothing depends on)
+      // is NOT flung into an orphan orbit — it seats inside with its group so it
+      // cannot float. Only Uniques become the outside constellation.
+      if (skill.branch === 'unique') { satellite.unique.push(skill); }
+      else {
         (groups[skill.type] || groups.basic).push(skill);
       }
     });
     Object.values(groups).forEach(group => group.sort((a, b) => (a.name || a.id).localeCompare(b.name || b.id)));
     satellite.unique.sort((a, b) => (a.name || a.id).localeCompare(b.name || b.id));
-    satellite.orphan.sort((a, b) => (a.name || a.id).localeCompare(b.name || b.id));
     // Multiply locked SPHERE_RADII (DESIGN.md) by the runtime scale.
     const radii = {
       basic: SPHERE_RADII.basic * scale,
@@ -351,20 +503,6 @@
       positions[skill.id] = {
         ...spherePoint(330 * scale, seed, idx, Math.max(uniqueCount, 1)),
         _satellite: 'unique',
-      };
-    });
-    satellite.orphan.forEach((skill, idx) => {
-      const seed = stableHash(skill.id);
-      const baseR = (320 + (seed % 70)) * scale;
-      const pos = spherePoint(baseR, seed, idx, Math.max(satellite.orphan.length, 1));
-      positions[skill.id] = {
-        ...pos,
-        _satellite: 'orphan',
-        _orbitSpeed: 0.2 + (seed % 100) / 100 * 0.65,
-        _orbitAmp: (22 + (seed % 38)) * scale,
-        _phX: (seed % 628) / 100,
-        _phY: ((seed * 7) % 628) / 100,
-        _phZ: ((seed * 13) % 628) / 100,
       };
     });
     return positions;
@@ -418,10 +556,14 @@
       zoomable: options.zoomable || false,
       hoverable: options.hoverable || false,
     };
+    // Session-only stash of the explorer camera (zoom/pan/spread). Captured on
+    // exit so re-entering restores exactly where the user left off instead of
+    // snapping back to a fresh 200% spread. In-memory only — never persisted.
+    let _explorerViewStash = null;
     const NAMED_LEVELS = new Set(['2★', '3★', '4★', '5★', '6★']);
     const state = {
-      skills: FALLBACK_SKILLS,
-      positions: buildPositions(FALLBACK_SKILLS, GRAPH_SCALE),
+      skills: [],
+      positions: buildPositions([], GRAPH_SCALE),
       stars: [],
       width: 0,
       height: 0,
@@ -436,7 +578,13 @@
       scale: options.scale || GRAPH_SCALE,
       zoom: 1,
       statusEl: options.statusEl || null,
-      running: options.autostart !== false,
+      // running  = the rAF loop is actively cycling right now
+      // wantRunning = the caller's intent (start/stop); gated by visibility
+      // inView   = canvas intersects the viewport (defaults true so an
+      //            unsupported IntersectionObserver never strands the loop)
+      running: false,
+      wantRunning: options.autostart !== false,
+      inView: true,
       frame: null,
       orbitX: 0,
       orbitY: 0,
@@ -469,8 +617,10 @@
       nodeAlphas: {},
       searchText: '',
       legendFilterType: null,
+      legendFilterField: null,
       legendFilterRank: null,
       legendHoverType: null,
+      legendHoverField: null,
       legendHoverRank: null,
       legendEl: null,
       showTitles: false,
@@ -479,6 +629,24 @@
       namedMap: null,
       titleMap: null,
       originMap: null,
+      treeLayout: null,
+      heroPose: {},
+      fieldPose: {},
+      treeEdges: [],
+      ancestorsById: {},
+      descendantsById: {},
+      directNeighborsById: {},
+      treeBounds: null,
+      treeSpread: 1,
+      treeSpreadFrom: 1,
+      viewMix: 0,
+      viewFrom: 0,
+      viewTarget: 0,
+      viewStartedAt: null,
+      viewDuration: 900,
+      viewPhase: 'hero2d',
+      viewComplete: null,
+      lastDrawAt: 0,
       // graphMode: 'public' (default) or 'local'. In local mode the
       // collection panel becomes "Claimed skills", the nav title swaps
       // to "@<handle> · Atlas", and (TODO) the scatter strip pulls
@@ -490,12 +658,11 @@
 
     function resize() {
       const parent = canvas.parentElement;
-      state.width = parent.clientWidth;
-      state.height = parent.clientHeight;
+      const rect = canvas.getBoundingClientRect();
+      state.width = Math.max(1, Math.round(rect.width || parent.clientWidth));
+      state.height = Math.max(1, Math.round(rect.height || parent.clientHeight));
       canvas.width = state.width * DPR;
       canvas.height = state.height * DPR;
-      canvas.style.width = state.width + 'px';
-      canvas.style.height = state.height + 'px';
       ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
       state.stars = Array.from({ length: options.stars || 260 }, (_, i) => {
         const seed = i * 7919 + 97;
@@ -521,15 +688,122 @@
       });
     }
 
-    function setSkills(skills) {
+    function _normalizePoseMap(value) {
+      const input = asIdObject(value);
+      const output = {};
+      Object.keys(input || {}).sort().forEach(id => {
+        const p = input[id];
+        if (!p || !Number.isFinite(Number(p.x)) || !Number.isFinite(Number(p.y))) return;
+        output[id] = {
+          x: Number(p.x),
+          y: Number(p.y),
+          z: Number.isFinite(Number(p.z)) ? Number(p.z) : 0,
+          w: Number.isFinite(Number(p.w)) ? Number(p.w) : 0,
+          phase: Number.isFinite(Number(p.phase)) ? Number(p.phase) : stableHash(id) % 628 / 100,
+          _satellite: p._satellite,
+        };
+      });
+      return output;
+    }
+
+    function _computeTreeBounds(heroPose, fieldPose) {
+      const ids = Object.keys(heroPose);
+      if (!ids.length) return null;
+      let minX = Infinity, maxX = -Infinity, minY = Infinity, maxY = -Infinity, maxZ = 0;
+      ids.forEach(id => {
+        const hp = heroPose[id];
+        const fp = fieldPose[id] || hp;
+        minX = Math.min(minX, hp.x, fp.x);
+        maxX = Math.max(maxX, hp.x, fp.x);
+        minY = Math.min(minY, hp.y, fp.y);
+        maxY = Math.max(maxY, hp.y, fp.y);
+        maxZ = Math.max(maxZ, Math.abs(fp.z || 0));
+      });
+      return {
+        minX, maxX, minY, maxY, maxZ,
+        width: Math.max(1, maxX - minX),
+        height: Math.max(1, maxY - minY),
+        centerX: (minX + maxX) / 2,
+        centerY: (minY + maxY) / 2,
+      };
+    }
+
+    function setTreeLayout(layout) {
+      const heroPose = _normalizePoseMap(layout && layout.heroPose);
+      const fieldPose = _normalizePoseMap(layout && layout.fieldPose);
+      const requiredIds = state.skills.map(skill => skill.id);
+      const complete = requiredIds.length > 0 && requiredIds.every(id => heroPose[id] && fieldPose[id]);
+      const unavailable = !layout || layout.available === false || layout.status === 'unavailable' || !complete;
+      if (unavailable) {
+        state.treeLayout = null;
+        state.structuralRouteKeys = null;
+        state.heroPose = {};
+        state.fieldPose = {};
+        state.treeEdges = [];
+        state.ancestorsById = {};
+        state.descendantsById = {};
+        state.directNeighborsById = {};
+        state.treeBounds = null;
+        state.positions = buildPositions(state.skills, state.scale, state.layoutMode);
+        return false;
+      }
+
+      state.treeLayout = layout;
+      // §8 perf: the structural-route key lookup set is derived once here from
+      // the frozen layout, not rebuilt every draw() frame.
+      state.structuralRouteKeys = layout.structuralRoutes
+        ? new Set(Object.keys(layout.structuralRoutes))
+        : null;
+      state.heroPose = heroPose;
+      state.fieldPose = fieldPose;
+      state.positions = heroPose;
+      state.treeBounds = _computeTreeBounds(heroPose, fieldPose);
+      state.ancestorsById = asIdObject(layout.ancestorsById || layout.ancestors);
+      state.descendantsById = asIdObject(layout.descendantsById || layout.descendants);
+
+      const byId = Object.fromEntries(state.skills.map(skill => [skill.id, skill]));
+      const inputEdges = Array.isArray(layout.edges) ? layout.edges : [];
+      const structuralKeys = new Set(Array.isArray(layout.structuralEdgeKeys) ? layout.structuralEdgeKeys : []);
+      const hasStructuralHierarchy = structuralKeys.size > 0;
+      state.treeEdges = inputEdges.map(edge => {
+        const from = edge.source || edge.sourceSkillId || edge.from;
+        const to = edge.target || edge.targetSkillId || edge.to;
+        if (!from || !to || !byId[from] || !byId[to]) return null;
+        return {
+          from,
+          to,
+          type: byId[to].type,
+          branch: byId[to].branch,
+          structural: !hasStructuralHierarchy || structuralKeys.has(from + '\u0000' + to),
+        };
+      }).filter(Boolean);
+      if (!state.treeEdges.length) {
+        state.skills.forEach(skill => skill.prerequisites.forEach(parent => {
+          if (byId[parent]) state.treeEdges.push({ from: parent, to: skill.id, type: skill.type, branch: skill.branch });
+        }));
+      }
+
+      const direct = {};
+      state.skills.forEach(skill => { direct[skill.id] = new Set(); });
+      state.treeEdges.forEach(edge => {
+        direct[edge.from].add(edge.to);
+        direct[edge.to].add(edge.from);
+      });
+      state.directNeighborsById = direct;
+      return true;
+    }
+
+    function setSkills(skills, treeLayout) {
       state.skills = skills;
-      state.positions = buildPositions(skills, state.scale, state.layoutMode);
+      if (treeLayout) setTreeLayout(treeLayout);
+      else if (!state.treeLayout) state.positions = buildPositions(skills, state.scale, state.layoutMode);
       const newAlphas = {};
       skills.forEach(s => { newAlphas[s.id] = state.nodeAlphas[s.id] !== undefined ? state.nodeAlphas[s.id] : 1.0; });
       state.nodeAlphas = newAlphas;
+      _refreshSearchDatalist();
       if (state.statusEl) {
         const edgeCount = skills.reduce((sum, skill) => sum + skill.prerequisites.length, 0);
-        const uniqueCount = skills.filter(s => s.type === 'unique').length;
+        const uniqueCount = skills.filter(s => s.branch === 'unique').length;
         const mb = (fill) => `<svg class="gst-icon" viewBox="0 0 10 15" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"><rect x=".7" y=".7" width="8.6" height="13.6" rx="4.3"/><path d="M5 .7v5.8" stroke-width="1"/><path d="M.7 6.5h8.6" stroke-width="1"/>${fill}</svg>`;
         const iL = mb('<rect x=".7" y=".7" width="4.3" height="5.8" rx="2" stroke="none" fill="currentColor" opacity=".55"/>');
         const iM = mb('<rect x="3.4" y="1.4" width="3.2" height="4.2" rx="1.6" stroke="none" fill="currentColor" opacity=".55"/>');
@@ -569,7 +843,56 @@
       const c = Math.cos(a), s = Math.sin(a);
       return { x: p.x, y: c * p.y - s * p.w, z: p.z, w: s * p.y + c * p.w, phase: p.phase };
     }
+
+    let treeProjectionFrame = null;
+    function computeTreeProjection() {
+      if (!state.treeLayout || !state.treeBounds) return null;
+      const mix = easeWorldTree(state.viewMix);
+      const bounds = state.treeBounds;
+      const mobileTree = window.matchMedia('(max-width:700px)').matches;
+      const heroCenterValue = parseFloat(getComputedStyle(canvas.parentElement).getPropertyValue('--hero-tree-center-x'));
+      const heroCenterRatio = Number.isFinite(heroCenterValue) ? heroCenterValue : (mobileTree ? 0.5 : 0.72);
+      const heroHeightFactor = mobileTree ? 0.84 : 0.71;
+      const heroFit = Math.max(0.05, Math.min(
+        state.width * (mobileTree ? 0.90 : 0.60) / bounds.width,
+        state.height * heroHeightFactor / bounds.height
+      ));
+      const fieldFit = Math.max(0.05, Math.min(
+        state.width * 0.84 / bounds.width,
+        state.height * 0.72 / bounds.height
+      ));
+      return {
+        mix,
+        bounds,
+        heroCenterRatio,
+        heroFit,
+        fieldFit,
+        spread: lerp(state.treeSpreadFrom != null ? state.treeSpreadFrom : state.treeSpread, state.treeSpread, state.viewTarget === 0 ? 1 - mix : mix),
+        cameraDistance: Math.max(bounds.width, bounds.height, bounds.maxZ * 2, 1) * 2.35,
+        fieldZoom: lerp(1, state.zoom, mix),
+      };
+    }
+
     function project(p) {
+      if (state.treeLayout && state.treeBounds) {
+        const config = treeProjectionFrame || computeTreeProjection();
+        const { mix, bounds, heroCenterRatio, heroFit, fieldFit, spread, cameraDistance, fieldZoom } = config;
+        const px = (p.x - bounds.centerX) * spread;
+        const py = (p.y - bounds.centerY) * spread;
+        const pz = (p.z || 0) * spread;
+        const heroX = state.width * heroCenterRatio + px * heroFit;
+        const heroY = state.height * 0.50 + py * heroFit;
+        const perspective = Math.max(0.12, cameraDistance / (cameraDistance + pz));
+        const fieldX = state.width * 0.5 + px * fieldFit * perspective * fieldZoom + state.panX * mix;
+        const fieldY = state.height * 0.47 + py * fieldFit * perspective * fieldZoom + state.panY * mix;
+        return {
+          sx: lerp(heroX, fieldX, mix),
+          sy: lerp(heroY, fieldY, mix),
+          scale: lerp(heroFit, fieldFit * perspective * fieldZoom, mix),
+          z: pz,
+          w: 0,
+        };
+      }
       // 4D -> 3D Perspective Projection
       const fov4 = 2.0;
       const wCoeff = (p.w || 0) / (700 * state.scale); // Pushed back W-scale
@@ -590,6 +913,30 @@
         w: p.w || 0
       };
     }
+    // §2/§5 ghost armature + structural re-routing render helpers.
+    // ghostPose points live in the SAME layout frame as heroPose/fieldPose, so
+    // they transform through the identical rotate(ry,rx)+project() pipeline. We
+    // hero-morph the depth: at viewMix->0 the spine reads flat (z folded out),
+    // at viewMix->1 the boughs open into depth. Ghosts carry NO data — never
+    // hover, label, click, or register in projectedNodes (§5.1 invariant).
+    function _projectGhost(pose, ry, rx, treeMix) {
+      if (!pose) return null;
+      const p = rotX(rotY({
+        x: pose.x, y: pose.y, z: (pose.z || 0) * treeMix, w: 0, phase: 0,
+      }, ry), rx);
+      return project(p);
+    }
+    // Resolve a structural-route waypoint (either a real node's transformed
+    // point via xf, or a ghost anchor via ghostPose) to a projected screen point.
+    function _routeStop(stop, xf, ghostPose, ry, rx, treeMix) {
+      if (!stop) return null;
+      if (stop.kind === 'node') {
+        const tp = xf[stop.id];
+        return tp ? project(tp) : null;
+      }
+      return _projectGhost(ghostPose[stop.key], ry, rx, treeMix);
+    }
+
     function drawNode(sx, sy, r, color, alpha) {
       const grad = ctx.createRadialGradient(sx, sy, 0, sx, sy, r * 3.9);
       grad.addColorStop(0, `rgba(${color.rgb},${Math.min(alpha * 0.68, 1).toFixed(2)})`);
@@ -612,9 +959,137 @@
       ctx.beginPath(); ctx.arc(sx - r * 0.28, sy - r * 0.28, r * 0.32, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(255,255,255,${(alpha * 0.65).toFixed(2)})`; ctx.fill();
     }
+    // ── Warm-star helpers (§Ygg-II hot-tier). Blend two "R,G,B" token
+    // triplets so the ember→gold→white-hot ramps stay token-DERIVED — no raw
+    // tier hex re-enters this file. Only 255,255,255 (universal specular/
+    // hot-core white, already used by drawNode/drawNodeVI) is a literal.
+    function _rgbParts(triplet) {
+      return triplet.split(',').map(function (v) { return parseInt(v, 10) || 0; });
+    }
+    function _mixRgb(aTriplet, bTriplet, m) {
+      const a = _rgbParts(aTriplet), b = _rgbParts(bTriplet);
+      return a.map(function (v, i) { return Math.round(v + (b[i] - v) * m); }).join(',');
+    }
+
+    // §Ygg-II hot-tier — 4★ DWARF STAR. Colour is PURPLE, not ember (Marco
+    // correction 2026-07-21): this tier inherits the deprecated 'extra'
+    // identity, which migrates to the violet --rank-3/--rank-4 tokens
+    // everywhere this session (scatter strip, neighbour card, legend glyph).
+    // A small but genuinely BURNING violet dwarf: a white-hot core, a magenta
+    // (--rank-4) flame that flickers, a cooler violet (--rank-3) corona that
+    // shimmers, and a white-hot ember that visibly LICKS around inside the
+    // core. Colours token-derived; combustion faked with layered detuned sines
+    // + a wandering hot-spot offset — no particles, a handful of sin/frame.
+    function drawNodeIV(sx, sy, r, alpha, t, p) {
+      const tok = getCanvasTokens();
+      const flame = tok.rank[4].rgb;                    // rank-4 token (magenta)
+      const violet = tok.rank[3].rgb;                   // rank-3 token (violet)
+      const core = _mixRgb(flame, '255,255,255', 0.6);  // white-hot centre
+      const phase = p.phase || 0;
+      // Combustion flicker: three detuned sines → irregular, fire-like. High
+      // amplitude so the dwarf visibly BURNS (Marco) rather than sitting static.
+      const flick = 0.78 + 0.22 * (0.5 * Math.sin(t * 8.3 + phase) + 0.3 * Math.sin(t * 5.1 + phase * 1.7) + 0.2 * Math.sin(t * 12.7 + phase * 0.5));
+      // Wandering ember hot-spot — the flame "licks" around the core (cheap
+      // 2-freq offset, wide enough to read as motion at node scale).
+      const wx = Math.cos(t * 3.1 + phase) * r * 0.28 + Math.cos(t * 6.7 + phase) * r * 0.13;
+      const wy = Math.sin(t * 2.7 + phase) * r * 0.28 + Math.sin(t * 5.9 + phase) * r * 0.13;
+      // Shimmering violet corona (footprint lifted toward Unique's weight).
+      const coronaR = r * 4.6 * flick;
+      const corona = ctx.createRadialGradient(sx, sy, r * 0.5, sx, sy, coronaR);
+      corona.addColorStop(0, `rgba(${flame},${(alpha * 0.52).toFixed(2)})`);
+      corona.addColorStop(0.4, `rgba(${violet},${(alpha * 0.26 * flick).toFixed(2)})`);
+      corona.addColorStop(1, `rgba(${violet},0)`);
+      ctx.beginPath(); ctx.arc(sx, sy, coronaR, 0, Math.PI * 2);
+      ctx.fillStyle = corona; ctx.fill();
+      // Burning body: violet disk with a magenta flame and white-hot centre.
+      const body = ctx.createRadialGradient(sx - r * 0.15, sy - r * 0.15, 0, sx, sy, r * 1.05);
+      body.addColorStop(0, `rgba(${core},${Math.min(alpha * 1.2, 1).toFixed(2)})`);
+      body.addColorStop(0.45, `rgba(${flame},${Math.min(alpha * 1.1, 1).toFixed(2)})`);
+      body.addColorStop(1, `rgba(${violet},${(alpha * 0.9).toFixed(2)})`);
+      ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2);
+      ctx.fillStyle = body; ctx.fill();
+      // Moving white-hot ember licking inside the core (the "burning" motion).
+      const emberR = r * 0.62 * (0.8 + 0.35 * flick);
+      const ember = ctx.createRadialGradient(sx + wx, sy + wy, 0, sx + wx, sy + wy, emberR);
+      ember.addColorStop(0, `rgba(${core},${Math.min(alpha * 1.05 * flick, 1).toFixed(2)})`);
+      ember.addColorStop(0.6, `rgba(${flame},${(alpha * 0.35).toFixed(2)})`);
+      ember.addColorStop(1, `rgba(${flame},0)`);
+      ctx.beginPath(); ctx.arc(sx + wx, sy + wy, emberR, 0, Math.PI * 2);
+      ctx.fillStyle = ember; ctx.fill();
+      // Specular hot spot (flickers with the flame).
+      ctx.beginPath(); ctx.arc(sx - r * 0.24, sy - r * 0.24, r * 0.26, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255,255,255,${(alpha * 0.6 * flick).toFixed(2)})`; ctx.fill();
+    }
+
+    // §Ygg-II hot-tier — 5★ BURNING GOLDEN SUN. Bolder than the 4★ dwarf and
+    // clearly below the 6★ pulsar (Marco: push size/brightness/contrast up).
+    // A large, radiant gold corona; a bright white-gold core (NOT the pure
+    // white reserved for the 6★ pulsar); eight waving, SHIMMERING solar flares
+    // that lick outward — deliberately NOT the pulsar's two sharp rotating
+    // beams. Gold from --apex-gold, deep amber toward --honor-red at the flare
+    // edges. Combustion via layered detuned sines; still cheap per frame.
+    function drawNodeV(sx, sy, r, alpha, t, p) {
+      const tok = getCanvasTokens();
+      const gold = tok.apexGoldRgb;                        // 251,191,36
+      const amber = _mixRgb(gold, tok.honorRedRgb, 0.42);  // deep amber flare edge
+      const hot = _mixRgb(gold, '255,255,255', 0.55);      // white-gold centre
+      const phase = p.phase || 0;
+      const breathe = 0.92 + 0.12 * Math.sin(t * 1.3 + phase) + 0.05 * Math.sin(t * 3.7 + phase * 1.4);
+      // Waving + shimmering solar flares (longer, brighter, more numerous than
+      // the dwarf — reads as an actively burning surface).
+      ctx.save();
+      ctx.translate(sx, sy);
+      ctx.rotate(t * 0.3 + phase);
+      const flares = 8;
+      for (let f = 0; f < flares; f++) {
+        const fa = (Math.PI * 2 * f / flares);
+        const len = r * (4.2 + 1.3 * Math.sin(t * 2.0 + f * 1.3) + 0.5 * Math.sin(t * 4.5 + f));
+        const wa = alpha * (0.26 + 0.16 * Math.sin(t * 2.6 + f * 0.8));
+        if (wa < 0.01) continue;
+        const cone = Math.PI * 0.075;
+        const fg = ctx.createLinearGradient(0, 0, Math.cos(fa) * len, Math.sin(fa) * len);
+        fg.addColorStop(0, `rgba(${hot},${wa.toFixed(2)})`);
+        fg.addColorStop(0.4, `rgba(${gold},${(wa * 0.55).toFixed(2)})`);
+        fg.addColorStop(1, `rgba(${amber},0)`);
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(Math.cos(fa - cone) * len, Math.sin(fa - cone) * len);
+        ctx.lineTo(Math.cos(fa + cone) * len, Math.sin(fa + cone) * len);
+        ctx.closePath();
+        ctx.fillStyle = fg; ctx.fill();
+      }
+      ctx.restore();
+      // Big radiant gold corona (bolder: larger + brighter than before).
+      const coronaR = r * 7.4 * breathe;
+      const corona = ctx.createRadialGradient(sx, sy, r * 0.8, sx, sy, coronaR);
+      corona.addColorStop(0, `rgba(${hot},${(alpha * 0.6).toFixed(2)})`);
+      corona.addColorStop(0.3, `rgba(${gold},${(alpha * 0.34).toFixed(2)})`);
+      corona.addColorStop(0.65, `rgba(${amber},${(alpha * 0.13).toFixed(2)})`);
+      corona.addColorStop(1, `rgba(${amber},0)`);
+      ctx.beginPath(); ctx.arc(sx, sy, coronaR, 0, Math.PI * 2);
+      ctx.fillStyle = corona; ctx.fill();
+      // Gold body with a bright white-gold hot centre (pure white is the 6★
+      // pulsar's alone).
+      const body = ctx.createRadialGradient(sx - r * 0.14, sy - r * 0.14, 0, sx, sy, r * 1.05);
+      body.addColorStop(0, `rgba(${hot},${Math.min(alpha * 1.25, 1).toFixed(2)})`);
+      body.addColorStop(0.5, `rgba(${gold},${Math.min(alpha * 1.14, 1).toFixed(2)})`);
+      body.addColorStop(1, `rgba(${amber},${(alpha * 0.95).toFixed(2)})`);
+      ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2);
+      ctx.fillStyle = body; ctx.fill();
+      // Specular.
+      ctx.beginPath(); ctx.arc(sx - r * 0.24, sy - r * 0.24, r * 0.34, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255,255,255,${(alpha * 0.85).toFixed(2)})`; ctx.fill();
+    }
+
     function drawNodeVI(sx, sy, r, alpha, t, p) {
       const phase = p.phase || 0;
       const spin = t * 1.3 + phase;
+
+      // §Ygg-II hot-tier — 6★ PULSAR strobe. A sharpened, periodic brightness
+      // spike (pow(sin) narrows each pulse into a beat) synced near the beam
+      // sweep, so the crown of the ladder reads as a genuinely PULSING beacon,
+      // not the 5★ sun's continuous breathe. Cheap: one Math.sin + pow/frame.
+      const strobe = Math.pow(Math.max(0, Math.sin(t * 2.4 + phase)), 8);
 
       // Impact blink: fires every ~5s, quick flash then gradual fade-out
       // [TEMPORARY] Flash disabled per request.
@@ -674,11 +1149,11 @@
         ctx.fill();
       }
 
-      // ── BRIGHT WHITE ENERGY GLOW ──
-      const glowPulse = 0.9 + 0.1 * Math.sin(t * 1.6 + phase);
+      // ── BRIGHT WHITE ENERGY GLOW ── (strobe widens + brightens on each beat)
+      const glowPulse = 0.9 + 0.1 * Math.sin(t * 1.6 + phase) + 0.28 * strobe;
       const glowR = r * (5.0 * glowPulse);
       const glow = ctx.createRadialGradient(sx, sy, r * 0.1, sx, sy, glowR);
-      glow.addColorStop(0, `rgba(255,255,255,${(alpha * 0.72).toFixed(2)})`);
+      glow.addColorStop(0, `rgba(255,255,255,${Math.min(alpha * (0.72 + 0.28 * strobe), 1).toFixed(2)})`);
       glow.addColorStop(0.15, `rgba(255,255,245,${(alpha * 0.52).toFixed(2)})`);
       glow.addColorStop(0.4, `rgba(255,245,210,${(alpha * 0.22).toFixed(2)})`);
       glow.addColorStop(0.7, `rgba(255,230,160,${(alpha * 0.08).toFixed(2)})`);
@@ -734,20 +1209,40 @@
       ctx.beginPath(); ctx.arc(sx - r * 0.22, sy - r * 0.22, r * 0.35, 0, Math.PI * 2);
       ctx.fillStyle = `rgba(255,255,255,${(alpha * 0.95).toFixed(2)})`; ctx.fill();
     }
-    function drawNodeUnique(sx, sy, r, alpha, t, p) {
-      // Unique = singularity render. Reads --tier-unique-rgb so the
-      // accretion disk / event horizon ring inherit the canonical
-      // Unique tier hue when a host page reskins the canvas.
-      const uniqueRgb = getCanvasTokens().tier.unique.rgb;
-      // Accretion-disk particles use the Unique tier rgb at lower
-      // alpha rather than introducing a second hue. Visually this
-      // reads as the same hue family as the canonical rank-3 swatch
-      // (the historical particle colour) without re-declaring it
-      // here. When --rank-3-rgb lands in tokens.css we can swap to
-      // it directly.
+    function drawNodeUnique(sx, sy, r, alpha, t, p, rank) {
+      // §PR3b §C — the Unique singularity forks by RANK. ESCALATION reads
+      // CALMER + DENSER, never more frantic:
+      //   4★ (--rank-4-unique, violet): the base singularity, toned DOWN from the
+      //       historical render — fewer particles, slower spin, tighter pulse.
+      //   5★ (--rank-5-unique, copper): smaller radius, tighter/denser disk,
+      //       calmer than 4★.
+      //   6★ (--rank-6-unique copper + -ink): PLACEHOLDER — near-still core with
+      //       a cheap "inverted"/lensing hint. No 6★ Unique exists today; wire it
+      //       so it renders when earned. Kept intentionally cheap.
+      const rk = (typeof rank === 'number' && rank >= 4) ? Math.min(6, rank | 0) : 4;
+      const tok = getCanvasTokens();
+      // Rank-specific hue: read the ladder token, fall back to the 4★ violet.
+      function _uniqueRgbFor(n) {
+        if (n >= 6) return _rgbOnly(_readVar('--rank-6-unique-rgb')) || tok.tier.unique.rgb;
+        if (n >= 5) return _rgbOnly(_readVar('--rank-5-unique-rgb')) || tok.tier.unique.rgb;
+        return tok.tier.unique.rgb;
+      }
+      const uniqueRgb = _uniqueRgbFor(rk);
+
+      // Per-rank tuning — higher rank = calmer + denser (slower spin, tighter
+      // orbit pulse, lower particle alpha, smaller disk radius).
+      const cfg = rk >= 6
+        ? { particles: 4,  spinBase: 0.75, spinJitter: 0.10, orbitBase: 1.30, orbitPulse: 0.10, diskR: 0.28, pAlpha: 0.30, spinMul: 1.1, arms: 2 }
+        : rk >= 5
+          ? { particles: 6,  spinBase: 0.90, spinJitter: 0.15, orbitBase: 1.40, orbitPulse: 0.18, diskR: 0.32, pAlpha: 0.42, spinMul: 1.6, arms: 3 }
+          : { particles: 8,  spinBase: 1.00, spinJitter: 0.20, orbitBase: 1.60, orbitPulse: 0.20, diskR: 0.35, pAlpha: 0.55, spinMul: 2.2, arms: 3 };
+
       const phase = p.phase || 0;
-      const spin = t * 2.2 + phase;
-      // Gravitational distortion — concentric rings that darken surrounding space
+      // Spin runs at roughly half the historical 2.2 rate at 4★ and slower still
+      // as rank climbs (spinBase scales it down).
+      const spin = t * (2.2 * cfg.spinBase) + phase;
+
+      // Gravitational distortion — concentric rings that darken surrounding space.
       const distortR = r * 8;
       const rings = 5;
       for (let i = rings; i >= 1; i--) {
@@ -777,9 +1272,9 @@
       voidGrad.addColorStop(1, `rgba(${uniqueRgb},0)`);
       ctx.beginPath(); ctx.arc(0, 0, voidR, 0, Math.PI * 2);
       ctx.fillStyle = voidGrad; ctx.fill();
-      // Spinning dark arms (like a spiral galaxy but dark)
-      for (let arm = 0; arm < 3; arm++) {
-        const armAngle = (Math.PI * 2 * arm / 3) + spin * 0.7;
+      // Spinning dark arms (fewer + slower at higher rank).
+      for (let arm = 0; arm < cfg.arms; arm++) {
+        const armAngle = (Math.PI * 2 * arm / cfg.arms) + spin * 0.7;
         ctx.beginPath();
         for (let j = 0; j <= 20; j++) {
           const frac = j / 20;
@@ -794,29 +1289,45 @@
         ctx.stroke();
       }
       ctx.restore();
-      // Accretion disk particles spinning wildly
-      for (let i = 0; i < 16; i++) {
-        const a = (Math.PI * 2 * i / 16) + spin * (1.5 + (i % 4) * 0.4);
-        const orbitR = r * (1.6 + 0.4 * Math.sin(spin * 0.9 + i * 0.7));
+      // Accretion disk particles — fewer, calmer, denser (tighter orbit) as rank
+      // climbs. Particle count, spin multiplier, orbit radius + pulse and alpha
+      // all read from the per-rank cfg.
+      for (let i = 0; i < cfg.particles; i++) {
+        const a = (Math.PI * 2 * i / cfg.particles) + spin * (cfg.spinBase + (i % 4) * cfg.spinJitter);
+        const orbitR = r * (cfg.orbitBase + cfg.orbitPulse * Math.sin(spin * 0.9 + i * 0.7));
         const dx = Math.cos(a) * orbitR;
         const dy = Math.sin(a) * orbitR * 0.35;
-        const particleAlpha = alpha * (0.4 + 0.35 * Math.sin(spin * 2.5 + i * 1.1));
+        const particleAlpha = alpha * (cfg.pAlpha * 0.7 + cfg.pAlpha * 0.6 * Math.sin(spin * cfg.spinMul + i * 1.1));
         const particleR = r * (0.1 + 0.05 * Math.sin(t * 4 + i));
         ctx.beginPath();
         ctx.arc(sx + dx, sy + dy, particleR, 0, Math.PI * 2);
-        // Accretion-disk particle: lighter sibling of Unique hue.
-        ctx.fillStyle = `rgba(${uniqueRgb},${Math.min(particleAlpha * 1.05, 1).toFixed(2)})`;
+        // Accretion-disk particle: lighter sibling of the rank's Unique hue.
+        ctx.fillStyle = `rgba(${uniqueRgb},${Math.min(Math.max(particleAlpha, 0) * 1.05, 1).toFixed(2)})`;
         ctx.fill();
       }
-      // Event horizon ring — bright Unique-tier edge
+      // Event horizon ring — bright rank-Unique edge.
       ctx.beginPath(); ctx.arc(sx, sy, r * 1.12, 0, Math.PI * 2);
       ctx.strokeStyle = `rgba(${uniqueRgb},${(alpha * 0.9).toFixed(2)})`;
       ctx.lineWidth = 2; ctx.stroke();
-      // Void core — fully opaque black
+      // Void core — fully opaque black.
       ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2);
       ctx.fillStyle = '#000';
       ctx.fill();
-      // Inner Unique-tier shimmer at edge of core
+      // 6★ PLACEHOLDER: a cheap "inverted"/lensing hint — literally invert a
+      // small rim of what's behind the core using 'difference' compositing, drawn
+      // in the 6★ ink tone. Kept minimal (single stroked rim, no per-pixel work)
+      // since no 6★ Unique exists yet; it just needs to render when one is earned.
+      if (rk >= 6) {
+        const ink = _readVar('--rank-6-unique-ink');
+        ctx.save();
+        ctx.globalCompositeOperation = 'difference';
+        ctx.beginPath(); ctx.arc(sx, sy, r * 0.92, 0, Math.PI * 2);
+        ctx.strokeStyle = ink ? ink : `rgba(${uniqueRgb},${(alpha * 0.6).toFixed(2)})`;
+        ctx.lineWidth = r * 0.22;
+        ctx.stroke();
+        ctx.restore();
+      }
+      // Inner rank-Unique shimmer at edge of core.
       ctx.beginPath(); ctx.arc(sx, sy, r, 0, Math.PI * 2);
       ctx.strokeStyle = `rgba(${uniqueRgb},${(alpha * 0.5).toFixed(2)})`;
       ctx.lineWidth = r * 0.15; ctx.stroke();
@@ -826,36 +1337,133 @@
       if (state.labelMode === 'none') return false;
       if (state.labelMode === 'all') return true;
       if (state.labelMode === 'modal') return skill.type !== 'basic' || stableHash(skill.id) % 7 === 0;
-      return skill.type === 'ultimate' || skill.type === 'unique';
+      // §PR3b: priority-label the flashier branches (suite capstones + uniques),
+      // keyed on the resolved branch — never the dead type enum.
+      return skill.branch === 'suite' || skill.branch === 'unique';
+    }
+
+    function _canonicalSkillColor(skill) {
+      if (state.colorMode === 'cluster' && skill.cluster !== undefined) {
+        const hex = _readVar('--cluster-' + (Number(skill.cluster) % 8));
+        const rgb = rgbFromHex(hex);
+        if (rgb) return { rgb, hex };
+      }
+      const metaColor = state.meta && state.meta.typeColors && state.meta.typeColors[skill.type];
+      if (metaColor) {
+        const rgb = metaColor.rgb || rgbFromHex(metaColor.hex);
+        if (rgb) return { rgb: _rgbOnly(String(rgb)), hex: metaColor.hex || '' };
+      }
+      return PALETTE[skill.type] || PALETTE.basic;
+    }
+
+    function _displaySkillColor(skill) {
+      // §Ygg-II PR 3c: a user's OWN uncanonized fusion/custom skill renders
+      // GREEN-STARLESS — the same local-skill treatment `gaia tree` uses
+      // (#86efac / COLOR_LOCAL_USER). This is an early override that applies in
+      // BOTH the legacy 3D graph and the World Tree layout; canon nodes (no
+      // `custom` flag) fall through to the unchanged tier/rank coloring below.
+      if (skill && skill.custom) {
+        const t = getCanvasTokens();
+        return { rgb: t.localUserRgb || '134,239,172', hex: t.localUser || '#86efac' };
+      }
+      const canonical = _canonicalSkillColor(skill);
+      // Legacy 3D graph (no World Tree layout): keep the canonical tier/cluster
+      // color unchanged.
+      if (!state.treeLayout) return canonical;
+      // §6/§7 hero-vs-explorer split. Under the World Tree layout, color is
+      // re-axed onto RANK, not type. viewMix drives the morph:
+      //   hero (viewMix→0)     → single monochrome apex-gold (starless tips are
+      //                          faint GOLD, never grey — grey muddies the mono
+      //                          hero silhouette);
+      //   explorer (viewMix→1) → the full rank ramp (grey 0-1★ bark → 2★ ramp →
+      //                          apex-gold 6★). Cluster mode overrides both ends
+      //                          with its per-cluster hue for the analytical view.
+      const tokens = getCanvasTokens();
+      const gold = tokens.apexGoldRgb;
+      const amount = easeWorldTree(state.viewMix);
+      const explorerRgb = state.colorMode === 'cluster'
+        ? canonical.rgb
+        : _rankColorRgb(skill.effectiveRank);
+      return { rgb: mixRgb(gold, explorerRgb, amount), hex: canonical.hex };
     }
     // Phase 5: check reduced-motion once per draw frame (cached per graph instance)
     const _reducedMotion = () => window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    function draw() {
+    function _updateViewMorph(now) {
+      if (state.viewStartedAt === null) return;
+      const duration = Math.max(1, state.viewDuration);
+      const progress = clamp01((now - state.viewStartedAt) / duration);
+      state.viewMix = lerp(state.viewFrom, state.viewTarget, easeWorldTree(progress));
+      if (progress < 1) return;
+      state.viewMix = state.viewTarget;
+      state.viewStartedAt = null;
+      state.viewPhase = state.viewTarget === 1 ? 'explorer3d' : 'hero2d';
+      const done = state.viewComplete;
+      state.viewComplete = null;
+      if (typeof done === 'function') done(state.viewPhase);
+    }
+
+    function draw(frameNow) {
       if (!state.running) return;
+      const now = Number.isFinite(frameNow) ? frameNow : performance.now();
+      const mobileIdleTree = state.treeLayout
+        && window.matchMedia('(max-width:700px)').matches
+        && state.viewStartedAt === null
+        && !state.dragging
+        && !state.hoveredId
+        && !state.pinnedId;
+      if (mobileIdleTree && state.lastDrawAt && now - state.lastDrawAt < 32) {
+        state.frame = requestAnimationFrame(draw);
+        return;
+      }
+      state.lastDrawAt = now;
+      _updateViewMorph(now);
+      treeProjectionFrame = computeTreeProjection();
       const targetSlowdown = ((state.hoveredId || state.pinnedId) && !state.paused) ? 1 : 0;
       state.hoverSlowdown += (targetSlowdown - state.hoverSlowdown) * 0.035;
       // Always advance state.t so Level VI shimmer (hard lock) keeps running.
       // Under reduced-motion, freeze the idle AUTO-ROTATION angles for the hero
       // graph (non-draggable). The modal graph (draggable) can still be spun
       // manually by the user, so we don't suppress it there.
-      if (!state.paused && state.autoRotate) state.t += 0.006 * state.rotSpeed * (1 - state.hoverSlowdown);
+      const rmFreeze = _reducedMotion();
+      if (!state.paused && state.autoRotate && !rmFreeze) state.t += 0.006 * state.rotSpeed * (1 - state.hoverSlowdown);
       ctx.clearRect(0, 0, state.width, state.height);
       state.projectedNodes = {};
-      // Under reduced motion, lock the idle pan angle to 0 for the hero graph.
-      const rmFreeze = _reducedMotion() && !_opts.draggable;
-      const ry = _opts.draggable
-        ? state.t * 0.16 + state.orbitY
-        : (rmFreeze ? state.orbitY : state.t * 0.16 + state.mx * 0.10);
-      const rx = _opts.draggable
-        ? Math.sin(state.t * 0.055) * 0.20 + state.orbitX
-        : (rmFreeze ? state.orbitX : Math.sin(state.t * 0.055) * 0.20 + state.my * 0.055);
+      // Under reduced motion, lock idle rotation but retain user-controlled orbit.
+      const treeMix = state.treeLayout ? easeWorldTree(state.viewMix) : 1;
+      const idleRy = rmFreeze ? 0 : state.t * 0.16;
+      const idleRx = rmFreeze ? 0 : Math.sin(state.t * 0.055) * 0.20;
+      const ry = state.treeLayout
+        ? treeMix * (idleRy + state.orbitY)
+        : (_opts.draggable ? idleRy + state.orbitY : (rmFreeze ? state.orbitY : idleRy + state.mx * 0.10));
+      const rx = state.treeLayout
+        ? treeMix * (idleRx + state.orbitX)
+        : (_opts.draggable ? idleRx + state.orbitX : (rmFreeze ? state.orbitX : idleRx + state.my * 0.055));
       const rw = state.t * 0.12;
 
       const xf = {};
-      Object.keys(state.positions).forEach(id => {
-        let p = state.positions[id];
-        if (p._satellite === 'orphan') {
+      const positionIds = state.treeLayout ? Object.keys(state.heroPose) : Object.keys(state.positions);
+      positionIds.forEach(id => {
+        let p;
+        if (state.treeLayout) {
+          const heroPoint = state.heroPose[id];
+          const fieldPoint = state.fieldPose[id] || heroPoint;
+          p = {
+            x: lerp(heroPoint.x, fieldPoint.x, treeMix),
+            y: lerp(heroPoint.y, fieldPoint.y, treeMix),
+            z: lerp(heroPoint.z || 0, fieldPoint.z || 0, treeMix),
+            w: 0,
+            phase: heroPoint.phase,
+          };
+        } else {
+          p = state.positions[id];
+        }
+        // §PR3b §B: orbit drift is a Unique-branch-only effect and only exists
+        // in the legacy (non-treeLayout) fallback. It fires solely when a node
+        // carries the unique-satellite tag AND its orbit params — the fallback
+        // no longer produces 'orphan' shells and the World Tree path seats
+        // isolates as inside seeds, so a non-unique isolate can never re-float.
+        if (p._satellite === 'unique' && p._orbitSpeed && p._orbitAmp) {
           const s = p._orbitSpeed, amp = p._orbitAmp;
           p = {
             x: p.x + Math.cos(state.t * s + p._phX) * amp,
@@ -865,7 +1473,10 @@
             phase: p.phase,
           };
         }
-        if (state.layoutMode === 'semantic' || state.layoutMode === 'spectral') {
+        if (state.treeLayout) {
+          // Yggdrasil is spatially 3D, not a fourth-dimensional semantic cloud.
+          p = rotX(rotY(p, ry), rx);
+        } else if (state.layoutMode === 'semantic' || state.layoutMode === 'spectral') {
           // 4D Rotation Planes
           p = rotY(rotX(p, rx), ry);
           p = rotXW(p, rw);
@@ -878,12 +1489,22 @@
       });
 
       const neighborSet = new Set();
+      const directNeighborSet = new Set();
       const focusId = state.pinnedId || state.hoveredId;
       if (focusId) {
         neighborSet.add(focusId);
-        const focusSkill = state.skills.find(s => s.id === focusId);
-        if (focusSkill) focusSkill.prerequisites.forEach(pid => neighborSet.add(pid));
-        state.skills.forEach(s => { if (s.prerequisites.includes(focusId)) neighborSet.add(s.id); });
+        directNeighborSet.add(focusId);
+        if (state.treeLayout) {
+          asIdSet(state.ancestorsById[focusId]).forEach(id => neighborSet.add(id));
+          asIdSet(state.descendantsById[focusId]).forEach(id => neighborSet.add(id));
+          asIdSet(state.directNeighborsById[focusId]).forEach(id => directNeighborSet.add(id));
+        } else {
+          const focusSkill = state.skills.find(s => s.id === focusId);
+          if (focusSkill) focusSkill.prerequisites.forEach(pid => { neighborSet.add(pid); directNeighborSet.add(pid); });
+          state.skills.forEach(s => {
+            if (s.prerequisites.includes(focusId)) { neighborSet.add(s.id); directNeighborSet.add(s.id); }
+          });
+        }
       }
       const hovering = Boolean(focusId);
       const isSearchActive = Boolean(state.searchText);
@@ -898,6 +1519,11 @@
         if (searchQuery.startsWith('/')) { searchMode = 'slash'; searchTerm = searchQuery.slice(1); }
         else if (searchQuery.startsWith('@')) { searchMode = 'handle'; searchTerm = searchQuery.slice(1); }
       }
+      // Token-based fuzzy: all space-separated tokens must appear in at least one field.
+      const searchTokens = searchTerm ? searchTerm.split(/\s+/).filter(Boolean) : [];
+      function _tokenMatch(haystack) {
+        return searchTokens.every(tok => haystack.includes(tok));
+      }
       function _searchMatches(skill) {
         if (!isSearchActive) return true;
         if (!searchTerm) return true;
@@ -909,13 +1535,13 @@
         const desc = (skill.description || '').toLowerCase();
         const title = (state.titleMap && state.titleMap[skill.id] || '').toLowerCase();
         if (searchMode === 'slash') {
-          return id.includes(searchTerm) || name.includes(searchTerm) || (slugSlash || '').toLowerCase().includes(searchTerm);
+          return _tokenMatch(id) || _tokenMatch(name) || _tokenMatch((slugSlash || '').toLowerCase());
         }
         if (searchMode === 'handle') {
-          return (handle || '').toLowerCase().includes(searchTerm);
+          return _tokenMatch((handle || '').toLowerCase());
         }
-        return id.includes(searchTerm) || name.includes(searchTerm) || desc.includes(searchTerm) ||
-          title.includes(searchTerm) || namedId.toLowerCase().includes(searchTerm);
+        const combined = id + ' ' + name + ' ' + desc + ' ' + title + ' ' + namedId.toLowerCase();
+        return _tokenMatch(combined);
       }
       const legendHovering = Boolean(state.legendHoverType || state.legendHoverRank);
       const legendFiltering = Boolean(state.legendFilterType || state.legendFilterRank);
@@ -924,11 +1550,11 @@
         if (hovering) {
           targetVis = skill.id === focusId ? 1.0 : neighborSet.has(skill.id) ? 0.88 : 0.12;
         } else if (legendHovering) {
-          const mt = !state.legendHoverType || skill.type === state.legendHoverType;
+          const mt = !state.legendHoverType || (state.legendHoverField === 'branch' ? skill.branch : skill.type) === state.legendHoverType;
           const mr = !state.legendHoverRank || skill.level === state.legendHoverRank;
           targetVis = (mt && mr) ? 1.0 : 0.12;
         } else if (legendFiltering) {
-          const mt = !state.legendFilterType || skill.type === state.legendFilterType;
+          const mt = !state.legendFilterType || (state.legendFilterField === 'branch' ? skill.branch : skill.type) === state.legendFilterType;
           const mr = !state.legendFilterRank || skill.level === state.legendFilterRank;
           const matchesLegend = mt && mr;
           if (isSearchActive) {
@@ -946,42 +1572,239 @@
         state.nodeAlphas[skill.id] += (targetVis - state.nodeAlphas[skill.id]) * 0.15;
       });
       state.stars.forEach(star => {
-        let p = rotX(rotY(star, ry), rx);
-        if (state.layoutMode === 'semantic' || state.layoutMode === 'spectral') {
-          p = rotXW(p, rw);
-          p = rotYW(p, rw * 0.5);
+        const treeStars = Boolean(state.treeLayout);
+        let p;
+        if (treeStars) {
+          // Keep the hero DAG front-facing, but let the surrounding starfield
+          // orbit on its own depth axis so the atlas reads as a place, not a
+          // flat rotating texture.
+          const heroStarRy = rmFreeze ? 0 : state.t * 0.42;
+          const heroStarRx = rmFreeze ? 0 : Math.sin(state.t * 0.14) * 0.16;
+          p = rotX(rotY(star, lerp(heroStarRy, ry, treeMix)), lerp(heroStarRx, rx, treeMix));
+        } else {
+          p = rotX(rotY(star, ry), rx);
+          if (state.layoutMode === 'semantic' || state.layoutMode === 'spectral') {
+            p = rotXW(p, rw);
+            p = rotYW(p, rw * 0.5);
+          }
         }
-        const pr = project(p);
+
+        let pr = project(p);
+        let depth = 1;
+        if (treeStars && treeMix < 0.999 && treeProjectionFrame) {
+          const config = treeProjectionFrame;
+          const depthRange = 1400 * state.scale;
+          depth = Math.max(0.45, Math.min(1.65, 1 - p.z / depthRange));
+          const px = (p.x - config.bounds.centerX) * config.spread;
+          const py = (p.y - config.bounds.centerY) * config.spread;
+          const heroSx = state.width * config.heroCenterRatio + px * config.heroFit * depth;
+          const heroSy = state.height * 0.5 + py * config.heroFit * depth;
+          const heroScale = config.heroFit * depth;
+          pr = {
+            sx: lerp(heroSx, pr.sx, treeMix),
+            sy: lerp(heroSy, pr.sy, treeMix),
+            scale: lerp(heroScale, pr.scale, treeMix),
+          };
+        }
         if (pr.scale < 0.01) return;
+        const twinkle = rmFreeze ? 1 : 0.86 + 0.14 * Math.sin(state.t * 1.3 + star.phase * 1.7);
+        const depthAlpha = treeStars ? Math.max(0.72, Math.min(1.12, depth)) : 1;
         ctx.beginPath();
         ctx.arc(pr.sx, pr.sy, star.size * pr.scale * 1.55, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,255,${(star.alpha * Math.min(pr.scale * 2, 1)).toFixed(2)})`;
+        ctx.fillStyle = `rgba(255,255,255,${(star.alpha * Math.min(pr.scale * 2, 1) * twinkle * depthAlpha).toFixed(2)})`;
         ctx.fill();
       });
+      const skillById = Object.fromEntries(state.skills.map(skill => [skill.id, skill]));
       const edges = [];
-      state.skills.forEach(skill => {
-        if (!xf[skill.id]) return;
-        skill.prerequisites.forEach(pid => {
-          if (!xf[pid]) return;
-          edges.push({ from: pid, to: skill.id, type: skill.type, avgZ: (xf[skill.id].z + xf[pid].z) / 2 });
+      if (state.treeLayout) {
+        state.treeEdges.forEach(edge => {
+          if (!xf[edge.from] || !xf[edge.to]) return;
+          edges.push({ ...edge, avgZ: (xf[edge.to].z + xf[edge.from].z) / 2 });
         });
-      });
+      } else {
+        state.skills.forEach(skill => {
+          if (!xf[skill.id]) return;
+          skill.prerequisites.forEach(pid => {
+            if (!xf[pid]) return;
+            edges.push({ from: pid, to: skill.id, type: skill.type, avgZ: (xf[skill.id].z + xf[pid].z) / 2 });
+          });
+        });
+      }
       edges.sort((a, b) => a.avgZ - b.avgZ);
+      const treeAmount = state.treeLayout ? easeWorldTree(state.viewMix) : 1;
+      const heroCenterValue = state.treeLayout
+        ? parseFloat(getComputedStyle(canvas.parentElement).getPropertyValue('--hero-tree-center-x'))
+        : NaN;
+      const heroCenterRatio = Number.isFinite(heroCenterValue)
+        ? heroCenterValue
+        : (window.matchMedia('(max-width:700px)').matches ? 0.5 : 0.72);
+      const axisX = lerp(state.width * heroCenterRatio, state.width * 0.5, treeAmount);
+      const nodeMeta = state.treeLayout && state.treeLayout.nodeMeta ? state.treeLayout.nodeMeta : {};
+
+      // §2 ghost armature render + §3 structural-edge re-routing. Drawn BEFORE
+      // the real edges/nodes so the synthetic skeleton drapes behind the wood.
+      // Only under the World Tree layout; ghosts are faint and data-free.
+      if (state.treeLayout && state.treeLayout.armature) {
+        const armature = state.treeLayout.armature;
+        const ghostPose = state.treeLayout.ghostPose || {};
+        const structuralRoutes = state.treeLayout.structuralRoutes || {};
+        const gTokens = getCanvasTokens();
+        // Armature reads GOLD in the hero (part of the monochrome silhouette),
+        // fading to a neutral muted mesh as the explorer takes over so the rank
+        // ramp owns the color channel. treeAmount: 0 hero -> 1 explorer.
+        const meshRgb = mixRgb(gTokens.apexGoldRgb, gTokens.mutedRgb, treeAmount);
+        const meshAlpha = lerp(0.22, 0.10, treeAmount);
+
+        // (a) trunk spine — connect consecutive spine waypoints into one column.
+        ctx.lineCap = 'round';
+        const spine = armature.spine || [];
+        if (spine.length > 1) {
+          ctx.beginPath();
+          let started = false;
+          spine.forEach(wp => {
+            const pr = _projectGhost(ghostPose[wp.key], ry, rx, treeMix);
+            if (!pr) return;
+            if (!started) { ctx.moveTo(pr.sx, pr.sy); started = true; }
+            else ctx.lineTo(pr.sx, pr.sy);
+          });
+          ctx.strokeStyle = `rgba(${meshRgb},${(meshAlpha * 1.15).toFixed(2)})`;
+          ctx.lineWidth = lerp(3.2, 2.0, treeAmount) * state.scale;
+          ctx.stroke();
+        }
+        // (b) boughs + roots — each anchor drapes back to its parent waypoint.
+        const limbs = (armature.boughAnchors || []).concat(armature.rootAnchors || []);
+        limbs.forEach(wp => {
+          const parent = wp.parentKey ? ghostPose[wp.parentKey] : null;
+          const pa = _projectGhost(parent, ry, rx, treeMix);
+          const pb = _projectGhost(ghostPose[wp.key], ry, rx, treeMix);
+          if (!pa || !pb) return;
+          ctx.beginPath();
+          ctx.moveTo(pa.sx, pa.sy);
+          ctx.lineTo(pb.sx, pb.sy);
+          ctx.strokeStyle = `rgba(${meshRgb},${(meshAlpha * (wp.level ? 0.6 : 0.85)).toFixed(2)})`;
+          ctx.lineWidth = lerp(2.0, 1.2, treeAmount) * (wp.level ? 0.7 : 1) * state.scale;
+          ctx.stroke();
+        });
+        // (c) reserved taproot stub below the collar (faint — no 6★ today).
+        if (armature.taproot && armature.collarKey) {
+          const pa = _projectGhost(ghostPose[armature.collarKey], ry, rx, treeMix);
+          const pb = _projectGhost(ghostPose[armature.taprootKey], ry, rx, treeMix);
+          if (pa && pb) {
+            ctx.beginPath();
+            ctx.moveTo(pa.sx, pa.sy);
+            ctx.lineTo(pb.sx, pb.sy);
+            ctx.strokeStyle = `rgba(${meshRgb},${(meshAlpha * 0.5).toFixed(2)})`;
+            ctx.lineWidth = lerp(2.6, 1.6, treeAmount) * state.scale;
+            ctx.stroke();
+          }
+        }
+        // (d) unique dark-constellation stems — single-side ghost spires the
+        // unique nodes stand on. Painted from the dark Unique palette, never the
+        // rank ramp (§2.2). Only visible once the explorer opens (treeAmount>0).
+        if (treeAmount > 0.02) {
+          const uniqueRgb = gTokens.tier.unique.rgb;
+          (armature.outsideAnchors || []).forEach(wp => {
+            const pb = _projectGhost(ghostPose[wp.key], ry, rx, treeMix);
+            if (!pb) return;
+            // stem drops from the anchor toward the ground line for a "standing
+            // stone" footing; use the collar y at the same x as a faint base.
+            const base = _projectGhost({ x: wp.x, y: armature.groundY, z: wp.z }, ry, rx, treeMix);
+            if (base) {
+              ctx.beginPath();
+              ctx.moveTo(base.sx, base.sy);
+              ctx.lineTo(pb.sx, pb.sy);
+              ctx.strokeStyle = `rgba(${uniqueRgb},${(0.18 * treeAmount).toFixed(2)})`;
+              ctx.lineWidth = 1.1 * state.scale;
+              ctx.stroke();
+            }
+          });
+        }
+
+        // (e) structural-edge re-routing — draw each structural route as a curve
+        // draping through its ghost waypoints instead of a straight arc. Keyed by
+        // the same edgeKey('src','tgt') form the layout emits. Non-structural
+        // grafts are NOT here; they stay as the faint direct arcs below.
+        Object.keys(structuralRoutes).forEach(key => {
+          const route = structuralRoutes[key];
+          if (!Array.isArray(route) || route.length < 2) return;
+          const pts = route
+            .map(stop => _routeStop(stop, xf, ghostPose, ry, rx, treeMix))
+            .filter(Boolean);
+          if (pts.length < 2) return;
+          // endpoints are real nodes; color by the route target's rank so the
+          // draped wood inherits the rank ramp (matches the node it feeds).
+          const tgtId = route[0] && route[0].kind === 'node' ? route[0].id : null;
+          const tgtSkill = tgtId ? skillById[tgtId] : null;
+          const col = tgtSkill ? _displaySkillColor(tgtSkill) : { rgb: meshRgb };
+          const fromVis = tgtId && state.nodeAlphas[tgtId] !== undefined ? state.nodeAlphas[tgtId] : 1.0;
+          ctx.beginPath();
+          ctx.moveTo(pts[0].sx, pts[0].sy);
+          for (let i = 1; i < pts.length; i += 1) {
+            const prev = pts[i - 1];
+            const cur = pts[i];
+            const midx = (prev.sx + cur.sx) / 2;
+            const midy = (prev.sy + cur.sy) / 2;
+            ctx.quadraticCurveTo(prev.sx, prev.sy, midx, midy);
+            if (i === pts.length - 1) ctx.lineTo(cur.sx, cur.sy);
+          }
+          ctx.strokeStyle = `rgba(${col.rgb},${(lerp(0.30, 0.42, treeAmount) * fromVis).toFixed(2)})`;
+          ctx.lineWidth = lerp(1.5, 1.15, treeAmount) * state.scale;
+          ctx.stroke();
+        });
+      }
+      // Structural edges already drawn as draped routes above are still redrawn
+      // by the direct-arc pass below for hover emphasis; the route is the resting
+      // silhouette, the arc carries neighbor-highlight state.
+      // §8 perf: key set precomputed in setTreeLayout, not rebuilt per frame.
+      const structuralRouteKeys = state.structuralRouteKeys || null;
       edges.forEach(edge => {
         const pa = project(xf[edge.from]), pb = project(xf[edge.to]);
-        const col = PALETTE[edge.type] || PALETTE.basic;
+        const targetSkill = skillById[edge.to] || { type: edge.type || 'basic' };
+        const col = _displaySkillColor(targetSkill);
         const depthAlpha = Math.min(Math.max((xf[edge.to].z + 430 * state.scale) / (860 * state.scale), 0.08), 1);
         const isNeighborEdge = hovering && neighborSet.has(edge.from) && neighborSet.has(edge.to);
         const fromVis = state.nodeAlphas[edge.from] !== undefined ? state.nodeAlphas[edge.from] : 1.0;
         const toVis = state.nodeAlphas[edge.to] !== undefined ? state.nodeAlphas[edge.to] : 1.0;
         const edgeVis = (fromVis + toVis) / 2;
-        const baseEdgeAlpha = isNeighborEdge ? 0.72 : 0.31;
-        ctx.beginPath(); ctx.moveTo(pa.sx, pa.sy); ctx.lineTo(pb.sx, pb.sy);
+        const structural = edge.structural !== false;
+        // A structural edge already draped as a ghost route (drawn above) only
+        // needs a faint direct-arc echo at rest — the route is the resting
+        // silhouette. On neighbor-highlight it flares to full weight.
+        const drapedRoute = structural && structuralRouteKeys
+          && structuralRouteKeys.has(edge.from + '\u0000' + edge.to);
+        const structuralArcScale = (drapedRoute && !isNeighborEdge) ? 0.35 : 1;
+        const baseEdgeAlpha = (isNeighborEdge
+          ? 0.78
+          : (structural ? lerp(0.62, 0.40, treeAmount) : lerp(0.07, 0.12, treeAmount))) * structuralArcScale;
+        const branchCurve = lerp(1, 0.42, treeAmount);
+        const middleY = (pa.sy + pb.sy) / 2;
+        const fromZone = nodeMeta[edge.from] && nodeMeta[edge.from].zone;
+        const toZone = nodeMeta[edge.to] && nodeMeta[edge.to].zone;
+        const trunkEdge = fromZone === 'root' && toZone === 'crown';
+        const axisPull = structural ? (trunkEdge ? 0.34 : 0.15) : 0.02;
+        ctx.beginPath();
+        ctx.moveTo(pa.sx, pa.sy);
+        if (branchCurve > 0.001) {
+          ctx.bezierCurveTo(
+            lerp(pa.sx, axisX, axisPull * branchCurve),
+            pa.sy + (middleY - pa.sy) * branchCurve * 0.68,
+            lerp(pb.sx, axisX, axisPull * branchCurve * 0.34),
+            pb.sy + (middleY - pb.sy) * branchCurve * 0.60,
+            pb.sx,
+            pb.sy
+          );
+        } else {
+          ctx.lineTo(pb.sx, pb.sy);
+        }
         ctx.strokeStyle = `rgba(${col.rgb},${(depthAlpha * baseEdgeAlpha * edgeVis).toFixed(2)})`;
         // Line weights locked per DESIGN.md ▸ Graph Canvas. See
         // LINE_WEIGHTS at the top of this file.
         const lw = isNeighborEdge ? LINE_WEIGHTS.highlighted : LINE_WEIGHTS.default;
-        ctx.lineWidth = edge.type === 'ultimate' ? lw.ultimate : lw.other;
+        // §PR3b: capstone (suite-branch) edges get the heavier weight — keyed on
+        // the target's resolved branch, not the dead 'ultimate' type.
+        const edgeWidth = edge.branch === 'suite' ? lw.ultimate : lw.other;
+        const structuralWidth = trunkEdge ? 1.34 : 1.16;
+        ctx.lineWidth = isNeighborEdge ? edgeWidth : edgeWidth * (structural ? structuralWidth : 0.58);
         ctx.stroke();
       });
       const nodes = state.skills.map(skill => ({ skill, z: xf[skill.id] ? xf[skill.id].z : -9999 })).sort((a, b) => a.z - b.z);
@@ -998,28 +1821,64 @@
         // Hyperspace Perspective: Two-stage projection with W-depth fog
         const depthAlpha = Math.min(1, Math.max(0.18, (pr.z / 650 + 1) * (pr.w / 600 + 1)));
 
-        let col;
-        if (state.colorMode === 'cluster' && skill.cluster !== undefined) {
-          const hex = _readVar('--cluster-' + (skill.cluster % 8)) || '#888888';
-          const r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
-          col = { rgb: `${r},${g},${b}`, hex };
-        } else {
-          col = PALETTE[skill.type] || PALETTE.basic;
-        }
+        const col = _displaySkillColor(skill);
 
         const isPinned = state.pinnedId === skill.id;
         const isHovered = state.hoveredId === skill.id;
-        const baseR = NODE_RADII.get(skill.level, skill.type);
+        // §6 radius-by-rank: under the World Tree layout, size reads from the
+        // joined effective rank; the legacy 3D graph keeps the level-glyph path.
+        const baseR = state.treeLayout
+          ? NODE_RADII.get(skill.effectiveRank, skill.branch)
+          : NODE_RADII.get(skill.level, skill.branch);
         const pulse = 0.84 + 0.16 * Math.sin(state.t * 2.2 + p.phase);
 
-        if (skill.level === '6★') {
-          drawNodeVI(pr.sx, pr.sy, baseR * state.scale * pr.scale * pulse, depthAlpha * vis, state.t, p);
-        } else if (skill.type === 'unique') {
-          drawNodeUnique(pr.sx, pr.sy, baseR * state.scale * pr.scale * pulse, depthAlpha * vis, state.t, p);
-        } else if (state.redPillActive && state.namedMap && state.namedMap[skill.id]) {
+        const specialMix = state.treeLayout ? easeWorldTree(state.viewMix) : 1;
+        const nodeRadius = baseR * state.scale * pr.scale * pulse;
+        // §Ygg-II hot-tier dispatch. PRECEDENCE — BRANCH WINS OVER RANK: a
+        // 'unique'-branch node stays a black-hole singularity at EVERY rank
+        // (4/5/6), never a hot star. Rationale: 'unique' is a STRUCTURAL
+        // identity (the singularity constellation), and this file's convention
+        // is rank=colour / branch=structure (see the tooltip: branch drives the
+        // type-class, effectiveRank drives colour). drawNodeUnique already
+        // rank-forks the singularity 4→5→6 internally, so a unique's escalation
+        // reads as a DENSER black hole, not a switch into the hot-star family.
+        // All 10 live unique nodes are 4★ today; ordering unique BEFORE the rank
+        // tiers also future-proofs any 5★/6★ unique (previously the level==='6★'
+        // check ran first and would have mis-rendered a 6★ unique as a pulsar).
+        // Hot tiers are keyed on effectiveRank (the joined numeric rank the tree
+        // layout already sizes by), ascending in intensity 4<5<6: dwarf → sun →
+        // pulsar.
+        const eRank = skill.effectiveRank;
+        const _tok = getCanvasTokens();
+        const apexGoldRgb = _tok.apexGoldRgb;
+        // §Ygg-II hot-tier sizing (Marco): the star tiers carry the same visual
+        // WEIGHT as the Unique-branch singularities rather than the plain
+        // standard-node radius. NODE_RADII floors a unique to rank 5 (r≈8);
+        // a ×1.3 lift brings the 4★ dwarf up to that footprint while keeping
+        // the intensity/size ladder strictly ascending 4<5<6.
+        const hotR = nodeRadius * 1.3;
+        // §Ygg-II PR 3c: a user's OWN custom/uncanonized skill is GREEN-STARLESS
+        // — it must always land in the plain drawNode branch (which honors `col`,
+        // the green from _displaySkillColor), never a hot-tier / unique fork that
+        // computes its own color and would silently discard the green. Guarding
+        // each fork with `!skill.custom` keeps a custom node starless even in the
+        // edge case where the CLI stamps `custom` onto a node carrying a rank.
+        if (skill.branch === 'unique' && !skill.custom && specialMix > 0) {
+          if (specialMix < 1) drawNode(pr.sx, pr.sy, nodeRadius, { rgb: apexGoldRgb }, depthAlpha * vis * (1 - specialMix));
+          drawNodeUnique(pr.sx, pr.sy, nodeRadius, depthAlpha * vis * specialMix, state.t, p, skill.effectiveRank);
+        } else if (eRank >= 6 && !skill.custom && specialMix > 0) {
+          if (specialMix < 1) drawNode(pr.sx, pr.sy, nodeRadius, { rgb: apexGoldRgb }, depthAlpha * vis * (1 - specialMix));
+          drawNodeVI(pr.sx, pr.sy, hotR, depthAlpha * vis * specialMix, state.t, p);
+        } else if (eRank === 5 && !skill.custom && specialMix > 0) {
+          if (specialMix < 1) drawNode(pr.sx, pr.sy, nodeRadius, { rgb: apexGoldRgb }, depthAlpha * vis * (1 - specialMix));
+          drawNodeV(pr.sx, pr.sy, hotR, depthAlpha * vis * specialMix, state.t, p);
+        } else if (eRank === 4 && !skill.custom && specialMix > 0) {
+          if (specialMix < 1) drawNode(pr.sx, pr.sy, nodeRadius, { rgb: _tok.rank[4].rgb }, depthAlpha * vis * (1 - specialMix));
+          drawNodeIV(pr.sx, pr.sy, hotR, depthAlpha * vis * specialMix, state.t, p);
+        } else if (state.redPillActive && !skill.custom && state.namedMap && state.namedMap[skill.id] && specialMix > 0.98) {
           drawNodeNamed(pr.sx, pr.sy, baseR * state.scale * pr.scale * pulse, depthAlpha * vis);
         } else {
-          drawNode(pr.sx, pr.sy, baseR * state.scale * pr.scale * pulse, col, depthAlpha * vis);
+          drawNode(pr.sx, pr.sy, nodeRadius, col, depthAlpha * vis);
         }
 
         const rankVal = parseInt(skill.level, 10) || 0;
@@ -1044,14 +1903,22 @@
           ? tokens.honorRedRgb
           : ((PALETTE[skill.type] || PALETTE.basic).rgb));
 
-        // Registry-3d aesthetic: Use mono font at reduced size for non-highlighted labels
-        const size = highlighted ? (skill.type === 'ultimate' ? 13 : 10) : 9;
-        let role = (highlighted || isNamedHover || state.labelMode === 'all') 
-          ? (skill.type === 'ultimate' ? 'display' : 'handle') 
+        // Registry-3d aesthetic: mono font at reduced size for non-highlighted
+        // labels. §PR3b: the display treatment keys on the suite (capstone)
+        // branch, not the dead 'ultimate' type.
+        const _isCapstone = skill.branch === 'suite';
+        const size = highlighted ? (_isCapstone ? 13 : 10) : 9;
+        let role = (highlighted || isNamedHover || state.labelMode === 'all')
+          ? (_isCapstone ? 'display' : 'handle')
           : 'handle';
 
         ctx.font = canvasFont(role, size * pr.scale * 1.16);
-        const namedId = (state.redPillActive && state.namedMap && state.namedMap[skill.id]) ? state.namedMap[skill.id] : null;
+        // §Ygg-II PR 3c: a user's OWN custom node keeps its GREEN label — never
+        // the named-handle (honor-red / rank-color) override. Skipping the
+        // namedId branch here routes a custom node to the centered label path
+        // below, which paints with `colRgb` (the green forwarded from the draw
+        // loop). Canon named nodes (no `custom` flag) are unaffected.
+        const namedId = (!skill.custom && state.redPillActive && state.namedMap && state.namedMap[skill.id]) ? state.namedMap[skill.id] : null;
         if (namedId) {
           const parts = namedId.split('/');
           if (parts.length === 2) {
@@ -1063,7 +1930,10 @@
             ctx.textAlign = 'left';
             const w1 = ctx.measureText(handleTxt).width;
             const w2 = ctx.measureText(slashTxt).width;
-            const badgeW = isOrigin ? 20 * pr.scale : 0;
+            // E4 (rubric): the origin mark is a gold ★ glyph, NOT the deprecated
+            // stroked laurel icon. Matches docs/named/report.html "★ origin".
+            const originTxt = isOrigin ? '  ★' : '';
+            const badgeW = isOrigin ? ctx.measureText(originTxt).width : 0;
             const totalW = w1 + w2 + badgeW;
             const startX = pr.sx - totalW / 2;
             // Redacted handle renders slate, never honor-red.
@@ -1077,16 +1947,9 @@
             ctx.fillText(slashTxt, startX + w1, pr.sy + 18 * pr.scale);
             ctx.globalAlpha = 1.0;
             if (isOrigin) {
-              ctx.save();
-              ctx.translate(startX + w1 + w2 + 10 * pr.scale, pr.sy + 18 * pr.scale);
-              ctx.scale(0.75 * pr.scale, 0.75 * pr.scale);
-              ctx.translate(-12, -12);
-              ctx.lineWidth = 1.5;
-              ctx.lineCap = 'round';
-              ctx.lineJoin = 'round';
-              ctx.strokeStyle = `rgba(${tokens.apexGoldRgb}, ${labelAlpha.toFixed(2)})`;
-              ORIGIN_PATHS.forEach(p => ctx.stroke(p));
-              ctx.restore();
+              // Gold ★ text mark (E4: red→gold, no laurel icon).
+              ctx.fillStyle = `rgba(${tokens.apexGoldRgb},${labelAlpha.toFixed(2)})`;
+              ctx.fillText(originTxt, startX + w1 + w2, pr.sy + 18 * pr.scale);
             }
             return;
           }
@@ -1129,19 +1992,24 @@
 
       // Final pass: redraw unique void cores on top of everything (labels, other effects)
       nodes.forEach(({ skill }) => {
-        if (skill.type !== 'unique') return;
+        if (skill.branch !== 'unique') return;
+        const specialMix = state.treeLayout ? easeWorldTree(state.viewMix) : 1;
+        if (specialMix <= 0) return;
         const p = xf[skill.id]; if (!p) return;
         const pr = project(p);
         if (pr.scale <= 0) return;
         const pulse = 0.84 + 0.16 * Math.sin(state.t * 2.2 + p.phase);
         const baseR = NODE_RADII.unique;
         const r = baseR * state.scale * pr.scale * pulse;
+        ctx.save();
+        ctx.globalAlpha = specialMix;
         ctx.beginPath(); ctx.arc(pr.sx, pr.sy, r * 1.05, 0, Math.PI * 2);
         ctx.fillStyle = '#000';
         ctx.fill();
         ctx.beginPath(); ctx.arc(pr.sx, pr.sy, r * 1.05, 0, Math.PI * 2);
         ctx.strokeStyle = `rgba(${getCanvasTokens().tier.unique.rgb},0.5)`;
         ctx.lineWidth = r * 0.15; ctx.stroke();
+        ctx.restore();
       });
       if (_opts.hoverable && state.tooltipEl) {
         const displayId = state.pinnedId || state.hoveredId;
@@ -1150,14 +2018,26 @@
           if (displayId !== state.lastHoveredId) {
             const skill = state.skills.find(s => s.id === displayId);
             const col = PALETTE[skill.type] || PALETTE.basic;
-            const typeClass = `skill-tooltip-type-${skill.type}`;
+            // §PR3b: tooltip color class keys on the resolved BRANCH, not type.
+            const typeClass = `skill-tooltip-type-${skill.branch || 'standard'}`;
             const rm = skill.level ? RANK_META[skill.level] : null;
-            
+            // §6.1 hover card two channels under the World Tree layout: rank
+            // (color) + structural class (glyph). glyph comes from the frozen
+            // resolveSemantics contract (nodeMeta[id].glyph, itself the emitted
+            // medallion); fall back to the medallion authority for the legacy 3D
+            // graph. Name color reads the rank ramp under the tree.
+            const _tlMeta = (state.treeLayout && state.treeLayout.nodeMeta
+              && state.treeLayout.nodeMeta[skill.id]) || null;
+            const _authGlyph = (window.GaiaSemantics && typeof window.GaiaSemantics.medallionOf === 'function')
+              ? window.GaiaSemantics.medallionOf(skill) : '';
+            const structGlyph = (_tlMeta && _tlMeta.glyph) || _authGlyph || '○';
+            const nameRgb = state.treeLayout ? _rankColorRgb(skill.effectiveRank) : col.rgb;
+
             state.tooltipEl.textContent = '';
-            
+
             const nameDiv = document.createElement('div');
             nameDiv.className = 'skill-tooltip-name';
-            nameDiv.style.color = `rgba(${col.rgb},1)`;
+            nameDiv.style.color = `rgba(${nameRgb},1)`;
             nameDiv.textContent = skill.name;
             state.tooltipEl.appendChild(nameDiv);
 
@@ -1205,10 +2085,25 @@
             
             const badgeSpan = document.createElement('span');
             badgeSpan.className = `skill-tooltip-badge ${typeClass}`;
-            badgeSpan.textContent = skill.type.toUpperCase();
+            // Lead with the structural-class glyph (§6 glyph channel), then the
+            // type label. Suite reads "SUITE", fusion covers extra/fusion.
+            const _typeLabel = { basic: 'BASIC', extra: 'FUSION', ultimate: 'SUITE', unique: 'UNIQUE' }[skill.type] || skill.type.toUpperCase();
+            badgeSpan.textContent = structGlyph + ' ' + _typeLabel;
             rowDiv.appendChild(badgeSpan);
 
-            if (rm) {
+            // Rank color channel: a pill tinted from the rank ramp so the hover
+            // card echoes the node's color = rank encoding, even for starless
+            // nodes (0–1★ → grey bark).
+            if (state.treeLayout) {
+              const rankPill = document.createElement('span');
+              const _rr = _rankColorRgb(skill.effectiveRank);
+              const _rn = Math.max(0, Math.round(Number(skill.effectiveRank) || 0));
+              rankPill.style.cssText = `display:inline-block;padding:.12rem .42rem;border-radius:999px;font-size:.62rem;font-weight:700;background:rgba(${_rr},.16);color:rgb(${_rr})`;
+              rankPill.textContent = _rn >= 2 ? _rn + '★' : '0–1★';
+              rowDiv.appendChild(rankPill);
+            }
+
+            if (rm && !state.treeLayout) {
               const rankSpan = document.createElement('span');
               rankSpan.style.cssText = `display:inline-block;padding:.12rem .42rem;border-radius:999px;font-size:.62rem;font-weight:700;background:${rm.bg};color:${rm.hex}`;
               rankSpan.textContent = skill.level;
@@ -1274,22 +2169,25 @@
       }
       // ── Neighbor mini-cards when pinned ──
       if (_opts.hoverable && state.neighborCardsEl) {
-        if (state.pinnedId && neighborSet.size > 1) {
-          const neighbors = [...neighborSet].filter(id => id !== state.pinnedId);
+        if (state.pinnedId && directNeighborSet.size > 1) {
+          const neighbors = [...directNeighborSet].filter(id => id !== state.pinnedId);
           if (state._neighborIds !== neighbors.join(',')) {
             state._neighborIds = neighbors.join(',');
             state.neighborCardsEl.textContent = '';
             neighbors.forEach(nid => {
               const ns = state.skills.find(s => s.id === nid);
               if (!ns) return;
-              const col = PALETTE[ns.type] || PALETTE.basic;
               const card = document.createElement('div');
               card.className = 'graph-neighbor-card';
               card.dataset.nid = nid;
-              card.dataset.type = ns.type || 'basic';
-              
+              // §PR3b-consistent: branch drives the structural border class,
+              // rank drives the name color — mirrors the tooltip above, not
+              // the dead type enum (PALETTE has no 'fusion' entry, so keying
+              // on ns.type silently mis-colored fusion neighbors as basic).
+              card.dataset.branch = ns.branch || 'standard';
+
               const span = document.createElement('span');
-              span.style.color = `rgba(${col.rgb},.9)`;
+              span.style.color = `rgba(${_rankColorRgb(ns.effectiveRank)},.9)`;
               span.textContent = ns.name;
               card.appendChild(span);
               
@@ -1327,16 +2225,66 @@
       state.frame = requestAnimationFrame(draw);
     }
 
+    // ── VISIBILITY-GATED RENDER LOOP ────────────────────────────
+    // draw() recurses through requestAnimationFrame forever. Without a
+    // gate it burns GPU/CPU even when the canvas is scrolled out of view
+    // or the tab is backgrounded. wantRunning holds the caller's intent;
+    // inView and document.hidden decide whether that intent is honoured
+    // right now. Every transition cancels the pending frame so nothing
+    // stays queued across a pause.
+    function _docHidden() {
+      return typeof document !== 'undefined' && document.hidden === true;
+    }
+
+    function _shouldAnimate() {
+      return state.wantRunning && state.inView && !_docHidden();
+    }
+
+    function _syncRunning() {
+      const should = _shouldAnimate();
+      if (should === state.running) return;
+      if (should) {
+        state.running = true;
+        state.lastDrawAt = 0;   // drop stale frame timing across the pause
+        draw();
+      } else {
+        state.running = false;
+        if (state.frame) cancelAnimationFrame(state.frame);
+        state.frame = null;
+      }
+    }
+
     function start() {
-      if (state.running) return;
-      state.running = true;
-      draw();
+      state.wantRunning = true;
+      _syncRunning();
     }
 
     function stop() {
-      state.running = false;
-      if (state.frame) cancelAnimationFrame(state.frame);
-      state.frame = null;
+      state.wantRunning = false;
+      _syncRunning();
+    }
+
+    // Pause while the canvas is outside the viewport. rootMargin resumes
+    // the loop just before it scrolls back in, so there is no visible
+    // cold-start. Guarded: a missing/throwing IntersectionObserver leaves
+    // inView at its default true and the loop behaves exactly as before.
+    if (canvas && typeof IntersectionObserver === 'function') {
+      try {
+        const _visibilityObserver = new IntersectionObserver(function (entries) {
+          const entry = entries && entries[entries.length - 1];
+          if (!entry) return;
+          state.inView = !!entry.isIntersecting;
+          _syncRunning();
+        }, { rootMargin: '200px' });
+        _visibilityObserver.observe(canvas);
+      } catch (err) {
+        state.inView = true;
+      }
+    }
+
+    // Pause while the tab is backgrounded.
+    if (typeof document !== 'undefined' && document.addEventListener) {
+      document.addEventListener('visibilitychange', function () { _syncRunning(); });
     }
 
     resize();
@@ -1364,7 +2312,7 @@
       skillPanel.addEventListener('mousedown', e => e.stopPropagation());
 
       const collectionPanel = document.createElement('div');
-      collectionPanel.className = 'graph-collection-panel';
+      collectionPanel.className = 'graph-collection-panel graph-collection-panel--responsive';
       collectionPanel.setAttribute('data-interactive-chrome', '');
       collectionPanel.style.display = 'none';
       // Floating window: position it at top left by default
@@ -1404,6 +2352,7 @@
       const collHeader = collectionPanel.querySelector('.graph-collection-header');
       let collDragging = false, collOffsetX = 0, collOffsetY = 0;
       collHeader.addEventListener('mousedown', e => {
+        if (window.matchMedia('(max-width:700px)').matches) return;
         collDragging = true;
         const rect = collectionPanel.getBoundingClientRect();
         collOffsetX = e.clientX - rect.left;
@@ -1430,16 +2379,22 @@
 
       const minimizeBtn = collectionPanel.querySelector('.graph-collection-minimize');
       if (minimizeBtn) {
+        const syncCollectionMinimize = () => {
+          const minimized = collectionPanel.classList.contains('minimized');
+          minimizeBtn.innerHTML = minimized
+            ? `<svg class="gst-btn-ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="3" x2="8" y2="13" /><line x1="3" y1="8" x2="13" y2="8" /></svg>`
+            : `<svg class="gst-btn-ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="8" x2="13" y2="8" /></svg>`;
+          minimizeBtn.title = minimized ? 'Maximize panel' : 'Minimize panel';
+          minimizeBtn.setAttribute('aria-label', minimizeBtn.title);
+        };
         minimizeBtn.addEventListener('click', () => {
           collectionPanel.classList.toggle('minimized');
-          if (collectionPanel.classList.contains('minimized')) {
-            minimizeBtn.innerHTML = `<svg class="gst-btn-ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="8" y1="3" x2="8" y2="13" /><line x1="3" y1="8" x2="13" y2="8" /></svg>`;
-            minimizeBtn.title = 'Maximize panel';
-          } else {
-            minimizeBtn.innerHTML = `<svg class="gst-btn-ico" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="8" x2="13" y2="8" /></svg>`;
-            minimizeBtn.title = 'Minimize panel';
-          }
+          syncCollectionMinimize();
         });
+        if (window.matchMedia('(max-width:700px)').matches) {
+          collectionPanel.classList.add('minimized');
+          syncCollectionMinimize();
+        }
       }
 
       const clearBtn = collectionPanel.querySelector('.graph-collection-clear-all');
@@ -1478,11 +2433,9 @@
             `Your collection is empty.<br>Add skills via tooltips.` +
             `</div>` +
             `</div>`;
-          if (window.matchMedia('(max-width:700px)').matches) return;
           collectionPanel.style.display = 'flex';
           return;
         }
-        if (window.matchMedia('(max-width:700px)').matches) return;
         collectionPanel.style.display = 'flex';
         let html = '';
         // Collection cards render as .plaque--mini per Stage 3. Each
@@ -1653,6 +2606,17 @@
       searchInput.placeholder = '/skill · @handle · text';
       searchInput.title = 'Type /name to filter skills, @handle for contributors, or any text to search names + descriptions.';
       searchInput.setAttribute('aria-label', 'Filter skill graph: prefix with / for skill, @ for handle');
+      searchInput.setAttribute('autocomplete', 'off');
+      searchInput.setAttribute('autocorrect', 'off');
+      searchInput.setAttribute('autocapitalize', 'off');
+      searchInput.setAttribute('spellcheck', 'false');
+      // datalist for name autocomplete — populated once skills load
+      const searchDatalist = document.createElement('datalist');
+      const searchDatalistId = 'graph-search-datalist-' + Math.random().toString(36).slice(2);
+      searchDatalist.id = searchDatalistId;
+      document.body.appendChild(searchDatalist);
+      searchInput.setAttribute('list', searchDatalistId);
+      state.searchDatalist = searchDatalist;
       searchInput.addEventListener('input', () => { state.searchText = searchInput.value.trim(); });
       searchInput.addEventListener('mousedown', e => e.stopPropagation());
       searchWrap.appendChild(searchInput);
@@ -1720,6 +2684,13 @@
       // so all four tier hues and six rank hues come from --tier-* /
       // --rank-*. Sizes (7/10/12/14 px) still drive node-size hierarchy
       // and stay inline for clarity.
+      // §6.1 legend flip. Under the World Tree re-axis, COLOR = rank and GLYPH =
+      // structural class. The legend leads with the rank ramp (the color key) and
+      // demotes type to a small glyph key (○ basic · ◇ fusion · ◉ unique · ◆
+      // suite). The rank pills still carry their --rank-N swatch via data-rank;
+      // the structure items still filter by skill.type via data-legend-type but
+      // now show the glyph instead of a color swatch. Grey 0-1★ bark is shown as
+      // a non-interactive ramp anchor (no clean per-node level string to filter).
       const legend = document.createElement('div');
       legend.className = 'graph-legend minimized';
       legend.setAttribute('data-interactive-chrome', '');
@@ -1731,20 +2702,26 @@
         '</button>' +
         '<div class="graph-legend-content">' +
         '<div class="graph-legend-body">' +
-        '<div class="graph-legend-section"><div class="graph-legend-heading">Type</div>' +
-        '<div class="graph-legend-item" data-legend-type="basic"><span class="graph-legend-swatch" data-tier="basic" style="width:7px;height:7px"></span>Basic</div>' +
-        '<div class="graph-legend-item" data-legend-type="extra"><span class="graph-legend-swatch" data-tier="extra" style="width:10px;height:10px"></span>Extra</div>' +
-        '<div class="graph-legend-item" data-legend-type="unique"><span class="graph-legend-swatch" data-tier="unique" style="width:12px;height:12px"></span>Unique</div>' +
-        '<div class="graph-legend-item" data-legend-type="ultimate"><span class="graph-legend-swatch" data-tier="ultimate" style="width:14px;height:14px"></span>Ultimate</div>' +
-        '</div><div class="graph-legend-section"><div class="graph-legend-heading">Rank</div>' +
+        '<div class="graph-legend-section"><div class="graph-legend-heading">Rank <span class="graph-legend-subhead">= color</span></div>' +
         '<div class="graph-legend-ranks">' +
-        '<span class="graph-legend-rank-pill" data-legend-rank="1★" data-rank="1">1★</span>' +
+        '<span class="graph-legend-rank-pill graph-legend-rank-anchor" data-rank="0" title="0–1★ / unranked — outer bark, grey">0–1★</span>' +
         '<span class="graph-legend-rank-pill" data-legend-rank="2★" data-rank="2">2★</span>' +
         '<span class="graph-legend-rank-pill" data-legend-rank="3★" data-rank="3">3★</span>' +
         '<span class="graph-legend-rank-pill" data-legend-rank="4★" data-rank="4">4★</span>' +
         '<span class="graph-legend-rank-pill" data-legend-rank="5★" data-rank="5">5★</span>' +
         '<span class="graph-legend-rank-pill" data-legend-rank="6★" data-rank="6">6★</span>' +
         '</div></div>' +
+        '<div class="graph-legend-section"><div class="graph-legend-heading">Structure <span class="graph-legend-subhead">= glyph</span></div>' +
+        // Structure filters key on the raw structural `type` (basic/fusion);
+        // membership filters key on the emitted `branch` (unique/suite) — the
+        // Ygg-II authority field. data-legend-field names which axis each item
+        // filters so the predicate reads the right node property (no dead
+        // Ygg-I enum words like extra/ultimate that no node carries anymore).
+        '<div class="graph-legend-item" data-legend-field="type" data-legend-type="basic"><span class="graph-legend-glyph" aria-hidden="true">○</span>Basic</div>' +
+        '<div class="graph-legend-item" data-legend-field="type" data-legend-type="fusion"><span class="graph-legend-glyph" aria-hidden="true">◇</span>Fusion</div>' +
+        '<div class="graph-legend-item" data-legend-field="branch" data-legend-type="unique"><span class="graph-legend-glyph" aria-hidden="true">◉</span>Unique</div>' +
+        '<div class="graph-legend-item" data-legend-field="branch" data-legend-type="suite"><span class="graph-legend-glyph" aria-hidden="true">◆</span>Suite</div>' +
+        '</div>' +
         '<div class="graph-legend-section"><div class="graph-legend-heading">View</div>' +
         '<div class="graph-legend-item" data-legend-clusters><span class="graph-legend-swatch" style="width:12px;height:12px;background:var(--honor-red);border-radius:2px"></span>Clusters</div>' +
 
@@ -1762,16 +2739,20 @@
         });
       }
       legend.querySelectorAll('.graph-legend-item[data-legend-type]').forEach(item => {
-        item.addEventListener('mouseenter', () => { state.legendHoverType = item.dataset.legendType; });
-        item.addEventListener('mouseleave', () => { state.legendHoverType = null; });
+        item.addEventListener('mouseenter', () => { state.legendHoverType = item.dataset.legendType; state.legendHoverField = item.dataset.legendField || 'type'; });
+        item.addEventListener('mouseleave', () => { state.legendHoverType = null; state.legendHoverField = null; });
         item.addEventListener('click', () => {
           const val = state.legendFilterType === item.dataset.legendType ? null : item.dataset.legendType;
           state.legendFilterType = val;
+          state.legendFilterField = val ? (item.dataset.legendField || 'type') : null;
           legend.querySelectorAll('[data-legend-type]').forEach(el => el.classList.remove('active'));
           if (val) item.classList.add('active');
         });
       });
       legend.querySelectorAll('.graph-legend-rank-pill').forEach(pill => {
+        // The 0–1★ ramp anchor is a legend key only (no clean per-node level
+        // string to filter on), so skip wiring hover/click for it.
+        if (!pill.dataset.legendRank) return;
         pill.addEventListener('mouseenter', () => { state.legendHoverRank = pill.dataset.legendRank; });
         pill.addEventListener('mouseleave', () => { state.legendHoverRank = null; });
         pill.addEventListener('click', () => {
@@ -1812,7 +2793,7 @@
       scatterBot.textContent = '−';
       const scatterTitle = document.createElement('div');
       scatterTitle.className = 'graph-scatter-title';
-      scatterTitle.textContent = Math.round(state.scale / (options.scale || GRAPH_SCALE) * 100) + '%';
+      scatterTitle.textContent = Math.round((state.treeLayout ? state.treeSpread : state.scale / (options.scale || GRAPH_SCALE)) * 100) + '%';
       scatterStrip.appendChild(scatterTop);
       scatterStrip.appendChild(scatterTrackWrap);
       scatterStrip.appendChild(scatterBot);
@@ -1825,9 +2806,10 @@
       scatterStrip.appendChild(scatterCaption);
 
       function redrawScatterRuler() {
-        const logVal = Math.log(state.scale);
+        const density = state.treeLayout ? state.treeSpread : state.scale;
+        const logVal = Math.log(density);
         drawRuler(scatterRulerCanvas, logVal, { vertical: true, pxPerUnit: 42, minorStep: 0.1, majorEvery: 5 });
-        const pct = Math.round(state.scale / (options.scale || GRAPH_SCALE) * 100);
+        const pct = Math.round((state.treeLayout ? state.treeSpread : state.scale / (options.scale || GRAPH_SCALE)) * 100);
         scatterTitle.textContent = pct + '%';
         scatterStrip.setAttribute('aria-valuetext', 'Density ' + pct + ' percent');
       }
@@ -1844,8 +2826,12 @@
         if (!scatterDragging) return;
         const dy = scatterLastY - e.clientY;
         scatterLastY = e.clientY;
-        state.scale = Math.max(0.05, Math.min((options.scale || GRAPH_SCALE) * 10, state.scale * Math.exp(dy * 0.007)));
-        state.positions = buildPositions(state.skills, state.scale);
+        if (state.treeLayout) {
+          state.treeSpread = Math.max(1, Math.min(4, state.treeSpread * Math.exp(dy * 0.007)));
+        } else {
+          state.scale = Math.max(0.05, Math.min((options.scale || GRAPH_SCALE) * 10, state.scale * Math.exp(dy * 0.007)));
+          state.positions = buildPositions(state.skills, state.scale, state.layoutMode);
+        }
         redrawScatterRuler();
       });
       scatterStrip.addEventListener('pointerup', e => {
@@ -1865,8 +2851,12 @@
         else if (e.key === 'PageDown') factor = Math.exp(-0.20);
         if (!factor) return;
         e.preventDefault();
-        state.scale = Math.max(0.05, Math.min((options.scale || GRAPH_SCALE) * 10, state.scale * factor));
-        state.positions = buildPositions(state.skills, state.scale);
+        if (state.treeLayout) {
+          state.treeSpread = Math.max(1, Math.min(4, state.treeSpread * factor));
+        } else {
+          state.scale = Math.max(0.05, Math.min((options.scale || GRAPH_SCALE) * 10, state.scale * factor));
+          state.positions = buildPositions(state.skills, state.scale, state.layoutMode);
+        }
         redrawScatterRuler();
       });
       canvas.parentElement.appendChild(scatterStrip);
@@ -2029,6 +3019,17 @@
     let _lastRect = null;
     window.addEventListener('resize', () => { _lastRect = null; });
     window.addEventListener('scroll', () => { _lastRect = null; }, { passive: true });
+    function _pickNode(clientX, clientY) {
+      if (!_lastRect) _lastRect = canvas.getBoundingClientRect();
+      const mx = clientX - _lastRect.left;
+      const my = clientY - _lastRect.top;
+      let closest = null, closestDist = 24;
+      Object.entries(state.projectedNodes).forEach(([id, pr]) => {
+        const d = Math.hypot(pr.sx - mx, pr.sy - my);
+        if (d < closestDist) { closestDist = d; closest = id; }
+      });
+      return closest;
+    }
     pointerTarget.addEventListener('mousemove', event => {
       if (!_lastRect) _lastRect = canvas.getBoundingClientRect();
       const rect = _lastRect;
@@ -2048,13 +3049,7 @@
         state.mx = ((event.clientX - rect.left) / Math.max(rect.width, 1) - 0.5) * 2;
         state.my = ((event.clientY - rect.top) / Math.max(rect.height, 1) - 0.5) * 2;
         if (_opts.hoverable) {
-          const mx = event.clientX - rect.left;
-          const my = event.clientY - rect.top;
-          let closest = null, closestDist = 22;
-          Object.entries(state.projectedNodes).forEach(([id, pr]) => {
-            const d = Math.hypot(pr.sx - mx, pr.sy - my);
-            if (d < closestDist) { closestDist = d; closest = id; }
-          });
+          const closest = _pickNode(event.clientX, event.clientY);
           state.hoveredId = closest;
           canvas.style.cursor = closest ? 'pointer' : (_opts.draggable ? 'grab' : 'default');
         }
@@ -2065,6 +3060,34 @@
     // inside the handler so they're live.
     canvas.addEventListener('mouseleave', () => { if (!state.dragging && !state.pinnedId) state.hoveredId = null; });
     canvas.addEventListener('contextmenu', e => { if (_opts.draggable) e.preventDefault(); });
+    canvas.addEventListener('focus', () => {
+      if (!_opts.draggable) return;
+      canvas.style.outline = '2px solid var(--apex-gold)';
+      canvas.style.outlineOffset = '-4px';
+    });
+    canvas.addEventListener('blur', () => {
+      canvas.style.outline = '';
+      canvas.style.outlineOffset = '';
+    });
+    canvas.addEventListener('keydown', e => {
+      if (!_opts.draggable) return;
+      let handled = true;
+      if (e.key === 'ArrowLeft') state.orbitY -= 0.09;
+      else if (e.key === 'ArrowRight') state.orbitY += 0.09;
+      else if (e.key === 'ArrowUp') state.orbitX -= 0.09;
+      else if (e.key === 'ArrowDown') state.orbitX += 0.09;
+      else if (e.key === '+' || e.key === '=' || e.code === 'NumpadAdd') state.zoom = Math.min(3, state.zoom * 1.12);
+      else if (e.key === '-' || e.key === '_' || e.code === 'NumpadSubtract') state.zoom = Math.max(0.3, state.zoom / 1.12);
+      else if (e.key === 'Enter' && state.hoveredId) {
+        state.pinnedId = state.hoveredId;
+        state.pinnedPos = null;
+        state.lastHoveredId = null;
+      } else handled = false;
+      if (!handled) return;
+      e.preventDefault();
+      e.stopPropagation();
+      if (state.zoomCounterEl) state.zoomCounterEl.textContent = state.zoom.toFixed(1) + '×';
+    });
     canvas.addEventListener('mousedown', e => {
       if (!_opts.draggable) return;
       if (e.button === 2) return;
@@ -2120,7 +3143,7 @@
       if (!_opts.draggable) return;
       if (e.touches.length === 1) {
         state.dragging = true;
-        state.dragMode = 'pan';
+        state._activeDragMode = state.dragMode || 'orbit';
         state.dragMoved = false;
         state.dragStartX = e.touches[0].clientX;
         state.dragStartY = e.touches[0].clientY;
@@ -2142,8 +3165,13 @@
         if (Math.abs(clientX - state.dragStartX) > 3 || Math.abs(clientY - state.dragStartY) > 3) {
           state.dragMoved = true;
         }
-        state.panX += (clientX - state.dragLastX) / state.scale;
-        state.panY += (clientY - state.dragLastY) / state.scale;
+        if (state._activeDragMode === 'orbit') {
+          state.orbitY += (clientX - state.dragLastX) * 0.007;
+          state.orbitX += (clientY - state.dragLastY) * 0.007;
+        } else {
+          state.panX += clientX - state.dragLastX;
+          state.panY += clientY - state.dragLastY;
+        }
         state.dragLastX = clientX;
         state.dragLastY = clientY;
       } else if (e.touches.length === 2 && _opts.zoomable && _initialPinchDist) {
@@ -2160,6 +3188,18 @@
     }, { passive: false });
     canvas.addEventListener('touchend', e => {
       if (e.touches.length < 2) _initialPinchDist = null;
+      if (e.touches.length === 0 && state.dragging) {
+        const touch = e.changedTouches && e.changedTouches[0];
+        if (!state.dragMoved && touch && _opts.hoverable) {
+          const picked = _pickNode(touch.clientX, touch.clientY);
+          state.hoveredId = picked;
+          state.pinnedId = picked;
+          state.pinnedPos = null;
+          state.lastHoveredId = null;
+        }
+        state.dragging = false;
+        state.dragMoved = false;
+      }
     });
     function resetFilters() {
       state.legendFilterType = null;
@@ -2174,7 +3214,8 @@
       state.paused = false; state.rotSpeed = 1;
       state.zoom = 1;
       state.scale = options.scale || GRAPH_SCALE;
-      state.positions = buildPositions(state.skills, state.scale);
+      state.treeSpread = 2;
+      if (!state.treeLayout) state.positions = buildPositions(state.skills, state.scale, state.layoutMode);
       state.nebula = true;
       state.hoverSlowdown = 0;
       state.pinnedId = null; state.pinnedPos = null;
@@ -2206,15 +3247,40 @@
         state.nebulaToggleEl.setAttribute('aria-pressed', 'true');
       }
       if (state.scatterRulerCanvas) {
-        drawRuler(state.scatterRulerCanvas, Math.log(state.scale), { vertical: true, pxPerUnit: 42, minorStep: 0.1, majorEvery: 5 });
+        drawRuler(state.scatterRulerCanvas, Math.log(state.treeLayout ? state.treeSpread : state.scale), { vertical: true, pxPerUnit: 42, minorStep: 0.1, majorEvery: 5 });
       }
       if (state.speedRulerCanvas) {
         drawRuler(state.speedRulerCanvas, 0, { vertical: false, pxPerUnit: 42, minorStep: 0.1, majorEvery: 5 });
       }
     }
-    if (state.running) draw();
-    function setNamedMap(map) { state.namedMap = map || {}; }
-    function setTitleMap(map) { state.titleMap = map || {}; }
+    // Kick the loop off (honours options.autostart via state.wantRunning).
+    // _syncRunning is the single entry point — it will decline to start if
+    // the canvas is offscreen or the tab is hidden, and the observers above
+    // will start it as soon as that changes.
+    _syncRunning();
+    function _refreshSearchDatalist() {
+      if (!state.searchDatalist || !state.skills) return;
+      const seen = new Set();
+      const opts = [];
+      state.skills.forEach(skill => {
+        const name = skill.name || skill.id;
+        if (name && !seen.has(name)) { seen.add(name); opts.push(name); }
+        const namedId = state.namedMap && state.namedMap[skill.id];
+        if (namedId && !seen.has(namedId)) { seen.add(namedId); opts.push(namedId); }
+        const title = state.titleMap && state.titleMap[skill.id];
+        if (title && !seen.has(title)) { seen.add(title); opts.push(title); }
+      });
+      opts.sort((a, b) => a.localeCompare(b));
+      state.searchDatalist.innerHTML = opts.map(v => `<option value="${v.replace(/"/g, '&quot;')}"></option>`).join('');
+    }
+    function setNamedMap(map) {
+      state.namedMap = map || {};
+      _refreshSearchDatalist();
+    }
+    function setTitleMap(map) {
+      state.titleMap = map || {};
+      _refreshSearchDatalist();
+    }
     function setOriginMap(map) { state.originMap = map || {}; }
 
     // ── RUNTIME MODE SWITCHING ──────────────────────────────────
@@ -2227,6 +3293,12 @@
       _opts.hoverable = on;
       canvas.style.pointerEvents = on ? 'auto' : 'none';
       canvas.style.cursor = on ? 'grab' : 'default';
+      if (on) canvas.setAttribute('tabindex', '0');
+      else {
+        canvas.removeAttribute('tabindex');
+        canvas.style.outline = '';
+        canvas.style.outlineOffset = '';
+      }
       // Toggle visibility of interactive chrome elements.
       // Skip elements that are controlled by user interaction
       // (tooltip, skill-panel, collection-panel) — they manage
@@ -2261,6 +3333,7 @@
         state.labelsToggleEl.setAttribute('aria-pressed', String(mode !== 'none'));
       }
     }
+    function getLabelMode() { return state.labelMode; }
     function getStatusEl() { return state.statusEl; }
     function setStatusEl(el) { state.statusEl = el; setSkills(state.skills); }
 
@@ -2269,6 +3342,10 @@
     }
 
     function setLayoutMode(mode) {
+      if (state.treeLayout) {
+        state.layoutMode = 'yggdrasil';
+        return;
+      }
       state.layoutMode = mode;
       state.positions = buildPositions(state.skills, state.scale, mode);
     }
@@ -2318,10 +3395,93 @@
       return state.paused;
     }
 
-    return { setSkills, setNamedMap, setTitleMap, setOriginMap, resize, start, stop, resetFilters, setInteractive, setLabelMode, getStatusEl, setStatusEl, setMeta, setLayoutMode, setAutoRotate, setColorMode, setDragMode, randomZoom, setPaused, isPaused };
+    function setViewMode(mode, viewOptions) {
+      const target = mode === 'explorer3d' ? 1 : 0;
+      const opts = viewOptions || {};
+      if (target === 1 && state.viewMix < 0.001) {
+        // The ambient clock keeps node shimmer alive in the flat hero. Reset
+        // camera motion at entry so the morph begins from that exact frontal
+        // silhouette instead of resolving at an arbitrary accumulated angle.
+        state.t = 0;
+        state.orbitX = 0;
+        state.orbitY = 0;
+        if (_explorerViewStash) {
+          // Re-enter: restore the camera the user left the explorer with so a
+          // 150%-panned-left view comes back exactly, rather than snapping to a
+          // fresh 200% spread.
+          state.zoom = _explorerViewStash.zoom;
+          state.panX = _explorerViewStash.panX;
+          state.panY = _explorerViewStash.panY;
+          state.treeSpreadFrom = state.treeSpread;
+          state.treeSpread = _explorerViewStash.treeSpread;
+        } else {
+          state.panX = 0;
+          state.panY = 0;
+          state.zoom = 1;
+          // Explorer3D defaults to a wider 200% spread; the flat 2D hero stays
+          // at 100% (its own initial state / never touches this path).
+          state.treeSpreadFrom = state.treeSpread;
+          state.treeSpread = 2;
+        }
+        if (typeof redrawScatterRuler === 'function') redrawScatterRuler();
+      }
+      if (target === 0) {
+        // Exit: stash the live explorer camera (session-only) so re-entry can
+        // restore it, then reset zoom/pan/spread to their hero defaults so the
+        // reverse morph animates back to the true 100% default view instead of
+        // freezing at wherever the user was.
+        _explorerViewStash = {
+          zoom: state.zoom,
+          panX: state.panX,
+          panY: state.panY,
+          treeSpread: state.treeSpread,
+        };
+        state.zoom = 1;
+        state.panX = 0;
+        state.panY = 0;
+        state.treeSpreadFrom = state.treeSpread;
+        state.treeSpread = 1;
+        if (typeof redrawScatterRuler === 'function') redrawScatterRuler();
+      }
+      state.viewFrom = state.viewMix;
+      state.viewTarget = target;
+      state.viewPhase = target === 1 ? 'entering3d' : 'exiting3d';
+      state.viewComplete = typeof opts.onComplete === 'function' ? opts.onComplete : null;
+      const immediate = opts.immediate === true || _reducedMotion();
+      if (immediate || Math.abs(state.viewFrom - target) < 0.001) {
+        state.viewMix = target;
+        state.viewStartedAt = null;
+        state.viewPhase = target === 1 ? 'explorer3d' : 'hero2d';
+        const done = state.viewComplete;
+        state.viewComplete = null;
+        if (done) done(state.viewPhase);
+        return;
+      }
+      state.viewDuration = Math.max(120, (Number(opts.duration) || 900) * Math.abs(target - state.viewFrom));
+      state.viewStartedAt = performance.now();
+    }
+
+    function getViewState() {
+      return {
+        phase: state.viewPhase,
+        mix: state.viewMix,
+        target: state.viewTarget,
+        available: Boolean(state.treeLayout),
+        nodeCount: state.skills.length,
+        edgeCount: state.treeEdges.length,
+        diagnostics: state.treeLayout && state.treeLayout.diagnostics ? state.treeLayout.diagnostics : null,
+      };
+    }
+
+    return { setSkills, setTreeLayout, setNamedMap, setTitleMap, setOriginMap, resize, start, stop, resetFilters, setInteractive, setLabelMode, getLabelMode, getStatusEl, setStatusEl, setMeta, setLayoutMode, setAutoRotate, setColorMode, setDragMode, randomZoom, setPaused, isPaused, setViewMode, getViewState };
   }
 
   const hero = document.getElementById('hero');
+  // Null guard: skill-graph.js is loaded on the homepage only; if #hero is
+  // absent (e.g. on a standalone page that inadvertently loads this bundle)
+  // abort silently rather than throwing and aborting the entire IIFE, which
+  // would fall through to FALLBACK_SKILLS per known-issues invariant.
+  if (!hero) return;
   const trigger = document.querySelector('[data-graph-trigger]');
   const isMobile = window.matchMedia('(max-width:700px)').matches;
 
@@ -2374,6 +3534,9 @@
   // #hero into a fixed fullscreen state and enable interactivity
   // on the existing canvas.
   let _graphFullscreen = false;
+  let _graphClosing = false;
+  let _pendingOpen = false;
+  let _heroOriginRect = null;
 
   // Build status bar for fullscreen mode
   const _graphStatusBar = document.createElement('div');
@@ -2389,7 +3552,6 @@
   _graphCloseOverlay.innerHTML =
     '<div class="graph-fullscreen-header">' +
     '<div class="graph-atlas-controls">' +
-    '<button type="button" class="graph-action-btn" data-graph-layout title="Layout: Semantic/Deterministic"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="assets/icons.svg#switch"/></svg><span>Semantic</span></button>' +
     '<button type="button" class="graph-action-btn" data-graph-labels title="Labels: None/Priority"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="assets/icons.svg#view-list"/></svg><span>Labels</span></button>' +
     '<button type="button" class="graph-action-btn" data-graph-mouse title="Interaction: Orbit/Pan"><svg class="ico" width="18" height="18" aria-hidden="true"><use href="assets/icons.svg#rotate"/></svg><span>Orbit</span></button>' +
     '</div>' +
@@ -2441,10 +3603,40 @@
     }
   }
 
+  function _setTreeClip(rect) {
+    const top = rect ? Math.max(0, rect.top) : 0;
+    const left = rect ? Math.max(0, rect.left) : 0;
+    const right = rect ? Math.max(0, window.innerWidth - rect.right) : 0;
+    const bottom = rect ? Math.max(0, window.innerHeight - rect.bottom) : 0;
+    hero.style.setProperty('--hero-tree-shell-top', top + 'px');
+    hero.style.setProperty('--hero-tree-shell-right', right + 'px');
+    hero.style.setProperty('--hero-tree-shell-bottom', bottom + 'px');
+    hero.style.setProperty('--hero-tree-shell-left', left + 'px');
+  }
+
+  function _updateExploreButton(pressed) {
+    const exploreBtn = document.getElementById('hudToggleBtn');
+    if (exploreBtn) exploreBtn.setAttribute('aria-pressed', String(pressed));
+  }
+
   function openGraphFullscreen() {
-    if (_graphFullscreen) return;
+    if (_graphFullscreen && !_graphClosing) return true;
+    if (!heroGraph.getViewState().available) {
+      _pendingOpen = true;
+      hero.dataset.treeState = 'loading';
+      if (_graphStatusBar) _graphStatusBar.textContent = 'Preparing the Gaia World Tree…';
+      return false;
+    }
+    _pendingOpen = false;
     _graphFullscreen = true;
-    hero.classList.add('hero-graph-fullscreen');
+    _graphClosing = false;
+    _heroOriginRect = hero.getBoundingClientRect();
+    _setTreeClip(_heroOriginRect);
+    hero.classList.remove('hero-tree-explorer', 'hero-tree-exiting', 'hero-graph-fullscreen');
+    hero.classList.add('hero-tree-entering');
+    hero.dataset.treeState = 'entering3d';
+    document.body.classList.add('hero-tree-explorer-open');
+    _updateExploreButton(true);
 
     // Always start with HUD visible — mobile users were complaining
     // they had to discover the "Show Controls" button before seeing
@@ -2452,97 +3644,107 @@
     hero.classList.remove('hud-hidden');
     hudToggleBtn.querySelector('span').textContent = 'Hide Controls';
 
-    heroGraph.setInteractive(true);
+    heroGraph.setInteractive(false);
     heroGraph.setLabelMode('none');
     heroGraph.setStatusEl(_graphStatusBar);
 
     // Sync header button states
-    const layoutBtn = _graphCloseOverlay.querySelector('[data-graph-layout]');
-    if (layoutBtn) layoutBtn.querySelector('span').textContent = 'Semantic';
     const labelsBtn = _graphCloseOverlay.querySelector('[data-graph-labels]');
     if (labelsBtn) labelsBtn.classList.remove('active');
     const mouseBtn = _graphCloseOverlay.querySelector('[data-graph-mouse]');
     if (mouseBtn) mouseBtn.querySelector('span').textContent = 'Orbit';
 
-    heroGraph.resize();
-
-    const colPanel = hero.querySelector('.graph-collection-panel');
-    if (colPanel) {
-      colPanel.style.display = 'flex';
-    }
-
-    // ── A11y: promote #hero into a modal dialog ─────────────────
+    // Capture focus and establish modal semantics before setViewMode(). Under
+    // reduced motion its completion callback is synchronous, so doing this
+    // afterward would lose the opener and break focus restoration on exit.
     _prevFocus = document.activeElement;
     hero.setAttribute('aria-modal', 'true');
     hero.setAttribute('role', 'dialog');
-    hero.setAttribute('aria-label', 'Skill graph atlas');
-    const closeBtn = _graphCloseOverlay.querySelector('[data-graph-fullscreen-close]');
-    if (closeBtn && typeof closeBtn.focus === 'function') closeBtn.focus();
+    hero.setAttribute('aria-label', 'Gaia World Tree explorer');
+    hero.setAttribute('tabindex', '-1');
+    if (typeof hero.focus === 'function') hero.focus();
     document.addEventListener('keydown', _trapTabKey);
+
+    heroGraph.resize();
+    requestAnimationFrame(() => _setTreeClip(null));
+    heroGraph.setViewMode('explorer3d', {
+      duration: 900,
+      onComplete: () => {
+        if (_graphClosing) return;
+        hero.classList.remove('hero-tree-entering');
+        hero.classList.add('hero-tree-explorer');
+        hero.dataset.treeState = 'explorer3d';
+        heroGraph.setInteractive(true);
+        const colPanel = hero.querySelector('.graph-collection-panel');
+        if (colPanel) colPanel.style.display = 'flex';
+        const closeBtn = _graphCloseOverlay.querySelector('[data-graph-fullscreen-close]');
+        if (closeBtn && typeof closeBtn.focus === 'function') closeBtn.focus();
+      },
+    });
+
+    return true;
   }
 
   function closeGraphFullscreen() {
-    if (!_graphFullscreen) return;
-    _graphFullscreen = false;
-    hero.classList.remove('hero-graph-fullscreen');
+    if (!_graphFullscreen || _graphClosing) return false;
+    _pendingOpen = false;
+    _graphClosing = true;
+    hero.classList.remove('hero-tree-entering', 'hero-tree-explorer', 'hero-graph-fullscreen');
+    hero.classList.add('hero-tree-exiting');
+    hero.dataset.treeState = 'exiting3d';
     heroGraph.setInteractive(false);
     heroGraph.setLabelMode('none');
     document.querySelectorAll('.graph-skill-panel, .graph-collection-panel').forEach(el => el.style.display = 'none');
-    // Do NOT resetFilters() — preserve user's speed, zoom, orbit, etc.
-    heroGraph.resize();
-
-    // ── A11y: tear down dialog semantics + restore focus ────────
-    hero.removeAttribute('aria-modal');
-    hero.removeAttribute('role');
-    hero.removeAttribute('aria-label');
-    document.removeEventListener('keydown', _trapTabKey);
-    if (_prevFocus && typeof _prevFocus.focus === 'function') {
-      try { _prevFocus.focus(); } catch (_) { /* element may be detached */ }
-    }
-    _prevFocus = null;
-  }
-
-  function peek(on) {
-    if (_graphFullscreen) return;
-    hero.classList.toggle('hero-graph-peek', Boolean(on));
+    requestAnimationFrame(() => _setTreeClip(_heroOriginRect));
+    heroGraph.setViewMode('hero2d', {
+      duration: 900,
+      onComplete: () => {
+        hero.classList.remove('hero-tree-exiting', 'hero-graph-fullscreen');
+        hero.dataset.treeState = 'hero2d';
+        document.body.classList.remove('hero-tree-explorer-open');
+        ['--hero-tree-shell-top', '--hero-tree-shell-right', '--hero-tree-shell-bottom', '--hero-tree-shell-left'].forEach(name => hero.style.removeProperty(name));
+        hero.removeAttribute('aria-modal');
+        hero.removeAttribute('role');
+        hero.removeAttribute('aria-label');
+        hero.removeAttribute('tabindex');
+        document.removeEventListener('keydown', _trapTabKey);
+        _graphFullscreen = false;
+        _graphClosing = false;
+        _updateExploreButton(false);
+        heroGraph.resize();
+        if (_prevFocus && typeof _prevFocus.focus === 'function') {
+          try { _prevFocus.focus(); } catch (_) { /* element may be detached */ }
+        }
+        _prevFocus = null;
+      },
+    });
+    return true;
   }
 
   if (trigger) {
-    trigger.addEventListener('mouseenter', () => peek(true));
-    trigger.addEventListener('mouseleave', () => peek(false));
-    trigger.addEventListener('focus', () => peek(true));
-    trigger.addEventListener('blur', () => peek(false));
-    trigger.addEventListener('click', () => {
-      peek(false);
-      openGraphFullscreen();
-    });
+    trigger.addEventListener('click', openGraphFullscreen);
   }
 
-  // Close button inside the fullscreen chrome
-  _graphCloseOverlay.querySelector('[data-graph-fullscreen-close]').addEventListener('click', closeGraphFullscreen);
+  // Close button inside the fullscreen chrome.
+  // All three buttons are embedded in _graphCloseOverlay.innerHTML above, so
+  // querySelector will always find them — but defensive null-checks prevent a
+  // silent IIFE abort (and FALLBACK_SKILLS fallthrough) if the DOM is ever
+  // mutated externally or the script loads on an unexpected host page.
+  const _closeBtn = _graphCloseOverlay.querySelector('[data-graph-fullscreen-close]');
+  if (_closeBtn) _closeBtn.addEventListener('click', closeGraphFullscreen);
 
-  // 4D Atlas Toggles
-  _graphCloseOverlay.querySelector('[data-graph-layout]').addEventListener('click', (e) => {
-    const btn = e.currentTarget;
-    const modes = ['semantic', 'deterministic'];
-    const current = modes.indexOf(heroGraph.layoutMode || 'semantic');
-    const next = modes[(current + 1) % modes.length];
-    heroGraph.setLayoutMode(next);
-    btn.querySelector('span').textContent = next.charAt(0).toUpperCase() + next.slice(1);
-    heroGraph.layoutMode = next;
-  });
-
-  _graphCloseOverlay.querySelector('[data-graph-labels]').addEventListener('click', (e) => {
+  const _labelsBtn = _graphCloseOverlay.querySelector('[data-graph-labels]');
+  if (_labelsBtn) _labelsBtn.addEventListener('click', (e) => {
     const btn = e.currentTarget;
     const modes = ['none', 'all'];
-    const current = modes.indexOf(heroGraph.labelMode || 'none');
+    const current = modes.indexOf(heroGraph.getLabelMode());
     const next = modes[(current + 1) % modes.length];
     heroGraph.setLabelMode(next);
     btn.classList.toggle('active', next !== 'none');
-    heroGraph.labelMode = next;
   });
 
-  _graphCloseOverlay.querySelector('[data-graph-mouse]').addEventListener('click', (e) => {
+  const _mouseBtn = _graphCloseOverlay.querySelector('[data-graph-mouse]');
+  if (_mouseBtn) _mouseBtn.addEventListener('click', (e) => {
     const btn = e.currentTarget;
     const isOrbit = btn.querySelector('span').textContent === 'Orbit';
     const next = isOrbit ? 'pan' : 'orbit';
@@ -2567,13 +3769,33 @@
     }
   });
 
+  window.gaiaWorldTree = {
+    open: openGraphFullscreen,
+    close: closeGraphFullscreen,
+    toggle: function () {
+      return (_graphFullscreen && !_graphClosing) ? closeGraphFullscreen() : openGraphFullscreen();
+    },
+    state: function () {
+      const view = heroGraph.getViewState();
+      return {
+        phase: hero.dataset.treeState || view.phase,
+        mix: view.mix,
+        available: view.available,
+        nodeCount: view.nodeCount,
+        edgeCount: view.edgeCount,
+        open: _graphFullscreen,
+        closing: _graphClosing,
+        diagnostics: view.diagnostics,
+      };
+    },
+  };
+
   // ── Canvas a11y semantics ─────────────────────────────────────
   // The 3D canvas is a visual representation of the registry graph.
   // Provide role=img + a rich aria-label that summarises counts so
   // screen readers get a meaningful description. The label is
   // refreshed after the skills array and the named-skill index both
-  // resolve. A hidden offscreen link points keyboard / AT users to
-  // the static SVG fallback at graph/gaia.svg.
+  // resolve.
   const _canvas3d = document.getElementById('canvas3d');
   let _ariaSkillsCount = 0;
   let _ariaEdgesCount = 0;
@@ -2591,43 +3813,54 @@
     );
   }
   _refreshCanvasAria();
-  // Hidden SVG fallback link inside #hero — visually offscreen but
-  // present in the DOM for screen readers and as a no-CSS fallback.
-  const _svgFallbackLink = document.createElement('a');
-  _svgFallbackLink.className = 'sr-only';
-  _svgFallbackLink.href = 'graph/gaia.svg';
-  _svgFallbackLink.textContent = 'Static SVG version of the skill graph';
-  _svgFallbackLink.style.cssText = 'position:absolute;left:-9999px;';
-  hero.appendChild(_svgFallbackLink);
 
   // Probe the graph directory first so we get a clear diagnostic if the
   // static-asset host isn't serving JSON files from graph/.
   const _pingOk = fetch(prefix + 'graph/ping.json', { cache: 'no-store' })
     .then(r => r.ok && r.json()).then(d => !!(d && d.ok)).catch(() => false);
 
-  fetch(GRAPH_JSON_URL, { cache: 'reload' })
-    .then(response => {
-      if (!response.ok) throw new Error(`HTTP ${response.status} from ${GRAPH_JSON_URL}`);
-      const ct = response.headers.get('content-type') || '';
-      if (!ct.includes('json') && !ct.includes('text/plain')) {
-        return response.text().then(body => {
-          throw new Error(`Expected JSON, got ${ct || 'no content-type'}; body starts: ${body.slice(0, 80)}`);
-        });
-      }
-      return response.json();
-    })
+  // No `cache: 'reload'` here — that bypassed the HTTP cache and forced a
+  // full re-download of gaia.json on every visit, repeat visits included.
+  // Freshness is already handled by the site-wide ?v= cache-bust convention.
+  // The shared cache also collapses this into one request with page-ia.js.
+  window.GAIA_JSON_CACHE.fetchJson(GRAPH_JSON_URL)
     .then(graph => {
       _initMetaGraph(graph.meta);
       if (heroGraph) heroGraph.setMeta(graph.meta);
-      return normalizeSkills(graph);
+      // §4 runtime effective-rank join — attach `effectiveRank` (parsed from the
+      // pre-joined `namedMaxLevel` glyph string) onto each SOURCE skill object
+      // BEFORE the layout engine runs. world-tree-layout.js reads
+      // node.effectiveRank via readEffectiveRank; it never re-derives the join.
+      // Computed ONCE here, not per-frame (§8 performance).
+      if (graph && Array.isArray(graph.skills)) {
+        graph.skills.forEach(skill => {
+          if (skill && typeof skill === 'object') {
+            skill.effectiveRank = starsFromLabel(skill.namedMaxLevel);
+          }
+        });
+      }
+      const skills = normalizeSkills(graph);
+      let treeLayout = null;
+      const layoutApi = window.GaiaWorldTreeLayout;
+      const buildLayout = layoutApi && (layoutApi.buildWorldTreeLayout || layoutApi.compute);
+      if (typeof buildLayout === 'function') {
+        try {
+          treeLayout = buildLayout(graph, { width: 760, height: 680 });
+        } catch (error) {
+          console.warn('World Tree layout unavailable:', error);
+        }
+      }
+      return { skills, treeLayout };
     })
 
-    .then(skills => {
-      if (heroGraph) heroGraph.setSkills(skills);
+    .then(result => {
+      const skills = result.skills;
+      if (heroGraph) heroGraph.setSkills(skills, result.treeLayout);
       _ariaSkillsCount = skills.length;
       _ariaEdgesCount = skills.reduce((acc, s) => acc + (Array.isArray(s.prerequisites) ? s.prerequisites.length : 0), 0);
       _ariaApexCount = skills.reduce((acc, s) => acc + (s.level === '6★' ? 1 : 0), 0);
       _refreshCanvasAria();
+      if (_pendingOpen && heroGraph.getViewState().available) openGraphFullscreen();
     })
     .catch(error => {
       console.warn('Using embedded fallback skill graph:', error);
@@ -2638,8 +3871,7 @@
       });
     });
 
-  fetch(prefix + 'graph/named/index.json' + version)
-    .then(r => r.ok ? r.json() : Promise.reject())
+  window.GAIA_JSON_CACHE.fetchJson(NAMED_JSON_URL)
     .then(indexData => {
       const map = {};
       const titleMap = {};

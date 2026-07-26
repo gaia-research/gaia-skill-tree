@@ -9,9 +9,13 @@
       "overallTrustGrade": "C",
       "contributor": "huggingface",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/huggingface/semantic-cache.json"
-      }
+      },
+      "genericSkillRef": "semantic-cache"
     }
   ],
   "namedSkillsCount": 1,

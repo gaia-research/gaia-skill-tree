@@ -8,10 +8,14 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "karpathy",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/karpathy/autoresearch.json"
-      }
+      },
+      "genericSkillRef": "autonomous-web-research"
     }
   ],
   "namedSkillsCount": 1,

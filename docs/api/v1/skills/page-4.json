@@ -7,10 +7,14 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/verification-quality.json"
-      }
+      },
+      "genericSkillRef": "verification-before-completion"
     },
     {
       "id": "ruvnet/worker-integration",
@@ -20,9 +24,13 @@
       "overallTrustGrade": "C",
       "contributor": "ruvnet",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/ruvnet/worker-integration.json"
-      }
+      },
+      "genericSkillRef": "worker-agent-dispatch"
     },
     {
       "id": "santifer/career-ops",
@@ -31,10 +39,14 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "santifer",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/santifer/career-ops.json"
-      }
+      },
+      "genericSkillRef": "career-operations"
     },
     {
       "id": "spring-ai/readme-generate",
@@ -44,9 +56,13 @@
       "overallTrustGrade": "C",
       "contributor": "spring-ai",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/spring-ai/readme-generate.json"
-      }
+      },
+      "genericSkillRef": "write-report"
     },
     {
       "id": "vercel/find-skills",
@@ -56,9 +72,13 @@
       "overallTrustGrade": "C",
       "contributor": "vercel",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/vercel/find-skills.json"
-      }
+      },
+      "genericSkillRef": "skill-discovery"
     },
     {
       "id": "upsonic/unittest-generator",
@@ -68,9 +88,13 @@
       "overallTrustGrade": "C",
       "contributor": "upsonic",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/upsonic/unittest-generator.json"
-      }
+      },
+      "genericSkillRef": "generate-test"
     },
     {
       "id": "devin-ai/autonomous-swe",
@@ -79,10 +103,14 @@
       "trustMagnitude": 30.0,
       "overallTrustGrade": "C",
       "contributor": "devin-ai",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/devin-ai/autonomous-swe.json"
-      }
+      },
+      "genericSkillRef": "autonomous-debug"
     },
     {
       "id": "mattpocock/caveman",
@@ -92,9 +120,13 @@
       "overallTrustGrade": "C",
       "contributor": "mattpocock",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/caveman.json"
-      }
+      },
+      "genericSkillRef": "context-compression"
     },
     {
       "id": "mattpocock/teach",
@@ -103,10 +135,14 @@
       "trustMagnitude": 0.0,
       "overallTrustGrade": "ungraded",
       "contributor": "mattpocock",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/mattpocock/teach.json"
-      }
+      },
+      "genericSkillRef": "knowledge-management"
     }
   ],
   "page": 4,

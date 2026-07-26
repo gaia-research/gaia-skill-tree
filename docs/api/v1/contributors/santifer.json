@@ -8,10 +8,14 @@
       "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
       "contributor": "santifer",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/santifer/career-ops.json"
-      }
+      },
+      "genericSkillRef": "career-operations"
     }
   ],
   "namedSkillsCount": 1,

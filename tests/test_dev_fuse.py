@@ -82,14 +82,15 @@ def test_dev_fuse_creates_generic_node_when_missing(tmp_path):
     meta_dev_fuse_command(_args(
         root, "new-fusion",
         name="New Fusion", description="A new fusion of tricks — over ten chars long.",
-        type="ultimate", prereqs="prereq-a,prereq-b",
+        prereqs="prereq-a,prereq-b",
     ))
 
-    node_path = Path(root) / "registry" / "nodes" / "ultimate" / "new-fusion.json"
+    # Yggdrasil II: `gaia dev fuse` always creates a fusion node under nodes/fusion/.
+    node_path = Path(root) / "registry" / "nodes" / "fusion" / "new-fusion.json"
     assert node_path.exists()
     data = json.loads(node_path.read_text(encoding="utf-8"))
     assert data["id"] == "new-fusion"
-    assert data["type"] == "ultimate"
+    assert data["type"] == "fusion"
     assert set(data["prerequisites"]) == {"prereq-a", "prereq-b"}
 
 

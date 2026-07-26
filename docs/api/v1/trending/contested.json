@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-25T05:07:33Z",
+  "generatedAt": "2026-07-25T23:03:44Z",
   "buckets": [
     {
       "genericSkillRef": "git-ship-done-pipeline",
@@ -16,7 +16,7 @@
         {
           "id": "gsd-build/get-shit-done",
           "trustMagnitude": 202.16,
-          "level": "4★",
+          "level": "3★",
           "overallTrustGrade": "A",
           "origin": false
         }
@@ -373,7 +373,7 @@
         {
           "id": "browser-use/browser-harness",
           "trustMagnitude": 73.59,
-          "level": "4★",
+          "level": "3★",
           "overallTrustGrade": "B",
           "origin": false
         },

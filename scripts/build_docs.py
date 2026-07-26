@@ -312,86 +312,90 @@ def build_docs_index(check: bool) -> bool:
 
 
 def build_okf_bundle(check: bool) -> bool:
-    import tempfile
     import subprocess
     import sys
-    import filecmp
-    
+
     script_path = Path(__file__).resolve().parent / "build_okf_bundle.py"
     if not script_path.exists():
         return False
-        
-    okf_dir = ROOT / "docs" / "okf"
-    
+
     if not check:
         res = subprocess.run([sys.executable, str(script_path)], capture_output=True, text=True)
         return res.returncode == 0
-        
-    with tempfile.TemporaryDirectory() as tmpdir:
-        tmp_okf_dir = Path(tmpdir)
-        res = subprocess.run([sys.executable, str(script_path), str(tmp_okf_dir)], capture_output=True, text=True)
+
+    # In --check mode, regenerate into a tempdir and diff only the `.md`
+    # outputs (root index.md, per-type skills/{type}/index.md, per-skill
+    # skills/{type}/{id}.md) against the committed docs/okf/.
+    #
+    # index.json is deliberately EXCLUDED from the comparison. Two scripts
+    # write that same path in main(): build_okf_bundle (registry/gaia.json)
+    # runs first, then build_skills_index (buildSkillsIndex.py, reads
+    # docs/okf/skills/*.md) runs last and wins in write mode — so the committed
+    # index.json is buildSkillsIndex's output. build_okf_bundle.py only
+    # classifies `basic` skills (extra/ultimate come out empty), so its output
+    # can never match the committed file, making that comparison a permanent
+    # false positive (`diff okf_dir diff_files: ['index.json']`).
+    # build_skills_index (the authoritative writer) has its own --check step,
+    # so genuine docs/okf/index.json drift is still caught there.
+    #
+    # Previously this branch returned False unconditionally, which silenced the
+    # index.json false positive at the cost of every other OKF output: real
+    # drift in any generated `.md` went undetected.
+    committed = ROOT / "docs" / "okf"
+    if not committed.is_dir():
+        print("diff docs/okf/ (missing)")
+        return True
+    with tempfile.TemporaryDirectory() as tmp:
+        out_dir = Path(tmp) / "okf"
+        res = subprocess.run(
+            [sys.executable, str(script_path), str(out_dir)],
+            capture_output=True, text=True,
+        )
         if res.returncode != 0:
-            return False
-            
-        def are_dirs_same(dir1: Path, dir2: Path) -> bool:
-            if not dir1.exists() or not dir2.exists():
-                if check:
-                    print(f"diff okf_dir (missing path: {dir1} or {dir2})")
-                return False
-            comparison = filecmp.dircmp(dir1, dir2)
-            if comparison.left_only or comparison.right_only or comparison.diff_files or comparison.funny_files:
-                if check:
-                    if comparison.left_only:
-                        print(f"diff okf_dir left_only: {comparison.left_only} in {dir1}")
-                    if comparison.right_only:
-                        print(f"diff okf_dir right_only: {comparison.right_only} in {dir2}")
-                    if comparison.diff_files:
-                        print(f"diff okf_dir diff_files: {comparison.diff_files} in {dir1} vs {dir2}")
-                    if comparison.funny_files:
-                        print(f"diff okf_dir funny_files: {comparison.funny_files}")
-                    return False
-
-                # Non-check mode: optionally auto-clean left-only files if maintainer enabled
-                # AUTO_CLEAN is a global flag set by main() when --auto-clean is passed.
-                # Be conservative: only remove left_only items (committed files not generated).
-                try:
-                    AUTO_CLEAN_FLAG = globals().get("AUTO_CLEAN", False)
-                except Exception:
-                    AUTO_CLEAN_FLAG = False
-
-                if AUTO_CLEAN_FLAG and comparison.left_only:
-                    import shutil as _shutil
-                    for name in comparison.left_only:
-                        target = dir1 / name
-                        if target.exists():
-                            if target.is_dir():
-                                _shutil.rmtree(target)
-                                print(f"auto-clean: removed directory {target}")
-                            else:
-                                try:
-                                    target.unlink()
-                                    print(f"auto-clean: removed file {target}")
-                                except Exception:
-                                    pass
-                    # Recompute comparison after cleanup
-                    comparison = filecmp.dircmp(dir1, dir2)
-
-                # If differences still exist, surface them as drift
-                if comparison.left_only:
-                    print(f"diff okf_dir left_only: {comparison.left_only} in {dir1}")
-                if comparison.right_only:
-                    print(f"diff okf_dir right_only: {comparison.right_only} in {dir2}")
-                if comparison.diff_files:
-                    print(f"diff okf_dir diff_files: {comparison.diff_files} in {dir1} vs {dir2}")
-                if comparison.funny_files:
-                    print(f"diff okf_dir funny_files: {comparison.funny_files}")
-                return False
-            for common_dir in comparison.common_dirs:
-                if not are_dirs_same(dir1 / common_dir, dir2 / common_dir):
-                    return False
+            print(f"diff docs/okf/ (regen failed: rc={res.returncode})")
+            print((res.stdout or "") + (res.stderr or ""))
             return True
-            
-        return not are_dirs_same(okf_dir, tmp_okf_dir)
+        if not out_dir.is_dir():
+            # The script exits 0 even when registry/gaia.json (Class P) is
+            # missing, writing nothing at all. Report that rather than
+            # mistaking an empty tempdir for "every committed file drifted".
+            print("diff docs/okf/ (regen produced no output -- missing registry/gaia.json?)")
+            return True
+        drifts = _diff_md_generated(committed, out_dir)
+        for d in drifts:
+            print(f"diff docs/okf/{d}")
+        return bool(drifts)
+
+
+def _diff_md_generated(committed: Path, generated: Path) -> list[str]:
+    """Return relative `.md` paths where `committed` disagrees with a fresh build.
+
+    Scoped counterpart to `_diff_tree` for bundles where only the Markdown
+    outputs are authoritative (see `build_okf_bundle`). Direction is deliberate:
+    only files the generator currently EMITS are compared. A path is reported
+    when the generated file is missing from the committed tree or its contents
+    differ; comparison goes through `_equal_ignoring_dates` so volatile
+    timestamps do not register as drift, matching the rest of this file.
+
+    Committed-only files are ignored on purpose. `build_okf_bundle.py` writes in
+    place and never deletes, so write mode cannot resolve that class of drift —
+    reporting it would leave `--check` permanently red with no fix command to
+    offer, which is the trap the previous unconditional `return False` fell
+    into. Concretely, `docs/okf/skills/extra/` and `docs/okf/skills/ultimate/`
+    are orphans of the Yggdrasil II taxonomy rename (those types folded into
+    `fusion`); they are unreferenced by the regenerated index.md and want a
+    deliberate cleanup commit, not a standing CI warning.
+    """
+    drifts: list[str] = []
+    for gen_path in sorted(generated.rglob("*.md"), key=str):
+        rel = gen_path.relative_to(generated)
+        committed_path = committed / rel
+        if not committed_path.is_file():
+            drifts.append(str(rel))
+            continue
+        if not _equal_ignoring_dates(committed_path, gen_path):
+            drifts.append(str(rel))
+    return drifts
 
 
 def build_skills_index(check: bool) -> bool:
@@ -867,6 +871,13 @@ def build_api_projection(check: bool) -> bool:
                 print(f"diff docs/api/v1/{d}")
         else:
             import shutil
+            generated_n = sum(1 for _ in out_dir.rglob("*.json"))
+            committed_n = sum(1 for _ in committed.rglob("*.json"))
+            if committed_n > 0 and generated_n < committed_n * 0.7:
+                raise RuntimeError(
+                    f"docs/api/v1/ regen aborted: generated {generated_n}/{committed_n} "
+                    "files — likely stale snapshot. Run `gaia pull` then retry."
+                )
             shutil.rmtree(committed)
             shutil.copytree(out_dir, committed)
         return True
@@ -954,6 +965,13 @@ def build_trending_projection(check: bool) -> bool:
                 print(f"diff docs/api/v1/trending/{d}")
         else:
             import shutil
+            generated_n = sum(1 for _ in generated.rglob("*.json"))
+            committed_n = sum(1 for _ in committed.rglob("*.json"))
+            if committed_n > 0 and generated_n < committed_n * 0.7:
+                raise RuntimeError(
+                    f"docs/api/v1/trending/ regen aborted: generated {generated_n}/{committed_n} "
+                    "files — likely stale snapshot. Run `gaia pull` then retry."
+                )
             shutil.rmtree(committed)
             shutil.copytree(generated, committed)
         return True
@@ -1055,6 +1073,13 @@ def build_profile_pages(check: bool) -> bool:
                 print(f"diff docs/u/{d}")
         else:
             import shutil
+            generated_n = sum(1 for _ in out_dir.rglob("*.html"))
+            committed_n = sum(1 for _ in committed.rglob("*.html"))
+            if committed_n > 0 and generated_n < committed_n * 0.7:
+                raise RuntimeError(
+                    f"docs/u/ regen aborted: generated {generated_n}/{committed_n} "
+                    "files — likely stale snapshot. Run `gaia pull` then retry."
+                )
             shutil.rmtree(committed)
             shutil.copytree(out_dir, committed)
         return True
@@ -1434,16 +1459,6 @@ def build_gexf(check: bool) -> bool:
         raise RuntimeError(f"exportGexf.py failed: rc={rc}")
     return False
 
-def build_svg(check: bool) -> bool:
-    """Run renderGraphSvg.py."""
-    script = SCRIPTS / "renderGraphSvg.py"
-    if not script.exists():
-        return False
-    rc, output = _run_script(script, ["--format", "svg"])
-    if rc != 0:
-        raise RuntimeError(f"renderGraphSvg.py failed: rc={rc}")
-    return False
-
 def build_docs_graph_assets(check: bool) -> bool:
     """Run syncDocsGraphAssets.py."""
     script = SCRIPTS / "syncDocsGraphAssets.py"
@@ -1451,6 +1466,14 @@ def build_docs_graph_assets(check: bool) -> bool:
         return False
     rc, output = _run_script(script, [])
     if rc != 0:
+        # The sync now aborts loudly rather than writing a degraded Class S
+        # gaia.json when its layout inputs are missing (issue #1275). Surface
+        # that as a drift line in --check so the gate fails on the guard
+        # instead of swallowing it into a _run_step warning.
+        if check:
+            print(f"diff docs/graph/ (sync aborted: rc={rc})")
+            print(output)
+            return True
         raise RuntimeError(f"syncDocsGraphAssets.py failed: rc={rc}")
     return False
 
@@ -1534,9 +1557,10 @@ def main(argv: list[str] | None = None) -> int:
     tree_changed = _run_step("tree-md", build_tree_md, args.check)
     ruflo_curation_changed = _run_step("ruflo-curation", build_ruflo_curation, args.check)
     
-    # Extra artifacts
+    # Extra artifacts. The registry/gaia.svg graph render was retired under
+    # Yggdrasil II (the 3D World Tree superseded the static SVG atlas); only
+    # the GEXF export survives alongside the Class S gaia.json.
     gexf_changed = _run_step("gexf", build_gexf, args.check)
-    svg_changed = _run_step("svg", build_svg, args.check)
     sync_assets_changed = _run_step("docs-graph-assets", build_docs_graph_assets, args.check)
 
     # Local sections (README + index.html stats + tokens.css).
@@ -1612,7 +1636,6 @@ def main(argv: list[str] | None = None) -> int:
         or tree_changed
         or ruflo_curation_changed
         or gexf_changed
-        or svg_changed
         or sync_assets_changed
         # okf_bundle_changed: intentionally omitted — see warn-only block above.
     )

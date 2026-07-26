@@ -38,7 +38,7 @@ Before scanning, load and re-read these sources so your flags reference the corr
 Work through these checks in order. Stop when you have enough candidates to fill a meaningful queue — do not perform every focused audit inline.
 
 ### P0 — Critical integrity violations
-- **Unsupported Ultimate claim**: a named skill at 5★–6★ with no `repo-own` evidence at ≥10k GitHub stars (META §1.2).
+- **Unsupported top-rank claim**: a named skill at 5★ whose Trust Magnitude is < 250 (S-grade), or a 6★ skill that fails its branch gate — Suite 6-predicate Apex (META §4.3) or Unique 5-predicate Unique Impossible (META §4.4). TM is the sole numeric gate; there is no repository-star floor.
 - **Unsupported named-origin claim**: `origin: true` on a named skill that is not the earliest (`createdAt`) named skill mapped to that `genericSkillRef`. Verify by pivoting all named skills on the generic and sorting by `createdAt` — only one can be origin.
 - **Named claim with no implementation file**: `links.github` points to a repo root, a 404, or a path that doesn't contain a `SKILL.md`.
 
@@ -56,9 +56,9 @@ Work through these checks in order. Stop when you have enough candidates to fill
 - **Mis-attributed `origin: true`**: per META §4.1, "lives in this repo" does not equal origin. The earliest `createdAt` wins.
 
 ### P3 — Registry hygiene
-- **Broad `genericSkillRef` mapping**: implementation skill mapped to a much larger generic when a more specific one exists (e.g. mapped to a Basic 0★ node when an Extra-level generic is available).
+- **Broad `genericSkillRef` mapping**: implementation skill mapped to a much larger generic when a more specific one exists (e.g. mapped to a broad 0★ generic when a narrower generic is available).
 - **Duplicate or superseded skills**: multiple named skills from the same author or tool family doing the same thing. Flag clusters that should consolidate.
-- **Semantic Fusion candidate** (META §6.2): two or more named skills that compose two existing Extra generics into one orchestrated workflow. Propose a new Extra generic; do not confuse this with an Ultimate fusion (which requires ≥10k repo stars).
+- **Semantic Fusion candidate** (META §6.2): two or more named skills that compose two existing generics into one orchestrated workflow. Propose a new `fusion` generic; do not confuse this with a top-rank (5★+ Ultimate) fusion, which is gated by Trust Magnitude (≥ 250, S-grade) and the branch predicate closure (META §4.2–4.4), not a repository-star threshold.
 
 ### P4 — Documentation cleanup
 - **Placeholder bodies**: named-skill markdown with only boilerplate `## Installation\nAdd installation instructions here.` — flag for a real `## Overview`.
@@ -85,7 +85,7 @@ for — this avoids hand-edits that skip timeline logging.
 | Mutation | Command |
 |---|---|
 | Generic rename (cascades prereqs + named refs) | `gaia dev rename old new` |
-| Add new generic | `gaia dev add "Name" --id <slug> --type extra --description "..."` |
+| Add new generic | `gaia dev add "Name" --id <slug> --type basic --description "..."` |
 | Set generic prereqs | `gaia dev link <id> a,b,c` |
 | Calibrate **named-skill** star | `gaia dev calibrate <contributor/skill> 3★` |
 | Add capability evidence to a generic | `gaia dev evidence <id> <url> --class B --evaluator <user>` |
@@ -98,7 +98,7 @@ for — this avoids hand-edits that skip timeline logging.
 | Named-skill `level` / `links.github` / `description` / body | Direct YAML edit — CLI does not expose these |
 | Named-skill removal | Delete the markdown file — `gaia dev rm` is generic-only |
 
-After any mutation: `gaia validate` then `gaia docs build`.
+After any mutation: `gaia dev validate` then `gaia dev docs`.
 
 ## Common pitfalls
 
@@ -109,4 +109,4 @@ After any mutation: `gaia validate` then `gaia docs build`.
 
 ## Canonical worked example
 
-PR #525 (`review/meta/mbtiongson1-audit`, 2026-05-30) ran every red-flag category above on 14 named skills and produced: 2 named removals (P0), 2 generic renames (P1), 1 new Extra generic via Semantic Fusion (P3), 5 `genericSkillRef` remaps, 7 `links.github` casing fixes, and 12 placeholder body backfills. Read `AUDIT-mbtiongson1.md` and the PR description for the full flag-to-action mapping.
+PR #525 (`review/meta/mbtiongson1-audit`, 2026-05-30) ran every red-flag category above on 14 named skills and produced: 2 named removals (P0), 2 generic renames (P1), 1 new `fusion` generic via Semantic Fusion (P3), 5 `genericSkillRef` remaps, 7 `links.github` casing fixes, and 12 placeholder body backfills. Read `AUDIT-mbtiongson1.md` and the PR description for the full flag-to-action mapping.

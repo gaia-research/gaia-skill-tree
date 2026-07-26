@@ -36,6 +36,15 @@
   --honor-red-rgb: 239, 68, 68;
   --apex-gold: var(--rank-5);
   --apex-gold-rgb: 251, 191, 36;
+  /* Gaia Research sibling-brand bridge tokens. Rimuru-Blue is the EXACT
+     cross-brand match to --tier-basic (the natural bridge accent); Milim-Pink
+     is the Research counter-accent, already present as --cluster-5. Declared
+     once here as role tokens and only ever referenced via var() — no new hex. */
+  --research-blue: var(--tier-basic);
+  --research-blue-rgb: var(--tier-basic-rgb);
+  --research-pink: var(--cluster-5);
+  --research-pink-rgb: 236, 72, 153;
+  --font-research: 'Syne', 'Bricolage Grotesque', system-ui, sans-serif;
   --font-display: 'EB Garamond', Georgia, serif;
   --font-body: 'Bricolage Grotesque', Inter, system-ui, sans-serif;
   --font-mono: 'Departure Mono', 'JetBrains Mono', ui-monospace, monospace;
@@ -146,11 +155,11 @@
 
 /* Unique tier rank badge — black background with bright purple glow. */
 .rank-badge[data-tier="unique"] .rank-badge__chip {
-  color: var(--tier-unique, #7c3aed);
+  color: var(--rank-4-unique);
   background: #000000;
-  border: 1.5px solid var(--tier-unique, #7c3aed);
-  box-shadow: 0 0 12px var(--tier-unique, #7c3aed), 0 0 4px rgba(124, 58, 237, 0.5);
-  text-shadow: 0 0 8px rgba(124, 58, 237, 0.4);
+  border: 1.5px solid var(--rank-4-unique);
+  box-shadow: 0 0 12px var(--rank-4-unique), 0 0 4px rgba(var(--rank-4-unique-rgb), 0.5);
+  text-shadow: 0 0 8px rgba(var(--rank-4-unique-rgb), 0.4);
 }
 
 /* Size modifiers — sampler density only. Default is md. */
@@ -297,7 +306,7 @@ body {
 }
 
 /* ── NAV ── */
-nav:not(.footer-cols) {
+nav:not(.footer-cols):not(.footer-rail) {
   position: fixed;
   top: 0;
   left: 0;
@@ -869,7 +878,7 @@ nav a:hover {
 }
 
 .nav-tree {
-  color: var(--ultimate) !important;
+  color: var(--rank-5, #fbbf24) !important;
   font-family: var(--font-body);
   font-size: .9rem;
   letter-spacing: .01em
@@ -1172,19 +1181,30 @@ nav.docs-nav:hover .nav-sep {
    (about, badges, named, en, codex, trust, u, etc.)
    ════════════════════════════════════════════════ */
 
+/* E6 mobile-first: phone-size padding is the base; progressively enhanced below */
 .profile-back-row {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding: 0.75rem clamp(1.25rem, 4vw, 2.5rem);
-  margin-top: -54px;
+  padding: 0.4rem clamp(0.5rem, 2vw, 0.75rem);
   margin-bottom: 0;
   position: relative;
   z-index: 10;
-  min-height: 2.75rem;
+  min-height: 2.25rem;
   max-width: 100%;
   width: 100%;
-  padding-top: calc(0.75rem + 54px);
+}
+@media (min-width: 501px) {
+  .profile-back-row {
+    padding: 0.5rem clamp(0.75rem, 3vw, 1.5rem);
+    min-height: 2.5rem;
+  }
+}
+@media (min-width: 701px) {
+  .profile-back-row {
+    padding: 0.75rem clamp(1.25rem, 4vw, 2.5rem);
+    min-height: 2.75rem;
+  }
 }
 
 .profile-back {
@@ -1380,7 +1400,7 @@ section[class*="frontis"],
 }
 
 .hero-audit-btn:hover {
-  border-color: var(--tier-ultimate);
+  border-color: var(--rank-5, #fbbf24);
   background: #111;
   transform: translateX(-4px);
 }
@@ -1391,7 +1411,7 @@ section[class*="frontis"],
 }
 
 .hero-audit-btn:hover .hero-audit-btn-arrow {
-  color: var(--tier-ultimate);
+  color: var(--rank-5, #fbbf24);
 }
 
 
@@ -1456,7 +1476,7 @@ section[class*="frontis"],
   border: none;
   padding: .45rem 1.05rem;
   border-radius: 999px;
-  background: linear-gradient(135deg, var(--basic) 0%, var(--extra) 50%, var(--ultimate) 100%);
+  background: linear-gradient(135deg, var(--basic) 0%, var(--rank-4, #e879f9) 50%, var(--rank-5, #fbbf24) 100%);
   box-shadow: 0 0 24px rgba(56, 189, 248, .22);
 }
 
@@ -1602,13 +1622,6 @@ section[class*="frontis"],
 }
 
 @media (max-width: 700px) {
-  .profile-back-row {
-    padding: 0.5rem clamp(0.75rem, 3vw, 1.5rem);
-    padding-top: calc(0.5rem + 54px);
-    min-height: 2.5rem;
-    margin-top: -54px;
-  }
-
   .profile-back {
     padding: 0.3rem 0.55rem;
     font-size: 0.85rem;
@@ -1649,13 +1662,6 @@ section[class*="frontis"],
 }
 
 @media (max-width: 500px) {
-  .profile-back-row {
-    padding: 0.4rem clamp(0.5rem, 2vw, 0.75rem);
-    padding-top: calc(0.4rem + 54px);
-    min-height: 2.25rem;
-    margin-top: -54px;
-  }
-
   .profile-back {
     padding: 0.25rem 0.45rem;
     font-size: 0.8rem;
@@ -1885,7 +1891,7 @@ h1 em {
 .ns-tab:focus-visible,
 .os-tab:focus-visible,
 .se-tab-btn:focus-visible,
-.se-flow-btn:focus-visible,
+.se-lens-chip:focus-visible,
 .tree-act-btn:focus-visible,
 .tree-close-x:focus-visible,
 .graph-legend-drawer-toggle:focus-visible,
@@ -1925,7 +1931,7 @@ h1 em {
 .bd-copy-all:focus-visible,
 .bd-copy-perline:focus-visible,
 .se-close-x:focus-visible {
-  outline: 2px solid var(--tier-extra);
+  outline: 2px solid var(--rank-4, #e879f9);
   outline-offset: 2px;
 }
 
@@ -1953,17 +1959,17 @@ h1 em {
 
 /* Tier-4 (Unique) button — used for "Open Meta Reports" on the home page
    and any other CTA that surfaces the Unique-tier reporting/governance
-   surfaces. Reads tier-unique tokens so it tracks the canonical tier color. */
+   surfaces. Reads --rank-4-unique tokens so it tracks the 4★ Unique branch color. */
 .btn-unique {
   background: transparent;
-  color: var(--tier-unique);
-  border: 1px solid rgba(var(--tier-unique-rgb), .55);
-  box-shadow: 0 0 0 1px rgba(var(--tier-unique-rgb), .12) inset;
+  color: var(--rank-4-unique);
+  border: 1px solid rgba(var(--rank-4-unique-rgb), .55);
+  box-shadow: 0 0 0 1px rgba(var(--rank-4-unique-rgb), .12) inset;
 }
 
 .btn-unique:hover {
-  border-color: var(--tier-unique);
-  box-shadow: 0 0 24px rgba(var(--tier-unique-rgb), .25);
+  border-color: var(--rank-4-unique);
+  box-shadow: 0 0 24px rgba(var(--rank-4-unique-rgb), .25);
   transform: translateY(-1px);
 }
 
@@ -2229,7 +2235,7 @@ h2 {
 }
 
 .tier-card.unique .tier-icon {
-  color: var(--tier-unique);
+  color: var(--rank-4-unique);
   text-shadow: 0 0 12px rgba(124, 58, 237, .6)
 }
 
@@ -2241,13 +2247,13 @@ h2 {
 
 .badge-extra {
   background: rgba(192, 132, 252, .15);
-  color: var(--extra);
+  color: var(--rank-4, #e879f9);
   border: 1px solid rgba(192, 132, 252, .3)
 }
 
 .badge-ultimate {
   background: rgba(245, 158, 11, .15);
-  color: var(--ultimate);
+  color: var(--rank-5, #fbbf24);
   border: 1px solid rgba(245, 158, 11, .3)
 }
 
@@ -2289,7 +2295,7 @@ h2 {
   font-weight: 800;
   font-size: 1rem;
   flex-shrink: 0;
-  background: linear-gradient(135deg, var(--basic), var(--extra));
+  background: linear-gradient(135deg, var(--basic), var(--rank-4, #e879f9));
   color: #fff;
   box-shadow: 0 0 16px rgba(56, 189, 248, .35);
 }
@@ -2362,7 +2368,7 @@ pre {
 }
 
 .copy-btn:focus-visible {
-  outline: 2px solid var(--tier-extra);
+  outline: 2px solid var(--rank-4, #e879f9);
   outline-offset: 2px;
 }
 
@@ -2482,7 +2488,7 @@ tr:hover td {
 .callout-title {
   font-weight: 700;
   margin-bottom: .5rem;
-  color: var(--extra)
+  color: var(--rank-4, #e879f9)
 }
 
 .callout p {
@@ -2686,7 +2692,7 @@ tr:hover td {
 }
 
 .usp-copy:focus-visible {
-  outline: 2px solid var(--tier-extra);
+  outline: 2px solid var(--rank-4, #e879f9);
   outline-offset: 2px;
 }
 
@@ -2813,7 +2819,7 @@ tr:hover td {
 
 .codex-toc__list a:hover,
 .codex-toc__list a:focus {
-  color: var(--tier-extra);
+  color: var(--rank-4, #e879f9);
   border-block-end-color: currentColor;
 }
 
@@ -2915,7 +2921,7 @@ tr:hover td {
 }
 
 .process-check span {
-  color: var(--extra);
+  color: var(--rank-4, #e879f9);
   font-weight: 800
 }
 
@@ -2969,7 +2975,7 @@ tr:hover td {
 }
 
 .branch-table td code {
-  color: var(--extra);
+  color: var(--rank-4, #e879f9);
   font-size: .8rem
 }
 
@@ -3123,7 +3129,7 @@ tr:hover td {
 
 .gst-stat .gst-unique,
 .gst-stat .gst-unique-count {
-  color: var(--tier-unique)
+  color: var(--rank-4-unique)
 }
 
 .gst-dim {
@@ -3349,6 +3355,7 @@ tr:hover td {
 .tree-dialog-body {
   flex: 1;
   overflow: auto;
+  -webkit-overflow-scrolling: touch;
   padding: 1.1rem 1.4rem;
   min-height: 0
 }
@@ -3363,6 +3370,15 @@ tr:hover td {
   border: none;
   margin: 0;
   padding: 0;
+  /* Opt out of the global code-block overflow-safety rule (`pre { word-break:
+     break-all; overflow-wrap: anywhere; }` below). Those force character-level
+     breaks even under white-space: pre, which mangles the box-drawing tree's
+     column alignment instead of just scrolling. This is an ASCII diagram, not
+     prose code — it needs a real horizontal scroll, not a forced wrap. */
+  overflow-wrap: normal;
+  word-break: normal;
+  max-width: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 .tree-skeleton {
@@ -3395,8 +3411,8 @@ tr:hover td {
   }
 
   36% {
-    color: var(--tier-ultimate);
-    text-shadow: 0 0 10px rgba(245, 158, 11, .8), 0 0 22px rgba(245, 158, 11, .4)
+    color: var(--rank-5);
+    text-shadow: 0 0 10px rgba(251, 191, 36, .8), 0 0 22px rgba(251, 191, 36, .4)
   }
 
   54% {
@@ -3405,8 +3421,8 @@ tr:hover td {
   }
 
   72% {
-    color: var(--tier-extra);
-    text-shadow: 0 0 10px rgba(192, 132, 252, .8), 0 0 22px rgba(192, 132, 252, .4)
+    color: var(--rank-4);
+    text-shadow: 0 0 10px rgba(232, 121, 249, .8), 0 0 22px rgba(232, 121, 249, .4)
   }
 
   90% {
@@ -3420,54 +3436,54 @@ tr:hover td {
   }
 }
 
-@keyframes tree-extra-glow {
-
-  0%,
-  100% {
-    color: var(--tier-basic);
-    text-shadow: 0 0 10px rgba(56, 189, 248, .6);
-  }
-
-  20% {
-    color: var(--rank-3);
-    text-shadow: 0 0 10px rgba(167, 139, 250, .6);
-  }
-
-  40% {
-    color: #ef4444;
-    text-shadow: 0 0 10px rgba(239, 68, 68, .6);
-  }
-
-  60% {
-    color: var(--tier-extra);
-    text-shadow: 0 0 10px rgba(192, 132, 252, .6);
-  }
-
-  80% {
-    color: #34d399;
-    text-shadow: 0 0 10px rgba(52, 211, 153, .6);
-  }
-}
-
-/* ── Tree Tier Glyphs — token-bound (Stage 1/5b) ── */
-.tree-glyph-ult {
-  color: var(--tier-ultimate) !important;
+/* ── Tree Glyphs — Ygg II rank × branch taxonomy ── */
+/* ◆ suite glyphs — rank-keyed */
+.tree-glyph-suite--iv {
+  color: var(--rank-4) !important;
   font-weight: 900 !important;
 }
 
-.tree-glyph-ext {
-  color: var(--tier-extra) !important;
-  font-weight: 700 !important;
-}
-
-.tree-glyph-uni {
-  color: var(--tier-unique) !important;
+.tree-glyph-suite--v {
+  color: var(--rank-5) !important;
   font-weight: 900 !important;
 }
 
+.tree-glyph-suite--vi {
+  font-weight: 900 !important;
+  animation: tree-rainbow-glow 4s ease-in-out infinite !important;
+  text-shadow: var(--glow-VI) !important;
+}
+
+/* ◉ unique glyphs — branch × rank */
+.tree-glyph-uni--iv {
+  color: var(--rank-4-unique) !important;
+  font-weight: 900 !important;
+}
+
+.tree-glyph-uni--v {
+  color: var(--rank-5-unique) !important;
+  font-weight: 900 !important;
+  text-shadow: 0 0 10px rgba(178, 106, 58, .5) !important;
+}
+
+.tree-glyph-uni--vi {
+  color: var(--rank-6-unique) !important;
+  font-weight: 900 !important;
+  text-shadow: var(--glow-VI) !important;
+}
+
+
+/* ○ basic glyph */
 .tree-glyph-basic {
   color: var(--tier-basic) !important;
 }
+
+/* · fusion glyph */
+.tree-glyph-fusion {
+  color: var(--rank-4, #e879f9) !important;
+  font-weight: 900 !important;
+}
+
 
 /* ── Rank chips [N★] / [N★ · Name] — token-bound ── */
 .tree-rank {
@@ -3541,27 +3557,47 @@ tr:hover td {
 }
 
 /* ── Tree Highlighting ── */
-.tree-ult-line {
+.tree-suite-line {
   font-weight: 700 !important;
   color: var(--text) !important;
 }
 
-.tree-ult-contributor {
+.tree-suite-contributor {
   color: var(--honor-red) !important;
   font-weight: 800 !important;
   text-shadow: 0 0 8px rgba(239, 68, 68, 0.4) !important;
 }
 
-.tree-ult-slash {
+.tree-suite-slash {
   color: var(--muted) !important;
   opacity: 0.5 !important;
 }
 
-.tree-ult-skillname,
-.tree-ult-id {
-  color: var(--tier-ultimate) !important;
+/* skill name color inherits from glyph class via currentColor on the line */
+.tree-suite-skillname,
+.tree-suite-id {
+  color: inherit !important;
   font-weight: 700 !important;
 }
+
+/* Rank-specific colors for suite skill names */
+.tree-suite-skillname--iv,
+.tree-suite-id--iv {
+  color: var(--rank-4) !important;
+}
+
+.tree-suite-skillname--v,
+.tree-suite-id--v {
+  color: var(--rank-5) !important;
+}
+
+.tree-suite-skillname--vi,
+.tree-suite-id--vi {
+  color: var(--rank-6) !important;
+  animation: tree-rainbow-glow 4s ease-in-out infinite !important;
+  text-shadow: var(--glow-VI) !important;
+}
+
 
 .tree-unique-line {
   font-weight: 700 !important;
@@ -3578,40 +3614,78 @@ tr:hover td {
   opacity: 0.5 !important;
 }
 
-.tree-unique-skillname {
-  color: var(--tier-unique) !important;
+.tree-unique-skillname--iv,
+.tree-unique-id--iv {
+  color: var(--rank-4-unique) !important;
   font-weight: 900 !important;
   text-shadow: 0 0 8px rgba(124, 58, 237, 0.6), 0 0 16px rgba(124, 58, 237, 0.3) !important;
 }
 
-.tree-unique-gold {
-  color: var(--rank-5) !important;
-  text-shadow: 0 0 8px rgba(251, 191, 36, 0.6), 0 0 16px rgba(251, 191, 36, 0.3) !important;
+.tree-unique-skillname--v,
+.tree-unique-id--v {
+  color: var(--rank-5-unique) !important;
+  font-weight: 900 !important;
+  text-shadow: 0 0 8px rgba(178, 106, 58, 0.5), 0 0 16px rgba(178, 106, 58, 0.25) !important;
 }
 
-.tree-extra-line {
-  font-weight: 600 !important;
-  color: var(--text) !important;
+.tree-unique-skillname--vi,
+.tree-unique-id--vi {
+  color: var(--rank-6-unique) !important;
+  font-weight: 900 !important;
+  text-shadow: var(--glow-VI) !important;
 }
 
-.tree-extra-contributor {
-  color: var(--honor-red) !important;
-  font-weight: 700 !important;
-}
-
-.tree-extra-slash {
-  color: var(--muted) !important;
-  opacity: 0.5 !important;
-}
-
-.tree-extra-skillname,
-.tree-extra-id {
-  color: var(--tier-extra) !important;
-}
 
 .tree-basic-line {
   color: var(--text) !important;
 }
+
+/* ── Tree Fusion/Derivative Skills ── */
+.tree-fusion-line {
+  color: var(--text) !important;
+}
+
+.tree-fusion-contributor {
+  color: var(--honor-red) !important;
+  font-weight: 700 !important;
+}
+
+.tree-fusion-slash {
+  color: var(--muted) !important;
+  opacity: 0.5 !important;
+}
+
+.tree-fusion-skillname,
+.tree-fusion-id {
+  color: var(--rank-0, #94a3b8) !important; /* default to starless grey for no ranks */
+}
+
+/* Rank overrides for fusion skill names */
+.tree-fusion-skillname--ii,
+.tree-fusion-id--ii {
+  color: var(--rank-2) !important;
+}
+
+.tree-fusion-skillname--iii,
+.tree-fusion-id--iii {
+  color: var(--rank-3) !important;
+}
+
+.tree-fusion-skillname--iv,
+.tree-fusion-id--iv {
+  color: var(--rank-4) !important;
+}
+
+.tree-fusion-skillname--v,
+.tree-fusion-id--v {
+  color: var(--rank-5) !important;
+}
+
+.tree-fusion-skillname--vi,
+.tree-fusion-id--vi {
+  color: var(--rank-6) !important;
+}
+
 
 .tree-basic-contributor {
   color: var(--honor-red) !important;
@@ -3699,15 +3773,25 @@ tr:hover td {
 }
 
 .skill-tooltip-type-extra {
-  color: var(--tier-extra)
+  color: var(--rank-4, #e879f9)
 }
 
 .skill-tooltip-type-unique {
-  color: var(--tier-unique)
+  color: var(--rank-4-unique)
 }
 
 .skill-tooltip-type-ultimate {
-  color: var(--tier-ultimate)
+  color: var(--rank-5, #fbbf24)
+}
+
+/* PR3b: branch-keyed tooltip color (skill-graph.js keys on the resolved branch,
+   not the dead type enum). standard→basic hue, suite→apex-gold. */
+.skill-tooltip-type-standard {
+  color: var(--tier-basic)
+}
+
+.skill-tooltip-type-suite {
+  color: var(--apex-gold)
 }
 
 .graph-search-wrap {
@@ -3782,7 +3866,7 @@ tr:hover td {
   font-size: .74rem;
   color: var(--honor-red);
   outline: none;
-  width: 130px;
+  width: 180px;
   font-family: var(--font-mono);
   transition: background .2s, border-color .2s, width .2s;
 }
@@ -3795,7 +3879,7 @@ tr:hover td {
 .graph-search:focus {
   background: rgba(3, 7, 18, .72);
   border-color: rgba(148, 163, 184, .5);
-  width: 175px;
+  width: 240px;
 }
 
 .graph-legend {
@@ -3806,7 +3890,7 @@ tr:hover td {
   z-index: 100;
   display: none;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   transition: transform .38s cubic-bezier(0.16, 1, 0.3, 1);
   background: transparent;
   border: none;
@@ -3893,6 +3977,8 @@ tr:hover td {
   flex-direction: column;
   gap: .55rem;
   z-index: 1;
+  overflow-y: auto;
+  max-height: inherit;
 }
 
 .graph-legend-body {
@@ -3945,20 +4031,32 @@ tr:hover td {
   flex-shrink: 0
 }
 
-.graph-legend-swatch[data-tier="basic"] {
-  background: var(--tier-basic)
+/* Legend structural glyphs — colour keyed on the emitted data-legend-type
+   (skill-graph.js ~L2422-2425). basic = neutral outer-bark grey (type spans
+   all ranks, mirrors the rank-pill's 0★ anchor below); unique/suite read
+   their branch tokens (unique = dark violet, suite = gold, per T5's
+   neighbor-card convention). fusion reads --rank-3 (light violet), NOT the
+   generated --tier-fusion (amber) — that token is the literal type:fusion
+   color from meta.typeColors, but it visually collides with Suite's gold
+   here, and this session's T3/T4 fixes both already established
+   old-tier-extra -> --rank-3 as the migration target for this "fusion"
+   concept, distinct from Unique's darker --rank-4-unique violet. The old
+   [data-tier="basic|extra|unique|ultimate"] swatch rules were dead — JS
+   never emits data-tier or .graph-legend-swatch on these items. */
+.graph-legend-item[data-legend-type="basic"] .graph-legend-glyph {
+  color: var(--rank-0)
 }
 
-.graph-legend-swatch[data-tier="extra"] {
-  background: var(--tier-extra)
+.graph-legend-item[data-legend-type="fusion"] .graph-legend-glyph {
+  color: var(--rank-3)
 }
 
-.graph-legend-swatch[data-tier="unique"] {
-  background: var(--tier-unique)
+.graph-legend-item[data-legend-type="unique"] .graph-legend-glyph {
+  color: var(--rank-4-unique)
 }
 
-.graph-legend-swatch[data-tier="ultimate"] {
-  background: var(--tier-ultimate)
+.graph-legend-item[data-legend-type="suite"] .graph-legend-glyph {
+  color: var(--rank-5)
 }
 
 .graph-legend-ranks {
@@ -4054,10 +4152,10 @@ tr:hover td {
   box-shadow: 0 0 14px rgba(var(--honor-red-rgb), .35);
 }
 
-/* ── Scatter strip (direction rule: top = Ultimate, bottom = Basic).
-     Four-stop gradient runs from --tier-ultimate-edge through
-     --tier-unique-edge → --tier-extra-edge → --tier-basic-edge so the
-     strip visually maps onto the tier hierarchy from apex down. */
+/* ── Scatter strip (direction rule: top = 5★, bottom = Basic).
+     Four-stop gradient runs from --rank-5-edge through
+     --rank-4-unique-edge → --rank-3-edge → --tier-basic-edge so the
+     strip visually maps onto the rank hierarchy from apex down. */
 .graph-scatter-strip {
   position: absolute;
   left: 0;
@@ -4069,9 +4167,9 @@ tr:hover td {
   flex-direction: column;
   align-items: center;
   background: linear-gradient(to bottom,
-      var(--tier-ultimate-edge) 0%,
-      var(--tier-unique-edge) 33%,
-      var(--tier-extra-edge) 66%,
+      var(--rank-5-edge) 0%,
+      var(--rank-4-unique-edge) 33%,
+      var(--rank-3-edge) 66%,
       var(--tier-basic-edge) 100%);
   border-right: 1px solid var(--border);
   cursor: ns-resize;
@@ -4089,7 +4187,7 @@ tr:hover td {
 }
 
 .graph-scatter-edge--top {
-  color: var(--tier-ultimate)
+  color: var(--rank-5)
 }
 
 .graph-scatter-edge--bot {
@@ -4253,7 +4351,7 @@ tr:hover td {
 }
 
 .graph-speed-edge--right {
-  color: var(--tier-extra)
+  color: var(--rank-3)
 }
 
 .graph-speed-track {
@@ -4456,13 +4554,13 @@ tr:hover td {
 }
 
 .graph-skill-panel-cmd.copied {
-  border-color: rgba(var(--tier-extra-rgb), .5);
-  color: var(--tier-extra)
+  border-color: rgba(var(--rank-4-rgb, 232, 121, 249), .5);
+  color: var(--rank-4, #e879f9)
 }
 
 .graph-skill-panel-cmd.copied::after {
   content: ' ✓ copied';
-  color: rgba(var(--tier-extra-rgb), .7);
+  color: rgba(var(--rank-4-rgb, 232, 121, 249), .7);
   font-size: .65rem
 }
 
@@ -4583,7 +4681,7 @@ tr:hover td {
 
 .graph-collection-copy-all.copied {
   color: var(--text);
-  border-color: rgba(var(--tier-extra-rgb), .5);
+  border-color: rgba(var(--rank-4-rgb, 232, 121, 249), .5);
 }
 
 .graph-collection-clear-all:hover {
@@ -4703,8 +4801,8 @@ tr:hover td {
 }
 
 .graph-collection-cmd.copied {
-  border-color: rgba(var(--tier-extra-rgb), .5);
-  color: var(--tier-extra);
+  border-color: rgba(var(--rank-4-rgb, 232, 121, 249), .5);
+  color: var(--rank-4, #e879f9);
 }
 
 .graph-collection-share,
@@ -4777,21 +4875,19 @@ tr:hover td {
   transform: translate(-50%, -120%) scale(1.08);
 }
 
-/* Neighbor card border tints route through --tier-*-border tokens. */
-.graph-neighbor-card[data-type="basic"] {
+/* Neighbor card border tints route through branch (data-branch), not the
+   dead type enum — mirrors the PR3b branch-keyed tooltip (.skill-tooltip-type-*).
+   suite keys through --rank-5-border (a rank token, not a tier alias). */
+.graph-neighbor-card[data-branch="standard"] {
   border-color: var(--tier-basic-border)
 }
 
-.graph-neighbor-card[data-type="extra"] {
-  border-color: var(--tier-extra-border)
+.graph-neighbor-card[data-branch="suite"] {
+  border-color: var(--rank-5-border)
 }
 
-.graph-neighbor-card[data-type="ultimate"] {
-  border-color: var(--tier-ultimate-border)
-}
-
-.graph-neighbor-card[data-type="unique"] {
-  border-color: var(--tier-unique-border)
+.graph-neighbor-card[data-branch="unique"] {
+  border-color: var(--rank-4-unique-border)
 }
 
 @media(max-width:700px) {
@@ -4834,7 +4930,7 @@ tr:hover td {
     transform: translate(0, -50%) !important;
     display: flex !important;
     flex-direction: row !important;
-    align-items: center !important;
+    align-items: flex-start !important;
   }
 
   #hero.hero-graph-fullscreen .graph-legend-content {
@@ -4910,7 +5006,7 @@ tr:hover td {
   }
 
   #hero.hero-graph-fullscreen .graph-search {
-    width: 130px;
+    width: min(200px, calc(100vw - 80px - 2rem));
     font-size: .68rem;
   }
 
@@ -5329,11 +5425,21 @@ tr:hover td {
     padding: .5rem .7rem 1rem
   }
 
+  /* ui.js's initCopyButtons() wraps every <pre> in an injected .pre-wrap —
+     the generic mobile `.pre-wrap, pre { background: #0f172a }` rule below
+     paints that wrapper navy, which sits between .tree-dialog-body and the
+     tree's pre. Desktop has no such background so it reads as the dialog's
+     own near-black; this override keeps mobile matching it. */
+  .tree-dialog-body .pre-wrap {
+    background: transparent;
+  }
+
   .tree-dialog-body pre {
     font-size: 0.65rem;
-    /* Stage 7: unified to 1.5 across all breakpoints for consistent
-         monospace tree readability (the 1.3 from Stage 5 was legacy). */
-    line-height: 1.5;
+    /* Matches desktop's 1.65 line-height ratio (not the flat 1.5 this used
+       to unify to) — at the smaller mobile font-size, 1.5 read noticeably
+       more cramped than desktop despite being the "same" line-height. */
+    line-height: 1.65;
     letter-spacing: -0.01em;
   }
 
@@ -5342,13 +5448,15 @@ tr:hover td {
     opacity: 0.5;
   }
 
-  .tree-ult-line,
-  .tree-extra-line,
-  .tree-basic-line,
-  .tree-unique-line {
-    display: block;
-    white-space: nowrap;
-  }
+  /* This block previously forced display:block (doubled row height via a
+     phantom line box from the trailing "\n" text node — see git history)
+     and white-space:nowrap (collapsed the space-runs that form the tree's
+     indentation, since nowrap collapses whitespace same as `normal`, unlike
+     `pre`). Both were wrong: .tree-fusion-line never had either override and
+     was always correct — inline (no extra line box) with white-space
+     inherited as `pre` from the ancestor <pre> (exact spacing preserved).
+     Removing the override entirely makes suite/basic/unique rows behave
+     identically to fusion rows and to desktop (which never had this rule). */
 
   /* Attempt 4-column layout for pure skills if they have the class */
   .tree-pure-container {
@@ -5395,12 +5503,21 @@ tr:hover td {
   }
 }
 
-/* -- NAMED SKILLS -- */
+/* -- NAMED SKILLS --
+   Mobile-first: base layout is single-column compact (≤700px).
+   Desktop (≥701px) expands to full viewport height + wider padding. */
 #named {
-  min-height: 100vh;
-  padding-top: 4rem;
-  scroll-margin-top: 5rem;
+  min-height: auto;
+  padding: 3rem 1rem 1.5rem;
+  scroll-margin-top: 7rem;
   max-width: none;
+}
+@media (min-width: 701px) {
+  #named {
+    min-height: 100vh;
+    padding: 4rem 0 0;
+    scroll-margin-top: 5rem;
+  }
 }
 
 .ns-controls {
@@ -5412,7 +5529,8 @@ tr:hover td {
 
 /* ── Sticky/floating explorer rail (used on the standalone /named/ page).
    The rail pins below the top nav while the grid scrolls; backdrop blur
-   keeps the strip translucent so it reads as floating, not opaque. */
+   keeps the strip translucent so it reads as floating, not opaque.
+   Mobile-first: base = compact (≤700px), desktop expands via min-width. */
 .ns-controls--sticky {
   position: sticky;
   top: 0;
@@ -5420,23 +5538,30 @@ tr:hover td {
   background: rgba(3, 7, 18, .82);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  padding: .9rem 1rem;
-  margin: 0 -1rem 1.6rem;
+  padding: .7rem .6rem;
+  margin: 0 -.6rem 1.2rem;
   border-bottom: 1px solid var(--border);
   box-shadow: 0 4px 16px -8px rgba(0, 0, 0, .55);
 }
-@media (max-width: 700px) {
+@media (min-width: 701px) {
   .ns-controls--sticky {
-    padding: .7rem .6rem;
-    margin: 0 -.6rem 1.2rem;
+    padding: .9rem 1rem;
+    margin: 0 -1rem 1.6rem;
   }
 }
 
 .ns-filter-row {
   display: flex;
-  align-items: center;
+  align-items: stretch;
+  flex-direction: column;
   gap: .6rem;
   flex-wrap: wrap;
+}
+@media (min-width: 701px) {
+  .ns-filter-row {
+    flex-direction: row;
+    align-items: center;
+  }
 }
 
 .ns-level-tabs {
@@ -5542,11 +5667,17 @@ tr:hover td {
 /* Stage 4 — view grid containers. The per-card glow / data-level / data-type
      visual rules moved to .plaque[data-level][data-type] in plaque.css so a
      single source of truth drives Tile, List, Tree, and any future view mode.
-     What remains here is layout-only (gaps, columns, scroll). */
+     What remains here is layout-only (gaps, columns, scroll).
+     Mobile-first: base = single-column. Desktop (≥701px) gets auto-fill. */
 .ns-grid-tile {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: 1fr;
   gap: 1rem;
+}
+@media (min-width: 701px) {
+  .ns-grid-tile {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
 }
 
 .ns-grid-list {
@@ -5592,7 +5723,7 @@ tr:hover td {
   padding: .16rem .48rem;
   border-radius: 999px;
   background: rgba(245, 158, 11, .12);
-  color: var(--ultimate);
+  color: var(--rank-5, #fbbf24);
   border: 1px solid rgba(245, 158, 11, .3);
 }
 
@@ -5612,13 +5743,13 @@ tr:hover td {
 }
 
 .ns-chip-deriv {
-  color: var(--tier-extra);
+  color: var(--rank-4, #e879f9);
   background: rgba(192, 132, 252, .08);
   border-color: rgba(192, 132, 252, .25)
 }
 
 .ns-chip-variant {
-  color: var(--tier-ultimate);
+  color: var(--rank-5, #fbbf24);
   background: rgba(245, 158, 11, .08);
   border-color: rgba(245, 158, 11, .25)
 }
@@ -5725,16 +5856,20 @@ tr:hover td {
   color: var(--tier-basic);
 }
 
+.tier-glyph[data-type="fusion"] {
+  color: var(--tier-fusion);
+}
+
 .tier-glyph[data-type="extra"] {
-  color: var(--tier-extra);
+  color: var(--rank-4, #e879f9);
 }
 
 .tier-glyph[data-type="unique"] {
-  color: var(--tier-unique);
+  color: var(--rank-4-unique);
 }
 
 .tier-glyph[data-type="ultimate"] {
-  color: var(--tier-ultimate);
+  color: var(--rank-5, #fbbf24);
 }
 
 /* ── terminal install row (inside cards) ── */
@@ -5790,7 +5925,7 @@ tr:hover td {
 }
 
 .ns-install-copy:focus-visible {
-  outline: 2px solid var(--tier-extra);
+  outline: 2px solid var(--rank-4, #e879f9);
   outline-offset: 2px;
 }
 
@@ -5861,6 +5996,22 @@ tr:hover td {
 
 .ns-group-glyph {
   font-size: 1rem;
+}
+
+/* Branch descriptor chip on 4★+ group headers — makes the taxonomy explicit:
+   the Unique ladder (Unique / Unique Ultimate / Unique Impossible) is STANDALONE
+   skills; the suite ladder (Extra / Ultimate / Apex) is skill SUITES. Sits at the
+   trailing edge of the header row. */
+.ns-group-kind {
+  margin-left: auto;
+  font-size: .6rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: .1rem .45rem;
+  opacity: .85;
 }
 
 /* grab-to-scroll cursor on grid area. The explorer no longer scrolls
@@ -6127,7 +6278,7 @@ tr:hover td {
 }
 
 .se-hero-copy:focus-visible {
-  outline: 2px solid var(--tier-extra);
+  outline: 2px solid var(--rank-4, #e879f9);
   outline-offset: 2px
 }
 
@@ -6138,48 +6289,152 @@ tr:hover td {
   margin-top: 1rem;
   text-align: center;
   font-family: var(--font-body);
-}
-
-/* Upgrade-path action buttons (Show Fusion / Recenter) live on the
-     right side of the .se-flow-h header. */
-.se-flow-actions {
-  margin-left: auto;
-  display: flex;
-  gap: .35rem;
-}
-
-.se-flow-btn {
   display: inline-flex;
   align-items: center;
   gap: .35rem;
-  background: transparent;
+}
+
+/* Lens-scoped count chips: each declares the lens it belongs to and only
+   surfaces when #se-upgrade carries the matching lens- state. Under Path
+   (no lens class) both stay hidden, keeping the canvas quiet. The count is
+   read-only reinforcement of the active framing, not ambient noise. */
+.se-fusion-label[data-lens] { display: none; }
+#se-upgrade.lens-fusion .se-fusion-label[data-lens="fusion"] {
+  display: inline-flex;
+  color: var(--rank-4-unique);
+}
+#se-upgrade.lens-suite .se-fusion-label[data-lens="suite"] {
+  display: inline-flex;
+  color: var(--apex-gold);
+}
+.se-fusion-label svg { width: 13px; height: 13px; opacity: .85; }
+
+/* Node framing per lens — origins (Fusion, violet) vs installed deliverables
+   (Suite, gold). The ring is a UI affordance keyed off the container lens
+   state, not a resolved branch color. Fusion rings the spotlit direct children
+   (.show-label); Suite rings the full lit deliverable set (.suite-lit). */
+#se-upgrade.lens-fusion .git-node.show-label .git-commit-dot {
+  box-shadow: 0 0 0 3px rgba(var(--rank-4-unique-rgb, 124, 58, 237), .35);
+}
+#se-upgrade.lens-suite .git-node.suite-lit .git-commit-dot,
+#se-upgrade.lens-suite .git-node.show-label .git-commit-dot {
+  box-shadow: 0 0 0 3px rgba(var(--apex-gold-rgb, 251, 191, 36), .35);
+}
+/* Under the Suite lens, dim canonical nodes that are NOT in the deliverable
+   set so the installed suite reads as a distinct region of the path. */
+#se-upgrade.lens-suite .git-node:not(.suite-lit):not(.selected) {
+  opacity: .3;
+}
+
+/* Progression lens filter — a segmented pill control sitting on the right of
+   the .se-flow-h header. One segment active at a time: Path (all) / Fusion /
+   Suite. Replaces the old .se-flow-actions "Show X" buttons. */
+.se-flow-lens {
+  display: inline-flex;
+  align-items: stretch;
+  gap: 2px;
+  padding: 3px;
   border: 1px solid var(--border);
+  border-radius: 9px;
+  background: rgba(0, 0, 0, .35);
+}
+
+.se-lens-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: .3rem;
+  background: transparent;
+  border: none;
   color: var(--muted);
   font-family: var(--font-mono);
   font-size: .68rem;
   letter-spacing: .08em;
   text-transform: uppercase;
-  padding: .3rem .6rem;
+  padding: .3rem .7rem;
   border-radius: 6px;
   cursor: pointer;
-  transition: border-color .15s, color .15s, background .15s;
+  transition: color .15s, background .15s;
 }
 
-.se-flow-btn:hover {
-  border-color: var(--text);
+.se-lens-chip:hover {
   color: var(--text);
-  background: rgba(255, 255, 255, .03);
+  background: rgba(255, 255, 255, .04);
 }
 
-.se-flow-btn.active {
-  border-color: var(--tier-extra, #c084fc);
-  color: var(--tier-extra, #c084fc);
-  background: rgba(192, 132, 252, .08);
+.se-lens-chip.active {
+  color: var(--text);
+  background: rgba(255, 255, 255, .08);
+  box-shadow: inset 0 0 0 1px var(--border);
 }
 
-.se-flow-btn svg {
+/* Lens-tinted active states: Fusion → unique violet, Suite → apex gold.
+   Colors are UI affordances for the lens, not resolved branch values. */
+.se-lens-chip[data-lens="fusion"].active {
+  color: var(--rank-4-unique);
+  box-shadow: inset 0 0 0 1px rgba(var(--rank-4-unique-rgb, 124, 58, 237), .45);
+  background: rgba(var(--rank-4-unique-rgb, 124, 58, 237), .1);
+}
+
+.se-lens-chip[data-lens="suite"].active {
+  color: var(--apex-gold);
+  box-shadow: inset 0 0 0 1px rgba(var(--apex-gold-rgb, 251, 191, 36), .45);
+  background: rgba(var(--apex-gold-rgb, 251, 191, 36), .1);
+}
+
+.se-lens-chip svg {
   width: 12px;
   height: 12px;
+  opacity: .8;
+}
+
+/* Hover/focus tooltip carrying the lens explainer copy (data-tip). Positioned
+   ABOVE the chip, escaping the pill. Border + accent tint match each lens's
+   active-state color (Fusion → unique violet, Suite → apex gold, Path →
+   neutral). Pure CSS — no JS, read-only prose. */
+.se-lens-chip[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  right: 0;
+  z-index: 20;
+  width: max-content;
+  max-width: 240px;
+  padding: .45rem .6rem;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: .76rem;
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: 0;
+  text-transform: none;
+  text-align: left;
+  white-space: normal;
+  box-shadow: 0 8px 24px -8px rgba(0, 0, 0, .6);
+  opacity: 0;
+  transform: translateY(3px);
+  pointer-events: none;
+  transition: opacity .14s ease, transform .14s ease;
+}
+
+/* Per-lens accent — same tokens as the active chip state. */
+.se-lens-chip[data-lens="fusion"][data-tip]::after {
+  border-color: rgba(var(--rank-4-unique-rgb, 124, 58, 237), .45);
+  color: var(--rank-4-unique);
+}
+
+.se-lens-chip[data-lens="suite"][data-tip]::after {
+  border-color: rgba(var(--apex-gold-rgb, 251, 191, 36), .45);
+  color: var(--apex-gold);
+}
+
+.se-lens-chip[data-tip]:hover::after,
+.se-lens-chip[data-tip]:focus-visible::after {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 /* Slash labels above dots are click-through by default; in the
@@ -6192,21 +6447,6 @@ tr:hover td {
 
 #se-upgrade .dag-node-label:hover {
   border-color: var(--text);
-}
-
-/* Lone unique zone — current skill stands alone inside the void. */
-.se-flowchart-rows.unique-alone {
-  min-height: 200px;
-  align-items: center;
-  justify-content: center;
-}
-
-.se-flowchart-rows.unique-alone .se-flowchart-row.void-zone {
-  min-width: 280px;
-  min-height: 160px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 /* Subtle marker for the current/main node so the user knows which
@@ -6392,126 +6632,170 @@ footer.footer-v2::before {
   background: linear-gradient(90deg, transparent, rgba(56, 189, 248, .3) 20%, rgba(192, 132, 252, .3) 50%, rgba(245, 158, 11, .3) 80%, transparent);
 }
 
+/* ── FOOTER v2 — "Roots of the Tree" ─────────────────────────────────────
+   UX inversion from the old brand-left / nav-grid-right split: the footer
+   now reads as a single vertical descent — a centered closing invitation
+   (the one action), a compact horizontal nav rail (everything else), and a
+   full-scale "Skill Tree" root anchor with the parent-org signature. The
+   Yggdrasil backdrop sits faint behind the whole thing as the roots. */
+.footer-v2 .footer-roots {
+  position: absolute;
+  inset: 0;
+  background-image: var(--footer-tree);
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: min(1100px, 120%) auto;
+  opacity: .05;
+  filter: grayscale(.3) brightness(1.1);
+  pointer-events: none;
+  mask-image: linear-gradient(180deg, transparent 0%, #000 45%, #000 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 45%, #000 100%);
+}
+
 .footer-v2 .footer-inner {
   max-width: 1100px;
   margin: 0 auto;
-  padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 4vw, 2.5rem) clamp(2.5rem, 5vw, 4rem);
-  display: grid;
-  grid-template-columns: minmax(170px, 230px) 1fr;
-  gap: 3rem 4rem;
-  align-items: start;
+  padding: clamp(3.5rem, 7vw, 6rem) clamp(1.5rem, 4vw, 2.5rem) clamp(2rem, 4vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.75rem, 6vw, 4.5rem);
   width: 100%;
   box-sizing: border-box;
+  position: relative;
+  z-index: 1;
 }
 
-/* Brand column */
-.footer-v2 .footer-brand-col {
+/* ── Closing invitation — centered emotional sign-off + one primary CTA ── */
+.footer-v2 .footer-close {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  align-items: center;
+  text-align: center;
+  gap: .85rem;
 }
 
-.footer-v2 .footer-brand-mark {
-  display: flex;
+.footer-v2 .footer-close-seal {
+  width: 40px;
+  height: 40px;
+  color: var(--apex-gold);
+  filter: drop-shadow(0 0 12px rgba(var(--apex-gold-rgb), .35));
+}
+
+.footer-v2 .footer-close-headline {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  line-height: 1.1;
+  letter-spacing: -.02em;
+  color: var(--text);
+}
+
+.footer-v2 .footer-close-sub {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: .9rem;
+  line-height: 1.5;
+  color: var(--muted);
+  max-width: 42ch;
+}
+
+/* Primary CTA — the single confident action, gold pill with a sliding arrow. */
+.footer-v2 .footer-close-cta {
+  display: inline-flex;
   align-items: center;
   gap: .6rem;
+  margin-top: .5rem;
+  padding: .7rem 1.4rem;
+  border-radius: 999px;
+  border: 1px solid rgba(var(--apex-gold-rgb), .45);
+  background: rgba(var(--apex-gold-rgb), .08);
+  color: var(--apex-gold);
+  font-family: var(--font-display);
+  font-size: 1.02rem;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  text-decoration: none;
+  transition:
+    border-color .3s cubic-bezier(0.16, 1, 0.3, 1),
+    background .3s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow .3s cubic-bezier(0.16, 1, 0.3, 1),
+    transform .3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.footer-v2 .footer-seal {
-  width: 26px;
-  height: 26px;
+.footer-v2 .footer-close-cta-arrow {
+  font-family: var(--font-mono);
+  transition: transform .32s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.footer-v2 .footer-wordmark {
-  font-size: 1.15rem;
+.footer-v2 .footer-close-cta:hover,
+.footer-v2 .footer-close-cta:focus-visible {
+  border-color: rgba(var(--apex-gold-rgb), .8);
+  background: rgba(var(--apex-gold-rgb), .16);
+  box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), .25), 0 10px 30px rgba(var(--apex-gold-rgb), .18);
+  transform: translateY(-1px);
+  outline: none;
 }
 
-.footer-v2 .footer-tagline {
-  font-family: var(--font-body);
-  font-size: .8rem;
-  line-height: 1.6;
-  color: var(--muted);
-  margin: 0;
+.footer-v2 .footer-close-cta:hover .footer-close-cta-arrow,
+.footer-v2 .footer-close-cta:focus-visible .footer-close-cta-arrow {
+  transform: translateX(4px);
 }
 
-/* Link columns grid */
-.footer-v2 .footer-cols {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
-  align-items: start;
-  width: 100%;
-}
-
-.footer-v2 .footer-col {
+/* ── Horizontal nav rail — every section, one wrapping row ──────────────── */
+.footer-v2 .footer-rail {
   display: flex;
-  flex-direction: column;
-  gap: .7rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem 2.75rem;
+  padding-top: clamp(1.5rem, 3vw, 2.25rem);
+  border-top: 1px solid var(--border);
 }
 
-.footer-v2 .footer-col-heading {
+.footer-v2 .footer-rail-group {
+  --col-hue: var(--tier-basic, #38bdf8);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .35rem .85rem;
+}
+.footer-v2 .footer-rail-group:nth-child(1) { --col-hue: var(--tier-basic, #38bdf8); }
+.footer-v2 .footer-rail-group:nth-child(2) { --col-hue: var(--rank-4-unique, #c084fc); }
+.footer-v2 .footer-rail-group:nth-child(3) { --col-hue: var(--tier-basic, #38bdf8); }
+.footer-v2 .footer-rail-group:nth-child(4) { --col-hue: var(--rank-4-unique, #c084fc); }
+.footer-v2 .footer-rail-group:nth-child(5) { --col-hue: var(--apex-gold, #fbbf24); }
+.footer-v2 .footer-rail-group:nth-child(6) { --col-hue: var(--honor-red, #ef4444); }
+
+.footer-v2 .footer-rail-heading {
   font-family: var(--font-display);
   font-style: italic;
-  font-size: .875rem;
+  font-size: .8rem;
   font-weight: 400;
-  color: var(--muted);
+  color: var(--col-hue);
+  opacity: .85;
   letter-spacing: .01em;
-  line-height: 1;
+  margin-right: .15rem;
 }
 
-.footer-v2 .footer-col ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: .45rem;
-}
-
-.footer-v2 .footer-col ul li a,
-.footer-v2 .footer-col ul li button.footer-link-btn {
+.footer-v2 .footer-rail-group > a,
+.footer-v2 .footer-rail-group > button.footer-link-btn {
+  position: relative;
   font-family: var(--font-body);
   font-size: .82rem;
   color: var(--muted);
   text-decoration: none;
-  transition: color .18s;
-  display: inline;
   border: none;
   background: none;
   cursor: pointer;
   padding: 0;
-  font: inherit;
-}
-
-.footer-v2 .footer-col ul li a:hover,
-.footer-v2 .footer-col ul li button.footer-link-btn:hover {
-  color: var(--text);
-}
-
-/* ── Footer link motion: each column gets a tier hue, links adopt it
-     on hover via currentColor — underline wipe + glow + 1px shift.
-     Honor handle stays Honor Red end-to-end. ─────────────────────── */
-.footer-v2 .footer-col              { --col-hue: var(--tier-basic, #38bdf8); }
-.footer-v2 .footer-col:nth-child(1) { --col-hue: var(--tier-basic, #38bdf8); }
-.footer-v2 .footer-col:nth-child(2) { --col-hue: var(--tier-extra, #c084fc); }
-.footer-v2 .footer-col:nth-child(3) { --col-hue: var(--tier-basic, #38bdf8); }
-.footer-v2 .footer-col:nth-child(4) { --col-hue: var(--apex-gold, #fbbf24); }
-.footer-v2 .footer-col:nth-child(5) { --col-hue: var(--honor-red, #ef4444); }
-
-.footer-v2 .footer-col ul li a,
-.footer-v2 .footer-col ul li button.footer-link-btn {
-  position: relative;
-  display: inline-block;
   letter-spacing: .005em;
   transition:
     color .26s cubic-bezier(0.16, 1, 0.3, 1),
-    transform .32s cubic-bezier(0.16, 1, 0.3, 1),
-    letter-spacing .32s cubic-bezier(0.16, 1, 0.3, 1),
     text-shadow .26s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.footer-v2 .footer-col ul li a::after,
-.footer-v2 .footer-col ul li button.footer-link-btn::after {
+.footer-v2 .footer-rail-group > a::after,
+.footer-v2 .footer-rail-group > button.footer-link-btn::after {
   content: "";
   position: absolute;
   left: 0;
@@ -6529,48 +6813,29 @@ footer.footer-v2::before {
   border-radius: 1px;
 }
 
-.footer-v2 .footer-col ul li a:hover,
-.footer-v2 .footer-col ul li button.footer-link-btn:hover,
-.footer-v2 .footer-col ul li a:focus-visible,
-.footer-v2 .footer-col ul li button.footer-link-btn:focus-visible {
+.footer-v2 .footer-rail-group > a:hover,
+.footer-v2 .footer-rail-group > a:focus-visible,
+.footer-v2 .footer-rail-group > button.footer-link-btn:hover,
+.footer-v2 .footer-rail-group > button.footer-link-btn:focus-visible {
   color: var(--col-hue);
-  letter-spacing: .03em;
-  transform: translateX(2px);
   text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+  outline: none;
 }
 
-.footer-v2 .footer-col ul li a:hover::after,
-.footer-v2 .footer-col ul li button.footer-link-btn:hover::after,
-.footer-v2 .footer-col ul li a:focus-visible::after,
-.footer-v2 .footer-col ul li button.footer-link-btn:focus-visible::after {
+.footer-v2 .footer-rail-group > a:hover::after,
+.footer-v2 .footer-rail-group > a:focus-visible::after,
+.footer-v2 .footer-rail-group > button.footer-link-btn:hover::after,
+.footer-v2 .footer-rail-group > button.footer-link-btn:focus-visible::after {
   transform: scaleX(1);
   box-shadow: 0 0 8px currentColor, 0 0 18px currentColor;
 }
 
-/* Column heading also breathes the hue when the column is hovered. */
-.footer-v2 .footer-col-heading {
-  transition: color .3s cubic-bezier(0.16, 1, 0.3, 1),
-              text-shadow .3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.footer-v2 .footer-col:hover .footer-col-heading,
-.footer-v2 .footer-col:focus-within .footer-col-heading {
-  color: var(--col-hue);
-  text-shadow: 0 0 12px currentColor;
-}
-
-/* Honor attribution — contributor handle only */
+/* Honor attribution — contributor handle keeps Honor Red end-to-end. */
 .footer-v2 .footer-link-honor {
   color: var(--honor-red) !important;
 }
-
-.footer-v2 .footer-link-honor:hover {
-  color: var(--text) !important;
-}
-
-/* Honor handle keeps red end-to-end, but still gets the glow treatment
-   from currentColor — the column-hue rule above shouldn't override it. */
-.footer-v2 .footer-col ul li a.footer-link-honor:hover,
-.footer-v2 .footer-col ul li a.footer-link-honor:focus-visible {
+.footer-v2 .footer-rail-group > a.footer-link-honor:hover,
+.footer-v2 .footer-rail-group > a.footer-link-honor:focus-visible {
   color: var(--honor-red) !important;
   text-shadow: 0 0 10px var(--honor-red), 0 0 22px var(--honor-red);
 }
@@ -6621,6 +6886,104 @@ footer.footer-v2::before {
   opacity: .6;
 }
 
+/* ── Root anchor — the site's name at full scale + parent-org signature ───
+   "Skill Tree" grows edge-to-edge from the footer baseline (Arcade.dev move:
+   the brand owns the page bottom). Gold-dominant gradient with a whisper of
+   Research blue at the tail — the parent hue is present but subordinate. The
+   "A project of Gaia Research" line sits centered above it as attribution. */
+.footer-v2 .footer-anchor {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 clamp(1.5rem, 4vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .4rem;
+}
+
+.footer-v2 .footer-parentage {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: .82rem;
+  line-height: 1.5;
+  color: var(--muted);
+  text-align: center;
+}
+
+.footer-v2 .footer-parent-link {
+  color: var(--research-blue);
+  font-family: var(--font-research);
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: -.01em;
+  transition:
+    color .28s cubic-bezier(0.16, 1, 0.3, 1),
+    text-shadow .28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer-v2 .footer-parent-arrow {
+  font-size: .75em;
+  margin-left: .12em;
+  opacity: .7;
+  display: inline-block;
+  transition: transform .28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer-v2 .footer-parent-link:hover,
+.footer-v2 .footer-parent-link:focus-visible {
+  color: var(--research-blue);
+  text-shadow: 0 0 14px rgba(var(--research-blue-rgb), .5);
+  outline: none;
+}
+
+.footer-v2 .footer-parent-link:hover .footer-parent-arrow,
+.footer-v2 .footer-parent-link:focus-visible .footer-parent-arrow {
+  transform: translate(2px, -2px);
+  opacity: 1;
+}
+
+.footer-v2 .footer-display-word {
+  position: relative;
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(3rem, 15vw, 12rem);
+  line-height: .9;
+  letter-spacing: -.03em;
+  white-space: nowrap;
+  overflow: visible;
+  background: linear-gradient(
+    100deg,
+    rgba(var(--apex-gold-rgb), .95) 0%,
+    rgba(var(--apex-gold-rgb), .9) 60%,
+    rgba(var(--research-blue-rgb), .8) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  opacity: .2;
+  transition: opacity .5s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.footer-v2 .footer-sakura-branch {
+  color: var(--apex-gold);
+  -webkit-text-fill-color: initial;
+}
+
+.footer-v2 .footer-display-tree {
+  position: relative;
+}
+
+.footer-v2:hover .footer-display-word {
+  opacity: .32;
+}
+
 /* Bottom strip */
 .footer-v2 .footer-bottom {
   border-top: 1px solid var(--border);
@@ -6645,20 +7008,49 @@ footer.footer-v2::before {
 
 /* Responsive */
 @media (max-width: 900px) {
-  .footer-v2 .footer-inner {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
+  .footer-v2 .footer-rail {
+    gap: 1.25rem 2rem;
   }
-  .footer-v2 .footer-cols {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.75rem 2.5rem;
+  .footer-v2 .footer-display-word {
+    font-size: clamp(2.75rem, 17vw, 9rem);
   }
 }
 
 @media (max-width: 520px) {
-  .footer-v2 .footer-cols {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
+  /* Stack the rail groups so each section reads as its own tidy line. */
+  .footer-v2 .footer-rail {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+  }
+  .footer-v2 .footer-rail-group {
+    justify-content: center;
+  }
+  .footer-v2 .footer-close-headline {
+    font-size: 1.4rem;
+  }
+}
+
+/* CTA lift, arrow slide, and display fade are decorative; honor reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  .footer-v2 .footer-close-cta,
+  .footer-v2 .footer-close-cta-arrow,
+  .footer-v2 .footer-parent-link,
+  .footer-v2 .footer-parent-arrow,
+  .footer-v2 .footer-display-word {
+    transition: none;
+  }
+  .footer-v2 .footer-close-cta:hover,
+  .footer-v2 .footer-close-cta:focus-visible {
+    transform: none;
+  }
+  .footer-v2 .footer-close-cta:hover .footer-close-cta-arrow,
+  .footer-v2 .footer-close-cta:focus-visible .footer-close-cta-arrow {
+    transform: none;
+  }
+  .footer-v2 .footer-parent-link:hover .footer-parent-arrow,
+  .footer-v2 .footer-parent-link:focus-visible .footer-parent-arrow {
+    transform: none;
   }
 }
 
@@ -6747,7 +7139,7 @@ footer.footer-v2::before {
 .se-breadcrumb {
   font-family: var(--font-body);
   font-size: .85rem;
-  color: #ef4444;
+  color: var(--honor-red);
   flex: 1;
   min-width: 0;
   overflow: hidden;
@@ -6791,8 +7183,8 @@ footer.footer-v2::before {
 }
 
 .se-btn-action:hover {
-  border-color: var(--extra);
-  color: var(--extra);
+  border-color: var(--rank-4, #e879f9);
+  color: var(--rank-4, #e879f9);
 }
 
 .se-body {
@@ -6804,7 +7196,7 @@ footer.footer-v2::before {
 
 .se-hero {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 2rem;
   margin-bottom: 2rem;
 }
@@ -6813,9 +7205,9 @@ footer.footer-v2::before {
   min-width: 0;
 }
 
-@media(max-width:700px) {
+@media (min-width: 701px) {
   .se-hero {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 }
 
@@ -6906,22 +7298,22 @@ footer.footer-v2::before {
 }
 
 .se-node-orb--extra {
-  background: radial-gradient(circle at 35% 35%, #e9d5ff, var(--tier-extra) 60%, #7c3aed);
+  background: radial-gradient(circle at 35% 35%, #e9d5ff, var(--rank-4, #e879f9) 60%, #7c3aed);
   box-shadow: 0 0 12px rgba(192, 132, 252, .4)
 }
 
 .se-node-orb--ultimate {
-  background: radial-gradient(circle at 35% 35%, #fef3c7, var(--tier-ultimate) 60%, #d97706);
+  background: radial-gradient(circle at 35% 35%, #fef3c7, var(--rank-5, #fbbf24) 60%, #d97706);
   box-shadow: 0 0 12px rgba(245, 158, 11, .4)
 }
 
 .se-node-orb--unique {
-  background: radial-gradient(circle at 50% 50%, #000 55%, var(--tier-unique) 80%, #5b21b6);
+  background: radial-gradient(circle at 50% 50%, #000 55%, var(--rank-4-unique) 80%, #5b21b6);
   box-shadow: 0 0 14px rgba(124, 58, 237, .5), inset 0 0 6px rgba(124, 58, 237, .3)
 }
 
 .se-node-orb--vi {
-  background: radial-gradient(circle at 35% 35%, #fff 40%, #fef3c7 70%, var(--tier-ultimate)) !important;
+  background: radial-gradient(circle at 35% 35%, #fff 40%, #fef3c7 70%, var(--rank-6, #fbbf24)) !important;
   box-shadow: 0 0 18px rgba(255, 255, 255, .6), 0 0 40px rgba(245, 158, 11, .35) !important
 }
 
@@ -7047,7 +7439,9 @@ footer.footer-v2::before {
 
   .se-hero #se-upgrade .se-flowchart-wrap {
     min-height: 160px;
-    padding: 0.5rem 0;
+    /* Keep top clearance for the main node's always-on slug label (see the
+       base .se-flowchart-wrap rule) even in the compact hero layout. */
+    padding: 3rem 0 0.5rem;
   }
 
   .se-hero #se-upgrade .se-flowchart-rows {
@@ -7081,16 +7475,82 @@ footer.footer-v2::before {
   }
 }
 
+/* Plaque z-index overlap fix — W1d Yggdrasil II.
+   The .se-hero grid cell (#se-upgrade) and its flowchart rows must not
+   establish an overflow clip that traps popover cards. Popover cards render
+   below their .git-node dot (top:100%); without overflow:visible on every
+   ancestor up to the scroll root the card is clipped or covered by the
+   sibling hero column. */
+.se-hero #se-upgrade,
+.se-hero #se-upgrade .se-flowchart-wrap,
+.se-hero #se-upgrade .se-flowchart-rows,
+.se-hero #se-upgrade .se-flowchart-row {
+  overflow: visible;
+}
+
 .se-flow-h {
-  font-size: .72rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .12em;
-  color: var(--muted);
+  width: 100%;
   margin-bottom: 1.4rem;
   display: flex;
-  align-items: center;
-  gap: .5rem;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: .75rem 1rem;
+}
+
+/* Left lockup: sparkle icon + stacked eyebrow/title. The icon floats at the
+   top-left so the eyebrow (kicker) and display title stack cleanly beside it. */
+.se-flow-h__lede {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: .15rem;
+  padding-left: 1.6rem;
+}
+
+.se-flow-h__lede svg {
+  position: absolute;
+  left: 0;
+  top: .35rem;
+}
+
+/* Small uppercase eyebrow — the old .se-flow-h treatment, demoted to a kicker
+   above the display title so "Path" can carry the visual weight. */
+.se-flow-eyebrow {
+  font-size: .62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  color: var(--muted);
+}
+
+/* The display title. Serif, generous size — anchors the DAG column. */
+.se-flow-title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -.01em;
+  color: var(--text);
+}
+
+/* Hairline rule trailing off the title, claiming the DAG column as its own
+   region. Sits between the title lockup and the action buttons. */
+.se-flow-h::after {
+  content: "";
+  order: 1;
+  flex: 1 1 auto;
+  min-width: 40px;
+  height: 1px;
+  align-self: flex-end;
+  margin: 0 .25rem 1rem;
+  background: linear-gradient(90deg, var(--border), transparent);
+}
+
+.se-flow-h > *:not(.se-flow-h__lede) {
+  order: 2;
 }
 
 .se-flow-h svg {
@@ -7166,7 +7626,7 @@ footer.footer-v2::before {
 }
 
 .se-copy-btn:focus-visible {
-  outline: 2px solid var(--tier-extra);
+  outline: 2px solid var(--rank-4, #e879f9);
   outline-offset: 2px;
 }
 
@@ -7219,8 +7679,8 @@ footer.footer-v2::before {
 }
 
 .se-tab-btn.active {
-  color: var(--tier-ultimate, #f59e0b);
-  border-bottom-color: var(--tier-ultimate, #f59e0b);
+  color: var(--rank-5, #fbbf24);
+  border-bottom-color: var(--rank-5, #fbbf24);
   font-weight: 600;
 }
 
@@ -7270,7 +7730,7 @@ footer.footer-v2::before {
 }
 
 .se-hosts-dropdown:hover, .se-hosts-dropdown:focus {
-  border-color: var(--tier-ultimate, #f59e0b);
+  border-color: var(--rank-5, #fbbf24);
 }
 
 .se-target-path {
@@ -7375,7 +7835,7 @@ h4.se-install-sub-h { font-size: .85rem; }
   font-family: var(--font-mono);
   font-weight: 700;
   min-width: 28px;
-  color: var(--ultimate);
+  color: var(--rank-5, #fbbf24);
 }
 
 .se-ev-link {
@@ -7397,7 +7857,7 @@ h4.se-install-sub-h { font-size: .85rem; }
   display: inline-block;
   background: rgba(192, 132, 252, .1);
   border: 1px solid rgba(192, 132, 252, .25);
-  color: var(--tier-extra);
+  color: var(--rank-4-unique);
   padding: .22rem .65rem;
   border-radius: 20px;
   font-size: .78rem;
@@ -7409,7 +7869,10 @@ h4.se-install-sub-h { font-size: .85rem; }
   position: relative;
   overflow: visible;
   min-height: 320px;
-  padding: 1.5rem 1rem;
+  /* Extra top padding clears the topmost (main) node's always-on slug label,
+     which renders above its dot (.dag-node-label { bottom:100% }) and would
+     otherwise collide with the Path header + lens chips. */
+  padding: 3.25rem 1rem 1.5rem;
 }
 
 .se-flowchart-svg {
@@ -7562,13 +8025,13 @@ h4.se-install-sub-h { font-size: .85rem; }
 
 .flow-node[data-type="extra"][data-level="6★"] .fn-name,
 .se-stack-card[data-type="extra"][data-level="6★"] .fn-name {
-  animation: tree-extra-glow 4s linear infinite;
+  animation: tree-rainbow-glow 4s linear infinite;
 }
 
 /* Unique tier color — fallback if rank color not applied or for specific branding */
 .flow-node[data-type="unique"] .fn-name,
 .se-stack-card[data-type="unique"] .fn-name {
-  color: var(--tier-unique);
+  color: var(--rank-4-unique);
   text-shadow: 0 0 12px rgba(124, 58, 237, 0.4);
 }
 
@@ -7662,11 +8125,11 @@ h4.se-install-sub-h { font-size: .85rem; }
 .se-tl-dot[data-action="rank_up"]  { background: var(--apex-gold);  box-shadow: 0 0 6px rgba(var(--apex-gold-rgb),.35); }
 .se-tl-dot[data-action="ascend"]   { background: #fff;             box-shadow: 0 0 8px #fff; }
 .se-tl-dot[data-action="name"]     { background: var(--honor-red);  box-shadow: 0 0 6px rgba(var(--honor-red-rgb),.35); }
-.se-tl-dot[data-action="fuse"]     { background: var(--extra);      box-shadow: 0 0 6px rgba(192,132,252,.35); }
+.se-tl-dot[data-action="fuse"]     { background: var(--rank-4, #e879f9);      box-shadow: 0 0 6px rgba(232,121,249,.35); }
 .se-tl-dot[data-action="push"]     { background: var(--basic);      box-shadow: 0 0 5px rgba(56,189,248,.25); }
 .se-tl-dot[data-action="evidence"] { background: var(--rank-3);     box-shadow: 0 0 5px rgba(167,139,250,.25); }
 .se-tl-dot[data-action="demote"]   { background: var(--muted); }
-.se-tl-dot[data-action="propose"]  { background: var(--ultimate);   box-shadow: 0 0 6px rgba(245,158,11,.35); }
+.se-tl-dot[data-action="propose"]  { background: var(--rank-5, #fbbf24);   box-shadow: 0 0 6px rgba(251,191,36,.35); }
 .se-tl-dot[data-action="commit"]   { background: var(--muted); }
 
 .se-tl-body {
@@ -7705,10 +8168,10 @@ h4.se-install-sub-h { font-size: .85rem; }
 .se-tl-action[data-action="rank_up"]  { color: var(--apex-gold);  border-color: rgba(var(--apex-gold-rgb),.2); background: rgba(var(--apex-gold-rgb),.05); }
 .se-tl-action[data-action="ascend"]   { color: var(--apex-gold);  border-color: rgba(var(--apex-gold-rgb),.25); background: rgba(var(--apex-gold-rgb),.07); }
 .se-tl-action[data-action="name"]     { color: var(--honor-red);  border-color: rgba(var(--honor-red-rgb),.2); background: rgba(var(--honor-red-rgb),.05); }
-.se-tl-action[data-action="fuse"]     { color: var(--extra);      border-color: rgba(192,132,252,.2); background: rgba(192,132,252,.05); }
+.se-tl-action[data-action="fuse"]     { color: var(--rank-4, #e879f9);      border-color: rgba(232,121,249,.2); background: rgba(232,121,249,.05); }
 .se-tl-action[data-action="evidence"] { color: var(--rank-3);     border-color: rgba(167,139,250,.2); background: rgba(167,139,250,.05); }
 .se-tl-action[data-action="push"]     { color: var(--basic);      border-color: rgba(56,189,248,.15); background: rgba(56,189,248,.04); }
-.se-tl-action[data-action="propose"]  { color: var(--ultimate);   border-color: rgba(245,158,11,.2); background: rgba(245,158,11,.05); }
+.se-tl-action[data-action="propose"]  { color: var(--rank-5, #fbbf24);   border-color: rgba(251,191,36,.2); background: rgba(251,191,36,.05); }
 .se-tl-action[data-action="demote"]   { color: var(--muted);      border-color: rgba(100,116,139,.2); background: rgba(100,116,139,.05); }
 
 .se-tl-date {
@@ -7949,11 +8412,11 @@ details[open] .se-tl-group-toggle::before { content: '▾ '; }
 .mr-dot[data-action="rank_up"]  { background: var(--apex-gold);  box-shadow: 0 0 8px rgba(var(--apex-gold-rgb),.4); }
 .mr-dot[data-action="ascend"]   { background: #fff;             box-shadow: 0 0 12px #fff, 0 0 4px rgba(var(--apex-gold-rgb),.6); }
 .mr-dot[data-action="name"]     { background: var(--honor-red);  box-shadow: 0 0 8px rgba(var(--honor-red-rgb),.4); }
-.mr-dot[data-action="fuse"]     { background: var(--extra);      box-shadow: 0 0 8px rgba(192,132,252,.4); }
+.mr-dot[data-action="fuse"]     { background: var(--rank-4, #e879f9);      box-shadow: 0 0 8px rgba(232,121,249,.4); }
 .mr-dot[data-action="push"]     { background: var(--basic);      box-shadow: 0 0 6px rgba(56,189,248,.3); }
 .mr-dot[data-action="evidence"] { background: var(--rank-3);     box-shadow: 0 0 6px rgba(167,139,250,.3); }
 .mr-dot[data-action="demote"]   { background: var(--muted);      box-shadow: none; }
-.mr-dot[data-action="propose"]  { background: var(--ultimate);   box-shadow: 0 0 8px rgba(245,158,11,.4); }
+.mr-dot[data-action="propose"]  { background: var(--rank-5, #fbbf24);   box-shadow: 0 0 8px rgba(251,191,36,.4); }
 .mr-dot[data-action="bond"]     { background: var(--basic); }
 .mr-dot[data-action="register"] { background: #22c55e;           box-shadow: 0 0 6px rgba(34,197,94,.3); }
 
@@ -7989,10 +8452,10 @@ details[open] .se-tl-group-toggle::before { content: '▾ '; }
 .mr-action[data-action="rank_up"]  { color: var(--apex-gold);  border-color: rgba(var(--apex-gold-rgb),.25); background: rgba(var(--apex-gold-rgb),.06); }
 .mr-action[data-action="ascend"]   { color: var(--apex-gold);  border-color: rgba(var(--apex-gold-rgb),.3);  background: rgba(var(--apex-gold-rgb),.08); }
 .mr-action[data-action="name"]     { color: var(--honor-red);  border-color: rgba(var(--honor-red-rgb),.25); background: rgba(var(--honor-red-rgb),.06); }
-.mr-action[data-action="fuse"]     { color: var(--extra);      border-color: rgba(192,132,252,.25); background: rgba(192,132,252,.06); }
+.mr-action[data-action="fuse"]     { color: var(--rank-4, #e879f9);      border-color: rgba(232,121,249,.25); background: rgba(232,121,249,.06); }
 .mr-action[data-action="evidence"] { color: var(--rank-3);     border-color: rgba(167,139,250,.25); background: rgba(167,139,250,.06); }
 .mr-action[data-action="push"]     { color: var(--basic);      border-color: rgba(56,189,248,.2);   background: rgba(56,189,248,.05); }
-.mr-action[data-action="propose"]  { color: var(--ultimate);   border-color: rgba(245,158,11,.25);  background: rgba(245,158,11,.06); }
+.mr-action[data-action="propose"]  { color: var(--rank-5, #fbbf24);   border-color: rgba(251,191,36,.25);  background: rgba(251,191,36,.06); }
 .mr-action[data-action="demote"]   { color: var(--muted);      border-color: rgba(100,116,139,.2);  background: rgba(100,116,139,.05); }
 
 .mr-skill-wrap {
@@ -8008,9 +8471,9 @@ details[open] .se-tl-group-toggle::before { content: '▾ '; }
   flex-shrink: 0;
 }
 
-.mr-tier-glyph[data-type="ultimate"] { color: var(--ultimate); }
-.mr-tier-glyph[data-type="unique"]   { color: var(--tier-unique); }
-.mr-tier-glyph[data-type="extra"]    { color: var(--extra); }
+.mr-tier-glyph[data-type="ultimate"] { color: var(--rank-5, #fbbf24); }
+.mr-tier-glyph[data-type="unique"]   { color: var(--rank-4-unique); }
+.mr-tier-glyph[data-type="extra"]    { color: var(--rank-4, #e879f9); }
 .mr-tier-glyph[data-type="basic"]    { color: var(--basic); }
 
 .mr-skill {
@@ -8216,19 +8679,9 @@ code {
     word-break: break-all !important;
   }
 
-  /* Named Skills: keep the full explorer visible and usable on narrow screens. */
-  #named {
-    min-height: auto;
-    padding: 3rem 1rem 1.5rem;
-    scroll-margin-top: 7rem
-  }
-
-  .ns-filter-row {
-    align-items: stretch;
-    flex-direction: column;
-    align-items: stretch
-  }
-
+  /* Named Skills: keep the full explorer visible and usable on narrow screens.
+     #named and .ns-filter-row base rules now live in the mobile-first base block
+     above; only the supplemental mobile-specific overrides remain here. */
   .ns-level-tabs {
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -8251,10 +8704,6 @@ code {
 
   .ns-sort-wrap {
     min-height: 2.35rem
-  }
-
-  .ns-grid-tile {
-    grid-template-columns: 1fr
   }
 
   .plaque--row {
@@ -8343,10 +8792,6 @@ code {
     text-align: center
   }
 
-  .ns-grid-tile {
-    grid-template-columns: 1fr
-  }
-
   #named {
     padding-left: .9rem;
     padding-right: .9rem
@@ -8373,10 +8818,6 @@ code {
     font-size: .88rem
   }
 
-  /* Tree dialog: improve readability at narrow widths (Stage 5b note) */
-  .tree-dialog-body pre {
-    line-height: 1.5
-  }
 }
 
 /* ── Ultra-narrow (≤360px): the iPhone-SE / 320px case ── */
@@ -8698,7 +9139,7 @@ code {
   }
 
   .rs-stat .rs-num[style] {
-    color: var(--tier-extra) !important
+    color: var(--rank-4-unique) !important
   }
 
 }
@@ -8991,9 +9432,132 @@ button.nav-graph-trigger:hover {
   padding: 5rem 1.5rem;
 }
 
+.rite-entry {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  max-width: 1060px;
+  margin: 0 auto clamp(3rem, 6vw, 5rem);
+  padding: clamp(2rem, 5vw, 3rem) clamp(1.5rem, 4vw, 2.5rem);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(3, 7, 18, 0.95);
+  text-align: center;
+  overflow: hidden;
+}
+
+.rite-entry-bg {
+  position: absolute;
+  inset: -15% 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.15;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+}
+
+.rite-entry-tree {
+  position: absolute;
+  top: 0;
+  right: -5%;
+  width: 65%;
+  height: 100%;
+  object-fit: cover;
+  object-position: right center;
+  mix-blend-mode: color-dodge;
+  mask-image: radial-gradient(ellipse at right center, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 80%);
+  -webkit-mask-image: radial-gradient(ellipse at right center, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 80%);
+}
+
+@keyframes copy-ring-pop {
+  0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; border-width: 2px; }
+  100% { transform: translate(-50%, -50%) scale(2); opacity: 0; border-width: 0px; }
+}
+
+.copy-delight:not(.copy-btn) {
+  position: relative;
+}
+
+.copy-delight {
+  color: var(--apex-gold) !important;
+  border-color: var(--apex-gold) !important;
+}
+
+.copy-delight::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  border: 2px solid var(--apex-gold);
+  transform: translate(-50%, -50%) scale(0.5);
+  opacity: 1;
+  pointer-events: none;
+  animation: copy-ring-pop 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.rite-entry-logo {
+  position: absolute;
+  left: -8%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 500px;
+  height: 500px;
+  opacity: 0.85;
+  color: var(--apex-gold);
+  filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.15));
+  mix-blend-mode: color-dodge;
+  mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 70%);
+  -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 70%);
+}
+
+.rite-entry-copy {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 36rem;
+}
+
+.rite-entry-copy .path-plate-num {
+  margin-bottom: .45rem;
+}
+
+.rite-entry-copy h2 {
+  margin: 0;
+  font-size: clamp(1.8rem, 4vw, 2.7rem);
+  text-wrap: balance;
+}
+
+.rite-entry-copy p {
+  margin: .45rem 0 0;
+  color: var(--muted);
+  font-size: .9rem;
+}
+
+.rite-entry-terminal {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 39rem);
+}
+
+.rite-entry-terminal .rite-platform {
+  justify-content: center;
+  margin: 0 0 .65rem;
+  padding: 0;
+  border: 0;
+}
+
 .paths-wrap {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 3rem;
   max-width: 900px;
   margin: 0 auto;
@@ -9009,18 +9573,150 @@ button.nav-graph-trigger:hover {
   margin-bottom: .75rem;
 }
 
+.path-a,
+.path-b {
+  min-width: 0;
+}
+
+.path-a > h2,
+.path-b > h2 {
+  margin-bottom: 0;
+  text-wrap: balance;
+}
+
+.path-a > .section-sub,
+.path-b > .path-intro {
+  min-height: 2.9rem;
+  max-width: 38rem;
+  margin: .5rem 0 0;
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
+.rite-platform {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  margin: 1.75rem 0 1rem;
+  padding-bottom: .75rem;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+}
+
+.rite-platform-label {
+  margin-right: .35rem;
+  font-family: var(--font-mono);
+  font-size: .6875rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.rite-platform .os-tab {
+  min-height: 36px;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.rite-install-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  text-align: center;
+  overflow: hidden;
+}
+
+.rite-install-stage::before,
+.rite-install-stage::after {
+  content: '';
+  position: absolute;
+  top: 1rem;
+  width: clamp(2rem, 8vw, 5rem);
+  height: 1px;
+  background: var(--border);
+}
+
+.rite-install-stage::before { left: 1rem; }
+.rite-install-stage::after { right: 1rem; }
+
+.rite-install-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: .6rem;
+  max-width: 34rem;
+}
+
+.rite-install-heading .rite-numeral {
+  width: auto;
+  padding: 0;
+}
+
+.rite-install-heading h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 3vw, 2rem);
+  font-weight: 600;
+  text-wrap: balance;
+}
+
+.rite-install-heading p {
+  margin: .3rem 0 0;
+  color: var(--muted);
+  font-size: .875rem;
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
+.rite-install-command {
+  width: min(100%, 39rem);
+}
+
+.rite-install-command pre {
+  margin: 0;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: clamp(.72rem, 1.5vw, .84rem);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.rite-sequence-label {
+  margin-top: 2rem;
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  color: var(--muted);
+}
+
 .rite-steps {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
-  margin: 1.5rem 0
+  gap: 0;
+  margin: 1.5rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
 .rite-step {
+  position: relative;
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
-  gap: 1.5rem
+  align-items: center;
+  gap: 1.5rem;
+  padding: .95rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.rite-step:last-child {
+  border-bottom: 0;
 }
 
 .rite-meta {
@@ -9079,10 +9775,14 @@ button.nav-graph-trigger:hover {
 }
 
 .rite-term pre {
-  margin: .5rem 0 0;
+  margin: 0;
+  padding: .7rem .85rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
   font-size: .78rem;
   white-space: pre-wrap;
-  word-break: break-all
+  overflow-wrap: anywhere;
 }
 
 /* Post-register subgroup — IV (MCP bond) and V (TUI) live here so the
@@ -9094,6 +9794,10 @@ button.nav-graph-trigger:hover {
   border-top: 1px dashed var(--border);
 }
 .rite-steps-after > summary {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  min-height: 44px;
   font-family: var(--font-display);
   font-size: 1rem;
   color: var(--text);
@@ -9114,11 +9818,11 @@ button.nav-graph-trigger:hover {
   content: '▾ ';
 }
 .rite-steps-after .rite-after-hint {
-  font-family: var(--font-body);
-  font-size: .8125rem;
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: .6875rem;
   color: var(--muted);
   font-weight: 400;
-  font-style: italic;
 }
 .rite-steps--after {
   margin: .75rem 0 0;
@@ -9132,6 +9836,225 @@ button.nav-graph-trigger:hover {
   font-size: .9rem;
   color: var(--muted);
   margin-bottom: .25rem
+}
+
+.path-b--prompts {
+  min-width: 0;
+}
+
+.agent-container {
+  display: flex;
+  flex-direction: column;
+  margin: 1.5rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.agent-prompt {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.agent-prompt-body {
+  height: 172px;
+  margin: 0;
+  padding: .9rem;
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  user-select: text;
+}
+
+.agent-prompt-warning {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  margin: .85rem 0 0;
+  font-size: .75rem;
+  color: var(--muted);
+}
+
+.agent-prompt-warning .ico {
+  color: var(--tier-basic);
+  flex-shrink: 0;
+}
+
+.agent-tabs {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  margin: 0;
+  padding: .95rem 0;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+}
+
+.agent-tabs .os-tab {
+  min-height: 32px;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.agent-panels {
+  padding: .95rem 0;
+}
+
+.agent-repo-field {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin-top: .95rem;
+  padding: .45rem .65rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.2);
+  transition: border-color 0.2s;
+}
+
+.agent-repo-field:focus-within {
+  border-color: var(--tier-basic);
+}
+
+.agent-repo-field .ico {
+  color: var(--muted);
+}
+
+.agent-repo-field input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: .75rem;
+  outline: none;
+}
+
+.agent-repo-field input::placeholder {
+  color: var(--muted);
+}
+
+.agent-skill-fetcher {
+  margin-bottom: .85rem;
+  padding: .75rem;
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.02);
+  text-align: left;
+}
+
+.agent-skill-fetcher-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+}
+
+.agent-skill-tools {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+  margin-top: .6rem;
+  padding-top: .6rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.agent-skill-search {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: .25rem .45rem;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: .75rem;
+  outline: none;
+}
+
+.agent-skill-search:focus {
+  border-color: var(--tier-basic);
+}
+
+.agent-skill-bulk {
+  display: flex;
+  gap: .3rem;
+}
+
+.agent-skill-bulk button {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: .2rem .4rem;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: .65rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.agent-skill-bulk button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.agent-skill-fetcher-title {
+  font-family: var(--font-body);
+  font-size: .8rem;
+  color: var(--muted);
+}
+
+.agent-skill-checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  margin-top: .6rem;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.agent-skill-checkboxes:empty {
+  display: none;
+}
+
+.agent-skill-label {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .25rem .5rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: .7rem;
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.agent-skill-label:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.agent-skill-label input[type="checkbox"] {
+  margin: 0;
+  accent-color: var(--rank-4, #e879f9);
+}
+
+@media (max-width: 480px) {
+  .agent-prompt-body {
+    margin-right: -1.5rem;
+    margin-left: -1.5rem;
+    border-right: 0;
+    border-left: 0;
+    border-radius: 0;
+  }
 }
 
 /* ── ULTIMATES LIST ── */
@@ -9365,7 +10288,7 @@ button.nav-graph-trigger:hover {
   width: min(100%, 1180px);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: minmax(250px, 0.62fr) minmax(0, 1.38fr);
+  grid-template-columns: minmax(280px, 1fr) minmax(0, 1.6fr);
   gap: clamp(2rem, 5vw, 4rem);
   align-items: start;
 }
@@ -9495,6 +10418,32 @@ button.nav-graph-trigger:hover {
   box-shadow: 0 0 12px rgba(var(--apex-gold-rgb), 0.18);
 }
 
+.hoh-stage-browse {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.1rem;
+  padding-left: 0;
+}
+
+.hoh-stage-browse-link {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--text-secondary);
+  text-decoration: none;
+  opacity: 0.72;
+  transition: opacity 0.18s, color 0.18s;
+}
+
+.hoh-stage-browse-link:hover,
+.hoh-stage-browse-link:focus-visible {
+  opacity: 1;
+  color: var(--text-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 /* Phase 9 — HoH plate redesign.
    Layout is a featured row (1–2 large plates whose primary skill is 6★)
    stacked above a uniform grid of standard plates. CSS Grid (not flex-
@@ -9573,6 +10522,29 @@ button.nav-graph-trigger:hover {
     rgba(15, 23, 42, 0.72);
 }
 
+/* Fix 3b — rank-token backgrounds for HoH cards (rank 4–6 override the default blue-tinted base) */
+.hoh-section--mini .plaque--hall[data-level="4"] {
+  --plaque-accent-rgb: var(--rank-4-rgb);
+  background:
+    radial-gradient(circle at 50% -24%, rgba(var(--rank-4-rgb), 0.10), transparent 58%),
+    rgba(15, 23, 42, 0.72);
+  border-color: rgba(var(--rank-4-rgb), 0.35);
+}
+.hoh-section--mini .plaque--hall[data-level="5"] {
+  --plaque-accent-rgb: var(--rank-5-rgb);
+  background:
+    radial-gradient(circle at 50% -24%, rgba(var(--rank-5-rgb), 0.12), transparent 58%),
+    rgba(15, 23, 42, 0.72);
+  border-color: rgba(var(--rank-5-rgb), 0.38);
+}
+.hoh-section--mini .plaque--hall[data-level="6"] {
+  --plaque-accent-rgb: var(--rank-6-rgb);
+  background:
+    radial-gradient(circle at 50% -24%, rgba(var(--rank-6-rgb), 0.14), transparent 58%),
+    rgba(15, 23, 42, 0.72);
+  border-color: rgba(var(--rank-6-rgb), 0.45);
+}
+
 .hoh-section--mini .plaque--hall:not(.plaque--apex-vi)::before {
   content: '';
   position: absolute;
@@ -9581,7 +10553,16 @@ button.nav-graph-trigger:hover {
   pointer-events: none;
   opacity: 0.78;
   background: var(--hoh-card-atmosphere);
-  transform: translate3d(0, 0, 0);
+}
+
+/* Only promote the atmosphere layer to its own compositing layer at the
+   desktop breakpoint, where it actually animates (hoh-mini-atmosphere-drift).
+   On mobile there is no animation, so forcing a GPU layer per plate is pure
+   overhead — leave it on the normal paint path. */
+@media (min-width: 768px) {
+  .hoh-section--mini .plaque--hall:not(.plaque--apex-vi)::before {
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 .hoh-section--mini .hoh-featured > .plaque--hall:nth-child(2n) {
@@ -9667,6 +10648,13 @@ button.nav-graph-trigger:hover {
     padding:
       clamp(3.25rem, 14vw, 4.25rem)
       1rem;
+  }
+
+  /* Drop the decorative masked grid overlay on mobile — it's a full-section
+     extra paint/compositing layer (mask-image radial gradient) that is
+     barely perceptible at 0.45 opacity yet costs real paint time on phones. */
+  .hoh-section--mini::before {
+    display: none;
   }
 
   .hoh-mini-stage {
@@ -9868,7 +10856,17 @@ button.nav-graph-trigger:hover {
 
   .paths-wrap {
     grid-template-columns: 1fr;
-    gap: 2rem
+    gap: 3rem
+  }
+
+  .rite-entry {
+    padding: 1.5rem 1rem;
+  }
+
+  .rite-entry-terminal .rite-platform {
+    justify-content: flex-start;
+    margin-right: -1rem;
+    padding-right: 1rem;
   }
 
   .ascension-track {
@@ -10196,38 +11194,32 @@ button.nav-graph-trigger:hover {
   box-shadow: 0 0 25px rgba(255, 255, 255, 0.2);
 }
 
-/* Tier-specific dot colors */
-.git-node[data-type="ultimate"] .git-node-dot {
-  border-color: var(--tier-ultimate);
+/* Branch-aware dot colors — keyed on data-branch + data-rank of the rank row.
+   unique = unique violet; suite 5★+ = fusion gold; suite 4★ = rank-4 fuchsia.
+   The old data-type rules used undefined --tier-extra/--tier-ultimate tokens;
+   replaced with branch tokens which are the correct axis post-Yggdrasil II. */
+.ns-dag-rank[data-branch="unique"] .git-commit-dot {
+  border-color: var(--rank-4-unique);
 }
+.ns-dag-rank[data-branch="unique"] .git-node.selected .git-commit-dot,
+.ns-dag-rank[data-branch="unique"] .git-node:hover .git-commit-dot {
+  background: var(--rank-4-unique);
+  border-color: var(--rank-4-unique);
+}
+/* 5★ and 6★ suite: fusion gold */
+.ns-dag-rank[data-branch="suite"][data-rank="5"] .git-commit-dot,
+.ns-dag-rank[data-branch="suite"][data-rank="6"] .git-commit-dot {
+  border-color: var(--tier-fusion);
+}
+.ns-dag-rank[data-branch="suite"][data-rank="5"] .git-node.selected .git-commit-dot,
+.ns-dag-rank[data-branch="suite"][data-rank="5"] .git-node:hover .git-commit-dot,
+.ns-dag-rank[data-branch="suite"][data-rank="6"] .git-node.selected .git-commit-dot,
+.ns-dag-rank[data-branch="suite"][data-rank="6"] .git-node:hover .git-commit-dot {
+  background: var(--tier-fusion);
+  border-color: var(--tier-fusion);
+}
+/* 4★ suite (Extra): rank-4 fuchsia — let the inline --dot-color: var(--rank-4) win */
 
-.git-node[data-type="extra"] .git-node-dot {
-  border-color: var(--tier-extra);
-}
-
-.git-node[data-type="unique"] .git-node-dot {
-  border-color: var(--tier-unique);
-}
-
-.git-node[data-type="basic"] .git-node-dot {
-  border-color: var(--tier-basic);
-}
-
-.git-node[data-type="ultimate"].current .git-node-dot {
-  background: var(--tier-ultimate);
-}
-
-.git-node[data-type="extra"].current .git-node-dot {
-  background: var(--tier-extra);
-}
-
-.git-node[data-type="unique"].current .git-node-dot {
-  background: var(--tier-unique);
-}
-
-.git-node[data-type="basic"].current .git-node-dot {
-  background: var(--tier-basic);
-}
 
 .git-node-label {
   position: absolute;
@@ -10260,7 +11252,7 @@ button.nav-graph-trigger:hover {
   position: absolute;
   bottom: 100%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(calc(-50% + var(--hover-shift, 0px)));
   margin-bottom: 8px;
   font-family: var(--font-mono);
   font-size: 0.7rem;
@@ -10325,26 +11317,56 @@ button.nav-graph-trigger:hover {
   stroke-width: 5;
 }
 
-/* Specific edge colors by target tier */
-.git-edge[data-target-type="ultimate"] {
-  stroke: var(--tier-ultimate);
-}
-
-.git-edge[data-target-type="extra"] {
-  stroke: var(--tier-extra);
-}
-
-.git-edge[data-target-type="unique"] {
-  stroke: var(--tier-unique);
-}
-
-.git-edge[data-target-type="basic"] {
-  stroke: var(--tier-basic);
-}
-
 .ns-dag-container.git-style .ns-dag-rank {
   gap: 40px;
-  margin-bottom: 48px;
+  margin-bottom: 0;
+}
+
+/* ── Zone wrapper — groups label + rank row ── */
+.ns-dag-zone {
+  position: relative;
+  width: 100%;
+  margin-bottom: 0;
+  padding: 28px 16px 0;
+}
+/* Translucent overlay only for rank/branch zones (level sort), not A-Z */
+.ns-dag-zone:not([data-az]) {
+  border-left: 2px solid color-mix(in srgb, var(--zone-color) 30%, transparent);
+  background: color-mix(in srgb, var(--zone-color) 5%, transparent);
+}
+.ns-dag-zone[data-branch="suite"]  { --zone-color: var(--tier-fusion); }
+.ns-dag-zone[data-branch="unique"] { --zone-color: var(--rank-4-unique); }
+.ns-dag-zone[data-rank="5"]:not([data-branch]) { --zone-color: var(--rank-5); }
+.ns-dag-zone[data-rank="4"]:not([data-branch]) { --zone-color: var(--rank-4); }
+.ns-dag-zone[data-rank="3"]:not([data-branch]) { --zone-color: var(--rank-3); }
+.ns-dag-zone[data-rank="2"]:not([data-branch]) { --zone-color: var(--rank-2); }
+.ns-dag-zone[data-rank="1"]:not([data-branch]) { --zone-color: var(--rank-1); }
+.ns-dag-zone[data-rank="0"]:not([data-branch]) { --zone-color: var(--rank-0); }
+
+.ns-dag-rank-label {
+  position: absolute;
+  top: 6px;
+  left: 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.6rem;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.85;
+  z-index: 2;
+  pointer-events: none;
+}
+.ns-zone-medallion {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+.ns-zone-word {
+  /* color set inline via --zone-color */
 }
 
 /* ── Git Branch Flowchart Aesthetic ── */
@@ -10358,6 +11380,10 @@ button.nav-graph-trigger:hover {
   width: 24px;
   height: 24px;
   margin-top: var(--staggerY, 0);
+  /* Horizontal jitter (independent of --staggerY) so wrapped rows scatter as a
+     cloud instead of aligning into columns. translateX keeps flex flow intact
+     and edges follow (drawFlowEdges reads the transformed dot rect). */
+  transform: translateX(var(--staggerX, 0));
 }
 
 .git-node .ns-dag-card,
@@ -10370,7 +11396,7 @@ button.nav-graph-trigger:hover {
   position: absolute;
   top: 100%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(calc(-50% + var(--hover-shift, 0px)));
   transition: opacity 0.2s, visibility 0.2s;
   z-index: 10;
   margin-top: 8px;
@@ -10383,7 +11409,7 @@ button.nav-graph-trigger:hover {
   opacity: 1 !important;
   visibility: visible;
   pointer-events: auto;
-  transform: translateX(-50%);
+  transform: translateX(calc(-50% + var(--hover-shift, 0px)));
 }
 
 /* Issue #346 — flowchart popover flicker + stacking.
@@ -10399,11 +11425,33 @@ button.nav-graph-trigger:hover {
    rank-row rule below). A hovered node lifted to z-index: 30 is still trapped
    *inside* its own row's context, so its downward popover was painted over by
    the NEXT row's nodes. Lift the row that actually contains the hovered node
-   above its sibling rows. */
+   above its sibling rows. Selected rows lift even higher so a locked plaque
+   is never trampled by a hovered node in another row. */
 .ns-dag-rank:has(.git-node:hover),
 .se-flowchart-row:has(.git-node:hover),
 .git-rank-row:has(.git-node:hover) {
   z-index: 30;
+}
+.ns-dag-rank:has(.git-node.selected),
+.se-flowchart-row:has(.git-node.selected),
+.git-rank-row:has(.git-node.selected) {
+  z-index: 50;
+}
+/* Zone wrapper: selected zone must also clear sibling zones */
+.ns-dag-zone:has(.git-node.selected) {
+  z-index: 50;
+}
+/* Plaque card order: plaque slug > node dot > edges > overlay.
+   Give visible plaque cards a z above the dot (z-index:3) and the node (z-index:30). */
+.git-node:hover .ns-dag-card,
+.git-node:hover .flow-node,
+.git-node:hover .git-card,
+.git-node:hover .se-stack-deck,
+.git-node.selected .ns-dag-card,
+.git-node.selected .flow-node,
+.git-node.selected .git-card,
+.git-node.selected .se-stack-deck {
+  z-index: 60;
 }
 
 /* Root cause 1 — the popover card is positioned with transform:
@@ -10421,7 +11469,7 @@ button.nav-graph-trigger:hover {
 .git-node:hover .git-card:hover,
 .git-node:hover .se-stack-deck:hover,
 .git-node > .plaque:hover {
-  transform: translateX(-50%) !important;
+  transform: translateX(calc(-50% + var(--hover-shift, 0px))) !important;
 }
 
 .git-node:hover .ns-dag-card[data-ghost="true"],
@@ -10439,7 +11487,7 @@ button.nav-graph-trigger:hover {
   opacity: 1 !important;
   visibility: visible;
   pointer-events: auto;
-  transform: translateX(-50%) translateY(0);
+  transform: translateX(calc(-50% + var(--hover-shift, 0px))) translateY(0);
 }
 
 .git-node.selected .git-commit-dot {
@@ -10463,7 +11511,7 @@ button.nav-graph-trigger:hover {
 
 /* Hover no longer scales the dot — keeps the layout calm. The selected
    state (.git-node.selected .git-commit-dot) still amplifies on lock. */
-/* Base: structure only — color comes from [data-tier] rules below */
+/* Base: structure only — color comes from [data-rank] rules below */
 .git-path {
   fill: none;
   stroke: rgba(148, 163, 184, .3);
@@ -10474,39 +11522,48 @@ button.nav-graph-trigger:hover {
   transition: stroke-width 0.3s, opacity 0.3s, filter 0.3s;
 }
 
-/* Tier-based vein colors: each edge color matches its source node's tier */
-.git-path[data-tier="apex"] {
-  stroke: rgba(255, 255, 255, .8);
+/* Rank-based vein colors: each edge color matches its source (parent) node's
+   rank, ranks only. Tokens --rank-N / -edge; higher rank = thicker, glowier. */
+.git-path[data-rank="6"] {
+  stroke: var(--rank-6-edge);
   stroke-width: 2px;
-  filter: drop-shadow(0 0 6px rgba(255, 255, 255, .45));
+  filter: drop-shadow(0 0 6px var(--rank-6-edge));
   opacity: .65;
 }
 
-.git-path[data-tier="ultimate"] {
-  stroke: rgba(245, 158, 11, .75);
+.git-path[data-rank="5"] {
+  stroke: var(--rank-5-edge);
   stroke-width: 1.8px;
-  filter: drop-shadow(0 0 5px rgba(245, 158, 11, .35));
+  filter: drop-shadow(0 0 5px var(--rank-5-edge));
   opacity: .55;
 }
 
-.git-path[data-tier="unique"] {
-  stroke: rgba(124, 58, 237, .7);
+.git-path[data-rank="4"] {
+  stroke: var(--rank-4-edge);
   stroke-width: 1.6px;
-  filter: drop-shadow(0 0 4px rgba(124, 58, 237, .3));
+  filter: drop-shadow(0 0 4px var(--rank-4-edge));
   opacity: .5;
 }
 
-.git-path[data-tier="extra"] {
-  stroke: rgba(192, 132, 252, .65);
-  stroke-width: 1.4px;
-  filter: drop-shadow(0 0 4px rgba(192, 132, 252, .25));
+.git-path[data-rank="3"] {
+  stroke: var(--rank-3-edge);
+  stroke-width: 1.5px;
+  filter: drop-shadow(0 0 4px var(--rank-3-edge));
   opacity: .5;
 }
 
-.git-path[data-tier="basic"] {
-  stroke: rgba(56, 189, 248, .6);
+.git-path[data-rank="2"] {
+  stroke: var(--rank-2-edge);
+  stroke-width: 1.3px;
+  filter: drop-shadow(0 0 3px var(--rank-2-edge));
+  opacity: .48;
+}
+
+.git-path[data-rank="1"],
+.git-path[data-rank="0"] {
+  stroke: var(--rank-1-edge);
   stroke-width: 1.2px;
-  filter: drop-shadow(0 0 3px rgba(56, 189, 248, .2));
+  filter: drop-shadow(0 0 3px var(--rank-1-edge));
   opacity: .45;
 }
 
@@ -10518,29 +11575,35 @@ button.nav-graph-trigger:hover {
   filter: drop-shadow(0 0 8px currentColor);
 }
 
-.git-path[data-tier="apex"].active-path {
+.git-path[data-rank="6"].active-path {
   stroke-width: 3.5px;
-  filter: drop-shadow(0 0 14px rgba(255, 255, 255, .7));
+  filter: drop-shadow(0 0 14px var(--rank-6-edge));
 }
 
-.git-path[data-tier="ultimate"].active-path {
+.git-path[data-rank="5"].active-path {
   stroke-width: 3px;
-  filter: drop-shadow(0 0 12px rgba(245, 158, 11, .6));
+  filter: drop-shadow(0 0 12px var(--rank-5-edge));
 }
 
-.git-path[data-tier="unique"].active-path {
+.git-path[data-rank="4"].active-path {
   stroke-width: 2.8px;
-  filter: drop-shadow(0 0 11px rgba(124, 58, 237, .55));
+  filter: drop-shadow(0 0 11px var(--rank-4-edge));
 }
 
-.git-path[data-tier="extra"].active-path {
+.git-path[data-rank="3"].active-path {
   stroke-width: 2.6px;
-  filter: drop-shadow(0 0 10px rgba(192, 132, 252, .5));
+  filter: drop-shadow(0 0 10px var(--rank-3-edge));
 }
 
-.git-path[data-tier="basic"].active-path {
+.git-path[data-rank="2"].active-path {
+  stroke-width: 2.5px;
+  filter: drop-shadow(0 0 9px var(--rank-2-edge));
+}
+
+.git-path[data-rank="1"].active-path,
+.git-path[data-rank="0"].active-path {
   stroke-width: 2.4px;
-  filter: drop-shadow(0 0 9px rgba(56, 189, 248, .45));
+  filter: drop-shadow(0 0 9px var(--rank-1-edge));
 }
 
 /* Dimmed paths when node selected */
@@ -10638,45 +11701,14 @@ button.nav-graph-trigger:hover {
   opacity: 1 !important;
   visibility: visible;
   pointer-events: auto;
-  transform: translateX(-50%);
+  transform: translateX(calc(-50% + var(--hover-shift, 0px)));
 }
 
-/* Void zone for uniques: in-flow zone with violet atmospheric border.
-   Sits ABOVE the SVG vein layer (including active-path glows) so the
-   zone reads as a self-contained "well" that lines flow into. */
-.void-zone {
-  background: linear-gradient(135deg, rgba(124, 58, 237, .16) 0%, rgba(76, 29, 149, .10) 100%);
-  border: 1px dashed rgba(124, 58, 237, .4);
-  border-radius: 20px;
-  padding: 28px 36px;
-  position: relative;
-  z-index: 5;
-  backdrop-filter: blur(2px);
-  box-shadow: inset 0 0 40px rgba(124, 58, 237, .1);
-}
-
-.void-zone::before {
-  content: 'VOID';
-  position: absolute;
-  top: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  color: var(--tier-unique);
-  letter-spacing: 0.35em;
-  opacity: 0.6;
-  pointer-events: none;
-  z-index: 6;
-}
-
-/* Prerequisites (bottom row in skill explorer) stay in one layer if possible, or scroll horizontally */
-.se-flowchart-row[data-depth="0"] {
-  flex-wrap: nowrap !important;
-  width: max-content;
-  margin-left: auto;
-  margin-right: auto;
-}
+/* Prerequisites (bottom row / leaf origins) intentionally have NO special-case
+   layout: they fall through to the base .se-flowchart-row (flex-wrap:wrap,
+   justify-content:center, max-width:100%) so a wide fan-out wraps and stays
+   inside the canvas instead of running off the sides (and clipping on mobile).
+   Per-node --staggerY keeps the wrapped rows scattered, not a uniform grid. */
 
 @media (max-width: 700px) {
   .ns-dag-rank {
@@ -10697,6 +11729,9 @@ button.nav-graph-trigger:hover {
 
   .git-node {
     margin-top: calc(var(--staggerY, 0) * 0.3) !important;
+    /* Dampen horizontal jitter on narrow screens too, so scatter stays subtle
+       and the wrapped fan doesn't push nodes toward the edges. */
+    transform: translateX(calc(var(--staggerX, 0) * 0.4));
   }
 }
 
@@ -10719,7 +11754,7 @@ button.nav-graph-trigger:hover {
 
 /* Nav button styling */
 .nav-meta {
-  color: var(--tier-extra, #c084fc) !important;
+  color: var(--rank-4, #e879f9) !important;
   font-family: var(--font-body);
   font-size: .9rem;
   letter-spacing: .01em;
@@ -10772,7 +11807,7 @@ button.nav-graph-trigger:hover {
 
 .callout-glyph {
   font-size: 2.2rem;
-  color: var(--tier-extra, #c084fc);
+  color: var(--rank-4, #e879f9);
   display: block;
   margin-bottom: 1rem;
   text-shadow: 0 0 15px rgba(192, 132, 252, 0.5);
@@ -10878,7 +11913,7 @@ button.nav-graph-trigger:hover {
 }
 
 .meta-btn-icon:hover {
-  border-color: var(--tier-extra, #c084fc);
+  border-color: var(--rank-4, #e879f9);
   color: var(--text);
   background: rgba(192, 132, 252, 0.08);
   filter: drop-shadow(0 0 6px rgba(192, 132, 252, 0.35));
@@ -11492,20 +12527,25 @@ body[data-overall-grade="S"] .report-card {
   white-space: nowrap;
   display: inline-block;
 }
+/* Evidence-type pills — colored by Evidence Type (provenance), NOT rank or
+   branch. Each references its own --ev-type-<name> token (defined in the
+   generator; hues sourced from /evidence/) with the canonical hue as fallback
+   so they resolve correctly pre-regen. Do NOT reuse --tier-*/--rank-* here —
+   evidence type is its own color axis. */
 /* Legacy aliases */
-.ev-type-pill.type-repo          { background: rgba(56,189,248,.10); color: var(--tier-basic); border: 1px solid rgba(56,189,248,.2); }
-.ev-type-pill.type-github-stars  { background: rgba(245,158,11,.12); color: var(--tier-ultimate); border: 1px solid rgba(245,158,11,.25); }
+.ev-type-pill.type-repo          { background: rgba(56,189,248,.10); color: var(--ev-type-repo, #38bdf8); border: 1px solid rgba(56,189,248,.2); }
+.ev-type-pill.type-github-stars  { background: rgba(245,158,11,.12); color: var(--ev-type-github-stars, #f59e0b); border: 1px solid rgba(245,158,11,.25); }
 /* Canonical types */
-.ev-type-pill.type-fusion-recipe        { background: rgba(245,158,11,.15); color: var(--tier-ultimate); border: 1px solid rgba(245,158,11,.3); }
-.ev-type-pill.type-github-stars-own     { background: rgba(245,158,11,.12); color: var(--tier-ultimate); border: 1px solid rgba(245,158,11,.25); }
-.ev-type-pill.type-proxy-containment    { background: rgba(124,58,237,.12); color: var(--tier-unique); border: 1px solid rgba(124,58,237,.25); }
-.ev-type-pill.type-verifier-attestation { background: rgba(232,121,249,.12); color: var(--rank-4); border: 1px solid rgba(232,121,249,.25); }
-.ev-type-pill.type-benchmark-result     { background: rgba(192,132,252,.12); color: var(--tier-extra); border: 1px solid rgba(192,132,252,.25); }
-.ev-type-pill.type-arxiv                { background: rgba(192,132,252,.12); color: var(--tier-extra); border: 1px solid rgba(192,132,252,.25); }
-.ev-type-pill.type-peer-review          { background: rgba(56,189,248,.12);  color: var(--tier-basic); border: 1px solid rgba(56,189,248,.25); }
-.ev-type-pill.type-repo-own             { background: rgba(56,189,248,.10);  color: var(--tier-basic); border: 1px solid rgba(56,189,248,.2); }
-.ev-type-pill.type-self-attestation     { background: rgba(100,116,139,.12); color: var(--rank-0); border: 1px solid rgba(100,116,139,.25); }
-.ev-type-pill.type-social-signal        { background: rgba(52,211,153,.12);  color: #34d399; border: 1px solid rgba(52,211,153,.25); }
+.ev-type-pill.type-fusion-recipe        { background: rgba(245,158,11,.15); color: var(--ev-type-fusion-recipe, #f59e0b); border: 1px solid rgba(245,158,11,.3); }
+.ev-type-pill.type-github-stars-own     { background: rgba(245,158,11,.12); color: var(--ev-type-github-stars-own, #f59e0b); border: 1px solid rgba(245,158,11,.25); }
+.ev-type-pill.type-proxy-containment    { background: rgba(124,58,237,.12); color: var(--ev-type-proxy-containment, #7c3aed); border: 1px solid rgba(124,58,237,.25); }
+.ev-type-pill.type-verifier-attestation { background: rgba(232,121,249,.12); color: var(--ev-type-verifier-attestation, #e879f9); border: 1px solid rgba(232,121,249,.25); }
+.ev-type-pill.type-benchmark-result     { background: rgba(192,132,252,.12); color: var(--ev-type-benchmark-result, #c084fc); border: 1px solid rgba(192,132,252,.25); }
+.ev-type-pill.type-arxiv                { background: rgba(192,132,252,.12); color: var(--ev-type-arxiv, #c084fc); border: 1px solid rgba(192,132,252,.25); }
+.ev-type-pill.type-peer-review          { background: rgba(56,189,248,.12);  color: var(--ev-type-peer-review, #38bdf8); border: 1px solid rgba(56,189,248,.25); }
+.ev-type-pill.type-repo-own             { background: rgba(56,189,248,.10);  color: var(--ev-type-repo-own, #38bdf8); border: 1px solid rgba(56,189,248,.2); }
+.ev-type-pill.type-self-attestation     { background: rgba(100,116,139,.12); color: var(--ev-type-self-attestation, #94a3b8); border: 1px solid rgba(100,116,139,.25); }
+.ev-type-pill.type-social-signal        { background: rgba(52,211,153,.12);  color: var(--ev-type-social-signal, #34d399); border: 1px solid rgba(52,211,153,.25); }
 
 /* ── Per-skill modal evidence cards — mosaic layout ──
    CSS columns fill top-to-bottom then wrap left-to-right, packing tiles
@@ -11620,7 +12660,7 @@ body[data-overall-grade="S"] .report-card {
   border: 1px solid rgba(52,211,153,0.2);
 }
 .se-ev-freshness--stale {
-  color: var(--tier-ultimate);
+  color: var(--rank-5, #fbbf24);
   background: rgba(245,158,11,0.08);
   border: 1px solid rgba(245,158,11,0.2);
 }

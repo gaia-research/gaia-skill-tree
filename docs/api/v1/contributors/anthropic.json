@@ -8,10 +8,14 @@
       "trustMagnitude": 90.0,
       "overallTrustGrade": "B",
       "contributor": "anthropic",
-      "type": "extra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/anthropic/skill-creator.json"
-      }
+      },
+      "genericSkillRef": "tool-creation"
     },
     {
       "id": "anthropic/pptx",
@@ -21,9 +25,13 @@
       "overallTrustGrade": "C",
       "contributor": "anthropic",
       "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/anthropic/pptx.json"
-      }
+      },
+      "genericSkillRef": "document-editing"
     }
   ],
   "namedSkillsCount": 2,

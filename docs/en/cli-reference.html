@@ -2548,8 +2548,13 @@
             let cmdName = cmdCard ? cmdCard.querySelector('.cmd-name').textContent.trim() : '';
 
             // Wrap the original flag content inside a .flag-text span
-            const originalHTML = firstCell.innerHTML;
-            firstCell.innerHTML = `<span class="flag-text copyable-flag-text" title="Click to copy flag name">${originalHTML}</span>`;
+            const span = document.createElement('span');
+            span.className = 'flag-text copyable-flag-text';
+            span.title = 'Click to copy flag name';
+            while (firstCell.firstChild) {
+              span.appendChild(firstCell.firstChild);
+            }
+            firstCell.appendChild(span);
 
             // Click listener for the flag name text to copy just the flag option
             const flagText = firstCell.querySelector('.flag-text');
@@ -2564,23 +2569,55 @@
             const miniTerminal = document.createElement('div');
             miniTerminal.className = 'mini-terminal-copy';
             miniTerminal.title = 'Click to copy full command';
-            miniTerminal.innerHTML = `
-              <div class="mini-terminal-header">
-                <div class="mini-terminal-dots">
-                  <span class="mini-terminal-dot red"></span>
-                  <span class="mini-terminal-dot yellow"></span>
-                  <span class="mini-terminal-dot green"></span>
-                </div>
-                <span class="mini-terminal-title">bash</span>
-                <button class="mini-terminal-copy-btn" aria-label="Copy command">
-                  ${copyIconSvg}
-                </button>
-              </div>
-              <div class="mini-terminal-screen">
-                <span class="mini-terminal-prompt">$</span>
-                <span class="mini-terminal-cmd">${cmdName || 'gaia'} <span class="mini-terminal-flag">${cleanFlag}</span></span>
-              </div>
-            `;
+
+            const termHeader = document.createElement('div');
+            termHeader.className = 'mini-terminal-header';
+
+            const termDots = document.createElement('div');
+            termDots.className = 'mini-terminal-dots';
+            ['red', 'yellow', 'green'].forEach(c => {
+              const dot = document.createElement('span');
+              dot.className = `mini-terminal-dot ${c}`;
+              termDots.appendChild(dot);
+            });
+
+            const termTitle = document.createElement('span');
+            termTitle.className = 'mini-terminal-title';
+            termTitle.textContent = 'bash';
+
+            const termBtn = document.createElement('button');
+            termBtn.className = 'mini-terminal-copy-btn';
+            termBtn.setAttribute('aria-label', 'Copy command');
+            const svgDoc = new DOMParser().parseFromString(copyIconSvg, 'image/svg+xml');
+            if (svgDoc.documentElement) {
+              termBtn.appendChild(document.importNode(svgDoc.documentElement, true));
+            }
+
+            termHeader.appendChild(termDots);
+            termHeader.appendChild(termTitle);
+            termHeader.appendChild(termBtn);
+
+            const termScreen = document.createElement('div');
+            termScreen.className = 'mini-terminal-screen';
+
+            const termPrompt = document.createElement('span');
+            termPrompt.className = 'mini-terminal-prompt';
+            termPrompt.textContent = '$';
+
+            const termCmd = document.createElement('span');
+            termCmd.className = 'mini-terminal-cmd';
+            termCmd.appendChild(document.createTextNode((cmdName || 'gaia') + ' '));
+
+            const termFlag = document.createElement('span');
+            termFlag.className = 'mini-terminal-flag';
+            termFlag.textContent = cleanFlag;
+            termCmd.appendChild(termFlag);
+
+            termScreen.appendChild(termPrompt);
+            termScreen.appendChild(termCmd);
+
+            miniTerminal.appendChild(termHeader);
+            miniTerminal.appendChild(termScreen);
 
             // Click action: copies full command
             miniTerminal.addEventListener('click', (e) => {

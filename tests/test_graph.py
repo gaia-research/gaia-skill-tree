@@ -60,7 +60,7 @@ def make_registry(root):
                     {
                         "id": "research",
                         "name": "Research",
-                        "type": "extra",
+                        "type": "fusion",
                         "level": "3★",
                         "demerits": ["experimental-feature"],
                         "prerequisites": ["tokenize"],
@@ -104,15 +104,6 @@ def test_write_graph_artifact_defaults_to_standalone_html(tmp_path):
     assert 'fetch("graph/gaia.json")' not in html
 
 
-def test_write_graph_artifact_keeps_svg_default_path(tmp_path):
-    root = make_registry(tmp_path)
-
-    out_path, _ = graph_mod.write_graph_artifact(root, fmt="svg")
-
-    assert out_path == root / "registry" / "gaia.svg"
-    assert out_path.read_text(encoding="utf-8").startswith("<?xml")
-
-
 def test_write_graph_artifact_keeps_render_json_default_path(tmp_path):
     root = make_registry(tmp_path)
 
@@ -120,13 +111,14 @@ def test_write_graph_artifact_keeps_render_json_default_path(tmp_path):
 
     assert out_path == root / "registry" / "render" / "latest.json"
     data = json.loads(out_path.read_text(encoding="utf-8"))
-    assert data["nodes"][0]["id"] == "tokenize"
-    research_node = next(node for node in data["nodes"] if node["id"] == "research")
-    assert research_node["effectiveLevel"] == "2★"
-    assert research_node["levelMeta"]["baseLevel"] == "3★"
-    assert research_node["levelMeta"]["effectiveLevel"] == "2★"
-    assert research_node["demerits"] == ["experimental-feature"]
-    assert data["edges"] == [{"source": "tokenize", "target": "research", "type": "extra"}]
+    # json mode now emits the enriched DAG (skills[] + prerequisite edges),
+    # not an x/y-coordinate ring render graph.
+    skills_by_id = {sk["id"]: sk for sk in data["skills"]}
+    assert set(skills_by_id) == {"tokenize", "research"}
+    assert skills_by_id["research"]["type"] == "fusion"
+    assert skills_by_id["research"]["prerequisites"] == ["tokenize"]
+    # No ring-layout coordinates leak into the DAG output.
+    assert all("x" not in sk and "y" not in sk for sk in data["skills"])
 
 
 def test_graph_command_defaults_to_html_and_opens_it(tmp_path, monkeypatch):
@@ -208,7 +200,7 @@ class TestRed_WriteGraphArtifactCustom:
         data = json.loads(out_path.read_text(encoding="utf-8"))
 
         # The custom graph should contain local-only skill from scan
-        node_ids = {n["id"] for n in data["nodes"]}
+        node_ids = {n["id"].lstrip("/") for n in data["skills"]}
         assert "local-only" in node_ids, (
             "custom=True graph should include locally scanned skills"
         )
@@ -254,7 +246,7 @@ class TestGreen_CustomGraphMatchesScan:
             root, fmt="json", custom=True
         )
         data = json.loads(out_path.read_text(encoding="utf-8"))
-        node_ids = {n["id"] for n in data["nodes"]}
+        node_ids = {n["id"].lstrip("/") for n in data["skills"]}
 
         assert node_ids == expected_ids, (
             f"Custom graph nodes {node_ids} should match scan output {expected_ids}"
@@ -282,7 +274,7 @@ class TestGreen_CustomGraphMatchesScan:
         edges = data.get("edges", [])
         # Edges depend on whether prerequisites parse correctly as a list
         # from the simple frontmatter parser. This validates the integration.
-        node_ids = {n["id"] for n in data["nodes"]}
+        node_ids = {n["id"].lstrip("/") for n in data["skills"]}
         assert "parent-skill" in node_ids
         assert "child-skill" in node_ids
 
@@ -333,94 +325,188 @@ class TestScrutiny_ShowTreeCustomMode:
         )
 
 
-@pytest.mark.integration
-class TestScrutiny_CustomGraphSchema:
-    """Scrutiny #3: custom graph schema consumed by build_render_graph.
+class TestEnrichedGraphPreference:
+    """Batch 3a - gaia graph prefers the enriched 3D World Tree graph."""
 
-    The synthetic graph dict uses 'version': 'local-custom' and a flat
-    'skills' list. Verify build_render_graph can consume this without errors.
-    """
-
-    def test_build_render_graph_handles_custom_schema(self):
-        """build_render_graph should not crash on the custom graph schema."""
-        custom_graph = {
-            "version": "local-custom",
+    def _write_enriched(self, root, *, version="9.9.9"):
+        """Write an enriched .gaia/registry/graph/gaia.json carrying branch/namedMaxLevel."""
+        graph_dir = root / ".gaia" / "registry" / "graph"
+        graph_dir.mkdir(parents=True, exist_ok=True)
+        enriched = {
+            "version": version,
+            "generatedAt": "2026-07-23",
             "skills": [
-                {"id": "my-skill", "name": "My Skill", "type": "basic",
-                 "level": "0★", "prerequisites": []},
-                {"id": "my-other", "name": "Other Skill", "type": "basic",
-                 "level": "0★", "prerequisites": ["my-skill"]},
+                {
+                    "id": "tokenize",
+                    "name": "Tokenize",
+                    "type": "basic",
+                    "level": "1★",
+                    "branch": "core",
+                    "namedMaxLevel": "4★",
+                    "cluster": "foundations",
+                    "prerequisites": [],
+                },
             ],
         }
+        (graph_dir / "gaia.json").write_text(json.dumps(enriched), encoding="utf-8")
+        return graph_dir / "gaia.json"
 
-        render_graph = graph_mod.build_render_graph(custom_graph)
+    def test_resolve_prefers_fetched_graph(self, tmp_path, monkeypatch):
+        root = make_registry(tmp_path)
+        monkeypatch.chdir(tmp_path)
+        enriched_path = self._write_enriched(tmp_path)
 
-        # Should produce valid nodes
-        assert len(render_graph["nodes"]) == 2
-        node_ids = {n["id"] for n in render_graph["nodes"]}
-        assert node_ids == {"my-skill", "my-other"}
+        resolved = graph_mod.resolve_enriched_graph_path(graph_mod._registry_root(root))
+        assert resolved == enriched_path
 
-        # Should produce the prerequisite edge
-        assert len(render_graph["edges"]) == 1
-        assert render_graph["edges"][0]["source"] == "my-skill"
-        assert render_graph["edges"][0]["target"] == "my-other"
+    def test_resolve_returns_none_when_absent(self, tmp_path, monkeypatch):
+        root = make_registry(tmp_path)
+        monkeypatch.chdir(tmp_path)
+        assert graph_mod.resolve_enriched_graph_path(graph_mod._registry_root(root)) is None
 
-        # Version should carry through
-        assert render_graph["version"] == "local-custom"
+    def test_render_html_embeds_enriched_graph(self, tmp_path, monkeypatch):
+        """render_html must embed the enriched graph (branch/namedMaxLevel), not the lean one."""
+        root = make_registry(tmp_path)
+        monkeypatch.chdir(tmp_path)
+        self._write_enriched(tmp_path)
+
+        out_path, graph = graph_mod.write_graph_artifact(root, fmt="html")
+        html = out_path.read_text(encoding="utf-8")
+
+        assert '"branch": "core"' in html
+        assert '"namedMaxLevel"' in html
+        assert '"id": "research"' not in html
+        assert graph.get("skills", [{}])[0].get("branch") == "core"
+
+    def test_lean_fallback_warns_once(self, tmp_path, monkeypatch, capsys):
+        """With no enriched graph, render falls back to lean + a stderr hint."""
+        root = make_registry(tmp_path)
+        monkeypatch.chdir(tmp_path)
+        monkeypatch.setattr(graph_mod, "_ENRICHED_WARNED", False)
+
+        out_path, graph = graph_mod.write_graph_artifact(root, fmt="html")
+        html = out_path.read_text(encoding="utf-8")
+        err = capsys.readouterr().err
+
+        assert '"id": "research"' in html
+        assert "run 'gaia fetch'" in err
+
+    def test_version_read_from_graph_not_hardcoded(self, tmp_path, monkeypatch):
+        """window.GAIA_VERSION must reflect the embedded graph version, not a baked-in literal."""
+        root = make_registry(tmp_path)
+        monkeypatch.chdir(tmp_path)
+        self._write_enriched(tmp_path, version="12.3.4")
+
+        out_path, _ = graph_mod.write_graph_artifact(root, fmt="html")
+        html = out_path.read_text(encoding="utf-8")
+        assert 'window.GAIA_VERSION = "12.3.4"' in html
+        assert "4.3.12" not in html
 
 
-class TestPaletteFromRegistry:
-    """#332 — PALETTE fills must track the registry tokens, not a drifted copy."""
+class TestCustomNodeFlag:
+    """Batch 3a - uncanonized local skills carry a `custom` flag for the frontend."""
 
-    def test_palette_fills_match_tier_hex(self):
-        from gaia_cli.formatting import tier_hex
+    def test_custom_skill_carries_custom_flag(self, tmp_path, monkeypatch):
+        root = _make_registry(tmp_path, skills=[
+            {"id": "registry-skill", "name": "Registry Skill", "type": "basic",
+             "level": "1★", "prerequisites": []},
+        ])
+        _make_skill(tmp_path, os.path.join(".agents", "skills"), "local-only",
+                     name="Local Only", description="A local-only custom skill")
+        monkeypatch.chdir(tmp_path)
 
-        for skill_type in ("basic", "extra", "unique", "ultimate"):
-            assert graph_mod.PALETTE[skill_type]["fill"] == tier_hex(skill_type)
+        _, graph = graph_mod.write_graph_artifact(root, fmt="json", custom=True)
+        by_id = {sk["id"].lstrip("/"): sk for sk in graph["skills"]}
+        assert by_id["local-only"].get("custom") is True
 
-    def test_extra_and_ultimate_no_longer_drifted(self):
-        # The old hardcoded values were extra=#a78bfa and ultimate=#fbbf24.
-        # After sourcing from the registry they must be the canonical tokens.
-        assert graph_mod.PALETTE["extra"]["fill"] == "#c084fc"
-        assert graph_mod.PALETTE["ultimate"]["fill"] == "#f59e0b"
+    def test_canon_skill_has_no_custom_flag(self, tmp_path, monkeypatch):
+        root = make_registry(tmp_path)
+        monkeypatch.chdir(tmp_path)
 
-    def test_no_raw_push_green_hex(self):
-        from gaia_cli.formatting import COLOR_LOCAL_USER
-
-        assert graph_mod.PUSH_GREEN == "#%02x%02x%02x" % COLOR_LOCAL_USER
+        _, graph = graph_mod.write_graph_artifact(root, fmt="html")
+        for sk in graph.get("skills", []):
+            assert "custom" not in sk
 
 
-class TestPushableHighlight:
-    """#139 — pushable local skills render green with a legend entry."""
+# ---------------------------------------------------------------------------
+# Palette contract — Yggdrasil II collapsed the type axis to {basic, fusion}
+# ---------------------------------------------------------------------------
+#
+# Replaces TestPaletteFromRegistry::test_extra_and_ultimate_no_longer_drifted
+# (deleted in 74dae4ce7), which asserted that the retired `extra` and
+# `ultimate` types shared a colour slot. Both types are gone from the taxonomy,
+# so the drift it guarded cannot occur. What still needs guarding is the new
+# contract: the tier palette has exactly two members, sourced from
+# meta.json `types.colors`, and no consumer may index a retired type key.
+class TestPaletteContractYggdrasilII:
+    def _meta_types(self):
+        import json as _json
+        import os as _os
 
-    def _graph(self):
-        return {
-            "version": "local-custom",
-            "skills": [
-                {"id": "alpha", "name": "Alpha", "type": "basic",
-                 "level": "0★", "prerequisites": []},
-                {"id": "beta", "name": "Beta", "type": "basic",
-                 "level": "0★", "prerequisites": []},
-            ],
+        repo_root = _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))
+        with open(
+            _os.path.join(repo_root, "registry", "schema", "meta.json"),
+            "r",
+            encoding="utf-8",
+        ) as f:
+            return _json.load(f)["types"]
+
+    def test_type_axis_is_exactly_basic_and_fusion(self):
+        types = self._meta_types()
+        assert types["order"] == ["basic", "fusion"]
+        assert set(types["colors"]) == {"basic", "fusion"}
+        # Retired Yggdrasil I types must not reappear on the colour axis.
+        for retired in ("extra", "ultimate", "unique"):
+            assert retired not in types["colors"], (
+                f"`{retired}` is a retired Yggdrasil I type; `unique` in "
+                "particular is a read-time BRANCH (taxonomy.branchFor), never a "
+                "`type`, and must not gain a typeColors slot."
+            )
+
+    def test_tier_palette_has_no_shared_slots(self):
+        """Each surviving type owns a distinct hue.
+
+        The old test existed because `extra` and `ultimate` had drifted onto the
+        same hex. With two types left, distinctness is the whole contract.
+        """
+        colors = self._meta_types()["colors"]
+        hexes = [v["hex"].lower() for v in colors.values()]
+        assert len(set(hexes)) == len(hexes), f"Tier colours collide: {colors}"
+        assert colors["basic"]["hex"].lower() == "#38bdf8"
+        assert colors["fusion"]["hex"].lower() == "#f59e0b"
+
+    def test_runtime_tier_colors_match_meta(self):
+        """`formatting.TIER_COLORS` (registry-loaded, with a hard-coded fallback)
+        must agree with meta.json — the fallback is the wheel's cold-start
+        palette and silently drifting it repaints the CLI."""
+        from gaia_cli.formatting import _hex_to_rgb, TIER_COLORS
+
+        expected = {
+            k: _hex_to_rgb(v["hex"]) for k, v in self._meta_types()["colors"].items()
         }
+        assert TIER_COLORS == expected
 
-    def test_pushable_flag_set_on_nodes(self):
-        render_graph = graph_mod.build_render_graph(self._graph(), pushable={"alpha"})
-        by_id = {n["id"]: n for n in render_graph["nodes"]}
-        assert by_id["alpha"]["pushable"] is True
-        assert by_id["beta"]["pushable"] is False
+    def test_no_module_hard_indexes_a_retired_tier_key(self):
+        """Regression: `TIER_COLORS['ultimate']` raised KeyError at runtime once
+        the palette collapsed. Any retired key must be reached via `.get()` with
+        a live-key fallback, never by subscript."""
+        import glob as _glob
+        import os as _os
+        import re as _re
 
-    def test_pushable_defaults_false(self):
-        render_graph = graph_mod.build_render_graph(self._graph())
-        assert all(n["pushable"] is False for n in render_graph["nodes"])
-
-    def test_svg_renders_pushable_green_and_legend(self):
-        render_graph = graph_mod.build_render_graph(self._graph(), pushable={"alpha"})
-        svg = graph_mod.render_svg(render_graph)
-        assert graph_mod.PUSH_GREEN in svg
-        assert "Pushable: 1" in svg
-
-    def test_svg_no_pushable_legend_when_none(self):
-        render_graph = graph_mod.build_render_graph(self._graph())
-        svg = graph_mod.render_svg(render_graph)
-        assert "Pushable:" not in svg
+        src_root = _os.path.join(
+            _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))),
+            "src",
+            "gaia_cli",
+        )
+        pattern = _re.compile(r"""TIER_COLORS\[\s*['"](extra|ultimate|unique)['"]""")
+        offenders = []
+        for path in _glob.glob(_os.path.join(src_root, "**", "*.py"), recursive=True):
+            with open(path, "r", encoding="utf-8") as f:
+                for lineno, line in enumerate(f, 1):
+                    if pattern.search(line):
+                        offenders.append(f"{_os.path.relpath(path, src_root)}:{lineno}")
+        assert not offenders, (
+            "Retired tier key indexed by subscript (KeyError under Yggdrasil II): "
+            + ", ".join(offenders)
+        )

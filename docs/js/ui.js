@@ -1,7 +1,30 @@
 window.switchOsTab = function(btn) {
-  var step = btn.closest('.rite-step, .step');
-  step.querySelectorAll('.os-tab').forEach(function(b){ b.classList.toggle('active', b === btn); });
-  step.querySelectorAll('.os-panel').forEach(function(p){ p.classList.toggle('active', p.dataset.os === btn.dataset.os); });
+  var scope = btn.closest('.rite-entry, .path-a, .path-b, .rite-step, .step');
+  if (!scope) return;
+
+  var targetOs = btn.dataset.os;
+
+  // 1. Toggle the tabs inside the immediate scope
+  scope.querySelectorAll('.os-tab').forEach(function(button) {
+    var active = button === btn;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-selected', active ? 'true' : 'false');
+  });
+
+  // 2. Toggle the panels inside the immediate scope
+  scope.querySelectorAll('.os-panel').forEach(function(panel) {
+    panel.classList.toggle('active', panel.dataset.os === targetOs);
+  });
+
+  // 3. Global synchronization: if changing the primary CLI tabs, push that choice down to Path A
+  if (scope.classList.contains('rite-entry')) {
+    var pathA = document.querySelector('.path-a');
+    if (pathA) {
+      pathA.querySelectorAll('.os-panel').forEach(function(panel) {
+        panel.classList.toggle('active', panel.dataset.os === targetOs);
+      });
+    }
+  }
 };
 
 (function(){
@@ -124,7 +147,12 @@ window.switchOsTab = function(btn) {
   function flashCopied(btn){
     btn.innerHTML = CHECK();
     btn.classList.add('copied');
-    setTimeout(function(){ btn.innerHTML = CLIP(); btn.classList.remove('copied'); }, 1600);
+    btn.classList.add('copy-delight');
+    setTimeout(function(){
+      btn.innerHTML = CLIP();
+      btn.classList.remove('copied');
+      btn.classList.remove('copy-delight');
+    }, 1600);
   }
   // Stage 1 — expose the flash-to-check helper so other call sites (the
   // skill explorer install button, for example) can share the animation.
@@ -152,19 +180,92 @@ window.switchOsTab = function(btn) {
     });
   }
 
+  function initHeroInstallCopy() {
+    var copy = document.querySelector('[data-hero-install-copy]');
+    if (!copy) return;
+
+    var output = document.querySelector('[data-hero-install-output]');
+    var icon = copy.querySelector('use');
+    var platformButtons = Array.prototype.slice.call(document.querySelectorAll('[data-hero-install-platform]'));
+    var commands = {
+      curl: {
+        value: 'curl -fsSL https://gaiaskilltree.com/install.sh | sh',
+        label: 'Copy the macOS and Linux install command'
+      },
+      windows: {
+        value: 'iex (irm https://gaiaskilltree.com/install.ps1)',
+        label: 'Copy the Windows install command'
+      }
+    };
+    var activePlatform = 'curl';
+    var copyIcon = icon ? icon.getAttribute('href') : '';
+    var copiedIcon = copyIcon.replace('#copy', '#copy-check');
+
+    function selectPlatform(platform) {
+      var command = commands[platform];
+      if (!command) return;
+      activePlatform = platform;
+      copy.dataset.heroInstallCopy = command.value;
+      copy.setAttribute('aria-label', command.label);
+      if (output) output.textContent = command.value;
+      platformButtons.forEach(function(button) {
+        var active = button.dataset.heroInstallPlatform === platform;
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+    }
+
+    window.gaiaSetHeroInstallPlatform = selectPlatform;
+
+    copy.addEventListener('click', function() {
+      copyToClipboard(copy.dataset.heroInstallCopy).then(function() {
+        copy.classList.add('copied');
+        copy.classList.add('copy-delight');
+        copy.setAttribute('aria-label', 'Install command copied');
+        if (icon) icon.setAttribute('href', copiedIcon);
+        setTimeout(function() {
+          copy.classList.remove('copied');
+          copy.classList.remove('copy-delight');
+          if (icon) icon.setAttribute('href', copyIcon);
+          copy.setAttribute('aria-label', copy.dataset.heroInstallCopy === commands.windows.value
+            ? commands.windows.label
+            : commands.curl.label);
+        }, 1600);
+      }).catch(function() {
+        copy.title = 'Copy failed — select and copy manually';
+      });
+    });
+  }
+
   /* ─────────────────────────────────────────
      SCROLL TO TOP
      ───────────────────────────────────────── */
   function initScrollToTop() {
     var btn = document.getElementById('scrollToTop');
     if (!btn) return;
+
+    // We can also bind the CLI installation modal parallax here on scroll.
+    var riteBg = document.querySelector('.rite-entry-bg');
+
     window.addEventListener('scroll', function() {
       if (window.scrollY > 300) {
         btn.classList.add('visible');
       } else {
         btn.classList.remove('visible');
       }
+
+      if (riteBg && !prefersReducedMotion()) {
+        // Parallax for the Install CLI modal bg
+        var rect = riteBg.parentElement.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          // Visible in viewport
+          var progress = 1 - (rect.bottom / (window.innerHeight + rect.height));
+          var shift = progress * 40 - 20; // -20px to +20px
+          riteBg.style.transform = 'translate3d(0, ' + shift + 'px, 0)';
+        }
+      }
     }, { passive: true });
+
     btn.addEventListener('click', function() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
@@ -234,15 +335,231 @@ window.switchOsTab = function(btn) {
     }
   }
 
+  function initAgentPrompts() {
+    document.querySelectorAll('[data-prompt-copy]').forEach(function(button) {
+      var label = button.querySelector('span');
+      var iconUse = button.querySelector('use');
+      var originalLabel = label ? label.textContent : '';
+      var originalIcon = iconUse ? iconUse.getAttribute('href') : '';
+
+      button.addEventListener('click', function() {
+        var prompt = document.getElementById(button.dataset.promptCopy);
+        if (!prompt) return;
+        copyToClipboard(prompt.textContent.trim()).then(function() {
+          button.classList.add('copied');
+          button.classList.add('copy-delight');
+          if (label) label.textContent = 'Copied';
+          if (iconUse) iconUse.setAttribute('href', originalIcon.replace('#copy', '#copy-check'));
+          setTimeout(function() {
+            button.classList.remove('copied');
+            button.classList.remove('copy-delight');
+            if (label) label.textContent = originalLabel;
+            if (iconUse) iconUse.setAttribute('href', originalIcon);
+          }, 1600);
+        }).catch(function() {
+          button.title = 'Copy failed — select and copy the prompt manually';
+        });
+      });
+    });
+  }
+
+  function initAgentPromptBuilder() {
+    var repoInput = document.getElementById('agentRepoInput');
+    var repoPrompt = document.getElementById('agentRepoPrompt');
+    var standalonePrompt = document.getElementById('agentStandalonePrompt');
+    var fetcherContainer = document.getElementById('agentSkillFetcher');
+    var fetchBtn = document.getElementById('fetchSkillsBtn');
+    var checkboxesContainer = document.getElementById('agentSkillCheckboxes');
+    var skillTools = document.getElementById('agentSkillTools');
+    var skillSearch = document.getElementById('agentSkillSearch');
+    var selectAllBtn = document.getElementById('agentSkillSelectAll');
+    var selectNoneBtn = document.getElementById('agentSkillSelectNone');
+
+    if (!repoInput || !repoPrompt || !standalonePrompt) return;
+
+    var repoBaseText = repoPrompt.textContent;
+    var standaloneBaseText = standalonePrompt.textContent;
+    var currentSkills = [];
+    var allDetectedSkills = [];
+
+    function parseGithubUrl(url) {
+      var m = url.match(/github\.com\/([^\/]+)\/([^\/]+)/);
+      return m ? { owner: m[1], repo: m[2].replace(/\.git$/, '') } : null;
+    }
+
+    function renderPrompts() {
+      var url = repoInput.value.trim();
+      var isGh = parseGithubUrl(url);
+
+      // Update Repo Prompt
+      if (url) {
+        repoPrompt.textContent = repoBaseText.replace('my current repository', 'the repository at ' + url);
+      } else {
+        repoPrompt.textContent = repoBaseText;
+      }
+
+      // Update Standalone Prompt
+      var sText = standaloneBaseText;
+      if (url) {
+        var qty = currentSkills.length > 0 ? currentSkills.length : 'standalone';
+        sText = sText.replace('Prepare one standalone skill for Gaia Intake on my behalf.',
+          'Prepare ' + qty + ' skill(s) for Gaia Intake on my behalf from ' + url + '.');
+      }
+      if (currentSkills.length > 0) {
+        var list = '\n\nSpecifically target these skills:\n' + currentSkills.map(function(s){ return '- ' + s; }).join('\n');
+        sText = sText.replace('\n\nUse https://github.com', list + '\n\nUse https://github.com');
+      }
+      standalonePrompt.textContent = sText;
+
+      if (isGh) {
+        fetcherContainer.removeAttribute('hidden');
+      } else {
+        fetcherContainer.setAttribute('hidden', '');
+        checkboxesContainer.innerHTML = '';
+        currentSkills = [];
+        allDetectedSkills = [];
+        if (skillTools) skillTools.setAttribute('hidden', '');
+        if (fetchBtn) {
+          fetchBtn.textContent = 'Fetch SKILL.md files';
+          fetchBtn.disabled = false;
+        }
+      }
+    }
+
+    repoInput.addEventListener('input', renderPrompts);
+
+    function filterCheckboxes() {
+      var term = skillSearch.value.toLowerCase();
+      var labels = checkboxesContainer.querySelectorAll('.agent-skill-label');
+      labels.forEach(function(lbl) {
+        var val = lbl.querySelector('input').value.toLowerCase();
+        if (val.indexOf(term) > -1) {
+          lbl.style.display = '';
+        } else {
+          lbl.style.display = 'none';
+        }
+      });
+    }
+
+    if (skillSearch) {
+      skillSearch.addEventListener('input', filterCheckboxes);
+    }
+
+    if (selectAllBtn) {
+      selectAllBtn.addEventListener('click', function() {
+        var term = skillSearch.value.toLowerCase();
+        checkboxesContainer.querySelectorAll('.agent-skill-label input[type="checkbox"]').forEach(function(cb) {
+          // Only select visible ones if filtered
+          var isVisible = cb.value.toLowerCase().indexOf(term) > -1;
+          if (isVisible && !cb.checked) {
+            cb.checked = true;
+            currentSkills.push(cb.value);
+          }
+        });
+        renderPrompts();
+      });
+    }
+
+    if (selectNoneBtn) {
+      selectNoneBtn.addEventListener('click', function() {
+        var term = skillSearch.value.toLowerCase();
+        checkboxesContainer.querySelectorAll('.agent-skill-label input[type="checkbox"]').forEach(function(cb) {
+          var isVisible = cb.value.toLowerCase().indexOf(term) > -1;
+          if (isVisible && cb.checked) {
+            cb.checked = false;
+            currentSkills = currentSkills.filter(function(cs) { return cs !== cb.value; });
+          }
+        });
+        renderPrompts();
+      });
+    }
+
+    if (fetchBtn) {
+      fetchBtn.addEventListener('click', function() {
+        var isGh = parseGithubUrl(repoInput.value.trim());
+        if (!isGh) return;
+
+        fetchBtn.disabled = true;
+        fetchBtn.textContent = 'Fetching...';
+
+        fetch('https://api.github.com/repos/' + isGh.owner + '/' + isGh.repo + '/git/trees/HEAD?recursive=1')
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            fetchBtn.textContent = 'Fetch SKILL.md files';
+            fetchBtn.disabled = false;
+            checkboxesContainer.innerHTML = '';
+            currentSkills = [];
+            allDetectedSkills = [];
+            renderPrompts();
+
+            if (!data.tree) {
+              fetchBtn.textContent = 'Failed to fetch';
+              if (skillTools) skillTools.setAttribute('hidden', '');
+              return;
+            }
+
+            var skills = [];
+            data.tree.forEach(function(item) {
+              var p = item.path;
+              if (p === 'SKILL.md' || p === 'skill.md' || p.endsWith('/SKILL.md') || p.endsWith('/skill.md')) {
+                var parts = p.split('/');
+                if (parts.length > 1) {
+                  skills.push(parts[parts.length - 2]);
+                } else {
+                  skills.push('root');
+                }
+              }
+            });
+
+            if (skills.length === 0) {
+              checkboxesContainer.innerHTML = '<span style="font-size:.7rem;color:var(--muted)">No SKILL.md files found.</span>';
+              if (skillTools) skillTools.setAttribute('hidden', '');
+              return;
+            }
+
+            allDetectedSkills = skills;
+            if (skillTools) skillTools.removeAttribute('hidden');
+            if (skillSearch) skillSearch.value = '';
+
+            skills.forEach(function(s) {
+              var lbl = document.createElement('label');
+              lbl.className = 'agent-skill-label';
+              var cb = document.createElement('input');
+              cb.type = 'checkbox';
+              cb.value = s;
+              cb.addEventListener('change', function() {
+                if (cb.checked) {
+                  currentSkills.push(s);
+                } else {
+                  currentSkills = currentSkills.filter(function(cs) { return cs !== s; });
+                }
+                renderPrompts();
+              });
+              lbl.appendChild(cb);
+              lbl.appendChild(document.createTextNode(s));
+              checkboxesContainer.appendChild(lbl);
+            });
+          })
+          .catch(function() {
+            fetchBtn.textContent = 'Error fetching skills';
+            fetchBtn.disabled = false;
+            if (skillTools) skillTools.setAttribute('hidden', '');
+          });
+      });
+    }
+  }
+
   /* ─────────────────────────────────────────
      INIT
      ───────────────────────────────────────── */
   function init() {
     initCopyButtons();
+    initHeroInstallCopy();
     initNavSheet();
-    initFirstLoadReveal();
     initScrollToTop();
     initAgentCopyBtn();
+    initAgentPrompts();
+    initAgentPromptBuilder();
   }
 
   if(document.readyState === 'loading'){

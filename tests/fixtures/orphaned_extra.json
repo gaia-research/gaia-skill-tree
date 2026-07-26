@@ -6,12 +6,10 @@
     {
       "id": "skill-a",
       "name": "Skill A",
-      "type": "extra",
+      "type": "fusion",
       "level": "3★",
-      "description": "Composite with only one prerequisite.",
-      "prerequisites": [
-        "skill-b"
-      ],
+      "description": "Fusion with zero prerequisites (violates types.minPrereqs.fusion = 1).",
+      "prerequisites": [],
       "derivatives": [],
       "evidence": [
         {
@@ -24,7 +22,8 @@
       "status": "provisional",
       "createdAt": "2026-04-26",
       "updatedAt": "2026-04-26",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "knownAgents": []
     },
     {
       "id": "skill-b",
@@ -33,9 +32,7 @@
       "level": "2★",
       "description": "Valid atomic skill.",
       "prerequisites": [],
-      "derivatives": [
-        "skill-a"
-      ],
+      "derivatives": [],
       "evidence": [
         {
           "class": "C",
@@ -47,7 +44,8 @@
       "status": "provisional",
       "createdAt": "2026-04-26",
       "updatedAt": "2026-04-26",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "knownAgents": []
     }
   ]
 }

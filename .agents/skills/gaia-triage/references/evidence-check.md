@@ -18,7 +18,8 @@ Use these paths and commands to verify issue status in the `gaia-skill-tree` rep
 
 ## Registry & Skills
 - Registry data: `registry/gaia.json`
-- Skill definitions: `skills/`
+- Generic node definitions: `registry/nodes/`
+- Named skill implementations: `registry/named/`
 - Validation: `python scripts/validate_registry.py` (if it exists)
 
 ## Common Issue Patterns
@@ -29,4 +30,6 @@ Use these paths and commands to verify issue status in the `gaia-skill-tree` rep
 | **Bug in Scan** | `src/gaia_cli/commands/scan.py` and `tests/test_scan.py` |
 | **Dependency** | `pyproject.toml` and `uv.lock` |
 | **Docs Drift** | `scripts/build_docs.py` |
-| **Skill Metadata** | `registry/gaia.json` |
+| **Generic node** | `registry/nodes/` |
+| **Named skill** | `registry/named/` |
+| **Built catalog** | `registry/gaia.json` |

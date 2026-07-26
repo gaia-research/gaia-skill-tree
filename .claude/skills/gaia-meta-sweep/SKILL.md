@@ -1,11 +1,11 @@
 ---
 name: gaia-meta-sweep
 description: >
-  Orchestrate a whole-registry sweep of Gaia — fan out 12 parallel audit agents across every skill in the registry, run adversarial verification, surface Semantic Fusion candidates, propose new generic skill references, and synthesize everything into a publish-ready HTML report under docs/meta/reports/.
+  Orchestrate a whole-registry sweep of Gaia — fan out 12 parallel audit agents across every skill, run adversarial verification, surface Semantic Fusion candidates, propose new generic skill references, and synthesize a publish-ready HTML report under docs/meta/reports/.
 
-  Use this skill when the user wants broad, systemic analysis across many skills at once: "run a meta sweep", "sweep the meta", "full meta audit", "audit the whole registry against META.md", "what's wrong with the registry at a pattern level", "are there widespread nomenclature issues", "find all skills missing a GitHub link", "produce a meta report", "post a report under docs/meta/reports", "check for evidence type mismatches across the registry", or explicitly types /gaia-meta-sweep.
+  Use this skill for broad, systemic analysis across many skills at once: "run a meta sweep", "sweep the meta", "full meta audit", "audit the whole registry against META.md", "widespread nomenclature issues", "find all skills missing a GitHub link", "produce a meta report", "check for evidence type mismatches across the registry", or explicitly types /gaia-meta-sweep.
 
-  This is the registry-wide macro companion to /gaia-meta-audit (builds a prioritized queue, single-pass) and /gaia-audit (fixes one skill). Use /gaia-meta-sweep when you need the full surface — 12 audit dimensions, adversarial verification, fusion proposals, and a durable findings artifact — not just a queue.
+  This is the registry-wide macro companion to /gaia-meta-audit (a prioritized queue, single-pass) and /gaia-audit (fixes one skill). Use it when you need the full surface — 12 audit dimensions, adversarial verification, fusion proposals, and a durable findings artifact — not just a queue.
 ---
 
 # gaia-meta-sweep
@@ -87,8 +87,8 @@ Dimensions:
 8. `placeholder-bodies` — named markdown with stub `## Installation` only (no `## Overview`)
 9. `testuser-timelines` — `contributor: testuser` survivors that were never cleaned up
 10. `champion-cluster` — generics where multi-implementation clusters exist but no Champion is set (META §6.1)
-11. `unique-isolation` — Unique skills with prerequisites or whose top named star is below 4★ (META §1.2 — Unique = 4★+ named star, 0 prereqs)
-12. `class-mismatch` — evidence claiming Class A without peer-review/10k★ marker (META §2.1)
+11. `unique-isolation` — named skills on the Unique branch (no `suiteComponents`, rank ≥ 4★) that fail a Unique-branch gate — e.g. top named star below 4★ despite Unique labeling, or a Unique skill carrying `suiteComponents` (which would make it Suite branch) (META §1.2 — Unique branch = no suiteComponents AND rank ≥ 4; NOT a prerequisite-count rule)
+12. `grade-mismatch` — evidence whose declared Evidence Grade (S/A/B/C, §2.1b) is unsupported by its Evidence Type/trustNumber, or Trust Magnitude that does not clear the claimed star's TM gate (§2.1c)
 
 Each agent returns structured findings so Phase 4 can process them programmatically without re-parsing prose:
 
@@ -109,7 +109,7 @@ Each agent returns structured findings so Phase 4 can process them programmatica
 
 ### Phase 2 — Fuse (Semantic Fusion candidates)
 
-Spawn one agent that walks named skills pairwise within shared topical clusters and surfaces fusion candidates per META §6.2. Aggressiveness controls the cap (3–8 moderate vs. 10–20 aggressive). Reject any candidate requiring ≥10k stars — that threshold is an Ultimate; redirect to `/gaia-fuse-full-suite` instead.
+Spawn one agent that walks named skills pairwise within shared topical clusters and surfaces fusion candidates per META §6.2. Aggressiveness controls the cap (3–8 moderate vs. 10–20 aggressive). Reject any candidate whose composite would require S-grade Trust Magnitude (TM ≥ 250, the 5★ Ultimate gate per §1.1/§4.2) — that implies a top-rank fusion; redirect to `/gaia-fuse-full-suite` instead.
 
 Reference the worked example from PR #525 (`safishamsi/graphify` + `mattpocock/triage` → `graph-driven-issue-triage` 3★).
 
@@ -131,7 +131,7 @@ Reference the worked example from PR #525 (`safishamsi/graphify` + `mattpocock/t
 Spawn one agent that reads `registry/schema/meta.json` plus the Phase-1 findings and proposes new generic node IDs for capabilities being repeatedly named without a canonical generic to anchor them. Focus on:
 
 - Brand-coupled generics renamed to abstract phrases (from Phase 1 dimension 5)
-- Repeated `genericSkillRef` collisions where a more specific Extra would reduce mis-attribution
+- Repeated `genericSkillRef` collisions where a more specific generic would reduce mis-attribution
 - Schema additions implied by fusion candidates (Phase 2 prerequisites that don't exist yet)
 
 ```json
@@ -141,7 +141,7 @@ Spawn one agent that reads `registry/schema/meta.json` plus the Phase-1 findings
     "properties":{
       "id":{"type":"string","pattern":"^[a-z0-9-]+$"},
       "name":{"type":"string"},
-      "type":{"enum":["basic","extra","unique"]},
+      "type":{"enum":["basic","fusion"]},
       "description":{"type":"string","minLength":10},
       "prerequisites":{"type":"array","items":{"type":"string"}},
       "reasoning":{"type":"string"}
@@ -189,16 +189,16 @@ After Phase 5 produces the findings.json, replay the high-confidence subset prog
 |---|---|
 | Brand-coupled generic ID | `gaia dev rename <old> <new>` |
 | Unbacked named star | `gaia dev calibrate <author/skill> N★` or direct YAML edit on the named markdown |
-| Missing 3★+ evidence | `gaia dev evidence <id> <url> --class B --evaluator <user>` |
+| Missing 3★+ evidence | `gaia dev evidence <id> <url> --type repo --trust <value> --evaluator <user>` (grade auto-derives from Trust Magnitude) |
 | Dead evidence link | Remove/replace the offending evidence entry + log a `demote` timeline event |
-| Unique reclassification (top named star below 4★) | `gaia dev reclassify <id> basic` |
+| Unique named star dropped below 4★ | `gaia dev calibrate <author/skill> N★` on the NAMED skill — the branch re-derives to `standard` automatically; do NOT reclassify the generic (that strips prerequisites) |
 
 After every mutation, validate immediately — a half-applied set that fails CI is worse than no mutations at all:
 
 ```bash
 gaia validate
-gaia validate --intake
-gaia docs build
+gaia dev validate --intake
+gaia dev docs
 ```
 
 If any check fails, abort the apply pass and revert (`git checkout -- registry/`); leave the report as findings-only.
@@ -219,5 +219,5 @@ Report back:
 - Force-push doesn't always re-trigger path-filtered workflows; use `gh workflow run validate.yml --ref <branch>` after `--force-with-lease`.
 - The `gaia dev` timeline contributor lands as `unknown` if local git config isn't picked up — patch JSON to set the actual user before committing.
 - Renames leave orphan `registry/skills/<type>/<old-id>.md`; delete by hand after rename.
-- `gaia docs build` needs `numpy` + `scipy`; install via `pip install -e ".[docs]"` or `pip install -e ".[dev]"`.
+- `gaia dev docs` needs `numpy` + `scipy`; install via `pip install -e ".[docs]"` or `pip install -e ".[dev]"`.
 - The rarity axis is deprecated — do not flag rarity issues; the schema still requires the field but it carries no review signal.

@@ -145,35 +145,33 @@
 }
 
 
-/* ── Per-tier accent: single rule per tier ───────────────────────
+/* ── Per-branch accent: single rule per branch ───────────────────
    --plaque-accent flips here. Every .plaque__* selector resolves
    accent via this property, so no per-variant overrides exist.
+   Rubric E1/E3: keyed on the DERIVED data-branch (standard|suite|
+   unique), never data-type. standard = basic blue, suite = fusion
+   gold, unique = the violet mastery fork.
    ============================================================ */
-.plaque[data-type="basic"] {
+.plaque[data-branch="standard"] {
   --plaque-accent: var(--tier-basic);
   --plaque-accent-rgb: var(--tier-basic-rgb);
   --plaque-accent-bg: var(--tier-basic-bg);
 }
-.plaque[data-type="extra"] {
-  --plaque-accent: var(--tier-extra);
-  --plaque-accent-rgb: var(--tier-extra-rgb);
-  --plaque-accent-bg: var(--tier-extra-bg);
+.plaque[data-branch="suite"] {
+  --plaque-accent: var(--tier-fusion);
+  --plaque-accent-rgb: var(--tier-fusion-rgb);
+  --plaque-accent-bg: var(--tier-fusion-bg);
 }
-.plaque[data-type="unique"] {
-  --plaque-accent: var(--tier-unique);
-  --plaque-accent-rgb: var(--tier-unique-rgb);
-  --plaque-accent-bg: var(--tier-unique-bg);
+.plaque[data-branch="unique"] {
+  --plaque-accent: var(--rank-4-unique);
+  --plaque-accent-rgb: var(--rank-4-unique-rgb);
+  --plaque-accent-bg: var(--rank-4-unique-bg);
 }
-.plaque[data-type="unique"]:hover {
+.plaque[data-branch="unique"]:hover {
   box-shadow:
-    0 0 0 1px rgba(var(--tier-unique-rgb), 0.3),
+    0 0 0 1px rgba(var(--rank-4-unique-rgb), 0.3),
     0 16px 48px rgba(0, 0, 0, 0.6),
-    0 0 20px rgba(var(--tier-unique-rgb), 0.5);
-}
-.plaque[data-type="ultimate"] {
-  --plaque-accent: var(--tier-ultimate);
-  --plaque-accent-rgb: var(--tier-ultimate-rgb);
-  --plaque-accent-bg: var(--tier-ultimate-bg);
+    0 0 20px rgba(var(--rank-4-unique-rgb), 0.5);
 }
 
 
@@ -230,6 +228,10 @@
   line-height: 1.15;
   letter-spacing: 0.02em;
   color: var(--plaque-accent);
+  display: block;
+  text-decoration: none;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 /* When emitted as a <button> (profile pages), strip native control
    chrome so it renders identically to the legacy <div>. The hover
@@ -246,21 +248,25 @@ button.plaque__slug {
   cursor: pointer;
   display: block;
 }
-button.plaque__slug:hover,
-button.plaque__slug:focus-visible {
+.plaque__slug:hover,
+.plaque__slug:focus-visible,
+.plaque-skill-name:hover,
+.plaque-skill-name:focus-visible {
   text-decoration: underline;
   text-underline-offset: 3px;
   outline: none;
 }
-/* Ultimate carries the brand-voice Apex Gold via the tier token. */
-.plaque[data-type="ultimate"] .plaque__slug,
-.plaque[data-type="ultimate"] .plaque-skill-name {
+/* Suite branch at 5★+ carries the brand-voice Apex Gold via the tier token. */
+.plaque[data-branch="suite"][data-level="5"] .plaque__slug,
+.plaque[data-branch="suite"][data-level="5"] .plaque-skill-name,
+.plaque[data-branch="suite"][data-level="6"] .plaque__slug,
+.plaque[data-branch="suite"][data-level="6"] .plaque-skill-name {
   color: var(--apex-gold, #fbbf24);
 }
-/* Level VI (6★) — Transcendent ★ — earns the rainbow shimmer.
-   Level V (5★) — Transcendent — remains static Apex Gold. */
-.plaque[data-type="ultimate"][data-level="6"] .plaque__slug,
-.plaque[data-type="ultimate"][data-level="6"] .plaque-skill-name {
+/* Level VI (6★ Apex) earns the rainbow shimmer.
+   Level V (5★ Ultimate) remains static Apex Gold. */
+.plaque[data-branch="suite"][data-level="6"] .plaque__slug,
+.plaque[data-branch="suite"][data-level="6"] .plaque-skill-name {
   animation: tree-rainbow-glow 4s linear infinite;
 }
 
@@ -364,7 +370,8 @@ button.plaque__slug:focus-visible {
 }
 .plaque__origin,
 .ns-origin {
-  color: var(--honor-red, #ef4444);
+  /* E4: origin mark is gold (Yggdrasil II). Red origin mark deprecated. */
+  color: var(--apex-gold, #fbbf24);
   font-size: 12px;
   line-height: 1;
   margin-left: 4px;
@@ -417,6 +424,20 @@ button.plaque__slug:focus-visible {
   margin-bottom: 2px;
 }
 
+/* Contributor pair — wreathed avatar sits directly beside the @handle so the
+   PERSON reads as one unit (tile / settled). The medallion + rank chip stay in
+   the header near the slug (the SKILL). Marco layout intent. */
+.plaque__contributor,
+.plaque-contributor-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.plaque__contributor .plaque__handle,
+.plaque__contributor .plaque-contrib-row {
+  margin-top: 0;
+}
+
 /* Install row — mini-terminal. Used by tile / detail / settled / og. */
 .plaque__install-row,
 .ns-install-row {
@@ -447,7 +468,7 @@ button.plaque__slug:focus-visible {
 /* Foundation icon-state spec alignment for the plaque install-copy button.
    hover = --tier-basic + drop-shadow glow
    active = --apex-gold
-   focus-visible = 2px --tier-extra outline
+   focus-visible = 2px --rank-4 outline
    disabled = muted + opacity .35 */
 .plaque__install-copy,
 .ns-install-copy {
@@ -484,7 +505,7 @@ button.plaque__slug:focus-visible {
 .hoh-fs-copy-btn:focus-visible,
 .share-action:focus-visible,
 .share-modal__close:focus-visible {
-  outline: 2px solid var(--tier-extra);
+  outline: 2px solid var(--rank-4, #e879f9);
   outline-offset: 2px;
 }
 .plaque__install-copy[disabled],
@@ -563,36 +584,41 @@ button.plaque__slug:focus-visible {
 .plaque[data-level="6"] .plaque-skill-name.named-slug,
 .plaque__stack-row[data-level="6"] .plaque-skill-name.named-slug { color: var(--rank-6, #fbbf24); }
 
-/* Tier-aware overrides — emitted AFTER the rank-level rules so the tier
-   color wins for Unique (deep violet) and Ultimate (apex gold). Without
-   these, a Unique skill at rank IV (Hardened) would render fuchsia from
-   the rank-4 rule above instead of its tier-native deep violet. */
-.plaque[data-type="unique"] .plaque__slug.named-slug,
-.plaque[data-type="unique"] .plaque-skill-name.named-slug,
-.plaque__stack-row[data-type="unique"] .plaque__slug.named-slug,
-.plaque__stack-row[data-type="unique"] .plaque-skill-name.named-slug {
-  color: var(--tier-unique, #7c3aed);
+/* Branch-aware overrides — emitted AFTER the rank-level rules so the branch
+   color wins for Unique (deep violet) and Suite (apex gold). Without these, a
+   Unique skill at 4★ would render fuchsia from the rank-4 rule above instead
+   of its branch-native deep violet. Rubric E1/E3: keyed on derived
+   data-branch, never data-type. */
+.plaque[data-branch="unique"] .plaque__slug.named-slug,
+.plaque[data-branch="unique"] .plaque-skill-name.named-slug,
+.plaque__stack-row[data-branch="unique"] .plaque__slug.named-slug,
+.plaque__stack-row[data-branch="unique"] .plaque-skill-name.named-slug {
+  color: var(--rank-4-unique);
 }
-/* Unique type always overrides level-based rank color on stars */
-.plaque[data-type="unique"] .rank-badge__star[data-on],
-.plaque__stack-row[data-type="unique"] .rank-badge__star[data-on] {
-  color: var(--tier-unique, #7c3aed);
-  text-shadow: 0 0 6px rgba(var(--tier-unique-rgb), .5);
+/* Unique branch always overrides level-based rank color on stars */
+.plaque[data-branch="unique"] .rank-badge__star[data-on],
+.plaque__stack-row[data-branch="unique"] .rank-badge__star[data-on] {
+  color: var(--rank-4-unique);
+  text-shadow: 0 0 6px rgba(var(--rank-4-unique-rgb), .5);
 }
-.plaque[data-type="unique"] .rank-badge__star[data-off],
-.plaque__stack-row[data-type="unique"] .rank-badge__star[data-off] {
-  color: rgba(var(--tier-unique-rgb), .15);
+.plaque[data-branch="unique"] .rank-badge__star[data-off],
+.plaque__stack-row[data-branch="unique"] .rank-badge__star[data-off] {
+  color: rgba(var(--rank-4-unique-rgb), .15);
 }
-.plaque[data-type="ultimate"] .plaque__slug.named-slug,
-.plaque[data-type="ultimate"] .plaque-skill-name.named-slug,
-.plaque__stack-row[data-type="ultimate"] .plaque__slug.named-slug,
-.plaque__stack-row[data-type="ultimate"] .plaque-skill-name.named-slug {
+.plaque[data-branch="suite"][data-level="5"] .plaque__slug.named-slug,
+.plaque[data-branch="suite"][data-level="5"] .plaque-skill-name.named-slug,
+.plaque[data-branch="suite"][data-level="6"] .plaque__slug.named-slug,
+.plaque[data-branch="suite"][data-level="6"] .plaque-skill-name.named-slug,
+.plaque__stack-row[data-branch="suite"][data-level="5"] .plaque__slug.named-slug,
+.plaque__stack-row[data-branch="suite"][data-level="5"] .plaque-skill-name.named-slug,
+.plaque__stack-row[data-branch="suite"][data-level="6"] .plaque__slug.named-slug,
+.plaque__stack-row[data-branch="suite"][data-level="6"] .plaque-skill-name.named-slug {
   color: var(--apex-gold, #fbbf24);
 }
-.plaque[data-type="ultimate"][data-level="6"] .plaque__slug.named-slug,
-.plaque[data-type="ultimate"][data-level="6"] .plaque-skill-name.named-slug,
-.plaque__stack-row[data-type="ultimate"][data-level="6"] .plaque__slug.named-slug,
-.plaque__stack-row[data-type="ultimate"][data-level="6"] .plaque-skill-name.named-slug {
+.plaque[data-branch="suite"][data-level="6"] .plaque__slug.named-slug,
+.plaque[data-branch="suite"][data-level="6"] .plaque-skill-name.named-slug,
+.plaque__stack-row[data-branch="suite"][data-level="6"] .plaque__slug.named-slug,
+.plaque__stack-row[data-branch="suite"][data-level="6"] .plaque-skill-name.named-slug {
   animation: tree-rainbow-glow 4s linear infinite;
 }
 
@@ -611,6 +637,105 @@ button.plaque__slug:focus-visible {
 .plaque-orb--sm { width: 24px; height: 24px; }
 .plaque-orb--lg { width: 52px; height: 52px; }
 
+/* ── AOV4 medallion (Yggdrasil II) ───────────────────────────────
+   The rank medallion IS the Ascension-Overdrive v4 stamp emitted by
+   plaque.js _fieldOrb as <span.plaque-orb--medallion><img></span>.
+   The image fills the orb; if the webp 404s, [data-stamp-fail] falls
+   back to a branch-tinted radial gradient so a rank medallion still
+   reads (never an empty hole). Rubric E3.
+   ============================================================ */
+.plaque-orb--medallion {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.plaque-orb__stamp {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+/* Fallback tint keyed on derived branch (not type) when the stamp fails. */
+.plaque-orb--medallion[data-stamp-fail][data-branch="unique"] {
+  background: radial-gradient(circle at 50% 50%,
+    #000 55%, var(--rank-4-unique) 80%,
+    color-mix(in srgb, var(--rank-4-unique) 70%, #000) 100%);
+  box-shadow: 0 0 14px rgba(var(--rank-4-unique-rgb), 0.5), inset 0 0 6px rgba(var(--rank-4-unique-rgb), 0.3);
+}
+.plaque-orb--medallion[data-stamp-fail][data-branch="suite"],
+.plaque-orb--medallion[data-stamp-fail][data-branch="standard"] {
+  background: radial-gradient(circle at 35% 35%,
+    color-mix(in srgb, var(--tier-fusion) 35%, #fff) 0%,
+    var(--tier-fusion) 60%,
+    color-mix(in srgb, var(--tier-fusion) 70%, #000) 100%);
+  box-shadow: 0 0 12px rgba(var(--tier-fusion-rgb), 0.4);
+}
+
+/* D8 — when the AOV4 stamp LOADS (no data-stamp-fail), the medallion webp IS
+   the rank art. _fieldOrb also stamps a plaque-orb--<branch> class, whose
+   radial-gradient + box-shadow (see .plaque-orb--standard/--suite/--unique
+   below) would otherwise bleed through the stamp's transparent margins as the
+   "old badge behind the medallion". Suppress that branch tint here; it returns
+   only via the [data-stamp-fail] fallbacks above. Specificity (0,2,0) beats the
+   single-class branch rules. Rubric E3. */
+.plaque-orb--medallion:not([data-stamp-fail]) {
+  background: none;
+  box-shadow: none;
+}
+
+/* ── Contributor avatar + gold origin wreath (Yggdrasil II, E3/E4) ─
+   _fieldAvatar emits <a|span.plaque__avatar style="--avatar-size:Npx">
+     <img.plaque__avatar-img>          ← GitHub avatar (identicon fallback)
+     <img.plaque__avatar-wreath>       ← gold laurel frame (origin mark)
+   The wreath is the NEW origin mark (replaces the deprecated honor-red
+   inline badge). The avatar links to the skill repo, replacing the old
+   standalone GitHub button. The frame NEVER renders as an empty hole —
+   the <img> onerror swaps to a GitHub identicon rather than hiding.
+   ============================================================ */
+.plaque__avatar {
+  --avatar-size: 40px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  flex-shrink: 0;
+  border-radius: 50%;
+  text-decoration: none;
+}
+.plaque__avatar-img {
+  width: 82%;
+  height: 82%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  background: rgba(var(--tier-basic-rgb), 0.12);
+}
+/* The wreath overlays the avatar, framing it slightly larger than the
+   photo so the laurel reads as a border ring. Gold tint comes from the
+   SVG's own token-driven gradient (--seal-gold / --tier-fusion). */
+.plaque__avatar-wreath {
+  position: absolute;
+  inset: -6%;
+  width: 112%;
+  height: 112%;
+  pointer-events: none;
+  display: block;
+}
+/* Origin contributors get a warmer gold halo behind the avatar. */
+.plaque__avatar[data-origin="true"] {
+  box-shadow: 0 0 10px rgba(var(--tier-fusion-rgb), 0.45);
+}
+.plaque__avatar--link:hover .plaque__avatar-img {
+  box-shadow: 0 0 8px rgba(var(--tier-fusion-rgb), 0.5);
+}
+.plaque__avatar--link:focus-visible {
+  outline: 2px solid var(--tier-fusion);
+  outline-offset: 2px;
+}
+
 /* Stage 4 — orb gradients reference tier tokens (--tier-<name>) for the
    dominant colour stop, then color-mix with white/black for the highlight
    and shadow stops. Acceptance: no hardcoded tier hex survives in plaque.css. */
@@ -625,34 +750,57 @@ button.plaque__slug:focus-visible {
 .plaque-orb--extra,
 .se-node-orb--extra {
   background: radial-gradient(circle at 35% 35%,
-    color-mix(in srgb, var(--tier-extra) 35%, #fff) 0%,
-    var(--tier-extra) 60%,
-    color-mix(in srgb, var(--tier-extra) 60%, var(--tier-unique)) 100%);
-  box-shadow: 0 0 12px rgba(var(--tier-extra-rgb), 0.4);
+    color-mix(in srgb, var(--rank-4, #e879f9) 35%, #fff) 0%,
+    var(--rank-4, #e879f9) 60%,
+    color-mix(in srgb, var(--rank-4, #e879f9) 60%, var(--rank-4-unique)) 100%);
+  box-shadow: 0 0 12px rgba(var(--rank-4-rgb, 232, 121, 249), 0.4);
 }
 .plaque-orb--ultimate,
 .se-node-orb--ultimate {
   background: radial-gradient(circle at 35% 35%,
-    color-mix(in srgb, var(--tier-ultimate) 30%, #fff) 0%,
-    var(--tier-ultimate) 60%,
-    color-mix(in srgb, var(--tier-ultimate) 70%, #000) 100%);
-  box-shadow: 0 0 12px rgba(var(--tier-ultimate-rgb), 0.4);
+    color-mix(in srgb, var(--tier-fusion) 30%, #fff) 0%,
+    var(--tier-fusion) 60%,
+    color-mix(in srgb, var(--tier-fusion) 70%, #000) 100%);
+  box-shadow: 0 0 12px rgba(var(--tier-fusion-rgb), 0.4);
 }
 .plaque-orb--unique,
 .se-node-orb--unique {
   background: radial-gradient(circle at 50% 50%,
     #000 55%,
-    var(--tier-unique) 80%,
-    color-mix(in srgb, var(--tier-unique) 70%, #000) 100%);
-  box-shadow: 0 0 14px rgba(var(--tier-unique-rgb), 0.5), inset 0 0 6px rgba(var(--tier-unique-rgb), 0.3);
+    var(--rank-4-unique) 80%,
+    color-mix(in srgb, var(--rank-4-unique) 70%, #000) 100%);
+  box-shadow: 0 0 14px rgba(var(--rank-4-unique-rgb), 0.5), inset 0 0 6px rgba(var(--rank-4-unique-rgb), 0.3);
+}
+/* Yggdrasil II branch-keyed orbs (rubric E1). Server-rendered profile plaques
+   (scripts/generateProfilePages.py _field_orb) emit a plain <div> keyed on the
+   DERIVED branch (standard|suite|unique) — matching docs/js/plaque.js
+   _fieldOrb's class contract — rather than the retired type enum. plaque.js's
+   own orbs carry the AOV4 medallion <img>; the Python div relies on these
+   gradient stops. standard ≈ the shared blue foundation (--tier-basic); suite ≈
+   the gold fusion ladder (--tier-fusion). unique reuses the rule above. Without
+   these two rules a standard/suite orb would render as an empty circle (the old
+   plaque-orb--fusion emission had no rule — a live blank-orb bug this closes). */
+.plaque-orb--standard {
+  background: radial-gradient(circle at 35% 35%,
+    color-mix(in srgb, var(--tier-basic) 35%, #fff) 0%,
+    var(--tier-basic) 60%,
+    color-mix(in srgb, var(--tier-basic) 75%, #000) 100%);
+  box-shadow: 0 0 12px rgba(var(--tier-basic-rgb), 0.4);
+}
+.plaque-orb--suite {
+  background: radial-gradient(circle at 35% 35%,
+    color-mix(in srgb, var(--tier-fusion) 35%, #fff) 0%,
+    var(--tier-fusion) 60%,
+    color-mix(in srgb, var(--tier-fusion) 70%, #000) 100%);
+  box-shadow: 0 0 12px rgba(var(--tier-fusion-rgb), 0.4);
 }
 .plaque-orb--vi,
 .se-node-orb--vi {
   background: radial-gradient(circle at 35% 35%,
     #fff 40%,
-    color-mix(in srgb, var(--tier-ultimate) 30%, #fff) 70%,
-    var(--tier-ultimate)) !important;
-  box-shadow: 0 0 18px rgba(255, 255, 255, 0.6), 0 0 40px rgba(var(--tier-ultimate-rgb), 0.35) !important;
+    color-mix(in srgb, var(--tier-fusion) 30%, #fff) 70%,
+    var(--tier-fusion)) !important;
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.6), 0 0 40px rgba(var(--tier-fusion-rgb), 0.35) !important;
 }
 
 
@@ -673,7 +821,7 @@ button.plaque__slug:focus-visible {
   16%  { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(167,139,250,0.3); }
   33%  { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(var(--apex-gold-rgb),0.45); }
   50%  { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(239,68,68,0.3); }
-  66%  { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(var(--tier-extra-rgb),0.3); }
+  66%  { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(var(--rank-4-rgb, 232, 121, 249),0.3); }
   83%  { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(52,211,153,0.25); }
   100% { box-shadow: 0 0 0 1px rgba(var(--apex-gold-rgb), 0.06), 0 24px 64px rgba(0,0,0,0.5), 0 0 30px rgba(var(--tier-basic-rgb),0.3); }
 }
@@ -820,6 +968,7 @@ button.plaque__slug:focus-visible {
    ============================================================ */
 .plaque--mini {
   --plaque-glow-intensity: 0.5;
+  --plaque-pad: 16px;
   width: 200px;
   max-width: 200px;
   height: auto;
@@ -1006,10 +1155,20 @@ button.plaque__slug:focus-visible {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: blur(14px) saturate(1.15);
+  /* Mobile default: a light 4px blur. The backdrop only shows at
+     ~0.04–0.11 opacity, so a heavy real-time blur is imperceptible yet
+     pays full GPU cost per plate — the dominant cause of scroll jank on
+     mobile. The richer 14px blur is restored at the desktop breakpoint
+     below, where the GPU budget is not the bottleneck. */
+  filter: blur(4px) saturate(1.15);
   display: block;
 }
-@media (prefers-reduced-motion: no-preference) {
+@media (min-width: 768px) {
+  .plaque--hall .plaque__hall-backdrop img {
+    filter: blur(14px) saturate(1.15);
+  }
+}
+@media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
   .plaque--hall:hover .plaque__hall-backdrop {
     transform: scale(1.06) translateY(-2px);
   }
@@ -1042,7 +1201,7 @@ button.plaque__slug:focus-visible {
   box-shadow:
     0 0 18px rgba(var(--plaque-accent-rgb), 0.32),
     inset 0 0 12px rgba(0, 0, 0, 0.55);
-  overflow: hidden;
+  overflow: visible;
   display: grid;
   place-items: center;
   flex-shrink: 0;
@@ -1090,6 +1249,19 @@ button.plaque__slug:focus-visible {
   width: 24px;
   height: 24px;
   font-size: 13px;
+}
+
+/* Fix 3c — gold origin wreath framing the hall crest avatar (E4 rule).
+   Replaces the glyph badge; renders as a full-circle laurel ring at +10%
+   of the crest diameter so it reads as a frame, not a badge overlay. */
+.plaque--hall .plaque__hall-crest-wreath {
+  position: absolute;
+  inset: -8%;
+  width: 116%;
+  height: 116%;
+  pointer-events: none;
+  display: block;
+  z-index: 2;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -1249,6 +1421,22 @@ button.plaque__slug:focus-visible {
   border: 1px solid rgba(var(--plaque-accent-rgb), 0.08);
   transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
 }
+/* Ygg-II: each row's background reflects its rank+branch — Suite (Ultimate/
+   Apex) gold, Unique dark purple, 4★ Extra the 4★ rank purple. Keyed on the
+   data-branch + data-level the row already carries (no JS change); the 1–3★
+   shared ladder keeps the neutral base fill. */
+.plaque--hall .plaque__stack-row[data-branch="suite"] {
+  background: var(--tier-fusion-bg);
+  border-color: rgba(var(--tier-fusion-rgb), 0.28);
+}
+.plaque--hall .plaque__stack-row[data-branch="unique"] {
+  background: var(--rank-4-unique-bg);
+  border-color: rgba(var(--rank-4-unique-rgb), 0.28);
+}
+.plaque--hall .plaque__stack-row[data-branch="suite"][data-level="4"] {
+  background: var(--rank-4-bg);
+  border-color: rgba(var(--rank-4-rgb), 0.28);
+}
 .plaque--hall .plaque__stack-row:hover {
   background: rgba(0, 0, 0, 0.45);
   border-color: rgba(var(--plaque-accent-rgb), 0.28);
@@ -1297,30 +1485,30 @@ button.plaque__slug:focus-visible {
 .plaque--hall .plaque__stack-row[data-level="4"] .plaque__slug.named-slug { color: var(--rank-4, #e879f9); }
 .plaque--hall .plaque__stack-row[data-level="5"] .plaque-skill-name.named-slug,
 .plaque--hall .plaque__stack-row[data-level="5"] .plaque__slug.named-slug { color: var(--rank-5, #fbbf24); }
-/* 6★ Ultimate retains apex gold + rainbow — preserves the existing
-   tree-rainbow-glow animation on .plaque__stack-row[data-type="ultimate"][data-level="6"]. */
-.plaque--hall .plaque__stack-row[data-level="6"][data-type="ultimate"] .plaque-skill-name.named-slug,
-.plaque--hall .plaque__stack-row[data-level="6"][data-type="ultimate"] .plaque__slug.named-slug { color: var(--apex-gold, #fbbf24); }
-/* Non-Ultimate 6★ (e.g. a hypothetical Unique 6★) just uses rank-6 amber. */
-.plaque--hall .plaque__stack-row[data-level="6"]:not([data-type="ultimate"]) .plaque-skill-name.named-slug,
-.plaque--hall .plaque__stack-row[data-level="6"]:not([data-type="ultimate"]) .plaque__slug.named-slug { color: var(--rank-6, #fbbf24); }
+/* 6★ Apex (suite branch) retains apex gold + rainbow — preserves the existing
+   tree-rainbow-glow animation on .plaque__stack-row[data-branch="suite"][data-level="6"]. */
+.plaque--hall .plaque__stack-row[data-level="6"][data-branch="suite"] .plaque-skill-name.named-slug,
+.plaque--hall .plaque__stack-row[data-level="6"][data-branch="suite"] .plaque__slug.named-slug { color: var(--apex-gold, #fbbf24); }
+/* Non-suite 6★ (e.g. a Unique 6★) just uses rank-6 amber. */
+.plaque--hall .plaque__stack-row[data-level="6"]:not([data-branch="suite"]) .plaque-skill-name.named-slug,
+.plaque--hall .plaque__stack-row[data-level="6"]:not([data-branch="suite"]) .plaque__slug.named-slug { color: var(--rank-6, #fbbf24); }
 
-/* Unique tier exception — deep violet wins over the rank colour for
+/* Unique branch exception — deep violet wins over the rank colour for
    every Unique skill row regardless of rank. The Unique branch is the
-   standalone-mastery tier (a Basic that ascended without ever fusing)
-   and must read in its tier-native deep violet across surfaces. The
+   standalone-mastery fork (a Basic that ascended without ever fusing)
+   and must read in its branch-native deep violet across surfaces. The
    stars in this row also get deep violet (overriding rank-4 fuchsia)
-   so slug + stars stay in lockstep. */
-.plaque--hall .plaque__stack-row[data-type="unique"] .plaque-skill-name.named-slug,
-.plaque--hall .plaque__stack-row[data-type="unique"] .plaque__slug.named-slug {
-  color: var(--tier-unique, #7c3aed);
+   so slug + stars stay in lockstep. Rubric E1: keyed on derived branch. */
+.plaque--hall .plaque__stack-row[data-branch="unique"] .plaque-skill-name.named-slug,
+.plaque--hall .plaque__stack-row[data-branch="unique"] .plaque__slug.named-slug {
+  color: var(--rank-4-unique);
 }
-.plaque--hall .plaque__stack-row[data-type="unique"] .rank-badge__star[data-on] {
-  color: var(--tier-unique, #7c3aed);
-  text-shadow: 0 0 6px rgba(var(--tier-unique-rgb), .5);
+.plaque--hall .plaque__stack-row[data-branch="unique"] .rank-badge__star[data-on] {
+  color: var(--rank-4-unique);
+  text-shadow: 0 0 6px rgba(var(--rank-4-unique-rgb), .5);
 }
-.plaque--hall .plaque__stack-row[data-type="unique"] .rank-badge__star[data-off] {
-  color: rgba(var(--tier-unique-rgb), .15);
+.plaque--hall .plaque__stack-row[data-branch="unique"] .rank-badge__star[data-off] {
+  color: rgba(var(--rank-4-unique-rgb), .15);
 }
 
 .plaque--hall .plaque__stack-rank {
@@ -1437,129 +1625,237 @@ button.plaque__slug:focus-visible {
 
 
 /* ── .plaque--row — Named Skills Explorer list row ──────────────
-   Horizontal flex. ~72 px tall. Description hidden in CSS only.
-   Glow intensity 25%.
+   Outer card: row flex — content area + MAG notch side by side so
+   the notch expansion naturally pushes content leftward.
    ============================================================ */
 .plaque--row {
   --plaque-glow-intensity: 0.25;
+  --plaque-pad: 0px;
   width: 100%;
   max-width: 100%;
-  min-height: 72px;
-  padding: 14px 18px;
+  overflow: hidden;
+  min-height: 64px;
+  padding: 0 !important;
+  flex-direction: row !important;  /* outer: content + notch side-by-side */
+  align-items: stretch !important;
+  gap: 0 !important;
+}
+
+/* ── Inner content row ──────────────────────────────────────── */
+.plaque__row-content {
+  display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 1rem;
+  min-width: 0;
+  flex: 1 1 auto;
+  box-sizing: border-box;
+  padding: 0 16px;
+  gap: 12px;
+  /* Desired visual order:
+     medallion(0) > slug(1) > title(2) > tags(3) > handle(4) > avatar(5) > install(6) > rank(7) */
 }
+
+/* ── Field order overrides ──────────────────────────────────── */
+.plaque--row .plaque-orb--medallion              { order: 0; flex-shrink: 0; }
+.plaque--row .plaque__slug,
+.plaque--row .plaque-skill-name                  { order: 1; }
+.plaque--row .plaque__title,
+.plaque--row .plaque-title                       { order: 2; }
+.plaque--row .plaque__tags,
+.plaque--row .plaque-tags                        { order: 3; }
+.plaque--row .plaque__handle,
+.plaque--row .plaque-contrib-row                 { order: 4; }
+.plaque--row .plaque__avatar                     { order: 5; flex-shrink: 0; }
+.plaque--row .plaque__install-row,
+.plaque--row .ns-install-row                     { order: 6; }
+.plaque--row .plaque__rank                       { order: 7; flex-shrink: 0; }
+.plaque--row .plaque__ev-badge                   { display: none; }
+
+/* ── Slug ───────────────────────────────────────────────────── */
 .plaque--row .plaque__slug,
 .plaque--row .plaque-skill-name {
-  font-size: 18px;
-  flex: 0 1 auto;
+  font-size: 16px;
+  font-weight: 600;
+  flex: 0 0 auto;
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
 }
+
+/* ── Title ──────────────────────────────────────────────────── */
 .plaque--row .plaque__title,
 .plaque--row .plaque-title {
-  font-size: 14px;
+  font-size: 12px;
   flex: 1 1 auto;
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  opacity: 0.6;
 }
-.plaque--row .plaque__handle,
-.plaque--row .plaque-contrib-row {
-  font-size: 12px;
-  margin-top: 0;
-  flex-shrink: 0;
-}
+
+/* ── Tags ───────────────────────────────────────────────────── */
 .plaque--row .plaque__tags,
 .plaque--row .plaque-tags {
-  flex-shrink: 0;
-  max-width: 240px;
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 4px;
   overflow: hidden;
+  max-width: 180px;
 }
-.plaque--row .plaque__description,
-.plaque--row .plaque-description {
-  display: none; /* CSS-only collapse; markup still present */
+
+/* ── Handle ─────────────────────────────────────────────────── */
+.plaque--row .plaque__handle,
+.plaque--row .plaque-contrib-row {
+  font-size: 11px;
+  flex: 0 0 auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
+  margin-top: 0;
 }
+
+/* ── Install row — fixed width so it never squishes ─────────── */
 .plaque--row .plaque__install-row,
 .plaque--row .ns-install-row {
-  /* Surface the install command in list rows — was display:none, but
-     hiding the canonical CTA in a "scan-all" view defeats the point of
-     the list. Compact horizontal variant: smaller font, single line,
-     truncates instead of wrapping. */
-  display: inline-flex;
-  flex: 0 1 auto;
-  max-width: 320px;
+  flex: 0 0 300px;
+  width: 300px;
+  min-width: 0;
   font-size: 11px;
   padding: 4px 8px;
   margin: 0;
   overflow: hidden;
   white-space: nowrap;
-}
-.plaque--row .plaque__install-cmd,
-.plaque--row .ns-install-cmd-txt {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-@media (max-width: 700px) {
-  .plaque--row .plaque__install-row,
-  .plaque--row .ns-install-row {
-    display: none; /* density-collapse on narrow viewports */
-  }
-  /* Mobile list rows: prevent rightward bleed from no-wrap children, and
-     let the slug shrink with ellipsis instead of pushing past the edge.
-     Without min-width: 0 on flex children, white-space: nowrap forces
-     overflow rather than shrink — that's what made rows look uncentered
-     (content shifted out of the padded box). */
-  .plaque--row {
-    overflow: hidden;
-    padding: .65rem .85rem;
-    gap: .5rem;
-    min-height: 60px;
-  }
-  .plaque--row .plaque__slug,
-  .plaque--row .plaque-skill-name {
-    font-size: 15px;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .plaque--row .plaque__title,
-  .plaque--row .plaque-title {
-    font-size: 12px;
-    min-width: 0;
-  }
-  .plaque--row .plaque__handle,
-  .plaque--row .plaque-contrib-row {
-    font-size: 11px;
-    min-width: 0;
-    max-width: 35vw;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+  display: inline-flex;
 }
 
-/* Phone (≤480px): drop the secondary fields entirely so the slug + rank
-   chip + arrow always fit on a single line. */
-@media (max-width: 480px) {
+/* Grade border looks odd as a narrow strip — suppress on row notch, keep fill */
+.plaque--row .plaque__trust-notch[data-trust-grade="S"],
+.plaque--row .plaque__trust-notch[data-trust-grade="A"],
+.plaque--row .plaque__trust-notch[data-trust-grade="B"],
+.plaque--row .plaque__trust-notch[data-trust-grade="C"] {
+  border: none;
+  box-shadow: none;
+}
+
+/* ── Description — always hidden in list ───────────────────── */
+.plaque--row .plaque__description,
+.plaque--row .plaque-description {
+  display: none;
+}
+
+/* ── Mobile base (≤480px): strip to essentials ──────────────── */
+.plaque--row .plaque__title,
+.plaque--row .plaque-title,
+.plaque--row .plaque__handle,
+.plaque--row .plaque-contrib-row,
+.plaque--row .plaque__tags,
+.plaque--row .plaque-tags,
+.plaque--row .plaque__install-row,
+.plaque--row .ns-install-row {
+  display: none;
+}
+.plaque--row .plaque__slug,
+.plaque--row .plaque-skill-name {
+  font-size: 14px;
+  max-width: 55vw;
+  flex: 1 1 auto;
+}
+.plaque__row-content {
+  padding: 0 10px;
+  gap: 8px;
+}
+
+/* ≥481px: restore secondary fields */
+@media (min-width: 481px) {
   .plaque--row .plaque__title,
   .plaque--row .plaque-title,
   .plaque--row .plaque__handle,
   .plaque--row .plaque-contrib-row {
-    display: none;
+    display: block;
+  }
+  .plaque--row .plaque__tags,
+  .plaque--row .plaque-tags {
+    display: flex;
   }
   .plaque--row .plaque__slug,
   .plaque--row .plaque-skill-name {
-    font-size: 14px;
-    flex: 1 1 auto;
+    font-size: 15px;
+    max-width: 180px;
+    flex: 0 0 auto;
   }
-  .plaque--row {
-    padding: .55rem .75rem;
-    gap: .4rem;
+  .plaque__row-content {
+    padding: 0 14px;
+    gap: 10px;
   }
 }
 
+/* ≥701px: show install row */
+@media (min-width: 701px) {
+  .plaque--row .plaque__install-row,
+  .plaque--row .ns-install-row {
+    display: inline-flex;
+  }
+  .plaque--row .plaque__slug,
+  .plaque--row .plaque-skill-name {
+    max-width: 200px;
+  }
+  .plaque__row-content {
+    padding: 0 16px;
+    gap: 12px;
+  }
+}
+
+/* ── MAG notch — fixed right slot, rotated label, nothing shifts ─
+   Always 28px wide — sits as the last flex child of .plaque--row,
+   after the rank badge. Label opacity-fades on hover; no layout shift.
+   On mobile collapses to a 4px grade-color accent sliver, no label.
+   ============================================================ */
+.plaque--row .plaque__trust-notch {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+  flex: 0 0 28px;
+  width: 28px;
+  align-self: stretch;
+  height: auto !important;
+  transition: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 0;
+  position: static;
+}
+.plaque--row:hover .plaque__trust-notch {
+  width: 28px;
+  flex-basis: 28px;
+}
+/* Label: rotated 90° CW (reads bottom-to-top), fades in on hover */
+.plaque--row .trust-notch-label {
+  white-space: nowrap;
+  font-size: 7px;
+  letter-spacing: 0.1em;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.plaque--row:hover .trust-notch-label {
+  opacity: 1;
+}
+@media (max-width: 480px) {
+  .plaque--row .plaque__trust-notch {
+    flex: 0 0 4px;
+    width: 4px;
+  }
+  .plaque--row .trust-notch-label {
+    display: none;
+  }
+}
 
 /* ── .plaque--detail — Skill Explorer modal hero ────────────────
    Two-column layout. Collapses to one column ≤ 700px.
@@ -1615,13 +1911,41 @@ button.plaque__slug:focus-visible {
   gap: 0.8rem;
   min-width: 0;
 }
+/* Left column grouping (Marco intent): avatar + handle stack tight at the top
+   as the PERSON pair (column flex keeps them adjacent); a slightly wider gap
+   opens before the slug so the SKILL group (slug → medallion → stars) reads as
+   its own cluster below. */
+.plaque--detail .plaque-detail-left .plaque__avatar {
+  margin-bottom: -0.3rem;
+}
+.plaque--detail .plaque-detail-left .plaque__slug {
+  margin-top: 0.35rem;
+}
 .plaque--detail .plaque__slug,
 .plaque--detail .plaque-skill-name {
   font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
 }
+/* Right column reads balanced against the left: the title anchors to the top
+   edge (align-items:start on the grid already), and a calmer rhythm keeps the
+   description from floating. */
+.plaque--detail .plaque-detail-right {
+  gap: 0.7rem;
+}
+/* D6 — on the detail hero the rank medallion is the visual anchor: bump it
+   above the 52px --lg default and the 56px avatar so avatar → medallion reads
+   as photo → rank, largest last. */
+.plaque--detail .plaque-orb--medallion {
+  width: 72px;
+  height: 72px;
+}
+
 .plaque--detail .plaque__description,
 .plaque--detail .plaque-description {
   font-size: 14px;
+  line-height: 1.7;
+  max-width: 68ch;
   -webkit-line-clamp: unset;
   display: block;
 }
@@ -1709,8 +2033,33 @@ button.plaque__slug:focus-visible {
   gap: 0.8rem;
   border-radius: 0;
   cursor: default;
+  overflow: hidden;
 }
 .plaque--og:hover { transform: none; }
+.plaque--og .plaque__og-copy {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  width: 54%;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+.plaque--og .plaque__og-medallion {
+  position: absolute;
+  z-index: 1;
+  inset: 50% 4.5rem auto auto;
+  width: min(42%, 31rem);
+  aspect-ratio: 1;
+  transform: translateY(-50%);
+}
+.plaque--og .plaque__og-medallion .plaque-orb--lg {
+  width: 100%;
+  height: 100%;
+}
+.plaque--og .plaque__og-medallion .plaque-orb__stamp {
+  object-fit: contain;
+}
 .plaque--og .plaque__slug,
 .plaque--og .plaque-skill-name {
   font-size: 64px;
@@ -1909,6 +2258,34 @@ button.plaque__slug:focus-visible {
   max-width: 960px;
   margin: 0 auto;
   text-align: center;
+}
+/* Profile-hero medallion (N-13 item 4) — the contributor's wreathed GitHub
+   avatar centered above the handle, with the AOV4 rank stamp orb overlapping
+   its lower edge. Routed through the shared _field_avatar + _field_orb path
+   (server-rendered by generateProfilePages.build_hero_medallion) so it stays
+   byte-identical to the plaque medallion vocabulary. */
+.profile-hero-medallion {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+}
+.profile-hero-medallion .plaque__avatar {
+  --avatar-size: 96px;
+}
+/* The rank stamp orb sits at the lower-right of the avatar, half-overlapping
+   its edge — the same composition the tile/settled medallion header implies. */
+.profile-hero-medallion .plaque-orb--medallion {
+  position: absolute;
+  right: -6%;
+  bottom: -6%;
+  width: 42%;
+  height: 42%;
+}
+.profile-hero-medallion .plaque-orb__stamp {
+  width: 100%;
+  height: 100%;
 }
 /* Back link — mirrors the Explorer modal's se-btn-ghost back affordance:
    flows in-document above the hero so the fixed top-nav never overlaps it. */
@@ -2176,19 +2553,19 @@ button.plaque__slug:focus-visible {
   color: var(--tier-basic);
 }
 .profile-filter-group[data-filter-type="type"] .profile-filter-chip[data-value="extra"][aria-pressed="true"] {
-  border-color: var(--tier-extra);
-  background: var(--tier-extra-bg);
-  color: var(--tier-extra);
+  border-color: var(--rank-4, #e879f9);
+  background: var(--rank-4-bg, rgba(232,121,249,.15));
+  color: var(--rank-4, #e879f9);
 }
 .profile-filter-group[data-filter-type="type"] .profile-filter-chip[data-value="unique"][aria-pressed="true"] {
-  border-color: var(--tier-unique);
-  background: var(--tier-unique-bg);
-  color: var(--tier-unique);
+  border-color: var(--rank-4-unique);
+  background: var(--rank-4-unique-bg);
+  color: var(--rank-4-unique);
 }
 .profile-filter-group[data-filter-type="type"] .profile-filter-chip[data-value="ultimate"][aria-pressed="true"] {
-  border-color: var(--tier-ultimate);
-  background: var(--tier-ultimate-bg);
-  color: var(--tier-ultimate);
+  border-color: var(--tier-fusion);
+  background: rgba(245, 158, 11, 0.1);
+  color: var(--tier-fusion);
 }
 
 /* Rank-aware active states for Rank filter chips */
@@ -2409,14 +2786,14 @@ button.plaque__slug:focus-visible {
 .share-action--x:hover {
   border-color: var(--text, #e2e8f0);
 }
-/* Instagram: var(--tier-extra) border suggests gradient without new colors */
+/* Instagram: var(--rank-4) border suggests gradient without new colors */
 .share-action--instagram {
-  border-color: var(--tier-extra, #c084fc);
-  color: var(--tier-extra, #c084fc);
+  border-color: var(--rank-4, #e879f9);
+  color: var(--rank-4, #e879f9);
 }
 .share-action--instagram:hover {
-  background: rgba(192, 132, 252, 0.07);
-  border-color: var(--tier-extra, #c084fc);
+  background: rgba(232, 121, 249, 0.07);
+  border-color: var(--rank-4, #e879f9);
 }
 
 .share-modal__toast {
@@ -2489,7 +2866,7 @@ button.plaque__slug:focus-visible {
 }
 /* Per-action color via data attribute */
 .profile-activity-action[data-action="rank_up"]  { color: var(--rank-3, #a78bfa); }
-.profile-activity-action[data-action="fuse"]     { color: var(--tier-extra, #c084fc); }
+.profile-activity-action[data-action="fuse"]     { color: var(--rank-4, #e879f9); }
 .profile-activity-action[data-action="ascend"]   { color: var(--apex-gold, #fbbf24); }
 .profile-activity-action[data-action="name"]     { color: var(--tier-basic, #38bdf8); }
 .profile-activity-action[data-action="promote"]  { color: var(--apex-gold, #fbbf24); }
@@ -2538,13 +2915,18 @@ button.plaque__slug:focus-visible {
 }
 .contributor-card-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 .contributor-card-handle-wrap {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+}
+.contributor-card-header .rank-badge {
+  margin-left: 0;
 }
 .contributor-card-handle {
   font-family: var(--font-body, 'Bricolage Grotesque', sans-serif);
@@ -2627,7 +3009,11 @@ button.plaque__slug:focus-visible {
 .profile-grid-container {
   max-width: 960px;
   margin: 0 auto;
-  padding: 0 1.5rem;
+  /* E6 mobile-first: base clears ~58px fixed nav (5rem=80px); desktop step up */
+  padding: 5rem 1.5rem 0;
+}
+@media (min-width: 768px) {
+  .profile-grid-container { padding-top: 6rem; }
 }
 .profile-main {
   min-width: 0;
@@ -2714,10 +3100,6 @@ button.plaque__slug:focus-visible {
   color: var(--tier-basic, #38bdf8);
 }
 
-.profile-filter-toggle {
-  display: none; /* Hidden on desktop */
-}
-
 /* Plaque Highlight Styles (Curve Hover Affordance) */
 .plaque.is-highlighted {
   border-color: var(--tier-basic, #38bdf8) !important;
@@ -2726,16 +3108,16 @@ button.plaque__slug:focus-visible {
   z-index: 10;
 }
 .plaque.is-highlighted.plaque--ultimate {
-  border-color: var(--tier-ultimate, #f59e0b) !important;
+  border-color: var(--tier-fusion, #f59e0b) !important;
   box-shadow: 0 0 20px rgba(245, 158, 11, 0.35) !important;
 }
 .plaque.is-highlighted.plaque--unique {
-  border-color: var(--tier-unique, #7c3aed) !important;
-  box-shadow: 0 0 20px rgba(124, 58, 237, 0.35) !important;
+  border-color: var(--rank-4-unique) !important;
+  box-shadow: 0 0 20px rgba(var(--rank-4-unique-rgb), 0.35) !important;
 }
 .plaque.is-highlighted.plaque--extra {
-  border-color: var(--tier-extra, #c084fc) !important;
-  box-shadow: 0 0 20px rgba(192, 132, 252, 0.35) !important;
+  border-color: var(--rank-4, #e879f9) !important;
+  box-shadow: 0 0 20px rgba(232, 121, 249, 0.35) !important;
 }
 
 /* ── Interactive Progression Tooltip ── */
@@ -2785,9 +3167,13 @@ button.plaque__slug:focus-visible {
   border: 1px solid rgba(100,116,139,0.2);
 }
 .ptl2__tooltip-tier--basic    { color: var(--tier-basic,#38bdf8);    background: rgba(56,189,248,.1); border-color: rgba(56,189,248,.2); }
-.ptl2__tooltip-tier--extra    { color: var(--tier-extra,#c084fc);    background: rgba(192,132,252,.1); border-color: rgba(192,132,252,.2); }
-.ptl2__tooltip-tier--unique   { color: var(--tier-unique,#7c3aed);   background: rgba(124,58,237,.1); border-color: rgba(124,58,237,.2); }
-.ptl2__tooltip-tier--ultimate { color: var(--tier-ultimate,#f59e0b); background: rgba(245,158,11,.1); border-color: rgba(245,158,11,.2); }
+.ptl2__tooltip-tier--extra    { color: var(--rank-4,#e879f9);    background: rgba(232,121,249,.1); border-color: rgba(232,121,249,.2); }
+.ptl2__tooltip-tier--unique   { color: var(--rank-4-unique);   background: rgba(var(--rank-4-unique-rgb),.1); border-color: rgba(var(--rank-4-unique-rgb),.2); }
+.ptl2__tooltip-tier--ultimate { color: var(--rank-5,#fbbf24); background: rgba(251,191,36,.1); border-color: rgba(251,191,36,.2); }
+/* PR3b: branch-keyed tooltip tiers (standard/suite) — profile-timeline.js now
+   keys the tier chip on the resolved branch, not the dead type enum. */
+.ptl2__tooltip-tier--standard { color: var(--tier-basic,#38bdf8);    background: rgba(56,189,248,.1); border-color: rgba(56,189,248,.2); }
+.ptl2__tooltip-tier--suite    { color: var(--tier-fusion);   background: rgba(var(--tier-fusion-rgb),.1); border-color: rgba(var(--tier-fusion-rgb),.2); }
 
 .ptl2__tooltip-detail-row {
   display: flex;
@@ -2814,36 +3200,44 @@ button.plaque__slug:focus-visible {
   background: rgba(255,255,255,0.06);
 }
 
-/* Responsive side-panel behaviour */
-@media (max-width: 860px) {
-  .profile-timeline-filter-btn {
+/* ── Profile: filter toggle (FAB) — visible on mobile, hidden on desktop ── */
+/* E6 mobile-first: FAB is the base (mobile) state; desktop hides it */
+.profile-filter-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--surface);
+  border: 1px solid var(--tier-basic);
+  color: var(--text);
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 0.7rem 1.2rem;
+  border-radius: 999px;
+  z-index: 9997;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 10px rgba(56, 189, 248, 0.2);
+  transition: transform 0.2s, background 0.2s;
+}
+.profile-filter-toggle:active {
+  transform: scale(0.95);
+}
+
+/* E6 mobile-first: on desktop (wide) the timeline filter btn shows instead */
+.profile-timeline-filter-btn {
+  display: none; /* hidden on mobile — desktop shows it via min-width below */
+}
+@media (min-width: 861px) {
+  .profile-filter-toggle {
     display: none;
   }
-
-  .profile-filter-toggle {
+  .profile-timeline-filter-btn {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    background: var(--surface, #0f172a);
-    border: 1px solid var(--tier-basic, #38bdf8);
-    color: var(--text, #e2e8f0);
-    font-family: var(--font-mono, monospace);
-    font-size: 0.72rem;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    padding: 0.7rem 1.2rem;
-    border-radius: 999px;
-    z-index: 9997;
-    cursor: pointer;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 10px rgba(56, 189, 248, 0.2);
-    transition: transform 0.2s, background 0.2s;
-  }
-  .profile-filter-toggle:active {
-    transform: scale(0.95);
   }
 }
 
@@ -2894,7 +3288,8 @@ button.plaque__slug:focus-visible {
 
 /* Origin badge beside handle ──────────────────────────────────── */
 .plaque__handle .plaque__origin {
-  color: var(--honor-red, #ef4444);
+  /* E4: origin mark is gold (Yggdrasil II). Red origin mark deprecated. */
+  color: var(--apex-gold, #fbbf24);
   margin-left: 4px;
   vertical-align: middle;
 }
@@ -3083,16 +3478,25 @@ button.plaque__slug:focus-visible {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Full-Screen Premium Modal (/impeccable) */
+/* Full-Screen Premium Modal — Direction A "Cinematic" (/impeccable)
+   Full-bleed dark stage; the OG card is the single hero, wrapped in a
+   rank-colored ambient glow that pools on the floor of the frame. The
+   rank accent is carried by --hoh-rk-rgb, set per-skill by hoh-modal.js
+   (falls back to the basic tier tokens so the glow is never colorless). */
 .hoh-fs-modal {
+  --hoh-rk-rgb: var(--tier-basic-rgb);
+  --hoh-rk: var(--tier-basic);
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(3, 7, 18, 0.85);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  /* Deeper, near-black cinematic ground so the rank glow reads as light. */
+  background:
+    radial-gradient(120% 82% at 50% 116%, rgba(var(--hoh-rk-rgb), 0.16), transparent 60%),
+    rgba(2, 5, 14, 0.86);
+  backdrop-filter: blur(14px) saturate(180%);
+  -webkit-backdrop-filter: blur(14px) saturate(180%);
   z-index: 1000;
   display: flex;
   flex-direction: column;
@@ -3101,6 +3505,54 @@ button.plaque__slug:focus-visible {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow: hidden;
+}
+
+/* Ambient rank-colored glow floor — pools under the centered card so the
+   rank identity reads from the light itself, not a chip. Sits above the
+   parallax backdrop (z:1) but below the stage (z:2). */
+.hoh-fs-modal::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -34%;
+  transform: translateX(-50%);
+  width: 150%;
+  height: 78%;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(closest-side,
+    rgba(var(--hoh-rk-rgb), 0.30),
+    rgba(var(--hoh-rk-rgb), 0.10) 46%,
+    transparent 72%);
+  filter: blur(26px);
+  opacity: 0;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hoh-fs-modal.is-active::before { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .hoh-fs-modal::before { transition: none; }
+}
+
+.hoh-fs-parallax-bg {
+  position: absolute;
+  inset: -15% 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.18;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+  transition: transform 0.1s ease-out;
+}
+
+.hoh-fs-parallax-bg img {
+  width: 100%;
+  height: 120%;
+  object-fit: cover;
+  object-position: center;
+  mix-blend-mode: color-dodge;
 }
 
 .hoh-fs-modal.is-active {
@@ -3119,14 +3571,63 @@ button.plaque__slug:focus-visible {
   z-index: 1010;
 }
 
-/* Share/download actions — bottom right */
+/* Gaia Skill Tree brand lockup — pinned top-left of every share modal so the
+   logo + name are always present on the share surface (founder directive,
+   2026-07-26). Mirrors the site-nav seal + wordmark; quiet by default, links
+   home. Fades with the rest of the chrome on idle. */
+.hoh-fs-brand {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  z-index: 1010;
+  text-decoration: none;
+  color: rgba(226, 232, 240, 0.72);
+  transition: color 0.2s ease, opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hoh-fs-brand:hover,
+.hoh-fs-brand:focus-visible {
+  color: var(--text);
+  outline: none;
+}
+.hoh-fs-brand .hoh-fs-brand-seal {
+  width: 26px;
+  height: 26px;
+  display: block;
+  color: var(--hoh-rk, var(--tier-basic));
+}
+.hoh-fs-brand .hoh-fs-brand-word {
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.hoh-fs-modal.is-idle .hoh-fs-brand {
+  opacity: 0;
+  pointer-events: none;
+}
+@media (max-width: 640px) {
+  .hoh-fs-brand .hoh-fs-brand-word { display: none; }
+}
+
+/* Share/download actions — Direction A: quiet centered baseline rail. */
 .hoh-fs-footer {
   position: absolute;
-  bottom: 24px;
-  right: 24px;
+  bottom: 26px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
   gap: 12px;
   align-items: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(6, 10, 22, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   z-index: 1010;
 }
 
@@ -3148,8 +3649,9 @@ button.plaque__slug:focus-visible {
 
 .hoh-fs-btn:hover {
   color: var(--text);
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(var(--hoh-rk-rgb), 0.55);
   background: rgba(30, 41, 59, 0.8);
+  box-shadow: 0 0 18px rgba(var(--hoh-rk-rgb), 0.22);
   transform: translateY(-2px);
 }
 
@@ -3167,6 +3669,8 @@ button.plaque__slug:focus-visible {
 
 /* Modal Center Stage (large card container) */
 .hoh-fs-stage {
+  position: relative;
+  z-index: 2;
   flex: 1;
   width: 100%;
   display: flex;
@@ -3175,20 +3679,25 @@ button.plaque__slug:focus-visible {
   padding: 40px;
   box-sizing: border-box;
   transform: scale(0.92) translateY(20px);
-  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .hoh-fs-modal.is-active .hoh-fs-stage {
   transform: scale(1) translateY(0);
 }
 
-/* Limit the size of --og card inside stage */
+/* Limit the size of --og card inside stage. Direction A: the card is the
+   single hero — a rank-colored ambient halo (via --hoh-rk-rgb) replaces the
+   generic accent glow so the register reads immediately. */
 .hoh-fs-stage .plaque--og {
   width: 1200px;
   height: 630px;
   transform-origin: center center;
-  transform: scale(0.85); /* Scale slightly to fit laptop displays nicely */
-  box-shadow: 0 32px 64px rgba(0, 0, 0, 0.6), 0 0 100px rgba(var(--plaque-accent-rgb), 0.15);
+  transform: scale(0.88); /* Slightly larger hero than before (was 0.85) */
+  box-shadow:
+    0 40px 80px rgba(0, 0, 0, 0.62),
+    0 0 120px rgba(var(--hoh-rk-rgb), 0.28),
+    0 0 0 1px rgba(var(--hoh-rk-rgb), 0.22);
 }
 /* When the stage hosts the canonical inline SVG (svg.plaque--og), make
    sure its intrinsic width/height attributes don't fight the scale rule.
@@ -3197,25 +3706,63 @@ button.plaque__slug:focus-visible {
 .hoh-fs-stage svg.plaque--og {
   display: block;
   border-radius: 14px;
+  transform: scale(0.88);
+  box-shadow:
+    0 40px 80px rgba(0, 0, 0, 0.62),
+    0 0 120px rgba(var(--hoh-rk-rgb), 0.28),
+    0 0 0 1px rgba(var(--hoh-rk-rgb), 0.22);
+}
+
+/* Build-rendered share preview. Preserve the plate's intrinsic 40:21 ratio;
+   assigning both axes to the portrait stage stretches the 1200×630 PNG on
+   mobile. Width/height stay auto and the viewport only supplies maxima, so
+   either constraint scales the image proportionally. */
+.hoh-fs-stage > img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(1200px, calc(100vw - 80px));
+  max-height: calc(100dvh - 160px);
+  object-fit: contain;
+  border-radius: 14px;
+  box-shadow:
+    0 40px 80px rgba(0, 0, 0, 0.62),
+    0 0 120px rgba(var(--hoh-rk-rgb), 0.28),
+    0 0 0 1px rgba(var(--hoh-rk-rgb), 0.22);
+}
+
+@media (max-width: 500px) {
+  .hoh-fs-stage {
+    padding: 72px 20px 112px;
+  }
+
+  .hoh-fs-stage > img {
+    max-width: calc(100vw - 40px);
+    max-height: calc(100dvh - 184px);
+  }
 }
 
 @media (max-width: 1400px) {
-  .hoh-fs-stage .plaque--og {
+  .hoh-fs-stage .plaque--og,
+  .hoh-fs-stage svg.plaque--og {
     transform: scale(0.7);
   }
 }
 @media (max-width: 1200px) {
-  .hoh-fs-stage .plaque--og {
+  .hoh-fs-stage .plaque--og,
+  .hoh-fs-stage svg.plaque--og {
     transform: scale(0.55);
   }
 }
 @media (max-width: 800px) {
-  .hoh-fs-stage .plaque--og {
+  .hoh-fs-stage .plaque--og,
+  .hoh-fs-stage svg.plaque--og {
     transform: scale(0.4);
   }
 }
 @media (max-width: 500px) {
-  .hoh-fs-stage .plaque--og {
+  .hoh-fs-stage .plaque--og,
+  .hoh-fs-stage svg.plaque--og {
     transform: scale(0.28);
   }
 }
@@ -3238,7 +3785,7 @@ button.plaque__slug:focus-visible {
   box-sizing: border-box;
   
   position: absolute;
-  bottom: 40px;
+  bottom: 92px;
   left: 50%;
   transform: translateX(-50%) translateY(40px);
   opacity: 0;
@@ -3376,22 +3923,24 @@ button.plaque__slug:focus-visible {
               transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* ─── Compact confirm pill ─── */
+/* ─── Compact confirm pill — Direction A: caption zone below the hero ─── */
 .hoh-fs-confirm {
   position: absolute;
-  top: 28px;
+  bottom: 92px;
   left: 50%;
   transform: translateX(-50%);
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 8px 14px;
+  padding: 8px 8px 8px 16px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(var(--hoh-rk-rgb), 0.38);
+  background: rgba(6, 10, 22, 0.72);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.4),
+    0 0 24px rgba(var(--hoh-rk-rgb), 0.12);
   font-family: var(--font-mono, ui-monospace, monospace);
   font-size: 12px;
   letter-spacing: 0.02em;
@@ -3400,7 +3949,7 @@ button.plaque__slug:focus-visible {
 }
 .hoh-fs-confirm[hidden] { display: none; }
 .hoh-fs-confirm-text #hohFsHandleText {
-  color: var(--honor-red, #ef4444);
+  color: var(--hoh-rk, var(--honor-red, #ef4444));
   font-weight: 600;
 }
 .hoh-fs-confirm-btn {
@@ -3507,10 +4056,11 @@ button.plaque__slug:focus-visible {
 }
 .hoh-fs-overlay-ctl .ico { display: block; }
 
-/* Minimized chip — shows when the README panel is collapsed. */
+/* Minimized chip — shows when the README panel is collapsed. Sits in the
+   caption zone above the quiet action rail (Direction A). */
 .hoh-fs-overlay-restore {
   position: absolute;
-  bottom: 32px;
+  bottom: 92px;
   left: 50%;
   transform: translateX(-50%);
   display: inline-flex;
@@ -3518,8 +4068,8 @@ button.plaque__slug:focus-visible {
   gap: 8px;
   padding: 8px 14px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(var(--hoh-rk-rgb), 0.35);
+  background: rgba(6, 10, 22, 0.72);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   color: rgba(226, 232, 240, 0.85);
@@ -3699,7 +4249,7 @@ button.plaque__slug:focus-visible {
   transition: border-color 0.2s;
 }
 .directory-search:focus {
-  border-color: var(--accent, var(--tier-extra));
+  border-color: var(--accent, var(--rank-4, #e879f9));
 }
 
 /* Tier sections — contributors are grouped by peak rank into bands. */
@@ -3712,10 +4262,10 @@ button.plaque__slug:focus-visible {
   border-block-end: 1px solid var(--border);
   letter-spacing: 0.01em;
 }
-.directory-tier[data-tier="4"] .directory-tier__title { color: var(--tier-ultimate); }
-.directory-tier[data-tier="3"] .directory-tier__title { color: var(--tier-unique); }
-.directory-tier[data-tier="2"] .directory-tier__title { color: var(--tier-extra); }
-.directory-tier[data-tier="1"] .directory-tier__title { color: var(--tier-basic); }
+.directory-tier[data-tier="4"] .directory-tier__title { color: var(--rank-4, #e879f9); }
+.directory-tier[data-tier="3"] .directory-tier__title { color: var(--rank-3, #a78bfa); }
+.directory-tier[data-tier="2"] .directory-tier__title { color: var(--rank-2, #63cab7); }
+.directory-tier[data-tier="1"] .directory-tier__title { color: var(--rank-1, #38bdf8); }
 
 /* ── Mystery redaction — 0★ / 1★ pre-named skills ──────────────────────────
    The contributor handle is withheld until the skill is officially named (2★+).
@@ -3773,7 +4323,7 @@ button.plaque__slug:focus-visible {
 .profile-filter-reset:focus-visible,
 .plaque__share-btn:focus-visible,
 .plaque__claim-btn:focus-visible {
-  outline: 2px solid var(--tier-extra);
+  outline: 2px solid var(--rank-4, #e879f9);
   outline-offset: 2px;
 }
 
@@ -3810,6 +4360,7 @@ button.plaque__slug:focus-visible {
   align-items: center;
   justify-content: center;
   position: relative;
+  align-self: stretch; /* ensure alignment in center-aligned flex containers */
 }
 
 /* ── Expand on plaque hover ──────────────────────────────────── */
@@ -3891,6 +4442,7 @@ button.plaque__slug:focus-visible {
    Shown at the end of list-view rows as a small muted label.
    Positioned just before the › arrow. */
 .plaque--row .plaque__ev-badge {
+  display: none; /* trust magnitude already encodes the grade — negative space preferred */
   font-size: 0.6rem;
   font-weight: 700;
   letter-spacing: 0.08em;

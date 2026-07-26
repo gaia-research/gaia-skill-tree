@@ -15,5 +15,5 @@ Splits a document into semantically meaningful segments optimized for embedding 
 
 ## Derivatives
 
-- [RAG Pipeline](/skills/extra/rag-pipeline.md)
+- [RAG Pipeline](/skills/fusion/rag-pipeline.md)
 
