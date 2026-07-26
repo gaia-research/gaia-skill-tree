@@ -693,11 +693,14 @@
         var word = (window.GaiaSemantics && typeof window.GaiaSemantics.rankWord === 'function')
           ? window.GaiaSemantics.rankWord(rn, branch || SUITE_LADDER)
           : (rn + '★');
-        var colorVar = branch === 'suite'
-          ? 'var(--tier-fusion)'
-          : branch === 'unique'
-            ? 'var(--rank-4-unique)'
-            : 'var(--rank-' + rn + ', var(--muted))';
+        var colorVar;
+        if (branch === 'unique') {
+          colorVar = rn >= 6 ? 'var(--rank-6-unique)' : (rn === 5 ? 'var(--rank-5-unique)' : 'var(--rank-4-unique)');
+        } else if (branch === 'suite' && rn >= 5) {
+          colorVar = 'var(--apex-gold)';
+        } else {
+          colorVar = 'var(--rank-' + rn + ', var(--muted))';
+        }
         var _base = (typeof window.gaiaIconBase === 'function')
           ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '') : '';
         var _suiteMap = { 1:'c1-suite-awakened', 2:'c2-suite-named', 3:'c3-suite-evolved',
