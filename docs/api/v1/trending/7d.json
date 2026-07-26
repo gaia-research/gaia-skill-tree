@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-07-25T23:03:44Z",
+  "generatedAt": "2026-07-26T15:30:23Z",
   "firstRun": false,
   "skills": [
     {
@@ -16,65 +16,9 @@
       "_links": {
         "self": "/api/v1/skills/gsd-build/get-shit-done.json"
       }
-    },
-    {
-      "id": "obra/using-git-worktrees",
-      "name": "Using Git Worktrees",
-      "level": "4★",
-      "contributor": "obra",
-      "trustMagnitude": 117.65,
-      "overallTrustGrade": "A",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/obra/using-git-worktrees.json"
-      }
-    },
-    {
-      "id": "safishamsi/graphify",
-      "name": "Graphify",
-      "level": "4★",
-      "contributor": "safishamsi",
-      "trustMagnitude": 116.57,
-      "overallTrustGrade": "A",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/safishamsi/graphify.json"
-      }
-    },
-    {
-      "id": "obra/writing-plans",
-      "name": "Writing Plans",
-      "level": "4★",
-      "contributor": "obra",
-      "trustMagnitude": 110.15,
-      "overallTrustGrade": "A",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/obra/writing-plans.json"
-      }
-    },
-    {
-      "id": "stanfordnlp/dspy",
-      "name": "DSPy",
-      "level": "4★",
-      "contributor": "stanfordnlp",
-      "trustMagnitude": 100.0,
-      "overallTrustGrade": "A",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/stanfordnlp/dspy.json"
-      }
     }
   ],
-  "totalTrending": 5,
+  "totalTrending": 1,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }
