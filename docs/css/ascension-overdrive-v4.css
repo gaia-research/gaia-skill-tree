@@ -547,8 +547,7 @@
 }
 
 .aov-terminal-art--impossible {
-  width: auto;
-  aspect-ratio: auto;
+  display: none;
 }
 
 .aov-terminal-visual {
@@ -587,6 +586,16 @@
   aspect-ratio: 1;
   opacity: 1;
   filter: drop-shadow(0 0 2.2rem color-mix(in oklab, var(--rank-6-unique) 42%, transparent));
+}
+
+.aov-terminal-seal::before {
+  content: "";
+  position: absolute;
+  inset: 5%;
+  border-radius: 50%;
+  background: var(--bg);
+  pointer-events: none;
+  z-index: -1;
 }
 
 .aov-terminal-seal img {
