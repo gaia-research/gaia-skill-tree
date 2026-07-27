@@ -393,24 +393,37 @@
        aov4 medallions are transparent-alpha, so each terminal fills the
        transparent center with its own field and rings it with a glow. ── */
 
-    /* Unique Impossible: an ember-offset VOID. A solid void-black disc fills
-       the whole medallion so the transparent center reads as void, with a
-       rank-6-unique ember ring offset outward (mirrors --aov-unique-void
-       0–20% core + rank-6-unique 33–40% ring). */
+    /* Unique Impossible: exactly the ascension terminal-seal recipe
+       (ascension-overdrive-v4.css .aov-terminal-seal). Two layers, kept
+       distinct — NOT a single tinted gradient:
+         1. ::before — a clean near-black VOID disc directly behind the
+            transparent medallion, so its center reads as pure void (mirrors
+            .aov-terminal-seal::before { inset:5%; background: var(--bg) }).
+            No ember tint lives in the disc.
+         2. img filter — rank-6-unique drop-shadows that radiate OUT from the
+            medallion's own alpha silhouette, so the ember reads as an offset
+            outer bloom, not a ring painted across the disc (mirrors
+            .aov-terminal-seal { filter: 3× rank-6-unique drop-shadow }). */
     .plate-spec--void .plate-seal::before {
-      content: ""; position: absolute; inset: -8%; border-radius: 50%;
-      background:
-        radial-gradient(circle at center,
-          var(--aov-unique-void, oklch(0.13 0.015 260)) 0 46%,
-          color-mix(in oklab, var(--rank-6-unique,#e0894a) 60%, transparent) 54%,
-          color-mix(in oklab, var(--rank-6-unique,#e0894a) 26%, transparent) 68%,
-          transparent 82%);
+      content: ""; position: absolute; inset: 5%; border-radius: 50%;
+      background: var(--aov-unique-void, oklch(0.13 0.015 260));
       z-index: 0;
+    }
+    /* Widen the shared halo into a soft ember bloom, offset well past the seal
+       edge — this is the diffuse warm glow behind the void, like ascension. */
+    .plate-spec--void .plate-seal::after {
+      inset: -22px;
+      background: radial-gradient(circle,
+        transparent 0%,
+        transparent 30%,
+        var(--halo, transparent) 50%,
+        transparent 76%);
     }
     .plate-spec--void .plate-seal img {
       filter:
-        drop-shadow(0 0 .5rem color-mix(in oklab, var(--rank-6-unique,#e0894a) 66%, transparent))
-        drop-shadow(0 0 1.4rem color-mix(in oklab, var(--rank-6-unique,#e0894a) 40%, transparent));
+        drop-shadow(0 0 .55rem color-mix(in oklab, var(--rank-6-unique,#e0894a) 68%, transparent))
+        drop-shadow(0 0 1.7rem color-mix(in oklab, var(--rank-6-unique,#e0894a) 46%, transparent))
+        drop-shadow(0 0 3.2rem color-mix(in oklab, var(--rank-6-unique,#e0894a) 24%, transparent));
     }
 
     /* Suite Apex: the "perfected" white-hot bloom + rainbow diffraction ring,
