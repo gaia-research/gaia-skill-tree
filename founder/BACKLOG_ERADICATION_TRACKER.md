@@ -5,6 +5,107 @@
 > **Single authoritative tracker.** This document drives the founder's one-by-one, ambitious staging of the entire open-issue backlog to a clean state.
 >
 > **Generated:** 2026-07-21 · **Source:** `gaia-backlog-triage` workflow (7 Haiku triage agents → 1 Opus synthesis; cached/resumable — see footer) · **Scope:** 97 triaged open issues (98 open minus EPIC #1002 itself).
+>
+> **🔄 SUPERSEDED IN PART — see the Post-v7.1.1 Reconciliation section immediately below.** EPIC #1002 (v7.0.0) and follow-ups through v7.1.1 have now merged. A code-level verification pass (2026-07-27) checked every drafted close against live `main`. Where the reconciliation and the pre-merge dispositions below disagree, **the reconciliation wins.** The sections below are retained as the original plan of record.
+
+---
+
+## Post-v7.1.1 Reconciliation (2026-07-27)
+
+*Reconciling this tracker (drafted 2026-07-21, pre-merge) against live `main` after EPIC #1002 (v7.0.0) → v7.1.1. Source: `backlog-reconcile-post-v711` workflow — 3 general-purpose code-verification agents (read actual source/CI/tests on main) → 1 Opus synthesis. Every close below cites file:line or PR/commit evidence. **UPDATE 2026-07-27: the 11 verified closes in §2/§6 were founder-approved ("verified-done only") and EXECUTED — backlog 110 → 99. Keep-open (§3) and uncertain (#1231) were left open by explicit founder call.***
+
+### 1. Executive delta
+
+The tracker drafted **97 issues**; the backlog now stands at **110 open** (+16 opened after the snapshot, minus #917/#994/#1220/EPIC #1002 confirmed closed).
+
+**Headline: most drafted closes were NOT executed, and three were substantively unstarted.** Of the 12 drafted-close verdicts (§3/§3b), only **4 are truly resolved on main** (#997, #1000, #1189, #346). The migration engine + schema landed cleanly; the *enforcement/cleanup tail* (CI guard regexes, regression tests, demo/example literals) is the recurring miss. **#1174, #1183, #1194 were drafted-close but are entirely unimplemented — the tracker was wrong on these.**
+
+The CLI dead-type cluster (#1220–1231, #1264) fared far better: **8 of 11 verified close-ready**; #1230/#1264 carry real residuals; umbrella #1231 held **uncertain** pending founder disposition.
+
+### 2. CLOSE NOW — verified resolved on main (11)
+
+| Issue | Title | Resolved by | Evidence |
+|---|---|---|---|
+| #997 | Ygg II migration script | PR #1186 (merge 44153c939) | `migrate_taxonomy_v6.py` executed; `nodes/` only basic+fusion; 52 named skills stamped `type_change`+`migrationBatch` |
+| #1000 | Retire dead type vocab + mirror fuse | PR #1288 | Zero dead-vocab hits across `.claude/skills/`; `.claude`↔`.agents` mirrors match |
+| #1189 | metaEpochs schema + provenance backfill | PR #1186 / ba5d46997 | `metaEpochs` enum mirrored; 52 skills backfilled; `validate_timelines.py` structural invariant + RED/GREEN tests |
+| #346 | Plaque z-index + hover flicker | `docs/css/styles.css:7478,11445,11460` | `overflow:visible` ancestors + plaque `z-index:60`; transform pinned while open |
+| #1221 | pathEngine dead-type filter | PR #1288 / e8c32f596 | `isFusion(skill)` predicate replaces `type in ('extra','ultimate')` |
+| #1222 | stats.py type axis | Ygg II meta-driven axis | `TYPE_ORDER` from `_load_types_from_meta()` → {basic,fusion} |
+| #1223 | validate.py mock `--graph` named dir | validate.py:860-868 | derives `named_dir` from mock graph sibling; cites #1223 |
+| #1224 | Dead-type test cleanup | test_graph.py:435-502 | asserts dead types gone; `validate_ultimate()` retired |
+| #1225 | Umbrella: dead-type validate/test cluster | PRs #1288/#1321 | all children #1221-1224 resolved; unchecked boxes are stale bookkeeping |
+| #1228 | Divergent branch resolvers | PR #1321 / 98ce06cab, 3f9cdf0c3 | `computeBranch` gone; single `taxonomy.py` authority; legacy resolvers deleted |
+| #1229 | Class S projection omits suiteComponents | PR #1321 | `generateNamedIndex.py:416-420` injects branch/rankWord/medallion; suiteComponents preserved → 'suite' |
+
+### 3. KEEP OPEN — drafted-close but residual remains (9)
+
+| Issue | What specifically remains | Suggested action |
+|---|---|---|
+| #998 | Dead-type **literals** in `skill-graph.js` FALLBACK_SKILLS (L261-267) + tier token map (L157-159); `docs/en/fusion.html` examples (`type:"extra"` L813/868/878). Not live readers, but visible dead vocab. | Small `design/`+`docs/` cleanup PR under #998 (no-follow-ups rule), then close. |
+| #999 | Guard B regex (`docs-cohesion.yml:112-116`) never extended to catch `type=extra`/`type=ultimate`/`Transcendent`-as-rank/`Extra skill`/`Ultimate skill`/`G7`/`G8`. Timeline+meta-sync portions DONE. | `infra/` PR extending Guard B regex to the #999 term list. Small. |
+| #1130 | Hero-ledger-flash pair still commented out (`docs/index.html:440-453`). EPIC #1002 closed; re-enable never executed. Pages reachable elsewhere (not dark). | Founder decision: re-enable or formally retire. |
+| #1152 | No fuse-timeline-action **validity regression test**; no doc of legacy `note`→`fuse` **repair-on-rerun** behavior. `fuse` enum + 9 tests exist but not these two deliverables. | `cli/` PR: regression test + doc. Small. |
+| #1174 | **Unstarted.** `meta_link_command` mutates prereqs but never sets `type='fusion'`; no auto-derive on add; `reclassify` emits no deprecation warning. | Full `cli/` implementation needed. Tracker was wrong. |
+| #1183 | **Unimplemented.** No companion/pet renderer, shell mount, or homepage pilot; `gaia-research/pets` publication gate undecided. | Founder publication decision → design sprint. Tracker was wrong. |
+| #1194 | **Parked** (as body predicts). `profile-timeline.js` is rank-over-time + feed only; no TM-over-time panel; TM historization absent. | Keep open; prerequisite is TM historization. Tracker was wrong. |
+| #1230 | `generateProjections.py` dead reads (L485/L635 `skill_type in ['extra','ultimate']`, L406-408 dead dirs) behind `GAIA_GENERATE_SKILL_PAGES=1`, **uncaught** by the `type==` CI guard (excludes list-membership). Writes fixed. | `cli/` PR: predicate the reads + extend guard regex. |
+| #1264 | `share.py:38 _TYPE_SYMBOL` still keyed on `extra`/`ultimate`/`unique`; masked by `○` fallback. Deliberately deferred per issue body. | Fold #1002 or standalone `cli/` (symbols must go rank/branch-aware). |
+
+### 4. UNCERTAIN — founder eyeball (1)
+
+- **#1231** (taxonomy triplication umbrella): triplication dissolved — one `taxonomy.py` authority, contract test, hard-fail CI guard. But its children **#1230** (residual reads) and **#1264** (deferred) block a clean close. **Do NOT auto-close** — founder decides whether those residuals are out-of-scope for the umbrella.
+
+### 5. NEW ISSUES — bucketed (16, opened after snapshot)
+
+**intake (4):** #1250 (caveman, XS), #1251 (ux-audit nextlevelbuilder 3★, S), #1252 (format-output ayghri 2★, S), #1266 (scroll-world oso95 3★, S — held pending Ygg II settle). → `review/meta/`.
+
+**stage-as-PR (7):** #1253 (draft-skills→intake label, S, `infra/`), #1258 (Gaia Registry branding audit, P1/L, **multi-branch split**), #1267 (semantics poisoning SoT pass, L, `docs/`), #1307 (gaia install Agent Skills standard, L, `cli/`), #1308 (automate curate-trending + [news] ingest, XL, `infra/`), #1309 (blog publishing pipeline, XL, `docs/`), #1328 (mcp-server.html 14 stale refs, XS, `docs/`).
+
+**fold-1002 (2):** #1264 (share.py dead symbols, `cli/`), #1268 (frontend perf pass DAG/Explorer, L, `design/` — body says "linked to #1002 before merge").
+
+**needs-decision (1):** #1302 (RFC lexicon-of-record + reports-as-decisions authority, P1/XL).
+
+**backlog-defer (2):** #1265 ([news] radar, ephemeral), #1326 (commissioned badges background, awaiting-assets).
+
+**Overlap flags:**
+- **Semantics cluster #1258 ⇄ #1267 ⇄ #1302** (+ #999 Guard-B): #1302 RFC must ratify the SoT authority model that #1267 implements and whose CI guard #1258 extends. Sequence #1267/#1258 *after* #1302.
+- **News automation #1265 ⇄ #1308:** #1265 is the radar #1308 would auto-ingest/auto-close.
+- **Design/perf #1268 ⇄ #1326:** both touch frontend/badges surface.
+- **Discovery adjacency #1308 ⇄ #1309:** shared trending-discovery surface.
+
+### 6. gh CLOSES — EXECUTED 2026-07-27 (founder-approved: "verified-done only")
+
+✅ **All 11 closes below were executed** on 2026-07-27 per founder ruling. Backlog **110 → 99**. Kept open by explicit founder call: **#1231** (uncertain) and all §3 residuals (#998/#999/#1130/#1152/#1174/#1183/#1194/#1230/#1264). Commands retained for audit.
+
+```bash
+# Group A — §3/§3b closes (verified resolved on main) — DONE
+gh issue close 997  --comment "Resolved by PR #1186 (dev/997-migrate-taxonomy-v6, merge 44153c939). migrate_taxonomy_v6.py executed: registry/nodes/ holds only basic/+fusion/, zero dead-type literals; 52 named skills carry type_change events + migrationBatch stamps; validate_timelines.py enforces type_change+demote pairing. Closed on the post-v7.1.1 reconciliation pass — see founder/BACKLOG_ERADICATION_TRACKER.md."
+gh issue close 1000 --comment "Resolved by PR #1288 (retire dead type vocab + mirror fuse). Zero dead-vocab hits across .claude/skills/; .claude and .agents mirrors match. Closed on the post-v7.1.1 reconciliation pass."
+gh issue close 1189 --comment "Resolved by PR #1186 / commit ba5d46997. metaEpochs enum mirrored canonical↔bundled; metaEpoch+migrationBatch event fields; 52 named skills backfilled; validate_timelines.py structural invariant + RED/GREEN tests. Closed on the post-v7.1.1 reconciliation pass."
+gh issue close 346  --comment "Resolved in docs/css/styles.css (L7478 overflow:visible ancestors, L11445 plaque z-index:60, L11460+ transform pinned while open). Addresses 'moves right on hover' + 'nodes overlap it'. Closed on the post-v7.1.1 reconciliation pass."
+
+# Group B — dead-type CLI cluster closes (verified against current source)
+gh issue close 1221 --comment "Resolved by PR #1288 / commit e8c32f596. pathEngine.py uses isFusion(skill) from taxonomy; retired type in ('extra','ultimate') filter gone. Closed on the post-v7.1.1 reconciliation pass."
+gh issue close 1222 --comment "Resolved by the Ygg II meta-driven type axis. stats.py TYPE_ORDER derives from formatting._load_types_from_meta() → {basic, fusion}; no hardcoded dead types. Closed on the post-v7.1.1 reconciliation pass."
+gh issue close 1223 --comment "Fixed in validate.py:860-868 (cites #1223): named_dir derived from a mock --graph sibling named/ dir so a mock graph validates its own named skills. Closed on the post-v7.1.1 reconciliation pass."
+gh issue close 1224 --comment "Resolved. test_validate.py:76-89 retires validate_ultimate()/ultimate_no_approval; test_graph.py:435-502 asserts extra/ultimate/unique gone. Dead-type contract tests pass. Closed on the post-v7.1.1 reconciliation pass."
+gh issue close 1225 --comment "Umbrella resolved via PRs #1288/#1321 — all children #1221-1224 fixed in current source. The unchecked boxes in the body are stale bookkeeping. Closed on the post-v7.1.1 reconciliation pass."
+gh issue close 1228 --comment "Resolved by PR #1321 / commits 98ce06cab, 3f9cdf0c3. trustMagnitude.computeBranch removed; single taxonomy.py authority; all four legacy resolvers deleted. Closed on the post-v7.1.1 reconciliation pass."
+gh issue close 1229 --comment "Resolved by PR #1321. generateNamedIndex.py:416-420 injects branch/rankWord/medallion; suiteComponents preserved and 'suite' derived — Class S no longer collapses suites to standard. Closed on the post-v7.1.1 reconciliation pass."
+```
+
+*No close drafted for #1231 (uncertain — founder must disposition #1230/#1264 residuals first).*
+
+### 7. Updated bucket math
+
+- **Confirmed closed since snapshot:** 4 (#917, #994, #1220, EPIC #1002)
+- **Cleared to close now (this pass):** 11 → backlog **110 → 99**
+- **Keep-open residuals:** 9 (of which #1174/#1183/#1194 were mis-drafted as done; #998/#999/#1152/#1230 are core-done/tail-missing; #1130 founder decision; #1264 deferred)
+- **Uncertain:** 1 (#1231)
+- **New issues:** intake 4 · stage-as-PR 7 · fold-1002 2 · needs-decision 1 · backlog-defer 2
+
+**Bottom line:** approve the 11 closes in §6 → backlog drops to **99**. Then treat #1174/#1183/#1194 as genuinely open work, disposition #1231, and route the 16 new issues per §5 — with the #1302 RFC decision unblocking the #1258/#1267 semantics cluster.
 
 ---
 
