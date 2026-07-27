@@ -72,16 +72,21 @@ def _title_text(frame: int) -> Text:
 
 def _load_stats(registry_path: str) -> dict:
     import json
+    from gaia_cli.taxonomy import branchFor
     path = os.path.join(registry_path, "registry", "gaia.json")
     if not os.path.exists(path):
-        return {"total": 0, "extra": 0, "ultimate": 0, "named": 0}
+        return {"total": 0, "standard": 0, "suite": 0, "unique": 0, "named": 0}
     with open(path, encoding="utf-8") as f:
         data = json.load(f)
     skills = data.get("skills", [])
-    type_counts: dict[str, int] = {}
+    # Ygg II: distribution keys on the derived BRANCH (standard|suite|unique)
+    # via the taxonomy authority, not the retired {basic,extra,unique,ultimate}
+    # type axis. Generic gaia.json nodes carry namedMaxLevel, which branchFor
+    # reads as the effective rank.
+    branch_counts: dict[str, int] = {}
     for s in skills:
-        t = s.get("type", "basic")
-        type_counts[t] = type_counts.get(t, 0) + 1
+        b = branchFor(s)
+        branch_counts[b] = branch_counts.get(b, 0) + 1
 
     # Count named skills
     named_dir = os.path.join(registry_path, "registry", "named")
@@ -92,10 +97,9 @@ def _load_stats(registry_path: str) -> dict:
 
     return {
         "total":    len(skills),
-        "basic":    type_counts.get("basic", 0),
-        "extra":    type_counts.get("extra", 0),
-        "unique":   type_counts.get("unique", 0),
-        "ultimate": type_counts.get("ultimate", 0),
+        "standard": branch_counts.get("standard", 0),
+        "suite":    branch_counts.get("suite", 0),
+        "unique":   branch_counts.get("unique", 0),
         "named":    named,
     }
 
@@ -138,14 +142,14 @@ class HeroScreen(Screen):
         self.set_timer(3.0, self._advance)
 
     def _tick(self) -> None:
-        self._frame = (self._frame + 1) % (len(T.CYCLE_ULTIMATE) * 8)
+        self._frame = (self._frame + 1) % (len(T.CYCLE_APEX) * 8)
         self._render_frame()
 
     def _render_frame(self) -> None:
         frame = self._frame
 
-        # Seal color cycles through CYCLE_ULTIMATE, 8 frames per stop
-        cycle = T.CYCLE_ULTIMATE
+        # Seal color cycles through CYCLE_APEX, 8 frames per stop
+        cycle = T.CYCLE_APEX
         stop_idx = (frame // 8) % len(cycle)
         next_idx = (stop_idx + 1) % len(cycle)
         t_blend  = (frame % 8) / 8.0
@@ -171,11 +175,11 @@ class HeroScreen(Screen):
             self.query_one("#hero-stats", Static).update("")
             return
         t = Text()
-        t.append(f"○ {s['basic']} basic", style=T.TIER_BASIC)
+        t.append(f"○ {s['standard']} standard", style=T.BRANCH_ACCENT["standard"])
         t.append("  ·  ", style=T.NEUTRAL_TEXT_MUTED)
-        t.append(f"◇ {s['extra']} extra", style=T.TIER_EXTRA)
+        t.append(f"◉ {s['unique']} unique", style=T.BRANCH_ACCENT["unique"])
         t.append("  ·  ", style=T.NEUTRAL_TEXT_MUTED)
-        t.append(f"◆ {s['ultimate']} ultimate", style=T.TIER_ULTIMATE)
+        t.append(f"◆ {s['suite']} suite", style=T.BRANCH_ACCENT["suite"])
         t.append("  ·  ", style=T.NEUTRAL_TEXT_MUTED)
         t.append(f"✦ {s['named']} named", style=T.BRAND_APEX_GOLD)
         self.query_one("#hero-stats", Static).update(Align.center(t))

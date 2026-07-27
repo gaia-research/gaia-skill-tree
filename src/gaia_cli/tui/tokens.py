@@ -4,12 +4,20 @@ Single source of truth: `registry/gaia.json.meta.{typeColors,levelColors}`.
 This module mirrors `scripts/generateCssTokens.py` for the Python TUI side,
 so the web CSS and the terminal palette can never drift.
 
-Vocabulary tracks CONTEXT.md exactly:
-- Tiers: Basic / Extra / Unique / Ultimate
-- Ranks (0★ → 6★): Unawakened / Awakened / Named / Evolved /
-                    Hardened / Transcendent / Apex
+Vocabulary tracks CONTEXT.md § Taxonomy v6 (Yggdrasil II) exactly:
+- Type axis (structural): Basic / Fusion
+- Branch axis (derived, named-only): standard / suite / unique
+- Rank words (0★ → 6★):
+    shared  0-3  Basic / Awakened / Named / Evolved
+    suite   4-6  Extra / Ultimate / Apex
+    unique  4-6  Unique / Unique Ultimate / Unique Impossible
 - Brand: Honor Red (contributor handles only),
-         Apex Gold (6★ / Ultimate / Diamond Seal only — never decorative)
+         Apex Gold (6★ / Apex / Diamond Seal only — never decorative)
+
+These names are the load-bearing contract every TUI screen reads. Branch/rank
+DECISIONS are never made here or in a screen — they route through
+`gaia_cli.taxonomy` (build + read only). This module only maps a resolved
+branch word or star to a color/glyph token.
 
 NEVER hardcode a hex anywhere else in `src/gaia_cli/tui/`. Import from here.
 """
@@ -45,7 +53,7 @@ _TYPE_COLORS = _META.get("typeColors", {})
 _LEVEL_COLORS = _META.get("levelColors", {})
 
 
-def _tier_hex(key: str, fallback: str) -> str:
+def _accent_hex(key: str, fallback: str) -> str:
     entry = _TYPE_COLORS.get(key) or {}
     return entry.get("hex", fallback)
 
@@ -65,45 +73,61 @@ NEUTRAL_TEXT:           Final[str] = "#e2e8f0"
 NEUTRAL_TEXT_MUTED:     Final[str] = "#64748b"
 NEUTRAL_TEXT_DIM:       Final[str] = "#475569"
 
-# ── Tier accents (registry-backed) ───────────────────────────────────────────
+# ── Palette anchors (raw registry-backed hues) ───────────────────────────────
+#
+# These are bare COLOR VALUES, not taxonomy words — the four hues the branch and
+# rank ramps are built from. `meta.typeColors` post-Yggdrasil II carries only
+# {basic, fusion}, so the three non-basic anchors read their hardcoded
+# fallbacks. Consumers should reference the semantic BRANCH_ACCENT / RANK_*
+# tokens below, not these anchors directly.
+ACCENT_SKY:      Final[str] = _accent_hex("basic",    "#38bdf8")  # base / standard
+ACCENT_VIOLET:   Final[str] = _accent_hex("extra",    "#c084fc")  # mid ramp
+ACCENT_AMETHYST: Final[str] = _accent_hex("unique",   "#7c3aed")  # unique branch
+ACCENT_AMBER:    Final[str] = _accent_hex("ultimate", "#f59e0b")  # suite branch
 
-TIER_BASIC:    Final[str] = _tier_hex("basic",    "#38bdf8")
-TIER_EXTRA:    Final[str] = _tier_hex("extra",    "#c084fc")
-TIER_UNIQUE:   Final[str] = _tier_hex("unique",   "#7c3aed")
-TIER_ULTIMATE: Final[str] = _tier_hex("ultimate", "#f59e0b")
-
-TIER_BY_KEY: Final[dict[str, str]] = {
-    "basic":    TIER_BASIC,
-    "extra":    TIER_EXTRA,
-    "unique":   TIER_UNIQUE,
-    "ultimate": TIER_ULTIMATE,
+# ── Branch accents (Ygg II: keyed on the derived branch word) ────────────────
+#
+# The named-skill BRANCH axis (standard | suite | unique) is the display axis.
+# These lookups are keyed on the branch words that taxonomy.branchFor() emits;
+# the suite pinnacle is amber (→ Apex gold at 6★), unique is amethyst, standard
+# is the base sky accent. A screen READS this map with a resolved branch word —
+# it never derives the branch itself.
+BRANCH_ACCENT: Final[dict[str, str]] = {
+    "standard": ACCENT_SKY,
+    "suite":    ACCENT_AMBER,
+    "unique":   ACCENT_AMETHYST,
 }
 
-GLYPH_BY_TIER: Final[dict[str, str]] = {
-    "basic":    "○",
-    "extra":    "◇",
+BRANCH_GLYPH: Final[dict[str, str]] = {
+    "standard": "○",
+    "suite":    "◆",
     "unique":   "◉",
-    "ultimate": "◆",
 }
 
-# ── Rank ramp (CONTEXT.md rank names, 0★ → 6★) ───────────────────────────────
-
-RANK_UNAWAKENED:        Final[str] = _rank_hex("0★", "#94a3b8")
-RANK_AWAKENED:          Final[str] = _rank_hex("1★", "#38bdf8")
-RANK_NAMED:             Final[str] = _rank_hex("2★", "#63cab7")
-RANK_EVOLVED:           Final[str] = _rank_hex("3★", "#a78bfa")
-RANK_HARDENED:          Final[str] = _rank_hex("4★", "#e879f9")
-RANK_TRANSCENDENT:      Final[str] = _rank_hex("5★", "#fbbf24")
-RANK_TRANSCENDENT_APEX: Final[str] = _rank_hex("6★", "#fbbf24")
+# ── Rank ramp (CONTEXT.md § Taxonomy v6 rank words, 0★ → 6★) ─────────────────
+#
+# The rank ladder forks at 4★ (decoration split): 0-3 are shared; 4-6 carry the
+# suite ladder words (Extra / Ultimate / Apex). The Unique-branch 4-6 ranks
+# (Unique / Unique Ultimate / Unique Impossible) reuse these same hues by star,
+# so the aliases below point at the shared per-star color. `medallion()` /
+# `rankWord()` in taxonomy.py decide which word a star renders as — this map is
+# color only.
+RANK_UNAWAKENED: Final[str] = _rank_hex("0★", "#94a3b8")
+RANK_AWAKENED:   Final[str] = _rank_hex("1★", "#38bdf8")
+RANK_NAMED:      Final[str] = _rank_hex("2★", "#63cab7")
+RANK_EVOLVED:    Final[str] = _rank_hex("3★", "#a78bfa")
+RANK_EXTRA:      Final[str] = _rank_hex("4★", "#e879f9")  # 4★ Extra (suite) / Unique
+RANK_ULTIMATE:   Final[str] = _rank_hex("5★", "#fbbf24")  # 5★ Ultimate / Unique Ultimate
+RANK_APEX:       Final[str] = _rank_hex("6★", "#fbbf24")  # 6★ Apex / Unique Impossible
 
 RAMP_RANK: Final[tuple[str, ...]] = (
     RANK_UNAWAKENED,
     RANK_AWAKENED,
     RANK_NAMED,
     RANK_EVOLVED,
-    RANK_HARDENED,
-    RANK_TRANSCENDENT,
-    RANK_TRANSCENDENT_APEX,
+    RANK_EXTRA,
+    RANK_ULTIMATE,
+    RANK_APEX,
 )
 
 RANK_BY_STAR: Final[dict[str, str]] = {
@@ -111,9 +135,9 @@ RANK_BY_STAR: Final[dict[str, str]] = {
     "1★": RANK_AWAKENED,
     "2★": RANK_NAMED,
     "3★": RANK_EVOLVED,
-    "4★": RANK_HARDENED,
-    "5★": RANK_TRANSCENDENT,
-    "6★": RANK_TRANSCENDENT_APEX,
+    "4★": RANK_EXTRA,
+    "5★": RANK_ULTIMATE,
+    "6★": RANK_APEX,
 }
 
 # ── Brand tokens (restricted use — see CONTEXT.md) ───────────────────────────
@@ -124,30 +148,21 @@ BRAND_APEX_GOLD: Final[str] = "#fbbf24"
 # ── Functional state tokens ──────────────────────────────────────────────────
 
 STATE_OWNED:                 Final[str] = "#22c55e"
-STATE_DETECTED:              Final[str] = TIER_BASIC
+STATE_DETECTED:              Final[str] = ACCENT_SKY
 STATE_INSTALL_ACTION:        Final[str] = "#15803d"
 STATE_INSTALL_ACTION_HOVER:  Final[str] = "#16a34a"
 STATE_INSTALL_ERROR:         Final[str] = "#f85149"
 STATE_SCAN_COMPLETE:         Final[str] = STATE_OWNED
 
-# ── Animation cycles (DESIGN.md "Skill type color cycling") ──────────────────
+# ── Animation cycles (DESIGN.md "Skill color cycling") ───────────────────────
 
-# Ultimate 6-stop cycle: blue → violet → gold → red → purple → green
-CYCLE_ULTIMATE: Final[tuple[str, ...]] = (
-    TIER_BASIC,
+# Apex 6-stop cycle: sky → violet → amber → red → violet → green
+CYCLE_APEX: Final[tuple[str, ...]] = (
+    ACCENT_SKY,
     RANK_EVOLVED,
-    TIER_ULTIMATE,
+    ACCENT_AMBER,
     BRAND_HONOR_RED,
-    TIER_EXTRA,
-    "#34d399",
-)
-
-# Extra 5-stop cycle (no gold — Extras never glow apex)
-CYCLE_EXTRA: Final[tuple[str, ...]] = (
-    TIER_BASIC,
-    RANK_EVOLVED,
-    BRAND_HONOR_RED,
-    TIER_EXTRA,
+    ACCENT_VIOLET,
     "#34d399",
 )
 
@@ -172,10 +187,9 @@ def textual_variables() -> dict[str, str]:
         "gaia-text":           NEUTRAL_TEXT,
         "gaia-muted":          NEUTRAL_TEXT_MUTED,
         "gaia-dim":            NEUTRAL_TEXT_DIM,
-        "gaia-tier-basic":     TIER_BASIC,
-        "gaia-tier-extra":     TIER_EXTRA,
-        "gaia-tier-unique":    TIER_UNIQUE,
-        "gaia-tier-ultimate":  TIER_ULTIMATE,
+        "gaia-branch-standard": BRANCH_ACCENT["standard"],
+        "gaia-branch-suite":    BRANCH_ACCENT["suite"],
+        "gaia-branch-unique":   BRANCH_ACCENT["unique"],
         "gaia-honor-red":      BRAND_HONOR_RED,
         "gaia-apex-gold":      BRAND_APEX_GOLD,
         "gaia-install-action": STATE_INSTALL_ACTION,

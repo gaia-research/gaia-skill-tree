@@ -27,7 +27,7 @@ Screen {
 }
 
 #header-user {
-    color: $gaia-tier-basic;
+    color: $gaia-branch-standard;
     width: auto;
     margin-left: 2;
 }
@@ -66,8 +66,8 @@ Screen {
 }
 
 #search-input:focus {
-    border: solid $gaia-tier-basic;
-    color: $gaia-tier-basic;
+    border: solid $gaia-branch-standard;
+    color: $gaia-branch-standard;
 }
 
 /* ── Skill list ───────────────────────────────────────────── */
@@ -136,7 +136,7 @@ InstallModal {
     padding: 2 3;
 }
 
-/* Hide extra info in header/status on mobile */
+/* Hide overflow info in header/status on mobile */
 .-mobile #header-user, 
 .-mobile #header-version,
 .-mobile #header-section {
@@ -148,7 +148,7 @@ InstallModal {
 }
 
 #install-title {
-    color: $gaia-tier-basic;
+    color: $gaia-branch-standard;
     text-style: bold;
     margin-bottom: 1;
 }
