@@ -1,6 +1,6 @@
 {
-  "version": "7.0.2",
-  "generatedAt": "2026-07-26T18:00:09Z",
+  "version": "7.0.3",
+  "generatedAt": "2026-07-27T01:12:09Z",
   "summary": {
     "total": 280,
     "S": 5,
@@ -787,7 +787,7 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -889,7 +889,7 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {

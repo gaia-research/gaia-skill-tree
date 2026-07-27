@@ -530,7 +530,7 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -602,7 +602,7 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {

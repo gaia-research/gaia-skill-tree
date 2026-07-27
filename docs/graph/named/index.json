@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-26",
+  "generatedAt": "2026-07-27",
   "buckets": {
     "automated-testing": [
       {
@@ -27701,7 +27701,7 @@
       "name": "Literature-Search-Arxiv",
       "contributor": "google-deepmind",
       "origin": false,
-      "genericSkillRef": "literature-search",
+      "genericSkillRef": "scientific-literature-retrieval",
       "status": "awakened",
       "level": "3★",
       "description": "Search for scientific papers, preprints, and publications on arXiv. Extract metadata, abstracts, and download full-text PDFs or HTML versions of papers. Use when the user asks to find research papers, literature, or specific arXiv IDs.",
@@ -27733,7 +27733,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-07-27",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:33Z",
@@ -27797,7 +27797,7 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic",
+      "type": "fusion",
       "branch": "standard",
       "rank": 3,
       "rankWord": "Evolved",
@@ -27809,7 +27809,7 @@
       "name": "Literature-Search-Biorxiv",
       "contributor": "google-deepmind",
       "origin": false,
-      "genericSkillRef": "literature-search",
+      "genericSkillRef": "scientific-literature-retrieval",
       "status": "awakened",
       "level": "3★",
       "description": "Browse, filter, and download life sciences, biology, and medical preprints from bioRxiv and medRxiv. Supports fetching paper metadata by DOI, and browsing by date range with category and keyword filters. Keyword filtering is local, so date ranges MUST be narrow (1-4 weeks) with a category to prevent timeouts.",
@@ -27841,7 +27841,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-07-27",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:33Z",
@@ -27905,7 +27905,7 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic",
+      "type": "fusion",
       "branch": "standard",
       "rank": 3,
       "rankWord": "Evolved",
@@ -27917,7 +27917,7 @@
       "name": "Literature-Search-Europepmc",
       "contributor": "google-deepmind",
       "origin": false,
-      "genericSkillRef": "literature-search",
+      "genericSkillRef": "scientific-literature-retrieval",
       "status": "awakened",
       "level": "3★",
       "description": "Search Europe PMC for scientific literature and download open-access full texts and PDFs. Retrieve full-text XML/plain text by PMCID, get citation lists and bibliography.",
@@ -27950,7 +27950,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-16",
+      "updatedAt": "2026-07-27",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:33Z",
@@ -28033,7 +28033,7 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic",
+      "type": "fusion",
       "branch": "standard",
       "rank": 3,
       "rankWord": "Evolved",
@@ -28045,7 +28045,7 @@
       "name": "Literature-Search-Openalex",
       "contributor": "google-deepmind",
       "origin": true,
-      "genericSkillRef": "literature-search",
+      "genericSkillRef": "scientific-literature-retrieval",
       "status": "awakened",
       "level": "4★",
       "description": "Query the OpenAlex scholarly database for research papers, authors, institutions, topics, sources, publishers, funders, geo-locations, and keywords. Use when searching academic papers, resolving DOIs, downloading open-access PDFs, finding an author's publications, aggregating bibliometric data (citation counts, h-index, impact factor), exploring the research taxonomies, or performing DOI lookups.",
@@ -28078,7 +28078,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-20",
+      "updatedAt": "2026-07-27",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:34Z",
@@ -28159,7 +28159,7 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic",
+      "type": "fusion",
       "branch": "unique",
       "rank": 4,
       "rankWord": "Unique",
@@ -29036,7 +29036,7 @@
       "name": "Pubmed-Database",
       "contributor": "google-deepmind",
       "origin": false,
-      "genericSkillRef": "literature-search",
+      "genericSkillRef": "scientific-literature-retrieval",
       "status": "awakened",
       "level": "3★",
       "description": "Search PubMed for scientific literature, including published clinical trials. Fetch abstracts and full text. Link published research to biological databases (gene, protein, nucleotide, PubChem) to discover associations between papers and specific compounds or genes. Verify medical spelling, match raw citations, and cache result sets for bulk processing. Interfaces NCBI E-utilities and PMC BioC APIs.",
@@ -29068,7 +29068,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-07-27",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:37Z",
@@ -29144,7 +29144,7 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic",
+      "type": "fusion",
       "branch": "standard",
       "rank": 3,
       "rankWord": "Evolved",
@@ -29155,8 +29155,8 @@
       "id": "google-deepmind/pymol",
       "name": "Pymol",
       "contributor": "google-deepmind",
-      "origin": false,
-      "genericSkillRef": "scientific-visualization",
+      "origin": true,
+      "genericSkillRef": "molecular-visualization",
       "status": "awakened",
       "level": "3★",
       "description": "Visualize, analyze, and render protein and molecular structures using PyMOL. Use when the user wants to create images of protein structures, perform structural alignments or superposition, measure distances or contacts, highlight binding sites or active site residues, color by B-factor/pLDDT, or analyze protein-ligand interactions. Do not use for docking, molecular dynamics, or sequence-only analysis.",
@@ -29189,7 +29189,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-16",
+      "updatedAt": "2026-07-27",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:37Z",
@@ -29257,6 +29257,12 @@
           "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
           "metaEpoch": "yggdrasil-ii",
           "migrationBatch": "yggdrasil-ii@2026-07-16"
+        },
+        {
+          "timestamp": "2026-07-27T00:39:21Z",
+          "action": "rank_up",
+          "contributor": "unknown",
+          "details": "Origin status set to true."
         }
       ],
       "trustMagnitude": 100.82,
@@ -29272,7 +29278,7 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic",
+      "type": "fusion",
       "branch": "standard",
       "rank": 3,
       "rankWord": "Evolved",
@@ -29544,6 +29550,7 @@
       "status": "awakened",
       "level": "3★",
       "description": "Shared Python package for Science Skills, currently containing http_client -- a unified HTTP client with rate limiting, retries, and exponential backoff. Not a standalone agent skill. Do not invoke directly.",
+      "installable": false,
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common"
       },
@@ -29641,6 +29648,14 @@
           "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
           "metaEpoch": "yggdrasil-ii",
           "migrationBatch": "yggdrasil-ii@2026-07-16"
+        },
+        {
+          "timestamp": "2026-07-27T00:36:25Z",
+          "action": "upstream_deprecated",
+          "contributor": "mbtiongson1",
+          "previousValue": null,
+          "newValue": null,
+          "details": "Upstream science_skills_common was renamed to scienceskillscommon, then retired when its shared HTTP client moved to polite-http; no installable replacement remains."
         }
       ],
       "trustMagnitude": 100.82,
@@ -30139,8 +30154,8 @@
       "id": "google-deepmind/uv",
       "name": "Uv",
       "contributor": "google-deepmind",
-      "origin": false,
-      "genericSkillRef": "core-platform-implementation",
+      "origin": true,
+      "genericSkillRef": "computational-science-platform",
       "status": "awakened",
       "level": "3★",
       "description": "Checks whether the uv Python package manager is installed and installs it if missing. Ensures uv is on PATH. Use when another skill requires uv as a prerequisite.",
@@ -30173,7 +30188,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-16",
+      "updatedAt": "2026-07-27",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:40Z",
@@ -30241,6 +30256,12 @@
           "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
           "metaEpoch": "yggdrasil-ii",
           "migrationBatch": "yggdrasil-ii@2026-07-16"
+        },
+        {
+          "timestamp": "2026-07-27T00:39:22Z",
+          "action": "rank_up",
+          "contributor": "unknown",
+          "details": "Origin status set to true."
         }
       ],
       "trustMagnitude": 100.82,
@@ -30256,7 +30277,7 @@
         "crossOrgVerifier": null,
         "systemWideCap": null
       },
-      "type": "basic",
+      "type": "fusion",
       "branch": "standard",
       "rank": 3,
       "rankWord": "Evolved",

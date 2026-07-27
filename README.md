@@ -100,7 +100,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     └─ ○ /logical-inference
   ◉ addy-osmani/performance-optimization  [4★]
 
-(243 skills total — see docs/tree.md)
+(246 skills total — see docs/tree.md)
 ```
 <!-- gaia:registry-end -->
 
@@ -191,7 +191,7 @@ curl https://gaiaskilltree.com/api/v1/leaderboard.json
 **1. CLI
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `7.0.2`.
+Current Gaia CLI version: `7.0.3`.
 
 ```bash
 curl -fsSL https://gaiaskilltree.com/install.sh | sh
