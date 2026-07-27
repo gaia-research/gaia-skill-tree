@@ -544,6 +544,62 @@ def build_html_cache_busting(check: bool) -> bool:
     return changed
 
 
+def build_about_page(check: bool) -> bool:
+    """Update about.html tally counts from registry/gaia.json. Returns True if drift."""
+    graph_path = ROOT / "registry" / "gaia.json"
+    if not graph_path.is_file():
+        return False
+    graph = json.loads(graph_path.read_text(encoding="utf-8"))
+    skills = graph.get("skills", [])
+
+    total_refs = len(skills)
+    origin_skills = sum(1 for s in skills if s.get("type") == "basic")
+    ultimates = sum(1 for s in skills if s.get("rank") == 5 or s.get("rankWord") == "Ultimate")
+    evidence_entries = sum(len(s.get("evidence", [])) for s in skills)
+
+    named_dir = ROOT / "registry" / "named"
+    contributors = sum(1 for d in named_dir.iterdir() if d.is_dir()) if named_dir.is_dir() else 0
+
+    about_path = ROOT / "docs" / "about.html"
+    if not about_path.is_file():
+        return False
+    text = about_path.read_text(encoding="utf-8")
+
+    _label_map = {
+        "Generic refs": total_refs,
+        "Origin skills": origin_skills,
+        "Contributors": contributors,
+        "Ultimates": ultimates,
+        "Evidence entries": evidence_entries,
+    }
+
+    updated = text
+    for label, count in _label_map.items():
+        start_tag = '<dt class="ab-tally-label">' + label + "</dt>"
+        start_pos = text.find(start_tag)
+        if start_pos == -1:
+            continue
+        # Find the next <dd class="ab-tally-num"> after the label
+        dd_start = text.find('<dd class="ab-tally-num">', start_pos)
+        if dd_start == -1:
+            continue
+        dd_end = text.find("</dd>", dd_start)
+        if dd_end == -1:
+            continue
+        old_cell = text[dd_start:dd_end + len("</dd>")]
+        new_cell = '<dd class="ab-tally-num">' + str(count) + "</dd>"
+        updated = updated.replace(old_cell, new_cell)
+
+    if updated != text:
+        if check:
+            print("diff docs/about.html (tally counts stale \u2014 run build_docs.py)")
+        else:
+            about_path.write_text(updated, encoding="utf-8")
+            print("updated docs/about.html tally counts")
+        return True
+    return False
+
+
 def build_jsonld(check: bool) -> bool:
     """Inject JSON-LD blocks into docs/**/*.html via scripts/injectJsonLd.py. Returns True if drift."""
     import subprocess
@@ -1584,6 +1640,7 @@ def main(argv: list[str] | None = None) -> int:
     skills_index_changed = _run_step("skills-index", build_skills_index, args.check)
     sitemap_changed = _run_step("sitemap", build_sitemap, args.check)
     html_cache_busted = _run_step("html-cache-busting", build_html_cache_busting, args.check)
+    about_page_changed = _run_step("about-page", build_about_page, args.check)
     jsonld_changed = _run_step("json-ld", build_jsonld, args.check)
     css_tokens_changed = _run_step("css-tokens", build_css_tokens, args.check)
 
@@ -1634,6 +1691,7 @@ def main(argv: list[str] | None = None) -> int:
         or sitemap_changed
         or skills_index_changed
         or html_cache_busted
+        or about_page_changed
         or jsonld_changed
         or css_tokens_changed
         or named_index_changed
