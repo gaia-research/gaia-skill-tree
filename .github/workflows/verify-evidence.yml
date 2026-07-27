@@ -22,6 +22,20 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Install development dependencies
+        run: python -m pip install -e ".[dev]"
+
+      # Class P artifacts (registry/gaia.json) are gitignored — they never exist
+      # in a fresh CI checkout. verify_evidence.py reads registry/gaia.json for
+      # the skill/evidence list, so without this step it dies with
+      # FileNotFoundError before checking a single URL (the failure this workflow
+      # hit on every scheduled run). validate.yml and python-package.yml already
+      # carry the identical step for the same reason. See CLAUDE.md § Class P vs Class S.
+      - name: Build intermediate registry artifacts (Class P)
+        run: |
+          python scripts/assemble_gaia.py
+          python scripts/generateNamedIndex.py
+
       - name: Run evidence verification
         id: verify
         run: |
