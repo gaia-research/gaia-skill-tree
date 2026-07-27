@@ -103,25 +103,7 @@
       <!-- Root anchor — the site's name at full scale, growing from the roots,
            with the parent-org attribution tucked beside it. -->
       <div class="footer-anchor">
-        <span class="footer-display-word" aria-hidden="true">Skill <span class="footer-display-tree">Tree<svg class="hero-sakura-branch footer-sakura-branch" viewBox="0 0 180 88" aria-hidden="true" focusable="false">
-          <defs>
-            <g id="footerSakuraBloom">
-              <ellipse cx="0" cy="-4.4" rx="2.5" ry="4.1"/>
-              <ellipse cx="0" cy="-4.4" rx="2.5" ry="4.1" transform="rotate(72)"/>
-              <ellipse cx="0" cy="-4.4" rx="2.5" ry="4.1" transform="rotate(144)"/>
-              <ellipse cx="0" cy="-4.4" rx="2.5" ry="4.1" transform="rotate(216)"/>
-              <ellipse cx="0" cy="-4.4" rx="2.5" ry="4.1" transform="rotate(288)"/>
-              <circle cx="0" cy="0" r="1.35"/>
-            </g>
-          </defs>
-          <path class="hero-sakura-stem" pathLength="1" d="M4 73C36 70 56 56 82 47c29-10 58-14 92-37"/>
-          <path class="hero-sakura-stem hero-sakura-stem--twig" pathLength="1" d="M69 51c8-16 18-28 31-38M112 37c14 7 26 13 43 13M137 28c7-10 14-17 25-22"/>
-          <use class="hero-sakura-bloom hero-sakura-bloom--1" href="#footerSakuraBloom" transform="translate(100 13) scale(.88)"/>
-          <use class="hero-sakura-bloom hero-sakura-bloom--2" href="#footerSakuraBloom" transform="translate(154 50) scale(.72)"/>
-          <use class="hero-sakura-bloom hero-sakura-bloom--3" href="#footerSakuraBloom" transform="translate(163 6) scale(.62)"/>
-          <circle class="hero-sakura-bud hero-sakura-bloom--4" cx="126" cy="34" r="2.25"/>
-          <circle class="hero-sakura-bud hero-sakura-bloom--5" cx="173" cy="10" r="1.8"/>
-        </svg></span></span>
+        <span class="footer-display-word" aria-hidden="true">Skill <span class="footer-display-tree">Tree</span></span>
         <p class="footer-parentage">
           A project of
           <a class="footer-parent-link" href="https://research.gaiaskilltree.com"
