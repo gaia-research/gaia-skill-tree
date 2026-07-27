@@ -169,7 +169,8 @@ class InstallModal(ModalScreen):
             )
             # Meta line: the authority's rank word (e.g. "Named", "Extra",
             # "Unique Impossible") — never the raw branch key. rankWord reads
-            # (level, branch) and returns "" when there's no rank to show.
+            # (level, branch) and always returns a word (floor "Basic" at 0★);
+            # the `if rank` guard below is defensive, not for an empty return.
             meta_parts = []
             rank = rankWord(self.skill.get("level", ""), branch)
             if rank:
