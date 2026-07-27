@@ -30,7 +30,7 @@ Branch is **always derived, never declared** on a node. The fork happens at 4★
 *   `registry/`: Canonical graph (`gaia.json`), named skills, and schemas. **Source of Truth.**
 *   `registry-for-review/`: Intake area for proposed skills (`gaia push`).
 *   `src/gaia_cli/`: Core Python CLI logic.
-*   `packages/mcp/`: Model Context Protocol (MCP) server for agent-native integration.
+*   MCP server: standalone package `@gaia-research/mcp` — see https://research.gaiaskilltree.com/mcp
 *   `scripts/`: Essential utilities for validation, building, and registry maintenance.
 *   `docs/`: Documentation site and generated graph assets.
 
@@ -73,7 +73,7 @@ Connect Gaia natively to MCP-compatible agents (Claude Code, Cursor, VS Code, et
 
 ### Claude Code Integration
 ```bash
-claude mcp add gaia -- npx @gaia-registry/mcp@0.1.0
+claude mcp add gaia -- npx -y @gaia-research/mcp@0.1.0
 ```
 
 ### Environment Variables
