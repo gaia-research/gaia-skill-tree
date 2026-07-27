@@ -2,7 +2,7 @@
 
 Three independent invariants:
 1. No bare hex literals anywhere in `src/gaia_cli/tui/` outside tokens.py.
-2. Tier and rank constants match `registry/gaia.json.meta.*` exactly.
+2. Branch and rank constants match `registry/gaia.json.meta.*` exactly.
 3. Banned CONTEXT.md vocabulary does not appear in TUI identifiers or
    user-facing strings.
 """
@@ -51,20 +51,22 @@ def test_no_stray_hex_outside_tokens():
     )
 
 
-def test_tier_tokens_match_registry():
+def test_branch_accent_matches_basic_anchor():
+    """BRANCH_ACCENT['standard'] is the registry `basic` type color (the base
+    accent). Post-Yggdrasil II `meta.typeColors` carries only {basic, fusion},
+    so the suite/unique anchors read their hardcoded fallbacks and are not
+    registry-checked here — only the standard branch tracks the registry hue.
+    """
     from gaia_cli.tui import tokens
 
     meta = json.loads(REGISTRY.read_text(encoding="utf-8")).get("meta", {})
     type_colors = meta.get("typeColors", {})
 
-    for tier in ("basic", "extra", "unique", "ultimate"):
-        entry = type_colors.get(tier) or {}
-        expected = entry.get("hex")
-        if not expected:
-            continue
-        actual = tokens.TIER_BY_KEY[tier]
+    expected = (type_colors.get("basic") or {}).get("hex")
+    if expected:
+        actual = tokens.BRANCH_ACCENT["standard"]
         assert actual == expected, (
-            f"TIER_BY_KEY['{tier}'] = {actual} but registry says {expected}"
+            f"BRANCH_ACCENT['standard'] = {actual} but registry basic says {expected}"
         )
 
 
@@ -98,14 +100,22 @@ def test_textual_variables_complete():
     vars_ = tokens.textual_variables()
     for key in (
         "gaia-bg", "gaia-surface", "gaia-border", "gaia-text", "gaia-muted",
-        "gaia-tier-basic", "gaia-tier-extra", "gaia-tier-unique", "gaia-tier-ultimate",
+        "gaia-branch-standard", "gaia-branch-suite", "gaia-branch-unique",
         "gaia-honor-red", "gaia-apex-gold",
     ):
         assert key in vars_, f"textual_variables() missing '{key}'"
         assert vars_[key].startswith("#"), f"variable '{key}' is not a hex string: {vars_[key]}"
 
 
-@pytest.mark.parametrize("banned", ["legendary", "database", "catalog"])
+@pytest.mark.parametrize(
+    "banned",
+    [
+        # CONTEXT.md § deprecated axes
+        "legendary", "database", "catalog",
+        # Ygg II § Banned synonyms — deprecated rank words
+        "Hardened", "Transcendent",
+    ],
+)
 def test_banned_vocabulary_absent_from_tui(banned: str):
     """CONTEXT.md prohibits these in user-facing copy; check TUI identifiers
     and string literals don't smuggle them in.

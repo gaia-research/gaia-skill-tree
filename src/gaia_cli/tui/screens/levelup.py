@@ -1,7 +1,15 @@
 """Level-up modal — anime-style unlock animation.
 
-Triggered after a successful skill install. Cycles through glyph
-frames and shows tier-colored text before auto-dismissing.
+Triggered after a successful skill install. Cycles through glyph frames and
+shows rank-colored text before auto-dismissing.
+
+BUILD + READ ONLY (Ygg III forward-compat): this modal derives nothing about
+branch/rank itself. It reads the caller-supplied branch word (already resolved
+via ``taxonomy.branchFor``) and the star level, and calls the taxonomy authority
+(``levelNum`` / ``rankWord``) for every display decision. There
+are no hand-keyed branch→frame or branch→banner tables — the animation depth is
+a *stars* concept (``levelNum``) and the banner text is the authority's
+``rankWord``; branch only selects the accent color.
 """
 
 from __future__ import annotations
@@ -15,29 +23,21 @@ from rich.text import Text
 from rich.align import Align
 
 from gaia_cli.tui import tokens as T
+from gaia_cli.taxonomy import levelNum, rankWord
 
-_TIER_LABEL = {"basic": "BASIC", "extra": "EXTRA", "unique": "UNIQUE", "ultimate": "ULTIMATE"}
-
-# Animation frames: glyph + color pair. Color sequence walks the rank ramp:
-# dormant (border) → unawakened slate → awakened sky-blue → evolved violet
-# → unique deep-violet → apex gold. Indexes map to tiers via _TIER_FRAME_IDX.
+# Animation frames: glyph + color pair, indexed by star level 0..6. Frame N is
+# shown for an N-star unlock, so the reveal climbs the shared rank ramp and, at
+# 4★+, lands on the branch pinnacle. This is a pure stars ladder — NOT a
+# branch→frame map — so no banned resolver logic lives here.
 _FRAMES = [
-    ("·", T.NEUTRAL_BORDER),
-    ("○", T.RANK_UNAWAKENED),
-    ("○", T.RANK_AWAKENED),
-    ("◇", T.TIER_EXTRA),
-    ("◉", T.TIER_UNIQUE),
-    ("◆", T.BRAND_APEX_GOLD),
+    ("·", T.NEUTRAL_BORDER),          # 0★ dormant
+    ("○", T.RANK_AWAKENED),           # 1★ awakened — sky blue
+    ("○", T.RANK_NAMED),              # 2★ named — teal
+    ("◇", T.RANK_EVOLVED),            # 3★ evolved — violet
+    ("◈", T.RANK_EXTRA),              # 4★ extra/unique — fuchsia
+    ("◆", T.RANK_ULTIMATE),           # 5★ ultimate — amber
+    ("✦", T.BRAND_APEX_GOLD),         # 6★ apex — gold
 ]
-
-_TIER_FRAME_IDX = {"basic": 2, "extra": 3, "unique": 4, "ultimate": 5}
-
-_BANNERS = {
-    "basic":    " SKILL ACQUIRED ",
-    "extra":    " SKILL UNLOCKED ",
-    "unique":   " ★  RARE SKILL  ★ ",
-    "ultimate": " ★ ★  ULTIMATE  ★ ★ ",
-}
 
 
 class LevelUpModal(ModalScreen[None]):
@@ -51,12 +51,16 @@ class LevelUpModal(ModalScreen[None]):
 
     _frame: reactive[int] = reactive(0, init=False)
 
-    def __init__(self, skill_id: str, tier: str, level: str = ""):
+    def __init__(self, skill_id: str, branch: str, level: str = ""):
         super().__init__()
         self.skill_id = skill_id
-        self.tier = tier
+        # branch is a resolved display-branch word (standard|suite|unique) the
+        # caller obtained from taxonomy.branchFor — never re-derived here.
+        self.branch = branch
         self.level = level
-        self._target_frame = _TIER_FRAME_IDX.get(tier, 3)
+        # Frame depth is the star level, clamped through the authority. A 6★
+        # unlock climbs to the apex frame; a 2★ unlock stops at the named frame.
+        self._target_frame = levelNum(level)
 
     def compose(self) -> ComposeResult:
         yield Static(id="lu-backdrop")
@@ -77,8 +81,13 @@ class LevelUpModal(ModalScreen[None]):
     def _render_frame(self, frame_idx: int) -> None:
         card = self.query_one("#lu-card", Static)
         glyph, gcolor = _FRAMES[min(frame_idx, len(_FRAMES) - 1)]
-        tier_color = T.TIER_BY_KEY.get(self.tier, T.NEUTRAL_TEXT_MUTED)
-        banner = _BANNERS.get(self.tier, " SKILL UNLOCKED ")
+        # Accent color: read the branch→accent token map (build+read — no inline
+        # branch logic). Banner text: the authority's rank word for this
+        # (level, branch), so a 4★ suite reads "EXTRA", a 6★ unique reads
+        # "UNIQUE IMPOSSIBLE", a 2★ reads "NAMED" — never a hand-rolled label.
+        accent = T.BRANCH_ACCENT.get(self.branch, T.NEUTRAL_TEXT_MUTED)
+        word = rankWord(self.level, self.branch)
+        banner = f" {word.upper()} " if word else " SKILL UNLOCKED "
         sid = self.skill_id
 
         lines: list[tuple[str | Text, str]] = []
@@ -88,12 +97,12 @@ class LevelUpModal(ModalScreen[None]):
         # width calculation needs the raw sid length
         width = max(len(sid) + 10, len(banner) + 4, 36)
         border_h = "═" * (width - 2)
-        lines.append((f"╔{border_h}╗", tier_color))
+        lines.append((f"╔{border_h}╗", accent))
         lines.append((f"║{'':^{width-2}}║", gutter))
 
         # Banner
         padded_banner = banner.center(width - 2)
-        lines.append((f"║{padded_banner}║", tier_color))
+        lines.append((f"║{padded_banner}║", accent))
 
         # Glyph animation (big)
         big_glyph = f"  {glyph}  "
@@ -138,7 +147,7 @@ class LevelUpModal(ModalScreen[None]):
             progress += g + " "
         progress_line = progress.strip().center(width - 2)
         lines.append((f"║{'':^{width-2}}║", gutter))
-        lines.append((f"║{progress_line}║", tier_color))
+        lines.append((f"║{progress_line}║", accent))
 
         # Hint
         hint = " [press any key] "
@@ -148,7 +157,7 @@ class LevelUpModal(ModalScreen[None]):
         lines.append((f"║{hint:^{width-2}}║", T.NEUTRAL_TEXT_DIM))
 
         # Bottom border
-        lines.append((f"╚{border_h}╝", tier_color))
+        lines.append((f"╚{border_h}╝", accent))
 
         t = Text()
         for line, color in lines:

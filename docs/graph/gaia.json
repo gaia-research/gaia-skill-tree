@@ -1,6 +1,6 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "generatedAt": "2026-07-27T01:11:59Z",
+  "generatedAt": "2026-07-27T04:11:21Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic",
@@ -827,7 +827,11 @@
       "rank": 4,
       "rankWord": "Extra",
       "medallion": "◆",
-      "namedMaxLevel": "4★"
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "agentic-workflow-design",
@@ -4926,7 +4930,11 @@
       "rank": 4,
       "rankWord": "Extra",
       "medallion": "◆",
-      "namedMaxLevel": "4★"
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "e2e-testing",
@@ -5308,7 +5316,11 @@
       "rank": 4,
       "rankWord": "Extra",
       "medallion": "◆",
-      "namedMaxLevel": "4★"
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "error-interpretation",
@@ -6224,7 +6236,11 @@
       "rank": 4,
       "rankWord": "Unique",
       "medallion": "◉",
-      "namedMaxLevel": "4★"
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "financial-modeling",
@@ -6595,7 +6611,11 @@
       "rank": 4,
       "rankWord": "Extra",
       "medallion": "◆",
-      "namedMaxLevel": "4★"
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "format-output",
@@ -6768,7 +6788,11 @@
       "rank": 5,
       "rankWord": "Ultimate",
       "medallion": "◆",
-      "namedMaxLevel": "5★"
+      "namedMaxLevel": "5★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "framework-upgrade",
@@ -7620,7 +7644,11 @@
       "rank": 3,
       "rankWord": "Evolved",
       "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "namedMaxLevel": "3★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "git-ship-done-pipeline",
@@ -7694,7 +7722,11 @@
       "rank": 5,
       "rankWord": "Ultimate",
       "medallion": "◆",
-      "namedMaxLevel": "5★"
+      "namedMaxLevel": "5★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "grant-application-processing",
@@ -8973,7 +9005,11 @@
       "rank": 4,
       "rankWord": "Unique",
       "medallion": "◉",
-      "namedMaxLevel": "4★"
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "knowledge-harvest",
@@ -10467,7 +10503,11 @@
       "rank": 3,
       "rankWord": "Evolved",
       "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "namedMaxLevel": "3★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "multi-repo-coordination",
@@ -10596,7 +10636,11 @@
       "rank": 5,
       "rankWord": "Ultimate",
       "medallion": "◆",
-      "namedMaxLevel": "5★"
+      "namedMaxLevel": "5★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "multimodal-reasoning",
@@ -11369,7 +11413,11 @@
       "rank": 4,
       "rankWord": "Unique",
       "medallion": "◉",
-      "namedMaxLevel": "4★"
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "personal",
@@ -11486,7 +11534,11 @@
       "rank": 3,
       "rankWord": "Evolved",
       "medallion": "◇",
-      "namedMaxLevel": "3★"
+      "namedMaxLevel": "3★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "personal-knowledge-management",
@@ -11795,7 +11847,11 @@
       "rank": 4,
       "rankWord": "Extra",
       "medallion": "◆",
-      "namedMaxLevel": "4★"
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "prd-generation",
@@ -12178,7 +12234,11 @@
       "rank": 4,
       "rankWord": "Extra",
       "medallion": "◆",
-      "namedMaxLevel": "4★"
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "project-management",
@@ -12445,7 +12505,11 @@
       "rank": 4,
       "rankWord": "Unique",
       "medallion": "◉",
-      "namedMaxLevel": "4★"
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "protein-structure-analysis",
@@ -13241,7 +13305,11 @@
       "rank": 4,
       "rankWord": "Extra",
       "medallion": "◆",
-      "namedMaxLevel": "4★"
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "receiving-code-review",
@@ -15936,7 +16004,11 @@
       "rank": 5,
       "rankWord": "Ultimate",
       "medallion": "◆",
-      "namedMaxLevel": "5★"
+      "namedMaxLevel": "5★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "skill-performance-benchmarking",
@@ -16583,7 +16655,11 @@
       "rank": 4,
       "rankWord": "Unique",
       "medallion": "◉",
-      "namedMaxLevel": "4★"
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "summarize",
@@ -16724,7 +16800,11 @@
       "rank": 5,
       "rankWord": "Ultimate",
       "medallion": "◆",
-      "namedMaxLevel": "5★"
+      "namedMaxLevel": "5★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "supply-chain-optimization",
@@ -18476,7 +18556,11 @@
       "rank": 4,
       "rankWord": "Unique",
       "medallion": "◉",
-      "namedMaxLevel": "4★"
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "ux-audit",
@@ -18545,7 +18629,11 @@
       "rank": 4,
       "rankWord": "Unique",
       "medallion": "◉",
-      "namedMaxLevel": "4★"
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "vector-db-optimization",
@@ -18784,7 +18872,11 @@
       "rank": 4,
       "rankWord": "Extra",
       "medallion": "◆",
-      "namedMaxLevel": "4★"
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "video-intelligence",
@@ -19369,7 +19461,11 @@
       "rank": 4,
       "rankWord": "Unique",
       "medallion": "◉",
-      "namedMaxLevel": "4★"
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "web-search",
@@ -19445,7 +19541,11 @@
       "rank": 4,
       "rankWord": "Unique",
       "medallion": "◉",
-      "namedMaxLevel": "4★"
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "wiki-search",
@@ -19907,7 +20007,11 @@
       "rank": 4,
       "rankWord": "Unique",
       "medallion": "◉",
-      "namedMaxLevel": "4★"
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
+      }
     },
     {
       "id": "x-twitter-automation",

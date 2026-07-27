@@ -2,37 +2,6 @@ import json
 import os
 import datetime
 
-def getMaxLevelsForNamed(registryRoot):
-    import glob
-    import yaml
-    namedDir = os.path.join(registryRoot, "registry", "named")
-    maxLevels = {}
-    if not os.path.isdir(namedDir):
-        return maxLevels
-
-    pattern = os.path.join(namedDir, "**", "*.md")
-    for fp in glob.glob(pattern, recursive=True):
-        if fp.endswith("index.json"):
-            continue
-        try:
-            with open(fp, "r", encoding="utf-8") as f:
-                text = f.read()
-            if not text.startswith("---"):
-                continue
-            parts = text.split("---", 2)
-            if len(parts) < 3:
-                continue
-            fm = yaml.safe_load(parts[1]) or {}
-            ref = fm.get("genericSkillRef")
-            levelStr = fm.get("level", "")
-            if ref and levelStr:
-                lvlNum = int("".join(c for c in levelStr if c.isdigit()))
-                if ref not in maxLevels or lvlNum > maxLevels[ref]:
-                    maxLevels[ref] = lvlNum
-        except Exception:
-            continue
-    return maxLevels
-
 def _read_version(root_path) -> str:
     import os
     pyproject = os.path.join(root_path, "pyproject.toml")
@@ -87,8 +56,6 @@ def assemble(registry_root="."):
         "edges": []
     }
 
-    maxLevels = getMaxLevelsForNamed(registry_root)
-
     # Collect skills
     all_skills = []
     if os.path.isdir(nodes_dir):
@@ -98,32 +65,6 @@ def assemble(registry_root="."):
                     filePath = os.path.join(root, file)
                     with open(filePath, "r", encoding="utf-8") as f:
                         skill = json.load(f)
-
-                    # Auto-demote unique skill if max level is < 4
-                    if skill.get("type") == "unique":
-                        maxLvl = maxLevels.get(skill["id"], 0)
-                        if maxLvl < 4:
-                            print(f"Auto-demoting unique skill '{skill['id']}' to extra (max named level is {maxLvl}★)")
-                            timestamp = get_utc_now_iso()
-                            
-                            # Add timeline entry
-                            timelineEntry = {
-                                "timestamp": timestamp,
-                                "action": "type_change",
-                                "contributor": "system",
-                                "details": f"Auto-demoted unique skill to extra (max named level is {maxLvl}★)",
-                                "previousValue": "unique",
-                                "newValue": "extra"
-                            }
-                            if "timeline" not in skill:
-                                skill["timeline"] = []
-                            skill["timeline"].append(timelineEntry)
-                            skill["type"] = "extra"
-                            skill["updatedAt"] = timestamp.split("T")[0]
-                            
-                            with open(filePath, "w", encoding="utf-8") as f:
-                                json.dump(skill, f, indent=2, ensure_ascii=False)
-                                f.write("\n")
 
                     all_skills.append(skill)
 
