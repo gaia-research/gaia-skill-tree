@@ -25,6 +25,20 @@ Superadmin mode (orchestrator coding directly; no coding subagents). Spend is ov
 - The `ultimateGateStatus` reactivation (27 suite/unique skills) is a genuine data change (old `type == 'ultimate'` trigger was dead post-migration), surfaced to Marco for review on the dev/* branch rather than silently merged.
 - Guard E ("Schema + DAG + Integrity") failure root cause: `docs/index.html` homepage stats comment counted `type=='unique'` (always 0 post-Ygg II); `build_docs_index` now derives via `taxonomy.branchFor` → `uniqueSkills=23`. One-line LF-preserving fix committed. og-card + gaia.json regen deltas are CRLF/timestamp noise (per founder/CLAUDE.md hazard #9), not real content — left uncommitted.
 
+### Merge + release ops — v7.0.4 (production / Latest) — 2026-07-27
+
+| Component | Model | Input | Output | Cost |
+|---|---|---|---|---|
+| Orchestrator (PR-body finalize, merge #1321, watch auto-sync, `/gaia-release` promote + PyPI dispatch/verify, spend logging) | Opus 5 | ~55k | ~9k | ~$1.50 |
+
+**Notes:**
+- PR #1321 merged via **merge commit** `8c5200f59` (no squash — EPIC integration rule, founder/CLAUDE.md).
+- Auto-sync (`sync-artifacts.yml`) bumped main → **7.0.4**, tagged `v7.0.4`, created the GitHub Release as **canary** (a plain merge commit classifies as a patch bump → canary channel; only `major`/`!:` auto-promotes to Latest + PyPI).
+- Manual `/gaia-release`: ancestry guard PASS (`v7.0.4` commit = `origin/main` tip) → promoted `v7.0.4` to **Latest** (prerelease cleared, changelog v7.0.0→v7.0.4) → dispatched `publish-pypi.yml` (run `30233881991` ✓); `gaia_cli-7.0.4` live on PyPI (`/pypi/gaia-cli/7.0.4/json` → 200).
+- v7.0.4 is a **patch** → the wheel's "Bundle fresh registry snapshot" step is a no-op (minor/major-only); wheel inherits the v7.0.0 snapshot. The 27 gate blocks live in Class S `docs/graph` (served by Pages), not the wheel — expected, not a defect.
+- Closed #1220 #1221 #1222 #1224 #1228 #1229 #1230 via merge footer.
+- Superadmin mode throughout — orchestrator-only spend, no coding subagents this session.
+
 ---
 
 ## Design/* Ascension Overdrive commission rollup — operator supplied — 2026-07-15
