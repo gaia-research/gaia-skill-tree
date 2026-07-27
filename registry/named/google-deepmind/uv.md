@@ -2,14 +2,14 @@
 id: google-deepmind/uv
 name: Uv
 contributor: google-deepmind
-origin: false
-genericSkillRef: core-platform-implementation
+origin: true
+genericSkillRef: computational-science-platform
 status: awakened
 level: 3★
 description: Checks whether the uv Python package manager is installed and installs
   it if missing. Ensures uv is on PATH. Use when another skill requires uv as a prerequisite.
 createdAt: '2026-05-23'
-updatedAt: '2026-07-16'
+updatedAt: '2026-07-27'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md
 evidence:
@@ -84,6 +84,10 @@ timeline:
     origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-16
+- timestamp: '2026-07-27T00:39:22Z'
+  action: rank_up
+  contributor: unknown
+  details: Origin status set to true.
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

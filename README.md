@@ -100,7 +100,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     └─ ○ /logical-inference
   ◉ addy-osmani/performance-optimization  [4★]
 
-(243 skills total — see docs/tree.md)
+(246 skills total — see docs/tree.md)
 ```
 <!-- gaia:registry-end -->
 

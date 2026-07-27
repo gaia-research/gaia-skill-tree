@@ -1,0 +1,25 @@
+{
+  "id": "scientific-literature-retrieval",
+  "name": "Scientific Literature Retrieval",
+  "type": "fusion",
+  "description": "Retrieves scholarly literature by querying academic indexes and fetching relevant documents or full text for scientific research.",
+  "prerequisites": [
+    "literature-search",
+    "retrieve"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-27",
+  "updatedAt": "2026-07-27",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-27T00:36:21Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill scientific-literature-retrieval"
+    }
+  ]
+}

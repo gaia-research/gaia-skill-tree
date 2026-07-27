@@ -38,6 +38,7 @@
 | · [addy-osmani](../docs/u/addy-osmani/)/code-review-and-quality | Fusion | 3★ | `/code-review-pipeline` |
 | · /collaborative-diagramming | Fusion | — | `/collaborative-diagramming` |
 | · /computational-biology-workflows | Fusion | — | `/computational-biology-workflows` |
+| · /computational-science-platform | Fusion | — | `/computational-science-platform` |
 | ○ /computer-use | Basic | — | `/computer-use` |
 | · /content-moderation | Fusion | — | `/content-moderation` |
 | ○ [garrytan](../docs/u/garrytan/)/context-restore | Basic | 2★ | `/context-compression` |
@@ -113,6 +114,7 @@
 | · /ml-artifact-management | Fusion | — | `/ml-artifact-management` |
 | · /ml-pipeline | Fusion | — | `/ml-pipeline` |
 | ○ /molecular-databases | Basic | — | `/molecular-databases` |
+| · /molecular-visualization | Fusion | — | `/molecular-visualization` |
 | · [garrytan](../docs/u/garrytan/)/codex | Fusion | 2★ | `/multi-agent-debate` |
 | · ████████/flow-nexus-swarm | Fusion | — | `/multi-agent-orchestration-v` |
 | · [ruvnet](../docs/u/ruvnet/)/flow-nexus | Fusion | 3★ | `/multi-node-orchestration` |
@@ -161,6 +163,7 @@
 | ○ ████████/ask-matt | Basic | — | `/route-intent` |
 | ○ ████████/database-engineer | Basic | — | `/schema-design` |
 | · /scientific-discovery | Fusion | — | `/scientific-discovery` |
+| · /scientific-literature-retrieval | Fusion | — | `/scientific-literature-retrieval` |
 | ○ /scientific-visualization | Basic | — | `/scientific-visualization` |
 | · /scientific-writing | Fusion | — | `/scientific-writing` |
 | ○ /score-relevance | Basic | — | `/score-relevance` |
