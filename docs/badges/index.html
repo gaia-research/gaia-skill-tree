@@ -388,19 +388,61 @@
       width: 96px; height: 96px; object-fit: contain;
       filter: drop-shadow(0 4px 10px rgba(3,7,18,.6));
     }
-    /* Highest rank: the seal floats over a struck void disc, as on the
-       ascension terminal (ascension-overdrive-v4.css .aov-terminal-seal). */
+    /* ── Terminal seals: same peg as the ascension section on the homepage
+       (ascension-overdrive-v4.css .aov-apex-effect--unique / --suite). The
+       aov4 medallions are transparent-alpha, so each terminal fills the
+       transparent center with its own field and rings it with a glow. ── */
+
+    /* Unique Impossible: an ember-offset VOID. A solid void-black disc fills
+       the whole medallion so the transparent center reads as void, with a
+       rank-6-unique ember ring offset outward (mirrors --aov-unique-void
+       0–20% core + rank-6-unique 33–40% ring). */
     .plate-spec--void .plate-seal::before {
-      content: ""; position: absolute; inset: 6%; border-radius: 50%;
-      background: var(--aov-unique-void, oklch(0.13 0.015 260));
+      content: ""; position: absolute; inset: -8%; border-radius: 50%;
+      background:
+        radial-gradient(circle at center,
+          var(--aov-unique-void, oklch(0.13 0.015 260)) 0 46%,
+          color-mix(in oklab, var(--rank-6-unique,#e0894a) 60%, transparent) 54%,
+          color-mix(in oklab, var(--rank-6-unique,#e0894a) 26%, transparent) 68%,
+          transparent 82%);
       z-index: 0;
     }
     .plate-spec--void .plate-seal img {
       filter:
         drop-shadow(0 0 .5rem color-mix(in oklab, var(--rank-6-unique,#e0894a) 66%, transparent))
-        drop-shadow(0 0 1.4rem color-mix(in oklab, var(--rank-6-unique,#e0894a) 40%, transparent))
-        drop-shadow(0 0 2.6rem color-mix(in oklab, var(--rank-6-unique,#e0894a) 22%, transparent));
+        drop-shadow(0 0 1.4rem color-mix(in oklab, var(--rank-6-unique,#e0894a) 40%, transparent));
     }
+
+    /* Suite Apex: the "perfected" white-hot bloom + rainbow diffraction ring,
+       clipped to a circle (mirrors --aov-apex-effect--suite: radial singularity
+       core + conic rank-1→rank-5 diffraction). */
+    .plate-spec--perfected .plate-seal::before {
+      content: ""; position: absolute; inset: -12%; border-radius: 50%;
+      background:
+        radial-gradient(circle at center,
+          var(--aov-unique-singularity, oklch(0.96 0.01 240)) 0 22%,
+          color-mix(in oklab, var(--rank-5,#fbbf24) 40%, transparent) 34%,
+          transparent 62%),
+        conic-gradient(from 30deg,
+          transparent,
+          color-mix(in oklab, var(--rank-1,#38bdf8) 46%, transparent),
+          color-mix(in oklab, var(--rank-3,#a78bfa) 50%, transparent),
+          color-mix(in oklab, var(--rank-4,#e879f9) 46%, transparent),
+          color-mix(in oklab, var(--rank-5,#fbbf24) 42%, transparent),
+          transparent 78%);
+      z-index: 0;
+    }
+    .plate-spec--perfected .plate-seal img {
+      filter:
+        drop-shadow(0 0 .5rem color-mix(in oklab, var(--rank-5,#fbbf24) 66%, transparent))
+        drop-shadow(0 0 1.6rem color-mix(in oklab, var(--rank-5,#fbbf24) 38%, transparent));
+    }
+    @media (prefers-reduced-motion: no-preference) {
+      .plate-spec--perfected .plate-seal::before {
+        animation: plate-diffraction 22s linear infinite;
+      }
+    }
+    @keyframes plate-diffraction { to { transform: rotate(1turn); } }
     .plate-spec-badge {
       background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
       padding: .8rem; display: flex; align-items: center; justify-content: center;
@@ -722,7 +764,7 @@
           <p class="plate-spec-take">The Unique fork of 5★, above Ultimate: a singular capability carried to Origin depth.</p>
           <div class="plate-spec-gate">Gate · TM ≥ 250 (S-grade)</div>
         </div>
-        <div class="plate-spec" style="--halo:rgba(251,191,36,.3);">
+        <div class="plate-spec plate-spec--perfected" style="--halo:rgba(251,191,36,.3);">
           <span class="plate-suite-tag">Suite</span>
           <div class="plate-seal"><img src="../assets/ascension-overdrive/aov4-c6-suite-apex-badge.webp" alt="Apex seal, 6 stars" width="96" height="96" loading="lazy"></div>
           <div class="plate-spec-badge"><img src="./samples/rank-6.svg" alt="Apex rank badge, 6 stars"></div>
