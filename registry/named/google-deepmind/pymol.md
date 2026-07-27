@@ -2,8 +2,8 @@
 id: google-deepmind/pymol
 name: Pymol
 contributor: google-deepmind
-origin: false
-genericSkillRef: scientific-visualization
+origin: true
+genericSkillRef: molecular-visualization
 status: awakened
 level: 3★
 description: Visualize, analyze, and render protein and molecular structures using
@@ -12,7 +12,7 @@ description: Visualize, analyze, and render protein and molecular structures usi
   or active site residues, color by B-factor/pLDDT, or analyze protein-ligand interactions.
   Do not use for docking, molecular dynamics, or sequence-only analysis.
 createdAt: '2026-05-23'
-updatedAt: '2026-07-16'
+updatedAt: '2026-07-27'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md
 evidence:
@@ -87,6 +87,10 @@ timeline:
     origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-16
+- timestamp: '2026-07-27T00:39:21Z'
+  action: rank_up
+  contributor: unknown
+  details: Origin status set to true.
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

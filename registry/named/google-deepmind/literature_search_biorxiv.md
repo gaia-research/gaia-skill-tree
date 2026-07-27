@@ -3,7 +3,7 @@ id: google-deepmind/literature_search_biorxiv
 name: Literature-Search-Biorxiv
 contributor: google-deepmind
 origin: false
-genericSkillRef: literature-search
+genericSkillRef: scientific-literature-retrieval
 status: awakened
 level: 3★
 description: Browse, filter, and download life sciences, biology, and medical preprints
@@ -11,7 +11,7 @@ description: Browse, filter, and download life sciences, biology, and medical pr
   by date range with category and keyword filters. Keyword filtering is local, so
   date ranges MUST be narrow (1-4 weeks) with a category to prevent timeouts.
 createdAt: '2026-05-23'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-27'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_biorxiv/SKILL.md
 evidence:

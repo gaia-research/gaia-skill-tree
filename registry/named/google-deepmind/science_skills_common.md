@@ -86,6 +86,14 @@ timeline:
     origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-16
+- timestamp: '2026-07-27T00:36:25Z'
+  action: upstream_deprecated
+  contributor: mbtiongson1
+  previousValue: null
+  newValue: null
+  details: Upstream science_skills_common was renamed to scienceskillscommon, then
+    retired when its shared HTTP client moved to polite-http; no installable replacement
+    remains.
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:
@@ -100,6 +108,7 @@ apexGateStatus:
 trustMagnitudeInputHash: 0318c27283170e94e677a11679cb4860f9b90e9e6191f878d3d14dd3b2e32138
 verification:
   firstEvidenceAt: '2026-06-19T17:06:57Z'
+installable: false
 ---
 
 # Science Skills Common
