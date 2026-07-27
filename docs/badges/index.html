@@ -405,25 +405,34 @@
             outer bloom, not a ring painted across the disc (mirrors
             .aov-terminal-seal { filter: 3× rank-6-unique drop-shadow }). */
     .plate-spec--void .plate-seal::before {
-      content: ""; position: absolute; inset: 5%; border-radius: 50%;
-      background: var(--aov-unique-void, oklch(0.13 0.015 260));
+      content: ""; position: absolute; inset: 2%; border-radius: 50%;
+      background:
+        radial-gradient(circle at center,
+          oklch(0.04 0 0) 0 62%,
+          color-mix(in oklab, oklch(0.04 0 0) 60%, transparent) 82%,
+          transparent 100%);
       z-index: 0;
     }
     /* Widen the shared halo into a soft ember bloom, offset well past the seal
        edge — this is the diffuse warm glow behind the void, like ascension. */
+    /* Ember: a large, soft bloom offset OUTWARD from the seal — peaks past the
+       medallion edge and bleeds beyond the card border (overflow is visible),
+       for the dramatic ascension look. Transparent through the center so the
+       void disc stays pure black. */
     .plate-spec--void .plate-seal::after {
-      inset: -22px;
+      inset: -70px;
       background: radial-gradient(circle,
         transparent 0%,
-        transparent 30%,
-        var(--halo, transparent) 50%,
-        transparent 76%);
+        transparent 26%,
+        color-mix(in oklab, var(--rank-6-unique,#e0894a) 42%, transparent) 40%,
+        color-mix(in oklab, var(--rank-6-unique,#e0894a) 20%, transparent) 55%,
+        transparent 72%);
+      z-index: 0;
     }
     .plate-spec--void .plate-seal img {
       filter:
-        drop-shadow(0 0 .55rem color-mix(in oklab, var(--rank-6-unique,#e0894a) 68%, transparent))
-        drop-shadow(0 0 1.7rem color-mix(in oklab, var(--rank-6-unique,#e0894a) 46%, transparent))
-        drop-shadow(0 0 3.2rem color-mix(in oklab, var(--rank-6-unique,#e0894a) 24%, transparent));
+        drop-shadow(0 0 .5rem color-mix(in oklab, var(--rank-6-unique,#e0894a) 60%, transparent))
+        drop-shadow(0 0 1.3rem color-mix(in oklab, var(--rank-6-unique,#e0894a) 34%, transparent));
     }
 
     /* Suite Apex: the "perfected" white-hot bloom + rainbow diffraction ring,
