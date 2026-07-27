@@ -16,6 +16,7 @@ from textual import events, on, work
 from rich.text import Text
 
 from gaia_cli.tui import tokens as T
+from gaia_cli.taxonomy import branchFor, rankWord
 
 
 # ── Data helpers ──────────────────────────────────────────────────────────────
@@ -32,14 +33,16 @@ def _load_skills(registry_path: str) -> list[dict]:
         username = cfg.get("gaiaUser", cfg.get("user", ""))
         ctx = LocalContext.load(registry_path, username)
         for sid, skill in ctx._skill_map.items():
-            tier = skill.get("type", "basic")
+            # Ygg II: the display axis keys on the derived BRANCH
+            # (standard|suite|unique), not the {basic,fusion} type axis.
+            branch = branchFor(skill)
             level = skill.get("level", "")
             desc = skill.get("description", "")
             is_detected = sid in ctx.detected_ids
             is_owned = sid in ctx.owned_ids
             skills[sid] = {
                 "id": sid,
-                "type": tier,
+                "branch": branch,
                 "level": level,
                 "description": desc,
                 "installed": is_detected or is_owned,
@@ -58,7 +61,11 @@ def _load_skills(registry_path: str) -> list[dict]:
             if sid not in skills:
                 skills[sid] = {
                     "id": sid,
-                    "type": meta.get("type", "extra"),
+                    # Ygg II: derive the display branch via the taxonomy
+                    # authority (meta carries level/suiteComponents). The branch
+                    # consumers (_skill_label, branchorder) key on branch words
+                    # (standard|suite|unique), NOT the {basic,fusion} type axis.
+                    "branch": branchFor(meta),
                     "level": meta.get("level", ""),
                     "description": meta.get("description", ""),
                     "installed": sid in installed_ids,
@@ -70,14 +77,14 @@ def _load_skills(registry_path: str) -> list[dict]:
     except Exception:
         pass
 
-    # Sort: detected/local first, then installed, then by type weight, then alphabetical
-    _type_order = {"ultimate": 0, "unique": 1, "extra": 2, "basic": 3}
+    # Sort: detected/local first, then installed, then by branch weight, then alphabetical
+    branchorder = {"unique": 0, "suite": 1, "standard": 2}
     return sorted(
         skills.values(),
         key=lambda s: (
             not s.get("detected", False),
             not s.get("installed", False),
-            _type_order.get(s.get("type", "basic"), 4),
+            branchorder.get(s.get("branch", "standard"), 4),
             s["id"],
         ),
     )
@@ -99,8 +106,8 @@ def _filter_skills(query: str, skills: list[dict]) -> list[dict]:
 # ── Skill row rendering ───────────────────────────────────────────────────────
 
 def _skill_label(skill: dict) -> Text:
-    tier = skill.get("type", "basic")
-    glyph = T.GLYPH_BY_TIER.get(tier, "○")
+    branch = skill.get("branch", "standard")
+    glyph = T.BRANCH_GLYPH.get(branch, "○")
     sid = skill["id"]
     level = skill.get("level", "")
     owned = skill.get("owned", False)
@@ -108,7 +115,7 @@ def _skill_label(skill: dict) -> Text:
     installed = skill.get("installed", False)
 
     t = Text()
-    t.append(glyph + " ", style=T.TIER_BY_KEY.get(tier, T.NEUTRAL_TEXT_MUTED))
+    t.append(glyph + " ", style=T.BRANCH_ACCENT.get(branch, T.NEUTRAL_TEXT_MUTED))
 
     # Name rendering: @handle/slug
     name_style = T.STATE_OWNED if (owned or detected) else T.NEUTRAL_TEXT
@@ -148,21 +155,26 @@ class InstallModal(ModalScreen):
         self._installing = False
 
     def compose(self) -> ComposeResult:
-        tier = self.skill.get("type", "basic")
-        tier_color = T.TIER_BY_KEY.get(tier, T.NEUTRAL_TEXT_MUTED)
-        glyph = T.GLYPH_BY_TIER.get(tier, "○")
+        branch = self.skill.get("branch", "standard")
+        branch_color = T.BRANCH_ACCENT.get(branch, T.NEUTRAL_TEXT_MUTED)
+        glyph = T.BRANCH_GLYPH.get(branch, "○")
 
         with Static(id="install-dialog"):
             yield Static("Install skill", id="install-title")
             yield Static(
                 Text.from_markup(
-                    f"[bold {tier_color}]{glyph} {self.skill['id']}[/]"
+                    f"[bold {branch_color}]{glyph} {self.skill['id']}[/]"
                 ),
                 id="install-skill-id",
             )
+            # Meta line: the authority's rank word (e.g. "Named", "Extra",
+            # "Unique Impossible") — never the raw branch key. rankWord reads
+            # (level, branch) and always returns a word (floor "Basic" at 0★);
+            # the `if rank` guard below is defensive, not for an empty return.
             meta_parts = []
-            if self.skill.get("type"):
-                meta_parts.append(self.skill["type"])
+            rank = rankWord(self.skill.get("level", ""), branch)
+            if rank:
+                meta_parts.append(rank)
             if self.skill.get("level"):
                 meta_parts.append(self.skill["level"])
             yield Static("  ·  ".join(meta_parts), id="install-meta")
@@ -374,7 +386,9 @@ class AgentScreen(Screen):
                     self.app.push_screen(
                         LevelUpModal(
                             skill["id"],
-                            skill.get("type", "basic"),
+                            # skill["branch"] is the derived branch (standard|
+                            # suite|unique) — see _load_skills.
+                            skill.get("branch", "standard"),
                             skill.get("level", ""),
                         )
                     )

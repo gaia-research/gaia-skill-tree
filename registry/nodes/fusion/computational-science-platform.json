@@ -1,0 +1,25 @@
+{
+  "id": "computational-science-platform",
+  "name": "Computational Science Platform",
+  "type": "fusion",
+  "description": "Prepares reusable computational-science tooling and shared platform components for executing scientific workflows.",
+  "prerequisites": [
+    "agent-environment-setup",
+    "core-platform-implementation"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-27",
+  "updatedAt": "2026-07-27",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-27T00:36:21Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill computational-science-platform"
+    }
+  ]
+}

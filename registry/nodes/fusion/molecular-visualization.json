@@ -1,0 +1,25 @@
+{
+  "id": "molecular-visualization",
+  "name": "Molecular Visualization",
+  "type": "fusion",
+  "description": "Analyzes molecular structures and renders interpretable visualizations of proteins, macromolecules, and molecular complexes.",
+  "prerequisites": [
+    "protein-structure-analysis",
+    "scientific-visualization"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-27",
+  "updatedAt": "2026-07-27",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-27T00:36:21Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill molecular-visualization"
+    }
+  ]
+}

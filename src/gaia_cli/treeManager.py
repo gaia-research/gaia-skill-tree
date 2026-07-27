@@ -577,11 +577,11 @@ def show_tree(tree_data, graph_data=None, registry_path=".", mode="default", can
                     if isinstance(data, dict):
                         sources = data.get("sources", [])
                         level = data.get("level", "1★")
-                        stype = data.get("type", "extra")
+                        stype = data.get("type", "fusion")
                     else:
                         sources = data
                         level = "1★"
-                        stype = "extra"
+                        stype = "fusion"
                     
                     skill_map[target] = {
                         "id": target,

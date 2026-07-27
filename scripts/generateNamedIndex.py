@@ -516,7 +516,12 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config):
             # TM is copy-through (already injected above) — no recompute here.
             _inject_resolved_taxonomy(entry)
 
-            if entry.get("type") == "ultimate":
+            # _inject_resolved_taxonomy just set entry["branch"] via the
+            # taxonomy authority. The ultimate gate applies to the high-rank
+            # branch classes — 'suite' (suiteComponents present, any rank) and
+            # 'unique' (no suite, rank>=4). 'standard' is never gated. (Ygg II:
+            # `type` is only basic|fusion and no longer carries this signal.)
+            if entry.get("branch") in ("suite", "unique"):
                 # Score the gate on effective evidence: components via the
                 # named-id lookup, non-suite direct evidence via the entry's
                 # own ∪ inherited pool.
