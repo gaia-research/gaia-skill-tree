@@ -370,6 +370,24 @@
       padding: 1.2rem; text-align: center;
       position: relative;
     }
+    /* The struck seal, hero of each bench card. Transparent-alpha aov4 card-crop
+       medallion sits above a per-rank halo; the live SVG badge below is the
+       impression lifted off it. */
+    .plate-seal {
+      position: relative;
+      width: 96px; height: 96px; margin: .2rem auto 1rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .plate-seal::after {
+      content: ""; position: absolute; inset: -10px; border-radius: 50%;
+      background: radial-gradient(circle, var(--halo, transparent) 0%, transparent 68%);
+      z-index: 0;
+    }
+    .plate-seal img {
+      position: relative; z-index: 1;
+      width: 96px; height: 96px; object-fit: contain;
+      filter: drop-shadow(0 4px 10px rgba(3,7,18,.6));
+    }
     .plate-spec-badge {
       background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
       padding: .8rem; display: flex; align-items: center; justify-content: center;
@@ -390,14 +408,21 @@
     /* Fork separator spans the full shelf row */
     .plate-fork {
       grid-column: 1 / -1;
+      display: flex; flex-direction: column; align-items: center; gap: .5rem;
+      margin: .4rem 0;
+    }
+    .plate-fork-glyph {
+      width: 104px; height: 60px;
+      background: url("../assets/ascension-overdrive/aov4-y-fork.webp") center / contain no-repeat;
+    }
+    .plate-fork-label {
       display: flex; align-items: center; gap: .9rem;
-      margin: .2rem 0;
       font-family: var(--font-mono); font-size: .64rem; letter-spacing: .16em;
       text-transform: uppercase; color: var(--rank-4-unique,#7c3aed);
       white-space: nowrap;
     }
-    .plate-fork::before, .plate-fork::after {
-      content: ""; flex: 1 1 auto; height: 1px;
+    .plate-fork-label::before, .plate-fork-label::after {
+      content: ""; width: 48px; height: 1px;
       background: linear-gradient(90deg, transparent, rgba(124,58,237,.5), transparent);
     }
     .plate-spec--unique {
@@ -613,67 +638,79 @@
       <h2>The rank ladder</h2>
       <p class="section-sub">Nine seals struck at the bench, earned through evidence and never declared. The shelf runs shared 1★–3★, then forks at 4★ into a Suite line and a higher Unique line at each star.</p>
       <div class="plate-ladder">
-        <div class="plate-spec">
+        <div class="plate-spec" style="--halo:rgba(56,189,248,.22);">
+          <div class="plate-seal"><img src="../assets/ascension-overdrive/aov4-c1-suite-awakened-card.webp" alt="Awakened seal, 1 star" width="96" height="96" loading="lazy"></div>
           <div class="plate-spec-badge"><img src="./samples/rank-1.svg" alt="Awakened rank badge, 1 star"></div>
           <p class="plate-spec-rank" style="color:var(--rank-1,#38bdf8);">Awakened</p>
           <div class="plate-spec-stars">★</div>
           <p class="plate-spec-take">First verified sighting: a real, distinct capability confirmed.</p>
           <div class="plate-spec-gate">Gate · first sighting</div>
         </div>
-        <div class="plate-spec">
+        <div class="plate-spec" style="--halo:rgba(99,202,183,.22);">
+          <div class="plate-seal"><img src="../assets/ascension-overdrive/aov4-c2-suite-named-card.webp" alt="Named seal, 2 stars" width="96" height="96" loading="lazy"></div>
           <div class="plate-spec-badge"><img src="./samples/rank-2.svg" alt="Named rank badge, 2 stars"></div>
           <p class="plate-spec-rank" style="color:var(--rank-2,#63cab7);">Named</p>
           <div class="plate-spec-stars">★★</div>
           <p class="plate-spec-take">Handle permanently on the registry. Minimum rank for a named skill.</p>
           <div class="plate-spec-gate">Gate · community-verified</div>
         </div>
-        <div class="plate-spec">
+        <div class="plate-spec" style="--halo:rgba(167,139,250,.22);">
+          <div class="plate-seal"><img src="../assets/ascension-overdrive/aov4-c3-suite-evolved-card.webp" alt="Evolved seal, 3 stars" width="96" height="96" loading="lazy"></div>
           <div class="plate-spec-badge"><img src="./samples/rank-3.svg" alt="Evolved rank badge, 3 stars"></div>
           <p class="plate-spec-rank" style="color:var(--rank-3,#a78bfa);">Evolved</p>
           <div class="plate-spec-stars">★★★</div>
           <p class="plate-spec-take">Reproducible and stable. Public repo blob link required.</p>
           <div class="plate-spec-gate">Gate · community-verified</div>
         </div>
-        <div class="plate-fork" role="separator" aria-label="Branch fork at 4 stars">the bench forks &mdash; Suite and Unique</div>
-        <div class="plate-spec">
+        <div class="plate-fork" role="separator" aria-label="Branch fork at 4 stars">
+          <div class="plate-fork-glyph" aria-hidden="true"></div>
+          <span class="plate-fork-label">the bench forks &mdash; Suite and Unique</span>
+        </div>
+        <div class="plate-spec" style="--halo:rgba(232,121,249,.22);">
+          <div class="plate-seal"><img src="../assets/ascension-overdrive/aov4-c4-suite-extra-card.webp" alt="Extra seal, 4 stars" width="96" height="96" loading="lazy"></div>
           <div class="plate-spec-badge"><img src="./samples/rank-4.svg" alt="Extra rank badge, 4 stars"></div>
           <p class="plate-spec-rank" style="color:var(--rank-4,#e879f9);">Extra</p>
           <div class="plate-spec-stars">★★★★</div>
           <p class="plate-spec-take">Suite capstone with components, or production-depth on the solo track.</p>
           <div class="plate-spec-gate">Gate · TM ≥ 100 (A-grade)</div>
         </div>
-        <div class="plate-spec plate-spec--unique">
+        <div class="plate-spec plate-spec--unique" style="--halo:rgba(124,58,237,.28);">
           <span class="plate-branch-tag">branch</span>
+          <div class="plate-seal"><img src="../assets/ascension-overdrive/aov4-d4-unique-card.webp" alt="Unique seal, 4 stars" width="96" height="96" loading="lazy"></div>
           <div class="plate-spec-badge"><img src="./samples/rank-unique.svg" alt="Unique rank badge, 4 stars"></div>
           <p class="plate-spec-rank" style="color:var(--rank-4-unique,#7c3aed);">Unique</p>
           <div class="plate-spec-stars">★★★★</div>
           <p class="plate-spec-take">The Unique fork of 4★, a step above Extra: a one-of-a-kind capability with no Suite counterpart.</p>
           <div class="plate-spec-gate">Gate · TM ≥ 100 (A-grade)</div>
         </div>
-        <div class="plate-spec">
+        <div class="plate-spec" style="--halo:rgba(251,191,36,.22);">
+          <div class="plate-seal"><img src="../assets/ascension-overdrive/aov4-c5-suite-ultimate-card.webp" alt="Ultimate seal, 5 stars" width="96" height="96" loading="lazy"></div>
           <div class="plate-spec-badge"><img src="./samples/rank-5.svg" alt="Ultimate rank badge, 5 stars"></div>
           <p class="plate-spec-rank" style="color:var(--rank-5,#fbbf24);">Ultimate</p>
           <div class="plate-spec-stars">★★★★★</div>
           <p class="plate-spec-take">Suite pinnacle with Origin on a component, or the same bar on the solo track.</p>
           <div class="plate-spec-gate">Gate · TM ≥ 250 (S-grade)</div>
         </div>
-        <div class="plate-spec plate-spec--unique">
+        <div class="plate-spec plate-spec--unique" style="--halo:rgba(178,106,58,.3);">
           <span class="plate-branch-tag">branch</span>
+          <div class="plate-seal"><img src="../assets/ascension-overdrive/aov4-d5-unique-ultimate-card.webp" alt="Unique Ultimate seal, 5 stars" width="96" height="96" loading="lazy"></div>
           <div class="plate-spec-badge"><img src="./samples/rank-unique-5.svg" alt="Unique Ultimate rank badge, 5 stars"></div>
           <p class="plate-spec-rank" style="color:var(--rank-5-unique,#b26a3a);">Unique Ultimate</p>
           <div class="plate-spec-stars">★★★★★</div>
           <p class="plate-spec-take">The Unique fork of 5★, above Ultimate: a singular capability carried to Origin depth.</p>
           <div class="plate-spec-gate">Gate · TM ≥ 250 (S-grade)</div>
         </div>
-        <div class="plate-spec">
+        <div class="plate-spec" style="--halo:rgba(251,191,36,.3);">
+          <div class="plate-seal"><img src="../assets/ascension-overdrive/aov4-c6-suite-apex-card.webp" alt="Apex seal, 6 stars" width="96" height="96" loading="lazy"></div>
           <div class="plate-spec-badge"><img src="./samples/rank-6.svg" alt="Apex rank badge, 6 stars"></div>
           <p class="plate-spec-rank" style="color:var(--apex-gold);">Apex</p>
           <div class="plate-spec-stars">★★★★★★</div>
           <p class="plate-spec-take">Suite pinnacle. 6-predicate gate with Origin 5★ fusion, or solo 5-predicate gate. Extraordinarily rare.</p>
           <div class="plate-spec-gate">Gate · S-grade + predicate</div>
         </div>
-        <div class="plate-spec plate-spec--unique">
+        <div class="plate-spec plate-spec--unique" style="--halo:rgba(224,137,74,.32);">
           <span class="plate-branch-tag">branch</span>
+          <div class="plate-seal"><img src="../assets/ascension-overdrive/aov4-d6-unique-impossible-card.webp" alt="Unique Impossible seal, 6 stars" width="96" height="96" loading="lazy"></div>
           <div class="plate-spec-badge"><img src="./samples/rank-unique-6.svg" alt="Unique Impossible rank badge, 6 stars"></div>
           <p class="plate-spec-rank" style="color:var(--rank-6-unique,#e0894a);">Unique Impossible</p>
           <div class="plate-spec-stars">★★★★★★</div>
