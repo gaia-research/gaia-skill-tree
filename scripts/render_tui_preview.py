@@ -75,25 +75,24 @@ def render_token_table() -> str:
         rows.append(_swatch_row(label, value, role))
     rows.append("</tbody>")
 
-    rows.append("<tbody><tr><th colspan=4>Tiers</th></tr>")
+    rows.append("<tbody><tr><th colspan=4>Branch accents</th></tr>")
     for label, value, role in [
-        ("TIER_BASIC",    T.TIER_BASIC,    "○ Basic Skill"),
-        ("TIER_EXTRA",    T.TIER_EXTRA,    "◇ Extra Skill"),
-        ("TIER_UNIQUE",   T.TIER_UNIQUE,   "◉ Unique Skill"),
-        ("TIER_ULTIMATE", T.TIER_ULTIMATE, "◆ Ultimate Skill"),
+        ("BRANCH_ACCENT['standard']", T.BRANCH_ACCENT["standard"], "○ standard branch"),
+        ("BRANCH_ACCENT['suite']",    T.BRANCH_ACCENT["suite"],    "◆ suite branch"),
+        ("BRANCH_ACCENT['unique']",   T.BRANCH_ACCENT["unique"],   "◉ unique branch"),
     ]:
         rows.append(_swatch_row(label, value, role))
     rows.append("</tbody>")
 
     rows.append("<tbody><tr><th colspan=4>Rank ramp (0★ → 6★)</th></tr>")
     for label, value, role in [
-        ("RANK_UNAWAKENED",        T.RANK_UNAWAKENED,        "0★ Unawakened — slate"),
-        ("RANK_AWAKENED",          T.RANK_AWAKENED,          "1★ Awakened — sky blue"),
-        ("RANK_NAMED",             T.RANK_NAMED,             "2★ Named — teal"),
-        ("RANK_EVOLVED",           T.RANK_EVOLVED,           "3★ Evolved — violet"),
-        ("RANK_HARDENED",          T.RANK_HARDENED,          "4★ Hardened — fuchsia"),
-        ("RANK_TRANSCENDENT",      T.RANK_TRANSCENDENT,      "5★ Transcendent — amber"),
-        ("RANK_TRANSCENDENT_APEX", T.RANK_TRANSCENDENT_APEX, "6★ Transcendent ★ — amber (bright)"),
+        ("RANK_UNAWAKENED", T.RANK_UNAWAKENED, "0★ Basic — slate"),
+        ("RANK_AWAKENED",   T.RANK_AWAKENED,   "1★ Awakened — sky blue"),
+        ("RANK_NAMED",      T.RANK_NAMED,      "2★ Named — teal"),
+        ("RANK_EVOLVED",    T.RANK_EVOLVED,    "3★ Evolved — violet"),
+        ("RANK_EXTRA",      T.RANK_EXTRA,      "4★ Extra / Unique — fuchsia"),
+        ("RANK_ULTIMATE",   T.RANK_ULTIMATE,   "5★ Ultimate / Unique Ultimate — amber"),
+        ("RANK_APEX",       T.RANK_APEX,       "6★ Apex / Unique Impossible — amber (bright)"),
     ]:
         rows.append(_swatch_row(label, value, role))
     rows.append("</tbody>")
@@ -101,7 +100,7 @@ def render_token_table() -> str:
     rows.append("<tbody><tr><th colspan=4>Brand (restricted)</th></tr>")
     for label, value, role in [
         ("BRAND_HONOR_RED", T.BRAND_HONOR_RED, "Contributor handles only"),
-        ("BRAND_APEX_GOLD", T.BRAND_APEX_GOLD, "6★ / Ultimate / Diamond Seal only"),
+        ("BRAND_APEX_GOLD", T.BRAND_APEX_GOLD, "6★ / Apex / Diamond Seal only"),
     ]:
         rows.append(_swatch_row(label, value, role))
     rows.append("</tbody>")
@@ -128,35 +127,53 @@ def render_token_table() -> str:
 
 def render_hero_capture() -> str:
     console = _record(width=44)
-    console.print(_seal_text(T.TIER_ULTIMATE))
+    console.print(_seal_text(T.BRANCH_ACCENT["suite"]))
     console.print()
     console.print(_title_text(frame=0))
     console.print()
     stats = Text()
-    stats.append("○ 78 basic", style=T.TIER_BASIC)
+    stats.append("○ 78 standard", style=T.BRANCH_ACCENT["standard"])
     stats.append("  ·  ", style=T.NEUTRAL_TEXT_MUTED)
-    stats.append("◇ 81 extra", style=T.TIER_EXTRA)
+    stats.append("◉ 81 unique", style=T.BRANCH_ACCENT["unique"])
     stats.append("  ·  ", style=T.NEUTRAL_TEXT_MUTED)
-    stats.append("◆ 2 ultimate", style=T.TIER_ULTIMATE)
+    stats.append("◆ 2 suite", style=T.BRANCH_ACCENT["suite"])
     stats.append("  ·  ", style=T.NEUTRAL_TEXT_MUTED)
     stats.append("✦ 119 named", style=T.BRAND_APEX_GOLD)
     console.print(stats)
     return _export(console)
 
 
-def _mock_skill(sid: str, type_: str, level: str = "", installed: bool = False) -> dict:
-    return {"id": sid, "type": type_, "level": level, "installed": installed}
+def _mock_skill(
+    sid: str,
+    level: str = "",
+    installed: bool = False,
+    suite_components: list[str] | None = None,
+) -> dict:
+    """Build a mock registry entry and derive its display branch via the
+    taxonomy authority (build + read — the preview never hand-labels a branch).
+
+    A ``suite_components`` list makes ``branchFor`` return "suite"; a 4★+ level
+    with no components returns "unique"; everything else is "standard".
+    """
+    from gaia_cli.taxonomy import branchFor
+
+    entry: dict = {"id": sid, "level": level, "installed": installed}
+    if suite_components is not None:
+        entry["suiteComponents"] = suite_components
+    entry["branch"] = branchFor(entry)
+    return entry
 
 
 def render_agent_capture() -> str:
     console = _record(width=72)
     samples = [
-        _mock_skill("web-scrape",                  "basic",    "1★", installed=True),
-        _mock_skill("parse-json",                  "basic",    "0★"),
-        _mock_skill("api-proxy",                   "extra",    "2★"),
-        _mock_skill("elena/payment-orchestrator",  "extra",    "3★", installed=True),
-        _mock_skill("noor/multi-agent-debate",     "ultimate", "6★"),
-        _mock_skill("karpathy/llm-training-loop",  "unique",   "4★", installed=True),
+        _mock_skill("web-scrape",                  "1★", installed=True),
+        _mock_skill("parse-json",                  "0★"),
+        _mock_skill("api-proxy",                   "2★"),
+        _mock_skill("elena/payment-orchestrator",  "3★", installed=True),
+        _mock_skill("noor/multi-agent-debate",     "6★",
+                    suite_components=["debate-loop", "critic", "arbiter"]),
+        _mock_skill("karpathy/llm-training-loop",  "4★", installed=True),
     ]
     for skill in samples:
         console.print(_skill_label(skill))
@@ -166,14 +183,13 @@ def render_agent_capture() -> str:
 def render_tree_capture() -> str:
     console = _record(width=72)
     headers = [
-        ("◆ ULTIMATES", T.TIER_ULTIMATE),
-        ("  ◆ multi-agent-debate", T.TIER_ULTIMATE),
-        ("◉ UNIQUES",   T.TIER_UNIQUE),
-        ("  ◉ retrieval-augmented", T.TIER_UNIQUE),
-        ("◇ EXTRAS",    T.TIER_EXTRA),
-        ("  ◇ api-proxy", T.TIER_EXTRA),
-        ("○ BASICS",    T.TIER_BASIC),
-        ("  ○ parse-json", T.TIER_BASIC),
+        ("◆ SUITE", T.BRANCH_ACCENT["suite"]),
+        ("  ◆ multi-agent-debate", T.BRANCH_ACCENT["suite"]),
+        ("◉ UNIQUE",   T.BRANCH_ACCENT["unique"]),
+        ("  ◉ retrieval-augmented", T.BRANCH_ACCENT["unique"]),
+        ("○ STANDARD",    T.BRANCH_ACCENT["standard"]),
+        ("  ○ api-proxy", T.BRANCH_ACCENT["standard"]),
+        ("  ○ parse-json", T.BRANCH_ACCENT["standard"]),
     ]
     for label, color in headers:
         t = Text(label, style=f"bold {color}")
@@ -182,25 +198,26 @@ def render_tree_capture() -> str:
 
 
 def render_levelup_capture() -> str:
-    """Mock the level-up modal frame at the final tier-locked state."""
+    """Mock the level-up modal frame at the final rank-locked state (a 6★ suite
+    unlock — the authority's rank word for that is "Apex")."""
     console = _record(width=42)
-    tier_color = T.TIER_ULTIMATE
+    accent = T.BRANCH_ACCENT["suite"]
     gutter = T.NEUTRAL_BORDER
     border_h = "═" * 34
     rows: list[tuple[str, str]] = [
-        (f"╔{border_h}╗", tier_color),
+        (f"╔{border_h}╗", accent),
         (f"║{'':^34}║", gutter),
-        (f"║{' ★ ★  ULTIMATE  ★ ★ '.center(34)}║", tier_color),
+        (f"║{' ★ ★  APEX  ★ ★ '.center(34)}║", accent),
         (f"║{'':^34}║", gutter),
         (f"║{'  ◉  '.center(34)}║", T.BRAND_APEX_GOLD),
         (f"║{'':^34}║", gutter),
         (f"║{'  noor/multi-agent-debate  '.center(34)}║", T.NEUTRAL_TEXT),
         (f"║{'  6★  '.center(34)}║", T.NEUTRAL_TEXT_MUTED),
         (f"║{'':^34}║", gutter),
-        (f"║{'· ○ ○ ◇ ◆ ◉'.center(34)}║", tier_color),
+        (f"║{'· ○ ○ ◇ ◈ ◆ ✦'.center(34)}║", accent),
         (f"║{'':^34}║", gutter),
         (f"║{' [press any key] '.center(34)}║", T.NEUTRAL_TEXT_DIM),
-        (f"╚{border_h}╝", tier_color),
+        (f"╚{border_h}╝", accent),
     ]
     for line, color in rows:
         console.print(Text(line, style=color))
@@ -214,11 +231,11 @@ def render_scan_capture() -> str:
         ("",                                              T.NEUTRAL_TEXT_DIM),
         ("  ⚡ 14 skills reachable",                      T.STATE_SCAN_COMPLETE),
         ("",                                              T.NEUTRAL_TEXT_DIM),
-        ("  ◇  api-proxy",                                T.TIER_EXTRA),
-        ("  ○  parse-json",                               T.TIER_BASIC),
-        ("  ◉  elena/payment-orchestrator",               T.TIER_UNIQUE),
-        ("  ──▶  fusion: web-scrape + parse-json",        T.TIER_EXTRA),
-        ("   SKILL UNLOCKED ",                            T.TIER_ULTIMATE),
+        ("  ○  api-proxy",                                T.BRANCH_ACCENT["standard"]),
+        ("  ○  parse-json",                               T.BRANCH_ACCENT["standard"]),
+        ("  ◉  elena/payment-orchestrator",               T.BRANCH_ACCENT["unique"]),
+        ("  ──▶  fusion: web-scrape + parse-json",        T.BRANCH_ACCENT["suite"]),
+        ("   SKILL UNLOCKED ",                            T.BRANCH_ACCENT["suite"]),
         ("",                                              T.NEUTRAL_TEXT_DIM),
         ("  ✓ Scan complete",                             T.STATE_SCAN_COMPLETE),
     ]
@@ -322,7 +339,7 @@ def render_html() -> str:
   <h1>Gaia TUI — Token Preview <small>generated from src/gaia_cli/tui/tokens.py</small></h1>
   <p class="meta">
     Every color below is the canonical resolved value from
-    <code>tokens.py</code>, which loads tier and rank colors from
+    <code>tokens.py</code>, which loads branch and rank colors from
     <code>registry/gaia.json.meta</code>. If you change the registry,
     re-run <code>python scripts/render_tui_preview.py</code> to
     regenerate this page.
@@ -333,8 +350,8 @@ def render_html() -> str:
 
   <h2>HeroScreen</h2>
   <p class="meta">Diamond Seal + GAIA letters + registry stats. Live screen
-  cycles seal color through <code>CYCLE_ULTIMATE</code>; this capture is
-  frozen on the Ultimate stop.</p>
+  cycles seal color through <code>CYCLE_APEX</code>; this capture is
+  frozen on the suite stop.</p>
   <div class="screen">{render_hero_capture()}</div>
 
   <h2>AgentScreen — skill list</h2>
@@ -342,25 +359,27 @@ def render_html() -> str:
   <code>BRAND_HONOR_RED</code>. Owned skills get a green ✓.</p>
   <div class="screen">{render_agent_capture()}</div>
 
-  <h2>SkillTreeScreen — tier groups</h2>
-  <p class="meta">Tier headers use the canonical tier color directly —
-  the off-palette GitHub Primer colors from the first pass are gone.</p>
+  <h2>SkillTreeScreen — branch groups</h2>
+  <p class="meta">Branch headers use the canonical <code>BRANCH_ACCENT</code>
+  color directly — the off-palette GitHub Primer colors from the first pass
+  are gone.</p>
   <div class="screen">{render_tree_capture()}</div>
 
-  <h2>LevelUpModal — Ultimate unlock</h2>
-  <p class="meta">Apex-gold glyph appears only at the Ultimate frame.
-  Banner and border carry the tier color.</p>
+  <h2>LevelUpModal — Apex unlock</h2>
+  <p class="meta">Apex-gold glyph appears only at the pinnacle frame.
+  Banner and border carry the branch accent; the banner word is the
+  authority's <code>rankWord</code> ("Apex" for a 6★ suite).</p>
   <div class="screen">{render_levelup_capture()}</div>
 
   <h2>ScanScreen — live output</h2>
-  <p class="meta">Each line classified by regex; tier glyph maps to
-  <code>TIER_BY_KEY</code>; unlock banners are Ultimate-gold.</p>
+  <p class="meta">Each line classified by regex; branch glyph maps to
+  <code>BRANCH_GLYPH</code>; unlock banners carry the suite accent.</p>
   <div class="screen">{render_scan_capture()}</div>
 
   <h2>Lint audit</h2>
   <ul class="audit">
     <li>No bare hex literals outside <code>tokens.py</code></li>
-    <li>Apex Gold appears only in: Diamond Seal G, Ultimate banner,
+    <li>Apex Gold appears only in: Diamond Seal G, Apex banner,
         ✦ named count, 6★ rank</li>
     <li>Honor Red appears only in contributor handles before <code>/</code></li>
     <li>Off-palette literals

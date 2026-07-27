@@ -1,6 +1,6 @@
 """Skill tree screen — navigable RPG-style dependency graph.
 
-Left panel: collapsible Textual Tree, tier-colored.
+Left panel: collapsible Textual Tree, branch-colored.
 Right panel: reactive skill detail card.
 """
 
@@ -21,6 +21,16 @@ from textual import events, on
 from rich.text import Text
 
 from gaia_cli.tui import tokens as T
+from gaia_cli.taxonomy import branchFor
+
+
+def _branch(skill: dict) -> str:
+    """Ygg II display branch (standard|suite|unique) via the taxonomy authority.
+
+    Replaces the retired {basic,extra,unique,ultimate} `type`-as-branch read. The
+    token tables (BRANCH_GLYPH / BRANCH_ACCENT) key on these branch words.
+    """
+    return branchFor(skill)
 
 
 def _load_graph(registry_path: str) -> dict:
@@ -55,8 +65,8 @@ def _build_tree_data(
     all_ids = set(skills.keys())
     has_parent = set(parents.keys())
     roots = sorted(all_ids - has_parent, key=lambda x: (
-        {"ultimate": 0, "unique": 1, "extra": 2, "basic": 3}.get(
-            skills.get(x, {}).get("type", "basic"), 4
+        {"unique": 0, "suite": 1, "standard": 2}.get(
+            _branch(skills.get(x, {})), 3
         ),
         x,
     ))
@@ -72,9 +82,9 @@ def _build_tree_data(
 
 
 def _node_label(skill: dict, owned_ids: set, detected_ids: set) -> Text:
-    tid = skill.get("type", "basic")
-    glyph = T.GLYPH_BY_TIER.get(tid, "○")
-    color = T.TIER_BY_KEY.get(tid, T.NEUTRAL_TEXT_MUTED)
+    branch = _branch(skill)
+    glyph = T.BRANCH_GLYPH.get(branch, "○")
+    color = T.BRANCH_ACCENT.get(branch, T.NEUTRAL_TEXT_MUTED)
     sid = skill.get("id", "?")
     level = skill.get("level", "")
     owned = sid in owned_ids
@@ -123,9 +133,9 @@ class SkillDetail(Static):
         if not skill:
             return Text(sid, style=T.NEUTRAL_TEXT_MUTED)
 
-        tid = skill.get("type", "basic")
-        glyph = T.GLYPH_BY_TIER.get(tid, "○")
-        color = T.TIER_BY_KEY.get(tid, T.NEUTRAL_TEXT_MUTED)
+        branch = _branch(skill)
+        glyph = T.BRANCH_GLYPH.get(branch, "○")
+        color = T.BRANCH_ACCENT.get(branch, T.NEUTRAL_TEXT_MUTED)
         level = skill.get("level", "")
         level_color = T.RANK_BY_STAR.get(level, T.NEUTRAL_TEXT_DIM)
         desc = skill.get("description", "")
@@ -143,8 +153,8 @@ class SkillDetail(Static):
         t.append(f"{name}\n", style=T.NEUTRAL_TEXT_MUTED)
         t.append("\n")
 
-        # Tier + level
-        t.append(f"{tid.upper()}  ", style=color)
+        # Branch + level
+        t.append(f"{branch.upper()}  ", style=color)
         if level:
             t.append(f"{level}\n", style=level_color)
         else:
@@ -170,9 +180,9 @@ class SkillDetail(Static):
             t.append("Requires:\n", style=T.NEUTRAL_TEXT_MUTED)
             for p in parents[:6]:
                 p_skill = skills.get(p, {})
-                p_tid = p_skill.get("type", "basic")
-                p_color = T.TIER_BY_KEY.get(p_tid, T.NEUTRAL_TEXT_MUTED)
-                t.append(f"  {T.GLYPH_BY_TIER.get(p_tid, '○')} {p}\n", style=p_color)
+                p_branch = _branch(p_skill)
+                p_color = T.BRANCH_ACCENT.get(p_branch, T.NEUTRAL_TEXT_MUTED)
+                t.append(f"  {T.BRANCH_GLYPH.get(p_branch, '○')} {p}\n", style=p_color)
             if len(parents) > 6:
                 t.append(f"  … +{len(parents) - 6} more\n", style=T.NEUTRAL_TEXT_DIM)
             t.append("\n")
@@ -182,9 +192,9 @@ class SkillDetail(Static):
             t.append("Unlocks:\n", style=T.NEUTRAL_TEXT_MUTED)
             for c in children[:6]:
                 c_skill = skills.get(c, {})
-                c_tid = c_skill.get("type", "basic")
-                c_color = T.TIER_BY_KEY.get(c_tid, T.NEUTRAL_TEXT_MUTED)
-                t.append(f"  {T.GLYPH_BY_TIER.get(c_tid, '○')} {c}\n", style=c_color)
+                c_branch = _branch(c_skill)
+                c_color = T.BRANCH_ACCENT.get(c_branch, T.NEUTRAL_TEXT_MUTED)
+                t.append(f"  {T.BRANCH_GLYPH.get(c_branch, '○')} {c}\n", style=c_color)
             if len(children) > 6:
                 t.append(f"  … +{len(children) - 6} more\n", style=T.NEUTRAL_TEXT_DIM)
 
@@ -290,21 +300,21 @@ class SkillTreeScreen(Screen):
         else:
             visible_nodes = set(skills.keys())
 
-        # Group roots by tier for visual structure
-        tier_order = {"ultimate": 0, "unique": 1, "extra": 2, "basic": 3}
-        tier_roots: dict[str, list[str]] = {t: [] for t in tier_order}
+        # Group roots by branch membership (Ygg II taxonomy authority) for
+        # visual structure. Unique first, then Suite, then Standard.
+        branch_order = {"unique": 0, "suite": 1, "standard": 2}
+        branch_roots: dict[str, list[str]] = {b: [] for b in branch_order}
         for sid in roots:
             if sid not in visible_nodes:
                 continue
             skill = skills.get(sid, {})
-            tier = skill.get("type", "basic")
-            tier_roots.setdefault(tier, []).append(sid)
+            branch = _branch(skill)
+            branch_roots.setdefault(branch, []).append(sid)
 
-        tier_labels = {
-            "ultimate": ("◆ ULTIMATES", T.TIER_ULTIMATE),
-            "unique":   ("◉ UNIQUES",   T.TIER_UNIQUE),
-            "extra":    ("◇ EXTRAS",    T.TIER_EXTRA),
-            "basic":    ("○ BASICS",    T.TIER_BASIC),
+        branch_labels = {
+            "unique":   ("◉ UNIQUE",   T.BRANCH_ACCENT["unique"]),
+            "suite":    ("◆ SUITE",    T.BRANCH_ACCENT["suite"]),
+            "standard": ("○ STANDARD", T.BRANCH_ACCENT["standard"]),
         }
 
         visited: set[str] = set()
@@ -314,12 +324,12 @@ class SkillTreeScreen(Screen):
             should_expand_all = bool(query)
 
             for child_id in sorted(children.get(sid, []), key=lambda x: (
-                tier_order.get(skills.get(x, {}).get("type", "basic"), 4), x
+                branch_order.get(_branch(skills.get(x, {})), 3), x
             )):
                 if child_id not in visible_nodes or child_id in visited:
                     continue
                 visited.add(child_id)
-                child_skill = skills.get(child_id, {"id": child_id, "type": "basic"})
+                child_skill = skills.get(child_id, {"id": child_id})
                 label = _node_label(child_skill, owned, detected)
                 has_kids = any(k in visible_nodes for k in children.get(child_id, []))
                 
@@ -333,25 +343,25 @@ class SkillTreeScreen(Screen):
                     if should_expand_all or depth < 1:
                         add_children(child_node, child_id, depth + 1)
 
-        for tier in ["ultimate", "unique", "extra", "basic"]:
-            sids = tier_roots.get(tier, [])
+        for branch in ["unique", "suite", "standard"]:
+            sids = branch_roots.get(branch, [])
             if not sids:
                 continue
-            label_text, color = tier_labels[tier]
-            tier_node = tree.root.add(
+            label_text, color = branch_labels[branch]
+            branch_node = tree.root.add(
                 Text(label_text, style=f"bold {color}"),
-                data=f"__tier_{tier}",
+                data=f"__branch_{branch}",
                 expand=True,
             )
             for sid in sorted(sids):
                 if sid in visited:
                     continue
                 visited.add(sid)
-                skill = skills.get(sid, {"id": sid, "type": tier})
+                skill = skills.get(sid, {"id": sid})
                 label = _node_label(skill, owned, detected)
                 has_kids = any(k in visible_nodes for k in children.get(sid, []))
-                
-                skill_node = tier_node.add(
+
+                skill_node = branch_node.add(
                     label,
                     data=sid,
                     expand=bool(query) and has_kids,
@@ -359,7 +369,7 @@ class SkillTreeScreen(Screen):
                 )
                 self._node_map[id(skill_node)] = sid
                 if has_kids:
-                    if query or tier in ("ultimate", "unique"):
+                    if query or branch in ("unique", "suite"):
                         add_children(skill_node, sid, depth=1)
 
     @on(Input.Changed, "#tree-search")
@@ -378,7 +388,7 @@ class SkillTreeScreen(Screen):
 
     def on_tree_node_highlighted(self, event: Tree.NodeHighlighted) -> None:
         sid = event.node.data
-        if sid and not str(sid).startswith("__tier_"):
+        if sid and not str(sid).startswith("__branch_"):
             detail = self.query_one("#detail-panel", SkillDetail)
             detail.skill_id = str(sid)
 
@@ -403,10 +413,10 @@ class SkillTreeScreen(Screen):
     def action_install_focused(self) -> None:
         tree = self.query_one("#skill-tree", Tree)
         node = tree.cursor_node
-        if node and node.data and not str(node.data).startswith("__tier_"):
+        if node and node.data and not str(node.data).startswith("__branch_"):
             sid = str(node.data)
             skills = self._tree_data.get("skills", {})
-            skill = skills.get(sid, {"id": sid, "type": "basic", "level": ""})
+            skill = skills.get(sid, {"id": sid, "level": ""})
             from gaia_cli.tui.screens.agent import InstallModal
 
             def _on_install(installed: bool) -> None:
@@ -421,7 +431,7 @@ class SkillTreeScreen(Screen):
 
     def _rebuild_node_label(self, node: TreeNode, sid: str) -> None:
         skills = self._tree_data.get("skills", {})
-        skill = skills.get(sid, {"id": sid, "type": "basic"})
+        skill = skills.get(sid, {"id": sid})
         node.set_label(_node_label(skill, self._owned, self._detected))
 
     def action_goto_agent(self) -> None:

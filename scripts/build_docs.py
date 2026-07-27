@@ -19,6 +19,7 @@ if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
 from gaia_cli.main import PUBLIC_COMMANDS, get_parser  # noqa: E402
+from gaia_cli.taxonomy import branchFor, levelNum  # noqa: E402
 
 # Handles permanently exempted from redaction badge-dir violations.
 # These contributors have ≤1★ skills but their _assets/ dirs are kept
@@ -292,7 +293,20 @@ def build_docs_index(check: bool) -> bool:
     graph = json.loads((ROOT / "registry" / "gaia.json").read_text(encoding="utf-8"))
     named = json.loads((ROOT / "registry" / "named-skills.json").read_text(encoding="utf-8"))
     named_count = sum(len(entries) for entries in named.get("buckets", {}).values())
-    unique_count = sum(1 for s in graph.get("skills", []) if s.get("type") == "unique")
+    # 'unique' is now a derived BRANCH, not a type value. A generic node's
+    # effective rank is its highest named form (namedMaxLevel), which gaia.json
+    # skills do not carry inline — derive it from the named-skills buckets and
+    # let taxonomy.branchFor() resolve the branch (no suiteComponents + rank>=4
+    # -> 'unique'). Counting type=='unique' was always 0 post-Yggdrasil II.
+    named_max: dict[str, int] = {}
+    for ref, entries in named.get("buckets", {}).items():
+        for entry in entries:
+            gref = entry.get("genericSkillRef") or ref
+            named_max[gref] = max(named_max.get(gref, 0), levelNum(entry.get("level")))
+    unique_count = sum(
+        1 for s in graph.get("skills", [])
+        if branchFor({**s, "namedMaxLevel": named_max.get(s.get("id"), 0)}) == "unique"
+    )
     body = (
         f"skills={len(graph.get('skills', []))}; namedSkills={named_count}; "
         f"uniqueSkills={unique_count}"

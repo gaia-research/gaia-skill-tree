@@ -149,6 +149,7 @@ def sync_docs_graph_assets(root: Path = ROOT) -> None:
             # Import grading functions for Overall Trust Grade injection
             sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
             from gaia_cli.grading import overall_trust_grade, check_ultimate_gate  # noqa: E402
+            from gaia_cli.taxonomy import branchFor  # noqa: E402
 
             for skill in skills_list:
                 sid = skill.get("id")
@@ -170,8 +171,16 @@ def sync_docs_graph_assets(root: Path = ROOT) -> None:
                 grade = overall_trust_grade(skill.get("evidence") or [])
                 if grade is not None:
                     skill["overallTrustGrade"] = grade
-                # Inject ultimate gate status for ultimate-type skills
-                if skill.get("type") == "ultimate":
+                # Inject ultimate-gate status for the high-rank branch classes.
+                # Ygg II collapsed `type` to {basic, fusion}, so `type ==
+                # 'ultimate'` is dead. Fire on the DERIVED branch via the
+                # taxonomy authority — IDENTICAL trigger to
+                # generateNamedIndex._inject_trust_grades: 'suite'
+                # (suiteComponents present, any rank) or 'unique' (no suite,
+                # rank>=4). Prefer the branch already stamped from the bucket
+                # origin above (L164); fall back to branchFor for un-stamped nodes.
+                branch = skill.get("branch") or branchFor(skill)
+                if branch in ("suite", "unique"):
                     gate = check_ultimate_gate(skill, generic_skills_map, _gate_config)
                     skill["ultimateGateStatus"] = {
                         "passes": gate["passes"],
