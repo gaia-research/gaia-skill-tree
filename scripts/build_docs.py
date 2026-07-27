@@ -91,8 +91,7 @@ skill-trees/              per-user skill-tree.json files
 generated-output/         ignored local scan and render output
 docs/                     docs site
 src/gaia_cli/             Python CLI package
-packages/cli-npm/         npm wrapper package
-packages/mcp/             MCP server package
+packages/cli-npm/         npm CLI wrapper
 scripts/                  validation, rendering, docs, and release helpers
 tests/                    Python test suite
 ```"""

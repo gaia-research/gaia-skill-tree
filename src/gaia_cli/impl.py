@@ -3049,20 +3049,33 @@ def version_command(args):
 
 
 def mcp_command(args):
-    script = Path(args.registry) / "packages" / "mcp" / "dist" / "bin" / "gaia-mcp.js"
-    if not script.exists():
-        print(f"MCP server build not found: {script}", file=sys.stderr)
-        print("Run `npm run build` in packages/mcp first.", file=sys.stderr)
-        sys.exit(1)
+    """Print install / run instructions for the standalone Gaia MCP server.
 
-    env = os.environ.copy()
-    env["GAIA_REGISTRY_PATH"] = str(args.registry)
+    The MCP server was extracted from this monorepo into a dedicated package
+    (gaia-research/gaia-mcp).  Use the published npm package instead of a
+    local build:
 
-    config = load_config()
-    if config and config.get("gaiaUser"):
-        env["GAIA_USER"] = config["gaiaUser"]
+        claude mcp add gaia -- npx -y @gaia-research/mcp@0.1.0
 
-    raise SystemExit(subprocess.call(["node", str(script)], env=env))
+    See https://github.com/gaia-research/gaia-mcp for source and releases.
+    """
+    lines = [
+        "",
+        "  Gaia MCP server — standalone package",
+        "",
+        "  The MCP server is published as a standalone npm package.",
+        "  Install it into Claude Code (or any MCP client) with:",
+        "",
+        "    claude mcp add gaia -- npx -y @gaia-research/mcp@0.1.0",
+        "",
+        "  Generic client config (command + args):",
+        "    command:  npx",
+        "    args:     [\"-y\", \"@gaia-research/mcp@0.1.0\"]",
+        "",
+        "  Source and releases: https://github.com/gaia-research/gaia-mcp",
+        "",
+    ]
+    print("\n".join(lines))
 
 
 def docs_command(args):
@@ -3135,7 +3148,6 @@ def release_command(args):
     version_files = [
         "pyproject.toml",
         "packages/cli-npm/package.json",
-        "packages/mcp/package.json",
         "registry/gaia.json",
     ]
     existing_version_files = [
@@ -4014,12 +4026,9 @@ def get_parser():
     )
 
     dev_mcp = dev_sub.add_parser(
-        "mcp", help="Manage or run the bundled Gaia MCP server"
+        "mcp",
+        help="Show install/run instructions for the standalone @gaia-research/mcp server",
     )
-    dev_mcp_sub = dev_mcp.add_subparsers(dest="mcp_command")
-    dev_mcp_sub.add_parser("start", help="Start the MCP daemon")
-    dev_mcp_sub.add_parser("stop", help="Stop the MCP daemon")
-    dev_mcp_sub.add_parser("status", help="Get MCP daemon status")
 
     dev_hook = dev_sub.add_parser(
         "hook", help="Internal command invoked by Claude Code hook"
