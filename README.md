@@ -357,14 +357,14 @@ Maintainer commands:  gaia dev --help
 
 ## MCP Server Full Instructions
 
-`@gaia-registry/mcp-server` connects Gaia to MCP-compatible agents (Claude Code, Cursor, VS Code, etc.).
+`@gaia-research/mcp@0.1.0` connects Gaia to MCP-compatible agents (Claude Code, Cursor, VS Code, etc.).
 
 | Agent | Install |
 |-------|---------|
-| Claude Code | `claude mcp add gaia -- npx @gaia-registry/mcp-server` |
-| Any MCP client | Command: `npx`, args: `@gaia-registry/mcp-server` |
+| Claude Code | `claude mcp add gaia -- npx -y @gaia-research/mcp@0.1.0` |
+| Any MCP client | Command: `npx`, args: `-y @gaia-research/mcp@0.1.0` |
 
-Set `GAIA_USER=your-github-username` and optionally `GITHUB_TOKEN` for PR tools. See [`packages/mcp/`](packages/mcp/) for full docs and agent-specific config examples.
+Set `GAIA_USER=your-github-username` and optionally `GITHUB_TOKEN` for PR tools. Full MCP docs and agent-specific config examples are at https://research.gaiaskilltree.com/mcp .
 
 ---
 
@@ -396,7 +396,7 @@ generated-output/         ignored local scan and render output
 docs/                     docs site
 src/gaia_cli/             Python CLI package
 packages/cli-npm/         npm wrapper package
-packages/mcp/             MCP server package
+packages/mcp/             (local monorepo source — see README for redirect)
 scripts/                  validation, rendering, docs, and release helpers
 tests/                    Python test suite
 ```
