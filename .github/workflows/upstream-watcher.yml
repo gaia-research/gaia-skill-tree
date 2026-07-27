@@ -11,9 +11,8 @@ on:
         description: "Actually create issues (default: dry-run)"
         type: boolean
         default: false
-  # V1.1 TODO: enable daily cron once outputs are trusted for 2+ weeks.
-  # schedule:
-  #   - cron: '0 6 * * *'  # 06:00 UTC daily
+  schedule:
+    - cron: '0 6 * * *'  # 06:00 UTC daily
 
 # Prevent overlap between manual runs
 concurrency: upstream-watcher
