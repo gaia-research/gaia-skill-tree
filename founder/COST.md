@@ -10,6 +10,23 @@ Cumulative token spend across the GAIA project, broken down by session and agent
 | Sonnet 4.6 | $3 | $15 |
 | Haiku 4.5 | $0.80 | $4 |
 
+## EPIC 1002 (Ygg II) — dead-`type` remainder + TUI resolver audit — 2026-07-27
+
+Superadmin mode (orchestrator coding directly; no coding subagents). Spend is overwhelmingly orchestrator-only, plus one adversarial-audit workflow.
+
+| Component | Model | Input | Output | Subagent tokens | Cost |
+|---|---|---|---|---|---|
+| Orchestrator (dead-`type` fix across generators + treeManager + levelup, rebase onto v7.0.3, Class S regen, docs/index.html stat fix, PR #1321, CI diagnosis) | Opus 5 | ~200k | ~45k | — | ~$6.40 |
+| `ygg2-tui-resolver-audit` workflow (9 surface auditors + adversarial verify + completeness critic) | Opus 5 (workflow) | — | — | ~472k | ~$12–16 |
+| **Session total** | | **~200k in** | **~45k out** | **~472k subagent** | **~$18–22** |
+
+**Notes:**
+- Audit result: **0 confirmed BUILD+READ violations** across all 9 TUI/render surfaces — independent verification the TUI is clean of banned resolvers/vocab.
+- The `ultimateGateStatus` reactivation (27 suite/unique skills) is a genuine data change (old `type == 'ultimate'` trigger was dead post-migration), surfaced to Marco for review on the dev/* branch rather than silently merged.
+- Guard E ("Schema + DAG + Integrity") failure root cause: `docs/index.html` homepage stats comment counted `type=='unique'` (always 0 post-Ygg II); `build_docs_index` now derives via `taxonomy.branchFor` → `uniqueSkills=23`. One-line LF-preserving fix committed. og-card + gaia.json regen deltas are CRLF/timestamp noise (per founder/CLAUDE.md hazard #9), not real content — left uncommitted.
+
+---
+
 ## Design/* Ascension Overdrive commission rollup — operator supplied — 2026-07-15
 
 These figures are the exact commission statistics supplied by the operator for the `design/*` Overdrive work. No additional telemetry is inferred.
