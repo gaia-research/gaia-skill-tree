@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html lang="en" data-icon-base="../assets/icons.svg">
+<head>
+  <script>window.GAIA_VERSION = "7.0.2";</script>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claim your Badge: GitHub Badges for your Repo</title>
+  <meta name="description" content="Generate a Gaia-branded README badge for any contributor: highest rank, total skills, or the single-line @handle/skill identity badge.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Claim your Badge: GitHub Badges for your Repo">
+  <meta property="og:description" content="Drop a Gaia-branded badge in your README and link back to your contributor profile.">
+  <meta property="og:url" content="https://gaiaskilltree.com/badges/">
+  <link rel="icon" type="image/svg+xml" href="../assets/marks/diamond-seal.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../css/tokens.css?v=7.0.2">
+  <link rel="stylesheet" href="../css/styles.css?v=7.0.2">
+  <link rel="stylesheet" href="../css/plaque.css?v=7.0.2">
+  <style>
+    /* ═══════════════════════════════════════════════════════════════════════
+       VARIATION 1 · THE INSCRIPTION PLATE
+       A single engraver's plate. The claim tool IS the plate; you inscribe
+       your handle into it and the impression comes back. Dark astrolabe
+       substrate, EB Garamond plate title, ledger-strip rule under it.
+       Tokens only, no bare hex. Preserves every #bd-* / .bd-* DOM contract.
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    /* Placeholder background, COMMISSION candidate (see PR brief).
+       Currently an existing dark star-chart asset used as-is. */
+    .process-page {
+      background:
+        linear-gradient(180deg, rgba(3,7,18,.82), rgba(3,7,18,.94)),
+        url("../assets/ascension-overdrive/aov4-astrolabe-substrate.webp") top center / cover no-repeat fixed,
+        var(--bg);
+      color: var(--text);
+    }
+
+    main { max-width: 1080px; margin: 0 auto; padding: 0 1.5rem; }
+
+    /* Hero as engraved title plate */
+    .process-hero {
+      text-align: center;
+      padding-top: 6rem !important;
+      padding-bottom: 2.5rem !important;
+    }
+    .process-hero .process-kicker {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--honor-red);
+      margin: 0 0 1.1rem;
+    }
+    .process-hero h1 {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(2.6rem, 6vw, 4.6rem);
+      line-height: 1.02;
+      letter-spacing: -0.02em;
+      margin: 0;
+      color: var(--text);
+      text-wrap: balance;
+    }
+    /* Ledger strip under the plate title, a ruled inscription line not a table. */
+    .plate-rule {
+      max-width: 640px;
+      margin: 1.4rem auto 1.3rem;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 1rem;
+    }
+    .plate-rule::before, .plate-rule::after {
+      content: "";
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+    .plate-rule .plate-seal { width: 22px; height: 22px; opacity: .9; }
+    .process-hero .process-lede {
+      max-width: 60ch;
+      margin: 0 auto;
+      color: var(--text);
+      opacity: .82;
+      font-size: 1.02rem;
+      line-height: 1.65;
+    }
+
+    /* Honesty pill, small engraved metal chip top-right */
+    .bd-honesty-pill {
+      position: absolute; top: 1.1rem; right: 1.1rem;
+      display: inline-flex; align-items: center; gap: .4rem;
+      padding: .3rem .6rem;
+      font-family: var(--font-mono); font-size: .62rem;
+      letter-spacing: .12em; text-transform: uppercase;
+      color: var(--muted);
+      border: 1px solid var(--border); border-radius: 8px;
+      background: rgba(15,23,42,.6);
+    }
+    .bd-honesty-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); }
+    .bd-honesty-pill[data-state="on"] .bd-honesty-dot { background: var(--rank-2, #63cab7); }
+    .bd-honesty-pill[data-state="on"] .bd-honesty-state { color: var(--rank-2, #63cab7); }
+
+    /* Sections */
+    .process-section { padding: 2.4rem 0; }
+    .process-section > h2 {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(1.6rem, 3vw, 2.1rem);
+      letter-spacing: -0.01em;
+      margin: 0 0 .5rem;
+      color: var(--text);
+    }
+    .process-section > .section-sub {
+      color: var(--text); opacity: .72;
+      max-width: 64ch; margin: 0 0 1.6rem;
+      line-height: 1.6;
+    }
+
+    /* The plate: generator surface */
+    .bd-gen {
+      position: relative;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: linear-gradient(180deg, rgba(15,23,42,.72), rgba(15,23,42,.9));
+      padding: 1.6rem;
+      box-shadow: inset 0 1px 0 rgba(226,232,240,.04);
+    }
+    /* Corner ticks, engraver's registration marks */
+    .bd-gen::before, .bd-gen::after {
+      content: ""; position: absolute; width: 12px; height: 12px;
+      border: 1px solid var(--honor-red); opacity: .5;
+    }
+    .bd-gen::before { top: 8px; left: 8px; border-right: 0; border-bottom: 0; }
+    .bd-gen::after  { bottom: 8px; right: 8px; border-left: 0; border-top: 0; }
+
+    .bd-gen-row { display: flex; gap: .7rem; flex-wrap: wrap; }
+    .bd-input-wrap { position: relative; flex: 1 1 280px; }
+    #bd-handle {
+      width: 100%;
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      padding: .85rem 2.4rem .85rem 1rem;
+      color: var(--text);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      outline: none;
+      transition: border-color .18s ease, box-shadow .18s ease;
+    }
+    #bd-handle:focus {
+      border-color: var(--honor-red);
+      box-shadow: 0 0 0 3px rgba(var(--honor-red-rgb), .18);
+    }
+    #bd-handle::placeholder { color: var(--muted); }
+    .bd-clear-btn {
+      position: absolute; right: .5rem; top: 50%; transform: translateY(-50%);
+      display: none; border: 0; background: transparent; color: var(--muted);
+      cursor: pointer; font-size: .95rem; padding: .3rem;
+    }
+    .bd-clear-btn:hover { color: var(--text); }
+    .bd-go-btn {
+      flex: 0 0 auto;
+      font-family: var(--font-body); font-weight: 600; font-size: .95rem;
+      padding: .85rem 1.5rem;
+      color: var(--bg);
+      background: var(--honor-red);
+      border: 0; border-radius: 10px; cursor: pointer;
+      transition: filter .18s ease, transform .1s ease;
+    }
+    .bd-go-btn:hover { filter: brightness(1.08); }
+    .bd-go-btn:active { transform: translateY(1px); }
+
+    /* Fuzzy suggestion popover */
+    .bd-suggest {
+      position: absolute; top: calc(100% + .4rem); left: 0; right: 0; z-index: 40;
+      background: var(--surface);
+      border: 1px solid var(--border); border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 12px 32px rgba(3,7,18,.55);
+    }
+    .bd-suggest-row {
+      display: flex; align-items: center; gap: .6rem; width: 100%;
+      padding: .6rem .8rem; border: 0; background: transparent; cursor: pointer;
+      text-align: left; color: var(--text); font-family: var(--font-body);
+      border-bottom: 1px solid var(--border);
+    }
+    .bd-suggest-row:last-child { border-bottom: 0; }
+    .bd-suggest-row:hover, .bd-suggest-row.is-active { background: rgba(var(--honor-red-rgb), .1); }
+    .bd-suggest-dot { width: 9px; height: 9px; border-radius: 50%; flex: 0 0 auto; }
+    .bd-suggest-handle { font-family: var(--font-mono); font-size: .88rem; }
+    .bd-suggest-meta { margin-left: auto; font-size: .74rem; color: var(--muted); letter-spacing: .04em; }
+
+    /* Sampler, a specimen impression on the plate */
+    .bd-gen-sampler {
+      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+      margin-top: 1.2rem; padding: 1rem;
+      border: 1px dashed var(--border); border-radius: 10px;
+      background: rgba(3,7,18,.4);
+    }
+    .bd-live-label {
+      font-family: var(--font-mono); font-size: .62rem; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .bd-sampler-img-slot { flex: 1 1 auto; }
+    .bd-sampler-img-slot img { height: 30px; display: block; }
+    .bd-sampler-cycle {
+      display: inline-flex; align-items: center; gap: .45rem;
+      font-family: var(--font-mono); font-size: .78rem;
+      padding: .5rem .8rem; color: var(--text);
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 8px; cursor: pointer;
+    }
+    .bd-sampler-cycle:hover { border-color: var(--honor-red); }
+
+    /* Preview area */
+    .bd-gen-preview { display: none; margin-top: 1.3rem; }
+    .bd-gen-preview.is-visible { display: block; }
+    .bd-gen-status {
+      font-family: var(--font-mono); font-size: .82rem;
+      color: var(--rank-2, #63cab7); margin-bottom: 1rem;
+    }
+    .bd-gen-status.is-error { color: var(--honor-red); }
+    .bd-gen-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
+    @media (max-width: 820px) { .bd-gen-layout { grid-template-columns: 1fr; } }
+
+    .bd-repo-label, .bd-skill-picker-label, .bd-checks-label {
+      font-family: var(--font-mono); font-size: .64rem; letter-spacing: .16em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: .5rem;
+    }
+    .bd-repos label, .bd-check-label {
+      display: inline-flex; align-items: center; gap: .4rem;
+      font-size: .88rem; color: var(--text); margin-right: 1rem; cursor: pointer;
+    }
+    .bd-repos { display: flex; flex-wrap: wrap; gap: .3rem 0; margin-bottom: 1.2rem; }
+
+    .bd-skill-picker-wrap { margin-bottom: 1.2rem; }
+    .bd-skill-picker-header { display: flex; align-items: center; justify-content: space-between; }
+    .bd-skill-clear {
+      font-family: var(--font-mono); font-size: .68rem; color: var(--muted);
+      background: 0; border: 0; cursor: pointer; display: none;
+    }
+    .bd-skill-clear.is-visible { display: inline; }
+    .bd-skill-clear:hover { color: var(--honor-red); }
+    .bd-skill-row { display: flex; align-items: center; gap: .5rem; margin-bottom: .5rem; }
+    .bd-skill-picker {
+      flex: 1 1 auto; font-family: var(--font-body); font-size: .85rem;
+      padding: .5rem .6rem; color: var(--text);
+      background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+    }
+    .bd-skill-remove {
+      border: 1px solid var(--border); background: var(--surface); color: var(--muted);
+      border-radius: 6px; cursor: pointer; padding: .35rem .5rem; line-height: 1;
+    }
+    .bd-skill-remove:hover { color: var(--honor-red); border-color: var(--honor-red); }
+    .bd-skill-actions { display: flex; gap: .6rem; }
+    .bd-skill-add, .bd-skill-addall {
+      display: none; align-items: center; gap: .3rem;
+      font-family: var(--font-mono); font-size: .72rem;
+      padding: .4rem .7rem; color: var(--text);
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 7px; cursor: pointer;
+    }
+    .bd-skill-add { display: inline-flex; }
+    .bd-skill-addall.is-visible { display: inline-flex; }
+    .bd-skill-add:hover, .bd-skill-addall:hover { border-color: var(--honor-red); }
+
+    .bd-checks { margin-bottom: 1rem; }
+    .bd-check-label input, .bd-repos input { accent-color: var(--honor-red); }
+
+    /* README simulator, the impression framed like GitHub */
+    .readme-simulator {
+      border: 1px solid var(--border); border-radius: 12px; overflow: hidden;
+      background: var(--bg);
+    }
+    .readme-header {
+      display: flex; align-items: center; gap: .5rem;
+      padding: .6rem .9rem; background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      color: var(--muted); font-size: .82rem;
+    }
+    .readme-header svg { fill: var(--muted); }
+    .readme-body { padding: 1.2rem; }
+    .readme-body h3 { margin: 0 0 .9rem; font-family: var(--font-mono); font-size: 1rem; color: var(--text); }
+    .readme-badges-preview { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: 1rem; }
+    .readme-badges-preview img { height: 28px; }
+    .readme-body p { color: var(--muted); font-size: .88rem; line-height: 1.6; margin: 0; }
+
+    /* Copy rows */
+    .bd-rows-header { display: flex; gap: .5rem; margin: 1rem 0 .7rem; }
+    .bd-copy-all, .bd-copy-perline {
+      display: inline-flex; align-items: center; gap: .35rem;
+      font-family: var(--font-mono); font-size: .72rem;
+      padding: .4rem .7rem; color: var(--text);
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 7px; cursor: pointer;
+    }
+    .bd-copy-all:hover, .bd-copy-perline:hover { border-color: var(--honor-red); }
+    .bd-row-item { display: flex; align-items: center; gap: .7rem; margin-bottom: .6rem; }
+    .bd-row-badge img { height: 24px; display: block; }
+    .usp-row {
+      flex: 1 1 auto; display: flex; align-items: center; gap: .5rem;
+      background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+      padding: .4rem .6rem; overflow: hidden;
+    }
+    .usp-cmd {
+      flex: 1 1 auto; font-family: var(--font-mono); font-size: .76rem;
+      color: var(--text); white-space: nowrap; overflow-x: auto; scrollbar-width: none;
+    }
+    .usp-cmd::-webkit-scrollbar { display: none; }
+    .usp-cmd a { color: var(--honor-red); }
+    .usp-copy {
+      flex: 0 0 auto; border: 0; background: transparent; color: var(--muted);
+      cursor: pointer; padding: .3rem; display: inline-flex;
+    }
+    .usp-copy:hover { color: var(--text); }
+    .ico { fill: currentColor; }
+
+    /* CTA block */
+    .bd-cta-block {
+      margin: 1.1rem 0; padding: 1rem 1.1rem;
+      border: 1px solid var(--border); border-radius: 10px;
+      background: rgba(3,7,18,.4);
+    }
+    .bd-cta-block.bd-cta-register { border-color: rgba(var(--honor-red-rgb), .4); }
+    .bd-cta-title { margin: 0 0 .4rem; font-family: var(--font-display); font-size: 1.1rem; color: var(--text); display: flex; align-items: center; gap: .4rem; }
+    .bd-cta-sub { margin: 0 0 .8rem; color: var(--muted); font-size: .85rem; line-height: 1.55; }
+    .bd-cta-sub code, .bd-cta-block code { font-family: var(--font-mono); font-size: .82em; color: var(--honor-red); }
+    .bd-cta-actions { display: flex; gap: .6rem; flex-wrap: wrap; }
+    .bd-cta-btn {
+      display: inline-flex; align-items: center; gap: .35rem;
+      font-family: var(--font-body); font-size: .85rem; text-decoration: none;
+      padding: .5rem .9rem; color: var(--text);
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    }
+    .bd-cta-btn:hover { border-color: var(--honor-red); }
+    .bd-cta-btn-primary { background: var(--honor-red); color: var(--bg); border-color: var(--honor-red); font-weight: 600; }
+    .bd-cta-repo-row { display: flex; align-items: center; gap: .6rem; margin-top: .6rem; flex-wrap: wrap; }
+    .bd-cta-repo-name { font-family: var(--font-mono); font-size: .8rem; color: var(--text); }
+
+    .bd-validating-note { margin: .8rem 0; }
+    .bd-validating-note summary {
+      display: flex; align-items: center; gap: .4rem; cursor: pointer;
+      font-size: .82rem; color: var(--muted);
+    }
+    .bd-validating-note summary:hover { color: var(--text); }
+    .bd-validating-body { padding: .6rem 0 0; }
+    .bd-validating-body p { color: var(--muted); font-size: .82rem; line-height: 1.6; margin: 0; }
+
+    /* SHOW-DON'T-TELL rank ladder: live specimens, not a table */
+    .plate-ladder {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: .9rem;
+    }
+    .plate-spec {
+      border: 1px solid var(--border); border-radius: 12px;
+      background: linear-gradient(180deg, rgba(15,23,42,.6), rgba(15,23,42,.82));
+      padding: 1.1rem 1.1rem 1.2rem;
+      position: relative;
+    }
+    .plate-spec-badge {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+      padding: .7rem; display: flex; align-items: center; justify-content: center;
+      min-height: 54px; margin-bottom: .9rem;
+    }
+    .plate-spec-badge img { height: 30px; }
+    .plate-spec-rank {
+      font-family: var(--font-display); font-size: 1.15rem; font-weight: 600;
+      margin: 0 0 .15rem;
+    }
+    .plate-spec-stars { font-size: .78rem; color: var(--muted); letter-spacing: .12em; margin-bottom: .55rem; }
+    .plate-spec-gate {
+      font-family: var(--font-mono); font-size: .64rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--muted);
+      border-top: 1px solid var(--border); padding-top: .55rem; margin-top: .1rem;
+    }
+    .plate-spec-take { font-size: .82rem; color: var(--text); opacity: .78; line-height: 1.5; margin: .1rem 0 .55rem; }
+
+    /* Variants row */
+    .bd-variants { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+    .bd-variant {
+      border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem;
+      background: linear-gradient(180deg, rgba(15,23,42,.6), rgba(15,23,42,.82));
+    }
+    .bd-variant-preview { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: .9rem; margin-bottom: .8rem; }
+    .bd-variant-preview img { height: 30px; display: block; margin-bottom: .5rem; }
+    .bd-variant-stat { font-family: var(--font-mono); font-size: .72rem; color: var(--muted); }
+    .bd-variant-name { font-family: var(--font-mono); font-size: .9rem; color: var(--honor-red); margin-bottom: .3rem; }
+    .bd-variant-desc { font-size: .85rem; color: var(--text); opacity: .78; line-height: 1.55; }
+    .bd-variant-desc code { font-family: var(--font-mono); font-size: .82em; color: var(--text); }
+
+    .bd-powered {
+      margin-top: 1.4rem; border: 1px solid var(--border); border-radius: 12px;
+      padding: 1.1rem; background: rgba(3,7,18,.4);
+    }
+    .bd-powered-header { display: flex; align-items: center; gap: .8rem; margin-bottom: .9rem; }
+    .bd-powered-badge img { height: 28px; display: block; }
+    .bd-powered-title { font-family: var(--font-display); font-size: 1.05rem; color: var(--text); }
+
+    /* Footer */
+    .bd-foot {
+      max-width: 1080px; margin: 2rem auto 3rem; padding: 1.4rem 1.5rem 0;
+      border-top: 1px solid var(--border);
+      color: var(--muted); font-size: .8rem; line-height: 1.6;
+    }
+    .bd-foot code { font-family: var(--font-mono); color: var(--text); font-size: .9em; }
+
+    .profile-back-row { max-width: 1080px; margin: 0 auto; padding: 1.4rem 1.5rem 0; }
+    .profile-back { display: inline-flex; align-items: center; gap: .4rem; color: var(--muted); text-decoration: none; font-size: .85rem; }
+    .profile-back:hover { color: var(--text); }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+<script type="application/ld+json" data-injector="gaia-json-ld">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Index",
+  "url": "https://gaiaskilltree.com/badges/"
+}
+</script>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TS7N9T92BM" data-ga4="G-TS7N9T92BM"></script>
+  <script data-ga4="G-TS7N9T92BM">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-TS7N9T92BM');
+  </script>
+</head>
+<body class="process-page">
+  <nav id="site-nav"></nav>
+  <script src="../js/mounts.js?v=7.0.2"></script>
+  <script src="../js/site-nav.js?v=7.0.2"></script>
+
+  <main>
+    <div class="profile-back-row">
+      <a class="profile-back" href="../index.html" aria-label="Back" onclick="if(history.length>1){event.preventDefault();history.back();}">
+        <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#arrow-back"/></svg>
+        <span>Back</span>
+      </a>
+    </div>
+
+    <section class="process-hero" style="position: relative;">
+      <span id="bd-honesty-pill" class="bd-honesty-pill" data-state="on"
+            title="Honesty Mode reflects the current build config. ON means copied markdown points at the static _assets/ path (no Cloudflare Worker, no ?repo= validation). Change via PR.">
+        <span class="bd-honesty-dot" aria-hidden="true"></span>
+        <span class="bd-honesty-label">Honesty</span>
+        <span class="bd-honesty-state">ON</span>
+      </span>
+
+      <p class="process-kicker">For those who have named their skill</p>
+      <h1>The Inscription Plate</h1>
+      <div class="plate-rule">
+        <img class="plate-seal" src="../assets/marks/diamond-seal.svg" alt="Gaia seal">
+      </div>
+      <p class="process-lede">
+        You earned a named skill. Inscribe your handle below and the plate returns your impression: highest rank, total skills, or a single named capability, ready to set into any README. It re-cuts itself each release.
+      </p>
+    </section>
+
+    <section class="process-section" id="generate-section">
+      <h2>Inscribe your handle</h2>
+      <p class="section-sub">Type your Gaia handle. The plate suggests known contributors as you go, and takes any handle you enter.</p>
+
+      <div class="bd-gen">
+        <div class="bd-gen-row">
+          <div class="bd-input-wrap">
+            <input id="bd-handle" type="text" placeholder="your-gaia-handle" autocomplete="off" spellcheck="false">
+            <button id="bd-clear" type="button" class="bd-clear-btn" aria-label="Clear handle">✕</button>
+          </div>
+          <button id="bd-go" type="button" class="bd-go-btn">Strike the plate</button>
+        </div>
+
+        <div id="bd-sampler" class="bd-gen-sampler">
+          <span class="bd-live-label">specimen</span>
+          <div class="bd-sampler-img-slot">
+            <img id="bd-sampler-img" src="./samples/rank-1.svg" alt="Sample rank badge">
+          </div>
+          <button id="bd-sampler-btn" type="button" class="bd-sampler-cycle">
+            <svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#sync"/></svg>
+            <span id="bd-sampler-lbl">Awakened · 1★</span>
+          </button>
+        </div>
+
+        <div class="bd-gen-preview" id="bd-preview">
+          <div class="bd-gen-status" id="bd-status"></div>
+
+          <div class="bd-gen-layout">
+            <div class="bd-gen-left">
+              <div id="bd-repo-block" style="display:none;">
+                <div class="bd-repo-label">Pick a repo</div>
+                <fieldset class="bd-repos" id="bd-repos" style="border:0;padding:0;"></fieldset>
+              </div>
+
+              <div id="bd-picker-wrap" class="bd-skill-picker-wrap" style="display:none;">
+                <div class="bd-skill-picker-header">
+                  <div class="bd-skill-picker-label">Showcase skill</div>
+                  <button id="bd-skill-clear-btn" type="button" class="bd-skill-clear">Clear all</button>
+                </div>
+                <div id="bd-skill-rows"></div>
+                <div class="bd-skill-actions">
+                  <button id="bd-skill-add-btn" type="button" class="bd-skill-add">
+                    <span aria-hidden="true" style="font-size: .85rem; line-height: 1;">+</span>
+                    Add more
+                  </button>
+                  <button id="bd-skill-addall-btn" type="button" class="bd-skill-addall">
+                    Add all
+                  </button>
+                </div>
+              </div>
+
+              <div class="bd-checks" id="bd-checks">
+                <div class="bd-checks-label">Include in README</div>
+                <label class="bd-check-label" id="bd-check-handle-wrap">
+                  <input type="checkbox" id="bd-check-handle" checked>
+                  Identity
+                </label>
+                <label class="bd-check-label" id="bd-check-rank-wrap">
+                  <input type="checkbox" id="bd-check-rank" checked>
+                  Rank
+                </label>
+                <label class="bd-check-label" id="bd-check-skills-wrap">
+                  <input type="checkbox" id="bd-check-skills" checked>
+                  Skills
+                </label>
+                <label class="bd-check-label bd-check-seal-wrap" id="bd-check-seal-wrap" title="Render badges with just the diamond seal, no &quot;Gaia&quot; wordmark next to it.">
+                  <input type="checkbox" id="bd-check-seal">
+                  Hide &ldquo;Gaia&rdquo;
+                </label>
+              </div>
+
+              <div id="bd-cta-block" class="bd-cta-block" style="display:none;"></div>
+
+              <details id="bd-validating-note" class="bd-validating-note">
+                <summary>
+                  <svg class="ico" width="13" height="13" aria-hidden="true"><use href="../assets/icons.svg#info"/></svg>
+                  Why might my badge appear blank in my README?
+                </summary>
+                <div class="bd-validating-body">
+                  <p>
+                    If your repo isn&rsquo;t registered yet, the badge stays
+                    <em>&ldquo;validating&hellip;&rdquo;</em> for up to 24h while caches roll. Load
+                    the badge URL in a new tab to confirm it&rsquo;s live &mdash; if you see it
+                    there, only GitHub&rsquo;s cache is stale.
+                  </p>
+                </div>
+              </details>
+
+              <div id="bd-rows"></div>
+            </div>
+
+            <div class="bd-gen-right">
+              <div class="readme-simulator">
+                <div class="readme-header">
+                  <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path d="M2 1.75C2 .784 2.784 0 3.75 0h8.5C13.216 0 14 .784 14 1.75v12.5A1.75 1.75 0 0 1 12.25 16h-8.5A1.75 1.75 0 0 1 2 14.25Zm1.75-.25a.25.25 0 0 0-.25.25v12.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25V1.75a.25.25 0 0 0-.25-.25Zm9 11.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0Zm-1-11.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0Z"></path></svg>
+                  <span>README.md</span>
+                </div>
+                <div class="readme-body">
+                  <h3 id="readme-sim-title">my-project</h3>
+                  <div class="readme-badges-preview" id="bd-badges"></div>
+                  <p>Welcome to my repository. Check out my official Gaia contributor rank and verified agent skills above!</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="process-section">
+      <h2>The rank ladder</h2>
+      <p class="section-sub">Every panel color maps to a rank, earned through evidence and never declared. These are live badge specimens: what your plate looks like at each step.</p>
+      <div class="plate-ladder">
+        <div class="plate-spec">
+          <div class="plate-spec-badge"><img src="./samples/rank-1.svg" alt="Awakened rank badge, 1 star"></div>
+          <p class="plate-spec-rank" style="color:var(--rank-1,#38bdf8);">Awakened</p>
+          <div class="plate-spec-stars">★</div>
+          <p class="plate-spec-take">First verified sighting: a real, distinct capability confirmed.</p>
+          <div class="plate-spec-gate">Gate · first sighting</div>
+        </div>
+        <div class="plate-spec">
+          <div class="plate-spec-badge"><img src="./samples/rank-2.svg" alt="Named rank badge, 2 stars"></div>
+          <p class="plate-spec-rank" style="color:var(--rank-2,#63cab7);">Named</p>
+          <div class="plate-spec-stars">★★</div>
+          <p class="plate-spec-take">Handle permanently on the registry. Minimum rank for a named skill.</p>
+          <div class="plate-spec-gate">Gate · community-verified</div>
+        </div>
+        <div class="plate-spec">
+          <div class="plate-spec-badge"><img src="./samples/rank-3.svg" alt="Evolved rank badge, 3 stars"></div>
+          <p class="plate-spec-rank" style="color:var(--rank-3,#a78bfa);">Evolved</p>
+          <div class="plate-spec-stars">★★★</div>
+          <p class="plate-spec-take">Reproducible and stable. Public repo blob link required.</p>
+          <div class="plate-spec-gate">Gate · community-verified</div>
+        </div>
+        <div class="plate-spec">
+          <div class="plate-spec-badge"><img src="./samples/rank-4.svg" alt="Extra rank badge, 4 stars"></div>
+          <p class="plate-spec-rank" style="color:var(--rank-4,#e879f9);">Extra &middot; Unique</p>
+          <div class="plate-spec-stars">★★★★</div>
+          <p class="plate-spec-take">Production-depth mastery. Suite capstone with components, or depth alone with no fusion path.</p>
+          <div class="plate-spec-gate">Gate · TM ≥ 100 (A-grade)</div>
+        </div>
+        <div class="plate-spec">
+          <div class="plate-spec-badge"><img src="./samples/rank-5.svg" alt="Ultimate rank badge, 5 stars"></div>
+          <p class="plate-spec-rank" style="color:var(--rank-5,#fbbf24);">Ultimate</p>
+          <div class="plate-spec-stars">★★★★★</div>
+          <p class="plate-spec-take">Suite pinnacle with Origin on a component, or the same bar on the solo track.</p>
+          <div class="plate-spec-gate">Gate · TM ≥ 250 (S-grade)</div>
+        </div>
+        <div class="plate-spec">
+          <div class="plate-spec-badge"><img src="./samples/rank-6.svg" alt="Apex rank badge, 6 stars"></div>
+          <p class="plate-spec-rank" style="color:var(--apex-gold);">Apex &middot; Impossible</p>
+          <div class="plate-spec-stars">★★★★★★</div>
+          <p class="plate-spec-take">Pinnacle. Suite 6-predicate gate with Origin 5★ fusion, or solo 5-predicate gate. Extraordinarily rare.</p>
+          <div class="plate-spec-gate">Gate · S-grade + predicate</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="process-section">
+      <h2>Three impressions</h2>
+      <p class="section-sub">Three contributor formats plus a generic mark for any project. Each specimen below is a real badge.</p>
+
+      <div class="bd-variants">
+        <div class="bd-variant">
+          <div class="bd-variant-preview">
+            <img src="./_assets/garrytan/handle.svg" alt="@garrytan handle badge">
+            <div class="bd-variant-stat" id="bd-v-handle-stat">@garrytan · top skill</div>
+          </div>
+          <div>
+            <div class="bd-variant-name">handle.svg</div>
+            <div class="bd-variant-desc">Single-line identity. <code>@handle</code> in honor red, selected named skill in its rank color, star count in the same hue.</div>
+          </div>
+        </div>
+        <div class="bd-variant">
+          <div class="bd-variant-preview">
+            <img src="./_assets/garrytan/rank.svg" alt="garrytan rank badge" id="bd-v-rank-img">
+            <div class="bd-variant-stat" id="bd-v-rank-stat">Highest rank: 4★</div>
+          </div>
+          <div>
+            <div class="bd-variant-name">rank.svg</div>
+            <div class="bd-variant-desc">Highest rank earned. Right panel color is the rank tier (1★ cyan to 5/6★ gold, unique to purple). Regenerates on every release.</div>
+          </div>
+        </div>
+        <div class="bd-variant">
+          <div class="bd-variant-preview">
+            <img src="./_assets/garrytan/skills.svg" alt="garrytan skills badge" id="bd-v-skills-img">
+            <div class="bd-variant-stat" id="bd-v-skills-stat">4 named skills</div>
+          </div>
+          <div>
+            <div class="bd-variant-name">skills.svg</div>
+            <div class="bd-variant-desc">Total named skills contributed. Panel color matches rank tier.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bd-powered">
+        <div class="bd-powered-header">
+          <div class="bd-powered-badge"><img src="./powered-by-gaia.svg" alt="Powered by Gaia"></div>
+          <div class="bd-powered-title">For anyone, no account required</div>
+        </div>
+        <div class="usp-row">
+          <code class="usp-cmd" id="bd-generic-code">[![Powered by Gaia](https://gaiaskilltree.com/badges/powered-by-gaia.svg)](https://gaiaskilltree.com/)</code>
+          <button class="usp-copy" type="button" id="bd-generic-copy" aria-label="Copy generic badge markdown">
+            <svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#copy"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="bd-foot">
+    Badges are static SVGs regenerated by <code>gaia docs build</code> and served from
+    <code>gaiaskilltree.com</code>. GitHub's camo proxy caches images for ~24 hours, so newly earned
+    ranks may take a day to propagate after a release. Logo: the Gaia diamond seal.
+  </div>
+
+  <script>
+    const BASE = "https://gaiaskilltree.com";
+    const handleInput = document.getElementById("bd-handle");
+    const clearBtn    = document.getElementById("bd-clear");
+    const goBtn       = document.getElementById("bd-go");
+    const preview     = document.getElementById("bd-preview");
+    const status      = document.getElementById("bd-status");
+    const badges      = document.getElementById("bd-badges");
+    const rowsEl      = document.getElementById("bd-rows");
+    const repoBlock   = document.getElementById("bd-repo-block");
+    const repoList    = document.getElementById("bd-repos");
+    const pickerWrap  = document.getElementById("bd-picker-wrap");
+    const skillRowsEl = document.getElementById("bd-skill-rows");
+    const skillAddBtn = document.getElementById("bd-skill-add-btn");
+    const skillAddAllBtn = document.getElementById("bd-skill-addall-btn");
+    const skillClearBtn  = document.getElementById("bd-skill-clear-btn");
+    const samplerEl   = document.getElementById("bd-sampler");
+    const checksEl    = document.getElementById("bd-checks");
+    const chkHandle   = document.getElementById("bd-check-handle");
+    const chkRank     = document.getElementById("bd-check-rank");
+    const chkSkills   = document.getElementById("bd-check-skills");
+    const chkSeal     = document.getElementById("bd-check-seal");
+    const ctaBlock    = document.getElementById("bd-cta-block");
+    const honestyPill = document.getElementById("bd-honesty-pill");
+
+    // ── Honesty Mode (build-time toggle) ────────────────────────────────────
+    // Flip this constant via PR. There is intentionally no runtime UI to change
+    // it — the pill above is a read-only indicator so anyone viewing the page
+    // can see which mode it's in. See docs/badges/CLAUDE.md.
+    //
+    //   true  → copied markdown points at the static _assets/ path.
+    //           No Cloudflare Worker, no ?repo= validation. Embeddable anywhere.
+    //   false → copied markdown points at the worker-validated 2-segment route.
+    //           Requires the Cloudflare Worker to be deployed and serving.
+    const HONESTY_MODE = true;
+
+    // Paint the indicator to match the constant.
+    honestyPill.dataset.state = HONESTY_MODE ? "on" : "off";
+    honestyPill.querySelector(".bd-honesty-state").textContent = HONESTY_MODE ? "ON" : "OFF";
+
+    // Build the URL that lands in the user's clipboard. Honesty Mode swaps
+    // the route between the validated public path and the direct _assets path.
+    function badgeMarkdownUrl(handle, file, repoQuery) {
+      if (HONESTY_MODE) {
+        // Direct static path, bypasses the worker. Still appends ?repo= so
+        // GitHub's camo proxy caches per (handle, file, repo) tuple.
+        return `${BASE}/badges/_assets/${handle}/${file}${repoQuery}`;
+      }
+      return `${BASE}/badges/${handle}/${file}${repoQuery}`;
+    }
+
+    // Persist the "Hide Gaia" toggle across page loads.
+    const SEAL_STORAGE_KEY = "gaia.badges.sealOnly";
+    try {
+      chkSeal.checked = localStorage.getItem(SEAL_STORAGE_KEY) === "1";
+    } catch { /* private mode / disabled storage */ }
+    chkSeal.addEventListener("change", () => {
+      try {
+        localStorage.setItem(SEAL_STORAGE_KEY, chkSeal.checked ? "1" : "0");
+      } catch { /* ignore */ }
+    });
+
+    // ── Clear button + sampler visibility ───────────────────────────────────
+    handleInput.addEventListener("input", () => {
+      const hasText = handleInput.value.length > 0;
+      clearBtn.style.display = hasText ? "block" : "none";
+      samplerEl.style.display = hasText ? "none" : "flex";
+    });
+
+    clearBtn.addEventListener("click", () => {
+      handleInput.value = "";
+      clearBtn.style.display = "none";
+      samplerEl.style.display = "flex";
+      preview.classList.remove("is-visible");
+      checksEl.classList.remove("is-visible");
+      ctaBlock.style.display = "none";
+      seedSample();
+    });
+
+    // ── Sampler ──────────────────────────────────────────────────────────────
+    // Ygg-II §8 canonical order: within each star level Unique precedes its
+    // Suite counterpart, descending 6★→1★. The shared 1★–3★ ladder has no
+    // branch fork so those trail the branch-decorated 4★+ pairs.
+    const SAMPLER_RANKS = [
+      { n: "unique-6", label: "Unique Impossible · 6★" },
+      { n: 6, label: "Apex · 6★" },
+      { n: "unique-5", label: "Unique Ultimate · 5★" },
+      { n: 5, label: "Ultimate · 5★" },
+      { n: "unique", label: "Unique · 4★" },
+      { n: 4, label: "Extra · 4★" },
+      { n: 3, label: "Evolved · 3★" },
+      { n: 2, label: "Named · 2★" },
+      { n: 1, label: "Awakened · 1★" },
+    ];
+    let samplerIdx = 0;
+    // Claim-integrity pin: the "Include in README" / claim preview and its copied
+    // markdown ALWAYS represent 1★ — never the sampler's cycling rank. A higher
+    // rank leaking into a fresh handle's claim would misrepresent standing
+    // (redaction/claim-integrity issue). The sampler may still cycle 1★→6★ as a
+    // demo; the two paths are decoupled. CLAIM_RANK is the fixed 1★ descriptor.
+    const CLAIM_RANK = SAMPLER_RANKS.find(r => r.n === 1) || { n: 1, label: "Awakened · 1★" };
+    const samplerImg = document.getElementById("bd-sampler-img");
+    const samplerLbl = document.getElementById("bd-sampler-lbl");
+    function sampleSrc(n) {
+      // Sampler honours the Hide-Gaia toggle so the empty-state preview
+      // matches what the user will see in their README.
+      const suffix = chkSeal.checked ? "-seal" : "";
+      return `./samples/rank-${n}${suffix}.svg`;
+    }
+    function refreshSamplerImg() {
+      const r = SAMPLER_RANKS[samplerIdx];
+      samplerImg.src = sampleSrc(r.n);
+      // The sampler drives ONLY its own preview (samplerImg/samplerLbl). It must
+      // NOT repaint the claim/README badge preview (`badges`) — that surface is
+      // pinned to CLAIM_RANK by seedSample() and must never inherit the cycling
+      // rank (claim-integrity: no higher-rank leak into a fresh handle's claim).
+    }
+    document.getElementById("bd-sampler-btn").addEventListener("click", () => {
+      samplerIdx = (samplerIdx + 1) % SAMPLER_RANKS.length;
+      samplerLbl.textContent = SAMPLER_RANKS[samplerIdx].label;
+      refreshSamplerImg();
+    });
+    chkSeal.addEventListener("change", refreshSamplerImg);
+
+    // ── State ─────────────────────────────────────────────────────────────────
+    // Must be declared before the first refreshSamplerImg() call below, which
+    // reads currentState.handle (let is not hoisted — TDZ crash otherwise).
+    let currentState = {
+      handle: "", repos: [], selectedRepo: "",
+      hasRank: false, hasSkills: false, hasHandle: false,
+      linkTarget: "", namedSkills: [], pickedFiles: ["handle.svg"],
+    };
+
+    // Apply persisted seal-toggle to the initial sampler image on load.
+    refreshSamplerImg();
+
+    // ── Generic copy ─────────────────────────────────────────────────────────
+    wireCopyBtn(document.getElementById("bd-generic-copy"),
+                document.getElementById("bd-generic-code"));
+
+    // ── Registry ─────────────────────────────────────────────────────────────
+    let registryPromise = null;
+    function getRegistry() {
+      if (!registryPromise) {
+        registryPromise = fetch("./registry.json")
+          .then((r) => r.ok ? r.json() : { contributors: {} })
+          .catch(() => ({ contributors: {} }));
+      }
+      return registryPromise;
+    }
+
+    async function exists(url) {
+      try {
+        const r = await fetch(url, { method: "HEAD" });
+        return r.ok;
+      } catch { return false; }
+    }
+
+    // ── Copy helper ──────────────────────────────────────────────────────────
+    function wireCopyBtn(btn, codeEl) {
+      if (!btn || !codeEl) return;
+      btn.addEventListener("click", () => {
+        const text = codeEl.textContent.trim();
+        if (!text) return;
+        navigator.clipboard.writeText(text).then(() => {
+          const use = btn.querySelector("use");
+          if (use) use.setAttribute("href", "../assets/icons.svg#copy-check");
+          setTimeout(() => {
+            if (use) use.setAttribute("href", "../assets/icons.svg#copy");
+          }, 1600);
+        });
+      });
+    }
+
+    function makeCopyBtn() {
+      const btn = document.createElement("button");
+      btn.className = "usp-copy";
+      btn.type = "button";
+      btn.setAttribute("aria-label", "Copy markdown");
+      btn.innerHTML = '<svg class="ico" width="14" height="14" aria-hidden="true"><use href="../assets/icons.svg#copy"/></svg>';
+      return btn;
+    }
+
+    // ── Checkbox change → re-render rows ─────────────────────────────────────
+    // In seed state (no real handle entered) currentState.handle is "gaia-bot",
+    // which has no `_assets/gaia-bot/` directory. renderRows() would happily
+    // emit `./_assets/gaia-bot/rank-seal.svg` and break the README simulator
+    // and the per-row thumbnail. Re-route through seedSample() in that case so
+    // the sampler/seed previews stay in sync with the Hide-Gaia toggle.
+    function onCheckboxChange() {
+      if (currentState.handle === "gaia-bot") {
+        seedSample();
+        return;
+      }
+      renderRows();
+    }
+    [chkHandle, chkRank, chkSkills, chkSeal].forEach(cb => cb.addEventListener("change", onCheckboxChange));
+
+    // ── Per-badge rows renderer ───────────────────────────────────────────────
+    function renderRows() {
+      const { handle, selectedRepo, hasRank, hasSkills, hasHandle, linkTarget, pickedFiles, namedSkills } = currentState;
+      rowsEl.replaceChildren();
+      badges.replaceChildren();
+
+      const q = selectedRepo ? `?repo=${encodeURIComponent(selectedRepo)}` : "";
+      // Map a wordmark filename to its seal-only sibling. The generator
+      // guarantees both exist; if seal is checked, every URL swaps.
+      // Allowlist file against known registry filenames before use in URLs.
+      const FIXED_FILES = new Set(["handle.svg", "rank.svg", "skills.svg", "handle-seal.svg", "rank-seal.svg", "skills-seal.svg"]);
+      const knownFiles = new Set((namedSkills || []).flatMap(s => [s.file, s.file.replace(/\.svg$/, "-seal.svg")]));
+      const safeFile = (file) => {
+        const f = String(file);
+        return (FIXED_FILES.has(f) || knownFiles.has(f)) ? f : "handle.svg";
+      };
+      const sealify = (file) => chkSeal.checked
+        ? safeFile(file).replace(/\.svg$/, "-seal.svg")
+        : safeFile(file);
+      const files = (pickedFiles && pickedFiles.length) ? pickedFiles : ["handle.svg"];
+
+      // Local previews always read from _assets/ — these don't go through the
+      // Cloudflare Worker, so they render correctly in any environment.
+      const safeHandle = encodeURIComponent(handle.replace(/[^a-zA-Z0-9_\-\.]/g, ''));
+      const previewSrc = (file) => `./_assets/${safeHandle}/${encodeURIComponent(file)}`;
+
+      const entries = [];
+      if (hasHandle && chkHandle.checked) {
+        files.forEach((file) => {
+          const sealed = sealify(file);
+          const url = badgeMarkdownUrl(handle, sealed, q);
+          // If this is a specific skill badge, link it directly to the explorer hash.
+          // Otherwise fall back to the contributor profile linkTarget.
+          const skill = namedSkills.find(s => s.file === file);
+          const target = skill ? `${BASE}/named/#explorer/${encodeURIComponent(skill.id).replace(/%2F/g, '/')}` : linkTarget;
+          
+          entries.push({
+            localSrc: previewSrc(sealed),
+            alt: skill ? `${skill.name} on Gaia` : `@${handle} on Gaia`,
+            md: `[![Gaia](${url})](${target})`,
+            target: target,
+          });
+        });
+      }
+      if (hasRank && chkRank.checked) {
+        const sealed = sealify("rank.svg");
+        const url = badgeMarkdownUrl(handle, sealed, q);
+        entries.push({
+          localSrc: previewSrc(sealed),
+          alt: "Gaia rank",
+          md: `[![Gaia rank](${url})](${linkTarget})`,
+          target: linkTarget,
+        });
+      }
+      if (hasSkills && chkSkills.checked) {
+        const sealed = sealify("skills.svg");
+        const url = badgeMarkdownUrl(handle, sealed, q);
+        entries.push({
+          localSrc: previewSrc(sealed),
+          alt: "Gaia skills",
+          md: `[![Gaia skills](${url})](${linkTarget})`,
+          target: linkTarget,
+        });
+      }
+
+      if (!entries.length) return;
+
+      // README simulator. Build nodes via the DOM API (not innerHTML) so the
+      // user-derived handle/linkTarget/localSrc/alt values are set as element
+      // properties and never reinterpreted as HTML (avoids DOM-XSS).
+      entries.forEach(({ localSrc, alt, target }) => {
+        const link = document.createElement("a");
+        link.href = target;
+        const img = document.createElement("img");
+        img.src = localSrc;
+        img.alt = alt;
+        link.appendChild(img);
+        badges.appendChild(link);
+      });
+
+      // Header row: "One-liner" + "Per line" copy buttons
+      const header = document.createElement("div");
+      header.className = "bd-rows-header";
+      const allMd = entries.map(e => e.md).join(" ");
+      const perLineMd = entries.map(e => e.md).join("<br>\n");
+
+      function setBtnContent(btn, iconId, labelText) {
+        btn.replaceChildren();
+        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.setAttribute("class", "ico");
+        svg.setAttribute("width", "13");
+        svg.setAttribute("height", "13");
+        svg.setAttribute("aria-hidden", "true");
+        const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
+        use.setAttribute("href", `../assets/icons.svg#${iconId}`);
+        svg.appendChild(use);
+        btn.appendChild(svg);
+        btn.appendChild(document.createTextNode(` ${labelText}`));
+      }
+
+      function makeCopyGroupBtn(cls, label) {
+        const btn = document.createElement("button");
+        btn.className = cls;
+        btn.type = "button";
+        setBtnContent(btn, "copy", label);
+        return btn;
+      }
+
+      const copyAllBtn = makeCopyGroupBtn("bd-copy-all", "One-liner");
+      copyAllBtn.addEventListener("click", () => {
+        navigator.clipboard.writeText(allMd).then(() => {
+          setBtnContent(copyAllBtn, "copy-check", "Copied");
+          setTimeout(() => {
+            setBtnContent(copyAllBtn, "copy", "One-liner");
+          }, 1600);
+        });
+      });
+
+      const copyPerLineBtn = makeCopyGroupBtn("bd-copy-perline", "Per line");
+      copyPerLineBtn.addEventListener("click", () => {
+        navigator.clipboard.writeText(perLineMd).then(() => {
+          setBtnContent(copyPerLineBtn, "copy-check", "Copied");
+          setTimeout(() => {
+            setBtnContent(copyPerLineBtn, "copy", "Per line");
+          }, 1600);
+        });
+      });
+
+      header.appendChild(copyAllBtn);
+      header.appendChild(copyPerLineBtn);
+      rowsEl.appendChild(header);
+
+      entries.forEach(({ localSrc, alt, md }) => {
+        const item = document.createElement("div");
+        item.className = "bd-row-item";
+
+        const thumb = document.createElement("div");
+        thumb.className = "bd-row-badge";
+        const thumbImg = document.createElement("img");
+        thumbImg.src = localSrc;
+        thumbImg.alt = alt;
+        thumb.appendChild(thumbImg);
+        item.appendChild(thumb);
+
+        const row = document.createElement("div");
+        row.className = "usp-row";
+        const code = document.createElement("code");
+        code.className = "usp-cmd";
+        code.textContent = md;
+        row.appendChild(code);
+
+        const btn = makeCopyBtn();
+        wireCopyBtn(btn, code);
+        row.appendChild(btn);
+
+        item.appendChild(row);
+        rowsEl.appendChild(item);
+      });
+    }
+
+    function renderRepoPicker(repos) {
+      currentState.repos = repos;
+      if (!repos.length) {
+        repoBlock.style.display = "none";
+        currentState.selectedRepo = "";
+        return;
+      }
+      repoBlock.style.display = "block";
+      currentState.selectedRepo = repos[0];
+      // Build radio labels via the DOM API so repo names (user-derived) are set
+      // as text/value properties and never reinterpreted as HTML (avoids DOM-XSS).
+      repoList.replaceChildren();
+      repos.forEach((r, i) => {
+        const label = document.createElement("label");
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "bd-repo";
+        input.value = r;
+        if (i === 0) input.checked = true;
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(r));
+        repoList.appendChild(label);
+      });
+      repoList.querySelectorAll("input[name='bd-repo']").forEach((el) => {
+        el.addEventListener("change", () => {
+          currentState.selectedRepo = el.value;
+          renderRows();
+        });
+      });
+    }
+
+    function renderSkillPicker(namedSkills, topSkillId) {
+      currentState.namedSkills = namedSkills;
+      skillRowsEl.replaceChildren();
+      currentState.pickedFiles = [];
+      if (!namedSkills || namedSkills.length === 0) {
+        pickerWrap.style.display = "none";
+        currentState.pickedFiles = ["handle.svg"];
+        updatePickerActions();
+        return;
+      }
+      pickerWrap.style.display = "block";
+
+      // Parse skill from URL query parameters (e.g. s=performance-analysis or s=ruvnet/performance-analysis)
+      const params = new URLSearchParams(window.location.search);
+      const targetSkill = params.get("s") || params.get("skill");
+      let selectedSkill = null;
+      if (targetSkill) {
+        selectedSkill = namedSkills.find(s => 
+          s.id === targetSkill || 
+          s.id.split('/').pop() === targetSkill || 
+          s.file === targetSkill || 
+          s.file.replace(/\.svg$/, '') === targetSkill ||
+          s.slash === '/' + targetSkill ||
+          s.slash === targetSkill
+        );
+      }
+
+      // Default: selected skill, else the top skill, else first available
+      const defaultSkill = selectedSkill || namedSkills.find(s => s.id === topSkillId) || namedSkills[0];
+      addSkillRow(defaultSkill.file);
+
+      updatePickerActions();
+    }
+
+    // Centralized visibility for Clear all / Add more / Add all.
+    // Clear all → any row exists.
+    // Add more  → at least one un-picked skill remains.
+    // Add all   → ≥2 rows on the canvas AND remaining skills exist.
+    function updatePickerActions() {
+      const namedSkills = currentState.namedSkills || [];
+      const rowCount = skillRowsEl.querySelectorAll(".bd-skill-row").length;
+      const remaining = namedSkills.filter(s => !currentState.pickedFiles.includes(s.file));
+
+      skillClearBtn.classList.toggle("is-visible", rowCount > 0);
+      skillAddBtn.style.display = (namedSkills.length > 1 && remaining.length > 0) ? "inline-flex" : "none";
+      skillAddBtn.disabled = remaining.length === 0;
+      skillAddBtn.style.opacity = remaining.length === 0 ? "0.4" : "1";
+      skillAddAllBtn.classList.toggle("is-visible", rowCount >= 2 && remaining.length > 0);
+    }
+
+    function buildSkillOptions(currentValue) {
+      const namedSkills = currentState.namedSkills || [];
+      // Ygg-II §8: order by rank descending, and within a rank Unique before
+      // its Suite counterpart (never co-mingled). Reads the emitted rank/branch;
+      // registry emission order is not relied upon.
+      const branchOrder = (b) => (b === "unique" ? 0 : b === "suite" ? 1 : 2);
+      const ordered = namedSkills.slice().sort((a, b) => {
+        const dr = (b.rank || 0) - (a.rank || 0);
+        if (dr !== 0) return dr;
+        const db = branchOrder(a.branch) - branchOrder(b.branch);
+        if (db !== 0) return db;
+        return String(a.slash || a.file).localeCompare(String(b.slash || b.file));
+      });
+      const escAttr = (s) => String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+      // Disable already-picked options (except this row's current value) so each row stays unique
+      return ordered.map((s) => {
+        const stars = "★".repeat(s.rank);
+        const label = `${s.slash} · ${stars}${s.branch === "unique" ? " · unique" : ""}`;
+        const taken = currentState.pickedFiles.includes(s.file) && s.file !== currentValue;
+        const sel = s.file === currentValue ? " selected" : "";
+        const dis = taken ? " disabled" : "";
+        return `<option value="${escAttr(s.file)}"${sel}${dis}>${escAttr(label)}${taken ? " (already added)" : ""}</option>`;
+      }).join("");
+    }
+
+    function addSkillRow(initialFile) {
+      const namedSkills = currentState.namedSkills || [];
+      if (!namedSkills.length) return;
+
+      // Pick first un-picked skill if no initial passed
+      const startFile = initialFile || namedSkills.find(s => !currentState.pickedFiles.includes(s.file))?.file;
+      if (!startFile) return;
+      if (!currentState.pickedFiles.includes(startFile)) {
+        currentState.pickedFiles.push(startFile);
+      }
+
+      const row = document.createElement("div");
+      row.className = "bd-skill-row";
+
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.checked = true;
+      cb.title = "Include this skill";
+      row.appendChild(cb);
+
+      const sel = document.createElement("select");
+      sel.className = "bd-skill-picker";
+      sel.value = startFile;
+      sel.innerHTML = buildSkillOptions(startFile);
+      sel.value = startFile;
+      row.appendChild(sel);
+
+      const removeBtn = document.createElement("button");
+      removeBtn.type = "button";
+      removeBtn.className = "bd-skill-remove";
+      removeBtn.setAttribute("aria-label", "Remove this skill");
+      removeBtn.textContent = "✕";
+      row.appendChild(removeBtn);
+
+      skillRowsEl.appendChild(row);
+
+      // Track this row's current selection so we can update pickedFiles atomically
+      let rowFile = startFile;
+      let rowChecked = true;
+
+      function syncPickedFiles() {
+        const active = [];
+        skillRowsEl.querySelectorAll(".bd-skill-row").forEach((r) => {
+          const c = r.querySelector("input[type=checkbox]");
+          const s = r.querySelector("select");
+          if (c && c.checked && s) active.push(s.value);
+        });
+        currentState.pickedFiles = active.length ? active : [];
+        // Refresh disabled options on every other row
+        skillRowsEl.querySelectorAll(".bd-skill-row select").forEach((s) => {
+          const cur = s.value;
+          s.innerHTML = buildSkillOptions(cur);
+          s.value = cur;
+        });
+        updatePickerActions();
+      }
+
+      sel.addEventListener("change", () => {
+        rowFile = sel.value;
+        syncPickedFiles();
+        renderRows();
+      });
+      cb.addEventListener("change", () => {
+        rowChecked = cb.checked;
+        sel.disabled = !cb.checked;
+        syncPickedFiles();
+        renderRows();
+      });
+      removeBtn.addEventListener("click", () => {
+        row.remove();
+        syncPickedFiles();
+        renderRows();
+      });
+
+      syncPickedFiles();
+    }
+
+    skillAddBtn.addEventListener("click", () => {
+      const namedSkills = currentState.namedSkills || [];
+      const remaining = namedSkills.filter(s => !currentState.pickedFiles.includes(s.file));
+      if (!remaining.length) return;
+      addSkillRow(remaining[0].file);
+      renderRows();
+    });
+
+    skillAddAllBtn.addEventListener("click", () => {
+      const namedSkills = currentState.namedSkills || [];
+      const remaining = namedSkills.filter(s => !currentState.pickedFiles.includes(s.file));
+      remaining.forEach((s) => addSkillRow(s.file));
+      renderRows();
+    });
+
+    skillClearBtn.addEventListener("click", () => {
+      skillRowsEl.replaceChildren();
+      currentState.pickedFiles = [];
+      updatePickerActions();
+      renderRows();
+    });
+
+    function updateCheckboxes(hasHandle, hasRank, hasSkills) {
+      checksEl.classList.add("is-visible");
+      const wHandle = document.getElementById("bd-check-handle-wrap");
+      const wRank   = document.getElementById("bd-check-rank-wrap");
+      const wSkills = document.getElementById("bd-check-skills-wrap");
+      wHandle.style.display = hasHandle ? "inline-flex" : "none";
+      wRank.style.display   = hasRank   ? "inline-flex" : "none";
+      wSkills.style.display = hasSkills ? "inline-flex" : "none";
+      chkHandle.checked = hasHandle;
+      chkRank.checked   = hasRank;
+      chkSkills.checked = hasSkills;
+    }
+
+    // ── Variant cards updater ────────────────────────────────────────────────
+    function updateVariantCards(handle, registry) {
+      const entry = registry.contributors && registry.contributors[handle];
+      if (!entry) return;
+      const rankStat   = document.getElementById("bd-v-rank-stat");
+      const skillsStat = document.getElementById("bd-v-skills-stat");
+      const handleStat = document.getElementById("bd-v-handle-stat");
+      if (rankStat)   rankStat.textContent   = `Highest rank: ${entry.topRank}★`;
+      if (skillsStat) skillsStat.textContent = `${entry.count} named skill${entry.count !== 1 ? "s" : ""}`;
+      if (handleStat) handleStat.textContent = `@${handle} · ${entry.namedSkills && entry.namedSkills.length ? entry.namedSkills[0].slash : "top skill"}`;
+    }
+
+    // ── Main generator ────────────────────────────────────────────────────────
+    async function generate() {
+      const raw = handleInput.value.trim().replace(/^@/, "");
+      if (!raw) return;
+      const handle = raw.replace(/[^a-zA-Z0-9_\-\.]/g, "");
+      preview.classList.add("is-visible");
+      status.textContent = "Checking…";
+      status.style.display = "";
+      status.classList.remove("is-error");
+      rowsEl.replaceChildren();
+      badges.replaceChildren();
+      repoBlock.style.display = "none";
+      pickerWrap.style.display = "none";
+      checksEl.classList.remove("is-visible");
+      ctaBlock.style.display = "none";
+
+      // Probe the actual static files (under _assets/) — the public 2-segment
+      // path /badges/<handle>/<file>.svg only resolves through the Cloudflare
+      // Worker, so HEAD-checking it would return 404 in any environment that
+      // serves the docs/ folder directly (local dev, preview deploys, Honesty
+      // Mode). The real SVGs always live at /badges/_assets/<handle>/.
+      const base = `./_assets/${encodeURIComponent(handle)}`;
+      const [hasRank, hasSkills, hasHandle, hasProfile, registry] = await Promise.all([
+        exists(`${base}/rank.svg`),
+        exists(`${base}/skills.svg`),
+        exists(`${base}/handle.svg`),
+        exists(`../u/${encodeURIComponent(handle)}/`),
+        getRegistry(),
+      ]);
+
+      if (!hasRank && !hasSkills && !hasHandle) {
+        status.classList.add("is-error");
+        status.textContent = `No badges yet for @${handle}. Contribute a named skill, or run \`gaia scan\` to register your tree.`;
+        rowsEl.innerHTML = `<div class="bd-snip-row"><div class="usp-row"><code class="usp-cmd">No badges yet. <a href="../codex.html">Contribute a named skill first →</a></code></div></div>`;
+        document.getElementById("readme-sim-title").textContent = "my-project";
+        return;
+      }
+
+      document.getElementById("readme-sim-title").textContent = handle;
+      const linkTarget = hasProfile ? `${BASE}/u/${handle}/` : `${BASE}/`;
+      const approved   = (registry.contributors && registry.contributors[handle]) || null;
+      const repos      = approved ? (approved.repos || []) : [];
+      const namedSkills = approved ? (approved.namedSkills || []) : [];
+      const topSkillId  = approved ? approved.topSkill : null;
+
+      currentState = {
+        handle, repos: [], selectedRepo: "",
+        hasRank, hasSkills, hasHandle, linkTarget,
+        namedSkills, pickedFiles: ["handle.svg"],
+      };
+
+      renderRepoPicker(repos);
+      renderSkillPicker(namedSkills, topSkillId);
+      updateCheckboxes(hasHandle, hasRank, hasSkills);
+      renderCTAs(handle, repos);
+      renderRows();
+      updateVariantCards(handle, registry);
+
+      const tail = repos.length
+        ? ` — ${repos.length} approved repo${repos.length === 1 ? "" : "s"} on file.`
+        : hasProfile
+          ? " — no `links.github` on record yet; copy without `?repo=` for now."
+          : " — no /u/ page yet; linking to the registry home.";
+      status.textContent = `Found badges for @${handle}${tail}`;
+    }
+
+    // ── Register-repo + edit-readme CTAs ─────────────────────────────────────
+    // When a contributor has no approved repos on file, show a Path A redirect
+    // so they know how to register one. Otherwise, surface a direct GitHub
+    // edit link to each approved repo's README so they can drop the markdown
+    // in immediately.
+    function renderCTAs(handle, repos) {
+      ctaBlock.classList.remove("bd-cta-register");
+      ctaBlock.replaceChildren();
+      if (!handle || handle === "gaia-bot") {
+        ctaBlock.style.display = "none";
+        return;
+      }
+
+      if (!repos || repos.length === 0) {
+        // No approved repos — push the user to Path A.
+        ctaBlock.classList.add("bd-cta-register");
+        ctaBlock.style.display = "block";
+
+        const h3 = document.createElement("h3");
+        h3.className = "bd-cta-title";
+        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.setAttribute("class", "ico bd-cta-icon");
+        svg.setAttribute("width", "14");
+        svg.setAttribute("height", "14");
+        svg.setAttribute("aria-hidden", "true");
+        const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
+        use.setAttribute("href", "../assets/icons.svg#info");
+        svg.appendChild(use);
+        h3.appendChild(svg);
+        h3.appendChild(document.createTextNode(" Your badge isn't repo-locked yet"));
+
+        const p = document.createElement("p");
+        p.className = "bd-cta-sub";
+        p.appendChild(document.createTextNode("Register a repo to lock your badge to it. Run "));
+        const code = document.createElement("code");
+        code.textContent = "gaia push";
+        p.appendChild(code);
+        p.appendChild(document.createTextNode(" from your project, then return here."));
+
+        const actions = document.createElement("div");
+        actions.className = "bd-cta-actions";
+        const a1 = document.createElement("a");
+        a1.className = "bd-cta-btn bd-cta-btn-primary";
+        a1.href = "../index.html#paths";
+        a1.appendChild(document.createTextNode("Push your repo "));
+        const arrow = document.createElement("span");
+        arrow.setAttribute("aria-hidden", "true");
+        arrow.style.fontSize = ".85rem";
+        arrow.style.lineHeight = "1";
+        arrow.textContent = "→";
+        a1.appendChild(arrow);
+
+        const a2 = document.createElement("a");
+        a2.className = "bd-cta-btn";
+        a2.href = "../codex.html";
+        a2.textContent = "Browse the Codex";
+
+        actions.appendChild(a1);
+        actions.appendChild(a2);
+
+        ctaBlock.appendChild(h3);
+        ctaBlock.appendChild(p);
+        ctaBlock.appendChild(actions);
+        return;
+      }
+
+      // Approved repos exist — surface direct edit links.
+      ctaBlock.style.display = "block";
+
+      const h3 = document.createElement("h3");
+      h3.className = "bd-cta-title";
+      h3.textContent = "Drop the markdown above into one of your approved repos";
+
+      const p = document.createElement("p");
+      p.className = "bd-cta-sub";
+      p.appendChild(document.createTextNode("GitHub's "));
+      const code = document.createElement("code");
+      code.textContent = "/edit/main/README.md";
+      p.appendChild(code);
+      p.appendChild(document.createTextNode(" deep-link opens the README in their in-browser editor. If your default branch isn't "));
+      const code2 = document.createElement("code");
+      code2.textContent = "main";
+      p.appendChild(code2);
+      p.appendChild(document.createTextNode(", GitHub redirects you to the right one."));
+
+      ctaBlock.appendChild(h3);
+      ctaBlock.appendChild(p);
+
+      repos.forEach((repo) => {
+        const row = document.createElement("div");
+        row.className = "bd-cta-repo-row";
+
+        const nameSpan = document.createElement("span");
+        nameSpan.className = "bd-cta-repo-name";
+        nameSpan.title = repo;
+        nameSpan.textContent = repo;
+
+        const editLink = document.createElement("a");
+        editLink.className = "bd-cta-btn";
+        editLink.href = `https://github.com/${repo}/edit/main/README.md`;
+        editLink.target = "_blank";
+        editLink.rel = "noopener noreferrer";
+        editLink.appendChild(document.createTextNode("Edit README "));
+        const ext1 = document.createElement("span");
+        ext1.setAttribute("aria-hidden", "true");
+        ext1.textContent = "↗";
+        editLink.appendChild(ext1);
+
+        const viewLink = document.createElement("a");
+        viewLink.className = "bd-cta-btn";
+        viewLink.href = `https://github.com/${repo}`;
+        viewLink.target = "_blank";
+        viewLink.rel = "noopener noreferrer";
+        viewLink.appendChild(document.createTextNode("View repo "));
+        const ext2 = document.createElement("span");
+        ext2.setAttribute("aria-hidden", "true");
+        ext2.textContent = "↗";
+        viewLink.appendChild(ext2);
+
+        row.appendChild(nameSpan);
+        row.appendChild(editLink);
+        row.appendChild(viewLink);
+        ctaBlock.appendChild(row);
+      });
+    }
+
+    goBtn.addEventListener("click", generate);
+    handleInput.addEventListener("keydown", (e) => { if (e.key === "Enter") generate(); });
+
+    // Prefill from ?u= param
+    const params = new URLSearchParams(window.location.search);
+    if (params.has("u")) {
+      handleInput.value = params.get("u") || "";
+      clearBtn.style.display = "block";
+      samplerEl.style.display = "none";
+      generate();
+    } else {
+      seedSample();
+    }
+
+    function seedSample() {
+      preview.classList.add("is-visible");
+      status.textContent = "";
+      status.style.display = "none";
+      status.classList.remove("is-error");
+
+      const sampleHandle = "gaia-bot";
+      const linkTarget = `${BASE}/`;
+      currentState = {
+        handle: sampleHandle, repos: [], selectedRepo: "",
+        hasRank: true, hasSkills: false, hasHandle: false,
+        linkTarget, namedSkills: [], pickedFiles: ["handle.svg"],
+      };
+
+      document.getElementById("readme-sim-title").textContent = "my-project";
+      rowsEl.replaceChildren();
+      // Claim preview + README markdown are PINNED to 1★ (CLAIM_RANK), never the
+      // sampler's cycling rank — cycling the demo to 6★ leaves this at 1★.
+      const seedSampleSrc = sampleSrc(CLAIM_RANK.n);
+      const seedLabel = CLAIM_RANK.label;
+      badges.replaceChildren();
+      const seedImg = document.createElement("img");
+      seedImg.src = seedSampleSrc;
+      seedImg.alt = seedLabel;
+      seedImg.style.height = "28px";
+      seedImg.style.display = "block";
+      badges.appendChild(seedImg);
+
+      // Show rank checkbox only; no copy buttons in seed state
+      checksEl.classList.add("is-visible");
+      document.getElementById("bd-check-handle-wrap").style.display = "none";
+      document.getElementById("bd-check-rank-wrap").style.display   = "inline-flex";
+      document.getElementById("bd-check-skills-wrap").style.display = "none";
+      chkRank.checked = true;
+
+      const item = document.createElement("div");
+      item.className = "bd-row-item";
+      const thumb = document.createElement("div");
+      thumb.className = "bd-row-badge";
+      const thumbImg = document.createElement("img");
+      thumbImg.src = seedSampleSrc;
+      thumbImg.alt = seedLabel;
+      thumb.appendChild(thumbImg);
+      item.appendChild(thumb);
+      const row = document.createElement("div");
+      row.className = "usp-row";
+      const code = document.createElement("code");
+      code.className = "usp-cmd";
+      const seedFile = chkSeal.checked ? "rank-seal.svg" : "rank.svg";
+      // Use the same Honesty-Mode-aware URL builder as the real generator so
+      // the seed clipboard text matches what real handles emit (and stays a
+      // valid URL — pre-Honesty this hardcoded the worker route, which 404s
+      // when the worker isn't intercepting).
+      code.textContent = `[![Gaia rank](${badgeMarkdownUrl("gaia-bot", seedFile, "")})](${linkTarget})`;
+      row.appendChild(code);
+      item.appendChild(row);
+      rowsEl.appendChild(item);
+    }
+  </script>
+
+  <!-- ── Ceremonial fuzzy-handle search (progressive enhancement) ──────────────
+       Suggests registry contributors as you type, but never blocks free-text:
+       any handle still resolves via the HEAD probe in generate(). Wires into the
+       existing #bd-handle input and getRegistry() — additive only. ────────── -->
+  <script>
+  (function () {
+    const input = document.getElementById("bd-handle");
+    if (!input) return;
+
+    // Build the suggestion popover once, positioned under the input wrap.
+    const wrap = input.closest(".bd-input-wrap") || input.parentElement;
+    if (wrap && getComputedStyle(wrap).position === "static") wrap.style.position = "relative";
+    const pop = document.createElement("div");
+    pop.className = "bd-suggest";
+    pop.setAttribute("role", "listbox");
+    pop.hidden = true;
+    (wrap || input.parentElement).appendChild(pop);
+
+    let entries = [];      // [{handle, topRank, count, topSlash}]
+    let active = -1;       // keyboard-highlighted row
+    let matches = [];      // current filtered list
+
+    // Pull the registry contributor map through the page's own cached fetch.
+    if (typeof getRegistry === "function") {
+      getRegistry().then((reg) => {
+        const c = (reg && reg.contributors) || {};
+        entries = Object.keys(c).map((h) => {
+          const e = c[h] || {};
+          const ns = (e.namedSkills && e.namedSkills[0]) || null;
+          return {
+            handle: h,
+            topRank: e.topRank || 0,
+            count: e.count || (e.namedSkills ? e.namedSkills.length : 0),
+            topSlash: ns ? ns.slash : "",
+          };
+        });
+      });
+    }
+
+    // Subsequence fuzzy score: every query char must appear in order.
+    // Lower score = tighter match (prefix + adjacency rewarded).
+    function score(q, h) {
+      q = q.toLowerCase(); h = h.toLowerCase();
+      if (!q) return 0;
+      let qi = 0, s = 0, prev = -1;
+      for (let hi = 0; hi < h.length && qi < q.length; hi++) {
+        if (h[hi] === q[qi]) {
+          s += (prev >= 0 ? (hi - prev) : hi);   // gap penalty; prefix bonus
+          prev = hi; qi++;
+        }
+      }
+      return qi === q.length ? s : Infinity;
+    }
+
+    function rankColorVar(r) {
+      return r >= 6 ? "var(--apex-gold, #fbbf24)"
+           : r === 5 ? "var(--rank-5, #fbbf24)"
+           : r === 4 ? "var(--rank-4, #e879f9)"
+           : r === 3 ? "var(--rank-3, #a78bfa)"
+           : r === 2 ? "var(--rank-2, #63cab7)"
+           : "var(--rank-1, #38bdf8)";
+    }
+
+    function render() {
+      pop.replaceChildren();
+      if (!matches.length) { pop.hidden = true; return; }
+      matches.forEach((m, i) => {
+        const row = document.createElement("button");
+        row.type = "button";
+        row.className = "bd-suggest-row" + (i === active ? " is-active" : "");
+        row.setAttribute("role", "option");
+        row.setAttribute("aria-selected", i === active ? "true" : "false");
+
+        const dot = document.createElement("span");
+        dot.className = "bd-suggest-dot";
+        dot.style.background = rankColorVar(m.topRank);
+        row.appendChild(dot);
+
+        const name = document.createElement("span");
+        name.className = "bd-suggest-handle";
+        name.textContent = "@" + m.handle;
+        row.appendChild(name);
+
+        const meta = document.createElement("span");
+        meta.className = "bd-suggest-meta";
+        const stars = m.topRank ? "★".repeat(m.topRank) : "";
+        meta.textContent = [stars, m.topSlash].filter(Boolean).join("  ");
+        row.appendChild(meta);
+
+        row.addEventListener("mousedown", (e) => {
+          e.preventDefault();               // keep focus, beat blur
+          choose(m.handle);
+        });
+        pop.appendChild(row);
+      });
+      pop.hidden = false;
+    }
+
+    function choose(handle) {
+      input.value = handle;
+      matches = []; active = -1;
+      pop.hidden = true;
+      // Fire the page's existing input handler (toggles clear btn / sampler)…
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+      // …then run the real generator.
+      if (typeof generate === "function") generate();
+    }
+
+    function update() {
+      const q = input.value.trim().replace(/^@/, "");
+      if (q.length < 1 || !entries.length) { matches = []; active = -1; pop.hidden = true; return; }
+      matches = entries
+        .map((e) => ({ e, s: score(q, e.handle) }))
+        .filter((x) => x.s !== Infinity)
+        .sort((a, b) => a.s - b.s || b.e.topRank - a.e.topRank)
+        .slice(0, 6)
+        .map((x) => x.e);
+      active = -1;
+      render();
+    }
+
+    input.addEventListener("input", update);
+    input.addEventListener("focus", update);
+    input.addEventListener("keydown", (e) => {
+      if (pop.hidden || !matches.length) return;
+      if (e.key === "ArrowDown") { e.preventDefault(); active = (active + 1) % matches.length; render(); }
+      else if (e.key === "ArrowUp") { e.preventDefault(); active = (active - 1 + matches.length) % matches.length; render(); }
+      else if (e.key === "Enter" && active >= 0) { e.preventDefault(); choose(matches[active].handle); }
+      else if (e.key === "Escape") { pop.hidden = true; active = -1; }
+    });
+    input.addEventListener("blur", () => { setTimeout(() => { pop.hidden = true; }, 120); });
+  })();
+  </script>
+
+  <!-- ─── FOOTER v2 ─── -->
+  <div id="site-footer-mount"></div>
+  <script src="../js/site-footer.js?v=7.0.2"></script>
+
+  <!-- ─── TREE DIALOG ─── -->
+  <a id="tree" tabindex="-1" aria-hidden="true"></a>
+  <dialog id="treeDialog" class="tree-dialog" aria-labelledby="treeDialogTitle">
+    <div class="tree-dialog-inner">
+      <div class="tree-dialog-header">
+        <div id="treeDialogTitle" class="tree-dialog-title">Gaia Skill Tree</div>
+        <div class="tree-dialog-actions">
+          <button type="button" class="tree-act-btn" id="treeCopyBtn">Copy</button>
+          <button type="button" class="tree-act-btn" id="treeDownloadBtn">Download</button>
+          <button type="button" class="tree-close-x" id="treeCloseBtn" aria-label="Close tree">✕</button>
+        </div>
+      </div>
+      <div class="tree-dialog-body">
+        <pre id="treeDialogPre">Loading…</pre>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ─── SCRIPTS ─── -->
+  <script src="../js/atlas-helpers.js?v=7.0.2"></script>
+  <script src="../js/skill-explorer.js?v=7.0.2"></script>
+  <script src="../js/ui.js?v=7.0.2"></script>
+  <script src="../js/page-ia.js?v=7.0.2"></script>
+</body>
+</html>
