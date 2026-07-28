@@ -324,6 +324,82 @@ def build_docs_index(check: bool) -> bool:
     return changed
 
 
+def build_about_stats(check: bool) -> bool:
+    path = ROOT / "docs" / "about.html"
+    if not path.exists():
+        return False
+    graph_path = ROOT / "registry" / "gaia.json"
+    named_path = ROOT / "registry" / "named-skills.json"
+    if not graph_path.exists() or not named_path.exists():
+        return False
+
+    graph = json.loads(graph_path.read_text(encoding="utf-8"))
+    named = json.loads(named_path.read_text(encoding="utf-8"))
+    skills = graph.get("skills", [])
+    buckets = named.get("buckets", {})
+
+    generic_refs = len(skills)
+    origin_skills = sum(
+        1 for entries in buckets.values()
+        for e in entries
+        if e.get("origin") is True
+    )
+    contributors = len({
+        e.get("contributor")
+        for entries in buckets.values()
+        for e in entries
+        if e.get("contributor")
+    })
+    evidence_entries = sum(len(s.get("evidence", [])) for s in skills)
+
+    named_max: dict[str, int] = {}
+    for ref, entries in buckets.items():
+        for entry in entries:
+            gref = entry.get("genericSkillRef") or ref
+            named_max[gref] = max(named_max.get(gref, 0), levelNum(entry.get("level")))
+    # "Ultimates" = all skills at the 5★ rung or above (Ultimate/Unique Ultimate/Apex/Unique Impossible)
+    # branch-agnostic: "Ultimate" is the universal 5★ rank name across both suite and unique branches
+    ultimates = sum(1 for s in skills if named_max.get(s.get("id"), 0) >= 5)
+
+    version = _read_version()
+    tally_html = f"""<dl class="ab-tally" aria-label="What is on the record today">
+          <div class="ab-tally-cell">
+            <dt class="ab-tally-label">Generic refs</dt>
+            <dd class="ab-tally-num">{generic_refs}</dd>
+          </div>
+          <div class="ab-tally-cell">
+            <dt class="ab-tally-label">Origin skills</dt>
+            <dd class="ab-tally-num">{origin_skills}</dd>
+          </div>
+          <div class="ab-tally-cell">
+            <dt class="ab-tally-label">Contributors</dt>
+            <dd class="ab-tally-num">{contributors}</dd>
+          </div>
+          <div class="ab-tally-cell">
+            <dt class="ab-tally-label">Ultimates</dt>
+            <dd class="ab-tally-num is-apex">{ultimates}</dd>
+          </div>
+          <div class="ab-tally-cell">
+            <dt class="ab-tally-label">Evidence entries</dt>
+            <dd class="ab-tally-num">{evidence_entries}</dd>
+          </div>
+        </dl>
+        <p class="ab-tally-note">Live from <a href="https://github.com/gaia-research/gaia-skill-tree/blob/main/registry/gaia.json" target="_blank" rel="noopener">registry/gaia.json</a> v{version}. Counts grow with the record.</p>"""
+
+    text = path.read_text(encoding="utf-8")
+    text, changed = _replace_region(
+        text,
+        "<!-- gaia:about-tally-start -->",
+        "<!-- gaia:about-tally-end -->",
+        tally_html,
+    )
+    if changed and check:
+        print("diff docs/about.html (about-stats stale)")
+    if changed and not check:
+        path.write_text(text, encoding="utf-8")
+    return changed
+
+
 def build_okf_bundle(check: bool) -> bool:
     import subprocess
     import sys
@@ -1580,6 +1656,7 @@ def main(argv: list[str] | None = None) -> int:
     # README depends on tree.md (build_tree_md)
     readme_changed = _run_step("readme", build_readme, args.check)
     docs_index_changed = _run_step("docs-index", build_docs_index, args.check)
+    about_stats_changed = _run_step("about-stats", build_about_stats, args.check)
     okf_bundle_changed = _run_step("okf-bundle", build_okf_bundle, args.check)
     skills_index_changed = _run_step("skills-index", build_skills_index, args.check)
     sitemap_changed = _run_step("sitemap", build_sitemap, args.check)
@@ -1631,6 +1708,7 @@ def main(argv: list[str] | None = None) -> int:
         assembly_changed
         or readme_changed
         or docs_index_changed
+        or about_stats_changed
         or sitemap_changed
         or skills_index_changed
         or html_cache_busted
