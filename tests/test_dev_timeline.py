@@ -179,3 +179,54 @@ def test_missing_user_tree_rejected_before_write(tmp_path, monkeypatch, capsys):
     assert exc.value.code != 0
     assert tree_events == []
     assert "skill-trees/missing/skill-tree.json does not exist" in capsys.readouterr().err
+
+
+# ---------------------------------------------------------------------------
+# Action-enum reconciliation (RFC3 §3.3 / GAP5) — CLI Pre-Flight Rule
+# ---------------------------------------------------------------------------
+
+
+def _copy_skill_schema(root: str) -> None:
+    """Copy the repo's skill.schema.json into the temp registry root."""
+    repo_root = Path(__file__).parent.parent
+    src = repo_root / "registry" / "schema" / "skill.schema.json"
+    dst = Path(root) / "registry" / "schema" / "skill.schema.json"
+    dst.parent.mkdir(parents=True, exist_ok=True)
+    dst.write_text(src.read_text(encoding="utf-8"), encoding="utf-8")
+
+
+@pytest.mark.parametrize(
+    "action",
+    ["note", "suite_ref_set", "migrate_trust_magnitude", "installation_updated"],
+)
+def test_reconciled_actions_accepted(tmp_path, monkeypatch, action):
+    """The observed-but-previously-absent actions now pass the enum preflight."""
+    root = _make_registry(tmp_path)
+    _copy_skill_schema(root)
+    events = []
+    monkeypatch.setattr(
+        "gaia_cli.timeline.append_skill_event",
+        lambda *a, **kw: events.append(a),
+    )
+    meta_timeline_command(_args(root, action=action))
+    assert len(events) == 1
+    assert events[0][1] == action
+
+
+def test_bogus_action_rejected_before_write(tmp_path, monkeypatch, capsys):
+    """An action absent from the schema enum is rejected before any write."""
+    root = _make_registry(tmp_path)
+    _copy_skill_schema(root)
+    events = []
+    monkeypatch.setattr(
+        "gaia_cli.timeline.append_skill_event",
+        lambda *a, **kw: events.append(a),
+    )
+
+    with pytest.raises(SystemExit) as exc:
+        meta_timeline_command(_args(root, action="totally_bogus_action"))
+
+    assert exc.value.code != 0
+    assert events == []
+    assert "is not in the sanctioned enum" in capsys.readouterr().err
+

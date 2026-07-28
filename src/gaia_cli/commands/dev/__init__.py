@@ -187,6 +187,90 @@ class DevCommand(Command):
             help="Write only the standalone seed artifact; skip the collector dual-write",
         )
 
+        dev_provenance = dev_sub.add_parser(
+            "provenance",
+            help=(
+                "Write the provenance sidecar ledger for an ingested skill: "
+                "registry/provenance/<skill-id>.json back-linking the node to "
+                "its discovery packet / intake batch / intake issue / crawler "
+                "origin / evidence seed (RFC3 §3.1)"
+            ),
+        )
+        dev_provenance.add_argument(
+            "skill_id", help="Skill id the ledger belongs to"
+        )
+        dev_provenance.add_argument(
+            "--from-packet",
+            dest="from_packet",
+            help=(
+                "Path to the discovery packet; its source block is lifted into "
+                "crawlerOrigin and its path into discoveryPacket (unless overridden)"
+            ),
+        )
+        dev_provenance.add_argument(
+            "--generic-ref",
+            dest="generic_ref",
+            help="Generic skill id this named skill points at (genericSkillRef)",
+        )
+        dev_provenance.add_argument(
+            "--discovery-packet",
+            dest="discovery_packet",
+            help="Repo-relative path to the discovery packet",
+        )
+        dev_provenance.add_argument(
+            "--intake-batch",
+            dest="intake_batch",
+            help="Repo-relative path to the intake batch",
+        )
+        dev_provenance.add_argument(
+            "--intake-issue",
+            dest="intake_issue",
+            help="URL of the GitHub intake issue",
+        )
+        dev_provenance.add_argument(
+            "--evidence-seed",
+            dest="evidence_seed",
+            help="Path to the RFC2 evidence-seed artifact",
+        )
+        dev_provenance.add_argument(
+            "--ingested-at",
+            dest="ingested_at",
+            help="ISO 8601 date-time the skill was ingested",
+        )
+        dev_provenance.add_argument(
+            "--status",
+            default="ingested",
+            choices=(
+                "discovered",
+                "review-ready",
+                "intake-open",
+                "evidence-seeded",
+                "in-appraisal",
+                "ingested",
+                "deferred",
+                "rejected",
+            ),
+            help="Pipeline-position status (RFC3 §3.4 ladder). Defaults to ingested.",
+        )
+        dev_provenance.add_argument(
+            "--stage-event",
+            dest="stage_event",
+            choices=("discovered", "intake_opened"),
+            help=(
+                "Append a pre-ingest stage event to the ledger timeline (RFC3 "
+                "§3.2). gaia dev timeline cannot target pre-ingest stages (no "
+                "node/tree yet), so the ledger event log is the sanctioned home."
+            ),
+        )
+        dev_provenance.add_argument(
+            "--notes",
+            help="Human-readable context for the stage event",
+        )
+        dev_provenance.add_argument(
+            "--timestamp",
+            help="ISO 8601 date-time for the stage event (defaults to now)",
+        )
+
         dev_merge = dev_sub.add_parser(
             "merge", help="Merge one or more skills into a target skill"
         )
@@ -844,6 +928,9 @@ class DevCommand(Command):
         elif dev_cmd == "evidence-seed":
             from gaia_cli.commands.dev.evidenceSeedCmd import evidenceSeedCommand
             return evidenceSeedCommand(args)
+        elif dev_cmd == "provenance":
+            from gaia_cli.commands.dev.provenanceCmd import provenanceCommand
+            return provenanceCommand(args)
         elif dev_cmd == "merge":
             from gaia_cli.commands.dev.merge import meta_merge_command
             meta_merge_command(args)

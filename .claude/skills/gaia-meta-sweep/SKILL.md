@@ -221,3 +221,31 @@ Report back:
 - Renames leave orphan `registry/skills/<type>/<old-id>.md`; delete by hand after rename.
 - `gaia dev docs` needs `numpy` + `scipy`; install via `pip install -e ".[docs]"` or `pip install -e ".[dev]"`.
 - The rarity axis is deprecated — do not flag rarity issues; the schema still requires the field but it carries no review signal.
+
+## Pipeline continuity — additive-loop trigger + deferred audit coverage (RFC3)
+
+**gaia-meta-sweep is the additive-loop trigger (RFC3 §3.6).** The RFC2 evidence
+pipeline runs as a *continuous additive loop*: there is no green gate; evidence
+accumulates additively and Trust Magnitude / rank are recomputed at appraisal
+time, not at collection time. The monthly gaia-meta-sweep run is what *triggers*
+that loop across the registry — each sweep re-appraises skills against freshly
+accumulated evidence rather than gating on a one-time pass. Do not treat a
+skill's evidence as "final"; a later sweep can raise or lower rank as evidence
+grows.
+
+**Audit coverage of discovery→ingest is DEFERRED + blocked (RFC3 §3.7, GAP9).**
+Today gaia-meta-sweep + gaia-meta-audit sweep only the POST-ingest surface
+(skills already in the tree). The planned extension also sweeps the
+discovery→ingest phase — discovery packets (`registry-for-review/discovery-packets/`),
+intake issues, evidence seeds (`evidence/seeds/`), and the provenance sidecars
+(`registry/provenance/<skill-id>.json`). This is **deferred** and **blocked** by
+RFC1 + #1148 + the RFC3 umbrella landing. Tracked by issue #1353 — do NOT build
+the pre-ingest sweep here; when it lands it reuses this skill's fan-out topology
+over the pre-ingest artifacts.
+
+## Non-goal
+
+- **nova-gaia (`sourceProposal.schema.json`)** — a separate pipeline for
+  already-named skills that MAY converge with this one later pending founder
+  review. No convergence design is in scope here.
+

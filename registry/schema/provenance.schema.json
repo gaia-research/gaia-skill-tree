@@ -1,0 +1,113 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://gaiaskilltree.com/schema/provenance.schema.json",
+  "title": "Gaia Provenance Sidecar Ledger",
+  "description": "Sidecar ledger written at ingest linking a registry node back to its upstream markers: discovery packet, intake batch, intake issue, crawler origin, and evidence seed. Stored at registry/provenance/<skill-id>.json. Separate from the node (no skill.schema.json change) so the node stays clean (RFC3 §3.1, GAP10 + GAP11). The status ladder (RFC3 §3.4, GAP6/GAP7) is codified here, not on the node status enum.",
+  "type": "object",
+  "required": [
+    "skillId",
+    "status"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "skillId": {
+      "type": "string",
+      "description": "The ingested skill id this ledger belongs to (contributor/slug for named skills, or a generic id)."
+    },
+    "genericSkillRef": {
+      "type": "string",
+      "description": "The generic skill id this named skill points at via genericSkillRef, when applicable."
+    },
+    "discoveryPacket": {
+      "type": "string",
+      "description": "Repo-relative path to the discovery packet that produced this candidate (registry-for-review/discovery-packets/<candidate>.json)."
+    },
+    "intakeBatch": {
+      "type": "string",
+      "description": "Repo-relative path to the intake batch (registry-for-review/skill-batches/<batch>.json)."
+    },
+    "intakeIssue": {
+      "type": "string",
+      "description": "URL of the GitHub intake issue opened for this candidate."
+    },
+    "crawlerOrigin": {
+      "type": "object",
+      "description": "Crawler provenance carried forward from the discovery packet's source block (closes GAP11).",
+      "additionalProperties": false,
+      "properties": {
+        "sourceLane": {
+          "type": "string",
+          "enum": [
+            "marketplace",
+            "source-repository",
+            "github-topic"
+          ],
+          "description": "The discovery lane the candidate came from."
+        },
+        "canonicalUrl": {
+          "type": "string",
+          "description": "Canonical source URL of the candidate."
+        },
+        "contentSha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA256 of the fetched source content, carried from the packet."
+        }
+      }
+    },
+    "evidenceSeed": {
+      "type": "string",
+      "description": "Path to the RFC2 evidence-seed artifact (evidence/seeds/<skill-id>/)."
+    },
+    "ingestedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 date-time the skill was ingested into the tree and this ledger written."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "discovered",
+        "review-ready",
+        "intake-open",
+        "evidence-seeded",
+        "in-appraisal",
+        "ingested",
+        "deferred",
+        "rejected"
+      ],
+      "description": "Pipeline-position status ladder (RFC3 §3.4). Pre-ingest states have no node yet, so the ladder lives here, not on the node status enum. discovered -> review-ready -> intake-open -> evidence-seeded -> in-appraisal -> ingested; deferred/rejected are terminal off-ramps from the packet lifecycle."
+    },
+    "timeline": {
+      "type": "array",
+      "description": "Pre-ingest stage event log (RFC3 §3.2). Records discovery/intake-stage events that have no node/tree target before ingest. This is the ledger's own event log, NOT the node timeline; it is never a substitute for a node-timeline entry.",
+      "items": {
+        "type": "object",
+        "required": [
+          "timestamp",
+          "action"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO 8601 date-time of the stage event."
+          },
+          "action": {
+            "type": "string",
+            "enum": [
+              "discovered",
+              "intake_opened"
+            ],
+            "description": "The pre-ingest stage action. discovered = candidate reached review-ready; intake_opened = intake issue opened."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Human-readable context for the stage event."
+          }
+        }
+      }
+    }
+  }
+}

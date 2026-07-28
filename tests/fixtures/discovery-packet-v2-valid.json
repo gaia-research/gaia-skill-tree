@@ -1,0 +1,36 @@
+{
+  "contractVersion": "discovery-packet-v2",
+  "candidateId": "testcontrib/test-skill",
+  "lifecycle": ["discovered", "fetched", "parsed", "normalized", "deduped", "deferred"],
+  "source": {
+    "canonicalUrl": "https://github.com/testcontrib/test-skill",
+    "sourceLane": "source-repository",
+    "hostRepository": "https://github.com/testcontrib/test-skill",
+    "fetchedAt": "2026-07-29T00:00:00Z",
+    "contentSha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "frontmatter": {
+      "name": "Test Skill",
+      "description": "A minimal valid discovery-packet-v2 fixture for validate --intake."
+    }
+  },
+  "normalized": {
+    "name": "Test Skill",
+    "description": "A minimal valid discovery-packet-v2 fixture for validate --intake."
+  },
+  "exactDedupe": {
+    "matched": false
+  },
+  "mappingOptions": [
+    {
+      "genericId": "research",
+      "rationale": "Closest generic capability by description overlap.",
+      "similarity": 0.42,
+      "matchTier": "weak"
+    }
+  ],
+  "decision": {
+    "value": "DEFER",
+    "reasonCode": "AWAITING_WORKER_REVIEW"
+  },
+  "flags": []
+}
