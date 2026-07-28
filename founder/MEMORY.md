@@ -35,29 +35,38 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 | gaia-skill-tree | `cli/drop-prototype-mcp` | `e685f4cd4` | 2 real commits + 1 `WIP:` commit. **Unverified, never test-run.** |
 | gaia-skill-tree | `cli/py314-console-script` | `31fd9d3e5` | 1 `WIP:` commit only. Agent was mid-rewrite of two packaging tests onto a shared fixture. **Unverified.** |
 | gaia-skill-tree | `docs/about-pointer` | `9637151` | 3 commits, clean, no PR |
-| gaia-skill-tree | `infra/classp-build-order` | `ac25cec00` | branch created, **no commits**; worktree at `.claude/worktrees/classp-regen` |
+| gaia-skill-tree | `infra/classp-build-order` | — | ✅ **PR #1362**, 2 commits, **all CI green.** Bootstrap fix + error visibility. Not merged. |
+| gaia-skill-tree | `docs/classp-regen` | — | Deliberately **no commits, no PR** — the regen was a **content no-op** (246 nodes, 412 edges, unchanged; only `positions`, at float-noise magnitude). |
 | gaia-research | `docs/about-surface` | `8fe6844` | 2 commits + 1 `WIP:` commit, no PR |
 
 ⚠️ **Collision to resolve on resume: `cli/drop-prototype-mcp` and `cli/py314-console-script` BOTH modify `tests/test_packaging.py`.** Whichever lands second must rebase and reconcile. Do not run them as concurrent workers.
 
 ### Two real defects found in the Class P pipeline
 
-1. **`gaia dev docs` cannot bootstrap from a clean checkout.** `docs-index` dies with `[Errno 2] registry/named-skills.json` because a step *consumes* that Class P file before any step *generates* it. Running `python scripts/generateNamedIndex.py` by hand first takes the build from **4 errors → 2**. Ordering bug, unfixed.
+1. **`gaia dev docs` cannot bootstrap from a clean checkout.** ✅ **FIXED in PR #1362.** True cause was narrower and worse than "ordering": `build_named_index` rendered a correct `registry/named-skills.json` into a tempdir, then — when the committed path was absent — returned **"changed" without writing it**. That path is gitignored Class P, so it is *always* absent on a fresh clone or in CI, and four downstream steps consume it. It now writes what it generated. Verified by deleting all Class P and rebuilding: **4 errors → 2 → 0**. A second commit fixes the *invisibility*: `_run_step()` collapsed exceptions to one line and only printed the traceback under `--check`, so a missing dependency surfaced as a bare `rc=1`.
+   The `tree-md` failure was the same class — plain `ModuleNotFoundError: numpy`, **environmental, not a code bug**. No code change was warranted; the error message was the defect.
 2. **A guard correctly refused to write `docs/graph/gaia.json`** — `registry/layouts_3d.json` is Class P and exists **nowhere locally** (not in the worktree, not in the primary clone; `generated-output/layouts.json` absent too):
    > `Refusing to write docs/graph/gaia.json without registry/layouts_3d.json … the committed copy has 246 skills with positions/cluster; the regenerated copy would have 0.`
    That guard is the thing standing between us and the 12-hour site-dark of PR #798. **Never bypass it.**
 
-**The correct chain (founder: "it needs embeddings, not recomputation"):**
+**The chain:**
 ```
-registry/embeddings.json  ← THE MISSING INPUT (Class P)
-  → scripts/build_layouts_3d.py      (PCA to 4D; EMBEDDINGS = ROOT/"graph"/"embeddings.json")
+graph/embeddings.json              (TRACKED in git — present, not missing)
+  → scripts/build_layouts_3d.py      (PCA to 4D; needs numpy + scipy)
   → registry/layouts_3d.json         (written by scripts/generateProjections.py L330-335)
   → scripts/syncDocsGraphAssets.py   (the guard above)
   → docs/graph/gaia.json             (Class S, site-served)
 ```
-`scripts/computeSimilarity.py` fails on the same absent file with *"Run the embeddings generator before computing similarity"* — one missing input, two symptoms. Also see `src/gaia_cli/embeddings.py`.
 
-**`gaia pull` does not solve it:** it writes to `.gaia/registry/`, not `registry/`, and it pulled release **v7.1.1** while `main` is at **v7.1.13** — releases lag `main` by twelve patches. Its tarball contains no `layouts_3d.json`.
+> ⚠️ **RESOLVED, and my diagnosis above was wrong — corrected same session.** Embeddings were **never missing**: `graph/embeddings.json` is **tracked in git and present**. The only absent thing was **numpy/scipy**, so `build_layouts_3d.py` could not be imported. `pip install -e ".[docs]"` — the extra `pyproject.toml` already documents as the minimum for `gaia docs build` — fixed it, `generateProjections.py` regenerated `layouts_3d.json` through the supported path, and the guard passed untouched. **`gaia pull` was a red herring too.** Lesson: I diagnosed a missing *artifact* from a stack trace that was really a missing *dependency*.
+
+**Position deltas after regen — deterministic 3.3e-16, semantic 8.8e-15, both 0/246 nodes moving. Zero real movement.** Clusters identical for all 246.
+
+⚠️ **`spectral` is NOT reproducible and must not be committed** — 246/246 nodes move, max delta **2.69**. Cause: `build_layouts_3d.py` takes `evecs[:, 1:5]` of the graph Laplacian, but that Laplacian has **31 zero eigenvalues** (31 disconnected components in the prerequisite graph), so eigenvectors 1–4 lie entirely inside a 31-dimensional degenerate nullspace. Any orthonormal basis is valid and LAPACK returns a different rotation per scipy version. **Not a sign flip, not a data change** — committing it rearranges the public 3D graph's Spectral view for zero content gain. **Founder call outstanding.**
+
+⚠️ **Embeddings coverage gap, pre-existing and live on the site: `graph/embeddings.json` has 211 entries against 246 skills.** 47 skills have no embedding — including **all three google-deepmind targets**. Unembedded skills silently fall back to `semantic := deterministic`, `cluster := 0`, **with no error**. They render as nodes but are semantically unplaced.
+
+⚠️ **Path/shape divergence blocking regeneration:** `gaia embed` (behind the `[embeddings]` extra) writes **`registry/embeddings.json`**; `build_layouts_3d.py` reads **`graph/embeddings.json`**. Different paths, different top-level shapes (`dim`/`count` vs `dimensions`/`generatedAt`). **Which artifact is canonical is a founder decision** — it intersects the in-flight curation/embeddings EPIC. Also note `scipy` is in `[docs]`/`[dev]` but **not** in `[embeddings]`.
 
 ### Lexicon delta — SPECIFIED, NOT LANDED (agent died before its first edit)
 
@@ -76,6 +85,8 @@ Four items for `gaia-research`, branch `lexicon/v5-6-retirements`:
 - **The published artifact contradicts itself.** `@gaia-research/mcp@0.1.0`'s **published** README says *"The npm package is not published yet."* Same false premise as V5-18, now shipping to anyone running `npm view`. Lives in the **`gaia-mcp` repo** (real, last touched 2026-07-27) — **out of this session's dispatch scope, unfixed.**
 - **Measured adoption: 127 downloads total, 52 on release day.** A clean break at the Arc III rename is nearly free. Measure before assuming a migration is expensive.
 - **A Class S artifact carries a version stamp against the #807 rule** — `docs/graph/ledger/data.json` has `"version": "7.1.13"`, and its only diff after a partial build was a `generatedAt` timestamp bump. Pure CI churn of exactly the kind #807 was meant to end. Unfiled.
+- **`CLAUDE.md`'s Class P table is wrong about three files.** It lists `registry/real-skills.{json,md}` as gitignored Class P; they are **tracked**, as is `registry/similarity.json`. The build does **not** regenerate them — deleting them while simulating a clean checkout required `git checkout` to recover. Unreconciled; fix the table, not the files.
+- **A missing dependency can masquerade as a missing artifact.** I read `RuntimeError: Refusing to write … without registry/layouts_3d.json` and concluded the *input data* was gone. The input was tracked in git the whole time; **numpy/scipy** were what was absent. Read the stack trace, not just the error string, before naming a cause.
 - **Per-repo merge verbs still diverge.** `gaia-skill-tree` + `gaia-research` = **merge commits only**; `skill-heaven` = **squash only** (branch-protection ruleset). Now recorded in `skill-heaven/CLAUDE.md`.
 
 ### Open questions for next orchestrator
