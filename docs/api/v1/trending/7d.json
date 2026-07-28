@@ -1,24 +1,9 @@
 {
   "window": "7d",
-  "generatedAt": "2026-07-27T01:12:10Z",
+  "generatedAt": "2026-07-28T08:51:08Z",
   "firstRun": false,
-  "skills": [
-    {
-      "id": "gsd-build/get-shit-done",
-      "name": "Get Shit Done",
-      "level": "3★",
-      "contributor": "gsd-build",
-      "trustMagnitude": 202.16,
-      "overallTrustGrade": "A",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/gsd-build/get-shit-done.json"
-      }
-    }
-  ],
-  "totalTrending": 1,
+  "skills": [],
+  "totalTrending": 0,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }
