@@ -10,15 +10,15 @@ Process exactly one candidate at a time:
 
 `fetched` requires an actually fetched upstream `SKILL.md`; `parsed` requires non-empty `name` and `description` frontmatter. Preserve source facts only: canonical URL, host repository, cited origin, available commit SHA/content hash, and source-native trend signals. Do not collect evidence, score evidence, assign grades/classes, calculate Trust Magnitude, calibrate stars, mutate the registry, regenerate docs, commit, push, or create a PR.
 
+## Named-first ordering
+
+Curation is presented **named-first**: a concrete NAMED skill (a contributor's implementation, e.g. `mattpocock/grill-me`) is shown to the worker, whose job is to confirm or correct its mapping onto the correct **generic** node — creating the generic if none exists. This is a presentation REORDER, not a decouple: the generic mapping edge is never removed. Generic mapping (`genericSkillRef` → generic id) remains **required** for every review-ready packet — `MAP` selects one supplied id, `NEW_GENERIC` proposes one (deterministic downstream intake assigns or validates the canonical id). One named skill = exactly one `genericSkillRef`; named-first never makes the generic mapping optional.
+
 ## Bounded mapping
 
-Query generics programmatically before mapping:
+The bounded mapping consumes a deterministic **prefill** (produced by `gaia dev prefill`) so the worker reasons minimally. The prefill embeds the candidate's `{name}: {description}`, ranks the top-K generics by cosine similarity, and pre-populates at most three `mappingOptions[]`, each carrying `genericId`, `rationale`, `similarity` (cosine 0..1), and `matchTier` (`strong|weak`, derived from `meta.json` thresholds). The worker no longer constructs the options — it **confirms STRONG matches** (rubber-stamps the pre-filled `MAP`) and **adjudicates MAP-vs-`NEW_GENERIC` only on WEAK matches**.
 
-```bash
-gaia dev list --generic --json
-```
-
-Perform exact dedupe on canonical URL and content hash before proposing at most three existing-generic options. Persist the complete `gaia dev list --generic --json` array before worker dispatch, copy it into `genericSnapshot.generics`, record that exact command, and SHA-256 canonical JSON (`sort_keys=True`, compact separators) into `contentSha256`. Validate every mapped packet against that separate persisted JSON array: the validator rejects absent or mismatched trusted snapshots and mapping IDs absent from the receipt. A `DUPLICATE` must repeat the candidate's canonical URL or content hash exactly; an unrelated URL or digest is not proof. A worker may emit exactly one decision:
+The prefill also performs exact dedupe on canonical URL and content hash before emitting options. The persisted generic snapshot still governs validation: persist the complete `gaia dev list --generic --json` array before worker dispatch, copy it into `genericSnapshot.generics`, record that exact command, and SHA-256 canonical JSON (`sort_keys=True`, compact separators) into `contentSha256`. Validate every mapped packet against that separate persisted JSON array: the validator rejects absent or mismatched trusted snapshots and mapping IDs absent from the receipt. A `DUPLICATE` must repeat the candidate's canonical URL or content hash exactly; an unrelated URL or digest is not proof. A worker may emit exactly one decision:
 
 `MAP`, `NEW_GENERIC`, `DUPLICATE`, `NOT_A_SKILL`, or `DEFER`.
 
@@ -26,12 +26,16 @@ It may not invent generic IDs, assign type beyond an L4-reviewable Yggdrasil II 
 
 ## Packet contract
 
-Every candidate uses `discovery-packet-v1`, specified by [schemas/discovery-packet.schema.json](schemas/discovery-packet.schema.json) and executable via [scripts/validate_discovery_packet.py](scripts/validate_discovery_packet.py). Validate a mapped packet with `python scripts/validate_discovery_packet.py --generic-snapshot generic-snapshot.json packet.json`; the generic snapshot is a required independent input, never inferred from the packet. The packet includes source provenance, hash, source-native trend signals, normalized candidate, exact-dedupe result, up to three mapping options, one bounded decision, stable reason code, and flags. The valid example is [fixtures/review-ready-packet.json](fixtures/review-ready-packet.json), with its [trusted snapshot fixture](fixtures/generic-snapshot.json).
+Every candidate uses `discovery-packet-v2`, specified by [schemas/discovery-packet-v2.schema.json](schemas/discovery-packet-v2.schema.json) and executable via [scripts/validate_discovery_packet.py](scripts/validate_discovery_packet.py) (which selects the v1 or v2 code path on `contractVersion`; existing `discovery-packet-v1` packets remain valid for back-compat). Validate a mapped packet with `python scripts/validate_discovery_packet.py --generic-snapshot generic-snapshot.json packet.json`; the generic snapshot is a required independent input, never inferred from the packet. The packet includes source provenance, hash, source-native trend signals, normalized candidate, exact-dedupe result, up to three mapping options (each with `similarity` + `matchTier`), one bounded decision, stable reason code, and flags. The valid example is [fixtures/review-ready-packet.json](fixtures/review-ready-packet.json), with its [trusted snapshot fixture](fixtures/generic-snapshot.json).
 
 The bounded Luna viability input is [fixtures/luna-viability-page.json](fixtures/luna-viability-page.json), with the separate oracle at [fixtures/luna-viability-expected.json](fixtures/luna-viability-expected.json): existing-generic implementation, exact duplicate, malformed artifact, ambiguous capability, and copied/cited-origin skill. Give the worker only the input page, then compare against the oracle after the run. The verified Hermes/Luna result and usage receipt are recorded in [LUNA-VIABILITY.md](LUNA-VIABILITY.md). These fixtures are not registry inputs.
 
 Stable validator codes include `MALFORMED_PACKET`, `MISSING_REQUIRED_FIELD`, `INVALID_CANDIDATE_ID`, `INVALID_LIFECYCLE_TRANSITION`, `MISSING_SOURCE_PROVENANCE`, `MISSING_FETCHED_PROVENANCE`, `INVALID_SOURCE_LANE`, `INVALID_SOURCE_URL`, `MISSING_FETCHED_FRONTMATTER`, `INVALID_CONTENT_HASH`, `INVALID_MAPPING_OPTIONS`, `TOO_MANY_MAPPING_OPTIONS`, `UNTRUSTED_GENERIC_SNAPSHOT`, `INVALID_GENERIC_SNAPSHOT`, `INVALID_DUPLICATE_PROOF`, `UNKNOWN_DECISION`, `INVALID_DECISION_STATE`, `INVALID_GENERIC_SELECTION`, `INVALID_NEW_GENERIC_PROPOSAL`, and `DOWNSTREAM_FIELD_FORBIDDEN`.
 
+## L4 presentation requirement
+
+At L4 the packet MUST show WHY the worker chose `MAP` vs `NEW_GENERIC` — both the **signal** (cosine `similarity` + `matchTier`) AND the **source** (which generic/named id it matched). This is the human ratification surface for all new topology (new generics, fusions, suites). The `mappingOptions[].similarity` / `mappingOptions[].matchTier` fields plus the matched id carry this WHY through from prefill → worker → L4 report.
+
 ## Human checkpoint
 
-An L4 human reviews every `review-ready` row, all deferrals, and every proposed new generic. Shortlist acceptance is not registry acceptance. Stop after producing the L4 review artifact. Only after L4 may a separate intake/evidence workflow collect evidence or request registry changes.
+`/gaia-curate` writes each review-ready `discovery-packet-v2` JSON to `registry-for-review/discovery-packets/` (alongside the existing `registry-for-review/skill-batches/` intake). An L4 human reviews every `review-ready` row, all deferrals, and every proposed new generic. Shortlist acceptance is not registry acceptance. Stop after producing the L4 review artifact. Only after L4 may a separate intake/evidence workflow collect evidence or request registry changes.
