@@ -20,17 +20,38 @@ This is the canonical orchestrator for the Gaia evidence data lake. Both `/ev-pi
 
 ```mermaid
 graph TD
+    Phase0[Phase 0: ev-discovery (skippable)] -->|Append discovered rows| A
     A[Phase 1: ev-collection] -->|Compile Index| B[Phase 2: ev-star-verification]
     B -->|Partition Tiers| C[Phase 3: ev-adversarial-audit]
     C -->|Audit Contexts| D[Phase 4: ev-link-validation]
     D -->|Validate Statuses| E[Master Source Report & Visual HTML Updates]
 ```
 
+> **Continuous additive loop, no green gate.** Phase 0 only *appends* freshly
+> discovered rows to the collector channels; the four verification phases then
+> process them like any other evidence. There is no pass/fail wall — the only
+> human gate is L4 at ingestion.
+
 ---
 
 ## The Four Phases
 
 Run these in order. Each phase produces output that the next phase consumes — skipping a phase produces incomplete or stale results downstream.
+
+### Phase 0: Evidence Discovery (`ev-discovery`) — skippable
+
+Searches the web (via the `firecrawl` skill) for **new** Stage-2 evidence
+(`benchmark-result`, `arxiv`, `peer-review`, richer `social-signal`) and appends
+the discovered sources as fresh rows into `evidence/collectors/technical|social/`.
+It runs **only on declared need** — a promotion candidate, or a skill that
+`/gaia-meta-sweep` flags as under-evidenced — and is otherwise **skipped** to
+keep the common ingest path cheap. It appends unmarked rows so Phase 1 picks
+them up; it never gates the pipeline. Requires `FIRECRAWL_API_KEY` and skips
+gracefully if unset.
+
+```bash
+/ev-discovery
+```
 
 ### Phase 1: Evidence Collection (`ev-collection`)
 
