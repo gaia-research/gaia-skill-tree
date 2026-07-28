@@ -356,6 +356,12 @@
       "repo-own"
     ]
   },
+  "curationPrefill": {
+    "description": "Embedding-similarity thresholds for gaia-curate v2 prefill. Tunable via the Haiku dynamic-workflow loop. Cosine (all-MiniLM-L6-v2).",
+    "strongMap": 0.72,
+    "weakMap": 0.45,
+    "topK": 3
+  },
   "apexGate": {
     "description": "6★ apex gate configuration (RFC §11.12, amended by G7 delta §A). All 6 active predicates must be simultaneously satisfied. Two predicates are feature-flagged OFF until 2026-Q4 review.",
     "predicates": [
