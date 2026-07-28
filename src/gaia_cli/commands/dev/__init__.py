@@ -152,6 +152,41 @@ class DevCommand(Command):
             help="Print the packet to stdout instead of writing to disk",
         )
 
+        dev_evidence_seed = dev_sub.add_parser(
+            "evidence-seed",
+            help=(
+                "Emit the evidence-seed for an L4-approved skill: a per-type "
+                "artifact under evidence/seeds/ + collector rows (RFC2 Gap C)"
+            ),
+        )
+        dev_evidence_seed.add_argument(
+            "skill_id", help="Skill id the seed rows belong to"
+        )
+        dev_evidence_seed.add_argument(
+            "--source",
+            action="append",
+            default=[],
+            dest="sources",
+            metavar="URL:TYPE[:SCOPE]",
+            help=(
+                "Raw source, repeatable. Format 'url::type' or 'url::type::scope' "
+                "(:: separator; scope one of standalone|suite-component|suite-wide). "
+                "type is a meta.json evidence type id (repo-own, benchmark-result, "
+                "arxiv, peer-review, social-signal, ...). NO star/grade/tier."
+            ),
+        )
+        dev_evidence_seed.add_argument(
+            "--scope",
+            choices=("standalone", "suite-component", "suite-wide"),
+            default="standalone",
+            help="Default attribution scope for sources without an explicit scope",
+        )
+        dev_evidence_seed.add_argument(
+            "--no-collectors",
+            action="store_true",
+            help="Write only the standalone seed artifact; skip the collector dual-write",
+        )
+
         dev_merge = dev_sub.add_parser(
             "merge", help="Merge one or more skills into a target skill"
         )
@@ -806,6 +841,9 @@ class DevCommand(Command):
         elif dev_cmd == "prefill":
             from gaia_cli.prefill import prefillCommand
             return prefillCommand(args)
+        elif dev_cmd == "evidence-seed":
+            from gaia_cli.commands.dev.evidenceSeedCmd import evidenceSeedCommand
+            return evidenceSeedCommand(args)
         elif dev_cmd == "merge":
             from gaia_cli.commands.dev.merge import meta_merge_command
             meta_merge_command(args)
