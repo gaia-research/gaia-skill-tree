@@ -49,8 +49,10 @@ The Orchestrator: tracks high-level goals against the roadmap, audits GitHub sta
 
 ## Project Facts
 
-- Repo: `mbtiongson1/gaia-skill-tree` (public). Website: gaiaskilltree.com
-- Project board: https://github.com/users/mbtiongson1/projects/2 ("GAIA V2 Roadmap").
+- Org: **`gaia-research`**. Repos: `gaia-skill-tree` (HQ, public), `gaia-research`, `skill-heaven`, `gaia-mcp`. Website: gaiaskilltree.com
+- **Project board (v5, current): https://github.com/orgs/gaia-research/projects/6 — "GAIA v5".** Org-level, spans all four repos. Custom fields: **Program** (1–7), **Arc** (I–V / Background), **Plane**. This is the single instrument for tracking v5; the EPIC (#1336) is the narrative.
+- Superseded boards: `github.com/users/mbtiongson1/projects/2` (327 items) and `github.com/orgs/gaia-research/projects/5` (151 items, a half-finished migration of the former). Both are v2-era.
+- **Umbrella EPIC:** gaia-skill-tree#1336. Program milestones #12–#18 in `gaia-skill-tree`; Program 1's execution issues are `skill-heaven` #5–#13 under its milestone #1.
 - Current repo version: **v4.11.0** (registry/gaia.json source of truth — verify before claiming).
 - Phase 1 scope = **hybrid** (decision 2026-06-10): milestone #4 is the umbrella, v2 BUILD sprint order drives execution. After 2026-06-16 hygiene pass, milestone #4 maps 1:1 to G1–G7 in `PHASE1_MASTER.md`.
 - Phase 2 (Sprint 2) starts when milestone #4 closes. Sprint-2 issues already filed: #696 (closed), #697, #698. Trending Engine work is Phase 2, NOT to bleed into Phase 1.

@@ -4,6 +4,61 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-28, Session 7 — GAIA Roadmap v5 RATIFIED; Arc I opened; ecosystem tracking spine stood up across four repos; org board replaces both ROADMAP boards)
+
+### TLDR
+- **v5 is ratified.** 14 decisions ruled, 3 amended, 1 (V5-4) left deliberately open. PR **#1340** (`dev/gaia-v5-program-1-setup-eaf791` → `main`). v4 archived to `founder/handovers/archive/roadmaps/`.
+- **The three amendments matter more than the ratifications.** (a) **V5-2** — the ecosystem is *Skill Tree + Skill Heaven + Skill Hell*, Research is the laboratory; v5's *focus* is Heaven but it is not a ranked flagship. The Tree is **feature-complete for this cycle** until **Yggdrasil III** → Program 5 rescoped from ~$40 to a **~$20 maintenance lane**, arc total ~$204 → **~$184**. (b) **V5-8 escalated** — full six-namespace migration lands in **Arc I**; **`gaia.registry` REJECTED → `gaia.skills`** (same ruling as #1258, arriving from the vocabulary side); **two namespace HQs**. (c) **V5-12** — Ygg II remainder runs as ONE resumable PR with ONE founder review; **#1001 deferred to TM Index v2, August 2026** (founder is satisfied with Ygg II as shipped).
+- **V5-4 is OPEN on purpose and must stay that way.** Founder leans **four names: Tree · Heaven · Hell · Research**, with Skill Heaven as one package containing MCP + Skill Hell, and the Tree fanning out later (Canon Tree done; enterprise trees a packaged product with an enterprise-ready Heaven). **Resolution that keeps it free:** Program 7's About surface ships the four-name *public story* and **never names a repo or an npm package**. Topology can move without rewriting the page.
+- **PRIVATE — not in the public roadmap (V5-9 ruled enterprise out of the public text):** Skill Hell is the **enterprise unlock**. Enterprise needs its own skill trees, sold packaged with an enterprise-ready Skill Heaven. Recorded here so the *why* behind Hell's design survives; do not write it into public copy.
+- **Ground-truth correction worth remembering: ALWAYS fetch remote `main` before trusting a local clone.** A scout read `/Users/marcotiongson/Documents/gaia-research` sitting on `staging`, 6 days stale, and reported `founder/lexicon.json` missing. It is live on `main`: **51 terms** (29 canonical / 13 parked / 9 banned), plus generated `founder/LEXICON.md`, `scripts/lexicon/check-lexicon.ts`, and **`.github/workflows/lexicon-ci.yml` already running green**. Marco caught it. Program 2 is a **restructure of a working system**, not a greenfield build.
+- **The `search_skills` ↔ `gaia_search` collision was already ruled** — `summon` is canonical with oracle **D4** and names `search_skills` as its partner tool. Only the enforcing `banned` entries are missing (#1338). **Ten minutes of work that permanently discharges the arc's only cross-lane dependency**, and the window exists exactly once because nothing is published.
+- **PR #4's real blocker is F6, not the D13 citation.** `--disable-slash-commands` at the T9b floor suppresses *plugin* commands too, so `/skill-heaven` does not exist at the ratified floor — "the clean room as currently composed has no door." That is what V5-5's floor split resolves. F7 prices the door at **+515 tok** (20,176 vs 19,661; still −28.9% off native's 28,379).
+
+### What changed this session
+| Layer | State |
+|---|---|
+| GAIA Roadmap v5 ratified (§10 decision log filled) | ✅ PR #1340 |
+| v4 archived → `handovers/archive/roadmaps/` | ✅ |
+| `founder/handovers/ARC_I.md` — 3-lane builder handover | ✅ New |
+| `founder/CLAUDE.md` Key References + board/org facts | ✅ |
+| `skill-heaven` tracking spine (was ZERO issues/milestones) | ✅ 18 labels, milestone #1, issues **#5–#13** with KC1–KC9 verbatim |
+| HQ umbrella EPIC | ✅ gaia-skill-tree **#1336** |
+| Program milestones in HQ | ✅ **#12–#18** (Programs 1–7) |
+| New Arc I issues | ✅ **#1337** (P2 namespaces), **#1338** (P2 ban MCP names), **#1339** (P7 About surface), **#1341** (P7 four surface breaks) |
+| 17 existing issues adopted into milestones + `v5`/program labels | ✅ incl. deferral comment on **#1001** |
+| Org project board **GAIA v5** | ✅ orgs/gaia-research/projects/**6** — 31 items, fields **Program** / **Arc** / **Plane** |
+| Old ROADMAP boards closed | ✅ user `mbtiongson1`#2 (327 items) + org `gaia-research`#5 (151, half-migration) |
+
+### Topology ratified this session
+- **Tracking:** HQ umbrella EPIC in `gaia-skill-tree` (narrative) + **sub-issues in the repo where the work lands** + **one org board** (instrument). Marco reads the board daily, the EPIC for the story.
+- **`founder/`:** HQ (`gaia-skill-tree`) owns roadmap + MEMORY + handovers. Satellites own only plane-local artifacts. **Note:** `skill-heaven` has NO `founder/` — its `RATIFICATION.md` and HH ledger already live in `gaia-research/founder/`. **Left there deliberately** — that is where the benchmark methodology lives and D-decisions span both planes.
+- **Lexicon:** two HQs. `gaia-research` = `core` + `gaia.research` + `gaia.brand` + `gaia.heaven` + `gaia.mcp`. `gaia-skill-tree` = `gaia.skills` + `gaia.trust`. `skill-heaven` and `gaia-mcp` hold none — they consume.
+- **About surface:** canonical on **Gaia Research**, prominent pointer from the Tree. `docs/about.html` stays the founder-story page.
+- **Milestones:** one per program (permanent). Arcs are a **board field**, not a milestone.
+
+### Branches / PRs at end of session
+| Ref | State |
+|---|---|
+| `dev/gaia-v5-program-1-setup-eaf791` | PR **#1340** open → `main`. Founder docs only. |
+| `gaia-research/skill-heaven` PR #4 | Open draft — **must be re-cut** (V5-6): drop retired D13, absorb the V5-5 floor split, land ledger delta same cycle (D9). Tests 95/95 green. |
+
+### Verified repo facts (2026-07-28)
+- `gaia-mcp`: v0.1.0, **never published**, 0 open issues/PRs. 8 contract test files + `COMPATIBILITY.md` **worth harvesting** before the blank-canvas rebuild. `~/Documents/gaia-mcp 2` is an **empty git repo, no commits, no remote** — junk, safe to delete.
+- `gaia-research`: no milestones. 27 open issues. `hh-ledger/v1` at `scripts/hell-heaven-bench/ledger.ts:34`. `r0-census.md` published.
+- `skill-heaven` README lines 26–27: Vision/Mission badges **404** — they point at `gaia-research` repo-root; files live at `docs/skill-heaven/`.
+- `gh` needs `-s read:project,project` for any board work. Marco refreshed it this session.
+
+### Quick handoff for the next session
+1. **Merge PR #1340** once CI is green — it is founder docs only.
+2. **Start Arc I at `skill-heaven#6`** (the floor split). It is ratified, evidence is in hand, and `#5` (the PR #4 re-cut) has to absorb it.
+3. **Land `#1338` early** — three `banned` lexicon entries; discharges the arc's only cross-lane dependency forever.
+4. **Cheapest credibility win: `#1130`.** The weekly report + benchmark leaderboard are built and unreachable; the blocking condition (EPIC #1002) closed months ago.
+5. **Program 5** runs as a nested orchestrator on `BACKLOG_ERADICATION_TRACKER.md` → chained auto-Sonnet → one resumable PR → one Marco review. Do **not** stream small PRs at him.
+6. Three duplicate `MARKETING` org boards (#1, #3, #4) want a cleanup pass — noted, not actioned.
+
+---
+
 ## State Snapshot (2026-07-26, Session 6 — EPIC 1002 close-out: SAP-email fully eradicated, severed ancestry repaired (#1185 MERGEABLE), founder archive pass, Ygg II meta-post published, README Change Management section; awaiting CI-green human gate before the v7.0.0 merge)
 
 ### TLDR
