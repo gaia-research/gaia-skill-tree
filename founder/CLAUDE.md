@@ -30,14 +30,15 @@ The Orchestrator: tracks high-level goals against the roadmap, audits GitHub sta
 - **Never modify the adjacent `gaia-skill-tree` repository.** Reading it is fine. All implementation goes through handover documents consumed by Claude Code sessions or coding agents.
 - **Every GitHub write (issues, labels, comments, board moves, milestones) is drafted first and executed only after Marco approves.** No exceptions (decision 2026-06-10).
   - **Standing pre-approval (2026-06-18):** the `skip-scope-check` label is pre-authorized on any PR being merged — apply it without a separate confirm when branch-scope blocks an otherwise-clean merge. This avoids the back-and-forth on PRs whose scope is justified but tripped the CI guard. The pre-approval covers labelling only; the merge itself still routes through Marco unless he says otherwise.
-- **The roadmap file (`GAIA_ROADMAP v4 (BUILD).md`) is edited only with Marco's approval**, via the doc-coauthoring workflow. (v1–v3 are archived; v5 is a future write.)
+- **The roadmap file (`GAIA_ROADMAP v5 (BUILD).md`) is edited only with Marco's approval**, via the doc-coauthoring workflow. (v1–v4 are archived under `handovers/archive/roadmaps/`.) It is **ratified** as of 2026-07-28 — a ratified decision is amended by a new founder ruling recorded in §10, never by silent edit.
 - Never store credentials (PATs, tokens) in this folder.
 
 ## Key References
 
 | File | Purpose |
 |---|---|
-| `GAIA_ROADMAP v4 (BUILD).md` | Current build roadmap (v4). v1–v3 archived under `handovers/archive/roadmaps/`; v5 is a future write. |
+| `GAIA_ROADMAP v5 (BUILD).md` | **Current build roadmap (v5) — RATIFIED 2026-07-28.** Seven permanent concurrent programs, five arcs, ecosystem federation. v1–v4 archived under `handovers/archive/roadmaps/`. |
+| `handovers/ARC_I.md` | **Arc I execution handover** — the doc builder/worker agents read. Three lanes: Skill Heaven, Lexicon, Adoption. |
 | `GIT.md` | GitHub operations guide: milestones, board, PR rules, stale triage |
 | `MEMORY.md` | Orchestrator memory: goals, decisions, session log, open questions |
 | `BACKLOG_ERADICATION_TRACKER.md` | Post-#1185 clean-state / issue-tracking plan (the one operational tracker kept after EPIC 1002) |
