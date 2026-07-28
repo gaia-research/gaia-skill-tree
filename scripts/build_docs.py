@@ -803,6 +803,32 @@ def _run_script(script: Path, args: list[str]) -> tuple[int, str]:
     return proc.returncode, (proc.stdout or "") + (proc.stderr or "")
 
 
+# Steps that shell out used to raise a bare "rc=1", and _run_step() collapses
+# that into a one-line warning. The captured traceback was only printed under
+# --check, so a plain `gaia dev docs` reported an unactionable "regen failed:
+# rc=1" and hid the real cause. Always carry the tail of the output into the
+# error, and translate the most common cause into the exact install command.
+_MISSING_DOCS_DEPS = ("numpy", "scipy")
+
+
+def _failure_detail(output: str, tail_lines: int = 12) -> str:
+    """Build an actionable detail block from a failed helper script's output."""
+    text = (output or "").strip()
+    if not text:
+        return "  (no output captured)"
+    hint = ""
+    for mod in _MISSING_DOCS_DEPS:
+        if f"No module named '{mod}'" in text:
+            hint = (
+                f"\n  HINT: '{mod}' is missing. The docs pipeline needs the "
+                "optional scientific stack.\n"
+                "        Install it with:  pip install -e \".[docs]\""
+            )
+            break
+    lines = text.splitlines()[-tail_lines:]
+    return "\n".join("  " + line for line in lines) + hint
+
+
 def build_named_index(check: bool) -> bool:
     """Run generateNamedIndex.py and compare against registry/named-skills.json."""
     script = SCRIPTS / "generateNamedIndex.py"
@@ -816,7 +842,9 @@ def build_named_index(check: bool) -> bool:
             if check:
                 print(f"diff registry/named-skills.json (regen failed: rc={rc})")
                 print(output)
-            raise RuntimeError(f"named-skills.json regen failed: rc={rc}")
+            raise RuntimeError(
+                f"named-skills.json regen failed: rc={rc}\n{_failure_detail(output)}"
+            )
         if not committed.exists():
             if check:
                 print("diff registry/named-skills.json (missing committed file)")
@@ -1497,7 +1525,9 @@ def build_tree_md(check: bool) -> bool:
         if check:
             print(f"diff docs/tree.md (regen failed: rc={rc})")
             print(output)
-        raise RuntimeError(f"docs/tree.md regen failed: rc={rc}")
+        raise RuntimeError(
+            f"docs/tree.md regen failed: rc={rc}\n{_failure_detail(output)}"
+        )
 
     generated = ROOT / "generated-output" / "tree.md"
     committed = ROOT / "docs" / "tree.md"
