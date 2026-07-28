@@ -297,7 +297,7 @@ usage: gaia [-h] [--registry REGISTRY] [--global] [--version]
             {help,init,scan,fetch,pull,update,install,uninstall,share,tree,push,propose,version,whoami,login,logout,reset,graph,stats,appraise,fuse,lookup,path,dev,skills}
             ...
 
-Gaia Registry CLI
+Gaia CLI
 
 options:
   -h, --help           show this help message and exit

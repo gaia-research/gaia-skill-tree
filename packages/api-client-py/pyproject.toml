@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "gaia-registry-client"
 version = "0.1.0"
-description = "Python client for the Gaia Registry API — sync + async, fully typed"
+description = "Python client for the Gaia Skill Tree API — sync + async, fully typed"
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.10"
