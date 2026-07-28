@@ -2,15 +2,15 @@ GAIA — Open Capability Control System for AI Agents
 
 Version: 5.0
 
-Status: **DRAFT — awaiting founder ratification**
+Status: **RATIFIED**
 
-Supersedes: `GAIA_ROADMAP v4 (BUILD).md` (to be archived on ratification)
+Supersedes: `GAIA_ROADMAP v4 (BUILD).md` (archived to `founder/handovers/archive/roadmaps/`)
 
 Author: Orchestrator + Marcus Tiongson
 
 Drafted: 2026-07-28 (post-Yggdrasil II, v7.1.5)
 
-Ratified: —
+Ratified: **2026-07-28** — Marcus Tiongson. Fourteen decisions ruled, three amended, one left deliberately open (V5-4). See §10.
 
 Audience:
 
@@ -28,7 +28,7 @@ v4 was a **single-product roadmap with a migration at the end of it**. v5 is an 
 
 1. **Sprint F is retired, not completed.** v4 planned to migrate the Skill Tree website into a `gaia-research` monorepo and reduce Skill Tree to a headless toolkit. That is cancelled. Gaia Research stays the laboratory and the organizational centre; the Skill Tree stays the Atlas and keeps its own site. Replacement: **Ecosystem Separation + Contract Federation** — nothing consumes another product's source, everything talks through versioned contracts.
 
-2. **Skill Heaven enters the roadmap as the flagship program**, not as a satellite. It is the runtime layer: it decides which capabilities enter a session, at what dose, under what trust posture. The Tree answers *what exists and why trust it*; Skill Heaven answers *what should enter this context, right now*.
+2. **Skill Heaven is where v5 puts its focus** — as one member of an ecosystem, not as a ranked flagship over the others. *(Amended at ratification, V5-2.)* The ecosystem is **Skill Tree + Skill Heaven + Skill Hell**, with Gaia Research as the laboratory around them. Skill Heaven is the runtime layer: it decides which capabilities enter a session, at what dose, under what trust posture. The Tree answers *what exists and why trust it*; Skill Heaven answers *what should enter this context, right now*. The Tree is **feature-complete for this cycle** — ops and refinements only, until Yggdrasil III. That is why v5's attention sits on Heaven: not because the Tree is subordinate, but because it is done.
 
 3. **Alphabetical sprints are replaced by permanent concurrent programs.** v4's B→D→C→E→F→G chain assumed one product and one work-front. There are now five products moving at once. Programs run continuously; **arcs** sequence the milestones that cut across them.
 
@@ -70,6 +70,12 @@ The strategic bet, stated plainly: *marketplaces solve acquisition; Skill Heaven
 | **Execution** | Harness doors | `skill-heaven/packages/*-heaven` | Apply those controls correctly in Claude Code, pi, Codex, Cursor, and others |
 
 This is an **ecosystem architecture**, not a monorepo architecture. The boundary rule is already ratified upstream as **D6** (cross-repo contract, thin): the product repo does not import research code — it vendors small pure pieces and proves parity by fixture. v5 generalizes D6 to every seam in the table.
+
+> **⚠ V5-4 is OPEN by founder ruling (2026-07-28) — this table is provisional.**
+>
+> The five-plane table above is the *implementation* view. The founder leans toward a **four-name** model — **Tree · Heaven · Hell · Research** — in which **Skill Heaven is one package containing both the MCP transport and Skill Hell**, and the Tree eventually fans out (the Canon Tree is done; enterprise skill trees become a packaged product alongside an enterprise-ready Skill Heaven). The decision is deliberately kept flexible: the four-name model is easier to understand and is the likely public story, while the repo and package topology stays free to move.
+>
+> **What this does *not* block.** Program 7's ecosystem surface ships the **four-name public story** and never names a repo or an npm package. It owns the relationships between four named things; topology is an internal concern that can change without rewriting the page. Program 4's *destination* — standalone `gaia-mcp` package versus folded into the Heaven package — is a sub-decision of V5-4 and likewise open; V5-14's blank-canvas ruling holds either way.
 
 ### Ownership, stated so it stops being re-litigated
 
@@ -130,7 +136,9 @@ Everything in this section was checked against live repos, not recalled. Where t
 | `@gaia-research/mcp` | **v0.1.0**, read-only Registry mode, implementation under review, **not yet published to npm** |
 | Gaia MCP live tools | `gaia_search`, `gaia_inspect`, `gaia_status` |
 | Legacy `packages/mcp` | Still in Skill Tree; extraction RFC open at **#1191** |
-| Lexicon of record | Live in `gaia-research/founder/lexicon.json` (51 terms, namespace `core`, states `canonical`/`parked`/`banned`/`frozen`). Port RFC to Skill Tree open at **#1302** |
+| Lexicon of record | Live in `gaia-research/founder/lexicon.json` on `main` — **51 terms** (29 `canonical`, 13 `parked`, 9 `banned`), schema 1, namespace `core`, updated 2026-07-24. Generated companion `founder/LEXICON.md` (hand-edit forbidden). Port RFC to Skill Tree open at **#1302** |
+| Lexicon **CI gate** | **Already shipped and green** — `.github/workflows/lexicon-ci.yml` in `gaia-research` runs `scripts/lexicon/check-lexicon.ts` plus 19 self-test assertions and 8 fixtures. Path-scoped to the Skill Heaven line only. Does **not** exist in `gaia-skill-tree`, `skill-heaven`, or `gaia-mcp` |
+| `search_skills` ↔ `gaia_search` | **Already ruled** — `summon` is `canonical` with oracle **D4** and its definition names `search_skills` as its partner tool. `search_skills` wins. The prototype's `gaia_search`/`gaia_inspect`/`gaia_status` are simply not yet recorded as `banned` with a replacement pointer |
 | HH ledger | `hh-ledger/v1` emitting; validator + append-only ledger of record in `gaia-research` |
 | R0 dose census | Published (`content/reports/hh-benchmark/r0-census.md`) |
 
@@ -210,9 +218,22 @@ This is not a setback. It is the product learning what physics permits, and the 
 
 The reference implementation exists: `gaia-research/founder/lexicon.json` already distinguishes `canonical` / `parked` / `banned` / `frozen`, and already encodes the discipline that **a provisional concept does not become canonical merely because an old report described it confidently**. RFC #1302 is the port into the Skill Tree, and separates: founder rulings · standing invariants · point-in-time reports · generated artifacts · vocabulary authority · structural schema constants. It exists specifically to stop the failure mode where an agent blocks correct work because a stale report was mistaken for permanent law.
 
-**Federated namespaces** — one mega-file is explicitly rejected:
+**Federated namespaces** — one mega-file is explicitly rejected. Ratified set (V5-8, 2026-07-28):
 
-`gaia.registry` · `gaia.trust` · `gaia.heaven` · `gaia.mcp` · `gaia.research` · `gaia.brand`
+`gaia.skills` · `gaia.trust` · `gaia.heaven` · `gaia.mcp` · `gaia.research` · `gaia.brand`
+
+> **`gaia.registry` is rejected** — renamed to **`gaia.skills`**. This is the same ruling as **#1258** ("Gaia Registry" is not the product name), arriving from the vocabulary side. The two close together.
+
+**Two namespace HQs** (V5-8, 2026-07-28). Namespace files live in exactly two repos:
+
+| Repo | Owns |
+|---|---|
+| `gaia-research` | `core` · `gaia.research` · `gaia.brand` · `gaia.heaven` · `gaia.mcp` |
+| `gaia-skill-tree` | `gaia.skills` · `gaia.trust` |
+
+`skill-heaven` and `gaia-mcp` hold **no** namespace files — they consume. The rationale: the Skill Tree's vocabulary is tight and skill-indexed, so it belongs proximate to the Tree; everything else converges on Research, because every line starts and ends there.
+
+**Scope correction (verified at ratification).** The six-namespace migration is a restructure of a **working** system, not a greenfield build. `founder/lexicon.json` is live at 51 terms and **the CI gate already runs green in `gaia-research`** (§4.1). Program 2's Arc I work is therefore: (a) migrate flat `core` into the six ratified namespaces across the two HQs, (b) record `gaia_search`/`gaia_inspect`/`gaia_status` as `banned` → `search_skills`, which makes the existing D4 ruling *enforceable* and is the entire Program 2 → Program 4 unblock, (c) extend the gate's reach to the second HQ. The authority hierarchy (#1302) remains Arc II/III.
 
 **Contracts to formalize.** The lexicon defines what the nouns mean; schemas define their shapes; ratification defines why they exist; tests verify the implementations agree.
 
@@ -233,9 +254,10 @@ The reference implementation exists: `gaia-research/founder/lexicon.json` alread
 **Kill criteria**
 
 - KC1: Every term in the table above resolves to exactly one namespace-owning definition
-- KC2: A CI gate rejects a PR that introduces a `banned` term or redefines a term it does not own
-- KC3: The `search_skills`/`gaia_search` collision is closed by lexicon ruling, with the losing spelling marked `banned`
-- KC4: An agent can determine, from the lexicon alone, whether a concept is ratified law or a point-in-time report
+- KC2: A CI gate rejects a PR that introduces a `banned` term or redefines a term it does not own — **live in `gaia-research`; must reach the `gaia-skill-tree` HQ**
+- KC3: The `search_skills`/`gaia_search` collision is closed by lexicon ruling, with the losing spelling marked `banned` — **ruled; needs the enforcing entries written**
+- KC4: An agent can determine, from the lexicon alone, whether a concept is ratified law or a point-in-time report *(Arc II/III, #1302)*
+- KC5: The six ratified namespaces exist across the two HQs, and no term is defined twice
 
 **Budget:** ~$18
 
@@ -333,7 +355,11 @@ Skill Heaven launches the **minimal** profile and **measures its schema dose**. 
 
 ### Program 5 — Gaia Skill Tree Core
 
-**Plane:** Trust · **Priority: stability and routing-quality projections** · **Repo:** `gaia-skill-tree`
+**Plane:** Trust · **Priority: maintenance lane — ops and refinements only** · **Repo:** `gaia-skill-tree`
+
+> **Rescoped at ratification (V5-2, V5-12).** The Tree is **feature-complete for this cycle**. Program 5 is a **background maintenance program**, not a build program: ops, refinements, and correctness fixes until **Yggdrasil III**. It never competes with Arc I for founder attention. Budget drops from ~$40 to **~$20**; the difference rolls into the arc cushion, not into scope.
+>
+> **Execution model:** a nested orchestrator loaded with `founder/BACKLOG_ERADICATION_TRACKER.md`, driving chained auto-Sonnet workers, producing **one large resumable PR** with **a single founder review pass** at the end. Not a stream of small PRs — the founder reviews once.
 
 **Standing goal:** the Tree does not absorb Skill Heaven — it becomes exceptionally good at **supplying** it. Skill Heaven is the Tree's most demanding consumer, and that is healthy pressure: *if Skill Heaven cannot safely route against the Tree, the Tree's machine contracts are not yet strong enough.*
 
@@ -357,9 +383,9 @@ Skill Heaven launches the **minimal** profile and **measures its schema dose**. 
 | #1230 | Dead type-enum reads (`ultimate`/`unique`/`extra`) + `stype='extra'` writes persist post-#997 |
 | #1264 | `share.py` `_TYPE_SYMBOL` keyed on retired type literals |
 | #1174 | Auto-derive `type` from prereq structure; deprecate `gaia dev reclassify` |
-| #1202 | Built `gaia.json` is invalid against its own schema (`additionalProperties:false`) |
-| #1201 | Live graph JSON `$schema` points at a dead path (404) |
-| #1001 | Branch-aware TM formula rebuild (G8) — unblocked now that Ygg II has landed |
+| #1202 | Built `gaia.json` is invalid against its own schema (`additionalProperties:false`) — **priority: a consumer will hit this** |
+| #1201 | Live graph JSON `$schema` points at a dead path (404) — **priority: same** |
+| ~~#1001~~ | ~~Branch-aware TM formula rebuild (G8)~~ — **DEFERRED at ratification (V5-12).** Does not ship in this cycle. Lands **August 2026 with TM Index v2**, alongside the meta audit. It is a new formula, not Yggdrasil II's remainder, and the founder is satisfied with Ygg II as shipped. |
 
 **5.3 Standing platform debt** — carried, not deferred: #1147 (DOM-XSS / `innerHTML` risks on static pages) · #1268 (frontend performance: DAG, Skill Explorer, page latency) · #1258 (branding: "Gaia Registry" is not the product name) · #1307 (`gaia install` conformance to the Agent Skills standard) · #1178 (RFC: extract `skill-trees/` — a **federation** move, not a migration).
 
@@ -371,10 +397,11 @@ Skill Heaven launches the **minimal** profile and **measures its schema dose**. 
 - KC2: A version handshake exists between Tree projections and both consumers (Heaven, MCP)
 - KC3: Taxonomy logic has exactly one implementation, not three (#1231 closed)
 - KC4: `gaia.json` validates against its own schema (#1202 closed)
-- KC5: TM v-next is branch-aware and published with a reproducibility fingerprint (#1001)
+- ~~KC5: TM v-next is branch-aware and published with a reproducibility fingerprint (#1001)~~ — **moved out of this cycle** to TM Index v2, August 2026 (V5-12)
 - KC6: `gaia dev docs` output and the served Class S artifacts remain byte-consistent
+- KC7: The Ygg II remainder lands as **one resumable PR** with a single founder review pass — not a stream of small PRs
 
-**Budget:** ~$40
+**Budget:** ~$20 *(reduced from $40 at ratification — maintenance lane, #1001 deferred)*
 
 ---
 
@@ -583,10 +610,12 @@ These **replace** v4's Migration Invariants. Every non-trivial PR in any Gaia re
 | 2 — Lexicon & Contract Spine | ~180k | ~$18 |
 | 3 — Hell Heaven Index | ~300k | ~$30 |
 | 4 — MCP & Summoning *(blank-canvas rebuild)* | ~320k | ~$32 |
-| 5 — Gaia Skill Tree Core | ~400k | ~$40 |
+| 5 — Gaia Skill Tree Core *(maintenance lane)* | ~200k | ~$20 |
 | 6 — Research, SEO & Thought Leadership | ~220k | ~$22 |
 | 7 — Adoption & Surface Consolidation | ~280k | ~$28 |
-| **Total (Arcs I–IV horizon)** | **~2.04M** | **~$204** |
+| **Total (Arcs I–IV horizon)** | **~1.84M** | **~$184** |
+
+*Program 5 reduced from ~$40/~400k at ratification (V5-2, V5-12): the Tree is feature-complete for this cycle and #1001 moves to TM Index v2 in August. The ~$20 difference rolls into the arc cushion, **not** into scope.*
 
 Arc V is unbudgeted by design — it opens only after the Claude prototype sings, and its scope depends on what Arcs I–IV learn.
 
@@ -598,27 +627,27 @@ Cushions: each program carries ~25–35% orchestration, review, and rework overh
 
 ## 10. Decision log — v5 ratification
 
-Entries marked **⚠ needs founder ruling** are drafted, not decided.
+**All entries ruled 2026-07-28 by Marcus Tiongson.** One entry (V5-4) is ruled **OPEN on purpose** and must stay that way until evidence closes it. Where a ruling **amended** the drafted text, the amendment is authoritative and the body of this document has been updated to match.
 
-| # | Decision | Status |
+| # | Decision | Ruling |
 |---|---|---|
-| V5-1 | v4 Sprint F (migration + monorepo move) is **retired, not completed**. Gaia Research remains the laboratory and organizational centre. | ⚠ needs founder ruling |
-| V5-2 | Skill Heaven is the **flagship program** of v5 and takes the centre. | ⚠ needs founder ruling |
-| V5-3 | Alphabetical sprints are replaced by **six permanent concurrent programs** sequenced by **five arcs**. | ⚠ needs founder ruling |
-| V5-4 | The ecosystem is **five planes with contract federation**; no plane imports another's source. | ⚠ needs founder ruling |
-| V5-5 | The **benchmark floor stays doorless** (placebo-of-record); a **doorful product floor** ships and is priced as a separate arm. Closes ledger OPEN 4. | ⚠ needs founder ruling — *upstream ledger owns final wording* |
-| V5-6 | PR #4 does **not** merge as framed; it is re-bound to live decisions with **D13 removed**, and its ratification delta lands in the same PR cycle (D9). | ⚠ needs founder ruling |
-| V5-7 | Gaia MCP defines **two profiles over one package** — Registry/Bond and Heaven/Summon. Skill Heaven launches the minimal profile and measures its schema dose. | ⚠ needs founder ruling |
-| V5-8 | The **federated lexicon** (six namespaces, one owner per term) is a v5 deliverable, and the `gaia.mcp` namespace is ruled **before** the MCP rebuild writes a tool definition. | ⚠ needs founder ruling |
-| V5-9 | **Enterprise, Prestige Index, Skill Groups + Named Badges** are deferred, not killed. | ⚠ needs founder ruling |
-| V5-10 | **Federation Invariants** replace Migration Invariants as the mandatory PR body section. | ⚠ needs founder ruling |
-| V5-11 | A **canonical ecosystem-level About / North Star surface** is created. It owns the *relationships* between planes; `VISION.md`/`MISSION.md` remain Skill Heaven **line** docs and are linked, never restated. | ⚠ needs founder ruling |
-| V5-13 | The weekly report and benchmark leaderboard entrypoints are **re-enabled in Arc I** (#1130) — their blocking condition (EPIC #1002) has closed. | ⚠ needs founder ruling |
-| V5-14 | **`@gaia-research/mcp` v0.1.0 is a prototype.** Program 4 is a **blank-canvas rebuild** — package name kept, implementation and tool vocabulary discarded. Prototype history is preserved in git. | ✅ **Founder ruling, 2026-07-28** |
-| V5-15 | **Adoption is a first-class surface**, and **Program 7 (Adoption & Surface Consolidation) is locked into Arc I** — not deferred to a polish pass. The About pages take the highest traffic Gaia has. | ✅ **Founder ruling, 2026-07-28** |
-| V5-16 | **Change management is in scope.** v5's concepts are new and some replace what users already learned, so a standing, versioned **What Changed** surface ships alongside the About surface. | ✅ **Founder ruling, 2026-07-28** |
-| V5-17 | Every user-facing surface across the three public repos is classified **canonical / pointer / retired**. No concept keeps two competing homes. | ⚠ needs founder ruling |
-| V5-12 | Post-Ygg-II remainder (#1230/#1231/#1264/#1174/#1202/#1201/#1001) is **Program 5's opening work**, per the sprint-completeness rule — closed, not re-filed. | ⚠ needs founder ruling |
+| V5-1 | v4 Sprint F (migration + monorepo move) is **retired, not completed**. Gaia Research remains the laboratory and organizational centre. | ✅ **Ratified as written** |
+| V5-2 | ~~Skill Heaven is the flagship program of v5 and takes the centre.~~ **AMENDED:** the ecosystem is **Skill Tree + Skill Heaven + Skill Hell**, with Research as the laboratory. v5's *focus* is Skill Heaven. The Tree is **feature-complete for this cycle** — ops and refinements only until **Yggdrasil III**. | ⚠️ **Amended** |
+| V5-3 | Alphabetical sprints are replaced by **seven permanent concurrent programs** sequenced by **five arcs**. *(Drafted as "six" — corrected to seven at ratification.)* | ✅ **Ratified** |
+| V5-4 | The ecosystem is **five planes with contract federation**; no plane imports another's source. | 🔓 **OPEN — deliberately.** Founder leans **four names: Tree · Heaven · Hell · Research**, with Skill Heaven as one package containing MCP + Skill Hell, and the Tree fanning out later (Canon Tree done; enterprise trees a packaged product). Kept flexible. See the note in §2. |
+| V5-5 | The **benchmark floor stays doorless** (placebo-of-record); a **doorful product floor** ships and is priced as a separate arm. Closes ledger OPEN 4. | ✅ **Ratified as written.** Upstream ledger still owns final wording; the `floor` lexicon term splits in two. |
+| V5-6 | PR #4 does **not** merge as framed; it is re-bound to live decisions with **D13 removed**, and its ratification delta lands in the same PR cycle (D9). | ✅ **Ratified as written** |
+| V5-7 | Gaia MCP defines **two profiles over one package** — Registry/Bond and Heaven/Summon. Skill Heaven launches the minimal profile and measures its schema dose. | ✅ **Ratified as written.** Survives V5-4 either way. |
+| V5-8 | The **federated lexicon** (six namespaces, one owner per term) is a v5 deliverable, and the `gaia.mcp` namespace is ruled **before** the MCP rebuild writes a tool definition. | ✅ **Ratified + escalated.** Full six-namespace migration lands in **Arc I**, not later. **`gaia.registry` REJECTED → renamed `gaia.skills`** (same ruling as #1258). **Two namespace HQs:** `gaia-research` holds `core` + `gaia.research` + `gaia.brand` + `gaia.heaven` + `gaia.mcp`; `gaia-skill-tree` holds `gaia.skills` + `gaia.trust`. No namespace files in `skill-heaven` or `gaia-mcp`. |
+| V5-9 | **Enterprise, Prestige Index, Skill Groups + Named Badges** are deferred, not killed. | ✅ **Ratified as written.** Enterprise is **not discussed** in this public roadmap — no path, no mechanism, no motivation stated. Skill Hell is described only as a gated Heaven tier. |
+| V5-10 | **Federation Invariants** replace Migration Invariants as the mandatory PR body section. | ✅ **Ratified + enforced.** A CI check makes the three-line block mandatory in every Gaia repo, the way branch-scope already is. Pairs with the lexicon gate install. |
+| V5-11 | A **canonical ecosystem-level About / North Star surface** is created. It owns the *relationships*; `VISION.md`/`MISSION.md` remain Skill Heaven **line** docs, linked and never restated. | ✅ **Ratified.** **Canonical on Gaia Research**, mirrored as a prominent **pointer** from the Tree. It tells the **four-name** story (V5-4) and never names a repo or a package. |
+| V5-12 | Post-Ygg-II remainder is **Program 5's opening work**, per the sprint-completeness rule — closed, not re-filed. | ✅ **Ratified as a background lane.** Nested orchestrator on `founder/BACKLOG_ERADICATION_TRACKER.md` → chained auto-Sonnet workers → **one large resumable PR** → **one founder review pass**. **#1001 (branch-aware TM rebuild) is excluded** — it ships August 2026 with **TM Index v2** and the meta audit. |
+| V5-13 | The weekly report and benchmark leaderboard entrypoints are **re-enabled in Arc I** (#1130). | ✅ **Ratified as written** |
+| V5-14 | **`@gaia-research/mcp` v0.1.0 is a prototype.** Program 4 is a **blank-canvas rebuild** — package name kept, implementation and tool vocabulary discarded. History preserved in git. | ✅ **Founder ruling, 2026-07-28** |
+| V5-15 | **Adoption is a first-class surface**; Program 7 is **locked into Arc I**. | ✅ **Founder ruling, 2026-07-28** |
+| V5-16 | **Change management is in scope** — a standing, versioned **What Changed** surface ships alongside the About surface. | ✅ **Founder ruling, 2026-07-28** |
+| V5-17 | Every user-facing surface across the public repos is classified **canonical / pointer / retired**. | ✅ **Ratified, scoped.** **Arc I fixes only the four proven breaks** — #1130's disabled entrypoints, `skill-heaven`'s 404 VISION/MISSION badges, #1328's 14 stale MCP refs, #1258's "Gaia Registry" branding. The full classification audit is a **Program 7 background lane**, not an arc blocker. |
 
 ---
 
@@ -652,18 +681,25 @@ Entries marked **⚠ needs founder ruling** are drafted, not decided.
 
 ---
 
-## 12. Open questions for the founder
+## 12. Open questions
 
-*Resolved 2026-07-28: Arc I scope (Program 7 locked in) · the MCP tool-name collision (moot — blank canvas, names ruled first).*
+### Closed at ratification, 2026-07-28
 
-1. **Where does the ecosystem About surface physically live?** Three candidates, and the choice sets who owns adoption: `gaiaskilltree.com` (highest existing traffic, but frames Gaia as the Tree), `research.gaiaskilltree.com` (Research is the organizational centre, but lower traffic today), or a **shared surface published to both** (correct conceptually, most expensive to keep in sync). Recommendation: **canonical on Research, mirrored as a pointer from the Tree** — Research owns the org voice, the Tree keeps the traffic and links in.
-2. **Does `docs/about.html` stay the founder-story page?** It currently is one, and it is good at that. Options: keep it and put the ecosystem page at a new path, or fold the founder story into the ecosystem page as a section. Recommendation: **keep them separate** — they serve different readers, and merging dilutes both.
-3. **Lexicon seat of authority.** Does the Skill Tree get its own `founder/lexicon.json` extending `gaia-research`'s `core` namespace, or does one lexicon live in `gaia-research` with the Skill Tree importing it? #1302 leaves this open — and Program 4 is now **blocked on this**, since it cannot write a tool definition until `gaia.mcp` is ruled.
-4. **How much of the MCP prototype is worth reading before discarding it?** The rebuild is blank-canvas by ruling, but the prototype's contract tests and its `COMPATIBILITY.md` may encode real findings about client behavior. Recommendation: **harvest the tests and the compatibility notes, discard the tool surface and the architecture.**
-5. **`hh-stamp/v1` acceptance threshold.** How repeatable must a result be before the Tree records it? "Sufficiently repeatable" needs a number before Arc IV.
-6. **Skill Tree milestone mapping.** v5's programs do not map onto the existing milestones (Phase 2 — Product Moat, Phase 3 — Growth Engine). New milestones per program, or re-point the existing two?
-7. **Budget shape.** ~$204 across Arcs I–IV vs. v4's ~$208 across six sprints — now essentially at parity after the MCP rebuild (+$6) and Program 7 (+$28). Accept, or trim Program 5 (largest at ~$40)?
+1. ~~**Where does the ecosystem About surface physically live?**~~ → **Canonical on Gaia Research, mirrored as a prominent pointer from the Tree.** Research owns the org voice; the Tree keeps the traffic and links in. (V5-11)
+2. ~~**Does `docs/about.html` stay the founder-story page?**~~ → **Yes, kept separate.** The ecosystem explainer goes at a new path. They serve different readers; merging dilutes both.
+3. ~~**Lexicon seat of authority.**~~ → **Two HQs.** `gaia-research` holds `core` + `gaia.research` + `gaia.brand` + `gaia.heaven` + `gaia.mcp`; `gaia-skill-tree` holds `gaia.skills` + `gaia.trust`. Neither `skill-heaven` nor `gaia-mcp` holds namespace files. The extend-never-redefine mechanism already exists and has a working precedent. (V5-8)
+4. ~~**How much of the MCP prototype is worth reading before discarding it?**~~ → **Harvest the 8 contract test files and `COMPATIBILITY.md`; discard the tool surface and the architecture.**
+5. ~~**Skill Tree milestone mapping.**~~ → **New milestones, one per program.** Programs are permanent, so program-named milestones stay meaningful; arcs become a field on the org project board rather than a milestone.
+6. ~~**Budget shape.**~~ → **Accepted at ~$184** after Program 5 was rescoped to a ~$20 maintenance lane (V5-2, V5-12). The freed ~$20 rolls into the arc cushion, not into scope.
+
+### Still open
+
+1. **V5-4 — how many planes, and what packages hold them.** Ruled open on purpose. The founder leans four names (Tree · Heaven · Hell · Research) with Skill Heaven as one package holding MCP and Skill Hell. **Nothing in Arc I depends on closing it** — Program 7 ships the four-name public story and never names a repo or package. Sub-decision, equally open: Program 4's destination (standalone `gaia-mcp` versus folded into the Heaven package).
+2. **`hh-stamp/v1` acceptance threshold.** How repeatable must a result be before the Tree records it? "Sufficiently repeatable" needs a number **before Arc IV**. Not an Arc I blocker.
+3. **Compaction survival (ledger OPEN 2).** Unmeasured. Needs a matrix gate before any load-bearing copy asserts it. Arc II.
 
 ---
 
-*Drafted 2026-07-28, post-Yggdrasil II, at v7.1.5. Ratification pending. On ratification, `GAIA_ROADMAP v4 (BUILD).md` archives to `founder/handovers/archive/roadmaps/` and `founder/CLAUDE.md`'s Key References table updates to point here.*
+*Drafted 2026-07-28, post-Yggdrasil II, at v7.1.5. **Ratified 2026-07-28** by Marcus Tiongson. `GAIA_ROADMAP v4 (BUILD).md` is archived to `founder/handovers/archive/roadmaps/`; `founder/CLAUDE.md`'s Key References table points here.*
+
+*Arc I execution handover: [`founder/handovers/ARC_I.md`](handovers/ARC_I.md). Umbrella EPIC and per-repo sub-issues are tracked on the `gaia-research` org project board, filterable by **Program** and **Arc**.*

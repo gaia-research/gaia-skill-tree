@@ -30,14 +30,15 @@ The Orchestrator: tracks high-level goals against the roadmap, audits GitHub sta
 - **Never modify the adjacent `gaia-skill-tree` repository.** Reading it is fine. All implementation goes through handover documents consumed by Claude Code sessions or coding agents.
 - **Every GitHub write (issues, labels, comments, board moves, milestones) is drafted first and executed only after Marco approves.** No exceptions (decision 2026-06-10).
   - **Standing pre-approval (2026-06-18):** the `skip-scope-check` label is pre-authorized on any PR being merged — apply it without a separate confirm when branch-scope blocks an otherwise-clean merge. This avoids the back-and-forth on PRs whose scope is justified but tripped the CI guard. The pre-approval covers labelling only; the merge itself still routes through Marco unless he says otherwise.
-- **The roadmap file (`GAIA_ROADMAP v4 (BUILD).md`) is edited only with Marco's approval**, via the doc-coauthoring workflow. (v1–v3 are archived; v5 is a future write.)
+- **The roadmap file (`GAIA_ROADMAP v5 (BUILD).md`) is edited only with Marco's approval**, via the doc-coauthoring workflow. (v1–v4 are archived under `handovers/archive/roadmaps/`.) It is **ratified** as of 2026-07-28 — a ratified decision is amended by a new founder ruling recorded in §10, never by silent edit.
 - Never store credentials (PATs, tokens) in this folder.
 
 ## Key References
 
 | File | Purpose |
 |---|---|
-| `GAIA_ROADMAP v4 (BUILD).md` | Current build roadmap (v4). v1–v3 archived under `handovers/archive/roadmaps/`; v5 is a future write. |
+| `GAIA_ROADMAP v5 (BUILD).md` | **Current build roadmap (v5) — RATIFIED 2026-07-28.** Seven permanent concurrent programs, five arcs, ecosystem federation. v1–v4 archived under `handovers/archive/roadmaps/`. |
+| `handovers/ARC_I.md` | **Arc I execution handover** — the doc builder/worker agents read. Three lanes: Skill Heaven, Lexicon, Adoption. |
 | `GIT.md` | GitHub operations guide: milestones, board, PR rules, stale triage |
 | `MEMORY.md` | Orchestrator memory: goals, decisions, session log, open questions |
 | `BACKLOG_ERADICATION_TRACKER.md` | Post-#1185 clean-state / issue-tracking plan (the one operational tracker kept after EPIC 1002) |
@@ -48,8 +49,10 @@ The Orchestrator: tracks high-level goals against the roadmap, audits GitHub sta
 
 ## Project Facts
 
-- Repo: `mbtiongson1/gaia-skill-tree` (public). Website: gaiaskilltree.com
-- Project board: https://github.com/users/mbtiongson1/projects/2 ("GAIA V2 Roadmap").
+- Org: **`gaia-research`**. Repos: `gaia-skill-tree` (HQ, public), `gaia-research`, `skill-heaven`, `gaia-mcp`. Website: gaiaskilltree.com
+- **Project board (v5, current): https://github.com/orgs/gaia-research/projects/6 — "GAIA v5".** Org-level, spans all four repos. Custom fields: **Program** (1–7), **Arc** (I–V / Background), **Plane**. This is the single instrument for tracking v5; the EPIC (#1336) is the narrative.
+- Superseded boards: `github.com/users/mbtiongson1/projects/2` (327 items) and `github.com/orgs/gaia-research/projects/5` (151 items, a half-finished migration of the former). Both are v2-era.
+- **Umbrella EPIC:** gaia-skill-tree#1336. Program milestones #12–#18 in `gaia-skill-tree`; Program 1's execution issues are `skill-heaven` #5–#13 under its milestone #1.
 - Current repo version: **v4.11.0** (registry/gaia.json source of truth — verify before claiming).
 - Phase 1 scope = **hybrid** (decision 2026-06-10): milestone #4 is the umbrella, v2 BUILD sprint order drives execution. After 2026-06-16 hygiene pass, milestone #4 maps 1:1 to G1–G7 in `PHASE1_MASTER.md`.
 - Phase 2 (Sprint 2) starts when milestone #4 closes. Sprint-2 issues already filed: #696 (closed), #697, #698. Trending Engine work is Phase 2, NOT to bleed into Phase 1.
