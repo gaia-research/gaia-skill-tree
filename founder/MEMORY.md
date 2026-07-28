@@ -4,6 +4,81 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-28, Session 8B — Arc I executed: 4 of 7 issues closed, 6 PRs merged, 6 more green; the "nothing is published" premise falsified and corrected across roadmap + handover; V5-18/V5-19 ruled; paused mid-arc with zero agents running)
+
+> **Reads with the Session 8 block below it** — that entry was written mid-session at a credit pause and its "nothing is published" claims were **corrected later in the same session**. Where the two disagree, **this block wins**. The corrected text is already merged in PR #1343.
+
+### TLDR
+- **Arc I is roughly half done. 4 of 7 tracked issues CLOSED** — `skill-heaven#6` (floor split), HQ **#1130** (entrypoints), **#1338** (MCP tool-name bans), **#1341** (surface breaks), plus **#1328** closed as a consequence.
+- **The session's most valuable output was a correction, not a feature.** The orchestrator planned and dispatched most of the day on the premise that **nothing is published**. **Marco caught it.** `@gaia-research/mcp` **v0.1.0 shipped to npm 2026-07-16**. See the ⚠️ block in the Session 8 entry below for the full record; V5-18 carries it in the roadmap.
+- **A false claim reached a public page before it was caught.** A `.wip-banner` reading "not yet published, so the install commands on this page cannot be run yet" was shipped to PR #1344 — **strictly worse than the stale name it replaced.** Reverted same session.
+- **Then the thread got pulled and it was worse than one page.** The **entire `@gaia-registry/*` npm scope is unpublished** — `cli`, `mcp-server`, `api-client` all 404, and `gaia-registry-client` is not on PyPI. The **homepage Quick Start** was telling readers to `npx @gaia-registry/mcp@0.1.0`, a spelling that **has never existed in any form**. Fixed in PR #1348. Only **`@gaia-research/mcp`** (npm) and **`gaia-cli`** (PyPI, 47 releases) are real.
+- **Two founder rulings closed.** **V5-18** (factual correction; **V5-14 survives intact** — package name kept, only the implementation is a blank canvas). **V5-19** — D4's `search_skills`/`summon` stands, **but the rename executes at Arc III**, not as a side effect of lexicon work. `@gaia-research/mcp` keeps its shipped tool names until then and **no Gaia surface may describe them as deprecated**.
+- **The 46-test-failure scare resolved to 1 real failure.** See "Class P staleness" below — this is a repeatable trap that already burned one agent's diagnosis.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| `skill-heaven#6` floor split | ✅ **MERGED** (SH PR #14) — doorless benchmark floor vs doorful product floor, priced as separate arms |
+| HQ **#1130** entrypoints | ✅ **MERGED** (#1342) |
+| HQ **#1338** MCP tool-name bans | ✅ **MERGED** (research#126) — **with a scope-boundary block in the PR body** |
+| HQ **#1341** surface breaks | ✅ **MERGED** (#1344 + SH #15) |
+| HQ **#1328** stale MCP refs | ✅ **CLOSED** + issue body amended to record that its rename suggestion was **correct** |
+| Roadmap V5-18 / V5-19 + ARC_I corrections | ✅ **MERGED** (#1343) / open (#1345) |
+| `#1337` six-namespace lexicon migration | 🟢 **GREEN, UNMERGED** — research#127 + HQ#1347 |
+| `#5` re-cut of PR #4 | 🟢 **GREEN, DRAFT** — SH#4, 112/112 tests |
+| `#1258` code half | 🟢 **GREEN, UNMERGED** (#1346) — `Refs`, not `Resolves` |
+| Dead package refs | 🟢 **GREEN, UNMERGED** (#1348) |
+
+### Open PRs at pause — all green, none merged
+| PR | Repo | Work |
+|---|---|---|
+| **#1345** | HQ | V5-19 ruling |
+| **#1346** | HQ | #1258 code half (`Refs` — CI-guard item needs an `infra/` PR) |
+| **#1347** | HQ | #1337 second lexicon HQ |
+| **#1348** | HQ | dead package refs (homepage Quick Start) |
+| **research#127** | Research | #1337 namespace split |
+| **skill-heaven#4** | Heaven | #5 re-cut — **still draft** |
+
+### Lane B's loader design — the decision #126 deferred, now made
+Root manifest is the **sole** source of repo-wide config (scopes, exclusions, oracle path, doc path) and carries its own namespace's terms. Every other owned namespace is a sibling `lexicon.<namespace>.json` holding **terms and nothing else**, so **a namespace structurally cannot widen where it is enforced**. `loadHq` merges to one flat list recording the owning file per term; a second definition fails naming *both* files, and a namespace in `owns` with no file is a hard failure. Cross-HQ uses a **name-only mirror** (`lexicon.foreign.json`) — the gate rejects foreign redefinitions **without importing another repo's source**. Definitions never travel, only names. That satisfies **D6 by construction**, not by discipline.
+
+**Counts: 71 terms, 71 globally unique.** `core` 2 · `gaia.heaven` 35 · `gaia.research` 13 · `gaia.mcp` 3 · `gaia.brand` 1 (=54, Research) + `gaia.skills` 10 · `gaia.trust` 7 (=17, Tree). Transitional `namespace` field **deleted**, with a self-test asserting no term carries it.
+
+### ⚠️ Class P staleness — a repeatable trap that already cost one misdiagnosis
+An agent reported **46 test failures** and blamed "missing Class-P registry data in this sandbox." Both the number and the reason were wrong.
+
+**Truth, measured in the real checkout:** **3 failures on `main`**, and only **1** is real.
+
+- **43 were a worktree artifact.** Class P is **gitignored**, so `git worktree` checkouts **never receive it**. Any agent running `pytest` in a worktree sees ~46 failures forever, none real. **`CLAUDE.md` documents Class P/S correctly but is silent on this**, and its worktree section (branch/CWD discipline) never mentions it. **That gap is worth closing.**
+- **2 were local Class P staleness, not a registry defect.** Validation flagged 7 dangling `genericSkillRef`s in `registry/named/google-deepmind/`. **Decisive proof:** tracked Class S `docs/graph/gaia.json` (mtime Jul 28) **contains all three IDs**; gitignored Class P `registry/gaia.json` (mtime **Jul 22**) contains **none**. The skills were recurated **Jul 27**. Source and served artifact are both fine — **`gaia dev docs` clears it.**
+- **1 is real:** `test_packaging.py::test_wheel_install_smoke_tests_console_script` — `FileNotFoundError` on `venv/bin/gaia` under **Homebrew Python 3.14**. Test-environment bug, not a product bug. **Unresolved.**
+
+### Lessons / hazards preserved
+1. **Verify external state against the external source.** Discipline A was applied to everything *inside* the repos — test baselines, `lexicon.json`, PR CI, branch bases, file overlaps — and **never to npm**, for a package whose install copy was being rewritten. **A one-line `curl` to the registry would have caught it before the first dispatch. Handover docs are not ground truth for external state.**
+2. **The contradiction was already visible and was read past.** Roadmap §4.1 listed "Gaia MCP live tools: `gaia_search`…" in the row **directly below** the one claiming the package was unpublished.
+3. **A stale ticket can push agents into a wrong decision.** #1328's body suggested the rename that was actually correct; the orchestrator instructed **two** workers to refuse it on V5-4 grounds. **The no-package-names rule governs the Program 7 About surface, not install docs for a shipped package.** Issue amended so it stops misleading.
+4. **Commit-per-unit does not survive a wide sweep unless boundaries are named.** One agent accumulated **22 files, 0 commits**. Restating the principle failed; **naming the three specific commit boundaries worked.**
+5. **Merge verbs are per-repo, and repo settings can lie.** `skill-heaven` **requires squash** (merge commits blocked by a ruleset on `main`, even though the API reports `allow_merge_commit: true`); `gaia-skill-tree` and `gaia-research` **forbid squash**. Now recorded in `skill-heaven/CLAUDE.md`.
+6. **Workers left the parent worktree on their branches.** Found this checkout on `infra/lexicon-second-hq`. **Run `git branch --show-current` before every commit** (Discipline E).
+7. **Agents doing recovery beat agents doing restarts.** A "lost" commit was found intact in a scratchpad worktree; a 22-file uncommitted sweep was resumed rather than redone. **Always inspect before re-dispatching.**
+
+### Open questions for next orchestrator
+1. **`packages/mcp` deletion.** Marco called it bogus and slated it for deletion. **The roadmap gates it:** *"`packages/mcp` is not deleted until the rebuilt standalone is published, clean-installable, contract-documented, link-migrated, and covered by a client-config migration test."* Deleting now **overrides a ratified gate** — founder call, not inference. Docs half is already done (#1348).
+2. **Regen Class P** (`gaia dev docs`) to clear the 2 stale-artifact failures. Not done — it rewrites Class P **and** Class S; Marco's call.
+3. **Python 3.14 wheel/console-script failure** — the one real failure on `main`.
+4. **Migration story for `@gaia-research/mcp`** — deprecation window, aliases, or clean break at 0.2.0. Required **before Arc III**, not an Arc I blocker. Roadmap §12.
+5. **`#1258` cannot close** until CI Guard B is extended to catch "Gaia Registry" in `src/` — needs an **`infra/`** branch. Sprint's own remainder, so it belongs in this sprint.
+6. **`CLAUDE.md` gap:** document that Class P is absent in worktrees and goes stale after pulling others' curation commits.
+
+### Quick handoff — what the next session picks up
+**Merge the six green PRs**, then finish Arc I: **`#1339`** (About surface — unstarted, most judgment-heavy copy, easiest place to close V5-4 by accident) and **Lane A's tail** — `#7`, `#9`, `#8`/`#10`/`#11`/`#12`, then **`#13`**, the three-minute demo that **gates the arc**. `#5` unblocks the tail and is already green in draft.
+
+### Token cost (this session)
+`2026-07-28 Opus 5 + Sonnet — Arc I dispatch + correction. Subagent output tokens: 87,329 + 74,660 + 82,246 + 137,813 + 87,672 + 92,334 + 110,579 + 152,077 + 93,288 + 212,390 ≈ **1.13M** across ten dispatches; two further agents killed mid-flight, totals unreported. Orchestrator: dispatch, verification, founder-doc authoring; no code authored. Partial by construction.`
+
+---
+
 ## State Snapshot (2026-07-28, Session 8 — Arc I dispatch: three lanes fanned out; Lane B's cross-lane dependency discharged; Lane C's cheapest win landed; halted early on credit budget with two agents mid-flight)
 
 ### TLDR
