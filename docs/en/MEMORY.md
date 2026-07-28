@@ -2,6 +2,42 @@
 
 ---
 
+## 2026-07-28 — Routine 018
+
+**Branch:** `docs/routines/018`
+**Task chosen:** Version bump to v7.1.4 (SYNC trigger).
+
+### Trigger
+Routine documentation agent triggered; repository version jumped from v6.8.16 (routine 017) to v7.1.4 via recent releases. Routine 017 editor pass verified all 12 pages were locked at v6.8.16, matching the tag at that time. New major/minor version released, so SYNC is required.
+
+### What I did
+1. **Synchronized version numbers**: Updated all 12 English documentation HTML files under `docs/en/` from `v6.8.16` to `v7.1.4`. Includes nav version chips, footer version strings, and script query parameters (`?v=7.1.4`).
+
+### Design decisions
+- Updated uniformly across all HTML files to maintain consistency. No content changes — version-only bump.
+
+### Files modified
+All 12 pages in `docs/en/`:
+- `cli-reference.html`
+- `contributing.html`
+- `evidence-classes.html`
+- `faq.html`
+- `fusion.html`
+- `getting-started.html`
+- `index.html`
+- `mcp-server.html`
+- `named-skills.html`
+- `share-bundles.html`
+- `skill-hierarchy.html`
+- `timeline-audit.html`
+
+### Planned next (Routine 019)
+- Rotate: audit the least-recently-touched page (skill-hierarchy.html, last substantive edit routine 002) for clarity/link/callout improvements.
+- Sync: any new CLI flags or behaviors from v7.1.4 release notes.
+- Maintain: Audit upcoming features and generated artifact changes.
+
+---
+
 ## 2026-07-25 — Routine 017 — Editor pass (ship gate, PR #1249)
 
 **Role:** Weekly editor. Reviewed the week's accreted commits on `docs/routines/017`, verified claims against the actual product, fixed what didn't hold up, and shipped.
