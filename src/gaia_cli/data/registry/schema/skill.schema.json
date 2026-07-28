@@ -543,7 +543,13 @@
             "verified",
             "disputed",
             "security_scan_passed",
-            "apex_pr_signed"
+            "apex_pr_signed",
+            "note",
+            "suite_ref_set",
+            "migrate_trust_magnitude",
+            "installation_updated",
+            "discovered",
+            "intake_opened"
           ],
           "description": "The meta-action that occurred."
         },
