@@ -1,6 +1,6 @@
 # LEXICON — vocabulary of record
 
-<!-- GENERATED FROM founder/lexicon.json — DO NOT EDIT BY HAND. -->
+<!-- GENERATED FROM scripts/lexicon/lexicon.json and its namespace files — DO NOT EDIT BY HAND. -->
 <!-- Regenerate: npx tsx scripts/lexicon/check-lexicon.ts --emit -->
 <!-- lexicon-allow -->
 
@@ -81,7 +81,7 @@ defined there, never here:
 | 🅿️ `parked` | Coined but unchosen. | `docs/` only — never user-facing copy or code |
 | 🧊 `frozen` | Meant something specific once. | `**/archived/**` only |
 
-**A term is `banned` only when `RATIFICATION.md` already retired it.** A term
+**A term is `banned` only when the HQ's oracle of record already retired it.** A term
 this project is still arguing about is `parked`. Writing a linter is not a way
 to make a decision.
 

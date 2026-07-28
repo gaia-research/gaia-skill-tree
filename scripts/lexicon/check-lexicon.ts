@@ -507,7 +507,7 @@ export function aboveBaseline(findings: Finding[], base: Baseline | null): Findi
   return out;
 }
 
-export function renderMarkdown(lex: Lexicon, foreign?: Foreign | null): string {
+export function renderMarkdown(lex: Lexicon, foreign?: Foreign | null, rootRel = "founder/lexicon.json"): string {
   const nsOf = (t: Term) => lex.owners?.[t.term.toLowerCase()]?.namespace ?? lex.namespace;
   const namespaces = lex.owns?.length ? lex.owns : [lex.namespace];
   const badge: Record<State, string> = {
@@ -519,7 +519,7 @@ export function renderMarkdown(lex: Lexicon, foreign?: Foreign | null): string {
   const out: string[] = [
     "# LEXICON — vocabulary of record",
     "",
-    "<!-- GENERATED FROM founder/lexicon.json — DO NOT EDIT BY HAND. -->",
+    `<!-- GENERATED FROM ${rootRel} and its namespace files — DO NOT EDIT BY HAND. -->`,
     "<!-- Regenerate: npx tsx scripts/lexicon/check-lexicon.ts --emit -->",
     "<!-- lexicon-allow -->",
     "",
@@ -557,7 +557,7 @@ export function renderMarkdown(lex: Lexicon, foreign?: Foreign | null): string {
     "| 🅿️ `parked` | Coined but unchosen. | `docs/` only — never user-facing copy or code |",
     "| 🧊 `frozen` | Meant something specific once. | `**/archived/**` only |",
     "",
-    "**A term is `banned` only when `RATIFICATION.md` already retired it.** A term",
+    `**A term is \`banned\` only when ${lex.oracle ?? "the HQ's oracle of record"} already retired it.** A term`,
     "this project is still arguing about is `parked`. Writing a linter is not a way",
     "to make a decision.",
     "",
@@ -628,7 +628,7 @@ function main(argv: string[]): number {
 
   const docRel = lex.generated_doc ?? "LEXICON.md";
   const mdPath = join(ROOT, docRel);
-  const rendered = renderMarkdown(lex, foreign);
+  const rendered = renderMarkdown(lex, foreign, rootRel);
   if (argv.includes("--emit")) {
     writeFileSync(mdPath, `${rendered}\n`);
     console.log(`✓ wrote ${docRel} (${lex.terms.length} terms, ${(lex.owns ?? []).length} namespaces)`);
