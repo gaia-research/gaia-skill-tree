@@ -117,6 +117,41 @@ class DevCommand(Command):
             "--extra", action="append", help="Include extra schema fields in output"
         )
 
+        dev_prefill = dev_sub.add_parser(
+            "prefill",
+            help="Build a prefilled discovery-packet-v2 for a candidate (embedding-similarity mapping)",
+        )
+        dev_prefill.add_argument("candidate_id", help="Candidate id (e.g. contributor/slug)")
+        dev_prefill.add_argument("--name", required=True, help="Candidate skill name")
+        dev_prefill.add_argument(
+            "--description", required=True, help="Candidate skill description"
+        )
+        dev_prefill.add_argument(
+            "--url", required=True, help="Canonical source URL of the candidate"
+        )
+        dev_prefill.add_argument(
+            "--source-lane",
+            choices=("marketplace", "source-repository", "github-topic"),
+            default="source-repository",
+            help="Source lane the candidate was discovered in",
+        )
+        dev_prefill.add_argument(
+            "--suite-role",
+            choices=("component", "capstone"),
+            help="Mark this packet as part of a suite fan-out",
+        )
+        dev_prefill.add_argument(
+            "--suite-id", help="Shared suite id linking a fan-out (required with --suite-role)"
+        )
+        dev_prefill.add_argument(
+            "--component-ids",
+            help="Comma-separated component candidate ids (capstone packets)",
+        )
+        dev_prefill.add_argument(
+            "--json", "--stdout", dest="json", action="store_true",
+            help="Print the packet to stdout instead of writing to disk",
+        )
+
         dev_merge = dev_sub.add_parser(
             "merge", help="Merge one or more skills into a target skill"
         )
@@ -768,6 +803,9 @@ class DevCommand(Command):
         if dev_cmd == "list":
             from gaia_cli.commands.dev.list import meta_list_command
             meta_list_command(args)
+        elif dev_cmd == "prefill":
+            from gaia_cli.prefill import prefillCommand
+            return prefillCommand(args)
         elif dev_cmd == "merge":
             from gaia_cli.commands.dev.merge import meta_merge_command
             meta_merge_command(args)
