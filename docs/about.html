@@ -4,7 +4,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <script>window.GAIA_VERSION = "7.1.4";</script>
+  <script>window.GAIA_VERSION = "7.1.1";</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About — Gaia Skill Registry</title>
@@ -17,11 +17,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="icon" type="image/svg+xml" href="assets/marks/diamond-seal.svg">
-  <link rel="stylesheet" href="css/styles.css?v=7.1.4">
-  <link rel="stylesheet" href="css/plaque.css?v=7.1.4">
-  <script src="js/icons.js?v=7.1.4"></script>
-  <script src="js/atlas-helpers.js?v=7.1.4"></script>
-  <script src="js/rank-badge.js?v=7.1.4"></script>
+  <link rel="stylesheet" href="css/styles.css?v=7.1.1">
+  <link rel="stylesheet" href="css/plaque.css?v=7.1.1">
+  <script src="js/icons.js?v=7.1.1"></script>
+  <script src="js/atlas-helpers.js?v=7.1.1"></script>
+  <script src="js/rank-badge.js?v=7.1.1"></script>
 
   <style>
     /* ─── about.html — atlas frontispiece layout ───────────────── */
@@ -913,8 +913,8 @@
 
   <!-- ─── NAV ─── -->
   <nav id="site-nav"></nav>
-  <script src="js/mounts.js?v=7.1.4"></script>
-  <script src="js/site-nav.js?v=7.1.4"></script>
+  <script src="js/mounts.js?v=7.1.1"></script>
+  <script src="js/site-nav.js?v=7.1.1"></script>
 
   <!-- ─── BACK ─── -->
   <div class="profile-back-row">
@@ -969,29 +969,31 @@
           <h2 class="ab-section-h" id="ab-record-h">A registry, not a marketplace.</h2>
         </header>
 
-        <dl class="ab-tally" aria-label="What is on the record today">
+        <!-- gaia:about-tally-start -->
+<dl class="ab-tally" aria-label="What is on the record today">
           <div class="ab-tally-cell">
             <dt class="ab-tally-label">Generic refs</dt>
-            <dd class="ab-tally-num">228</dd>
+            <dd class="ab-tally-num">246</dd>
           </div>
           <div class="ab-tally-cell">
             <dt class="ab-tally-label">Origin skills</dt>
-            <dd class="ab-tally-num">68</dd>
+            <dd class="ab-tally-num">80</dd>
           </div>
           <div class="ab-tally-cell">
             <dt class="ab-tally-label">Contributors</dt>
-            <dd class="ab-tally-num">42</dd>
+            <dd class="ab-tally-num">38</dd>
           </div>
           <div class="ab-tally-cell">
             <dt class="ab-tally-label">Ultimates</dt>
-            <dd class="ab-tally-num is-apex">6</dd>
+            <dd class="ab-tally-num is-apex">5</dd>
           </div>
           <div class="ab-tally-cell">
             <dt class="ab-tally-label">Evidence entries</dt>
-            <dd class="ab-tally-num">220</dd>
+            <dd class="ab-tally-num">227</dd>
           </div>
         </dl>
-        <p class="ab-tally-note">Live from <a href="https://github.com/gaia-research/gaia-skill-tree/blob/main/registry/gaia.json" target="_blank" rel="noopener">registry/gaia.json</a> v4.1.2. Counts grow with the record.</p>
+        <p class="ab-tally-note">Live from <a href="https://github.com/gaia-research/gaia-skill-tree/blob/main/registry/gaia.json" target="_blank" rel="noopener">registry/gaia.json</a> v7.1.1. Counts grow with the record.</p>
+<!-- gaia:about-tally-end -->
 
         <div class="ab-record-prose">
           <p>Gaia is a registry, not a marketplace. A marketplace asks <em>what you can use</em>. A registry asks <em>what's on the record</em>: who demonstrated a capability first, and the evidence that proves it.</p>
@@ -1059,7 +1061,7 @@
             <aside class="ab-name-card">
               <div class="ab-name-card-row">
                 <a class="ab-name-handle" href="https://github.com/pbakaus" target="_blank" rel="noopener">@pbakaus</a>
-                <span class="rank-slot" data-level="4" data-variant="full" data-aria="rank 4 of 6"></span>
+                <span class="rank-slot" data-level="4" data-tier="unique" data-variant="full" data-aria="Unique, rank 4 of 6"></span>
               </div>
               <span class="ab-name-skill">Impeccable — The Aesthetic Shield</span>
               <a class="ab-name-src" href="https://www.paulbakaus.com/about/" target="_blank" rel="noopener">paulbakaus.com/about <span class="arr" aria-hidden="true">↗</span></a>
@@ -1074,7 +1076,7 @@
             <aside class="ab-name-card">
               <div class="ab-name-card-row">
                 <a class="ab-name-handle" href="https://github.com/mattpocock" target="_blank" rel="noopener">@mattpocock</a>
-                <span class="rank-slot" data-level="6" data-variant="full" data-aria="Apex, rank 6 of 6"></span>
+                <span class="rank-slot" data-level="5" data-variant="full" data-aria="Ultimate Skill, rank 5 of 6"></span>
               </div>
               <span class="ab-name-skill">Matt Pocock Skills</span>
               <a class="ab-name-src" href="https://github.com/mattpocock/skills" target="_blank" rel="noopener">github.com/mattpocock/skills <span class="arr" aria-hidden="true">↗</span></a>
@@ -1249,9 +1251,9 @@
 
   <!-- ─── FOOTER v2 ─── -->
   <div id="site-footer-mount"></div>
-  <script src="js/site-footer.js?v=7.1.4"></script>
+  <script src="js/site-footer.js?v=7.1.1"></script>
 
-  <script src="js/ui.js?v=7.1.4" defer></script>
+  <script src="js/ui.js?v=7.1.1" defer></script>
 
   <!-- Hydrate rank badges from the canonical component (no inline star markup). -->
   <script>
@@ -1261,7 +1263,8 @@
         el.outerHTML = window.rankBadge(el.dataset.level, {
           variant: el.dataset.variant || 'full',
           size: el.dataset.size || 'sm',
-          ariaLabel: el.dataset.aria || undefined
+          ariaLabel: el.dataset.aria || undefined,
+          tier: el.dataset.tier || undefined
         });
       });
     });
