@@ -820,6 +820,16 @@ def build_named_index(check: bool) -> bool:
         if not committed.exists():
             if check:
                 print("diff registry/named-skills.json (missing committed file)")
+                return True
+            # Bootstrap: registry/named-skills.json is Class P and gitignored,
+            # so a fresh clone / CI runner starts without it. Downstream steps
+            # (api-projection, docs-named-index, docs-index, syncDocsGraphAssets)
+            # CONSUME it, and nothing materializes it until tree-md's
+            # generateProjections rebuilds it much later — so they all die on
+            # ENOENT. This step already generated a good copy; write it out
+            # instead of reporting "changed" and leaving the path missing.
+            committed.parent.mkdir(parents=True, exist_ok=True)
+            committed.write_bytes(out_path.read_bytes())
             return True
         if check:
             if _equal_ignoring_dates(committed, out_path):
