@@ -16,7 +16,7 @@ import type {
 const DEFAULT_BASE_URL = "https://gaiaskilltree.com";
 
 /**
- * GaiaClient — typed HTTP client for the Gaia Registry API.
+ * GaiaClient — typed HTTP client for the Gaia Skill Tree API.
  *
  * Zero runtime dependencies. Uses native `fetch` (Node 18+, all modern browsers).
  * All endpoints are static JSON files served via CDN — no auth required.

@@ -1,6 +1,6 @@
-"""Gaia Registry API Client — sync and async HTTP clients.
+"""Gaia Skill Tree API Client — sync and async HTTP clients.
 
-Both clients provide typed access to all Gaia Registry API endpoints.
+Both clients provide typed access to all Gaia Skill Tree API endpoints.
 The API is static JSON served via CDN — no authentication required.
 """
 
@@ -282,7 +282,7 @@ class GaiaApiError(Exception):
 
 
 class GaiaClient:
-    """Synchronous client for the Gaia Registry API.
+    """Synchronous client for the Gaia Skill Tree API.
 
     Example:
         >>> from gaia_registry_client import GaiaClient
@@ -381,7 +381,7 @@ class GaiaClient:
 
 
 class AsyncGaiaClient:
-    """Asynchronous client for the Gaia Registry API.
+    """Asynchronous client for the Gaia Skill Tree API.
 
     Example:
         >>> import asyncio

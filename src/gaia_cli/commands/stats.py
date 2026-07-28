@@ -233,7 +233,7 @@ def render_stats(stats: dict) -> str:
     total = stats["total_skills"]
     use_color = _use_color()
     rst = _reset() if use_color else ""
-    lines = [f"Gaia Registry — {total} skills  {stats['total_edges']} edges", ""]
+    lines = [f"Gaia Skill Tree — {total} skills  {stats['total_edges']} edges", ""]
 
     lines.append("Type breakdown")
     for skill_type in TYPE_ORDER:

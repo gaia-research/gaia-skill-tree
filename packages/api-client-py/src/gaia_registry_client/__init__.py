@@ -1,4 +1,4 @@
-"""Gaia Registry API Client — Python SDK.
+"""Gaia Skill Tree API Client — Python SDK.
 
 Provides sync and async typed HTTP clients for the Gaia skill registry.
 

@@ -28,7 +28,7 @@ for _name in dir(_impl):
 def get_parser():
     parser = argparse.ArgumentParser(
         prog="gaia",
-        description="Gaia Registry CLI",
+        description="Gaia CLI",
         epilog=COMMAND_USAGE,
         formatter_class=ColoredHelpFormatter,
     )
