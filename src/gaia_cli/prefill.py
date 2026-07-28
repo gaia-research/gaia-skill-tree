@@ -298,6 +298,51 @@ def discoveryPacketsDir(registryPath):
     return os.path.join(registry_for_review_dir(registryPath), "discovery-packets")
 
 
+def validateDiscoveryPackets(registryPath):
+    """Validate every discovery packet under registry-for-review/discovery-packets/.
+
+    RFC3 §3.5: ``gaia dev validate --intake`` resolves discovery-packet-v2
+    packets (in addition to skill batches). Each packet is checked with the
+    hand-rolled discovery-packet validator (supports v1 + v2). Validation is
+    structural (``trusted_generics=None``), matching prefill's self-validate —
+    the full generic-snapshot trust check is a worker-time concern, not a CI
+    gate over draft packets.
+
+    Returns ``(errors, packetCount)`` where errors is a list of
+    ``"<path>: <CODE>"`` strings (empty when all valid).
+    """
+    packetsDir = discoveryPacketsDir(registryPath)
+    errors = []
+    if not os.path.isdir(packetsDir):
+        return errors, 0
+
+    validate = _importPacketValidator()
+    packetPaths = sorted(
+        os.path.join(packetsDir, name)
+        for name in os.listdir(packetsDir)
+        if name.endswith(".json")
+    )
+    if validate is None and packetPaths:
+        # Validator not importable — surface the gap rather than silently pass.
+        return (
+            [f"{packetsDir}: discovery-packet validator not importable "
+             "(.agents/.claude gaia-curate scripts missing)."],
+            len(packetPaths),
+        )
+
+    for path in packetPaths:
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                packet = json.load(f)
+        except (OSError, json.JSONDecodeError) as exc:
+            errors.append(f"{path}: MALFORMED_PACKET ({exc})")
+            continue
+        codes = validate(packet, trusted_generics=None)
+        for code in codes:
+            errors.append(f"{path}: {code}")
+    return errors, len(packetPaths)
+
+
 def writePacket(packet, registryPath):
     """Write a packet to registry-for-review/discovery-packets/<candidateId>.json."""
     outDir = discoveryPacketsDir(registryPath)
