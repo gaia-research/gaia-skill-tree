@@ -59,10 +59,15 @@ on:
       - 'DEV.md'
       - 'README.md'
 
+permissions:
+  contents: read
+
 jobs:
   lexicon:
     name: Vocabulary gate + self-tests
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
 

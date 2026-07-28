@@ -578,7 +578,12 @@ export function renderMarkdown(lex: Lexicon, foreign?: Foreign | null): string {
       ]
         .filter(Boolean)
         .join(" ");
-      const def = `${t.definition}${extra ? ` ${extra}` : ""}`.replace(/\|/g, "\\|");
+      // Escape backslashes BEFORE pipes, or a definition containing `\|`
+      // would round-trip into an unescaped cell break. Order is load-bearing;
+      // CodeQL flags the pipe-only form as incomplete sanitisation, correctly.
+      const def = `${t.definition}${extra ? ` ${extra}` : ""}`
+        .replace(/\\/g, "\\\\")
+        .replace(/\|/g, "\\|");
       out.push(`| \`${t.term}\` | ${badge[t.state]} | ${t.oracle ?? "—"} | ${def} |`);
     }
     out.push("");
