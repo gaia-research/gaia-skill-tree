@@ -171,7 +171,7 @@ Legend: **Eff** = effort (XS/S/M/L/XL). **Br** = suggested branch prefix.
 | 12 | #1137 | [intake] single: ponytail (DietrichGebert) | P1 | S | intake | stage-as-PR | none | Named skill linked to `context-compression`; evidence row added; docs regenerated. |
 | 13 | #1117 | [intake] daily-patterns-pack (2 generics) | P1 | M | intake | stage-as-PR | none | Both skills added; aplaceforallmystuff impls registered; fusion dep verified; docs regenerated. |
 | 14 | #752 | [intake] firecrawl skills as 4/5★ suite candidate | P2 | M | intake | stage-as-PR | `review/meta/` | Evidence collected for firecrawl suite; components graded; suite candidacy resolved. |
-| 15 | #1244 | [RFC] gaia-curate: named-first intake path | P1 | M | intake | stage-as-PR | `design/` | RFC ratified; /gaia-curate flow inverted to named-first, derive generic on demand. |
+| 15 | #1244 | [RFC] gaia-curate: named-first intake path | P1 | M | intake | **shaped → build-ready** | `cli/`+`schema/` | **RFC1 shaped 2026-07-29** (`founder/handovers/2026-07-29-rfc1-gaia-curate-v2-named-first.md`). Named-first REORDER (generic mapping still required); fix zero-named embeddings; deterministic prefill module + `gaia dev prefill`; `discovery-packet-v2` (prereqs/suite/similarity); thresholds in `meta.json`. Spun off RFC2 (evidence-seed + provisional TM, dep #1148) + RFC3 (pipeline-continuity umbrella). |
 | 16 | #977 | Propose generic: prompt caching / KV-cache reuse | P1 | M | curation | stage-as-PR | `review/meta/` | Generic node created; Anthropic/OpenAI/benchmark evidence; floor met. |
 | 17 | #978 | Propose generic: agent checkpoint & resume | P1 | M | curation | stage-as-PR | `review/meta/` | Generic node created; LangGraph/LangChain evidence; floor met. |
 | 18 | #1184 | Context-aware chat boxes for Milim & Gaia companion | P2 | S | frontend | stage-as-PR | `design/` | Companion shell done (#1183); add contextual chat boxes — **assets ready**; per-page guidance renders. |
@@ -281,7 +281,7 @@ Well-formed, high-value adds. Ship the P0s first. **#1148 (evidence-lake reparti
 | 12 | #1137 | single: ponytail (DietrichGebert) | P1 | S | Named impl linked to `context-compression`; Grade-B evidence row; docs regenerated. |
 | 13 | #1117 | daily-patterns-pack — session-journaling + work-pattern-mining | P1 | M | Both added; aplaceforallmystuff impls registered; fusion dep verified in graph; docs regenerated. |
 | 14 | #752 | firecrawl skills as 4/5★ suite candidate | P2 | M | Evidence collected for firecrawl suite; components graded; suite candidacy resolved. |
-| 15 | #1244 | [RFC] gaia-curate named-first intake path | P1 | M | RFC ratified; /gaia-curate inverted to named-first, derive/link generic on demand. |
+| 15 | #1244 | [RFC] gaia-curate named-first intake path | P1 | M | **Shaped → build-ready (2026-07-29):** RFC1 handover written; named-first REORDER (generic mapping still required), embeddings fix + prefill module, `discovery-packet-v2`. Spun off RFC2 (dep #1148) + RFC3 umbrella. |
 
 ---
 
