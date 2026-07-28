@@ -18,6 +18,7 @@ import sys
 from pathlib import Path
 
 from gaia_cli.provenance import (
+    appendStageEvent,
     buildProvenanceLedger,
     crawlerOriginFromPacket,
     writeProvenanceLedger,
@@ -28,6 +29,25 @@ def provenanceCommand(args):
     """Entry point for ``gaia dev provenance``."""
     skillId = args.skill_id.lstrip("/")
     registryPath = args.registry
+
+    # RFC3 §3.2 — pre-ingest stage event. gaia dev timeline cannot target a
+    # skill that has no node/tree yet, so the stage event lands on the ledger's
+    # own timeline event log (not a node-timeline entry).
+    stageEvent = getattr(args, "stage_event", None)
+    if stageEvent:
+        try:
+            path = appendStageEvent(
+                skillId,
+                stageEvent,
+                getattr(args, "notes", None),
+                registryPath,
+                timestamp=getattr(args, "timestamp", None),
+            )
+        except ValueError as exc:
+            print(f"ERROR: {exc}", file=sys.stderr)
+            return 1
+        print(f"Appended '{stageEvent}' stage event for '{skillId}' -> {path}")
+        return 0
 
     crawlerOrigin = None
     discoveryPacket = getattr(args, "discovery_packet", None)

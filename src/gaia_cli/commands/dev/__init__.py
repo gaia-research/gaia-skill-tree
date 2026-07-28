@@ -252,6 +252,24 @@ class DevCommand(Command):
             ),
             help="Pipeline-position status (RFC3 §3.4 ladder). Defaults to ingested.",
         )
+        dev_provenance.add_argument(
+            "--stage-event",
+            dest="stage_event",
+            choices=("discovered", "intake_opened"),
+            help=(
+                "Append a pre-ingest stage event to the ledger timeline (RFC3 "
+                "§3.2). gaia dev timeline cannot target pre-ingest stages (no "
+                "node/tree yet), so the ledger event log is the sanctioned home."
+            ),
+        )
+        dev_provenance.add_argument(
+            "--notes",
+            help="Human-readable context for the stage event",
+        )
+        dev_provenance.add_argument(
+            "--timestamp",
+            help="ISO 8601 date-time for the stage event (defaults to now)",
+        )
 
         dev_merge = dev_sub.add_parser(
             "merge", help="Merge one or more skills into a target skill"

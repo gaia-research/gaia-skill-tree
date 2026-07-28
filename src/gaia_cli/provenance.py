@@ -202,3 +202,55 @@ def writeProvenanceLedger(ledger, registryPath):
         encoding="utf-8",
     )
     return path
+
+
+def loadProvenanceLedger(skillId, registryPath):
+    """Load an existing ledger for a skill id, or None if none is written yet."""
+    path = provenanceLedgerPath(skillId, registryPath)
+    if not path.exists():
+        return None
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+
+
+def appendStageEvent(skillId, action, notes, registryPath, *, timestamp=None):
+    """Append a pre-ingest stage event to a skill's provenance ledger timeline.
+
+    RFC3 §3.2 (GAP1 + GAP3): discovery/intake-stage events have no node or tree
+    target before ingest, so ``gaia dev timeline`` cannot write them (see CLI
+    gap issue #1363). The ledger's own ``timeline[]`` array is the sanctioned
+    home — this is NOT a node-timeline entry, so it is not a fabricated
+    frontmatter entry.
+
+    Creates the ledger (status matched to the stage) if none exists yet, so a
+    discovery/intake event can be logged before ingest.
+    """
+    if action not in STAGE_ACTIONS:
+        raise ValueError(
+            f"stage action {action!r} is not a pre-ingest stage action; "
+            f"expected one of {', '.join(STAGE_ACTIONS)}."
+        )
+    ts = timestamp or _utcNowIso()
+    ledger = loadProvenanceLedger(skillId, registryPath)
+    if ledger is None:
+        # No ledger yet — seed one at the ladder status matching the stage.
+        status = "review-ready" if action == "discovered" else "intake-open"
+        ledger = buildProvenanceLedger(skillId, status=status)
+    event = {"timestamp": ts, "action": action}
+    if notes:
+        event["notes"] = notes
+    ledger.setdefault("timeline", []).append(event)
+    ledger["timeline"].sort(key=lambda e: e.get("timestamp", ""))
+    return writeProvenanceLedger(ledger, registryPath)
+
+
+def _utcNowIso():
+    import datetime
+    return (
+        datetime.datetime.now(datetime.timezone.utc)
+        .replace(microsecond=0)
+        .isoformat()
+        .replace("+00:00", "Z")
+    )

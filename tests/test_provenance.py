@@ -8,8 +8,10 @@ import pytest
 from gaia_cli.provenance import (
     STATUS_LADDER,
     VALID_STATUSES,
+    appendStageEvent,
     buildProvenanceLedger,
     crawlerOriginFromPacket,
+    loadProvenanceLedger,
     provenanceLedgerPath,
     validateProvenanceLedger,
     writeProvenanceLedger,
@@ -135,3 +137,47 @@ def test_write_rejects_invalid_ledger(tmp_path):
     _writeSchema(tmp_path)
     with pytest.raises(ValueError):
         writeProvenanceLedger({"skillId": "x", "status": "bogus"}, tmp_path)
+
+
+# ---------------------------------------------------------------------------
+# Stage timeline events (RFC3 §3.2, GAP1 + GAP3) — ledger event log
+# ---------------------------------------------------------------------------
+
+
+def test_stage_event_creates_ledger(tmp_path):
+    _writeSchema(tmp_path)
+    path = appendStageEvent(
+        "contributor/slug", "discovered", "found on marketplace", tmp_path,
+        timestamp="2026-07-01T00:00:00Z",
+    )
+    ledger = loadProvenanceLedger("contributor/slug", tmp_path)
+    assert ledger["status"] == "review-ready"
+    assert len(ledger["timeline"]) == 1
+    assert ledger["timeline"][0]["action"] == "discovered"
+    assert ledger["timeline"][0]["notes"] == "found on marketplace"
+
+
+def test_intake_stage_event_status(tmp_path):
+    _writeSchema(tmp_path)
+    appendStageEvent("contributor/slug", "intake_opened", None, tmp_path,
+                     timestamp="2026-07-02T00:00:00Z")
+    ledger = loadProvenanceLedger("contributor/slug", tmp_path)
+    assert ledger["status"] == "intake-open"
+    assert ledger["timeline"][0]["action"] == "intake_opened"
+
+
+def test_stage_events_sort_chronologically(tmp_path):
+    _writeSchema(tmp_path)
+    appendStageEvent("contributor/slug", "intake_opened", None, tmp_path,
+                     timestamp="2026-07-02T00:00:00Z")
+    appendStageEvent("contributor/slug", "discovered", None, tmp_path,
+                     timestamp="2026-07-01T00:00:00Z")
+    ledger = loadProvenanceLedger("contributor/slug", tmp_path)
+    actions = [e["action"] for e in ledger["timeline"]]
+    assert actions == ["discovered", "intake_opened"]
+
+
+def test_stage_event_rejects_non_stage_action(tmp_path):
+    _writeSchema(tmp_path)
+    with pytest.raises(ValueError):
+        appendStageEvent("contributor/slug", "rank_up", None, tmp_path)
