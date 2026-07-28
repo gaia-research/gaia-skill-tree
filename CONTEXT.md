@@ -456,6 +456,7 @@ Single source of truth for CI grep. Any term below appearing in user-facing copy
 - `Connect MCP` / `Add Gaia to your agent` — MCP install copy; use **Bond your agent**
 - `dashboard` / `profile` (as skill-tree synonym) — use **Skill Tree** or **Your Tree**
 - `database` / `catalog` / `index` — for Registry; use **Registry**
+- `Gaia Registry` (as a product name / proper noun) — "Gaia Registry" is not the product name; the product is **Gaia Skill Tree**, the org is **Gaia Research**, and "the registry" (lower-case, no "Gaia" prefix) is only the data-layer term. Use **Gaia Skill Tree** for headline/title/OG copy, **the registry** for the data-layer descriptive sense. (Issue #1258)
 - `Documentation` / `How we do things` / `How We Work` — page name; use **The Codex**
 - `Extra skill` / `type=extra` — legacy Yggdrasil I taxonomy word; use **Fusion** / `type=fusion` (Yggdrasil II)
 - `Field view` is the **only** user-facing label for the immersive canvas toggle — banned alternatives: `View as HUD`, `HUD mode`, `Heads-up display`, `Open HUD`, `Constellation view`
