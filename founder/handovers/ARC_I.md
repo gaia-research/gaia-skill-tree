@@ -12,6 +12,8 @@ Arc I is called **The Door**. Its thesis: Skill Heaven should be able to show, h
 
 Arc I is **three independent lanes**. They do not block each other. There is exactly **one** cross-lane dependency in the whole arc, named in §5.
 
+> ⚠️ **CONCURRENCY CAP — founder ruling, 2026-07-29.** Lane independence describes the *work*, not the *dispatch*. Implementation concurrency is capped at **1 orchestrator + 2 workers**, permanently. Running seven agents at once exhausted the account session limit and killed five of them mid-flight — the work survived only because each was swept for unpushed commits afterward. Sequence the lanes; do not fan them out. Where this section and §7 say to run lanes in parallel, they mean *in any order*, not *at the same time*.
+
 | Lane | Program | Repo(s) | Tracking |
 |---|---|---|---|
 | **A — Skill Heaven** | 1 | `gaia-research/skill-heaven` | issues **#5–#13**, milestone #1 |
