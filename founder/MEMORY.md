@@ -8,10 +8,39 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ### TLDR
 - **This was a dispatch session, not a planning session.** v5 was already ratified (PR #1340, merged 12:38Z, `main` green on Rank Vocabulary Guard / CodeQL / Pages). No roadmap decisions were made or reopened. **V5-4 remains open by founder ruling** — nothing this session closed it by implication.
-- **The arc's only cross-lane dependency is discharged.** `gaia-research` **PR #126** (`lexicon/ban-prototype-mcp-tool-names`) is open, MERGEABLE, and **green** — Vocabulary gate + self-tests, Build & Edge Compatibility, Workers build all pass. Touches exactly `founder/lexicon.json`, `founder/LEXICON.md`, `scripts/lexicon/check-lexicon.ts`. This is #1338. **The window for this existed exactly once, because nothing is published — it is now permanently closed in our favour.**
+- **`gaia-research` PR #126 (#1338) is open, MERGEABLE and green** — Vocabulary gate + self-tests, Build & Edge Compatibility, Workers build all pass. Touches exactly `founder/lexicon.json`, `founder/LEXICON.md`, `scripts/lexicon/check-lexicon.ts`. **⚠️ DO NOT MERGE IT ON THE REASONING THIS SESSION ORIGINALLY GAVE — see the correction below. The "costs nothing because nothing is published" premise is FALSE.**
 - **Cheapest credibility win landed.** HQ **PR #1342** (`docs/1130-restore-entrypoints`) is open, MERGEABLE, **12 checks pass / 2 skip**. Three lines in `docs/index.html` uncommenting markup that was already there behind a "waiting for the epic 1002 redesign" note. Worker verified both targets render *before* linking — B4 applied to surfaces.
 - **NOTHING WAS MERGED.** Both PRs await founder approval. Per `founder/CLAUDE.md`, GitHub writes route through Marco.
 - **Session halted deliberately on credit budget**, not on a blocker. Two agents were still in flight at halt; both were instructed to commit-and-push per logical unit, so their pushed work is durable. Nothing further was dispatched.
+
+### ⚠️ CORRECTION — `@gaia-research/mcp` IS PUBLISHED. Read this before acting on anything above.
+
+**Caught by Marco, 2026-07-28, late in the session.** The orchestrator planned and dispatched most of this session on the premise that **nothing is published**. That premise is **false**, and it is inherited from `founder/handovers/ARC_I.md` §5 and the v5 roadmap, so **it will keep misleading agents until those are corrected.**
+
+**Verified against the npm registry:**
+
+| Fact | Value |
+|---|---|
+| Package | **`@gaia-research/mcp`** |
+| Version | **0.1.0** |
+| Published | **2026-07-16** (12 days before this session) |
+| Description | "Agent-native discovery and trust interface for the Gaia Skill Tree" |
+| Binary | `gaia-mcp` |
+| README documents | **`gaia_search`, `gaia_inspect`, `gaia_status`** |
+
+The live server was **connected in this very session**, exposing exactly those three tool names.
+
+`docs/en/mcp-server.html`'s `@gaia-registry/mcp-server` references were stale because the package was **RENAMED**, not because nothing shipped.
+
+**Three consequences, in severity order:**
+
+1. **A false claim was shipped to a public page and must not merge.** Commit `42f47d1ef` on PR #1344 added a `.wip-banner` stating the package "is not yet published, so the install commands on this page cannot be run yet." **Strictly worse than the stale name it replaced** — it tells a reader who *could* install not to try. Correction dispatched same session.
+2. **Issue #1328's suggested rename to `@gaia-research/mcp` was CORRECT, and two workers were wrongly instructed to refuse it.** The refusal was justified as protecting V5-4. **Naming an already-published package describes what exists; it does not commit to a future topology.** The V5-4 constraint against naming packages applies to the **About surface** (Lane C item 1), *not* to install documentation for a shipped package. **Install docs without a package name are useless.**
+3. **#1338's whole premise changes, and this is the one that matters.** `gaia_search` / `gaia_inspect` / `gaia_status` are **live, published, documented** tool names with real consumers. Banning them is **no longer pre-emptive vocabulary hygiene — it is a BREAKING RENAME of a public interface.** `summon`'s D4 oracle naming `search_skills` still stands, and at 0.1.0 with one published version this is about as cheap as a breaking rename ever gets — **but it is not free, and it needs a migration story** (deprecation window, aliases, or a clean 0.2.0 with a changelog entry). **ARC_I.md §5's "the window exists exactly once because nothing is published" is void.**
+
+**OPEN — awaiting founder ruling, do not dispatch against these:** (a) does #1338 proceed as a breaking rename at 0.2.0, or does the lexicon record the ban while the server keeps aliases through a deprecation window? (b) `ARC_I.md` §5 and the roadmap both need the "nothing is published" premise struck.
+
+**Process lesson — the expensive one this session.** The orchestrator verified `skill-heaven`'s test baseline, `lexicon.json`'s live contents, PR CI, branch bases, and file overlaps — but **never checked npm for a package it was writing public copy about.** Discipline A ("verify ground truth before mutating") was applied to everything *inside* the repos and not to the one fact that lived outside them. **A one-line `curl` to the npm registry would have caught it before the first dispatch.** Handover docs are not ground truth for external state.
 
 ### Live state at halt
 
@@ -43,7 +72,8 @@ The worker **rejected** creating a second file (`lexicon.mcp.json`), on the grou
 - Local sibling clones remain a trap: `/Users/marcotiongson/Documents/gaia-research` is still on **stale `staging`**. Every dispatch this session front-loaded "fetch `origin/main` before trusting any local file," and no agent repeated the Session-7 stale-read failure.
 
 ### Quick handoff for the next session
-1. **Approve/merge PR #126 and PR #1342** — both green, both awaiting the founder gate. Merging #126 is what actually banks the cross-lane discharge.
+0. **RULE ON THE `@gaia-research/mcp` CORRECTION FIRST** (see the ⚠️ block above). Nothing in Lane B should move until #1338's disposition is decided — breaking rename at 0.2.0, or ban-plus-deprecation-window. **Strike the "nothing is published" premise from `ARC_I.md` §5 and the roadmap** so the next agent does not inherit it.
+1. **Merge PR #1342** (green, independent, safe). **Hold PR #126** pending the ruling in item 0 — it is green and correct as code, but the reasoning originally given for merging it is void.
 2. **Lane A — open the PR for `origin/feat/p1-floor-split`** (commit `0579c2b`). The floor split itself is written and pushed; what is missing is the PR, the Federation-notes block, `Resolves #6`, and a re-run of the suite. Do **not** restart #6. Do **not** start `#5` (the PR #4 re-cut) until #6 is landed — #5 must absorb it, and doing #5 first means doing it twice.
 3. **Lane C — resume `#1341` inside the existing worktree**, `.claude/worktrees/agent-a7ce1b1a8a741718e` (branch `docs/fix-proven-surface-breaks`, 22 uncommitted files, scope-clean). **Do not re-dispatch from scratch — the sweep is ~most of the way done.** Carry the V5-4 stop-and-report instruction on break #2 verbatim, and tell the agent to commit after each of the three breaks.
 4. Then: Lane A `#7` → `#9` → `#8/#10/#11/#12` → `#13` (the arc gate artifact). Lane B `#1337`. Lane C `#1339`.
