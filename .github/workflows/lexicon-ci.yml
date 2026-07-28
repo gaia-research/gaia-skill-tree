@@ -1,0 +1,83 @@
+name: lexicon
+
+# Vocabulary-drift gate — gaia-skill-tree HQ.
+#
+# Ratified V5-8 (Arc I, Lane B, issue #1337). The lexicon is federated across two
+# HQs: gaia-research owns core, gaia.research, gaia.brand, gaia.heaven and
+# gaia.mcp; THIS repo owns gaia.skills and gaia.trust. skill-heaven and gaia-mcp
+# own no namespace — they consume. `gaia.registry` is rejected; the namespace is
+# `gaia.skills` (same ruling as #1258).
+#
+# CONTEXT.md's `## Banned synonyms` section has been the single source of truth
+# for this repo's nomenclature for a long time, and CLAUDE.md already says "CI
+# greps it". This is that grep, made structural: the banned words now live in a
+# typed lexicon with a replacement and an oracle citation each, and drift is a
+# build failure rather than a review comment.
+#
+# The gate ships with a BASELINE. Introducing it found 43 real findings — mostly
+# the #1258 "Gaia Registry" debt — every one in a doc already queued for rewrite
+# under Lane C. Blocking all of them today would get the gate deleted by week
+# one; landing non-blocking would get it ignored by week two. So the baseline
+# records the known debt and the gate fails only on findings ABOVE it. New drift
+# is blocked from day one while the backlog burns down, and the outstanding
+# total is printed on every success so it stays visible.
+#
+# scripts/lexicon/check-lexicon.ts is VENDORED byte-identical from
+# gaia-research (Federation Invariant 1 — no plane imports another plane's
+# source; vendor small pure pieces and prove parity by fixture, D6). The
+# self-tests verify its sha256 against scripts/lexicon/vendor.json, so a local
+# patch to the vendored file is itself a build failure. Change it upstream,
+# re-copy it whole, update the digest in the same PR cycle.
+on:
+  pull_request:
+    paths:
+      - 'founder/**'
+      - 'docs/agents/**'
+      - 'docs/*.md'
+      - 'packages/*/README.md'
+      - 'packages/mcp/src/**'
+      - 'scripts/lexicon/**'
+      - 'CLAUDE.md'
+      - 'CONTEXT.md'
+      - 'CONTRIBUTING.md'
+      - 'DEV.md'
+      - 'README.md'
+      - '.github/workflows/lexicon-ci.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'founder/**'
+      - 'docs/agents/**'
+      - 'docs/*.md'
+      - 'packages/*/README.md'
+      - 'packages/mcp/src/**'
+      - 'scripts/lexicon/**'
+      - 'CLAUDE.md'
+      - 'CONTEXT.md'
+      - 'CONTRIBUTING.md'
+      - 'DEV.md'
+      - 'README.md'
+
+jobs:
+  lexicon:
+    name: Vocabulary gate + self-tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # The gate imports only Node built-ins and local files, so no `npm ci` is
+      # required; tsx is fetched on demand. Node 22 matches the upstream HQ.
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      # Self-tests first: a broken gate that reports "clean" is worse than no
+      # gate. These also assert the vendoring digest, the lexicon's own shape,
+      # and that no term this HQ defines is one the other HQ already owns.
+      - name: Gate self-tests (vendor parity + federation + fixtures)
+        run: npx --yes tsx scripts/lexicon/check-lexicon.test.ts
+
+      - name: Vocabulary gate (banned terms + parked terms in shipped copy)
+        run: npx --yes tsx scripts/lexicon/check-lexicon.ts

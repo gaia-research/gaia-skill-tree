@@ -1,0 +1,8 @@
+{
+  "about": "scripts/lexicon/check-lexicon.ts is VENDORED, not authored here. Federation Invariant 1: no plane imports another plane's source — vendor small pure pieces and prove parity by fixture (D6). Do NOT patch the vendored file in this repo: change it upstream, re-copy it whole, and update this digest in the same PR cycle. The self-tests fail if the digest and the file disagree.",
+  "source": "gaia-research/gaia-research",
+  "path": "scripts/lexicon/check-lexicon.ts",
+  "ref": "53dd06c41143e8b9ab8d8393959aecade3b806ec",
+  "vendored": "2026-07-28",
+  "sha256": "652155ace7d92418e7802dd95eceb13a57e3c61bb46e3ce8156f71213d0fbd3f"
+}

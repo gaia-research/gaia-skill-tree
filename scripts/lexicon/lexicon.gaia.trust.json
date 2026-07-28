@@ -1,0 +1,59 @@
+{
+  "lexicon": "2",
+  "namespace": "gaia.trust",
+  "extends": "core",
+  "updated": "2026-07-28",
+  "about": "The trust model: what evidence is worth, what a star means, and what a rank-up gates on. A peer of gaia.skills under core, not a child of it — trust vocabulary governs how a claim is earned, which is a different question from what a skill is. It is deliberately small: a word lands here only once the thing it grades has actually been graded.",
+  "terms": [
+    {
+      "term": "Trust Magnitude",
+      "state": "canonical",
+      "group": "trust",
+      "oracle": "CONTEXT.md § Evidence and trust",
+      "definition": "The score a rank-up gates on. Computed from graded evidence; the public label for the scoring engine is TM Index, versioned by calendar quarter."
+    },
+    {
+      "term": "TM Index",
+      "state": "canonical",
+      "group": "trust",
+      "oracle": "CONTEXT.md § Evidence and trust",
+      "definition": "The public-facing, quarter-versioned name for the Trust Magnitude scoring engine — TM Index (2026 Q2), TM Index (2026 Q3). The G-series (G7, G8, …) is the internal engineering codename and stays internal."
+    },
+    {
+      "term": "Evidence Grade",
+      "state": "canonical",
+      "group": "trust",
+      "oracle": "CONTEXT.md § Evidence and trust",
+      "definition": "The graded quality of one evidence row. Every star above 1★ requires graded evidence."
+    },
+    {
+      "term": "Evidence Class",
+      "state": "banned",
+      "group": "trust",
+      "oracle": "CONTEXT.md § Relationships",
+      "replacement": "Evidence Grade",
+      "definition": "The deprecated axis Evidence Grade replaces."
+    },
+    {
+      "term": "Evidence Floor",
+      "state": "banned",
+      "group": "trust",
+      "oracle": "CONTEXT.md § Relationships (Yggdrasil II)",
+      "replacement": "Trust Magnitude",
+      "definition": "The retired per-star minimum-evidence column. Ranking up gates on Trust Magnitude now, not on a per-star floor."
+    },
+    {
+      "term": "star bar",
+      "state": "canonical",
+      "group": "trust",
+      "definition": "The per-skill star display, and the gate behind it: promoting a skill to 3★ or above requires a verified `links.github` blob URL. Named in META.md § 2.4."
+    },
+    {
+      "term": "rank up",
+      "state": "canonical",
+      "group": "trust",
+      "oracle": "CONTEXT.md § Verbs",
+      "definition": "The verb for moving a skill up the star axis. \"Level up\" is synonymous; `upgrade` and `promote-up` are not."
+    }
+  ]
+}
