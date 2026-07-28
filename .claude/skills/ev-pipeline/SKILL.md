@@ -1,7 +1,7 @@
 ---
 name: ev-pipeline
 description: >
-  Top-level orchestrator for the Gaia Registry evidence verification pipeline. Run this when you want to do a full evidence pass — collecting raw sources, verifying live GitHub star counts, adversarially auditing for quality/formatting issues, and checking that every URL is reachable — all in one coordinated sequence. Trigger phrases: "run the evidence pipeline", "full evidence pass", "verify evidence", "evidence verification pipeline", "run ev-pipeline", "check all evidence", "audit the data lake", "evidence quality sweep", "refresh evidence", "validate evidence sources". Also aliased as /evidence-verification-pipeline. Use the individual sub-skills (ev-collection, ev-star-verification, ev-adversarial-audit, ev-link-validation) only when you need to re-run one phase in isolation; for end-to-end work, always start here.
+  Top-level orchestrator for the Gaia Skill Tree evidence verification pipeline. Run this when you want to do a full evidence pass — collecting raw sources, verifying live GitHub star counts, adversarially auditing for quality/formatting issues, and checking that every URL is reachable — all in one coordinated sequence. Trigger phrases: "run the evidence pipeline", "full evidence pass", "verify evidence", "evidence verification pipeline", "run ev-pipeline", "check all evidence", "audit the data lake", "evidence quality sweep", "refresh evidence", "validate evidence sources". Also aliased as /evidence-verification-pipeline. Use the individual sub-skills (ev-collection, ev-star-verification, ev-adversarial-audit, ev-link-validation) only when you need to re-run one phase in isolation; for end-to-end work, always start here.
 ---
 
 # Evidence Verification Pipeline (ev-pipeline)

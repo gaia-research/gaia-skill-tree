@@ -1,11 +1,11 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "Gaia Registry API",
+    "title": "Gaia Skill Tree API",
     "version": "1.0.0",
     "description": "Static read-only JSON API for the Gaia skill registry. All endpoints are served as pre-generated JSON files via GitHub Pages. No authentication required.",
     "contact": {
-      "name": "Gaia Registry",
+      "name": "Gaia Research",
       "url": "https://gaiaskilltree.com"
     },
     "license": {

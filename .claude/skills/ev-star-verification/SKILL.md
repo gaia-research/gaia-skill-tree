@@ -18,7 +18,7 @@ that downstream phases (adversarial audit, link validation) use as their working
 
 ## Why This Phase Matters
 
-Evidence scores in the Gaia Registry decay over time — a repo that had 500 stars when it was
+Evidence scores in the registry decay over time — a repo that had 500 stars when it was
 catalogued may now have 5,000, or may have been deleted. Without live re-validation, Trust
 Magnitude scores compound stale data and produce misleading skill grades. This phase is the
 single point where raw GitHub reality is reconciled with what the registry believes.
