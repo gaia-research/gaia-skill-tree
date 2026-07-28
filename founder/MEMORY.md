@@ -17,11 +17,11 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 | Lane | Issue | State |
 |---|---|---|
-| **A — Skill Heaven** | `skill-heaven#6` floor split | **In flight at halt.** Branch **`feat/p1-floor-split`** exists on `origin` — work was pushed, **no PR opened yet**. Resume by inspecting that branch first. |
+| **A — Skill Heaven** | `skill-heaven#6` floor split | **Stopped mid-commit; work is SAFE.** Commit **`0579c2b`** — "feat(core): split the floor into a doorless benchmark floor and a doorful product floor" — is **pushed to `origin/feat/p1-floor-split`**. **No PR opened yet.** Agent reported **75/75 tests green, typecheck clean** and was killed while committing a further round of test fixes; the `skill-heaven` clone working tree is **clean**, so nothing was lost beyond that final uncommitted test tweak. |
 | **B — Lexicon** | `#1338` ban MCP tool names | ✅ **PR gaia-research#126** — open, MERGEABLE, green |
 | **B — Lexicon** | `#1337` six-namespace migration | Not started |
 | **C — Adoption** | `#1130` restore entrypoints | ✅ **PR #1342** — open, MERGEABLE, green |
-| **C — Adoption** | `#1341` three surface breaks | **In flight at halt.** No branch or PR visible on `origin` yet — likely little or nothing pushed. Assume it must be re-dispatched from scratch. |
+| **C — Adoption** | `#1341` three surface breaks | **Stopped mid-sweep. Work is UNCOMMITTED but RECOVERABLE — do not restart from scratch.** Worktree **`/Users/marcotiongson/Documents/gaia-skill-tree/.claude/worktrees/agent-a7ce1b1a8a741718e`**, branch `docs/fix-proven-surface-breaks`, **22 files modified, 0 commits, nothing pushed**. All 22 are inside `docs/` or `*.md`, so **branch scope is clean** — it would pass CI. Resume by `cd`-ing into that worktree and finishing. |
 | **C — Adoption** | `#1339` About surface | Not started |
 
 ### Lane B's shape decision — READ THIS BEFORE STARTING #1337
@@ -34,6 +34,9 @@ The worker **rejected** creating a second file (`lexicon.mcp.json`), on the grou
 **Known enforcement gap, deliberate and recorded:** prototype strings in `data/mcp.ts` and the MilimPet tooltips sit **outside every lexicon scope**, so the new bans do not reach them. Baseline unchanged, untouched on purpose. **Widening gate scope to catch them is #1337's decision, not a defect of #1338.**
 
 ### Findings worth carrying forward
+- **GROUND-TRUTH CORRECTION — `ARC_I.md` §3 Lane A is wrong about the test baseline.** The handover states `skill-heaven` is "**Tests today: 95/95 green**". The Lane A agent measured the real baseline on `origin/main` as **64**, and its floor-split branch at **75/75**. **Fix the handover** — a wrong baseline makes every later "tests still green" claim unverifiable.
+- **Lane C's #1328 instinct was correct and should be preserved on resume.** Facing fourteen references to an unpublished package, it chose to **genericize the copy rather than substitute a different package name**. That is exactly right: it keeps the page honest *and* leaves V5-4 open. **Do not let a resuming agent "improve" this by naming a package.**
+- **Dispatch lesson: the commit-per-unit instruction did not hold under a wide sweep.** Lane C accumulated 22 modified files with **zero commits**. The instruction was in the prompt verbatim and was still ignored once the work became a many-file sweep. For broad find-and-replace-shaped tasks, **name the commit boundaries explicitly in the prompt** ("commit after each of the three breaks") rather than stating the principle.
 - **`Gaia Registry` is leaking onto a surface we just re-linked.** The benchmark leaderboard pages carry titles like `HumanEval Leaderboard | Gaia Registry` — now one click behind the restored homepage entrypoint. That is #1258's scope, correctly left alone by the #1130 worker and explicitly handed to the #1341 worker. **The product-side fix (#1258) and the vocabulary-side fix (`gaia.skills`, `gaia.registry` rejected) must land with coordinated copy.**
 - **The V5-4 pressure point is break #2 of #1341** — fourteen `@gaia-registry/mcp-server` references on a live page for an unpublished package. The honest fix sits directly on top of the constraint against naming packages in user-facing copy. The #1341 worker was told to **stop and report rather than pick a topology**. That report has not come back. **Read it carefully when it does.**
 - All thirteen Arc I issues were verified wired — Program milestone + `arc-1` + `v5` on every HQ issue, Program 1 milestone on all nine `skill-heaven` issues. **One gap: #1130 has no functional label** where every other Arc I issue has one. Not actioned (GitHub write pending approval); `documentation` is the obvious value.
@@ -41,8 +44,8 @@ The worker **rejected** creating a second file (`lexicon.mcp.json`), on the grou
 
 ### Quick handoff for the next session
 1. **Approve/merge PR #126 and PR #1342** — both green, both awaiting the founder gate. Merging #126 is what actually banks the cross-lane discharge.
-2. **Check `skill-heaven` branch `feat/p1-floor-split`** before re-dispatching Lane A. Read what the agent pushed; resume from there rather than restarting #6. Do **not** start `#5` (the PR #4 re-cut) until #6 is landed — #5 must absorb it, and doing #5 first means doing it twice.
-3. **Re-dispatch `#1341`** — assume nothing survived. Carry forward the V5-4 stop-and-report instruction on break #2 verbatim.
+2. **Lane A — open the PR for `origin/feat/p1-floor-split`** (commit `0579c2b`). The floor split itself is written and pushed; what is missing is the PR, the Federation-notes block, `Resolves #6`, and a re-run of the suite. Do **not** restart #6. Do **not** start `#5` (the PR #4 re-cut) until #6 is landed — #5 must absorb it, and doing #5 first means doing it twice.
+3. **Lane C — resume `#1341` inside the existing worktree**, `.claude/worktrees/agent-a7ce1b1a8a741718e` (branch `docs/fix-proven-surface-breaks`, 22 uncommitted files, scope-clean). **Do not re-dispatch from scratch — the sweep is ~most of the way done.** Carry the V5-4 stop-and-report instruction on break #2 verbatim, and tell the agent to commit after each of the three breaks.
 4. Then: Lane A `#7` → `#9` → `#8/#10/#11/#12` → `#13` (the arc gate artifact). Lane B `#1337`. Lane C `#1339`.
 5. **Once #6 lands**, the `floor` term in `gaia-research/founder/lexicon.json` must split into two terms (doorless benchmark floor / doorful product floor). Lane B owns that; it is a consequence of V5-5, not part of #6.
 6. Untouched by design and still untouched: **Program 5** (own nested orchestrator on `BACKLOG_ERADICATION_TRACKER.md`, one resumable PR, one founder review — do not stream small PRs at Marco), **#1001** (deferred to TM Index v2, August 2026).
