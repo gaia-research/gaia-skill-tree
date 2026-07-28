@@ -290,6 +290,18 @@ def _load_yaml_file(path):
         return None, f"YAML parse error in '{path}':\n  {exc}"
     if not isinstance(data, dict):
         return None, f"'{path}' must be a YAML mapping with a top-level 'skills:' key"
+
+    # RFC2 Gap B — a review-ready discovery-packet-v2 (JSON, which safe_load
+    # parses too) is adapted into the intake 'skills:' mapping. Detected by the
+    # 'contractVersion' key, which an intake YAML never carries.
+    from gaia_cli.intakeAdapter import isDiscoveryPacket, buildIntakeYaml
+
+    if isDiscoveryPacket(data):
+        try:
+            data = buildIntakeYaml(data)
+        except ValueError as exc:
+            return None, f"Cannot adapt discovery packet '{path}': {exc}"
+
     if "skills" not in data:
         return None, f"'{path}' is missing the required top-level 'skills:' list"
     if not isinstance(data["skills"], list) or len(data["skills"]) == 0:
