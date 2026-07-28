@@ -13,6 +13,10 @@ from urllib.parse import urlparse
 
 
 CONTRACT_VERSION = "discovery-packet-v1"
+CONTRACT_VERSION_V2 = "discovery-packet-v2"
+SUPPORTED_CONTRACT_VERSIONS = {CONTRACT_VERSION, CONTRACT_VERSION_V2}
+SUITE_ROLES = {"component", "capstone"}
+MATCH_TIERS = {"strong", "weak"}
 LIFECYCLE = ("discovered", "fetched", "parsed", "normalized", "deduped", "mapped")
 FINAL_STATES = {"review-ready", "deferred", "rejected"}
 DECISIONS = {"MAP", "NEW_GENERIC", "DUPLICATE", "NOT_A_SKILL", "DEFER"}
@@ -36,11 +40,19 @@ def _valid_url(value: Any) -> bool:
 
 
 def validate_packet(packet: Any, trusted_generics: Any = None) -> list[str]:
-    """Return stable error codes for a single, discovery-only candidate packet."""
+    """Return stable error codes for a single, discovery-only candidate packet.
+
+    Supports both discovery-packet-v1 and discovery-packet-v2. The v2 code path
+    is selected on ``contractVersion == "discovery-packet-v2"`` and additionally
+    validates: mappingOptions[].similarity + matchTier, the optional suite block
+    shape, and decision.proposal.prerequisites (required iff type == "fusion").
+    """
     errors: list[str] = []
     if not isinstance(packet, dict):
         return ["MALFORMED_PACKET"]
-    if packet.get("contractVersion") != CONTRACT_VERSION:
+    contract = packet.get("contractVersion")
+    is_v2 = contract == CONTRACT_VERSION_V2
+    if contract not in SUPPORTED_CONTRACT_VERSIONS:
         errors.append("UNSUPPORTED_CONTRACT_VERSION")
     for field in ("candidateId", "lifecycle", "source", "normalized", "exactDedupe", "mappingOptions", "decision", "flags"):
         if field not in packet:
@@ -123,6 +135,34 @@ def validate_packet(packet: Any, trusted_generics: Any = None) -> list[str]:
         for option in options
     ):
         errors.append("INVALID_MAPPING_OPTIONS")
+    elif is_v2 and any(
+        not isinstance(option.get("similarity"), (int, float))
+        or isinstance(option.get("similarity"), bool)
+        or not (0 <= option["similarity"] <= 1)
+        or option.get("matchTier") not in MATCH_TIERS
+        for option in options
+    ):
+        errors.append("INVALID_MATCH_METADATA")
+
+    if is_v2 and "suite" in packet:
+        suite = packet.get("suite")
+        if (
+            not isinstance(suite, dict)
+            or suite.get("role") not in SUITE_ROLES
+            or not isinstance(suite.get("suiteId"), str)
+            or not suite["suiteId"].strip()
+            or (
+                "componentCandidateIds" in suite
+                and (
+                    not isinstance(suite.get("componentCandidateIds"), list)
+                    or any(
+                        not isinstance(cid, str) or not cid.strip()
+                        for cid in suite["componentCandidateIds"]
+                    )
+                )
+            )
+        ):
+            errors.append("INVALID_SUITE_BLOCK")
 
     mapped = isinstance(lifecycle, list) and "mapped" in lifecycle
     snapshot = packet.get("genericSnapshot")
@@ -231,6 +271,14 @@ def validate_packet(packet: Any, trusted_generics: Any = None) -> list[str]:
             or proposal.get("type") not in {"basic", "fusion"}
         ):
             errors.append("INVALID_NEW_GENERIC_PROPOSAL")
+        elif is_v2 and proposal.get("type") == "fusion":
+            prereqs = proposal.get("prerequisites")
+            if (
+                not isinstance(prereqs, list)
+                or len(prereqs) < 1
+                or any(not isinstance(p, str) or not p.strip() for p in prereqs)
+            ):
+                errors.append("MISSING_FUSION_PREREQUISITES")
 
     return sorted(set(errors))
 
@@ -252,7 +300,8 @@ def main(argv: list[str]) -> int:
     if errors:
         print("\n".join(errors), file=sys.stderr)
         return 1
-    print("VALID discovery-packet-v1")
+    version = packet.get("contractVersion") if isinstance(packet, dict) else CONTRACT_VERSION
+    print(f"VALID {version}")
     return 0
 
 
