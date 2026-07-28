@@ -8,7 +8,9 @@ Process exactly one candidate at a time:
 
 `discovered → fetched → parsed → normalized → deduped → mapped → review-ready | deferred | rejected`
 
-`fetched` requires an actually fetched upstream `SKILL.md`; `parsed` requires non-empty `name` and `description` frontmatter. Preserve source facts only: canonical URL, host repository, cited origin, available commit SHA/content hash, and source-native trend signals. Do not collect evidence, score evidence, assign grades/classes, calculate Trust Magnitude, calibrate stars, mutate the registry, regenerate docs, commit, push, or create a PR.
+`fetched` requires an actually fetched upstream `SKILL.md`; `parsed` requires non-empty `name` and `description` frontmatter. Preserve source facts only: canonical URL, host repository, cited origin, available commit SHA/content hash, and source-native trend signals.
+
+**Stage-1 minimum-effort evidence (RFC2 §3.2 carve-out — the only relaxation).** The worker MAY write exactly the Stage-1 minimum-effort evidence set the crawler already holds: `github-stars-own` (stargazer count), `repo-own` (commits + contributors), and `self-attestation` (the flat baseline). These are REAL canonical evidence rows in the same shape `gaia dev evidence` writes — not a throwaway estimate — recorded from signals already fetched during discovery. Everything else about evidence remains forbidden: **no web search** at this stage (that is Stage 2 / Phase 0, a separate workstream), do not score evidence, do not assign grades or classes, do not set a star level, and do not hand-compute a final Trust Magnitude — TM is derived canonically at appraisal time from the evidence rows. Beyond writing these three Stage-1 rows, do not mutate the registry, regenerate docs, commit, push, or create a PR; everything else still stops at L4.
 
 ## Named-first ordering
 
