@@ -115,6 +115,51 @@
       max-width: 820px;
       min-width: 0;
     }
+    /* Deferred-surface WIP banner (docs/agents/deferred-surface-convention.md).
+       Sits inside .main-content, before page content — .main-content already
+       clears the fixed nav via docs-en-shell.css, so this only needs bottom
+       spacing, not its own top-clearance margin. Removed once V5-4 (package
+       topology) is ratified and the package ships. */
+    .wip-banner {
+      max-width: 62rem;
+      margin: 0 0 1.75rem;
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 0.5rem 0.9rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      line-height: 1.55;
+      color: var(--text, #e2e8f0);
+      background: rgba(var(--evidence-gold-rgb), 0.06);
+      border: 1px solid rgba(var(--evidence-gold-rgb), 0.28);
+      border-radius: 6px;
+      letter-spacing: 0.02em;
+    }
+    .wip-banner .wip-tag {
+      color: var(--evidence-gold);
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 0.72rem;
+    }
+    .wip-banner .wip-body { color: var(--text, #e2e8f0); opacity: 0.86; }
+    .wip-banner a {
+      color: var(--evidence-gold);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(var(--evidence-gold-rgb), 0.45);
+      transition: border-color 160ms ease-out;
+    }
+    .wip-banner a:hover,
+    .wip-banner a:focus-visible {
+      border-bottom-color: var(--evidence-gold);
+      outline: none;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .wip-banner a { transition: none; }
+    }
+
     .page-title {
       font-family: 'EB Garamond', Georgia, serif;
       font-size: 2.4rem;
@@ -544,6 +589,11 @@
 
     <!-- main -->
     <main class="main-content">
+      <aside class="wip-banner" role="note" aria-label="Interim rendering notice">
+        <span class="wip-tag">◇ Interim rendering</span>
+        <span class="wip-body">The MCP server package is not yet published, so the install commands on this page cannot be run yet. Package topology is tracked in <a href="https://github.com/gaia-research/gaia-skill-tree/issues/1328">#1328</a>. The tool/config shape below is frozen and ready to use the moment it ships.</span>
+      </aside>
+
       <div class="page-badge">● Model Context Protocol server</div>
       <h1 class="page-title">MCP Server</h1>
       <p class="page-lead">
@@ -588,8 +638,9 @@
           <p>
             The universal install shape is <code>npx</code>-based, with an optional
             <code>GAIA_USER</code> env var set to your GitHub username.
-            Platform specifics follow — substitute the published package name shown
-            in the release notes wherever this page shows a placeholder.
+            The package itself isn't published yet — platform specifics below show its
+            shape with a placeholder wherever a package name would go, so the install
+            is ready to run the moment it ships.
           </p>
         </div>
 
