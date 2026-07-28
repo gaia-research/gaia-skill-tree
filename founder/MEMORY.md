@@ -4,6 +4,54 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-28, Session 8 — Arc I dispatch: three lanes fanned out; Lane B's cross-lane dependency discharged; Lane C's cheapest win landed; halted early on credit budget with two agents mid-flight)
+
+### TLDR
+- **This was a dispatch session, not a planning session.** v5 was already ratified (PR #1340, merged 12:38Z, `main` green on Rank Vocabulary Guard / CodeQL / Pages). No roadmap decisions were made or reopened. **V5-4 remains open by founder ruling** — nothing this session closed it by implication.
+- **The arc's only cross-lane dependency is discharged.** `gaia-research` **PR #126** (`lexicon/ban-prototype-mcp-tool-names`) is open, MERGEABLE, and **green** — Vocabulary gate + self-tests, Build & Edge Compatibility, Workers build all pass. Touches exactly `founder/lexicon.json`, `founder/LEXICON.md`, `scripts/lexicon/check-lexicon.ts`. This is #1338. **The window for this existed exactly once, because nothing is published — it is now permanently closed in our favour.**
+- **Cheapest credibility win landed.** HQ **PR #1342** (`docs/1130-restore-entrypoints`) is open, MERGEABLE, **12 checks pass / 2 skip**. Three lines in `docs/index.html` uncommenting markup that was already there behind a "waiting for the epic 1002 redesign" note. Worker verified both targets render *before* linking — B4 applied to surfaces.
+- **NOTHING WAS MERGED.** Both PRs await founder approval. Per `founder/CLAUDE.md`, GitHub writes route through Marco.
+- **Session halted deliberately on credit budget**, not on a blocker. Two agents were still in flight at halt; both were instructed to commit-and-push per logical unit, so their pushed work is durable. Nothing further was dispatched.
+
+### Live state at halt
+
+| Lane | Issue | State |
+|---|---|---|
+| **A — Skill Heaven** | `skill-heaven#6` floor split | **In flight at halt.** Branch **`feat/p1-floor-split`** exists on `origin` — work was pushed, **no PR opened yet**. Resume by inspecting that branch first. |
+| **B — Lexicon** | `#1338` ban MCP tool names | ✅ **PR gaia-research#126** — open, MERGEABLE, green |
+| **B — Lexicon** | `#1337` six-namespace migration | Not started |
+| **C — Adoption** | `#1130` restore entrypoints | ✅ **PR #1342** — open, MERGEABLE, green |
+| **C — Adoption** | `#1341` three surface breaks | **In flight at halt.** No branch or PR visible on `origin` yet — likely little or nothing pushed. Assume it must be re-dispatched from scratch. |
+| **C — Adoption** | `#1339` About surface | Not started |
+
+### Lane B's shape decision — READ THIS BEFORE STARTING #1337
+`gaia.mcp` **did not exist** when #1338 landed. `founder/lexicon.json` is still **one flat `core` file**, and `check-lexicon.ts` loads exactly **one** lexicon path.
+
+The worker **rejected** creating a second file (`lexicon.mcp.json`), on the grounds that it would force a loader/merge design that is **#1337's call to make** — and that until that loader exists, the ban would not actually be *enforced*. Minimum change taken instead: an **optional per-term `namespace` field**, set to `gaia.mcp` on the three banned terms, documented on the `Term` type as **transitional**, and rendered into `LEXICON.md`.
+
+**Why this is the right call to keep:** it grants no second definition, so *one term, one owner* is intact, and #1337 can move these terms into namespace files and **delete the field mechanically**. Treat the `namespace` field as a known temporary, not as a design commitment. Lexicon is now **54 terms**; self-tests **33 pass / 0 fail**; gate clean over 24 files, 0 new findings.
+
+**Known enforcement gap, deliberate and recorded:** prototype strings in `data/mcp.ts` and the MilimPet tooltips sit **outside every lexicon scope**, so the new bans do not reach them. Baseline unchanged, untouched on purpose. **Widening gate scope to catch them is #1337's decision, not a defect of #1338.**
+
+### Findings worth carrying forward
+- **`Gaia Registry` is leaking onto a surface we just re-linked.** The benchmark leaderboard pages carry titles like `HumanEval Leaderboard | Gaia Registry` — now one click behind the restored homepage entrypoint. That is #1258's scope, correctly left alone by the #1130 worker and explicitly handed to the #1341 worker. **The product-side fix (#1258) and the vocabulary-side fix (`gaia.skills`, `gaia.registry` rejected) must land with coordinated copy.**
+- **The V5-4 pressure point is break #2 of #1341** — fourteen `@gaia-registry/mcp-server` references on a live page for an unpublished package. The honest fix sits directly on top of the constraint against naming packages in user-facing copy. The #1341 worker was told to **stop and report rather than pick a topology**. That report has not come back. **Read it carefully when it does.**
+- All thirteen Arc I issues were verified wired — Program milestone + `arc-1` + `v5` on every HQ issue, Program 1 milestone on all nine `skill-heaven` issues. **One gap: #1130 has no functional label** where every other Arc I issue has one. Not actioned (GitHub write pending approval); `documentation` is the obvious value.
+- Local sibling clones remain a trap: `/Users/marcotiongson/Documents/gaia-research` is still on **stale `staging`**. Every dispatch this session front-loaded "fetch `origin/main` before trusting any local file," and no agent repeated the Session-7 stale-read failure.
+
+### Quick handoff for the next session
+1. **Approve/merge PR #126 and PR #1342** — both green, both awaiting the founder gate. Merging #126 is what actually banks the cross-lane discharge.
+2. **Check `skill-heaven` branch `feat/p1-floor-split`** before re-dispatching Lane A. Read what the agent pushed; resume from there rather than restarting #6. Do **not** start `#5` (the PR #4 re-cut) until #6 is landed — #5 must absorb it, and doing #5 first means doing it twice.
+3. **Re-dispatch `#1341`** — assume nothing survived. Carry forward the V5-4 stop-and-report instruction on break #2 verbatim.
+4. Then: Lane A `#7` → `#9` → `#8/#10/#11/#12` → `#13` (the arc gate artifact). Lane B `#1337`. Lane C `#1339`.
+5. **Once #6 lands**, the `floor` term in `gaia-research/founder/lexicon.json` must split into two terms (doorless benchmark floor / doorful product floor). Lane B owns that; it is a consequence of V5-5, not part of #6.
+6. Untouched by design and still untouched: **Program 5** (own nested orchestrator on `BACKLOG_ERADICATION_TRACKER.md`, one resumable PR, one founder review — do not stream small PRs at Marco), **#1001** (deferred to TM Index v2, August 2026).
+
+### Token spend (partial — two agents mid-flight at halt, their totals unknown)
+`2026-07-28 Opus 5 + Sonnet — Arc I dispatch session. Lane C head (Sonnet): 74,660 subagent tokens / 24 tool uses. Lane A (Opus), Lane B (Opus), Lane C #1341 (Sonnet): in flight at snapshot, totals not final. Orchestrator: dispatch + verification only, no code authored. Full reconciliation deferred to next session.`
+
+---
+
 ## State Snapshot (2026-07-28, Session 7 — GAIA Roadmap v5 RATIFIED; Arc I opened; ecosystem tracking spine stood up across four repos; org board replaces both ROADMAP boards)
 
 ### TLDR
