@@ -133,7 +133,7 @@ Everything in this section was checked against live repos, not recalled. Where t
 | Yggdrasil II | **Shipped.** EPIC #1002 closed; aggregate PR #1185 merged |
 | `claude-heaven` launcher slice | **Merged** (skill-heaven PR #3): native posture default, session-scoped statusline, standing-dose census, zero shared-state mutation, core↔door package boundary, **57/57 tests** |
 | `/skill-heaven` posture slider | **Draft PR #4, open, not mergeable as framed** (see 4.2) |
-| `@gaia-research/mcp` | **v0.1.0**, read-only Registry mode, implementation under review, **not yet published to npm** |
+| `@gaia-research/mcp` | **v0.1.0, PUBLISHED TO npm 2026-07-16** — read-only Registry mode, implementation under review. Binary `gaia-mcp`. Description: "Agent-native discovery and trust interface for the Gaia Skill Tree". ⚠️ **This row read "not yet published to npm" at ratification. That was factually wrong — corrected 2026-07-28 per V5-18.** The package name is the true name and is kept (V5-14); it is the *implementation* that is a blank canvas |
 | Gaia MCP live tools | `gaia_search`, `gaia_inspect`, `gaia_status` |
 | Legacy `packages/mcp` | Still in Skill Tree; extraction RFC open at **#1191** |
 | Lexicon of record | Live in `gaia-research/founder/lexicon.json` on `main` — **51 terms** (29 `canonical`, 13 `parked`, 9 `banned`), schema 1, namespace `core`, updated 2026-07-24. Generated companion `founder/LEXICON.md` (hand-edit forbidden). Port RFC to Skill Tree open at **#1302** |
@@ -319,9 +319,9 @@ hellHeaven:
 
 This is a deliberate discard, and it buys three things the prototype cannot:
 
-1. **Names get ruled before they ship.** The prototype's `gaia_search`/`gaia_inspect`/`gaia_status` and D4's ratified `search_skills`/`summon` never have to be reconciled — Program 2 rules the vocabulary, and Program 4 implements the ruling. **This ordering is available exactly once**, and only because nothing is published (§4.2d).
+1. **Names get ruled before the *rebuild* ships.** Program 2 rules the vocabulary, and Program 4 implements the ruling. ⚠️ **Corrected 2026-07-28 (V5-18):** this originally read "available exactly once, and only because nothing is published." **The package IS published** (v0.1.0, npm, 2026-07-16), and its README documents `gaia_search`/`gaia_inspect`/`gaia_status`. The ordering advantage is real but **smaller than drafted** — it applies to the rebuilt implementation, not to a blank canvas. **Renaming the prototype's tools is a breaking change to a shipped public interface, not free pre-publication hygiene.**
 2. **Profiles are a design input, not a retrofit.** The two-audience problem is known up front rather than discovered after a surface exists.
-3. **No migration debt.** Nothing is installed anywhere, so there is no deprecation window to honour and no client to break.
+3. ~~**No migration debt.** Nothing is installed anywhere, so there is no deprecation window to honour and no client to break.~~ ⚠️ **STRUCK 2026-07-28 (V5-18) — this was false.** The package is on npm and installable, so there **is** a client surface to consider. At v0.1.0 with a single published version the debt is **small, but not zero**, and Program 4 owes an explicit migration story — deprecation window, aliases, or a clean break at 0.2.0 with a changelog entry. **The disposition is OPEN (see §12).**
 
 **Standing goal:** a rich agent interface for deliberate Gaia interaction that never makes a Skill Heaven session pay for the parts it is not using.
 
@@ -648,6 +648,8 @@ Cushions: each program carries ~25–35% orchestration, review, and rework overh
 | V5-15 | **Adoption is a first-class surface**; Program 7 is **locked into Arc I**. | ✅ **Founder ruling, 2026-07-28** |
 | V5-16 | **Change management is in scope** — a standing, versioned **What Changed** surface ships alongside the About surface. | ✅ **Founder ruling, 2026-07-28** |
 | V5-17 | Every user-facing surface across the public repos is classified **canonical / pointer / retired**. | ✅ **Ratified, scoped.** **Arc I fixes only the four proven breaks** — #1130's disabled entrypoints, `skill-heaven`'s 404 VISION/MISSION badges, #1328's 14 stale MCP refs, #1258's "Gaia Registry" branding. The full classification audit is a **Program 7 background lane**, not an arc blocker. |
+| V5-18 | **FACTUAL CORRECTION, not a new decision.** `@gaia-research/mcp` **v0.1.0 was published to npm on 2026-07-16**, twelve days before ratification. §4.1 recorded it as "not yet published"; that was wrong, and three downstream claims inherited the error. | ✅ **Founder correction, 2026-07-28** (caught by Marcus during Arc I dispatch). **V5-14 SURVIVES INTACT** — prototype status and the blank-canvas rebuild never depended on publication, and the **package name `@gaia-research/mcp` is the true name and is kept.** What breaks is only the *cost* reasoning: Program 4's "no migration debt / nothing installed anywhere" is **struck**, and "available exactly once because nothing is published" is **narrowed**. The `@gaia-registry/mcp-server` references in `docs/en/mcp-server.html` (#1328) were stale due to a **RENAME**, not non-publication — so #1328's suggested rename to `@gaia-research/mcp` was **correct**. Naming an already-published package in install documentation **does not close V5-4**; the no-package-names constraint governs the **About surface** (Program 7), not install docs for a shipped package. |
+| V5-19 | **Final MCP tool names are NOT decided.** | 🔓 **OPEN by founder ruling, 2026-07-28.** D4 ratified a ≤2-tool summon surface spelled `search_skills`/`summon`; the shipped prototype exposes `gaia_search`/`gaia_inspect`/`gaia_status`. **Neither set is final.** Do **not** treat the Program 2 lexicon work as locking the transport plane's public tool vocabulary, and do **not** ship a breaking rename against the published package until this closes. Recording a `banned` entry in the lexicon is permitted as **vocabulary intent**; changing the published surface is **not** authorized by it. |
 
 ---
 
@@ -697,6 +699,8 @@ Cushions: each program carries ~25–35% orchestration, review, and rework overh
 1. **V5-4 — how many planes, and what packages hold them.** Ruled open on purpose. The founder leans four names (Tree · Heaven · Hell · Research) with Skill Heaven as one package holding MCP and Skill Hell. **Nothing in Arc I depends on closing it** — Program 7 ships the four-name public story and never names a repo or package. Sub-decision, equally open: Program 4's destination (standalone `gaia-mcp` versus folded into the Heaven package).
 2. **`hh-stamp/v1` acceptance threshold.** How repeatable must a result be before the Tree records it? "Sufficiently repeatable" needs a number **before Arc IV**. Not an Arc I blocker.
 3. **Compaction survival (ledger OPEN 2).** Unmeasured. Needs a matrix gate before any load-bearing copy asserts it. Arc II.
+4. **V5-19 — the final MCP tool names.** Neither D4's `search_skills`/`summon` nor the prototype's shipped `gaia_search`/`gaia_inspect`/`gaia_status` is final. **This is now load-bearing in a way it was not at ratification:** the prototype's names are published on npm (V5-18), so closing this decides a **breaking change to a live public interface**, not a naming preference on a blank canvas. Program 2 may record vocabulary intent in the lexicon; **it may not authorize a rename of the published surface.** Needs closing before Program 4 ships the rebuild.
+5. **Migration story for the `@gaia-research/mcp` rebuild.** Follows from V5-18 and V5-19: deprecation window, aliases, or a clean break at 0.2.0 with a changelog entry. Small at one published version — but it must be chosen, not assumed away.
 
 ---
 
