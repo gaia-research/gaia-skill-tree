@@ -115,51 +115,6 @@
       max-width: 820px;
       min-width: 0;
     }
-    /* Deferred-surface WIP banner (docs/agents/deferred-surface-convention.md).
-       Sits inside .main-content, before page content — .main-content already
-       clears the fixed nav via docs-en-shell.css, so this only needs bottom
-       spacing, not its own top-clearance margin. Removed once V5-4 (package
-       topology) is ratified and the package ships. */
-    .wip-banner {
-      max-width: 62rem;
-      margin: 0 0 1.75rem;
-      padding: 0.75rem 1.5rem;
-      display: flex;
-      align-items: baseline;
-      flex-wrap: wrap;
-      gap: 0.5rem 0.9rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.78rem;
-      line-height: 1.55;
-      color: var(--text, #e2e8f0);
-      background: rgba(var(--evidence-gold-rgb), 0.06);
-      border: 1px solid rgba(var(--evidence-gold-rgb), 0.28);
-      border-radius: 6px;
-      letter-spacing: 0.02em;
-    }
-    .wip-banner .wip-tag {
-      color: var(--evidence-gold);
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      font-size: 0.72rem;
-    }
-    .wip-banner .wip-body { color: var(--text, #e2e8f0); opacity: 0.86; }
-    .wip-banner a {
-      color: var(--evidence-gold);
-      text-decoration: none;
-      border-bottom: 1px solid rgba(var(--evidence-gold-rgb), 0.45);
-      transition: border-color 160ms ease-out;
-    }
-    .wip-banner a:hover,
-    .wip-banner a:focus-visible {
-      border-bottom-color: var(--evidence-gold);
-      outline: none;
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .wip-banner a { transition: none; }
-    }
-
     .page-title {
       font-family: 'EB Garamond', Georgia, serif;
       font-size: 2.4rem;
@@ -589,11 +544,6 @@
 
     <!-- main -->
     <main class="main-content">
-      <aside class="wip-banner" role="note" aria-label="Interim rendering notice">
-        <span class="wip-tag">◇ Interim rendering</span>
-        <span class="wip-body">The MCP server package is not yet published, so the install commands on this page cannot be run yet. Package topology is tracked in <a href="https://github.com/gaia-research/gaia-skill-tree/issues/1328">#1328</a>. The tool/config shape below is frozen and ready to use the moment it ships.</span>
-      </aside>
-
       <div class="page-badge">● Model Context Protocol server</div>
       <h1 class="page-title">MCP Server</h1>
       <p class="page-lead">
@@ -625,8 +575,8 @@
         <div class="callout callout-info">
           <span class="callout-label">💡 Quick start</span>
           <p>Using Claude Code, registration is a single <code>claude mcp add</code> call
-          pointed at the published package once it ships — see the install shape below
-          for the exact env vars it needs.</p>
+          pointed at the published <code>@gaia-research/mcp</code> package — see the
+          install shape below for the exact env vars it needs.</p>
           <p>Then ask: <em>"Use gaia_lookup to find the rag-pipeline skill."</em></p>
         </div>
       </section>
@@ -637,10 +587,9 @@
         <div class="section-body">
           <p>
             The universal install shape is <code>npx</code>-based, with an optional
-            <code>GAIA_USER</code> env var set to your GitHub username.
-            The package itself isn't published yet — platform specifics below show its
-            shape with a placeholder wherever a package name would go, so the install
-            is ready to run the moment it ships.
+            <code>GAIA_USER</code> env var set to your GitHub username. The package
+            is published to npm as <code>@gaia-research/mcp</code> — platform
+            specifics below show the exact commands and config to run it.
           </p>
         </div>
 
@@ -662,10 +611,10 @@
           <div class="code-block">
             <div class="code-block-header"><span class="code-block-label">bash</span></div>
             <pre><span class="c"># project-local (adds to .claude/settings.json)</span>
-<span class="cmd">claude mcp add gaia</span> -- npx &lt;gaia-mcp-package&gt;
+<span class="cmd">claude mcp add gaia</span> -- npx @gaia-research/mcp
 
 <span class="c"># global (available in every project)</span>
-<span class="cmd">claude mcp add gaia</span> --global -- npx &lt;gaia-mcp-package&gt;</pre>
+<span class="cmd">claude mcp add gaia</span> --global -- npx @gaia-research/mcp</pre>
           </div>
           <div class="section-body">
             <p>To pass <code>GAIA_USER</code> and <code>GITHUB_TOKEN</code>, edit <code>.claude/settings.json</code> directly:</p>
@@ -676,7 +625,7 @@
   <span class="str">"mcpServers"</span>: {
     <span class="str">"gaia"</span>: {
       <span class="str">"command"</span>: <span class="str">"npx"</span>,
-      <span class="str">"args"</span>: [<span class="str">"&lt;gaia-mcp-package&gt;"</span>],
+      <span class="str">"args"</span>: [<span class="str">"@gaia-research/mcp"</span>],
       <span class="str">"env"</span>: {
         <span class="str">"GAIA_USER"</span>: <span class="str">"your-github-username"</span>,
         <span class="str">"GITHUB_TOKEN"</span>: <span class="str">"ghp_..."</span>
@@ -715,7 +664,7 @@
   <span class="str">"mcpServers"</span>: {
     <span class="str">"gaia"</span>: {
       <span class="str">"command"</span>: <span class="str">"npx"</span>,
-      <span class="str">"args"</span>: [<span class="str">"&lt;gaia-mcp-package&gt;"</span>],
+      <span class="str">"args"</span>: [<span class="str">"@gaia-research/mcp"</span>],
       <span class="str">"env"</span>: {
         <span class="str">"GAIA_USER"</span>: <span class="str">"your-github-username"</span>
       }
@@ -741,7 +690,7 @@
   <span class="str">"mcpServers"</span>: {
     <span class="str">"gaia"</span>: {
       <span class="str">"command"</span>: <span class="str">"npx"</span>,
-      <span class="str">"args"</span>: [<span class="str">"&lt;gaia-mcp-package&gt;"</span>],
+      <span class="str">"args"</span>: [<span class="str">"@gaia-research/mcp"</span>],
       <span class="str">"env"</span>: {
         <span class="str">"GAIA_USER"</span>: <span class="str">"your-github-username"</span>
       }
@@ -767,7 +716,7 @@
   <span class="str">"servers"</span>: {
     <span class="str">"gaia"</span>: {
       <span class="str">"command"</span>: <span class="str">"npx"</span>,
-      <span class="str">"args"</span>: [<span class="str">"&lt;gaia-mcp-package&gt;"</span>],
+      <span class="str">"args"</span>: [<span class="str">"@gaia-research/mcp"</span>],
       <span class="str">"env"</span>: {
         <span class="str">"GAIA_USER"</span>: <span class="str">"your-github-username"</span>
       }
@@ -785,7 +734,7 @@
     <span class="str">"servers"</span>: {
       <span class="str">"gaia"</span>: {
         <span class="str">"command"</span>: <span class="str">"npx"</span>,
-        <span class="str">"args"</span>: [<span class="str">"&lt;gaia-mcp-package&gt;"</span>],
+        <span class="str">"args"</span>: [<span class="str">"@gaia-research/mcp"</span>],
         <span class="str">"env"</span>: { <span class="str">"GAIA_USER"</span>: <span class="str">"your-github-username"</span> }
       }
     }
@@ -806,7 +755,7 @@
   <span class="str">"mcpServers"</span>: {
     <span class="str">"gaia"</span>: {
       <span class="str">"command"</span>: <span class="str">"npx"</span>,
-      <span class="str">"args"</span>: [<span class="str">"&lt;gaia-mcp-package&gt;"</span>],
+      <span class="str">"args"</span>: [<span class="str">"@gaia-research/mcp"</span>],
       <span class="str">"env"</span>: { <span class="str">"GAIA_USER"</span>: <span class="str">"your-github-username"</span> }
     }
   }
@@ -827,7 +776,7 @@
             <div class="code-block-header"><span class="code-block-label">universal shape</span></div>
             <pre>{
   <span class="str">"command"</span>: <span class="str">"npx"</span>,
-  <span class="str">"args"</span>: [<span class="str">"&lt;gaia-mcp-package&gt;"</span>],
+  <span class="str">"args"</span>: [<span class="str">"@gaia-research/mcp"</span>],
   <span class="str">"env"</span>: {
     <span class="str">"GAIA_USER"</span>: <span class="str">"your-github-username"</span>,
     <span class="str">"GITHUB_TOKEN"</span>: <span class="str">"ghp_..."</span>   <span class="c">// required for gaia_propose</span>
