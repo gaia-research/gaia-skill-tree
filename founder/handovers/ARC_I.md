@@ -69,7 +69,9 @@ The standing rules behind it:
 
 ### Lane A — Skill Heaven (Program 1)
 
-**Repo:** `gaia-research/skill-heaven` · **Issues:** #5–#13 · **Tests today:** 95/95 green
+**Repo:** `gaia-research/skill-heaven` · **Issues:** #5–#13 · **Tests today:** **64 on `origin/main`** (75 on the `feat/p1-floor-split` branch)
+
+> ⚠️ **Corrected 2026-07-28.** This line previously read "95/95 green." That number was wrong. **Measure the baseline yourself before claiming your branch keeps tests green** — a wrong baseline makes every later "still green" claim unverifiable.
 
 The demonstration, in order: native session dose honestly scoped → a visible session posture → a manually curated lower-dose launch → trusted capability discovery → one safe summon path → a measured before/after result.
 
@@ -103,7 +105,9 @@ The demonstration, in order: native session dose honestly scoped → a visible s
 
    `skill-heaven` and `gaia-mcp` hold **no** namespace files — they consume. **`gaia.registry` is rejected; the namespace is `gaia.skills`.** That is the same ruling as #1258 ("Gaia Registry" is not the product name). Extend, never redefine: a term is defined in exactly one file, ever. Extend the CI gate to the second HQ.
 
-2. **Ban the prototype MCP tool names.** The `search_skills` ↔ `gaia_search` collision is **already ruled** — `summon` is `canonical` with oracle **D4**, and its definition names `search_skills` as its partner tool. What is missing is enforcement. Add `gaia_search`, `gaia_inspect`, `gaia_status` as `banned` with `replacement: search_skills` and an oracle citation, in `gaia.mcp`. **This is the entire unblock described in §5. It is small. Do it early.**
+2. **Record the prototype MCP tool names as `banned` vocabulary intent.** `summon` is `canonical` with oracle **D4**, and its definition names `search_skills` as its partner tool. Add `gaia_search`, `gaia_inspect`, `gaia_status` as `banned` with `replacement: search_skills` and an oracle citation, in `gaia.mcp`. Small; do it early. **Landed in `gaia-research` PR #126.**
+
+   ⚠️ **But see §5.** Those three names are **published and live** on `@gaia-research/mcp` v0.1.0. The lexicon entry records **intent**; it does **not** authorize renaming the shipped surface. Final tool names are **OPEN** under roadmap **V5-19**.
 
 **Out of scope for Arc I:** #1302's authority hierarchy (Arc II/III).
 
@@ -143,9 +147,19 @@ The demonstration, in order: native session dose honestly scoped → a visible s
 
 ## 5. The one cross-lane dependency
 
-> **Lane B must ban the prototype MCP tool names before Program 4 writes its first tool definition.**
+> **Lane B records the prototype MCP tool names as `banned` vocabulary intent before Program 4 writes its first tool definition.**
 
-Program 4 is Arc III, so this does not block Arc I — but the ordering is **available exactly once**, because nothing is published yet. A blank canvas that starts by inventing vocabulary reproduces the defect the reset was meant to avoid. Lane B's task 2 is small; land it early and the dependency is permanently discharged.
+> ## ⚠️ CORRECTED 2026-07-28 — READ THIS, THE ORIGINAL PREMISE WAS FALSE
+>
+> This section previously said the ordering was "available exactly once, **because nothing is published yet**." **That is wrong.**
+>
+> **`@gaia-research/mcp` v0.1.0 was published to npm on 2026-07-16**, and its README documents `gaia_search`, `gaia_inspect`, and `gaia_status`. The stale `@gaia-registry/mcp-server` references on our own docs were stale because of a **RENAME**, not because nothing shipped. See roadmap **V5-18**.
+>
+> **What this changes:** recording those names as `banned` is **vocabulary intent** and is fine. **Renaming the published tool surface is a breaking change to a live public interface** and is **NOT** authorized by the lexicon entry. Roadmap **V5-19** rules the final tool names **OPEN** — neither D4's `search_skills`/`summon` nor the shipped trio is final.
+>
+> **Do not treat Lane B's work as licence to change the published server.** Do not write copy claiming the package is unpublished — it is not.
+
+Program 4 is Arc III, so this does not block Arc I. Lane B's task 2 is still small and still worth landing early — it captures the intent while it is cheap. What it no longer buys is a free rename.
 
 Everything else in Arc I runs in parallel.
 
