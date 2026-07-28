@@ -79,6 +79,27 @@ After all four phases complete, save these artifacts:
 2. **Master source report** — document the audit log, star updates, and adversarial findings in `evidence/source_report_YYYY_MM_DD.md`
 3. **Visual dashboard** — update statistics and pipeline statuses in `evidence/verification_process.html`
 
+## Additive loop — no green gate (RFC2 §3.5)
+
+Ingest is **never gated by "green."** The ev-pipeline is a **continuous additive
+loop**: it keeps aggregating new evidence rows (appending to the per-type
+partitions) and discarding rejected ones — evidence is additive, not pass/fail.
+New rows arrive two ways: Stage 1 writes cheap minimum-effort rows
+(`github-stars-own` + `repo-own` + `self-attestation`) at curation, and a
+skippable Firecrawl **Phase 0** discovers richer rows (`benchmark-result`,
+`arxiv`, `peer-review`, richer `social-signal`) on declared need.
+
+There is **no structured GREEN wall** gating ingest. The **only human gate is
+L4** (topology ratification, on the intake issue). After L4, the evidence-seed
+(`gaia dev evidence-seed`, partitioned by evidence type) materializes the
+intake's raw sources into this pipeline's collector inputs, evidence accumulates
+additively, and **Trust Magnitude + rank are recomputed at appraisal time** —
+rising to the skill's proper rank as Phase 0 evidence lands. Do not design or
+re-introduce a pass/fail green gate; the strategy is human gate + additive
+evidence.
+
+---
+
 ## Ingestion Handoff
 
 For L4-approved intake rows, successful Phase 4 is the boundary between the
