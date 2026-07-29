@@ -463,8 +463,34 @@ def _run_docs_build(registry_path) -> None:
     cmd = [sys.executable, "-m", "gaia_cli"]
     if registry_path:
         cmd += ["--registry", str(registry_path)]
-    cmd += ["docs", "build"]
+    cmd += ["dev", "docs"]
     subprocess.run(cmd, check=True)
+
+
+def _add_build_flags(parser, verb: str) -> None:
+    """Attach the standard docs-rebuild opt-in/opt-out flags to a mutating dev parser.
+
+    Docs rebuild is now OPT-IN: ``no_build`` defaults to True so a mutating
+    ``gaia dev`` subcommand writes without triggering the (slow) ``gaia dev docs``
+    regeneration unless the caller passes ``--build``.  ``--no-build`` is kept as an
+    explicit no-op alias for backward compatibility and clarity in scripts.
+
+    ``verb`` is a short present-tense phrase (e.g. "adding") for the help text.
+    """
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument(
+        "--build",
+        dest="no_build",
+        action="store_false",
+        help=f"Rebuild docs and graph assets after {verb} (opt-in; slower)",
+    )
+    group.add_argument(
+        "--no-build",
+        dest="no_build",
+        action="store_true",
+        help=f"Skip rebuilding docs and graph assets after {verb} (default)",
+    )
+    parser.set_defaults(no_build=True)
 
 
 
