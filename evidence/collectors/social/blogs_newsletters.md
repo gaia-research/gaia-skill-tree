@@ -173,6 +173,7 @@ This report documents the social signals (developer articles, blogs, newsletters
 
 ## 23. `agent-reach` — LobeHub Skills Marketplace
 *   **Article URL:** [https://lobehub.com/skills/panniantong-agent-reach-skill](https://lobehub.com/skills/panniantong-agent-reach-skill)
+*   **SKILL.md:** [https://github.com/Panniantong/Agent-Reach/blob/main/SKILL.md](https://github.com/Panniantong/Agent-Reach/blob/main/SKILL.md)
 *   **Grade:** A
 
 ---

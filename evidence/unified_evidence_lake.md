@@ -7141,7 +7141,7 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Date:** 2026-07-29
 - **Grade:** A
 - **Estimated Views:** 10200
-- **Description:** LobeHub Skills Marketplace — 10,200 views, 1,400 installs, 35 reviews, 4.5/5. Note: SKILL.md uses tree/ path (flag for curation). (isNew discovery 2026-07-30)
+- **Description:** LobeHub Skills Marketplace — 10,200 views, 1,400 installs, 35 reviews, 4.5/5. SKILL.md path corrected tree/ → blob/ (https://github.com/Panniantong/Agent-Reach/blob/main/SKILL.md, verified 200). (isNew discovery 2026-07-30)
 
 #### S2: `social-signal`
 - **Source:** [https://www.youtube.com/watch?v=aanqEqQwjNU](https://www.youtube.com/watch?v=aanqEqQwjNU)
