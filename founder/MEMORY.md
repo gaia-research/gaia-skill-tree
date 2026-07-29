@@ -4,6 +4,91 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-29, Session 8G — five PRs merged, four KCs landed on an integration branch, and KC4 measured FAIL: curated residual is not zero, and the cause turned out to be one word in the composition)
+
+### TLDR
+- **Six PRs resolved.** skill-heaven #16/#17/#18 and gaia-research #132/#133 merged. #1377 deliberately left open as the standing founder-docs branch. Two new PRs opened and green: gaia-research **#134** (lexicon N10), gaia-skill-tree **#1382** (`integration/` branch prefix).
+- **Arc I now assembles on `integration/arc-i-lane-a`** (skill-heaven), per a new founder ruling. **KC1, KC2, KC4 and KC6 merged into it.** Tip `8a0eb59`, **194 tests passing** (orchestrator-run, 171 at session start).
+- **KC4 FAILS as written.** Curated listing residual is non-zero. Verified independently — the committed probe re-run a third time, byte-identical to the worker's two.
+- **The cause is a choice, not a constraint.** `--setting-sources` is an allowlist; the composition names `project`. Passing `local` or empty drops project scope **while keeping the curated set**, because `--plugin-dir` is a flag, not a setting source. KC4's zero is reachable with a one-word change.
+- **KC1 found a live silent-failure bug** in shipped code: `/skill-heaven` rendered nothing while exiting 0 under any symlink-routed path (macOS `/tmp`, `/var`).
+- **A1 is the quiet danger:** KC5 was verified against a door that could not write anything, then #18 widened the door to one that writes a directory tree. Issue #11 is marked closed and the guarantee is not established.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| skill-heaven #16 (KC7) · #17 (KC5) · #18 (curated door) | ✅ Merged. #18 needed `rebase --onto` after #16 squashed. |
+| gaia-research #132 (ratification) · #133 (harness matrix) | ✅ Merged (merge commits — that repo forbids squash). |
+| KC1 (#8) — marketplace packaging | ✅ Merged to integration. Found + fixed a silent-render bug. |
+| KC2 (#9) — standing-dose disclosure | ✅ Merged to integration. 171 → 179 tests. |
+| KC4 (#10) — curated listing residual | ✅ Probe merged. **Criterion FAILS.** Founder decision open. |
+| KC6 (#12) — honest refusal | ✅ Merged to integration. 180 → 194 tests. Every unsupported path now names **which kind of no** it is. |
+| A2 — codex `execSupport` staleness | ⏳ In flight at session pause; nothing pushed yet. |
+| Read-only review of KC1+KC2 | ⏳ In flight at session pause. |
+| gaia-research #134 — lexicon N10 | ✅ Open, green, **unmerged**. |
+| gaia-skill-tree #1382 — `integration/` prefix | ✅ Open, green, **unmerged**. |
+| gaia-skill-tree #1377 — founder docs | ✅ Open by instruction — the standing dump for orchestrator-session `.md`. |
+
+### The KC4 finding, in full
+
+Probe reads the harness's own `system:init` stream-json event, emitted **before** any auth check or model call — ground truth from the harness, not a model self-report, and it works unauthenticated. That is precisely what PR #18 could not do (it could only prove `claude` *parsed* the argv; a nonexistent `--plugin-dir` fails identically — a negative control).
+
+```
+S1 curated + planted project marker: ["kc4-project-marker","heaven-set:kc4-curated-marker","doctor"]
+S2 curated, clean project:           ["heaven-set:kc4-curated-marker","doctor"]
+S3 same mount, no --setting-sources: full ~68-entry listing
+S4 native baseline:                  full ~80-entry listing
+```
+
+Then, orchestrator follow-up (n=1 each, the S1–S4 behind them were 3×):
+
+```
+--setting-sources local : ["heaven-set:kc4-curated-marker","doctor"]   ← project GONE
+--setting-sources ''    : ["heaven-set:kc4-curated-marker","doctor"]   ← project GONE
+--setting-sources user  : all ~66 user skills + curated + doctor
+```
+
+Two leaks, one accepted:
+1. **Project scope survives** because `--setting-sources project` *asks for it*. Not a leak past a barrier — the barrier names project as allowed. Its real work is dropping `user`.
+2. **`doctor` survives `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS=1`** while every other bundled skill is suppressed. **Founder ruled: leave as-is.**
+3. Clean: `plugins` array showed only `heaven-set` — no marketplace-plugin leakage.
+
+**The real conflict is between two specs.** KC4 says *"only the selected skill set."* P1 says curated is *"a hand-gated few, source-agnostic, the user's own skills first."* The composition faithfully implements **P1**; KC4 measures **"only."** Nobody noticed they disagreed until something measured it. Three options put to the founder: change the composition (`local`), change the criterion, or make it selectable. **Left open at pause.**
+
+### Founder rulings this session
+
+1. **Integration branches.** Multi-PR work assembles on `integration/*` (staging ≡ integration); that branch opens the one PR to `main`. **Red CI on the integration branch is expected and not a defect to chase** — CI gates exactly one merge, integration → `main`. Proof-of-work stays on the branch. Later clarified: `dev/*` is equally fine; per-repo prefix rules only matter during orchestration.
+2. **The lexicon serves the work; the work does not serve it.** A guide you consult, not an artifact you maintain. Touch it **only** when a decision or ratification has actually been made. Never let a naming question stall a build. Recorded in both CLAUDE.mds.
+3. **N10 — a ban retires a word, not the method it named.** `lean` and `add-ons` banned as terms; the mechanisms stand; **naming stays open**, no successor ratified.
+4. **`doctor` residual accepted** as-is.
+5. **Statusline falls back to command UI** — fine for now, worth a UI pass after MVP.
+6. **Register class C excluded** — "handle another time."
+7. **Model policy:** Haiku for scoping, Sonnet for CLI-driving work. **Scouts (Sonnet read/explore) are unlimited** and do not count against the 2-worker cap.
+
+### Lessons / hazards preserved
+
+- **A success exit code is not a success.** `/skill-heaven` printed zero bytes and exited 0 whenever the plugin sat under a symlink-routed path — `import.meta.url` is realpath-resolved, raw `argv[1]` is not, and on macOS `/tmp` and `/var` are symlinks to `/private/*`. Every test asserting only on exit status passed against a completely dead command. Reproduced independently before accepting the report.
+- **`grep` silently returns NOTHING on `scripts/lexicon/check-lexicon.ts`.** `file(1)` reports it as `data`, so grep treats it as binary and suppresses matches with no warning. This produced **two wrong conclusions** this session — I twice concluded a validation rule did not exist when it did. **Use `grep -a` on that file.**
+- **Verify agent findings by re-running them.** Three load-bearing claims were checked personally this session (the symlink bug, the KC4 residual, the test counts). All three held — but the KC4 result reversed a criterion and invalidated already-merged copy, which is exactly the class of claim that must never be taken on report.
+- **A criterion verified before a dependency changed is no longer verified.** KC5/#11 is marked closed against a `["native"]`-only door. See A1.
+- **Two specs can both be right and still conflict.** KC4 vs P1. Measure early enough to find it.
+- **Squash-merging a base breaks a stacked PR.** #18 needed `rebase --onto origin/main <old-base>` to replay only its own four commits. The integration-branch ruling exists to stop this recurring.
+
+### Open questions for next orchestrator
+
+- **KC4 — founder decision, three options, none taken.** Blocks closing #10 and finalizing A3.
+- **A1 (KC5 re-run) not started** — highest-priority in-scope remainder.
+- **A2 and the KC1/KC2 read-only review were still in flight at pause.** `dev/a2-codex-execsupport` had nothing pushed; the review produces findings only, no commits. Neither result is known — do not assume either landed.
+- **KC6 disclosed a curated-session gap worth a ruling:** `/skill-heaven` does not exist inside a curated session, and the note says plainly that this is neither policy-gated nor proven impossible — `--plugin-dir` is repeatable and would likely work, but core refuses the unprobed second mount (M0). Probing it is a candidate next step.
+- The full remainder register is at **`founder/ARC_I_FINALIZING_REGISTER.md`** (on #1377) — read it first.
+
+### Token cost (this session)
+
+Measured subagent totals: KC2 145k · KC1 147k · KC4 165k · KC6 242k = **~700k**, plus A2 and the review still running at pause (unmeasured). Orchestrator inline is unmeasured — deliberately not estimated. Models: Opus 5 (orchestrator), Sonnet 5 (all workers + scout).
+
+---
+
 ## State Snapshot (2026-07-29, Session 8F — Lane A opened: the skill-heaven blocker was one unwired import, not a slice of research; four PRs open for founder review, none merged)
 
 ### TLDR
