@@ -164,6 +164,27 @@ When you change `registry/nodes/` or `registry/named/`, run `gaia dev docs` and 
 
 Footgun history: commit `de3e77f7e` untracked both classes; auto-sync's `gaia dev release --sync` had a hard-coded `git add registry/gaia.json` that died once the path was gitignored → site dark 12h. See `founder/handovers/EPIC780_OPTION_A_DECISION.md`.
 
+### Curation PR — which artifacts to commit after `gaia dev docs`
+
+**Load-bearing invariant (2026-07-30, PR #1387 retro):** after running `gaia dev docs` on a `review/meta/` curation PR, commit **only the deterministic, registry-driven set**. Do NOT commit the platform-sensitive noise that `gaia dev docs` also regenerates — those either fail CI on a foreign OS or carry warn-only drift that doesn't belong in a curation diff.
+
+**Commit these (hard CI failures if missing):**
+- `docs/graph/gaia.json`, `docs/graph/named/index.json`, `docs/graph/gaia.gexf`, `docs/graph/gaia.svg` — Class S graph assets
+- `docs/api/v1/**` — contributor and skill JSON API files (new/changed contributors and skills)
+- `docs/u/<handle>/index.html` — per-user profile pages for new contributors
+- `docs/tree.md`, `docs/about.html`, `docs/index.html` stat blocks, `README.md` — registry-driven summary stats
+- `skill-trees/*/skill-tree.md` — skill-tree markdown mirrors for newly unlocked skills
+- `registry/registry.md` — generated registry summary
+
+**Do NOT commit (warn-only or noisy):**
+- `docs/og/*.svg` — OG share cards: platform-sensitive SVG rendering (Windows CRLF ≠ Linux LF). Drift is warn-only in `build_docs.py`. Regenerating locally on Windows pollutes 159 files with CRLF; revert any accidental changes with `git checkout origin/main -- docs/og/` and keep only the new-contributor SVGs.
+- `docs/api/v1/trending/` — rolling time-window artifact; timestamps recompute on UTC-day rollover. Warn-only.
+- `docs/graph/ledger/data.json` — timestamp-only bump.
+- `docs/experiments/ml-graph-viz/layouts_3d.json` — non-deterministic 3D layout AND carries a stale version stamp that can downgrade the semver lockstep check.
+- `docs/okf/` — decorative meta bundle. Warn-only.
+
+**Verification:** after staging only the above set, run `python scripts/build_docs.py --check` locally → must exit 0 before pushing. Any remaining `diff` lines in its output (other than warn-only categories) mean something is still missing.
+
 ## Programmatic-First Policy
 
 **All meta shifts (merging, splitting, adding skills, adding evidence) MUST be done via CLI commands.** Manual edits to `registry/nodes/` are deprecated to ensure programmatic schema integrity and automated timeline logging. AI agents must prioritize these tools over direct file manipulation.
