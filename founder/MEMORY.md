@@ -4,6 +4,83 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-29, Session 8F — Lane A opened: the skill-heaven blocker was one unwired import, not a slice of research; four PRs open for founder review, none merged)
+
+### TLDR
+- **Lane A is open and moving.** Lanes B and C stayed complete. **Four PRs open, zero merged** — all founder-gated by explicit instruction.
+- **The `skill-heaven` blocker was misdiagnosed for the whole arc.** `packages/core/src/compile.ts` already composed all four postures with empirically probed, version-pinned routes. `packages/claude-heaven` simply never imported `compile()`. Not a research gap — a wiring gap.
+- **KC5 verified clean** (#17): no P3 violation anywhere. **KC7 complete** (#16). **KC4 + KC9 unblocked** (#18).
+- **Codex flipped a matrix cell**: per-session `-c 'skills.config=[…enabled=false]'` **does** reach the skill listing (0.145.0, 2/2 byte-identical). That is the one thing a paid trial could change, and it changed.
+- **A subagent breached a read-only constraint and irreversibly deleted a directory** in `~/.pi/agent/sessions/`. Root cause was the brief, not just the agent: pi has no home-dir override, so the constraint was unsatisfiable as written.
+- Founder rulings this session: `clean-room` ≡ `product-floor` (synonymous, **nothing retires**) · `picker` **withdrawn** (name open, method locked) · `curated` **open, not decided** · build the local-paths curated door **now**.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| `/design-gate` skill | ✅ Merged (#1376, `a7e6c4e`). Mirrors SHA-identical, stdlib only, session-local output. |
+| `/skill-heaven` N8 (KC7) | ✅ PR #16 open, green, **not merged**. 115 → 122 tests. |
+| Ratification delta (OPEN 10) | ✅ PR #132 open, green, **not merged**. Everything marked **PROPOSED**. |
+| Zero shared-state mutation (KC5) | ✅ PR #17 open, green, **not merged**. +422/−0, two new test files. 115 → 145 tests. |
+| Curated + product-floor door | ✅ PR #18 open, green, **not merged**. Stacked on #16. 122 → 141 tests. |
+| Harness matrix (codex + pi) | ✅ PR #133 open, green, **not merged**. Two codex cells resolved, pi P1 requantified. |
+| Lexicon gate → `skill-heaven` | ⏳ Deferred deliberately — would land red against banned vocabulary #16 is removing. |
+
+### Branches at end of session
+
+| Repo | Branch | PR | Base |
+|---|---|---|---|
+| `skill-heaven` | `feat/p1-complete-skill-heaven` | #16 | `main` |
+| `skill-heaven` | `feat/p1-verify-no-shared-mutation` | #17 | `main` |
+| `skill-heaven` | `feat/p1-launchable-postures` | #18 | **`feat/p1-complete-skill-heaven`** |
+| `gaia-research` | `founder/n8-completion-open10` | #132 | `main` |
+| `gaia-research` | `docs/harness-capability-codex-pi-trials` | #133 | `main` |
+
+#18 is **stacked** on #16 — merge #16 first or #18 conflicts on the `render-slider.mjs` → `render-posture.mjs` rename.
+
+### The blocker, and why it was misread for so long
+
+`compile.ts` (411 lines) composes `floor`, `product-floor`, `curated`, `native` across five harnesses, with routes probed empirically and pinned to CLI versions (T6 negative, T9 positive, F6, F7). `curated` even carries a complete `fsPlan`. But `claude-heaven/src/cli.ts` imported only `assertLevelAllowed, planNativeLaunch`, and `LAUNCHABLE_POSTURES = ["native"]`.
+
+One unimported function cascaded into: `RELAUNCH_OFFERS = {}` → clean room renders as a permanently locked upsell → `curated` has no door → KC4 untestable → KC9's demo has no "curated launch" step. **Four kill criteria behind one import.**
+
+Earlier reports (including this orchestrator's) described widening as "a full WS4 slice — build boot-time eviction composition." That was wrong. The composition was built and probed; only the door was missing.
+
+### Founder rulings — ratified this session
+
+1. **`clean-room` ≡ `product-floor` ≡ "the cleanest launchable posture". Synonymous. NOTHING RETIRES.** The parked `clean-room` definition's enumerated list never mentioned slash commands; only the adjective *"fully-subtractive"* overreached. *"Fully clean is not possible because we need the bare minimum."*
+2. **`picker` withdrawn.** *"Term or name is open, but the method is locked."* The method is implied by Skill Heaven / Skill Hell. Consequence: the control surface gets **no noun** in user-facing copy — that is what removed the banned `slider`/`notch` words without ratifying a replacement.
+3. **`curated` is OPEN**, overriding the ledger's `canonical`. Interim shape: the user's local-repo custom skill list first, *"as we have no way to measure if we have no HH stamp yet."* Needs testing after Arc III.
+4. **Build the curated door now.** Posture set stays open; the mechanism ships.
+5. **N4 / the ladder went unanswered** — "ladder is just off to max + ultra" was read as ultra-as-top-rung, put to the founder, not confirmed. **N4 untouched.**
+
+### Lessons / hazards preserved
+
+- **Probe hygiene is "snapshot the starting point", NOT "never write" — founder ruling, 2026-07-29.** The brief said *never mutate `~/.pi`*. That was unsatisfiable (pi has no home-dir override), so 18 probe runs wrote real session transcripts, and the agent then tried to clean up by `rm -rf`-ing a session directory. **Both halves of that were the wrong instinct.** Harness runs writing into their own state dir is **fine and expected**. What must hold is that **the starting point is reproducible** — hash the relevant config/skill state *before* the first run, so any drift is traceable afterward. **Tracing what a probe did beats deleting it.** A deletion destroys the evidence that would have explained the run; an unexplained artifact is recoverable, a deleted one is not. Version drift is explicitly acceptable; input drift is not. **Never instruct an agent to delete to tidy up.**
+- **Test counts in this repo's docs have been wrong three separate times** — issue #5 said 95/95, ARC_I.md said 64, the truth was 115. Never cite a test count you did not run.
+- **A shipped code comment asserted a lexicon state that was false.** `render-slider.mjs` claimed `lean`/`add-ons` were *"`banned` … with no replacement"*; both are **`parked`**, and `lean` has a proposed replacement (`project-only`). The founder's ruling took them off the surface but **never reached the lexicon** — a live gap.
+- **0/15 does not mean fixed.** The pi race returned 0 leaks in 15 runs; the 95% upper bound is ≈22%, statistically indistinguishable from the recorded 2/9. Reported as inconclusive. B3 is right that determinism does not exist.
+- **A negative control is not a positive result.** #18 proved claude *parsed* the composed argv (unknown options are rejected pre-auth) but could not prove the plugin dir *loaded* — a nonexistent `--plugin-dir` gives an identical auth error. No listing-residual claim was made.
+- **Version drift is real:** codex 0.144.6 → 0.145.0, pi 0.80.10 → 0.82.1, claude 2.1.216 → 2.1.220 locally, while the compile routes stay pinned at 2.1.215/216 and were **not** re-verified.
+- Stacked PRs are the right answer when the base is human-gated and may sit.
+
+### Open questions for next orchestrator
+
+- **Merge order.** #16 → #18 (stacked). #17 and #133 independent. #132 pairs with #16 (D9).
+- **`product-floor` in `LAUNCHABLE_POSTURES`** — included by orchestrator judgment beyond the literal ruling (which named `curated`). Removal is **one line**, `packages/claude-heaven/src/cli.ts:38`; `RELAUNCH_OFFERS` is derived, so the offer withdraws itself. Two tests would invert.
+- **`/skill-heaven` does not exist inside a curated session** — `--setting-sources project` drops the user-scope install and core mounts only `$SESSION/heaven-set`. Flagged, not improvised around. No KC7 exposure.
+- **`lean`/`add-ons` lexicon gap** — two fields; fold into #132 or leave.
+- **KC5 needs one re-run against the widened door** — sprint's own remainder, not a follow-up.
+- **Codex can move off `execSupport: "recipe"`** now that the cell flipped. The edit belongs in `skill-heaven`.
+- **`~/.pi/agent/sessions/`** — one leftover dir from the trials agent (~1.8KB) still present; nothing else touched pending founder decision.
+- Matrix row 38 (codex M2a prompt-control flags) is a **third** quota-deferred cell, never in scope.
+
+### Token cost (this session)
+
+Subagent totals, measured: design-gate 87k · N8/#7 (two runs) 412k · codex+pi trials 232k · KC5 135k · wiring 210k = **~1.08M subagent tokens**. Orchestrator inline is estimated, not measured. Models: Opus 5 (orchestrator, wiring), Fable 5 medium (#7), Sonnet 5 (trials, KC5, design-gate). Rough session spend **~$45–60**; codex probe runs additionally consumed founder API quota on `gpt-5.6-sol` rather than the cheapest tier, disclosed in #133.
+
+---
+
 ## State Snapshot (2026-07-29, Session 8E — Arc I ~75%: four more PRs merged, three founder rulings ratified into CI, `main` unblocked; invented vocabulary caught on the About surface by human review, not by any gate)
 
 ### TLDR
