@@ -135,8 +135,8 @@ See [DEV.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/DEV.md) for l
 | Python CLI | `src/gaia_cli/` | Entry `main.py`, dynamic command discovery from `commands/`. Mutating ops in `commands/dev/` (evidence, verify, merge, calibrate). `versioning.py` keeps pyproject.toml, package.json files, registry/gaia.json in lockstep. |
 | Slash-naming helpers | `src/gaia_cli/formatting.py` | Slash-naming formatters, RANK_COLORS, tier colors |
 | Local-first context | `src/gaia_cli/localContext.py` | Merges user tree + scan results + named skill map into `LocalContext` |
-| npm wrapper | `packages/cli-npm/` | `@gaia-registry/cli` — Node.js wrapper publishing `gaia` to npm, executing the local Python binary. |
-| MCP server | `packages/mcp/` | `@gaia-registry/mcp-server` — exposes registry via MCP. Key: `src/config/merger.ts`, `src/daemon.ts`, `src/index.ts` (tools `gaia_lookup`, `gaia_suggest`, `gaia_scan_context`, `gaia_my_tree`). |
+| npm wrapper | `packages/cli-npm/` | `@gaia-registry/cli` — Node.js wrapper that execs the local Python binary. **Not published to npm** (the whole `@gaia-registry/*` scope is unpublished); the published CLI is `gaia-cli` on PyPI. Source-checkout use only. |
+| MCP server | *(external repo)* | Lives in `gaia-research/gaia-mcp`, published as `@gaia-research/mcp` v0.1.0 (binary `gaia-mcp`). Read-only Registry mode; tools `gaia_search`, `gaia_inspect`, `gaia_status`. The in-repo `packages/mcp` prototype was deleted — do not resurrect it. |
 
 ```bash
 # Meta Review (CLI-ONLY)
@@ -266,7 +266,6 @@ The pre-commit hook keeps these in lockstep:
 
 - `pyproject.toml`
 - `packages/cli-npm/package.json`
-- `packages/mcp/package.json`
 - `registry/gaia.json`
 
 If they disagree before the bump, the hook fails loudly. Use `gaia dev release <type> --sync` to force-align manifests to the highest version before bumping. Use `gaia dev release patch|minor|major` to bump all at once.
@@ -275,7 +274,7 @@ If they disagree before the bump, the hook fails loudly. Use `gaia dev release <
 
 ### Decorative assets must NOT carry version metadata
 
-**Hard rule (codified after Issue #807):** Class S decorative artifacts — `docs/graph/gaia.json`, `docs/tree.md`, `docs/index.html` stats block, badges/cards/og — **must not** carry a `version` field, banner, or comment that tracks the manifest version. The lockstep verifier (`scripts/verify_lockstep.py`) checks only the four manifests above; no rendering surface should have a version string that needs to agree with them.
+**Hard rule (codified after Issue #807):** Class S decorative artifacts — `docs/graph/gaia.json`, `docs/tree.md`, `docs/index.html` stats block, badges/cards/og — **must not** carry a `version` field, banner, or comment that tracks the manifest version. The lockstep verifier (`scripts/verify_lockstep.py`) checks only the three manifests above; no rendering surface should have a version string that needs to agree with them.
 
 Before #807 the version stamp on these files was the dominant source of cross-PR CI churn: a PR opened against an old `main` inherited a stale stamp and tripped lockstep. Stripping the stamp from decoration ends that class of failure. If you add a new generated artifact under `docs/`, do not stamp a version on it. If you need a version string at runtime (e.g. cache-bust query param), read it dynamically from a fetched manifest — do not bake it into the file.
 

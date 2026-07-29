@@ -190,7 +190,6 @@ def meta_diff_command(args):
     version_paths = [(s, p) for s, p in substantive if p in {
         "pyproject.toml",
         "packages/cli-npm/package.json",
-        "packages/mcp/package.json",
         "registry/gaia.json",
         "docs/graph/gaia.json",
     }]
@@ -202,7 +201,6 @@ def meta_diff_command(args):
         and p not in {
             "pyproject.toml",
             "packages/cli-npm/package.json",
-            "packages/mcp/package.json",
             "registry/gaia.json",
             "docs/graph/gaia.json",
         }

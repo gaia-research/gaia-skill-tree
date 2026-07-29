@@ -40,7 +40,6 @@ _GENERATED_EXACT = {
 _VERSION_FILES = {
     "pyproject.toml",
     "packages/cli-npm/package.json",
-    "packages/mcp/package.json",
     "registry/gaia.json",
     "docs/graph/gaia.json",
 }

@@ -357,12 +357,12 @@ Maintainer commands:  gaia dev --help
 
 ## MCP Server Full Instructions
 
-`@gaia-research/mcp` connects Gaia to MCP-compatible agents (Claude Code, Cursor, VS Code, etc.).
+`@gaia-research/mcp` connects Gaia to MCP-compatible agents (Claude Code, Cursor, VS Code, etc.). It is published on npm at **v0.1.0** and ships the binary `gaia-mcp`.
 
 | Agent | Install |
 |-------|---------|
-| Claude Code | `claude mcp add gaia -- npx @gaia-research/mcp` |
-| Any MCP client | Command: `npx`, args: `@gaia-research/mcp` |
+| Claude Code | `claude mcp add gaia -- npx -y @gaia-research/mcp@0.1.0` |
+| Any MCP client | Command: `npx`, args: `["-y", "@gaia-research/mcp@0.1.0"]` |
 
 **What v0.1.0 does today.** It is **read-only Registry mode** — three discovery tools, no write path:
 
@@ -374,7 +374,7 @@ Maintainer commands:  gaia dev --help
 
 It **cannot install, fuse, or mutate skills**, and it does not submit to Intake. Project analysis and path planning arrive with Bonded mode in v0.2.0. Installation stays with the `gaia` CLI, which is where approval for anything that changes your workspace belongs.
 
-See the [Gaia MCP Page](https://research.gaiaskilltree.com/mcp) for full docs and agent-specific config examples.
+Source and releases: <https://github.com/gaia-research/gaia-mcp>. See the [Gaia MCP Page](https://research.gaiaskilltree.com/mcp) for full docs and agent-specific config examples.
 
 ---
 

@@ -6,9 +6,19 @@ TypeScript/JavaScript client for the [Gaia Skill Tree API](https://gaiaskilltree
 
 ## Installation
 
+**Not published to npm.** `@gaia-registry/api-client` does not exist on the npm
+registry, so there is no `npm install` line for it. Use it from a source checkout
+of this repo (`packages/api-client-ts/`) — build it locally and link or vendor
+the output.
+
+If you just want a supported, published Gaia client, install the CLI from PyPI:
+
 ```bash
-npm install @gaia-registry/api-client
+pip install gaia-cli
 ```
+
+The HTTP endpoints this client wraps are public and can also be called directly
+with `fetch` — see <https://gaiaskilltree.com/api/v1/health.json>.
 
 ## Quick Start
 
