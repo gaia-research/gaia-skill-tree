@@ -80,8 +80,9 @@ body:
 
             named:                             # optional block · omit if no named skill requested
               contributor: github-handle       # required if named · use upstream_author when attributed
-              level: "2★"                      # required if named · 2★–6★ · do NOT write branch words
+              skill_name: upstream-skill-name  # optional · SKILL.md folder/name (e.g. "seo"); defaults to generic id
               links_github: https://...        # required if named · blob/ URL for links.github field
+                                               # Note: Star ranks are TM-gated and never pre-declared; defaults to 2★ floor.
 
           # ── Add more skills below — copy the block above ──────────────────────
 
@@ -193,31 +194,19 @@ body:
       value: |
         ---
 
-        ### Reviewer actions (maintainer only)
+        ### Reviewer & Maintainer Approval Workflow (Two-Gate System)
 
-        Reply to this issue with per-skill decisions. One decision per line:
+        Maintainers triage and advance intake issues using GitHub label transitions:
 
-        ```
-        persistent-agent-planning   accept
-        session-context-injection   accept
-        diagram-generation          rename drawio-generation
-        bad-skill-id                reject  — overlaps with existing-skill
-        unverified-skill            needs-evidence  — need Grade B source
-        ```
+        1. **Topology Approval Gate (`intake:topology-approved`)**
+           - Maintainer reviews the proposal's generic skill topology.
+           - Applying `intake:topology-approved` triggers automated batch validation (`validate_intake.py`), posts a machine-readable handoff comment, and sets status to `intake:evidence-review`.
+           - **Result:** Queues an evidence reviewer (agent or human) to gather Stage-1 evidence seeds and optional Phase-0 discovery plans, marking the issue `intake:evidence-ready` when complete.
 
-        | Decision | Effect |
-        |---|---|
-        | `accept` | Promote via `gaia dev add` on a `review/meta/` branch |
-        | `rename <new-id>` | Change ID then promote |
-        | `duplicate` | Close — map to existing skill ID in comment |
-        | `needs-evidence` | Hold — state what Grade B+ source is needed |
-        | `reject` | Close with explanation |
+        2. **Evidence Approval Gate (`intake:evidence-approved`)**
+           - Maintainer reviews the evidence plan on an `intake:evidence-ready` issue.
+           - Applying `intake:evidence-approved` automatically opens the single draft promotion PR (`review/meta/intake-<issue>`) with an initial evidence manifest.
+           - All verified evidence, CLI-only ingestion, provenance sidecars, and generated graph artifacts live on this single promotion PR.
 
-        After all skills are decided: run `gaia dev validate` + `gaia dev docs`,
-        open a `review/meta/` PR, and close this issue with a link to the PR.
-
-        For any accepted skill that also has a `named:` block: open a separate
-        `new_named_skill` PR on `review/meta/` for each named entry.
-
-        > **Yggdrasil II staging note:** until schema sub-issue #995 merges to `main`,
-        > PRs that introduce `type: fusion` nodes must target `dev/yggdrasil-ii-staging`.
+        3. **Rejection (`intake:rejected`)**
+           - Maintainer applies `intake:rejected` to reject the batch proposal and halt downstream automation.

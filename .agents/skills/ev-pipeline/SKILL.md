@@ -12,11 +12,17 @@ Orchestrates the four evidence verification phases that take the raw data lake f
 
 ```mermaid
 graph TD
+    Phase0[Phase 0: ev-discovery (skippable)] -->|Append discovered rows| A
     A[Phase 1: ev-collection] -->|Compile Index| B[Phase 2: ev-star-verification]
     B -->|Partition Tiers| C[Phase 3: ev-adversarial-audit]
     C -->|Audit Contexts| D[Phase 4: ev-link-validation]
     D -->|Validate Statuses| E[Master Source Report & HTML Update]
 ```
+
+> **Continuous additive loop, no green gate.** Phase 0 only *appends* freshly
+> discovered rows to the collector channels; the four verification phases then
+> process them like any other evidence. There is no pass/fail wall — the only
+> human gate is L4 at ingestion.
 
 ---
 
@@ -24,10 +30,28 @@ graph TD
 
 Each phase produces output that the next phase consumes. Running them out of order corrupts the audit trail:
 
+- (Optional) Discovery appends new Stage-2 rows to the collectors before collection compiles them.
 - Collection builds the index that star-verification partitions against.
 - Star-verification assigns tier labels that adversarial reviewers use to prioritise their scan.
 - Adversarial audit flags broken URLs that link-validation then formally checks.
 - Link-validation closes the loop with live HTTP status codes, which feed the final report.
+
+---
+
+## Phase 0 — Evidence Discovery (`ev-discovery`) — skippable
+
+Searches the web (via the `firecrawl` skill) for **new** Stage-2 evidence
+(`benchmark-result`, `arxiv`, `peer-review`, richer `social-signal`) and appends
+the discovered sources as fresh rows into `evidence/collectors/technical|social/`.
+It runs **only on declared need** — a promotion candidate, or a skill that
+`/gaia-meta-sweep` flags as under-evidenced — and is otherwise **skipped** to
+keep the common ingest path cheap. It appends unmarked rows so Phase 1 picks
+them up; it never gates the pipeline. Requires `FIRECRAWL_API_KEY` and skips
+gracefully if unset.
+
+```
+/ev-discovery
+```
 
 ---
 
@@ -78,6 +102,27 @@ After all four phases complete, save these artifacts:
 1. **Validation report** — write to `evidence/collectors/verification/firecrawl_validation_report_YYYY_MM_DD.md`
 2. **Master source report** — document the audit log, star updates, and adversarial findings in `evidence/source_report_YYYY_MM_DD.md`
 3. **Visual dashboard** — update statistics and pipeline statuses in `evidence/verification_process.html`
+
+## Additive loop — no green gate (RFC2 §3.5)
+
+Ingest is **never gated by "green."** The ev-pipeline is a **continuous additive
+loop**: it keeps aggregating new evidence rows (appending to the per-type
+partitions) and discarding rejected ones — evidence is additive, not pass/fail.
+New rows arrive two ways: Stage 1 writes cheap minimum-effort rows
+(`github-stars-own` + `repo-own` + `self-attestation`) at curation, and a
+skippable Firecrawl **Phase 0** discovers richer rows (`benchmark-result`,
+`arxiv`, `peer-review`, richer `social-signal`) on declared need.
+
+There is **no structured GREEN wall** gating ingest. The **only human gate is
+L4** (topology ratification, on the intake issue). After L4, the evidence-seed
+(`gaia dev evidence-seed`, partitioned by evidence type) materializes the
+intake's raw sources into this pipeline's collector inputs, evidence accumulates
+additively, and **Trust Magnitude + rank are recomputed at appraisal time** —
+rising to the skill's proper rank as Phase 0 evidence lands. Do not design or
+re-introduce a pass/fail green gate; the strategy is human gate + additive
+evidence.
+
+---
 
 ## Ingestion Handoff
 

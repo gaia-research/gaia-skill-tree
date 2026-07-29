@@ -12,8 +12,34 @@
       },
       "exactDedupe": null,
       "mappingOptions": [
-        {"genericId": "browser-automation", "description": "Automate browser navigation and interaction."}
+        {"genericId": "browser-automation", "similarity": 0.8137, "matchTier": "strong", "rationale": "Cosine similarity 0.8137 to generic 'browser-automation' (strong match)."}
       ],
+      "ambiguity": null,
+      "citedOrigin": null
+    },
+    {
+      "candidateId": "weak-match-adjacent-capability",
+      "artifactGate": "valid-skill",
+      "frontmatter": {
+        "name": "Page Snapshotter",
+        "description": "Captures rendered screenshots of web pages for visual archival."
+      },
+      "exactDedupe": null,
+      "mappingOptions": [
+        {"genericId": "browser-automation", "similarity": 0.5124, "matchTier": "weak", "rationale": "Cosine similarity 0.5124 to generic 'browser-automation' (weak match)."}
+      ],
+      "ambiguity": null,
+      "citedOrigin": null
+    },
+    {
+      "candidateId": "no-match-novel-capability",
+      "artifactGate": "valid-skill",
+      "frontmatter": {
+        "name": "Quantum Circuit Transpiler",
+        "description": "Rewrites quantum gate sequences to target a specific hardware coupling map."
+      },
+      "exactDedupe": null,
+      "mappingOptions": [],
       "ambiguity": null,
       "citedOrigin": null
     },
@@ -47,9 +73,9 @@
       },
       "exactDedupe": null,
       "mappingOptions": [
-        {"genericId": "company-research", "description": "Research organizations."},
-        {"genericId": "application-deployment", "description": "Deploy applications."},
-        {"genericId": "email-campaign-management", "description": "Manage email campaigns."}
+        {"genericId": "company-research", "similarity": 0.6042, "matchTier": "weak", "rationale": "Cosine similarity 0.6042 to generic 'company-research' (weak match)."},
+        {"genericId": "application-deployment", "similarity": 0.5981, "matchTier": "weak", "rationale": "Cosine similarity 0.5981 to generic 'application-deployment' (weak match)."},
+        {"genericId": "email-campaign-management", "similarity": 0.5773, "matchTier": "weak", "rationale": "Cosine similarity 0.5773 to generic 'email-campaign-management' (weak match)."}
       ],
       "ambiguity": "Three independent capabilities are bundled with no dominant operating boundary.",
       "citedOrigin": null

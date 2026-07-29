@@ -28,11 +28,43 @@ def _registry_timeline_target_exists(skill_id: str, registry_path: str) -> bool:
     return _find_named_file(named_dir, skill_id) is not None
 
 
+def _valid_timeline_actions(registry_path):
+    """Return the sanctioned timeline action enum from skill.schema.json.
+
+    Single source of truth is the schema's timelineEvent.action enum (RFC3
+    §3.3). Falls back to None (no gating) when the schema can't be read, so a
+    missing/relocated schema never blocks a legitimate write.
+    """
+    import json
+    schema_path = Path(registry_path) / "registry" / "schema" / "skill.schema.json"
+    if not schema_path.exists():
+        return None
+    try:
+        schema = json.loads(schema_path.read_text(encoding="utf-8"))
+    except Exception:
+        return None
+    try:
+        enum = schema["definitions"]["timelineEvent"]["properties"]["action"]["enum"]
+    except (KeyError, TypeError):
+        return None
+    return set(enum) if isinstance(enum, list) else None
+
+
 def _preflight_timeline_command(args) -> None:
     skill_id = args.skill_id.lstrip("/")
     user = getattr(args, "user", None)
     timestamp = getattr(args, "timestamp", None)
+    action = getattr(args, "action", None)
     _preflight_iso_timestamp(timestamp)
+
+    # CLI Pre-Flight Rule (RFC3 §3.3): reject actions absent from the schema
+    # enum before writing, rather than landing a state gaia validate fails.
+    valid_actions = _valid_timeline_actions(args.registry)
+    if valid_actions is not None and action not in valid_actions:
+        _fail_dev_preflight(
+            f"Timeline action '{action}' is not in the sanctioned enum.",
+            fix="Use one of: " + ", ".join(sorted(valid_actions)),
+        )
 
     if user:
         from gaia_cli.treeManager import load_tree

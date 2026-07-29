@@ -4098,7 +4098,22 @@ def validate_command(args):
     repo_root = Path(args.registry)
     if args.intake:
         script = repo_root / "scripts" / "validate_intake.py"
-        raise SystemExit(subprocess.call([sys.executable, str(script)]))
+        rc = subprocess.call([sys.executable, str(script)])
+
+        # RFC3 §3.5: --intake ALSO validates discovery-packet-v2 packets under
+        # registry-for-review/discovery-packets/ (the carried finding — before
+        # RFC3, --intake only validated skill batches).
+        from gaia_cli.prefill import validateDiscoveryPackets
+        packet_errors, packet_count = validateDiscoveryPackets(str(repo_root))
+        print(f"\nValidating discovery packets: found {packet_count} packet file(s).")
+        if packet_errors:
+            print(f"\n❌ {len(packet_errors)} discovery-packet validation error(s):")
+            for idx, error in enumerate(packet_errors, 1):
+                print(f"   {idx}. {error}")
+            rc = rc or 1
+        elif packet_count:
+            print("✅ All discovery packets valid.")
+        raise SystemExit(rc)
 
     script = repo_root / "scripts" / "validate.py"
     cmd = [sys.executable, str(script)]

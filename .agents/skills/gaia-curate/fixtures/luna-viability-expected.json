@@ -3,6 +3,8 @@
   "pageId": "deterministic-luna-page-v1",
   "decisions": [
     {"candidateId": "existing-browser-implementation", "decision": "MAP", "genericId": "browser-automation"},
+    {"candidateId": "weak-match-adjacent-capability", "decision": "DEFER", "genericId": null},
+    {"candidateId": "no-match-novel-capability", "decision": "NEW_GENERIC", "genericId": null},
     {"candidateId": "exact-duplicate", "decision": "DUPLICATE", "genericId": null},
     {"candidateId": "malformed-non-skill", "decision": "NOT_A_SKILL", "genericId": null},
     {"candidateId": "ambiguous-bundle", "decision": "DEFER", "genericId": null},

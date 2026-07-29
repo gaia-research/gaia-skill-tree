@@ -176,11 +176,9 @@ def _validate_skill(entry, index, canonicalIds):
     if named:
         if not named.get("contributor", "").strip():
             errors.append(f"{prefix}.named.contributor: required when named block present")
-        # level is required when the named block is present
+        # level is optional in Yggdrasil II — defaults to "2★" floor if omitted; TM scoring derives higher ranks
         level = named.get("level", "")
-        if not level:
-            errors.append(f"{prefix}.named.level: required when named block present (e.g. '2★')")
-        elif not _STAR_RE.match(str(level).strip()):
+        if level and not _STAR_RE.match(str(level).strip()):
             errors.append(
                 f"{prefix}.named.level '{level}': must be a star rating like '2★' (2–6)"
             )
@@ -210,6 +208,11 @@ def _skillEntryToProposed(entry, sourceRepo):
     proposed.setdefault("lifecycle", "pending")
     if not proposed.get("name"):
         proposed["name"] = skill_name_from_id(entry.get("id", ""))
+    if proposed.get("named") and isinstance(proposed["named"], dict):
+        named = dict(proposed["named"])
+        if not named.get("level"):
+            named["level"] = "2★"
+        proposed["named"] = named
     return proposed
 
 
@@ -290,6 +293,18 @@ def _load_yaml_file(path):
         return None, f"YAML parse error in '{path}':\n  {exc}"
     if not isinstance(data, dict):
         return None, f"'{path}' must be a YAML mapping with a top-level 'skills:' key"
+
+    # RFC2 Gap B — a review-ready discovery-packet-v2 (JSON, which safe_load
+    # parses too) is adapted into the intake 'skills:' mapping. Detected by the
+    # 'contractVersion' key, which an intake YAML never carries.
+    from gaia_cli.intakeAdapter import isDiscoveryPacket, buildIntakeYaml
+
+    if isDiscoveryPacket(data):
+        try:
+            data = buildIntakeYaml(data)
+        except ValueError as exc:
+            return None, f"Cannot adapt discovery packet '{path}': {exc}"
+
     if "skills" not in data:
         return None, f"'{path}' is missing the required top-level 'skills:' list"
     if not isinstance(data["skills"], list) or len(data["skills"]) == 0:
