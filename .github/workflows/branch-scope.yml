@@ -53,6 +53,13 @@ jobs:
             dev/*)              PREFIX="unrestricted" ;;
             fix/*)              PREFIX="unrestricted" ;;
             chore/*)            PREFIX="unrestricted" ;;
+            # integration/* is the assembly point for multi-PR work (founder
+            # ruling, 2026-07-29): several slices land here, then this branch —
+            # not each slice — opens the PR against main. Unrestricted because
+            # an integration branch is the union of whatever its slices touch;
+            # narrowing it would just reintroduce the per-slice scope fight it
+            # exists to avoid. The gate that matters is integration -> main.
+            integration/*)      PREFIX="unrestricted" ;;
             infra/*)            PREFIX="infra" ;;
             *)                  PREFIX="other" ;;
           esac
@@ -63,10 +70,14 @@ jobs:
 
           # ── Fork-scoped downgrade (issue #986) ────────────────────────────────
           # The unrestricted prefixes (codex/*, claude/*, gemini/*, dev/*, fix/*,
-          # chore/*) exist to grant Codex/Claude/Jules/Gemini in-repo bot sessions
-          # a free-scope pass. That assumption doesn't hold when the branch is
+          # chore/*, integration/*) exist to grant Codex/Claude/Jules/Gemini
+          # in-repo bot sessions — and maintainer-run integration branches — a
+          # free-scope pass. That assumption doesn't hold when the branch is
           # pushed from a FORK — a fresh external contributor can name their
-          # branch codex/anything and slip past every file-type guard.
+          # branch codex/anything and slip past every file-type guard. The
+          # downgrade below covers integration/* for the same reason: an
+          # integration branch is a maintainer workbench, never a fork's entry
+          # point.
           #
           # For fork-origin PRs, downgrade any 'unrestricted' classification to
           # 'other', which triggers the "unrecognized branch prefix" violation.
@@ -197,7 +208,7 @@ jobs:
                 esac
                 ;;
               other)
-                VIOLATIONS="$VIOLATIONS\n  ❌ $file (unrecognized branch prefix; use schema/, cli/, docs/, design/, review/gaia-push/, review/meta/, dev/, claude/, codex/, gemini/, jules/, or infra/)"
+                VIOLATIONS="$VIOLATIONS\n  ❌ $file (unrecognized branch prefix; use schema/, cli/, docs/, design/, review/gaia-push/, review/meta/, dev/, claude/, codex/, gemini/, jules/, integration/, or infra/)"
                 ;;
             esac
           done <<< "$FILES"
