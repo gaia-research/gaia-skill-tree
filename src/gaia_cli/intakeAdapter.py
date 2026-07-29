@@ -30,6 +30,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 
 
 PACKET_CONTRACT_VERSION = "discovery-packet-v2"
@@ -189,6 +190,23 @@ def buildIntakeSkill(packet):
         entry["attributionScope"] = attributionScopeForRole(role)
     else:
         entry["attributionScope"] = attributionScopeForRole(None)
+
+    candidateId = packet.get("candidateId", "")
+    if "/" in candidateId and canonicalUrl:
+        contributor = candidateId.split("/", 1)[0]
+        rawSkillName = (
+            frontmatter.get("name")
+            or normalized.get("name")
+            or (decision.get("proposal") or {}).get("name")
+            or ""
+        )
+        skillName = re.sub(r"[^a-z0-9]+", "-", rawSkillName.lower()).strip("-")
+        if skillName:
+            entry["named"] = {
+                "contributor": contributor,
+                "skill_name": skillName,
+                "links_github": canonicalUrl,
+            }
 
     return entry
 
