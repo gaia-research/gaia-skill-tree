@@ -89,3 +89,22 @@ manifest from only live, correctly scoped rows, then hand it to
 Do not import evidence by hand or treat requested intake stars as evidence.
 
 Use today's date (`currentDate` from memory) for all `YYYY_MM_DD` placeholders.
+
+---
+
+## Agent Model Routing — Mechanical vs Judgment
+
+When orchestrating this pipeline via the Workflow tool, route agents by work type:
+
+**Mechanical (cheap/fast model appropriate):**
+- Phase 1: Collection — append rows to markdown tables, pure formatting
+- Phase 2: Star Verification — GitHub API calls + tier assignment
+- Phase 4: Link Validation — scrape each URL, record HTTP status (binary pass/fail)
+- Synthesis file writes — template validation report + patch HTML stats block
+
+**Judgment (capable model required):**
+- Phase 0: Discovery — relevance assessment, evidence grading, metric verification
+- Phase 3: Adversarial Audit — argue against each row, surface fabricated metrics and proxy mismatches
+- Synthesis narrative — per-skill quality assessment, suite TM interpretation, ingest recommendations
+
+**Rule of thumb:** if the agent's job is "run a command and record output" or "format structured data into a table," use a fast/cheap model. If it needs to judge relevance, grade evidence quality, or reason adversarially, use a capable model. Routing mechanical phases to a smaller model cuts token spend ~30–40% with no quality impact on the registry.
