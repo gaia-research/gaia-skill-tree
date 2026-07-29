@@ -245,10 +245,20 @@ console.log("\nscope resolution");
 check("README.md is user-facing", scopesFor("README.md", lex).includes("user-facing"));
 check("docs/agents is decisive", scopesFor("docs/agents/domain.md", lex).includes("decisive"));
 check(
-  "founder docs are decisive but not user-facing",
+  "founder/ is in no scope — the founder workspace has free reign over vocabulary",
   (() => {
-    const s = scopesFor("founder/MEMORY.md", lex);
-    return s.includes("decisive") && !s.includes("user-facing");
+    // Founder docs are working notes, decision logs, and audit trails. They must
+    // be able to QUOTE a retired term in order to record the violation it names,
+    // and they routinely reason about vocabulary that has not been chosen yet.
+    // Gating them made every snapshot a vocabulary negotiation. Founder ruling,
+    // 2026-07-29. Shipped copy is still gated — that is where drift costs.
+    const files = [
+      "founder/MEMORY.md",
+      "founder/GAIA_ROADMAP v5 (BUILD).md",
+      "founder/handovers/ARC_I.md",
+      "founder/reports/design-review-2026-07-20/scout-d-outer.md",
+    ];
+    return files.every((f) => scopesFor(f, lex).length === 0);
   })(),
 );
 check(
