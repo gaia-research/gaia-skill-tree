@@ -97,11 +97,21 @@ Uses Firecrawl to scrape every unique URL in the data lake and confirm a 200 OK 
 
 ## Post-Run Outputs
 
-After all four phases complete, save these artifacts:
+After all four phases complete, save these artifacts in order:
 
-1. **Validation report** — write to `evidence/collectors/verification/firecrawl_validation_report_YYYY_MM_DD.md`
-2. **Master source report** — document the audit log, star updates, and adversarial findings in `evidence/source_report_YYYY_MM_DD.md`
-3. **Visual dashboard** — update statistics and pipeline statuses in `evidence/verification_process.html`
+1. **Validation report** — written automatically by `ev-link-validation` to `evidence/collectors/verification/firecrawl_validation_report_YYYY_MM_DD.md`
+2. **Master source report** — accumulated across phases into `evidence/source_report_YYYY_MM_DD.md` (star-verification writes the base; adversarial-audit and link-validation append their sections)
+3. **Visual dashboard stats patch** — run the deterministic script:
+   ```bash
+   python3 scripts/ev_stats_patch.py \
+     --date YYYY-MM-DD \
+     --skills-processed N \
+     --new-rows N \
+     --live-urls N \
+     --dead-urls N
+   ```
+   This patches cumulative stat-cards and appends a run-history row to `evidence/verification_process.html`. Do not hand-edit the HTML stats block.
+4. **Ingestion handoff** — for L4-approved intake, pass the reviewed manifest to `/gaia-ingest-batch`.
 
 ## Additive loop — no green gate (RFC2 §3.5)
 
