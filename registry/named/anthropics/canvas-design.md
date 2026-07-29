@@ -1,6 +1,6 @@
 ---
-id: anthropics/static-artwork-design
-name: Static Artwork Design
+id: anthropics/canvas-design
+name: Canvas Design
 contributor: anthropics
 origin: false
 genericSkillRef: static-artwork-design
@@ -10,7 +10,7 @@ description: Creates original static visual artifacts such as posters and print-
   graphics from a design brief.
 createdAt: '2026-07-30'
 updatedAt: '2026-07-30'
-title: Static Artwork Design
+title: Canvas Design
 links:
   github: https://github.com/anthropics/skills/blob/main/skills/canvas-design/SKILL.md
 timeline:
@@ -32,6 +32,10 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://simonwillison.net/2025/Oct/16/claude-skills/
     (type: social-signal)'
+- timestamp: '2026-07-29T20:44:48Z'
+  action: rename
+  contributor: unknown
+  details: Renamed named skill from anthropics/static-artwork-design to anthropics/canvas-design
 evidence:
 - source: https://arxiv.org/abs/2605.23657
   evaluator: unknown

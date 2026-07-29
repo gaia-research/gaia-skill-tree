@@ -683,6 +683,14 @@ def _valid_generic_id(skillId: str) -> bool:
     return bool(re.match(r"^[a-z][a-z0-9]*(-[a-z0-9]+)*$", skillId))
 
 
+def _valid_named_id(skillId: str) -> bool:
+    """A named-skill id is `contributor/slug`; both segments lowercase-hyphenated."""
+    import re
+    return bool(
+        re.match(r"^[a-z0-9][a-z0-9_-]*/[a-z0-9][a-z0-9_-]*$", skillId)
+    )
+
+
 def preflightMergeCommand(args) -> None:
     registryPath = args.registry
     targetId = args.target.lstrip("/")
@@ -765,6 +773,31 @@ def preflightRenameCommand(args) -> None:
             f"Cannot rename skill '{oldId}' to itself.",
             fix="Choose a distinct new ID.",
         )
+
+    # Named-skill rename (contributor/slug). Named skills live as .md files in
+    # registry/named/; the generic-node walk below does not apply to them.
+    if "/" in oldId:
+        if not _valid_named_id(newId):
+            _fail_dev_preflight(
+                f"New named skill ID '{newId}' is invalid.",
+                fix="Use a valid 'contributor/slug' id (both lowercase-hyphenated).",
+            )
+        namedDir = Path(named_skills_dir(registryPath))
+        if _find_named_file(namedDir, oldId) is None:
+            _fail_dev_preflight(f"Named skill '{oldId}' not found.")
+        if _find_named_file(namedDir, newId) is not None:
+            _fail_dev_preflight(
+                f"Named skill with id '{newId}' already exists in registry."
+            )
+        newContributor, newSlug = newId.split("/", 1)
+        newPath = namedDir / newContributor / f"{newSlug}.md"
+        if newPath.exists():
+            _fail_dev_preflight(
+                f"'{newId}' already exists on disk at {newPath}.",
+                fix="Choose a new ID or remove the stale file before renaming.",
+            )
+        return
+
     if not _valid_generic_id(newId):
         _fail_dev_preflight(
             f"New skill ID '{newId}' is invalid.",

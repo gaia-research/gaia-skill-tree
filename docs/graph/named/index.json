@@ -4545,15 +4545,15 @@
     ],
     "static-artwork-design": [
       {
-        "id": "anthropics/static-artwork-design",
-        "name": "Static Artwork Design",
+        "id": "anthropics/canvas-design",
+        "name": "Canvas Design",
         "contributor": "anthropics",
         "origin": false,
         "genericSkillRef": "static-artwork-design",
         "status": "named",
         "level": "2★",
         "description": "Creates original static visual artifacts such as posters and print-ready graphics from a design brief.",
-        "title": "Static Artwork Design",
+        "title": "Canvas Design",
         "links": {
           "github": "https://github.com/anthropics/skills/blob/main/skills/canvas-design/SKILL.md"
         },
@@ -4612,6 +4612,12 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://simonwillison.net/2025/Oct/16/claude-skills/ (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-07-29T20:44:48Z",
+            "action": "rename",
+            "contributor": "unknown",
+            "details": "Renamed named skill from anthropics/static-artwork-design to anthropics/canvas-design"
           }
         ],
         "type": "basic",
@@ -4747,15 +4753,15 @@
         "contractVersion": "gaia-public-v1"
       },
       {
-        "id": "ayghri/format-output",
-        "name": "Format Output",
+        "id": "ayghri/i-have-adhd",
+        "name": "I Have ADHD",
         "contributor": "ayghri",
         "origin": false,
         "genericSkillRef": "format-output",
         "status": "named",
         "level": "1★",
         "description": "Structures raw output into a specified format such as markdown, JSON, CSV, HTML, or cognitive accessibility layout constraints.",
-        "title": "Format Output",
+        "title": "I Have ADHD",
         "links": {
           "github": "https://github.com/ayghri/i-have-adhd/blob/main/skills/i-have-adhd/SKILL.md"
         },
@@ -4835,6 +4841,12 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 1★"
+          },
+          {
+            "timestamp": "2026-07-29T20:44:41Z",
+            "action": "rename",
+            "contributor": "unknown",
+            "details": "Renamed named skill from ayghri/format-output to ayghri/i-have-adhd"
           }
         ],
         "type": "basic",
@@ -10887,15 +10899,15 @@
     ],
     "ux-audit": [
       {
-        "id": "nextlevelbuilder/ux-audit",
-        "name": "UX Audit",
+        "id": "nextlevelbuilder/ui-ux-pro-max",
+        "name": "UI/UX Pro Max",
         "contributor": "nextlevelbuilder",
         "origin": true,
         "genericSkillRef": "ux-audit",
         "status": "named",
         "level": "4★",
         "description": "Systematically evaluates a user interface against established usability heuristics, accessibility standards, visual style rules, color palettes, typography, and motion guidelines.",
-        "title": "UX Audit",
+        "title": "UI/UX Pro Max",
         "links": {
           "github": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/main/.claude/skills/ui-ux-pro-max/SKILL.md"
         },
@@ -11001,6 +11013,12 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-07-29T20:44:38Z",
+            "action": "rename",
+            "contributor": "unknown",
+            "details": "Renamed named skill from nextlevelbuilder/ux-audit to nextlevelbuilder/ui-ux-pro-max"
           }
         ],
         "type": "basic",
@@ -26537,15 +26555,15 @@
     ],
     "react-performance-optimization": [
       {
-        "id": "vercel-labs/react-performance-optimization",
-        "name": "React Performance Optimization",
+        "id": "vercel-labs/react-best-practices",
+        "name": "React Best Practices",
         "contributor": "vercel-labs",
         "origin": false,
         "genericSkillRef": "react-performance-optimization",
         "status": "named",
         "level": "3★",
         "description": "Optimizes component rendering, data fetching, and bundle composition in React applications while preserving requested behavior.",
-        "title": "React Performance Optimization",
+        "title": "React Best Practices",
         "links": {
           "github": "https://github.com/vercel-labs/agent-skills/blob/main/skills/react-best-practices/SKILL.md"
         },
@@ -26642,6 +26660,12 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-07-29T20:44:45Z",
+            "action": "rename",
+            "contributor": "unknown",
+            "details": "Renamed named skill from vercel-labs/react-performance-optimization to vercel-labs/react-best-practices"
           }
         ],
         "type": "basic",
@@ -32437,10 +32461,10 @@
       "anthropic/skill-creator"
     ],
     "anthropics": [
-      "anthropics/static-artwork-design"
+      "anthropics/canvas-design"
     ],
     "ayghri": [
-      "ayghri/format-output"
+      "ayghri/i-have-adhd"
     ],
     "bradautomates": [
       "bradautomates/claude-video"
@@ -32685,7 +32709,7 @@
       "mbtiongson1/graphify-triage"
     ],
     "nextlevelbuilder": [
-      "nextlevelbuilder/ux-audit"
+      "nextlevelbuilder/ui-ux-pro-max"
     ],
     "nexu-io": [
       "nexu-io/open-design"
@@ -32797,7 +32821,7 @@
       "upsonic/unittest-generator"
     ],
     "vercel-labs": [
-      "vercel-labs/react-performance-optimization"
+      "vercel-labs/react-best-practices"
     ],
     "vercel": [
       "vercel/find-skills"

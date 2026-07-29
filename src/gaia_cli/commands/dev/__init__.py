@@ -430,6 +430,10 @@ class DevCommand(Command):
         dev_update_named.add_argument("skill_id", help="Named skill ID (e.g. author/skill)")
         dev_update_named.add_argument("--status", help="New status (e.g. awakened, named)")
         dev_update_named.add_argument(
+            "--name",
+            help="Human-readable name of the skill (frontmatter 'name' field)",
+        )
+        dev_update_named.add_argument(
             "--title",
             help="Display title (lore title) for the named skill — required by schema when status=named",
         )

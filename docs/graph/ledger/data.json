@@ -1,6 +1,6 @@
 {
   "version": "6.8.15",
-  "generatedAt": "2026-07-29T20:39:05Z",
+  "generatedAt": "2026-07-29T20:47:32Z",
   "summary": {
     "total": 291,
     "S": 5,
@@ -223,7 +223,7 @@
       "branch": "suite"
     },
     {
-      "skillId": "nextlevelbuilder/ux-audit",
+      "skillId": "nextlevelbuilder/ui-ux-pro-max",
       "tm": 194.26,
       "grade": "A",
       "currentStars": "4★",
@@ -2208,7 +2208,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "vercel-labs/react-performance-optimization",
+      "skillId": "vercel-labs/react-best-practices",
       "tm": 50.48,
       "grade": "B",
       "currentStars": "3★",
@@ -2276,7 +2276,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "anthropics/static-artwork-design",
+      "skillId": "anthropics/canvas-design",
       "tm": 43.52,
       "grade": "C",
       "currentStars": "2★",
@@ -3547,7 +3547,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "ayghri/format-output",
+      "skillId": "ayghri/i-have-adhd",
       "tm": 13.3,
       "grade": "ungraded",
       "currentStars": "1★",

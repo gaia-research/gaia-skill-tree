@@ -7,12 +7,113 @@ from gaia_cli.registry import named_skills_dir, registry_nodes_dir
 from gaia_cli.timeline import append_skill_event
 from gaia_cli.commands.dev.helpers import (
     _parse_md,
+    _write_md,
+    _find_named_file,
     _update_named_skill_ref,
     _get_contributor,
     _run_docs_build,
     _run_dev_preflights,
     preflightRenameCommand,
 )
+
+
+def _rename_named_skill(args, old_id: str, new_id: str) -> None:
+    """Rename a named skill (contributor/slug): move the .md, update its id and
+    display name/title, repoint every suiteComponents/suiteRef reference in other
+    named files and suite manifests, and log a timeline event.
+
+    Named skills carry their own evidence and identity in the .md frontmatter;
+    the generic-node walk in meta_rename_command does not touch them.
+    """
+    registry_path = args.registry
+    named_dir = Path(named_skills_dir(registry_path))
+
+    old_file = _find_named_file(named_dir, old_id)
+    if old_file is None:
+        print(f"Error: Named skill '{old_id}' not found.")
+        sys.exit(1)
+
+    new_contributor, new_slug = new_id.split("/", 1)
+    new_dir = named_dir / new_contributor
+    new_dir.mkdir(parents=True, exist_ok=True)
+    new_file = new_dir / f"{new_slug}.md"
+    if new_file.exists():
+        print(f"Error: '{new_id}' already exists on disk at {new_file}. Rename aborted.")
+        sys.exit(1)
+
+    meta, body = _parse_md(old_file)
+    old_slug = old_id.split("/", 1)[1]
+
+    # Human-readable name/title default to the slug (title-cased) at add time.
+    # Only rewrite them when they still mirror the old slug, so a hand-set
+    # display name is preserved.
+    old_slug_titled = old_slug.replace("-", " ").title()
+    new_slug_titled = new_slug.replace("-", " ").title()
+    if meta.get("name") in (old_slug, old_slug_titled, None):
+        meta["name"] = new_slug_titled
+    if meta.get("title") in (old_slug, old_slug_titled, None):
+        meta["title"] = new_slug_titled
+
+    meta["id"] = new_id
+    meta["updatedAt"] = datetime.date.today().isoformat()
+    _write_md(new_file, meta, body)
+    old_file.unlink()
+    print(f"Renamed {old_file} to {new_file}")
+
+    # Repoint suiteComponents / suiteRef references in every other named file.
+    for p in named_dir.glob("**/*.md"):
+        if p == new_file:
+            continue
+        pm, pb = _parse_md(p)
+        changed = False
+        comps = pm.get("suiteComponents")
+        if isinstance(comps, list) and old_id in comps:
+            pm["suiteComponents"] = [new_id if c == old_id else c for c in comps]
+            changed = True
+        if pm.get("suiteRef") == old_id:
+            pm["suiteRef"] = new_id
+            changed = True
+        if changed:
+            _write_md(p, pm, pb)
+            print(f"Updated suite references in {p}")
+
+    # Repoint references inside suite manifests (registry/suites/**/*.json).
+    suites_dir = named_dir.parent / "suites"
+    if suites_dir.exists():
+        for p in suites_dir.glob("**/*.json"):
+            try:
+                data = json.loads(p.read_text(encoding="utf-8"))
+            except json.JSONDecodeError:
+                continue
+            changed = False
+            for key in ("capstone",):
+                if data.get(key) == old_id:
+                    data[key] = new_id
+                    changed = True
+            for key in ("suites", "standalones", "components"):
+                lst = data.get(key)
+                if isinstance(lst, list) and old_id in lst:
+                    data[key] = [new_id if x == old_id else x for x in lst]
+                    changed = True
+            if changed:
+                p.write_text(
+                    json.dumps(data, indent=2, ensure_ascii=False) + "\n",
+                    encoding="utf-8",
+                )
+                print(f"Updated suite manifest references in {p}")
+
+    append_skill_event(
+        new_id,
+        "rename",
+        _get_contributor(),
+        f"Renamed named skill from {old_id} to {new_id}",
+        registry_path=registry_path,
+    )
+
+    if not getattr(args, "no_build", True):
+        print("Regenerating registry and documentation...")
+        _run_docs_build(args.registry)
+    print(f"Successfully renamed '{old_id}' to '{new_id}'.")
 
 
 def meta_rename_command(args):
@@ -22,6 +123,11 @@ def meta_rename_command(args):
     registry_path = args.registry
     old_id = args.old_id.lstrip("/")
     new_id = args.new_id.lstrip("/")
+
+    # Named-skill rename (contributor/slug) has a separate .md-based path.
+    if "/" in old_id:
+        _rename_named_skill(args, old_id, new_id)
+        return
 
     nodes_dir = Path(registry_nodes_dir(registry_path))
     old_file = None

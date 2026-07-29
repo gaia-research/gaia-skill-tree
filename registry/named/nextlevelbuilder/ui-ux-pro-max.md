@@ -1,6 +1,6 @@
 ---
-id: nextlevelbuilder/ux-audit
-name: UX Audit
+id: nextlevelbuilder/ui-ux-pro-max
+name: UI/UX Pro Max
 contributor: nextlevelbuilder
 origin: true
 genericSkillRef: ux-audit
@@ -11,7 +11,7 @@ description: Systematically evaluates a user interface against established usabi
   and motion guidelines.
 createdAt: '2026-07-30'
 updatedAt: '2026-07-30'
-title: UX Audit
+title: UI/UX Pro Max
 links:
   github: https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/main/.claude/skills/ui-ux-pro-max/SKILL.md
 timeline:
@@ -51,6 +51,10 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Origin status set to true.
+- timestamp: '2026-07-29T20:44:38Z'
+  action: rename
+  contributor: unknown
+  details: Renamed named skill from nextlevelbuilder/ux-audit to nextlevelbuilder/ui-ux-pro-max
 evidence:
 - source: https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
   evaluator: unknown

@@ -1,6 +1,6 @@
 ---
-id: vercel-labs/react-performance-optimization
-name: React Performance Optimization
+id: vercel-labs/react-best-practices
+name: React Best Practices
 contributor: vercel-labs
 origin: false
 genericSkillRef: react-performance-optimization
@@ -10,7 +10,7 @@ description: Optimizes component rendering, data fetching, and bundle compositio
   in React applications while preserving requested behavior.
 createdAt: '2026-07-30'
 updatedAt: '2026-07-30'
-title: React Performance Optimization
+title: React Best Practices
 links:
   github: https://github.com/vercel-labs/agent-skills/blob/main/skills/react-best-practices/SKILL.md
 timeline:
@@ -46,6 +46,11 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 3★
+- timestamp: '2026-07-29T20:44:45Z'
+  action: rename
+  contributor: unknown
+  details: Renamed named skill from vercel-labs/react-performance-optimization to
+    vercel-labs/react-best-practices
 evidence:
 - source: https://github.com/vercel-labs/agent-skills
   evaluator: unknown

@@ -48,6 +48,10 @@ def meta_update_named_command(args):
         meta["status"] = new_status
         changed = True
 
+    if getattr(args, "name", None):
+        meta["name"] = args.name
+        changed = True
+
     if getattr(args, "title", None):
         meta["title"] = args.title
         changed = True

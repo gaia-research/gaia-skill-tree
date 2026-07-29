@@ -1,6 +1,6 @@
 ---
-id: ayghri/format-output
-name: Format Output
+id: ayghri/i-have-adhd
+name: I Have ADHD
 contributor: ayghri
 origin: false
 genericSkillRef: format-output
@@ -10,7 +10,7 @@ description: Structures raw output into a specified format such as markdown, JSO
   CSV, HTML, or cognitive accessibility layout constraints.
 createdAt: '2026-07-30'
 updatedAt: '2026-07-30'
-title: Format Output
+title: I Have ADHD
 links:
   github: https://github.com/ayghri/i-have-adhd/blob/main/skills/i-have-adhd/SKILL.md
 timeline:
@@ -41,6 +41,10 @@ timeline:
   action: demote
   contributor: unknown
   details: Calibrated level from 2★ to 1★
+- timestamp: '2026-07-29T20:44:41Z'
+  action: rename
+  contributor: unknown
+  details: Renamed named skill from ayghri/format-output to ayghri/i-have-adhd
 evidence:
 - source: https://github.com/ayghri/i-have-adhd
   evaluator: unknown
