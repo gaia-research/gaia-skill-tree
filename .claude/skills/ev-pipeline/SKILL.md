@@ -111,7 +111,12 @@ After all four phases complete, save these artifacts in order:
      --dead-urls N
    ```
    This patches cumulative stat-cards and appends a run-history row to `evidence/verification_process.html`. Do not hand-edit the HTML stats block.
-4. **Ingestion handoff** — for L4-approved intake, pass the reviewed manifest to `/gaia-ingest-batch`.
+4. **Apply `intake:evidence-ready` label on each intake issue** — for each intake issue whose skills were processed in this pipeline run, advance it along the promotion ladder:
+   ```bash
+   gh issue edit <issue-number> --add-label "intake:evidence-ready" --repo gaia-research/gaia-skill-tree
+   ```
+   This moves the issue from `intake:evidence-review` to the next hop. A maintainer then applies `intake:evidence-approved` to trigger `intake-approval.yml`, which opens the `review/meta/intake-<n>` draft promotion PR. **Do not skip this step** — `intake:evidence-approved` fails with an error if `intake:evidence-ready` is not present, so the promotion PR never opens.
+5. **Ingestion handoff** — for L4-approved intake, pass the reviewed manifest to `/gaia-ingest-batch`.
 
 ## Additive loop — no green gate (RFC2 §3.5)
 

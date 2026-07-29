@@ -220,8 +220,9 @@ def meta_merge_command(args):
             registry_path=registry_path,
         )
 
-    print("Regenerating registry and documentation...")
-    _run_docs_build(args.registry)
+    if not getattr(args, "no_build", True):
+        print("Regenerating registry and documentation...")
+        _run_docs_build(args.registry)
     print(f"Successfully merged skills into '{target_id}'.")
 
 
@@ -344,5 +345,6 @@ def meta_split_command(args):
         registry_path=registry_path,
     )
 
-    print("Regenerating registry and documentation...")
-    _run_docs_build(args.registry)
+    if not getattr(args, "no_build", True):
+        print("Regenerating registry and documentation...")
+        _run_docs_build(args.registry)
