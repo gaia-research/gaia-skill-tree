@@ -34,8 +34,25 @@ Input JSON schema (array of objects):
     "title": "SkCC: ...",
     "notes": "First academic citation for the repo",
     "grade": "B",
-    "isNew": true
+    "isNew": true,
+    "citations": 89,
+    "reviewers": null,
+    "percentile": null,
+    "views": null,
+    "likes": null,
+    "comments": null,
+    "provenance": "mirrored"
   }
+
+  citations/reviewers/percentile/views are consumed directly by
+  trustMagnitude.py — populate when available; null renders as
+  'not collected' in the collector file. All six numeric fields
+  (citations, reviewers, percentile, views, likes, comments) are optional
+  (null = not collected).
+
+  For benchmark-result rows discovered via web scraping (Phase 0), provenance
+  is always 'mirrored' — excluded from TM. Only 'verifier-attested' and
+  'ci-reproduced' rows contribute TM.
 """
 
 import argparse
@@ -113,6 +130,23 @@ def displaylabel(row):
     return row.get("namedSlug") or row.get("skillId") or "unknown"
 
 
+def viewsline(row, bullet):
+    """Render the '* **Views:** ...' line for a social-signal row.
+
+    ``bullet`` is the list-marker prefix used by the target file (e.g.
+    ``"*"`` or ``"*  "``). Views feed trustMagnitude.py directly:
+      * >= 1000  -> formatted with comma thousands separator
+      * < 1000   -> shown with the below-floor note (scores 0 TM)
+      * None     -> 'not collected'
+    """
+    views = row.get("views")
+    if views is None:
+        return f"{bullet} **Views:** not collected"
+    if views >= 1000:
+        return f"{bullet} **Views:** {views:,}"
+    return f"{bullet} **Views:** {views} (below 1,000 floor — scores 0 TM)"
+
+
 def renderbenchmark(number, row):
     label = displaylabel(row)
     lines = [f"### {number}. `{label}`"]
@@ -121,6 +155,14 @@ def renderbenchmark(number, row):
         lines.append(f"* **Benchmark:** {row['title']}")
     if row.get("grade"):
         lines.append(f"* **Grade:** {row['grade']}")
+    provenance = row.get("provenance") or "mirrored"
+    lines.append(f"* **Provenance:** {provenance}")
+    percentile = row.get("percentile")
+    percentiletext = str(percentile) if percentile is not None else "not collected"
+    if provenance in ("mirrored", "pending"):
+        lines.append(f"* **Percentile:** {percentiletext} (excluded from TM — provenance: {provenance})")
+    else:
+        lines.append(f"* **Percentile:** {percentiletext}")
     if row.get("notes"):
         lines.append(f"* **Setup Description:** {row['notes']}")
     return "\n".join(lines)
@@ -134,6 +176,19 @@ def renderacademic(number, row):
     lines.append(f"* **Publication URL:** [{row['url']}]({row['url']})")
     if row.get("evidenceType"):
         lines.append(f"* **Evidence Type:** {row['evidenceType']}")
+    etype = (row.get("evidenceType") or "").strip().lower()
+    if etype == "arxiv":
+        citations = row.get("citations")
+        if citations is not None:
+            lines.append(f"* **Citations:** {citations}")
+        else:
+            lines.append("* **Citations:** not collected")
+    elif etype == "peer-review":
+        reviewers = row.get("reviewers")
+        if reviewers is not None:
+            lines.append(f"* **Reviewers:** {reviewers}")
+        else:
+            lines.append("* **Reviewers:** not collected")
     if row.get("grade"):
         lines.append(f"* **Grade:** {row['grade']}")
     if row.get("notes"):
@@ -148,6 +203,7 @@ def renderblog(number, row):
     lines.append(f"*   **Article URL:** [{row['url']}]({row['url']})")
     if row.get("grade"):
         lines.append(f"*   **Grade:** {row['grade']}")
+    lines.append(viewsline(row, "*  "))
     if row.get("notes"):
         lines.append(f"*   **Description:** {row['notes']}")
     return "\n".join(lines)
@@ -161,6 +217,12 @@ def renderyoutube(number, row):
     lines.append(f"*   **Video URL:** `{row['url']}`")
     if row.get("grade"):
         lines.append(f"*   **Grade:** {row['grade']}")
+    lines.append(viewsline(row, "*  "))
+    likes = row.get("likes")
+    comments = row.get("comments")
+    if likes is not None and comments is not None:
+        lines.append(f"*   **Likes:** {likes}")
+        lines.append(f"*   **Comments:** {comments}")
     if row.get("notes"):
         lines.append(f"*   **Description:** {row['notes']}")
     return "\n".join(lines)
@@ -223,7 +285,7 @@ def main(argv=None):
     else:
         import datetime
 
-        datestamp = datetime.datetime.utcnow().strftime("%Y-%m-%d")
+        datestamp = datetime.datetime.now(datetime.UTC).strftime("%Y-%m-%d")
 
     rows = loadrows(args.input)
 
