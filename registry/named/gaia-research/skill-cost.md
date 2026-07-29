@@ -19,6 +19,36 @@ timeline:
   action: add
   contributor: unknown
   details: Added named skill gaia-research/skill-cost
+- timestamp: '2026-07-29T20:17:30Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/gaia-research/skill-cost (type:
+    repo-own)'
+- timestamp: '2026-07-29T20:17:30Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://research.gaiaskilltree.com/ (type: self-attestation)'
+evidence:
+- source: https://github.com/gaia-research/skill-cost
+  evaluator: unknown
+  date: '2026-07-30'
+  type: repo-own
+  notes: Repo 1 star, 0 forks. stdlib-only cost.py parsing session JSONL from pi,
+    Claude Code, Codex, opencode, Hermes. Prices via LiteLLM catalog. SKILL.md at
+    blob/ path. Stage-1.
+  stars: 1
+  skillCountInRepo: 1
+  sourceStartedAt: '2026-07-30'
+- source: https://research.gaiaskilltree.com/
+  evaluator: unknown
+  date: '2026-07-30'
+  type: self-attestation
+  notes: Gaia Research lab page lists skill-cost as published installable skill. Owner-org
+    self-attestation.
+  sourceStartedAt: '2026-07-30'
+  grade: C
+verification:
+  firstEvidenceAt: '2026-07-29T20:17:29Z'
 ---
 
 ## Installation

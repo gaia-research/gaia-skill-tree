@@ -112,10 +112,36 @@ def appraiseNode(skillRef: str) -> dict[str, Any]:
     parts = skillRef.split("/", 1)
     if len(parts) == 2:
         contributor, skillId = parts
+        # Named skills carry their own evidence in the .md frontmatter; the
+        # generic node's evidence[] stays empty. Read the named frontmatter
+        # first so `--skill contributor/skill-id` appraises the real rows,
+        # falling back to the generic node only when no named .md exists.
         namedPath = REPO_ROOT / "registry" / "named" / contributor / f"{skillId}.md"
-        genericPath = REPO_ROOT / "registry" / "nodes" / "basic" / f"{skillId}.json"
-        # Try named skill frontmatter first, fall back to generic node
-        nodePath = genericPath
+        if namedPath.exists():
+            from gaia_cli.frontmatter import load_yaml_simple, split_frontmatter
+
+            _, fmText, _ = split_frontmatter(namedPath.read_text(encoding="utf-8"))
+            skill = load_yaml_simple(fmText)
+            tm = computeTrustMagnitude(skill)
+            grade = computeOverallTrustGradeFromSkill(skill)
+            rowScores = computeRowArtifactScores(skill)
+            byType = computeTrustMagnitudeByType(skill)
+            return {
+                "skillRef": skillRef,
+                "tm": round(tm, 2),
+                "grade": grade,
+                "byType": dict(byType),
+                "rows": [
+                    {
+                        "type": ev.get("type"),
+                        "score": round(score, 2),
+                        "trust": ev.get("trustNumber"),
+                        "source": ev.get("source", "")[:80],
+                    }
+                    for ev, score in rowScores
+                ],
+            }
+        nodePath = None
         for p in [
             REPO_ROOT / "registry" / "nodes" / "basic" / f"{skillId}.json",
             REPO_ROOT / "registry" / "nodes" / "extra" / f"{skillId}.json",
