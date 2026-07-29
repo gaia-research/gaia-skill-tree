@@ -277,7 +277,11 @@ def update_markdown_files_with_suite_metadata(named_skills, skill_to_suite, suit
             needs_update = True
             updates["suiteRef"] = expected_suite_ref
 
-        if expected_suite_components != current_suite_components:
+        # Only sync suiteComponents when a suite manifest actually has an opinion
+        # on this skill.  When expected_suite_components is None the suite registry
+        # has no entry for this skill, meaning suiteComponents was set directly via
+        # `gaia dev update-named --suite-components` and must be preserved as-is.
+        if expected_suite_components is not None and expected_suite_components != current_suite_components:
             needs_update = True
             updates["suiteComponents"] = expected_suite_components
 

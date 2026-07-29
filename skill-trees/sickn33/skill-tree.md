@@ -340,7 +340,6 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
 Basics — basic-tier skills with no prerequisites, listed vertically (not as a single combined line).  ([N★] = top named-variant stars; blank = no named implementation.)
 ══════════════════════════════════════════════════════════════════════
 
-  · ○ /agent-reach
   · ○ /autonomous-engineering-platform
   · ○ gaia-research/skill-ci-churn  [2★]
   · ○ /clinical-data-retrieval
@@ -360,20 +359,16 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   · ○ ████████/huggingface-vision-trainer
   · ○ /pathway-ontology-retrieval
   · ○ /probabilistic-programming
-  · ○ /react-performance-optimization
   · ○ /reward-modeling
-  · ○ /scroll-world
   · ○ openai/self-consistency  [3★]
   · ○ huggingface/semantic-cache  [2★]
   · ○ ruvnet/stream-chain  [2★]
   · ○ ████████/codebase-design
-  · ○ /static-artwork-design
   · ○ /synthetic-data-generation
   · ○ addy-osmani/test-driven-development  [2★]
   · ○ /time-series-forecasting
   · ○ getagentseal/codeburn  [2★]
   · ○ ████████/resend-conference-emails-carefully-with-smtp
-  · ○ /ui-audit
 ```
 
 ## Pending Combinations
