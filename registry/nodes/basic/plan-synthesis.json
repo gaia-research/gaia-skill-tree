@@ -1,0 +1,22 @@
+{
+  "id": "plan-synthesis",
+  "name": "Plan Synthesis",
+  "type": "basic",
+  "description": "Combine two or more independently produced plans into a single attributed result, resolving conflicts and surfacing consensus and divergence.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-30",
+  "updatedAt": "2026-07-30",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-29T20:14:02Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill plan-synthesis"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "id": "scroll-world",
+  "name": "Scroll World",
+  "type": "basic",
+  "description": "Builds scroll-scrubbed 3D world landing pages for any brand or industry with zero-cut camera paths through connected scenes.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-30",
+  "updatedAt": "2026-07-30",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-29T20:13:47Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill scroll-world"
+    }
+  ]
+}

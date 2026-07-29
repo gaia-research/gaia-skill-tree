@@ -1,0 +1,22 @@
+{
+  "id": "opinion",
+  "name": "Opinion",
+  "type": "basic",
+  "description": "Formulate and articulate a strong, reasoned opinion or recommendation as a discrete agent step, avoiding model selection bias and decision paralysis.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-30",
+  "updatedAt": "2026-07-30",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-29T20:14:01Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill opinion"
+    }
+  ]
+}
