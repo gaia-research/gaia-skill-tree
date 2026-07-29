@@ -13,6 +13,7 @@ frontmatter) — consistent with ``gaia dev prefill`` / ``gaia dev evidence-seed
 crawler provenance the packet captured is preserved automatically.
 """
 
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -50,6 +51,8 @@ def provenanceCommand(args):
         return 0
 
     crawlerOrigin = None
+    discoveryPacketSha256 = None
+    intakeBatchId = None
     discoveryPacket = getattr(args, "discovery_packet", None)
     fromPacket = getattr(args, "from_packet", None)
     if fromPacket:
@@ -59,6 +62,8 @@ def provenanceCommand(args):
         except (OSError, json.JSONDecodeError) as exc:
             print(f"ERROR: could not read --from-packet {fromPacket}: {exc}", file=sys.stderr)
             return 1
+        canonicalPacket = json.dumps(packet, sort_keys=True, separators=(",", ":")).encode("utf-8")
+        discoveryPacketSha256 = hashlib.sha256(canonicalPacket).hexdigest()
         crawlerOrigin = crawlerOriginFromPacket(packet)
         if crawlerOrigin is None:
             print(
@@ -69,12 +74,21 @@ def provenanceCommand(args):
         if not discoveryPacket:
             discoveryPacket = fromPacket
 
+    intakeBatch = getattr(args, "intake_batch", None)
+    if intakeBatch:
+        try:
+            intakeBatchId = json.loads(Path(intakeBatch).read_text(encoding="utf-8")).get("batchId")
+        except (OSError, json.JSONDecodeError):
+            intakeBatchId = None
+
     try:
         ledger = buildProvenanceLedger(
             skillId,
             genericSkillRef=getattr(args, "generic_ref", None),
             discoveryPacket=discoveryPacket,
-            intakeBatch=getattr(args, "intake_batch", None),
+            discoveryPacketSha256=discoveryPacketSha256,
+            intakeBatch=intakeBatch,
+            intakeBatchId=intakeBatchId,
             intakeIssue=getattr(args, "intake_issue", None),
             crawlerOrigin=crawlerOrigin,
             evidenceSeed=getattr(args, "evidence_seed", None),

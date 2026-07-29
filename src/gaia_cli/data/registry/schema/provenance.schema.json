@@ -22,9 +22,19 @@
       "type": "string",
       "description": "Repo-relative path to the discovery packet that produced this candidate (registry-for-review/discovery-packets/<candidate>.json)."
     },
+    "discoveryPacketSha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "Canonical-JSON SHA256 of the discovery packet, matching the immutable intake handoff receipt."
+    },
     "intakeBatch": {
       "type": "string",
       "description": "Repo-relative path to the intake batch (registry-for-review/skill-batches/<batch>.json)."
+    },
+    "intakeBatchId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Batch identity embedded in the intake issue, completing packet -> batch -> issue traceability."
     },
     "intakeIssue": {
       "type": "string",

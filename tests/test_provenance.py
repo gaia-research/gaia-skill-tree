@@ -45,7 +45,9 @@ def test_ledger_full_shape():
         "contributor/slug",
         genericSkillRef="research",
         discoveryPacket="registry-for-review/discovery-packets/cand.json",
+        discoveryPacketSha256="d" * 64,
         intakeBatch="registry-for-review/skill-batches/batch.json",
+        intakeBatchId="20260729000000-alice-from-file",
         intakeIssue="https://github.com/mbtiongson1/gaia-skill-tree/issues/9",
         crawlerOrigin={
             "sourceLane": "source-repository",
@@ -57,7 +59,9 @@ def test_ledger_full_shape():
     )
     assert ledger["genericSkillRef"] == "research"
     assert ledger["discoveryPacket"].endswith("cand.json")
+    assert ledger["discoveryPacketSha256"] == "d" * 64
     assert ledger["intakeBatch"].endswith("batch.json")
+    assert ledger["intakeBatchId"] == "20260729000000-alice-from-file"
     assert ledger["intakeIssue"].startswith("https://")
     assert ledger["evidenceSeed"].endswith("repo-own.jsonl")
 

@@ -16,6 +16,7 @@ These tests pin the reconciliation:
       guard RFC3 turned on was declared-around, not neutered).
 """
 
+import hashlib
 import json
 import os
 import sys
@@ -53,6 +54,10 @@ def _basePacket(**overrides):
     packet = {
         "contractVersion": "discovery-packet-v2",
         "candidateId": "alice/some-skill",
+        "lifecycle": [
+            "discovered", "fetched", "parsed", "normalized", "deduped",
+            "mapped", "review-ready",
+        ],
         "source": {
             "canonicalUrl": (
                 "https://github.com/alice/some-skill/blob/main/SKILL.md"
@@ -66,6 +71,10 @@ def _basePacket(**overrides):
             "name": "Some Skill",
             "description": "Does a thing well and is at least ten chars.",
         },
+        "mappingOptions": [{
+            "genericId": "research", "rationale": "Frozen strong match.",
+            "similarity": 0.9, "matchTier": "strong",
+        }],
         "decision": {
             "value": "MAP",
             "reasonCode": "strong-match",
@@ -73,6 +82,29 @@ def _basePacket(**overrides):
         },
     }
     packet.update(overrides)
+    generics = [{"id": "research", "kind": "generic"}]
+    digest = lambda value: hashlib.sha256(  # noqa: E731
+        json.dumps(value, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
+    packet.setdefault("genericSnapshot", {
+        "capturedAt": "2026-07-29T00:00:00Z",
+        "command": "gaia dev list --generic --json",
+        "generics": generics,
+        "contentSha256": digest(generics),
+        "mappingOptionsSha256": digest(packet.get("mappingOptions", [])),
+    })
+    packet.setdefault("l4Resolution", {
+        "status": "approved",
+        "generic": {
+            "id": (packet.get("decision") or {}).get("genericId", "new-generic"),
+            "name": "Some Capability",
+            "description": "A vendor-neutral capability description for intake.",
+            "type": "basic",
+            "prerequisites": [],
+        },
+        "named": {"contributor": "alice", "skillName": "some-skill"},
+        "skillFileUrl": "https://github.com/alice/some-skill/blob/main/SKILL.md",
+    })
     return packet
 
 
@@ -92,6 +124,7 @@ def _adapterBatchFromPackets(packets):
         "fromFile": True,
         "knownSkills": [],
         "proposedSkills": proposed,
+        "curationHandoff": intake["curationHandoff"],
         # No similarity — a --from-file batch legitimately omits it.
     }
 
