@@ -108,3 +108,21 @@ This report presents objective benchmark scores, evaluation parameters, and perf
 * **Score:** +59% layout/typography consistency improvement (qualitative user testing)
 * **Date:** May 2026
 * **Setup Description:** Runs an agentic design checker executing 23 specialized commands (e.g., `/audit`, `/polish`, `/typeset`) against generated frontend code. Audits code compliance against 44 deterministic rules (such as OKLCH color spacing, typographic hierarchy, and anti-slop guidelines).
+
+---
+
+<!-- appended: 2026-07-29 -->
+
+### 13. `anthropics/canvas-design`
+* **Benchmark URL:** [OpenSkillEval: Dynamically Auditing the Open Skill Ecosystem for LLM Agents](https://yingjiahao14.github.io/OpenSkillEval-Web/)
+* **Benchmark:** OpenSkillEval: Dynamically Auditing the Open Skill Ecosystem for LLM Agents
+* **Grade:** A
+* **Setup Description:** Canvas-design skill scored 3.81/5.0 on poster generation tasks across 10 LLM models in the OpenSkillEval benchmark suite of 30 open skills evaluated on 5 task types.
+
+---
+
+### 14. `disler/agent-fusion`
+* **Benchmark URL:** [DRACO Benchmark](https://openrouter.ai/blog/announcements/fusion-beats-frontier/)
+* **Benchmark:** DRACO Benchmark
+* **Grade:** A
+* **Setup Description:** OpenRouter's Fusion technique achieved 69.0% on DRACO deep research tasks, surpassing individual frontier models when combining Fable 5 and GPT-5.5 through synthesis.

@@ -165,6 +165,9 @@ date-stamping, and correct block format for each file type.
 | `views` | `social-signal` | YouTube: always present. Blog: visible on some platforms (dev.to, Substack) | `null` |
 | `likes` | `social-signal` (YouTube only) | YouTube like count | `null` |
 | `comments` | `social-signal` (YouTube only) | YouTube comment count | `null` |
+| `provenance` | `benchmark-result` | Always `"mirrored"` for Phase 0 discoveries — web-scraped leaderboard/blog pages are citation-only | Always `"mirrored"` |
+
+> **benchmark-result provenance is always `mirrored` from Phase 0.** Web-scraped benchmark pages are citation-only copies of external leaderboard results — `provenance: "mirrored"` is the only honest value, and mirrored rows are **excluded from Trust Magnitude entirely** (trustMagnitude.py returns None before the percentile formula is reached). Scraping `percentile` from these pages is therefore wasted effort. Include the URL as a citation breadcrumb, set `provenance: "mirrored"`, and leave `percentile: null`. To get a TM-contributing benchmark row, a contributor must run the harness in CI (`ci-reproduced`) or have a 4★+ verifier co-sign (`verifier-attested`) — that work happens outside Phase 0.
 
 **Judgment rule for `views`:** YouTube always has a view count — always scrape it.
 For non-YouTube pages: if a numeric view/read count is visibly rendered on the

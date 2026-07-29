@@ -106,3 +106,173 @@ This report documents the social signals (developer articles, blogs, newsletters
 *   **Publication Date:** Early 2026
 *   **Metrics:** Widely adopted by frontend AI developers.
 *   **Description:** Impeccable is a design-first skill library for AI coding assistants. Created by jQuery UI's founder, it aims to prevent generic AI designs. It provides rules to avoid common anti-patterns (system-default typography, nested cards, pure grays) and introduces commands like `/polish`, `/audit`, and `/critique` to ensure clean, customized layout and styling decisions.
+
+---
+
+<!-- appended: 2026-07-29 -->
+
+## 13. `token-observability` — Gaia Research Lab (self-attestation)
+*   **Article URL:** [https://research.gaiaskilltree.com/](https://research.gaiaskilltree.com/)
+*   **Grade:** D
+
+---
+
+## 14. `format-output` — Data Science Collective (Medium), Gao Dalie
+*   **Article URL:** [https://medium.com/data-science-collective/how-to-use-claude-adhd-skill-better-than-99-of-people-9876934d8548](https://medium.com/data-science-collective/how-to-use-claude-adhd-skill-better-than-99-of-people-9876934d8548)
+*   **Grade:** A
+
+---
+
+## 15. `format-output` — Joe Njenga (Medium)
+*   **Article URL:** [https://medium.com/@joe.njenga/i-tried-this-claude-code-adhd-skill-that-no-one-is-talking-about-a990a647b1c7](https://medium.com/@joe.njenga/i-tried-this-claude-code-adhd-skill-that-no-one-is-talking-about-a990a647b1c7)
+*   **Grade:** B
+
+---
+
+## 16. `format-output` — New2026 (Medium)
+*   **Article URL:** [https://new2026.medium.com/how-an-open-source-skill-turns-verbose-coding-agent-answers-into-action-first-instructions-for-410303d35765](https://new2026.medium.com/how-an-open-source-skill-turns-verbose-coding-agent-answers-into-action-first-instructions-for-410303d35765)
+*   **Grade:** C
+
+---
+
+## 17. `format-output` — Matthew Harwood (LinkedIn)
+*   **Article URL:** [https://www.linkedin.com/posts/matthewcharwood_github-ayghrii-have-adhd-a-skill-for-activity-7484663342012334081-ejHy](https://www.linkedin.com/posts/matthewcharwood_github-ayghrii-have-adhd-a-skill-for-activity-7484663342012334081-ejHy)
+*   **Grade:** D
+
+---
+
+## 18. `nextlevelbuilder/ux-audit` — Snyk, Stephen Thoemmes
+*   **Article URL:** [https://snyk.io/articles/top-claude-skills-ui-ux-engineers/](https://snyk.io/articles/top-claude-skills-ui-ux-engineers/)
+*   **Grade:** A
+
+---
+
+## 19. `nextlevelbuilder/ux-audit` — Abhinav Dobhal (Medium, Feb 2026)
+*   **Article URL:** [https://medium.com/@abhinav.dobhal/the-end-of-ai-slop-how-ui-ux-pro-max-is-solving-the-design-crisis-in-ai-generated-code-bbc23995f0e0](https://medium.com/@abhinav.dobhal/the-end-of-ai-slop-how-ui-ux-pro-max-is-solving-the-design-crisis-in-ai-generated-code-bbc23995f0e0)
+*   **Grade:** C
+
+---
+
+## 20. `nextlevelbuilder/ux-audit` — dev.to, Petri Lahdelma / VertaaUX
+*   **Article URL:** [https://dev.to/vertaaux/i-gave-my-ai-agent-a-ux-audit-superpower-cli-mcp-in-5-minutes-58d8](https://dev.to/vertaaux/i-gave-my-ai-agent-a-ux-audit-superpower-cli-mcp-in-5-minutes-58d8)
+*   **Grade:** D
+
+---
+
+## 21. `scroll-world` — Chase AI Blog
+*   **Article URL:** [https://www.chaseai.io/blog/one-shot-scroll-animation-website-ai-skill](https://www.chaseai.io/blog/one-shot-scroll-animation-website-ai-skill)
+*   **Grade:** B
+
+---
+
+## 22. `scroll-world` — Instagram trending repos post
+*   **Article URL:** [https://www.instagram.com/p/DasdkWbgHLN/](https://www.instagram.com/p/DasdkWbgHLN/)
+*   **Grade:** C
+
+---
+
+## 23. `agent-reach` — LobeHub Skills Marketplace
+*   **Article URL:** [https://lobehub.com/skills/panniantong-agent-reach-skill](https://lobehub.com/skills/panniantong-agent-reach-skill)
+*   **Grade:** A
+
+---
+
+## 24. `agent-reach` — SitePoint
+*   **Article URL:** [https://www.sitepoint.com/agent-reach-giving-your-ai-eyes-on-the-web/](https://www.sitepoint.com/agent-reach-giving-your-ai-eyes-on-the-web/)
+*   **Grade:** B
+
+---
+
+## 25. `agent-reach` — David Lee, Medium
+*   **Article URL:** [https://medium.com/@lordmoma/six-skills-that-turn-a-coding-agent-into-a-team-b9f6f49e9064](https://medium.com/@lordmoma/six-skills-that-turn-a-coding-agent-into-a-team-b9f6f49e9064)
+*   **Grade:** C
+
+---
+
+## 26. `agent-reach` — SkillsLLM directory
+*   **Article URL:** [https://skillsllm.com/skill/agent-reach](https://skillsllm.com/skill/agent-reach)
+*   **Grade:** B
+
+---
+
+## 27. `agent-reach` — VoltAgent/awesome-agent-skills
+*   **Article URL:** [https://github.com/VoltAgent/awesome-agent-skills](https://github.com/VoltAgent/awesome-agent-skills)
+*   **Grade:** C
+
+---
+
+## 28. `react-performance-optimization` — InfoQ
+*   **Article URL:** [https://www.infoq.com/news/2026/02/vercel-react-best-practices/](https://www.infoq.com/news/2026/02/vercel-react-best-practices/)
+*   **Grade:** B
+
+---
+
+## 29. `react-performance-optimization` — MarkTechPost
+*   **Article URL:** [https://www.marktechpost.com/2026/01/18/vercel-releases-agent-skills-a-package-manager-for-ai-coding-agents-with-10-years-of-react-and-next-js-optimisation-rules/](https://www.marktechpost.com/2026/01/18/vercel-releases-agent-skills-a-package-manager-for-ai-coding-agents-with-10-years-of-react-and-next-js-optimisation-rules/)
+*   **Grade:** C
+
+---
+
+## 30. `react-performance-optimization` — Medium, Doran Gao
+*   **Article URL:** [https://medium.com/@dorangao/optimizing-a-next-js-codebase-with-cursor-and-vercels-react-best-practices-skill-a263bd2d2f6a](https://medium.com/@dorangao/optimizing-a-next-js-codebase-with-cursor-and-vercels-react-best-practices-skill-a263bd2d2f6a)
+*   **Grade:** C
+
+---
+
+## 31. `react-performance-optimization` — Vercel Official Docs
+*   **Article URL:** [https://vercel.com/docs/agent-resources/skills](https://vercel.com/docs/agent-resources/skills)
+*   **Grade:** B
+
+---
+
+## 32. `static-artwork-design` — Simon Willison's blog
+*   **Article URL:** [https://simonwillison.net/2025/Oct/16/claude-skills/](https://simonwillison.net/2025/Oct/16/claude-skills/)
+*   **Grade:** B
+
+---
+
+## 33. `static-artwork-design` — Medium, 100 Claude Skills roundup
+*   **Article URL:** [https://medium.com/@surajkhaitan16/i-tried-100-claude-skills-these-are-the-best-639e419b0325](https://medium.com/@surajkhaitan16/i-tried-100-claude-skills-these-are-the-best-639e419b0325)
+*   **Grade:** C
+
+---
+
+## 34. `static-artwork-design` — Snyk, AR/VR article
+*   **Article URL:** [https://snyk.io/articles/top-claude-skills-ar-vr-developers-unity-webxr-spatial-computing/](https://snyk.io/articles/top-claude-skills-ar-vr-developers-unity-webxr-spatial-computing/)
+*   **Grade:** C
+
+---
+
+## 35. `opinion` — note.com Japanese article
+*   **Article URL:** [https://note.com/humble_bobcat51/n/n540d5333d005](https://note.com/humble_bobcat51/n/n540d5333d005)
+*   **Grade:** D
+
+---
+
+## 36. `plan-synthesis` — Learning Atlas editorial summary
+*   **Article URL:** [https://www.learningatlas.us/learning/video/AQl5Q-0l7FQ](https://www.learningatlas.us/learning/video/AQl5Q-0l7FQ)
+*   **Grade:** C
+
+---
+
+## 37. `plan-synthesis` — Alexander Talavera Karslake (LinkedIn)
+*   **Article URL:** [https://www.linkedin.com/posts/alexander-talavera-karslake_anyone-that-thinks-they-can-run-a-local-model-activity-7483858611954290688-N5rb](https://www.linkedin.com/posts/alexander-talavera-karslake_anyone-that-thinks-they-can-run-a-local-model-activity-7483858611954290688-N5rb)
+*   **Grade:** D
+
+---
+
+## 38. `disler/agent-fusion` — OpenRouter LinkedIn post
+*   **Article URL:** [https://www.linkedin.com/posts/openrouter_introducing-fusion-the-smartest-compound-activity-7471706620662812673-lJUS](https://www.linkedin.com/posts/openrouter_introducing-fusion-the-smartest-compound-activity-7471706620662812673-lJUS)
+*   **Grade:** C
+
+---
+
+## 39. `disler/agent-fusion` — Stacey Schneider (LinkedIn)
+*   **Article URL:** [https://www.linkedin.com/posts/schneiderstacey_fable-dropped-yesterday-im-not-trying-it-activity-7470837127140904960-tRFE](https://www.linkedin.com/posts/schneiderstacey_fable-dropped-yesterday-im-not-trying-it-activity-7470837127140904960-tRFE)
+*   **Grade:** C
+
+---
+
+## 40. `disler/agent-fusion` — Ji Chi (LinkedIn)
+*   **Article URL:** [https://www.linkedin.com/posts/jichi_i-made-a-small-codex-skill-called-ask-n-times-activity-7478155793599492096-PrM4](https://www.linkedin.com/posts/jichi_i-made-a-small-codex-skill-called-ask-n-times-activity-7478155793599492096-PrM4)
+*   **Grade:** C

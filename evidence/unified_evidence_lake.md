@@ -6925,3 +6925,513 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 
 ---
 
+
+## Skill: <a name="skill-token-observability"></a>`token-observability` / `gaia-research/skill-cost`
+
+- **Name:** Multi-Harness Token Cost Reporter
+- **Contributor:** `gaia-research`
+- **Tier:** (intake)
+- **Primary Repository:** [https://github.com/gaia-research/skill-cost](https://github.com/gaia-research/skill-cost)
+
+### Base Evidence Rows
+
+#### E1: `repo-own`
+- **Source:** [https://github.com/gaia-research/skill-cost](https://github.com/gaia-research/skill-cost)
+- **Date:** 2026-07-30
+- **Grade:** D
+- **Description:** Repo has 1 star, 0 forks, 0 watchers. stdlib-only Python script (cost.py) parsing session JSONL/SQLite from pi, Claude Code, Codex, opencode, and Hermes Agent. Prices via LiteLLM catalog (prices.json, auto-refreshed weekly). SKILL.md at blob/ path. Stage-1 evidence. (isNew discovery 2026-07-30)
+
+#### E2: `self-attestation`
+- **Source:** [https://research.gaiaskilltree.com/](https://research.gaiaskilltree.com/)
+- **Date:** 2026-07-30
+- **Grade:** D
+- **Estimated Views:** 0
+- **Description:** Gaia Research lab page lists gaia-research/skill-cost as a published, installable skill. Self-attestation from the owning org. No independent third-party endorsement found. (isNew discovery 2026-07-30)
+
+---
+
+## Skill: <a name="skill-format-output"></a>`format-output` / `ayghri/format-output`
+
+- **Name:** i-have-adhd (ADHD-Friendly Output Formatting)
+- **Contributor:** `ayghri`
+- **Tier:** (intake)
+- **Primary Repository:** [https://github.com/ayghri/i-have-adhd](https://github.com/ayghri/i-have-adhd)
+
+### Base Evidence Rows
+
+#### E1: `github-stars-own`
+- **Source:** [https://github.com/ayghri/i-have-adhd](https://github.com/ayghri/i-have-adhd)
+- **Date:** 2026-07-29
+- **Verified Stars:** 13300
+- **Grade:** A
+- **Description:** 13,300 stars and 699 forks as of 2026-07-29. SKILL.md uses correct blob/main/ path. (isNew discovery 2026-07-29)
+
+#### E2: `repo-own`
+- **Source:** [https://github.com/ayghri/i-have-adhd/tree/main/evals](https://github.com/ayghri/i-have-adhd/tree/main/evals)
+- **Date:** 2026-07-29
+- **Grade:** B
+- **Description:** Full evaluation harness: 14 cases, weighted correctness/autonomy/actionability/safety/concision rubric, blind scoring. No published numerical results committed. (isNew discovery 2026-07-29)
+
+### Social Evidence Rows
+
+#### S1: `social-signal`
+- **Source:** [https://medium.com/data-science-collective/how-to-use-claude-adhd-skill-better-than-99-of-people-9876934d8548](https://medium.com/data-science-collective/how-to-use-claude-adhd-skill-better-than-99-of-people-9876934d8548)
+- **Date:** 2026-07-26
+- **Grade:** A
+- **Estimated Views:** 0
+- **Description:** Gao Dalie in Data Science Collective (941K followers). 142 claps. Covers installation and use cases. (isNew discovery 2026-07-29)
+
+#### S2: `social-signal`
+- **Source:** [https://medium.com/@joe.njenga/i-tried-this-claude-code-adhd-skill-that-no-one-is-talking-about-a990a647b1c7](https://medium.com/@joe.njenga/i-tried-this-claude-code-adhd-skill-that-no-one-is-talking-about-a990a647b1c7)
+- **Date:** 2026-07-20
+- **Grade:** B
+- **Estimated Views:** 0
+- **Description:** Joe Njenga (23K followers) — full install walkthrough via claude plugin marketplace. (isNew discovery 2026-07-29)
+
+#### S3: `social-signal`
+- **Source:** [https://new2026.medium.com/how-an-open-source-skill-turns-verbose-coding-agent-answers-into-action-first-instructions-for-410303d35765](https://new2026.medium.com/how-an-open-source-skill-turns-verbose-coding-agent-answers-into-action-first-instructions-for-410303d35765)
+- **Date:** 2026-07-24
+- **Grade:** C
+- **Estimated Views:** 0
+- **Description:** New2026 (251 followers) — 9-min explainer covering all 10 rules, confirms multi-agent support (Claude Code, Codex, Zed). (isNew discovery 2026-07-29)
+
+#### S4: `social-signal`
+- **Source:** [https://www.youtube.com/channel/UCA99nFOwGrggcfEUBpno8cQ](https://www.youtube.com/channel/UCA99nFOwGrggcfEUBpno8cQ)
+- **Date:** 2026-07-29
+- **Grade:** C
+- **Estimated Views:** 652
+- **Description:** roundtable_so YouTube channel (286 subscribers) — ayghri/i-have-adhd video, 652 verified views. (isNew discovery 2026-07-29)
+
+#### S5: `self-attestation`
+- **Source:** [https://www.linkedin.com/posts/matthewcharwood_github-ayghrii-have-adhd-a-skill-for-activity-7484663342012334081-ejHy](https://www.linkedin.com/posts/matthewcharwood_github-ayghrii-have-adhd-a-skill-for-activity-7484663342012334081-ejHy)
+- **Date:** 2026-07-29
+- **Grade:** D
+- **Estimated Views:** 0
+- **Description:** Matthew Harwood LinkedIn post sharing the repo: ADHD-friendly output skill. (isNew discovery 2026-07-29)
+
+---
+
+## Skill: <a name="skill-nextlevelbuilderux-audit"></a>`nextlevelbuilder/ux-audit`
+
+- **Name:** UI/UX Pro Max
+- **Contributor:** `nextlevelbuilder`
+- **Tier:** (intake)
+- **Primary Repository:** [https://github.com/nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill)
+
+### Base Evidence Rows
+
+#### E1: `github-stars-own`
+- **Source:** [https://github.com/nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill)
+- **Date:** 2026-07-29
+- **Verified Stars:** 111000
+- **Grade:** A
+- **Description:** 111k stars and 11.8k forks. SKILL.md at blob/ path. (isNew discovery 2026-07-29)
+
+#### E2: `peer-review`
+- **Source:** [https://arxiv.org/abs/2605.03353](https://arxiv.org/abs/2605.03353)
+- **Date:** 2026-07-29
+- **Grade:** B
+- **Description:** SkCC (ACM CAIS 2026) cites this skill as reference [28] in section 4.1. Pass rate on Claude Code: 21.1% to 33.3%; on Kimi CLI: 35.1% to 48.7%. Indirect citation (test corpus item). (isNew discovery 2026-07-29)
+
+### Social Evidence Rows
+
+#### S1: `social-signal`
+- **Source:** [https://www.youtube.com/watch?v=Pc27ThkuBPQ](https://www.youtube.com/watch?v=Pc27ThkuBPQ)
+- **Date:** 2026-02-04
+- **Grade:** B
+- **Estimated Views:** 28973
+- **Description:** AI Stack Engineer — OpenCode UI/UX Skill tutorial. 28,973 verified views. (isNew discovery 2026-07-29)
+
+#### S2: `social-signal`
+- **Source:** [https://www.youtube.com/watch?v=9cf2-BoWsDc](https://www.youtube.com/watch?v=9cf2-BoWsDc)
+- **Date:** 2026-01-24
+- **Grade:** B
+- **Estimated Views:** 24657
+- **Description:** AI Stack Engineer — Antigravity UI/UX Skill tutorial. 24,657 verified views. (isNew discovery 2026-07-29)
+
+#### S3: `social-signal`
+- **Source:** [https://snyk.io/articles/top-claude-skills-ui-ux-engineers/](https://snyk.io/articles/top-claude-skills-ui-ux-engineers/)
+- **Date:** 2026-07-29
+- **Grade:** A
+- **Estimated Views:** 0
+- **Description:** Snyk lists ui-ux-pro-max at #5 of 8 top Claude skills for UI/UX engineers. High-credibility publisher. (isNew discovery 2026-07-29)
+
+#### S4: `social-signal`
+- **Source:** [https://medium.com/@abhinav.dobhal/the-end-of-ai-slop-how-ui-ux-pro-max-is-solving-the-design-crisis-in-ai-generated-code-bbc23995f0e0](https://medium.com/@abhinav.dobhal/the-end-of-ai-slop-how-ui-ux-pro-max-is-solving-the-design-crisis-in-ai-generated-code-bbc23995f0e0)
+- **Date:** 2026-02-05
+- **Grade:** C
+- **Estimated Views:** 0
+- **Description:** Abhinav Dobhal Medium — covers BM25 ranking, 100 reasoning rules, 13-stack adaptation. (isNew discovery 2026-07-29)
+
+#### S5: `self-attestation`
+- **Source:** [https://dev.to/vertaaux/i-gave-my-ai-agent-a-ux-audit-superpower-cli-mcp-in-5-minutes-58d8](https://dev.to/vertaaux/i-gave-my-ai-agent-a-ux-audit-superpower-cli-mcp-in-5-minutes-58d8)
+- **Date:** 2026-04
+- **Grade:** D
+- **Estimated Views:** 0
+- **Description:** dev.to by Petri Lahdelma / VertaaUX — covers a ux-audit CLI+MCP workflow (not directly this repo). Very low engagement. (isNew discovery 2026-07-29)
+
+---
+
+## Skill: <a name="skill-scroll-world"></a>`scroll-world` / `oso95/scroll-world`
+
+- **Name:** Scroll World
+- **Contributor:** `oso95`
+- **Tier:** (intake)
+- **Primary Repository:** [https://github.com/oso95/scroll-world](https://github.com/oso95/scroll-world)
+
+### Base Evidence Rows
+
+#### E1: `repo-own`
+- **Source:** [https://github.com/oso95/scroll-world](https://github.com/oso95/scroll-world)
+- **Date:** 2026-07-29
+- **Verified Stars:** 5700
+- **Grade:** A
+- **Description:** 5.7k stars, 651 forks. 2,596 stars in 10 days (early growth). SKILL.md at blob/main path. MIT licensed. (isNew discovery 2026-07-29)
+
+### Social Evidence Rows
+
+#### S1: `social-signal`
+- **Source:** [https://www.youtube.com/watch?v=KBH8P0z2AL8](https://www.youtube.com/watch?v=KBH8P0z2AL8)
+- **Date:** 2026-07-15
+- **Grade:** A
+- **Estimated Views:** 64616
+- **Description:** Chase AI (156K subscribers) — dedicated review. 64,616 verified views. Covers Fable 5 vs GPT-5.6 comparison and full workflow. (isNew discovery 2026-07-29)
+
+#### S2: `social-signal`
+- **Source:** [https://www.youtube.com/watch?v=Src-a8GJR20](https://www.youtube.com/watch?v=Src-a8GJR20)
+- **Date:** 2026-07-16
+- **Grade:** A
+- **Estimated Views:** 11008
+- **Description:** Hyperautomation Labs — 11,008 verified views, 381 likes. Covers 3-piece pipeline, seam rule, install, credit math. (isNew discovery 2026-07-29)
+
+#### S3: `social-signal`
+- **Source:** [https://www.chaseai.io/blog/one-shot-scroll-animation-website-ai-skill](https://www.chaseai.io/blog/one-shot-scroll-animation-website-ai-skill)
+- **Date:** 2026-07-12
+- **Grade:** B
+- **Estimated Views:** 0
+- **Description:** Chase AI blog post (8 min read) — full workflow, Fable 5 vs GPT-5.6, cost breakdown. Cross-posted with YouTube video. (isNew discovery 2026-07-29)
+
+#### S4: `social-signal`
+- **Source:** [https://www.youtube.com/watch?v=tnOYNzGb_uA](https://www.youtube.com/watch?v=tnOYNzGb_uA)
+- **Date:** 2026-07-27
+- **Grade:** B
+- **Estimated Views:** 1463
+- **Description:** Korean tutorial by 투쏠 AI 에이전트 — 1,463 verified views. Features scroll-world as Essential Skill 1. International adoption confirmed. (isNew discovery 2026-07-29)
+
+#### S5: `social-signal`
+- **Source:** [https://www.instagram.com/p/DasdkWbgHLN/](https://www.instagram.com/p/DasdkWbgHLN/)
+- **Date:** 2026-07-29
+- **Grade:** C
+- **Estimated Views:** 0
+- **Description:** Instagram post — scroll-world at +405 stars in 7 days among 5 trending repos. (isNew discovery 2026-07-29)
+
+---
+
+## Skill: <a name="skill-agent-reach"></a>`agent-reach` / `Panniantong/agent-reach`
+
+- **Name:** Agent-Reach
+- **Contributor:** `Panniantong`
+- **Tier:** (intake)
+- **Primary Repository:** [https://github.com/Panniantong/Agent-Reach](https://github.com/Panniantong/Agent-Reach)
+
+### Social Evidence Rows
+
+#### S1: `social-signal`
+- **Source:** [https://lobehub.com/skills/panniantong-agent-reach-skill](https://lobehub.com/skills/panniantong-agent-reach-skill)
+- **Date:** 2026-07-29
+- **Grade:** A
+- **Estimated Views:** 10200
+- **Description:** LobeHub Skills Marketplace — 10,200 views, 1,400 installs, 35 reviews, 4.5/5. Note: SKILL.md uses tree/ path (flag for curation). (isNew discovery 2026-07-30)
+
+#### S2: `social-signal`
+- **Source:** [https://www.youtube.com/watch?v=aanqEqQwjNU](https://www.youtube.com/watch?v=aanqEqQwjNU)
+- **Date:** 2026-06
+- **Grade:** A
+- **Estimated Views:** 12681
+- **Description:** Better Stack — dedicated tutorial, install demo, multi-platform routing. 12,681 verified views. (isNew discovery 2026-07-30)
+
+#### S3: `social-signal`
+- **Source:** [https://www.youtube.com/watch?v=GCXBAcJiov8](https://www.youtube.com/watch?v=GCXBAcJiov8)
+- **Date:** 2026-06-15
+- **Grade:** B
+- **Estimated Views:** 452
+- **Description:** Prism Labs — 6m37s deep-dive, 452 verified views. Covers 16+ platform routing, MCP support, trade-offs. (isNew discovery 2026-07-30)
+
+#### S4: `social-signal`
+- **Source:** [https://www.sitepoint.com/agent-reach-giving-your-ai-eyes-on-the-web/](https://www.sitepoint.com/agent-reach-giving-your-ai-eyes-on-the-web/)
+- **Date:** 2026-03-02
+- **Grade:** B
+- **Estimated Views:** 0
+- **Description:** SitePoint full tutorial — installation, React dashboard integration, MCP workflow, best practices. (isNew discovery 2026-07-30)
+
+#### S5: `social-signal`
+- **Source:** [https://medium.com/@lordmoma/six-skills-that-turn-a-coding-agent-into-a-team-b9f6f49e9064](https://medium.com/@lordmoma/six-skills-that-turn-a-coding-agent-into-a-team-b9f6f49e9064)
+- **Date:** 2026-06-21
+- **Grade:** C
+- **Estimated Views:** 0
+- **Description:** David Lee Medium (3.2K followers) — Agent-Reach called harness-agnostic across Codex, Claude Code, Cursor, Gemini CLI. (isNew discovery 2026-07-30)
+
+#### S6: `self-attestation`
+- **Source:** [https://skillsllm.com/skill/agent-reach](https://skillsllm.com/skill/agent-reach)
+- **Date:** 2026-07-30
+- **Grade:** B
+- **Estimated Views:** 0
+- **Description:** SkillsLLM independent directory — 61,933 stars, 5,010 forks. Security scan passed 2026-04-16. Added 2026-02-26. (isNew discovery 2026-07-30)
+
+#### S7: `self-attestation`
+- **Source:** [https://github.com/VoltAgent/awesome-agent-skills](https://github.com/VoltAgent/awesome-agent-skills)
+- **Date:** 2026-07-30
+- **Grade:** C
+- **Estimated Views:** 0
+- **Description:** VoltAgent/awesome-agent-skills curated community collection listing. Ecosystem awareness signal. (isNew discovery 2026-07-30)
+
+---
+
+## Skill: <a name="skill-react-performance-optimization"></a>`react-performance-optimization` / `vercel-labs/vercel-react-best-practices`
+
+- **Name:** Vercel React Best Practices
+- **Contributor:** `vercel-labs`
+- **Tier:** (intake)
+- **Primary Repository:** [https://github.com/vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills)
+
+### Base Evidence Rows
+
+#### E1: `github-stars-own`
+- **Source:** [https://github.com/vercel-labs/agent-skills](https://github.com/vercel-labs/agent-skills)
+- **Date:** 2026-07-30
+- **Verified Stars:** 29600
+- **Grade:** A
+- **Description:** 29,600 stars, 2,700 forks. react-best-practices at skills/react-best-practices/. SKILL.md at blob/ path. 70 rules across 8 categories. (isNew discovery 2026-07-30)
+
+#### E2: `repo-own`
+- **Source:** [https://github.com/vercel-labs/agent-skills/blob/main/skills/react-best-practices/SKILL.md](https://github.com/vercel-labs/agent-skills/blob/main/skills/react-best-practices/SKILL.md)
+- **Date:** 2026-07-30
+- **Grade:** A
+- **Description:** Official SKILL.md at blob/ path. 70 rules across 8 categories: Eliminating Waterfalls (CRITICAL), Bundle Size (CRITICAL), Server-Side (HIGH), Client-Side Data (MEDIUM-HIGH), Re-render (MEDIUM), Rendering (MEDIUM), JS Performance (LOW-MEDIUM), Advanced Patterns (LOW). MIT license. (isNew discovery 2026-07-30)
+
+#### E3: `peer-review`
+- **Source:** [https://arxiv.org/abs/2602.12430](https://arxiv.org/abs/2602.12430)
+- **Date:** 2026-07-30
+- **Grade:** C
+- **Description:** Agent Skills for Large Language Models survey paper. Covers SKILL.md spec and progressive disclosure paradigm used by this skill. Architectural context only, no direct benchmark. (isNew discovery 2026-07-30)
+
+### Social Evidence Rows
+
+#### S1: `social-signal`
+- **Source:** [https://www.youtube.com/watch?v=PkeC2hNQ9Zw](https://www.youtube.com/watch?v=PkeC2hNQ9Zw)
+- **Date:** 2026-01-24
+- **Grade:** B
+- **Estimated Views:** 26698
+- **Description:** BetterStack (177K subscribers) — How I Made Claude Code WAY Better With Vercel Agent Skills. 26,698 verified views. (isNew discovery 2026-07-30)
+
+#### S2: `social-signal`
+- **Source:** [https://www.infoq.com/news/2026/02/vercel-react-best-practices/](https://www.infoq.com/news/2026/02/vercel-react-best-practices/)
+- **Date:** 2026-02-27
+- **Grade:** B
+- **Estimated Views:** 0
+- **Description:** InfoQ editorial news by Daniel Curtis covering the skill launch. High-quality peer-edited tech publication. (isNew discovery 2026-07-30)
+
+#### S3: `social-signal`
+- **Source:** [https://www.marktechpost.com/2026/01/18/vercel-releases-agent-skills-a-package-manager-for-ai-coding-agents-with-10-years-of-react-and-next-js-optimisation-rules/](https://www.marktechpost.com/2026/01/18/vercel-releases-agent-skills-a-package-manager-for-ai-coding-agents-with-10-years-of-react-and-next-js-optimisation-rules/)
+- **Date:** 2026-01-18
+- **Grade:** C
+- **Estimated Views:** 0
+- **Description:** MarkTechPost — covers all three skills including react-best-practices, 40+ rules, npm-style install. (isNew discovery 2026-07-30)
+
+#### S4: `social-signal`
+- **Source:** [https://medium.com/@dorangao/optimizing-a-next-js-codebase-with-cursor-and-vercels-react-best-practices-skill-a263bd2d2f6a](https://medium.com/@dorangao/optimizing-a-next-js-codebase-with-cursor-and-vercels-react-best-practices-skill-a263bd2d2f6a)
+- **Date:** 2026-07-30
+- **Grade:** C
+- **Estimated Views:** 0
+- **Description:** Doran Gao Medium 12-min read — practical walkthrough applying skill to real Next.js codebase. (isNew discovery 2026-07-30)
+
+#### S5: `self-attestation`
+- **Source:** [https://vercel.com/docs/agent-resources/skills](https://vercel.com/docs/agent-resources/skills)
+- **Date:** 2026-07-30
+- **Grade:** B
+- **Estimated Views:** 0
+- **Description:** Vercel official docs listing vercel-react-best-practices with description and skills.sh link. First-party endorsement. (isNew discovery 2026-07-30)
+
+---
+
+## Skill: <a name="skill-static-artwork-design"></a>`static-artwork-design` / `anthropics/canvas-design`
+
+- **Name:** Canvas Design
+- **Contributor:** `anthropics`
+- **Tier:** (intake)
+- **Primary Repository:** [https://github.com/anthropics/skills](https://github.com/anthropics/skills)
+
+### Base Evidence Rows
+
+#### E1: `benchmark-result`
+- **Source:** [https://yingjiahao14.github.io/OpenSkillEval-Web/](https://yingjiahao14.github.io/OpenSkillEval-Web/)
+- **Date:** 2026-07-30
+- **Grade:** A
+- **Description:** OpenSkillEval Poster Generation scores for canvas-design: 3.91+/- (mid), 3.56+/- (low), 4.09+/- (top). Skill delta -2.08. 600+ dynamically generated task instances across 10 models. 27 inline design lines, 15 MUST++/5 NEVER constraints. (isNew discovery 2026-07-30)
+
+#### E2: `arxiv`
+- **Source:** [https://arxiv.org/abs/2605.23657](https://arxiv.org/abs/2605.23657)
+- **Date:** 2026-07-30
+- **Grade:** A
+- **Description:** OpenSkillEval: Automatically Auditing the Open Skill Ecosystem for LLM Agents. Jiahao Ying et al. Submitted 2026-05-22. canvas-design is one of 30+ skills benchmarked. Cited by arXiv:2606.20659 and arXiv:2606.10388. (isNew discovery 2026-07-30)
+
+### Social Evidence Rows
+
+#### S1: `social-signal`
+- **Source:** [https://www.youtube.com/watch?v=Iup1WlUyj9M](https://www.youtube.com/watch?v=Iup1WlUyj9M)
+- **Date:** 2026-03-09
+- **Grade:** A
+- **Estimated Views:** 245613
+- **Description:** How to Use Claude Skills as a Designer — 245,613 verified views. Dedicated Canvas Design chapter at 5:36 with live demos. (isNew discovery 2026-07-30)
+
+#### S2: `social-signal`
+- **Source:** [https://simonwillison.net/2025/Oct/16/claude-skills/](https://simonwillison.net/2025/Oct/16/claude-skills/)
+- **Date:** 2025-10-16
+- **Grade:** B
+- **Estimated Views:** 0
+- **Description:** Simon Willison high-authority developer blog covering anthropics/skills launch including canvas-design. (isNew discovery 2026-07-30)
+
+#### S3: `social-signal`
+- **Source:** [https://medium.com/@surajkhaitan16/i-tried-100-claude-skills-these-are-the-best-639e419b0325](https://medium.com/@surajkhaitan16/i-tried-100-claude-skills-these-are-the-best-639e419b0325)
+- **Date:** 2026-07-30
+- **Grade:** C
+- **Estimated Views:** 0
+- **Description:** Medium roundup listing canvas-design as producing HTML5 canvas compositions for marketing assets. (isNew discovery 2026-07-30)
+
+#### S4: `self-attestation`
+- **Source:** [https://snyk.io/articles/top-claude-skills-ar-vr-developers-unity-webxr-spatial-computing/](https://snyk.io/articles/top-claude-skills-ar-vr-developers-unity-webxr-spatial-computing/)
+- **Date:** 2026-02
+- **Grade:** C
+- **Estimated Views:** 0
+- **Description:** Snyk article lists Anthropic Canvas & Frontend Design at #7 for AR/VR developers, citing 66,460 stars. (isNew discovery 2026-07-30)
+
+---
+
+## Skill: <a name="skill-opinion"></a>`opinion` / `disler/opinion`
+
+- **Name:** /opinion (fusion-harness)
+- **Contributor:** `disler`
+- **Tier:** (intake)
+- **Primary Repository:** [https://github.com/disler/fusion-harness](https://github.com/disler/fusion-harness)
+
+### Social Evidence Rows
+
+#### S1: `social-signal`
+- **Source:** [https://www.youtube.com/watch?v=AQl5Q-0l7FQ](https://www.youtube.com/watch?v=AQl5Q-0l7FQ)
+- **Date:** 2026-07-20
+- **Grade:** B
+- **Estimated Views:** 34833
+- **Description:** IndyDevDan (142K subscribers) demos /opinion command — both models answer in parallel, results side-by-side. 34,833 verified views. (isNew discovery 2026-07-29)
+
+#### S2: `self-attestation`
+- **Source:** [https://note.com/humble_bobcat51/n/n540d5333d005](https://note.com/humble_bobcat51/n/n540d5333d005)
+- **Date:** 2026-07-25
+- **Grade:** D
+- **Estimated Views:** 0
+- **Description:** Japanese-language analysis of fusion-harness covering /opinion as part of AND-not-OR model fusion. 8 likes. (isNew discovery 2026-07-29)
+
+---
+
+## Skill: <a name="skill-plan-synthesis"></a>`plan-synthesis` / `merged-plan`
+
+- **Name:** /fusion (merged-plan, fusion-harness)
+- **Contributor:** `disler`
+- **Tier:** (intake)
+- **Primary Repository:** [https://github.com/disler/fusion-harness](https://github.com/disler/fusion-harness)
+
+### Social Evidence Rows
+
+#### S1: `social-signal`
+- **Source:** [https://www.youtube.com/watch?v=AQl5Q-0l7FQ](https://www.youtube.com/watch?v=AQl5Q-0l7FQ)
+- **Date:** 2026-07-20
+- **Grade:** B
+- **Estimated Views:** 34833
+- **Description:** IndyDevDan author showcase — runs two models in parallel then merges via /opinion, /fusion, /autovalidate. 34,833 verified views. (isNew discovery 2026-07-29)
+
+#### S2: `social-signal`
+- **Source:** [https://www.learningatlas.us/learning/video/AQl5Q-0l7FQ](https://www.learningatlas.us/learning/video/AQl5Q-0l7FQ)
+- **Date:** 2026-07-29
+- **Grade:** C
+- **Estimated Views:** 0
+- **Description:** Learning Atlas editorial independently indexed and summarised the IndyDevDan fusion-harness video. (isNew discovery 2026-07-29)
+
+#### S3: `self-attestation`
+- **Source:** [https://www.linkedin.com/posts/alexander-talavera-karslake_anyone-that-thinks-they-can-run-a-local-model-activity-7483858611954290688-N5rb](https://www.linkedin.com/posts/alexander-talavera-karslake_anyone-that-thinks-they-can-run-a-local-model-activity-7483858611954290688-N5rb)
+- **Date:** 2026-07-29
+- **Grade:** D
+- **Estimated Views:** 0
+- **Description:** LinkedIn post — fusion-harness as potential standard open-source architecture for multi-model output merging. (isNew discovery 2026-07-29)
+
+---
+
+## Skill: <a name="skill-auto-review"></a>`auto-review` / `auto-validate`
+
+- **Name:** /autovalidate (fusion-harness)
+- **Contributor:** `disler`
+- **Tier:** (intake)
+- **Primary Repository:** [https://github.com/disler/fusion-harness](https://github.com/disler/fusion-harness)
+
+### Social Evidence Rows
+
+#### S1: `social-signal`
+- **Source:** [https://www.youtube.com/watch?v=AQl5Q-0l7FQ](https://www.youtube.com/watch?v=AQl5Q-0l7FQ)
+- **Date:** 2026-07-20
+- **Grade:** A
+- **Estimated Views:** 34833
+- **Description:** IndyDevDan (136K subscribers) demos /autovalidate: 'one agent authors a validation gate that PROVES the work is done, while the other agent builds against it.' 34,833 verified views. (isNew discovery 2026-07-29)
+
+---
+
+## Skill: <a name="skill-disleragent-fusion"></a>`disler/agent-fusion`
+
+- **Name:** fusion-harness (agent fusion suite)
+- **Contributor:** `disler`
+- **Tier:** (intake)
+- **Primary Repository:** [https://github.com/disler/fusion-harness](https://github.com/disler/fusion-harness)
+
+### Base Evidence Rows
+
+#### E1: `repo-own`
+- **Source:** [https://github.com/disler/fusion-harness](https://github.com/disler/fusion-harness)
+- **Date:** 2026-07-29
+- **Verified Stars:** 238
+- **Grade:** B
+- **Description:** Created 2026-07-16. 238 stars, 51 forks, sole contributor. 3 suite commands (/opinion, /fusion, /auto-validate). Architect/builder/fusion-agent pattern. References Aider architect/editor, Devin fusion, OpenRouter fusion as prior art. Clean-room child spawns, gate-first validation. (isNew discovery 2026-07-29)
+
+#### E2: `benchmark-result`
+- **Source:** [https://openrouter.ai/blog/announcements/fusion-beats-frontier/](https://openrouter.ai/blog/announcements/fusion-beats-frontier/)
+- **Date:** 2026-06-12
+- **Grade:** A
+- **Description:** OpenRouter DRACO benchmark (100 deep-research tasks) — Fable 5 + GPT-5.5 fused 69.0% vs solo 65.3%; budget panel 64.7% vs GPT-5.5 solo 60.0%. fusion-harness README cites this directly. Validates the architectural pattern, not the harness itself. (isNew discovery 2026-07-29)
+
+### Social Evidence Rows
+
+#### S1: `social-signal`
+- **Source:** [https://www.youtube.com/watch?v=AQl5Q-0l7FQ](https://www.youtube.com/watch?v=AQl5Q-0l7FQ)
+- **Date:** 2026-07-20
+- **Grade:** A
+- **Estimated Views:** 34833
+- **Description:** IndyDevDan — directly showcasing fusion-harness codebase. Linked in README as primary walkthrough. 34,833 verified views. (isNew discovery 2026-07-29)
+
+#### S2: `social-signal`
+- **Source:** [https://www.linkedin.com/posts/openrouter_introducing-fusion-the-smartest-compound-activity-7471706620662812673-lJUS](https://www.linkedin.com/posts/openrouter_introducing-fusion-the-smartest-compound-activity-7471706620662812673-lJUS)
+- **Date:** 2026-07-29
+- **Grade:** C
+- **Estimated Views:** 0
+- **Description:** OpenRouter LinkedIn post — community comments reference fusion-harness and request opensourcing. (isNew discovery 2026-07-29)
+
+#### S3: `social-signal`
+- **Source:** [https://www.linkedin.com/posts/schneiderstacey_fable-dropped-yesterday-im-not-trying-it-activity-7470837127140904960-tRFE](https://www.linkedin.com/posts/schneiderstacey_fable-dropped-yesterday-im-not-trying-it-activity-7470837127140904960-tRFE)
+- **Date:** 2026-07-29
+- **Grade:** C
+- **Estimated Views:** 0
+- **Description:** Stacey Schneider LinkedIn — references fusion-harness as potential standard model-fusion architecture. (isNew discovery 2026-07-29)
+
+#### S4: `social-signal`
+- **Source:** [https://www.linkedin.com/posts/jichi_i-made-a-small-codex-skill-called-ask-n-times-activity-7478155793599492096-PrM4](https://www.linkedin.com/posts/jichi_i-made-a-small-codex-skill-called-ask-n-times-activity-7478155793599492096-PrM4)
+- **Date:** 2026-07-29
+- **Grade:** C
+- **Estimated Views:** 0
+- **Description:** Ji Chi LinkedIn — echoes fusion-harness opensourcing, references as potentially standard multi-agent composition architecture. (isNew discovery 2026-07-29)
+
+---
