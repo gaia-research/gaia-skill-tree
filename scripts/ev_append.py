@@ -54,6 +54,7 @@ import argparse
 import json
 import os
 import re
+import urllib.parse
 import sys
 
 REPOROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -76,9 +77,13 @@ HASHHASHHASH = {BENCHMARKPATH, ACADEMICPATH}
 
 
 def isyoutube(url):
-    """True when the URL points at YouTube."""
-    lowered = (url or "").lower()
-    return "youtube.com" in lowered or "youtu.be" in lowered
+    """True when the URL's registered hostname is youtube.com or youtu.be."""
+    try:
+        host = urllib.parse.urlparse(url or "").hostname or ""
+    except ValueError:
+        return False
+    host = host.lower()
+    return host == "youtube.com" or host.endswith(".youtube.com") or host == "youtu.be"
 
 
 def targetfor(row):
