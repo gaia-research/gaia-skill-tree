@@ -465,7 +465,6 @@ def test_built_wheel_contains_only_python_package_data(tmp_path):
         ".pyc",
         "scratch/",
         "packages/cli-npm/",
-        "packages/mcp/",
         "gaia_cli.egg-info/",
         "registry/gaia.gexf",
         "registry/render/",

@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to GAIA are documented in this file. Versions follow semver (MAJOR.MINOR.PATCH); the four manifests (`pyproject.toml`, `packages/cli-npm/package.json`, `packages/mcp/package.json`, `registry/gaia.json`) move in lockstep.
+All notable changes to GAIA are documented in this file. Versions follow semver (MAJOR.MINOR.PATCH); the three manifests (`pyproject.toml`, `packages/cli-npm/package.json`, `registry/gaia.json`) move in lockstep.
 
 ## [7.0.0] - 2026-07-26
 

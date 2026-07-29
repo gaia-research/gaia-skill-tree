@@ -40,18 +40,20 @@ def read_versions(root: str | Path) -> dict[str, str]:
     # `verify_lockstep` enforced. They were the dominant source of
     # cross-PR lockstep failures because nothing reads them at runtime
     # — they're pure decoration. As of v5.0.13 the version field is
-    # stripped from Class S; only the four real manifests participate
+    # stripped from Class S; only the three real manifests participate
     # in lockstep. See CLAUDE.md "Versioning" + Issue #807 for context.
+    #
+    # `packages/mcp/package.json` was a fourth participant until the
+    # `packages/mcp` prototype was deleted (it was never published; the real
+    # server is the standalone `@gaia-research/mcp`). Do not re-add it.
     files = {
         "pyproject": root / "pyproject.toml",
         "cliNPM": root / "packages" / "cli-npm" / "package.json",
-        "mcp": root / "packages" / "mcp" / "package.json",
         "registry": Path(registry_graph_path(root)),
     }
     versions = {
         "pyproject": _read_pyproject_version(files["pyproject"]),
         "cliNPM": json.loads(files["cliNPM"].read_text(encoding="utf-8"))["version"],
-        "mcp": json.loads(files["mcp"].read_text(encoding="utf-8"))["version"],
     }
     if files["registry"].exists():
         versions["registry"] = json.loads(files["registry"].read_text(encoding="utf-8"))["version"]
@@ -98,7 +100,6 @@ def sync_versions(root: str | Path, version: str) -> str:
     root = Path(root)
     _replace_pyproject_version(root / "pyproject.toml", version)
     _replace_package_version(root / "packages" / "cli-npm" / "package.json", version)
-    _replace_package_version(root / "packages" / "mcp" / "package.json", version)
     _replace_registry_version(Path(registry_graph_path(root)), version)
     # docs/graph/gaia.json (Class S) no longer participates in lockstep;
     # version is a decorative leftover slated for removal. Strip the key

@@ -1,46 +1,57 @@
-"""Tests for execute_dev_mcp."""
+"""Tests for execute_dev_mcp.
+
+`packages/mcp` (the in-repo prototype MCP server) was deleted — it was never
+published. `gaia dev mcp` no longer spawns a local node daemon; it prints how to
+install the standalone, published `@gaia-research/mcp` npm package. These tests
+lock that in: no subprocess, no `start`/`stop`/`status` verbs, exit 0, and the
+printed instructions must name the package that actually exists.
+"""
 
 import argparse
-import sys
+import subprocess
 from pathlib import Path
+
 import pytest
+
 from gaia_cli.commands import mcp_cmd
+
 pytestmark = [pytest.mark.integration]
 
 
-def test_execute_dev_mcp_missing_build(tmp_path: Path, monkeypatch, capsys):
-    args = argparse.Namespace(mcp_command="start", registry=tmp_path)
-    
-    # Do not create daemon.js so it fails
-    with pytest.raises(SystemExit) as exc:
-        mcp_cmd.execute_dev_mcp(args)
-    
-    assert exc.value.code == 1
-    err = capsys.readouterr().err
-    assert "MCP server build not found" in err
+def test_execute_dev_mcp_prints_standalone_instructions(tmp_path: Path, capsys):
+    args = argparse.Namespace(registry=tmp_path)
+
+    assert mcp_cmd.execute_dev_mcp(args) == 0
+
+    out = capsys.readouterr().out
+    assert "@gaia-research/mcp@0.1.0" in out
+    assert "claude mcp add gaia" in out
+    assert "github.com/gaia-research/gaia-mcp" in out
+    # The unpublished names must never come back.
+    assert "@gaia-registry/mcp-server" not in out
+    assert "packages/mcp" not in out
 
 
-def test_execute_dev_mcp_success(tmp_path: Path, monkeypatch):
-    args = argparse.Namespace(mcp_command="start", registry=tmp_path)
-    
-    # Create fake daemon.js
-    script_path = tmp_path / "packages" / "mcp" / "dist" / "src" / "daemon.js"
-    script_path.parent.mkdir(parents=True, exist_ok=True)
-    script_path.touch()
-    
-    # Mock load_config
-    monkeypatch.setattr("gaia_cli.scanner.load_config", lambda: {"gaiaUser": "test_user"})
-    
-    called_cmds = []
-    import subprocess
-    monkeypatch.setattr(subprocess, "call", lambda cmd, env: called_cmds.append((cmd, env)) or 0)
-    
-    res = mcp_cmd.execute_dev_mcp(args)
-    
-    assert res == 0
-    assert len(called_cmds) == 1
-    cmd, env = called_cmds[0]
-    
-    assert cmd == ["node", str(script_path), "start"]
-    assert env["GAIA_USER"] == "test_user"
-    assert env["GAIA_REGISTRY_PATH"] == str(tmp_path)
+def test_execute_dev_mcp_spawns_no_subprocess(tmp_path: Path, monkeypatch):
+    """No local daemon exists to launch, so nothing may be exec'd."""
+    args = argparse.Namespace(registry=tmp_path)
+
+    def _boom(*a, **kw):  # pragma: no cover - only runs on regression
+        raise AssertionError(f"gaia dev mcp must not spawn a subprocess: {a}")
+
+    monkeypatch.setattr(subprocess, "call", _boom)
+    monkeypatch.setattr(subprocess, "run", _boom)
+    monkeypatch.setattr(subprocess, "Popen", _boom)
+
+    assert mcp_cmd.execute_dev_mcp(args) == 0
+
+
+def test_dev_mcp_has_no_daemon_subcommands():
+    """`start`/`stop`/`status` are gone with the prototype they drove."""
+    from gaia_cli.commands.dev import DevCommand
+
+    parser = argparse.ArgumentParser(prog="gaia dev")
+    DevCommand().configure(parser)
+
+    with pytest.raises(SystemExit):
+        parser.parse_args(["mcp", "start"])

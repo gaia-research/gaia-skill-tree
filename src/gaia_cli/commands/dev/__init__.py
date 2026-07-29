@@ -800,13 +800,13 @@ class DevCommand(Command):
             help="Skip rebuilding docs and graph assets after fusing.",
         )
 
-        dev_mcp = dev_sub.add_parser(
-            "mcp", help="Manage or run the bundled Gaia MCP server"
+        # The bundled `packages/mcp` prototype was deleted; there is no local
+        # daemon to start/stop. The shipped server is the standalone npm
+        # package `@gaia-research/mcp`, so this verb only prints instructions.
+        dev_sub.add_parser(
+            "mcp",
+            help="Show install/run instructions for the standalone @gaia-research/mcp server",
         )
-        dev_mcp_sub = dev_mcp.add_subparsers(dest="mcp_command")
-        dev_mcp_sub.add_parser("start", help="Start the MCP daemon")
-        dev_mcp_sub.add_parser("stop", help="Stop the MCP daemon")
-        dev_mcp_sub.add_parser("status", help="Get MCP daemon status")
 
         dev_hook = dev_sub.add_parser(
             "hook", help="Internal command invoked by Claude Code hook"

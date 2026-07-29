@@ -2,23 +2,35 @@
 
 The Gaia CLI integrates local development repositories and CI pipelines with the Gaia Skill Registry.
 
-> **Prefer the MCP server?** If you use Claude Code, Cursor, or any MCP-compatible agent, see [`packages/mcp/`](../mcp/) for agent-native integration.
+> **Prefer the MCP server?** If you use Claude Code, Cursor, or any MCP-compatible
+> agent, install the standalone server — it is published on npm as
+> `@gaia-research/mcp` (v0.1.0, binary `gaia-mcp`):
+>
+> ```bash
+> claude mcp add gaia -- npx -y @gaia-research/mcp@0.1.0
+> ```
+>
+> v0.1.0 is **read-only Registry mode** — it reads the public registry and cannot
+> install, fuse, or mutate skills. It ships three tools: `gaia_search`,
+> `gaia_inspect`, and `gaia_status`. For anything that writes, use this CLI.
+> Source: <https://github.com/gaia-research/gaia-mcp>.
 
 ## Installation
 
-Install the Gaia CLI wrapper via npm:
-
-```bash
-npm install -g @gaia-registry/cli
-# or locally
-npm install @gaia-registry/cli
-```
-
-Python users can install the core CLI directly instead:
+**Install the CLI from PyPI:**
 
 ```bash
 pip install gaia-cli
 ```
+
+That is the published, supported install path — `gaia-cli` is on PyPI and is the
+package every `gaia` command in this document comes from.
+
+This npm wrapper (`@gaia-registry/cli`) is **not published to npm**. There is no
+`npm install` line for it, because there is nothing on the registry to install.
+It is built and exercised from a source checkout only (see *Local Development*
+below). If you want Gaia on a Node-only machine, `pip install gaia-cli` is still
+the answer — the wrapper delegates to the same Python implementation anyway.
 
 ## Requirements
 
