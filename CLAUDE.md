@@ -261,6 +261,7 @@ Bot actors (`*[bot]`, `jules`, `codex`, `claude-bot`, `gemini-bot`) are always a
 | `review/gaia-push/...` | Intake layer (`gaia push`) | `registry-for-review/`, `*.md` |
 | `review/meta/...` | Registry curation/promotion | `registry/`, `*.md` |
 | `dev/...`, `claude/...`, `codex/...`, `gemini/...` | Experimental (unrestricted) | any |
+| `integration/...` | Assembly point for multi-PR work | any (unrestricted) — see § Integration branches |
 | `infra/...` | CI/tooling changes | `.github/`, `scripts/`, `docs/*.html`, `*.md` |
 
 CI enforces scope via `.github/workflows/branch-scope.yml`. Schema changes (`registry/schema/`) MUST use a `schema/` branch. Label `skip-scope-check` to bypass in emergencies.
