@@ -97,3 +97,82 @@ This report details YouTube videos, showcases, tutorials, and interviews of key 
 *   **Video URL:** `https://www.youtube.com/watch?v=k5f2uP33u5g`
 *   **Channel Name:** Full Stack (Validated Third-Party Walkthrough)
 *   **Description:** This video details the "Impeccable" design steering skill built by Paul Bakaus. It showcases how to use Impeccable's design vocabulary modules (colors, typography, responsive design, spatial layout) to steer AI coding assistants like Claude Code away from generic "AI slop" frontends.
+
+---
+
+<!-- appended: 2026-07-29 -->
+
+## 13. `format-output` — roundtable_so
+*   **Video Title:** [roundtable_so](https://www.youtube.com/channel/UCA99nFOwGrggcfEUBpno8cQ)
+*   **Video URL:** `https://www.youtube.com/channel/UCA99nFOwGrggcfEUBpno8cQ`
+*   **Grade:** C
+
+---
+
+## 14. `nextlevelbuilder/ux-audit` — AI Stack Engineer (OpenCode, Feb 2026)
+*   **Video Title:** [AI Stack Engineer (OpenCode, Feb 2026)](https://www.youtube.com/watch?v=Pc27ThkuBPQ)
+*   **Video URL:** `https://www.youtube.com/watch?v=Pc27ThkuBPQ`
+*   **Grade:** B
+
+---
+
+## 15. `nextlevelbuilder/ux-audit` — AI Stack Engineer (Antigravity, Jan 2026)
+*   **Video Title:** [AI Stack Engineer (Antigravity, Jan 2026)](https://www.youtube.com/watch?v=9cf2-BoWsDc)
+*   **Video URL:** `https://www.youtube.com/watch?v=9cf2-BoWsDc`
+*   **Grade:** B
+
+---
+
+## 16. `scroll-world` — Chase AI
+*   **Video Title:** [Chase AI](https://www.youtube.com/watch?v=KBH8P0z2AL8)
+*   **Video URL:** `https://www.youtube.com/watch?v=KBH8P0z2AL8`
+*   **Grade:** A
+
+---
+
+## 17. `scroll-world` — Hyperautomation Labs
+*   **Video Title:** [Hyperautomation Labs](https://www.youtube.com/watch?v=Src-a8GJR20)
+*   **Video URL:** `https://www.youtube.com/watch?v=Src-a8GJR20`
+*   **Grade:** A
+
+---
+
+## 18. `scroll-world` — 투쏠 AI 에이전트 (Korean)
+*   **Video Title:** [투쏠 AI 에이전트 (Korean)](https://www.youtube.com/watch?v=tnOYNzGb_uA)
+*   **Video URL:** `https://www.youtube.com/watch?v=tnOYNzGb_uA`
+*   **Grade:** B
+
+---
+
+## 19. `agent-reach` — Better Stack
+*   **Video Title:** [Better Stack](https://www.youtube.com/watch?v=aanqEqQwjNU)
+*   **Video URL:** `https://www.youtube.com/watch?v=aanqEqQwjNU`
+*   **Grade:** A
+
+---
+
+## 20. `agent-reach` — Prism Labs
+*   **Video Title:** [Prism Labs](https://www.youtube.com/watch?v=GCXBAcJiov8)
+*   **Video URL:** `https://www.youtube.com/watch?v=GCXBAcJiov8`
+*   **Grade:** B
+
+---
+
+## 21. `react-performance-optimization` — BetterStack
+*   **Video Title:** [BetterStack](https://www.youtube.com/watch?v=PkeC2hNQ9Zw)
+*   **Video URL:** `https://www.youtube.com/watch?v=PkeC2hNQ9Zw`
+*   **Grade:** B
+
+---
+
+## 22. `static-artwork-design` — How to Use Claude Skills as a Designer
+*   **Video Title:** [How to Use Claude Skills as a Designer](https://www.youtube.com/watch?v=Iup1WlUyj9M)
+*   **Video URL:** `https://www.youtube.com/watch?v=Iup1WlUyj9M`
+*   **Grade:** A
+
+---
+
+## 23. `opinion` — IndyDevDan
+*   **Video Title:** [IndyDevDan](https://www.youtube.com/watch?v=AQl5Q-0l7FQ)
+*   **Video URL:** `https://www.youtube.com/watch?v=AQl5Q-0l7FQ`
+*   **Grade:** A

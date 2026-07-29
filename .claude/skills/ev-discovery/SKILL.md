@@ -127,34 +127,78 @@ not guessed:
 firecrawl scrape "<url>" -o /tmp/ev-discovery-hit.md
 ```
 
-### Step 4 — Append fresh rows into the correct collector file
+### Step 4 — Build a JSON row per discovery and run `ev_append.py`
 
-Append each discovered source as a **fresh row** in the exact block format the
-compiler (`evidence/scripts/compile_data_lake.py`) reads. The compiler matches a
-block to a skill when the block's header title **contains the skill id** (or the
-id contains the title), so every appended block header MUST carry the skill id
-in backticks.
+For each discovered source, build a JSON object with all fields you were able
+to scrape from the page. **Do not hand-write collector blocks directly** —
+`ev_append.py` is the canonical append path; it handles numbering, dedup,
+date-stamping, and correct block format for each file type.
 
-Block delimiters per file (match the existing rows — inspect the file before
-appending):
+**JSON row schema:**
 
-- `technical/academic_papers.md` — detail blocks start with `### ` (e.g.
-  `### N. \`<skill-id>\``)
-- `technical/benchmark_results.md` — detail blocks start with `### `
-- `technical/peer_reviews_audits.md` — blocks start with `## `
-- `social/blogs_newsletters.md` — blocks start with `### `
-- `social/youtube_showcases.md` — blocks start with `## `; the compiler matches
-  these by **contributor** appearing in the title, so lead with the contributor
-  handle.
+```json
+{
+  "skillId":      "safishamsi/graphify",
+  "namedSlug":    "safishamsi/graphify",
+  "evidenceType": "arxiv",
+  "url":          "https://arxiv.org/abs/2408.03910",
+  "title":        "CodexGraph: Bridging LLMs and Code Repositories via Code Graph Databases",
+  "notes":        "Foundational methodology paper for AST-guided code graph queries — directly models Graphify's approach.",
+  "grade":        "A",
+  "isNew":        true,
+  "citations":    89,
+  "reviewers":    null,
+  "percentile":   null,
+  "views":        null,
+  "likes":        null,
+  "comments":     null
+}
+```
 
-Keep the body factual (title, author/date, URL, a one-line relevance note) —
-strip evaluative language so the Phase 3 adversarial audit does not flag it.
-Use `blob/<branch>/<path>` for any GitHub URL, never `tree/`.
+**TM numeric fields — scrape these during Step 3 (same page, no extra call):**
 
-**Do NOT add the `<!-- injected: … -->` comment.** That flag is written by
-`ev-collection` after it compiles a row. Phase 0's job is to leave fresh,
-unmarked rows so `ev-collection` picks them up on its next pass. Marking them
-here would make the compiler skip your discoveries.
+| Field | Relevant type | Where to find it | If not visible |
+|---|---|---|---|
+| `citations` | `arxiv` | arXiv abstract page — "Cited by N" or Semantic Scholar count | `null` |
+| `reviewers` | `peer-review` | Journal/conference page — reviewer/committee count | `null` |
+| `percentile` | `benchmark-result` | Leaderboard page — rank percentile among submissions | `null` |
+| `views` | `social-signal` | YouTube: always present. Blog: visible on some platforms (dev.to, Substack) | `null` |
+| `likes` | `social-signal` (YouTube only) | YouTube like count | `null` |
+| `comments` | `social-signal` (YouTube only) | YouTube comment count | `null` |
+| `provenance` | `benchmark-result` | Always `"mirrored"` for Phase 0 discoveries — web-scraped leaderboard/blog pages are citation-only | Always `"mirrored"` |
+
+> **benchmark-result provenance is always `mirrored` from Phase 0.** Web-scraped benchmark pages are citation-only copies of external leaderboard results — `provenance: "mirrored"` is the only honest value, and mirrored rows are **excluded from Trust Magnitude entirely** (trustMagnitude.py returns None before the percentile formula is reached). Scraping `percentile` from these pages is therefore wasted effort. Include the URL as a citation breadcrumb, set `provenance: "mirrored"`, and leave `percentile: null`. To get a TM-contributing benchmark row, a contributor must run the harness in CI (`ci-reproduced`) or have a 4★+ verifier co-sign (`verifier-attested`) — that work happens outside Phase 0.
+
+**Judgment rule for `views`:** YouTube always has a view count — always scrape it.
+For non-YouTube pages: if a numeric view/read count is visibly rendered on the
+scraped markdown, record it; otherwise leave `null`. Do not estimate or infer.
+A `null` is honest and scores 0 TM; a fabricated number is a registry corruption.
+
+> **Model routing:** Steps 1–3 (query building, Firecrawl search/scrape) and
+> building the JSON rows are mechanical — a fast/cheap model is sufficient.
+> The one judgment call is relevance assessment (does this paper actually support
+> the skill's technique?). If routing phases, use a capable model for relevance
+> and a fast model for the scraping + JSON serialisation.
+
+**Save rows to a temp file and run the script:**
+
+```bash
+# Save discovered rows
+cat > /tmp/ev_discovery_rows.json << 'EOF'
+[ ... your rows ... ]
+EOF
+
+# Dry-run first
+python3 scripts/ev_append.py --dry-run --input /tmp/ev_discovery_rows.json
+
+# Write if output looks correct
+python3 scripts/ev_append.py --input /tmp/ev_discovery_rows.json
+```
+
+The script writes `<!-- appended: YYYY-MM-DD -->` date-stamps above new rows and
+skips any URL already present (dedup). It does **not** add the
+`<!-- injected: … -->` comment — that is written by `ev-collection` after
+compilation. Do not add that comment manually.
 
 ### Step 5 — Hand off to Phase 1
 
