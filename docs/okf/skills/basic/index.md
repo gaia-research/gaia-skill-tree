@@ -2,7 +2,9 @@
 
 * [API Call](/api-call.md) - A fundamental skill that enables agents to interact with external services via HTTP API calls.
 * [Adaptive Pattern Learning](/adaptive-pattern-learning.md) - Implements adaptive learning through pattern recognition and strategy optimization.
+* [Agent Reach](/agent-reach.md) - Gives an AI agent internet access by routing web requests across 16+ platforms with MCP support and harness-agnostic integration.
 * [Audience Model](/audience-model.md) - Adapts tone, complexity, and framing of output to match a target audience profile.
+* [Auto-Review](/auto-review.md) - Automatically review and gate agent outputs by writing and executing a self-authored acceptance script, combining self-critique with pre-completion verification.
 * [Autonomous Engineering Platform](/autonomous-engineering-platform.md) - An autonomous engineering platform integrating chat, specs, tasks, and code for full agentic software delivery.
 * [Bioinformatic Sequence Analysis](/bioinformatic-sequence-analysis.md) - Performs biological sequence alignment, similarity searches, multiple sequence alignment (MSA), and genomic variant analysis using standard bioinformatics tools and databases.
 * [Browser Control](/browser-control.md) - A foundational skill for interacting directly with the web browser using Chrome DevTools Protocol (CDP).
@@ -60,12 +62,14 @@
 * [Multi-Repo Coordination](/multi-repo-coordination.md) - Manages synchronized operations across multiple repositories including cross-repo PRs, dependency tracking, and bulk workflow automation.
 * [OCR](/optical-character-recognition.md) - Extracts machine-readable text from raster images, scanned pages, and photo documents using optical character recognition, preserving layout and handling skew, noise, and varied fonts.
 * [Object Detection](/object-detection.md) - Locates and classifies multiple objects within images by producing bounding boxes, confidence scores, and category labels in a single forward pass.
+* [Opinion](/opinion.md) - Formulate and articulate a strong, reasoned opinion or recommendation as a discrete agent step, avoiding model selection bias and decision paralysis.
 * [Parallel Execution](/parallel-execution.md) - Decompose a task into independent sub-tasks and execute them concurrently, merging results with configurable concurrency limits and queue-based state tracking.
 * [Parse HTML](/parse-html.md) - Extracts structured content from raw HTML, navigating DOM trees and handling malformed markup.
 * [Parse JSON](/parse-json.md) - Extracts structured data from JSON-formatted input, handling nested objects and arrays.
 * [Parse PDF](/parse-pdf.md) - Extracts text, tables, equations, and structure from PDF documents, preserving layout and reading order.
 * [Pathway Ontology Retrieval](/pathway-ontology-retrieval.md) - Queries, parses, and resolves biological pathway models, cellular reactions, and hierarchical ontology metadata from pathway and ontology search systems (e.g., Reactome, QuickGO, EMBL-EBI OLS).
 * [Performance Tuning](/performance-tuning.md) - Profiles execution hotspots, measures throughput and latency, and applies targeted optimizations to reduce resource consumption.
+* [Plan Synthesis](/plan-synthesis.md) - Combine two or more independently produced plans into a single attributed result, resolving conflicts and surfacing consensus and divergence.
 * [Plan and Decompose](/plan-decompose.md) - Breaks a complex objective into an ordered sequence of executable sub-tasks.
 * [Probabilistic Programming](/probabilistic-programming.md) - Specifies Bayesian models and runs inference (MCMC/NUTS, variational) to quantify epistemic and aleatoric uncertainty using PyMC, Stan, Pyro, or NumPyro.
 * [Prompt Injection Defense](/prompt-injection-defense.md) - Detects and neutralizes adversarial instructions injected into agent context from untrusted external sources (indirect prompt injection), using techniques such as context isolation, hierarchical intent verification, or semantic consistency checks.
@@ -73,6 +77,7 @@
 * [Proteomic Data Retrieval](/proteomic-data-retrieval.md) - Queries and retrieves amino acid sequences, protein families, functional domains, tissue distribution, and protein-protein interactions from proteomic repositories (e.g. UniProt, InterPro, Human Protein Atlas, STRING).
 * [Question Answer](/question-answer.md) - Produces accurate, context-grounded answers to natural-language questions, handling unanswerable cases.
 * [Rank](/rank.md) - Orders a set of candidate items by relevance, quality, or fitness for a given objective.
+* [React Performance Optimization](/react-performance-optimization.md) - Optimizes component rendering, data fetching, and bundle composition in React applications while preserving requested behavior.
 * [Refactor Code](/refactor-code.md) - Restructures existing source code to improve readability, maintainability, or performance without changing observable behavior.
 * [Requirements Analysis](/requirements-analysis.md) - Elicit and structure requirements from stakeholder inputs into formal specifications — user stories, acceptance criteria, and traceability matrices.
 * [Retrieve](/retrieve.md) - Fetches relevant documents or passages from an indexed corpus given a query.
@@ -81,6 +86,7 @@
 * [Schema Design](/schema-design.md) - Design database schemas across relational, NoSQL, graph, and time-series stores — entity modelling, normalization, indexing strategies, and migration planning.
 * [Scientific Visualization](/scientific-visualization.md) - Creates publication-ready scientific figures and visualizes molecular structures.
 * [Score Relevance](/score-relevance.md) - Assigns a numerical relevance score to candidate items relative to a query or objective.
+* [Scroll World](/scroll-world.md) - Builds scroll-scrubbed 3D world landing pages for any brand or industry with zero-cut camera paths through connected scenes.
 * [Self-Consistency](/self-consistency.md) - Samples multiple independent reasoning paths for the same problem and selects the answer by majority vote, improving robustness without any additional training.
 * [Self-Critique](/self-critique.md) - Iteratively evaluates and refines its own outputs using self-generated feedback, improving quality without external supervision.
 * [Semantic Cache](/semantic-cache.md) - Stores LLM responses keyed by embedding similarity so that semantically equivalent queries are served from cache, reducing inference latency and token cost without sacrificing answer quality.
@@ -89,6 +95,7 @@
 * [Skill Discovery](/skill-discovery.md) - Searches a skill or tool registry, ranks results by relevance and install count, and surfaces candidates for the agent to adopt or invoke.
 * [Software Design](/software-design.md) - Design software modules with clean interfaces, seams, and deep implementations for maintainability and testability.
 * [Speech to Text](/speech-to-text.md) - Transcribes spoken audio into accurate text, handling diverse accents, noise conditions, and multiple languages.
+* [Static Artwork Design](/static-artwork-design.md) - Creates original static visual artifacts such as posters and print-ready graphics from a design brief.
 * [Statistical Analysis](/statistical-analysis.md) - Performs hypothesis testing, regression analysis, and Bayesian modelling with effect size calculation and APA-formatted statistical reporting using scipy, statsmodels, and PyMC.
 * [Structured Output Generation](/structured-output.md) - Generates output guaranteed to conform to a given schema (JSON, YAML, Pydantic model, etc.) using constrained decoding or grammar-guided generation.
 * [Summarize](/summarize.md) - Condenses longer input into a shorter representation that preserves key information and intent.
@@ -104,6 +111,7 @@
 * [Tool Use](/tool-use.md) - Invokes external functions or APIs by generating well-formed call signatures, parsing results, and incorporating them into reasoning.
 * [Transactional Email Resend](/transactional-email-resend.md) - Manage and resend transactional ticket or confirmation emails, verifying recipient addresses and utilizing rate-limited or alternative relays to ensure delivery.
 * [Translate](/translate.md) - Converts text from one natural language to another while preserving meaning, tone, and formatting.
+* [UI Audit](/ui-audit.md) - Structured review of a product's user interface for layout clarity, affordance, accessibility, and visual polish — produces actionable improvement recommendations.
 * [UX Audit](/ux-audit.md) - Systematically evaluates a user interface against established usability heuristics or accessibility standards, producing a scored finding report with remediation recommendations.
 * [Vector DB Optimization](/vector-db-optimization.md) - Tunes vector database indices, sharding strategies, and multi-database coordination for production-scale retrieval.
 * [Vector Search](/vector-search.md) - Performs similarity search over high-dimensional embeddings using cosine, Euclidean, dot-product, or custom distance metrics.

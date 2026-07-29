@@ -4,12 +4,17 @@
   "families": [
     {
       "id": "basic",
-      "count": 113,
+      "count": 121,
       "skills": [
         {
           "id": "adaptive-pattern-learning",
           "name": "Adaptive Pattern Learning",
           "summary": "Implements adaptive learning through pattern recognition and strategy optimization."
+        },
+        {
+          "id": "agent-reach",
+          "name": "Agent Reach",
+          "summary": "Gives an AI agent internet access by routing web requests across 16+ platforms with MCP support and harness-agnostic integration."
         },
         {
           "id": "api-call",
@@ -20,6 +25,11 @@
           "id": "audience-model",
           "name": "Audience Model",
           "summary": "Adapts tone, complexity, and framing of output to match a target audience profile."
+        },
+        {
+          "id": "auto-review",
+          "name": "Auto-Review",
+          "summary": "Automatically review and gate agent outputs by writing and executing a self-authored acceptance script, combining self-critique with pre-completion verification."
         },
         {
           "id": "autonomous-engineering-platform",
@@ -312,6 +322,11 @@
           "summary": "Locates and classifies multiple objects within images by producing bounding boxes, confidence scores, and category labels in a single forward pass."
         },
         {
+          "id": "opinion",
+          "name": "Opinion",
+          "summary": "Formulate and articulate a strong, reasoned opinion or recommendation as a discrete agent step, avoiding model selection bias and decision paralysis."
+        },
+        {
           "id": "optical-character-recognition",
           "name": "OCR",
           "summary": "Extracts machine-readable text from raster images, scanned pages, and photo documents using optical character recognition, preserving layout and handling skew, noise, and varied fonts."
@@ -352,6 +367,11 @@
           "summary": "Breaks a complex objective into an ordered sequence of executable sub-tasks."
         },
         {
+          "id": "plan-synthesis",
+          "name": "Plan Synthesis",
+          "summary": "Combine two or more independently produced plans into a single attributed result, resolving conflicts and surfacing consensus and divergence."
+        },
+        {
           "id": "probabilistic-programming",
           "name": "Probabilistic Programming",
           "summary": "Specifies Bayesian models and runs inference (MCMC/NUTS, variational) to quantify epistemic and aleatoric uncertainty using PyMC, Stan, Pyro, or NumPyro."
@@ -380,6 +400,11 @@
           "id": "rank",
           "name": "Rank",
           "summary": "Orders a set of candidate items by relevance, quality, or fitness for a given objective."
+        },
+        {
+          "id": "react-performance-optimization",
+          "name": "React Performance Optimization",
+          "summary": "Optimizes component rendering, data fetching, and bundle composition in React applications while preserving requested behavior."
         },
         {
           "id": "refactor-code",
@@ -422,6 +447,11 @@
           "summary": "Assigns a numerical relevance score to candidate items relative to a query or objective."
         },
         {
+          "id": "scroll-world",
+          "name": "Scroll World",
+          "summary": "Builds scroll-scrubbed 3D world landing pages for any brand or industry with zero-cut camera paths through connected scenes."
+        },
+        {
           "id": "self-consistency",
           "name": "Self-Consistency",
           "summary": "Samples multiple independent reasoning paths for the same problem and selects the answer by majority vote, improving robustness without any additional training."
@@ -460,6 +490,11 @@
           "id": "speech-to-text",
           "name": "Speech to Text",
           "summary": "Transcribes spoken audio into accurate text, handling diverse accents, noise conditions, and multiple languages."
+        },
+        {
+          "id": "static-artwork-design",
+          "name": "Static Artwork Design",
+          "summary": "Creates original static visual artifacts such as posters and print-ready graphics from a design brief."
         },
         {
           "id": "statistical-analysis",
@@ -535,6 +570,11 @@
           "id": "translate",
           "name": "Translate",
           "summary": "Converts text from one natural language to another while preserving meaning, tone, and formatting."
+        },
+        {
+          "id": "ui-audit",
+          "name": "UI Audit",
+          "summary": "Structured review of a product's user interface for layout clarity, affordance, accessibility, and visual polish \\u2014 produces actionable improvement recommendations."
         },
         {
           "id": "ux-audit",

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-29T21:18:00Z",
+  "generatedAt": "2026-07-29T21:53:28Z",
   "buckets": [
     {
       "genericSkillRef": "git-ship-done-pipeline",
@@ -24,7 +24,7 @@
     },
     {
       "genericSkillRef": "ux-audit",
-      "implementations": 7,
+      "implementations": 5,
       "topTM": 194.26,
       "skills": [
         {
@@ -33,13 +33,6 @@
           "level": "4★",
           "overallTrustGrade": "A",
           "origin": true
-        },
-        {
-          "id": "pbakaus/impeccable",
-          "trustMagnitude": 122.8,
-          "level": "4★",
-          "overallTrustGrade": "A",
-          "origin": false
         },
         {
           "id": "martin-stepanoski/nielsen-heuristics-audit",
@@ -60,13 +53,6 @@
           "trustMagnitude": 63.73,
           "level": "3★",
           "overallTrustGrade": "B",
-          "origin": false
-        },
-        {
-          "id": "garrytan/design-review",
-          "trustMagnitude": 36.0,
-          "level": "2★",
-          "overallTrustGrade": "C",
           "origin": false
         },
         {
@@ -120,6 +106,27 @@
         },
         {
           "id": "garrytan/scrape",
+          "trustMagnitude": 36.0,
+          "level": "2★",
+          "overallTrustGrade": "C",
+          "origin": false
+        }
+      ]
+    },
+    {
+      "genericSkillRef": "ui-audit",
+      "implementations": 2,
+      "topTM": 122.8,
+      "skills": [
+        {
+          "id": "pbakaus/impeccable",
+          "trustMagnitude": 122.8,
+          "level": "4★",
+          "overallTrustGrade": "A",
+          "origin": true
+        },
+        {
+          "id": "garrytan/design-review",
           "trustMagnitude": 36.0,
           "level": "2★",
           "overallTrustGrade": "C",
@@ -506,27 +513,6 @@
         {
           "id": "addy-osmani/code-review-and-quality",
           "trustMagnitude": 53.14,
-          "level": "3★",
-          "overallTrustGrade": "B",
-          "origin": false
-        }
-      ]
-    },
-    {
-      "genericSkillRef": "systematic-debugging",
-      "implementations": 2,
-      "topTM": 65.15,
-      "skills": [
-        {
-          "id": "obra/systematic-debugging",
-          "trustMagnitude": 65.15,
-          "level": "3★",
-          "overallTrustGrade": "B",
-          "origin": true
-        },
-        {
-          "id": "garrytan/investigate",
-          "trustMagnitude": 63.73,
           "level": "3★",
           "overallTrustGrade": "B",
           "origin": false
