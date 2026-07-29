@@ -40,7 +40,8 @@ Input JSON schema (array of objects):
     "percentile": null,
     "views": null,
     "likes": null,
-    "comments": null
+    "comments": null,
+    "provenance": "mirrored"
   }
 
   citations/reviewers/percentile/views are consumed directly by
@@ -48,6 +49,10 @@ Input JSON schema (array of objects):
   'not collected' in the collector file. All six numeric fields
   (citations, reviewers, percentile, views, likes, comments) are optional
   (null = not collected).
+
+  For benchmark-result rows discovered via web scraping (Phase 0), provenance
+  is always 'mirrored' — excluded from TM. Only 'verifier-attested' and
+  'ci-reproduced' rows contribute TM.
 """
 
 import argparse
@@ -150,11 +155,14 @@ def renderbenchmark(number, row):
         lines.append(f"* **Benchmark:** {row['title']}")
     if row.get("grade"):
         lines.append(f"* **Grade:** {row['grade']}")
+    provenance = row.get("provenance") or "mirrored"
+    lines.append(f"* **Provenance:** {provenance}")
     percentile = row.get("percentile")
-    if percentile is not None:
-        lines.append(f"* **Percentile:** {percentile}")
+    percentiletext = str(percentile) if percentile is not None else "not collected"
+    if provenance in ("mirrored", "pending"):
+        lines.append(f"* **Percentile:** {percentiletext} (excluded from TM — provenance: {provenance})")
     else:
-        lines.append("* **Percentile:** not collected")
+        lines.append(f"* **Percentile:** {percentiletext}")
     if row.get("notes"):
         lines.append(f"* **Setup Description:** {row['notes']}")
     return "\n".join(lines)
