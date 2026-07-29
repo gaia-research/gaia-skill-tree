@@ -5,7 +5,7 @@ contributor: gaia-research
 origin: false
 genericSkillRef: token-observability
 status: named
-level: 2★
+level: 1★
 description: CLI + agent skill invoked via /cost. Reads JSONL session logs from pi,
   Claude Code, Codex, opencode; prices every turn against BerriAI/litellm's catalog;
   auto-refreshes prices.
@@ -28,6 +28,10 @@ timeline:
   action: evidence_added
   contributor: unknown
   details: 'Added evidence from https://research.gaiaskilltree.com/ (type: self-attestation)'
+- timestamp: '2026-07-29T20:34:55Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 2★ to 1★
 evidence:
 - source: https://github.com/gaia-research/skill-cost
   evaluator: unknown

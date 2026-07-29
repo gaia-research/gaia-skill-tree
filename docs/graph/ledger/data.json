@@ -1,15 +1,15 @@
 {
   "version": "6.8.15",
-  "generatedAt": "2026-07-29T20:24:48Z",
+  "generatedAt": "2026-07-29T20:39:05Z",
   "summary": {
     "total": 291,
     "S": 5,
-    "A": 48,
+    "A": 49,
     "B": 72,
-    "C": 83,
+    "C": 82,
     "ungraded": 83,
     "floor": 0,
-    "up": 35
+    "up": 32
   },
   "rows": [
     {
@@ -226,19 +226,19 @@
       "skillId": "nextlevelbuilder/ux-audit",
       "tm": 194.26,
       "grade": "A",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
       "g7Stars": "4★",
-      "flag": "[up]",
+      "flag": "",
       "apexResults": null,
       "typeBreakdown": {
         "github-stars-own": 111.0,
         "peer-review": 30.0,
         "social-signal": 53.26
       },
-      "origin": false,
-      "branch": "standard"
+      "origin": true,
+      "branch": "unique"
     },
     {
       "skillId": "ruvnet/ruflo-v3",
@@ -291,6 +291,24 @@
       },
       "origin": true,
       "branch": "unique"
+    },
+    {
+      "skillId": "disler/agent-fusion",
+      "tm": 127.54,
+      "grade": "A",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 1.2,
+        "social-signal": 36.34,
+        "fusion-recipe": 90.0
+      },
+      "origin": false,
+      "branch": "suite"
     },
     {
       "skillId": "pbakaus/impeccable",
@@ -1923,11 +1941,11 @@
       "skillId": "oso95/scroll-world",
       "tm": 60.98,
       "grade": "B",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
       "g7Stars": "3★",
-      "flag": "[up]",
+      "flag": "",
       "apexResults": null,
       "typeBreakdown": {
         "social-signal": 60.98
@@ -1989,11 +2007,11 @@
       "skillId": "panniantong/agent-reach",
       "tm": 53.86,
       "grade": "B",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
       "g7Stars": "3★",
-      "flag": "[up]",
+      "flag": "",
       "apexResults": null,
       "typeBreakdown": {
         "social-signal": 48.86,
@@ -2193,11 +2211,11 @@
       "skillId": "vercel-labs/react-performance-optimization",
       "tm": 50.48,
       "grade": "B",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
       "g7Stars": "3★",
-      "flag": "[up]",
+      "flag": "",
       "apexResults": null,
       "typeBreakdown": {
         "github-stars-own": 9.87,
@@ -2338,23 +2356,6 @@
       "typeBreakdown": {
         "repo-own": 36.0,
         "self-attestation": 5.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "disler/agent-fusion",
-      "tm": 37.54,
-      "grade": "C",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "2★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 1.2,
-        "social-signal": 36.34
       },
       "origin": false,
       "branch": "standard"
@@ -3549,9 +3550,9 @@
       "skillId": "ayghri/format-output",
       "tm": 13.3,
       "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
+      "currentStars": "1★",
+      "mayStars": "1★",
+      "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
       "apexResults": null,
@@ -3879,9 +3880,9 @@
       "skillId": "gaia-research/skill-cost",
       "tm": 5.0,
       "grade": "ungraded",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
+      "currentStars": "1★",
+      "mayStars": "1★",
+      "juneStars": "1★",
       "g7Stars": "1★",
       "flag": "",
       "apexResults": null,

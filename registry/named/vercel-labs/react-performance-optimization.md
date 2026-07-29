@@ -5,7 +5,7 @@ contributor: vercel-labs
 origin: false
 genericSkillRef: react-performance-optimization
 status: named
-level: 2★
+level: 3★
 description: Optimizes component rendering, data fetching, and bundle composition
   in React applications while preserving requested behavior.
 createdAt: '2026-07-30'
@@ -42,6 +42,10 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://vercel.com/docs/agent-resources/skills (type:
     self-attestation)'
+- timestamp: '2026-07-29T20:35:01Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 2★ to 3★
 evidence:
 - source: https://github.com/vercel-labs/agent-skills
   evaluator: unknown

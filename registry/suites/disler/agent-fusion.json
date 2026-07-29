@@ -1,0 +1,16 @@
+{
+  "id": "disler/agent-fusion",
+  "name": "Agent Fusion",
+  "contributor": "disler",
+  "description": "Orchestrate multiple specialized AI models as a fused agentic team: form opinions, merge parallel plans, and auto-validate outputs to achieve frontier performance at reduced cost.",
+  "version": "1.0.0",
+  "capstone": "disler/agent-fusion",
+  "suites": [],
+  "standalones": [
+    "disler/auto-review",
+    "disler/opinion",
+    "disler/plan-synthesis"
+  ],
+  "createdAt": "2026-07-30",
+  "updatedAt": "2026-07-30"
+}

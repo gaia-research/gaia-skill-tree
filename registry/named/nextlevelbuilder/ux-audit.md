@@ -2,10 +2,10 @@
 id: nextlevelbuilder/ux-audit
 name: UX Audit
 contributor: nextlevelbuilder
-origin: false
+origin: true
 genericSkillRef: ux-audit
 status: named
-level: 2★
+level: 4★
 description: Systematically evaluates a user interface against established usability
   heuristics, accessibility standards, visual style rules, color palettes, typography,
   and motion guidelines.
@@ -43,6 +43,14 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://snyk.io/articles/top-claude-skills-ui-ux-engineers/
     (type: social-signal)'
+- timestamp: '2026-07-29T20:34:42Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 2★ to 4★
+- timestamp: '2026-07-29T20:34:54Z'
+  action: rank_up
+  contributor: unknown
+  details: Origin status set to true.
 evidence:
 - source: https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
   evaluator: unknown

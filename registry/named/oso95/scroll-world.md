@@ -5,7 +5,7 @@ contributor: oso95
 origin: false
 genericSkillRef: scroll-world
 status: named
-level: 2★
+level: 3★
 description: Builds scroll-scrubbed 3D world landing pages for any brand or industry,
   flying camera paths through connected scenes with zero cuts.
 createdAt: '2026-07-30'
@@ -37,6 +37,10 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://www.youtube.com/watch?v=tnOYNzGb_uA (type:
     social-signal)'
+- timestamp: '2026-07-29T20:34:58Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 2★ to 3★
 evidence:
 - source: https://github.com/oso95/scroll-world
   evaluator: unknown

@@ -28,6 +28,11 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://www.youtube.com/watch?v=AQl5Q-0l7FQ (type:
     social-signal)'
+- timestamp: '2026-07-29T20:33:03Z'
+  action: suite_ref_set
+  contributor: unknown
+  details: Set suiteRef=disler/agent-fusion, genericSkillRef=agent-fusion via `gaia
+    dev fuse`.
 evidence:
 - source: https://github.com/disler/fusion-harness
   evaluator: unknown
@@ -51,6 +56,10 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-07-29T20:24:02Z'
+suiteComponents:
+  - disler/auto-review
+  - disler/opinion
+  - disler/plan-synthesis
 ---
 
 ## Installation

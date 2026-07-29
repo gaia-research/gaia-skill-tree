@@ -35,6 +35,7 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-07-29T20:23:35Z'
+suiteRef: "disler/agent-fusion"
 ---
 
 ## Installation

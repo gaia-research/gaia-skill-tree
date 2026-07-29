@@ -5,7 +5,7 @@ contributor: ayghri
 origin: false
 genericSkillRef: format-output
 status: named
-level: 2★
+level: 1★
 description: Structures raw output into a specified format such as markdown, JSON,
   CSV, HTML, or cognitive accessibility layout constraints.
 createdAt: '2026-07-30'
@@ -37,6 +37,10 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://www.youtube.com/channel/UCA99nFOwGrggcfEUBpno8cQ
     (type: social-signal)'
+- timestamp: '2026-07-29T20:34:56Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 2★ to 1★
 evidence:
 - source: https://github.com/ayghri/i-have-adhd
   evaluator: unknown

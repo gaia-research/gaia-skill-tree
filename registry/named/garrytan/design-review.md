@@ -3,7 +3,7 @@ id: garrytan/design-review
 name: Design Review
 contributor: garrytan
 origin: false
-genericSkillRef: ux-audit
+genericSkillRef: ui-audit
 status: named
 title: Gstack Design Review — UX Audit Pass
 catalogRef: garrytan-design-review
@@ -18,7 +18,7 @@ tags:
 - design
 - review
 createdAt: '2026-05-18'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-30'
 suiteRef: garrytan/garrytan
 timeline:
 - timestamp: '2026-06-02T23:45:09Z'

@@ -5,7 +5,7 @@ contributor: panniantong
 origin: false
 genericSkillRef: agent-reach
 status: named
-level: 2★
+level: 3★
 description: Gives an AI agent internet access by routing web requests across 16+
   platforms with MCP support and harness-agnostic integration.
 createdAt: '2026-07-30'
@@ -42,6 +42,10 @@ timeline:
   action: evidence_added
   contributor: unknown
   details: 'Added evidence from https://skillsllm.com/skill/agent-reach (type: self-attestation)'
+- timestamp: '2026-07-29T20:34:59Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 2★ to 3★
 evidence:
 - source: https://lobehub.com/skills/panniantong-agent-reach-skill
   evaluator: unknown

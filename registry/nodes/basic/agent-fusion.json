@@ -1,9 +1,13 @@
 {
   "id": "agent-fusion",
   "name": "Agent Fusion",
-  "type": "basic",
+  "type": "fusion",
   "description": "Orchestrate multiple specialized AI models as a fused agentic team: form opinions, merge parallel plans, and auto-validate outputs to achieve frontier performance at reduced cost.",
-  "prerequisites": [],
+  "prerequisites": [
+    "opinion",
+    "plan-synthesis",
+    "auto-review"
+  ],
   "derivatives": [],
   "evidence": [],
   "knownAgents": [],
@@ -17,6 +21,12 @@
       "action": "add",
       "contributor": "unknown",
       "details": "Added generic skill agent-fusion"
+    },
+    {
+      "timestamp": "2026-07-29T20:33:03Z",
+      "action": "fuse",
+      "contributor": "unknown",
+      "details": "Set prerequisites via `gaia dev fuse`: opinion, plan-synthesis, auto-review."
     }
   ]
 }
