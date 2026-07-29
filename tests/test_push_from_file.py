@@ -335,6 +335,24 @@ class TestBuildFromFileBatch(unittest.TestCase):
         self.assertEqual(errors, [])
         self.assertEqual(len(batch["proposedSkills"]), 2)
 
+    def test_exact_canonical_named_implementation_is_rejected(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            namedDir = os.path.join(tmp, "registry", "named", "alice")
+            os.makedirs(namedDir)
+            with open(os.path.join(namedDir, "some-skill.md"), "w", encoding="utf-8") as f:
+                f.write("---\nid: alice/some-skill\n---\n")
+            skill = _good_basic(named={
+                "contributor": "alice",
+                "skill_name": "some-skill",
+                "links_github": "https://github.com/alice/repo/blob/main/SKILL.md",
+            })
+            batch, errors = build_from_file_batch(
+                [skill], self._config(), tmp, "testuser/repo"
+            )
+        self.assertIsNone(batch)
+        self.assertTrue(any("already exists" in error for error in errors), errors)
+
     def test_batch_id_contains_from_file_suffix(self):
         skills = [_good_basic()]
         batch, _ = build_from_file_batch(

@@ -216,7 +216,25 @@ def _skillEntryToProposed(entry, sourceRepo):
     return proposed
 
 
-def build_from_file_batch(skillsYaml, config, registryRoot, sourceRepo, now=None):
+def _loadCanonicalNamedIds(registryRoot):
+    """Return exact contributor/skill identities already in registry/named."""
+    namedRoot = os.path.join(registryRoot, "registry", "named")
+    identities = set()
+    if not os.path.isdir(namedRoot):
+        return identities
+    for contributor in os.listdir(namedRoot):
+        contributorPath = os.path.join(namedRoot, contributor)
+        if not os.path.isdir(contributorPath):
+            continue
+        for filename in os.listdir(contributorPath):
+            if filename.endswith(".md"):
+                identities.add(f"{contributor}/{filename[:-3]}")
+    return identities
+
+
+def build_from_file_batch(
+    skillsYaml, config, registryRoot, sourceRepo, now=None, curationHandoff=None
+):
     """Build a skill batch dict from a parsed YAML 'skills:' list.
 
     Returns (batch_dict, errors).  When errors is non-empty, batch_dict is None
@@ -244,6 +262,18 @@ def build_from_file_batch(skillsYaml, config, registryRoot, sourceRepo, now=None
     for i, entry in enumerate(skillsYaml):
         allErrors.extend(_validate_skill(entry, i, canonicalIds))
 
+    canonicalNamedIds = _loadCanonicalNamedIds(registryRoot)
+    for i, entry in enumerate(skillsYaml):
+        named = entry.get("named") or {}
+        contributor = str(named.get("contributor", "")).strip()
+        skillName = str(named.get("skill_name", "")).strip()
+        namedId = f"{contributor}/{skillName}" if contributor and skillName else ""
+        if namedId in canonicalNamedIds:
+            allErrors.append(
+                f"skills[{i}].named: exact canonical named implementation "
+                f"'{namedId}' already exists"
+            )
+
     if allErrors:
         print("Validation errors in --from-file YAML:", file=sys.stderr)
         for err in allErrors:
@@ -255,7 +285,7 @@ def build_from_file_batch(skillsYaml, config, registryRoot, sourceRepo, now=None
     ]
     proposedIds = [s["id"] for s in proposedSkills]
 
-    return {
+    batch = {
         "batchId": batchId,
         "userId": config.get("gaiaUser", "unknown"),
         "sourceRepo": sourceRepo,
@@ -264,7 +294,10 @@ def build_from_file_batch(skillsYaml, config, registryRoot, sourceRepo, now=None
         "knownSkills": [],
         "proposedSkills": proposedSkills,
         "similarity": build_similarity(proposedIds, canonicalMap),
-    }, []
+    }
+    if curationHandoff:
+        batch["curationHandoff"] = curationHandoff
+    return batch, []
 
 
 # ---------------------------------------------------------------------------
@@ -301,7 +334,7 @@ def _load_yaml_file(path):
 
     if isDiscoveryPacket(data):
         try:
-            data = buildIntakeYaml(data)
+            data = buildIntakeYaml(data, packetPath=path)
         except ValueError as exc:
             return None, f"Cannot adapt discovery packet '{path}': {exc}"
 
@@ -343,7 +376,11 @@ def push_from_file_command(args):
 
     # ── build batch (validates first — nothing written on error) ─────────
     batch, errors = build_from_file_batch(
-        skillsYaml, config, registryRoot, sourceRepo
+        skillsYaml,
+        config,
+        registryRoot,
+        sourceRepo,
+        curationHandoff=yamlData.get("curationHandoff"),
     )
     if errors:
         return 1

@@ -16,7 +16,7 @@ Read `../gaia-curate/CURATION-CORE.md`; it owns the lifecycle and packet. Use th
 
 Persist a run ledger under `generated-output/curate-discovery/<run-id>/run.json` containing the core contract digest, generic snapshot digest, source cursor, active candidate ID, completed candidate IDs, deferred rows, and next instruction. Write to a temporary file, validate it, then atomically rename it; never leave a partially written checkpoint.
 
-Process exactly one candidate at a time. Validate its `discovery-packet-v1` after every transition. Advance only when the current transition validates and its input digest matches the checkpoint. On resume, revalidate contract and generic snapshot digests; preserve raw source records but move stale mappings to `DEFER`.
+Process exactly one candidate at a time. Validate its `discovery-packet-v2` after every transition and persist each final review packet to Core's `registry-for-review/discovery-packets/` path. V1 remains readable only for compatibility. Advance only when the current transition validates and its input digest matches the checkpoint. On resume, revalidate contract and generic snapshot digests; preserve raw source records but move stale mappings to `DEFER`.
 
 ## Bounded repair
 
@@ -30,7 +30,7 @@ The chain ends at L4 human review. It does not collect evidence, calculate trust
 
 After an L4 decision, write a handoff record; do not silently end the caller:
 
-- New external discoveries: serialize only approved rows to the canonical `skills.yml` intake schema, then require the operator to run `gaia push --from-file skills.yml` or use the issue form.
+- New external discoveries: after L4, require the human to append the schema-defined `l4Resolution` to each approved V2 packet, then run `gaia push --from-file <packet.json>`. Do not manually translate packets to `skills.yml`; the adapter owns that deterministic translation and refuses unresolved identity or non-blob provenance.
 - Rows that already came from `/gaia-draft-curate`: preserve `batchId` and issue/PR links, return them as `needs-evidence` to `/ev-pipeline`, then hand verified rows to a maintainer on `review/meta/*` for the CLI-only meta-shift in `CONTRIBUTING.md` §1C. Do not submit the same intake twice.
 
 Record the route, artifact path, remaining gate, and exact next command. This compatibility handoff is data only; the chain remains discovery-only.

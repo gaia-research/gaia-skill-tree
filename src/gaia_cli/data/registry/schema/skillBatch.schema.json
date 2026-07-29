@@ -21,6 +21,30 @@
     "userId": { "type": "string", "minLength": 1 },
     "sourceRepo": { "type": "string", "minLength": 1 },
     "generatedAt": { "type": "string", "format": "date-time" },
+    "curationHandoff": {
+      "type": "object",
+      "description": "Immutable packet provenance copied into the batch by the explicit post-L4 adapter handoff.",
+      "required": ["contractVersion", "packetRefs"],
+      "additionalProperties": false,
+      "properties": {
+        "contractVersion": {"const": "curation-handoff-v1"},
+        "packetRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["candidateId", "packetContentSha256"],
+            "additionalProperties": false,
+            "properties": {
+              "candidateId": {"type": "string", "minLength": 1},
+              "packetPath": {"type": "string", "minLength": 1},
+              "packetContentSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+              "sourceContentSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+            }
+          }
+        }
+      }
+    },
     "knownSkills": {
       "type": "array",
       "items": {

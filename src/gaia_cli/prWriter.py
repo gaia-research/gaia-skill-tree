@@ -111,10 +111,11 @@ def _render_named_block(named, skillId):
     if not named:
         return ""
     contributor = named.get("contributor", "?")
+    skillName = named.get("skill_name") or skillId
     level = named.get("level", "?")
     link = named.get("links_github", named.get("links", {}).get("github", ""))
     linkCell = f" · [blob link]({link})" if link else ""
-    return f"📌 Named: `{contributor}/{skillId}`  ·  {level}{linkCell}"
+    return f"📌 Named: `{contributor}/{skillName}`  ·  {level}{linkCell}"
 
 
 def _render_skill_section(skill, similarityIndex):
@@ -206,6 +207,23 @@ def build_intake_issue_body(batch_data):
         lines += [
             f"| Batch file | [{batchId}.json]({fileUrl}) |",
         ]
+
+    handoff = batch_data.get("curationHandoff") or {}
+    packetRefs = handoff.get("packetRefs") or []
+    if packetRefs:
+        lines += [
+            "",
+            "### Curation handoff provenance",
+            "| Candidate | Discovery packet | Packet SHA-256 | Source SHA-256 |",
+            "|---|---|---|---|",
+        ]
+        for ref in packetRefs:
+            packetPath = ref.get("packetPath", "-")
+            lines.append(
+                f"| `{ref.get('candidateId', '-')}` | `{packetPath}` | "
+                f"`{ref.get('packetContentSha256', '-')}` | "
+                f"`{ref.get('sourceContentSha256', '-')}` |"
+            )
 
     lines += [
         "",

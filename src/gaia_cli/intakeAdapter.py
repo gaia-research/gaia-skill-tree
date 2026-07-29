@@ -9,12 +9,13 @@ L4 topology-ratification issue.
 
 Mapping (RFC2 §3.3):
 
-- ``decision.value == MAP`` -> the intake references the existing
-  ``decision.genericId`` (Axis A satisfied). No new topology is proposed; the
-  intake entry carries the generic id and a ``basic`` structural type.
-- ``decision.value == NEW_GENERIC`` -> the intake carries
-  ``proposal.{name, description, type}``; when ``type == fusion`` it also carries
-  ``proposal.prerequisites`` (Axis B) for L4 topology ratification.
+- The adapter runs only after the human appends ``l4Resolution``. That block is
+  the authoritative vendor-neutral generic identity, exact named identity, and
+  upstream ``blob/.../SKILL.md`` provenance; none is inferred from discovery.
+- ``decision.value == MAP`` -> the ratified generic id must match both the
+  decision and frozen generic snapshot (Axis A satisfied).
+- ``decision.value == NEW_GENERIC`` -> the ratified generic identity replaces
+  the vendor/candidate slug and carries any fusion prerequisites (Axis B).
 - ``suite`` block -> the intake carries ``suiteId`` + ``role`` +
   ``componentCandidateIds`` so the fan-out is reconstructable, and derives
   ``attributionScope`` from ``role`` (``capstone`` -> ``suite-wide``,
@@ -23,17 +24,22 @@ Mapping (RFC2 §3.3):
 The adapter carries the intake *reference*, never a throwaway star/grade/tier
 estimate: Stage-1 minimum-effort evidence (RFC2-A ``stageOneEvidence.py``) is
 already written as real rows, so the intake attribution here is provenance, not
-a strength claim. TM and rank are derived canonically at appraisal time.
+a strength claim. It emits a packet digest receipt for packet→batch→issue
+traceability. TM and rank are derived canonically at appraisal time.
 """
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import re
+from urllib.parse import urlparse
 
 
 PACKET_CONTRACT_VERSION = "discovery-packet-v2"
+HANDOFF_CONTRACT_VERSION = "curation-handoff-v1"
+SKILL_ID_RE = re.compile(r"^[a-z][a-z0-9]*(-[a-z0-9]+)*$")
 
 
 def isDiscoveryPacket(data):
@@ -65,14 +71,117 @@ def attributionScopeForRole(role):
 
 
 def candidateSlug(candidateId):
-    """Kebab-safe skill id for the intake entry.
-
-    Packet ``candidateId`` may be ``contributor/slug``; the intake ``id`` must
-    match ``^[a-z][a-z0-9]*(-[a-z0-9]+)*$`` (see ``pushFromFile.SKILL_ID_RE``),
-    so ``/`` -> ``-`` and the value is lowercased. The full ``candidateId`` is
-    still preserved verbatim on the entry (``candidateId`` key) for provenance.
-    """
+    """Legacy helper retained for callers that normalize candidate locators."""
     return str(candidateId).replace("/", "-").strip().lower()
+
+
+def _canonicalDigest(value):
+    encoded = json.dumps(value, sort_keys=True, separators=(",", ":")).encode("utf-8")
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def _packetDigest(packet):
+    return _canonicalDigest(packet)
+
+
+def _isExactSkillBlob(url):
+    """Accept only a GitHub blob URL whose final path segment is SKILL.md."""
+    try:
+        parsed = urlparse(url)
+    except Exception:
+        return False
+    return (
+        parsed.scheme == "https"
+        and parsed.netloc.lower() in ("github.com", "www.github.com")
+        and "/blob/" in parsed.path
+        and parsed.path.rstrip("/").lower().endswith("/skill.md")
+    )
+
+
+def validateL4Resolution(packet):
+    """Validate the explicit human-ratified packet -> intake handoff.
+
+    Discovery fields are never reinterpreted here. The resolution must name the
+    vendor-neutral generic, the canonical named implementation, and the exact
+    upstream SKILL.md blob. The packet's embedded frozen generic snapshot is
+    digest-checked; MAP resolutions must select the same existing generic.
+    """
+    errors = []
+    if packet.get("lifecycle", [])[-1:] != ["review-ready"]:
+        errors.append("packet lifecycle must end at review-ready")
+
+    resolution = packet.get("l4Resolution")
+    if not isinstance(resolution, dict) or resolution.get("status") != "approved":
+        return ["explicit l4Resolution.status=approved is required"]
+
+    generic = resolution.get("generic")
+    named = resolution.get("named")
+    if not isinstance(generic, dict):
+        errors.append("l4Resolution.generic is required")
+        generic = {}
+    if not isinstance(named, dict):
+        errors.append("l4Resolution.named is required")
+        named = {}
+
+    genericId = generic.get("id", "")
+    if not SKILL_ID_RE.fullmatch(genericId):
+        errors.append("l4Resolution.generic.id must be a vendor-neutral kebab-case id")
+    if not str(generic.get("name", "")).strip():
+        errors.append("l4Resolution.generic.name is required")
+    if len(str(generic.get("description", "")).strip()) < 10:
+        errors.append("l4Resolution.generic.description must be at least 10 characters")
+    genericType = generic.get("type")
+    prerequisites = generic.get("prerequisites")
+    if genericType not in ("basic", "fusion"):
+        errors.append("l4Resolution.generic.type must be basic or fusion")
+    elif genericType == "basic" and prerequisites not in ([], None):
+        errors.append("a basic l4Resolution.generic must have no prerequisites")
+    elif genericType == "fusion" and (
+        not isinstance(prerequisites, list)
+        or not prerequisites
+        or any(not SKILL_ID_RE.fullmatch(str(item)) for item in prerequisites)
+    ):
+        errors.append("a fusion l4Resolution.generic requires kebab-case prerequisites")
+
+    contributor = named.get("contributor", "")
+    skillName = named.get("skillName", "")
+    if not str(contributor).strip() or "/" in str(contributor):
+        errors.append("l4Resolution.named.contributor is required")
+    if not SKILL_ID_RE.fullmatch(str(skillName)):
+        errors.append("l4Resolution.named.skillName must be kebab-case")
+    if not _isExactSkillBlob(resolution.get("skillFileUrl", "")):
+        errors.append("l4Resolution.skillFileUrl must be an exact GitHub blob URL ending in SKILL.md")
+
+    snapshot = packet.get("genericSnapshot")
+    options = packet.get("mappingOptions")
+    if not isinstance(snapshot, dict) or not isinstance(snapshot.get("generics"), list):
+        errors.append("a frozen genericSnapshot is required")
+    else:
+        if snapshot.get("command") != "gaia dev list --generic --json":
+            errors.append("genericSnapshot.command is not canonical")
+        if snapshot.get("contentSha256") != _canonicalDigest(snapshot["generics"]):
+            errors.append("genericSnapshot.contentSha256 does not match its frozen generics")
+        if snapshot.get("mappingOptionsSha256") != _canonicalDigest(options or []):
+            errors.append("genericSnapshot.mappingOptionsSha256 does not match mappingOptions")
+
+    decision = packet.get("decision") or {}
+    if decision.get("value") == "MAP":
+        optionIds = {
+            row.get("genericId") for row in (options or []) if isinstance(row, dict)
+        }
+        if decision.get("genericId") not in optionIds:
+            errors.append("MAP decision.genericId is absent from mappingOptions")
+        if genericId != decision.get("genericId"):
+            errors.append("MAP l4Resolution.generic.id must match decision.genericId")
+        snapshotIds = {
+            row.get("id") for row in (snapshot or {}).get("generics", [])
+            if isinstance(row, dict) and row.get("kind") == "generic"
+        }
+        if genericId not in snapshotIds:
+            errors.append("MAP l4Resolution.generic.id is absent from the frozen snapshot")
+    elif decision.get("value") != "NEW_GENERIC":
+        errors.append("only MAP or NEW_GENERIC packets are intake-eligible")
+    return errors
 
 
 def buildIntakeSkill(packet):
@@ -92,40 +201,28 @@ def buildIntakeSkill(packet):
             "(only MAP or NEW_GENERIC produce an intake entry)"
         )
 
-    source = packet.get("source") or {}
-    frontmatter = source.get("frontmatter") or {}
-    normalized = packet.get("normalized") or {}
+    resolutionErrors = validateL4Resolution(packet)
+    if resolutionErrors:
+        raise ValueError("invalid post-L4 handoff: " + "; ".join(resolutionErrors))
 
-    skillId = candidateSlug(packet.get("candidateId", ""))
-
-    # Prefer normalized name/description, then parsed frontmatter, then proposal.
-    name = (
-        normalized.get("name")
-        or frontmatter.get("name")
-        or (decision.get("proposal") or {}).get("name")
-        or ""
-    )
-    description = (
-        normalized.get("description")
-        or frontmatter.get("description")
-        or (decision.get("proposal") or {}).get("description")
-        or ""
-    )
+    resolution = packet["l4Resolution"]
+    generic = resolution["generic"]
+    named = resolution["named"]
+    skillFileUrl = resolution["skillFileUrl"]
 
     entry = {
-        "id": skillId,
+        "id": generic["id"],
         "candidateId": packet.get("candidateId", ""),
-        "name": name,
-        "description": description,
+        "name": generic["name"],
+        "description": generic["description"],
     }
 
-    canonicalUrl = source.get("canonicalUrl")
-    if canonicalUrl:
+    if skillFileUrl:
         # Attribution reference only — provenance, not a strength claim. The
         # skill_file_url points reviewers at the source; type=attributed because
         # the packet describes an upstream source discovered by the crawl.
         entry["attribution"] = {
-            "skill_file_url": canonicalUrl,
+            "skill_file_url": skillFileUrl,
             "type": "attributed",
         }
         # The intake validator (pushFromFile) requires >=1 evidence entry. The
@@ -143,7 +240,7 @@ def buildIntakeSkill(packet):
             {
                 "grade": "C",
                 "type": "repo",
-                "url": canonicalUrl,
+                "url": skillFileUrl,
                 "notes": "Source reference from discovery packet (unverified; "
                 "Stage-1 minimum-effort evidence written separately).",
             }
@@ -154,25 +251,12 @@ def buildIntakeSkill(packet):
         genericId = decision.get("genericId")
         if not genericId:
             raise ValueError("MAP packet is missing decision.genericId")
-        entry["type"] = "basic"
-        entry["prerequisites"] = []
+        entry["type"] = generic["type"]
+        entry["prerequisites"] = list(generic.get("prerequisites") or [])
         entry["mapsToGeneric"] = genericId
     else:  # NEW_GENERIC
-        proposal = decision.get("proposal") or {}
-        proposalType = proposal.get("type", "basic")
-        entry["type"] = proposalType
-        # Carry the proposal name/description explicitly (topology proposal).
-        entry["name"] = entry["name"] or proposal.get("name", "")
-        entry["description"] = entry["description"] or proposal.get("description", "")
-        if proposalType == "fusion":
-            prereqs = list(proposal.get("prerequisites") or [])
-            if not prereqs:
-                raise ValueError(
-                    "NEW_GENERIC fusion proposal is missing prerequisites (Axis B)"
-                )
-            entry["prerequisites"] = prereqs
-        else:
-            entry["prerequisites"] = []
+        entry["type"] = generic["type"]
+        entry["prerequisites"] = list(generic.get("prerequisites") or [])
 
     # Suite fan-out (RFC1 suite block) -> intake suite ref + attributionScope.
     suite = packet.get("suite")
@@ -191,27 +275,16 @@ def buildIntakeSkill(packet):
     else:
         entry["attributionScope"] = attributionScopeForRole(None)
 
-    candidateId = packet.get("candidateId", "")
-    if "/" in candidateId and canonicalUrl:
-        contributor = candidateId.split("/", 1)[0]
-        rawSkillName = (
-            frontmatter.get("name")
-            or normalized.get("name")
-            or (decision.get("proposal") or {}).get("name")
-            or ""
-        )
-        skillName = re.sub(r"[^a-z0-9]+", "-", rawSkillName.lower()).strip("-")
-        if skillName:
-            entry["named"] = {
-                "contributor": contributor,
-                "skill_name": skillName,
-                "links_github": canonicalUrl,
-            }
+    entry["named"] = {
+        "contributor": named["contributor"],
+        "skill_name": named["skillName"],
+        "links_github": skillFileUrl,
+    }
 
     return entry
 
 
-def buildIntakeYaml(packets):
+def buildIntakeYaml(packets, packetPath=None):
     """Build the intake mapping (``{'skills': [...]}``) from packet dict(s).
 
     Accepts a single packet dict or an iterable of packet dicts (e.g. a suite
@@ -223,8 +296,25 @@ def buildIntakeYaml(packets):
     """
     if isinstance(packets, dict):
         packets = [packets]
+    packets = list(packets)
     skills = [buildIntakeSkill(p) for p in packets]
-    return {"skills": skills}
+    refs = []
+    for packet in packets:
+        ref = {
+            "candidateId": packet.get("candidateId", ""),
+            "packetContentSha256": _packetDigest(packet),
+            "sourceContentSha256": (packet.get("source") or {}).get("contentSha256"),
+        }
+        if packetPath and len(packets) == 1:
+            ref["packetPath"] = packetPath
+        refs.append({key: value for key, value in ref.items() if value})
+    return {
+        "skills": skills,
+        "curationHandoff": {
+            "contractVersion": HANDOFF_CONTRACT_VERSION,
+            "packetRefs": refs,
+        },
+    }
 
 
 def loadPacketsFromPath(path):

@@ -91,7 +91,9 @@ def buildProvenanceLedger(
     *,
     genericSkillRef=None,
     discoveryPacket=None,
+    discoveryPacketSha256=None,
     intakeBatch=None,
+    intakeBatchId=None,
     intakeIssue=None,
     crawlerOrigin=None,
     evidenceSeed=None,
@@ -119,8 +121,12 @@ def buildProvenanceLedger(
         ledger["genericSkillRef"] = genericSkillRef
     if discoveryPacket:
         ledger["discoveryPacket"] = discoveryPacket
+    if discoveryPacketSha256:
+        ledger["discoveryPacketSha256"] = discoveryPacketSha256
     if intakeBatch:
         ledger["intakeBatch"] = intakeBatch
+    if intakeBatchId:
+        ledger["intakeBatchId"] = intakeBatchId
     if intakeIssue:
         ledger["intakeIssue"] = intakeIssue
     if crawlerOrigin:

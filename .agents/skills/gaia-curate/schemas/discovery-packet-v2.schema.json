@@ -106,6 +106,45 @@
         "mappingOptionsSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
       }
     },
+    "l4Resolution": {
+      "type": "object",
+      "description": "Explicit post-L4 handoff. Optional during discovery; required by intakeAdapter.py before an intake can be produced.",
+      "required": ["status", "generic", "named", "skillFileUrl"],
+      "additionalProperties": false,
+      "properties": {
+        "status": {"const": "approved"},
+        "generic": {
+          "type": "object",
+          "required": ["id", "name", "description", "type", "prerequisites"],
+          "additionalProperties": false,
+          "properties": {
+            "id": {"type": "string", "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"},
+            "name": {"type": "string", "minLength": 1},
+            "description": {"type": "string", "minLength": 10},
+            "type": {"enum": ["basic", "fusion"]},
+            "prerequisites": {"type": "array", "items": {"type": "string", "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"}}
+          },
+          "allOf": [
+            {"if": {"properties": {"type": {"const": "basic"}}}, "then": {"properties": {"prerequisites": {"maxItems": 0}}}},
+            {"if": {"properties": {"type": {"const": "fusion"}}}, "then": {"properties": {"prerequisites": {"minItems": 1}}}}
+          ]
+        },
+        "named": {
+          "type": "object",
+          "required": ["contributor", "skillName"],
+          "additionalProperties": false,
+          "properties": {
+            "contributor": {"type": "string", "minLength": 1},
+            "skillName": {"type": "string", "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"}
+          }
+        },
+        "skillFileUrl": {
+          "type": "string",
+          "pattern": "^https://(www\\.)?github\\.com/[^/]+/[^/]+/blob/[^/]+/.*/?SKILL\\.md$",
+          "description": "Exact upstream SKILL.md blob URL; never inferred from source.canonicalUrl."
+        }
+      }
+    },
     "decision": {
       "type": "object",
       "required": ["value", "reasonCode"],

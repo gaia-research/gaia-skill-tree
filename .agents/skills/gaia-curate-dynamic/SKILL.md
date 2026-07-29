@@ -10,7 +10,7 @@ argument-hint: "<broad-source-manifest>"
 
 # Gaia Curate Dynamic
 
-Read `../gaia-curate/CURATION-CORE.md`. Every worker returns one schema-valid `discovery-packet-v1`; this extension may orchestrate packets but may not relax the core lifecycle or cross its L4 stop.
+Read `../gaia-curate/CURATION-CORE.md`. Every worker returns one schema-valid `discovery-packet-v2`; this extension may orchestrate packets but may not relax the core lifecycle or cross its L4 stop. V1 remains readable only for compatibility and is not normative output.
 
 ## Roles
 
@@ -103,4 +103,4 @@ Use `generated-output/curate-discovery/<run-id>/`. Write state atomically and ap
 
 Use native usage when exposed, or an approved external cost tool. Store `null` when unavailable; never invent token or cost values. Resume only failed/incomplete tasks after revalidating the core contract digest and generic snapshot digest.
 
-Discovery mode has no mutation or ship stage. It must not edit registry/generated files, create intake batches, branches, commits, issues, or PRs.
+Discovery mode has no mutation or ship stage. Runtime ledgers and partial worker output stay under `generated-output/curate-discovery/<run-id>/`, but the deterministic assembler copies each final schema-valid review packet to the Core-owned canonical review path `registry-for-review/discovery-packets/` before presenting L4. It must not create intake batches, branches, commits, issues, or PRs. Only the separate explicit post-L4 handoff in Core may create intake artifacts.

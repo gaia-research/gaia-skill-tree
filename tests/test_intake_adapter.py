@@ -5,6 +5,8 @@ NEW_GENERIC fusion (prerequisites present), suite fan-out (component + capstone)
 and attributionScope derivation.
 """
 
+import hashlib
+import json
 import os
 import sys
 
@@ -33,16 +35,46 @@ def _basePacket(**overrides):
         ],
         "source": {
             "canonicalUrl": "https://github.com/alice/some-skill/blob/main/SKILL.md",
+            "hostRepository": "https://github.com/alice/some-skill",
             "sourceLane": "source-repository",
+            "fetchedAt": "2026-07-29T00:00:00Z",
+            "contentSha256": "a" * 64,
             "frontmatter": {"name": "Some Skill", "description": "Does a thing well."},
         },
         "normalized": {"name": "Some Skill", "description": "Does a thing well."},
         "exactDedupe": {"matched": False},
-        "mappingOptions": [],
+        "mappingOptions": [{
+            "genericId": "research", "rationale": "Frozen strong match.",
+            "similarity": 0.9, "matchTier": "strong",
+        }],
         "decision": {"value": "MAP", "reasonCode": "strong-match", "genericId": "research"},
         "flags": [],
     }
     packet.update(overrides)
+    options = packet["mappingOptions"]
+    generics = [{"id": "research", "kind": "generic"}]
+    digest = lambda value: hashlib.sha256(  # noqa: E731
+        json.dumps(value, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
+    packet.setdefault("genericSnapshot", {
+        "capturedAt": "2026-07-29T00:00:00Z",
+        "command": "gaia dev list --generic --json",
+        "generics": generics,
+        "contentSha256": digest(generics),
+        "mappingOptionsSha256": digest(options),
+    })
+    packet.setdefault("l4Resolution", {
+        "status": "approved",
+        "generic": {
+            "id": (packet.get("decision") or {}).get("genericId", "new-generic"),
+            "name": "Vendor Neutral Capability",
+            "description": "A human-ratified vendor-neutral capability description.",
+            "type": "basic",
+            "prerequisites": [],
+        },
+        "named": {"contributor": "alice", "skillName": "some-skill"},
+        "skillFileUrl": "https://github.com/alice/some-skill/blob/main/SKILL.md",
+    })
     return packet
 
 
@@ -75,7 +107,7 @@ def test_attribution_scope_derivation():
 
 def test_map_path_references_existing_generic():
     entry = buildIntakeSkill(_basePacket())
-    assert entry["id"] == "alice-some-skill"
+    assert entry["id"] == "research"
     assert entry["candidateId"] == "alice/some-skill"
     assert entry["type"] == "basic"
     assert entry["prerequisites"] == []
@@ -115,7 +147,7 @@ def test_new_generic_basic():
     assert entry["type"] == "basic"
     assert entry["prerequisites"] == []
     assert "mapsToGeneric" not in entry
-    assert entry["name"] == "Some Skill"  # normalized wins over proposal
+    assert entry["name"] == "Vendor Neutral Capability"
 
 
 # --------------------------------------------------------------------------- #
@@ -133,7 +165,17 @@ def test_new_generic_fusion_carries_prerequisites():
                 "type": "fusion",
                 "prerequisites": ["research", "planning"],
             },
-        }
+        },
+        l4Resolution={
+            "status": "approved",
+            "generic": {
+                "id": "fused-skill", "name": "Fused Skill",
+                "description": "Combines two vendor-neutral capabilities.",
+                "type": "fusion", "prerequisites": ["research", "planning"],
+            },
+            "named": {"contributor": "alice", "skillName": "some-skill"},
+            "skillFileUrl": "https://github.com/alice/some-skill/blob/main/SKILL.md",
+        },
     )
     entry = buildIntakeSkill(packet)
     assert entry["type"] == "fusion"
@@ -150,7 +192,17 @@ def test_new_generic_fusion_without_prerequisites_raises():
                 "description": "Combines two capabilities.",
                 "type": "fusion",
             },
-        }
+        },
+        l4Resolution={
+            "status": "approved",
+            "generic": {
+                "id": "fused-skill", "name": "Fused Skill",
+                "description": "Combines two vendor-neutral capabilities.",
+                "type": "fusion",
+            },
+            "named": {"contributor": "alice", "skillName": "some-skill"},
+            "skillFileUrl": "https://github.com/alice/some-skill/blob/main/SKILL.md",
+        },
     )
     with pytest.raises(ValueError, match="prerequisites"):
         buildIntakeSkill(packet)
@@ -215,12 +267,61 @@ def test_suite_fan_out_build_intake_yaml():
     result = buildIntakeYaml([component, capstone])
     assert "skills" in result
     assert len(result["skills"]) == 2
-    scopes = {s["id"]: s["attributionScope"] for s in result["skills"]}
-    assert scopes["alice-component-a"] == "suite-component"
-    assert scopes["alice-capstone"] == "suite-wide"
+    assert [s["attributionScope"] for s in result["skills"]] == [
+        "suite-component", "suite-wide",
+    ]
+
+
+def test_resolved_packet_validates_against_v2_schema():
+    jsonschema = pytest.importorskip("jsonschema")
+    schemaPath = os.path.join(
+        os.path.dirname(__file__), "..", ".agents", "skills", "gaia-curate",
+        "schemas", "discovery-packet-v2.schema.json",
+    )
+    with open(schemaPath, encoding="utf-8") as handle:
+        schema = json.load(handle)
+    jsonschema.validate(_basePacket(), schema)
+
+
+def test_post_l4_handoff_rejects_listing_or_tree_url():
+    packet = _basePacket()
+    packet["l4Resolution"]["skillFileUrl"] = "https://github.com/alice/repo/tree/main/skills/x"
+    with pytest.raises(ValueError, match="exact GitHub blob URL"):
+        buildIntakeSkill(packet)
+
+
+def test_post_l4_handoff_requires_frozen_snapshot_digest():
+    packet = _basePacket()
+    packet["genericSnapshot"]["contentSha256"] = "0" * 64
+    with pytest.raises(ValueError, match="frozen generics"):
+        buildIntakeSkill(packet)
+
+
+def test_new_generic_uses_human_ratified_identity_not_candidate_slug():
+    packet = _basePacket(
+        candidateId="vendor/flashy-product",
+        decision={
+            "value": "NEW_GENERIC", "reasonCode": "NEW_GENERIC_NO_MATCH",
+            "proposal": {"name": "Flashy Product", "description": "Vendor prose here.", "type": "basic"},
+        },
+        l4Resolution={
+            "status": "approved",
+            "generic": {
+                "id": "durable-context-retrieval", "name": "Durable Context Retrieval",
+                "description": "Retrieves durable context across bounded agent sessions.",
+                "type": "basic", "prerequisites": [],
+            },
+            "named": {"contributor": "vendor", "skillName": "flashy-product"},
+            "skillFileUrl": "https://github.com/vendor/repo/blob/abc123/SKILL.md",
+        },
+    )
+    entry = buildIntakeSkill(packet)
+    assert entry["id"] == "durable-context-retrieval"
+    assert entry["named"]["skill_name"] == "flashy-product"
 
 
 def test_build_intake_yaml_single_packet():
     result = buildIntakeYaml(_basePacket())
     assert len(result["skills"]) == 1
-    assert result["skills"][0]["id"] == "alice-some-skill"
+    assert result["skills"][0]["id"] == "research"
+    assert result["curationHandoff"]["contractVersion"] == "curation-handoff-v1"
