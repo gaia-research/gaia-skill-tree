@@ -93,7 +93,7 @@ def test_render_stats_includes_registry_health_sections(tmp_path):
 
     output = render_stats(collect_stats(tmp_path))
 
-    assert "Gaia Registry — 4 skills  1 edges" in output
+    assert "Gaia Skill Tree — 4 skills  1 edges" in output
     assert "Type breakdown" in output
     assert "Basic" in output
     assert "Level breakdown" in output
@@ -112,7 +112,7 @@ def test_stats_cli_prints_summary(tmp_path, monkeypatch, capsys):
     main()
 
     output = capsys.readouterr().out
-    assert "Gaia Registry — 4 skills  1 edges" in output
+    assert "Gaia Skill Tree — 4 skills  1 edges" in output
     assert "Class A" in output
     assert "Effective level breakdown" in output
 

@@ -35,7 +35,7 @@ test('binary wrapper runs the Python CLI from outside the repo root', () => {
     const result = run(process.execPath, [gaiaBin, '--help'], { cwd });
 
     assert.equal(result.status, 0, result.stderr);
-    assert.match(result.stdout, /Gaia Registry CLI/);
+    assert.match(result.stdout, /Gaia CLI/);
     assert.match(result.stdout, /\bpush\b/);
   });
 });
@@ -55,7 +55,7 @@ test('programmatic wrapper runs the Python CLI from outside the repo root', () =
     const result = run(process.execPath, [scriptPath], { cwd });
 
     assert.equal(result.status, 0, result.stderr);
-    assert.match(result.stdout, /Gaia Registry CLI/);
+    assert.match(result.stdout, /Gaia CLI/);
   });
 });
 
@@ -92,7 +92,7 @@ test('packed npm package installs and exposes gaia binary', () => {
 
       const helpResult = run(join(cwd, 'node_modules/.bin/gaia'), ['--help'], { cwd });
       assert.equal(helpResult.status, 0, helpResult.stderr);
-      assert.match(helpResult.stdout, /Gaia Registry CLI/);
+      assert.match(helpResult.stdout, /Gaia CLI/);
     } finally {
       rmSync(tarballPath, { force: true });
     }

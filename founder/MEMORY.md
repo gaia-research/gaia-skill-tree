@@ -4,6 +4,179 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-29, Session 8C — Arc I past the midpoint: 7 PRs merged, 7 issues closed; five agents killed by a session limit with all work preserved; concurrency capped at 1+2)
+
+### TLDR
+- **Seven PRs merged**, seven issues closed. Arc I is roughly **70%** done. Merged: **#1345** (V5-19 + Session 8B snapshot), **#1346** (#1258 code half), **research#127 + #1347** (the six-namespace lexicon migration, landed consecutively in one cycle → **#1337 closed**), **skill-heaven#4** (the V5-6 posture-slider re-cut → **#5 closed**), plus **#1348** updated in place.
+- **Five worker agents died mid-flight on an account session limit** (resets 08:10 Asia/Manila). **Nothing was lost** — none had pushed, so every branch was committed as an explicit `WIP:` commit and pushed. Resume from the remote branches listed below.
+- **Founder ruling on concurrency: implementation is capped at 1 orchestrator + 2 workers, permanently.** Seven concurrent agents is what exhausted the limit. This supersedes the "fan the lanes out in parallel" instruction in `ARC_I.md` §3.
+- **The 3D graph needs EMBEDDINGS, not a layout recompute** (founder correction). This killed a bad framing I had given a worker.
+- **`gaia dev docs` cannot bootstrap from a clean checkout** — a genuine ordering defect, newly found.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| Lexicon (Program 2) | ✅ **#1337 CLOSED.** Six namespaces live across two HQs. `research#127` + `#1347` merged consecutively. |
+| Lexicon CI trigger | ✅ Fixed. `app/page.tsx` was declared in the `user-facing` scope but absent from **both** `pull_request.paths` and `push.paths` — pre-existing on `main`, not introduced by #127. |
+| Skill Heaven (Lane A) | ✅ **#5 and #6 CLOSED.** Floor split + posture-slider re-cut both on `main`. |
+| Adoption (Lane C) | ✅ #1130, #1341 closed earlier. ⏳ **#1339 About surface** — substantial WIP, unpushed→now pushed, unfinished. |
+| Dead package refs | ⏳ **#1348** updated, CI running, not merged. |
+| `packages/mcp` deletion | ⏳ WIP preserved. Founder **overrode** the roadmap's deletion gate. |
+| Python 3.14 packaging | ⏳ WIP preserved, unverified. |
+| Class P regen | ⏳ Blocked on embeddings. Two real defects found (below). |
+| Lexicon delta (V5-6 retirements) | ❌ Not started — agent died before its first edit. Full spec survives in this snapshot. |
+
+### Branches at end of session — ALL PUSHED, none merged
+
+| Repo | Branch | Head | State |
+|---|---|---|---|
+| gaia-skill-tree | `docs/dead-package-refs` | `5c0bbaab8` | #1348 — complete, CI was running |
+| gaia-skill-tree | `cli/drop-prototype-mcp` | `e685f4cd4` | 2 real commits + 1 `WIP:` commit. **Unverified, never test-run.** |
+| gaia-skill-tree | `cli/py314-console-script` | `31fd9d3e5` | 1 `WIP:` commit only. Agent was mid-rewrite of two packaging tests onto a shared fixture. **Unverified.** |
+| gaia-skill-tree | `docs/about-pointer` | `9637151` | 3 commits, clean, no PR |
+| gaia-skill-tree | `infra/classp-build-order` | — | ✅ **PR #1362**, 2 commits, **all CI green.** Bootstrap fix + error visibility. Not merged. |
+| gaia-skill-tree | `docs/classp-regen` | — | Deliberately **no commits, no PR** — the regen was a **content no-op** (246 nodes, 412 edges, unchanged; only `positions`, at float-noise magnitude). |
+| gaia-research | `docs/about-surface` | `8fe6844` | 2 commits + 1 `WIP:` commit, no PR |
+
+⚠️ **Collision to resolve on resume: `cli/drop-prototype-mcp` and `cli/py314-console-script` BOTH modify `tests/test_packaging.py`.** Whichever lands second must rebase and reconcile. Do not run them as concurrent workers.
+
+### Two real defects found in the Class P pipeline
+
+1. **`gaia dev docs` cannot bootstrap from a clean checkout.** ✅ **FIXED in PR #1362.** True cause was narrower and worse than "ordering": `build_named_index` rendered a correct `registry/named-skills.json` into a tempdir, then — when the committed path was absent — returned **"changed" without writing it**. That path is gitignored Class P, so it is *always* absent on a fresh clone or in CI, and four downstream steps consume it. It now writes what it generated. Verified by deleting all Class P and rebuilding: **4 errors → 2 → 0**. A second commit fixes the *invisibility*: `_run_step()` collapsed exceptions to one line and only printed the traceback under `--check`, so a missing dependency surfaced as a bare `rc=1`.
+   The `tree-md` failure was the same class — plain `ModuleNotFoundError: numpy`, **environmental, not a code bug**. No code change was warranted; the error message was the defect.
+2. **A guard correctly refused to write `docs/graph/gaia.json`** — `registry/layouts_3d.json` is Class P and exists **nowhere locally** (not in the worktree, not in the primary clone; `generated-output/layouts.json` absent too):
+   > `Refusing to write docs/graph/gaia.json without registry/layouts_3d.json … the committed copy has 246 skills with positions/cluster; the regenerated copy would have 0.`
+   That guard is the thing standing between us and the 12-hour site-dark of PR #798. **Never bypass it.**
+
+**The chain:**
+```
+graph/embeddings.json              (TRACKED in git — present, not missing)
+  → scripts/build_layouts_3d.py      (PCA to 4D; needs numpy + scipy)
+  → registry/layouts_3d.json         (written by scripts/generateProjections.py L330-335)
+  → scripts/syncDocsGraphAssets.py   (the guard above)
+  → docs/graph/gaia.json             (Class S, site-served)
+```
+
+> ⚠️ **RESOLVED, and my diagnosis above was wrong — corrected same session.** Embeddings were **never missing**: `graph/embeddings.json` is **tracked in git and present**. The only absent thing was **numpy/scipy**, so `build_layouts_3d.py` could not be imported. `pip install -e ".[docs]"` — the extra `pyproject.toml` already documents as the minimum for `gaia docs build` — fixed it, `generateProjections.py` regenerated `layouts_3d.json` through the supported path, and the guard passed untouched. **`gaia pull` was a red herring too.** Lesson: I diagnosed a missing *artifact* from a stack trace that was really a missing *dependency*.
+
+**Position deltas after regen — deterministic 3.3e-16, semantic 8.8e-15, both 0/246 nodes moving. Zero real movement.** Clusters identical for all 246.
+
+⚠️ **`spectral` is NOT reproducible and must not be committed** — 246/246 nodes move, max delta **2.69**. Cause: `build_layouts_3d.py` takes `evecs[:, 1:5]` of the graph Laplacian, but that Laplacian has **31 zero eigenvalues** (31 disconnected components in the prerequisite graph), so eigenvectors 1–4 lie entirely inside a 31-dimensional degenerate nullspace. Any orthonormal basis is valid and LAPACK returns a different rotation per scipy version. **Not a sign flip, not a data change** — committing it rearranges the public 3D graph's Spectral view for zero content gain. **Founder call outstanding.**
+
+⚠️ **Embeddings coverage gap, pre-existing and live on the site: `graph/embeddings.json` has 211 entries against 246 skills.** 47 skills have no embedding — including **all three google-deepmind targets**. Unembedded skills silently fall back to `semantic := deterministic`, `cluster := 0`, **with no error**. They render as nodes but are semantically unplaced.
+
+⚠️ **Path/shape divergence blocking regeneration:** `gaia embed` (behind the `[embeddings]` extra) writes **`registry/embeddings.json`**; `build_layouts_3d.py` reads **`graph/embeddings.json`**. Different paths, different top-level shapes (`dim`/`count` vs `dimensions`/`generatedAt`). **Which artifact is canonical is a founder decision** — it intersects the in-flight curation/embeddings EPIC. Also note `scipy` is in `[docs]`/`[dev]` but **not** in `[embeddings]`.
+
+### Lexicon delta — SPECIFIED, NOT LANDED (agent died before its first edit)
+
+Four items for `gaia-research`, branch `lexicon/v5-6-retirements`:
+
+1. **The code cannot express "banned, no replacement."** `check-lexicon.ts` renders `retired by ${t.oracle} — use "${t.replacement}"`, so a term with no successor reports **`use "undefined"`**. Two of the terms below are exactly that case, so **this must be fixed first**. ⚠️ The file contains **2 pre-existing NUL bytes**, so `grep` treats it as binary — use `rg` or `tr -d '\0'`.
+2. **`lean` and `add-ons`: `parked` → `banned`**, oracle **V5-6**, **no replacement — the concept is gone, not renamed.** Drop `lean`'s unratified `proposed_replacement: "project-only"`. Keep its narrow scoping note (`lean` appears in ~111 files, nearly all innocent — `clean`, `lean bundle`); **widening that scope lights up the whole repo.**
+3. **`floor`'s note still says the product/benchmark question is open. V5-5 closed it.** `floor` = doorless **BENCHMARK** floor (byte-frozen at T9b, placebo-of-record). Add **`product-floor`** as canonical, oracle V5-5 = doorful **PRODUCT** floor (T9b minus `--disable-slash-commands`, optional `--door-plugin-dir`). Separate arms, **never averaged**. Door costs **+515 tokens** (20,176 vs 19,661), still **−28.9%** off native's 28,379.
+4. **A false premise is live on `main` in the lexicon itself.** `gaia_search`'s banned entry justifies itself with *"Nothing is published yet, so the prototype spelling never becomes a compatibility obligation."* That is the exact claim **V5-18** struck. The **ban stands** (D4 wins); only the reasoning is wrong. Rewrite per V5-19: the rename **executes at Arc III**, and documenting the shipped names remains correct until then. Check `gaia_inspect` and `gaia_status` for the same wording.
+
+### Lessons / hazards preserved
+
+- **Seven concurrent agents exhausts the session limit.** The cap is now **1 orchestrator + 2 workers**. Sequence lanes; do not fan out.
+- **Agents that die have not pushed.** Sweep every working directory (`git log origin/main..HEAD` **and** `git status`) and push `WIP:` commits before doing anything else. All five agents' work survived only because of this.
+- **Correcting a name does not correct the claim around it.** #1348 fixed `@gaia-registry/*` → `@gaia-research/mcp` but left the README promising `GITHUB_TOKEN` **"for PR tools"** — v0.1.0 has no PR tools and no write path at all. The stale *capability* claim outlived the stale *name*.
+- **The published artifact contradicts itself.** `@gaia-research/mcp@0.1.0`'s **published** README says *"The npm package is not published yet."* Same false premise as V5-18, now shipping to anyone running `npm view`. Lives in the **`gaia-mcp` repo** (real, last touched 2026-07-27) — **out of this session's dispatch scope, unfixed.**
+- **Measured adoption: 127 downloads total, 52 on release day.** A clean break at the Arc III rename is nearly free. Measure before assuming a migration is expensive.
+- **A Class S artifact carries a version stamp against the #807 rule** — `docs/graph/ledger/data.json` has `"version": "7.1.13"`, and its only diff after a partial build was a `generatedAt` timestamp bump. Pure CI churn of exactly the kind #807 was meant to end. Unfiled.
+- **`CLAUDE.md`'s Class P table is wrong about three files.** It lists `registry/real-skills.{json,md}` as gitignored Class P; they are **tracked**, as is `registry/similarity.json`. The build does **not** regenerate them — deleting them while simulating a clean checkout required `git checkout` to recover. Unreconciled; fix the table, not the files.
+- **A missing dependency can masquerade as a missing artifact.** I read `RuntimeError: Refusing to write … without registry/layouts_3d.json` and concluded the *input data* was gone. The input was tracked in git the whole time; **numpy/scipy** were what was absent. Read the stack trace, not just the error string, before naming a cause.
+- **Per-repo merge verbs still diverge.** `gaia-skill-tree` + `gaia-research` = **merge commits only**; `skill-heaven` = **squash only** (branch-protection ruleset). Now recorded in `skill-heaven/CLAUDE.md`.
+
+### Open questions for next orchestrator
+
+1. **`gaia_status` has no mapping.** D4 names two tools (`search_skills`/`summon`); **three** ship. Is `summon` a rename of `gaia_inspect` or a new verb? What becomes of `gaia_status`? **Blocks writing the migration story into §10.**
+2. **Break posture at Arc III** — hard rename at v0.2.0 alongside Bonded mode, or aliases with a deprecation window?
+3. **Who owns `gaia-mcp`?** Do we dispatch there to fix the published README, or is it owned elsewhere the way `docs/en` is?
+4. Does the embeddings generator need an API key or network access? If so, Class P regen is blocked on credentials, not on code.
+
+### Token cost (this session)
+
+`2026-07-29 Opus 5: five subagents killed mid-flight — only skill-heaven#4 reported (148k in, 27k out). Four others unreported by construction. Orchestrator: dispatch, verification, merges, and inline #1348 work. Partial by construction.`
+
+---
+
+## State Snapshot (2026-07-28, Session 8B — Arc I executed: 4 of 7 issues closed, 6 PRs merged, 6 more green; the "nothing is published" premise falsified and corrected across roadmap + handover; V5-18/V5-19 ruled; paused mid-arc with zero agents running)
+
+> **Reads with the Session 8 block below it** — that entry was written mid-session at a credit pause and its "nothing is published" claims were **corrected later in the same session**. Where the two disagree, **this block wins**. The corrected text is already merged in PR #1343.
+
+### TLDR
+- **Arc I is roughly half done. 4 of 7 tracked issues CLOSED** — `skill-heaven#6` (floor split), HQ **#1130** (entrypoints), **#1338** (MCP tool-name bans), **#1341** (surface breaks), plus **#1328** closed as a consequence.
+- **The session's most valuable output was a correction, not a feature.** The orchestrator planned and dispatched most of the day on the premise that **nothing is published**. **Marco caught it.** `@gaia-research/mcp` **v0.1.0 shipped to npm 2026-07-16**. See the ⚠️ block in the Session 8 entry below for the full record; V5-18 carries it in the roadmap.
+- **A false claim reached a public page before it was caught.** A `.wip-banner` reading "not yet published, so the install commands on this page cannot be run yet" was shipped to PR #1344 — **strictly worse than the stale name it replaced.** Reverted same session.
+- **Then the thread got pulled and it was worse than one page.** The **entire `@gaia-registry/*` npm scope is unpublished** — `cli`, `mcp-server`, `api-client` all 404, and `gaia-registry-client` is not on PyPI. The **homepage Quick Start** was telling readers to `npx @gaia-registry/mcp@0.1.0`, a spelling that **has never existed in any form**. Fixed in PR #1348. Only **`@gaia-research/mcp`** (npm) and **`gaia-cli`** (PyPI, 47 releases) are real.
+- **Two founder rulings closed.** **V5-18** (factual correction; **V5-14 survives intact** — package name kept, only the implementation is a blank canvas). **V5-19** — D4's `search_skills`/`summon` stands, **but the rename executes at Arc III**, not as a side effect of lexicon work. `@gaia-research/mcp` keeps its shipped tool names until then and **no Gaia surface may describe them as deprecated**.
+- **The 46-test-failure scare resolved to 1 real failure.** See "Class P staleness" below — this is a repeatable trap that already burned one agent's diagnosis.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| `skill-heaven#6` floor split | ✅ **MERGED** (SH PR #14) — doorless benchmark floor vs doorful product floor, priced as separate arms |
+| HQ **#1130** entrypoints | ✅ **MERGED** (#1342) |
+| HQ **#1338** MCP tool-name bans | ✅ **MERGED** (research#126) — **with a scope-boundary block in the PR body** |
+| HQ **#1341** surface breaks | ✅ **MERGED** (#1344 + SH #15) |
+| HQ **#1328** stale MCP refs | ✅ **CLOSED** + issue body amended to record that its rename suggestion was **correct** |
+| Roadmap V5-18 / V5-19 + ARC_I corrections | ✅ **MERGED** (#1343) / open (#1345) |
+| `#1337` six-namespace lexicon migration | 🟢 **GREEN, UNMERGED** — research#127 + HQ#1347 |
+| `#5` re-cut of PR #4 | 🟢 **GREEN, DRAFT** — SH#4, 112/112 tests |
+| `#1258` code half | 🟢 **GREEN, UNMERGED** (#1346) — `Refs`, not `Resolves` |
+| Dead package refs | 🟢 **GREEN, UNMERGED** (#1348) |
+
+### Open PRs at pause — all green, none merged
+| PR | Repo | Work |
+|---|---|---|
+| **#1345** | HQ | V5-19 ruling |
+| **#1346** | HQ | #1258 code half (`Refs` — CI-guard item needs an `infra/` PR) |
+| **#1347** | HQ | #1337 second lexicon HQ |
+| **#1348** | HQ | dead package refs (homepage Quick Start) |
+| **research#127** | Research | #1337 namespace split |
+| **skill-heaven#4** | Heaven | #5 re-cut — **still draft** |
+
+### Lane B's loader design — the decision #126 deferred, now made
+Root manifest is the **sole** source of repo-wide config (scopes, exclusions, oracle path, doc path) and carries its own namespace's terms. Every other owned namespace is a sibling `lexicon.<namespace>.json` holding **terms and nothing else**, so **a namespace structurally cannot widen where it is enforced**. `loadHq` merges to one flat list recording the owning file per term; a second definition fails naming *both* files, and a namespace in `owns` with no file is a hard failure. Cross-HQ uses a **name-only mirror** (`lexicon.foreign.json`) — the gate rejects foreign redefinitions **without importing another repo's source**. Definitions never travel, only names. That satisfies **D6 by construction**, not by discipline.
+
+**Counts: 71 terms, 71 globally unique.** `core` 2 · `gaia.heaven` 35 · `gaia.research` 13 · `gaia.mcp` 3 · `gaia.brand` 1 (=54, Research) + `gaia.skills` 10 · `gaia.trust` 7 (=17, Tree). Transitional `namespace` field **deleted**, with a self-test asserting no term carries it.
+
+### ⚠️ Class P staleness — a repeatable trap that already cost one misdiagnosis
+An agent reported **46 test failures** and blamed "missing Class-P registry data in this sandbox." Both the number and the reason were wrong.
+
+**Truth, measured in the real checkout:** **3 failures on `main`**, and only **1** is real.
+
+- **43 were a worktree artifact.** Class P is **gitignored**, so `git worktree` checkouts **never receive it**. Any agent running `pytest` in a worktree sees ~46 failures forever, none real. **`CLAUDE.md` documents Class P/S correctly but is silent on this**, and its worktree section (branch/CWD discipline) never mentions it. **That gap is worth closing.**
+- **2 were local Class P staleness, not a registry defect.** Validation flagged 7 dangling `genericSkillRef`s in `registry/named/google-deepmind/`. **Decisive proof:** tracked Class S `docs/graph/gaia.json` (mtime Jul 28) **contains all three IDs**; gitignored Class P `registry/gaia.json` (mtime **Jul 22**) contains **none**. The skills were recurated **Jul 27**. Source and served artifact are both fine — **`gaia dev docs` clears it.**
+- **1 is real:** `test_packaging.py::test_wheel_install_smoke_tests_console_script` — `FileNotFoundError` on `venv/bin/gaia` under **Homebrew Python 3.14**. Test-environment bug, not a product bug. **Unresolved.**
+
+### Lessons / hazards preserved
+1. **Verify external state against the external source.** Discipline A was applied to everything *inside* the repos — test baselines, `lexicon.json`, PR CI, branch bases, file overlaps — and **never to npm**, for a package whose install copy was being rewritten. **A one-line `curl` to the registry would have caught it before the first dispatch. Handover docs are not ground truth for external state.**
+2. **The contradiction was already visible and was read past.** Roadmap §4.1 listed "Gaia MCP live tools: `gaia_search`…" in the row **directly below** the one claiming the package was unpublished.
+3. **A stale ticket can push agents into a wrong decision.** #1328's body suggested the rename that was actually correct; the orchestrator instructed **two** workers to refuse it on V5-4 grounds. **The no-package-names rule governs the Program 7 About surface, not install docs for a shipped package.** Issue amended so it stops misleading.
+4. **Commit-per-unit does not survive a wide sweep unless boundaries are named.** One agent accumulated **22 files, 0 commits**. Restating the principle failed; **naming the three specific commit boundaries worked.**
+5. **Merge verbs are per-repo, and repo settings can lie.** `skill-heaven` **requires squash** (merge commits blocked by a ruleset on `main`, even though the API reports `allow_merge_commit: true`); `gaia-skill-tree` and `gaia-research` **forbid squash**. Now recorded in `skill-heaven/CLAUDE.md`.
+6. **Workers left the parent worktree on their branches.** Found this checkout on `infra/lexicon-second-hq`. **Run `git branch --show-current` before every commit** (Discipline E).
+7. **Agents doing recovery beat agents doing restarts.** A "lost" commit was found intact in a scratchpad worktree; a 22-file uncommitted sweep was resumed rather than redone. **Always inspect before re-dispatching.**
+
+### Open questions for next orchestrator
+1. **`packages/mcp` deletion.** Marco called it bogus and slated it for deletion. **The roadmap gates it:** *"`packages/mcp` is not deleted until the rebuilt standalone is published, clean-installable, contract-documented, link-migrated, and covered by a client-config migration test."* Deleting now **overrides a ratified gate** — founder call, not inference. Docs half is already done (#1348).
+2. **Regen Class P** (`gaia dev docs`) to clear the 2 stale-artifact failures. Not done — it rewrites Class P **and** Class S; Marco's call.
+3. **Python 3.14 wheel/console-script failure** — the one real failure on `main`.
+4. **Migration story for `@gaia-research/mcp`** — deprecation window, aliases, or clean break at 0.2.0. Required **before Arc III**, not an Arc I blocker. Roadmap §12.
+5. **`#1258` cannot close** until CI Guard B is extended to catch "Gaia Registry" in `src/` — needs an **`infra/`** branch. Sprint's own remainder, so it belongs in this sprint. <!-- lexicon-allow: quotes the retired term to record the violation it describes -->
+6. **`CLAUDE.md` gap:** document that Class P is absent in worktrees and goes stale after pulling others' curation commits.
+
+### Quick handoff — what the next session picks up
+**Merge the six green PRs**, then finish Arc I: **`#1339`** (About surface — unstarted, most judgment-heavy copy, easiest place to close V5-4 by accident) and **Lane A's tail** — `#7`, `#9`, `#8`/`#10`/`#11`/`#12`, then **`#13`**, the three-minute demo that **gates the arc**. `#5` unblocks the tail and is already green in draft.
+
+### Token cost (this session)
+`2026-07-28 Opus 5 + Sonnet — Arc I dispatch + correction. Subagent output tokens: 87,329 + 74,660 + 82,246 + 137,813 + 87,672 + 92,334 + 110,579 + 152,077 + 93,288 + 212,390 ≈ **1.13M** across ten dispatches; two further agents killed mid-flight, totals unreported. Orchestrator: dispatch, verification, founder-doc authoring; no code authored. Partial by construction.`
+
+---
+
 ## State Snapshot (2026-07-28, Session 8 — Arc I dispatch: three lanes fanned out; Lane B's cross-lane dependency discharged; Lane C's cheapest win landed; halted early on credit budget with two agents mid-flight)
 
 ### TLDR
@@ -66,7 +239,7 @@ The worker **rejected** creating a second file (`lexicon.mcp.json`), on the grou
 - **GROUND-TRUTH CORRECTION — `ARC_I.md` §3 Lane A is wrong about the test baseline.** The handover states `skill-heaven` is "**Tests today: 95/95 green**". The Lane A agent measured the real baseline on `origin/main` as **64**, and its floor-split branch at **75/75**. **Fix the handover** — a wrong baseline makes every later "tests still green" claim unverifiable.
 - **Lane C's #1328 instinct was correct and should be preserved on resume.** Facing fourteen references to an unpublished package, it chose to **genericize the copy rather than substitute a different package name**. That is exactly right: it keeps the page honest *and* leaves V5-4 open. **Do not let a resuming agent "improve" this by naming a package.**
 - **Dispatch lesson: the commit-per-unit instruction did not hold under a wide sweep.** Lane C accumulated 22 modified files with **zero commits**. The instruction was in the prompt verbatim and was still ignored once the work became a many-file sweep. For broad find-and-replace-shaped tasks, **name the commit boundaries explicitly in the prompt** ("commit after each of the three breaks") rather than stating the principle.
-- **`Gaia Registry` is leaking onto a surface we just re-linked.** The benchmark leaderboard pages carry titles like `HumanEval Leaderboard | Gaia Registry` — now one click behind the restored homepage entrypoint. That is #1258's scope, correctly left alone by the #1130 worker and explicitly handed to the #1341 worker. **The product-side fix (#1258) and the vocabulary-side fix (`gaia.skills`, `gaia.registry` rejected) must land with coordinated copy.**
+- **`Gaia Registry` is leaking onto a surface we just re-linked.** The benchmark leaderboard pages carry titles like `HumanEval Leaderboard | Gaia Registry` — now one click behind the restored homepage entrypoint. That is #1258's scope, correctly left alone by the #1130 worker and explicitly handed to the #1341 worker. **The product-side fix (#1258) and the vocabulary-side fix (`gaia.skills`, `gaia.registry` rejected) must land with coordinated copy.** <!-- lexicon-allow: quotes the retired term to record the violation it describes -->
 - **The V5-4 pressure point is break #2 of #1341** — fourteen `@gaia-registry/mcp-server` references on a live page for an unpublished package. The honest fix sits directly on top of the constraint against naming packages in user-facing copy. The #1341 worker was told to **stop and report rather than pick a topology**. That report has not come back. **Read it carefully when it does.**
 - All thirteen Arc I issues were verified wired — Program milestone + `arc-1` + `v5` on every HQ issue, Program 1 milestone on all nine `skill-heaven` issues. **One gap: #1130 has no functional label** where every other Arc I issue has one. Not actioned (GitHub write pending approval); `documentation` is the obvious value.
 - Local sibling clones remain a trap: `/Users/marcotiongson/Documents/gaia-research` is still on **stale `staging`**. Every dispatch this session front-loaded "fetch `origin/main` before trusting any local file," and no agent repeated the Session-7 stale-read failure.

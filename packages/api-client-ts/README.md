@@ -1,6 +1,6 @@
 # @gaia-registry/api-client
 
-TypeScript/JavaScript client for the [Gaia Registry API](https://gaiaskilltree.com/api/v1/health.json).
+TypeScript/JavaScript client for the [Gaia Skill Tree API](https://gaiaskilltree.com/api/v1/health.json).
 
 **Zero runtime dependencies.** Uses native `fetch` (Node 18+, all modern browsers).
 

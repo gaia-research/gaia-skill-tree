@@ -1,4 +1,4 @@
-"""Data models for the Gaia Registry API.
+"""Data models for the Gaia Skill Tree API.
 
 Uses dataclasses for zero extra dependencies beyond the standard library.
 All field names use snake_case; JSON deserialization handles camelCase conversion.

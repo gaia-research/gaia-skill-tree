@@ -47,9 +47,6 @@ curl -fsSL https://gaiaskilltree.com/install.sh | sh
 
 # Python install
 pip install gaia-cli
-
-# npm wrapper alternative
-npm install -g @gaia-registry/cli
 ```
 
 ### Key CLI Commands

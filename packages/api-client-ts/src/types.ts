@@ -1,5 +1,5 @@
 /**
- * Gaia Registry API — TypeScript type definitions
+ * Gaia Skill Tree API — TypeScript type definitions
  * Derived from docs/api/v1/openapi.json (OpenAPI 3.1)
  */
 

@@ -108,6 +108,15 @@ jobs:
             }
 
       # ── Guard B — Banned synonyms (per CONTEXT.md) ───────────────────────
+      #
+      # scripts/lexicon/ is excluded. It is the typed vocabulary of record: each
+      # banned word appears there exactly once, as a `banned` entry carrying its
+      # replacement and the CONTEXT.md ruling that retired it, plus once more in
+      # a `bad-*` test fixture proving the gate catches it. A supersession log
+      # has to be able to name the word it retired, and a linter has to be able
+      # to test itself. Excluding the directory is not a loophole — everything
+      # in it is checked, harder, by scripts/lexicon/check-lexicon.ts, which
+      # runs in .github/workflows/lexicon-ci.yml on every PR that touches it.
       - name: Guard B — Scan for banned synonyms
         id: banned-synonyms
         run: |
@@ -120,6 +129,7 @@ jobs:
                --exclude='QUICKSTART.md' \
                --exclude-dir='archive' \
                --exclude-dir='samples' \
+               --exclude-dir='lexicon' \
                2>/dev/null || true)
 
           # Rarity axis is removed (issue #356) — fail on code-level

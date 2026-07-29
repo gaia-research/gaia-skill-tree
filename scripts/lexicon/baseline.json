@@ -1,0 +1,39 @@
+{
+  "about": "Known vocabulary debt at the time the gate landed. Every entry is drift the gate WOULD flag, parked here so new drift can be blocked immediately instead of waiting for the rewrites. Shrink this file; never grow it. An entry disappears when the doc that owns it is rewritten.",
+  "generated": "2026-07-28",
+  "findings": {
+    "CONTRIBUTING.md": {
+      "Evidence Floor": 1,
+      "Evidence Class": 1
+    },
+    "README.md": {
+      "Evidence Floor": 1,
+      "Gaia Registry": 5,
+      "Evidence Class": 1
+    },
+    "docs/agent.md": {
+      "Evidence Floor": 1
+    },
+    "docs/agents/source-curation.md": {
+      "Gaia Registry": 1
+    },
+    "docs/guard-topology.md": {
+      "Extra skill": 1
+    },
+    "docs/rank-vocabulary-guard.md": {
+      "Extra skill": 7
+    },
+    "packages/api-client-py/README.md": {
+      "Gaia Registry": 1
+    },
+    "packages/api-client-ts/README.md": {
+      "Gaia Registry": 1
+    },
+    "packages/mcp/src/index.ts": {
+      "Gaia Registry": 2
+    },
+    "packages/mcp/src/tools/scanContext.ts": {
+      "Gaia Registry": 1
+    }
+  }
+}

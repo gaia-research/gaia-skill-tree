@@ -14,7 +14,8 @@ Last updated: 2026-07-17 · Branch `dev/999-guard-cleanup` · Refs #999, #994, #
 |-------|----------|--------|--------------|-------|-------------------|
 | **Rank Vocabulary Guard** | `rank-vocabulary-guard.yml` | `scripts/check_rank_vocabulary.py` | **Hard-fail (exit 1)** | registry/**, *.md, docs/**/*.md, founder/handovers/**/*.md | Yggdrasil II banned-synonym enforcement (below) |
 | Guard A — Token colours | `docs-cohesion.yml` | inline `grep` | PR comment only (no fail) | docs/js/**, docs/css/**, *.html | No hardcoded hex colours — design tokens only |
-| Guard B — Banned synonyms | `docs-cohesion.yml` | inline `grep` | PR comment only (no fail) | docs/js/**, docs/css/**, *.html | Rarity-axis vocabulary (separate from vocabulary guard) |
+| Guard B — Banned synonyms | `docs-cohesion.yml` | inline `grep` | PR comment **and hard-fail** | `docs/`, `scripts/`, `src/gaia_cli/` (excl. `scripts/lexicon/`), plus `packages/`, `tests/`, `registry/schema/` for the rarity patterns | Rarity-axis vocabulary (separate from vocabulary guard) |
+| **Lexicon gate** | `lexicon-ci.yml` | `scripts/lexicon/check-lexicon.ts` | **Hard-fail (exit 1)**, above a baseline | `founder/**`, `docs/agents/**`, `docs/*.md`, `packages/mcp/src/**`, `packages/*/README.md`, root `*.md` | One term, one owner — the federated v5 lexicon (below) |
 | Guard C — Direction rule | `docs-cohesion.yml` | inline `grep` | PR comment only (no fail) | docs/js/** | Ultimate-first sort enforcement |
 | Guard D — Nav mounts | `docs-cohesion.yml` | inline check | PR comment only (no fail) | docs/ nav structure | Nav mounts in sync |
 | Guard E — Docs cohesion | `docs-cohesion.yml` | inline check | Fail on label absent | docs/graph/ | docs/graph/* artifacts regenerated alongside registry changes |
@@ -85,9 +86,54 @@ tracked under #996 (CLI branch-awareness prerequisite).
 | Banned vocabulary | Yggdrasil II rank/taxonomy synonyms | The deprecated rarity-axis vocabulary — property keys, label maps, the `rs-` CSS prefix, and the five deprecated tier words. See `CONTEXT.md` § Rarity for the canonical literal list (not reproduced here to avoid tripping the guard). |
 | Issues | #999 (Yggdrasil II CI guards) | Tracks rarity-axis drift in generated HTML/JS/CSS |
 
-Guard B of `docs-cohesion.yml` is a **comment-only** guard on the rarity axis in the generated
-site output. It is deliberately non-blocking: rarity-axis drift in templates produces a PR
-annotation but does not fail CI, because the rarity-axis removal is a rolling cleanup.
+Guard B of `docs-cohesion.yml` posts a PR annotation **and** fails the job's final
+"Verify all cohesion guards passed" step. It was documented here as comment-only; that was
+never true of the aggregate step, and the description is corrected above.
+
+`scripts/lexicon/` is excluded from Guard B's grep. That directory is the typed vocabulary of
+record: every retired word appears there exactly once as a `banned` entry carrying its
+replacement and the `CONTEXT.md` ruling that retired it, plus once in a `bad-*` fixture proving
+the gate catches it. A supersession log has to be able to name the word it retired, and a linter
+has to be able to test itself. Nothing is weakened by the exclusion — the directory is checked
+harder, by the lexicon gate below.
+
+---
+
+## Lexicon gate (`lexicon-ci.yml`) — the federated v5 vocabulary
+
+Ratified **V5-8**, issue #1337. The vocabulary of record is a typed lexicon, federated across
+two HQs:
+
+| Repo | Owns |
+|---|---|
+| `gaia-research` | `core` · `gaia.research` · `gaia.brand` · `gaia.heaven` · `gaia.mcp` |
+| `gaia-skill-tree` | `gaia.skills` · `gaia.trust` |
+
+`skill-heaven` and `gaia-mcp` hold no namespace file — they consume. **`gaia.registry` is
+rejected; the namespace is `gaia.skills`** (#1258).
+
+**One term, one owner.** A term is defined in exactly one file, ever. Inside this repo the
+loader's merge rejects a second definition and names both files. Across repos,
+`scripts/lexicon/lexicon.foreign.json` mirrors the other HQ's term **names only** — definitions
+never travel — so a redefinition fails without importing another repo's source.
+
+**`founder/LEXICON.md` is generated.** Never hand-edit it:
+
+```bash
+npx tsx scripts/lexicon/check-lexicon.ts            # check (exit 1 on NEW drift)
+npx tsx scripts/lexicon/check-lexicon.ts --emit     # regenerate founder/LEXICON.md
+npx tsx scripts/lexicon/check-lexicon.ts --strict   # ignore the baseline
+npx tsx scripts/lexicon/check-lexicon.test.ts       # self-tests
+```
+
+**`scripts/lexicon/check-lexicon.ts` is vendored, not authored here.** It is copied
+byte-identical from `gaia-research`; its sha256 is pinned in `scripts/lexicon/vendor.json` and
+asserted by the self-tests, so patching it locally is itself a build failure. To change it:
+change it upstream, re-copy it whole, update the digest in the same PR cycle.
+
+**The baseline is debt made visible.** `scripts/lexicon/baseline.json` records the findings that
+existed when the gate landed; the gate fails only on findings **above** it, and prints the
+outstanding total on every success. Shrink it, never grow it.
 
 ---
 
