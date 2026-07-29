@@ -71,40 +71,40 @@ def patchstatcards(text, liveurls, deadurls):
       3. Validation Timeout       (unchanged — timeouts aren't a CLI input)
       4. Broken Links (404)       += dead
     """
-    gridmatch = re.search(
-        r'(<div class="stats-grid">)(.*?)(</div>\s*</div>)',
-        text,
-        flags=re.DOTALL,
-    )
-    if not gridmatch:
-        # Fall back to matching just the grid open/close at the same depth.
-        gridmatch = re.search(
-            r'(<div class="stats-grid">)(.*?)(\n\s*</div>)',
-            text,
-            flags=re.DOTALL,
-        )
-    if not gridmatch:
+    # Delimit the grid block: from the opening .stats-grid div to the start of
+    # the following top-level comment (e.g. the Pipeline Run History block).
+    startmatch = re.search(r'<div class="stats-grid">', text)
+    if not startmatch:
         raise SystemExit("Could not locate the .stats-grid block to patch.")
+    gridstart = startmatch.start()
+    # The grid is followed by a blank line then the next '<!-- ... -->' comment.
+    tailmatch = re.search(r"\n\s*<!--", text[gridstart:])
+    gridend = gridstart + tailmatch.start() if tailmatch else len(text)
+    block = text[gridstart:gridend]
 
-    block = gridmatch.group(0)
-    values = re.findall(r'<div class="stat-value">(\d+)</div>', block)
-    if len(values) < 4:
+    # Positionally rewrite each stat-value div by walking matches left to right.
+    valuematches = list(re.finditer(r'(<div class="stat-value">)(\d+)(</div>)', block))
+    if len(valuematches) < 4:
         raise SystemExit(
-            f"Expected at least 4 stat-value entries, found {len(values)}."
+            f"Expected at least 4 stat-value entries, found {len(valuematches)}."
         )
 
-    current = [int(value) for value in values[:4]]
+    current = [int(match.group(2)) for match in valuematches[:4]]
     deltas = [liveurls + deadurls, liveurls, 0, deadurls]
     updated = [current[index] + deltas[index] for index in range(4)]
 
+    # Rebuild the block, substituting the first four values by offset (from the
+    # end backwards so earlier match offsets stay valid).
     newblock = block
-    for index in range(4):
-        oldsnippet = f'<div class="stat-value">{current[index]}</div>'
-        newsnippet = f'<div class="stat-value">{updated[index]}</div>'
-        # Replace one occurrence at a time, left to right.
-        newblock = newblock.replace(oldsnippet, newsnippet, 1)
+    for index in reversed(range(4)):
+        match = valuematches[index]
+        newblock = (
+            newblock[: match.start()]
+            + f'{match.group(1)}{updated[index]}{match.group(3)}'
+            + newblock[match.end():]
+        )
 
-    text = text[: gridmatch.start()] + newblock + text[gridmatch.end():]
+    text = text[:gridstart] + newblock + text[gridend:]
     return text, current, updated
 
 
@@ -154,7 +154,9 @@ def patchrunhistory(text, date, description, skills, urls, dead):
         # A row for this date already exists — idempotent no-op.
         return text, False
     row = buildrunrow(date, description, skills, urls, dead)
-    newbody = body.rstrip("\n") + "\n" + row + "\n        "
+    # Strip trailing whitespace/newlines after the last existing row, then
+    # re-append the new row followed by the tbody's closing indentation.
+    newbody = body.rstrip() + "\n" + row + "\n        "
     newtbody = tbodymatch.group(1) + newbody + tbodymatch.group(3)
     text = text[: tbodymatch.start()] + newtbody + text[tbodymatch.end():]
     return text, True
