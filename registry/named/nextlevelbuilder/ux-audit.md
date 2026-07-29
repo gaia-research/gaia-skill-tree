@@ -19,6 +19,74 @@ timeline:
   action: add
   contributor: unknown
   details: Added named skill nextlevelbuilder/ux-audit
+- timestamp: '2026-07-29T20:19:47Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
+    (type: github-stars-own)'
+- timestamp: '2026-07-29T20:19:48Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://arxiv.org/abs/2605.03353 (type: peer-review)'
+- timestamp: '2026-07-29T20:19:49Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/watch?v=Pc27ThkuBPQ (type:
+    social-signal)'
+- timestamp: '2026-07-29T20:19:51Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/watch?v=9cf2-BoWsDc (type:
+    social-signal)'
+- timestamp: '2026-07-29T20:19:52Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://snyk.io/articles/top-claude-skills-ui-ux-engineers/
+    (type: social-signal)'
+evidence:
+- source: https://github.com/nextlevelbuilder/ui-ux-pro-max-skill
+  evaluator: unknown
+  date: '2026-07-29'
+  type: github-stars-own
+  notes: 111k stars, 11.8k forks. SKILL.md at blob/ path.
+  stars: 111000
+  skillCountInRepo: 1
+  sourceStartedAt: '2026-07-22'
+  grade: S
+- source: https://arxiv.org/abs/2605.03353
+  evaluator: unknown
+  date: '2026-07-29'
+  type: peer-review
+  notes: SkCC (ACM CAIS 2026) cites this skill as reference [28] sec 4.1. Indirect
+    citation (test corpus item).
+  citations: 1
+  reviewers: 1
+  sourceStartedAt: '2026-07-29'
+  grade: C
+- source: https://www.youtube.com/watch?v=Pc27ThkuBPQ
+  evaluator: unknown
+  date: '2026-02-04'
+  type: social-signal
+  notes: AI Stack Engineer — OpenCode UI/UX Skill tutorial. 28,973 verified views.
+  views: 28973
+  sourceStartedAt: '2026-02-04'
+  grade: B
+- source: https://www.youtube.com/watch?v=9cf2-BoWsDc
+  evaluator: unknown
+  date: '2026-01-24'
+  type: social-signal
+  notes: AI Stack Engineer — Antigravity UI/UX Skill tutorial. 24,657 verified views.
+  views: 24657
+  sourceStartedAt: '2026-01-24'
+  grade: B
+- source: https://snyk.io/articles/top-claude-skills-ui-ux-engineers/
+  evaluator: unknown
+  date: '2026-07-29'
+  type: social-signal
+  notes: 'Snyk lists ui-ux-pro-max at #5 of 8 top Claude skills for UI/UX engineers.'
+  sourceStartedAt: '2026-07-29'
+verification:
+  firstEvidenceAt: '2026-07-29T20:19:47Z'
 ---
 
 ## Installation

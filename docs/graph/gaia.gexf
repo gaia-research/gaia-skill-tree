@@ -46,6 +46,13 @@
           <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
+      <node id="agent-fusion" label="Agent Fusion">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="agent-handoff" label="agent-handoff">
         <attvalues>
           <attvalue for="level" value="" />
@@ -65,6 +72,13 @@
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="fusion" />
+        </attvalues>
+      </node>
+      <node id="agent-reach" label="Agent Reach">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
         </attvalues>
       </node>
       <node id="agentic-workflow-design" label="Agentic Workflow Design">
@@ -89,6 +103,13 @@
         </attvalues>
       </node>
       <node id="audience-model" label="Audience Model">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
+      <node id="auto-review" label="Auto-Review">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
@@ -956,6 +977,13 @@
           <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
+      <node id="opinion" label="Opinion">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="optical-character-recognition" label="OCR">
         <attvalues>
           <attvalue for="level" value="" />
@@ -1027,6 +1055,13 @@
         </attvalues>
       </node>
       <node id="plan-decompose" label="Plan and Decompose">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
+      <node id="plan-synthesis" label="Plan Synthesis">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
@@ -1136,6 +1171,13 @@
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />
           <attvalue for="type" value="fusion" />
+        </attvalues>
+      </node>
+      <node id="react-performance-optimization" label="React Performance Optimization">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
         </attvalues>
       </node>
       <node id="real-time-voice-assistant" label="Real-Time Voice Assistant">
@@ -1292,6 +1334,13 @@
           <attvalue for="type" value="basic" />
         </attvalues>
       </node>
+      <node id="scroll-world" label="Scroll World">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="search-engine-optimization" label="search-engine-optimization">
         <attvalues>
           <attvalue for="level" value="" />
@@ -1391,6 +1440,13 @@
         </attvalues>
       </node>
       <node id="speech-to-text" label="Speech to Text">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
+      <node id="static-artwork-design" label="Static Artwork Design">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />

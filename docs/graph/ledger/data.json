@@ -1,15 +1,15 @@
 {
-  "version": "7.1.28",
-  "generatedAt": "2026-07-29T19:38:13Z",
+  "version": "6.8.15",
+  "generatedAt": "2026-07-29T20:24:48Z",
   "summary": {
-    "total": 280,
+    "total": 291,
     "S": 5,
-    "A": 47,
-    "B": 69,
-    "C": 78,
-    "ungraded": 81,
+    "A": 48,
+    "B": 72,
+    "C": 83,
+    "ungraded": 83,
     "floor": 0,
-    "up": 31
+    "up": 35
   },
   "rows": [
     {
@@ -221,6 +221,24 @@
       },
       "origin": true,
       "branch": "suite"
+    },
+    {
+      "skillId": "nextlevelbuilder/ux-audit",
+      "tm": 194.26,
+      "grade": "A",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 111.0,
+        "peer-review": 30.0,
+        "social-signal": 53.26
+      },
+      "origin": false,
+      "branch": "standard"
     },
     {
       "skillId": "ruvnet/ruflo-v3",
@@ -1902,6 +1920,22 @@
       "branch": "standard"
     },
     {
+      "skillId": "oso95/scroll-world",
+      "tm": 60.98,
+      "grade": "B",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "social-signal": 60.98
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "skillId": "mattpocock/personal",
       "tm": 60.0,
       "grade": "B",
@@ -1949,6 +1983,23 @@
         "peer-review": 45.0
       },
       "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "panniantong/agent-reach",
+      "tm": 53.86,
+      "grade": "B",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "social-signal": 48.86,
+        "self-attestation": 5.0
+      },
+      "origin": false,
       "branch": "standard"
     },
     {
@@ -2139,6 +2190,25 @@
       "branch": "standard"
     },
     {
+      "skillId": "vercel-labs/react-performance-optimization",
+      "tm": 50.48,
+      "grade": "B",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 9.87,
+        "arxiv": 0.2,
+        "social-signal": 35.41,
+        "self-attestation": 5.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "skillId": "mattpocock/improve-codebase-architecture",
       "tm": 45.0,
       "grade": "C",
@@ -2183,6 +2253,23 @@
       "typeBreakdown": {
         "self-attestation": 5.0,
         "social-signal": 39.48
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "anthropics/static-artwork-design",
+      "tm": 43.52,
+      "grade": "C",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "arxiv": 0.4,
+        "social-signal": 43.12
       },
       "origin": false,
       "branch": "standard"
@@ -2256,6 +2343,23 @@
       "branch": "standard"
     },
     {
+      "skillId": "disler/agent-fusion",
+      "tm": 37.54,
+      "grade": "C",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 1.2,
+        "social-signal": 36.34
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "skillId": "bradautomates/claude-video",
       "tm": 37.47,
       "grade": "C",
@@ -2270,6 +2374,54 @@
         "social-signal": 36.25
       },
       "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "disler/auto-review",
+      "tm": 36.34,
+      "grade": "C",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "social-signal": 36.34
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "disler/opinion",
+      "tm": 36.34,
+      "grade": "C",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "social-signal": 36.34
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "disler/plan-synthesis",
+      "tm": 36.34,
+      "grade": "C",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "social-signal": 36.34
+      },
+      "origin": false,
       "branch": "standard"
     },
     {
@@ -3394,6 +3546,22 @@
       "branch": "standard"
     },
     {
+      "skillId": "ayghri/format-output",
+      "tm": 13.3,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 13.3
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "skillId": "caioribeiroclw-pixel/evidence-attestation",
       "tm": 7.34,
       "grade": "ungraded",
@@ -3698,6 +3866,22 @@
       "currentStars": "1★",
       "mayStars": "1★",
       "juneStars": "1★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "gaia-research/skill-cost",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
       "g7Stars": "1★",
       "flag": "",
       "apexResults": null,

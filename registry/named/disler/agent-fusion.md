@@ -19,6 +19,38 @@ timeline:
   action: add
   contributor: unknown
   details: Added named skill disler/agent-fusion
+- timestamp: '2026-07-29T20:24:02Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/disler/fusion-harness (type: repo-own)'
+- timestamp: '2026-07-29T20:24:03Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/watch?v=AQl5Q-0l7FQ (type:
+    social-signal)'
+evidence:
+- source: https://github.com/disler/fusion-harness
+  evaluator: unknown
+  date: '2026-07-29'
+  type: repo-own
+  notes: Created 2026-07-16. 238 stars, 51 forks, sole contributor. 3 suite commands.
+    Architect/builder/fusion-agent pattern.
+  stars: 238
+  commits: 1
+  contributors: 1
+  skillCountInRepo: 4
+  sourceStartedAt: '2026-07-16'
+- source: https://www.youtube.com/watch?v=AQl5Q-0l7FQ
+  evaluator: unknown
+  date: '2026-07-20'
+  type: social-signal
+  notes: IndyDevDan — directly showcasing fusion-harness codebase. README-linked walkthrough.
+    34,833 verified views.
+  views: 34833
+  sourceStartedAt: '2026-07-20'
+  grade: B
+verification:
+  firstEvidenceAt: '2026-07-29T20:24:02Z'
 ---
 
 ## Installation

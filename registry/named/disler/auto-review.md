@@ -18,6 +18,23 @@ timeline:
   action: add
   contributor: unknown
   details: Added named skill disler/auto-review
+- timestamp: '2026-07-29T20:23:36Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/watch?v=AQl5Q-0l7FQ (type:
+    social-signal)'
+evidence:
+- source: https://www.youtube.com/watch?v=AQl5Q-0l7FQ
+  evaluator: unknown
+  date: '2026-07-20'
+  type: social-signal
+  notes: 'IndyDevDan (136K subs) demos /autovalidate: one agent authors a validation
+    gate that PROVES work is done, other builds against it. 34,833 verified views.'
+  views: 34833
+  sourceStartedAt: '2026-07-20'
+  grade: B
+verification:
+  firstEvidenceAt: '2026-07-29T20:23:36Z'
 ---
 
 ## Installation

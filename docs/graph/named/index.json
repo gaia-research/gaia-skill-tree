@@ -4543,6 +4543,315 @@
         "contractVersion": "gaia-public-v1"
       }
     ],
+    "static-artwork-design": [
+      {
+        "id": "anthropics/static-artwork-design",
+        "name": "Static Artwork Design",
+        "contributor": "anthropics",
+        "origin": false,
+        "genericSkillRef": "static-artwork-design",
+        "status": "named",
+        "level": "2★",
+        "description": "Creates original static visual artifacts such as posters and print-ready graphics from a design brief.",
+        "title": "Static Artwork Design",
+        "links": {
+          "github": "https://github.com/anthropics/skills/blob/main/skills/canvas-design/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://arxiv.org/abs/2605.23657",
+            "evaluator": "unknown",
+            "date": "2026-07-30",
+            "type": "arxiv",
+            "notes": "OpenSkillEval: Auditing the Open Skill Ecosystem. canvas-design one of 30+ skills benchmarked. Cited by arXiv:2606.20659, 2606.10388.",
+            "citations": 2,
+            "sourceStartedAt": "2026-05-22"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=Iup1WlUyj9M",
+            "evaluator": "unknown",
+            "date": "2026-03-09",
+            "type": "social-signal",
+            "notes": "How to Use Claude Skills as a Designer — 245,613 verified views. Dedicated Canvas Design chapter at 5:36.",
+            "views": 245613,
+            "sourceStartedAt": "2026-03-09",
+            "grade": "B"
+          },
+          {
+            "source": "https://simonwillison.net/2025/Oct/16/claude-skills/",
+            "evaluator": "unknown",
+            "date": "2025-10-16",
+            "type": "social-signal",
+            "notes": "Simon Willison high-authority dev blog covering anthropics/skills launch including canvas-design.",
+            "sourceStartedAt": "2025-10-16"
+          }
+        ],
+        "createdAt": "2026-07-30",
+        "updatedAt": "2026-07-30",
+        "timeline": [
+          {
+            "timestamp": "2026-07-29T20:14:43Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill anthropics/static-artwork-design"
+          },
+          {
+            "timestamp": "2026-07-29T20:23:11Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://arxiv.org/abs/2605.23657 (type: arxiv)"
+          },
+          {
+            "timestamp": "2026-07-29T20:23:12Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=Iup1WlUyj9M (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-07-29T20:23:13Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://simonwillison.net/2025/Oct/16/claude-skills/ (type: social-signal)"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 43.52,
+        "overallTrustGrade": "C",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "format-output": [
+      {
+        "id": "ayghri/format-output",
+        "name": "Format Output",
+        "contributor": "ayghri",
+        "origin": false,
+        "genericSkillRef": "format-output",
+        "status": "named",
+        "level": "2★",
+        "description": "Structures raw output into a specified format such as markdown, JSON, CSV, HTML, or cognitive accessibility layout constraints.",
+        "title": "Format Output",
+        "links": {
+          "github": "https://github.com/ayghri/i-have-adhd/blob/main/skills/i-have-adhd/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/ayghri/i-have-adhd",
+            "evaluator": "unknown",
+            "date": "2026-07-29",
+            "type": "github-stars-own",
+            "notes": "13,300 stars, 699 forks as of 2026-07-29. SKILL.md at blob/main/ path.",
+            "stars": 13300,
+            "skillCountInRepo": 1,
+            "sourceStartedAt": "2026-07-22"
+          },
+          {
+            "source": "https://github.com/ayghri/i-have-adhd/blob/main/skills/i-have-adhd/SKILL.md",
+            "evaluator": "unknown",
+            "date": "2026-07-29",
+            "type": "repo-own",
+            "notes": "evals/ harness: 14 cases, weighted correctness/autonomy/actionability/safety/concision rubric, blind scoring. No published numeric results committed.",
+            "skillCountInRepo": 1,
+            "sourceStartedAt": "2026-07-22"
+          },
+          {
+            "source": "https://medium.com/data-science-collective/how-to-use-claude-adhd-skill-better-than-99-of-people-9876934d8548",
+            "evaluator": "unknown",
+            "date": "2026-07-26",
+            "type": "social-signal",
+            "notes": "Gao Dalie, Data Science Collective (941K followers), 142 claps. Install + use cases.",
+            "sourceStartedAt": "2026-07-26"
+          },
+          {
+            "source": "https://www.youtube.com/channel/UCA99nFOwGrggcfEUBpno8cQ",
+            "evaluator": "unknown",
+            "date": "2026-07-29",
+            "type": "social-signal",
+            "notes": "roundtable_so YouTube (286 subs) — ayghri/i-have-adhd video, 652 verified views.",
+            "views": 652,
+            "sourceStartedAt": "2026-07-29"
+          }
+        ],
+        "createdAt": "2026-07-30",
+        "updatedAt": "2026-07-30",
+        "timeline": [
+          {
+            "timestamp": "2026-07-29T20:14:23Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill ayghri/format-output"
+          },
+          {
+            "timestamp": "2026-07-29T20:19:28Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/ayghri/i-have-adhd (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-29T20:19:28Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/ayghri/i-have-adhd/blob/main/skills/i-have-adhd/SKILL.md (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-29T20:19:29Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://medium.com/data-science-collective/how-to-use-claude-adhd-skill-better-than-99-of-people-9876934d8548 (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-07-29T20:19:30Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/channel/UCA99nFOwGrggcfEUBpno8cQ (type: social-signal)"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 13.3,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      },
+      {
+        "id": "garrytan/make-pdf",
+        "name": "Make PDF",
+        "contributor": "garrytan",
+        "origin": false,
+        "genericSkillRef": "format-output",
+        "status": "named",
+        "level": "2★",
+        "description": "Converts markdown or structured data into a polished PDF document with consistent heading styles, table formatting, and page layout ready for distribution.",
+        "title": "Gstack Make PDF — Formatted Output Generator",
+        "catalogRef": "garrytan-make-pdf",
+        "tags": [
+          "format-output",
+          "pdf",
+          "documentation"
+        ],
+        "links": {
+          "github": "https://github.com/garrytan/gstack/blob/main/make-pdf/SKILL.md"
+        },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/garrytan/gstack/blob/main/make-pdf/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-03",
+            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Converts\" markdown or structured data into a polished PDF document with consistent heading styles, table formatting, and page layout ready for… (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
+            "type": "repo",
+            "trustNumber": 70.0,
+            "commits": 323,
+            "contributors": 9,
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-06-21",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T23:45:10Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 3★ to 2★"
+          },
+          {
+            "timestamp": "2026-06-03T05:51:34Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/make-pdf/SKILL.md"
+          },
+          {
+            "timestamp": "2026-06-03T05:51:38Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-06-14T12:32:23Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/make-pdf/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:15Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:52:12Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:19:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-20T06:31:22Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Level updated from 3★ to 2★ per G7 final rankings calibration."
+          }
+        ],
+        "suiteRef": "garrytan/gstack",
+        "trustMagnitude": 36.0,
+        "overallTrustGrade": "C",
+        "trustMagnitudeInputHash": "15e2f935242dc2379becd11295e2cb1ca9cb52aa251058d318e562fcdd247d83",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "type": "basic",
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
     "video-intelligence": [
       {
         "id": "bradautomates/claude-video",
@@ -5868,6 +6177,280 @@
         },
         "type": "fusion",
         "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "agent-fusion": [
+      {
+        "id": "disler/agent-fusion",
+        "name": "Agent Fusion",
+        "contributor": "disler",
+        "origin": false,
+        "genericSkillRef": "agent-fusion",
+        "status": "named",
+        "level": "2★",
+        "description": "Orchestrate multiple specialized AI models as a fused agentic team: form opinions, merge parallel plans, and auto-validate outputs to achieve frontier performance at reduced cost.",
+        "title": "Agent Fusion",
+        "links": {
+          "github": "https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/README.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/disler/fusion-harness",
+            "evaluator": "unknown",
+            "date": "2026-07-29",
+            "type": "repo-own",
+            "notes": "Created 2026-07-16. 238 stars, 51 forks, sole contributor. 3 suite commands. Architect/builder/fusion-agent pattern.",
+            "stars": 238,
+            "commits": 1,
+            "contributors": 1,
+            "skillCountInRepo": 4,
+            "sourceStartedAt": "2026-07-16"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=AQl5Q-0l7FQ",
+            "evaluator": "unknown",
+            "date": "2026-07-20",
+            "type": "social-signal",
+            "notes": "IndyDevDan — directly showcasing fusion-harness codebase. README-linked walkthrough. 34,833 verified views.",
+            "views": 34833,
+            "sourceStartedAt": "2026-07-20",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-07-30",
+        "updatedAt": "2026-07-30",
+        "timeline": [
+          {
+            "timestamp": "2026-07-29T20:14:46Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill disler/agent-fusion"
+          },
+          {
+            "timestamp": "2026-07-29T20:24:02Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/disler/fusion-harness (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-29T20:24:03Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=AQl5Q-0l7FQ (type: social-signal)"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 37.54,
+        "overallTrustGrade": "C",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "auto-review": [
+      {
+        "id": "disler/auto-review",
+        "name": "Auto-Review",
+        "contributor": "disler",
+        "origin": false,
+        "genericSkillRef": "auto-review",
+        "status": "named",
+        "level": "2★",
+        "description": "Automatically review and gate agent outputs by writing and executing a self-authored acceptance script, combining self-critique with pre-completion verification.",
+        "title": "Auto-Review",
+        "links": {
+          "github": "https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/USER_PROMPT_VALIDATOR.md"
+        },
+        "evidence": [
+          {
+            "source": "https://www.youtube.com/watch?v=AQl5Q-0l7FQ",
+            "evaluator": "unknown",
+            "date": "2026-07-20",
+            "type": "social-signal",
+            "notes": "IndyDevDan (136K subs) demos /autovalidate: one agent authors a validation gate that PROVES work is done, other builds against it. 34,833 verified views.",
+            "views": 34833,
+            "sourceStartedAt": "2026-07-20",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-07-30",
+        "updatedAt": "2026-07-30",
+        "timeline": [
+          {
+            "timestamp": "2026-07-29T20:14:45Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill disler/auto-review"
+          },
+          {
+            "timestamp": "2026-07-29T20:23:36Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=AQl5Q-0l7FQ (type: social-signal)"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 36.34,
+        "overallTrustGrade": "C",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "opinion": [
+      {
+        "id": "disler/opinion",
+        "name": "Opinion",
+        "contributor": "disler",
+        "origin": false,
+        "genericSkillRef": "opinion",
+        "status": "named",
+        "level": "2★",
+        "description": "Formulate and articulate a strong, reasoned opinion or recommendation as a discrete agent step, avoiding model selection bias and decision paralysis.",
+        "title": "Opinion",
+        "links": {
+          "github": "https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/USER_PROMPT_OPINION.md"
+        },
+        "evidence": [
+          {
+            "source": "https://www.youtube.com/watch?v=AQl5Q-0l7FQ",
+            "evaluator": "unknown",
+            "date": "2026-07-20",
+            "type": "social-signal",
+            "notes": "IndyDevDan (142K subs) demos /opinion — both models answer in parallel, side-by-side. 34,833 verified views.",
+            "views": 34833,
+            "sourceStartedAt": "2026-07-20",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-07-30",
+        "updatedAt": "2026-07-30",
+        "timeline": [
+          {
+            "timestamp": "2026-07-29T20:14:44Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill disler/opinion"
+          },
+          {
+            "timestamp": "2026-07-29T20:23:35Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=AQl5Q-0l7FQ (type: social-signal)"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 36.34,
+        "overallTrustGrade": "C",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "plan-synthesis": [
+      {
+        "id": "disler/plan-synthesis",
+        "name": "Plan Synthesis",
+        "contributor": "disler",
+        "origin": false,
+        "genericSkillRef": "plan-synthesis",
+        "status": "named",
+        "level": "2★",
+        "description": "Combine two or more independently produced plans into a single attributed result, resolving conflicts and surfacing consensus and divergence.",
+        "title": "Plan Synthesis",
+        "links": {
+          "github": "https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/USER_PROMPT_FUSION_MERGE.md"
+        },
+        "evidence": [
+          {
+            "source": "https://www.youtube.com/watch?v=AQl5Q-0l7FQ",
+            "evaluator": "unknown",
+            "date": "2026-07-20",
+            "type": "social-signal",
+            "notes": "IndyDevDan author showcase — parallel models merged via /opinion, /fusion, /autovalidate. 34,833 verified views.",
+            "views": 34833,
+            "sourceStartedAt": "2026-07-20",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-07-30",
+        "updatedAt": "2026-07-30",
+        "timeline": [
+          {
+            "timestamp": "2026-07-29T20:14:44Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill disler/plan-synthesis"
+          },
+          {
+            "timestamp": "2026-07-29T20:23:35Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=AQl5Q-0l7FQ (type: social-signal)"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 36.34,
+        "overallTrustGrade": "C",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
         "branch": "standard",
         "rank": 2,
         "rankWord": "Named",
@@ -7391,6 +7974,167 @@
         "role": "variant",
         "trustMagnitude": 41.0,
         "overallTrustGrade": "C",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "token-observability": [
+      {
+        "id": "getagentseal/codeburn",
+        "name": "CodeBurn",
+        "contributor": "getagentseal",
+        "origin": true,
+        "genericSkillRef": "token-observability",
+        "status": "named",
+        "level": "2★",
+        "description": "Cost and token observability tool for tracking AI coding agent spending across models and projects.",
+        "title": "The Ledger of Light",
+        "tags": [
+          "observability",
+          "cost",
+          "tokens"
+        ],
+        "links": {
+          "github": "https://github.com/getagentseal/codeburn"
+        },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/getagentseal/codeburn",
+            "evaluator": "gemini-cli",
+            "date": "2026-05-14",
+            "notes": "CodeBurn -- provides cost and token observability for AI coding tools; integrated\" with 20 AI tools. Includes TUI dashboard, macOS menubar, optimization and yield analysis commands. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
+            "type": "repo",
+            "trustNumber": 70.0,
+            "commits": 721,
+            "contributors": 45,
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-05-14",
+        "updatedAt": "2026-06-21",
+        "timeline": [
+          {
+            "timestamp": "2026-06-14T12:32:27Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Re-graded evidence from https://github.com/getagentseal/codeburn as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:16Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:52:12Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:19:37Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:38Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          }
+        ],
+        "trustMagnitude": 36.0,
+        "overallTrustGrade": "C",
+        "trustMagnitudeInputHash": "fed10b7235b3ffa4e485f54f4f888ce10942520a42c4de78e170d73da7ba822e",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "type": "basic",
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      },
+      {
+        "id": "gaia-research/skill-cost",
+        "name": "Skill Cost",
+        "contributor": "gaia-research",
+        "origin": false,
+        "genericSkillRef": "token-observability",
+        "status": "named",
+        "level": "2★",
+        "description": "CLI + agent skill invoked via /cost. Reads JSONL session logs from pi, Claude Code, Codex, opencode; prices every turn against BerriAI/litellm's catalog; auto-refreshes prices.",
+        "title": "Skill Cost",
+        "links": {
+          "github": "https://github.com/gaia-research/skill-cost/blob/main/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/gaia-research/skill-cost",
+            "evaluator": "unknown",
+            "date": "2026-07-30",
+            "type": "repo-own",
+            "notes": "Repo 1 star, 0 forks. stdlib-only cost.py parsing session JSONL from pi, Claude Code, Codex, opencode, Hermes. Prices via LiteLLM catalog. SKILL.md at blob/ path. Stage-1.",
+            "stars": 1,
+            "skillCountInRepo": 1,
+            "sourceStartedAt": "2026-07-30"
+          },
+          {
+            "source": "https://research.gaiaskilltree.com/",
+            "evaluator": "unknown",
+            "date": "2026-07-30",
+            "type": "self-attestation",
+            "notes": "Gaia Research lab page lists skill-cost as published installable skill. Owner-org self-attestation.",
+            "sourceStartedAt": "2026-07-30",
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-07-30",
+        "updatedAt": "2026-07-30",
+        "timeline": [
+          {
+            "timestamp": "2026-07-29T20:14:21Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill gaia-research/skill-cost"
+          },
+          {
+            "timestamp": "2026-07-29T20:17:30Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/gaia-research/skill-cost (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-29T20:17:30Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://research.gaiaskilltree.com/ (type: self-attestation)"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 5.0,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -10344,6 +11088,132 @@
         "rankWord": "Named",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
+      },
+      {
+        "id": "nextlevelbuilder/ux-audit",
+        "name": "UX Audit",
+        "contributor": "nextlevelbuilder",
+        "origin": false,
+        "genericSkillRef": "ux-audit",
+        "status": "named",
+        "level": "2★",
+        "description": "Systematically evaluates a user interface against established usability heuristics, accessibility standards, visual style rules, color palettes, typography, and motion guidelines.",
+        "title": "UX Audit",
+        "links": {
+          "github": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/main/.claude/skills/ui-ux-pro-max/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill",
+            "evaluator": "unknown",
+            "date": "2026-07-29",
+            "type": "github-stars-own",
+            "notes": "111k stars, 11.8k forks. SKILL.md at blob/ path.",
+            "stars": 111000,
+            "skillCountInRepo": 1,
+            "sourceStartedAt": "2026-07-22",
+            "grade": "S"
+          },
+          {
+            "source": "https://arxiv.org/abs/2605.03353",
+            "evaluator": "unknown",
+            "date": "2026-07-29",
+            "type": "peer-review",
+            "notes": "SkCC (ACM CAIS 2026) cites this skill as reference [28] sec 4.1. Indirect citation (test corpus item).",
+            "citations": 1,
+            "reviewers": 1,
+            "sourceStartedAt": "2026-07-29",
+            "grade": "C"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=Pc27ThkuBPQ",
+            "evaluator": "unknown",
+            "date": "2026-02-04",
+            "type": "social-signal",
+            "notes": "AI Stack Engineer — OpenCode UI/UX Skill tutorial. 28,973 verified views.",
+            "views": 28973,
+            "sourceStartedAt": "2026-02-04",
+            "grade": "B"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=9cf2-BoWsDc",
+            "evaluator": "unknown",
+            "date": "2026-01-24",
+            "type": "social-signal",
+            "notes": "AI Stack Engineer — Antigravity UI/UX Skill tutorial. 24,657 verified views.",
+            "views": 24657,
+            "sourceStartedAt": "2026-01-24",
+            "grade": "B"
+          },
+          {
+            "source": "https://snyk.io/articles/top-claude-skills-ui-ux-engineers/",
+            "evaluator": "unknown",
+            "date": "2026-07-29",
+            "type": "social-signal",
+            "notes": "Snyk lists ui-ux-pro-max at #5 of 8 top Claude skills for UI/UX engineers.",
+            "sourceStartedAt": "2026-07-29"
+          }
+        ],
+        "createdAt": "2026-07-30",
+        "updatedAt": "2026-07-30",
+        "timeline": [
+          {
+            "timestamp": "2026-07-29T20:14:22Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill nextlevelbuilder/ux-audit"
+          },
+          {
+            "timestamp": "2026-07-29T20:19:47Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/nextlevelbuilder/ui-ux-pro-max-skill (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-29T20:19:48Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://arxiv.org/abs/2605.03353 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-07-29T20:19:49Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=Pc27ThkuBPQ (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-07-29T20:19:51Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=9cf2-BoWsDc (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-07-29T20:19:52Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://snyk.io/articles/top-claude-skills-ui-ux-engineers/ (type: social-signal)"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 194.26,
+        "overallTrustGrade": "A",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "design-review": [
@@ -12077,117 +12947,6 @@
         "branch": "standard",
         "rank": 1,
         "rankWord": "Awakened",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
-      }
-    ],
-    "format-output": [
-      {
-        "id": "garrytan/make-pdf",
-        "name": "Make PDF",
-        "contributor": "garrytan",
-        "origin": false,
-        "genericSkillRef": "format-output",
-        "status": "named",
-        "level": "2★",
-        "description": "Converts markdown or structured data into a polished PDF document with consistent heading styles, table formatting, and page layout ready for distribution.",
-        "title": "Gstack Make PDF — Formatted Output Generator",
-        "catalogRef": "garrytan-make-pdf",
-        "tags": [
-          "format-output",
-          "pdf",
-          "documentation"
-        ],
-        "links": {
-          "github": "https://github.com/garrytan/gstack/blob/main/make-pdf/SKILL.md"
-        },
-        "evidence": [
-          {
-            "class": "B",
-            "source": "https://github.com/garrytan/gstack/blob/main/make-pdf/SKILL.md",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-03",
-            "notes": "Public SKILL.md in the garrytan/gstack suite repo (verified live). Converts\" markdown or structured data into a polished PDF document with consistent heading styles, table formatting, and page layout ready for… (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
-            "type": "repo",
-            "trustNumber": 70.0,
-            "commits": 323,
-            "contributors": 9,
-            "grade": "B"
-          }
-        ],
-        "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
-        "timeline": [
-          {
-            "timestamp": "2026-06-02T23:45:10Z",
-            "action": "demote",
-            "contributor": "unknown",
-            "details": "Calibrated level from 3★ to 2★"
-          },
-          {
-            "timestamp": "2026-06-03T05:51:34Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added B evidence from https://github.com/garrytan/gstack/blob/main/make-pdf/SKILL.md"
-          },
-          {
-            "timestamp": "2026-06-03T05:51:38Z",
-            "action": "rank_up",
-            "contributor": "unknown",
-            "details": "Calibrated level from 2★ to 3★"
-          },
-          {
-            "timestamp": "2026-06-14T12:32:23Z",
-            "action": "evidence_graded",
-            "contributor": "unknown",
-            "details": "Re-graded evidence from https://github.com/garrytan/gstack/blob/main/make-pdf/SKILL.md as B (trustNumber: 70.0)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-18T11:27:15Z",
-            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T11:52:12Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:19:37Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:26:37Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-06-20T06:31:22Z",
-            "action": "demote",
-            "contributor": "mbtiongson1",
-            "details": "Level updated from 3★ to 2★ per G7 final rankings calibration."
-          }
-        ],
-        "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 36.0,
-        "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "15e2f935242dc2379becd11295e2cb1ca9cb52aa251058d318e562fcdd247d83",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "type": "basic",
-        "role": "variant",
-        "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
       }
@@ -14325,91 +15084,6 @@
         "branch": "standard",
         "rank": 1,
         "rankWord": "Awakened",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
-      }
-    ],
-    "token-observability": [
-      {
-        "id": "getagentseal/codeburn",
-        "name": "CodeBurn",
-        "contributor": "getagentseal",
-        "origin": true,
-        "genericSkillRef": "token-observability",
-        "status": "named",
-        "level": "2★",
-        "description": "Cost and token observability tool for tracking AI coding agent spending across models and projects.",
-        "title": "The Ledger of Light",
-        "tags": [
-          "observability",
-          "cost",
-          "tokens"
-        ],
-        "links": {
-          "github": "https://github.com/getagentseal/codeburn"
-        },
-        "evidence": [
-          {
-            "class": "B",
-            "source": "https://github.com/getagentseal/codeburn",
-            "evaluator": "gemini-cli",
-            "date": "2026-05-14",
-            "notes": "CodeBurn -- provides cost and token observability for AI coding tools; integrated\" with 20 AI tools. Includes TUI dashboard, macOS menubar, optimization and yield analysis commands. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
-            "type": "repo",
-            "trustNumber": 70.0,
-            "commits": 721,
-            "contributors": 45,
-            "grade": "B"
-          }
-        ],
-        "createdAt": "2026-05-14",
-        "updatedAt": "2026-06-21",
-        "timeline": [
-          {
-            "timestamp": "2026-06-14T12:32:27Z",
-            "action": "evidence_graded",
-            "contributor": "unknown",
-            "details": "Re-graded evidence from https://github.com/getagentseal/codeburn as B (trustNumber: 70.0)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-18T11:27:16Z",
-            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T11:52:12Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:19:37Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:26:38Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          }
-        ],
-        "trustMagnitude": 36.0,
-        "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "fed10b7235b3ffa4e485f54f4f888ce10942520a42c4de78e170d73da7ba822e",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "type": "basic",
-        "role": "origin",
-        "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
       }
@@ -21637,6 +22311,242 @@
         "contractVersion": "gaia-public-v1"
       }
     ],
+    "scroll-world": [
+      {
+        "id": "oso95/scroll-world",
+        "name": "Scroll World",
+        "contributor": "oso95",
+        "origin": false,
+        "genericSkillRef": "scroll-world",
+        "status": "named",
+        "level": "2★",
+        "description": "Builds scroll-scrubbed 3D world landing pages for any brand or industry, flying camera paths through connected scenes with zero cuts.",
+        "title": "Scroll World",
+        "links": {
+          "github": "https://github.com/oso95/scroll-world/blob/main/skills/scroll-world/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/oso95/scroll-world",
+            "evaluator": "unknown",
+            "date": "2026-07-29",
+            "type": "repo-own",
+            "notes": "5.7k stars, 651 forks. 2,596 stars in 10 days. SKILL.md at blob/main path. MIT.",
+            "stars": 5700,
+            "skillCountInRepo": 1,
+            "sourceStartedAt": "2026-07-24"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=KBH8P0z2AL8",
+            "evaluator": "unknown",
+            "date": "2026-07-15",
+            "type": "social-signal",
+            "notes": "Chase AI (156K subs) dedicated review. 64,616 verified views.",
+            "views": 64616,
+            "sourceStartedAt": "2026-07-15",
+            "grade": "B"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=Src-a8GJR20",
+            "evaluator": "unknown",
+            "date": "2026-07-16",
+            "type": "social-signal",
+            "notes": "Hyperautomation Labs — 11,008 verified views, 381 likes.",
+            "views": 11008,
+            "sourceStartedAt": "2026-07-16",
+            "grade": "B"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=tnOYNzGb_uA",
+            "evaluator": "unknown",
+            "date": "2026-07-27",
+            "type": "social-signal",
+            "notes": "Korean tutorial — 1,463 verified views. International adoption.",
+            "views": 1463,
+            "sourceStartedAt": "2026-07-27",
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-07-30",
+        "updatedAt": "2026-07-30",
+        "timeline": [
+          {
+            "timestamp": "2026-07-29T20:14:23Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill oso95/scroll-world"
+          },
+          {
+            "timestamp": "2026-07-29T20:20:07Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/oso95/scroll-world (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-29T20:20:08Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=KBH8P0z2AL8 (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-07-29T20:20:09Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=Src-a8GJR20 (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-07-29T20:20:11Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=tnOYNzGb_uA (type: social-signal)"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 60.98,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "agent-reach": [
+      {
+        "id": "panniantong/agent-reach",
+        "name": "Agent Reach",
+        "contributor": "panniantong",
+        "origin": false,
+        "genericSkillRef": "agent-reach",
+        "status": "named",
+        "level": "2★",
+        "description": "Gives an AI agent internet access by routing web requests across 16+ platforms with MCP support and harness-agnostic integration.",
+        "title": "Agent Reach",
+        "links": {
+          "github": "https://github.com/Panniantong/Agent-Reach/blob/main/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://lobehub.com/skills/panniantong-agent-reach-skill",
+            "evaluator": "unknown",
+            "date": "2026-07-29",
+            "type": "social-signal",
+            "notes": "LobeHub Skills Marketplace — 10,200 views, 1,400 installs, 35 reviews 4.5/5. SKILL.md blob/ path (corrected).",
+            "views": 10200,
+            "sourceStartedAt": "2026-03-02",
+            "grade": "B"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=aanqEqQwjNU",
+            "evaluator": "unknown",
+            "date": "2026-06-01",
+            "type": "social-signal",
+            "notes": "Better Stack — dedicated tutorial, install demo, multi-platform routing. 12,681 verified views.",
+            "views": 12681,
+            "sourceStartedAt": "2026-06-01",
+            "grade": "B"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=GCXBAcJiov8",
+            "evaluator": "unknown",
+            "date": "2026-06-15",
+            "type": "social-signal",
+            "notes": "Prism Labs — 6m37s deep-dive, 452 verified views. 16+ platform routing, MCP support.",
+            "views": 452,
+            "sourceStartedAt": "2026-06-15"
+          },
+          {
+            "source": "https://www.sitepoint.com/agent-reach-giving-your-ai-eyes-on-the-web/",
+            "evaluator": "unknown",
+            "date": "2026-03-02",
+            "type": "social-signal",
+            "notes": "SitePoint full tutorial — install, React dashboard integration, MCP workflow.",
+            "sourceStartedAt": "2026-03-02"
+          },
+          {
+            "source": "https://skillsllm.com/skill/agent-reach",
+            "evaluator": "unknown",
+            "date": "2026-07-30",
+            "type": "self-attestation",
+            "notes": "SkillsLLM independent directory — 61,933 stars, 5,010 forks. Security scan passed 2026-04-16.",
+            "sourceStartedAt": "2026-02-26",
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-07-30",
+        "updatedAt": "2026-07-30",
+        "timeline": [
+          {
+            "timestamp": "2026-07-29T20:14:41Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill panniantong/agent-reach"
+          },
+          {
+            "timestamp": "2026-07-29T20:21:33Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://lobehub.com/skills/panniantong-agent-reach-skill (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-07-29T20:21:35Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=aanqEqQwjNU (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-07-29T20:21:36Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=GCXBAcJiov8 (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-07-29T20:21:38Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.sitepoint.com/agent-reach-giving-your-ai-eyes-on-the-web/ (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-07-29T20:21:39Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://skillsllm.com/skill/agent-reach (type: self-attestation)"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 53.86,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
     "implement-with-discernment": [
       {
         "id": "rico-favor/implement-with-discernment",
@@ -25558,6 +26468,131 @@
         },
         "type": "basic",
         "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "react-performance-optimization": [
+      {
+        "id": "vercel-labs/react-performance-optimization",
+        "name": "React Performance Optimization",
+        "contributor": "vercel-labs",
+        "origin": false,
+        "genericSkillRef": "react-performance-optimization",
+        "status": "named",
+        "level": "2★",
+        "description": "Optimizes component rendering, data fetching, and bundle composition in React applications while preserving requested behavior.",
+        "title": "React Performance Optimization",
+        "links": {
+          "github": "https://github.com/vercel-labs/agent-skills/blob/main/skills/react-best-practices/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/vercel-labs/agent-skills",
+            "evaluator": "unknown",
+            "date": "2026-07-30",
+            "type": "github-stars-own",
+            "notes": "29,600 stars, 2,700 forks. react-best-practices at skills/react-best-practices/. SKILL.md blob/ path.",
+            "stars": 29600,
+            "skillCountInRepo": 3,
+            "sourceStartedAt": "2026-01-18"
+          },
+          {
+            "source": "https://github.com/vercel-labs/agent-skills/blob/main/skills/react-best-practices/SKILL.md",
+            "evaluator": "unknown",
+            "date": "2026-07-30",
+            "type": "repo-own",
+            "notes": "Official SKILL.md blob/ path. 70 rules across 8 categories. MIT.",
+            "skillCountInRepo": 3,
+            "sourceStartedAt": "2026-01-18"
+          },
+          {
+            "source": "https://arxiv.org/abs/2602.12430",
+            "evaluator": "unknown",
+            "date": "2026-07-30",
+            "type": "arxiv",
+            "notes": "Agent Skills for LLMs survey. Covers SKILL.md spec / progressive disclosure. Architectural context, no direct benchmark.",
+            "citations": 1,
+            "sourceStartedAt": "2026-07-30"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=PkeC2hNQ9Zw",
+            "evaluator": "unknown",
+            "date": "2026-01-24",
+            "type": "social-signal",
+            "notes": "BetterStack (177K subs) — Vercel Agent Skills. 26,698 verified views.",
+            "views": 26698,
+            "sourceStartedAt": "2026-01-24",
+            "grade": "B"
+          },
+          {
+            "source": "https://vercel.com/docs/agent-resources/skills",
+            "evaluator": "unknown",
+            "date": "2026-07-30",
+            "type": "self-attestation",
+            "notes": "Vercel official docs listing vercel-react-best-practices. First-party endorsement.",
+            "sourceStartedAt": "2026-01-18",
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-07-30",
+        "updatedAt": "2026-07-30",
+        "timeline": [
+          {
+            "timestamp": "2026-07-29T20:14:42Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill vercel-labs/react-performance-optimization"
+          },
+          {
+            "timestamp": "2026-07-29T20:22:46Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/vercel-labs/agent-skills (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-29T20:22:47Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/vercel-labs/agent-skills/blob/main/skills/react-best-practices/SKILL.md (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-29T20:22:49Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://arxiv.org/abs/2602.12430 (type: arxiv)"
+          },
+          {
+            "timestamp": "2026-07-29T20:22:51Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=PkeC2hNQ9Zw (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-07-29T20:22:52Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://vercel.com/docs/agent-resources/skills (type: self-attestation)"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 50.48,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
         "branch": "standard",
         "rank": 2,
         "rankWord": "Named",
@@ -31335,6 +32370,12 @@
       "anthropic/pptx",
       "anthropic/skill-creator"
     ],
+    "anthropics": [
+      "anthropics/static-artwork-design"
+    ],
+    "ayghri": [
+      "ayghri/format-output"
+    ],
     "bradautomates": [
       "bradautomates/claude-video"
     ],
@@ -31352,6 +32393,12 @@
     ],
     "devin-ai": [
       "devin-ai/autonomous-swe"
+    ],
+    "disler": [
+      "disler/agent-fusion",
+      "disler/auto-review",
+      "disler/opinion",
+      "disler/plan-synthesis"
     ],
     "favorchurch": [
       "favorchurch/attendees",
@@ -31374,6 +32421,7 @@
     ],
     "gaia-research": [
       "gaia-research/skill-ci-churn",
+      "gaia-research/skill-cost",
       "gaia-research/skill-fuse"
     ],
     "gaiabot": [
@@ -31570,6 +32618,9 @@
       "mbtiongson1/gaia-wiki-sync",
       "mbtiongson1/graphify-triage"
     ],
+    "nextlevelbuilder": [
+      "nextlevelbuilder/ux-audit"
+    ],
     "nexu-io": [
       "nexu-io/open-design"
     ],
@@ -31593,6 +32644,12 @@
     "openai": [
       "openai/few-shot-learning",
       "openai/self-consistency"
+    ],
+    "oso95": [
+      "oso95/scroll-world"
+    ],
+    "panniantong": [
+      "panniantong/agent-reach"
     ],
     "pbakaus": [
       "pbakaus/impeccable"
@@ -31672,6 +32729,9 @@
     ],
     "upsonic": [
       "upsonic/unittest-generator"
+    ],
+    "vercel-labs": [
+      "vercel-labs/react-performance-optimization"
     ],
     "vercel": [
       "vercel/find-skills"
