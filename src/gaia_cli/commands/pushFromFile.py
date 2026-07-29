@@ -176,11 +176,9 @@ def _validate_skill(entry, index, canonicalIds):
     if named:
         if not named.get("contributor", "").strip():
             errors.append(f"{prefix}.named.contributor: required when named block present")
-        # level is required when the named block is present
+        # level is optional in Yggdrasil II — defaults to "2★" floor if omitted; TM scoring derives higher ranks
         level = named.get("level", "")
-        if not level:
-            errors.append(f"{prefix}.named.level: required when named block present (e.g. '2★')")
-        elif not _STAR_RE.match(str(level).strip()):
+        if level and not _STAR_RE.match(str(level).strip()):
             errors.append(
                 f"{prefix}.named.level '{level}': must be a star rating like '2★' (2–6)"
             )
@@ -210,6 +208,11 @@ def _skillEntryToProposed(entry, sourceRepo):
     proposed.setdefault("lifecycle", "pending")
     if not proposed.get("name"):
         proposed["name"] = skill_name_from_id(entry.get("id", ""))
+    if proposed.get("named") and isinstance(proposed["named"], dict):
+        named = dict(proposed["named"])
+        if not named.get("level"):
+            named["level"] = "2★"
+        proposed["named"] = named
     return proposed
 
 
