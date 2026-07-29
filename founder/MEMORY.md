@@ -24,8 +24,8 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 | KC2 (#9) — standing-dose disclosure | ✅ Merged to integration. 171 → 179 tests. |
 | KC4 (#10) — curated listing residual | ✅ Probe merged. **Criterion FAILS.** Founder decision open. |
 | KC6 (#12) — honest refusal | ✅ Merged to integration. 180 → 194 tests. Every unsupported path now names **which kind of no** it is. |
-| A2 — codex `execSupport` staleness | ⏳ In flight at session pause; nothing pushed yet. |
-| Read-only review of KC1+KC2 | ⏳ In flight at session pause. |
+| A2 — codex `execSupport` staleness | ⚠️ Authored (`71c87d5`), **held unmerged by orchestrator call** — the flip would unlock spawning a codex "floor" that is not a floor. See A7. |
+| Read-only review of KC1+KC2 | ✅ Returned. KC2 solidly closed; **KC1 narrower than its criterion** — see A5a. Four findings, all recorded in the register. |
 | gaia-research #134 — lexicon N10 | ✅ Open, green, **unmerged**. |
 | gaia-skill-tree #1382 — `integration/` prefix | ✅ Open, green, **unmerged**. |
 | gaia-skill-tree #1377 — founder docs | ✅ Open by instruction — the standing dump for orchestrator-session `.md`. |
@@ -79,13 +79,15 @@ Two leaks, one accepted:
 
 - **KC4 — founder decision, three options, none taken.** Blocks closing #10 and finalizing A3.
 - **A1 (KC5 re-run) not started** — highest-priority in-scope remainder.
-- **A2 and the KC1/KC2 read-only review were still in flight at pause.** `dev/a2-codex-execsupport` had nothing pushed; the review produces findings only, no commits. Neither result is known — do not assume either landed.
+- **A7 — the codex floor is not a floor.** Same shape as KC4, one harness over. `compileCodex`'s note claims `$CODEX_HOME` scoping gives an empty skills surface; codex also reads `.agents/skills`, `~/.agents/skills`, `/etc/codex/skills` and bundled skills, none governed by `$CODEX_HOME`. A2's probe saw 74 skills from a fresh `$CODEX_HOME`; orchestrator confirmed `~/.agents/skills` holds **70 entries** on this machine. Inert while `execSupport` was `"recipe"` (never spawned — `exec.ts:43` refuses, `cli.ts:169` prints instead); the flip to `"exec"` removes exactly that refusal, so the research driver could record a benchmark under a posture the session never had. **Flip held unmerged. Founder call.**
+- **KC1 is narrower than its criterion (A5a).** `verify-marketplace-install.mjs` hardcodes `PLUGIN_SRC` and never opens `marketplace.json` — orchestrator-verified, the manifest appears only in a comment. It proves the plugin dir is self-contained, **not** that the manifest routes an installer there. Fix before closing #8.
+- **The verifier carries the bug it was written to catch (A5b).** Its own guard at line 160 uses `` `file://${process.argv[1]}` `` — weaker than even the pre-fix idiom. The `realpathSync` fix was never dogfooded, and it converts a silent `false` into an uncaught `ENOENT` when the module is imported with a non-existent `argv[1]` (reviewer reproduced it).
 - **KC6 disclosed a curated-session gap worth a ruling:** `/skill-heaven` does not exist inside a curated session, and the note says plainly that this is neither policy-gated nor proven impossible — `--plugin-dir` is repeatable and would likely work, but core refuses the unprobed second mount (M0). Probing it is a candidate next step.
 - The full remainder register is at **`founder/ARC_I_FINALIZING_REGISTER.md`** (on #1377) — read it first.
 
 ### Token cost (this session)
 
-Measured subagent totals: KC2 145k · KC1 147k · KC4 165k · KC6 242k = **~700k**, plus A2 and the review still running at pause (unmeasured). Orchestrator inline is unmeasured — deliberately not estimated. Models: Opus 5 (orchestrator), Sonnet 5 (all workers + scout).
+Measured subagent totals: KC2 145k · KC1 147k · KC4 165k · KC6 242k · A2 158k · review 141k = **~1.0M**. Orchestrator inline is unmeasured — deliberately not estimated. Models: Opus 5 (orchestrator), Sonnet 5 (all workers + scout).
 
 ---
 

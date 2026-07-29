@@ -30,7 +30,22 @@ marked closed and the guarantee has not been re-established.
 Flagged in the Session 8F compaction as "this sprint's remainder, not a
 follow-up." Still true.
 
-### A2. Codex `execSupport: "recipe"` is stale — IN FLIGHT (Sonnet, 8G)
+### A2. Codex `execSupport` — premise HELD, work authored, **DELIBERATELY UNMERGED**
+
+Branch `dev/a2-codex-execsupport`, commit `71c87d5`. **Not merged into the
+integration branch.** Orchestrator call — see A7 for why.
+
+The premise held, and it was verified properly rather than assumed: on
+`codex-cli 0.145.0`, `-c 'skills.config=[{path="<abs>",enabled=false}]'` moved
+the listing **74 → 73 entries, exactly the targeted fixture skill, zero others
+changed**, byte-identical across 2 reps. That is a positive result, not a
+"flag parsed" negative control. Real `~/.codex/config.toml` sha256 unchanged
+before/after; probe ran against an isolated `$CODEX_HOME`.
+
+The comment/README/test corrections in that commit are good and should land.
+The `execSupport: "recipe"` → `"exec"` flip itself is what is held.
+
+
 
 `packages/core/src/compile.ts` `compileCodex()` returns `execSupport: "recipe"`,
 and the comment above it says codex *"stays a recipe unless the per-session
@@ -60,10 +75,53 @@ Close on the integration merge: **#8** (KC1), **#9** (KC2), **#10** (KC4),
 confirmed by reading its body). **#7** (KC7) and **#11** (KC5) already closed —
 but see A1 before trusting #11.
 
-### A5. Open placeholder — findings from work still in flight
+### A5. Read-only review findings (KC1 + KC2) — all orchestrator-verified
 
-KC6 (honest refusal) and the read-only review of KC1/KC2 were still running.
-Their findings land here.
+Review ran green on the merged tip: 180/180 tests, typecheck clean, reviewer-run.
+It confirmed the KC1↔KC2 merge on `render-posture.mjs` lost nothing, the
+cross-renderer parity test is real rather than decorative, no banned vocabulary
+entered, and the `plugin.json`/`marketplace.json` copy edits corrected a genuine
+overclaim rather than introducing one.
+
+Four findings, ranked. **A5a is the one that keeps KC1 from being fully closed.**
+
+**A5a (Medium) — `verify-marketplace-install.mjs` never reads
+`marketplace.json`.** It hardcodes `PLUGIN_SRC = join(PKG_ROOT, "plugin")` at
+line 33 while its own header comment (line 5) says the path comes from the
+manifest's `source` field. Orchestrator-verified: `grep -an "marketplace.json"`
+matches **only inside a comment.** So the check proves *"the current `plugin/`
+layout is self-contained and runs standalone"* — **not** *"the marketplace
+manifest routes an installer here."* If `source` ever drifts (typo, path move,
+a second plugin entry), the check keeps copying the correct hand-picked
+directory and passes green while a real install breaks. Fix: derive the path
+from the manifest instead of asserting it twice independently.
+
+**A5b (Low-Medium) — the `realpathSync` fix was never dogfooded, and the
+verifier carries the same class of bug it was written to catch.**
+`verify-marketplace-install.mjs:160` still guards with
+``import.meta.url === `file://${process.argv[1]}` `` — no `pathToFileURL`, no
+`realpath`, weaker than even the pre-fix idiom in `render-posture.mjs`.
+Orchestrator-verified. Separately, the reviewer reproduced a real crash: on
+`import()` (not direct invocation) with a non-existent `process.argv[1]`,
+`realpathSync` throws `ENOENT` uncaught where the old code silently evaluated
+`false`. Not live-breaking today — no current consumer hits it — but it turned a
+silent no-op into an uncaught throw with no test covering either direction.
+
+**A5c (Low, structural) — the KC2 disclosure fails OPEN, not closed.** Both
+`statusline.ts:60` and `render-posture.mjs:435` are allowlists:
+`scope === "user+project" ? caveat : nothing`. `ProfileManifest.scope` is typed
+plain `string`, so **any future third scope renders with no exclusion caveat by
+default** — the optimistic direction. This contradicts the fail-closed
+discipline the same file states for `readGatedLevels` / `readLaunchablePostures`.
+Harmless today (exactly two producers, and `census.test.ts` pins the literal so
+a rename trips), but a new scope value would trip nothing.
+
+**A5d (Informational, not a defect) — `product-floor` renders "0 standing"
+while the door it mounts costs a measured +515 tok** (F7: 20,176 vs 19,661).
+`doseSummary()` sums `skills[]` only, and `product-floor` always launches with
+none. Consistent with the README's explicit skills-only definition of "standing"
+at every posture, so not overclaiming — but a real evidenced number a user
+cannot discover from the runtime surface. Maintainer decision, not a bug.
 
 ---
 
@@ -99,6 +157,41 @@ source-agnostic, the user's own skills first"* — under which **project-scope
 survival may be intended**, and the criterion's wording is what is wrong. The
 `doctor` leak is upstream regardless. Options are: restate the criterion,
 change the composition, or accept and disclose. Founder call.
+
+---
+
+## A7. FOUNDER DECISION REQUIRED — the codex floor is not a floor
+
+Surfaced by A2's probe, verified independently by the orchestrator. This is
+the same shape as KC4, one harness over.
+
+`compileCodex`'s note claims *"`$CODEX_HOME` scoping gives an empty skills
+surface (floor)"*. **It does not.** Codex reads skill roots that
+`$CODEX_HOME` does not govern — `.agents/skills` (repo), `~/.agents/skills`
+(user), `/etc/codex/skills`, and bundled system skills. A2's probe saw **74
+skills from a fresh, `config.toml`-less `$CODEX_HOME`**, the majority from
+`~/.agents/skills`. Orchestrator confirmed directly: `~/.agents/skills` exists
+on this machine with **70 entries**, and `/etc/codex/skills` is absent.
+
+**Why the flip is held rather than merged.** This gap was *inert* while
+`execSupport` was `"recipe"` — a recipe is printed, never spawned:
+
+- `packages/core/src/exec.ts:43` refuses to run unless `execSupport === "exec"`.
+- `packages/core/src/cli.ts:169` prints a recipe instead of running.
+
+Flipping to `"exec"` removes exactly that refusal. The core bin is **the
+research driver** (N9), so the flip would let it spawn a codex "floor" that is
+actually near-native — and record a benchmark number under a posture label
+the session never had. Corrupting a measurement is worse than lacking one.
+
+The flip is *correct in isolation* and *unsafe in composition*. Options:
+land the comment/README/test corrections and hold the flip until the codex
+floor mechanism actually evicts; land the flip with a guard that refuses codex
+floor/curated until then; or redesign the codex mechanism first. Founder call.
+
+Note the agent did **not** silently fix or silently ship past this — it
+documented the caveat in code and README and reported it. That is the correct
+behaviour and worth preserving.
 
 ---
 
