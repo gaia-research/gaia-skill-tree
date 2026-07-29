@@ -1,0 +1,61 @@
+{
+  "id": "disler/plan-synthesis",
+  "name": "Plan Synthesis",
+  "contributor": "disler",
+  "level": "2★",
+  "type": "basic",
+  "status": "named",
+  "trustMagnitude": 36.34,
+  "overallTrustGrade": "C",
+  "branch": "standard",
+  "rankWord": "Named",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/disler/plan-synthesis.json",
+    "contributor": "/api/v1/contributors/disler.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "Plan Synthesis",
+  "genericSkillRef": "plan-synthesis",
+  "origin": false,
+  "description": "Combine two or more independently produced plans into a single attributed result, resolving conflicts and surfacing consensus and divergence.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://www.youtube.com/watch?v=AQl5Q-0l7FQ",
+      "evaluator": "unknown",
+      "date": "2026-07-20",
+      "type": "social-signal",
+      "notes": "IndyDevDan author showcase — parallel models merged via /opinion, /fusion, /autovalidate. 34,833 verified views.",
+      "views": 34833,
+      "sourceStartedAt": "2026-07-20",
+      "grade": "B"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-07-29T20:14:44Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added named skill disler/plan-synthesis"
+    },
+    {
+      "timestamp": "2026-07-29T20:23:35Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://www.youtube.com/watch?v=AQl5Q-0l7FQ (type: social-signal)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/USER_PROMPT_FUSION_MERGE.md"
+  }
+}

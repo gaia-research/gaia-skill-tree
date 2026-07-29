@@ -1,0 +1,35 @@
+{
+  "handle": "anthropics",
+  "namedSkills": [
+    {
+      "id": "anthropics/canvas-design",
+      "name": "Canvas Design",
+      "level": "2★",
+      "trustMagnitude": 43.52,
+      "overallTrustGrade": "C",
+      "contributor": "anthropics",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/anthropics/canvas-design.json"
+      },
+      "genericSkillRef": "static-artwork-design"
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "anthropics/canvas-design",
+    "level": "2★",
+    "trustMagnitude": 43.52
+  },
+  "prestigeScore": 43.52,
+  "gradeDistribution": {
+    "C": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/anthropics.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

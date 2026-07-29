@@ -296,6 +296,40 @@
     ]
   },
   {
+    "id": "nextlevelbuilder/ui-ux-pro-max",
+    "name": "UI/UX Pro Max",
+    "contributor": "nextlevelbuilder",
+    "level": "4★",
+    "grade": "A",
+    "trustMagnitude": 194.26,
+    "branch": "unique",
+    "tokens": [
+      "accessibility",
+      "against",
+      "audit",
+      "color",
+      "established",
+      "evaluates",
+      "guidelines",
+      "heuristics",
+      "interface",
+      "max",
+      "motion",
+      "palettes",
+      "pro",
+      "rules",
+      "standards",
+      "style",
+      "systematically",
+      "typography",
+      "ui",
+      "usability",
+      "user",
+      "ux",
+      "visual"
+    ]
+  },
+  {
     "id": "ruvnet/ruflo-v3",
     "name": "Ruflo V3",
     "contributor": "ruvnet",
@@ -436,7 +470,7 @@
       "impeccable",
       "polishing",
       "tool",
-      "ux",
+      "ui",
       "vocabulary"
     ]
   },
@@ -2307,6 +2341,35 @@
     ]
   },
   {
+    "id": "oso95/scroll-world",
+    "name": "Scroll World",
+    "contributor": "oso95",
+    "level": "3★",
+    "grade": "B",
+    "trustMagnitude": 60.98,
+    "branch": "standard",
+    "tokens": [
+      "3d",
+      "any",
+      "brand",
+      "builds",
+      "camera",
+      "connected",
+      "cuts",
+      "flying",
+      "industry",
+      "landing",
+      "pages",
+      "paths",
+      "scenes",
+      "scroll",
+      "scrubbed",
+      "through",
+      "world",
+      "zero"
+    ]
+  },
+  {
     "id": "mattpocock/personal",
     "name": "Personal",
     "contributor": "mattpocock",
@@ -2393,6 +2456,34 @@
       "two",
       "wontfix)",
       "×"
+    ]
+  },
+  {
+    "id": "panniantong/agent-reach",
+    "name": "Agent Reach",
+    "contributor": "panniantong",
+    "level": "3★",
+    "grade": "B",
+    "trustMagnitude": 53.86,
+    "branch": "standard",
+    "tokens": [
+      "16+",
+      "access",
+      "across",
+      "agent",
+      "agnostic",
+      "ai",
+      "gives",
+      "harness",
+      "integration",
+      "internet",
+      "mcp",
+      "platforms",
+      "reach",
+      "requests",
+      "routing",
+      "support",
+      "web"
     ]
   },
   {
@@ -2656,6 +2747,34 @@
     ]
   },
   {
+    "id": "vercel-labs/react-best-practices",
+    "name": "React Best Practices",
+    "contributor": "vercel-labs",
+    "level": "3★",
+    "grade": "B",
+    "trustMagnitude": 50.48,
+    "branch": "standard",
+    "tokens": [
+      "applications",
+      "behavior",
+      "best",
+      "bundle",
+      "component",
+      "composition",
+      "data",
+      "fetching",
+      "optimization",
+      "optimizes",
+      "performance",
+      "practices",
+      "preserving",
+      "react",
+      "rendering",
+      "requested",
+      "while"
+    ]
+  },
+  {
     "id": "mattpocock/improve-codebase-architecture",
     "name": "Improve Codebase Architecture",
     "contributor": "mattpocock",
@@ -2733,6 +2852,31 @@
       "tool",
       "trigger",
       "write"
+    ]
+  },
+  {
+    "id": "anthropics/canvas-design",
+    "name": "Canvas Design",
+    "contributor": "anthropics",
+    "level": "2★",
+    "grade": "C",
+    "trustMagnitude": 43.52,
+    "branch": "standard",
+    "tokens": [
+      "artifacts",
+      "artwork",
+      "brief",
+      "canvas",
+      "creates",
+      "design",
+      "graphics",
+      "original",
+      "posters",
+      "print",
+      "ready",
+      "static",
+      "such",
+      "visual"
     ]
   },
   {
@@ -2829,6 +2973,40 @@
     ]
   },
   {
+    "id": "disler/agent-fusion",
+    "name": "Agent Fusion",
+    "contributor": "disler",
+    "level": "2★",
+    "grade": "C",
+    "trustMagnitude": 37.54,
+    "branch": "suite",
+    "tokens": [
+      "achieve",
+      "agent",
+      "agentic",
+      "ai",
+      "auto",
+      "cost",
+      "form",
+      "frontier",
+      "fused",
+      "fusion",
+      "merge",
+      "models",
+      "multiple",
+      "opinions",
+      "orchestrate",
+      "outputs",
+      "parallel",
+      "performance",
+      "plans",
+      "reduced",
+      "specialized",
+      "team",
+      "validate"
+    ]
+  },
+  {
     "id": "bradautomates/claude-video",
     "name": "Claude Video",
     "contributor": "bradautomates",
@@ -2854,6 +3032,88 @@
       "videos",
       "vision",
       "watch"
+    ]
+  },
+  {
+    "id": "disler/auto-review",
+    "name": "Auto-Review",
+    "contributor": "disler",
+    "level": "2★",
+    "grade": "C",
+    "trustMagnitude": 36.34,
+    "branch": "standard",
+    "tokens": [
+      "acceptance",
+      "agent",
+      "authored",
+      "auto",
+      "automatically",
+      "combining",
+      "completion",
+      "critique",
+      "executing",
+      "gate",
+      "outputs",
+      "pre",
+      "review",
+      "script",
+      "self",
+      "verification",
+      "writing"
+    ]
+  },
+  {
+    "id": "disler/opinion",
+    "name": "Opinion",
+    "contributor": "disler",
+    "level": "2★",
+    "grade": "C",
+    "trustMagnitude": 36.34,
+    "branch": "standard",
+    "tokens": [
+      "agent",
+      "articulate",
+      "avoiding",
+      "bias",
+      "decision",
+      "discrete",
+      "formulate",
+      "model",
+      "opinion",
+      "paralysis",
+      "reasoned",
+      "recommendation",
+      "selection",
+      "step",
+      "strong"
+    ]
+  },
+  {
+    "id": "disler/plan-synthesis",
+    "name": "Plan Synthesis",
+    "contributor": "disler",
+    "level": "2★",
+    "grade": "C",
+    "trustMagnitude": 36.34,
+    "branch": "standard",
+    "tokens": [
+      "attributed",
+      "combine",
+      "conflicts",
+      "consensus",
+      "divergence",
+      "independently",
+      "into",
+      "more",
+      "plan",
+      "plans",
+      "produced",
+      "resolving",
+      "result",
+      "single",
+      "surfacing",
+      "synthesis",
+      "two"
     ]
   },
   {
@@ -3137,6 +3397,7 @@
       "scoring",
       "structured",
       "surface",
+      "ui",
       "ux"
     ]
   },

@@ -1,0 +1,88 @@
+{
+  "handle": "disler",
+  "namedSkills": [
+    {
+      "id": "disler/agent-fusion",
+      "name": "Agent Fusion",
+      "level": "2★",
+      "trustMagnitude": 37.54,
+      "overallTrustGrade": "C",
+      "contributor": "disler",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/disler/agent-fusion.json"
+      },
+      "genericSkillRef": "agent-fusion",
+      "suiteComponents": [
+        "disler/auto-review",
+        "disler/opinion",
+        "disler/plan-synthesis"
+      ]
+    },
+    {
+      "id": "disler/auto-review",
+      "name": "Auto-Review",
+      "level": "2★",
+      "trustMagnitude": 36.34,
+      "overallTrustGrade": "C",
+      "contributor": "disler",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/disler/auto-review.json"
+      },
+      "genericSkillRef": "auto-review"
+    },
+    {
+      "id": "disler/opinion",
+      "name": "Opinion",
+      "level": "2★",
+      "trustMagnitude": 36.34,
+      "overallTrustGrade": "C",
+      "contributor": "disler",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/disler/opinion.json"
+      },
+      "genericSkillRef": "opinion"
+    },
+    {
+      "id": "disler/plan-synthesis",
+      "name": "Plan Synthesis",
+      "level": "2★",
+      "trustMagnitude": 36.34,
+      "overallTrustGrade": "C",
+      "contributor": "disler",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/disler/plan-synthesis.json"
+      },
+      "genericSkillRef": "plan-synthesis"
+    }
+  ],
+  "namedSkillsCount": 4,
+  "topSkill": {
+    "id": "disler/agent-fusion",
+    "level": "2★",
+    "trustMagnitude": 37.54
+  },
+  "prestigeScore": 146.56,
+  "gradeDistribution": {
+    "C": 4
+  },
+  "_links": {
+    "self": "/api/v1/contributors/disler.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

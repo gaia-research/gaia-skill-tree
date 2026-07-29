@@ -16,7 +16,7 @@
     "list": "/api/v1/skills/index.json"
   },
   "title": "Gstack Design Review — UX Audit Pass",
-  "genericSkillRef": "ux-audit",
+  "genericSkillRef": "ui-audit",
   "origin": false,
   "description": "Runs a structured UX audit over a product interface, scoring layout clarity, affordance, and accessibility against the Gstack design rubric to surface actionable improvements.",
   "tags": [

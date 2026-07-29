@@ -1,0 +1,134 @@
+{
+  "id": "vercel-labs/react-best-practices",
+  "name": "React Best Practices",
+  "contributor": "vercel-labs",
+  "level": "3★",
+  "type": "basic",
+  "status": "named",
+  "trustMagnitude": 50.48,
+  "overallTrustGrade": "B",
+  "branch": "standard",
+  "rankWord": "Evolved",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/vercel-labs/react-best-practices.json",
+    "contributor": "/api/v1/contributors/vercel-labs.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "React Best Practices",
+  "genericSkillRef": "react-performance-optimization",
+  "origin": false,
+  "description": "Optimizes component rendering, data fetching, and bundle composition in React applications while preserving requested behavior.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/vercel-labs/agent-skills",
+      "evaluator": "unknown",
+      "date": "2026-07-30",
+      "type": "github-stars-own",
+      "notes": "29,600 stars, 2,700 forks. react-best-practices at skills/react-best-practices/. SKILL.md blob/ path.",
+      "stars": 29600,
+      "skillCountInRepo": 3,
+      "sourceStartedAt": "2026-01-18"
+    },
+    {
+      "source": "https://github.com/vercel-labs/agent-skills/blob/main/skills/react-best-practices/SKILL.md",
+      "evaluator": "unknown",
+      "date": "2026-07-30",
+      "type": "repo-own",
+      "notes": "Official SKILL.md blob/ path. 70 rules across 8 categories. MIT.",
+      "skillCountInRepo": 3,
+      "sourceStartedAt": "2026-01-18"
+    },
+    {
+      "source": "https://arxiv.org/abs/2602.12430",
+      "evaluator": "unknown",
+      "date": "2026-07-30",
+      "type": "arxiv",
+      "notes": "Agent Skills for LLMs survey. Covers SKILL.md spec / progressive disclosure. Architectural context, no direct benchmark.",
+      "citations": 1,
+      "sourceStartedAt": "2026-07-30"
+    },
+    {
+      "source": "https://www.youtube.com/watch?v=PkeC2hNQ9Zw",
+      "evaluator": "unknown",
+      "date": "2026-01-24",
+      "type": "social-signal",
+      "notes": "BetterStack (177K subs) — Vercel Agent Skills. 26,698 verified views.",
+      "views": 26698,
+      "sourceStartedAt": "2026-01-24",
+      "grade": "B"
+    },
+    {
+      "source": "https://vercel.com/docs/agent-resources/skills",
+      "evaluator": "unknown",
+      "date": "2026-07-30",
+      "type": "self-attestation",
+      "notes": "Vercel official docs listing vercel-react-best-practices. First-party endorsement.",
+      "sourceStartedAt": "2026-01-18",
+      "grade": "C"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-07-29T20:14:42Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added named skill vercel-labs/react-performance-optimization"
+    },
+    {
+      "timestamp": "2026-07-29T20:22:46Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/vercel-labs/agent-skills (type: github-stars-own)"
+    },
+    {
+      "timestamp": "2026-07-29T20:22:47Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/vercel-labs/agent-skills/blob/main/skills/react-best-practices/SKILL.md (type: repo-own)"
+    },
+    {
+      "timestamp": "2026-07-29T20:22:49Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://arxiv.org/abs/2602.12430 (type: arxiv)"
+    },
+    {
+      "timestamp": "2026-07-29T20:22:51Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://www.youtube.com/watch?v=PkeC2hNQ9Zw (type: social-signal)"
+    },
+    {
+      "timestamp": "2026-07-29T20:22:52Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://vercel.com/docs/agent-resources/skills (type: self-attestation)"
+    },
+    {
+      "timestamp": "2026-07-29T20:35:01Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from 2★ to 3★"
+    },
+    {
+      "timestamp": "2026-07-29T20:44:45Z",
+      "action": "rename",
+      "contributor": "unknown",
+      "details": "Renamed named skill from vercel-labs/react-performance-optimization to vercel-labs/react-best-practices"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/vercel-labs/agent-skills/blob/main/skills/react-best-practices/SKILL.md"
+  }
+}

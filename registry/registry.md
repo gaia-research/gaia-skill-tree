@@ -9,6 +9,7 @@
 | · /adversarial-robustness-testing | Fusion | — | `/adversarial-robustness-testing` |
 | · [firecrawl](../docs/u/firecrawl/)/firecrawl-build-onboarding | Fusion | 3★ | `/agent-environment-setup` |
 | · /agent-eval | Fusion | — | `/agent-eval` |
+| · [disler](../docs/u/disler/)/agent-fusion | Fusion | 2★ | `/agent-fusion` |
 | · [mattpocock](../docs/u/mattpocock/)/handoff | Fusion | 3★ | `/agent-handoff` |
 | · ████████/agentdb-learning | Fusion | — | `/agent-memory-learning` |
 | · [ruvnet](../docs/u/ruvnet/)/agentdb | Fusion | 4★ | `/agent-memory-platform` |
@@ -16,6 +17,7 @@
 | ○ ████████/hf-cli | Basic | — | `/api-call` |
 | · /architecture-diagram | Fusion | — | `/architecture-diagram` |
 | ○ /audience-model | Basic | — | `/audience-model` |
+| ○ [disler](../docs/u/disler/)/auto-review | Basic | 2★ | `/auto-review` |
 | · [garrytan](../docs/u/garrytan/)/health | Fusion | 2★ | `/automated-testing` |
 | · /autonomous-data-scientist | Fusion | — | `/autonomous-data-scientist` |
 | · [devin-ai](../docs/u/devin-ai/)/autonomous-swe | Fusion | 3★ | `/autonomous-debug` |
@@ -122,6 +124,7 @@
 | · [ruvnet](../docs/u/ruvnet/)/ruflo | Fusion | 5★ | `/multi-topology-orchestration` |
 | · ████████/transformers-js | Fusion | — | `/multimodal-reasoning` |
 | · /ontology-alignment | Fusion | — | `/ontology-alignment` |
+| ○ [disler](../docs/u/disler/)/opinion | Basic | 2★ | `/opinion` |
 | ○ /optical-character-recognition | Basic | — | `/optical-character-recognition` |
 | ○ ████████/parallel-execution | Basic | — | `/parallel-execution` |
 | ○ /parse-html | Basic | — | `/parse-html` |
@@ -132,6 +135,7 @@
 | · [mattpocock](../docs/u/mattpocock/)/obsidian-vault | Fusion | 3★ | `/personal-knowledge-management` |
 | · /plan-and-execute | Fusion | — | `/plan-and-execute` |
 | ○ /plan-decompose | Basic | — | `/plan-decompose` |
+| ○ [disler](../docs/u/disler/)/plan-synthesis | Basic | 2★ | `/plan-synthesis` |
 | · [ruvnet](../docs/u/ruvnet/)/ruflo-v3 | Fusion | 4★ | `/platform-modernization-sprint` |
 | · [mattpocock](../docs/u/mattpocock/)/to-prd | Fusion | 3★ | `/prd-generation` |
 | · /prediction-market-analysis | Fusion | — | `/prediction-market-analysis` |
@@ -200,8 +204,9 @@
 | · /translation-pipeline | Fusion | — | `/translation-pipeline` |
 | · /tree-of-thought | Fusion | — | `/tree-of-thought` |
 | · [mattpocock](../docs/u/mattpocock/)/ubiquitous-language | Fusion | 3★ | `/ubiquitous-language` |
+| ○ [pbakaus](../docs/u/pbakaus/)/impeccable | Basic | 4★ | `/ui-audit` |
 | · [obra](../docs/u/obra/)/using-git-worktrees | Fusion | 4★ | `/using-git-worktrees` |
-| ○ [pbakaus](../docs/u/pbakaus/)/impeccable | Basic | 4★ | `/ux-audit` |
+| ○ [nextlevelbuilder](../docs/u/nextlevelbuilder/)/ui-ux-pro-max | Basic | 4★ | `/ux-audit` |
 | ○ [ruvnet](../docs/u/ruvnet/)/agentdb-optimization | Basic | 2★ | `/vector-db-optimization` |
 | ○ [ruvnet](../docs/u/ruvnet/)/agentdb-vector-search | Basic | 2★ | `/vector-search` |
 | · [obra](../docs/u/obra/)/verification-before-completion | Fusion | 3★ | `/verification-before-completion` |
@@ -233,8 +238,9 @@
 | ◉ [addy-osmani](../docs/u/addy-osmani/)/performance-optimization | Unique Skill | 4★ | `/performance-tuning` |
 | ◉ [stanfordnlp](../docs/u/stanfordnlp/)/dspy | Unique Skill | 4★ | `/prompt-optimization` |
 | ◉ [obra](../docs/u/obra/)/subagent-driven-development | Unique Skill | 4★ | `/subagent-driven-development` |
+| ◉ [pbakaus](../docs/u/pbakaus/)/impeccable | Unique Skill | 4★ | `/ui-audit` |
 | ◉ [obra](../docs/u/obra/)/using-git-worktrees | Unique Skill | 4★ | `/using-git-worktrees` |
-| ◉ [pbakaus](../docs/u/pbakaus/)/impeccable | Unique Skill | 4★ | `/ux-audit` |
+| ◉ [nextlevelbuilder](../docs/u/nextlevelbuilder/)/ui-ux-pro-max | Unique Skill | 4★ | `/ux-audit` |
 | ◉ [firecrawl](../docs/u/firecrawl/)/firecrawl-build-scrape | Unique Skill | 4★ | `/web-scrape` |
 | ◉ [firecrawl](../docs/u/firecrawl/)/firecrawl-build-search | Unique Skill | 4★ | `/web-search` |
 | ◉ [obra](../docs/u/obra/)/writing-plans | Unique Skill | 4★ | `/writing-plans` |
@@ -245,6 +251,7 @@
 
 | Name | Class | Top ★ | Skill Call |
 |---|---|---|---|
+| ○ Agent Reach | Intrinsic Skill | 3★ | `/agent-reach` |
 | ○ Autonomous Engineering Platform | Intrinsic Skill | — | `/autonomous-engineering-platform` |
 | ○ CI Churn Analysis | Intrinsic Skill | 2★ | `/ci-churn-analysis` |
 | ○ Clinical Data Retrieval | Intrinsic Skill | — | `/clinical-data-retrieval` |
@@ -264,11 +271,14 @@
 | ○ Object Detection | Intrinsic Skill | — | `/object-detection` |
 | ○ Pathway Ontology Retrieval | Intrinsic Skill | — | `/pathway-ontology-retrieval` |
 | ○ Probabilistic Programming | Intrinsic Skill | — | `/probabilistic-programming` |
+| ○ React Performance Optimization | Intrinsic Skill | 3★ | `/react-performance-optimization` |
 | ○ Reward Modeling | Intrinsic Skill | — | `/reward-modeling` |
+| ○ Scroll World | Intrinsic Skill | 3★ | `/scroll-world` |
 | ○ Self-Consistency | Intrinsic Skill | 3★ | `/self-consistency` |
 | ○ Semantic Cache | Intrinsic Skill | 2★ | `/semantic-cache` |
 | ○ Sequential Agent Pipeline | Intrinsic Skill | 2★ | `/sequential-agent-pipeline` |
 | ○ Software Design | Intrinsic Skill | — | `/software-design` |
+| ○ Static Artwork Design | Intrinsic Skill | 2★ | `/static-artwork-design` |
 | ○ Synthetic Data Generation | Intrinsic Skill | — | `/synthetic-data-generation` |
 | ○ Test-Driven Development | Intrinsic Skill | 2★ | `/test-driven-development` |
 | ○ Time Series Forecasting | Intrinsic Skill | — | `/time-series-forecasting` |

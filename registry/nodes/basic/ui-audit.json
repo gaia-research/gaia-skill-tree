@@ -1,0 +1,22 @@
+{
+  "id": "ui-audit",
+  "name": "UI Audit",
+  "type": "basic",
+  "description": "Structured review of a product's user interface for layout clarity, affordance, accessibility, and visual polish — produces actionable improvement recommendations.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-30",
+  "updatedAt": "2026-07-30",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-29T20:34:17Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill ui-audit"
+    }
+  ]
+}

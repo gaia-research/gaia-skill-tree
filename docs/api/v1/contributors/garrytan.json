@@ -501,7 +501,7 @@
       "_links": {
         "self": "/api/v1/skills/garrytan/design-review.json"
       },
-      "genericSkillRef": "ux-audit"
+      "genericSkillRef": "ui-audit"
     },
     {
       "id": "garrytan/devex-review",

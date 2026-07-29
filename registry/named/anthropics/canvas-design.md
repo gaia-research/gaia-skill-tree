@@ -1,0 +1,69 @@
+---
+id: anthropics/canvas-design
+name: Canvas Design
+contributor: anthropics
+origin: false
+genericSkillRef: static-artwork-design
+status: named
+level: 2★
+description: Creates original static visual artifacts such as posters and print-ready
+  graphics from a design brief.
+createdAt: '2026-07-30'
+updatedAt: '2026-07-30'
+title: Canvas Design
+links:
+  github: https://github.com/anthropics/skills/blob/main/skills/canvas-design/SKILL.md
+timeline:
+- timestamp: '2026-07-29T20:14:43Z'
+  action: add
+  contributor: unknown
+  details: Added named skill anthropics/static-artwork-design
+- timestamp: '2026-07-29T20:23:11Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://arxiv.org/abs/2605.23657 (type: arxiv)'
+- timestamp: '2026-07-29T20:23:12Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://www.youtube.com/watch?v=Iup1WlUyj9M (type:
+    social-signal)'
+- timestamp: '2026-07-29T20:23:13Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://simonwillison.net/2025/Oct/16/claude-skills/
+    (type: social-signal)'
+- timestamp: '2026-07-29T20:44:48Z'
+  action: rename
+  contributor: unknown
+  details: Renamed named skill from anthropics/static-artwork-design to anthropics/canvas-design
+evidence:
+- source: https://arxiv.org/abs/2605.23657
+  evaluator: unknown
+  date: '2026-07-30'
+  type: arxiv
+  notes: 'OpenSkillEval: Auditing the Open Skill Ecosystem. canvas-design one of 30+
+    skills benchmarked. Cited by arXiv:2606.20659, 2606.10388.'
+  citations: 2
+  sourceStartedAt: '2026-05-22'
+- source: https://www.youtube.com/watch?v=Iup1WlUyj9M
+  evaluator: unknown
+  date: '2026-03-09'
+  type: social-signal
+  notes: How to Use Claude Skills as a Designer — 245,613 verified views. Dedicated
+    Canvas Design chapter at 5:36.
+  views: 245613
+  sourceStartedAt: '2026-03-09'
+  grade: B
+- source: https://simonwillison.net/2025/Oct/16/claude-skills/
+  evaluator: unknown
+  date: '2025-10-16'
+  type: social-signal
+  notes: Simon Willison high-authority dev blog covering anthropics/skills launch
+    including canvas-design.
+  sourceStartedAt: '2025-10-16'
+verification:
+  firstEvidenceAt: '2026-07-29T20:23:11Z'
+---
+
+## Installation
+Add installation instructions here.

@@ -1,0 +1,22 @@
+{
+  "id": "agent-reach",
+  "name": "Agent Reach",
+  "type": "basic",
+  "description": "Gives an AI agent internet access by routing web requests across 16+ platforms with MCP support and harness-agnostic integration.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-30",
+  "updatedAt": "2026-07-30",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-29T20:14:00Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill agent-reach"
+    }
+  ]
+}

@@ -190,12 +190,12 @@ def main() -> int:
         f"{len(prenamed_contributors)} entirely pre-named contributor(s)."
     )
     if violations:
-        print(f"\n✗ {len(violations)} redaction violation(s):\n")
+        print(f"\n[FAIL] {len(violations)} redaction violation(s):\n")
         for v in violations:
-            print(f"  • {v}")
+            print(f"  * {v}")
         print("\nRun `gaia docs build` after registry edits, then re-validate.")
         return 1
-    print("✓ All pre-named/demoted handles are redacted; no 2★+ over-redacted.")
+    print("[OK] All pre-named/demoted handles are redacted; no 2-star+ over-redacted.")
     return 0
 
 

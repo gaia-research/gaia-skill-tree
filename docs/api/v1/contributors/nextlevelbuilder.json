@@ -1,0 +1,35 @@
+{
+  "handle": "nextlevelbuilder",
+  "namedSkills": [
+    {
+      "id": "nextlevelbuilder/ui-ux-pro-max",
+      "name": "UI/UX Pro Max",
+      "level": "4★",
+      "trustMagnitude": 194.26,
+      "overallTrustGrade": "A",
+      "contributor": "nextlevelbuilder",
+      "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/nextlevelbuilder/ui-ux-pro-max.json"
+      },
+      "genericSkillRef": "ux-audit"
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "nextlevelbuilder/ui-ux-pro-max",
+    "level": "4★",
+    "trustMagnitude": 194.26
+  },
+  "prestigeScore": 194.26,
+  "gradeDistribution": {
+    "A": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/nextlevelbuilder.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

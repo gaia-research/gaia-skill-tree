@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-27",
+  "generatedAt": "2026-07-29",
   "schema": "gaia-badges-registry/2",
   "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The site Worker at worker/index.js handles /badges/<handle>/<file>.svg (the real SVGs live at /badges/_assets/<handle>/<file>.svg) and serves the `validating\u2026` SVG (docs/badges/not-found.svg) when the `?repo=` query string doesn't match a repo listed here. Schema v2 adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant.",
   "contributors": {
@@ -1517,6 +1517,32 @@
         }
       ]
     },
+    "anthropics": {
+      "repos": [
+        "anthropics/skills"
+      ],
+      "skillsByRepo": {
+        "anthropics/skills": [
+          "anthropics/canvas-design"
+        ]
+      },
+      "topSkill": "anthropics/canvas-design",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "anthropics/canvas-design",
+          "name": "Canvas Design",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/canvas-design",
+          "file": "canvas-design.svg",
+          "fileSeal": "canvas-design-seal.svg"
+        }
+      ]
+    },
     "bradautomates": {
       "repos": [
         "bradautomates/claude-video"
@@ -1679,6 +1705,65 @@
         }
       ]
     },
+    "disler": {
+      "repos": [
+        "disler/fusion-harness"
+      ],
+      "skillsByRepo": {
+        "disler/fusion-harness": [
+          "disler/agent-fusion",
+          "disler/auto-review",
+          "disler/opinion",
+          "disler/plan-synthesis"
+        ]
+      },
+      "topSkill": "disler/agent-fusion",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 4,
+      "namedSkills": [
+        {
+          "id": "disler/agent-fusion",
+          "name": "Agent Fusion",
+          "rank": 2,
+          "type": "fusion",
+          "branch": "suite",
+          "slash": "/agent-fusion",
+          "file": "agent-fusion.svg",
+          "fileSeal": "agent-fusion-seal.svg"
+        },
+        {
+          "id": "disler/auto-review",
+          "name": "Auto-Review",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/auto-review",
+          "file": "auto-review.svg",
+          "fileSeal": "auto-review-seal.svg"
+        },
+        {
+          "id": "disler/opinion",
+          "name": "Opinion",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/opinion",
+          "file": "opinion.svg",
+          "fileSeal": "opinion-seal.svg"
+        },
+        {
+          "id": "disler/plan-synthesis",
+          "name": "Plan Synthesis",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/plan-synthesis",
+          "file": "plan-synthesis.svg",
+          "fileSeal": "plan-synthesis-seal.svg"
+        }
+      ]
+    },
     "gaia-research": {
       "repos": [
         "gaia-research/gaia-skill-tree"
@@ -1692,7 +1777,7 @@
       "topSkill": "gaia-research/skill-ci-churn",
       "topRank": 2,
       "topIsUnique": false,
-      "count": 2,
+      "count": 3,
       "namedSkills": [
         {
           "id": "gaia-research/skill-ci-churn",
@@ -1713,6 +1798,32 @@
           "slash": "/skill-fuse",
           "file": "skill-fuse.svg",
           "fileSeal": "skill-fuse-seal.svg"
+        }
+      ]
+    },
+    "getagentseal": {
+      "repos": [
+        "getagentseal/codeburn"
+      ],
+      "skillsByRepo": {
+        "getagentseal/codeburn": [
+          "getagentseal/codeburn"
+        ]
+      },
+      "topSkill": "getagentseal/codeburn",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "getagentseal/codeburn",
+          "name": "CodeBurn",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/codeburn",
+          "file": "codeburn.svg",
+          "fileSeal": "codeburn-seal.svg"
         }
       ]
     },
@@ -1739,6 +1850,32 @@
           "slash": "/impeccable",
           "file": "impeccable.svg",
           "fileSeal": "impeccable-seal.svg"
+        }
+      ]
+    },
+    "nextlevelbuilder": {
+      "repos": [
+        "nextlevelbuilder/ui-ux-pro-max-skill"
+      ],
+      "skillsByRepo": {
+        "nextlevelbuilder/ui-ux-pro-max-skill": [
+          "nextlevelbuilder/ui-ux-pro-max"
+        ]
+      },
+      "topSkill": "nextlevelbuilder/ui-ux-pro-max",
+      "topRank": 4,
+      "topIsUnique": true,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "nextlevelbuilder/ui-ux-pro-max",
+          "name": "UI/UX Pro Max",
+          "rank": 4,
+          "type": "basic",
+          "branch": "unique",
+          "slash": "/ui-ux-pro-max",
+          "file": "ui-ux-pro-max.svg",
+          "fileSeal": "ui-ux-pro-max-seal.svg"
         }
       ]
     },
@@ -1887,32 +2024,6 @@
           "slash": "/readme-generate",
           "file": "readme-generate.svg",
           "fileSeal": "readme-generate-seal.svg"
-        }
-      ]
-    },
-    "getagentseal": {
-      "repos": [
-        "getagentseal/codeburn"
-      ],
-      "skillsByRepo": {
-        "getagentseal/codeburn": [
-          "getagentseal/codeburn"
-        ]
-      },
-      "topSkill": "getagentseal/codeburn",
-      "topRank": 2,
-      "topIsUnique": false,
-      "count": 1,
-      "namedSkills": [
-        {
-          "id": "getagentseal/codeburn",
-          "name": "CodeBurn",
-          "rank": 2,
-          "type": "basic",
-          "branch": "standard",
-          "slash": "/codeburn",
-          "file": "codeburn.svg",
-          "fileSeal": "codeburn-seal.svg"
         }
       ]
     },
@@ -2070,6 +2181,58 @@
         }
       ]
     },
+    "oso95": {
+      "repos": [
+        "oso95/scroll-world"
+      ],
+      "skillsByRepo": {
+        "oso95/scroll-world": [
+          "oso95/scroll-world"
+        ]
+      },
+      "topSkill": "oso95/scroll-world",
+      "topRank": 3,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "oso95/scroll-world",
+          "name": "Scroll World",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/scroll-world",
+          "file": "scroll-world.svg",
+          "fileSeal": "scroll-world-seal.svg"
+        }
+      ]
+    },
+    "panniantong": {
+      "repos": [
+        "Panniantong/Agent-Reach"
+      ],
+      "skillsByRepo": {
+        "Panniantong/Agent-Reach": [
+          "panniantong/agent-reach"
+        ]
+      },
+      "topSkill": "panniantong/agent-reach",
+      "topRank": 3,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "panniantong/agent-reach",
+          "name": "Agent Reach",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/agent-reach",
+          "file": "agent-reach.svg",
+          "fileSeal": "agent-reach-seal.svg"
+        }
+      ]
+    },
     "safishamsi": {
       "repos": [
         "safishamsi/graphify"
@@ -2145,6 +2308,32 @@
           "slash": "/unittest-generator",
           "file": "unittest-generator.svg",
           "fileSeal": "unittest-generator-seal.svg"
+        }
+      ]
+    },
+    "vercel-labs": {
+      "repos": [
+        "vercel-labs/agent-skills"
+      ],
+      "skillsByRepo": {
+        "vercel-labs/agent-skills": [
+          "vercel-labs/react-best-practices"
+        ]
+      },
+      "topSkill": "vercel-labs/react-best-practices",
+      "topRank": 3,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "vercel-labs/react-best-practices",
+          "name": "React Best Practices",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/react-best-practices",
+          "file": "react-best-practices.svg",
+          "fileSeal": "react-best-practices-seal.svg"
         }
       ]
     },

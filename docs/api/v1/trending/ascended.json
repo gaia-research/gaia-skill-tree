@@ -1,6 +1,57 @@
 {
-  "generatedAt": "2026-07-29T03:36:32Z",
+  "generatedAt": "2026-07-29T21:18:00Z",
   "skills": [
+    {
+      "id": "vercel-labs/react-best-practices",
+      "name": "React Best Practices",
+      "level": "3★",
+      "contributor": "vercel-labs",
+      "trustMagnitude": 50.48,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-07-29T20:35:01Z",
+      "_links": {
+        "self": "/api/v1/skills/vercel-labs/react-best-practices.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "panniantong/agent-reach",
+      "name": "Agent Reach",
+      "level": "3★",
+      "contributor": "panniantong",
+      "trustMagnitude": 53.86,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-07-29T20:34:59Z",
+      "_links": {
+        "self": "/api/v1/skills/panniantong/agent-reach.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "oso95/scroll-world",
+      "name": "Scroll World",
+      "level": "3★",
+      "contributor": "oso95",
+      "trustMagnitude": 60.98,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-07-29T20:34:58Z",
+      "_links": {
+        "self": "/api/v1/skills/oso95/scroll-world.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "nextlevelbuilder/ui-ux-pro-max",
+      "name": "UI/UX Pro Max",
+      "level": "4★",
+      "contributor": "nextlevelbuilder",
+      "trustMagnitude": 194.26,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-07-29T20:34:54Z",
+      "_links": {
+        "self": "/api/v1/skills/nextlevelbuilder/ui-ux-pro-max.json"
+      }
+    },
     {
       "id": "stanfordnlp/dspy",
       "name": "DSPy",
