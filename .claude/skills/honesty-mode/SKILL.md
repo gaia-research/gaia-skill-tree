@@ -61,5 +61,5 @@ Per `CLAUDE.md` § Branch Naming, this is a `design/` change (website behavior, 
 
 - **Don't add a runtime toggle back.** The whole point of this flag being build-time is that "the URL you see copied is the URL everyone else gets." See `docs/badges/CLAUDE.md` § "Why no runtime/localStorage toggle?".
 - **Don't touch `_assets/` detection or local previews.** Those always read from `_assets/` regardless of mode — that's how the page renders before the worker runs. Honesty Mode only swaps the *copied markdown URL*.
-- **Don't bump versions.** This change touches one HTML file's script constant; the four-file version lockstep (pyproject / cli-npm / mcp / gaia.json) doesn't apply.
+- **Don't bump versions.** This change touches one HTML file's script constant; the three-file version lockstep (pyproject / cli-npm / gaia.json) doesn't apply.
 - **Don't edit `worker/index.js`.** The worker stays as-is — Honesty Mode just routes around it for embedded badges.

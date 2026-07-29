@@ -28,12 +28,6 @@
     },
     "packages/api-client-ts/README.md": {
       "Gaia Registry": 1
-    },
-    "packages/mcp/src/index.ts": {
-      "Gaia Registry": 2
-    },
-    "packages/mcp/src/tools/scanContext.ts": {
-      "Gaia Registry": 1
     }
   }
 }

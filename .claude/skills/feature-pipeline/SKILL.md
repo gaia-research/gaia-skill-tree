@@ -312,7 +312,7 @@ Then end the turn.
 
 If `<feature>` is omitted, ask: "Which feature or CLI should I explore?"
 
-**Examples:** `gaia scan` · `packages/mcp` · `the --canon flag` · `gaia skills install`
+**Examples:** `gaia scan` · `packages/cli-npm` · `the --canon flag` · `gaia skills install`
 
 ---
 

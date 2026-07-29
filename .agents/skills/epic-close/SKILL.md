@@ -109,7 +109,7 @@ snapshot verbatim.
 - **Never squash an EPIC integration PR** (destroys child-commit topology — founder/
   CLAUDE.md § EPIC branching). Use a merge commit.
 - Author the `CHANGELOG.md` entry for the release version.
-- The four manifests (`pyproject.toml`, both `package.json`, `registry/gaia.json`) stay
+- The three manifests (`pyproject.toml`, `packages/cli-npm/package.json`, `registry/gaia.json`) stay
   in lockstep via the pre-commit hook; `registry/gaia.json` is Class P (gitignored) — do
   NOT hand-commit it. Class-S regen (`docs/graph/*`) belongs in CI or a clean Linux
   worktree, not a Windows hand-curation (regen there flips CRLF EOL as noise).

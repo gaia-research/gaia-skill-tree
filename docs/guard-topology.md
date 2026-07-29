@@ -15,7 +15,7 @@ Last updated: 2026-07-17 · Branch `dev/999-guard-cleanup` · Refs #999, #994, #
 | **Rank Vocabulary Guard** | `rank-vocabulary-guard.yml` | `scripts/check_rank_vocabulary.py` | **Hard-fail (exit 1)** | registry/**, *.md, docs/**/*.md, founder/handovers/**/*.md | Yggdrasil II banned-synonym enforcement (below) |
 | Guard A — Token colours | `docs-cohesion.yml` | inline `grep` | PR comment only (no fail) | docs/js/**, docs/css/**, *.html | No hardcoded hex colours — design tokens only |
 | Guard B — Banned synonyms | `docs-cohesion.yml` | inline `grep` | PR comment **and hard-fail** | `docs/`, `scripts/`, `src/gaia_cli/` (excl. `scripts/lexicon/`), plus `packages/`, `tests/`, `registry/schema/` for the rarity patterns | Rarity-axis vocabulary (separate from vocabulary guard) |
-| **Lexicon gate** | `lexicon-ci.yml` | `scripts/lexicon/check-lexicon.ts` | **Hard-fail (exit 1)**, above a baseline | `founder/**`, `docs/agents/**`, `docs/*.md`, `packages/mcp/src/**`, `packages/*/README.md`, root `*.md` | One term, one owner — the federated v5 lexicon (below) |
+| **Lexicon gate** | `lexicon-ci.yml` | `scripts/lexicon/check-lexicon.ts` | **Hard-fail (exit 1)**, above a baseline | `founder/**`, `docs/agents/**`, `docs/*.md`, `packages/*/README.md`, root `*.md` | One term, one owner — the federated v5 lexicon (below) |
 | Guard C — Direction rule | `docs-cohesion.yml` | inline `grep` | PR comment only (no fail) | docs/js/** | Ultimate-first sort enforcement |
 | Guard D — Nav mounts | `docs-cohesion.yml` | inline check | PR comment only (no fail) | docs/ nav structure | Nav mounts in sync |
 | Guard E — Docs cohesion | `docs-cohesion.yml` | inline check | Fail on label absent | docs/graph/ | docs/graph/* artifacts regenerated alongside registry changes |
