@@ -290,6 +290,16 @@ def test_post_l4_handoff_rejects_listing_or_tree_url():
         buildIntakeSkill(packet)
 
 
+@pytest.mark.parametrize("filename", ["skill.md", "Skill.md"])
+def test_post_l4_handoff_requires_case_sensitive_skill_filename(filename):
+    packet = _basePacket()
+    packet["l4Resolution"]["skillFileUrl"] = (
+        f"https://github.com/alice/repo/blob/main/{filename}"
+    )
+    with pytest.raises(ValueError, match="ending in SKILL.md"):
+        buildIntakeSkill(packet)
+
+
 def test_post_l4_handoff_requires_frozen_snapshot_digest():
     packet = _basePacket()
     packet["genericSnapshot"]["contentSha256"] = "0" * 64

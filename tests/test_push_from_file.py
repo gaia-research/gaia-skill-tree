@@ -353,6 +353,25 @@ class TestBuildFromFileBatch(unittest.TestCase):
         self.assertIsNone(batch)
         self.assertTrue(any("already exists" in error for error in errors), errors)
 
+    def test_canonical_named_duplicate_lookup_normalizes_case(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            namedDir = os.path.join(tmp, "registry", "named", "Alice")
+            os.makedirs(namedDir)
+            namedPath = os.path.join(namedDir, "Some-Skill.md")
+            with open(namedPath, "w", encoding="utf-8") as f:
+                f.write("---\nid: Alice/Some-Skill\n---\n")
+            skill = _good_basic(named={
+                "contributor": "alice",
+                "skill_name": "some-skill",
+                "links_github": "https://github.com/alice/repo/blob/main/SKILL.md",
+            })
+            batch, errors = build_from_file_batch(
+                [skill], self._config(), tmp, "testuser/repo"
+            )
+        self.assertIsNone(batch)
+        self.assertTrue(any("already exists" in error for error in errors), errors)
+
     def test_batch_id_contains_from_file_suffix(self):
         skills = [_good_basic()]
         batch, _ = build_from_file_batch(

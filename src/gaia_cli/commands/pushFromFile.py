@@ -217,7 +217,7 @@ def _skillEntryToProposed(entry, sourceRepo):
 
 
 def _loadCanonicalNamedIds(registryRoot):
-    """Return exact contributor/skill identities already in registry/named."""
+    """Return case-normalized contributor/skill identities in registry/named."""
     namedRoot = os.path.join(registryRoot, "registry", "named")
     identities = set()
     if not os.path.isdir(namedRoot):
@@ -228,7 +228,7 @@ def _loadCanonicalNamedIds(registryRoot):
             continue
         for filename in os.listdir(contributorPath):
             if filename.endswith(".md"):
-                identities.add(f"{contributor}/{filename[:-3]}")
+                identities.add(f"{contributor}/{filename[:-3]}".lower())
     return identities
 
 
@@ -268,7 +268,7 @@ def build_from_file_batch(
         contributor = str(named.get("contributor", "")).strip()
         skillName = str(named.get("skill_name", "")).strip()
         namedId = f"{contributor}/{skillName}" if contributor and skillName else ""
-        if namedId in canonicalNamedIds:
+        if namedId.lower() in canonicalNamedIds:
             allErrors.append(
                 f"skills[{i}].named: exact canonical named implementation "
                 f"'{namedId}' already exists"

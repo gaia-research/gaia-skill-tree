@@ -94,7 +94,7 @@ def _isExactSkillBlob(url):
         parsed.scheme == "https"
         and parsed.netloc.lower() in ("github.com", "www.github.com")
         and "/blob/" in parsed.path
-        and parsed.path.rstrip("/").lower().endswith("/skill.md")
+        and parsed.path.rstrip("/").endswith("/SKILL.md")
     )
 
 
