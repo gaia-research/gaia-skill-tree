@@ -2,6 +2,30 @@
 
 ---
 
+## 2026-07-29 — Routine 019
+
+**Branch:** `docs/routines/019`
+**Task chosen:** SYNC trigger — version bump to v7.1.14 (Routine 018's planned next).
+
+### Trigger
+Routine documentation agent triggered; repository version has advanced from v7.1.4 (routine 018) to v7.1.14 via recent releases. Per the ROTATE + SYNC priority rule: skill-hierarchy.html (page 4) is the least-recently-touched page (last substantive edit routine 002), and version synchronization is needed.
+
+### What I did
+1. **Synchronized version numbers**: Updated `skill-hierarchy.html` from v6.8.16 to v7.1.14. Updated three locations: script query parameters (`?v=7.1.14` on mounts, site-nav, ui), nav version chip, and footer version string.
+
+### Design decisions
+- Version-only update — no content changes. Maintains consistency with other pages.
+
+### Files modified
+- `docs/en/skill-hierarchy.html`
+
+### Planned next (Routine 020)
+- Continue ROTATE: audit skill-hierarchy.html content for clarity improvements, link validation, and callout accuracy (step through the Named Skills section, verify CLI commands are current).
+- Sync: check for any new CLI flags or behavior changes in v7.1.4–v7.1.14 release notes affecting the page.
+- Maintain: audit upcoming features and generated artifact changes.
+
+---
+
 ## 2026-07-25 — Routine 017 — Editor pass (ship gate, PR #1249)
 
 **Role:** Weekly editor. Reviewed the week's accreted commits on `docs/routines/017`, verified claims against the actual product, fixed what didn't hold up, and shipped.
