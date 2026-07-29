@@ -114,11 +114,15 @@ This report presents objective benchmark scores, evaluation parameters, and perf
 <!-- appended: 2026-07-29 -->
 
 ### 13. `anthropics/canvas-design`
-* **Benchmark URL:** [](https://yingjiahao14.github.io/OpenSkillEval-Web/)
+* **Benchmark URL:** [OpenSkillEval: Dynamically Auditing the Open Skill Ecosystem for LLM Agents](https://yingjiahao14.github.io/OpenSkillEval-Web/)
+* **Benchmark:** OpenSkillEval: Dynamically Auditing the Open Skill Ecosystem for LLM Agents
 * **Grade:** A
+* **Setup Description:** Canvas-design skill scored 3.81/5.0 on poster generation tasks across 10 LLM models in the OpenSkillEval benchmark suite of 30 open skills evaluated on 5 task types.
 
 ---
 
 ### 14. `disler/agent-fusion`
-* **Benchmark URL:** [](https://openrouter.ai/blog/announcements/fusion-beats-frontier/)
+* **Benchmark URL:** [DRACO Benchmark](https://openrouter.ai/blog/announcements/fusion-beats-frontier/)
+* **Benchmark:** DRACO Benchmark
 * **Grade:** A
+* **Setup Description:** OpenRouter's Fusion technique achieved 69.0% on DRACO deep research tasks, surpassing individual frontier models when combining Fable 5 and GPT-5.5 through synthesis.

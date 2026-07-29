@@ -160,20 +160,26 @@ This report documents the academic papers, preprints (arXiv), and conference pub
 <!-- appended: 2026-07-29 -->
 
 ### 13. `nextlevelbuilder/ux-audit`
+* **Paper Title:** SkCC: Portable and Secure Skill Compilation for Cross-Framework LLM Agents
 * **Publication URL:** [https://arxiv.org/abs/2605.03353](https://arxiv.org/abs/2605.03353)
 * **Evidence Type:** arxiv
 * **Grade:** B
+* **Summary & Relevance:** Introduces a compiler framework (SkCC) that standardizes LLM agent skills across frameworks via an intermediate representation, enabling portable skill deployment and reducing adaptation complexity from O(m×n) to O(m+n).
 
 ---
 
 ### 14. `react-performance-optimization`
+* **Paper Title:** Agent Skills for Large Language Models: Architecture, Acquisition, Security, and the Path Forward
 * **Publication URL:** [https://arxiv.org/abs/2602.12430](https://arxiv.org/abs/2602.12430)
 * **Evidence Type:** arxiv
 * **Grade:** C
+* **Summary & Relevance:** Survey covering agent skills as composable packages for dynamic LLM capability extension, including acquisition methods via reinforcement learning and autonomous discovery, deployment at scale with computer-use agents, and security governance frameworks.
 
 ---
 
 ### 15. `static-artwork-design`
+* **Paper Title:** OpenSkillEval: Automatically Auditing the Open Skill Ecosystem for LLM Agents
 * **Publication URL:** [https://arxiv.org/abs/2605.23657](https://arxiv.org/abs/2605.23657)
 * **Evidence Type:** arxiv
 * **Grade:** A
+* **Summary & Relevance:** Paper evaluates how LLM agents use skills for design tasks including poster and graphic generation, demonstrating the interplay between agent frameworks and design skill effectiveness.
