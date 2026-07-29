@@ -4,6 +4,129 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-29, Session 8E — Arc I ~75%: four more PRs merged, three founder rulings ratified into CI, `main` unblocked; invented vocabulary caught on the About surface by human review, not by any gate)
+
+### TLDR
+- **Four more PRs merged** — #1362, #1348, #1361, #1370. Arc I is roughly **75%**.
+- **Three founder rulings landed and are now enforced, not just written:** frontend changes are **human-gated**; `founder/` is **exempt from the vocabulary gate**; `docs/en/` is **owned by another team** and off-limits.
+- **`main` was red on the Vocabulary gate and every open PR inherited it.** Root cause was a *floating baseline allowance*, not a bad word. Fixed at the root by exempting `founder/`.
+- **The About surface shipped invented state vocabulary** — `SHIPPED` / `PROTOTYPE` / `LOCKED`, none ratified anywhere — and **CI was green on it.** The founder caught it by eye. The real terms already existed in `app/page.tsx:13`.
+- **Design surfaces are founder-approved.** No dispatching. Two PRs drafted for rework, two ready.
+
+### Merged this session
+
+| PR | What |
+|---|---|
+| **#1362** | Class P bootstrap fix — `gaia dev docs` now runs clean from a checkout with no Class P; step failures surface their real output instead of `rc=1` |
+| **#1348** | Dead `@gaia-registry/*` refs removed; MCP adoption path labelled with its **true** read-only state |
+| **#1361** | Session 8C snapshot + the **1 orchestrator + 2 workers** concurrency cap written into `ARC_I.md` |
+| **#1370** | **`founder/` exempted from the vocabulary gate** — unblocked `main` |
+
+### Three rulings, and what each is enforced by
+
+**1. Frontend changes are HUMAN-GATED (`CLAUDE.md`, PR #1367 — ready, unmerged).**
+A PR that changes what a visitor sees does not merge on green CI. Agents may open, iterate, mark ready; **they may not merge.** *CI proves nothing rendered wrong; it does not prove the design is right.* Two explicit lists rather than "use judgement" — judgement is what we already had. **Rule of thumb:** structure, styling, or *which surfaces exist* → gated; words or link targets inside an unchanged block → small, ships on green; **unsure → gate it.** A gated PR owes **rendered screenshots** of every changed surface (light and dark if themed) plus the before state — *reviewing a diff of HTML is not reviewing a design.*
+
+**2. `founder/` is EXEMPT from the vocabulary gate (PR #1370, merged).**
+Founder: *"this is where we have free reign — I don't want us walking on eggshells on founder folders."* These are working notes, decision logs and audit trails; they must be able to **quote a retired term to record the violation it names**, and they reason about vocabulary nobody has chosen yet — that reasoning is how terms *become* ratified. `founder/**/*.md` left the `decisive` scope, `founder/**` joined `exclude`, and **five stale baseline entries were dropped**. Gate went 77 → **51 files scanned**, 0 findings, self-tests 42/0. **Shipped copy stays gated** — README, CONTRIBUTING, `docs/`, `docs/agents/`, `CLAUDE.md`, `DEV.md`, package READMEs.
+⚠️ **`gaia-research`'s `founder/` is NOT exempted** — there, `founder/**/*.md` *is* the `decisive` scope's whole purpose (`RATIFICATION.md` and the lexicon live in it). Separate ruling, still open.
+
+**3. `docs/en/` is owned by another team.**
+Do not edit it. Hand off instead: name the file and the exact change in the PR body. **Red CI there is deliberate signal** for the owning team, not something to fix. ⚠️ **I had already edited it across six merged commits before this was clear** — `cli-reference.html`, `skill-hierarchy.html`, `index.html` ×2, and `mcp-server.html` ×2 (one of which shipped a **false** "not yet published" banner, reverted the same session). Disclosed to the founder; not reverted, because three of the six fix live-false claims.
+
+### The `main` breakage — a floating allowance, not a bad word
+
+`founder/MEMORY.md` held **two** `Gaia Registry` occurrences against a baseline of **one**. The Session 8B snapshot spent the free slot, so the *older* line reported as new drift, and **every open PR inherited the failure**.
+
+**The lesson is about baselines, not vocabulary: a bare numeric allowance is silently consumed by the next thing that mentions the term.** Bumping it to 2 would only move the trap one snapshot out. The first fix attempt — a per-line `lexicon-allow` marker — was the wrong shape too: it treats a policy question as a spelling exception. Exempting the folder was the root fix.
+
+### Invented vocabulary shipped past a green gate
+
+The About surface rendered state chips reading **`SHIPPED`**, **`PROTOTYPE`**, **`LOCKED`**. None of the three appears in any of the six lexicon files, in `CONTEXT.md`, or in the ratified roadmap. **The agent coined them.**
+
+**The real vocabulary already existed**, in `gaia-research/app/page.tsx` line 13:
+
+```ts
+const statusText = { ACT: "ACTIVE", PRP: "PROPOSED", VRF: "VERIFIED", REV: "IN REVIEW", WIP: "EXPERIMENTAL", PLN: "PLANNED" } as const;
+```
+
+Rendered as `{status} {statusText[status]}` — so a chip reads "WIP EXPERIMENTAL". The skills grid and the research ledger both already use it.
+
+**Worse than the wrong words:** the About page reused the *existing* CSS classes `chip act` / `chip wip` / `chip rev` with different labels attached — so `chip act` meant "ACTIVE" on the homepage and "SHIPPED" on About. **Same class, two meanings, same site.** Fix dispatched: lift `statusText` into a shared module both pages import, one definition not two copies.
+
+⚠️ **The lexicon gate cannot catch this class of defect.** It flags *banned* and *parked* terms — terms someone registered. **Invented vocabulary is invisible to it.** This is the strongest argument for the human gate: CI was green on that page.
+
+Also ruled: **drop the `Gaia` prefix** — `Gaia Skill Tree` → **Skill Tree**, `Gaia Research` → **Research**, matching the ratified four-name story (**Tree · Heaven · Hell · Research**). `Skill Heaven` and `Skill Hell` keep `Skill` — that is the name, not a prefix. **Skill Hell's chip was explicitly NOT delegated** — `PLANNED` is wrong (it is *gated*), and the homepage already has a bespoke `🔥 HELL · GATED` treatment beside `☁ HEAVEN · SHIPS FIRST`.
+
+### PR states at end of session
+
+| PR | Repo | State | Assessment |
+|---|---|---|---|
+| **#1367** | HQ | **READY** | Frontend human gate. Red only on the pre-existing gate failure #1370 fixed — needs a rebase/re-run, no rework. |
+| **#1368** | HQ | **DRAFT — rework** | Edits `docs/en/cli-reference.html` (12 lines) → must be dropped and handed off. Also conflicts with #1370 on `lexicon.json` + `baseline.json`. |
+| **#1369** | HQ | **DRAFT — blocked, not defective** | Clean, zero regressions. Drafted only because **#1368 must merge first** (it removes the `test-mcp` job; this deletes the directory that job builds). |
+| **research#130** | research | **READY** | Canonical About surface. All gates green. **Land FIRST** — three of the Tree's four new links point at it. |
+| **#1371** | HQ | **READY** | The Tree-side pointer, `Resolves #1339`. Merging it before #130 ships **three 404s**. |
+
+**Merge order when work resumes: research#130 → #1371, and separately #1368 → #1369.** #1370 already merged. Both About PRs are **frontend and therefore human-gated** — they do not merge on green.
+
+### About surface — what shipped
+
+Cards read **Skill Tree** (THE RECORD), **Research** (THE LABORATORY), **Skill Heaven** (THE RUNTIME), **Skill Hell** — unprefixed. The loop: Research measures → the Skill Tree records → Skill Heaven admits → the run produces new evidence. Framing line: *"It is a loop, not a stack."*
+
+**Hell renders INSIDE the Heaven card** — the nesting is what says "gated tier", so no disclaimer sentence is needed. Dashed border, hatched ground, lock glyph, role label `A GATED TIER OF SKILL HEAVEN`, chip `🔥 HELL · GATED`, and the nesting survives the mobile stack. **V5-4 held:** no repo or package name appears in any user-facing copy (grep-verified; the only hits are a source comment explaining the constraint).
+
+**The chip fix was better than specified.** `statusText` **already existed as an export** in `data/research.ts` — `app/page.tsx` was shadowing it with a byte-identical local copy. So instead of creating the third module I asked for, the duplicate was deleted and both pages now point at the one definition. Hell got **no status key**: it reuses the homepage's `chip wip` + `🔥 HELL · GATED` via a shared constant.
+
+Gates: lexicon `✓ 54 terms, 25 files, 0 new findings` · lexicon tests 50/0 · Guard D pass · Guard A (hex) pass · rank vocabulary 0 violations · `tsc --noEmit` clean · vitest 264 passed. `docs/en/` diff **empty**.
+
+⚠️ **Light/dark was not applicable — neither site has `prefers-color-scheme` or `data-theme` anywhere.** The captured state is the only one that exists. Stated on the evidence page rather than silently skipped.
+
+⚠️ **`docs/en/` will change without being edited.** All twelve `docs/en/*.html` load the shared `site-nav.js` / `site-footer.js`, so **the new nav and footer entries appear there automatically**. The hand-off edit that was deliberately *not* made is named precisely in the PR body (`docs/en/index.html`, "Start here" grid at ~L423).
+
+⚠️ **Evidence could not be committed.** Pushing an `evidence/*` branch of the 22 screenshots was **blocked by a permission gate**, so they live on a hosted page instead of inline in the PR bodies. Inline embedding — which the human gate assumes — needs that push permission granted.
+
+### Two defects in resurrected WIP that no test could catch
+
+The `cli/drop-prototype-mcp` branch carried a `WIP:` commit the orchestrator made to preserve a killed agent's work. Review found:
+
+1. **`helpers.py` silently converted CRLF→LF** — a one-line change rendered as a **2129-line whole-file rewrite**. One of only **two** CRLF files in the repo.
+2. **`audit.py` had mangled indentation** inside a set literal — **valid Python**, therefore permanently invisible to tests.
+
+**Both would have merged green.** Whenever a dead agent's work is picked back up, read every hunk — the preservation commit is not reviewed work.
+
+### Lessons / hazards preserved
+
+- **A gate that only knows registered terms cannot catch invented ones.** Green CI on a page is not evidence its vocabulary is real.
+- **Baseline allowances are consumed silently.** Prefer an explicit scope decision over a numeric budget.
+- **Boundaries that arrive mid-flight are not the worker's fault** — but they are the orchestrator's to enforce retroactively. #1368 was cut before `docs/en/` was ruled off-limits.
+- **Verify a subagent's "main is already red" claim before acting on it.** This one was true and reproducible; acting on it unverified would have been luck.
+- Per-repo merge verbs still diverge: **HQ + `gaia-research` = merge commits only; `skill-heaven` = squash only.**
+
+### Open questions for next orchestrator
+
+0. **Nav crowding on the About pointer — a real design call, deliberately not made by the agent.** The new entry takes the More dropdown from **10 items to 11**, and "The Gaia ecosystem" **wraps to two lines**. Before/after pair is in the evidence. The alternative is a top-level slot, which costs primary-nav real estate. **Blocks nothing, but ships visible crowding if unanswered.**
+1. **`gaia_status` has no mapping.** D4 names two tools (`search_skills`/`summon`); **three** ship. Is `summon` a rename of `gaia_inspect` or a new verb? **Blocks writing the migration story into §10.**
+2. **Break posture at Arc III** — hard rename at v0.2.0, or aliases with a deprecation window? Measured adoption is **127 downloads, 52 on release day**, so a clean break is nearly free.
+3. **Exempt `gaia-research`'s `founder/` too?** Materially different from HQ's — that is where ratification lives.
+4. **`spectral` layout is not reproducible** across scipy versions (31 zero eigenvalues → degenerate nullspace); committing it moves 246/246 nodes for zero content gain.
+5. **Embeddings: 211 of 246 skills covered**, and `gaia embed` writes `registry/embeddings.json` while `build_layouts_3d.py` reads `graph/embeddings.json` — different paths *and* shapes. Which is canonical intersects the curation EPIC.
+6. **The lexicon `code` scope now has zero coverage** — it could not be deleted (`mythic` declares it), so it is retained with an empty include.
+7. **`#1258` still cannot close** until CI Guard B catches "Gaia Registry" in `src/`. Sprint's own remainder — belongs in this sprint.
+
+### Remaining Arc I work
+
+**Lane A tail:** #7, #9, #8/#10/#11/#12, then **#13 — the three-minute demo that gates the arc.**
+**Lane B:** the V5-6 lexicon delta (four items, fully specified in the 8C snapshot, still unlanded).
+**Lane C:** #1339 About surface — in flight, both branches pushed, PRs not yet opened.
+**Also queued:** `cli/py314-console-script` (must not run alongside the mcp branch — both touch `tests/test_packaging.py`).
+
+### Token cost (this session)
+
+`2026-07-29 Opus 5: subagents — 141k in / 27k out (packages-mcp resume), 136k (Class P regen), plus the About surface agent still in flight and unreported. Orchestrator: dispatch, verification, four merges, the founder/ lexicon exemption, and the frontend gate authored inline. Partial by construction.`
+
+---
+
 ## State Snapshot (2026-07-29, Session 8D — EPIC PR #1355 two-gate approval + schema reconciliation landed: PR #1373 & #1374 merged to dev/gaia-curate-v2-impl, worker dry-runs verified 0 errors, pattern overfitting issue logged on research#131)
 
 ### TLDR
