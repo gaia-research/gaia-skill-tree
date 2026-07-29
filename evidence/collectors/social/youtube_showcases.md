@@ -97,3 +97,123 @@ This report details YouTube videos, showcases, tutorials, and interviews of key 
 *   **Video URL:** `https://www.youtube.com/watch?v=k5f2uP33u5g`
 *   **Channel Name:** Full Stack (Validated Third-Party Walkthrough)
 *   **Description:** This video details the "Impeccable" design steering skill built by Paul Bakaus. It showcases how to use Impeccable's design vocabulary modules (colors, typography, responsive design, spatial layout) to steer AI coding assistants like Claude Code away from generic "AI slop" frontends.
+
+---
+
+## 13. `format-output` (ayghri/i-have-adhd) — roundtable_so
+*   **Video Title:** ayghri/i-have-adhd skill video — roundtable_so
+*   **Video URL:** `https://www.youtube.com/channel/UCA99nFOwGrggcfEUBpno8cQ`
+*   **Channel Name:** roundtable_so (286 subscribers, 368 videos)
+*   **Verified Views:** 652
+*   **Grade:** C
+*   **Description:** Search snippet from roundtable_so listed ayghri/i-have-adhd with 652 views for the specific video entry. Channel is small; the 652 view count appeared directly in the search result snippet and is the only verifiable YouTube view count found for this skill. Source: isNew discovery 2026-07-29.
+
+---
+
+## 14. `nextlevelbuilder/ux-audit` — AI Stack Engineer (OpenCode, Feb 2026)
+*   **Video Title:** [OpenCode UI/UX Skill: Build 100X Better & Modern Designs](https://www.youtube.com/watch?v=Pc27ThkuBPQ)
+*   **Video URL:** `https://www.youtube.com/watch?v=Pc27ThkuBPQ`
+*   **Channel Name:** AI Stack Engineer
+*   **Published:** 2026-02-04
+*   **Verified Views:** 28,973
+*   **Grade:** B
+*   **Description:** Third-party tutorial demonstrating installing and using ui-ux-pro-max with OpenCode. Directly covers the skill and links to the repo. Source: isNew discovery 2026-07-29.
+
+---
+
+## 15. `nextlevelbuilder/ux-audit` — AI Stack Engineer (Antigravity, Jan 2026)
+*   **Video Title:** [Antigravity UI/UX Skill: Build 100X Better & Modern Designs](https://www.youtube.com/watch?v=9cf2-BoWsDc)
+*   **Video URL:** `https://www.youtube.com/watch?v=9cf2-BoWsDc`
+*   **Channel Name:** AI Stack Engineer
+*   **Published:** 2026-01-24
+*   **Verified Views:** 24,657
+*   **Grade:** B
+*   **Description:** Third-party tutorial demonstrating the skill with the Antigravity coding tool. Directly covers the skill and links to the repo. Source: isNew discovery 2026-07-29.
+
+---
+
+## 16. `scroll-world` (oso95/scroll-world) — Chase AI
+*   **Video Title:** [This Skill Turns Fable 5 & GPT 5.6 Into Web Design MONSTERS](https://www.youtube.com/watch?v=KBH8P0z2AL8)
+*   **Video URL:** `https://www.youtube.com/watch?v=KBH8P0z2AL8`
+*   **Channel Name:** Chase AI (156K subscribers)
+*   **Published:** ~2 weeks before 2026-07-29
+*   **Verified Views:** 64,616
+*   **Grade:** A
+*   **Description:** Dedicated video reviewing the scroll-world skill by Chase AI. Covers Fable 5 vs GPT-5.6 Soul comparison, credit cost (~800 Higgsfield credits for 6 scenes), and full workflow walkthrough. Source: isNew discovery 2026-07-29.
+
+---
+
+## 17. `scroll-world` (oso95/scroll-world) — Hyperautomation Labs
+*   **Video Title:** [This FREE Claude Code Skill Turns Any Brand Into a 3D World (scroll-world)](https://www.youtube.com/watch?v=Src-a8GJR20)
+*   **Video URL:** `https://www.youtube.com/watch?v=Src-a8GJR20`
+*   **Channel Name:** Hyperautomation Labs
+*   **Published:** 2026-07-16
+*   **Verified Views:** 11,008
+*   **Grade:** A
+*   **Description:** Dedicated explainer covering the 3-piece pipeline (stills → dives → connectors), seam rule, install steps, and honest credit math. Notes repo is free + MIT by oso95. Source: isNew discovery 2026-07-29.
+
+---
+
+## 18. `scroll-world` (oso95/scroll-world) — 투쏠 AI 에이전트 (Korean)
+*   **Video Title:** [AI로 홈페이지를 만든다? 무조건 클로드 쓰세요](https://www.youtube.com/watch?v=tnOYNzGb_uA)
+*   **Video URL:** `https://www.youtube.com/watch?v=tnOYNzGb_uA`
+*   **Channel Name:** 투쏠 AI 에이전트
+*   **Published:** 2026-07-27
+*   **Verified Views:** 1,463
+*   **Grade:** B
+*   **Description:** Korean-language tutorial featuring scroll-world as 'Essential Skill ①'. Demonstrates a 35-minute interactive homepage build using scroll-world + grill-me. Confirms international adoption. Source: isNew discovery 2026-07-29.
+
+---
+
+## 19. `agent-reach` (Panniantong/agent-reach) — Better Stack
+*   **Video Title:** [Your AI Agent Is Missing Half the Internet… Until Now (Agent-Reach)](https://www.youtube.com/watch?v=aanqEqQwjNU)
+*   **Video URL:** `https://www.youtube.com/watch?v=aanqEqQwjNU`
+*   **Channel Name:** Better Stack
+*   **Published:** ~late June 2026
+*   **Verified Views:** 12,681
+*   **Grade:** A
+*   **Description:** Dedicated tutorial covering Agent-Reach install demo and multi-platform (Western + Chinese) routing. Source: isNew discovery 2026-07-30.
+
+---
+
+## 20. `agent-reach` (Panniantong/agent-reach) — Prism Labs
+*   **Video Title:** [Agent-Reach: Give Your AI Agent Eyes to See the Whole Internet](https://www.youtube.com/watch?v=GCXBAcJiov8)
+*   **Video URL:** `https://www.youtube.com/watch?v=GCXBAcJiov8`
+*   **Channel Name:** Prism Labs
+*   **Published:** 2026-06-15
+*   **Verified Views:** 452
+*   **Grade:** B
+*   **Description:** 6m37s deep-dive covering the problem of agent web blindness, install flow, 16+ platform routing, backend fallback chains, MCP support, and trade-offs. Source: isNew discovery 2026-07-30.
+
+---
+
+## 21. `react-performance-optimization` (`vercel-labs/vercel-react-best-practices`) — BetterStack
+*   **Video Title:** [How I Made Claude Code WAY Better With Vercel Agent Skills](https://www.youtube.com/watch?v=PkeC2hNQ9Zw)
+*   **Video URL:** `https://www.youtube.com/watch?v=PkeC2hNQ9Zw`
+*   **Channel Name:** BetterStack (177K subscribers)
+*   **Published:** 2026-01-24
+*   **Verified Views:** 26,698
+*   **Grade:** B
+*   **Description:** Covers Vercel's agent-skills including react-best-practices. View count directly verifiable from YouTube search result snippet. Source: isNew discovery 2026-07-30.
+
+---
+
+## 22. `static-artwork-design` (`anthropics/canvas-design`) — How to Use Claude Skills as a Designer
+*   **Video Title:** [How to Use Claude Skills as a Designer](https://www.youtube.com/watch?v=Iup1WlUyj9M)
+*   **Video URL:** `https://www.youtube.com/watch?v=Iup1WlUyj9M`
+*   **Channel Name:** (Third-party designer channel)
+*   **Published:** 2026-03-09
+*   **Verified Views:** 245,613
+*   **Grade:** A
+*   **Description:** YouTube video with a dedicated 'Canvas Design' chapter at timestamp 5:36. Covers canvas-design and theme-factory skills from anthropics/skills with live demos. Comments confirm designer audience reception ('jaw dropped', 'gamechanger'). Direct link to canvas-design on mcpservers.org in description. Source: isNew discovery 2026-07-30.
+
+---
+
+## 23. `opinion` / `plan-synthesis` / `auto-review` / `disler/agent-fusion` — IndyDevDan
+*   **Video Title:** [Engineers... STOP Picking GPT-5.6 Sol OR Claude Fable 5… FUSE THEM](https://www.youtube.com/watch?v=AQl5Q-0l7FQ)
+*   **Video URL:** `https://www.youtube.com/watch?v=AQl5Q-0l7FQ`
+*   **Channel Name:** IndyDevDan (142K subscribers)
+*   **Published:** ~2026-07-20
+*   **Verified Views:** 34,833
+*   **Grade:** A (auto-review/auto-validate), B (opinion, plan-synthesis, agent-fusion)
+*   **Description:** 26-min video directly showcasing disler/fusion-harness including /opinion, /fusion, and /autovalidate commands. README links to this video as the primary walkthrough. Demonstrates architect/builder/fusion-agent pattern, parallel model execution, and gate-first validation loop. Covers all three suite commands. Source: isNew discovery 2026-07-29.

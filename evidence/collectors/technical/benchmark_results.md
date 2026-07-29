@@ -108,3 +108,23 @@ This report presents objective benchmark scores, evaluation parameters, and perf
 * **Score:** +59% layout/typography consistency improvement (qualitative user testing)
 * **Date:** May 2026
 * **Setup Description:** Runs an agentic design checker executing 23 specialized commands (e.g., `/audit`, `/polish`, `/typeset`) against generated frontend code. Audits code compliance against 44 deterministic rules (such as OKLCH color spacing, typographic hierarchy, and anti-slop guidelines).
+
+---
+
+### 13. `anthropics/canvas-design` (`static-artwork-design`)
+* **Repository / Skill URL:** [yingjiahao14.github.io/OpenSkillEval-Web/](https://yingjiahao14.github.io/OpenSkillEval-Web/)
+* **Benchmark:** OpenSkillEval — Poster Generation category (arXiv:2605.23657)
+* **Score:** 3.91± (mid), 3.56± (low), 4.09± (top model); skill delta −2.08
+* **Date:** May–June 2026
+* **Grade:** A
+* **Setup Description:** OpenSkillEval benchmarked canvas-design across 10 models in the Poster Generation category using 600+ dynamically generated task instances. Scores reported per model tier (low/mid/top). Skill delta of −2.08 indicates skill augmentation did not consistently beat base agents — a notable finding cited in the paper. 27 inline design lines, 15 MUST++ / 5 NEVER constraints. Source: isNew discovery 2026-07-30.
+
+---
+
+### 14. `disler/agent-fusion`
+* **Repository / Benchmark URL:** [openrouter.ai/blog/announcements/fusion-beats-frontier/](https://openrouter.ai/blog/announcements/fusion-beats-frontier/)
+* **Benchmark:** OpenRouter DRACO Benchmark (100 deep-research tasks)
+* **Score:** Fable 5 + GPT-5.5 fused 69.0% vs Fable 5 solo 65.3%; budget panel (Gemini 3 Flash + Kimi K2.6 + DeepSeek V4 Pro) 64.7% vs GPT-5.5 solo 60.0%
+* **Date:** June 12, 2026
+* **Grade:** A
+* **Setup Description:** External benchmark by OpenRouter validating the model-fusion architectural pattern that fusion-harness implements. 100 DRACO deep-research tasks. fusion-harness README cites this post directly. This is an architectural-pattern validation, not a direct harness benchmark. Source: isNew discovery 2026-07-30.

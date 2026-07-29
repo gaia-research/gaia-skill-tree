@@ -480,13 +480,14 @@
     </header>
 
     <!-- Stats Block -->
+    <!-- Last updated: 2026-07-30 (run 3 — intake seed pipeline, 11 skills, 53 URLs) -->
     <div class="stats-grid">
       <div class="stat-card">
-        <div class="stat-value">287</div>
+        <div class="stat-value">340</div>
         <div class="stat-label">Unique URLs Audited</div>
       </div>
       <div class="stat-card success">
-        <div class="stat-value">286</div>
+        <div class="stat-value">339</div>
         <div class="stat-label">Verified Links (200 OK)</div>
       </div>
       <div class="stat-card error">
@@ -497,6 +498,45 @@
         <div class="stat-value">0</div>
         <div class="stat-label">Broken Links (404)</div>
       </div>
+    </div>
+
+    <!-- Pipeline Run History -->
+    <div style="background: rgba(56, 189, 248, 0.03); border: 1px solid rgba(56, 189, 248, 0.12); border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 3.5rem; font-size: 0.875rem; line-height: 1.6; color: var(--text);">
+      <div style="font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin-bottom: 0.75rem;">Pipeline Run History</div>
+      <table style="width: 100%; border-collapse: collapse; font-family: var(--font-mono); font-size: 0.8rem;">
+        <thead>
+          <tr style="border-bottom: 1px solid var(--border);">
+            <th style="text-align: left; padding: 0.35rem 0.75rem 0.35rem 0; color: var(--muted); font-weight: 500;">Date</th>
+            <th style="text-align: left; padding: 0.35rem 0.75rem; color: var(--muted); font-weight: 500;">Description</th>
+            <th style="text-align: right; padding: 0.35rem 0 0.35rem 0.75rem; color: var(--muted); font-weight: 500;">Skills</th>
+            <th style="text-align: right; padding: 0.35rem 0 0.35rem 0.75rem; color: var(--muted); font-weight: 500;">URLs</th>
+            <th style="text-align: right; padding: 0.35rem 0 0.35rem 0.75rem; color: var(--muted); font-weight: 500;">Dead</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom: 1px solid rgba(30,41,59,0.5);">
+            <td style="padding: 0.35rem 0.75rem 0.35rem 0; color: var(--muted);">2026-06-18</td>
+            <td style="padding: 0.35rem 0.75rem; color: var(--text);">Initial full data lake sweep (Tiers 1★–6★)</td>
+            <td style="padding: 0.35rem 0 0.35rem 0.75rem; text-align: right; color: var(--text);">235</td>
+            <td style="padding: 0.35rem 0 0.35rem 0.75rem; text-align: right; color: var(--text);">287</td>
+            <td style="padding: 0.35rem 0 0.35rem 0.75rem; text-align: right; color: var(--tier-basic);">0</td>
+          </tr>
+          <tr style="border-bottom: 1px solid rgba(30,41,59,0.5);">
+            <td style="padding: 0.35rem 0.75rem 0.35rem 0; color: var(--muted);">2026-07-13</td>
+            <td style="padding: 0.35rem 0.75rem; color: var(--text);">Post-v6.6.1 snapshot re-verification</td>
+            <td style="padding: 0.35rem 0 0.35rem 0.75rem; text-align: right; color: var(--text);">—</td>
+            <td style="padding: 0.35rem 0 0.35rem 0.75rem; text-align: right; color: var(--text);">—</td>
+            <td style="padding: 0.35rem 0 0.35rem 0.75rem; text-align: right; color: var(--tier-basic);">0</td>
+          </tr>
+          <tr>
+            <td style="padding: 0.35rem 0.75rem 0.35rem 0; color: var(--muted);">2026-07-30</td>
+            <td style="padding: 0.35rem 0.75rem; color: var(--text);">Intake seed pipeline — 11 skills (issues #1123, #1243, #1251, #1252, #1266, #1332, #1379, #1380)</td>
+            <td style="padding: 0.35rem 0 0.35rem 0.75rem; text-align: right; color: var(--text);">11</td>
+            <td style="padding: 0.35rem 0 0.35rem 0.75rem; text-align: right; color: var(--text);">53</td>
+            <td style="padding: 0.35rem 0 0.35rem 0.75rem; text-align: right; color: var(--tier-basic);">0</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
     <!-- Data Lake Lifecycle Note -->
