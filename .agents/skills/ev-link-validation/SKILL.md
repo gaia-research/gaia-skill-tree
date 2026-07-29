@@ -68,7 +68,19 @@ Dead links should not be imported into the registry. Flag them in the source rep
 
 ### 4. Update the visual pipeline tracker
 
-Open `evidence/verification_process.html` and update the link-validation stats block to reflect the latest pass/fail counts. This keeps the visual dashboard current for anyone reviewing pipeline health at a glance.
+Run the deterministic stats-patch script — do not hand-edit the HTML:
+
+```bash
+python3 scripts/ev_stats_patch.py \
+  --date YYYY-MM-DD \
+  --skills-processed N \
+  --new-rows N \
+  --live-urls N \
+  --dead-urls N \
+  [--dry-run]
+```
+
+This patches the cumulative stat-cards (skills audited, URLs verified, dead links) and appends a dated run-history row to `evidence/verification_process.html`. Use `--dry-run` first to confirm the diff looks correct. The script is idempotent — re-running with the same date is a no-op.
 
 ### 5. Handoff verified intake evidence
 

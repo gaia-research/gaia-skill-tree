@@ -61,6 +61,10 @@ it carries a trailing comment of the form:
 
 Skip flagged rows; they are already in the registry.
 
+Rows appended by Phase 0 (`ev-discovery` via `ev_append.py`) carry a
+`<!-- appended: YYYY-MM-DD -->` date-stamp above the block — this is **not** an
+injected marker. Those rows are fresh and must be compiled normally.
+
 ### Step 2 — Compile the unified index
 
 Run the compiler script to merge all collector output into the master database
