@@ -108,7 +108,12 @@ def appraise(target: AppraisalTarget) -> dict[str, Any]:
 
 
 def appraiseNode(skillRef: str) -> dict[str, Any]:
-    """Appraise an already-curated registry node by contributor/skill-id."""
+    """Appraise an already-curated registry node by contributor/skill-id.
+
+    When the ref is ``contributor/slug``, the named skill's .md frontmatter is
+    read first so the evidence array set by ``gaia dev evidence`` is used.
+    Falls back to the generic JSON node if the named file does not exist.
+    """
     parts = skillRef.split("/", 1)
     if len(parts) == 2:
         contributor, skillId = parts
