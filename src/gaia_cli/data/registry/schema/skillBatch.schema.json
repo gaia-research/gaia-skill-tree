@@ -64,9 +64,10 @@
           "named": {
             "type": "object",
             "additionalProperties": false,
-            "description": "Optional named-implementation block from the legacy --from-file intake (a named contributor form of this generic skill). contributor + level + links_github are required by pushFromFile._validate_skill when the block is present.",
+            "description": "Optional named-implementation block from intake. contributor + links_github are required by pushFromFile when present. level defaults to 2★ floor (non-authoritative at intake; TM scoring derives higher ranks).",
             "properties": {
               "contributor": { "type": "string" },
+              "skill_name": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$", "description": "Optional upstream SKILL.md folder/name (e.g. 'seo' for Bhanunamikaze/seo). If omitted, defaults to generic skill id." },
               "level": { "type": "string", "pattern": "^[2-6][★*]$" },
               "links_github": { "type": "string" }
             }

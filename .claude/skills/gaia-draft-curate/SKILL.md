@@ -103,6 +103,11 @@ Ask whether to continue. By default, hand accepted items to `/gaia-curate-chain`
 
 After L4 topology approval, a maintainer applies `intake:topology-approved` on the intake issue. The Intake Approval workflow validates the immutable batch, posts its machine-readable handoff, and applies `intake:evidence-review`; it does **not** seed or promote. An agent then prepares the Stage-1 seed and optional Phase-0 discovery plan, and marks it `intake:evidence-ready` for human review. Only a maintainer applying `intake:evidence-approved` to an evidence-ready intake opens the one draft `review/meta/intake-<issue>` promotion PR. Keep all verified evidence, CLI-only ingestion, provenance, and generated artifacts on that single PR.
 
+### 8. Intake & Named Implementation Rules (Yggdrasil II)
+
+- **Star ranks are non-authoritative at intake:** Star levels (2★–6★) are never pre-declared in intake proposals. All named entries enter at the 2★ floor by default; higher ranks are derived canonically downstream via Trust Magnitude appraisal (`trust-appraise`).
+- **Named entry slugs match upstream `SKILL.md`:** A named implementation takes the format `<contributor>/<skill_name>`, where `<skill_name>` is the slugified `name:` declared in the upstream `SKILL.md` frontmatter (e.g. `Bhanunamikaze/seo`), NOT an arbitrary generic ID.
+
 The handoff must preserve the originating batch and issue/PR links. This skill itself does not run `gaia dev add`, `gaia dev evidence`, or any other mutating command.
 
 ## Final report

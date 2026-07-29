@@ -221,14 +221,11 @@ class TestValidateSkillEvidence(unittest.TestCase):
 # ---------------------------------------------------------------------------
 
 class TestValidateSkillNamed(unittest.TestCase):
-    def test_named_level_missing_rejected(self):
-        # named block present but level key absent — must error
+    def test_named_level_optional_defaults_to_2star(self):
+        # named block present but level key absent — level is optional and defaults to 2★
         entry = _good_basic(named={"contributor": "foo", "links_github": "https://github.com/a/b"})
         errors = _validate_skill(entry, 0, _KNOWN_IDS)
-        self.assertTrue(
-            any("level" in e and "required" in e for e in errors),
-            f"Expected level-required error, got: {errors}",
-        )
+        self.assertEqual(errors, [])
 
     def test_named_level_1star_rejected(self):
         entry = _good_basic(named={"contributor": "foo", "level": "1★", "links_github": "https://github.com/a/b"})

@@ -80,8 +80,9 @@ body:
 
             named:                             # optional block · omit if no named skill requested
               contributor: github-handle       # required if named · use upstream_author when attributed
-              level: "2★"                      # required if named · 2★–6★ · do NOT write branch words
+              skill_name: upstream-skill-name  # optional · SKILL.md folder/name (e.g. "seo"); defaults to generic id
               links_github: https://...        # required if named · blob/ URL for links.github field
+                                               # Note: Star ranks are TM-gated and never pre-declared; defaults to 2★ floor.
 
           # ── Add more skills below — copy the block above ──────────────────────
 
