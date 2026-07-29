@@ -105,6 +105,19 @@
       }
     },
     {
+      "handle": "nextlevelbuilder",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "nextlevelbuilder/ui-ux-pro-max",
+        "level": "4★",
+        "trustMagnitude": 194.26
+      },
+      "prestigeScore": 194.26,
+      "_links": {
+        "self": "/api/v1/contributors/nextlevelbuilder.json"
+      }
+    },
+    {
       "handle": "mbtiongson1",
       "namedSkills": 5,
       "topSkill": {
@@ -115,6 +128,19 @@
       "prestigeScore": 180.0,
       "_links": {
         "self": "/api/v1/contributors/mbtiongson1.json"
+      }
+    },
+    {
+      "handle": "disler",
+      "namedSkills": 4,
+      "topSkill": {
+        "id": "disler/agent-fusion",
+        "level": "2★",
+        "trustMagnitude": 37.54
+      },
+      "prestigeScore": 146.56,
+      "_links": {
+        "self": "/api/v1/contributors/disler.json"
       }
     },
     {
@@ -206,6 +232,58 @@
       "prestigeScore": 73.59,
       "_links": {
         "self": "/api/v1/contributors/browser-use.json"
+      }
+    },
+    {
+      "handle": "oso95",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "oso95/scroll-world",
+        "level": "3★",
+        "trustMagnitude": 60.98
+      },
+      "prestigeScore": 60.98,
+      "_links": {
+        "self": "/api/v1/contributors/oso95.json"
+      }
+    },
+    {
+      "handle": "panniantong",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "panniantong/agent-reach",
+        "level": "3★",
+        "trustMagnitude": 53.86
+      },
+      "prestigeScore": 53.86,
+      "_links": {
+        "self": "/api/v1/contributors/panniantong.json"
+      }
+    },
+    {
+      "handle": "vercel-labs",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "vercel-labs/react-best-practices",
+        "level": "3★",
+        "trustMagnitude": 50.48
+      },
+      "prestigeScore": 50.48,
+      "_links": {
+        "self": "/api/v1/contributors/vercel-labs.json"
+      }
+    },
+    {
+      "handle": "anthropics",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "anthropics/canvas-design",
+        "level": "2★",
+        "trustMagnitude": 43.52
+      },
+      "prestigeScore": 43.52,
+      "_links": {
+        "self": "/api/v1/contributors/anthropics.json"
       }
     },
     {
@@ -378,7 +456,7 @@
       }
     }
   ],
-  "totalContributors": 29,
+  "totalContributors": 35,
   "_links": {
     "self": "/api/v1/contributors/index.json"
   }

@@ -1,6 +1,22 @@
 {
   "skills": [
     {
+      "id": "garrytan/benchmark",
+      "name": "Benchmark",
+      "level": "3★",
+      "trustMagnitude": 63.73,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/benchmark.json"
+      },
+      "genericSkillRef": "evaluate-output"
+    },
+    {
       "id": "garrytan/canary",
       "name": "Canary",
       "level": "3★",
@@ -305,6 +321,22 @@
       "genericSkillRef": "prd-generation"
     },
     {
+      "id": "oso95/scroll-world",
+      "name": "Scroll World",
+      "level": "3★",
+      "trustMagnitude": 60.98,
+      "overallTrustGrade": "B",
+      "contributor": "oso95",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/oso95/scroll-world.json"
+      },
+      "genericSkillRef": "scroll-world"
+    },
+    {
       "id": "mattpocock/personal",
       "name": "Personal",
       "level": "3★",
@@ -355,6 +387,22 @@
         "self": "/api/v1/skills/mattpocock/triage.json"
       },
       "genericSkillRef": "issue-triage"
+    },
+    {
+      "id": "panniantong/agent-reach",
+      "name": "Agent Reach",
+      "level": "3★",
+      "trustMagnitude": 53.86,
+      "overallTrustGrade": "B",
+      "contributor": "panniantong",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/panniantong/agent-reach.json"
+      },
+      "genericSkillRef": "agent-reach"
     },
     {
       "id": "addy-osmani/code-review-and-quality",
@@ -533,6 +581,22 @@
       "genericSkillRef": "verification-before-completion"
     },
     {
+      "id": "vercel-labs/react-best-practices",
+      "name": "React Best Practices",
+      "level": "3★",
+      "trustMagnitude": 50.48,
+      "overallTrustGrade": "B",
+      "contributor": "vercel-labs",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/vercel-labs/react-best-practices.json"
+      },
+      "genericSkillRef": "react-performance-optimization"
+    },
+    {
       "id": "mattpocock/improve-codebase-architecture",
       "name": "Improve Codebase Architecture",
       "level": "2★",
@@ -563,6 +627,22 @@
         "self": "/api/v1/skills/mattpocock/write-a-skill.json"
       },
       "genericSkillRef": "tool-creation"
+    },
+    {
+      "id": "anthropics/canvas-design",
+      "name": "Canvas Design",
+      "level": "2★",
+      "trustMagnitude": 43.52,
+      "overallTrustGrade": "C",
+      "contributor": "anthropics",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/anthropics/canvas-design.json"
+      },
+      "genericSkillRef": "static-artwork-design"
     },
     {
       "id": "mattpocock/prototype",
@@ -613,6 +693,27 @@
       "genericSkillRef": "skill-fusion"
     },
     {
+      "id": "disler/agent-fusion",
+      "name": "Agent Fusion",
+      "level": "2★",
+      "trustMagnitude": 37.54,
+      "overallTrustGrade": "C",
+      "contributor": "disler",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/disler/agent-fusion.json"
+      },
+      "genericSkillRef": "agent-fusion",
+      "suiteComponents": [
+        "disler/auto-review",
+        "disler/opinion",
+        "disler/plan-synthesis"
+      ]
+    },
+    {
       "id": "bradautomates/claude-video",
       "name": "Claude Video",
       "level": "2★",
@@ -627,6 +728,54 @@
         "self": "/api/v1/skills/bradautomates/claude-video.json"
       },
       "genericSkillRef": "video-intelligence"
+    },
+    {
+      "id": "disler/auto-review",
+      "name": "Auto-Review",
+      "level": "2★",
+      "trustMagnitude": 36.34,
+      "overallTrustGrade": "C",
+      "contributor": "disler",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/disler/auto-review.json"
+      },
+      "genericSkillRef": "auto-review"
+    },
+    {
+      "id": "disler/opinion",
+      "name": "Opinion",
+      "level": "2★",
+      "trustMagnitude": 36.34,
+      "overallTrustGrade": "C",
+      "contributor": "disler",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/disler/opinion.json"
+      },
+      "genericSkillRef": "opinion"
+    },
+    {
+      "id": "disler/plan-synthesis",
+      "name": "Plan Synthesis",
+      "level": "2★",
+      "trustMagnitude": 36.34,
+      "overallTrustGrade": "C",
+      "contributor": "disler",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/disler/plan-synthesis.json"
+      },
+      "genericSkillRef": "plan-synthesis"
     },
     {
       "id": "Manavarya09/design-extract",
@@ -659,155 +808,11 @@
         "self": "/api/v1/skills/addy-osmani/test-driven-development.json"
       },
       "genericSkillRef": "test-driven-development"
-    },
-    {
-      "id": "anthropic/pptx",
-      "name": "PPTX Editor",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "anthropic",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/anthropic/pptx.json"
-      },
-      "genericSkillRef": "document-editing"
-    },
-    {
-      "id": "garrytan/benchmark-models",
-      "name": "Benchmark Models",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/benchmark-models.json"
-      },
-      "genericSkillRef": "skill-performance-benchmarking"
-    },
-    {
-      "id": "garrytan/codex",
-      "name": "Codex",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/codex.json"
-      },
-      "genericSkillRef": "multi-agent-debate"
-    },
-    {
-      "id": "garrytan/context-restore",
-      "name": "Context Restore",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/context-restore.json"
-      },
-      "genericSkillRef": "context-compression"
-    },
-    {
-      "id": "garrytan/context-save",
-      "name": "Context Save",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/context-save.json"
-      },
-      "genericSkillRef": "context-compression"
-    },
-    {
-      "id": "garrytan/design-review",
-      "name": "Design Review",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/design-review.json"
-      },
-      "genericSkillRef": "ux-audit"
-    },
-    {
-      "id": "garrytan/devex-review",
-      "name": "DevEx Review",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/devex-review.json"
-      },
-      "genericSkillRef": "ux-audit"
-    },
-    {
-      "id": "garrytan/document-release",
-      "name": "Document Release",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/document-release.json"
-      },
-      "genericSkillRef": "document-editing"
-    },
-    {
-      "id": "garrytan/freeze",
-      "name": "Freeze",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/freeze.json"
-      },
-      "genericSkillRef": "guardrails"
     }
   ],
   "page": 2,
   "totalPages": 4,
-  "totalSkills": 159,
+  "totalSkills": 168,
   "_links": {
     "self": "/api/v1/skills/page-2.json",
     "prev": "/api/v1/skills/index.json",

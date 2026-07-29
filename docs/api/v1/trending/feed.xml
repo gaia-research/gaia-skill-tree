@@ -5,8 +5,70 @@
     <link>https://gaiaskilltree.com/trending/</link>
     <description>Skills gaining trust this week — ranked by evidence velocity, not hype.</description>
     <language>en-us</language>
-    <lastBuildDate>Wed, 29 Jul 2026 03:36:32 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 29 Jul 2026 21:18:00 +0000</lastBuildDate>
     <atom:link href="https://gaiaskilltree.com/api/v1/trending/feed.xml" rel="self" type="application/rss+xml"/>
-
+    <item>
+      <title>UI/UX Pro Max (+194.3 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/nextlevelbuilder/ui-ux-pro-max</link>
+      <description>Trust Magnitude: 194.3 · Grade A</description>
+      <pubDate>Wed, 29 Jul 2026 21:18:00 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-nextlevelbuilder/ui-ux-pro-max-2026-07-29</guid>
+    </item>
+    <item>
+      <title>Scroll World (+61.0 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/oso95/scroll-world</link>
+      <description>Trust Magnitude: 61.0 · Grade B</description>
+      <pubDate>Wed, 29 Jul 2026 21:18:00 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-oso95/scroll-world-2026-07-29</guid>
+    </item>
+    <item>
+      <title>Agent Reach (+53.9 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/panniantong/agent-reach</link>
+      <description>Trust Magnitude: 53.9 · Grade B</description>
+      <pubDate>Wed, 29 Jul 2026 21:18:00 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-panniantong/agent-reach-2026-07-29</guid>
+    </item>
+    <item>
+      <title>React Best Practices (+50.5 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/vercel-labs/react-best-practices</link>
+      <description>Trust Magnitude: 50.5 · Grade B</description>
+      <pubDate>Wed, 29 Jul 2026 21:18:00 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-vercel-labs/react-best-practices-2026-07-29</guid>
+    </item>
+    <item>
+      <title>Canvas Design (+43.5 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/anthropics/canvas-design</link>
+      <description>Trust Magnitude: 43.5 · Grade C</description>
+      <pubDate>Wed, 29 Jul 2026 21:18:00 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-anthropics/canvas-design-2026-07-29</guid>
+    </item>
+    <item>
+      <title>Agent Fusion (+37.5 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/disler/agent-fusion</link>
+      <description>Trust Magnitude: 37.5 · Grade C</description>
+      <pubDate>Wed, 29 Jul 2026 21:18:00 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-disler/agent-fusion-2026-07-29</guid>
+    </item>
+    <item>
+      <title>Auto-Review (+36.3 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/disler/auto-review</link>
+      <description>Trust Magnitude: 36.3 · Grade C</description>
+      <pubDate>Wed, 29 Jul 2026 21:18:00 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-disler/auto-review-2026-07-29</guid>
+    </item>
+    <item>
+      <title>Opinion (+36.3 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/disler/opinion</link>
+      <description>Trust Magnitude: 36.3 · Grade C</description>
+      <pubDate>Wed, 29 Jul 2026 21:18:00 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-disler/opinion-2026-07-29</guid>
+    </item>
+    <item>
+      <title>Plan Synthesis (+36.3 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/disler/plan-synthesis</link>
+      <description>Trust Magnitude: 36.3 · Grade C</description>
+      <pubDate>Wed, 29 Jul 2026 21:18:00 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-disler/plan-synthesis-2026-07-29</guid>
+    </item>
   </channel>
 </rss>

@@ -16,7 +16,7 @@
     "list": "/api/v1/skills/index.json"
   },
   "title": "The Aesthetic Shield",
-  "genericSkillRef": "ux-audit",
+  "genericSkillRef": "ui-audit",
   "origin": true,
   "description": "Elite design vocabulary and audit tool for polishing AI-generated frontend code.",
   "tags": [

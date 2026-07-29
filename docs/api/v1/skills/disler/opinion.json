@@ -1,0 +1,61 @@
+{
+  "id": "disler/opinion",
+  "name": "Opinion",
+  "contributor": "disler",
+  "level": "2★",
+  "type": "basic",
+  "status": "named",
+  "trustMagnitude": 36.34,
+  "overallTrustGrade": "C",
+  "branch": "standard",
+  "rankWord": "Named",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/disler/opinion.json",
+    "contributor": "/api/v1/contributors/disler.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "Opinion",
+  "genericSkillRef": "opinion",
+  "origin": false,
+  "description": "Formulate and articulate a strong, reasoned opinion or recommendation as a discrete agent step, avoiding model selection bias and decision paralysis.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://www.youtube.com/watch?v=AQl5Q-0l7FQ",
+      "evaluator": "unknown",
+      "date": "2026-07-20",
+      "type": "social-signal",
+      "notes": "IndyDevDan (142K subs) demos /opinion — both models answer in parallel, side-by-side. 34,833 verified views.",
+      "views": 34833,
+      "sourceStartedAt": "2026-07-20",
+      "grade": "B"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-07-29T20:14:44Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added named skill disler/opinion"
+    },
+    {
+      "timestamp": "2026-07-29T20:23:35Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://www.youtube.com/watch?v=AQl5Q-0l7FQ (type: social-signal)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/USER_PROMPT_OPINION.md"
+  }
+}

@@ -172,29 +172,29 @@ def main() -> int:
           f"skill(s) across {trees_checked} tree(s).")
     failed = False
     if violations:
-        print(f"\n✗ {len(violations)} untracked rank change(s) — transparency violated:\n")
+        print(f"\n[FAIL] {len(violations)} untracked rank change(s) — transparency violated:\n")
         for v in violations:
-            print(f"  • {v}")
+            print(f"  * {v}")
         print("\nEvery rank change must leave a timeline event. Backfill with the "
               "/gaia-trace-timeline skill or `gaia dev timeline <id> --user <owner> "
-              "--action demote|rank_up --timestamp <iso> --notes \"…\"`, then "
+              "--action demote|rank_up --timestamp <iso> --notes \"...\"`, then "
               "`gaia docs build`.")
         failed = True
     else:
-        print("✓ Transparency Gate: every user-tree timeline explains its skill's "
+        print("[OK] Transparency Gate: every user-tree timeline explains its skill's "
               "current rank — no untracked rank changes.")
 
     # Migration-provenance invariant (#1189) — registry named-skill timelines only.
     prov_violations = check_migration_provenance()
     if prov_violations:
-        print(f"\n✗ {len(prov_violations)} migration-provenance violation(s):\n")
+        print(f"\n[FAIL] {len(prov_violations)} migration-provenance violation(s):\n")
         for v in prov_violations:
-            print(f"  • {v}")
+            print(f"  * {v}")
         print("\nEvery batched demote must be paired with a same-skill type_change "
               "sharing its migrationBatch (structured migration provenance, #1189).")
         failed = True
     else:
-        print("✓ Migration-provenance invariant: every batched demote is paired with "
+        print("[OK] Migration-provenance invariant: every batched demote is paired with "
               "a same-skill type_change sharing its migrationBatch.")
 
     return 1 if failed else 0

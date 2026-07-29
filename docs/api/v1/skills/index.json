@@ -319,6 +319,22 @@
       ]
     },
     {
+      "id": "nextlevelbuilder/ui-ux-pro-max",
+      "name": "UI/UX Pro Max",
+      "level": "4★",
+      "trustMagnitude": 194.26,
+      "overallTrustGrade": "A",
+      "contributor": "nextlevelbuilder",
+      "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/nextlevelbuilder/ui-ux-pro-max.json"
+      },
+      "genericSkillRef": "ux-audit"
+    },
+    {
       "id": "ruvnet/ruflo-v3",
       "name": "Ruflo V3",
       "level": "4★",
@@ -420,7 +436,7 @@
       "_links": {
         "self": "/api/v1/skills/pbakaus/impeccable.json"
       },
-      "genericSkillRef": "ux-audit"
+      "genericSkillRef": "ui-audit"
     },
     {
       "id": "mattpocock/productivity",
@@ -1003,27 +1019,11 @@
         "self": "/api/v1/skills/obra/systematic-debugging.json"
       },
       "genericSkillRef": "systematic-debugging"
-    },
-    {
-      "id": "garrytan/benchmark",
-      "name": "Benchmark",
-      "level": "3★",
-      "trustMagnitude": 63.73,
-      "overallTrustGrade": "B",
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/benchmark.json"
-      },
-      "genericSkillRef": "evaluate-output"
     }
   ],
   "page": 1,
   "totalPages": 4,
-  "totalSkills": 159,
+  "totalSkills": 168,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"

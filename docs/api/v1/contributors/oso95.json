@@ -1,0 +1,35 @@
+{
+  "handle": "oso95",
+  "namedSkills": [
+    {
+      "id": "oso95/scroll-world",
+      "name": "Scroll World",
+      "level": "3★",
+      "trustMagnitude": 60.98,
+      "overallTrustGrade": "B",
+      "contributor": "oso95",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/oso95/scroll-world.json"
+      },
+      "genericSkillRef": "scroll-world"
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "oso95/scroll-world",
+    "level": "3★",
+    "trustMagnitude": 60.98
+  },
+  "prestigeScore": 60.98,
+  "gradeDistribution": {
+    "B": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/oso95.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

@@ -1,13 +1,13 @@
 {
   "distribution": {
-    "total": 280,
+    "total": 291,
     "S": 5,
-    "A": 47,
-    "B": 69,
-    "C": 78,
-    "ungraded": 81,
+    "A": 49,
+    "B": 72,
+    "C": 82,
+    "ungraded": 83,
     "floor": 0,
-    "up": 31
+    "up": 32
   },
   "rows": [
     {
@@ -131,6 +131,19 @@
       "branch": "suite"
     },
     {
+      "id": "nextlevelbuilder/ui-ux-pro-max",
+      "trustMagnitude": 194.26,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "github-stars-own": 111.0,
+        "peer-review": 30.0,
+        "social-signal": 53.26
+      },
+      "origin": true,
+      "branch": "unique"
+    },
+    {
       "id": "ruvnet/ruflo-v3",
       "trustMagnitude": 186.0,
       "grade": "A",
@@ -166,6 +179,19 @@
       },
       "origin": true,
       "branch": "unique"
+    },
+    {
+      "id": "disler/agent-fusion",
+      "trustMagnitude": 127.54,
+      "grade": "A",
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 1.2,
+        "social-signal": 36.34,
+        "fusion-recipe": 90.0
+      },
+      "origin": false,
+      "branch": "suite"
     },
     {
       "id": "pbakaus/impeccable",
@@ -1320,6 +1346,17 @@
       "branch": "standard"
     },
     {
+      "id": "oso95/scroll-world",
+      "trustMagnitude": 60.98,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "social-signal": 60.98
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "id": "mattpocock/personal",
       "trustMagnitude": 60.0,
       "grade": "B",
@@ -1352,6 +1389,18 @@
         "peer-review": 45.0
       },
       "origin": true,
+      "branch": "standard"
+    },
+    {
+      "id": "panniantong/agent-reach",
+      "trustMagnitude": 53.86,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "social-signal": 48.86,
+        "self-attestation": 5.0
+      },
+      "origin": false,
       "branch": "standard"
     },
     {
@@ -1487,6 +1536,20 @@
       "branch": "standard"
     },
     {
+      "id": "vercel-labs/react-best-practices",
+      "trustMagnitude": 50.48,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 9.87,
+        "arxiv": 0.2,
+        "social-signal": 35.41,
+        "self-attestation": 5.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "id": "mattpocock/improve-codebase-architecture",
       "trustMagnitude": 45.0,
       "grade": "C",
@@ -1516,6 +1579,18 @@
       "typeBreakdown": {
         "self-attestation": 5.0,
         "social-signal": 39.48
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "anthropics/canvas-design",
+      "trustMagnitude": 43.52,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "arxiv": 0.4,
+        "social-signal": 43.12
       },
       "origin": false,
       "branch": "standard"
@@ -1578,6 +1653,39 @@
         "social-signal": 36.25
       },
       "origin": true,
+      "branch": "standard"
+    },
+    {
+      "id": "disler/auto-review",
+      "trustMagnitude": 36.34,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "social-signal": 36.34
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "disler/opinion",
+      "trustMagnitude": 36.34,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "social-signal": 36.34
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "disler/plan-synthesis",
+      "trustMagnitude": 36.34,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "social-signal": 36.34
+      },
+      "origin": false,
       "branch": "standard"
     },
     {
@@ -2352,6 +2460,17 @@
       "branch": "standard"
     },
     {
+      "id": "ayghri/i-have-adhd",
+      "trustMagnitude": 13.3,
+      "grade": "ungraded",
+      "level": "1★",
+      "typeBreakdown": {
+        "github-stars-own": 13.3
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "id": "caioribeiroclw-pixel/evidence-attestation",
       "trustMagnitude": 7.34,
       "grade": "ungraded",
@@ -2561,6 +2680,17 @@
     },
     {
       "id": "favorchurch/update-unique-churches",
+      "trustMagnitude": 5.0,
+      "grade": "ungraded",
+      "level": "1★",
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "gaia-research/skill-cost",
       "trustMagnitude": 5.0,
       "grade": "ungraded",
       "level": "1★",

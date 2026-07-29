@@ -15,7 +15,7 @@
       "_links": {
         "self": "/api/v1/skills/pbakaus/impeccable.json"
       },
-      "genericSkillRef": "ux-audit"
+      "genericSkillRef": "ui-audit"
     }
   ],
   "namedSkillsCount": 1,

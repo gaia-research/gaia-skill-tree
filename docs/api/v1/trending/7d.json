@@ -1,9 +1,136 @@
 {
   "window": "7d",
-  "generatedAt": "2026-07-29T03:36:32Z",
+  "generatedAt": "2026-07-29T21:18:00Z",
   "firstRun": false,
-  "skills": [],
-  "totalTrending": 0,
+  "skills": [
+    {
+      "id": "nextlevelbuilder/ui-ux-pro-max",
+      "name": "UI/UX Pro Max",
+      "level": "4★",
+      "contributor": "nextlevelbuilder",
+      "trustMagnitude": 194.26,
+      "overallTrustGrade": "A",
+      "trendingScore": 97.13,
+      "tmDelta": 194.26,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/nextlevelbuilder/ui-ux-pro-max.json"
+      }
+    },
+    {
+      "id": "oso95/scroll-world",
+      "name": "Scroll World",
+      "level": "3★",
+      "contributor": "oso95",
+      "trustMagnitude": 60.98,
+      "overallTrustGrade": "B",
+      "trendingScore": 30.49,
+      "tmDelta": 60.98,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/oso95/scroll-world.json"
+      }
+    },
+    {
+      "id": "panniantong/agent-reach",
+      "name": "Agent Reach",
+      "level": "3★",
+      "contributor": "panniantong",
+      "trustMagnitude": 53.86,
+      "overallTrustGrade": "B",
+      "trendingScore": 26.93,
+      "tmDelta": 53.86,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/panniantong/agent-reach.json"
+      }
+    },
+    {
+      "id": "vercel-labs/react-best-practices",
+      "name": "React Best Practices",
+      "level": "3★",
+      "contributor": "vercel-labs",
+      "trustMagnitude": 50.48,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.24,
+      "tmDelta": 50.48,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/vercel-labs/react-best-practices.json"
+      }
+    },
+    {
+      "id": "anthropics/canvas-design",
+      "name": "Canvas Design",
+      "level": "2★",
+      "contributor": "anthropics",
+      "trustMagnitude": 43.52,
+      "overallTrustGrade": "C",
+      "trendingScore": 21.76,
+      "tmDelta": 43.52,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/anthropics/canvas-design.json"
+      }
+    },
+    {
+      "id": "disler/agent-fusion",
+      "name": "Agent Fusion",
+      "level": "2★",
+      "contributor": "disler",
+      "trustMagnitude": 37.54,
+      "overallTrustGrade": "C",
+      "trendingScore": 18.77,
+      "tmDelta": 37.54,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/disler/agent-fusion.json"
+      }
+    },
+    {
+      "id": "disler/auto-review",
+      "name": "Auto-Review",
+      "level": "2★",
+      "contributor": "disler",
+      "trustMagnitude": 36.34,
+      "overallTrustGrade": "C",
+      "trendingScore": 18.17,
+      "tmDelta": 36.34,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/disler/auto-review.json"
+      }
+    },
+    {
+      "id": "disler/opinion",
+      "name": "Opinion",
+      "level": "2★",
+      "contributor": "disler",
+      "trustMagnitude": 36.34,
+      "overallTrustGrade": "C",
+      "trendingScore": 18.17,
+      "tmDelta": 36.34,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/disler/opinion.json"
+      }
+    },
+    {
+      "id": "disler/plan-synthesis",
+      "name": "Plan Synthesis",
+      "level": "2★",
+      "contributor": "disler",
+      "trustMagnitude": 36.34,
+      "overallTrustGrade": "C",
+      "trendingScore": 18.17,
+      "tmDelta": 36.34,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/disler/plan-synthesis.json"
+      }
+    }
+  ],
+  "totalTrending": 9,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }

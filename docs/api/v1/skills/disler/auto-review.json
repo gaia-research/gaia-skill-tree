@@ -1,0 +1,61 @@
+{
+  "id": "disler/auto-review",
+  "name": "Auto-Review",
+  "contributor": "disler",
+  "level": "2★",
+  "type": "basic",
+  "status": "named",
+  "trustMagnitude": 36.34,
+  "overallTrustGrade": "C",
+  "branch": "standard",
+  "rankWord": "Named",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/disler/auto-review.json",
+    "contributor": "/api/v1/contributors/disler.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "Auto-Review",
+  "genericSkillRef": "auto-review",
+  "origin": false,
+  "description": "Automatically review and gate agent outputs by writing and executing a self-authored acceptance script, combining self-critique with pre-completion verification.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://www.youtube.com/watch?v=AQl5Q-0l7FQ",
+      "evaluator": "unknown",
+      "date": "2026-07-20",
+      "type": "social-signal",
+      "notes": "IndyDevDan (136K subs) demos /autovalidate: one agent authors a validation gate that PROVES work is done, other builds against it. 34,833 verified views.",
+      "views": 34833,
+      "sourceStartedAt": "2026-07-20",
+      "grade": "B"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-07-29T20:14:45Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added named skill disler/auto-review"
+    },
+    {
+      "timestamp": "2026-07-29T20:23:36Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://www.youtube.com/watch?v=AQl5Q-0l7FQ (type: social-signal)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/USER_PROMPT_VALIDATOR.md"
+  }
+}

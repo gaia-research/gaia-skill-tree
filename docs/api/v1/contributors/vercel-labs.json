@@ -1,0 +1,35 @@
+{
+  "handle": "vercel-labs",
+  "namedSkills": [
+    {
+      "id": "vercel-labs/react-best-practices",
+      "name": "React Best Practices",
+      "level": "3★",
+      "trustMagnitude": 50.48,
+      "overallTrustGrade": "B",
+      "contributor": "vercel-labs",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/vercel-labs/react-best-practices.json"
+      },
+      "genericSkillRef": "react-performance-optimization"
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "vercel-labs/react-best-practices",
+    "level": "3★",
+    "trustMagnitude": 50.48
+  },
+  "prestigeScore": 50.48,
+  "gradeDistribution": {
+    "B": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/vercel-labs.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}
