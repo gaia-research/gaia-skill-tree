@@ -1,0 +1,178 @@
+name: Intake Approval
+
+on:
+  issues:
+    types: [labeled]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: "Intake issue number to re-run"
+        required: true
+        type: string
+      transition:
+        description: "Approval transition to process"
+        required: true
+        type: choice
+        options: [topology, evidence]
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  topology-approved:
+    name: Queue evidence review after topology approval
+    runs-on: ubuntu-latest
+    if: >-
+      (github.event_name == 'issues' && github.event.label.name == 'intake:topology-approved')
+      || (github.event_name == 'workflow_dispatch' && inputs.transition == 'topology')
+    steps:
+      - name: Resolve issue and approver
+        id: issue
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "number=${{ inputs.issue_number }}" >> "$GITHUB_OUTPUT"
+            echo "actor=${{ github.actor }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "number=${{ github.event.issue.number }}" >> "$GITHUB_OUTPUT"
+            echo "actor=${{ github.event.sender.login }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Require a repository maintainer
+        env:
+          GH_TOKEN: ${{ github.token }}
+          APPROVER: ${{ steps.issue.outputs.actor }}
+        run: |
+          permission=$(gh api "repos/${GITHUB_REPOSITORY}/collaborators/${APPROVER}/permission" --jq .permission || echo none)
+          case "$permission" in
+            admin|maintain|write) ;;
+            *) echo "::error::$APPROVER cannot approve intake transitions (permission: $permission)."; exit 1 ;;
+          esac
+
+      - name: Validate the intake batch and record the immutable handoff
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
+          APPROVER: ${{ steps.issue.outputs.actor }}
+        run: |
+          set -euo pipefail
+          body=$(gh issue view "$ISSUE_NUMBER" --json body --jq .body)
+          batch_id=$(printf '%s' "$body" | python3 -c '
+          import re, sys
+          match = re.search(r"\| Batch ID \| `([^`]+)` \|", sys.stdin.read())
+          if not match:
+              raise SystemExit("Intake issue has no canonical Batch ID row.")
+          print(match.group(1))
+          ')
+          batch="registry-for-review/skill-batches/${batch_id}.json"
+          test -f "$batch"
+          python3 scripts/assemble_gaia.py
+          python3 scripts/validate_intake.py
+
+          payload=$(python3 - "$batch" "$ISSUE_NUMBER" "$APPROVER" <<'PY'
+          import json, sys
+          batch_path, issue_number, approver = sys.argv[1:]
+          with open(batch_path, encoding="utf-8") as handle:
+              batch = json.load(handle)
+          print(json.dumps({
+              "schemaVersion": 1,
+              "batchId": batch["batchId"],
+              "batchPath": batch_path,
+              "issue": int(issue_number),
+              "topologyApprovedBy": approver,
+              "evidenceReviewStatus": "pending",
+          }, separators=(",", ":")))
+          PY
+          )
+          cat > /tmp/comment.md <<EOF
+          ## Intake topology approved — evidence review queued
+
+          The batch topology is accepted. This does **not** authorize evidence seeding or registry promotion.
+
+          Next: an evidence reviewer prepares the Stage-1 seed and any optional Phase-0 discovery plan. A human then applies intake:evidence-approved to authorize the single promotion PR.
+
+          <!-- gaia-intake-approval $payload -->
+          EOF
+          gh issue comment "$ISSUE_NUMBER" --body-file /tmp/comment.md
+          gh issue edit "$ISSUE_NUMBER" --add-label "intake:evidence-review" --remove-label "needs-triage"
+
+  evidence-approved:
+    name: Open the single promotion PR after evidence approval
+    runs-on: ubuntu-latest
+    if: >-
+      (github.event_name == 'issues' && github.event.label.name == 'intake:evidence-approved')
+      || (github.event_name == 'workflow_dispatch' && inputs.transition == 'evidence')
+    steps:
+      - name: Resolve issue and approver
+        id: issue
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "number=${{ inputs.issue_number }}" >> "$GITHUB_OUTPUT"
+            echo "actor=${{ github.actor }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "number=${{ github.event.issue.number }}" >> "$GITHUB_OUTPUT"
+            echo "actor=${{ github.event.sender.login }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Require a repository maintainer
+        env:
+          GH_TOKEN: ${{ github.token }}
+          APPROVER: ${{ steps.issue.outputs.actor }}
+        run: |
+          permission=$(gh api "repos/${GITHUB_REPOSITORY}/collaborators/${APPROVER}/permission" --jq .permission || echo none)
+          case "$permission" in
+            admin|maintain|write) ;;
+            *) echo "::error::$APPROVER cannot approve intake transitions (permission: $permission)."; exit 1 ;;
+          esac
+
+      - name: Create or reuse the batch promotion PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
+        run: |
+          set -euo pipefail
+          has_ready=$(gh issue view "$ISSUE_NUMBER" --json labels --jq '[.labels[].name] | contains(["intake:evidence-review", "intake:evidence-ready"])')
+          if [ "$has_ready" != true ]; then
+            echo "::error::Evidence approval requires both intake:evidence-review and intake:evidence-ready."
+            exit 1
+          fi
+          existing=$(gh pr list --state open --search "head:review/meta/intake-${ISSUE_NUMBER}" --json url --jq '.[0].url // empty')
+          if [ -n "$existing" ]; then
+            gh issue comment "$ISSUE_NUMBER" --body "Evidence approval already has its single promotion PR: $existing"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          branch="review/meta/intake-${ISSUE_NUMBER}"
+          git checkout -b "$branch"
+          mkdir -p registry-for-review/evidence-manifests
+          cat > "registry-for-review/evidence-manifests/intake-${ISSUE_NUMBER}.md" <<EOF
+          # Evidence Manifest — Intake #${ISSUE_NUMBER}
+
+          Status: human evidence-approved. This manifest is the single-PR handoff for the batch. Add only verified Stage-1 and Phase-0 sources here before CLI ingestion.
+          EOF
+          git add registry-for-review/evidence-manifests
+          git commit -m "chore(intake): queue evidence-approved batch #${ISSUE_NUMBER} [skip-gen]"
+          git push origin "$branch"
+          cat > /tmp/pr.md <<EOF
+          ## Intake #${ISSUE_NUMBER} — evidence-approved promotion queue
+
+          This is the single PR for the approved intake batch. It begins as an evidence manifest and is updated with verified sources, CLI-only ingestion, provenance, and generated artifacts.
+
+          Fixes #${ISSUE_NUMBER}
+          EOF
+          url=$(gh pr create --draft --base main --head "$branch" --title "[intake] evidence-approved batch #${ISSUE_NUMBER}" --body-file /tmp/pr.md)
+          gh issue comment "$ISSUE_NUMBER" --body "Evidence approval opened the single draft promotion PR: $url"
