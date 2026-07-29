@@ -35,10 +35,8 @@
       ]
     },
     "code": {
-      "about": "Shipped source. Parked vocabulary must never become an identifier.",
-      "include": [
-        "packages/mcp/src/**/*.ts"
-      ]
+      "about": "Shipped source. Parked vocabulary must never become an identifier. The `packages/mcp` prototype that this scope used to cover was deleted; the real MCP server lives in gaia-research/gaia-mcp. No in-repo source is currently covered — re-point this at a real source tree before relying on it.",
+      "include": []
     }
   },
   "exclude": [
