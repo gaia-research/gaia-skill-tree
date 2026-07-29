@@ -163,8 +163,9 @@ This report documents the academic papers, preprints (arXiv), and conference pub
 * **Paper Title:** SkCC: Portable and Secure Skill Compilation for Cross-Framework LLM Agents
 * **Publication URL:** [https://arxiv.org/abs/2605.03353](https://arxiv.org/abs/2605.03353)
 * **Evidence Type:** arxiv
+* **Citations:** 2
 * **Grade:** B
-* **Summary & Relevance:** Introduces a compiler framework (SkCC) that standardizes LLM agent skills across frameworks via an intermediate representation, enabling portable skill deployment and reducing adaptation complexity from O(m×n) to O(m+n).
+* **Summary & Relevance:** SkCC introduces a compiler architecture that addresses skill portability across LLM agent frameworks by using an intermediate representation (SkIR) to decouple semantics from framework-specific formatting, enabling consistent performance and security validation across deployment targets.
 
 ---
 
@@ -172,8 +173,9 @@ This report documents the academic papers, preprints (arXiv), and conference pub
 * **Paper Title:** Agent Skills for Large Language Models: Architecture, Acquisition, Security, and the Path Forward
 * **Publication URL:** [https://arxiv.org/abs/2602.12430](https://arxiv.org/abs/2602.12430)
 * **Evidence Type:** arxiv
+* **Citations:** 81
 * **Grade:** C
-* **Summary & Relevance:** Survey covering agent skills as composable packages for dynamic LLM capability extension, including acquisition methods via reinforcement learning and autonomous discovery, deployment at scale with computer-use agents, and security governance frameworks.
+* **Summary & Relevance:** A survey on modular, skill-equipped LLM agents covering architecture, skill acquisition, deployment at scale, and security governance; the paper is tangential to React performance optimization as it addresses agentic AI systems rather than frontend framework optimization.
 
 ---
 
@@ -181,5 +183,6 @@ This report documents the academic papers, preprints (arXiv), and conference pub
 * **Paper Title:** OpenSkillEval: Automatically Auditing the Open Skill Ecosystem for LLM Agents
 * **Publication URL:** [https://arxiv.org/abs/2605.23657](https://arxiv.org/abs/2605.23657)
 * **Evidence Type:** arxiv
+* **Citations:** 2
 * **Grade:** A
-* **Summary & Relevance:** Paper evaluates how LLM agents use skills for design tasks including poster and graphic generation, demonstrating the interplay between agent frameworks and design skill effectiveness.
+* **Summary & Relevance:** The paper evaluates skill-augmented agent systems across presentation generation, front-end web design, poster generation, data visualization, and report generation tasks, directly addressing how design skills perform when integrated into LLM agent workflows.
