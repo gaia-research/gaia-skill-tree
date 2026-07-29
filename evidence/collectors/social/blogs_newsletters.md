@@ -109,280 +109,170 @@ This report documents the social signals (developer articles, blogs, newsletters
 
 ---
 
-## 13. `token-observability` (`gaia-research/skill-cost`) — Gaia Research Lab (self-attestation)
+<!-- appended: 2026-07-29 -->
+
+## 13. `token-observability` — Gaia Research Lab (self-attestation)
 *   **Article URL:** [https://research.gaiaskilltree.com/](https://research.gaiaskilltree.com/)
-*   **Author/Publisher:** Gaia Research (official org)
-*   **Publication Date:** 2026
 *   **Grade:** D
-*   **Metrics:** estimatedViews: 0
-*   **Description:** The official Gaia Research lab page (research.gaiaskilltree.com) lists gaia-research/skill-cost as a published, installable skill: 'Multi-harness token-usage cost reporter for pi, Claude Code, Codex, and opencode session logs. $ npx skills install gaia-research/skill-cost'. Self-attestation from the owning org. No independent third-party endorsement found. Source: isNew discovery 2026-07-30.
 
 ---
 
-## 14. `format-output` (ayghri/i-have-adhd) — Data Science Collective (Medium), Gao Dalie
+## 14. `format-output` — Data Science Collective (Medium), Gao Dalie
 *   **Article URL:** [https://medium.com/data-science-collective/how-to-use-claude-adhd-skill-better-than-99-of-people-9876934d8548](https://medium.com/data-science-collective/how-to-use-claude-adhd-skill-better-than-99-of-people-9876934d8548)
-*   **Author/Publisher:** Gao Dalie, Data Science Collective (941K followers)
-*   **Publication Date:** ~2026-07-26 (~3 days before 2026-07-29)
 *   **Grade:** A
-*   **Metrics:** 142 claps; estimatedViews: 0 (Medium hides view count)
-*   **Description:** Article in the Data Science Collective publication (941K followers). Shows 142 claps. Covers installation, use cases, and references a r/ClaudeCode Reddit post titled 'I gave Claude Code ADHD…and it thinks 2x better now'. Source: isNew discovery 2026-07-29.
 
 ---
 
-## 15. `format-output` (ayghri/i-have-adhd) — Joe Njenga (Medium)
+## 15. `format-output` — Joe Njenga (Medium)
 *   **Article URL:** [https://medium.com/@joe.njenga/i-tried-this-claude-code-adhd-skill-that-no-one-is-talking-about-a990a647b1c7](https://medium.com/@joe.njenga/i-tried-this-claude-code-adhd-skill-that-no-one-is-talking-about-a990a647b1c7)
-*   **Author/Publisher:** Joe Njenga (23K followers on Medium)
-*   **Publication Date:** 2026-07-20
 *   **Grade:** B
-*   **Metrics:** 3 claps visible; estimatedViews: 0
-*   **Description:** Full install walkthrough for ayghri/i-have-adhd via claude plugin marketplace. Source: isNew discovery 2026-07-29.
 
 ---
 
-## 16. `format-output` (ayghri/i-have-adhd) — New2026 (Medium)
+## 16. `format-output` — New2026 (Medium)
 *   **Article URL:** [https://new2026.medium.com/how-an-open-source-skill-turns-verbose-coding-agent-answers-into-action-first-instructions-for-410303d35765](https://new2026.medium.com/how-an-open-source-skill-turns-verbose-coding-agent-answers-into-action-first-instructions-for-410303d35765)
-*   **Author/Publisher:** New2026 (251 followers)
-*   **Publication Date:** ~2026-07-24 (~5 days before 2026-07-29)
 *   **Grade:** C
-*   **Metrics:** estimatedViews: 0
-*   **Description:** 9-minute explainer describing all 10 rules of i-have-adhd and confirms multi-agent support (Claude Code, Codex, Zed). Minor account. Source: isNew discovery 2026-07-29.
 
 ---
 
-## 17. `format-output` (ayghri/i-have-adhd) — Matthew Harwood (LinkedIn)
+## 17. `format-output` — Matthew Harwood (LinkedIn)
 *   **Article URL:** [https://www.linkedin.com/posts/matthewcharwood_github-ayghrii-have-adhd-a-skill-for-activity-7484663342012334081-ejHy](https://www.linkedin.com/posts/matthewcharwood_github-ayghrii-have-adhd-a-skill-for-activity-7484663342012334081-ejHy)
-*   **Author/Publisher:** Matthew Harwood (LinkedIn)
-*   **Publication Date:** 2026
 *   **Grade:** D
-*   **Metrics:** estimatedViews: 0
-*   **Description:** LinkedIn post sharing the repo with description 'A skill for your coding agent to stop it from burying the answer. ADHD-friendly output.' No view/reaction count verifiable from search snippet. Source: isNew discovery 2026-07-29.
 
 ---
 
 ## 18. `nextlevelbuilder/ux-audit` — Snyk, Stephen Thoemmes
 *   **Article URL:** [https://snyk.io/articles/top-claude-skills-ui-ux-engineers/](https://snyk.io/articles/top-claude-skills-ui-ux-engineers/)
-*   **Author/Publisher:** Snyk (developer security platform), Stephen Thoemmes
-*   **Publication Date:** 2026
 *   **Grade:** A
-*   **Metrics:** estimatedViews: 0
-*   **Description:** Snyk developer security blog lists ui-ux-pro-max as #5 of 8 top Claude skills for UI/UX engineers, alongside Anthropic and Vercel official skills. Star count shown as 29,636 at time of writing (repo has since grown to 111k). High-credibility publisher. Source: isNew discovery 2026-07-29.
 
 ---
 
 ## 19. `nextlevelbuilder/ux-audit` — Abhinav Dobhal (Medium, Feb 2026)
 *   **Article URL:** [https://medium.com/@abhinav.dobhal/the-end-of-ai-slop-how-ui-ux-pro-max-is-solving-the-design-crisis-in-ai-generated-code-bbc23995f0e0](https://medium.com/@abhinav.dobhal/the-end-of-ai-slop-how-ui-ux-pro-max-is-solving-the-design-crisis-in-ai-generated-code-bbc23995f0e0)
-*   **Author/Publisher:** Abhinav Dobhal (Medium)
-*   **Publication Date:** 2026-02-05
 *   **Grade:** C
-*   **Metrics:** estimatedViews: 0
-*   **Description:** 10-minute read covering the skill's architecture (BM25 ranking, 100 reasoning rules, 13-stack adaptation, design system persistence). Directly references the repo. Source: isNew discovery 2026-07-29.
 
 ---
 
 ## 20. `nextlevelbuilder/ux-audit` — dev.to, Petri Lahdelma / VertaaUX
 *   **Article URL:** [https://dev.to/vertaaux/i-gave-my-ai-agent-a-ux-audit-superpower-cli-mcp-in-5-minutes-58d8](https://dev.to/vertaaux/i-gave-my-ai-agent-a-ux-audit-superpower-cli-mcp-in-5-minutes-58d8)
-*   **Author/Publisher:** Petri Lahdelma / VertaaUX (dev.to)
-*   **Publication Date:** 2026-04
 *   **Grade:** D
-*   **Metrics:** 0 reactions visible; estimatedViews: 0
-*   **Description:** Covers a ux-audit CLI+MCP workflow (not directly the ui-ux-pro-max-skill repo). Very low engagement. Not directly about this skill; included for completeness. Source: isNew discovery 2026-07-29.
 
 ---
 
-## 21. `scroll-world` (oso95/scroll-world) — Chase AI Blog
+## 21. `scroll-world` — Chase AI Blog
 *   **Article URL:** [https://www.chaseai.io/blog/one-shot-scroll-animation-website-ai-skill](https://www.chaseai.io/blog/one-shot-scroll-animation-website-ai-skill)
-*   **Author/Publisher:** Chase AI (156K YouTube subscribers)
-*   **Publication Date:** 2026-07-12
 *   **Grade:** B
-*   **Metrics:** estimatedViews: 0
-*   **Description:** Dedicated blog post (8 min read) by Chase AI. Covers full workflow, Fable 5 vs GPT-5.6 comparison, cost breakdown (~800 Higgsfield credits for 6 scenes, ~32 min build time for 4 scenes). Cross-posted with YouTube video. Substantive third-party coverage. Source: isNew discovery 2026-07-29.
 
 ---
 
-## 22. `scroll-world` (oso95/scroll-world) — Instagram trending repos post
+## 22. `scroll-world` — Instagram trending repos post
 *   **Article URL:** [https://www.instagram.com/p/DasdkWbgHLN/](https://www.instagram.com/p/DasdkWbgHLN/)
-*   **Author/Publisher:** Instagram (unattributed)
-*   **Publication Date:** 2026
 *   **Grade:** C
-*   **Metrics:** estimatedViews: 0
-*   **Description:** Instagram post highlighting scroll-world as one of 5 repos gaining +1,160 new stars in 7 days, with scroll-world specifically at +405 stars that week. No verified view count available. Source: isNew discovery 2026-07-29.
 
 ---
 
-## 23. `agent-reach` (Panniantong/agent-reach) — LobeHub Skills Marketplace
+## 23. `agent-reach` — LobeHub Skills Marketplace
 *   **Article URL:** [https://lobehub.com/skills/panniantong-agent-reach-skill](https://lobehub.com/skills/panniantong-agent-reach-skill)
-*   **Author/Publisher:** LobeHub (marketplace)
-*   **Publication Date:** 2026
 *   **Grade:** A
-*   **Metrics:** estimatedViews: 10,200; 1,400 installs, 35 reviews, rated 4.5/5 as of 2026-07-29
-*   **Description:** Listed in LobeHub Skills Marketplace under Search & Research category. Shows 10,200 views, 1,400 installs, 35 reviews, rated 4.5/5. Note: SKILL.md link points to tree/ path — flag for curation. Source: isNew discovery 2026-07-30.
 
 ---
 
-## 24. `agent-reach` (Panniantong/agent-reach) — SitePoint
+## 24. `agent-reach` — SitePoint
 *   **Article URL:** [https://www.sitepoint.com/agent-reach-giving-your-ai-eyes-on-the-web/](https://www.sitepoint.com/agent-reach-giving-your-ai-eyes-on-the-web/)
-*   **Author/Publisher:** SitePoint Team
-*   **Publication Date:** 2026-03-02
 *   **Grade:** B
-*   **Metrics:** estimatedViews: 0
-*   **Description:** Full tutorial covering installation, configuration, social platform search, React dashboard integration, MCP-compatible agent workflow, and best practices. Published on a major developer publisher. Source: isNew discovery 2026-07-30.
 
 ---
 
-## 25. `agent-reach` (Panniantong/agent-reach) — David Lee, Medium
+## 25. `agent-reach` — David Lee, Medium
 *   **Article URL:** [https://medium.com/@lordmoma/six-skills-that-turn-a-coding-agent-into-a-team-b9f6f49e9064](https://medium.com/@lordmoma/six-skills-that-turn-a-coding-agent-into-a-team-b9f6f49e9064)
-*   **Author/Publisher:** David Lee (3.2K followers, Medium)
-*   **Publication Date:** 2026-06-21
 *   **Grade:** C
-*   **Metrics:** estimatedViews: 0 (member-only story)
-*   **Description:** Names Agent-Reach as 'the one to install carefully' for giving agents internet eyes, calling it harness-agnostic across Codex, Claude Code, Cursor, Gemini CLI. Source: isNew discovery 2026-07-30.
 
 ---
 
-## 26. `agent-reach` (Panniantong/agent-reach) — SkillsLLM directory
+## 26. `agent-reach` — SkillsLLM directory
 *   **Article URL:** [https://skillsllm.com/skill/agent-reach](https://skillsllm.com/skill/agent-reach)
-*   **Author/Publisher:** SkillsLLM (independent skills directory)
-*   **Publication Date:** Added 2026-02-26
 *   **Grade:** B
-*   **Metrics:** estimatedViews: 0
-*   **Description:** Independent skills directory listing showing 61,933 stars and 5,010 forks (data from GitHub). Security scan passed (pip audit + npm audit ran 2026-04-16, no issues found). Confirms early traction timeline. Source: isNew discovery 2026-07-30.
 
 ---
 
-## 27. `agent-reach` (Panniantong/agent-reach) — VoltAgent/awesome-agent-skills
+## 27. `agent-reach` — VoltAgent/awesome-agent-skills
 *   **Article URL:** [https://github.com/VoltAgent/awesome-agent-skills](https://github.com/VoltAgent/awesome-agent-skills)
-*   **Author/Publisher:** VoltAgent (curated community collection)
-*   **Publication Date:** 2026
 *   **Grade:** C
-*   **Metrics:** estimatedViews: 0
-*   **Description:** Panniantong/Agent-Reach is listed in this curated community collection of agent skills alongside other notable skills. Confirms broad ecosystem awareness. Source: isNew discovery 2026-07-30.
 
 ---
 
-## 28. `react-performance-optimization` (`vercel-labs/vercel-react-best-practices`) — InfoQ
+## 28. `react-performance-optimization` — InfoQ
 *   **Article URL:** [https://www.infoq.com/news/2026/02/vercel-react-best-practices/](https://www.infoq.com/news/2026/02/vercel-react-best-practices/)
-*   **Author/Publisher:** InfoQ, Daniel Curtis
-*   **Publication Date:** 2026-02-27
 *   **Grade:** B
-*   **Metrics:** estimatedViews: 0
-*   **Description:** InfoQ editorial news article covering the react-best-practices skill launch. InfoQ is a high-quality peer-edited tech publication with 57K+ Twitter followers and 232K YouTube subscribers. Source: isNew discovery 2026-07-30.
 
 ---
 
-## 29. `react-performance-optimization` (`vercel-labs/vercel-react-best-practices`) — MarkTechPost
+## 29. `react-performance-optimization` — MarkTechPost
 *   **Article URL:** [https://www.marktechpost.com/2026/01/18/vercel-releases-agent-skills-a-package-manager-for-ai-coding-agents-with-10-years-of-react-and-next-js-optimisation-rules/](https://www.marktechpost.com/2026/01/18/vercel-releases-agent-skills-a-package-manager-for-ai-coding-agents-with-10-years-of-react-and-next-js-optimisation-rules/)
-*   **Author/Publisher:** MarkTechPost
-*   **Publication Date:** 2026-01-18
 *   **Grade:** C
-*   **Metrics:** estimatedViews: 0
-*   **Description:** Detailed writeup covering all three skills in the vercel-labs/agent-skills repo including react-best-practices. Mentions 40+ rules in 8 categories and the npm-style install pattern. Source: isNew discovery 2026-07-30.
 
 ---
 
-## 30. `react-performance-optimization` (`vercel-labs/vercel-react-best-practices`) — Medium, Doran Gao
+## 30. `react-performance-optimization` — Medium, Doran Gao
 *   **Article URL:** [https://medium.com/@dorangao/optimizing-a-next-js-codebase-with-cursor-and-vercels-react-best-practices-skill-a263bd2d2f6a](https://medium.com/@dorangao/optimizing-a-next-js-codebase-with-cursor-and-vercels-react-best-practices-skill-a263bd2d2f6a)
-*   **Author/Publisher:** Doran Gao (Medium)
-*   **Publication Date:** 2026
 *   **Grade:** C
-*   **Metrics:** estimatedViews: 0
-*   **Description:** 12-minute read showing a practical walkthrough of applying vercel-react-best-practices to a real Next.js codebase. Source: isNew discovery 2026-07-30.
 
 ---
 
-## 31. `react-performance-optimization` (`vercel-labs/vercel-react-best-practices`) — Vercel Official Docs
+## 31. `react-performance-optimization` — Vercel Official Docs
 *   **Article URL:** [https://vercel.com/docs/agent-resources/skills](https://vercel.com/docs/agent-resources/skills)
-*   **Author/Publisher:** Vercel (official)
-*   **Publication Date:** 2026
 *   **Grade:** B
-*   **Metrics:** estimatedViews: 0
-*   **Description:** Vercel's own documentation page lists vercel-react-best-practices with the description 'React and Next.js performance optimization guidelines with 40+ rules across 8 categories'. Links to skills.sh marketplace entry. Confirms official first-party endorsement. Source: isNew discovery 2026-07-30.
 
 ---
 
-## 32. `static-artwork-design` (`anthropics/canvas-design`) — Simon Willison's blog
+## 32. `static-artwork-design` — Simon Willison's blog
 *   **Article URL:** [https://simonwillison.net/2025/Oct/16/claude-skills/](https://simonwillison.net/2025/Oct/16/claude-skills/)
-*   **Author/Publisher:** Simon Willison (high-authority independent developer commentator)
-*   **Publication Date:** 2025-10-16
 *   **Grade:** B
-*   **Metrics:** estimatedViews: 0
-*   **Description:** High-authority developer blog post covering the anthropics/skills repo launch, including canvas-design. Covers the broader skills paradigm that canvas-design is part of. Source: isNew discovery 2026-07-30.
 
 ---
 
-## 33. `static-artwork-design` (`anthropics/canvas-design`) — Medium, 100 Claude Skills roundup
+## 33. `static-artwork-design` — Medium, 100 Claude Skills roundup
 *   **Article URL:** [https://medium.com/@surajkhaitan16/i-tried-100-claude-skills-these-are-the-best-639e419b0325](https://medium.com/@surajkhaitan16/i-tried-100-claude-skills-these-are-the-best-639e419b0325)
-*   **Author/Publisher:** Suraj Khaitan (Medium)
-*   **Publication Date:** 2026
 *   **Grade:** C
-*   **Metrics:** estimatedViews: 0
-*   **Description:** Lists canvas-design among top skills reviewed, described as producing 'HTML5 canvas compositions for marketing assets'. Source: isNew discovery 2026-07-30.
 
 ---
 
-## 34. `static-artwork-design` (`anthropics/canvas-design`) — Snyk, AR/VR article
+## 34. `static-artwork-design` — Snyk, AR/VR article
 *   **Article URL:** [https://snyk.io/articles/top-claude-skills-ar-vr-developers-unity-webxr-spatial-computing/](https://snyk.io/articles/top-claude-skills-ar-vr-developers-unity-webxr-spatial-computing/)
-*   **Author/Publisher:** Snyk (developer security platform)
-*   **Publication Date:** 2026-02 (last updated)
 *   **Grade:** C
-*   **Metrics:** estimatedViews: 0
-*   **Description:** Lists 'Anthropic Canvas & Frontend Design' at #7 for AR/VR developers, citing 66,460 stars (older snapshot) and verified SKILL.md. Notes canvas-design is useful for VR/AR UI mockups. Source: isNew discovery 2026-07-30.
 
 ---
 
-## 35. `opinion` (`disler/opinion`) — note.com Japanese article
+## 35. `opinion` — note.com Japanese article
 *   **Article URL:** [https://note.com/humble_bobcat51/n/n540d5333d005](https://note.com/humble_bobcat51/n/n540d5333d005)
-*   **Author/Publisher:** humble_bobcat51 (note.com, Japanese)
-*   **Publication Date:** 2026-07-25
 *   **Grade:** D
-*   **Metrics:** 8 likes visible; estimatedViews: 0
-*   **Description:** Japanese-language in-depth analysis of fusion-harness covering the /opinion command as part of the AND-not-OR model fusion paradigm. Not in existing data lake. Source: isNew discovery 2026-07-29.
 
 ---
 
-## 36. `plan-synthesis` (`merged-plan`) — Learning Atlas editorial summary
+## 36. `plan-synthesis` — Learning Atlas editorial summary
 *   **Article URL:** [https://www.learningatlas.us/learning/video/AQl5Q-0l7FQ](https://www.learningatlas.us/learning/video/AQl5Q-0l7FQ)
-*   **Author/Publisher:** Learning Atlas (third-party editorial)
-*   **Publication Date:** 2026
 *   **Grade:** C
-*   **Metrics:** estimatedViews: 0
-*   **Description:** Third-party editorial site independently indexed and summarised the IndyDevDan fusion-harness video, describing the architecture: two models run in parallel, outputs combined via /opinion, /fusion, /autovalidate commands. Confirms the skill is notable enough for editorial curation. Source: isNew discovery 2026-07-29.
 
 ---
 
-## 37. `plan-synthesis` (`merged-plan`) — Alexander Talavera Karslake (LinkedIn)
+## 37. `plan-synthesis` — Alexander Talavera Karslake (LinkedIn)
 *   **Article URL:** [https://www.linkedin.com/posts/alexander-talavera-karslake_anyone-that-thinks-they-can-run-a-local-model-activity-7483858611954290688-N5rb](https://www.linkedin.com/posts/alexander-talavera-karslake_anyone-that-thinks-they-can-run-a-local-model-activity-7483858611954290688-N5rb)
-*   **Author/Publisher:** Alexander Talavera Karslake (LinkedIn)
-*   **Publication Date:** 2026
 *   **Grade:** D
-*   **Metrics:** estimatedViews: 0 (LinkedIn not scrapeable)
-*   **Description:** Developer community member discusses fusion-harness potentially becoming a standard open-source architecture for multi-model output merging. Source: isNew discovery 2026-07-29.
 
 ---
 
 ## 38. `disler/agent-fusion` — OpenRouter LinkedIn post
 *   **Article URL:** [https://www.linkedin.com/posts/openrouter_introducing-fusion-the-smartest-compound-activity-7471706620662812673-lJUS](https://www.linkedin.com/posts/openrouter_introducing-fusion-the-smartest-compound-activity-7471706620662812673-lJUS)
-*   **Author/Publisher:** OpenRouter (LinkedIn)
-*   **Publication Date:** 2026
 *   **Grade:** C
-*   **Metrics:** estimatedViews: 0
-*   **Description:** OpenRouter post announcing Fusion compound model feature; comments include explicit reference to fusion-harness and requests for it to be open-sourced. Confirms community awareness of disler/fusion-harness. Source: isNew discovery 2026-07-29.
 
 ---
 
 ## 39. `disler/agent-fusion` — Stacey Schneider (LinkedIn)
 *   **Article URL:** [https://www.linkedin.com/posts/schneiderstacey_fable-dropped-yesterday-im-not-trying-it-activity-7470837127140904960-tRFE](https://www.linkedin.com/posts/schneiderstacey_fable-dropped-yesterday-im-not-trying-it-activity-7470837127140904960-tRFE)
-*   **Author/Publisher:** Stacey Schneider (LinkedIn)
-*   **Publication Date:** 2026
 *   **Grade:** C
-*   **Metrics:** estimatedViews: 0
-*   **Description:** References fusion-harness in the context of model fusion becoming a standard open-source architecture. Appeared alongside OpenRouter DRACO benchmark results in search. Source: isNew discovery 2026-07-29.
 
 ---
 
 ## 40. `disler/agent-fusion` — Ji Chi (LinkedIn)
 *   **Article URL:** [https://www.linkedin.com/posts/jichi_i-made-a-small-codex-skill-called-ask-n-times-activity-7478155793599492096-PrM4](https://www.linkedin.com/posts/jichi_i-made-a-small-codex-skill-called-ask-n-times-activity-7478155793599492096-PrM4)
-*   **Author/Publisher:** Ji Chi (LinkedIn)
-*   **Publication Date:** 2026
 *   **Grade:** C
-*   **Metrics:** estimatedViews: 0
-*   **Description:** References fusion-harness as a potentially standard multi-agent composition architecture. Source: isNew discovery 2026-07-29.

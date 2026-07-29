@@ -157,36 +157,23 @@ This report documents the academic papers, preprints (arXiv), and conference pub
 
 ---
 
+<!-- appended: 2026-07-29 -->
+
 ### 13. `nextlevelbuilder/ux-audit`
-*   **Paper Title:** SkCC: Portable and Secure Skill Compilation for Cross-Framework LLM Agents (ACM CAIS 2026 — Agent Skills Workshop)
-*   **Authors:** (Agent Skills Workshop at ACM CAIS 2026)
-*   **Publication URL:** [https://arxiv.org/abs/2605.03353](https://arxiv.org/abs/2605.03353)
-*   **Publication Date:** 2026
-*   **Citation Count:** Not available / Low
-*   **Grade:** B
-*   **Summary & Relevance:**
-    Accepted at the Agent Skills Workshop at ACM CAIS 2026. Authors cite nextlevelbuilder/ui-ux-pro-max-skill as reference [28] in §4.1 as a real-world example of a cross-framework agent skill. The paper benchmarks SkCC against a corpus including this skill: pass rate increases from 21.1% to 33.3% on Claude Code and 35.1% to 48.7% on Kimi CLI for the compilation pipeline. Citation is indirect (test corpus item), not a direct evaluation of the skill's design quality. Source: isNew discovery 2026-07-30.
+* **Publication URL:** [https://arxiv.org/abs/2605.03353](https://arxiv.org/abs/2605.03353)
+* **Evidence Type:** arxiv
+* **Grade:** B
 
 ---
 
-### 14. `react-performance-optimization` (`vercel-labs/vercel-react-best-practices`)
-*   **Paper Title:** Agent Skills for Large Language Models: Architecture, Acquisition, Deployment, and Security
-*   **Authors:** (survey paper)
-*   **Publication URL:** [https://arxiv.org/abs/2602.12430](https://arxiv.org/abs/2602.12430)
-*   **Publication Date:** February 2026
-*   **Citation Count:** Not available / Low
-*   **Grade:** C
-*   **Summary & Relevance:**
-    Survey paper covering the agent skills landscape including the SKILL.md specification and progressive disclosure paradigm — the exact format used by vercel-react-best-practices. Cites SKILL.md spec as the standard. Does not benchmark this skill specifically; provides architectural context for the skill format only. Source: isNew discovery 2026-07-30.
+### 14. `react-performance-optimization`
+* **Publication URL:** [https://arxiv.org/abs/2602.12430](https://arxiv.org/abs/2602.12430)
+* **Evidence Type:** arxiv
+* **Grade:** C
 
 ---
 
-### 15. `static-artwork-design` (`anthropics/canvas-design`)
-*   **Paper Title:** OpenSkillEval: Automatically Auditing the Open Skill Ecosystem for LLM Agents
-*   **Authors:** Jiahao Ying, Boxian Ai, Wei Tang, Siyuan Liu, Yixin Cao
-*   **Publication URL:** [https://arxiv.org/abs/2605.23657](https://arxiv.org/abs/2605.23657)
-*   **Publication Date:** May 22, 2026 (v2 May 28 2026)
-*   **Citation Count:** Cited by arXiv:2606.20659 and arXiv:2606.10388
-*   **Grade:** A
-*   **Summary & Relevance:**
-    canvas-design is one of 30+ open-source skills explicitly benchmarked in this paper across 5 task categories. Poster generation (canvas-design's domain) is covered with 600+ dynamically generated task instances evaluated across Claude Code, Codex, Gemini CLI, Kimi, and others. Confirms canvas-design SKILL.md is a blob/ path. Source: isNew discovery 2026-07-30.
+### 15. `static-artwork-design`
+* **Publication URL:** [https://arxiv.org/abs/2605.23657](https://arxiv.org/abs/2605.23657)
+* **Evidence Type:** arxiv
+* **Grade:** A
