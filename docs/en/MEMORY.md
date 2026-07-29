@@ -31,9 +31,13 @@ All 12 pages in `docs/en/`:
 - `skill-hierarchy.html`
 - `timeline-audit.html`
 
-### Planned next (Routine 019)
+### Continued (same day) — Additional version sync to v7.1.14
+
+**Task continuation:** After routine 018 merged, v7.1.14 released. Skill-hierarchy.html had incomplete version updates (script tags still v6.8.16, nav/footer v7.1.4). Completed the version synchronization to v7.1.14 on all three locations (script query parameters, nav version chip, footer).
+
+### Planned next (Routine 020)
 - Rotate: audit the least-recently-touched page (skill-hierarchy.html, last substantive edit routine 002) for clarity/link/callout improvements.
-- Sync: any new CLI flags or behaviors from v7.1.4 release notes.
+- Sync: any new CLI flags or behaviors from v7.1.14 release notes.
 - Maintain: Audit upcoming features and generated artifact changes.
 
 ---
