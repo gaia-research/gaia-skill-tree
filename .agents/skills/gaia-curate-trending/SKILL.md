@@ -60,7 +60,7 @@ Allowed human/operator controls are `NEXT`, `STOP`, `RESUME <run-id>`, and one c
 
 ## Output and handoff
 
-Write only under `generated-output/curate-discovery/<run-id>/`:
+Write runtime snapshots and resumable state under `generated-output/curate-discovery/<run-id>/`:
 
 ```text
 run.json
@@ -71,4 +71,4 @@ deferred.jsonl
 L4-REVIEW.md
 ```
 
-`L4-REVIEW.md` lists candidate, trend band, source, existing-generic mapping, bounded disposition, and flags. Validate every row as `discovery-packet-v1` and stop at L4. A shortlist decision is not intake, evidence, named-star, or mutation approval. A separate downstream workflow must perform those stages.
+`L4-REVIEW.md` lists candidate, trend band, source, existing-generic mapping, bounded disposition, and flags. Validate every row as `discovery-packet-v2`; copy final review packets to the Core-owned `registry-for-review/discovery-packets/` path, then stop at L4. V1 is read-compatible only, not normative output. A shortlist decision is not intake, evidence, named-star, or mutation approval. Only Core's explicit post-L4 `l4Resolution` handoff may feed intake.

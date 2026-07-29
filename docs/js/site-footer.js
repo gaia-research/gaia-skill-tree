@@ -93,6 +93,7 @@
           <div class="footer-rail-group">
             <span class="footer-rail-heading">About</span>
             <a href="${r}about.html">About Gaia</a>
+            <a href="https://research.gaiaskilltree.com/about" target="_blank" rel="noopener" class="footer-ext">The Gaia ecosystem</a>
             <a href="https://github.com/mbtiongson1" target="_blank" rel="noopener" class="footer-link-honor">@mbtiongson1</a>
             <a href="${r}privacy.html">Privacy</a>
             <button id="copyAgentFooterBtn" type="button" class="footer-link-btn" aria-label="Copy page context for agents">Copy Page</button>

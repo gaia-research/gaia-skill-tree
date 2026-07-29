@@ -1,0 +1,39 @@
+{
+  "pr": 1367,
+  "url": "https://github.com/gaia-research/gaia-skill-tree/pull/1367",
+  "branch": "design/learn-nav-item",
+  "title": "Add Learn to the main nav",
+  "summary": "Adds a Learn entry to site-nav between Explore and Named, and a matching footer link.",
+  "gaps": [
+    "Single theme only: no prefers-color-scheme or data-theme in the CSS for these pages, so there is no dark state to capture.",
+    "Badges page not captured - unchanged by this PR."
+  ],
+  "surfaces": [
+    {
+      "name": "Homepage nav",
+      "route": "http://localhost:8080/",
+      "note": "Learn sits between Explore and Named. Check it does not crowd the existing items.",
+      "shots": [
+        {
+          "viewport": "desktop 1280x800",
+          "before": "img/home-nav-desktop-before.png",
+          "after": "img/home-nav-desktop-after.png"
+        },
+        {
+          "viewport": "mobile 375x812",
+          "before": "img/home-nav-mobile-before.png",
+          "after": "img/home-nav-mobile-after.png"
+        }
+      ]
+    },
+    {
+      "name": "Learn landing page",
+      "route": "http://localhost:8080/learn/",
+      "note": "New page. Nothing to compare against.",
+      "shots": [
+        { "viewport": "desktop 1280x800", "after": "img/learn-desktop.png", "added": true },
+        { "viewport": "mobile 375x812", "after": "img/learn-mobile.png", "added": true }
+      ]
+    }
+  ]
+}

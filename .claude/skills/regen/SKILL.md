@@ -59,7 +59,6 @@ git diff --stat
 Review the version changes in:
 - `pyproject.toml`
 - `packages/cli-npm/package.json`
-- `packages/mcp/package.json`
 - `registry/gaia.json`
 
 ### Step 5: Commit and Push

@@ -4,14 +4,47 @@
   "title": "Gaia Skill Batch Intake",
   "description": "Reviewable batch of known and proposed skills detected by gaia push.",
   "type": "object",
-  "required": ["batchId", "userId", "sourceRepo", "generatedAt", "knownSkills", "proposedSkills", "similarity"],
+  "required": ["batchId", "userId", "sourceRepo", "generatedAt", "knownSkills", "proposedSkills"],
   "additionalProperties": false,
+  "if": {
+    "not": {
+      "properties": { "fromFile": { "const": true } },
+      "required": ["fromFile"]
+    }
+  },
+  "then": {
+    "required": ["similarity"]
+  },
   "properties": {
-    "fromFile": { "type": "boolean" },
+    "fromFile": { "type": "boolean", "description": "True when the batch was produced by `gaia push --from-file` (legacy YAML) or the RFC2-B discovery-packet adapter (intakeAdapter.py). File-sourced batches are not similarity-scored against the scan, so `similarity` is NOT required when fromFile is true (the conditional at the schema root)." },
     "batchId": { "type": "string", "minLength": 1 },
     "userId": { "type": "string", "minLength": 1 },
     "sourceRepo": { "type": "string", "minLength": 1 },
     "generatedAt": { "type": "string", "format": "date-time" },
+    "curationHandoff": {
+      "type": "object",
+      "description": "Immutable packet provenance copied into the batch by the explicit post-L4 adapter handoff.",
+      "required": ["contractVersion", "packetRefs"],
+      "additionalProperties": false,
+      "properties": {
+        "contractVersion": {"const": "curation-handoff-v1"},
+        "packetRefs": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": ["candidateId", "packetContentSha256"],
+            "additionalProperties": false,
+            "properties": {
+              "candidateId": {"type": "string", "minLength": 1},
+              "packetPath": {"type": "string", "minLength": 1},
+              "packetContentSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+              "sourceContentSha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+            }
+          }
+        }
+      }
+    },
     "knownSkills": {
       "type": "array",
       "items": {
@@ -31,11 +64,50 @@
         "additionalProperties": false,
         "properties": {
           "id": { "type": "string", "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$" },
+          "candidateId": { "type": "string", "description": "Full pre-slug candidate identity from the discovery packet (may be `contributor/slug`); preserved verbatim for provenance while `id` carries the kebab-safe form. Emitted by intakeAdapter.py." },
           "name": { "type": "string", "minLength": 1 },
           "type": { "type": "string", "enum": ["basic", "fusion"], "description": "Yggdrasil II skill taxonomy: basic (0 prerequisites) or fusion (≥1 prerequisite). Must stay identical to skill.schema.json properties.type — the intake layer may not admit a type the canonical schema rejects. The legacy values extra/unique/ultimate are retired as types; Extra/Ultimate/Apex survive only as RANK WORDS, and Suite/Unique are read-time-derived branches." },
           "description": { "type": "string", "minLength": 10 },
           "sourceRepo": { "type": "string", "minLength": 1 },
           "lifecycle": { "type": "string", "enum": ["pending", "awakened", "named"], "default": "pending" },
+          "prerequisites": {
+            "type": "array",
+            "items": { "type": "string", "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$" },
+            "description": "Prerequisite skill ids (Yggdrasil II Axis B). Empty for basic; ≥1 for fusion. Emitted by both the legacy --from-file producer and intakeAdapter.py."
+          },
+          "attribution": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Provenance reference for the upstream source, NOT a strength claim. Emitted by the legacy --from-file producer (upstream_author + skill_file_url + type) and by intakeAdapter.py (skill_file_url + type).",
+            "properties": {
+              "upstream_author": { "type": "string" },
+              "skill_file_url": { "type": "string" },
+              "type": { "type": "string", "enum": ["self-made", "aggregator", "attributed", "abstract"] }
+            }
+          },
+          "named": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Optional named-implementation block from intake. contributor + links_github are required by pushFromFile when present. level defaults to 2★ floor (non-authoritative at intake; TM scoring derives higher ranks).",
+            "properties": {
+              "contributor": { "type": "string" },
+              "skill_name": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$", "description": "Optional upstream SKILL.md folder/name (e.g. 'seo' for Bhanunamikaze/seo). If omitted, defaults to generic skill id." },
+              "level": { "type": "string", "pattern": "^[2-6][★*]$" },
+              "links_github": { "type": "string" }
+            }
+          },
+          "mapsToGeneric": { "type": "string", "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$", "description": "The existing generic skill id this candidate maps to (Axis A satisfied). Emitted by intakeAdapter.py for MAP-decision packets." },
+          "suite": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Suite fan-out reference reconstructed from the discovery packet. Emitted by intakeAdapter.py.",
+            "properties": {
+              "suiteId": { "type": "string" },
+              "role": { "type": "string" },
+              "componentCandidateIds": { "type": "array", "items": { "type": "string" } }
+            }
+          },
+          "attributionScope": { "type": "string", "enum": ["standalone", "suite-component", "suite-wide"], "description": "Derived from the suite role by intakeAdapter.attributionScopeForRole: capstone→suite-wide, component→suite-component, else standalone. Governs whether the source proof may be copied full-strength across components downstream." },
           "evidence": { "type": "array" },
           "rationale": { "type": "string" },
           "openQuestions": { "type": "array", "items": { "type": "string" } }

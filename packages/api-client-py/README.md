@@ -6,9 +6,18 @@ Provides both **synchronous** and **asynchronous** typed HTTP clients.
 
 ## Installation
 
+**Not published to PyPI.** `gaia-registry-client` does not exist on PyPI, so
+there is no `pip install gaia-registry-client`. Use it from a source checkout of
+this repo (`packages/api-client-py/`), e.g. `pip install -e packages/api-client-py`.
+
+The published Gaia Python package is the CLI:
+
 ```bash
-pip install gaia-registry-client
+pip install gaia-cli
 ```
+
+The HTTP endpoints this client wraps are public and can also be called directly
+with `httpx`/`requests` — see <https://gaiaskilltree.com/api/v1/health.json>.
 
 ## Quick Start
 

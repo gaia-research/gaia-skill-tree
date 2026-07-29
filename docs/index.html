@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <script>window.GAIA_VERSION = "7.1.14";</script>
+  <script>window.GAIA_VERSION = "7.1.25";</script>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -35,22 +35,22 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="icon" type="image/svg+xml" href="assets/marks/diamond-seal.svg">
-  <link rel="stylesheet" href="css/styles.css?v=7.1.14">
-  <link rel="stylesheet" href="css/ascension-overdrive-v4.css?v=7.1.14">
-  <link rel="stylesheet" href="css/plaque.css?v=7.1.14">
+  <link rel="stylesheet" href="css/styles.css?v=7.1.25">
+  <link rel="stylesheet" href="css/ascension-overdrive-v4.css?v=7.1.25">
+  <link rel="stylesheet" href="css/plaque.css?v=7.1.25">
   <!-- Universal AlphaRail (page-wide section + explorer index). -->
-  <link rel="stylesheet" href="css/alpha-rail.css?v=7.1.14">
+  <link rel="stylesheet" href="css/alpha-rail.css?v=7.1.25">
   <!-- Homepage-only World Tree composition and 2D ↔ 3D explorer shell. -->
-  <link rel="stylesheet" href="css/world-tree-hero.css?v=7.1.14">
+  <link rel="stylesheet" href="css/world-tree-hero.css?v=7.1.25">
 
   <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
-  <script src="js/icons.js?v=7.1.14"></script>
+  <script src="js/icons.js?v=7.1.25"></script>
   <!-- Stage 2 — shared rank-badge primitive, loaded after icons. -->
-  <script src="js/rank-badge.js?v=7.1.14"></script>
+  <script src="js/rank-badge.js?v=7.1.25"></script>
   <!-- Stage 3 — plaque component family, loaded after rank-badge. -->
-  <script src="js/tm-config.js?v=7.1.14"></script>
-  <script src="js/skill-semantics.js?v=7.1.14"></script>
-  <script src="js/plaque.js?v=7.1.14"></script>
+  <script src="js/tm-config.js?v=7.1.25"></script>
+  <script src="js/skill-semantics.js?v=7.1.25"></script>
+  <script src="js/plaque.js?v=7.1.25"></script>
   <style>
   /* Review Section & Side-by-Side Simulator styling */
   .review-showcase-section {
@@ -310,8 +310,8 @@
 
   <!-- ─── NAV ─── -->
   <nav id="site-nav"></nav>
-  <script src="js/mounts.js?v=7.1.14"></script>
-  <script src="js/site-nav.js?v=7.1.14"></script>
+  <script src="js/mounts.js?v=7.1.25"></script>
+  <script src="js/site-nav.js?v=7.1.25"></script>
 
   <!-- ─── HERO ─── -->
   <section id="hero" class="hero-tree-shell" data-tree-state="hero2d" aria-labelledby="heroTreeTitle">
@@ -592,13 +592,13 @@
       </a>
     </div>
   </section>
-  <link rel="stylesheet" href="trust/leaderboard/leaderboard.css?v=7.1.14">
+  <link rel="stylesheet" href="trust/leaderboard/leaderboard.css?v=7.1.25">
   <!-- Tooltip — required for SVG bar hover (delegated handlers in leaderboard.js
        short-circuit when this element is absent). position:fixed so it escapes
        any overflow:hidden ancestor. -->
   <div class="lb-tooltip" id="lbTooltip" hidden aria-hidden="true"></div>
   <script>window.GAIA_LB_EMBED_HOST = true;</script>
-  <script src="trust/leaderboard/leaderboard.js?v=7.1.14"></script>
+  <script src="trust/leaderboard/leaderboard.js?v=7.1.25"></script>
 
   <div class="section-divider"></div>
 
@@ -619,6 +619,59 @@
       </div>
     </div>
   </dialog>
+
+  <!-- ─── ECOSYSTEM POINTER ───────────────────────────────────────────────
+       A POINTER, not an explainer. The canonical ecosystem surface lives on
+       Gaia Research; this section names the four and links out, and must not
+       grow into a second telling of the same story. If you find yourself
+       adding a paragraph here, it belongs on the canonical surface instead.
+
+       Skill Hell is deliberately rendered as a locked card in the same row:
+       present and named, evidently not open. It is a gated tier of Skill
+       Heaven — do not restyle it into a peer product. -->
+  <section id="ecosystem" class="reveal eco-pointer" data-section="ecosystem" aria-labelledby="ecoTitle">
+    <h2 id="ecoTitle">Gaia is four names</h2>
+    <p class="section-sub">The Skill Tree is one of them. What each name is and how they relate is explained in one place, and that place is Gaia Research.</p>
+    <ul class="eco-row">
+      <li class="eco-name eco-name--here">
+        <span class="eco-state">You are here</span>
+        <strong>Skill Tree</strong>
+      </li>
+      <li class="eco-name">
+        <span class="eco-state">The laboratory</span>
+        <strong>Research</strong>
+      </li>
+      <li class="eco-name">
+        <span class="eco-state">Experimental</span>
+        <strong>Skill Heaven</strong>
+      </li>
+      <li class="eco-name eco-name--locked">
+        <span class="eco-state"><span class="eco-lock" aria-hidden="true">🔒</span> Gated · a tier of Skill Heaven</span>
+        <strong>Skill Hell</strong>
+      </li>
+    </ul>
+    <a class="btn btn-ghost eco-cta" href="https://research.gaiaskilltree.com/about" target="_blank" rel="noopener">
+      Read the ecosystem explainer
+      <span class="eco-cta-arrow" aria-hidden="true">↗</span>
+    </a>
+    <style>
+      .eco-pointer{max-width:1100px;margin:0 auto;padding:0 clamp(1.5rem,4vw,2.5rem);text-align:center}
+      .eco-row{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem;margin:2rem 0 1.75rem;padding:0}
+      .eco-name{flex:1 1 13rem;max-width:16rem;display:flex;flex-direction:column;border:1px solid var(--border);background:var(--surface);padding:1rem .9rem;text-align:left}
+      .eco-name strong{display:block;margin-top:auto;padding-top:.45rem;font-family:var(--font-display);font-weight:600;font-size:1.05rem;letter-spacing:-.01em;color:var(--text)}
+      .eco-state{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+      .eco-name--here{border-color:rgba(var(--apex-gold-rgb),.5)}
+      .eco-name--here .eco-state{color:var(--apex-gold)}
+      .eco-name--locked{border-style:dashed;border-color:rgba(var(--research-pink-rgb),.5);opacity:.78}
+      .eco-name--locked .eco-state{text-transform:none;letter-spacing:.02em}
+      .eco-cta{display:inline-flex;align-items:center;gap:.45rem;text-decoration:none;font-size:13px;color:var(--research-blue);font-family:var(--font-research);font-weight:700}
+      .eco-cta-arrow{font-size:.85em;opacity:.75;transition:transform .28s cubic-bezier(0.16,1,0.3,1)}
+      .eco-cta:hover .eco-cta-arrow{transform:translate(2px,-2px);opacity:1}
+      @media (max-width:640px){.eco-name{flex:1 1 100%;max-width:none}}
+    </style>
+  </section>
+
+  <div class="section-divider"></div>
 
   <!-- ─── PATHS ─── -->
   <section id="paths" class="reveal" data-section="paths">
@@ -710,8 +763,8 @@
               </div>
             </div>
             <div class="rite-term">
-              <pre><span class="cmd">claude mcp add</span> <span class="str">gaia</span> -- <span class="cmd">npx</span> <span class="str">@gaia-registry/mcp@0.1.0</span></pre>
-              <div class="qs-tip mt-sm"><span class="qs-tip-icon">💡</span><span>Any MCP-compatible agent: use <code>npx @gaia-registry/mcp@0.1.0</code>. Endpoint: <code>research.gaiaskilltree.com/mcp</code>. See <a href="https://github.com/gaia-research/gaia-skill-tree/tree/main/packages/mcp" target="_blank" class="text-tier-basic">packages/mcp</a> for config-file examples.</span></div>
+              <pre><span class="cmd">claude mcp add</span> <span class="str">gaia</span> -- <span class="cmd">npx</span> <span class="str">@gaia-research/mcp</span></pre>
+              <div class="qs-tip mt-sm"><span class="qs-tip-icon">💡</span><span>Any MCP-compatible agent: use <code>npx @gaia-research/mcp</code>. v0.1.0 is read-only — it searches and inspects the graph; installing stays with the CLI. See <a href="/en/mcp-server.html" class="text-tier-basic">the MCP server guide</a> for platform-specific config-file examples.</span></div>
             </div>
           </li>
           <li class="rite-step">
@@ -1217,7 +1270,7 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
 
   <!-- ─── FOOTER ─── -->
   <div id="site-footer-mount"></div>
-  <script src="js/site-footer.js?v=7.1.14"></script>
+  <script src="js/site-footer.js?v=7.1.25"></script>
 
   <!-- ─── SKILL EXPLORER OVERLAY ─── -->
   <div id="skillExplorer" class="skill-explorer" role="dialog" aria-modal="true" aria-label="Skill Explorer" tabindex="-1">
@@ -1311,19 +1364,19 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
 
   <!-- ─── SCRIPTS ─── -->
   <!-- icons.js already loaded in <head> so gaiaIcon() is available before any of these. -->
-  <script src="js/atlas-helpers.js?v=7.1.14" defer></script>
-  <script src="js/world-tree-layout.js?v=7.1.14" defer></script>
-  <script src="js/skill-graph.js?v=7.1.14" defer></script>
-  <script src="js/hud-toggle.js?v=7.1.14" defer></script>
-  <script src="js/scroll-reveal.js?v=7.1.14" defer></script>
+  <script src="js/atlas-helpers.js?v=7.1.25" defer></script>
+  <script src="js/world-tree-layout.js?v=7.1.25" defer></script>
+  <script src="js/skill-graph.js?v=7.1.25" defer></script>
+  <script src="js/hud-toggle.js?v=7.1.25" defer></script>
+  <script src="js/scroll-reveal.js?v=7.1.25" defer></script>
   <!-- Universal AlphaRail component + page-wide integration (section markers
        above the explorer; dynamic type/letter/tier markers inside it). -->
-  <script src="js/alpha-rail.js?v=7.1.14" defer></script>
-  <script src="js/skill-explorer.js?v=7.1.14" defer></script>
-  <script src="js/ui.js?v=7.1.14" defer></script>
-  <script src="js/page-ia.js?v=7.1.14" defer></script>
-  <script src="js/plaque-reveal.js?v=7.1.14" defer></script>
-  <script src="js/ascension-overdrive-v4.js?v=7.1.14" defer></script>
+  <script src="js/alpha-rail.js?v=7.1.25" defer></script>
+  <script src="js/skill-explorer.js?v=7.1.25" defer></script>
+  <script src="js/ui.js?v=7.1.25" defer></script>
+  <script src="js/page-ia.js?v=7.1.25" defer></script>
+  <script src="js/plaque-reveal.js?v=7.1.25" defer></script>
+  <script src="js/ascension-overdrive-v4.js?v=7.1.25" defer></script>
 
 
   <!-- ── Share modal (single instance) — opened from plaque__share-btn ── -->
@@ -1467,8 +1520,8 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
 
   <div id="hohFsToast" class="hoh-fs-toast" role="status" aria-live="polite">Permalink copied!</div>
 
-  <script src="js/profile-share.js?v=7.1.14" defer></script>
-  <script src="js/hoh-modal.js?v=7.1.14" defer></script>
+  <script src="js/profile-share.js?v=7.1.25" defer></script>
+  <script src="js/hoh-modal.js?v=7.1.25" defer></script>
 
   <!-- ─── REVIEW SHOWCASE SIMULATOR ─── -->
   <script>

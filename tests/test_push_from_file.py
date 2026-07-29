@@ -221,14 +221,11 @@ class TestValidateSkillEvidence(unittest.TestCase):
 # ---------------------------------------------------------------------------
 
 class TestValidateSkillNamed(unittest.TestCase):
-    def test_named_level_missing_rejected(self):
-        # named block present but level key absent — must error
+    def test_named_level_optional_defaults_to_2star(self):
+        # named block present but level key absent — level is optional and defaults to 2★
         entry = _good_basic(named={"contributor": "foo", "links_github": "https://github.com/a/b"})
         errors = _validate_skill(entry, 0, _KNOWN_IDS)
-        self.assertTrue(
-            any("level" in e and "required" in e for e in errors),
-            f"Expected level-required error, got: {errors}",
-        )
+        self.assertEqual(errors, [])
 
     def test_named_level_1star_rejected(self):
         entry = _good_basic(named={"contributor": "foo", "level": "1★", "links_github": "https://github.com/a/b"})
@@ -337,6 +334,43 @@ class TestBuildFromFileBatch(unittest.TestCase):
         )
         self.assertEqual(errors, [])
         self.assertEqual(len(batch["proposedSkills"]), 2)
+
+    def test_exact_canonical_named_implementation_is_rejected(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            namedDir = os.path.join(tmp, "registry", "named", "alice")
+            os.makedirs(namedDir)
+            with open(os.path.join(namedDir, "some-skill.md"), "w", encoding="utf-8") as f:
+                f.write("---\nid: alice/some-skill\n---\n")
+            skill = _good_basic(named={
+                "contributor": "alice",
+                "skill_name": "some-skill",
+                "links_github": "https://github.com/alice/repo/blob/main/SKILL.md",
+            })
+            batch, errors = build_from_file_batch(
+                [skill], self._config(), tmp, "testuser/repo"
+            )
+        self.assertIsNone(batch)
+        self.assertTrue(any("already exists" in error for error in errors), errors)
+
+    def test_canonical_named_duplicate_lookup_normalizes_case(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            namedDir = os.path.join(tmp, "registry", "named", "Alice")
+            os.makedirs(namedDir)
+            namedPath = os.path.join(namedDir, "Some-Skill.md")
+            with open(namedPath, "w", encoding="utf-8") as f:
+                f.write("---\nid: Alice/Some-Skill\n---\n")
+            skill = _good_basic(named={
+                "contributor": "alice",
+                "skill_name": "some-skill",
+                "links_github": "https://github.com/alice/repo/blob/main/SKILL.md",
+            })
+            batch, errors = build_from_file_batch(
+                [skill], self._config(), tmp, "testuser/repo"
+            )
+        self.assertIsNone(batch)
+        self.assertTrue(any("already exists" in error for error in errors), errors)
 
     def test_batch_id_contains_from_file_suffix(self):
         skills = [_good_basic()]

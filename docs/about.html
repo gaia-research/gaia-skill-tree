@@ -4,7 +4,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <script>window.GAIA_VERSION = "7.1.14";</script>
+  <script>window.GAIA_VERSION = "7.1.25";</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About — Gaia Skill Registry</title>
@@ -17,11 +17,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="icon" type="image/svg+xml" href="assets/marks/diamond-seal.svg">
-  <link rel="stylesheet" href="css/styles.css?v=7.1.14">
-  <link rel="stylesheet" href="css/plaque.css?v=7.1.14">
-  <script src="js/icons.js?v=7.1.14"></script>
-  <script src="js/atlas-helpers.js?v=7.1.14"></script>
-  <script src="js/rank-badge.js?v=7.1.14"></script>
+  <link rel="stylesheet" href="css/styles.css?v=7.1.25">
+  <link rel="stylesheet" href="css/plaque.css?v=7.1.25">
+  <script src="js/icons.js?v=7.1.25"></script>
+  <script src="js/atlas-helpers.js?v=7.1.25"></script>
+  <script src="js/rank-badge.js?v=7.1.25"></script>
 
   <style>
     /* ─── about.html — atlas frontispiece layout ───────────────── */
@@ -913,8 +913,8 @@
 
   <!-- ─── NAV ─── -->
   <nav id="site-nav"></nav>
-  <script src="js/mounts.js?v=7.1.14"></script>
-  <script src="js/site-nav.js?v=7.1.14"></script>
+  <script src="js/mounts.js?v=7.1.25"></script>
+  <script src="js/site-nav.js?v=7.1.25"></script>
 
   <!-- ─── BACK ─── -->
   <div class="profile-back-row">
@@ -961,6 +961,24 @@
       </div>
     </section>
 
+    <!-- Disambiguation strip. This page is the founder story and keeps that
+         job (V5-11). The ecosystem explainer — what the four names are and how
+         they relate — is canonical on Gaia Research; point at it, never
+         duplicate it here. -->
+    <aside class="ab-eco-note" aria-label="Where the ecosystem explainer lives">
+      <p>
+        This page is the founder&rsquo;s story. Looking for what the Skill Tree, Research,
+        Skill Heaven and Skill Hell each are and how they relate?
+        <a href="https://research.gaiaskilltree.com/about" target="_blank" rel="noopener">Read the ecosystem explainer <span aria-hidden="true">&#8599;</span></a>
+      </p>
+      <style>
+        .ab-eco-note{max-width:52rem;margin:0 auto;padding:0 clamp(1.5rem,4vw,2.5rem)}
+        .ab-eco-note p{border-left:2px solid rgba(var(--research-blue-rgb),.55);padding:.65rem 0 .65rem 1rem;margin:0;font-size:14px;line-height:1.6;color:var(--muted)}
+        .ab-eco-note a{color:var(--research-blue);font-family:var(--font-research);font-weight:700;text-decoration:none}
+        .ab-eco-note a:hover{text-decoration:underline}
+      </style>
+    </aside>
+
     <!-- ─── PLATE II — On the Record ─── -->
     <section class="ab-record ab-animate" style="animation-delay: .15s" aria-labelledby="ab-record-h">
       <div class="ab-page-wrap">
@@ -992,7 +1010,7 @@
             <dd class="ab-tally-num">227</dd>
           </div>
         </dl>
-        <p class="ab-tally-note">Live from <a href="https://github.com/gaia-research/gaia-skill-tree/blob/main/registry/gaia.json" target="_blank" rel="noopener">registry/gaia.json</a> v7.1.14. Counts grow with the record.</p>
+        <p class="ab-tally-note">Live from <a href="https://github.com/gaia-research/gaia-skill-tree/blob/main/registry/gaia.json" target="_blank" rel="noopener">registry/gaia.json</a> v7.1.25. Counts grow with the record.</p>
 <!-- gaia:about-tally-end -->
 
         <div class="ab-record-prose">
@@ -1251,9 +1269,9 @@
 
   <!-- ─── FOOTER v2 ─── -->
   <div id="site-footer-mount"></div>
-  <script src="js/site-footer.js?v=7.1.14"></script>
+  <script src="js/site-footer.js?v=7.1.25"></script>
 
-  <script src="js/ui.js?v=7.1.14" defer></script>
+  <script src="js/ui.js?v=7.1.25" defer></script>
 
   <!-- Hydrate rank badges from the canonical component (no inline star markup). -->
   <script>

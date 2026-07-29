@@ -12,7 +12,6 @@ registry/schema/ @mbtiongson1
 # CLI source
 src/gaia_cli/ @mbtiongson1
 packages/cli-npm/ @mbtiongson1
-packages/mcp/ @mbtiongson1
 
 # Registry data (canonical graph + named skills)
 registry/gaia.json @mbtiongson1

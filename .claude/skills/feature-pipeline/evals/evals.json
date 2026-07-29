@@ -15,7 +15,7 @@
     },
     {
       "id": 3,
-      "prompt": "I want to test and ship the packages/mcp module — run the full pipeline and don't bother me until CI is green",
+      "prompt": "I want to test and ship the packages/cli-npm module — run the full pipeline and don't bother me until CI is green",
       "expected_output": "ORCHESTRATOR correctly identifies this should use /feature-pipeline, delegates all phases to LIGHTER/HEAVIER per the skill, notes stop hooks exist but clarifies they require user acknowledgment ('continue') between phases even with 'don't bother me' instruction — or surfaces the tension and asks for preference.",
       "files": [".agents/skills/feature-pipeline/SKILL.md"]
     }

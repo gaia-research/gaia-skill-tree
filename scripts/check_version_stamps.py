@@ -5,7 +5,7 @@ check_version_stamps.py — CI guard against stale HARDCODED version stamps
 A `window.GAIA_VERSION = "4.3.12";` literal was hand-typed into
 src/gaia_cli/graph.py on 2026-06-09 and rotted silently for 6 weeks (the repo
 moved to 6.8.15) with nothing catching it: verify_lockstep.py checks only the
-four manifests (not source), the docs `--check` normalizes the stamp away
+three manifests (not source), the docs `--check` normalizes the stamp away
 before comparing, and the CLI's HTML output is not a tracked docs/ file. This
 guard closes that gap.
 

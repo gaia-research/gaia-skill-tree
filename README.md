@@ -191,7 +191,7 @@ curl https://gaiaskilltree.com/api/v1/leaderboard.json
 **1. CLI
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `7.1.14`.
+Current Gaia CLI version: `7.1.25`.
 
 ```bash
 curl -fsSL https://gaiaskilltree.com/install.sh | sh
@@ -357,14 +357,24 @@ Maintainer commands:  gaia dev --help
 
 ## MCP Server Full Instructions
 
-`@gaia-registry/mcp-server` connects Gaia to MCP-compatible agents (Claude Code, Cursor, VS Code, etc.).
+`@gaia-research/mcp` connects Gaia to MCP-compatible agents (Claude Code, Cursor, VS Code, etc.). It is published on npm at **v0.1.0** and ships the binary `gaia-mcp`.
 
 | Agent | Install |
 |-------|---------|
-| Claude Code | `claude mcp add gaia -- npx @gaia-registry/mcp-server` |
-| Any MCP client | Command: `npx`, args: `@gaia-registry/mcp-server` |
+| Claude Code | `claude mcp add gaia -- npx -y @gaia-research/mcp@0.1.0` |
+| Any MCP client | Command: `npx`, args: `["-y", "@gaia-research/mcp@0.1.0"]` |
 
-Set `GAIA_USER=your-github-username` and optionally `GITHUB_TOKEN` for PR tools. See [`packages/mcp/`](packages/mcp/) for full docs and agent-specific config examples.
+**What v0.1.0 does today.** It is **read-only Registry mode** — three discovery tools, no write path:
+
+| Tool | Purpose |
+|---|---|
+| `gaia_search` | Find generic and Named Skills by task and constraints |
+| `gaia_inspect` | Return an evidence-backed skill dossier |
+| `gaia_status` | Report server compatibility, Registry freshness, counts, source URLs |
+
+It **cannot install, fuse, or mutate skills**, and it does not submit to Intake. Project analysis and path planning arrive with Bonded mode in v0.2.0. Installation stays with the `gaia` CLI, which is where approval for anything that changes your workspace belongs.
+
+Source and releases: <https://github.com/gaia-research/gaia-mcp>. See the [Gaia MCP Page](https://research.gaiaskilltree.com/mcp) for full docs and agent-specific config examples.
 
 ---
 

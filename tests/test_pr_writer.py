@@ -71,6 +71,30 @@ class TestPrWriterBatchRender(unittest.TestCase):
         self.assertIn("my-skill", result)
         self.assertIn("user{broken}", result)
 
+    def test_render_named_block_preserves_upstream_skill_name(self):
+        named = {
+            "contributor": "foo", "skill_name": "upstream-slug", "level": "2★",
+            "links_github": "https://github.com/a/b/blob/main/SKILL.md",
+        }
+        result = _render_named_block(named, "generic-id")
+        self.assertIn("foo/upstream-slug", result)
+        self.assertNotIn("foo/generic-id", result)
+
+    def test_issue_renders_packet_to_batch_provenance(self):
+        batch = self._base_batch(curationHandoff={
+            "contractVersion": "curation-handoff-v1",
+            "packetRefs": [{
+                "candidateId": "foo/upstream-slug",
+                "packetPath": "registry-for-review/discovery-packets/foo.json",
+                "packetContentSha256": "a" * 64,
+                "sourceContentSha256": "b" * 64,
+            }],
+        })
+        body = build_intake_issue_body(batch)
+        self.assertIn("### Curation handoff provenance", body)
+        self.assertIn("`foo/upstream-slug`", body)
+        self.assertIn("`" + "a" * 64 + "`", body)
+
     def test_render_named_block_skill_id_embedded_correctly(self):
         """Named block must embed skillId directly, not via deferred format()."""
         named = {"contributor": "foo", "level": "2★", "links_github": "https://github.com/a/b"}

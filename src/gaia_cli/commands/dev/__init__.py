@@ -117,6 +117,160 @@ class DevCommand(Command):
             "--extra", action="append", help="Include extra schema fields in output"
         )
 
+        dev_prefill = dev_sub.add_parser(
+            "prefill",
+            help="Build a prefilled discovery-packet-v2 for a candidate (embedding-similarity mapping)",
+        )
+        dev_prefill.add_argument("candidate_id", help="Candidate id (e.g. contributor/slug)")
+        dev_prefill.add_argument("--name", required=True, help="Candidate skill name")
+        dev_prefill.add_argument(
+            "--description", required=True, help="Candidate skill description"
+        )
+        dev_prefill.add_argument(
+            "--url", required=True, help="Canonical source URL of the candidate"
+        )
+        dev_prefill.add_argument(
+            "--source-lane",
+            choices=("marketplace", "source-repository", "github-topic"),
+            default="source-repository",
+            help="Source lane the candidate was discovered in",
+        )
+        dev_prefill.add_argument(
+            "--suite-role",
+            choices=("component", "capstone"),
+            help="Mark this packet as part of a suite fan-out",
+        )
+        dev_prefill.add_argument(
+            "--suite-id", help="Shared suite id linking a fan-out (required with --suite-role)"
+        )
+        dev_prefill.add_argument(
+            "--component-ids",
+            help="Comma-separated component candidate ids (capstone packets)",
+        )
+        dev_prefill.add_argument(
+            "--json", "--stdout", dest="json", action="store_true",
+            help="Print the packet to stdout instead of writing to disk",
+        )
+
+        dev_evidence_seed = dev_sub.add_parser(
+            "evidence-seed",
+            help=(
+                "Emit the evidence-seed for an L4-approved skill: a per-type "
+                "artifact under evidence/seeds/ + collector rows (RFC2 Gap C)"
+            ),
+        )
+        dev_evidence_seed.add_argument(
+            "skill_id", help="Skill id the seed rows belong to"
+        )
+        dev_evidence_seed.add_argument(
+            "--source",
+            action="append",
+            default=[],
+            dest="sources",
+            metavar="URL:TYPE[:SCOPE]",
+            help=(
+                "Raw source, repeatable. Format 'url::type' or 'url::type::scope' "
+                "(:: separator; scope one of standalone|suite-component|suite-wide). "
+                "type is a meta.json evidence type id (repo-own, benchmark-result, "
+                "arxiv, peer-review, social-signal, ...). NO star/grade/tier."
+            ),
+        )
+        dev_evidence_seed.add_argument(
+            "--scope",
+            choices=("standalone", "suite-component", "suite-wide"),
+            default="standalone",
+            help="Default attribution scope for sources without an explicit scope",
+        )
+        dev_evidence_seed.add_argument(
+            "--no-collectors",
+            action="store_true",
+            help="Write only the standalone seed artifact; skip the collector dual-write",
+        )
+
+        dev_provenance = dev_sub.add_parser(
+            "provenance",
+            help=(
+                "Write the provenance sidecar ledger for an ingested skill: "
+                "registry/provenance/<skill-id>.json back-linking the node to "
+                "its discovery packet / intake batch / intake issue / crawler "
+                "origin / evidence seed (RFC3 §3.1)"
+            ),
+        )
+        dev_provenance.add_argument(
+            "skill_id", help="Skill id the ledger belongs to"
+        )
+        dev_provenance.add_argument(
+            "--from-packet",
+            dest="from_packet",
+            help=(
+                "Path to the discovery packet; its source block is lifted into "
+                "crawlerOrigin and its path into discoveryPacket (unless overridden)"
+            ),
+        )
+        dev_provenance.add_argument(
+            "--generic-ref",
+            dest="generic_ref",
+            help="Generic skill id this named skill points at (genericSkillRef)",
+        )
+        dev_provenance.add_argument(
+            "--discovery-packet",
+            dest="discovery_packet",
+            help="Repo-relative path to the discovery packet",
+        )
+        dev_provenance.add_argument(
+            "--intake-batch",
+            dest="intake_batch",
+            help="Repo-relative path to the intake batch",
+        )
+        dev_provenance.add_argument(
+            "--intake-issue",
+            dest="intake_issue",
+            help="URL of the GitHub intake issue",
+        )
+        dev_provenance.add_argument(
+            "--evidence-seed",
+            dest="evidence_seed",
+            help="Path to the RFC2 evidence-seed artifact",
+        )
+        dev_provenance.add_argument(
+            "--ingested-at",
+            dest="ingested_at",
+            help="ISO 8601 date-time the skill was ingested",
+        )
+        dev_provenance.add_argument(
+            "--status",
+            default="ingested",
+            choices=(
+                "discovered",
+                "review-ready",
+                "intake-open",
+                "evidence-seeded",
+                "in-appraisal",
+                "ingested",
+                "deferred",
+                "rejected",
+            ),
+            help="Pipeline-position status (RFC3 §3.4 ladder). Defaults to ingested.",
+        )
+        dev_provenance.add_argument(
+            "--stage-event",
+            dest="stage_event",
+            choices=("discovered", "intake_opened"),
+            help=(
+                "Append a pre-ingest stage event to the ledger timeline (RFC3 "
+                "§3.2). gaia dev timeline cannot target pre-ingest stages (no "
+                "node/tree yet), so the ledger event log is the sanctioned home."
+            ),
+        )
+        dev_provenance.add_argument(
+            "--notes",
+            help="Human-readable context for the stage event",
+        )
+        dev_provenance.add_argument(
+            "--timestamp",
+            help="ISO 8601 date-time for the stage event (defaults to now)",
+        )
+
         dev_merge = dev_sub.add_parser(
             "merge", help="Merge one or more skills into a target skill"
         )
@@ -646,13 +800,13 @@ class DevCommand(Command):
             help="Skip rebuilding docs and graph assets after fusing.",
         )
 
-        dev_mcp = dev_sub.add_parser(
-            "mcp", help="Manage or run the bundled Gaia MCP server"
+        # The bundled `packages/mcp` prototype was deleted; there is no local
+        # daemon to start/stop. The shipped server is the standalone npm
+        # package `@gaia-research/mcp`, so this verb only prints instructions.
+        dev_sub.add_parser(
+            "mcp",
+            help="Show install/run instructions for the standalone @gaia-research/mcp server",
         )
-        dev_mcp_sub = dev_mcp.add_subparsers(dest="mcp_command")
-        dev_mcp_sub.add_parser("start", help="Start the MCP daemon")
-        dev_mcp_sub.add_parser("stop", help="Stop the MCP daemon")
-        dev_mcp_sub.add_parser("status", help="Get MCP daemon status")
 
         dev_hook = dev_sub.add_parser(
             "hook", help="Internal command invoked by Claude Code hook"
@@ -768,6 +922,15 @@ class DevCommand(Command):
         if dev_cmd == "list":
             from gaia_cli.commands.dev.list import meta_list_command
             meta_list_command(args)
+        elif dev_cmd == "prefill":
+            from gaia_cli.prefill import prefillCommand
+            return prefillCommand(args)
+        elif dev_cmd == "evidence-seed":
+            from gaia_cli.commands.dev.evidenceSeedCmd import evidenceSeedCommand
+            return evidenceSeedCommand(args)
+        elif dev_cmd == "provenance":
+            from gaia_cli.commands.dev.provenanceCmd import provenanceCommand
+            return provenanceCommand(args)
         elif dev_cmd == "merge":
             from gaia_cli.commands.dev.merge import meta_merge_command
             meta_merge_command(args)

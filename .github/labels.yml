@@ -292,6 +292,26 @@
   color: "5319E7"
   description: "New skill intake — batch proposal awaiting triage"
 
+- name: "intake:topology-approved"
+  color: "0E8A16"
+  description: "Maintainer approved intake topology; queues evidence review"
+
+- name: "intake:evidence-review"
+  color: "FBCA04"
+  description: "Topology approved; evidence plan awaits agent and human review"
+
+- name: "intake:evidence-ready"
+  color: "0D9B8A"
+  description: "Agent prepared the evidence plan; it awaits human evidence approval"
+
+- name: "intake:evidence-approved"
+  color: "0E8A16"
+  description: "Maintainer approved an evidence-ready intake; opens the single promotion PR"
+
+- name: "intake:rejected"
+  color: "d73a4a"
+  description: "Maintainer rejected intake; no promotion automation"
+
 # ── New labels: upstream-watcher family ────────────────────────────────────
 # Colors:
 #   upstream:release / upstream:child / upstream:bootstrap  →  teal #0D9B8A

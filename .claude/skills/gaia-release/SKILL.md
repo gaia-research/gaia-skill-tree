@@ -44,10 +44,9 @@ To compile a changelog from a previous version/tag to the target tag:
 
 ### 2. Verify / Sync Version Lockstep
 If requested to update version files:
-1. The four manifest files must remain in lockstep:
+1. The three manifest files must remain in lockstep:
    - `pyproject.toml`
    - `packages/cli-npm/package.json`
-   - `packages/mcp/package.json`
    - `registry/gaia.json` (gitignored pipeline-internal, but updated locally)
 2. Use `python3 scripts/verify_lockstep.py` to check current lockstep alignment.
 3. Sync versions using:

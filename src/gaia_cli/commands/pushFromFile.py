@@ -176,11 +176,9 @@ def _validate_skill(entry, index, canonicalIds):
     if named:
         if not named.get("contributor", "").strip():
             errors.append(f"{prefix}.named.contributor: required when named block present")
-        # level is required when the named block is present
+        # level is optional in Yggdrasil II — defaults to "2★" floor if omitted; TM scoring derives higher ranks
         level = named.get("level", "")
-        if not level:
-            errors.append(f"{prefix}.named.level: required when named block present (e.g. '2★')")
-        elif not _STAR_RE.match(str(level).strip()):
+        if level and not _STAR_RE.match(str(level).strip()):
             errors.append(
                 f"{prefix}.named.level '{level}': must be a star rating like '2★' (2–6)"
             )
@@ -210,10 +208,33 @@ def _skillEntryToProposed(entry, sourceRepo):
     proposed.setdefault("lifecycle", "pending")
     if not proposed.get("name"):
         proposed["name"] = skill_name_from_id(entry.get("id", ""))
+    if proposed.get("named") and isinstance(proposed["named"], dict):
+        named = dict(proposed["named"])
+        if not named.get("level"):
+            named["level"] = "2★"
+        proposed["named"] = named
     return proposed
 
 
-def build_from_file_batch(skillsYaml, config, registryRoot, sourceRepo, now=None):
+def _loadCanonicalNamedIds(registryRoot):
+    """Return case-normalized contributor/skill identities in registry/named."""
+    namedRoot = os.path.join(registryRoot, "registry", "named")
+    identities = set()
+    if not os.path.isdir(namedRoot):
+        return identities
+    for contributor in os.listdir(namedRoot):
+        contributorPath = os.path.join(namedRoot, contributor)
+        if not os.path.isdir(contributorPath):
+            continue
+        for filename in os.listdir(contributorPath):
+            if filename.endswith(".md"):
+                identities.add(f"{contributor}/{filename[:-3]}".lower())
+    return identities
+
+
+def build_from_file_batch(
+    skillsYaml, config, registryRoot, sourceRepo, now=None, curationHandoff=None
+):
     """Build a skill batch dict from a parsed YAML 'skills:' list.
 
     Returns (batch_dict, errors).  When errors is non-empty, batch_dict is None
@@ -241,6 +262,18 @@ def build_from_file_batch(skillsYaml, config, registryRoot, sourceRepo, now=None
     for i, entry in enumerate(skillsYaml):
         allErrors.extend(_validate_skill(entry, i, canonicalIds))
 
+    canonicalNamedIds = _loadCanonicalNamedIds(registryRoot)
+    for i, entry in enumerate(skillsYaml):
+        named = entry.get("named") or {}
+        contributor = str(named.get("contributor", "")).strip()
+        skillName = str(named.get("skill_name", "")).strip()
+        namedId = f"{contributor}/{skillName}" if contributor and skillName else ""
+        if namedId.lower() in canonicalNamedIds:
+            allErrors.append(
+                f"skills[{i}].named: exact canonical named implementation "
+                f"'{namedId}' already exists"
+            )
+
     if allErrors:
         print("Validation errors in --from-file YAML:", file=sys.stderr)
         for err in allErrors:
@@ -252,7 +285,7 @@ def build_from_file_batch(skillsYaml, config, registryRoot, sourceRepo, now=None
     ]
     proposedIds = [s["id"] for s in proposedSkills]
 
-    return {
+    batch = {
         "batchId": batchId,
         "userId": config.get("gaiaUser", "unknown"),
         "sourceRepo": sourceRepo,
@@ -261,7 +294,10 @@ def build_from_file_batch(skillsYaml, config, registryRoot, sourceRepo, now=None
         "knownSkills": [],
         "proposedSkills": proposedSkills,
         "similarity": build_similarity(proposedIds, canonicalMap),
-    }, []
+    }
+    if curationHandoff:
+        batch["curationHandoff"] = curationHandoff
+    return batch, []
 
 
 # ---------------------------------------------------------------------------
@@ -290,6 +326,18 @@ def _load_yaml_file(path):
         return None, f"YAML parse error in '{path}':\n  {exc}"
     if not isinstance(data, dict):
         return None, f"'{path}' must be a YAML mapping with a top-level 'skills:' key"
+
+    # RFC2 Gap B — a review-ready discovery-packet-v2 (JSON, which safe_load
+    # parses too) is adapted into the intake 'skills:' mapping. Detected by the
+    # 'contractVersion' key, which an intake YAML never carries.
+    from gaia_cli.intakeAdapter import isDiscoveryPacket, buildIntakeYaml
+
+    if isDiscoveryPacket(data):
+        try:
+            data = buildIntakeYaml(data, packetPath=path)
+        except ValueError as exc:
+            return None, f"Cannot adapt discovery packet '{path}': {exc}"
+
     if "skills" not in data:
         return None, f"'{path}' is missing the required top-level 'skills:' list"
     if not isinstance(data["skills"], list) or len(data["skills"]) == 0:
@@ -328,7 +376,11 @@ def push_from_file_command(args):
 
     # ── build batch (validates first — nothing written on error) ─────────
     batch, errors = build_from_file_batch(
-        skillsYaml, config, registryRoot, sourceRepo
+        skillsYaml,
+        config,
+        registryRoot,
+        sourceRepo,
+        curationHandoff=yamlData.get("curationHandoff"),
     )
     if errors:
         return 1

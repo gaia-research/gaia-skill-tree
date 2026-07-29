@@ -339,7 +339,10 @@ def test_review_ready_fixture_is_valid():
 def test_luna_viability_fixture_and_oracle_are_separate_and_bounded():
     page = json.loads((CORE / "fixtures/luna-viability-page.json").read_text())
     expected = json.loads((CORE / "fixtures/luna-viability-expected.json").read_text())
-    assert len(page["candidates"]) == 5
+    # 7 candidates, one per precedence rule: MAP (strong), DEFER (lone weak),
+    # NEW_GENERIC (empty options), DUPLICATE, NOT_A_SKILL, DEFER (ambiguous
+    # bundle), DUPLICATE (cited-origin).
+    assert len(page["candidates"]) == 7
     assert "decisions" not in page
     assert [row["candidateId"] for row in expected["decisions"]] == [
         row["candidateId"] for row in page["candidates"]

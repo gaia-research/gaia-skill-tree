@@ -60,6 +60,31 @@ To add a new exemption: edit `REDACTION_BADGE_DIR_EXEMPTIONS` in **both** `scrip
 - Avoid hex color fallbacks; use design tokens only (CI guard rejects hex).
 - When bumping assets, update cache-bust version strings across all referencing pages.
 
+## Frontend changes are HUMAN-GATED — founder review before merge
+
+**Load-bearing invariant (founder ruling, 2026-07-29):** a PR that changes what a visitor sees does **not** merge on green CI alone. It merges when the founder has looked at it. Agents and orchestrators may open, iterate, and mark it ready — **they may not merge it.** CI proves nothing rendered wrong; it does not prove the design is right.
+
+**Gated — needs founder review:**
+
+- New user-facing page or section; removing or relocating one
+- Layout, structure, or component composition
+- Design tokens, color, typography, spacing, motion
+- Nav, footer, `window.GAIA_MOUNTS`, or any entrypoint wiring
+- Public-page copy that changes the *message* (positioning, naming, what a product is)
+- Anything rendering the graph, badges, cards, or OG images
+
+**Not gated — ship on green:**
+
+- Typo, grammar, and factual corrections inside an existing block, layout unchanged
+- Dead or wrong link targets
+- `alt` text, ARIA attributes, and other accessibility fixes that add no visual change
+- Cache-bust version bumps
+- Comments, and refactors with **no rendered diff**
+
+**Rule of thumb:** if the change alters *structure, styling, or which surfaces exist*, it is gated. If it only corrects *words or link targets inside a block whose layout is unchanged*, it is small — ship it. When genuinely unsure, gate it; a held PR costs a message, an unreviewed design change costs a revert.
+
+**What a gated PR owes the reviewer:** rendered evidence, not a description — a screenshot of each changed surface (and both light and dark if theming is touched), plus the before state for anything modified rather than added. Reviewing a diff of HTML is not reviewing a design.
+
 ## Design Entrypoints — plan before you ship
 
 **Load-bearing invariant:** every new user-facing page/section MUST plan its entrypoints during the design pass — main nav, footer, homepage, `window.GAIA_MOUNTS`, cross-page links, and cache-busting — and the PR body MUST include an "Entrypoints" section listing which were touched or explicitly waived (design-review agents bounce PRs missing it). Shipping a section with no way to reach it from the homepage is a broken feature. CI Guard D enforces the `mounts.js` registration.
@@ -110,8 +135,8 @@ See [DEV.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/DEV.md) for l
 | Python CLI | `src/gaia_cli/` | Entry `main.py`, dynamic command discovery from `commands/`. Mutating ops in `commands/dev/` (evidence, verify, merge, calibrate). `versioning.py` keeps pyproject.toml, package.json files, registry/gaia.json in lockstep. |
 | Slash-naming helpers | `src/gaia_cli/formatting.py` | Slash-naming formatters, RANK_COLORS, tier colors |
 | Local-first context | `src/gaia_cli/localContext.py` | Merges user tree + scan results + named skill map into `LocalContext` |
-| npm wrapper | `packages/cli-npm/` | `@gaia-registry/cli` — Node.js wrapper publishing `gaia` to npm, executing the local Python binary. |
-| MCP server | `packages/mcp/` | `@gaia-registry/mcp-server` — exposes registry via MCP. Key: `src/config/merger.ts`, `src/daemon.ts`, `src/index.ts` (tools `gaia_lookup`, `gaia_suggest`, `gaia_scan_context`, `gaia_my_tree`). |
+| npm wrapper | `packages/cli-npm/` | `@gaia-registry/cli` — Node.js wrapper that execs the local Python binary. **Not published to npm** (the whole `@gaia-registry/*` scope is unpublished); the published CLI is `gaia-cli` on PyPI. Source-checkout use only. |
+| MCP server | *(external repo)* | Lives in `gaia-research/gaia-mcp`, published as `@gaia-research/mcp` v0.1.0 (binary `gaia-mcp`). Read-only Registry mode; tools `gaia_search`, `gaia_inspect`, `gaia_status`. The in-repo `packages/mcp` prototype was deleted — do not resurrect it. |
 
 ```bash
 # Meta Review (CLI-ONLY)
@@ -241,7 +266,6 @@ The pre-commit hook keeps these in lockstep:
 
 - `pyproject.toml`
 - `packages/cli-npm/package.json`
-- `packages/mcp/package.json`
 - `registry/gaia.json`
 
 If they disagree before the bump, the hook fails loudly. Use `gaia dev release <type> --sync` to force-align manifests to the highest version before bumping. Use `gaia dev release patch|minor|major` to bump all at once.
@@ -250,7 +274,7 @@ If they disagree before the bump, the hook fails loudly. Use `gaia dev release <
 
 ### Decorative assets must NOT carry version metadata
 
-**Hard rule (codified after Issue #807):** Class S decorative artifacts — `docs/graph/gaia.json`, `docs/tree.md`, `docs/index.html` stats block, badges/cards/og — **must not** carry a `version` field, banner, or comment that tracks the manifest version. The lockstep verifier (`scripts/verify_lockstep.py`) checks only the four manifests above; no rendering surface should have a version string that needs to agree with them.
+**Hard rule (codified after Issue #807):** Class S decorative artifacts — `docs/graph/gaia.json`, `docs/tree.md`, `docs/index.html` stats block, badges/cards/og — **must not** carry a `version` field, banner, or comment that tracks the manifest version. The lockstep verifier (`scripts/verify_lockstep.py`) checks only the three manifests above; no rendering surface should have a version string that needs to agree with them.
 
 Before #807 the version stamp on these files was the dominant source of cross-PR CI churn: a PR opened against an old `main` inherited a stale stamp and tripped lockstep. Stripping the stamp from decoration ends that class of failure. If you add a new generated artifact under `docs/`, do not stamp a version on it. If you need a version string at runtime (e.g. cache-bust query param), read it dynamically from a fetched manifest — do not bake it into the file.
 

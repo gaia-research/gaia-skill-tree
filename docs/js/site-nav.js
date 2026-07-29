@@ -90,6 +90,10 @@
     { type: 'link', href: root + 'evidence/',     label: 'Evidence Library',   color: 'var(--rank-3)' },
     { type: 'link', href: root + 'reports/',      label: 'Weekly Reports',     color: 'var(--evidence-gold)' },
     { type: 'link', href: root + 'benchmarks/',   label: 'Benchmarks',         color: 'var(--evidence-gold)' },
+    // Pointer out to the canonical ecosystem surface. The four-name story is
+    // explained once, on Gaia Research; the Tree links to it and never
+    // restates it. External by design — do not clone the page in here.
+    { type: 'link', href: 'https://research.gaiaskilltree.com/about', label: 'The Gaia ecosystem \u2197', color: 'var(--research-blue)' },
   ];
 
   function anchorHtml(item) {
