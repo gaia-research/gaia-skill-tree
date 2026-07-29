@@ -1,6 +1,6 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "generatedAt": "2026-07-29T21:17:43Z",
+  "generatedAt": "2026-07-29T21:43:22Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic",
@@ -18881,6 +18881,15 @@
           -0.8416765175587545,
           -0.0009797918355583983
         ]
+      },
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
       }
     },
     {

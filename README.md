@@ -84,7 +84,7 @@ So that means, its the developers who make skills maintaining this. I have a tho
   │  ├─ ○ garrytan/design-html  [3★]
   │  ├─ ○ /diff-content
   │  └─ ○ garrytan/benchmark  [3★]  (↑ see above)
-  ├─ ○ pbakaus/impeccable  [4★]
+  ├─ ○ nextlevelbuilder/ui-ux-pro-max  [4★]
   ├─ · garrytan/garrytan  [4★]
   │  ├─ ○ /plan-decompose
   │  └─ ○ ████████/ask-matt

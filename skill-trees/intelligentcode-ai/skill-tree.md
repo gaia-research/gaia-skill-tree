@@ -99,7 +99,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ garrytan/design-html  [3★]
   │  ├─ · ○ /diff-content
   │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
-  ├─ · ○ pbakaus/impeccable  [4★]
+  ├─ · ○ nextlevelbuilder/ui-ux-pro-max  [4★]
   ├─ · · garrytan/garrytan  [4★]
   │  ├─ · ○ /plan-decompose
   │  └─ · ○ ████████/ask-matt
@@ -307,6 +307,11 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ · ○ /tool-use
   └─ · ○ firecrawl/firecrawl-research-index  [2★]
 
+· ◆ disler/agent-fusion  [2★]
+  ├─ · ○ disler/opinion  [2★]
+  ├─ · ○ disler/plan-synthesis  [2★]
+  └─ · ○ disler/auto-review  [2★]
+
 ══════════════════════════════════════════════════════════════════════
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
 ══════════════════════════════════════════════════════════════════════
@@ -332,10 +337,11 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
        ├─ · ○ garrytan/design-html  [3★]
        ├─ · ○ /diff-content
        └─ · ○ garrytan/benchmark  [3★]
+  · ◉ pbakaus/impeccable  [4★]
   · ◉ obra/using-git-worktrees  [4★]
     ├─ · ○ /code-execution
     └─ · ○ /tool-use
-  · ◉ pbakaus/impeccable  [4★]
+  · ◉ nextlevelbuilder/ui-ux-pro-max  [4★]
   · ◉ firecrawl/firecrawl-build-scrape  [4★]
     ├─ · ○ firecrawl/firecrawl-build-search  [4★]
     ├─ · ○ /parse-html
@@ -345,6 +351,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
 Basics — basic-tier skills with no prerequisites, listed vertically (not as a single combined line).  ([N★] = top named-variant stars; blank = no named implementation.)
 ══════════════════════════════════════════════════════════════════════
 
+  · ○ panniantong/agent-reach  [3★]
   · ○ /autonomous-engineering-platform
   · ○ gaia-research/skill-ci-churn  [2★]
   · ○ /clinical-data-retrieval
@@ -364,11 +371,14 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   · ○ ████████/huggingface-vision-trainer
   · ○ /pathway-ontology-retrieval
   · ○ /probabilistic-programming
+  · ○ vercel-labs/react-best-practices  [3★]
   · ○ /reward-modeling
+  · ○ oso95/scroll-world  [3★]
   · ○ openai/self-consistency  [3★]
   · ○ huggingface/semantic-cache  [2★]
   · ○ ruvnet/stream-chain  [2★]
   · ○ ████████/codebase-design
+  · ○ anthropics/canvas-design  [2★]
   · ○ /synthetic-data-generation
   · ○ addy-osmani/test-driven-development  [2★]
   · ○ /time-series-forecasting
