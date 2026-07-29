@@ -4,6 +4,7 @@ from gaia_cli.commands.base import Command
 
 from gaia_cli.commands.dev.helpers import (
     _run_docs_build,
+    _add_build_flags,
     _confirm_destructive,
     _replace_section,
     _GENERATED_PREFIXES,
@@ -284,6 +285,7 @@ class DevCommand(Command):
         dev_merge.add_argument(
             "--yes", "-y", "--y", action="store_true", help="Skip confirmation prompt"
         )
+        _add_build_flags(dev_merge, "merging")
 
         dev_split = dev_sub.add_parser(
             "split", help="Split a skill into multiple new skills"
@@ -293,12 +295,14 @@ class DevCommand(Command):
         dev_split.add_argument(
             "--yes", "-y", "--y", action="store_true", help="Skip confirmation prompt"
         )
+        _add_build_flags(dev_split, "splitting")
 
         dev_rename = dev_sub.add_parser(
             "rename", help="Rename a skill and update all references"
         )
         dev_rename.add_argument("old_id", help="Original skill ID")
         dev_rename.add_argument("new_id", help="New skill ID")
+        _add_build_flags(dev_rename, "renaming")
 
         dev_verify = dev_sub.add_parser(
             "verify", help="Verify or dispute a skill's evidence"
@@ -316,11 +320,7 @@ class DevCommand(Command):
             "--notes", help="Optional notes about the verification/dispute"
         )
         dev_verify.add_argument("--source", help="URL to the verification discussion or PR")
-        dev_verify.add_argument(
-            "--no-build",
-            action="store_true",
-            help="Skip rebuilding docs and graph assets after verification",
-        )
+        _add_build_flags(dev_verify, "verification")
 
         dev_verify_tier = dev_sub.add_parser(
             "verify-tier",
@@ -333,11 +333,7 @@ class DevCommand(Command):
         dev_calibrate = dev_sub.add_parser("calibrate", help="Update the level of a skill")
         dev_calibrate.add_argument("skill_id", help="Skill ID to calibrate")
         dev_calibrate.add_argument("level", help="New level (e.g. 3★)")
-        dev_calibrate.add_argument(
-            "--no-build",
-            action="store_true",
-            help="Skip rebuilding docs and graph assets after calibrating",
-        )
+        _add_build_flags(dev_calibrate, "calibrating")
 
         dev_calibrate_ev = dev_sub.add_parser(
             "calibrate-evidence-grades",
@@ -355,9 +351,7 @@ class DevCommand(Command):
             default="all",
             help="Limit scope to generic nodes, named .md files, or both (default: all)",
         )
-        dev_calibrate_ev.add_argument(
-            "--no-build", action="store_true", help="Skip rebuilding docs after backfill"
-        )
+        _add_build_flags(dev_calibrate_ev, "backfill")
         dev_calibrate_ev.add_argument(
             "--yes", "-y", action="store_true", help="Skip confirmation prompt"
         )
@@ -395,19 +389,11 @@ class DevCommand(Command):
         dev_add.add_argument(
             "--extra-fields", help="JSON string of additional schema fields"
         )
-        dev_add.add_argument(
-            "--no-build",
-            action="store_true",
-            help="Skip rebuilding docs and graph assets after adding",
-        )
+        _add_build_flags(dev_add, "adding")
 
         dev_rm = dev_sub.add_parser("rm", help="Remove a skill from the registry")
         dev_rm.add_argument("skill_id", help="Skill ID to remove")
-        dev_rm.add_argument(
-            "--no-build",
-            action="store_true",
-            help="Skip rebuilding docs and graph assets after removing",
-        )
+        _add_build_flags(dev_rm, "removing")
         dev_rm.add_argument(
             "--yes", "-y", "--y", action="store_true", help="Skip confirmation prompt"
         )
@@ -424,11 +410,7 @@ class DevCommand(Command):
             action="store_true",
             help="Overwrite existing prerequisites instead of appending",
         )
-        dev_link.add_argument(
-            "--no-build",
-            action="store_true",
-            help="Skip rebuilding docs and graph assets after linking",
-        )
+        _add_build_flags(dev_link, "linking")
 
         dev_reclassify = dev_sub.add_parser(
             "reclassify", help="Change the type of a generic skill"
@@ -440,11 +422,7 @@ class DevCommand(Command):
             help="New structural type: 'basic' (0 prerequisites) or 'fusion' "
                  "(>=1 prerequisite). (Yggdrasil II)",
         )
-        dev_reclassify.add_argument(
-            "--no-build",
-            action="store_true",
-            help="Skip rebuilding docs and graph assets after reclassifying",
-        )
+        _add_build_flags(dev_reclassify, "reclassifying")
 
         dev_update_named = dev_sub.add_parser(
             "update-named", help="Update frontmatter properties of a named skill"
@@ -486,11 +464,7 @@ class DevCommand(Command):
             choices=["true", "false"],
             help="Set the installable flag to true or false",
         )
-        dev_update_named.add_argument(
-            "--no-build",
-            action="store_true",
-            help="Skip rebuilding docs and graph assets after updating",
-        )
+        _add_build_flags(dev_update_named, "updating")
 
         dev_timeline = dev_sub.add_parser(
             "timeline",
@@ -525,11 +499,7 @@ class DevCommand(Command):
             "--timestamp",
             help="ISO 8601 timestamp for the event; defaults to now. Use for historical backfills.",
         )
-        dev_timeline.add_argument(
-            "--no-build",
-            action="store_true",
-            help="Skip rebuilding docs and graph assets after appending event",
-        )
+        _add_build_flags(dev_timeline, "appending event")
 
         dev_evidence = dev_sub.add_parser("evidence", help="Add evidence to a skill")
         dev_evidence.add_argument("skill_id", help="Skill ID to add evidence to")
@@ -672,11 +642,7 @@ class DevCommand(Command):
             metavar="YYYY-MM-DD",
             help="ISO date the source content first existed",
         )
-        dev_evidence.add_argument(
-            "--no-build",
-            action="store_true",
-            help="Skip rebuilding docs and graph assets after adding evidence",
-        )
+        _add_build_flags(dev_evidence, "adding evidence")
 
         dev_rm_evidence = dev_sub.add_parser(
             "rm-evidence",
@@ -693,11 +659,7 @@ class DevCommand(Command):
             "--source",
             help="Remove all evidence entries whose source URL matches this exactly",
         )
-        dev_rm_evidence.add_argument(
-            "--no-build",
-            action="store_true",
-            help="Skip rebuilding docs and graph assets after removing evidence",
-        )
+        _add_build_flags(dev_rm_evidence, "removing evidence")
         dev_rm_evidence.add_argument(
             "--yes", "-y", "--y", action="store_true", help="Skip confirmation prompt"
         )
@@ -794,11 +756,7 @@ class DevCommand(Command):
             help="Comma-separated named skill ids to record as suite members "
                  "(persists to registry/suites/<contributor>/<slug>.json).",
         )
-        dev_fuse.add_argument(
-            "--no-build",
-            action="store_true",
-            help="Skip rebuilding docs and graph assets after fusing.",
-        )
+        _add_build_flags(dev_fuse, "fusing")
 
         # The bundled `packages/mcp` prototype was deleted; there is no local
         # daemon to start/stop. The shipped server is the standalone npm
