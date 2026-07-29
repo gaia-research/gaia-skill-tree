@@ -1743,6 +1743,18 @@ def main(argv: list[str] | None = None) -> int:
             "time-window artifact, recomputes on UTC-day rollover; see #1108).",
             file=sys.stderr,
         )
+    # OG card drift is warn-only — SVG output from generateOgCards.py is
+    # platform-sensitive (font metrics, float precision differ between Windows
+    # and Linux), so a card committed on one OS will always diff on the other.
+    # The cards are decorative share images; structural registry correctness is
+    # enforced by the api/v1 and graph checks. Mirrors the okf/trending
+    # warn-only precedent.
+    if og_changed and args.check:
+        print(
+            "::warning::docs/og/ is stale (warn-only — decorative OG card artifact, "
+            "platform-sensitive SVG rendering; run generateOgCards.py locally to update).",
+            file=sys.stderr,
+        )
 
     changed = (
         assembly_changed
@@ -1763,7 +1775,7 @@ def main(argv: list[str] | None = None) -> int:
         or content_engine_changed
         or profiles_changed
         or badges_changed
-        or og_changed
+        # og_changed: intentionally omitted — see warn-only block above (platform-sensitive SVG).
         or tree_changed
         or ruflo_curation_changed
         or gexf_changed
