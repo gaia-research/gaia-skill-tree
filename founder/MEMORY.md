@@ -4,6 +4,32 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-29, Session 8D — EPIC PR #1355 two-gate approval + schema reconciliation landed: PR #1373 & #1374 merged to dev/gaia-curate-v2-impl, worker dry-runs verified 0 errors, pattern overfitting issue logged on research#131)
+
+### TLDR
+- **PR #1373 (`feat/intake-approval-orchestration`) & PR #1374 (`fix/intake-named-star-reconciliation`) MERGED to `dev/gaia-curate-v2-impl` (Epic PR #1355).**
+- **Two-Gate Intake Workflow fully online:** `.github/workflows/intake-approval.yml` enforces maintainer authorization (`admin`/`maintain`/`write`) and label transitions (`intake:topology-approved` → `intake:evidence-approved` → single draft promotion PR `review/meta/intake-<issue>`).
+- **Schema & Adapter Reconciled (PR #1374 + `9a88bd4e0`):**
+  - Star ranks (`2★`–`6★`) are non-authoritative at intake; `pushFromFile` and `skillBatch.schema.json` make `level` optional, defaulting to `"2★"` floor. Trust Magnitude (TM) appraisal derives higher ranks (`3★`+) downstream.
+  - `skill_name` property added matching upstream `SKILL.md` frontmatter `name:` (e.g. `Bhanunamikaze/seo`).
+  - `intakeAdapter.py` enhanced to extract contributor and `skill_name` automatically.
+- **Multi-Agent Pipeline Verification:** 2 parallel worker subagents ran `gaia dev prefill` → `intakeAdapter.py` → `gaia push --from-file --dry-run` on real sources (`eze-is/web-access` & `Bhanunamikaze/Agentic-SEO-Skill`), confirming 0 errors and zero star declarations.
+- **Proof-of-Work Comment posted to EPIC PR #1355.**
+- **Research Issue logged on `gaia-research/gaia-research` (#131):** Idea bank entry `docs/idea-bank/pattern-overfitting-codebase-noise.md` registered (Rank 16) with explicit context markers.
+
+### What changed this session
+| Layer | State |
+|---|---|
+| PR #1373 (Two-Gate Workflow) | ✅ Merged into `dev/gaia-curate-v2-impl` (`a4ef7471a`) |
+| PR #1374 (Schema & Star Defaults Reconciliation) | ✅ Merged into `dev/gaia-curate-v2-impl` (`6033959eb`) |
+| `intakeAdapter.py` Named Extraction | ✅ Enhanced & committed (`9a88bd4e0`) |
+| Issue Template (`new_skill_intake.yml`) | ✅ Updated with two-gate workflow & optional star level docs |
+| Worker Dry-Run Verification | ✅ Verified 0 errors across 2 real candidate pipelines |
+| Proof-of-work comment on PR #1355 | ✅ Posted |
+| Research Issue & Idea Bank (`gaia-research#131`) | ✅ Logged & pushed |
+
+---
+
 ## State Snapshot (2026-07-29, Session 8C — Arc I past the midpoint: 7 PRs merged, 7 issues closed; five agents killed by a session limit with all work preserved; concurrency capped at 1+2)
 
 ### TLDR
