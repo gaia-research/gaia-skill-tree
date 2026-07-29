@@ -51,20 +51,22 @@ summary.
 4. Present proposed calibrations. Do not calibrate without explicit operator
    approval. If approval is already recorded, run each approved calibration
    with `--no-build`.
-5. Regenerate once and validate once:
-
-   ```bash
-   GAIA_OPERATOR_OVERRIDE=1 gaia dev build
-   GAIA_OPERATOR_OVERRIDE=1 gaia dev validate
-   GAIA_OPERATOR_OVERRIDE=1 gaia validate --intake
-   git diff --check
-   ```
+5. **Hand off the branch-close to `/gaia-review-meta-close`.** Do not run the
+   build/validate/stage/PR steps here — that skill owns the single build, the
+   calibration+Origin gate, suite wiring via `gaia dev fuse` (so `suiteComponents`
+   survives the build), upstream-naming correction, the LF-renormalized artifact
+   allowlist (dropping CRLF churn and blocking leaks), the UTF-8-safe validate,
+   and the PR. Pass it the branch, the affected `contributor` handles (for badge/og
+   staging), the per-skill appraised TM/grade from step 3, and the intake issues
+   to `Resolves`. This skill stops at "evidence ingested + appraised."
 
 ## Output
 
 Report, for every row: CLI command, source verdict, Evidence Type, row grade,
 TM contribution, and duplicate/scope decision. Report, for every skill: final
-TM, Overall Trust Grade, current level, and any calibration proposal.
+TM, Overall Trust Grade, current level, and any calibration proposal. Then hand
+these facts to `/gaia-review-meta-close` for the gated close-out.
 
-Route suite creation only after components are ingested and appraised. Use
-`/gaia-fuse-full-suite` for that separate mutation sequence.
+Route suite creation only after components are ingested and appraised — the
+capstone/`suiteComponents` wiring happens inside `/gaia-review-meta-close`
+(`gaia dev fuse`), or via `/gaia-fuse-full-suite` for a standalone suite build.

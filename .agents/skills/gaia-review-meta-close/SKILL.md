@@ -29,6 +29,12 @@ After `/ev-pipeline` (or `/gaia-curate-chain`) has verified the evidence and an
 L4 reviewer approved the batch. This skill lands it; it does not discover or
 re-verify evidence.
 
+**Upstream handoff:** `/gaia-ingest-batch` hands off to this skill once evidence
+is ingested and appraised — it passes the branch, the affected `contributor`
+handles, the per-skill TM/grade, and the intake issues to `Resolves`. If you
+arrive here directly (nodes + evidence already in place), run from §3 onward;
+if the nodes/evidence do not yet exist, do §1–§3 first.
+
 ## Operating principle
 
 - **Programmatic by default.** Every registry mutation goes through a `gaia dev`
