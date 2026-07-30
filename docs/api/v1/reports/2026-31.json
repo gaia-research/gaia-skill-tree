@@ -1,0 +1,177 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportId": "2026-31",
+  "isoYear": 2026,
+  "isoWeek": 31,
+  "generatedAt": "2026-07-30T18:17:16Z",
+  "generator": "gaia-content-engine",
+  "generatorVersion": "7.1.35",
+  "salvageLayer": "L3",
+  "sections": {
+    "trending": {
+      "title": "Trending this week",
+      "entries": [
+        {
+          "id": "gsd-build/get-shit-done",
+          "name": "Get Shit Done",
+          "contributor": "gsd-build",
+          "level": "3★",
+          "trustMagnitude": 202.16,
+          "trustGrade": "A",
+          "trendingScore": 50.0,
+          "tmDelta": 0.0,
+          "isNew": false,
+          "url": "https://gaiaskilltree.com/named/#explorer/gsd-build/get-shit-done"
+        }
+      ]
+    },
+    "ascended": {
+      "title": "Recently ascended",
+      "entries": [
+        {
+          "id": "stanfordnlp/dspy",
+          "name": "DSPy",
+          "contributor": "stanfordnlp",
+          "level": "4★",
+          "previousLevel": "3★",
+          "trustMagnitude": 100.0,
+          "trustGrade": "A",
+          "ascendedAt": "2026-07-19T02:05:13Z",
+          "url": "https://gaiaskilltree.com/named/#explorer/stanfordnlp/dspy"
+        },
+        {
+          "id": "safishamsi/graphify",
+          "name": "Graphify",
+          "contributor": "safishamsi",
+          "level": "4★",
+          "previousLevel": "3★",
+          "trustMagnitude": 116.57,
+          "trustGrade": "A",
+          "ascendedAt": "2026-07-19T02:04:29Z",
+          "url": "https://gaiaskilltree.com/named/#explorer/safishamsi/graphify"
+        },
+        {
+          "id": "obra/writing-plans",
+          "name": "Writing Plans",
+          "contributor": "obra",
+          "level": "4★",
+          "previousLevel": "3★",
+          "trustMagnitude": 110.15,
+          "trustGrade": "A",
+          "ascendedAt": "2026-07-19T01:38:24Z",
+          "url": "https://gaiaskilltree.com/named/#explorer/obra/writing-plans"
+        },
+        {
+          "id": "obra/using-git-worktrees",
+          "name": "Using Git Worktrees",
+          "contributor": "obra",
+          "level": "4★",
+          "previousLevel": "3★",
+          "trustMagnitude": 117.65,
+          "trustGrade": "A",
+          "ascendedAt": "2026-07-19T01:38:18Z",
+          "url": "https://gaiaskilltree.com/named/#explorer/obra/using-git-worktrees"
+        },
+        {
+          "id": "firecrawl/firecrawl-skills",
+          "name": "Firecrawl Skills",
+          "contributor": "firecrawl",
+          "level": "4★",
+          "previousLevel": "2★",
+          "trustMagnitude": 223.52,
+          "trustGrade": "A",
+          "ascendedAt": "2026-07-13T06:22:38Z",
+          "url": "https://gaiaskilltree.com/named/#explorer/firecrawl/firecrawl-skills"
+        }
+      ]
+    },
+    "contested": {
+      "title": "Most contested spaces",
+      "entries": [
+        {
+          "genericSkillRef": "git-ship-done-pipeline",
+          "implementations": 2,
+          "topTM": 293.14,
+          "skills": [
+            {
+              "id": "addy-osmani/agent-skills",
+              "level": "5★",
+              "trustMagnitude": 293.14,
+              "trustGrade": "S",
+              "origin": true,
+              "url": "https://gaiaskilltree.com/named/#explorer/addy-osmani/agent-skills"
+            },
+            {
+              "id": "gsd-build/get-shit-done",
+              "level": "3★",
+              "trustMagnitude": 202.16,
+              "trustGrade": "A",
+              "origin": false,
+              "url": "https://gaiaskilltree.com/named/#explorer/gsd-build/get-shit-done"
+            }
+          ]
+        },
+        {
+          "genericSkillRef": "vertical-slice-planning",
+          "implementations": 3,
+          "topTM": 156.0,
+          "skills": [
+            {
+              "id": "garrytan/garrytan",
+              "level": "4★",
+              "trustMagnitude": 156.0,
+              "trustGrade": "A",
+              "origin": true,
+              "url": "https://gaiaskilltree.com/named/#explorer/garrytan/garrytan"
+            },
+            {
+              "id": "mattpocock/to-issues",
+              "level": "3★",
+              "trustMagnitude": 90.38,
+              "trustGrade": "B",
+              "origin": false,
+              "url": "https://gaiaskilltree.com/named/#explorer/mattpocock/to-issues"
+            },
+            {
+              "id": "addy-osmani/planning-and-task-breakdown",
+              "level": "3★",
+              "trustMagnitude": 53.14,
+              "trustGrade": "B",
+              "origin": false,
+              "url": "https://gaiaskilltree.com/named/#explorer/addy-osmani/planning-and-task-breakdown"
+            }
+          ]
+        },
+        {
+          "genericSkillRef": "web-scrape",
+          "implementations": 2,
+          "topTM": 133.54,
+          "skills": [
+            {
+              "id": "firecrawl/firecrawl-build-scrape",
+              "level": "4★",
+              "trustMagnitude": 133.54,
+              "trustGrade": "A",
+              "origin": true,
+              "url": "https://gaiaskilltree.com/named/#explorer/firecrawl/firecrawl-build-scrape"
+            },
+            {
+              "id": "garrytan/scrape",
+              "level": "2★",
+              "trustMagnitude": 36.0,
+              "trustGrade": "C",
+              "origin": false,
+              "url": "https://gaiaskilltree.com/named/#explorer/garrytan/scrape"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "urls": {
+    "canonical": "https://gaiaskilltree.com/reports/2026-31/",
+    "json": "https://gaiaskilltree.com/api/v1/reports/2026-31.json",
+    "previous": "https://gaiaskilltree.com/reports/2026-30/",
+    "archive": "https://gaiaskilltree.com/reports/"
+  }
+}
