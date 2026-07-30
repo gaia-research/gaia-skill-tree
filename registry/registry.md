@@ -9,7 +9,7 @@
 | · /adversarial-robustness-testing | Fusion | — | `/adversarial-robustness-testing` |
 | · [firecrawl](../docs/u/firecrawl/)/firecrawl-build-onboarding | Fusion | 3★ | `/agent-environment-setup` |
 | · /agent-eval | Fusion | — | `/agent-eval` |
-| · [disler](../docs/u/disler/)/agent-fusion | Fusion | 2★ | `/agent-fusion` |
+| · [disler](../docs/u/disler/)/agent-fusion | Fusion | 4★ | `/agent-fusion` |
 | · [mattpocock](../docs/u/mattpocock/)/handoff | Fusion | 3★ | `/agent-handoff` |
 | · ████████/agentdb-learning | Fusion | — | `/agent-memory-learning` |
 | · [ruvnet](../docs/u/ruvnet/)/agentdb | Fusion | 4★ | `/agent-memory-platform` |
@@ -104,7 +104,7 @@
 | · /knowledge-harvest | Fusion | — | `/knowledge-harvest` |
 | · [garrytan](../docs/u/garrytan/)/setup-gbrain | Fusion | 2★ | `/knowledge-management` |
 | · ████████/huggingface-papers | Fusion | — | `/literature-review` |
-| ○ [firecrawl](../docs/u/firecrawl/)/firecrawl-research-index | Basic | 2★ | `/literature-search` |
+| ○ [firecrawl](../docs/u/firecrawl/)/firecrawl-research-index | Basic | 3★ | `/literature-search` |
 | ○ /logical-inference | Basic | — | `/logical-inference` |
 | ○ /math-reason | Basic | — | `/math-reason` |
 | · /mathematical-animation | Fusion | — | `/mathematical-animation` |

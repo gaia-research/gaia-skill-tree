@@ -275,14 +275,14 @@
     {
       "id": "gsd-build/get-shit-done",
       "name": "Get Shit Done",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 202.16,
       "overallTrustGrade": "A",
       "contributor": "gsd-build",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "rankWord": "Extra",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/gsd-build/get-shit-done.json"
       },
@@ -389,7 +389,7 @@
       "id": "firecrawl/firecrawl-build-scrape",
       "name": "Firecrawl Scrape",
       "level": "4★",
-      "trustMagnitude": 133.54,
+      "trustMagnitude": 135.6,
       "overallTrustGrade": "A",
       "contributor": "firecrawl",
       "type": "fusion",
@@ -420,14 +420,14 @@
     {
       "id": "disler/agent-fusion",
       "name": "Agent Fusion",
-      "level": "2★",
+      "level": "4★",
       "trustMagnitude": 127.54,
       "overallTrustGrade": "C",
       "contributor": "disler",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Named",
-      "medallion": "◇",
+      "rankWord": "Extra",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/disler/agent-fusion.json"
       },
@@ -585,7 +585,7 @@
       "id": "firecrawl/firecrawl-build-search",
       "name": "Firecrawl Search",
       "level": "4★",
-      "trustMagnitude": 107.14,
+      "trustMagnitude": 109.2,
       "overallTrustGrade": "A",
       "contributor": "firecrawl",
       "type": "basic",
@@ -907,6 +907,54 @@
       "genericSkillRef": "write-report"
     },
     {
+      "id": "firecrawl/firecrawl-build-interact",
+      "name": "Firecrawl Interact",
+      "level": "3★",
+      "trustMagnitude": 75.58,
+      "overallTrustGrade": "B",
+      "contributor": "firecrawl",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-interact.json"
+      },
+      "genericSkillRef": "browser-control"
+    },
+    {
+      "id": "firecrawl/firecrawl-build-onboarding",
+      "name": "Firecrawl Onboarding",
+      "level": "3★",
+      "trustMagnitude": 75.58,
+      "overallTrustGrade": "B",
+      "contributor": "firecrawl",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
+      },
+      "genericSkillRef": "agent-environment-setup"
+    },
+    {
+      "id": "firecrawl/firecrawl-research-index",
+      "name": "Firecrawl Research Index",
+      "level": "3★",
+      "trustMagnitude": 75.58,
+      "overallTrustGrade": "B",
+      "contributor": "firecrawl",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
+      },
+      "genericSkillRef": "literature-search"
+    },
+    {
       "id": "browser-use/browser-harness",
       "name": "Browser Harness",
       "level": "3★",
@@ -921,54 +969,6 @@
         "self": "/api/v1/skills/browser-use/browser-harness.json"
       },
       "genericSkillRef": "browser-control"
-    },
-    {
-      "id": "firecrawl/firecrawl-build-interact",
-      "name": "Firecrawl Interact",
-      "level": "2★",
-      "trustMagnitude": 73.52,
-      "overallTrustGrade": "B",
-      "contributor": "firecrawl",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-build-interact.json"
-      },
-      "genericSkillRef": "browser-control"
-    },
-    {
-      "id": "firecrawl/firecrawl-build-onboarding",
-      "name": "Firecrawl Onboarding",
-      "level": "2★",
-      "trustMagnitude": 73.52,
-      "overallTrustGrade": "B",
-      "contributor": "firecrawl",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
-      },
-      "genericSkillRef": "agent-environment-setup"
-    },
-    {
-      "id": "firecrawl/firecrawl-research-index",
-      "name": "Firecrawl Research Index",
-      "level": "2★",
-      "trustMagnitude": 73.52,
-      "overallTrustGrade": "B",
-      "contributor": "firecrawl",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
-      },
-      "genericSkillRef": "literature-search"
     },
     {
       "id": "garrytan/careful",

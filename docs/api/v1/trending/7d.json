@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-07-30T22:14:41Z",
+  "generatedAt": "2026-07-30T22:38:28Z",
   "firstRun": false,
   "skills": [
     {
@@ -34,7 +34,7 @@
     {
       "id": "disler/agent-fusion",
       "name": "Agent Fusion",
-      "level": "2★",
+      "level": "4★",
       "contributor": "disler",
       "trustMagnitude": 127.54,
       "overallTrustGrade": "C",
@@ -43,6 +43,62 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/disler/agent-fusion.json"
+      }
+    },
+    {
+      "id": "firecrawl/firecrawl-build-interact",
+      "name": "Firecrawl Interact",
+      "level": "3★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 75.58,
+      "overallTrustGrade": "B",
+      "trendingScore": 62.62,
+      "tmDelta": 2.06,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-interact.json"
+      }
+    },
+    {
+      "id": "firecrawl/firecrawl-build-onboarding",
+      "name": "Firecrawl Onboarding",
+      "level": "3★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 75.58,
+      "overallTrustGrade": "B",
+      "trendingScore": 62.62,
+      "tmDelta": 2.06,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
+      }
+    },
+    {
+      "id": "firecrawl/firecrawl-research-index",
+      "name": "Firecrawl Research Index",
+      "level": "3★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 75.58,
+      "overallTrustGrade": "B",
+      "trendingScore": 62.62,
+      "tmDelta": 2.06,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
+      }
+    },
+    {
+      "id": "gsd-build/get-shit-done",
+      "name": "Get Shit Done",
+      "level": "4★",
+      "contributor": "gsd-build",
+      "trustMagnitude": 202.16,
+      "overallTrustGrade": "A",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/get-shit-done.json"
       }
     },
     {
@@ -156,9 +212,37 @@
       "_links": {
         "self": "/api/v1/skills/disler/plan-synthesis.json"
       }
+    },
+    {
+      "id": "firecrawl/firecrawl-build-search",
+      "name": "Firecrawl Search",
+      "level": "4★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 109.2,
+      "overallTrustGrade": "A",
+      "trendingScore": 12.44,
+      "tmDelta": 2.06,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-search.json"
+      }
+    },
+    {
+      "id": "firecrawl/firecrawl-build-scrape",
+      "name": "Firecrawl Scrape",
+      "level": "4★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 135.6,
+      "overallTrustGrade": "A",
+      "trendingScore": 12.37,
+      "tmDelta": 2.06,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
+      }
     }
   ],
-  "totalTrending": 11,
+  "totalTrending": 17,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }

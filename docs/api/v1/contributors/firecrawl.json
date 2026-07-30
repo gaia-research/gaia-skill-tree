@@ -28,7 +28,7 @@
       "id": "firecrawl/firecrawl-build-scrape",
       "name": "Firecrawl Scrape",
       "level": "4★",
-      "trustMagnitude": 133.54,
+      "trustMagnitude": 135.6,
       "overallTrustGrade": "A",
       "contributor": "firecrawl",
       "type": "fusion",
@@ -44,7 +44,7 @@
       "id": "firecrawl/firecrawl-build-search",
       "name": "Firecrawl Search",
       "level": "4★",
-      "trustMagnitude": 107.14,
+      "trustMagnitude": 109.2,
       "overallTrustGrade": "A",
       "contributor": "firecrawl",
       "type": "basic",
@@ -59,13 +59,13 @@
     {
       "id": "firecrawl/firecrawl-build-interact",
       "name": "Firecrawl Interact",
-      "level": "2★",
-      "trustMagnitude": 73.52,
+      "level": "3★",
+      "trustMagnitude": 75.58,
       "overallTrustGrade": "B",
       "contributor": "firecrawl",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Named",
+      "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-interact.json"
@@ -75,13 +75,13 @@
     {
       "id": "firecrawl/firecrawl-build-onboarding",
       "name": "Firecrawl Onboarding",
-      "level": "2★",
-      "trustMagnitude": 73.52,
+      "level": "3★",
+      "trustMagnitude": 75.58,
       "overallTrustGrade": "B",
       "contributor": "firecrawl",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Named",
+      "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
@@ -91,13 +91,13 @@
     {
       "id": "firecrawl/firecrawl-research-index",
       "name": "Firecrawl Research Index",
-      "level": "2★",
-      "trustMagnitude": 73.52,
+      "level": "3★",
+      "trustMagnitude": 75.58,
       "overallTrustGrade": "B",
       "contributor": "firecrawl",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Named",
+      "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
@@ -111,7 +111,7 @@
     "level": "4★",
     "trustMagnitude": 223.52
   },
-  "prestigeScore": 684.76,
+  "prestigeScore": 695.06,
   "gradeDistribution": {
     "A": 3,
     "B": 3
