@@ -8,7 +8,7 @@
 >
 > **🔄 SUPERSEDED IN PART — see the Post-v7.1.1 Reconciliation section immediately below.** EPIC #1002 (v7.0.0) and follow-ups through v7.1.1 have now merged. A code-level verification pass (2026-07-27) checked every drafted close against live `main`. Where the reconciliation and the pre-merge dispositions below disagree, **the reconciliation wins.** The sections below are retained as the original plan of record.
 
-> **🟢 LIVE UPDATE — issue-backlog eradication sprint (2026-07-30).** The active integration branch is `dev/issue-backlog`, tracked by draft PR #1395. One feature PR lands per issue against `dev/issue-backlog`; final merge to `main` is human-gated. EPIC #1336-owned issues are skipped unless explicitly re-admitted. Current exception: #1147 was re-admitted as a narrow security patch only and merged via PR #1394 (`7fcabc230`). HG-0 operating rules landed in `founder/CLAUDE.md` (`c3b227606`) and the HG-0 memory snapshot landed in `founder/MEMORY.md` (`fc4ccbed1`). HG-1 progress so far: #1253 merged via PR #1396 (`5fc46aafd`); #999, #991, and #727 were closed verified-done; #1060 is deferred until after backlog eradication and other active sprints; #998 was closed by founder routing decision as **not resolved through backlog**; the attempted cleanup branch was abandoned and deleted. HG-2 child PRs #1397 (#1152 fuse timeline regression/docs) and #1398 (#636 Xcode scan dirs) both merged into `dev/issue-backlog` (`f6a67249f`, `908987bc3`). CLI visual/output changes now require a human gate with before/after terminal output; #332/#139-style visual work is not normal unattended CLI plumbing. #1158 merged via PR #1400 (`7a71d2485`), adding bounded human-readable skill layout discovery.
+> **🟢 LIVE UPDATE — issue-backlog eradication sprint (2026-07-30).** The active integration branch is `dev/issue-backlog`, tracked by draft PR #1395. One feature PR lands per issue against `dev/issue-backlog`; final merge to `main` is human-gated. EPIC #1336-owned issues are skipped unless explicitly re-admitted. Current exception: #1147 was re-admitted as a narrow security patch only and merged via PR #1394 (`7fcabc230`). HG-0 operating rules landed in `founder/CLAUDE.md` (`c3b227606`) and the HG-0 memory snapshot landed in `founder/MEMORY.md` (`fc4ccbed1`). HG-1 progress so far: #1253 merged via PR #1396 (`5fc46aafd`); #999, #991, and #727 were closed verified-done; #1060 is deferred until after backlog eradication and other active sprints; #998 was closed by founder routing decision as **not resolved through backlog**; the attempted cleanup branch was abandoned and deleted. HG-2 child PRs #1397 (#1152 fuse timeline regression/docs), #1398 (#636 Xcode scan dirs), and #1400 (#1158 human-readable scan layouts) merged into `dev/issue-backlog` (`f6a67249f`, `908987bc3`, `7a71d2485`). CLI visual/output changes now require a human gate with before/after terminal output; #332/#139-style visual work is not normal unattended CLI plumbing. #1401 (#1028 shared registry helper package) is **green but held indefinitely as draft** until Marcus says otherwise. Lane B was rescouted with comments/tree evidence: #1148 is still not implemented and remains next, but close/duplicate decisions for #752/#741/#980 are intentionally left open.
 
 ---
 
@@ -75,6 +75,15 @@ The CLI dead-type cluster (#1220–1231, #1264) fared far better: **8 of 11 veri
 - **News automation #1265 ⇄ #1308:** #1265 is the radar #1308 would auto-ingest/auto-close.
 - **Design/perf #1268 ⇄ #1326:** both touch frontend/badges surface.
 - **Discovery adjacency #1308 ⇄ #1309:** shared trending-discovery surface.
+
+**LIVE Lane B rescout (2026-07-30, comments + tree evidence):**
+- #1148 remains **OPEN / still needed**. `evidence/scripts/generate_source_dump.py` still partitions by rank-tier (`tier_*.md`); handover exists but implementation has not landed. Next action: plan/implement coexistence mode only (add type partitions, keep tier outputs temporarily, no generated dumps committed without HG).
+- #1137 remains **OPEN / blocked**. Comments invalidate the old `context-compression` mapping; maintainer must choose a better generic before intake.
+- #1117 remains **OPEN / not in tree**. Hold until #1148 and a fresh L4 curation pass.
+- #752 appears **resolved in tree** via `registry/suites/firecrawl/firecrawl.json` + `registry/named/firecrawl/*`, but closure decision is left open.
+- #741 appears **resolved in tree** via `registry/named/firecrawl/firecrawl-research-index.md` and Firecrawl curation report, but closure decision is left open.
+- #980 appears duplicate/superseded by `token-observability`, but closure decision is left open.
+- #923/#922 remain open as independent evidence requests even though suites exist; #813 remains partially done/partially outstanding.
 
 ### 6. gh CLOSES — EXECUTED 2026-07-27 (founder-approved: "verified-done only")
 
@@ -177,7 +186,7 @@ Legend: **Eff** = effort (XS/S/M/L/XL). **Br** = suggested branch prefix.
 | 16 | #977 | Propose generic: prompt caching / KV-cache reuse | P1 | M | curation | stage-as-PR | `review/meta/` | Generic node created; Anthropic/OpenAI/benchmark evidence; floor met. |
 | 17 | #978 | Propose generic: agent checkpoint & resume | P1 | M | curation | stage-as-PR | `review/meta/` | Generic node created; LangGraph/LangChain evidence; floor met. |
 | 18 | #1184 | Context-aware chat boxes for Milim & Gaia companion | P2 | S | frontend | stage-as-PR | `design/` | Companion shell done (#1183); add contextual chat boxes — **assets ready**; per-page guidance renders. |
-| 19 | #1028 | Extract scripts/lib into shared installable package | P2 | M | cli | stage-as-PR | `cli/` | `packages/gaia-registry-lib` created; scripts/lib + src/gaia_cli import from it; dup eliminated. |
+| 19 | #1028 | Extract scripts/lib into shared installable package | P2 | M | cli | **PR #1401 OPEN — HELD DRAFT** | `dev/` | Shared package implemented and CI green, but Marcus ordered indefinite draft hold due possible EPIC overlap. Do not merge until explicitly released. |
 | 20 | #1154 | cli: add `gaia dev rename-named <old> <new>` | P2 | M | cli | stage-as-PR | `cli/` | Command works end-to-end with file moves + id-field updates. |
 | 21 | #1158 | cli: `gaia scan` for nonstandard SKILL.md layouts | P2 | M | cli | **DONE 2026-07-30 via PR #1400 / `7a71d2485`** | `cli/` | scan auto-discovers bounded human-readable roots (`skills/`, `agent-skills/`, `docs/skills/`, `my-skills/`) with strict `SKILL.md`/`skill.md` detection; tests added. |
 | 22 | #332 | [CLI] Centralize design system + formatting tokens | P3 | M | cli | stage-as-PR — **CLI visual HG required** | `cli/` | `src/gaia_cli/theme.py` created; all renderers import from it; no duplication; before/after terminal output required. |

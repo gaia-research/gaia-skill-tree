@@ -4,6 +4,67 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-30, close-of-day - Lane B rescout complete, decisions intentionally open)
+
+### TLDR
+- **Paused for the day per founder request.** `dev/issue-backlog` remains the integration branch and PR #1395 remains draft/open.
+- **#1401 / #1028 is green but held indefinitely as draft** until Marcus explicitly says otherwise. Do not merge it even though reviewer PASS + CI green.
+- **Lane B was rescouted with issue comments + tree evidence.** Not all intakes are closed: #1137 and #1117 remain open/not in tree; #752 and #741 appear resolved in tree; #980 appears duplicate/superseded; decisions remain open.
+- **#1148 remains the likely next Lane B implementation target.** It is still not implemented: evidence source dump generation still partitions by rank-tier files, not evidence type.
+- **No more merges before the next human gate.** CLI visual-output work (#139/#332) remains human-gated with before/after terminal evidence.
+
+### What changed since prior snapshot
+
+| Layer | State |
+|---|---|
+| #1158 | ✅ Merged via #1400 (`7a71d2485`) before this snapshot; tracker updated |
+| #1028 / #1401 | ⏸️ Implemented on draft PR; reviewer PASS; CI green; held indefinitely as draft per Marcus |
+| Lane B | 🔎 Rescouted with comments + current tree evidence; decisions kept open |
+| Tracker | ✅ `founder/BACKLOG_ERADICATION_TRACKER.md` updated with #1401 hold + Lane B rescout |
+| Integration PR | ⏸️ #1395 remains draft/open; human gate required before main |
+
+### Branches / PRs at close
+
+| Branch / PR | State | Notes |
+|---|---|---|
+| `dev/issue-backlog` | Active integration branch | Contains staged backlog child merges + founder tracker/memory updates |
+| PR #1395 | Draft/open | Integration PR to `main`; do not merge without human gate |
+| PR #1401 | Draft/open, CI green | `dev/1028-shared-registry-lib` to `dev/issue-backlog`; **hold indefinitely** |
+| PR #1400 | Merged | #1158 human-readable scan layouts |
+| PRs #1394/#1396/#1398/#1397 | Merged | #1147/#1253/#636/#1152 staged in integration |
+
+### Lane B rescout verdicts
+
+| Issue | Verdict |
+|---|---|
+| #1148 | Still needed; source dump still writes `tier_*.md`; next implementation candidate in coexistence mode |
+| #1137 | Open/not in tree; comments say previous generic mapping invalid; needs maintainer generic choice |
+| #1117 | Open/not in tree; needs fresh curation after #1148 |
+| #752 | Firecrawl suite appears in tree; closure decision left open |
+| #741 | Firecrawl benchmark evidence appears in tree; closure decision left open |
+| #980 | Likely duplicate/superseded by `token-observability`; closure decision left open |
+| #923/#922 | Keep open as independent evidence requests even though suites exist |
+| #813 | Partially done/partially outstanding; keep open |
+
+### Routing - next session
+
+1. Re-load `/gaia-orchestrator`, check branch + PR #1395/#1401 state.
+2. Do **not** merge #1401 unless Marcus explicitly releases it from draft hold.
+3. If continuing Lane B, start with **#1148 planning/implementation** under coexistence constraints: add type partitions, keep tier outputs temporarily, no generated evidence dumps committed without HG.
+4. Leave #752/#741/#980 closure decisions open until Marcus explicitly approves bookkeeping closes.
+5. Avoid #139/#332 until a CLI visual Human Gate batch is prepared.
+
+### Hazards / lessons preserved
+
+- Open issue state alone is not enough; comments + tree evidence changed the Lane B picture.
+- Do not close bookkeeping candidates automatically; Marcus asked to keep decisions open.
+- Body/comment text with backticks should use body files to avoid shell substitution.
+- For git pushes, use normal `git push`; avoid `GIT_TERMINAL_PROMPT=0` because it caused credential popups.
+
+### Token cost (session to close)
+
+- Pi cost (`PYTHONUTF8=1`) at close: main session **~$20.81**, subagents **~$30.45**, total **~$51.26**.
+
 ## State Snapshot (2026-07-30, HG-2 scanner checkpoint — #1158 merged)
 
 ### TLDR
