@@ -4,6 +4,95 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-30, Session 8H — every open decision ruled, four ratifications landed on main, two PRs merged to integration; the floor definition changed what the criteria MEAN)
+
+### TLDR
+- **All three decisions from 8G are closed**, plus two more that emerged mid-session. Recorded as **P6, P7, P8** in `gaia-research/founder/RATIFICATION.md` and **merged to `gaia-research/main`** (PR #134, merge commit `6b8db3d`).
+- **The big one is P8.** `floor` = **absolute zero**, a ruler, ours only, *not a product concept*. `product-floor` = **"off"** — whatever the harness can actually be LAUNCHED at, nearest to zero. Founder's words: **the goal of the test is to find where the nearest zero IS, not to ratify whatever we feel like is zero.**
+- **P8 made the product-floor leak a DEFECT BY DEFINITION**, not a founder call — a nearer state is measurable, so the current composition is disqualified on its face. It self-answered a question that had been open for two sessions.
+- **Two PRs merged into `integration/arc-i-lane-a`** (#19, #20). Tip **`ffb59ce`**, **209 tests passing**, typecheck clean, orchestrator-run on the merged tip.
+- **#1258 inverted**: the ticket as written was already done. The real violation is a different, never-flagged string. PR **#1399** open.
+- **A wrong orchestrator report was corrected**: Program 7 is NOT unstarted — it is essentially complete. Arc I = Program 1's KCs + #1258.
+
+### Founder rulings this session
+
+| # | Ruling |
+|---|---|
+| **P6** | `curated` is a **personal-profile posture, not a measured arm** — clean base + a hand-picked fraction of the user's OWN skills, onboardable, personalizable, optionally sourced via gaia mcp, saved as a profile. Because it is personalized it is **not measured**. Settles P1's ambiguity: "the user's own skills first" means **explicit selection** via `--skill`, NOT ambient project scope. Marked **NOT LOCKED**. |
+| **P7** | `floor` / `product-floor` / `clean-room` are equivalent **within error margin** (+515 tok on ~20k ≈ 2.6%). Scoped to vocabulary; **B2 untouched**. |
+| **P8** | Two floors are **two KINDS**. `floor` = absolute zero (ruler, internal/benchmark only, **never product vocabulary, never a row, never a user choice**). `product-floor` = **"off"**, product-line vocabulary, the lowest point a user can actually launch at. **"Off" is a MEASURED, PER-HARNESS quantity**, not a fixed composition. Narrows P7. |
+| **KC4** | Stands as written. Composition moves to **empty `--setting-sources`** — chosen over `local` deliberately, because a clean `local` listing on one machine may only mean that machine had no local-scope skills. **Empty value ≠ omitting the flag.** |
+| **KC8/KC9** | Restate to match P6 — the measured arms are **clean room / door / native**; curated is the product moment, not a measurement arm. |
+| **KC3** | **Closed. Cite the #6/F7 record; do not reopen the baseline question.** |
+| **R4 / codex** | **Deferred** — codex unavailable. Land the comment/README/test corrections; **hold the `execSupport` flip; author no guard.** Codex is not on the Arc I gate. |
+| **#1258** | Fix-forward only · fix `CONTEXT.md`'s contradiction · **chase and eradicate** the standalone capitalized "Registry" · npm metadata **deferred, not enough info**. |
+| **Lexicon direction (CORRECTION)** | `registry` alone is fine as a common noun. **Any `Gaia`+`registry` construction is banned, in any capitalization.** This REVERSED the orchestrator's stated assumption mid-flight and was relayed to the running agent. |
+| **Merges** | **No gaia-skill-tree merges — keep them all open.** gaia-research #134 to main approved. Integration merges after #1258 lands. |
+| **Superadmin** | On for small fixes. |
+
+### The measurement that drove the session
+
+Reading PR #19's *neighbouring* compositions surfaced the same bug one posture over. Orchestrator-run, **2/2 byte-identical, claude 2.1.220**, hashes unchanged before/after, nothing deleted:
+
+```
+product-floor argv, project marker planted : skills = ["pf-project-marker","doctor"]
+product-floor argv, clean project dir      : skills = ["doctor"]
+floor argv (adds --disable-slash-commands) : skills = []
+product-floor argv + --setting-sources ''  : skills = ["doctor"]   <- same one-word fix
+```
+
+**Three findings.** (1) The benchmark floor is **sound** — genuinely `[]`, so B2's placebo is safe. (2) `product-floor` is a **measured arm whose composition is cwd-dependent**. (3) Two floors exist for a **mechanical** reason, not a design preference: `--disable-slash-commands` is simultaneously what empties the listing and what removes the door (F6), so **"zero skills plus a door" is not a state the harness can produce.**
+
+### What changed
+
+| Layer | State |
+|---|---|
+| gaia-research **#134** — N10 + P6 + P7 + P8 | ✅ **MERGED to main** `6b8db3d`, verified two-parent merge commit (that repo forbids squash) |
+| skill-heaven **#19** — KC4 clean room + A2 corrections | ✅ Merged to integration `82bf288` |
+| skill-heaven **#20** — A3 + A5a/A5b/A5c + founder copy | ✅ Merged to integration `ffb59ce` |
+| `integration/arc-i-lane-a` | ✅ Tip **`ffb59ce`**, **209 passing**, typecheck clean. No open PRs left in skill-heaven |
+| gaia-skill-tree **#1399** — #1258 sweep | ✅ Open, held by instruction |
+| **A1 (KC5 re-run)** · **KC8** · **KC9** | ❌ **NOT STARTED** |
+
+### #1258 — the ticket inverted
+
+**As written it was already done.** Every citation in its body had been fixed by earlier PRs; its one required-work item exists at `CONTEXT.md:459`. **The real violation is a different string — `Gaia Skill Registry`** — 238 occurrences, **192 collapsing into ONE generator fix**. Orchestrator-verified counts.
+
+**Two LIVE regression sources, now fixed:** `scripts/add_post.py` baked the banned string into every new meta post (newest published report carried it), and `contentEngine/templates/archive.html.j2` still said `Gaia Registry` while its live output said `Gaia Skill Tree` — **the next content-engine run would have reverted the live title back to the banned string.**
+
+**A real gate gap was found and closed:** `Gaia Skill Registry` (three words) was slipping past the two-word `Gaia Registry` term because the gate matches literal adjacent words. Both are now case-insensitive.
+
+**Deliberately NOT done — one class remains:** 5 skill descriptions in `registry/named/mbtiongson1/*.md` propagate into `docs/graph/*`, `docs/api/v1/*`, `docs/okf/**`. That is a **registry mutation** (Programmatic-First, meta-guard, Guard E Class S, `review/meta/` branch), not a copy sweep. It needs its own PR.
+
+### Corrections to the record
+
+- **Program 7 is NOT unstarted.** The orchestrator reported it was, having searched `gaia-skill-tree` for `docs/ecosystem/`. #1339 ruled the page **canonical on Gaia Research with a pointer from the Tree** — it landed as gaia-research #130 + #1371. #1130/#1328/#1339/#1341 all closed; only #1258 remained. **Arc I = Program 1's KCs + #1258.**
+- **B1 is not what the orchestrator said it was.** B1 is *"doses are priced separately"* (standing / invocation / harness), NOT "the two floors are separate arms." That discipline comes from **V5-5 and B2**. B2 is an **INVARIANT** requiring the baseline be a *"same-harness **no-skill** run"* — and only the doorless floor measures `[]`, which is why P7 could not make the floors interchangeable as arms.
+- **Spend figure corrected.** A mid-session message said "~735k measured across four agents." That was wrong — the fourth agent died and reported no usage. **The measured total is 586,889 across three agents.**
+
+### Lessons / hazards preserved
+
+- **`isolation: "worktree"` gives a worktree of the CURRENT repo, not the target repo.** Both skill-heaven workers received a `gaia-skill-tree` worktree and had to build their own. **Two for two — stop passing that flag for cross-repo dispatches.**
+- **A dead agent is not lost work.** The #1258 agent hit an **account-level session limit** (not a task failure, so re-dispatch would die identically) and had **10 commits already pushed** on the correct branch. It died before opening the PR. Always check the worktree before assuming.
+- **`scope` in the lexicon is an ENFORCEMENT-PATH narrowing mechanism** — which file paths the gate greps — **not an audience tag.** The orchestrator nearly encoded P8's audience split with it.
+- **Tests can fail for the right reason.** Two posture tests used `product-floor` as the *vehicle* to exercise the scope-keyed path; a new posture branch short-circuited them. **Repoint the vehicle, never weaken the assertion.**
+- **Green individually ≠ green together.** #19 and #20 were each green; the orchestrator trial-merged and ran the **combined** suite before merging.
+- `set -- $spec` in a bash loop breaks `gh` calls. Recurred this session. Use explicit loops.
+
+### Open questions for the next orchestrator
+
+1. **`product-floor`'s composition** — still `--setting-sources project`. Under P8 this is a **defect**, and the fix re-derives F7. Also: **every probe is 2.1.220, F7 was taken on 2.1.216.**
+2. **`LEVEL_ALIASES: off → floor`** — points the product word at the internal instrument, and at the one posture the door refuses to launch. Should be `off → product-floor`.
+3. **Two harness cells asserted, never probed** — cursor entirely, and codex-as-a-floor. Under P8 an unprobed harness **has no "off"**. `compileCodex` claimed `$CODEX_HOME` yields an empty surface; the probe found **74 skills**.
+4. **The `registry/named/` description class** from #1258 — needs a `review/meta/` PR.
+5. **`CLAUDE.md`'s "lexicon serves the work" rule lives only in `gaia-skill-tree`** — not in `skill-heaven` or `gaia-research`, which are where the lexicon actually is.
+
+### Token cost (this session)
+
+`2026-07-30 Opus 5 — Session 8H. Measured subagent tokens: 586,889 across three reporting agents (KC4 worker 166,700 · A3/A5 worker 271,955 · #1258 scout 148,234). A fourth agent (#1258 sweep) died on an account session limit and reported NO usage — the true total is higher and is not estimated. Orchestrator inline + superadmin edits unmeasured.`
+
+---
+
 ## State Snapshot (2026-07-29, Session 8G — five PRs merged, four KCs landed on an integration branch, and KC4 measured FAIL: curated residual is not zero, and the cause turned out to be one word in the composition)
 
 ### TLDR
