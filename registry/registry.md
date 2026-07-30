@@ -1,4 +1,4 @@
-# Gaia Skill Registry
+# Gaia Skill Tree registry
 
 *Generic references are rank-less taxonomy. The Top ★ column shows the highest star among their named implementations (— = none yet).*
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Gaia Skill Registry — Hall Plate (OG share card) Generator.
+"""Gaia Skill Tree — Hall Plate (OG share card) Generator.
 
 For each named skill, generates a Hall Plate at:
   docs/og/{handle}/{skillId}.svg   — SVG plate (always generated)
