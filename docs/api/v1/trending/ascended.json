@@ -1,6 +1,19 @@
 {
-  "generatedAt": "2026-07-30T04:41:42Z",
+  "generatedAt": "2026-07-30T08:51:15Z",
   "skills": [
+    {
+      "id": "mvanhorn/last30days",
+      "name": "Last 30 Days Web Research",
+      "level": "4★",
+      "contributor": "mvanhorn",
+      "trustMagnitude": 127.85,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-07-30T06:13:29Z",
+      "_links": {
+        "self": "/api/v1/skills/mvanhorn/last30days.json"
+      },
+      "previousLevel": "3★"
+    },
     {
       "id": "vercel-labs/react-best-practices",
       "name": "React Best Practices",

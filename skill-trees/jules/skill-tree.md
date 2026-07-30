@@ -314,6 +314,24 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
 ══════════════════════════════════════════════════════════════════════
 
+  · ◉ mvanhorn/last30days  [4★]
+    ├─ ✓ · /ghostwrite
+    │  ├─ · · /research
+    │  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]
+    │  │  ├─ · ○ /summarize
+    │  │  └─ · ○ /cite-sources
+    │  ├─ · ○ garrytan/retro  [3★]
+    │  └─ · ○ /audience-model
+    ├─ ✓ · /knowledge-harvest
+    │  ├─ · · firecrawl/firecrawl-build-scrape  [4★]
+    │  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]  (↑ see above)
+    │  │  ├─ · ○ /parse-html
+    │  │  └─ · ○ /extract-entities
+    │  ├─ · ○ /extract-entities  (↑ see above)
+    │  └─ · ○ /embed-text
+    ├─ · · /research  (↑ see above)
+    ├─ · · firecrawl/firecrawl-build-scrape  [4★]  (↑ see above)
+    └─ · ○ firecrawl/firecrawl-build-search  [4★]  (↑ see above)
   · ◉ openai/few-shot-learning  [4★]
   · ◉ safishamsi/graphify  [4★]
     ├─ · ○ /extract-entities
@@ -340,10 +358,6 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     ├─ · ○ /code-execution
     └─ · ○ /tool-use
   · ◉ nextlevelbuilder/ui-ux-pro-max  [4★]
-  · ◉ firecrawl/firecrawl-build-scrape  [4★]
-    ├─ · ○ firecrawl/firecrawl-build-search  [4★]
-    ├─ · ○ /parse-html
-    └─ · ○ /extract-entities
 
 ══════════════════════════════════════════════════════════════════════
 Basics — basic-tier skills with no prerequisites, listed vertically (not as a single combined line).  ([N★] = top named-variant stars; blank = no named implementation.)
