@@ -289,7 +289,7 @@ const discoveryResults = await pipeline(
     const queries = buildSearchQueries(skill)
     const isSuite = !!skill.isSuite
 
-    const prompt = `You are running Phase 0 evidence discovery for the Gaia skill registry.
+    const prompt = `You are running Phase 0 evidence discovery for the Gaia Skill Tree registry.
 ${PYTHON_PREAMBLE}
 
 Skill: ${skill.namedSlug} (generic ID: ${skill.id})
