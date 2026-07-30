@@ -174,8 +174,8 @@ jobs:
           fi
 
           if [ "${{ needs.classify.outputs.is_intake }}" == "true" ]; then
-            gh label create "draft-skills" --color "5319e7" --force 2>/dev/null || true
-            gh pr edit ${{ github.event.pull_request.number }} --add-label "draft-skills"
+            gh label create "intake" --color "5319e7" --force 2>/dev/null || true
+            gh pr edit ${{ github.event.pull_request.number }} --add-label "intake"
           fi
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

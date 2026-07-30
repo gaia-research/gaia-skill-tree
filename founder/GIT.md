@@ -44,7 +44,7 @@ Every issue must carry these four fields, applied in this order:
    | `bug` | `bot-proposal` | `skip-scope-check` |
    | `enhancement` | `needs-review` | `auto-merge` |
    | | `needs-triage` | `dependencies` |
-   | | `draft-skills` | |
+   | | `intake` | |
 
    Use `gh label list` to confirm before adding. Custom labels not in this set must be created via `gh label create` first — agents commonly try to add `trust-model`, `design`, or `phase-1.5-data`, none of which exist.
 
