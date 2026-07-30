@@ -8,6 +8,8 @@
 >
 > **🔄 SUPERSEDED IN PART — see the Post-v7.1.1 Reconciliation section immediately below.** EPIC #1002 (v7.0.0) and follow-ups through v7.1.1 have now merged. A code-level verification pass (2026-07-27) checked every drafted close against live `main`. Where the reconciliation and the pre-merge dispositions below disagree, **the reconciliation wins.** The sections below are retained as the original plan of record.
 
+> **🟢 LIVE UPDATE — issue-backlog eradication sprint (2026-07-30).** The active integration branch is `dev/issue-backlog`, tracked by draft PR #1395. One feature PR lands per issue against `dev/issue-backlog`; final merge to `main` is human-gated. EPIC #1336-owned issues are skipped unless explicitly re-admitted. Current exception: #1147 was re-admitted as a narrow security patch only and merged via PR #1394 (`7fcabc230`). HG-0 operating rules landed in `founder/CLAUDE.md` (`c3b227606`) and the HG-0 memory snapshot landed in `founder/MEMORY.md` (`fc4ccbed1`). HG-1 progress so far: #1253 merged via PR #1396 (`5fc46aafd`); #999, #991, and #727 were closed verified-done; #1060 is deferred until after backlog eradication and other active sprints; #998 was **not** closed because `docs/js/skill-graph.js` still has fallback `type: 'extra'/'ultimate'` literals and needs a tiny cleanup or explicit waiver.
+
 ---
 
 ## Post-v7.1.1 Reconciliation (2026-07-27)
@@ -42,8 +44,8 @@ The CLI dead-type cluster (#1220–1231, #1264) fared far better: **8 of 11 veri
 
 | Issue | What specifically remains | Suggested action |
 |---|---|---|
-| #998 | Dead-type **literals** in `skill-graph.js` FALLBACK_SKILLS (L261-267) + tier token map (L157-159); `docs/en/fusion.html` examples (`type:"extra"` L813/868/878). Not live readers, but visible dead vocab. | Small `design/`+`docs/` cleanup PR under #998 (no-follow-ups rule), then close. |
-| #999 | Guard B regex (`docs-cohesion.yml:112-116`) never extended to catch `type=extra`/`type=ultimate`/`Transcendent`-as-rank/`Extra skill`/`Ultimate skill`/`G7`/`G8`. Timeline+meta-sync portions DONE. | `infra/` PR extending Guard B regex to the #999 term list. Small. |
+| #998 | **LIVE 2026-07-30:** still open. Verification found fallback `type: 'extra'` / `type: 'ultimate'` literals in `docs/js/skill-graph.js` L261-267. `docs/en/**` is skipped this sprint. | Tiny `design/` cleanup of `docs/js/skill-graph.js`, then close; or founder waiver for fallback-only residue. |
+| #999 | **CLOSED 2026-07-30 verified-done.** The cited dead-vocabulary terms are owned by `scripts/check_rank_vocabulary.py` + `.github/workflows/rank-vocabulary-guard.yml`, documented in `docs/guard-topology.md`; no duplicate Guard B work needed. | Done. Broader lexicon/branding guard work stays with EPIC #1336 (#1302/#1258). |
 | #1130 | Hero-ledger-flash pair still commented out (`docs/index.html:440-453`). EPIC #1002 closed; re-enable never executed. Pages reachable elsewhere (not dark). | Founder decision: re-enable or formally retire. |
 | #1152 | No fuse-timeline-action **validity regression test**; no doc of legacy `note`→`fuse` **repair-on-rerun** behavior. `fuse` enum + 9 tests exist but not these two deliverables. | `cli/` PR: regression test + doc. Small. |
 | #1174 | **Unstarted.** `meta_link_command` mutates prereqs but never sets `type='fusion'`; no auto-derive on add; `reclassify` emits no deprecation warning. | Full `cli/` implementation needed. Tracker was wrong. |
@@ -60,7 +62,7 @@ The CLI dead-type cluster (#1220–1231, #1264) fared far better: **8 of 11 veri
 
 **intake (4):** #1250 (caveman, XS), #1251 (ux-audit nextlevelbuilder 3★, S), #1252 (format-output ayghri 2★, S), #1266 (scroll-world oso95 3★, S — held pending Ygg II settle). → `review/meta/`.
 
-**stage-as-PR (7):** #1253 (draft-skills→intake label, S, `infra/`), #1258 (Gaia Registry branding audit, P1/L, **multi-branch split**), #1267 (semantics poisoning SoT pass, L, `docs/`), #1307 (gaia install Agent Skills standard, L, `cli/`), #1308 (automate curate-trending + [news] ingest, XL, `infra/`), #1309 (blog publishing pipeline, XL, `docs/`), #1328 (mcp-server.html 14 stale refs, XS, `docs/`).
+**stage-as-PR (7):** #1253 (draft-skills→intake label, S, `infra/`) — **DONE 2026-07-30 via PR #1396 / `5fc46aafd`**; #1258 (Gaia Registry branding audit, P1/L, **multi-branch split**) — **EPIC #1336-owned**; #1267 (semantics poisoning SoT pass, L, `docs/`) — scout before staging, likely #1302-dependent; #1307 (gaia install Agent Skills standard, L, `cli/`) — **EPIC #1336-owned**; #1308 (automate curate-trending + [news] ingest, XL, `infra/`) — scout before staging, possible Program 6 adjacency; #1309 (blog publishing pipeline, XL, `docs/`) — **EPIC #1336-owned**; #1328 (mcp-server.html 14 stale refs, XS, `docs/`) — closed/#1336-adopted.
 
 **fold-1002 (2):** #1264 (share.py dead symbols, `cli/`), #1268 (frontend perf pass DAG/Explorer, L, `design/` — body says "linked to #1002 before merge").
 
