@@ -26,7 +26,7 @@ Finalize the skill fusion by creating the new directory structure, copying files
      }
      ```
    - Print: `Fusion logged to .gaia/fuse-log.json`
-   - Print: `Run 'gaia push' to propose this skill to the Gaia registry (optional)`
+   - Print: `Run 'gaia push' to propose this skill to the registry (optional)`
 3. If `.gaia/` does NOT exist:
    - Skip logging and printing any Gaia-related suggestions.
 

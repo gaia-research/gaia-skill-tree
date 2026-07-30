@@ -1,4 +1,4 @@
-# Gaia Skill Registry — .gitignore
+# Gaia Skill Tree — .gitignore
 
 # feature-pipeline runtime state (local, per-machine)
 .fp-state.json

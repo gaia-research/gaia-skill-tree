@@ -1,6 +1,6 @@
 # scripts/
 
-Utility scripts for the Gaia Skill Registry.
+Utility scripts for the Gaia Skill Tree registry.
 
 ---
 

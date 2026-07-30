@@ -229,7 +229,7 @@ const surveyors = await parallel([
 
 # YOUR ROLE: SURVEYOR-A (CORPUS ANCHORS)
 
-Read the GAIA registry at ${REPO_ROOT}. Specifically:
+Read the registry at ${REPO_ROOT}. Specifically:
 1. Read registry/named-skills.json (the index)
 2. Sample 12-15 named skills at 4★+ ranks across multiple contributors (mattpocock, anthropic, garrytan, etc.)
 3. For each, read the .md file and inspect any evidence array

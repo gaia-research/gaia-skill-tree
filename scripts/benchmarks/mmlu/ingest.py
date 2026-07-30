@@ -185,7 +185,7 @@ def main(snapshotPath: Path = _DEFAULT_SNAPSHOT, dryRun: bool = False) -> int:  
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Ingest MMLU mirrored benchmark-result rows into the Gaia registry.",
+        description="Ingest MMLU mirrored benchmark-result rows into the registry.",
     )
     parser.add_argument(
         "--snapshot",

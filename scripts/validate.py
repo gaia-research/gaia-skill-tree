@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Gaia Skill Registry — Canonical Graph Validator.
+"""Gaia Skill Tree — Canonical Graph Validator.
 
 Validates registry/gaia.json against:
 1. JSON Schema validation for all skill nodes and edges.

@@ -35,7 +35,7 @@ def get_parser():
     parser.add_argument(
         "--registry",
         default=None,
-        help="Path to a local Gaia registry checkout. Defaults to auto-resolved local or global registry.",
+        help="Path to a local registry checkout. Defaults to auto-resolved local or global registry.",
     )
     parser.add_argument(
         "--global",

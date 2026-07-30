@@ -178,7 +178,7 @@ def write_global_registry(path: str) -> None:
 
 
 def read_cwd_registry() -> str | None:
-    """Return CWD when it looks like a Gaia registry checkout."""
+    """Return CWD when it looks like a registry checkout."""
     cwd = Path.cwd()
     if (cwd / "registry" / "nodes").is_dir() or (cwd / "registry" / "gaia.json").exists():
         return str(cwd)

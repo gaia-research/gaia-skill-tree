@@ -691,7 +691,7 @@ class DevCommand(Command):
         )
 
         dev_validate = dev_sub.add_parser(
-            "validate", help="Validate the Gaia registry"
+            "validate", help="Validate the registry"
         )
         dev_validate.add_argument(
             "--intake",

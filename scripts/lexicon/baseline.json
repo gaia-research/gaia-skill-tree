@@ -8,26 +8,16 @@
     },
     "README.md": {
       "Evidence Floor": 1,
-      "Gaia Registry": 5,
       "Evidence Class": 1
     },
     "docs/agent.md": {
       "Evidence Floor": 1
-    },
-    "docs/agents/source-curation.md": {
-      "Gaia Registry": 1
     },
     "docs/guard-topology.md": {
       "Extra skill": 1
     },
     "docs/rank-vocabulary-guard.md": {
       "Extra skill": 7
-    },
-    "packages/api-client-py/README.md": {
-      "Gaia Registry": 1
-    },
-    "packages/api-client-ts/README.md": {
-      "Gaia Registry": 1
     }
   }
 }

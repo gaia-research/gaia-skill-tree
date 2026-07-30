@@ -136,7 +136,7 @@ See [DEV.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/DEV.md) for l
 | Slash-naming helpers | `src/gaia_cli/formatting.py` | Slash-naming formatters, RANK_COLORS, tier colors |
 | Local-first context | `src/gaia_cli/localContext.py` | Merges user tree + scan results + named skill map into `LocalContext` |
 | npm wrapper | `packages/cli-npm/` | `@gaia-registry/cli` — Node.js wrapper that execs the local Python binary. **Not published to npm** (the whole `@gaia-registry/*` scope is unpublished); the published CLI is `gaia-cli` on PyPI. Source-checkout use only. |
-| MCP server | *(external repo)* | Lives in `gaia-research/gaia-mcp`, published as `@gaia-research/mcp` v0.1.0 (binary `gaia-mcp`). Read-only Registry mode; tools `gaia_search`, `gaia_inspect`, `gaia_status`. The in-repo `packages/mcp` prototype was deleted — do not resurrect it. |
+| MCP server | *(external repo)* | Lives in `gaia-research/gaia-mcp`, published as `@gaia-research/mcp` v0.1.0 (binary `gaia-mcp`). Read-only registry mode; tools `gaia_search`, `gaia_inspect`, `gaia_status`. The in-repo `packages/mcp` prototype was deleted — do not resurrect it. |
 
 ```bash
 # Meta Review (CLI-ONLY)
@@ -271,7 +271,7 @@ Bot actors (`*[bot]`, `jules`, `codex`, `claude-bot`, `gemini-bot`) are always a
 | `docs/...` | Documentation | `docs/`, `*.md` |
 | `design/...` | Website design | `docs/` (HTML/CSS/JS), `*.md` |
 | `review/gaia-push/...` | Intake layer (`gaia push`) | `registry-for-review/`, `*.md` |
-| `review/meta/...` | Registry curation/promotion | `registry/`, `*.md` |
+| `review/meta/...` | registry curation/promotion | `registry/`, `*.md` |
 | `dev/...`, `claude/...`, `codex/...`, `gemini/...` | Experimental (unrestricted) | any |
 | `infra/...` | CI/tooling changes | `.github/`, `scripts/`, `docs/*.html`, `*.md` |
 

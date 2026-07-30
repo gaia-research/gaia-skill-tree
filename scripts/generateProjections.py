@@ -536,7 +536,7 @@ def main():
 
     # generate registry.md
     with open("registry/registry.md", "w", encoding="utf-8") as f:
-        f.write("# Gaia Skill Registry\n\n")
+        f.write("# Gaia Skill Tree registry\n\n")
         f.write("*Generic references are rank-less taxonomy. The Top ★ column shows the "
                 "highest star among their named implementations (— = none yet).*\n\n")
         f.write("| Name | Class | Top ★ | Skill Call |\n")

@@ -2235,11 +2235,11 @@ def push_command(args):
                 push_color = COLOR_LOCAL_USER
                 grey = RANK_COLORS["0★"]
                 prompt = (
-                    f"{_bold()}{_fg(*TIER_COLORS['fusion'])}? {_fg(255, 255, 255)}Push selected items to gaia registry from {_fg(*RANK_COLORS['2★'])}{batch['sourceRepo']}{_reset()}{_fg(255, 255, 255)}? "
+                    f"{_bold()}{_fg(*TIER_COLORS['fusion'])}? {_fg(255, 255, 255)}Push selected items to the registry from {_fg(*RANK_COLORS['2★'])}{batch['sourceRepo']}{_reset()}{_fg(255, 255, 255)}? "
                     f"{_fg(*grey)}[{_fg(*push_color)}Y{_fg(*grey)}/n]: {_reset()}"
                 )
             else:
-                prompt = f"Push selected items to gaia registry from {batch['sourceRepo']}? [Y/n]: "
+                prompt = f"Push selected items to the registry from {batch['sourceRepo']}? [Y/n]: "
             ans = input(prompt).strip().lower()
         except (KeyboardInterrupt, EOFError):
             print()
@@ -3224,7 +3224,7 @@ def get_parser():
     parser.add_argument(
         "--registry",
         default=None,
-        help="Path to a local Gaia registry checkout. Defaults to auto-resolved local or global registry.",
+        help="Path to a local registry checkout. Defaults to auto-resolved local or global registry.",
     )
     parser.add_argument(
         "--global",
@@ -3260,7 +3260,7 @@ def get_parser():
         "--user", help="Gaia username to write into .gaia/config.toml"
     )
     init_parser.add_argument(
-        "--registry-ref", help="Gaia registry URL to write into .gaia/config.toml"
+        "--registry-ref", help="Registry URL to write into .gaia/config.toml"
     )
     init_parser.add_argument(
         "--scan", action="append", help="Path to scan; repeat for multiple paths"
@@ -3983,7 +3983,7 @@ def get_parser():
     )
 
     dev_validate = dev_sub.add_parser(
-        "validate", help="Validate the Gaia registry"
+        "validate", help="Validate the registry"
     )
     dev_validate.add_argument(
         "--intake",
