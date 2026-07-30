@@ -11,19 +11,28 @@
   function isSafeUrl(url) {
     if (!url) return false;
     var trimmed = String(url).trim();
-    var lower = trimmed.toLowerCase();
-    if (lower.indexOf('javascript:') === 0 || lower.indexOf('data:') === 0) {
+    if (/[\x00-\x1F\x7F-\x9F]/.test(trimmed)) {
       return false;
     }
-    if (lower.indexOf('blob:') === 0) {
+    if (/^[/\\]{2}/.test(trimmed)) {
+      return false;
+    }
+    var parsed;
+    try {
+      parsed = new URL(trimmed, window.location.origin);
+    } catch (e) {
+      return false;
+    }
+    if (parsed.protocol === 'http:' || parsed.protocol === 'https:') {
       return true;
     }
-    var match = trimmed.match(/^([a-zA-Z][a-zA-Z0-9.+-]*):/);
-    if (match) {
-      var proto = match[1].toLowerCase();
-      return proto === 'http' || proto === 'https';
+    if (parsed.protocol === 'file:' && window.location.protocol === 'file:') {
+      return true;
     }
-    return true;
+    if (parsed.protocol === 'blob:') {
+      return parsed.pathname.indexOf(window.location.origin) === 0;
+    }
+    return false;
   }
   var lastFocused = null;
   var inertedSiblings = [];
