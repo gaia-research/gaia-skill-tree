@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-30T16:20:11Z",
+  "generatedAt": "2026-07-30T22:05:04Z",
   "skills": [
     {
       "id": "disler/agent-fusion",
@@ -183,7 +183,7 @@
       "name": "Firecrawl Scrape",
       "level": "4★",
       "contributor": "firecrawl",
-      "trustMagnitude": 133.54,
+      "trustMagnitude": 135.6,
       "overallTrustGrade": "A",
       "ascendedAt": "2026-07-13T06:22:38Z",
       "_links": {

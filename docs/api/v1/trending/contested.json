@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-30T16:20:11Z",
+  "generatedAt": "2026-07-30T22:05:04Z",
   "buckets": [
     {
       "genericSkillRef": "git-ship-done-pipeline",
@@ -95,11 +95,11 @@
     {
       "genericSkillRef": "web-scrape",
       "implementations": 2,
-      "topTM": 133.54,
+      "topTM": 135.6,
       "skills": [
         {
           "id": "firecrawl/firecrawl-build-scrape",
-          "trustMagnitude": 133.54,
+          "trustMagnitude": 135.6,
           "level": "4★",
           "overallTrustGrade": "A",
           "origin": true
@@ -406,16 +406,16 @@
           "origin": true
         },
         {
-          "id": "browser-use/browser-harness",
-          "trustMagnitude": 73.59,
-          "level": "3★",
+          "id": "firecrawl/firecrawl-build-interact",
+          "trustMagnitude": 75.58,
+          "level": "2★",
           "overallTrustGrade": "B",
           "origin": false
         },
         {
-          "id": "firecrawl/firecrawl-build-interact",
-          "trustMagnitude": 73.52,
-          "level": "2★",
+          "id": "browser-use/browser-harness",
+          "trustMagnitude": 73.59,
+          "level": "3★",
           "overallTrustGrade": "B",
           "origin": false
         },
@@ -459,11 +459,11 @@
     {
       "genericSkillRef": "agent-environment-setup",
       "implementations": 2,
-      "topTM": 73.52,
+      "topTM": 75.58,
       "skills": [
         {
           "id": "firecrawl/firecrawl-build-onboarding",
-          "trustMagnitude": 73.52,
+          "trustMagnitude": 75.58,
           "level": "2★",
           "overallTrustGrade": "B",
           "origin": true
