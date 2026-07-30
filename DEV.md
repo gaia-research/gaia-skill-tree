@@ -167,7 +167,7 @@ Every row's universal fallback is `python -m gaia_cli dev <cmd> …`. The **Dire
 | `verify-tier <id>` | ✓ | — | Recomputes + persists `verification.tier`. Positional only; no docs rebuild, no timeline event, no subprocess. Honors `GAIA_OPERATOR_OVERRIDE` (no extra verifier gate). |
 | `update-named <id> …` | ✓ | — | Rewrites named `.md` frontmatter + timeline. Preflights reject `status=named` without `--title`/`--catalog-ref`, and reject github links not in `/blob/` form. Rebuilds unless `--no-build`. |
 | `timeline <id> …` | ✓ | — | No `--user` → registry node timeline; `--user <name>` → `skill-trees/<name>/skill-tree.json`; `--timestamp` valid only with `--user`. Rebuilds unless `--no-build`. |
-| `fuse <generic_id> …` | ✓ | — | Upserts a generic fusion node + optional suite manifest (`registry/nodes\|named\|suites`) + timeline. No git. Rebuilds unless `--no-build`. |
+| `fuse <generic_id> …` | ✓ | — | Upserts a generic fusion node + optional suite manifest (`registry/nodes\|named\|suites`) + timeline. Newly appended timeline events use action `fuse`. Legacy `note` events are repaired to `fuse` on rerun. No git. Rebuilds unless `--no-build`. |
 | `sync-upstream <id> --tag …` | ✓ | — | In-process frontmatter+timeline writer; **no** docs/git side effects. Flag is `--tag` (the module docstring's `--version` is stale). `--dry-run` needs `pyyaml`. |
 | `freeze <id> --reason …` | ✓ | — | Sets `installable:false` + `upstream_deprecated` event. `--reason` required, ≤500 chars; refuses if already frozen; **no** docs/git side effects. |
 | `release <patch\|minor\|major>` | ✓ | — | Bumps version in-process, then **git add/commit/tag** and (unless `--no-push`) **git push**. `[--sync]` aligns manifests first. Shells out to git. |
