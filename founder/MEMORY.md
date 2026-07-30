@@ -4,6 +4,78 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-30, HG-0 — issue-backlog integration branch established; #1147 security patch landed, #1253 drafted)
+
+### TLDR
+- **HG-0 approved and recorded:** `dev/issue-backlog` is the integration branch for backlog eradication; one feature PR per issue targets it, with batch Human Gates and strict design gating.
+- **Operating rules landed in `founder/CLAUDE.md`:** agent tiering, scout/planner for ambiguity, nested agents allowed, Python checkout CLI commands, no `docs/en/**` except unavoidable/security, regen commits require human gates, branch-scope read as signal.
+- **EPIC #1336 scout pruned the queue:** explicit #1336-owned issues were removed from active backlog scope; **#1147 was re-admitted by founder as a narrow security patch** and documented on #1336.
+- **#1147 merged into `dev/issue-backlog`:** child PR #1394 passed CI + reviewer and was squash-merged as commit `7fcabc230`.
+- **#1253 is drafted:** child PR #1396 updates active `draft-skills` label references to `intake`; reviewer PASS after duplicate-label fix; CI pending.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| Integration branch | ✅ `dev/issue-backlog` created and pushed; draft integration PR #1395 opened against `main` |
+| Founder rules | ✅ `founder/CLAUDE.md` updated with backlog-eradication sprint model (`c3b227606`) |
+| EPIC #1336 routing | ✅ Live #1336 checklist read; explicit adoptees removed from backlog scope; comment posted for #1147 exception |
+| Security patch | ✅ #1147 PR #1394 merged into integration (`7fcabc230`) |
+| Label migration | ⏳ #1253 PR #1396 opened; reviewer PASS; CI pending |
+| Verify-close candidates | ⏳ #991 and #727 scouted as already resolved; not closed yet pending HG/approval posture |
+| Planning | ⏳ #998/#999 and #1060 scouted/planned; #999 likely verify-close, #1060 requires special destructive-history gate |
+
+### Branches at snapshot
+
+| Branch | Head SHA | Status |
+|---|---:|---|
+| `dev/issue-backlog` | `7fcabc230` | Integration branch, PR #1395 open to `main` |
+| `dev/1253-intake-label` | `19d733b03` | Feature branch, PR #1396 open to `dev/issue-backlog` |
+| `design/1147-dom-xss-static-pages` | merged | PR #1394 merged; local worktree removed |
+
+### Issues + PRs touched
+
+| Item | State |
+|---|---|
+| #1395 | Draft integration PR: `dev/issue-backlog` → `main`; body redrafted after #1336 scout |
+| #1394 / #1147 | Merged into `dev/issue-backlog` as security-only exception; #1336 comment posted |
+| #1396 / #1253 | Draft PR open; active `draft-skills` refs migrated to `intake`; reviewer PASS |
+| #1336 | Comment posted documenting #1147 exception only; no broader Program 5 scope pulled out |
+| #991 | Scout says resolved by branch-scope allowance for `founder/handovers/*` on design branches |
+| #727 | Scout says resolved by schema branch allowance for bundled schema mirror |
+| #998/#999 | Planner recommends optional tiny #998 `docs/js/skill-graph.js` cleanup; #999 likely verify-close because dedicated rank-vocabulary guard already owns terms |
+| #1060 | Planner recommends prep/guardrails only; actual history rewrite needs explicit founder maintenance gate |
+
+### Routing — where things live now
+
+- Active backlog scope excludes explicit #1336 adoptees unless founder re-admits them.
+- Re-admitted exception: #1147 only, because it was a narrow security patch already implemented.
+- Design work remains batched last and requires strict human-gated `/design-iteration` recovery.
+- Required regen commits require explicit human approval before landing.
+- `docs/en/**` remains skipped except unavoidable/security changes; #1147 included a security sink in `docs/en/cli-reference.html` from before this rule was redrafted, and was accepted under the security exception.
+
+### Lessons / hazards preserved
+
+- Run the #1336 scout **before** staging backlog issues; Program 5/6/7 overlap is real.
+- Branch-scope should be read as signal during this sprint, but mixed-scope PRs should still be intentionally justified in PR bodies.
+- `.github/labels.yml` already had canonical `intake`; a blind `draft-skills` → `intake` rename created a duplicate label until reviewer caught it.
+- Git push from subagent worktree may fail auth; orchestrator can push from parent shell with `GIT_TERMINAL_PROMPT=0`.
+
+### Open questions for next orchestrator / next gate
+
+1. Close #991 and #727 now as verified-done, or batch-close them at HG-1?
+2. For #998, is fallback/mock dead vocabulary worth a tiny `design/` cleanup, or verify-close and defer broader `docs/en/fusion.html` semantics to the owning docs team?
+3. For #999, accept planner recommendation to verify-close because `scripts/check_rank_vocabulary.py` owns the term guard, or still add duplicate Guard B regexes?
+4. For #1060, should we open a prep-only guardrails/runbook PR, or defer the whole issue to a founder-approved maintenance window?
+5. Before merging #1396, should open `draft-skills` issues/PRs be relabeled to `intake` immediately, or noted as operational follow-through?
+
+### Token cost (this session so far)
+
+- Pi cost script initially failed under cp1252; reran with `PYTHONUTF8=1`.
+- Main session: ↑233,203 input · ↓43,802 output · R 4,905,472 cache read · **~$4.93**.
+- Subagents: **~$8.61**.
+- Total: **~$13.55**.
+
 ## State Snapshot (2026-07-29, Session 8E — Arc I ~75%: four more PRs merged, three founder rulings ratified into CI, `main` unblocked; invented vocabulary caught on the About surface by human review, not by any gate)
 
 ### TLDR
