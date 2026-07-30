@@ -4,6 +4,71 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-31, Session 8I continued — KC8 craft + both surfaced findings fixed and merged to gaia-research main; KC9 demo pipeline running; skill-heaven held for signal)
+
+### TLDR
+- **KC8's craft pass and both findings it surfaced are done, verified, and merged to `gaia-research` `main`.** The claim-index page now has deep links on every backed row and two SVG figures (F7 door-cost comparison, claim-status distribution). The A2 homepage overclaim ("evicts every installed skill") is corrected. Both landed via a proper integration-branch batch (`integration/arc-i-kc8`), an autonomous CI-watch that only merged because every check genuinely passed, and an independent post-merge SHA check — not a trusted exit code.
+- **C6 (the skill-heaven codex citation error) is fixed and PR'd but deliberately unmerged** — explicit founder instruction to hold that repo for a separate signal.
+- **Two unrelated pre-existing `gaia-research` PRs (#136, #71) were explicitly excluded** from the merge batch, not silently swept in under "merge everything."
+- **KC9 (the three-minute demo) is now in flight** — Fable-planned with an automatic Opus fallback (in case Fable can't actually be invoked, which was an open doubt this session), Opus-executed at max effort, in its own scratchpad-anchored worktree given an explicit stated risk of running out of session credits mid-task.
+- **KC9's eventual PR targets `main` directly** (not an integration branch) and stays human-gated — no autonomous-merge authorization for it, unlike the KC8 batch.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| gaia-research **PR #139** (KC8 claim index) craft pass | ✅ Deep-linked every backed claim row (fixed 3 pre-existing broken relative links in the process), added `components/ClaimIndexFigures.tsx` with 2 SVG figures, fixed a table column-width bug. Independently re-verified: `check-claims.ts` exit 0 on 6/6 docs, self-tests 24/24 (was 17/17), ledger validates 12 records, live dev server confirmed rendering. |
+| gaia-research **PR #140** (A2 fix) | ✅ `app/page.tsx` corrected — no longer claims curated "evicts every installed skill and admits back only the grilling-native ones"; now honestly describes clearing ambient clutter to a hand-picked set, matching the KC4 probe and P6/P8 rulings. |
+| skill-heaven **PR #22** (C6 fix) | ✅ Fixed, PR open against `integration/arc-i-lane-a`, **deliberately unmerged** — root cause was a pure citation error (the public "74→73" figure was misattributed to a record that actually says 67→66, never had its own probe), corrected in `README.md` and `compile.ts`'s comment, dated as an explicit correction rather than a silent edit. Held per instruction: "Wait for my signal for skill-heaven repo." |
+| gaia-research `integration/arc-i-kc8` → `main` | ✅ **MERGED.** Created off `main`, retargeted #139 + #140 onto it (zero file overlap confirmed first), merged both via merge commits (no squash), opened PR #141, ran an autonomous background CI-watch script that polled until all 4 checks resolved and merged only on all-green + `mergeStateStatus: CLEAN`. Post-merge, independently confirmed `main`'s tip SHA (`eb28d12f`) matches the merge commit — not just trusting exit status. |
+| gaia-research PRs #136, #71 | ⏸️ Explicitly identified as pre-existing, unrelated work and **excluded** from the merge batch — flagged rather than silently included or silently ignored. |
+| KC9 pipeline | ⏳ **Running.** Worktree `/Users/marcotiongson/Documents/gaia-research-kc9`, branch `feat/kc9-three-minute-demo` off `main`, scratchpad `KC9_SCRATCHPAD.md` committed+pushed before dispatch (recoverability anchor, given Marco's own stated expectation of losing credits mid-task). Stage 1 (plan): Fable, high effort, with an automatic Opus-high fallback baked into the workflow script if Fable errors/dies — this exists specifically because there was open doubt this session about whether Fable actually runs in this harness at all. Stage 2 (execute): Opus, max/xhigh effort, builds the real demo script, runs it against a real `claude` session, produces real `hh-ledger/v1` records, and opens a PR (not merged). No result yet as of this snapshot. |
+
+### Branches at end of session
+
+| Branch | Head SHA | Status |
+|---|---|---|
+| gaia-research `main` | `eb28d12f` | KC8 claim-index + A2 fix merged in. |
+| gaia-research `integration/arc-i-kc8` | `8fd632f` (merged into `main` at `eb28d12f`) | Done, feature branches deleted. |
+| skill-heaven `integration/arc-i-lane-a` | unchanged from prior snapshot (`f0e9a27`) | PR #22 open against it, unmerged. |
+| gaia-research `feat/kc9-three-minute-demo` | in progress, pipeline still running | Scratchpad-anchored, will target `main` directly when ready. |
+
+### Issues + PRs touched
+
+- gaia-research **#139** — MERGED (via integration batch → PR #141 → `main`).
+- gaia-research **#140** — MERGED (via same batch).
+- gaia-research **#141** (integration → main) — MERGED, autonomous CI-gated merge, founder-authorized for this specific batch.
+- skill-heaven **#22** — OPEN, unmerged, held for signal.
+- skill-heaven **#13** (KC8/KC9) — KC8 half now substantively complete and shipped; KC9 half in flight.
+
+### Routing — where things live now
+
+- **KC8 (claim-provenance gate + claim-index page)**: shipped, live on `gaia-research` `main`.
+- **A2 (homepage overclaim)**: shipped, live on `gaia-research` `main`.
+- **C6 (codex citation error)**: fixed, PR open in `skill-heaven`, awaiting a separate explicit merge signal.
+- **KC9 (three-minute demo)**: in flight, `gaia-research` worktree, will PR direct to `main`, human-gated.
+- **P8 composition fix, #1258 registry-mutation remainder**: still fully unstarted, unchanged from the prior snapshot.
+
+### Lessons / hazards preserved
+
+- **"Merge as-is" still gets independently verified, not trusted.** Both feature-PR merges and the final integration→main merge were each confirmed by an actual API/git check (SHA match, `mergedAt` non-null) rather than treating a silent-exit `gh pr merge` as proof — consistent with this session's earlier "assert on content, never exit status" discipline.
+- **An autonomous CI-gated merge still refuses on ambiguity.** The watch script explicitly checks `mergeStateStatus` is `CLEAN` (or `UNSTABLE`) before merging and exits non-zero rather than merging if any check fails or the state is anything else — "on CI green" was implemented as a real gate, not a rubber stamp.
+- **Batch scope needs to be stated, not assumed.** "Collect all gaia-research PRs" was interpreted as the completed work from this session's own batch, not literally every open PR in the repo — the two unrelated pre-existing PRs were explicitly named and excluded rather than silently swept in or silently left unmentioned.
+- **A stated skepticism about a tool ("I highly doubt Fable is actually running") is worth designing a fallback for, not just noting.** The KC9 plan stage has an automatic Opus fallback wired into the workflow script itself specifically because of that doubt, so a Fable failure doesn't silently produce a null/garbage plan.
+
+### Open questions for next orchestrator
+
+1. **KC9 pipeline outcome** — check for a completion notification; if the plan/execute stages produced something, it needs the same independent-verification treatment as everything else this session before reporting it as done.
+2. **skill-heaven PR #22** — waiting on Marco's explicit signal before merging.
+3. **The P8 composition fix and #1258's registry-mutation remainder** — still not started, unchanged priority from the prior snapshot.
+4. **Cursor availability** — still worth re-checking before assuming unavailable, per the standing note.
+
+### Token cost (this session)
+
+`2026-07-31 — Session 8I continued. Measured subagent tokens: 288,065 across the KC8-craft + A2/C6-followups workflow (2 agents: Opus medium craft, Sonnet high followups). KC9 pipeline (Fable/Opus plan + Opus max execute) still running as of this snapshot — cost not yet known. Orchestrator inline work (verification re-runs, integration-branch setup, CI-watch scripting, memory writes) unmeasured.`
+
+---
+
 ## State Snapshot (2026-07-30, Session 8I — A1 (KC5) and the #1258 CI fix both landed and merged; KC8 pipeline launched; F7 locked, cursor deferred, dispatch cap retired)
 
 ### TLDR
