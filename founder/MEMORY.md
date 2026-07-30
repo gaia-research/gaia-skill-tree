@@ -4,6 +4,63 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-30, HG-1 checkpoint — backlog tracker updated; verified closes executed; #1253 merged)
+
+### TLDR
+- **Backlog tracker is live again.** `founder/BACKLOG_ERADICATION_TRACKER.md` now records the active `dev/issue-backlog` sprint, #1336 skip rule, #1147 exception, #1253 merge, #999/#991/#727 closes, #1060 deferral, and #998 still-open evidence.
+- **HG-1 closed verified-done items:** #999, #991, #727.
+- **#1060 deferred by founder** until after backlog eradication and other active sprints; no history rewrite under this integration branch.
+- **#1253 merged** via PR #1396 (`5fc46aafd`) and operational follow-through relabeled #1378 from `draft-skills` to `intake`.
+- **#998 remains open** because verification found live fallback `type: 'extra'/'ultimate'` literals in `docs/js/skill-graph.js`; next action is a tiny design cleanup PR unless waived.
+
+### What changed since prior snapshot
+
+| Layer | State |
+|---|---|
+| Tracker | ✅ `founder/BACKLOG_ERADICATION_TRACKER.md` updated and pushed (`bc68ae193`) |
+| Integration | ✅ `dev/issue-backlog` now includes #1147, #1253, HG-0 memory, and tracker updates |
+| GitHub issues | ✅ #999, #991, #727 closed verified-done; #1060 commented/deferred; #998 commented and left open |
+| GitHub labels | ✅ #1378 relabeled from `draft-skills` to `intake` after #1253 merge |
+| PR body | ✅ #1395 progress ledger updated with #1253 merge and HG-1 routing |
+
+### Branches at checkpoint
+
+| Branch | Head SHA | Status |
+|---|---:|---|
+| `dev/issue-backlog` | `bc68ae193` | Integration branch, draft PR #1395 open to `main` |
+| `dev/1253-intake-label` | merged | PR #1396 merged; local worktree removed |
+| `design/1147-dom-xss-static-pages` | merged | PR #1394 merged; local worktree removed |
+
+### Issues + PRs touched
+
+| Item | State |
+|---|---|
+| #1395 | Integration PR remains draft; CI green after #1253 merge before tracker snapshot, new tracker commit running fresh checks |
+| #1396 / #1253 | Merged into `dev/issue-backlog`; CI green; reviewer PASS |
+| #999 | Closed verified-done; rank-vocabulary guard owns cited terms |
+| #991 | Closed verified-done; design branch scope already allows `founder/handovers/*` |
+| #727 | Closed verified-done; schema branch scope already allows bundled schema mirror |
+| #1060 | Deferred by founder; no destructive history work until after backlog eradication + other sprints |
+| #998 | Not closed; remaining fallback literals in `docs/js/skill-graph.js` require cleanup/waiver |
+| #1378 | Relabeled from `draft-skills` to `intake` |
+
+### Routing — next actions
+
+1. Open a small `design/998-*` child PR against `dev/issue-backlog` to clean `docs/js/skill-graph.js` fallback dead-type literals, unless founder waives fallback-only residue.
+2. Continue HG-1 with remaining safe hygiene; do **not** touch #1060.
+3. Keep #1336-owned Program issues skipped unless explicitly re-admitted.
+4. Design batch remains last; strict human gate + `/design-iteration` for visible work.
+
+### Lessons / hazards preserved
+
+- Do not close an issue merely because the plan says verify-close; live grep blocked #998 close.
+- Update the tracker immediately after decisions so the next session does not have to reconstruct routing from chat.
+- #1060 is a maintenance-window problem, not a backlog child PR.
+
+### Token cost (session to this checkpoint)
+
+- Pi cost (`PYTHONUTF8=1`) reports main session **~$7.12**, subagents **~$8.61**, total **~$15.73**.
+
 ## State Snapshot (2026-07-30, HG-0 — issue-backlog integration branch established; #1147 security patch landed, #1253 drafted)
 
 ### TLDR
