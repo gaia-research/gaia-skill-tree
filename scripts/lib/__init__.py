@@ -1,5 +1,5 @@
 """
-scripts.lib — shared infrastructure primitives for Gaia registry scripts.
+scripts.lib — shared infrastructure primitives for registry scripts.
 
 Design contract (upstream-watcher design §9):
   Primitives belong here only when used by ≥2 scripts.
