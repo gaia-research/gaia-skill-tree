@@ -10,5 +10,7 @@ try:
 except ModuleNotFoundError:  # pragma: no cover - checkout fallback before install
     _LIB_SRC = Path(__file__).resolve().parents[2] / "packages" / "gaia-registry-lib" / "src"
     if str(_LIB_SRC) not in sys.path:
+        # Prepend the shared package source so source checkouts resolve the same
+        # implementation as an installed wheel, while keeping this shim importable.
         sys.path.insert(0, str(_LIB_SRC))
     from gaia_registry_lib.frontmatter import *  # noqa: F401,F403,E402

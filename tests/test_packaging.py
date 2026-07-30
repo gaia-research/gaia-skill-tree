@@ -42,8 +42,8 @@ def run_python(args, *, cwd=None, env=None):
     )
 
 
-def build_wheel(dist_dir):
-    shutil.rmtree(REPO_ROOT / "build", ignore_errors=True)
+def build_package_wheel(package_root, dist_dir):
+    shutil.rmtree(package_root / "build", ignore_errors=True)
     return subprocess.run(
         [
             sys.executable,
@@ -54,11 +54,15 @@ def build_wheel(dist_dir):
             "--outdir",
             str(dist_dir),
         ],
-        cwd=REPO_ROOT,
+        cwd=package_root,
         capture_output=True,
         text=True,
         encoding="utf-8",
     )
+
+
+def build_wheel(dist_dir):
+    return build_package_wheel(REPO_ROOT, dist_dir)
 
 
 def stage_bundled_registry():
@@ -127,6 +131,27 @@ def test_gaia_cli_main_remains_importable():
     import gaia_cli.main as compat_main
 
     assert callable(compat_main.main)
+
+
+@pytest.mark.smoke
+def test_source_checkout_frontmatter_compat_wrapper_prefers_shared_lib_src():
+    shared_src = REPO_ROOT / "packages" / "gaia-registry-lib" / "src"
+    result = run_python(
+        [
+            "-c",
+            (
+                "import sys; "
+                "import gaia_cli.frontmatter as compat_frontmatter; "
+                "import gaia_registry_lib.frontmatter as shared_frontmatter; "
+                f"shared_src = {str(shared_src)!r}; "
+                "assert sys.path[0] == shared_src; "
+                "assert compat_frontmatter.split_frontmatter is "
+                "shared_frontmatter.split_frontmatter"
+            ),
+        ]
+    )
+
+    assert result.returncode == 0, result.stderr
 
 
 @pytest.mark.smoke
@@ -474,6 +499,48 @@ def test_built_wheel_contains_only_python_package_data(tmp_path):
         "skills/",
     )
     assert not any(part in name for name in names for part in forbidden_parts)
+
+
+@pytest.mark.packaging
+def test_gaia_registry_lib_standalone_wheel_installs_and_imports(tmp_path):
+    require_build_package()
+
+    package_root = REPO_ROOT / "packages" / "gaia-registry-lib"
+    dist_dir = tmp_path / "dist"
+    build_result = build_package_wheel(package_root, dist_dir)
+    assert build_result.returncode == 0, build_result.stderr
+
+    wheels = list(dist_dir.glob("*.whl"))
+    assert len(wheels) == 1
+
+    venv_dir = tmp_path / "venv"
+    venv.EnvBuilder(with_pip=True).create(venv_dir)
+    python = venv_dir / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
+    install_result = subprocess.run(
+        [str(python), "-m", "pip", "install", "--no-user", "--no-deps", str(wheels[0])],
+        cwd=tmp_path,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        env={**os.environ, "PYTHONNOUSERSITE": "1"},
+    )
+    assert install_result.returncode == 0, install_result.stderr
+
+    import_result = subprocess.run(
+        [
+            str(python),
+            "-c",
+            "import gaia_registry_lib.frontmatter; "
+            "import gaia_registry_lib.github_api; "
+            "import gaia_registry_lib.named_iterator",
+        ],
+        cwd=tmp_path,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        env={**os.environ, "PYTHONNOUSERSITE": "1"},
+    )
+    assert import_result.returncode == 0, import_result.stderr
 
 
 @pytest.mark.packaging
