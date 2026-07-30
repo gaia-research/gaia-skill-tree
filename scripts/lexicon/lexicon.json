@@ -79,7 +79,16 @@
       "oracle": "CONTEXT.md \u00a7 Banned synonyms (issue #1258)",
       "replacement": "Gaia Skill Tree",
       "definition": "Retired as a product name / proper noun. The same ruling names the v5 namespace `gaia.skills` rather than `gaia.registry`.",
-      "note": "The lower-case descriptive \"the registry\" is still correct for the data layer; only the capitalised proper-noun form is retired."
+      "note": "Matched case-insensitively, so this also catches lower-case \"gaia registry\" \u2014 the plain common noun \"registry\" (no \"Gaia\" prefix, any case) is still correct for the data layer; only a Gaia+registry construction is retired."
+    },
+    {
+      "term": "Gaia Skill Registry",
+      "state": "banned",
+      "group": "names",
+      "oracle": "CONTEXT.md \u00a7 Banned synonyms (issue #1258)",
+      "replacement": "Gaia Skill Tree",
+      "definition": "Retired as a product name / proper noun \u2014 same ruling as \"Gaia Registry\". Needs its own term: the three-word phrase is not a substring match of the two-word \"Gaia Registry\" term (the gate matches literal adjacent words, not arbitrary interior words), so without this entry the three-word form would slip past the gate untouched.",
+      "note": "Matched case-insensitively, so this also catches \"gaia skill registry\" and any mixed-case form."
     },
     {
       "term": "named skill",
