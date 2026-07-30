@@ -165,6 +165,37 @@ main
 
 This prevents half-shipped features from landing on `main` and keeps the sprint atomic while preserving full audit history.
 
+### Backlog Eradication sprint model (`dev/issue-backlog`)
+
+The issue-backlog eradication sprint is an integration-branch campaign, not a sequence of direct-to-main fixes.
+
+**Branching and ownership:**
+1. The orchestrator owns `dev/issue-backlog` and its integration PR to `main`.
+2. Every implementable issue gets one feature PR with base `dev/issue-backlog`; keep the feature diff as narrow as possible to minimize conflicts.
+3. Founder-owned files (`founder/**`, plus root governance markdown when appropriate) may be committed directly by the orchestrator on `dev/issue-backlog` and pushed immediately.
+4. The orchestrator assists merges after human gates and owns merge-strategy judgement: feature PRs can be squash-merged for revertability; the final `dev/*` → `main` integration merge must preserve topology unless Marco explicitly says otherwise.
+
+**Agent routing:**
+1. Use `scout` + `planner` on ambiguous, under-specified, stale, cross-cutting, or source-of-truth-conflicted issues before dispatching implementation.
+2. Use worker tiers by difficulty: `worker` for light/surgical work, `worker-terra` for medium work, `worker-sol` for heavy backend/CLI/refactor work, and `worker-opus`/`worker-sonnet` for design work.
+3. Nested agent use is allowed and encouraged: workers may spawn extra scouts/reviewers when the issue needs local exploration, provided they still push after meaningful progress.
+4. Prefer chains for scout → planner → worker → reviewer on risky issues; use parallel scouts for independent evidence/curation questions.
+
+**Human Gates:**
+1. Use batch-level Human Gates for normal backlog work, not one founder approval per issue.
+2. Design work is the exception: it is strictly human-gated, uses `/design-iteration` for approval-gated fix recovery, and should be batched last unless urgent.
+3. Any required regeneration commit (docs graph/API/profile/badge artifacts, generated registry projections, or other Class S outputs) requires an explicit human gate before landing.
+4. Prepend a memory snapshot to `founder/MEMORY.md` at every Human Gate and whenever Marco invokes memory snapshot; these snapshot commits land directly on the active `dev/*` integration branch.
+
+**Scope and CI posture:**
+1. Skip issues already covered by EPIC #1336 unless Marco explicitly pulls them into this sprint.
+2. Skip `docs/en/**` updates for this sprint except unavoidable nav/entrypoint/cache-bust changes needed by another accepted change.
+3. Branch-scope failures are usually read as signal, not an automatic blocker, during this sprint; reviewers should use them to identify missed or leaked files. Apply/route scope exceptions deliberately rather than reshaping the whole sprint around the guard.
+4. All CLI invocations in dispatches should use the checkout's Python entrypoint/module form (for example `PYTHONPATH=src python -m gaia_cli ...` where applicable) rather than a globally installed/pip `gaia`, so agents test the code under review.
+
+**Pause-and-ask triggers:**
+Pause and ask Marco before implementation when an issue has no obvious solution, conflicts with source-of-truth docs, needs product/design judgement, affects evidence/rank calibration, requires destructive git/history operations, touches adjacent repos, or would auto-ingest/auto-publish without a human curation step.
+
 ### Release runbook — bundled registry snapshot
 
 `src/gaia_cli/data/registry/gaia.json` and `named-skills.json` are gitignored. The PyPI wheel is built by `.github/workflows/publish-pypi.yml`, which has a "Bundle fresh registry snapshot" step that runs before `python -m build`:
