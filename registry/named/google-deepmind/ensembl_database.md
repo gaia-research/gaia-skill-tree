@@ -5,7 +5,7 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: genomic-data-retrieval
 status: awakened
-level: 4★
+level: 3★
 description: Query the Ensembl database to resolve gene, transcript, and protein IDs,
   fetch genomic or protein sequences, retrieve gene structures (exons), and get variant
   consequence and effect predictions (VEP). Use this skill as a primary ID translator,
@@ -91,6 +91,10 @@ timeline:
   action: rank_up
   contributor: marcotiongson
   details: Calibrated level from 3★ to 4★
+- timestamp: '2026-07-30T23:21:43Z'
+  action: demote
+  contributor: marcotiongson
+  details: Calibrated level from 4★ to 3★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

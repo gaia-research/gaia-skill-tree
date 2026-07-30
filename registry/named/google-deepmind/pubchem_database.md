@@ -5,7 +5,7 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: molecular-databases
 status: awakened
-level: 4★
+level: 3★
 description: Query PubChem, search by name/CID/SMILES, retrieve properties, similarity/substructure
   searches, bioactivity, for cheminformatics. Use when a user asks about a specific
   chemical, drug, or molecule.
@@ -90,6 +90,10 @@ timeline:
   action: rank_up
   contributor: marcotiongson
   details: Calibrated level from 3★ to 4★
+- timestamp: '2026-07-30T23:21:50Z'
+  action: demote
+  contributor: marcotiongson
+  details: Calibrated level from 4★ to 3★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

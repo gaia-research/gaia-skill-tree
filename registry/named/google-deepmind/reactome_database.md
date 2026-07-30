@@ -5,7 +5,7 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: pathway-ontology-retrieval
 status: awakened
-level: 4★
+level: 3★
 description: Query the Reactome database (Analysis and Content Services). Use when
   the user asks about pathway analysis, gene list enrichment, retrieving results by
   token, finding unmapped or not-found identifiers, mapping identifiers, reaction
@@ -92,6 +92,10 @@ timeline:
   action: rank_up
   contributor: marcotiongson
   details: Calibrated level from 3★ to 4★
+- timestamp: '2026-07-30T23:21:51Z'
+  action: demote
+  contributor: marcotiongson
+  details: Calibrated level from 4★ to 3★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

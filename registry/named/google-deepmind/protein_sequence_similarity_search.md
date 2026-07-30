@@ -5,7 +5,7 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: bioinformatic-sequence-analysis
 status: awakened
-level: 4★
+level: 3★
 description: Searches for homologous protein sequences using MMseqs2 (fast, default)
   or BLAST (comprehensive, fallback). Trigger this whenever the user provides a protein
   sequence or FASTA file and asks to find homologues, sequence matches, or wants to
@@ -106,6 +106,10 @@ timeline:
   action: rank_up
   contributor: marcotiongson
   details: Calibrated level from 3★ to 4★
+- timestamp: '2026-07-30T23:21:49Z'
+  action: demote
+  contributor: marcotiongson
+  details: Calibrated level from 4★ to 3★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

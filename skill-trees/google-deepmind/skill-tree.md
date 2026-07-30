@@ -40,7 +40,7 @@
 | ○ google-deepmind/pymol | Basic | 3★ | Evolved | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
 | ○ google-deepmind/quickgo_database | Basic | 3★ | Evolved | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
 | ○ google-deepmind/reactome_database | Basic | 3★ | Evolved | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
-| ○ google-deepmind/science_skills_common | Basic | 3★ | Evolved | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ google-deepmind/science_skills_common | Basic | 1★ | Awakened | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
 | ○ google-deepmind/string_database | Basic | 3★ | Evolved | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
 | ○ google-deepmind/ucsc_conservation_and_tfbs | Basic | 3★ | Evolved | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |
 | ○ google-deepmind/unibind_database | Basic | 3★ | Evolved | google-deepmind/gaia-skill-tree | 2026-05-25T00:00:00Z |

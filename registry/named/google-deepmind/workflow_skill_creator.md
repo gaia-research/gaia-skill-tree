@@ -5,7 +5,7 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: skill-authoring
 status: awakened
-level: 4★
+level: 3★
 description: Distills a completed user workflow or interaction into a reusable agent
   skill. Use when the user asks to turn their workflow, interaction, or multi-step
   process into a skill, or when they say "make this a skill", "create a skill from
@@ -92,6 +92,10 @@ timeline:
   action: rank_up
   contributor: marcotiongson
   details: Calibrated level from 3★ to 4★
+- timestamp: '2026-07-30T23:21:54Z'
+  action: demote
+  contributor: marcotiongson
+  details: Calibrated level from 4★ to 3★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

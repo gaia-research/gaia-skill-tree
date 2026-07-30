@@ -27368,7 +27368,7 @@
       "origin": false,
       "genericSkillRef": "computational-biology-workflows",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Retrieve and analyze AlphaFold predicted structures for a protein. Use when the user provides a specific UniProt Accession ID and wants structural confidence metrics (pLDDT), domain boundary analysis, or disorder assessment. Do not use if the user only has a protein name, gene name, or amino acid sequence — ask for a UniProt ID first.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md"
@@ -27455,6 +27455,12 @@
           "action": "rank_up",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:41Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -27471,10 +27477,10 @@
         "systemWideCap": null
       },
       "type": "fusion",
-      "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -27484,7 +27490,7 @@
       "origin": false,
       "genericSkillRef": "computational-biology-workflows",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Analyzes genetic variant effects on gene expression (RNA-seq), chromatin accessibility (DNASE), histone marks (ChIP), and transcription factors using the AlphaGenome API. Use when the user asks about non-coding variant effects, pathogenicity, clinical significance, disease associations, functional effects, gene expression changes, splicing disruption, or regulatory effects in promoters and enhancers. Also use for resolving biological terms to tissue/cell-type ontologies (UBERON/CL) or analyzing variants in chr:pos:ref>alt format.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/alphagenome_single_variant_analysis/SKILL.md"
@@ -27587,6 +27593,12 @@
           "action": "rank_up",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:42Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -27603,10 +27615,10 @@
         "systemWideCap": null
       },
       "type": "fusion",
-      "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -28048,7 +28060,7 @@
       "origin": false,
       "genericSkillRef": "pathway-ontology-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Query and search the EMBL-EBI Ontology Lookup Service (OLS) for biomedical ontology terms, definitions, and hierarchies across 250+ ontologies (e.g., GO, DOID, HP). Use when the user asks to search for terms, retrieve details, navigate hierarchies (parents, children, ancestors), look up properties and individuals, get autocomplete suggestions, or access ontology metadata and statistics.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/embl_ebi_ols/SKILL.md"
@@ -28153,6 +28165,12 @@
           "action": "rank_up",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:42Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -28169,10 +28187,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -28182,7 +28200,7 @@
       "origin": false,
       "genericSkillRef": "genomic-data-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Query the ENCODE Registry of cis-Regulatory Elements (cCREs) via the SCREEN GraphQL API, or make custom queries to the ENCODE Portal REST API for experiments and files (ChIP-seq peaks, etc.). Use when you want to query regulatory annotations or raw experimental data across human cell types.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/encode_ccres_database/SKILL.md"
@@ -28287,6 +28305,12 @@
           "action": "rank_up",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:43Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -28303,10 +28327,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -28316,7 +28340,7 @@
       "origin": false,
       "genericSkillRef": "genomic-data-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Query the Ensembl database to resolve gene, transcript, and protein IDs, fetch genomic or protein sequences, retrieve gene structures (exons), and get variant consequence and effect predictions (VEP). Use this skill as a primary ID translator, genomic sequence database and variant effect prediction tool.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database/SKILL.md"
@@ -28421,6 +28445,12 @@
           "action": "rank_up",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:43Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -28437,10 +28467,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -28450,7 +28480,7 @@
       "origin": false,
       "genericSkillRef": "protein-structure-analysis",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Performs 3D structural searches of proteins against various databases (PDB, AlphaFold, CATH, MGnify, etc.) using the Foldseek API. Use ONLY when the user provides a physical 3D coordinate file (.cif, .mmcif, or .pdb) and wants to find structurally similar proteins. Do NOT use if the user only provides a protein sequence, gene name, or UniProt ID.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/foldseek_structural_search/SKILL.md"
@@ -28555,6 +28585,12 @@
           "action": "rank_up",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:44Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -28571,10 +28607,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -28584,7 +28620,7 @@
       "origin": false,
       "genericSkillRef": "genomic-data-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Query the Genome Aggregation Database (gnomAD). Use when determining the rarity or allele frequency of specific genetic variants, retrieving gene constraint metrics (pLI, LOEUF) to assess loss-of-function intolerance, finding variants in a genomic region or gene, or querying structural variants. Don't use for analyzing individual patient genomes, tracking somatic mutations in cancer (use COSMIC), or requesting raw sequencing reads (use ENA).",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/gnomad_database/SKILL.md"
@@ -28687,6 +28723,12 @@
           "action": "rank_up",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:45Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -28703,10 +28745,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -28716,7 +28758,7 @@
       "origin": false,
       "genericSkillRef": "genomic-data-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Use when you want to retrieve quantitative RNA expression data and variant eQTL information from the GTEx (Genotype-Tissue Expression) Project across 54 non-diseased tissue sites.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/gtex_database/SKILL.md"
@@ -28819,6 +28861,12 @@
           "action": "rank_up",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:45Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -28835,10 +28883,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -28848,7 +28896,7 @@
       "origin": false,
       "genericSkillRef": "proteomic-data-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Use when you want to retrieve semi-quantitative protein expression and spatial localisation data from the Human Protein Atlas (HPA).",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/human_protein_atlas_database/SKILL.md"
@@ -28953,6 +29001,12 @@
           "action": "rank_up",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:46Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -28969,10 +29023,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -28982,7 +29036,7 @@
       "origin": false,
       "genericSkillRef": "proteomic-data-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Identify domains, families, and sites in proteins; find all proteins in a family or sharing a domain; explore species distribution for a domain; annotate genomes with protein families and GO terms. InterPro combines 14 databases (e.g., Pfam, CDD) into one searchable resource. InterPro-N significantly expands annotation and sequence coverage with deep learning. Includes domain architecture (IDA) search.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/interpro_database/SKILL.md"
@@ -29087,6 +29141,12 @@
           "action": "rank_up",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:46Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -29103,10 +29163,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -29116,7 +29176,7 @@
       "origin": false,
       "genericSkillRef": "genomic-data-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Query the JASPAR database for Transcription Factor (TF) binding profiles. Use when retrieving Position Frequency Matrices (PFMs) or Position Weight Matrices (PWMs) for specific TFs, resolving gene symbols to JASPAR Matrix IDs, or getting TF metadata. Supports multiple output formats (MEME, TRANSFAC, PFM, JASPAR, YAML).",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/jaspar_database/SKILL.md"
@@ -29221,6 +29281,12 @@
           "action": "rank_up",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:47Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -29237,10 +29303,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -29466,7 +29532,7 @@
       "origin": false,
       "genericSkillRef": "scientific-literature-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Search Europe PMC for scientific literature and download open-access full texts and PDFs. Retrieve full-text XML/plain text by PMCID, get citation lists and bibliography.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/literature_search_europepmc/SKILL.md"
@@ -29571,6 +29637,12 @@
           "action": "rank_up",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:47Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -29587,10 +29659,10 @@
         "systemWideCap": null
       },
       "type": "fusion",
-      "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -29726,7 +29798,7 @@
       "origin": false,
       "genericSkillRef": "genomic-data-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Retrieve protein and nucleotide sequences from NCBI databases using E-utilities. Supports direct accession lookup, CDS translation, gene+organism search, locus lookup, PubMed-linked sequences, patent protein extraction, and organism+length fallback search. Use when you need to fetch biological sequences by accession, gene name, locus tag, PubMed ID, or patent number.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/ncbi_sequence_fetch/SKILL.md"
@@ -29831,6 +29903,12 @@
           "action": "rank_up",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:48Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -29847,10 +29925,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -29860,7 +29938,7 @@
       "origin": false,
       "genericSkillRef": "clinical-data-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Query, search, and download data from the openFDA API for drugs, devices, foods, tobacco, cosmetics, animal and veterinary products, substances, and transparency data. Use for FDA adverse events, recalls, labeling, approvals, shortages, 510(k) clearances, NDC lookups, and any FDA safety or regulatory data query across all 28 API endpoints.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/openfda_database/SKILL.md"
@@ -29965,6 +30043,12 @@
           "action": "rank_up",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:48Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -29981,10 +30065,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -29994,7 +30078,7 @@
       "origin": false,
       "genericSkillRef": "clinical-data-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Query Open Targets Platform for target-disease associations, drug target discovery, tractability/safety data, genetics/omics evidence, known drugs, for therapeutic target identification.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/opentargets_database/SKILL.md"
@@ -30099,6 +30183,12 @@
           "action": "rank_up",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:49Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -30115,10 +30205,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -30338,7 +30428,7 @@
       "origin": false,
       "genericSkillRef": "bioinformatic-sequence-analysis",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Searches for homologous protein sequences using MMseqs2 (fast, default) or BLAST (comprehensive, fallback). Trigger this whenever the user provides a protein sequence or FASTA file and asks to find homologues, sequence matches, or wants to infer protein function based on sequence similarity, but not when the user wants to infer protein function based on structural similarity.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md"
@@ -30458,6 +30548,12 @@
           "action": "rank_up",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:49Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -30474,10 +30570,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -30487,7 +30583,7 @@
       "origin": false,
       "genericSkillRef": "molecular-databases",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Query PubChem, search by name/CID/SMILES, retrieve properties, similarity/substructure searches, bioactivity, for cheminformatics. Use when a user asks about a specific chemical, drug, or molecule.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database/SKILL.md"
@@ -30592,6 +30688,12 @@
           "action": "rank_up",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:50Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -30608,10 +30710,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -30852,6 +30954,18 @@
           "action": "rank_up",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:50Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
+        },
+        {
+          "timestamp": "2026-07-30T23:24:20Z",
+          "action": "rank_up",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 3★ to 4★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -30881,7 +30995,7 @@
       "origin": false,
       "genericSkillRef": "pathway-ontology-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Query the QuickGO and Evidence & Conclusion Ontology (ECO) REST API. Use this when you need to map genes to biological processes, molecular functions, or cellular components, find genes associated with a specific pathway/GO term, or explore the Gene Ontology hierarchy. Do not use for querying drug targets (use OpenTargets) or mechanistic signaling pathway diagrams (use KEGG).",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/quickgo_database/SKILL.md"
@@ -30986,6 +31100,12 @@
           "action": "rank_up",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:51Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -31002,10 +31122,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -31015,7 +31135,7 @@
       "origin": false,
       "genericSkillRef": "pathway-ontology-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Query the Reactome database (Analysis and Content Services). Use when the user asks about pathway analysis, gene list enrichment, retrieving results by token, finding unmapped or not-found identifiers, mapping identifiers, reaction participants (inputs, outputs), pathway hierarchy (including top-level pathways), diagram export, cross-reference mapping, or searching the knowledgebase.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database/SKILL.md"
@@ -31120,6 +31240,12 @@
           "action": "rank_up",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:51Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -31136,10 +31262,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -31149,7 +31275,7 @@
       "origin": false,
       "genericSkillRef": "core-platform-implementation",
       "status": "awakened",
-      "level": "4★",
+      "level": "1★",
       "description": "Shared Python package for Science Skills, currently containing http_client -- a unified HTTP client with rate limiting, retries, and exponential backoff. Not a standalone agent skill. Do not invoke directly.",
       "installable": false,
       "links": {
@@ -31263,6 +31389,12 @@
           "action": "rank_up",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:41Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 1★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -31279,10 +31411,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rank": 1,
+      "rankWord": "Awakened",
+      "medallion": "◇",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -31400,7 +31532,7 @@
       "origin": false,
       "genericSkillRef": "genomic-data-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Fetch Evolutionary Conservation scores (phyloP, phastCons) and Transcription Factor Binding Sites (TFBS) from the UCSC Genome Browser. Use when analyzing whether genomic variants or regions are evolutionarily conserved, functionally important, or bounded by TF regulators across major projects (ENCODE, JASPAR, ReMap).",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/ucsc_conservation_and_tfbs/SKILL.md"
@@ -31505,6 +31637,12 @@
           "action": "rank_up",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:52Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -31521,10 +31659,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -31534,7 +31672,7 @@
       "origin": false,
       "genericSkillRef": "genomic-data-retrieval",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Queries the UniBind database for experimentally validated transcription factor (TF) binding sites. Use when retrieving direct TF-DNA interaction datasets, downloading binding site coordinates (BED/FASTA) for local analysis, or listing available datasets by species, cell line, or TF name. Don't use to query specific intervals, locations, genes, motif models or expression data.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/unibind_database/SKILL.md"
@@ -31639,6 +31777,12 @@
           "action": "rank_up",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:53Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -31655,10 +31799,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -31887,6 +32031,18 @@
           "action": "rank_up",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:53Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
+        },
+        {
+          "timestamp": "2026-07-30T23:24:20Z",
+          "action": "rank_up",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 3★ to 4★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -31916,7 +32072,7 @@
       "origin": false,
       "genericSkillRef": "skill-authoring",
       "status": "awakened",
-      "level": "4★",
+      "level": "3★",
       "description": "Distills a completed user workflow or interaction into a reusable agent skill. Use when the user asks to turn their workflow, interaction, or multi-step process into a skill, or when they say \"make this a skill\", \"create a skill from what we just did\", \"package this workflow\" or similar. Do not use for creating skills from scratch without an existing workflow (use a generic skill-creator for that).",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md"
@@ -32021,6 +32177,12 @@
           "action": "rank_up",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:54Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -32037,10 +32199,10 @@
         "systemWideCap": null
       },
       "type": "fusion",
-      "branch": "unique",
-      "rank": 4,
-      "rankWord": "Unique",
-      "medallion": "◉",
+      "branch": "standard",
+      "rank": 3,
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "contractVersion": "gaia-public-v1"
     },
     {

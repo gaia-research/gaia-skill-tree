@@ -5,7 +5,7 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: genomic-data-retrieval
 status: awakened
-level: 4★
+level: 3★
 description: Queries the UniBind database for experimentally validated transcription
   factor (TF) binding sites. Use when retrieving direct TF-DNA interaction datasets,
   downloading binding site coordinates (BED/FASTA) for local analysis, or listing
@@ -92,6 +92,10 @@ timeline:
   action: rank_up
   contributor: marcotiongson
   details: Calibrated level from 3★ to 4★
+- timestamp: '2026-07-30T23:21:53Z'
+  action: demote
+  contributor: marcotiongson
+  details: Calibrated level from 4★ to 3★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

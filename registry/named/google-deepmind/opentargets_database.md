@@ -5,7 +5,7 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: clinical-data-retrieval
 status: awakened
-level: 4★
+level: 3★
 description: Query Open Targets Platform for target-disease associations, drug target
   discovery, tractability/safety data, genetics/omics evidence, known drugs, for therapeutic
   target identification.
@@ -90,6 +90,10 @@ timeline:
   action: rank_up
   contributor: marcotiongson
   details: Calibrated level from 3★ to 4★
+- timestamp: '2026-07-30T23:21:49Z'
+  action: demote
+  contributor: marcotiongson
+  details: Calibrated level from 4★ to 3★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

@@ -679,7 +679,7 @@
     },
     {
       "skillId": "google-deepmind/science_skills_common",
-      "level": "3★",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
@@ -697,6 +697,16 @@
         {
           "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
+          "source": "demote"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-07-30T22:37:32Z",
+          "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-07-30T23:21:41Z",
           "source": "demote"
         }
       ]
@@ -1636,6 +1646,22 @@
       "newValue": "3★",
       "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
       "skillId": "google-deepmind/workflow_skill_creator"
+    },
+    {
+      "timestamp": "2026-07-30T22:37:32Z",
+      "action": "rank_up",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
+      "skillId": "google-deepmind/science_skills_common"
+    },
+    {
+      "timestamp": "2026-07-30T23:21:41Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Calibrated level from 4★ to 1★",
+      "skillId": "google-deepmind/science_skills_common"
     }
   ],
   "stats": {
