@@ -209,7 +209,7 @@ Not using Gaia? No problem. `skill-fuse` works standalone.
 
 - [measure CI wasted time per PR](https://github.com/gaia-research/skill-ci-churn) — companion skill `skill-ci-churn` for GitHub Actions time-waste analysis.
 - [`gaia-research/marketing-tasks`](https://github.com/gaia-research/marketing-tasks) — campaigns and deliverables using this skill.
-- [Gaia Skill Registry](https://gaiaskilltree.com) — the open catalog this skill belongs to.
+- [Gaia Skill Tree](https://gaiaskilltree.com) — the open catalog this skill belongs to.
 
 ## License
 

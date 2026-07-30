@@ -1,4 +1,4 @@
-# CODEOWNERS — Gaia Skill Registry
+# CODEOWNERS — Gaia Skill Tree
 #
 # Enforces review requirements by path. Combined with branch protection
 # and the branch-scope CI workflow for modular enforcement.
