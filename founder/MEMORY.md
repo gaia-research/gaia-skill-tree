@@ -4,6 +4,28 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-30, HG-2 merge checkpoint — #636 and #1152 merged)
+
+### TLDR
+- **#636 merged** via PR #1398 (`908987bc3`): CLI scanner now includes explicit `.xcode/skills` and `.xcode/rules` roots while keeping broad `.xcode/**` pruned.
+- **#1152 merged** via PR #1397 (`f6a67249f`): `gaia dev fuse` now has regression coverage for legacy `note`→`fuse` repair and narrow docs for prerequisite/fusion timeline events.
+- Local child worktrees for #636 and #1152 were removed after merge.
+- Backlog tracker was updated to mark both as done.
+
+### Branch / PR state
+
+| Item | State |
+|---|---|
+| `dev/issue-backlog` | Head `f6a67249f`, synced with origin before tracker update |
+| #1398 / #636 | Merged; CI green; reviewer PASS after scope fix |
+| #1397 / #1152 | Merged; CI green; reviewer PASS after wording fix |
+| #1395 | Draft integration PR remains active |
+
+### Next HG-2 candidates
+
+- #118 likely superseded by Yggdrasil II / retired promotion flow; scout recommended close after founder judgement.
+- #139, #1028, #1158, #332 still need planning/scouting because prior planner call returned no output due provider issue.
+
 ## State Snapshot (2026-07-30, HG-2 opened — #1152 and #636 child PRs drafted)
 
 ### TLDR
