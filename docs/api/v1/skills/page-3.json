@@ -1,6 +1,22 @@
 {
   "skills": [
     {
+      "id": "addy-osmani/test-driven-development",
+      "name": "Test-Driven Development",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "addy-osmani",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/test-driven-development.json"
+      },
+      "genericSkillRef": "test-driven-development"
+    },
+    {
       "id": "anthropic/pptx",
       "name": "PPTX Editor",
       "level": "2★",
@@ -783,27 +799,11 @@
         "self": "/api/v1/skills/ruvnet/flow-nexus-platform.json"
       },
       "genericSkillRef": "cloud-platform-management"
-    },
-    {
-      "id": "ruvnet/github-multi-repo",
-      "name": "GitHub Multi-Repo",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "ruvnet",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/github-multi-repo.json"
-      },
-      "genericSkillRef": "multi-repo-coordination"
     }
   ],
   "page": 3,
   "totalPages": 4,
-  "totalSkills": 168,
+  "totalSkills": 169,
   "_links": {
     "self": "/api/v1/skills/page-3.json",
     "prev": "/api/v1/skills/page-2.json",

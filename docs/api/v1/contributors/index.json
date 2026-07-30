@@ -144,6 +144,19 @@
       }
     },
     {
+      "handle": "mvanhorn",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "mvanhorn/last30days",
+        "level": "4★",
+        "trustMagnitude": 127.85
+      },
+      "prestigeScore": 127.85,
+      "_links": {
+        "self": "/api/v1/contributors/mvanhorn.json"
+      }
+    },
+    {
       "handle": "anthropic",
       "namedSkills": 2,
       "topSkill": {
@@ -456,7 +469,7 @@
       }
     }
   ],
-  "totalContributors": 35,
+  "totalContributors": 36,
   "_links": {
     "self": "/api/v1/contributors/index.json"
   }

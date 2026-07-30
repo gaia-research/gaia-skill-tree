@@ -1,6 +1,22 @@
 {
   "skills": [
     {
+      "id": "obra/systematic-debugging",
+      "name": "Systematic Debugging",
+      "level": "3★",
+      "trustMagnitude": 65.15,
+      "overallTrustGrade": "B",
+      "contributor": "obra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/obra/systematic-debugging.json"
+      },
+      "genericSkillRef": "systematic-debugging"
+    },
+    {
       "id": "garrytan/benchmark",
       "name": "Benchmark",
       "level": "3★",
@@ -792,27 +808,11 @@
         "self": "/api/v1/skills/Manavarya09/design-extract.json"
       },
       "genericSkillRef": "design-system-extraction"
-    },
-    {
-      "id": "addy-osmani/test-driven-development",
-      "name": "Test-Driven Development",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "addy-osmani",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/test-driven-development.json"
-      },
-      "genericSkillRef": "test-driven-development"
     }
   ],
   "page": 2,
   "totalPages": 4,
-  "totalSkills": 168,
+  "totalSkills": 169,
   "_links": {
     "self": "/api/v1/skills/page-2.json",
     "prev": "/api/v1/skills/index.json",

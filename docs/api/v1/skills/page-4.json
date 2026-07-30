@@ -1,6 +1,22 @@
 {
   "skills": [
     {
+      "id": "ruvnet/github-multi-repo",
+      "name": "GitHub Multi-Repo",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/github-multi-repo.json"
+      },
+      "genericSkillRef": "multi-repo-coordination"
+    },
+    {
       "id": "ruvnet/pair-programming",
       "name": "Pair Programming",
       "level": "2★",
@@ -291,7 +307,7 @@
   ],
   "page": 4,
   "totalPages": 4,
-  "totalSkills": 168,
+  "totalSkills": 169,
   "_links": {
     "self": "/api/v1/skills/page-4.json",
     "prev": "/api/v1/skills/page-3.json"
