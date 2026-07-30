@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-07-30T22:05:04Z",
+  "generatedAt": "2026-07-30T22:14:41Z",
   "firstRun": false,
   "skills": [
     {
@@ -156,79 +156,9 @@
       "_links": {
         "self": "/api/v1/skills/disler/plan-synthesis.json"
       }
-    },
-    {
-      "id": "firecrawl/firecrawl-build-interact",
-      "name": "Firecrawl Interact",
-      "level": "2★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 75.58,
-      "overallTrustGrade": "B",
-      "trendingScore": 12.62,
-      "tmDelta": 2.06,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-build-interact.json"
-      }
-    },
-    {
-      "id": "firecrawl/firecrawl-build-onboarding",
-      "name": "Firecrawl Onboarding",
-      "level": "2★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 75.58,
-      "overallTrustGrade": "B",
-      "trendingScore": 12.62,
-      "tmDelta": 2.06,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
-      }
-    },
-    {
-      "id": "firecrawl/firecrawl-research-index",
-      "name": "Firecrawl Research Index",
-      "level": "2★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 75.58,
-      "overallTrustGrade": "B",
-      "trendingScore": 12.62,
-      "tmDelta": 2.06,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
-      }
-    },
-    {
-      "id": "firecrawl/firecrawl-build-search",
-      "name": "Firecrawl Search",
-      "level": "4★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 109.2,
-      "overallTrustGrade": "A",
-      "trendingScore": 12.44,
-      "tmDelta": 2.06,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-build-search.json"
-      }
-    },
-    {
-      "id": "firecrawl/firecrawl-build-scrape",
-      "name": "Firecrawl Scrape",
-      "level": "4★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 135.6,
-      "overallTrustGrade": "A",
-      "trendingScore": 12.37,
-      "tmDelta": 2.06,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
-      }
     }
   ],
-  "totalTrending": 16,
+  "totalTrending": 11,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }

@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-07-30T22:05:04Z",
+  "generatedAt": "2026-07-30T22:14:41Z",
   "firstRun": false,
   "skills": [
     {
@@ -218,10 +218,10 @@
       "name": "Firecrawl Scrape",
       "level": "4★",
       "contributor": "firecrawl",
-      "trustMagnitude": 135.6,
+      "trustMagnitude": 133.54,
       "overallTrustGrade": "A",
-      "trendingScore": 67.8,
-      "tmDelta": 135.6,
+      "trendingScore": 66.77,
+      "tmDelta": 133.54,
       "new": true,
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
@@ -260,10 +260,10 @@
       "name": "Firecrawl Search",
       "level": "4★",
       "contributor": "firecrawl",
-      "trustMagnitude": 109.2,
+      "trustMagnitude": 107.14,
       "overallTrustGrade": "A",
-      "trendingScore": 54.6,
-      "tmDelta": 109.2,
+      "trendingScore": 53.57,
+      "tmDelta": 107.14,
       "new": true,
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-search.json"
@@ -386,10 +386,10 @@
       "name": "Firecrawl Interact",
       "level": "2★",
       "contributor": "firecrawl",
-      "trustMagnitude": 75.58,
+      "trustMagnitude": 73.52,
       "overallTrustGrade": "B",
-      "trendingScore": 37.79,
-      "tmDelta": 75.58,
+      "trendingScore": 36.76,
+      "tmDelta": 73.52,
       "new": true,
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-interact.json"
@@ -400,10 +400,10 @@
       "name": "Firecrawl Onboarding",
       "level": "2★",
       "contributor": "firecrawl",
-      "trustMagnitude": 75.58,
+      "trustMagnitude": 73.52,
       "overallTrustGrade": "B",
-      "trendingScore": 37.79,
-      "tmDelta": 75.58,
+      "trendingScore": 36.76,
+      "tmDelta": 73.52,
       "new": true,
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
@@ -414,10 +414,10 @@
       "name": "Firecrawl Research Index",
       "level": "2★",
       "contributor": "firecrawl",
-      "trustMagnitude": 75.58,
+      "trustMagnitude": 73.52,
       "overallTrustGrade": "B",
-      "trendingScore": 37.79,
-      "tmDelta": 75.58,
+      "trendingScore": 36.76,
+      "tmDelta": 73.52,
       "new": true,
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
