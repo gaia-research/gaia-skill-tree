@@ -231,7 +231,7 @@ def test_dev_fuse_rejects_slash_in_generic_id(tmp_path, capsys):
 def test_dev_fuse_timeline_behavior(tmp_path, monkeypatch):
     """Proves legacy `note` timeline events from older `gaia dev fuse` are repaired,
 
-    and asserts newly appended events use `fuse` instead of `note`.
+    and asserts prerequisite/fusion events use `fuse` instead of `note`.
     """
     root = _make_registry(tmp_path)
     nodes_dir = Path(root) / "registry" / "nodes"
@@ -302,12 +302,12 @@ def test_dev_fuse_timeline_behavior(tmp_path, monkeypatch):
     # The unrelated note should NOT be repaired
     assert timeline[1]["action"] == "note"
 
-    # Check that newly appended events use "fuse" and NOT "note"
+    # Check that prerequisite/fusion event uses "fuse" and NOT "note"
     assert len(captured_events) > 0
     fuse_events = [e for e in captured_events if e["action"] == "fuse"]
     note_events = [e for e in captured_events if e["action"] == "note"]
 
-    # Assert newly appended events for fusing use action "fuse", not "note"
+    # Assert newly appended event for setting prerequisites uses action "fuse", not "note"
     assert len(fuse_events) == 1
     assert len(note_events) == 0
     assert fuse_events[0]["skill_id"] == "existing-fusion"

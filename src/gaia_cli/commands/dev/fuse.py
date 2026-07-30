@@ -22,10 +22,10 @@ picks up the suiteRef/suiteComponents links without stripping them.
 Timeline Behavior
 -----------------
 
-This command appends new timeline events with action `fuse` (not `note`).
-During execution, any legacy timeline events where action is `note` and
-the details contain "via `gaia dev fuse`" are automatically repaired
-to the correct `fuse` action.
+The prerequisite/fusion timeline event appended when prereqs are set uses
+action `fuse`. Legacy `note` events whose details contain "via `gaia dev fuse`"
+are repaired to `fuse` on rerun. Other actions (like `add` or `suite_ref_set`)
+may be appended by other parts of the command's setup.
 """
 
 import json
