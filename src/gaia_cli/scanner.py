@@ -193,6 +193,8 @@ def _skill_search_dirs(root: str = ".", global_search: bool = False, extra_dirs:
         os.path.join(".windsurf", "rules"),      # Windsurf IDE
         os.path.join(".copilot", "skills"),      # GitHub Copilot (speculative)
         os.path.join(".zed", "skills"),          # Zed editor (speculative)
+        os.path.join(".xcode", "skills"),        # Xcode skills
+        os.path.join(".xcode", "rules"),         # Xcode rules
     ):
         candidates.append(os.path.join(root, rel))
 
@@ -250,6 +252,7 @@ def _should_prune_dir(d: str) -> bool:
             ".zed",
             ".local",
             ".gaia",
+            ".xcode",
         )
         if not d.startswith(allowed_prefixes):
             return True

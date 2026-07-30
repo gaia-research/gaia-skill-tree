@@ -168,6 +168,24 @@ class TestSkillSearchDirs:
         results = scan_skill_mds(root=str(tmp_path))
         assert any(r["id"] == "/surf-skill" for r in results)
 
+    def test_finds_xcode_skills(self, tmp_path):
+        """.xcode/skills/ subdirs are treated as skills."""
+        d = tmp_path / ".xcode" / "skills" / "xcode-skill"
+        d.mkdir(parents=True)
+        _write(str(d / "skill.md"), "---\nname: Xcode Skill\ndescription: test\n---\n")
+
+        results = scan_skill_mds(root=str(tmp_path))
+        assert any(r["id"] == "/xcode-skill" for r in results)
+
+    def test_finds_xcode_rules(self, tmp_path):
+        """.xcode/rules/ subdirs are treated as skills."""
+        d = tmp_path / ".xcode" / "rules" / "xcode-rule"
+        d.mkdir(parents=True)
+        _write(str(d / "skill.md"), "---\nname: Xcode Rule\ndescription: test\n---\n")
+
+        results = scan_skill_mds(root=str(tmp_path))
+        assert any(r["id"] == "/xcode-rule" for r in results)
+
     def test_source_dir_recorded(self, tmp_path):
         """Each result records which directory it came from."""
         d = tmp_path / ".agents" / "skills" / "tracked"
@@ -406,6 +424,7 @@ class TestRed_GlobalSearchDirsExcluded:
         global_skills.mkdir(parents=True)
 
         monkeypatch.setenv("HOME", str(home))
+        monkeypatch.setenv("USERPROFILE", str(home))
 
         dirs = _skill_search_dirs(root=str(tmp_path), global_search=False)
         real_dirs = [os.path.realpath(d) for d in dirs]
@@ -420,6 +439,7 @@ class TestRed_GlobalSearchDirsExcluded:
         global_skills.mkdir(parents=True)
 
         monkeypatch.setenv("HOME", str(home))
+        monkeypatch.setenv("USERPROFILE", str(home))
 
         dirs = _skill_search_dirs(root=str(tmp_path), global_search=True)
         real_dirs = [os.path.realpath(d) for d in dirs]
@@ -484,6 +504,7 @@ class TestGreen_ScanGlobalSearch:
                "---\nname: Global Skill\ndescription: Installed globally\n---\n")
 
         monkeypatch.setenv("HOME", str(home))
+        monkeypatch.setenv("USERPROFILE", str(home))
 
         dirs = _skill_search_dirs(root=str(tmp_path), global_search=True)
         real_dirs = [os.path.realpath(d) for d in dirs]
@@ -539,3 +560,22 @@ class TestScrutiny_ScanRootVsParent:
         assert "parent-skill" not in found_ids, (
             "Skills above the project root should not be found with global_search=False"
         )
+
+
+class TestShouldPruneDir:
+    def test_prunes_default_excluded_dirs(self):
+        from gaia_cli.scanner import _should_prune_dir
+        assert _should_prune_dir(".git") is True
+        assert _should_prune_dir("node_modules") is True
+        assert _should_prune_dir("__pycache__") is True
+
+    def test_allows_allowed_dot_prefixes(self):
+        from gaia_cli.scanner import _should_prune_dir
+        assert _should_prune_dir(".agents") is False
+        assert _should_prune_dir(".claude") is False
+        assert _should_prune_dir(".cursor") is False
+        assert _should_prune_dir(".xcode") is False
+
+    def test_prunes_unallowed_dot_prefixes(self):
+        from gaia_cli.scanner import _should_prune_dir
+        assert _should_prune_dir(".unknown") is True
