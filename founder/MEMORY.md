@@ -4,6 +4,76 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-30, Session 8I — A1 (KC5) and the #1258 CI fix both landed and merged; KC8 pipeline launched; F7 locked, cursor deferred, dispatch cap retired)
+
+### TLDR
+- **The dead #1258 agent was not lost work.** Its worktree had all 10 commits already pushed as PR #1399 — confirmed before anything else, per standing instruction.
+- **Two pieces of work fully closed and merged this session.** PR #1399's failing CI ("Schema + DAG + Integrity Checks") was root-caused, fixed, independently re-verified, and merged to `main` (merge commit). A1 (skill-heaven issue #11 / KC5 re-verification against the widened `LAUNCHABLE_POSTURES` door) found a real gap, fixed it, independently re-verified (213/213 tests, tsc clean), and merged PR #21 (squash) into `integration/arc-i-lane-a`.
+- **Both agents under-reported their own token spend** (no metering access) — corrected on each PR thread with harness-measured figures instead of guesses.
+- **Three founder rulings closed open questions from 8H:** F7 (+515 tok) is locked, not re-derived despite `claude` version drift (2.1.216→2.1.220) — the drift itself is accepted as harmless/expected. Cursor's harness probe is deferred (no availability to test it) — no cursor claim should be assumed or fabricated until that changes. The standing 2-worker dispatch concurrency cap is **retired** — Marco now dictates dispatch timing/count per-instruction, not a fixed number.
+- **A self-caught correction:** KC8 and KC9 were initially inverted from a paraphrase — verified against the literal skill-heaven issue #13 body and corrected. **KC8 = every public claim links to a reproducible benchmark record (B4). KC9 = the three-minute demo.**
+- **KC8 is now in flight** via a 5-stage pipeline (Opus max plan → Opus medium implement → Sonnet high review, looped up to 3 rounds → Opus low authors the deliverable + PR), running as a background Workflow in a dedicated `gaia-research` worktree, anchored by a scratchpad file every stage reads/updates for recoverability. Not yet reached the human gate.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| gaia-skill-tree **#1399** — #1258 lexicon sweep, CI fix | ✅ **MERGED to `main`** (merge commit `b73c6b8a`). Root cause: self-inflicted (hand-edit inside a `gaia:cli-start`-generated README region desynced argparse wrapping; a profile-page regen dropped 3 cache-busting `<meta>` headers from `docs/u/index.html`). Independently re-verified: 23/23 checks passing. Registry-mutation remainder (5 `mbtiongson1` skill descriptions) still open — needs its own `review/meta/` PR, does not close #1258. |
+| skill-heaven **#21** — A1/KC5 re-verification | ✅ **MERGED (squash) to `integration/arc-i-lane-a`** (`f0e9a278`). Real gap found: door-level KC5 test (`packages/claude-heaven/test/no-shared-mutation.test.ts`) silently stopped covering reality after PR #18 widened `LAUNCHABLE_POSTURES` — its own comment admitted native-only scope. Extended with real `planLaunch`-driven coverage for curated/product-floor. Independently re-run: 213/213 tests, `tsc --noEmit` clean. |
+| Token spend corrections | ✅ Posted to both PR threads: A1 = 119,482 subagent tokens (harness-measured, was guessed at ~45k/9k); #1399 CI fix = 93,439 (was guessed at ~60-80k/8-10k). |
+| F7 (+515 tok) | ✅ **Locked** by founder ruling — do not re-derive against `claude 2.1.220` despite being measured on `2.1.216`. Logged to orchestrator private memory for future-session recall. |
+| Cursor harness probe | ⏳ **Deferred** — no availability to test it. Logged to orchestrator private memory; same discipline as codex (R4, 8H): unprobed harness has no "off" under P8. |
+| Dispatch concurrency policy | ✅ **Changed** — the standing "1 orchestrator + 2 workers" cap (set 2026-07-29) is retired. Marco dictates dispatch timing/count directly per session/task now. |
+| KC8/KC9 identity correction | ✅ Verified against `skill-heaven` issue #13's literal body (`gh issue view 13`) after an inline mislabel. KC8 = benchmark-record linkage (B4). KC9 = the three-minute demo. |
+| KC8 pipeline | ⏳ **In flight**, background Workflow `wf_d78cba99-d18`. 5 stages: plan (Opus max) → implement (Opus medium) → review (Sonnet high, loops up to 3 rounds) → deliverable (Opus low) → human gate (Marco, `next dev` locally). Worktree: `/Users/marcotiongson/Documents/gaia-research-kc8`, branch `docs/kc8-benchmark-ledger` off `main` @ `6b8db3d`. Scratchpad: `KC8_SCRATCHPAD.md` at worktree root — every stage reads/updates it; git is ground truth for actual committed state if resuming after a cutoff. |
+| A6/R2 composition fix (`product-floor`'s `--setting-sources project` → `''`, plus `LEVEL_ALIASES: off → floor` → `off → product-floor`) | ❌ **NOT STARTED** — the "one change closes both" P8 contradictions item from the 8I handoff. |
+| KC9 (three-minute demo) | ❌ **NOT STARTED.** |
+| #1258 registry-mutation remainder (5 `mbtiongson1` descriptions → `review/meta/` PR) | ❌ **NOT STARTED.** |
+
+### Branches at end of session
+
+| Branch | Head SHA | Status |
+|---|---|---|
+| gaia-skill-tree `main` | `b73c6b8a` | #1399 merged in. |
+| skill-heaven `integration/arc-i-lane-a` | `f0e9a278` | #21 merged in (squash). |
+| gaia-research `docs/kc8-benchmark-ledger` | `4bca5b4` (scratchpad anchor commit, KC8 pipeline pushing more on top) | Open, unmerged, KC8 work in progress. Off `main` @ `6b8db3d`. |
+| gaia-skill-tree `docs/session-8f-snapshot` (#1377) | — | Still open by founder instruction; this snapshot lands here. |
+
+### Issues + PRs touched
+
+- gaia-skill-tree **#1399** — MERGED. Part of #1258 (still open — registry-mutation remainder pending).
+- skill-heaven **#21** — MERGED (squash). Closes the A1 gap against issue #11 (KC5); #11 itself was already closed on GitHub, this makes that closure honest against the widened door.
+- skill-heaven **#13** (KC8/KC9) — read for ground truth, not yet resolved. KC8 work opened as a new gaia-research PR once the pipeline reaches its deliverable stage (not yet — pipeline still running as of this snapshot).
+
+### Routing — where things live now
+
+- **A1 / KC5**: closed, on `integration/arc-i-lane-a`.
+- **#1258's CI-blocking half**: closed, on gaia-skill-tree `main`. Its registry-mutation half is still open, homeless (no PR yet) — needs a `review/meta/` branch per Programmatic-First + Guard E.
+- **KC8**: in flight in `gaia-research`, worktree `/Users/marcotiongson/Documents/gaia-research-kc8`, scratchpad `KC8_SCRATCHPAD.md`, Workflow `wf_d78cba99-d18`.
+- **KC9, the P8 composition fix, cursor probing (if availability returns)**: unstarted, next in line per the 8I handoff's original ordering.
+
+### Lessons / hazards preserved
+
+- **A silent success exit code is not verification.** Both PRs merged this session had CI states that needed independent re-running (not trusting the agent's report) before treating them as done — in one case the agent's own working theory (upstream `main` drift) was wrong, and re-diagnosis found the real, self-inflicted cause.
+- **A test's own comments can tell you it's stale.** The A1 gap was findable directly from a code comment admitting "this is the only posture reachable through this door today," written before a later PR widened the door and never updated. Read the comments, don't just read the assertions.
+- **Cite the literal issue body, not a paraphrase.** The KC8/KC9 swap happened because a summary in an earlier handoff message didn't specify which was which; `gh issue view` settled it in one call. When two things get referred to as "carries both" without an explicit mapping, look it up before building anything on the assumption.
+- **`isolation: "worktree"` remains a trap for cross-repo dispatch** — every agent this session working outside `gaia-skill-tree` was pointed at a manually-created worktree/clone path instead, and told explicitly not to request isolation.
+- **Recoverability is now a designed-in pattern, not an afterthought**: the KC8 pipeline's scratchpad file is a deliberate answer to "what happens if we run out of credits mid-pipeline" — every stage reads it first and updates it before stopping, independent of Workflow's own same-session resume.
+
+### Open questions for next orchestrator
+
+1. **KC8 pipeline outcome** — check `/workflows` or wait for the completion notification on `wf_d78cba99-d18`. If it escalated (review loop hit 3 rounds unsatisfied), that needs a founder decision, not a silent retry.
+2. **The P8 composition fix** (`product-floor`'s `--setting-sources` + the `LEVEL_ALIASES` repoint) — still not started, "one change closes both" per the 8I handoff.
+3. **KC9** (three-minute demo) — still not started, likely follows KC8's ledger work since the demo will want to cite the same records.
+4. **#1258's registry-mutation remainder** — 5 `mbtiongson1` skill descriptions, needs a `review/meta/` branch, Programmatic-First `gaia dev` verbs, Guard E Class S artifacts in the same PR.
+5. **Cursor availability** — check again before assuming it's still unavailable; the deferral was a point-in-time state, not a permanent one.
+
+### Token cost (this session)
+
+`2026-07-30 — Session 8I. Measured subagent tokens: 119,482 (A1/KC5, Sonnet 5) + 93,439 (#1399 CI fix, Opus 5) = 212,921 across two reporting agents. KC8 pipeline (5 background agents: Opus max/medium/low + Sonnet high review, possibly looped) still running as of this snapshot — its cost is not yet known and will need adding in a future snapshot. Orchestrator inline work (verification re-runs, worktree/scratchpad setup, memory writes) unmeasured.`
+
+---
+
 ## State Snapshot (2026-07-30, Session 8H — every open decision ruled, four ratifications landed on main, two PRs merged to integration; the floor definition changed what the criteria MEAN)
 
 ### TLDR
