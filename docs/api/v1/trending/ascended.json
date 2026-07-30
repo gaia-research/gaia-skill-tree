@@ -1,6 +1,54 @@
 {
-  "generatedAt": "2026-07-30T08:51:15Z",
+  "generatedAt": "2026-07-30T16:20:11Z",
   "skills": [
+    {
+      "id": "disler/agent-fusion",
+      "name": "Agent Fusion",
+      "level": "2★",
+      "contributor": "disler",
+      "trustMagnitude": 127.54,
+      "overallTrustGrade": "C",
+      "ascendedAt": "2026-07-30T16:20:02Z",
+      "_links": {
+        "self": "/api/v1/skills/disler/agent-fusion.json"
+      }
+    },
+    {
+      "id": "disler/plan-synthesis",
+      "name": "Plan Synthesis",
+      "level": "2★",
+      "contributor": "disler",
+      "trustMagnitude": 36.34,
+      "overallTrustGrade": "C",
+      "ascendedAt": "2026-07-30T16:20:00Z",
+      "_links": {
+        "self": "/api/v1/skills/disler/plan-synthesis.json"
+      }
+    },
+    {
+      "id": "disler/auto-review",
+      "name": "Auto-Review",
+      "level": "2★",
+      "contributor": "disler",
+      "trustMagnitude": 36.34,
+      "overallTrustGrade": "C",
+      "ascendedAt": "2026-07-30T16:19:59Z",
+      "_links": {
+        "self": "/api/v1/skills/disler/auto-review.json"
+      }
+    },
+    {
+      "id": "disler/opinion",
+      "name": "Opinion",
+      "level": "2★",
+      "contributor": "disler",
+      "trustMagnitude": 36.34,
+      "overallTrustGrade": "C",
+      "ascendedAt": "2026-07-30T16:19:58Z",
+      "_links": {
+        "self": "/api/v1/skills/disler/opinion.json"
+      }
+    },
     {
       "id": "mvanhorn/last30days",
       "name": "Last 30 Days Web Research",

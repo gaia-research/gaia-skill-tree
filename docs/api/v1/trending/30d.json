@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-07-30T08:51:15Z",
+  "generatedAt": "2026-07-30T16:20:11Z",
   "firstRun": false,
   "skills": [
     {
@@ -239,6 +239,20 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/mvanhorn/last30days.json"
+      }
+    },
+    {
+      "id": "disler/agent-fusion",
+      "name": "Agent Fusion",
+      "level": "2★",
+      "contributor": "disler",
+      "trustMagnitude": 127.54,
+      "overallTrustGrade": "C",
+      "trendingScore": 63.77,
+      "tmDelta": 127.54,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/disler/agent-fusion.json"
       }
     },
     {
@@ -491,20 +505,6 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/gaia-research/skill-fuse.json"
-      }
-    },
-    {
-      "id": "disler/agent-fusion",
-      "name": "Agent Fusion",
-      "level": "2★",
-      "contributor": "disler",
-      "trustMagnitude": 37.54,
-      "overallTrustGrade": "C",
-      "trendingScore": 18.77,
-      "tmDelta": 37.54,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/disler/agent-fusion.json"
       }
     },
     {

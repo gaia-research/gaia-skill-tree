@@ -1,6 +1,6 @@
 {
-  "version": "7.1.34",
-  "generatedAt": "2026-07-30T15:37:00Z",
+  "version": "6.8.15",
+  "generatedAt": "2026-07-30T16:20:09Z",
   "summary": {
     "total": 292,
     "S": 5,
@@ -325,7 +325,7 @@
         "social-signal": 36.34,
         "fusion-recipe": 90.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "suite"
     },
     {
@@ -2408,7 +2408,7 @@
       "typeBreakdown": {
         "social-signal": 36.34
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -2424,7 +2424,7 @@
       "typeBreakdown": {
         "social-signal": 36.34
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -2440,7 +2440,7 @@
       "typeBreakdown": {
         "social-signal": 36.34
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {

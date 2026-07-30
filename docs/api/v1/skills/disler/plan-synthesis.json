@@ -17,7 +17,7 @@
   },
   "title": "Plan Synthesis",
   "genericSkillRef": "plan-synthesis",
-  "origin": false,
+  "origin": true,
   "description": "Combine two or more independently produced plans into a single attributed result, resolving conflicts and surfacing consensus and divergence.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
@@ -53,6 +53,12 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added evidence from https://www.youtube.com/watch?v=AQl5Q-0l7FQ (type: social-signal)"
+    },
+    {
+      "timestamp": "2026-07-30T16:20:00Z",
+      "action": "rank_up",
+      "contributor": "marcotiongson",
+      "details": "Origin status set to true."
     }
   ],
   "links": {

@@ -5,7 +5,7 @@
   "level": "2★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 37.54,
+  "trustMagnitude": 127.54,
   "overallTrustGrade": "C",
   "branch": "suite",
   "rankWord": "Named",
@@ -17,7 +17,7 @@
   },
   "title": "Agent Fusion",
   "genericSkillRef": "agent-fusion",
-  "origin": false,
+  "origin": true,
   "description": "Orchestrate multiple specialized AI models as a fused agentic team: form opinions, merge parallel plans, and auto-validate outputs to achieve frontier performance at reduced cost.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
@@ -77,6 +77,12 @@
       "action": "suite_ref_set",
       "contributor": "unknown",
       "details": "Set suiteRef=disler/agent-fusion, genericSkillRef=agent-fusion via `gaia dev fuse`."
+    },
+    {
+      "timestamp": "2026-07-30T16:20:02Z",
+      "action": "rank_up",
+      "contributor": "marcotiongson",
+      "details": "Origin status set to true."
     }
   ],
   "links": {

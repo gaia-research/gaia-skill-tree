@@ -6207,7 +6207,7 @@
         "id": "disler/agent-fusion",
         "name": "Agent Fusion",
         "contributor": "disler",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "agent-fusion",
         "status": "named",
         "level": "2★",
@@ -6241,7 +6241,7 @@
           }
         ],
         "createdAt": "2026-07-30",
-        "updatedAt": "2026-07-30",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-07-29T20:14:46Z",
@@ -6266,6 +6266,12 @@
             "action": "suite_ref_set",
             "contributor": "unknown",
             "details": "Set suiteRef=disler/agent-fusion, genericSkillRef=agent-fusion via `gaia dev fuse`."
+          },
+          {
+            "timestamp": "2026-07-30T16:20:02Z",
+            "action": "rank_up",
+            "contributor": "marcotiongson",
+            "details": "Origin status set to true."
           }
         ],
         "suiteComponents": [
@@ -6275,8 +6281,8 @@
         ],
         "type": "fusion",
         "installBody": "Add installation instructions here.",
-        "role": "variant",
-        "trustMagnitude": 37.54,
+        "role": "origin",
+        "trustMagnitude": 127.54,
         "overallTrustGrade": "C",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -6304,7 +6310,7 @@
         "id": "disler/auto-review",
         "name": "Auto-Review",
         "contributor": "disler",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "auto-review",
         "status": "named",
         "level": "2★",
@@ -6326,7 +6332,7 @@
           }
         ],
         "createdAt": "2026-07-30",
-        "updatedAt": "2026-07-30",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-07-29T20:14:45Z",
@@ -6339,12 +6345,18 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://www.youtube.com/watch?v=AQl5Q-0l7FQ (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-07-30T16:19:59Z",
+            "action": "rank_up",
+            "contributor": "marcotiongson",
+            "details": "Origin status set to true."
           }
         ],
         "suiteRef": "disler/agent-fusion",
         "type": "basic",
         "installBody": "Add installation instructions here.",
-        "role": "variant",
+        "role": "origin",
         "trustMagnitude": 36.34,
         "overallTrustGrade": "C",
         "apexGateStatus": {
@@ -6369,7 +6381,7 @@
         "id": "disler/opinion",
         "name": "Opinion",
         "contributor": "disler",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "opinion",
         "status": "named",
         "level": "2★",
@@ -6391,7 +6403,7 @@
           }
         ],
         "createdAt": "2026-07-30",
-        "updatedAt": "2026-07-30",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-07-29T20:14:44Z",
@@ -6404,12 +6416,18 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://www.youtube.com/watch?v=AQl5Q-0l7FQ (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-07-30T16:19:58Z",
+            "action": "rank_up",
+            "contributor": "marcotiongson",
+            "details": "Origin status set to true."
           }
         ],
         "suiteRef": "disler/agent-fusion",
         "type": "basic",
         "installBody": "Add installation instructions here.",
-        "role": "variant",
+        "role": "origin",
         "trustMagnitude": 36.34,
         "overallTrustGrade": "C",
         "apexGateStatus": {
@@ -6434,7 +6452,7 @@
         "id": "disler/plan-synthesis",
         "name": "Plan Synthesis",
         "contributor": "disler",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "plan-synthesis",
         "status": "named",
         "level": "2★",
@@ -6456,7 +6474,7 @@
           }
         ],
         "createdAt": "2026-07-30",
-        "updatedAt": "2026-07-30",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-07-29T20:14:44Z",
@@ -6469,12 +6487,18 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://www.youtube.com/watch?v=AQl5Q-0l7FQ (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-07-30T16:20:00Z",
+            "action": "rank_up",
+            "contributor": "marcotiongson",
+            "details": "Origin status set to true."
           }
         ],
         "suiteRef": "disler/agent-fusion",
         "type": "basic",
         "installBody": "Add installation instructions here.",
-        "role": "variant",
+        "role": "origin",
         "trustMagnitude": 36.34,
         "overallTrustGrade": "C",
         "apexGateStatus": {
