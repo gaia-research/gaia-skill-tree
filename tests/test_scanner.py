@@ -150,6 +150,60 @@ class TestSkillSearchDirs:
         results = scan_skill_mds(root=str(tmp_path))
         assert any(r["id"] == "/my-skill" for r in results)
 
+    def test_finds_human_readable_skills_dir(self, tmp_path):
+        """skills/<name>/SKILL.md is treated as a bounded skill container."""
+        d = tmp_path / "skills" / "human-skill"
+        d.mkdir(parents=True)
+        _write(str(d / "SKILL.md"), "---\nname: Human Skill\ndescription: test\n---\n")
+
+        results = scan_skill_mds(root=str(tmp_path))
+        assert any(r["id"] == "/human-skill" for r in results)
+
+    def test_finds_human_readable_agent_skills_dir(self, tmp_path):
+        """agent-skills/<name>/SKILL.md is treated as a bounded skill container."""
+        d = tmp_path / "agent-skills" / "agent-skill"
+        d.mkdir(parents=True)
+        _write(str(d / "SKILL.md"), "---\nname: Agent Skill\ndescription: test\n---\n")
+
+        results = scan_skill_mds(root=str(tmp_path))
+        assert any(r["id"] == "/agent-skill" for r in results)
+
+    def test_finds_human_readable_docs_skills_dir(self, tmp_path):
+        """docs/skills/<name>/SKILL.md is treated as a bounded skill container."""
+        d = tmp_path / "docs" / "skills" / "docs-skill"
+        d.mkdir(parents=True)
+        _write(str(d / "SKILL.md"), "---\nname: Docs Skill\ndescription: test\n---\n")
+
+        results = scan_skill_mds(root=str(tmp_path))
+        assert any(r["id"] == "/docs-skill" for r in results)
+
+    def test_finds_human_readable_my_skills_dir(self, tmp_path):
+        """my-skills/<name>/SKILL.md is treated as a bounded skill container."""
+        d = tmp_path / "my-skills" / "personal-skill"
+        d.mkdir(parents=True)
+        _write(str(d / "SKILL.md"), "---\nname: Personal Skill\ndescription: test\n---\n")
+
+        results = scan_skill_mds(root=str(tmp_path))
+        assert any(r["id"] == "/personal-skill" for r in results)
+
+    def test_human_readable_skills_dir_rejects_readme_only_folder(self, tmp_path):
+        """skills/<name>/README.md alone is not treated as a skill."""
+        d = tmp_path / "skills" / "notes"
+        d.mkdir(parents=True)
+        _write(str(d / "README.md"), "---\nname: Notes\ndescription: not a skill\n---\n")
+
+        results = scan_skill_mds(root=str(tmp_path))
+        assert not any(r["id"] == "/notes" for r in results)
+
+    def test_human_readable_docs_skills_root_rejects_generic_markdown(self, tmp_path):
+        """docs/skills/*.md overview files are not treated as skills."""
+        d = tmp_path / "docs" / "skills"
+        d.mkdir(parents=True)
+        _write(str(d / "overview.md"), "# Skill overview\n")
+
+        results = scan_skill_mds(root=str(tmp_path))
+        assert results == []
+
     def test_finds_cursor_rules(self, tmp_path):
         """.cursor/rules/ subdirs are treated as skills."""
         d = tmp_path / ".cursor" / "rules" / "cursor-skill"
@@ -233,6 +287,21 @@ class TestSkillSearchDirs:
 
         results = scan_skill_mds(root=str(tmp_path))
         assert len([r for r in results if r["id"] == "/skill-x"]) == 1
+
+    def test_skills_symlink_to_legacy_root_preserves_readme_fallback(self, tmp_path):
+        """If top-level skills symlinks to .agents/skills, the legacy fallback should still work."""
+        agents_dir = tmp_path / ".agents" / "skills"
+        agents_dir.mkdir(parents=True)
+
+        legacy_skill = agents_dir / "legacy-skill"
+        legacy_skill.mkdir(parents=True)
+        _write(str(legacy_skill / "README.md"), "---\nname: Legacy Skill\ndescription: uses fallback\n---\n")
+
+        skills_link = tmp_path / "skills"
+        skills_link.symlink_to(agents_dir)
+
+        results = scan_skill_mds(root=str(tmp_path))
+        assert any(r["id"] == "/legacy-skill" for r in results)
 
     def test_config_driven_skill_dirs(self, tmp_path, monkeypatch):
         """Paths listed under skillDirs in .gaia/config.toml are scanned."""
