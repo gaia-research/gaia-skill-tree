@@ -30,6 +30,7 @@ from gaia_cli.prWriter import (  # noqa: E402
     IDENTITY_BLOCK_END,
     _render_identity_block,
     fetch_pending_identity,
+    open_intake_issue,
     parse_identity_block,
 )
 
@@ -203,11 +204,44 @@ class TestFetchPendingIdentity:
             __import__("json").dumps(f"body\n{mine}"),
             __import__("json").dumps(f"body\n{theirs}"),
         )
+        commands = []
+
+        def fake_run(cmd, cwd):
+            commands.append(cmd)
+            return _Result(stdout=payload)
+
         monkeypatch.setattr(prWriter, "_gh_ready", lambda cwd: (True, ""))
-        monkeypatch.setattr(prWriter, "_run", lambda cmd, cwd: _Result(stdout=payload))
+        monkeypatch.setattr(prWriter, "_run", fake_run)
         identity, ok = fetch_pending_identity("me/repo")
         assert ok is True
         assert identity == {s["identityKey"]: s["fingerprint"]}
+        assert ["--label", "intake"] == commands[0][3:5]
+
+    def test_open_intake_issue_creates_issue_with_intake_label(self, monkeypatch, tmp_path):
+        batch = {
+            "batchId": "20260429000000-tester-repo",
+            "userId": "tester",
+            "sourceRepo": "tester/repo",
+            "generatedAt": "2026-04-29T00:00:00Z",
+            "knownSkills": [],
+            "proposedSkills": [{"id": "semantic-search", "name": "Semantic Search", "type": "atomic"}],
+            "similarity": [],
+        }
+        commands = []
+
+        def fake_run(cmd, cwd):
+            commands.append(cmd)
+            return _Result(stdout="https://example.test/issues/123\n")
+
+        monkeypatch.setattr(prWriter, "_gh_ready", lambda cwd: (True, ""))
+        monkeypatch.setattr(prWriter, "_run", fake_run)
+
+        issue_url = open_intake_issue("tester", batch, repo_root=tmp_path)
+
+        assert issue_url == "https://example.test/issues/123"
+        assert commands[0][:4] == ["gh", "issue", "create", "--title"]
+        assert "--label" in commands[0]
+        assert ["--label", "intake", "--label", "needs-review"] == commands[0][-4:]
 
     def test_ok_with_empty_map_when_no_pending(self, monkeypatch):
         monkeypatch.setattr(prWriter, "_gh_ready", lambda cwd: (True, ""))
