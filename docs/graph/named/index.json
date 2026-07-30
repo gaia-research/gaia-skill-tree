@@ -5367,15 +5367,6 @@
         },
         "evidence": [
           {
-            "type": "github-stars-own",
-            "source": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-interact/SKILL.md",
-            "stars": 150087,
-            "skillCountInRepo": 6,
-            "grade": "B",
-            "evaluator": "mbtiongson1",
-            "date": "2026-07-13"
-          },
-          {
             "type": "repo-own",
             "source": "https://github.com/firecrawl/firecrawl",
             "commits": 5714,
@@ -5384,10 +5375,19 @@
             "evaluator": "mbtiongson1",
             "date": "2026-07-13",
             "sourceStartedAt": "2023-08-01"
+          },
+          {
+            "source": "https://github.com/firecrawl/firecrawl/stargazers",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "stars": 158323,
+            "skillCountInRepo": 6,
+            "grade": "B"
           }
         ],
         "createdAt": "2026-07-13",
-        "updatedAt": "2026-07-13",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-07-13T06:22:17Z",
@@ -5406,13 +5406,25 @@
             "action": "note",
             "contributor": "mbtiongson1",
             "details": "Renamed from firecrawl/browser-interaction-integration to firecrawl/firecrawl-build-interact — aligned to official firecrawl/skills repo naming"
+          },
+          {
+            "timestamp": "2026-07-30T21:49:07Z",
+            "action": "evidence_removed",
+            "contributor": "marcotiongson",
+            "details": "Removed dead/invalid evidence: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-interact/SKILL.md"
+          },
+          {
+            "timestamp": "2026-07-30T21:49:07Z",
+            "action": "evidence_added",
+            "contributor": "marcotiongson",
+            "details": "Added evidence from https://github.com/firecrawl/firecrawl/stargazers (type: github-stars-own)"
           }
         ],
         "suiteRef": "firecrawl/firecrawl-skills",
         "type": "basic",
         "installBody": "Add installation instructions here.",
         "role": "variant",
-        "trustMagnitude": 73.52,
+        "trustMagnitude": 75.58,
         "overallTrustGrade": "B",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -7257,15 +7269,6 @@
         },
         "evidence": [
           {
-            "type": "github-stars-own",
-            "source": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-onboarding/SKILL.md",
-            "stars": 150087,
-            "skillCountInRepo": 6,
-            "grade": "B",
-            "evaluator": "mbtiongson1",
-            "date": "2026-07-13"
-          },
-          {
             "type": "repo-own",
             "source": "https://github.com/firecrawl/firecrawl",
             "commits": 5714,
@@ -7274,10 +7277,19 @@
             "evaluator": "mbtiongson1",
             "date": "2026-07-13",
             "sourceStartedAt": "2023-08-01"
+          },
+          {
+            "source": "https://github.com/firecrawl/firecrawl/stargazers",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "stars": 158323,
+            "skillCountInRepo": 6,
+            "grade": "B"
           }
         ],
         "createdAt": "2026-07-13",
-        "updatedAt": "2026-07-13",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-07-13T06:22:18Z",
@@ -7296,13 +7308,25 @@
             "action": "note",
             "contributor": "mbtiongson1",
             "details": "Renamed from firecrawl/agent-environment-auth to firecrawl/firecrawl-build-onboarding — aligned to official firecrawl/skills repo naming"
+          },
+          {
+            "timestamp": "2026-07-30T21:49:07Z",
+            "action": "evidence_removed",
+            "contributor": "marcotiongson",
+            "details": "Removed dead/invalid evidence: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-onboarding/SKILL.md"
+          },
+          {
+            "timestamp": "2026-07-30T21:49:08Z",
+            "action": "evidence_added",
+            "contributor": "marcotiongson",
+            "details": "Added evidence from https://github.com/firecrawl/firecrawl/stargazers (type: github-stars-own)"
           }
         ],
         "suiteRef": "firecrawl/firecrawl-skills",
         "type": "fusion",
         "installBody": "Add installation instructions here.",
         "role": "origin",
-        "trustMagnitude": 73.52,
+        "trustMagnitude": 75.58,
         "overallTrustGrade": "B",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -7362,15 +7386,6 @@
             "comments": 6
           },
           {
-            "type": "github-stars-own",
-            "source": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-scrape/SKILL.md",
-            "stars": 150087,
-            "skillCountInRepo": 6,
-            "grade": "B",
-            "evaluator": "mbtiongson1",
-            "date": "2026-07-13"
-          },
-          {
             "type": "repo-own",
             "source": "https://github.com/firecrawl/firecrawl",
             "commits": 5714,
@@ -7379,10 +7394,19 @@
             "evaluator": "mbtiongson1",
             "date": "2026-07-13",
             "sourceStartedAt": "2023-08-01"
+          },
+          {
+            "source": "https://github.com/firecrawl/firecrawl/stargazers",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "stars": 158323,
+            "skillCountInRepo": 6,
+            "grade": "B"
           }
         ],
         "createdAt": "2026-07-13",
-        "updatedAt": "2026-07-20",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-07-13T06:22:17Z",
@@ -7435,13 +7459,25 @@
             "details": "Generic parent 'web-scrape' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-20"
+          },
+          {
+            "timestamp": "2026-07-30T21:49:08Z",
+            "action": "evidence_removed",
+            "contributor": "marcotiongson",
+            "details": "Removed dead/invalid evidence: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-scrape/SKILL.md"
+          },
+          {
+            "timestamp": "2026-07-30T21:49:09Z",
+            "action": "evidence_added",
+            "contributor": "marcotiongson",
+            "details": "Added evidence from https://github.com/firecrawl/firecrawl/stargazers (type: github-stars-own)"
           }
         ],
         "suiteRef": "firecrawl/firecrawl-skills",
         "type": "fusion",
         "installBody": "Add installation instructions here.",
         "role": "origin",
-        "trustMagnitude": 133.54,
+        "trustMagnitude": 135.6,
         "overallTrustGrade": "A",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -7596,15 +7632,6 @@
             "comments": 5
           },
           {
-            "type": "github-stars-own",
-            "source": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-search/SKILL.md",
-            "stars": 150087,
-            "skillCountInRepo": 6,
-            "grade": "B",
-            "evaluator": "mbtiongson1",
-            "date": "2026-07-13"
-          },
-          {
             "type": "repo-own",
             "source": "https://github.com/firecrawl/firecrawl",
             "commits": 5714,
@@ -7613,10 +7640,19 @@
             "evaluator": "mbtiongson1",
             "date": "2026-07-13",
             "sourceStartedAt": "2023-08-01"
+          },
+          {
+            "source": "https://github.com/firecrawl/firecrawl/stargazers",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "stars": 158323,
+            "skillCountInRepo": 6,
+            "grade": "B"
           }
         ],
         "createdAt": "2026-07-13",
-        "updatedAt": "2026-07-20",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-07-13T06:22:17Z",
@@ -7657,13 +7693,25 @@
             "details": "Generic parent 'web-search' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-20"
+          },
+          {
+            "timestamp": "2026-07-30T21:49:09Z",
+            "action": "evidence_removed",
+            "contributor": "marcotiongson",
+            "details": "Removed dead/invalid evidence: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-search/SKILL.md"
+          },
+          {
+            "timestamp": "2026-07-30T21:49:09Z",
+            "action": "evidence_added",
+            "contributor": "marcotiongson",
+            "details": "Added evidence from https://github.com/firecrawl/firecrawl/stargazers (type: github-stars-own)"
           }
         ],
         "suiteRef": "firecrawl/firecrawl-skills",
         "type": "basic",
         "installBody": "Add installation instructions here.",
         "role": "origin",
-        "trustMagnitude": 107.14,
+        "trustMagnitude": 109.2,
         "overallTrustGrade": "A",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -7703,15 +7751,6 @@
         },
         "evidence": [
           {
-            "type": "github-stars-own",
-            "source": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-research-index/SKILL.md",
-            "stars": 150087,
-            "skillCountInRepo": 6,
-            "grade": "B",
-            "evaluator": "mbtiongson1",
-            "date": "2026-07-13"
-          },
-          {
             "type": "repo-own",
             "source": "https://github.com/firecrawl/firecrawl",
             "commits": 5714,
@@ -7720,10 +7759,19 @@
             "evaluator": "mbtiongson1",
             "date": "2026-07-13",
             "sourceStartedAt": "2023-08-01"
+          },
+          {
+            "source": "https://github.com/firecrawl/firecrawl/stargazers",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "stars": 158323,
+            "skillCountInRepo": 6,
+            "grade": "B"
           }
         ],
         "createdAt": "2026-07-13",
-        "updatedAt": "2026-07-13",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-07-13T06:22:18Z",
@@ -7742,13 +7790,25 @@
             "action": "note",
             "contributor": "mbtiongson1",
             "details": "Renamed from firecrawl/academic-literature-retrieval to firecrawl/firecrawl-research-index — aligned to official firecrawl/skills repo naming"
+          },
+          {
+            "timestamp": "2026-07-30T21:49:10Z",
+            "action": "evidence_removed",
+            "contributor": "marcotiongson",
+            "details": "Removed dead/invalid evidence: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-research-index/SKILL.md"
+          },
+          {
+            "timestamp": "2026-07-30T21:49:10Z",
+            "action": "evidence_added",
+            "contributor": "marcotiongson",
+            "details": "Added evidence from https://github.com/firecrawl/firecrawl/stargazers (type: github-stars-own)"
           }
         ],
         "suiteRef": "firecrawl/firecrawl-skills",
         "type": "basic",
         "installBody": "Add installation instructions here.",
         "role": "variant",
-        "trustMagnitude": 73.52,
+        "trustMagnitude": 75.58,
         "overallTrustGrade": "B",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,

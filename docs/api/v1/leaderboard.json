@@ -169,13 +169,13 @@
     },
     {
       "id": "firecrawl/firecrawl-build-scrape",
-      "trustMagnitude": 133.54,
+      "trustMagnitude": 135.6,
       "grade": "A",
       "level": "4★",
       "typeBreakdown": {
         "social-signal": 60.02,
-        "github-stars-own": 37.52,
-        "repo-own": 36.0
+        "repo-own": 36.0,
+        "github-stars-own": 39.58
       },
       "origin": true,
       "branch": "unique"
@@ -321,13 +321,13 @@
     },
     {
       "id": "firecrawl/firecrawl-build-search",
-      "trustMagnitude": 107.14,
+      "trustMagnitude": 109.2,
       "grade": "A",
       "level": "4★",
       "typeBreakdown": {
         "social-signal": 33.62,
-        "github-stars-own": 37.52,
-        "repo-own": 36.0
+        "repo-own": 36.0,
+        "github-stars-own": 39.58
       },
       "origin": true,
       "branch": "unique"
@@ -879,6 +879,42 @@
       "branch": "standard"
     },
     {
+      "id": "firecrawl/firecrawl-build-interact",
+      "trustMagnitude": 75.58,
+      "grade": "B",
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 39.58
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "firecrawl/firecrawl-build-onboarding",
+      "trustMagnitude": 75.58,
+      "grade": "B",
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 39.58
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "id": "firecrawl/firecrawl-research-index",
+      "trustMagnitude": 75.58,
+      "grade": "B",
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 39.58
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "id": "browser-use/browser-harness",
       "trustMagnitude": 73.59,
       "grade": "B",
@@ -888,42 +924,6 @@
         "social-signal": 37.59
       },
       "origin": true,
-      "branch": "standard"
-    },
-    {
-      "id": "firecrawl/firecrawl-build-interact",
-      "trustMagnitude": 73.52,
-      "grade": "B",
-      "level": "2★",
-      "typeBreakdown": {
-        "github-stars-own": 37.52,
-        "repo-own": 36.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "firecrawl/firecrawl-build-onboarding",
-      "trustMagnitude": 73.52,
-      "grade": "B",
-      "level": "2★",
-      "typeBreakdown": {
-        "github-stars-own": 37.52,
-        "repo-own": 36.0
-      },
-      "origin": true,
-      "branch": "standard"
-    },
-    {
-      "id": "firecrawl/firecrawl-research-index",
-      "trustMagnitude": 73.52,
-      "grade": "B",
-      "level": "2★",
-      "typeBreakdown": {
-        "github-stars-own": 37.52,
-        "repo-own": 36.0
-      },
-      "origin": false,
       "branch": "standard"
     },
     {

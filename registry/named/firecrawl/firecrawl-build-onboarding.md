@@ -8,7 +8,7 @@ status: named
 level: 2★
 description: Configure Firecrawl credentials and client setup for agent tools.
 createdAt: '2026-07-13'
-updatedAt: '2026-07-13'
+updatedAt: '2026-07-31'
 title: Firecrawl Onboarding
 links:
   github: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-onboarding/SKILL.md
@@ -26,14 +26,16 @@ timeline:
   contributor: mbtiongson1
   details: Renamed from firecrawl/agent-environment-auth to firecrawl/firecrawl-build-onboarding
     — aligned to official firecrawl/skills repo naming
+- timestamp: '2026-07-30T21:49:07Z'
+  action: evidence_removed
+  contributor: marcotiongson
+  details: 'Removed dead/invalid evidence: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-onboarding/SKILL.md'
+- timestamp: '2026-07-30T21:49:08Z'
+  action: evidence_added
+  contributor: marcotiongson
+  details: 'Added evidence from https://github.com/firecrawl/firecrawl/stargazers
+    (type: github-stars-own)'
 evidence:
-- type: github-stars-own
-  source: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-onboarding/SKILL.md
-  stars: 150087
-  skillCountInRepo: 6
-  grade: B
-  evaluator: mbtiongson1
-  date: '2026-07-13'
 - type: repo-own
   source: https://github.com/firecrawl/firecrawl
   commits: 5714
@@ -42,8 +44,17 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-07-13'
   sourceStartedAt: '2023-08-01'
+- source: https://github.com/firecrawl/firecrawl/stargazers
+  evaluator: mbtiongson1
+  date: '2026-07-31'
+  type: github-stars-own
+  stars: 158323
+  skillCountInRepo: 6
+  grade: B
 catalogRef: firecrawl-firecrawl-build-onboarding
-suiteRef: "firecrawl/firecrawl-skills"
+suiteRef: firecrawl/firecrawl-skills
+verification:
+  firstEvidenceAt: '2026-07-30T21:49:08Z'
 ---
 
 ## Installation

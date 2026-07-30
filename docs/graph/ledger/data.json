@@ -1,6 +1,6 @@
 {
   "version": "6.8.15",
-  "generatedAt": "2026-07-30T16:20:09Z",
+  "generatedAt": "2026-07-30T21:49:16Z",
   "summary": {
     "total": 292,
     "S": 5,
@@ -276,7 +276,7 @@
     },
     {
       "skillId": "firecrawl/firecrawl-build-scrape",
-      "tm": 133.54,
+      "tm": 135.6,
       "grade": "A",
       "currentStars": "4★",
       "mayStars": "4★",
@@ -286,8 +286,8 @@
       "apexResults": null,
       "typeBreakdown": {
         "social-signal": 60.02,
-        "github-stars-own": 37.52,
-        "repo-own": 36.0
+        "repo-own": 36.0,
+        "github-stars-own": 39.58
       },
       "origin": true,
       "branch": "unique"
@@ -488,7 +488,7 @@
     },
     {
       "skillId": "firecrawl/firecrawl-build-search",
-      "tm": 107.14,
+      "tm": 109.2,
       "grade": "A",
       "currentStars": "4★",
       "mayStars": "4★",
@@ -498,8 +498,8 @@
       "apexResults": null,
       "typeBreakdown": {
         "social-signal": 33.62,
-        "github-stars-own": 37.52,
-        "repo-own": 36.0
+        "repo-own": 36.0,
+        "github-stars-own": 39.58
       },
       "origin": true,
       "branch": "unique"
@@ -1276,6 +1276,57 @@
       "branch": "standard"
     },
     {
+      "skillId": "firecrawl/firecrawl-build-interact",
+      "tm": 75.58,
+      "grade": "B",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 39.58
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "firecrawl/firecrawl-build-onboarding",
+      "tm": 75.58,
+      "grade": "B",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 39.58
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "firecrawl/firecrawl-research-index",
+      "tm": 75.58,
+      "grade": "B",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 39.58
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "skillId": "browser-use/browser-harness",
       "tm": 73.59,
       "grade": "B",
@@ -1290,57 +1341,6 @@
         "social-signal": 37.59
       },
       "origin": true,
-      "branch": "standard"
-    },
-    {
-      "skillId": "firecrawl/firecrawl-build-interact",
-      "tm": 73.52,
-      "grade": "B",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "3★",
-      "flag": "[up]",
-      "apexResults": null,
-      "typeBreakdown": {
-        "github-stars-own": 37.52,
-        "repo-own": 36.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "firecrawl/firecrawl-build-onboarding",
-      "tm": 73.52,
-      "grade": "B",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "3★",
-      "flag": "[up]",
-      "apexResults": null,
-      "typeBreakdown": {
-        "github-stars-own": 37.52,
-        "repo-own": 36.0
-      },
-      "origin": true,
-      "branch": "standard"
-    },
-    {
-      "skillId": "firecrawl/firecrawl-research-index",
-      "tm": 73.52,
-      "grade": "B",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "3★",
-      "flag": "[up]",
-      "apexResults": null,
-      "typeBreakdown": {
-        "github-stars-own": 37.52,
-        "repo-own": 36.0
-      },
-      "origin": false,
       "branch": "standard"
     },
     {
