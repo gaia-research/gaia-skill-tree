@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'packages/cli-npm/**'
+      - 'packages/gaia-registry-lib/**'
       - '.github/workflows/cli-wrapper.yml'
   workflow_dispatch: {}
 
