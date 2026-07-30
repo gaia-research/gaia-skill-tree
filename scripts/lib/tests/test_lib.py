@@ -40,6 +40,25 @@ from scripts.lib.frontmatter import (
 from scripts.lib.github_api import fetch_json, head_check, parse_owner_repo
 from scripts.lib.named_iterator import iter_named_skills
 
+_GAIA_REGISTRY_LIB_SRC = _REPO_ROOT / "packages" / "gaia-registry-lib" / "src"
+if str(_GAIA_REGISTRY_LIB_SRC) not in sys.path:
+    sys.path.insert(0, str(_GAIA_REGISTRY_LIB_SRC))
+
+
+# ---------------------------------------------------------------------------
+# shared package import smoke
+# ---------------------------------------------------------------------------
+
+
+def test_shared_package_exports_extracted_helpers():
+    from gaia_registry_lib.frontmatter import split_frontmatter as shared_split
+    from gaia_registry_lib.github_api import parse_owner_repo as shared_parse_owner_repo
+    from gaia_registry_lib.named_iterator import iter_named_skills as shared_iter_named_skills
+
+    assert shared_split is split_frontmatter
+    assert shared_parse_owner_repo is parse_owner_repo
+    assert callable(shared_iter_named_skills)
+
 # ---------------------------------------------------------------------------
 # Fixtures
 # ---------------------------------------------------------------------------
