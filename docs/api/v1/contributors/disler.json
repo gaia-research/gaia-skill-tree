@@ -4,14 +4,14 @@
     {
       "id": "disler/agent-fusion",
       "name": "Agent Fusion",
-      "level": "2★",
+      "level": "4★",
       "trustMagnitude": 127.54,
       "overallTrustGrade": "C",
       "contributor": "disler",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Named",
-      "medallion": "◇",
+      "rankWord": "Extra",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/disler/agent-fusion.json"
       },
@@ -74,7 +74,7 @@
   "namedSkillsCount": 4,
   "topSkill": {
     "id": "disler/agent-fusion",
-    "level": "2★",
+    "level": "4★",
     "trustMagnitude": 127.54
   },
   "prestigeScore": 236.56,

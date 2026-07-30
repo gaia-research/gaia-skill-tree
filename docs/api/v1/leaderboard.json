@@ -7,7 +7,7 @@
     "C": 82,
     "ungraded": 0,
     "floor": 0,
-    "up": 31
+    "up": 30
   },
   "rows": [
     {
@@ -197,7 +197,7 @@
       "id": "disler/agent-fusion",
       "trustMagnitude": 127.54,
       "grade": "A",
-      "level": "2★",
+      "level": "4★",
       "typeBreakdown": {
         "repo-own": 1.2,
         "social-signal": 36.34,

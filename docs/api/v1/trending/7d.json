@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-07-30T22:05:04Z",
+  "generatedAt": "2026-07-30T22:08:04Z",
   "firstRun": false,
   "skills": [
     {
@@ -34,7 +34,7 @@
     {
       "id": "disler/agent-fusion",
       "name": "Agent Fusion",
-      "level": "2★",
+      "level": "4★",
       "contributor": "disler",
       "trustMagnitude": 127.54,
       "overallTrustGrade": "C",

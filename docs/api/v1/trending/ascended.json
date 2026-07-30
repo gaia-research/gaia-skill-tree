@@ -1,17 +1,18 @@
 {
-  "generatedAt": "2026-07-30T22:05:04Z",
+  "generatedAt": "2026-07-30T22:08:04Z",
   "skills": [
     {
       "id": "disler/agent-fusion",
       "name": "Agent Fusion",
-      "level": "2★",
+      "level": "4★",
       "contributor": "disler",
       "trustMagnitude": 127.54,
       "overallTrustGrade": "C",
-      "ascendedAt": "2026-07-30T16:20:02Z",
+      "ascendedAt": "2026-07-30T22:07:58Z",
       "_links": {
         "self": "/api/v1/skills/disler/agent-fusion.json"
-      }
+      },
+      "previousLevel": "2★"
     },
     {
       "id": "disler/plan-synthesis",

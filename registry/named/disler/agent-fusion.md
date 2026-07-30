@@ -5,7 +5,7 @@ contributor: disler
 origin: true
 genericSkillRef: agent-fusion
 status: named
-level: 2★
+level: 4★
 description: 'Orchestrate multiple specialized AI models as a fused agentic team:
   form opinions, merge parallel plans, and auto-validate outputs to achieve frontier
   performance at reduced cost.'
@@ -37,6 +37,10 @@ timeline:
   action: rank_up
   contributor: marcotiongson
   details: Origin status set to true.
+- timestamp: '2026-07-30T22:07:58Z'
+  action: rank_up
+  contributor: marcotiongson
+  details: Calibrated level from 2★ to 4★
 evidence:
 - source: https://github.com/disler/fusion-harness
   evaluator: unknown

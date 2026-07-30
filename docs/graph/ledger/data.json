@@ -1,6 +1,6 @@
 {
   "version": "6.8.15",
-  "generatedAt": "2026-07-30T22:05:02Z",
+  "generatedAt": "2026-07-30T22:08:03Z",
   "summary": {
     "total": 208,
     "S": 5,
@@ -9,7 +9,7 @@
     "C": 82,
     "ungraded": 0,
     "floor": 0,
-    "up": 31
+    "up": 30
   },
   "rows": [
     {
@@ -314,11 +314,11 @@
       "skillId": "disler/agent-fusion",
       "tm": 127.54,
       "grade": "A",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
       "g7Stars": "4★",
-      "flag": "[up]",
+      "flag": "",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 1.2,

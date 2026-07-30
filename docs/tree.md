@@ -291,7 +291,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ ○ /tool-use
   └─ ○ firecrawl/firecrawl-research-index  [2★]
 
-◆ disler/agent-fusion  [2★]
+◆ disler/agent-fusion  [4★]
 ─────────────────────────────────────────────────────────────────
   ├─ ○ disler/opinion  [2★]
   ├─ ○ disler/plan-synthesis  [2★]
