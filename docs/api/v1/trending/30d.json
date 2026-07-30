@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-07-30T22:15:59Z",
+  "generatedAt": "2026-07-30T22:37:40Z",
   "firstRun": false,
   "skills": [
     {
@@ -62,7 +62,7 @@
     {
       "id": "gsd-build/get-shit-done",
       "name": "Get Shit Done",
-      "level": "3★",
+      "level": "4★",
       "contributor": "gsd-build",
       "trustMagnitude": 202.16,
       "overallTrustGrade": "A",
@@ -384,7 +384,7 @@
     {
       "id": "firecrawl/firecrawl-build-interact",
       "name": "Firecrawl Interact",
-      "level": "2★",
+      "level": "3★",
       "contributor": "firecrawl",
       "trustMagnitude": 75.58,
       "overallTrustGrade": "B",
@@ -398,7 +398,7 @@
     {
       "id": "firecrawl/firecrawl-build-onboarding",
       "name": "Firecrawl Onboarding",
-      "level": "2★",
+      "level": "3★",
       "contributor": "firecrawl",
       "trustMagnitude": 75.58,
       "overallTrustGrade": "B",
@@ -412,7 +412,7 @@
     {
       "id": "firecrawl/firecrawl-research-index",
       "name": "Firecrawl Research Index",
-      "level": "2★",
+      "level": "3★",
       "contributor": "firecrawl",
       "trustMagnitude": 75.58,
       "overallTrustGrade": "B",

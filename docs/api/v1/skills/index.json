@@ -275,14 +275,14 @@
     {
       "id": "gsd-build/get-shit-done",
       "name": "Get Shit Done",
-      "level": "3★",
+      "level": "4★",
       "trustMagnitude": 202.16,
       "overallTrustGrade": "A",
       "contributor": "gsd-build",
       "type": "fusion",
       "branch": "suite",
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "rankWord": "Extra",
+      "medallion": "◆",
       "_links": {
         "self": "/api/v1/skills/gsd-build/get-shit-done.json"
       },
@@ -909,13 +909,13 @@
     {
       "id": "firecrawl/firecrawl-build-interact",
       "name": "Firecrawl Interact",
-      "level": "2★",
+      "level": "3★",
       "trustMagnitude": 75.58,
       "overallTrustGrade": "B",
       "contributor": "firecrawl",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Named",
+      "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-interact.json"
@@ -925,13 +925,13 @@
     {
       "id": "firecrawl/firecrawl-build-onboarding",
       "name": "Firecrawl Onboarding",
-      "level": "2★",
+      "level": "3★",
       "trustMagnitude": 75.58,
       "overallTrustGrade": "B",
       "contributor": "firecrawl",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Named",
+      "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
@@ -941,13 +941,13 @@
     {
       "id": "firecrawl/firecrawl-research-index",
       "name": "Firecrawl Research Index",
-      "level": "2★",
+      "level": "3★",
       "trustMagnitude": 75.58,
       "overallTrustGrade": "B",
       "contributor": "firecrawl",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Named",
+      "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"

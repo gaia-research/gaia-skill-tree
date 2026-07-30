@@ -1,6 +1,6 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "generatedAt": "2026-07-30T22:15:53Z",
+  "generatedAt": "2026-07-30T22:37:35Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic",
@@ -463,10 +463,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
+      "rank": 3,
+      "rankWord": "Evolved",
       "medallion": "◇",
-      "namedMaxLevel": "2★"
+      "namedMaxLevel": "3★"
     },
     {
       "id": "agent-eval",

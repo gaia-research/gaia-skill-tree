@@ -1,6 +1,58 @@
 {
-  "generatedAt": "2026-07-30T22:15:59Z",
+  "generatedAt": "2026-07-30T22:37:40Z",
   "skills": [
+    {
+      "id": "gsd-build/get-shit-done",
+      "name": "Get Shit Done",
+      "level": "4★",
+      "contributor": "gsd-build",
+      "trustMagnitude": 202.16,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-07-30T22:37:20Z",
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/get-shit-done.json"
+      },
+      "previousLevel": "3★"
+    },
+    {
+      "id": "firecrawl/firecrawl-build-interact",
+      "name": "Firecrawl Interact",
+      "level": "3★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 75.58,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-07-30T22:36:54Z",
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-interact.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "firecrawl/firecrawl-build-onboarding",
+      "name": "Firecrawl Onboarding",
+      "level": "3★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 75.58,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-07-30T22:36:54Z",
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "firecrawl/firecrawl-research-index",
+      "name": "Firecrawl Research Index",
+      "level": "3★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 75.58,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-07-30T22:36:54Z",
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
+      },
+      "previousLevel": "2★"
+    },
     {
       "id": "disler/agent-fusion",
       "name": "Agent Fusion",
@@ -218,19 +270,6 @@
       }
     },
     {
-      "id": "gsd-build/get-shit-done",
-      "name": "Get Shit Done",
-      "level": "3★",
-      "contributor": "gsd-build",
-      "trustMagnitude": 202.16,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-07-02T21:34:10Z",
-      "_links": {
-        "self": "/api/v1/skills/gsd-build/get-shit-done.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
       "id": "gsd-build/ship",
       "name": "GSD Ship",
       "level": "3★",
@@ -344,32 +383,6 @@
       "ascendedAt": "2026-07-02T21:34:06Z",
       "_links": {
         "self": "/api/v1/skills/addy-osmani/shipping-and-launch.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "addy-osmani/planning-and-task-breakdown",
-      "name": "Planning and Task Breakdown",
-      "level": "3★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 53.14,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-07-02T21:34:05Z",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/planning-and-task-breakdown.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "addy-osmani/spec-driven-development",
-      "name": "Spec-Driven Development",
-      "level": "3★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 53.14,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-07-02T21:34:05Z",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
       },
       "previousLevel": "2★"
     }

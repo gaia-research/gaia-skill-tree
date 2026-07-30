@@ -5,11 +5,11 @@ contributor: gsd-build
 origin: false
 genericSkillRef: git-ship-done-pipeline
 status: named
-level: 3★
+level: 4★
 description: 'Git Ship Done pipeline for Claude Code: discuss, plan, execute, verify,
   and ship as a repeatable agentic software delivery loop.'
 createdAt: '2026-07-03'
-updatedAt: '2026-07-20'
+updatedAt: '2026-07-31'
 tags:
 - suite
 - pipeline
@@ -91,6 +91,10 @@ timeline:
     origin=False TM=202.2 (≥ 100.0)) — demoted to 3★ Evolved'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-20
+- timestamp: '2026-07-30T22:37:20Z'
+  action: rank_up
+  contributor: marcotiongson
+  details: Calibrated level from 3★ to 4★
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/stargazers
   evaluator: unknown

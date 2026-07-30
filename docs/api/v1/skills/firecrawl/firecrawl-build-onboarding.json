@@ -2,13 +2,13 @@
   "id": "firecrawl/firecrawl-build-onboarding",
   "name": "Firecrawl Onboarding",
   "contributor": "firecrawl",
-  "level": "2★",
+  "level": "3★",
   "type": "fusion",
   "status": "named",
   "trustMagnitude": 75.58,
   "overallTrustGrade": "B",
   "branch": "standard",
-  "rankWord": "Named",
+  "rankWord": "Evolved",
   "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json",
@@ -80,6 +80,12 @@
       "action": "evidence_added",
       "contributor": "marcotiongson",
       "details": "Added evidence from https://github.com/firecrawl/firecrawl/stargazers (type: github-stars-own)"
+    },
+    {
+      "timestamp": "2026-07-30T22:36:54Z",
+      "action": "rank_up",
+      "contributor": "marcotiongson",
+      "details": "Calibrated level from 2★ to 3★"
     }
   ],
   "links": {

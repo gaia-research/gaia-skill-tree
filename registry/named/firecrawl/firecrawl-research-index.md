@@ -5,7 +5,7 @@ contributor: firecrawl
 origin: false
 genericSkillRef: literature-search
 status: named
-level: 2★
+level: 3★
 description: Retrieve and query academic literature through Firecrawl Research.
 createdAt: '2026-07-13'
 updatedAt: '2026-07-31'
@@ -35,6 +35,10 @@ timeline:
   contributor: marcotiongson
   details: 'Added evidence from https://github.com/firecrawl/firecrawl/stargazers
     (type: github-stars-own)'
+- timestamp: '2026-07-30T22:36:54Z'
+  action: rank_up
+  contributor: marcotiongson
+  details: Calibrated level from 2★ to 3★
 evidence:
 - type: repo-own
   source: https://github.com/firecrawl/firecrawl

@@ -5,12 +5,12 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: core-platform-implementation
 status: awakened
-level: 3★
+level: 4★
 description: Shared Python package for Science Skills, currently containing http_client
   -- a unified HTTP client with rate limiting, retries, and exponential backoff. Not
   a standalone agent skill. Do not invoke directly.
 createdAt: '2026-05-23'
-updatedAt: '2026-07-16'
+updatedAt: '2026-07-31'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common
 evidence:
@@ -94,6 +94,10 @@ timeline:
   details: Upstream science_skills_common was renamed to scienceskillscommon, then
     retired when its shared HTTP client moved to polite-http; no installable replacement
     remains.
+- timestamp: '2026-07-30T22:37:32Z'
+  action: rank_up
+  contributor: marcotiongson
+  details: Calibrated level from 3★ to 4★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:
