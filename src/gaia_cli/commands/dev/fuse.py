@@ -18,6 +18,14 @@ The generic id (positional) is the starless anchor skill. Passing
 --named-capstone additionally writes a suite manifest at
 `registry/suites/<contributor>/<suite>.json` so `gaia dev docs` regeneration
 picks up the suiteRef/suiteComponents links without stripping them.
+
+Timeline Behavior
+-----------------
+
+The prerequisite/fusion timeline event appended when prereqs are set uses
+action `fuse`. Legacy `note` events whose details contain "via `gaia dev fuse`"
+are repaired to `fuse` on rerun. Other actions (like `add` or `suite_ref_set`)
+may be appended by other parts of the command's setup.
 """
 
 import json
