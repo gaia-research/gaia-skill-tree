@@ -886,9 +886,6 @@
       if (parsed.protocol === 'http:' || parsed.protocol === 'https:') {
         return true;
       }
-      if (parsed.protocol === 'file:' && window.location.protocol === 'file:') {
-        return true;
-      }
       return false;
     }
     const handleInput = document.getElementById("bd-handle");

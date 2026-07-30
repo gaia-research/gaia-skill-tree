@@ -26,9 +26,6 @@
     if (parsed.protocol === 'http:' || parsed.protocol === 'https:') {
       return true;
     }
-    if (parsed.protocol === 'file:' && window.location.protocol === 'file:') {
-      return true;
-    }
     if (parsed.protocol === 'blob:') {
       return parsed.pathname.indexOf(window.location.origin) === 0;
     }
