@@ -84,10 +84,81 @@ A7 never blocked Arc I.
 
 ### R5. A5a / A5b / A5c — do them, no further decision
 
-### R6. #1258 folded in
+### R6. #1258 folded in — and the scoping pass changed what it is
 
-The "Gaia Registry" branding audit is the **last open Program 7 issue** and the
-only Arc I gate item outside Lane A. Scoping pass dispatched.
+The "Gaia Registry" branding audit is the **last open Program 7 issue** and one
+of V5-17's four proven breaks. Scoped 2026-07-30. **The finding inverts the
+ticket.**
+
+**#1258 as written is already done.** Every specific citation in its body no
+longer matches `main` — fixed by earlier PRs, most likely #1341 ("fix the four
+proven surface breaks", closed). Its one required-work item — a banned-synonym
+entry in `CONTEXT.md` with CI greps — exists at `CONTEXT.md:459` citing #1258 by
+number, and `Gaia Registry` is `banned` in `scripts/lexicon/lexicon.json`.
+
+**What the scout found instead is a different, larger, unflagged string:
+`Gaia Skill Registry`.** Orchestrator-verified counts on `main` @ `eb1f7164d`:
+
+| Measure | Count |
+|---|---|
+| `Gaia Skill Registry` occurrences | **238** across 81 files |
+| …of which in `docs/u/` (contributor pages) | **192** |
+| `docs/en/` (not ours) | **0** — already clean, no carve-out needed |
+
+**192 of the 238 collapse into ONE generator fix** —
+`scripts/generateProfilePages.py` hardcodes the string at L1128/L1130/L1410/L1412
+(verified). Fix the generator, regenerate, done.
+
+**Two LIVE regression sources — this is why it is not cosmetic:**
+
+1. `scripts/add_post.py` L744/L746 bakes `Gaia Registry` into the journal header
+   of **every new meta post**. The newest published report
+   (`2026-07-26-…`, four days old) carries it — verified. Every future post
+   reintroduces the exact string the lexicon gate bans.
+2. `scripts/contentEngine/templates/archive.html.j2` L11/L15 say
+   `Weekly Reports | Gaia Registry`, while the live committed
+   `docs/reports/index.html` says `Weekly Reports | Gaia Skill Tree` — someone
+   hand-patched the **output** and left the **template**. The next content-engine
+   run **reverts the live title back to the banned string.** Renderer confirmed:
+   `scripts/contentEngine/generate_weekly_report.py` rebuilds the archive index.
+   (The scout cited `scripts/generate_weekly_report.py`, which does not exist —
+   path slip, conclusion correct. Do not chase the ghost path.)
+
+**Also flagged:** `scripts/lexicon/baseline.json` (the gate's known-debt ledger)
+is **over-counted** — all six files it lists as carrying debt now have zero
+occurrences. Someone fixed them without shrinking the baseline, so the gate's
+own ledger overstates the debt.
+
+**Branch-scope reality: 3–4 PRs, not one.** Most of the violation lives in
+generators under `scripts/` whose output is `docs/*.html`, and a `docs/` branch
+cannot touch `scripts/` — so generator+output pairs go together under `infra/`.
+`src/gaia_cli/graph.py` duplicates the GEXF-description bug that
+`scripts/exportGexf.py` has, and the two cannot ride the same PR. Sharp catch:
+**`.gitignore` is covered by no restricted prefix at all** and needs an
+unrestricted branch or `skip-scope-check`.
+
+**Orchestrator recommendation (founder call):** close #1258 — its stated scope
+and V5-17's proven break are satisfied. Fix the **two live regression sources
+now**, because they actively reintroduce a banned term. File the remaining
+`Gaia Skill Registry` sweep as genuinely-new work per CLAUDE.md's Sprint
+Completeness carve-out ("genuinely new, out-of-scope work discovered during a
+sprint may still be filed"). Do **not** let a 238-occurrence branding sweep
+become an Arc I gate blocker.
+
+**Four questions the scout raised that need a founder answer:**
+
+1. Retroactively patch the journal-header chrome in already-published
+   `docs/meta/reports/*.html`, or leave as frozen snapshots? (Scout and
+   orchestrator both recommend fix-forward only.)
+2. `CONTEXT.md` contradicts itself: its banned-synonym entry blesses lower-case
+   "the Gaia registry", while its correct-terminology table says data-layer usage
+   carries no "Gaia" prefix. Pick one.
+3. Chase the ~9 standalone capitalized "Registry" instances, or leave as a
+   separate style pass? ("Auto-Sync Registry Artifacts" is an Action name —
+   legitimate, do not touch.)
+4. `packages/mcp/package.json`'s `description` ships to the public npm listing.
+   Does the no-product-names constraint reach npm metadata, or only the About
+   surface?
 
 ---
 
