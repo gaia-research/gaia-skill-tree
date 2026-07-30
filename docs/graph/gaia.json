@@ -1,6 +1,6 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "generatedAt": "2026-07-30T22:14:35Z",
+  "generatedAt": "2026-07-30T22:15:53Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic",
@@ -626,10 +626,10 @@
         ]
       },
       "branch": "suite",
-      "rank": 2,
-      "rankWord": "Named",
-      "medallion": "◇",
-      "namedMaxLevel": "2★",
+      "rank": 4,
+      "rankWord": "Extra",
+      "medallion": "◆",
+      "namedMaxLevel": "4★",
       "ultimateGateStatus": {
         "passes": false,
         "reason": "only 0/3 graded evidence sources"

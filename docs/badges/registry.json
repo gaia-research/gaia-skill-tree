@@ -1718,14 +1718,14 @@
         ]
       },
       "topSkill": "disler/agent-fusion",
-      "topRank": 2,
+      "topRank": 4,
       "topIsUnique": false,
       "count": 4,
       "namedSkills": [
         {
           "id": "disler/agent-fusion",
           "name": "Agent Fusion",
-          "rank": 2,
+          "rank": 4,
           "type": "fusion",
           "branch": "suite",
           "slash": "/agent-fusion",
