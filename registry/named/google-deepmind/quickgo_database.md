@@ -5,14 +5,14 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: pathway-ontology-retrieval
 status: awakened
-level: 4★
+level: 3★
 description: Query the QuickGO and Evidence & Conclusion Ontology (ECO) REST API.
   Use this when you need to map genes to biological processes, molecular functions,
   or cellular components, find genes associated with a specific pathway/GO term, or
   explore the Gene Ontology hierarchy. Do not use for querying drug targets (use OpenTargets)
   or mechanistic signaling pathway diagrams (use KEGG).
 createdAt: '2026-05-23'
-updatedAt: '2026-07-31'
+updatedAt: '2026-07-16'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/quickgo_database/SKILL.md
 evidence:
@@ -88,10 +88,6 @@ timeline:
     origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-16
-- timestamp: '2026-07-30T22:37:31Z'
-  action: rank_up
-  contributor: marcotiongson
-  details: Calibrated level from 3★ to 4★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

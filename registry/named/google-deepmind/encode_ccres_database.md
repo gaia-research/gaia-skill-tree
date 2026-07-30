@@ -5,13 +5,13 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: genomic-data-retrieval
 status: awakened
-level: 4★
+level: 3★
 description: Query the ENCODE Registry of cis-Regulatory Elements (cCREs) via the
   SCREEN GraphQL API, or make custom queries to the ENCODE Portal REST API for experiments
   and files (ChIP-seq peaks, etc.). Use when you want to query regulatory annotations
   or raw experimental data across human cell types.
 createdAt: '2026-05-23'
-updatedAt: '2026-07-31'
+updatedAt: '2026-07-16'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/encode_ccres_database/SKILL.md
 evidence:
@@ -87,10 +87,6 @@ timeline:
     origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-16
-- timestamp: '2026-07-30T22:37:22Z'
-  action: rank_up
-  contributor: marcotiongson
-  details: Calibrated level from 3★ to 4★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

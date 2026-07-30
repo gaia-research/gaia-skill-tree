@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-07-30T22:38:28Z",
+  "generatedAt": "2026-07-30T23:05:29Z",
   "firstRun": false,
   "skills": [
     {
@@ -62,7 +62,7 @@
     {
       "id": "gsd-build/get-shit-done",
       "name": "Get Shit Done",
-      "level": "4★",
+      "level": "3★",
       "contributor": "gsd-build",
       "trustMagnitude": 202.16,
       "overallTrustGrade": "A",

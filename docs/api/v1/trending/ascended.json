@@ -1,19 +1,6 @@
 {
-  "generatedAt": "2026-07-30T22:38:28Z",
+  "generatedAt": "2026-07-30T23:05:29Z",
   "skills": [
-    {
-      "id": "gsd-build/get-shit-done",
-      "name": "Get Shit Done",
-      "level": "4★",
-      "contributor": "gsd-build",
-      "trustMagnitude": 202.16,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-07-30T22:37:20Z",
-      "_links": {
-        "self": "/api/v1/skills/gsd-build/get-shit-done.json"
-      },
-      "previousLevel": "3★"
-    },
     {
       "id": "firecrawl/firecrawl-build-interact",
       "name": "Firecrawl Interact",
@@ -268,6 +255,19 @@
       "_links": {
         "self": "/api/v1/skills/addy-osmani/agent-skills.json"
       }
+    },
+    {
+      "id": "gsd-build/get-shit-done",
+      "name": "Get Shit Done",
+      "level": "3★",
+      "contributor": "gsd-build",
+      "trustMagnitude": 202.16,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-07-02T21:34:10Z",
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/get-shit-done.json"
+      },
+      "previousLevel": "2★"
     },
     {
       "id": "gsd-build/ship",

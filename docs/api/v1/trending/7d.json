@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-07-30T22:38:28Z",
+  "generatedAt": "2026-07-30T23:05:29Z",
   "firstRun": false,
   "skills": [
     {
@@ -85,20 +85,6 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
-      }
-    },
-    {
-      "id": "gsd-build/get-shit-done",
-      "name": "Get Shit Done",
-      "level": "4★",
-      "contributor": "gsd-build",
-      "trustMagnitude": 202.16,
-      "overallTrustGrade": "A",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/gsd-build/get-shit-done.json"
       }
     },
     {
@@ -242,7 +228,7 @@
       }
     }
   ],
-  "totalTrending": 17,
+  "totalTrending": 16,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }
