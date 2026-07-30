@@ -4,6 +4,30 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-30, HG-1 correction — #998 closed by founder disposition, cleanup branch abandoned)
+
+### TLDR
+- Founder stopped the #998 cleanup: **#998 is closed, not resolved through backlog**.
+- The attempted `design/998-skill-graph-fallback-vocab` branch had worker commits, but no PR was opened; the remote branch and local worktree were deleted.
+- `founder/BACKLOG_ERADICATION_TRACKER.md` was corrected so the tracker is again the source of truth.
+
+### What changed since prior snapshot
+
+| Layer | State |
+|---|---|
+| #998 | ✅ Closed with `not planned` reason and comment explaining founder routing decision |
+| Cleanup branch | ✅ `origin/design/998-skill-graph-fallback-vocab` deleted; local worktree removed |
+| Tracker | ✅ Updated to mark #998 closed by founder disposition, no backlog PR |
+
+### Routing
+
+- Do not re-open #998 under `dev/issue-backlog` unless Marcus explicitly reverses this ruling.
+- Continue HG-1 with the remaining non-#1336 backlog hygiene items.
+
+### Token cost
+
+- Prior checkpoint total was ~$15.73; this correction added only a small amount of orchestrator overhead.
+
 ## State Snapshot (2026-07-30, HG-1 checkpoint — backlog tracker updated; verified closes executed; #1253 merged)
 
 ### TLDR
