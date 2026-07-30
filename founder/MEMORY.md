@@ -4,6 +4,27 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-30, HG-2 scanner checkpoint — #1158 merged)
+
+### TLDR
+- **#1158 merged** via PR #1400 (`7a71d2485`): `gaia scan` now discovers bounded human-readable skill layouts.
+- New roots: `skills/`, `agent-skills/`, `docs/skills/`, `my-skills/`.
+- Safety: new human roots require `SKILL.md`/`skill.md`; README/generic markdown fallback remains limited to legacy/hidden roots; Xcode behavior from #636 remains intact.
+- Local #1158 worktree was removed after merge.
+
+### Branch / PR state
+
+| Item | State |
+|---|---|
+| #1400 / #1158 | Merged into `dev/issue-backlog`; CI green; reviewer PASS after stale test/symlink fix |
+| `dev/issue-backlog` | Head `7a71d2485` before tracker/memory update |
+| #1395 | Draft integration PR remains active |
+
+### Next likely work
+
+- #1028 is scouted as READY but heavier: extract `scripts/lib` into a shared installable package. Use planner/worker-sol; watch packaging, npm wrapper, wheel `--no-deps`, and tests.
+- #139 and #332 are CLI visual/output changes and should wait for a human-gated batch with before/after output.
+
 ## State Snapshot (2026-07-30, pause snapshot — backlog eradication paused after CLI visual HG ruling)
 
 ### TLDR
