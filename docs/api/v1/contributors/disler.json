@@ -5,7 +5,7 @@
       "id": "disler/agent-fusion",
       "name": "Agent Fusion",
       "level": "2★",
-      "trustMagnitude": 37.54,
+      "trustMagnitude": 127.54,
       "overallTrustGrade": "C",
       "contributor": "disler",
       "type": "fusion",
@@ -75,9 +75,9 @@
   "topSkill": {
     "id": "disler/agent-fusion",
     "level": "2★",
-    "trustMagnitude": 37.54
+    "trustMagnitude": 127.54
   },
-  "prestigeScore": 146.56,
+  "prestigeScore": 236.56,
   "gradeDistribution": {
     "C": 4
   },

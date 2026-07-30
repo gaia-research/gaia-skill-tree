@@ -2,14 +2,14 @@
 id: disler/opinion
 name: Opinion
 contributor: disler
-origin: false
+origin: true
 genericSkillRef: opinion
 status: named
 level: 2★
 description: Formulate and articulate a strong, reasoned opinion or recommendation
   as a discrete agent step, avoiding model selection bias and decision paralysis.
 createdAt: '2026-07-30'
-updatedAt: '2026-07-30'
+updatedAt: '2026-07-31'
 title: Opinion
 links:
   github: https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/USER_PROMPT_OPINION.md
@@ -23,6 +23,10 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://www.youtube.com/watch?v=AQl5Q-0l7FQ (type:
     social-signal)'
+- timestamp: '2026-07-30T16:19:58Z'
+  action: rank_up
+  contributor: marcotiongson
+  details: Origin status set to true.
 evidence:
 - source: https://www.youtube.com/watch?v=AQl5Q-0l7FQ
   evaluator: unknown
@@ -35,7 +39,7 @@ evidence:
   grade: B
 verification:
   firstEvidenceAt: '2026-07-29T20:23:34Z'
-suiteRef: "disler/agent-fusion"
+suiteRef: disler/agent-fusion
 ---
 
 ## Installation

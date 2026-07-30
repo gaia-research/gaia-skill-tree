@@ -203,7 +203,7 @@
         "social-signal": 36.34,
         "fusion-recipe": 90.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "suite"
     },
     {
@@ -1676,7 +1676,7 @@
       "typeBreakdown": {
         "social-signal": 36.34
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -1687,7 +1687,7 @@
       "typeBreakdown": {
         "social-signal": 36.34
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -1698,7 +1698,7 @@
       "typeBreakdown": {
         "social-signal": 36.34
       },
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
