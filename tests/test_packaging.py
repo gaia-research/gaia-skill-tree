@@ -458,6 +458,9 @@ def test_built_wheel_contains_only_python_package_data(tmp_path):
 
     assert "gaia_cli/data/registry/gaia.json" in names
     assert "gaia_cli/data/registry/schema/skill.schema.json" in names
+    assert "gaia_registry_lib/frontmatter.py" in names
+    assert "gaia_registry_lib/github_api.py" in names
+    assert "gaia_registry_lib/named_iterator.py" in names
     assert any(name.startswith("gaia_cli/data/registry/named/") for name in names)
     forbidden_parts = (
         "node_modules/",
@@ -495,6 +498,20 @@ def test_wheel_install_smoke_tests_console_script(tmp_path):
             encoding="utf-8",
         )
         assert install_result.returncode == 0, install_result.stderr
+
+        import_result = subprocess.run(
+            [
+                str(python),
+                "-c",
+                "import gaia_registry_lib.frontmatter, gaia_cli.frontmatter; "
+                "assert gaia_cli.frontmatter.split_frontmatter is "
+                "gaia_registry_lib.frontmatter.split_frontmatter",
+            ],
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+        )
+        assert import_result.returncode == 0, import_result.stderr
 
         help_result = subprocess.run(
             [str(gaia), "--help"],

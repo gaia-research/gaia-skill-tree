@@ -80,8 +80,8 @@ Documentation = "https://gaiaskilltree.com/"
 gaia = "gaia_cli.main:main"
 
 [tool.setuptools.packages.find]
-where = ["src"]
-include = ["gaia_cli*"]
+where = ["src", "packages/gaia-registry-lib/src"]
+include = ["gaia_cli*", "gaia_registry_lib*"]
 
 [tool.setuptools.package-data]
 gaia_cli = [

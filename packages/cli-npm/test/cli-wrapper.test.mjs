@@ -70,6 +70,9 @@ test('package dry-run includes wrapper files but excludes Python bytecode', () =
   assert.ok(files.includes('dist/index.js'));
   assert.ok(files.includes('cli/main.py'));
   assert.ok(files.includes('cli/push.py'));
+  assert.ok(files.includes('gaia_registry_lib/frontmatter.py'));
+  assert.ok(files.includes('gaia_registry_lib/github_api.py'));
+  assert.ok(files.includes('gaia_registry_lib/named_iterator.py'));
   assert.ok(!files.some((file) => file.includes('__pycache__')));
   assert.ok(!files.some((file) => file.endsWith('.pyc')));
 });

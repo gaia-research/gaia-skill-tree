@@ -11,16 +11,17 @@
     "dist",
     "cli/**/*.py",
     "gaia_cli/**/*.py",
+    "gaia_registry_lib/**/*.py",
     "gaia_cli/data/**/*",
     "README.md"
   ],
   "scripts": {
     "build": "tsc",
-    "prepack:legacy": "cp -r ../../src/gaia_cli ./gaia_cli 2>/dev/null || xcopy /E /I /Y ..\\..\\src\\gaia_cli .\\gaia_cli >nul 2>&1",
-    "postpack": "rm -rf gaia_cli",
+    "prepack:legacy": "cp -r ../../src/gaia_cli ./gaia_cli && cp -r ../gaia-registry-lib/src/gaia_registry_lib ./gaia_registry_lib 2>/dev/null || (xcopy /E /I /Y ..\\..\\src\\gaia_cli .\\gaia_cli >nul 2>&1 && xcopy /E /I /Y ..\\gaia-registry-lib\\src\\gaia_registry_lib .\\gaia_registry_lib >nul 2>&1)",
+    "postpack": "rm -rf gaia_cli gaia_registry_lib",
     "test": "npm run build && npm run prepack && node --test test/*.test.mjs; npm run postpack",
     "prepare": "npm run build",
-    "prepack": "rm -rf gaia_cli && cp -R ../../src/gaia_cli gaia_cli",
+    "prepack": "rm -rf gaia_cli gaia_registry_lib && cp -R ../../src/gaia_cli gaia_cli && cp -R ../gaia-registry-lib/src/gaia_registry_lib gaia_registry_lib",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
