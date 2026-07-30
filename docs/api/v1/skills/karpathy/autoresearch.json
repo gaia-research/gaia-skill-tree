@@ -17,7 +17,7 @@
   },
   "title": "The Scholar's Compass",
   "genericSkillRef": "autonomous-web-research",
-  "origin": true,
+  "origin": false,
   "description": "Autonomous research agent that iteratively searches, reads, and synthesizes academic papers into structured summaries.",
   "tags": [
     "research",
@@ -80,6 +80,12 @@
       "action": "demote",
       "contributor": "mbtiongson1",
       "details": "Level updated from 3★ to 2★ per G7 final rankings calibration."
+    },
+    {
+      "timestamp": "2026-07-30T06:11:15Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Origin status set to false."
     }
   ],
   "links": {

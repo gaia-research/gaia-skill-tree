@@ -21,7 +21,7 @@
 | · [garrytan](../docs/u/garrytan/)/health | Fusion | 2★ | `/automated-testing` |
 | · /autonomous-data-scientist | Fusion | — | `/autonomous-data-scientist` |
 | · [devin-ai](../docs/u/devin-ai/)/autonomous-swe | Fusion | 3★ | `/autonomous-debug` |
-| · [karpathy](../docs/u/karpathy/)/autoresearch | Fusion | 2★ | `/autonomous-web-research` |
+| · [mvanhorn](../docs/u/mvanhorn/)/last30days | Fusion | 4★ | `/autonomous-web-research` |
 | ○ /bioinformatic-sequence-analysis | Basic | — | `/bioinformatic-sequence-analysis` |
 | · [obra](../docs/u/obra/)/brainstorming | Fusion | 3★ | `/brainstorming` |
 | · ████████/stagehand | Fusion | — | `/browser-automation` |
@@ -233,6 +233,7 @@
 
 | Name | Class | Top ★ | Skill Call |
 |---|---|---|---|
+| ◉ [mvanhorn](../docs/u/mvanhorn/)/last30days | Unique Skill | 4★ | `/autonomous-web-research` |
 | ◉ [openai](../docs/u/openai/)/few-shot-learning | Unique Skill | 4★ | `/few-shot-learning` |
 | ◉ [safishamsi](../docs/u/safishamsi/)/graphify | Unique Skill | 4★ | `/knowledge-graph-build` |
 | ◉ [addy-osmani](../docs/u/addy-osmani/)/performance-optimization | Unique Skill | 4★ | `/performance-tuning` |
