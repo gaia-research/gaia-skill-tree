@@ -288,6 +288,21 @@ class TestSkillSearchDirs:
         results = scan_skill_mds(root=str(tmp_path))
         assert len([r for r in results if r["id"] == "/skill-x"]) == 1
 
+    def test_skills_symlink_to_legacy_root_preserves_readme_fallback(self, tmp_path):
+        """If top-level skills symlinks to .agents/skills, the legacy fallback should still work."""
+        agents_dir = tmp_path / ".agents" / "skills"
+        agents_dir.mkdir(parents=True)
+
+        legacy_skill = agents_dir / "legacy-skill"
+        legacy_skill.mkdir(parents=True)
+        _write(str(legacy_skill / "README.md"), "---\nname: Legacy Skill\ndescription: uses fallback\n---\n")
+
+        skills_link = tmp_path / "skills"
+        skills_link.symlink_to(agents_dir)
+
+        results = scan_skill_mds(root=str(tmp_path))
+        assert any(r["id"] == "/legacy-skill" for r in results)
+
     def test_config_driven_skill_dirs(self, tmp_path, monkeypatch):
         """Paths listed under skillDirs in .gaia/config.toml are scanned."""
         monkeypatch.chdir(str(tmp_path))

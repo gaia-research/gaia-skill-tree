@@ -2,7 +2,7 @@ import os
 from gaia_cli.scanner import scan_skill_mds
 
 def test_scan_dir_flag(tmp_path, monkeypatch):
-    skills_dir = tmp_path / "skills"
+    skills_dir = tmp_path / "custom-skills"
     demo_skill_dir = skills_dir / "demo-skill"
     demo_skill_dir.mkdir(parents=True)
     
@@ -17,6 +17,6 @@ def test_scan_dir_flag(tmp_path, monkeypatch):
     assert "/demo-skill" not in ids_without_dir
     
     # scan with --dir
-    found_with_dir = scan_skill_mds(".", extra_dirs=["skills"])
+    found_with_dir = scan_skill_mds(".", extra_dirs=["custom-skills"])
     ids_with_dir = [item["id"] for item in found_with_dir]
     assert "/demo-skill" in ids_with_dir

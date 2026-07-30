@@ -282,11 +282,16 @@ def scan_skill_mds(root: str = ".", global_search: bool = False, extra_dirs: lis
 
     # Determine standard skill directories
     standard_dirs = [os.path.realpath(d) for d in _skill_search_dirs(root, global_search, extra_dirs=extra_dirs)]
+    legacy_real_dirs = {
+        os.path.realpath(os.path.join(root, rel))
+        for rel in _LEGACY_SKILL_SEARCH_DIRS
+        if os.path.isdir(os.path.join(root, rel))
+    }
     strict_standard_dirs = {
         os.path.realpath(os.path.join(root, rel))
         for rel in _HUMAN_READABLE_SKILL_SEARCH_DIRS
         if os.path.isdir(os.path.join(root, rel))
-    }
+    } - legacy_real_dirs
     # The repo root itself is a mixed container, not a standard depth-1 skill container
     root_real = os.path.realpath(root)
     standard_containers = [d for d in standard_dirs if d != root_real]
