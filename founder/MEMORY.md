@@ -4,6 +4,28 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-30, HG-2 opened — #1152 and #636 child PRs drafted)
+
+### TLDR
+- HG-2 CLI work started after #998 was routed out.
+- **#1152** child PR #1397 opened: `cli/1152-fuse-timeline-regression` → `dev/issue-backlog`; reviewer PASS after narrowing docs/test wording; CI pending.
+- **#636** child PR #1398 opened: `cli/636-xcode-scan-dirs` → `dev/issue-backlog`; reviewer PASS after removing broad `.xcode` traversal; CI pending.
+- Tracker updated again so `founder/BACKLOG_ERADICATION_TRACKER.md` remains the operational source of truth.
+
+### Branches / PRs
+
+| PR | Branch | State |
+|---|---|---|
+| #1397 | `cli/1152-fuse-timeline-regression` | Draft; reviewer PASS; CI pending |
+| #1398 | `cli/636-xcode-scan-dirs` | Draft; reviewer PASS; CI pending |
+| #1395 | `dev/issue-backlog` | Draft integration PR; refreshed by tracker/memory commits |
+
+### Notes
+
+- #1152 implementation touched `DEV.md`, `src/gaia_cli/commands/dev/fuse.py`, and `tests/test_dev_fuse.py`; no registry/generated data.
+- #636 implementation touched `src/gaia_cli/scanner.py` and `tests/test_scanner.py`; explicit `.xcode/skills` / `.xcode/rules` roots only, no broad `.xcode/**` traversal.
+- Next: wait for CI on #1397/#1398, then merge into `dev/issue-backlog` if green, or fix failures as signal.
+
 ## State Snapshot (2026-07-30, HG-1 correction — #998 closed by founder disposition, cleanup branch abandoned)
 
 ### TLDR
