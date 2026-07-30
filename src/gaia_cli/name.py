@@ -62,7 +62,7 @@ def promote_to_named(skill_data, contributor, skill_name, registry_path):
         Kebab-case name for the skill (becomes the filename stem and the
         second segment of the named skill id).
     registry_path : str
-        Root of the local Gaia registry clone.
+        Root of the local registry clone.
 
     Returns
     -------

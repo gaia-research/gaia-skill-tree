@@ -256,7 +256,7 @@ Examples:
 
 ## 6) FAQ
 
-**Q: I ran `gaia push`. Are proposed skills already in the Registry?**  
+**Q: I ran `gaia push`. Are proposed skills already in the registry?**  
 No. Intake batches are review artifacts until accepted skills are promoted into `registry/gaia.json`.
 
 **Q: Where should long-form guidance go?**  

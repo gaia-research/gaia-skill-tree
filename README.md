@@ -29,7 +29,7 @@ Generate yours at **[gaiaskilltree.com/badges/](https://gaiaskilltree.com/badges
 
 **Brand & product:** [PRODUCT.md](PRODUCT.md) · [CONTEXT.md](CONTEXT.md) · [DESIGN.md](DESIGN.md)
 
-**Keywords:** AI Agent Skill Registry • Evidence-Backed Skill Graph • Capability Graph • Model Context Protocol • AI Agents • Attribution
+**Keywords:** AI Agent Skill registry • Evidence-Backed Skill Graph • Capability Graph • Model Context Protocol • AI Agents • Attribution
 
 ---
 
@@ -162,7 +162,7 @@ This is the evidence grade at the Skill level.
 
 ## API
 
-The Gaia registry is available as a static read-only JSON API — no authentication, no rate limits.
+The registry is available as a static read-only JSON API — no authentication, no rate limits.
 
 - **Base URL:** `https://gaiaskilltree.com/api/v1/`
 - **Docs:** [gaiaskilltree.com/api/](https://gaiaskilltree.com/api/)
@@ -301,7 +301,7 @@ Gaia CLI
 
 options:
   -h, --help           show this help message and exit
-  --registry REGISTRY  Path to a local Gaia registry checkout. Defaults to auto-resolved local or
+  --registry REGISTRY  Path to a local registry checkout. Defaults to auto-resolved local or
                        global registry.
   --global, -g         Use global GAIA_HOME registry, ignoring any local .gaia/ config.
   --version, -v        Print the Gaia CLI version and exit.
@@ -364,13 +364,13 @@ Maintainer commands:  gaia dev --help
 | Claude Code | `claude mcp add gaia -- npx -y @gaia-research/mcp@0.1.0` |
 | Any MCP client | Command: `npx`, args: `["-y", "@gaia-research/mcp@0.1.0"]` |
 
-**What v0.1.0 does today.** It is **read-only Registry mode** — three discovery tools, no write path:
+**What v0.1.0 does today.** It is **read-only registry mode** — three discovery tools, no write path:
 
 | Tool | Purpose |
 |---|---|
 | `gaia_search` | Find generic and Named Skills by task and constraints |
 | `gaia_inspect` | Return an evidence-backed skill dossier |
-| `gaia_status` | Report server compatibility, Registry freshness, counts, source URLs |
+| `gaia_status` | Report server compatibility, registry freshness, counts, source URLs |
 
 It **cannot install, fuse, or mutate skills**, and it does not submit to Intake. Project analysis and path planning arrive with Bonded mode in v0.2.0. Installation stays with the `gaia` CLI, which is where approval for anything that changes your workspace belongs.
 
@@ -381,7 +381,7 @@ Source and releases: <https://github.com/gaia-research/gaia-mcp>. See the [Gaia 
 ## Agent Discovery
 
 To help AI agents and automated clients discover and crawl the registry programmatically:
-- **Registry graph:** [`/graph/gaia.json`](https://gaiaskilltree.com/graph/gaia.json)
+- **registry graph:** [`/graph/gaia.json`](https://gaiaskilltree.com/graph/gaia.json)
 - **Named skills:** [`/named/`](https://gaiaskilltree.com/named/)
 - **Trust ledger:** [`/trust/ledger/`](https://gaiaskilltree.com/trust/ledger/)
 
@@ -426,7 +426,7 @@ Full policy/reviewer guidance: <https://gaiaskilltree.com/en>.
 
 ## Contributors
 
-Thank you to everyone who has expanded the Gaia registry <3 You are the best!
+Thank you to everyone who has expanded the registry <3 You are the best!
 
 ### Core Team
 
@@ -480,7 +480,7 @@ Community contributors (1–2 skills each): [@karpathy](https://github.com/karpa
 
 ## Programmatic Management
 
-The Gaia registry is programmatically managed. All meta shifts (adding, merging, splitting, adding evidence) must be performed via the [Gaia CLI](src/gaia_cli/). Hand-editing JSON nodes is deprecated to ensure schema integrity and automated timeline logging.
+The registry is programmatically managed. All meta shifts (adding, merging, splitting, adding evidence) must be performed via the [Gaia CLI](src/gaia_cli/). Hand-editing JSON nodes is deprecated to ensure schema integrity and automated timeline logging.
 
 ---
 

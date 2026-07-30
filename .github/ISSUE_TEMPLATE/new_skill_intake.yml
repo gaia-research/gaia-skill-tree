@@ -1,5 +1,5 @@
 name: "Skill Intake — Batch Proposal"
-description: "Propose one or more generic skills (basic or fusion) for the Gaia registry in a single issue. Yggdrasil II compatible. Equivalent to `gaia push --from-file skills.yml`."
+description: "Propose one or more generic skills (basic or fusion) for the registry in a single issue. Yggdrasil II compatible. Equivalent to `gaia push --from-file skills.yml`."
 title: "[intake] <short batch description, e.g. 'scientific research skills' or 'single: persistent-agent-planning'>"
 labels: ["intake", "needs-triage"]
 assignees: []
