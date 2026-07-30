@@ -7,6 +7,30 @@
   'use strict';
 
   var toastTimer = null;
+
+  function isSafeUrl(url) {
+    if (!url) return false;
+    var trimmed = String(url).trim();
+    if (/[\x00-\x1F\x7F-\x9F]/.test(trimmed)) {
+      return false;
+    }
+    if (/^[/\\]{2}/.test(trimmed)) {
+      return false;
+    }
+    var parsed;
+    try {
+      parsed = new URL(trimmed, window.location.origin);
+    } catch (e) {
+      return false;
+    }
+    if (parsed.protocol === 'http:' || parsed.protocol === 'https:') {
+      return true;
+    }
+    if (parsed.protocol === 'blob:') {
+      return parsed.pathname.indexOf(window.location.origin) === 0;
+    }
+    return false;
+  }
   var lastFocused = null;
   var inertedSiblings = [];
   var trapKeydownHandler = null;
@@ -83,7 +107,8 @@
       : '';
     var brand = document.createElement('a');
     brand.className = 'hoh-fs-brand';
-    brand.href = root + 'index.html';
+    var brandUrl = root + 'index.html';
+    brand.href = isSafeUrl(brandUrl) ? brandUrl : '';
     brand.setAttribute('aria-label', 'Gaia Skill Tree home');
 
     var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -286,7 +311,7 @@
   function triggerBlobDownload(blob, filename) {
     var href = URL.createObjectURL(blob);
     var anchor = document.createElement('a');
-    anchor.href = href;
+    anchor.href = isSafeUrl(href) ? href : '';
     anchor.download = filename;
     document.body.appendChild(anchor);
     anchor.click();
@@ -476,7 +501,8 @@
         var imgEl = document.createElement('img');
         try {
           var resolvedUrl = new URL(pngPath, document.baseURI);
-          imgEl.src = (resolvedUrl.protocol === 'https:' || resolvedUrl.protocol === 'http:') ? resolvedUrl.href : '';
+          var isHttp = resolvedUrl.protocol === 'https:' || resolvedUrl.protocol === 'http:';
+          imgEl.src = (isHttp && isSafeUrl(resolvedUrl.href)) ? resolvedUrl.href : '';
         } catch (_e) { imgEl.src = ''; }
         imgEl.alt = ns.name || ns.id || '';
         imgEl.onload = function () { stage.replaceChildren(imgEl); };
@@ -515,18 +541,23 @@
     var prefix = (typeof window.gaiaIconBase === 'function') ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '') : '';
     if (badgePreview) {
       badgePreview.alt = ns.contributor + '/' + slug + ' on Gaia';
-      badgePreview.src = prefix + 'badges/_assets/' + encodeURIComponent(ns.contributor) + '/' + encodeURIComponent(slug) + '.svg';
+      var previewUrl = prefix + 'badges/_assets/' + encodeURIComponent(ns.contributor) + '/' + encodeURIComponent(slug) + '.svg';
+      badgePreview.src = isSafeUrl(previewUrl) ? previewUrl : '';
     }
     var markdown = '[![Gaia](' + badgeBase + ')](' + profileUrl + ')';
     if (codeBlock) codeBlock.textContent = markdown;
-    if (badgesLink) badgesLink.href = prefix + 'badges/?u=' + encodeURIComponent(ns.contributor) + '&s=' + encodeURIComponent(slug);
+    if (badgesLink) {
+      var targetBadgesUrl = prefix + 'badges/?u=' + encodeURIComponent(ns.contributor) + '&s=' + encodeURIComponent(slug);
+      badgesLink.href = isSafeUrl(targetBadgesUrl) ? targetBadgesUrl : '';
+    }
 
     getRegistry().then(function (registry) {
       var repo = firstApprovedRepo(registry, ns.contributor);
       if (repo) {
         var q = '?repo=' + encodeURIComponent(repo);
         if (badgePreview) {
-          badgePreview.src = prefix + 'badges/_assets/' + encodeURIComponent(ns.contributor) + '/' + encodeURIComponent(slug) + '.svg' + q;
+          var previewUrlWithQ = prefix + 'badges/_assets/' + encodeURIComponent(ns.contributor) + '/' + encodeURIComponent(slug) + '.svg' + q;
+          badgePreview.src = isSafeUrl(previewUrlWithQ) ? previewUrlWithQ : '';
         }
         markdown = '[![Gaia](' + badgeBase + q + ')](' + profileUrl + ')';
         if (codeBlock) codeBlock.textContent = markdown;
@@ -615,7 +646,7 @@
             return;
           }
           var a = document.createElement('a');
-          a.href = resolvedHref;
+          a.href = isSafeUrl(resolvedHref) ? resolvedHref : '';
           a.download = ns.contributor + '-' + slug + '.png';
           document.body.appendChild(a);
           a.click();

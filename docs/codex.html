@@ -839,14 +839,12 @@
       { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]
     ));
 
-    // Plain text by default (msg is escaped). Pass { html: true } only for
-    // author-controlled markup strings — any interpolated runtime value inside
-    // those must be run through escLog() at the call site first.
-    function addLog(msg, type = "system", opts = {}) {
+    // Plain text by default. Pass an Element or DocumentFragment to append nodes directly.
+    function addLog(msg, type = "system") {
       const line = document.createElement("div");
       line.className = `console-line ${type}`;
-      if (opts.html) {
-        line.innerHTML = msg;
+      if (msg instanceof Node) {
+        line.appendChild(msg);
       } else {
         line.textContent = msg;
       }
@@ -995,9 +993,22 @@
 
                   promptBox.remove();
                   addLog(`[User] Submitted Review Decisions:`, "user");
-                  addLog(` - <code>literature-search</code>: <strong>${escLog(dec1.toUpperCase())}</strong>`, "user", { html: true });
-                  addLog(` - <code>openai/swarm</code>: <strong>${escLog(dec2.toUpperCase())}</strong>`, "user", { html: true });
-                  addLog(` - <code>arxiv-lookup</code>: <strong>${escLog(dec3.toUpperCase())}</strong>`, "user", { html: true });
+                  const buildUserLog = (codeText, strongText) => {
+                    const frag = document.createDocumentFragment();
+                    frag.appendChild(document.createTextNode(" - "));
+                    const code = document.createElement("code");
+                    code.textContent = codeText;
+                    frag.appendChild(code);
+                    frag.appendChild(document.createTextNode(": "));
+                    const strong = document.createElement("strong");
+                    strong.textContent = strongText;
+                    frag.appendChild(strong);
+                    return frag;
+                  };
+
+                  addLog(buildUserLog("literature-search", dec1.toUpperCase()), "user");
+                  addLog(buildUserLog("openai/swarm", dec2.toUpperCase()), "user");
+                  addLog(buildUserLog("arxiv-lookup", dec3.toUpperCase()), "user");
 
                   const acceptedCount = (dec1 === 'accept' ? 1 : 0) + (dec2 === 'accept' || dec2 === 'rename' ? 1 : 0) + (dec3 === 'accept' ? 1 : 0);
 

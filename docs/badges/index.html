@@ -867,6 +867,27 @@
 
   <script>
     const BASE = "https://gaiaskilltree.com";
+
+    function isSafeUrl(url) {
+      if (!url) return false;
+      const trimmed = String(url).trim();
+      if (/[\x00-\x1F\x7F-\x9F]/.test(trimmed)) {
+        return false;
+      }
+      if (/^[/\\]{2}/.test(trimmed)) {
+        return false;
+      }
+      let parsed;
+      try {
+        parsed = new URL(trimmed, window.location.origin);
+      } catch (e) {
+        return false;
+      }
+      if (parsed.protocol === 'http:' || parsed.protocol === 'https:') {
+        return true;
+      }
+      return false;
+    }
     const handleInput = document.getElementById("bd-handle");
     const clearBtn    = document.getElementById("bd-clear");
     const goBtn       = document.getElementById("bd-go");
@@ -979,7 +1000,8 @@
     }
     function refreshSamplerImg() {
       const r = SAMPLER_RANKS[samplerIdx];
-      samplerImg.src = sampleSrc(r.n);
+      const src = sampleSrc(r.n);
+      samplerImg.src = isSafeUrl(src) ? src : '';
       // The sampler drives ONLY its own preview (samplerImg/samplerLbl). It must
       // NOT repaint the claim/README badge preview (`badges`) — that surface is
       // pinned to CLAIM_RANK by seedSample() and must never inherit the cycling
@@ -1138,9 +1160,9 @@
       // properties and never reinterpreted as HTML (avoids DOM-XSS).
       entries.forEach(({ localSrc, alt, target }) => {
         const link = document.createElement("a");
-        link.href = target;
+        link.href = isSafeUrl(target) ? target : '';
         const img = document.createElement("img");
-        img.src = localSrc;
+        img.src = isSafeUrl(localSrc) ? localSrc : '';
         img.alt = alt;
         link.appendChild(img);
         badges.appendChild(link);
@@ -1205,7 +1227,7 @@
         const thumb = document.createElement("div");
         thumb.className = "bd-row-badge";
         const thumbImg = document.createElement("img");
-        thumbImg.src = localSrc;
+        thumbImg.src = isSafeUrl(localSrc) ? localSrc : '';
         thumbImg.alt = alt;
         thumb.appendChild(thumbImg);
         item.appendChild(thumb);
@@ -1565,7 +1587,8 @@
         actions.className = "bd-cta-actions";
         const a1 = document.createElement("a");
         a1.className = "bd-cta-btn bd-cta-btn-primary";
-        a1.href = "../index.html#paths";
+        const targetA1 = "../index.html#paths";
+        a1.href = isSafeUrl(targetA1) ? targetA1 : '';
         a1.appendChild(document.createTextNode("Push your repo "));
         const arrow = document.createElement("span");
         arrow.setAttribute("aria-hidden", "true");
@@ -1576,7 +1599,8 @@
 
         const a2 = document.createElement("a");
         a2.className = "bd-cta-btn";
-        a2.href = "../codex.html";
+        const targetA2 = "../codex.html";
+        a2.href = isSafeUrl(targetA2) ? targetA2 : '';
         a2.textContent = "Browse the Codex";
 
         actions.appendChild(a1);
@@ -1621,7 +1645,8 @@
 
         const editLink = document.createElement("a");
         editLink.className = "bd-cta-btn";
-        editLink.href = `https://github.com/${repo}/edit/main/README.md`;
+        const targetEdit = `https://github.com/${repo}/edit/main/README.md`;
+        editLink.href = isSafeUrl(targetEdit) ? targetEdit : '';
         editLink.target = "_blank";
         editLink.rel = "noopener noreferrer";
         editLink.appendChild(document.createTextNode("Edit README "));
@@ -1632,7 +1657,8 @@
 
         const viewLink = document.createElement("a");
         viewLink.className = "bd-cta-btn";
-        viewLink.href = `https://github.com/${repo}`;
+        const targetView = `https://github.com/${repo}`;
+        viewLink.href = isSafeUrl(targetView) ? targetView : '';
         viewLink.target = "_blank";
         viewLink.rel = "noopener noreferrer";
         viewLink.appendChild(document.createTextNode("View repo "));
@@ -1684,7 +1710,7 @@
       const seedLabel = CLAIM_RANK.label;
       badges.replaceChildren();
       const seedImg = document.createElement("img");
-      seedImg.src = seedSampleSrc;
+      seedImg.src = isSafeUrl(seedSampleSrc) ? seedSampleSrc : '';
       seedImg.alt = seedLabel;
       seedImg.style.height = "28px";
       seedImg.style.display = "block";
@@ -1702,7 +1728,7 @@
       const thumb = document.createElement("div");
       thumb.className = "bd-row-badge";
       const thumbImg = document.createElement("img");
-      thumbImg.src = seedSampleSrc;
+      thumbImg.src = isSafeUrl(seedSampleSrc) ? seedSampleSrc : '';
       thumbImg.alt = seedLabel;
       thumb.appendChild(thumbImg);
       item.appendChild(thumb);
