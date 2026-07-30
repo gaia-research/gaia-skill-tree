@@ -2,6 +2,42 @@
 
 ---
 
+## 2026-07-30 — Routine 020
+
+**Branch:** `docs/routines/020`
+**Task chosen:** Version bump to v7.1.31 (SYNC trigger).
+
+### Trigger
+Routine documentation agent triggered; repository version jumped from v6.8.16 (last sync in routine 017 editor pass, 2026-07-25) to v7.1.31 via subsequent releases. Significant version drift detected: docs locked at v6.8.16 while main is at v7.1.31. SYNC task required immediately.
+
+### What I did
+1. **Synchronized version numbers**: Updated all 12 English documentation HTML files under `docs/en/` from `v6.8.16` to `v7.1.31`. Includes nav version chips, footer version strings, and script query parameters (`?v=7.1.31`).
+
+### Design decisions
+- Updated uniformly across all HTML files to maintain consistency. No content changes — version-only bump.
+
+### Files modified
+All 12 pages in `docs/en/`:
+- `cli-reference.html`
+- `contributing.html`
+- `evidence-classes.html`
+- `faq.html`
+- `fusion.html`
+- `getting-started.html`
+- `index.html`
+- `mcp-server.html`
+- `named-skills.html`
+- `share-bundles.html`
+- `skill-hierarchy.html`
+- `timeline-audit.html`
+
+### Planned next (Routine 021)
+- Rotate: audit the least-recently-touched page (skill-hierarchy.html, last substantive edit routine 002) for clarity/link/callout improvements per routine 018/019 planned continuation.
+- Sync: any new CLI flags or behaviors from v7.1.31 release notes (scan flags, new subcommands, API changes).
+- Maintain: Check for generated artifact changes or new feature documentation needs between v6.8.16 and v7.1.31.
+
+---
+
 ## 2026-07-25 — Routine 017 — Editor pass (ship gate, PR #1249)
 
 **Role:** Weekly editor. Reviewed the week's accreted commits on `docs/routines/017`, verified claims against the actual product, fixed what didn't hold up, and shipped.
