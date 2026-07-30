@@ -4,6 +4,66 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-31, Session 8I closed — Arc I, Program 1's KC1/KC2/KC4/KC5/KC6 merged to skill-heaven `main`; KC9 withheld indefinitely; two Arc II follow-ups filed; #1258's remainder re-tracked)
+
+### TLDR
+- **`integration/arc-i-lane-a` merged to skill-heaven `main`** (PR #23, squash, merge commit `2726cb9`). Issues #8/#9/#10/#12 closed via explicit `Resolves` lines in the PR body (deliberately traceable — not relying on an implicit keyword, given the #1258 auto-close confusion this same session). #11 was already closed; #13 correctly stayed open.
+- **KC9 is withheld indefinitely, by explicit founder instruction** — not a technical blocker, a deliberate pause pending founder satisfaction. Commented on #13 to record this rather than leave it ambiguous.
+- **A verification pass before merging caught a false alarm and a real bug.** Read (not just grepped/log-checked) `packages/claude-heaven/scripts/verify-marketplace-install.mjs` and `packages/claude-heaven/src/statusline.ts` directly: all three register-flagged A5 review findings (A5a manifest-driven verifier, A5b realpathSync ENOENT handling, A5c fail-closed scope disclosure) turned out **already genuinely fixed** on the branch — the git-log ancestor-check said otherwise only because skill-heaven squashes, so the original commit SHAs weren't literal ancestors even though their content had landed via the squashed PR. Cost nothing to double-check by reading the file; would have cost a redundant, wrong follow-up issue if trusted the ancestor-check alone.
+- **The real, still-open item: P8's contradiction.** `product-floor`'s composition still names `--setting-sources project` (the exact leak KC4 fixed for `curated`), and `LEVEL_ALIASES` still maps `off → floor` instead of `off → product-floor`. Verified directly in `compile.ts` before filing — not asserted from memory. Filed as skill-heaven issue #24, Arc II.
+- **#1258's registry-mutation remainder re-tracked** as gaia-skill-tree issue #1404, since the original #1258 auto-closed on PR #1399's merge despite that PR's own body explicitly disclaiming full closure — the auto-close's actual trigger was investigated and never conclusively identified (GraphQL `closingIssuesReferences` on #1399 returns empty; no keyword match found in any commit message or the PR body). Flagged in #1404 as unexplained, not just re-filed silently.
+- **gaia-skill-tree #1382 closed as won't-fix** (green on every check, `CONFLICTING` against current `main` — superseded), earlier this session.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| skill-heaven **PR #23** (`integration/arc-i-lane-a` → `main`) | ✅ **MERGED** (squash, `2726cb9`). Confirmed `main`'s tip SHA matches the merge commit exactly. Closes #8, #9, #10, #12 via explicit PR-body `Resolves` lines. |
+| skill-heaven **#13** (KC8+KC9) | ✅ Comment posted recording KC8 shipped + KC9 withheld indefinitely. Issue correctly stays **open**. |
+| A5a/A5b/A5c review findings | ✅ **Already fixed**, verified by reading the live files — no action needed, no issue filed. (Ancestor-check falsely suggested otherwise due to squash-merge history; corrected before acting on it.) |
+| skill-heaven **#24** (P8 composition fix) | 🆕 **Filed**, Arc II. `product-floor`'s `--setting-sources project → ''` + `LEVEL_ALIASES: off → floor → off → product-floor`. Verified live in `compile.ts`/`launcher.ts`/`statusline.ts` before filing — the statusline's own comment already flags the live under-disclosure consequence. |
+| gaia-skill-tree **#1404** (#1258 remainder) | 🆕 **Filed**, Program 7 milestone. Re-tracks the 5 `mbtiongson1` skill-description fixes PR #1399 explicitly deferred; flags the unexplained #1258 auto-close for the record. |
+| gaia-skill-tree **#1382** | ✅ Closed won't-fix, labeled. |
+| KC9 pipeline | ⏸️ **Withheld indefinitely** by explicit founder instruction — not abandoned, paused pending satisfaction. Will target `gaia-research` `main` directly when resumed. |
+
+### Branches at end of session
+
+| Branch | Head SHA | Status |
+|---|---|---|
+| skill-heaven `main` | `2726cb9` | KC1/KC2/KC4/KC5/KC6 + honest-disclosure + C6 all merged in. |
+| gaia-research `main` | `eb28d12f` (unchanged from prior snapshot) | KC8 claim-index + A2 fix. |
+| gaia-skill-tree `docs/session-8f-snapshot` (#1377) | this commit | About to merge to `main` — see below. |
+
+### Issues + PRs touched
+
+- skill-heaven **#23** — MERGED. **#8, #9, #10, #12** — CLOSED (via #23's explicit Resolves lines). **#13** — OPEN, commented. **#24** — NEW, Arc II.
+- gaia-skill-tree **#1382** — CLOSED, won't-fix. **#1404** — NEW, re-tracks #1258's remainder.
+
+### Routing — where things live now
+
+- **Arc I, Program 1's kill criteria**: KC1/KC2/KC4/KC5/KC6 shipped on skill-heaven `main`. KC8 shipped on gaia-research `main`. **KC9 is the sole open item, deliberately paused.**
+- **P8 composition fix**: skill-heaven issue #24, Arc II, not blocking.
+- **#1258 remainder**: gaia-skill-tree issue #1404, Program 7, needs a `review/meta/` PR.
+
+### Lessons / hazards preserved
+
+- **A squash-merge convention makes ancestor-checks lie about content, not just history shape.** `git merge-base --is-ancestor <original-commit-sha>` correctly reports "not an ancestor" for content that squashed into a *different* SHA on the target branch — that's expected, not a sign the work is missing. Read the actual file before concluding a fix didn't land.
+- **An unexplained auto-close is worth naming as unexplained, not silently working around.** #1258 closed via a mechanism I could not trace to a real keyword match even after checking GraphQL's authoritative `closingIssuesReferences` and every commit message in the merging PR. Recorded the ambiguity in the re-filed issue rather than either ignoring it or inventing an explanation.
+- **Explicit `Resolves #N` lines beat implicit closing, especially after seeing one go wrong.** Used them deliberately on PR #23 specifically because of the #1258 experience earlier the same session.
+- **A founder instruction to "withhold indefinitely" is a real state, not just "still running."** Recorded as such (commented on #13, distinguished from "in progress") rather than left ambiguous for the next session to misread as abandoned or forgotten.
+
+### Open questions for next orchestrator
+
+1. **KC9** — resume only on explicit founder signal. Until then, no action.
+2. **skill-heaven #24** (P8 fix) and **gaia-skill-tree #1404** (#1258 remainder) — both Arc II, both have concrete verified starting points documented in their issue bodies.
+3. **#1377 merges to `main` this session** (see below) — once merged, the next session's `founder/MEMORY.md` lives directly on `main`, not a standing PR branch. Establish whether a new standing docs branch should open, or whether direct superadmin commits to `main` (still routed through a `dev/*` PR per the orchestrator's own hard boundary) become the new pattern.
+
+### Token cost (this session)
+
+`2026-07-31 — Session 8I closed. Prior subagent totals this session: 493,307 (KC8 pipeline) + 288,065 (craft+followups) = 781,372, plus the KC9 pipeline's cost (not yet known — withheld before completion). Orchestrator inline work (verification re-runs, integration-branch/PR setup, CI-watch scripting, issue filing, memory writes) unmeasured throughout.`
+
+---
+
 ## State Snapshot (2026-07-31, Session 8I continued — KC8 craft + both surfaced findings fixed and merged to gaia-research main; KC9 demo pipeline running; skill-heaven held for signal)
 
 ### TLDR
