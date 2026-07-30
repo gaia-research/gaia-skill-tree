@@ -12,6 +12,114 @@ Status at time of writing: Session 8G. Integration tip `bec8dbd`, suite
 
 ---
 
+## FOUNDER RULINGS — Session 8H, 2026-07-30
+
+All three open decisions in this register are now **closed**. Recorded here
+verbatim in substance; the roadmap §10 amendment and the `gaia.heaven` lexicon
+entry follow from these, not the reverse.
+
+### R1. `curated` is a personal-profile posture, not a benchmark arm
+
+A clean room plus **a hand-picked fraction of the user's own skills** — a
+fraction of what they have, named explicitly. It is intended to be
+**onboardable and personalizable**, with an option to source outsourced skills
+via **gaia mcp**, and it is **saved as a personal profile**.
+
+**Because it is personalized, it is not measured.** The measured arms are
+three, and curated is not among them:
+
+| Arm | What it is |
+|---|---|
+| **clean room** | the doorless benchmark floor — placebo-of-record (B2) |
+| **door** | the doorful product floor (+515 tok per F7) |
+| **native** | claude untouched |
+
+Ratify on the lexicon under `gaia.heaven`, **not locked** — the entry is
+amendable as the posture's product shape settles.
+
+**Arc scope (orchestrator reading, founder to correct if wrong):** Arc I's KC4
+is the **clean-room composition only**. Onboarding flow, profile persistence,
+and MCP-sourced skills are the curated *product's* later arcs — gaia mcp is
+Program 4, Arc III. Recorded now as a ruling; built later.
+
+### R2. KC4 stands as written; the composition changes
+
+Empty `--setting-sources` — chosen deliberately over `local`, because `local`
+returning a clean listing on one machine may only mean that machine had no
+local-scope skills, whereas empty is structurally "no ambient sources."
+**Empty value ≠ omitting the flag**; omitting it restores the full listing.
+
+`doctor` remains the single permitted, disclosed residual (upstream harness
+limitation, previously ruled as-is).
+
+**KC8 and KC9 restate to match R1**: the *measured* claims are floor/door vs
+native. Curated appears in the demo as the product moment, not the measurement
+moment. Possible consequence flagged by the founder and accepted: we are not
+measuring against curated at all.
+
+### R3. KC3 — closed. Cite, do not reopen
+
+The orchestrator flagged that KC3's wording ("against its own same-harness
+placebo") reads against the **doorless** floor, versus which the product floor
+is **+515 tokens higher**, while the −28.9% is against native. **Founder ruling:
+KC3 is closed. Cite the #6 / F7 record; do not restate the baseline.**
+
+A5d (product-floor renders "0 standing" while its door costs a measured +515)
+therefore stays informational.
+
+### R4. Codex deferred — corrections land, the flip is held
+
+**Codex is unavailable**, so nothing can be re-probed, no guard can be verified
+against the real thing, and the mechanism cannot be redesigned. The flip's only
+benefit is enabling `exec` for a harness we cannot currently run, so it buys
+nothing today and risks a benchmark recorded under a posture the session never
+had.
+
+Land `71c87d5`'s comment/README/test corrections with `execSupport` **staying
+`"recipe"`**. **No guard authored** — a guard we cannot exercise against real
+codex is a second unverified claim beside the first.
+
+Note: **codex is not on the Arc I gate.** Program 1 is deliberately one harness.
+A7 never blocked Arc I.
+
+### R5. A5a / A5b / A5c — do them, no further decision
+
+### R6. #1258 folded in
+
+The "Gaia Registry" branding audit is the **last open Program 7 issue** and the
+only Arc I gate item outside Lane A. Scoping pass dispatched.
+
+---
+
+## Arc I remainder — CORRECTED, 2026-07-30
+
+The orchestrator reported in Session 8H that Program 7 looked unstarted. **That
+was wrong** — it searched `gaia-skill-tree` for `docs/ecosystem/`, but #1339
+ruled the ecosystem page **canonical on Gaia Research with a pointer from the
+Tree**. It landed as `gaia-research` PR #130; `gaia-skill-tree` #1371 added the
+pointer. The local `gaia-research` checkout was stale.
+
+Verified state of the three Arc I gate conditions:
+
+| Gate condition | Owner | State |
+|---|---|---|
+| KC1–KC9 pass | Program 1 | **The real remainder** — see below |
+| No shipped surface unreachable from its homepage | Program 7 | #1130, #1328, #1339, #1341 all **closed**. **#1258 open** |
+| First-time reader can describe the five planes | Program 7 | #1339 **closed** (gaia-research #130) |
+
+Program 2's Arc I share is **complete** and was verified from the files, not
+assumed: six namespaces live across the two ratified HQs — `gaia-research` holds
+core + `gaia.brand` + `gaia.heaven` + `gaia.mcp` + `gaia.research`;
+`gaia-skill-tree` holds `gaia.skills` (10 terms, in `scripts/lexicon/lexicon.json`)
++ `gaia.trust` (7 terms). #1337 and #1338 closed. The Program 2 → Program 4
+unblock is in place: `gaia_search` / `gaia_inspect` / `gaia_status` are all
+`banned` → `search_skills`, making D4 enforceable. #1302 is Arc II/III by the
+roadmap's own scoping, not an Arc I blocker.
+
+**So Arc I = Program 1's kill criteria + #1258.**
+
+---
+
 ## A. In scope — must land in the finalizing PR
 
 ### A1. KC5 re-run against the widened door — NOT DONE, highest priority
@@ -75,6 +183,10 @@ Close on the integration merge: **#8** (KC1), **#9** (KC2), **#10** (KC4),
 confirmed by reading its body). **#7** (KC7) and **#11** (KC5) already closed —
 but see A1 before trusting #11.
 
+Also owed, per R1/R2: **#13's body must be restated** so KC8/KC9 measure
+floor/door vs native and curated is the product moment rather than a measured
+arm. And `gaia-skill-tree` **#1258** closes on the Program 7 side.
+
 ### A5. Read-only review findings (KC1 + KC2) — all orchestrator-verified
 
 Review ran green on the merged tip: 180/180 tests, typecheck clean, reviewer-run.
@@ -125,7 +237,7 @@ cannot discover from the runtime surface. Maintainer decision, not a bug.
 
 ---
 
-## A6. FOUNDER DECISION REQUIRED — KC4 cannot be closed as written
+## A6. ~~FOUNDER DECISION REQUIRED~~ — **RULED, see R1/R2.** KC4 stands; the composition changes to empty `--setting-sources`. Original finding preserved below.
 
 **KC4 fails as composed.** Verified independently by the orchestrator: the
 committed probe was re-run a third time on `claude 2.1.220`, byte-identical to
@@ -160,7 +272,7 @@ change the composition, or accept and disclose. Founder call.
 
 ---
 
-## A7. FOUNDER DECISION REQUIRED — the codex floor is not a floor
+## A7. ~~FOUNDER DECISION REQUIRED~~ — **RULED, see R4.** Corrections land, flip held, no guard, codex deferred. Original finding preserved below.
 
 Surfaced by A2's probe, verified independently by the orchestrator. This is
 the same shape as KC4, one harness over.
