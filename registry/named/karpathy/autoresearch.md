@@ -2,7 +2,7 @@
 id: karpathy/autoresearch
 name: AutoResearch
 contributor: karpathy
-origin: true
+origin: false
 genericSkillRef: autonomous-web-research
 status: named
 title: The Scholar's Compass
@@ -17,7 +17,7 @@ tags:
 - autonomous
 - paper-synthesis
 createdAt: '2026-04-29'
-updatedAt: '2026-06-21'
+updatedAt: '2026-07-30'
 evidence:
 - class: B
   source: https://github.com/karpathy/autoresearch
@@ -53,6 +53,10 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 3★ to 2★ per G7 final rankings calibration.
+- timestamp: '2026-07-30T06:11:15Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Origin status set to false.
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -73,4 +77,4 @@ AutoResearch is an autonomous agent that performs iterative literature review by
 
 ## Origin
 
-First published by @karpathy. This is the origin implementation for the "autonomous-research-agent" skill bucket.
+First published by @karpathy. Implementation for the "autonomous-web-research" skill bucket (see issue #1393 for dedicated generic bucket re-homing).

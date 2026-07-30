@@ -94,11 +94,11 @@ So that means, its the developers who make skills maintaining this. I have a tho
   │  │  └─ ○ /computer-use
 
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
-  ◉ openai/few-shot-learning  [4★]
-  ◉ safishamsi/graphify  [4★]
-    ├─ ○ /extract-entities
-    └─ ○ /logical-inference
-  ◉ addy-osmani/performance-optimization  [4★]
+  ◉ mvanhorn/last30days  [4★]
+    ├─ · /ghostwrite
+    │  ├─ · /research
+    │  │  ├─ ○ firecrawl/firecrawl-build-search  [4★]
+    │  │  ├─ ○ /summarize
 
 (255 skills total — see docs/tree.md)
 ```

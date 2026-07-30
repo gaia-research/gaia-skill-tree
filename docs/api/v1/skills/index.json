@@ -402,6 +402,22 @@
       "genericSkillRef": "web-scrape"
     },
     {
+      "id": "mvanhorn/last30days",
+      "name": "Last 30 Days Web Research",
+      "level": "4★",
+      "trustMagnitude": 127.85,
+      "overallTrustGrade": "A",
+      "contributor": "mvanhorn",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/mvanhorn/last30days.json"
+      },
+      "genericSkillRef": "autonomous-web-research"
+    },
+    {
       "id": "ruvnet/dual-mode",
       "name": "Dual Mode",
       "level": "4★",
@@ -1003,27 +1019,11 @@
         "ruvnet/github-release-management",
         "ruvnet/github-workflow-automation"
       ]
-    },
-    {
-      "id": "obra/systematic-debugging",
-      "name": "Systematic Debugging",
-      "level": "3★",
-      "trustMagnitude": 65.15,
-      "overallTrustGrade": "B",
-      "contributor": "obra",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/obra/systematic-debugging.json"
-      },
-      "genericSkillRef": "systematic-debugging"
     }
   ],
   "page": 1,
   "totalPages": 4,
-  "totalSkills": 168,
+  "totalSkills": 169,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"

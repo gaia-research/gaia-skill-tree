@@ -1,10 +1,10 @@
 {
-  "version": "7.1.32",
-  "generatedAt": "2026-07-30T04:41:40Z",
+  "version": "6.4.0",
+  "generatedAt": "2026-07-30T06:45:07Z",
   "summary": {
-    "total": 291,
+    "total": 292,
     "S": 5,
-    "A": 49,
+    "A": 50,
     "B": 72,
     "C": 82,
     "ungraded": 83,
@@ -288,6 +288,24 @@
         "social-signal": 60.02,
         "github-stars-own": 37.52,
         "repo-own": 36.0
+      },
+      "origin": true,
+      "branch": "unique"
+    },
+    {
+      "skillId": "mvanhorn/last30days",
+      "tm": 127.85,
+      "grade": "A",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 55.15,
+        "repo-own": 36.0,
+        "social-signal": 36.7
       },
       "origin": true,
       "branch": "unique"
@@ -2918,7 +2936,7 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true,
+      "origin": false,
       "branch": "standard"
     },
     {

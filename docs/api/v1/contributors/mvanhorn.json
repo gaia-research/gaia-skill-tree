@@ -1,0 +1,35 @@
+{
+  "handle": "mvanhorn",
+  "namedSkills": [
+    {
+      "id": "mvanhorn/last30days",
+      "name": "Last 30 Days Web Research",
+      "level": "4★",
+      "trustMagnitude": 127.85,
+      "overallTrustGrade": "A",
+      "contributor": "mvanhorn",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/mvanhorn/last30days.json"
+      },
+      "genericSkillRef": "autonomous-web-research"
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "mvanhorn/last30days",
+    "level": "4★",
+    "trustMagnitude": 127.85
+  },
+  "prestigeScore": 127.85,
+  "gradeDistribution": {
+    "A": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/mvanhorn.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

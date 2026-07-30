@@ -1,8 +1,8 @@
 {
   "distribution": {
-    "total": 291,
+    "total": 292,
     "S": 5,
-    "A": 49,
+    "A": 50,
     "B": 72,
     "C": 82,
     "ungraded": 83,
@@ -176,6 +176,19 @@
         "social-signal": 60.02,
         "github-stars-own": 37.52,
         "repo-own": 36.0
+      },
+      "origin": true,
+      "branch": "unique"
+    },
+    {
+      "id": "mvanhorn/last30days",
+      "trustMagnitude": 127.85,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "github-stars-own": 55.15,
+        "repo-own": 36.0,
+        "social-signal": 36.7
       },
       "origin": true,
       "branch": "unique"
@@ -2026,7 +2039,7 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true,
+      "origin": false,
       "branch": "standard"
     },
     {
