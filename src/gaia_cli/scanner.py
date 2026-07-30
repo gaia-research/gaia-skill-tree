@@ -252,7 +252,6 @@ def _should_prune_dir(d: str) -> bool:
             ".zed",
             ".local",
             ".gaia",
-            ".xcode",
         )
         if not d.startswith(allowed_prefixes):
             return True

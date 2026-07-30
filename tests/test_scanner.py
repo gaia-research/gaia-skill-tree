@@ -186,6 +186,15 @@ class TestSkillSearchDirs:
         results = scan_skill_mds(root=str(tmp_path))
         assert any(r["id"] == "/xcode-rule" for r in results)
 
+    def test_xcode_other_not_found(self, tmp_path):
+        """.xcode/other/skill.md is not discovered because .xcode is pruned during broad scanning."""
+        d = tmp_path / ".xcode" / "other"
+        d.mkdir(parents=True)
+        _write(str(d / "skill.md"), "---\nname: Other Xcode\ndescription: should not be found\n---\n")
+
+        results = scan_skill_mds(root=str(tmp_path))
+        assert not any(r["name"] == "Other Xcode" for r in results)
+
     def test_source_dir_recorded(self, tmp_path):
         """Each result records which directory it came from."""
         d = tmp_path / ".agents" / "skills" / "tracked"
@@ -574,8 +583,8 @@ class TestShouldPruneDir:
         assert _should_prune_dir(".agents") is False
         assert _should_prune_dir(".claude") is False
         assert _should_prune_dir(".cursor") is False
-        assert _should_prune_dir(".xcode") is False
 
     def test_prunes_unallowed_dot_prefixes(self):
         from gaia_cli.scanner import _should_prune_dir
         assert _should_prune_dir(".unknown") is True
+        assert _should_prune_dir(".xcode") is True
