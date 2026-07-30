@@ -4,7 +4,7 @@
   "unlockedSkills": [
     {
       "skillId": "pexp13/sentiment-analysis",
-      "level": "1★",
+      "level": "4★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "pexp13/gaia-skill-tree",
       "combinedFrom": [],
@@ -17,6 +17,16 @@
         {
           "level": "4★",
           "achievedAt": "2026-06-20T06:31:35Z",
+          "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-07-04T18:07:41Z",
+          "source": "demote"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-07-30T22:36:49Z",
           "source": "promotion"
         }
       ]
@@ -46,6 +56,14 @@
       "details": "Issue #934: linked SKILL.md unrecoverable (never existed); all 8 evidence rows rerouted to starless generic node (still inherited via genericSkillRef); no author signal from pexp13 in repo history. Demoting to 1-star (awakened) until a verifiable public artifact exists. links.github cleared (CLI gap #936). TM reset.",
       "previousValue": "4★",
       "newValue": "1★"
+    },
+    {
+      "timestamp": "2026-07-30T22:36:49Z",
+      "action": "rank_up",
+      "previousValue": "1★",
+      "newValue": "4★",
+      "details": "Calibrated level from 1★ to 4★",
+      "skillId": "pexp13/sentiment-analysis"
     }
   ],
   "stats": {
