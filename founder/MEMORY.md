@@ -4,6 +4,27 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-30, HG rule update — CLI visual/output changes require human gates)
+
+### TLDR
+- Founder ruled that **CLI visual/output changes need Human Gates**.
+- `founder/CLAUDE.md` now distinguishes pure CLI behavior/parser/test changes from visible terminal-output changes.
+- Visible CLI output changes include cards, prompts, formatting, colors, symbols, truncation, and command copy; they require before/after CLI output for founder review.
+- This affects upcoming HG-2 work such as #332 and #139; #636 and #1152 already merged as non-visual CLI behavior/test work.
+
+### Routing impact
+
+| Issue class | Routing |
+|---|---|
+| Pure CLI parser/scanner/test/docs behavior | Normal HG-2 review |
+| CLI visual/output formatting/cards/prompts/colors/symbols | Human-gated with before/after terminal evidence |
+| Web design/frontend | Strict HG-4 + `/design-iteration` as already recorded |
+
+### Files updated
+
+- `founder/CLAUDE.md` — backlog sprint Human Gates and pause triggers updated.
+- `founder/BACKLOG_ERADICATION_TRACKER.md` — #332/#139 marked as CLI visual HG items.
+
 ## State Snapshot (2026-07-30, HG-2 merge checkpoint — #636 and #1152 merged)
 
 ### TLDR

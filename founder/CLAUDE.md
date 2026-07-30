@@ -184,8 +184,9 @@ The issue-backlog eradication sprint is an integration-branch campaign, not a se
 **Human Gates:**
 1. Use batch-level Human Gates for normal backlog work, not one founder approval per issue.
 2. Design work is the exception: it is strictly human-gated, uses `/design-iteration` for approval-gated fix recovery, and should be batched last unless urgent.
-3. Any required regeneration commit (docs graph/API/profile/badge artifacts, generated registry projections, or other Class S outputs) requires an explicit human gate before landing.
-4. Prepend a memory snapshot to `founder/MEMORY.md` at every Human Gate and whenever Marco invokes memory snapshot; these snapshot commits land directly on the active `dev/*` integration branch.
+3. CLI visual/output changes are also human-gated: anything that changes visible terminal output, cards, prompts, formatting, colors, symbols, truncation, or command copy must be batched for founder review with before/after CLI output. Pure scanner/parser/test/docs behavior that does not alter rendered CLI output can proceed on normal HG-2 review.
+4. Any required regeneration commit (docs graph/API/profile/badge artifacts, generated registry projections, or other Class S outputs) requires an explicit human gate before landing.
+5. Prepend a memory snapshot to `founder/MEMORY.md` at every Human Gate and whenever Marco invokes memory snapshot; these snapshot commits land directly on the active `dev/*` integration branch.
 
 **Scope and CI posture:**
 1. Skip issues already covered by EPIC #1336 unless Marco explicitly pulls them into this sprint.
@@ -194,7 +195,7 @@ The issue-backlog eradication sprint is an integration-branch campaign, not a se
 4. All CLI invocations in dispatches should use the checkout's Python entrypoint/module form (for example `PYTHONPATH=src python -m gaia_cli ...` where applicable) rather than a globally installed/pip `gaia`, so agents test the code under review.
 
 **Pause-and-ask triggers:**
-Pause and ask Marco before implementation when an issue has no obvious solution, conflicts with source-of-truth docs, needs product/design judgement, affects evidence/rank calibration, requires destructive git/history operations, touches adjacent repos, or would auto-ingest/auto-publish without a human curation step.
+Pause and ask Marco before implementation when an issue has no obvious solution, conflicts with source-of-truth docs, needs product/design judgement, changes visible CLI output, affects evidence/rank calibration, requires destructive git/history operations, touches adjacent repos, or would auto-ingest/auto-publish without a human curation step.
 
 ### Release runbook — bundled registry snapshot
 
