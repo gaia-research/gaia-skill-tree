@@ -4,6 +4,73 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-30, pause snapshot — backlog eradication paused after CLI visual HG ruling)
+
+### TLDR
+- **Session paused on request.** Active branch is `dev/issue-backlog`; integration PR is #1395 (`dev/issue-backlog` → `main`, draft).
+- **Merged into integration this session:** #1147 security patch (#1394), #1253 intake label migration (#1396), #636 Xcode scanner dirs (#1398), #1152 dev-fuse timeline regression/docs (#1397).
+- **Closed / routed:** #999, #991, #727 verified-done; #998 closed by founder disposition as not resolved through backlog; #118 closed as superseded by Yggdrasil II; #1060 deferred until after backlog eradication + other sprints.
+- **New standing rule:** CLI visual/output changes now require Human Gates with before/after terminal output. Pure CLI parser/scanner/test behavior can continue under normal HG-2.
+- **Current CI:** #1395 mostly green after latest pushes, but CodeQL analyze and Test/Build were pending at snapshot time.
+
+### What changed since previous snapshot
+
+| Layer | State |
+|---|---|
+| Integration PR | #1395 remains draft/open; body updated with progress and CLI visual HG rule |
+| HG-2 CLI PRs | #1398 (`908987bc3`) and #1397 (`f6a67249f`) merged into `dev/issue-backlog` |
+| Tracker | `founder/BACKLOG_ERADICATION_TRACKER.md` updated for live progress, #998 disposition, #636/#1152 merges, and CLI visual HG rule |
+| Founder rules | `founder/CLAUDE.md` updated: visible CLI output changes pause/require human gate |
+| Memory | Multiple newest-first snapshots added during gates/rulings; this is the pause handoff |
+
+### Branches / PRs at pause
+
+| Branch / PR | Head / State | Notes |
+|---|---:|---|
+| `dev/issue-backlog` | `5ec12d4f7` | Pushed and in sync with origin at pause start |
+| PR #1395 | draft/open | Integration PR to `main`; checks rerunning after latest founder-doc update |
+| PR #1394 / #1147 | merged | Security-only exception from EPIC #1336 |
+| PR #1396 / #1253 | merged | `draft-skills` → `intake`, plus #1378 relabel follow-through |
+| PR #1398 / #636 | merged | Explicit `.xcode/skills` and `.xcode/rules`; `.xcode/other` remains pruned |
+| PR #1397 / #1152 | merged | Fuse timeline repair regression + narrow docs |
+
+### Issues touched / disposition
+
+| Issue | Disposition |
+|---|---|
+| #1147 | Re-admitted from #1336 as security-only; merged via #1394 |
+| #1253 | Done via #1396; #1378 relabeled from `draft-skills` to `intake` |
+| #999 | Closed verified-done; dedicated rank-vocabulary guard owns terms |
+| #991 | Closed verified-done; branch scope already allowed `founder/handovers/*` |
+| #727 | Closed verified-done; schema scope already allowed bundled schema mirror |
+| #1060 | Deferred; destructive history rewrite not part of this sprint |
+| #998 | Closed by founder disposition, not fixed through backlog; abandoned branch deleted |
+| #636 | Done via #1398 |
+| #1152 | Done via #1397 |
+| #118 | Closed as superseded by retired self-promote flow; correction comment posted because shell stripped backticks in first close comment |
+
+### Routing / next steps when resuming
+
+1. Re-check #1395 CI; treat failures as signal.
+2. Continue HG-2, but **skip/hold CLI visual-output issues** until a human-gated batch with before/after terminal evidence is planned.
+   - #332 and #139 are now CLI visual HG candidates.
+3. Safe next non-visual candidates likely need fresh scout/planner because one planner call returned no output earlier:
+   - #1158 (scanner support for nonstandard `SKILL.md` layouts) looks valid and likely worker-sized, but scout raised false-positive risk for `skills/*/README.md` fallback.
+   - #1028 is bigger (`scripts/lib` shared installable package) and should use planner/worker-sol if kept in this sprint.
+4. Keep EPIC #1336-owned issues skipped unless Marcus explicitly re-admits them.
+5. Do not touch `docs/en/**`; generated regen commits still require explicit human gate.
+
+### Hazards / lessons preserved
+
+- Git pushes from this environment sometimes hang on HTTP/2; `git -c http.version=HTTP/1.1 push ...` has been reliable.
+- Shell command substitution stripped backticked `gaia promote` text from a `gh issue close --comment`; use body files for comments containing backticks.
+- Do not treat worker/reviewer output as final when founder issues a routing decision: #998 cleanup was stopped and branch deleted despite work in progress.
+- CLI visual changes are not “just CLI plumbing”; they now require human-visible before/after evidence.
+
+### Token cost (session to pause)
+
+- Pi cost (`PYTHONUTF8=1`) at pause: main session **~$14.30**, subagents **~$20.30**, total **~$34.60**.
+
 ## State Snapshot (2026-07-30, HG rule update — CLI visual/output changes require human gates)
 
 ### TLDR
