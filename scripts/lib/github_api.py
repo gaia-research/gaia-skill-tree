@@ -5,12 +5,22 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-try:
-    from gaia_registry_lib.github_api import *  # noqa: F401,F403
-    from gaia_registry_lib.github_api import _CACHE  # noqa: F401
-except ModuleNotFoundError:  # pragma: no cover - checkout fallback before install
-    _LIB_SRC = Path(__file__).resolve().parents[2] / "packages" / "gaia-registry-lib" / "src"
-    if str(_LIB_SRC) not in sys.path:
-        sys.path.insert(0, str(_LIB_SRC))
-    from gaia_registry_lib.github_api import *  # noqa: F401,F403,E402
-    from gaia_registry_lib.github_api import _CACHE  # noqa: F401,E402
+
+def _prefer_checkout_shared_lib() -> None:
+    """Prefer the adjacent shared-lib checkout over any installed wheel."""
+    lib_src = Path(__file__).resolve().parents[2] / "packages" / "gaia-registry-lib" / "src"
+    if not lib_src.is_dir():
+        return
+
+    lib_src_str = str(lib_src)
+    try:
+        sys.path.remove(lib_src_str)
+    except ValueError:
+        pass
+    sys.path.insert(0, lib_src_str)
+
+
+_prefer_checkout_shared_lib()
+
+from gaia_registry_lib.github_api import *  # noqa: F401,F403,E402
+from gaia_registry_lib.github_api import _CACHE  # noqa: F401,E402

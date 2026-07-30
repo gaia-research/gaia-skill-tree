@@ -16,15 +16,13 @@ there if we add scripts to sys.path; we do so in conftest below.)
 
 from __future__ import annotations
 
+import importlib.util
+import sys
 import textwrap
 from pathlib import Path
 from unittest.mock import patch
 
 import pytest
-
-# Ensure scripts/ is on the path so ``scripts.lib`` resolves
-import sys
-import os
 
 _REPO_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 if str(_REPO_ROOT / "scripts") not in sys.path:
@@ -58,6 +56,113 @@ def test_shared_package_exports_extracted_helpers():
     assert shared_split is split_frontmatter
     assert shared_parse_owner_repo is parse_owner_repo
     assert callable(shared_iter_named_skills)
+
+
+def _write_fake_shared_lib(base: Path, origin: str) -> None:
+    pkg = base / "gaia_registry_lib"
+    pkg.mkdir(parents=True, exist_ok=True)
+    (pkg / "__init__.py").write_text("", encoding="utf-8")
+    (pkg / "frontmatter.py").write_text(
+        textwrap.dedent(
+            f"""\
+            ORIGIN = {origin!r}
+
+            def split_frontmatter(*args, **kwargs):
+                return ORIGIN
+            """
+        ),
+        encoding="utf-8",
+    )
+    (pkg / "github_api.py").write_text(
+        textwrap.dedent(
+            f"""\
+            ORIGIN = {origin!r}
+            _CACHE = {{"origin": ORIGIN}}
+
+            def parse_owner_repo(*args, **kwargs):
+                return ORIGIN
+            """
+        ),
+        encoding="utf-8",
+    )
+    (pkg / "named_iterator.py").write_text(
+        textwrap.dedent(
+            f"""\
+            ORIGIN = {origin!r}
+
+            def iter_named_skills(*args, **kwargs):
+                return ORIGIN
+            """
+        ),
+        encoding="utf-8",
+    )
+
+
+def _import_module_from_path(name: str, path: Path):
+    spec = importlib.util.spec_from_file_location(name, path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+@pytest.mark.parametrize(
+    ("shim_relpath", "module_name", "export_name"),
+    [
+        ("src/gaia_cli/frontmatter.py", "frontmatter", "split_frontmatter"),
+        ("scripts/lib/frontmatter.py", "frontmatter", "split_frontmatter"),
+        ("scripts/lib/github_api.py", "github_api", "parse_owner_repo"),
+        ("scripts/lib/named_iterator.py", "named_iterator", "iter_named_skills"),
+    ],
+)
+@pytest.mark.parametrize("local_checkout_exists", [True, False])
+def test_shared_lib_shims_prefer_checkout_when_present(
+    tmp_path: Path,
+    shim_relpath: str,
+    module_name: str,
+    export_name: str,
+    local_checkout_exists: bool,
+):
+    repo_root = tmp_path / "repo"
+    shim_path = repo_root / shim_relpath
+    shim_path.parent.mkdir(parents=True, exist_ok=True)
+    shim_path.write_text((_REPO_ROOT / shim_relpath).read_text(encoding="utf-8"), encoding="utf-8")
+
+    installed_src = tmp_path / "installed"
+    _write_fake_shared_lib(installed_src, origin="installed")
+
+    if local_checkout_exists:
+        checkout_src = repo_root / "packages" / "gaia-registry-lib" / "src"
+        _write_fake_shared_lib(checkout_src, origin="checkout")
+
+    original_path = sys.path.copy()
+    original_modules = {
+        name: module
+        for name, module in sys.modules.items()
+        if name == "gaia_registry_lib" or name.startswith("gaia_registry_lib.")
+    }
+
+    for name in list(original_modules):
+        sys.modules.pop(name, None)
+    sys.path.insert(0, str(installed_src))
+
+    try:
+        shim = _import_module_from_path(
+            f"test_{module_name}_{'checkout' if local_checkout_exists else 'installed'}",
+            shim_path,
+        )
+    finally:
+        sys.path[:] = original_path
+        for name in list(sys.modules):
+            if name == "gaia_registry_lib" or name.startswith("gaia_registry_lib."):
+                sys.modules.pop(name, None)
+        sys.modules.update(original_modules)
+
+    expected_origin = "checkout" if local_checkout_exists else "installed"
+    assert shim.ORIGIN == expected_origin
+    assert getattr(shim, export_name)() == expected_origin
+    if module_name == "github_api":
+        assert shim._CACHE["origin"] == expected_origin
 
 # ---------------------------------------------------------------------------
 # Fixtures
