@@ -14,6 +14,18 @@ The evidence lake is **type-first**. The primary working set for every phase is 
 
 Legacy `evidence/tier_*.md` files may still exist as coexistence artifacts for older tooling, but they are **not** the semantic routing key. New collection, audit, compile, and handoff work must route by evidence type.
 
+## Multi-Target Peer-Review Source Packets (#1418)
+
+When one legitimate peer-review URL truly reviews multiple named skills, materialize a **scratch** peer-review partition instead of duplicating registry rows or hand-writing generated lake files:
+
+```bash
+python evidence/scripts/peer_review_source_packets.py \
+  --manifest /path/to/manifest.json \
+  --by-type-dir /tmp/ev1418/by-type
+```
+
+The packet contract is `peer-review`-only, expands to one temporary row per reviewed skill in `peer-review.md`, and may repeat the same URL once per target skill when the source genuinely covers each one. Reject strength/scoring fields anywhere in the packet (`trustNumber`, `grade`, `class`, `tier`, `level`, `stars`, `rank`). Do not commit scratch manifests or generated partitions without human approval.
+
 ```mermaid
 graph TD
     Phase0[Phase 0: ev-discovery (skippable)] -->|Append discovered rows| A
