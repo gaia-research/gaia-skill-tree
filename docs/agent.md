@@ -1,4 +1,4 @@
-# Gaia AI Agent Skill Registry — Agent Context
+# Gaia Skill Tree — Agent Context
 
 Gaia is an open, evidence-backed skill graph for AI agents. It tracks capabilities and their evolution (0★ to 6★) through two structural axes: **Type** (starless/generic nodes only) and **Branch** (named skills at 4★+, derived at read-time).
 

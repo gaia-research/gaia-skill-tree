@@ -2,15 +2,15 @@
 id: disler/agent-fusion
 name: Agent Fusion
 contributor: disler
-origin: false
+origin: true
 genericSkillRef: agent-fusion
 status: named
-level: 2★
+level: 4★
 description: 'Orchestrate multiple specialized AI models as a fused agentic team:
   form opinions, merge parallel plans, and auto-validate outputs to achieve frontier
   performance at reduced cost.'
 createdAt: '2026-07-30'
-updatedAt: '2026-07-30'
+updatedAt: '2026-07-31'
 title: Agent Fusion
 links:
   github: https://github.com/disler/fusion-harness/blob/main/extensions/fusion-harness/README.md
@@ -33,6 +33,14 @@ timeline:
   contributor: unknown
   details: Set suiteRef=disler/agent-fusion, genericSkillRef=agent-fusion via `gaia
     dev fuse`.
+- timestamp: '2026-07-30T16:20:02Z'
+  action: rank_up
+  contributor: marcotiongson
+  details: Origin status set to true.
+- timestamp: '2026-07-30T22:15:53Z'
+  action: rank_up
+  contributor: marcotiongson
+  details: Calibrated level from 2★ to 4★
 evidence:
 - source: https://github.com/disler/fusion-harness
   evaluator: unknown
@@ -57,9 +65,9 @@ evidence:
 verification:
   firstEvidenceAt: '2026-07-29T20:24:02Z'
 suiteComponents:
-  - disler/auto-review
-  - disler/opinion
-  - disler/plan-synthesis
+- disler/auto-review
+- disler/opinion
+- disler/plan-synthesis
 ---
 
 ## Installation

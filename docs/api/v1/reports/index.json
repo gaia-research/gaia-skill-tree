@@ -1,7 +1,34 @@
 {
   "schemaVersion": "1.0.0",
-  "generatedAt": "2026-07-06T13:29:36Z",
+  "generatedAt": "2026-07-30T18:17:20Z",
   "reports": [
+    {
+      "reportId": "2026-31",
+      "url": "/reports/2026-31/",
+      "json": "/api/v1/reports/2026-31.json",
+      "generatedAt": "2026-07-30T18:17:16Z",
+      "salvageLayer": "L3",
+      "isoYear": 2026,
+      "isoWeek": 31
+    },
+    {
+      "reportId": "2026-30",
+      "url": "/reports/2026-30/",
+      "json": "/api/v1/reports/2026-30.json",
+      "generatedAt": "2026-07-30T18:17:16Z",
+      "salvageLayer": "L3",
+      "isoYear": 2026,
+      "isoWeek": 30
+    },
+    {
+      "reportId": "2026-29",
+      "url": "/reports/2026-29/",
+      "json": "/api/v1/reports/2026-29.json",
+      "generatedAt": "2026-07-30T18:17:15Z",
+      "salvageLayer": "L3",
+      "isoYear": 2026,
+      "isoWeek": 29
+    },
     {
       "reportId": "2026-28",
       "url": "/reports/2026-28/",

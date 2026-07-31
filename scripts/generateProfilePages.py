@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Gaia Skill Registry — Contributor Profile Page Generator.
+"""Gaia Skill Tree — Contributor Profile Page Generator.
 
 Reads registry/named-skills.json and generates static HTML contributor
 profile pages at docs/u/{handle}/index.html.
@@ -1125,9 +1125,9 @@ def build_profile_page(handle: str, skills: list, named_index: dict | None = Non
         if _og_skill else ""
     )
 
-    page_title = f"@{safe_handle} — Gaia Skill Registry"
+    page_title = f"@{safe_handle} — Gaia Skill Tree"
     og_description = (
-        f"Contributor profile for @{safe_handle} on the Gaia Skill Registry. "
+        f"Contributor profile for @{safe_handle} on Gaia Skill Tree. "
         f"{skill_count} named skill{'s' if skill_count != 1 else ''}, "
         f"highest rank {highest_level}."
     )
@@ -1195,7 +1195,7 @@ def build_profile_page(handle: str, skills: list, named_index: dict | None = Non
       <!-- ─── SKILL PLAQUES ─── -->
       <section class="profile-section">
         <h2 class="profile-section-title">Named Skills</h2>
-        <p class="profile-section-sub">All named implementations attributed to @{safe_handle} in the Gaia registry.</p>
+        <p class="profile-section-sub">All named implementations attributed to @{safe_handle} in the registry.</p>
         <div class="plaque-grid">
           {plaques_html}
         </div>
@@ -1407,9 +1407,9 @@ def build_directory_page(by_contributor: dict) -> str:
 <div id="site-footer-mount"></div>
 <script src="../js/site-footer.js"></script>"""
 
-    page_title = "Contributors Directory — Gaia Skill Registry"
+    page_title = "Contributors Directory — Gaia Skill Tree"
     og_description = (
-        f"Browse the contributors of the Gaia Skill Registry. "
+        f"Browse the contributors of Gaia Skill Tree. "
         f"{total_contributors} active builders with {total_skills} named skills claimed."
     )
 

@@ -1,7 +1,7 @@
 ---
 name: gaia-meta-audit
 description: >
-  Generate a prioritized review queue of Gaia registry skills and catalog items that need attention.
+  Generate a prioritized review queue of registry skills and catalog items that need attention.
   Use this skill whenever someone asks: "what needs review?", "what's overdue for audit?",
   "where are the weak spots in the registry?", "what should I audit next?", "run a health
   check on the registry", "show me flagged skills", "find problems in the registry",

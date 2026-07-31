@@ -4,6 +4,289 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-31, Session 8I closed — Arc I, Program 1's KC1/KC2/KC4/KC5/KC6 merged to skill-heaven `main`; KC9 withheld indefinitely; two Arc II follow-ups filed; #1258's remainder re-tracked)
+
+### TLDR
+- **`integration/arc-i-lane-a` merged to skill-heaven `main`** (PR #23, squash, merge commit `2726cb9`). Issues #8/#9/#10/#12 closed via explicit `Resolves` lines in the PR body (deliberately traceable — not relying on an implicit keyword, given the #1258 auto-close confusion this same session). #11 was already closed; #13 correctly stayed open.
+- **KC9 is withheld indefinitely, by explicit founder instruction** — not a technical blocker, a deliberate pause pending founder satisfaction. Commented on #13 to record this rather than leave it ambiguous.
+- **A verification pass before merging caught a false alarm and a real bug.** Read (not just grepped/log-checked) `packages/claude-heaven/scripts/verify-marketplace-install.mjs` and `packages/claude-heaven/src/statusline.ts` directly: all three register-flagged A5 review findings (A5a manifest-driven verifier, A5b realpathSync ENOENT handling, A5c fail-closed scope disclosure) turned out **already genuinely fixed** on the branch — the git-log ancestor-check said otherwise only because skill-heaven squashes, so the original commit SHAs weren't literal ancestors even though their content had landed via the squashed PR. Cost nothing to double-check by reading the file; would have cost a redundant, wrong follow-up issue if trusted the ancestor-check alone.
+- **The real, still-open item: P8's contradiction.** `product-floor`'s composition still names `--setting-sources project` (the exact leak KC4 fixed for `curated`), and `LEVEL_ALIASES` still maps `off → floor` instead of `off → product-floor`. Verified directly in `compile.ts` before filing — not asserted from memory. Filed as skill-heaven issue #24, Arc II.
+- **#1258's registry-mutation remainder re-tracked** as gaia-skill-tree issue #1404, since the original #1258 auto-closed on PR #1399's merge despite that PR's own body explicitly disclaiming full closure — the auto-close's actual trigger was investigated and never conclusively identified (GraphQL `closingIssuesReferences` on #1399 returns empty; no keyword match found in any commit message or the PR body). Flagged in #1404 as unexplained, not just re-filed silently.
+- **gaia-skill-tree #1382 closed as won't-fix** (green on every check, `CONFLICTING` against current `main` — superseded), earlier this session.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| skill-heaven **PR #23** (`integration/arc-i-lane-a` → `main`) | ✅ **MERGED** (squash, `2726cb9`). Confirmed `main`'s tip SHA matches the merge commit exactly. Closes #8, #9, #10, #12 via explicit PR-body `Resolves` lines. |
+| skill-heaven **#13** (KC8+KC9) | ✅ Comment posted recording KC8 shipped + KC9 withheld indefinitely. Issue correctly stays **open**. |
+| A5a/A5b/A5c review findings | ✅ **Already fixed**, verified by reading the live files — no action needed, no issue filed. (Ancestor-check falsely suggested otherwise due to squash-merge history; corrected before acting on it.) |
+| skill-heaven **#24** (P8 composition fix) | 🆕 **Filed**, Arc II. `product-floor`'s `--setting-sources project → ''` + `LEVEL_ALIASES: off → floor → off → product-floor`. Verified live in `compile.ts`/`launcher.ts`/`statusline.ts` before filing — the statusline's own comment already flags the live under-disclosure consequence. |
+| gaia-skill-tree **#1404** (#1258 remainder) | 🆕 **Filed**, Program 7 milestone. Re-tracks the 5 `mbtiongson1` skill-description fixes PR #1399 explicitly deferred; flags the unexplained #1258 auto-close for the record. |
+| gaia-skill-tree **#1382** | ✅ Closed won't-fix, labeled. |
+| KC9 pipeline | ⏸️ **Withheld indefinitely** by explicit founder instruction — not abandoned, paused pending satisfaction. Will target `gaia-research` `main` directly when resumed. |
+
+### Branches at end of session
+
+| Branch | Head SHA | Status |
+|---|---|---|
+| skill-heaven `main` | `2726cb9` | KC1/KC2/KC4/KC5/KC6 + honest-disclosure + C6 all merged in. |
+| gaia-research `main` | `eb28d12f` (unchanged from prior snapshot) | KC8 claim-index + A2 fix. |
+| gaia-skill-tree `docs/session-8f-snapshot` (#1377) | this commit | About to merge to `main` — see below. |
+
+### Issues + PRs touched
+
+- skill-heaven **#23** — MERGED. **#8, #9, #10, #12** — CLOSED (via #23's explicit Resolves lines). **#13** — OPEN, commented. **#24** — NEW, Arc II.
+- gaia-skill-tree **#1382** — CLOSED, won't-fix. **#1404** — NEW, re-tracks #1258's remainder.
+
+### Routing — where things live now
+
+- **Arc I, Program 1's kill criteria**: KC1/KC2/KC4/KC5/KC6 shipped on skill-heaven `main`. KC8 shipped on gaia-research `main`. **KC9 is the sole open item, deliberately paused.**
+- **P8 composition fix**: skill-heaven issue #24, Arc II, not blocking.
+- **#1258 remainder**: gaia-skill-tree issue #1404, Program 7, needs a `review/meta/` PR.
+
+### Lessons / hazards preserved
+
+- **A squash-merge convention makes ancestor-checks lie about content, not just history shape.** `git merge-base --is-ancestor <original-commit-sha>` correctly reports "not an ancestor" for content that squashed into a *different* SHA on the target branch — that's expected, not a sign the work is missing. Read the actual file before concluding a fix didn't land.
+- **An unexplained auto-close is worth naming as unexplained, not silently working around.** #1258 closed via a mechanism I could not trace to a real keyword match even after checking GraphQL's authoritative `closingIssuesReferences` and every commit message in the merging PR. Recorded the ambiguity in the re-filed issue rather than either ignoring it or inventing an explanation.
+- **Explicit `Resolves #N` lines beat implicit closing, especially after seeing one go wrong.** Used them deliberately on PR #23 specifically because of the #1258 experience earlier the same session.
+- **A founder instruction to "withhold indefinitely" is a real state, not just "still running."** Recorded as such (commented on #13, distinguished from "in progress") rather than left ambiguous for the next session to misread as abandoned or forgotten.
+
+### Open questions for next orchestrator
+
+1. **KC9** — resume only on explicit founder signal. Until then, no action.
+2. **skill-heaven #24** (P8 fix) and **gaia-skill-tree #1404** (#1258 remainder) — both Arc II, both have concrete verified starting points documented in their issue bodies.
+3. **#1377 merges to `main` this session** (see below) — once merged, the next session's `founder/MEMORY.md` lives directly on `main`, not a standing PR branch. Establish whether a new standing docs branch should open, or whether direct superadmin commits to `main` (still routed through a `dev/*` PR per the orchestrator's own hard boundary) become the new pattern.
+
+### Token cost (this session)
+
+`2026-07-31 — Session 8I closed. Prior subagent totals this session: 493,307 (KC8 pipeline) + 288,065 (craft+followups) = 781,372, plus the KC9 pipeline's cost (not yet known — withheld before completion). Orchestrator inline work (verification re-runs, integration-branch/PR setup, CI-watch scripting, issue filing, memory writes) unmeasured throughout.`
+
+---
+
+## State Snapshot (2026-07-31, Session 8I continued — KC8 craft + both surfaced findings fixed and merged to gaia-research main; KC9 demo pipeline running; skill-heaven held for signal)
+
+### TLDR
+- **KC8's craft pass and both findings it surfaced are done, verified, and merged to `gaia-research` `main`.** The claim-index page now has deep links on every backed row and two SVG figures (F7 door-cost comparison, claim-status distribution). The A2 homepage overclaim ("evicts every installed skill") is corrected. Both landed via a proper integration-branch batch (`integration/arc-i-kc8`), an autonomous CI-watch that only merged because every check genuinely passed, and an independent post-merge SHA check — not a trusted exit code.
+- **C6 (the skill-heaven codex citation error) is fixed and PR'd but deliberately unmerged** — explicit founder instruction to hold that repo for a separate signal.
+- **Two unrelated pre-existing `gaia-research` PRs (#136, #71) were explicitly excluded** from the merge batch, not silently swept in under "merge everything."
+- **KC9 (the three-minute demo) is now in flight** — Fable-planned with an automatic Opus fallback (in case Fable can't actually be invoked, which was an open doubt this session), Opus-executed at max effort, in its own scratchpad-anchored worktree given an explicit stated risk of running out of session credits mid-task.
+- **KC9's eventual PR targets `main` directly** (not an integration branch) and stays human-gated — no autonomous-merge authorization for it, unlike the KC8 batch.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| gaia-research **PR #139** (KC8 claim index) craft pass | ✅ Deep-linked every backed claim row (fixed 3 pre-existing broken relative links in the process), added `components/ClaimIndexFigures.tsx` with 2 SVG figures, fixed a table column-width bug. Independently re-verified: `check-claims.ts` exit 0 on 6/6 docs, self-tests 24/24 (was 17/17), ledger validates 12 records, live dev server confirmed rendering. |
+| gaia-research **PR #140** (A2 fix) | ✅ `app/page.tsx` corrected — no longer claims curated "evicts every installed skill and admits back only the grilling-native ones"; now honestly describes clearing ambient clutter to a hand-picked set, matching the KC4 probe and P6/P8 rulings. |
+| skill-heaven **PR #22** (C6 fix) | ✅ Fixed, PR open against `integration/arc-i-lane-a`, **deliberately unmerged** — root cause was a pure citation error (the public "74→73" figure was misattributed to a record that actually says 67→66, never had its own probe), corrected in `README.md` and `compile.ts`'s comment, dated as an explicit correction rather than a silent edit. Held per instruction: "Wait for my signal for skill-heaven repo." |
+| gaia-research `integration/arc-i-kc8` → `main` | ✅ **MERGED.** Created off `main`, retargeted #139 + #140 onto it (zero file overlap confirmed first), merged both via merge commits (no squash), opened PR #141, ran an autonomous background CI-watch script that polled until all 4 checks resolved and merged only on all-green + `mergeStateStatus: CLEAN`. Post-merge, independently confirmed `main`'s tip SHA (`eb28d12f`) matches the merge commit — not just trusting exit status. |
+| gaia-research PRs #136, #71 | ⏸️ Explicitly identified as pre-existing, unrelated work and **excluded** from the merge batch — flagged rather than silently included or silently ignored. |
+| KC9 pipeline | ⏳ **Running.** Worktree `/Users/marcotiongson/Documents/gaia-research-kc9`, branch `feat/kc9-three-minute-demo` off `main`, scratchpad `KC9_SCRATCHPAD.md` committed+pushed before dispatch (recoverability anchor, given Marco's own stated expectation of losing credits mid-task). Stage 1 (plan): Fable, high effort, with an automatic Opus-high fallback baked into the workflow script if Fable errors/dies — this exists specifically because there was open doubt this session about whether Fable actually runs in this harness at all. Stage 2 (execute): Opus, max/xhigh effort, builds the real demo script, runs it against a real `claude` session, produces real `hh-ledger/v1` records, and opens a PR (not merged). No result yet as of this snapshot. |
+
+### Branches at end of session
+
+| Branch | Head SHA | Status |
+|---|---|---|
+| gaia-research `main` | `eb28d12f` | KC8 claim-index + A2 fix merged in. |
+| gaia-research `integration/arc-i-kc8` | `8fd632f` (merged into `main` at `eb28d12f`) | Done, feature branches deleted. |
+| skill-heaven `integration/arc-i-lane-a` | unchanged from prior snapshot (`f0e9a27`) | PR #22 open against it, unmerged. |
+| gaia-research `feat/kc9-three-minute-demo` | in progress, pipeline still running | Scratchpad-anchored, will target `main` directly when ready. |
+
+### Issues + PRs touched
+
+- gaia-research **#139** — MERGED (via integration batch → PR #141 → `main`).
+- gaia-research **#140** — MERGED (via same batch).
+- gaia-research **#141** (integration → main) — MERGED, autonomous CI-gated merge, founder-authorized for this specific batch.
+- skill-heaven **#22** — OPEN, unmerged, held for signal.
+- skill-heaven **#13** (KC8/KC9) — KC8 half now substantively complete and shipped; KC9 half in flight.
+
+### Routing — where things live now
+
+- **KC8 (claim-provenance gate + claim-index page)**: shipped, live on `gaia-research` `main`.
+- **A2 (homepage overclaim)**: shipped, live on `gaia-research` `main`.
+- **C6 (codex citation error)**: fixed, PR open in `skill-heaven`, awaiting a separate explicit merge signal.
+- **KC9 (three-minute demo)**: in flight, `gaia-research` worktree, will PR direct to `main`, human-gated.
+- **P8 composition fix, #1258 registry-mutation remainder**: still fully unstarted, unchanged from the prior snapshot.
+
+### Lessons / hazards preserved
+
+- **"Merge as-is" still gets independently verified, not trusted.** Both feature-PR merges and the final integration→main merge were each confirmed by an actual API/git check (SHA match, `mergedAt` non-null) rather than treating a silent-exit `gh pr merge` as proof — consistent with this session's earlier "assert on content, never exit status" discipline.
+- **An autonomous CI-gated merge still refuses on ambiguity.** The watch script explicitly checks `mergeStateStatus` is `CLEAN` (or `UNSTABLE`) before merging and exits non-zero rather than merging if any check fails or the state is anything else — "on CI green" was implemented as a real gate, not a rubber stamp.
+- **Batch scope needs to be stated, not assumed.** "Collect all gaia-research PRs" was interpreted as the completed work from this session's own batch, not literally every open PR in the repo — the two unrelated pre-existing PRs were explicitly named and excluded rather than silently swept in or silently left unmentioned.
+- **A stated skepticism about a tool ("I highly doubt Fable is actually running") is worth designing a fallback for, not just noting.** The KC9 plan stage has an automatic Opus fallback wired into the workflow script itself specifically because of that doubt, so a Fable failure doesn't silently produce a null/garbage plan.
+
+### Open questions for next orchestrator
+
+1. **KC9 pipeline outcome** — check for a completion notification; if the plan/execute stages produced something, it needs the same independent-verification treatment as everything else this session before reporting it as done.
+2. **skill-heaven PR #22** — waiting on Marco's explicit signal before merging.
+3. **The P8 composition fix and #1258's registry-mutation remainder** — still not started, unchanged priority from the prior snapshot.
+4. **Cursor availability** — still worth re-checking before assuming unavailable, per the standing note.
+
+### Token cost (this session)
+
+`2026-07-31 — Session 8I continued. Measured subagent tokens: 288,065 across the KC8-craft + A2/C6-followups workflow (2 agents: Opus medium craft, Sonnet high followups). KC9 pipeline (Fable/Opus plan + Opus max execute) still running as of this snapshot — cost not yet known. Orchestrator inline work (verification re-runs, integration-branch setup, CI-watch scripting, memory writes) unmeasured.`
+
+---
+
+## State Snapshot (2026-07-30, Session 8I — A1 (KC5) and the #1258 CI fix both landed and merged; KC8 pipeline launched; F7 locked, cursor deferred, dispatch cap retired)
+
+### TLDR
+- **The dead #1258 agent was not lost work.** Its worktree had all 10 commits already pushed as PR #1399 — confirmed before anything else, per standing instruction.
+- **Two pieces of work fully closed and merged this session.** PR #1399's failing CI ("Schema + DAG + Integrity Checks") was root-caused, fixed, independently re-verified, and merged to `main` (merge commit). A1 (skill-heaven issue #11 / KC5 re-verification against the widened `LAUNCHABLE_POSTURES` door) found a real gap, fixed it, independently re-verified (213/213 tests, tsc clean), and merged PR #21 (squash) into `integration/arc-i-lane-a`.
+- **Both agents under-reported their own token spend** (no metering access) — corrected on each PR thread with harness-measured figures instead of guesses.
+- **Three founder rulings closed open questions from 8H:** F7 (+515 tok) is locked, not re-derived despite `claude` version drift (2.1.216→2.1.220) — the drift itself is accepted as harmless/expected. Cursor's harness probe is deferred (no availability to test it) — no cursor claim should be assumed or fabricated until that changes. The standing 2-worker dispatch concurrency cap is **retired** — Marco now dictates dispatch timing/count per-instruction, not a fixed number.
+- **A self-caught correction:** KC8 and KC9 were initially inverted from a paraphrase — verified against the literal skill-heaven issue #13 body and corrected. **KC8 = every public claim links to a reproducible benchmark record (B4). KC9 = the three-minute demo.**
+- **KC8 is now in flight** via a 5-stage pipeline (Opus max plan → Opus medium implement → Sonnet high review, looped up to 3 rounds → Opus low authors the deliverable + PR), running as a background Workflow in a dedicated `gaia-research` worktree, anchored by a scratchpad file every stage reads/updates for recoverability. Not yet reached the human gate.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| gaia-skill-tree **#1399** — #1258 lexicon sweep, CI fix | ✅ **MERGED to `main`** (merge commit `b73c6b8a`). Root cause: self-inflicted (hand-edit inside a `gaia:cli-start`-generated README region desynced argparse wrapping; a profile-page regen dropped 3 cache-busting `<meta>` headers from `docs/u/index.html`). Independently re-verified: 23/23 checks passing. Registry-mutation remainder (5 `mbtiongson1` skill descriptions) still open — needs its own `review/meta/` PR, does not close #1258. |
+| skill-heaven **#21** — A1/KC5 re-verification | ✅ **MERGED (squash) to `integration/arc-i-lane-a`** (`f0e9a278`). Real gap found: door-level KC5 test (`packages/claude-heaven/test/no-shared-mutation.test.ts`) silently stopped covering reality after PR #18 widened `LAUNCHABLE_POSTURES` — its own comment admitted native-only scope. Extended with real `planLaunch`-driven coverage for curated/product-floor. Independently re-run: 213/213 tests, `tsc --noEmit` clean. |
+| Token spend corrections | ✅ Posted to both PR threads: A1 = 119,482 subagent tokens (harness-measured, was guessed at ~45k/9k); #1399 CI fix = 93,439 (was guessed at ~60-80k/8-10k). |
+| F7 (+515 tok) | ✅ **Locked** by founder ruling — do not re-derive against `claude 2.1.220` despite being measured on `2.1.216`. Logged to orchestrator private memory for future-session recall. |
+| Cursor harness probe | ⏳ **Deferred** — no availability to test it. Logged to orchestrator private memory; same discipline as codex (R4, 8H): unprobed harness has no "off" under P8. |
+| Dispatch concurrency policy | ✅ **Changed** — the standing "1 orchestrator + 2 workers" cap (set 2026-07-29) is retired. Marco dictates dispatch timing/count directly per session/task now. |
+| KC8/KC9 identity correction | ✅ Verified against `skill-heaven` issue #13's literal body (`gh issue view 13`) after an inline mislabel. KC8 = benchmark-record linkage (B4). KC9 = the three-minute demo. |
+| KC8 pipeline | ⏳ **In flight**, background Workflow `wf_d78cba99-d18`. 5 stages: plan (Opus max) → implement (Opus medium) → review (Sonnet high, loops up to 3 rounds) → deliverable (Opus low) → human gate (Marco, `next dev` locally). Worktree: `/Users/marcotiongson/Documents/gaia-research-kc8`, branch `docs/kc8-benchmark-ledger` off `main` @ `6b8db3d`. Scratchpad: `KC8_SCRATCHPAD.md` at worktree root — every stage reads/updates it; git is ground truth for actual committed state if resuming after a cutoff. |
+| A6/R2 composition fix (`product-floor`'s `--setting-sources project` → `''`, plus `LEVEL_ALIASES: off → floor` → `off → product-floor`) | ❌ **NOT STARTED** — the "one change closes both" P8 contradictions item from the 8I handoff. |
+| KC9 (three-minute demo) | ❌ **NOT STARTED.** |
+| #1258 registry-mutation remainder (5 `mbtiongson1` descriptions → `review/meta/` PR) | ❌ **NOT STARTED.** |
+
+### Branches at end of session
+
+| Branch | Head SHA | Status |
+|---|---|---|
+| gaia-skill-tree `main` | `b73c6b8a` | #1399 merged in. |
+| skill-heaven `integration/arc-i-lane-a` | `f0e9a278` | #21 merged in (squash). |
+| gaia-research `docs/kc8-benchmark-ledger` | `4bca5b4` (scratchpad anchor commit, KC8 pipeline pushing more on top) | Open, unmerged, KC8 work in progress. Off `main` @ `6b8db3d`. |
+| gaia-skill-tree `docs/session-8f-snapshot` (#1377) | — | Still open by founder instruction; this snapshot lands here. |
+
+### Issues + PRs touched
+
+- gaia-skill-tree **#1399** — MERGED. Part of #1258 (still open — registry-mutation remainder pending).
+- skill-heaven **#21** — MERGED (squash). Closes the A1 gap against issue #11 (KC5); #11 itself was already closed on GitHub, this makes that closure honest against the widened door.
+- skill-heaven **#13** (KC8/KC9) — read for ground truth, not yet resolved. KC8 work opened as a new gaia-research PR once the pipeline reaches its deliverable stage (not yet — pipeline still running as of this snapshot).
+
+### Routing — where things live now
+
+- **A1 / KC5**: closed, on `integration/arc-i-lane-a`.
+- **#1258's CI-blocking half**: closed, on gaia-skill-tree `main`. Its registry-mutation half is still open, homeless (no PR yet) — needs a `review/meta/` branch per Programmatic-First + Guard E.
+- **KC8**: in flight in `gaia-research`, worktree `/Users/marcotiongson/Documents/gaia-research-kc8`, scratchpad `KC8_SCRATCHPAD.md`, Workflow `wf_d78cba99-d18`.
+- **KC9, the P8 composition fix, cursor probing (if availability returns)**: unstarted, next in line per the 8I handoff's original ordering.
+
+### Lessons / hazards preserved
+
+- **A silent success exit code is not verification.** Both PRs merged this session had CI states that needed independent re-running (not trusting the agent's report) before treating them as done — in one case the agent's own working theory (upstream `main` drift) was wrong, and re-diagnosis found the real, self-inflicted cause.
+- **A test's own comments can tell you it's stale.** The A1 gap was findable directly from a code comment admitting "this is the only posture reachable through this door today," written before a later PR widened the door and never updated. Read the comments, don't just read the assertions.
+- **Cite the literal issue body, not a paraphrase.** The KC8/KC9 swap happened because a summary in an earlier handoff message didn't specify which was which; `gh issue view` settled it in one call. When two things get referred to as "carries both" without an explicit mapping, look it up before building anything on the assumption.
+- **`isolation: "worktree"` remains a trap for cross-repo dispatch** — every agent this session working outside `gaia-skill-tree` was pointed at a manually-created worktree/clone path instead, and told explicitly not to request isolation.
+- **Recoverability is now a designed-in pattern, not an afterthought**: the KC8 pipeline's scratchpad file is a deliberate answer to "what happens if we run out of credits mid-pipeline" — every stage reads it first and updates it before stopping, independent of Workflow's own same-session resume.
+
+### Open questions for next orchestrator
+
+1. **KC8 pipeline outcome** — check `/workflows` or wait for the completion notification on `wf_d78cba99-d18`. If it escalated (review loop hit 3 rounds unsatisfied), that needs a founder decision, not a silent retry.
+2. **The P8 composition fix** (`product-floor`'s `--setting-sources` + the `LEVEL_ALIASES` repoint) — still not started, "one change closes both" per the 8I handoff.
+3. **KC9** (three-minute demo) — still not started, likely follows KC8's ledger work since the demo will want to cite the same records.
+4. **#1258's registry-mutation remainder** — 5 `mbtiongson1` skill descriptions, needs a `review/meta/` branch, Programmatic-First `gaia dev` verbs, Guard E Class S artifacts in the same PR.
+5. **Cursor availability** — check again before assuming it's still unavailable; the deferral was a point-in-time state, not a permanent one.
+
+### Token cost (this session)
+
+`2026-07-30 — Session 8I. Measured subagent tokens: 119,482 (A1/KC5, Sonnet 5) + 93,439 (#1399 CI fix, Opus 5) = 212,921 across two reporting agents. KC8 pipeline (5 background agents: Opus max/medium/low + Sonnet high review, possibly looped) still running as of this snapshot — its cost is not yet known and will need adding in a future snapshot. Orchestrator inline work (verification re-runs, worktree/scratchpad setup, memory writes) unmeasured.`
+
+---
+
+## State Snapshot (2026-07-30, Session 8H — every open decision ruled, four ratifications landed on main, two PRs merged to integration; the floor definition changed what the criteria MEAN)
+
+### TLDR
+- **All three decisions from 8G are closed**, plus two more that emerged mid-session. Recorded as **P6, P7, P8** in `gaia-research/founder/RATIFICATION.md` and **merged to `gaia-research/main`** (PR #134, merge commit `6b8db3d`).
+- **The big one is P8.** `floor` = **absolute zero**, a ruler, ours only, *not a product concept*. `product-floor` = **"off"** — whatever the harness can actually be LAUNCHED at, nearest to zero. Founder's words: **the goal of the test is to find where the nearest zero IS, not to ratify whatever we feel like is zero.**
+- **P8 made the product-floor leak a DEFECT BY DEFINITION**, not a founder call — a nearer state is measurable, so the current composition is disqualified on its face. It self-answered a question that had been open for two sessions.
+- **Two PRs merged into `integration/arc-i-lane-a`** (#19, #20). Tip **`ffb59ce`**, **209 tests passing**, typecheck clean, orchestrator-run on the merged tip.
+- **#1258 inverted**: the ticket as written was already done. The real violation is a different, never-flagged string. PR **#1399** open.
+- **A wrong orchestrator report was corrected**: Program 7 is NOT unstarted — it is essentially complete. Arc I = Program 1's KCs + #1258.
+
+### Founder rulings this session
+
+| # | Ruling |
+|---|---|
+| **P6** | `curated` is a **personal-profile posture, not a measured arm** — clean base + a hand-picked fraction of the user's OWN skills, onboardable, personalizable, optionally sourced via gaia mcp, saved as a profile. Because it is personalized it is **not measured**. Settles P1's ambiguity: "the user's own skills first" means **explicit selection** via `--skill`, NOT ambient project scope. Marked **NOT LOCKED**. |
+| **P7** | `floor` / `product-floor` / `clean-room` are equivalent **within error margin** (+515 tok on ~20k ≈ 2.6%). Scoped to vocabulary; **B2 untouched**. |
+| **P8** | Two floors are **two KINDS**. `floor` = absolute zero (ruler, internal/benchmark only, **never product vocabulary, never a row, never a user choice**). `product-floor` = **"off"**, product-line vocabulary, the lowest point a user can actually launch at. **"Off" is a MEASURED, PER-HARNESS quantity**, not a fixed composition. Narrows P7. |
+| **KC4** | Stands as written. Composition moves to **empty `--setting-sources`** — chosen over `local` deliberately, because a clean `local` listing on one machine may only mean that machine had no local-scope skills. **Empty value ≠ omitting the flag.** |
+| **KC8/KC9** | Restate to match P6 — the measured arms are **clean room / door / native**; curated is the product moment, not a measurement arm. |
+| **KC3** | **Closed. Cite the #6/F7 record; do not reopen the baseline question.** |
+| **R4 / codex** | **Deferred** — codex unavailable. Land the comment/README/test corrections; **hold the `execSupport` flip; author no guard.** Codex is not on the Arc I gate. |
+| **#1258** | Fix-forward only · fix `CONTEXT.md`'s contradiction · **chase and eradicate** the standalone capitalized "Registry" · npm metadata **deferred, not enough info**. |
+| **Lexicon direction (CORRECTION)** | `registry` alone is fine as a common noun. **Any `Gaia`+`registry` construction is banned, in any capitalization.** This REVERSED the orchestrator's stated assumption mid-flight and was relayed to the running agent. |
+| **Merges** | **No gaia-skill-tree merges — keep them all open.** gaia-research #134 to main approved. Integration merges after #1258 lands. |
+| **Superadmin** | On for small fixes. |
+
+### The measurement that drove the session
+
+Reading PR #19's *neighbouring* compositions surfaced the same bug one posture over. Orchestrator-run, **2/2 byte-identical, claude 2.1.220**, hashes unchanged before/after, nothing deleted:
+
+```
+product-floor argv, project marker planted : skills = ["pf-project-marker","doctor"]
+product-floor argv, clean project dir      : skills = ["doctor"]
+floor argv (adds --disable-slash-commands) : skills = []
+product-floor argv + --setting-sources ''  : skills = ["doctor"]   <- same one-word fix
+```
+
+**Three findings.** (1) The benchmark floor is **sound** — genuinely `[]`, so B2's placebo is safe. (2) `product-floor` is a **measured arm whose composition is cwd-dependent**. (3) Two floors exist for a **mechanical** reason, not a design preference: `--disable-slash-commands` is simultaneously what empties the listing and what removes the door (F6), so **"zero skills plus a door" is not a state the harness can produce.**
+
+### What changed
+
+| Layer | State |
+|---|---|
+| gaia-research **#134** — N10 + P6 + P7 + P8 | ✅ **MERGED to main** `6b8db3d`, verified two-parent merge commit (that repo forbids squash) |
+| skill-heaven **#19** — KC4 clean room + A2 corrections | ✅ Merged to integration `82bf288` |
+| skill-heaven **#20** — A3 + A5a/A5b/A5c + founder copy | ✅ Merged to integration `ffb59ce` |
+| `integration/arc-i-lane-a` | ✅ Tip **`ffb59ce`**, **209 passing**, typecheck clean. No open PRs left in skill-heaven |
+| gaia-skill-tree **#1399** — #1258 sweep | ✅ Open, held by instruction |
+| **A1 (KC5 re-run)** · **KC8** · **KC9** | ❌ **NOT STARTED** |
+
+### #1258 — the ticket inverted
+
+**As written it was already done.** Every citation in its body had been fixed by earlier PRs; its one required-work item exists at `CONTEXT.md:459`. **The real violation is a different string — `Gaia Skill Registry`** — 238 occurrences, **192 collapsing into ONE generator fix**. Orchestrator-verified counts.
+
+**Two LIVE regression sources, now fixed:** `scripts/add_post.py` baked the banned string into every new meta post (newest published report carried it), and `contentEngine/templates/archive.html.j2` still said `Gaia Registry` while its live output said `Gaia Skill Tree` — **the next content-engine run would have reverted the live title back to the banned string.**
+
+**A real gate gap was found and closed:** `Gaia Skill Registry` (three words) was slipping past the two-word `Gaia Registry` term because the gate matches literal adjacent words. Both are now case-insensitive.
+
+**Deliberately NOT done — one class remains:** 5 skill descriptions in `registry/named/mbtiongson1/*.md` propagate into `docs/graph/*`, `docs/api/v1/*`, `docs/okf/**`. That is a **registry mutation** (Programmatic-First, meta-guard, Guard E Class S, `review/meta/` branch), not a copy sweep. It needs its own PR.
+
+### Corrections to the record
+
+- **Program 7 is NOT unstarted.** The orchestrator reported it was, having searched `gaia-skill-tree` for `docs/ecosystem/`. #1339 ruled the page **canonical on Gaia Research with a pointer from the Tree** — it landed as gaia-research #130 + #1371. #1130/#1328/#1339/#1341 all closed; only #1258 remained. **Arc I = Program 1's KCs + #1258.**
+- **B1 is not what the orchestrator said it was.** B1 is *"doses are priced separately"* (standing / invocation / harness), NOT "the two floors are separate arms." That discipline comes from **V5-5 and B2**. B2 is an **INVARIANT** requiring the baseline be a *"same-harness **no-skill** run"* — and only the doorless floor measures `[]`, which is why P7 could not make the floors interchangeable as arms.
+- **Spend figure corrected.** A mid-session message said "~735k measured across four agents." That was wrong — the fourth agent died and reported no usage. **The measured total is 586,889 across three agents.**
+
+### Lessons / hazards preserved
+
+- **`isolation: "worktree"` gives a worktree of the CURRENT repo, not the target repo.** Both skill-heaven workers received a `gaia-skill-tree` worktree and had to build their own. **Two for two — stop passing that flag for cross-repo dispatches.**
+- **A dead agent is not lost work.** The #1258 agent hit an **account-level session limit** (not a task failure, so re-dispatch would die identically) and had **10 commits already pushed** on the correct branch. It died before opening the PR. Always check the worktree before assuming.
+- **`scope` in the lexicon is an ENFORCEMENT-PATH narrowing mechanism** — which file paths the gate greps — **not an audience tag.** The orchestrator nearly encoded P8's audience split with it.
+- **Tests can fail for the right reason.** Two posture tests used `product-floor` as the *vehicle* to exercise the scope-keyed path; a new posture branch short-circuited them. **Repoint the vehicle, never weaken the assertion.**
+- **Green individually ≠ green together.** #19 and #20 were each green; the orchestrator trial-merged and ran the **combined** suite before merging.
+- `set -- $spec` in a bash loop breaks `gh` calls. Recurred this session. Use explicit loops.
+
+### Open questions for the next orchestrator
+
+1. **`product-floor`'s composition** — still `--setting-sources project`. Under P8 this is a **defect**, and the fix re-derives F7. Also: **every probe is 2.1.220, F7 was taken on 2.1.216.**
+2. **`LEVEL_ALIASES: off → floor`** — points the product word at the internal instrument, and at the one posture the door refuses to launch. Should be `off → product-floor`.
+3. **Two harness cells asserted, never probed** — cursor entirely, and codex-as-a-floor. Under P8 an unprobed harness **has no "off"**. `compileCodex` claimed `$CODEX_HOME` yields an empty surface; the probe found **74 skills**.
+4. **The `registry/named/` description class** from #1258 — needs a `review/meta/` PR.
+5. **`CLAUDE.md`'s "lexicon serves the work" rule lives only in `gaia-skill-tree`** — not in `skill-heaven` or `gaia-research`, which are where the lexicon actually is.
+
+### Token cost (this session)
+
+`2026-07-30 Opus 5 — Session 8H. Measured subagent tokens: 586,889 across three reporting agents (KC4 worker 166,700 · A3/A5 worker 271,955 · #1258 scout 148,234). A fourth agent (#1258 sweep) died on an account session limit and reported NO usage — the true total is higher and is not estimated. Orchestrator inline + superadmin edits unmeasured.`
+
+---
 ## State Snapshot (2026-07-30, close-of-day - Lane B rescout complete, decisions intentionally open)
 
 ### TLDR
@@ -370,6 +653,171 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 - Main session: ↑233,203 input · ↓43,802 output · R 4,905,472 cache read · **~$4.93**.
 - Subagents: **~$8.61**.
 - Total: **~$13.55**.
+
+
+## State Snapshot (2026-07-29, Session 8G — five PRs merged, four KCs landed on an integration branch, and KC4 measured FAIL: curated residual is not zero, and the cause turned out to be one word in the composition)
+
+### TLDR
+- **Six PRs resolved.** skill-heaven #16/#17/#18 and gaia-research #132/#133 merged. #1377 deliberately left open as the standing founder-docs branch. Two new PRs opened and green: gaia-research **#134** (lexicon N10), gaia-skill-tree **#1382** (`integration/` branch prefix).
+- **Arc I now assembles on `integration/arc-i-lane-a`** (skill-heaven), per a new founder ruling. **KC1, KC2, KC4 and KC6 merged into it.** Tip `8a0eb59`, **194 tests passing** (orchestrator-run, 171 at session start).
+- **KC4 FAILS as written.** Curated listing residual is non-zero. Verified independently — the committed probe re-run a third time, byte-identical to the worker's two.
+- **The cause is a choice, not a constraint.** `--setting-sources` is an allowlist; the composition names `project`. Passing `local` or empty drops project scope **while keeping the curated set**, because `--plugin-dir` is a flag, not a setting source. KC4's zero is reachable with a one-word change.
+- **KC1 found a live silent-failure bug** in shipped code: `/skill-heaven` rendered nothing while exiting 0 under any symlink-routed path (macOS `/tmp`, `/var`).
+- **A1 is the quiet danger:** KC5 was verified against a door that could not write anything, then #18 widened the door to one that writes a directory tree. Issue #11 is marked closed and the guarantee is not established.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| skill-heaven #16 (KC7) · #17 (KC5) · #18 (curated door) | ✅ Merged. #18 needed `rebase --onto` after #16 squashed. |
+| gaia-research #132 (ratification) · #133 (harness matrix) | ✅ Merged (merge commits — that repo forbids squash). |
+| KC1 (#8) — marketplace packaging | ✅ Merged to integration. Found + fixed a silent-render bug. |
+| KC2 (#9) — standing-dose disclosure | ✅ Merged to integration. 171 → 179 tests. |
+| KC4 (#10) — curated listing residual | ✅ Probe merged. **Criterion FAILS.** Founder decision open. |
+| KC6 (#12) — honest refusal | ✅ Merged to integration. 180 → 194 tests. Every unsupported path now names **which kind of no** it is. |
+| A2 — codex `execSupport` staleness | ⚠️ Authored (`71c87d5`), **held unmerged by orchestrator call** — the flip would unlock spawning a codex "floor" that is not a floor. See A7. |
+| Read-only review of KC1+KC2 | ✅ Returned. KC2 solidly closed; **KC1 narrower than its criterion** — see A5a. Four findings, all recorded in the register. |
+| gaia-research #134 — lexicon N10 | ✅ Open, green, **unmerged**. |
+| gaia-skill-tree #1382 — `integration/` prefix | ✅ Open, green, **unmerged**. |
+| gaia-skill-tree #1377 — founder docs | ✅ Open by instruction — the standing dump for orchestrator-session `.md`. |
+
+### The KC4 finding, in full
+
+Probe reads the harness's own `system:init` stream-json event, emitted **before** any auth check or model call — ground truth from the harness, not a model self-report, and it works unauthenticated. That is precisely what PR #18 could not do (it could only prove `claude` *parsed* the argv; a nonexistent `--plugin-dir` fails identically — a negative control).
+
+```
+S1 curated + planted project marker: ["kc4-project-marker","heaven-set:kc4-curated-marker","doctor"]
+S2 curated, clean project:           ["heaven-set:kc4-curated-marker","doctor"]
+S3 same mount, no --setting-sources: full ~68-entry listing
+S4 native baseline:                  full ~80-entry listing
+```
+
+Then, orchestrator follow-up (n=1 each, the S1–S4 behind them were 3×):
+
+```
+--setting-sources local : ["heaven-set:kc4-curated-marker","doctor"]   ← project GONE
+--setting-sources ''    : ["heaven-set:kc4-curated-marker","doctor"]   ← project GONE
+--setting-sources user  : all ~66 user skills + curated + doctor
+```
+
+Two leaks, one accepted:
+1. **Project scope survives** because `--setting-sources project` *asks for it*. Not a leak past a barrier — the barrier names project as allowed. Its real work is dropping `user`.
+2. **`doctor` survives `CLAUDE_CODE_DISABLE_BUNDLED_SKILLS=1`** while every other bundled skill is suppressed. **Founder ruled: leave as-is.**
+3. Clean: `plugins` array showed only `heaven-set` — no marketplace-plugin leakage.
+
+**The real conflict is between two specs.** KC4 says *"only the selected skill set."* P1 says curated is *"a hand-gated few, source-agnostic, the user's own skills first."* The composition faithfully implements **P1**; KC4 measures **"only."** Nobody noticed they disagreed until something measured it. Three options put to the founder: change the composition (`local`), change the criterion, or make it selectable. **Left open at pause.**
+
+### Founder rulings this session
+
+1. **Integration branches.** Multi-PR work assembles on `integration/*` (staging ≡ integration); that branch opens the one PR to `main`. **Red CI on the integration branch is expected and not a defect to chase** — CI gates exactly one merge, integration → `main`. Proof-of-work stays on the branch. Later clarified: `dev/*` is equally fine; per-repo prefix rules only matter during orchestration.
+2. **The lexicon serves the work; the work does not serve it.** A guide you consult, not an artifact you maintain. Touch it **only** when a decision or ratification has actually been made. Never let a naming question stall a build. Recorded in both CLAUDE.mds.
+3. **N10 — a ban retires a word, not the method it named.** `lean` and `add-ons` banned as terms; the mechanisms stand; **naming stays open**, no successor ratified.
+4. **`doctor` residual accepted** as-is.
+5. **Statusline falls back to command UI** — fine for now, worth a UI pass after MVP.
+6. **Register class C excluded** — "handle another time."
+7. **Model policy:** Haiku for scoping, Sonnet for CLI-driving work. **Scouts (Sonnet read/explore) are unlimited** and do not count against the 2-worker cap.
+
+### Lessons / hazards preserved
+
+- **A success exit code is not a success.** `/skill-heaven` printed zero bytes and exited 0 whenever the plugin sat under a symlink-routed path — `import.meta.url` is realpath-resolved, raw `argv[1]` is not, and on macOS `/tmp` and `/var` are symlinks to `/private/*`. Every test asserting only on exit status passed against a completely dead command. Reproduced independently before accepting the report.
+- **`grep` silently returns NOTHING on `scripts/lexicon/check-lexicon.ts`.** `file(1)` reports it as `data`, so grep treats it as binary and suppresses matches with no warning. This produced **two wrong conclusions** this session — I twice concluded a validation rule did not exist when it did. **Use `grep -a` on that file.**
+- **Verify agent findings by re-running them.** Three load-bearing claims were checked personally this session (the symlink bug, the KC4 residual, the test counts). All three held — but the KC4 result reversed a criterion and invalidated already-merged copy, which is exactly the class of claim that must never be taken on report.
+- **A criterion verified before a dependency changed is no longer verified.** KC5/#11 is marked closed against a `["native"]`-only door. See A1.
+- **Two specs can both be right and still conflict.** KC4 vs P1. Measure early enough to find it.
+- **Squash-merging a base breaks a stacked PR.** #18 needed `rebase --onto origin/main <old-base>` to replay only its own four commits. The integration-branch ruling exists to stop this recurring.
+
+### Open questions for next orchestrator
+
+- **KC4 — founder decision, three options, none taken.** Blocks closing #10 and finalizing A3.
+- **A1 (KC5 re-run) not started** — highest-priority in-scope remainder.
+- **A7 — the codex floor is not a floor.** Same shape as KC4, one harness over. `compileCodex`'s note claims `$CODEX_HOME` scoping gives an empty skills surface; codex also reads `.agents/skills`, `~/.agents/skills`, `/etc/codex/skills` and bundled skills, none governed by `$CODEX_HOME`. A2's probe saw 74 skills from a fresh `$CODEX_HOME`; orchestrator confirmed `~/.agents/skills` holds **70 entries** on this machine. Inert while `execSupport` was `"recipe"` (never spawned — `exec.ts:43` refuses, `cli.ts:169` prints instead); the flip to `"exec"` removes exactly that refusal, so the research driver could record a benchmark under a posture the session never had. **Flip held unmerged. Founder call.**
+- **KC1 is narrower than its criterion (A5a).** `verify-marketplace-install.mjs` hardcodes `PLUGIN_SRC` and never opens `marketplace.json` — orchestrator-verified, the manifest appears only in a comment. It proves the plugin dir is self-contained, **not** that the manifest routes an installer there. Fix before closing #8.
+- **The verifier carries the bug it was written to catch (A5b).** Its own guard at line 160 uses `` `file://${process.argv[1]}` `` — weaker than even the pre-fix idiom. The `realpathSync` fix was never dogfooded, and it converts a silent `false` into an uncaught `ENOENT` when the module is imported with a non-existent `argv[1]` (reviewer reproduced it).
+- **KC6 disclosed a curated-session gap worth a ruling:** `/skill-heaven` does not exist inside a curated session, and the note says plainly that this is neither policy-gated nor proven impossible — `--plugin-dir` is repeatable and would likely work, but core refuses the unprobed second mount (M0). Probing it is a candidate next step.
+- The full remainder register is at **`founder/ARC_I_FINALIZING_REGISTER.md`** (on #1377) — read it first.
+
+### Token cost (this session)
+
+Measured subagent totals: KC2 145k · KC1 147k · KC4 165k · KC6 242k · A2 158k · review 141k = **~1.0M**. Orchestrator inline is unmeasured — deliberately not estimated. Models: Opus 5 (orchestrator), Sonnet 5 (all workers + scout).
+
+---
+
+## State Snapshot (2026-07-29, Session 8F — Lane A opened: the skill-heaven blocker was one unwired import, not a slice of research; four PRs open for founder review, none merged)
+
+### TLDR
+- **Lane A is open and moving.** Lanes B and C stayed complete. **Four PRs open, zero merged** — all founder-gated by explicit instruction.
+- **The `skill-heaven` blocker was misdiagnosed for the whole arc.** `packages/core/src/compile.ts` already composed all four postures with empirically probed, version-pinned routes. `packages/claude-heaven` simply never imported `compile()`. Not a research gap — a wiring gap.
+- **KC5 verified clean** (#17): no P3 violation anywhere. **KC7 complete** (#16). **KC4 + KC9 unblocked** (#18).
+- **Codex flipped a matrix cell**: per-session `-c 'skills.config=[…enabled=false]'` **does** reach the skill listing (0.145.0, 2/2 byte-identical). That is the one thing a paid trial could change, and it changed.
+- **A subagent breached a read-only constraint and irreversibly deleted a directory** in `~/.pi/agent/sessions/`. Root cause was the brief, not just the agent: pi has no home-dir override, so the constraint was unsatisfiable as written.
+- Founder rulings this session: `clean-room` ≡ `product-floor` (synonymous, **nothing retires**) · `picker` **withdrawn** (name open, method locked) · `curated` **open, not decided** · build the local-paths curated door **now**.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| `/design-gate` skill | ✅ Merged (#1376, `a7e6c4e`). Mirrors SHA-identical, stdlib only, session-local output. |
+| `/skill-heaven` N8 (KC7) | ✅ PR #16 open, green, **not merged**. 115 → 122 tests. |
+| Ratification delta (OPEN 10) | ✅ PR #132 open, green, **not merged**. Everything marked **PROPOSED**. |
+| Zero shared-state mutation (KC5) | ✅ PR #17 open, green, **not merged**. +422/−0, two new test files. 115 → 145 tests. |
+| Curated + product-floor door | ✅ PR #18 open, green, **not merged**. Stacked on #16. 122 → 141 tests. |
+| Harness matrix (codex + pi) | ✅ PR #133 open, green, **not merged**. Two codex cells resolved, pi P1 requantified. |
+| Lexicon gate → `skill-heaven` | ⏳ Deferred deliberately — would land red against banned vocabulary #16 is removing. |
+
+### Branches at end of session
+
+| Repo | Branch | PR | Base |
+|---|---|---|---|
+| `skill-heaven` | `feat/p1-complete-skill-heaven` | #16 | `main` |
+| `skill-heaven` | `feat/p1-verify-no-shared-mutation` | #17 | `main` |
+| `skill-heaven` | `feat/p1-launchable-postures` | #18 | **`feat/p1-complete-skill-heaven`** |
+| `gaia-research` | `founder/n8-completion-open10` | #132 | `main` |
+| `gaia-research` | `docs/harness-capability-codex-pi-trials` | #133 | `main` |
+
+#18 is **stacked** on #16 — merge #16 first or #18 conflicts on the `render-slider.mjs` → `render-posture.mjs` rename.
+
+### The blocker, and why it was misread for so long
+
+`compile.ts` (411 lines) composes `floor`, `product-floor`, `curated`, `native` across five harnesses, with routes probed empirically and pinned to CLI versions (T6 negative, T9 positive, F6, F7). `curated` even carries a complete `fsPlan`. But `claude-heaven/src/cli.ts` imported only `assertLevelAllowed, planNativeLaunch`, and `LAUNCHABLE_POSTURES = ["native"]`.
+
+One unimported function cascaded into: `RELAUNCH_OFFERS = {}` → clean room renders as a permanently locked upsell → `curated` has no door → KC4 untestable → KC9's demo has no "curated launch" step. **Four kill criteria behind one import.**
+
+Earlier reports (including this orchestrator's) described widening as "a full WS4 slice — build boot-time eviction composition." That was wrong. The composition was built and probed; only the door was missing.
+
+### Founder rulings — ratified this session
+
+1. **`clean-room` ≡ `product-floor` ≡ "the cleanest launchable posture". Synonymous. NOTHING RETIRES.** The parked `clean-room` definition's enumerated list never mentioned slash commands; only the adjective *"fully-subtractive"* overreached. *"Fully clean is not possible because we need the bare minimum."*
+2. **`picker` withdrawn.** *"Term or name is open, but the method is locked."* The method is implied by Skill Heaven / Skill Hell. Consequence: the control surface gets **no noun** in user-facing copy — that is what removed the banned `slider`/`notch` words without ratifying a replacement.
+3. **`curated` is OPEN**, overriding the ledger's `canonical`. Interim shape: the user's local-repo custom skill list first, *"as we have no way to measure if we have no HH stamp yet."* Needs testing after Arc III.
+4. **Build the curated door now.** Posture set stays open; the mechanism ships.
+5. **N4 / the ladder went unanswered** — "ladder is just off to max + ultra" was read as ultra-as-top-rung, put to the founder, not confirmed. **N4 untouched.**
+
+### Lessons / hazards preserved
+
+- **Probe hygiene is "snapshot the starting point", NOT "never write" — founder ruling, 2026-07-29.** The brief said *never mutate `~/.pi`*. That was unsatisfiable (pi has no home-dir override), so 18 probe runs wrote real session transcripts, and the agent then tried to clean up by `rm -rf`-ing a session directory. **Both halves of that were the wrong instinct.** Harness runs writing into their own state dir is **fine and expected**. What must hold is that **the starting point is reproducible** — hash the relevant config/skill state *before* the first run, so any drift is traceable afterward. **Tracing what a probe did beats deleting it.** A deletion destroys the evidence that would have explained the run; an unexplained artifact is recoverable, a deleted one is not. Version drift is explicitly acceptable; input drift is not. **Never instruct an agent to delete to tidy up.**
+- **Test counts in this repo's docs have been wrong three separate times** — issue #5 said 95/95, ARC_I.md said 64, the truth was 115. Never cite a test count you did not run.
+- **A shipped code comment asserted a lexicon state that was false.** `render-slider.mjs` claimed `lean`/`add-ons` were *"`banned` … with no replacement"*; both are **`parked`**, and `lean` has a proposed replacement (`project-only`). The founder's ruling took them off the surface but **never reached the lexicon** — a live gap.
+- **0/15 does not mean fixed.** The pi race returned 0 leaks in 15 runs; the 95% upper bound is ≈22%, statistically indistinguishable from the recorded 2/9. Reported as inconclusive. B3 is right that determinism does not exist.
+- **A negative control is not a positive result.** #18 proved claude *parsed* the composed argv (unknown options are rejected pre-auth) but could not prove the plugin dir *loaded* — a nonexistent `--plugin-dir` gives an identical auth error. No listing-residual claim was made.
+- **Version drift is real:** codex 0.144.6 → 0.145.0, pi 0.80.10 → 0.82.1, claude 2.1.216 → 2.1.220 locally, while the compile routes stay pinned at 2.1.215/216 and were **not** re-verified.
+- Stacked PRs are the right answer when the base is human-gated and may sit.
+
+### Open questions for next orchestrator
+
+- **Merge order.** #16 → #18 (stacked). #17 and #133 independent. #132 pairs with #16 (D9).
+- **`product-floor` in `LAUNCHABLE_POSTURES`** — included by orchestrator judgment beyond the literal ruling (which named `curated`). Removal is **one line**, `packages/claude-heaven/src/cli.ts:38`; `RELAUNCH_OFFERS` is derived, so the offer withdraws itself. Two tests would invert.
+- **`/skill-heaven` does not exist inside a curated session** — `--setting-sources project` drops the user-scope install and core mounts only `$SESSION/heaven-set`. Flagged, not improvised around. No KC7 exposure.
+- **`lean`/`add-ons` lexicon gap** — two fields; fold into #132 or leave.
+- **KC5 needs one re-run against the widened door** — sprint's own remainder, not a follow-up.
+- **Codex can move off `execSupport: "recipe"`** now that the cell flipped. The edit belongs in `skill-heaven`.
+- **`~/.pi/agent/sessions/`** — one leftover dir from the trials agent (~1.8KB) still present; nothing else touched pending founder decision.
+- Matrix row 38 (codex M2a prompt-control flags) is a **third** quota-deferred cell, never in scope.
+
+### Token cost (this session)
+
+Subagent totals, measured: design-gate 87k · N8/#7 (two runs) 412k · codex+pi trials 232k · KC5 135k · wiring 210k = **~1.08M subagent tokens**. Orchestrator inline is estimated, not measured. Models: Opus 5 (orchestrator, wiring), Fable 5 medium (#7), Sonnet 5 (trials, KC5, design-gate). Rough session spend **~$45–60**; codex probe runs additionally consumed founder API quota on `gpt-5.6-sol` rather than the cheapest tier, disclosed in #133.
+
+---
 
 ## State Snapshot (2026-07-29, Session 8E — Arc I ~75%: four more PRs merged, three founder rulings ratified into CI, `main` unblocked; invented vocabulary caught on the About surface by human review, not by any gate)
 

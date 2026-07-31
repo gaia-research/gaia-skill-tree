@@ -10,7 +10,7 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ pexp13/sentiment-analysis | Basic | 1★ | Awakened | pexp13/gaia-skill-tree | 2026-05-25T00:00:00Z |
+| ○ pexp13/sentiment-analysis | Basic | 4★ | Extra | pexp13/gaia-skill-tree | 2026-05-25T00:00:00Z |
 
 ---
 
@@ -298,9 +298,9 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · · firecrawl/firecrawl-build-onboarding  [3★]
   │  ├─ · ○ garrytan/document-generate  [3★]
   │  └─ · ○ /tool-use
-  └─ · ○ firecrawl/firecrawl-research-index  [2★]
+  └─ · ○ firecrawl/firecrawl-research-index  [3★]
 
-· ◆ disler/agent-fusion  [2★]
+· ◆ disler/agent-fusion  [4★]
   ├─ · ○ disler/opinion  [2★]
   ├─ · ○ disler/plan-synthesis  [2★]
   └─ · ○ disler/auto-review  [2★]

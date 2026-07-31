@@ -10,7 +10,7 @@ class InitCommand(Command):
             "--user", help="Gaia username to write into .gaia/config.toml"
         )
         parser.add_argument(
-            "--registry-ref", help="Gaia registry URL to write into .gaia/config.toml"
+            "--registry-ref", help="Registry URL to write into .gaia/config.toml"
         )
         parser.add_argument(
             "--scan", action="append", help="Path to scan; repeat for multiple paths"

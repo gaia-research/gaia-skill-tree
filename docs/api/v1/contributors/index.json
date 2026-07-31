@@ -73,7 +73,7 @@
         "level": "4★",
         "trustMagnitude": 223.52
       },
-      "prestigeScore": 684.76,
+      "prestigeScore": 695.06,
       "_links": {
         "self": "/api/v1/contributors/firecrawl.json"
       }
@@ -83,12 +83,25 @@
       "namedSkills": 6,
       "topSkill": {
         "id": "gsd-build/get-shit-done",
-        "level": "3★",
+        "level": "4★",
         "trustMagnitude": 202.16
       },
       "prestigeScore": 462.96,
       "_links": {
         "self": "/api/v1/contributors/gsd-build.json"
+      }
+    },
+    {
+      "handle": "disler",
+      "namedSkills": 4,
+      "topSkill": {
+        "id": "disler/agent-fusion",
+        "level": "4★",
+        "trustMagnitude": 127.54
+      },
+      "prestigeScore": 236.56,
+      "_links": {
+        "self": "/api/v1/contributors/disler.json"
       }
     },
     {
@@ -128,19 +141,6 @@
       "prestigeScore": 180.0,
       "_links": {
         "self": "/api/v1/contributors/mbtiongson1.json"
-      }
-    },
-    {
-      "handle": "disler",
-      "namedSkills": 4,
-      "topSkill": {
-        "id": "disler/agent-fusion",
-        "level": "2★",
-        "trustMagnitude": 37.54
-      },
-      "prestigeScore": 146.56,
-      "_links": {
-        "self": "/api/v1/contributors/disler.json"
       }
     },
     {

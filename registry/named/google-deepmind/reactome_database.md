@@ -5,14 +5,14 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: pathway-ontology-retrieval
 status: awakened
-level: 3★
+level: 4★
 description: Query the Reactome database (Analysis and Content Services). Use when
   the user asks about pathway analysis, gene list enrichment, retrieving results by
   token, finding unmapped or not-found identifiers, mapping identifiers, reaction
   participants (inputs, outputs), pathway hierarchy (including top-level pathways),
   diagram export, cross-reference mapping, or searching the knowledgebase.
 createdAt: '2026-05-23'
-updatedAt: '2026-07-16'
+updatedAt: '2026-07-31'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database/SKILL.md
 evidence:
@@ -88,6 +88,10 @@ timeline:
     origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-16
+- timestamp: '2026-07-30T22:37:31Z'
+  action: rank_up
+  contributor: marcotiongson
+  details: Calibrated level from 3★ to 4★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

@@ -203,7 +203,7 @@ _Avoid_: profile, dashboard, scorecard.
 ### Registry Management
 
 **Programmatic-First Policy**:
-The Gaia registry is programmatically managed. Manual edits to JSON files in `registry/nodes/` are deprecated for all meta-shifts. AI agents and human contributors must use the Gaia CLI to ensure timeline logging, timestamping, and schema integrity.
+The registry is programmatically managed. Manual edits to JSON files in `registry/nodes/` are deprecated for all meta-shifts. AI agents and human contributors must use the Gaia CLI to ensure timeline logging, timestamping, and schema integrity.
 
 - **Merge**: Use `gaia dev merge` to fuse canonical nodes.
 - **Split**: Use `gaia dev split` to divide capabilities.
@@ -299,7 +299,7 @@ The three-command setup flow (`pip install gaia-cli` → `gaia init` → `gaia s
 _Avoid_: Get started, Quickstart, Onboarding.
 
 **Bond your agent**:
-The brand-voice label for the MCP-install moment, where a contributor's AI agent links to the Gaia registry.
+The brand-voice label for the MCP-install moment, where a contributor's AI agent links to the registry.
 _Avoid_: Connect MCP, Add Gaia to your agent.
 
 **Browse named skills**:
@@ -456,7 +456,7 @@ Single source of truth for CI grep. Any term below appearing in user-facing copy
 - `Connect MCP` / `Add Gaia to your agent` — MCP install copy; use **Bond your agent**
 - `dashboard` / `profile` (as skill-tree synonym) — use **Skill Tree** or **Your Tree**
 - `database` / `catalog` / `index` — for Registry; use **Registry**
-- `Gaia Registry` (as a product name / proper noun) — "Gaia Registry" is not the product name; the product is **Gaia Skill Tree**, the org is **Gaia Research**, and "the registry" (lower-case, no "Gaia" prefix) is only the data-layer term. Use **Gaia Skill Tree** for headline/title/OG copy, **the registry** for the data-layer descriptive sense. (Issue #1258)
+- `Gaia Registry` / `Gaia registry` / `Gaia Skill Registry` (any `Gaia` + `registry` construction, any capitalization) — "Gaia" + "registry" together always reads as a proper noun and none of these are the product name; the product is **Gaia Skill Tree**, the org is **Gaia Research**. `registry` alone (no "Gaia" prefix, e.g. "the registry", "a registry", "registry schema") is fine — it is the plain data-layer common noun. Use **Gaia Skill Tree** for headline/title/OG copy, **the registry** for the data-layer descriptive sense, **the Gaia Skill Tree registry** where the proper noun genuinely needs naming (there "Gaia Skill Tree" is the proper noun and "registry" is the common noun following it). (Issue #1258)
 - `Documentation` / `How we do things` / `How We Work` — page name; use **The Codex**
 - `Extra skill` / `type=extra` — legacy Yggdrasil I taxonomy word; use **Fusion** / `type=fusion` (Yggdrasil II)
 - `Field view` is the **only** user-facing label for the immersive canvas toggle — banned alternatives: `View as HUD`, `HUD mode`, `Heads-up display`, `Open HUD`, `Constellation view`

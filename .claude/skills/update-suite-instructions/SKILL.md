@@ -8,7 +8,7 @@ description: Sync suite skill installation instructions with upstream sources an
 Sync suite skill installation instructions with upstream sources and ensure Gaia-compliant styling.
 
 ## Context
-Suite skills (like `ruvnet/ruflo`, `garrytan/gstack`, and `obra/superpowers`) often have detailed installation instructions in their upstream READMEs. This skill automates the synchronization of these instructions into the Gaia registry while enforcing consistency and adherence to `DESIGN.md`.
+Suite skills (like `ruvnet/ruflo`, `garrytan/gstack`, and `obra/superpowers`) often have detailed installation instructions in their upstream READMEs. This skill automates the synchronization of these instructions into the registry while enforcing consistency and adherence to `DESIGN.md`.
 
 ## Instructions
 1. Run `python3 scripts/update_suite_instructions.py` to fetch, standardize, and inject the latest instructions.

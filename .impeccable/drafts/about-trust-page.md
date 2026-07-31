@@ -65,10 +65,10 @@ The page answers one skeptic's question: "Who is behind this, and will it still 
   <script>window.GAIA_VERSION = "4.1.2";</script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About — Gaia Skill Registry</title>
+  <title>About — Gaia Skill Tree</title>
   <meta name="description" content="Gaia is maintained by Marcus B. Tiongson (@mbtiongson1). This page explains why the registry exists, who keeps it, and what makes it last.">
   <meta property="og:type" content="profile">
-  <meta property="og:title" content="About — Gaia Skill Registry">
+  <meta property="og:title" content="About — Gaia Skill Tree">
   <meta property="og:description" content="An evidence-backed atlas of agent capabilities, kept with obsessive care.">
   <meta property="og:url" content="https://mbtiongson1.github.io/gaia-skill-tree/about.html">
   <link rel="preconnect" href="https://fonts.googleapis.com">

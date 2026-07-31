@@ -5,7 +5,7 @@ description: Publish a new post (announcement, link, or LaTeX-style meta report)
 
 # Gaia Post
 
-Publish a post to the Gaia registry site. Posts appear in the `path-meta-queue` on the landing page and, for reports, also update the hero notification badge. All post data is tracked in `docs/meta/posts.json` (newest-first) and `docs/index.html` is patched programmatically — no hand-editing HTML.
+Publish a post to the Gaia Skill Tree site. Posts appear in the `path-meta-queue` on the landing page and, for reports, also update the hero notification badge. All post data is tracked in `docs/meta/posts.json` (newest-first) and `docs/index.html` is patched programmatically — no hand-editing HTML.
 
 ## Post Types
 

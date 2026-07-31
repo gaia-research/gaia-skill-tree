@@ -305,9 +305,9 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · · firecrawl/firecrawl-build-onboarding  [3★]
   │  ├─ · ○ garrytan/document-generate  [3★]
   │  └─ · ○ /tool-use
-  └─ · ○ firecrawl/firecrawl-research-index  [2★]
+  └─ · ○ firecrawl/firecrawl-research-index  [3★]
 
-· ◆ disler/agent-fusion  [2★]
+· ◆ disler/agent-fusion  [4★]
   ├─ · ○ disler/opinion  [2★]
   ├─ · ○ disler/plan-synthesis  [2★]
   └─ · ○ disler/auto-review  [2★]

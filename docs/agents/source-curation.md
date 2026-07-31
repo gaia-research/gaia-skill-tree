@@ -8,7 +8,7 @@
 ## Overview
 
 The source-curation pipeline automates the discovery of evidence sources for
-named skills in the Gaia registry. It replaces the manual `/ev-pipeline`
+named skills in the registry. It replaces the manual `/ev-pipeline`
 orchestration loop with a scheduled crawler that produces **proposal reports**
 -- structured JSON files describing discovered evidence sources, pre-validated
 against the `sourceProposal.schema.json` contract.

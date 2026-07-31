@@ -1,6 +1,29 @@
 {
   "skills": [
     {
+      "id": "ruvnet/github-suite",
+      "name": "GitHub Suite",
+      "level": "3★",
+      "trustMagnitude": 66.0,
+      "overallTrustGrade": "B",
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/github-suite.json"
+      },
+      "genericSkillRef": "git-integration",
+      "suiteComponents": [
+        "ruvnet/github-code-review",
+        "ruvnet/github-multi-repo",
+        "ruvnet/github-project-management",
+        "ruvnet/github-release-management",
+        "ruvnet/github-workflow-automation"
+      ]
+    },
+    {
       "id": "obra/systematic-debugging",
       "name": "Systematic Debugging",
       "level": "3★",
@@ -707,27 +730,6 @@
         "self": "/api/v1/skills/gaia-research/skill-fuse.json"
       },
       "genericSkillRef": "skill-fusion"
-    },
-    {
-      "id": "disler/agent-fusion",
-      "name": "Agent Fusion",
-      "level": "2★",
-      "trustMagnitude": 37.54,
-      "overallTrustGrade": "C",
-      "contributor": "disler",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/disler/agent-fusion.json"
-      },
-      "genericSkillRef": "agent-fusion",
-      "suiteComponents": [
-        "disler/auto-review",
-        "disler/opinion",
-        "disler/plan-synthesis"
-      ]
     },
     {
       "id": "bradautomates/claude-video",

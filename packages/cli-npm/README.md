@@ -1,6 +1,6 @@
 # Gaia CLI
 
-The Gaia CLI integrates local development repositories and CI pipelines with the Gaia Skill Registry.
+The Gaia CLI integrates local development repositories and CI pipelines with the Gaia Skill Tree registry.
 
 > **Prefer the MCP server?** If you use Claude Code, Cursor, or any MCP-compatible
 > agent, install the standalone server — it is published on npm as

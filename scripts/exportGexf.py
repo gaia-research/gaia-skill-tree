@@ -34,7 +34,7 @@ def main():
     creator = ET.SubElement(meta, "creator")
     creator.text = "Gaia"
     description = ET.SubElement(meta, "description")
-    description.text = "Gaia Skill Registry Graph"
+    description.text = "Gaia Skill Tree Graph"
     
     # Graph
     graph = ET.SubElement(gexf, "graph", attrib={"defaultedgetype": "directed", "mode": "static"})

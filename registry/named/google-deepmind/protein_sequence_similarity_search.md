@@ -5,14 +5,14 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: bioinformatic-sequence-analysis
 status: awakened
-level: 3★
+level: 4★
 description: Searches for homologous protein sequences using MMseqs2 (fast, default)
   or BLAST (comprehensive, fallback). Trigger this whenever the user provides a protein
   sequence or FASTA file and asks to find homologues, sequence matches, or wants to
   infer protein function based on sequence similarity, but not when the user wants
   to infer protein function based on structural similarity.
 createdAt: '2026-05-23'
-updatedAt: '2026-07-16'
+updatedAt: '2026-07-31'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md
 evidence:
@@ -102,6 +102,10 @@ timeline:
     origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-16
+- timestamp: '2026-07-30T22:37:29Z'
+  action: rank_up
+  contributor: marcotiongson
+  details: Calibrated level from 3★ to 4★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

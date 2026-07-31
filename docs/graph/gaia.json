@@ -1,6 +1,6 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "generatedAt": "2026-07-30T08:51:04Z",
+  "generatedAt": "2026-07-30T23:11:24Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic",
@@ -463,10 +463,10 @@
         ]
       },
       "branch": "standard",
-      "rank": 2,
-      "rankWord": "Named",
+      "rank": 3,
+      "rankWord": "Evolved",
       "medallion": "◇",
-      "namedMaxLevel": "2★"
+      "namedMaxLevel": "3★"
     },
     {
       "id": "agent-eval",
@@ -624,6 +624,15 @@
           0.9687220296430951,
           0.000483434965957145
         ]
+      },
+      "branch": "suite",
+      "rank": 4,
+      "rankWord": "Extra",
+      "medallion": "◆",
+      "namedMaxLevel": "4★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
       }
     },
     {
@@ -1262,7 +1271,12 @@
           0.8972589290956535,
           0.0009957307829251661
         ]
-      }
+      },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
+      "namedMaxLevel": "2★"
     },
     {
       "id": "automated-testing",
@@ -11113,7 +11127,12 @@
           -0.08734378955798382,
           0.0009534592257101088
         ]
-      }
+      },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
+      "namedMaxLevel": "2★"
     },
     {
       "id": "optical-character-recognition",
@@ -12011,7 +12030,12 @@
           -0.18262792362123928,
           0.0006564149219620894
         ]
-      }
+      },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
+      "namedMaxLevel": "2★"
     },
     {
       "id": "platform-modernization-sprint",

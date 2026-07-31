@@ -25,6 +25,15 @@ Approved codebase-analysis tool, used as-needed (deep architecture audits, depen
 
 Never push directly to main.
 
+### Integration branches — where multi-PR work assembles
+
+**Founder ruling, 2026-07-29.** Work that spans more than one PR does **not** aim its PRs at `main` one at a time. They land on a shared **integration branch** (`integration/*` — "integration" and "staging" are interchangeable here), and the integration branch is what opens a PR against `main`.
+
+- **The integration branch does not have to be green.** Red CI on `integration/*` is expected and is not a defect to chase. It is a workbench, not a release.
+- **CI is a gate on one merge only: integration → `main`.** That merge is where everything must be green, and it is founder-gated like any other.
+- **All proof-of-work lives on the integration branch** — evidence, screenshots, probe records, partial slices. Do not stash it elsewhere and do not squash it away before the founder has seen it.
+- **Do not stack PRs on an unreviewed PR** to simulate this. A stack multiplies rebase risk and makes review harder; the integration branch exists precisely so it isn't needed.
+
 ### PR description safety
 
 Use `--body-file` with real newlines for multiline PR text, then verify with `gh pr view --json body --jq .body`; avoid escaped `\\n`/shell quoting. If staging leaks into a PR, rebuild from `origin/main`, keep only intended files, and check `git diff --stat origin/main...HEAD` before pushing.
@@ -136,7 +145,7 @@ See [DEV.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/DEV.md) for l
 | Slash-naming helpers | `src/gaia_cli/formatting.py` | Slash-naming formatters, RANK_COLORS, tier colors |
 | Local-first context | `src/gaia_cli/localContext.py` | Merges user tree + scan results + named skill map into `LocalContext` |
 | npm wrapper | `packages/cli-npm/` | `@gaia-registry/cli` — Node.js wrapper that execs the local Python binary. **Not published to npm** (the whole `@gaia-registry/*` scope is unpublished); the published CLI is `gaia-cli` on PyPI. Source-checkout use only. |
-| MCP server | *(external repo)* | Lives in `gaia-research/gaia-mcp`, published as `@gaia-research/mcp` v0.1.0 (binary `gaia-mcp`). Read-only Registry mode; tools `gaia_search`, `gaia_inspect`, `gaia_status`. The in-repo `packages/mcp` prototype was deleted — do not resurrect it. |
+| MCP server | *(external repo)* | Lives in `gaia-research/gaia-mcp`, published as `@gaia-research/mcp` v0.1.0 (binary `gaia-mcp`). Read-only registry mode; tools `gaia_search`, `gaia_inspect`, `gaia_status`. The in-repo `packages/mcp` prototype was deleted — do not resurrect it. |
 
 ```bash
 # Meta Review (CLI-ONLY)
@@ -271,8 +280,9 @@ Bot actors (`*[bot]`, `jules`, `codex`, `claude-bot`, `gemini-bot`) are always a
 | `docs/...` | Documentation | `docs/`, `*.md` |
 | `design/...` | Website design | `docs/` (HTML/CSS/JS), `*.md` |
 | `review/gaia-push/...` | Intake layer (`gaia push`) | `registry-for-review/`, `*.md` |
-| `review/meta/...` | Registry curation/promotion | `registry/`, `*.md` |
+| `review/meta/...` | registry curation/promotion | `registry/`, `*.md` |
 | `dev/...`, `claude/...`, `codex/...`, `gemini/...` | Experimental (unrestricted) | any |
+| `integration/...` | Assembly point for multi-PR work | any (unrestricted) — see § Integration branches |
 | `infra/...` | CI/tooling changes | `.github/`, `scripts/`, `docs/*.html`, `*.md` |
 
 CI enforces scope via `.github/workflows/branch-scope.yml`. Schema changes (`registry/schema/`) MUST use a `schema/` branch. Label `skip-scope-check` to bypass in emergencies.
@@ -318,6 +328,15 @@ Users needing the latest registry between wheels run `gaia pull` (downloads `gai
 `CONTEXT.md` is the single source of truth for product nomenclature and the banned-synonym list (CI greps it). Read it before writing any user-facing copy, CLI output, or agent skill.
 
 The **rarity** axis (`common`/`uncommon`/`rare`/`epic`/`legendary`) is **deprecated** and on its way out of the schema — see `CONTEXT.md` § Rarity. Do not introduce new rarity references in copy, skills, or curation. `gaia add` writes the legacy default automatically; nobody should be asked to choose a value.
+
+### The lexicon serves the work — the work does not serve the lexicon
+
+**Founder ruling, 2026-07-29.** This repo owns two lexicon namespaces (`gaia.skills`, `gaia.trust`); the federated core lives in `gaia-research`. Treat all of it as a **guide you consult**, not an artifact you maintain.
+
+- **Read it to pick the right word, then get on with the task.** Accuracy matters; ceremony does not.
+- **You touch the lexicon only when a decision or ratification has actually been made** — a founder ruling lands, or an oracle entry changes state. Do not tidy it, audit it for consistency, or reopen settled entries on your own initiative.
+- **Never let a naming question block a build.** If the gate fires on something genuinely unsettled, say so in one line and keep moving. Do not convene a vocabulary review.
+- **A ban retires a word, not the method it named** (gaia-research RATIFICATION N10). A banned term may carry `"naming": "open"` instead of a `replacement` — rephrase around it rather than substituting a successor nobody ratified.
 
 ## Agent Skills
 

@@ -3,7 +3,7 @@ name: ev-collection
 description: >
   Phase 1 of the Gaia evidence verification pipeline. Use this skill whenever
   you need to gather, consolidate, or refresh raw evidence for named skills in
-  the Gaia registry. Trigger phrases: "collect evidence", "populate the data
+  the registry. Trigger phrases: "collect evidence", "populate the data
   lake", "gather sources", "run ev-collection", "Phase 1", "compile the
   evidence index", "refresh the unified lake", "aggregate skill evidence",
   "build the evidence database". Also invoke as the first step before running
