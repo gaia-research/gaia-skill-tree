@@ -4,6 +4,88 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-31, Lane B checkpoint — #1148 merged, L4 intake decisions approved, evidence/curation queues split)
+
+### TLDR
+- **Active branch:** `dev/issue-backlog`; integration PR **#1395** remains draft/open to `main` and is the governing backlog-eradication lane.
+- **#1148 is complete on integration.** PR **#1415** merged (`471d87091`): evidence source dumps and ev-pipeline docs are type-first via `evidence/by-type/`, with legacy `tier_*.md` coexistence only. No generated evidence dumps or registry mutations were committed.
+- **Post-main timeline drift was repaired.** PR **#1416** merged (`b454a9733`): `scripts/trace_timeline.py --all --apply` backfilled 26 rank-up events (25 Google DeepMind science skills + `gsd-build/get-shit-done`) and restored timeline CI.
+- **L4 decisions for active intakes are approved and commented:** #1378, #1117, #1137. Evidence labels/seeds are still held until seed prep.
+- **Evidence/curation routing is now split:** #741 has proposed evidence; #922/#923 need Phase 0 discovery; #813 Group B goes through `/gaia-curate-chain` one candidate at a time; #813 `result-aggregation` rejected and `webapp-testing` deferred.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| Main merge into integration | ✅ `origin/main` merged into `dev/issue-backlog` (`e250ad536`) before evidence/intake work so new intakes/calibrations are included |
+| Timeline repair | ✅ #1416 merged into `dev/issue-backlog`; CI timeline drift fixed using `trace_timeline.py`, not hand edits |
+| Evidence lake | ✅ #1415 merged into `dev/issue-backlog`; type-first `evidence/by-type/` scripts + ev-pipeline skill docs landed |
+| L4 active intakes | ✅ #1378 approved with correction; #1117 partially approved/deferred; #1137 approved with correction; comments posted |
+| Firecrawl suite | ✅ #752 closed as already represented in registry; #741 remains evidence-only for benchmark seed |
+| Evidence queues | ✅ Scratchpads written under `generated-output/evidence-verification/` (ignored/local): issue capture and ev-pipeline split |
+| #813 triage | ✅ Group B science-skills routed to `/gaia-curate-chain`; `result-aggregation` rejected; `webapp-testing` deferred |
+
+### Branches at end of session
+
+| Branch | Head SHA | Status |
+|---|---:|---|
+| `dev/issue-backlog` | `471d87091` | Active integration branch, pushed; PR #1395 draft/open |
+| PR #1415 branch | merged/deleted | Type-first evidence lake merged to integration |
+| PR #1416 branch | merged/deleted | Timeline drift repair merged to integration |
+
+### Issues + PRs touched
+
+| Item | State |
+|---|---|
+| #1395 | Draft/open integration PR; do not merge to main without founder gate |
+| #1415 / #1148 | ✅ Merged: type-first evidence lake + ev-pipeline docs |
+| #1416 | ✅ Merged: post-main timeline rank-up backfill |
+| #1378 | ✅ L4 approved with correction: new generic `brand-guideline-application`, named `anthropics/brand-guidelines`; evidence prep later |
+| #1117 | ✅ Partial L4 approval: accept `aplaceforallmystuff/log-to-daily` → new generic `session-journaling`; defer `vault-analyst` / `work-pattern-mining` |
+| #1137 | ✅ L4 approved with correction: `DietrichGebert/ponytail` → existing generic `implement-with-discernment`; do not use `context-compression` |
+| #752 | ✅ Closed: Firecrawl already in registry |
+| #741 | ⏳ Proposed evidence bucket: Firecrawl `benchmark-result` for `firecrawl/firecrawl-research-index` |
+| #922 | ⏳ Phase 0 discovery bucket: GSD suite/components need new independent evidence |
+| #923 | ⏳ Phase 0 discovery bucket: Addy Osmani suite/components need new independent evidence |
+| #813 | ⏳ `/gaia-curate-chain` next for DeepMind science-skills Group B; topology rejected/deferred rows recorded |
+
+### Routing — where things live now
+
+**Approved intake seed prep after topology staging:**
+- #1378 `anthropics/brand-guidelines` → new `brand-guideline-application`.
+- #1117 `aplaceforallmystuff/log-to-daily` → new `session-journaling`; star count refresh at seed prep.
+- #1137 `DietrichGebert/ponytail` → existing `implement-with-discernment`; corrected SKILL URL `skills/ponytail/SKILL.md`.
+
+**#813 `/gaia-curate-chain` Group B:**
+- `deepchem`, `qiskit`, `scanpy`, `pymc`, `rdkit`, `torch-geometric`, `transformers`, `stable-baselines3`, `scvi-tools`, `pytorch-lightning`.
+- Stop at L4. Verify exact upstream `SKILL.md`/source provenance, attribution, generic mapping, and named identity before any seed.
+
+**Evidence buckets after L4/curation:**
+- Proposed evidence: #741 plus approved intake YAML rows and #813 candidates with concrete issue-comment sources.
+- Phase 0 discovery: #922, #923, and #813 candidates without concrete sources (`qiskit`, `rdkit`, `scvi-tools`, `pytorch-lightning`) after L4 if still needed.
+
+### Lessons / hazards preserved
+
+- Issue bodies can hide real curation work inside evidence requests; always scout bodies/comments before treating a ticket as evidence-only.
+- Discovery-packet-v2 availability should be determined from issue body provenance markers when packet JSON is not committed locally.
+- Do not apply evidence labels at L4 approval time; seed prep comes first, then evidence pipeline routing.
+- For #813, do not batch blindly: use `/gaia-curate-chain` for recoverability and L4 review candidate-by-candidate.
+- `result-aggregation` is explicitly rejected for #813 topology; `webapp-testing` is explicitly deferred.
+
+### Open questions for next orchestrator
+
+1. Run `/gaia-curate-chain` for #813 Group B and present the L4 packet before any evidence labels/seeds.
+2. After Marcus approves #813 L4, batch approved active intakes + approved #813 candidates into evidence-seed prep.
+3. Then run the type-first `/ev-pipeline` flow: proposed evidence first, Phase 0 discovery for #922/#923 and any #813 rows without concrete sources.
+4. #1401 / #1028 remains held indefinitely unless Marcus explicitly releases it.
+5. #1395 final merge to main remains human-gated.
+
+### Token cost (this session)
+
+- Pi cost (`PYTHONUTF8=1`) at snapshot: main session **↑565,325 input / ↓49,125 output / R 12,475,392 cache read, ~$10.54**; subagents **~$8.63**; total **~$19.17**.
+
+---
+
 ## State Snapshot (2026-07-31, active backlog lane — main merged into `dev/issue-backlog`, #1148 ready for recalibrated plan)
 
 ### TLDR
