@@ -30,7 +30,7 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 | Branch | Head SHA | Status |
 |---|---:|---|
-| `dev/issue-backlog` | `85ec675cfffbd3b9c5f0af08d902e952b1a7f0ed` | Active integration branch; pushed; PR #1395 draft/open to `main` |
+| `dev/issue-backlog` | `85ec675cfffbd3b9c5f0af08d902e952b1a7f0ed` pre-snapshot; memory commits follow | Active integration branch; PR #1395 draft/open to `main`; do not merge without founder gate |
 | `review/meta/lane-b-pass-ingest` | merged/deleted remotely | PR #1417 merged into `dev/issue-backlog` |
 | `main` | unchanged by this session | Do not touch until founder approves #1395 final merge |
 
