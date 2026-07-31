@@ -53,12 +53,22 @@
       "reviewers": 1,
       "sourceStartedAt": "2023-10-12",
       "grade": "C"
+    },
+    {
+      "source": "https://arxiv.org/abs/1111.4246",
+      "evaluator": "mbtiongson1",
+      "date": "2026-07-31",
+      "type": "arxiv",
+      "notes": "NUTS/HMC paper; OpenAlex cited_by_count 1815 rechecked 2026-07-31.",
+      "citations": 1815,
+      "sourceStartedAt": "2011-11-18",
+      "grade": "S"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-06-03",
-  "updatedAt": "2026-07-31",
+  "updatedAt": "2026-08-01",
   "version": "0.1.0",
   "timeline": [
     {
@@ -114,6 +124,12 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added evidence from https://doi.org/10.7717/peerj-cs.1516 (type: peer-review)"
+    },
+    {
+      "timestamp": "2026-07-31T16:18:17Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://arxiv.org/abs/1111.4246 (type: arxiv)"
     }
   ],
   "verification": {

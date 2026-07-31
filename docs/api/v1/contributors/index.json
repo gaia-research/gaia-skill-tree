@@ -53,6 +53,19 @@
       }
     },
     {
+      "handle": "k-dense-ai",
+      "namedSkills": 10,
+      "topSkill": {
+        "id": "k-dense-ai/pymc",
+        "level": "4★",
+        "trustMagnitude": 197.07
+      },
+      "prestigeScore": 1099.5,
+      "_links": {
+        "self": "/api/v1/contributors/k-dense-ai.json"
+      }
+    },
+    {
       "handle": "addy-osmani",
       "namedSkills": 9,
       "topSkill": {
@@ -89,19 +102,6 @@
       "prestigeScore": 462.96,
       "_links": {
         "self": "/api/v1/contributors/gsd-build.json"
-      }
-    },
-    {
-      "handle": "k-dense-ai",
-      "namedSkills": 10,
-      "topSkill": {
-        "id": "k-dense-ai/pymc",
-        "level": "2★",
-        "trustMagnitude": 71.0
-      },
-      "prestigeScore": 422.0,
-      "_links": {
-        "self": "/api/v1/contributors/k-dense-ai.json"
       }
     },
     {
@@ -200,7 +200,7 @@
       "namedSkills": 2,
       "topSkill": {
         "id": "anthropics/brand-guidelines",
-        "level": "2★",
+        "level": "3★",
         "trustMagnitude": 77.35
       },
       "prestigeScore": 120.87,
@@ -219,6 +219,19 @@
       "prestigeScore": 116.57,
       "_links": {
         "self": "/api/v1/contributors/safishamsi.json"
+      }
+    },
+    {
+      "handle": "dietrichgebert",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "dietrichgebert/ponytail",
+        "level": "4★",
+        "trustMagnitude": 102.79
+      },
+      "prestigeScore": 102.79,
+      "_links": {
+        "self": "/api/v1/contributors/dietrichgebert.json"
       }
     },
     {
@@ -284,19 +297,6 @@
       "prestigeScore": 60.98,
       "_links": {
         "self": "/api/v1/contributors/oso95.json"
-      }
-    },
-    {
-      "handle": "dietrichgebert",
-      "namedSkills": 1,
-      "topSkill": {
-        "id": "dietrichgebert/ponytail",
-        "level": "2★",
-        "trustMagnitude": 60.21
-      },
-      "prestigeScore": 60.21,
-      "_links": {
-        "self": "/api/v1/contributors/dietrichgebert.json"
       }
     },
     {
@@ -493,22 +493,9 @@
       "_links": {
         "self": "/api/v1/contributors/devin-ai.json"
       }
-    },
-    {
-      "handle": "aplaceforallmystuff",
-      "namedSkills": 1,
-      "topSkill": {
-        "id": "aplaceforallmystuff/log-to-daily",
-        "level": "2★",
-        "trustMagnitude": 1.26
-      },
-      "prestigeScore": 1.26,
-      "_links": {
-        "self": "/api/v1/contributors/aplaceforallmystuff.json"
-      }
     }
   ],
-  "totalContributors": 39,
+  "totalContributors": 38,
   "_links": {
     "self": "/api/v1/contributors/index.json"
   }

@@ -4,13 +4,13 @@
     {
       "id": "anthropics/brand-guidelines",
       "name": "Brand Guidelines",
-      "level": "2★",
+      "level": "3★",
       "trustMagnitude": 77.35,
       "overallTrustGrade": "B",
       "contributor": "anthropics",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Named",
+      "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/anthropics/brand-guidelines.json"
@@ -37,7 +37,7 @@
   "namedSkillsCount": 2,
   "topSkill": {
     "id": "anthropics/brand-guidelines",
-    "level": "2★",
+    "level": "3★",
     "trustMagnitude": 77.35
   },
   "prestigeScore": 120.87,

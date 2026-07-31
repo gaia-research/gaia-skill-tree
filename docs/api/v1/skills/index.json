@@ -319,6 +319,22 @@
       ]
     },
     {
+      "id": "k-dense-ai/pymc",
+      "name": "PyMC",
+      "level": "4★",
+      "trustMagnitude": 197.07,
+      "overallTrustGrade": "A",
+      "contributor": "k-dense-ai",
+      "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/pymc.json"
+      },
+      "genericSkillRef": "probabilistic-programming"
+    },
+    {
       "id": "nextlevelbuilder/ui-ux-pro-max",
       "name": "UI/UX Pro Max",
       "level": "4★",
@@ -362,6 +378,38 @@
         "ruvnet/v3-security-overhaul",
         "ruvnet/v3-swarm-coordination"
       ]
+    },
+    {
+      "id": "k-dense-ai/deepchem",
+      "name": "DeepChem",
+      "level": "4★",
+      "trustMagnitude": 167.07,
+      "overallTrustGrade": "A",
+      "contributor": "k-dense-ai",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/deepchem.json"
+      },
+      "genericSkillRef": "molecular-machine-learning"
+    },
+    {
+      "id": "k-dense-ai/torch-geometric",
+      "name": "Torch Geometric",
+      "level": "4★",
+      "trustMagnitude": 167.07,
+      "overallTrustGrade": "A",
+      "contributor": "k-dense-ai",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/torch-geometric.json"
+      },
+      "genericSkillRef": "graph-neural-network-modeling"
     },
     {
       "id": "garrytan/garrytan",
@@ -566,6 +614,22 @@
       "genericSkillRef": "knowledge-graph-build"
     },
     {
+      "id": "k-dense-ai/qiskit",
+      "name": "Qiskit",
+      "level": "3★",
+      "trustMagnitude": 111.87,
+      "overallTrustGrade": "A",
+      "contributor": "k-dense-ai",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/qiskit.json"
+      },
+      "genericSkillRef": "quantum-circuit-programming"
+    },
+    {
       "id": "obra/writing-plans",
       "name": "Writing Plans",
       "level": "4★",
@@ -596,6 +660,22 @@
         "self": "/api/v1/skills/firecrawl/firecrawl-build-search.json"
       },
       "genericSkillRef": "web-search"
+    },
+    {
+      "id": "dietrichgebert/ponytail",
+      "name": "Ponytail",
+      "level": "4★",
+      "trustMagnitude": 102.79,
+      "overallTrustGrade": "A",
+      "contributor": "dietrichgebert",
+      "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/dietrichgebert/ponytail.json"
+      },
+      "genericSkillRef": "implement-with-discernment"
     },
     {
       "id": "openai/few-shot-learning",
@@ -644,6 +724,54 @@
         "self": "/api/v1/skills/stanfordnlp/dspy.json"
       },
       "genericSkillRef": "prompt-optimization"
+    },
+    {
+      "id": "k-dense-ai/scanpy",
+      "name": "Scanpy",
+      "level": "3★",
+      "trustMagnitude": 97.07,
+      "overallTrustGrade": "B",
+      "contributor": "k-dense-ai",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/scanpy.json"
+      },
+      "genericSkillRef": "single-cell-analysis"
+    },
+    {
+      "id": "k-dense-ai/stable-baselines3",
+      "name": "Stable Baselines3",
+      "level": "3★",
+      "trustMagnitude": 97.07,
+      "overallTrustGrade": "B",
+      "contributor": "k-dense-ai",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/stable-baselines3.json"
+      },
+      "genericSkillRef": "reinforcement-learning-training"
+    },
+    {
+      "id": "k-dense-ai/transformers",
+      "name": "Transformers",
+      "level": "3★",
+      "trustMagnitude": 97.07,
+      "overallTrustGrade": "B",
+      "contributor": "k-dense-ai",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/transformers.json"
+      },
+      "genericSkillRef": "transformer-model-engineering"
     },
     {
       "id": "ruvnet/hive-mind-coordination",
@@ -889,139 +1017,11 @@
         "self": "/api/v1/skills/addy-osmani/performance-optimization.json"
       },
       "genericSkillRef": "performance-tuning"
-    },
-    {
-      "id": "garrytan/retro",
-      "name": "Retro",
-      "level": "3★",
-      "trustMagnitude": 81.0,
-      "overallTrustGrade": "B",
-      "contributor": "garrytan",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/retro.json"
-      },
-      "genericSkillRef": "write-report"
-    },
-    {
-      "id": "anthropics/brand-guidelines",
-      "name": "Brand Guidelines",
-      "level": "2★",
-      "trustMagnitude": 77.35,
-      "overallTrustGrade": "B",
-      "contributor": "anthropics",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/anthropics/brand-guidelines.json"
-      },
-      "genericSkillRef": "brand-guideline-application"
-    },
-    {
-      "id": "firecrawl/firecrawl-build-interact",
-      "name": "Firecrawl Interact",
-      "level": "3★",
-      "trustMagnitude": 75.58,
-      "overallTrustGrade": "B",
-      "contributor": "firecrawl",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-build-interact.json"
-      },
-      "genericSkillRef": "browser-control"
-    },
-    {
-      "id": "firecrawl/firecrawl-build-onboarding",
-      "name": "Firecrawl Onboarding",
-      "level": "3★",
-      "trustMagnitude": 75.58,
-      "overallTrustGrade": "B",
-      "contributor": "firecrawl",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
-      },
-      "genericSkillRef": "agent-environment-setup"
-    },
-    {
-      "id": "firecrawl/firecrawl-research-index",
-      "name": "Firecrawl Research Index",
-      "level": "3★",
-      "trustMagnitude": 75.58,
-      "overallTrustGrade": "B",
-      "contributor": "firecrawl",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
-      },
-      "genericSkillRef": "literature-search"
-    },
-    {
-      "id": "browser-use/browser-harness",
-      "name": "Browser Harness",
-      "level": "3★",
-      "trustMagnitude": 73.59,
-      "overallTrustGrade": "B",
-      "contributor": "browser-use",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/browser-use/browser-harness.json"
-      },
-      "genericSkillRef": "browser-control"
-    },
-    {
-      "id": "k-dense-ai/pymc",
-      "name": "PyMC",
-      "level": "2★",
-      "trustMagnitude": 71.0,
-      "overallTrustGrade": "B",
-      "contributor": "k-dense-ai",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/pymc.json"
-      },
-      "genericSkillRef": "probabilistic-programming"
-    },
-    {
-      "id": "k-dense-ai/scanpy",
-      "name": "Scanpy",
-      "level": "2★",
-      "trustMagnitude": 71.0,
-      "overallTrustGrade": "B",
-      "contributor": "k-dense-ai",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/scanpy.json"
-      },
-      "genericSkillRef": "single-cell-analysis"
     }
   ],
   "page": 1,
   "totalPages": 4,
-  "totalSkills": 182,
+  "totalSkills": 181,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"

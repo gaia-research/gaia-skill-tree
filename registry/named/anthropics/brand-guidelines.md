@@ -5,11 +5,11 @@ contributor: anthropics
 origin: false
 genericSkillRef: brand-guideline-application
 status: named
-level: 2★
+level: 3★
 description: Applies Anthropic's official brand colors, typography, and visual rules
   to artifacts that need Anthropic's look and feel.
 createdAt: '2026-07-31'
-updatedAt: '2026-07-31'
+updatedAt: '2026-08-01'
 title: Brand Guidelines
 links:
   github: https://github.com/anthropics/skills/blob/main/skills/brand-guidelines/SKILL.md
@@ -27,6 +27,10 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://github.com/anthropics/skills/stargazers (type:
     github-stars-own)'
+- timestamp: '2026-07-31T16:25:05Z'
+  action: rank_up
+  contributor: unknown
+  details: Calibrated level from 2★ to 3★
 evidence:
 - source: https://github.com/anthropics/skills
   evaluator: unknown

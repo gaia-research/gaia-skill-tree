@@ -4,14 +4,14 @@
     {
       "id": "dietrichgebert/ponytail",
       "name": "Ponytail",
-      "level": "2★",
-      "trustMagnitude": 60.21,
-      "overallTrustGrade": "B",
+      "level": "4★",
+      "trustMagnitude": 102.79,
+      "overallTrustGrade": "A",
       "contributor": "dietrichgebert",
       "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/dietrichgebert/ponytail.json"
       },
@@ -21,12 +21,12 @@
   "namedSkillsCount": 1,
   "topSkill": {
     "id": "dietrichgebert/ponytail",
-    "level": "2★",
-    "trustMagnitude": 60.21
+    "level": "4★",
+    "trustMagnitude": 102.79
   },
-  "prestigeScore": 60.21,
+  "prestigeScore": 102.79,
   "gradeDistribution": {
-    "B": 1
+    "A": 1
   },
   "_links": {
     "self": "/api/v1/contributors/dietrichgebert.json",

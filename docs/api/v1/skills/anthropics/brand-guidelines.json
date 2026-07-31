@@ -2,13 +2,13 @@
   "id": "anthropics/brand-guidelines",
   "name": "Brand Guidelines",
   "contributor": "anthropics",
-  "level": "2★",
+  "level": "3★",
   "type": "basic",
   "status": "named",
   "trustMagnitude": 77.35,
   "overallTrustGrade": "B",
   "branch": "standard",
-  "rankWord": "Named",
+  "rankWord": "Evolved",
   "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/anthropics/brand-guidelines.json",
@@ -71,6 +71,12 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added evidence from https://github.com/anthropics/skills/stargazers (type: github-stars-own)"
+    },
+    {
+      "timestamp": "2026-07-31T16:25:05Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from 2★ to 3★"
     }
   ],
   "links": {

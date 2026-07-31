@@ -26,15 +26,16 @@
       "evaluator": "mbtiongson1",
       "date": "2026-07-31",
       "type": "arxiv",
-      "notes": "PyTorch Geometric paper; typed as arxiv because the approved source URL is arXiv.",
-      "citations": 0,
-      "sourceStartedAt": "2019-03-06"
+      "notes": "PyTorch Geometric paper; OpenAlex cited_by_count 1260 rechecked 2026-07-31.",
+      "citations": 1260,
+      "sourceStartedAt": "2019-03-06",
+      "grade": "S"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-07-31",
-  "updatedAt": "2026-07-31",
+  "updatedAt": "2026-08-01",
   "version": "0.1.0",
   "timeline": [
     {
@@ -60,6 +61,12 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added evidence from https://arxiv.org/abs/1903.02428 (type: arxiv)"
+    },
+    {
+      "timestamp": "2026-07-31T16:18:18Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Updated evidence #1 from https://arxiv.org/abs/1903.02428; changed citations, grade, notes (grade: ungraded → S)"
     }
   ],
   "verification": {

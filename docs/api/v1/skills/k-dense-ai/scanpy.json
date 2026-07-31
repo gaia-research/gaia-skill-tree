@@ -2,13 +2,13 @@
   "id": "k-dense-ai/scanpy",
   "name": "Scanpy",
   "contributor": "k-dense-ai",
-  "level": "2★",
+  "level": "3★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 71.0,
+  "trustMagnitude": 97.07,
   "overallTrustGrade": "B",
   "branch": "standard",
-  "rankWord": "Named",
+  "rankWord": "Evolved",
   "medallion": "◇",
   "_links": {
     "self": "/api/v1/skills/k-dense-ai/scanpy.json",
@@ -37,6 +37,27 @@
       "type": "self-attestation",
       "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
       "grade": "C"
+    },
+    {
+      "source": "https://github.com/K-Dense-AI/scientific-agent-skills",
+      "evaluator": "mbtiongson1",
+      "date": "2026-07-31",
+      "type": "repo-own",
+      "notes": "K-Dense scientific-agent-skills repo metrics aligned for Lane B: commits=445, contributors=43, sourceStartedAt=2025-10-19.",
+      "commits": 445,
+      "contributors": 43,
+      "sourceStartedAt": "2025-10-19",
+      "grade": "B"
+    },
+    {
+      "source": "https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars",
+      "evaluator": "mbtiongson1",
+      "date": "2026-07-31",
+      "type": "github-stars-own",
+      "notes": "Live GitHub stars for K-Dense-AI/scientific-agent-skills; approved source URL uses ?tab=stars (not /stargazers), stargazerCount=32265, skillCountInRepo=158.",
+      "stars": 32265,
+      "skillCountInRepo": 158,
+      "sourceStartedAt": "2025-10-19"
     }
   ],
   "timeline": [
@@ -51,6 +72,24 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scanpy/SKILL.md (type: self-attestation)"
+    },
+    {
+      "timestamp": "2026-07-31T16:18:02Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills (type: repo-own)"
+    },
+    {
+      "timestamp": "2026-07-31T16:18:04Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars (type: github-stars-own)"
+    },
+    {
+      "timestamp": "2026-07-31T16:20:15Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Calibrated level from 2★ to 3★"
     }
   ],
   "links": {

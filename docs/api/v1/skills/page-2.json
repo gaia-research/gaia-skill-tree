@@ -1,36 +1,116 @@
 {
   "skills": [
     {
-      "id": "k-dense-ai/stable-baselines3",
-      "name": "Stable Baselines3",
-      "level": "2★",
-      "trustMagnitude": 71.0,
+      "id": "garrytan/retro",
+      "name": "Retro",
+      "level": "3★",
+      "trustMagnitude": 81.0,
       "overallTrustGrade": "B",
-      "contributor": "k-dense-ai",
-      "type": "fusion",
+      "contributor": "garrytan",
+      "type": "basic",
       "branch": "standard",
-      "rankWord": "Named",
+      "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/k-dense-ai/stable-baselines3.json"
+        "self": "/api/v1/skills/garrytan/retro.json"
       },
-      "genericSkillRef": "reinforcement-learning-training"
+      "genericSkillRef": "write-report"
     },
     {
-      "id": "k-dense-ai/transformers",
-      "name": "Transformers",
-      "level": "2★",
-      "trustMagnitude": 71.0,
+      "id": "anthropics/brand-guidelines",
+      "name": "Brand Guidelines",
+      "level": "3★",
+      "trustMagnitude": 77.35,
+      "overallTrustGrade": "B",
+      "contributor": "anthropics",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/anthropics/brand-guidelines.json"
+      },
+      "genericSkillRef": "brand-guideline-application"
+    },
+    {
+      "id": "firecrawl/firecrawl-build-interact",
+      "name": "Firecrawl Interact",
+      "level": "3★",
+      "trustMagnitude": 75.58,
+      "overallTrustGrade": "B",
+      "contributor": "firecrawl",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-interact.json"
+      },
+      "genericSkillRef": "browser-control"
+    },
+    {
+      "id": "firecrawl/firecrawl-build-onboarding",
+      "name": "Firecrawl Onboarding",
+      "level": "3★",
+      "trustMagnitude": 75.58,
+      "overallTrustGrade": "B",
+      "contributor": "firecrawl",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
+      },
+      "genericSkillRef": "agent-environment-setup"
+    },
+    {
+      "id": "firecrawl/firecrawl-research-index",
+      "name": "Firecrawl Research Index",
+      "level": "3★",
+      "trustMagnitude": 75.58,
+      "overallTrustGrade": "B",
+      "contributor": "firecrawl",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
+      },
+      "genericSkillRef": "literature-search"
+    },
+    {
+      "id": "browser-use/browser-harness",
+      "name": "Browser Harness",
+      "level": "3★",
+      "trustMagnitude": 73.59,
+      "overallTrustGrade": "B",
+      "contributor": "browser-use",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/browser-use/browser-harness.json"
+      },
+      "genericSkillRef": "browser-control"
+    },
+    {
+      "id": "k-dense-ai/pytorch-lightning",
+      "name": "PyTorch Lightning",
+      "level": "3★",
+      "trustMagnitude": 67.07,
       "overallTrustGrade": "B",
       "contributor": "k-dense-ai",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Named",
+      "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/k-dense-ai/transformers.json"
+        "self": "/api/v1/skills/k-dense-ai/pytorch-lightning.json"
       },
-      "genericSkillRef": "transformer-model-engineering"
+      "genericSkillRef": "neural-training-orchestration"
     },
     {
       "id": "garrytan/careful",
@@ -456,22 +536,6 @@
       "genericSkillRef": "scroll-world"
     },
     {
-      "id": "dietrichgebert/ponytail",
-      "name": "Ponytail",
-      "level": "2★",
-      "trustMagnitude": 60.21,
-      "overallTrustGrade": "B",
-      "contributor": "dietrichgebert",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/dietrichgebert/ponytail.json"
-      },
-      "genericSkillRef": "implement-with-discernment"
-    },
-    {
       "id": "mattpocock/personal",
       "name": "Personal",
       "level": "3★",
@@ -732,89 +796,25 @@
       "genericSkillRef": "react-performance-optimization"
     },
     {
-      "id": "mattpocock/improve-codebase-architecture",
-      "name": "Improve Codebase Architecture",
+      "id": "k-dense-ai/rdkit",
+      "name": "RDKit",
       "level": "2★",
-      "trustMagnitude": 45.0,
+      "trustMagnitude": 49.07,
       "overallTrustGrade": "C",
-      "contributor": "mattpocock",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/improve-codebase-architecture.json"
-      },
-      "genericSkillRef": "refactor-code"
-    },
-    {
-      "id": "mattpocock/write-a-skill",
-      "name": "Write a Skill",
-      "level": "2★",
-      "trustMagnitude": 45.0,
-      "overallTrustGrade": "C",
-      "contributor": "mattpocock",
+      "contributor": "k-dense-ai",
       "type": "fusion",
       "branch": "standard",
       "rankWord": "Named",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/mattpocock/write-a-skill.json"
+        "self": "/api/v1/skills/k-dense-ai/rdkit.json"
       },
-      "genericSkillRef": "tool-creation"
-    },
-    {
-      "id": "anthropics/canvas-design",
-      "name": "Canvas Design",
-      "level": "2★",
-      "trustMagnitude": 43.52,
-      "overallTrustGrade": "C",
-      "contributor": "anthropics",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/anthropics/canvas-design.json"
-      },
-      "genericSkillRef": "static-artwork-design"
-    },
-    {
-      "id": "mattpocock/prototype",
-      "name": "Prototype",
-      "level": "2★",
-      "trustMagnitude": 41.21,
-      "overallTrustGrade": "C",
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/prototype.json"
-      },
-      "genericSkillRef": "prototype"
-    },
-    {
-      "id": "gaia-research/skill-ci-churn",
-      "name": "CI Churn",
-      "level": "2★",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "contributor": "gaia-research",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/gaia-research/skill-ci-churn.json"
-      },
-      "genericSkillRef": "ci-churn-analysis"
+      "genericSkillRef": "cheminformatics-analysis"
     }
   ],
   "page": 2,
   "totalPages": 4,
-  "totalSkills": 182,
+  "totalSkills": 181,
   "_links": {
     "self": "/api/v1/skills/page-2.json",
     "prev": "/api/v1/skills/index.json",

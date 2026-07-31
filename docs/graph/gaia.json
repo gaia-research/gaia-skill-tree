@@ -1,6 +1,6 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "generatedAt": "2026-07-31T14:54:25Z",
+  "generatedAt": "2026-07-31T16:25:52Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic",
@@ -8123,15 +8123,16 @@
           "evaluator": "mbtiongson1",
           "date": "2026-07-31",
           "type": "arxiv",
-          "notes": "PyTorch Geometric paper; typed as arxiv because the approved source URL is arXiv.",
-          "citations": 0,
-          "sourceStartedAt": "2019-03-06"
+          "notes": "PyTorch Geometric paper; OpenAlex cited_by_count 1260 rechecked 2026-07-31.",
+          "citations": 1260,
+          "sourceStartedAt": "2019-03-06",
+          "grade": "S"
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-07-31",
-      "updatedAt": "2026-07-31",
+      "updatedAt": "2026-08-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -8157,6 +8158,12 @@
           "action": "evidence_added",
           "contributor": "unknown",
           "details": "Added evidence from https://arxiv.org/abs/1903.02428 (type: arxiv)"
+        },
+        {
+          "timestamp": "2026-07-31T16:18:18Z",
+          "action": "evidence_graded",
+          "contributor": "unknown",
+          "details": "Updated evidence #1 from https://arxiv.org/abs/1903.02428; changed citations, grade, notes (grade: ungraded → S)"
         }
       ],
       "verification": {
@@ -8183,7 +8190,7 @@
           -0.0007411249861990106
         ]
       },
-      "overallTrustGrade": "B"
+      "overallTrustGrade": "S"
     },
     {
       "id": "grill-me",
@@ -10560,12 +10567,22 @@
           "notes": "MoleculeNet: A Benchmark for Molecular Machine Learning; generic-level evidence for molecular-machine-learning from #813.",
           "citations": 0,
           "sourceStartedAt": "2017-03-01"
+        },
+        {
+          "source": "https://doi.org/10.1039/c7sc02664a",
+          "evaluator": "mbtiongson1",
+          "date": "2026-07-31",
+          "type": "arxiv",
+          "notes": "MoleculeNet paper; OpenAlex cited_by_count 3045 rechecked 2026-07-31.",
+          "citations": 3045,
+          "sourceStartedAt": "2017-10-31",
+          "grade": "S"
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-07-31",
-      "updatedAt": "2026-07-31",
+      "updatedAt": "2026-08-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -10591,6 +10608,12 @@
           "action": "evidence_added",
           "contributor": "unknown",
           "details": "Added evidence from https://arxiv.org/abs/1703.00564 (type: arxiv)"
+        },
+        {
+          "timestamp": "2026-07-31T16:18:16Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://doi.org/10.1039/c7sc02664a (type: arxiv)"
         }
       ],
       "verification": {
@@ -10617,7 +10640,7 @@
           0.0005674906499556298
         ]
       },
-      "overallTrustGrade": "B"
+      "overallTrustGrade": "S"
     },
     {
       "id": "molecular-visualization",
@@ -12669,12 +12692,22 @@
           "reviewers": 1,
           "sourceStartedAt": "2023-10-12",
           "grade": "C"
+        },
+        {
+          "source": "https://arxiv.org/abs/1111.4246",
+          "evaluator": "mbtiongson1",
+          "date": "2026-07-31",
+          "type": "arxiv",
+          "notes": "NUTS/HMC paper; OpenAlex cited_by_count 1815 rechecked 2026-07-31.",
+          "citations": 1815,
+          "sourceStartedAt": "2011-11-18",
+          "grade": "S"
         }
       ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-06-03",
-      "updatedAt": "2026-07-31",
+      "updatedAt": "2026-08-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -12730,6 +12763,12 @@
           "action": "evidence_added",
           "contributor": "unknown",
           "details": "Added evidence from https://doi.org/10.7717/peerj-cs.1516 (type: peer-review)"
+        },
+        {
+          "timestamp": "2026-07-31T16:18:17Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://arxiv.org/abs/1111.4246 (type: arxiv)"
         }
       ],
       "verification": {
@@ -12756,7 +12795,7 @@
           -0.08704525663818878
         ]
       },
-      "overallTrustGrade": "B"
+      "overallTrustGrade": "S"
     },
     {
       "id": "productivity",
@@ -13425,11 +13464,22 @@
       "description": "Build, simulate, transpile, and execute quantum circuits on local simulators or quantum runtimes.",
       "prerequisites": [],
       "derivatives": [],
-      "evidence": [],
+      "evidence": [
+        {
+          "source": "https://arxiv.org/abs/1707.03429",
+          "evaluator": "mbtiongson1",
+          "date": "2026-07-31",
+          "type": "arxiv",
+          "notes": "OpenQASM paper; OpenAlex title/citation check 314 rechecked 2026-07-31.",
+          "citations": 314,
+          "sourceStartedAt": "2017-07-11",
+          "grade": "B"
+        }
+      ],
       "knownAgents": [],
       "status": "provisional",
       "createdAt": "2026-07-31",
-      "updatedAt": "2026-07-31",
+      "updatedAt": "2026-08-01",
       "version": "0.1.0",
       "timeline": [
         {
@@ -13437,8 +13487,17 @@
           "action": "add",
           "contributor": "unknown",
           "details": "Added generic skill quantum-circuit-programming"
+        },
+        {
+          "timestamp": "2026-07-31T16:18:17Z",
+          "action": "evidence_added",
+          "contributor": "unknown",
+          "details": "Added evidence from https://arxiv.org/abs/1707.03429 (type: arxiv)"
         }
       ],
+      "verification": {
+        "firstEvidenceAt": "2026-07-31T16:18:17Z"
+      },
       "cluster": 0,
       "positions": {
         "deterministic": [
@@ -13459,7 +13518,8 @@
           -0.2627449982676832,
           -0.0008801629604314824
         ]
-      }
+      },
+      "overallTrustGrade": "B"
     },
     {
       "id": "question-answer",

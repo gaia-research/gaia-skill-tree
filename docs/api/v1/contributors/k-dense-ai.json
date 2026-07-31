@@ -4,29 +4,77 @@
     {
       "id": "k-dense-ai/pymc",
       "name": "PyMC",
-      "level": "2★",
-      "trustMagnitude": 71.0,
-      "overallTrustGrade": "B",
+      "level": "4★",
+      "trustMagnitude": 197.07,
+      "overallTrustGrade": "A",
       "contributor": "k-dense-ai",
       "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
       "_links": {
         "self": "/api/v1/skills/k-dense-ai/pymc.json"
       },
       "genericSkillRef": "probabilistic-programming"
     },
     {
+      "id": "k-dense-ai/deepchem",
+      "name": "DeepChem",
+      "level": "4★",
+      "trustMagnitude": 167.07,
+      "overallTrustGrade": "A",
+      "contributor": "k-dense-ai",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/deepchem.json"
+      },
+      "genericSkillRef": "molecular-machine-learning"
+    },
+    {
+      "id": "k-dense-ai/torch-geometric",
+      "name": "Torch Geometric",
+      "level": "4★",
+      "trustMagnitude": 167.07,
+      "overallTrustGrade": "A",
+      "contributor": "k-dense-ai",
+      "type": "fusion",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/torch-geometric.json"
+      },
+      "genericSkillRef": "graph-neural-network-modeling"
+    },
+    {
+      "id": "k-dense-ai/qiskit",
+      "name": "Qiskit",
+      "level": "3★",
+      "trustMagnitude": 111.87,
+      "overallTrustGrade": "A",
+      "contributor": "k-dense-ai",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/qiskit.json"
+      },
+      "genericSkillRef": "quantum-circuit-programming"
+    },
+    {
       "id": "k-dense-ai/scanpy",
       "name": "Scanpy",
-      "level": "2★",
-      "trustMagnitude": 71.0,
+      "level": "3★",
+      "trustMagnitude": 97.07,
       "overallTrustGrade": "B",
       "contributor": "k-dense-ai",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Named",
+      "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/k-dense-ai/scanpy.json"
@@ -36,13 +84,13 @@
     {
       "id": "k-dense-ai/stable-baselines3",
       "name": "Stable Baselines3",
-      "level": "2★",
-      "trustMagnitude": 71.0,
+      "level": "3★",
+      "trustMagnitude": 97.07,
       "overallTrustGrade": "B",
       "contributor": "k-dense-ai",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Named",
+      "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/k-dense-ai/stable-baselines3.json"
@@ -52,13 +100,13 @@
     {
       "id": "k-dense-ai/transformers",
       "name": "Transformers",
-      "level": "2★",
-      "trustMagnitude": 71.0,
+      "level": "3★",
+      "trustMagnitude": 97.07,
       "overallTrustGrade": "B",
       "contributor": "k-dense-ai",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Named",
+      "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/k-dense-ai/transformers.json"
@@ -66,31 +114,15 @@
       "genericSkillRef": "transformer-model-engineering"
     },
     {
-      "id": "k-dense-ai/deepchem",
-      "name": "DeepChem",
-      "level": "2★",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "contributor": "k-dense-ai",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/deepchem.json"
-      },
-      "genericSkillRef": "molecular-machine-learning"
-    },
-    {
       "id": "k-dense-ai/pytorch-lightning",
       "name": "PyTorch Lightning",
-      "level": "2★",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
+      "level": "3★",
+      "trustMagnitude": 67.07,
+      "overallTrustGrade": "B",
       "contributor": "k-dense-ai",
       "type": "fusion",
       "branch": "standard",
-      "rankWord": "Named",
+      "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
         "self": "/api/v1/skills/k-dense-ai/pytorch-lightning.json"
@@ -98,43 +130,11 @@
       "genericSkillRef": "neural-training-orchestration"
     },
     {
-      "id": "k-dense-ai/torch-geometric",
-      "name": "Torch Geometric",
-      "level": "2★",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "contributor": "k-dense-ai",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/torch-geometric.json"
-      },
-      "genericSkillRef": "graph-neural-network-modeling"
-    },
-    {
-      "id": "k-dense-ai/qiskit",
-      "name": "Qiskit",
-      "level": "2★",
-      "trustMagnitude": 5.0,
-      "overallTrustGrade": null,
-      "contributor": "k-dense-ai",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/qiskit.json"
-      },
-      "genericSkillRef": "quantum-circuit-programming"
-    },
-    {
       "id": "k-dense-ai/rdkit",
       "name": "RDKit",
       "level": "2★",
-      "trustMagnitude": 5.0,
-      "overallTrustGrade": null,
+      "trustMagnitude": 49.07,
+      "overallTrustGrade": "C",
       "contributor": "k-dense-ai",
       "type": "fusion",
       "branch": "standard",
@@ -149,8 +149,8 @@
       "id": "k-dense-ai/scvi-tools",
       "name": "scvi-tools",
       "level": "2★",
-      "trustMagnitude": 5.0,
-      "overallTrustGrade": null,
+      "trustMagnitude": 49.07,
+      "overallTrustGrade": "C",
       "contributor": "k-dense-ai",
       "type": "fusion",
       "branch": "standard",
@@ -165,14 +165,14 @@
   "namedSkillsCount": 10,
   "topSkill": {
     "id": "k-dense-ai/pymc",
-    "level": "2★",
-    "trustMagnitude": 71.0
+    "level": "4★",
+    "trustMagnitude": 197.07
   },
-  "prestigeScore": 422.0,
+  "prestigeScore": 1099.5,
   "gradeDistribution": {
+    "A": 4,
     "B": 4,
-    "C": 3,
-    "ungraded": 3
+    "C": 2
   },
   "_links": {
     "self": "/api/v1/contributors/k-dense-ai.json",

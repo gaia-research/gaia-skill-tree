@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-07-31T14:53:20Z",
+  "generatedAt": "2026-07-31T16:25:27Z",
   "firstRun": false,
   "skills": [
     {
@@ -15,6 +15,20 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
+      }
+    },
+    {
+      "id": "k-dense-ai/pymc",
+      "name": "PyMC",
+      "level": "4★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 197.07,
+      "overallTrustGrade": "A",
+      "trendingScore": 98.53,
+      "tmDelta": 197.07,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/pymc.json"
       }
     },
     {
@@ -71,6 +85,34 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/addy-osmani/planning-and-task-breakdown.json"
+      }
+    },
+    {
+      "id": "k-dense-ai/deepchem",
+      "name": "DeepChem",
+      "level": "4★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 167.07,
+      "overallTrustGrade": "A",
+      "trendingScore": 83.53,
+      "tmDelta": 167.07,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/deepchem.json"
+      }
+    },
+    {
+      "id": "k-dense-ai/torch-geometric",
+      "name": "Torch Geometric",
+      "level": "4★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 167.07,
+      "overallTrustGrade": "A",
+      "trendingScore": 83.53,
+      "tmDelta": 167.07,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/torch-geometric.json"
       }
     },
     {
@@ -256,6 +298,20 @@
       }
     },
     {
+      "id": "k-dense-ai/qiskit",
+      "name": "Qiskit",
+      "level": "3★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 111.87,
+      "overallTrustGrade": "A",
+      "trendingScore": 55.94,
+      "tmDelta": 111.87,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/qiskit.json"
+      }
+    },
+    {
       "id": "firecrawl/firecrawl-build-search",
       "name": "Firecrawl Search",
       "level": "4★",
@@ -267,6 +323,20 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-search.json"
+      }
+    },
+    {
+      "id": "dietrichgebert/ponytail",
+      "name": "Ponytail",
+      "level": "4★",
+      "contributor": "dietrichgebert",
+      "trustMagnitude": 102.79,
+      "overallTrustGrade": "A",
+      "trendingScore": 51.4,
+      "tmDelta": 102.79,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/dietrichgebert/ponytail.json"
       }
     },
     {
@@ -382,9 +452,51 @@
       }
     },
     {
+      "id": "k-dense-ai/scanpy",
+      "name": "Scanpy",
+      "level": "3★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 97.07,
+      "overallTrustGrade": "B",
+      "trendingScore": 48.53,
+      "tmDelta": 97.07,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/scanpy.json"
+      }
+    },
+    {
+      "id": "k-dense-ai/stable-baselines3",
+      "name": "Stable Baselines3",
+      "level": "3★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 97.07,
+      "overallTrustGrade": "B",
+      "trendingScore": 48.53,
+      "tmDelta": 97.07,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/stable-baselines3.json"
+      }
+    },
+    {
+      "id": "k-dense-ai/transformers",
+      "name": "Transformers",
+      "level": "3★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 97.07,
+      "overallTrustGrade": "B",
+      "trendingScore": 48.53,
+      "tmDelta": 97.07,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/transformers.json"
+      }
+    },
+    {
       "id": "anthropics/brand-guidelines",
       "name": "Brand Guidelines",
-      "level": "2★",
+      "level": "3★",
       "contributor": "anthropics",
       "trustMagnitude": 77.35,
       "overallTrustGrade": "B",
@@ -438,59 +550,17 @@
       }
     },
     {
-      "id": "k-dense-ai/pymc",
-      "name": "PyMC",
-      "level": "2★",
+      "id": "k-dense-ai/pytorch-lightning",
+      "name": "PyTorch Lightning",
+      "level": "3★",
       "contributor": "k-dense-ai",
-      "trustMagnitude": 71.0,
+      "trustMagnitude": 67.07,
       "overallTrustGrade": "B",
-      "trendingScore": 35.5,
-      "tmDelta": 71.0,
+      "trendingScore": 33.53,
+      "tmDelta": 67.07,
       "new": true,
       "_links": {
-        "self": "/api/v1/skills/k-dense-ai/pymc.json"
-      }
-    },
-    {
-      "id": "k-dense-ai/scanpy",
-      "name": "Scanpy",
-      "level": "2★",
-      "contributor": "k-dense-ai",
-      "trustMagnitude": 71.0,
-      "overallTrustGrade": "B",
-      "trendingScore": 35.5,
-      "tmDelta": 71.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/scanpy.json"
-      }
-    },
-    {
-      "id": "k-dense-ai/stable-baselines3",
-      "name": "Stable Baselines3",
-      "level": "2★",
-      "contributor": "k-dense-ai",
-      "trustMagnitude": 71.0,
-      "overallTrustGrade": "B",
-      "trendingScore": 35.5,
-      "tmDelta": 71.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/stable-baselines3.json"
-      }
-    },
-    {
-      "id": "k-dense-ai/transformers",
-      "name": "Transformers",
-      "level": "2★",
-      "contributor": "k-dense-ai",
-      "trustMagnitude": 71.0,
-      "overallTrustGrade": "B",
-      "trendingScore": 35.5,
-      "tmDelta": 71.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/transformers.json"
+        "self": "/api/v1/skills/k-dense-ai/pytorch-lightning.json"
       }
     },
     {
@@ -505,20 +575,6 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/oso95/scroll-world.json"
-      }
-    },
-    {
-      "id": "dietrichgebert/ponytail",
-      "name": "Ponytail",
-      "level": "2★",
-      "contributor": "dietrichgebert",
-      "trustMagnitude": 60.21,
-      "overallTrustGrade": "B",
-      "trendingScore": 30.11,
-      "tmDelta": 60.21,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/dietrichgebert/ponytail.json"
       }
     },
     {
@@ -547,6 +603,34 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/vercel-labs/react-best-practices.json"
+      }
+    },
+    {
+      "id": "k-dense-ai/rdkit",
+      "name": "RDKit",
+      "level": "2★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 49.07,
+      "overallTrustGrade": "C",
+      "trendingScore": 24.54,
+      "tmDelta": 49.07,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/rdkit.json"
+      }
+    },
+    {
+      "id": "k-dense-ai/scvi-tools",
+      "name": "scvi-tools",
+      "level": "2★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 49.07,
+      "overallTrustGrade": "C",
+      "trendingScore": 24.54,
+      "tmDelta": 49.07,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/scvi-tools.json"
       }
     },
     {
@@ -589,48 +673,6 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/gaia-research/skill-fuse.json"
-      }
-    },
-    {
-      "id": "k-dense-ai/deepchem",
-      "name": "DeepChem",
-      "level": "2★",
-      "contributor": "k-dense-ai",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 20.5,
-      "tmDelta": 41.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/deepchem.json"
-      }
-    },
-    {
-      "id": "k-dense-ai/pytorch-lightning",
-      "name": "PyTorch Lightning",
-      "level": "2★",
-      "contributor": "k-dense-ai",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 20.5,
-      "tmDelta": 41.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/pytorch-lightning.json"
-      }
-    },
-    {
-      "id": "k-dense-ai/torch-geometric",
-      "name": "Torch Geometric",
-      "level": "2★",
-      "contributor": "k-dense-ai",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 20.5,
-      "tmDelta": 41.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/torch-geometric.json"
       }
     },
     {
@@ -744,65 +786,9 @@
       "_links": {
         "self": "/api/v1/skills/huggingface/semantic-cache.json"
       }
-    },
-    {
-      "id": "k-dense-ai/qiskit",
-      "name": "Qiskit",
-      "level": "2★",
-      "contributor": "k-dense-ai",
-      "trustMagnitude": 5.0,
-      "overallTrustGrade": null,
-      "trendingScore": 2.5,
-      "tmDelta": 5.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/qiskit.json"
-      }
-    },
-    {
-      "id": "k-dense-ai/rdkit",
-      "name": "RDKit",
-      "level": "2★",
-      "contributor": "k-dense-ai",
-      "trustMagnitude": 5.0,
-      "overallTrustGrade": null,
-      "trendingScore": 2.5,
-      "tmDelta": 5.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/rdkit.json"
-      }
-    },
-    {
-      "id": "k-dense-ai/scvi-tools",
-      "name": "scvi-tools",
-      "level": "2★",
-      "contributor": "k-dense-ai",
-      "trustMagnitude": 5.0,
-      "overallTrustGrade": null,
-      "trendingScore": 2.5,
-      "tmDelta": 5.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/scvi-tools.json"
-      }
-    },
-    {
-      "id": "aplaceforallmystuff/log-to-daily",
-      "name": "Log To Daily",
-      "level": "2★",
-      "contributor": "aplaceforallmystuff",
-      "trustMagnitude": 1.26,
-      "overallTrustGrade": null,
-      "trendingScore": 0.63,
-      "tmDelta": 1.26,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/aplaceforallmystuff/log-to-daily.json"
-      }
     }
   ],
-  "totalTrending": 57,
+  "totalTrending": 56,
   "_links": {
     "self": "/api/v1/trending/30d.json"
   }

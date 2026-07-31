@@ -5,11 +5,11 @@ contributor: aplaceforallmystuff
 origin: false
 genericSkillRef: session-journaling
 status: named
-level: 2★
+level: 1★
 description: Logs conversation activity to today's daily note on demand, capturing
   decisions, outcomes, and next steps in a structured dated entry.
 createdAt: '2026-07-31'
-updatedAt: '2026-07-31'
+updatedAt: '2026-08-01'
 title: Log To Daily
 links:
   github: https://github.com/aplaceforallmystuff/daily-patterns-pack/blob/main/skills/log-to-daily/SKILL.md
@@ -28,6 +28,10 @@ timeline:
   contributor: unknown
   details: 'Added evidence from https://github.com/aplaceforallmystuff/daily-patterns-pack/stargazers
     (type: github-stars-own)'
+- timestamp: '2026-07-31T16:25:06Z'
+  action: demote
+  contributor: unknown
+  details: Calibrated level from 2★ to 1★
 evidence:
 - source: https://github.com/aplaceforallmystuff/daily-patterns-pack
   evaluator: unknown

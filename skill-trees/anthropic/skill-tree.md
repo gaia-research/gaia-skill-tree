@@ -329,10 +329,38 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     ├─ · · firecrawl/firecrawl-build-scrape  [4★]  (↑ see above)
     └─ · ○ firecrawl/firecrawl-build-search  [4★]  (↑ see above)
   · ◉ openai/few-shot-learning  [4★]
+  · ◉ k-dense-ai/torch-geometric  [4★]
+    ├─ · · ████████/huggingface-datasets
+    │  ├─ · ○ /generate-sql
+    │  ├─ · ○ /data-visualize
+    │  └─ · ○ /summarize
+    ├─ · ○ ████████/huggingface-llm-trainer
+    └─ · · /ml-pipeline
+       ├─ · · ████████/huggingface-datasets  (↑ see above)
+       ├─ · · garrytan/health  [2★]
+       │  ├─ · ○ upsonic/unittest-generator  [2★]
+       │  ├─ · ○ /code-execution
+       │  └─ · ○ /error-interpretation
+       └─ · ○ garrytan/design-html  [3★]
+  · ◉ dietrichgebert/ponytail  [4★]
   · ◉ safishamsi/graphify  [4★]
     ├─ · ○ /extract-entities
     └─ · ○ /logical-inference
+  · ◉ k-dense-ai/deepchem  [4★]
+    ├─ · ○ /molecular-databases
+    ├─ · · ████████/huggingface-datasets
+    │  ├─ · ○ /generate-sql
+    │  ├─ · ○ /data-visualize
+    │  └─ · ○ /summarize
+    └─ · · /ml-pipeline
+       ├─ · · ████████/huggingface-datasets  (↑ see above)
+       ├─ · · garrytan/health  [2★]
+       │  ├─ · ○ upsonic/unittest-generator  [2★]
+       │  ├─ · ○ /code-execution
+       │  └─ · ○ /error-interpretation
+       └─ · ○ garrytan/design-html  [3★]
   · ◉ addy-osmani/performance-optimization  [4★]
+  · ◉ k-dense-ai/pymc  [4★]
   · ◉ stanfordnlp/dspy  [4★]
     ├─ · ○ garrytan/benchmark  [3★]
     └─ · ○ /generate-text
@@ -361,7 +389,7 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
 
   · ○ panniantong/agent-reach  [3★]
   · ○ /autonomous-engineering-platform
-  · ○ anthropics/brand-guidelines  [2★]
+  · ○ anthropics/brand-guidelines  [3★]
   · ○ gaia-research/skill-ci-churn  [2★]
   · ○ /clinical-data-retrieval
   · ○ ████████/update-unique-churches
@@ -376,17 +404,16 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   · ○ ruvnet/agentic-jujutsu  [2★]
   · ○ ████████/financial-assistance
   · ○ /image-generate
-  · ○ dietrichgebert/ponytail  [2★]
   · ○ ████████/huggingface-vision-trainer
   · ○ /pathway-ontology-retrieval
-  · ○ k-dense-ai/qiskit  [2★]
+  · ○ k-dense-ai/qiskit  [3★]
   · ○ vercel-labs/react-best-practices  [3★]
   · ○ oso95/scroll-world  [3★]
   · ○ openai/self-consistency  [3★]
   · ○ huggingface/semantic-cache  [2★]
   · ○ ruvnet/stream-chain  [2★]
-  · ○ aplaceforallmystuff/log-to-daily  [2★]
-  · ○ k-dense-ai/scanpy  [2★]
+  · ○ ████████/log-to-daily
+  · ○ k-dense-ai/scanpy  [3★]
   · ○ ████████/codebase-design
   · ○ anthropics/canvas-design  [2★]
   · ○ /synthetic-data-generation

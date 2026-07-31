@@ -29,12 +29,22 @@
       "notes": "MoleculeNet: A Benchmark for Molecular Machine Learning; generic-level evidence for molecular-machine-learning from #813.",
       "citations": 0,
       "sourceStartedAt": "2017-03-01"
+    },
+    {
+      "source": "https://doi.org/10.1039/c7sc02664a",
+      "evaluator": "mbtiongson1",
+      "date": "2026-07-31",
+      "type": "arxiv",
+      "notes": "MoleculeNet paper; OpenAlex cited_by_count 3045 rechecked 2026-07-31.",
+      "citations": 3045,
+      "sourceStartedAt": "2017-10-31",
+      "grade": "S"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-07-31",
-  "updatedAt": "2026-07-31",
+  "updatedAt": "2026-08-01",
   "version": "0.1.0",
   "timeline": [
     {
@@ -60,6 +70,12 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added evidence from https://arxiv.org/abs/1703.00564 (type: arxiv)"
+    },
+    {
+      "timestamp": "2026-07-31T16:18:16Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://doi.org/10.1039/c7sc02664a (type: arxiv)"
     }
   ],
   "verification": {
