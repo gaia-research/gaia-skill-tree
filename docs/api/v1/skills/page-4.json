@@ -1,6 +1,38 @@
 {
   "skills": [
     {
+      "id": "ruvnet/flow-nexus-neural",
+      "name": "Flow Nexus Neural",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/flow-nexus-neural.json"
+      },
+      "genericSkillRef": "distributed-neural-training"
+    },
+    {
+      "id": "ruvnet/flow-nexus-platform",
+      "name": "Flow Nexus Platform",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/flow-nexus-platform.json"
+      },
+      "genericSkillRef": "cloud-platform-management"
+    },
+    {
       "id": "ruvnet/github-multi-repo",
       "name": "GitHub Multi-Repo",
       "level": "2★",
@@ -289,6 +321,22 @@
       "genericSkillRef": "context-compression"
     },
     {
+      "id": "aplaceforallmystuff/log-to-daily",
+      "name": "Log To Daily",
+      "level": "2★",
+      "trustMagnitude": 1.26,
+      "overallTrustGrade": null,
+      "contributor": "aplaceforallmystuff",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/aplaceforallmystuff/log-to-daily.json"
+      },
+      "genericSkillRef": "session-journaling"
+    },
+    {
       "id": "mattpocock/teach",
       "name": "Teach",
       "level": "2★",
@@ -307,7 +355,7 @@
   ],
   "page": 4,
   "totalPages": 4,
-  "totalSkills": 169,
+  "totalSkills": 172,
   "_links": {
     "self": "/api/v1/skills/page-4.json",
     "prev": "/api/v1/skills/page-3.json"

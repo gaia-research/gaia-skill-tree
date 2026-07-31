@@ -406,6 +406,7 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
 
   · ○ panniantong/agent-reach  [3★]
   · ○ /autonomous-engineering-platform
+  · ○ anthropics/brand-guidelines  [2★]
   · ○ gaia-research/skill-ci-churn  [2★]
   · ○ /clinical-data-retrieval
   · ○ ████████/update-unique-churches
@@ -420,7 +421,7 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   · ○ ruvnet/agentic-jujutsu  [2★]
   · ○ ████████/financial-assistance
   · ○ /image-generate
-  · ○ ████████/implement-with-discernment
+  · ○ dietrichgebert/ponytail  [2★]
   · ○ ████████/huggingface-vision-trainer
   · ○ /pathway-ontology-retrieval
   · ○ /probabilistic-programming
@@ -430,6 +431,7 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   · ○ openai/self-consistency  [3★]
   · ○ huggingface/semantic-cache  [2★]
   · ○ ruvnet/stream-chain  [2★]
+  · ○ aplaceforallmystuff/log-to-daily  [2★]
   · ○ ████████/codebase-design
   · ○ anthropics/canvas-design  [2★]
   · ○ /synthetic-data-generation

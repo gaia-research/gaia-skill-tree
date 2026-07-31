@@ -1406,6 +1406,33 @@
     ]
   },
   {
+    "id": "anthropics/brand-guidelines",
+    "name": "Brand Guidelines",
+    "contributor": "anthropics",
+    "level": "2★",
+    "grade": "B",
+    "trustMagnitude": 77.35,
+    "branch": "standard",
+    "tokens": [
+      "anthropic's",
+      "application",
+      "applies",
+      "artifacts",
+      "brand",
+      "colors",
+      "feel",
+      "guideline",
+      "guidelines",
+      "look",
+      "need",
+      "official",
+      "rules",
+      "that",
+      "typography",
+      "visual"
+    ]
+  },
+  {
     "id": "firecrawl/firecrawl-build-interact",
     "name": "Firecrawl Interact",
     "contributor": "firecrawl",
@@ -2440,6 +2467,40 @@
       "through",
       "world",
       "zero"
+    ]
+  },
+  {
+    "id": "dietrichgebert/ponytail",
+    "name": "Ponytail",
+    "contributor": "dietrichgebert",
+    "level": "2★",
+    "grade": "B",
+    "trustMagnitude": 60.21,
+    "branch": "standard",
+    "tokens": [
+      "actually",
+      "correct",
+      "discernment",
+      "exist",
+      "features",
+      "forces",
+      "implement",
+      "implementation",
+      "laziest",
+      "library",
+      "native",
+      "ponytail",
+      "prefer",
+      "question",
+      "ship",
+      "should",
+      "smallest",
+      "solution",
+      "standard",
+      "task",
+      "that",
+      "whether",
+      "works"
     ]
   },
   {
@@ -5356,6 +5417,35 @@
       "ultra",
       "v1",
       "words"
+    ]
+  },
+  {
+    "id": "aplaceforallmystuff/log-to-daily",
+    "name": "Log To Daily",
+    "contributor": "aplaceforallmystuff",
+    "level": "2★",
+    "grade": null,
+    "trustMagnitude": 1.26,
+    "branch": "standard",
+    "tokens": [
+      "activity",
+      "capturing",
+      "conversation",
+      "daily",
+      "dated",
+      "decisions",
+      "demand",
+      "entry",
+      "journaling",
+      "log",
+      "logs",
+      "next",
+      "note",
+      "outcomes",
+      "session",
+      "steps",
+      "structured",
+      "today's"
     ]
   },
   {

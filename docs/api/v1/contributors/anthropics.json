@@ -2,6 +2,22 @@
   "handle": "anthropics",
   "namedSkills": [
     {
+      "id": "anthropics/brand-guidelines",
+      "name": "Brand Guidelines",
+      "level": "2★",
+      "trustMagnitude": 77.35,
+      "overallTrustGrade": "B",
+      "contributor": "anthropics",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/anthropics/brand-guidelines.json"
+      },
+      "genericSkillRef": "brand-guideline-application"
+    },
+    {
       "id": "anthropics/canvas-design",
       "name": "Canvas Design",
       "level": "2★",
@@ -18,14 +34,15 @@
       "genericSkillRef": "static-artwork-design"
     }
   ],
-  "namedSkillsCount": 1,
+  "namedSkillsCount": 2,
   "topSkill": {
-    "id": "anthropics/canvas-design",
+    "id": "anthropics/brand-guidelines",
     "level": "2★",
-    "trustMagnitude": 43.52
+    "trustMagnitude": 77.35
   },
-  "prestigeScore": 43.52,
+  "prestigeScore": 120.87,
   "gradeDistribution": {
+    "B": 1,
     "C": 1
   },
   "_links": {

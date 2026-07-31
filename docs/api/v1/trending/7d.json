@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-07-31T13:24:26Z",
+  "generatedAt": "2026-07-31T14:22:36Z",
   "firstRun": false,
   "skills": [
     {
@@ -116,6 +116,20 @@
       }
     },
     {
+      "id": "anthropics/brand-guidelines",
+      "name": "Brand Guidelines",
+      "level": "2★",
+      "contributor": "anthropics",
+      "trustMagnitude": 77.35,
+      "overallTrustGrade": "B",
+      "trendingScore": 38.67,
+      "tmDelta": 77.35,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/anthropics/brand-guidelines.json"
+      }
+    },
+    {
       "id": "oso95/scroll-world",
       "name": "Scroll World",
       "level": "3★",
@@ -127,6 +141,20 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/oso95/scroll-world.json"
+      }
+    },
+    {
+      "id": "dietrichgebert/ponytail",
+      "name": "Ponytail",
+      "level": "2★",
+      "contributor": "dietrichgebert",
+      "trustMagnitude": 60.21,
+      "overallTrustGrade": "B",
+      "trendingScore": 30.11,
+      "tmDelta": 60.21,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/dietrichgebert/ponytail.json"
       }
     },
     {
@@ -310,9 +338,23 @@
       "_links": {
         "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
       }
+    },
+    {
+      "id": "aplaceforallmystuff/log-to-daily",
+      "name": "Log To Daily",
+      "level": "2★",
+      "contributor": "aplaceforallmystuff",
+      "trustMagnitude": 1.26,
+      "overallTrustGrade": null,
+      "trendingScore": 0.63,
+      "tmDelta": 1.26,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/aplaceforallmystuff/log-to-daily.json"
+      }
     }
   ],
-  "totalTrending": 22,
+  "totalTrending": 25,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }

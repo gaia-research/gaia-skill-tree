@@ -907,6 +907,22 @@
       "genericSkillRef": "write-report"
     },
     {
+      "id": "anthropics/brand-guidelines",
+      "name": "Brand Guidelines",
+      "level": "2★",
+      "trustMagnitude": 77.35,
+      "overallTrustGrade": "B",
+      "contributor": "anthropics",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/anthropics/brand-guidelines.json"
+      },
+      "genericSkillRef": "brand-guideline-application"
+    },
+    {
       "id": "firecrawl/firecrawl-build-interact",
       "name": "Firecrawl Interact",
       "level": "3★",
@@ -1001,27 +1017,11 @@
         "self": "/api/v1/skills/garrytan/office-hours.json"
       },
       "genericSkillRef": "question-answer"
-    },
-    {
-      "id": "garrytan/plan-eng-review",
-      "name": "Plan Eng Review",
-      "level": "3★",
-      "trustMagnitude": 66.0,
-      "overallTrustGrade": "B",
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/plan-eng-review.json"
-      },
-      "genericSkillRef": "code-review-pipeline"
     }
   ],
   "page": 1,
   "totalPages": 4,
-  "totalSkills": 169,
+  "totalSkills": 172,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"

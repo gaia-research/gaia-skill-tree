@@ -1,6 +1,22 @@
 {
   "skills": [
     {
+      "id": "garrytan/plan-eng-review",
+      "name": "Plan Eng Review",
+      "level": "3★",
+      "trustMagnitude": 66.0,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/plan-eng-review.json"
+      },
+      "genericSkillRef": "code-review-pipeline"
+    },
+    {
       "id": "ruvnet/github-suite",
       "name": "GitHub Suite",
       "level": "3★",
@@ -374,6 +390,22 @@
         "self": "/api/v1/skills/oso95/scroll-world.json"
       },
       "genericSkillRef": "scroll-world"
+    },
+    {
+      "id": "dietrichgebert/ponytail",
+      "name": "Ponytail",
+      "level": "2★",
+      "trustMagnitude": 60.21,
+      "overallTrustGrade": "B",
+      "contributor": "dietrichgebert",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/dietrichgebert/ponytail.json"
+      },
+      "genericSkillRef": "implement-with-discernment"
     },
     {
       "id": "mattpocock/personal",
@@ -778,43 +810,11 @@
         "self": "/api/v1/skills/disler/opinion.json"
       },
       "genericSkillRef": "opinion"
-    },
-    {
-      "id": "disler/plan-synthesis",
-      "name": "Plan Synthesis",
-      "level": "2★",
-      "trustMagnitude": 36.34,
-      "overallTrustGrade": "C",
-      "contributor": "disler",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/disler/plan-synthesis.json"
-      },
-      "genericSkillRef": "plan-synthesis"
-    },
-    {
-      "id": "Manavarya09/design-extract",
-      "name": "Design Extract",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "Manavarya09",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/Manavarya09/design-extract.json"
-      },
-      "genericSkillRef": "design-system-extraction"
     }
   ],
   "page": 2,
   "totalPages": 4,
-  "totalSkills": 169,
+  "totalSkills": 172,
   "_links": {
     "self": "/api/v1/skills/page-2.json",
     "prev": "/api/v1/skills/index.json",

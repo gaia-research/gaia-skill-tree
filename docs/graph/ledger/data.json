@@ -1,15 +1,15 @@
 {
   "version": "7.3.1",
-  "generatedAt": "2026-07-31T13:24:15Z",
+  "generatedAt": "2026-07-31T14:22:29Z",
   "summary": {
-    "total": 209,
+    "total": 212,
     "S": 5,
     "A": 51,
-    "B": 71,
+    "B": 73,
     "C": 82,
-    "ungraded": 0,
+    "ungraded": 1,
     "floor": 0,
-    "up": 2
+    "up": 4
   },
   "rows": [
     {
@@ -1330,6 +1330,23 @@
       "branch": "standard"
     },
     {
+      "skillId": "anthropics/brand-guidelines",
+      "tm": 77.35,
+      "grade": "B",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 41.35
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "skillId": "firecrawl/firecrawl-build-interact",
       "tm": 75.58,
       "grade": "B",
@@ -2040,6 +2057,24 @@
       },
       "origin": true,
       "branch": "suite"
+    },
+    {
+      "skillId": "dietrichgebert/ponytail",
+      "tm": 59.91,
+      "grade": "B",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 23.21,
+        "arxiv": 0.7
+      },
+      "origin": false,
+      "branch": "standard"
     },
     {
       "skillId": "mattpocock/setup-matt-pocock-skills",
@@ -3564,6 +3599,23 @@
       "apexResults": null,
       "typeBreakdown": {
         "peer-review": 30.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "aplaceforallmystuff/log-to-daily",
+      "tm": 1.26,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 1.22,
+        "github-stars-own": 0.04
       },
       "origin": false,
       "branch": "standard"

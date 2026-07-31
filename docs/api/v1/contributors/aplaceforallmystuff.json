@@ -1,0 +1,35 @@
+{
+  "handle": "aplaceforallmystuff",
+  "namedSkills": [
+    {
+      "id": "aplaceforallmystuff/log-to-daily",
+      "name": "Log To Daily",
+      "level": "2★",
+      "trustMagnitude": 1.26,
+      "overallTrustGrade": null,
+      "contributor": "aplaceforallmystuff",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/aplaceforallmystuff/log-to-daily.json"
+      },
+      "genericSkillRef": "session-journaling"
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "aplaceforallmystuff/log-to-daily",
+    "level": "2★",
+    "trustMagnitude": 1.26
+  },
+  "prestigeScore": 1.26,
+  "gradeDistribution": {
+    "ungraded": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/aplaceforallmystuff.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

@@ -165,6 +165,13 @@
           <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
+      <node id="brand-guideline-application" label="Brand Guideline Application">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="browser-automation" label="Browser Automation">
         <attvalues>
           <attvalue for="level" value="" />
@@ -1384,6 +1391,13 @@
         </attvalues>
       </node>
       <node id="sequential-agent-pipeline" label="Sequential Agent Pipeline">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
+      <node id="session-journaling" label="Session Journaling">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />

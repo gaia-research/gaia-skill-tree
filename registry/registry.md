@@ -254,6 +254,7 @@
 |---|---|---|---|
 | ○ Agent Reach | Intrinsic Skill | 3★ | `/agent-reach` |
 | ○ Autonomous Engineering Platform | Intrinsic Skill | — | `/autonomous-engineering-platform` |
+| ○ Brand Guideline Application | Intrinsic Skill | 2★ | `/brand-guideline-application` |
 | ○ CI Churn Analysis | Intrinsic Skill | 2★ | `/ci-churn-analysis` |
 | ○ Clinical Data Retrieval | Intrinsic Skill | — | `/clinical-data-retrieval` |
 | ○ CRM Data Cleanup | Intrinsic Skill | — | `/crm-data-cleanup` |
@@ -268,7 +269,7 @@
 | ○ Git Diff Risk Analysis | Intrinsic Skill | 2★ | `/git-diff-risk-analysis` |
 | ○ Grant Application Processing | Intrinsic Skill | — | `/grant-application-processing` |
 | ○ Image Generate | Intrinsic Skill | — | `/image-generate` |
-| ○ implement-with-discernment | Intrinsic Skill | — | `/implement-with-discernment` |
+| ○ implement-with-discernment | Intrinsic Skill | 2★ | `/implement-with-discernment` |
 | ○ Object Detection | Intrinsic Skill | — | `/object-detection` |
 | ○ Pathway Ontology Retrieval | Intrinsic Skill | — | `/pathway-ontology-retrieval` |
 | ○ Probabilistic Programming | Intrinsic Skill | — | `/probabilistic-programming` |
@@ -278,6 +279,7 @@
 | ○ Self-Consistency | Intrinsic Skill | 3★ | `/self-consistency` |
 | ○ Semantic Cache | Intrinsic Skill | 2★ | `/semantic-cache` |
 | ○ Sequential Agent Pipeline | Intrinsic Skill | 2★ | `/sequential-agent-pipeline` |
+| ○ Session Journaling | Intrinsic Skill | 2★ | `/session-journaling` |
 | ○ Software Design | Intrinsic Skill | — | `/software-design` |
 | ○ Static Artwork Design | Intrinsic Skill | 2★ | `/static-artwork-design` |
 | ○ Synthetic Data Generation | Intrinsic Skill | — | `/synthetic-data-generation` |

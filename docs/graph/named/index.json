@@ -4644,6 +4644,88 @@
         "contractVersion": "gaia-public-v1"
       }
     ],
+    "brand-guideline-application": [
+      {
+        "id": "anthropics/brand-guidelines",
+        "name": "Brand Guidelines",
+        "contributor": "anthropics",
+        "origin": false,
+        "genericSkillRef": "brand-guideline-application",
+        "status": "named",
+        "level": "2★",
+        "description": "Applies Anthropic's official brand colors, typography, and visual rules to artifacts that need Anthropic's look and feel.",
+        "title": "Brand Guidelines",
+        "links": {
+          "github": "https://github.com/anthropics/skills/blob/main/skills/brand-guidelines/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/anthropics/skills",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "repo-own",
+            "notes": "Live repo metrics for anthropics/skills; 46 commits, 13 contributors.",
+            "commits": 46,
+            "contributors": 13,
+            "sourceStartedAt": "2025-09-22",
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/anthropics/skills/stargazers",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "notes": "Live GitHub stars for anthropics/skills; skill-count divisor uses 17 SKILL.md files under skills/.",
+            "stars": 165403,
+            "skillCountInRepo": 17,
+            "sourceStartedAt": "2025-09-22",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-07-31",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:20:27Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill anthropics/brand-guidelines"
+          },
+          {
+            "timestamp": "2026-07-31T14:20:29Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/anthropics/skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-31T14:20:30Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/anthropics/skills/stargazers (type: github-stars-own)"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 77.35,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
     "static-artwork-design": [
       {
         "id": "anthropics/canvas-design",
@@ -4726,6 +4808,85 @@
         "role": "variant",
         "trustMagnitude": 43.52,
         "overallTrustGrade": "C",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "session-journaling": [
+      {
+        "id": "aplaceforallmystuff/log-to-daily",
+        "name": "Log To Daily",
+        "contributor": "aplaceforallmystuff",
+        "origin": false,
+        "genericSkillRef": "session-journaling",
+        "status": "named",
+        "level": "2★",
+        "description": "Logs conversation activity to today's daily note on demand, capturing decisions, outcomes, and next steps in a structured dated entry.",
+        "title": "Log To Daily",
+        "links": {
+          "github": "https://github.com/aplaceforallmystuff/daily-patterns-pack/blob/main/skills/log-to-daily/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/aplaceforallmystuff/daily-patterns-pack",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "repo-own",
+            "notes": "Live repo metrics for daily-patterns-pack; 6 commits, 1 contributor.",
+            "commits": 6,
+            "contributors": 1,
+            "sourceStartedAt": "2026-01-22"
+          },
+          {
+            "source": "https://github.com/aplaceforallmystuff/daily-patterns-pack/stargazers",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "notes": "Live GitHub stars for daily-patterns-pack; one SKILL.md file under skills/.",
+            "stars": 38,
+            "skillCountInRepo": 1,
+            "sourceStartedAt": "2026-01-22"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-07-31",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:20:33Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill aplaceforallmystuff/log-to-daily"
+          },
+          {
+            "timestamp": "2026-07-31T14:20:34Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/aplaceforallmystuff/daily-patterns-pack (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-31T14:20:35Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/aplaceforallmystuff/daily-patterns-pack/stargazers (type: github-stars-own)"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 1.26,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -6317,6 +6478,174 @@
         "branch": "standard",
         "rank": 2,
         "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "implement-with-discernment": [
+      {
+        "id": "dietrichgebert/ponytail",
+        "name": "Ponytail",
+        "contributor": "dietrichgebert",
+        "origin": false,
+        "genericSkillRef": "implement-with-discernment",
+        "status": "named",
+        "level": "2★",
+        "description": "Forces the laziest solution that actually works: question whether the task should exist, prefer standard library and native features, and ship the smallest correct implementation.",
+        "title": "Ponytail",
+        "links": {
+          "github": "https://github.com/DietrichGebert/ponytail/blob/main/skills/ponytail/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/DietrichGebert/ponytail",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "repo-own",
+            "notes": "Live repo metrics for DietrichGebert/ponytail; 206 commits, 62 contributors.",
+            "commits": 206,
+            "contributors": 62,
+            "sourceStartedAt": "2026-06-12",
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/DietrichGebert/ponytail/stargazers",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "notes": "Live GitHub stars for DietrichGebert/ponytail; skill-count divisor uses 6 SKILL.md files under skills/.",
+            "stars": 92825,
+            "skillCountInRepo": 6,
+            "sourceStartedAt": "2026-06-12",
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-07-31",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:20:36Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill dietrichgebert/ponytail"
+          },
+          {
+            "timestamp": "2026-07-31T14:20:38Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/DietrichGebert/ponytail (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-31T14:20:39Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/DietrichGebert/ponytail/stargazers (type: github-stars-own)"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 60.21,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      },
+      {
+        "id": "rico-favor/implement-with-discernment",
+        "name": "implement-with-discernment",
+        "contributor": "rico-favor",
+        "origin": false,
+        "genericSkillRef": "implement-with-discernment",
+        "status": "named",
+        "level": "1★",
+        "description": "Applies deliberate judgment before writing code: evaluating whether to implement at all, scoping to the minimum needed, deferring or rejecting features that add complexity without proportionate value.",
+        "title": "Implement With Discernment",
+        "links": {
+          "github": "https://github.com/rico-favor/gaia-skill-tree/blob/main/CLAUDE.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/rico-favor/gaia-skill-tree",
+            "evaluator": "unknown",
+            "date": "2026-07-09",
+            "type": "repo-own",
+            "trustNumber": 22.0,
+            "notes": "rico-favor's active gaia-skill-tree fork — 96 commits demonstrating real agent skill curation and implementation workflow usage.",
+            "stars": 0,
+            "commits": 96,
+            "contributors": 1
+          }
+        ],
+        "createdAt": "2026-07-09",
+        "updatedAt": "2026-07-09",
+        "timeline": [
+          {
+            "timestamp": "2026-07-08T21:02:12Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill rico-favor/implement-with-discernment"
+          },
+          {
+            "timestamp": "2026-07-08T21:02:30Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/rico-favor/gaia-skill-tree (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-08T21:02:30Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/rico-favor/gaia-skill-tree as C (trustNumber: 22.0)"
+          },
+          {
+            "timestamp": "2026-07-08T21:02:31Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/rico-favor/gaia-skill-tree/blob/main/CLAUDE.md"
+          },
+          {
+            "timestamp": "2026-07-08T21:02:49Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 2★"
+          },
+          {
+            "timestamp": "2026-07-08T21:48:31Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 1★"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 2.49,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
       }
@@ -23000,94 +23329,6 @@
         "contractVersion": "gaia-public-v1"
       }
     ],
-    "implement-with-discernment": [
-      {
-        "id": "rico-favor/implement-with-discernment",
-        "name": "implement-with-discernment",
-        "contributor": "rico-favor",
-        "origin": false,
-        "genericSkillRef": "implement-with-discernment",
-        "status": "named",
-        "level": "1★",
-        "description": "Applies deliberate judgment before writing code: evaluating whether to implement at all, scoping to the minimum needed, deferring or rejecting features that add complexity without proportionate value.",
-        "title": "Implement With Discernment",
-        "links": {
-          "github": "https://github.com/rico-favor/gaia-skill-tree/blob/main/CLAUDE.md"
-        },
-        "evidence": [
-          {
-            "source": "https://github.com/rico-favor/gaia-skill-tree",
-            "evaluator": "unknown",
-            "date": "2026-07-09",
-            "type": "repo-own",
-            "trustNumber": 22.0,
-            "notes": "rico-favor's active gaia-skill-tree fork — 96 commits demonstrating real agent skill curation and implementation workflow usage.",
-            "stars": 0,
-            "commits": 96,
-            "contributors": 1
-          }
-        ],
-        "createdAt": "2026-07-09",
-        "updatedAt": "2026-07-09",
-        "timeline": [
-          {
-            "timestamp": "2026-07-08T21:02:12Z",
-            "action": "add",
-            "contributor": "unknown",
-            "details": "Added named skill rico-favor/implement-with-discernment"
-          },
-          {
-            "timestamp": "2026-07-08T21:02:30Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/rico-favor/gaia-skill-tree (type: repo-own)"
-          },
-          {
-            "timestamp": "2026-07-08T21:02:30Z",
-            "action": "evidence_graded",
-            "contributor": "unknown",
-            "details": "Graded evidence from https://github.com/rico-favor/gaia-skill-tree as C (trustNumber: 22.0)"
-          },
-          {
-            "timestamp": "2026-07-08T21:02:31Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Updated GitHub link to https://github.com/rico-favor/gaia-skill-tree/blob/main/CLAUDE.md"
-          },
-          {
-            "timestamp": "2026-07-08T21:02:49Z",
-            "action": "demote",
-            "contributor": "unknown",
-            "details": "Calibrated level from 2★ to 2★"
-          },
-          {
-            "timestamp": "2026-07-08T21:48:31Z",
-            "action": "demote",
-            "contributor": "unknown",
-            "details": "Calibrated level from 2★ to 1★"
-          }
-        ],
-        "type": "basic",
-        "installBody": "Add installation instructions here.",
-        "role": "variant",
-        "trustMagnitude": 2.49,
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "branch": "standard",
-        "rank": 1,
-        "rankWord": "Awakened",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
-      }
-    ],
     "distributed-vector-memory": [
       {
         "id": "ruvnet/agentdb-advanced",
@@ -32994,7 +33235,11 @@
       "anthropic/skill-creator"
     ],
     "anthropics": [
+      "anthropics/brand-guidelines",
       "anthropics/canvas-design"
+    ],
+    "aplaceforallmystuff": [
+      "aplaceforallmystuff/log-to-daily"
     ],
     "ayghri": [
       "ayghri/i-have-adhd"
@@ -33016,6 +33261,9 @@
     ],
     "devin-ai": [
       "devin-ai/autonomous-swe"
+    ],
+    "dietrichgebert": [
+      "dietrichgebert/ponytail"
     ],
     "disler": [
       "disler/agent-fusion",

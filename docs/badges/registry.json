@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-30",
+  "generatedAt": "2026-07-31",
   "schema": "gaia-badges-registry/2",
   "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The site Worker at worker/index.js handles /badges/<handle>/<file>.svg (the real SVGs live at /badges/_assets/<handle>/<file>.svg) and serves the `validating\u2026` SVG (docs/badges/not-found.svg) when the `?repo=` query string doesn't match a repo listed here. Schema v2 adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant.",
   "contributors": {
@@ -1523,14 +1523,25 @@
       ],
       "skillsByRepo": {
         "anthropics/skills": [
+          "anthropics/brand-guidelines",
           "anthropics/canvas-design"
         ]
       },
-      "topSkill": "anthropics/canvas-design",
+      "topSkill": "anthropics/brand-guidelines",
       "topRank": 2,
       "topIsUnique": false,
-      "count": 1,
+      "count": 2,
       "namedSkills": [
+        {
+          "id": "anthropics/brand-guidelines",
+          "name": "Brand Guidelines",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/brand-guidelines",
+          "file": "brand-guidelines.svg",
+          "fileSeal": "brand-guidelines-seal.svg"
+        },
         {
           "id": "anthropics/canvas-design",
           "name": "Canvas Design",
@@ -1540,6 +1551,32 @@
           "slash": "/canvas-design",
           "file": "canvas-design.svg",
           "fileSeal": "canvas-design-seal.svg"
+        }
+      ]
+    },
+    "aplaceforallmystuff": {
+      "repos": [
+        "aplaceforallmystuff/daily-patterns-pack"
+      ],
+      "skillsByRepo": {
+        "aplaceforallmystuff/daily-patterns-pack": [
+          "aplaceforallmystuff/log-to-daily"
+        ]
+      },
+      "topSkill": "aplaceforallmystuff/log-to-daily",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "aplaceforallmystuff/log-to-daily",
+          "name": "Log To Daily",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/log-to-daily",
+          "file": "log-to-daily.svg",
+          "fileSeal": "log-to-daily-seal.svg"
         }
       ]
     },
@@ -1702,6 +1739,32 @@
           "slash": "/autonomous-swe",
           "file": "autonomous-swe.svg",
           "fileSeal": "autonomous-swe-seal.svg"
+        }
+      ]
+    },
+    "dietrichgebert": {
+      "repos": [
+        "DietrichGebert/ponytail"
+      ],
+      "skillsByRepo": {
+        "DietrichGebert/ponytail": [
+          "dietrichgebert/ponytail"
+        ]
+      },
+      "topSkill": "dietrichgebert/ponytail",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "dietrichgebert/ponytail",
+          "name": "Ponytail",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/ponytail",
+          "file": "ponytail.svg",
+          "fileSeal": "ponytail-seal.svg"
         }
       ]
     },

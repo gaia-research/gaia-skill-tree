@@ -1,13 +1,13 @@
 {
   "distribution": {
-    "total": 209,
+    "total": 212,
     "S": 5,
     "A": 51,
-    "B": 71,
+    "B": 73,
     "C": 82,
-    "ungraded": 0,
+    "ungraded": 1,
     "floor": 0,
-    "up": 2
+    "up": 4
   },
   "rows": [
     {
@@ -918,6 +918,18 @@
       "branch": "standard"
     },
     {
+      "id": "anthropics/brand-guidelines",
+      "trustMagnitude": 77.35,
+      "grade": "B",
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 41.35
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "id": "firecrawl/firecrawl-build-interact",
       "trustMagnitude": 75.58,
       "grade": "B",
@@ -1418,6 +1430,19 @@
       },
       "origin": true,
       "branch": "suite"
+    },
+    {
+      "id": "dietrichgebert/ponytail",
+      "trustMagnitude": 59.91,
+      "grade": "B",
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 23.21,
+        "arxiv": 0.7
+      },
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/setup-matt-pocock-skills",
@@ -2472,6 +2497,18 @@
       "level": "2★",
       "typeBreakdown": {
         "peer-review": 30.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "aplaceforallmystuff/log-to-daily",
+      "trustMagnitude": 1.26,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 1.22,
+        "github-stars-own": 0.04
       },
       "origin": false,
       "branch": "standard"
