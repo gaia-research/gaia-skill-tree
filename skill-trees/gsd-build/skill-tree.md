@@ -12,7 +12,7 @@
 |---|---|---|---|---|---|
 | ○ gsd-build/discuss-phase | Basic | 3★ | Evolved | gsd-build/gaia-skill-tree | 2026-07-03T00:00:00Z |
 | ○ gsd-build/execute-phase | Basic | 3★ | Evolved | gsd-build/gaia-skill-tree | 2026-07-03T00:00:00Z |
-| ○ gsd-build/get-shit-done | Basic | 3★ | Evolved | gsd-build/gaia-skill-tree | 2026-07-03T00:00:00Z |
+| ○ gsd-build/get-shit-done | Basic | 4★ | Extra | gsd-build/gaia-skill-tree | 2026-07-03T00:00:00Z |
 | ○ gsd-build/plan-phase | Basic | 3★ | Evolved | gsd-build/gaia-skill-tree | 2026-07-03T00:00:00Z |
 | ○ gsd-build/ship | Basic | 3★ | Evolved | gsd-build/gaia-skill-tree | 2026-07-03T00:00:00Z |
 | ○ gsd-build/verify-work | Basic | 3★ | Evolved | gsd-build/gaia-skill-tree | 2026-07-03T00:00:00Z |
@@ -22,7 +22,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — gsd-build  ·  generated 2026-07-30
+GAIA SKILL TREE — gsd-build  ·  generated 2026-07-31
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
