@@ -32,12 +32,33 @@
       "notes": "SKILL.md: pymc — Bayesian modeling, hierarchical models, MCMC (NUTS), variational inference, LOO/WAIC, probabilistic programming (K-Dense Inc.) (backfilled — class-to-type migration)",
       "type": "repo",
       "trustNumber": 70.0
+    },
+    {
+      "source": "https://github.com/pymc-devs/pymc",
+      "evaluator": "mbtiongson1",
+      "date": "2026-07-31",
+      "type": "repo-own",
+      "notes": "Upstream PyMC repository; generic-level evidence for probabilistic-programming from #813.",
+      "commits": 8040,
+      "contributors": 481,
+      "sourceStartedAt": "2009-05-05",
+      "grade": "B"
+    },
+    {
+      "source": "https://doi.org/10.7717/peerj-cs.1516",
+      "evaluator": "mbtiongson1",
+      "date": "2026-07-31",
+      "type": "peer-review",
+      "notes": "PyMC paper in PeerJ Computer Science; reviewer count is not disclosed, so the conservative minimum payload of 1 reviewer is used.",
+      "reviewers": 1,
+      "sourceStartedAt": "2023-10-12",
+      "grade": "C"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-06-03",
-  "updatedAt": "2026-06-21",
+  "updatedAt": "2026-07-31",
   "version": "0.1.0",
   "timeline": [
     {
@@ -81,6 +102,21 @@
       "action": "evidence_graded",
       "contributor": "unknown",
       "details": "Re-graded evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pymc/SKILL.md as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-07-31T14:49:05Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/pymc-devs/pymc (type: repo-own)"
+    },
+    {
+      "timestamp": "2026-07-31T14:49:06Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://doi.org/10.7717/peerj-cs.1516 (type: peer-review)"
     }
-  ]
+  ],
+  "verification": {
+    "firstEvidenceAt": "2026-07-31T14:49:05Z"
+  }
 }

@@ -1,0 +1,32 @@
+{
+  "id": "cheminformatics-analysis",
+  "name": "Cheminformatics Analysis",
+  "type": "fusion",
+  "description": "Represent, transform, and analyze molecular structures for cheminformatics and property modeling workflows.",
+  "prerequisites": [
+    "molecular-databases",
+    "molecular-visualization",
+    "data-analysis"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-31",
+  "updatedAt": "2026-07-31",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-31T14:48:29Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Created generic fusion node 'cheminformatics-analysis' via `gaia dev fuse`."
+    },
+    {
+      "timestamp": "2026-07-31T14:48:29Z",
+      "action": "fuse",
+      "contributor": "unknown",
+      "details": "Set prerequisites via `gaia dev fuse`: molecular-databases, molecular-visualization, data-analysis."
+    }
+  ]
+}

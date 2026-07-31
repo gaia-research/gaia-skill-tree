@@ -1,0 +1,22 @@
+{
+  "id": "quantum-circuit-programming",
+  "name": "Quantum Circuit Programming",
+  "type": "basic",
+  "description": "Build, simulate, transpile, and execute quantum circuits on local simulators or quantum runtimes.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-31",
+  "updatedAt": "2026-07-31",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-31T14:48:16Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill quantum-circuit-programming"
+    }
+  ]
+}
