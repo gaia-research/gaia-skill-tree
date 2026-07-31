@@ -18346,6 +18346,623 @@
         "contractVersion": "gaia-public-v1"
       }
     ],
+    "molecular-machine-learning": [
+      {
+        "id": "k-dense-ai/deepchem",
+        "name": "DeepChem",
+        "contributor": "k-dense-ai",
+        "origin": false,
+        "genericSkillRef": "molecular-machine-learning",
+        "status": "named",
+        "level": "2★",
+        "description": "Run molecular machine learning workflows with DeepChem for property prediction, featurization, and benchmarked datasets.",
+        "title": "DeepChem",
+        "links": {
+          "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/deepchem/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/deepchem/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "self-attestation",
+            "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-07-31",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:48:39Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill k-dense-ai/deepchem"
+          },
+          {
+            "timestamp": "2026-07-31T14:48:56Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/deepchem/SKILL.md (type: self-attestation)"
+          }
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 41.0,
+        "overallTrustGrade": "C",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "probabilistic-programming": [
+      {
+        "id": "k-dense-ai/pymc",
+        "name": "PyMC",
+        "contributor": "k-dense-ai",
+        "origin": false,
+        "genericSkillRef": "probabilistic-programming",
+        "status": "named",
+        "level": "2★",
+        "description": "Build Bayesian models with PyMC using hierarchical models, MCMC, variational inference, and posterior checks.",
+        "title": "PyMC",
+        "links": {
+          "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pymc/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pymc/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "self-attestation",
+            "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-07-31",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:48:35Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill k-dense-ai/pymc"
+          },
+          {
+            "timestamp": "2026-07-31T14:48:50Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pymc/SKILL.md (type: self-attestation)"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 71.0,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "neural-training-orchestration": [
+      {
+        "id": "k-dense-ai/pytorch-lightning",
+        "name": "PyTorch Lightning",
+        "contributor": "k-dense-ai",
+        "origin": false,
+        "genericSkillRef": "neural-training-orchestration",
+        "status": "named",
+        "level": "2★",
+        "description": "Orchestrate scalable PyTorch training with Lightning modules, trainers, callbacks, and distributed execution.",
+        "title": "PyTorch Lightning",
+        "links": {
+          "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pytorch-lightning/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pytorch-lightning/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "self-attestation",
+            "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-07-31",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:48:38Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill k-dense-ai/pytorch-lightning"
+          },
+          {
+            "timestamp": "2026-07-31T14:48:55Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pytorch-lightning/SKILL.md (type: self-attestation)"
+          }
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 41.0,
+        "overallTrustGrade": "C",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "quantum-circuit-programming": [
+      {
+        "id": "k-dense-ai/qiskit",
+        "name": "Qiskit",
+        "contributor": "k-dense-ai",
+        "origin": false,
+        "genericSkillRef": "quantum-circuit-programming",
+        "status": "named",
+        "level": "2★",
+        "description": "Build, simulate, transpile, and execute quantum circuits with Qiskit and IBM Quantum Runtime.",
+        "title": "Qiskit",
+        "links": {
+          "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/qiskit/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/qiskit/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "self-attestation",
+            "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-07-31",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:48:34Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill k-dense-ai/qiskit"
+          },
+          {
+            "timestamp": "2026-07-31T14:48:48Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/qiskit/SKILL.md (type: self-attestation)"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 5.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "cheminformatics-analysis": [
+      {
+        "id": "k-dense-ai/rdkit",
+        "name": "RDKit",
+        "contributor": "k-dense-ai",
+        "origin": false,
+        "genericSkillRef": "cheminformatics-analysis",
+        "status": "named",
+        "level": "2★",
+        "description": "Perform cheminformatics analysis with RDKit for molecular parsing, descriptors, fingerprints, reactions, and similarity.",
+        "title": "RDKit",
+        "links": {
+          "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/rdkit/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/rdkit/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "self-attestation",
+            "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-07-31",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:48:41Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill k-dense-ai/rdkit"
+          },
+          {
+            "timestamp": "2026-07-31T14:48:59Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/rdkit/SKILL.md (type: self-attestation)"
+          }
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 5.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "single-cell-analysis": [
+      {
+        "id": "k-dense-ai/scanpy",
+        "name": "Scanpy",
+        "contributor": "k-dense-ai",
+        "origin": false,
+        "genericSkillRef": "single-cell-analysis",
+        "status": "named",
+        "level": "2★",
+        "description": "Run standard single-cell RNA-seq analysis with Scanpy for QC, clustering, visualization, and differential expression.",
+        "title": "Scanpy",
+        "links": {
+          "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scanpy/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scanpy/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "self-attestation",
+            "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-07-31",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:48:40Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill k-dense-ai/scanpy"
+          },
+          {
+            "timestamp": "2026-07-31T14:48:58Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scanpy/SKILL.md (type: self-attestation)"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 71.0,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "single-cell-omics-modeling": [
+      {
+        "id": "k-dense-ai/scvi-tools",
+        "name": "scvi-tools",
+        "contributor": "k-dense-ai",
+        "origin": false,
+        "genericSkillRef": "single-cell-omics-modeling",
+        "status": "named",
+        "level": "2★",
+        "description": "Model single-cell omics data with scvi-tools for batch correction, transfer learning, and multimodal integration.",
+        "title": "scvi-tools",
+        "links": {
+          "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scvi-tools/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scvi-tools/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "self-attestation",
+            "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-07-31",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:48:37Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill k-dense-ai/scvi-tools"
+          },
+          {
+            "timestamp": "2026-07-31T14:48:53Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scvi-tools/SKILL.md (type: self-attestation)"
+          }
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 5.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "reinforcement-learning-training": [
+      {
+        "id": "k-dense-ai/stable-baselines3",
+        "name": "Stable Baselines3",
+        "contributor": "k-dense-ai",
+        "origin": false,
+        "genericSkillRef": "reinforcement-learning-training",
+        "status": "named",
+        "level": "2★",
+        "description": "Train reinforcement learning agents with Stable-Baselines3 using PPO, SAC, DQN, TD3, and related algorithms.",
+        "title": "Stable Baselines3",
+        "links": {
+          "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/stable-baselines3/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/stable-baselines3/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "self-attestation",
+            "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-07-31",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:48:43Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill k-dense-ai/stable-baselines3"
+          },
+          {
+            "timestamp": "2026-07-31T14:49:02Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/stable-baselines3/SKILL.md (type: self-attestation)"
+          }
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 71.0,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "graph-neural-network-modeling": [
+      {
+        "id": "k-dense-ai/torch-geometric",
+        "name": "Torch Geometric",
+        "contributor": "k-dense-ai",
+        "origin": false,
+        "genericSkillRef": "graph-neural-network-modeling",
+        "status": "named",
+        "level": "2★",
+        "description": "Build graph neural network workflows with PyTorch Geometric for node, link, and graph prediction.",
+        "title": "Torch Geometric",
+        "links": {
+          "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/torch-geometric/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/torch-geometric/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "self-attestation",
+            "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-07-31",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:48:36Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill k-dense-ai/torch-geometric"
+          },
+          {
+            "timestamp": "2026-07-31T14:48:51Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/torch-geometric/SKILL.md (type: self-attestation)"
+          }
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 41.0,
+        "overallTrustGrade": "C",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "transformer-model-engineering": [
+      {
+        "id": "k-dense-ai/transformers",
+        "name": "Transformers",
+        "contributor": "k-dense-ai",
+        "origin": false,
+        "genericSkillRef": "transformer-model-engineering",
+        "status": "named",
+        "level": "2★",
+        "description": "Work with Hugging Face Transformers for model loading, pipeline inference, generation, and trainer fine-tuning.",
+        "title": "Transformers",
+        "links": {
+          "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/transformers/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/transformers/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "self-attestation",
+            "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-07-31",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:48:42Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill k-dense-ai/transformers"
+          },
+          {
+            "timestamp": "2026-07-31T14:49:01Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/transformers/SKILL.md (type: self-attestation)"
+          }
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 71.0,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
     "autonomous-web-research": [
       {
         "id": "mvanhorn/last30days",
@@ -33422,6 +34039,18 @@
       "intelligentcode-ai/requirements-engineer",
       "intelligentcode-ai/security-engineer",
       "intelligentcode-ai/user-tester"
+    ],
+    "k-dense-ai": [
+      "k-dense-ai/deepchem",
+      "k-dense-ai/pymc",
+      "k-dense-ai/pytorch-lightning",
+      "k-dense-ai/qiskit",
+      "k-dense-ai/rdkit",
+      "k-dense-ai/scanpy",
+      "k-dense-ai/scvi-tools",
+      "k-dense-ai/stable-baselines3",
+      "k-dense-ai/torch-geometric",
+      "k-dense-ai/transformers"
     ],
     "karpathy": [
       "karpathy/autoresearch"

@@ -1,0 +1,59 @@
+{
+  "id": "k-dense-ai/pytorch-lightning",
+  "name": "PyTorch Lightning",
+  "contributor": "k-dense-ai",
+  "level": "2★",
+  "type": "fusion",
+  "status": "named",
+  "trustMagnitude": 41.0,
+  "overallTrustGrade": "C",
+  "branch": "standard",
+  "rankWord": "Named",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/k-dense-ai/pytorch-lightning.json",
+    "contributor": "/api/v1/contributors/k-dense-ai.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "PyTorch Lightning",
+  "genericSkillRef": "neural-training-orchestration",
+  "origin": false,
+  "description": "Orchestrate scalable PyTorch training with Lightning modules, trainers, callbacks, and distributed execution.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pytorch-lightning/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-07-31",
+      "type": "self-attestation",
+      "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+      "grade": "C"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-07-31T14:48:38Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added named skill k-dense-ai/pytorch-lightning"
+    },
+    {
+      "timestamp": "2026-07-31T14:48:55Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pytorch-lightning/SKILL.md (type: self-attestation)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pytorch-lightning/SKILL.md"
+  }
+}

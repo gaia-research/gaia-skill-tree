@@ -1,15 +1,15 @@
 {
   "version": "7.3.1",
-  "generatedAt": "2026-07-31T14:22:29Z",
+  "generatedAt": "2026-07-31T14:53:09Z",
   "summary": {
-    "total": 212,
+    "total": 222,
     "S": 5,
     "A": 51,
-    "B": 73,
-    "C": 82,
-    "ungraded": 1,
+    "B": 77,
+    "C": 85,
+    "ungraded": 4,
     "floor": 0,
-    "up": 4
+    "up": 8
   },
   "rows": [
     {
@@ -2283,6 +2283,78 @@
       "branch": "standard"
     },
     {
+      "skillId": "k-dense-ai/pymc",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 36.0,
+        "peer-review": 9.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "k-dense-ai/scanpy",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 36.0,
+        "peer-review": 9.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "k-dense-ai/stable-baselines3",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 36.0,
+        "peer-review": 9.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "k-dense-ai/transformers",
+      "tm": 50.0,
+      "grade": "B",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "3★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 36.0,
+        "peer-review": 9.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "skillId": "addy-osmani/test-driven-development",
       "tm": 45.0,
       "grade": "C",
@@ -2429,6 +2501,57 @@
       "typeBreakdown": {
         "repo-own": 36.0,
         "self-attestation": 5.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "k-dense-ai/deepchem",
+      "tm": 41.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "k-dense-ai/pytorch-lightning",
+      "tm": 41.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "k-dense-ai/torch-geometric",
+      "tm": 41.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 36.0
       },
       "origin": false,
       "branch": "standard"
@@ -3599,6 +3722,54 @@
       "apexResults": null,
       "typeBreakdown": {
         "peer-review": 30.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "k-dense-ai/qiskit",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "k-dense-ai/rdkit",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "k-dense-ai/scvi-tools",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
       },
       "origin": false,
       "branch": "standard"

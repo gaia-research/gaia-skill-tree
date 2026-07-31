@@ -1,0 +1,59 @@
+{
+  "id": "k-dense-ai/pymc",
+  "name": "PyMC",
+  "contributor": "k-dense-ai",
+  "level": "2★",
+  "type": "basic",
+  "status": "named",
+  "trustMagnitude": 71.0,
+  "overallTrustGrade": "B",
+  "branch": "standard",
+  "rankWord": "Named",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/k-dense-ai/pymc.json",
+    "contributor": "/api/v1/contributors/k-dense-ai.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "PyMC",
+  "genericSkillRef": "probabilistic-programming",
+  "origin": false,
+  "description": "Build Bayesian models with PyMC using hierarchical models, MCMC, variational inference, and posterior checks.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pymc/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-07-31",
+      "type": "self-attestation",
+      "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+      "grade": "C"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-07-31T14:48:35Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added named skill k-dense-ai/pymc"
+    },
+    {
+      "timestamp": "2026-07-31T14:48:50Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pymc/SKILL.md (type: self-attestation)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pymc/SKILL.md"
+  }
+}

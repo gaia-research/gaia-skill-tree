@@ -1519,6 +1519,104 @@
     ]
   },
   {
+    "id": "k-dense-ai/pymc",
+    "name": "PyMC",
+    "contributor": "k-dense-ai",
+    "level": "2★",
+    "grade": "B",
+    "trustMagnitude": 71.0,
+    "branch": "standard",
+    "tokens": [
+      "bayesian",
+      "build",
+      "checks",
+      "hierarchical",
+      "inference",
+      "mcmc",
+      "models",
+      "posterior",
+      "probabilistic",
+      "programming",
+      "pymc",
+      "using",
+      "variational"
+    ]
+  },
+  {
+    "id": "k-dense-ai/scanpy",
+    "name": "Scanpy",
+    "contributor": "k-dense-ai",
+    "level": "2★",
+    "grade": "B",
+    "trustMagnitude": 71.0,
+    "branch": "standard",
+    "tokens": [
+      "analysis",
+      "cell",
+      "clustering",
+      "differential",
+      "expression",
+      "qc",
+      "rna",
+      "run",
+      "scanpy",
+      "seq",
+      "single",
+      "standard",
+      "visualization"
+    ]
+  },
+  {
+    "id": "k-dense-ai/stable-baselines3",
+    "name": "Stable Baselines3",
+    "contributor": "k-dense-ai",
+    "level": "2★",
+    "grade": "B",
+    "trustMagnitude": 71.0,
+    "branch": "standard",
+    "tokens": [
+      "agents",
+      "algorithms",
+      "baselines3",
+      "dqn",
+      "learning",
+      "ppo",
+      "reinforcement",
+      "related",
+      "sac",
+      "stable",
+      "td3",
+      "train",
+      "training",
+      "using"
+    ]
+  },
+  {
+    "id": "k-dense-ai/transformers",
+    "name": "Transformers",
+    "contributor": "k-dense-ai",
+    "level": "2★",
+    "grade": "B",
+    "trustMagnitude": 71.0,
+    "branch": "standard",
+    "tokens": [
+      "engineering",
+      "face",
+      "fine",
+      "generation",
+      "hugging",
+      "inference",
+      "loading",
+      "model",
+      "pipeline",
+      "trainer",
+      "transformer",
+      "transformers",
+      "tuning",
+      "work"
+    ]
+  },
+  {
     "id": "garrytan/careful",
     "name": "Careful",
     "contributor": "garrytan",
@@ -3104,6 +3202,74 @@
       "unified",
       "verifying",
       "writing"
+    ]
+  },
+  {
+    "id": "k-dense-ai/deepchem",
+    "name": "DeepChem",
+    "contributor": "k-dense-ai",
+    "level": "2★",
+    "grade": "C",
+    "trustMagnitude": 41.0,
+    "branch": "standard",
+    "tokens": [
+      "benchmarked",
+      "datasets",
+      "deepchem",
+      "featurization",
+      "learning",
+      "machine",
+      "molecular",
+      "prediction",
+      "property",
+      "run",
+      "workflows"
+    ]
+  },
+  {
+    "id": "k-dense-ai/pytorch-lightning",
+    "name": "PyTorch Lightning",
+    "contributor": "k-dense-ai",
+    "level": "2★",
+    "grade": "C",
+    "trustMagnitude": 41.0,
+    "branch": "standard",
+    "tokens": [
+      "callbacks",
+      "distributed",
+      "execution",
+      "lightning",
+      "modules",
+      "neural",
+      "orchestrate",
+      "orchestration",
+      "pytorch",
+      "scalable",
+      "trainers",
+      "training"
+    ]
+  },
+  {
+    "id": "k-dense-ai/torch-geometric",
+    "name": "Torch Geometric",
+    "contributor": "k-dense-ai",
+    "level": "2★",
+    "grade": "C",
+    "trustMagnitude": 41.0,
+    "branch": "standard",
+    "tokens": [
+      "build",
+      "geometric",
+      "graph",
+      "link",
+      "modeling",
+      "network",
+      "neural",
+      "node",
+      "prediction",
+      "pytorch",
+      "torch",
+      "workflows"
     ]
   },
   {
@@ -5417,6 +5583,74 @@
       "ultra",
       "v1",
       "words"
+    ]
+  },
+  {
+    "id": "k-dense-ai/qiskit",
+    "name": "Qiskit",
+    "contributor": "k-dense-ai",
+    "level": "2★",
+    "grade": null,
+    "trustMagnitude": 5.0,
+    "branch": "standard",
+    "tokens": [
+      "build",
+      "circuit",
+      "circuits",
+      "execute",
+      "ibm",
+      "programming",
+      "qiskit",
+      "quantum",
+      "runtime",
+      "simulate",
+      "transpile"
+    ]
+  },
+  {
+    "id": "k-dense-ai/rdkit",
+    "name": "RDKit",
+    "contributor": "k-dense-ai",
+    "level": "2★",
+    "grade": null,
+    "trustMagnitude": 5.0,
+    "branch": "standard",
+    "tokens": [
+      "analysis",
+      "cheminformatics",
+      "descriptors",
+      "fingerprints",
+      "molecular",
+      "parsing",
+      "perform",
+      "rdkit",
+      "reactions",
+      "similarity"
+    ]
+  },
+  {
+    "id": "k-dense-ai/scvi-tools",
+    "name": "scvi-tools",
+    "contributor": "k-dense-ai",
+    "level": "2★",
+    "grade": null,
+    "trustMagnitude": 5.0,
+    "branch": "standard",
+    "tokens": [
+      "batch",
+      "cell",
+      "correction",
+      "data",
+      "integration",
+      "learning",
+      "model",
+      "modeling",
+      "multimodal",
+      "omics",
+      "scvi",
+      "single",
+      "tools",
+      "transfer"
     ]
   },
   {

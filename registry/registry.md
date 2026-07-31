@@ -29,6 +29,7 @@
 | · [santifer](../docs/u/santifer/)/career-ops | Fusion | 2★ | `/career-operations` |
 | · /causal-inference | Fusion | — | `/causal-inference` |
 | ○ /chain-of-thought | Basic | — | `/chain-of-thought` |
+| · [k-dense-ai](../docs/u/k-dense-ai/)/rdkit | Fusion | 2★ | `/cheminformatics-analysis` |
 | ○ /chunk-document | Basic | — | `/chunk-document` |
 | ○ /cite-sources | Basic | — | `/cite-sources` |
 | ○ /classify | Basic | — | `/classify` |
@@ -89,6 +90,7 @@
 | · [ruvnet](../docs/u/ruvnet/)/github-suite | Fusion | 3★ | `/git-integration` |
 | · [addy-osmani](../docs/u/addy-osmani/)/agent-skills | Fusion | 5★ | `/git-ship-done-pipeline` |
 | · [mbtiongson1](../docs/u/mbtiongson1/)/graphify-triage | Fusion | 2★ | `/graph-driven-issue-triage` |
+| · [k-dense-ai](../docs/u/k-dense-ai/)/torch-geometric | Fusion | 2★ | `/graph-neural-network-modeling` |
 | · [mattpocock](../docs/u/mattpocock/)/grill-me | Fusion | 3★ | `/grill-me` |
 | · [mattpocock](../docs/u/mattpocock/)/grill-with-docs | Fusion | 3★ | `/grill-with-docs` |
 | · /grounding | Fusion | — | `/grounding` |
@@ -116,6 +118,7 @@
 | · /ml-artifact-management | Fusion | — | `/ml-artifact-management` |
 | · /ml-pipeline | Fusion | — | `/ml-pipeline` |
 | ○ /molecular-databases | Basic | — | `/molecular-databases` |
+| · [k-dense-ai](../docs/u/k-dense-ai/)/deepchem | Fusion | 2★ | `/molecular-machine-learning` |
 | · /molecular-visualization | Fusion | — | `/molecular-visualization` |
 | · [garrytan](../docs/u/garrytan/)/codex | Fusion | 2★ | `/multi-agent-debate` |
 | · ████████/flow-nexus-swarm | Fusion | — | `/multi-agent-orchestration-v` |
@@ -123,6 +126,7 @@
 | ○ [ruvnet](../docs/u/ruvnet/)/github-multi-repo | Basic | 2★ | `/multi-repo-coordination` |
 | · [ruvnet](../docs/u/ruvnet/)/ruflo | Fusion | 5★ | `/multi-topology-orchestration` |
 | · ████████/transformers-js | Fusion | — | `/multimodal-reasoning` |
+| · [k-dense-ai](../docs/u/k-dense-ai/)/pytorch-lightning | Fusion | 2★ | `/neural-training-orchestration` |
 | · /ontology-alignment | Fusion | — | `/ontology-alignment` |
 | ○ [disler](../docs/u/disler/)/opinion | Basic | 2★ | `/opinion` |
 | ○ /optical-character-recognition | Basic | — | `/optical-character-recognition` |
@@ -139,6 +143,7 @@
 | · [ruvnet](../docs/u/ruvnet/)/ruflo-v3 | Fusion | 4★ | `/platform-modernization-sprint` |
 | · [mattpocock](../docs/u/mattpocock/)/to-prd | Fusion | 3★ | `/prd-generation` |
 | · /prediction-market-analysis | Fusion | — | `/prediction-market-analysis` |
+| ○ [k-dense-ai](../docs/u/k-dense-ai/)/pymc | Basic | 2★ | `/probabilistic-programming` |
 | · [mattpocock](../docs/u/mattpocock/)/productivity | Fusion | 4★ | `/productivity` |
 | · [garrytan](../docs/u/garrytan/)/landing-report | Fusion | 2★ | `/project-management` |
 | ○ /prompt-injection-defense | Basic | — | `/prompt-injection-defense` |
@@ -159,11 +164,13 @@
 | · [mbtiongson1](../docs/u/mbtiongson1/)/gaia-audit | Fusion | 2★ | `/registry-entry-audit` |
 | · [mbtiongson1](../docs/u/mbtiongson1/)/gaia-meta-audit | Fusion | 2★ | `/registry-health-scan` |
 | · /regulatory-compliance-mapping | Fusion | — | `/regulatory-compliance-mapping` |
+| · [k-dense-ai](../docs/u/k-dense-ai/)/stable-baselines3 | Fusion | 2★ | `/reinforcement-learning-training` |
 | · ████████/release | Fusion | — | `/release-automation` |
 | · [obra](../docs/u/obra/)/requesting-code-review | Fusion | 2★ | `/requesting-code-review` |
 | ○ ████████/requirements-engineer | Basic | — | `/requirements-analysis` |
 | · /research | Fusion | — | `/research` |
 | ○ /retrieve | Basic | — | `/retrieve` |
+| ○ /reward-modeling | Basic | — | `/reward-modeling` |
 | ○ ████████/ask-matt | Basic | — | `/route-intent` |
 | ○ ████████/database-engineer | Basic | — | `/schema-design` |
 | · /scientific-discovery | Fusion | — | `/scientific-discovery` |
@@ -175,6 +182,7 @@
 | · [garrytan](../docs/u/garrytan/)/cso | Fusion | 3★ | `/security-audit` |
 | ○ /self-critique | Basic | — | `/self-critique` |
 | ○ /sentiment-analysis | Basic | — | `/sentiment-analysis` |
+| · [k-dense-ai](../docs/u/k-dense-ai/)/scvi-tools | Fusion | 2★ | `/single-cell-omics-modeling` |
 | · [garrytan](../docs/u/garrytan/)/skillify | Fusion | 3★ | `/skill-authoring` |
 | ○ [vercel](../docs/u/vercel/)/find-skills | Basic | 2★ | `/skill-discovery` |
 | · [gaia-research](../docs/u/gaia-research/)/skill-fuse | Fusion | 2★ | `/skill-fusion` |
@@ -200,6 +208,7 @@
 | · [mattpocock](../docs/u/mattpocock/)/write-a-skill | Fusion | 3★ | `/tool-creation` |
 | ○ /tool-select | Basic | — | `/tool-select` |
 | ○ /tool-use | Basic | — | `/tool-use` |
+| · [k-dense-ai](../docs/u/k-dense-ai/)/transformers | Fusion | 2★ | `/transformer-model-engineering` |
 | ○ /translate | Basic | — | `/translate` |
 | · /translation-pipeline | Fusion | — | `/translation-pipeline` |
 | · /tree-of-thought | Fusion | — | `/tree-of-thought` |
@@ -272,14 +281,14 @@
 | ○ implement-with-discernment | Intrinsic Skill | 2★ | `/implement-with-discernment` |
 | ○ Object Detection | Intrinsic Skill | — | `/object-detection` |
 | ○ Pathway Ontology Retrieval | Intrinsic Skill | — | `/pathway-ontology-retrieval` |
-| ○ Probabilistic Programming | Intrinsic Skill | — | `/probabilistic-programming` |
+| ○ Quantum Circuit Programming | Intrinsic Skill | 2★ | `/quantum-circuit-programming` |
 | ○ React Performance Optimization | Intrinsic Skill | 3★ | `/react-performance-optimization` |
-| ○ Reward Modeling | Intrinsic Skill | — | `/reward-modeling` |
 | ○ Scroll World | Intrinsic Skill | 3★ | `/scroll-world` |
 | ○ Self-Consistency | Intrinsic Skill | 3★ | `/self-consistency` |
 | ○ Semantic Cache | Intrinsic Skill | 2★ | `/semantic-cache` |
 | ○ Sequential Agent Pipeline | Intrinsic Skill | 2★ | `/sequential-agent-pipeline` |
 | ○ Session Journaling | Intrinsic Skill | 2★ | `/session-journaling` |
+| ○ Single-Cell Analysis | Intrinsic Skill | 2★ | `/single-cell-analysis` |
 | ○ Software Design | Intrinsic Skill | — | `/software-design` |
 | ○ Static Artwork Design | Intrinsic Skill | 2★ | `/static-artwork-design` |
 | ○ Synthetic Data Generation | Intrinsic Skill | — | `/synthetic-data-generation` |

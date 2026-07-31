@@ -92,6 +92,19 @@
       }
     },
     {
+      "handle": "k-dense-ai",
+      "namedSkills": 10,
+      "topSkill": {
+        "id": "k-dense-ai/pymc",
+        "level": "2★",
+        "trustMagnitude": 71.0
+      },
+      "prestigeScore": 422.0,
+      "_links": {
+        "self": "/api/v1/contributors/k-dense-ai.json"
+      }
+    },
+    {
       "handle": "disler",
       "namedSkills": 4,
       "topSkill": {
@@ -495,7 +508,7 @@
       }
     }
   ],
-  "totalContributors": 38,
+  "totalContributors": 39,
   "_links": {
     "self": "/api/v1/contributors/index.json"
   }

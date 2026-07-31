@@ -1,6 +1,70 @@
 {
   "skills": [
     {
+      "id": "k-dense-ai/stable-baselines3",
+      "name": "Stable Baselines3",
+      "level": "2★",
+      "trustMagnitude": 71.0,
+      "overallTrustGrade": "B",
+      "contributor": "k-dense-ai",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/stable-baselines3.json"
+      },
+      "genericSkillRef": "reinforcement-learning-training"
+    },
+    {
+      "id": "k-dense-ai/transformers",
+      "name": "Transformers",
+      "level": "2★",
+      "trustMagnitude": 71.0,
+      "overallTrustGrade": "B",
+      "contributor": "k-dense-ai",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/transformers.json"
+      },
+      "genericSkillRef": "transformer-model-engineering"
+    },
+    {
+      "id": "garrytan/careful",
+      "name": "Careful",
+      "level": "3★",
+      "trustMagnitude": 66.0,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/careful.json"
+      },
+      "genericSkillRef": "guardrails"
+    },
+    {
+      "id": "garrytan/office-hours",
+      "name": "Office Hours",
+      "level": "3★",
+      "trustMagnitude": 66.0,
+      "overallTrustGrade": "B",
+      "contributor": "garrytan",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/office-hours.json"
+      },
+      "genericSkillRef": "question-answer"
+    },
+    {
       "id": "garrytan/plan-eng-review",
       "name": "Plan Eng Review",
       "level": "3★",
@@ -746,75 +810,11 @@
         "self": "/api/v1/skills/gaia-research/skill-ci-churn.json"
       },
       "genericSkillRef": "ci-churn-analysis"
-    },
-    {
-      "id": "gaia-research/skill-fuse",
-      "name": "Skill Fuse",
-      "level": "2★",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "contributor": "gaia-research",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/gaia-research/skill-fuse.json"
-      },
-      "genericSkillRef": "skill-fusion"
-    },
-    {
-      "id": "bradautomates/claude-video",
-      "name": "Claude Video",
-      "level": "2★",
-      "trustMagnitude": 37.47,
-      "overallTrustGrade": "C",
-      "contributor": "bradautomates",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/bradautomates/claude-video.json"
-      },
-      "genericSkillRef": "video-intelligence"
-    },
-    {
-      "id": "disler/auto-review",
-      "name": "Auto-Review",
-      "level": "2★",
-      "trustMagnitude": 36.34,
-      "overallTrustGrade": "C",
-      "contributor": "disler",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/disler/auto-review.json"
-      },
-      "genericSkillRef": "auto-review"
-    },
-    {
-      "id": "disler/opinion",
-      "name": "Opinion",
-      "level": "2★",
-      "trustMagnitude": 36.34,
-      "overallTrustGrade": "C",
-      "contributor": "disler",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/disler/opinion.json"
-      },
-      "genericSkillRef": "opinion"
     }
   ],
   "page": 2,
   "totalPages": 4,
-  "totalSkills": 172,
+  "totalSkills": 182,
   "_links": {
     "self": "/api/v1/skills/page-2.json",
     "prev": "/api/v1/skills/index.json",

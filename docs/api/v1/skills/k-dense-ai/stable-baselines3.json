@@ -1,0 +1,59 @@
+{
+  "id": "k-dense-ai/stable-baselines3",
+  "name": "Stable Baselines3",
+  "contributor": "k-dense-ai",
+  "level": "2★",
+  "type": "fusion",
+  "status": "named",
+  "trustMagnitude": 71.0,
+  "overallTrustGrade": "B",
+  "branch": "standard",
+  "rankWord": "Named",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/k-dense-ai/stable-baselines3.json",
+    "contributor": "/api/v1/contributors/k-dense-ai.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "Stable Baselines3",
+  "genericSkillRef": "reinforcement-learning-training",
+  "origin": false,
+  "description": "Train reinforcement learning agents with Stable-Baselines3 using PPO, SAC, DQN, TD3, and related algorithms.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/stable-baselines3/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-07-31",
+      "type": "self-attestation",
+      "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+      "grade": "C"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-07-31T14:48:43Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added named skill k-dense-ai/stable-baselines3"
+    },
+    {
+      "timestamp": "2026-07-31T14:49:02Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/stable-baselines3/SKILL.md (type: self-attestation)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/stable-baselines3/SKILL.md"
+  }
+}

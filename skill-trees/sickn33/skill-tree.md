@@ -380,14 +380,14 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   · ○ dietrichgebert/ponytail  [2★]
   · ○ ████████/huggingface-vision-trainer
   · ○ /pathway-ontology-retrieval
-  · ○ /probabilistic-programming
+  · ○ k-dense-ai/qiskit  [2★]
   · ○ vercel-labs/react-best-practices  [3★]
-  · ○ /reward-modeling
   · ○ oso95/scroll-world  [3★]
   · ○ openai/self-consistency  [3★]
   · ○ huggingface/semantic-cache  [2★]
   · ○ ruvnet/stream-chain  [2★]
   · ○ aplaceforallmystuff/log-to-daily  [2★]
+  · ○ k-dense-ai/scanpy  [2★]
   · ○ ████████/codebase-design
   · ○ anthropics/canvas-design  [2★]
   · ○ /synthetic-data-generation

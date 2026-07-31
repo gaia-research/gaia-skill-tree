@@ -1,6 +1,118 @@
 {
   "skills": [
     {
+      "id": "gaia-research/skill-fuse",
+      "name": "Skill Fuse",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "contributor": "gaia-research",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/gaia-research/skill-fuse.json"
+      },
+      "genericSkillRef": "skill-fusion"
+    },
+    {
+      "id": "k-dense-ai/deepchem",
+      "name": "DeepChem",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "contributor": "k-dense-ai",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/deepchem.json"
+      },
+      "genericSkillRef": "molecular-machine-learning"
+    },
+    {
+      "id": "k-dense-ai/pytorch-lightning",
+      "name": "PyTorch Lightning",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "contributor": "k-dense-ai",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/pytorch-lightning.json"
+      },
+      "genericSkillRef": "neural-training-orchestration"
+    },
+    {
+      "id": "k-dense-ai/torch-geometric",
+      "name": "Torch Geometric",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "contributor": "k-dense-ai",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/torch-geometric.json"
+      },
+      "genericSkillRef": "graph-neural-network-modeling"
+    },
+    {
+      "id": "bradautomates/claude-video",
+      "name": "Claude Video",
+      "level": "2★",
+      "trustMagnitude": 37.47,
+      "overallTrustGrade": "C",
+      "contributor": "bradautomates",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/bradautomates/claude-video.json"
+      },
+      "genericSkillRef": "video-intelligence"
+    },
+    {
+      "id": "disler/auto-review",
+      "name": "Auto-Review",
+      "level": "2★",
+      "trustMagnitude": 36.34,
+      "overallTrustGrade": "C",
+      "contributor": "disler",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/disler/auto-review.json"
+      },
+      "genericSkillRef": "auto-review"
+    },
+    {
+      "id": "disler/opinion",
+      "name": "Opinion",
+      "level": "2★",
+      "trustMagnitude": 36.34,
+      "overallTrustGrade": "C",
+      "contributor": "disler",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/disler/opinion.json"
+      },
+      "genericSkillRef": "opinion"
+    },
+    {
       "id": "disler/plan-synthesis",
       "name": "Plan Synthesis",
       "level": "2★",
@@ -687,123 +799,11 @@
         "self": "/api/v1/skills/ruvnet/agentdb-advanced.json"
       },
       "genericSkillRef": "distributed-vector-memory"
-    },
-    {
-      "id": "ruvnet/agentdb-memory-patterns",
-      "name": "AgentDB Memory Patterns",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "ruvnet",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/agentdb-memory-patterns.json"
-      },
-      "genericSkillRef": "memory-pattern-design"
-    },
-    {
-      "id": "ruvnet/agentdb-optimization",
-      "name": "AgentDB Optimization",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "ruvnet",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/agentdb-optimization.json"
-      },
-      "genericSkillRef": "vector-db-optimization"
-    },
-    {
-      "id": "ruvnet/agentdb-vector-search",
-      "name": "AgentDB Vector Search",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "ruvnet",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/agentdb-vector-search.json"
-      },
-      "genericSkillRef": "vector-search"
-    },
-    {
-      "id": "ruvnet/agentic-jujutsu",
-      "name": "Agentic Jujutsu",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "ruvnet",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/agentic-jujutsu.json"
-      },
-      "genericSkillRef": "git-diff-risk-analysis"
-    },
-    {
-      "id": "ruvnet/dual-collect",
-      "name": "Dual Collect",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "ruvnet",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/dual-collect.json"
-      },
-      "genericSkillRef": "headless-worker-collect"
-    },
-    {
-      "id": "ruvnet/dual-coordinate",
-      "name": "Dual Coordinate",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "ruvnet",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/dual-coordinate.json"
-      },
-      "genericSkillRef": "hybrid-workflow-coordination"
-    },
-    {
-      "id": "ruvnet/dual-spawn",
-      "name": "Dual Spawn",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "ruvnet",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/dual-spawn.json"
-      },
-      "genericSkillRef": "headless-worker-spawn"
     }
   ],
   "page": 3,
   "totalPages": 4,
-  "totalSkills": 172,
+  "totalSkills": 182,
   "_links": {
     "self": "/api/v1/skills/page-3.json",
     "prev": "/api/v1/skills/page-2.json",

@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-07-31T14:22:36Z",
+  "generatedAt": "2026-07-31T14:53:20Z",
   "firstRun": false,
   "skills": [
     {
@@ -130,6 +130,62 @@
       }
     },
     {
+      "id": "k-dense-ai/pymc",
+      "name": "PyMC",
+      "level": "2★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 71.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 35.5,
+      "tmDelta": 71.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/pymc.json"
+      }
+    },
+    {
+      "id": "k-dense-ai/scanpy",
+      "name": "Scanpy",
+      "level": "2★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 71.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 35.5,
+      "tmDelta": 71.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/scanpy.json"
+      }
+    },
+    {
+      "id": "k-dense-ai/stable-baselines3",
+      "name": "Stable Baselines3",
+      "level": "2★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 71.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 35.5,
+      "tmDelta": 71.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/stable-baselines3.json"
+      }
+    },
+    {
+      "id": "k-dense-ai/transformers",
+      "name": "Transformers",
+      "level": "2★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 71.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 35.5,
+      "tmDelta": 71.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/transformers.json"
+      }
+    },
+    {
       "id": "oso95/scroll-world",
       "name": "Scroll World",
       "level": "3★",
@@ -197,6 +253,48 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/anthropics/canvas-design.json"
+      }
+    },
+    {
+      "id": "k-dense-ai/deepchem",
+      "name": "DeepChem",
+      "level": "2★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 20.5,
+      "tmDelta": 41.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/deepchem.json"
+      }
+    },
+    {
+      "id": "k-dense-ai/pytorch-lightning",
+      "name": "PyTorch Lightning",
+      "level": "2★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 20.5,
+      "tmDelta": 41.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/pytorch-lightning.json"
+      }
+    },
+    {
+      "id": "k-dense-ai/torch-geometric",
+      "name": "Torch Geometric",
+      "level": "2★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 20.5,
+      "tmDelta": 41.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/torch-geometric.json"
       }
     },
     {
@@ -340,6 +438,48 @@
       }
     },
     {
+      "id": "k-dense-ai/qiskit",
+      "name": "Qiskit",
+      "level": "2★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 5.0,
+      "overallTrustGrade": null,
+      "trendingScore": 2.5,
+      "tmDelta": 5.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/qiskit.json"
+      }
+    },
+    {
+      "id": "k-dense-ai/rdkit",
+      "name": "RDKit",
+      "level": "2★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 5.0,
+      "overallTrustGrade": null,
+      "trendingScore": 2.5,
+      "tmDelta": 5.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/rdkit.json"
+      }
+    },
+    {
+      "id": "k-dense-ai/scvi-tools",
+      "name": "scvi-tools",
+      "level": "2★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 5.0,
+      "overallTrustGrade": null,
+      "trendingScore": 2.5,
+      "tmDelta": 5.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/scvi-tools.json"
+      }
+    },
+    {
       "id": "aplaceforallmystuff/log-to-daily",
       "name": "Log To Daily",
       "level": "2★",
@@ -354,7 +494,7 @@
       }
     }
   ],
-  "totalTrending": 25,
+  "totalTrending": 35,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }

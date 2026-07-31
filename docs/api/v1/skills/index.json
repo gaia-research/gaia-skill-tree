@@ -987,41 +987,41 @@
       "genericSkillRef": "browser-control"
     },
     {
-      "id": "garrytan/careful",
-      "name": "Careful",
-      "level": "3★",
-      "trustMagnitude": 66.0,
+      "id": "k-dense-ai/pymc",
+      "name": "PyMC",
+      "level": "2★",
+      "trustMagnitude": 71.0,
       "overallTrustGrade": "B",
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/careful.json"
-      },
-      "genericSkillRef": "guardrails"
-    },
-    {
-      "id": "garrytan/office-hours",
-      "name": "Office Hours",
-      "level": "3★",
-      "trustMagnitude": 66.0,
-      "overallTrustGrade": "B",
-      "contributor": "garrytan",
+      "contributor": "k-dense-ai",
       "type": "basic",
       "branch": "standard",
-      "rankWord": "Evolved",
+      "rankWord": "Named",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/garrytan/office-hours.json"
+        "self": "/api/v1/skills/k-dense-ai/pymc.json"
       },
-      "genericSkillRef": "question-answer"
+      "genericSkillRef": "probabilistic-programming"
+    },
+    {
+      "id": "k-dense-ai/scanpy",
+      "name": "Scanpy",
+      "level": "2★",
+      "trustMagnitude": 71.0,
+      "overallTrustGrade": "B",
+      "contributor": "k-dense-ai",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/scanpy.json"
+      },
+      "genericSkillRef": "single-cell-analysis"
     }
   ],
   "page": 1,
   "totalPages": 4,
-  "totalSkills": 172,
+  "totalSkills": 182,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"
