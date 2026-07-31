@@ -1,0 +1,69 @@
+{
+  "id": "transformer-model-engineering",
+  "name": "Transformer Model Engineering",
+  "type": "fusion",
+  "description": "Load, fine-tune, and deploy transformer models for text, vision, audio, and multimodal tasks.",
+  "prerequisites": [
+    "fine-tune",
+    "embed-text",
+    "ml-pipeline"
+  ],
+  "derivatives": [],
+  "evidence": [
+    {
+      "source": "https://github.com/huggingface/transformers",
+      "evaluator": "mbtiongson1",
+      "date": "2026-07-31",
+      "type": "repo-own",
+      "notes": "Upstream Hugging Face Transformers repository; generic-level evidence for transformer-model-engineering from #813.",
+      "commits": 24456,
+      "contributors": 499,
+      "sourceStartedAt": "2018-10-29",
+      "grade": "B"
+    },
+    {
+      "source": "https://aclanthology.org/2020.emnlp-demos.6/",
+      "evaluator": "mbtiongson1",
+      "date": "2026-07-31",
+      "type": "peer-review",
+      "notes": "Transformers paper in EMNLP 2020 demos; reviewer count is not disclosed, so the conservative minimum payload of 1 reviewer is used.",
+      "reviewers": 1,
+      "sourceStartedAt": "2020-10-01",
+      "grade": "C"
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-31",
+  "updatedAt": "2026-07-31",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-31T14:48:31Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Created generic fusion node 'transformer-model-engineering' via `gaia dev fuse`."
+    },
+    {
+      "timestamp": "2026-07-31T14:48:31Z",
+      "action": "fuse",
+      "contributor": "unknown",
+      "details": "Set prerequisites via `gaia dev fuse`: fine-tune, embed-text, ml-pipeline."
+    },
+    {
+      "timestamp": "2026-07-31T14:49:32Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/huggingface/transformers (type: repo-own)"
+    },
+    {
+      "timestamp": "2026-07-31T14:49:33Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://aclanthology.org/2020.emnlp-demos.6/ (type: peer-review)"
+    }
+  ],
+  "verification": {
+    "firstEvidenceAt": "2026-07-31T14:49:32Z"
+  }
+}

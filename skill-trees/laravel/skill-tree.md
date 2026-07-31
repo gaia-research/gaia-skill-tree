@@ -17,7 +17,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — laravel  ·  generated 2026-07-30
+GAIA SKILL TREE — laravel  ·  generated 2026-07-31
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -328,10 +328,38 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     ├─ · · firecrawl/firecrawl-build-scrape  [4★]  (↑ see above)
     └─ · ○ firecrawl/firecrawl-build-search  [4★]  (↑ see above)
   · ◉ openai/few-shot-learning  [4★]
+  · ◉ k-dense-ai/torch-geometric  [4★]
+    ├─ · · ████████/huggingface-datasets
+    │  ├─ · ○ /generate-sql
+    │  ├─ · ○ /data-visualize
+    │  └─ · ○ /summarize
+    ├─ · ○ ████████/huggingface-llm-trainer
+    └─ · · /ml-pipeline
+       ├─ · · ████████/huggingface-datasets  (↑ see above)
+       ├─ · · garrytan/health  [2★]
+       │  ├─ · ○ upsonic/unittest-generator  [2★]
+       │  ├─ · ○ /code-execution
+       │  └─ · ○ /error-interpretation
+       └─ · ○ garrytan/design-html  [3★]
+  · ◉ dietrichgebert/ponytail  [4★]
   · ◉ safishamsi/graphify  [4★]
     ├─ · ○ /extract-entities
     └─ · ○ /logical-inference
+  · ◉ k-dense-ai/deepchem  [4★]
+    ├─ · ○ /molecular-databases
+    ├─ · · ████████/huggingface-datasets
+    │  ├─ · ○ /generate-sql
+    │  ├─ · ○ /data-visualize
+    │  └─ · ○ /summarize
+    └─ · · /ml-pipeline
+       ├─ · · ████████/huggingface-datasets  (↑ see above)
+       ├─ · · garrytan/health  [2★]
+       │  ├─ · ○ upsonic/unittest-generator  [2★]
+       │  ├─ · ○ /code-execution
+       │  └─ · ○ /error-interpretation
+       └─ · ○ garrytan/design-html  [3★]
   · ◉ addy-osmani/performance-optimization  [4★]
+  · ◉ k-dense-ai/pymc  [4★]
   · ◉ stanfordnlp/dspy  [4★]
     ├─ · ○ garrytan/benchmark  [3★]
     └─ · ○ /generate-text
@@ -360,6 +388,7 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
 
   · ○ panniantong/agent-reach  [3★]
   · ○ /autonomous-engineering-platform
+  · ○ anthropics/brand-guidelines  [3★]
   · ○ gaia-research/skill-ci-churn  [2★]
   · ○ /clinical-data-retrieval
   · ○ ████████/update-unique-churches
@@ -374,16 +403,16 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   · ○ ruvnet/agentic-jujutsu  [2★]
   · ○ ████████/financial-assistance
   · ○ /image-generate
-  · ○ ████████/implement-with-discernment
   · ○ ████████/huggingface-vision-trainer
   · ○ /pathway-ontology-retrieval
-  · ○ /probabilistic-programming
+  · ○ k-dense-ai/qiskit  [3★]
   · ○ vercel-labs/react-best-practices  [3★]
-  · ○ /reward-modeling
   · ○ oso95/scroll-world  [3★]
   · ○ openai/self-consistency  [3★]
   · ○ huggingface/semantic-cache  [2★]
   · ○ ruvnet/stream-chain  [2★]
+  · ○ ████████/log-to-daily
+  · ○ k-dense-ai/scanpy  [3★]
   · ○ ████████/codebase-design
   · ○ anthropics/canvas-design  [2★]
   · ○ /synthetic-data-generation

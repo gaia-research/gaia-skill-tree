@@ -1,0 +1,32 @@
+{
+  "id": "single-cell-omics-modeling",
+  "name": "Single-Cell Omics Modeling",
+  "type": "fusion",
+  "description": "Model single-cell omics data with probabilistic latent-variable workflows for integration, annotation, and analysis.",
+  "prerequisites": [
+    "computational-biology-workflows",
+    "probabilistic-programming",
+    "data-analysis"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-31",
+  "updatedAt": "2026-07-31",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-31T14:48:23Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Created generic fusion node 'single-cell-omics-modeling' via `gaia dev fuse`."
+    },
+    {
+      "timestamp": "2026-07-31T14:48:24Z",
+      "action": "fuse",
+      "contributor": "unknown",
+      "details": "Set prerequisites via `gaia dev fuse`: computational-biology-workflows, probabilistic-programming, data-analysis."
+    }
+  ]
+}

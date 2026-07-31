@@ -53,6 +53,19 @@
       }
     },
     {
+      "handle": "k-dense-ai",
+      "namedSkills": 10,
+      "topSkill": {
+        "id": "k-dense-ai/pymc",
+        "level": "4★",
+        "trustMagnitude": 197.07
+      },
+      "prestigeScore": 1099.5,
+      "_links": {
+        "self": "/api/v1/contributors/k-dense-ai.json"
+      }
+    },
+    {
       "handle": "addy-osmani",
       "namedSkills": 9,
       "topSkill": {
@@ -183,6 +196,19 @@
       }
     },
     {
+      "handle": "anthropics",
+      "namedSkills": 2,
+      "topSkill": {
+        "id": "anthropics/brand-guidelines",
+        "level": "3★",
+        "trustMagnitude": 77.35
+      },
+      "prestigeScore": 120.87,
+      "_links": {
+        "self": "/api/v1/contributors/anthropics.json"
+      }
+    },
+    {
       "handle": "safishamsi",
       "namedSkills": 1,
       "topSkill": {
@@ -193,6 +219,19 @@
       "prestigeScore": 116.57,
       "_links": {
         "self": "/api/v1/contributors/safishamsi.json"
+      }
+    },
+    {
+      "handle": "dietrichgebert",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "dietrichgebert/ponytail",
+        "level": "4★",
+        "trustMagnitude": 102.79
+      },
+      "prestigeScore": 102.79,
+      "_links": {
+        "self": "/api/v1/contributors/dietrichgebert.json"
       }
     },
     {
@@ -284,19 +323,6 @@
       "prestigeScore": 50.48,
       "_links": {
         "self": "/api/v1/contributors/vercel-labs.json"
-      }
-    },
-    {
-      "handle": "anthropics",
-      "namedSkills": 1,
-      "topSkill": {
-        "id": "anthropics/canvas-design",
-        "level": "2★",
-        "trustMagnitude": 43.52
-      },
-      "prestigeScore": 43.52,
-      "_links": {
-        "self": "/api/v1/contributors/anthropics.json"
       }
     },
     {
@@ -469,7 +495,7 @@
       }
     }
   ],
-  "totalContributors": 36,
+  "totalContributors": 38,
   "_links": {
     "self": "/api/v1/contributors/index.json"
   }

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-30",
+  "generatedAt": "2026-07-31",
   "buckets": {
     "automated-testing": [
       {
@@ -623,6 +623,15 @@
             "commits": 2888,
             "contributors": 136,
             "grade": "B"
+          },
+          {
+            "source": "https://arxiv.org/html/2606.04967v1",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "arxiv",
+            "notes": "Academic paper 'From Prompt to Process' analyzes GSD across a six-dimensional software-engineering process taxonomy.",
+            "citations": 0,
+            "sourceStartedAt": "2026-06-03"
           }
         ],
         "createdAt": "2026-07-03",
@@ -736,6 +745,12 @@
             "action": "rank_up",
             "contributor": "marcotiongson",
             "details": "Calibrated level from 3★ to 4★"
+          },
+          {
+            "timestamp": "2026-07-31T13:06:54Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://arxiv.org/html/2606.04967v1 (type: arxiv)"
           }
         ],
         "suiteComponents": [
@@ -1820,10 +1835,30 @@
             "commits": 260,
             "contributors": 36,
             "grade": "B"
+          },
+          {
+            "source": "https://rachel.fyi/posts/what-i-took-from-addy-osmanis-agent-skills",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "peer-review",
+            "notes": "Independent review directly discusses the implement-test-verify-commit loop and small reversible commits.",
+            "reviewers": 1,
+            "sourceStartedAt": "2026-04-16",
+            "grade": "C"
+          },
+          {
+            "source": "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "peer-review",
+            "notes": "Agentailor peer review treats incremental-implementation as the approved implementation phase of the spec-driven workflow via the Implement gate.",
+            "reviewers": 1,
+            "sourceStartedAt": "2026-06-19",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-07-03",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:42:18Z",
@@ -1895,6 +1930,18 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-07-31T13:06:53Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://rachel.fyi/posts/what-i-took-from-addy-osmanis-agent-skills (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-07-31T13:21:09Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
@@ -2506,10 +2553,30 @@
             "commits": 260,
             "contributors": 36,
             "grade": "B"
+          },
+          {
+            "source": "https://rachel.fyi/posts/what-i-took-from-addy-osmanis-agent-skills",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "peer-review",
+            "notes": "Independent review directly discusses the skill's <=5-file task constraint and checkpoint discipline.",
+            "reviewers": 1,
+            "sourceStartedAt": "2026-04-16",
+            "grade": "C"
+          },
+          {
+            "source": "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "peer-review",
+            "notes": "Agentailor peer review treats planning-and-task-breakdown as an approved sub-phase of the spec-driven workflow via the Plan and Tasks gates.",
+            "reviewers": 1,
+            "sourceStartedAt": "2026-06-19",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-07-03",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:42:18Z",
@@ -2581,6 +2648,18 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-07-31T13:06:52Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://rachel.fyi/posts/what-i-took-from-addy-osmanis-agent-skills (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-07-31T13:21:09Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
@@ -3467,10 +3546,20 @@
             "commits": 260,
             "contributors": 36,
             "grade": "B"
+          },
+          {
+            "source": "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "peer-review",
+            "notes": "Agentailor peer review recommends spec-driven-development as the anchor skill and summarizes its gated Specify -> Plan -> Tasks -> Implement workflow for durable agentic engineering.",
+            "reviewers": 1,
+            "sourceStartedAt": "2026-06-19",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-07-03",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:42:16Z",
@@ -3542,6 +3631,12 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-07-31T13:21:08Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
@@ -4549,6 +4644,94 @@
         "contractVersion": "gaia-public-v1"
       }
     ],
+    "brand-guideline-application": [
+      {
+        "id": "anthropics/brand-guidelines",
+        "name": "Brand Guidelines",
+        "contributor": "anthropics",
+        "origin": false,
+        "genericSkillRef": "brand-guideline-application",
+        "status": "named",
+        "level": "3★",
+        "description": "Applies Anthropic's official brand colors, typography, and visual rules to artifacts that need Anthropic's look and feel.",
+        "title": "Brand Guidelines",
+        "links": {
+          "github": "https://github.com/anthropics/skills/blob/main/skills/brand-guidelines/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/anthropics/skills",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "repo-own",
+            "notes": "Live repo metrics for anthropics/skills; 46 commits, 13 contributors.",
+            "commits": 46,
+            "contributors": 13,
+            "sourceStartedAt": "2025-09-22",
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/anthropics/skills/stargazers",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "notes": "Live GitHub stars for anthropics/skills; skill-count divisor uses 17 SKILL.md files under skills/.",
+            "stars": 165403,
+            "skillCountInRepo": 17,
+            "sourceStartedAt": "2025-09-22",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-08-01",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:20:27Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill anthropics/brand-guidelines"
+          },
+          {
+            "timestamp": "2026-07-31T14:20:29Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/anthropics/skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-31T14:20:30Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/anthropics/skills/stargazers (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:25:05Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 3★"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 77.35,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
     "static-artwork-design": [
       {
         "id": "anthropics/canvas-design",
@@ -4644,6 +4827,91 @@
         "branch": "standard",
         "rank": 2,
         "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "session-journaling": [
+      {
+        "id": "aplaceforallmystuff/log-to-daily",
+        "name": "Log To Daily",
+        "contributor": "aplaceforallmystuff",
+        "origin": false,
+        "genericSkillRef": "session-journaling",
+        "status": "named",
+        "level": "1★",
+        "description": "Logs conversation activity to today's daily note on demand, capturing decisions, outcomes, and next steps in a structured dated entry.",
+        "title": "Log To Daily",
+        "links": {
+          "github": "https://github.com/aplaceforallmystuff/daily-patterns-pack/blob/main/skills/log-to-daily/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/aplaceforallmystuff/daily-patterns-pack",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "repo-own",
+            "notes": "Live repo metrics for daily-patterns-pack; 6 commits, 1 contributor.",
+            "commits": 6,
+            "contributors": 1,
+            "sourceStartedAt": "2026-01-22"
+          },
+          {
+            "source": "https://github.com/aplaceforallmystuff/daily-patterns-pack/stargazers",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "notes": "Live GitHub stars for daily-patterns-pack; one SKILL.md file under skills/.",
+            "stars": 38,
+            "skillCountInRepo": 1,
+            "sourceStartedAt": "2026-01-22"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-08-01",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:20:33Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill aplaceforallmystuff/log-to-daily"
+          },
+          {
+            "timestamp": "2026-07-31T14:20:34Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/aplaceforallmystuff/daily-patterns-pack (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-31T14:20:35Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/aplaceforallmystuff/daily-patterns-pack/stargazers (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:25:06Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 1★"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 1.26,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
       }
@@ -6222,6 +6490,200 @@
         "branch": "standard",
         "rank": 2,
         "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "implement-with-discernment": [
+      {
+        "id": "dietrichgebert/ponytail",
+        "name": "Ponytail",
+        "contributor": "dietrichgebert",
+        "origin": false,
+        "genericSkillRef": "implement-with-discernment",
+        "status": "named",
+        "level": "4★",
+        "description": "Forces the laziest solution that actually works: question whether the task should exist, prefer standard library and native features, and ship the smallest correct implementation.",
+        "title": "Ponytail",
+        "links": {
+          "github": "https://github.com/DietrichGebert/ponytail/blob/main/skills/ponytail/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/DietrichGebert/ponytail",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "repo-own",
+            "notes": "Live repo metrics for DietrichGebert/ponytail; 206 commits, 62 contributors.",
+            "commits": 206,
+            "contributors": 62,
+            "sourceStartedAt": "2026-06-12",
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/DietrichGebert/ponytail/stargazers",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "notes": "Live GitHub stars for DietrichGebert/ponytail; skill-count divisor uses 6 SKILL.md files under skills/.",
+            "stars": 92825,
+            "skillCountInRepo": 6,
+            "sourceStartedAt": "2026-06-12",
+            "grade": "C"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=2xuFcmUAQUc",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "social-signal",
+            "notes": "Verified Ponytail YouTube demo; views=210288, rechecked 2026-07-31.",
+            "views": 210288,
+            "sourceStartedAt": "2026-06-20",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-08-01",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:20:36Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill dietrichgebert/ponytail"
+          },
+          {
+            "timestamp": "2026-07-31T14:20:38Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/DietrichGebert/ponytail (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-31T14:20:39Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/DietrichGebert/ponytail/stargazers (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:17:39Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=2xuFcmUAQUc (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-07-31T16:20:09Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 4★"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 102.79,
+        "overallTrustGrade": "A",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "need ≥1 graded source(s) at S+, have 0"
+        }
+      },
+      {
+        "id": "rico-favor/implement-with-discernment",
+        "name": "implement-with-discernment",
+        "contributor": "rico-favor",
+        "origin": false,
+        "genericSkillRef": "implement-with-discernment",
+        "status": "named",
+        "level": "1★",
+        "description": "Applies deliberate judgment before writing code: evaluating whether to implement at all, scoping to the minimum needed, deferring or rejecting features that add complexity without proportionate value.",
+        "title": "Implement With Discernment",
+        "links": {
+          "github": "https://github.com/rico-favor/gaia-skill-tree/blob/main/CLAUDE.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/rico-favor/gaia-skill-tree",
+            "evaluator": "unknown",
+            "date": "2026-07-09",
+            "type": "repo-own",
+            "trustNumber": 22.0,
+            "notes": "rico-favor's active gaia-skill-tree fork — 96 commits demonstrating real agent skill curation and implementation workflow usage.",
+            "stars": 0,
+            "commits": 96,
+            "contributors": 1
+          }
+        ],
+        "createdAt": "2026-07-09",
+        "updatedAt": "2026-07-09",
+        "timeline": [
+          {
+            "timestamp": "2026-07-08T21:02:12Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill rico-favor/implement-with-discernment"
+          },
+          {
+            "timestamp": "2026-07-08T21:02:30Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/rico-favor/gaia-skill-tree (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-08T21:02:30Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/rico-favor/gaia-skill-tree as C (trustNumber: 22.0)"
+          },
+          {
+            "timestamp": "2026-07-08T21:02:31Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/rico-favor/gaia-skill-tree/blob/main/CLAUDE.md"
+          },
+          {
+            "timestamp": "2026-07-08T21:02:49Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 2★"
+          },
+          {
+            "timestamp": "2026-07-08T21:48:31Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 1★"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 2.49,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
       }
@@ -15333,10 +15795,20 @@
             "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
             "evaluator": "unknown",
             "date": "2026-06-19"
+          },
+          {
+            "source": "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "peer-review",
+            "notes": "Agentailor peer review recommends brainstorming for pre-code design refinement, clarifying questions, and hard approval before implementation.",
+            "reviewers": 1,
+            "sourceStartedAt": "2026-06-19",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:46Z",
@@ -15408,6 +15880,12 @@
             "action": "rank_up",
             "contributor": "mbtiongson1",
             "details": "Level updated from 2★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-07-31T13:21:11Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -15652,10 +16130,20 @@
             "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
             "evaluator": "unknown",
             "date": "2026-06-19"
+          },
+          {
+            "source": "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "peer-review",
+            "notes": "Agentailor peer review recommends subagent-driven-development for per-task isolation with spec-compliance and code-quality review.",
+            "reviewers": 1,
+            "sourceStartedAt": "2026-06-19",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-07-20",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:48Z",
@@ -15749,6 +16237,12 @@
             "details": "Generic parent 'subagent-driven-development' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-20"
+          },
+          {
+            "timestamp": "2026-07-31T13:21:13Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -17886,6 +18380,1016 @@
         "branch": "standard",
         "rank": 1,
         "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "molecular-machine-learning": [
+      {
+        "id": "k-dense-ai/deepchem",
+        "name": "DeepChem",
+        "contributor": "k-dense-ai",
+        "origin": false,
+        "genericSkillRef": "molecular-machine-learning",
+        "status": "named",
+        "level": "4★",
+        "description": "Run molecular machine learning workflows with DeepChem for property prediction, featurization, and benchmarked datasets.",
+        "title": "DeepChem",
+        "links": {
+          "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/deepchem/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/deepchem/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "self-attestation",
+            "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "repo-own",
+            "notes": "K-Dense scientific-agent-skills repo metrics aligned for Lane B: commits=445, contributors=43, sourceStartedAt=2025-10-19.",
+            "commits": 445,
+            "contributors": 43,
+            "sourceStartedAt": "2025-10-19",
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "notes": "Live GitHub stars for K-Dense-AI/scientific-agent-skills; approved source URL uses ?tab=stars (not /stargazers), stargazerCount=32265, skillCountInRepo=158.",
+            "stars": 32265,
+            "skillCountInRepo": 158,
+            "sourceStartedAt": "2025-10-19"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-08-01",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:48:39Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill k-dense-ai/deepchem"
+          },
+          {
+            "timestamp": "2026-07-31T14:48:56Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/deepchem/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-31T16:17:41Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:17:43Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:20:10Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 4★"
+          }
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 167.07,
+        "overallTrustGrade": "A",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "need ≥2 graded source(s) at A+, have 1"
+        }
+      }
+    ],
+    "probabilistic-programming": [
+      {
+        "id": "k-dense-ai/pymc",
+        "name": "PyMC",
+        "contributor": "k-dense-ai",
+        "origin": false,
+        "genericSkillRef": "probabilistic-programming",
+        "status": "named",
+        "level": "4★",
+        "description": "Build Bayesian models with PyMC using hierarchical models, MCMC, variational inference, and posterior checks.",
+        "title": "PyMC",
+        "links": {
+          "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pymc/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pymc/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "self-attestation",
+            "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "repo-own",
+            "notes": "K-Dense scientific-agent-skills repo metrics aligned for Lane B: commits=445, contributors=43, sourceStartedAt=2025-10-19.",
+            "commits": 445,
+            "contributors": 43,
+            "sourceStartedAt": "2025-10-19",
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "notes": "Live GitHub stars for K-Dense-AI/scientific-agent-skills; approved source URL uses ?tab=stars (not /stargazers), stargazerCount=32265, skillCountInRepo=158.",
+            "stars": 32265,
+            "skillCountInRepo": 158,
+            "sourceStartedAt": "2025-10-19"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-08-01",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:48:35Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill k-dense-ai/pymc"
+          },
+          {
+            "timestamp": "2026-07-31T14:48:50Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pymc/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-31T16:17:45Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:17:47Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:20:11Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 4★"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 197.07,
+        "overallTrustGrade": "A",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "need ≥2 graded source(s) at A+, have 1"
+        }
+      }
+    ],
+    "neural-training-orchestration": [
+      {
+        "id": "k-dense-ai/pytorch-lightning",
+        "name": "PyTorch Lightning",
+        "contributor": "k-dense-ai",
+        "origin": false,
+        "genericSkillRef": "neural-training-orchestration",
+        "status": "named",
+        "level": "3★",
+        "description": "Orchestrate scalable PyTorch training with Lightning modules, trainers, callbacks, and distributed execution.",
+        "title": "PyTorch Lightning",
+        "links": {
+          "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pytorch-lightning/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pytorch-lightning/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "self-attestation",
+            "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "repo-own",
+            "notes": "K-Dense scientific-agent-skills repo metrics aligned for Lane B: commits=445, contributors=43, sourceStartedAt=2025-10-19.",
+            "commits": 445,
+            "contributors": 43,
+            "sourceStartedAt": "2025-10-19",
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "notes": "Live GitHub stars for K-Dense-AI/scientific-agent-skills; approved source URL uses ?tab=stars (not /stargazers), stargazerCount=32265, skillCountInRepo=158.",
+            "stars": 32265,
+            "skillCountInRepo": 158,
+            "sourceStartedAt": "2025-10-19"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-08-01",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:48:38Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill k-dense-ai/pytorch-lightning"
+          },
+          {
+            "timestamp": "2026-07-31T14:48:55Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pytorch-lightning/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-31T16:17:49Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:17:51Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:20:12Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 3★"
+          }
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 67.07,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "quantum-circuit-programming": [
+      {
+        "id": "k-dense-ai/qiskit",
+        "name": "Qiskit",
+        "contributor": "k-dense-ai",
+        "origin": false,
+        "genericSkillRef": "quantum-circuit-programming",
+        "status": "named",
+        "level": "3★",
+        "description": "Build, simulate, transpile, and execute quantum circuits with Qiskit and IBM Quantum Runtime.",
+        "title": "Qiskit",
+        "links": {
+          "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/qiskit/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/qiskit/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "self-attestation",
+            "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "repo-own",
+            "notes": "K-Dense scientific-agent-skills repo metrics aligned for Lane B: commits=445, contributors=43, sourceStartedAt=2025-10-19.",
+            "commits": 445,
+            "contributors": 43,
+            "sourceStartedAt": "2025-10-19",
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "notes": "Live GitHub stars for K-Dense-AI/scientific-agent-skills; approved source URL uses ?tab=stars (not /stargazers), stargazerCount=32265, skillCountInRepo=158.",
+            "stars": 32265,
+            "skillCountInRepo": 158,
+            "sourceStartedAt": "2025-10-19"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-08-01",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:48:34Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill k-dense-ai/qiskit"
+          },
+          {
+            "timestamp": "2026-07-31T14:48:48Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/qiskit/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-31T16:17:53Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:17:55Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:20:13Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 3★"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 111.87,
+        "overallTrustGrade": "A",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "cheminformatics-analysis": [
+      {
+        "id": "k-dense-ai/rdkit",
+        "name": "RDKit",
+        "contributor": "k-dense-ai",
+        "origin": false,
+        "genericSkillRef": "cheminformatics-analysis",
+        "status": "named",
+        "level": "2★",
+        "description": "Perform cheminformatics analysis with RDKit for molecular parsing, descriptors, fingerprints, reactions, and similarity.",
+        "title": "RDKit",
+        "links": {
+          "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/rdkit/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/rdkit/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "self-attestation",
+            "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "repo-own",
+            "notes": "K-Dense scientific-agent-skills repo metrics aligned for Lane B: commits=445, contributors=43, sourceStartedAt=2025-10-19.",
+            "commits": 445,
+            "contributors": 43,
+            "sourceStartedAt": "2025-10-19",
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "notes": "Live GitHub stars for K-Dense-AI/scientific-agent-skills; approved source URL uses ?tab=stars (not /stargazers), stargazerCount=32265, skillCountInRepo=158.",
+            "stars": 32265,
+            "skillCountInRepo": 158,
+            "sourceStartedAt": "2025-10-19"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-08-01",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:48:41Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill k-dense-ai/rdkit"
+          },
+          {
+            "timestamp": "2026-07-31T14:48:59Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/rdkit/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-31T16:17:58Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:18:00Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars (type: github-stars-own)"
+          }
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 49.07,
+        "overallTrustGrade": "C",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "single-cell-analysis": [
+      {
+        "id": "k-dense-ai/scanpy",
+        "name": "Scanpy",
+        "contributor": "k-dense-ai",
+        "origin": false,
+        "genericSkillRef": "single-cell-analysis",
+        "status": "named",
+        "level": "3★",
+        "description": "Run standard single-cell RNA-seq analysis with Scanpy for QC, clustering, visualization, and differential expression.",
+        "title": "Scanpy",
+        "links": {
+          "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scanpy/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scanpy/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "self-attestation",
+            "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "repo-own",
+            "notes": "K-Dense scientific-agent-skills repo metrics aligned for Lane B: commits=445, contributors=43, sourceStartedAt=2025-10-19.",
+            "commits": 445,
+            "contributors": 43,
+            "sourceStartedAt": "2025-10-19",
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "notes": "Live GitHub stars for K-Dense-AI/scientific-agent-skills; approved source URL uses ?tab=stars (not /stargazers), stargazerCount=32265, skillCountInRepo=158.",
+            "stars": 32265,
+            "skillCountInRepo": 158,
+            "sourceStartedAt": "2025-10-19"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-08-01",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:48:40Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill k-dense-ai/scanpy"
+          },
+          {
+            "timestamp": "2026-07-31T14:48:58Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scanpy/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-31T16:18:02Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:18:04Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:20:15Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 3★"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 97.07,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "single-cell-omics-modeling": [
+      {
+        "id": "k-dense-ai/scvi-tools",
+        "name": "scvi-tools",
+        "contributor": "k-dense-ai",
+        "origin": false,
+        "genericSkillRef": "single-cell-omics-modeling",
+        "status": "named",
+        "level": "2★",
+        "description": "Model single-cell omics data with scvi-tools for batch correction, transfer learning, and multimodal integration.",
+        "title": "scvi-tools",
+        "links": {
+          "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scvi-tools/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scvi-tools/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "self-attestation",
+            "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "repo-own",
+            "notes": "K-Dense scientific-agent-skills repo metrics aligned for Lane B: commits=445, contributors=43, sourceStartedAt=2025-10-19.",
+            "commits": 445,
+            "contributors": 43,
+            "sourceStartedAt": "2025-10-19",
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "notes": "Live GitHub stars for K-Dense-AI/scientific-agent-skills; approved source URL uses ?tab=stars (not /stargazers), stargazerCount=32265, skillCountInRepo=158.",
+            "stars": 32265,
+            "skillCountInRepo": 158,
+            "sourceStartedAt": "2025-10-19"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-08-01",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:48:37Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill k-dense-ai/scvi-tools"
+          },
+          {
+            "timestamp": "2026-07-31T14:48:53Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scvi-tools/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-31T16:18:06Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:18:08Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars (type: github-stars-own)"
+          }
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 49.07,
+        "overallTrustGrade": "C",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "reinforcement-learning-training": [
+      {
+        "id": "k-dense-ai/stable-baselines3",
+        "name": "Stable Baselines3",
+        "contributor": "k-dense-ai",
+        "origin": false,
+        "genericSkillRef": "reinforcement-learning-training",
+        "status": "named",
+        "level": "3★",
+        "description": "Train reinforcement learning agents with Stable-Baselines3 using PPO, SAC, DQN, TD3, and related algorithms.",
+        "title": "Stable Baselines3",
+        "links": {
+          "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/stable-baselines3/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/stable-baselines3/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "self-attestation",
+            "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "repo-own",
+            "notes": "K-Dense scientific-agent-skills repo metrics aligned for Lane B: commits=445, contributors=43, sourceStartedAt=2025-10-19.",
+            "commits": 445,
+            "contributors": 43,
+            "sourceStartedAt": "2025-10-19",
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "notes": "Live GitHub stars for K-Dense-AI/scientific-agent-skills; approved source URL uses ?tab=stars (not /stargazers), stargazerCount=32265, skillCountInRepo=158.",
+            "stars": 32265,
+            "skillCountInRepo": 158,
+            "sourceStartedAt": "2025-10-19"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-08-01",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:48:43Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill k-dense-ai/stable-baselines3"
+          },
+          {
+            "timestamp": "2026-07-31T14:49:02Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/stable-baselines3/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-31T16:18:09Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:18:10Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:20:16Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 3★"
+          }
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 97.07,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "graph-neural-network-modeling": [
+      {
+        "id": "k-dense-ai/torch-geometric",
+        "name": "Torch Geometric",
+        "contributor": "k-dense-ai",
+        "origin": false,
+        "genericSkillRef": "graph-neural-network-modeling",
+        "status": "named",
+        "level": "4★",
+        "description": "Build graph neural network workflows with PyTorch Geometric for node, link, and graph prediction.",
+        "title": "Torch Geometric",
+        "links": {
+          "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/torch-geometric/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/torch-geometric/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "self-attestation",
+            "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "repo-own",
+            "notes": "K-Dense scientific-agent-skills repo metrics aligned for Lane B: commits=445, contributors=43, sourceStartedAt=2025-10-19.",
+            "commits": 445,
+            "contributors": 43,
+            "sourceStartedAt": "2025-10-19",
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "notes": "Live GitHub stars for K-Dense-AI/scientific-agent-skills; approved source URL uses ?tab=stars (not /stargazers), stargazerCount=32265, skillCountInRepo=158.",
+            "stars": 32265,
+            "skillCountInRepo": 158,
+            "sourceStartedAt": "2025-10-19"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-08-01",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:48:36Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill k-dense-ai/torch-geometric"
+          },
+          {
+            "timestamp": "2026-07-31T14:48:51Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/torch-geometric/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-31T16:18:12Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:18:13Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:20:17Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 4★"
+          }
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 167.07,
+        "overallTrustGrade": "A",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "need ≥2 graded source(s) at A+, have 1"
+        }
+      }
+    ],
+    "transformer-model-engineering": [
+      {
+        "id": "k-dense-ai/transformers",
+        "name": "Transformers",
+        "contributor": "k-dense-ai",
+        "origin": false,
+        "genericSkillRef": "transformer-model-engineering",
+        "status": "named",
+        "level": "3★",
+        "description": "Work with Hugging Face Transformers for model loading, pipeline inference, generation, and trainer fine-tuning.",
+        "title": "Transformers",
+        "links": {
+          "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/transformers/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/transformers/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "self-attestation",
+            "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "repo-own",
+            "notes": "K-Dense scientific-agent-skills repo metrics aligned for Lane B: commits=445, contributors=43, sourceStartedAt=2025-10-19.",
+            "commits": 445,
+            "contributors": 43,
+            "sourceStartedAt": "2025-10-19",
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "notes": "Live GitHub stars for K-Dense-AI/scientific-agent-skills; approved source URL uses ?tab=stars (not /stargazers), stargazerCount=32265, skillCountInRepo=158.",
+            "stars": 32265,
+            "skillCountInRepo": 158,
+            "sourceStartedAt": "2025-10-19"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-08-01",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:48:42Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill k-dense-ai/transformers"
+          },
+          {
+            "timestamp": "2026-07-31T14:49:01Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/transformers/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-31T16:18:14Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:18:15Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:20:18Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 3★"
+          }
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 97.07,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
       }
@@ -22869,94 +24373,6 @@
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
-      }
-    ],
-    "implement-with-discernment": [
-      {
-        "id": "rico-favor/implement-with-discernment",
-        "name": "implement-with-discernment",
-        "contributor": "rico-favor",
-        "origin": false,
-        "genericSkillRef": "implement-with-discernment",
-        "status": "named",
-        "level": "1★",
-        "description": "Applies deliberate judgment before writing code: evaluating whether to implement at all, scoping to the minimum needed, deferring or rejecting features that add complexity without proportionate value.",
-        "title": "Implement With Discernment",
-        "links": {
-          "github": "https://github.com/rico-favor/gaia-skill-tree/blob/main/CLAUDE.md"
-        },
-        "evidence": [
-          {
-            "source": "https://github.com/rico-favor/gaia-skill-tree",
-            "evaluator": "unknown",
-            "date": "2026-07-09",
-            "type": "repo-own",
-            "trustNumber": 22.0,
-            "notes": "rico-favor's active gaia-skill-tree fork — 96 commits demonstrating real agent skill curation and implementation workflow usage.",
-            "stars": 0,
-            "commits": 96,
-            "contributors": 1
-          }
-        ],
-        "createdAt": "2026-07-09",
-        "updatedAt": "2026-07-09",
-        "timeline": [
-          {
-            "timestamp": "2026-07-08T21:02:12Z",
-            "action": "add",
-            "contributor": "unknown",
-            "details": "Added named skill rico-favor/implement-with-discernment"
-          },
-          {
-            "timestamp": "2026-07-08T21:02:30Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/rico-favor/gaia-skill-tree (type: repo-own)"
-          },
-          {
-            "timestamp": "2026-07-08T21:02:30Z",
-            "action": "evidence_graded",
-            "contributor": "unknown",
-            "details": "Graded evidence from https://github.com/rico-favor/gaia-skill-tree as C (trustNumber: 22.0)"
-          },
-          {
-            "timestamp": "2026-07-08T21:02:31Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Updated GitHub link to https://github.com/rico-favor/gaia-skill-tree/blob/main/CLAUDE.md"
-          },
-          {
-            "timestamp": "2026-07-08T21:02:49Z",
-            "action": "demote",
-            "contributor": "unknown",
-            "details": "Calibrated level from 2★ to 2★"
-          },
-          {
-            "timestamp": "2026-07-08T21:48:31Z",
-            "action": "demote",
-            "contributor": "unknown",
-            "details": "Calibrated level from 2★ to 1★"
-          }
-        ],
-        "type": "basic",
-        "installBody": "Add installation instructions here.",
-        "role": "variant",
-        "trustMagnitude": 2.49,
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "branch": "standard",
-        "rank": 1,
-        "rankWord": "Awakened",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
       }
@@ -32867,7 +34283,11 @@
       "anthropic/skill-creator"
     ],
     "anthropics": [
+      "anthropics/brand-guidelines",
       "anthropics/canvas-design"
+    ],
+    "aplaceforallmystuff": [
+      "aplaceforallmystuff/log-to-daily"
     ],
     "ayghri": [
       "ayghri/i-have-adhd"
@@ -32889,6 +34309,9 @@
     ],
     "devin-ai": [
       "devin-ai/autonomous-swe"
+    ],
+    "dietrichgebert": [
+      "dietrichgebert/ponytail"
     ],
     "disler": [
       "disler/agent-fusion",
@@ -33047,6 +34470,18 @@
       "intelligentcode-ai/requirements-engineer",
       "intelligentcode-ai/security-engineer",
       "intelligentcode-ai/user-tester"
+    ],
+    "k-dense-ai": [
+      "k-dense-ai/deepchem",
+      "k-dense-ai/pymc",
+      "k-dense-ai/pytorch-lightning",
+      "k-dense-ai/qiskit",
+      "k-dense-ai/rdkit",
+      "k-dense-ai/scanpy",
+      "k-dense-ai/scvi-tools",
+      "k-dense-ai/stable-baselines3",
+      "k-dense-ai/torch-geometric",
+      "k-dense-ai/transformers"
     ],
     "karpathy": [
       "karpathy/autoresearch"

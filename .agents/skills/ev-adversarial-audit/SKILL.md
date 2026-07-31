@@ -28,5 +28,6 @@ Split reviewer work across `evidence/by-type/<type>.md` files, not tier files. S
 - Evidence type mismatches or legacy alias leakage.
 - Star evidence that conflicts with live verification notes from Phase 2.
 - Stale migration notes that still treat `tier_*.md` as the semantic working set.
+- Multi-target peer-review packet misuse: wrong `evidenceType`, empty `targets`, invalid `skillId`, duplicate `(source.url, skillId, evidenceType)` rows, or forbidden strength/scoring fields (`trustNumber`, `grade`, `class`, `tier`, `level`, `stars`, `rank`).
 
 Append concise findings to the source report. Do not mutate registry files.

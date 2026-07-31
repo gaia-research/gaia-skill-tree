@@ -1,0 +1,92 @@
+{
+  "id": "k-dense-ai/scvi-tools",
+  "name": "scvi-tools",
+  "contributor": "k-dense-ai",
+  "level": "2★",
+  "type": "fusion",
+  "status": "named",
+  "trustMagnitude": 49.07,
+  "overallTrustGrade": "C",
+  "branch": "standard",
+  "rankWord": "Named",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/k-dense-ai/scvi-tools.json",
+    "contributor": "/api/v1/contributors/k-dense-ai.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "scvi-tools",
+  "genericSkillRef": "single-cell-omics-modeling",
+  "origin": false,
+  "description": "Model single-cell omics data with scvi-tools for batch correction, transfer learning, and multimodal integration.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scvi-tools/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-07-31",
+      "type": "self-attestation",
+      "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+      "grade": "C"
+    },
+    {
+      "source": "https://github.com/K-Dense-AI/scientific-agent-skills",
+      "evaluator": "mbtiongson1",
+      "date": "2026-07-31",
+      "type": "repo-own",
+      "notes": "K-Dense scientific-agent-skills repo metrics aligned for Lane B: commits=445, contributors=43, sourceStartedAt=2025-10-19.",
+      "commits": 445,
+      "contributors": 43,
+      "sourceStartedAt": "2025-10-19",
+      "grade": "B"
+    },
+    {
+      "source": "https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars",
+      "evaluator": "mbtiongson1",
+      "date": "2026-07-31",
+      "type": "github-stars-own",
+      "notes": "Live GitHub stars for K-Dense-AI/scientific-agent-skills; approved source URL uses ?tab=stars (not /stargazers), stargazerCount=32265, skillCountInRepo=158.",
+      "stars": 32265,
+      "skillCountInRepo": 158,
+      "sourceStartedAt": "2025-10-19"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-07-31T14:48:37Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added named skill k-dense-ai/scvi-tools"
+    },
+    {
+      "timestamp": "2026-07-31T14:48:53Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scvi-tools/SKILL.md (type: self-attestation)"
+    },
+    {
+      "timestamp": "2026-07-31T16:18:06Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills (type: repo-own)"
+    },
+    {
+      "timestamp": "2026-07-31T16:18:08Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars (type: github-stars-own)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scvi-tools/SKILL.md"
+  }
+}
