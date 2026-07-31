@@ -12,6 +12,18 @@ Phase 1 materializes and compiles the evidence lake. It is the foundation for st
 
 The evidence lake is **type-first**. The primary working set is `evidence/by-type/<canonical-evidence-type>.md`. Legacy `evidence/tier_*.md` files may still be emitted as coexistence artifacts, but they are **not** the semantic routing key.
 
+## Multi-Target Peer-Review Source Packets (#1418)
+
+If one real peer-review source URL covers multiple named skills, materialize a temporary peer-review partition before compile instead of cloning intake rows or editing canonical evidence artifacts:
+
+```bash
+python evidence/scripts/peer_review_source_packets.py \
+  --manifest /path/to/manifest.json \
+  --by-type-dir /tmp/ev1418/by-type
+```
+
+This helper is `peer-review`-only, writes scratch `peer-review.md`, and emits one row per reviewed skill even when the same URL legitimately appears under each target. Reject strength/scoring fields anywhere in the packet (`trustNumber`, `grade`, `class`, `tier`, `level`, `stars`, `rank`). Do not commit scratch manifests or generated partitions without human approval.
+
 ## What Phase 1 does
 
 1. Reads active source inputs, collector channels, and named-skill evidence rows.

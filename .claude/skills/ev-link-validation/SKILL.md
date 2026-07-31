@@ -28,4 +28,4 @@ python evidence/scripts/validate_sources.py 10
 
 ## Output
 
-Write Firecrawl validation findings to the verification report and append a summary to the source report. Do not commit generated validation reports without human approval. Hand only live, correctly scoped rows to ingestion.
+Write Firecrawl validation findings to the verification report and append a summary to the source report. For #1418 scratch multi-target peer-review partitions, validate the repeated URL once per reviewed skill row in `peer-review.md` when the source legitimately covers each target; the repetition is expected, not duplicate-noise by itself. Do not commit generated validation reports, scratch manifests, or generated partitions without human approval. Hand only live, correctly scoped rows to ingestion.
