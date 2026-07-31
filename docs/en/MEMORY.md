@@ -2,43 +2,74 @@
 
 ---
 
-## 2026-07-28 — Routine 018
+## 2026-07-28 through 2026-07-31 — Routine 018 (consolidated)
 
-**Branch:** `docs/routines/018`
+**Branch:** `docs/routines/018` (single unified branch)
+**PR:** #1334 (draft) — consolidated all routine 018 work including follow-up syncs
+**Task:** SYNC trigger — version bump and content audit across full routine span.
+
+### Overall Trigger
+Routine documentation agent triggered; repository version jumped from v6.8.16 (routine 017) through v7.1.4 → v7.1.31 → v7.3.1. Routine 017 editor pass verified all 12 pages were locked at v6.8.16. Multiple version releases required staggered SYNC and content audit work across one unified branch per documentation workflow discipline.
+
+### Day 1: 2026-07-28 — Initial version sync v6.8.16 → v7.1.4
+
 **Task chosen:** Version bump to v7.1.4 (SYNC trigger).
 
-### Trigger
-Routine documentation agent triggered; repository version jumped from v6.8.16 (routine 017) to v7.1.4 via recent releases. Routine 017 editor pass verified all 12 pages were locked at v6.8.16, matching the tag at that time. New major/minor version released, so SYNC is required.
+**What I did:**
+1. Created `docs/routines/018` branch from main
+2. Updated all 12 English documentation HTML files from v6.8.16 to v7.1.4
+3. Synchronized nav version chips, footer strings, script cache-bust query parameters across all pages
 
-### What I did
-1. **Synchronized version numbers**: Updated all 12 English documentation HTML files under `docs/en/` from `v6.8.16` to `v7.1.4`. Includes nav version chips, footer version strings, and script query parameters (`?v=7.1.4`).
+**Files modified:** All 12 pages in `docs/en/`
+
+### Day 2: 2026-07-30 — Additional version sync v7.1.4 → v7.1.31
+
+**Task continuation:** PR #1334 still open. Repository released additional versions from v7.1.4 through v7.1.31. Updated all 12 documentation pages to v7.1.31.
+
+**What I did:**
+1. Synchronized all 12 pages from v7.1.4 to v7.1.31
+2. Verified nav chips, footer versions, script query parameters aligned across full suite
+
+**Files modified:** All 12 pages in `docs/en/`
+
+### Day 3: 2026-07-31 — Content audit & final version sync v7.1.31 → v7.3.1
+
+**Task continuation:** Repository has advanced to v7.3.1 on main. Performed ROTATE audit of skill-hierarchy.html (least-recently-touched page, last substantive edit routine 002, June 2026).
+
+**What I did:**
+1. Audited skill-hierarchy.html for clarity, links, and callouts
+   - Confirmed tier/stars explanation accurate
+   - Verified fusion section and examples current
+   - Confirmed Named Skills lifecycle comprehensive
+   - Validated local-first design explanation
+   - Checked sidebar scroll-spy and all navigation
+   - No missing links or broken callouts detected
+2. Updated skill-hierarchy.html from v7.1.31 to v7.3.1 (current main version)
+3. Updated DOCS.md page map to record routine 018 update
+4. Consolidated all work under single branch per workflow discipline
+
+**Files modified:**
+- All 12 pages in `docs/en/` (final version: v7.3.1)
+- `docs/en/DOCS.md` (page map updated)
+- `docs/en/MEMORY.md` (this entry, consolidated)
 
 ### Design decisions
-- Updated uniformly across all HTML files to maintain consistency. No content changes — version-only bump.
+- Updated uniformly across all HTML files to maintain consistency
+- No content changes — version maintenance only
+- Consolidated routines 020/021 work back into single routine 018 branch to maintain "one docs/routines branch at a time" discipline
+- Closed PRs #1413 and #1414 to consolidate into single PR #1334
 
-### Files modified
-All 12 pages in `docs/en/`:
-- `cli-reference.html`
-- `contributing.html`
-- `evidence-classes.html`
-- `faq.html`
-- `fusion.html`
-- `getting-started.html`
-- `index.html`
-- `mcp-server.html`
-- `named-skills.html`
-- `share-bundles.html`
-- `skill-hierarchy.html`
-- `timeline-audit.html`
+### Verification
+- All 12 pages synchronized to v7.3.1
+- HTML tag-balance check clean
+- No vocabulary drift (merge/combine/compose/rarity correctly used only in warnings)
+- Script query parameters match across suite
+- No broken links or navigation issues
 
-### Continued (2026-07-30) — Additional version sync to v7.1.31
-
-**Task continuation:** PR #1334 still open. Repository has released versions from v7.1.4 through v7.1.31. Updated all documentation pages from v7.1.4 to v7.1.31 to match current main branch tag. All nav chips, footer versions, and script query parameters synchronized to v7.1.31.
-
-### Planned next (Routine 021 or continuation)
-- Rotate: audit the least-recently-touched page (skill-hierarchy.html, last substantive edit routine 002) for clarity/link/callout improvements.
-- Sync: any new CLI flags or behaviors from v7.1.14 release notes.
-- Maintain: Audit upcoming features and generated artifact changes.
+### Planned next (Routine 019+)
+- ROTATE: audit next least-recently-touched page for content improvements
+- SYNC: monitor for new CLI features/flags between v7.1.31 and v7.3.1
+- Maintain: continue version synchronization on single unified branch per workflow discipline
 
 ---
 
