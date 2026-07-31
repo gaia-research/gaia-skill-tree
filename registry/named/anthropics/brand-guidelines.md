@@ -1,0 +1,55 @@
+---
+id: anthropics/brand-guidelines
+name: Brand Guidelines
+contributor: anthropics
+origin: false
+genericSkillRef: brand-guideline-application
+status: named
+level: 2★
+description: Applies Anthropic's official brand colors, typography, and visual rules
+  to artifacts that need Anthropic's look and feel.
+createdAt: '2026-07-31'
+updatedAt: '2026-07-31'
+title: Brand Guidelines
+links:
+  github: https://github.com/anthropics/skills/blob/main/skills/brand-guidelines/SKILL.md
+timeline:
+- timestamp: '2026-07-31T14:20:27Z'
+  action: add
+  contributor: unknown
+  details: Added named skill anthropics/brand-guidelines
+- timestamp: '2026-07-31T14:20:29Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/anthropics/skills (type: repo-own)'
+- timestamp: '2026-07-31T14:20:30Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/anthropics/skills/stargazers (type:
+    github-stars-own)'
+evidence:
+- source: https://github.com/anthropics/skills
+  evaluator: unknown
+  date: '2026-07-31'
+  type: repo-own
+  notes: Live repo metrics for anthropics/skills; 46 commits, 13 contributors.
+  commits: 46
+  contributors: 13
+  sourceStartedAt: '2025-09-22'
+  grade: B
+- source: https://github.com/anthropics/skills/stargazers
+  evaluator: unknown
+  date: '2026-07-31'
+  type: github-stars-own
+  notes: Live GitHub stars for anthropics/skills; skill-count divisor uses 17 SKILL.md
+    files under skills/.
+  stars: 165403
+  skillCountInRepo: 17
+  sourceStartedAt: '2025-09-22'
+  grade: B
+verification:
+  firstEvidenceAt: '2026-07-31T14:20:28Z'
+---
+
+## Installation
+Add installation instructions here.

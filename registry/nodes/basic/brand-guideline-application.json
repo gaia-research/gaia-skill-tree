@@ -1,0 +1,22 @@
+{
+  "id": "brand-guideline-application",
+  "name": "Brand Guideline Application",
+  "type": "basic",
+  "description": "Applies a supplied organization's colors, typography, and visual rules consistently to artifacts.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-31",
+  "updatedAt": "2026-07-31",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-31T14:20:26Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill brand-guideline-application"
+    }
+  ]
+}
