@@ -4,6 +4,98 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+
+## State Snapshot (2026-07-31, Lane B final — #1417 merged, intakes closed, #1395 ready for human gate)
+
+### TLDR
+- **Lane B backlog-eradication ingest is complete on `dev/issue-backlog`.** PR **#1417** merged into the integration branch at `85ec675cfffbd3b9c5f0af08d902e952b1a7f0ed`.
+- **#1395 remains draft/open and human-gated.** It is the final `dev/issue-backlog -> main` PR; do not merge it without Marcus's explicit final approval.
+- **Active intakes/issues were manually closed:** #1378, #1117, #1137, and #813 now have transparent `/gaia-intake-close` comments and are closed.
+- **Evidence/rank calibration is aligned for the 13 new named skills.** New K-Dense scientific skills, Ponytail, Brand Guidelines, and Log To Daily are all calibrated to current TM-effective ranks.
+- **Next real work is after the final integration gate:** merge #1395 if/when Marcus approves, then verify production/badges; defer #1419 benchmark RFC and #1401/#1028 hold until later.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| PR #1417 | ✅ Merged to `dev/issue-backlog`; included verified Lane B evidence ingest, #1418 peer-review packet helper, active intakes, K-Dense Group B, docs regen, and final evidence/rank calibration |
+| Active intakes | ✅ #1378 accepted; #1117 partially accepted/deferred; #1137 accepted with mapping correction; all closed with issue comments |
+| #813 Group B | ✅ 10 `k-dense-ai/*` named skills accepted with corrected `K-Dense-AI/scientific-agent-skills` provenance; issue closed |
+| Evidence discovery | ✅ Ponytail YouTube social-signal verified; K-Dense repo/star evidence verified; scientific paper evidence routed to parent generics only |
+| Calibration | ✅ Current ranks now match TM-effective ranks for all 13 new named skills; no pending calibration batch remains for Lane B |
+| CI | ✅ #1417 green before merge; #1395 checks green after merge; #1395 still draft/open |
+| Handoff | ✅ PR #1395 handoff comment posted: https://github.com/gaia-research/gaia-skill-tree/pull/1395#issuecomment-5145980445 |
+
+### Branches at end of session
+
+| Branch | Head SHA | Status |
+|---|---:|---|
+| `dev/issue-backlog` | `85ec675cfffbd3b9c5f0af08d902e952b1a7f0ed` | Active integration branch; pushed; PR #1395 draft/open to `main` |
+| `review/meta/lane-b-pass-ingest` | merged/deleted remotely | PR #1417 merged into `dev/issue-backlog` |
+| `main` | unchanged by this session | Do not touch until founder approves #1395 final merge |
+
+### Issues + PRs touched
+
+| Item | State |
+|---|---|
+| #1395 | ⏳ Draft/open integration PR; green; final human gate remains |
+| #1417 | ✅ Merged: Lane B verified evidence + active intake/K-Dense ingest + #1418 helper |
+| #1420 / #1418 | ✅ Child PR merged into #1417; multi-target peer-review source packet helper landed |
+| #1378 | ✅ Closed accepted: `anthropics/brand-guidelines` → `brand-guideline-application`, **3★ / B / TM 77.35** |
+| #1117 | ✅ Closed partial accepted/deferred: `aplaceforallmystuff/log-to-daily` → `session-journaling`, **1★ / ungraded / TM 1.26**; `vault-analyst` and `work-pattern-mining` deferred |
+| #1137 | ✅ Closed accepted with correction: `dietrichgebert/ponytail` → `implement-with-discernment`, **4★ / A / TM 102.49** |
+| #813 | ✅ Closed Group B accepted: 10 K-Dense scientific skills with corrected provenance and calibrated ranks |
+| #1419 | ⏳ Open benchmark RFC; intentionally untouched after creation |
+| #1401 / #1028 | ⏸ Still held intentionally as draft/green; do not merge or depend on it without explicit release |
+
+### Final Lane B rank/TM table
+
+| Skill | Final rank | TM / grade |
+|---|---:|---:|
+| `anthropics/brand-guidelines` | 3★ | 77.35 / B |
+| `aplaceforallmystuff/log-to-daily` | 1★ | 1.26 / ungraded |
+| `dietrichgebert/ponytail` | 4★ | 102.49 / A |
+| `k-dense-ai/deepchem` | 4★ | 137.07 / A |
+| `k-dense-ai/pymc` | 4★ | 146.07 / A |
+| `k-dense-ai/pytorch-lightning` | 3★ | 67.07 / B |
+| `k-dense-ai/qiskit` | 3★ | 93.03 / B |
+| `k-dense-ai/rdkit` | 2★ | 49.07 / C |
+| `k-dense-ai/scanpy` | 3★ | 76.07 / B |
+| `k-dense-ai/scvi-tools` | 2★ | 49.07 / C |
+| `k-dense-ai/stable-baselines3` | 3★ | 76.07 / B |
+| `k-dense-ai/torch-geometric` | 4★ | 137.07 / A |
+| `k-dense-ai/transformers` | 3★ | 76.07 / B |
+
+### Routing — where things live now
+
+- **Production path:** #1395 is the only remaining gate from `dev/issue-backlog` to `main`.
+- **Badge/site verification after #1395 merge:** check newly generated pages/assets for `anthropics`, `dietrichgebert`, and `k-dense-ai`; `aplaceforallmystuff/log-to-daily` is 1★, below public badge floor.
+- **Benchmark policy:** #1419 owns benchmark-result reproducibility requirements; do not ingest Tessl/Firecrawl benchmark-like rows until that RFC is resolved.
+- **Deferred daily-patterns half:** `vault-analyst` / `work-pattern-mining` needs exact upstream `SKILL.md` or Marcus waiver before reconsideration.
+- **Future evidence improvements:** `log-to-daily`, `k-dense-ai/rdkit`, and `k-dense-ai/scvi-tools` are best next promotion targets if new verifier/paper evidence appears.
+
+### Lessons / hazards preserved
+
+- `/trust-appraise --repo` is useful for live repo appraisal, but its fusion-recipe total is not appropriate for non-suite K-Dense rows; use row-level repo/star evidence plus `/gaia-tm-inspect` for named effective rank.
+- K-Dense `github-stars-own` should use `https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars`; `/stargazers` scraped as GitHub 404.
+- K-Dense paper evidence belongs on parent generics, not named K-Dense children, unless a paper is about the K-Dense artifact itself.
+- Discovery packets from #813 were scratch artifacts; unresolved packets should not be committed.
+- `docs/okf/` stale messages are warn-only for this lane; `dev docs --check` still ended “Documentation is up to date.”
+- Pushing through Git Credential Manager hung in this Windows session; direct Basic auth with `gh auth token` worked.
+
+### Open questions for next orchestrator
+
+1. Does Marcus approve marking #1395 ready and merging `dev/issue-backlog -> main`?
+2. After #1395 merges, should we run the full close-out/release verification pass immediately or wait for registry/site automation?
+3. When issue backlog is fully shipped, resume #1419 benchmark RFC and decide reproducibility metadata for Tessl/Firecrawl benchmark-style sources.
+4. Decide whether #1401 / #1028 remains held or is released in a later session.
+
+### Token cost (this session)
+
+- Main session: **$38.7666** estimated (`hai-litellm/gpt-5.5`, 340 turns; 1,559,815 input / 176,655 output / 51,335,680 cache-read tokens).
+- Subagents: **$15.6166** estimated.
+- Total session estimate: **$54.3832**.
+
 ## State Snapshot (2026-07-31, Lane B checkpoint — #1148 merged, L4 intake decisions approved, evidence/curation queues split)
 
 ### TLDR
