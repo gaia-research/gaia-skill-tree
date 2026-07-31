@@ -4,6 +4,34 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-07-31, active backlog lane — main merged into `dev/issue-backlog`, #1148 ready for recalibrated plan)
+
+### TLDR
+- **Active branch:** `dev/issue-backlog`; integration PR **#1395** remains the governing draft PR to `main`.
+- **Main has been merged into the integration branch** via `e250ad536` (`Merge origin/main into dev/issue-backlog`) and pushed. This was intentional so upcoming Lane B intake/evidence work sits on top of the latest mainline intakes/calibrations.
+- **Only merge conflict was `founder/MEMORY.md`.** Resolution preserved the new `origin/main` snapshots and also retained the prior `dev/issue-backlog` backlog snapshots lower in the file. No code conflict was hand-resolved by the orchestrator.
+- **#1148 remains the next implementation target.** Marcus approved the permanent type-partition direction: use `evidence/by-type/` for evidence-type partitions.
+- **No dry run.** Once #1148 is implemented/reviewed/merged into #1395, the next operational step is a real intake batch on top of the merged-main state.
+
+### Locked routing
+
+| Item | State |
+|---|---|
+| #1395 | Draft/open integration PR; do not merge to main without founder gate |
+| #1401 / #1028 | Green but held indefinitely as draft; do not merge or depend on it unless Marcus releases the hold |
+| #1148 | Start child PR after refreshed planner-sol calibration against post-merge main |
+| Evidence output layout | Approved: `evidence/by-type/` plus legacy `tier_*.md` coexistence outputs |
+| Generated evidence/report artifacts | Do not commit without explicit human gate |
+| Registry mutation | None without explicit human gate; #1148 should be code/docs/tests only |
+
+### Next action
+1. Re-run **planner-sol** now that `origin/main` is merged, specifically asking it to inspect the new mainline intake/calibration/evidence/report changes and recalibrate the #1148 plan.
+2. Then delegate implementation to **worker-sol** on a child branch based on fresh `origin/dev/issue-backlog`.
+3. Worker scope should include the evidence scripts and the full ev-pipeline skill surface (`ev-pipeline`, `evidence-verification-pipeline`, phase skills, both `.agents` and `.claude` mirrors).
+4. Reviewer must verify: mirrors byte-identical, tests pass, no generated evidence dumps staged, no registry diffs.
+
+---
+
 ## State Snapshot (2026-07-31, Session 8I closed — Arc I, Program 1's KC1/KC2/KC4/KC5/KC6 merged to skill-heaven `main`; KC9 withheld indefinitely; two Arc II follow-ups filed; #1258's remainder re-tracked)
 
 ### TLDR
