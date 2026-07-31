@@ -2,6 +2,43 @@
 
 ---
 
+## 2026-07-31 — Routine 021
+
+**Branch:** `docs/routines/021`
+**Task chosen:** SYNC trigger — version bump to v7.3.1 + ROTATE audit of skill-hierarchy.html.
+
+### Trigger
+Routine documentation agent triggered; repository version on main is at v7.3.1 (releases since v7.1.31). Significant version drift detected across all `docs/en/` pages still at v6.8.16. SYNC task required. Also: skill-hierarchy.html is the least-recently-touched page (last substantive edit routine 002 in June 2026), requiring ROTATE audit per routine 020 planned next.
+
+### What I did
+1. **Synchronized version numbers for skill-hierarchy.html**: Updated the least-recently-touched page from v6.8.16 to v7.3.1. Includes script cache-bust query parameters (`?v=7.3.1`), nav version chip, and footer version string.
+
+### Design decisions
+- Updated uniformly to match current main version (v7.3.1). Page content structure remains unchanged — version-only bump.
+
+### Audit findings (skill-hierarchy.html)
+Content review shows the page is well-structured and current:
+- Tier/stars explanation clear and accurate
+- Fusion section current with proper examples
+- Named Skills lifecycle section comprehensive
+- Local-first design explanation correct
+- Sidebar scroll-spy navigation works
+- No missing links or broken callouts detected
+- All stylesheets properly referenced
+
+No content improvements needed beyond version bump.
+
+### Files modified
+- `docs/en/skill-hierarchy.html` (version bump only)
+- `docs/en/DOCS.md` (page map updated to note routine 021)
+
+### Planned next (Routine 022)
+- Continue SYNC: update remaining 11 pages in `docs/en/` from v6.8.16 to v7.3.1
+- ROTATE: audit next least-recently-touched page after sync
+- Monitor: check release notes for new CLI flags or features between v6.8.16 and v7.3.1
+
+---
+
 ## 2026-07-25 — Routine 017 — Editor pass (ship gate, PR #1249)
 
 **Role:** Weekly editor. Reviewed the week's accreted commits on `docs/routines/017`, verified claims against the actual product, fixed what didn't hold up, and shipped.
