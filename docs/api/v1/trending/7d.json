@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-07-30T22:38:28Z",
+  "generatedAt": "2026-07-31T13:24:26Z",
   "firstRun": false,
   "skills": [
     {
@@ -94,7 +94,7 @@
       "contributor": "gsd-build",
       "trustMagnitude": 202.16,
       "overallTrustGrade": "A",
-      "trendingScore": 50.0,
+      "trendingScore": 60.0,
       "tmDelta": 0.0,
       "new": false,
       "_links": {
@@ -172,6 +172,34 @@
       }
     },
     {
+      "id": "addy-osmani/incremental-implementation",
+      "name": "Incremental Implementation",
+      "level": "3★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 53.14,
+      "overallTrustGrade": "B",
+      "trendingScore": 20.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/incremental-implementation.json"
+      }
+    },
+    {
+      "id": "addy-osmani/planning-and-task-breakdown",
+      "name": "Planning and Task Breakdown",
+      "level": "3★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 53.14,
+      "overallTrustGrade": "B",
+      "trendingScore": 20.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/planning-and-task-breakdown.json"
+      }
+    },
+    {
       "id": "disler/auto-review",
       "name": "Auto-Review",
       "level": "2★",
@@ -240,9 +268,51 @@
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
       }
+    },
+    {
+      "id": "obra/subagent-driven-development",
+      "name": "Subagent-Driven Development",
+      "level": "4★",
+      "contributor": "obra",
+      "trustMagnitude": 117.65,
+      "overallTrustGrade": "A",
+      "trendingScore": 10.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/obra/subagent-driven-development.json"
+      }
+    },
+    {
+      "id": "obra/brainstorming",
+      "name": "Brainstorming",
+      "level": "3★",
+      "contributor": "obra",
+      "trustMagnitude": 95.15,
+      "overallTrustGrade": "B",
+      "trendingScore": 10.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/obra/brainstorming.json"
+      }
+    },
+    {
+      "id": "addy-osmani/spec-driven-development",
+      "name": "Spec-Driven Development",
+      "level": "3★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 53.14,
+      "overallTrustGrade": "B",
+      "trendingScore": 10.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
+      }
     }
   ],
-  "totalTrending": 17,
+  "totalTrending": 22,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-30",
+  "generatedAt": "2026-07-31",
   "buckets": {
     "automated-testing": [
       {
@@ -623,6 +623,15 @@
             "commits": 2888,
             "contributors": 136,
             "grade": "B"
+          },
+          {
+            "source": "https://arxiv.org/html/2606.04967v1",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "arxiv",
+            "notes": "Academic paper 'From Prompt to Process' analyzes GSD across a six-dimensional software-engineering process taxonomy.",
+            "citations": 0,
+            "sourceStartedAt": "2026-06-03"
           }
         ],
         "createdAt": "2026-07-03",
@@ -736,6 +745,12 @@
             "action": "rank_up",
             "contributor": "marcotiongson",
             "details": "Calibrated level from 3★ to 4★"
+          },
+          {
+            "timestamp": "2026-07-31T13:06:54Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://arxiv.org/html/2606.04967v1 (type: arxiv)"
           }
         ],
         "suiteComponents": [
@@ -1820,10 +1835,30 @@
             "commits": 260,
             "contributors": 36,
             "grade": "B"
+          },
+          {
+            "source": "https://rachel.fyi/posts/what-i-took-from-addy-osmanis-agent-skills",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "peer-review",
+            "notes": "Independent review directly discusses the implement-test-verify-commit loop and small reversible commits.",
+            "reviewers": 1,
+            "sourceStartedAt": "2026-04-16",
+            "grade": "C"
+          },
+          {
+            "source": "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "peer-review",
+            "notes": "Agentailor peer review treats incremental-implementation as the approved implementation phase of the spec-driven workflow via the Implement gate.",
+            "reviewers": 1,
+            "sourceStartedAt": "2026-06-19",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-07-03",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:42:18Z",
@@ -1895,6 +1930,18 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-07-31T13:06:53Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://rachel.fyi/posts/what-i-took-from-addy-osmanis-agent-skills (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-07-31T13:21:09Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
@@ -2506,10 +2553,30 @@
             "commits": 260,
             "contributors": 36,
             "grade": "B"
+          },
+          {
+            "source": "https://rachel.fyi/posts/what-i-took-from-addy-osmanis-agent-skills",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "peer-review",
+            "notes": "Independent review directly discusses the skill's <=5-file task constraint and checkpoint discipline.",
+            "reviewers": 1,
+            "sourceStartedAt": "2026-04-16",
+            "grade": "C"
+          },
+          {
+            "source": "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "peer-review",
+            "notes": "Agentailor peer review treats planning-and-task-breakdown as an approved sub-phase of the spec-driven workflow via the Plan and Tasks gates.",
+            "reviewers": 1,
+            "sourceStartedAt": "2026-06-19",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-07-03",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:42:18Z",
@@ -2581,6 +2648,18 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-07-31T13:06:52Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://rachel.fyi/posts/what-i-took-from-addy-osmanis-agent-skills (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-07-31T13:21:09Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
@@ -3467,10 +3546,20 @@
             "commits": 260,
             "contributors": 36,
             "grade": "B"
+          },
+          {
+            "source": "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "peer-review",
+            "notes": "Agentailor peer review recommends spec-driven-development as the anchor skill and summarizes its gated Specify -> Plan -> Tasks -> Implement workflow for durable agentic engineering.",
+            "reviewers": 1,
+            "sourceStartedAt": "2026-06-19",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-07-03",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:42:16Z",
@@ -3542,6 +3631,12 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-07-31T13:21:08Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
@@ -15333,10 +15428,20 @@
             "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
             "evaluator": "unknown",
             "date": "2026-06-19"
+          },
+          {
+            "source": "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "peer-review",
+            "notes": "Agentailor peer review recommends brainstorming for pre-code design refinement, clarifying questions, and hard approval before implementation.",
+            "reviewers": 1,
+            "sourceStartedAt": "2026-06-19",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:46Z",
@@ -15408,6 +15513,12 @@
             "action": "rank_up",
             "contributor": "mbtiongson1",
             "details": "Level updated from 2★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-07-31T13:21:11Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -15652,10 +15763,20 @@
             "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
             "evaluator": "unknown",
             "date": "2026-06-19"
+          },
+          {
+            "source": "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "peer-review",
+            "notes": "Agentailor peer review recommends subagent-driven-development for per-task isolation with spec-compliance and code-quality review.",
+            "reviewers": 1,
+            "sourceStartedAt": "2026-06-19",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-07-20",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:48Z",
@@ -15749,6 +15870,12 @@
             "details": "Generic parent 'subagent-driven-development' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-20"
+          },
+          {
+            "timestamp": "2026-07-31T13:21:13Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
           }
         ],
         "suiteRef": "obra/superpowers",

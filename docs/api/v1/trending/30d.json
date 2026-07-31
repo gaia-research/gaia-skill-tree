@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-07-30T22:38:28Z",
+  "generatedAt": "2026-07-31T13:24:26Z",
   "firstRun": false,
   "skills": [
     {
@@ -46,6 +46,62 @@
       }
     },
     {
+      "id": "addy-osmani/incremental-implementation",
+      "name": "Incremental Implementation",
+      "level": "3★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 53.14,
+      "overallTrustGrade": "B",
+      "trendingScore": 90.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/incremental-implementation.json"
+      }
+    },
+    {
+      "id": "addy-osmani/planning-and-task-breakdown",
+      "name": "Planning and Task Breakdown",
+      "level": "3★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 53.14,
+      "overallTrustGrade": "B",
+      "trendingScore": 90.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/planning-and-task-breakdown.json"
+      }
+    },
+    {
+      "id": "gsd-build/get-shit-done",
+      "name": "Get Shit Done",
+      "level": "4★",
+      "contributor": "gsd-build",
+      "trustMagnitude": 202.16,
+      "overallTrustGrade": "A",
+      "trendingScore": 80.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/gsd-build/get-shit-done.json"
+      }
+    },
+    {
+      "id": "addy-osmani/spec-driven-development",
+      "name": "Spec-Driven Development",
+      "level": "3★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 53.14,
+      "overallTrustGrade": "B",
+      "trendingScore": 80.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
+      }
+    },
+    {
       "id": "addy-osmani/agent-skills",
       "name": "Agent Skills",
       "level": "5★",
@@ -57,20 +113,6 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/addy-osmani/agent-skills.json"
-      }
-    },
-    {
-      "id": "gsd-build/get-shit-done",
-      "name": "Get Shit Done",
-      "level": "4★",
-      "contributor": "gsd-build",
-      "trustMagnitude": 202.16,
-      "overallTrustGrade": "A",
-      "trendingScore": 70.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/gsd-build/get-shit-done.json"
       }
     },
     {
@@ -88,34 +130,6 @@
       }
     },
     {
-      "id": "addy-osmani/incremental-implementation",
-      "name": "Incremental Implementation",
-      "level": "3★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 53.14,
-      "overallTrustGrade": "B",
-      "trendingScore": 70.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/incremental-implementation.json"
-      }
-    },
-    {
-      "id": "addy-osmani/planning-and-task-breakdown",
-      "name": "Planning and Task Breakdown",
-      "level": "3★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 53.14,
-      "overallTrustGrade": "B",
-      "trendingScore": 70.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/planning-and-task-breakdown.json"
-      }
-    },
-    {
       "id": "addy-osmani/shipping-and-launch",
       "name": "Shipping and Launch",
       "level": "3★",
@@ -127,20 +141,6 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/addy-osmani/shipping-and-launch.json"
-      }
-    },
-    {
-      "id": "addy-osmani/spec-driven-development",
-      "name": "Spec-Driven Development",
-      "level": "3★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 53.14,
-      "overallTrustGrade": "B",
-      "trendingScore": 70.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
       }
     },
     {
@@ -550,6 +550,20 @@
       }
     },
     {
+      "id": "obra/subagent-driven-development",
+      "name": "Subagent-Driven Development",
+      "level": "4★",
+      "contributor": "obra",
+      "trustMagnitude": 117.65,
+      "overallTrustGrade": "A",
+      "trendingScore": 10.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/obra/subagent-driven-development.json"
+      }
+    },
+    {
       "id": "openai/few-shot-learning",
       "name": "Few-Shot Learning",
       "level": "4★",
@@ -561,6 +575,20 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/openai/few-shot-learning.json"
+      }
+    },
+    {
+      "id": "obra/brainstorming",
+      "name": "Brainstorming",
+      "level": "3★",
+      "contributor": "obra",
+      "trustMagnitude": 95.15,
+      "overallTrustGrade": "B",
+      "trendingScore": 10.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/obra/brainstorming.json"
       }
     },
     {
@@ -592,7 +620,7 @@
       }
     }
   ],
-  "totalTrending": 42,
+  "totalTrending": 44,
   "_links": {
     "self": "/api/v1/trending/30d.json"
   }

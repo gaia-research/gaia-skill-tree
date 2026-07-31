@@ -2,12 +2,12 @@
   "distribution": {
     "total": 209,
     "S": 5,
-    "A": 50,
-    "B": 72,
+    "A": 51,
+    "B": 71,
     "C": 82,
     "ungraded": 0,
     "floor": 0,
-    "up": 1
+    "up": 2
   },
   "rows": [
     {
@@ -305,6 +305,19 @@
       },
       "origin": true,
       "branch": "unique"
+    },
+    {
+      "id": "obra/brainstorming",
+      "trustMagnitude": 110.15,
+      "grade": "A",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "peer-review": 45.0,
+        "social-signal": 29.15
+      },
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "obra/writing-plans",
@@ -690,6 +703,32 @@
       "branch": "unique"
     },
     {
+      "id": "addy-osmani/incremental-implementation",
+      "trustMagnitude": 98.14,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 17.14,
+        "repo-own": 36.0,
+        "peer-review": 45.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "addy-osmani/planning-and-task-breakdown",
+      "trustMagnitude": 98.14,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 17.14,
+        "repo-own": 36.0,
+        "peer-review": 45.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "id": "ruvnet/hive-mind-coordination",
       "trustMagnitude": 96.59,
       "grade": "B",
@@ -713,19 +752,6 @@
       },
       "origin": true,
       "branch": "suite"
-    },
-    {
-      "id": "obra/brainstorming",
-      "trustMagnitude": 95.15,
-      "grade": "B",
-      "level": "3★",
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "peer-review": 30.0,
-        "social-signal": 29.15
-      },
-      "origin": true,
-      "branch": "standard"
     },
     {
       "id": "obra/executing-plans",
@@ -864,6 +890,19 @@
         "github-stars-own": 50.0
       },
       "origin": true,
+      "branch": "standard"
+    },
+    {
+      "id": "addy-osmani/spec-driven-development",
+      "trustMagnitude": 83.14,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 17.14,
+        "repo-own": 36.0,
+        "peer-review": 30.0
+      },
+      "origin": false,
       "branch": "standard"
     },
     {
@@ -1441,43 +1480,7 @@
       "branch": "standard"
     },
     {
-      "id": "addy-osmani/incremental-implementation",
-      "trustMagnitude": 53.14,
-      "grade": "B",
-      "level": "3★",
-      "typeBreakdown": {
-        "github-stars-own": 17.14,
-        "repo-own": 36.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "addy-osmani/planning-and-task-breakdown",
-      "trustMagnitude": 53.14,
-      "grade": "B",
-      "level": "3★",
-      "typeBreakdown": {
-        "github-stars-own": 17.14,
-        "repo-own": 36.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
       "id": "addy-osmani/shipping-and-launch",
-      "trustMagnitude": 53.14,
-      "grade": "B",
-      "level": "3★",
-      "typeBreakdown": {
-        "github-stars-own": 17.14,
-        "repo-own": 36.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "addy-osmani/spec-driven-development",
       "trustMagnitude": 53.14,
       "grade": "B",
       "level": "3★",
@@ -1560,6 +1563,18 @@
         "self-attestation": 5.0
       },
       "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "addy-osmani/test-driven-development",
+      "trustMagnitude": 45.0,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "peer-review": 9.0
+      },
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -1710,17 +1725,6 @@
         "repo-own": 36.0
       },
       "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "addy-osmani/test-driven-development",
-      "trustMagnitude": 36.0,
-      "grade": "C",
-      "level": "2★",
-      "typeBreakdown": {
-        "repo-own": 36.0
-      },
-      "origin": true,
       "branch": "standard"
     },
     {
