@@ -23,14 +23,14 @@ All changes were validated with `gaia dev validate` on the integration branch be
 
 ## Executive Summary
 
-> **v7.3.3 at a glance — 37 nodes affected across 8 change categories**
+> **v7.3.3 at a glance — 38 nodes affected across 8 change categories**
 
 | Category | Skills | Direction |
 |---|:---:|:---:|
 | DeepMind unique-branch demotions (origin gate) | **16** | 🔴 ▼ 3★ |
 | DeepMind primary-bucket promotions (origin gate) | **3** | 🟢 ▲ 4★ |
 | DeepMind primary leads (`origin: true` assigned) | **6** | 🔵 4★ (origin flag set) |
-| Dead-link demotion (`science_skills_common`) | **1** | 🔴 ▼ 1★ |
+| Dead-link demotions (`science_skills_common` & `pexp13/sentiment-analysis`) | **2** | 🔴 ▼ 1★ |
 | Trust-ledger redactions (1★ payload cleanup) | varies | ⚪ ledger only |
 | Timeline backfill (`pexp13/sentiment-analysis`) | **1** | ⚪ metadata only |
 | Sole-bucket origin calibrations (`disler`) | **4** | 🔵 2★ (origin flag set) |
@@ -62,12 +62,17 @@ Nine nodes were confirmed as canonical primary leads for their DeepMind sub-clus
 
 Following a methodology review (see `docs/codex/trust-methodology.html`), the gate was corrected: a confirmed primary lead with `origin: true` and at least one A-grade evidence row qualifies for 4★ without requiring a second independent repository row.
 
-### Dead-Link Demotion — `science_skills_common` to 1★
+### Dead-Link Demotions — `science_skills_common` & `pexp13/sentiment-analysis` to 1★
 
 > [!WARNING]
-> `science_skills_common` was demoted from **4★ → 1★** due to a permanent HTTP 404 error on its primary evidence URL across three Firecrawl checks spanning 48 hours.
+> **Dead-Link Demotions:** Both `science_skills_common` and `pexp13/sentiment-analysis` were demoted from **4★ → 1★** due to permanent HTTP 404 errors on their primary repository URLs (META.md Star Bar floor).
 
-Registry policy requires that any node whose primary evidence link is permanently unreachable drop to 1★, regardless of prior TM score. If the upstream repository is restored or mirrored, a re-promotion request can be filed through intake.
+Registry policy requires that any node whose primary evidence link or repository URL is permanently unreachable drop to 1★, regardless of prior TM score:
+
+- **`science_skills_common`**: Primary evidence URL returned HTTP 404 across three Firecrawl validation checks spanning 48 hours.
+- **`pexp13/sentiment-analysis`**: Repository URL (`links.github`) returned HTTP 404 and carries an empty frontmatter evidence list (`evidence: []`). Calibrated to 1★ via PR #1422 (`gaia dev calibrate pexp13/sentiment-analysis 1★`).
+
+If upstream repositories are restored or mirrored, re-promotion requests can be submitted through standard intake.
 
 ---
 
