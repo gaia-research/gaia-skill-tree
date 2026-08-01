@@ -1,15 +1,15 @@
 {
-  "version": "6.4.0",
-  "generatedAt": "2026-08-01T01:44:10Z",
+  "version": "7.3.5",
+  "generatedAt": "2026-08-01T07:44:35Z",
   "summary": {
-    "total": 220,
+    "total": 207,
     "S": 5,
-    "A": 54,
-    "B": 77,
-    "C": 84,
+    "A": 48,
+    "B": 72,
+    "C": 82,
     "ungraded": 0,
     "floor": 0,
-    "up": 18
+    "up": 17
   },
   "rows": [
     {
@@ -275,64 +275,6 @@
       "branch": "suite"
     },
     {
-      "skillId": "k-dense-ai/pymc",
-      "tm": 146.07,
-      "grade": "A",
-      "currentStars": "4★",
-      "mayStars": "4★",
-      "juneStars": "4★",
-      "g7Stars": "4★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 54.0,
-        "github-stars-own": 8.07,
-        "arxiv": 70.0,
-        "peer-review": 9.0
-      },
-      "origin": false,
-      "branch": "unique"
-    },
-    {
-      "skillId": "k-dense-ai/deepchem",
-      "tm": 137.07,
-      "grade": "A",
-      "currentStars": "4★",
-      "mayStars": "4★",
-      "juneStars": "4★",
-      "g7Stars": "4★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 54.0,
-        "github-stars-own": 8.07,
-        "arxiv": 70.0
-      },
-      "origin": false,
-      "branch": "unique"
-    },
-    {
-      "skillId": "k-dense-ai/torch-geometric",
-      "tm": 137.07,
-      "grade": "A",
-      "currentStars": "4★",
-      "mayStars": "4★",
-      "juneStars": "4★",
-      "g7Stars": "4★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 54.0,
-        "github-stars-own": 8.07,
-        "arxiv": 70.0
-      },
-      "origin": false,
-      "branch": "unique"
-    },
-    {
       "skillId": "firecrawl/firecrawl-build-scrape",
       "tm": 135.6,
       "grade": "A",
@@ -401,22 +343,6 @@
         "github-stars-own": 42.61,
         "arxiv": 3.8,
         "peer-review": 45.0
-      },
-      "origin": true,
-      "branch": "unique"
-    },
-    {
-      "skillId": "pexp13/sentiment-analysis",
-      "tm": 126.07,
-      "grade": "A",
-      "currentStars": "4★",
-      "mayStars": "2★",
-      "juneStars": "4★",
-      "g7Stars": "4★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "arxiv": 126.07
       },
       "origin": true,
       "branch": "unique"
@@ -527,24 +453,6 @@
       "branch": "unique"
     },
     {
-      "skillId": "obra/brainstorming",
-      "tm": 110.15,
-      "grade": "A",
-      "currentStars": "3★",
-      "mayStars": "2★",
-      "juneStars": "3★",
-      "g7Stars": "4★",
-      "flag": "[up]",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "peer-review": 45.0,
-        "social-signal": 29.15
-      },
-      "origin": true,
-      "branch": "standard"
-    },
-    {
       "skillId": "obra/writing-plans",
       "tm": 110.15,
       "grade": "A",
@@ -595,25 +503,6 @@
         "github-stars-own": 68.29
       },
       "origin": true,
-      "branch": "unique"
-    },
-    {
-      "skillId": "dietrichgebert/ponytail",
-      "tm": 102.49,
-      "grade": "A",
-      "currentStars": "4★",
-      "mayStars": "4★",
-      "juneStars": "4★",
-      "g7Stars": "4★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 23.21,
-        "social-signal": 42.58,
-        "arxiv": 0.7
-      },
-      "origin": false,
       "branch": "unique"
     },
     {
@@ -1090,42 +979,6 @@
       "branch": "unique"
     },
     {
-      "skillId": "addy-osmani/incremental-implementation",
-      "tm": 98.14,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "github-stars-own": 17.14,
-        "repo-own": 36.0,
-        "peer-review": 45.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "addy-osmani/planning-and-task-breakdown",
-      "tm": 98.14,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "github-stars-own": 17.14,
-        "repo-own": 36.0,
-        "peer-review": 45.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
       "skillId": "ruvnet/hive-mind-coordination",
       "tm": 96.59,
       "grade": "B",
@@ -1159,6 +1012,24 @@
       },
       "origin": true,
       "branch": "suite"
+    },
+    {
+      "skillId": "obra/brainstorming",
+      "tm": 95.15,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "2★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "peer-review": 30.0,
+        "social-signal": 29.15
+      },
+      "origin": true,
+      "branch": "standard"
     },
     {
       "skillId": "obra/executing-plans",
@@ -1304,25 +1175,6 @@
       "branch": "standard"
     },
     {
-      "skillId": "k-dense-ai/qiskit",
-      "tm": 93.03,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 36.0,
-        "github-stars-own": 8.07,
-        "arxiv": 43.96
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
       "skillId": "anthropic/skill-creator",
       "tm": 90.0,
       "grade": "B",
@@ -1374,24 +1226,6 @@
       "branch": "standard"
     },
     {
-      "skillId": "addy-osmani/spec-driven-development",
-      "tm": 83.14,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "github-stars-own": 17.14,
-        "repo-own": 36.0,
-        "peer-review": 30.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
       "skillId": "garrytan/retro",
       "tm": 81.0,
       "grade": "B",
@@ -1406,80 +1240,6 @@
         "peer-review": 45.0
       },
       "origin": true,
-      "branch": "standard"
-    },
-    {
-      "skillId": "anthropics/brand-guidelines",
-      "tm": 77.35,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 41.35
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "k-dense-ai/scanpy",
-      "tm": 76.07,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 54.0,
-        "github-stars-own": 8.07,
-        "peer-review": 9.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "k-dense-ai/stable-baselines3",
-      "tm": 76.07,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 54.0,
-        "github-stars-own": 8.07,
-        "peer-review": 9.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "k-dense-ai/transformers",
-      "tm": 76.07,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 54.0,
-        "github-stars-own": 8.07,
-        "peer-review": 9.0
-      },
-      "origin": false,
       "branch": "standard"
     },
     {
@@ -1736,24 +1496,6 @@
       },
       "origin": true,
       "branch": "unique"
-    },
-    {
-      "skillId": "k-dense-ai/pytorch-lightning",
-      "tm": 67.07,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 54.0,
-        "github-stars-own": 8.07
-      },
-      "origin": false,
-      "branch": "standard"
     },
     {
       "skillId": "garrytan/careful",
@@ -2298,7 +2040,58 @@
       "branch": "standard"
     },
     {
+      "skillId": "addy-osmani/incremental-implementation",
+      "tm": 53.14,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 17.14,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "addy-osmani/planning-and-task-breakdown",
+      "tm": 53.14,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 17.14,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "skillId": "addy-osmani/shipping-and-launch",
+      "tm": 53.14,
+      "grade": "B",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "3★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 17.14,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "addy-osmani/spec-driven-development",
       "tm": 53.14,
       "grade": "B",
       "currentStars": "3★",
@@ -2416,59 +2209,6 @@
         "self-attestation": 5.0
       },
       "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "k-dense-ai/rdkit",
-      "tm": 49.07,
-      "grade": "C",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "2★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 36.0,
-        "github-stars-own": 8.07
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "k-dense-ai/scvi-tools",
-      "tm": 49.07,
-      "grade": "C",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "2★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "self-attestation": 5.0,
-        "repo-own": 36.0,
-        "github-stars-own": 8.07
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "addy-osmani/test-driven-development",
-      "tm": 45.0,
-      "grade": "C",
-      "currentStars": "2★",
-      "mayStars": "3★",
-      "juneStars": "2★",
-      "g7Stars": "2★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "peer-review": 9.0
-      },
-      "origin": true,
       "branch": "standard"
     },
     {
@@ -2684,6 +2424,22 @@
         "repo-own": 36.0
       },
       "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "addy-osmani/test-driven-development",
+      "tm": 36.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "mayStars": "3★",
+      "juneStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": true,
       "branch": "standard"
     },
     {
