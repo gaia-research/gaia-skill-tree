@@ -13,7 +13,7 @@ Calibrations in this release span three categories:
 
 1. **Origin-gate corrections** — demotions and promotions within the DeepMind cluster based on whether a node holds the canonical primary-bucket `origin: true` designation.
 2. **Trust-ledger safeguards** — redaction of low-signal 1-star skills from trust-ledger payloads and backfill of missing timeline events for impacted contributors.
-3. **Intake promotions** — new named-skill nodes admitted under verified evidence from the `ev-seed` pipeline and the `autonomous-web-research` suite.
+3. **Intake promotions** — new named-skill nodes admitted under verified evidence from the `ev-seed` pipeline and the promotion of `mvanhorn/last30days` as a 4★ Unique implementation under `autonomous-web-research`.
 
 All changes were validated with `gaia dev validate` on the integration branch before merge. No direct commits were made to `main`; every change landed through a reviewed PR.
 
@@ -30,7 +30,7 @@ All changes were validated with `gaia dev validate` on the integration branch be
 | Timeline backfill (`pexp13/sentiment-analysis`) | 1 | — (metadata only) |
 | Sole-bucket origin calibrations (disler) | 3 | mixed |
 | New named-skill admissions (`ev-seed`) | 11 | ▲ new nodes |
-| Suite promotion (`mvanhorn/last30days`) | 1 | ▲ to suite entry |
+| Named promotion (`mvanhorn/last30days`) | 1 | ▲ to 4★ Unique skill |
 
 The registry exits v7.3.3 with a tighter origin-gate enforcement posture. Skills that share a DeepMind cluster bucket with a canonical primary lead but do not themselves hold `origin: true` are now uniformly capped at 3★ until additional independent evidence raises their Trust Magnitude above the 4★ threshold through non-origin channels. This prevents cluster proximity from laundering unearned rank elevation.
 
@@ -104,15 +104,14 @@ All three node files, their evidence rows, and the `registry/named/disler/` suit
 
 ## Intake & Promotion Summary
 
-### `mvanhorn/last30days` — Suite Entry Under `autonomous-web-research`
+### `mvanhorn/last30days` — Named Implementation Under `autonomous-web-research`
 
-`mvanhorn/last30days` was submitted through the standard intake form referencing the `autonomous-web-research` suite. Evidence review found:
+`mvanhorn/last30days` was promoted via PR #1391 as a 4★ named implementation of the generic `autonomous-web-research` fusion node. Evidence review verified:
 
-- One A-grade repo evidence row (live GitHub link, >200 stars at time of verification).
-- One B-grade social-signal row (newsletter mention with attribution).
-- Confirmed compatibility with the `autonomous-web-research` suite's prerequisite graph.
+- Verified `origin: true` canonical status with high Trust Magnitude.
+- Confirmed implementation of the `autonomous-web-research` generic prerequisite surface (`ghostwrite`, `knowledge-harvest`, `research`, `web-scrape`, `web-search`).
 
-The node was admitted at 3★ and registered as a named entry under `registry/named/mvanhorn/`. A suite manifest link was added to the `autonomous-web-research` suite node. No fusion event was triggered; the node stands as an independent named skill that participates in the suite.
+Because `autonomous-web-research` does not define `suiteComponents`, `mvanhorn/last30days` is programmatically classified on the **Unique branch** (◉), rather than a Suite branch. It stands as a 4★ Unique skill node under `registry/named/mvanhorn/last30days.md`.
 
 ### 11 New `ev-seed` Named Skills
 
