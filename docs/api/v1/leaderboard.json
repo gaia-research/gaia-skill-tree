@@ -1,13 +1,13 @@
 {
   "distribution": {
-    "total": 221,
+    "total": 220,
     "S": 5,
-    "A": 55,
+    "A": 54,
     "B": 77,
     "C": 84,
     "ungraded": 0,
     "floor": 0,
-    "up": 2
+    "up": 18
   },
   "rows": [
     {
@@ -423,44 +423,44 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
       "id": "google-deepmind/alphagenome_single_variant_analysis",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/embl_ebi_ols",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/encode_ccres_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/ensembl_database",
@@ -471,92 +471,92 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
       "id": "google-deepmind/foldseek_structural_search",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/gnomad_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/gtex_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/human_protein_atlas_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/interpro_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/jaspar_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/literature_search_europepmc",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/literature_search_openalex",
@@ -574,37 +574,37 @@
       "id": "google-deepmind/ncbi_sequence_fetch",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/openfda_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/opentargets_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/protein_sequence_similarity_search",
@@ -615,7 +615,7 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
@@ -627,7 +627,7 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
@@ -646,13 +646,13 @@
       "id": "google-deepmind/quickgo_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/reactome_database",
@@ -663,44 +663,32 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false,
-      "branch": "unique"
-    },
-    {
-      "id": "google-deepmind/science_skills_common",
-      "trustMagnitude": 100.82,
-      "grade": "A",
-      "level": "4★",
-      "typeBreakdown": {
-        "repo-own": 10.82,
-        "peer-review": 90.0
-      },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
       "id": "google-deepmind/ucsc_conservation_and_tfbs",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/unibind_database",
       "trustMagnitude": 100.82,
       "grade": "A",
-      "level": "4★",
+      "level": "3★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "id": "google-deepmind/uv",
@@ -723,7 +711,7 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
@@ -1106,13 +1094,13 @@
       "id": "google-deepmind/clinical_trials_database",
       "trustMagnitude": 70.82,
       "grade": "B",
-      "level": "3★",
+      "level": "4★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 60.0
       },
-      "origin": false,
-      "branch": "standard"
+      "origin": true,
+      "branch": "unique"
     },
     {
       "id": "google-deepmind/clinvar_database",
@@ -1166,13 +1154,13 @@
       "id": "google-deepmind/pdb_database",
       "trustMagnitude": 70.82,
       "grade": "B",
-      "level": "3★",
+      "level": "4★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 60.0
       },
-      "origin": false,
-      "branch": "standard"
+      "origin": true,
+      "branch": "unique"
     },
     {
       "id": "google-deepmind/protein_sequence_msa",
@@ -1214,13 +1202,13 @@
       "id": "google-deepmind/uniprot_database",
       "trustMagnitude": 70.82,
       "grade": "B",
-      "level": "3★",
+      "level": "4★",
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 60.0
       },
-      "origin": false,
-      "branch": "standard"
+      "origin": true,
+      "branch": "unique"
     },
     {
       "id": "k-dense-ai/pytorch-lightning",

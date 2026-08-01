@@ -4,7 +4,7 @@
   "families": [
     {
       "id": "basic",
-      "count": 121,
+      "count": 125,
       "skills": [
         {
           "id": "adaptive-pattern-learning",
@@ -40,6 +40,11 @@
           "id": "bioinformatic-sequence-analysis",
           "name": "Bioinformatic Sequence Analysis",
           "summary": "Performs biological sequence alignment, similarity searches, multiple sequence alignment (MSA), and genomic variant analysis using standard bioinformatics tools and databases."
+        },
+        {
+          "id": "brand-guideline-application",
+          "name": "Brand Guideline Application",
+          "summary": "Applies a supplied organization's colors, typography, and visual rules consistently to artifacts."
         },
         {
           "id": "browser-control",
@@ -392,6 +397,11 @@
           "summary": "Queries and retrieves amino acid sequences, protein families, functional domains, tissue distribution, and protein-protein interactions from proteomic repositories (e.g. UniProt, InterPro, Human Protein Atlas, STRING)."
         },
         {
+          "id": "quantum-circuit-programming",
+          "name": "Quantum Circuit Programming",
+          "summary": "Build, simulate, transpile, and execute quantum circuits on local simulators or quantum runtimes."
+        },
+        {
           "id": "question-answer",
           "name": "Question Answer",
           "summary": "Produces accurate, context-grounded answers to natural-language questions, handling unanswerable cases."
@@ -475,6 +485,16 @@
           "id": "sequential-agent-pipeline",
           "name": "Sequential Agent Pipeline",
           "summary": "Chains agent outputs sequentially so each step's result feeds the next, enabling multi-stage data transformation and coordinated processing."
+        },
+        {
+          "id": "session-journaling",
+          "name": "Session Journaling",
+          "summary": "At the end of a work session, the agent summarizes the conversation and appends a structured, timestamped entry to a persistent dated note so future sessions can read back the durable record."
+        },
+        {
+          "id": "single-cell-analysis",
+          "name": "Single-Cell Analysis",
+          "summary": "Analyze single-cell transcriptomics data for preprocessing, visualization, clustering, and differential expression."
         },
         {
           "id": "skill-discovery",

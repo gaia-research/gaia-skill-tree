@@ -28,12 +28,22 @@
           "level": "4★",
           "achievedAt": "2026-07-30T22:37:21Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-30T23:21:41Z",
+          "source": "demote"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-07-31T00:00:01Z",
+          "source": "promotion"
         }
       ]
     },
     {
       "skillId": "google-deepmind/alphagenome_single_variant_analysis",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
@@ -57,11 +67,6 @@
           "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
-        },
-        {
-          "level": "4★",
-          "achievedAt": "2026-07-30T22:37:21Z",
-          "source": "promotion"
         }
       ]
     },
@@ -86,7 +91,7 @@
     },
     {
       "skillId": "google-deepmind/clinical_trials_database",
-      "level": "3★",
+      "level": "4★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
@@ -99,6 +104,11 @@
         {
           "level": "3★",
           "achievedAt": "2026-06-20T06:31:24Z",
+          "source": "promotion"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-06-21T00:00:01Z",
           "source": "promotion"
         }
       ]
@@ -143,7 +153,7 @@
     },
     {
       "skillId": "google-deepmind/embl_ebi_ols",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
@@ -162,17 +172,12 @@
           "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
-        },
-        {
-          "level": "4★",
-          "achievedAt": "2026-07-30T22:37:22Z",
-          "source": "promotion"
         }
       ]
     },
     {
       "skillId": "google-deepmind/encode_ccres_database",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
@@ -191,11 +196,6 @@
           "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
-        },
-        {
-          "level": "4★",
-          "achievedAt": "2026-07-30T22:37:22Z",
-          "source": "promotion"
         }
       ]
     },
@@ -225,12 +225,22 @@
           "level": "4★",
           "achievedAt": "2026-07-30T22:37:23Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-30T23:21:43Z",
+          "source": "demote"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-07-31T00:00:01Z",
+          "source": "promotion"
         }
       ]
     },
     {
       "skillId": "google-deepmind/foldseek_structural_search",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
@@ -249,17 +259,12 @@
           "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
-        },
-        {
-          "level": "4★",
-          "achievedAt": "2026-07-30T22:37:24Z",
-          "source": "promotion"
         }
       ]
     },
     {
       "skillId": "google-deepmind/gnomad_database",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
@@ -278,17 +283,12 @@
           "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
-        },
-        {
-          "level": "4★",
-          "achievedAt": "2026-07-30T22:37:24Z",
-          "source": "promotion"
         }
       ]
     },
     {
       "skillId": "google-deepmind/gtex_database",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
@@ -307,17 +307,12 @@
           "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
-        },
-        {
-          "level": "4★",
-          "achievedAt": "2026-07-30T22:37:25Z",
-          "source": "promotion"
         }
       ]
     },
     {
       "skillId": "google-deepmind/human_protein_atlas_database",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
@@ -336,17 +331,12 @@
           "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
-        },
-        {
-          "level": "4★",
-          "achievedAt": "2026-07-30T22:37:25Z",
-          "source": "promotion"
         }
       ]
     },
     {
       "skillId": "google-deepmind/interpro_database",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
@@ -365,17 +355,12 @@
           "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
-        },
-        {
-          "level": "4★",
-          "achievedAt": "2026-07-30T22:37:26Z",
-          "source": "promotion"
         }
       ]
     },
     {
       "skillId": "google-deepmind/jaspar_database",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
@@ -394,11 +379,6 @@
           "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
-        },
-        {
-          "level": "4★",
-          "achievedAt": "2026-07-30T22:37:26Z",
-          "source": "promotion"
         }
       ]
     },
@@ -442,7 +422,7 @@
     },
     {
       "skillId": "google-deepmind/literature_search_europepmc",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
@@ -461,11 +441,6 @@
           "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
-        },
-        {
-          "level": "4★",
-          "achievedAt": "2026-07-30T22:37:27Z",
-          "source": "promotion"
         }
       ]
     },
@@ -490,93 +465,6 @@
     },
     {
       "skillId": "google-deepmind/ncbi_sequence_fetch",
-      "level": "4★",
-      "unlockedAt": "2026-05-25T00:00:00Z",
-      "unlockedIn": "google-deepmind/gaia-skill-tree",
-      "combinedFrom": [],
-      "levelHistory": [
-        {
-          "level": "2★",
-          "achievedAt": "2026-05-25T00:00:00Z",
-          "source": "promotion"
-        },
-        {
-          "level": "4★",
-          "achievedAt": "2026-06-20T06:31:26Z",
-          "source": "promotion"
-        },
-        {
-          "level": "3★",
-          "achievedAt": "2026-07-16T00:00:01Z",
-          "source": "demote"
-        },
-        {
-          "level": "4★",
-          "achievedAt": "2026-07-30T22:37:27Z",
-          "source": "promotion"
-        }
-      ]
-    },
-    {
-      "skillId": "google-deepmind/openfda_database",
-      "level": "4★",
-      "unlockedAt": "2026-05-25T00:00:00Z",
-      "unlockedIn": "google-deepmind/gaia-skill-tree",
-      "combinedFrom": [],
-      "levelHistory": [
-        {
-          "level": "2★",
-          "achievedAt": "2026-05-25T00:00:00Z",
-          "source": "promotion"
-        },
-        {
-          "level": "4★",
-          "achievedAt": "2026-06-20T06:31:26Z",
-          "source": "promotion"
-        },
-        {
-          "level": "3★",
-          "achievedAt": "2026-07-16T00:00:01Z",
-          "source": "demote"
-        },
-        {
-          "level": "4★",
-          "achievedAt": "2026-07-30T22:37:28Z",
-          "source": "promotion"
-        }
-      ]
-    },
-    {
-      "skillId": "google-deepmind/opentargets_database",
-      "level": "4★",
-      "unlockedAt": "2026-05-25T00:00:00Z",
-      "unlockedIn": "google-deepmind/gaia-skill-tree",
-      "combinedFrom": [],
-      "levelHistory": [
-        {
-          "level": "2★",
-          "achievedAt": "2026-05-25T00:00:00Z",
-          "source": "promotion"
-        },
-        {
-          "level": "4★",
-          "achievedAt": "2026-06-20T06:31:26Z",
-          "source": "promotion"
-        },
-        {
-          "level": "3★",
-          "achievedAt": "2026-07-16T00:00:01Z",
-          "source": "demote"
-        },
-        {
-          "level": "4★",
-          "achievedAt": "2026-07-30T22:37:28Z",
-          "source": "promotion"
-        }
-      ]
-    },
-    {
-      "skillId": "google-deepmind/pdb_database",
       "level": "3★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
@@ -588,8 +476,85 @@
           "source": "promotion"
         },
         {
+          "level": "4★",
+          "achievedAt": "2026-06-20T06:31:26Z",
+          "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-16T00:00:01Z",
+          "source": "demote"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/openfda_database",
+      "level": "3★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-06-20T06:31:26Z",
+          "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-16T00:00:01Z",
+          "source": "demote"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/opentargets_database",
+      "level": "3★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-06-20T06:31:26Z",
+          "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-16T00:00:01Z",
+          "source": "demote"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/pdb_database",
+      "level": "4★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        },
+        {
           "level": "3★",
           "achievedAt": "2026-06-20T06:31:26Z",
+          "source": "promotion"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-06-21T00:00:01Z",
           "source": "promotion"
         }
       ]
@@ -639,6 +604,16 @@
           "level": "4★",
           "achievedAt": "2026-07-30T22:37:29Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-30T23:21:49Z",
+          "source": "demote"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-07-31T00:00:01Z",
+          "source": "promotion"
         }
       ]
     },
@@ -667,6 +642,16 @@
         {
           "level": "4★",
           "achievedAt": "2026-07-30T22:37:30Z",
+          "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-30T23:21:50Z",
+          "source": "demote"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-07-31T00:00:01Z",
           "source": "promotion"
         }
       ]
@@ -721,7 +706,7 @@
     },
     {
       "skillId": "google-deepmind/quickgo_database",
-      "level": "4★",
+      "level": "3★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
@@ -740,11 +725,6 @@
           "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
-        },
-        {
-          "level": "4★",
-          "achievedAt": "2026-07-30T22:37:31Z",
-          "source": "promotion"
         }
       ]
     },
@@ -774,12 +754,22 @@
           "level": "4★",
           "achievedAt": "2026-07-30T22:37:31Z",
           "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-30T23:21:51Z",
+          "source": "demote"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-07-31T00:00:01Z",
+          "source": "promotion"
         }
       ]
     },
     {
       "skillId": "google-deepmind/science_skills_common",
-      "level": "4★",
+      "level": "1★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
       "combinedFrom": [],
@@ -803,6 +793,21 @@
           "level": "4★",
           "achievedAt": "2026-07-30T22:37:32Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-07-30T23:21:41Z",
+          "source": "demote"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-31T00:00:01Z",
+          "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-07-31T00:00:02Z",
+          "source": "demote"
         }
       ]
     },
@@ -827,64 +832,6 @@
     },
     {
       "skillId": "google-deepmind/ucsc_conservation_and_tfbs",
-      "level": "4★",
-      "unlockedAt": "2026-05-25T00:00:00Z",
-      "unlockedIn": "google-deepmind/gaia-skill-tree",
-      "combinedFrom": [],
-      "levelHistory": [
-        {
-          "level": "2★",
-          "achievedAt": "2026-05-25T00:00:00Z",
-          "source": "promotion"
-        },
-        {
-          "level": "4★",
-          "achievedAt": "2026-06-20T06:31:27Z",
-          "source": "promotion"
-        },
-        {
-          "level": "3★",
-          "achievedAt": "2026-07-16T00:00:01Z",
-          "source": "demote"
-        },
-        {
-          "level": "4★",
-          "achievedAt": "2026-07-30T22:37:32Z",
-          "source": "promotion"
-        }
-      ]
-    },
-    {
-      "skillId": "google-deepmind/unibind_database",
-      "level": "4★",
-      "unlockedAt": "2026-05-25T00:00:00Z",
-      "unlockedIn": "google-deepmind/gaia-skill-tree",
-      "combinedFrom": [],
-      "levelHistory": [
-        {
-          "level": "2★",
-          "achievedAt": "2026-05-25T00:00:00Z",
-          "source": "promotion"
-        },
-        {
-          "level": "4★",
-          "achievedAt": "2026-06-20T06:31:27Z",
-          "source": "promotion"
-        },
-        {
-          "level": "3★",
-          "achievedAt": "2026-07-16T00:00:01Z",
-          "source": "demote"
-        },
-        {
-          "level": "4★",
-          "achievedAt": "2026-07-30T22:37:33Z",
-          "source": "promotion"
-        }
-      ]
-    },
-    {
-      "skillId": "google-deepmind/uniprot_database",
       "level": "3★",
       "unlockedAt": "2026-05-25T00:00:00Z",
       "unlockedIn": "google-deepmind/gaia-skill-tree",
@@ -896,8 +843,61 @@
           "source": "promotion"
         },
         {
+          "level": "4★",
+          "achievedAt": "2026-06-20T06:31:27Z",
+          "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-16T00:00:01Z",
+          "source": "demote"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/unibind_database",
+      "level": "3★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-06-20T06:31:27Z",
+          "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-16T00:00:01Z",
+          "source": "demote"
+        }
+      ]
+    },
+    {
+      "skillId": "google-deepmind/uniprot_database",
+      "level": "4★",
+      "unlockedAt": "2026-05-25T00:00:00Z",
+      "unlockedIn": "google-deepmind/gaia-skill-tree",
+      "combinedFrom": [],
+      "levelHistory": [
+        {
+          "level": "2★",
+          "achievedAt": "2026-05-25T00:00:00Z",
+          "source": "promotion"
+        },
+        {
           "level": "3★",
           "achievedAt": "2026-06-20T06:31:27Z",
+          "source": "promotion"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-06-21T00:00:01Z",
           "source": "promotion"
         }
       ]
@@ -956,6 +956,16 @@
         {
           "level": "4★",
           "achievedAt": "2026-07-30T22:37:34Z",
+          "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-30T23:21:54Z",
+          "source": "demote"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-07-31T00:00:01Z",
           "source": "promotion"
         }
       ]
@@ -1563,6 +1573,30 @@
       "skillId": "google-deepmind/workflow_skill_creator"
     },
     {
+      "timestamp": "2026-06-21T00:00:01Z",
+      "action": "rank_up",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
+      "skillId": "google-deepmind/clinical_trials_database"
+    },
+    {
+      "timestamp": "2026-06-21T00:00:01Z",
+      "action": "rank_up",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
+      "skillId": "google-deepmind/pdb_database"
+    },
+    {
+      "timestamp": "2026-06-21T00:00:01Z",
+      "action": "rank_up",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
+      "skillId": "google-deepmind/uniprot_database"
+    },
+    {
       "timestamp": "2026-07-16T00:00:01Z",
       "action": "demote",
       "previousValue": "4★",
@@ -1771,116 +1805,12 @@
       "skillId": "google-deepmind/alphafold_database_fetch_and_analyze"
     },
     {
-      "timestamp": "2026-07-30T22:37:21Z",
-      "action": "rank_up",
-      "previousValue": "3★",
-      "newValue": "4★",
-      "details": "Calibrated level from 3★ to 4★",
-      "skillId": "google-deepmind/alphagenome_single_variant_analysis"
-    },
-    {
-      "timestamp": "2026-07-30T22:37:22Z",
-      "action": "rank_up",
-      "previousValue": "3★",
-      "newValue": "4★",
-      "details": "Calibrated level from 3★ to 4★",
-      "skillId": "google-deepmind/embl_ebi_ols"
-    },
-    {
-      "timestamp": "2026-07-30T22:37:22Z",
-      "action": "rank_up",
-      "previousValue": "3★",
-      "newValue": "4★",
-      "details": "Calibrated level from 3★ to 4★",
-      "skillId": "google-deepmind/encode_ccres_database"
-    },
-    {
       "timestamp": "2026-07-30T22:37:23Z",
       "action": "rank_up",
       "previousValue": "3★",
       "newValue": "4★",
       "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/ensembl_database"
-    },
-    {
-      "timestamp": "2026-07-30T22:37:24Z",
-      "action": "rank_up",
-      "previousValue": "3★",
-      "newValue": "4★",
-      "details": "Calibrated level from 3★ to 4★",
-      "skillId": "google-deepmind/foldseek_structural_search"
-    },
-    {
-      "timestamp": "2026-07-30T22:37:24Z",
-      "action": "rank_up",
-      "previousValue": "3★",
-      "newValue": "4★",
-      "details": "Calibrated level from 3★ to 4★",
-      "skillId": "google-deepmind/gnomad_database"
-    },
-    {
-      "timestamp": "2026-07-30T22:37:25Z",
-      "action": "rank_up",
-      "previousValue": "3★",
-      "newValue": "4★",
-      "details": "Calibrated level from 3★ to 4★",
-      "skillId": "google-deepmind/gtex_database"
-    },
-    {
-      "timestamp": "2026-07-30T22:37:25Z",
-      "action": "rank_up",
-      "previousValue": "3★",
-      "newValue": "4★",
-      "details": "Calibrated level from 3★ to 4★",
-      "skillId": "google-deepmind/human_protein_atlas_database"
-    },
-    {
-      "timestamp": "2026-07-30T22:37:26Z",
-      "action": "rank_up",
-      "previousValue": "3★",
-      "newValue": "4★",
-      "details": "Calibrated level from 3★ to 4★",
-      "skillId": "google-deepmind/interpro_database"
-    },
-    {
-      "timestamp": "2026-07-30T22:37:26Z",
-      "action": "rank_up",
-      "previousValue": "3★",
-      "newValue": "4★",
-      "details": "Calibrated level from 3★ to 4★",
-      "skillId": "google-deepmind/jaspar_database"
-    },
-    {
-      "timestamp": "2026-07-30T22:37:27Z",
-      "action": "rank_up",
-      "previousValue": "3★",
-      "newValue": "4★",
-      "details": "Calibrated level from 3★ to 4★",
-      "skillId": "google-deepmind/literature_search_europepmc"
-    },
-    {
-      "timestamp": "2026-07-30T22:37:27Z",
-      "action": "rank_up",
-      "previousValue": "3★",
-      "newValue": "4★",
-      "details": "Calibrated level from 3★ to 4★",
-      "skillId": "google-deepmind/ncbi_sequence_fetch"
-    },
-    {
-      "timestamp": "2026-07-30T22:37:28Z",
-      "action": "rank_up",
-      "previousValue": "3★",
-      "newValue": "4★",
-      "details": "Calibrated level from 3★ to 4★",
-      "skillId": "google-deepmind/openfda_database"
-    },
-    {
-      "timestamp": "2026-07-30T22:37:28Z",
-      "action": "rank_up",
-      "previousValue": "3★",
-      "newValue": "4★",
-      "details": "Calibrated level from 3★ to 4★",
-      "skillId": "google-deepmind/opentargets_database"
     },
     {
       "timestamp": "2026-07-30T22:37:29Z",
@@ -1912,14 +1842,6 @@
       "previousValue": "3★",
       "newValue": "4★",
       "details": "Calibrated level from 3★ to 4★",
-      "skillId": "google-deepmind/quickgo_database"
-    },
-    {
-      "timestamp": "2026-07-30T22:37:31Z",
-      "action": "rank_up",
-      "previousValue": "3★",
-      "newValue": "4★",
-      "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/reactome_database"
     },
     {
@@ -1929,22 +1851,6 @@
       "newValue": "4★",
       "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/science_skills_common"
-    },
-    {
-      "timestamp": "2026-07-30T22:37:32Z",
-      "action": "rank_up",
-      "previousValue": "3★",
-      "newValue": "4★",
-      "details": "Calibrated level from 3★ to 4★",
-      "skillId": "google-deepmind/ucsc_conservation_and_tfbs"
-    },
-    {
-      "timestamp": "2026-07-30T22:37:33Z",
-      "action": "rank_up",
-      "previousValue": "3★",
-      "newValue": "4★",
-      "details": "Calibrated level from 3★ to 4★",
-      "skillId": "google-deepmind/unibind_database"
     },
     {
       "timestamp": "2026-07-30T22:37:33Z",
@@ -1961,6 +1867,126 @@
       "newValue": "4★",
       "details": "Calibrated level from 3★ to 4★",
       "skillId": "google-deepmind/workflow_skill_creator"
+    },
+    {
+      "timestamp": "2026-07-30T23:21:41Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Calibrated level from 4★ to 1★",
+      "skillId": "google-deepmind/science_skills_common"
+    },
+    {
+      "timestamp": "2026-07-30T23:21:41Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Calibrated level from 4★ to 3★",
+      "skillId": "google-deepmind/alphafold_database_fetch_and_analyze"
+    },
+    {
+      "timestamp": "2026-07-30T23:21:43Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Calibrated level from 4★ to 3★",
+      "skillId": "google-deepmind/ensembl_database"
+    },
+    {
+      "timestamp": "2026-07-30T23:21:49Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Calibrated level from 4★ to 3★",
+      "skillId": "google-deepmind/protein_sequence_similarity_search"
+    },
+    {
+      "timestamp": "2026-07-30T23:21:50Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Calibrated level from 4★ to 3★",
+      "skillId": "google-deepmind/pubchem_database"
+    },
+    {
+      "timestamp": "2026-07-30T23:21:51Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Calibrated level from 4★ to 3★",
+      "skillId": "google-deepmind/reactome_database"
+    },
+    {
+      "timestamp": "2026-07-30T23:21:54Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Calibrated level from 4★ to 3★",
+      "skillId": "google-deepmind/workflow_skill_creator"
+    },
+    {
+      "timestamp": "2026-07-31T00:00:01Z",
+      "action": "rank_up",
+      "previousValue": "1★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
+      "skillId": "google-deepmind/science_skills_common"
+    },
+    {
+      "timestamp": "2026-07-31T00:00:01Z",
+      "action": "rank_up",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
+      "skillId": "google-deepmind/alphafold_database_fetch_and_analyze"
+    },
+    {
+      "timestamp": "2026-07-31T00:00:01Z",
+      "action": "rank_up",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
+      "skillId": "google-deepmind/ensembl_database"
+    },
+    {
+      "timestamp": "2026-07-31T00:00:01Z",
+      "action": "rank_up",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
+      "skillId": "google-deepmind/protein_sequence_similarity_search"
+    },
+    {
+      "timestamp": "2026-07-31T00:00:01Z",
+      "action": "rank_up",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
+      "skillId": "google-deepmind/pubchem_database"
+    },
+    {
+      "timestamp": "2026-07-31T00:00:01Z",
+      "action": "rank_up",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
+      "skillId": "google-deepmind/reactome_database"
+    },
+    {
+      "timestamp": "2026-07-31T00:00:01Z",
+      "action": "rank_up",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
+      "skillId": "google-deepmind/workflow_skill_creator"
+    },
+    {
+      "timestamp": "2026-07-31T00:00:02Z",
+      "action": "demote",
+      "previousValue": "3★",
+      "newValue": "1★",
+      "details": "Reconciled to current registry level 1★ (registry-side recalibration; no source event recorded).",
+      "skillId": "google-deepmind/science_skills_common"
     }
   ],
   "stats": {

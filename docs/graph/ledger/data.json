@@ -1,15 +1,15 @@
 {
-  "version": "7.3.1",
-  "generatedAt": "2026-07-31T16:25:21Z",
+  "version": "6.4.0",
+  "generatedAt": "2026-08-01T01:44:10Z",
   "summary": {
-    "total": 221,
+    "total": 220,
     "S": 5,
-    "A": 55,
+    "A": 54,
     "B": 77,
     "C": 84,
     "ungraded": 0,
     "floor": 0,
-    "up": 2
+    "up": 18
   },
   "rows": [
     {
@@ -630,59 +630,59 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
       "skillId": "google-deepmind/alphagenome_single_variant_analysis",
       "tm": 100.82,
       "grade": "A",
-      "currentStars": "4★",
+      "currentStars": "3★",
       "mayStars": "3★",
-      "juneStars": "4★",
+      "juneStars": "3★",
       "g7Stars": "4★",
-      "flag": "",
+      "flag": "[up]",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "skillId": "google-deepmind/embl_ebi_ols",
       "tm": 100.82,
       "grade": "A",
-      "currentStars": "4★",
+      "currentStars": "3★",
       "mayStars": "2★",
-      "juneStars": "4★",
+      "juneStars": "3★",
       "g7Stars": "4★",
-      "flag": "",
+      "flag": "[up]",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "skillId": "google-deepmind/encode_ccres_database",
       "tm": 100.82,
       "grade": "A",
-      "currentStars": "4★",
+      "currentStars": "3★",
       "mayStars": "2★",
-      "juneStars": "4★",
+      "juneStars": "3★",
       "g7Stars": "4★",
-      "flag": "",
+      "flag": "[up]",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "skillId": "google-deepmind/ensembl_database",
@@ -698,127 +698,127 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
       "skillId": "google-deepmind/foldseek_structural_search",
       "tm": 100.82,
       "grade": "A",
-      "currentStars": "4★",
+      "currentStars": "3★",
       "mayStars": "2★",
-      "juneStars": "4★",
+      "juneStars": "3★",
       "g7Stars": "4★",
-      "flag": "",
+      "flag": "[up]",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "skillId": "google-deepmind/gnomad_database",
       "tm": 100.82,
       "grade": "A",
-      "currentStars": "4★",
+      "currentStars": "3★",
       "mayStars": "2★",
-      "juneStars": "4★",
+      "juneStars": "3★",
       "g7Stars": "4★",
-      "flag": "",
+      "flag": "[up]",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "skillId": "google-deepmind/gtex_database",
       "tm": 100.82,
       "grade": "A",
-      "currentStars": "4★",
+      "currentStars": "3★",
       "mayStars": "2★",
-      "juneStars": "4★",
+      "juneStars": "3★",
       "g7Stars": "4★",
-      "flag": "",
+      "flag": "[up]",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "skillId": "google-deepmind/human_protein_atlas_database",
       "tm": 100.82,
       "grade": "A",
-      "currentStars": "4★",
+      "currentStars": "3★",
       "mayStars": "2★",
-      "juneStars": "4★",
+      "juneStars": "3★",
       "g7Stars": "4★",
-      "flag": "",
+      "flag": "[up]",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "skillId": "google-deepmind/interpro_database",
       "tm": 100.82,
       "grade": "A",
-      "currentStars": "4★",
+      "currentStars": "3★",
       "mayStars": "2★",
-      "juneStars": "4★",
+      "juneStars": "3★",
       "g7Stars": "4★",
-      "flag": "",
+      "flag": "[up]",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "skillId": "google-deepmind/jaspar_database",
       "tm": 100.82,
       "grade": "A",
-      "currentStars": "4★",
+      "currentStars": "3★",
       "mayStars": "2★",
-      "juneStars": "4★",
+      "juneStars": "3★",
       "g7Stars": "4★",
-      "flag": "",
+      "flag": "[up]",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "skillId": "google-deepmind/literature_search_europepmc",
       "tm": 100.82,
       "grade": "A",
-      "currentStars": "4★",
+      "currentStars": "3★",
       "mayStars": "2★",
-      "juneStars": "4★",
+      "juneStars": "3★",
       "g7Stars": "4★",
-      "flag": "",
+      "flag": "[up]",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "skillId": "google-deepmind/literature_search_openalex",
@@ -841,52 +841,52 @@
       "skillId": "google-deepmind/ncbi_sequence_fetch",
       "tm": 100.82,
       "grade": "A",
-      "currentStars": "4★",
+      "currentStars": "3★",
       "mayStars": "2★",
-      "juneStars": "4★",
+      "juneStars": "3★",
       "g7Stars": "4★",
-      "flag": "",
+      "flag": "[up]",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "skillId": "google-deepmind/openfda_database",
       "tm": 100.82,
       "grade": "A",
-      "currentStars": "4★",
+      "currentStars": "3★",
       "mayStars": "2★",
-      "juneStars": "4★",
+      "juneStars": "3★",
       "g7Stars": "4★",
-      "flag": "",
+      "flag": "[up]",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "skillId": "google-deepmind/opentargets_database",
       "tm": 100.82,
       "grade": "A",
-      "currentStars": "4★",
+      "currentStars": "3★",
       "mayStars": "2★",
-      "juneStars": "4★",
+      "juneStars": "3★",
       "g7Stars": "4★",
-      "flag": "",
+      "flag": "[up]",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "skillId": "google-deepmind/protein_sequence_similarity_search",
@@ -902,7 +902,7 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
@@ -919,7 +919,7 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
@@ -943,18 +943,18 @@
       "skillId": "google-deepmind/quickgo_database",
       "tm": 100.82,
       "grade": "A",
-      "currentStars": "4★",
+      "currentStars": "3★",
       "mayStars": "2★",
-      "juneStars": "4★",
+      "juneStars": "3★",
       "g7Stars": "4★",
-      "flag": "",
+      "flag": "[up]",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "skillId": "google-deepmind/reactome_database",
@@ -970,59 +970,42 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false,
-      "branch": "unique"
-    },
-    {
-      "skillId": "google-deepmind/science_skills_common",
-      "tm": 100.82,
-      "grade": "A",
-      "currentStars": "4★",
-      "mayStars": "2★",
-      "juneStars": "4★",
-      "g7Stars": "4★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 10.82,
-        "peer-review": 90.0
-      },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
       "skillId": "google-deepmind/ucsc_conservation_and_tfbs",
       "tm": 100.82,
       "grade": "A",
-      "currentStars": "4★",
+      "currentStars": "3★",
       "mayStars": "2★",
-      "juneStars": "4★",
+      "juneStars": "3★",
       "g7Stars": "4★",
-      "flag": "",
+      "flag": "[up]",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "skillId": "google-deepmind/unibind_database",
       "tm": 100.82,
       "grade": "A",
-      "currentStars": "4★",
+      "currentStars": "3★",
       "mayStars": "2★",
-      "juneStars": "4★",
+      "juneStars": "3★",
       "g7Stars": "4★",
-      "flag": "",
+      "flag": "[up]",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
       "origin": false,
-      "branch": "unique"
+      "branch": "standard"
     },
     {
       "skillId": "google-deepmind/uv",
@@ -1055,7 +1038,7 @@
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false,
+      "origin": true,
       "branch": "unique"
     },
     {
@@ -1588,9 +1571,9 @@
       "skillId": "google-deepmind/clinical_trials_database",
       "tm": 70.82,
       "grade": "B",
-      "currentStars": "3★",
+      "currentStars": "4★",
       "mayStars": "2★",
-      "juneStars": "3★",
+      "juneStars": "4★",
       "g7Stars": "3★",
       "flag": "",
       "apexResults": null,
@@ -1598,8 +1581,8 @@
         "repo-own": 10.82,
         "peer-review": 60.0
       },
-      "origin": false,
-      "branch": "standard"
+      "origin": true,
+      "branch": "unique"
     },
     {
       "skillId": "google-deepmind/clinvar_database",
@@ -1673,9 +1656,9 @@
       "skillId": "google-deepmind/pdb_database",
       "tm": 70.82,
       "grade": "B",
-      "currentStars": "3★",
+      "currentStars": "4★",
       "mayStars": "2★",
-      "juneStars": "3★",
+      "juneStars": "4★",
       "g7Stars": "3★",
       "flag": "",
       "apexResults": null,
@@ -1683,8 +1666,8 @@
         "repo-own": 10.82,
         "peer-review": 60.0
       },
-      "origin": false,
-      "branch": "standard"
+      "origin": true,
+      "branch": "unique"
     },
     {
       "skillId": "google-deepmind/protein_sequence_msa",
@@ -1741,9 +1724,9 @@
       "skillId": "google-deepmind/uniprot_database",
       "tm": 70.82,
       "grade": "B",
-      "currentStars": "3★",
+      "currentStars": "4★",
       "mayStars": "2★",
-      "juneStars": "3★",
+      "juneStars": "4★",
       "g7Stars": "3★",
       "flag": "",
       "apexResults": null,
@@ -1751,8 +1734,8 @@
         "repo-own": 10.82,
         "peer-review": 60.0
       },
-      "origin": false,
-      "branch": "standard"
+      "origin": true,
+      "branch": "unique"
     },
     {
       "skillId": "k-dense-ai/pytorch-lightning",

@@ -2,10 +2,10 @@
 id: google-deepmind/pdb_database
 name: Pdb-Database
 contributor: google-deepmind
-origin: false
+origin: true
 genericSkillRef: protein-structure-analysis
 status: awakened
-level: 3★
+level: 4★
 description: Use when you want to search for or download experimentally-determined
   3D structures for biomolecules (proteins, nucleic acids, bound ligands). Supports
   searching by sequence similarity, structure similarity, chemical and other attributes.
