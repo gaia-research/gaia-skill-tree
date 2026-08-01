@@ -1,8 +1,8 @@
 {
   "distribution": {
-    "total": 208,
+    "total": 207,
     "S": 5,
-    "A": 49,
+    "A": 48,
     "B": 72,
     "C": 82,
     "ungraded": 0,
@@ -216,17 +216,6 @@
         "github-stars-own": 42.61,
         "arxiv": 3.8,
         "peer-review": 45.0
-      },
-      "origin": true,
-      "branch": "unique"
-    },
-    {
-      "id": "pexp13/sentiment-analysis",
-      "trustMagnitude": 126.07,
-      "grade": "A",
-      "level": "4★",
-      "typeBreakdown": {
-        "arxiv": 126.07
       },
       "origin": true,
       "branch": "unique"
