@@ -2,6 +2,74 @@
 
 ---
 
+## 2026-08-01 — Routine 018 — Editor pass (ship gate, PR #1334)
+
+**Role:** Weekly editor. Reviewed the week's accreted commits on `docs/routines/018`, verified
+claims against the actual product, fixed what didn't hold up, and shipped.
+
+### What I found
+
+The Day 3 entry below (and the PR body) claimed all 12 pages were synchronized to `v7.3.1`. That
+was false. Actual state on the branch:
+
+- **4 of 12 pages** (`cli-reference.html`, `index.html`, `mcp-server.html`, `skill-hierarchy.html`)
+  had never been touched by any commit on this branch — still at `v6.8.16` everywhere.
+- **The other 8 pages** had their nav-chip and footer version bumped to `v7.1.31` (not `v7.3.1` as
+  claimed), and even on those pages the `mounts.js`/`site-nav.js`/`ui.js` cache-bust query
+  parameters were never updated — still `?v=6.8.16` on all 12 pages, including the 8 that got a
+  partial bump. No page anywhere in the tree actually contained the string `7.3.1` before this pass.
+
+The DOCS.md page map and MEMORY.md Day 3 entry both asserted a state that didn't exist on disk —
+worth flagging so a future editor doesn't take a daily's self-report as ground truth without
+grepping the actual files.
+
+### What I fixed
+
+1. **Real version sync, all 12 pages, all locations, to `v7.3.1`** (matching `pyproject.toml` /
+   the current `v7.3.1` tag): nav-version / docs-nav-version chips, footer version spans, and the
+   `mounts.js`/`site-nav.js`/`ui.js` cache-bust query strings. Also fixed two version numbers
+   embedded in body copy that the version-chip sync never touches: `getting-started.html`'s
+   `gaia --version` example output (`# gaia 6.8.16` → `# gaia 7.3.1`) and `timeline-audit.html`'s
+   "as of v7.1.31" CLI-gaps note.
+2. **`cli-reference.html`'s `gaia dev mcp` command card described a deleted feature.** It said the
+   command "requires compiling the MCP code" via `cd packages/mcp && npm run build` — that prototype
+   was deleted in commit `240e9042f` (per `CLAUDE.md`: "the in-repo `packages/mcp` prototype was
+   deleted — do not resurrect it"). Confirmed against `src/gaia_cli/commands/mcp_cmd.py`: the
+   command is now purely informational — it prints install instructions for the standalone
+   `@gaia-research/mcp` npm package and does nothing else. Rewrote the card's description and
+   example to match `mcp_command()` in `impl.py` exactly, and cross-linked to `mcp-server.html`.
+3. **`gaia version` example output was stale** (`# → 4.7.7`, four majors behind) — updated to
+   `# → 7.3.1`.
+
+### What I checked and left alone
+
+- `mcp-server.html`'s platform-tab install commands (`npx @gaia-research/mcp`, `claude mcp add
+  gaia -- npx @gaia-research/mcp`) — package name and invocation shape are accurate; not touched.
+- No hex-color drift found in the diff (no new inline hex added by the week's commits or my fixes).
+- No vocabulary drift (rarity, Class-vs-Grade, merge/combine/compose) found in the touched files.
+- Did not do a full 12-page content audit beyond the version-sync scope and the one CLI-shape bug
+  found while fixing the `gaia dev mcp` card — this was a SYNC-triggered week, and the drift found
+  was already enough to fix without expanding scope into an unrelated rewrite.
+
+### Verification
+
+`git status` scoped to `docs/en/**` only. Every page grepped clean for `6.8.16`/`7.1.31` residue
+post-fix; all 12 pages now consistently contain `7.3.1` and nothing else. Banned-synonym scan
+clean. Rendered touched pages via Playwright — nav clearance, TOC, and the corrected `gaia dev mcp`
+card all display correctly.
+
+### Files modified this pass
+
+All 12 pages in `docs/en/` (version sync); `docs/en/cli-reference.html` (additional content fix);
+`docs/en/MEMORY.md` (this entry).
+
+### Shipped
+
+Squash-merged PR #1334 into `main`. `docs/routines/018` closes; `docs/routines/019` opens next
+(020/021 were already consolidated into this branch by the dailies).
+
+---
+
 ## 2026-07-28 through 2026-07-31 — Routine 018 (consolidated)
 
 **Branch:** `docs/routines/018` (single unified branch)
