@@ -2,7 +2,7 @@
 id: google-deepmind/reactome_database
 name: Reactome-Database
 contributor: google-deepmind
-origin: false
+origin: true
 genericSkillRef: pathway-ontology-retrieval
 status: awakened
 level: 4★
@@ -92,6 +92,10 @@ timeline:
   action: rank_up
   contributor: marcotiongson
   details: Calibrated level from 3★ to 4★
+- timestamp: '2026-07-30T23:21:51Z'
+  action: demote
+  contributor: marcotiongson
+  details: Calibrated level from 4★ to 3★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

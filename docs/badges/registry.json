@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-30",
+  "generatedAt": "2026-08-01",
   "schema": "gaia-badges-registry/2",
   "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The site Worker at worker/index.js handles /badges/<handle>/<file>.svg (the real SVGs live at /badges/_assets/<handle>/<file>.svg) and serves the `validating\u2026` SVG (docs/badges/not-found.svg) when the `?repo=` query string doesn't match a repo listed here. Schema v2 adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant.",
   "contributors": {
@@ -2451,7 +2451,6 @@
           "google-deepmind/pymol",
           "google-deepmind/quickgo_database",
           "google-deepmind/reactome_database",
-          "google-deepmind/science_skills_common",
           "google-deepmind/string_database",
           "google-deepmind/ucsc_conservation_and_tfbs",
           "google-deepmind/unibind_database",
@@ -2476,34 +2475,14 @@
           "fileSeal": "alphafold_database_fetch_and_analyze-seal.svg"
         },
         {
-          "id": "google-deepmind/alphagenome_single_variant_analysis",
-          "name": "Alphagenome-Single-Variant-Analysis",
-          "rank": 4,
-          "type": "fusion",
-          "branch": "unique",
-          "slash": "/alphagenome_single_variant_analysis",
-          "file": "alphagenome_single_variant_analysis.svg",
-          "fileSeal": "alphagenome_single_variant_analysis-seal.svg"
-        },
-        {
-          "id": "google-deepmind/embl_ebi_ols",
-          "name": "Embl-Ebi-Ols",
+          "id": "google-deepmind/clinical_trials_database",
+          "name": "Clinical-Trials-Database",
           "rank": 4,
           "type": "basic",
           "branch": "unique",
-          "slash": "/embl_ebi_ols",
-          "file": "embl_ebi_ols.svg",
-          "fileSeal": "embl_ebi_ols-seal.svg"
-        },
-        {
-          "id": "google-deepmind/encode_ccres_database",
-          "name": "Encode-Ccres-Database",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/encode_ccres_database",
-          "file": "encode_ccres_database.svg",
-          "fileSeal": "encode_ccres_database-seal.svg"
+          "slash": "/clinical_trials_database",
+          "file": "clinical_trials_database.svg",
+          "fileSeal": "clinical_trials_database-seal.svg"
         },
         {
           "id": "google-deepmind/ensembl_database",
@@ -2516,76 +2495,6 @@
           "fileSeal": "ensembl_database-seal.svg"
         },
         {
-          "id": "google-deepmind/foldseek_structural_search",
-          "name": "Foldseek-Structural-Search",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/foldseek_structural_search",
-          "file": "foldseek_structural_search.svg",
-          "fileSeal": "foldseek_structural_search-seal.svg"
-        },
-        {
-          "id": "google-deepmind/gnomad_database",
-          "name": "Gnomad-Database",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/gnomad_database",
-          "file": "gnomad_database.svg",
-          "fileSeal": "gnomad_database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/gtex_database",
-          "name": "Gtex-Database",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/gtex_database",
-          "file": "gtex_database.svg",
-          "fileSeal": "gtex_database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/human_protein_atlas_database",
-          "name": "Human-Protein-Atlas-Database",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/human_protein_atlas_database",
-          "file": "human_protein_atlas_database.svg",
-          "fileSeal": "human_protein_atlas_database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/interpro_database",
-          "name": "Interpro-Database",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/interpro_database",
-          "file": "interpro_database.svg",
-          "fileSeal": "interpro_database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/jaspar_database",
-          "name": "Jaspar-Database",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/jaspar_database",
-          "file": "jaspar_database.svg",
-          "fileSeal": "jaspar_database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/literature_search_europepmc",
-          "name": "Literature-Search-Europepmc",
-          "rank": 4,
-          "type": "fusion",
-          "branch": "unique",
-          "slash": "/literature_search_europepmc",
-          "file": "literature_search_europepmc.svg",
-          "fileSeal": "literature_search_europepmc-seal.svg"
-        },
-        {
           "id": "google-deepmind/literature_search_openalex",
           "name": "Literature-Search-Openalex",
           "rank": 4,
@@ -2596,34 +2505,14 @@
           "fileSeal": "literature_search_openalex-seal.svg"
         },
         {
-          "id": "google-deepmind/ncbi_sequence_fetch",
-          "name": "Ncbi-Sequence-Fetch",
+          "id": "google-deepmind/pdb_database",
+          "name": "Pdb-Database",
           "rank": 4,
           "type": "basic",
           "branch": "unique",
-          "slash": "/ncbi_sequence_fetch",
-          "file": "ncbi_sequence_fetch.svg",
-          "fileSeal": "ncbi_sequence_fetch-seal.svg"
-        },
-        {
-          "id": "google-deepmind/openfda_database",
-          "name": "Openfda-Database",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/openfda_database",
-          "file": "openfda_database.svg",
-          "fileSeal": "openfda_database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/opentargets_database",
-          "name": "Opentargets-Database",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/opentargets_database",
-          "file": "opentargets_database.svg",
-          "fileSeal": "opentargets_database-seal.svg"
+          "slash": "/pdb_database",
+          "file": "pdb_database.svg",
+          "fileSeal": "pdb_database-seal.svg"
         },
         {
           "id": "google-deepmind/protein_sequence_similarity_search",
@@ -2656,16 +2545,6 @@
           "fileSeal": "pymol-seal.svg"
         },
         {
-          "id": "google-deepmind/quickgo_database",
-          "name": "Quickgo-Database",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/quickgo_database",
-          "file": "quickgo_database.svg",
-          "fileSeal": "quickgo_database-seal.svg"
-        },
-        {
           "id": "google-deepmind/reactome_database",
           "name": "Reactome-Database",
           "rank": 4,
@@ -2676,34 +2555,14 @@
           "fileSeal": "reactome_database-seal.svg"
         },
         {
-          "id": "google-deepmind/science_skills_common",
-          "name": "Science-Skills-Common",
+          "id": "google-deepmind/uniprot_database",
+          "name": "Uniprot-Database",
           "rank": 4,
           "type": "basic",
           "branch": "unique",
-          "slash": "/science_skills_common",
-          "file": "science_skills_common.svg",
-          "fileSeal": "science_skills_common-seal.svg"
-        },
-        {
-          "id": "google-deepmind/ucsc_conservation_and_tfbs",
-          "name": "Ucsc-Conservation-And-Tfbs",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/ucsc_conservation_and_tfbs",
-          "file": "ucsc_conservation_and_tfbs.svg",
-          "fileSeal": "ucsc_conservation_and_tfbs-seal.svg"
-        },
-        {
-          "id": "google-deepmind/unibind_database",
-          "name": "Unibind-Database",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/unibind_database",
-          "file": "unibind_database.svg",
-          "fileSeal": "unibind_database-seal.svg"
+          "slash": "/uniprot_database",
+          "file": "uniprot_database.svg",
+          "fileSeal": "uniprot_database-seal.svg"
         },
         {
           "id": "google-deepmind/uv",
@@ -2726,6 +2585,16 @@
           "fileSeal": "workflow_skill_creator-seal.svg"
         },
         {
+          "id": "google-deepmind/alphagenome_single_variant_analysis",
+          "name": "Alphagenome-Single-Variant-Analysis",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/alphagenome_single_variant_analysis",
+          "file": "alphagenome_single_variant_analysis.svg",
+          "fileSeal": "alphagenome_single_variant_analysis-seal.svg"
+        },
+        {
           "id": "google-deepmind/chembl_database",
           "name": "Chembl-Database",
           "rank": 3,
@@ -2734,16 +2603,6 @@
           "slash": "/chembl_database",
           "file": "chembl_database.svg",
           "fileSeal": "chembl_database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/clinical_trials_database",
-          "name": "Clinical-Trials-Database",
-          "rank": 3,
-          "type": "basic",
-          "branch": "standard",
-          "slash": "/clinical_trials_database",
-          "file": "clinical_trials_database.svg",
-          "fileSeal": "clinical_trials_database-seal.svg"
         },
         {
           "id": "google-deepmind/clinvar_database",
@@ -2766,6 +2625,86 @@
           "fileSeal": "dbsnp_database-seal.svg"
         },
         {
+          "id": "google-deepmind/embl_ebi_ols",
+          "name": "Embl-Ebi-Ols",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/embl_ebi_ols",
+          "file": "embl_ebi_ols.svg",
+          "fileSeal": "embl_ebi_ols-seal.svg"
+        },
+        {
+          "id": "google-deepmind/encode_ccres_database",
+          "name": "Encode-Ccres-Database",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/encode_ccres_database",
+          "file": "encode_ccres_database.svg",
+          "fileSeal": "encode_ccres_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/foldseek_structural_search",
+          "name": "Foldseek-Structural-Search",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/foldseek_structural_search",
+          "file": "foldseek_structural_search.svg",
+          "fileSeal": "foldseek_structural_search-seal.svg"
+        },
+        {
+          "id": "google-deepmind/gnomad_database",
+          "name": "Gnomad-Database",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/gnomad_database",
+          "file": "gnomad_database.svg",
+          "fileSeal": "gnomad_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/gtex_database",
+          "name": "Gtex-Database",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/gtex_database",
+          "file": "gtex_database.svg",
+          "fileSeal": "gtex_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/human_protein_atlas_database",
+          "name": "Human-Protein-Atlas-Database",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/human_protein_atlas_database",
+          "file": "human_protein_atlas_database.svg",
+          "fileSeal": "human_protein_atlas_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/interpro_database",
+          "name": "Interpro-Database",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/interpro_database",
+          "file": "interpro_database.svg",
+          "fileSeal": "interpro_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/jaspar_database",
+          "name": "Jaspar-Database",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/jaspar_database",
+          "file": "jaspar_database.svg",
+          "fileSeal": "jaspar_database-seal.svg"
+        },
+        {
           "id": "google-deepmind/literature_search_arxiv",
           "name": "Literature-Search-Arxiv",
           "rank": 3,
@@ -2786,14 +2725,44 @@
           "fileSeal": "literature_search_biorxiv-seal.svg"
         },
         {
-          "id": "google-deepmind/pdb_database",
-          "name": "Pdb-Database",
+          "id": "google-deepmind/literature_search_europepmc",
+          "name": "Literature-Search-Europepmc",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/literature_search_europepmc",
+          "file": "literature_search_europepmc.svg",
+          "fileSeal": "literature_search_europepmc-seal.svg"
+        },
+        {
+          "id": "google-deepmind/ncbi_sequence_fetch",
+          "name": "Ncbi-Sequence-Fetch",
           "rank": 3,
           "type": "basic",
           "branch": "standard",
-          "slash": "/pdb_database",
-          "file": "pdb_database.svg",
-          "fileSeal": "pdb_database-seal.svg"
+          "slash": "/ncbi_sequence_fetch",
+          "file": "ncbi_sequence_fetch.svg",
+          "fileSeal": "ncbi_sequence_fetch-seal.svg"
+        },
+        {
+          "id": "google-deepmind/openfda_database",
+          "name": "Openfda-Database",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/openfda_database",
+          "file": "openfda_database.svg",
+          "fileSeal": "openfda_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/opentargets_database",
+          "name": "Opentargets-Database",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/opentargets_database",
+          "file": "opentargets_database.svg",
+          "fileSeal": "opentargets_database-seal.svg"
         },
         {
           "id": "google-deepmind/protein_sequence_msa",
@@ -2816,6 +2785,16 @@
           "fileSeal": "pubmed_database-seal.svg"
         },
         {
+          "id": "google-deepmind/quickgo_database",
+          "name": "Quickgo-Database",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/quickgo_database",
+          "file": "quickgo_database.svg",
+          "fileSeal": "quickgo_database-seal.svg"
+        },
+        {
           "id": "google-deepmind/string_database",
           "name": "String-Database",
           "rank": 3,
@@ -2826,14 +2805,24 @@
           "fileSeal": "string_database-seal.svg"
         },
         {
-          "id": "google-deepmind/uniprot_database",
-          "name": "Uniprot-Database",
+          "id": "google-deepmind/ucsc_conservation_and_tfbs",
+          "name": "Ucsc-Conservation-And-Tfbs",
           "rank": 3,
           "type": "basic",
           "branch": "standard",
-          "slash": "/uniprot_database",
-          "file": "uniprot_database.svg",
-          "fileSeal": "uniprot_database-seal.svg"
+          "slash": "/ucsc_conservation_and_tfbs",
+          "file": "ucsc_conservation_and_tfbs.svg",
+          "fileSeal": "ucsc_conservation_and_tfbs-seal.svg"
+        },
+        {
+          "id": "google-deepmind/unibind_database",
+          "name": "Unibind-Database",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/unibind_database",
+          "file": "unibind_database.svg",
+          "fileSeal": "unibind_database-seal.svg"
         }
       ]
     },

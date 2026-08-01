@@ -5,7 +5,7 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: genomic-data-retrieval
 status: awakened
-level: 4★
+level: 3★
 description: Query the JASPAR database for Transcription Factor (TF) binding profiles.
   Use when retrieving Position Frequency Matrices (PFMs) or Position Weight Matrices
   (PWMs) for specific TFs, resolving gene symbols to JASPAR Matrix IDs, or getting
@@ -91,6 +91,10 @@ timeline:
   action: rank_up
   contributor: marcotiongson
   details: Calibrated level from 3★ to 4★
+- timestamp: '2026-07-30T23:21:47Z'
+  action: demote
+  contributor: marcotiongson
+  details: Calibrated level from 4★ to 3★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

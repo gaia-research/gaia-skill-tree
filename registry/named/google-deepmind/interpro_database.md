@@ -5,7 +5,7 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: proteomic-data-retrieval
 status: awakened
-level: 4★
+level: 3★
 description: Identify domains, families, and sites in proteins; find all proteins
   in a family or sharing a domain; explore species distribution for a domain; annotate
   genomes with protein families and GO terms. InterPro combines 14 databases (e.g.,
@@ -92,6 +92,10 @@ timeline:
   action: rank_up
   contributor: marcotiongson
   details: Calibrated level from 3★ to 4★
+- timestamp: '2026-07-30T23:21:46Z'
+  action: demote
+  contributor: marcotiongson
+  details: Calibrated level from 4★ to 3★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

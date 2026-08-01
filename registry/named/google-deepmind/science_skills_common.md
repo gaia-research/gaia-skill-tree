@@ -5,7 +5,7 @@ contributor: google-deepmind
 origin: false
 genericSkillRef: core-platform-implementation
 status: awakened
-level: 4★
+level: 1★
 description: Shared Python package for Science Skills, currently containing http_client
   -- a unified HTTP client with rate limiting, retries, and exponential backoff. Not
   a standalone agent skill. Do not invoke directly.
@@ -98,6 +98,10 @@ timeline:
   action: rank_up
   contributor: marcotiongson
   details: Calibrated level from 3★ to 4★
+- timestamp: '2026-07-30T23:21:41Z'
+  action: demote
+  contributor: marcotiongson
+  details: Calibrated level from 4★ to 1★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

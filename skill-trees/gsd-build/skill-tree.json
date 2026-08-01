@@ -32,7 +32,7 @@
     },
     {
       "skillId": "gsd-build/get-shit-done",
-      "level": "3★",
+      "level": "4★",
       "unlockedAt": "2026-07-03T00:00:00Z",
       "unlockedIn": "gsd-build/gaia-skill-tree",
       "combinedFrom": [],
@@ -56,6 +56,21 @@
           "level": "3★",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-07-30T22:37:20Z",
+          "source": "promotion"
+        },
+        {
+          "level": "3★",
+          "achievedAt": "2026-07-31T00:00:01Z",
+          "source": "demote"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-07-31T00:00:02Z",
+          "source": "promotion"
         }
       ]
     },
@@ -173,6 +188,30 @@
       "previousValue": "4★",
       "newValue": "3★",
       "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
+      "skillId": "gsd-build/get-shit-done"
+    },
+    {
+      "timestamp": "2026-07-30T22:37:20Z",
+      "action": "rank_up",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Calibrated level from 3★ to 4★",
+      "skillId": "gsd-build/get-shit-done"
+    },
+    {
+      "timestamp": "2026-07-31T00:00:01Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "3★",
+      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
+      "skillId": "gsd-build/get-shit-done"
+    },
+    {
+      "timestamp": "2026-07-31T00:00:02Z",
+      "action": "rank_up",
+      "previousValue": "3★",
+      "newValue": "4★",
+      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
       "skillId": "gsd-build/get-shit-done"
     }
   ],
