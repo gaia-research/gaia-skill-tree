@@ -18,18 +18,18 @@ Secondary: Open-source contributors wanting to claim a Named Skill.
 
 | # | File | Title | Status | Routine |
 |---|------|--------|--------|---------|
-| 1 | `index.html` | Docs Home | ✅ Done (updated 017) | 001, 017 |
-| 2 | `getting-started.html` | Getting Started | ✅ Done (updated 017) | 001, 017 |
-| 3 | `cli-reference.html` | CLI Reference | ✅ Done (updated 017) | 002, 017 |
-| 4 | `skill-hierarchy.html` | Skill Hierarchy | ✅ Done | 002 |
-| 5 | `contributing.html` | Contributing | ✅ Done (updated 017) | 003, 017 |
-| 6 | `named-skills.html` | Named Skills & Origin | ✅ Done (updated 017) | 003, 017 |
-| 7 | `evidence-classes.html` | Evidence & Trust | ✅ Done (updated 017) | 004, 017 |
-| 8 | `fusion.html` | Skill Fusion | ✅ Done (updated 017) | 004, 017 |
-| 9 | `mcp-server.html` | MCP Server | ✅ Done (updated 017) | 005, 017 |
-| 10 | `faq.html` | FAQ | ✅ Done (updated 017) | 005, 017 |
-| 11 | `share-bundles.html` | Share Bundles | ✅ Done | 006 |
-| 12 | `timeline-audit.html` | Timeline Audit & Repair | ✅ Done | 008 |
+| 1 | `index.html` | Docs Home | ✅ Done (updated 018) | 001, 017, 018 |
+| 2 | `getting-started.html` | Getting Started | ✅ Done (updated 018) | 001, 017, 018 |
+| 3 | `cli-reference.html` | CLI Reference | ✅ Done (updated 018) | 002, 017, 018 |
+| 4 | `skill-hierarchy.html` | Skill Hierarchy | ✅ Done (updated 018) | 002, 018 |
+| 5 | `contributing.html` | Contributing | ✅ Done (updated 018) | 003, 017, 018 |
+| 6 | `named-skills.html` | Named Skills & Origin | ✅ Done (updated 018) | 003, 017, 018 |
+| 7 | `evidence-classes.html` | Evidence & Trust | ✅ Done (updated 018) | 004, 017, 018 |
+| 8 | `fusion.html` | Skill Fusion | ✅ Done (updated 018) | 004, 017, 018 |
+| 9 | `mcp-server.html` | MCP Server | ✅ Done (updated 018) | 005, 017, 018 |
+| 10 | `faq.html` | FAQ | ✅ Done (updated 018) | 005, 017, 018 |
+| 11 | `share-bundles.html` | Share Bundles | ✅ Done (updated 018) | 006, 018 |
+| 12 | `timeline-audit.html` | Timeline Audit & Repair | ✅ Done (updated 018) | 008, 018 |
 
 ---
 
