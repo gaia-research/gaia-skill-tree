@@ -5,7 +5,7 @@ contributor: pexp13
 origin: true
 genericSkillRef: sentiment-analysis
 status: awakened
-level: 4★
+level: 1★
 description: 'Classifies the affective polarity (positive / negative / neutral, or
   fine-grained) of user-generated text. Covers the full pipeline from raw noisy input
   through preprocessing, inference, and output normalisation. Stack is intentionally
@@ -13,7 +13,7 @@ description: 'Classifies the affective polarity (positive / negative / neutral, 
 
   '
 createdAt: '2026-05-17'
-updatedAt: '2026-07-31'
+updatedAt: '2026-08-01'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -86,6 +86,10 @@ timeline:
   action: rank_up
   contributor: marcotiongson
   details: Calibrated level from 1★ to 4★
+- timestamp: '2026-08-01T02:48:27Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 4★ to 1★
 evidence: []
 verification:
   firstEvidenceAt: '2026-06-19T09:26:06Z'
