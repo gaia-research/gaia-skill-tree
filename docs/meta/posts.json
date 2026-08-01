@@ -1,6 +1,17 @@
 {
   "posts": [
     {
+      "id": "2026-08-01-registry-audit-report-deepmind-cluster-audit-release-v733-rank-calibrations",
+      "type": "report",
+      "date": "2026-08-01",
+      "title": "Registry Audit Report: DeepMind Cluster Audit & Release v7.3.3 Rank Calibrations",
+      "summary": "Origin-gate enforcement across DeepMind cluster nodes, trust-ledger 1-star redactions, timeline backfills, and 12 new named-skill admissions in v7.3.3.",
+      "label": "Audit Report",
+      "url": "meta/reports/2026-08-01-registry-audit-report-deepmind-cluster-audit-release-v733-rank-calibrations.html",
+      "author": "Gaia Research",
+      "source": "docs/meta/2026-08-01-rank-changes-v7-3-3.md"
+    },
+    {
       "id": "2026-07-30-intake-batch-11-named-skills-onboarded-ev-pipeline-v2-live",
       "type": "report",
       "date": "2026-07-30",
