@@ -2,10 +2,10 @@
 id: google-deepmind/workflow_skill_creator
 name: Workflow-Skill-Creator
 contributor: google-deepmind
-origin: false
+origin: true
 genericSkillRef: skill-authoring
 status: awakened
-level: 3★
+level: 4★
 description: Distills a completed user workflow or interaction into a reusable agent
   skill. Use when the user asks to turn their workflow, interaction, or multi-step
   process into a skill, or when they say "make this a skill", "create a skill from

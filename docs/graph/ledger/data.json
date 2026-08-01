@@ -1,6 +1,6 @@
 {
-  "version": "6.8.15",
-  "generatedAt": "2026-07-30T23:24:26Z",
+  "version": "6.4.0",
+  "generatedAt": "2026-08-01T01:41:42Z",
   "summary": {
     "total": 208,
     "S": 5,
@@ -9,7 +9,7 @@
     "C": 82,
     "ungraded": 0,
     "floor": 0,
-    "up": 23
+    "up": 17
   },
   "rows": [
     {
@@ -525,18 +525,18 @@
       "skillId": "google-deepmind/alphafold_database_fetch_and_analyze",
       "tm": 100.82,
       "grade": "A",
-      "currentStars": "3★",
+      "currentStars": "4★",
       "mayStars": "4★",
-      "juneStars": "3★",
+      "juneStars": "4★",
       "g7Stars": "4★",
-      "flag": "[up]",
+      "flag": "",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false,
-      "branch": "standard"
+      "origin": true,
+      "branch": "unique"
     },
     {
       "skillId": "google-deepmind/alphagenome_single_variant_analysis",
@@ -593,18 +593,18 @@
       "skillId": "google-deepmind/ensembl_database",
       "tm": 100.82,
       "grade": "A",
-      "currentStars": "3★",
+      "currentStars": "4★",
       "mayStars": "2★",
-      "juneStars": "3★",
+      "juneStars": "4★",
       "g7Stars": "4★",
-      "flag": "[up]",
+      "flag": "",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false,
-      "branch": "standard"
+      "origin": true,
+      "branch": "unique"
     },
     {
       "skillId": "google-deepmind/foldseek_structural_search",
@@ -797,35 +797,35 @@
       "skillId": "google-deepmind/protein_sequence_similarity_search",
       "tm": 100.82,
       "grade": "A",
-      "currentStars": "3★",
+      "currentStars": "4★",
       "mayStars": "2★",
-      "juneStars": "3★",
+      "juneStars": "4★",
       "g7Stars": "4★",
-      "flag": "[up]",
+      "flag": "",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false,
-      "branch": "standard"
+      "origin": true,
+      "branch": "unique"
     },
     {
       "skillId": "google-deepmind/pubchem_database",
       "tm": 100.82,
       "grade": "A",
-      "currentStars": "3★",
+      "currentStars": "4★",
       "mayStars": "2★",
-      "juneStars": "3★",
+      "juneStars": "4★",
       "g7Stars": "4★",
-      "flag": "[up]",
+      "flag": "",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false,
-      "branch": "standard"
+      "origin": true,
+      "branch": "unique"
     },
     {
       "skillId": "google-deepmind/pymol",
@@ -865,18 +865,18 @@
       "skillId": "google-deepmind/reactome_database",
       "tm": 100.82,
       "grade": "A",
-      "currentStars": "3★",
+      "currentStars": "4★",
       "mayStars": "2★",
-      "juneStars": "3★",
+      "juneStars": "4★",
       "g7Stars": "4★",
-      "flag": "[up]",
+      "flag": "",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false,
-      "branch": "standard"
+      "origin": true,
+      "branch": "unique"
     },
     {
       "skillId": "google-deepmind/ucsc_conservation_and_tfbs",
@@ -933,18 +933,18 @@
       "skillId": "google-deepmind/workflow_skill_creator",
       "tm": 100.82,
       "grade": "A",
-      "currentStars": "3★",
+      "currentStars": "4★",
       "mayStars": "2★",
-      "juneStars": "3★",
+      "juneStars": "4★",
       "g7Stars": "4★",
-      "flag": "[up]",
+      "flag": "",
       "apexResults": null,
       "typeBreakdown": {
         "repo-own": 10.82,
         "peer-review": 90.0
       },
-      "origin": false,
-      "branch": "standard"
+      "origin": true,
+      "branch": "unique"
     },
     {
       "skillId": "openai/few-shot-learning",
@@ -1347,9 +1347,9 @@
       "skillId": "google-deepmind/clinical_trials_database",
       "tm": 70.82,
       "grade": "B",
-      "currentStars": "3★",
+      "currentStars": "4★",
       "mayStars": "2★",
-      "juneStars": "3★",
+      "juneStars": "4★",
       "g7Stars": "3★",
       "flag": "",
       "apexResults": null,
@@ -1357,8 +1357,8 @@
         "repo-own": 10.82,
         "peer-review": 60.0
       },
-      "origin": false,
-      "branch": "standard"
+      "origin": true,
+      "branch": "unique"
     },
     {
       "skillId": "google-deepmind/clinvar_database",
@@ -1432,9 +1432,9 @@
       "skillId": "google-deepmind/pdb_database",
       "tm": 70.82,
       "grade": "B",
-      "currentStars": "3★",
+      "currentStars": "4★",
       "mayStars": "2★",
-      "juneStars": "3★",
+      "juneStars": "4★",
       "g7Stars": "3★",
       "flag": "",
       "apexResults": null,
@@ -1442,8 +1442,8 @@
         "repo-own": 10.82,
         "peer-review": 60.0
       },
-      "origin": false,
-      "branch": "standard"
+      "origin": true,
+      "branch": "unique"
     },
     {
       "skillId": "google-deepmind/protein_sequence_msa",
@@ -1500,9 +1500,9 @@
       "skillId": "google-deepmind/uniprot_database",
       "tm": 70.82,
       "grade": "B",
-      "currentStars": "3★",
+      "currentStars": "4★",
       "mayStars": "2★",
-      "juneStars": "3★",
+      "juneStars": "4★",
       "g7Stars": "3★",
       "flag": "",
       "apexResults": null,
@@ -1510,8 +1510,8 @@
         "repo-own": 10.82,
         "peer-review": 60.0
       },
-      "origin": false,
-      "branch": "standard"
+      "origin": true,
+      "branch": "unique"
     },
     {
       "skillId": "garrytan/careful",

@@ -2,10 +2,10 @@
 id: google-deepmind/ensembl_database
 name: Ensembl-Database
 contributor: google-deepmind
-origin: false
+origin: true
 genericSkillRef: genomic-data-retrieval
 status: awakened
-level: 3★
+level: 4★
 description: Query the Ensembl database to resolve gene, transcript, and protein IDs,
   fetch genomic or protein sequences, retrieve gene structures (exons), and get variant
   consequence and effect predictions (VEP). Use this skill as a primary ID translator,

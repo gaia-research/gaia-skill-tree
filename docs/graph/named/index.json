@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-30",
+  "generatedAt": "2026-08-01",
   "buckets": {
     "automated-testing": [
       {
@@ -27365,10 +27365,10 @@
       "id": "google-deepmind/alphafold_database_fetch_and_analyze",
       "name": "Alphafold-Database-Fetch-And-Analyze",
       "contributor": "google-deepmind",
-      "origin": false,
+      "origin": true,
       "genericSkillRef": "computational-biology-workflows",
       "status": "awakened",
-      "level": "3★",
+      "level": "4★",
       "description": "Retrieve and analyze AlphaFold predicted structures for a protein. Use when the user provides a specific UniProt Accession ID and wants structural confidence metrics (pLDDT), domain boundary analysis, or disorder assessment. Do not use if the user only has a protein name, gene name, or amino acid sequence — ask for a UniProt ID first.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md"
@@ -27477,10 +27477,10 @@
         "systemWideCap": null
       },
       "type": "fusion",
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -27733,10 +27733,10 @@
       "id": "google-deepmind/clinical_trials_database",
       "name": "Clinical-Trials-Database",
       "contributor": "google-deepmind",
-      "origin": false,
+      "origin": true,
       "genericSkillRef": "clinical-data-retrieval",
       "status": "awakened",
-      "level": "3★",
+      "level": "4★",
       "description": "Query ClinicalTrials.gov via APIv2. Use when you want to search for trials by condition, drug, location, status, or phase; retrieve trial details by NCT ID; check eligibility/inclusion criteria; count trials across conditions or time periods; identify a sponsor's trial portfolio; find recruiting trials for patient matching.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database/SKILL.md"
@@ -27831,10 +27831,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -28337,10 +28337,10 @@
       "id": "google-deepmind/ensembl_database",
       "name": "Ensembl-Database",
       "contributor": "google-deepmind",
-      "origin": false,
+      "origin": true,
       "genericSkillRef": "genomic-data-retrieval",
       "status": "awakened",
-      "level": "3★",
+      "level": "4★",
       "description": "Query the Ensembl database to resolve gene, transcript, and protein IDs, fetch genomic or protein sequences, retrieve gene structures (exons), and get variant consequence and effect predictions (VEP). Use this skill as a primary ID translator, genomic sequence database and variant effect prediction tool.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database/SKILL.md"
@@ -28467,10 +28467,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -30215,10 +30215,10 @@
       "id": "google-deepmind/pdb_database",
       "name": "Pdb-Database",
       "contributor": "google-deepmind",
-      "origin": false,
+      "origin": true,
       "genericSkillRef": "protein-structure-analysis",
       "status": "awakened",
-      "level": "3★",
+      "level": "4★",
       "description": "Use when you want to search for or download experimentally-determined 3D structures for biomolecules (proteins, nucleic acids, bound ligands). Supports searching by sequence similarity, structure similarity, chemical and other attributes. Also use to get metadata about biomolecular structure experiments.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database/SKILL.md"
@@ -30313,10 +30313,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -30425,10 +30425,10 @@
       "id": "google-deepmind/protein_sequence_similarity_search",
       "name": "Protein-Sequence-Similarity-Search",
       "contributor": "google-deepmind",
-      "origin": false,
+      "origin": true,
       "genericSkillRef": "bioinformatic-sequence-analysis",
       "status": "awakened",
-      "level": "3★",
+      "level": "4★",
       "description": "Searches for homologous protein sequences using MMseqs2 (fast, default) or BLAST (comprehensive, fallback). Trigger this whenever the user provides a protein sequence or FASTA file and asks to find homologues, sequence matches, or wants to infer protein function based on sequence similarity, but not when the user wants to infer protein function based on structural similarity.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md"
@@ -30570,20 +30570,20 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
       "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/pubchem_database",
       "name": "Pubchem-Database",
       "contributor": "google-deepmind",
-      "origin": false,
+      "origin": true,
       "genericSkillRef": "molecular-databases",
       "status": "awakened",
-      "level": "3★",
+      "level": "4★",
       "description": "Query PubChem, search by name/CID/SMILES, retrieve properties, similarity/substructure searches, bioactivity, for cheminformatics. Use when a user asks about a specific chemical, drug, or molecule.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database/SKILL.md"
@@ -30710,10 +30710,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -30954,18 +30954,6 @@
           "action": "rank_up",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 3★ to 4★"
-        },
-        {
-          "timestamp": "2026-07-30T23:21:50Z",
-          "action": "demote",
-          "contributor": "marcotiongson",
-          "details": "Calibrated level from 4★ to 3★"
-        },
-        {
-          "timestamp": "2026-07-30T23:24:20Z",
-          "action": "rank_up",
-          "contributor": "marcotiongson",
-          "details": "Calibrated level from 3★ to 4★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -31132,10 +31120,10 @@
       "id": "google-deepmind/reactome_database",
       "name": "Reactome-Database",
       "contributor": "google-deepmind",
-      "origin": false,
+      "origin": true,
       "genericSkillRef": "pathway-ontology-retrieval",
       "status": "awakened",
-      "level": "3★",
+      "level": "4★",
       "description": "Query the Reactome database (Analysis and Content Services). Use when the user asks about pathway analysis, gene list enrichment, retrieving results by token, finding unmapped or not-found identifiers, mapping identifiers, reaction participants (inputs, outputs), pathway hierarchy (including top-level pathways), diagram export, cross-reference mapping, or searching the knowledgebase.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database/SKILL.md"
@@ -31262,10 +31250,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -31809,10 +31797,10 @@
       "id": "google-deepmind/uniprot_database",
       "name": "Uniprot-Database",
       "contributor": "google-deepmind",
-      "origin": false,
+      "origin": true,
       "genericSkillRef": "proteomic-data-retrieval",
       "status": "awakened",
-      "level": "3★",
+      "level": "4★",
       "description": "Access protein metadata, function, taxonomy, and sequences across UniProtKB, UniParc, and UniRef. Use when searching for proteins, mapping identifiers, or retrieving functional annotations and publications. Don't use for sequence alignment, protein folding, or sequence similarity search (use specialized skills for those tasks).",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md"
@@ -31907,10 +31895,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -32031,18 +32019,6 @@
           "action": "rank_up",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 3★ to 4★"
-        },
-        {
-          "timestamp": "2026-07-30T23:21:53Z",
-          "action": "demote",
-          "contributor": "marcotiongson",
-          "details": "Calibrated level from 4★ to 3★"
-        },
-        {
-          "timestamp": "2026-07-30T23:24:20Z",
-          "action": "rank_up",
-          "contributor": "marcotiongson",
-          "details": "Calibrated level from 3★ to 4★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -32069,10 +32045,10 @@
       "id": "google-deepmind/workflow_skill_creator",
       "name": "Workflow-Skill-Creator",
       "contributor": "google-deepmind",
-      "origin": false,
+      "origin": true,
       "genericSkillRef": "skill-authoring",
       "status": "awakened",
-      "level": "3★",
+      "level": "4★",
       "description": "Distills a completed user workflow or interaction into a reusable agent skill. Use when the user asks to turn their workflow, interaction, or multi-step process into a skill, or when they say \"make this a skill\", \"create a skill from what we just did\", \"package this workflow\" or similar. Do not use for creating skills from scratch without an existing workflow (use a generic skill-creator for that).",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md"
@@ -32199,10 +32175,10 @@
         "systemWideCap": null
       },
       "type": "fusion",
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
       "contractVersion": "gaia-public-v1"
     },
     {

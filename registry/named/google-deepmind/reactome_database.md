@@ -2,10 +2,10 @@
 id: google-deepmind/reactome_database
 name: Reactome-Database
 contributor: google-deepmind
-origin: false
+origin: true
 genericSkillRef: pathway-ontology-retrieval
 status: awakened
-level: 3★
+level: 4★
 description: Query the Reactome database (Analysis and Content Services). Use when
   the user asks about pathway analysis, gene list enrichment, retrieving results by
   token, finding unmapped or not-found identifiers, mapping identifiers, reaction

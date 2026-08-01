@@ -2,10 +2,10 @@
 id: google-deepmind/pubchem_database
 name: Pubchem-Database
 contributor: google-deepmind
-origin: false
+origin: true
 genericSkillRef: molecular-databases
 status: awakened
-level: 3★
+level: 4★
 description: Query PubChem, search by name/CID/SMILES, retrieve properties, similarity/substructure
   searches, bioactivity, for cheminformatics. Use when a user asks about a specific
   chemical, drug, or molecule.

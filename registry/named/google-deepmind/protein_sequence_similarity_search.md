@@ -2,10 +2,10 @@
 id: google-deepmind/protein_sequence_similarity_search
 name: Protein-Sequence-Similarity-Search
 contributor: google-deepmind
-origin: false
+origin: true
 genericSkillRef: bioinformatic-sequence-analysis
 status: awakened
-level: 3★
+level: 4★
 description: Searches for homologous protein sequences using MMseqs2 (fast, default)
   or BLAST (comprehensive, fallback). Trigger this whenever the user provides a protein
   sequence or FASTA file and asks to find homologues, sequence matches, or wants to
