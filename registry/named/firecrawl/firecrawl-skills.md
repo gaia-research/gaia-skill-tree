@@ -108,8 +108,9 @@ evidence:
   notes: 'scrape-content-dataset-v1 (1000 URLs): >95% dynamic page scrape success,
     P95 latency ~3.4s. JS-heavy SPAs and anti-bot protected sites (May 2026).'
 - type: github-stars-own
+  updatedAt: '2026-08-01'
   source: https://github.com/firecrawl/firecrawl/stargazers
-  stars: 150087
+  stars: 158811
   skillCountInRepo: 6
   grade: B
   evaluator: mbtiongson1

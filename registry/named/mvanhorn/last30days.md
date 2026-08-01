@@ -60,10 +60,11 @@ timeline:
   details: Calibrated level from 3★ to 4★
 evidence:
 - source: https://github.com/mvanhorn/last30days-skill/blob/main/skills/last30days/SKILL.md
+  updatedAt: '2026-08-01'
   evaluator: mbtiongson1
   date: '2026-07-30'
   type: github-stars-own
-  stars: 55151
+  stars: 56399
   skillCountInRepo: 1
   notes: Verified upstream repository star count (55,151 stars).
   grade: B
