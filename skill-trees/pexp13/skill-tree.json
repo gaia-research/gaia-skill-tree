@@ -38,6 +38,16 @@
           "level": "4★",
           "achievedAt": "2026-07-31T00:00:02Z",
           "source": "promotion"
+        },
+        {
+          "level": "1★",
+          "achievedAt": "2026-08-01T02:48:27Z",
+          "source": "demote"
+        },
+        {
+          "level": "4★",
+          "achievedAt": "2026-08-01T02:48:28Z",
+          "source": "promotion"
         }
       ]
     }
@@ -85,6 +95,22 @@
     },
     {
       "timestamp": "2026-07-31T00:00:02Z",
+      "action": "rank_up",
+      "previousValue": "1★",
+      "newValue": "4★",
+      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
+      "skillId": "pexp13/sentiment-analysis"
+    },
+    {
+      "timestamp": "2026-08-01T02:48:27Z",
+      "action": "demote",
+      "previousValue": "4★",
+      "newValue": "1★",
+      "details": "Calibrated level from 4★ to 1★",
+      "skillId": "pexp13/sentiment-analysis"
+    },
+    {
+      "timestamp": "2026-08-01T02:48:28Z",
       "action": "rank_up",
       "previousValue": "1★",
       "newValue": "4★",
