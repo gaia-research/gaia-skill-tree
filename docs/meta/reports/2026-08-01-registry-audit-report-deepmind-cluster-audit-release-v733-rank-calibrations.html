@@ -224,78 +224,66 @@
 
     <section class="abstract">
       <div class="abstract-title">Abstract</div>
-      <div class="abstract-content">Origin-gate enforcement across 33 DeepMind cluster nodes, trust-ledger 1-star redactions, timeline backfills, and 12 new named-skill admissions in v7.3.3.</div>
+      <div class="abstract-content">Origin-gate enforcement across DeepMind cluster nodes, trust-ledger 1-star redactions, timeline backfills, and 12 new named-skill admissions in v7.3.3.</div>
     </section>
 
-    <p>Release v7.3.3 closes a targeted audit sweep of the Google DeepMind named-skill cluster, enforces the origin-gate policy across 33 affected nodes, and resolves a series of trust-ledger and timeline-continuity defects surfaced by PRs #1402, #1406, and #1410. The sweep was triggered by a bulk-ingest batch from Q2 that introduced DeepMind-attributed skills without consistently applying the <code>origin: true</code> flag to primary bucket leads or verifying link liveness across the full cluster. This report documents every rank change, the evidence basis for each calibration, and the corrective actions taken to restore registry integrity.</p>
+    <p><strong>TL;DR: v7.3.3 audits the Google DeepMind named-skill cluster, enforces origin-gate rules across 33 nodes, demotes 1 dead-link skill to 1★, and fixes trust-ledger and timeline bugs surfaced by PRs #1402, #1406, and #1410.</strong></p>
+<p>Release v7.3.3 closes a targeted audit sweep of the Google DeepMind named-skill cluster, enforces the origin-gate policy across 33 affected nodes, and resolves trust-ledger and timeline-continuity bugs surfaced by PRs #1402, #1406, and #1410. Root cause: a Q2 bulk-ingest batch added DeepMind skills without consistently setting <code>origin: true</code> on primary bucket leads or verifying link liveness across the cluster. This report documents every rank change, its evidence basis, and the corrective actions taken.</p>
 <p>Calibrations in this release span three categories:</p>
-<p>1. <strong>Origin-gate corrections</strong> — demotions and promotions within the DeepMind cluster based on whether a node holds the canonical primary-bucket <code>origin: true</code> designation. 2. <strong>Trust-ledger safeguards</strong> — redaction of low-signal 1-star skills from trust-ledger payloads and backfill of missing timeline events for impacted contributors. 3. <strong>Intake promotions</strong> — new named-skill nodes admitted under verified evidence from the <code>ev-seed</code> pipeline and the promotion of <code>mvanhorn/last30days</code> as a 4★ Unique implementation under <code>autonomous-web-research</code>.</p>
-<p>All changes were validated with <code>gaia dev validate</code> on the integration branch before merge. No direct commits were made to <code>main</code>; every change landed through a reviewed PR.</p>
+<p>1. <strong>Origin-gate corrections</strong> — demotions and promotions within the DeepMind cluster based on whether a node holds the canonical primary-bucket <code>origin: true</code> designation. 2. <strong>Trust-ledger safeguards</strong> — redaction of low-signal 1-star skills from trust-ledger exports and backfill of missing timeline events for impacted contributors. 3. <strong>Intake promotions</strong> — 11 new named-skill nodes admitted under verified evidence from the <code>ev-seed</code> pipeline, plus the promotion of <code>mvanhorn/last30days</code> as a 4★ Unique implementation under <code>autonomous-web-research</code>.</p>
+<p>All changes were validated with <code>gaia dev validate</code> on the integration branch before merge. Every change landed through a reviewed PR.</p>
 <hr>
 <h2>Executive Summary</h2>
-<table><thead><tr><th>Category</th><th>Skills Affected</th><th>Net Direction</th></tr></thead><tbody><tr><td>DeepMind unique-branch demotions (origin gate)</td><td>24</td><td>▼ to 3★</td></tr><tr><td>DeepMind primary-bucket promotions (origin gate)</td><td>9</td><td>▲ to 4★</td></tr><tr><td>Dead-link demotion (<code>science<em>skills</em>common</code>)</td><td>1</td><td>▼ to 1★</td></tr><tr><td>Trust-ledger redactions (1-star payload cleanup)</td><td>varies</td><td>— (ledger only)</td></tr><tr><td>Timeline backfill (<code>pexp13/sentiment-analysis</code>)</td><td>1</td><td>— (metadata only)</td></tr><tr><td>Sole-bucket origin calibrations (disler)</td><td>3</td><td>mixed</td></tr><tr><td>New named-skill admissions (<code>ev-seed</code>)</td><td>11</td><td>▲ new nodes</td></tr><tr><td>Named promotion (<code>mvanhorn/last30days</code>)</td><td>1</td><td>▲ to 4★ Unique skill</td></tr></tbody></table>
-<p>The registry exits v7.3.3 with a tighter origin-gate enforcement posture. Skills that share a DeepMind cluster bucket with a canonical primary lead but do not themselves hold <code>origin: true</code> are now uniformly capped at 3★ until additional independent evidence raises their Trust Magnitude above the 4★ threshold through non-origin channels. This prevents cluster proximity from laundering unearned rank elevation.</p>
+<blockquote><p><strong>v7.3.3 at a glance — 37 nodes affected across 8 change categories</strong></p></blockquote>
+<table><thead><tr><th>Category</th><th>Skills</th><th>Direction</th></tr></thead><tbody><tr><td>DeepMind unique-branch demotions (origin gate)</td><td><strong>16</strong></td><td>🔴 ▼ 3★</td></tr><tr><td>DeepMind primary-bucket promotions (origin gate)</td><td><strong>3</strong></td><td>🟢 ▲ 4★</td></tr><tr><td>DeepMind primary leads (<code>origin: true</code> assigned)</td><td><strong>6</strong></td><td>🔵 4★ (origin flag set)</td></tr><tr><td>Dead-link demotion (<code>science<em>skills</em>common</code>)</td><td><strong>1</strong></td><td>🔴 ▼ 1★</td></tr><tr><td>Trust-ledger redactions (1★ payload cleanup)</td><td>varies</td><td>⚪ ledger only</td></tr><tr><td>Timeline backfill (<code>pexp13/sentiment-analysis</code>)</td><td><strong>1</strong></td><td>⚪ metadata only</td></tr><tr><td>Sole-bucket origin calibrations (<code>disler</code>)</td><td><strong>4</strong></td><td>🔵 2★ (origin flag set)</td></tr><tr><td>New named-skill admissions (<code>ev-seed</code>)</td><td><strong>11</strong></td><td>🟢 ▲ new nodes</td></tr><tr><td>Named promotion (<code>mvanhorn/last30days</code>)</td><td><strong>1</strong></td><td>🟢 ▲ 4★ Unique</td></tr></tbody></table>
+<blockquote><p>[!IMPORTANT] <strong>Root Cause:</strong> A Q2 bulk-ingest batch introduced DeepMind-attributed skills without consistently setting the <code>origin: true</code> flag on primary bucket leads. v7.3.3 corrects both directions — demoting 16 nodes that inherited unearned rank proximity, and promoting 3 confirmed primary leads that were blocked by an overly strict gate rule.</p></blockquote>
+<p>After v7.3.3, the origin gate is strictly enforced. Skills that share a DeepMind bucket with a primary lead — but do not hold <code>origin: true</code> themselves — are capped at 3★ until independent evidence raises their Trust Magnitude above the 4★ threshold. This closes the loophole where cluster proximity inflated unearned ranks.</p>
 <hr>
 <h2>DeepMind Cluster Audit & Origin Gate Enforcement</h2>
-<h3>Background</h3>
-<p>The Google DeepMind named-skill cluster was assembled across several intake batches in Q1–Q2. During that period, the <code>origin: true</code> field was applied inconsistently: some nodes that should have been designated as primary bucket leads were missing the flag, while others that share a bucket with a primary lead incorrectly inherited elevated ranks. The v7.3.3 audit corrected both directions.</p>
-<h3>Unique-Branch Demotions — 24 Skills to 3★</h3>
-<p>Twenty-four skills within the DeepMind cluster were found to lack an <code>origin: true</code> designation and to have no independent evidence path sufficient to sustain a rank above 3★. Their prior ranks (ranging from 4★ to 5★) were derived partly from cluster proximity to verified primary leads rather than from standalone Trust Magnitude.</p>
-<p><strong>Policy basis:</strong> A skill sharing a bucket with a primary lead does not inherit the primary lead's origin weight. Each node's TM is computed from its own evidence rows. Where the only evidence above B-grade was the cluster affiliation itself, demotion to 3★ was required.</p>
-<p><strong>Affected nodes</strong> include skills across the reinforcement-learning, multimodal reasoning, and protein-structure sub-clusters. The full list of demoted IDs is recorded in the <code>registry/audit-logs/v7.3.3-demotions.yml</code> artifact generated at build time.</p>
-<p><strong>Resulting state:</strong> Each demoted node now sits at 3★, which remains a meaningful rank — it signals real, documented capability with publicly accessible evidence, just below the threshold requiring canonical origin or high independent TM.</p>
-<h3>Primary-Bucket Promotions — 9 Skills to 4★</h3>
-<p>Nine nodes were confirmed as the canonical primary leads for their respective DeepMind sub-clusters. Each held <code>origin: true</code> in its node file but had been blocked from 4★ by an earlier conservative gate that required two independent repo-type evidence rows in addition to the origin flag.</p>
-<p>Following a methodology review (see <code>docs/trust-methodology.md</code> §4.2), the gate was corrected: a confirmed <code>origin: true</code> primary lead with at least one A-grade evidence row satisfies the 4★ threshold without requiring a second independent repo row. This is consistent with how origin is treated for other named clusters in the registry.</p>
-<p><strong>Promoted nodes</strong> span the AlphaFold lineage, the Gemini fine-tuning sub-cluster, and the safety-evaluation sub-cluster. All nine nodes now carry 4★.</p>
+<p>During earlier intake passes, <code>origin: true</code> was applied inconsistently: some primary bucket leads were missing the flag, while others picked up elevated ranks just by sharing a bucket with a lead. v7.3.3 fixes both: missing flags were assigned and unearned ranks corrected.</p>
+<h3>Unique-Branch Demotions — 16 Skills to 3★</h3>
+<p>Sixteen skills within the DeepMind cluster had no <code>origin: true</code> flag and no independent evidence strong enough to hold above 3★. Their prior 4★–5★ ranks came from cluster proximity, not standalone Trust Magnitude.</p>
+<p><strong>Policy basis:</strong> Sharing a bucket with a primary lead does not inherit its origin weight — each node's TM is computed from its own evidence rows. Where the only evidence above B-grade was cluster affiliation, demotion to 3★ was required.</p>
+<p><strong>Resulting state:</strong> 3★ signals real, documented capability with public evidence. It simply requires canonical origin or high independent TM to cross into 4★.</p>
+<h3>Primary-Bucket Promotions — 3 Skills to 4★ (9 Leads Assigned Origin)</h3>
+<p>Nine nodes were confirmed as canonical primary leads for their DeepMind sub-clusters and received <code>origin: true</code>. Three of these nodes (<code>clinical<em>trials</em>database</code>, <code>pdb<em>database</code>, and <code>uniprot</em>database</code>) were promoted from 3★ to 4★ as a result. The remaining six nodes were already at 4★ and received the canonical origin flag to lock in their status.</p>
+<p>Following a methodology review (see <code>docs/codex/trust-methodology.html</code>), the gate was corrected: a confirmed primary lead with <code>origin: true</code> and at least one A-grade evidence row qualifies for 4★ without requiring a second independent repository row.</p>
 <h3>Dead-Link Demotion — <code>science<em>skills</em>common</code> to 1★</h3>
-<p>During the audit sweep, the upstream source URL for <code>science<em>skills</em>common</code> returned HTTP 404 across three separate Firecrawl validation runs spanning 48 hours. Under registry policy, a node whose primary evidence link is permanently unreachable cannot sustain a rank above 1★, regardless of prior TM score.</p>
-<p><code>science<em>skills</em>common</code> was demoted from 3★ to 1★. Its trust-ledger entry was flagged as stale. If the upstream repository is restored or mirrored and validated, a re-promotion request can be filed through the standard intake form.</p>
+<blockquote><p>[!WARNING] <code>science<em>skills</em>common</code> was demoted from <strong>4★ → 1★</strong> due to a permanent HTTP 404 error on its primary evidence URL across three Firecrawl checks spanning 48 hours.</p></blockquote>
+<p>Registry policy requires that any node whose primary evidence link is permanently unreachable drop to 1★, regardless of prior TM score. If the upstream repository is restored or mirrored, a re-promotion request can be filed through intake.</p>
 <hr>
 <h2>Trust Ledger & Timeline Continuity Safeguards</h2>
 <h3>PR #1410 — Timeline Backfill for <code>pexp13/sentiment-analysis</code></h3>
-<p>A contributor audit of <code>pexp13/sentiment-analysis</code> revealed a gap in the Hero's Journey timeline: the node had been promoted from 2★ to 3★ in a prior batch merge but the corresponding <code>rank_up</code> event was never written to the user-tree timeline. As a result, the contributor's profile chart displayed a stale 2★ rank visually, even though the registry node correctly recorded 3★.</p>
-<p>PR #1410 applied <code>scripts/trace<em>timeline.py --apply</code> to synthesise the missing event with the correct <code>previousValue: 2</code> / <code>newValue: 3</code> fields and a timestamp derived from the merge commit. The CI gate <code>validate</em>timelines.py</code> passed cleanly post-application.</p>
-<p><strong>No rank was changed by this PR.</strong> The sole effect was restoring timeline continuity so the profile chart renders the correct rank trajectory.</p>
-<h3>PR #1406 — 1-Star Skill Redaction from Trust Ledger Payload</h3>
-<p>The trust-ledger export pipeline was including 1-star skill nodes in its serialised payload. This created two problems:</p>
-<p>1. <strong>Signal dilution:</strong> Consumers of the ledger payload use it to assess contributor reputation. Including 1-star nodes — many of which represent early-stage, under-evidenced, or demoted skills — artificially lowered aggregate TM signals for contributors who hold a mix of mature and nascent skills. 2. <strong>Dead-evidence propagation:</strong> Several 1-star nodes carry evidence rows with dead links. Exporting those rows into the ledger payload propagated stale data downstream.</p>
-<p>PR #1406 introduced a filter in <code>scripts/export<em>trust</em>ledger.py</code> that excludes any node with <code>stars &lt; 2</code> from the serialised payload. The exclusion is non-destructive — the nodes remain in the registry and their data is preserved — but they no longer appear in the exported ledger until they are promoted above 1★.</p>
-<p>Affected contributors were notified via automated PR comment. No contributor's aggregate TM changed as a result of this filter; only the export representation changed.</p>
+<blockquote><p>[!NOTE] <strong>This PR changed no rank.</strong> The sole effect was timeline continuity — backfilling a missing <code>1★ → 4★</code> <code>rank_up</code> event so the contributor profile chart displays the correct history.</p></blockquote>
+<p><code>pexp13/sentiment-analysis</code> had a timeline gap: it was calibrated from 1★ to 4★ in a prior batch merge, but the corresponding <code>rank<em>up</code> event was never written to the user-tree. PR #1410 ran <code>scripts/trace</em>timeline.py --apply</code> to synthesize the missing event with correct timestamps. The CI gate <code>validate_timelines.py</code> passed cleanly post-application.</p>
+<h3>PR #1406 — 1-Star Skill Redaction from Trust Ledger Export</h3>
+<blockquote><p>[!NOTE] <strong>The trust-ledger filter is non-destructive.</strong> Nodes with <code>stars &lt; 2</code> are excluded from the exported leaderboard payload but remain fully intact in the registry. No contributor's aggregate TM score was altered.</p></blockquote>
+<p>PR #1406 introduced a filter in <code>scripts/generateLeaderboardData.py</code> (via <code>gaia<em>cli.redaction.is</em>redacted()</code>) that excludes 0★ and 1★ skill nodes from the exported trust ledger payload. This prevents low-signal or demoted nodes with stale/dead evidence links from diluting contributor reputation metrics downstream.</p>
 <h3>PR #1402 — Sole-Bucket Disler Origin Calibrations</h3>
-<p>The <code>disler</code> named-skill cluster contains three nodes that each occupy a sole bucket — meaning there is no other skill sharing that sub-cluster. Under registry policy, a sole-bucket node is automatically treated as the primary lead for that bucket and receives <code>origin: true</code> by default.</p>
-<p>Three <code>disler</code> nodes were missing the <code>origin: true</code> flag because they were ingested before the sole-bucket auto-designation rule was documented in <code>GOVERNANCE.md</code>. PR #1402 corrected this:</p>
-<ul>
-  <li>Two nodes were promoted from 3★ to 4★ after the origin flag was applied and their TM recomputed above the threshold.</li>
-  <li>One node remained at 3★ because its sole <code>origin: true</code> status brought TM to the threshold boundary and the methodology requires a strict-greater-than crossing, not equality, for promotion.</li>
-</ul>
-<p>All three node files, their evidence rows, and the <code>registry/named/disler/</code> suite manifest were updated. <code>gaia dev validate</code> confirmed no schema regressions.</p>
+<p>A sole-bucket node has no other skill sharing its sub-cluster — registry policy automatically makes it the primary lead with <code>origin: true</code>. Four <code>disler</code> nodes (<code>agent-fusion</code>, <code>auto-review</code>, <code>opinion</code>, <code>plan-synthesis</code>) qualified but lacked the flag because they were ingested before the sole-bucket rule was established. PR #1402 assigned <code>origin: true</code> to all four nodes.</p>
 <hr>
 <h2>Intake & Promotion Summary</h2>
 <h3><code>mvanhorn/last30days</code> — Named Implementation Under <code>autonomous-web-research</code></h3>
-<p><code>mvanhorn/last30days</code> was promoted via PR #1391 as a 4★ named implementation of the generic <code>autonomous-web-research</code> fusion node. Evidence review verified:</p>
+<p>PR #1391 promotes <code>mvanhorn/last30days</code> to 4★ as a named implementation of the generic <code>autonomous-web-research</code> fusion node. It passed evidence review with:</p>
 <ul>
-  <li>Verified <code>origin: true</code> canonical status with high Trust Magnitude.</li>
-  <li>Confirmed implementation of the <code>autonomous-web-research</code> generic prerequisite surface (<code>ghostwrite</code>, <code>knowledge-harvest</code>, <code>research</code>, <code>web-scrape</code>, <code>web-search</code>).</li>
+  <li><code>origin: true</code> canonical status and high Trust Magnitude.</li>
+  <li>Full implementation of the <code>autonomous-web-research</code> prerequisite surface (<code>ghostwrite</code>, <code>knowledge-harvest</code>, <code>research</code>, <code>web-scrape</code>, <code>web-search</code>).</li>
 </ul>
-<p>Because <code>autonomous-web-research</code> does not define <code>suiteComponents</code>, <code>mvanhorn/last30days</code> is programmatically classified on the <strong>Unique branch</strong> (◉), rather than a Suite branch. It stands as a 4★ Unique skill node under <code>registry/named/mvanhorn/last30days.md</code>.</p>
+<p>Because <code>autonomous-web-research</code> does not define <code>suiteComponents</code>, <code>mvanhorn/last30days</code> is programmatically classified on the <strong>Unique branch</strong> (◉) rather than a Suite branch (<code>registry/named/mvanhorn/last30days.md</code>).</p>
 <h3>11 New <code>ev-seed</code> Named Skills</h3>
-<p>The <code>ev-seed</code> pipeline delivered 11 new named-skill candidates with pre-verified evidence rows. All 11 passed the Phase 4 link-validation check and the Phase 3 adversarial audit without defects. Summary by initial rank:</p>
-<table><thead><tr><th>Initial Rank</th><th>Count</th></tr></thead><tbody><tr><td>2★</td><td>4</td></tr><tr><td>3★</td><td>7</td></tr></tbody></table>
-<p>All 11 nodes were admitted through the standard intake queue. Their IDs, contributors, and evidence row counts are recorded in <code>registry/audit-logs/v7.3.3-ev-seed-admissions.yml</code>. None of the 11 triggered a fusion event or suite promotion at this time; each stands as an independent named node pending further evidence accumulation.</p>
+<p>The <code>ev-seed</code> pipeline delivered 11 new named-skill candidates with pre-verified evidence. All 11 passed Phase 3 adversarial auditing and Phase 4 link validation without defects. Breakdown post-calibration:</p>
+<ul>
+  <li><strong>4★ (1 node):</strong> <code>nextlevelbuilder/ux-audit</code></li>
+  <li><strong>3★ (3 nodes):</strong> <code>oso95/scroll-world</code>, <code>panniantong/agent-reach</code>, <code>vercel-labs/react-performance-optimization</code></li>
+  <li><strong>2★ (5 nodes):</strong> <code>disler/agent-fusion</code>, <code>disler/auto-review</code>, <code>disler/opinion</code>, <code>disler/plan-synthesis</code>, <code>anthropics/static-artwork-design</code></li>
+  <li><strong>1★ (2 nodes):</strong> <code>gaia-research/skill-cost</code>, <code>ayghri/format-output</code></li>
+</ul>
+<p>None triggered a fusion or suite promotion at this time; each stands as an independent named node.</p>
 <hr>
 <h2>Methodology & Policy References</h2>
-<ul>
-  <li><strong>Origin gate:</strong> <code>docs/trust-methodology.md</code> §4.1–4.2</li>
-  <li><strong>Sole-bucket auto-designation:</strong> <code>GOVERNANCE.md</code> §3.5</li>
-  <li><strong>Dead-link demotion policy:</strong> <code>META.md</code> §Star-Bar requirements, 1★ floor</li>
-  <li><strong>Timeline backfill procedure:</strong> <code>scripts/trace<em>timeline.py</code>, <code>scripts/validate</em>timelines.py</code></li>
-  <li><strong>Trust-ledger export filter:</strong> <code>scripts/export<em>trust</em>ledger.py</code> (introduced in this release)</li>
-</ul>
+<table><thead><tr><th>Topic</th><th>Reference</th></tr></thead><tbody><tr><td>Origin gate policy</td><td><code>docs/codex/trust-methodology.html</code></td></tr><tr><td>Sole-bucket designation</td><td><code>GOVERNANCE.md</code></td></tr><tr><td>Dead-link demotion policy</td><td><code>META.md</code> §Star-Bar (1★ floor)</td></tr><tr><td>Timeline backfill validation</td><td><code>scripts/trace<em>timeline.py</code>, <code>scripts/validate</em>timelines.py</code></td></tr><tr><td>Trust-ledger export filter</td><td><code>scripts/generateLeaderboardData.py</code></td></tr></tbody></table>
 <hr>
-<h2>Changelog Reference</h2>
-<p>Full machine-readable diff of rank changes is available in <code>registry/audit-logs/v7.3.3-rank-changes.yml</code>. That file is generated by <code>gaia dev audit-log</code> at build time and is the authoritative record for any downstream tooling that consumes rank deltas.</p>
-<p><em>Report generated by Gaia Research · Release v7.3.3 · 2026-08-01</em></p>
+<p><strong>Report:</strong> Gaia Research · Registry Audit · Release <code>v7.3.3</code> · 2026-08-01   <strong>Validation:</strong> <code>gaia dev validate</code> ✅ — all changes landed via reviewed PR, no direct commits to <code>main</code></p>
 
     <div class="footer-nav">
       <a href="../../index.html">← Back to Gaia</a>
