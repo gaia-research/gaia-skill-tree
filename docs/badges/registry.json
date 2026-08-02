@@ -2826,32 +2826,6 @@
         }
       ]
     },
-    "pexp13": {
-      "repos": [
-        "pexp13/basic-nlp-text-processor-python"
-      ],
-      "skillsByRepo": {
-        "pexp13/basic-nlp-text-processor-python": [
-          "pexp13/sentiment-analysis"
-        ]
-      },
-      "topSkill": "pexp13/sentiment-analysis",
-      "topRank": 4,
-      "topIsUnique": true,
-      "count": 1,
-      "namedSkills": [
-        {
-          "id": "pexp13/sentiment-analysis",
-          "name": "Sentiment Analysis",
-          "rank": 4,
-          "type": "basic",
-          "branch": "unique",
-          "slash": "/sentiment-analysis",
-          "file": "sentiment-analysis.svg",
-          "fileSeal": "sentiment-analysis-seal.svg"
-        }
-      ]
-    },
     "xquik-dev": {
       "repos": [
         "Xquik-dev/hermes-tweet"
