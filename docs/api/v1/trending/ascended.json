@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-01T01:39:09Z",
+  "generatedAt": "2026-08-02T22:35:26Z",
   "skills": [
     {
       "id": "gsd-build/get-shit-done",
@@ -19,7 +19,7 @@
       "name": "Firecrawl Interact",
       "level": "3★",
       "contributor": "firecrawl",
-      "trustMagnitude": 75.58,
+      "trustMagnitude": 75.7,
       "overallTrustGrade": "B",
       "ascendedAt": "2026-07-30T22:36:54Z",
       "_links": {
@@ -32,7 +32,7 @@
       "name": "Firecrawl Onboarding",
       "level": "3★",
       "contributor": "firecrawl",
-      "trustMagnitude": 75.58,
+      "trustMagnitude": 75.7,
       "overallTrustGrade": "B",
       "ascendedAt": "2026-07-30T22:36:54Z",
       "_links": {
@@ -45,7 +45,7 @@
       "name": "Firecrawl Research Index",
       "level": "3★",
       "contributor": "firecrawl",
-      "trustMagnitude": 75.58,
+      "trustMagnitude": 75.7,
       "overallTrustGrade": "B",
       "ascendedAt": "2026-07-30T22:36:54Z",
       "_links": {
@@ -107,7 +107,7 @@
       "name": "Last 30 Days Web Research",
       "level": "4★",
       "contributor": "mvanhorn",
-      "trustMagnitude": 127.85,
+      "trustMagnitude": 129.1,
       "overallTrustGrade": "A",
       "ascendedAt": "2026-07-30T06:13:29Z",
       "_links": {
@@ -159,7 +159,7 @@
       "name": "UI/UX Pro Max",
       "level": "4★",
       "contributor": "nextlevelbuilder",
-      "trustMagnitude": 194.26,
+      "trustMagnitude": 195.51,
       "overallTrustGrade": "A",
       "ascendedAt": "2026-07-29T20:34:54Z",
       "_links": {
@@ -236,153 +236,11 @@
       "name": "Firecrawl Scrape",
       "level": "4★",
       "contributor": "firecrawl",
-      "trustMagnitude": 135.6,
+      "trustMagnitude": 135.72,
       "overallTrustGrade": "A",
       "ascendedAt": "2026-07-13T06:22:38Z",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "addy-osmani/performance-optimization",
-      "name": "Performance Optimization",
-      "level": "4★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 83.2,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-07-03T19:57:07Z",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/performance-optimization.json"
-      },
-      "previousLevel": "3★"
-    },
-    {
-      "id": "addy-osmani/agent-skills",
-      "name": "Agent Skills",
-      "level": "5★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 293.14,
-      "overallTrustGrade": "S",
-      "ascendedAt": "2026-07-02T21:46:18Z",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/agent-skills.json"
-      }
-    },
-    {
-      "id": "gsd-build/ship",
-      "name": "GSD Ship",
-      "level": "3★",
-      "contributor": "gsd-build",
-      "trustMagnitude": 52.16,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-07-02T21:34:10Z",
-      "_links": {
-        "self": "/api/v1/skills/gsd-build/ship.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "gsd-build/execute-phase",
-      "name": "GSD Execute Phase",
-      "level": "3★",
-      "contributor": "gsd-build",
-      "trustMagnitude": 52.16,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-07-02T21:34:09Z",
-      "_links": {
-        "self": "/api/v1/skills/gsd-build/execute-phase.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "gsd-build/verify-work",
-      "name": "GSD Verify Work",
-      "level": "3★",
-      "contributor": "gsd-build",
-      "trustMagnitude": 52.16,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-07-02T21:34:09Z",
-      "_links": {
-        "self": "/api/v1/skills/gsd-build/verify-work.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "gsd-build/plan-phase",
-      "name": "GSD Plan Phase",
-      "level": "3★",
-      "contributor": "gsd-build",
-      "trustMagnitude": 52.16,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-07-02T21:34:08Z",
-      "_links": {
-        "self": "/api/v1/skills/gsd-build/plan-phase.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "gsd-build/discuss-phase",
-      "name": "GSD Discuss Phase",
-      "level": "3★",
-      "contributor": "gsd-build",
-      "trustMagnitude": 52.16,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-07-02T21:34:07Z",
-      "_links": {
-        "self": "/api/v1/skills/gsd-build/discuss-phase.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "addy-osmani/code-review-and-quality",
-      "name": "Code Review and Quality",
-      "level": "3★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 53.14,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-07-02T21:34:06Z",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/code-review-and-quality.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "addy-osmani/code-simplification",
-      "name": "Code Simplification",
-      "level": "3★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 53.14,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-07-02T21:34:06Z",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/code-simplification.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "addy-osmani/incremental-implementation",
-      "name": "Incremental Implementation",
-      "level": "3★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 53.14,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-07-02T21:34:06Z",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/incremental-implementation.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "addy-osmani/shipping-and-launch",
-      "name": "Shipping and Launch",
-      "level": "3★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 53.14,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-07-02T21:34:06Z",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/shipping-and-launch.json"
       },
       "previousLevel": "2★"
     }

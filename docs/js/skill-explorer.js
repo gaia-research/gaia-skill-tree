@@ -324,13 +324,52 @@
   }
 
   function findNamedSkill(id) {
+    if (!id) return null;
     var buckets = window._gaiaNamedBuckets || {};
+    var normId = String(id).trim().toLowerCase();
+
+    // Pass 1: Exact id match (e.g. "garrytan/gstack")
     for (var ref in buckets) {
       var arr = buckets[ref];
-      for (var i = 0; i < arr.length; i++) {
-        if (arr[i].id === id) return arr[i];
+      if (Array.isArray(arr)) {
+        for (var i = 0; i < arr.length; i++) {
+          if (arr[i] && arr[i].id === id) return arr[i];
+        }
       }
     }
+
+    // Pass 2: Case-insensitive id or catalogRef match (e.g. "garrytan-gstack")
+    for (var ref2 in buckets) {
+      var arr2 = buckets[ref2];
+      if (Array.isArray(arr2)) {
+        for (var j = 0; j < arr2.length; j++) {
+          var item2 = arr2[j];
+          if (!item2) continue;
+          if ((item2.id && item2.id.toLowerCase() === normId) ||
+              (item2.catalogRef && item2.catalogRef.toLowerCase() === normId)) {
+            return item2;
+          }
+        }
+      }
+    }
+
+    // Pass 3: Slug match / second segment of id (e.g. "gstack" from "garrytan/gstack") or genericSkillRef
+    for (var ref3 in buckets) {
+      var arr3 = buckets[ref3];
+      if (Array.isArray(arr3)) {
+        for (var k = 0; k < arr3.length; k++) {
+          var item3 = arr3[k];
+          if (!item3) continue;
+          var slug = item3.id && item3.id.indexOf('/') !== -1 ? item3.id.split('/')[1] : item3.id;
+          if ((slug && slug.toLowerCase() === normId) ||
+              (item3.genericSkillRef && item3.genericSkillRef.toLowerCase() === normId) ||
+              (ref3 && ref3.toLowerCase() === normId)) {
+            return item3;
+          }
+        }
+      }
+    }
+
     return null;
   }
 
@@ -2489,7 +2528,8 @@
 
   function openExplorer(id) {
     var explorerEl = document.getElementById('skillExplorer');
-    if (!explorerEl) {
+    var isNamedPage = !!(document.body && document.body.classList.contains('named-explorer-page'));
+    if (!explorerEl || !isNamedPage) {
       var prefix = getRootPath();
       window.location.href = prefix + 'named/#explorer/' + encodeURIComponent(id).replace(/%2F/g, '/');
       return;
@@ -2540,9 +2580,19 @@
 
       var ns = findNamedSkill(id);
       if (!ns) {
-        // fallback: generic skill ref bucket
+        // fallback: generic skill ref bucket or case-insensitive match
         var buckets = window._gaiaNamedBuckets || {};
-        if (buckets[id] && buckets[id].length) { ns = buckets[id][0]; }
+        var normId = String(id).trim().toLowerCase();
+        if (buckets[id] && buckets[id].length) {
+          ns = buckets[id][0];
+        } else {
+          for (var bKey in buckets) {
+            if (bKey.toLowerCase() === normId && buckets[bKey] && buckets[bKey].length) {
+              ns = buckets[bKey][0];
+              break;
+            }
+          }
+        }
       }
       if (!ns) {
         // no named implementation — close the explorer (it was opened
@@ -2790,8 +2840,8 @@
 
     function routeHash() {
       var decodedHash = decodeURIComponent(location.hash);
-      var m = decodedHash.match(/^#explorer\/(.+\/[^/?#]+)$/);
-      if (m) { openExplorer(m[1]); }
+      var m = decodedHash.match(/^#explorer\/(.+)$/);
+      if (m && m[1].trim()) { openExplorer(m[1].trim()); }
       else { closeExplorer(); }
     }
     window.addEventListener('hashchange', routeHash);

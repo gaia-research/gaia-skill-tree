@@ -73,7 +73,7 @@
         "level": "4★",
         "trustMagnitude": 223.52
       },
-      "prestigeScore": 695.06,
+      "prestigeScore": 695.66,
       "_links": {
         "self": "/api/v1/contributors/firecrawl.json"
       }
@@ -123,9 +123,9 @@
       "topSkill": {
         "id": "nextlevelbuilder/ui-ux-pro-max",
         "level": "4★",
-        "trustMagnitude": 194.26
+        "trustMagnitude": 195.51
       },
-      "prestigeScore": 194.26,
+      "prestigeScore": 195.51,
       "_links": {
         "self": "/api/v1/contributors/nextlevelbuilder.json"
       }
@@ -149,9 +149,9 @@
       "topSkill": {
         "id": "mvanhorn/last30days",
         "level": "4★",
-        "trustMagnitude": 127.85
+        "trustMagnitude": 129.1
       },
-      "prestigeScore": 127.85,
+      "prestigeScore": 129.1,
       "_links": {
         "self": "/api/v1/contributors/mvanhorn.json"
       }

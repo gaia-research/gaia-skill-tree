@@ -301,7 +301,7 @@
     "contributor": "nextlevelbuilder",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 194.26,
+    "trustMagnitude": 195.51,
     "branch": "unique",
     "tokens": [
       "accessibility",
@@ -406,7 +406,7 @@
     "contributor": "firecrawl",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 135.6,
+    "trustMagnitude": 135.72,
     "branch": "unique",
     "tokens": [
       "code",
@@ -426,7 +426,7 @@
     "contributor": "mvanhorn",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 127.85,
+    "trustMagnitude": 129.1,
     "branch": "unique",
     "tokens": [
       "(reddit",
@@ -744,7 +744,7 @@
     "contributor": "firecrawl",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 109.2,
+    "trustMagnitude": 109.32,
     "branch": "unique",
     "tokens": [
       "code",
@@ -1411,7 +1411,7 @@
     "contributor": "firecrawl",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 75.58,
+    "trustMagnitude": 75.7,
     "branch": "standard",
     "tokens": [
       "browser",
@@ -1431,7 +1431,7 @@
     "contributor": "firecrawl",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 75.58,
+    "trustMagnitude": 75.7,
     "branch": "standard",
     "tokens": [
       "agent",
@@ -1451,7 +1451,7 @@
     "contributor": "firecrawl",
     "level": "3★",
     "grade": "B",
-    "trustMagnitude": 75.58,
+    "trustMagnitude": 75.7,
     "branch": "standard",
     "tokens": [
       "academic",
