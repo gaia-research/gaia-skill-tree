@@ -47,11 +47,12 @@ timeline:
   details: Renamed named skill from ayghri/format-output to ayghri/i-have-adhd
 evidence:
 - source: https://github.com/ayghri/i-have-adhd
+  updatedAt: '2026-08-01'
   evaluator: unknown
   date: '2026-07-29'
   type: github-stars-own
   notes: 13,300 stars, 699 forks as of 2026-07-29. SKILL.md at blob/main/ path.
-  stars: 13300
+  stars: 14891
   skillCountInRepo: 1
   sourceStartedAt: '2026-07-22'
 - source: https://github.com/ayghri/i-have-adhd/blob/main/skills/i-have-adhd/SKILL.md
