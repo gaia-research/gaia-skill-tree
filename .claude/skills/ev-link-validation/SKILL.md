@@ -1,91 +1,31 @@
 ---
 name: ev-link-validation
-description: |
-  Phase 4 of the Gaia evidence verification pipeline. Checks every URL in the
-  evidence data lake for HTTP liveness — catches dead links (404, 403, timeout,
-  connection errors) before evidence is ingested into the registry. Use this
-  skill when: running the full /ev-pipeline, asked to "validate links", "check
-  evidence URLs", "run link validation", "find dead links in the data lake",
-  "check HTTP status of evidence sources", or "verify evidence links still
-  work". Also useful standalone when you suspect evidence sources have gone
-  stale after a long gap between pipeline runs. Wraps validate_sources.py, which
-  uses Firecrawl CLI to scrape each unique URL and records pass/fail status in a
-  markdown report. Requires Firecrawl CLI to be installed and authenticated.
+description: >
+  Phase 4 of the Gaia evidence verification pipeline. Checks every URL in the evidence data lake for HTTP liveness — catches dead links (404, 403, timeout, connection errors) before evidence is ingested into the registry. Use this skill when running the full /ev-pipeline, asked to "validate links", "check evidence URLs", "run link validation", "find dead links in the data lake", "check HTTP status of evidence sources", or "verify evidence links still work". Wraps validate_sources.py as a temporary coexistence URL-health shim.
 ---
 
 # Link Validation (ev-link-validation)
 
-Phase 4 of the evidence verification pipeline. Its job is simple but critical: evidence that points to a dead URL is worthless, and importing it into the registry creates noise that degrades Trust Magnitude scores. This phase catches those bad links before ingestion.
+Phase 4 validates URL health after by-type collection, live star verification, and adversarial audit.
 
-## Prerequisites
+## Type-First Evidence Lake Contract (#1148)
 
-Firecrawl CLI must be installed and authenticated. If it hasn't been set up yet:
+The evidence lake is **type-first**. The primary working set is `evidence/by-type/<canonical-evidence-type>.md`. Legacy `evidence/tier_*.md` files may still exist as coexistence artifacts, but they are **not** the semantic routing key.
 
-```bash
-npx firecrawl-cli init
-```
+## Coexistence Shim
 
-This only needs to be done once per machine.
-
-## Workflow
-
-### 1. Run the validation script
+`evidence/scripts/validate_sources.py` intentionally remains a temporary coexistence URL-health shim. Until it is replaced, use it for URL liveness checks but interpret/report results against the type-first lake: `evidence/by-type/` is primary, and `tier_*.md` is compatibility-only.
 
 ```bash
-.venv/bin/python evidence/scripts/validate_sources.py
+python evidence/scripts/validate_sources.py
 ```
 
-The script parses every unique URL from `evidence/*.md` tier files, scrapes each one via Firecrawl, and records the HTTP status. Expect it to take several minutes on a full data lake — it's doing real HTTP calls.
-
-To test on a small sample first (useful when debugging or checking a specific tier):
+For a small sample:
 
 ```bash
-.venv/bin/python evidence/scripts/validate_sources.py 10
+python evidence/scripts/validate_sources.py 10
 ```
 
-The optional integer argument caps the number of URLs processed.
+## Output
 
-### 2. Archive the report with today's date
-
-The script writes its output to `evidence/data_lake_validation_report.md`. Archive a timestamped copy so the verification history is auditable:
-
-```bash
-cp evidence/data_lake_validation_report.md \
-   evidence/collectors/verification/firecrawl_validation_report_$(date +%Y_%m_%d).md
-```
-
-Archiving matters because the next pipeline run will overwrite the live report. The timestamped copy is the permanent record.
-
-### 3. Record findings in the daily source report
-
-Open today's `evidence/source_report_YYYY_MM_DD.md` and add a section summarising:
-- Total URLs checked
-- Pass count (200 OK)
-- Fail count (4xx, 5xx, timeouts, DNS errors)
-- A brief note on any patterns (e.g. "all failures are from one domain that's rate-limiting")
-
-Dead links should not be imported into the registry. Flag them in the source report so the evidence curator knows to skip or replace them.
-
-### 4. Update the visual pipeline tracker
-
-Run the deterministic stats-patch script — do not hand-edit the HTML:
-
-```bash
-python3 scripts/ev_stats_patch.py \
-  --date YYYY-MM-DD \
-  --skills-processed N \
-  --new-rows N \
-  --live-urls N \
-  --dead-urls N \
-  [--dry-run]
-```
-
-This patches the cumulative stat-cards (skills audited, URLs verified, dead links) and appends a dated run-history row to `evidence/verification_process.html`. Use `--dry-run` first to confirm the diff looks correct. The script is idempotent — re-running with the same date is a no-op.
-
-### 5. Handoff verified intake evidence
-
-For an L4-approved intake, link validation is the final evidence-pipeline gate.
-Do not hand-edit registry evidence. Hand each live, correctly scoped collector row
-to `/gaia-ingest` (or `/gaia-ingest-batch` for a reviewed manifest), which
-performs the CLI-only `gaia dev evidence` mutation, TM appraisal, and any
-separately approved calibration.
+Write Firecrawl validation findings to the verification report and append a summary to the source report. For #1418 scratch multi-target peer-review partitions, validate the repeated URL once per reviewed skill row in `peer-review.md` when the source legitimately covers each target; the repetition is expected, not duplicate-noise by itself. Do not commit generated validation reports, scratch manifests, or generated partitions without human approval. Hand only live, correctly scoped rows to ingestion.

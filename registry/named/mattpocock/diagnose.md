@@ -37,13 +37,13 @@ evidence:
   grade: C
 - source: https://github.com/mattpocock/skills
   evaluator: unknown
-  updatedAt: '2026-07-01'
+  updatedAt: '2026-08-01'
   date: '2026-06-20'
   type: github-stars-own
   trustNumber: 88.0
   grade: C
   notes: mattpocock/skills suite — 137k GitHub stars; diagnose is part of this repo
-  stars: 152357
+  stars: 198180
   skillCountInRepo: 21
   sourceStartedAt: '2025-01-01'
 - source: https://www.youtube.com/watch?v=EJyuu6zlQCg

@@ -237,7 +237,7 @@
     "id": "gsd-build/get-shit-done",
     "name": "Get Shit Done",
     "contributor": "gsd-build",
-    "level": "3★",
+    "level": "4★",
     "grade": "A",
     "trustMagnitude": 202.16,
     "branch": "suite",
@@ -293,6 +293,30 @@
       "ultimate",
       "vector",
       "—"
+    ]
+  },
+  {
+    "id": "k-dense-ai/pymc",
+    "name": "PyMC",
+    "contributor": "k-dense-ai",
+    "level": "4★",
+    "grade": "A",
+    "trustMagnitude": 197.07,
+    "branch": "unique",
+    "tokens": [
+      "bayesian",
+      "build",
+      "checks",
+      "hierarchical",
+      "inference",
+      "mcmc",
+      "models",
+      "posterior",
+      "probabilistic",
+      "programming",
+      "pymc",
+      "using",
+      "variational"
     ]
   },
   {
@@ -362,6 +386,51 @@
     ]
   },
   {
+    "id": "k-dense-ai/deepchem",
+    "name": "DeepChem",
+    "contributor": "k-dense-ai",
+    "level": "4★",
+    "grade": "A",
+    "trustMagnitude": 167.07,
+    "branch": "unique",
+    "tokens": [
+      "benchmarked",
+      "datasets",
+      "deepchem",
+      "featurization",
+      "learning",
+      "machine",
+      "molecular",
+      "prediction",
+      "property",
+      "run",
+      "workflows"
+    ]
+  },
+  {
+    "id": "k-dense-ai/torch-geometric",
+    "name": "Torch Geometric",
+    "contributor": "k-dense-ai",
+    "level": "4★",
+    "grade": "A",
+    "trustMagnitude": 167.07,
+    "branch": "unique",
+    "tokens": [
+      "build",
+      "geometric",
+      "graph",
+      "link",
+      "modeling",
+      "network",
+      "neural",
+      "node",
+      "prediction",
+      "pytorch",
+      "torch",
+      "workflows"
+    ]
+  },
+  {
     "id": "garrytan/garrytan",
     "name": "Autoplan",
     "contributor": "garrytan",
@@ -406,7 +475,7 @@
     "contributor": "firecrawl",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 133.54,
+    "trustMagnitude": 135.6,
     "branch": "unique",
     "tokens": [
       "code",
@@ -457,6 +526,40 @@
       "web",
       "x",
       "youtube"
+    ]
+  },
+  {
+    "id": "disler/agent-fusion",
+    "name": "Agent Fusion",
+    "contributor": "disler",
+    "level": "4★",
+    "grade": "C",
+    "trustMagnitude": 127.54,
+    "branch": "suite",
+    "tokens": [
+      "achieve",
+      "agent",
+      "agentic",
+      "ai",
+      "auto",
+      "cost",
+      "form",
+      "frontier",
+      "fused",
+      "fusion",
+      "merge",
+      "models",
+      "multiple",
+      "opinions",
+      "orchestrate",
+      "outputs",
+      "parallel",
+      "performance",
+      "plans",
+      "reduced",
+      "specialized",
+      "team",
+      "validate"
     ]
   },
   {
@@ -667,6 +770,28 @@
     ]
   },
   {
+    "id": "k-dense-ai/qiskit",
+    "name": "Qiskit",
+    "contributor": "k-dense-ai",
+    "level": "3★",
+    "grade": "A",
+    "trustMagnitude": 111.87,
+    "branch": "standard",
+    "tokens": [
+      "build",
+      "circuit",
+      "circuits",
+      "execute",
+      "ibm",
+      "programming",
+      "qiskit",
+      "quantum",
+      "runtime",
+      "simulate",
+      "transpile"
+    ]
+  },
+  {
     "id": "obra/writing-plans",
     "name": "Writing Plans",
     "contributor": "obra",
@@ -710,7 +835,7 @@
     "contributor": "firecrawl",
     "level": "4★",
     "grade": "A",
-    "trustMagnitude": 107.14,
+    "trustMagnitude": 109.2,
     "branch": "unique",
     "tokens": [
       "code",
@@ -720,6 +845,40 @@
       "product",
       "search",
       "web"
+    ]
+  },
+  {
+    "id": "dietrichgebert/ponytail",
+    "name": "Ponytail",
+    "contributor": "dietrichgebert",
+    "level": "4★",
+    "grade": "A",
+    "trustMagnitude": 102.79,
+    "branch": "unique",
+    "tokens": [
+      "actually",
+      "correct",
+      "discernment",
+      "exist",
+      "features",
+      "forces",
+      "implement",
+      "implementation",
+      "laziest",
+      "library",
+      "native",
+      "ponytail",
+      "prefer",
+      "question",
+      "ship",
+      "should",
+      "smallest",
+      "solution",
+      "standard",
+      "task",
+      "that",
+      "whether",
+      "works"
     ]
   },
   {
@@ -805,6 +964,80 @@
       "retrieval",
       "teleprompters",
       "using"
+    ]
+  },
+  {
+    "id": "k-dense-ai/scanpy",
+    "name": "Scanpy",
+    "contributor": "k-dense-ai",
+    "level": "3★",
+    "grade": "B",
+    "trustMagnitude": 97.07,
+    "branch": "standard",
+    "tokens": [
+      "analysis",
+      "cell",
+      "clustering",
+      "differential",
+      "expression",
+      "qc",
+      "rna",
+      "run",
+      "scanpy",
+      "seq",
+      "single",
+      "standard",
+      "visualization"
+    ]
+  },
+  {
+    "id": "k-dense-ai/stable-baselines3",
+    "name": "Stable Baselines3",
+    "contributor": "k-dense-ai",
+    "level": "3★",
+    "grade": "B",
+    "trustMagnitude": 97.07,
+    "branch": "standard",
+    "tokens": [
+      "agents",
+      "algorithms",
+      "baselines3",
+      "dqn",
+      "learning",
+      "ppo",
+      "reinforcement",
+      "related",
+      "sac",
+      "stable",
+      "td3",
+      "train",
+      "training",
+      "using"
+    ]
+  },
+  {
+    "id": "k-dense-ai/transformers",
+    "name": "Transformers",
+    "contributor": "k-dense-ai",
+    "level": "3★",
+    "grade": "B",
+    "trustMagnitude": 97.07,
+    "branch": "standard",
+    "tokens": [
+      "engineering",
+      "face",
+      "fine",
+      "generation",
+      "hugging",
+      "inference",
+      "loading",
+      "model",
+      "pipeline",
+      "trainer",
+      "transformer",
+      "transformers",
+      "tuning",
+      "work"
     ]
   },
   {
@@ -1372,6 +1605,93 @@
     ]
   },
   {
+    "id": "anthropics/brand-guidelines",
+    "name": "Brand Guidelines",
+    "contributor": "anthropics",
+    "level": "3★",
+    "grade": "B",
+    "trustMagnitude": 77.35,
+    "branch": "standard",
+    "tokens": [
+      "anthropic's",
+      "application",
+      "applies",
+      "artifacts",
+      "brand",
+      "colors",
+      "feel",
+      "guideline",
+      "guidelines",
+      "look",
+      "need",
+      "official",
+      "rules",
+      "that",
+      "typography",
+      "visual"
+    ]
+  },
+  {
+    "id": "firecrawl/firecrawl-build-interact",
+    "name": "Firecrawl Interact",
+    "contributor": "firecrawl",
+    "level": "3★",
+    "grade": "B",
+    "trustMagnitude": 75.58,
+    "branch": "standard",
+    "tokens": [
+      "browser",
+      "code",
+      "control",
+      "firecrawl",
+      "integrate",
+      "interact",
+      "interaction",
+      "into",
+      "product"
+    ]
+  },
+  {
+    "id": "firecrawl/firecrawl-build-onboarding",
+    "name": "Firecrawl Onboarding",
+    "contributor": "firecrawl",
+    "level": "3★",
+    "grade": "B",
+    "trustMagnitude": 75.58,
+    "branch": "standard",
+    "tokens": [
+      "agent",
+      "client",
+      "configure",
+      "credentials",
+      "environment",
+      "firecrawl",
+      "onboarding",
+      "setup",
+      "tools"
+    ]
+  },
+  {
+    "id": "firecrawl/firecrawl-research-index",
+    "name": "Firecrawl Research Index",
+    "contributor": "firecrawl",
+    "level": "3★",
+    "grade": "B",
+    "trustMagnitude": 75.58,
+    "branch": "standard",
+    "tokens": [
+      "academic",
+      "firecrawl",
+      "index",
+      "literature",
+      "query",
+      "research",
+      "retrieve",
+      "search",
+      "through"
+    ]
+  },
+  {
     "id": "browser-use/browser-harness",
     "name": "Browser Harness",
     "contributor": "browser-use",
@@ -1398,63 +1718,26 @@
     ]
   },
   {
-    "id": "firecrawl/firecrawl-build-interact",
-    "name": "Firecrawl Interact",
-    "contributor": "firecrawl",
-    "level": "2★",
+    "id": "k-dense-ai/pytorch-lightning",
+    "name": "PyTorch Lightning",
+    "contributor": "k-dense-ai",
+    "level": "3★",
     "grade": "B",
-    "trustMagnitude": 73.52,
+    "trustMagnitude": 67.07,
     "branch": "standard",
     "tokens": [
-      "browser",
-      "code",
-      "control",
-      "firecrawl",
-      "integrate",
-      "interact",
-      "interaction",
-      "into",
-      "product"
-    ]
-  },
-  {
-    "id": "firecrawl/firecrawl-build-onboarding",
-    "name": "Firecrawl Onboarding",
-    "contributor": "firecrawl",
-    "level": "2★",
-    "grade": "B",
-    "trustMagnitude": 73.52,
-    "branch": "standard",
-    "tokens": [
-      "agent",
-      "client",
-      "configure",
-      "credentials",
-      "environment",
-      "firecrawl",
-      "onboarding",
-      "setup",
-      "tools"
-    ]
-  },
-  {
-    "id": "firecrawl/firecrawl-research-index",
-    "name": "Firecrawl Research Index",
-    "contributor": "firecrawl",
-    "level": "2★",
-    "grade": "B",
-    "trustMagnitude": 73.52,
-    "branch": "standard",
-    "tokens": [
-      "academic",
-      "firecrawl",
-      "index",
-      "literature",
-      "query",
-      "research",
-      "retrieve",
-      "search",
-      "through"
+      "callbacks",
+      "distributed",
+      "execution",
+      "lightning",
+      "modules",
+      "neural",
+      "orchestrate",
+      "orchestration",
+      "pytorch",
+      "scalable",
+      "trainers",
+      "training"
     ]
   },
   {
@@ -2814,6 +3097,52 @@
     ]
   },
   {
+    "id": "k-dense-ai/rdkit",
+    "name": "RDKit",
+    "contributor": "k-dense-ai",
+    "level": "2★",
+    "grade": "C",
+    "trustMagnitude": 49.07,
+    "branch": "standard",
+    "tokens": [
+      "analysis",
+      "cheminformatics",
+      "descriptors",
+      "fingerprints",
+      "molecular",
+      "parsing",
+      "perform",
+      "rdkit",
+      "reactions",
+      "similarity"
+    ]
+  },
+  {
+    "id": "k-dense-ai/scvi-tools",
+    "name": "scvi-tools",
+    "contributor": "k-dense-ai",
+    "level": "2★",
+    "grade": "C",
+    "trustMagnitude": 49.07,
+    "branch": "standard",
+    "tokens": [
+      "batch",
+      "cell",
+      "correction",
+      "data",
+      "integration",
+      "learning",
+      "model",
+      "modeling",
+      "multimodal",
+      "omics",
+      "scvi",
+      "single",
+      "tools",
+      "transfer"
+    ]
+  },
+  {
     "id": "mattpocock/improve-codebase-architecture",
     "name": "Improve Codebase Architecture",
     "contributor": "mattpocock",
@@ -3009,40 +3338,6 @@
       "unified",
       "verifying",
       "writing"
-    ]
-  },
-  {
-    "id": "disler/agent-fusion",
-    "name": "Agent Fusion",
-    "contributor": "disler",
-    "level": "2★",
-    "grade": "C",
-    "trustMagnitude": 37.54,
-    "branch": "suite",
-    "tokens": [
-      "achieve",
-      "agent",
-      "agentic",
-      "ai",
-      "auto",
-      "cost",
-      "form",
-      "frontier",
-      "fused",
-      "fusion",
-      "merge",
-      "models",
-      "multiple",
-      "opinions",
-      "orchestrate",
-      "outputs",
-      "parallel",
-      "performance",
-      "plans",
-      "reduced",
-      "specialized",
-      "team",
-      "validate"
     ]
   },
   {

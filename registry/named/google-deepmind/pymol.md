@@ -5,14 +5,14 @@ contributor: google-deepmind
 origin: true
 genericSkillRef: molecular-visualization
 status: awakened
-level: 3★
+level: 4★
 description: Visualize, analyze, and render protein and molecular structures using
   PyMOL. Use when the user wants to create images of protein structures, perform structural
   alignments or superposition, measure distances or contacts, highlight binding sites
   or active site residues, color by B-factor/pLDDT, or analyze protein-ligand interactions.
   Do not use for docking, molecular dynamics, or sequence-only analysis.
 createdAt: '2026-05-23'
-updatedAt: '2026-07-27'
+updatedAt: '2026-07-31'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md
 evidence:
@@ -91,6 +91,10 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Origin status set to true.
+- timestamp: '2026-07-30T22:37:30Z'
+  action: rank_up
+  contributor: marcotiongson
+  details: Calibrated level from 3★ to 4★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

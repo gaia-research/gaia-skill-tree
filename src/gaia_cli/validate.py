@@ -1,4 +1,4 @@
-"""Schema validation helpers for the Gaia registry.
+"""Schema validation helpers for the registry.
 
 Implements validators wired into `gaia validate` for the v2 inheritance
 contract (§ Section H.2, G7_HANDOVER_DELTA_2026-06-17.md, ratified 2026-06-18).

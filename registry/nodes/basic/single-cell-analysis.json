@@ -1,0 +1,59 @@
+{
+  "id": "single-cell-analysis",
+  "name": "Single-Cell Analysis",
+  "type": "basic",
+  "description": "Analyze single-cell transcriptomics data for preprocessing, visualization, clustering, and differential expression.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [
+    {
+      "source": "https://github.com/scverse/scanpy",
+      "evaluator": "mbtiongson1",
+      "date": "2026-07-31",
+      "type": "repo-own",
+      "notes": "Upstream Scanpy repository; generic-level evidence for single-cell-analysis from #813.",
+      "commits": 3799,
+      "contributors": 100,
+      "sourceStartedAt": "2017-01-29",
+      "grade": "B"
+    },
+    {
+      "source": "https://doi.org/10.1186/s13059-017-1382-0",
+      "evaluator": "mbtiongson1",
+      "date": "2026-07-31",
+      "type": "peer-review",
+      "notes": "SCANPY paper in Genome Biology; reviewer count is not disclosed, so the conservative minimum payload of 1 reviewer is used.",
+      "reviewers": 1,
+      "sourceStartedAt": "2018-02-06",
+      "grade": "C"
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-31",
+  "updatedAt": "2026-07-31",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-31T14:48:28Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill single-cell-analysis"
+    },
+    {
+      "timestamp": "2026-07-31T14:49:30Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/scverse/scanpy (type: repo-own)"
+    },
+    {
+      "timestamp": "2026-07-31T14:49:31Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://doi.org/10.1186/s13059-017-1382-0 (type: peer-review)"
+    }
+  ],
+  "verification": {
+    "firstEvidenceAt": "2026-07-31T14:49:30Z"
+  }
+}

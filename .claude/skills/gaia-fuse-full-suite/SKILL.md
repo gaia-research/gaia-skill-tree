@@ -1,7 +1,7 @@
 ---
 name: gaia-fuse-full-suite
 description: >
-  Fuse all of a contributor's named skills into a single fusion node (suite capstone) in the Gaia registry.
+  Fuse all of a contributor's named skills into a single fusion node (suite capstone) in the registry.
   Use when the user says "fuse <contributor>'s skills", "create a suite for <contributor>",
   "build a capstone for <user>", "fuse all of <user>'s named skills", "create a suite fusion",
   "consolidate <contributor> into one skill", or explicitly types /gaia-fuse-full-suite.

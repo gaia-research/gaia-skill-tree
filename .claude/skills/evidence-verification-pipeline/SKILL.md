@@ -1,105 +1,23 @@
 ---
 name: evidence-verification-pipeline
 description: >
-  Canonical entry point for the full Gaia evidence verification pipeline. Invoke as
-  /evidence-verification-pipeline or /ev-pipeline — both names trigger this skill.
-  Use whenever you need to run all four evidence phases end-to-end: collecting raw
-  evidence from the data lake, verifying live GitHub star counts, running adversarial
-  auditing for noise and URL errors, and checking link health via Firecrawl.
-  Also use when someone says "run the evidence pipeline", "verify the evidence lake",
-  "audit evidence", "run ev-pipeline", "full evidence check", "pipeline run",
-  "prepare evidence for ingestion", or "refresh the data lake". This is the
-  pre-ingestion step — run it before importing any evidence into the registry.
+  Canonical entry point for the full Gaia evidence verification pipeline. Invoke as /evidence-verification-pipeline or /ev-pipeline — both names trigger this skill. Use whenever you need to run all four evidence phases end-to-end: collecting raw evidence from the data lake, verifying live GitHub star counts, running adversarial auditing for noise and URL errors, and checking link health via Firecrawl. Also use when someone says "run the evidence pipeline", "verify the evidence lake", "audit evidence", "run ev-pipeline", "full evidence check", "pipeline run", "prepare evidence for ingestion", or "refresh the data lake". This is the pre-ingestion step — run it before importing any evidence into the registry.
 ---
 
 # Evidence Verification Pipeline
 
-This is the canonical orchestrator for the Gaia evidence data lake. Both `/ev-pipeline` and `/evidence-verification-pipeline` invoke this same skill — they are aliases of each other with identical behavior.
+Alias entry point for `/ev-pipeline`. It operates on the `evidence/` data lake only and does not mutate registry files.
 
-> **When to run this:** Before any evidence gets imported into the registry. The pipeline validates the raw `evidence/` lake — it does not touch `registry/nodes/` or any canonical registry data. Running it late (after ingestion) is too late to catch URL errors or star-count drift.
+## Type-First Evidence Lake Contract (#1148)
 
-```mermaid
-graph TD
-    Phase0[Phase 0: ev-discovery (skippable)] -->|Append discovered rows| A
-    A[Phase 1: ev-collection] -->|Compile Index| B[Phase 2: ev-star-verification]
-    B -->|Partition Tiers| C[Phase 3: ev-adversarial-audit]
-    C -->|Audit Contexts| D[Phase 4: ev-link-validation]
-    D -->|Validate Statuses| E[Master Source Report & Visual HTML Updates]
-```
+The evidence lake is **type-first**. The primary working set for every phase is `evidence/by-type/<canonical-evidence-type>.md`. Legacy `evidence/tier_*.md` files may still exist as coexistence artifacts for older tooling, but they are **not** the semantic routing key.
 
-> **Continuous additive loop, no green gate.** Phase 0 only *appends* freshly
-> discovered rows to the collector channels; the four verification phases then
-> process them like any other evidence. There is no pass/fail wall — the only
-> human gate is L4 at ingestion.
+## Phase Responsibilities
 
----
+- **Phase 0 — `ev-discovery` (skippable):** searches for new Stage-2 evidence on declared need and appends discovered rows into source inputs for Phase 1.
+- **Phase 1 — `ev-collection`:** materializes/compiles by type. `evidence/by-type/<type>.md` is primary; `tier_*.md` is coexistence-only.
+- **Phase 2 — `ev-star-verification`:** verifies live GitHub stars without repartitioning by rank.
+- **Phase 3 — `ev-adversarial-audit`:** audits the by-type files.
+- **Phase 4 — `ev-link-validation`:** validates URLs. `validate_sources.py` remains a temporary coexistence URL-health shim.
 
-## The Four Phases
-
-Run these in order. Each phase produces output that the next phase consumes — skipping a phase produces incomplete or stale results downstream.
-
-### Phase 0: Evidence Discovery (`ev-discovery`) — skippable
-
-Searches the web (via the `firecrawl` skill) for **new** Stage-2 evidence
-(`benchmark-result`, `arxiv`, `peer-review`, richer `social-signal`) and appends
-the discovered sources as fresh rows into `evidence/collectors/technical|social/`.
-It runs **only on declared need** — a promotion candidate, or a skill that
-`/gaia-meta-sweep` flags as under-evidenced — and is otherwise **skipped** to
-keep the common ingest path cheap. It appends unmarked rows so Phase 1 picks
-them up; it never gates the pipeline. Requires `FIRECRAWL_API_KEY` and skips
-gracefully if unset.
-
-```bash
-/ev-discovery
-```
-
-### Phase 1: Evidence Collection (`ev-collection`)
-
-Aggregates raw evidence from `evidence/collectors/` and compiles the master index. This is the foundation — without it, Phases 2–4 operate on stale or missing data.
-
-```bash
-/ev-collection
-```
-
-### Phase 2: Live Star Verification (`ev-star-verification`)
-
-Queries the GitHub API for current stargazer counts, validates them against `registry/named/` Markdown files, and partitions the data lake into tiers. Star counts drift constantly; this phase ensures the evidence lake reflects real signal, not cached values.
-
-```bash
-/ev-star-verification
-```
-
-### Phase 3: Adversarial Audit (`ev-adversarial-audit`)
-
-Deploys parallel adversarial reviewer agents to scan the data lake for evaluative noise, URL format errors (e.g. `tree/` vs `blob/`), and proxy mismatches. Findings are appended to the daily source report. This phase exists because automated collectors make systematic mistakes — an adversarial pass catches patterns a single reviewer misses.
-
-```bash
-/ev-adversarial-audit
-```
-
-### Phase 4: Link Validation (`ev-link-validation`)
-
-Performs a live Firecrawl scrape verifying uptime and HTTP 200 status for all unique URLs in the data lake. Dead links inflate Trust Magnitude scores with phantom evidence; this phase surfaces them before ingestion locks them in.
-
-```bash
-/ev-link-validation
-```
-
----
-
-## Post-Run Tasks
-
-After all four phases complete, save the outputs so future pipeline runs and registry maintainers have an audit trail:
-
-1. **Validation report:** Write to `evidence/collectors/verification/firecrawl_validation_report_YYYY_MM_DD.md`.
-2. **Master source report:** Write audit log, star updates, and adversarial findings to `evidence/source_report_YYYY_MM_DD.md`.
-3. **Visual dashboard:** Update statistics and pipeline statuses in `evidence/verification_process.html`.
-
-## Ingestion Handoff
-
-For L4-approved intake rows, successful Phase 4 is the boundary between the
-raw evidence lake and canonical registry mutation. Create a reviewed evidence
-manifest from only live, correctly scoped rows, then hand it to
-`/gaia-ingest-batch`. That wrapper uses `/gaia-ingest` for every CLI-only
-`gaia dev evidence` write, appraises TM, and presents calibration proposals.
-Do not import evidence by hand or treat requested intake stars as evidence.
+Generated evidence outputs are review artifacts. Do not commit generated by-type files, tier files, source reports, validation reports, unified lake files, seeds, or collector rows without a human gate.

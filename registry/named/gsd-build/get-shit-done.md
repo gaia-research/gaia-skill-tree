@@ -5,11 +5,11 @@ contributor: gsd-build
 origin: false
 genericSkillRef: git-ship-done-pipeline
 status: named
-level: 3★
+level: 4★
 description: 'Git Ship Done pipeline for Claude Code: discuss, plan, execute, verify,
   and ship as a repeatable agentic software delivery loop.'
 createdAt: '2026-07-03'
-updatedAt: '2026-07-20'
+updatedAt: '2026-07-31'
 tags:
 - suite
 - pipeline
@@ -91,12 +91,21 @@ timeline:
     origin=False TM=202.2 (≥ 100.0)) — demoted to 3★ Evolved'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-20
+- timestamp: '2026-07-30T22:37:20Z'
+  action: rank_up
+  contributor: marcotiongson
+  details: Calibrated level from 3★ to 4★
+- timestamp: '2026-07-31T13:06:54Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://arxiv.org/html/2606.04967v1 (type: arxiv)'
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/stargazers
+  updatedAt: '2026-08-01'
   evaluator: unknown
   date: '2026-07-03'
   type: github-stars-own
-  stars: 64635
+  stars: 64783
   skillCountInRepo: 5
 - source: https://github.com/gsd-build/get-shit-done
   evaluator: unknown
@@ -105,6 +114,14 @@ evidence:
   commits: 2888
   contributors: 136
   grade: B
+- source: https://arxiv.org/html/2606.04967v1
+  evaluator: unknown
+  date: '2026-07-31'
+  type: arxiv
+  notes: Academic paper 'From Prompt to Process' analyzes GSD across a six-dimensional
+    software-engineering process taxonomy.
+  citations: 0
+  sourceStartedAt: '2026-06-03'
 verification:
   firstEvidenceAt: '2026-07-02T18:05:09Z'
 title: Get Shit Done

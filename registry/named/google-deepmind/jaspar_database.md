@@ -11,7 +11,7 @@ description: Query the JASPAR database for Transcription Factor (TF) binding pro
   (PWMs) for specific TFs, resolving gene symbols to JASPAR Matrix IDs, or getting
   TF metadata. Supports multiple output formats (MEME, TRANSFAC, PFM, JASPAR, YAML).
 createdAt: '2026-05-23'
-updatedAt: '2026-07-16'
+updatedAt: '2026-07-31'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/jaspar_database/SKILL.md
 evidence:
@@ -87,6 +87,14 @@ timeline:
     origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-16
+- timestamp: '2026-07-30T22:37:26Z'
+  action: rank_up
+  contributor: marcotiongson
+  details: Calibrated level from 3★ to 4★
+- timestamp: '2026-07-30T23:21:47Z'
+  action: demote
+  contributor: marcotiongson
+  details: Calibrated level from 4★ to 3★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

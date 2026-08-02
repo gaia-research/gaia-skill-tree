@@ -1,6 +1,6 @@
 # Gaia Governance
 
-This document outlines how the Gaia Skill Registry is managed, how decisions are made, and how disputes are resolved.
+This document outlines how the Gaia Skill Tree registry is managed, how decisions are made, and how disputes are resolved.
 
 ## 1. Maintainer Roles
 

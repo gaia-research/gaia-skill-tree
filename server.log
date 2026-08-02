@@ -1,0 +1,1836 @@
+Serving /data/data/com.termux/files/home/gaia-skill-tree/docs/ at http://localhost:8080/  (no-cache mode)
+[127.0.0.1] "GET / HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/styles.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/ascension-overdrive-v4.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/plaque.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/alpha-rail.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/world-tree-hero.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/icons.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/rank-badge.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/tm-config.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/tokens.css HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/skill-semantics.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/plaque.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/world-tree/yggdrasil-backdrop-941.webp HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/mounts.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/site-nav.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/origin-wreath-gold.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /trust/leaderboard/leaderboard.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /trust/leaderboard/leaderboard.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/ascension-overdrive/aov4-astrolabe-substrate-mobile.webp HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/site-footer.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/atlas-helpers.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/world-tree-layout.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/skill-graph.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/hud-toggle.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/scroll-reveal.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/alpha-rail.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/skill-explorer.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/ui.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/page-ia.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/plaque-reveal.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/ascension-overdrive-v4.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/profile-share.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/hoh-modal.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/icons.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/fonts/DepartureMono-Regular.woff2 HTTP/1.1" 200 -
+[127.0.0.1] "GET /api/v1/leaderboard.json?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /api/v1/skills/index.json?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/icons.svg HTTP/1.1" 200 -
+[127.0.0.1] code 404, message File not found
+[127.0.0.1] "GET /css/assets/world-tree/yggdrasil-backdrop-941.webp HTTP/1.1" 404 -
+[127.0.0.1] "GET /assets/icons.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/icons.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /graph/ping.json HTTP/1.1" 200 -
+[127.0.0.1] "GET /graph/gaia.json?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /graph/named/index.json?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/icons.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /api/v1/skills/page-2.json?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /api/v1/skills/page-3.json?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /api/v1/skills/page-4.json?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/icons.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/icons.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /graph/ledger/data.json HTTP/1.1" 200 -
+[127.0.0.1] "GET /og/garrytan/gstack.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /og/ruvnet/ruflo.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /og/mattpocock/skills.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /og/obra/superpowers.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/marks/diamond-seal.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /reports/ HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/tokens.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/styles.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/mounts.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/site-nav.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/site-footer.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/tokens.css HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/icons.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/fonts/DepartureMono-Regular.woff2 HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/icons.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/world-tree/yggdrasil-backdrop-941.webp HTTP/1.1" 200 -
+[127.0.0.1] "GET /reports/2026-29/ HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/tokens.css?v=7.1.32 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/styles.css?v=7.1.32 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/mounts.js?v=7.1.32 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/site-nav.js?v=7.1.32 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/site-footer.js?v=7.1.32 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/tokens.css HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/icons.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/world-tree/yggdrasil-backdrop-941.webp HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/fonts/DepartureMono-Regular.woff2 HTTP/1.1" 200 -
+[127.0.0.1] "GET /reports/ HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/tokens.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/styles.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/mounts.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/site-nav.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/site-footer.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/fonts/DepartureMono-Regular.woff2 HTTP/1.1" 200 -
+[127.0.0.1] "GET /reports/2026-30/ HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/tokens.css?v=7.1.32 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/styles.css?v=7.1.32 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/mounts.js?v=7.1.32 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/site-nav.js?v=7.1.32 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/site-footer.js?v=7.1.32 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/tokens.css HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/icons.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/world-tree/yggdrasil-backdrop-941.webp HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/fonts/DepartureMono-Regular.woff2 HTTP/1.1" 200 -
+[127.0.0.1] "GET /reports/ HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/tokens.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/styles.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/mounts.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/site-nav.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/site-footer.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/fonts/DepartureMono-Regular.woff2 HTTP/1.1" 200 -
+[127.0.0.1] "GET /reports/2026-31/ HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/tokens.css?v=7.1.32 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/styles.css?v=7.1.32 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/mounts.js?v=7.1.32 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/site-nav.js?v=7.1.32 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/site-footer.js?v=7.1.32 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/tokens.css HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/icons.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/world-tree/yggdrasil-backdrop-941.webp HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/fonts/DepartureMono-Regular.woff2 HTTP/1.1" 200 -
+[127.0.0.1] "GET /reports/2026-31/ HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/tokens.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/styles.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/mounts.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/site-nav.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/site-footer.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/tokens.css HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/icons.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/world-tree/yggdrasil-backdrop-941.webp HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/fonts/DepartureMono-Regular.woff2 HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/marks/diamond-seal.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /reports/ HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/tokens.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/styles.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/mounts.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/site-nav.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/site-footer.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/fonts/DepartureMono-Regular.woff2 HTTP/1.1" 200 -
+[127.0.0.1] "GET /reports/2026-30/ HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/tokens.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/styles.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/mounts.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/site-nav.js?v=7.1.35 HTTP/1.1" 200 -----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 48682)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 57636)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 51936)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 44378)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 41312)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 37420)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 45358)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 52510)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 39672)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 51956)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 58310)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 39656)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 55022)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 47630)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 47736)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 38888)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 49032)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 41328)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 41556)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 60112)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 37714)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+
+[127.0.0.1] "GET /js/site-footer.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/tokens.css HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/icons.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/world-tree/yggdrasil-backdrop-941.webp HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/fonts/DepartureMono-Regular.woff2 HTTP/1.1" 200 -
+[127.0.0.1] "GET /reports/ HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/tokens.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/styles.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/mounts.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/site-nav.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/site-footer.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/fonts/DepartureMono-Regular.woff2 HTTP/1.1" 200 -
+[127.0.0.1] "GET /reports/2026-29/ HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/tokens.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/styles.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/mounts.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/site-nav.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/site-footer.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/tokens.css HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/icons.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/world-tree/yggdrasil-backdrop-941.webp HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/fonts/DepartureMono-Regular.woff2 HTTP/1.1" 200 -
+[127.0.0.1] "GET /index.html HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/styles.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/ascension-overdrive-v4.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/plaque.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/alpha-rail.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/world-tree-hero.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/icons.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/rank-badge.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/tm-config.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/skill-semantics.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/plaque.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/world-tree/yggdrasil-backdrop-941.webp HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/tokens.css HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/mounts.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/site-nav.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/origin-wreath-gold.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /trust/leaderboard/leaderboard.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /trust/leaderboard/leaderboard.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/ascension-overdrive/aov4-astrolabe-substrate-mobile.webp HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/site-footer.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/atlas-helpers.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/world-tree-layout.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/skill-graph.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/hud-toggle.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/scroll-reveal.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/fonts/DepartureMono-Regular.woff2 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/alpha-rail.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/skill-explorer.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/ui.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/page-ia.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/plaque-reveal.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/ascension-overdrive-v4.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/profile-share.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/hoh-modal.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /api/v1/leaderboard.json?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/icons.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /api/v1/skills/index.json?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] code 404, message File not found
+[127.0.0.1] "GET /css/assets/world-tree/yggdrasil-backdrop-941.webp HTTP/1.1" 404 -
+[127.0.0.1] "GET /assets/icons.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /graph/ping.json HTTP/1.1" 200 -
+[127.0.0.1] "GET /graph/gaia.json?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /graph/named/index.json?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/icons.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /api/v1/skills/page-2.json?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /api/v1/skills/page-3.json?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /api/v1/skills/page-4.json?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/icons.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /og/garrytan/gstack.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /og/ruvnet/ruflo.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /og/mattpocock/skills.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /og/obra/superpowers.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/icons.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /graph/ledger/data.json HTTP/1.1" 200 -
+[127.0.0.1] "GET /og/addy-osmani/agent-skills.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /benchmarks/ HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/tokens.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/styles.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/mounts.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/site-nav.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/site-footer.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/tokens.css HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/icons.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /api/v1/benchmarks/index.json HTTP/1.1" 200 -
+[127.0.0.1] "GET /benchmarks/assets/benchmark-matrix.png HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/world-tree/yggdrasil-backdrop-941.webp HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/fonts/DepartureMono-Regular.woff2 HTTP/1.1" 200 -
+[127.0.0.1] code 404, message File not found
+[127.0.0.1] "GET /favicon.ico HTTP/1.1" 404 -
+[127.0.0.1] code 404, message File not found
+[127.0.0.1] "GET /ws HTTP/1.1" 404 -
+[127.0.0.1] code 404, message File not found
+[127.0.0.1] "GET /ws HTTP/1.1" 404 -
+[127.0.0.1] code 404, message File not found
+[127.0.0.1] "GET /ws HTTP/1.1" 404 -
+[127.0.0.1] "GET /benchmarks/ HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/tokens.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/styles.css?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/mounts.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/site-nav.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /js/site-footer.js?v=7.1.35 HTTP/1.1" 200 -
+[127.0.0.1] "GET /css/tokens.css HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/icons.svg HTTP/1.1" 200 -
+[127.0.0.1] "GET /api/v1/benchmarks/index.json HTTP/1.1" 200 -
+[127.0.0.1] "GET /benchmarks/assets/benchmark-matrix.png HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/world-tree/yggdrasil-backdrop-941.webp HTTP/1.1" 200 -
+[127.0.0.1] "GET /assets/fonts/DepartureMono-Regular.woff2 HTTP/1.1" 200 -
+[127.0.0.1] code 404, message File not found
+[127.0.0.1] "GET /favicon.ico HTTP/1.1" 404 -
+[127.0.0.1] code 404, message File not found
+[127.0.0.1] "GET /ws HTTP/1.1" 404 -
+[127.0.0.1] code 404, message File not found
+[127.0.0.1] "GET /ws HTTP/1.1" 404 -
+[127.0.0.1] code 404, message File not found
+[127.0.0.1] "GET /ws HTTP/1.1" 404 -
+[127.0.0.1] code 404, message File not found
+[127.0.0.1] "GET /ws HTTP/1.1" 404 -
+[127.0.0.1] code 404, message File not found
+[127.0.0.1] "GET /ws HTTP/1.1" 404 -
+[127.0.0.1] code 404, message File not found
+[127.0.0.1] "GET /ws HTTP/1.1" 404 -
+[127.0.0.1] code 404, message File not found
+[127.0.0.1] "GET /ws HTTP/1.1" 404 -
+[127.0.0.1] code 404, message File not found
+[127.0.0.1] "GET /ws HTTP/1.1" 404 -
+[127.0.0.1] code 404, message File not found
+[127.0.0.1] "GET /ws HTTP/1.1" 404 -
+[127.0.0.1] code 404, message File not found
+[127.0.0.1] "GET /ws HTTP/1.1" 404 -
+[127.0.0.1] code 404, message File not found
+[127.0.0.1] "GET /ws HTTP/1.1" 404 -
+[127.0.0.1] code 404, message File not found
+[127.0.0.1] "GET /ws HTTP/1.1" 404 -
+[127.0.0.1] code 404, message File not found
+[127.0.0.1] "GET /ws HTTP/1.1" 404 -
+[127.0.0.1] code 404, message File not found
+[127.0.0.1] "GET /ws HTTP/1.1" 404 -
+[127.0.0.1] code 404, message File not found
+[127.0.0.1] "GET /ws HTTP/1.1" 404 -
+[127.0.0.1] code 404, message File not found
+[127.0.0.1] "GET /ws HTTP/1.1" 404 -
+[127.0.0.1] code 404, message File not found
+[127.0.0.1] "GET /ws HTTP/1.1" 404 -
+[127.0.0.1] code 404, message File not found
+[127.0.0.1] "GET /ws HTTP/1.1" 404 -
+[127.0.0.1] code 404, message File not found
+[127.0.0.1] "GET /ws HTTP/1.1" 404 -
+[127.0.0.1] code 404, message File not found----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 43058)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 41900)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 48130)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 49720)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 58036)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 47018)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 50268)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 40696)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 38284)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 47486)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 40834)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 44644)
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 742, in send_head
+    f = open(path, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/data/data/com.termux/files/home/gaia-skill-tree/docs/ws'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 318, in _handle_request_noblock
+    self.process_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 349, in process_request
+    self.finish_request(request, client_address)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/home/gaia-skill-tree/scripts/serve_dev.py", line 17, in __init__
+    super().__init__(*args, directory=DIRECTORY, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 683, in __init__
+    super().__init__(*args, **kwargs)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 766, in __init__
+    self.handle()
+    ~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 447, in handle
+    self.handle_one_request()
+    ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 435, in handle_one_request
+    method()
+    ~~~~~~^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 687, in do_GET
+    f = self.send_head()
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 744, in send_head
+    self.send_error(HTTPStatus.NOT_FOUND, "File not found")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/http/server.py", line 502, in send_error
+    self.wfile.write(body)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/data/data/com.termux/files/usr/lib/python3.13/socketserver.py", line 845, in write
+    self._sock.sendall(b)
+    ~~~~~~~~~~~~~~~~~~^^^
+BrokenPipeError: [Errno 32] Broken pipe
+----------------------------------------

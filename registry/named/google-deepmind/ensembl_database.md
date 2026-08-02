@@ -2,16 +2,16 @@
 id: google-deepmind/ensembl_database
 name: Ensembl-Database
 contributor: google-deepmind
-origin: false
+origin: true
 genericSkillRef: genomic-data-retrieval
 status: awakened
-level: 3★
+level: 4★
 description: Query the Ensembl database to resolve gene, transcript, and protein IDs,
   fetch genomic or protein sequences, retrieve gene structures (exons), and get variant
   consequence and effect predictions (VEP). Use this skill as a primary ID translator,
   genomic sequence database and variant effect prediction tool.
 createdAt: '2026-05-23'
-updatedAt: '2026-07-16'
+updatedAt: '2026-07-31'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database/SKILL.md
 evidence:
@@ -87,6 +87,14 @@ timeline:
     origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-16
+- timestamp: '2026-07-30T22:37:23Z'
+  action: rank_up
+  contributor: marcotiongson
+  details: Calibrated level from 3★ to 4★
+- timestamp: '2026-07-30T23:21:43Z'
+  action: demote
+  contributor: marcotiongson
+  details: Calibrated level from 4★ to 3★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

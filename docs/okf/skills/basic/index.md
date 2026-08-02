@@ -7,6 +7,7 @@
 * [Auto-Review](/auto-review.md) - Automatically review and gate agent outputs by writing and executing a self-authored acceptance script, combining self-critique with pre-completion verification.
 * [Autonomous Engineering Platform](/autonomous-engineering-platform.md) - An autonomous engineering platform integrating chat, specs, tasks, and code for full agentic software delivery.
 * [Bioinformatic Sequence Analysis](/bioinformatic-sequence-analysis.md) - Performs biological sequence alignment, similarity searches, multiple sequence alignment (MSA), and genomic variant analysis using standard bioinformatics tools and databases.
+* [Brand Guideline Application](/brand-guideline-application.md) - Applies a supplied organization's colors, typography, and visual rules consistently to artifacts.
 * [Browser Control](/browser-control.md) - A foundational skill for interacting directly with the web browser using Chrome DevTools Protocol (CDP).
 * [CI Churn Analysis](/ci-churn-analysis.md) - Measures avoidable CI iteration cost for a pull request by classifying commits as feature work versus fix-the-CI rework, summing CI compute time burned on avoidable push rounds, and surfacing pre-push checks that would have prevented them.
 * [CLI Modernization](/cli-modernization.md) - Refactors command-line interfaces for improved UX, plugin architecture, and extensibility.
@@ -75,6 +76,7 @@
 * [Prompt Injection Defense](/prompt-injection-defense.md) - Detects and neutralizes adversarial instructions injected into agent context from untrusted external sources (indirect prompt injection), using techniques such as context isolation, hierarchical intent verification, or semantic consistency checks.
 * [Protein Structure Analysis](/protein-structure-analysis.md) - Analyzes, searches, and aligns three-dimensional macromolecular structures using structural databases, alignment search algorithms (e.g. Foldseek, PDB search), or molecular modeling tools.
 * [Proteomic Data Retrieval](/proteomic-data-retrieval.md) - Queries and retrieves amino acid sequences, protein families, functional domains, tissue distribution, and protein-protein interactions from proteomic repositories (e.g. UniProt, InterPro, Human Protein Atlas, STRING).
+* [Quantum Circuit Programming](/quantum-circuit-programming.md) - Build, simulate, transpile, and execute quantum circuits on local simulators or quantum runtimes.
 * [Question Answer](/question-answer.md) - Produces accurate, context-grounded answers to natural-language questions, handling unanswerable cases.
 * [Rank](/rank.md) - Orders a set of candidate items by relevance, quality, or fitness for a given objective.
 * [React Performance Optimization](/react-performance-optimization.md) - Optimizes component rendering, data fetching, and bundle composition in React applications while preserving requested behavior.
@@ -92,6 +94,8 @@
 * [Semantic Cache](/semantic-cache.md) - Stores LLM responses keyed by embedding similarity so that semantically equivalent queries are served from cache, reducing inference latency and token cost without sacrificing answer quality.
 * [Sentiment Analysis](/sentiment-analysis.md) - Classifies the affective polarity (positive / negative / neutral, or fine-grained) of user-generated text. Covers pipelines from raw noisy input through preprocessing, inference (Transformer, Lexicon, or LLM), and output normalisation.
 * [Sequential Agent Pipeline](/sequential-agent-pipeline.md) - Chains agent outputs sequentially so each step's result feeds the next, enabling multi-stage data transformation and coordinated processing.
+* [Session Journaling](/session-journaling.md) - At the end of a work session, the agent summarizes the conversation and appends a structured, timestamped entry to a persistent dated note so future sessions can read back the durable record.
+* [Single-Cell Analysis](/single-cell-analysis.md) - Analyze single-cell transcriptomics data for preprocessing, visualization, clustering, and differential expression.
 * [Skill Discovery](/skill-discovery.md) - Searches a skill or tool registry, ranks results by relevance and install count, and surfaces candidates for the agent to adopt or invoke.
 * [Software Design](/software-design.md) - Design software modules with clean interfaces, seams, and deep implementations for maintainability and testability.
 * [Speech to Text](/speech-to-text.md) - Transcribes spoken audio into accurate text, handling diverse accents, noise conditions, and multiple languages.

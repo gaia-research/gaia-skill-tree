@@ -160,7 +160,7 @@ def write_gexf(
     meta_el = ET.SubElement(gexf_el, "meta")
     meta_el.set("lastmodifieddate", today)
     ET.SubElement(meta_el, "creator").text = "Gaia"
-    ET.SubElement(meta_el, "description").text = "Gaia Skill Registry Graph"
+    ET.SubElement(meta_el, "description").text = "Gaia Skill Tree Graph"
 
     graph_el = ET.SubElement(gexf_el, "graph")
     graph_el.set("defaultedgetype", "directed")

@@ -1,0 +1,38 @@
+contractVersion: curate-trending-manifest-v1
+windowDays: [7, 30]
+pageSize: 5
+runId: "trending-16-seeds-001"
+generatedAt: "2026-07-11T00:00:00Z"
+
+sources:
+  - id: marketplace-01
+    lane: marketplace
+    url: https://www.aitools.directory/skills
+    cursor: null
+    pages: 4
+    pageQuota: 5
+    notes: "Primary marketplace listing; trending label detector"
+
+  - id: marketplace-02
+    lane: marketplace
+    url: https://awesome-skills.dev/listings
+    cursor: null
+    pages: 4
+    pageQuota: 5
+    notes: "Secondary marketplace; cross-source recurrence check"
+
+  - id: source-repo-01
+    lane: source-repository
+    url: https://github.com/gaia-research/skills
+    cursor: null
+    pages: 4
+    pageQuota: 5
+    notes: "Official gaia-research skills repo; star-delta source"
+
+  - id: github-topic-01
+    lane: github-topic
+    url: https://github.com/topics/gaia-skills
+    cursor: null
+    pages: 4
+    pageQuota: 5
+    notes: "GitHub topic page; new-skill discovery lane"

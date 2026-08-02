@@ -43,6 +43,7 @@ from gaia_cli.trustMagnitude import (  # noqa: E402
     passesSuiteApexGate,
 )
 from gaia_cli.taxonomy import branchFor  # noqa: E402
+from gaia_cli.redaction import is_redacted  # noqa: E402
 
 DEFAULT_OUT = REPO_ROOT / "docs" / "graph" / "ledger" / "data.json"
 GAIA_JSON = REPO_ROOT / "registry" / "gaia.json"
@@ -107,12 +108,15 @@ def buildRows() -> list[dict]:
 
     rows: list[dict] = []
     for fm in skills:
+        currentStars = fm.get("level") or fm.get("rank") or "?"
+        if is_redacted(currentStars):
+            continue
+
         skillId = fm.get("id") or "unknown"
         tm = computeTrustMagnitude(fm, mergedMap)
         typeBreakdown = computeTrustMagnitudeByType(fm, mergedMap)
         origin = (fm.get("origin") is True or fm.get("origin") == "true")
         grade = computeOverallTrustGradeFromSkill(fm, mergedMap)
-        currentStars = fm.get("level") or fm.get("rank") or "?"
         g7Stars, flag = effectiveRank(grade, currentStars)
         # May meta = stars on the eve of G7 cutover (pre-ratification).
         # June meta = current stars after G7 ratification (which is what

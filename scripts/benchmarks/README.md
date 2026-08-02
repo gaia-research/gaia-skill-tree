@@ -1,7 +1,7 @@
 # Gaia Benchmark Harnesses
 
 This directory holds the reproducible harness code that produces
-`benchmark-result` evidence rows for the Gaia registry. Each subdirectory is
+`benchmark-result` evidence rows for the registry. Each subdirectory is
 one benchmark, versioned by `benchmarkId` (e.g. `humaneval@v1.0`).
 
 ## Provenance contract

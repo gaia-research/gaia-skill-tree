@@ -1,4 +1,4 @@
-# Gaia Skill Registry
+# Gaia Skill Tree
 
 Gaia maps AI agent capabilities as a composable skill tree: intrinsic skills, extra skills, and ultimate skills connected by prerequisite relationships.
 

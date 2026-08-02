@@ -13,7 +13,7 @@ description: 'Classifies the affective polarity (positive / negative / neutral, 
 
   '
 createdAt: '2026-05-17'
-updatedAt: '2026-07-05'
+updatedAt: '2026-08-01'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -64,29 +64,38 @@ timeline:
   details: Level updated from 2★ to 4★ per G7 final rankings calibration.
 - timestamp: '2026-06-26T18:30:56Z'
   action: note
-  contributor: unknown
+  contributor: mbtiongson1
   details: Updated GitHub link to https://github.com/pexp13/basic-nlp-text-processor-python/blob/main/SKILL.md
 - timestamp: '2026-07-04T18:06:12Z'
   action: evidence_removed
-  contributor: unknown
+  contributor: mbtiongson1
   details: 'Removed dead/invalid evidence: https://aclanthology.org/S17-2088/'
 - timestamp: '2026-07-04T18:06:17Z'
   action: evidence_removed
-  contributor: unknown
+  contributor: mbtiongson1
   details: 'Removed dead/invalid evidence: https://arxiv.org/abs/2202.03829'
 - timestamp: '2026-07-04T18:06:22Z'
   action: evidence_removed
-  contributor: unknown
+  contributor: mbtiongson1
   details: 'Removed dead/invalid evidence: https://ojs.aaai.org/index.php/ICWSM/article/view/14550'
 - timestamp: '2026-07-04T18:06:27Z'
   action: evidence_removed
-  contributor: unknown
+  contributor: mbtiongson1
   details: 'Removed dead/invalid evidence: https://arxiv.org/abs/2203.01054'
+- timestamp: '2026-07-30T22:36:49Z'
+  action: rank_up
+  contributor: marcotiongson
+  details: Calibrated level from 1★ to 4★
+- timestamp: '2026-08-01T02:48:27Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Calibrated level from 4★ to 1★
 evidence: []
 verification:
   firstEvidenceAt: '2026-06-19T09:26:06Z'
 trustMagnitudeInputHash: null
-links: {}
+links:
+  github: https://github.com/pexp13/basic-nlp-text-processor-python/blob/main/SKILL.md
 ---
 
 ## Implementation

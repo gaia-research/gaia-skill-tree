@@ -62,10 +62,11 @@ timeline:
   details: Calibrated level from 2★ to 3★
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/execute-phase.md
+  updatedAt: '2026-08-01'
   evaluator: unknown
   date: '2026-07-03'
   type: github-stars-own
-  stars: 64635
+  stars: 64783
   skillCountInRepo: 5
 - source: https://github.com/gsd-build/get-shit-done
   evaluator: unknown

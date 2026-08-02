@@ -2,17 +2,17 @@
 id: google-deepmind/alphafold_database_fetch_and_analyze
 name: Alphafold-Database-Fetch-And-Analyze
 contributor: google-deepmind
-origin: false
+origin: true
 genericSkillRef: computational-biology-workflows
 status: awakened
-level: 3★
+level: 4★
 description: Retrieve and analyze AlphaFold predicted structures for a protein. Use
   when the user provides a specific UniProt Accession ID and wants structural confidence
   metrics (pLDDT), domain boundary analysis, or disorder assessment. Do not use if
   the user only has a protein name, gene name, or amino acid sequence — ask for a
   UniProt ID first.
 createdAt: '2026-05-23'
-updatedAt: '2026-07-16'
+updatedAt: '2026-07-31'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md
 evidence:
@@ -77,6 +77,14 @@ timeline:
     origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-16
+- timestamp: '2026-07-30T22:37:21Z'
+  action: rank_up
+  contributor: marcotiongson
+  details: Calibrated level from 3★ to 4★
+- timestamp: '2026-07-30T23:21:41Z'
+  action: demote
+  contributor: marcotiongson
+  details: Calibrated level from 4★ to 3★
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:

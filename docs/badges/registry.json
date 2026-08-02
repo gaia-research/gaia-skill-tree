@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-30",
+  "generatedAt": "2026-08-01",
   "schema": "gaia-badges-registry/2",
   "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The site Worker at worker/index.js handles /badges/<handle>/<file>.svg (the real SVGs live at /badges/_assets/<handle>/<file>.svg) and serves the `validating\u2026` SVG (docs/badges/not-found.svg) when the `?repo=` query string doesn't match a repo listed here. Schema v2 adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant.",
   "contributors": {
@@ -689,11 +689,21 @@
           "gsd-build/verify-work"
         ]
       },
-      "topSkill": "gsd-build/discuss-phase",
-      "topRank": 3,
+      "topSkill": "gsd-build/get-shit-done",
+      "topRank": 4,
       "topIsUnique": false,
       "count": 6,
       "namedSkills": [
+        {
+          "id": "gsd-build/get-shit-done",
+          "name": "Get Shit Done",
+          "rank": 4,
+          "type": "fusion",
+          "branch": "suite",
+          "slash": "/get-shit-done",
+          "file": "get-shit-done.svg",
+          "fileSeal": "get-shit-done-seal.svg"
+        },
         {
           "id": "gsd-build/discuss-phase",
           "name": "GSD Discuss Phase",
@@ -713,16 +723,6 @@
           "slash": "/execute-phase",
           "file": "execute-phase.svg",
           "fileSeal": "execute-phase-seal.svg"
-        },
-        {
-          "id": "gsd-build/get-shit-done",
-          "name": "Get Shit Done",
-          "rank": 3,
-          "type": "fusion",
-          "branch": "suite",
-          "slash": "/get-shit-done",
-          "file": "get-shit-done.svg",
-          "fileSeal": "get-shit-done-seal.svg"
         },
         {
           "id": "gsd-build/plan-phase",
@@ -1523,14 +1523,25 @@
       ],
       "skillsByRepo": {
         "anthropics/skills": [
+          "anthropics/brand-guidelines",
           "anthropics/canvas-design"
         ]
       },
-      "topSkill": "anthropics/canvas-design",
-      "topRank": 2,
+      "topSkill": "anthropics/brand-guidelines",
+      "topRank": 3,
       "topIsUnique": false,
-      "count": 1,
+      "count": 2,
       "namedSkills": [
+        {
+          "id": "anthropics/brand-guidelines",
+          "name": "Brand Guidelines",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/brand-guidelines",
+          "file": "brand-guidelines.svg",
+          "fileSeal": "brand-guidelines-seal.svg"
+        },
         {
           "id": "anthropics/canvas-design",
           "name": "Canvas Design",
@@ -1650,7 +1661,7 @@
         {
           "id": "firecrawl/firecrawl-build-interact",
           "name": "Firecrawl Interact",
-          "rank": 2,
+          "rank": 3,
           "type": "basic",
           "branch": "standard",
           "slash": "/firecrawl-build-interact",
@@ -1660,7 +1671,7 @@
         {
           "id": "firecrawl/firecrawl-build-onboarding",
           "name": "Firecrawl Onboarding",
-          "rank": 2,
+          "rank": 3,
           "type": "fusion",
           "branch": "standard",
           "slash": "/firecrawl-build-onboarding",
@@ -1670,7 +1681,7 @@
         {
           "id": "firecrawl/firecrawl-research-index",
           "name": "Firecrawl Research Index",
-          "rank": 2,
+          "rank": 3,
           "type": "basic",
           "branch": "standard",
           "slash": "/firecrawl-research-index",
@@ -1705,6 +1716,32 @@
         }
       ]
     },
+    "dietrichgebert": {
+      "repos": [
+        "DietrichGebert/ponytail"
+      ],
+      "skillsByRepo": {
+        "DietrichGebert/ponytail": [
+          "dietrichgebert/ponytail"
+        ]
+      },
+      "topSkill": "dietrichgebert/ponytail",
+      "topRank": 4,
+      "topIsUnique": true,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "dietrichgebert/ponytail",
+          "name": "Ponytail",
+          "rank": 4,
+          "type": "basic",
+          "branch": "unique",
+          "slash": "/ponytail",
+          "file": "ponytail.svg",
+          "fileSeal": "ponytail-seal.svg"
+        }
+      ]
+    },
     "disler": {
       "repos": [
         "disler/fusion-harness"
@@ -1718,14 +1755,14 @@
         ]
       },
       "topSkill": "disler/agent-fusion",
-      "topRank": 2,
+      "topRank": 4,
       "topIsUnique": false,
       "count": 4,
       "namedSkills": [
         {
           "id": "disler/agent-fusion",
           "name": "Agent Fusion",
-          "rank": 2,
+          "rank": 4,
           "type": "fusion",
           "branch": "suite",
           "slash": "/agent-fusion",
@@ -2044,6 +2081,131 @@
           "slash": "/semantic-cache",
           "file": "semantic-cache.svg",
           "fileSeal": "semantic-cache-seal.svg"
+        }
+      ]
+    },
+    "k-dense-ai": {
+      "repos": [
+        "K-Dense-AI/scientific-agent-skills"
+      ],
+      "skillsByRepo": {
+        "K-Dense-AI/scientific-agent-skills": [
+          "k-dense-ai/deepchem",
+          "k-dense-ai/pymc",
+          "k-dense-ai/pytorch-lightning",
+          "k-dense-ai/qiskit",
+          "k-dense-ai/rdkit",
+          "k-dense-ai/scanpy",
+          "k-dense-ai/scvi-tools",
+          "k-dense-ai/stable-baselines3",
+          "k-dense-ai/torch-geometric",
+          "k-dense-ai/transformers"
+        ]
+      },
+      "topSkill": "k-dense-ai/deepchem",
+      "topRank": 4,
+      "topIsUnique": true,
+      "count": 10,
+      "namedSkills": [
+        {
+          "id": "k-dense-ai/deepchem",
+          "name": "DeepChem",
+          "rank": 4,
+          "type": "fusion",
+          "branch": "unique",
+          "slash": "/deepchem",
+          "file": "deepchem.svg",
+          "fileSeal": "deepchem-seal.svg"
+        },
+        {
+          "id": "k-dense-ai/pymc",
+          "name": "PyMC",
+          "rank": 4,
+          "type": "basic",
+          "branch": "unique",
+          "slash": "/pymc",
+          "file": "pymc.svg",
+          "fileSeal": "pymc-seal.svg"
+        },
+        {
+          "id": "k-dense-ai/torch-geometric",
+          "name": "Torch Geometric",
+          "rank": 4,
+          "type": "fusion",
+          "branch": "unique",
+          "slash": "/torch-geometric",
+          "file": "torch-geometric.svg",
+          "fileSeal": "torch-geometric-seal.svg"
+        },
+        {
+          "id": "k-dense-ai/pytorch-lightning",
+          "name": "PyTorch Lightning",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/pytorch-lightning",
+          "file": "pytorch-lightning.svg",
+          "fileSeal": "pytorch-lightning-seal.svg"
+        },
+        {
+          "id": "k-dense-ai/qiskit",
+          "name": "Qiskit",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/qiskit",
+          "file": "qiskit.svg",
+          "fileSeal": "qiskit-seal.svg"
+        },
+        {
+          "id": "k-dense-ai/scanpy",
+          "name": "Scanpy",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/scanpy",
+          "file": "scanpy.svg",
+          "fileSeal": "scanpy-seal.svg"
+        },
+        {
+          "id": "k-dense-ai/stable-baselines3",
+          "name": "Stable Baselines3",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/stable-baselines3",
+          "file": "stable-baselines3.svg",
+          "fileSeal": "stable-baselines3-seal.svg"
+        },
+        {
+          "id": "k-dense-ai/transformers",
+          "name": "Transformers",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/transformers",
+          "file": "transformers.svg",
+          "fileSeal": "transformers-seal.svg"
+        },
+        {
+          "id": "k-dense-ai/rdkit",
+          "name": "RDKit",
+          "rank": 2,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/rdkit",
+          "file": "rdkit.svg",
+          "fileSeal": "rdkit-seal.svg"
+        },
+        {
+          "id": "k-dense-ai/scvi-tools",
+          "name": "scvi-tools",
+          "rank": 2,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/scvi-tools",
+          "file": "scvi-tools.svg",
+          "fileSeal": "scvi-tools-seal.svg"
         }
       ]
     },
@@ -2451,7 +2613,6 @@
           "google-deepmind/pymol",
           "google-deepmind/quickgo_database",
           "google-deepmind/reactome_database",
-          "google-deepmind/science_skills_common",
           "google-deepmind/string_database",
           "google-deepmind/ucsc_conservation_and_tfbs",
           "google-deepmind/unibind_database",
@@ -2460,11 +2621,41 @@
           "google-deepmind/workflow_skill_creator"
         ]
       },
-      "topSkill": "google-deepmind/literature_search_openalex",
+      "topSkill": "google-deepmind/alphafold_database_fetch_and_analyze",
       "topRank": 4,
       "topIsUnique": true,
       "count": 37,
       "namedSkills": [
+        {
+          "id": "google-deepmind/alphafold_database_fetch_and_analyze",
+          "name": "Alphafold-Database-Fetch-And-Analyze",
+          "rank": 4,
+          "type": "fusion",
+          "branch": "unique",
+          "slash": "/alphafold_database_fetch_and_analyze",
+          "file": "alphafold_database_fetch_and_analyze.svg",
+          "fileSeal": "alphafold_database_fetch_and_analyze-seal.svg"
+        },
+        {
+          "id": "google-deepmind/clinical_trials_database",
+          "name": "Clinical-Trials-Database",
+          "rank": 4,
+          "type": "basic",
+          "branch": "unique",
+          "slash": "/clinical_trials_database",
+          "file": "clinical_trials_database.svg",
+          "fileSeal": "clinical_trials_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/ensembl_database",
+          "name": "Ensembl-Database",
+          "rank": 4,
+          "type": "basic",
+          "branch": "unique",
+          "slash": "/ensembl_database",
+          "file": "ensembl_database.svg",
+          "fileSeal": "ensembl_database-seal.svg"
+        },
         {
           "id": "google-deepmind/literature_search_openalex",
           "name": "Literature-Search-Openalex",
@@ -2476,14 +2667,84 @@
           "fileSeal": "literature_search_openalex-seal.svg"
         },
         {
-          "id": "google-deepmind/alphafold_database_fetch_and_analyze",
-          "name": "Alphafold-Database-Fetch-And-Analyze",
-          "rank": 3,
+          "id": "google-deepmind/pdb_database",
+          "name": "Pdb-Database",
+          "rank": 4,
+          "type": "basic",
+          "branch": "unique",
+          "slash": "/pdb_database",
+          "file": "pdb_database.svg",
+          "fileSeal": "pdb_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/protein_sequence_similarity_search",
+          "name": "Protein-Sequence-Similarity-Search",
+          "rank": 4,
+          "type": "basic",
+          "branch": "unique",
+          "slash": "/protein_sequence_similarity_search",
+          "file": "protein_sequence_similarity_search.svg",
+          "fileSeal": "protein_sequence_similarity_search-seal.svg"
+        },
+        {
+          "id": "google-deepmind/pubchem_database",
+          "name": "Pubchem-Database",
+          "rank": 4,
+          "type": "basic",
+          "branch": "unique",
+          "slash": "/pubchem_database",
+          "file": "pubchem_database.svg",
+          "fileSeal": "pubchem_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/pymol",
+          "name": "Pymol",
+          "rank": 4,
           "type": "fusion",
-          "branch": "standard",
-          "slash": "/alphafold_database_fetch_and_analyze",
-          "file": "alphafold_database_fetch_and_analyze.svg",
-          "fileSeal": "alphafold_database_fetch_and_analyze-seal.svg"
+          "branch": "unique",
+          "slash": "/pymol",
+          "file": "pymol.svg",
+          "fileSeal": "pymol-seal.svg"
+        },
+        {
+          "id": "google-deepmind/reactome_database",
+          "name": "Reactome-Database",
+          "rank": 4,
+          "type": "basic",
+          "branch": "unique",
+          "slash": "/reactome_database",
+          "file": "reactome_database.svg",
+          "fileSeal": "reactome_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/uniprot_database",
+          "name": "Uniprot-Database",
+          "rank": 4,
+          "type": "basic",
+          "branch": "unique",
+          "slash": "/uniprot_database",
+          "file": "uniprot_database.svg",
+          "fileSeal": "uniprot_database-seal.svg"
+        },
+        {
+          "id": "google-deepmind/uv",
+          "name": "Uv",
+          "rank": 4,
+          "type": "fusion",
+          "branch": "unique",
+          "slash": "/uv",
+          "file": "uv.svg",
+          "fileSeal": "uv-seal.svg"
+        },
+        {
+          "id": "google-deepmind/workflow_skill_creator",
+          "name": "Workflow-Skill-Creator",
+          "rank": 4,
+          "type": "fusion",
+          "branch": "unique",
+          "slash": "/workflow_skill_creator",
+          "file": "workflow_skill_creator.svg",
+          "fileSeal": "workflow_skill_creator-seal.svg"
         },
         {
           "id": "google-deepmind/alphagenome_single_variant_analysis",
@@ -2504,16 +2765,6 @@
           "slash": "/chembl_database",
           "file": "chembl_database.svg",
           "fileSeal": "chembl_database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/clinical_trials_database",
-          "name": "Clinical-Trials-Database",
-          "rank": 3,
-          "type": "basic",
-          "branch": "standard",
-          "slash": "/clinical_trials_database",
-          "file": "clinical_trials_database.svg",
-          "fileSeal": "clinical_trials_database-seal.svg"
         },
         {
           "id": "google-deepmind/clinvar_database",
@@ -2554,16 +2805,6 @@
           "slash": "/encode_ccres_database",
           "file": "encode_ccres_database.svg",
           "fileSeal": "encode_ccres_database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/ensembl_database",
-          "name": "Ensembl-Database",
-          "rank": 3,
-          "type": "basic",
-          "branch": "standard",
-          "slash": "/ensembl_database",
-          "file": "ensembl_database.svg",
-          "fileSeal": "ensembl_database-seal.svg"
         },
         {
           "id": "google-deepmind/foldseek_structural_search",
@@ -2686,16 +2927,6 @@
           "fileSeal": "opentargets_database-seal.svg"
         },
         {
-          "id": "google-deepmind/pdb_database",
-          "name": "Pdb-Database",
-          "rank": 3,
-          "type": "basic",
-          "branch": "standard",
-          "slash": "/pdb_database",
-          "file": "pdb_database.svg",
-          "fileSeal": "pdb_database-seal.svg"
-        },
-        {
           "id": "google-deepmind/protein_sequence_msa",
           "name": "Protein-Sequence-Msa",
           "rank": 3,
@@ -2704,26 +2935,6 @@
           "slash": "/protein_sequence_msa",
           "file": "protein_sequence_msa.svg",
           "fileSeal": "protein_sequence_msa-seal.svg"
-        },
-        {
-          "id": "google-deepmind/protein_sequence_similarity_search",
-          "name": "Protein-Sequence-Similarity-Search",
-          "rank": 3,
-          "type": "basic",
-          "branch": "standard",
-          "slash": "/protein_sequence_similarity_search",
-          "file": "protein_sequence_similarity_search.svg",
-          "fileSeal": "protein_sequence_similarity_search-seal.svg"
-        },
-        {
-          "id": "google-deepmind/pubchem_database",
-          "name": "Pubchem-Database",
-          "rank": 3,
-          "type": "basic",
-          "branch": "standard",
-          "slash": "/pubchem_database",
-          "file": "pubchem_database.svg",
-          "fileSeal": "pubchem_database-seal.svg"
         },
         {
           "id": "google-deepmind/pubmed_database",
@@ -2736,16 +2947,6 @@
           "fileSeal": "pubmed_database-seal.svg"
         },
         {
-          "id": "google-deepmind/pymol",
-          "name": "Pymol",
-          "rank": 3,
-          "type": "fusion",
-          "branch": "standard",
-          "slash": "/pymol",
-          "file": "pymol.svg",
-          "fileSeal": "pymol-seal.svg"
-        },
-        {
           "id": "google-deepmind/quickgo_database",
           "name": "Quickgo-Database",
           "rank": 3,
@@ -2754,26 +2955,6 @@
           "slash": "/quickgo_database",
           "file": "quickgo_database.svg",
           "fileSeal": "quickgo_database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/reactome_database",
-          "name": "Reactome-Database",
-          "rank": 3,
-          "type": "basic",
-          "branch": "standard",
-          "slash": "/reactome_database",
-          "file": "reactome_database.svg",
-          "fileSeal": "reactome_database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/science_skills_common",
-          "name": "Science-Skills-Common",
-          "rank": 3,
-          "type": "basic",
-          "branch": "standard",
-          "slash": "/science_skills_common",
-          "file": "science_skills_common.svg",
-          "fileSeal": "science_skills_common-seal.svg"
         },
         {
           "id": "google-deepmind/string_database",
@@ -2804,36 +2985,32 @@
           "slash": "/unibind_database",
           "file": "unibind_database.svg",
           "fileSeal": "unibind_database-seal.svg"
-        },
+        }
+      ]
+    },
+    "pexp13": {
+      "repos": [
+        "pexp13/basic-nlp-text-processor-python"
+      ],
+      "skillsByRepo": {
+        "pexp13/basic-nlp-text-processor-python": [
+          "pexp13/sentiment-analysis"
+        ]
+      },
+      "topSkill": "pexp13/sentiment-analysis",
+      "topRank": 4,
+      "topIsUnique": true,
+      "count": 1,
+      "namedSkills": [
         {
-          "id": "google-deepmind/uniprot_database",
-          "name": "Uniprot-Database",
-          "rank": 3,
+          "id": "pexp13/sentiment-analysis",
+          "name": "Sentiment Analysis",
+          "rank": 4,
           "type": "basic",
-          "branch": "standard",
-          "slash": "/uniprot_database",
-          "file": "uniprot_database.svg",
-          "fileSeal": "uniprot_database-seal.svg"
-        },
-        {
-          "id": "google-deepmind/uv",
-          "name": "Uv",
-          "rank": 3,
-          "type": "fusion",
-          "branch": "standard",
-          "slash": "/uv",
-          "file": "uv.svg",
-          "fileSeal": "uv-seal.svg"
-        },
-        {
-          "id": "google-deepmind/workflow_skill_creator",
-          "name": "Workflow-Skill-Creator",
-          "rank": 3,
-          "type": "fusion",
-          "branch": "standard",
-          "slash": "/workflow_skill_creator",
-          "file": "workflow_skill_creator.svg",
-          "fileSeal": "workflow_skill_creator-seal.svg"
+          "branch": "unique",
+          "slash": "/sentiment-analysis",
+          "file": "sentiment-analysis.svg",
+          "fileSeal": "sentiment-analysis-seal.svg"
         }
       ]
     },

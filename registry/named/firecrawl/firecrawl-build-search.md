@@ -8,7 +8,7 @@ status: named
 level: 4★
 description: Integrate Firecrawl web search into product code.
 createdAt: '2026-07-13'
-updatedAt: '2026-07-20'
+updatedAt: '2026-07-31'
 title: Firecrawl Search
 links:
   github: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-search/SKILL.md
@@ -45,6 +45,15 @@ timeline:
     migration #997)'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-20
+- timestamp: '2026-07-30T22:15:51Z'
+  action: evidence_removed
+  contributor: marcotiongson
+  details: 'Removed dead/invalid evidence: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-search/SKILL.md'
+- timestamp: '2026-07-30T22:15:52Z'
+  action: evidence_added
+  contributor: marcotiongson
+  details: 'Added evidence from https://github.com/firecrawl/firecrawl/stargazers
+    (type: github-stars-own)'
 evidence:
 - source: https://www.youtube.com/watch?v=tBtPSV_gU6o
   evaluator: unknown
@@ -56,13 +65,6 @@ evidence:
   grade: B
   likes: 157
   comments: 5
-- type: github-stars-own
-  source: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-search/SKILL.md
-  stars: 150087
-  skillCountInRepo: 6
-  grade: B
-  evaluator: mbtiongson1
-  date: '2026-07-13'
 - type: repo-own
   source: https://github.com/firecrawl/firecrawl
   commits: 5714
@@ -71,6 +73,14 @@ evidence:
   evaluator: mbtiongson1
   date: '2026-07-13'
   sourceStartedAt: '2023-08-01'
+- source: https://github.com/firecrawl/firecrawl/stargazers
+  updatedAt: '2026-08-01'
+  evaluator: mbtiongson1
+  date: '2026-07-31'
+  type: github-stars-own
+  stars: 158811
+  skillCountInRepo: 6
+  grade: B
 verification:
   firstEvidenceAt: '2026-07-13T06:22:25Z'
 catalogRef: firecrawl-firecrawl-build-search

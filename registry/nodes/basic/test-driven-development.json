@@ -15,12 +15,22 @@
       "notes": "Matt Pocock /tdd -- Vertical-slice TDD enforcement with anti-horizontal-slicing rules. (backfilled — class-to-type migration)",
       "type": "repo",
       "trustNumber": 70.0
+    },
+    {
+      "source": "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026",
+      "evaluator": "unknown",
+      "date": "2026-07-31",
+      "type": "peer-review",
+      "notes": "Agentailor peer review recommends test-driven-development as RED-GREEN-REFACTOR discipline and explicitly cites obra/superpowers as the featured implementation.",
+      "reviewers": 1,
+      "sourceStartedAt": "2026-06-19",
+      "grade": "C"
     }
   ],
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-04-30",
-  "updatedAt": "2026-06-21",
+  "updatedAt": "2026-07-31",
   "version": "0.1.0",
   "timeline": [
     {
@@ -58,6 +68,15 @@
       "action": "evidence_graded",
       "contributor": "unknown",
       "details": "Re-graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md as B (trustNumber: 70.0)"
+    },
+    {
+      "timestamp": "2026-07-31T13:21:11Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
     }
-  ]
+  ],
+  "verification": {
+    "firstEvidenceAt": "2026-07-31T13:21:11Z"
+  }
 }

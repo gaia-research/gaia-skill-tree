@@ -1,6 +1,6 @@
 # META: Gaia Skill Tree — Source of Truth
 
-This document serves as the **single source of truth** for the Gaia Skill Registry's taxonomy, evidence methodology, and ranking strategy. It defines the "Meta" — the rules and standards that ensure Gaia remains a high-prestige, high-trust ecosystem for agent capabilities.
+This document serves as the **single source of truth** for the Gaia Skill Tree registry's taxonomy, evidence methodology, and ranking strategy. It defines the "Meta" — the rules and standards that ensure Gaia remains a high-prestige, high-trust ecosystem for agent capabilities.
 
 ---
 

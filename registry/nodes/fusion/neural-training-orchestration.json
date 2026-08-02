@@ -1,0 +1,53 @@
+{
+  "id": "neural-training-orchestration",
+  "name": "Neural Training Orchestration",
+  "type": "fusion",
+  "description": "Structure, scale, and monitor neural network training workflows across devices, runs, and artifacts.",
+  "prerequisites": [
+    "ml-pipeline",
+    "distributed-neural-training",
+    "ml-artifact-management"
+  ],
+  "derivatives": [],
+  "evidence": [
+    {
+      "source": "https://github.com/Lightning-AI/pytorch-lightning",
+      "evaluator": "mbtiongson1",
+      "date": "2026-07-31",
+      "type": "repo-own",
+      "notes": "Upstream PyTorch Lightning repository; generic-level evidence for neural-training-orchestration from #813.",
+      "commits": 15608,
+      "contributors": 499,
+      "sourceStartedAt": "2019-03-31",
+      "grade": "B"
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-31",
+  "updatedAt": "2026-07-31",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-31T14:48:25Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Created generic fusion node 'neural-training-orchestration' via `gaia dev fuse`."
+    },
+    {
+      "timestamp": "2026-07-31T14:48:25Z",
+      "action": "fuse",
+      "contributor": "unknown",
+      "details": "Set prerequisites via `gaia dev fuse`: ml-pipeline, distributed-neural-training, ml-artifact-management."
+    },
+    {
+      "timestamp": "2026-07-31T14:49:08Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/Lightning-AI/pytorch-lightning (type: repo-own)"
+    }
+  ],
+  "verification": {
+    "firstEvidenceAt": "2026-07-31T14:49:08Z"
+  }
+}

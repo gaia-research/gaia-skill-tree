@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Gaia Skill Registry — Named Skill Index Generator.
+"""Gaia Skill Tree — Named Skill Index Generator.
 
 Scans all registry/named/*/*.md files, parses YAML frontmatter, validates each
 named skill, groups them by genericSkillRef, and writes registry/named-skills.json.

@@ -17,7 +17,7 @@
   },
   "title": "Auto-Review",
   "genericSkillRef": "auto-review",
-  "origin": false,
+  "origin": true,
   "description": "Automatically review and gate agent outputs by writing and executing a self-authored acceptance script, combining self-critique with pre-completion verification.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
@@ -53,6 +53,12 @@
       "action": "evidence_added",
       "contributor": "unknown",
       "details": "Added evidence from https://www.youtube.com/watch?v=AQl5Q-0l7FQ (type: social-signal)"
+    },
+    {
+      "timestamp": "2026-07-30T16:19:59Z",
+      "action": "rank_up",
+      "contributor": "marcotiongson",
+      "details": "Origin status set to true."
     }
   ],
   "links": {

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-30",
+  "generatedAt": "2026-08-01",
   "buckets": {
     "automated-testing": [
       {
@@ -594,7 +594,7 @@
         "origin": false,
         "genericSkillRef": "git-ship-done-pipeline",
         "status": "named",
-        "level": "3★",
+        "level": "4★",
         "description": "Git Ship Done pipeline for Claude Code: discuss, plan, execute, verify, and ship as a repeatable agentic software delivery loop.",
         "title": "Get Shit Done",
         "installable": true,
@@ -623,10 +623,19 @@
             "commits": 2888,
             "contributors": 136,
             "grade": "B"
+          },
+          {
+            "source": "https://arxiv.org/html/2606.04967v1",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "arxiv",
+            "notes": "Academic paper 'From Prompt to Process' analyzes GSD across a six-dimensional software-engineering process taxonomy.",
+            "citations": 0,
+            "sourceStartedAt": "2026-06-03"
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-07-20",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:04:57Z",
@@ -730,6 +739,18 @@
             "details": "Yggdrasil II recalibration: 4★ suite-branch gate failed (suite-branch origin=False TM=202.2 (≥ 100.0)) — demoted to 3★ Evolved",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-20"
+          },
+          {
+            "timestamp": "2026-07-30T22:37:20Z",
+            "action": "rank_up",
+            "contributor": "marcotiongson",
+            "details": "Calibrated level from 3★ to 4★"
+          },
+          {
+            "timestamp": "2026-07-31T13:06:54Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://arxiv.org/html/2606.04967v1 (type: arxiv)"
           }
         ],
         "suiteComponents": [
@@ -756,9 +777,9 @@
         "installBody": "Install the full GSD Core software development pipeline with:\n\n```bash\nnpx @opengsd/gsd-core@latest\n```\n\nThis is the recommended path from the upstream repo's Quickstart.",
         "role": "variant",
         "branch": "suite",
-        "rank": 3,
-        "rankWord": "Evolved",
-        "medallion": "◇",
+        "rank": 4,
+        "rankWord": "Extra",
+        "medallion": "◆",
         "contractVersion": "gaia-public-v1",
         "ultimateGateStatus": {
           "passes": false,
@@ -1814,10 +1835,30 @@
             "commits": 260,
             "contributors": 36,
             "grade": "B"
+          },
+          {
+            "source": "https://rachel.fyi/posts/what-i-took-from-addy-osmanis-agent-skills",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "peer-review",
+            "notes": "Independent review directly discusses the implement-test-verify-commit loop and small reversible commits.",
+            "reviewers": 1,
+            "sourceStartedAt": "2026-04-16",
+            "grade": "C"
+          },
+          {
+            "source": "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "peer-review",
+            "notes": "Agentailor peer review treats incremental-implementation as the approved implementation phase of the spec-driven workflow via the Implement gate.",
+            "reviewers": 1,
+            "sourceStartedAt": "2026-06-19",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-07-03",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:42:18Z",
@@ -1889,6 +1930,18 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-07-31T13:06:53Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://rachel.fyi/posts/what-i-took-from-addy-osmanis-agent-skills (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-07-31T13:21:09Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
@@ -2500,10 +2553,30 @@
             "commits": 260,
             "contributors": 36,
             "grade": "B"
+          },
+          {
+            "source": "https://rachel.fyi/posts/what-i-took-from-addy-osmanis-agent-skills",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "peer-review",
+            "notes": "Independent review directly discusses the skill's <=5-file task constraint and checkpoint discipline.",
+            "reviewers": 1,
+            "sourceStartedAt": "2026-04-16",
+            "grade": "C"
+          },
+          {
+            "source": "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "peer-review",
+            "notes": "Agentailor peer review treats planning-and-task-breakdown as an approved sub-phase of the spec-driven workflow via the Plan and Tasks gates.",
+            "reviewers": 1,
+            "sourceStartedAt": "2026-06-19",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-07-03",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:42:18Z",
@@ -2575,6 +2648,18 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-07-31T13:06:52Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://rachel.fyi/posts/what-i-took-from-addy-osmanis-agent-skills (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-07-31T13:21:09Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
@@ -3461,10 +3546,20 @@
             "commits": 260,
             "contributors": 36,
             "grade": "B"
+          },
+          {
+            "source": "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "peer-review",
+            "notes": "Agentailor peer review recommends spec-driven-development as the anchor skill and summarizes its gated Specify -> Plan -> Tasks -> Implement workflow for durable agentic engineering.",
+            "reviewers": 1,
+            "sourceStartedAt": "2026-06-19",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-07-03",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:42:16Z",
@@ -3536,6 +3631,12 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-07-31T13:21:08Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
@@ -4543,6 +4644,94 @@
         "contractVersion": "gaia-public-v1"
       }
     ],
+    "brand-guideline-application": [
+      {
+        "id": "anthropics/brand-guidelines",
+        "name": "Brand Guidelines",
+        "contributor": "anthropics",
+        "origin": false,
+        "genericSkillRef": "brand-guideline-application",
+        "status": "named",
+        "level": "3★",
+        "description": "Applies Anthropic's official brand colors, typography, and visual rules to artifacts that need Anthropic's look and feel.",
+        "title": "Brand Guidelines",
+        "links": {
+          "github": "https://github.com/anthropics/skills/blob/main/skills/brand-guidelines/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/anthropics/skills",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "repo-own",
+            "notes": "Live repo metrics for anthropics/skills; 46 commits, 13 contributors.",
+            "commits": 46,
+            "contributors": 13,
+            "sourceStartedAt": "2025-09-22",
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/anthropics/skills/stargazers",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "notes": "Live GitHub stars for anthropics/skills; skill-count divisor uses 17 SKILL.md files under skills/.",
+            "stars": 165403,
+            "skillCountInRepo": 17,
+            "sourceStartedAt": "2025-09-22",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-08-01",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:20:27Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill anthropics/brand-guidelines"
+          },
+          {
+            "timestamp": "2026-07-31T14:20:29Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/anthropics/skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-31T14:20:30Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/anthropics/skills/stargazers (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:25:05Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 3★"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 77.35,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
     "static-artwork-design": [
       {
         "id": "anthropics/canvas-design",
@@ -4638,6 +4827,91 @@
         "branch": "standard",
         "rank": 2,
         "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "session-journaling": [
+      {
+        "id": "aplaceforallmystuff/log-to-daily",
+        "name": "Log To Daily",
+        "contributor": "aplaceforallmystuff",
+        "origin": false,
+        "genericSkillRef": "session-journaling",
+        "status": "named",
+        "level": "1★",
+        "description": "Logs conversation activity to today's daily note on demand, capturing decisions, outcomes, and next steps in a structured dated entry.",
+        "title": "Log To Daily",
+        "links": {
+          "github": "https://github.com/aplaceforallmystuff/daily-patterns-pack/blob/main/skills/log-to-daily/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/aplaceforallmystuff/daily-patterns-pack",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "repo-own",
+            "notes": "Live repo metrics for daily-patterns-pack; 6 commits, 1 contributor.",
+            "commits": 6,
+            "contributors": 1,
+            "sourceStartedAt": "2026-01-22"
+          },
+          {
+            "source": "https://github.com/aplaceforallmystuff/daily-patterns-pack/stargazers",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "notes": "Live GitHub stars for daily-patterns-pack; one SKILL.md file under skills/.",
+            "stars": 38,
+            "skillCountInRepo": 1,
+            "sourceStartedAt": "2026-01-22"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-08-01",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:20:33Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill aplaceforallmystuff/log-to-daily"
+          },
+          {
+            "timestamp": "2026-07-31T14:20:34Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/aplaceforallmystuff/daily-patterns-pack (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-31T14:20:35Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/aplaceforallmystuff/daily-patterns-pack/stargazers (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:25:06Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 1★"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 1.26,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
       }
@@ -5166,6 +5440,103 @@
         "contractVersion": "gaia-public-v1"
       },
       {
+        "id": "firecrawl/firecrawl-build-interact",
+        "name": "Firecrawl Interact",
+        "contributor": "firecrawl",
+        "origin": false,
+        "genericSkillRef": "browser-control",
+        "status": "named",
+        "level": "3★",
+        "description": "Integrate Firecrawl browser interaction into product code.",
+        "title": "Firecrawl Interact",
+        "catalogRef": "firecrawl-firecrawl-build-interact",
+        "links": {
+          "github": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-interact/SKILL.md"
+        },
+        "evidence": [
+          {
+            "type": "repo-own",
+            "source": "https://github.com/firecrawl/firecrawl",
+            "commits": 5714,
+            "contributors": 155,
+            "grade": "B",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-13",
+            "sourceStartedAt": "2023-08-01"
+          },
+          {
+            "source": "https://github.com/firecrawl/firecrawl/stargazers",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "stars": 158323,
+            "skillCountInRepo": 6,
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-07-13",
+        "updatedAt": "2026-07-31",
+        "timeline": [
+          {
+            "timestamp": "2026-07-13T06:22:17Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill firecrawl/browser-interaction-integration"
+          },
+          {
+            "timestamp": "2026-07-13T06:22:36Z",
+            "action": "suite_ref_set",
+            "contributor": "unknown",
+            "details": "Set suiteRef to firecrawl/firecrawl"
+          },
+          {
+            "timestamp": "2026-07-13T09:08:45Z",
+            "action": "note",
+            "contributor": "mbtiongson1",
+            "details": "Renamed from firecrawl/browser-interaction-integration to firecrawl/firecrawl-build-interact — aligned to official firecrawl/skills repo naming"
+          },
+          {
+            "timestamp": "2026-07-30T22:15:49Z",
+            "action": "evidence_removed",
+            "contributor": "marcotiongson",
+            "details": "Removed dead/invalid evidence: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-interact/SKILL.md"
+          },
+          {
+            "timestamp": "2026-07-30T22:15:50Z",
+            "action": "evidence_added",
+            "contributor": "marcotiongson",
+            "details": "Added evidence from https://github.com/firecrawl/firecrawl/stargazers (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-30T22:36:54Z",
+            "action": "rank_up",
+            "contributor": "marcotiongson",
+            "details": "Calibrated level from 2★ to 3★"
+          }
+        ],
+        "suiteRef": "firecrawl/firecrawl-skills",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 75.58,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      },
+      {
         "id": "garrytan/browse",
         "name": "Browse",
         "contributor": "garrytan",
@@ -5348,85 +5719,6 @@
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
-      },
-      {
-        "id": "firecrawl/firecrawl-build-interact",
-        "name": "Firecrawl Interact",
-        "contributor": "firecrawl",
-        "origin": false,
-        "genericSkillRef": "browser-control",
-        "status": "named",
-        "level": "2★",
-        "description": "Integrate Firecrawl browser interaction into product code.",
-        "title": "Firecrawl Interact",
-        "catalogRef": "firecrawl-firecrawl-build-interact",
-        "links": {
-          "github": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-interact/SKILL.md"
-        },
-        "evidence": [
-          {
-            "type": "github-stars-own",
-            "source": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-interact/SKILL.md",
-            "stars": 150087,
-            "skillCountInRepo": 6,
-            "grade": "B",
-            "evaluator": "mbtiongson1",
-            "date": "2026-07-13"
-          },
-          {
-            "type": "repo-own",
-            "source": "https://github.com/firecrawl/firecrawl",
-            "commits": 5714,
-            "contributors": 155,
-            "grade": "B",
-            "evaluator": "mbtiongson1",
-            "date": "2026-07-13",
-            "sourceStartedAt": "2023-08-01"
-          }
-        ],
-        "createdAt": "2026-07-13",
-        "updatedAt": "2026-07-13",
-        "timeline": [
-          {
-            "timestamp": "2026-07-13T06:22:17Z",
-            "action": "add",
-            "contributor": "unknown",
-            "details": "Added named skill firecrawl/browser-interaction-integration"
-          },
-          {
-            "timestamp": "2026-07-13T06:22:36Z",
-            "action": "suite_ref_set",
-            "contributor": "unknown",
-            "details": "Set suiteRef to firecrawl/firecrawl"
-          },
-          {
-            "timestamp": "2026-07-13T09:08:45Z",
-            "action": "note",
-            "contributor": "mbtiongson1",
-            "details": "Renamed from firecrawl/browser-interaction-integration to firecrawl/firecrawl-build-interact — aligned to official firecrawl/skills repo naming"
-          }
-        ],
-        "suiteRef": "firecrawl/firecrawl-skills",
-        "type": "basic",
-        "installBody": "Add installation instructions here.",
-        "role": "variant",
-        "trustMagnitude": 73.52,
-        "overallTrustGrade": "B",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
       },
@@ -6202,15 +6494,209 @@
         "contractVersion": "gaia-public-v1"
       }
     ],
+    "implement-with-discernment": [
+      {
+        "id": "dietrichgebert/ponytail",
+        "name": "Ponytail",
+        "contributor": "dietrichgebert",
+        "origin": false,
+        "genericSkillRef": "implement-with-discernment",
+        "status": "named",
+        "level": "4★",
+        "description": "Forces the laziest solution that actually works: question whether the task should exist, prefer standard library and native features, and ship the smallest correct implementation.",
+        "title": "Ponytail",
+        "links": {
+          "github": "https://github.com/DietrichGebert/ponytail/blob/main/skills/ponytail/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/DietrichGebert/ponytail",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "repo-own",
+            "notes": "Live repo metrics for DietrichGebert/ponytail; 206 commits, 62 contributors.",
+            "commits": 206,
+            "contributors": 62,
+            "sourceStartedAt": "2026-06-12",
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/DietrichGebert/ponytail/stargazers",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "notes": "Live GitHub stars for DietrichGebert/ponytail; skill-count divisor uses 6 SKILL.md files under skills/.",
+            "stars": 92825,
+            "skillCountInRepo": 6,
+            "sourceStartedAt": "2026-06-12",
+            "grade": "C"
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=2xuFcmUAQUc",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "social-signal",
+            "notes": "Verified Ponytail YouTube demo; views=210288, rechecked 2026-07-31.",
+            "views": 210288,
+            "sourceStartedAt": "2026-06-20",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-08-01",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:20:36Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill dietrichgebert/ponytail"
+          },
+          {
+            "timestamp": "2026-07-31T14:20:38Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/DietrichGebert/ponytail (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-31T14:20:39Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/DietrichGebert/ponytail/stargazers (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:17:39Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=2xuFcmUAQUc (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-07-31T16:20:09Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 4★"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 102.79,
+        "overallTrustGrade": "A",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "need ≥1 graded source(s) at S+, have 0"
+        }
+      },
+      {
+        "id": "rico-favor/implement-with-discernment",
+        "name": "implement-with-discernment",
+        "contributor": "rico-favor",
+        "origin": false,
+        "genericSkillRef": "implement-with-discernment",
+        "status": "named",
+        "level": "1★",
+        "description": "Applies deliberate judgment before writing code: evaluating whether to implement at all, scoping to the minimum needed, deferring or rejecting features that add complexity without proportionate value.",
+        "title": "Implement With Discernment",
+        "links": {
+          "github": "https://github.com/rico-favor/gaia-skill-tree/blob/main/CLAUDE.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/rico-favor/gaia-skill-tree",
+            "evaluator": "unknown",
+            "date": "2026-07-09",
+            "type": "repo-own",
+            "trustNumber": 22.0,
+            "notes": "rico-favor's active gaia-skill-tree fork — 96 commits demonstrating real agent skill curation and implementation workflow usage.",
+            "stars": 0,
+            "commits": 96,
+            "contributors": 1
+          }
+        ],
+        "createdAt": "2026-07-09",
+        "updatedAt": "2026-07-09",
+        "timeline": [
+          {
+            "timestamp": "2026-07-08T21:02:12Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill rico-favor/implement-with-discernment"
+          },
+          {
+            "timestamp": "2026-07-08T21:02:30Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/rico-favor/gaia-skill-tree (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-08T21:02:30Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Graded evidence from https://github.com/rico-favor/gaia-skill-tree as C (trustNumber: 22.0)"
+          },
+          {
+            "timestamp": "2026-07-08T21:02:31Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/rico-favor/gaia-skill-tree/blob/main/CLAUDE.md"
+          },
+          {
+            "timestamp": "2026-07-08T21:02:49Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 2★"
+          },
+          {
+            "timestamp": "2026-07-08T21:48:31Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 1★"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 2.49,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
     "agent-fusion": [
       {
         "id": "disler/agent-fusion",
         "name": "Agent Fusion",
         "contributor": "disler",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "agent-fusion",
         "status": "named",
-        "level": "2★",
+        "level": "4★",
         "description": "Orchestrate multiple specialized AI models as a fused agentic team: form opinions, merge parallel plans, and auto-validate outputs to achieve frontier performance at reduced cost.",
         "title": "Agent Fusion",
         "links": {
@@ -6241,7 +6727,7 @@
           }
         ],
         "createdAt": "2026-07-30",
-        "updatedAt": "2026-07-30",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-07-29T20:14:46Z",
@@ -6266,6 +6752,18 @@
             "action": "suite_ref_set",
             "contributor": "unknown",
             "details": "Set suiteRef=disler/agent-fusion, genericSkillRef=agent-fusion via `gaia dev fuse`."
+          },
+          {
+            "timestamp": "2026-07-30T16:20:02Z",
+            "action": "rank_up",
+            "contributor": "marcotiongson",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-07-30T22:15:53Z",
+            "action": "rank_up",
+            "contributor": "marcotiongson",
+            "details": "Calibrated level from 2★ to 4★"
           }
         ],
         "suiteComponents": [
@@ -6275,8 +6773,8 @@
         ],
         "type": "fusion",
         "installBody": "Add installation instructions here.",
-        "role": "variant",
-        "trustMagnitude": 37.54,
+        "role": "origin",
+        "trustMagnitude": 127.54,
         "overallTrustGrade": "C",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -6289,9 +6787,9 @@
           "systemWideCap": null
         },
         "branch": "suite",
-        "rank": 2,
-        "rankWord": "Named",
-        "medallion": "◇",
+        "rank": 4,
+        "rankWord": "Extra",
+        "medallion": "◆",
         "contractVersion": "gaia-public-v1",
         "ultimateGateStatus": {
           "passes": false,
@@ -6304,7 +6802,7 @@
         "id": "disler/auto-review",
         "name": "Auto-Review",
         "contributor": "disler",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "auto-review",
         "status": "named",
         "level": "2★",
@@ -6326,7 +6824,7 @@
           }
         ],
         "createdAt": "2026-07-30",
-        "updatedAt": "2026-07-30",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-07-29T20:14:45Z",
@@ -6339,12 +6837,18 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://www.youtube.com/watch?v=AQl5Q-0l7FQ (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-07-30T16:19:59Z",
+            "action": "rank_up",
+            "contributor": "marcotiongson",
+            "details": "Origin status set to true."
           }
         ],
         "suiteRef": "disler/agent-fusion",
         "type": "basic",
         "installBody": "Add installation instructions here.",
-        "role": "variant",
+        "role": "origin",
         "trustMagnitude": 36.34,
         "overallTrustGrade": "C",
         "apexGateStatus": {
@@ -6369,7 +6873,7 @@
         "id": "disler/opinion",
         "name": "Opinion",
         "contributor": "disler",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "opinion",
         "status": "named",
         "level": "2★",
@@ -6391,7 +6895,7 @@
           }
         ],
         "createdAt": "2026-07-30",
-        "updatedAt": "2026-07-30",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-07-29T20:14:44Z",
@@ -6404,12 +6908,18 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://www.youtube.com/watch?v=AQl5Q-0l7FQ (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-07-30T16:19:58Z",
+            "action": "rank_up",
+            "contributor": "marcotiongson",
+            "details": "Origin status set to true."
           }
         ],
         "suiteRef": "disler/agent-fusion",
         "type": "basic",
         "installBody": "Add installation instructions here.",
-        "role": "variant",
+        "role": "origin",
         "trustMagnitude": 36.34,
         "overallTrustGrade": "C",
         "apexGateStatus": {
@@ -6434,7 +6944,7 @@
         "id": "disler/plan-synthesis",
         "name": "Plan Synthesis",
         "contributor": "disler",
-        "origin": false,
+        "origin": true,
         "genericSkillRef": "plan-synthesis",
         "status": "named",
         "level": "2★",
@@ -6456,7 +6966,7 @@
           }
         ],
         "createdAt": "2026-07-30",
-        "updatedAt": "2026-07-30",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-07-29T20:14:44Z",
@@ -6469,12 +6979,18 @@
             "action": "evidence_added",
             "contributor": "unknown",
             "details": "Added evidence from https://www.youtube.com/watch?v=AQl5Q-0l7FQ (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-07-30T16:20:00Z",
+            "action": "rank_up",
+            "contributor": "marcotiongson",
+            "details": "Origin status set to true."
           }
         ],
         "suiteRef": "disler/agent-fusion",
         "type": "basic",
         "installBody": "Add installation instructions here.",
-        "role": "variant",
+        "role": "origin",
         "trustMagnitude": 36.34,
         "overallTrustGrade": "C",
         "apexGateStatus": {
@@ -7103,6 +7619,103 @@
     ],
     "agent-environment-setup": [
       {
+        "id": "firecrawl/firecrawl-build-onboarding",
+        "name": "Firecrawl Onboarding",
+        "contributor": "firecrawl",
+        "origin": true,
+        "genericSkillRef": "agent-environment-setup",
+        "status": "named",
+        "level": "3★",
+        "description": "Configure Firecrawl credentials and client setup for agent tools.",
+        "title": "Firecrawl Onboarding",
+        "catalogRef": "firecrawl-firecrawl-build-onboarding",
+        "links": {
+          "github": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-onboarding/SKILL.md"
+        },
+        "evidence": [
+          {
+            "type": "repo-own",
+            "source": "https://github.com/firecrawl/firecrawl",
+            "commits": 5714,
+            "contributors": 155,
+            "grade": "B",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-13",
+            "sourceStartedAt": "2023-08-01"
+          },
+          {
+            "source": "https://github.com/firecrawl/firecrawl/stargazers",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "stars": 158323,
+            "skillCountInRepo": 6,
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-07-13",
+        "updatedAt": "2026-07-31",
+        "timeline": [
+          {
+            "timestamp": "2026-07-13T06:22:18Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill firecrawl/agent-environment-auth"
+          },
+          {
+            "timestamp": "2026-07-13T06:22:36Z",
+            "action": "suite_ref_set",
+            "contributor": "unknown",
+            "details": "Set suiteRef to firecrawl/firecrawl"
+          },
+          {
+            "timestamp": "2026-07-13T09:08:46Z",
+            "action": "note",
+            "contributor": "mbtiongson1",
+            "details": "Renamed from firecrawl/agent-environment-auth to firecrawl/firecrawl-build-onboarding — aligned to official firecrawl/skills repo naming"
+          },
+          {
+            "timestamp": "2026-07-30T22:15:50Z",
+            "action": "evidence_removed",
+            "contributor": "marcotiongson",
+            "details": "Removed dead/invalid evidence: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-onboarding/SKILL.md"
+          },
+          {
+            "timestamp": "2026-07-30T22:15:50Z",
+            "action": "evidence_added",
+            "contributor": "marcotiongson",
+            "details": "Added evidence from https://github.com/firecrawl/firecrawl/stargazers (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-30T22:36:54Z",
+            "action": "rank_up",
+            "contributor": "marcotiongson",
+            "details": "Calibrated level from 2★ to 3★"
+          }
+        ],
+        "suiteRef": "firecrawl/firecrawl-skills",
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "origin",
+        "trustMagnitude": 75.58,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      },
+      {
         "id": "mattpocock/setup-matt-pocock-skills",
         "name": "Setup Matt Pocock Skills",
         "contributor": "mattpocock",
@@ -7216,85 +7829,6 @@
         "rankWord": "Evolved",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
-      },
-      {
-        "id": "firecrawl/firecrawl-build-onboarding",
-        "name": "Firecrawl Onboarding",
-        "contributor": "firecrawl",
-        "origin": true,
-        "genericSkillRef": "agent-environment-setup",
-        "status": "named",
-        "level": "2★",
-        "description": "Configure Firecrawl credentials and client setup for agent tools.",
-        "title": "Firecrawl Onboarding",
-        "catalogRef": "firecrawl-firecrawl-build-onboarding",
-        "links": {
-          "github": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-onboarding/SKILL.md"
-        },
-        "evidence": [
-          {
-            "type": "github-stars-own",
-            "source": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-onboarding/SKILL.md",
-            "stars": 150087,
-            "skillCountInRepo": 6,
-            "grade": "B",
-            "evaluator": "mbtiongson1",
-            "date": "2026-07-13"
-          },
-          {
-            "type": "repo-own",
-            "source": "https://github.com/firecrawl/firecrawl",
-            "commits": 5714,
-            "contributors": 155,
-            "grade": "B",
-            "evaluator": "mbtiongson1",
-            "date": "2026-07-13",
-            "sourceStartedAt": "2023-08-01"
-          }
-        ],
-        "createdAt": "2026-07-13",
-        "updatedAt": "2026-07-13",
-        "timeline": [
-          {
-            "timestamp": "2026-07-13T06:22:18Z",
-            "action": "add",
-            "contributor": "unknown",
-            "details": "Added named skill firecrawl/agent-environment-auth"
-          },
-          {
-            "timestamp": "2026-07-13T06:22:36Z",
-            "action": "suite_ref_set",
-            "contributor": "unknown",
-            "details": "Set suiteRef to firecrawl/firecrawl"
-          },
-          {
-            "timestamp": "2026-07-13T09:08:46Z",
-            "action": "note",
-            "contributor": "mbtiongson1",
-            "details": "Renamed from firecrawl/agent-environment-auth to firecrawl/firecrawl-build-onboarding — aligned to official firecrawl/skills repo naming"
-          }
-        ],
-        "suiteRef": "firecrawl/firecrawl-skills",
-        "type": "fusion",
-        "installBody": "Add installation instructions here.",
-        "role": "origin",
-        "trustMagnitude": 73.52,
-        "overallTrustGrade": "B",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
       }
     ],
     "web-scrape": [
@@ -7338,15 +7872,6 @@
             "comments": 6
           },
           {
-            "type": "github-stars-own",
-            "source": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-scrape/SKILL.md",
-            "stars": 150087,
-            "skillCountInRepo": 6,
-            "grade": "B",
-            "evaluator": "mbtiongson1",
-            "date": "2026-07-13"
-          },
-          {
             "type": "repo-own",
             "source": "https://github.com/firecrawl/firecrawl",
             "commits": 5714,
@@ -7355,10 +7880,19 @@
             "evaluator": "mbtiongson1",
             "date": "2026-07-13",
             "sourceStartedAt": "2023-08-01"
+          },
+          {
+            "source": "https://github.com/firecrawl/firecrawl/stargazers",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "stars": 158323,
+            "skillCountInRepo": 6,
+            "grade": "B"
           }
         ],
         "createdAt": "2026-07-13",
-        "updatedAt": "2026-07-20",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-07-13T06:22:17Z",
@@ -7411,13 +7945,25 @@
             "details": "Generic parent 'web-scrape' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-20"
+          },
+          {
+            "timestamp": "2026-07-30T22:15:51Z",
+            "action": "evidence_removed",
+            "contributor": "marcotiongson",
+            "details": "Removed dead/invalid evidence: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-scrape/SKILL.md"
+          },
+          {
+            "timestamp": "2026-07-30T22:15:51Z",
+            "action": "evidence_added",
+            "contributor": "marcotiongson",
+            "details": "Added evidence from https://github.com/firecrawl/firecrawl/stargazers (type: github-stars-own)"
           }
         ],
         "suiteRef": "firecrawl/firecrawl-skills",
         "type": "fusion",
         "installBody": "Add installation instructions here.",
         "role": "origin",
-        "trustMagnitude": 133.54,
+        "trustMagnitude": 135.6,
         "overallTrustGrade": "A",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -7572,15 +8118,6 @@
             "comments": 5
           },
           {
-            "type": "github-stars-own",
-            "source": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-search/SKILL.md",
-            "stars": 150087,
-            "skillCountInRepo": 6,
-            "grade": "B",
-            "evaluator": "mbtiongson1",
-            "date": "2026-07-13"
-          },
-          {
             "type": "repo-own",
             "source": "https://github.com/firecrawl/firecrawl",
             "commits": 5714,
@@ -7589,10 +8126,19 @@
             "evaluator": "mbtiongson1",
             "date": "2026-07-13",
             "sourceStartedAt": "2023-08-01"
+          },
+          {
+            "source": "https://github.com/firecrawl/firecrawl/stargazers",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "stars": 158323,
+            "skillCountInRepo": 6,
+            "grade": "B"
           }
         ],
         "createdAt": "2026-07-13",
-        "updatedAt": "2026-07-20",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-07-13T06:22:17Z",
@@ -7633,13 +8179,25 @@
             "details": "Generic parent 'web-search' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-20"
+          },
+          {
+            "timestamp": "2026-07-30T22:15:51Z",
+            "action": "evidence_removed",
+            "contributor": "marcotiongson",
+            "details": "Removed dead/invalid evidence: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-build-search/SKILL.md"
+          },
+          {
+            "timestamp": "2026-07-30T22:15:52Z",
+            "action": "evidence_added",
+            "contributor": "marcotiongson",
+            "details": "Added evidence from https://github.com/firecrawl/firecrawl/stargazers (type: github-stars-own)"
           }
         ],
         "suiteRef": "firecrawl/firecrawl-skills",
         "type": "basic",
         "installBody": "Add installation instructions here.",
         "role": "origin",
-        "trustMagnitude": 107.14,
+        "trustMagnitude": 109.2,
         "overallTrustGrade": "A",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -7670,7 +8228,7 @@
         "origin": false,
         "genericSkillRef": "literature-search",
         "status": "named",
-        "level": "2★",
+        "level": "3★",
         "description": "Retrieve and query academic literature through Firecrawl Research.",
         "title": "Firecrawl Research Index",
         "catalogRef": "firecrawl-firecrawl-research-index",
@@ -7678,15 +8236,6 @@
           "github": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-research-index/SKILL.md"
         },
         "evidence": [
-          {
-            "type": "github-stars-own",
-            "source": "https://github.com/firecrawl/skills/blob/main/skills/firecrawl-research-index/SKILL.md",
-            "stars": 150087,
-            "skillCountInRepo": 6,
-            "grade": "B",
-            "evaluator": "mbtiongson1",
-            "date": "2026-07-13"
-          },
           {
             "type": "repo-own",
             "source": "https://github.com/firecrawl/firecrawl",
@@ -7696,10 +8245,19 @@
             "evaluator": "mbtiongson1",
             "date": "2026-07-13",
             "sourceStartedAt": "2023-08-01"
+          },
+          {
+            "source": "https://github.com/firecrawl/firecrawl/stargazers",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "stars": 158323,
+            "skillCountInRepo": 6,
+            "grade": "B"
           }
         ],
         "createdAt": "2026-07-13",
-        "updatedAt": "2026-07-13",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-07-13T06:22:18Z",
@@ -7718,13 +8276,31 @@
             "action": "note",
             "contributor": "mbtiongson1",
             "details": "Renamed from firecrawl/academic-literature-retrieval to firecrawl/firecrawl-research-index — aligned to official firecrawl/skills repo naming"
+          },
+          {
+            "timestamp": "2026-07-30T22:15:52Z",
+            "action": "evidence_removed",
+            "contributor": "marcotiongson",
+            "details": "Removed dead/invalid evidence: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-research-index/SKILL.md"
+          },
+          {
+            "timestamp": "2026-07-30T22:15:52Z",
+            "action": "evidence_added",
+            "contributor": "marcotiongson",
+            "details": "Added evidence from https://github.com/firecrawl/firecrawl/stargazers (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-30T22:36:54Z",
+            "action": "rank_up",
+            "contributor": "marcotiongson",
+            "details": "Calibrated level from 2★ to 3★"
           }
         ],
         "suiteRef": "firecrawl/firecrawl-skills",
         "type": "basic",
         "installBody": "Add installation instructions here.",
         "role": "variant",
-        "trustMagnitude": 73.52,
+        "trustMagnitude": 75.58,
         "overallTrustGrade": "B",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -7737,8 +8313,8 @@
           "systemWideCap": null
         },
         "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
+        "rank": 3,
+        "rankWord": "Evolved",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
       }
@@ -15219,10 +15795,20 @@
             "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
             "evaluator": "unknown",
             "date": "2026-06-19"
+          },
+          {
+            "source": "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "peer-review",
+            "notes": "Agentailor peer review recommends brainstorming for pre-code design refinement, clarifying questions, and hard approval before implementation.",
+            "reviewers": 1,
+            "sourceStartedAt": "2026-06-19",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:46Z",
@@ -15294,6 +15880,12 @@
             "action": "rank_up",
             "contributor": "mbtiongson1",
             "details": "Level updated from 2★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-07-31T13:21:11Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -15538,10 +16130,20 @@
             "source": "https://www.youtube.com/watch?v=6YltXh12W-g",
             "evaluator": "unknown",
             "date": "2026-06-19"
+          },
+          {
+            "source": "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026",
+            "evaluator": "unknown",
+            "date": "2026-07-31",
+            "type": "peer-review",
+            "notes": "Agentailor peer review recommends subagent-driven-development for per-task isolation with spec-compliance and code-quality review.",
+            "reviewers": 1,
+            "sourceStartedAt": "2026-06-19",
+            "grade": "C"
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-07-20",
+        "updatedAt": "2026-07-31",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:48Z",
@@ -15635,6 +16237,12 @@
             "details": "Generic parent 'subagent-driven-development' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-20"
+          },
+          {
+            "timestamp": "2026-07-31T13:21:13Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
           }
         ],
         "suiteRef": "obra/superpowers",
@@ -17772,6 +18380,1016 @@
         "branch": "standard",
         "rank": 1,
         "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "molecular-machine-learning": [
+      {
+        "id": "k-dense-ai/deepchem",
+        "name": "DeepChem",
+        "contributor": "k-dense-ai",
+        "origin": false,
+        "genericSkillRef": "molecular-machine-learning",
+        "status": "named",
+        "level": "4★",
+        "description": "Run molecular machine learning workflows with DeepChem for property prediction, featurization, and benchmarked datasets.",
+        "title": "DeepChem",
+        "links": {
+          "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/deepchem/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/deepchem/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "self-attestation",
+            "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "repo-own",
+            "notes": "K-Dense scientific-agent-skills repo metrics aligned for Lane B: commits=445, contributors=43, sourceStartedAt=2025-10-19.",
+            "commits": 445,
+            "contributors": 43,
+            "sourceStartedAt": "2025-10-19",
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "notes": "Live GitHub stars for K-Dense-AI/scientific-agent-skills; approved source URL uses ?tab=stars (not /stargazers), stargazerCount=32265, skillCountInRepo=158.",
+            "stars": 32265,
+            "skillCountInRepo": 158,
+            "sourceStartedAt": "2025-10-19"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-08-01",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:48:39Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill k-dense-ai/deepchem"
+          },
+          {
+            "timestamp": "2026-07-31T14:48:56Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/deepchem/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-31T16:17:41Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:17:43Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:20:10Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 4★"
+          }
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 167.07,
+        "overallTrustGrade": "A",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "need ≥2 graded source(s) at A+, have 1"
+        }
+      }
+    ],
+    "probabilistic-programming": [
+      {
+        "id": "k-dense-ai/pymc",
+        "name": "PyMC",
+        "contributor": "k-dense-ai",
+        "origin": false,
+        "genericSkillRef": "probabilistic-programming",
+        "status": "named",
+        "level": "4★",
+        "description": "Build Bayesian models with PyMC using hierarchical models, MCMC, variational inference, and posterior checks.",
+        "title": "PyMC",
+        "links": {
+          "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pymc/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pymc/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "self-attestation",
+            "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "repo-own",
+            "notes": "K-Dense scientific-agent-skills repo metrics aligned for Lane B: commits=445, contributors=43, sourceStartedAt=2025-10-19.",
+            "commits": 445,
+            "contributors": 43,
+            "sourceStartedAt": "2025-10-19",
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "notes": "Live GitHub stars for K-Dense-AI/scientific-agent-skills; approved source URL uses ?tab=stars (not /stargazers), stargazerCount=32265, skillCountInRepo=158.",
+            "stars": 32265,
+            "skillCountInRepo": 158,
+            "sourceStartedAt": "2025-10-19"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-08-01",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:48:35Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill k-dense-ai/pymc"
+          },
+          {
+            "timestamp": "2026-07-31T14:48:50Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pymc/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-31T16:17:45Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:17:47Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:20:11Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 4★"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 197.07,
+        "overallTrustGrade": "A",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "need ≥2 graded source(s) at A+, have 1"
+        }
+      }
+    ],
+    "neural-training-orchestration": [
+      {
+        "id": "k-dense-ai/pytorch-lightning",
+        "name": "PyTorch Lightning",
+        "contributor": "k-dense-ai",
+        "origin": false,
+        "genericSkillRef": "neural-training-orchestration",
+        "status": "named",
+        "level": "3★",
+        "description": "Orchestrate scalable PyTorch training with Lightning modules, trainers, callbacks, and distributed execution.",
+        "title": "PyTorch Lightning",
+        "links": {
+          "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pytorch-lightning/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pytorch-lightning/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "self-attestation",
+            "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "repo-own",
+            "notes": "K-Dense scientific-agent-skills repo metrics aligned for Lane B: commits=445, contributors=43, sourceStartedAt=2025-10-19.",
+            "commits": 445,
+            "contributors": 43,
+            "sourceStartedAt": "2025-10-19",
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "notes": "Live GitHub stars for K-Dense-AI/scientific-agent-skills; approved source URL uses ?tab=stars (not /stargazers), stargazerCount=32265, skillCountInRepo=158.",
+            "stars": 32265,
+            "skillCountInRepo": 158,
+            "sourceStartedAt": "2025-10-19"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-08-01",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:48:38Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill k-dense-ai/pytorch-lightning"
+          },
+          {
+            "timestamp": "2026-07-31T14:48:55Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pytorch-lightning/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-31T16:17:49Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:17:51Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:20:12Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 3★"
+          }
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 67.07,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "quantum-circuit-programming": [
+      {
+        "id": "k-dense-ai/qiskit",
+        "name": "Qiskit",
+        "contributor": "k-dense-ai",
+        "origin": false,
+        "genericSkillRef": "quantum-circuit-programming",
+        "status": "named",
+        "level": "3★",
+        "description": "Build, simulate, transpile, and execute quantum circuits with Qiskit and IBM Quantum Runtime.",
+        "title": "Qiskit",
+        "links": {
+          "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/qiskit/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/qiskit/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "self-attestation",
+            "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "repo-own",
+            "notes": "K-Dense scientific-agent-skills repo metrics aligned for Lane B: commits=445, contributors=43, sourceStartedAt=2025-10-19.",
+            "commits": 445,
+            "contributors": 43,
+            "sourceStartedAt": "2025-10-19",
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "notes": "Live GitHub stars for K-Dense-AI/scientific-agent-skills; approved source URL uses ?tab=stars (not /stargazers), stargazerCount=32265, skillCountInRepo=158.",
+            "stars": 32265,
+            "skillCountInRepo": 158,
+            "sourceStartedAt": "2025-10-19"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-08-01",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:48:34Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill k-dense-ai/qiskit"
+          },
+          {
+            "timestamp": "2026-07-31T14:48:48Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/qiskit/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-31T16:17:53Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:17:55Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:20:13Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 3★"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 111.87,
+        "overallTrustGrade": "A",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "cheminformatics-analysis": [
+      {
+        "id": "k-dense-ai/rdkit",
+        "name": "RDKit",
+        "contributor": "k-dense-ai",
+        "origin": false,
+        "genericSkillRef": "cheminformatics-analysis",
+        "status": "named",
+        "level": "2★",
+        "description": "Perform cheminformatics analysis with RDKit for molecular parsing, descriptors, fingerprints, reactions, and similarity.",
+        "title": "RDKit",
+        "links": {
+          "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/rdkit/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/rdkit/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "self-attestation",
+            "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "repo-own",
+            "notes": "K-Dense scientific-agent-skills repo metrics aligned for Lane B: commits=445, contributors=43, sourceStartedAt=2025-10-19.",
+            "commits": 445,
+            "contributors": 43,
+            "sourceStartedAt": "2025-10-19",
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "notes": "Live GitHub stars for K-Dense-AI/scientific-agent-skills; approved source URL uses ?tab=stars (not /stargazers), stargazerCount=32265, skillCountInRepo=158.",
+            "stars": 32265,
+            "skillCountInRepo": 158,
+            "sourceStartedAt": "2025-10-19"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-08-01",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:48:41Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill k-dense-ai/rdkit"
+          },
+          {
+            "timestamp": "2026-07-31T14:48:59Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/rdkit/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-31T16:17:58Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:18:00Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars (type: github-stars-own)"
+          }
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 49.07,
+        "overallTrustGrade": "C",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "single-cell-analysis": [
+      {
+        "id": "k-dense-ai/scanpy",
+        "name": "Scanpy",
+        "contributor": "k-dense-ai",
+        "origin": false,
+        "genericSkillRef": "single-cell-analysis",
+        "status": "named",
+        "level": "3★",
+        "description": "Run standard single-cell RNA-seq analysis with Scanpy for QC, clustering, visualization, and differential expression.",
+        "title": "Scanpy",
+        "links": {
+          "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scanpy/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scanpy/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "self-attestation",
+            "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "repo-own",
+            "notes": "K-Dense scientific-agent-skills repo metrics aligned for Lane B: commits=445, contributors=43, sourceStartedAt=2025-10-19.",
+            "commits": 445,
+            "contributors": 43,
+            "sourceStartedAt": "2025-10-19",
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "notes": "Live GitHub stars for K-Dense-AI/scientific-agent-skills; approved source URL uses ?tab=stars (not /stargazers), stargazerCount=32265, skillCountInRepo=158.",
+            "stars": 32265,
+            "skillCountInRepo": 158,
+            "sourceStartedAt": "2025-10-19"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-08-01",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:48:40Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill k-dense-ai/scanpy"
+          },
+          {
+            "timestamp": "2026-07-31T14:48:58Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scanpy/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-31T16:18:02Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:18:04Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:20:15Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 3★"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 97.07,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "single-cell-omics-modeling": [
+      {
+        "id": "k-dense-ai/scvi-tools",
+        "name": "scvi-tools",
+        "contributor": "k-dense-ai",
+        "origin": false,
+        "genericSkillRef": "single-cell-omics-modeling",
+        "status": "named",
+        "level": "2★",
+        "description": "Model single-cell omics data with scvi-tools for batch correction, transfer learning, and multimodal integration.",
+        "title": "scvi-tools",
+        "links": {
+          "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scvi-tools/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scvi-tools/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "self-attestation",
+            "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "repo-own",
+            "notes": "K-Dense scientific-agent-skills repo metrics aligned for Lane B: commits=445, contributors=43, sourceStartedAt=2025-10-19.",
+            "commits": 445,
+            "contributors": 43,
+            "sourceStartedAt": "2025-10-19",
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "notes": "Live GitHub stars for K-Dense-AI/scientific-agent-skills; approved source URL uses ?tab=stars (not /stargazers), stargazerCount=32265, skillCountInRepo=158.",
+            "stars": 32265,
+            "skillCountInRepo": 158,
+            "sourceStartedAt": "2025-10-19"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-08-01",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:48:37Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill k-dense-ai/scvi-tools"
+          },
+          {
+            "timestamp": "2026-07-31T14:48:53Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/scvi-tools/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-31T16:18:06Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:18:08Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars (type: github-stars-own)"
+          }
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 49.07,
+        "overallTrustGrade": "C",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "reinforcement-learning-training": [
+      {
+        "id": "k-dense-ai/stable-baselines3",
+        "name": "Stable Baselines3",
+        "contributor": "k-dense-ai",
+        "origin": false,
+        "genericSkillRef": "reinforcement-learning-training",
+        "status": "named",
+        "level": "3★",
+        "description": "Train reinforcement learning agents with Stable-Baselines3 using PPO, SAC, DQN, TD3, and related algorithms.",
+        "title": "Stable Baselines3",
+        "links": {
+          "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/stable-baselines3/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/stable-baselines3/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "self-attestation",
+            "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "repo-own",
+            "notes": "K-Dense scientific-agent-skills repo metrics aligned for Lane B: commits=445, contributors=43, sourceStartedAt=2025-10-19.",
+            "commits": 445,
+            "contributors": 43,
+            "sourceStartedAt": "2025-10-19",
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "notes": "Live GitHub stars for K-Dense-AI/scientific-agent-skills; approved source URL uses ?tab=stars (not /stargazers), stargazerCount=32265, skillCountInRepo=158.",
+            "stars": 32265,
+            "skillCountInRepo": 158,
+            "sourceStartedAt": "2025-10-19"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-08-01",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:48:43Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill k-dense-ai/stable-baselines3"
+          },
+          {
+            "timestamp": "2026-07-31T14:49:02Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/stable-baselines3/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-31T16:18:09Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:18:10Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:20:16Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 3★"
+          }
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 97.07,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "graph-neural-network-modeling": [
+      {
+        "id": "k-dense-ai/torch-geometric",
+        "name": "Torch Geometric",
+        "contributor": "k-dense-ai",
+        "origin": false,
+        "genericSkillRef": "graph-neural-network-modeling",
+        "status": "named",
+        "level": "4★",
+        "description": "Build graph neural network workflows with PyTorch Geometric for node, link, and graph prediction.",
+        "title": "Torch Geometric",
+        "links": {
+          "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/torch-geometric/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/torch-geometric/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "self-attestation",
+            "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "repo-own",
+            "notes": "K-Dense scientific-agent-skills repo metrics aligned for Lane B: commits=445, contributors=43, sourceStartedAt=2025-10-19.",
+            "commits": 445,
+            "contributors": 43,
+            "sourceStartedAt": "2025-10-19",
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "notes": "Live GitHub stars for K-Dense-AI/scientific-agent-skills; approved source URL uses ?tab=stars (not /stargazers), stargazerCount=32265, skillCountInRepo=158.",
+            "stars": 32265,
+            "skillCountInRepo": 158,
+            "sourceStartedAt": "2025-10-19"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-08-01",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:48:36Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill k-dense-ai/torch-geometric"
+          },
+          {
+            "timestamp": "2026-07-31T14:48:51Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/torch-geometric/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-31T16:18:12Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:18:13Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:20:17Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 4★"
+          }
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 167.07,
+        "overallTrustGrade": "A",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "need ≥2 graded source(s) at A+, have 1"
+        }
+      }
+    ],
+    "transformer-model-engineering": [
+      {
+        "id": "k-dense-ai/transformers",
+        "name": "Transformers",
+        "contributor": "k-dense-ai",
+        "origin": false,
+        "genericSkillRef": "transformer-model-engineering",
+        "status": "named",
+        "level": "3★",
+        "description": "Work with Hugging Face Transformers for model loading, pipeline inference, generation, and trainer fine-tuning.",
+        "title": "Transformers",
+        "links": {
+          "github": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/transformers/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/transformers/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "self-attestation",
+            "notes": "Public K-Dense SKILL.md for the named implementation approved in #813 Group B.",
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "repo-own",
+            "notes": "K-Dense scientific-agent-skills repo metrics aligned for Lane B: commits=445, contributors=43, sourceStartedAt=2025-10-19.",
+            "commits": 445,
+            "contributors": 43,
+            "sourceStartedAt": "2025-10-19",
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars",
+            "evaluator": "mbtiongson1",
+            "date": "2026-07-31",
+            "type": "github-stars-own",
+            "notes": "Live GitHub stars for K-Dense-AI/scientific-agent-skills; approved source URL uses ?tab=stars (not /stargazers), stargazerCount=32265, skillCountInRepo=158.",
+            "stars": 32265,
+            "skillCountInRepo": 158,
+            "sourceStartedAt": "2025-10-19"
+          }
+        ],
+        "createdAt": "2026-07-31",
+        "updatedAt": "2026-08-01",
+        "timeline": [
+          {
+            "timestamp": "2026-07-31T14:48:42Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill k-dense-ai/transformers"
+          },
+          {
+            "timestamp": "2026-07-31T14:49:01Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/transformers/SKILL.md (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-07-31T16:18:14Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:18:15Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-07-31T16:20:18Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Calibrated level from 2★ to 3★"
+          }
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 97.07,
+        "overallTrustGrade": "B",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
       }
@@ -22759,94 +24377,6 @@
         "contractVersion": "gaia-public-v1"
       }
     ],
-    "implement-with-discernment": [
-      {
-        "id": "rico-favor/implement-with-discernment",
-        "name": "implement-with-discernment",
-        "contributor": "rico-favor",
-        "origin": false,
-        "genericSkillRef": "implement-with-discernment",
-        "status": "named",
-        "level": "1★",
-        "description": "Applies deliberate judgment before writing code: evaluating whether to implement at all, scoping to the minimum needed, deferring or rejecting features that add complexity without proportionate value.",
-        "title": "Implement With Discernment",
-        "links": {
-          "github": "https://github.com/rico-favor/gaia-skill-tree/blob/main/CLAUDE.md"
-        },
-        "evidence": [
-          {
-            "source": "https://github.com/rico-favor/gaia-skill-tree",
-            "evaluator": "unknown",
-            "date": "2026-07-09",
-            "type": "repo-own",
-            "trustNumber": 22.0,
-            "notes": "rico-favor's active gaia-skill-tree fork — 96 commits demonstrating real agent skill curation and implementation workflow usage.",
-            "stars": 0,
-            "commits": 96,
-            "contributors": 1
-          }
-        ],
-        "createdAt": "2026-07-09",
-        "updatedAt": "2026-07-09",
-        "timeline": [
-          {
-            "timestamp": "2026-07-08T21:02:12Z",
-            "action": "add",
-            "contributor": "unknown",
-            "details": "Added named skill rico-favor/implement-with-discernment"
-          },
-          {
-            "timestamp": "2026-07-08T21:02:30Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/rico-favor/gaia-skill-tree (type: repo-own)"
-          },
-          {
-            "timestamp": "2026-07-08T21:02:30Z",
-            "action": "evidence_graded",
-            "contributor": "unknown",
-            "details": "Graded evidence from https://github.com/rico-favor/gaia-skill-tree as C (trustNumber: 22.0)"
-          },
-          {
-            "timestamp": "2026-07-08T21:02:31Z",
-            "action": "note",
-            "contributor": "unknown",
-            "details": "Updated GitHub link to https://github.com/rico-favor/gaia-skill-tree/blob/main/CLAUDE.md"
-          },
-          {
-            "timestamp": "2026-07-08T21:02:49Z",
-            "action": "demote",
-            "contributor": "unknown",
-            "details": "Calibrated level from 2★ to 2★"
-          },
-          {
-            "timestamp": "2026-07-08T21:48:31Z",
-            "action": "demote",
-            "contributor": "unknown",
-            "details": "Calibrated level from 2★ to 1★"
-          }
-        ],
-        "type": "basic",
-        "installBody": "Add installation instructions here.",
-        "role": "variant",
-        "trustMagnitude": 2.49,
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "branch": "standard",
-        "rank": 1,
-        "rankWord": "Awakened",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
-      }
-    ],
     "distributed-vector-memory": [
       {
         "id": "ruvnet/agentdb-advanced",
@@ -27251,10 +28781,10 @@
       "id": "google-deepmind/alphafold_database_fetch_and_analyze",
       "name": "Alphafold-Database-Fetch-And-Analyze",
       "contributor": "google-deepmind",
-      "origin": false,
+      "origin": true,
       "genericSkillRef": "computational-biology-workflows",
       "status": "awakened",
-      "level": "3★",
+      "level": "4★",
       "description": "Retrieve and analyze AlphaFold predicted structures for a protein. Use when the user provides a specific UniProt Accession ID and wants structural confidence metrics (pLDDT), domain boundary analysis, or disorder assessment. Do not use if the user only has a protein name, gene name, or amino acid sequence — ask for a UniProt ID first.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/alphafold_database_fetch_and_analyze/SKILL.md"
@@ -27284,7 +28814,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-16",
+      "updatedAt": "2026-07-31",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:28Z",
@@ -27335,6 +28865,18 @@
           "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
           "metaEpoch": "yggdrasil-ii",
           "migrationBatch": "yggdrasil-ii@2026-07-16"
+        },
+        {
+          "timestamp": "2026-07-30T22:37:21Z",
+          "action": "rank_up",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:41Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -27351,10 +28893,10 @@
         "systemWideCap": null
       },
       "type": "fusion",
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -27394,7 +28936,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-16",
+      "updatedAt": "2026-07-31",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:28Z",
@@ -27461,6 +29003,18 @@
           "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
           "metaEpoch": "yggdrasil-ii",
           "migrationBatch": "yggdrasil-ii@2026-07-16"
+        },
+        {
+          "timestamp": "2026-07-30T22:37:21Z",
+          "action": "rank_up",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:42Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -27595,10 +29149,10 @@
       "id": "google-deepmind/clinical_trials_database",
       "name": "Clinical-Trials-Database",
       "contributor": "google-deepmind",
-      "origin": false,
+      "origin": true,
       "genericSkillRef": "clinical-data-retrieval",
       "status": "awakened",
-      "level": "3★",
+      "level": "4★",
       "description": "Query ClinicalTrials.gov via APIv2. Use when you want to search for trials by condition, drug, location, status, or phase; retrieve trial details by NCT ID; check eligibility/inclusion criteria; count trials across conditions or time periods; identify a sponsor's trial portfolio; find recruiting trials for patient matching.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/clinical_trials_database/SKILL.md"
@@ -27693,10 +29247,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -27953,7 +29507,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-16",
+      "updatedAt": "2026-07-31",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:30Z",
@@ -28021,6 +29575,18 @@
           "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
           "metaEpoch": "yggdrasil-ii",
           "migrationBatch": "yggdrasil-ii@2026-07-16"
+        },
+        {
+          "timestamp": "2026-07-30T22:37:22Z",
+          "action": "rank_up",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:42Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -28081,7 +29647,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-16",
+      "updatedAt": "2026-07-31",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:30Z",
@@ -28149,6 +29715,18 @@
           "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
           "metaEpoch": "yggdrasil-ii",
           "migrationBatch": "yggdrasil-ii@2026-07-16"
+        },
+        {
+          "timestamp": "2026-07-30T22:37:22Z",
+          "action": "rank_up",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:43Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -28175,10 +29753,10 @@
       "id": "google-deepmind/ensembl_database",
       "name": "Ensembl-Database",
       "contributor": "google-deepmind",
-      "origin": false,
+      "origin": true,
       "genericSkillRef": "genomic-data-retrieval",
       "status": "awakened",
-      "level": "3★",
+      "level": "4★",
       "description": "Query the Ensembl database to resolve gene, transcript, and protein IDs, fetch genomic or protein sequences, retrieve gene structures (exons), and get variant consequence and effect predictions (VEP). Use this skill as a primary ID translator, genomic sequence database and variant effect prediction tool.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/ensembl_database/SKILL.md"
@@ -28209,7 +29787,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-16",
+      "updatedAt": "2026-07-31",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:30Z",
@@ -28277,6 +29855,18 @@
           "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
           "metaEpoch": "yggdrasil-ii",
           "migrationBatch": "yggdrasil-ii@2026-07-16"
+        },
+        {
+          "timestamp": "2026-07-30T22:37:23Z",
+          "action": "rank_up",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:43Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -28293,10 +29883,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -28337,7 +29927,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-16",
+      "updatedAt": "2026-07-31",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:31Z",
@@ -28405,6 +29995,18 @@
           "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
           "metaEpoch": "yggdrasil-ii",
           "migrationBatch": "yggdrasil-ii@2026-07-16"
+        },
+        {
+          "timestamp": "2026-07-30T22:37:24Z",
+          "action": "rank_up",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:44Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -28464,7 +30066,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-16",
+      "updatedAt": "2026-07-31",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:31Z",
@@ -28531,6 +30133,18 @@
           "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
           "metaEpoch": "yggdrasil-ii",
           "migrationBatch": "yggdrasil-ii@2026-07-16"
+        },
+        {
+          "timestamp": "2026-07-30T22:37:24Z",
+          "action": "rank_up",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:45Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -28590,7 +30204,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-16",
+      "updatedAt": "2026-07-31",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:31Z",
@@ -28657,6 +30271,18 @@
           "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
           "metaEpoch": "yggdrasil-ii",
           "migrationBatch": "yggdrasil-ii@2026-07-16"
+        },
+        {
+          "timestamp": "2026-07-30T22:37:25Z",
+          "action": "rank_up",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:45Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -28717,7 +30343,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-16",
+      "updatedAt": "2026-07-31",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:32Z",
@@ -28785,6 +30411,18 @@
           "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
           "metaEpoch": "yggdrasil-ii",
           "migrationBatch": "yggdrasil-ii@2026-07-16"
+        },
+        {
+          "timestamp": "2026-07-30T22:37:25Z",
+          "action": "rank_up",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:46Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -28845,7 +30483,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-16",
+      "updatedAt": "2026-07-31",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:32Z",
@@ -28913,6 +30551,18 @@
           "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
           "metaEpoch": "yggdrasil-ii",
           "migrationBatch": "yggdrasil-ii@2026-07-16"
+        },
+        {
+          "timestamp": "2026-07-30T22:37:26Z",
+          "action": "rank_up",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:46Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -28973,7 +30623,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-16",
+      "updatedAt": "2026-07-31",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:32Z",
@@ -29041,6 +30691,18 @@
           "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
           "metaEpoch": "yggdrasil-ii",
           "migrationBatch": "yggdrasil-ii@2026-07-16"
+        },
+        {
+          "timestamp": "2026-07-30T22:37:26Z",
+          "action": "rank_up",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:47Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -29317,7 +30979,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-27",
+      "updatedAt": "2026-07-31",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:33Z",
@@ -29385,6 +31047,18 @@
           "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
           "metaEpoch": "yggdrasil-ii",
           "migrationBatch": "yggdrasil-ii@2026-07-16"
+        },
+        {
+          "timestamp": "2026-07-30T22:37:27Z",
+          "action": "rank_up",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:47Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -29571,7 +31245,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-16",
+      "updatedAt": "2026-07-31",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:34Z",
@@ -29639,6 +31313,18 @@
           "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
           "metaEpoch": "yggdrasil-ii",
           "migrationBatch": "yggdrasil-ii@2026-07-16"
+        },
+        {
+          "timestamp": "2026-07-30T22:37:27Z",
+          "action": "rank_up",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:48Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -29699,7 +31385,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-16",
+      "updatedAt": "2026-07-31",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:34Z",
@@ -29767,6 +31453,18 @@
           "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
           "metaEpoch": "yggdrasil-ii",
           "migrationBatch": "yggdrasil-ii@2026-07-16"
+        },
+        {
+          "timestamp": "2026-07-30T22:37:28Z",
+          "action": "rank_up",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:48Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -29827,7 +31525,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-16",
+      "updatedAt": "2026-07-31",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:35Z",
@@ -29895,6 +31593,18 @@
           "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
           "metaEpoch": "yggdrasil-ii",
           "migrationBatch": "yggdrasil-ii@2026-07-16"
+        },
+        {
+          "timestamp": "2026-07-30T22:37:28Z",
+          "action": "rank_up",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:49Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -29921,10 +31631,10 @@
       "id": "google-deepmind/pdb_database",
       "name": "Pdb-Database",
       "contributor": "google-deepmind",
-      "origin": false,
+      "origin": true,
       "genericSkillRef": "protein-structure-analysis",
       "status": "awakened",
-      "level": "3★",
+      "level": "4★",
       "description": "Use when you want to search for or download experimentally-determined 3D structures for biomolecules (proteins, nucleic acids, bound ligands). Supports searching by sequence similarity, structure similarity, chemical and other attributes. Also use to get metadata about biomolecular structure experiments.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/pdb_database/SKILL.md"
@@ -30019,10 +31729,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -30131,10 +31841,10 @@
       "id": "google-deepmind/protein_sequence_similarity_search",
       "name": "Protein-Sequence-Similarity-Search",
       "contributor": "google-deepmind",
-      "origin": false,
+      "origin": true,
       "genericSkillRef": "bioinformatic-sequence-analysis",
       "status": "awakened",
-      "level": "3★",
+      "level": "4★",
       "description": "Searches for homologous protein sequences using MMseqs2 (fast, default) or BLAST (comprehensive, fallback). Trigger this whenever the user provides a protein sequence or FASTA file and asks to find homologues, sequence matches, or wants to infer protein function based on sequence similarity, but not when the user wants to infer protein function based on structural similarity.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/protein_sequence_similarity_search/SKILL.md"
@@ -30174,7 +31884,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-16",
+      "updatedAt": "2026-07-31",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:36Z",
@@ -30248,6 +31958,18 @@
           "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
           "metaEpoch": "yggdrasil-ii",
           "migrationBatch": "yggdrasil-ii@2026-07-16"
+        },
+        {
+          "timestamp": "2026-07-30T22:37:29Z",
+          "action": "rank_up",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:49Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -30264,20 +31986,20 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
       "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/pubchem_database",
       "name": "Pubchem-Database",
       "contributor": "google-deepmind",
-      "origin": false,
+      "origin": true,
       "genericSkillRef": "molecular-databases",
       "status": "awakened",
-      "level": "3★",
+      "level": "4★",
       "description": "Query PubChem, search by name/CID/SMILES, retrieve properties, similarity/substructure searches, bioactivity, for cheminformatics. Use when a user asks about a specific chemical, drug, or molecule.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/pubchem_database/SKILL.md"
@@ -30308,7 +32030,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-16",
+      "updatedAt": "2026-07-31",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:36Z",
@@ -30376,6 +32098,18 @@
           "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
           "metaEpoch": "yggdrasil-ii",
           "migrationBatch": "yggdrasil-ii@2026-07-16"
+        },
+        {
+          "timestamp": "2026-07-30T22:37:30Z",
+          "action": "rank_up",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:50Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -30392,10 +32126,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -30525,7 +32259,7 @@
       "origin": true,
       "genericSkillRef": "molecular-visualization",
       "status": "awakened",
-      "level": "3★",
+      "level": "4★",
       "description": "Visualize, analyze, and render protein and molecular structures using PyMOL. Use when the user wants to create images of protein structures, perform structural alignments or superposition, measure distances or contacts, highlight binding sites or active site residues, color by B-factor/pLDDT, or analyze protein-ligand interactions. Do not use for docking, molecular dynamics, or sequence-only analysis.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/pymol/SKILL.md"
@@ -30556,7 +32290,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-27",
+      "updatedAt": "2026-07-31",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:37Z",
@@ -30630,6 +32364,12 @@
           "action": "rank_up",
           "contributor": "unknown",
           "details": "Origin status set to true."
+        },
+        {
+          "timestamp": "2026-07-30T22:37:30Z",
+          "action": "rank_up",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 3★ to 4★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -30646,10 +32386,10 @@
         "systemWideCap": null
       },
       "type": "fusion",
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -30690,7 +32430,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-16",
+      "updatedAt": "2026-07-31",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:37Z",
@@ -30758,6 +32498,18 @@
           "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
           "metaEpoch": "yggdrasil-ii",
           "migrationBatch": "yggdrasil-ii@2026-07-16"
+        },
+        {
+          "timestamp": "2026-07-30T22:37:31Z",
+          "action": "rank_up",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:51Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -30784,10 +32536,10 @@
       "id": "google-deepmind/reactome_database",
       "name": "Reactome-Database",
       "contributor": "google-deepmind",
-      "origin": false,
+      "origin": true,
       "genericSkillRef": "pathway-ontology-retrieval",
       "status": "awakened",
-      "level": "3★",
+      "level": "4★",
       "description": "Query the Reactome database (Analysis and Content Services). Use when the user asks about pathway analysis, gene list enrichment, retrieving results by token, finding unmapped or not-found identifiers, mapping identifiers, reaction participants (inputs, outputs), pathway hierarchy (including top-level pathways), diagram export, cross-reference mapping, or searching the knowledgebase.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/reactome_database/SKILL.md"
@@ -30818,7 +32570,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-16",
+      "updatedAt": "2026-07-31",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:38Z",
@@ -30886,6 +32638,18 @@
           "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
           "metaEpoch": "yggdrasil-ii",
           "migrationBatch": "yggdrasil-ii@2026-07-16"
+        },
+        {
+          "timestamp": "2026-07-30T22:37:31Z",
+          "action": "rank_up",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:51Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -30902,10 +32666,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -30915,7 +32679,7 @@
       "origin": false,
       "genericSkillRef": "core-platform-implementation",
       "status": "awakened",
-      "level": "3★",
+      "level": "1★",
       "description": "Shared Python package for Science Skills, currently containing http_client -- a unified HTTP client with rate limiting, retries, and exponential backoff. Not a standalone agent skill. Do not invoke directly.",
       "installable": false,
       "links": {
@@ -30947,7 +32711,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-16",
+      "updatedAt": "2026-07-31",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:38Z",
@@ -31023,6 +32787,18 @@
           "previousValue": null,
           "newValue": null,
           "details": "Upstream science_skills_common was renamed to scienceskillscommon, then retired when its shared HTTP client moved to polite-http; no installable replacement remains."
+        },
+        {
+          "timestamp": "2026-07-30T22:37:32Z",
+          "action": "rank_up",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:41Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 1★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -31040,8 +32816,8 @@
       },
       "type": "basic",
       "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
+      "rank": 1,
+      "rankWord": "Awakened",
       "medallion": "◇",
       "contractVersion": "gaia-public-v1"
     },
@@ -31191,7 +32967,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-16",
+      "updatedAt": "2026-07-31",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:39Z",
@@ -31259,6 +33035,18 @@
           "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
           "metaEpoch": "yggdrasil-ii",
           "migrationBatch": "yggdrasil-ii@2026-07-16"
+        },
+        {
+          "timestamp": "2026-07-30T22:37:32Z",
+          "action": "rank_up",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:52Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -31319,7 +33107,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-16",
+      "updatedAt": "2026-07-31",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:39Z",
@@ -31387,6 +33175,18 @@
           "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
           "metaEpoch": "yggdrasil-ii",
           "migrationBatch": "yggdrasil-ii@2026-07-16"
+        },
+        {
+          "timestamp": "2026-07-30T22:37:33Z",
+          "action": "rank_up",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:53Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -31413,10 +33213,10 @@
       "id": "google-deepmind/uniprot_database",
       "name": "Uniprot-Database",
       "contributor": "google-deepmind",
-      "origin": false,
+      "origin": true,
       "genericSkillRef": "proteomic-data-retrieval",
       "status": "awakened",
-      "level": "3★",
+      "level": "4★",
       "description": "Access protein metadata, function, taxonomy, and sequences across UniProtKB, UniParc, and UniRef. Use when searching for proteins, mapping identifiers, or retrieving functional annotations and publications. Don't use for sequence alignment, protein folding, or sequence similarity search (use specialized skills for those tasks).",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md"
@@ -31511,10 +33311,10 @@
         "systemWideCap": null
       },
       "type": "basic",
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -31524,7 +33324,7 @@
       "origin": true,
       "genericSkillRef": "computational-science-platform",
       "status": "awakened",
-      "level": "3★",
+      "level": "4★",
       "description": "Checks whether the uv Python package manager is installed and installs it if missing. Ensures uv is on PATH. Use when another skill requires uv as a prerequisite.",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/uv/SKILL.md"
@@ -31555,7 +33355,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-27",
+      "updatedAt": "2026-07-31",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:40Z",
@@ -31629,6 +33429,12 @@
           "action": "rank_up",
           "contributor": "unknown",
           "details": "Origin status set to true."
+        },
+        {
+          "timestamp": "2026-07-30T22:37:33Z",
+          "action": "rank_up",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 3★ to 4★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -31645,20 +33451,20 @@
         "systemWideCap": null
       },
       "type": "fusion",
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
       "contractVersion": "gaia-public-v1"
     },
     {
       "id": "google-deepmind/workflow_skill_creator",
       "name": "Workflow-Skill-Creator",
       "contributor": "google-deepmind",
-      "origin": false,
+      "origin": true,
       "genericSkillRef": "skill-authoring",
       "status": "awakened",
-      "level": "3★",
+      "level": "4★",
       "description": "Distills a completed user workflow or interaction into a reusable agent skill. Use when the user asks to turn their workflow, interaction, or multi-step process into a skill, or when they say \"make this a skill\", \"create a skill from what we just did\", \"package this workflow\" or similar. Do not use for creating skills from scratch without an existing workflow (use a generic skill-creator for that).",
       "links": {
         "github": "https://github.com/google-deepmind/science-skills/blob/main/skills/workflow_skill_creator/SKILL.md"
@@ -31689,7 +33495,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-16",
+      "updatedAt": "2026-07-31",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:40Z",
@@ -31757,6 +33563,18 @@
           "details": "Yggdrasil II recalibration: 4★ unique-branch gate failed (unique-branch origin=False TM=100.8 (≥ 100.0)) — demoted to 3★ Evolved",
           "metaEpoch": "yggdrasil-ii",
           "migrationBatch": "yggdrasil-ii@2026-07-16"
+        },
+        {
+          "timestamp": "2026-07-30T22:37:34Z",
+          "action": "rank_up",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 3★ to 4★"
+        },
+        {
+          "timestamp": "2026-07-30T23:21:54Z",
+          "action": "demote",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 4★ to 3★"
         }
       ],
       "trustMagnitude": 100.82,
@@ -31773,10 +33591,10 @@
         "systemWideCap": null
       },
       "type": "fusion",
-      "branch": "standard",
-      "rank": 3,
-      "rankWord": "Evolved",
-      "medallion": "◇",
+      "branch": "unique",
+      "rank": 4,
+      "rankWord": "Unique",
+      "medallion": "◉",
       "contractVersion": "gaia-public-v1"
     },
     {
@@ -32108,10 +33926,12 @@
       "status": "awakened",
       "level": "1★",
       "description": "Classifies the affective polarity (positive / negative / neutral, or fine-grained) of user-generated text. Covers the full pipeline from raw noisy input through preprocessing, inference, and output normalisation. Stack is intentionally tool-agnostic — three implementation tracks are documented below.\n",
-      "links": {},
+      "links": {
+        "github": "https://github.com/pexp13/basic-nlp-text-processor-python/blob/main/SKILL.md"
+      },
       "evidence": [],
       "createdAt": "2026-05-17",
-      "updatedAt": "2026-07-05",
+      "updatedAt": "2026-08-01",
       "timeline": [
         {
           "action": "migrate_trust_magnitude",
@@ -32171,32 +33991,44 @@
         {
           "timestamp": "2026-06-26T18:30:56Z",
           "action": "note",
-          "contributor": "unknown",
+          "contributor": "mbtiongson1",
           "details": "Updated GitHub link to https://github.com/pexp13/basic-nlp-text-processor-python/blob/main/SKILL.md"
         },
         {
           "timestamp": "2026-07-04T18:06:12Z",
           "action": "evidence_removed",
-          "contributor": "unknown",
+          "contributor": "mbtiongson1",
           "details": "Removed dead/invalid evidence: https://aclanthology.org/S17-2088/"
         },
         {
           "timestamp": "2026-07-04T18:06:17Z",
           "action": "evidence_removed",
-          "contributor": "unknown",
+          "contributor": "mbtiongson1",
           "details": "Removed dead/invalid evidence: https://arxiv.org/abs/2202.03829"
         },
         {
           "timestamp": "2026-07-04T18:06:22Z",
           "action": "evidence_removed",
-          "contributor": "unknown",
+          "contributor": "mbtiongson1",
           "details": "Removed dead/invalid evidence: https://ojs.aaai.org/index.php/ICWSM/article/view/14550"
         },
         {
           "timestamp": "2026-07-04T18:06:27Z",
           "action": "evidence_removed",
-          "contributor": "unknown",
+          "contributor": "mbtiongson1",
           "details": "Removed dead/invalid evidence: https://arxiv.org/abs/2203.01054"
+        },
+        {
+          "timestamp": "2026-07-30T22:36:49Z",
+          "action": "rank_up",
+          "contributor": "marcotiongson",
+          "details": "Calibrated level from 1★ to 4★"
+        },
+        {
+          "timestamp": "2026-08-01T02:48:27Z",
+          "action": "demote",
+          "contributor": "mbtiongson1",
+          "details": "Calibrated level from 4★ to 1★"
         }
       ],
       "trustMagnitude": 0.0,
@@ -32595,7 +34427,11 @@
       "anthropic/skill-creator"
     ],
     "anthropics": [
+      "anthropics/brand-guidelines",
       "anthropics/canvas-design"
+    ],
+    "aplaceforallmystuff": [
+      "aplaceforallmystuff/log-to-daily"
     ],
     "ayghri": [
       "ayghri/i-have-adhd"
@@ -32617,6 +34453,9 @@
     ],
     "devin-ai": [
       "devin-ai/autonomous-swe"
+    ],
+    "dietrichgebert": [
+      "dietrichgebert/ponytail"
     ],
     "disler": [
       "disler/agent-fusion",
@@ -32775,6 +34614,18 @@
       "intelligentcode-ai/requirements-engineer",
       "intelligentcode-ai/security-engineer",
       "intelligentcode-ai/user-tester"
+    ],
+    "k-dense-ai": [
+      "k-dense-ai/deepchem",
+      "k-dense-ai/pymc",
+      "k-dense-ai/pytorch-lightning",
+      "k-dense-ai/qiskit",
+      "k-dense-ai/rdkit",
+      "k-dense-ai/scanpy",
+      "k-dense-ai/scvi-tools",
+      "k-dense-ai/stable-baselines3",
+      "k-dense-ai/torch-geometric",
+      "k-dense-ai/transformers"
     ],
     "karpathy": [
       "karpathy/autoresearch"

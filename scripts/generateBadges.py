@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Gaia Skill Registry — README badge SVG generator.
+"""Gaia Skill Tree — README badge SVG generator.
 
 Reads registry/named-skills.json and skill-trees/<user>/skill-tree.json
 and writes shields.io-style flat SVG badges to docs/badges/_assets/<handle>/:

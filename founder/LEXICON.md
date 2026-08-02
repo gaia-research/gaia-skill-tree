@@ -4,7 +4,7 @@
 <!-- Regenerate: npx tsx scripts/lexicon/check-lexicon.ts --emit -->
 <!-- lexicon-allow -->
 
-> Schema `2` · HQ `gaia-skill-tree` · 17 terms across 2 namespace(s) · updated **2026-07-28**.
+> Schema `2` · HQ `gaia-skill-tree` · 18 terms across 2 namespace(s) · updated **2026-07-28**.
 >
 > **One term, one owner.** A term is defined in **exactly one** file, ever. A
 > namespace file **adds** terms in its own namespace and may never redefine a
@@ -13,7 +13,7 @@
 
 | Namespace | Owned by | File | Terms |
 |---|---|---|---|
-| `gaia.skills` | `gaia-skill-tree` | `scripts/lexicon/lexicon.json` | 10 |
+| `gaia.skills` | `gaia-skill-tree` | `scripts/lexicon/lexicon.json` | 11 |
 | `gaia.trust` | `gaia-skill-tree` | `scripts/lexicon/lexicon.gaia.trust.json` | 7 |
 
 Terms owned by **gaia-research/gaia-research** are listed name-only in `scripts/lexicon/lexicon.foreign.json` and are
@@ -92,7 +92,8 @@ to make a decision.
 | Term | State | Oracle | Definition |
 |---|---|---|---|
 | `Gaia Skill Tree` | ✅ canonical | CONTEXT.md § Nomenclature decisions | The product name, in headline, title and OG copy. The org is Gaia Research; "the registry" (lower-case, no Gaia prefix) is the data-layer term only. |
-| `Gaia Registry` | ⛔ banned | CONTEXT.md § Banned synonyms (issue #1258) | Retired as a product name / proper noun. The same ruling names the v5 namespace `gaia.skills` rather than `gaia.registry`. **Use `Gaia Skill Tree`.** The lower-case descriptive "the registry" is still correct for the data layer; only the capitalised proper-noun form is retired. |
+| `Gaia Registry` | ⛔ banned | CONTEXT.md § Banned synonyms (issue #1258) | Retired as a product name / proper noun. The same ruling names the v5 namespace `gaia.skills` rather than `gaia.registry`. **Use `Gaia Skill Tree`.** Matched case-insensitively, so this also catches lower-case "gaia registry" — the plain common noun "registry" (no "Gaia" prefix, any case) is still correct for the data layer; only a Gaia+registry construction is retired. |
+| `Gaia Skill Registry` | ⛔ banned | CONTEXT.md § Banned synonyms (issue #1258) | Retired as a product name / proper noun — same ruling as "Gaia Registry". Needs its own term: the three-word phrase is not a substring match of the two-word "Gaia Registry" term (the gate matches literal adjacent words, not arbitrary interior words), so without this entry the three-word form would slip past the gate untouched. **Use `Gaia Skill Tree`.** Matched case-insensitively, so this also catches "gaia skill registry" and any mixed-case form. |
 
 ### taxonomy
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""add_post.py — Programmatic post creation for the Gaia registry site.
+"""add_post.py — Programmatic post creation for the Gaia Skill Tree site.
 
 Usage:
   python scripts/add_post.py announcement "Title" "Summary text" [options]
@@ -741,9 +741,9 @@ def render_report_html(
 
   <article class="paper">
     <div class="paper-journal-header">
-      <a href="../../index.html" class="paper-journal-logo" aria-label="Gaia Registry">
+      <a href="../../index.html" class="paper-journal-logo" aria-label="Gaia Skill Tree">
         <img src="../../assets/marks/diamond-seal.svg" alt="Gaia" width="28" height="28">
-        <span>Gaia Registry</span>
+        <span>Gaia Skill Tree</span>
       </a>
       <span class="paper-journal-series">Meta Audit Series</span>
     </div>
