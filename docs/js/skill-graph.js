@@ -3620,6 +3620,7 @@
   }
 
   function openGraphFullscreen() {
+    if (typeof loadNamedIndex === 'function') loadNamedIndex();
     if (_graphFullscreen && !_graphClosing) return true;
     if (!heroGraph.getViewState().available) {
       _pendingOpen = true;
@@ -3871,33 +3872,76 @@
       });
     });
 
-  window.GAIA_JSON_CACHE.fetchJson(NAMED_JSON_URL)
-    .then(indexData => {
-      const map = {};
-      const titleMap = {};
-      const originMap = {};
-      const buckets = indexData.buckets || {};
-      var redacts = function (lvl) { return window.isRedacted && window.isRedacted(lvl); };
-      Object.entries(buckets).forEach(([skillId, arr]) => {
-        if (Array.isArray(arr) && arr.length) {
-          const origin = arr.find(e => e.origin) || arr[0];
-          if (origin && origin.id) {
-            // Always redact (never drop) a pre-named/demoted (≤1★) handle:
-            // keep the slash-name shape but withhold the handle segment.
-            map[skillId] = redacts(origin.level)
-              ? (window.REDACTED_BLOCK || '████████') + '/' + (origin.id.split('/')[1] || origin.id)
-              : origin.id;
+  let _namedIndexLoaded = false;
+  function loadNamedIndex() {
+    if (_namedIndexLoaded) return;
+    _namedIndexLoaded = true;
+
+    // Remove interaction event listeners
+    window.removeEventListener('pointerdown', loadNamedIndex);
+    window.removeEventListener('keydown', loadNamedIndex);
+    window.removeEventListener('scroll', loadNamedIndex);
+    const canvas3d = document.getElementById('canvas3d');
+    if (canvas3d) {
+      canvas3d.removeEventListener('pointerdown', loadNamedIndex);
+      canvas3d.removeEventListener('pointermove', loadNamedIndex);
+    }
+    const heroEl = document.getElementById('hero');
+    if (heroEl) {
+      heroEl.removeEventListener('pointerdown', loadNamedIndex);
+      heroEl.removeEventListener('pointermove', loadNamedIndex);
+    }
+
+    window.GAIA_JSON_CACHE.fetchJson(NAMED_JSON_URL)
+      .then(indexData => {
+        const map = {};
+        const titleMap = {};
+        const originMap = {};
+        const buckets = indexData.buckets || {};
+        var redacts = function (lvl) { return window.isRedacted && window.isRedacted(lvl); };
+        Object.entries(buckets).forEach(([skillId, arr]) => {
+          if (Array.isArray(arr) && arr.length) {
+            const origin = arr.find(e => e.origin) || arr[0];
+            if (origin && origin.id) {
+              // Always redact (never drop) a pre-named/demoted (≤1★) handle:
+              // keep the slash-name shape but withhold the handle segment.
+              map[skillId] = redacts(origin.level)
+                ? (window.REDACTED_BLOCK || '████████') + '/' + (origin.id.split('/')[1] || origin.id)
+                : origin.id;
+            }
+            if (origin && origin.title) titleMap[skillId] = origin.title;
+            // A pre-named/demoted skill has no Origin standing.
+            if (arr.some(e => e.origin && !redacts(e.level))) originMap[skillId] = true;
           }
-          if (origin && origin.title) titleMap[skillId] = origin.title;
-          // A pre-named/demoted skill has no Origin standing.
-          if (arr.some(e => e.origin && !redacts(e.level))) originMap[skillId] = true;
-        }
-      });
-      if (heroGraph) heroGraph.setNamedMap(map);
-      if (heroGraph) heroGraph.setTitleMap(titleMap);
-      if (heroGraph) heroGraph.setOriginMap(originMap);
-      _ariaNamedCount = Object.keys(map).length;
-      _refreshCanvasAria();
-    })
-    .catch(() => { });
+        });
+        if (heroGraph) heroGraph.setNamedMap(map);
+        if (heroGraph) heroGraph.setTitleMap(titleMap);
+        if (heroGraph) heroGraph.setOriginMap(originMap);
+        _ariaNamedCount = Object.keys(map).length;
+        _refreshCanvasAria();
+      })
+      .catch(() => { });
+  }
+
+  // Hook up early interaction event listeners
+  window.addEventListener('pointerdown', loadNamedIndex, { passive: true });
+  window.addEventListener('keydown', loadNamedIndex, { passive: true });
+  window.addEventListener('scroll', loadNamedIndex, { passive: true });
+  const _canvas3d_init = document.getElementById('canvas3d');
+  if (_canvas3d_init) {
+    _canvas3d_init.addEventListener('pointerdown', loadNamedIndex, { passive: true });
+    _canvas3d_init.addEventListener('pointermove', loadNamedIndex, { passive: true });
+  }
+  const _hero_init = document.getElementById('hero');
+  if (_hero_init) {
+    _hero_init.addEventListener('pointerdown', loadNamedIndex, { passive: true });
+    _hero_init.addEventListener('pointermove', loadNamedIndex, { passive: true });
+  }
+
+  // Idle/fallback deferral
+  if (typeof requestIdleCallback === 'function') {
+    requestIdleCallback(function () { loadNamedIndex(); });
+  } else {
+    setTimeout(function () { loadNamedIndex(); }, 1500);
+  }
 })();
