@@ -264,11 +264,11 @@
       "handle": "gaia-research",
       "namedSkills": 2,
       "topSkill": {
-        "id": "gaia-research/skill-ci-churn",
+        "id": "gaia-research/skill-fuse",
         "level": "2★",
-        "trustMagnitude": 41.0
+        "trustMagnitude": 41.62
       },
-      "prestigeScore": 82.0,
+      "prestigeScore": 82.62,
       "_links": {
         "self": "/api/v1/contributors/gaia-research.json"
       }

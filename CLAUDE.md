@@ -351,6 +351,7 @@ Project skills are delivered in both `.claude/skills/` and `.agents/skills/`; ke
 - `gaia-trace-timeline/` — `/gaia-trace-timeline`: audit & repair user-tree timelines so each skill's rank is explained by its Hero's Journey (backfills demote/rank_up events). Backed by `scripts/trace_timeline.py`; enforced by `scripts/validate_timelines.py` (via `gaia dev validate` + release CI).
 - `gaia-draft-curate/`, `gaia-docs-sync/`, `gaia-integrity/`, `gaia-triage/`, `graphify-triage/` — supporting curation, doc-sync, integrity, triage.
 - `gaia-bot-curate/` — bot-driven curation pass.
+- `fuse/` — `/fuse`: combine two AI agent skills into one fused `SKILL.md`. Standalone repo at [gaia-research/skill-fuse](https://github.com/gaia-research/skill-fuse); registered as `gaia-research/skill-fuse` in the registry.
 - `gaia-fuse-full-suite/` — `/gaia-fuse-full-suite`: fuse one contributor's named skills into a single ultimate.
 
 When touching any of these, route registry mutations through `gaia dev add`/`merge`/`split`/`evidence` (Programmatic-First Policy), not hand-edits.

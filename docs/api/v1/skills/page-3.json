@@ -65,6 +65,22 @@
       "genericSkillRef": "static-artwork-design"
     },
     {
+      "id": "gaia-research/skill-fuse",
+      "name": "Skill Fuse",
+      "level": "2★",
+      "trustMagnitude": 41.62,
+      "overallTrustGrade": "C",
+      "contributor": "gaia-research",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/gaia-research/skill-fuse.json"
+      },
+      "genericSkillRef": "skill-fusion"
+    },
+    {
       "id": "mattpocock/prototype",
       "name": "Prototype",
       "level": "2★",
@@ -95,22 +111,6 @@
         "self": "/api/v1/skills/gaia-research/skill-ci-churn.json"
       },
       "genericSkillRef": "ci-churn-analysis"
-    },
-    {
-      "id": "gaia-research/skill-fuse",
-      "name": "Skill Fuse",
-      "level": "2★",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "contributor": "gaia-research",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/gaia-research/skill-fuse.json"
-      },
-      "genericSkillRef": "skill-fusion"
     },
     {
       "id": "bradautomates/claude-video",

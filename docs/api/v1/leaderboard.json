@@ -1777,6 +1777,18 @@
       "branch": "standard"
     },
     {
+      "id": "gaia-research/skill-fuse",
+      "trustMagnitude": 41.62,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.62,
+        "self-attestation": 5.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "id": "mattpocock/prototype",
       "trustMagnitude": 41.21,
       "grade": "C",
@@ -1790,18 +1802,6 @@
     },
     {
       "id": "gaia-research/skill-ci-churn",
-      "trustMagnitude": 41.0,
-      "grade": "C",
-      "level": "2★",
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "self-attestation": 5.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "gaia-research/skill-fuse",
       "trustMagnitude": 41.0,
       "grade": "C",
       "level": "2★",
