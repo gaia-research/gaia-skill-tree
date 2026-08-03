@@ -47,7 +47,19 @@ run by the workflow after reproducing the score. Nothing merges to `main`
 while a `pending` row is on the skill — `scripts/validate.py --strict`
 rejects it.
 
-## Adding a new benchmark
+## Phase 2B catalog verification
+
+`registry/benchmark-sources.json` is the source-status catalog for benchmark rows. `/ev-pipeline` runs a dedicated Phase 2B verifier after star verification and before adversarial audit:
+
+```bash
+PYTHONPATH=src python evidence/scripts/verify_benchmark_sources.py \
+  --catalog registry/benchmark-sources.json \
+  --registry-root . \
+  --check \
+  --report /tmp/ev-phase2b-benchmark-report.md
+```
+
+Only catalog entries with `status: verified`, allowed scoring provenance, and complete reproducibility fields may count toward Trust Magnitude. `candidate`, `registered`, and `mirrored` sources are citation-only; `rejected` and `retired` sources must not be used for new scoring. After Phase 2B, Phase 3 adversarial audit, and Phase 4 link validation, stop for a human gate before benchmark catalog promotion or `/gaia-ingest-batch`. Machines classify; humans promote.
 
 1. Create `scripts/benchmarks/<benchmark>/` with `__init__.py`, a `README.md`,
    a `prompts/` dir, a `fixtures/` dir (for unit tests only), and a `run.py`.
