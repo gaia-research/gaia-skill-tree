@@ -310,7 +310,9 @@ nav.lb-toc a.is-active .lb-toc-icon { opacity: 1; }
   transition: border-color 0.2s;
 }
 .lb-dist-item:first-child {
-  border-color: rgba(var(--text), 0.2);
+  /* --text is a full color, not an rgb() triple, so rgba(var(--text), 0.2)
+     does not parse and the border silently drops. Use color-mix instead. */
+  border-color: color-mix(in srgb, var(--text) 20%, transparent);
 }
 
 .lb-dist-grade {
@@ -461,14 +463,9 @@ nav.lb-toc a.is-active .lb-toc-icon { opacity: 1; }
   font-size: 0.95rem;
   font-weight: 600;
   letter-spacing: 0.06em;
-  background: linear-gradient(90deg,
-    var(--text) 0%,
-    var(--text) 55%,
-    var(--apex-gold) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
+  /* Solid wordmark (no gradient-text): the gold seal glyph beside it carries
+     the accent. Avoids the background-clip:text gradient anti-pattern. */
+  color: var(--text);
 }
 .lb-chart-panel .lb-chart-wrap {
   background: transparent;
@@ -695,8 +692,9 @@ nav.lb-toc a.is-active .lb-toc-icon { opacity: 1; }
 .lb-axis-value {
   font-family: var(--font-data);
   font-size: 10px;
-  fill: var(--muted);
-  opacity: 0.6;
+  /* Readable muted: mix toward ink so small axis numbers clear 4.5:1 on the
+     dark chart bg. The 0.6 opacity dampener previously pushed it below ~2.5:1. */
+  fill: color-mix(in srgb, var(--text) 50%, var(--muted));
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.01em;
 }
@@ -796,7 +794,8 @@ nav.lb-toc a.is-active .lb-toc-icon { opacity: 1; }
 .lb-tt-label {
   font-family: var(--font-body);
   font-size: 0.76rem;
-  color: var(--muted);
+  /* Readable muted on the dark tooltip bg (clears 4.5:1); plain --muted was ~3.5:1. */
+  color: color-mix(in srgb, var(--text) 50%, var(--muted));
 }
 
 .lb-tt-value {
@@ -1098,7 +1097,7 @@ nav.lb-toc a.is-active .lb-toc-icon { opacity: 1; }
   font-family: var(--font-data); font-size: 0.75rem; outline: none;
   border-radius: 8px 8px 0 0;
 }
-.lb-ms-search::placeholder { color: var(--muted); opacity: 0.6; }
+.lb-ms-search::placeholder { color: color-mix(in srgb, var(--text) 45%, var(--muted)); }
 .lb-ms-list { max-height: 220px; overflow-y: auto; padding: 0.25rem 0; }
 .lb-ms-item {
   display: flex; align-items: center; gap: 0.5rem;
