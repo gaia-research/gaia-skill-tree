@@ -25,27 +25,25 @@ if str(SRC_ROOT) not in sys.path:
     sys.path.insert(0, str(SRC_ROOT))
 
 from gaia_cli.benchmarkCatalog import (  # noqa: E402
-    SCORING_PROVENANCE,
+    SCORING_LANES,
     BenchmarkCatalogError,
     benchmarkEntriesById,
     benchmarkCatalogSchemaPath,
     isBenchmarkScoringEligible,
+    normalizeBenchmarkLane,
+    normalizeBenchmarkSourceStatus,
     validateBenchmarkCatalog,
 )
 
-CATALOG_STATUSES = {"candidate", "registered", "mirrored", "verified", "rejected", "retired"}
-NON_SCORING_PROVENANCE = {"mirrored", "pending"}
+CATALOG_STATUSES = {"verified", "reported", "rejected", "candidate", "registered", "mirrored", "retired", "pending", "unknown"}
 DEFAULT_REQUIRED_FIELDS = [
     "benchmarkId",
     "score",
     "unit",
-    "runAt",
     "provenance",
     "attestor",
-    "datasetHash",
-    "benchmarkInputHash",
-    "percentile",
 ]
+VERIFIED_REQUIRED_FIELDS = ["runAt", "attestor", "datasetHash", "benchmarkInputHash"]
 
 
 def load_catalog(catalog_path: Path) -> dict[str, Any]:
@@ -99,13 +97,17 @@ def _is_missing(value: Any) -> bool:
 
 def _missing_required_fields(row: dict[str, Any], entry: dict[str, Any] | None) -> list[str]:
     scoring = (entry or {}).get("scoring") or {}
-    required = scoring.get("requiredFields") or DEFAULT_REQUIRED_FIELDS
+    required = list(scoring.get("requiredFields") or DEFAULT_REQUIRED_FIELDS)
+    if normalizeBenchmarkLane(row.get("provenance")) == "verified":
+        for field in VERIFIED_REQUIRED_FIELDS:
+            if field not in required:
+                required.append(field)
     return [field for field in required if _is_missing(row.get(field))]
 
 
 def _percentile_issues(row: dict[str, Any]) -> list[str]:
     if "percentile" not in row or row.get("percentile") in (None, ""):
-        return ["missing percentile"]
+        return []
     try:
         percentile = float(row.get("percentile"))
     except (TypeError, ValueError):
@@ -119,8 +121,8 @@ def classify_registry_row(item: dict[str, Any], catalog: dict[str, Any]) -> dict
     """Classify one registry benchmark-result row against the catalog.
 
     ``hardBlocker`` is deliberately narrower than ``issues``: Phase 2B should
-    stop ingestion for rejected/retired sources and scoring claims that violate
-    catalog policy, while legacy citation-only rows remain report findings.
+    stop ingestion for catalog-rejected/unknown sources and verified rows that
+    lack reproducibility fields, while legacy citation-only rows remain report findings.
     """
     row = item["row"]
     entries = benchmarkEntriesById(catalog)
@@ -143,7 +145,7 @@ def classify_registry_row(item: dict[str, Any], catalog: dict[str, Any]) -> dict
 
     if not isinstance(bench_id, str) or not bench_id:
         issues.append("missing benchmarkId; treat as legacy citation-only vendor claim until cataloged")
-        if provenance in SCORING_PROVENANCE:
+        if normalizeBenchmarkLane(provenance) in SCORING_LANES:
             hard = True
         result.update({"status": "citation-only", "hardBlocker": hard})
         return result
@@ -151,60 +153,48 @@ def classify_registry_row(item: dict[str, Any], catalog: dict[str, Any]) -> dict
     entry = entries.get(bench_id)
     if entry is None:
         issues.append("benchmarkId is not registered in registry/benchmark-sources.json")
-        if provenance in SCORING_PROVENANCE:
-            issues.append("scoring provenance used on unknown benchmarkId")
+        if normalizeBenchmarkLane(provenance) in SCORING_LANES:
+            issues.append("scoring lane used on unknown benchmarkId")
             hard = True
         result.update({"status": "unknown-benchmark", "hardBlocker": hard})
         return result
 
     source_status = entry.get("status")
+    source_lane = normalizeBenchmarkSourceStatus(source_status)
+    row_lane = normalizeBenchmarkLane(provenance)
     scoring = entry.get("scoring") or {}
-    allowed = set(scoring.get("allowedProvenance") or [])
     scores_tm = bool(scoring.get("scoresTrustMagnitude"))
 
-    if source_status in {"rejected", "retired"}:
-        issues.append(f"benchmark source is {source_status}; registry row must not use it")
-        result.update({"status": str(source_status), "hardBlocker": True})
+    if source_lane == "rejected":
+        issues.append(f"benchmark source status {source_status!r} normalizes to rejected; row does not score")
+        hard = source_status in {"rejected", "retired"} or row_lane in SCORING_LANES
+        status = "candidate-only" if source_status == "candidate" else "rejected-source"
+        result.update({"status": status, "hardBlocker": hard})
         return result
 
-    if source_status == "candidate":
-        issues.append("candidate benchmark source; citation only until human promotion to verified")
-        if provenance in SCORING_PROVENANCE:
-            issues.append("scoring provenance used on candidate source")
-            hard = True
-        result.update({"status": "candidate-only", "hardBlocker": hard})
-        return result
-
-    if source_status in {"registered", "mirrored"} or not scores_tm:
-        if source_status == "registered":
-            issues.append("registered benchmark source is not verified; citation only")
-        if source_status == "mirrored":
-            issues.append("mirrored benchmark source is citation only and excluded from TM")
-        if provenance in SCORING_PROVENANCE:
-            issues.append("scoring provenance used on non-verified/non-scoring source")
+    if not scores_tm:
+        issues.append("catalog source has Trust Magnitude scoring disabled")
+        if row_lane in SCORING_LANES:
+            issues.append("scoring lane used on non-scoring source")
             hard = True
         result.update({"status": "citation-only", "hardBlocker": hard})
         return result
 
-    # Verified + scoring-capable catalog entry.
-    if provenance not in allowed:
-        issues.append(f"provenance {provenance!r} is not allowed for scoring on {bench_id}")
-        if provenance in SCORING_PROVENANCE:
-            hard = True
-        status = "pending" if provenance in NON_SCORING_PROVENANCE or not provenance else "citation-only"
-        result.update({"status": status, "hardBlocker": hard})
+    if row_lane == "rejected":
+        issues.append(f"row provenance {provenance!r} normalizes to rejected/no scoring")
+        result.update({"status": "rejected-row", "hardBlocker": False})
         return result
 
     missing = _missing_required_fields(row, entry)
     if missing:
-        issues.append("missing reproducibility/scoring fields: " + ", ".join(missing))
+        issues.append("missing required benchmark fields: " + ", ".join(missing))
     issues.extend(_percentile_issues(row))
 
     if isBenchmarkScoringEligible(row, catalog=catalog):
         result.update({"status": "scoring-eligible", "hardBlocker": False})
     else:
-        # A verified source with allowed provenance but incomplete payload must
-        # stay out of TM until a human accepts a complete reproduced row.
+        # A scoring-capable source with allowed lane but incomplete payload must
+        # stay out of TM until the row is complete or explicitly rejected.
         result.update({"status": "blocked", "hardBlocker": False})
     return result
 
@@ -262,9 +252,11 @@ def classify_candidate(entry: dict[str, Any], catalog: dict[str, Any], index: in
 
     status = "candidate-only"
     if declared_status in {"rejected", "retired"}:
-        status = str(declared_status)
-    elif declared_status == "verified" and catalog_entry and catalog_entry.get("status") == "verified":
-        status = "pending"
+        status = "rejected"
+    elif declared_status == "reported" and catalog_entry and normalizeBenchmarkSourceStatus(catalog_entry.get("status")) == "reported":
+        status = "reported"
+    elif declared_status == "verified" and catalog_entry and normalizeBenchmarkSourceStatus(catalog_entry.get("status")) == "verified":
+        status = "pending-verification"
 
     return {
         "kind": "candidate-manifest",
@@ -311,7 +303,7 @@ def build_report(results: list[dict[str, Any]], catalog_path: Path) -> str:
         )
 
     if candidate_results:
-        lines.extend(["", "## Candidate manifest entries", "", "Candidate-only entries are never hard blockers. They require human promotion before catalog registration, benchmark catalog promotion, or `/gaia-ingest-batch`.", "", "| # | Target | Source | Benchmark | Declared | Status | Issues |", "| ---: | --- | --- | --- | --- | --- | --- |"])
+        lines.extend(["", "## Candidate manifest entries", "", "Candidate-only entries are never hard blockers. They require human approval to become reported benchmark evidence, or explicit rejection/blacklisting before `/gaia-ingest-batch`.", "", "| # | Target | Source | Benchmark | Declared | Status | Issues |", "| ---: | --- | --- | --- | --- | --- | --- |"])
         for r in candidate_results:
             issues = "; ".join(r["issues"]) if r["issues"] else "—"
             lines.append(
@@ -322,8 +314,8 @@ def build_report(results: list[dict[str, Any]], catalog_path: Path) -> str:
         "",
         "## Human gate",
         "",
-        "Machines classify benchmark rows and candidate sources. Humans decide whether a source is promoted in `registry/benchmark-sources.json` and whether verified/scoring benchmark-result rows may enter `/gaia-ingest-batch`.",
-        "Only rows backed by a `verified` catalog source, allowed scoring provenance, and complete reproducibility fields may count toward Trust Magnitude.",
+        "Machines classify benchmark rows and candidate sources. Humans decide whether a candidate becomes a reported benchmark source/evidence row or is rejected/blacklisted in `registry/benchmark-sources.json`.",
+        "Verified rows count at 2.0x when CI-reproduced or verifier-attested with reproducibility fields. Reported rows count at 1.0x after human gate approval. Rejected, pending, unknown, candidate, retired, or catalog-rejected rows score zero.",
         "",
     ])
     return "\n".join(lines)

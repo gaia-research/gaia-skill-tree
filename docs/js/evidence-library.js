@@ -495,7 +495,7 @@
       lines.push('No metric drivers recorded for this row.');
       const hints = {
         'github-stars-own': 'stars (and skillCountInRepo)', 'proxy-containment': 'externalStars (≥10000)',
-        'verifier-attestation': 'verifiers', 'benchmark-result': 'percentile (0–100)',
+        'verifier-attestation': 'verifiers', 'benchmark-result': 'base score × lane',
         'arxiv': 'citations', 'peer-review': 'reviewers',
         'repo-own': 'commits + contributors', 'self-attestation': '(flat 10 — no fields needed)',
         'social-signal': 'views (≥1000)', 'fusion-recipe': 'origins (or gradedOriginCount)',

@@ -3,31 +3,37 @@
   "generatedAt": null,
   "benchmarks": [
     {
+      "id": "alphaxiv-arxivqa@v1.0",
+      "name": "alphaXiv ArXivQA Retrieval",
+      "provenance": "reported",
+      "leaderboardUrl": "/api/v1/benchmarks/alphaxiv-arxivqa.json",
+      "methodologyUrl": "https://www.alphaxiv.org/blog/training-retrieval-agents-for-arxiv-search",
+      "status": "reported",
+      "mode": "external",
+      "scoresTrustMagnitude": true,
+      "appliesToGenericSkillRefs": [
+        "literature-search"
+      ]
+    },
+    {
       "id": "humaneval@v1.0",
       "name": "HumanEval",
-      "provenance": "ci-reproduced",
+      "provenance": "verified",
       "leaderboardUrl": "/api/v1/benchmarks/humaneval.json",
       "methodologyUrl": "/benchmarks/humaneval-v1/",
       "status": "verified",
       "mode": "internal-ci",
-      "scoresTrustMagnitude": true,
-      "allowedProvenance": [
-        "ci-reproduced",
-        "verifier-attested"
-      ]
+      "scoresTrustMagnitude": true
     },
     {
       "id": "mmlu@2024-03",
       "name": "MMLU (Massive Multitask Language Understanding)",
-      "provenance": "mirrored",
+      "provenance": "reported",
       "leaderboardUrl": "/api/v1/benchmarks/mmlu.json",
       "methodologyUrl": "/benchmarks/mmlu-v1/",
-      "status": "mirrored",
+      "status": "reported",
       "mode": "mirrored",
-      "scoresTrustMagnitude": false,
-      "allowedProvenance": [
-        "mirrored"
-      ]
+      "scoresTrustMagnitude": true
     }
   ]
 }

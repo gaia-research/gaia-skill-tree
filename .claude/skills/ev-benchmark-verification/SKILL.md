@@ -10,16 +10,15 @@ Phase 2B runs after `/ev-star-verification` and before `/ev-adversarial-audit`. 
 
 ## Policy
 
-`registry/benchmark-sources.json` is the allow-list for benchmark-source status. Valid statuses are:
+`registry/benchmark-sources.json` is the benchmark allow/blacklist surface. Current lanes collapse to three values:
 
-- `candidate` — motivating source only; no Trust Magnitude scoring.
-- `registered` — known source accepted for one or more generic capability buckets; not yet verified; citation only and no Trust Magnitude scoring.
-- `mirrored` — external leaderboard snapshot; citation only.
-- `verified` — eligible to score only when provenance and reproducibility fields satisfy the catalog entry.
-- `rejected` — must not be used.
-- `retired` — must not be used for new scoring.
+- `verified` — CI-reproduced or verifier-attested benchmark evidence; Trust Magnitude lane multiplier `2.0x`.
+- `reported` — public claim or mirrored leaderboard evidence accepted by the human gate; Trust Magnitude lane multiplier `1.0x`.
+- `rejected` — blacklisted, disputed, pending, retired, candidate, unknown, or otherwise not approved; Trust Magnitude multiplier `0x`.
 
-Only rows backed by a `verified` catalog source, allowed scoring provenance, and complete reproducibility fields may count toward Trust Magnitude. Candidate, registered, mirrored, rejected, retired, unknown, or incomplete rows are not scoring rows. Registered benchmark sources may carry `appliesToGenericSkillRefs` to record which generic skill IDs the benchmark applies to; that generic-applicability metadata does not create a named-skill score, does not imply a vendor claim is verified, and does not score until a named `benchmark-result` row independently satisfies reproducibility and approved provenance.
+Legacy aliases are accepted during migration: `ci-reproduced` and `verifier-attested` normalize to `verified`; `mirrored` normalizes to `reported`; `pending`, `unknown`, `retired`, and `candidate` normalize to `rejected`/no scoring. A catalog entry with `status: rejected` is the blacklist and always scores zero.
+
+Reported rows do not need `runAt`, `datasetHash`, or `benchmarkInputHash`. Verified rows still need reproducibility fields. `appliesToGenericSkillRefs` records which generic skill IDs a benchmark applies to; it does not create a named-skill score by itself.
 
 ## Command
 
@@ -46,30 +45,30 @@ Candidate manifest entries may be JSON or JSONL objects with fields such as:
 
 ```json
 {
-  "target": "firecrawl/firecrawl-skills",
-  "source": "https://github.com/firecrawl/firecrawl/issues/741",
-  "benchmarkId": "firecrawl-scrape@2026-05",
+  "target": "firecrawl/firecrawl-research-index",
+  "source": "https://www.firecrawl.dev/blog/research-index-launch",
+  "benchmarkId": "alphaxiv-arxivqa@v1.0",
   "status": "candidate",
-  "missing": ["datasetHash", "benchmarkInputHash", "percentile"],
-  "notes": "Motivating candidate only; no scoring row yet."
+  "missing": [],
+  "notes": "Candidate becomes reported only after the human gate approves it."
 }
 ```
 
-Firecrawl #741 is the model case: candidate-only unless a catalog entry, reproducibility fingerprints, allowed provenance, and human approval exist. Do not add Firecrawl catalog entries or scoring evidence rows from the candidate report alone.
+Firecrawl Research Index / alphaXiv ArXivQA is the model case: a public reported benchmark can count at 1.0x after the human gate, but a candidate report alone is not permission to ingest.
 
 ## Human gate
 
-Machines classify. Humans promote.
+Machines classify. Humans approve or reject.
 
-After Phase 2B benchmark-source verification, Phase 3 adversarial audit, and Phase 4 link validation, stop before benchmark catalog promotion or `/gaia-ingest-batch`. A human reviewer must approve any move from candidate/registered/mirrored to verified and must approve any benchmark-result ingestion manifest. Do not treat a green Phase 2B report as permission to ingest.
+After Phase 2B benchmark-source verification, Phase 3 adversarial audit, and Phase 4 link validation, stop before benchmark catalog promotion or `/gaia-ingest-batch`. A human reviewer must approve reported benchmark evidence or mark it rejected/blacklisted. Do not treat a green Phase 2B report as permission to ingest.
 
 ## Output
 
 The report summarizes:
 
 - `scoring-eligible` rows that may count toward Trust Magnitude.
-- `citation-only`, `pending`, `candidate-only`, `blocked`, and `unknown-benchmark` rows that must not score.
-- rejected/retired usage and scoring-provenance misuse as hard blockers.
-- missing reproducibility fields and missing/dubious percentiles as findings.
+- `reported`, `rejected-row`, `candidate-only`, `blocked`, and `unknown-benchmark` rows that need human review or score zero.
+- rejected/retired usage and scoring-lane misuse as hard blockers.
+- missing verified-lane reproducibility fields and malformed percentiles as findings.
 
 Candidate-only manifest entries are never hard blockers by themselves; they are backlog items for human review.

@@ -34,13 +34,14 @@ The manifest must state a source URL, Evidence Type, source-start date,
 verifiable numeric payload, factual notes, and attribution scope for every row.
 Exclude any deferred candidate. Never infer an Evidence Type or a metric from a
 summary. For `benchmark-result`, attach the Phase 2B benchmark-source report and
-human approval showing the catalog source is `verified`, provenance is allowed,
-and reproducibility fields plus percentile are present; candidate/registered/
-mirrored/rejected/retired/unknown benchmark sources must not enter ingestion as
-scoring rows. Registered benchmark sources may be generic-applicable via
-`appliesToGenericSkillRefs`, but that catalog metadata is non-scoring until a
-named `benchmark-result` row independently satisfies reproducibility and
-approved provenance.
+human approval for the lane: `verified` rows need CI/verifier attestation plus
+`runAt`, `datasetHash`, and `benchmarkInputHash`; `reported` rows may be public
+claims or mirrored benchmark evidence approved by the human gate and do not need
+those reproducibility fields. `rejected`, `pending`, `candidate`, `retired`, or
+unknown benchmark sources/rows must not enter ingestion as scoring rows. A
+catalog `status: rejected` is the blacklist. `appliesToGenericSkillRefs` is
+catalog metadata only; it does not create a named score without a named
+`benchmark-result` row.
 
 ## Procedure
 

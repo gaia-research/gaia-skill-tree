@@ -233,60 +233,56 @@
 
     <p class="prose-lede">
       Every benchmark row that touches a Gaia badge carries a public commit
-      SHA, two SHA-256 fingerprints, and a provenance label from a frozen
-      enum. Self-attestation is rejected at the schema. Citations render, but
-      they never count.
+      a provenance lane. Self-attestation is rejected at the schema. Reported
+      public claims can count after the human gate; rejected rows score zero.
     </p>
 
     <h2><span class="h2-num">01</span>Provenance</h2>
 
-    <p>Every <code>benchmark-result</code> evidence row carries a <code>provenance</code> label from a
-    frozen enum of four values. Two of them contribute to Trust Magnitude;
-    two do not.</p>
+    <p>Every <code>benchmark-result</code> evidence row carries a <code>provenance</code> lane. The
+    simplified #1419 model has three lanes, with legacy aliases accepted during
+    migration.</p>
 
     <table>
       <thead>
-        <tr><th>Value</th><th>Meaning</th><th>TM</th></tr>
+        <tr><th>Lane</th><th>Meaning</th><th>TM multiplier</th></tr>
       </thead>
       <tbody>
         <tr>
-          <td><code>verifier-attested</code></td>
-          <td>A 4&#9733;+ Verifier co-signed the score. Attestor is the verifier's GitHub handle.</td>
-          <td>Counted</td>
+          <td><code>verified</code></td>
+          <td>CI-reproduced or verifier-attested benchmark evidence. Legacy aliases: <code>ci-reproduced</code>, <code>verifier-attested</code>.</td>
+          <td>2.0×</td>
         </tr>
         <tr>
-          <td><code>ci-reproduced</code></td>
-          <td>A GitHub Actions workflow ran the harness on a public commit. Attestor is <code>&lt;workflow-url&gt;@&lt;sha&gt;</code>.</td>
-          <td>Counted</td>
+          <td><code>reported</code></td>
+          <td>Public claim or mirrored leaderboard evidence accepted by the human gate. Legacy alias: <code>mirrored</code>.</td>
+          <td>1.0×</td>
         </tr>
         <tr>
-          <td><code>mirrored</code></td>
-          <td>Citation-only copy from an external leaderboard. Attestor is the upstream URL.</td>
-          <td>Excluded</td>
-        </tr>
-        <tr>
-          <td><code>pending</code></td>
-          <td>Freshly filed row awaiting promotion.</td>
-          <td>Excluded</td>
+          <td><code>rejected</code></td>
+          <td>Blacklisted, disputed, pending, candidate, retired, unknown, or not approved.</td>
+          <td>0×</td>
         </tr>
       </tbody>
     </table>
 
     <p><code>self-attested</code> is intentionally absent and forever rejected — both at the
-    schema and in <code>scripts/validate.py</code>. A self-run score enters as <code>pending</code>;
-    a Verifier or CI job promotes it before merge.</p>
+    schema and in <code>scripts/validate.py</code>. A candidate source becomes
+    <code>reported</code> only after the human gate approves it, or <code>rejected</code> if the
+    source is disputed/blacklisted.</p>
 
-    <p><code>pending</code> is informational under lax validation but a hard error under
+    <p><code>pending</code> is a legacy no-scoring alias and remains a hard error under
     <code>--strict</code>, which the validator auto-enables when the base ref is <code>main</code>.
-    Pending rows can never survive a merge into <code>main</code>.</p>
+    New human-approved public claims should use <code>reported</code>; blacklisted or
+    disputed rows should use <code>rejected</code>.</p>
 
     <p class="pullquote">
-      Two hashes and a public URL. <em>That is the entire contract.</em>
+      Machines classify. Humans approve or reject.
     </p>
 
     <h2><span class="h2-num">02</span>Reproducibility fingerprint</h2>
 
-    <p>Two SHA-256 hashes are required on every row:</p>
+    <p>Two SHA-256 hashes are required for <code>verified</code> rows:</p>
 
     <ul>
       <li><strong><code>datasetHash</code></strong> &mdash; SHA-256 of the raw dataset. A revision produces a new hash and therefore a new row.</li>
@@ -294,9 +290,10 @@
     </ul>
 
     <p>Both are 64-character lowercase hex. Uppercase, short, or non-hex values
-    are rejected at both the CLI and schema layers. The harness is
-    responsible for emitting them; W2a ships the scaffolding, W2b (issue
-    #905) ships the first real <code>run.py</code>.</p>
+    are rejected at both the CLI and schema layers for verified rows. Reported
+    rows do not need <code>runAt</code>, <code>datasetHash</code>, or
+    <code>benchmarkInputHash</code>; their attestor/source is the public claim accepted by
+    the human gate.</p>
 
     <h2><span class="h2-num">03</span>Trust Magnitude contribution</h2>
 
@@ -308,30 +305,25 @@
       <li><code>gradeCeiling: S</code></li>
       <li><code>allowedLayers: [generic, named]</code></li>
       <li><code>inheritMultiplier: 0.15</code></li>
-      <li>Magnitude = <code>percentile</code> (0..100), when provided.</li>
+      <li>Magnitude = normalized base score × lane multiplier. Base score uses <code>percentile</code> when present; otherwise <code>score</code> is normalized by <code>unit</code>.</li>
       <li>Freshness: 50%/year decay (half-life &asymp; 1 year).</li>
     </ul>
 
-    <p>Mirrored and pending rows are excluded from the sum entirely via
-    <code>computeArtifactScoreOrNone</code> returning <code>None</code>, matching the
-    null-on-derank contract used for deranked verifier-attestation rows.
-    Their <code>grade</code> field is stripped at CLI write time so they are never
-    visually presented as if they were graded.</p>
+    <p>Trust Magnitude computes the final benchmark score internally; do not
+    persist a <code>finalScore</code>. Verified rows use a 2.0× lane multiplier, reported
+    rows use 1.0×, and rejected/pending/unknown/candidate/retired rows use 0×.
+    The existing benchmark cap applies after the lane multiplier.</p>
 
     <p>Schema-valid does not automatically mean scoring-valid. Phase 2B of
     <code>/ev-pipeline</code> checks each <code>benchmark-result</code> row against
-    <code>registry/benchmark-sources.json</code>: only catalog entries with
-    <code>status: verified</code>, allowed scoring provenance, and complete
-    reproducibility fields may count toward Trust Magnitude. Candidate,
-    registered, mirrored, rejected, retired, unknown, or incomplete sources are
-    rendered as citation-only, pending, or blocked instead of scoring rows.</p>
+    <code>registry/benchmark-sources.json</code>: rejected or unknown catalog sources are
+    zero-score; verified rows need reproducibility fields; reported rows need
+    human approval and a public attestor/source.</p>
 
     <div class="callout">
-      Machines classify; humans promote. After Phase 2B catalog verification,
-      adversarial audit, and link validation, a human reviewer must approve any
-      benchmark catalog promotion and any <code>benchmark-result</code> ingestion.
-      Firecrawl/Tessl-style vendor pages stay candidate-only unless the catalog
-      entry and reproducibility fields exist.
+      Machines classify; humans approve or reject. Candidate sources become
+      <code>reported</code> after the human gate, or <code>rejected</code> if disputed. This is
+      pre TM Index V2; fusion scoring changes are tracked separately.
     </div>
 
     <h2><span class="h2-num">04</span>Adding a new benchmark</h2>
@@ -347,7 +339,7 @@
         <strong>Author the CI workflow.</strong>
         <code>.github/workflows/benchmark-&lt;id&gt;-ci.yml</code> runs <code>run.py</code> on the
         submitted commit and, on success, writes an evidence row via
-        <code>gaia dev evidence</code> with <code>--provenance ci-reproduced</code> and
+        <code>gaia dev evidence</code> with <code>--provenance verified</code> and
         <code>--attestor &lt;workflow-url&gt;@&lt;sha&gt;</code>.
       </li>
       <li>
@@ -374,9 +366,9 @@
     <div class="callout">
       <ul>
         <li>Field names and shape of <code>benchmark-result</code> are frozen &mdash; a rename or removal is a major schema bump (v7+).</li>
-        <li>The <code>provenance</code> enum is frozen.</li>
+        <li>The <code>provenance</code> lanes are <code>verified</code>, <code>reported</code>, and <code>rejected</code>; legacy aliases remain accepted for migration.</li>
         <li>The <code>unit</code> enum (<code>pct</code>, <code>pass@1</code>, <code>pass@10</code>, <code>bleu</code>, <code>f1</code>, <code>accuracy</code>, <code>elo</code>, <code>raw</code>) is frozen.</li>
-        <li>Mirrored rows are forever excluded from Trust Magnitude.</li>
+        <li>Reported rows count at 1.0× after human gate approval; rejected rows score zero.</li>
         <li>Self-attested provenance is forever rejected.</li>
       </ul>
       <p style="margin:0.8rem 0 0;">Any change requires a Splurge-tier RFC.</p>

@@ -31,7 +31,6 @@ def _catalog(status: str = "verified", *, scores: bool = True) -> dict:
                 "defaultProvenance": "ci-reproduced" if status == "verified" else status,
                 "scoring": {
                     "scoresTrustMagnitude": scores,
-                    "allowedProvenance": ["ci-reproduced", "verifier-attested"] if scores else [status],
                     "requiredFields": [
                         "benchmarkId",
                         "score",

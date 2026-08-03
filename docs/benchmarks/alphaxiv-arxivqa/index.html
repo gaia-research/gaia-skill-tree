@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>alphaXiv ArXivQA Retrieval · Gaia Benchmark</title>
+  <meta name="description" content="alphaXiv ArXivQA Retrieval benchmark rows for Gaia skills, including reported public benchmark evidence accepted by the human gate.">
+  <link rel="stylesheet" href="../../css/tokens.css?v=7.3.6">
+  <link rel="stylesheet" href="../../css/styles.css?v=7.3.6">
+  <style>
+    body { background: var(--bg); color: var(--text); font-family: var(--font-body); }
+    .lb-shell { max-width: 1200px; margin: 0 auto; padding: 6rem 1.5rem; }
+    .lb-back { margin-bottom: 2rem; font-family: var(--font-mono); font-size: .8rem; }
+    .lb-header { max-width: 48rem; margin-bottom: 2rem; }
+    .lb-header-eyebrow { color: var(--apex-gold); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: .12em; font-size: .75rem; margin-bottom: .8rem; }
+    h1 { font-family: var(--font-display); font-size: clamp(2rem, 6vw, 4rem); line-height: .95; margin-bottom: 1rem; }
+    .lb-lede { color: var(--muted); font-size: 1rem; line-height: 1.7; }
+    .lb-note { color: var(--muted); margin: .8rem 0 1rem; }
+    .lb-table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 16px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: .75rem 1rem; border-bottom: 1px solid var(--border); text-align: left; }
+    th { font-family: var(--font-mono); font-size: .75rem; color: var(--muted); text-transform: uppercase; }
+    .lb-mono { font-family: var(--font-mono); }
+    .lb-dim { color: var(--muted); }
+    .lb-badge { display: inline-block; border-radius: 999px; padding: .15rem .45rem; font-family: var(--font-mono); font-size: .72rem; }
+    .lb-badge-prov { margin-left: .5rem; }
+    .lb-badge-verified { background: rgba(74,222,128,.12); color: #4ade80; }
+    .lb-badge-cited { background: rgba(251,191,36,.12); color: var(--apex-gold); }
+    .lb-badge-pending { background: rgba(148,163,184,.12); color: var(--muted); }
+    .lb-section { margin-top: 2rem; }
+    .lb-section-dim { opacity: .82; }
+    .lb-section-title { font-family: var(--font-display); margin-bottom: .75rem; }
+    .lb-count { color: var(--muted); font-family: var(--font-mono); font-size: .85rem; }
+    .lb-empty, .lb-loading { color: var(--muted); }
+  </style>
+<script type="application/ld+json" data-injector="gaia-json-ld">
+{
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  "name": "Index",
+  "url": "https://gaiaskilltree.com/benchmarks/alphaxiv-arxivqa/",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Gaia Skill Tree",
+    "url": "https://gaiaskilltree.com/"
+  }
+}
+{
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  "headline": "Index",
+  "url": "https://gaiaskilltree.com/benchmarks/alphaxiv-arxivqa/"
+}
+</script>
+</head>
+<body>
+  <main class="lb-shell">
+    <p class="lb-back"><a href="../">← Benchmarks</a></p>
+    <header class="lb-header">
+      <p class="lb-header-eyebrow">Reported · 1× TM lane</p>
+      <h1>alphaXiv ArXivQA Retrieval</h1>
+      <p class="lb-lede">
+        Firecrawl-reported retrieval benchmark evidence for literature search.
+        Reported rows are public claims accepted by the human gate; they count at
+        the reported 1.0× lane and do not imply Gaia CI/verifier reproduction.
+      </p>
+      <p id="lb-meta" class="lb-lede lb-mono">Loading…</p>
+      <input id="lb-search" type="search" placeholder="Filter skills…" aria-label="Filter leaderboard rows">
+    </header>
+    <div id="lb-content" data-benchmark="alphaxiv-arxivqa"></div>
+  </main>
+  <script src="../_shared/leaderboard.js?v=7.3.6"></script>
+</body>
+</html>

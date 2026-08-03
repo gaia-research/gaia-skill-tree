@@ -67,7 +67,7 @@
     'github-stars-own':     'stars (and skillCountInRepo)',
     'proxy-containment':    'externalStars (≥10000)',
     'verifier-attestation': 'verifiers',
-    'benchmark-result':     'percentile (0–100)',
+    'benchmark-result':     'base score × lane',
     'arxiv':                'citations',
     'peer-review':          'reviewers',
     'repo-own':             'commits + contributors',

@@ -341,21 +341,19 @@ def validate_verifier_benchmark_attestations():
 
 
 def validate_benchmark_provenance(graph, strict=False):
-    """Sprint D W2a (#904) — benchmark-result provenance gate.
+    """Benchmark-result provenance/lane gate (#1419).
 
-    Reject self-attested rows always (schema also blocks this at Draft-07
-    level; kept as defence-in-depth for pre-migration corpus rows). Reject
-    pending rows when strict is on (main-merge protection), UNLESS a later
-    ci-reproduced or verifier-attested row exists for the same skill +
-    benchmarkId (superseded-pending carve-out). Warn on mirrored rows so
-    operators know their entry is citation-only and excluded from Trust
-    Magnitude.
+    Reject self-attested rows always. Legacy ``pending`` rows are no-scoring;
+    strict mode keeps the old main-merge protection unless a later verified-lane
+    row exists for the same skill + benchmarkId. ``reported`` (and legacy
+    ``mirrored``) rows are valid 1.0x benchmark evidence after human gate
+    approval. ``rejected`` rows are audit history and score zero.
 
     Returns a list of error strings; the caller merges these into all_errors.
-    Prints mirrored warnings directly to stdout.
+    Prints lane notices directly to stdout.
     """
     errors = []
-    mirrored_warnings = []
+    lane_notices = []
     skills = graph.get("skills", []) if isinstance(graph, dict) else graph
     for skill in skills:
         skill_id = skill.get("id", "<unknown>")
@@ -368,8 +366,9 @@ def validate_benchmark_provenance(graph, strict=False):
             if provenance == "self-attested":
                 errors.append(
                     f"Skill '{skill_id}' evidence[{idx}] has provenance='self-attested' "
-                    f"— FOREVER rejected for benchmark-result rows. Use ci-reproduced, "
-                    f"verifier-attested, mirrored, or pending."
+                    f"— FOREVER rejected for benchmark-result rows. Use verified, "
+                    f"reported, or rejected (legacy aliases: ci-reproduced, "
+                    f"verifier-attested, mirrored, pending)."
                 )
             elif provenance == "pending":
                 # Superseded-pending carve-out (Sprint D W2b #905): a pending row is
@@ -381,28 +380,27 @@ def validate_benchmark_provenance(graph, strict=False):
                     for later_row in evidence_list[idx+1:]:
                         if (later_row.get("type") == "benchmark-result" and
                             later_row.get("benchmarkId") == benchmark_id and
-                            later_row.get("provenance") in ("ci-reproduced", "verifier-attested")):
+                            later_row.get("provenance") in ("verified", "ci-reproduced", "verifier-attested")):
                             is_superseded = True
                             break
                 
                 if not is_superseded:
                     message = (
                         f"Skill '{skill_id}' evidence[{idx}] has provenance='pending' "
-                        f"— must be promoted to ci-reproduced or verifier-attested "
+                        f"— must be promoted to verified/reported or rejected "
                         f"before landing on main."
                     )
                     if strict:
                         errors.append(message)
                     else:
-                        mirrored_warnings.append("(pending) " + message)
-            elif provenance == "mirrored":
-                mirrored_warnings.append(
-                    f"Skill '{skill_id}' evidence[{idx}] is mirrored — "
-                    f"citation-only, excluded from Trust Magnitude."
+                        lane_notices.append("(pending) " + message)
+            elif provenance == "rejected":
+                lane_notices.append(
+                    f"Skill '{skill_id}' evidence[{idx}] is rejected — no Trust Magnitude score."
                 )
-    if mirrored_warnings:
-        print(f"   ℹ  {len(mirrored_warnings)} benchmark provenance notice(s):")
-        for w in mirrored_warnings:
+    if lane_notices:
+        print(f"   ℹ  {len(lane_notices)} benchmark provenance notice(s):")
+        for w in lane_notices:
             print(f"      - {w}")
     return errors
 
