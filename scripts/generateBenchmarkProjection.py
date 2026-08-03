@@ -178,7 +178,7 @@ def buildBenchmarkFile(benchId: str, rows: list[dict[str, Any]], catalog: dict[s
         "scoresTrustMagnitude": bool(meta.get("scoresTrustMagnitude")),
         "allowedProvenance": meta.get("allowedProvenance", []),
     }
-    for key in ("sourceUrl", "sourceSnapshotDate", "harnessUrl"):
+    for key in ("sourceUrl", "sourceSnapshotDate", "harnessUrl", "appliesToGenericSkillRefs"):
         if key in meta:
             doc[key] = meta[key]
     doc["notes"] = meta.get("notes", "")
@@ -216,6 +216,8 @@ def buildIndexDoc(liveIds: list[str], catalog: dict[str, Any] | None = None) -> 
             "scoresTrustMagnitude": bool(meta.get("scoresTrustMagnitude")),
             "allowedProvenance": meta.get("allowedProvenance", []),
         }
+        if "appliesToGenericSkillRefs" in meta:
+            item["appliesToGenericSkillRefs"] = meta["appliesToGenericSkillRefs"]
         entries.append(item)
     return {
         "schemaVersion": SCHEMA_VERSION,

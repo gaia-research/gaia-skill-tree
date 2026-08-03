@@ -32,6 +32,12 @@ from scripts.generateBenchmarkProjection import (  # noqa: E402
 )
 
 
+def _catalog_with_generic_applicability() -> dict:
+    catalog = json.loads((REPO_ROOT / "registry" / "benchmark-sources.json").read_text(encoding="utf-8"))
+    catalog["benchmarks"][0]["appliesToGenericSkillRefs"] = ["code-generation", "test-driven-development"]
+    return catalog
+
+
 # ---------------------------------------------------------------------------
 # Unit tests — pure helpers
 # ---------------------------------------------------------------------------
@@ -88,6 +94,15 @@ class TestBuildBenchmarkFile:
         assert len(doc["rows"]) == 1
         assert doc["rows"][0]["skillId"] == "a/b"
 
+    def test_generic_applicability_metadata_is_preserved(self):
+        rows = [{"skillId": "a/b", "score": 0.5, "unit": "pass@1",
+                 "provenance": "ci-reproduced", "attestor": None,
+                 "datasetHash": None, "benchmarkInputHash": None,
+                 "runAt": None, "harnessUrl": None, "percentile": None,
+                 "modelRef": None, "notes": None}]
+        doc = buildBenchmarkFile("humaneval@v1.0", rows, catalog=_catalog_with_generic_applicability())
+        assert doc["appliesToGenericSkillRefs"] == ["code-generation", "test-driven-development"]
+
     def test_unknown_benchmark_rejected(self):
         with pytest.raises(BenchmarkCatalogError):
             buildBenchmarkFile("unknown@v9", [])
@@ -108,6 +123,10 @@ class TestBuildIndexDoc:
         assert doc["schemaVersion"] == "1.0.0"
         assert doc["benchmarks"][0]["status"] == "verified"
         assert doc["benchmarks"][0]["scoresTrustMagnitude"] is True
+
+    def test_generic_applicability_metadata_is_preserved(self):
+        doc = buildIndexDoc(["humaneval@v1.0"], catalog=_catalog_with_generic_applicability())
+        assert doc["benchmarks"][0]["appliesToGenericSkillRefs"] == ["code-generation", "test-driven-development"]
 
 
 # ---------------------------------------------------------------------------

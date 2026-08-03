@@ -25,7 +25,7 @@ Discovery may also identify better `repo-own` or `github-stars-own` sources, but
 
 ## Benchmark candidate handoff
 
-When discovery finds missing benchmark evidence, create a benchmark-source candidate record for Phase 2B review instead of appending a scoring `benchmark-result` row from a vendor page. The candidate should name the target skill, source URL, proposed `benchmarkId`, `status: candidate`, missing reproducibility fields, and notes. No discovered vendor page may become a scoring row until a human promotes the source in `registry/benchmark-sources.json` and approves `/gaia-ingest-batch`. Firecrawl-style vendor benchmark claims are candidate-only until reproducibility fields, allowed provenance, and human approval exist.
+When discovery finds missing benchmark evidence, create a benchmark-source candidate record for Phase 2B review instead of appending a scoring `benchmark-result` row from a vendor page. The candidate should name the target skill, source URL, proposed `benchmarkId`, proposed generic applicability (`appliesToGenericSkillRefs`) when known, `status: candidate`, missing reproducibility fields, and notes. No discovered vendor page may become a scoring row until a human promotes the source in `registry/benchmark-sources.json` and approves `/gaia-ingest-batch`. A promoted `registered` benchmark source is still generic-applicable, non-scoring catalog metadata only until a named `benchmark-result` row satisfies reproducibility fields and approved provenance. Firecrawl-style vendor benchmark claims are candidate-only or registered-only until reproducibility fields, allowed provenance, and human approval exist.
 
 ## Handoff to Phase 1
 
@@ -39,4 +39,5 @@ If one discovered peer-review source legitimately covers multiple named skills, 
 - Do not run as a broad web crawl without declared need.
 - Do not mutate registry files.
 - Do not append direct scoring `benchmark-result` rows from discovered vendor pages; route them through benchmark-source candidates and Phase 2B first.
+- Do not treat generic-applicable registered benchmark sources as Trust Magnitude evidence; they are non-scoring until a named row satisfies reproducibility and approved provenance.
 - Do not commit generated collector/by-type/report artifacts without a human gate.

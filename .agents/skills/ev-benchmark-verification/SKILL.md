@@ -13,13 +13,13 @@ Phase 2B runs after `/ev-star-verification` and before `/ev-adversarial-audit`. 
 `registry/benchmark-sources.json` is the allow-list for benchmark-source status. Valid statuses are:
 
 - `candidate` — motivating source only; no Trust Magnitude scoring.
-- `registered` — known source, not yet verified; citation only.
+- `registered` — known source accepted for one or more generic capability buckets; not yet verified; citation only and no Trust Magnitude scoring.
 - `mirrored` — external leaderboard snapshot; citation only.
 - `verified` — eligible to score only when provenance and reproducibility fields satisfy the catalog entry.
 - `rejected` — must not be used.
 - `retired` — must not be used for new scoring.
 
-Only rows backed by a `verified` catalog source, allowed scoring provenance, and complete reproducibility fields may count toward Trust Magnitude. Candidate, registered, mirrored, rejected, retired, unknown, or incomplete rows are not scoring rows.
+Only rows backed by a `verified` catalog source, allowed scoring provenance, and complete reproducibility fields may count toward Trust Magnitude. Candidate, registered, mirrored, rejected, retired, unknown, or incomplete rows are not scoring rows. Registered benchmark sources may carry `appliesToGenericSkillRefs` to record which generic skill IDs the benchmark applies to; that generic-applicability metadata does not create a named-skill score, does not imply a vendor claim is verified, and does not score until a named `benchmark-result` row independently satisfies reproducibility and approved provenance.
 
 ## Command
 

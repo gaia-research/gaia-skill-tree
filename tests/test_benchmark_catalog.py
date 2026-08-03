@@ -84,6 +84,28 @@ def test_projection_metadata_is_catalog_driven():
     assert meta["allowedProvenance"] == ["ci-reproduced", "verifier-attested"]
 
 
+def test_projection_metadata_preserves_generic_applicability():
+    catalog = loadBenchmarkCatalog(REPO_ROOT)
+    by_id = {entry["id"]: entry for entry in catalog["benchmarks"]}
+    entry = dict(by_id["humaneval@v1.0"])
+    entry["appliesToGenericSkillRefs"] = ["code-generation", "test-driven-development"]
+    meta = projectionMetadata(entry)
+    assert meta["appliesToGenericSkillRefs"] == ["code-generation", "test-driven-development"]
+
+
+def test_catalog_schema_accepts_unique_generic_applicability_refs():
+    catalog = json.loads((REPO_ROOT / "registry" / "benchmark-sources.json").read_text(encoding="utf-8"))
+    catalog["benchmarks"][0]["appliesToGenericSkillRefs"] = ["code-generation", "test-driven-development"]
+    validateBenchmarkCatalog(catalog, REPO_ROOT / "registry" / "schema" / "benchmarkSourceCatalog.schema.json")
+
+
+def test_catalog_schema_rejects_duplicate_or_invalid_generic_applicability_refs():
+    catalog = json.loads((REPO_ROOT / "registry" / "benchmark-sources.json").read_text(encoding="utf-8"))
+    catalog["benchmarks"][0]["appliesToGenericSkillRefs"] = ["CodeGeneration", "code-generation", "code-generation"]
+    with pytest.raises(BenchmarkCatalogError):
+        validateBenchmarkCatalog(catalog, REPO_ROOT / "registry" / "schema" / "benchmarkSourceCatalog.schema.json")
+
+
 def test_scoring_eligibility_requires_verified_catalog_and_required_fields():
     catalog = loadBenchmarkCatalog(REPO_ROOT)
     assert isBenchmarkScoringEligible(_eligible_row(), catalog=catalog) is True

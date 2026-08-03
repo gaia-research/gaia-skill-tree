@@ -214,7 +214,7 @@ def projectionMetadata(entry: dict[str, Any]) -> dict[str, Any]:
         "scoresTrustMagnitude": bool(scoring.get("scoresTrustMagnitude")),
         "allowedProvenance": list(scoring.get("allowedProvenance") or []),
     }
-    for key in ("sourceUrl", "sourceSnapshotDate", "harnessUrl", "notes"):
+    for key in ("sourceUrl", "sourceSnapshotDate", "harnessUrl", "notes", "appliesToGenericSkillRefs"):
         if key in entry:
             out[key] = entry[key]
     return out
