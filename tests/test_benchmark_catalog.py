@@ -42,12 +42,22 @@ def _eligible_row(**overrides):
 def test_catalog_loads_and_validates_from_source_checkout():
     catalog = loadBenchmarkCatalog(REPO_ROOT)
     ids = {entry["id"] for entry in catalog["benchmarks"]}
-    assert ids == {"humaneval@v1.0", "mmlu@2024-03"}
+    assert ids == {"alphaxiv-arxivqa@v1.0", "humaneval@v1.0", "mmlu@2024-03"}
 
 
 def test_catalog_shape_humaneval_verified_push_enabled_mmlu_mirrored_not_scoring():
     catalog = loadBenchmarkCatalog(REPO_ROOT)
     by_id = {entry["id"]: entry for entry in catalog["benchmarks"]}
+
+    alphaxiv = by_id["alphaxiv-arxivqa@v1.0"]
+    assert alphaxiv["status"] == "registered"
+    assert alphaxiv["mode"] == "external"
+    assert alphaxiv["unit"] == "pct"
+    assert alphaxiv["defaultProvenance"] == "pending"
+    assert alphaxiv["appliesToGenericSkillRefs"] == ["literature-search"]
+    assert alphaxiv["push"]["enabled"] is False
+    assert alphaxiv["scoring"]["scoresTrustMagnitude"] is False
+    assert alphaxiv["scoring"]["allowedProvenance"] == ["pending"]
 
     humaneval = by_id["humaneval@v1.0"]
     assert humaneval["status"] == "verified"
@@ -117,6 +127,7 @@ def test_scoring_eligibility_requires_verified_catalog_and_required_fields():
 
 def test_catalog_schema_rejects_nonverified_scoring(tmp_path):
     catalog = json.loads((REPO_ROOT / "registry" / "benchmark-sources.json").read_text(encoding="utf-8"))
-    catalog["benchmarks"][1]["scoring"]["scoresTrustMagnitude"] = True
+    entry = next(item for item in catalog["benchmarks"] if item["id"] == "alphaxiv-arxivqa@v1.0")
+    entry["scoring"]["scoresTrustMagnitude"] = True
     with pytest.raises(BenchmarkCatalogError):
         validateBenchmarkCatalog(catalog, REPO_ROOT / "registry" / "schema" / "benchmarkSourceCatalog.schema.json")
