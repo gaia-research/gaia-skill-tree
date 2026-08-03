@@ -318,6 +318,22 @@
     Their <code>grade</code> field is stripped at CLI write time so they are never
     visually presented as if they were graded.</p>
 
+    <p>Schema-valid does not automatically mean scoring-valid. Phase 2B of
+    <code>/ev-pipeline</code> checks each <code>benchmark-result</code> row against
+    <code>registry/benchmark-sources.json</code>: only catalog entries with
+    <code>status: verified</code>, allowed scoring provenance, and complete
+    reproducibility fields may count toward Trust Magnitude. Candidate,
+    registered, mirrored, rejected, retired, unknown, or incomplete sources are
+    rendered as citation-only, pending, or blocked instead of scoring rows.</p>
+
+    <div class="callout">
+      Machines classify; humans promote. After Phase 2B catalog verification,
+      adversarial audit, and link validation, a human reviewer must approve any
+      benchmark catalog promotion and any <code>benchmark-result</code> ingestion.
+      Firecrawl/Tessl-style vendor pages stay candidate-only unless the catalog
+      entry and reproducibility fields exist.
+    </div>
+
     <h2><span class="h2-num">04</span>Adding a new benchmark</h2>
 
     <ol>

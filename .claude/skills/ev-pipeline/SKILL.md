@@ -1,7 +1,7 @@
 ---
 name: ev-pipeline
 description: >
-  Top-level orchestrator for the Gaia Skill Tree evidence verification pipeline. Run this when you want to do a full evidence pass — collecting raw sources, verifying live GitHub star counts, adversarially auditing for quality/formatting issues, and checking that every URL is reachable — all in one coordinated sequence. Trigger phrases: "run the evidence pipeline", "full evidence pass", "verify evidence", "evidence verification pipeline", "run ev-pipeline", "check all evidence", "audit the data lake", "evidence quality sweep", "refresh evidence", "validate evidence sources". Also aliased as /evidence-verification-pipeline. Use the individual sub-skills (ev-collection, ev-star-verification, ev-adversarial-audit, ev-link-validation) only when you need to re-run one phase in isolation; for end-to-end work, always start here.
+  Top-level orchestrator for the Gaia Skill Tree evidence verification pipeline. Run this when you want to do a full evidence pass — collecting raw sources, verifying live GitHub star counts, running Phase 2B benchmark-source verification, adversarially auditing for quality/formatting issues, and checking that every URL is reachable — all in one coordinated sequence. Trigger phrases: "run the evidence pipeline", "full evidence pass", "verify evidence", "evidence verification pipeline", "run ev-pipeline", "check all evidence", "audit the data lake", "evidence quality sweep", "refresh evidence", "validate evidence sources". Also aliased as /evidence-verification-pipeline. Use the individual sub-skills (ev-collection, ev-star-verification, ev-adversarial-audit, ev-link-validation) only when you need to re-run one phase in isolation; for end-to-end work, always start here.
 ---
 
 # Evidence Verification Pipeline (ev-pipeline)
@@ -30,7 +30,8 @@ The packet contract is `peer-review`-only, expands to one temporary row per revi
 graph TD
     Phase0[Phase 0: ev-discovery (skippable)] -->|Append discovered rows| A
     A[Phase 1: ev-collection] -->|Materialize + compile by evidence type| B[Phase 2: ev-star-verification]
-    B -->|Verify live stars, no rank repartition| C[Phase 3: ev-adversarial-audit]
+    B -->|Verify live stars, no rank repartition| B2[Phase 2B: ev-benchmark-verification]
+    B2 -->|Classify benchmark sources + candidate manifests| C[Phase 3: ev-adversarial-audit]
     C -->|Audit by-type files| D[Phase 4: ev-link-validation]
     D -->|Validate URL health| E[Source Report & Ingestion Handoff]
 ```
@@ -40,12 +41,13 @@ graph TD
 - **Phase 0 — `ev-discovery` (skippable):** searches for new Stage-2 evidence on declared need and appends discovered rows into source inputs for Phase 1. It does not score or rank evidence.
 - **Phase 1 — `ev-collection`:** materializes primary partitions under `evidence/by-type/` and compiles `evidence/unified_evidence_lake.md` from those by-type files. It may emit `tier_*.md` only as coexistence output.
 - **Phase 2 — `ev-star-verification`:** verifies live GitHub stargazer counts and records stale/inflated metrics. It must not repartition the lake by rank; by-type partitions remain primary.
-- **Phase 3 — `ev-adversarial-audit`:** audits by-type files for bad URLs, subjective wording, proxy/source mismatches, stale notes, and star/evidence inconsistencies.
+- **Phase 2B — `ev-benchmark-verification`:** verifies `benchmark-result` rows and optional candidate manifests against `registry/benchmark-sources.json`. It classifies scoring eligibility, citation-only/pending/candidate-only rows, rejected/retired usage, unknown benchmarkIds, missing reproducibility fields, and missing/dubious percentiles without mutating the registry.
+- **Phase 3 — `ev-adversarial-audit`:** audits by-type files for bad URLs, subjective wording, proxy/source mismatches, stale notes, benchmark catalog misuse/vendor-claim leakage, and star/evidence inconsistencies.
 - **Phase 4 — `ev-link-validation`:** validates URL health. `validate_sources.py` remains a temporary coexistence URL-health shim while the lake is type-first.
 
 ## Additive loop — no green gate
 
-Evidence is additive, not pass/fail. New rows can arrive from Stage 1 minimum rows (`github-stars-own`, `repo-own`, `self-attestation`) or from skippable Phase 0 discovery (`benchmark-result`, `arxiv`, `peer-review`, richer `social-signal`). The only human gate is L4 at ingestion; Trust Magnitude and rank are recomputed at appraisal time.
+Evidence is additive, not pass/fail. New rows can arrive from Stage 1 minimum rows (`github-stars-own`, `repo-own`, `self-attestation`) or from skippable Phase 0 discovery (`benchmark-result`, `arxiv`, `peer-review`, richer `social-signal`). Benchmark rows add a dedicated human gate: after Phase 2B, Phase 3, and Phase 4, humans must approve benchmark catalog promotion or `/gaia-ingest-batch`; machines classify, humans promote. Trust Magnitude and rank are recomputed at appraisal time.
 
 ## Outputs and Handoff
 

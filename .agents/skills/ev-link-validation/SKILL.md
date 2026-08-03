@@ -6,7 +6,7 @@ description: >
 
 # Link Validation (ev-link-validation)
 
-Phase 4 validates URL health after by-type collection, live star verification, and adversarial audit.
+Phase 4 validates URL health after by-type collection, live star verification, Phase 2B benchmark-source verification, and adversarial audit.
 
 ## Type-First Evidence Lake Contract (#1148)
 
@@ -20,6 +20,8 @@ The evidence lake is **type-first**. The primary working set is `evidence/by-typ
 python evidence/scripts/validate_sources.py
 ```
 
+For benchmark rows, include every row/source URL plus catalog-level `sourceUrl`, `methodologyUrl`, `harnessUrl`, attestor URLs, and any candidate manifest methodology/attestor links in the URL-health pass.
+
 For a small sample:
 
 ```bash
@@ -28,4 +30,4 @@ python evidence/scripts/validate_sources.py 10
 
 ## Output
 
-Write Firecrawl validation findings to the verification report and append a summary to the source report. For #1418 scratch multi-target peer-review partitions, validate the repeated URL once per reviewed skill row in `peer-review.md` when the source legitimately covers each target; the repetition is expected, not duplicate-noise by itself. Do not commit generated validation reports, scratch manifests, or generated partitions without human approval. Hand only live, correctly scoped rows to ingestion.
+Write Firecrawl validation findings to the verification report and append a summary to the source report. Benchmark-source candidates remain candidate-only until Phase 2B findings, adversarial findings, and link-health results are reviewed by a human. For #1418 scratch multi-target peer-review partitions, validate the repeated URL once per reviewed skill row in `peer-review.md` when the source legitimately covers each target; the repetition is expected, not duplicate-noise by itself. Do not commit generated validation reports, scratch manifests, or generated partitions without human approval. Hand only live, correctly scoped rows to ingestion.

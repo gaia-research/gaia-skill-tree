@@ -1,7 +1,7 @@
 ---
 name: ev-adversarial-audit
 description: >
-  Run this skill for Phase 3 of the evidence verification pipeline — the adversarial audit step. Use when you need to check the evidence data lake for bad data before ingestion: dead links, wrong URL formats (tree/ vs blob/), subjective wording ("elite", "high-quality"), stale migration notes, or skills whose star evidence conflicts with classified evidence level. Triggers on phrases like: "audit the data lake", "adversarial check", "ev-adversarial-audit", "check for noise in evidence", "flag bad evidence", "run the audit phase", "quality check the by-type files", or any reference to Phase 3 of the pipeline.
+  Run this skill for Phase 3 of the evidence verification pipeline — the adversarial audit step. Use when you need to check the evidence data lake for bad data before ingestion: dead links, wrong URL formats (tree/ vs blob/), subjective wording ("elite", "high-quality"), stale migration notes, benchmark catalog misuse/vendor-claim leakage, or skills whose star evidence conflicts with classified evidence level. Triggers on phrases like: "audit the data lake", "adversarial check", "ev-adversarial-audit", "check for noise in evidence", "flag bad evidence", "run the audit phase", "quality check the by-type files", or any reference to Phase 3 of the pipeline.
 ---
 
 # Adversarial Evidence Audit (ev-adversarial-audit)
@@ -27,6 +27,7 @@ Split reviewer work across `evidence/by-type/<type>.md` files, not tier files. S
 - Subjective/evaluative wording not supported by the source.
 - Evidence type mismatches or legacy alias leakage.
 - Star evidence that conflicts with live verification notes from Phase 2.
+- Benchmark catalog misuse after Phase 2B: `benchmark-result` rows citing unknown, candidate, registered, rejected, or retired sources as if they score; vendor claims presented as reproducible benchmarks; scoring provenance on non-verified catalog entries; missing reproducibility fields or missing/dubious percentile values.
 - Stale migration notes that still treat `tier_*.md` as the semantic working set.
 - Multi-target peer-review packet misuse: wrong `evidenceType`, empty `targets`, invalid `skillId`, duplicate `(source.url, skillId, evidenceType)` rows, or forbidden strength/scoring fields (`trustNumber`, `grade`, `class`, `tier`, `level`, `stars`, `rank`).
 

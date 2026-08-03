@@ -4,7 +4,7 @@ description: >-
   Batch wrapper for /gaia-ingest. Ingests a bounded set of already-verified
   evidence rows through CLI-only writes, uses --no-build on every row, appraises
   Trust Magnitude for every affected named skill, then runs exactly one build and
-  validation pass. Use for an L4-approved intake after /ev-pipeline.
+  validation pass. Use for an L4-approved intake after /ev-pipeline; benchmark-result rows also require a Phase 2B report and explicit human gate approval.
 version: 1.0.0
 argument-hint: "<verified-evidence-manifest>"
 ---
@@ -33,12 +33,18 @@ rows:
 The manifest must state a source URL, Evidence Type, source-start date,
 verifiable numeric payload, factual notes, and attribution scope for every row.
 Exclude any deferred candidate. Never infer an Evidence Type or a metric from a
-summary.
+summary. For `benchmark-result`, attach the Phase 2B benchmark-source report and
+human approval showing the catalog source is `verified`, provenance is allowed,
+and reproducibility fields plus percentile are present; candidate/registered/
+mirrored/rejected/retired/unknown benchmark sources must not enter ingestion as
+scoring rows.
 
 ## Procedure
 
 1. Verify `/ev-pipeline` completed for the manifest’s sources and link health
    is recorded. Reject dead, unverified, duplicate, or scope-mismatched rows.
+   For `benchmark-result`, require Phase 2B + Phase 3 + Phase 4 completion and
+   explicit human gate approval before any row is ingested.
 2. For each row, invoke the `/gaia-ingest` contract and execute its exact
    `gaia dev evidence ... --no-build` command. Process one row at a time and
    stop on the first CLI preflight or source-verification failure.
