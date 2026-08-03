@@ -35,6 +35,23 @@ from gaia_cli.trustMagnitude import (
 from gaia_cli.promotion import _passes_rank_floor
 
 
+def _verified_benchmark_row(**overrides):
+    row = {
+        "type": "benchmark-result",
+        "benchmarkId": "humaneval@v1.0",
+        "score": 0.75,
+        "unit": "pass@1",
+        "runAt": "2026-07-06T10:44:08Z",
+        "provenance": "ci-reproduced",
+        "attestor": "https://github.com/gaia-research/gaia-skill-tree/actions/runs/1@abc1234",
+        "datasetHash": "a" * 64,
+        "benchmarkInputHash": "b" * 64,
+        "percentile": 90,
+    }
+    row.update(overrides)
+    return row
+
+
 # ---------------------------------------------------------------------------
 # Batch A: Per-type magnitude (10 tests, one per RFC §2 evidence type)
 # ---------------------------------------------------------------------------
@@ -78,7 +95,7 @@ def test_verifier_attestation_magnitude_per_verifier():
 
 def test_benchmark_result_magnitude_is_percentile():
     """RFC §2.6: m = percentile. weight=1.4. Cap 100."""
-    row = {"type": "benchmark-result", "percentile": 90}
+    row = _verified_benchmark_row(percentile=90)
     # 90 capped at 100, weight 1.4 => 126
     assert computeArtifactScore(row) == pytest.approx(126.0)
 

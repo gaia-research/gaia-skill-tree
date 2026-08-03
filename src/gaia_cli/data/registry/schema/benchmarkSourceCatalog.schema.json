@@ -1,0 +1,168 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://gaiaskilltree.com/schema/benchmarkSourceCatalog.schema.json",
+  "title": "Gaia benchmark source catalog",
+  "description": "Canonical allow-list of benchmark sources and benchmarkId metadata. This catalog does not alter the benchmark-result evidence row schema; it controls projection metadata, gaia push --benchmark aliases, and Trust Magnitude scoring eligibility.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "benchmarks"],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "benchmarks": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/definitions/benchmarkSource" }
+    }
+  },
+  "definitions": {
+    "provenance": {
+      "type": "string",
+      "enum": ["verifier-attested", "ci-reproduced", "mirrored", "pending"]
+    },
+    "status": {
+      "type": "string",
+      "enum": ["candidate", "registered", "mirrored", "verified", "rejected", "retired"]
+    },
+    "unit": {
+      "type": "string",
+      "enum": ["pct", "pass@1", "pass@10", "bleu", "f1", "accuracy", "elo", "raw"]
+    },
+    "benchmarkSource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "status",
+        "mode",
+        "unit",
+        "sourceUrl",
+        "methodologyUrl",
+        "aliases",
+        "scoring",
+        "push"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9\\-_/]*@v?\\d+(\\.\\d+)?(\\.\\d+)?(-[a-z0-9\\-_.]+)?$"
+        },
+        "name": { "type": "string", "minLength": 1 },
+        "status": { "$ref": "#/definitions/status" },
+        "mode": {
+          "type": "string",
+          "enum": ["internal-ci", "mirrored", "external", "manual"]
+        },
+        "unit": { "$ref": "#/definitions/unit" },
+        "sourceUrl": { "type": "string", "format": "uri" },
+        "sourceSnapshotDate": { "type": "string", "format": "date" },
+        "methodologyUrl": { "type": "string", "minLength": 1 },
+        "harnessUrl": { "type": "string", "format": "uri" },
+        "dataset": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "name": { "type": "string" },
+            "version": { "type": "string" },
+            "sourceUrl": { "type": "string", "format": "uri" }
+          }
+        },
+        "aliases": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[a-z][a-z0-9_-]*$" },
+          "uniqueItems": true
+        },
+        "defaultProvenance": { "$ref": "#/definitions/provenance" },
+        "notes": { "type": "string" },
+        "scoring": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["scoresTrustMagnitude", "allowedProvenance"],
+          "properties": {
+            "scoresTrustMagnitude": { "type": "boolean" },
+            "allowedProvenance": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/provenance" },
+              "uniqueItems": true
+            },
+            "requiredFields": {
+              "type": "array",
+              "items": { "type": "string" },
+              "uniqueItems": true
+            }
+          },
+          "allOf": [
+            {
+              "if": { "properties": { "scoresTrustMagnitude": { "const": true } }, "required": ["scoresTrustMagnitude"] },
+              "then": {
+                "properties": {
+                  "allowedProvenance": {
+                    "items": { "enum": ["verifier-attested", "ci-reproduced"] },
+                    "minItems": 1
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "push": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["enabled"],
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "aliases": {
+              "type": "array",
+              "items": { "type": "string", "pattern": "^[a-z][a-z0-9_-]*$" },
+              "uniqueItems": true
+            }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "status": { "const": "mirrored" } }, "required": ["status"] },
+          "then": {
+            "properties": {
+              "mode": { "const": "mirrored" },
+              "defaultProvenance": { "const": "mirrored" },
+              "scoring": {
+                "properties": {
+                  "scoresTrustMagnitude": { "const": false },
+                  "allowedProvenance": { "const": ["mirrored"] }
+                }
+              },
+              "push": { "properties": { "enabled": { "const": false } } }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "status": { "not": { "const": "verified" } } }, "required": ["status"] },
+          "then": {
+            "properties": {
+              "scoring": { "properties": { "scoresTrustMagnitude": { "const": false } } },
+              "push": { "properties": { "enabled": { "const": false } } }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "push": { "properties": { "enabled": { "const": true } }, "required": ["enabled"] } }, "required": ["push"] },
+          "then": {
+            "properties": {
+              "status": { "const": "verified" },
+              "mode": { "const": "internal-ci" },
+              "push": { "required": ["aliases"], "properties": { "aliases": { "minItems": 1 } } }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "scoring": { "properties": { "scoresTrustMagnitude": { "const": true } }, "required": ["scoresTrustMagnitude"] } }, "required": ["scoring"] },
+          "then": { "properties": { "status": { "const": "verified" } } }
+        }
+      ]
+    }
+  }
+}

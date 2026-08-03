@@ -88,9 +88,11 @@ gaia_cli = [
     "tui/theme.tcss",
     "data/registry/gaia.json",
     "data/registry/named-skills.json",
+    "data/registry/benchmark-sources.json",
     "data/registry/named/**/*.md",
     "data/registry/named/**/*.json",
     "data/registry/schema/*.json",
+    "data/registry/schema/evidence/*.json",
 ]
 
 [tool.pytest.ini_options]

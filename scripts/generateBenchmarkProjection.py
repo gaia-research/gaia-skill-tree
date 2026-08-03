@@ -42,6 +42,13 @@ import sys
 from pathlib import Path
 from typing import Any
 
+from gaia_cli.benchmarkCatalog import (
+    BenchmarkCatalogError,
+    benchmarkEntriesById,
+    loadBenchmarkCatalog,
+    projectionMetadata,
+)
+
 try:
     import yaml  # type: ignore
 except ImportError:
@@ -52,37 +59,6 @@ NAMED_DIR = REPO_ROOT / "registry" / "named"
 DEFAULT_OUT = REPO_ROOT / "docs" / "api" / "v1" / "benchmarks"
 
 SCHEMA_VERSION = "1.0.0"
-
-# Known benchmark metadata: id -> {name, unit, provenance, sourceUrl, methodologyUrl, notes}
-BENCHMARK_META: dict[str, dict[str, Any]] = {
-    "humaneval@v1.0": {
-        "name": "HumanEval",
-        "unit": "pass@1",
-        "provenance": "ci-reproduced",
-        "sourceUrl": "https://github.com/openai/human-eval",
-        "methodologyUrl": "/benchmarks/humaneval-v1/",
-        "notes": (
-            "Python function-completion benchmark (164 problems). Gaia reproduces "
-            "via CI harness; each row carries a datasetHash + benchmarkInputHash. "
-            "ci-reproduced rows count toward Trust Magnitude. pending rows are "
-            "awaiting first CI reproduction run."
-        ),
-    },
-    "mmlu@2024-03": {
-        "name": "MMLU (Massive Multitask Language Understanding)",
-        "unit": "pct",
-        "provenance": "mirrored",
-        "sourceUrl": "https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard",
-        "sourceSnapshotDate": "2024-03-01",
-        "methodologyUrl": "/benchmarks/mmlu-v1/",
-        "notes": (
-            "5-shot MMLU average scores sourced from the HuggingFace Open LLM "
-            "Leaderboard snapshot dated 2024-03-01. Provenance is 'mirrored': "
-            "these rows are citation-only and are permanently excluded from Trust "
-            "Magnitude. See methodologyUrl for the full provenance rationale."
-        ),
-    },
-}
 
 
 # ---------------------------------------------------------------------------
@@ -179,10 +155,16 @@ def collectBenchmarkRows() -> dict[str, list[dict[str, Any]]]:
 # File builders
 # ---------------------------------------------------------------------------
 
-def buildBenchmarkFile(benchId: str, rows: list[dict[str, Any]]) -> dict[str, Any]:
+def buildBenchmarkFile(benchId: str, rows: list[dict[str, Any]], catalog: dict[str, Any] | None = None) -> dict[str, Any]:
     """Build the full JSON dict for a benchmark file."""
-    slug = benchId.split("@")[0] if "@" in benchId else benchId
-    meta = BENCHMARK_META.get(benchId, {})
+    activeCatalog = catalog if catalog is not None else loadBenchmarkCatalog(REPO_ROOT)
+    entry = benchmarkEntriesById(activeCatalog).get(benchId)
+    if entry is None:
+        raise BenchmarkCatalogError(
+            f"benchmark-result row references unknown benchmarkId {benchId!r}; "
+            "add it to registry/benchmark-sources.json before generating projections"
+        )
+    meta = projectionMetadata(entry)
 
     doc: dict[str, Any] = {
         "schemaVersion": SCHEMA_VERSION,
@@ -190,12 +172,15 @@ def buildBenchmarkFile(benchId: str, rows: list[dict[str, Any]]) -> dict[str, An
         "name": meta.get("name", benchId),
         "unit": meta.get("unit", ""),
         "provenance": meta.get("provenance", ""),
-        "methodologyUrl": meta.get("methodologyUrl", f"/benchmarks/{slug}-v1/"),
+        "methodologyUrl": meta.get("methodologyUrl", f"/benchmarks/{benchmarkSlug(benchId)}-v1/"),
+        "status": meta.get("status", ""),
+        "mode": meta.get("mode", ""),
+        "scoresTrustMagnitude": bool(meta.get("scoresTrustMagnitude")),
+        "allowedProvenance": meta.get("allowedProvenance", []),
     }
-    if "sourceUrl" in meta:
-        doc["sourceUrl"] = meta["sourceUrl"]
-    if "sourceSnapshotDate" in meta:
-        doc["sourceSnapshotDate"] = meta["sourceSnapshotDate"]
+    for key in ("sourceUrl", "sourceSnapshotDate", "harnessUrl"):
+        if key in meta:
+            doc[key] = meta[key]
     doc["notes"] = meta.get("notes", "")
     doc["rows"] = rows
     return doc
@@ -206,19 +191,32 @@ def benchmarkSlug(benchId: str) -> str:
     return benchId.split("@")[0] if "@" in benchId else benchId
 
 
-def buildIndexDoc(liveIds: list[str]) -> dict[str, Any]:
+def buildIndexDoc(liveIds: list[str], catalog: dict[str, Any] | None = None) -> dict[str, Any]:
     """Build the index.json document listing all live benchmarks."""
+    activeCatalog = catalog if catalog is not None else loadBenchmarkCatalog(REPO_ROOT)
+    byId = benchmarkEntriesById(activeCatalog)
     entries = []
     for benchId in sorted(liveIds):
         slug = benchmarkSlug(benchId)
-        meta = BENCHMARK_META.get(benchId, {})
-        entries.append({
+        entry = byId.get(benchId)
+        if entry is None:
+            raise BenchmarkCatalogError(
+                f"benchmark projection index references unknown benchmarkId {benchId!r}; "
+                "add it to registry/benchmark-sources.json"
+            )
+        meta = projectionMetadata(entry)
+        item = {
             "id": benchId,
             "name": meta.get("name", benchId),
             "provenance": meta.get("provenance", ""),
             "leaderboardUrl": f"/api/v1/benchmarks/{slug}.json",
             "methodologyUrl": meta.get("methodologyUrl", f"/benchmarks/{slug}-v1/"),
-        })
+            "status": meta.get("status", ""),
+            "mode": meta.get("mode", ""),
+            "scoresTrustMagnitude": bool(meta.get("scoresTrustMagnitude")),
+            "allowedProvenance": meta.get("allowedProvenance", []),
+        }
+        entries.append(item)
     return {
         "schemaVersion": SCHEMA_VERSION,
         "generatedAt": None,
@@ -233,12 +231,13 @@ def buildIndexDoc(liveIds: list[str]) -> dict[str, Any]:
 def generate(outDir: Path) -> dict[str, bytes]:
     """Collect evidence and return {relative_filename: json_bytes} to write."""
     buckets = collectBenchmarkRows()
+    catalog = loadBenchmarkCatalog(REPO_ROOT)
     outFiles: dict[str, bytes] = {}
 
     # Write per-benchmark files.
     for benchId, rows in buckets.items():
         slug = benchmarkSlug(benchId)
-        doc = buildBenchmarkFile(benchId, rows)
+        doc = buildBenchmarkFile(benchId, rows, catalog)
         outFiles[f"{slug}.json"] = (json.dumps(doc, indent=2, ensure_ascii=False) + "\n").encode()
 
     # Update index.json: merge existing non-registry benchmarks with collected ones.
@@ -252,7 +251,7 @@ def generate(outDir: Path) -> dict[str, bytes]:
 
     existingIds = {e["id"] for e in existingIndex.get("benchmarks", [])}
     liveIds = set(buckets.keys()) | existingIds
-    indexDoc = buildIndexDoc(sorted(liveIds))
+    indexDoc = buildIndexDoc(sorted(liveIds), catalog)
     outFiles["index.json"] = (json.dumps(indexDoc, indent=2, ensure_ascii=False) + "\n").encode()
 
     return outFiles

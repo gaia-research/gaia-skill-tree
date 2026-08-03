@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "1.0.0",
+  "benchmarks": [
+    {
+      "id": "humaneval@v1.0",
+      "name": "HumanEval",
+      "status": "verified",
+      "mode": "internal-ci",
+      "unit": "pass@1",
+      "sourceUrl": "https://github.com/openai/human-eval",
+      "methodologyUrl": "/benchmarks/humaneval-v1/",
+      "harnessUrl": "https://github.com/gaia-research/gaia-skill-tree/tree/main/scripts/benchmarks/humaneval",
+      "dataset": {
+        "name": "HumanEval",
+        "version": "v1.0",
+        "sourceUrl": "https://github.com/openai/human-eval"
+      },
+      "aliases": ["humaneval"],
+      "defaultProvenance": "ci-reproduced",
+      "scoring": {
+        "scoresTrustMagnitude": true,
+        "allowedProvenance": ["ci-reproduced", "verifier-attested"],
+        "requiredFields": [
+          "benchmarkId",
+          "score",
+          "unit",
+          "runAt",
+          "provenance",
+          "attestor",
+          "datasetHash",
+          "benchmarkInputHash",
+          "percentile"
+        ]
+      },
+      "push": {
+        "enabled": true,
+        "aliases": ["humaneval"]
+      },
+      "notes": "Python function-completion benchmark (164 problems). Gaia reproduces via an internal CI harness; each row carries datasetHash + benchmarkInputHash. ci-reproduced and verifier-attested rows may count toward Trust Magnitude when all required scoring fields are present. pending rows are awaiting first CI reproduction run."
+    },
+    {
+      "id": "mmlu@2024-03",
+      "name": "MMLU (Massive Multitask Language Understanding)",
+      "status": "mirrored",
+      "mode": "mirrored",
+      "unit": "pct",
+      "sourceUrl": "https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard",
+      "sourceSnapshotDate": "2024-03-01",
+      "methodologyUrl": "/benchmarks/mmlu-v1/",
+      "aliases": [],
+      "defaultProvenance": "mirrored",
+      "scoring": {
+        "scoresTrustMagnitude": false,
+        "allowedProvenance": ["mirrored"],
+        "requiredFields": []
+      },
+      "push": {
+        "enabled": false,
+        "aliases": []
+      },
+      "notes": "5-shot MMLU average scores sourced from the HuggingFace Open LLM Leaderboard snapshot dated 2024-03-01. Provenance is mirrored: these rows are citation-only and are permanently excluded from Trust Magnitude."
+    }
+  ]
+}

@@ -25,13 +25,7 @@ import json
 import sys
 from pathlib import Path
 
-
-# Frozen short-name → versioned benchmarkId map. Extending this is a
-# coordinated schema change (a new benchmarkId lands in registry/schema/,
-# a new harness lands in scripts/benchmarks/<name>/, then a row lands here).
-BENCHMARK_ID_ALIASES: dict[str, str] = {
-    "humaneval": "humaneval@v1.0",
-}
+from gaia_cli.benchmarkCatalog import BenchmarkCatalogError, loadBenchmarkCatalog, pushAliasMap, resolveBenchmarkAlias
 
 
 def _fail(msg: str, fix: str | None = None) -> None:
@@ -45,28 +39,28 @@ def _fail(msg: str, fix: str | None = None) -> None:
 def _resolveBenchmarkId(shortName: str, fromFileId: str | None = None) -> str:
     """Turn a --benchmark short-name into a canonical versioned id.
 
-    If the result file already carries a `benchmarkId`, that value wins —
-    but we assert its short-name prefix matches so callers cannot silently
-    push a swe-bench result under a --benchmark humaneval flag.
+    If the result file already carries a `benchmarkId`, it must exactly match
+    the catalog id selected by the push-enabled alias so callers cannot silently
+    push an unregistered benchmark version under a supported short-name flag.
     """
-    canonical = BENCHMARK_ID_ALIASES.get(shortName)
-    if canonical is None:
+    try:
+        return resolveBenchmarkAlias(shortName, fromFileId, root=Path.cwd())
+    except BenchmarkCatalogError as exc:
+        try:
+            aliases = pushAliasMap(loadBenchmarkCatalog(Path.cwd()))
+            supported = ", ".join(sorted(aliases)) or "<none>"
+        except BenchmarkCatalogError:
+            supported = "<catalog unavailable>"
+        msg = str(exc)
+        if msg.startswith("unknown --benchmark"):
+            _fail(
+                f"unknown --benchmark {shortName!r}",
+                fix=f"Supported: {supported}. Add a verified/internal catalog entry in registry/benchmark-sources.json alongside a harness in scripts/benchmarks/<name>/.",
+            )
         _fail(
-            f"unknown --benchmark {shortName!r}",
-            fix=f"Supported: {', '.join(sorted(BENCHMARK_ID_ALIASES))}. "
-                "Add a new alias in src/gaia_cli/commands/pushBenchmark.py alongside a "
-                "harness in scripts/benchmarks/<name>/.",
+            msg,
+            fix="The short-name flag must match the benchmarkId embedded in the result file, or omit --benchmark and let the file speak.",
         )
-    if fromFileId is None:
-        return canonical
-    fileShort = fromFileId.split("@", 1)[0]
-    if fileShort != shortName:
-        _fail(
-            f"--benchmark {shortName!r} disagrees with result file benchmarkId {fromFileId!r}",
-            fix="The short-name flag must match the benchmarkId embedded in the "
-                "result file, or omit --benchmark and let the file speak.",
-        )
-    return fromFileId
 
 
 def _loadResultFile(path: Path) -> dict:
