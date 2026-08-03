@@ -100,7 +100,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     │  │  ├─ ○ firecrawl/firecrawl-build-search  [4★]
     │  │  ├─ ○ /summarize
 
-(266 skills total — see docs/tree.md)
+(267 skills total — see docs/tree.md)
 ```
 <!-- gaia:registry-end -->
 
