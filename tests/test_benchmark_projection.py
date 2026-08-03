@@ -34,7 +34,10 @@ from scripts.generateBenchmarkProjection import (  # noqa: E402
 
 def _catalog_with_generic_applicability() -> dict:
     catalog = json.loads((REPO_ROOT / "registry" / "benchmark-sources.json").read_text(encoding="utf-8"))
-    catalog["benchmarks"][0]["appliesToGenericSkillRefs"] = ["code-generation", "test-driven-development"]
+    for entry in catalog["benchmarks"]:
+        if entry["id"] == "humaneval@v1.0":
+            entry["appliesToGenericSkillRefs"] = ["code-generation", "test-driven-development"]
+            break
     return catalog
 
 
