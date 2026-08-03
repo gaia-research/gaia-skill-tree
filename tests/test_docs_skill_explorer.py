@@ -30,3 +30,11 @@ def test_skill_explorer_adds_demerits_to_update_timeline():
     assert "Demerit noted: " in js
     assert "mergeTimeline(evts, generic, ns)" in js
     assert "renderTimeline(ns, generic)" in js
+
+
+def test_skill_explorer_routes_to_named_page_from_homepage():
+    js = (ROOT / "docs" / "js" / "skill-explorer.js").read_text(encoding="utf-8")
+
+    assert "named-explorer-page" in js
+    assert "match(/^#explorer\\/(.+)$/)" in js
+    assert "item2.catalogRef" in js

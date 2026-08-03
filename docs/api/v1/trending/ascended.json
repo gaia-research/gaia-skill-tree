@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-01T01:43:44Z",
+  "generatedAt": "2026-08-03T09:11:33Z",
   "skills": [
     {
       "id": "anthropics/brand-guidelines",
@@ -149,7 +149,7 @@
       "name": "Firecrawl Interact",
       "level": "3★",
       "contributor": "firecrawl",
-      "trustMagnitude": 75.58,
+      "trustMagnitude": 75.7,
       "overallTrustGrade": "B",
       "ascendedAt": "2026-07-30T22:36:54Z",
       "_links": {
@@ -162,7 +162,7 @@
       "name": "Firecrawl Onboarding",
       "level": "3★",
       "contributor": "firecrawl",
-      "trustMagnitude": 75.58,
+      "trustMagnitude": 75.7,
       "overallTrustGrade": "B",
       "ascendedAt": "2026-07-30T22:36:54Z",
       "_links": {
@@ -175,7 +175,7 @@
       "name": "Firecrawl Research Index",
       "level": "3★",
       "contributor": "firecrawl",
-      "trustMagnitude": 75.58,
+      "trustMagnitude": 75.7,
       "overallTrustGrade": "B",
       "ascendedAt": "2026-07-30T22:36:54Z",
       "_links": {
@@ -237,7 +237,7 @@
       "name": "Last 30 Days Web Research",
       "level": "4★",
       "contributor": "mvanhorn",
-      "trustMagnitude": 127.85,
+      "trustMagnitude": 129.1,
       "overallTrustGrade": "A",
       "ascendedAt": "2026-07-30T06:13:29Z",
       "_links": {
@@ -289,7 +289,7 @@
       "name": "UI/UX Pro Max",
       "level": "4★",
       "contributor": "nextlevelbuilder",
-      "trustMagnitude": 194.26,
+      "trustMagnitude": 195.51,
       "overallTrustGrade": "A",
       "ascendedAt": "2026-07-29T20:34:54Z",
       "_links": {
@@ -366,26 +366,13 @@
       "name": "Firecrawl Scrape",
       "level": "4★",
       "contributor": "firecrawl",
-      "trustMagnitude": 135.6,
+      "trustMagnitude": 135.72,
       "overallTrustGrade": "A",
       "ascendedAt": "2026-07-13T06:22:38Z",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
       },
       "previousLevel": "2★"
-    },
-    {
-      "id": "addy-osmani/performance-optimization",
-      "name": "Performance Optimization",
-      "level": "4★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 83.2,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-07-03T19:57:07Z",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/performance-optimization.json"
-      },
-      "previousLevel": "3★"
     }
   ],
   "_links": {

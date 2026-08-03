@@ -58,8 +58,9 @@
     },
     {
       "type": "github-stars-own",
+      "updatedAt": "2026-08-01",
       "source": "https://github.com/firecrawl/firecrawl/stargazers",
-      "stars": 150087,
+      "stars": 158811,
       "skillCountInRepo": 6,
       "grade": "B",
       "evaluator": "mbtiongson1",
