@@ -24,6 +24,7 @@ import datetime
 import math
 from typing import Any, Optional
 
+from gaia_cli.benchmarkCatalog import isBenchmarkScoringEligible
 from gaia_cli.evidence import inherited_evidence
 
 # ---------------------------------------------------------------------------
@@ -377,14 +378,14 @@ def computeArtifactScoreOrNone(
     if evidenceType is None:
         return 0.0
 
-    # Sprint D W2a (#904) — mirrored and pending benchmark-result rows are
-    # citations only and MUST be excluded from Trust Magnitude. Return None
-    # so the row is dropped from the TM sum entirely (matches the
-    # null-on-derank contract); returning 0.0 would still trigger a fallback
-    # grade-stamp through derive_row_grade, which is not the desired behavior.
+    # Sprint D W2a/W2c (#904/#1419) — benchmark-result rows are citations
+    # unless the benchmark source catalog says this benchmark is verified,
+    # Trust-Magnitude-scoring, and the row provenance/reproducibility fields
+    # satisfy that catalog entry. This preserves the broad evidence row schema
+    # while fail-closing TM scoring for unknown, pending, mirrored, candidate,
+    # registered, rejected, or retired benchmarkIds.
     if evidenceType == "benchmark-result":
-        provenance = evidenceRow.get("provenance")
-        if provenance in ("mirrored", "pending"):
+        if not isBenchmarkScoringEligible(evidenceRow):
             return None
 
     # Null-on-derank: verifier-attestation rows tied to a now-sub-4-star verifier

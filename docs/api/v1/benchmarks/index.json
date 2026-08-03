@@ -7,14 +7,27 @@
       "name": "HumanEval",
       "provenance": "ci-reproduced",
       "leaderboardUrl": "/api/v1/benchmarks/humaneval.json",
-      "methodologyUrl": "/benchmarks/humaneval-v1/"
+      "methodologyUrl": "/benchmarks/humaneval-v1/",
+      "status": "verified",
+      "mode": "internal-ci",
+      "scoresTrustMagnitude": true,
+      "allowedProvenance": [
+        "ci-reproduced",
+        "verifier-attested"
+      ]
     },
     {
       "id": "mmlu@2024-03",
       "name": "MMLU (Massive Multitask Language Understanding)",
       "provenance": "mirrored",
       "leaderboardUrl": "/api/v1/benchmarks/mmlu.json",
-      "methodologyUrl": "/benchmarks/mmlu-v1/"
+      "methodologyUrl": "/benchmarks/mmlu-v1/",
+      "status": "mirrored",
+      "mode": "mirrored",
+      "scoresTrustMagnitude": false,
+      "allowedProvenance": [
+        "mirrored"
+      ]
     }
   ]
 }

@@ -5,8 +5,16 @@
   "unit": "pass@1",
   "provenance": "ci-reproduced",
   "methodologyUrl": "/benchmarks/humaneval-v1/",
+  "status": "verified",
+  "mode": "internal-ci",
+  "scoresTrustMagnitude": true,
+  "allowedProvenance": [
+    "ci-reproduced",
+    "verifier-attested"
+  ],
   "sourceUrl": "https://github.com/openai/human-eval",
-  "notes": "Python function-completion benchmark (164 problems). Gaia reproduces via CI harness; each row carries a datasetHash + benchmarkInputHash. ci-reproduced rows count toward Trust Magnitude. pending rows are awaiting first CI reproduction run.",
+  "harnessUrl": "https://github.com/gaia-research/gaia-skill-tree/tree/main/scripts/benchmarks/humaneval",
+  "notes": "Python function-completion benchmark (164 problems). Gaia reproduces via an internal CI harness; each row carries datasetHash + benchmarkInputHash. ci-reproduced and verifier-attested rows may count toward Trust Magnitude when all required scoring fields are present. pending rows are awaiting first CI reproduction run.",
   "rows": [
     {
       "skillId": "addy-osmani/code-simplification",

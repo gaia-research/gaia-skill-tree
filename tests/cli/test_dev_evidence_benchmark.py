@@ -422,13 +422,19 @@ def test_pending_benchmark_row_excluded_from_trust_magnitude():
 
 
 def test_ci_reproduced_benchmark_row_graded_normally():
-    """Sanity: only mirrored/pending are excluded. Verifier-attested and
-    ci-reproduced rows continue to compute their artifact score."""
+    """Catalog-verified ci-reproduced rows with required fields still score."""
     from gaia_cli.trustMagnitude import computeArtifactScoreOrNone
 
     row = {
         "type": "benchmark-result",
+        "benchmarkId": "humaneval@v1.0",
+        "score": 0.75,
+        "unit": "pass@1",
+        "runAt": "2026-07-06T10:44:08Z",
         "provenance": "ci-reproduced",
+        "attestor": "https://github.com/gaia-research/gaia-skill-tree/actions/runs/1@abc1234",
+        "datasetHash": "a" * 64,
+        "benchmarkInputHash": "b" * 64,
         "percentile": 90,
         "date": "2026-07-05",
     }
