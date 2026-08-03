@@ -37,7 +37,10 @@ summary. For `benchmark-result`, attach the Phase 2B benchmark-source report and
 human approval showing the catalog source is `verified`, provenance is allowed,
 and reproducibility fields plus percentile are present; candidate/registered/
 mirrored/rejected/retired/unknown benchmark sources must not enter ingestion as
-scoring rows.
+scoring rows. Registered benchmark sources may be generic-applicable via
+`appliesToGenericSkillRefs`, but that catalog metadata is non-scoring until a
+named `benchmark-result` row independently satisfies reproducibility and
+approved provenance.
 
 ## Procedure
 
