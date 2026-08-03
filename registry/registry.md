@@ -285,6 +285,7 @@
 | ○ Image Generate | Intrinsic Skill | — | `/image-generate` |
 | ○ Object Detection | Intrinsic Skill | — | `/object-detection` |
 | ○ Pathway Ontology Retrieval | Intrinsic Skill | — | `/pathway-ontology-retrieval` |
+| ○ Prompt Caching | Intrinsic Skill | — | `/prompt-caching` |
 | ○ Quantum Circuit Programming | Intrinsic Skill | 3★ | `/quantum-circuit-programming` |
 | ○ React Performance Optimization | Intrinsic Skill | 3★ | `/react-performance-optimization` |
 | ○ Scroll World | Intrinsic Skill | 3★ | `/scroll-world` |

@@ -411,6 +411,7 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   · ○ /image-generate
   · ○ ████████/huggingface-vision-trainer
   · ○ /pathway-ontology-retrieval
+  · ○ /prompt-caching
   · ○ k-dense-ai/qiskit  [3★]
   · ○ vercel-labs/react-best-practices  [3★]
   · ○ oso95/scroll-world  [3★]
