@@ -299,13 +299,69 @@
     }, 3000);
   }
 
-  function blobToDataUrl(blob) {
+  function blobToDataUrl(blob, sourceUrl) {
     return new Promise(function (resolve, reject) {
       var reader = new FileReader();
-      reader.onload = function () { resolve(String(reader.result || '')); };
+      reader.onload = function () {
+        var result = String(reader.result || '');
+        var mime = blob && blob.type ? String(blob.type).toLowerCase() : '';
+        if (!mime || mime === 'application/octet-stream') {
+          var path = '';
+          try { path = new URL(sourceUrl || '', window.location.href).pathname.toLowerCase(); }
+          catch (_e) { path = String(sourceUrl || '').toLowerCase(); }
+          if (/\.webp$/.test(path)) mime = 'image/webp';
+          else if (/\.png$/.test(path)) mime = 'image/png';
+          else if (/\.jpe?g$/.test(path)) mime = 'image/jpeg';
+          else if (/\.svg$/.test(path)) mime = 'image/svg+xml';
+        }
+        if (mime && result.indexOf('data:') === 0) {
+          result = result.replace(/^data:[^;]*;/, 'data:' + mime + ';');
+        }
+        resolve(result);
+      };
       reader.onerror = reject;
       reader.readAsDataURL(blob);
     });
+  }
+
+  function inlineSvgImageAssets(doc, svgUrl) {
+    var images = Array.prototype.slice.call(doc.querySelectorAll('image'));
+    return Promise.all(images.map(function (image) {
+      var raw = image.getAttribute('href') ||
+        image.getAttributeNS('http://www.w3.org/1999/xlink', 'href');
+      if (!raw || raw.indexOf('data:') === 0) return Promise.resolve();
+      var assetUrl = new URL(raw, svgUrl);
+      if (assetUrl.protocol !== 'http:' && assetUrl.protocol !== 'https:') {
+        return Promise.resolve();
+      }
+      return fetch(assetUrl.href)
+        .then(function (response) {
+          if (!response.ok) throw new Error('SVG asset download failed');
+          return response.blob();
+        })
+        .then(function (blob) { return blobToDataUrl(blob, assetUrl.href); })
+        .then(function (dataUrl) {
+          image.setAttribute('href', dataUrl);
+          image.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', dataUrl);
+        });
+    }));
+  }
+
+  function fetchStandaloneSvgElement(svgUrl) {
+    return fetch(svgUrl)
+      .then(function (response) {
+        if (!response.ok) throw new Error('SVG download failed');
+        return response.text();
+      })
+      .then(function (source) {
+        var doc = new DOMParser().parseFromString(source, 'image/svg+xml');
+        if (!doc.documentElement || doc.querySelector('parsererror')) {
+          throw new Error('Invalid SVG');
+        }
+        return inlineSvgImageAssets(doc, svgUrl).then(function () {
+          return doc.documentElement;
+        });
+      });
   }
 
   function triggerBlobDownload(blob, filename) {
@@ -320,42 +376,13 @@
   }
 
   function downloadStandaloneSvg(svgUrl, filename) {
-    return fetch(svgUrl)
-      .then(function (response) {
-        if (!response.ok) throw new Error('SVG download failed');
-        return response.text();
-      })
-      .then(function (source) {
-        var doc = new DOMParser().parseFromString(source, 'image/svg+xml');
-        if (!doc.documentElement || doc.querySelector('parsererror')) {
-          throw new Error('Invalid SVG');
-        }
-        var images = Array.prototype.slice.call(doc.querySelectorAll('image'));
-        return Promise.all(images.map(function (image) {
-          var raw = image.getAttribute('href') ||
-            image.getAttributeNS('http://www.w3.org/1999/xlink', 'href');
-          if (!raw || raw.indexOf('data:') === 0) return Promise.resolve();
-          var assetUrl = new URL(raw, svgUrl);
-          if (assetUrl.protocol !== 'http:' && assetUrl.protocol !== 'https:') {
-            return Promise.resolve();
-          }
-          return fetch(assetUrl.href)
-            .then(function (response) {
-              if (!response.ok) throw new Error('SVG asset download failed');
-              return response.blob();
-            })
-            .then(blobToDataUrl)
-            .then(function (dataUrl) {
-              image.setAttribute('href', dataUrl);
-              image.setAttributeNS('http://www.w3.org/1999/xlink', 'xlink:href', dataUrl);
-            });
-        })).then(function () {
-          var serialized = new XMLSerializer().serializeToString(doc.documentElement);
-          triggerBlobDownload(
-            new Blob(['<?xml version="1.0" encoding="UTF-8"?>\n' + serialized], { type: 'image/svg+xml' }),
-            filename
-          );
-        });
+    return fetchStandaloneSvgElement(svgUrl)
+      .then(function (svgEl) {
+        var serialized = new XMLSerializer().serializeToString(svgEl);
+        triggerBlobDownload(
+          new Blob(['<?xml version="1.0" encoding="UTF-8"?>\n' + serialized], { type: 'image/svg+xml' }),
+          filename
+        );
       });
   }
 
@@ -462,10 +489,11 @@
     // the ambient glow floor + card halo animate in already-colored.
     applyRankAccent(modal, ns);
 
-    // Center Stage: show the build-rendered PNG. Loading an SVG through <img>
-    // blocks that SVG's external WebP medallion in browsers; the generated PNG
-    // is self-contained and matches the downloaded share image exactly.
-    // Fall back to plaque.renderOg() when the build artifact is absent.
+    // Center Stage: show a self-contained copy of the build-rendered SVG.
+    // The SVG artifact carries the correct medallion; before inserting it into
+    // the modal we inline its external image assets so browsers do not block or
+    // drop the AOV WebP when the card is displayed through a nested SVG/image
+    // path. Fall back to the generated PNG only if the SVG cannot be fetched.
     var stage = document.getElementById('hohFsStage');
     if (stage) {
       var ogNs = {
@@ -497,16 +525,32 @@
         var docRoot = (typeof window.gaiaIconBase === 'function')
           ? window.gaiaIconBase().replace(/assets\/icons\.svg(\?.*)?$/, '')
           : '';
+        var svgPath = docRoot + ogPath;
         var pngPath = docRoot + ogPath.replace(/\.svg(\?.*)?$/, '.png');
-        var imgEl = document.createElement('img');
+        var loadPngFallback = function () {
+          var imgEl = document.createElement('img');
+          try {
+            var resolvedPng = new URL(pngPath, document.baseURI);
+            var isPngHttp = resolvedPng.protocol === 'https:' || resolvedPng.protocol === 'http:';
+            imgEl.src = (isPngHttp && isSafeUrl(resolvedPng.href)) ? resolvedPng.href : '';
+          } catch (_e) { imgEl.src = ''; }
+          imgEl.alt = ns.name || ns.id || '';
+          imgEl.onload = function () { stage.replaceChildren(imgEl); };
+          imgEl.onerror = function () { renderMock(); };
+        };
         try {
-          var resolvedUrl = new URL(pngPath, document.baseURI);
-          var isHttp = resolvedUrl.protocol === 'https:' || resolvedUrl.protocol === 'http:';
-          imgEl.src = (isHttp && isSafeUrl(resolvedUrl.href)) ? resolvedUrl.href : '';
-        } catch (_e) { imgEl.src = ''; }
-        imgEl.alt = ns.name || ns.id || '';
-        imgEl.onload = function () { stage.replaceChildren(imgEl); };
-        imgEl.onerror = function () { renderMock(); };
+          var resolvedSvg = new URL(svgPath, document.baseURI);
+          var isSvgHttp = resolvedSvg.protocol === 'https:' || resolvedSvg.protocol === 'http:';
+          if (!isSvgHttp || !isSafeUrl(resolvedSvg.href)) {
+            loadPngFallback();
+          } else {
+            fetchStandaloneSvgElement(resolvedSvg.href)
+              .then(function (svgEl) { stage.replaceChildren(svgEl); })
+              .catch(loadPngFallback);
+          }
+        } catch (_e) {
+          loadPngFallback();
+        }
       } else {
         renderMock();
       }
@@ -813,6 +857,8 @@
       var name = btn.getAttribute('data-skill-name');
       var level = btn.getAttribute('data-level');
       var type = btn.getAttribute('data-type');
+      var branch = btn.getAttribute('data-branch') || '';
+      var rankWord = btn.getAttribute('data-rank-word') || '';
       var origin = btn.getAttribute('data-origin') === 'true';
       var ogPath = btn.getAttribute('data-og');
       var desc = btn.getAttribute('data-desc') || '';
@@ -826,6 +872,8 @@
         name: name,
         level: level,
         type: type,
+        branch: branch,
+        rankWord: rankWord,
         origin: origin,
         ogPath: ogPath,
         description: desc,
@@ -851,6 +899,7 @@
         level: entry.level || '',
         type: entry.type || 'basic',
         branch: entry.branch || '',
+        rankWord: entry.rankWord || '',
         origin: !!entry.origin,
         ogPath: ogPath,
         description: entry.description || '',

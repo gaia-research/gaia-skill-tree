@@ -12,6 +12,8 @@ const fs = require('fs');
 const path = require('path');
 
 const OG_DIR = 'docs/og';
+const DOCS_DIR = 'docs';
+const AOV_DIR = path.join(DOCS_DIR, 'assets', 'ascension-overdrive');
 const SKIP = new Set(['social-preview.svg']);
 const W = 1200, H = 630;
 
@@ -21,6 +23,29 @@ function rglob(dir) {
     const full = path.join(dir, f.name);
     if (f.isDirectory()) out.push(...rglob(full));
     else if (f.name.endsWith('.svg') && !SKIP.has(f.name)) out.push(full);
+  }
+  return out;
+}
+
+async function assetDataUri(assetPath) {
+  // Re-encode WebP medallions as PNG before handing the SVG to librsvg.  This
+  // avoids both local `/assets/...` resolution failures and Cairo/WebP loader
+  // differences that otherwise produce a valid PNG with an empty medallion.
+  const png = await sharp(assetPath).png().toBuffer();
+  return `data:image/png;base64,${png.toString('base64')}`;
+}
+
+async function inlineRasterAssets(svgSource) {
+  if (!fs.existsSync(AOV_DIR)) return svgSource;
+  const files = fs.readdirSync(AOV_DIR)
+    .filter((name) => /^aov4-.*-hero\.webp$/.test(name))
+    .sort();
+  let out = svgSource;
+  for (const name of files) {
+    const href = `/assets/ascension-overdrive/${name}`;
+    if (!out.includes(href)) continue;
+    const dataUri = await assetDataUri(path.join(AOV_DIR, name));
+    out = out.split(href).join(dataUri);
   }
   return out;
 }
@@ -37,7 +62,8 @@ function rglob(dir) {
   for (const svg of svgs) {
     const png = svg.replace(/\.svg$/, '.png');
     try {
-      await sharp(svg).resize(W, H).png().toFile(png);
+      const source = await inlineRasterAssets(fs.readFileSync(svg, 'utf8'));
+      await sharp(Buffer.from(source)).resize(W, H).png().toFile(png);
       console.log(`  PNG: ${png}`);
       ok++;
     } catch (e) {
