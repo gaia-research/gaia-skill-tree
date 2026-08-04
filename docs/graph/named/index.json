@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-03",
+  "generatedAt": "2026-08-04",
   "buckets": {
     "automated-testing": [
       {
@@ -8817,7 +8817,7 @@
         "description": "Composes multiple named skill implementations for a single contributor into a unified ultimate or suite skill node: collecting component IDs, verifying node existence, researching evidence, writing the ultimate node, back-linking derivatives on components, updating registry indexes, and opening a pull request.",
         "title": "Skill Fusion",
         "links": {
-          "github": "https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/skill-fuse/SKILL.md"
+          "github": "https://github.com/gaia-research/skill-fuse/blob/main/SKILL.md"
         },
         "evidence": [
           {
@@ -8837,10 +8837,20 @@
             "type": "self-attestation",
             "notes": "In production use — fuses contributor skill sets into ultimates/suites",
             "grade": "C"
+          },
+          {
+            "source": "https://github.com/gaia-research/skill-fuse",
+            "evaluator": "unknown",
+            "date": "2026-08-03",
+            "type": "repo-own",
+            "notes": "Standalone skill-fuse repo (gaia-research org) — public, install.sh, SKILL.md, works without Gaia",
+            "stars": 2,
+            "commits": 10,
+            "contributors": 1
           }
         ],
         "createdAt": "2026-07-08",
-        "updatedAt": "2026-07-09",
+        "updatedAt": "2026-08-03",
         "timeline": [
           {
             "timestamp": "2026-07-08T10:19:43Z",
@@ -8883,12 +8893,30 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 2★"
+          },
+          {
+            "timestamp": "2026-08-03T15:11:27Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/gaia-research/skill-fuse/blob/main/SKILL.md"
+          },
+          {
+            "timestamp": "2026-08-03T15:11:33Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/gaia-research/skill-fuse (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-03T15:11:47Z",
+            "action": "installation_updated",
+            "contributor": "unknown",
+            "details": "Replaced ## Installation section from _install_section.md"
           }
         ],
         "type": "fusion",
-        "installBody": "Add installation instructions here.",
+        "installBody": "Install into Claude Code, Cursor, Windsurf, or any harness that supports agent skill directories:\n\n```bash\nbash <(curl -sL https://raw.githubusercontent.com/gaia-research/skill-fuse/main/install.sh)\n```\n\nThe installer auto-detects `.agents/skills/`, `.claude/skills/`, or `.cursor/rules/` and writes the skill there.\n\n**Manual install:** clone or copy `SKILL.md` (and the `reference/` directory) from [gaia-research/skill-fuse](https://github.com/gaia-research/skill-fuse) into your target skills directory.\n\nAfter install, trigger from any agent conversation:\n\n```\n/fuse shape + audit\n```",
         "role": "variant",
-        "trustMagnitude": 41.0,
+        "trustMagnitude": 41.62,
         "overallTrustGrade": "C",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,

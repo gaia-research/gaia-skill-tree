@@ -11,7 +11,7 @@ description: 'Composes multiple named skill implementations for a single contrib
   node existence, researching evidence, writing the ultimate node, back-linking derivatives
   on components, updating registry indexes, and opening a pull request.'
 createdAt: '2026-07-08'
-updatedAt: '2026-07-09'
+updatedAt: '2026-08-03'
 timeline:
 - timestamp: '2026-07-08T10:19:43Z'
   action: add
@@ -43,6 +43,19 @@ timeline:
   action: demote
   contributor: unknown
   details: Calibrated level from 2★ to 2★
+- timestamp: '2026-08-03T15:11:27Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/gaia-research/skill-fuse/blob/main/SKILL.md
+- timestamp: '2026-08-03T15:11:33Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://github.com/gaia-research/skill-fuse (type:
+    repo-own)'
+- timestamp: '2026-08-03T15:11:47Z'
+  action: installation_updated
+  contributor: unknown
+  details: 'Replaced ## Installation section from _install_section.md'
 evidence:
 - source: https://github.com/gaia-research/gaia-skill-tree
   evaluator: unknown
@@ -59,12 +72,35 @@ evidence:
   type: self-attestation
   notes: In production use — fuses contributor skill sets into ultimates/suites
   grade: C
+- source: https://github.com/gaia-research/skill-fuse
+  evaluator: unknown
+  date: '2026-08-03'
+  type: repo-own
+  notes: Standalone skill-fuse repo (gaia-research org) — public, install.sh, SKILL.md,
+    works without Gaia
+  stars: 2
+  commits: 10
+  contributors: 1
 verification:
   firstEvidenceAt: '2026-07-08T10:21:52Z'
 links:
-  github: https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/skill-fuse/SKILL.md
+  github: https://github.com/gaia-research/skill-fuse/blob/main/SKILL.md
 title: Skill Fusion
 ---
 
 ## Installation
-Add installation instructions here.
+Install into Claude Code, Cursor, Windsurf, or any harness that supports agent skill directories:
+
+```bash
+bash <(curl -sL https://raw.githubusercontent.com/gaia-research/skill-fuse/main/install.sh)
+```
+
+The installer auto-detects `.agents/skills/`, `.claude/skills/`, or `.cursor/rules/` and writes the skill there.
+
+**Manual install:** clone or copy `SKILL.md` (and the `reference/` directory) from [gaia-research/skill-fuse](https://github.com/gaia-research/skill-fuse) into your target skills directory.
+
+After install, trigger from any agent conversation:
+
+```
+/fuse shape + audit
+```
