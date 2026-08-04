@@ -1,8 +1,22 @@
 {
   "window": "7d",
-  "generatedAt": "2026-08-04T11:42:52Z",
+  "generatedAt": "2026-08-04T12:23:04Z",
   "firstRun": false,
   "skills": [
+    {
+      "id": "disler/agent-fusion",
+      "name": "Agent Fusion",
+      "level": "4★",
+      "contributor": "disler",
+      "trustMagnitude": 127.54,
+      "overallTrustGrade": "C",
+      "trendingScore": 207.95,
+      "tmDelta": 90.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/disler/agent-fusion.json"
+      }
+    },
     {
       "id": "firecrawl/firecrawl-research-index",
       "name": "Firecrawl Research Index",
@@ -15,6 +29,48 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
+      }
+    },
+    {
+      "id": "nextlevelbuilder/ui-ux-pro-max",
+      "name": "UI/UX Pro Max",
+      "level": "4★",
+      "contributor": "nextlevelbuilder",
+      "trustMagnitude": 195.51,
+      "overallTrustGrade": "A",
+      "trendingScore": 101.38,
+      "tmDelta": 1.25,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/nextlevelbuilder/ui-ux-pro-max.json"
+      }
+    },
+    {
+      "id": "panniantong/agent-reach",
+      "name": "Agent Reach",
+      "level": "3★",
+      "contributor": "panniantong",
+      "trustMagnitude": 53.86,
+      "overallTrustGrade": "B",
+      "trendingScore": 100.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/panniantong/agent-reach.json"
+      }
+    },
+    {
+      "id": "vercel-labs/react-best-practices",
+      "name": "React Best Practices",
+      "level": "3★",
+      "contributor": "vercel-labs",
+      "trustMagnitude": 50.48,
+      "overallTrustGrade": "B",
+      "trendingScore": 100.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/vercel-labs/react-best-practices.json"
       }
     },
     {
@@ -32,17 +88,17 @@
       }
     },
     {
-      "id": "nextlevelbuilder/ui-ux-pro-max",
-      "name": "UI/UX Pro Max",
-      "level": "4★",
-      "contributor": "nextlevelbuilder",
-      "trustMagnitude": 195.51,
-      "overallTrustGrade": "A",
-      "trendingScore": 97.75,
-      "tmDelta": 195.51,
-      "new": true,
+      "id": "oso95/scroll-world",
+      "name": "Scroll World",
+      "level": "3★",
+      "contributor": "oso95",
+      "trustMagnitude": 60.98,
+      "overallTrustGrade": "B",
+      "trendingScore": 90.0,
+      "tmDelta": 0.0,
+      "new": false,
       "_links": {
-        "self": "/api/v1/skills/nextlevelbuilder/ui-ux-pro-max.json"
+        "self": "/api/v1/skills/oso95/scroll-world.json"
       }
     },
     {
@@ -88,20 +144,6 @@
       }
     },
     {
-      "id": "disler/agent-fusion",
-      "name": "Agent Fusion",
-      "level": "4★",
-      "contributor": "disler",
-      "trustMagnitude": 127.54,
-      "overallTrustGrade": "C",
-      "trendingScore": 63.77,
-      "tmDelta": 127.54,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/disler/agent-fusion.json"
-      }
-    },
-    {
       "id": "firecrawl/firecrawl-build-interact",
       "name": "Firecrawl Interact",
       "level": "3★",
@@ -141,6 +183,48 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/gsd-build/get-shit-done.json"
+      }
+    },
+    {
+      "id": "disler/auto-review",
+      "name": "Auto-Review",
+      "level": "2★",
+      "contributor": "disler",
+      "trustMagnitude": 36.34,
+      "overallTrustGrade": "C",
+      "trendingScore": 60.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/disler/auto-review.json"
+      }
+    },
+    {
+      "id": "disler/opinion",
+      "name": "Opinion",
+      "level": "2★",
+      "contributor": "disler",
+      "trustMagnitude": 36.34,
+      "overallTrustGrade": "C",
+      "trendingScore": 60.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/disler/opinion.json"
+      }
+    },
+    {
+      "id": "disler/plan-synthesis",
+      "name": "Plan Synthesis",
+      "level": "2★",
+      "contributor": "disler",
+      "trustMagnitude": 36.34,
+      "overallTrustGrade": "C",
+      "trendingScore": 60.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/disler/plan-synthesis.json"
       }
     },
     {
@@ -256,45 +340,17 @@
       }
     },
     {
-      "id": "oso95/scroll-world",
-      "name": "Scroll World",
-      "level": "3★",
-      "contributor": "oso95",
-      "trustMagnitude": 60.98,
-      "overallTrustGrade": "B",
-      "trendingScore": 30.49,
-      "tmDelta": 60.98,
-      "new": true,
+      "id": "anthropics/canvas-design",
+      "name": "Canvas Design",
+      "level": "2★",
+      "contributor": "anthropics",
+      "trustMagnitude": 43.52,
+      "overallTrustGrade": "C",
+      "trendingScore": 30.0,
+      "tmDelta": 0.0,
+      "new": false,
       "_links": {
-        "self": "/api/v1/skills/oso95/scroll-world.json"
-      }
-    },
-    {
-      "id": "panniantong/agent-reach",
-      "name": "Agent Reach",
-      "level": "3★",
-      "contributor": "panniantong",
-      "trustMagnitude": 53.86,
-      "overallTrustGrade": "B",
-      "trendingScore": 26.93,
-      "tmDelta": 53.86,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/panniantong/agent-reach.json"
-      }
-    },
-    {
-      "id": "vercel-labs/react-best-practices",
-      "name": "React Best Practices",
-      "level": "3★",
-      "contributor": "vercel-labs",
-      "trustMagnitude": 50.48,
-      "overallTrustGrade": "B",
-      "trendingScore": 25.24,
-      "tmDelta": 50.48,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/vercel-labs/react-best-practices.json"
+        "self": "/api/v1/skills/anthropics/canvas-design.json"
       }
     },
     {
@@ -326,20 +382,6 @@
       }
     },
     {
-      "id": "anthropics/canvas-design",
-      "name": "Canvas Design",
-      "level": "2★",
-      "contributor": "anthropics",
-      "trustMagnitude": 43.52,
-      "overallTrustGrade": "C",
-      "trendingScore": 21.76,
-      "tmDelta": 43.52,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/anthropics/canvas-design.json"
-      }
-    },
-    {
       "id": "addy-osmani/incremental-implementation",
       "name": "Incremental Implementation",
       "level": "3★",
@@ -365,48 +407,6 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/addy-osmani/planning-and-task-breakdown.json"
-      }
-    },
-    {
-      "id": "disler/auto-review",
-      "name": "Auto-Review",
-      "level": "2★",
-      "contributor": "disler",
-      "trustMagnitude": 36.34,
-      "overallTrustGrade": "C",
-      "trendingScore": 18.17,
-      "tmDelta": 36.34,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/disler/auto-review.json"
-      }
-    },
-    {
-      "id": "disler/opinion",
-      "name": "Opinion",
-      "level": "2★",
-      "contributor": "disler",
-      "trustMagnitude": 36.34,
-      "overallTrustGrade": "C",
-      "trendingScore": 18.17,
-      "tmDelta": 36.34,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/disler/opinion.json"
-      }
-    },
-    {
-      "id": "disler/plan-synthesis",
-      "name": "Plan Synthesis",
-      "level": "2★",
-      "contributor": "disler",
-      "trustMagnitude": 36.34,
-      "overallTrustGrade": "C",
-      "trendingScore": 18.17,
-      "tmDelta": 36.34,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/disler/plan-synthesis.json"
       }
     },
     {
