@@ -22,4 +22,6 @@ def test_og_medallion_inliner_transcodes_webp_to_png_data_uri():
 
     match = re.search(r"data:image/png;base64,([A-Za-z0-9+/=]+)", inlined)
     assert match, "expected an inlined PNG data URI"
-    assert base64.b64decode(match.group(1))[:8] == b"\x89PNG\r\n\x1a\n"
+    encoded = match.group(1)
+    assert len(encoded) < 1_000_000
+    assert base64.b64decode(encoded)[:8] == b"\x89PNG\r\n\x1a\n"

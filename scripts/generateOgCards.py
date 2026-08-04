@@ -75,6 +75,7 @@ COL_SPLIT_X = 720          # x of the vertical gutter rule between columns
 MEDALLION_CX = 930         # centre-x of the medallion in the right column
 MEDALLION_CY = 300         # centre-y of the medallion (optically above the rule)
 MEDALLION_R = 206          # clip radius of the embedded medallion disc
+MEDALLION_INLINE_PX = 560     # display-sized PNG data URI for rasterizers
 # The AOV4 hero art is a 2048² image whose ornate ring disc spans ~77.7% of the
 # frame, centred at (1024,1024). Placing the image at 2×MEDALLION_R/0.777 wide
 # and offsetting so its centre lands on (MEDALLION_CX, MEDALLION_CY) fits the
@@ -163,8 +164,9 @@ def _asset_data_uri(path: Path) -> str:
         from io import BytesIO
 
         with Image.open(path) as img:
+            img.thumbnail((MEDALLION_INLINE_PX, MEDALLION_INLINE_PX), Image.Resampling.LANCZOS)
             buf = BytesIO()
-            img.save(buf, format="PNG")
+            img.save(buf, format="PNG", optimize=True)
         encoded = base64.b64encode(buf.getvalue()).decode("ascii")
         return f"data:image/png;base64,{encoded}"
     except Exception:

@@ -14,6 +14,7 @@ from pathlib import Path
 
 OG_W = 1200
 OG_H = 630
+MEDALLION_INLINE_PX = 560
 SKIP = {"social-preview.svg"}
 DOCS_DIR = Path("docs")
 
@@ -31,8 +32,9 @@ def _asset_data_uri(path: Path) -> str:
         from PIL import Image
 
         with Image.open(path) as img:
+            img.thumbnail((MEDALLION_INLINE_PX, MEDALLION_INLINE_PX), Image.Resampling.LANCZOS)
             buf = BytesIO()
-            img.save(buf, format="PNG")
+            img.save(buf, format="PNG", optimize=True)
         return "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode("ascii")
     except Exception:
         mime = "image/webp" if path.suffix.lower() == ".webp" else "application/octet-stream"

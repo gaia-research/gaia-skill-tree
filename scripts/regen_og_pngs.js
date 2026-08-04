@@ -16,6 +16,7 @@ const DOCS_DIR = 'docs';
 const AOV_DIR = path.join(DOCS_DIR, 'assets', 'ascension-overdrive');
 const SKIP = new Set(['social-preview.svg']);
 const W = 1200, H = 630;
+const MEDALLION_INLINE_PX = 560;
 
 function rglob(dir) {
   const out = [];
@@ -31,7 +32,10 @@ async function assetDataUri(assetPath) {
   // Re-encode WebP medallions as PNG before handing the SVG to librsvg.  This
   // avoids both local `/assets/...` resolution failures and Cairo/WebP loader
   // differences that otherwise produce a valid PNG with an empty medallion.
-  const png = await sharp(assetPath).png().toBuffer();
+  const png = await sharp(assetPath)
+    .resize(MEDALLION_INLINE_PX, MEDALLION_INLINE_PX, { fit: 'inside', withoutEnlargement: true })
+    .png()
+    .toBuffer();
   return `data:image/png;base64,${png.toString('base64')}`;
 }
 
