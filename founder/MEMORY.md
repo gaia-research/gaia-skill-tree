@@ -4,6 +4,589 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+
+## State Snapshot (2026-08-04, #1395 final nitpicks integrated — ready for CI/merge/release)
+
+### TLDR
+- Marcus approved the final nitpick behavior in local preview, including the outboard Suite Components rail.
+- Final-review fixes were integrated directly onto `dev/issue-backlog` as requested: no PRs onto the integration branch.
+- Three code commits are now local and ready to push: Suite Explorer rail/label behavior, Share Plaque medallion rendering, and Weekly Report relative links.
+- Focused checks passed before commit: JS syntax, Python compile, targeted pytest, and hex-color guard.
+- Next steps after this snapshot: push `dev/issue-backlog`, post token spend, wait for #1395 CI, merge #1395 to `main`, then verify/promote latest release + PyPI.
+
+### What changed this checkpoint
+
+| Layer | State |
+|---|---|
+| Suite Explorer | ✅ `fix(explorer): add outboard suite component focus rail` — Path/Fusion keep origin labels; Suite lens swaps matching labels to suite components; compact transparent component rail is hidden by default, outboard, and row clicks only focus graph nodes |
+| Share Plaque | ✅ `fix(plaque): inline medallions for share card rendering` — modal prefers inlined SVG; PNG raster scripts inline/transcode AOV medallions; focused medallion test added |
+| Weekly Reports | ✅ `fix(reports): use relative weekly report links` — internal report/named/API user links are root-relative; SEO/canonical metadata remains absolute |
+| Validation | ✅ `node --check` on touched JS, `py_compile` on touched Python, `pytest` targeted suite (`15 passed`), and `check_hex_colors.py` passed |
+| Issue tracking | ✅ #1438 remains open with `data`, `frontend`, `tech-debt`, `needs-triage` for the larger suite-manifest/data audit |
+| Release gate | ⏳ #1395 still open/draft until pushed CI returns green and merge happens under Marcus’s explicit approval in this turn |
+
+### Commits prepared on `dev/issue-backlog`
+
+- `3d1b9e28e fix(explorer): add outboard suite component focus rail`
+- `0337a37ae fix(plaque): inline medallions for share card rendering`
+- `cedad645b fix(reports): use relative weekly report links`
+
+### Checks run
+
+```text
+node --check docs/js/skill-explorer.js
+node --check docs/js/hoh-modal.js
+node --check docs/js/plaque.js
+node --check scripts/regen_og_pngs.js
+python -m py_compile scripts/generateOgCards.py scripts/regen_og_pngs.py scripts/contentEngine/generate_weekly_report.py
+python -m pytest tests/test_docs_skill_explorer.py tests/test_og_medallion_raster.py tests/contentEngine/test_generate.py -q
+python scripts/check_hex_colors.py docs/js/skill-explorer.js docs/css/styles.css docs/js/hoh-modal.js docs/js/plaque.js
+```
+
+Result: `15 passed`, Guard A OK.
+
+### Branches / worktrees at snapshot
+
+| Path | State |
+|---|---|
+| `C:/Users/C5396183/gaia-skill-tree` | `dev/issue-backlog`, ahead of origin by final nitpick commits plus this memory commit once written |
+| `C:/Users/C5396183/gst-final-suite-logic` | Isolated worker worktree preserving Suite Explorer final diff |
+| `C:/Users/C5396183/gst-final-share-plaque` | Isolated worker worktree preserving Share Plaque final diff |
+| `C:/Users/C5396183/gst-final-weekly-links` | Isolated worker worktree preserving Weekly Report source diff; main integration avoided full HTML line-ending churn |
+| `C:/Users/C5396183/gst-final-combined-preview` | Local preview overlay used for human review |
+
+### Hazards / notes preserved
+
+- Weekly report static HTML was semantically patched in the main worktree to avoid full-file CRLF churn from the worker copy.
+- Existing committed `docs/og/**/*.png` artifacts may still need regeneration in a raster-capable environment; modal/SVG path is fixed and future PNG regeneration now inlines medallions.
+- The Suite rail lists only a skill’s own `suiteComponents`. Skills that only have `suiteRef` do not show the roster.
+- The rail is outboard on wide layouts and falls back below on narrower screens to avoid clipping.
+- #1438 tracks the deeper question of suite components that are missing from the prerequisite path / data shape.
+
+### Token cost (this session)
+
+- Latest Pi cost run: main session **~$17.7228**, subagents **~$13.2689**, total **~$30.9916**.
+
+## State Snapshot (2026-08-04, final-review nitpicks — localhost reopened, 3 worker fixes staged in worktrees)
+
+### TLDR
+- **#1395 is CLEAN/green** at `0a2dad70a66acc85b2eb0a7b8d70d05914acc6bf` and remains open/founder-gated. No merge to `main` yet.
+- **Localhost final review is reopened** at `http://localhost:1395/`, served from `dev/issue-backlog` `docs/`; checked homepage, Trust Leaderboard, Benchmarks, Named, and leaderboard API all return 200.
+- **Three final-review nitpick worktrees now hold uncommitted candidate fixes**: weekly report relative links, suite-component label logic, and share-plaque PNG/HTML medallion regression. They are intentionally isolated and not integrated yet.
+- **Suite missing-component limitation was filed as #1438** and tagged `data`, `frontend`, `tech-debt`, `needs-triage` for a later meta-audit pass.
+- **Direct branch rule remains active:** no more PRs onto `dev/issue-backlog`; final fixes land directly on the branch after review/selection.
+
+### What changed this checkpoint
+
+| Layer | State |
+|---|---|
+| Localhost | ✅ Restarted on port `1395`, PID `19836`; `http://localhost:1395/` opened via Windows shell |
+| #1395 CI | ✅ CLEAN/green at latest check, head `0a2dad70a` |
+| Weekly Report links | ⏳ `worker` fixed hardwired `https://gaiaskilltree.com` user-navigation links in `gst-final-weekly-links`; changes uncommitted |
+| Suite Explorer logic | ⏳ `worker-opus` fixed rendered suite-path node labels to prefer the suite component named entry over `buckets[id][0]` origin entries; changes uncommitted |
+| Share Plaque medallion | ⏳ `worker-sol` diagnosed PNG/HTML modal path dropping external AOV4 WebP medallions and implemented inlining/transcoding fixes; changes uncommitted |
+| Suite meta-audit issue | ✅ Filed #1438: “meta-audit: Suite lens should account for suiteComponents outside prerequisite path” and added new `data` label |
+| Memory | ✅ This snapshot records the final-review worktree state before any integration commits |
+
+### Branches / worktrees at checkpoint
+
+| Worktree | Head | Status |
+|---|---:|---|
+| `C:/Users/C5396183/gaia-skill-tree` | `0a2dad70a` | `dev/issue-backlog`, clean vs origin except local server logs/worktrees |
+| `C:/Users/C5396183/gst-final-weekly-links` | `0a2dad70a` | Detached worktree with uncommitted weekly-report relative-link fix |
+| `C:/Users/C5396183/gst-final-suite-logic` | `0a2dad70a` | Detached worktree with uncommitted Suite Explorer component-label fix + focused test |
+| `C:/Users/C5396183/gst-final-share-plaque` | `0a2dad70a` | Detached worktree with uncommitted share-plaque medallion/modal/raster fixes + focused test |
+
+### Candidate fixes waiting for integration review
+
+#### 1. Weekly Report relative links (`gst-final-weekly-links`)
+
+Files changed:
+- `scripts/contentEngine/generate_weekly_report.py`
+- `docs/reports/2026-28/index.html`
+- `docs/reports/2026-29/index.html`
+- `docs/reports/2026-30/index.html`
+- `docs/reports/2026-31/index.html`
+
+Worker result:
+- Generator now emits root-relative Gaia-internal links (`/named/#explorer/...`, `/reports/...`, `/api/v1/...`) instead of hardwired `https://gaiaskilltree.com` for user navigation.
+- Remaining absolute Gaia URLs are SEO/schema/canonical metadata and are intentional.
+- `tests/contentEngine/test_generate.py` passed.
+
+Integration hazard:
+- Current diff stat shows full-file churn in the four report HTML files (`~2,523 insertions / ~2,523 deletions`), likely line-ending/format churn. Before integrating, normalize to a semantic diff or decide whether regenerating those report pages wholesale is acceptable.
+
+#### 2. Suite Explorer component labels (`gst-final-suite-logic`)
+
+Files changed:
+- `docs/js/skill-explorer.js`
+- `tests/test_docs_skill_explorer.py`
+
+Worker result:
+- Root cause: flowchart labels used `buckets[id][0]`, often a foreign `origin: true` named skill sharing the same generic node.
+- Fix builds a `suiteMemberByNode` map from `suiteComponents`/`genericSkillRef` and prefers the suite component named entry for rendered suite-path nodes.
+- Fusion behavior is unchanged because the map is gated to suite components.
+- Checks: `node --check docs/js/skill-explorer.js`; `python -m pytest tests/test_docs_skill_explorer.py -q` → 5 passed.
+
+Important caveat:
+- This does **not** synthesize suite components outside the capstone prerequisite path. The deeper limitation is now #1438.
+
+#### 3. Share Plaque medallion PNG/HTML modal (`gst-final-share-plaque`)
+
+Files changed:
+- `docs/js/hoh-modal.js`
+- `docs/js/plaque.js`
+- `scripts/generateOgCards.py`
+- `scripts/regen_og_pngs.js`
+- `scripts/regen_og_pngs.py`
+- `tests/test_og_medallion_raster.py` (new)
+
+Worker result:
+- Provided SVG contains the medallion; provided PNG’s medallion region is effectively empty.
+- Root cause: PNG rasterization/display path drops external AOV4 medallion images (`/assets/ascension-overdrive/...webp`), especially through Cairo/librsvg/WebP/root-relative resolution. Modal also preferred the bad PNG first.
+- Fix: modal fetches/inlines SVG and displays self-contained SVG first; PNG is fallback. Raster scripts inline/transcode AOV WebP medallions to PNG data URIs before rasterization.
+- Checks: JS syntax for touched JS; Python py_compile; `pytest -q tests/test_og_medallion_raster.py` → 1 passed.
+
+Integration caveat:
+- Existing committed `docs/og/**/*.png` artifacts are still stale until regenerated with an available raster path (`cairosvg`, `wand`, or `sharp`). Worker did not regenerate PNGs in the isolated worktree.
+
+### Issue #1438
+
+Filed: https://github.com/gaia-research/gaia-skill-tree/issues/1438  
+Labels: `tech-debt`, `needs-triage`, `frontend`, `data`
+
+Purpose:
+- Track whether the Suite lens should be manifest-complete, including `suiteComponents` outside the prerequisite DAG path and nested items.
+- Current candidate fix only corrects labels for rendered suite-path nodes.
+
+### Open questions for next orchestrator
+
+1. Which of the three worktree fixes should be integrated into `dev/issue-backlog` before #1395 final merge?
+2. For weekly report links, should the historical report HTML files be patched/regenerated now, or should only the generator change land before final review?
+3. For Share Plaque, should we integrate the modal/SVG-first fix immediately even if PNG artifacts remain stale, or also set up raster tooling/regenerate affected PNGs before #1395?
+4. Does Marcus want #1438 treated as post-merge meta-audit work, or as release-gating data correctness?
+5. After final decisions, remember to commit directly to `dev/issue-backlog`, push, log token spend, wait for #1395 CI, and only merge to `main` after explicit founder go.
+
+### Token cost (this session)
+
+- Latest Pi cost run after final-review workers: main session **~$13.4609**, subagents **~$10.6431**, total **~$24.1041**.
+
+## State Snapshot (2026-08-04, issue-backlog PR queue — #1436 merged, #1435 perf-ready)
+
+### TLDR
+- **#1433 and #1434 are merged** into `dev/issue-backlog`; #1434 needed one generated-ledger refresh after #1433 changed Trust Magnitude ordering.
+- **#1436 is merged** into `dev/issue-backlog` after founder approval, CI green, and a small CTA cleanup on the Trust Leaderboard. The local blank-leaderboard scare was a preview-root problem, not a PR regression.
+- **#1435 is updated, green, clean, and intentionally unmerged** pending Marcus's human gate. It now includes the original frontend perf pass plus leaderboard-specific perf improvements from `worker-sol`.
+- **#1395 integration PR is CLEAN/green** at `693cb0faf`, still draft/open to `main`; final merge remains founder-gated.
+- **Local previews:** #1435 is live at `http://localhost:1435/trust/leaderboard/` from `gst-pr1268-perf/docs`; no merge without explicit approval.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| PR #1433 | ✅ Merged to `dev/issue-backlog` at `2026-08-04T07:29:02Z` |
+| PR #1434 | ✅ Conflict-resolved after #1433, generated `docs/graph/ledger/data.json` refreshed without CRLF churn, CI green, merged at `2026-08-04T07:43:22Z` |
+| PR #1436 | ✅ Founder-approved Trust Leaderboard polish merged at `2026-08-04T09:06:06Z`; final head `b88d13171` |
+| #1436 preview issue | ✅ Diagnosed by `worker-sonnet`: old server served repo root, so `/docs/trust/leaderboard/` made JS fetch `/api/v1/leaderboard.json` from the wrong root. Correct docs-root URL is `/trust/leaderboard/`. |
+| #1436 CTA polish | ✅ `worker-sonnet` redesigned “Is your AI skill missing?” as a quiet registry-intake panel; hygiene pass removed full-file line-ending churn before commit |
+| PR #1435 | ✅ Updated after #1436 merge; `worker-sol` added leaderboard-only perf improvements; pushed at `edff76f13`; CI green/CLEAN; awaiting human gate |
+| Token logs | ✅ Posted aggregate spend comments on #1436 after `b88d13171` push and #1435 after `edff76f13` push |
+| Memory | ✅ This snapshot records the queue handoff before further merge decisions |
+
+### Branches at end of session
+
+| Branch / worktree | Head SHA | Status |
+|---|---:|---|
+| `dev/issue-backlog` (`C:/Users/C5396183/gaia-skill-tree`) | `693cb0faf3e45aa2c2e5022e3a19b6c36c8f0e15` | Integration branch, clean vs origin except untracked local server logs/worktrees; PR #1395 CLEAN/green to `main` |
+| `dev/1268-frontend-performance-pass` (`gst-pr1268-perf`) | `edff76f1322ad4fa031f38c944c2c6bbc081f964` | PR #1435 open, CLEAN/green, human-gated before merge |
+| `dev/868-trust-leaderboard-polish` (`gst-pr868-leaderboard`) | `b88d131719d12dffb1a05233c0fbba21751df917` | PR #1436 merged; local worktree still holds branch so local branch deletion failed, remote branch deleted |
+| `dev/1004-skill-fuse-surfaces` (`gst-pr1004-skill-fuse`) | `9831d8af761205f4a0660c229d5cf4f877355ffd` | PR #1434 merged; local worktree still holds branch so local branch deletion failed, remote branch deleted |
+| `dev/1028-shared-registry-lib` (`gaia-skill-tree-1028`) | `804ae3820980f4d336f1b532448dbd27db588ab3` | PR #1401 still draft/held and failing; do not touch unless Marcus releases it |
+
+### Issues + PRs touched
+
+| Item | State |
+|---|---|
+| #1395 | ⏳ Draft/open `dev/issue-backlog -> main`; CLEAN/green at `693cb0faf`; final founder gate remains |
+| #1433 | ✅ Merged to `dev/issue-backlog` |
+| #1434 | ✅ Merged to `dev/issue-backlog`; post-merge conflict was generated-ledger/order drift only |
+| #1435 | ⏳ Open and green; now includes homepage/graph/profile perf plus Trust Leaderboard search/dropdown/cache perf; preview on port 1435; do not merge without Marcus approval |
+| #1436 | ✅ Merged to `dev/issue-backlog` after human approval |
+| #1401 | ⏸ Still draft/held, failing; out of scope |
+
+### Routing — where things live now
+
+- **#1435 preview for Marcus:** `http://localhost:1435/trust/leaderboard/`, served from `C:/Users/C5396183/gst-pr1268-perf/docs`; `/api/v1/leaderboard.json` returns 200.
+- **#1435 code deltas:** original perf changes in `docs/js/page-ia.js`, `docs/js/profile-filter.js`, `docs/js/skill-graph.js`; leaderboard additions in `docs/trust/leaderboard/leaderboard.js`.
+- **#1435 leaderboard perf specifics:** debounced skill search and contributor dropdown filtering; cached row search strings, contributor sort keys, grade order, group keys, contributor option metadata, and `skillById` tooltip lookup.
+- **#1436 merged delta:** Trust Leaderboard CSS token/contrast/gradient-text polish plus small registry-intake CTA redesign in `docs/trust/leaderboard/index.html` and `leaderboard.css`.
+- **Local cleanup deferred:** merged PR worktrees/branches (#1434, #1436, older detached preview worktrees) remain present; remove only after Marcus is done reviewing the queue/previews.
+
+### Lessons / hazards preserved
+
+- Previewing Gaia docs pages must serve `docs/` as the server root. Serving repo root makes nested `/docs/...` URLs compute the wrong `ROOT_PREFIX` and data fetches 404 from `/api/v1/...`.
+- `gaia dev docs` / `build_docs.py` on Windows can produce CRLF/OG/trending/OKF noise. For generated hard-drift fixes, stage only semantic Class-S artifacts and normalize LF when needed.
+- A Trust Leaderboard visual/design PR is human-gated even when CI is green. #1435 is also held behind Marcus's explicit human gate despite being perf-oriented.
+- Worker-produced frontend changes can be correct but still carry line-ending churn; always inspect `git diff --stat` before committing.
+
+### Open questions for next orchestrator
+
+1. Marcus needs to review #1435 on `http://localhost:1435/trust/leaderboard/`; if approved, merge #1435 to `dev/issue-backlog`, update #1395, and log spend.
+2. After #1435 decision, decide whether to clean merged local worktrees (`gst-pr1004-skill-fuse`, `gst-pr868-leaderboard`, detached `worktrees/pr-*`) or keep previews alive until final #1395 review.
+3. Final #1395 integration-to-main merge remains founder-gated and should wait until the active PR queue is complete and green.
+
+### Token cost (this session)
+
+- Latest Pi cost run after #1435 push: main session **~$5.7154**, subagents **~$4.7655**, total **~$10.4809**.
+- PR token comments posted: #1436 after `b88d13171`, #1435 after `edff76f13`.
+
+## State Snapshot (2026-08-03, PR1–PR3 review queue — previews live, comments posted)
+
+### TLDR
+- **Three follow-on draft PRs are open for Marcus review and intentionally unmerged:** #1434 skill-fuse surfaces, #1435 frontend performance, #1436 Trust Leaderboard polish.
+- **All three PRs are green and CLEAN** against `dev/issue-backlog` at last check; each has a local preview on a separate port and a founder-review guide comment posted on the PR.
+- **PR1 #1434 needed multiple fix/review loops**; final worker-opus fix removed benchmark leaks, committed required skill-fuse generated artifacts, made `build_docs.py --check` pass, and worker-sol returned **MERGE SAFE**.
+- **#1183 and #1184 were closed `wontfix` / not planned** because Gaia Skill Tree is moving to a different mascot direction. Badge background #1326 is skipped for now.
+- **#1433 remains the active benchmark-lanes PR awaiting founder visual/model review** on the localhost benchmark pages before any merge to `dev/issue-backlog`.
+
+### What changed this checkpoint
+
+| Layer | State |
+|---|---|
+| PR #1434 / #1004 | ✅ Draft PR opened and repaired: skill-fuse surface/registry/projection update; no benchmark leaks remain; final review **MERGE SAFE** |
+| PR #1435 / #1268 | ✅ Draft PR opened: lazy-loads heavy named index on homepage and debounces profile-filter search; green and clean |
+| PR #1436 / #868 | ✅ Draft PR opened: CSS-only Trust Leaderboard token/contrast/gradient-text polish; green and clean; HUMAN-GATED |
+| PR comments | ✅ Founder-review guide comments posted on all three PRs: #1434, #1435, #1436 |
+| Local previews | ✅ Port 8001 (#1434), 8002 (#1436), and 8003 (#1435) return HTTP 200 |
+| Mascot issues | ✅ #1183 and #1184 closed with `wontfix` label and `not planned` reason |
+| Memory | ✅ This additive snapshot follows the review-guide comments as requested |
+
+### Branches / PRs at checkpoint
+
+| PR | Branch | Head SHA | Status | Preview |
+|---|---|---:|---|---|
+| #1433 `feat(benchmarks): simplify benchmark TM lanes` | `dev/1419-benchmark-tm-lanes` | `0e8883b84a37d2d6fabdc273370e3a2fe4adab0f` | Draft, CLEAN, green; awaiting founder review | `http://localhost:8000/benchmarks/` |
+| #1434 `feat(surfaces): integrate skill-fuse across Gaia surfaces (#1004)` | `dev/1004-skill-fuse-surfaces` | `6451b4463d44c7a9a19aa2c1910a3b1a47204f10` | Draft, CLEAN, green; worker-sol **MERGE SAFE** | `http://localhost:8001/` and `/u/gaia-research/` |
+| #1435 `perf(frontend): lazy-load named index & debounce profile filter search` | `dev/1268-frontend-performance-pass` | `452d5f04437e2a95111b05767bb5ba521251c62b` | Draft, CLEAN, green; founder review pending | `http://localhost:8003/` |
+| #1436 `fix(leaderboard): border token + contrast + gradient-text polish (#868)` | `dev/868-trust-leaderboard-polish` | `7984666b6a1f0a7425ce1411fa9487649b8ea4b7` | Draft, CLEAN, green; HUMAN-GATED | `http://localhost:8002/trust/leaderboard/index.html` |
+| #1395 `chore: issue backlog eradication integration` | `dev/issue-backlog` | `52b68d2f4eef87997cb076d52eabdd38e16e1518` | Draft/open to `main`; final founder gate remains | n/a |
+| #1401 / #1028 | `dev/1028-shared-registry-lib` | `804ae3820980f4d336f1b532448dbd27db588ab3` | Draft-held; do not touch | n/a |
+
+### PR comments posted for Marcus review
+
+| PR | Comment |
+|---|---|
+| #1434 | https://github.com/gaia-research/gaia-skill-tree/pull/1434#issuecomment-5168799877 |
+| #1435 | https://github.com/gaia-research/gaia-skill-tree/pull/1435#issuecomment-5168800207 |
+| #1436 | https://github.com/gaia-research/gaia-skill-tree/pull/1436#issuecomment-5168800593 |
+
+### Routing / next actions
+
+1. Marcus reviews #1433 benchmark pages first on port 8000. If approved, merge #1433 to `dev/issue-backlog`, then update #1395.
+2. Marcus can review #1434/#1435/#1436 in any order; all are draft and intentionally unmerged.
+3. #1436 is explicitly human-gated design work; do not merge on green CI alone.
+4. #1435 changes visible interaction/performance behavior; review homepage graph/overlay timing and profile search behavior before merge.
+5. #1434 is merge-safe by worker-sol, but still draft for Marcus review.
+6. Badge background #1326 is skipped for now; Milim/Gaia #1183/#1184 are closed wontfix.
+7. #1395 final merge to `main` remains founder-gated; #1401 remains held.
+
+### Lessons / hazards preserved
+
+- PR #1434 demonstrated the failure mode to avoid: registry changes must be CLI/programmatic-first and generated artifacts must be committed from the actual PR tree, not just present in a local regenerated preview.
+- Keep benchmark RFC changes isolated to #1433; do not let benchmark catalog/test diffs leak into unrelated design/surface PRs.
+- For multi-preview review, keep separate worktrees and ports: 8000 benchmark lanes, 8001 skill-fuse, 8002 leaderboard, 8003 performance.
+- `build_docs.py --check` can require `docs/badges/registry.json` for a named-skill repo-link change; this is legitimate when structural, but avoid SVG/OG/trending/OKF churn unless hard-required.
+
+### Token cost (this session)
+
+- Pi cost after PR1–PR3 orchestration: main session **~$27.3899**, subagents **~$57.9918**, total **~$85.3816**.
+
+## State Snapshot (2026-08-03, #1433 benchmark TM lanes — row-level lanes green, design backlog scoped)
+
+### TLDR
+- **Benchmark RFC #1419 is now implemented through PR #1433 and ready for founder visual review.** PR **#1433** (`dev/1419-benchmark-tm-lanes -> dev/issue-backlog`) is draft/open, **CLEAN**, and green at `0e8883b84a37d2d6fabdc273370e3a2fe4adab0f`.
+- **The final benchmark model is row-level:** `verified` rows score at **2.0x**, `reported` rows at **1.0x**, and `rejected` rows at **0x**. Benchmark catalog entries register/admit/blacklist sources; they do not make a benchmark exclusively verified or reported.
+- **Firecrawl alphaXiv ArXivQA evidence is included as a reported row** for `firecrawl/firecrawl-research-index`, with the benchmark source `alphaxiv-arxivqa@v1.0` and notes carrying the 53.3% / 45.4% / MRR 0.750 context.
+- **Localhost preview is running** at `http://localhost:8000/benchmarks/`; HumanEval/MMLU/alphaXiv detail pages now fetch `/api/v1/benchmarks/*.json` correctly.
+- **Next design candidates were scoped:** #868 Trust Leaderboard polish/tokenization and #1268 frontend performance pass are the two best next ready passes; #1183/#1184 Milim/Gaia companion work was closed `wontfix` because a different mascot direction is planned.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| #1395 stabilization | ✅ Integration PR remained draft/open and clean; earlier session work merged `origin/main`, preserved redaction fixes, closed #1124/#981/#982, refreshed #978/#979 into #1426/#1425, and merged #977 prompt caching via #1427 |
+| Benchmark catalog core | ✅ #1428 merged to `dev/issue-backlog`: canonical `registry/benchmark-sources.json`, bundled catalog/schema, `benchmarkCatalog.py`, projection/push/TM integrations, and tests |
+| Phase 2B verifier | ✅ #1429 merged: `evidence/scripts/verify_benchmark_sources.py`, `ev-benchmark-verification` skill docs, and ev-pipeline Phase 2B routing |
+| Generic applicability shape | ✅ #1431 merged: `appliesToGenericSkillRefs` support and `founder/REGISTERED_BENCHMARKS_RFC.md` registered benchmark shape |
+| Firecrawl benchmark source | ✅ #1432 merged: registered `alphaxiv-arxivqa@v1.0` source for `literature-search`, still without named evidence or TM scoring at that stage |
+| Simplified benchmark lanes | ✅ #1433 opened and iterated: benchmark rows now use three user-facing lanes (`verified`, `reported`, `rejected`) with Trust Magnitude computed internally |
+| #1433 model correction | ✅ Removed over-constraining `allowedProvenance`; catalog no longer encodes an exclusive benchmark identity lane; row provenance owns multiplier |
+| #1433 frontend correction | ✅ Fixed benchmark leaderboard 404 by fetching hosted/local HTTP data from site root (`/api/v1/benchmarks/<slug>.json`) instead of `/benchmarks/api/...` |
+| Design guidance | ✅ `/impeccable` guidance loaded for benchmark copy pass; visible copy now says “Verified rows” / “Reported rows” / “Rejected rows,” avoiding benchmark-level CI/verified identity marks |
+| Local preview | ✅ `python -m http.server 8000 --directory docs` is running; browser-open command issued; checked `/benchmarks/`, `/benchmarks/humaneval/`, `/benchmarks/mmlu/`, `/benchmarks/alphaxiv-arxivqa/` all return 200 |
+
+### Branches at end of session
+
+| Branch | Head SHA | Status |
+|---|---:|---|
+| `dev/1419-benchmark-tm-lanes` | `0e8883b84a37d2d6fabdc273370e3a2fe4adab0f` | Active working branch for PR #1433; clean and synced with origin |
+| `dev/issue-backlog` | `52b68d2f4eef87997cb076d52eabdd38e16e1518` | Active integration branch; PR #1395 draft/open to `main`; do not merge without founder gate |
+| `dev/1028-shared-registry-lib` | `804ae3820980f4d336f1b532448dbd27db588ab3` | PR #1401 draft/held; do not touch unless Marcus explicitly releases it |
+| `main` | unchanged | Do not touch until founder approves final #1395 integration merge |
+
+### Issues + PRs touched
+
+| Item | State |
+|---|---|
+| #1395 | ⏳ Draft/open `dev/issue-backlog -> main`; CLEAN at last check; final human gate remains |
+| #1401 / #1028 | ⏸ Draft-held shared-registry-lib PR; still unstable and intentionally out of scope |
+| #1419 | ✅ Implementation path substantially complete via #1428/#1429/#1431/#1432/#1433; public note posted earlier; #1433 is the final simplified-lane PR currently awaiting founder review |
+| #1427 / #977 | ✅ Prompt caching implemented and merged to `dev/issue-backlog`; #977 closed |
+| #1428 | ✅ Benchmark source catalog core merged to `dev/issue-backlog` |
+| #1429 | ✅ Phase 2B benchmark-source verifier/playbooks merged to `dev/issue-backlog` |
+| #1431 | ✅ Registered benchmark generic-applicability shape merged to `dev/issue-backlog` |
+| #1432 | ✅ alphaXiv ArXivQA benchmark source registration merged to `dev/issue-backlog` |
+| #1433 | ⏳ Draft/open and green; implements simplified TM lanes, Firecrawl reported row, docs/API/ledger updates, and benchmark UI path/copy fixes |
+| #1425 / #1426 | ✅ New good-first backlog replacements created for rate-limit backoff and checkpoint/resume |
+| #868 | ⏳ Best next ready design pass: Trust Leaderboard polish/tokenization and visual gate |
+| #1268 | ⏳ Second best ready design pass: frontend performance baseline/optimization pass |
+| #1183 / #1184 | ✅ Closed `wontfix` / not planned: Milim/Gaia companion and context-aware guide superseded by a different mascot direction for Skill Tree |
+| #1326 | ⏸ Badges ceremonial background remains `awaiting-assets`; do not stage yet |
+
+### Routing — where things live now
+
+- **Preview:** local static server runs from `docs/` on port 8000. Use `http://localhost:8000/benchmarks/` plus detail pages for founder review. PID is stored at `generated-output/previews/localhost-8000.pid`; log at `generated-output/previews/localhost-8000.log`.
+- **Benchmark semantics:** source/catalog registration is not an exclusive scoring lane. Row provenance is the multiplier input. Keep public/schema language to the three lanes only: `verified`, `reported`, `rejected`.
+- **#1433 merge path:** founder reviews localhost/visible benchmark surfaces first because frontend changes are human-gated. If approved, merge #1433 into `dev/issue-backlog`, then update #1395 body/status.
+- **Generated artifacts:** #1433 includes hard-required generated benchmark API/docs/ledger artifacts; warn-only `docs/api/v1/trending/**`, `docs/okf/**`, and `docs/og/**` were intentionally kept out unless required. `docs/en/**` remained untouched.
+- **Design backlog:** start with #868 if Marcus wants a visual/design pass; start with #1268 if he wants performance/UX speed without a new visual concept.
+
+### Lessons / hazards preserved
+
+- Do not call a benchmark itself “verified” or “reported” as if that were exclusive. A benchmark can contain verified, reported, and rejected rows at the same time.
+- Avoid adding “CI-gated” marks or new fields for this lane. HumanEval rows can be verified when reproduced/attested, but public HumanEval claims are still just reported until row-level proof exists.
+- `allowedProvenance` was too much policy machinery for this sprint; removing it restored the intended degrees of freedom.
+- `docs/benchmarks/_shared/leaderboard.js` root-depth logic can be fooled by `window.GAIA_MOUNTS`; hosted/local HTTP benchmark data should resolve from `/api/v1/benchmarks/`.
+- `docs/graph/ledger/data.json` is usually noisy, but #1433 changed TM rankings materially, so ledger drift was hard-required for `build_docs.py --check`.
+- `validate_skills.py` and some local validation paths need `PYTHONIOENCODING=utf-8` on Windows.
+- The local `build_docs.py --check` may mutate `docs/graph/gaia.json` byte-for-byte; revert platform-only binary/no-op drift before reporting clean state.
+
+### Open questions for next orchestrator
+
+1. Does Marcus approve #1433’s localhost benchmark surfaces and row-level lane model? If yes, merge #1433 to `dev/issue-backlog` and update #1395.
+2. After #1433 lands, should #1419 receive a final public proof-of-work/closure comment, or wait until #1395 integration lands?
+3. Which design pass comes next: #868 Trust Leaderboard polish/tokenization, or #1268 frontend performance pass?
+4. Badge ceremonial background #1326 is skipped for now and remains `awaiting-assets` unless Marcus later wants it closed or replaced.
+5. #1395 final merge to `main` remains founder-gated; do not merge without explicit approval.
+6. #1401 / #1028 remains held; do not touch unless explicitly released.
+
+### Token cost (this session)
+
+- Pi cost at snapshot: main session **1,179,409 input / 131,037 output / 30,626,304 cache read**, estimated **$25.1413**.
+- Subagents: estimated **$50.9712**.
+- Total session estimate: **$76.1125**.
+
+## State Snapshot (2026-07-31, Lane B final — #1417 merged, intakes closed, #1395 ready for human gate)
+
+### TLDR
+- **Lane B backlog-eradication ingest is complete on `dev/issue-backlog`.** PR **#1417** merged into the integration branch at `85ec675cfffbd3b9c5f0af08d902e952b1a7f0ed`.
+- **#1395 remains draft/open and human-gated.** It is the final `dev/issue-backlog -> main` PR; do not merge it without Marcus's explicit final approval.
+- **Active intakes/issues were manually closed:** #1378, #1117, #1137, and #813 now have transparent `/gaia-intake-close` comments and are closed.
+- **Evidence/rank calibration is aligned for the 13 new named skills.** New K-Dense scientific skills, Ponytail, Brand Guidelines, and Log To Daily are all calibrated to current TM-effective ranks.
+- **Next real work is after the final integration gate:** merge #1395 if/when Marcus approves, then verify production/badges; defer #1419 benchmark RFC and #1401/#1028 hold until later.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| PR #1417 | ✅ Merged to `dev/issue-backlog`; included verified Lane B evidence ingest, #1418 peer-review packet helper, active intakes, K-Dense Group B, docs regen, and final evidence/rank calibration |
+| Active intakes | ✅ #1378 accepted; #1117 partially accepted/deferred; #1137 accepted with mapping correction; all closed with issue comments |
+| #813 Group B | ✅ 10 `k-dense-ai/*` named skills accepted with corrected `K-Dense-AI/scientific-agent-skills` provenance; issue closed |
+| Evidence discovery | ✅ Ponytail YouTube social-signal verified; K-Dense repo/star evidence verified; scientific paper evidence routed to parent generics only |
+| Calibration | ✅ Current ranks now match TM-effective ranks for all 13 new named skills; no pending calibration batch remains for Lane B |
+| CI | ✅ #1417 green before merge; #1395 checks green after merge; #1395 still draft/open |
+| Handoff | ✅ PR #1395 handoff comment posted: https://github.com/gaia-research/gaia-skill-tree/pull/1395#issuecomment-5145980445 |
+
+### Branches at end of session
+
+| Branch | Head SHA | Status |
+|---|---:|---|
+| `dev/issue-backlog` | `85ec675cfffbd3b9c5f0af08d902e952b1a7f0ed` pre-snapshot; memory commits follow | Active integration branch; PR #1395 draft/open to `main`; do not merge without founder gate |
+| `review/meta/lane-b-pass-ingest` | merged/deleted remotely | PR #1417 merged into `dev/issue-backlog` |
+| `main` | unchanged by this session | Do not touch until founder approves #1395 final merge |
+
+### Issues + PRs touched
+
+| Item | State |
+|---|---|
+| #1395 | ⏳ Draft/open integration PR; green; final human gate remains |
+| #1417 | ✅ Merged: Lane B verified evidence + active intake/K-Dense ingest + #1418 helper |
+| #1420 / #1418 | ✅ Child PR merged into #1417; multi-target peer-review source packet helper landed |
+| #1378 | ✅ Closed accepted: `anthropics/brand-guidelines` → `brand-guideline-application`, **3★ / B / TM 77.35** |
+| #1117 | ✅ Closed partial accepted/deferred: `aplaceforallmystuff/log-to-daily` → `session-journaling`, **1★ / ungraded / TM 1.26**; `vault-analyst` and `work-pattern-mining` deferred |
+| #1137 | ✅ Closed accepted with correction: `dietrichgebert/ponytail` → `implement-with-discernment`, **4★ / A / TM 102.49** |
+| #813 | ✅ Closed Group B accepted: 10 K-Dense scientific skills with corrected provenance and calibrated ranks |
+| #1419 | ⏳ Open benchmark RFC; intentionally untouched after creation |
+| #1401 / #1028 | ⏸ Still held intentionally as draft/green; do not merge or depend on it without explicit release |
+
+### Final Lane B rank/TM table
+
+| Skill | Final rank | TM / grade |
+|---|---:|---:|
+| `anthropics/brand-guidelines` | 3★ | 77.35 / B |
+| `aplaceforallmystuff/log-to-daily` | 1★ | 1.26 / ungraded |
+| `dietrichgebert/ponytail` | 4★ | 102.49 / A |
+| `k-dense-ai/deepchem` | 4★ | 137.07 / A |
+| `k-dense-ai/pymc` | 4★ | 146.07 / A |
+| `k-dense-ai/pytorch-lightning` | 3★ | 67.07 / B |
+| `k-dense-ai/qiskit` | 3★ | 93.03 / B |
+| `k-dense-ai/rdkit` | 2★ | 49.07 / C |
+| `k-dense-ai/scanpy` | 3★ | 76.07 / B |
+| `k-dense-ai/scvi-tools` | 2★ | 49.07 / C |
+| `k-dense-ai/stable-baselines3` | 3★ | 76.07 / B |
+| `k-dense-ai/torch-geometric` | 4★ | 137.07 / A |
+| `k-dense-ai/transformers` | 3★ | 76.07 / B |
+
+### Routing — where things live now
+
+- **Production path:** #1395 is the only remaining gate from `dev/issue-backlog` to `main`.
+- **Badge/site verification after #1395 merge:** check newly generated pages/assets for `anthropics`, `dietrichgebert`, and `k-dense-ai`; `aplaceforallmystuff/log-to-daily` is 1★, below public badge floor.
+- **Benchmark policy:** #1419 owns benchmark-result reproducibility requirements; do not ingest Tessl/Firecrawl benchmark-like rows until that RFC is resolved.
+- **Deferred daily-patterns half:** `vault-analyst` / `work-pattern-mining` needs exact upstream `SKILL.md` or Marcus waiver before reconsideration.
+- **Future evidence improvements:** `log-to-daily`, `k-dense-ai/rdkit`, and `k-dense-ai/scvi-tools` are best next promotion targets if new verifier/paper evidence appears.
+
+### Lessons / hazards preserved
+
+- `/trust-appraise --repo` is useful for live repo appraisal, but its fusion-recipe total is not appropriate for non-suite K-Dense rows; use row-level repo/star evidence plus `/gaia-tm-inspect` for named effective rank.
+- K-Dense `github-stars-own` should use `https://github.com/K-Dense-AI/scientific-agent-skills?tab=stars`; `/stargazers` scraped as GitHub 404.
+- K-Dense paper evidence belongs on parent generics, not named K-Dense children, unless a paper is about the K-Dense artifact itself.
+- Discovery packets from #813 were scratch artifacts; unresolved packets should not be committed.
+- `docs/okf/` stale messages are warn-only for this lane; `dev docs --check` still ended “Documentation is up to date.”
+- Pushing through Git Credential Manager hung in this Windows session; direct Basic auth with `gh auth token` worked.
+
+### Open questions for next orchestrator
+
+1. Does Marcus approve marking #1395 ready and merging `dev/issue-backlog -> main`?
+2. After #1395 merges, should we run the full close-out/release verification pass immediately or wait for registry/site automation?
+3. When issue backlog is fully shipped, resume #1419 benchmark RFC and decide reproducibility metadata for Tessl/Firecrawl benchmark-style sources.
+4. Decide whether #1401 / #1028 remains held or is released in a later session.
+
+### Token cost (this session)
+
+- Main session: **$38.7666** estimated (`hai-litellm/gpt-5.5`, 340 turns; 1,559,815 input / 176,655 output / 51,335,680 cache-read tokens).
+- Subagents: **$15.6166** estimated.
+- Total session estimate: **$54.3832**.
+
+## State Snapshot (2026-07-31, Lane B checkpoint — #1148 merged, L4 intake decisions approved, evidence/curation queues split)
+
+### TLDR
+- **Active branch:** `dev/issue-backlog`; integration PR **#1395** remains draft/open to `main` and is the governing backlog-eradication lane.
+- **#1148 is complete on integration.** PR **#1415** merged (`471d87091`): evidence source dumps and ev-pipeline docs are type-first via `evidence/by-type/`, with legacy `tier_*.md` coexistence only. No generated evidence dumps or registry mutations were committed.
+- **Post-main timeline drift was repaired.** PR **#1416** merged (`b454a9733`): `scripts/trace_timeline.py --all --apply` backfilled 26 rank-up events (25 Google DeepMind science skills + `gsd-build/get-shit-done`) and restored timeline CI.
+- **L4 decisions for active intakes are approved and commented:** #1378, #1117, #1137. Evidence labels/seeds are still held until seed prep.
+- **Evidence/curation routing is now split:** #741 has proposed evidence; #922/#923 need Phase 0 discovery; #813 Group B goes through `/gaia-curate-chain` one candidate at a time; #813 `result-aggregation` rejected and `webapp-testing` deferred.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| Main merge into integration | ✅ `origin/main` merged into `dev/issue-backlog` (`e250ad536`) before evidence/intake work so new intakes/calibrations are included |
+| Timeline repair | ✅ #1416 merged into `dev/issue-backlog`; CI timeline drift fixed using `trace_timeline.py`, not hand edits |
+| Evidence lake | ✅ #1415 merged into `dev/issue-backlog`; type-first `evidence/by-type/` scripts + ev-pipeline skill docs landed |
+| L4 active intakes | ✅ #1378 approved with correction; #1117 partially approved/deferred; #1137 approved with correction; comments posted |
+| Firecrawl suite | ✅ #752 closed as already represented in registry; #741 remains evidence-only for benchmark seed |
+| Evidence queues | ✅ Scratchpads written under `generated-output/evidence-verification/` (ignored/local): issue capture and ev-pipeline split |
+| #813 triage | ✅ Group B science-skills routed to `/gaia-curate-chain`; `result-aggregation` rejected; `webapp-testing` deferred |
+
+### Branches at end of session
+
+| Branch | Head SHA | Status |
+|---|---:|---|
+| `dev/issue-backlog` | `471d87091` | Active integration branch, pushed; PR #1395 draft/open |
+| PR #1415 branch | merged/deleted | Type-first evidence lake merged to integration |
+| PR #1416 branch | merged/deleted | Timeline drift repair merged to integration |
+
+### Issues + PRs touched
+
+| Item | State |
+|---|---|
+| #1395 | Draft/open integration PR; do not merge to main without founder gate |
+| #1415 / #1148 | ✅ Merged: type-first evidence lake + ev-pipeline docs |
+| #1416 | ✅ Merged: post-main timeline rank-up backfill |
+| #1378 | ✅ L4 approved with correction: new generic `brand-guideline-application`, named `anthropics/brand-guidelines`; evidence prep later |
+| #1117 | ✅ Partial L4 approval: accept `aplaceforallmystuff/log-to-daily` → new generic `session-journaling`; defer `vault-analyst` / `work-pattern-mining` |
+| #1137 | ✅ L4 approved with correction: `DietrichGebert/ponytail` → existing generic `implement-with-discernment`; do not use `context-compression` |
+| #752 | ✅ Closed: Firecrawl already in registry |
+| #741 | ⏳ Proposed evidence bucket: Firecrawl `benchmark-result` for `firecrawl/firecrawl-research-index` |
+| #922 | ⏳ Phase 0 discovery bucket: GSD suite/components need new independent evidence |
+| #923 | ⏳ Phase 0 discovery bucket: Addy Osmani suite/components need new independent evidence |
+| #813 | ⏳ `/gaia-curate-chain` next for DeepMind science-skills Group B; topology rejected/deferred rows recorded |
+
+### Routing — where things live now
+
+**Approved intake seed prep after topology staging:**
+- #1378 `anthropics/brand-guidelines` → new `brand-guideline-application`.
+- #1117 `aplaceforallmystuff/log-to-daily` → new `session-journaling`; star count refresh at seed prep.
+- #1137 `DietrichGebert/ponytail` → existing `implement-with-discernment`; corrected SKILL URL `skills/ponytail/SKILL.md`.
+
+**#813 `/gaia-curate-chain` Group B:**
+- `deepchem`, `qiskit`, `scanpy`, `pymc`, `rdkit`, `torch-geometric`, `transformers`, `stable-baselines3`, `scvi-tools`, `pytorch-lightning`.
+- Stop at L4. Verify exact upstream `SKILL.md`/source provenance, attribution, generic mapping, and named identity before any seed.
+
+**Evidence buckets after L4/curation:**
+- Proposed evidence: #741 plus approved intake YAML rows and #813 candidates with concrete issue-comment sources.
+- Phase 0 discovery: #922, #923, and #813 candidates without concrete sources (`qiskit`, `rdkit`, `scvi-tools`, `pytorch-lightning`) after L4 if still needed.
+
+### Lessons / hazards preserved
+
+- Issue bodies can hide real curation work inside evidence requests; always scout bodies/comments before treating a ticket as evidence-only.
+- Discovery-packet-v2 availability should be determined from issue body provenance markers when packet JSON is not committed locally.
+- Do not apply evidence labels at L4 approval time; seed prep comes first, then evidence pipeline routing.
+- For #813, do not batch blindly: use `/gaia-curate-chain` for recoverability and L4 review candidate-by-candidate.
+- `result-aggregation` is explicitly rejected for #813 topology; `webapp-testing` is explicitly deferred.
+
+### Open questions for next orchestrator
+
+1. Run `/gaia-curate-chain` for #813 Group B and present the L4 packet before any evidence labels/seeds.
+2. After Marcus approves #813 L4, batch approved active intakes + approved #813 candidates into evidence-seed prep.
+3. Then run the type-first `/ev-pipeline` flow: proposed evidence first, Phase 0 discovery for #922/#923 and any #813 rows without concrete sources.
+4. #1401 / #1028 remains held indefinitely unless Marcus explicitly releases it.
+5. #1395 final merge to main remains human-gated.
+
+### Token cost (this session)
+
+- Pi cost (`PYTHONUTF8=1`) at snapshot: main session **↑565,325 input / ↓49,125 output / R 12,475,392 cache read, ~$10.54**; subagents **~$8.63**; total **~$19.17**.
+
+---
+
+## State Snapshot (2026-07-31, active backlog lane — main merged into `dev/issue-backlog`, #1148 ready for recalibrated plan)
+
+### TLDR
+- **Active branch:** `dev/issue-backlog`; integration PR **#1395** remains the governing draft PR to `main`.
+- **Main has been merged into the integration branch** via `e250ad536` (`Merge origin/main into dev/issue-backlog`) and pushed. This was intentional so upcoming Lane B intake/evidence work sits on top of the latest mainline intakes/calibrations.
+- **Only merge conflict was `founder/MEMORY.md`.** Resolution preserved the new `origin/main` snapshots and also retained the prior `dev/issue-backlog` backlog snapshots lower in the file. No code conflict was hand-resolved by the orchestrator.
+- **#1148 remains the next implementation target.** Marcus approved the permanent type-partition direction: use `evidence/by-type/` for evidence-type partitions.
+- **No dry run.** Once #1148 is implemented/reviewed/merged into #1395, the next operational step is a real intake batch on top of the merged-main state.
+
+### Locked routing
+
+| Item | State |
+|---|---|
+| #1395 | Draft/open integration PR; do not merge to main without founder gate |
+| #1401 / #1028 | Green but held indefinitely as draft; do not merge or depend on it unless Marcus releases the hold |
+| #1148 | Start child PR after refreshed planner-sol calibration against post-merge main |
+| Evidence output layout | Approved: `evidence/by-type/` plus legacy `tier_*.md` coexistence outputs |
+| Generated evidence/report artifacts | Do not commit without explicit human gate |
+| Registry mutation | None without explicit human gate; #1148 should be code/docs/tests only |
+
+### Next action
+1. Re-run **planner-sol** now that `origin/main` is merged, specifically asking it to inspect the new mainline intake/calibration/evidence/report changes and recalibrate the #1148 plan.
+2. Then delegate implementation to **worker-sol** on a child branch based on fresh `origin/dev/issue-backlog`.
+3. Worker scope should include the evidence scripts and the full ev-pipeline skill surface (`ev-pipeline`, `evidence-verification-pipeline`, phase skills, both `.agents` and `.claude` mirrors).
+4. Reviewer must verify: mirrors byte-identical, tests pass, no generated evidence dumps staged, no registry diffs.
+
+---
+
 ## State Snapshot (2026-07-31, Session 8I closed — Arc I, Program 1's KC1/KC2/KC4/KC5/KC6 merged to skill-heaven `main`; KC9 withheld indefinitely; two Arc II follow-ups filed; #1258's remainder re-tracked)
 
 ### TLDR
@@ -287,6 +870,373 @@ product-floor argv + --setting-sources ''  : skills = ["doctor"]   <- same one-w
 `2026-07-30 Opus 5 — Session 8H. Measured subagent tokens: 586,889 across three reporting agents (KC4 worker 166,700 · A3/A5 worker 271,955 · #1258 scout 148,234). A fourth agent (#1258 sweep) died on an account session limit and reported NO usage — the true total is higher and is not estimated. Orchestrator inline + superadmin edits unmeasured.`
 
 ---
+## State Snapshot (2026-07-30, close-of-day - Lane B rescout complete, decisions intentionally open)
+
+### TLDR
+- **Paused for the day per founder request.** `dev/issue-backlog` remains the integration branch and PR #1395 remains draft/open.
+- **#1401 / #1028 is green but held indefinitely as draft** until Marcus explicitly says otherwise. Do not merge it even though reviewer PASS + CI green.
+- **Lane B was rescouted with issue comments + tree evidence.** Not all intakes are closed: #1137 and #1117 remain open/not in tree; #752 and #741 appear resolved in tree; #980 appears duplicate/superseded; decisions remain open.
+- **#1148 remains the likely next Lane B implementation target.** It is still not implemented: evidence source dump generation still partitions by rank-tier files, not evidence type.
+- **No more merges before the next human gate.** CLI visual-output work (#139/#332) remains human-gated with before/after terminal evidence.
+
+### What changed since prior snapshot
+
+| Layer | State |
+|---|---|
+| #1158 | ✅ Merged via #1400 (`7a71d2485`) before this snapshot; tracker updated |
+| #1028 / #1401 | ⏸️ Implemented on draft PR; reviewer PASS; CI green; held indefinitely as draft per Marcus |
+| Lane B | 🔎 Rescouted with comments + current tree evidence; decisions kept open |
+| Tracker | ✅ `founder/BACKLOG_ERADICATION_TRACKER.md` updated with #1401 hold + Lane B rescout |
+| Integration PR | ⏸️ #1395 remains draft/open; human gate required before main |
+
+### Branches / PRs at close
+
+| Branch / PR | State | Notes |
+|---|---|---|
+| `dev/issue-backlog` | Active integration branch | Contains staged backlog child merges + founder tracker/memory updates |
+| PR #1395 | Draft/open | Integration PR to `main`; do not merge without human gate |
+| PR #1401 | Draft/open, CI green | `dev/1028-shared-registry-lib` to `dev/issue-backlog`; **hold indefinitely** |
+| PR #1400 | Merged | #1158 human-readable scan layouts |
+| PRs #1394/#1396/#1398/#1397 | Merged | #1147/#1253/#636/#1152 staged in integration |
+
+### Lane B rescout verdicts
+
+| Issue | Verdict |
+|---|---|
+| #1148 | Still needed; source dump still writes `tier_*.md`; next implementation candidate in coexistence mode |
+| #1137 | Open/not in tree; comments say previous generic mapping invalid; needs maintainer generic choice |
+| #1117 | Open/not in tree; needs fresh curation after #1148 |
+| #752 | Firecrawl suite appears in tree; closure decision left open |
+| #741 | Firecrawl benchmark evidence appears in tree; closure decision left open |
+| #980 | Likely duplicate/superseded by `token-observability`; closure decision left open |
+| #923/#922 | Keep open as independent evidence requests even though suites exist |
+| #813 | Partially done/partially outstanding; keep open |
+
+### Routing - next session
+
+1. Re-load `/gaia-orchestrator`, check branch + PR #1395/#1401 state.
+2. Do **not** merge #1401 unless Marcus explicitly releases it from draft hold.
+3. If continuing Lane B, start with **#1148 planning/implementation** under coexistence constraints: add type partitions, keep tier outputs temporarily, no generated evidence dumps committed without HG.
+4. Leave #752/#741/#980 closure decisions open until Marcus explicitly approves bookkeeping closes.
+5. Avoid #139/#332 until a CLI visual Human Gate batch is prepared.
+
+### Hazards / lessons preserved
+
+- Open issue state alone is not enough; comments + tree evidence changed the Lane B picture.
+- Do not close bookkeeping candidates automatically; Marcus asked to keep decisions open.
+- Body/comment text with backticks should use body files to avoid shell substitution.
+- For git pushes, use normal `git push`; avoid `GIT_TERMINAL_PROMPT=0` because it caused credential popups.
+
+### Token cost (session to close)
+
+- Pi cost (`PYTHONUTF8=1`) at close: main session **~$20.81**, subagents **~$30.45**, total **~$51.26**.
+
+## State Snapshot (2026-07-30, HG-2 scanner checkpoint — #1158 merged)
+
+### TLDR
+- **#1158 merged** via PR #1400 (`7a71d2485`): `gaia scan` now discovers bounded human-readable skill layouts.
+- New roots: `skills/`, `agent-skills/`, `docs/skills/`, `my-skills/`.
+- Safety: new human roots require `SKILL.md`/`skill.md`; README/generic markdown fallback remains limited to legacy/hidden roots; Xcode behavior from #636 remains intact.
+- Local #1158 worktree was removed after merge.
+
+### Branch / PR state
+
+| Item | State |
+|---|---|
+| #1400 / #1158 | Merged into `dev/issue-backlog`; CI green; reviewer PASS after stale test/symlink fix |
+| `dev/issue-backlog` | Head `7a71d2485` before tracker/memory update |
+| #1395 | Draft integration PR remains active |
+
+### Next likely work
+
+- #1028 is scouted as READY but heavier: extract `scripts/lib` into a shared installable package. Use planner/worker-sol; watch packaging, npm wrapper, wheel `--no-deps`, and tests.
+- #139 and #332 are CLI visual/output changes and should wait for a human-gated batch with before/after output.
+
+## State Snapshot (2026-07-30, pause snapshot — backlog eradication paused after CLI visual HG ruling)
+
+### TLDR
+- **Session paused on request.** Active branch is `dev/issue-backlog`; integration PR is #1395 (`dev/issue-backlog` → `main`, draft).
+- **Merged into integration this session:** #1147 security patch (#1394), #1253 intake label migration (#1396), #636 Xcode scanner dirs (#1398), #1152 dev-fuse timeline regression/docs (#1397).
+- **Closed / routed:** #999, #991, #727 verified-done; #998 closed by founder disposition as not resolved through backlog; #118 closed as superseded by Yggdrasil II; #1060 deferred until after backlog eradication + other sprints.
+- **New standing rule:** CLI visual/output changes now require Human Gates with before/after terminal output. Pure CLI parser/scanner/test behavior can continue under normal HG-2.
+- **Current CI:** #1395 mostly green after latest pushes, but CodeQL analyze and Test/Build were pending at snapshot time.
+
+### What changed since previous snapshot
+
+| Layer | State |
+|---|---|
+| Integration PR | #1395 remains draft/open; body updated with progress and CLI visual HG rule |
+| HG-2 CLI PRs | #1398 (`908987bc3`) and #1397 (`f6a67249f`) merged into `dev/issue-backlog` |
+| Tracker | `founder/BACKLOG_ERADICATION_TRACKER.md` updated for live progress, #998 disposition, #636/#1152 merges, and CLI visual HG rule |
+| Founder rules | `founder/CLAUDE.md` updated: visible CLI output changes pause/require human gate |
+| Memory | Multiple newest-first snapshots added during gates/rulings; this is the pause handoff |
+
+### Branches / PRs at pause
+
+| Branch / PR | Head / State | Notes |
+|---|---:|---|
+| `dev/issue-backlog` | `5ec12d4f7` | Pushed and in sync with origin at pause start |
+| PR #1395 | draft/open | Integration PR to `main`; checks rerunning after latest founder-doc update |
+| PR #1394 / #1147 | merged | Security-only exception from EPIC #1336 |
+| PR #1396 / #1253 | merged | `draft-skills` → `intake`, plus #1378 relabel follow-through |
+| PR #1398 / #636 | merged | Explicit `.xcode/skills` and `.xcode/rules`; `.xcode/other` remains pruned |
+| PR #1397 / #1152 | merged | Fuse timeline repair regression + narrow docs |
+
+### Issues touched / disposition
+
+| Issue | Disposition |
+|---|---|
+| #1147 | Re-admitted from #1336 as security-only; merged via #1394 |
+| #1253 | Done via #1396; #1378 relabeled from `draft-skills` to `intake` |
+| #999 | Closed verified-done; dedicated rank-vocabulary guard owns terms |
+| #991 | Closed verified-done; branch scope already allowed `founder/handovers/*` |
+| #727 | Closed verified-done; schema scope already allowed bundled schema mirror |
+| #1060 | Deferred; destructive history rewrite not part of this sprint |
+| #998 | Closed by founder disposition, not fixed through backlog; abandoned branch deleted |
+| #636 | Done via #1398 |
+| #1152 | Done via #1397 |
+| #118 | Closed as superseded by retired self-promote flow; correction comment posted because shell stripped backticks in first close comment |
+
+### Routing / next steps when resuming
+
+1. Re-check #1395 CI; treat failures as signal.
+2. Continue HG-2, but **skip/hold CLI visual-output issues** until a human-gated batch with before/after terminal evidence is planned.
+   - #332 and #139 are now CLI visual HG candidates.
+3. Safe next non-visual candidates likely need fresh scout/planner because one planner call returned no output earlier:
+   - #1158 (scanner support for nonstandard `SKILL.md` layouts) looks valid and likely worker-sized, but scout raised false-positive risk for `skills/*/README.md` fallback.
+   - #1028 is bigger (`scripts/lib` shared installable package) and should use planner/worker-sol if kept in this sprint.
+4. Keep EPIC #1336-owned issues skipped unless Marcus explicitly re-admits them.
+5. Do not touch `docs/en/**`; generated regen commits still require explicit human gate.
+
+### Hazards / lessons preserved
+
+- Git pushes from this environment sometimes hang on HTTP/2; `git -c http.version=HTTP/1.1 push ...` has been reliable.
+- Shell command substitution stripped backticked `gaia promote` text from a `gh issue close --comment`; use body files for comments containing backticks.
+- Do not treat worker/reviewer output as final when founder issues a routing decision: #998 cleanup was stopped and branch deleted despite work in progress.
+- CLI visual changes are not “just CLI plumbing”; they now require human-visible before/after evidence.
+
+### Token cost (session to pause)
+
+- Pi cost (`PYTHONUTF8=1`) at pause: main session **~$14.30**, subagents **~$20.30**, total **~$34.60**.
+
+## State Snapshot (2026-07-30, HG rule update — CLI visual/output changes require human gates)
+
+### TLDR
+- Founder ruled that **CLI visual/output changes need Human Gates**.
+- `founder/CLAUDE.md` now distinguishes pure CLI behavior/parser/test changes from visible terminal-output changes.
+- Visible CLI output changes include cards, prompts, formatting, colors, symbols, truncation, and command copy; they require before/after CLI output for founder review.
+- This affects upcoming HG-2 work such as #332 and #139; #636 and #1152 already merged as non-visual CLI behavior/test work.
+
+### Routing impact
+
+| Issue class | Routing |
+|---|---|
+| Pure CLI parser/scanner/test/docs behavior | Normal HG-2 review |
+| CLI visual/output formatting/cards/prompts/colors/symbols | Human-gated with before/after terminal evidence |
+| Web design/frontend | Strict HG-4 + `/design-iteration` as already recorded |
+
+### Files updated
+
+- `founder/CLAUDE.md` — backlog sprint Human Gates and pause triggers updated.
+- `founder/BACKLOG_ERADICATION_TRACKER.md` — #332/#139 marked as CLI visual HG items.
+
+## State Snapshot (2026-07-30, HG-2 merge checkpoint — #636 and #1152 merged)
+
+### TLDR
+- **#636 merged** via PR #1398 (`908987bc3`): CLI scanner now includes explicit `.xcode/skills` and `.xcode/rules` roots while keeping broad `.xcode/**` pruned.
+- **#1152 merged** via PR #1397 (`f6a67249f`): `gaia dev fuse` now has regression coverage for legacy `note`→`fuse` repair and narrow docs for prerequisite/fusion timeline events.
+- Local child worktrees for #636 and #1152 were removed after merge.
+- Backlog tracker was updated to mark both as done.
+
+### Branch / PR state
+
+| Item | State |
+|---|---|
+| `dev/issue-backlog` | Head `f6a67249f`, synced with origin before tracker update |
+| #1398 / #636 | Merged; CI green; reviewer PASS after scope fix |
+| #1397 / #1152 | Merged; CI green; reviewer PASS after wording fix |
+| #1395 | Draft integration PR remains active |
+
+### Next HG-2 candidates
+
+- #118 likely superseded by Yggdrasil II / retired promotion flow; scout recommended close after founder judgement.
+- #139, #1028, #1158, #332 still need planning/scouting because prior planner call returned no output due provider issue.
+
+## State Snapshot (2026-07-30, HG-2 opened — #1152 and #636 child PRs drafted)
+
+### TLDR
+- HG-2 CLI work started after #998 was routed out.
+- **#1152** child PR #1397 opened: `cli/1152-fuse-timeline-regression` → `dev/issue-backlog`; reviewer PASS after narrowing docs/test wording; CI pending.
+- **#636** child PR #1398 opened: `cli/636-xcode-scan-dirs` → `dev/issue-backlog`; reviewer PASS after removing broad `.xcode` traversal; CI pending.
+- Tracker updated again so `founder/BACKLOG_ERADICATION_TRACKER.md` remains the operational source of truth.
+
+### Branches / PRs
+
+| PR | Branch | State |
+|---|---|---|
+| #1397 | `cli/1152-fuse-timeline-regression` | Draft; reviewer PASS; CI pending |
+| #1398 | `cli/636-xcode-scan-dirs` | Draft; reviewer PASS; CI pending |
+| #1395 | `dev/issue-backlog` | Draft integration PR; refreshed by tracker/memory commits |
+
+### Notes
+
+- #1152 implementation touched `DEV.md`, `src/gaia_cli/commands/dev/fuse.py`, and `tests/test_dev_fuse.py`; no registry/generated data.
+- #636 implementation touched `src/gaia_cli/scanner.py` and `tests/test_scanner.py`; explicit `.xcode/skills` / `.xcode/rules` roots only, no broad `.xcode/**` traversal.
+- Next: wait for CI on #1397/#1398, then merge into `dev/issue-backlog` if green, or fix failures as signal.
+
+## State Snapshot (2026-07-30, HG-1 correction — #998 closed by founder disposition, cleanup branch abandoned)
+
+### TLDR
+- Founder stopped the #998 cleanup: **#998 is closed, not resolved through backlog**.
+- The attempted `design/998-skill-graph-fallback-vocab` branch had worker commits, but no PR was opened; the remote branch and local worktree were deleted.
+- `founder/BACKLOG_ERADICATION_TRACKER.md` was corrected so the tracker is again the source of truth.
+
+### What changed since prior snapshot
+
+| Layer | State |
+|---|---|
+| #998 | ✅ Closed with `not planned` reason and comment explaining founder routing decision |
+| Cleanup branch | ✅ `origin/design/998-skill-graph-fallback-vocab` deleted; local worktree removed |
+| Tracker | ✅ Updated to mark #998 closed by founder disposition, no backlog PR |
+
+### Routing
+
+- Do not re-open #998 under `dev/issue-backlog` unless Marcus explicitly reverses this ruling.
+- Continue HG-1 with the remaining non-#1336 backlog hygiene items.
+
+### Token cost
+
+- Prior checkpoint total was ~$15.73; this correction added only a small amount of orchestrator overhead.
+
+## State Snapshot (2026-07-30, HG-1 checkpoint — backlog tracker updated; verified closes executed; #1253 merged)
+
+### TLDR
+- **Backlog tracker is live again.** `founder/BACKLOG_ERADICATION_TRACKER.md` now records the active `dev/issue-backlog` sprint, #1336 skip rule, #1147 exception, #1253 merge, #999/#991/#727 closes, #1060 deferral, and #998 still-open evidence.
+- **HG-1 closed verified-done items:** #999, #991, #727.
+- **#1060 deferred by founder** until after backlog eradication and other active sprints; no history rewrite under this integration branch.
+- **#1253 merged** via PR #1396 (`5fc46aafd`) and operational follow-through relabeled #1378 from `draft-skills` to `intake`.
+- **#998 remains open** because verification found live fallback `type: 'extra'/'ultimate'` literals in `docs/js/skill-graph.js`; next action is a tiny design cleanup PR unless waived.
+
+### What changed since prior snapshot
+
+| Layer | State |
+|---|---|
+| Tracker | ✅ `founder/BACKLOG_ERADICATION_TRACKER.md` updated and pushed (`bc68ae193`) |
+| Integration | ✅ `dev/issue-backlog` now includes #1147, #1253, HG-0 memory, and tracker updates |
+| GitHub issues | ✅ #999, #991, #727 closed verified-done; #1060 commented/deferred; #998 commented and left open |
+| GitHub labels | ✅ #1378 relabeled from `draft-skills` to `intake` after #1253 merge |
+| PR body | ✅ #1395 progress ledger updated with #1253 merge and HG-1 routing |
+
+### Branches at checkpoint
+
+| Branch | Head SHA | Status |
+|---|---:|---|
+| `dev/issue-backlog` | `bc68ae193` | Integration branch, draft PR #1395 open to `main` |
+| `dev/1253-intake-label` | merged | PR #1396 merged; local worktree removed |
+| `design/1147-dom-xss-static-pages` | merged | PR #1394 merged; local worktree removed |
+
+### Issues + PRs touched
+
+| Item | State |
+|---|---|
+| #1395 | Integration PR remains draft; CI green after #1253 merge before tracker snapshot, new tracker commit running fresh checks |
+| #1396 / #1253 | Merged into `dev/issue-backlog`; CI green; reviewer PASS |
+| #999 | Closed verified-done; rank-vocabulary guard owns cited terms |
+| #991 | Closed verified-done; design branch scope already allows `founder/handovers/*` |
+| #727 | Closed verified-done; schema branch scope already allows bundled schema mirror |
+| #1060 | Deferred by founder; no destructive history work until after backlog eradication + other sprints |
+| #998 | Not closed; remaining fallback literals in `docs/js/skill-graph.js` require cleanup/waiver |
+| #1378 | Relabeled from `draft-skills` to `intake` |
+
+### Routing — next actions
+
+1. Open a small `design/998-*` child PR against `dev/issue-backlog` to clean `docs/js/skill-graph.js` fallback dead-type literals, unless founder waives fallback-only residue.
+2. Continue HG-1 with remaining safe hygiene; do **not** touch #1060.
+3. Keep #1336-owned Program issues skipped unless explicitly re-admitted.
+4. Design batch remains last; strict human gate + `/design-iteration` for visible work.
+
+### Lessons / hazards preserved
+
+- Do not close an issue merely because the plan says verify-close; live grep blocked #998 close.
+- Update the tracker immediately after decisions so the next session does not have to reconstruct routing from chat.
+- #1060 is a maintenance-window problem, not a backlog child PR.
+
+### Token cost (session to this checkpoint)
+
+- Pi cost (`PYTHONUTF8=1`) reports main session **~$7.12**, subagents **~$8.61**, total **~$15.73**.
+
+## State Snapshot (2026-07-30, HG-0 — issue-backlog integration branch established; #1147 security patch landed, #1253 drafted)
+
+### TLDR
+- **HG-0 approved and recorded:** `dev/issue-backlog` is the integration branch for backlog eradication; one feature PR per issue targets it, with batch Human Gates and strict design gating.
+- **Operating rules landed in `founder/CLAUDE.md`:** agent tiering, scout/planner for ambiguity, nested agents allowed, Python checkout CLI commands, no `docs/en/**` except unavoidable/security, regen commits require human gates, branch-scope read as signal.
+- **EPIC #1336 scout pruned the queue:** explicit #1336-owned issues were removed from active backlog scope; **#1147 was re-admitted by founder as a narrow security patch** and documented on #1336.
+- **#1147 merged into `dev/issue-backlog`:** child PR #1394 passed CI + reviewer and was squash-merged as commit `7fcabc230`.
+- **#1253 is drafted:** child PR #1396 updates active `draft-skills` label references to `intake`; reviewer PASS after duplicate-label fix; CI pending.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| Integration branch | ✅ `dev/issue-backlog` created and pushed; draft integration PR #1395 opened against `main` |
+| Founder rules | ✅ `founder/CLAUDE.md` updated with backlog-eradication sprint model (`c3b227606`) |
+| EPIC #1336 routing | ✅ Live #1336 checklist read; explicit adoptees removed from backlog scope; comment posted for #1147 exception |
+| Security patch | ✅ #1147 PR #1394 merged into integration (`7fcabc230`) |
+| Label migration | ⏳ #1253 PR #1396 opened; reviewer PASS; CI pending |
+| Verify-close candidates | ⏳ #991 and #727 scouted as already resolved; not closed yet pending HG/approval posture |
+| Planning | ⏳ #998/#999 and #1060 scouted/planned; #999 likely verify-close, #1060 requires special destructive-history gate |
+
+### Branches at snapshot
+
+| Branch | Head SHA | Status |
+|---|---:|---|
+| `dev/issue-backlog` | `7fcabc230` | Integration branch, PR #1395 open to `main` |
+| `dev/1253-intake-label` | `19d733b03` | Feature branch, PR #1396 open to `dev/issue-backlog` |
+| `design/1147-dom-xss-static-pages` | merged | PR #1394 merged; local worktree removed |
+
+### Issues + PRs touched
+
+| Item | State |
+|---|---|
+| #1395 | Draft integration PR: `dev/issue-backlog` → `main`; body redrafted after #1336 scout |
+| #1394 / #1147 | Merged into `dev/issue-backlog` as security-only exception; #1336 comment posted |
+| #1396 / #1253 | Draft PR open; active `draft-skills` refs migrated to `intake`; reviewer PASS |
+| #1336 | Comment posted documenting #1147 exception only; no broader Program 5 scope pulled out |
+| #991 | Scout says resolved by branch-scope allowance for `founder/handovers/*` on design branches |
+| #727 | Scout says resolved by schema branch allowance for bundled schema mirror |
+| #998/#999 | Planner recommends optional tiny #998 `docs/js/skill-graph.js` cleanup; #999 likely verify-close because dedicated rank-vocabulary guard already owns terms |
+| #1060 | Planner recommends prep/guardrails only; actual history rewrite needs explicit founder maintenance gate |
+
+### Routing — where things live now
+
+- Active backlog scope excludes explicit #1336 adoptees unless founder re-admits them.
+- Re-admitted exception: #1147 only, because it was a narrow security patch already implemented.
+- Design work remains batched last and requires strict human-gated `/design-iteration` recovery.
+- Required regen commits require explicit human approval before landing.
+- `docs/en/**` remains skipped except unavoidable/security changes; #1147 included a security sink in `docs/en/cli-reference.html` from before this rule was redrafted, and was accepted under the security exception.
+
+### Lessons / hazards preserved
+
+- Run the #1336 scout **before** staging backlog issues; Program 5/6/7 overlap is real.
+- Branch-scope should be read as signal during this sprint, but mixed-scope PRs should still be intentionally justified in PR bodies.
+- `.github/labels.yml` already had canonical `intake`; a blind `draft-skills` → `intake` rename created a duplicate label until reviewer caught it.
+- Git push from subagent worktree may fail auth; orchestrator can push from parent shell with `GIT_TERMINAL_PROMPT=0`.
+
+### Open questions for next orchestrator / next gate
+
+1. Close #991 and #727 now as verified-done, or batch-close them at HG-1?
+2. For #998, is fallback/mock dead vocabulary worth a tiny `design/` cleanup, or verify-close and defer broader `docs/en/fusion.html` semantics to the owning docs team?
+3. For #999, accept planner recommendation to verify-close because `scripts/check_rank_vocabulary.py` owns the term guard, or still add duplicate Guard B regexes?
+4. For #1060, should we open a prep-only guardrails/runbook PR, or defer the whole issue to a founder-approved maintenance window?
+5. Before merging #1396, should open `draft-skills` issues/PRs be relabeled to `intake` immediately, or noted as operational follow-through?
+
+### Token cost (this session so far)
+
+- Pi cost script initially failed under cp1252; reran with `PYTHONUTF8=1`.
+- Main session: ↑233,203 input · ↓43,802 output · R 4,905,472 cache read · **~$4.93**.
+- Subagents: **~$8.61**.
+- Total: **~$13.55**.
+
 
 ## State Snapshot (2026-07-29, Session 8G — five PRs merged, four KCs landed on an integration branch, and KC4 measured FAIL: curated residual is not zero, and the cause turned out to be one word in the composition)
 

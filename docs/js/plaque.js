@@ -352,6 +352,8 @@
     var level = ns.level || '';
     var type = ns.type || '';
     var origin = ns.origin ? 'true' : 'false';
+    var branch = ns.branch || '';
+    var rankWord = ns.rankWord || '';
     var desc = ns.description || '';
     var tagsRaw = (ns.tags && ns.tags.length) ? JSON.stringify(ns.tags) : '';
     var slashIdx = skillId.indexOf('/');
@@ -363,6 +365,8 @@
       'data-skill-name="' + esc(name) + '" ' +
       'data-level="' + esc(level) + '" ' +
       'data-type="' + esc(type) + '" ' +
+      'data-branch="' + esc(branch) + '" ' +
+      'data-rank-word="' + esc(rankWord) + '" ' +
       'data-origin="' + esc(origin) + '" ' +
       'data-desc="' + esc(desc) + '" ' +
       'data-tags="' + esc(tagsRaw) + '" ' +

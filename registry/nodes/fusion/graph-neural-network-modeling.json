@@ -1,0 +1,75 @@
+{
+  "id": "graph-neural-network-modeling",
+  "name": "Graph Neural Network Modeling",
+  "type": "fusion",
+  "description": "Build and train graph neural network models for node, edge, and graph prediction workflows.",
+  "prerequisites": [
+    "data-analysis",
+    "fine-tune",
+    "ml-pipeline"
+  ],
+  "derivatives": [],
+  "evidence": [
+    {
+      "source": "https://github.com/pyg-team/pytorch_geometric",
+      "evaluator": "mbtiongson1",
+      "date": "2026-07-31",
+      "type": "repo-own",
+      "notes": "Upstream PyTorch Geometric repository; generic-level evidence for graph-neural-network-modeling from #813.",
+      "commits": 7995,
+      "contributors": 425,
+      "sourceStartedAt": "2017-10-06",
+      "grade": "B"
+    },
+    {
+      "source": "https://arxiv.org/abs/1903.02428",
+      "evaluator": "mbtiongson1",
+      "date": "2026-07-31",
+      "type": "arxiv",
+      "notes": "PyTorch Geometric paper; OpenAlex cited_by_count 1260 rechecked 2026-07-31.",
+      "citations": 1260,
+      "sourceStartedAt": "2019-03-06",
+      "grade": "S"
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-31",
+  "updatedAt": "2026-08-01",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-31T14:48:22Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Created generic fusion node 'graph-neural-network-modeling' via `gaia dev fuse`."
+    },
+    {
+      "timestamp": "2026-07-31T14:48:22Z",
+      "action": "fuse",
+      "contributor": "unknown",
+      "details": "Set prerequisites via `gaia dev fuse`: data-analysis, fine-tune, ml-pipeline."
+    },
+    {
+      "timestamp": "2026-07-31T14:49:07Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/pyg-team/pytorch_geometric (type: repo-own)"
+    },
+    {
+      "timestamp": "2026-07-31T14:49:07Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://arxiv.org/abs/1903.02428 (type: arxiv)"
+    },
+    {
+      "timestamp": "2026-07-31T16:18:18Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Updated evidence #1 from https://arxiv.org/abs/1903.02428; changed citations, grade, notes (grade: ungraded → S)"
+    }
+  ],
+  "verification": {
+    "firstEvidenceAt": "2026-07-31T14:49:06Z"
+  }
+}

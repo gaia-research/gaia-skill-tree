@@ -1,6 +1,136 @@
 {
-  "generatedAt": "2026-08-02T22:35:26Z",
+  "generatedAt": "2026-08-03T09:11:33Z",
   "skills": [
+    {
+      "id": "anthropics/brand-guidelines",
+      "name": "Brand Guidelines",
+      "level": "3★",
+      "contributor": "anthropics",
+      "trustMagnitude": 77.35,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-07-31T16:25:05Z",
+      "_links": {
+        "self": "/api/v1/skills/anthropics/brand-guidelines.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "k-dense-ai/transformers",
+      "name": "Transformers",
+      "level": "3★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 97.07,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-07-31T16:20:18Z",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/transformers.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "k-dense-ai/torch-geometric",
+      "name": "Torch Geometric",
+      "level": "4★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 167.07,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-07-31T16:20:17Z",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/torch-geometric.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "k-dense-ai/stable-baselines3",
+      "name": "Stable Baselines3",
+      "level": "3★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 97.07,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-07-31T16:20:16Z",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/stable-baselines3.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "k-dense-ai/scanpy",
+      "name": "Scanpy",
+      "level": "3★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 97.07,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-07-31T16:20:15Z",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/scanpy.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "k-dense-ai/qiskit",
+      "name": "Qiskit",
+      "level": "3★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 111.87,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-07-31T16:20:13Z",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/qiskit.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "k-dense-ai/pytorch-lightning",
+      "name": "PyTorch Lightning",
+      "level": "3★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 67.07,
+      "overallTrustGrade": "B",
+      "ascendedAt": "2026-07-31T16:20:12Z",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/pytorch-lightning.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "k-dense-ai/pymc",
+      "name": "PyMC",
+      "level": "4★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 197.07,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-07-31T16:20:11Z",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/pymc.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "k-dense-ai/deepchem",
+      "name": "DeepChem",
+      "level": "4★",
+      "contributor": "k-dense-ai",
+      "trustMagnitude": 167.07,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-07-31T16:20:10Z",
+      "_links": {
+        "self": "/api/v1/skills/k-dense-ai/deepchem.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
+      "id": "dietrichgebert/ponytail",
+      "name": "Ponytail",
+      "level": "4★",
+      "contributor": "dietrichgebert",
+      "trustMagnitude": 102.79,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-07-31T16:20:09Z",
+      "_links": {
+        "self": "/api/v1/skills/dietrichgebert/ponytail.json"
+      },
+      "previousLevel": "2★"
+    },
     {
       "id": "gsd-build/get-shit-done",
       "name": "Get Shit Done",

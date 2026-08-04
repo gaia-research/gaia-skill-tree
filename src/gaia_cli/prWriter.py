@@ -368,7 +368,7 @@ def _print_manual_issue_steps(title, body_path):
     print("Issue creation skipped. Run this command manually:")
     print(
         f"  gh issue create --title \"{title}\" --body-file {body_path}"
-        " --label draft-skills --label needs-review"
+        " --label intake --label needs-review"
     )
 
 
@@ -409,7 +409,7 @@ def open_intake_issue(username, batch_data, batch_path=None, repo_root="."):
     issue = _run(
         ["gh", "issue", "create", "--title", title,
          "--body-file", bodyPath,
-         "--label", "draft-skills", "--label", "needs-review"],
+         "--label", "intake", "--label", "needs-review"],
         cwd=repo_root,
     )
     if issue.returncode != 0:
@@ -457,7 +457,7 @@ def parse_identity_block(body):
 
 
 def fetch_pending_identity(source_repo, repo_root="."):
-    """Query open ``draft-skills`` intake issues and return pending identity.
+    """Query open ``intake`` intake issues and return pending identity.
 
     Returns ``(identity_map, ok)`` where ``identity_map`` is
     ``{identityKey: fingerprint}`` aggregated across every open intake issue
@@ -474,7 +474,7 @@ def fetch_pending_identity(source_repo, repo_root="."):
         return {}, False
 
     result = _run(
-        ["gh", "issue", "list", "--label", "draft-skills", "--state", "open",
+        ["gh", "issue", "list", "--label", "intake", "--state", "open",
          "--json", "body", "--limit", "200"],
         cwd=repo_root,
     )

@@ -47,6 +47,26 @@
       "commits": 260,
       "contributors": 36,
       "grade": "B"
+    },
+    {
+      "source": "https://rachel.fyi/posts/what-i-took-from-addy-osmanis-agent-skills",
+      "evaluator": "unknown",
+      "date": "2026-07-31",
+      "type": "peer-review",
+      "notes": "Independent review directly discusses the skill's <=5-file task constraint and checkpoint discipline.",
+      "reviewers": 1,
+      "sourceStartedAt": "2026-04-16",
+      "grade": "C"
+    },
+    {
+      "source": "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026",
+      "evaluator": "unknown",
+      "date": "2026-07-31",
+      "type": "peer-review",
+      "notes": "Agentailor peer review treats planning-and-task-breakdown as an approved sub-phase of the spec-driven workflow via the Plan and Tasks gates.",
+      "reviewers": 1,
+      "sourceStartedAt": "2026-06-19",
+      "grade": "C"
     }
   ],
   "timeline": [
@@ -120,6 +140,18 @@
       "action": "rank_up",
       "contributor": "unknown",
       "details": "Calibrated level from 2★ to 3★"
+    },
+    {
+      "timestamp": "2026-07-31T13:06:52Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://rachel.fyi/posts/what-i-took-from-addy-osmanis-agent-skills (type: peer-review)"
+    },
+    {
+      "timestamp": "2026-07-31T13:21:09Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
     }
   ],
   "links": {

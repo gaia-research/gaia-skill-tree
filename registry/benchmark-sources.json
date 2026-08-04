@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "1.0.0",
+  "benchmarks": [
+    {
+      "id": "alphaxiv-arxivqa@v1.0",
+      "name": "alphaXiv ArXivQA Retrieval",
+      "status": "reported",
+      "mode": "external",
+      "unit": "pct",
+      "sourceUrl": "https://www.firecrawl.dev/blog/research-index-launch",
+      "methodologyUrl": "https://www.alphaxiv.org/blog/training-retrieval-agents-for-arxiv-search",
+      "aliases": [],
+      "defaultProvenance": "reported",
+      "appliesToGenericSkillRefs": [
+        "literature-search"
+      ],
+      "scoring": {
+        "scoresTrustMagnitude": true,
+        "requiredFields": []
+      },
+      "push": {
+        "enabled": false,
+        "aliases": []
+      },
+      "notes": "Firecrawl reports 53.3% recall at $0.32/task versus 45.4% for the next best system, plus MRR 0.750, on roughly 200 alphaXiv ArXivQA queries. Human-gated as reported benchmark evidence for literature-search; counts at the reported lane (1.0x) unless a future audit rejects the benchmark source."
+    },
+    {
+      "id": "humaneval@v1.0",
+      "name": "HumanEval",
+      "status": "verified",
+      "mode": "internal-ci",
+      "unit": "pass@1",
+      "sourceUrl": "https://github.com/openai/human-eval",
+      "methodologyUrl": "/benchmarks/humaneval-v1/",
+      "harnessUrl": "https://github.com/gaia-research/gaia-skill-tree/tree/main/scripts/benchmarks/humaneval",
+      "dataset": {
+        "name": "HumanEval",
+        "version": "v1.0",
+        "sourceUrl": "https://github.com/openai/human-eval"
+      },
+      "aliases": [
+        "humaneval"
+      ],
+      "defaultProvenance": "verified",
+      "scoring": {
+        "scoresTrustMagnitude": true,
+        "requiredFields": []
+      },
+      "push": {
+        "enabled": true,
+        "aliases": [
+          "humaneval"
+        ]
+      },
+      "notes": "Python function-completion benchmark (164 problems). Gaia reproduces via an internal CI harness; verified rows carry datasetHash + benchmarkInputHash and count at the verified lane (2.0x). Legacy ci-reproduced and verifier-attested provenance aliases normalize to verified."
+    },
+    {
+      "id": "mmlu@2024-03",
+      "name": "MMLU (Massive Multitask Language Understanding)",
+      "status": "reported",
+      "mode": "mirrored",
+      "unit": "pct",
+      "sourceUrl": "https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard",
+      "sourceSnapshotDate": "2024-03-01",
+      "methodologyUrl": "/benchmarks/mmlu-v1/",
+      "aliases": [],
+      "defaultProvenance": "reported",
+      "scoring": {
+        "scoresTrustMagnitude": true,
+        "requiredFields": []
+      },
+      "push": {
+        "enabled": false,
+        "aliases": []
+      },
+      "notes": "5-shot MMLU average scores sourced from the HuggingFace Open LLM Leaderboard snapshot dated 2024-03-01. Human-gated mirrored benchmark evidence counts at the reported lane (1.0x); the legacy mirrored provenance alias normalizes to reported."
+    }
+  ]
+}

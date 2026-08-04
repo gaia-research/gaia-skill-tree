@@ -1,0 +1,84 @@
+{
+  "id": "molecular-machine-learning",
+  "name": "Molecular Machine Learning",
+  "type": "fusion",
+  "description": "Apply machine learning to molecular property prediction, representation learning, and cheminformatics workflows.",
+  "prerequisites": [
+    "molecular-databases",
+    "data-analysis",
+    "ml-pipeline"
+  ],
+  "derivatives": [],
+  "evidence": [
+    {
+      "source": "https://github.com/deepchem/deepchem",
+      "evaluator": "mbtiongson1",
+      "date": "2026-07-31",
+      "type": "repo-own",
+      "notes": "Upstream DeepChem repository; generic-level evidence for molecular-machine-learning from #813.",
+      "commits": 10671,
+      "contributors": 194,
+      "sourceStartedAt": "2015-09-24",
+      "grade": "B"
+    },
+    {
+      "source": "https://arxiv.org/abs/1703.00564",
+      "evaluator": "mbtiongson1",
+      "date": "2026-07-31",
+      "type": "arxiv",
+      "notes": "MoleculeNet: A Benchmark for Molecular Machine Learning; generic-level evidence for molecular-machine-learning from #813.",
+      "citations": 0,
+      "sourceStartedAt": "2017-03-01"
+    },
+    {
+      "source": "https://doi.org/10.1039/c7sc02664a",
+      "evaluator": "mbtiongson1",
+      "date": "2026-07-31",
+      "type": "arxiv",
+      "notes": "MoleculeNet paper; OpenAlex cited_by_count 3045 rechecked 2026-07-31.",
+      "citations": 3045,
+      "sourceStartedAt": "2017-10-31",
+      "grade": "S"
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-31",
+  "updatedAt": "2026-08-01",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-31T14:48:27Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Created generic fusion node 'molecular-machine-learning' via `gaia dev fuse`."
+    },
+    {
+      "timestamp": "2026-07-31T14:48:27Z",
+      "action": "fuse",
+      "contributor": "unknown",
+      "details": "Set prerequisites via `gaia dev fuse`: molecular-databases, data-analysis, ml-pipeline."
+    },
+    {
+      "timestamp": "2026-07-31T14:49:03Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/deepchem/deepchem (type: repo-own)"
+    },
+    {
+      "timestamp": "2026-07-31T14:49:04Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://arxiv.org/abs/1703.00564 (type: arxiv)"
+    },
+    {
+      "timestamp": "2026-07-31T16:18:16Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://doi.org/10.1039/c7sc02664a (type: arxiv)"
+    }
+  ],
+  "verification": {
+    "firstEvidenceAt": "2026-07-31T14:49:03Z"
+  }
+}

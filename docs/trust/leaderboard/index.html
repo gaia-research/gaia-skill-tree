@@ -194,12 +194,21 @@
       <button class="lb-registry-expand" id="lbRegExpand" type="button">Show all contributors</button>
     </section>
 
-    <!-- CTA -->
-    <section class="lb-cta">
-      <h3 class="lb-cta-title">Is your AI skill missing?</h3>
-      <p class="lb-cta-body">Push it to the registry. Evidence gets you on the board.</p>
-      <pre class="lb-cta-code"><code><span class="cmd">gaia</span> push</code></pre>
-      <a class="lb-cta-link" href="https://github.com/gaia-research/gaia-skill-tree/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing Guide →</a>
+    <!-- CTA — registry intake panel -->
+    <section class="lb-cta" aria-label="Registry intake">
+      <div class="lb-cta-inner">
+        <div class="lb-cta-copy">
+          <h3 class="lb-cta-title">Is your AI skill missing?</h3>
+          <p class="lb-cta-body">Submit evidence. Named skills with verified Trust Magnitude appear on this board.</p>
+        </div>
+        <div class="lb-cta-action">
+          <pre class="lb-cta-code" aria-label="CLI command"><code><span class="cmd">gaia</span> push</code></pre>
+          <div class="lb-cta-links" role="group" aria-label="Intake links">
+            <a class="lb-cta-link" href="https://github.com/gaia-research/gaia-skill-tree/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing Guide</a>
+            <a class="lb-cta-link" href="https://github.com/gaia-research/gaia-skill-tree/issues/new?template=new_skill_intake.yml" target="_blank" rel="noopener">Open intake issue</a>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
   </div>

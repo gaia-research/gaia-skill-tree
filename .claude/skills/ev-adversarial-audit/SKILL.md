@@ -1,62 +1,34 @@
 ---
 name: ev-adversarial-audit
 description: >
-  Run this skill for Phase 3 of the evidence verification pipeline — the adversarial audit step.
-  Use when you need to check the evidence data lake for bad data before ingestion: dead links, wrong
-  URL formats (tree/ vs blob/), subjective wording ("elite", "high-quality"), stale migration notes,
-  or skills whose star tier doesn't match their classified evidence level. Triggers on phrases like:
-  "audit the data lake", "adversarial check", "ev-adversarial-audit", "check for noise in evidence",
-  "flag bad evidence", "run the audit phase", "quality check the tier files", or any reference to
-  Phase 3 of the pipeline. Deploys 4 parallel adversarial reviewer subagents across the tier files,
-  then a 5th synthesis subagent to merge findings, and appends results to the daily source report.
+  Run this skill for Phase 3 of the evidence verification pipeline — the adversarial audit step. Use when you need to check the evidence data lake for bad data before ingestion: dead links, wrong URL formats (tree/ vs blob/), subjective wording ("elite", "high-quality"), stale migration notes, benchmark catalog misuse/vendor-claim leakage, or skills whose star evidence conflicts with classified evidence level. Triggers on phrases like: "audit the data lake", "adversarial check", "ev-adversarial-audit", "check for noise in evidence", "flag bad evidence", "run the audit phase", "quality check the by-type files", or any reference to Phase 3 of the pipeline.
 ---
 
 # Adversarial Evidence Audit (ev-adversarial-audit)
 
-Phase 3 of the evidence verification pipeline. After `ev-star-verification` has partitioned the data lake into tier files, this skill deploys 4 parallel adversarial reviewer subagents to scan those files from a "Devil's Advocate" perspective, then a 5th synthesis subagent merges their findings into the master source report.
+Phase 3 audits the evidence lake from a Devil's Advocate perspective before URL health validation and ingestion.
 
-The adversarial approach matters because a single sequential pass over a large tier file tends to miss subtle issues — evaluative adjectives slipping through, a `tree/` URL that looks plausible at a glance, or a star threshold mismatch that only becomes visible when cross-referencing the tier. Parallelising reviewers and prompting them to actively look for problems (rather than rubber-stamp entries) catches the class of errors that confident single-pass scanning misses.
+## Type-First Evidence Lake Contract (#1148)
 
-## What Each Reviewer Looks For
+The evidence lake is **type-first**. Audit `evidence/by-type/<canonical-evidence-type>.md` files. Legacy `evidence/tier_*.md` files may still exist as coexistence artifacts, but they are **not** the semantic routing key.
 
-Reviewers check for four failure modes:
+## Audit Target
 
-**Evaluative noise** — subjective wording like "elite", "high-quality", "best-in-class", or procedural rank annotations and stale database migration comments that crept into evidence descriptions. These are not evidence; they inflate perceived credibility.
+Split reviewer work across `evidence/by-type/<type>.md` files, not tier files. Suggested sharding:
 
-**URL format errors** — bare repository URLs (`https://github.com/owner/repo`) used where a `blob/branch/subpath` pointing to the actual skill directory is required; `tree/` folder references that must be `blob/`; case-sensitivity mismatches; missing `/SKILL.md` suffix on installable skills.
+- Repo/adoption signals: `repo-own`, `github-stars-own`, `social-signal`
+- Technical proof: `benchmark-result`, `arxiv`, `peer-review`
+- Governance/proxy proof: `proxy-containment`, `verifier-attestation`
+- Composition/self proof: `fusion-recipe`, `self-attestation`
 
-**Proxy mismatches** — evidence typed as `github-stars-own` pointing to a URL that is already covered by a `repo-own` entry at the same path (same-source dedup means only the higher-scoring entry counts — the duplicate is silent waste).
+## Findings to Flag
 
-**Tier/classification drift** — skills whose evidence star tier doesn't align with their classified rank in `registry/named-skills.json`, indicating a stale tier file or a promotion that wasn't reflected downstream.
+- Dead or malformed URLs, including GitHub `tree/` links where a `blob/` source is required.
+- Subjective/evaluative wording not supported by the source.
+- Evidence type mismatches or legacy alias leakage.
+- Star evidence that conflicts with live verification notes from Phase 2.
+- Benchmark catalog misuse after Phase 2B: `benchmark-result` rows citing unknown, candidate, registered, rejected, or retired sources as if they score; vendor claims presented as reproducible benchmarks; scoring provenance on non-verified catalog entries; missing reproducibility fields or missing/dubious percentile values.
+- Stale migration notes that still treat `tier_*.md` as the semantic working set.
+- Multi-target peer-review packet misuse: wrong `evidenceType`, empty `targets`, invalid `skillId`, duplicate `(source.url, skillId, evidenceType)` rows, or forbidden strength/scoring fields (`trustNumber`, `grade`, `class`, `tier`, `level`, `stars`, `rank`).
 
-## Workflow
-
-Split the tier files across 4 parallel adversarial reviewer subagents to stay within context limits for large tiers (tier_2.md is the biggest and must be split):
-
-- **Agent 1:** `tier_1.md`, `tier_5.md`, `tier_6.md`
-- **Agent 2:** `tier_2.md` lines 1–1382
-- **Agent 3:** `tier_2.md` lines 1383–2767
-- **Agent 4:** `tier_3.md`, `tier_4.md`
-
-Each agent receives the same adversarial reviewer prompt: act as a Devil's Advocate, assume every entry has at least one issue, and produce a structured findings list (entry name, tier file, line range, issue category, recommended fix).
-
-After all 4 complete, run a 5th synthesis subagent (type `self`) to:
-1. Deduplicate overlapping findings across agents.
-2. Group by issue category.
-3. Produce a final ranked summary ordered by severity.
-
-Append the merged findings to the active source report under a new section:
-
-```
-## 6. Adversarial Data Lake Audit Findings (YYYY-MM-DD)
-```
-
-The source report lives at `evidence/source_report_YYYY_MM_DD.md` (use today's date).
-
-## Invocation
-
-```bash
-/ev-adversarial-audit
-```
-
-This skill is normally invoked as part of the full pipeline via `/ev-pipeline`. Run it standalone when you want to re-audit the tier files after making corrections — for example, after fixing URL errors flagged in a previous run, re-run this skill to confirm the fixes are clean before proceeding to `/ev-link-validation`.
+Append concise findings to the source report. Do not mutate registry files.

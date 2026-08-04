@@ -95,6 +95,10 @@ timeline:
   action: rank_up
   contributor: marcotiongson
   details: Calibrated level from 3★ to 4★
+- timestamp: '2026-07-31T13:06:54Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://arxiv.org/html/2606.04967v1 (type: arxiv)'
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/stargazers
   updatedAt: '2026-08-01'
@@ -110,6 +114,14 @@ evidence:
   commits: 2888
   contributors: 136
   grade: B
+- source: https://arxiv.org/html/2606.04967v1
+  evaluator: unknown
+  date: '2026-07-31'
+  type: arxiv
+  notes: Academic paper 'From Prompt to Process' analyzes GSD across a six-dimensional
+    software-engineering process taxonomy.
+  citations: 0
+  sourceStartedAt: '2026-06-03'
 verification:
   firstEvidenceAt: '2026-07-02T18:05:09Z'
 title: Get Shit Done

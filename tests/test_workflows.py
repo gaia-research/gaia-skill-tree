@@ -15,6 +15,8 @@ class TestWorkflowConfig(unittest.TestCase):
         with open(AUTO_TRIAGE_PATH, "r", encoding="utf-8") as f:
             content = f.read()
         self.assertIn('- "registry-for-review/**"', content)
+        self.assertIn('gh label create "intake"', content)
+        self.assertIn('--add-label "intake"', content)
 
     def test_auto_triage_uses_pull_request_target(self):
         """Regression: pull_request gives read-only token on fork PRs, breaking label writes."""

@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "1.0.0",
+  "benchmarkId": "alphaxiv-arxivqa@v1.0",
+  "name": "alphaXiv ArXivQA Retrieval",
+  "unit": "pct",
+  "provenance": "reported",
+  "methodologyUrl": "https://www.alphaxiv.org/blog/training-retrieval-agents-for-arxiv-search",
+  "status": "reported",
+  "mode": "external",
+  "scoresTrustMagnitude": true,
+  "sourceUrl": "https://www.firecrawl.dev/blog/research-index-launch",
+  "appliesToGenericSkillRefs": [
+    "literature-search"
+  ],
+  "notes": "Firecrawl reports 53.3% recall at $0.32/task versus 45.4% for the next best system, plus MRR 0.750, on roughly 200 alphaXiv ArXivQA queries. Human-gated as reported benchmark evidence for literature-search; counts at the reported lane (1.0x) unless a future audit rejects the benchmark source.",
+  "rows": [
+    {
+      "skillId": "firecrawl/firecrawl-research-index",
+      "score": 53.3,
+      "unit": "pct",
+      "provenance": "reported",
+      "attestor": "https://www.firecrawl.dev/blog/research-index-launch",
+      "datasetHash": null,
+      "benchmarkInputHash": null,
+      "runAt": null,
+      "harnessUrl": null,
+      "percentile": null,
+      "modelRef": null,
+      "notes": "Firecrawl-reported ArXivQA recall: 53.3% at $0.32/task versus 45.4% next best; MRR 0.750."
+    }
+  ]
+}

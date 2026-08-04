@@ -260,6 +260,19 @@ def test_push_benchmark_short_name_mismatch_with_result_file(tmp_path, capsys):
     assert _load_evidence(root) == []
 
 
+def test_push_benchmark_same_alias_unknown_version_rejected(tmp_path, capsys):
+    root = _make_registry(tmp_path)
+    result = _write_result_file(tmp_path, benchmarkId="humaneval@v2.0")
+    args = _push_args(root, fromResultFile=str(result))
+    with pytest.raises(SystemExit) as exc:
+        push_benchmark_command(args)
+    assert exc.value.code == 2
+    err = capsys.readouterr().err
+    assert "humaneval@v1.0" in err
+    assert "humaneval@v2.0" in err
+    assert _load_evidence(root) == []
+
+
 def test_push_benchmark_unknown_short_name_rejected(tmp_path, capsys):
     root = _make_registry(tmp_path)
     result = _write_result_file(tmp_path)
@@ -269,6 +282,19 @@ def test_push_benchmark_unknown_short_name_rejected(tmp_path, capsys):
     assert exc.value.code == 2
     err = capsys.readouterr().err
     assert "unknown --benchmark" in err.lower()
+    assert _load_evidence(root) == []
+
+
+def test_push_benchmark_mirrored_catalog_entry_not_push_enabled(tmp_path, capsys):
+    root = _make_registry(tmp_path)
+    result = _write_result_file(tmp_path, benchmarkId="mmlu@2024-03", unit="pct")
+    args = _push_args(root, benchmark="mmlu", fromResultFile=str(result))
+    with pytest.raises(SystemExit) as exc:
+        push_benchmark_command(args)
+    assert exc.value.code == 2
+    err = capsys.readouterr().err
+    assert "unknown --benchmark" in err.lower()
+    assert "humaneval" in err
     assert _load_evidence(root) == []
 
 

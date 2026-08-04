@@ -160,6 +160,32 @@ class TestValidate(unittest.TestCase):
             self.assertIn(f"name: {skill_name}", text)
             self.assertIn("description:", text)
 
+    def test_labels_yaml_has_no_duplicates(self):
+        """Ensure .github/labels.yml contains no duplicate label names."""
+        import yaml
+        labels_path = os.path.join(REPO_ROOT, ".github", "labels.yml")
+        self.assertTrue(os.path.exists(labels_path), f"Missing {labels_path}")
+        with open(labels_path, "r", encoding="utf-8") as f:
+            labels_data = yaml.safe_load(f)
+
+        self.assertIsInstance(labels_data, list, "Expected labels.yml to parse as a list")
+
+        seen_names = set()
+        duplicates = []
+        for label in labels_data:
+            if not isinstance(label, dict) or "name" not in label:
+                continue
+            name = label["name"].strip().lower()  # case-insensitive check
+            if name in seen_names:
+                duplicates.append(label["name"])
+            else:
+                seen_names.add(name)
+
+        self.assertEqual(
+            duplicates, [],
+            f"Duplicate labels found in .github/labels.yml: {duplicates}"
+        )
+
 class TestNamedSkillValidation(unittest.TestCase):
     """Tests that verify named skill files pass validate_and_group rules."""
 

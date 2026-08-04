@@ -9,8 +9,9 @@ Validates registry/gaia.json against:
 5. Prerequisite minimums by skill type (meta.json types.minPrereqs).
 6. Named skill frontmatter consistency.
 7. Skill suites validation.
-8. Benchmark-result provenance gate (Sprint D W2a, #904).
-9. Verifier benchmark attestation format & authorization (Sprint D W2b, #905).
+8. Benchmark source catalog validation (issue #1419).
+9. Benchmark-result provenance gate (Sprint D W2a, #904).
+10. Verifier benchmark attestation format & authorization (Sprint D W2b, #905).
 
 Generic skill refs are rank-less — stars live only on named skills — so there is
 no generic level/demerit validation.
@@ -299,6 +300,19 @@ def validate_prerequisites_count(graph):
 # ---------------------------------------------------------------------------
 
 
+def validate_benchmark_source_catalog():
+    """Validate registry/benchmark-sources.json against its schema and policy."""
+    try:
+        from gaia_cli.benchmarkCatalog import BenchmarkCatalogError, loadBenchmarkCatalog
+    except Exception as exc:
+        return [f"benchmark source catalog helper import failed: {exc}"]
+    try:
+        loadBenchmarkCatalog(_REPO_ROOT, validate=True)
+    except BenchmarkCatalogError as exc:
+        return [f"benchmark source catalog invalid: {exc}"]
+    return []
+
+
 def validate_verifier_benchmark_attestations():
     """Sprint D W2b (#905) — delegate to scripts/check_verifier_signoffs.py.
 
@@ -327,21 +341,19 @@ def validate_verifier_benchmark_attestations():
 
 
 def validate_benchmark_provenance(graph, strict=False):
-    """Sprint D W2a (#904) — benchmark-result provenance gate.
+    """Benchmark-result provenance/lane gate (#1419).
 
-    Reject self-attested rows always (schema also blocks this at Draft-07
-    level; kept as defence-in-depth for pre-migration corpus rows). Reject
-    pending rows when strict is on (main-merge protection), UNLESS a later
-    ci-reproduced or verifier-attested row exists for the same skill +
-    benchmarkId (superseded-pending carve-out). Warn on mirrored rows so
-    operators know their entry is citation-only and excluded from Trust
-    Magnitude.
+    Reject self-attested rows always. Legacy ``pending`` rows are no-scoring;
+    strict mode keeps the old main-merge protection unless a later verified-lane
+    row exists for the same skill + benchmarkId. ``reported`` (and legacy
+    ``mirrored``) rows are valid 1.0x benchmark evidence after human gate
+    approval. ``rejected`` rows are audit history and score zero.
 
     Returns a list of error strings; the caller merges these into all_errors.
-    Prints mirrored warnings directly to stdout.
+    Prints lane notices directly to stdout.
     """
     errors = []
-    mirrored_warnings = []
+    lane_notices = []
     skills = graph.get("skills", []) if isinstance(graph, dict) else graph
     for skill in skills:
         skill_id = skill.get("id", "<unknown>")
@@ -354,8 +366,9 @@ def validate_benchmark_provenance(graph, strict=False):
             if provenance == "self-attested":
                 errors.append(
                     f"Skill '{skill_id}' evidence[{idx}] has provenance='self-attested' "
-                    f"— FOREVER rejected for benchmark-result rows. Use ci-reproduced, "
-                    f"verifier-attested, mirrored, or pending."
+                    f"— FOREVER rejected for benchmark-result rows. Use verified, "
+                    f"reported, or rejected (legacy aliases: ci-reproduced, "
+                    f"verifier-attested, mirrored, pending)."
                 )
             elif provenance == "pending":
                 # Superseded-pending carve-out (Sprint D W2b #905): a pending row is
@@ -367,28 +380,27 @@ def validate_benchmark_provenance(graph, strict=False):
                     for later_row in evidence_list[idx+1:]:
                         if (later_row.get("type") == "benchmark-result" and
                             later_row.get("benchmarkId") == benchmark_id and
-                            later_row.get("provenance") in ("ci-reproduced", "verifier-attested")):
+                            later_row.get("provenance") in ("verified", "ci-reproduced", "verifier-attested")):
                             is_superseded = True
                             break
                 
                 if not is_superseded:
                     message = (
                         f"Skill '{skill_id}' evidence[{idx}] has provenance='pending' "
-                        f"— must be promoted to ci-reproduced or verifier-attested "
+                        f"— must be promoted to verified/reported or rejected "
                         f"before landing on main."
                     )
                     if strict:
                         errors.append(message)
                     else:
-                        mirrored_warnings.append("(pending) " + message)
-            elif provenance == "mirrored":
-                mirrored_warnings.append(
-                    f"Skill '{skill_id}' evidence[{idx}] is mirrored — "
-                    f"citation-only, excluded from Trust Magnitude."
+                        lane_notices.append("(pending) " + message)
+            elif provenance == "rejected":
+                lane_notices.append(
+                    f"Skill '{skill_id}' evidence[{idx}] is rejected — no Trust Magnitude score."
                 )
-    if mirrored_warnings:
-        print(f"   ℹ  {len(mirrored_warnings)} benchmark provenance notice(s):")
-        for w in mirrored_warnings:
+    if lane_notices:
+        print(f"   ℹ  {len(lane_notices)} benchmark provenance notice(s):")
+        for w in lane_notices:
             print(f"      - {w}")
     return errors
 
@@ -877,23 +889,23 @@ def main():
     all_errors = []
 
     # 1. Schema validation
-    print("   [1/9] Schema validation...")
+    print("   [1/10] Schema validation...")
     all_errors.extend(validate_schema(graph, schema_dir))
 
     # 2. Unique identifiers
-    print("   [2/9] Unique identifiers...")
+    print("   [2/10] Unique identifiers...")
     all_errors.extend(validate_unique_ids(graph))
 
     # 3. DAG cycle detection
-    print("   [3/9] DAG cycle detection...")
+    print("   [3/10] DAG cycle detection...")
     all_errors.extend(validate_dag(graph))
 
     # 4. Reference integrity
-    print("   [4/9] Reference integrity...")
+    print("   [4/10] Reference integrity...")
     all_errors.extend(validate_references(graph))
 
     # 5. Prerequisite count
-    print("   [5/9] Prerequisite count...")
+    print("   [5/10] Prerequisite count...")
     all_errors.extend(validate_prerequisites_count(graph))
 
     # Yggdrasil II retired three former steps here, across two commits on this
@@ -903,20 +915,24 @@ def main():
     # the retirement note above validate_verifier_benchmark_attestations.
 
     # 6. Named skills validation (includes reviewer gate + catalog cross-refs)
-    print("   [6/9] Named skills validation...")
+    print("   [6/10] Named skills validation...")
     all_errors.extend(validate_named_skills(graph, named_dir=named_dir))
 
     # 7. Skill suites validation
-    print("   [7/9] Skill suites validation...")
+    print("   [7/10] Skill suites validation...")
     all_errors.extend(validate_suites(graph))
 
-    # 8. Benchmark-result provenance (Sprint D W2a, #904)
+    # 8. Benchmark source catalog (issue #1419)
+    print("   [8/10] Benchmark source catalog...")
+    all_errors.extend(validate_benchmark_source_catalog())
+
+    # 9. Benchmark-result provenance (Sprint D W2a, #904)
     strict_label = " [strict]" if strict_mode else ""
-    print(f"   [8/9] Benchmark-result provenance{strict_label}...")
+    print(f"   [9/10] Benchmark-result provenance{strict_label}...")
     all_errors.extend(validate_benchmark_provenance(graph, strict=strict_mode))
 
-    # 9. Verifier benchmark attestations (Sprint D W2b, #905)
-    print("   [9/9] Verifier benchmark attestations...")
+    # 10. Verifier benchmark attestations (Sprint D W2b, #905)
+    print("   [10/10] Verifier benchmark attestations...")
     all_errors.extend(validate_verifier_benchmark_attestations())
 
     # Stats

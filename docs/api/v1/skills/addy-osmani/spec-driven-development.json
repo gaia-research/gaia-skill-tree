@@ -47,6 +47,16 @@
       "commits": 260,
       "contributors": 36,
       "grade": "B"
+    },
+    {
+      "source": "https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026",
+      "evaluator": "unknown",
+      "date": "2026-07-31",
+      "type": "peer-review",
+      "notes": "Agentailor peer review recommends spec-driven-development as the anchor skill and summarizes its gated Specify -> Plan -> Tasks -> Implement workflow for durable agentic engineering.",
+      "reviewers": 1,
+      "sourceStartedAt": "2026-06-19",
+      "grade": "C"
     }
   ],
   "timeline": [
@@ -120,6 +130,12 @@
       "action": "rank_up",
       "contributor": "unknown",
       "details": "Calibrated level from 2★ to 3★"
+    },
+    {
+      "timestamp": "2026-07-31T13:21:08Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026 (type: peer-review)"
     }
   ],
   "links": {

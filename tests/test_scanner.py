@@ -150,6 +150,60 @@ class TestSkillSearchDirs:
         results = scan_skill_mds(root=str(tmp_path))
         assert any(r["id"] == "/my-skill" for r in results)
 
+    def test_finds_human_readable_skills_dir(self, tmp_path):
+        """skills/<name>/SKILL.md is treated as a bounded skill container."""
+        d = tmp_path / "skills" / "human-skill"
+        d.mkdir(parents=True)
+        _write(str(d / "SKILL.md"), "---\nname: Human Skill\ndescription: test\n---\n")
+
+        results = scan_skill_mds(root=str(tmp_path))
+        assert any(r["id"] == "/human-skill" for r in results)
+
+    def test_finds_human_readable_agent_skills_dir(self, tmp_path):
+        """agent-skills/<name>/SKILL.md is treated as a bounded skill container."""
+        d = tmp_path / "agent-skills" / "agent-skill"
+        d.mkdir(parents=True)
+        _write(str(d / "SKILL.md"), "---\nname: Agent Skill\ndescription: test\n---\n")
+
+        results = scan_skill_mds(root=str(tmp_path))
+        assert any(r["id"] == "/agent-skill" for r in results)
+
+    def test_finds_human_readable_docs_skills_dir(self, tmp_path):
+        """docs/skills/<name>/SKILL.md is treated as a bounded skill container."""
+        d = tmp_path / "docs" / "skills" / "docs-skill"
+        d.mkdir(parents=True)
+        _write(str(d / "SKILL.md"), "---\nname: Docs Skill\ndescription: test\n---\n")
+
+        results = scan_skill_mds(root=str(tmp_path))
+        assert any(r["id"] == "/docs-skill" for r in results)
+
+    def test_finds_human_readable_my_skills_dir(self, tmp_path):
+        """my-skills/<name>/SKILL.md is treated as a bounded skill container."""
+        d = tmp_path / "my-skills" / "personal-skill"
+        d.mkdir(parents=True)
+        _write(str(d / "SKILL.md"), "---\nname: Personal Skill\ndescription: test\n---\n")
+
+        results = scan_skill_mds(root=str(tmp_path))
+        assert any(r["id"] == "/personal-skill" for r in results)
+
+    def test_human_readable_skills_dir_rejects_readme_only_folder(self, tmp_path):
+        """skills/<name>/README.md alone is not treated as a skill."""
+        d = tmp_path / "skills" / "notes"
+        d.mkdir(parents=True)
+        _write(str(d / "README.md"), "---\nname: Notes\ndescription: not a skill\n---\n")
+
+        results = scan_skill_mds(root=str(tmp_path))
+        assert not any(r["id"] == "/notes" for r in results)
+
+    def test_human_readable_docs_skills_root_rejects_generic_markdown(self, tmp_path):
+        """docs/skills/*.md overview files are not treated as skills."""
+        d = tmp_path / "docs" / "skills"
+        d.mkdir(parents=True)
+        _write(str(d / "overview.md"), "# Skill overview\n")
+
+        results = scan_skill_mds(root=str(tmp_path))
+        assert results == []
+
     def test_finds_cursor_rules(self, tmp_path):
         """.cursor/rules/ subdirs are treated as skills."""
         d = tmp_path / ".cursor" / "rules" / "cursor-skill"
@@ -167,6 +221,33 @@ class TestSkillSearchDirs:
 
         results = scan_skill_mds(root=str(tmp_path))
         assert any(r["id"] == "/surf-skill" for r in results)
+
+    def test_finds_xcode_skills(self, tmp_path):
+        """.xcode/skills/ subdirs are treated as skills."""
+        d = tmp_path / ".xcode" / "skills" / "xcode-skill"
+        d.mkdir(parents=True)
+        _write(str(d / "skill.md"), "---\nname: Xcode Skill\ndescription: test\n---\n")
+
+        results = scan_skill_mds(root=str(tmp_path))
+        assert any(r["id"] == "/xcode-skill" for r in results)
+
+    def test_finds_xcode_rules(self, tmp_path):
+        """.xcode/rules/ subdirs are treated as skills."""
+        d = tmp_path / ".xcode" / "rules" / "xcode-rule"
+        d.mkdir(parents=True)
+        _write(str(d / "skill.md"), "---\nname: Xcode Rule\ndescription: test\n---\n")
+
+        results = scan_skill_mds(root=str(tmp_path))
+        assert any(r["id"] == "/xcode-rule" for r in results)
+
+    def test_xcode_other_not_found(self, tmp_path):
+        """.xcode/other/skill.md is not discovered because .xcode is pruned during broad scanning."""
+        d = tmp_path / ".xcode" / "other"
+        d.mkdir(parents=True)
+        _write(str(d / "skill.md"), "---\nname: Other Xcode\ndescription: should not be found\n---\n")
+
+        results = scan_skill_mds(root=str(tmp_path))
+        assert not any(r["name"] == "Other Xcode" for r in results)
 
     def test_source_dir_recorded(self, tmp_path):
         """Each result records which directory it came from."""
@@ -206,6 +287,21 @@ class TestSkillSearchDirs:
 
         results = scan_skill_mds(root=str(tmp_path))
         assert len([r for r in results if r["id"] == "/skill-x"]) == 1
+
+    def test_skills_symlink_to_legacy_root_preserves_readme_fallback(self, tmp_path):
+        """If top-level skills symlinks to .agents/skills, the legacy fallback should still work."""
+        agents_dir = tmp_path / ".agents" / "skills"
+        agents_dir.mkdir(parents=True)
+
+        legacy_skill = agents_dir / "legacy-skill"
+        legacy_skill.mkdir(parents=True)
+        _write(str(legacy_skill / "README.md"), "---\nname: Legacy Skill\ndescription: uses fallback\n---\n")
+
+        skills_link = tmp_path / "skills"
+        skills_link.symlink_to(agents_dir)
+
+        results = scan_skill_mds(root=str(tmp_path))
+        assert any(r["id"] == "/legacy-skill" for r in results)
 
     def test_config_driven_skill_dirs(self, tmp_path, monkeypatch):
         """Paths listed under skillDirs in .gaia/config.toml are scanned."""
@@ -406,6 +502,7 @@ class TestRed_GlobalSearchDirsExcluded:
         global_skills.mkdir(parents=True)
 
         monkeypatch.setenv("HOME", str(home))
+        monkeypatch.setenv("USERPROFILE", str(home))
 
         dirs = _skill_search_dirs(root=str(tmp_path), global_search=False)
         real_dirs = [os.path.realpath(d) for d in dirs]
@@ -420,6 +517,7 @@ class TestRed_GlobalSearchDirsExcluded:
         global_skills.mkdir(parents=True)
 
         monkeypatch.setenv("HOME", str(home))
+        monkeypatch.setenv("USERPROFILE", str(home))
 
         dirs = _skill_search_dirs(root=str(tmp_path), global_search=True)
         real_dirs = [os.path.realpath(d) for d in dirs]
@@ -484,6 +582,7 @@ class TestGreen_ScanGlobalSearch:
                "---\nname: Global Skill\ndescription: Installed globally\n---\n")
 
         monkeypatch.setenv("HOME", str(home))
+        monkeypatch.setenv("USERPROFILE", str(home))
 
         dirs = _skill_search_dirs(root=str(tmp_path), global_search=True)
         real_dirs = [os.path.realpath(d) for d in dirs]
@@ -539,3 +638,22 @@ class TestScrutiny_ScanRootVsParent:
         assert "parent-skill" not in found_ids, (
             "Skills above the project root should not be found with global_search=False"
         )
+
+
+class TestShouldPruneDir:
+    def test_prunes_default_excluded_dirs(self):
+        from gaia_cli.scanner import _should_prune_dir
+        assert _should_prune_dir(".git") is True
+        assert _should_prune_dir("node_modules") is True
+        assert _should_prune_dir("__pycache__") is True
+
+    def test_allows_allowed_dot_prefixes(self):
+        from gaia_cli.scanner import _should_prune_dir
+        assert _should_prune_dir(".agents") is False
+        assert _should_prune_dir(".claude") is False
+        assert _should_prune_dir(".cursor") is False
+
+    def test_prunes_unallowed_dot_prefixes(self):
+        from gaia_cli.scanner import _should_prune_dir
+        assert _should_prune_dir(".unknown") is True
+        assert _should_prune_dir(".xcode") is True

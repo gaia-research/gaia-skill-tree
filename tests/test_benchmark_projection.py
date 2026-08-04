@@ -19,6 +19,8 @@ import pytest
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 
+from gaia_cli.benchmarkCatalog import BenchmarkCatalogError
+
 from scripts.generateBenchmarkProjection import (  # noqa: E402
     benchmarkSlug,
     buildBenchmarkFile,
@@ -28,6 +30,15 @@ from scripts.generateBenchmarkProjection import (  # noqa: E402
     main,
     parseFrontmatter,
 )
+
+
+def _catalog_with_generic_applicability() -> dict:
+    catalog = json.loads((REPO_ROOT / "registry" / "benchmark-sources.json").read_text(encoding="utf-8"))
+    for entry in catalog["benchmarks"]:
+        if entry["id"] == "humaneval@v1.0":
+            entry["appliesToGenericSkillRefs"] = ["code-generation", "test-driven-development"]
+            break
+    return catalog
 
 
 # ---------------------------------------------------------------------------
@@ -79,13 +90,25 @@ class TestBuildBenchmarkFile:
         doc = buildBenchmarkFile("humaneval@v1.0", rows)
         assert doc["benchmarkId"] == "humaneval@v1.0"
         assert doc["schemaVersion"] == "1.0.0"
+        assert doc["status"] == "verified"
+        assert doc["mode"] == "internal-ci"
+        assert doc["scoresTrustMagnitude"] is True
+        assert "allowedProvenance" not in doc
         assert len(doc["rows"]) == 1
         assert doc["rows"][0]["skillId"] == "a/b"
 
-    def test_unknown_benchmark_falls_back(self):
-        doc = buildBenchmarkFile("unknown@v9", [])
-        assert doc["benchmarkId"] == "unknown@v9"
-        assert doc["name"] == "unknown@v9"
+    def test_generic_applicability_metadata_is_preserved(self):
+        rows = [{"skillId": "a/b", "score": 0.5, "unit": "pass@1",
+                 "provenance": "ci-reproduced", "attestor": None,
+                 "datasetHash": None, "benchmarkInputHash": None,
+                 "runAt": None, "harnessUrl": None, "percentile": None,
+                 "modelRef": None, "notes": None}]
+        doc = buildBenchmarkFile("humaneval@v1.0", rows, catalog=_catalog_with_generic_applicability())
+        assert doc["appliesToGenericSkillRefs"] == ["code-generation", "test-driven-development"]
+
+    def test_unknown_benchmark_rejected(self):
+        with pytest.raises(BenchmarkCatalogError):
+            buildBenchmarkFile("unknown@v9", [])
 
 
 class TestBuildIndexDoc:
@@ -101,6 +124,12 @@ class TestBuildIndexDoc:
     def test_schema_version(self):
         doc = buildIndexDoc(["humaneval@v1.0"])
         assert doc["schemaVersion"] == "1.0.0"
+        assert doc["benchmarks"][0]["status"] == "verified"
+        assert doc["benchmarks"][0]["scoresTrustMagnitude"] is True
+
+    def test_generic_applicability_metadata_is_preserved(self):
+        doc = buildIndexDoc(["humaneval@v1.0"], catalog=_catalog_with_generic_applicability())
+        assert doc["benchmarks"][0]["appliesToGenericSkillRefs"] == ["code-generation", "test-driven-development"]
 
 
 # ---------------------------------------------------------------------------

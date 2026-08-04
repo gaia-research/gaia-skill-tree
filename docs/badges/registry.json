@@ -1523,14 +1523,25 @@
       ],
       "skillsByRepo": {
         "anthropics/skills": [
+          "anthropics/brand-guidelines",
           "anthropics/canvas-design"
         ]
       },
-      "topSkill": "anthropics/canvas-design",
-      "topRank": 2,
+      "topSkill": "anthropics/brand-guidelines",
+      "topRank": 3,
       "topIsUnique": false,
-      "count": 1,
+      "count": 2,
       "namedSkills": [
+        {
+          "id": "anthropics/brand-guidelines",
+          "name": "Brand Guidelines",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/brand-guidelines",
+          "file": "brand-guidelines.svg",
+          "fileSeal": "brand-guidelines-seal.svg"
+        },
         {
           "id": "anthropics/canvas-design",
           "name": "Canvas Design",
@@ -1705,6 +1716,32 @@
         }
       ]
     },
+    "dietrichgebert": {
+      "repos": [
+        "DietrichGebert/ponytail"
+      ],
+      "skillsByRepo": {
+        "DietrichGebert/ponytail": [
+          "dietrichgebert/ponytail"
+        ]
+      },
+      "topSkill": "dietrichgebert/ponytail",
+      "topRank": 4,
+      "topIsUnique": true,
+      "count": 1,
+      "namedSkills": [
+        {
+          "id": "dietrichgebert/ponytail",
+          "name": "Ponytail",
+          "rank": 4,
+          "type": "basic",
+          "branch": "unique",
+          "slash": "/ponytail",
+          "file": "ponytail.svg",
+          "fileSeal": "ponytail-seal.svg"
+        }
+      ]
+    },
     "disler": {
       "repos": [
         "disler/fusion-harness"
@@ -1766,11 +1803,14 @@
     },
     "gaia-research": {
       "repos": [
-        "gaia-research/gaia-skill-tree"
+        "gaia-research/gaia-skill-tree",
+        "gaia-research/skill-fuse"
       ],
       "skillsByRepo": {
         "gaia-research/gaia-skill-tree": [
-          "gaia-research/skill-ci-churn",
+          "gaia-research/skill-ci-churn"
+        ],
+        "gaia-research/skill-fuse": [
           "gaia-research/skill-fuse"
         ]
       },
@@ -2044,6 +2084,131 @@
           "slash": "/semantic-cache",
           "file": "semantic-cache.svg",
           "fileSeal": "semantic-cache-seal.svg"
+        }
+      ]
+    },
+    "k-dense-ai": {
+      "repos": [
+        "K-Dense-AI/scientific-agent-skills"
+      ],
+      "skillsByRepo": {
+        "K-Dense-AI/scientific-agent-skills": [
+          "k-dense-ai/deepchem",
+          "k-dense-ai/pymc",
+          "k-dense-ai/pytorch-lightning",
+          "k-dense-ai/qiskit",
+          "k-dense-ai/rdkit",
+          "k-dense-ai/scanpy",
+          "k-dense-ai/scvi-tools",
+          "k-dense-ai/stable-baselines3",
+          "k-dense-ai/torch-geometric",
+          "k-dense-ai/transformers"
+        ]
+      },
+      "topSkill": "k-dense-ai/deepchem",
+      "topRank": 4,
+      "topIsUnique": true,
+      "count": 10,
+      "namedSkills": [
+        {
+          "id": "k-dense-ai/deepchem",
+          "name": "DeepChem",
+          "rank": 4,
+          "type": "fusion",
+          "branch": "unique",
+          "slash": "/deepchem",
+          "file": "deepchem.svg",
+          "fileSeal": "deepchem-seal.svg"
+        },
+        {
+          "id": "k-dense-ai/pymc",
+          "name": "PyMC",
+          "rank": 4,
+          "type": "basic",
+          "branch": "unique",
+          "slash": "/pymc",
+          "file": "pymc.svg",
+          "fileSeal": "pymc-seal.svg"
+        },
+        {
+          "id": "k-dense-ai/torch-geometric",
+          "name": "Torch Geometric",
+          "rank": 4,
+          "type": "fusion",
+          "branch": "unique",
+          "slash": "/torch-geometric",
+          "file": "torch-geometric.svg",
+          "fileSeal": "torch-geometric-seal.svg"
+        },
+        {
+          "id": "k-dense-ai/pytorch-lightning",
+          "name": "PyTorch Lightning",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/pytorch-lightning",
+          "file": "pytorch-lightning.svg",
+          "fileSeal": "pytorch-lightning-seal.svg"
+        },
+        {
+          "id": "k-dense-ai/qiskit",
+          "name": "Qiskit",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/qiskit",
+          "file": "qiskit.svg",
+          "fileSeal": "qiskit-seal.svg"
+        },
+        {
+          "id": "k-dense-ai/scanpy",
+          "name": "Scanpy",
+          "rank": 3,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/scanpy",
+          "file": "scanpy.svg",
+          "fileSeal": "scanpy-seal.svg"
+        },
+        {
+          "id": "k-dense-ai/stable-baselines3",
+          "name": "Stable Baselines3",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/stable-baselines3",
+          "file": "stable-baselines3.svg",
+          "fileSeal": "stable-baselines3-seal.svg"
+        },
+        {
+          "id": "k-dense-ai/transformers",
+          "name": "Transformers",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/transformers",
+          "file": "transformers.svg",
+          "fileSeal": "transformers-seal.svg"
+        },
+        {
+          "id": "k-dense-ai/rdkit",
+          "name": "RDKit",
+          "rank": 2,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/rdkit",
+          "file": "rdkit.svg",
+          "fileSeal": "rdkit-seal.svg"
+        },
+        {
+          "id": "k-dense-ai/scvi-tools",
+          "name": "scvi-tools",
+          "rank": 2,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/scvi-tools",
+          "file": "scvi-tools.svg",
+          "fileSeal": "scvi-tools-seal.svg"
         }
       ]
     },

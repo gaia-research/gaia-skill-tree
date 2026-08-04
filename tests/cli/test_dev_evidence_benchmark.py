@@ -51,7 +51,9 @@ def _make_registry(tmp_path: Path) -> str:
                         {"id": "repo-own", "gradeCeiling": "S"},
                         {"id": "benchmark-result", "gradeCeiling": "S"},
                     ],
-                    "perRowGradeThresholds": {},
+                    "perRowGradeThresholds": {
+                        "benchmark-result": {"S": 90, "A": 70, "B": 40, "C": 20},
+                    },
                 }
             }
         )
@@ -213,7 +215,7 @@ def test_benchmark_self_attested_forever_rejected(tmp_path, capsys):
     assert "FOREVER" in exc.value.message
 
 
-@pytest.mark.parametrize("provenance", ["verifier-attested", "ci-reproduced", "mirrored", "pending"])
+@pytest.mark.parametrize("provenance", ["verified", "reported", "rejected", "verifier-attested", "ci-reproduced", "mirrored", "pending"])
 def test_benchmark_all_valid_provenance_values_pass(tmp_path, provenance):
     root = _make_registry(tmp_path)
     meta_evidence_command(_bench_args(root, provenance=provenance))
@@ -422,13 +424,19 @@ def test_pending_benchmark_row_excluded_from_trust_magnitude():
 
 
 def test_ci_reproduced_benchmark_row_graded_normally():
-    """Sanity: only mirrored/pending are excluded. Verifier-attested and
-    ci-reproduced rows continue to compute their artifact score."""
+    """Catalog-verified ci-reproduced rows with required fields still score."""
     from gaia_cli.trustMagnitude import computeArtifactScoreOrNone
 
     row = {
         "type": "benchmark-result",
+        "benchmarkId": "humaneval@v1.0",
+        "score": 0.75,
+        "unit": "pass@1",
+        "runAt": "2026-07-06T10:44:08Z",
         "provenance": "ci-reproduced",
+        "attestor": "https://github.com/gaia-research/gaia-skill-tree/actions/runs/1@abc1234",
+        "datasetHash": "a" * 64,
+        "benchmarkInputHash": "b" * 64,
         "percentile": 90,
         "date": "2026-07-05",
     }
@@ -437,12 +445,35 @@ def test_ci_reproduced_benchmark_row_graded_normally():
     assert score > 0.0
 
 
-def test_mirrored_benchmark_row_written_without_grade(tmp_path):
+def test_reported_benchmark_row_written_with_grade(tmp_path):
     root = _make_registry(tmp_path)
-    meta_evidence_command(_bench_args(root, provenance="mirrored", trust=90.0))
+    meta_evidence_command(
+        _bench_args(
+            root,
+            provenance="reported",
+            run_at=None,
+            dataset_hash=None,
+            benchmark_input_hash=None,
+            unit="pct",
+            score=53.3,
+            trust=90.0,
+        )
+    )
+    row = _load_node(root)["evidence"][0]
+    assert row["provenance"] == "reported"
+    # Reported rows score at the 1.0x lane, so the grade comes from the row's
+    # artifact score (53.3 pct -> 74.62), not the trust fallback: A under the
+    # benchmark-result per-row thresholds.
+    assert row["grade"] == "A"
+
+
+def test_legacy_mirrored_benchmark_row_written_with_grade(tmp_path):
+    root = _make_registry(tmp_path)
+    meta_evidence_command(_bench_args(root, provenance="mirrored", unit="pct", score=53.3, trust=90.0))
     row = _load_node(root)["evidence"][0]
     assert row["provenance"] == "mirrored"
-    assert "grade" not in row, "mirrored rows must never carry a grade"
+    # Legacy mirrored normalizes to the reported lane and scores at 1.0x.
+    assert row["grade"] == "A"
 
 
 def test_pending_benchmark_row_written_without_grade(tmp_path):
@@ -580,20 +611,20 @@ def test_validator_auto_strict_via_github_base_ref(tmp_path):
     )
 
 
-def test_validator_mirrored_never_errors(tmp_path):
+def test_validator_mirrored_legacy_alias_never_errors(tmp_path):
     evidence = [{"type": "benchmark-result", "provenance": "mirrored", "date": "2026-07-05"}]
     lax = _run_validator(tmp_path, evidence, strict=False)
     strict = _run_validator(tmp_path, evidence, strict=True)
-    # Mirrored never generates an error line for probe-skill in either mode.
-    # It DOES generate an informational notice via the mirrored_warnings path.
+    # Mirrored normalizes to reported under #1419 and never generates an error
+    # or no-score notice for probe-skill in either mode.
     for out in (lax.stdout, strict.stdout):
         assert not any(
-            "probe-skill" in line and ("self-attested" in line or "must be promoted" in line)
-            for line in out.splitlines()
-        )
-        # Informational notice for mirrored row is expected in both modes.
-        assert any(
-            "probe-skill" in line and "mirrored" in line and "excluded from Trust Magnitude" in line
+            "probe-skill" in line and (
+                "self-attested" in line
+                or "must be promoted" in line
+                or "excluded from Trust Magnitude" in line
+                or "no Trust Magnitude score" in line
+            )
             for line in out.splitlines()
         )
 

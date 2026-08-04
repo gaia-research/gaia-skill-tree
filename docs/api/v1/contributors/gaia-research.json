@@ -2,6 +2,22 @@
   "handle": "gaia-research",
   "namedSkills": [
     {
+      "id": "gaia-research/skill-fuse",
+      "name": "Skill Fuse",
+      "level": "2★",
+      "trustMagnitude": 41.62,
+      "overallTrustGrade": "C",
+      "contributor": "gaia-research",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/gaia-research/skill-fuse.json"
+      },
+      "genericSkillRef": "skill-fusion"
+    },
+    {
       "id": "gaia-research/skill-ci-churn",
       "name": "CI Churn",
       "level": "2★",
@@ -16,31 +32,15 @@
         "self": "/api/v1/skills/gaia-research/skill-ci-churn.json"
       },
       "genericSkillRef": "ci-churn-analysis"
-    },
-    {
-      "id": "gaia-research/skill-fuse",
-      "name": "Skill Fuse",
-      "level": "2★",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "contributor": "gaia-research",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/gaia-research/skill-fuse.json"
-      },
-      "genericSkillRef": "skill-fusion"
     }
   ],
   "namedSkillsCount": 2,
   "topSkill": {
-    "id": "gaia-research/skill-ci-churn",
+    "id": "gaia-research/skill-fuse",
     "level": "2★",
-    "trustMagnitude": 41.0
+    "trustMagnitude": 41.62
   },
-  "prestigeScore": 82.0,
+  "prestigeScore": 82.62,
   "gradeDistribution": {
     "C": 2
   },

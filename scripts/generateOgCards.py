@@ -149,14 +149,43 @@ def aov_medallion_href(branch: str, rank: int) -> str:
     return "/" + aov_medallion_path(branch, rank).relative_to(DOCS_DIR).as_posix()
 
 
+def _asset_data_uri(path: Path) -> str:
+    """Return a raster-safe data URI for an embedded OG image asset.
+
+    CairoSVG/librsvg environments frequently fail one of the two things our
+    share cards need: resolving a root-relative `/assets/...webp` from a file
+    render, or decoding WebP from inside SVG.  Prefer a PNG data URI when
+    Pillow is available; fall back to a correctly-typed WebP data URI so
+    browser SVG rendering still works.
+    """
+    try:
+        from PIL import Image
+        from io import BytesIO
+
+        with Image.open(path) as img:
+            buf = BytesIO()
+            img.save(buf, format="PNG")
+        encoded = base64.b64encode(buf.getvalue()).decode("ascii")
+        return f"data:image/png;base64,{encoded}"
+    except Exception:
+        mime = "image/webp" if path.suffix.lower() == ".webp" else "application/octet-stream"
+        encoded = base64.b64encode(path.read_bytes()).decode("ascii")
+        return f"data:{mime};base64,{encoded}"
+
+
 def _inline_medallion_assets(svg_content: str) -> str:
-    """Inline AOV WebPs for standalone SVG downloads and raster rendering."""
+    """Inline AOV art for standalone SVG downloads and raster rendering.
+
+    The public SVG intentionally references same-origin `/assets/...webp` so it
+    stays small and renders in browsers.  PNG generation must be self-contained:
+    batch rasterizers run from the filesystem and/or Cairo builds without WebP
+    loaders otherwise silently drop the medallion while still producing a PNG.
+    """
     for path in sorted((DOCS_DIR / "assets" / "ascension-overdrive").glob("aov4-*-hero.webp")):
         href = "/" + path.relative_to(DOCS_DIR).as_posix()
         if href not in svg_content:
             continue
-        encoded = base64.b64encode(path.read_bytes()).decode("ascii")
-        svg_content = svg_content.replace(href, f"data:image/webp;base64,{encoded}")
+        svg_content = svg_content.replace(href, _asset_data_uri(path))
     return svg_content
 
 

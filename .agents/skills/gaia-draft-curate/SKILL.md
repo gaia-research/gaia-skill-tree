@@ -44,8 +44,8 @@ Never edit or rewrite an intake batch. These are immutable submission records.
 Use GitHub CLI when authenticated:
 
 ```bash
-gh issue list --state open --search 'label:draft-skills'
-gh pr list --state open --label draft-skills --json number,title,headRefName,url
+gh issue list --state open --search 'label:intake'
+gh pr list --state open --label intake --json number,title,headRefName,url
 ```
 
 Match `batchId` in titles, bodies, or comments. Report:

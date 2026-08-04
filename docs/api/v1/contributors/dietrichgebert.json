@@ -1,0 +1,35 @@
+{
+  "handle": "dietrichgebert",
+  "namedSkills": [
+    {
+      "id": "dietrichgebert/ponytail",
+      "name": "Ponytail",
+      "level": "4★",
+      "trustMagnitude": 102.79,
+      "overallTrustGrade": "A",
+      "contributor": "dietrichgebert",
+      "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/dietrichgebert/ponytail.json"
+      },
+      "genericSkillRef": "implement-with-discernment"
+    }
+  ],
+  "namedSkillsCount": 1,
+  "topSkill": {
+    "id": "dietrichgebert/ponytail",
+    "level": "4★",
+    "trustMagnitude": 102.79
+  },
+  "prestigeScore": 102.79,
+  "gradeDistribution": {
+    "A": 1
+  },
+  "_links": {
+    "self": "/api/v1/contributors/dietrichgebert.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

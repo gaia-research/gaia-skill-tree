@@ -2627,9 +2627,17 @@
                 // Temporary success icon state
                 const btn = miniTerminal.querySelector('.mini-terminal-copy-btn');
                 if (btn) {
-                  btn.innerHTML = checkIconSvg;
+                  btn.replaceChildren();
+                  const svgDoc = new DOMParser().parseFromString(checkIconSvg, 'image/svg+xml');
+                  if (svgDoc.documentElement) {
+                    btn.appendChild(document.importNode(svgDoc.documentElement, true));
+                  }
                   setTimeout(() => {
-                    btn.innerHTML = copyIconSvg;
+                    btn.replaceChildren();
+                    const svgDocOrig = new DOMParser().parseFromString(copyIconSvg, 'image/svg+xml');
+                    if (svgDocOrig.documentElement) {
+                      btn.appendChild(document.importNode(svgDocOrig.documentElement, true));
+                    }
                   }, 1500);
                 }
               });

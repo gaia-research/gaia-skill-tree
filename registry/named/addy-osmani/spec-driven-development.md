@@ -9,7 +9,7 @@ level: 3★
 description: Spec-driven development workflow enforcing specification generation before
   any coding starts.
 createdAt: '2026-07-03'
-updatedAt: '2026-07-03'
+updatedAt: '2026-07-31'
 timeline:
 - timestamp: '2026-07-02T18:42:16Z'
   action: add
@@ -60,6 +60,11 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 3★
+- timestamp: '2026-07-31T13:21:08Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026
+    (type: peer-review)'
 evidence:
 - source: https://github.com/addyosmani/agent-skills/blob/main/skills/spec-driven-development/SKILL.md
   updatedAt: '2026-08-01'
@@ -75,6 +80,16 @@ evidence:
   commits: 260
   contributors: 36
   grade: B
+- source: https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026
+  evaluator: unknown
+  date: '2026-07-31'
+  type: peer-review
+  notes: Agentailor peer review recommends spec-driven-development as the anchor skill
+    and summarizes its gated Specify -> Plan -> Tasks -> Implement workflow for durable
+    agentic engineering.
+  reviewers: 1
+  sourceStartedAt: '2026-06-19'
+  grade: C
 verification:
   firstEvidenceAt: '2026-07-02T18:42:22Z'
 title: Spec-Driven Development

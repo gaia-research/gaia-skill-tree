@@ -226,3 +226,89 @@ def test_dev_fuse_rejects_slash_in_generic_id(tmp_path, capsys):
                                     description="Description more than ten chars."))
     err = capsys.readouterr().err
     assert "bare slug" in err or "no '/'" in err
+
+
+def test_dev_fuse_timeline_behavior(tmp_path, monkeypatch):
+    """Proves legacy `note` timeline events from older `gaia dev fuse` are repaired,
+
+    and asserts prerequisite/fusion events use `fuse` instead of `note`.
+    """
+    root = _make_registry(tmp_path)
+    nodes_dir = Path(root) / "registry" / "nodes"
+
+    # Setup existing generic node with legacy 'note' timeline events
+    skill_id = "existing-fusion"
+    d = nodes_dir / "fusion"
+    d.mkdir(parents=True, exist_ok=True)
+    path = d / f"{skill_id}.json"
+
+    payload = {
+        "id": skill_id,
+        "name": "Existing Fusion",
+        "type": "fusion",
+        "description": "An existing fusion node with some legacy timeline events.",
+        "prerequisites": ["prereq-a"],
+        "derivatives": [],
+        "evidence": [],
+        "knownAgents": [],
+        "status": "provisional",
+        "createdAt": "2026-01-01",
+        "updatedAt": "2026-01-01",
+        "version": "0.1.0",
+        "timeline": [
+            {
+                "timestamp": "2026-01-01T12:00:00Z",
+                "action": "note",
+                "contributor": "legacy-author",
+                "details": "Created generic fusion node 'existing-fusion' via `gaia dev fuse`."
+            },
+            {
+                "timestamp": "2026-01-01T12:05:00Z",
+                "action": "note",
+                "contributor": "legacy-author",
+                "details": "Some unrelated note."
+            }
+        ]
+    }
+    path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+
+    # Also write prereqs to registry so preflight passes
+    _write_generic(nodes_dir, "prereq-a")
+    _write_generic(nodes_dir, "prereq-b")
+
+    # Trace the calls made to append_skill_event
+    captured_events = []
+    def mock_append_skill_event(skill_id_val, action, contributor, details, registry_path=None):
+        captured_events.append({
+            "skill_id": skill_id_val,
+            "action": action,
+            "contributor": contributor,
+            "details": details,
+        })
+    monkeypatch.setattr("gaia_cli.commands.dev.fuse.append_skill_event", mock_append_skill_event)
+
+    # Call dev fuse, which adds "prereq-b" to prerequisites
+    meta_dev_fuse_command(_args(
+        root, skill_id,
+        prereqs="prereq-a,prereq-b",
+    ))
+
+    # Check that the legacy event was repaired on disk
+    data = json.loads(path.read_text(encoding="utf-8"))
+    timeline = data.get("timeline", [])
+    assert len(timeline) == 2
+    # The legacy event via `gaia dev fuse` should be repaired to "fuse"
+    assert timeline[0]["action"] == "fuse"
+    # The unrelated note should NOT be repaired
+    assert timeline[1]["action"] == "note"
+
+    # Check that prerequisite/fusion event uses "fuse" and NOT "note"
+    assert len(captured_events) > 0
+    fuse_events = [e for e in captured_events if e["action"] == "fuse"]
+    note_events = [e for e in captured_events if e["action"] == "note"]
+
+    # Assert newly appended event for setting prerequisites uses action "fuse", not "note"
+    assert len(fuse_events) == 1
+    assert len(note_events) == 0
+    assert fuse_events[0]["skill_id"] == "existing-fusion"
+    assert "prereq-b" in fuse_events[0]["details"]

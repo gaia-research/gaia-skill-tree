@@ -136,6 +136,24 @@ def scan_repo():
 # ─── skill .md semantic scan ──────────────────────────────────────────────────
 
 _SKILL_MD_CANDIDATES = ("skill.md", "SKILL.md", "README.md", "readme.md")
+_STRICT_SKILL_MD_CANDIDATES = ("skill.md", "SKILL.md")
+_LEGACY_SKILL_SEARCH_DIRS = (
+    os.path.join(".agents", "skills"),       # primary (gaia, agent-agnostic)
+    os.path.join(".claude", "skills"),       # Claude Code legacy
+    os.path.join(".antigravity", "skills"),  # Antigravity legacy
+    os.path.join(".cursor", "rules"),        # Cursor IDE
+    os.path.join(".windsurf", "rules"),      # Windsurf IDE
+    os.path.join(".copilot", "skills"),      # GitHub Copilot (speculative)
+    os.path.join(".zed", "skills"),          # Zed editor (speculative)
+    os.path.join(".xcode", "skills"),        # Xcode skills
+    os.path.join(".xcode", "rules"),         # Xcode rules
+)
+_HUMAN_READABLE_SKILL_SEARCH_DIRS = (
+    "skills",
+    "agent-skills",
+    os.path.join("docs", "skills"),
+    "my-skills",
+)
 _SEMANTIC_STOPWORDS = {
     "a", "an", "and", "are", "as", "at", "be", "by", "for", "from", "in", "is", "it",
     "of", "on", "or", "that", "the", "to", "was", "were", "with", "this", "you", "your",
@@ -185,15 +203,7 @@ def _skill_search_dirs(root: str = ".", global_search: bool = False, extra_dirs:
     candidates: list[str] = []
 
     # 1. Project-local — every known agent/tool convention that uses subdir-per-skill
-    for rel in (
-        os.path.join(".agents", "skills"),       # primary (gaia, agent-agnostic)
-        os.path.join(".claude", "skills"),       # Claude Code legacy
-        os.path.join(".antigravity", "skills"),  # Antigravity legacy
-        os.path.join(".cursor", "rules"),        # Cursor IDE
-        os.path.join(".windsurf", "rules"),      # Windsurf IDE
-        os.path.join(".copilot", "skills"),      # GitHub Copilot (speculative)
-        os.path.join(".zed", "skills"),          # Zed editor (speculative)
-    ):
+    for rel in _LEGACY_SKILL_SEARCH_DIRS + _HUMAN_READABLE_SKILL_SEARCH_DIRS:
         candidates.append(os.path.join(root, rel))
 
     if global_search:
@@ -272,6 +282,16 @@ def scan_skill_mds(root: str = ".", global_search: bool = False, extra_dirs: lis
 
     # Determine standard skill directories
     standard_dirs = [os.path.realpath(d) for d in _skill_search_dirs(root, global_search, extra_dirs=extra_dirs)]
+    legacy_real_dirs = {
+        os.path.realpath(os.path.join(root, rel))
+        for rel in _LEGACY_SKILL_SEARCH_DIRS
+        if os.path.isdir(os.path.join(root, rel))
+    }
+    strict_standard_dirs = {
+        os.path.realpath(os.path.join(root, rel))
+        for rel in _HUMAN_READABLE_SKILL_SEARCH_DIRS
+        if os.path.isdir(os.path.join(root, rel))
+    } - legacy_real_dirs
     # The repo root itself is a mixed container, not a standard depth-1 skill container
     root_real = os.path.realpath(root)
     standard_containers = [d for d in standard_dirs if d != root_real]
@@ -320,11 +340,13 @@ def scan_skill_mds(root: str = ".", global_search: bool = False, extra_dirs: lis
 
             # Check if current directory r is inside a standard skill container (depth 1)
             in_standard = False
+            matched_standard_dir = None
             for std_dir in standard_containers:
                 if r_real != std_dir and r_real.startswith(std_dir + os.sep):
                     rel = os.path.relpath(r_real, std_dir)
                     if os.sep not in rel:
                         in_standard = True
+                        matched_standard_dir = std_dir
                         dirs[:] = []  # Stop descending further into this skill
                     else:
                         dirs[:] = []  # Already deeper than 1 layer, stop descending
@@ -333,14 +355,19 @@ def scan_skill_mds(root: str = ".", global_search: bool = False, extra_dirs: lis
             # Find best candidate file in this directory
             skill_md_file = None
             if in_standard:
-                # Inside standard skill directory, look for any best .md candidate
-                # First check exact candidates
-                for candidate in ("skill.md", "SKILL.md", "README.md", "readme.md"):
+                # Inside standard skill directory, look for any best .md candidate.
+                # Human-readable repo-native roots stay strict to avoid README false positives.
+                allowed_candidates = (
+                    _STRICT_SKILL_MD_CANDIDATES
+                    if matched_standard_dir in strict_standard_dirs
+                    else _SKILL_MD_CANDIDATES
+                )
+                for candidate in allowed_candidates:
                     if candidate in files:
                         skill_md_file = candidate
                         break
-                if not skill_md_file:
-                    # Fallback to any .md file
+                if not skill_md_file and matched_standard_dir not in strict_standard_dirs:
+                    # Legacy standard dirs keep their broad markdown fallback.
                     for f in sorted(files):
                         if f.lower().endswith(".md"):
                             skill_md_file = f

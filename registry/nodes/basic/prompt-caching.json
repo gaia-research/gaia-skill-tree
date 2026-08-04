@@ -1,0 +1,113 @@
+{
+  "id": "prompt-caching",
+  "name": "Prompt Caching",
+  "type": "basic",
+  "description": "Reuses a model's encoded prompt prefix or KV cache across repeated requests so identical long-context prefixes are not reprocessed, reducing latency and billed input tokens without serving a cached response or rewriting the prompt.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [
+    {
+      "source": "https://arxiv.org/abs/2312.07104",
+      "evaluator": "mbtiongson1",
+      "date": "2026-08-03",
+      "type": "arxiv",
+      "notes": "SGLang: Efficient Execution of Structured Language Model Programs introduces RadixAttention, which reuses common prompt prefixes/KV state across requests instead of re-encoding identical prefixes each time.",
+      "citations": 36,
+      "sourceStartedAt": "2023-12-12"
+    },
+    {
+      "source": "https://arxiv.org/abs/2502.04677",
+      "evaluator": "mbtiongson1",
+      "date": "2026-08-03",
+      "type": "arxiv",
+      "notes": "LLM Query Scheduling with Prefix Reuse and Latency Constraints treats shared-prefix/KV reuse as a first-class serving objective, optimizing request scheduling around reusable prompt prefixes.",
+      "citations": 0,
+      "sourceStartedAt": "2025-02-07"
+    },
+    {
+      "source": "https://arxiv.org/abs/2607.22648",
+      "evaluator": "mbtiongson1",
+      "date": "2026-08-03",
+      "type": "arxiv",
+      "notes": "PTStore (Prefix Tensor Store) focuses directly on distributed prefix caching and replication for high-throughput inference serving, treating reusable prompt prefixes as cached serving artifacts.",
+      "citations": 0,
+      "sourceStartedAt": "2026-06-25"
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-08-03",
+  "updatedAt": "2026-08-03",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-08-03T09:34:29Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill prompt-caching"
+    },
+    {
+      "timestamp": "2026-08-03T09:34:30Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/vllm-project/vllm (type: proxy-containment)"
+    },
+    {
+      "timestamp": "2026-08-03T09:34:31Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/sgl-project/sglang (type: proxy-containment)"
+    },
+    {
+      "timestamp": "2026-08-03T09:34:31Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://arxiv.org/abs/2312.07104 (type: arxiv)"
+    },
+    {
+      "timestamp": "2026-08-03T09:38:20Z",
+      "action": "evidence_removed",
+      "contributor": "unknown",
+      "details": "Removed dead/invalid evidence: https://github.com/vllm-project/vllm"
+    },
+    {
+      "timestamp": "2026-08-03T09:38:22Z",
+      "action": "evidence_removed",
+      "contributor": "unknown",
+      "details": "Removed dead/invalid evidence: https://github.com/sgl-project/sglang"
+    },
+    {
+      "timestamp": "2026-08-03T09:38:23Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://arxiv.org/abs/2502.04677 (type: arxiv)"
+    },
+    {
+      "timestamp": "2026-08-03T09:38:24Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://arxiv.org/abs/2607.22648 (type: arxiv)"
+    },
+    {
+      "timestamp": "2026-08-03T09:38:42Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Updated evidence #0 metadata from https://arxiv.org/abs/2312.07104; changed evaluator"
+    },
+    {
+      "timestamp": "2026-08-03T09:38:43Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Updated evidence #1 metadata from https://arxiv.org/abs/2502.04677; changed evaluator"
+    },
+    {
+      "timestamp": "2026-08-03T09:38:44Z",
+      "action": "evidence_graded",
+      "contributor": "unknown",
+      "details": "Updated evidence #2 metadata from https://arxiv.org/abs/2607.22648; changed evaluator"
+    }
+  ],
+  "verification": {
+    "firstEvidenceAt": "2026-08-03T09:34:30Z"
+  }
+}

@@ -28,6 +28,6 @@ python3 .claude/skills/pi-cost/scripts/pi_cost.py
 
 This will output:
 1. Active session file name and path.
-2. Main session stats: total turns, tokens (input/output/cacheRead), and estimated cost based on standard model pricing.
+2. Main session stats: total turns, tokens (input/output/cacheRead/cacheWrite), and estimated cost based on standard model pricing.
 3. Nested subagent runs: breakdown of subagent name, model, turns, token details, and estimated cost.
 4. Total consolidated session summary.

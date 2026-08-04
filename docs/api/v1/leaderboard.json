@@ -1,13 +1,13 @@
 {
   "distribution": {
-    "total": 207,
+    "total": 219,
     "S": 5,
-    "A": 53,
+    "A": 64,
     "B": 67,
-    "C": 82,
+    "C": 83,
     "ungraded": 0,
     "floor": 0,
-    "up": 22
+    "up": 29
   },
   "rows": [
     {
@@ -105,6 +105,31 @@
       "branch": "suite"
     },
     {
+      "id": "openai/few-shot-learning",
+      "trustMagnitude": 220.96,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "arxiv": 100.0,
+        "benchmark-result": 120.96
+      },
+      "origin": true,
+      "branch": "unique"
+    },
+    {
+      "id": "anthropic/skill-creator",
+      "trustMagnitude": 211.52,
+      "grade": "A",
+      "level": "3★",
+      "typeBreakdown": {
+        "arxiv": 60.0,
+        "peer-review": 30.0,
+        "benchmark-result": 121.52
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "id": "gsd-build/get-shit-done",
       "trustMagnitude": 202.2,
       "grade": "A",
@@ -129,6 +154,19 @@
       },
       "origin": true,
       "branch": "suite"
+    },
+    {
+      "id": "addy-osmani/code-simplification",
+      "trustMagnitude": 196.3,
+      "grade": "A",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 20.3,
+        "repo-own": 36.0,
+        "benchmark-result": 140.0
+      },
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "nextlevelbuilder/ui-ux-pro-max",
@@ -168,6 +206,19 @@
       "branch": "suite"
     },
     {
+      "id": "firecrawl/firecrawl-research-index",
+      "trustMagnitude": 150.32,
+      "grade": "A",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 39.7,
+        "benchmark-result": 74.62
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "id": "safishamsi/graphify",
       "trustMagnitude": 147.68,
       "grade": "A",
@@ -178,6 +229,21 @@
         "peer-review": 30.0
       },
       "origin": true,
+      "branch": "unique"
+    },
+    {
+      "id": "k-dense-ai/pymc",
+      "trustMagnitude": 146.07,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 54.0,
+        "github-stars-own": 8.07,
+        "arxiv": 70.0,
+        "peer-review": 9.0
+      },
+      "origin": false,
       "branch": "unique"
     },
     {
@@ -192,6 +258,34 @@
         "peer-review": 45.0
       },
       "origin": true,
+      "branch": "unique"
+    },
+    {
+      "id": "k-dense-ai/deepchem",
+      "trustMagnitude": 137.07,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 54.0,
+        "github-stars-own": 8.07,
+        "arxiv": 70.0
+      },
+      "origin": false,
+      "branch": "unique"
+    },
+    {
+      "id": "k-dense-ai/torch-geometric",
+      "trustMagnitude": 137.07,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 54.0,
+        "github-stars-own": 8.07,
+        "arxiv": 70.0
+      },
+      "origin": false,
       "branch": "unique"
     },
     {
@@ -244,6 +338,18 @@
       },
       "origin": true,
       "branch": "suite"
+    },
+    {
+      "id": "huggingface/semantic-cache",
+      "trustMagnitude": 125.46,
+      "grade": "A",
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "benchmark-result": 89.46
+      },
+      "origin": false,
+      "branch": "standard"
     },
     {
       "id": "mattpocock/productivity",
@@ -306,6 +412,19 @@
       },
       "origin": true,
       "branch": "unique"
+    },
+    {
+      "id": "obra/brainstorming",
+      "trustMagnitude": 110.15,
+      "grade": "A",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "peer-review": 45.0,
+        "social-signal": 29.15
+      },
+      "origin": true,
+      "branch": "standard"
     },
     {
       "id": "obra/writing-plans",
@@ -394,6 +513,46 @@
         "repo-own": 11.21,
         "github-stars-own": 49.55,
         "social-signal": 44.92
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "dietrichgebert/ponytail",
+      "trustMagnitude": 102.49,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 23.21,
+        "social-signal": 42.58,
+        "arxiv": 0.7
+      },
+      "origin": false,
+      "branch": "unique"
+    },
+    {
+      "id": "addy-osmani/incremental-implementation",
+      "trustMagnitude": 101.3,
+      "grade": "A",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 20.3,
+        "repo-own": 36.0,
+        "peer-review": 45.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "addy-osmani/planning-and-task-breakdown",
+      "trustMagnitude": 101.3,
+      "grade": "A",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 20.3,
+        "repo-own": 36.0,
+        "peer-review": 45.0
       },
       "origin": false,
       "branch": "standard"
@@ -699,17 +858,6 @@
       "branch": "unique"
     },
     {
-      "id": "openai/few-shot-learning",
-      "trustMagnitude": 100.0,
-      "grade": "A",
-      "level": "4★",
-      "typeBreakdown": {
-        "arxiv": 100.0
-      },
-      "origin": true,
-      "branch": "unique"
-    },
-    {
       "id": "openai/self-consistency",
       "trustMagnitude": 100.0,
       "grade": "A",
@@ -757,19 +905,6 @@
       "branch": "suite"
     },
     {
-      "id": "obra/brainstorming",
-      "trustMagnitude": 95.15,
-      "grade": "B",
-      "level": "3★",
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "peer-review": 30.0,
-        "social-signal": 29.15
-      },
-      "origin": true,
-      "branch": "standard"
-    },
-    {
       "id": "obra/executing-plans",
       "trustMagnitude": 95.15,
       "grade": "B",
@@ -808,13 +943,15 @@
       "branch": "standard"
     },
     {
-      "id": "anthropic/skill-creator",
-      "trustMagnitude": 90.0,
+      "id": "k-dense-ai/qiskit",
+      "trustMagnitude": 93.03,
       "grade": "B",
       "level": "3★",
       "typeBreakdown": {
-        "arxiv": 60.0,
-        "peer-review": 30.0
+        "self-attestation": 5.0,
+        "repo-own": 36.0,
+        "github-stars-own": 8.07,
+        "arxiv": 43.96
       },
       "origin": false,
       "branch": "standard"
@@ -827,6 +964,19 @@
       "typeBreakdown": {
         "repo-own": 36.0,
         "peer-review": 52.5
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "addy-osmani/spec-driven-development",
+      "trustMagnitude": 86.3,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 20.3,
+        "repo-own": 36.0,
+        "peer-review": 30.0
       },
       "origin": false,
       "branch": "standard"
@@ -856,6 +1006,60 @@
       "branch": "standard"
     },
     {
+      "id": "anthropics/brand-guidelines",
+      "trustMagnitude": 77.35,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 41.35
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "k-dense-ai/scanpy",
+      "trustMagnitude": 76.07,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 54.0,
+        "github-stars-own": 8.07,
+        "peer-review": 9.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "k-dense-ai/stable-baselines3",
+      "trustMagnitude": 76.07,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 54.0,
+        "github-stars-own": 8.07,
+        "peer-review": 9.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "k-dense-ai/transformers",
+      "trustMagnitude": 76.07,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 54.0,
+        "github-stars-own": 8.07,
+        "peer-review": 9.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "id": "firecrawl/firecrawl-build-interact",
       "trustMagnitude": 75.7,
       "grade": "B",
@@ -877,18 +1081,6 @@
         "github-stars-own": 39.7
       },
       "origin": true,
-      "branch": "standard"
-    },
-    {
-      "id": "firecrawl/firecrawl-research-index",
-      "trustMagnitude": 75.7,
-      "grade": "B",
-      "level": "3★",
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 39.7
-      },
-      "origin": false,
       "branch": "standard"
     },
     {
@@ -1228,6 +1420,19 @@
       "branch": "standard"
     },
     {
+      "id": "k-dense-ai/pytorch-lightning",
+      "trustMagnitude": 67.07,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 54.0,
+        "github-stars-own": 8.07
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "id": "garrytan/careful",
       "trustMagnitude": 66.0,
       "grade": "B",
@@ -1370,55 +1575,7 @@
       "branch": "standard"
     },
     {
-      "id": "addy-osmani/code-simplification",
-      "trustMagnitude": 56.3,
-      "grade": "B",
-      "level": "3★",
-      "typeBreakdown": {
-        "github-stars-own": 20.3,
-        "repo-own": 36.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "addy-osmani/incremental-implementation",
-      "trustMagnitude": 56.3,
-      "grade": "B",
-      "level": "3★",
-      "typeBreakdown": {
-        "github-stars-own": 20.3,
-        "repo-own": 36.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "addy-osmani/planning-and-task-breakdown",
-      "trustMagnitude": 56.3,
-      "grade": "B",
-      "level": "3★",
-      "typeBreakdown": {
-        "github-stars-own": 20.3,
-        "repo-own": 36.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
       "id": "addy-osmani/shipping-and-launch",
-      "trustMagnitude": 56.3,
-      "grade": "B",
-      "level": "3★",
-      "typeBreakdown": {
-        "github-stars-own": 20.3,
-        "repo-own": 36.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "addy-osmani/spec-driven-development",
       "trustMagnitude": 56.3,
       "grade": "B",
       "level": "3★",
@@ -1540,6 +1697,44 @@
       "branch": "standard"
     },
     {
+      "id": "k-dense-ai/rdkit",
+      "trustMagnitude": 49.07,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 36.0,
+        "github-stars-own": 8.07
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "k-dense-ai/scvi-tools",
+      "trustMagnitude": 49.07,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 36.0,
+        "github-stars-own": 8.07
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "addy-osmani/test-driven-development",
+      "trustMagnitude": 45.0,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "peer-review": 9.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
       "id": "mattpocock/improve-codebase-architecture",
       "trustMagnitude": 45.0,
       "grade": "C",
@@ -1598,6 +1793,18 @@
       "branch": "standard"
     },
     {
+      "id": "gaia-research/skill-fuse",
+      "trustMagnitude": 41.62,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.62,
+        "self-attestation": 5.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "id": "mattpocock/prototype",
       "trustMagnitude": 41.21,
       "grade": "C",
@@ -1611,18 +1818,6 @@
     },
     {
       "id": "gaia-research/skill-ci-churn",
-      "trustMagnitude": 41.0,
-      "grade": "C",
-      "level": "2★",
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "self-attestation": 5.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "gaia-research/skill-fuse",
       "trustMagnitude": 41.0,
       "grade": "C",
       "level": "2★",
@@ -1687,17 +1882,6 @@
         "repo-own": 36.0
       },
       "origin": false,
-      "branch": "standard"
-    },
-    {
-      "id": "addy-osmani/test-driven-development",
-      "trustMagnitude": 36.0,
-      "grade": "C",
-      "level": "2★",
-      "typeBreakdown": {
-        "repo-own": 36.0
-      },
-      "origin": true,
       "branch": "standard"
     },
     {
@@ -1995,17 +2179,6 @@
         "repo-own": 36.0
       },
       "origin": true,
-      "branch": "standard"
-    },
-    {
-      "id": "huggingface/semantic-cache",
-      "trustMagnitude": 36.0,
-      "grade": "C",
-      "level": "2★",
-      "typeBreakdown": {
-        "repo-own": 36.0
-      },
-      "origin": false,
       "branch": "standard"
     },
     {

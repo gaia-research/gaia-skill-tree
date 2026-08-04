@@ -8,6 +8,8 @@
 >
 > **🔄 SUPERSEDED IN PART — see the Post-v7.1.1 Reconciliation section immediately below.** EPIC #1002 (v7.0.0) and follow-ups through v7.1.1 have now merged. A code-level verification pass (2026-07-27) checked every drafted close against live `main`. Where the reconciliation and the pre-merge dispositions below disagree, **the reconciliation wins.** The sections below are retained as the original plan of record.
 
+> **🟢 LIVE UPDATE — issue-backlog eradication sprint (2026-07-30).** The active integration branch is `dev/issue-backlog`, tracked by draft PR #1395. One feature PR lands per issue against `dev/issue-backlog`; final merge to `main` is human-gated. EPIC #1336-owned issues are skipped unless explicitly re-admitted. Current exception: #1147 was re-admitted as a narrow security patch only and merged via PR #1394 (`7fcabc230`). HG-0 operating rules landed in `founder/CLAUDE.md` (`c3b227606`) and the HG-0 memory snapshot landed in `founder/MEMORY.md` (`fc4ccbed1`). HG-1 progress so far: #1253 merged via PR #1396 (`5fc46aafd`); #999, #991, and #727 were closed verified-done; #1060 is deferred until after backlog eradication and other active sprints; #998 was closed by founder routing decision as **not resolved through backlog**; the attempted cleanup branch was abandoned and deleted. HG-2 child PRs #1397 (#1152 fuse timeline regression/docs), #1398 (#636 Xcode scan dirs), and #1400 (#1158 human-readable scan layouts) merged into `dev/issue-backlog` (`f6a67249f`, `908987bc3`, `7a71d2485`). CLI visual/output changes now require a human gate with before/after terminal output; #332/#139-style visual work is not normal unattended CLI plumbing. #1401 (#1028 shared registry helper package) is **green but held indefinitely as draft** until Marcus says otherwise. Lane B was rescouted with comments/tree evidence: #1148 is still not implemented and remains next, but close/duplicate decisions for #752/#741/#980 are intentionally left open.
+
 ---
 
 ## Post-v7.1.1 Reconciliation (2026-07-27)
@@ -42,10 +44,10 @@ The CLI dead-type cluster (#1220–1231, #1264) fared far better: **8 of 11 veri
 
 | Issue | What specifically remains | Suggested action |
 |---|---|---|
-| #998 | Dead-type **literals** in `skill-graph.js` FALLBACK_SKILLS (L261-267) + tier token map (L157-159); `docs/en/fusion.html` examples (`type:"extra"` L813/868/878). Not live readers, but visible dead vocab. | Small `design/`+`docs/` cleanup PR under #998 (no-follow-ups rule), then close. |
-| #999 | Guard B regex (`docs-cohesion.yml:112-116`) never extended to catch `type=extra`/`type=ultimate`/`Transcendent`-as-rank/`Extra skill`/`Ultimate skill`/`G7`/`G8`. Timeline+meta-sync portions DONE. | `infra/` PR extending Guard B regex to the #999 term list. Small. |
+| #998 | **CLOSED 2026-07-30 — not resolved through backlog.** Verification found fallback residue, but founder ruled to close rather than fix under `dev/issue-backlog`; attempted `design/998-skill-graph-fallback-vocab` branch was abandoned/deleted. | Done by founder disposition; no backlog PR. |
+| #999 | **CLOSED 2026-07-30 verified-done.** The cited dead-vocabulary terms are owned by `scripts/check_rank_vocabulary.py` + `.github/workflows/rank-vocabulary-guard.yml`, documented in `docs/guard-topology.md`; no duplicate Guard B work needed. | Done. Broader lexicon/branding guard work stays with EPIC #1336 (#1302/#1258). |
 | #1130 | Hero-ledger-flash pair still commented out (`docs/index.html:440-453`). EPIC #1002 closed; re-enable never executed. Pages reachable elsewhere (not dark). | Founder decision: re-enable or formally retire. |
-| #1152 | No fuse-timeline-action **validity regression test**; no doc of legacy `note`→`fuse` **repair-on-rerun** behavior. `fuse` enum + 9 tests exist but not these two deliverables. | `cli/` PR: regression test + doc. Small. |
+| #1152 | **DONE 2026-07-30 via PR #1397 / `f6a67249f`.** Adds regression coverage for legacy `note`→`fuse` repair-on-rerun and documents the narrow prerequisite/fusion event behavior. | Done. |
 | #1174 | **Unstarted.** `meta_link_command` mutates prereqs but never sets `type='fusion'`; no auto-derive on add; `reclassify` emits no deprecation warning. | Full `cli/` implementation needed. Tracker was wrong. |
 | #1183 | **Unimplemented.** No companion/pet renderer, shell mount, or homepage pilot; `gaia-research/pets` publication gate undecided. | Founder publication decision → design sprint. Tracker was wrong. |
 | #1194 | **Parked** (as body predicts). `profile-timeline.js` is rank-over-time + feed only; no TM-over-time panel; TM historization absent. | Keep open; prerequisite is TM historization. Tracker was wrong. |
@@ -60,7 +62,7 @@ The CLI dead-type cluster (#1220–1231, #1264) fared far better: **8 of 11 veri
 
 **intake (4):** #1250 (caveman, XS), #1251 (ux-audit nextlevelbuilder 3★, S), #1252 (format-output ayghri 2★, S), #1266 (scroll-world oso95 3★, S — held pending Ygg II settle). → `review/meta/`.
 
-**stage-as-PR (7):** #1253 (draft-skills→intake label, S, `infra/`), #1258 (Gaia Registry branding audit, P1/L, **multi-branch split**), #1267 (semantics poisoning SoT pass, L, `docs/`), #1307 (gaia install Agent Skills standard, L, `cli/`), #1308 (automate curate-trending + [news] ingest, XL, `infra/`), #1309 (blog publishing pipeline, XL, `docs/`), #1328 (mcp-server.html 14 stale refs, XS, `docs/`).
+**stage-as-PR (7):** #1253 (draft-skills→intake label, S, `infra/`) — **DONE 2026-07-30 via PR #1396 / `5fc46aafd`**; #1258 (Gaia Registry branding audit, P1/L, **multi-branch split**) — **EPIC #1336-owned**; #1267 (semantics poisoning SoT pass, L, `docs/`) — scout before staging, likely #1302-dependent; #1307 (gaia install Agent Skills standard, L, `cli/`) — **EPIC #1336-owned**; #1308 (automate curate-trending + [news] ingest, XL, `infra/`) — scout before staging, possible Program 6 adjacency; #1309 (blog publishing pipeline, XL, `docs/`) — **EPIC #1336-owned**; #1328 (mcp-server.html 14 stale refs, XS, `docs/`) — closed/#1336-adopted.
 
 **fold-1002 (2):** #1264 (share.py dead symbols, `cli/`), #1268 (frontend perf pass DAG/Explorer, L, `design/` — body says "linked to #1002 before merge").
 
@@ -73,6 +75,15 @@ The CLI dead-type cluster (#1220–1231, #1264) fared far better: **8 of 11 veri
 - **News automation #1265 ⇄ #1308:** #1265 is the radar #1308 would auto-ingest/auto-close.
 - **Design/perf #1268 ⇄ #1326:** both touch frontend/badges surface.
 - **Discovery adjacency #1308 ⇄ #1309:** shared trending-discovery surface.
+
+**LIVE Lane B rescout (2026-07-30, comments + tree evidence):**
+- #1148 remains **OPEN / still needed**. `evidence/scripts/generate_source_dump.py` still partitions by rank-tier (`tier_*.md`); handover exists but implementation has not landed. Next action: plan/implement coexistence mode only (add type partitions, keep tier outputs temporarily, no generated dumps committed without HG).
+- #1137 remains **OPEN / blocked**. Comments invalidate the old `context-compression` mapping; maintainer must choose a better generic before intake.
+- #1117 remains **OPEN / not in tree**. Hold until #1148 and a fresh L4 curation pass.
+- #752 appears **resolved in tree** via `registry/suites/firecrawl/firecrawl.json` + `registry/named/firecrawl/*`, but closure decision is left open.
+- #741 appears **resolved in tree** via `registry/named/firecrawl/firecrawl-research-index.md` and Firecrawl curation report, but closure decision is left open.
+- #980 appears duplicate/superseded by `token-observability`, but closure decision is left open.
+- #923/#922 remain open as independent evidence requests even though suites exist; #813 remains partially done/partially outstanding.
 
 ### 6. gh CLOSES — EXECUTED 2026-07-27 (founder-approved: "verified-done only")
 
@@ -164,7 +175,7 @@ Legend: **Eff** = effort (XS/S/M/L/XL). **Br** = suggested branch prefix.
 | 5 | #991 | infra: permit `founder/handovers/**` on design/* branches | P1 | XS | infra | stage-as-PR | `infra/` | branch-scope guard allows vendor handovers on design branches. |
 | 6 | #727 | infra: widen schema/ scope to bundled mirror | P1 | S | infra | stage-as-PR | `infra/` | schema/ branches may update `src/gaia_cli/data/registry/schema/`. |
 | 7 | #1202 | Schema↔feed↔source field-set mismatch (invalid gaia.json) | P1 | M | bug | stage-as-PR | `schema/` | gaia.json validates against skill.schema.json; feed/source field-sets in sync. |
-| 8 | #139 | `gaia graph` only shows legendary skills locally | P1 | M | cli | stage-as-PR | `cli/` | `gaia graph` renders full local tree; fusions linked; pushable skills highlighted. |
+| 8 | #139 | `gaia graph` only shows legendary skills locally | P1 | M | cli | stage-as-PR — **CLI/graph visual HG required** | `cli/` | `gaia graph` renders full local tree; fusions linked; pushable skills highlighted; before/after output/render evidence required. |
 | 9 | #1148 | Partition evidence lake by type, not rank tier | P1 | L | data | stage-as-PR (**BEFORE intake batch**) | `review/meta/` | Evidence lake repartitioned by evidence type; audit paths updated; **lands before intake**. |
 | 10 | #1243 | [intake] disler/fusion-harness (4 skills) | P0 | M | intake | stage-as-PR | none | 4 skills added via `gaia dev add`; disler named impls registered; evidence verified in gaia.json. |
 | 11 | #1123 | [intake] gaia-research/skill-cost (token-observability) | P0 | S | intake | stage-as-PR | none | Named skill registered; token-observability promoted provisional→active; docs regenerated. |
@@ -175,10 +186,10 @@ Legend: **Eff** = effort (XS/S/M/L/XL). **Br** = suggested branch prefix.
 | 16 | #977 | Propose generic: prompt caching / KV-cache reuse | P1 | M | curation | stage-as-PR | `review/meta/` | Generic node created; Anthropic/OpenAI/benchmark evidence; floor met. |
 | 17 | #978 | Propose generic: agent checkpoint & resume | P1 | M | curation | stage-as-PR | `review/meta/` | Generic node created; LangGraph/LangChain evidence; floor met. |
 | 18 | #1184 | Context-aware chat boxes for Milim & Gaia companion | P2 | S | frontend | stage-as-PR | `design/` | Companion shell done (#1183); add contextual chat boxes — **assets ready**; per-page guidance renders. |
-| 19 | #1028 | Extract scripts/lib into shared installable package | P2 | M | cli | stage-as-PR | `cli/` | `packages/gaia-registry-lib` created; scripts/lib + src/gaia_cli import from it; dup eliminated. |
+| 19 | #1028 | Extract scripts/lib into shared installable package | P2 | M | cli | **PR #1401 OPEN — HELD DRAFT** | `dev/` | Shared package implemented and CI green, but Marcus ordered indefinite draft hold due possible EPIC overlap. Do not merge until explicitly released. |
 | 20 | #1154 | cli: add `gaia dev rename-named <old> <new>` | P2 | M | cli | stage-as-PR | `cli/` | Command works end-to-end with file moves + id-field updates. |
-| 21 | #1158 | cli: `gaia scan` for nonstandard SKILL.md layouts | P2 | M | cli | stage-as-PR | `cli/` | scan auto-discovers SKILL.md from arbitrary repo-native folders; tests added. |
-| 22 | #332 | [CLI] Centralize design system + formatting tokens | P3 | M | cli | stage-as-PR | `cli/` | `src/gaia_cli/theme.py` created; all renderers import from it; no duplication. |
+| 21 | #1158 | cli: `gaia scan` for nonstandard SKILL.md layouts | P2 | M | cli | **DONE 2026-07-30 via PR #1400 / `7a71d2485`** | `cli/` | scan auto-discovers bounded human-readable roots (`skills/`, `agent-skills/`, `docs/skills/`, `my-skills/`) with strict `SKILL.md`/`skill.md` detection; tests added. |
+| 22 | #332 | [CLI] Centralize design system + formatting tokens | P3 | M | cli | stage-as-PR — **CLI visual HG required** | `cli/` | `src/gaia_cli/theme.py` created; all renderers import from it; no duplication; before/after terminal output required. |
 | 23 | #1004 | Update surfaces to point to skill-fuse repo | P2 | S | docs | stage-as-PR | `docs/` | skill-fuse registered; docs/README updated. |
 | 24 | #741 | Firecrawl skill evidence: verified benchmark | P2 | S | evidence | stage-as-PR | `review/meta/` | firecrawl-research-index added; arXivQA/MRR benchmark attached; floor met. |
 | 25 | #1124 | Add root AGENTS.md for agent-discovery of intake | P2 | S | docs | stage-as-PR | `docs/` | AGENTS.md created + linked from README; covers intake/submission/roles. |
@@ -189,7 +200,7 @@ Legend: **Eff** = effort (XS/S/M/L/XL). **Br** = suggested branch prefix.
 | 30 | #923 | Evidence request: Addy Osmani seven-skill suite | P2 | M | evidence | stage-as-PR | `review/meta/` | Independent evidence for each of 7 components; floor met. |
 | 31 | #922 | Evidence request: independent signals for GSD suite | P2 | M | evidence | stage-as-PR | `review/meta/` | Independent peer-review/attestation for suite + 5 components; TM bumped. |
 | 32 | #868 | feat(leaderboard): Trust Leaderboard SVG redesign | P2 | M | frontend | stage-as-PR | `design/` | SVG chart + dark CSS + animation/tooltip; #863 dependency confirmed merged. |
-| 33 | #636 | Include Xcode skills/rules when scanning in CLI | P3 | S | cli | stage-as-PR | `cli/` | `.xcode/rules` + `.xcode/skills` added to scanner search dirs; tests added. |
+| 33 | #636 | Include Xcode skills/rules when scanning in CLI | P3 | S | cli | **DONE 2026-07-30 via PR #1398 / `908987bc3`** | `cli/` | `.xcode/rules` + `.xcode/skills` added as explicit scanner roots; `.xcode/other` remains pruned. |
 | 34 | #118 | Promotion title issues (truncation, rename prompt) | P3 | S | cli | stage-as-PR | `cli/` | Promotion card no truncation; rename prompt shows slash-name; redundancy audited. |
 | 35 | #813 | Curation batch: 21 new AI agent skills | P2 | L | curation | stage-as-PR (`/gaia-curate-chain`) | `review/meta/` | Batch run through curate-chain; qualifying skills landed; rest triaged out. |
 

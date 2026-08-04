@@ -100,7 +100,7 @@ class PushCommand(Command):
             dest="update",
             help=(
                 "Incremental push: skip skills already pending review for this repo. "
-                "Queries open 'draft-skills' intake issues, drops unchanged skills, and "
+                "Queries open 'intake' intake issues, drops unchanged skills, and "
                 "keeps new + edited ones. Best-effort — falls back to a full push (which "
                 "intake dedups) when it cannot reach GitHub. Prints what it filtered."
             ),

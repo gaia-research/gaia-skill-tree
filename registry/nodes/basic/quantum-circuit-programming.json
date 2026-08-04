@@ -1,0 +1,42 @@
+{
+  "id": "quantum-circuit-programming",
+  "name": "Quantum Circuit Programming",
+  "type": "basic",
+  "description": "Build, simulate, transpile, and execute quantum circuits on local simulators or quantum runtimes.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [
+    {
+      "source": "https://arxiv.org/abs/1707.03429",
+      "evaluator": "mbtiongson1",
+      "date": "2026-07-31",
+      "type": "arxiv",
+      "notes": "OpenQASM paper; OpenAlex title/citation check 314 rechecked 2026-07-31.",
+      "citations": 314,
+      "sourceStartedAt": "2017-07-11",
+      "grade": "B"
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-31",
+  "updatedAt": "2026-08-01",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-31T14:48:16Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill quantum-circuit-programming"
+    },
+    {
+      "timestamp": "2026-07-31T16:18:17Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://arxiv.org/abs/1707.03429 (type: arxiv)"
+    }
+  ],
+  "verification": {
+    "firstEvidenceAt": "2026-07-31T16:18:17Z"
+  }
+}

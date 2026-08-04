@@ -1,0 +1,69 @@
+{
+  "id": "reinforcement-learning-training",
+  "name": "Reinforcement Learning Training",
+  "type": "fusion",
+  "description": "Train and evaluate reinforcement learning agents with reusable algorithms, environments, and test loops.",
+  "prerequisites": [
+    "reward-modeling",
+    "ml-pipeline",
+    "automated-testing"
+  ],
+  "derivatives": [],
+  "evidence": [
+    {
+      "source": "https://github.com/DLR-RM/stable-baselines3",
+      "evaluator": "mbtiongson1",
+      "date": "2026-07-31",
+      "type": "repo-own",
+      "notes": "Upstream Stable-Baselines3 repository; generic-level evidence for reinforcement-learning-training from #813.",
+      "commits": 1125,
+      "contributors": 100,
+      "sourceStartedAt": "2020-05-05",
+      "grade": "B"
+    },
+    {
+      "source": "https://jmlr.org/papers/v22/20-1364.html",
+      "evaluator": "mbtiongson1",
+      "date": "2026-07-31",
+      "type": "peer-review",
+      "notes": "Stable-Baselines3 paper in JMLR; reviewer count is not disclosed, so the conservative minimum payload of 1 reviewer is used.",
+      "reviewers": 1,
+      "sourceStartedAt": "2021-01-01",
+      "grade": "C"
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-07-31",
+  "updatedAt": "2026-07-31",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-07-31T14:48:33Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Created generic fusion node 'reinforcement-learning-training' via `gaia dev fuse`."
+    },
+    {
+      "timestamp": "2026-07-31T14:48:33Z",
+      "action": "fuse",
+      "contributor": "unknown",
+      "details": "Set prerequisites via `gaia dev fuse`: reward-modeling, ml-pipeline, automated-testing."
+    },
+    {
+      "timestamp": "2026-07-31T14:49:34Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://github.com/DLR-RM/stable-baselines3 (type: repo-own)"
+    },
+    {
+      "timestamp": "2026-07-31T14:49:36Z",
+      "action": "evidence_added",
+      "contributor": "unknown",
+      "details": "Added evidence from https://jmlr.org/papers/v22/20-1364.html (type: peer-review)"
+    }
+  ],
+  "verification": {
+    "firstEvidenceAt": "2026-07-31T14:49:34Z"
+  }
+}

@@ -8,7 +8,7 @@ status: named
 level: 3★
 description: Retrieve and query academic literature through Firecrawl Research.
 createdAt: '2026-07-13'
-updatedAt: '2026-07-31'
+updatedAt: '2026-08-03'
 title: Firecrawl Research Index
 links:
   github: https://github.com/firecrawl/skills/blob/main/skills/firecrawl-research-index/SKILL.md
@@ -39,6 +39,11 @@ timeline:
   action: rank_up
   contributor: marcotiongson
   details: Calibrated level from 2★ to 3★
+- timestamp: '2026-08-03T00:00:00Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added reported benchmark evidence from https://www.firecrawl.dev/blog/research-index-launch
+    (type: benchmark-result)'
 evidence:
 - type: repo-own
   source: https://github.com/firecrawl/firecrawl
@@ -56,6 +61,18 @@ evidence:
   stars: 158811
   skillCountInRepo: 6
   grade: B
+- type: benchmark-result
+  source: https://www.firecrawl.dev/blog/research-index-launch
+  evaluator: mbtiongson1
+  date: '2026-08-03'
+  benchmarkId: alphaxiv-arxivqa@v1.0
+  score: 53.3
+  unit: pct
+  provenance: reported
+  attestor: https://www.firecrawl.dev/blog/research-index-launch
+  notes: 'Firecrawl-reported ArXivQA recall: 53.3% at $0.32/task versus 45.4%
+    next best; MRR 0.750.'
+  grade: A
 catalogRef: firecrawl-firecrawl-research-index
 suiteRef: firecrawl/firecrawl-skills
 verification:
