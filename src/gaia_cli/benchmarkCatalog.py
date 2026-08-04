@@ -17,8 +17,21 @@ SCHEMA_RELATIVE_PATH = Path("registry") / "schema" / "benchmarkSourceCatalog.sch
 BUNDLED_CATALOG_PATH = Path(__file__).resolve().parent / "data" / "registry" / "benchmark-sources.json"
 BUNDLED_SCHEMA_PATH = Path(__file__).resolve().parent / "data" / "registry" / "schema" / "benchmarkSourceCatalog.schema.json"
 
-SCORING_PROVENANCE = frozenset({"ci-reproduced", "verifier-attested"})
-NON_SCORING_STATUSES = frozenset({"mirrored", "pending", "candidate", "registered", "rejected", "retired"})
+SCORING_LANES = frozenset({"verified", "reported"})
+VERIFIED_PROVENANCE_ALIASES = frozenset({"verified", "ci-reproduced", "verifier-attested"})
+REPORTED_PROVENANCE_ALIASES = frozenset({"reported", "mirrored"})
+REJECTED_PROVENANCE_ALIASES = frozenset({"rejected", "pending", "unknown", "retired", "candidate"})
+SOURCE_STATUS_ALIASES = {
+    "verified": "verified",
+    "reported": "reported",
+    "registered": "reported",
+    "mirrored": "reported",
+    "rejected": "rejected",
+    "pending": "rejected",
+    "unknown": "rejected",
+    "retired": "rejected",
+    "candidate": "rejected",
+}
 
 
 class BenchmarkCatalogError(RuntimeError):
@@ -99,18 +112,14 @@ def _validatePolicy(catalog: dict[str, Any]) -> None:
         status = entry.get("status")
         scoring = entry.get("scoring") or {}
         push = entry.get("push") or {}
-        allowed = set(scoring.get("allowedProvenance") or [])
 
         if scoring.get("scoresTrustMagnitude"):
-            if status != "verified":
-                raise BenchmarkCatalogError(f"{benchId}: only verified benchmarks may score Trust Magnitude")
-            if not allowed or not allowed <= SCORING_PROVENANCE:
-                raise BenchmarkCatalogError(
-                    f"{benchId}: scoring provenance must be a non-empty subset of {sorted(SCORING_PROVENANCE)}"
-                )
-        if status in NON_SCORING_STATUSES and scoring.get("scoresTrustMagnitude"):
+            sourceLane = normalizeBenchmarkSourceStatus(status)
+            if sourceLane not in SCORING_LANES:
+                raise BenchmarkCatalogError(f"{benchId}: status {status!r} must not score Trust Magnitude")
+        if normalizeBenchmarkSourceStatus(status) == "rejected" and scoring.get("scoresTrustMagnitude"):
             raise BenchmarkCatalogError(f"{benchId}: status {status!r} must not score Trust Magnitude")
-        if push.get("enabled") and (status != "verified" or entry.get("mode") != "internal-ci"):
+        if push.get("enabled") and (normalizeBenchmarkSourceStatus(status) != "verified" or entry.get("mode") != "internal-ci"):
             raise BenchmarkCatalogError(f"{benchId}: push aliases require verified internal-ci status")
 
 
@@ -166,7 +175,7 @@ def pushAliasMap(catalog: dict[str, Any]) -> dict[str, str]:
     """Return push-enabled aliases only.
 
     Non-verified or non-internal benchmark entries are intentionally omitted, so
-    mirrored sources such as MMLU cannot be filed through ``gaia push
+    reported sources such as MMLU cannot be filed through ``gaia push
     --benchmark`` unless a future catalog entry explicitly enables them under
     the verified/internal policy.
     """
@@ -212,12 +221,59 @@ def projectionMetadata(entry: dict[str, Any]) -> dict[str, Any]:
         "status": entry.get("status", ""),
         "mode": entry.get("mode", ""),
         "scoresTrustMagnitude": bool(scoring.get("scoresTrustMagnitude")),
-        "allowedProvenance": list(scoring.get("allowedProvenance") or []),
     }
     for key in ("sourceUrl", "sourceSnapshotDate", "harnessUrl", "notes", "appliesToGenericSkillRefs"):
         if key in entry:
             out[key] = entry[key]
     return out
+
+
+def normalizeBenchmarkLane(value: Any) -> str:
+    """Collapse benchmark-result provenance aliases to verified/reported/rejected."""
+    raw = str(value or "").strip().lower()
+    if raw in VERIFIED_PROVENANCE_ALIASES:
+        return "verified"
+    if raw in REPORTED_PROVENANCE_ALIASES:
+        return "reported"
+    return "rejected"
+
+
+def normalizeBenchmarkSourceStatus(value: Any) -> str:
+    """Collapse catalog statuses to verified/reported/rejected."""
+    raw = str(value or "").strip().lower()
+    return SOURCE_STATUS_ALIASES.get(raw, "rejected")
+
+
+def benchmarkLaneMultiplier(value: Any) -> float:
+    lane = normalizeBenchmarkLane(value)
+    if lane == "verified":
+        return 2.0
+    if lane == "reported":
+        return 1.0
+    return 0.0
+
+
+def benchmarkScoreBase(row: dict[str, Any]) -> float:
+    """Return the normalized benchmark score before lane multiplier and cap.
+
+    Prefer percentile when present. Otherwise normalize score by unit: pct stays
+    0..100; pass@*, accuracy, and f1 expressed as 0..1 become 0..100; raw and
+    other units are used as-is. The Trust Magnitude cap is applied by the caller.
+    """
+    if row.get("percentile") is not None:
+        return float(row.get("percentile") or 0)
+    rawScore = float(row.get("score", 0) or 0)
+    unit = str(row.get("unit") or "").lower()
+    if unit == "pct":
+        return rawScore
+    if unit in {"pass@1", "pass@10", "accuracy", "f1"} and rawScore <= 1.0:
+        return rawScore * 100.0
+    return rawScore
+
+
+def benchmarkFinalMagnitude(row: dict[str, Any]) -> float:
+    """Compute benchmark raw magnitude before the existing type cap/weight."""
+    return benchmarkScoreBase(row) * benchmarkLaneMultiplier(row.get("provenance"))
 
 
 def isBenchmarkScoringEligible(
@@ -228,8 +284,12 @@ def isBenchmarkScoringEligible(
     """Return True iff a benchmark-result row may contribute to Trust Magnitude.
 
     This helper fails closed: if the catalog cannot be loaded, the benchmarkId is
-    unknown, the status is not ``verified``, the provenance is not scoring-allowed,
-    or required reproducibility fields are absent, the row is not eligible.
+    unknown, the catalog status normalizes to ``rejected``, the catalog disables
+    Trust Magnitude scoring, the row provenance normalizes to ``rejected``, a
+    verified-lane row lacks reproducibility fields, or catalog-required fields
+    are absent, the row is not eligible. Legacy provenance aliases are accepted:
+    ci-reproduced/verifier-attested → verified, mirrored → reported, and
+    pending/candidate/retired/rejected/unknown → rejected.
     """
     if row.get("type") != "benchmark-result":
         return False
@@ -243,25 +303,20 @@ def isBenchmarkScoringEligible(
     entry = benchmarkEntriesById(activeCatalog).get(benchId)
     if entry is None:
         return False
-    if entry.get("status") != "verified":
+    sourceLane = normalizeBenchmarkSourceStatus(entry.get("status"))
+    if sourceLane == "rejected":
         return False
     scoring = entry.get("scoring") or {}
     if not scoring.get("scoresTrustMagnitude"):
         return False
-    provenance = row.get("provenance")
-    if provenance not in set(scoring.get("allowedProvenance") or []):
+    rowLane = normalizeBenchmarkLane(row.get("provenance"))
+    if rowLane == "rejected":
         return False
-    requiredFields = scoring.get("requiredFields") or [
-        "benchmarkId",
-        "score",
-        "unit",
-        "runAt",
-        "provenance",
-        "attestor",
-        "datasetHash",
-        "benchmarkInputHash",
-        "percentile",
-    ]
+    requiredFields = list(scoring.get("requiredFields") or ["benchmarkId", "score", "unit", "provenance", "attestor"])
+    if rowLane == "verified":
+        for field in ("runAt", "attestor", "datasetHash", "benchmarkInputHash"):
+            if field not in requiredFields:
+                requiredFields.append(field)
     for field in requiredFields:
         value = row.get(field)
         if value is None or value == "":

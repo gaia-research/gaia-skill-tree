@@ -470,6 +470,26 @@
     ]
   },
   {
+    "id": "firecrawl/firecrawl-research-index",
+    "name": "Firecrawl Research Index",
+    "contributor": "firecrawl",
+    "level": "3★",
+    "grade": "A",
+    "trustMagnitude": 150.32,
+    "branch": "standard",
+    "tokens": [
+      "academic",
+      "firecrawl",
+      "index",
+      "literature",
+      "query",
+      "research",
+      "retrieve",
+      "search",
+      "through"
+    ]
+  },
+  {
     "id": "firecrawl/firecrawl-build-scrape",
     "name": "Firecrawl Scrape",
     "contributor": "firecrawl",
@@ -1669,26 +1689,6 @@
       "onboarding",
       "setup",
       "tools"
-    ]
-  },
-  {
-    "id": "firecrawl/firecrawl-research-index",
-    "name": "Firecrawl Research Index",
-    "contributor": "firecrawl",
-    "level": "3★",
-    "grade": "B",
-    "trustMagnitude": 75.7,
-    "branch": "standard",
-    "tokens": [
-      "academic",
-      "firecrawl",
-      "index",
-      "literature",
-      "query",
-      "research",
-      "retrieve",
-      "search",
-      "through"
     ]
   },
   {
@@ -3248,6 +3248,40 @@
     ]
   },
   {
+    "id": "gaia-research/skill-fuse",
+    "name": "Skill Fuse",
+    "contributor": "gaia-research",
+    "level": "2★",
+    "grade": "C",
+    "trustMagnitude": 41.62,
+    "branch": "standard",
+    "tokens": [
+      "collecting",
+      "component",
+      "composes",
+      "contributor",
+      "evidence",
+      "existence",
+      "fuse",
+      "fusion",
+      "ids",
+      "implementations",
+      "into",
+      "multiple",
+      "named",
+      "node",
+      "researching",
+      "single",
+      "skill",
+      "suite",
+      "th",
+      "ultimate",
+      "unified",
+      "verifying",
+      "writing"
+    ]
+  },
+  {
     "id": "mattpocock/prototype",
     "name": "Prototype",
     "contributor": "mattpocock",
@@ -3304,40 +3338,6 @@
       "time",
       "versus",
       "work"
-    ]
-  },
-  {
-    "id": "gaia-research/skill-fuse",
-    "name": "Skill Fuse",
-    "contributor": "gaia-research",
-    "level": "2★",
-    "grade": "C",
-    "trustMagnitude": 41.0,
-    "branch": "standard",
-    "tokens": [
-      "collecting",
-      "component",
-      "composes",
-      "contributor",
-      "evidence",
-      "existence",
-      "fuse",
-      "fusion",
-      "ids",
-      "implementations",
-      "into",
-      "multiple",
-      "named",
-      "node",
-      "researching",
-      "single",
-      "skill",
-      "suite",
-      "th",
-      "ultimate",
-      "unified",
-      "verifying",
-      "writing"
     ]
   },
   {

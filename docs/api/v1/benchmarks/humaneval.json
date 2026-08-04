@@ -3,18 +3,14 @@
   "benchmarkId": "humaneval@v1.0",
   "name": "HumanEval",
   "unit": "pass@1",
-  "provenance": "ci-reproduced",
+  "provenance": "verified",
   "methodologyUrl": "/benchmarks/humaneval-v1/",
   "status": "verified",
   "mode": "internal-ci",
   "scoresTrustMagnitude": true,
-  "allowedProvenance": [
-    "ci-reproduced",
-    "verifier-attested"
-  ],
   "sourceUrl": "https://github.com/openai/human-eval",
   "harnessUrl": "https://github.com/gaia-research/gaia-skill-tree/tree/main/scripts/benchmarks/humaneval",
-  "notes": "Python function-completion benchmark (164 problems). Gaia reproduces via an internal CI harness; each row carries datasetHash + benchmarkInputHash. ci-reproduced and verifier-attested rows may count toward Trust Magnitude when all required scoring fields are present. pending rows are awaiting first CI reproduction run.",
+  "notes": "Python function-completion benchmark (164 problems). Gaia reproduces via an internal CI harness; verified rows carry datasetHash + benchmarkInputHash and count at the verified lane (2.0x). Legacy ci-reproduced and verifier-attested provenance aliases normalize to verified.",
   "rows": [
     {
       "skillId": "addy-osmani/code-simplification",

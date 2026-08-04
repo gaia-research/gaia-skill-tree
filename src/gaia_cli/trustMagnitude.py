@@ -24,7 +24,7 @@ import datetime
 import math
 from typing import Any, Optional
 
-from gaia_cli.benchmarkCatalog import isBenchmarkScoringEligible
+from gaia_cli.benchmarkCatalog import benchmarkFinalMagnitude, isBenchmarkScoringEligible
 from gaia_cli.evidence import inherited_evidence
 
 # ---------------------------------------------------------------------------
@@ -379,11 +379,11 @@ def computeArtifactScoreOrNone(
         return 0.0
 
     # Sprint D W2a/W2c (#904/#1419) — benchmark-result rows are citations
-    # unless the benchmark source catalog says this benchmark is verified,
-    # Trust-Magnitude-scoring, and the row provenance/reproducibility fields
-    # satisfy that catalog entry. This preserves the broad evidence row schema
-    # while fail-closing TM scoring for unknown, pending, mirrored, candidate,
-    # registered, rejected, or retired benchmarkIds.
+    # unless the benchmark source catalog approves the benchmark and the row
+    # provenance normalizes to a scoring lane. Lane aliases collapse to:
+    # verified (ci-reproduced/verifier-attested) = 2x, reported (mirrored) = 1x,
+    # rejected/pending/unknown/candidate/retired = 0x. Unknown or catalog-rejected
+    # benchmarkIds fail closed.
     if evidenceType == "benchmark-result":
         if not isBenchmarkScoringEligible(evidenceRow):
             return None
@@ -474,7 +474,7 @@ def _rawMagnitudeForType(
         return 30.0 * verifiers
 
     if evidenceType == "benchmark-result":
-        return float(row.get("percentile", 0) or 0)
+        return benchmarkFinalMagnitude(row)
 
     if evidenceType == "arxiv":
         citations = float(row.get("citations", 0) or 0)

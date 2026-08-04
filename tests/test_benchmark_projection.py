@@ -93,7 +93,7 @@ class TestBuildBenchmarkFile:
         assert doc["status"] == "verified"
         assert doc["mode"] == "internal-ci"
         assert doc["scoresTrustMagnitude"] is True
-        assert doc["allowedProvenance"] == ["ci-reproduced", "verifier-attested"]
+        assert "allowedProvenance" not in doc
         assert len(doc["rows"]) == 1
         assert doc["rows"][0]["skillId"] == "a/b"
 

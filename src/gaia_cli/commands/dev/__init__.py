@@ -581,11 +581,11 @@ class DevCommand(Command):
             "--percentile",
             type=int,
             metavar="N",
-            help="Benchmark result percentile (0-100). Optional for --type benchmark-result post-W2a; drives the magnitude formula additively.",
+            help="Benchmark result percentile (0-100). Optional for --type benchmark-result; Trust Magnitude uses it before normalized --score when present.",
         )
-        # Sprint D W2a (#904) — benchmark-result reproducibility fingerprint
-        # flags. All 8 are required when --type benchmark-result is passed
-        # (enforced by _preflight_benchmark_row in commands/dev/helpers.py).
+        # #1419 benchmark-result lanes. Common fields are required for all new
+        # benchmark rows; verified rows additionally require reproducibility
+        # fields, while reported rows only require an attestor/source.
         dev_evidence.add_argument(
             "--benchmark-id",
             dest="benchmark_id",
@@ -611,16 +611,17 @@ class DevCommand(Command):
         )
         dev_evidence.add_argument(
             "--provenance",
-            choices=["verifier-attested", "ci-reproduced", "mirrored", "pending"],
+            choices=["verified", "reported", "rejected", "verifier-attested", "ci-reproduced", "mirrored", "pending"],
             help=(
-                "How the row is anchored. self-attested is FOREVER rejected. "
-                "mirrored is EXCLUDED from Trust Magnitude. pending is rejected on main by validate.py --strict."
+                "Benchmark lane/provenance. verified=2x, reported=1x, rejected=0x. "
+                "Legacy aliases ci-reproduced/verifier-attested, mirrored, and pending are accepted; "
+                "self-attested is FOREVER rejected."
             ),
         )
         dev_evidence.add_argument(
             "--attestor",
             metavar="HANDLE_OR_URL",
-            help="Verifier handle, workflow-run-URL@commit-sha, or upstream leaderboard URL (per --provenance).",
+            help="Verifier handle, workflow-run-URL@commit-sha, public claim URL, or upstream leaderboard URL (per --provenance).",
         )
         dev_evidence.add_argument(
             "--dataset-hash",

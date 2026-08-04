@@ -1803,11 +1803,14 @@
     },
     "gaia-research": {
       "repos": [
-        "gaia-research/gaia-skill-tree"
+        "gaia-research/gaia-skill-tree",
+        "gaia-research/skill-fuse"
       ],
       "skillsByRepo": {
         "gaia-research/gaia-skill-tree": [
-          "gaia-research/skill-ci-churn",
+          "gaia-research/skill-ci-churn"
+        ],
+        "gaia-research/skill-fuse": [
           "gaia-research/skill-fuse"
         ]
       },

@@ -5,7 +5,10 @@
   "description": "Canonical allow-list of benchmark sources and benchmarkId metadata. This catalog does not alter the benchmark-result evidence row schema; it controls projection metadata, gaia push --benchmark aliases, and Trust Magnitude scoring eligibility.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schemaVersion", "benchmarks"],
+  "required": [
+    "schemaVersion",
+    "benchmarks"
+  ],
   "properties": {
     "schemaVersion": {
       "type": "string",
@@ -14,21 +17,53 @@
     "benchmarks": {
       "type": "array",
       "minItems": 1,
-      "items": { "$ref": "#/definitions/benchmarkSource" }
+      "items": {
+        "$ref": "#/definitions/benchmarkSource"
+      }
     }
   },
   "definitions": {
     "provenance": {
       "type": "string",
-      "enum": ["verifier-attested", "ci-reproduced", "mirrored", "pending"]
+      "enum": [
+        "verified",
+        "reported",
+        "rejected",
+        "verifier-attested",
+        "ci-reproduced",
+        "mirrored",
+        "pending",
+        "unknown",
+        "retired",
+        "candidate"
+      ]
     },
     "status": {
       "type": "string",
-      "enum": ["candidate", "registered", "mirrored", "verified", "rejected", "retired"]
+      "enum": [
+        "verified",
+        "reported",
+        "rejected",
+        "candidate",
+        "registered",
+        "mirrored",
+        "retired",
+        "pending",
+        "unknown"
+      ]
     },
     "unit": {
       "type": "string",
-      "enum": ["pct", "pass@1", "pass@10", "bleu", "f1", "accuracy", "elo", "raw"]
+      "enum": [
+        "pct",
+        "pass@1",
+        "pass@10",
+        "bleu",
+        "f1",
+        "accuracy",
+        "elo",
+        "raw"
+      ]
     },
     "benchmarkSource": {
       "type": "object",
@@ -50,33 +85,71 @@
           "type": "string",
           "pattern": "^[a-z][a-z0-9\\-_/]*@v?\\d+(\\.\\d+)?(\\.\\d+)?(-[a-z0-9\\-_.]+)?$"
         },
-        "name": { "type": "string", "minLength": 1 },
-        "status": { "$ref": "#/definitions/status" },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "$ref": "#/definitions/status"
+        },
         "mode": {
           "type": "string",
-          "enum": ["internal-ci", "mirrored", "external", "manual"]
+          "enum": [
+            "internal-ci",
+            "mirrored",
+            "external",
+            "manual"
+          ]
         },
-        "unit": { "$ref": "#/definitions/unit" },
-        "sourceUrl": { "type": "string", "format": "uri" },
-        "sourceSnapshotDate": { "type": "string", "format": "date" },
-        "methodologyUrl": { "type": "string", "minLength": 1 },
-        "harnessUrl": { "type": "string", "format": "uri" },
+        "unit": {
+          "$ref": "#/definitions/unit"
+        },
+        "sourceUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "sourceSnapshotDate": {
+          "type": "string",
+          "format": "date"
+        },
+        "methodologyUrl": {
+          "type": "string",
+          "minLength": 1
+        },
+        "harnessUrl": {
+          "type": "string",
+          "format": "uri"
+        },
         "dataset": {
           "type": "object",
           "additionalProperties": false,
           "properties": {
-            "name": { "type": "string" },
-            "version": { "type": "string" },
-            "sourceUrl": { "type": "string", "format": "uri" }
+            "name": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "sourceUrl": {
+              "type": "string",
+              "format": "uri"
+            }
           }
         },
         "aliases": {
           "type": "array",
-          "items": { "type": "string", "pattern": "^[a-z][a-z0-9_-]*$" },
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]*$"
+          },
           "uniqueItems": true
         },
-        "defaultProvenance": { "$ref": "#/definitions/provenance" },
-        "notes": { "type": "string" },
+        "defaultProvenance": {
+          "$ref": "#/definitions/provenance"
+        },
+        "notes": {
+          "type": "string"
+        },
         "appliesToGenericSkillRefs": {
           "type": "array",
           "minItems": 1,
@@ -89,43 +162,38 @@
         "scoring": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["scoresTrustMagnitude", "allowedProvenance"],
+          "required": [
+            "scoresTrustMagnitude"
+          ],
           "properties": {
-            "scoresTrustMagnitude": { "type": "boolean" },
-            "allowedProvenance": {
-              "type": "array",
-              "items": { "$ref": "#/definitions/provenance" },
-              "uniqueItems": true
+            "scoresTrustMagnitude": {
+              "type": "boolean"
             },
             "requiredFields": {
               "type": "array",
-              "items": { "type": "string" },
+              "items": {
+                "type": "string"
+              },
               "uniqueItems": true
             }
-          },
-          "allOf": [
-            {
-              "if": { "properties": { "scoresTrustMagnitude": { "const": true } }, "required": ["scoresTrustMagnitude"] },
-              "then": {
-                "properties": {
-                  "allowedProvenance": {
-                    "items": { "enum": ["verifier-attested", "ci-reproduced"] },
-                    "minItems": 1
-                  }
-                }
-              }
-            }
-          ]
+          }
         },
         "push": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["enabled"],
+          "required": [
+            "enabled"
+          ],
           "properties": {
-            "enabled": { "type": "boolean" },
+            "enabled": {
+              "type": "boolean"
+            },
             "aliases": {
               "type": "array",
-              "items": { "type": "string", "pattern": "^[a-z][a-z0-9_-]*$" },
+              "items": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_-]*$"
+              },
               "uniqueItems": true
             }
           }
@@ -133,43 +201,110 @@
       },
       "allOf": [
         {
-          "if": { "properties": { "status": { "const": "mirrored" } }, "required": ["status"] },
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "rejected",
+                  "retired",
+                  "candidate",
+                  "pending",
+                  "unknown"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
           "then": {
             "properties": {
-              "mode": { "const": "mirrored" },
-              "defaultProvenance": { "const": "mirrored" },
               "scoring": {
                 "properties": {
-                  "scoresTrustMagnitude": { "const": false },
-                  "allowedProvenance": { "const": ["mirrored"] }
+                  "scoresTrustMagnitude": {
+                    "const": false
+                  }
                 }
               },
-              "push": { "properties": { "enabled": { "const": false } } }
+              "push": {
+                "properties": {
+                  "enabled": {
+                    "const": false
+                  }
+                }
+              }
             }
           }
         },
         {
-          "if": { "properties": { "status": { "not": { "const": "verified" } } }, "required": ["status"] },
+          "if": {
+            "properties": {
+              "push": {
+                "properties": {
+                  "enabled": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "enabled"
+                ]
+              }
+            },
+            "required": [
+              "push"
+            ]
+          },
           "then": {
             "properties": {
-              "scoring": { "properties": { "scoresTrustMagnitude": { "const": false } } },
-              "push": { "properties": { "enabled": { "const": false } } }
+              "status": {
+                "const": "verified"
+              },
+              "mode": {
+                "const": "internal-ci"
+              },
+              "push": {
+                "required": [
+                  "aliases"
+                ],
+                "properties": {
+                  "aliases": {
+                    "minItems": 1
+                  }
+                }
+              }
             }
           }
         },
         {
-          "if": { "properties": { "push": { "properties": { "enabled": { "const": true } }, "required": ["enabled"] } }, "required": ["push"] },
+          "if": {
+            "properties": {
+              "scoring": {
+                "properties": {
+                  "scoresTrustMagnitude": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "scoresTrustMagnitude"
+                ]
+              }
+            },
+            "required": [
+              "scoring"
+            ]
+          },
           "then": {
             "properties": {
-              "status": { "const": "verified" },
-              "mode": { "const": "internal-ci" },
-              "push": { "required": ["aliases"], "properties": { "aliases": { "minItems": 1 } } }
+              "status": {
+                "enum": [
+                  "verified",
+                  "reported",
+                  "registered",
+                  "mirrored"
+                ]
+              }
             }
           }
-        },
-        {
-          "if": { "properties": { "scoring": { "properties": { "scoresTrustMagnitude": { "const": true } }, "required": ["scoresTrustMagnitude"] } }, "required": ["scoring"] },
-          "then": { "properties": { "status": { "const": "verified" } } }
         }
       ]
     }
