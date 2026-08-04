@@ -173,6 +173,82 @@
       .floating-changelog-btn { padding: 0.4rem 0.8rem; font-size: 0.7rem; }
       .meta-sidebar { width: 100%; }
     }
+
+    /* v7.4.0 report-specific visual layer: show the update before the prose. */
+    .update-visual {
+      margin: 3rem -3rem 3.5rem;
+      border: 1px solid color-mix(in srgb, var(--paper-muted) 28%, transparent);
+      background: linear-gradient(135deg, var(--paper-bg) 0%, color-mix(in srgb, var(--paper-muted) 6%, var(--paper-bg)) 100%);
+      padding: 1.5rem;
+      font-family: var(--font-sans);
+    }
+    .uv-release-path {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .uv-step {
+      border: 1px solid color-mix(in srgb, var(--paper-muted) 28%, transparent);
+      background: var(--paper-bg);
+      padding: 0.8rem;
+      min-height: 7.4rem;
+      position: relative;
+    }
+    .uv-step::after {
+      content: '';
+      position: absolute;
+      top: 1.2rem;
+      right: -0.65rem;
+      width: 0.65rem;
+      border-top: 1px solid color-mix(in srgb, var(--accent) 45%, var(--paper-muted));
+    }
+    .uv-step:last-child::after { display: none; }
+    .uv-step-kicker {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--paper-muted);
+      margin-bottom: 0.35rem;
+    }
+    .uv-step strong { display: block; font-size: 1rem; margin-bottom: 0.35rem; }
+    .uv-step span:last-child { display: block; color: var(--paper-muted); font-size: 0.78rem; line-height: 1.35; }
+    .uv-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.65rem;
+      margin: 1.25rem 0;
+    }
+    .uv-metric {
+      border: 1px solid color-mix(in srgb, var(--paper-muted) 28%, transparent);
+      background: var(--paper-bg);
+      padding: 0.75rem;
+    }
+    .uv-metric b { display: block; font-size: 1.8rem; line-height: 1; font-family: var(--font-serif); font-weight: 600; }
+    .uv-metric span { display: block; margin-top: 0.25rem; color: var(--paper-muted); font-size: 0.76rem; line-height: 1.3; }
+    .uv-focus { border-top: 1px solid color-mix(in srgb, var(--paper-muted) 28%, transparent); padding-top: 1rem; }
+    .uv-tabs { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.85rem; }
+    .uv-tab {
+      appearance: none;
+      border: 1px solid color-mix(in srgb, var(--paper-muted) 36%, transparent);
+      background: transparent;
+      color: var(--paper-text);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 0.35rem 0.6rem;
+      cursor: pointer;
+    }
+    .uv-tab[aria-pressed="true"] { border-color: color-mix(in srgb, var(--accent) 45%, var(--paper-muted)); background: color-mix(in srgb, var(--paper-muted) 4%, var(--paper-bg)); }
+    .uv-panel { display: none; border: 1px solid color-mix(in srgb, var(--paper-muted) 28%, transparent); background: var(--paper-bg); padding: 0.85rem; }
+    .uv-panel.is-active { display: block; }
+    .uv-panel h3 { margin-top: 0; font-size: 1.05rem; }
+    .uv-chipline { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.65rem; }
+    .uv-chip { font-family: var(--font-mono); font-size: 0.68rem; border: 1px solid color-mix(in srgb, var(--paper-muted) 18%, transparent); padding: 0.25rem 0.4rem; background: color-mix(in srgb, var(--paper-muted) 6%, var(--paper-bg)); }
+    @media (max-width: 760px) {
+      .update-visual { margin-left: 0; margin-right: 0; padding: 1rem; }
+      .uv-release-path, .uv-metrics { grid-template-columns: 1fr; }
+      .uv-step::after { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -224,14 +300,52 @@
 
     <section class="abstract">
       <div class="abstract-title">Abstract</div>
-      <div class="abstract-content">This Skill Tree update summarizes the user-facing work that landed through the issue-backlog closeout and is being framed for the next v7.4.0 skill-tree cycle. It does not announce a v7.4.0 package, tag, or PyPI release; after PR #1395 merged, the automated sync published v7.3.8 as the current latest package and release.
+      <div class="abstract-content">This Skill Tree update summarizes the user-facing work that landed through the issue-backlog closeout and is being framed for the next v7.4.0 skill-tree cycle. It is a site post, not a package, tag, or PyPI release announcement.
+After PR #1395 merged, the automated sync published v7.3.8. PR #1430 then landed the 2026-32 Weekly Report first and advanced the main branch to v7.3.9 canary.
 </div>
     </section>
 
-    <p>This Skill Tree update closes the public narrative around the backlog merge: new and updated named skills, new generic skill coverage, benchmark-source infrastructure, and site polish across the main exploration surfaces. The important distinction for reviewers is version scope: this post is framed for the v7.4.0 skill-tree cycle and future-facing Skill Tree messaging, while the actual package/tag/PyPI latest after the backlog merge is <code>v7.3.8</code>.</p>
+    <p>This Skill Tree update closes the public narrative around the backlog merge: new and updated named skills, new generic skill coverage, benchmark-source infrastructure, and site polish across the main exploration surfaces. The important distinction for reviewers is version scope: this post is framed for the v7.4.0 skill-tree cycle and future-facing Skill Tree messaging, while the actual post-backlog package path moved through <code>v7.3.8</code>, then <code>v7.3.9</code> canary after the 2026-32 Weekly Report merge.</p>
 <h2>Executive Summary</h2>
-<p>PR #1395 merged the issue-backlog integration to <code>main</code>, closed the backlog milestone, and triggered the automated artifact sync that published <code>v7.3.8</code> as the current latest package and release. This post captures the user-facing Skill Tree and site changes from that merge without claiming that a <code>v7.4.0</code> package release already exists.</p>
+<p>PR #1395 merged the issue-backlog integration to <code>main</code>, closed the backlog milestone, and triggered the automated artifact sync that published <code>v7.3.8</code>. PR #1430 followed first with the 2026-32 Weekly Report and advanced the main branch to <code>v7.3.9</code> canary before this v7.4.0 Skill Tree post returned for review. This post captures the user-facing Skill Tree and site changes from that merge without claiming that a package release already exists.</p>
 <p>The merge directly closed four visible work items: Trust Leaderboard redesign (#868), skill-fuse repository surfaces (#1004), frontend performance pass (#1268), and the verified benchmark-source catalog (#1419). The Suite data and meta-audit follow-up (#1438) remains open, which is intentional: the new Suite Explorer behavior now makes missing or off-path suite metadata easier to see instead of hiding it behind a dense component rail.</p>
+<h2>Visual Summary</h2>
+<p>The visual panel below separates shipped package state from this held Skill Tree narrative, then lets reviewers focus the update by surface.</p>
+<section class="update-visual" aria-label="Visual summary of the v7.4.0 Skill Tree update">
+  <div class="uv-release-path" aria-label="Release path">
+    <div class="uv-step"><span class="uv-step-kicker">shipped</span><strong>v7.3.8</strong><span>Backlog closeout, package latest, PyPI latest, and the first wave of Skill Tree polish.</span></div>
+    <div class="uv-step"><span class="uv-step-kicker">merged first</span><strong>v7.3.9 canary</strong><span>PR #1430 lands Weekly Report 2026-32 and refreshes the report archive before this post.</span></div>
+    <div class="uv-step"><span class="uv-step-kicker">held for review</span><strong>v7.4.0 post</strong><span>This page is the public Skill Tree narrative. It is not a package, tag, or PyPI release claim.</span></div>
+  </div>
+  <div class="uv-metrics" aria-label="Update counts">
+    <div class="uv-metric"><b>13</b><span>new named skills</span></div>
+    <div class="uv-metric"><b>8</b><span>named skills refreshed</span></div>
+    <div class="uv-metric"><b>14</b><span>generic skill nodes covered</span></div>
+    <div class="uv-metric"><b>4</b><span>visible backlog items closed</span></div>
+  </div>
+  <div class="uv-focus">
+    <div class="uv-tabs" role="group" aria-label="Focus the visual summary">
+      <button type="button" class="uv-tab" data-uv-tab="skills" aria-pressed="true">Skills</button>
+      <button type="button" class="uv-tab" data-uv-tab="trust" aria-pressed="false">Trust data</button>
+      <button type="button" class="uv-tab" data-uv-tab="surfaces" aria-pressed="false">Surfaces</button>
+    </div>
+    <div class="uv-panel is-active" data-uv-panel="skills">
+      <h3>Skill movement</h3>
+      <p>New named work concentrates around scientific Python and machine-learning libraries, while Addy Osmani, Firecrawl, GSD, Obra, and skill-fuse surfaces get alignment updates.</p>
+      <div class="uv-chipline"><span class="uv-chip">k-dense-ai ×10</span><span class="uv-chip">brand-guidelines</span><span class="uv-chip">log-to-daily</span><span class="uv-chip">ponytail</span></div>
+    </div>
+    <div class="uv-panel" data-uv-panel="trust">
+      <h3>Evidence plumbing</h3>
+      <p>The benchmark-source catalog and schema updates make benchmark-result evidence easier to review, cite, and separate from unverified claims.</p>
+      <div class="uv-chipline"><span class="uv-chip">benchmark sources</span><span class="uv-chip">benchmark-result schema</span><span class="uv-chip">public benchmark API</span></div>
+    </div>
+    <div class="uv-panel" data-uv-panel="surfaces">
+      <h3>Review surfaces</h3>
+      <p>Suite Explorer, Share Plaques, the Trust Leaderboard, Weekly Reports, and benchmark pages now expose more state directly in the interface.</p>
+      <div class="uv-chipline"><span class="uv-chip">Suite focus rail</span><span class="uv-chip">medallion PNGs</span><span class="uv-chip">relative report links</span></div>
+    </div>
+  </div>
+</section>
 <h2>Skill Tree Growth</h2>
 <h3>New named skills</h3>
 <p>The backlog closeout added a concentrated set of named skills, spanning brand governance, daily logging, hair-styling, scientific Python workflows, machine learning frameworks, chemistry tooling, quantum circuits, reinforcement learning, graph neural networks, transformers, and single-cell analysis.</p>
@@ -266,15 +380,16 @@
 <p>This post is intentionally scoped to Skill Tree communication. It should be reviewed as a site-content update, not as a package release. The factual release state remains:</p>
 <ul>
   <li>PR #1395 merged the backlog integration and closed the issue-backlog work.</li>
-  <li>The automated sync/tag path published <code>v7.3.8</code> as GitHub latest and PyPI latest.</li>
+  <li>The automated sync/tag path published <code>v7.3.8</code> as GitHub latest and PyPI latest. PR #1430 then landed Weekly Report 2026-32 and advanced main to <code>v7.3.9</code> canary.</li>
   <li><code>v7.4.0</code> is the framing for this Skill Tree post, not a package/tag/PyPI release claim.</li>
   <li>#1438 remains open for Suite data and meta-audit follow-up.</li>
 </ul>
 <div class="references">
   <div class="abstract-title" style="text-align: left; margin-bottom: 1.5rem;">References</div>
-  <div class="ref-item">[1] PR #1395 — issue-backlog integration merge and automated sync/tag to <code>v7.3.8</code>.</div>
+  <div class="ref-item">[1] PR #1395: issue-backlog integration merge and automated sync/tag to <code>v7.3.8</code>.</div>
   <div class="ref-item">[2] Issues closed by #1395: #868 Trust Leaderboard redesign, #1004 skill-fuse repo surfaces, #1268 frontend performance pass, #1419 verified benchmark-source catalog.</div>
   <div class="ref-item">[3] Follow-up still open: #1438 Suite data and meta-audit work.</div>
+  <div class="ref-item">[4] PR #1430: Weekly Report 2026-32, merged first and autosynced to <code>v7.3.9</code> canary.</div>
 </div>
 
     <div class="footer-nav">
@@ -324,5 +439,19 @@
     })();
 
   </script>
+  <script>
+    document.querySelectorAll('[data-uv-tab]').forEach(function (button) {
+      button.addEventListener('click', function () {
+        var target = button.getAttribute('data-uv-tab');
+        document.querySelectorAll('[data-uv-tab]').forEach(function (b) {
+          b.setAttribute('aria-pressed', b === button ? 'true' : 'false');
+        });
+        document.querySelectorAll('[data-uv-panel]').forEach(function (panel) {
+          panel.classList.toggle('is-active', panel.getAttribute('data-uv-panel') === target);
+        });
+      });
+    });
+  </script>
+
 </body>
 </html>
