@@ -4,9 +4,9 @@
       "id": "2026-08-04-v740-skill-tree-update-backlog-closeout-benchmark-sources-and-skill-surface-polish",
       "type": "report",
       "date": "2026-08-04",
-      "title": "v7.4.0 Skill Tree Update: Backlog Closeout, Benchmark Sources, and Skill Surface Polish",
-      "summary": "A user-facing Skill Tree update for the v7.4.0 skill-tree cycle: backlog closeout, verified benchmark-source infrastructure, new and refreshed skills, and polish across Suite Explorer, Share Plaques, Trust Leaderboard, benchmarks, and Weekly Reports.",
-      "label": "Skill Tree Update",
+      "title": "v7.4.0 Skill Tree Report: Backlog Changes in /registry/",
+      "summary": "A focused report on the backlog-era /registry/ changes: new and refreshed named skill files, expanded generic skill nodes, benchmark-source trust infrastructure, and the public surfaces that make those data changes visible.",
+      "label": "Skill Tree Report",
       "url": "meta/reports/2026-08-04-v740-skill-tree-update-backlog-closeout-benchmark-sources-and-skill-surface-polish.html",
       "author": "Gaia Research",
       "source": "docs/meta/2026-08-04-v7-4-0-skill-tree-update.md"

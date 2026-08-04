@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>v7.4.0 Skill Tree Update: Backlog Closeout, Benchmark Sources, and Skill Surface Polish — Gaia</title>
+  <title>v7.4.0 Skill Tree Report: Backlog Changes in /registry/ — Gaia</title>
   <link rel="icon" type="image/svg+xml" href="../../assets/marks/diamond-seal.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -145,7 +145,7 @@
     .pja-btn:hover { color: #111; border-color: #111; }
     .pja-btn.copied { color: #16a34a; border-color: #16a34a; }
     .pja-btn svg { width: 15px; height: 15px; display: block; }
-    .floating-changelog-btn {
+    .floating-events-btn {
       background: #000; color: #fff; border: none;
       padding: 0.8rem 1.4rem;
       font-family: var(--font-sans); font-weight: 700; font-size: 0.7rem;
@@ -153,7 +153,7 @@
       box-shadow: 0 10px 30px rgba(0,0,0,0.15);
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .floating-changelog-btn:hover { transform: translateY(-2px); box-shadow: 0 15px 40px rgba(0,0,0,0.2); background: #111; }
+    .floating-events-btn:hover { transform: translateY(-2px); box-shadow: 0 15px 40px rgba(0,0,0,0.2); background: #111; }
     .meta-sidebar {
       position: fixed; top: 0; right: 0; bottom: 0; width: 400px;
       background: #000; color: #fff; z-index: 2000;
@@ -170,11 +170,11 @@
       .paper { padding: 3rem 2rem; }
       body { padding: 1rem 0; }
       .floating-cluster { top: 0.75rem; right: 0.75rem; }
-      .floating-changelog-btn { padding: 0.4rem 0.8rem; font-size: 0.7rem; }
+      .floating-events-btn { padding: 0.4rem 0.8rem; font-size: 0.7rem; }
       .meta-sidebar { width: 100%; }
     }
 
-    /* v7.4.0 report-specific visual layer: show the update before the prose. */
+    /* v7.4.0 report-specific visual layer: show the /registry/ data changes before the prose. */
     .update-visual {
       margin: 3rem -3rem 3.5rem;
       border: 1px solid color-mix(in srgb, var(--paper-muted) 28%, transparent);
@@ -182,7 +182,7 @@
       padding: 1.5rem;
       font-family: var(--font-sans);
     }
-    .uv-release-path {
+    .uv-data-map {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 0.75rem;
@@ -246,7 +246,7 @@
     .uv-chip { font-family: var(--font-mono); font-size: 0.68rem; border: 1px solid color-mix(in srgb, var(--paper-muted) 18%, transparent); padding: 0.25rem 0.4rem; background: color-mix(in srgb, var(--paper-muted) 6%, var(--paper-bg)); }
     @media (max-width: 760px) {
       .update-visual { margin-left: 0; margin-right: 0; padding: 1rem; }
-      .uv-release-path, .uv-metrics { grid-template-columns: 1fr; }
+      .uv-data-map, .uv-metrics { grid-template-columns: 1fr; }
       .uv-step::after { display: none; }
     }
   </style>
@@ -271,16 +271,16 @@
         <path d="M11.5 8.5a4.5 4.5 0 00-6.364 0l-2 2a4.5 4.5 0 006.364 6.364L11 15.364"/>
       </svg>
     </button>
-    <button type="button" class="floating-changelog-btn" id="viewChangelogBtn">View Changelog</button>
+    <button type="button" class="floating-events-btn" id="viewEventsBtn">View Recent Skill Events</button>
   </div>
 
   <aside id="metaSidebar" class="meta-sidebar">
     <div class="ms-header">
-      <h2>Meta Changelog</h2>
-      <button type="button" class="ms-close" id="closeChangelogBtn">✕</button>
+      <h2>Recent Skill Events</h2>
+      <button type="button" class="ms-close" id="closeEventsBtn">✕</button>
     </div>
-    <div class="ms-body" id="changelogBody">
-      <div style="color:#666;font-size:0.9rem">Loading Skill Tree changelog…</div>
+    <div class="ms-body" id="eventBody">
+      <div style="color:#666;font-size:0.9rem">Loading recent skill events…</div>
     </div>
   </aside>
 
@@ -293,65 +293,76 @@
       <span class="paper-journal-series">Meta Audit Series</span>
     </div>
     <header>
-      <h1>v7.4.0 Skill Tree Update: Backlog Closeout, Benchmark Sources, and Skill Surface Polish</h1>
+      <h1>v7.4.0 Skill Tree Report: Backlog Changes in /registry/</h1>
       <div class="authors">Gaia Research</div>
       <div class="date">August 4, 2026</div>
     </header>
 
     <section class="abstract">
       <div class="abstract-title">Abstract</div>
-      <div class="abstract-content">This Skill Tree update summarizes the user-facing work that landed through the issue-backlog closeout and is being framed for the next v7.4.0 skill-tree cycle. It is a site post, not a package, tag, or PyPI release announcement.
-After PR #1395 merged, the automated sync published v7.3.8. PR #1430 then landed the 2026-32 Weekly Report first and advanced the main branch to v7.3.9 canary.
+      <div class="abstract-content">This is a focused report on the issue-backlog changes to /registry/, not a chronological release list and not a package-release announcement. It summarizes the data that changed: named skill files, generic skill nodes, benchmark-source infrastructure, and the review surfaces that now expose those records more clearly.
 </div>
     </section>
 
-    <p>This Skill Tree update closes the public narrative around the backlog merge: new and updated named skills, new generic skill coverage, benchmark-source infrastructure, and site polish across the main exploration surfaces. The important distinction for reviewers is version scope: this post is framed for the v7.4.0 skill-tree cycle and future-facing Skill Tree messaging, while the actual post-backlog package path moved through <code>v7.3.8</code>, then <code>v7.3.9</code> canary after the 2026-32 Weekly Report merge.</p>
-<h2>Executive Summary</h2>
-<p>PR #1395 merged the issue-backlog integration to <code>main</code>, closed the backlog milestone, and triggered the automated artifact sync that published <code>v7.3.8</code>. PR #1430 followed first with the 2026-32 Weekly Report and advanced the main branch to <code>v7.3.9</code> canary before this v7.4.0 Skill Tree post returned for review. This post captures the user-facing Skill Tree and site changes from that merge without claiming that a package release already exists.</p>
-<p>The merge directly closed four visible work items: Trust Leaderboard redesign (#868), skill-fuse repository surfaces (#1004), frontend performance pass (#1268), and the verified benchmark-source catalog (#1419). The Suite data and meta-audit follow-up (#1438) remains open, which is intentional: the new Suite Explorer behavior now makes missing or off-path suite metadata easier to see instead of hiding it behind a dense component rail.</p>
+    <p>This report explains the main backlog-era changes to <code>/registry/</code>. The center of gravity is the data layer: new named skill files, updated named skill files, new and refreshed generic skill nodes, benchmark-source trust infrastructure, and the site surfaces that make those records inspectable. A later <code>v7.3.9</code> refresh added Weekly Report 2026-32; that was a minor follow-up and is not the subject of this report.</p>
+<h2>Scope</h2>
+<p>The issue-backlog closeout changed <code>/registry/</code> across 41 files: 27 additions and 14 modifications. The work was not just a site polish pass. It expanded the skill tree's canonical data with new implementation records, new generic capabilities, and new evidence-review structure.</p>
+<p>Read this as a report on the data that landed, grouped by what a maintainer or reviewer would inspect in the folder:</p>
+<ul>
+  <li><code>registry/named/</code>: named implementation files added or refreshed.</li>
+  <li><code>registry/nodes/</code>: generic <code>basic</code> and <code>fusion</code> skill nodes added or refreshed.</li>
+  <li><code>registry/benchmark-sources.json</code> and <code>registry/schema/</code>: benchmark-source and evidence-shape infrastructure.</li>
+  <li>Generated/public surfaces: pages that let humans inspect the changed records without reading raw files.</li>
+</ul>
 <h2>Visual Summary</h2>
-<p>The visual panel below separates shipped package state from this held Skill Tree narrative, then lets reviewers focus the update by surface.</p>
-<section class="update-visual" aria-label="Visual summary of the v7.4.0 Skill Tree update">
-  <div class="uv-release-path" aria-label="Release path">
-    <div class="uv-step"><span class="uv-step-kicker">shipped</span><strong>v7.3.8</strong><span>Backlog closeout, package latest, PyPI latest, and the first wave of Skill Tree polish.</span></div>
-    <div class="uv-step"><span class="uv-step-kicker">merged first</span><strong>v7.3.9 canary</strong><span>PR #1430 lands Weekly Report 2026-32 and refreshes the report archive before this post.</span></div>
-    <div class="uv-step"><span class="uv-step-kicker">held for review</span><strong>v7.4.0 post</strong><span>This page is the public Skill Tree narrative. It is not a package, tag, or PyPI release claim.</span></div>
+<p>The visual panel below maps the backlog changes by /registry/ area: named skill files, generic nodes, trust/schema files, and the public surfaces that expose those records.</p>
+<section class="update-visual" aria-label="Visual summary of backlog changes in /registry/">
+  <div class="uv-data-map" aria-label="/registry/ data map">
+    <div class="uv-step"><span class="uv-step-kicker">registry/named</span><strong>21 files</strong><span>13 new named skill files and 8 refreshed named skill files.</span></div>
+    <div class="uv-step"><span class="uv-step-kicker">registry/nodes</span><strong>14 files</strong><span>12 new generic nodes plus 2 refreshed nodes across basic and fusion types.</span></div>
+    <div class="uv-step"><span class="uv-step-kicker">schema + sources</span><strong>5 trust files</strong><span>Benchmark-source catalog, catalog schema, and evidence-shape updates.</span></div>
   </div>
-  <div class="uv-metrics" aria-label="Update counts">
-    <div class="uv-metric"><b>13</b><span>new named skills</span></div>
-    <div class="uv-metric"><b>8</b><span>named skills refreshed</span></div>
-    <div class="uv-metric"><b>14</b><span>generic skill nodes covered</span></div>
-    <div class="uv-metric"><b>4</b><span>visible backlog items closed</span></div>
+  <div class="uv-metrics" aria-label="/registry/ change counts">
+    <div class="uv-metric"><b>41</b><span>/registry/ files changed</span></div>
+    <div class="uv-metric"><b>27</b><span>files added</span></div>
+    <div class="uv-metric"><b>14</b><span>files modified</span></div>
+    <div class="uv-metric"><b>4</b><span>public review surfaces polished</span></div>
   </div>
   <div class="uv-focus">
-    <div class="uv-tabs" role="group" aria-label="Focus the visual summary">
-      <button type="button" class="uv-tab" data-uv-tab="skills" aria-pressed="true">Skills</button>
-      <button type="button" class="uv-tab" data-uv-tab="trust" aria-pressed="false">Trust data</button>
+    <div class="uv-tabs" role="group" aria-label="Focus the /registry/ report summary">
+      <button type="button" class="uv-tab" data-uv-tab="named" aria-pressed="true">Named files</button>
+      <button type="button" class="uv-tab" data-uv-tab="nodes" aria-pressed="false">Generic nodes</button>
+      <button type="button" class="uv-tab" data-uv-tab="trust" aria-pressed="false">Trust schema</button>
       <button type="button" class="uv-tab" data-uv-tab="surfaces" aria-pressed="false">Surfaces</button>
     </div>
-    <div class="uv-panel is-active" data-uv-panel="skills">
-      <h3>Skill movement</h3>
-      <p>New named work concentrates around scientific Python and machine-learning libraries, while Addy Osmani, Firecrawl, GSD, Obra, and skill-fuse surfaces get alignment updates.</p>
-      <div class="uv-chipline"><span class="uv-chip">k-dense-ai ×10</span><span class="uv-chip">brand-guidelines</span><span class="uv-chip">log-to-daily</span><span class="uv-chip">ponytail</span></div>
+    <div class="uv-panel is-active" data-uv-panel="named">
+      <h3>Named implementation files</h3>
+      <p>The largest visible data movement is in registry/named: new scientific and workflow implementations plus refreshed existing contributor records.</p>
+      <div class="uv-chipline"><span class="uv-chip">13 added</span><span class="uv-chip">8 refreshed</span><span class="uv-chip">k-dense-ai ×10</span></div>
+    </div>
+    <div class="uv-panel" data-uv-panel="nodes">
+      <h3>Generic skill nodes</h3>
+      <p>New basic and fusion nodes give the graph first-class language for ML, scientific computing, prompt caching, and session journaling capabilities.</p>
+      <div class="uv-chipline"><span class="uv-chip">12 added</span><span class="uv-chip">2 refreshed</span><span class="uv-chip">basic + fusion</span></div>
     </div>
     <div class="uv-panel" data-uv-panel="trust">
-      <h3>Evidence plumbing</h3>
-      <p>The benchmark-source catalog and schema updates make benchmark-result evidence easier to review, cite, and separate from unverified claims.</p>
-      <div class="uv-chipline"><span class="uv-chip">benchmark sources</span><span class="uv-chip">benchmark-result schema</span><span class="uv-chip">public benchmark API</span></div>
+      <h3>Benchmark-source trust infrastructure</h3>
+      <p>Benchmark-result evidence now has a safer path through approved source records and schema validation instead of one-off benchmark claims.</p>
+      <div class="uv-chipline"><span class="uv-chip">benchmark-sources.json</span><span class="uv-chip">catalog schema</span><span class="uv-chip">benchmark-result schema</span></div>
     </div>
     <div class="uv-panel" data-uv-panel="surfaces">
-      <h3>Review surfaces</h3>
-      <p>Suite Explorer, Share Plaques, the Trust Leaderboard, Weekly Reports, and benchmark pages now expose more state directly in the interface.</p>
-      <div class="uv-chipline"><span class="uv-chip">Suite focus rail</span><span class="uv-chip">medallion PNGs</span><span class="uv-chip">relative report links</span></div>
+      <h3>Human review surfaces</h3>
+      <p>Suite Explorer, Share Plaques, Trust Leaderboard, and benchmark pages make the changed data easier to inspect without opening raw files.</p>
+      <div class="uv-chipline"><span class="uv-chip">Suite lens</span><span class="uv-chip">Share Plaques</span><span class="uv-chip">Trust Leaderboard</span><span class="uv-chip">benchmarks</span></div>
     </div>
   </div>
 </section>
-<h2>Skill Tree Growth</h2>
+<h2>Named Skill Files</h2>
 <h3>New named skills</h3>
-<p>The backlog closeout added a concentrated set of named skills, spanning brand governance, daily logging, hair-styling, scientific Python workflows, machine learning frameworks, chemistry tooling, quantum circuits, reinforcement learning, graph neural networks, transformers, and single-cell analysis.</p>
+<p>The backlog closeout added 13 named implementation files. Most of the volume came from scientific Python and machine-learning capabilities, with smaller additions in brand governance, daily logging, and hair-styling workflows.</p>
 <table><thead><tr><th>Contributor</th><th>New named skills</th></tr></thead><tbody><tr><td><code>anthropics</code></td><td><code>brand-guidelines</code></td></tr><tr><td><code>aplaceforallmystuff</code></td><td><code>log-to-daily</code></td></tr><tr><td><code>dietrichgebert</code></td><td><code>ponytail</code></td></tr><tr><td><code>k-dense-ai</code></td><td><code>deepchem</code>, <code>pymc</code>, <code>pytorch-lightning</code>, <code>qiskit</code>, <code>rdkit</code>, <code>scanpy</code>, <code>scvi-tools</code>, <code>stable-baselines3</code>, <code>torch-geometric</code>, <code>transformers</code></td></tr></tbody></table>
 <h3>Updated named skills</h3>
-<p>Several existing named skills also received public-facing updates or better Skill Tree alignment:</p>
+<p>Eight existing named skill files were refreshed so their records better match the current skill tree and public surfaces:</p>
 <ul>
   <li><code>addy-osmani/incremental-implementation</code>, <code>addy-osmani/planning-and-task-breakdown</code>, and <code>addy-osmani/spec-driven-development</code>.</li>
   <li><code>firecrawl/firecrawl-research-index</code>.</li>
@@ -359,37 +370,37 @@ After PR #1395 merged, the automated sync published v7.3.8. PR #1430 then landed
   <li><code>gsd-build/get-shit-done</code>.</li>
   <li><code>obra/brainstorming</code> and <code>obra/subagent-driven-development</code>.</li>
 </ul>
-<h2>Generic Skill Coverage</h2>
-<p>The merge broadened generic coverage for both practical workflow skills and scientific/ML capabilities. Newly added or updated generic skill nodes include a mix of <code>basic</code> and <code>fusion</code> nodes:</p>
-<table><thead><tr><th>Area</th><th>Generic nodes</th></tr></thead><tbody><tr><td>Workflow and documentation</td><td><code>brand-guideline-application</code> (<code>basic</code>), <code>prompt-caching</code> (<code>basic</code>), <code>session-journaling</code> (<code>basic</code>)</td></tr><tr><td>Scientific and computational work</td><td><code>cheminformatics-analysis</code> (<code>fusion</code>), <code>molecular-machine-learning</code> (<code>fusion</code>), <code>quantum-circuit-programming</code> (<code>basic</code>), <code>single-cell-analysis</code> (<code>basic</code>), <code>single-cell-omics-modeling</code> (<code>fusion</code>)</td></tr><tr><td>Machine learning systems</td><td><code>graph-neural-network-modeling</code> (<code>fusion</code>), <code>neural-training-orchestration</code> (<code>fusion</code>), <code>reinforcement-learning-training</code> (<code>fusion</code>), <code>transformer-model-engineering</code> (<code>fusion</code>)</td></tr><tr><td>Also updated</td><td><code>probabilistic-programming</code> (<code>basic</code>), <code>test-driven-development</code> (<code>basic</code>) updates</td></tr></tbody></table>
-<p>These nodes make the public graph more legible for users who arrive through a skill profile, search result, or contributor page: the Skill Tree now has stronger first-class vocabulary for benchmark-backed ML libraries, scientific analysis stacks, and prompt/cache/session workflow primitives.</p>
-<h2>Benchmark Evidence Infrastructure</h2>
-<p>The biggest trust-infrastructure change is the verified benchmark-source catalog. The backlog closeout introduced a benchmark-source catalog and schema, benchmark-result schema updates, and public benchmark pages/API support. Together, these pieces create a safer path for future evidence ingestion: benchmark-result rows can point to approved benchmark sources instead of treating every benchmark claim as equally trustworthy.</p>
-<p>This is infrastructure work, but it is user-facing in effect. The benchmark pages and API now have a clearer data model, and future trust reviews can distinguish a verified benchmark source from a vendor claim, a stale citation, or an unreviewed leaderboard scrape.</p>
-<h2>Site Surface Polish</h2>
+<h2>Generic Skill Nodes</h2>
+<p>The backlog closeout also expanded generic skill coverage. Fourteen files under <code>registry/nodes/</code> were added or updated: 12 new nodes and 2 refreshed nodes.</p>
+<table><thead><tr><th>Area</th><th>Generic nodes</th></tr></thead><tbody><tr><td>Workflow and documentation</td><td><code>brand-guideline-application</code> (<code>basic</code>), <code>prompt-caching</code> (<code>basic</code>), <code>session-journaling</code> (<code>basic</code>)</td></tr><tr><td>Scientific and computational work</td><td><code>cheminformatics-analysis</code> (<code>fusion</code>), <code>molecular-machine-learning</code> (<code>fusion</code>), <code>quantum-circuit-programming</code> (<code>basic</code>), <code>single-cell-analysis</code> (<code>basic</code>), <code>single-cell-omics-modeling</code> (<code>fusion</code>)</td></tr><tr><td>Machine learning systems</td><td><code>graph-neural-network-modeling</code> (<code>fusion</code>), <code>neural-training-orchestration</code> (<code>fusion</code>), <code>reinforcement-learning-training</code> (<code>fusion</code>), <code>transformer-model-engineering</code> (<code>fusion</code>)</td></tr><tr><td>Refreshed nodes</td><td><code>probabilistic-programming</code> (<code>basic</code>), <code>test-driven-development</code> (<code>basic</code>)</td></tr></tbody></table>
+<p>These nodes give the public graph stronger first-class vocabulary for benchmark-backed ML libraries, scientific analysis stacks, and prompt/cache/session workflow primitives.</p>
+<h2>Benchmark-Source Trust Infrastructure</h2>
+<p>The largest trust-infrastructure change is the verified benchmark-source catalog. The backlog closeout added <code>registry/benchmark-sources.json</code>, added <code>registry/schema/benchmarkSourceCatalog.schema.json</code>, and updated benchmark-result, named-skill, and skill schemas.</p>
+<p>That matters because benchmark-result evidence can now point toward approved benchmark sources instead of treating every benchmark claim as equally trustworthy. It gives future evidence ingestion a clearer path: source first, result second, trust review always explicit.</p>
+<h2>Public Review Surfaces</h2>
+<p>Several site surfaces were polished because they are how humans inspect the changed data:</p>
 <h3>Suite Explorer</h3>
 <p>Suite Explorer now preserves the distinction between Path/Fusion origin labels and Suite lens component labels. Path and Fusion views keep origin labels; the Suite lens switches rendered nodes to suite-component labels. The compact transparent outboard Suite Components rail is hidden by default, and row clicks focus graph nodes only.</p>
-<p>That polish matters because it turns Suite Explorer into a better diagnostic surface. Missing or off-path suite data is easier to spot, which supports the still-open Suite data/meta-audit follow-up (#1438) instead of pretending the suite layer is complete.</p>
+<p>That polish turns Suite Explorer into a better diagnostic surface for suite data. Missing or off-path suite metadata is easier to spot, which supports the still-open Suite data/meta-audit follow-up (#1438) instead of hiding data-shape gaps.</p>
 <h3>Share Plaques</h3>
-<p>Share Plaques received a rendering fix for modal and export paths. The modal now prefers inlined SVG, and the PNG raster scripts inline/transcode display-sized AOV medallions so PNG and HTML modal medallions render consistently. A follow-up hotfix capped inlined raster size after the initial OG PNG workflow failed, keeping the export path functional without ballooning assets.</p>
-<h3>Trust Leaderboard and benchmark surfaces</h3>
-<p>The Trust Leaderboard redesign from #868 and the benchmark surface work from #1419 both received public polish and performance improvements. The result is less friction for users moving between contributor reputation, evidence, and benchmark-backed capability pages.</p>
+<p>Share Plaques received a rendering fix for modal and export paths. The modal now prefers inlined SVG, and the PNG raster scripts inline/transcode display-sized AOV medallions so PNG and HTML modal medallions render consistently. A follow-up hotfix capped inlined raster size after the initial OG PNG workflow failed.</p>
+<h3>Trust Leaderboard and benchmark pages</h3>
+<p>The Trust Leaderboard redesign from #868 and the benchmark surface work from #1419 both make the underlying records easier to inspect. The result is less friction for users moving between contributor reputation, evidence, and benchmark-backed capability pages.</p>
 <h3>Weekly Reports</h3>
-<p>Weekly Reports now use root-relative links for internal user-facing navigation while preserving absolute SEO/canonical metadata. This keeps local and deployed browsing paths stable without weakening search metadata.</p>
-<h2>Closure Notes</h2>
-<p>This post is intentionally scoped to Skill Tree communication. It should be reviewed as a site-content update, not as a package release. The factual release state remains:</p>
+<p>Weekly Reports received local/deployed link stability improvements during the backlog closeout. That surface is included only where it helps explain how humans inspect the backlog-era <code>/registry/</code> changes.</p>
+<h2>Notes for Reviewers</h2>
+<p>This report should be reviewed as a data-and-surface explanation, not as a package release note. The key facts are:</p>
 <ul>
-  <li>PR #1395 merged the backlog integration and closed the issue-backlog work.</li>
-  <li>The automated sync/tag path published <code>v7.3.8</code> as GitHub latest and PyPI latest. PR #1430 then landed Weekly Report 2026-32 and advanced main to <code>v7.3.9</code> canary.</li>
-  <li><code>v7.4.0</code> is the framing for this Skill Tree post, not a package/tag/PyPI release claim.</li>
-  <li>#1438 remains open for Suite data and meta-audit follow-up.</li>
+  <li>PR #1395 merged the issue-backlog integration and carried the <code>/registry/</code> data changes summarized here.</li>
+  <li>The <code>/registry/</code> folder changed across 41 files: 27 additions and 14 modifications.</li>
+  <li>The main data movements were 13 new named skill files, 8 refreshed named skill files, 14 generic node files, and benchmark-source trust infrastructure.</li>
+  <li>#1438 remains open for deeper Suite data and meta-audit follow-up.</li>
 </ul>
 <div class="references">
   <div class="abstract-title" style="text-align: left; margin-bottom: 1.5rem;">References</div>
-  <div class="ref-item">[1] PR #1395: issue-backlog integration merge and automated sync/tag to <code>v7.3.8</code>.</div>
+  <div class="ref-item">[1] PR #1395: issue-backlog integration merge.</div>
   <div class="ref-item">[2] Issues closed by #1395: #868 Trust Leaderboard redesign, #1004 skill-fuse repo surfaces, #1268 frontend performance pass, #1419 verified benchmark-source catalog.</div>
   <div class="ref-item">[3] Follow-up still open: #1438 Suite data and meta-audit work.</div>
-  <div class="ref-item">[4] PR #1430: Weekly Report 2026-32, merged first and autosynced to <code>v7.3.9</code> canary.</div>
 </div>
 
     <div class="footer-nav">
@@ -399,15 +410,15 @@ After PR #1395 merged, the automated sync published v7.3.8. PR #1430 then landed
 
   <script>
     const sidebar = document.getElementById('metaSidebar');
-    const openBtn = document.getElementById('viewChangelogBtn');
-    const closeBtn = document.getElementById('closeChangelogBtn');
+    const openBtn = document.getElementById('viewEventsBtn');
+    const closeBtn = document.getElementById('closeEventsBtn');
     if (openBtn) openBtn.addEventListener('click', () => sidebar.classList.add('open'));
     if (closeBtn) closeBtn.addEventListener('click', () => sidebar.classList.remove('open'));
-    async function loadChangelog() {
+    async function loadRecentSkillEvents() {
       try {
         const res = await fetch('../../graph/gaia.json');
         const gaia = await res.json();
-        const body = document.getElementById('changelogBody');
+        const body = document.getElementById('eventBody');
         body.innerHTML = '';
         let events = [];
         gaia.skills.forEach(s => {
@@ -420,9 +431,9 @@ After PR #1395 merged, the automated sync published v7.3.8. PR #1430 then landed
           item.innerHTML = `<div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:#666;margin-bottom:0.3rem">${new Date(ev.timestamp).toLocaleDateString()} · ${ev.action.toUpperCase()}</div><div style="font-weight:500;font-size:0.9rem;color:#fff">${ev.skillName}</div><div style="font-size:0.8rem;color:#aaa;margin-top:0.2rem">${ev.details}</div>`;
           body.appendChild(item);
         });
-      } catch (e) { console.error('Failed to load changelog', e); }
+      } catch (e) { console.error('Failed to load skill events', e); }
     }
-    loadChangelog();
+    loadRecentSkillEvents();
 
     (function() {
       var shareBtn = document.getElementById('reportShareBtn');
