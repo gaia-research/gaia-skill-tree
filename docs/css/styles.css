@@ -7875,6 +7875,122 @@ h4.se-install-sub-h { font-size: .85rem; }
   padding: 3.25rem 1rem 1.5rem;
 }
 
+/* Progression Path + Suite Components. The flowchart remains the only thing
+   inside the path body. On wide screens, the compact suite roster is anchored
+   just OUTSIDE the body's right edge so it never occupies/overlaps the path
+   canvas or its padding. On narrower screens it falls back below. */
+.se-flow-body { display: block; }
+.se-flow-body.has-suite-list {
+  position: relative;
+  display: block;
+}
+.se-flow-body .se-flowchart-wrap { min-width: 0; }
+
+/* Compact, transparent, non-obtrusive suite roster. No filled surface, tokens
+   only, minimal chrome. Anchored to the top-right, clear of the canvas top
+   padding. Native details/summary collapse; DEFAULT COLLAPSED (no `open`).
+   Rows are a focus control for the graph — they never navigate. */
+.se-suite-list {
+  position: absolute;
+  top: .5rem;
+  left: calc(100% + .75rem);
+  z-index: 6;
+  width: max-content;
+  max-width: 14rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: transparent;           /* transparent / non-obtrusive */
+  overflow: hidden;
+}
+.se-suite-list__head {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .4rem .6rem;
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  cursor: pointer;
+  user-select: none;
+}
+.se-suite-list[open] .se-suite-list__head { border-bottom: 1px solid var(--border); }
+.se-suite-list__head::-webkit-details-marker { display: none; }
+.se-suite-list__head::after {
+  content: '▸';
+  margin-left: .2rem;
+  color: var(--muted);
+  opacity: .7;
+}
+.se-suite-list[open] .se-suite-list__head::after { content: '▾'; }
+.se-suite-list__head svg { width: 12px; height: 12px; opacity: .8; }
+.se-suite-list__count {
+  margin-left: auto;
+  color: var(--text);
+  opacity: .6;
+}
+.se-suite-list__scroll {
+  list-style: none;
+  margin: 0;
+  padding: .2rem;
+  max-height: 260px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.se-suite-list__scroll::-webkit-scrollbar { width: 6px; }
+.se-suite-list__scroll::-webkit-scrollbar-track { background: transparent; }
+.se-suite-list__scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.se-suite-list__item {
+  padding: .28rem .45rem;
+  border-radius: 6px;
+}
+/* On-path rows focus their node on click; off-path rows are inert + dimmed. */
+.se-suite-list__item[data-focus-node] { cursor: pointer; }
+.se-suite-list__item[data-focus-node]:hover,
+.se-suite-list__item[data-focus-node]:focus-visible {
+  background: var(--surface);
+  outline: none;
+}
+.se-suite-list__item[data-focus-node]:focus-visible { box-shadow: inset 0 0 0 1px var(--border); }
+.se-suite-list__item--off { opacity: .45; cursor: default; }
+/* Simple indentation for nested suite members. */
+.se-suite-list__item[data-depth="1"] { padding-left: 1rem; }
+.se-suite-list__item[data-depth="2"] { padding-left: 1.5rem; }
+.se-suite-list__item[data-depth="3"] { padding-left: 2rem; }
+.se-suite-list__slash {
+  font-size: .74rem;
+  color: var(--text);
+  line-height: 1.25;
+  font-family: var(--font-mono);
+}
+.se-suite-list__badge {
+  font-size: .56rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--apex-gold);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0 .25rem;
+  margin-left: .25rem;
+  vertical-align: middle;
+}
+
+@media (max-width: 1120px) {
+  .se-suite-list {
+    position: static;
+    margin-top: .5rem;
+    width: 100%;
+    max-width: none;
+  }
+}
+
+/* Narrow / mobile: stack the roster below the path, full width. */
+@media (max-width: 760px) {
+  .se-suite-list__scroll { max-height: 200px; }
+}
+
 .se-flowchart-svg {
   position: absolute;
   top: 0;
@@ -11273,6 +11389,12 @@ button.nav-graph-trigger:hover {
 .git-node:hover .dag-node-label {
   opacity: 1;
 }
+
+/* Path/Fusion keep the original origin label. Suite lens swaps only the
+   suite-member nodes to their component label. */
+.dag-node-label--suite { display: none; }
+#se-upgrade.lens-suite .git-node[data-suite-member="true"] .dag-node-label--origin { display: none; }
+#se-upgrade.lens-suite .git-node[data-suite-member="true"] .dag-node-label--suite { display: block; }
 
 .dag-node-label-contrib {
   color: #ef4444;

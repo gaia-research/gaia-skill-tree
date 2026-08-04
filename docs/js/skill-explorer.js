@@ -1403,9 +1403,10 @@
     var _fcBranch = _seBranchOf(ns && ns.branch ? ns : _fcNs);
     var suiteCapstoneId = ns.suiteRef || null;
     var suiteCapstone = suiteCapstoneId ? namedEntryById(suiteCapstoneId) : ns;
+    var ownSuiteComponents = Array.isArray(ns.suiteComponents) && ns.suiteComponents.length ? ns.suiteComponents.slice() : [];
     var suiteComponents = [];
-    if (Array.isArray(ns.suiteComponents) && ns.suiteComponents.length) {
-      suiteComponents = ns.suiteComponents.slice();
+    if (ownSuiteComponents.length) {
+      suiteComponents = ownSuiteComponents.slice();
     } else if (suiteCapstone && Array.isArray(suiteCapstone.suiteComponents) && suiteCapstone.suiteComponents.length) {
       suiteComponents = suiteCapstone.suiteComponents.slice();
     }
@@ -1418,7 +1419,7 @@
       return null;
     }
 
-    function createNodeLabel(labelSource, navType, navTarget, level) {
+    function createNodeLabel(labelSource, navType, navTarget, level, extraClass) {
       var parts = String(labelSource).split('/');
       var contrib = parts[0] || '';
       var skillName = parts[1] || labelSource;
@@ -1436,7 +1437,8 @@
         inner = '<span class="dag-node-label-name">' + esc(labelSource) + '</span>';
       }
       var navAttr = (navType && navTarget) ? ' data-nav-type="' + esc(navType) + '" data-nav-target="' + esc(navTarget) + '"' : '';
-      return '<div class="dag-node-label"' + navAttr + '>' + inner + '</div>';
+      var cls = 'dag-node-label' + (extraClass ? ' ' + extraClass : '');
+      return '<div class="' + cls + '"' + navAttr + '>' + inner + '</div>';
     }
 
     // Filter chip-set for the flowchart canvas. Path is always present (the
@@ -1587,6 +1589,30 @@
       });
     });
 
+    // Suite-aware alternate node identity. Path and Fusion keep the original
+    // bucket[0] origin labels. Only the Suite lens swaps lit shared nodes to
+    // the suite component's own named entry via CSS (lens-suite).
+    var suiteMemberByNode = {};   // generic node id -> suite component named entry
+    if (suiteComponents.length) {
+      var _smSeen = {};
+      (function collectSuiteMembers(compList) {
+        (compList || []).forEach(function(compNamedId) {
+          if (_smSeen[compNamedId]) return;
+          _smSeen[compNamedId] = true;
+          var entry = namedEntryById(compNamedId);
+          if (!entry) return;
+          var gid = entry.genericSkillRef;
+          // Owner-preferred: the FIRST component to claim a node wins (suite
+          // order), and the capstone's own apex node is never overwritten by
+          // a component that happens to share its generic ref.
+          if (gid && gid !== genericId && !suiteMemberByNode[gid]) suiteMemberByNode[gid] = entry;
+          if (Array.isArray(entry.suiteComponents) && entry.suiteComponents.length) {
+            collectSuiteMembers(entry.suiteComponents);
+          }
+        });
+      })(suiteComponents);
+    }
+
     var htmlRows = '';
     var fusionFocusId = genericId;
     var suiteFocusId = null;
@@ -1618,10 +1644,14 @@
         // The apex ("you are here") stays anchored — no scatter on the main node.
         if (isMainSkill) { staggerY = 0; staggerX = 0; }
 
-        // Resolve the node's data: prefer a named impl, fall back to generic/ghost.
+        // Resolve the node's base data: Path and Fusion use the existing
+        // bucket[0] named implementation (usually the origin). Suite-specific
+        // component identity is rendered as a second label and only revealed by
+        // the Suite lens; the base node/color/navigation stay unchanged.
         var namedBucket = buckets[id];
-        var hasNamed = !!(namedBucket && namedBucket.length);
-        var nb = hasNamed ? namedBucket[0] : null;
+        var suiteMember = suiteMemberByNode[id];
+        var nb = namedBucket && namedBucket.length ? namedBucket[0] : null;
+        var hasNamed = !!nb;
         // PR3b: dot color from emitted branch; nodeType only for data-type attr (schema 'basic'|'fusion').
         var nodeType = (nb && nb.type) || s.type || 'basic';
         var nodeLevel = (nb && nb.level) || '';
@@ -1642,6 +1672,17 @@
 
         // Label source: slash-form for named, raw id for ghost.
         var labelSource = hasNamed ? nb.id : id;
+        var suiteLabelHtml = '';
+        var hasSuiteAltLabel = !!(suiteMember && suiteMember.id && suiteMember.id !== labelSource);
+        if (hasSuiteAltLabel) {
+          suiteLabelHtml = createNodeLabel(
+            suiteMember.id,
+            'named',
+            suiteMember.id,
+            suiteMember.level || nodeLevel,
+            'dag-node-label--suite'
+          );
+        }
 
         // Label-click navigation: named → open skill explorer, ghost → propose dialog.
         var navAttr;
@@ -1657,10 +1698,12 @@
             ' data-branch="' + esc(nodeBranch) + '"' +
             ' data-level="' + esc(nodeLevel) + '"' +
             ' data-ghost="' + (hasNamed ? 'false' : 'true') + '"' +
+            ' data-suite-member="' + (hasSuiteAltLabel ? 'true' : 'false') + '"' +
             ' style="--staggerY:' + staggerY + 'px; --staggerX:' + staggerX + 'px"' +
             '>' +
           '<div class="git-commit-dot" style="--dot-color: ' + dotColor + '"></div>' +
-          createNodeLabel(labelSource, hasNamed ? 'named' : 'ghost', hasNamed ? nb.id : id, nodeLevel) +
+          createNodeLabel(labelSource, hasNamed ? 'named' : 'ghost', hasNamed ? nb.id : id, nodeLevel, hasSuiteAltLabel ? 'dag-node-label--origin' : '') +
+          suiteLabelHtml +
         '</div>';
       }).join('');
       
@@ -1718,14 +1761,85 @@
     }
     var fusionHtml = fusionLabels.join('');
 
+    // ── Suite Components side panel ────────────────────────────────────────
+    // A compact, transparent, non-obtrusive roster of every declared
+    // suiteComponent, parked in a quiet rail OUTSIDE the Progression Path
+    // canvas padding (never overlapping / underneath the flowchart) and
+    // COLLAPSED by default (native <details> without `open`). It stacks below
+    // on narrow/mobile via CSS. Rows list the suite's own deliverables as
+    // slash-skill names only — never generic origin names, never full display
+    // names. Nested suites are shown with simple indentation + a small
+    // "suite" badge.
+    //
+    // Clicking a row FOCUSES the matching graph node (same behavior as
+    // clicking the node itself, via window.selectFlowNode on the component's
+    // genericSkillRef) — it NEVER navigates / opens a component explorer. When
+    // the component's node isn't on the current path, the row is a soft no-op
+    // and is marked unavailable unobtrusively (dimmed, aria-disabled). It does
+    // not touch the flowchart data, the Fusion logic, or the lens filters.
+    var suiteListHtml = '';
+    if (ownSuiteComponents.length) {
+      var _slSeen = {};
+      var _slRows = [];
+      (function collectSuiteList(compList, listDepth) {
+        (compList || []).forEach(function(compNamedId) {
+          if (_slSeen[compNamedId]) return;      // one row per component
+          _slSeen[compNamedId] = true;
+          var entry = namedEntryById(compNamedId);
+          var slug = String(compNamedId).split('/').pop();
+          var nested = !!(entry && Array.isArray(entry.suiteComponents) && entry.suiteComponents.length);
+          // Map each component to the generic node it lights, then check the
+          // node is actually rendered on this path (relatedNodes is the render
+          // set). Only on-path rows get a focus target; off-path rows no-op.
+          var nodeRef = (entry && entry.genericSkillRef) || '';
+          var onPath = !!(nodeRef && relatedNodes[nodeRef]);
+          _slRows.push({
+            id: compNamedId,
+            slash: '/' + slug,
+            depth: Math.min(listDepth, 3),   // clamp indent so deep nests stay readable
+            isSuite: nested,
+            nodeRef: nodeRef,
+            onPath: onPath
+          });
+          if (nested) collectSuiteList(entry.suiteComponents, listDepth + 1);
+        });
+      })(ownSuiteComponents, 0);
+
+      var _slItemsHtml = _slRows.map(function(row) {
+        var nestBadge = row.isSuite
+          ? ' <span class="se-suite-list__badge" title="Nested suite">suite</span>'
+          : '';
+        // On-path rows carry data-focus-node + button semantics so a click
+        // focuses the node. Off-path rows are inert and marked unavailable.
+        var focusAttr = (row.onPath && row.nodeRef)
+          ? ' data-focus-node="' + esc(row.nodeRef) + '" role="button" tabindex="0" title="Focus this node on the path"'
+          : ' aria-disabled="true" title="Not on the current path"';
+        var offCls = (row.onPath && row.nodeRef) ? '' : ' se-suite-list__item--off';
+        return '<li class="se-suite-list__item' + offCls + '" data-depth="' + row.depth + '"' + focusAttr + '>' +
+          '<span class="se-suite-list__slash">' + esc(row.slash) + nestBadge + '</span>' +
+        '</li>';
+      }).join('');
+
+      suiteListHtml =
+        '<details class="se-suite-list" aria-label="Suite components">' +
+          '<summary class="se-suite-list__head">' + _se_icon('view-list') +
+            '<span>Suite Components</span><span class="se-suite-list__count">' + _slRows.length + '</span>' +
+          '</summary>' +
+          '<ul class="se-suite-list__scroll">' + _slItemsHtml + '</ul>' +
+        '</details>';
+    }
+
     el.innerHTML = '<div class="se-flow-h">' +
         '<span class="se-flow-h__lede">' + _se_icon('sparkle') +
           '<span class="se-flow-eyebrow">Progression</span>' +
           '<span class="se-flow-title">Path</span>' +
         '</span>' + buildFlowActions() + '</div>' +
-      '<div class="se-flowchart-wrap" id="seFlowWrap">' +
-        '<div class="se-flowchart-rows">' + htmlRows + '</div>' +
-        '<svg class="se-flowchart-svg" id="seFlowSvg"></svg>' +
+      '<div class="se-flow-body' + (suiteListHtml ? ' has-suite-list' : '') + '">' +
+        '<div class="se-flowchart-wrap" id="seFlowWrap">' +
+          '<div class="se-flowchart-rows">' + htmlRows + '</div>' +
+          '<svg class="se-flowchart-svg" id="seFlowSvg"></svg>' +
+        '</div>' +
+        suiteListHtml +
       '</div>' +
       fusionHtml;
 
@@ -1734,6 +1848,20 @@
     // Centralized event delegation for the flowchart
     if (!el._flowWired) {
       el.addEventListener('click', function(e) {
+        // Suite Components roster: a row click ONLY focuses the matching graph
+        // node (same as clicking that node) — never navigation. Off-path rows
+        // have no data-focus-node and are ignored (soft no-op).
+        var suiteRow = e.target.closest('.se-suite-list__item[data-focus-node]');
+        if (suiteRow) {
+          e.stopPropagation();
+          var focusRef = suiteRow.getAttribute('data-focus-node');
+          if (focusRef && window.selectFlowNode) {
+            window.selectFlowNode(focusRef);
+            var focusEl = document.querySelector('.git-node[data-id="' + focusRef.replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
+            if (focusEl && focusEl.scrollIntoView) focusEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+          }
+          return;
+        }
         var node = e.target.closest('.git-node');
         if (node && node.dataset.id) {
           if (window.selectFlowNode) window.selectFlowNode(node.dataset.id);
@@ -1750,6 +1878,20 @@
             var g = sm[target];
             if (g && typeof window.openUnnamedPopup === 'function') window.openUnnamedPopup(g);
           }
+        }
+      });
+      el.addEventListener('keydown', function(e) {
+        // Keyboard parity for focusable suite rows: Enter/Space focuses the
+        // node, mirroring the click handler. Still never navigation.
+        if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
+        var suiteRow = e.target.closest('.se-suite-list__item[data-focus-node]');
+        if (!suiteRow) return;
+        e.preventDefault();
+        var focusRef = suiteRow.getAttribute('data-focus-node');
+        if (focusRef && window.selectFlowNode) {
+          window.selectFlowNode(focusRef);
+          var focusEl = document.querySelector('.git-node[data-id="' + focusRef.replace(/\\/g,'\\\\').replace(/"/g, '\\"') + '"]');
+          if (focusEl && focusEl.scrollIntoView) focusEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
         }
       });
       el.addEventListener('mouseover', function(e) {
