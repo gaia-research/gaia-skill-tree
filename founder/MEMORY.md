@@ -5,6 +5,172 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 ---
 
 
+## State Snapshot (2026-08-04, #1395 final nitpicks integrated — ready for CI/merge/release)
+
+### TLDR
+- Marcus approved the final nitpick behavior in local preview, including the outboard Suite Components rail.
+- Final-review fixes were integrated directly onto `dev/issue-backlog` as requested: no PRs onto the integration branch.
+- Three code commits are now local and ready to push: Suite Explorer rail/label behavior, Share Plaque medallion rendering, and Weekly Report relative links.
+- Focused checks passed before commit: JS syntax, Python compile, targeted pytest, and hex-color guard.
+- Next steps after this snapshot: push `dev/issue-backlog`, post token spend, wait for #1395 CI, merge #1395 to `main`, then verify/promote latest release + PyPI.
+
+### What changed this checkpoint
+
+| Layer | State |
+|---|---|
+| Suite Explorer | ✅ `fix(explorer): add outboard suite component focus rail` — Path/Fusion keep origin labels; Suite lens swaps matching labels to suite components; compact transparent component rail is hidden by default, outboard, and row clicks only focus graph nodes |
+| Share Plaque | ✅ `fix(plaque): inline medallions for share card rendering` — modal prefers inlined SVG; PNG raster scripts inline/transcode AOV medallions; focused medallion test added |
+| Weekly Reports | ✅ `fix(reports): use relative weekly report links` — internal report/named/API user links are root-relative; SEO/canonical metadata remains absolute |
+| Validation | ✅ `node --check` on touched JS, `py_compile` on touched Python, `pytest` targeted suite (`15 passed`), and `check_hex_colors.py` passed |
+| Issue tracking | ✅ #1438 remains open with `data`, `frontend`, `tech-debt`, `needs-triage` for the larger suite-manifest/data audit |
+| Release gate | ⏳ #1395 still open/draft until pushed CI returns green and merge happens under Marcus’s explicit approval in this turn |
+
+### Commits prepared on `dev/issue-backlog`
+
+- `3d1b9e28e fix(explorer): add outboard suite component focus rail`
+- `0337a37ae fix(plaque): inline medallions for share card rendering`
+- `cedad645b fix(reports): use relative weekly report links`
+
+### Checks run
+
+```text
+node --check docs/js/skill-explorer.js
+node --check docs/js/hoh-modal.js
+node --check docs/js/plaque.js
+node --check scripts/regen_og_pngs.js
+python -m py_compile scripts/generateOgCards.py scripts/regen_og_pngs.py scripts/contentEngine/generate_weekly_report.py
+python -m pytest tests/test_docs_skill_explorer.py tests/test_og_medallion_raster.py tests/contentEngine/test_generate.py -q
+python scripts/check_hex_colors.py docs/js/skill-explorer.js docs/css/styles.css docs/js/hoh-modal.js docs/js/plaque.js
+```
+
+Result: `15 passed`, Guard A OK.
+
+### Branches / worktrees at snapshot
+
+| Path | State |
+|---|---|
+| `C:/Users/C5396183/gaia-skill-tree` | `dev/issue-backlog`, ahead of origin by final nitpick commits plus this memory commit once written |
+| `C:/Users/C5396183/gst-final-suite-logic` | Isolated worker worktree preserving Suite Explorer final diff |
+| `C:/Users/C5396183/gst-final-share-plaque` | Isolated worker worktree preserving Share Plaque final diff |
+| `C:/Users/C5396183/gst-final-weekly-links` | Isolated worker worktree preserving Weekly Report source diff; main integration avoided full HTML line-ending churn |
+| `C:/Users/C5396183/gst-final-combined-preview` | Local preview overlay used for human review |
+
+### Hazards / notes preserved
+
+- Weekly report static HTML was semantically patched in the main worktree to avoid full-file CRLF churn from the worker copy.
+- Existing committed `docs/og/**/*.png` artifacts may still need regeneration in a raster-capable environment; modal/SVG path is fixed and future PNG regeneration now inlines medallions.
+- The Suite rail lists only a skill’s own `suiteComponents`. Skills that only have `suiteRef` do not show the roster.
+- The rail is outboard on wide layouts and falls back below on narrower screens to avoid clipping.
+- #1438 tracks the deeper question of suite components that are missing from the prerequisite path / data shape.
+
+### Token cost (this session)
+
+- Latest Pi cost run: main session **~$17.7228**, subagents **~$13.2689**, total **~$30.9916**.
+
+## State Snapshot (2026-08-04, final-review nitpicks — localhost reopened, 3 worker fixes staged in worktrees)
+
+### TLDR
+- **#1395 is CLEAN/green** at `0a2dad70a66acc85b2eb0a7b8d70d05914acc6bf` and remains open/founder-gated. No merge to `main` yet.
+- **Localhost final review is reopened** at `http://localhost:1395/`, served from `dev/issue-backlog` `docs/`; checked homepage, Trust Leaderboard, Benchmarks, Named, and leaderboard API all return 200.
+- **Three final-review nitpick worktrees now hold uncommitted candidate fixes**: weekly report relative links, suite-component label logic, and share-plaque PNG/HTML medallion regression. They are intentionally isolated and not integrated yet.
+- **Suite missing-component limitation was filed as #1438** and tagged `data`, `frontend`, `tech-debt`, `needs-triage` for a later meta-audit pass.
+- **Direct branch rule remains active:** no more PRs onto `dev/issue-backlog`; final fixes land directly on the branch after review/selection.
+
+### What changed this checkpoint
+
+| Layer | State |
+|---|---|
+| Localhost | ✅ Restarted on port `1395`, PID `19836`; `http://localhost:1395/` opened via Windows shell |
+| #1395 CI | ✅ CLEAN/green at latest check, head `0a2dad70a` |
+| Weekly Report links | ⏳ `worker` fixed hardwired `https://gaiaskilltree.com` user-navigation links in `gst-final-weekly-links`; changes uncommitted |
+| Suite Explorer logic | ⏳ `worker-opus` fixed rendered suite-path node labels to prefer the suite component named entry over `buckets[id][0]` origin entries; changes uncommitted |
+| Share Plaque medallion | ⏳ `worker-sol` diagnosed PNG/HTML modal path dropping external AOV4 WebP medallions and implemented inlining/transcoding fixes; changes uncommitted |
+| Suite meta-audit issue | ✅ Filed #1438: “meta-audit: Suite lens should account for suiteComponents outside prerequisite path” and added new `data` label |
+| Memory | ✅ This snapshot records the final-review worktree state before any integration commits |
+
+### Branches / worktrees at checkpoint
+
+| Worktree | Head | Status |
+|---|---:|---|
+| `C:/Users/C5396183/gaia-skill-tree` | `0a2dad70a` | `dev/issue-backlog`, clean vs origin except local server logs/worktrees |
+| `C:/Users/C5396183/gst-final-weekly-links` | `0a2dad70a` | Detached worktree with uncommitted weekly-report relative-link fix |
+| `C:/Users/C5396183/gst-final-suite-logic` | `0a2dad70a` | Detached worktree with uncommitted Suite Explorer component-label fix + focused test |
+| `C:/Users/C5396183/gst-final-share-plaque` | `0a2dad70a` | Detached worktree with uncommitted share-plaque medallion/modal/raster fixes + focused test |
+
+### Candidate fixes waiting for integration review
+
+#### 1. Weekly Report relative links (`gst-final-weekly-links`)
+
+Files changed:
+- `scripts/contentEngine/generate_weekly_report.py`
+- `docs/reports/2026-28/index.html`
+- `docs/reports/2026-29/index.html`
+- `docs/reports/2026-30/index.html`
+- `docs/reports/2026-31/index.html`
+
+Worker result:
+- Generator now emits root-relative Gaia-internal links (`/named/#explorer/...`, `/reports/...`, `/api/v1/...`) instead of hardwired `https://gaiaskilltree.com` for user navigation.
+- Remaining absolute Gaia URLs are SEO/schema/canonical metadata and are intentional.
+- `tests/contentEngine/test_generate.py` passed.
+
+Integration hazard:
+- Current diff stat shows full-file churn in the four report HTML files (`~2,523 insertions / ~2,523 deletions`), likely line-ending/format churn. Before integrating, normalize to a semantic diff or decide whether regenerating those report pages wholesale is acceptable.
+
+#### 2. Suite Explorer component labels (`gst-final-suite-logic`)
+
+Files changed:
+- `docs/js/skill-explorer.js`
+- `tests/test_docs_skill_explorer.py`
+
+Worker result:
+- Root cause: flowchart labels used `buckets[id][0]`, often a foreign `origin: true` named skill sharing the same generic node.
+- Fix builds a `suiteMemberByNode` map from `suiteComponents`/`genericSkillRef` and prefers the suite component named entry for rendered suite-path nodes.
+- Fusion behavior is unchanged because the map is gated to suite components.
+- Checks: `node --check docs/js/skill-explorer.js`; `python -m pytest tests/test_docs_skill_explorer.py -q` → 5 passed.
+
+Important caveat:
+- This does **not** synthesize suite components outside the capstone prerequisite path. The deeper limitation is now #1438.
+
+#### 3. Share Plaque medallion PNG/HTML modal (`gst-final-share-plaque`)
+
+Files changed:
+- `docs/js/hoh-modal.js`
+- `docs/js/plaque.js`
+- `scripts/generateOgCards.py`
+- `scripts/regen_og_pngs.js`
+- `scripts/regen_og_pngs.py`
+- `tests/test_og_medallion_raster.py` (new)
+
+Worker result:
+- Provided SVG contains the medallion; provided PNG’s medallion region is effectively empty.
+- Root cause: PNG rasterization/display path drops external AOV4 medallion images (`/assets/ascension-overdrive/...webp`), especially through Cairo/librsvg/WebP/root-relative resolution. Modal also preferred the bad PNG first.
+- Fix: modal fetches/inlines SVG and displays self-contained SVG first; PNG is fallback. Raster scripts inline/transcode AOV WebP medallions to PNG data URIs before rasterization.
+- Checks: JS syntax for touched JS; Python py_compile; `pytest -q tests/test_og_medallion_raster.py` → 1 passed.
+
+Integration caveat:
+- Existing committed `docs/og/**/*.png` artifacts are still stale until regenerated with an available raster path (`cairosvg`, `wand`, or `sharp`). Worker did not regenerate PNGs in the isolated worktree.
+
+### Issue #1438
+
+Filed: https://github.com/gaia-research/gaia-skill-tree/issues/1438  
+Labels: `tech-debt`, `needs-triage`, `frontend`, `data`
+
+Purpose:
+- Track whether the Suite lens should be manifest-complete, including `suiteComponents` outside the prerequisite DAG path and nested items.
+- Current candidate fix only corrects labels for rendered suite-path nodes.
+
+### Open questions for next orchestrator
+
+1. Which of the three worktree fixes should be integrated into `dev/issue-backlog` before #1395 final merge?
+2. For weekly report links, should the historical report HTML files be patched/regenerated now, or should only the generator change land before final review?
+3. For Share Plaque, should we integrate the modal/SVG-first fix immediately even if PNG artifacts remain stale, or also set up raster tooling/regenerate affected PNGs before #1395?
+4. Does Marcus want #1438 treated as post-merge meta-audit work, or as release-gating data correctness?
+5. After final decisions, remember to commit directly to `dev/issue-backlog`, push, log token spend, wait for #1395 CI, and only merge to `main` after explicit founder go.
+
+### Token cost (this session)
+
+- Latest Pi cost run after final-review workers: main session **~$13.4609**, subagents **~$10.6431**, total **~$24.1041**.
+
 ## State Snapshot (2026-08-04, issue-backlog PR queue — #1436 merged, #1435 perf-ready)
 
 ### TLDR
