@@ -101,6 +101,19 @@
     return bd[type] || 0;
   }
 
+  function debounce(fn, delay) {
+    var timer = null;
+    return function() {
+      var ctx = this;
+      var args = arguments;
+      if (timer) window.clearTimeout(timer);
+      timer = window.setTimeout(function() {
+        timer = null;
+        fn.apply(ctx, args);
+      }, delay);
+    };
+  }
+
   // ── CSS TOKEN READER ──
   var cs = getComputedStyle(document.documentElement);
   function tok(name) { return cs.getPropertyValue(name).trim(); }
@@ -480,7 +493,9 @@
     skillSearchQuery: '',
     evidenceType: 'all',
     tmMethodologyOpen: false,
-    updatedDate: ''
+    updatedDate: '',
+    contributorOptions: [],
+    skillById: {}
   };
 
   function fetchJson(url) {
@@ -543,10 +558,14 @@
       // Normalize legacy type strings to valid schema values
       var rawType = skill.type || 'basic';
       var normType = (rawType === 'fusion') ? 'fusion' : 'basic';
+      var contributor = row.id.split('/')[0];
+      var name = skill.name || row.id.split('/')[1];
+      var grade = row.grade || skill.overallTrustGrade || 'ungraded';
+      var trustMagnitude = row.trustMagnitude || 0;
       return {
         id: row.id,
-        name: skill.name || row.id.split('/')[1],
-        contributor: row.id.split('/')[0],
+        name: name,
+        contributor: contributor,
         type: normType,
         // Carry the taxonomy-resolved branch/rankWord off the skills index so
         // GaiaSemantics.branchOf reads a real value (it reads entry.branch and
@@ -560,10 +579,15 @@
         suiteComponents: skill.suiteComponents || null,
         genericSkillRef: skill.genericSkillRef || null,
         level: row.level || skill.level || '',
-        trustMagnitude: row.trustMagnitude || 0,
-        grade: row.grade || skill.overallTrustGrade || 'ungraded',
+        trustMagnitude: trustMagnitude,
+        grade: grade,
         origin: row.origin === true,
-        typeBreakdown: row.typeBreakdown || null
+        typeBreakdown: row.typeBreakdown || null,
+        _searchId: row.id.toLowerCase(),
+        _searchName: (name || '').toLowerCase(),
+        _sortContributor: contributor,
+        _gradeOrder: GRADE_ORDER[grade] || 9,
+        _groupKey: contributor + '|' + grade + '|' + Math.round(trustMagnitude)
       };
     });
 
@@ -590,6 +614,9 @@
     state.namedSkills    = named;   // all graded (ultimates + extras + basics) for the main named chart
     state.ungradedSkills = ungraded;
     state.allSkills = allRows;
+    state.skillById = {};
+    allRows.forEach(function(row) { state.skillById[row.id] = row; });
+    state.contributorOptions = buildContributorOptions(named);
 
     // Render
     renderDistribution(leaderboard.distribution);
@@ -1394,7 +1421,7 @@
     var map = {};
     var order = [];
     skills.forEach(function(s) {
-      var key = s.contributor + '|' + s.grade + '|' + Math.round(s.trustMagnitude);
+      var key = s._groupKey || (s.contributor + '|' + s.grade + '|' + Math.round(s.trustMagnitude));
       if (!map[key]) {
         map[key] = { primary: s, members: [], key: key };
         order.push(key);
@@ -1421,6 +1448,11 @@
         grade: g.primary.grade,
         origin: g.primary.origin,
         typeBreakdown: g.primary.typeBreakdown,
+        _searchId: g.primary._searchId,
+        _searchName: g.primary._searchName,
+        _sortContributor: g.primary._sortContributor,
+        _gradeOrder: g.primary._gradeOrder,
+        _groupKey: g.primary._groupKey,
         _groupSize: g.members.length,
         _groupMembers: g.members.map(function(m) { return m.id; })
       };
@@ -2182,9 +2214,7 @@
     // Skill search filter
     if (state.skillSearchQuery) {
       filtered = filtered.filter(function(s) {
-        var id = (s.contributor + '/' + s.slug).toLowerCase();
-        var name = (s.name || s.slug || '').toLowerCase();
-        return id.indexOf(state.skillSearchQuery) !== -1 || name.indexOf(state.skillSearchQuery) !== -1;
+        return s._searchId.indexOf(state.skillSearchQuery) !== -1 || s._searchName.indexOf(state.skillSearchQuery) !== -1;
       });
     }
 
@@ -2200,10 +2230,10 @@
     // Sort
     filtered = filtered.slice().sort(function(a, b) {
       if (state.sort === 'grade') {
-        var diff = (GRADE_ORDER[a.grade] || 9) - (GRADE_ORDER[b.grade] || 9);
+        var diff = a._gradeOrder - b._gradeOrder;
         if (diff !== 0) return diff;
       } else if (state.sort === 'contributor') {
-        var cDiff = a.contributor.localeCompare(b.contributor);
+        var cDiff = a._sortContributor.localeCompare(b._sortContributor);
         if (cDiff !== 0) return cDiff;
       }
       return tmForType(b, state.evidenceType) - tmForType(a, state.evidenceType);
@@ -2225,6 +2255,24 @@
   }
 
   // ── CONTRIBUTOR MULTI-SELECT ──
+  function buildContributorOptions(skills) {
+    var byContributor = {};
+    skills.forEach(function(s) {
+      var c = s.contributor;
+      if (!byContributor[c]) {
+        byContributor[c] = {
+          value: c,
+          searchText: c.toLowerCase(),
+          hue: handleHue(c),
+          clean: String(c).replace(/^@/, ''),
+          hasOrigin: false
+        };
+      }
+      if (s.origin === true) byContributor[c].hasOrigin = true;
+    });
+    return Object.keys(byContributor).sort().map(function(c) { return byContributor[c]; });
+  }
+
   function wireContribSearch() {
     var trigger = document.getElementById('lbMsTrigger');
     var dropdown = document.getElementById('lbMsDropdown');
@@ -2235,37 +2283,24 @@
     var countEl = document.getElementById('lbMsCount');
     if (!trigger || !dropdown) return;
 
-    function getContribs() {
-      var all = {};
-      state.namedSkills.forEach(function(s) { all[s.contributor] = true; });
-      return Object.keys(all).sort();
-    }
-
     function renderList(filter) {
-      var contribs = getContribs();
       var q = (filter || '').toLowerCase();
-      var shown = q ? contribs.filter(function(c) { return c.toLowerCase().indexOf(q) !== -1; }) : contribs;
+      var shown = q ? state.contributorOptions.filter(function(c) { return c.searchText.indexOf(q) !== -1; }) : state.contributorOptions;
       var wreathSrc = ROOT_PREFIX + 'assets/origin-wreath-gold.svg';
-      listEl.innerHTML = shown.map(function(c) {
-        var checked = state.searchContribs.indexOf(c) !== -1;
-        // This avatar represents a contributor rather than one named skill:
-        // show Origin only if they hold it on at least one listed skill.
-        var hasOrigin = state.namedSkills.some(function(s) {
-          return s.contributor === c && s.origin === true;
-        });
-        var clean = String(c).replace(/^@/, '');
-        var avatarSrc = 'https://github.com/' + encodeURIComponent(clean) + '.png?size=32';
-        var identicon = 'https://github.com/identicons/' + encodeURIComponent(clean) + '.png';
+      listEl.innerHTML = shown.map(function(opt) {
+        var checked = state.searchContribs.indexOf(opt.value) !== -1;
+        var avatarSrc = 'https://github.com/' + encodeURIComponent(opt.clean) + '.png?size=32';
+        var identicon = 'https://github.com/identicons/' + encodeURIComponent(opt.clean) + '.png';
         var errAttr = "if(this.dataset.fbk){this.onerror=null;}else{this.dataset.fbk='1';this.src='" + identicon.replace(/\\/g, "\\\\").replace(/'/g, "\\'") + "';}";
         var avatarHtml =
-          '<span class="lb-ms-avatar" style="background:oklch(0.55 0.18 ' + handleHue(c) + ')">' +
+          '<span class="lb-ms-avatar" style="background:oklch(0.55 0.18 ' + opt.hue + ')">' +
             '<img class="lb-ms-avatar-img" src="' + esc(avatarSrc) + '" alt="" decoding="async" loading="lazy" referrerpolicy="no-referrer" onerror="' + errAttr + '">' +
-            (hasOrigin ? '<img class="lb-ms-avatar-wreath" src="' + esc(wreathSrc) + '" alt="" aria-hidden="true">' : '') +
+            (opt.hasOrigin ? '<img class="lb-ms-avatar-wreath" src="' + esc(wreathSrc) + '" alt="" aria-hidden="true">' : '') +
           '</span>';
         return '<label class="lb-ms-item' + (checked ? ' is-checked' : '') + '">' +
-          '<input type="checkbox" value="' + esc(c) + '"' + (checked ? ' checked' : '') + '>' +
+          '<input type="checkbox" value="' + esc(opt.value) + '"' + (checked ? ' checked' : '') + '>' +
           avatarHtml +
-          '<span class="lb-ms-name">' + esc(c) + '</span>' +
+          '<span class="lb-ms-name">' + esc(opt.value) + '</span>' +
         '</label>';
       }).join('');
     }
@@ -2294,9 +2329,9 @@
     });
 
     if (searchInput) {
-      searchInput.addEventListener('input', function() {
+      searchInput.addEventListener('input', debounce(function() {
         renderList(searchInput.value);
-      });
+      }, 150));
     }
 
     if (listEl) {
@@ -2335,11 +2370,15 @@
   function wireSkillSearch() {
     var skillSearchEl = document.getElementById('lbSkillSearch');
     if (skillSearchEl) {
-      skillSearchEl.addEventListener('input', function() {
-        state.skillSearchQuery = this.value.toLowerCase().trim();
+      var runSkillSearch = debounce(function(value) {
+        state.skillSearchQuery = value.toLowerCase().trim();
         state.namedExpanded = false;
         state.showCount = INITIAL_BARS;
         renderNamedChart(state.namedSkills);
+        wireActionButtons();
+      }, 180);
+      skillSearchEl.addEventListener('input', function() {
+        runSkillSearch(this.value);
       });
     }
   }
@@ -2489,10 +2528,8 @@
     for (var i = 0; i < (state.collapsedNamed || []).length; i++) {
       if (state.collapsedNamed[i].id === id) return state.collapsedNamed[i];
     }
-    var all = state.allSkills;
-    for (var j = 0; j < all.length; j++) {
-      if (all[j].id === id) return all[j];
-    }
+    var skill = state.skillById && state.skillById[id];
+    if (skill) return skill;
     // Check starless nodes (generic bars)
     var starless = state.starlessNodes || [];
     for (var k = 0; k < starless.length; k++) {
