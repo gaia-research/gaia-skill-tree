@@ -1,6 +1,17 @@
 {
   "posts": [
     {
+      "id": "2026-08-04-v740-registry-update-backlog-closeout-benchmark-sources-and-skill-surface-polish",
+      "type": "report",
+      "date": "2026-08-04",
+      "title": "v7.4.0 Registry Update: Backlog Closeout, Benchmark Sources, and Skill Surface Polish",
+      "summary": "A user-facing registry/meta update for the v7.4.0 registry cycle: backlog closeout, verified benchmark-source infrastructure, new and refreshed skills, and polish across Suite Explorer, Share Plaques, Trust Leaderboard, benchmarks, and Weekly Reports.",
+      "label": "Registry Update",
+      "url": "meta/reports/2026-08-04-v740-registry-update-backlog-closeout-benchmark-sources-and-skill-surface-polish.html",
+      "author": "Gaia Research",
+      "source": "docs/meta/2026-08-04-v7-4-0-registry-meta-update.md"
+    },
+    {
       "id": "2026-08-01-registry-audit-report-deepmind-cluster-audit-release-v733-rank-calibrations",
       "type": "report",
       "date": "2026-08-01",
