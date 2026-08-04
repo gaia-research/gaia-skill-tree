@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-03T09:11:33Z",
+  "generatedAt": "2026-08-04T11:42:52Z",
   "skills": [
     {
       "id": "anthropics/brand-guidelines",
@@ -145,6 +145,19 @@
       "previousLevel": "3★"
     },
     {
+      "id": "firecrawl/firecrawl-research-index",
+      "name": "Firecrawl Research Index",
+      "level": "3★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 150.32,
+      "overallTrustGrade": "A",
+      "ascendedAt": "2026-07-30T22:36:54Z",
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
+      },
+      "previousLevel": "2★"
+    },
+    {
       "id": "firecrawl/firecrawl-build-interact",
       "name": "Firecrawl Interact",
       "level": "3★",
@@ -167,19 +180,6 @@
       "ascendedAt": "2026-07-30T22:36:54Z",
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "firecrawl/firecrawl-research-index",
-      "name": "Firecrawl Research Index",
-      "level": "3★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 75.7,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-07-30T22:36:54Z",
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
       },
       "previousLevel": "2★"
     },

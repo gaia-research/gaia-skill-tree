@@ -4,7 +4,7 @@
   "families": [
     {
       "id": "basic",
-      "count": 125,
+      "count": 126,
       "skills": [
         {
           "id": "adaptive-pattern-learning",
@@ -380,6 +380,11 @@
           "id": "probabilistic-programming",
           "name": "Probabilistic Programming",
           "summary": "Specifies Bayesian models and runs inference (MCMC/NUTS, variational) to quantify epistemic and aleatoric uncertainty using PyMC, Stan, Pyro, or NumPyro."
+        },
+        {
+          "id": "prompt-caching",
+          "name": "Prompt Caching",
+          "summary": "Reuses a model's encoded prompt prefix or KV cache across repeated requests so identical long-context prefixes are not reprocessed, reducing latency and billed input tokens without serving a cached response or rewriting the prompt."
         },
         {
           "id": "prompt-injection-defense",

@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-08-03T09:11:33Z",
+  "generatedAt": "2026-08-04T11:42:52Z",
   "firstRun": false,
   "skills": [
     {
@@ -71,6 +71,20 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/k-dense-ai/torch-geometric.json"
+      }
+    },
+    {
+      "id": "firecrawl/firecrawl-research-index",
+      "name": "Firecrawl Research Index",
+      "level": "3★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 150.32,
+      "overallTrustGrade": "A",
+      "trendingScore": 75.16,
+      "tmDelta": 150.32,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
       }
     },
     {
@@ -354,20 +368,6 @@
       }
     },
     {
-      "id": "firecrawl/firecrawl-research-index",
-      "name": "Firecrawl Research Index",
-      "level": "3★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 75.7,
-      "overallTrustGrade": "B",
-      "trendingScore": 37.85,
-      "tmDelta": 75.7,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
-      }
-    },
-    {
       "id": "k-dense-ai/pytorch-lightning",
       "name": "PyTorch Lightning",
       "level": "3★",
@@ -466,6 +466,20 @@
       }
     },
     {
+      "id": "gaia-research/skill-fuse",
+      "name": "Skill Fuse",
+      "level": "2★",
+      "contributor": "gaia-research",
+      "trustMagnitude": 41.62,
+      "overallTrustGrade": "C",
+      "trendingScore": 20.81,
+      "tmDelta": 41.62,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/gaia-research/skill-fuse.json"
+      }
+    },
+    {
       "id": "gaia-research/skill-ci-churn",
       "name": "CI Churn",
       "level": "2★",
@@ -477,34 +491,6 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/gaia-research/skill-ci-churn.json"
-      }
-    },
-    {
-      "id": "gaia-research/skill-fuse",
-      "name": "Skill Fuse",
-      "level": "2★",
-      "contributor": "gaia-research",
-      "trustMagnitude": 41.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 20.5,
-      "tmDelta": 41.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/gaia-research/skill-fuse.json"
-      }
-    },
-    {
-      "id": "addy-osmani/code-simplification",
-      "name": "Code Simplification",
-      "level": "3★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 53.14,
-      "overallTrustGrade": "B",
-      "trendingScore": 20.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/code-simplification.json"
       }
     },
     {
@@ -592,20 +578,6 @@
       }
     },
     {
-      "id": "openai/few-shot-learning",
-      "name": "Few-Shot Learning",
-      "level": "4★",
-      "contributor": "openai",
-      "trustMagnitude": 100.0,
-      "overallTrustGrade": "A",
-      "trendingScore": 10.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/openai/few-shot-learning.json"
-      }
-    },
-    {
       "id": "obra/brainstorming",
       "name": "Brainstorming",
       "level": "3★",
@@ -620,17 +592,17 @@
       }
     },
     {
-      "id": "anthropic/skill-creator",
-      "name": "Skill Creator",
+      "id": "addy-osmani/code-simplification",
+      "name": "Code Simplification",
       "level": "3★",
-      "contributor": "anthropic",
-      "trustMagnitude": 90.0,
+      "contributor": "addy-osmani",
+      "trustMagnitude": 53.14,
       "overallTrustGrade": "B",
       "trendingScore": 10.0,
       "tmDelta": 0.0,
       "new": false,
       "_links": {
-        "self": "/api/v1/skills/anthropic/skill-creator.json"
+        "self": "/api/v1/skills/addy-osmani/code-simplification.json"
       }
     },
     {
@@ -646,23 +618,9 @@
       "_links": {
         "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
       }
-    },
-    {
-      "id": "huggingface/semantic-cache",
-      "name": "Semantic Cache",
-      "level": "2★",
-      "contributor": "huggingface",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 10.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/huggingface/semantic-cache.json"
-      }
     }
   ],
-  "totalTrending": 47,
+  "totalTrending": 44,
   "_links": {
     "self": "/api/v1/trending/30d.json"
   }

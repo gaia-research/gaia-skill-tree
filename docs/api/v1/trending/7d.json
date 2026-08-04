@@ -1,8 +1,22 @@
 {
   "window": "7d",
-  "generatedAt": "2026-08-03T09:11:33Z",
+  "generatedAt": "2026-08-04T11:42:52Z",
   "firstRun": false,
   "skills": [
+    {
+      "id": "firecrawl/firecrawl-research-index",
+      "name": "Firecrawl Research Index",
+      "level": "3★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 150.32,
+      "overallTrustGrade": "A",
+      "trendingScore": 167.69,
+      "tmDelta": 76.8,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
+      }
+    },
     {
       "id": "k-dense-ai/pymc",
       "name": "PyMC",
@@ -113,20 +127,6 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
-      }
-    },
-    {
-      "id": "firecrawl/firecrawl-research-index",
-      "name": "Firecrawl Research Index",
-      "level": "3★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 75.7,
-      "overallTrustGrade": "B",
-      "trendingScore": 62.77,
-      "tmDelta": 2.18,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
       }
     },
     {
@@ -438,6 +438,20 @@
       }
     },
     {
+      "id": "gaia-research/skill-fuse",
+      "name": "Skill Fuse",
+      "level": "2★",
+      "contributor": "gaia-research",
+      "trustMagnitude": 41.62,
+      "overallTrustGrade": "C",
+      "trendingScore": 10.92,
+      "tmDelta": 0.62,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/gaia-research/skill-fuse.json"
+      }
+    },
+    {
       "id": "obra/subagent-driven-development",
       "name": "Subagent-Driven Development",
       "level": "4★",
@@ -480,7 +494,7 @@
       }
     }
   ],
-  "totalTrending": 34,
+  "totalTrending": 35,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }

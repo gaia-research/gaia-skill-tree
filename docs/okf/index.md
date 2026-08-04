@@ -8,7 +8,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 
 ## Registry Index
 
-### Basic Skills (125)
+### Basic Skills (126)
 
 * [API Call](/skills/basic/api-call.md) - A fundamental skill that enables agents to interact with external services via HTTP API calls.
 * [Adaptive Pattern Learning](/skills/basic/adaptive-pattern-learning.md) - Implements adaptive learning through pattern recognition and strategy optimization.
@@ -83,6 +83,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [Plan Synthesis](/skills/basic/plan-synthesis.md) - Combine two or more independently produced plans into a single attributed result, resolving conflicts and surfacing consensus and divergence.
 * [Plan and Decompose](/skills/basic/plan-decompose.md) - Breaks a complex objective into an ordered sequence of executable sub-tasks.
 * [Probabilistic Programming](/skills/basic/probabilistic-programming.md) - Specifies Bayesian models and runs inference (MCMC/NUTS, variational) to quantify epistemic and aleatoric uncertainty using PyMC, Stan, Pyro, or NumPyro.
+* [Prompt Caching](/skills/basic/prompt-caching.md) - Reuses a model's encoded prompt prefix or KV cache across repeated requests so identical long-context prefixes are not reprocessed, reducing latency and billed input tokens without serving a cached response or rewriting the prompt.
 * [Prompt Injection Defense](/skills/basic/prompt-injection-defense.md) - Detects and neutralizes adversarial instructions injected into agent context from untrusted external sources (indirect prompt injection), using techniques such as context isolation, hierarchical intent verification, or semantic consistency checks.
 * [Protein Structure Analysis](/skills/basic/protein-structure-analysis.md) - Analyzes, searches, and aligns three-dimensional macromolecular structures using structural databases, alignment search algorithms (e.g. Foldseek, PDB search), or molecular modeling tools.
 * [Proteomic Data Retrieval](/skills/basic/proteomic-data-retrieval.md) - Queries and retrieves amino acid sequences, protein families, functional domains, tissue distribution, and protein-protein interactions from proteomic repositories (e.g. UniProt, InterPro, Human Protein Atlas, STRING).
