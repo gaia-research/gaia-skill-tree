@@ -57,5 +57,9 @@ def test_hero_and_leaderboard_wreaths_require_origin():
     assert "appendAvatarWreath(barGroup, avatarCx, avatarCy, avatarR, !!ult.origin);" in LEADERBOARD_JS
     assert "appendAvatarWreath(barGroup, avatarCx, avatarCy, avatarR, !!suite.origin);" in LEADERBOARD_JS
     assert "appendAvatarWreath(barGroup, avatarCx, avatarCy, avatarR, !!skill.origin);" in LEADERBOARD_JS
-    assert "var hasOrigin = state.namedSkills.some(function(s)" in LEADERBOARD_JS
-    assert "(hasOrigin ? '<img class=\"lb-ms-avatar-wreath\"" in LEADERBOARD_JS
+    # #1435 perf refactor: origin membership is now cached per-contributor
+    # option in buildContributorOptions() rather than recomputed inline.
+    # The invariant is preserved: hasOrigin is only set true when a skill
+    # carries origin, and renderList() gates the wreath on opt.hasOrigin.
+    assert "if (s.origin === true) byContributor[c].hasOrigin = true;" in LEADERBOARD_JS
+    assert "(opt.hasOrigin ? '<img class=\"lb-ms-avatar-wreath\"" in LEADERBOARD_JS
