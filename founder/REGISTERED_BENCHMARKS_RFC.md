@@ -1,4 +1,4 @@
-# RFC 1419 — Registered Benchmarks and Generic Applicability
+# RFC 1419 — Benchmark Evidence Lanes
 
 Status: approved shape, implementation in progress
 Owner: Marcus Rafael B. Tiongson
@@ -6,18 +6,21 @@ Prime example: Firecrawl Research Index / alphaXiv ArXivQA
 
 ## Summary
 
-Gaia benchmarks are capability-scoped. A benchmark source is recognized against the generic capability it measures; a benchmark result is evidence for a named skill that ran or was reported on that benchmark.
+Benchmarks are normal Gaia evidence with a small lane multiplier. The registry should not make benchmark evidence harder to land than social, repo, or paper evidence. If a public source reports a benchmark score and a human accepts it during the evidence pipeline, Gaia may count it. If the benchmark is later found bogus, an audit can reject it and remove or zero the row.
 
-This separates two questions that were previously tangled:
+The model has three lanes:
 
-1. **Benchmark applicability:** Which generic capability bucket does this benchmark evaluate?
-2. **Benchmark evidence:** Which named implementation has a specific, reproducible score on that benchmark?
+| Lane | Meaning | Benchmark multiplier |
+| --- | --- | ---: |
+| `verified` | CI reproduced or verifier-attested benchmark evidence | `2.0x` |
+| `reported` | Publicly claimed or mirrored benchmark evidence accepted by the human gate | `1.0x` |
+| `rejected` | Not approved, disputed, bogus, retired, or blacklisted | `0x` |
 
-The benchmark catalog answers the first question. `benchmark-result` evidence rows answer the second.
+No extra evidence fields are needed. Trust Magnitude computes the final benchmark score internally from the row score and lane multiplier.
 
 ## Core model
 
-Registered benchmark source:
+Benchmark source:
 
 ```text
 /literature-search
@@ -28,10 +31,10 @@ Named benchmark result:
 
 ```text
 firecrawl/firecrawl-research-index
-  may later carry score evidence for alphaxiv-arxivqa@v1.0
+  reports score evidence for alphaxiv-arxivqa@v1.0
 ```
 
-A registered benchmark source is not itself Trust Magnitude evidence. It is the cataloged benchmark definition that future named skills can be evaluated against.
+The benchmark catalog answers which benchmark IDs Gaia approves and which generic capabilities they apply to. Named `benchmark-result` rows answer which specific implementation scored what.
 
 ## Catalog shape
 
@@ -41,13 +44,12 @@ Benchmark catalog entries may declare generic applicability:
 {
   "id": "alphaxiv-arxivqa@v1.0",
   "name": "alphaXiv ArXivQA Retrieval",
-  "status": "registered",
+  "status": "reported",
   "mode": "external",
   "unit": "pct",
   "appliesToGenericSkillRefs": ["literature-search"],
   "scoring": {
-    "scoresTrustMagnitude": false,
-    "allowedProvenance": ["pending"],
+    "scoresTrustMagnitude": true,
     "requiredFields": []
   },
   "push": {
@@ -57,42 +59,56 @@ Benchmark catalog entries may declare generic applicability:
 }
 ```
 
-`appliesToGenericSkillRefs` means: skills mapped to these generic capabilities may use this benchmark ID when they later provide valid benchmark-result evidence.
+`appliesToGenericSkillRefs` means skills mapped to these generic capabilities may use this benchmark ID when adding named benchmark-result evidence.
 
-It does **not** mean:
+It does **not** mean every skill under that generic inherits a score. Scores still belong to named evidence rows.
 
-- all skills under that generic inherit a score,
-- the benchmark contributes to Trust Magnitude by existing,
-- a named skill has passed the benchmark,
-- or a vendor-reported score is verified.
+## Evidence row shape
 
-## Status semantics
+A reported benchmark row can be light:
 
-- `candidate`: discovered lead; not yet accepted as a benchmark source.
-- `registered`: accepted as a real benchmark source for one or more generic capabilities, but not reproducible/verified enough for Trust Magnitude scoring.
-- `mirrored`: external leaderboard snapshot or score table copied for citation/display; excluded from Trust Magnitude.
-- `verified`: benchmark source eligible for scoring when a named evidence row also carries allowed provenance and all reproducibility fields.
-- `retired` / `rejected`: must not be used for new scoring.
+```yaml
+- type: benchmark-result
+  source: https://www.firecrawl.dev/blog/research-index-launch
+  evaluator: mbtiongson1
+  date: '2026-08-03'
+  benchmarkId: alphaxiv-arxivqa@v1.0
+  score: 53.3
+  unit: pct
+  provenance: reported
+  attestor: https://www.firecrawl.dev/blog/research-index-launch
+  notes: >-
+    Firecrawl-reported ArXivQA recall: 53.3% at $0.32/task versus
+    45.4% next best; MRR 0.750.
+```
 
-For the first wave of benchmark curation, `registered` is the normal landing state. It lets Gaia remember the benchmark and its generic applicability while keeping scoring gates strict.
+A verified benchmark row may also carry reproducibility details such as `runAt`, `datasetHash`, `benchmarkInputHash`, `harnessUrl`, and `percentile`, but those are not required for reported evidence. They are how a row earns the stronger `verified` lane.
 
-## Evidence row rule
+Do not persist a `finalScore`. `trustMagnitude.py` computes it.
 
-A `benchmark-result` row belongs on a named skill only when the row can honestly provide the benchmark evidence contract:
+## Trust Magnitude rule
 
-- `benchmarkId`
-- `score`
-- `unit`
-- `runAt`
-- `provenance`
-- `attestor`
-- `datasetHash`
-- `benchmarkInputHash`
-- `percentile` when it should affect Trust Magnitude
+For benchmark-result evidence, Trust Magnitude computes:
 
-Do not invent hashes from a blog post. `datasetHash` must identify the raw dataset used for evaluation. `benchmarkInputHash` must identify the dataset plus prompt/template/harness configuration.
+```text
+baseBenchmarkScore = normalized row score
+laneMultiplier = 2.0 for verified, 1.0 for reported, 0.0 for rejected
+finalBenchmarkScore = baseBenchmarkScore × laneMultiplier
+```
 
-If those fields are missing, register the benchmark source but do not ingest a named `benchmark-result` row.
+The normal benchmark evidence type weight and freshness rules then apply.
+
+Legacy provenance terms normalize into the three lanes:
+
+- `ci-reproduced` and `verifier-attested` normalize to `verified`.
+- `mirrored` normalizes to `reported`.
+- `pending`, unknown, rejected, retired, and blacklisted benchmark IDs normalize to `rejected`.
+
+## Blacklist rule
+
+The benchmark catalog is the blacklist surface. A catalog entry with `status: rejected` is not Gaia-approved and contributes zero Trust Magnitude. Phase 2B should flag rows that reference rejected or unknown benchmark IDs. Curators may remove the named row or leave it as rejected audit history, but it does not score.
+
+This lets Gaia admit useful benchmark evidence quickly while preserving a simple audit escape hatch.
 
 ## Prime example: Firecrawl Research Index / alphaXiv ArXivQA
 
@@ -105,27 +121,25 @@ Firecrawl issue #741 proposed the Research Index benchmark claim later folded in
 - target named skill: `firecrawl/firecrawl-research-index`
 - applicable generic capability: `literature-search`
 
-This is a real, useful benchmark lead and should be cataloged as a registered benchmark source for `literature-search`.
-
-It should not yet produce a scoring evidence row for Firecrawl because Gaia does not yet have the raw dataset hash, benchmark input hash, public reproducible harness, CI reproduction, or verifier attestation.
+This should land as reported benchmark evidence. It is not verified by Gaia yet, but it is source-backed and can be removed or rejected if an audit disputes it.
 
 ## Frontend posture
 
-For now, the frontend may show existing evidence and benchmark-source metadata conservatively. Rich benchmark comparison surfaces can come later as curation adds more registered/verified benchmarks.
+For now, `docs/benchmarks` should show registered/reported benchmark source metadata and existing benchmark-result rows plainly. Rich benchmark comparison surfaces can wait until more benchmarks are curated.
 
-Initial display rule:
+Display rule:
 
-- show registered benchmarks as recognized sources for their generic capability when a surface supports it;
-- do not display them as named-skill scores unless a `benchmark-result` row exists;
-- do not imply Trust Magnitude impact unless `scoresTrustMagnitude` is true and the named row is scoring-eligible.
+- show benchmark lane (`verified`, `reported`, `rejected`),
+- show the source and score when a named row exists,
+- do not imply CI/verifier verification for `reported` rows,
+- rejected benchmarks are blacklisted and score zero.
 
 ## Evidence pipeline posture
 
-The evidence pipeline should treat benchmark source handling as a two-step gate:
+The evidence pipeline should stay simple:
 
-1. **Generic applicability gate:** Does this benchmark source belong to one or more generic capability buckets?
-2. **Named evidence gate:** Does a named skill have a reproducible/verifiable score row for that benchmark?
+1. Phase 2B classifies benchmark rows by lane and checks catalog status.
+2. Human gate approves reported benchmark evidence or rejects/blacklists it.
+3. Trust Magnitude applies the lane multiplier.
 
-Phase 2B classifies both benchmark-source candidates and existing benchmark-result rows. After Phase 2B, Phase 3 adversarial audit, and Phase 4 link validation, humans may approve catalog registration. Scoring evidence ingestion remains a separate human gate through `/gaia-ingest-batch`.
-
-Machines classify. Humans promote.
+Machines classify. Humans approve or reject.

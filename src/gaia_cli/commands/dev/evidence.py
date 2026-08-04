@@ -131,16 +131,13 @@ def meta_evidence_command(args):
     # Fallback: when no magnitude drivers are present (artifact_score == 0),
     # use the --trust value via aggregate thresholds to preserve backward compat.
     #
-    # Sprint D W2a (#904): mirrored and pending benchmark-result rows short-
-    # circuit here. They are citations only and MUST NOT be graded —
-    # computeArtifactScoreOrNone returns None for them (excluded from TM),
-    # but without this guard the fallback `derived_grade` branch below would
-    # still stamp a grade based on --trust. Strip any grade the caller supplied.
-    is_mirrored_or_pending_benchmark = (
+    # #1419 benchmark lanes: verified and reported rows may be graded; rejected
+    # (and legacy pending) rows are citations/audit history and MUST NOT carry a grade.
+    is_rejected_benchmark_lane = (
         evidence_type == "benchmark-result"
-        and evidence.get("provenance") in ("mirrored", "pending")
+        and evidence.get("provenance") in ("rejected", "pending")
     )
-    if is_mirrored_or_pending_benchmark:
+    if is_rejected_benchmark_lane:
         evidence.pop("grade", None)
     elif evidence_type is not None:
         from gaia_cli.trustMagnitude import computeArtifactScoreOrNone
@@ -218,12 +215,11 @@ def meta_evidence_command(args):
         # Re-derive grade after all patch fields are applied. This runs whenever
         # type, trust, or numeric payload changes — not just when --trust is supplied.
         #
-        # Sprint D W2a (#904): as with the append path above, mirrored and pending
-        # benchmark-result rows are stripped of any grade — they are citations only
-        # and are excluded from Trust Magnitude entirely.
+        # #1419 benchmark lanes: verified and reported rows may be graded;
+        # rejected (and legacy pending) rows are citations/audit history only.
         row_type = entry.get("type")
         row_provenance = entry.get("provenance")
-        if row_type == "benchmark-result" and row_provenance in ("mirrored", "pending"):
+        if row_type == "benchmark-result" and row_provenance in ("rejected", "pending"):
             entry.pop("grade", None)
         elif row_type is not None:
             from gaia_cli.trustMagnitude import computeArtifactScoreOrNone

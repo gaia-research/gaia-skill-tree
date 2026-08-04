@@ -66,6 +66,19 @@
       }
     },
     {
+      "handle": "firecrawl",
+      "namedSkills": 6,
+      "topSkill": {
+        "id": "firecrawl/firecrawl-skills",
+        "level": "4★",
+        "trustMagnitude": 223.52
+      },
+      "prestigeScore": 770.28,
+      "_links": {
+        "self": "/api/v1/contributors/firecrawl.json"
+      }
+    },
+    {
       "handle": "addy-osmani",
       "namedSkills": 9,
       "topSkill": {
@@ -76,19 +89,6 @@
       "prestigeScore": 731.18,
       "_links": {
         "self": "/api/v1/contributors/addy-osmani.json"
-      }
-    },
-    {
-      "handle": "firecrawl",
-      "namedSkills": 6,
-      "topSkill": {
-        "id": "firecrawl/firecrawl-skills",
-        "level": "4★",
-        "trustMagnitude": 223.52
-      },
-      "prestigeScore": 695.66,
-      "_links": {
-        "self": "/api/v1/contributors/firecrawl.json"
       }
     },
     {
@@ -264,11 +264,11 @@
       "handle": "gaia-research",
       "namedSkills": 2,
       "topSkill": {
-        "id": "gaia-research/skill-ci-churn",
+        "id": "gaia-research/skill-fuse",
         "level": "2★",
-        "trustMagnitude": 41.0
+        "trustMagnitude": 41.62
       },
-      "prestigeScore": 82.0,
+      "prestigeScore": 82.62,
       "_links": {
         "self": "/api/v1/contributors/gaia-research.json"
       }

@@ -206,12 +206,18 @@
         },
         "mode": {
           "type": "string",
-          "enum": ["components", "version-only"],
+          "enum": [
+            "components",
+            "version-only"
+          ],
           "description": "components = suite with a diffable component list; version-only = general-purpose repo, version tag tracked but no component structure",
           "default": "components"
         }
       },
-      "required": ["repo", "version"]
+      "required": [
+        "repo",
+        "version"
+      ]
     },
     "verification": {
       "type": "object",
@@ -444,7 +450,7 @@
           "type": "integer",
           "minimum": 0,
           "maximum": 100,
-          "description": "Benchmark placement percentile (0–100) for benchmark-result evidence. Directly consumed by the benchmark-result formula (magnitude = percentile). Required by the CLI when --type benchmark-result."
+          "description": "Benchmark placement percentile (0..100) for benchmark-result evidence. Trust Magnitude uses percentile when present; otherwise it normalizes score by unit, then applies the benchmark lane multiplier."
         },
         "skillCountInRepo": {
           "type": "integer",
@@ -503,8 +509,155 @@
               }
             }
           }
+        },
+        "benchmarkId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9\\-_/]*@v?\\d+(\\.\\d+)?(\\.\\d+)?(-[a-z0-9\\-_.]+)?$",
+          "description": "Semver-ish benchmark spec id for benchmark-result evidence."
+        },
+        "score": {
+          "type": "number",
+          "description": "Raw benchmark score in the units named by unit."
+        },
+        "unit": {
+          "type": "string",
+          "enum": [
+            "pct",
+            "pass@1",
+            "pass@10",
+            "bleu",
+            "f1",
+            "accuracy",
+            "elo",
+            "raw"
+          ],
+          "description": "Benchmark score unit enum."
+        },
+        "runAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 date-time (with timezone) the benchmark harness was executed. Required for verified rows."
+        },
+        "provenance": {
+          "type": "string",
+          "enum": [
+            "verified",
+            "reported",
+            "rejected",
+            "verifier-attested",
+            "ci-reproduced",
+            "mirrored",
+            "pending"
+          ],
+          "description": "Benchmark-result lane/provenance. verified (including legacy ci-reproduced/verifier-attested) scores at 2.0x; reported (including legacy mirrored) scores at 1.0x; rejected/pending scores 0x. self-attested is intentionally absent and FOREVER rejected."
+        },
+        "attestor": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Attestor or public source for benchmark-result evidence. Required for verified/reported rows."
+        },
+        "datasetHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "description": "SHA-256 (64 lowercase hex chars) of the raw dataset used to produce a verified benchmark-result score."
+        },
+        "benchmarkInputHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "description": "SHA-256 (64 lowercase hex chars) of dataset + prompt template + harness config for verified benchmark-result rows."
+        },
+        "harnessUrl": {
+          "type": "string",
+          "format": "uri",
+          "description": "Optional URL to the exact harness code used to produce the benchmark-result score."
         }
-      }
+      },
+      "allOf": [
+        {
+          "$comment": "#1419 benchmark-result lane gate. Legacy rows filed before 2026-07-05 remain exempt. Rows filed 2026-07-05 or later require common benchmark fields. Verified lanes additionally require reproducibility fields; reported lanes only require attestor/source.",
+          "if": {
+            "properties": {
+              "type": {
+                "const": "benchmark-result"
+              },
+              "date": {
+                "pattern": "^(2026-(0[7-9]|1[0-2])|20(2[7-9]|[3-9][0-9]))"
+              }
+            },
+            "required": [
+              "type",
+              "date"
+            ]
+          },
+          "then": {
+            "required": [
+              "benchmarkId",
+              "score",
+              "unit",
+              "provenance"
+            ],
+            "properties": {
+              "provenance": {
+                "enum": [
+                  "verified",
+                  "reported",
+                  "rejected",
+                  "verifier-attested",
+                  "ci-reproduced",
+                  "mirrored",
+                  "pending"
+                ]
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "provenance": {
+                      "enum": [
+                        "verified",
+                        "ci-reproduced",
+                        "verifier-attested"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "provenance"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "runAt",
+                    "attestor",
+                    "datasetHash",
+                    "benchmarkInputHash"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "provenance": {
+                      "enum": [
+                        "reported",
+                        "mirrored"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "provenance"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "attestor"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
     },
     "timelineEvent": {
       "type": "object",
