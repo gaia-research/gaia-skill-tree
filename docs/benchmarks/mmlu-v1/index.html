@@ -8,7 +8,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MMLU v1 &mdash; Methodology | Gaia Skill Tree</title>
-  <meta name="description" content="MMLU v1 benchmark methodology: citation-only provenance, snapshot source, and Trust Magnitude exclusion rules.">
+  <meta name="description" content="MMLU v1 benchmark methodology: reported provenance, snapshot source, and the benchmark TM lane model.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -220,12 +220,13 @@
     <p class="prose-lede">
       Fifty-seven academic subjects, five-shot. Every score in this section
       is copied from a public leaderboard &mdash; rendered so the record is
-      complete, permanently excluded so it never inflates a badge.
+      complete, marked reported so it counts at the 1.0× lane only after the human gate.
     </p>
 
     <div class="callout callout-cited">
-      <strong>Provenance: <code>mirrored</code>.</strong> Scores here do <strong>not</strong> count toward
-      Trust Magnitude. See section <a href="#provenance">03</a> for the ladder.
+      <strong>Provenance: <code>reported</code>.</strong> Scores here count at the reported
+      1.0× Trust Magnitude lane after human gate approval. They are not Gaia
+      CI/verifier reproduced.
     </div>
 
     <h2><span class="h2-num">01</span>What is MMLU</h2>
@@ -270,10 +271,9 @@
         <tr><th>Provenance</th><th>TM</th><th>How achieved</th></tr>
       </thead>
       <tbody>
-        <tr><td><code>ci-reproduced</code></td><td>Counted</td><td>CI workflow re-ran the harness on the same commit</td></tr>
-        <tr><td><code>verifier-attested</code></td><td>Counted</td><td>A 4&#9733;+ Verifier co-signed the run</td></tr>
-        <tr><td><code>mirrored</code></td><td><strong>Excluded</strong></td><td>Cited from a public leaderboard</td></tr>
-        <tr><td><code>pending</code></td><td>Excluded</td><td>Awaiting CI reproduction</td></tr>
+        <tr><td><code>verified</code></td><td>2.0×</td><td>CI-reproduced or verifier-attested; legacy aliases <code>ci-reproduced</code>/<code>verifier-attested</code></td></tr>
+        <tr><td><code>reported</code></td><td>1.0×</td><td>Public claim or mirrored leaderboard accepted by the human gate; legacy alias <code>mirrored</code></td></tr>
+        <tr><td><code>rejected</code></td><td>0×</td><td>Blacklisted, disputed, pending, candidate, retired, or unknown</td></tr>
       </tbody>
     </table>
 
@@ -282,7 +282,7 @@
       different splits, a different tokenizer. <em>Counting it would inflate the badge.</em>
     </p>
 
-    <p>The leaderboard renders mirrored rows with a "Cited" badge to surface the
+    <p>The leaderboard renders reported rows with a "Reported" badge to surface the
     distinction without hiding the data. This is deliberate: the record is
     complete, the score is legible, and TM stays clean.</p>
 

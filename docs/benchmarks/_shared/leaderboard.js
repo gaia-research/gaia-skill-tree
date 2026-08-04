@@ -6,9 +6,9 @@
  *   <root>/api/v1/benchmarks/<slug>.json
  *
  * Renders three sections:
- *   1. Verified  — ci-reproduced OR verifier-attested
- *   2. Pending CI — provenance === 'pending'  (grayed; "Pending CI" badge)
- *   3. Cited     — provenance === 'mirrored'  (badge "Cited"; excluded-from-TM note)
+ *   1. Verified  — provenance/lane verified (or legacy ci-reproduced/verifier-attested), 2.0x TM lane
+ *   2. Reported  — provenance/lane reported (or legacy mirrored), 1.0x TM lane
+ *   3. Rejected  — rejected/pending/candidate/unknown rows, 0x TM lane
  *
  * Aesthetic: mirrors scripts/leaderboard.html (grade-banded tables, sortable,
  * mono font, --grade-* tokens).  No new design — Sprint F rewrites this.
@@ -19,17 +19,23 @@
   /* ── Helpers ─────────────────────────────────────────────────── */
 
   function getRootPath() {
-    // depth-2 pages: /benchmarks/humaneval/index.html  →  ../../
-    var parts = window.location.pathname.replace(/\/$/, '').split('/');
+    // The site is served from its root on localhost (python -m http.server)
+    // and on GitHub Pages (custom domain gaiaskilltree.com), so an absolute
+    // path reaches the API regardless of page depth. This avoids the
+    // depth-miscount that fetched /benchmarks/api/... instead of /api/...
+    if (window.location.protocol !== 'file:') return '/';
+    // file:// fallback: walk up to the docs root by counting the segments
+    // from the first known mount to the page (…/benchmarks/<slug>/index.html).
+    var parts = window.location.pathname.replace(/\/[^/]*$/, '').replace(/\/+$/, '').split('/');
     var mounts = (window.GAIA_MOUNTS || []);
-    var depth = 0;
     for (var i = parts.length - 1; i >= 0; i--) {
-      if (mounts.indexOf(parts[i]) !== -1) { depth = parts.length - 1 - i; break; }
+      if (mounts.indexOf(parts[i]) !== -1) {
+        var rel = '';
+        for (var j = 0; j < parts.length - i; j++) rel += '../';
+        return rel;
+      }
     }
-    if (!depth) depth = 2; // safe default for /benchmarks/<slug>/
-    var rel = '';
-    for (var j = 0; j < depth; j++) rel += '../';
-    return rel;
+    return '../../'; // safe default for /benchmarks/<slug>/
   }
 
   function scoreColor(score, unit) {
@@ -149,36 +155,44 @@
     });
   }
 
+  function laneOf(row) {
+    var p = String(row.provenance || '').toLowerCase();
+    if (p === 'verified' || p === 'ci-reproduced' || p === 'verifier-attested') return 'verified';
+    if (p === 'reported' || p === 'mirrored') return 'reported';
+    return 'rejected';
+  }
+
   function render(rows, query) {
     var filtered = filterRows(rows, query);
-    var verified = filtered.filter(function (r) {
-      return r.provenance === 'ci-reproduced' || r.provenance === 'verifier-attested';
-    });
-    var pending = filtered.filter(function (r) { return r.provenance === 'pending'; });
-    var mirrored = filtered.filter(function (r) { return r.provenance === 'mirrored'; });
+    var verified = filtered.filter(function (r) { return laneOf(r) === 'verified'; });
+    var reported = filtered.filter(function (r) { return laneOf(r) === 'reported'; });
+    var rejected = filtered.filter(function (r) { return laneOf(r) === 'rejected'; });
 
+    // Lanes are row-level: a benchmark page shows whichever of Verified,
+    // Reported, and Rejected its own rows populate. No benchmark carries a
+    // single global lane.
     var html = '';
 
-    if (verified.length || (!pending.length && !mirrored.length)) {
-      html += buildSection('Verified', { text: 'CI-Reproduced', cls: 'verified' }, verified, _unit, _root);
+    if (verified.length) {
+      html += buildSection('Verified', { text: 'Verified · 2× TM lane', cls: 'verified' }, verified, _unit, _root);
     }
-    if (pending.length) {
+    if (reported.length) {
       html += buildSection(
-        'Pending CI',
-        { text: 'Pending CI reproduction', cls: 'pending' },
-        pending, _unit, _root,
-        { dim: true, note: 'These rows are awaiting first CI reproduction. They will move to Verified once a workflow_dispatch run completes against the skill.' }
+        'Reported',
+        { text: 'Reported · 1× TM lane', cls: 'cited' },
+        reported, _unit, _root,
+        { note: 'Reported rows are public claims or mirrored benchmark evidence accepted by the human gate. They count at the reported 1.0× lane and do not imply Gaia CI/verifier reproduction.' }
       );
     }
-    if (mirrored.length) {
+    if (rejected.length) {
       html += buildSection(
-        'Cited',
-        { text: 'Cited', cls: 'cited' },
-        mirrored, _unit, _root,
+        'Rejected / no score',
+        { text: '0× TM lane', cls: 'pending' },
+        rejected, _unit, _root,
         {
           dim: true,
           noRank: true,
-          note: 'Mirrored scores are citation-only and are <strong>permanently excluded from Trust Magnitude</strong>. Sourced from public leaderboard snapshots; Gaia does not reproduce these scores independently.'
+          note: 'Rejected, pending, unknown, candidate, and catalog-blacklisted rows score zero. They remain visible as audit history.'
         }
       );
     }

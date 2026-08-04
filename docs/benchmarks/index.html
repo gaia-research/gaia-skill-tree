@@ -8,7 +8,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Benchmarks | Gaia Skill Tree</title>
-  <meta name="description" content="Reproducibility-fingerprinted benchmark evidence for Gaia skills. External benchmarks CI-reproduced or citation-mirrored against public tasksets; Gaia Skill Bench (in design) measures the skill itself.">
+  <meta name="description" content="Benchmark evidence for Gaia skills: verified rows score at 2x, reported public claims score at 1x after human gate approval, and rejected rows score zero.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -422,16 +422,15 @@
     <section class="bench-hero">
       <h1>How do we know a&nbsp;skill <em>is real?</em></h1>
       <p>
-        Reproducibility fingerprints. Provenance labels. A public commit SHA
-        for every score that touches a badge. Self-attestation is rejected at
-        the schema; mirrored numbers cite but never count.
+        Reproducibility fingerprints for verified rows. Human-gated reported
+        public claims. A simple lane multiplier for Trust Magnitude. Self-attestation
+        is rejected at the schema; rejected benchmarks score zero.
       </p>
       <p class="contract">
-        Every row carries <code>datasetHash</code>, <code>benchmarkInputHash</code>, and an
-        attestor identity. Provenance is one of
-        <code>ci-reproduced</code>, <code>verifier-attested</code>, <code>mirrored</code>, or
-        <code>pending</code> &mdash; only the first two contribute to Trust
-        Magnitude.
+        Every row carries a benchmark lane: <code>verified</code> (CI/verifier reproduced,
+        2.0×), <code>reported</code> (public claim or mirrored evidence approved by the
+        human gate, 1.0×), or <code>rejected</code> (blacklist/no scoring, 0×). Legacy
+        aliases are still accepted during migration.
       </p>
     </section>
 
@@ -439,9 +438,9 @@
     <section class="bench-block" aria-labelledby="lb-heading">
       <h2 id="lb-heading">External benchmarks</h2>
       <p class="block-sub">
-        Public tasksets, run inside a Gaia CI harness or mirrored as citations
-        from a named upstream leaderboard. Every score links back to the commit
-        that produced it.
+        Public tasksets, either verified inside a Gaia CI/verifier harness or
+        reported from a public source after the human gate. Every score links
+        back to the source that supports it.
       </p>
 
       <div class="lb-tiles" id="lb-tiles-mount"></div>
@@ -496,8 +495,9 @@
       <p class="gsb-flow">
         Submissions enter through the community harness. Gaia CI re-executes
         the run against the frozen taskset hash and, on success, writes a row
-        with <code>provenance: ci-reproduced</code>. Everything else stays in
-        <code>pending</code> until a Verifier or a green workflow promotes it.
+        with <code>provenance: verified</code>. Public claims can enter as
+        <code>reported</code> only after the human gate; disputed rows become
+        <code>rejected</code>.
       </p>
 
       <div class="gsb-actions">
@@ -576,10 +576,13 @@
         var html = '';
         data.benchmarks.forEach(function (b, i) {
           var slug = (b.id || '').split('@')[0];
-          var provClass = b.provenance === 'mirrored' ? 'lb-prov--mirrored' : 'lb-prov--ci';
-          var provLabel = b.provenance === 'mirrored' ? 'Citation-mirrored'
-                        : b.provenance === 'ci-reproduced' ? 'CI-reproduced'
-                        : b.provenance;
+          var lane = (b.provenance === 'verified' || b.provenance === 'ci-reproduced' || b.provenance === 'verifier-attested') ? 'verified'
+                   : (b.provenance === 'reported' || b.provenance === 'mirrored') ? 'reported'
+                   : 'rejected';
+          var provClass = lane === 'reported' ? 'lb-prov--mirrored' : 'lb-prov--ci';
+          var provLabel = lane === 'verified' ? 'Verified · 2×'
+                        : lane === 'reported' ? 'Reported · 1×'
+                        : 'Rejected · 0×';
           html += '<a class="lb-tile" href="' + slug + '/" style="animation-delay:' + (i * 0.06) + 's">';
           html += '<div class="lb-tile-id">' + (b.id || '') + '</div>';
           html += '<div class="lb-tile-name">' + (b.name || slug) + '</div>';

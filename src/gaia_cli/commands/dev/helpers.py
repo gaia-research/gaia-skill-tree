@@ -240,8 +240,18 @@ _BENCHMARK_ID_PATTERN = re.compile(
     r"^[a-z][a-z0-9\-_/]*@v?\d+(\.\d+)?(\.\d+)?(-[a-z0-9\-_.]+)?$"
 )
 _HASH_PATTERN = re.compile(r"^[0-9a-f]{64}$")
-_ALLOWED_PROVENANCE = ("verifier-attested", "ci-reproduced", "mirrored", "pending")
+_ALLOWED_PROVENANCE = (
+    "verified",
+    "reported",
+    "rejected",
+    "verifier-attested",
+    "ci-reproduced",
+    "mirrored",
+    "pending",
+)
 _ALLOWED_UNITS = ("pct", "pass@1", "pass@10", "bleu", "f1", "accuracy", "elo", "raw")
+_VERIFIED_BENCHMARK_PROVENANCE = {"verified", "ci-reproduced", "verifier-attested"}
+_REPORTED_BENCHMARK_PROVENANCE = {"reported", "mirrored"}
 
 
 def _findBenchmarkResultSchema() -> Path | None:
@@ -272,9 +282,9 @@ def _preflight_benchmark_row(evidence: dict) -> None:
        bundled copy is reachable), which catches shape, required fields,
        and pattern violations wholesale.
     2. Semantic checks the schema cannot express as a single error message:
-       provenance must not be `self-attested`; benchmarkId, unit, hashes,
-       runAt all get individually-actionable error messages via
-       ``_fail_dev_preflight`` so the fix hint is field-specific.
+       provenance must not be `self-attested`; benchmarkId and unit are always
+       checked; verified-lane rows additionally require runAt, datasetHash, and
+       benchmarkInputHash with actionable field-specific errors.
     3. Existence-of-required-fields fallback for the case where the schema
        file cannot be located (defensive; keeps the CLI safe even when the
        bundled snapshot is stale).
@@ -282,17 +292,18 @@ def _preflight_benchmark_row(evidence: dict) -> None:
     if evidence.get("type") != "benchmark-result":
         return
 
-    required = (
+    common_required = (
         "benchmarkId",
         "score",
         "unit",
-        "runAt",
         "provenance",
-        "attestor",
-        "datasetHash",
-        "benchmarkInputHash",
     )
-    missing = [name for name in required if name not in evidence]
+    missing = [name for name in common_required if name not in evidence]
+    provenance = evidence.get("provenance")
+    if provenance in _VERIFIED_BENCHMARK_PROVENANCE:
+        missing.extend(name for name in ("runAt", "attestor", "datasetHash", "benchmarkInputHash") if name not in evidence)
+    elif provenance in _REPORTED_BENCHMARK_PROVENANCE:
+        missing.extend(name for name in ("attestor",) if name not in evidence)
     if missing:
         flag_hints = {
             "benchmarkId": "--benchmark-id humaneval@v1.0",
@@ -308,8 +319,9 @@ def _preflight_benchmark_row(evidence: dict) -> None:
         _fail_dev_preflight(
             f"`--type benchmark-result` requires: {', '.join(missing)}.",
             fix=(
-                "Provide the reproducibility fingerprint so the benchmark row is\n"
-                f"    citable and re-runnable. Example flags: {hint_list}"
+                "Provide benchmarkId, score, unit, and provenance. Verified rows also need\n"
+                "    the reproducibility fingerprint; reported rows need only an attestor/source.\n"
+                f"    Example flags: {hint_list}"
             ),
         )
 
@@ -318,10 +330,10 @@ def _preflight_benchmark_row(evidence: dict) -> None:
         _fail_dev_preflight(
             "provenance='self-attested' is FOREVER rejected for benchmark-result rows.",
             fix=(
-                "Use --provenance ci-reproduced (workflow run URL + commit SHA in --attestor)\n"
-                "    or --provenance verifier-attested (4★+ verifier co-sign).\n"
-                "    Freshly filed self-run scores should use --provenance pending; a Verifier\n"
-                "    or CI job will promote the row before merge."
+                "Use --provenance verified (CI-reproduced or verifier-attested),\n"
+                "    --provenance reported (public claim approved by the human gate),\n"
+                "    or --provenance rejected for blacklisted/disputed rows. Legacy aliases\n"
+                "    ci-reproduced, verifier-attested, mirrored, and pending are accepted."
             ),
         )
     if provenance not in _ALLOWED_PROVENANCE:
@@ -350,6 +362,8 @@ def _preflight_benchmark_row(evidence: dict) -> None:
 
     for field, flag in (("datasetHash", "--dataset-hash"), ("benchmarkInputHash", "--benchmark-input-hash")):
         value = evidence.get(field)
+        if value is None and provenance not in _VERIFIED_BENCHMARK_PROVENANCE:
+            continue
         if not isinstance(value, str) or not _HASH_PATTERN.match(value):
             _fail_dev_preflight(
                 f"{flag} must be a 64-char lowercase hex SHA-256 digest; got {value!r}.",
@@ -360,35 +374,39 @@ def _preflight_benchmark_row(evidence: dict) -> None:
                 ),
             )
 
-    run_at = evidence["runAt"]
-    if not isinstance(run_at, str):
-        _fail_dev_preflight(
-            f"--run-at must be an ISO 8601 date-time string; got {type(run_at).__name__}."
-        )
-    normalized = run_at[:-1] + "+00:00" if run_at.endswith("Z") else run_at
-    try:
-        parsed = datetime.datetime.fromisoformat(normalized)
-    except ValueError:
-        _fail_dev_preflight(
-            f"--run-at {run_at!r} is not a valid ISO 8601 date-time.",
-            fix="Use the form 2026-07-05T12:00:00Z (Z or explicit timezone required).",
-        )
+    run_at = evidence.get("runAt")
+    if run_at is None and provenance not in _VERIFIED_BENCHMARK_PROVENANCE:
+        pass
     else:
-        if parsed.tzinfo is None:
+        if not isinstance(run_at, str):
             _fail_dev_preflight(
-                f"--run-at {run_at!r} is missing a timezone offset.",
-                fix="Append Z for UTC or an explicit +HH:MM offset.",
+                f"--run-at must be an ISO 8601 date-time string; got {type(run_at).__name__}."
             )
+        normalized = run_at[:-1] + "+00:00" if run_at.endswith("Z") else run_at
+        try:
+            parsed = datetime.datetime.fromisoformat(normalized)
+        except ValueError:
+            _fail_dev_preflight(
+                f"--run-at {run_at!r} is not a valid ISO 8601 date-time.",
+                fix="Use the form 2026-07-05T12:00:00Z (Z or explicit timezone required).",
+            )
+        else:
+            if parsed.tzinfo is None:
+                _fail_dev_preflight(
+                    f"--run-at {run_at!r} is missing a timezone offset.",
+                    fix="Append Z for UTC or an explicit +HH:MM offset.",
+                )
 
-    attestor = evidence["attestor"]
-    if not isinstance(attestor, str) or not attestor.strip():
-        _fail_dev_preflight(
-            "--attestor must be a non-empty string.",
-            fix=(
-                "For verifier-attested: pass the co-signing verifier's GitHub username.\n"
-                "    For ci-reproduced: pass 'https://github.com/<owner>/<repo>/actions/runs/<id>@<sha>'."
-            ),
-        )
+    attestor = evidence.get("attestor")
+    if provenance in (_VERIFIED_BENCHMARK_PROVENANCE | _REPORTED_BENCHMARK_PROVENANCE):
+        if not isinstance(attestor, str) or not attestor.strip():
+            _fail_dev_preflight(
+                "--attestor must be a non-empty string for verified/reported benchmark rows.",
+                fix=(
+                    "For verified: pass the verifier username or workflow run URL + commit SHA.\n"
+                    "    For reported: pass the public claim or leaderboard URL."
+                ),
+            )
 
     schema_path = _findBenchmarkResultSchema()
     if schema_path is None:

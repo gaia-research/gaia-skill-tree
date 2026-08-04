@@ -8,7 +8,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HumanEval Leaderboard | Gaia Skill Tree</title>
-  <meta name="description" content="HumanEval pass@1 benchmark scores for Gaia skills — CI-reproduced with datasetHash + benchmarkInputHash reproducibility fingerprints.">
+  <meta name="description" content="HumanEval pass@1 benchmark scores for Gaia skills. Verified rows reproduce in Gaia CI and carry datasetHash + benchmarkInputHash reproducibility fingerprints.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -300,12 +300,12 @@
     <div class="lb-back"><a href="../">&larr; Benchmarks</a></div>
 
     <header class="lb-header">
-      <p class="lb-header-eyebrow">Live &middot; CI-reproduced</p>
+      <p class="lb-header-eyebrow">Live leaderboard</p>
       <h1>HumanEval</h1>
       <p class="lb-header-desc">
-        164 Python function-completion problems. Every score below carries
+        164 Python function-completion problems. Verified rows carry
         <code>datasetHash</code>, <code>benchmarkInputHash</code>, and a permalink
-        into the harness that produced it.
+        into the harness that produced them; reported rows count at the 1.0× lane.
       </p>
       <div class="lb-header-facts">
         <div class="lb-fact">
@@ -335,8 +335,8 @@
 
     <footer class="lb-footer">
       <p>
-        <strong>ci-reproduced</strong> and <strong>verifier-attested</strong> rows contribute to Trust Magnitude.
-        <strong>Pending</strong> rows await first reproduction. <strong>Cited</strong> rows are permanently excluded.
+        <strong>Verified</strong> rows (including legacy <strong>ci-reproduced</strong> and <strong>verifier-attested</strong>) count at the 2.0× Trust Magnitude lane.
+        <strong>Reported</strong> rows count at 1.0× after human gate approval. <strong>Rejected</strong> rows score zero.
         Data contract: <a href="../../api/v1/benchmarks/humaneval.json">/api/v1/benchmarks/humaneval.json</a> &mdash; URL frozen.
       </p>
     </footer>

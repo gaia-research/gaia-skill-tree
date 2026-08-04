@@ -228,7 +228,7 @@
       &mdash; <code>data/HumanEval.jsonl.gz</code>.</p>
 
     <p>The canonical HumanEval dataset hash is stamped on the first
-    <code>ci-reproduced</code> row that lands from
+    <code>verified</code> row that lands from
     <code>.github/workflows/benchmark-humaneval-ci.yml</code>. The unit-test
     fixture (<code>scripts/benchmarks/humaneval/fixtures/mini.jsonl</code>) carries
     <code>datasetHash&nbsp;=&nbsp;244753b2a3366bfbb271e76205fdd88e939c91705093c1a18eebd60fc8a0ebf8</code>
@@ -277,15 +277,15 @@
     <ul>
       <li><code>--type benchmark-result</code></li>
       <li><code>--benchmark-id humaneval@v1.0</code></li>
-      <li><code>--provenance ci-reproduced</code></li>
+      <li><code>--provenance verified</code></li>
       <li><code>--attestor &lt;workflow-run-url&gt;@&lt;commit-sha&gt;</code></li>
       <li><code>--score &lt;pass@1&gt;</code>, <code>--unit pass@1</code>, <code>--run-at &lt;iso8601&gt;</code></li>
       <li><code>--dataset-hash &lt;sha256&gt;</code>, <code>--benchmark-input-hash &lt;sha256&gt;</code></li>
       <li><code>--harness-url &lt;permalink&gt;</code></li>
     </ul>
 
-    <p>A status check lands on the PR. <code>pending</code> &rarr;
-    <code>ci-reproduced</code> promotion is automatic when the workflow passes; on
+    <p>A status check lands on the PR. Legacy <code>pending</code> &rarr;
+    <code>verified</code> promotion is automatic when the workflow passes; on
     failure, the row remains <code>pending</code> and the merge is blocked (via
     <code>scripts/validate.py --strict</code>, which is auto-enabled by
     <code>GITHUB_BASE_REF=main</code>).</p>
@@ -297,7 +297,7 @@
     lock-in). The evidence row uses:</p>
 
     <ul>
-      <li><code>--provenance verifier-attested</code></li>
+      <li><code>--provenance verified</code> (legacy <code>verifier-attested</code> also accepted)</li>
       <li><code>--attestor &lt;verifier-github-username&gt;</code></li>
     </ul>
 
@@ -315,7 +315,7 @@
         <tr><td>Weight</td><td>1.4</td></tr>
         <tr><td>Cap</td><td>100</td></tr>
         <tr><td>Grade ceiling</td><td>S</td></tr>
-        <tr><td>Magnitude</td><td><code>percentile</code> (0..100) &mdash; when a <code>percentile</code> field is present</td></tr>
+        <tr><td>Magnitude</td><td><code>percentile</code> when present, otherwise normalized <code>score</code>; verified lane applies 2.0× before the existing cap</td></tr>
         <tr><td>Freshness half-life</td><td>&asymp; 1 year</td></tr>
       </tbody>
     </table>
@@ -331,7 +331,7 @@
         <tr><td>Skill</td><td><code>addy-osmani/code-simplification</code></td></tr>
         <tr><td>Benchmark</td><td><code>humaneval@v1.0</code></td></tr>
         <tr><td>Score</td><td>0.5 (pass@1)</td></tr>
-        <tr><td>Provenance</td><td><code>ci-reproduced</code></td></tr>
+        <tr><td>Provenance</td><td><code>verified</code></td></tr>
         <tr><td>Dataset</td><td>Fixture (<code>scripts/benchmarks/humaneval/fixtures/mini.jsonl</code>)</td></tr>
         <tr><td>Harness</td><td><code>scripts/benchmarks/humaneval/run.py</code></td></tr>
       </tbody>

@@ -176,7 +176,6 @@ def buildBenchmarkFile(benchId: str, rows: list[dict[str, Any]], catalog: dict[s
         "status": meta.get("status", ""),
         "mode": meta.get("mode", ""),
         "scoresTrustMagnitude": bool(meta.get("scoresTrustMagnitude")),
-        "allowedProvenance": meta.get("allowedProvenance", []),
     }
     for key in ("sourceUrl", "sourceSnapshotDate", "harnessUrl", "appliesToGenericSkillRefs"):
         if key in meta:
@@ -214,7 +213,6 @@ def buildIndexDoc(liveIds: list[str], catalog: dict[str, Any] | None = None) -> 
             "status": meta.get("status", ""),
             "mode": meta.get("mode", ""),
             "scoresTrustMagnitude": bool(meta.get("scoresTrustMagnitude")),
-            "allowedProvenance": meta.get("allowedProvenance", []),
         }
         if "appliesToGenericSkillRefs" in meta:
             item["appliesToGenericSkillRefs"] = meta["appliesToGenericSkillRefs"]

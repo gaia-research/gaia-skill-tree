@@ -435,7 +435,7 @@
             <tr><td><code>github-stars-own</code></td><td>min(200, stars/1000) ÷ min(skillCountInRepo, 4)</td><td>1.0</td><td>200</td><td>S</td></tr>
             <tr><td><code>proxy-containment</code></td><td>(externalStars/1000) × 0.8  <span style="opacity:.7;font-size:.7rem;">(min 10000)</span></td><td>1.0</td><td>160</td><td>S</td></tr>
             <tr><td><code>verifier-attestation</code></td><td>30 × verifiers</td><td>1.5</td><td>—</td><td>S</td></tr>
-            <tr><td><code>benchmark-result</code></td><td>percentile (0–100)</td><td>1.4</td><td>100</td><td>S</td></tr>
+            <tr><td><code>benchmark-result</code></td><td>base score × lane (verified 2×, reported 1×, rejected 0×)<br><span style="opacity:.7;font-size:.7rem;">base = percentile when present, else normalized score</span></td><td>1.4</td><td>100</td><td>S</td></tr>
             <tr><td><code>arxiv</code></td><td>citations / 5</td><td>1.0</td><td>100</td><td>S</td></tr>
             <tr><td><code>peer-review</code></td><td>25 × reviewers</td><td>1.2</td><td>—</td><td>S</td></tr>
             <tr><td><code>repo-own</code></td><td>(commits/200) + (contributors² × 2)</td><td>0.6</td><td>60</td><td>B</td></tr>
@@ -567,12 +567,12 @@
             </tr>
             <tr>
               <td><code>benchmark-result</code></td>
-              <td>percentile (0–100)</td>
+              <td>base score × lane multiplier<br><span style="opacity:.75;font-size:.8rem;">verified 2×, reported 1×, rejected 0×; percentile wins when present</span></td>
               <td>1.4</td>
               <td>100</td>
               <td>—  (1 row max)</td>
               <td>50 % / year (half-life decay)</td>
-              <td>A public benchmark placing the skill on a measurable performance leaderboard.</td>
+              <td>A public benchmark result. Verified rows are CI-reproduced or verifier-attested; reported rows are public claims/mirrors approved by the human gate. Rejected rows score zero. This is pre TM Index V2; fusion scoring changes are a separate RFC.</td>
             </tr>
             <tr>
               <td><code>arxiv</code></td>
