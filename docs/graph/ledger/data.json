@@ -1,6 +1,6 @@
 {
-  "version": "7.3.1",
-  "generatedAt": "2026-08-03T13:46:11Z",
+  "version": "7.3.6",
+  "generatedAt": "2026-08-04T07:38:17Z",
   "summary": {
     "total": 219,
     "S": 5,
@@ -2560,6 +2560,23 @@
       "branch": "standard"
     },
     {
+      "skillId": "gaia-research/skill-fuse",
+      "tm": 41.62,
+      "grade": "C",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.62,
+        "self-attestation": 5.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "skillId": "mattpocock/prototype",
       "tm": 41.21,
       "grade": "C",
@@ -2578,23 +2595,6 @@
     },
     {
       "skillId": "gaia-research/skill-ci-churn",
-      "tm": 41.0,
-      "grade": "C",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "2★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "self-attestation": 5.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "gaia-research/skill-fuse",
       "tm": 41.0,
       "grade": "C",
       "currentStars": "2★",
