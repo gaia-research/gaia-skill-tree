@@ -300,19 +300,19 @@
 
     <section class="abstract">
       <div class="abstract-title">Abstract</div>
-      <div class="abstract-content">This is a focused report on the issue-backlog changes to /registry/, not a chronological release list and not a package-release announcement. It summarizes the data that changed: named skill files, generic skill nodes, benchmark-source infrastructure, and the review surfaces that now expose those records more clearly.
+      <div class="abstract-content">The backlog closeout materially expanded the skill tree&#x27;s data layer. This report traces what changed inside /registry/: new named implementation files, refreshed contributor records, new generic basic and fusion nodes, benchmark-source trust infrastructure, and the review surfaces that now make those records easier to inspect.
 </div>
     </section>
 
-    <p>This report explains the main backlog-era changes to <code>/registry/</code>. The center of gravity is the data layer: new named skill files, updated named skill files, new and refreshed generic skill nodes, benchmark-source trust infrastructure, and the site surfaces that make those records inspectable. A later <code>v7.3.9</code> refresh added Weekly Report 2026-32; that was a minor follow-up and is not the subject of this report.</p>
+    <p>The backlog closeout materially expanded the skill tree's data layer. This report traces what changed inside <code>/registry/</code>: new named implementation files, refreshed contributor records, new generic <code>basic</code> and <code>fusion</code> nodes, benchmark-source trust infrastructure, and the review surfaces that now make those records easier to inspect. A later <code>v7.3.9</code> refresh added Weekly Report 2026-32; that refresh is context, not the subject of this report.</p>
 <h2>Scope</h2>
-<p>The issue-backlog closeout changed <code>/registry/</code> across 41 files: 27 additions and 14 modifications. The work was not just a site polish pass. It expanded the skill tree's canonical data with new implementation records, new generic capabilities, and new evidence-review structure.</p>
+<p>The backlog closeout changed <code>/registry/</code> across 41 files: 27 additions and 14 modifications. The work was not just site polish. It expanded the canonical skill data with new implementation records, new generic capabilities, and a clearer evidence-review structure for benchmark-backed claims.</p>
 <p>Read this as a report on the data that landed, grouped by what a maintainer or reviewer would inspect in the folder:</p>
 <ul>
   <li><code>registry/named/</code>: named implementation files added or refreshed.</li>
   <li><code>registry/nodes/</code>: generic <code>basic</code> and <code>fusion</code> skill nodes added or refreshed.</li>
   <li><code>registry/benchmark-sources.json</code> and <code>registry/schema/</code>: benchmark-source and evidence-shape infrastructure.</li>
-  <li>Generated/public surfaces: pages that let humans inspect the changed records without reading raw files.</li>
+  <li>Generated/public surfaces: pages that let humans inspect changed records without opening raw files.</li>
 </ul>
 <h2>Visual Summary</h2>
 <p>The visual panel below maps the backlog changes by /registry/ area: named skill files, generic nodes, trust/schema files, and the public surfaces that expose those records.</p>
@@ -335,26 +335,10 @@
       <button type="button" class="uv-tab" data-uv-tab="trust" aria-pressed="false">Trust schema</button>
       <button type="button" class="uv-tab" data-uv-tab="surfaces" aria-pressed="false">Surfaces</button>
     </div>
-    <div class="uv-panel is-active" data-uv-panel="named">
-      <h3>Named implementation files</h3>
-      <p>The largest visible data movement is in registry/named: new scientific and workflow implementations plus refreshed existing contributor records.</p>
-      <div class="uv-chipline"><span class="uv-chip">13 added</span><span class="uv-chip">8 refreshed</span><span class="uv-chip">k-dense-ai ×10</span></div>
-    </div>
-    <div class="uv-panel" data-uv-panel="nodes">
-      <h3>Generic skill nodes</h3>
-      <p>New basic and fusion nodes give the graph first-class language for ML, scientific computing, prompt caching, and session journaling capabilities.</p>
-      <div class="uv-chipline"><span class="uv-chip">12 added</span><span class="uv-chip">2 refreshed</span><span class="uv-chip">basic + fusion</span></div>
-    </div>
-    <div class="uv-panel" data-uv-panel="trust">
-      <h3>Benchmark-source trust infrastructure</h3>
-      <p>Benchmark-result evidence now has a safer path through approved source records and schema validation instead of one-off benchmark claims.</p>
-      <div class="uv-chipline"><span class="uv-chip">benchmark-sources.json</span><span class="uv-chip">catalog schema</span><span class="uv-chip">benchmark-result schema</span></div>
-    </div>
-    <div class="uv-panel" data-uv-panel="surfaces">
-      <h3>Human review surfaces</h3>
-      <p>Suite Explorer, Share Plaques, Trust Leaderboard, and benchmark pages make the changed data easier to inspect without opening raw files.</p>
-      <div class="uv-chipline"><span class="uv-chip">Suite lens</span><span class="uv-chip">Share Plaques</span><span class="uv-chip">Trust Leaderboard</span><span class="uv-chip">benchmarks</span></div>
-    </div>
+    <div class="uv-panel is-active" data-uv-panel="named"><h3>Named implementation files</h3><p>The largest visible data movement is in registry/named: new scientific and workflow implementations plus refreshed existing contributor records.</p><div class="uv-chipline"><span class="uv-chip">13 added</span><span class="uv-chip">8 refreshed</span><span class="uv-chip">k-dense-ai ×10</span></div></div>
+    <div class="uv-panel" data-uv-panel="nodes"><h3>Generic skill nodes</h3><p>New basic and fusion nodes give the graph first-class language for ML, scientific computing, prompt caching, and session journaling capabilities.</p><div class="uv-chipline"><span class="uv-chip">12 added</span><span class="uv-chip">2 refreshed</span><span class="uv-chip">basic + fusion</span></div></div>
+    <div class="uv-panel" data-uv-panel="trust"><h3>Benchmark-source trust infrastructure</h3><p>Benchmark-result evidence now has a safer path through approved source records and schema validation instead of one-off benchmark claims.</p><div class="uv-chipline"><span class="uv-chip">benchmark-sources.json</span><span class="uv-chip">catalog schema</span><span class="uv-chip">benchmark-result schema</span></div></div>
+    <div class="uv-panel" data-uv-panel="surfaces"><h3>Human review surfaces</h3><p>Suite Explorer, Share Plaques, Trust Leaderboard, and benchmark pages make the changed data easier to inspect without opening raw files.</p><div class="uv-chipline"><span class="uv-chip">Suite lens</span><span class="uv-chip">Share Plaques</span><span class="uv-chip">Trust Leaderboard</span><span class="uv-chip">benchmarks</span></div></div>
   </div>
 </section>
 <h2>Named Skill Files</h2>
@@ -362,46 +346,62 @@
 <p>The backlog closeout added 13 named implementation files. Most of the volume came from scientific Python and machine-learning capabilities, with smaller additions in brand governance, daily logging, and hair-styling workflows.</p>
 <table><thead><tr><th>Contributor</th><th>New named skills</th></tr></thead><tbody><tr><td><code>anthropics</code></td><td><code>brand-guidelines</code></td></tr><tr><td><code>aplaceforallmystuff</code></td><td><code>log-to-daily</code></td></tr><tr><td><code>dietrichgebert</code></td><td><code>ponytail</code></td></tr><tr><td><code>k-dense-ai</code></td><td><code>deepchem</code>, <code>pymc</code>, <code>pytorch-lightning</code>, <code>qiskit</code>, <code>rdkit</code>, <code>scanpy</code>, <code>scvi-tools</code>, <code>stable-baselines3</code>, <code>torch-geometric</code>, <code>transformers</code></td></tr></tbody></table>
 <h3>Updated named skills</h3>
-<p>Eight existing named skill files were refreshed so their records better match the current skill tree and public surfaces:</p>
+<p>Eight existing named skill files were refreshed so their records better match their upstream source material and the public skill surfaces:</p>
 <ul>
-  <li><code>addy-osmani/incremental-implementation</code>, <code>addy-osmani/planning-and-task-breakdown</code>, and <code>addy-osmani/spec-driven-development</code>.</li>
-  <li><code>firecrawl/firecrawl-research-index</code>.</li>
-  <li><code>gaia-research/skill-fuse</code>, including repository surface work from #1004.</li>
-  <li><code>gsd-build/get-shit-done</code>.</li>
-  <li><code>obra/brainstorming</code> and <code>obra/subagent-driven-development</code>.</li>
+  <li><code>addy-osmani/incremental-implementation</code>, <code>addy-osmani/planning-and-task-breakdown</code>, and <code>addy-osmani/spec-driven-development</code> now point at the corresponding Addy Osmani Agent Skills source files and supporting public reviews.</li>
+  <li><code>firecrawl/firecrawl-research-index</code> now carries Firecrawl Research Index evidence and benchmark-source context.</li>
+  <li><code>gaia-research/skill-fuse</code> now points at the standalone <code>skill-fuse</code> skill repository and its installable skill file.</li>
+  <li><code>gsd-build/get-shit-done</code> now records the public GSD repository, release source, and supporting arXiv evidence.</li>
+  <li><code>obra/brainstorming</code> and <code>obra/subagent-driven-development</code> now connect the Superpowers skill files with public demo and review evidence.</li>
 </ul>
 <h2>Generic Skill Nodes</h2>
 <p>The backlog closeout also expanded generic skill coverage. Fourteen files under <code>registry/nodes/</code> were added or updated: 12 new nodes and 2 refreshed nodes.</p>
 <table><thead><tr><th>Area</th><th>Generic nodes</th></tr></thead><tbody><tr><td>Workflow and documentation</td><td><code>brand-guideline-application</code> (<code>basic</code>), <code>prompt-caching</code> (<code>basic</code>), <code>session-journaling</code> (<code>basic</code>)</td></tr><tr><td>Scientific and computational work</td><td><code>cheminformatics-analysis</code> (<code>fusion</code>), <code>molecular-machine-learning</code> (<code>fusion</code>), <code>quantum-circuit-programming</code> (<code>basic</code>), <code>single-cell-analysis</code> (<code>basic</code>), <code>single-cell-omics-modeling</code> (<code>fusion</code>)</td></tr><tr><td>Machine learning systems</td><td><code>graph-neural-network-modeling</code> (<code>fusion</code>), <code>neural-training-orchestration</code> (<code>fusion</code>), <code>reinforcement-learning-training</code> (<code>fusion</code>), <code>transformer-model-engineering</code> (<code>fusion</code>)</td></tr><tr><td>Refreshed nodes</td><td><code>probabilistic-programming</code> (<code>basic</code>), <code>test-driven-development</code> (<code>basic</code>)</td></tr></tbody></table>
-<p>These nodes give the public graph stronger first-class vocabulary for benchmark-backed ML libraries, scientific analysis stacks, and prompt/cache/session workflow primitives.</p>
+<p>These nodes give the public graph stronger first-class vocabulary for benchmark-backed machine-learning libraries, scientific analysis stacks, and prompt/cache/session workflow primitives.</p>
 <h2>Benchmark-Source Trust Infrastructure</h2>
 <p>The largest trust-infrastructure change is the verified benchmark-source catalog. The backlog closeout added <code>registry/benchmark-sources.json</code>, added <code>registry/schema/benchmarkSourceCatalog.schema.json</code>, and updated benchmark-result, named-skill, and skill schemas.</p>
 <p>That matters because benchmark-result evidence can now point toward approved benchmark sources instead of treating every benchmark claim as equally trustworthy. It gives future evidence ingestion a clearer path: source first, result second, trust review always explicit.</p>
+<p>The initial catalog includes Firecrawl Research Index / alphaXiv ArXivQA context, OpenAI HumanEval and the local HumanEval harness, and the Hugging Face Open LLM Leaderboard as distinct benchmark-source records.</p>
 <h2>Public Review Surfaces</h2>
 <p>Several site surfaces were polished because they are how humans inspect the changed data:</p>
 <h3>Suite Explorer</h3>
 <p>Suite Explorer now preserves the distinction between Path/Fusion origin labels and Suite lens component labels. Path and Fusion views keep origin labels; the Suite lens switches rendered nodes to suite-component labels. The compact transparent outboard Suite Components rail is hidden by default, and row clicks focus graph nodes only.</p>
-<p>That polish turns Suite Explorer into a better diagnostic surface for suite data. Missing or off-path suite metadata is easier to spot, which supports the still-open Suite data/meta-audit follow-up (#1438) instead of hiding data-shape gaps.</p>
+<p>That polish turns Suite Explorer into a better diagnostic surface for suite data. Missing or off-path suite metadata is easier to spot instead of hiding data-shape gaps.</p>
 <h3>Share Plaques</h3>
 <p>Share Plaques received a rendering fix for modal and export paths. The modal now prefers inlined SVG, and the PNG raster scripts inline/transcode display-sized AOV medallions so PNG and HTML modal medallions render consistently. A follow-up hotfix capped inlined raster size after the initial OG PNG workflow failed.</p>
 <h3>Trust Leaderboard and benchmark pages</h3>
-<p>The Trust Leaderboard redesign from #868 and the benchmark surface work from #1419 both make the underlying records easier to inspect. The result is less friction for users moving between contributor reputation, evidence, and benchmark-backed capability pages.</p>
+<p>The Trust Leaderboard redesign and benchmark pages make the underlying records easier to inspect. The result is less friction for users moving between contributor reputation, evidence, and benchmark-backed capability pages.</p>
 <h3>Weekly Reports</h3>
 <p>Weekly Reports received local/deployed link stability improvements during the backlog closeout. That surface is included only where it helps explain how humans inspect the backlog-era <code>/registry/</code> changes.</p>
 <h2>Notes for Reviewers</h2>
 <p>This report should be reviewed as a data-and-surface explanation, not as a package release note. The key facts are:</p>
 <ul>
-  <li>PR #1395 merged the issue-backlog integration and carried the <code>/registry/</code> data changes summarized here.</li>
+  <li>The backlog merge carried the <code>/registry/</code> data changes summarized here.</li>
   <li>The <code>/registry/</code> folder changed across 41 files: 27 additions and 14 modifications.</li>
   <li>The main data movements were 13 new named skill files, 8 refreshed named skill files, 14 generic node files, and benchmark-source trust infrastructure.</li>
-  <li>#1438 remains open for deeper Suite data and meta-audit follow-up.</li>
+  <li>Suite data still has deeper follow-up work, especially around off-path suite components and manifest completeness.</li>
 </ul>
-<div class="references">
-  <div class="abstract-title" style="text-align: left; margin-bottom: 1.5rem;">References</div>
-  <div class="ref-item">[1] PR #1395: issue-backlog integration merge.</div>
-  <div class="ref-item">[2] Issues closed by #1395: #868 Trust Leaderboard redesign, #1004 skill-fuse repo surfaces, #1268 frontend performance pass, #1419 verified benchmark-source catalog.</div>
-  <div class="ref-item">[3] Follow-up still open: #1438 Suite data and meta-audit work.</div>
-</div>
+<h2>Sources and References</h2>
+<h3>Named skill source material</h3>
+<p><a href="https://github.com/anthropics/skills/blob/main/skills/brand-guidelines/SKILL.md">Anthropic Brand Guidelines skill</a> — source skill file behind <code>anthropics/brand-guidelines</code>.</p>
+<p><a href="https://github.com/aplaceforallmystuff/daily-patterns-pack">Daily Patterns Pack</a> — upstream repository behind <code>aplaceforallmystuff/log-to-daily</code>.</p>
+<p><a href="https://github.com/DietrichGebert/ponytail">Ponytail skill implementation</a> — upstream repository for <code>dietrichgebert/ponytail</code>.</p>
+<p><a href="https://github.com/addyosmani/agent-skills">Addy Osmani Agent Skills</a> — source repository for the refreshed implementation, planning, and spec-driven development records.</p>
+<p><a href="https://github.com/obra/superpowers">Obra Superpowers</a> — source repository for the refreshed brainstorming and subagent-driven development records.</p>
+<p><a href="https://github.com/gsd-build/get-shit-done">GSD Build protocol</a> — source repository and release trail behind <code>gsd-build/get-shit-done</code>.</p>
+<p><a href="https://github.com/gaia-research/skill-fuse">Skill Fuse</a> — installable upstream repository for <code>gaia-research/skill-fuse</code>.</p>
+<h3>Scientific and machine-learning skill sources</h3>
+<p><a href="https://github.com/K-Dense-AI/scientific-agent-skills">K-Dense AI Scientific Agent Skills</a> — source index for the ten newly added scientific and ML named skill files.</p>
+<p><a href="https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/deepchem/SKILL.md">DeepChem skill file</a> — molecular machine-learning skill source.</p>
+<p><a href="https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/rdkit/SKILL.md">RDKit skill file</a> — cheminformatics skill source.</p>
+<p><a href="https://github.com/K-Dense-AI/scientific-agent-skills/blob/main/skills/pymc/SKILL.md">PyMC skill file</a> — probabilistic programming skill source.</p>
+<h3>Benchmark and trust infrastructure</h3>
+<p><a href="https://www.firecrawl.dev/blog/research-index-launch">Firecrawl Research Index launch</a> — benchmark-result evidence and source URL for the Firecrawl Research Index record.</p>
+<p><a href="https://www.alphaxiv.org/blog/training-retrieval-agents-for-arxiv-search">alphaXiv retrieval-agent methodology</a> — methodology reference for the ArXivQA retrieval benchmark source.</p>
+<p><a href="https://github.com/openai/human-eval">OpenAI HumanEval</a> — canonical coding benchmark source in the benchmark-source catalog.</p>
+<p><a href="https://huggingface.co/spaces/HuggingFaceH4/open%5Fllm%5Fleaderboard">Hugging Face Open LLM Leaderboard</a> — model-evaluation benchmark source in the catalog.</p>
+<h3>Public review context</h3>
+<p><a href="https://blog.agentailor.com/posts/top-agent-skills-for-agentic-engineering-2026">Agentailor top agent skills review</a> — independent public review context for several refreshed agent-engineering skill records.</p>
 
     <div class="footer-nav">
       <a href="../../index.html">← Back to Gaia</a>
