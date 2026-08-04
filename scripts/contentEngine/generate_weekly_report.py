@@ -146,7 +146,7 @@ def renderTrendingSection(entries: list[dict]) -> dict:
                 "trendingScore": e.get("trendingScore", 0),
                 "tmDelta": e.get("tmDelta", 0),
                 "isNew": bool(e.get("new", False)),
-                "url": f"https://gaiaskilltree.com/named/#explorer/{e.get('id', '')}",
+                "url": f"/named/#explorer/{e.get('id', '')}",
             }
             for e in entries
         ],
@@ -167,7 +167,7 @@ def renderAscendedSection(entries: list[dict]) -> dict:
                 "trustMagnitude": e.get("trustMagnitude", 0),
                 "trustGrade": e.get("overallTrustGrade"),
                 "ascendedAt": e.get("ascendedAt", ""),
-                "url": f"https://gaiaskilltree.com/named/#explorer/{e.get('id', '')}",
+                "url": f"/named/#explorer/{e.get('id', '')}",
             }
             for e in entries
         ],
@@ -190,7 +190,7 @@ def renderContestedSection(buckets: list[dict]) -> dict:
                         "trustMagnitude": s.get("trustMagnitude", 0),
                         "trustGrade": s.get("overallTrustGrade"),
                         "origin": bool(s.get("origin", False)),
-                        "url": f"https://gaiaskilltree.com/named/#explorer/{s.get('id', '')}",
+                        "url": f"/named/#explorer/{s.get('id', '')}",
                     }
                     for s in (b.get("skills", []) or [])
                 ],
@@ -241,7 +241,7 @@ def assembleReport(
     prevLabel = prevWeekLabel(year, week)
     previousUrl = ""
     if docsRoot is not None and (docsRoot / "reports" / prevLabel / "index.html").exists():
-        previousUrl = f"https://gaiaskilltree.com/reports/{prevLabel}/"
+        previousUrl = f"/reports/{prevLabel}/"
     return {
         "schemaVersion": "1.0.0",
         "reportId": weekLabel(year, week),
@@ -258,9 +258,9 @@ def assembleReport(
         },
         "urls": {
             "canonical": f"https://gaiaskilltree.com/reports/{weekLabel(year, week)}/",
-            "json": f"https://gaiaskilltree.com/api/v1/reports/{weekLabel(year, week)}.json",
+            "json": f"/api/v1/reports/{weekLabel(year, week)}.json",
             "previous": previousUrl,
-            "archive": "https://gaiaskilltree.com/reports/",
+            "archive": "/reports/",
         },
     }
 
