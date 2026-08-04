@@ -5,6 +5,152 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 ---
 
 
+## State Snapshot (2026-08-03, PR1–PR3 review queue — previews live, comments posted)
+
+### TLDR
+- **Three follow-on draft PRs are open for Marcus review and intentionally unmerged:** #1434 skill-fuse surfaces, #1435 frontend performance, #1436 Trust Leaderboard polish.
+- **All three PRs are green and CLEAN** against `dev/issue-backlog` at last check; each has a local preview on a separate port and a founder-review guide comment posted on the PR.
+- **PR1 #1434 needed multiple fix/review loops**; final worker-opus fix removed benchmark leaks, committed required skill-fuse generated artifacts, made `build_docs.py --check` pass, and worker-sol returned **MERGE SAFE**.
+- **#1183 and #1184 were closed `wontfix` / not planned** because Gaia Skill Tree is moving to a different mascot direction. Badge background #1326 is skipped for now.
+- **#1433 remains the active benchmark-lanes PR awaiting founder visual/model review** on the localhost benchmark pages before any merge to `dev/issue-backlog`.
+
+### What changed this checkpoint
+
+| Layer | State |
+|---|---|
+| PR #1434 / #1004 | ✅ Draft PR opened and repaired: skill-fuse surface/registry/projection update; no benchmark leaks remain; final review **MERGE SAFE** |
+| PR #1435 / #1268 | ✅ Draft PR opened: lazy-loads heavy named index on homepage and debounces profile-filter search; green and clean |
+| PR #1436 / #868 | ✅ Draft PR opened: CSS-only Trust Leaderboard token/contrast/gradient-text polish; green and clean; HUMAN-GATED |
+| PR comments | ✅ Founder-review guide comments posted on all three PRs: #1434, #1435, #1436 |
+| Local previews | ✅ Port 8001 (#1434), 8002 (#1436), and 8003 (#1435) return HTTP 200 |
+| Mascot issues | ✅ #1183 and #1184 closed with `wontfix` label and `not planned` reason |
+| Memory | ✅ This additive snapshot follows the review-guide comments as requested |
+
+### Branches / PRs at checkpoint
+
+| PR | Branch | Head SHA | Status | Preview |
+|---|---|---:|---|---|
+| #1433 `feat(benchmarks): simplify benchmark TM lanes` | `dev/1419-benchmark-tm-lanes` | `0e8883b84a37d2d6fabdc273370e3a2fe4adab0f` | Draft, CLEAN, green; awaiting founder review | `http://localhost:8000/benchmarks/` |
+| #1434 `feat(surfaces): integrate skill-fuse across Gaia surfaces (#1004)` | `dev/1004-skill-fuse-surfaces` | `6451b4463d44c7a9a19aa2c1910a3b1a47204f10` | Draft, CLEAN, green; worker-sol **MERGE SAFE** | `http://localhost:8001/` and `/u/gaia-research/` |
+| #1435 `perf(frontend): lazy-load named index & debounce profile filter search` | `dev/1268-frontend-performance-pass` | `452d5f04437e2a95111b05767bb5ba521251c62b` | Draft, CLEAN, green; founder review pending | `http://localhost:8003/` |
+| #1436 `fix(leaderboard): border token + contrast + gradient-text polish (#868)` | `dev/868-trust-leaderboard-polish` | `7984666b6a1f0a7425ce1411fa9487649b8ea4b7` | Draft, CLEAN, green; HUMAN-GATED | `http://localhost:8002/trust/leaderboard/index.html` |
+| #1395 `chore: issue backlog eradication integration` | `dev/issue-backlog` | `52b68d2f4eef87997cb076d52eabdd38e16e1518` | Draft/open to `main`; final founder gate remains | n/a |
+| #1401 / #1028 | `dev/1028-shared-registry-lib` | `804ae3820980f4d336f1b532448dbd27db588ab3` | Draft-held; do not touch | n/a |
+
+### PR comments posted for Marcus review
+
+| PR | Comment |
+|---|---|
+| #1434 | https://github.com/gaia-research/gaia-skill-tree/pull/1434#issuecomment-5168799877 |
+| #1435 | https://github.com/gaia-research/gaia-skill-tree/pull/1435#issuecomment-5168800207 |
+| #1436 | https://github.com/gaia-research/gaia-skill-tree/pull/1436#issuecomment-5168800593 |
+
+### Routing / next actions
+
+1. Marcus reviews #1433 benchmark pages first on port 8000. If approved, merge #1433 to `dev/issue-backlog`, then update #1395.
+2. Marcus can review #1434/#1435/#1436 in any order; all are draft and intentionally unmerged.
+3. #1436 is explicitly human-gated design work; do not merge on green CI alone.
+4. #1435 changes visible interaction/performance behavior; review homepage graph/overlay timing and profile search behavior before merge.
+5. #1434 is merge-safe by worker-sol, but still draft for Marcus review.
+6. Badge background #1326 is skipped for now; Milim/Gaia #1183/#1184 are closed wontfix.
+7. #1395 final merge to `main` remains founder-gated; #1401 remains held.
+
+### Lessons / hazards preserved
+
+- PR #1434 demonstrated the failure mode to avoid: registry changes must be CLI/programmatic-first and generated artifacts must be committed from the actual PR tree, not just present in a local regenerated preview.
+- Keep benchmark RFC changes isolated to #1433; do not let benchmark catalog/test diffs leak into unrelated design/surface PRs.
+- For multi-preview review, keep separate worktrees and ports: 8000 benchmark lanes, 8001 skill-fuse, 8002 leaderboard, 8003 performance.
+- `build_docs.py --check` can require `docs/badges/registry.json` for a named-skill repo-link change; this is legitimate when structural, but avoid SVG/OG/trending/OKF churn unless hard-required.
+
+### Token cost (this session)
+
+- Pi cost after PR1–PR3 orchestration: main session **~$27.3899**, subagents **~$57.9918**, total **~$85.3816**.
+
+## State Snapshot (2026-08-03, #1433 benchmark TM lanes — row-level lanes green, design backlog scoped)
+
+### TLDR
+- **Benchmark RFC #1419 is now implemented through PR #1433 and ready for founder visual review.** PR **#1433** (`dev/1419-benchmark-tm-lanes -> dev/issue-backlog`) is draft/open, **CLEAN**, and green at `0e8883b84a37d2d6fabdc273370e3a2fe4adab0f`.
+- **The final benchmark model is row-level:** `verified` rows score at **2.0x**, `reported` rows at **1.0x**, and `rejected` rows at **0x**. Benchmark catalog entries register/admit/blacklist sources; they do not make a benchmark exclusively verified or reported.
+- **Firecrawl alphaXiv ArXivQA evidence is included as a reported row** for `firecrawl/firecrawl-research-index`, with the benchmark source `alphaxiv-arxivqa@v1.0` and notes carrying the 53.3% / 45.4% / MRR 0.750 context.
+- **Localhost preview is running** at `http://localhost:8000/benchmarks/`; HumanEval/MMLU/alphaXiv detail pages now fetch `/api/v1/benchmarks/*.json` correctly.
+- **Next design candidates were scoped:** #868 Trust Leaderboard polish/tokenization and #1268 frontend performance pass are the two best next ready passes; #1183/#1184 Milim/Gaia companion work was closed `wontfix` because a different mascot direction is planned.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| #1395 stabilization | ✅ Integration PR remained draft/open and clean; earlier session work merged `origin/main`, preserved redaction fixes, closed #1124/#981/#982, refreshed #978/#979 into #1426/#1425, and merged #977 prompt caching via #1427 |
+| Benchmark catalog core | ✅ #1428 merged to `dev/issue-backlog`: canonical `registry/benchmark-sources.json`, bundled catalog/schema, `benchmarkCatalog.py`, projection/push/TM integrations, and tests |
+| Phase 2B verifier | ✅ #1429 merged: `evidence/scripts/verify_benchmark_sources.py`, `ev-benchmark-verification` skill docs, and ev-pipeline Phase 2B routing |
+| Generic applicability shape | ✅ #1431 merged: `appliesToGenericSkillRefs` support and `founder/REGISTERED_BENCHMARKS_RFC.md` registered benchmark shape |
+| Firecrawl benchmark source | ✅ #1432 merged: registered `alphaxiv-arxivqa@v1.0` source for `literature-search`, still without named evidence or TM scoring at that stage |
+| Simplified benchmark lanes | ✅ #1433 opened and iterated: benchmark rows now use three user-facing lanes (`verified`, `reported`, `rejected`) with Trust Magnitude computed internally |
+| #1433 model correction | ✅ Removed over-constraining `allowedProvenance`; catalog no longer encodes an exclusive benchmark identity lane; row provenance owns multiplier |
+| #1433 frontend correction | ✅ Fixed benchmark leaderboard 404 by fetching hosted/local HTTP data from site root (`/api/v1/benchmarks/<slug>.json`) instead of `/benchmarks/api/...` |
+| Design guidance | ✅ `/impeccable` guidance loaded for benchmark copy pass; visible copy now says “Verified rows” / “Reported rows” / “Rejected rows,” avoiding benchmark-level CI/verified identity marks |
+| Local preview | ✅ `python -m http.server 8000 --directory docs` is running; browser-open command issued; checked `/benchmarks/`, `/benchmarks/humaneval/`, `/benchmarks/mmlu/`, `/benchmarks/alphaxiv-arxivqa/` all return 200 |
+
+### Branches at end of session
+
+| Branch | Head SHA | Status |
+|---|---:|---|
+| `dev/1419-benchmark-tm-lanes` | `0e8883b84a37d2d6fabdc273370e3a2fe4adab0f` | Active working branch for PR #1433; clean and synced with origin |
+| `dev/issue-backlog` | `52b68d2f4eef87997cb076d52eabdd38e16e1518` | Active integration branch; PR #1395 draft/open to `main`; do not merge without founder gate |
+| `dev/1028-shared-registry-lib` | `804ae3820980f4d336f1b532448dbd27db588ab3` | PR #1401 draft/held; do not touch unless Marcus explicitly releases it |
+| `main` | unchanged | Do not touch until founder approves final #1395 integration merge |
+
+### Issues + PRs touched
+
+| Item | State |
+|---|---|
+| #1395 | ⏳ Draft/open `dev/issue-backlog -> main`; CLEAN at last check; final human gate remains |
+| #1401 / #1028 | ⏸ Draft-held shared-registry-lib PR; still unstable and intentionally out of scope |
+| #1419 | ✅ Implementation path substantially complete via #1428/#1429/#1431/#1432/#1433; public note posted earlier; #1433 is the final simplified-lane PR currently awaiting founder review |
+| #1427 / #977 | ✅ Prompt caching implemented and merged to `dev/issue-backlog`; #977 closed |
+| #1428 | ✅ Benchmark source catalog core merged to `dev/issue-backlog` |
+| #1429 | ✅ Phase 2B benchmark-source verifier/playbooks merged to `dev/issue-backlog` |
+| #1431 | ✅ Registered benchmark generic-applicability shape merged to `dev/issue-backlog` |
+| #1432 | ✅ alphaXiv ArXivQA benchmark source registration merged to `dev/issue-backlog` |
+| #1433 | ⏳ Draft/open and green; implements simplified TM lanes, Firecrawl reported row, docs/API/ledger updates, and benchmark UI path/copy fixes |
+| #1425 / #1426 | ✅ New good-first backlog replacements created for rate-limit backoff and checkpoint/resume |
+| #868 | ⏳ Best next ready design pass: Trust Leaderboard polish/tokenization and visual gate |
+| #1268 | ⏳ Second best ready design pass: frontend performance baseline/optimization pass |
+| #1183 / #1184 | ✅ Closed `wontfix` / not planned: Milim/Gaia companion and context-aware guide superseded by a different mascot direction for Skill Tree |
+| #1326 | ⏸ Badges ceremonial background remains `awaiting-assets`; do not stage yet |
+
+### Routing — where things live now
+
+- **Preview:** local static server runs from `docs/` on port 8000. Use `http://localhost:8000/benchmarks/` plus detail pages for founder review. PID is stored at `generated-output/previews/localhost-8000.pid`; log at `generated-output/previews/localhost-8000.log`.
+- **Benchmark semantics:** source/catalog registration is not an exclusive scoring lane. Row provenance is the multiplier input. Keep public/schema language to the three lanes only: `verified`, `reported`, `rejected`.
+- **#1433 merge path:** founder reviews localhost/visible benchmark surfaces first because frontend changes are human-gated. If approved, merge #1433 into `dev/issue-backlog`, then update #1395 body/status.
+- **Generated artifacts:** #1433 includes hard-required generated benchmark API/docs/ledger artifacts; warn-only `docs/api/v1/trending/**`, `docs/okf/**`, and `docs/og/**` were intentionally kept out unless required. `docs/en/**` remained untouched.
+- **Design backlog:** start with #868 if Marcus wants a visual/design pass; start with #1268 if he wants performance/UX speed without a new visual concept.
+
+### Lessons / hazards preserved
+
+- Do not call a benchmark itself “verified” or “reported” as if that were exclusive. A benchmark can contain verified, reported, and rejected rows at the same time.
+- Avoid adding “CI-gated” marks or new fields for this lane. HumanEval rows can be verified when reproduced/attested, but public HumanEval claims are still just reported until row-level proof exists.
+- `allowedProvenance` was too much policy machinery for this sprint; removing it restored the intended degrees of freedom.
+- `docs/benchmarks/_shared/leaderboard.js` root-depth logic can be fooled by `window.GAIA_MOUNTS`; hosted/local HTTP benchmark data should resolve from `/api/v1/benchmarks/`.
+- `docs/graph/ledger/data.json` is usually noisy, but #1433 changed TM rankings materially, so ledger drift was hard-required for `build_docs.py --check`.
+- `validate_skills.py` and some local validation paths need `PYTHONIOENCODING=utf-8` on Windows.
+- The local `build_docs.py --check` may mutate `docs/graph/gaia.json` byte-for-byte; revert platform-only binary/no-op drift before reporting clean state.
+
+### Open questions for next orchestrator
+
+1. Does Marcus approve #1433’s localhost benchmark surfaces and row-level lane model? If yes, merge #1433 to `dev/issue-backlog` and update #1395.
+2. After #1433 lands, should #1419 receive a final public proof-of-work/closure comment, or wait until #1395 integration lands?
+3. Which design pass comes next: #868 Trust Leaderboard polish/tokenization, or #1268 frontend performance pass?
+4. Badge ceremonial background #1326 is skipped for now and remains `awaiting-assets` unless Marcus later wants it closed or replaced.
+5. #1395 final merge to `main` remains founder-gated; do not merge without explicit approval.
+6. #1401 / #1028 remains held; do not touch unless explicitly released.
+
+### Token cost (this session)
+
+- Pi cost at snapshot: main session **1,179,409 input / 131,037 output / 30,626,304 cache read**, estimated **$25.1413**.
+- Subagents: estimated **$50.9712**.
+- Total session estimate: **$76.1125**.
+
 ## State Snapshot (2026-07-31, Lane B final — #1417 merged, intakes closed, #1395 ready for human gate)
 
 ### TLDR
