@@ -5,6 +5,75 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 ---
 
 
+## State Snapshot (2026-08-04, issue-backlog PR queue — #1436 merged, #1435 perf-ready)
+
+### TLDR
+- **#1433 and #1434 are merged** into `dev/issue-backlog`; #1434 needed one generated-ledger refresh after #1433 changed Trust Magnitude ordering.
+- **#1436 is merged** into `dev/issue-backlog` after founder approval, CI green, and a small CTA cleanup on the Trust Leaderboard. The local blank-leaderboard scare was a preview-root problem, not a PR regression.
+- **#1435 is updated, green, clean, and intentionally unmerged** pending Marcus's human gate. It now includes the original frontend perf pass plus leaderboard-specific perf improvements from `worker-sol`.
+- **#1395 integration PR is CLEAN/green** at `693cb0faf`, still draft/open to `main`; final merge remains founder-gated.
+- **Local previews:** #1435 is live at `http://localhost:1435/trust/leaderboard/` from `gst-pr1268-perf/docs`; no merge without explicit approval.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| PR #1433 | ✅ Merged to `dev/issue-backlog` at `2026-08-04T07:29:02Z` |
+| PR #1434 | ✅ Conflict-resolved after #1433, generated `docs/graph/ledger/data.json` refreshed without CRLF churn, CI green, merged at `2026-08-04T07:43:22Z` |
+| PR #1436 | ✅ Founder-approved Trust Leaderboard polish merged at `2026-08-04T09:06:06Z`; final head `b88d13171` |
+| #1436 preview issue | ✅ Diagnosed by `worker-sonnet`: old server served repo root, so `/docs/trust/leaderboard/` made JS fetch `/api/v1/leaderboard.json` from the wrong root. Correct docs-root URL is `/trust/leaderboard/`. |
+| #1436 CTA polish | ✅ `worker-sonnet` redesigned “Is your AI skill missing?” as a quiet registry-intake panel; hygiene pass removed full-file line-ending churn before commit |
+| PR #1435 | ✅ Updated after #1436 merge; `worker-sol` added leaderboard-only perf improvements; pushed at `edff76f13`; CI green/CLEAN; awaiting human gate |
+| Token logs | ✅ Posted aggregate spend comments on #1436 after `b88d13171` push and #1435 after `edff76f13` push |
+| Memory | ✅ This snapshot records the queue handoff before further merge decisions |
+
+### Branches at end of session
+
+| Branch / worktree | Head SHA | Status |
+|---|---:|---|
+| `dev/issue-backlog` (`C:/Users/C5396183/gaia-skill-tree`) | `693cb0faf3e45aa2c2e5022e3a19b6c36c8f0e15` | Integration branch, clean vs origin except untracked local server logs/worktrees; PR #1395 CLEAN/green to `main` |
+| `dev/1268-frontend-performance-pass` (`gst-pr1268-perf`) | `edff76f1322ad4fa031f38c944c2c6bbc081f964` | PR #1435 open, CLEAN/green, human-gated before merge |
+| `dev/868-trust-leaderboard-polish` (`gst-pr868-leaderboard`) | `b88d131719d12dffb1a05233c0fbba21751df917` | PR #1436 merged; local worktree still holds branch so local branch deletion failed, remote branch deleted |
+| `dev/1004-skill-fuse-surfaces` (`gst-pr1004-skill-fuse`) | `9831d8af761205f4a0660c229d5cf4f877355ffd` | PR #1434 merged; local worktree still holds branch so local branch deletion failed, remote branch deleted |
+| `dev/1028-shared-registry-lib` (`gaia-skill-tree-1028`) | `804ae3820980f4d336f1b532448dbd27db588ab3` | PR #1401 still draft/held and failing; do not touch unless Marcus releases it |
+
+### Issues + PRs touched
+
+| Item | State |
+|---|---|
+| #1395 | ⏳ Draft/open `dev/issue-backlog -> main`; CLEAN/green at `693cb0faf`; final founder gate remains |
+| #1433 | ✅ Merged to `dev/issue-backlog` |
+| #1434 | ✅ Merged to `dev/issue-backlog`; post-merge conflict was generated-ledger/order drift only |
+| #1435 | ⏳ Open and green; now includes homepage/graph/profile perf plus Trust Leaderboard search/dropdown/cache perf; preview on port 1435; do not merge without Marcus approval |
+| #1436 | ✅ Merged to `dev/issue-backlog` after human approval |
+| #1401 | ⏸ Still draft/held, failing; out of scope |
+
+### Routing — where things live now
+
+- **#1435 preview for Marcus:** `http://localhost:1435/trust/leaderboard/`, served from `C:/Users/C5396183/gst-pr1268-perf/docs`; `/api/v1/leaderboard.json` returns 200.
+- **#1435 code deltas:** original perf changes in `docs/js/page-ia.js`, `docs/js/profile-filter.js`, `docs/js/skill-graph.js`; leaderboard additions in `docs/trust/leaderboard/leaderboard.js`.
+- **#1435 leaderboard perf specifics:** debounced skill search and contributor dropdown filtering; cached row search strings, contributor sort keys, grade order, group keys, contributor option metadata, and `skillById` tooltip lookup.
+- **#1436 merged delta:** Trust Leaderboard CSS token/contrast/gradient-text polish plus small registry-intake CTA redesign in `docs/trust/leaderboard/index.html` and `leaderboard.css`.
+- **Local cleanup deferred:** merged PR worktrees/branches (#1434, #1436, older detached preview worktrees) remain present; remove only after Marcus is done reviewing the queue/previews.
+
+### Lessons / hazards preserved
+
+- Previewing Gaia docs pages must serve `docs/` as the server root. Serving repo root makes nested `/docs/...` URLs compute the wrong `ROOT_PREFIX` and data fetches 404 from `/api/v1/...`.
+- `gaia dev docs` / `build_docs.py` on Windows can produce CRLF/OG/trending/OKF noise. For generated hard-drift fixes, stage only semantic Class-S artifacts and normalize LF when needed.
+- A Trust Leaderboard visual/design PR is human-gated even when CI is green. #1435 is also held behind Marcus's explicit human gate despite being perf-oriented.
+- Worker-produced frontend changes can be correct but still carry line-ending churn; always inspect `git diff --stat` before committing.
+
+### Open questions for next orchestrator
+
+1. Marcus needs to review #1435 on `http://localhost:1435/trust/leaderboard/`; if approved, merge #1435 to `dev/issue-backlog`, update #1395, and log spend.
+2. After #1435 decision, decide whether to clean merged local worktrees (`gst-pr1004-skill-fuse`, `gst-pr868-leaderboard`, detached `worktrees/pr-*`) or keep previews alive until final #1395 review.
+3. Final #1395 integration-to-main merge remains founder-gated and should wait until the active PR queue is complete and green.
+
+### Token cost (this session)
+
+- Latest Pi cost run after #1435 push: main session **~$5.7154**, subagents **~$4.7655**, total **~$10.4809**.
+- PR token comments posted: #1436 after `b88d13171`, #1435 after `edff76f13`.
+
 ## State Snapshot (2026-08-03, PR1–PR3 review queue — previews live, comments posted)
 
 ### TLDR
