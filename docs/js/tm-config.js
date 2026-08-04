@@ -117,11 +117,30 @@
 
     'benchmark-result': {
       label: 'benchmark',
-      formula: 'percentile (0–100)  (50% decay/yr)',
+      formula: 'benchmark base score × lane multiplier (verified 2×, reported 1×)  (50% decay/yr)',
       describe: function (row) {
-        var p = row.percentile != null ? Number(row.percentile) : null;
-        if (p == null) return null;
-        return { value: p, expr: 'percentile = ' + p };
+        var base = null;
+        var expr = '';
+        if (row.percentile != null) {
+          base = Number(row.percentile);
+          expr = 'percentile ' + base;
+        } else if (row.score != null) {
+          var raw = Number(row.score);
+          var unit = String(row.unit || '').toLowerCase();
+          base = raw;
+          expr = 'score ' + raw + (unit ? ' ' + unit : '');
+          if ((unit === 'pass@1' || unit === 'pass@10' || unit === 'accuracy' || unit === 'f1') && raw <= 1) {
+            base = raw * 100;
+            expr += ' → ' + base;
+          }
+        }
+        if (base == null) return null;
+        var prov = String(row.provenance || '').toLowerCase();
+        var lane = (prov === 'verified' || prov === 'ci-reproduced' || prov === 'verifier-attested') ? 'verified'
+          : (prov === 'reported' || prov === 'mirrored') ? 'reported'
+          : 'rejected';
+        var mult = lane === 'verified' ? 2 : (lane === 'reported' ? 1 : 0);
+        return { value: base * mult, expr: expr + ' × ' + mult + ' ' + lane + ' lane' };
       },
       weight: 1.4,
       cap: 100,

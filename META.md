@@ -112,6 +112,7 @@ Key mechanics (summary; see `founder/handovers/G7_TRUST_TAXONOMY_RFC.md` for the
 
 - **Grade thresholds:** S requires Trust Magnitude ≥ 250, A ≥ 100, B ≥ 50, C ≥ 20.
 - **Type weights:** `benchmark-result` 1.4×, `verifier-attestation` and `fusion-recipe` 1.5×, `repo-own` 0.6×, most others 1.0×.
+- **Benchmark lanes (#1419):** `benchmark-result` magnitude uses `percentile` when present, otherwise normalized `score`, then applies lane multiplier: `verified` 2.0×, `reported` 1.0×, `rejected` 0×. Catalog `status: rejected` is the blacklist. This is pre TM Index V2; fusion scoring changes are separate.
 - **Diversity gate:** S requires ≥ 3 distinct Evidence Types including at least 1 non-self-producible type. A contributor cannot reach S by stacking self-minted evidence alone.
 - **Suite-fusion sqrt-softening:** fusion-recipe magnitude grows linearly to 10 origins then as `200 + 20 × sqrt(origins − 10)` past 10 to prevent runaway scores on large suites.
 - **Same-source dedup:** multiple evidence rows pointing at the same URL collapse to one.

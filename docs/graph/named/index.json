@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-03",
+  "generatedAt": "2026-08-04",
   "buckets": {
     "automated-testing": [
       {
@@ -8269,10 +8269,23 @@
             "stars": 158811,
             "skillCountInRepo": 6,
             "grade": "B"
+          },
+          {
+            "type": "benchmark-result",
+            "source": "https://www.firecrawl.dev/blog/research-index-launch",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-03",
+            "benchmarkId": "alphaxiv-arxivqa@v1.0",
+            "score": 53.3,
+            "unit": "pct",
+            "provenance": "reported",
+            "attestor": "https://www.firecrawl.dev/blog/research-index-launch",
+            "notes": "Firecrawl-reported ArXivQA recall: 53.3% at $0.32/task versus 45.4% next best; MRR 0.750.",
+            "grade": "A"
           }
         ],
         "createdAt": "2026-07-13",
-        "updatedAt": "2026-07-31",
+        "updatedAt": "2026-08-03",
         "timeline": [
           {
             "timestamp": "2026-07-13T06:22:18Z",
@@ -8309,14 +8322,20 @@
             "action": "rank_up",
             "contributor": "marcotiongson",
             "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-08-03T00:00:00Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added reported benchmark evidence from https://www.firecrawl.dev/blog/research-index-launch (type: benchmark-result)"
           }
         ],
         "suiteRef": "firecrawl/firecrawl-skills",
         "type": "basic",
         "installBody": "Add installation instructions here.",
         "role": "variant",
-        "trustMagnitude": 75.7,
-        "overallTrustGrade": "B",
+        "trustMagnitude": 150.32,
+        "overallTrustGrade": "A",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,

@@ -1,15 +1,15 @@
 {
-  "version": "7.3.6",
-  "generatedAt": "2026-08-03T15:25:07Z",
+  "version": "7.3.1",
+  "generatedAt": "2026-08-03T13:46:11Z",
   "summary": {
     "total": 219,
     "S": 5,
-    "A": 60,
-    "B": 70,
-    "C": 84,
+    "A": 64,
+    "B": 67,
+    "C": 83,
     "ungraded": 0,
     "floor": 0,
-    "up": 25
+    "up": 29
   },
   "rows": [
     {
@@ -187,6 +187,41 @@
       "branch": "suite"
     },
     {
+      "skillId": "openai/few-shot-learning",
+      "tm": 220.96,
+      "grade": "A",
+      "currentStars": "4★",
+      "mayStars": "2★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "arxiv": 100.0,
+        "benchmark-result": 120.96
+      },
+      "origin": true,
+      "branch": "unique"
+    },
+    {
+      "skillId": "anthropic/skill-creator",
+      "tm": 211.52,
+      "grade": "A",
+      "currentStars": "3★",
+      "mayStars": "2★",
+      "juneStars": "3★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "arxiv": 60.0,
+        "peer-review": 30.0,
+        "benchmark-result": 121.52
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "skillId": "gsd-build/get-shit-done",
       "tm": 202.2,
       "grade": "A",
@@ -221,6 +256,24 @@
       },
       "origin": true,
       "branch": "suite"
+    },
+    {
+      "skillId": "addy-osmani/code-simplification",
+      "tm": 196.3,
+      "grade": "A",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 20.3,
+        "repo-own": 36.0,
+        "benchmark-result": 140.0
+      },
+      "origin": false,
+      "branch": "standard"
     },
     {
       "skillId": "nextlevelbuilder/ui-ux-pro-max",
@@ -273,6 +326,24 @@
       },
       "origin": true,
       "branch": "suite"
+    },
+    {
+      "skillId": "firecrawl/firecrawl-research-index",
+      "tm": 150.32,
+      "grade": "A",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 39.7,
+        "benchmark-result": 74.62
+      },
+      "origin": false,
+      "branch": "standard"
     },
     {
       "skillId": "safishamsi/graphify",
@@ -439,6 +510,23 @@
       },
       "origin": true,
       "branch": "suite"
+    },
+    {
+      "skillId": "huggingface/semantic-cache",
+      "tm": 125.46,
+      "grade": "A",
+      "currentStars": "2★",
+      "mayStars": "1★",
+      "juneStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "benchmark-result": 89.46
+      },
+      "origin": false,
+      "branch": "standard"
     },
     {
       "skillId": "mattpocock/productivity",
@@ -1152,22 +1240,6 @@
       "branch": "unique"
     },
     {
-      "skillId": "openai/few-shot-learning",
-      "tm": 100.0,
-      "grade": "A",
-      "currentStars": "4★",
-      "mayStars": "2★",
-      "juneStars": "4★",
-      "g7Stars": "4★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "arxiv": 100.0
-      },
-      "origin": true,
-      "branch": "unique"
-    },
-    {
       "skillId": "openai/self-consistency",
       "tm": 100.0,
       "grade": "A",
@@ -1302,23 +1374,6 @@
         "repo-own": 36.0,
         "github-stars-own": 8.07,
         "arxiv": 43.96
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
-      "skillId": "anthropic/skill-creator",
-      "tm": 90.0,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "2★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "arxiv": 60.0,
-        "peer-review": 30.0
       },
       "origin": false,
       "branch": "standard"
@@ -1498,23 +1553,6 @@
         "github-stars-own": 39.7
       },
       "origin": true,
-      "branch": "standard"
-    },
-    {
-      "skillId": "firecrawl/firecrawl-research-index",
-      "tm": 75.7,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 39.7
-      },
-      "origin": false,
       "branch": "standard"
     },
     {
@@ -2214,23 +2252,6 @@
       "branch": "standard"
     },
     {
-      "skillId": "addy-osmani/code-simplification",
-      "tm": 56.3,
-      "grade": "B",
-      "currentStars": "3★",
-      "mayStars": "3★",
-      "juneStars": "3★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "github-stars-own": 20.3,
-        "repo-own": 36.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
       "skillId": "addy-osmani/shipping-and-launch",
       "tm": 56.3,
       "grade": "B",
@@ -2539,23 +2560,6 @@
       "branch": "standard"
     },
     {
-      "skillId": "gaia-research/skill-fuse",
-      "tm": 41.62,
-      "grade": "C",
-      "currentStars": "2★",
-      "mayStars": "2★",
-      "juneStars": "2★",
-      "g7Stars": "2★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.62,
-        "self-attestation": 5.0
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
       "skillId": "mattpocock/prototype",
       "tm": 41.21,
       "grade": "C",
@@ -2574,6 +2578,23 @@
     },
     {
       "skillId": "gaia-research/skill-ci-churn",
+      "tm": 41.0,
+      "grade": "C",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "2★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "self-attestation": 5.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "gaia-research/skill-fuse",
       "tm": 41.0,
       "grade": "C",
       "currentStars": "2★",
@@ -3100,22 +3121,6 @@
         "repo-own": 36.0
       },
       "origin": true,
-      "branch": "standard"
-    },
-    {
-      "skillId": "huggingface/semantic-cache",
-      "tm": 36.0,
-      "grade": "C",
-      "currentStars": "2★",
-      "mayStars": "1★",
-      "juneStars": "2★",
-      "g7Stars": "2★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "repo-own": 36.0
-      },
-      "origin": false,
       "branch": "standard"
     },
     {
