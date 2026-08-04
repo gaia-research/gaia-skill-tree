@@ -2,6 +2,49 @@
 
 ---
 
+## 2026-08-04 — Routine 022
+
+**Branch:** `docs/routines/022`
+**Task chosen:** SYNC trigger — version bump to v7.3.6 (advanced from v7.3.1 in routine 021).
+
+### Trigger
+Routine documentation agent triggered; repository version on main is at v7.3.6 (advanced since routine 021's v7.3.1). Routine 021 synced only one page (skill-hierarchy.html); planned next flagged continuing SYNC across all remaining 11 pages to match current version.
+
+### What I did
+1. **Synchronized version numbers for all 12 pages**: Updated from v7.3.1 to v7.3.6 across all `docs/en/` pages. Includes:
+   - Nav version chips (`docs-nav-version` spans)
+   - Footer version strings (`footerVersion` spans)
+   - Script cache-bust query parameters (`?v=7.3.1` → `?v=7.3.6` on mounts.js, site-nav.js, ui.js)
+2. **Files updated**: index.html, getting-started.html, cli-reference.html, skill-hierarchy.html, contributing.html, named-skills.html, evidence-classes.html, fusion.html, mcp-server.html, faq.html, share-bundles.html, timeline-audit.html
+
+### Design decisions
+- Updated uniformly across all 12 pages to match current main version (v7.3.6). Page content structure remains unchanged — version-only bump.
+
+### Issues informed
+- None; this is preventive maintenance per routine 021 planned next.
+
+### Files modified
+- `docs/en/index.html` (version sync)
+- `docs/en/getting-started.html` (version sync)
+- `docs/en/cli-reference.html` (version sync)
+- `docs/en/skill-hierarchy.html` (version sync)
+- `docs/en/contributing.html` (version sync)
+- `docs/en/named-skills.html` (version sync)
+- `docs/en/evidence-classes.html` (version sync)
+- `docs/en/fusion.html` (version sync)
+- `docs/en/mcp-server.html` (version sync)
+- `docs/en/faq.html` (version sync)
+- `docs/en/share-bundles.html` (version sync)
+- `docs/en/timeline-audit.html` (version sync)
+- `docs/en/DOCS.md` (page map updated to note routine 022)
+
+### Planned next (Routine 023)
+- ROTATE: audit next least-recently-touched page after routine 021's skill-hierarchy.html audit
+- Review open `documentation` issues to identify any content gaps
+- Monitor: check for new CLI features since v7.3.6 that may need documenting
+
+---
+
 ## 2026-08-01 — Routine 018 — Editor pass (ship gate, PR #1334)
 
 **Role:** Weekly editor. Reviewed the week's accreted commits on `docs/routines/018`, verified

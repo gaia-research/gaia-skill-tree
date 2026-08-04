@@ -18,18 +18,18 @@ Secondary: Open-source contributors wanting to claim a Named Skill.
 
 | # | File | Title | Status | Routine |
 |---|------|--------|--------|---------|
-| 1 | `index.html` | Docs Home | ✅ Done (updated 018) | 001, 017, 018 |
-| 2 | `getting-started.html` | Getting Started | ✅ Done (updated 018) | 001, 017, 018 |
-| 3 | `cli-reference.html` | CLI Reference | ✅ Done (updated 018) | 002, 017, 018 |
-| 4 | `skill-hierarchy.html` | Skill Hierarchy | ✅ Done (updated 018) | 002, 018 |
-| 5 | `contributing.html` | Contributing | ✅ Done (updated 018) | 003, 017, 018 |
-| 6 | `named-skills.html` | Named Skills & Origin | ✅ Done (updated 018) | 003, 017, 018 |
-| 7 | `evidence-classes.html` | Evidence & Trust | ✅ Done (updated 018) | 004, 017, 018 |
-| 8 | `fusion.html` | Skill Fusion | ✅ Done (updated 018) | 004, 017, 018 |
-| 9 | `mcp-server.html` | MCP Server | ✅ Done (updated 018) | 005, 017, 018 |
-| 10 | `faq.html` | FAQ | ✅ Done (updated 018) | 005, 017, 018 |
-| 11 | `share-bundles.html` | Share Bundles | ✅ Done (updated 018) | 006, 018 |
-| 12 | `timeline-audit.html` | Timeline Audit & Repair | ✅ Done (updated 018) | 008, 018 |
+| 1 | `index.html` | Docs Home | ✅ Done (updated 022) | 001, 017, 018, 022 |
+| 2 | `getting-started.html` | Getting Started | ✅ Done (updated 022) | 001, 017, 018, 022 |
+| 3 | `cli-reference.html` | CLI Reference | ✅ Done (updated 022) | 002, 017, 018, 022 |
+| 4 | `skill-hierarchy.html` | Skill Hierarchy | ✅ Done (updated 022) | 002, 018, 021, 022 |
+| 5 | `contributing.html` | Contributing | ✅ Done (updated 022) | 003, 017, 018, 022 |
+| 6 | `named-skills.html` | Named Skills & Origin | ✅ Done (updated 022) | 003, 017, 018, 022 |
+| 7 | `evidence-classes.html` | Evidence & Trust | ✅ Done (updated 022) | 004, 017, 018, 022 |
+| 8 | `fusion.html` | Skill Fusion | ✅ Done (updated 022) | 004, 017, 018, 022 |
+| 9 | `mcp-server.html` | MCP Server | ✅ Done (updated 022) | 005, 017, 018, 022 |
+| 10 | `faq.html` | FAQ | ✅ Done (updated 022) | 005, 017, 018, 022 |
+| 11 | `share-bundles.html` | Share Bundles | ✅ Done (updated 022) | 006, 018, 022 |
+| 12 | `timeline-audit.html` | Timeline Audit & Repair | ✅ Done (updated 022) | 008, 018, 022 |
 
 ---
 
