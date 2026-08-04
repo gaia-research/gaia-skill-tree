@@ -19,12 +19,23 @@
     plaquesGrid = document.querySelector('.plaque-grid');
     timelineContainer = document.getElementById('profile-timeline');
 
+    // Simple debounce helper
+    function debounce(func, wait) {
+      let timeout;
+      return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+      };
+    }
+
+    const debouncedApplyFilters = debounce(applyFilters, 150);
+
     // Bind Search Input
     const searchInput = document.getElementById('profileSearch');
     if (searchInput) {
       searchInput.addEventListener('input', (e) => {
         state.search = e.target.value.toLowerCase().trim();
-        applyFilters();
+        debouncedApplyFilters();
       });
     }
 

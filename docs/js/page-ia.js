@@ -107,14 +107,44 @@
   }
   window.openClaim = openClaim;
 
-  Promise.all([
-    window.GAIA_JSON_CACHE.fetchJson(GRAPH_URL),
-    window.GAIA_JSON_CACHE.fetchJson(NAMED_URL),
-  ]).then(function (results) {
-    var graphData = results[0];
-    var namedData = results[1];
+  var graphPromise = window.GAIA_JSON_CACHE.fetchJson(GRAPH_URL);
+
+  var namedPromise = new Promise(function (resolve) {
+    var triggered = false;
+    function triggerFetch() {
+      if (triggered) return;
+      triggered = true;
+      window.removeEventListener('pointerdown', triggerFetch);
+      window.removeEventListener('keydown', triggerFetch);
+      window.removeEventListener('scroll', triggerFetch);
+      
+      window.GAIA_JSON_CACHE.fetchJson(NAMED_URL).then(resolve).catch(function() { resolve(null); });
+    }
+    
+    window.addEventListener('pointerdown', triggerFetch, { passive: true });
+    window.addEventListener('keydown', triggerFetch, { passive: true });
+    window.addEventListener('scroll', triggerFetch, { passive: true });
+    
+    if (typeof requestIdleCallback === 'function') {
+      requestIdleCallback(function () { triggerFetch(); });
+    } else {
+      setTimeout(function () { triggerFetch(); }, 1500);
+    }
+  });
+
+  graphPromise.then(function (graphData) {
     var skills = graphData.skills || [];
-    var buckets = namedData.buckets || {};
+
+    // Set ledger skills count and date immediately
+    var elSkills = document.getElementById('ledgerSkills');
+    var elDate = document.getElementById('ledgerDate');
+    if (elSkills) elSkills.textContent = skills.length;
+    var dateStr = formatDate(graphData.generatedAt || (graphData.meta && graphData.meta.updatedAt));
+    if (elDate && dateStr) elDate.textContent = dateStr;
+
+    return namedPromise.then(function (namedData) {
+      if (!namedData) return;
+      var buckets = namedData.buckets || {};
 
     // Index canonical skills by id (for type lookup)
     var byId = {};
@@ -162,10 +192,7 @@
     });
 
     // Ledger strip
-    var elSkills = document.getElementById('ledgerSkills');
     var elUlts = document.getElementById('ledgerUlts');
-    var elDate = document.getElementById('ledgerDate');
-    if (elSkills) elSkills.textContent = skills.length;
     // §8: an "Ultimate" is a 5★+ Suite NAMED skill, not every suite-branch node.
     // Count the named entries with branch==='suite' && rank>=5 (dedup by id) —
     // the true elite tier the Hall calls Ultimates — rather than ultimates.length
@@ -180,8 +207,6 @@
     Object.keys(buckets).forEach(function (k) { (buckets[k] || []).forEach(tallyUltimate); });
     (namedData.awaitingClassification || []).forEach(tallyUltimate);
     if (elUlts) elUlts.textContent = ultimateCount;
-    var dateStr = formatDate(graphData.generatedAt || (graphData.meta && graphData.meta.updatedAt));
-    if (elDate && dateStr) elDate.textContent = dateStr;
 
     // Door B caption
     var doorCap = document.getElementById('doorBCaption');
@@ -933,6 +958,7 @@
       }
     }
     
+    });
   }).catch(function () {});
 
   // "Browse all named skills" → now an <a href="named/">, no JS needed.
