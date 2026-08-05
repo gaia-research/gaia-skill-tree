@@ -2,6 +2,51 @@
 
 ---
 
+## 2026-08-05 — Routine 023
+
+**Branch:** `docs/routines/022` (continued, rebased on origin/main)
+**Task chosen:** SYNC trigger — version bump to v7.3.10 (advanced from v7.3.6 in routine 022).
+
+### Trigger
+Routine documentation agent triggered; repository version on main has advanced to v7.3.10. Routine 022 synced to v7.3.6 but is still open on the branch. Rebased routine 022 onto origin/main and continued with the next version sync task per branch discipline (single unified PR).
+
+### What I did
+1. **Rebased docs/routines/022 onto origin/main** — brought the branch up to date with latest main (v7.3.10).
+2. **Synchronized version numbers for all 12 pages**: Updated from v7.3.6 to v7.3.10 across all `docs/en/` pages. Includes:
+   - Nav version chips (`docs-nav-version` spans)
+   - Footer version strings (`footerVersion` spans)
+   - Script cache-bust query parameters (`?v=7.3.1` → `?v=7.3.10` on mounts.js, site-nav.js, ui.js)
+3. **Files updated**: index.html, getting-started.html, cli-reference.html, skill-hierarchy.html, contributing.html, named-skills.html, evidence-classes.html, fusion.html, mcp-server.html, faq.html, share-bundles.html, timeline-audit.html
+
+### Design decisions
+- Updated uniformly across all 12 pages to match current main version (v7.3.10). Page content structure remains unchanged — version-only bump.
+- Continued on the same open routine 022 branch per workflow discipline (single unified branch per routine cycle).
+
+### Issues informed
+- None; this is preventive maintenance per routine 022 planned next.
+
+### Files modified
+- `docs/en/index.html` (version sync)
+- `docs/en/getting-started.html` (version sync)
+- `docs/en/cli-reference.html` (version sync)
+- `docs/en/skill-hierarchy.html` (version sync)
+- `docs/en/contributing.html` (version sync)
+- `docs/en/named-skills.html` (version sync)
+- `docs/en/evidence-classes.html` (version sync)
+- `docs/en/fusion.html` (version sync)
+- `docs/en/mcp-server.html` (version sync)
+- `docs/en/faq.html` (version sync)
+- `docs/en/share-bundles.html` (version sync)
+- `docs/en/timeline-audit.html` (version sync)
+- `docs/en/MEMORY.md` (this entry)
+
+### Planned next (Routine 024)
+- ROTATE: audit next least-recently-touched page for content improvements
+- Review open `documentation` issues to identify any content gaps
+- Monitor: check for new CLI features since v7.3.10 that may need documenting
+
+---
+
 ## 2026-08-04 — Routine 022
 
 **Branch:** `docs/routines/022`
