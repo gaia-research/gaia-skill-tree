@@ -12,7 +12,7 @@ description: Extracts and formalises a project's domain terminology into a share
   glossary, enforcing consistent naming across code and conversations to eliminate
   ambiguity. Removed from mattpocock/skills suite in v1.0.1.
 links:
-  github: https://github.com/mattpocock/skills/blob/main/skills/engineering/ubiquitous-language/SKILL.md
+  github: https://github.com/mattpocock/skills/blob/main/skills/deprecated/ubiquitous-language/SKILL.md
 tags:
 - domain-driven-design
 - ddd
@@ -21,7 +21,7 @@ tags:
 - terminology
 - alignment
 createdAt: '2026-05-15'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-05'
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/engineering/ubiquitous-language/SKILL.md
@@ -101,6 +101,10 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 4★ to 3★ per G7 final rankings calibration.
+- timestamp: '2026-08-05T06:27:16Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/deprecated/ubiquitous-language/SKILL.md
 trustMagnitude: 90.38
 overallTrustGrade: B
 apexGateStatus:
