@@ -1,22 +1,8 @@
 {
   "window": "7d",
-  "generatedAt": "2026-08-05T09:32:22Z",
+  "generatedAt": "2026-08-05T23:45:57Z",
   "firstRun": false,
   "skills": [
-    {
-      "id": "disler/agent-fusion",
-      "name": "Agent Fusion",
-      "level": "4★",
-      "contributor": "disler",
-      "trustMagnitude": 127.54,
-      "overallTrustGrade": "C",
-      "trendingScore": 207.95,
-      "tmDelta": 90.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/disler/agent-fusion.json"
-      }
-    },
     {
       "id": "firecrawl/firecrawl-research-index",
       "name": "Firecrawl Research Index",
@@ -24,39 +10,11 @@
       "contributor": "firecrawl",
       "trustMagnitude": 150.32,
       "overallTrustGrade": "A",
-      "trendingScore": 167.69,
-      "tmDelta": 76.8,
+      "trendingScore": 164.52,
+      "tmDelta": 74.74,
       "new": false,
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
-      }
-    },
-    {
-      "id": "nextlevelbuilder/ui-ux-pro-max",
-      "name": "UI/UX Pro Max",
-      "level": "4★",
-      "contributor": "nextlevelbuilder",
-      "trustMagnitude": 195.51,
-      "overallTrustGrade": "A",
-      "trendingScore": 101.38,
-      "tmDelta": 1.25,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/nextlevelbuilder/ui-ux-pro-max.json"
-      }
-    },
-    {
-      "id": "panniantong/agent-reach",
-      "name": "Agent Reach",
-      "level": "3★",
-      "contributor": "panniantong",
-      "trustMagnitude": 53.86,
-      "overallTrustGrade": "B",
-      "trendingScore": 100.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/panniantong/agent-reach.json"
       }
     },
     {
@@ -71,20 +29,6 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/k-dense-ai/pymc.json"
-      }
-    },
-    {
-      "id": "oso95/scroll-world",
-      "name": "Scroll World",
-      "level": "3★",
-      "contributor": "oso95",
-      "trustMagnitude": 60.98,
-      "overallTrustGrade": "B",
-      "trendingScore": 90.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/oso95/scroll-world.json"
       }
     },
     {
@@ -122,9 +66,9 @@
       "contributor": "mvanhorn",
       "trustMagnitude": 129.1,
       "overallTrustGrade": "A",
-      "trendingScore": 64.55,
-      "tmDelta": 129.1,
-      "new": true,
+      "trendingScore": 81.45,
+      "tmDelta": 1.25,
+      "new": false,
       "_links": {
         "self": "/api/v1/skills/mvanhorn/last30days.json"
       }
@@ -136,8 +80,8 @@
       "contributor": "firecrawl",
       "trustMagnitude": 75.7,
       "overallTrustGrade": "B",
-      "trendingScore": 62.77,
-      "tmDelta": 2.18,
+      "trendingScore": 60.15,
+      "tmDelta": 0.12,
       "new": false,
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-interact.json"
@@ -150,8 +94,8 @@
       "contributor": "firecrawl",
       "trustMagnitude": 75.7,
       "overallTrustGrade": "B",
-      "trendingScore": 62.77,
-      "tmDelta": 2.18,
+      "trendingScore": 60.15,
+      "tmDelta": 0.12,
       "new": false,
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
@@ -169,48 +113,6 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/gsd-build/get-shit-done.json"
-      }
-    },
-    {
-      "id": "disler/auto-review",
-      "name": "Auto-Review",
-      "level": "2★",
-      "contributor": "disler",
-      "trustMagnitude": 36.34,
-      "overallTrustGrade": "C",
-      "trendingScore": 60.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/disler/auto-review.json"
-      }
-    },
-    {
-      "id": "disler/opinion",
-      "name": "Opinion",
-      "level": "2★",
-      "contributor": "disler",
-      "trustMagnitude": 36.34,
-      "overallTrustGrade": "C",
-      "trendingScore": 60.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/disler/opinion.json"
-      }
-    },
-    {
-      "id": "disler/plan-synthesis",
-      "name": "Plan Synthesis",
-      "level": "2★",
-      "contributor": "disler",
-      "trustMagnitude": 36.34,
-      "overallTrustGrade": "C",
-      "trendingScore": 60.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/disler/plan-synthesis.json"
       }
     },
     {
@@ -239,6 +141,62 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/dietrichgebert/ponytail.json"
+      }
+    },
+    {
+      "id": "disler/agent-fusion",
+      "name": "Agent Fusion",
+      "level": "4★",
+      "contributor": "disler",
+      "trustMagnitude": 127.54,
+      "overallTrustGrade": "C",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/disler/agent-fusion.json"
+      }
+    },
+    {
+      "id": "disler/auto-review",
+      "name": "Auto-Review",
+      "level": "2★",
+      "contributor": "disler",
+      "trustMagnitude": 36.34,
+      "overallTrustGrade": "C",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/disler/auto-review.json"
+      }
+    },
+    {
+      "id": "disler/opinion",
+      "name": "Opinion",
+      "level": "2★",
+      "contributor": "disler",
+      "trustMagnitude": 36.34,
+      "overallTrustGrade": "C",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/disler/opinion.json"
+      }
+    },
+    {
+      "id": "disler/plan-synthesis",
+      "name": "Plan Synthesis",
+      "level": "2★",
+      "contributor": "disler",
+      "trustMagnitude": 36.34,
+      "overallTrustGrade": "C",
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/disler/plan-synthesis.json"
       }
     },
     {
@@ -323,20 +281,6 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/k-dense-ai/pytorch-lightning.json"
-      }
-    },
-    {
-      "id": "anthropics/canvas-design",
-      "name": "Canvas Design",
-      "level": "2★",
-      "contributor": "anthropics",
-      "trustMagnitude": 43.52,
-      "overallTrustGrade": "C",
-      "trendingScore": 30.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/anthropics/canvas-design.json"
       }
     },
     {
@@ -452,31 +396,31 @@
       }
     },
     {
-      "id": "firecrawl/firecrawl-build-search",
-      "name": "Firecrawl Search",
-      "level": "4★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 109.32,
-      "overallTrustGrade": "A",
-      "trendingScore": 12.59,
-      "tmDelta": 2.18,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-build-search.json"
-      }
-    },
-    {
       "id": "firecrawl/firecrawl-build-scrape",
       "name": "Firecrawl Scrape",
       "level": "4★",
       "contributor": "firecrawl",
       "trustMagnitude": 135.72,
       "overallTrustGrade": "A",
-      "trendingScore": 12.51,
-      "tmDelta": 2.18,
+      "trendingScore": 10.14,
+      "tmDelta": 0.12,
       "new": false,
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
+      }
+    },
+    {
+      "id": "firecrawl/firecrawl-build-search",
+      "name": "Firecrawl Search",
+      "level": "4★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 109.32,
+      "overallTrustGrade": "A",
+      "trendingScore": 10.14,
+      "tmDelta": 0.12,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-search.json"
       }
     },
     {
@@ -520,9 +464,23 @@
       "_links": {
         "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
       }
+    },
+    {
+      "id": "nextlevelbuilder/ui-ux-pro-max",
+      "name": "UI/UX Pro Max",
+      "level": "4★",
+      "contributor": "nextlevelbuilder",
+      "trustMagnitude": 195.51,
+      "overallTrustGrade": "A",
+      "trendingScore": 1.38,
+      "tmDelta": 1.25,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/nextlevelbuilder/ui-ux-pro-max.json"
+      }
     }
   ],
-  "totalTrending": 37,
+  "totalTrending": 34,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }
