@@ -399,6 +399,34 @@ class TestInstallFlow:
 
         assert result is False
 
+    def test_installable_false_returns_false_without_git(self, tmp_path, monkeypatch, capsys):
+        """installable:false is a hard install gate even if links.github exists."""
+        monkeypatch.chdir(tmp_path)
+
+        def fail_git(args, cwd=None):
+            raise AssertionError("git should not run for installable:false skills")
+
+        monkeypatch.setattr("gaia_cli.install._run_git", fail_git)
+        _write_json_registry(
+            tmp_path,
+            [
+                {
+                    "id": "testuser/registry-only",
+                    "name": "Registry Only",
+                    "installable": False,
+                    "links": {
+                        "github": "https://github.com/testuser/repo/blob/main/registry-only/SKILL.md"
+                    },
+                }
+            ],
+        )
+
+        result = install_skill("testuser/registry-only", str(tmp_path))
+
+        assert result is False
+        captured = capsys.readouterr()
+        assert "installable: false" in captured.err
+
     def test_install_repairs_partial_clone_cache(self, tmp_path, monkeypatch):
         """A cache dir that exists but has no .git (partial/interrupted clone) is
         purged and re-cloned rather than trusted as-is (issue #1442)."""

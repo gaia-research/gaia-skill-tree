@@ -2720,7 +2720,7 @@
           "acceptance-criteria"
         ],
         "links": {
-          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-issues/SKILL.md"
+          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-tickets/SKILL.md"
         },
         "evidence": [
           {
@@ -2761,7 +2761,7 @@
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-05",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:00Z",
@@ -2823,6 +2823,12 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T17:13:03Z",
             "details": "TM 11.21 -> 90.38, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-08-05T06:27:10Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/to-tickets/SKILL.md"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -3394,7 +3400,7 @@
           "issue-tracker"
         ],
         "links": {
-          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-prd/SKILL.md"
+          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-spec/SKILL.md"
         },
         "evidence": [
           {
@@ -3445,7 +3451,7 @@
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-05",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:44Z",
@@ -3507,6 +3513,12 @@
             "action": "rank_up",
             "contributor": "mbtiongson1",
             "details": "Level updated from 2★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-05T06:27:13Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/to-spec/SKILL.md"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -4560,6 +4572,7 @@
         "description": "Guides creation of new agent skills through a structured requirements interview, then produces a SKILL.md with a trigger-aware description, progressive-disclosure layout, and optional bundled scripts or reference files — ready for installation in any Claude Code, Cursor, or Codex CLI skills directory. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Skill Scaffolder",
         "catalogRef": "mattpocock-write-a-skill",
+        "installable": false,
         "tags": [
           "skill-authoring",
           "meta-agent",
@@ -4591,7 +4604,7 @@
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-05",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:00Z",
@@ -4636,6 +4649,14 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 3★ to 2★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-05T06:27:32Z",
+            "action": "upstream_deprecated",
+            "contributor": "unknown",
+            "previousValue": null,
+            "newValue": null,
+            "details": "Removed upstream in mattpocock/skills — author's CHANGELOG: 'Replace write-a-skill with writing-great-skills... write-a-skill has been removed.' Successor is a differently-shaped reference skill (disable-model-invocation), not a 1:1 rename, so not relinked under this id."
           }
         ],
         "suiteRef": "mattpocock/productivity",
@@ -6234,7 +6255,7 @@
           "root-cause-analysis"
         ],
         "links": {
-          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md"
+          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnosing-bugs/SKILL.md"
         },
         "evidence": [
           {
@@ -6275,7 +6296,7 @@
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-05",
         "timeline": [
           {
             "timestamp": "2026-06-10T05:38:16Z",
@@ -6343,6 +6364,12 @@
             "action": "rank_up",
             "contributor": "mbtiongson1",
             "details": "Level updated from 2★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-05T06:27:07Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnosing-bugs/SKILL.md"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -10449,6 +10476,7 @@
         "level": "2★",
         "description": "An ultra-compressed communication mode designed to save tokens by dropping articles and filler words. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Caveman Console",
+        "installable": false,
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/caveman"
         },
@@ -10464,7 +10492,7 @@
           }
         ],
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-05",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -10497,6 +10525,14 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 3★ to 2★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-05T06:27:25Z",
+            "action": "upstream_deprecated",
+            "contributor": "unknown",
+            "previousValue": null,
+            "newValue": null,
+            "details": "Removed upstream in mattpocock/skills — author's CHANGELOG: 'caveman was a duplicate of another skill I was testing and was never meant to be public.' No replacement."
           }
         ],
         "suiteRef": "mattpocock/productivity",
@@ -19806,7 +19842,7 @@
         "description": "Productivity skill for routing questions to the right expert or skill in a workspace.",
         "title": "Ask Matt",
         "links": {
-          "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt/SKILL.md"
+          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/ask-matt/SKILL.md"
         },
         "evidence": [
           {
@@ -19857,7 +19893,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-05",
         "timeline": [
           {
             "timestamp": "2026-06-19T12:58:22Z",
@@ -19940,6 +19976,12 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-05T06:26:59Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/ask-matt/SKILL.md"
           }
         ],
         "trustMagnitude": 0.0,
@@ -21857,7 +21899,7 @@
           "alignment"
         ],
         "links": {
-          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/ubiquitous-language/SKILL.md"
+          "github": "https://github.com/mattpocock/skills/blob/main/skills/deprecated/ubiquitous-language/SKILL.md"
         },
         "evidence": [
           {
@@ -21898,7 +21940,7 @@
           }
         ],
         "createdAt": "2026-05-15",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-05",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:44Z",
@@ -21960,6 +22002,12 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-05T06:27:16Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/deprecated/ubiquitous-language/SKILL.md"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -22092,6 +22140,7 @@
         "description": "Signals the agent to ascend one layer of abstraction and produce a map of all relevant modules, callers, and domain-glossary terms in the unfamiliar code area, without explaining implementation details. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Abstraction Lift",
         "catalogRef": "mattpocock-zoom-out",
+        "installable": false,
         "tags": [
           "code-navigation",
           "abstraction",
@@ -22103,7 +22152,7 @@
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/zoom-out/SKILL.md"
         },
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-04-30",
+        "updatedAt": "2026-08-05",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -22125,6 +22174,14 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-05T06:27:29Z",
+            "action": "upstream_deprecated",
+            "contributor": "unknown",
+            "previousValue": null,
+            "newValue": null,
+            "details": "Removed upstream in mattpocock/skills — author's CHANGELOG: 'zoom-out went unused in practice, so it's been removed from the repo.' No replacement."
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -32798,7 +32855,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-31",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:38Z",
@@ -33757,11 +33814,12 @@
       "status": "awakened",
       "level": "1★",
       "description": "Refactor high-complexity React components in Dify frontend.",
+      "installable": false,
       "links": {
         "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/component-refactoring/SKILL.md"
       },
       "createdAt": "2026-05-31",
-      "updatedAt": "2026-06-04",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-05-31T02:07:12Z",
@@ -33789,6 +33847,14 @@
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-08-05T06:27:36Z",
+          "action": "upstream_deprecated",
+          "contributor": "unknown",
+          "previousValue": null,
+          "newValue": null,
+          "details": "Upstream .agents/skills/component-refactoring dir removed from langgenius/dify; its pnpm analyze-component/refactor-component scripts no longer exist in web/package.json. No 1:1 successor (how-to-write-component is a differently-scoped skill)."
         }
       ],
       "trustMagnitude": 0.0,

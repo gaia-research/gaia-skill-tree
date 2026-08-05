@@ -136,9 +136,15 @@
       "action": "migrate_trust_magnitude",
       "timestamp": "2026-06-19T17:13:03Z",
       "details": "TM 11.21 -> 90.38, grade ungraded -> B (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-08-05T06:27:10Z",
+      "action": "note",
+      "contributor": "unknown",
+      "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/to-tickets/SKILL.md"
     }
   ],
   "links": {
-    "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-issues/SKILL.md"
+    "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-tickets/SKILL.md"
   }
 }

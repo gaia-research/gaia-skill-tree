@@ -8,7 +8,7 @@ status: awakened
 level: 1★
 description: Refactor high-complexity React components in Dify frontend.
 createdAt: '2026-05-31'
-updatedAt: '2026-06-04'
+updatedAt: '2026-08-05'
 links:
   github: https://github.com/langgenius/dify/blob/main/.agents/skills/component-refactoring/SKILL.md
 timeline:
@@ -29,6 +29,14 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
+- timestamp: '2026-08-05T06:27:36Z'
+  action: upstream_deprecated
+  contributor: unknown
+  previousValue: null
+  newValue: null
+  details: Upstream .agents/skills/component-refactoring dir removed from langgenius/dify;
+    its pnpm analyze-component/refactor-component scripts no longer exist in web/package.json.
+    No 1:1 successor (how-to-write-component is a differently-scoped skill).
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -41,6 +49,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 60c3d9eb2cda5628149550d9cfc191cb7ef55d365b9281a59cd5434e3d44cc63
+installable: false
 ---
 
 ## Installation
