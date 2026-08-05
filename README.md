@@ -7,7 +7,7 @@
 
 # Gaia: The Evidence-Backed AI Agent Skill Graph 🌲
 
-[![Gaia](https://gaiaskilltree.com/badges/_assets/gaia-research/skill-ci-churn.svg?repo=gaia-research%2Fgaia-skill-tree)](https://gaiaskilltree.com/named/#explorer/gaia-research/skill-ci-churn)
+[![Gaia](https://gaiaskilltree.com/badges/_assets/gaia-research/ci-churn.svg?repo=gaia-research%2Fgaia-skill-tree)](https://gaiaskilltree.com/named/#explorer/gaia-research/ci-churn)
 
 **Stop guessing if your agent works. Prove it.**
 
