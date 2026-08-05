@@ -21,6 +21,7 @@ from gaia_cli.install import (
     load_manifest,
     save_manifest,
     uninstall_skill,
+    resolve_named_skill_reference,
     _parse_github_url,
     _run_git,
 )
@@ -484,3 +485,100 @@ class TestInstallFlow:
         assert result is True
         assert len(pull_calls) == 1
         assert len(clone_calls) == 1
+
+
+class TestAmbiguousResolution:
+    """Coverage for resolve_named_skill_reference's ambiguity branches (issue #1443)."""
+
+    def test_ambiguous_catalog_ref_raises_value_error(self, tmp_path, monkeypatch):
+        """Two skills sharing a catalogRef raise ValueError, not a silent pick."""
+        monkeypatch.chdir(tmp_path)
+        _write_json_registry(
+            tmp_path,
+            [
+                {
+                    "id": "alice/my-skill",
+                    "name": "Alice Skill",
+                    "catalogRef": "shared-slug",
+                },
+                {
+                    "id": "bob/my-skill",
+                    "name": "Bob Skill",
+                    "catalogRef": "shared-slug",
+                },
+            ],
+        )
+
+        with pytest.raises(ValueError, match="Ambiguous slug"):
+            resolve_named_skill_reference("shared-slug", str(tmp_path))
+
+    def test_ambiguous_bare_name_raises_value_error(self, tmp_path, monkeypatch):
+        """Two skills sharing a bare skill-name raise ValueError, not a silent pick."""
+        monkeypatch.chdir(tmp_path)
+        _write_json_registry(
+            tmp_path,
+            [
+                {"id": "alice/research", "name": "Alice Research"},
+                {"id": "bob/research", "name": "Bob Research"},
+            ],
+        )
+
+        with pytest.raises(ValueError, match="Ambiguous bare name"):
+            resolve_named_skill_reference("research", str(tmp_path))
+
+    def test_install_command_reports_ambiguous_catalog_ref(self, tmp_path, monkeypatch, capsys):
+        """`gaia install <ambiguous slug>` prints a helpful error and exits(1) instead of a traceback."""
+        import argparse
+        from gaia_cli.impl import install_command
+
+        monkeypatch.chdir(tmp_path)
+        _write_json_registry(
+            tmp_path,
+            [
+                {"id": "alice/my-skill", "name": "Alice Skill", "catalogRef": "shared-slug"},
+                {"id": "bob/my-skill", "name": "Bob Skill", "catalogRef": "shared-slug"},
+            ],
+        )
+        args = argparse.Namespace(
+            skill_id="shared-slug",
+            registry=str(tmp_path),
+            list=False,
+            suite=False,
+            install_location="local",
+        )
+
+        with pytest.raises(SystemExit) as excinfo:
+            install_command(args)
+
+        assert excinfo.value.code == 1
+        captured = capsys.readouterr()
+        assert "Ambiguous slug" in captured.err
+
+    def test_skills_install_verb_reports_ambiguous_bare_name(self, tmp_path, monkeypatch, capsys):
+        """`gaia skills install <ambiguous name>` prints a helpful error and exits(1) instead of a traceback."""
+        import argparse
+        from gaia_cli.impl import skills_command
+
+        monkeypatch.chdir(tmp_path)
+        _write_json_registry(
+            tmp_path,
+            [
+                {"id": "alice/research", "name": "Alice Research"},
+                {"id": "bob/research", "name": "Bob Research"},
+            ],
+        )
+        args = argparse.Namespace(
+            skills_command="install",
+            skill_id="research",
+            registry=str(tmp_path),
+            suite=False,
+            install_location="local",
+            exclude_pending=True,
+        )
+
+        with pytest.raises(SystemExit) as excinfo:
+            skills_command(args)
+
+        assert excinfo.value.code == 1
+        captured = capsys.readouterr()
+        assert "Ambiguous bare name" in captured.err
