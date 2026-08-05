@@ -387,7 +387,7 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   · ○ panniantong/agent-reach  [3★]
   · ○ /autonomous-engineering-platform
   · ○ anthropics/brand-guidelines  [3★]
-  · ○ gaia-research/skill-ci-churn  [2★]
+  · ○ gaia-research/ci-churn  [2★]
   · ○ /clinical-data-retrieval
   · ○ ████████/update-unique-churches
   · ○ /cultural-localization
@@ -405,7 +405,7 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   · ○ /pathway-ontology-retrieval
   · ○ /prompt-caching
   · ○ k-dense-ai/qiskit  [3★]
-  · ○ vercel-labs/react-best-practices  [3★]
+  · ○ vercel-labs/vercel-react-best-practices  [3★]
   · ○ oso95/scroll-world  [3★]
   · ○ openai/self-consistency  [3★]
   · ○ huggingface/semantic-cache  [2★]

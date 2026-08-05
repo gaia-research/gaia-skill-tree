@@ -40,7 +40,7 @@
       "id": "hive-mind",
       "name": "Hive Mind",
       "fusion": null,
-      "members": ["ruvnet/hive-mind-coordination"]
+      "members": ["ruvnet/hive-mind"]
     },
     {
       "id": "reasoningbank",

@@ -109702,7 +109702,7 @@
       ]
     },
     {
-      "id": "gaia-research/skill-ci-churn",
+      "id": "gaia-research/ci-churn",
       "vector": [
         -0.09790664911270142,
         -0.012277103029191494,
@@ -110091,7 +110091,7 @@
       ]
     },
     {
-      "id": "gaia-research/skill-fuse",
+      "id": "gaia-research/fuse",
       "vector": [
         -0.0853583887219429,
         -0.07546108216047287,
@@ -130319,7 +130319,7 @@
       ]
     },
     {
-      "id": "google-deepmind/alphafold_database_fetch_and_analyze",
+      "id": "google-deepmind/alphafold-database-fetch-and-analyze",
       "vector": [
         -0.0672420933842659,
         -0.08379200845956802,
@@ -130708,7 +130708,7 @@
       ]
     },
     {
-      "id": "google-deepmind/alphagenome_single_variant_analysis",
+      "id": "google-deepmind/alphagenome-single-variant-analysis",
       "vector": [
         0.028927793726325035,
         -0.013009326532483101,
@@ -131097,7 +131097,7 @@
       ]
     },
     {
-      "id": "google-deepmind/chembl_database",
+      "id": "google-deepmind/chembl-database",
       "vector": [
         0.055043935775756836,
         -0.06557345390319824,
@@ -131486,7 +131486,7 @@
       ]
     },
     {
-      "id": "google-deepmind/clinical_trials_database",
+      "id": "google-deepmind/clinical-trials-database",
       "vector": [
         -0.0005274310824461281,
         0.02322359010577202,
@@ -131875,7 +131875,7 @@
       ]
     },
     {
-      "id": "google-deepmind/clinvar_database",
+      "id": "google-deepmind/clinvar-database",
       "vector": [
         -0.006858880631625652,
         -0.0520835816860199,
@@ -132264,7 +132264,7 @@
       ]
     },
     {
-      "id": "google-deepmind/dbsnp_database",
+      "id": "google-deepmind/dbsnp-database",
       "vector": [
         0.03941996768116951,
         0.002260379260405898,
@@ -132653,7 +132653,7 @@
       ]
     },
     {
-      "id": "google-deepmind/embl_ebi_ols",
+      "id": "google-deepmind/embl-ebi-ols",
       "vector": [
         0.012402208521962166,
         -0.0010234302608296275,
@@ -133042,7 +133042,7 @@
       ]
     },
     {
-      "id": "google-deepmind/encode_ccres_database",
+      "id": "google-deepmind/encode-ccres-database",
       "vector": [
         -0.024489741772413254,
         -0.02477782964706421,
@@ -133431,7 +133431,7 @@
       ]
     },
     {
-      "id": "google-deepmind/ensembl_database",
+      "id": "google-deepmind/ensembl-database",
       "vector": [
         -0.020834200084209442,
         -0.010790719650685787,
@@ -133820,7 +133820,7 @@
       ]
     },
     {
-      "id": "google-deepmind/foldseek_structural_search",
+      "id": "google-deepmind/foldseek-structural-search",
       "vector": [
         -0.1446675956249237,
         -0.06070420518517494,
@@ -134209,7 +134209,7 @@
       ]
     },
     {
-      "id": "google-deepmind/gnomad_database",
+      "id": "google-deepmind/gnomad-database",
       "vector": [
         -0.001297126873396337,
         0.013608834706246853,
@@ -134598,7 +134598,7 @@
       ]
     },
     {
-      "id": "google-deepmind/gtex_database",
+      "id": "google-deepmind/gtex-database",
       "vector": [
         -0.008144594728946686,
         -0.028491541743278503,
@@ -134987,7 +134987,7 @@
       ]
     },
     {
-      "id": "google-deepmind/human_protein_atlas_database",
+      "id": "google-deepmind/human-protein-atlas-database",
       "vector": [
         -0.01776512898504734,
         -0.019682276993989944,
@@ -135376,7 +135376,7 @@
       ]
     },
     {
-      "id": "google-deepmind/interpro_database",
+      "id": "google-deepmind/interpro-database",
       "vector": [
         -0.08549954742193222,
         -0.06994836032390594,
@@ -135765,7 +135765,7 @@
       ]
     },
     {
-      "id": "google-deepmind/jaspar_database",
+      "id": "google-deepmind/jaspar-database",
       "vector": [
         -0.01103090401738882,
         -0.11657711863517761,
@@ -136154,7 +136154,7 @@
       ]
     },
     {
-      "id": "google-deepmind/literature_search_arxiv",
+      "id": "google-deepmind/literature-search-arxiv",
       "vector": [
         -0.021184662356972694,
         -0.03133038803935051,
@@ -136543,7 +136543,7 @@
       ]
     },
     {
-      "id": "google-deepmind/literature_search_biorxiv",
+      "id": "google-deepmind/literature-search-biorxiv",
       "vector": [
         -0.0036157802678644657,
         0.02212064526975155,
@@ -136932,7 +136932,7 @@
       ]
     },
     {
-      "id": "google-deepmind/literature_search_europepmc",
+      "id": "google-deepmind/literature-search-europepmc",
       "vector": [
         0.01499064639210701,
         -0.02684825100004673,
@@ -137321,7 +137321,7 @@
       ]
     },
     {
-      "id": "google-deepmind/literature_search_openalex",
+      "id": "google-deepmind/literature-search-openalex",
       "vector": [
         0.07689563184976578,
         -0.03378036990761757,
@@ -137710,7 +137710,7 @@
       ]
     },
     {
-      "id": "google-deepmind/ncbi_sequence_fetch",
+      "id": "google-deepmind/ncbi-sequence-fetch",
       "vector": [
         -0.08087416738271713,
         0.03131900355219841,
@@ -138099,7 +138099,7 @@
       ]
     },
     {
-      "id": "google-deepmind/openfda_database",
+      "id": "google-deepmind/openfda-database",
       "vector": [
         0.0587010458111763,
         -0.06849069148302078,
@@ -138488,7 +138488,7 @@
       ]
     },
     {
-      "id": "google-deepmind/opentargets_database",
+      "id": "google-deepmind/opentargets-database",
       "vector": [
         0.07630493491888046,
         -0.053992848843336105,
@@ -138877,7 +138877,7 @@
       ]
     },
     {
-      "id": "google-deepmind/pdb_database",
+      "id": "google-deepmind/pdb-database",
       "vector": [
         -0.0741003230214119,
         -0.06394746899604797,
@@ -139266,7 +139266,7 @@
       ]
     },
     {
-      "id": "google-deepmind/protein_sequence_msa",
+      "id": "google-deepmind/protein-sequence-msa",
       "vector": [
         -0.04361026734113693,
         -0.013000424951314926,
@@ -139655,7 +139655,7 @@
       ]
     },
     {
-      "id": "google-deepmind/protein_sequence_similarity_search",
+      "id": "google-deepmind/protein-sequence-similarity-search",
       "vector": [
         -0.09794972091913223,
         -0.007283770013600588,
@@ -140044,7 +140044,7 @@
       ]
     },
     {
-      "id": "google-deepmind/pubchem_database",
+      "id": "google-deepmind/pubchem-database",
       "vector": [
         0.082640141248703,
         -0.024815097451210022,
@@ -140433,7 +140433,7 @@
       ]
     },
     {
-      "id": "google-deepmind/pubmed_database",
+      "id": "google-deepmind/pubmed-database",
       "vector": [
         0.025928450748324394,
         -0.03577050939202309,
@@ -141211,7 +141211,7 @@
       ]
     },
     {
-      "id": "google-deepmind/quickgo_database",
+      "id": "google-deepmind/quickgo-database",
       "vector": [
         0.017604166641831398,
         0.010506760329008102,
@@ -141600,7 +141600,7 @@
       ]
     },
     {
-      "id": "google-deepmind/reactome_database",
+      "id": "google-deepmind/reactome-database",
       "vector": [
         -0.017321456223726273,
         -0.06175891309976578,
@@ -142378,7 +142378,7 @@
       ]
     },
     {
-      "id": "google-deepmind/string_database",
+      "id": "google-deepmind/string-database",
       "vector": [
         -0.0030053078662604094,
         -0.04767449572682381,
@@ -142767,7 +142767,7 @@
       ]
     },
     {
-      "id": "google-deepmind/ucsc_conservation_and_tfbs",
+      "id": "google-deepmind/ucsc-conservation-and-tfbs",
       "vector": [
         -0.0644104853272438,
         -0.059080950915813446,
@@ -143156,7 +143156,7 @@
       ]
     },
     {
-      "id": "google-deepmind/unibind_database",
+      "id": "google-deepmind/unibind-database",
       "vector": [
         -0.02192474529147148,
         -0.07518232613801956,
@@ -143545,7 +143545,7 @@
       ]
     },
     {
-      "id": "google-deepmind/uniprot_database",
+      "id": "google-deepmind/uniprot-database",
       "vector": [
         -0.07131343334913254,
         -0.06661850959062576,
@@ -144323,7 +144323,7 @@
       ]
     },
     {
-      "id": "google-deepmind/workflow_skill_creator",
+      "id": "google-deepmind/workflow-skill-creator",
       "vector": [
         -0.08313281089067459,
         -0.06102659925818443,
@@ -153270,7 +153270,7 @@
       ]
     },
     {
-      "id": "karpathy/autoresearch",
+      "id": "karpathy/autoresearch-universal",
       "vector": [
         -0.06772073358297348,
         0.030504198744893074,
@@ -191003,7 +191003,7 @@
       ]
     },
     {
-      "id": "ruvnet/hive-mind-coordination",
+      "id": "ruvnet/hive-mind",
       "vector": [
         0.044610533863306046,
         -0.06716641783714294,

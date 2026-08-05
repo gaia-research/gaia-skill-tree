@@ -51,7 +51,11 @@ def _rename_named_skill(args, old_id: str, new_id: str) -> None:
     new_slug_titled = new_slug.replace("-", " ").title()
     if meta.get("name") in (old_slug, old_slug_titled, None):
         meta["name"] = new_slug_titled
-    if meta.get("title") in (old_slug, old_slug_titled, None):
+    # Unlike name, title is schema-optional and reviewer-only (valid solely on
+    # status: named — see registry/schema). Absent title means "not set", not
+    # "mirrors the slug"; only rewrite it when it already exists and mirrors
+    # the old slug, never invent one on a skill that never had it.
+    if meta.get("title") is not None and meta.get("title") in (old_slug, old_slug_titled):
         meta["title"] = new_slug_titled
 
     meta["id"] = new_id

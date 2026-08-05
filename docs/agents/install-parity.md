@@ -54,7 +54,10 @@ Parity is judged on two things only:
    and `metadata.json`.
 2. **Installed directory name** — the registry slug must equal the name the
    ecosystem installer chooses. A mismatch means the same skill answers to two
-   different names depending on how you installed it.
+   different names depending on how you installed it. Settled by
+   [issue #1446](https://github.com/gaia-research/gaia-skill-tree/issues/1446)
+   (Option A): the registry slug is authoritative — `install.py` is unchanged,
+   and a mismatch is curation debt fixed with `gaia dev rename <old-id> <new-id>`.
 
 Link-vs-copy and lockfile shape are recorded as KPIs, never as failures.
 
@@ -117,23 +120,19 @@ Findings print one line each, grouped under the origin that owns the fix:
 ```
 FINDINGS (2 across 2 skill(s))
 ==============================================================================
-DATA — registry curation; fix registry/named/<contributor>/<slug>.md  [1]
+DATA — registry curation; fix registry/named/<contributor>/<slug>.md  [2]
 ==============================================================================
 * stanfordnlp/dspy  NOT_A_SKILL_DIR  gaia exited 0 but installed a non-directory: .../dspy/__init__.py
-==============================================================================
-POLICY — one ruling settles the whole class; these are NOT per-skill tasks.
-         Decide once: does gaia install under the registry slug, or the upstream name?  [1]
-==============================================================================
   google-deepmind/chembl_database  DIRNAME_MISMATCH  gaia:'chembl_database' npx:'chembl-database'
+    fix: gaia dev rename google-deepmind/chembl_database google-deepmind/chembl-database
 ```
 
 and the run closes with the verdict:
 
 ```
 VERDICT — what the next pass actually is
-  data updates      1 skill(s) need a registry edit (gaia dev verbs)
+  data updates      2 skill(s) need a registry edit (gaia dev verbs)
   cli updates       0 skill(s) blocked by an installer defect
-  decisions         1 ruling clears 1 finding(s) — not per-skill work
 ```
 
 ### Findings are grouped by where the fix belongs
@@ -145,16 +144,28 @@ Every finding carries one of five origins, and the report groups by them:
 |---|---|---|
 | `DATA` | the registry entry describes the wrong thing | `registry/named/<contributor>/<slug>.md` — via `gaia dev` verbs, per the Programmatic-First Policy |
 | `CLI` | gaia accepted or produced a state it should have rejected | `src/gaia_cli/install.py` |
-| `POLICY` | **one ruling settles every instance** — could land in either data or CLI | decide first, then act once |
+| `POLICY` | **reserved** — a whole failure class turns on one undecided ruling | decide first, then act once |
 | `UPSTREAM` | the source repo moved, went private, or vanished | nothing here — re-link or freeze the skill |
 | `HARNESS` | measurement noise | re-run, or raise `--timeout` |
 
-`POLICY` exists so the report never overstates the work. `DIRNAME_MISMATCH` is
-the archetype: the registry slug and the upstream skill name disagree, which is
-fixable by renaming the slug *or* by having the installer adopt the upstream
-name — and one ruling settles all of them. Reporting 35 of those as 35 curation
-edits would be a false work estimate, which is the opposite of the point.
-**Count the class, decide, then act.**
+`POLICY` exists so the report never overstates undecided work — a class whose
+fix depends on a ruling nobody has made yet should not be counted as N separate
+curation edits. `DIRNAME_MISMATCH` used to be the archetype: the registry slug
+and the upstream skill name disagreed, and it was unclear whether the fix was
+renaming the slug or having the installer adopt the upstream name. Issue #1446
+settled it (Option A, registry slug wins), so `DIRNAME_MISMATCH` is now plain
+`DATA` — no `POLICY` findings are currently mapped to any failure code, but the
+origin stays defined for the next open question. **Count the class, decide,
+then act.**
+
+### Keeping slugs in sync
+
+Option A is a standing obligation, not a one-time cleanup: whenever an
+upstream `SKILL.md` changes its frontmatter `name`, the registry slug can
+drift out of sync again and the next parity run will report a fresh
+`DIRNAME_MISMATCH`. `docs/agents/upstream-watcher.md` is the natural place to
+catch this going forward — an upstream rename is exactly the kind of event it
+already opens tracking issues for.
 
 The run ends with a `VERDICT` block that states this directly: how many skills
 need a registry edit, how many are blocked by an installer defect, how many
@@ -173,7 +184,7 @@ the installer stops the next one landing silently. Worth filing both.
 | `NO_SOURCE_LINK` | DATA | no `links.github` (expected only for `NO_SOURCE`) |
 | `NOT_A_SKILL_DIR` | DATA\* | gaia exited 0 having installed a file, not a directory |
 | `NO_SKILL_MD` | DATA\* | the installed tree contains no `SKILL.md` |
-| `DIRNAME_MISMATCH` | POLICY | the two installers named the directory differently |
+| `DIRNAME_MISMATCH` | DATA | the two installers named the directory differently; fix with `gaia dev rename` (issue #1446) |
 | `NPX_NO_SKILL_DISCOVERED` | DATA | the npm CLI found no skill at that URL |
 | `NPX_FAN_OUT` | DATA | a `blob`/`tree` link resolved to more than one skill |
 | `SUITE_COMPONENT_FAILED` | DATA | named components did not install |
@@ -194,6 +205,8 @@ broken gaia install is not also reported as a content diff.
   of each source repo and includes the `git clone`; warm reuses the cache. Only
   warm reflects what a user with a primed cache experiences.
 - **Dirname mismatches** — registry slugs that disagree with the ecosystem name.
+  Expected zero after issue #1446; any nonzero value is new curation debt from
+  an upstream rename, fixed with `gaia dev rename`.
 - **Dangling symlinks** — a pure gaia-installer health number. Should be zero.
 - **Suite component coverage** — `installed/total` overall and per suite.
 - **Repo-root fan-out** — how many skills gaia installs as one versus how many

@@ -7,7 +7,7 @@
 
 # Gaia: The Evidence-Backed AI Agent Skill Graph 🌲
 
-[![Gaia](https://gaiaskilltree.com/badges/_assets/gaia-research/skill-ci-churn.svg?repo=gaia-research%2Fgaia-skill-tree)](https://gaiaskilltree.com/named/#explorer/gaia-research/skill-ci-churn)
+[![Gaia](https://gaiaskilltree.com/badges/_assets/gaia-research/ci-churn.svg?repo=gaia-research%2Fgaia-skill-tree)](https://gaiaskilltree.com/named/#explorer/gaia-research/ci-churn)
 
 **Stop guessing if your agent works. Prove it.**
 
@@ -391,7 +391,7 @@ To help AI agents and automated clients discover and crawl the registry programm
 
 Companion tools that build on Gaia but run independently:
 
-- **[skill-fuse](https://github.com/gaia-research/skill-fuse)** — a standalone skill that combines two AI agent skills into one fused skill. Powered by Gaia, works without it. Registered in the registry as [`gaia-research/skill-fuse`](https://gaiaskilltree.com/named/).
+- **[skill-fuse](https://github.com/gaia-research/skill-fuse)** — a standalone skill that combines two AI agent skills into one fused skill. Powered by Gaia, works without it. Registered in the registry as [`gaia-research/fuse`](https://gaiaskilltree.com/named/).
 
 ---
 

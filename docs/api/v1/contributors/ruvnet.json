@@ -39,7 +39,7 @@
         "ruvnet/github-release-management",
         "ruvnet/github-suite",
         "ruvnet/github-workflow-automation",
-        "ruvnet/hive-mind-coordination",
+        "ruvnet/hive-mind",
         "ruvnet/hooks-automation",
         "ruvnet/pair-programming",
         "ruvnet/performance-analysis",
@@ -160,8 +160,8 @@
       ]
     },
     {
-      "id": "ruvnet/hive-mind-coordination",
-      "name": "Hive Mind Coordination",
+      "id": "ruvnet/hive-mind",
+      "name": "Hive Mind",
       "level": "3★",
       "trustMagnitude": 96.09,
       "overallTrustGrade": "B",
@@ -171,7 +171,7 @@
       "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/ruvnet/hive-mind-coordination.json"
+        "self": "/api/v1/skills/ruvnet/hive-mind.json"
       },
       "genericSkillRef": "distributed-consensus-coordination"
     },

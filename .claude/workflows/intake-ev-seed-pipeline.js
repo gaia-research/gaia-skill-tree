@@ -37,7 +37,7 @@ Run searches sequentially, not in rapid bursts. If a 429 is returned, wait 10s t
 const STANDARD_SKILLS = [
   {
     id: 'token-observability',
-    namedSlug: 'gaia-research/skill-cost',
+    namedSlug: 'gaia-research/cost',
     stars: '2★',
     issue: 1123,
     repo: 'gaia-research/skill-cost',

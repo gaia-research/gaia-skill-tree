@@ -56,7 +56,7 @@
 | · [garrytan](../docs/u/garrytan/)/canary | Fusion | 3★ | `/detect-anomaly` |
 | ○ /diff-content | Basic | — | `/diff-content` |
 | · [obra](../docs/u/obra/)/dispatching-parallel-agents | Fusion | 3★ | `/dispatching-parallel-agents` |
-| · [ruvnet](../docs/u/ruvnet/)/hive-mind-coordination | Fusion | 3★ | `/distributed-consensus-coordination` |
+| · [ruvnet](../docs/u/ruvnet/)/hive-mind | Fusion | 3★ | `/distributed-consensus-coordination` |
 | · [ruvnet](../docs/u/ruvnet/)/flow-nexus-neural | Fusion | 2★ | `/distributed-neural-training` |
 | · [ruvnet](../docs/u/ruvnet/)/agentdb-advanced | Fusion | 2★ | `/distributed-vector-memory` |
 | · /document-analyst | Fusion | — | `/document-analyst` |
@@ -186,7 +186,7 @@
 | · [k-dense-ai](../docs/u/k-dense-ai/)/scvi-tools | Fusion | 2★ | `/single-cell-omics-modeling` |
 | · [garrytan](../docs/u/garrytan/)/skillify | Fusion | 3★ | `/skill-authoring` |
 | ○ [vercel](../docs/u/vercel/)/find-skills | Basic | 2★ | `/skill-discovery` |
-| · [gaia-research](../docs/u/gaia-research/)/skill-fuse | Fusion | 2★ | `/skill-fusion` |
+| · [gaia-research](../docs/u/gaia-research/)/fuse | Fusion | 2★ | `/skill-fusion` |
 | · [mattpocock](../docs/u/mattpocock/)/skills | Fusion | 5★ | `/skill-mastery` |
 | · [garrytan](../docs/u/garrytan/)/benchmark-models | Fusion | 2★ | `/skill-performance-benchmarking` |
 | · /skill-security-analysis | Fusion | — | `/skill-security-analysis` |

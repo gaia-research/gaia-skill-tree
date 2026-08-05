@@ -32,7 +32,7 @@
 | ○ ruvnet/github-release-management | Basic | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/github-suite | Basic | 3★ | Evolved | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/github-workflow-automation | Basic | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
-| ○ ruvnet/hive-mind-coordination | Basic | 3★ | Evolved | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
+| ○ ruvnet/hive-mind | Basic | 3★ | Evolved | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/hooks-automation | Basic | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/pair-programming | Basic | 2★ | Named | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
 | ○ ruvnet/performance-analysis | Basic | 1★ | Awakened | ruvnet/gaia-skill-tree | 2026-05-19T00:00:00Z |
@@ -436,7 +436,7 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   · ○ panniantong/agent-reach  [3★]
   · ○ /autonomous-engineering-platform
   · ○ anthropics/brand-guidelines  [3★]
-  · ○ gaia-research/skill-ci-churn  [2★]
+  · ○ gaia-research/ci-churn  [2★]
   · ○ /clinical-data-retrieval
   · ○ ████████/update-unique-churches
   · ○ /cultural-localization
@@ -454,7 +454,7 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   · ○ /pathway-ontology-retrieval
   · ○ /prompt-caching
   · ○ k-dense-ai/qiskit  [3★]
-  · ○ vercel-labs/react-best-practices  [3★]
+  · ○ vercel-labs/vercel-react-best-practices  [3★]
   · ○ oso95/scroll-world  [3★]
   · ○ openai/self-consistency  [3★]
   · ○ huggingface/semantic-cache  [2★]
