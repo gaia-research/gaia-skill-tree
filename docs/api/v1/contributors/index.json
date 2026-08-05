@@ -264,7 +264,7 @@
       "handle": "gaia-research",
       "namedSkills": 2,
       "topSkill": {
-        "id": "gaia-research/skill-fuse",
+        "id": "gaia-research/fuse",
         "level": "2★",
         "trustMagnitude": 41.62
       },
@@ -316,7 +316,7 @@
       "handle": "vercel-labs",
       "namedSkills": 1,
       "topSkill": {
-        "id": "vercel-labs/react-best-practices",
+        "id": "vercel-labs/vercel-react-best-practices",
         "level": "3★",
         "trustMagnitude": 50.48
       },
@@ -381,7 +381,7 @@
       "handle": "karpathy",
       "namedSkills": 1,
       "topSkill": {
-        "id": "karpathy/autoresearch",
+        "id": "karpathy/autoresearch-universal",
         "level": "2★",
         "trustMagnitude": 36.0
       },

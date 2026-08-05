@@ -780,8 +780,8 @@
       "genericSkillRef": "verification-before-completion"
     },
     {
-      "id": "vercel-labs/react-best-practices",
-      "name": "React Best Practices",
+      "id": "vercel-labs/vercel-react-best-practices",
+      "name": "Vercel React Best Practices",
       "level": "3★",
       "trustMagnitude": 50.48,
       "overallTrustGrade": "B",
@@ -791,7 +791,7 @@
       "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/vercel-labs/react-best-practices.json"
+        "self": "/api/v1/skills/vercel-labs/vercel-react-best-practices.json"
       },
       "genericSkillRef": "react-performance-optimization"
     },

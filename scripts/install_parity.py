@@ -72,11 +72,13 @@ UPSTREAM = "UPSTREAM"  # the source repo moved or went away; not our defect
 HARNESS = "HARNESS"    # measurement noise; not a finding about anything
 ORIGIN_ORDER = (DATA, CLI, POLICY, UPSTREAM, HARNESS)
 
-# POLICY exists so the report never overstates the work. A DIRNAME_MISMATCH
-# can be fixed in the registry (rename the slug) OR in the installer (adopt the
-# upstream name) — and one ruling settles every instance at once. Reporting 35
-# of them as 35 curation edits would be a false work estimate, which is the
-# opposite of what this harness is for. Count the CLASS, then decide, then act.
+# POLICY exists so the report never overstates undecided work: a failure class
+# whose fix depends on a ruling nobody has made yet should not be counted as N
+# separate curation edits. DIRNAME_MISMATCH used to be the archetype — fixable
+# either by renaming the registry slug or by having the installer adopt the
+# upstream name — until issue #1446 settled it (Option A: registry slug wins).
+# It is now plain DATA. POLICY currently has no members mapped to it; it stays
+# defined for the next open question of this shape.
 
 FAILURE_ORIGINS = {
     # DATA — the registry entry describes the wrong thing.
@@ -85,8 +87,9 @@ FAILURE_ORIGINS = {
     "NO_SOURCE_LINK": DATA,
     "NOT_A_SKILL_DIR": DATA,
     "NO_SKILL_MD": DATA,
-    # POLICY — one ruling settles every instance; do not count these as tasks.
-    "DIRNAME_MISMATCH": POLICY,
+    # Settled by issue #1446 (Option A: registry slug wins) — fix with
+    # `gaia dev rename <old-id> <new-id>`, same as any other DATA finding.
+    "DIRNAME_MISMATCH": DATA,
     "NPX_NO_SKILL_DISCOVERED": DATA,
     "NPX_FAN_OUT": DATA,
     "SUITE_COMPONENT_FAILED": DATA,
@@ -676,9 +679,11 @@ def check_dirname(result: Result) -> None:
     if not result.gaia_dirname or not result.npx_dirname:
         return
     if result.gaia_dirname != result.npx_dirname:
+        contributor = result.skill_id.split("/", 1)[0]
         result.fail(
             "DIRNAME_MISMATCH",
-            f"gaia:'{result.gaia_dirname}' npx:'{result.npx_dirname}'",
+            f"gaia:'{result.gaia_dirname}' npx:'{result.npx_dirname}' "
+            f"fix: gaia dev rename {result.skill_id} {contributor}/{result.npx_dirname}",
         )
 
 
@@ -882,8 +887,7 @@ def render(results: list[Result], kpis: dict) -> None:
             POLICY: (
                 "POLICY — one ruling settles the whole class; these are NOT "
                 "per-skill tasks.\n"
-                "         Decide once: does gaia install under the registry slug, "
-                "or the upstream name?"
+                "         Decide once, then act."
             ),
             UPSTREAM: "UPSTREAM — source repo moved or unreachable; not a Gaia defect",
             HARNESS: "HARNESS — measurement noise; re-run or raise --timeout",
