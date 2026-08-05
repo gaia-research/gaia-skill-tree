@@ -84,14 +84,26 @@ FAIL  stanfordnlp/dspy  NOT_A_SKILL_DIR  gaia exited 0 but installed a non-direc
 ### Findings are grouped by where the fix belongs
 
 A flat list of failures is a wall; the same list split by origin is a work plan.
-Every finding carries one of four origins, and the report groups by them:
+Every finding carries one of five origins, and the report groups by them:
 
 | Origin | Means | Fix in |
 |---|---|---|
 | `DATA` | the registry entry describes the wrong thing | `registry/named/<contributor>/<slug>.md` — via `gaia dev` verbs, per the Programmatic-First Policy |
 | `CLI` | gaia accepted or produced a state it should have rejected | `src/gaia_cli/install.py` |
+| `POLICY` | **one ruling settles every instance** — could land in either data or CLI | decide first, then act once |
 | `UPSTREAM` | the source repo moved, went private, or vanished | nothing here — re-link or freeze the skill |
 | `HARNESS` | measurement noise | re-run, or raise `--timeout` |
+
+`POLICY` exists so the report never overstates the work. `DIRNAME_MISMATCH` is
+the archetype: the registry slug and the upstream skill name disagree, which is
+fixable by renaming the slug *or* by having the installer adopt the upstream
+name — and one ruling settles all of them. Reporting 35 of those as 35 curation
+edits would be a false work estimate, which is the opposite of the point.
+**Count the class, decide, then act.**
+
+The run ends with a `VERDICT` block that states this directly: how many skills
+need a registry edit, how many are blocked by an installer defect, how many
+findings a single ruling would clear, and what to ignore.
 
 Findings marked `*` are **dual-origin**: a bad link caused them, *and* gaia
 installed it without complaint. Fixing the data clears the finding; hardening
@@ -106,7 +118,7 @@ the installer stops the next one landing silently. Worth filing both.
 | `NO_SOURCE_LINK` | DATA | no `links.github` (expected only for `NO_SOURCE`) |
 | `NOT_A_SKILL_DIR` | DATA\* | gaia exited 0 having installed a file, not a directory |
 | `NO_SKILL_MD` | DATA\* | the installed tree contains no `SKILL.md` |
-| `DIRNAME_MISMATCH` | DATA | the two installers named the directory differently |
+| `DIRNAME_MISMATCH` | POLICY | the two installers named the directory differently |
 | `NPX_NO_SKILL_DISCOVERED` | DATA | the npm CLI found no skill at that URL |
 | `NPX_FAN_OUT` | DATA | a `blob`/`tree` link resolved to more than one skill |
 | `SUITE_COMPONENT_FAILED` | DATA | named components did not install |

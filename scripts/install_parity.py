@@ -67,9 +67,16 @@ FAIL = "FAIL"
 # the second is a work plan, the first is a wall.
 DATA = "DATA"          # registry curation: fix registry/named/<contrib>/<slug>.md
 CLI = "CLI"            # installer defect: fix src/gaia_cli/install.py
+POLICY = "POLICY"      # one ruling fixes the whole class; see below
 UPSTREAM = "UPSTREAM"  # the source repo moved or went away; not our defect
 HARNESS = "HARNESS"    # measurement noise; not a finding about anything
-ORIGIN_ORDER = (DATA, CLI, UPSTREAM, HARNESS)
+ORIGIN_ORDER = (DATA, CLI, POLICY, UPSTREAM, HARNESS)
+
+# POLICY exists so the report never overstates the work. A DIRNAME_MISMATCH
+# can be fixed in the registry (rename the slug) OR in the installer (adopt the
+# upstream name) — and one ruling settles every instance at once. Reporting 35
+# of them as 35 curation edits would be a false work estimate, which is the
+# opposite of what this harness is for. Count the CLASS, then decide, then act.
 
 FAILURE_ORIGINS = {
     # DATA — the registry entry describes the wrong thing.
@@ -78,7 +85,8 @@ FAILURE_ORIGINS = {
     "NO_SOURCE_LINK": DATA,
     "NOT_A_SKILL_DIR": DATA,
     "NO_SKILL_MD": DATA,
-    "DIRNAME_MISMATCH": DATA,
+    # POLICY — one ruling settles every instance; do not count these as tasks.
+    "DIRNAME_MISMATCH": POLICY,
     "NPX_NO_SKILL_DISCOVERED": DATA,
     "NPX_FAN_OUT": DATA,
     "SUITE_COMPONENT_FAILED": DATA,
@@ -862,6 +870,12 @@ def render(results: list[Result], kpis: dict) -> None:
         headers = {
             DATA: "DATA — registry curation; fix registry/named/<contributor>/<slug>.md",
             CLI: "CLI — installer defect; fix src/gaia_cli/install.py",
+            POLICY: (
+                "POLICY — one ruling settles the whole class; these are NOT "
+                "per-skill tasks.\n"
+                "         Decide once: does gaia install under the registry slug, "
+                "or the upstream name?"
+            ),
             UPSTREAM: "UPSTREAM — source repo moved or unreachable; not a Gaia defect",
             HARNESS: "HARNESS — measurement noise; re-run or raise --timeout",
         }
@@ -956,6 +970,34 @@ def render(results: list[Result], kpis: dict) -> None:
                     f"{origin:<12} {bucket['findings']:>9} {bucket['skills']:>7}   "
                     + ", ".join(f"{c}×{n}" for c, n in bucket["codes"].items())
                 )
+
+        # The whole point of the run: is the next move a data pass or a CLI pass?
+        origins = kpis["byOrigin"]
+        print()
+        print("VERDICT — what the next pass actually is")
+        print(
+            f"  data updates    {origins[DATA]['skills']:>3} skill(s) need a "
+            "registry edit (gaia dev verbs)"
+        )
+        print(
+            f"  cli updates     {origins[CLI]['skills']:>3} skill(s) blocked by an "
+            "installer defect"
+        )
+        if origins[POLICY]["findings"]:
+            print(
+                f"  decisions         1 ruling clears "
+                f"{origins[POLICY]['findings']} finding(s) — not per-skill work"
+            )
+        if origins[UPSTREAM]["skills"]:
+            print(
+                f"  upstream        {origins[UPSTREAM]['skills']:>3} skill(s) whose "
+                "source moved; re-link or freeze"
+            )
+        if origins[HARNESS]["skills"]:
+            print(
+                f"  ignore          {origins[HARNESS]['skills']:>3} measurement "
+                "artefact(s); re-run or raise --timeout"
+            )
 
     print()
     print(f"Tooling: skills@{kpis['tooling']['npxVersion']}")
