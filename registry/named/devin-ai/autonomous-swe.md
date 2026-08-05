@@ -97,6 +97,14 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Level updated from 1★ to 2★ per G7 final rankings calibration.
+- timestamp: '2026-08-05T06:36:42Z'
+  action: upstream_deprecated
+  contributor: claude-bot
+  previousValue: null
+  newValue: null
+  details: 'links.github (github.com/cognition-labs/devin) 404/401; real org is github.com/cognitionai
+    and hosts no Devin repo. Devin is proprietary SaaS with no legitimate public source
+    -- this skill was never actually installable. See issue #1447.'
 trustMagnitude: 30.0
 overallTrustGrade: C
 apexGateStatus:
@@ -111,6 +119,7 @@ apexGateStatus:
 verification:
   firstEvidenceAt: '2026-06-19T10:34:41Z'
 trustMagnitudeInputHash: 7dd8b095500e7ef9d760c6c74752131609373f78743a97519811b56cc8c6d2d7
+installable: false
 ---
 
 ## Overview
