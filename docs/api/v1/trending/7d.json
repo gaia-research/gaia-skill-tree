@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-08-05T06:03:29Z",
+  "generatedAt": "2026-08-05T09:32:22Z",
   "firstRun": false,
   "skills": [
     {
@@ -57,20 +57,6 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/panniantong/agent-reach.json"
-      }
-    },
-    {
-      "id": "vercel-labs/react-best-practices",
-      "name": "React Best Practices",
-      "level": "3★",
-      "contributor": "vercel-labs",
-      "trustMagnitude": 50.48,
-      "overallTrustGrade": "B",
-      "trendingScore": 100.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/vercel-labs/react-best-practices.json"
       }
     },
     {
@@ -256,20 +242,6 @@
       }
     },
     {
-      "id": "karpathy/autoresearch",
-      "name": "AutoResearch",
-      "level": "2★",
-      "contributor": "karpathy",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/karpathy/autoresearch.json"
-      }
-    },
-    {
       "id": "k-dense-ai/scanpy",
       "name": "Scanpy",
       "level": "3★",
@@ -309,6 +281,20 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/k-dense-ai/transformers.json"
+      }
+    },
+    {
+      "id": "ruvnet/hive-mind",
+      "name": "Hive Mind",
+      "level": "3★",
+      "contributor": "ruvnet",
+      "trustMagnitude": 96.09,
+      "overallTrustGrade": "B",
+      "trendingScore": 48.05,
+      "tmDelta": 96.09,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/hive-mind.json"
       }
     },
     {
@@ -354,6 +340,20 @@
       }
     },
     {
+      "id": "vercel-labs/vercel-react-best-practices",
+      "name": "Vercel React Best Practices",
+      "level": "3★",
+      "contributor": "vercel-labs",
+      "trustMagnitude": 50.48,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.24,
+      "tmDelta": 50.48,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/vercel-labs/vercel-react-best-practices.json"
+      }
+    },
+    {
       "id": "k-dense-ai/rdkit",
       "name": "RDKit",
       "level": "2★",
@@ -379,6 +379,34 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/k-dense-ai/scvi-tools.json"
+      }
+    },
+    {
+      "id": "gaia-research/fuse",
+      "name": "Fuse",
+      "level": "2★",
+      "contributor": "gaia-research",
+      "trustMagnitude": 41.62,
+      "overallTrustGrade": "C",
+      "trendingScore": 20.81,
+      "tmDelta": 41.62,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/gaia-research/fuse.json"
+      }
+    },
+    {
+      "id": "gaia-research/ci-churn",
+      "name": "CI Churn",
+      "level": "2★",
+      "contributor": "gaia-research",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 20.5,
+      "tmDelta": 41.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/gaia-research/ci-churn.json"
       }
     },
     {
@@ -410,6 +438,20 @@
       }
     },
     {
+      "id": "karpathy/autoresearch-universal",
+      "name": "AutoResearch",
+      "level": "2★",
+      "contributor": "karpathy",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 18.0,
+      "tmDelta": 36.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/karpathy/autoresearch-universal.json"
+      }
+    },
+    {
       "id": "firecrawl/firecrawl-build-search",
       "name": "Firecrawl Search",
       "level": "4★",
@@ -435,20 +477,6 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
-      }
-    },
-    {
-      "id": "gaia-research/skill-fuse",
-      "name": "Skill Fuse",
-      "level": "2★",
-      "contributor": "gaia-research",
-      "trustMagnitude": 41.62,
-      "overallTrustGrade": "C",
-      "trendingScore": 10.92,
-      "tmDelta": 0.62,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/gaia-research/skill-fuse.json"
       }
     },
     {
@@ -494,7 +522,7 @@
       }
     }
   ],
-  "totalTrending": 35,
+  "totalTrending": 37,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }
