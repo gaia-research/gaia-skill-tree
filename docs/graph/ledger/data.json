@@ -1,6 +1,6 @@
 {
   "version": "7.3.11",
-  "generatedAt": "2026-08-05T06:03:28Z",
+  "generatedAt": "2026-08-05T06:56:29Z",
   "summary": {
     "total": 219,
     "S": 5,
@@ -815,7 +815,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "google-deepmind/alphafold_database_fetch_and_analyze",
+      "skillId": "google-deepmind/alphafold-database-fetch-and-analyze",
       "tm": 100.82,
       "grade": "A",
       "currentStars": "4★",
@@ -832,7 +832,7 @@
       "branch": "unique"
     },
     {
-      "skillId": "google-deepmind/alphagenome_single_variant_analysis",
+      "skillId": "google-deepmind/alphagenome-single-variant-analysis",
       "tm": 100.82,
       "grade": "A",
       "currentStars": "3★",
@@ -849,7 +849,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "google-deepmind/embl_ebi_ols",
+      "skillId": "google-deepmind/embl-ebi-ols",
       "tm": 100.82,
       "grade": "A",
       "currentStars": "3★",
@@ -866,7 +866,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "google-deepmind/encode_ccres_database",
+      "skillId": "google-deepmind/encode-ccres-database",
       "tm": 100.82,
       "grade": "A",
       "currentStars": "3★",
@@ -883,7 +883,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "google-deepmind/ensembl_database",
+      "skillId": "google-deepmind/ensembl-database",
       "tm": 100.82,
       "grade": "A",
       "currentStars": "4★",
@@ -900,7 +900,7 @@
       "branch": "unique"
     },
     {
-      "skillId": "google-deepmind/foldseek_structural_search",
+      "skillId": "google-deepmind/foldseek-structural-search",
       "tm": 100.82,
       "grade": "A",
       "currentStars": "3★",
@@ -917,7 +917,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "google-deepmind/gnomad_database",
+      "skillId": "google-deepmind/gnomad-database",
       "tm": 100.82,
       "grade": "A",
       "currentStars": "3★",
@@ -934,7 +934,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "google-deepmind/gtex_database",
+      "skillId": "google-deepmind/gtex-database",
       "tm": 100.82,
       "grade": "A",
       "currentStars": "3★",
@@ -951,7 +951,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "google-deepmind/human_protein_atlas_database",
+      "skillId": "google-deepmind/human-protein-atlas-database",
       "tm": 100.82,
       "grade": "A",
       "currentStars": "3★",
@@ -968,7 +968,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "google-deepmind/interpro_database",
+      "skillId": "google-deepmind/interpro-database",
       "tm": 100.82,
       "grade": "A",
       "currentStars": "3★",
@@ -985,7 +985,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "google-deepmind/jaspar_database",
+      "skillId": "google-deepmind/jaspar-database",
       "tm": 100.82,
       "grade": "A",
       "currentStars": "3★",
@@ -1002,7 +1002,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "google-deepmind/literature_search_europepmc",
+      "skillId": "google-deepmind/literature-search-europepmc",
       "tm": 100.82,
       "grade": "A",
       "currentStars": "3★",
@@ -1019,7 +1019,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "google-deepmind/literature_search_openalex",
+      "skillId": "google-deepmind/literature-search-openalex",
       "tm": 100.82,
       "grade": "A",
       "currentStars": "4★",
@@ -1036,7 +1036,7 @@
       "branch": "unique"
     },
     {
-      "skillId": "google-deepmind/ncbi_sequence_fetch",
+      "skillId": "google-deepmind/ncbi-sequence-fetch",
       "tm": 100.82,
       "grade": "A",
       "currentStars": "3★",
@@ -1053,7 +1053,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "google-deepmind/openfda_database",
+      "skillId": "google-deepmind/openfda-database",
       "tm": 100.82,
       "grade": "A",
       "currentStars": "3★",
@@ -1070,7 +1070,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "google-deepmind/opentargets_database",
+      "skillId": "google-deepmind/opentargets-database",
       "tm": 100.82,
       "grade": "A",
       "currentStars": "3★",
@@ -1087,7 +1087,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "google-deepmind/protein_sequence_similarity_search",
+      "skillId": "google-deepmind/protein-sequence-similarity-search",
       "tm": 100.82,
       "grade": "A",
       "currentStars": "4★",
@@ -1104,7 +1104,7 @@
       "branch": "unique"
     },
     {
-      "skillId": "google-deepmind/pubchem_database",
+      "skillId": "google-deepmind/pubchem-database",
       "tm": 100.82,
       "grade": "A",
       "currentStars": "4★",
@@ -1138,7 +1138,7 @@
       "branch": "unique"
     },
     {
-      "skillId": "google-deepmind/quickgo_database",
+      "skillId": "google-deepmind/quickgo-database",
       "tm": 100.82,
       "grade": "A",
       "currentStars": "3★",
@@ -1155,7 +1155,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "google-deepmind/reactome_database",
+      "skillId": "google-deepmind/reactome-database",
       "tm": 100.82,
       "grade": "A",
       "currentStars": "4★",
@@ -1172,7 +1172,7 @@
       "branch": "unique"
     },
     {
-      "skillId": "google-deepmind/ucsc_conservation_and_tfbs",
+      "skillId": "google-deepmind/ucsc-conservation-and-tfbs",
       "tm": 100.82,
       "grade": "A",
       "currentStars": "3★",
@@ -1189,7 +1189,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "google-deepmind/unibind_database",
+      "skillId": "google-deepmind/unibind-database",
       "tm": 100.82,
       "grade": "A",
       "currentStars": "3★",
@@ -1223,7 +1223,7 @@
       "branch": "unique"
     },
     {
-      "skillId": "google-deepmind/workflow_skill_creator",
+      "skillId": "google-deepmind/workflow-skill-creator",
       "tm": 100.82,
       "grade": "A",
       "currentStars": "4★",
@@ -1272,7 +1272,7 @@
       "branch": "unique"
     },
     {
-      "skillId": "ruvnet/hive-mind-coordination",
+      "skillId": "ruvnet/hive-mind",
       "tm": 97.7,
       "grade": "B",
       "currentStars": "3★",
@@ -1573,7 +1573,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "google-deepmind/chembl_database",
+      "skillId": "google-deepmind/chembl-database",
       "tm": 70.82,
       "grade": "B",
       "currentStars": "3★",
@@ -1590,7 +1590,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "google-deepmind/clinical_trials_database",
+      "skillId": "google-deepmind/clinical-trials-database",
       "tm": 70.82,
       "grade": "B",
       "currentStars": "4★",
@@ -1607,7 +1607,7 @@
       "branch": "unique"
     },
     {
-      "skillId": "google-deepmind/clinvar_database",
+      "skillId": "google-deepmind/clinvar-database",
       "tm": 70.82,
       "grade": "B",
       "currentStars": "3★",
@@ -1624,7 +1624,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "google-deepmind/dbsnp_database",
+      "skillId": "google-deepmind/dbsnp-database",
       "tm": 70.82,
       "grade": "B",
       "currentStars": "3★",
@@ -1641,7 +1641,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "google-deepmind/literature_search_arxiv",
+      "skillId": "google-deepmind/literature-search-arxiv",
       "tm": 70.82,
       "grade": "B",
       "currentStars": "3★",
@@ -1658,7 +1658,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "google-deepmind/literature_search_biorxiv",
+      "skillId": "google-deepmind/literature-search-biorxiv",
       "tm": 70.82,
       "grade": "B",
       "currentStars": "3★",
@@ -1675,7 +1675,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "google-deepmind/pdb_database",
+      "skillId": "google-deepmind/pdb-database",
       "tm": 70.82,
       "grade": "B",
       "currentStars": "4★",
@@ -1692,7 +1692,7 @@
       "branch": "unique"
     },
     {
-      "skillId": "google-deepmind/protein_sequence_msa",
+      "skillId": "google-deepmind/protein-sequence-msa",
       "tm": 70.82,
       "grade": "B",
       "currentStars": "3★",
@@ -1709,7 +1709,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "google-deepmind/pubmed_database",
+      "skillId": "google-deepmind/pubmed-database",
       "tm": 70.82,
       "grade": "B",
       "currentStars": "3★",
@@ -1726,7 +1726,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "google-deepmind/string_database",
+      "skillId": "google-deepmind/string-database",
       "tm": 70.82,
       "grade": "B",
       "currentStars": "3★",
@@ -1743,7 +1743,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "google-deepmind/uniprot_database",
+      "skillId": "google-deepmind/uniprot-database",
       "tm": 70.82,
       "grade": "B",
       "currentStars": "4★",
@@ -2405,7 +2405,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "vercel-labs/react-best-practices",
+      "skillId": "vercel-labs/vercel-react-best-practices",
       "tm": 50.48,
       "grade": "B",
       "currentStars": "3★",
@@ -2560,7 +2560,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "gaia-research/skill-fuse",
+      "skillId": "gaia-research/fuse",
       "tm": 41.62,
       "grade": "C",
       "currentStars": "2★",
@@ -2594,7 +2594,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "gaia-research/skill-ci-churn",
+      "skillId": "gaia-research/ci-churn",
       "tm": 41.0,
       "grade": "C",
       "currentStars": "2★",
@@ -3124,7 +3124,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "karpathy/autoresearch",
+      "skillId": "karpathy/autoresearch-universal",
       "tm": 36.0,
       "grade": "C",
       "currentStars": "2★",
