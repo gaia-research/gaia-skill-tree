@@ -314,6 +314,7 @@
         "level": "2★",
         "description": "Extracts complete design systems, Tailwind configs, and Figma variables from any live URL.",
         "title": "The Token Scavenger",
+        "installable": false,
         "tags": [
           "design-system",
           "tailwind",
@@ -370,6 +371,14 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:40Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-08-05T06:36:41Z",
+            "action": "upstream_deprecated",
+            "contributor": "claude-bot",
+            "previousValue": null,
+            "newValue": null,
+            "details": "Upstream repo and account (github.com/Manavarya09) return 404/401 as of 2026-08-05; git smart-HTTP probe confirms not clonable. No verified relink target (npm pkg 'designlang' has no repository field; unrelated single-commit tobiags/designlang copy is too weak a provenance signal). See issue #1447."
           }
         ],
         "trustMagnitude": 36.0,
@@ -6370,6 +6379,7 @@
         "description": "Autonomous software engineering agent capable of end-to-end debugging, code generation, and self-correction across complex multi-file codebases.",
         "title": "The Codebreaker's Will",
         "catalogRef": "devin-ai-autonomous-swe",
+        "installable": false,
         "tags": [
           "software-engineering",
           "autonomous",
@@ -6481,6 +6491,14 @@
             "action": "rank_up",
             "contributor": "mbtiongson1",
             "details": "Level updated from 1★ to 2★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-05T06:36:42Z",
+            "action": "upstream_deprecated",
+            "contributor": "claude-bot",
+            "previousValue": null,
+            "newValue": null,
+            "details": "links.github (github.com/cognition-labs/devin) 404/401; real org is github.com/cognitionai and hosts no Devin repo. Devin is proprietary SaaS with no legitimate public source -- this skill was never actually installable. See issue #1447."
           }
         ],
         "trustMagnitude": 30.0,

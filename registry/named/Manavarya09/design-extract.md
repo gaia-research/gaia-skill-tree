@@ -52,6 +52,15 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:40Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-08-05T06:36:41Z'
+  action: upstream_deprecated
+  contributor: claude-bot
+  previousValue: null
+  newValue: null
+  details: 'Upstream repo and account (github.com/Manavarya09) return 404/401 as of
+    2026-08-05; git smart-HTTP probe confirms not clonable. No verified relink target
+    (npm pkg ''designlang'' has no repository field; unrelated single-commit tobiags/designlang
+    copy is too weak a provenance signal). See issue #1447.'
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -64,6 +73,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: e6a67963e6916ea87b9db72e7d37ff0df05305e13129a0084d6ed463ed36ac8e
+installable: false
 ---
 
 ## Overview
