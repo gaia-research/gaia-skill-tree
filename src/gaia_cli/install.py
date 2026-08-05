@@ -176,6 +176,13 @@ def _install_single(sid: str, meta: dict, registry_path: str, visited: set[str],
     Args:
         location: "local" (default, .agents/.claude) or "global" (~/.gaia/skills)
     """
+    if isinstance(meta, dict) and meta.get("installable") is False:
+        print(
+            f"Error: Skill '{sid}' is marked registry-only (installable: false).",
+            file=sys.stderr,
+        )
+        return False
+
     links = meta.get("links", {}) if isinstance(meta, dict) else {}
     github_url = links.get("github") if isinstance(links, dict) else None
     if not github_url:
