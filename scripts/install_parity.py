@@ -93,8 +93,12 @@ FAILURE_ORIGINS = {
     "CONTENT_MISSING_FILE": DATA,
     "CONTENT_EXTRA_FILE": DATA,
     "CONTENT_BYTES_DIFFER": DATA,
+    # A dangling symlink means links.github points at a path that no longer
+    # exists upstream. It is DATA, not CLI: hardening the installer only turns
+    # a silent success into a loud failure — the skill still does not install
+    # until the link is fixed. The CLI gap is real but separate, hence dual.
+    "DANGLING_SYMLINK": DATA,
     # CLI — gaia accepted or produced a state it should have rejected.
-    "DANGLING_SYMLINK": CLI,
     "GAIA_INSTALL_FAILED": CLI,
     "UNEXPECTED_SUCCESS": CLI,
     # UPSTREAM / HARNESS.
@@ -106,7 +110,7 @@ FAILURE_ORIGINS = {
 # Codes whose root cause is a bad registry link, but which ALSO show gaia
 # failing to validate what it installed. Fixing the data clears the finding;
 # hardening the CLI stops the next one landing silently.
-DUAL_ORIGIN = {"NOT_A_SKILL_DIR", "NO_SKILL_MD"}
+DUAL_ORIGIN = {"NOT_A_SKILL_DIR", "NO_SKILL_MD", "DANGLING_SYMLINK"}
 
 print_lock = threading.Lock()
 

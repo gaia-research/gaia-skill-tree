@@ -178,7 +178,7 @@ the installer stops the next one landing silently. Worth filing both.
 | `NPX_FAN_OUT` | DATA | a `blob`/`tree` link resolved to more than one skill |
 | `SUITE_COMPONENT_FAILED` | DATA | named components did not install |
 | `CONTENT_MISSING_FILE` / `CONTENT_EXTRA_FILE` / `CONTENT_BYTES_DIFFER` | DATA | tree diff — usually the link points at a near-miss directory |
-| `DANGLING_SYMLINK` | CLI | gaia reported success but the target does not exist — `_install_single` never validates the subpath |
+| `DANGLING_SYMLINK` | DATA\* | `links.github` points at a path that no longer exists upstream; gaia reported success anyway |
 | `GAIA_INSTALL_FAILED` | CLI | gaia exited nonzero for another reason, or wrote no manifest entry |
 | `UNEXPECTED_SUCCESS` | CLI | a `NO_SOURCE` skill installed anyway |
 | `GIT_CLONE_FAILED` | UPSTREAM | 404, private, or network — captured `git` stderr |
