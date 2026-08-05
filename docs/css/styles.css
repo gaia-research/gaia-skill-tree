@@ -6977,7 +6977,7 @@ footer.footer-v2::before {
 }
 
 .footer-v2 .footer-display-tree {
-  position: relative;
+  /* position: relative; removed to prevent Safari text-fill background-clip transparency compositing bug */
 }
 
 .footer-v2:hover .footer-display-word {
