@@ -13,7 +13,7 @@ description: Drives a rigorous five-phase debugging discipline — build a feedb
   until a fast deterministic pass/fail signal exists. Applies to hard bugs and performance
   regressions. Removed from mattpocock/skills suite in v1.0.1.
 links:
-  github: https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md
+  github: https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnosing-bugs/SKILL.md
 tags:
 - debugging
 - diagnosis
@@ -21,7 +21,7 @@ tags:
 - regression
 - root-cause-analysis
 createdAt: '2026-04-30'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-05'
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md
@@ -104,6 +104,10 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Level updated from 2★ to 3★ per G7 final rankings calibration.
+- timestamp: '2026-08-05T06:27:07Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnosing-bugs/SKILL.md
 trustMagnitude: 90.38
 overallTrustGrade: B
 apexGateStatus:

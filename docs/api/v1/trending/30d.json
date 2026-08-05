@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-08-04T11:42:52Z",
+  "generatedAt": "2026-08-05T09:32:22Z",
   "firstRun": false,
   "skills": [
     {
@@ -270,20 +270,6 @@
       }
     },
     {
-      "id": "karpathy/autoresearch",
-      "name": "AutoResearch",
-      "level": "2★",
-      "contributor": "karpathy",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/karpathy/autoresearch.json"
-      }
-    },
-    {
       "id": "k-dense-ai/scanpy",
       "name": "Scanpy",
       "level": "3★",
@@ -323,6 +309,20 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/k-dense-ai/transformers.json"
+      }
+    },
+    {
+      "id": "ruvnet/hive-mind",
+      "name": "Hive Mind",
+      "level": "3★",
+      "contributor": "ruvnet",
+      "trustMagnitude": 96.09,
+      "overallTrustGrade": "B",
+      "trendingScore": 48.05,
+      "tmDelta": 96.09,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/hive-mind.json"
       }
     },
     {
@@ -410,8 +410,8 @@
       }
     },
     {
-      "id": "vercel-labs/react-best-practices",
-      "name": "React Best Practices",
+      "id": "vercel-labs/vercel-react-best-practices",
+      "name": "Vercel React Best Practices",
       "level": "3★",
       "contributor": "vercel-labs",
       "trustMagnitude": 50.48,
@@ -420,7 +420,7 @@
       "tmDelta": 50.48,
       "new": true,
       "_links": {
-        "self": "/api/v1/skills/vercel-labs/react-best-practices.json"
+        "self": "/api/v1/skills/vercel-labs/vercel-react-best-practices.json"
       }
     },
     {
@@ -466,8 +466,8 @@
       }
     },
     {
-      "id": "gaia-research/skill-fuse",
-      "name": "Skill Fuse",
+      "id": "gaia-research/fuse",
+      "name": "Fuse",
       "level": "2★",
       "contributor": "gaia-research",
       "trustMagnitude": 41.62,
@@ -476,11 +476,11 @@
       "tmDelta": 41.62,
       "new": true,
       "_links": {
-        "self": "/api/v1/skills/gaia-research/skill-fuse.json"
+        "self": "/api/v1/skills/gaia-research/fuse.json"
       }
     },
     {
-      "id": "gaia-research/skill-ci-churn",
+      "id": "gaia-research/ci-churn",
       "name": "CI Churn",
       "level": "2★",
       "contributor": "gaia-research",
@@ -490,7 +490,7 @@
       "tmDelta": 41.0,
       "new": true,
       "_links": {
-        "self": "/api/v1/skills/gaia-research/skill-ci-churn.json"
+        "self": "/api/v1/skills/gaia-research/ci-churn.json"
       }
     },
     {
@@ -564,6 +564,20 @@
       }
     },
     {
+      "id": "karpathy/autoresearch-universal",
+      "name": "AutoResearch",
+      "level": "2★",
+      "contributor": "karpathy",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 18.0,
+      "tmDelta": 36.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/karpathy/autoresearch-universal.json"
+      }
+    },
+    {
       "id": "obra/subagent-driven-development",
       "name": "Subagent-Driven Development",
       "level": "4★",
@@ -620,7 +634,7 @@
       }
     }
   ],
-  "totalTrending": 44,
+  "totalTrending": 45,
   "_links": {
     "self": "/api/v1/trending/30d.json"
   }

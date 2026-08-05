@@ -416,7 +416,7 @@
       ]
     },
     {
-      "skillId": "ruvnet/hive-mind-coordination",
+      "skillId": "ruvnet/hive-mind",
       "level": "3★",
       "unlockedAt": "2026-05-19T00:00:00Z",
       "unlockedIn": "ruvnet/gaia-skill-tree",
@@ -1091,7 +1091,7 @@
     {
       "timestamp": "2026-05-19T00:00:00Z",
       "action": "register",
-      "skillId": "ruvnet/hive-mind-coordination",
+      "skillId": "ruvnet/hive-mind",
       "details": "Registered named skill ruvnet/hive-mind-coordination",
       "previousValue": null,
       "newValue": "4★"
@@ -1390,7 +1390,7 @@
       "previousValue": "4★",
       "newValue": "1★",
       "details": "Calibrated level from 4★ to 1★",
-      "skillId": "ruvnet/hive-mind-coordination"
+      "skillId": "ruvnet/hive-mind"
     },
     {
       "timestamp": "2026-06-02T23:48:23Z",
@@ -1414,7 +1414,7 @@
       "previousValue": "1★",
       "newValue": "4★",
       "details": "Calibrated level from 1★ to 4★",
-      "skillId": "ruvnet/hive-mind-coordination"
+      "skillId": "ruvnet/hive-mind"
     },
     {
       "timestamp": "2026-06-18T12:54:50Z",
@@ -1502,7 +1502,7 @@
       "previousValue": "4★",
       "newValue": "3★",
       "details": "Level updated from 4★ to 3★ per G7 final rankings calibration.",
-      "skillId": "ruvnet/hive-mind-coordination"
+      "skillId": "ruvnet/hive-mind"
     },
     {
       "timestamp": "2026-06-20T06:31:36Z",

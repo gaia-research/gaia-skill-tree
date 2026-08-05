@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <script>window.GAIA_VERSION = "7.3.8";</script>
+  <script>window.GAIA_VERSION = "7.3.16";</script>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -35,22 +35,22 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
   <link rel="icon" type="image/svg+xml" href="assets/marks/diamond-seal.svg">
-  <link rel="stylesheet" href="css/styles.css?v=7.3.8">
-  <link rel="stylesheet" href="css/ascension-overdrive-v4.css?v=7.3.8">
-  <link rel="stylesheet" href="css/plaque.css?v=7.3.8">
+  <link rel="stylesheet" href="css/styles.css?v=7.3.16">
+  <link rel="stylesheet" href="css/ascension-overdrive-v4.css?v=7.3.16">
+  <link rel="stylesheet" href="css/plaque.css?v=7.3.16">
   <!-- Universal AlphaRail (page-wide section + explorer index). -->
-  <link rel="stylesheet" href="css/alpha-rail.css?v=7.3.8">
+  <link rel="stylesheet" href="css/alpha-rail.css?v=7.3.16">
   <!-- Homepage-only World Tree composition and 2D ↔ 3D explorer shell. -->
-  <link rel="stylesheet" href="css/world-tree-hero.css?v=7.3.8">
+  <link rel="stylesheet" href="css/world-tree-hero.css?v=7.3.16">
 
   <!-- Stage 1 — icon sprite helper, loaded BEFORE other UI scripts. -->
-  <script src="js/icons.js?v=7.3.8"></script>
+  <script src="js/icons.js?v=7.3.16"></script>
   <!-- Stage 2 — shared rank-badge primitive, loaded after icons. -->
-  <script src="js/rank-badge.js?v=7.3.8"></script>
+  <script src="js/rank-badge.js?v=7.3.16"></script>
   <!-- Stage 3 — plaque component family, loaded after rank-badge. -->
-  <script src="js/tm-config.js?v=7.3.8"></script>
-  <script src="js/skill-semantics.js?v=7.3.8"></script>
-  <script src="js/plaque.js?v=7.3.8"></script>
+  <script src="js/tm-config.js?v=7.3.16"></script>
+  <script src="js/skill-semantics.js?v=7.3.16"></script>
+  <script src="js/plaque.js?v=7.3.16"></script>
   <style>
   /* Review Section & Side-by-Side Simulator styling */
   .review-showcase-section {
@@ -310,8 +310,8 @@
 
   <!-- ─── NAV ─── -->
   <nav id="site-nav"></nav>
-  <script src="js/mounts.js?v=7.3.8"></script>
-  <script src="js/site-nav.js?v=7.3.8"></script>
+  <script src="js/mounts.js?v=7.3.16"></script>
+  <script src="js/site-nav.js?v=7.3.16"></script>
 
   <!-- ─── HERO ─── -->
   <section id="hero" class="hero-tree-shell" data-tree-state="hero2d" aria-labelledby="heroTreeTitle">
@@ -336,9 +336,9 @@
         <span>Explore in 3D</span>
       </button>
       <!-- gaia-hero-post-start -->
-    <a href="meta/reports/2026-08-01-registry-audit-report-deepmind-cluster-audit-release-v733-rank-calibrations.html" class="hero-audit-btn" target="_blank" aria-label="View Audit Report">
+    <a href="meta/reports/2026-08-04-skill-tree-report-backlog-registry-changes.html" class="hero-audit-btn" target="_blank" aria-label="View Skill Tree Report">
       <svg class="ico" width="14" height="14" aria-hidden="true"><use href="assets/icons.svg#info"/></svg>
-      <span>Audit Report</span>
+      <span>Skill Tree Report</span>
       <span class="hero-audit-btn-arrow">↗</span>
     </a>
     <!-- gaia-hero-post-end -->
@@ -592,13 +592,13 @@
       </a>
     </div>
   </section>
-  <link rel="stylesheet" href="trust/leaderboard/leaderboard.css?v=7.3.8">
+  <link rel="stylesheet" href="trust/leaderboard/leaderboard.css?v=7.3.16">
   <!-- Tooltip — required for SVG bar hover (delegated handlers in leaderboard.js
        short-circuit when this element is absent). position:fixed so it escapes
        any overflow:hidden ancestor. -->
   <div class="lb-tooltip" id="lbTooltip" hidden aria-hidden="true"></div>
   <script>window.GAIA_LB_EMBED_HOST = true;</script>
-  <script src="trust/leaderboard/leaderboard.js?v=7.3.8"></script>
+  <script src="trust/leaderboard/leaderboard.js?v=7.3.16"></script>
 
   <div class="section-divider"></div>
 
@@ -1240,6 +1240,11 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
     <p class="section-sub">Recent registry curation, schema migrations, and audit passes.</p>
     <div class="path-meta-queue" id="meta-report-callout">
       <!-- gaia-posts-start -->
+          <a href="meta/reports/2026-08-04-skill-tree-report-backlog-registry-changes.html" class="pmq-post">
+            <span class="pmq-label">Skill Tree Report</span>
+            <h4 class="pmq-title">Skill Tree Report: Backlog Changes in /registry/ <span class="meta-peek-arrow" style="float: right;">↗</span></h4>
+            <p class="pmq-summary">A reader-facing report on the backlog-era /registry/ changes: new and refreshed named skill files, expanded generic skill nodes, benchmark-source trust infrastructure, and public surfaces that make those records easier to inspect.</p>
+          </a>
           <a href="meta/reports/2026-08-01-registry-audit-report-deepmind-cluster-audit-release-v733-rank-calibrations.html" class="pmq-post">
             <span class="pmq-label">Audit Report</span>
             <h4 class="pmq-title">Registry Audit Report: DeepMind Cluster Audit & Release v7.3.3 Rank Calibrations <span class="meta-peek-arrow" style="float: right;">↗</span></h4>
@@ -1249,11 +1254,6 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
             <span class="pmq-label">Registry Update</span>
             <h4 class="pmq-title">Intake Batch: 11 Named Skills Onboarded — ev-pipeline v2 Live <span class="meta-peek-arrow" style="float: right;">↗</span></h4>
             <p class="pmq-summary">Eleven named skills across seven contributors cleared the evidence pipeline and landed in the registry. ev-pipeline v2 ships deterministic append scripts and a three-hop intake label ladder.</p>
-          </a>
-          <a href="meta/reports/2026-07-26-yggdrasil-ii-two-types-one-trust-gate-and-a-branch-axis-that-is-never-declared.html" class="pmq-post">
-            <span class="pmq-label">Meta Shift</span>
-            <h4 class="pmq-title">Yggdrasil II: Two Types, One Trust Gate, and a Branch Axis That Is Never Declared <span class="meta-peek-arrow" style="float: right;">↗</span></h4>
-            <p class="pmq-summary">The Yggdrasil I to II meta shift collapses three node types to two, derives the branch axis at read-time, and retires the Evidence Floor so Trust Magnitude is the sole promotion gate.</p>
           </a>
           <!-- gaia-posts-end -->
       <button type="button" class="pmq-changelog-btn" id="metaChangelogBtnPath">Open Meta Changelog →</button>
@@ -1270,7 +1270,7 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
 
   <!-- ─── FOOTER ─── -->
   <div id="site-footer-mount"></div>
-  <script src="js/site-footer.js?v=7.3.8"></script>
+  <script src="js/site-footer.js?v=7.3.16"></script>
 
   <!-- ─── SKILL EXPLORER OVERLAY ─── -->
   <div id="skillExplorer" class="skill-explorer" role="dialog" aria-modal="true" aria-label="Skill Explorer" tabindex="-1">
@@ -1364,19 +1364,19 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
 
   <!-- ─── SCRIPTS ─── -->
   <!-- icons.js already loaded in <head> so gaiaIcon() is available before any of these. -->
-  <script src="js/atlas-helpers.js?v=7.3.8" defer></script>
-  <script src="js/world-tree-layout.js?v=7.3.8" defer></script>
-  <script src="js/skill-graph.js?v=7.3.8" defer></script>
-  <script src="js/hud-toggle.js?v=7.3.8" defer></script>
-  <script src="js/scroll-reveal.js?v=7.3.8" defer></script>
+  <script src="js/atlas-helpers.js?v=7.3.16" defer></script>
+  <script src="js/world-tree-layout.js?v=7.3.16" defer></script>
+  <script src="js/skill-graph.js?v=7.3.16" defer></script>
+  <script src="js/hud-toggle.js?v=7.3.16" defer></script>
+  <script src="js/scroll-reveal.js?v=7.3.16" defer></script>
   <!-- Universal AlphaRail component + page-wide integration (section markers
        above the explorer; dynamic type/letter/tier markers inside it). -->
-  <script src="js/alpha-rail.js?v=7.3.8" defer></script>
-  <script src="js/skill-explorer.js?v=7.3.8" defer></script>
-  <script src="js/ui.js?v=7.3.8" defer></script>
-  <script src="js/page-ia.js?v=7.3.8" defer></script>
-  <script src="js/plaque-reveal.js?v=7.3.8" defer></script>
-  <script src="js/ascension-overdrive-v4.js?v=7.3.8" defer></script>
+  <script src="js/alpha-rail.js?v=7.3.16" defer></script>
+  <script src="js/skill-explorer.js?v=7.3.16" defer></script>
+  <script src="js/ui.js?v=7.3.16" defer></script>
+  <script src="js/page-ia.js?v=7.3.16" defer></script>
+  <script src="js/plaque-reveal.js?v=7.3.16" defer></script>
+  <script src="js/ascension-overdrive-v4.js?v=7.3.16" defer></script>
 
 
   <!-- ── Share modal (single instance) — opened from plaque__share-btn ── -->
@@ -1520,8 +1520,8 @@ Use https://github.com/gaia-research/gaia-skill-tree as the source of truth and 
 
   <div id="hohFsToast" class="hoh-fs-toast" role="status" aria-live="polite">Permalink copied!</div>
 
-  <script src="js/profile-share.js?v=7.3.8" defer></script>
-  <script src="js/hoh-modal.js?v=7.3.8" defer></script>
+  <script src="js/profile-share.js?v=7.3.16" defer></script>
+  <script src="js/hoh-modal.js?v=7.3.16" defer></script>
 
   <!-- ─── REVIEW SHOWCASE SIMULATOR ─── -->
   <script>

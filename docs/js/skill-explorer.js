@@ -88,7 +88,7 @@
   function _researchProductCta(ctaLabel) {
     var lead = ctaLabel || 'create your own path';
     var repoUrl = 'https://github.com/gaia-research/gaia-skill-tree/blob/main/.agents/skills/skill-fuse/SKILL.md';
-    var installCmd = 'gaia install gaia-research/skill-fuse';
+    var installCmd = 'gaia install gaia-research/fuse';
     return '<div class="se-research-cta" style="' +
         'margin-top:1rem;padding:.65rem .9rem;' +
         'border:1px solid rgba(var(--tier-basic-rgb,56,189,248),.25);' +

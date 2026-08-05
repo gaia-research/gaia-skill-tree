@@ -1,8 +1,22 @@
 {
   "window": "7d",
-  "generatedAt": "2026-08-04T11:42:52Z",
+  "generatedAt": "2026-08-05T09:32:22Z",
   "firstRun": false,
   "skills": [
+    {
+      "id": "disler/agent-fusion",
+      "name": "Agent Fusion",
+      "level": "4★",
+      "contributor": "disler",
+      "trustMagnitude": 127.54,
+      "overallTrustGrade": "C",
+      "trendingScore": 207.95,
+      "tmDelta": 90.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/disler/agent-fusion.json"
+      }
+    },
     {
       "id": "firecrawl/firecrawl-research-index",
       "name": "Firecrawl Research Index",
@@ -15,6 +29,34 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
+      }
+    },
+    {
+      "id": "nextlevelbuilder/ui-ux-pro-max",
+      "name": "UI/UX Pro Max",
+      "level": "4★",
+      "contributor": "nextlevelbuilder",
+      "trustMagnitude": 195.51,
+      "overallTrustGrade": "A",
+      "trendingScore": 101.38,
+      "tmDelta": 1.25,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/nextlevelbuilder/ui-ux-pro-max.json"
+      }
+    },
+    {
+      "id": "panniantong/agent-reach",
+      "name": "Agent Reach",
+      "level": "3★",
+      "contributor": "panniantong",
+      "trustMagnitude": 53.86,
+      "overallTrustGrade": "B",
+      "trendingScore": 100.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/panniantong/agent-reach.json"
       }
     },
     {
@@ -32,17 +74,17 @@
       }
     },
     {
-      "id": "nextlevelbuilder/ui-ux-pro-max",
-      "name": "UI/UX Pro Max",
-      "level": "4★",
-      "contributor": "nextlevelbuilder",
-      "trustMagnitude": 195.51,
-      "overallTrustGrade": "A",
-      "trendingScore": 97.75,
-      "tmDelta": 195.51,
-      "new": true,
+      "id": "oso95/scroll-world",
+      "name": "Scroll World",
+      "level": "3★",
+      "contributor": "oso95",
+      "trustMagnitude": 60.98,
+      "overallTrustGrade": "B",
+      "trendingScore": 90.0,
+      "tmDelta": 0.0,
+      "new": false,
       "_links": {
-        "self": "/api/v1/skills/nextlevelbuilder/ui-ux-pro-max.json"
+        "self": "/api/v1/skills/oso95/scroll-world.json"
       }
     },
     {
@@ -88,20 +130,6 @@
       }
     },
     {
-      "id": "disler/agent-fusion",
-      "name": "Agent Fusion",
-      "level": "4★",
-      "contributor": "disler",
-      "trustMagnitude": 127.54,
-      "overallTrustGrade": "C",
-      "trendingScore": 63.77,
-      "tmDelta": 127.54,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/disler/agent-fusion.json"
-      }
-    },
-    {
       "id": "firecrawl/firecrawl-build-interact",
       "name": "Firecrawl Interact",
       "level": "3★",
@@ -144,6 +172,48 @@
       }
     },
     {
+      "id": "disler/auto-review",
+      "name": "Auto-Review",
+      "level": "2★",
+      "contributor": "disler",
+      "trustMagnitude": 36.34,
+      "overallTrustGrade": "C",
+      "trendingScore": 60.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/disler/auto-review.json"
+      }
+    },
+    {
+      "id": "disler/opinion",
+      "name": "Opinion",
+      "level": "2★",
+      "contributor": "disler",
+      "trustMagnitude": 36.34,
+      "overallTrustGrade": "C",
+      "trendingScore": 60.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/disler/opinion.json"
+      }
+    },
+    {
+      "id": "disler/plan-synthesis",
+      "name": "Plan Synthesis",
+      "level": "2★",
+      "contributor": "disler",
+      "trustMagnitude": 36.34,
+      "overallTrustGrade": "C",
+      "trendingScore": 60.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/disler/plan-synthesis.json"
+      }
+    },
+    {
       "id": "k-dense-ai/qiskit",
       "name": "Qiskit",
       "level": "3★",
@@ -169,20 +239,6 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/dietrichgebert/ponytail.json"
-      }
-    },
-    {
-      "id": "karpathy/autoresearch",
-      "name": "AutoResearch",
-      "level": "2★",
-      "contributor": "karpathy",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/karpathy/autoresearch.json"
       }
     },
     {
@@ -228,6 +284,20 @@
       }
     },
     {
+      "id": "ruvnet/hive-mind",
+      "name": "Hive Mind",
+      "level": "3★",
+      "contributor": "ruvnet",
+      "trustMagnitude": 96.09,
+      "overallTrustGrade": "B",
+      "trendingScore": 48.05,
+      "tmDelta": 96.09,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/hive-mind.json"
+      }
+    },
+    {
       "id": "anthropics/brand-guidelines",
       "name": "Brand Guidelines",
       "level": "3★",
@@ -256,36 +326,22 @@
       }
     },
     {
-      "id": "oso95/scroll-world",
-      "name": "Scroll World",
-      "level": "3★",
-      "contributor": "oso95",
-      "trustMagnitude": 60.98,
-      "overallTrustGrade": "B",
-      "trendingScore": 30.49,
-      "tmDelta": 60.98,
-      "new": true,
+      "id": "anthropics/canvas-design",
+      "name": "Canvas Design",
+      "level": "2★",
+      "contributor": "anthropics",
+      "trustMagnitude": 43.52,
+      "overallTrustGrade": "C",
+      "trendingScore": 30.0,
+      "tmDelta": 0.0,
+      "new": false,
       "_links": {
-        "self": "/api/v1/skills/oso95/scroll-world.json"
+        "self": "/api/v1/skills/anthropics/canvas-design.json"
       }
     },
     {
-      "id": "panniantong/agent-reach",
-      "name": "Agent Reach",
-      "level": "3★",
-      "contributor": "panniantong",
-      "trustMagnitude": 53.86,
-      "overallTrustGrade": "B",
-      "trendingScore": 26.93,
-      "tmDelta": 53.86,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/panniantong/agent-reach.json"
-      }
-    },
-    {
-      "id": "vercel-labs/react-best-practices",
-      "name": "React Best Practices",
+      "id": "vercel-labs/vercel-react-best-practices",
+      "name": "Vercel React Best Practices",
       "level": "3★",
       "contributor": "vercel-labs",
       "trustMagnitude": 50.48,
@@ -294,7 +350,7 @@
       "tmDelta": 50.48,
       "new": true,
       "_links": {
-        "self": "/api/v1/skills/vercel-labs/react-best-practices.json"
+        "self": "/api/v1/skills/vercel-labs/vercel-react-best-practices.json"
       }
     },
     {
@@ -326,17 +382,31 @@
       }
     },
     {
-      "id": "anthropics/canvas-design",
-      "name": "Canvas Design",
+      "id": "gaia-research/fuse",
+      "name": "Fuse",
       "level": "2★",
-      "contributor": "anthropics",
-      "trustMagnitude": 43.52,
+      "contributor": "gaia-research",
+      "trustMagnitude": 41.62,
       "overallTrustGrade": "C",
-      "trendingScore": 21.76,
-      "tmDelta": 43.52,
+      "trendingScore": 20.81,
+      "tmDelta": 41.62,
       "new": true,
       "_links": {
-        "self": "/api/v1/skills/anthropics/canvas-design.json"
+        "self": "/api/v1/skills/gaia-research/fuse.json"
+      }
+    },
+    {
+      "id": "gaia-research/ci-churn",
+      "name": "CI Churn",
+      "level": "2★",
+      "contributor": "gaia-research",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 20.5,
+      "tmDelta": 41.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/gaia-research/ci-churn.json"
       }
     },
     {
@@ -368,45 +438,17 @@
       }
     },
     {
-      "id": "disler/auto-review",
-      "name": "Auto-Review",
+      "id": "karpathy/autoresearch-universal",
+      "name": "AutoResearch",
       "level": "2★",
-      "contributor": "disler",
-      "trustMagnitude": 36.34,
+      "contributor": "karpathy",
+      "trustMagnitude": 36.0,
       "overallTrustGrade": "C",
-      "trendingScore": 18.17,
-      "tmDelta": 36.34,
+      "trendingScore": 18.0,
+      "tmDelta": 36.0,
       "new": true,
       "_links": {
-        "self": "/api/v1/skills/disler/auto-review.json"
-      }
-    },
-    {
-      "id": "disler/opinion",
-      "name": "Opinion",
-      "level": "2★",
-      "contributor": "disler",
-      "trustMagnitude": 36.34,
-      "overallTrustGrade": "C",
-      "trendingScore": 18.17,
-      "tmDelta": 36.34,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/disler/opinion.json"
-      }
-    },
-    {
-      "id": "disler/plan-synthesis",
-      "name": "Plan Synthesis",
-      "level": "2★",
-      "contributor": "disler",
-      "trustMagnitude": 36.34,
-      "overallTrustGrade": "C",
-      "trendingScore": 18.17,
-      "tmDelta": 36.34,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/disler/plan-synthesis.json"
+        "self": "/api/v1/skills/karpathy/autoresearch-universal.json"
       }
     },
     {
@@ -435,20 +477,6 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
-      }
-    },
-    {
-      "id": "gaia-research/skill-fuse",
-      "name": "Skill Fuse",
-      "level": "2★",
-      "contributor": "gaia-research",
-      "trustMagnitude": 41.62,
-      "overallTrustGrade": "C",
-      "trendingScore": 10.92,
-      "tmDelta": 0.62,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/gaia-research/skill-fuse.json"
       }
     },
     {
@@ -494,7 +522,7 @@
       }
     }
   ],
-  "totalTrending": 35,
+  "totalTrending": 37,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }

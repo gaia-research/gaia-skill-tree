@@ -136,9 +136,15 @@
       "action": "demote",
       "contributor": "mbtiongson1",
       "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+    },
+    {
+      "timestamp": "2026-08-05T06:27:16Z",
+      "action": "note",
+      "contributor": "unknown",
+      "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/deprecated/ubiquitous-language/SKILL.md"
     }
   ],
   "links": {
-    "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/ubiquitous-language/SKILL.md"
+    "github": "https://github.com/mattpocock/skills/blob/main/skills/deprecated/ubiquitous-language/SKILL.md"
   }
 }

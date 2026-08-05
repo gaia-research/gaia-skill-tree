@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-04",
+  "generatedAt": "2026-08-05",
   "buckets": {
     "automated-testing": [
       {
@@ -314,6 +314,7 @@
         "level": "2★",
         "description": "Extracts complete design systems, Tailwind configs, and Figma variables from any live URL.",
         "title": "The Token Scavenger",
+        "installable": false,
         "tags": [
           "design-system",
           "tailwind",
@@ -370,6 +371,14 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:40Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-08-05T06:36:41Z",
+            "action": "upstream_deprecated",
+            "contributor": "claude-bot",
+            "previousValue": null,
+            "newValue": null,
+            "details": "Upstream repo and account (github.com/Manavarya09) return 404/401 as of 2026-08-05; git smart-HTTP probe confirms not clonable. No verified relink target (npm pkg 'designlang' has no repository field; unrelated single-commit tobiags/designlang copy is too weak a provenance signal). See issue #1447."
           }
         ],
         "trustMagnitude": 36.0,
@@ -2711,7 +2720,7 @@
           "acceptance-criteria"
         ],
         "links": {
-          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-issues/SKILL.md"
+          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-tickets/SKILL.md"
         },
         "evidence": [
           {
@@ -2752,7 +2761,7 @@
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-05",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:00Z",
@@ -2814,6 +2823,12 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T17:13:03Z",
             "details": "TM 11.21 -> 90.38, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-08-05T06:27:10Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/to-tickets/SKILL.md"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -3385,7 +3400,7 @@
           "issue-tracker"
         ],
         "links": {
-          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-prd/SKILL.md"
+          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-spec/SKILL.md"
         },
         "evidence": [
           {
@@ -3436,7 +3451,7 @@
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-05",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:44Z",
@@ -3498,6 +3513,12 @@
             "action": "rank_up",
             "contributor": "mbtiongson1",
             "details": "Level updated from 2★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-05T06:27:13Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/to-spec/SKILL.md"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -4551,6 +4572,7 @@
         "description": "Guides creation of new agent skills through a structured requirements interview, then produces a SKILL.md with a trigger-aware description, progressive-disclosure layout, and optional bundled scripts or reference files — ready for installation in any Claude Code, Cursor, or Codex CLI skills directory. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Skill Scaffolder",
         "catalogRef": "mattpocock-write-a-skill",
+        "installable": false,
         "tags": [
           "skill-authoring",
           "meta-agent",
@@ -4582,7 +4604,7 @@
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-05",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:00Z",
@@ -4627,6 +4649,14 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 3★ to 2★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-05T06:27:32Z",
+            "action": "upstream_deprecated",
+            "contributor": "unknown",
+            "previousValue": null,
+            "newValue": null,
+            "details": "Removed upstream in mattpocock/skills — author's CHANGELOG: 'Replace write-a-skill with writing-great-skills... write-a-skill has been removed.' Successor is a differently-shaped reference skill (disable-model-invocation), not a 1:1 rename, so not relinked under this id."
           }
         ],
         "suiteRef": "mattpocock/productivity",
@@ -6225,7 +6255,7 @@
           "root-cause-analysis"
         ],
         "links": {
-          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnose/SKILL.md"
+          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnosing-bugs/SKILL.md"
         },
         "evidence": [
           {
@@ -6266,7 +6296,7 @@
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-05",
         "timeline": [
           {
             "timestamp": "2026-06-10T05:38:16Z",
@@ -6334,6 +6364,12 @@
             "action": "rank_up",
             "contributor": "mbtiongson1",
             "details": "Level updated from 2★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-05T06:27:07Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnosing-bugs/SKILL.md"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -6370,6 +6406,7 @@
         "description": "Autonomous software engineering agent capable of end-to-end debugging, code generation, and self-correction across complex multi-file codebases.",
         "title": "The Codebreaker's Will",
         "catalogRef": "devin-ai-autonomous-swe",
+        "installable": false,
         "tags": [
           "software-engineering",
           "autonomous",
@@ -6481,6 +6518,14 @@
             "action": "rank_up",
             "contributor": "mbtiongson1",
             "details": "Level updated from 1★ to 2★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-05T06:36:42Z",
+            "action": "upstream_deprecated",
+            "contributor": "claude-bot",
+            "previousValue": null,
+            "newValue": null,
+            "details": "links.github (github.com/cognition-labs/devin) 404/401; real org is github.com/cognitionai and hosts no Devin repo. Devin is proprietary SaaS with no legitimate public source -- this skill was never actually installable. See issue #1447."
           }
         ],
         "trustMagnitude": 30.0,
@@ -8538,7 +8583,7 @@
     ],
     "ci-churn-analysis": [
       {
-        "id": "gaia-research/skill-ci-churn",
+        "id": "gaia-research/ci-churn",
         "name": "CI Churn",
         "contributor": "gaia-research",
         "origin": false,
@@ -8571,7 +8616,7 @@
           }
         ],
         "createdAt": "2026-07-08",
-        "updatedAt": "2026-07-09",
+        "updatedAt": "2026-08-05",
         "timeline": [
           {
             "timestamp": "2026-07-08T10:19:05Z",
@@ -8614,6 +8659,12 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 2★"
+          },
+          {
+            "timestamp": "2026-08-05T06:29:09Z",
+            "action": "rename",
+            "contributor": "unknown",
+            "details": "Renamed named skill from gaia-research/skill-ci-churn to gaia-research/ci-churn"
           }
         ],
         "type": "basic",
@@ -8723,15 +8774,15 @@
         "contractVersion": "gaia-public-v1"
       },
       {
-        "id": "gaia-research/skill-cost",
-        "name": "Skill Cost",
+        "id": "gaia-research/cost",
+        "name": "Cost",
         "contributor": "gaia-research",
         "origin": false,
         "genericSkillRef": "token-observability",
         "status": "named",
         "level": "1★",
         "description": "CLI + agent skill invoked via /cost. Reads JSONL session logs from pi, Claude Code, Codex, opencode; prices every turn against BerriAI/litellm's catalog; auto-refreshes prices.",
-        "title": "Skill Cost",
+        "title": "Cost",
         "links": {
           "github": "https://github.com/gaia-research/skill-cost/blob/main/SKILL.md"
         },
@@ -8757,7 +8808,7 @@
           }
         ],
         "createdAt": "2026-07-30",
-        "updatedAt": "2026-07-30",
+        "updatedAt": "2026-08-05",
         "timeline": [
           {
             "timestamp": "2026-07-29T20:14:21Z",
@@ -8782,6 +8833,12 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 1★"
+          },
+          {
+            "timestamp": "2026-08-05T06:29:00Z",
+            "action": "rename",
+            "contributor": "unknown",
+            "details": "Renamed named skill from gaia-research/skill-cost to gaia-research/cost"
           }
         ],
         "type": "basic",
@@ -8807,8 +8864,8 @@
     ],
     "skill-fusion": [
       {
-        "id": "gaia-research/skill-fuse",
-        "name": "Skill Fuse",
+        "id": "gaia-research/fuse",
+        "name": "Fuse",
         "contributor": "gaia-research",
         "origin": false,
         "genericSkillRef": "skill-fusion",
@@ -8850,7 +8907,7 @@
           }
         ],
         "createdAt": "2026-07-08",
-        "updatedAt": "2026-08-03",
+        "updatedAt": "2026-08-05",
         "timeline": [
           {
             "timestamp": "2026-07-08T10:19:43Z",
@@ -8911,6 +8968,12 @@
             "action": "installation_updated",
             "contributor": "unknown",
             "details": "Replaced ## Installation section from _install_section.md"
+          },
+          {
+            "timestamp": "2026-08-05T06:29:04Z",
+            "action": "rename",
+            "contributor": "unknown",
+            "details": "Renamed named skill from gaia-research/skill-fuse to gaia-research/fuse"
           }
         ],
         "type": "fusion",
@@ -10431,6 +10494,7 @@
         "level": "2★",
         "description": "An ultra-compressed communication mode designed to save tokens by dropping articles and filler words. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Caveman Console",
+        "installable": false,
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/caveman"
         },
@@ -10446,7 +10510,7 @@
           }
         ],
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-05",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -10479,6 +10543,14 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 3★ to 2★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-05T06:27:25Z",
+            "action": "upstream_deprecated",
+            "contributor": "unknown",
+            "previousValue": null,
+            "newValue": null,
+            "details": "Removed upstream in mattpocock/skills — author's CHANGELOG: 'caveman was a duplicate of another skill I was testing and was never meant to be public.' No replacement."
           }
         ],
         "suiteRef": "mattpocock/productivity",
@@ -19593,7 +19665,7 @@
         }
       },
       {
-        "id": "karpathy/autoresearch",
+        "id": "karpathy/autoresearch-universal",
         "name": "AutoResearch",
         "contributor": "karpathy",
         "origin": false,
@@ -19626,7 +19698,7 @@
           }
         ],
         "createdAt": "2026-04-29",
-        "updatedAt": "2026-07-30",
+        "updatedAt": "2026-08-05",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:42Z",
@@ -19665,6 +19737,12 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Origin status set to false."
+          },
+          {
+            "timestamp": "2026-08-05T06:29:13Z",
+            "action": "rename",
+            "contributor": "unknown",
+            "details": "Renamed named skill from karpathy/autoresearch to karpathy/autoresearch-universal"
           }
         ],
         "trustMagnitude": 36.0,
@@ -19788,7 +19866,7 @@
         "description": "Productivity skill for routing questions to the right expert or skill in a workspace.",
         "title": "Ask Matt",
         "links": {
-          "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt/SKILL.md"
+          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/ask-matt/SKILL.md"
         },
         "evidence": [
           {
@@ -19839,7 +19917,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-05",
         "timeline": [
           {
             "timestamp": "2026-06-19T12:58:22Z",
@@ -19922,6 +20000,12 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-05T06:26:59Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/ask-matt/SKILL.md"
           }
         ],
         "trustMagnitude": 0.0,
@@ -21839,7 +21923,7 @@
           "alignment"
         ],
         "links": {
-          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/ubiquitous-language/SKILL.md"
+          "github": "https://github.com/mattpocock/skills/blob/main/skills/deprecated/ubiquitous-language/SKILL.md"
         },
         "evidence": [
           {
@@ -21880,7 +21964,7 @@
           }
         ],
         "createdAt": "2026-05-15",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-05",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:44Z",
@@ -21942,6 +22026,12 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-05T06:27:16Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/deprecated/ubiquitous-language/SKILL.md"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -22074,6 +22164,7 @@
         "description": "Signals the agent to ascend one layer of abstraction and produce a map of all relevant modules, callers, and domain-glossary terms in the unfamiliar code area, without explaining implementation details. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Abstraction Lift",
         "catalogRef": "mattpocock-zoom-out",
+        "installable": false,
         "tags": [
           "code-navigation",
           "abstraction",
@@ -22085,7 +22176,7 @@
           "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/zoom-out/SKILL.md"
         },
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-04-30",
+        "updatedAt": "2026-08-05",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -22107,6 +22198,14 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-05T06:27:29Z",
+            "action": "upstream_deprecated",
+            "contributor": "unknown",
+            "previousValue": null,
+            "newValue": null,
+            "details": "Removed upstream in mattpocock/skills — author's CHANGELOG: 'zoom-out went unused in practice, so it's been removed from the repo.' No replacement."
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -26268,8 +26367,8 @@
     ],
     "distributed-consensus-coordination": [
       {
-        "id": "ruvnet/hive-mind-coordination",
-        "name": "Hive Mind Coordination",
+        "id": "ruvnet/hive-mind",
+        "name": "Hive Mind",
         "contributor": "ruvnet",
         "origin": true,
         "genericSkillRef": "distributed-consensus-coordination",
@@ -26325,7 +26424,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-05",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:22Z",
@@ -26453,6 +26552,12 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-05T06:29:19Z",
+            "action": "rename",
+            "contributor": "unknown",
+            "details": "Renamed named skill from ruvnet/hive-mind-coordination to ruvnet/hive-mind"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -27100,7 +27205,7 @@
           "ruvnet/github-release-management",
           "ruvnet/github-suite",
           "ruvnet/github-workflow-automation",
-          "ruvnet/hive-mind-coordination",
+          "ruvnet/hive-mind",
           "ruvnet/hooks-automation",
           "ruvnet/pair-programming",
           "ruvnet/performance-analysis",
@@ -28288,15 +28393,15 @@
     ],
     "react-performance-optimization": [
       {
-        "id": "vercel-labs/react-best-practices",
-        "name": "React Best Practices",
+        "id": "vercel-labs/vercel-react-best-practices",
+        "name": "Vercel React Best Practices",
         "contributor": "vercel-labs",
         "origin": false,
         "genericSkillRef": "react-performance-optimization",
         "status": "named",
         "level": "3★",
         "description": "Optimizes component rendering, data fetching, and bundle composition in React applications while preserving requested behavior.",
-        "title": "React Best Practices",
+        "title": "Vercel React Best Practices",
         "links": {
           "github": "https://github.com/vercel-labs/agent-skills/blob/main/skills/react-best-practices/SKILL.md"
         },
@@ -28350,7 +28455,7 @@
           }
         ],
         "createdAt": "2026-07-30",
-        "updatedAt": "2026-07-30",
+        "updatedAt": "2026-08-05",
         "timeline": [
           {
             "timestamp": "2026-07-29T20:14:42Z",
@@ -28399,6 +28504,12 @@
             "action": "rename",
             "contributor": "unknown",
             "details": "Renamed named skill from vercel-labs/react-performance-optimization to vercel-labs/react-best-practices"
+          },
+          {
+            "timestamp": "2026-08-05T06:29:23Z",
+            "action": "rename",
+            "contributor": "unknown",
+            "details": "Renamed named skill from vercel-labs/react-best-practices to vercel-labs/vercel-react-best-practices"
           }
         ],
         "type": "basic",
@@ -28847,7 +28958,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/alphafold_database_fetch_and_analyze",
+      "id": "google-deepmind/alphafold-database-fetch-and-analyze",
       "name": "Alphafold-Database-Fetch-And-Analyze",
       "contributor": "google-deepmind",
       "origin": true,
@@ -28883,7 +28994,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-31",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:28Z",
@@ -28946,6 +29057,12 @@
           "action": "demote",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 4★ to 3★"
+        },
+        {
+          "timestamp": "2026-08-05T06:25:55Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/alphafold_database_fetch_and_analyze to google-deepmind/alphafold-database-fetch-and-analyze"
         }
       ],
       "trustMagnitude": 100.82,
@@ -28969,7 +29086,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/alphagenome_single_variant_analysis",
+      "id": "google-deepmind/alphagenome-single-variant-analysis",
       "name": "Alphagenome-Single-Variant-Analysis",
       "contributor": "google-deepmind",
       "origin": false,
@@ -29005,7 +29122,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-31",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:28Z",
@@ -29084,6 +29201,12 @@
           "action": "demote",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 4★ to 3★"
+        },
+        {
+          "timestamp": "2026-08-05T06:26:01Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/alphagenome_single_variant_analysis to google-deepmind/alphagenome-single-variant-analysis"
         }
       ],
       "trustMagnitude": 100.82,
@@ -29107,7 +29230,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/chembl_database",
+      "id": "google-deepmind/chembl-database",
       "name": "Chembl-Database",
       "contributor": "google-deepmind",
       "origin": false,
@@ -29143,7 +29266,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:28Z",
@@ -29192,6 +29315,12 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 3★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-08-05T06:26:06Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/chembl_database to google-deepmind/chembl-database"
         }
       ],
       "trustMagnitude": 70.82,
@@ -29215,7 +29344,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/clinical_trials_database",
+      "id": "google-deepmind/clinical-trials-database",
       "name": "Clinical-Trials-Database",
       "contributor": "google-deepmind",
       "origin": true,
@@ -29251,7 +29380,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:29Z",
@@ -29300,6 +29429,12 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 3★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-08-05T06:26:11Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/clinical_trials_database to google-deepmind/clinical-trials-database"
         }
       ],
       "trustMagnitude": 70.82,
@@ -29323,7 +29458,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/clinvar_database",
+      "id": "google-deepmind/clinvar-database",
       "name": "Clinvar-Database",
       "contributor": "google-deepmind",
       "origin": false,
@@ -29359,7 +29494,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:29Z",
@@ -29408,6 +29543,12 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 3★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-08-05T06:26:16Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/clinvar_database to google-deepmind/clinvar-database"
         }
       ],
       "trustMagnitude": 70.82,
@@ -29431,7 +29572,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/dbsnp_database",
+      "id": "google-deepmind/dbsnp-database",
       "name": "Dbsnp-Database",
       "contributor": "google-deepmind",
       "origin": false,
@@ -29467,7 +29608,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:29Z",
@@ -29516,6 +29657,12 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 3★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-08-05T06:26:21Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/dbsnp_database to google-deepmind/dbsnp-database"
         }
       ],
       "trustMagnitude": 70.82,
@@ -29539,7 +29686,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/embl_ebi_ols",
+      "id": "google-deepmind/embl-ebi-ols",
       "name": "Embl-Ebi-Ols",
       "contributor": "google-deepmind",
       "origin": false,
@@ -29576,7 +29723,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-31",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:30Z",
@@ -29656,6 +29803,12 @@
           "action": "demote",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 4★ to 3★"
+        },
+        {
+          "timestamp": "2026-08-05T06:26:26Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/embl_ebi_ols to google-deepmind/embl-ebi-ols"
         }
       ],
       "trustMagnitude": 100.82,
@@ -29679,7 +29832,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/encode_ccres_database",
+      "id": "google-deepmind/encode-ccres-database",
       "name": "Encode-Ccres-Database",
       "contributor": "google-deepmind",
       "origin": false,
@@ -29716,7 +29869,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-31",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:30Z",
@@ -29796,6 +29949,12 @@
           "action": "demote",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 4★ to 3★"
+        },
+        {
+          "timestamp": "2026-08-05T06:26:32Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/encode_ccres_database to google-deepmind/encode-ccres-database"
         }
       ],
       "trustMagnitude": 100.82,
@@ -29819,7 +29978,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/ensembl_database",
+      "id": "google-deepmind/ensembl-database",
       "name": "Ensembl-Database",
       "contributor": "google-deepmind",
       "origin": true,
@@ -29856,7 +30015,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-31",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:30Z",
@@ -29936,6 +30095,12 @@
           "action": "demote",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 4★ to 3★"
+        },
+        {
+          "timestamp": "2026-08-05T06:26:37Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/ensembl_database to google-deepmind/ensembl-database"
         }
       ],
       "trustMagnitude": 100.82,
@@ -29959,7 +30124,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/foldseek_structural_search",
+      "id": "google-deepmind/foldseek-structural-search",
       "name": "Foldseek-Structural-Search",
       "contributor": "google-deepmind",
       "origin": false,
@@ -29996,7 +30161,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-31",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:31Z",
@@ -30076,6 +30241,12 @@
           "action": "demote",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 4★ to 3★"
+        },
+        {
+          "timestamp": "2026-08-05T06:26:42Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/foldseek_structural_search to google-deepmind/foldseek-structural-search"
         }
       ],
       "trustMagnitude": 100.82,
@@ -30099,7 +30270,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/gnomad_database",
+      "id": "google-deepmind/gnomad-database",
       "name": "Gnomad-Database",
       "contributor": "google-deepmind",
       "origin": false,
@@ -30135,7 +30306,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-31",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:31Z",
@@ -30214,6 +30385,12 @@
           "action": "demote",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 4★ to 3★"
+        },
+        {
+          "timestamp": "2026-08-05T06:26:47Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/gnomad_database to google-deepmind/gnomad-database"
         }
       ],
       "trustMagnitude": 100.82,
@@ -30237,7 +30414,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/gtex_database",
+      "id": "google-deepmind/gtex-database",
       "name": "Gtex-Database",
       "contributor": "google-deepmind",
       "origin": false,
@@ -30273,7 +30450,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-31",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:31Z",
@@ -30352,6 +30529,12 @@
           "action": "demote",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 4★ to 3★"
+        },
+        {
+          "timestamp": "2026-08-05T06:26:52Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/gtex_database to google-deepmind/gtex-database"
         }
       ],
       "trustMagnitude": 100.82,
@@ -30375,7 +30558,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/human_protein_atlas_database",
+      "id": "google-deepmind/human-protein-atlas-database",
       "name": "Human-Protein-Atlas-Database",
       "contributor": "google-deepmind",
       "origin": false,
@@ -30412,7 +30595,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-31",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:32Z",
@@ -30492,6 +30675,12 @@
           "action": "demote",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 4★ to 3★"
+        },
+        {
+          "timestamp": "2026-08-05T06:26:57Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/human_protein_atlas_database to google-deepmind/human-protein-atlas-database"
         }
       ],
       "trustMagnitude": 100.82,
@@ -30515,7 +30704,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/interpro_database",
+      "id": "google-deepmind/interpro-database",
       "name": "Interpro-Database",
       "contributor": "google-deepmind",
       "origin": false,
@@ -30552,7 +30741,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-31",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:32Z",
@@ -30632,6 +30821,12 @@
           "action": "demote",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 4★ to 3★"
+        },
+        {
+          "timestamp": "2026-08-05T06:27:03Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/interpro_database to google-deepmind/interpro-database"
         }
       ],
       "trustMagnitude": 100.82,
@@ -30655,7 +30850,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/jaspar_database",
+      "id": "google-deepmind/jaspar-database",
       "name": "Jaspar-Database",
       "contributor": "google-deepmind",
       "origin": false,
@@ -30692,7 +30887,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-31",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:32Z",
@@ -30772,6 +30967,12 @@
           "action": "demote",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 4★ to 3★"
+        },
+        {
+          "timestamp": "2026-08-05T06:27:08Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/jaspar_database to google-deepmind/jaspar-database"
         }
       ],
       "trustMagnitude": 100.82,
@@ -30795,7 +30996,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/literature_search_arxiv",
+      "id": "google-deepmind/literature-search-arxiv",
       "name": "Literature-Search-Arxiv",
       "contributor": "google-deepmind",
       "origin": false,
@@ -30831,7 +31032,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-27",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:33Z",
@@ -30880,6 +31081,12 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 3★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-08-05T06:27:13Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/literature_search_arxiv to google-deepmind/literature-search-arxiv"
         }
       ],
       "trustMagnitude": 70.82,
@@ -30903,7 +31110,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/literature_search_biorxiv",
+      "id": "google-deepmind/literature-search-biorxiv",
       "name": "Literature-Search-Biorxiv",
       "contributor": "google-deepmind",
       "origin": false,
@@ -30939,7 +31146,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-27",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:33Z",
@@ -30988,6 +31195,12 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 3★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-08-05T06:27:19Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/literature_search_biorxiv to google-deepmind/literature-search-biorxiv"
         }
       ],
       "trustMagnitude": 70.82,
@@ -31011,7 +31224,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/literature_search_europepmc",
+      "id": "google-deepmind/literature-search-europepmc",
       "name": "Literature-Search-Europepmc",
       "contributor": "google-deepmind",
       "origin": false,
@@ -31048,7 +31261,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-31",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:33Z",
@@ -31128,6 +31341,12 @@
           "action": "demote",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 4★ to 3★"
+        },
+        {
+          "timestamp": "2026-08-05T06:27:24Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/literature_search_europepmc to google-deepmind/literature-search-europepmc"
         }
       ],
       "trustMagnitude": 100.82,
@@ -31151,7 +31370,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/literature_search_openalex",
+      "id": "google-deepmind/literature-search-openalex",
       "name": "Literature-Search-Openalex",
       "contributor": "google-deepmind",
       "origin": true,
@@ -31188,7 +31407,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-27",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:34Z",
@@ -31254,6 +31473,12 @@
           "details": "Generic parent 'literature-search' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
           "metaEpoch": "yggdrasil-ii",
           "migrationBatch": "yggdrasil-ii@2026-07-20"
+        },
+        {
+          "timestamp": "2026-08-05T06:27:28Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/literature_search_openalex to google-deepmind/literature-search-openalex"
         }
       ],
       "trustMagnitude": 100.82,
@@ -31277,7 +31502,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/ncbi_sequence_fetch",
+      "id": "google-deepmind/ncbi-sequence-fetch",
       "name": "Ncbi-Sequence-Fetch",
       "contributor": "google-deepmind",
       "origin": false,
@@ -31314,7 +31539,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-31",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:34Z",
@@ -31394,6 +31619,12 @@
           "action": "demote",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 4★ to 3★"
+        },
+        {
+          "timestamp": "2026-08-05T06:27:33Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/ncbi_sequence_fetch to google-deepmind/ncbi-sequence-fetch"
         }
       ],
       "trustMagnitude": 100.82,
@@ -31417,7 +31648,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/openfda_database",
+      "id": "google-deepmind/openfda-database",
       "name": "Openfda-Database",
       "contributor": "google-deepmind",
       "origin": false,
@@ -31454,7 +31685,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-31",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:34Z",
@@ -31534,6 +31765,12 @@
           "action": "demote",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 4★ to 3★"
+        },
+        {
+          "timestamp": "2026-08-05T06:27:38Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/openfda_database to google-deepmind/openfda-database"
         }
       ],
       "trustMagnitude": 100.82,
@@ -31557,7 +31794,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/opentargets_database",
+      "id": "google-deepmind/opentargets-database",
       "name": "Opentargets-Database",
       "contributor": "google-deepmind",
       "origin": false,
@@ -31594,7 +31831,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-31",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:35Z",
@@ -31674,6 +31911,12 @@
           "action": "demote",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 4★ to 3★"
+        },
+        {
+          "timestamp": "2026-08-05T06:27:44Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/opentargets_database to google-deepmind/opentargets-database"
         }
       ],
       "trustMagnitude": 100.82,
@@ -31697,7 +31940,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/pdb_database",
+      "id": "google-deepmind/pdb-database",
       "name": "Pdb-Database",
       "contributor": "google-deepmind",
       "origin": true,
@@ -31733,7 +31976,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:35Z",
@@ -31782,6 +32025,12 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 3★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-08-05T06:27:49Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/pdb_database to google-deepmind/pdb-database"
         }
       ],
       "trustMagnitude": 70.82,
@@ -31805,7 +32054,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/protein_sequence_msa",
+      "id": "google-deepmind/protein-sequence-msa",
       "name": "Protein-Sequence-Msa",
       "contributor": "google-deepmind",
       "origin": false,
@@ -31841,7 +32090,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:35Z",
@@ -31884,6 +32133,12 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T14:32:17Z",
           "details": "TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-08-05T06:27:54Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/protein_sequence_msa to google-deepmind/protein-sequence-msa"
         }
       ],
       "trustMagnitude": 70.82,
@@ -31907,7 +32162,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/protein_sequence_similarity_search",
+      "id": "google-deepmind/protein-sequence-similarity-search",
       "name": "Protein-Sequence-Similarity-Search",
       "contributor": "google-deepmind",
       "origin": true,
@@ -31953,7 +32208,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-31",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:36Z",
@@ -32039,6 +32294,12 @@
           "action": "demote",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 4★ to 3★"
+        },
+        {
+          "timestamp": "2026-08-05T06:27:59Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/protein_sequence_similarity_search to google-deepmind/protein-sequence-similarity-search"
         }
       ],
       "trustMagnitude": 100.82,
@@ -32062,7 +32323,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/pubchem_database",
+      "id": "google-deepmind/pubchem-database",
       "name": "Pubchem-Database",
       "contributor": "google-deepmind",
       "origin": true,
@@ -32099,7 +32360,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-31",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:36Z",
@@ -32179,6 +32440,12 @@
           "action": "demote",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 4★ to 3★"
+        },
+        {
+          "timestamp": "2026-08-05T06:28:05Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/pubchem_database to google-deepmind/pubchem-database"
         }
       ],
       "trustMagnitude": 100.82,
@@ -32202,7 +32469,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/pubmed_database",
+      "id": "google-deepmind/pubmed-database",
       "name": "Pubmed-Database",
       "contributor": "google-deepmind",
       "origin": false,
@@ -32238,7 +32505,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-27",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:37Z",
@@ -32299,6 +32566,12 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 3★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-08-05T06:28:10Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/pubmed_database to google-deepmind/pubmed-database"
         }
       ],
       "trustMagnitude": 70.82,
@@ -32462,7 +32735,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/quickgo_database",
+      "id": "google-deepmind/quickgo-database",
       "name": "Quickgo-Database",
       "contributor": "google-deepmind",
       "origin": false,
@@ -32499,7 +32772,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-31",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:37Z",
@@ -32579,6 +32852,12 @@
           "action": "demote",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 4★ to 3★"
+        },
+        {
+          "timestamp": "2026-08-05T06:28:15Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/quickgo_database to google-deepmind/quickgo-database"
         }
       ],
       "trustMagnitude": 100.82,
@@ -32602,7 +32881,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/reactome_database",
+      "id": "google-deepmind/reactome-database",
       "name": "Reactome-Database",
       "contributor": "google-deepmind",
       "origin": true,
@@ -32639,7 +32918,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-31",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:38Z",
@@ -32719,6 +32998,12 @@
           "action": "demote",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 4★ to 3★"
+        },
+        {
+          "timestamp": "2026-08-05T06:28:20Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/reactome_database to google-deepmind/reactome-database"
         }
       ],
       "trustMagnitude": 100.82,
@@ -32780,7 +33065,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-31",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:38Z",
@@ -32891,7 +33176,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/string_database",
+      "id": "google-deepmind/string-database",
       "name": "String-Database",
       "contributor": "google-deepmind",
       "origin": false,
@@ -32927,7 +33212,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:38Z",
@@ -32976,6 +33261,12 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 3★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-08-05T06:28:24Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/string_database to google-deepmind/string-database"
         }
       ],
       "trustMagnitude": 70.82,
@@ -32999,7 +33290,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/ucsc_conservation_and_tfbs",
+      "id": "google-deepmind/ucsc-conservation-and-tfbs",
       "name": "Ucsc-Conservation-And-Tfbs",
       "contributor": "google-deepmind",
       "origin": false,
@@ -33036,7 +33327,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-31",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:39Z",
@@ -33116,6 +33407,12 @@
           "action": "demote",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 4★ to 3★"
+        },
+        {
+          "timestamp": "2026-08-05T06:28:30Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/ucsc_conservation_and_tfbs to google-deepmind/ucsc-conservation-and-tfbs"
         }
       ],
       "trustMagnitude": 100.82,
@@ -33139,7 +33436,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/unibind_database",
+      "id": "google-deepmind/unibind-database",
       "name": "Unibind-Database",
       "contributor": "google-deepmind",
       "origin": false,
@@ -33176,7 +33473,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-31",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:39Z",
@@ -33256,6 +33553,12 @@
           "action": "demote",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 4★ to 3★"
+        },
+        {
+          "timestamp": "2026-08-05T06:28:35Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/unibind_database to google-deepmind/unibind-database"
         }
       ],
       "trustMagnitude": 100.82,
@@ -33279,7 +33582,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/uniprot_database",
+      "id": "google-deepmind/uniprot-database",
       "name": "Uniprot-Database",
       "contributor": "google-deepmind",
       "origin": true,
@@ -33315,7 +33618,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:39Z",
@@ -33364,6 +33667,12 @@
           "action": "rank_up",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 3★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-08-05T06:28:41Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/uniprot_database to google-deepmind/uniprot-database"
         }
       ],
       "trustMagnitude": 70.82,
@@ -33527,7 +33836,7 @@
       "contractVersion": "gaia-public-v1"
     },
     {
-      "id": "google-deepmind/workflow_skill_creator",
+      "id": "google-deepmind/workflow-skill-creator",
       "name": "Workflow-Skill-Creator",
       "contributor": "google-deepmind",
       "origin": true,
@@ -33564,7 +33873,7 @@
         }
       ],
       "createdAt": "2026-05-23",
-      "updatedAt": "2026-07-31",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-06-14T12:32:40Z",
@@ -33644,6 +33953,12 @@
           "action": "demote",
           "contributor": "marcotiongson",
           "details": "Calibrated level from 4★ to 3★"
+        },
+        {
+          "timestamp": "2026-08-05T06:28:46Z",
+          "action": "rename",
+          "contributor": "unknown",
+          "details": "Renamed named skill from google-deepmind/workflow_skill_creator to google-deepmind/workflow-skill-creator"
         }
       ],
       "trustMagnitude": 100.82,
@@ -33739,11 +34054,12 @@
       "status": "awakened",
       "level": "1★",
       "description": "Refactor high-complexity React components in Dify frontend.",
+      "installable": false,
       "links": {
         "github": "https://github.com/langgenius/dify/blob/main/.agents/skills/component-refactoring/SKILL.md"
       },
       "createdAt": "2026-05-31",
-      "updatedAt": "2026-06-04",
+      "updatedAt": "2026-08-05",
       "timeline": [
         {
           "timestamp": "2026-05-31T02:07:12Z",
@@ -33771,6 +34087,14 @@
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
+        },
+        {
+          "timestamp": "2026-08-05T06:27:36Z",
+          "action": "upstream_deprecated",
+          "contributor": "unknown",
+          "previousValue": null,
+          "newValue": null,
+          "details": "Upstream .agents/skills/component-refactoring dir removed from langgenius/dify; its pnpm analyze-component/refactor-component scripts no longer exist in web/package.json. No 1:1 successor (how-to-write-component is a differently-scoped skill)."
         }
       ],
       "trustMagnitude": 0.0,
@@ -34552,9 +34876,9 @@
       "firecrawl/firecrawl-skills"
     ],
     "gaia-research": [
-      "gaia-research/skill-ci-churn",
-      "gaia-research/skill-cost",
-      "gaia-research/skill-fuse"
+      "gaia-research/ci-churn",
+      "gaia-research/cost",
+      "gaia-research/fuse"
     ],
     "gaiabot": [
       "gaiabot/gaia-triage",
@@ -34616,43 +34940,43 @@
       "glincker/readme-generator"
     ],
     "google-deepmind": [
-      "google-deepmind/alphafold_database_fetch_and_analyze",
-      "google-deepmind/alphagenome_single_variant_analysis",
-      "google-deepmind/chembl_database",
-      "google-deepmind/clinical_trials_database",
-      "google-deepmind/clinvar_database",
-      "google-deepmind/dbsnp_database",
-      "google-deepmind/embl_ebi_ols",
-      "google-deepmind/encode_ccres_database",
-      "google-deepmind/ensembl_database",
-      "google-deepmind/foldseek_structural_search",
-      "google-deepmind/gnomad_database",
-      "google-deepmind/gtex_database",
-      "google-deepmind/human_protein_atlas_database",
-      "google-deepmind/interpro_database",
-      "google-deepmind/jaspar_database",
-      "google-deepmind/literature_search_arxiv",
-      "google-deepmind/literature_search_biorxiv",
-      "google-deepmind/literature_search_europepmc",
-      "google-deepmind/literature_search_openalex",
-      "google-deepmind/ncbi_sequence_fetch",
-      "google-deepmind/openfda_database",
-      "google-deepmind/opentargets_database",
-      "google-deepmind/pdb_database",
-      "google-deepmind/protein_sequence_msa",
-      "google-deepmind/protein_sequence_similarity_search",
-      "google-deepmind/pubchem_database",
-      "google-deepmind/pubmed_database",
+      "google-deepmind/alphafold-database-fetch-and-analyze",
+      "google-deepmind/alphagenome-single-variant-analysis",
+      "google-deepmind/chembl-database",
+      "google-deepmind/clinical-trials-database",
+      "google-deepmind/clinvar-database",
+      "google-deepmind/dbsnp-database",
+      "google-deepmind/embl-ebi-ols",
+      "google-deepmind/encode-ccres-database",
+      "google-deepmind/ensembl-database",
+      "google-deepmind/foldseek-structural-search",
+      "google-deepmind/gnomad-database",
+      "google-deepmind/gtex-database",
+      "google-deepmind/human-protein-atlas-database",
+      "google-deepmind/interpro-database",
+      "google-deepmind/jaspar-database",
+      "google-deepmind/literature-search-arxiv",
+      "google-deepmind/literature-search-biorxiv",
+      "google-deepmind/literature-search-europepmc",
+      "google-deepmind/literature-search-openalex",
+      "google-deepmind/ncbi-sequence-fetch",
+      "google-deepmind/openfda-database",
+      "google-deepmind/opentargets-database",
+      "google-deepmind/pdb-database",
+      "google-deepmind/protein-sequence-msa",
+      "google-deepmind/protein-sequence-similarity-search",
+      "google-deepmind/pubchem-database",
+      "google-deepmind/pubmed-database",
       "google-deepmind/pymol",
-      "google-deepmind/quickgo_database",
-      "google-deepmind/reactome_database",
+      "google-deepmind/quickgo-database",
+      "google-deepmind/reactome-database",
       "google-deepmind/science_skills_common",
-      "google-deepmind/string_database",
-      "google-deepmind/ucsc_conservation_and_tfbs",
-      "google-deepmind/unibind_database",
-      "google-deepmind/uniprot_database",
+      "google-deepmind/string-database",
+      "google-deepmind/ucsc-conservation-and-tfbs",
+      "google-deepmind/unibind-database",
+      "google-deepmind/uniprot-database",
       "google-deepmind/uv",
-      "google-deepmind/workflow_skill_creator"
+      "google-deepmind/workflow-skill-creator"
     ],
     "gooseworks": [
       "gooseworks/notte-browser"
@@ -34697,7 +35021,7 @@
       "k-dense-ai/transformers"
     ],
     "karpathy": [
-      "karpathy/autoresearch"
+      "karpathy/autoresearch-universal"
     ],
     "langgenius": [
       "langgenius/backend-code-review",
@@ -34830,7 +35154,7 @@
       "ruvnet/github-release-management",
       "ruvnet/github-suite",
       "ruvnet/github-workflow-automation",
-      "ruvnet/hive-mind-coordination",
+      "ruvnet/hive-mind",
       "ruvnet/hooks-automation",
       "ruvnet/pair-programming",
       "ruvnet/performance-analysis",
@@ -34878,7 +35202,7 @@
       "upsonic/unittest-generator"
     ],
     "vercel-labs": [
-      "vercel-labs/react-best-practices"
+      "vercel-labs/vercel-react-best-practices"
     ],
     "vercel": [
       "vercel/find-skills"

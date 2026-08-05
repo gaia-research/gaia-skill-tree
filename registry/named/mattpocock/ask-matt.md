@@ -6,12 +6,12 @@ origin: false
 genericSkillRef: route-intent
 status: named
 links:
-  github: https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt/SKILL.md
+  github: https://github.com/mattpocock/skills/blob/main/skills/engineering/ask-matt/SKILL.md
 level: 1★
 description: Productivity skill for routing questions to the right expert or skill
   in a workspace.
 createdAt: '2026-06-19'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-05'
 timeline:
 - timestamp: '2026-06-19T12:58:22Z'
   action: add
@@ -76,6 +76,10 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
+- timestamp: '2026-08-05T06:26:59Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/ask-matt/SKILL.md
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/productivity/ask-matt/SKILL.md
   evaluator: unknown

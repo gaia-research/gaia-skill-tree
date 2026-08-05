@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" data-icon-base="../assets/icons.svg">
 <head>
-  <script>window.GAIA_VERSION = "7.3.8";</script>
+  <script>window.GAIA_VERSION = "7.3.16";</script>
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
@@ -20,8 +20,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="../css/tokens.css?v=7.3.8">
-  <link rel="stylesheet" href="../css/styles.css?v=7.3.8">
+  <link rel="stylesheet" href="../css/tokens.css?v=7.3.16">
+  <link rel="stylesheet" href="../css/styles.css?v=7.3.16">
   <link rel="alternate" type="application/json" href="/api/v1/reports/index.json">
 
   <script>
@@ -302,19 +302,11 @@
   "url": "https://gaiaskilltree.com/reports/"
 }
 </script>
-  <!-- Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TS7N9T92BM" data-ga4="G-TS7N9T92BM"></script>
-  <script data-ga4="G-TS7N9T92BM">
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-TS7N9T92BM');
-  </script>
 </head>
 <body>
   <nav id="site-nav"></nav>
-  <script src="../js/mounts.js?v=7.3.8"></script>
-  <script src="../js/site-nav.js?v=7.3.8"></script>
+  <script src="../js/mounts.js?v=7.3.16"></script>
+  <script src="../js/site-nav.js?v=7.3.16"></script>
 
   <main class="reports-shell">
 
@@ -329,10 +321,21 @@
     <section class="reports-block" aria-labelledby="archiveHeading">
       <div class="reports-block-head">
         <h2 id="archiveHeading">Archive</h2>
-        <span class="count">4 reports</span>
+        <span class="count">5 reports</span>
       </div>
 
         <ol class="reports-list">
+          <li class="reports-row">
+            <a class="rr-title" href="/reports/2026-32/">
+              <span>2026-32</span>
+              <span class="rr-tail" aria-hidden="true">→</span>
+            </a>
+            <div class="rr-meta">
+              <span>ISO 2026-W32</span>
+              <span class="rr-layer">Layer <code>L3</code></span>
+            </div>
+            <a class="rr-json" href="/api/v1/reports/2026-32.json" aria-label="Canonical JSON for report 2026-32">JSON</a>
+          </li>
           <li class="reports-row">
             <a class="rr-title" href="/reports/2026-31/">
               <span>2026-31</span>
@@ -387,6 +390,6 @@
   </main>
 
   <div id="site-footer-mount"></div>
-  <script src="../js/site-footer.js?v=7.3.8"></script>
+  <script src="../js/site-footer.js?v=7.3.16"></script>
 </body>
 </html>

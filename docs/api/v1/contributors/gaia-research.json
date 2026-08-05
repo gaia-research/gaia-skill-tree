@@ -2,8 +2,8 @@
   "handle": "gaia-research",
   "namedSkills": [
     {
-      "id": "gaia-research/skill-fuse",
-      "name": "Skill Fuse",
+      "id": "gaia-research/fuse",
+      "name": "Fuse",
       "level": "2★",
       "trustMagnitude": 41.62,
       "overallTrustGrade": "C",
@@ -13,12 +13,12 @@
       "rankWord": "Named",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/gaia-research/skill-fuse.json"
+        "self": "/api/v1/skills/gaia-research/fuse.json"
       },
       "genericSkillRef": "skill-fusion"
     },
     {
-      "id": "gaia-research/skill-ci-churn",
+      "id": "gaia-research/ci-churn",
       "name": "CI Churn",
       "level": "2★",
       "trustMagnitude": 41.0,
@@ -29,14 +29,14 @@
       "rankWord": "Named",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/gaia-research/skill-ci-churn.json"
+        "self": "/api/v1/skills/gaia-research/ci-churn.json"
       },
       "genericSkillRef": "ci-churn-analysis"
     }
   ],
   "namedSkillsCount": 2,
   "topSkill": {
-    "id": "gaia-research/skill-fuse",
+    "id": "gaia-research/fuse",
     "level": "2★",
     "trustMagnitude": 41.62
   },

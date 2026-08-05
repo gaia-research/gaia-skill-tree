@@ -3,7 +3,7 @@
   "updatedAt": "2026-05-25",
   "unlockedSkills": [
     {
-      "skillId": "karpathy/autoresearch",
+      "skillId": "karpathy/autoresearch-universal",
       "level": "2★",
       "unlockedAt": "2026-04-29T00:00:00Z",
       "unlockedIn": "karpathy/gaia-skill-tree",
@@ -26,7 +26,7 @@
     {
       "timestamp": "2026-04-29T00:00:00Z",
       "action": "register",
-      "skillId": "karpathy/autoresearch",
+      "skillId": "karpathy/autoresearch-universal",
       "details": "Registered named skill karpathy/autoresearch",
       "previousValue": null,
       "newValue": "3★"
@@ -37,7 +37,7 @@
       "previousValue": "3★",
       "newValue": "2★",
       "details": "Level updated from 3★ to 2★ per G7 final rankings calibration.",
-      "skillId": "karpathy/autoresearch"
+      "skillId": "karpathy/autoresearch-universal"
     }
   ],
   "stats": {

@@ -46,7 +46,7 @@ suiteComponents:
 - ruvnet/github-release-management
 - ruvnet/github-suite
 - ruvnet/github-workflow-automation
-- ruvnet/hive-mind-coordination
+- ruvnet/hive-mind
 - ruvnet/hooks-automation
 - ruvnet/pair-programming
 - ruvnet/performance-analysis
@@ -233,7 +233,7 @@ First published by @ruvnet as part of the Ruflo orchestration platform. This is 
 
 **Grandmaster Path**: agent-memory-platform 5★ Ultimate qualification — 34k+ stars exceeds the 10k-star Grandmaster threshold. This places Ruflo at the apex of the Gaia orchestration taxonomy.
 
-This 6★ Apex unites all suite fusions: flow-nexus (4★) + agentdb (5★ Ultimate) + github-suite (4★) + hive-mind-coordination + reasoningbank (3★) + ruflo-v3 (4★) + dual-mode (3★) + all standalones.
+This 6★ Apex unites all suite fusions: flow-nexus (4★) + agentdb (5★ Ultimate) + github-suite (4★) + hive-mind + reasoningbank (3★) + ruflo-v3 (4★) + dual-mode (3★) + all standalones.
 
 Sourced from the Ruflo platform (ruvnet/ruflo, 34k+ stars).
 

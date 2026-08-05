@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-04T11:42:52Z",
+  "generatedAt": "2026-08-05T09:32:22Z",
   "buckets": [
     {
       "genericSkillRef": "git-ship-done-pipeline",
@@ -126,7 +126,7 @@
           "origin": true
         },
         {
-          "id": "karpathy/autoresearch",
+          "id": "karpathy/autoresearch-universal",
           "trustMagnitude": 36.0,
           "level": "2★",
           "overallTrustGrade": "C",

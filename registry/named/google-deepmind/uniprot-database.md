@@ -1,0 +1,372 @@
+---
+id: google-deepmind/uniprot-database
+name: Uniprot-Database
+contributor: google-deepmind
+origin: true
+genericSkillRef: proteomic-data-retrieval
+status: awakened
+level: 4★
+description: Access protein metadata, function, taxonomy, and sequences across UniProtKB,
+  UniParc, and UniRef. Use when searching for proteins, mapping identifiers, or retrieving
+  functional annotations and publications. Don't use for sequence alignment, protein
+  folding, or sequence similarity search (use specialized skills for those tasks).
+createdAt: '2026-05-23'
+updatedAt: '2026-08-05'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md
+evidence:
+- class: B
+  source: https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md
+  evaluator: unknown
+  date: '2026-05-23'
+  notes: Official Google DeepMind uniprot_database science-skill implementation. (backfilled
+    — class-to-type migration)
+  type: repo
+  trustNumber: 70.0
+  commits: 6
+  contributors: 3
+  grade: C
+- source: https://academic.oup.com/nar/article/51/D1/D523/6835362
+  evaluator: unknown
+  date: '2026-06-19'
+  type: peer-review
+  class: A
+  notes: 'UniProt Consortium 2022 NAR: UniProt Universal Protein Knowledgebase in
+    2023. 5,729 citations (Semantic Scholar 2026-06-19).'
+  reviewers: 2
+  grade: A
+timeline:
+- timestamp: '2026-06-14T12:32:39Z'
+  action: evidence_graded
+  contributor: unknown
+  details: 'Re-graded evidence from https://github.com/google-deepmind/science-skills/blob/main/skills/uniprot_database/SKILL.md
+    as B (trustNumber: 70.0)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-18T11:27:17Z'
+  details: TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T11:07:57Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:19:38Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T13:26:39Z'
+  details: TM 0.0 -> 10.82, grade ungraded -> ungraded (direct edit -- CLI gap)
+- timestamp: '2026-06-19T14:29:22Z'
+  action: evidence_added
+  contributor: unknown
+  details: 'Added evidence from https://academic.oup.com/nar/article/51/D1/D523/6835362
+    (type: peer-review)'
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:31:46Z'
+  details: TM 10.82 -> 70.82, grade ungraded -> B (direct edit -- CLI gap)
+- action: migrate_trust_magnitude
+  timestamp: '2026-06-19T14:32:17Z'
+  details: TM 70.82 -> 70.82, grade B -> B (direct edit -- CLI gap)
+- timestamp: '2026-06-20T06:31:27Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Level updated from 2★ to 3★ per G7 final rankings calibration.
+- timestamp: '2026-08-05T06:28:41Z'
+  action: rename
+  contributor: unknown
+  details: Renamed named skill from google-deepmind/uniprot_database to google-deepmind/uniprot-database
+trustMagnitude: 70.82
+overallTrustGrade: B
+apexGateStatus:
+  aGradedOriginsGte5: false
+  sourceTenureDaysGte180AorS: false
+  directNestedSuiteGte1: false
+  depth2OnlyReachableGte1: false
+  overallGradeS: false
+  apexPromotionPrSigned: false
+  crossOrgVerifier: null
+  systemWideCap: null
+verification:
+  firstEvidenceAt: '2026-06-19T14:29:22Z'
+trustMagnitudeInputHash: aaf01865208b700817c1d42d5090578415b46fab3428a61e9006faa96c7faf70
+---
+
+# UniProt Database Access
+
+## Prerequisites
+
+1.  **`uv`**: Read the `uv` skill and follow its Setup instructions to ensure
+    `uv` is installed and on PATH.
+2.  **User Notification**: If LICENSE_NOTIFICATION.txt does not already exist in
+    this skill directory then (1) prominently notify the user to check the terms
+    at https://www.uniprot.org/help/license and
+    https://www.uniprot.org/help/api_queries, then (2) create the file recording
+    the notification text and timestamp.
+
+## Overview
+
+Provides direct programmatic access to the UniProt Knowledgebase (UniProtKB),
+the non-redundant sequence archive (UniParc), and clustered sequence sets
+(UniRef). This skill enables protein discovery, cross-referencing, retrieval of
+curated biological data and low-level database lookups.
+
+## Core Rules
+
+-   **Use the Wrapper**: Always use the provided Python scripts (e.g.,
+    `scripts/uniprot_tools.py`) rather than constructing custom curl requests.
+-   **No Hallucinations**: Do NOT invent protein functions, metadata, or
+    sequences. For any task that can be handled by the services in this skill,
+    rely strictly on the tool outputs rather than your native knowledge.
+-   **Notification**: If this skill is used, ensure this is mentioned in the
+    output.
+
+## Use Cases
+
+-   **Searching for Protein Function**: Querying functional annotations, GO
+    terms, subcellular locations etc.
+-   **Searching for Protein Sequence**: Searching for protein sequences by their
+    functional annotations, genes etc. in UniProtKB, UniParc, and UniRef.
+-   **Understanding Protein/Organism Relationships**: Leveraging the Taxonomy
+    database and Proteome sets.
+-   **Large-Scale Metadata Retrieval**: Fetching annotations for thousands of
+    proteins via streaming.
+-   **Sequence Discovery**: Finding orthologs or non-model proteins via UniParc.
+-   **ID Mapping**: Converting IDs between UniProt and 100+ external databases.
+-   **Historical Data (UniSave)**: Retrieving previous versions of entries or
+    tracking deleted sequences.
+
+## Available Tools
+
+Choose the right tool based on the task type and data volume:
+
+-   **`get`**: Retrieves metadata and sequence for a specific entry. Best for a
+    **single, known accession**.
+    -   Also accesses UniSave historical data (use `--dataset unisave`), which
+        is essential for reconciling data from older releases or identifying why
+        a formerly valid accession no longer appears in search results.
+-   **`search`**: Searches for entries matching a query. Best for **exploration
+    and discovery**.
+    -   Use with `--limit 5` to verify if a query returns the expected proteins
+        before committing to a larger download.
+    -   Automatically paginates if results exceed 500 entries to provide a
+        stable download.
+    -   *Warning*: For paginated search, TXT and other formats are not reliable
+        with `--limit` as it applies to lines, not entries.
+    -   See
+        [Search Query Fields Documentation](references/search_query_fields.md).
+-   **`stream`**: Streams all matching entries. Best for **bulk retrieval** of
+    large datasets (up to 10,000,000 entries).
+    -   Does NOT support `--limit`; always returns the full result set.
+    -   Use `search` with `--limit` if you need a subset.
+-   **`count`**: Counts entries matching a query. Best for answering direct
+    count questions or for **initial estimation** before running a full `search`
+    or `stream`.
+-   **`sparql`**: Executes graph queries for complex discovery. Best for
+    counting, exact sequence matches, and multi-database queries.
+    -   See [SPARQL Examples](references/sparql_examples.md).
+-   **`map`**: Converts IDs between UniProt and 100+ databases. Best for ID
+    mapping tasks.
+    -   See [ID Mapping Documentation](references/id_mapping_documentation.md).
+    -   **`search` vs. `map`**: Try `search` first before resorting to `map` if
+        not explicitly requested by the user. E.g., an external ID might be
+        searchable in UniParc but fail to map to UniProtKB.
+
+## Workflows
+
+### Typical Protein Research Workflow
+
+Copy this checklist and track progress:
+
+-   [ ] Step 1: Identify target protein(s) and organism(s).
+-   [ ] Step 2: Search UniProtKB for reviewed entries (`reviewed:true`).
+-   [ ] Step 3: If no reviewed entries, search unreviewed or use UniParc for
+    sequence discovery.
+-   [ ] Step 4: Map external IDs (e.g., Ensembl, PDB) to UniProt Accessions if
+    necessary.
+-   [ ] Step 5: Retrieve functional metadata or sequence in desired format
+    (JSON, FASTA).
+
+### Handling Search Misses (e.g. Gene Search in Non-Model Organisms)
+
+If a direct query (e.g., `gene:SYMBOL`) fails:
+
+1.  **Pivot to Protein Name**: Search for the common protein name (e.g.,
+    `protein_name:Alpha-crystallin A`).
+2.  **Use UniParc**: Search the UniParc dataset, which integrates sequences from
+    across all of life, even if they aren't fully annotated in UniProtKB.
+3.  **Check Orthologs/Canonical**: Resolve the Human/Mouse ortholog first to
+    find the correct naming/mnemonic.
+
+### Bulk Retrieval Priorities
+
+> [!IMPORTANT] Always prefer **`stream`** or **`sparql`** for bulk data.
+> `search` is suitable for exploration; if results exceed 500 entries, it
+> automatically paginates to provide a stable download.
+
+-   **Priority 0: `count`**: ALWAYS check the result count before running a
+    `search` or `stream`.
+-   **Priority 1: `stream`**: The primary method for bulk data retrieval (up to
+    10M entries). Does NOT support `--limit`; always returns all results.
+-   **Priority 2: `sparql`**: Best for complex filtering and exact matching
+    during retrieval.
+
+### Sequence-Based Search (Exact Match)
+
+> [!IMPORTANT] Use **SPARQL** when searching for a protein by its full amino
+> acid sequence. The REST API `/search` endpoint does not support direct
+> sequence-string lookups. For any non-exact match use specialized sequence
+> similarity search skills. Use UniParc if you cannot find query in UniProt.
+
+**SPARQL Query Pattern (UniProt):**
+
+```text
+PREFIX up: <http://purl.uniprot.org/core/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+SELECT ?protein ?name WHERE {
+  ?protein a up:Protein ;
+           up:sequence/rdf:value "SEQUENCE_HERE" .
+  OPTIONAL {
+    ?protein up:recommendedName/up:fullName ?name .
+  }
+}
+```
+
+**SPARQL Query Pattern (UniParc):**
+
+```text
+PREFIX up: <http://purl.uniprot.org/core/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+SELECT ?uniparc ?val WHERE {
+  GRAPH <http://sparql.uniprot.org/uniparc> {
+    ?uniparc a up:Sequence ;
+             rdf:value ?val .
+    FILTER (?val = "SEQUENCE_HERE")
+  }
+}
+```
+
+### Counting Entries Efficiently
+
+> [!IMPORTANT] Use **`count`** or **`SPARQL`** for counting entries (e.g., "How
+> many proteins in Human?").
+
+**Counting Pattern (Proteins per Organism):**
+
+```text
+PREFIX up: <http://purl.uniprot.org/core/>
+PREFIX taxon: <http://purl.uniprot.org/taxonomy/>
+SELECT (COUNT(?protein) AS ?count) WHERE {
+  ?protein a up:Protein ;
+           up:reviewed true ;
+           up:organism taxon:9606 .
+}
+```
+
+### REST Search Syntax
+
+-   **No Commas in Lists**: Commas are treated as literals. Use capitalized `OR`
+    to separate items.
+    *   Grouped: `accession:(P12345 OR P67890)`
+    *   Repeated: `accession:P12345 OR accession:P67890`
+-   **Space = AND**: E.g., `gene:p53 human` searches for both.
+
+## Example Commands
+
+Below are example commands for each mode of `uniprot_tools.py`.
+
+Count total number of entries for a given query.
+
+```bash
+uv run scripts/uniprot_tools.py count "taxonomy_id:9606"
+```
+
+Search for entries.
+
+```bash
+uv run scripts/uniprot_tools.py search "gene:p53 AND reviewed:true" --limit 5
+```
+
+Retrieve a single entry by accession.
+
+```bash
+uv run scripts/uniprot_tools.py get P04637
+```
+
+Retrieve Historical/Deleted Entry (UniSave).
+
+```bash
+uv run scripts/uniprot_tools.py get P04637 --dataset unisave
+```
+
+Stream large result sets for bulk retrieval (returns ALL matched entries, no
+`--limit` support).
+
+```bash
+uv run scripts/uniprot_tools.py stream "taxonomy_id:9606 AND reviewed:true" --format tsv --fields accession,gene_names > human_reviewed.tsv
+```
+
+Map IDs from one database to another.
+
+```bash
+uv run scripts/uniprot_tools.py map "P04637" --from_db UniProtKB_AC-ID --to_db Gene_Name
+```
+
+Execute graph queries with SPARQL.
+
+```bash
+uv run scripts/uniprot_tools.py sparql 'PREFIX up: <http://purl.uniprot.org/core/> SELECT ?protein WHERE { ?protein a up:Protein ; up:reviewed true . } LIMIT 5'
+```
+
+## Common Mistakes
+
+-   **Using `name:` instead of `protein_name:`**: `name:` is not a supported
+    query term, use `protein_name:` instead.
+-   **Ignoring UniParc**: Non-model organisms might only exist in UniParc.
+-   **Confusing Accession with UPI**: UniProtKB Accessions (e.g., `P04637`) are
+    linked to functional metadata; UniParc IDs (`UPI...`) are for sequences
+    only. You can find cross-references from UniParc IDs to UniProtKB Accessions
+    using the ID Mapping tool.
+-   **Using UniProtKB-AC as Target in ID Mapping**: Use `UniProtKB` instead.
+-   **Giving up on Complex Queries**: If a complex search query fails, try to
+    use SPARQL instead of giving up.
+-   **Using IDs Without Verifying Meaning**: NEVER assume you know the meaning
+    of an ID (e.g. keyword, GO term, Pfam ID etc.). ALWAYS look up the natural
+    language description/meaning of an ID in UniProt before using it for search
+    to ensure it matches your intended search term.
+-   **Ignoring Citation Noise in Broad Searches**: Broad text searches (`search
+    "term"`) frequently return false positives (e.g., common maintenance
+    proteins) because UniProt searches full metadata, including publication
+    titles. ALWAYS prefer field-specific filters like `cc_function:` or
+    `protein_name:` for functional discovery.
+-   **Forgetting to Quote Short Search Terms**: Short, unquoted terms (e.g.,
+    `lanM`) can match substrings in organism names (e.g., *Lan*cefieldella) or
+    other fields. Use quotes and field prefixes (e.g., `gene:lanM`) to isolate
+    true hits.
+-   **Manipulating Protein Sequences Directly**: Always use code and tools for
+    sequence-based operations. Do not attempt to edit, truncate, or modify
+    protein sequences manually.
+-   **Over-using Search for Bulk Data**: DO NOT use `search` for retrieving
+    millions of entries if `stream` or `sparql` can do the job. Streaming is
+    more efficient for very large datasets. Note that `stream` has a hard limit
+    of 10,000,000 outputs and does NOT support `--limit`.
+-   **Forgetting to Check Data Volume**: ALWAYS perform a `count` before running
+    a `search` without `--limit` or before using `stream`. Unlimited queries can
+    take a long time and consume significant resources if millions of entries
+    are returned.
+-   **Using `--limit` with `stream`**: The `stream` command does NOT support
+    `--limit`. If you need a limited number of results, use `search` with
+    `--limit` instead.
+-   **Forgetting the License Notice**: Do not neglect to state that the UniProt
+    Database was used and to advise the user to review the licensing terms when
+    presenting results for the **first time**. Even if the task is concise, this
+    attribution is required in the first response containing UniProt data.
+
+## Reference Materials
+
+-   [SPARQL Examples](references/sparql_examples.md)
+-   [Search Query Fields Documentation](references/search_query_fields.md)
+-   [ID Mapping Documentation](references/id_mapping_documentation.md)
+-   [UniProt Evidence Docs](https://www.uniprot.org/help/evidences)
+-   **Underlying API Endpoints** (Used by `scripts/uniprot_tools.py`):
+    -   `get`, `search`, `stream`, `count` -> `rest.uniprot.org/{dataset}/`
+    -   `map` -> `rest.uniprot.org/idmapping/`
+    -   `sparql` -> `sparql.uniprot.org/sparql`
+    -   `get --dataset unisave` -> `rest.uniprot.org/unisave/`

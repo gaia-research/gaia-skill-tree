@@ -10,14 +10,14 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ karpathy/autoresearch | Basic | 2★ | Named | karpathy/gaia-skill-tree | 2026-04-29T00:00:00Z |
+| ○ karpathy/autoresearch-universal | Basic | 2★ | Named | karpathy/gaia-skill-tree | 2026-04-29T00:00:00Z |
 
 ---
 
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — karpathy  ·  generated 2026-08-04
+GAIA SKILL TREE — karpathy  ·  generated 2026-08-05
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -389,7 +389,7 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   · ○ panniantong/agent-reach  [3★]
   · ○ /autonomous-engineering-platform
   · ○ anthropics/brand-guidelines  [3★]
-  · ○ gaia-research/skill-ci-churn  [2★]
+  · ○ gaia-research/ci-churn  [2★]
   · ○ /clinical-data-retrieval
   · ○ ████████/update-unique-churches
   · ○ /cultural-localization
@@ -407,7 +407,7 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   · ○ /pathway-ontology-retrieval
   · ○ /prompt-caching
   · ○ k-dense-ai/qiskit  [3★]
-  · ○ vercel-labs/react-best-practices  [3★]
+  · ○ vercel-labs/vercel-react-best-practices  [3★]
   · ○ oso95/scroll-world  [3★]
   · ○ openai/self-consistency  [3★]
   · ○ huggingface/semantic-cache  [2★]

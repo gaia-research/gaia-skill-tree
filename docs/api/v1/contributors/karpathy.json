@@ -2,7 +2,7 @@
   "handle": "karpathy",
   "namedSkills": [
     {
-      "id": "karpathy/autoresearch",
+      "id": "karpathy/autoresearch-universal",
       "name": "AutoResearch",
       "level": "2★",
       "trustMagnitude": 36.0,
@@ -13,14 +13,14 @@
       "rankWord": "Named",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/karpathy/autoresearch.json"
+        "self": "/api/v1/skills/karpathy/autoresearch-universal.json"
       },
       "genericSkillRef": "autonomous-web-research"
     }
   ],
   "namedSkillsCount": 1,
   "topSkill": {
-    "id": "karpathy/autoresearch",
+    "id": "karpathy/autoresearch-universal",
     "level": "2★",
     "trustMagnitude": 36.0
   },

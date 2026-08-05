@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-04T11:42:52Z",
+  "generatedAt": "2026-08-05T09:32:22Z",
   "skills": [
     {
       "id": "anthropics/brand-guidelines",
@@ -246,15 +246,15 @@
       "previousLevel": "3★"
     },
     {
-      "id": "vercel-labs/react-best-practices",
-      "name": "React Best Practices",
+      "id": "vercel-labs/vercel-react-best-practices",
+      "name": "Vercel React Best Practices",
       "level": "3★",
       "contributor": "vercel-labs",
       "trustMagnitude": 50.48,
       "overallTrustGrade": "B",
       "ascendedAt": "2026-07-29T20:35:01Z",
       "_links": {
-        "self": "/api/v1/skills/vercel-labs/react-best-practices.json"
+        "self": "/api/v1/skills/vercel-labs/vercel-react-best-practices.json"
       },
       "previousLevel": "2★"
     },

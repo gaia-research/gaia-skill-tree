@@ -10,7 +10,7 @@ level: 2★
 description: An ultra-compressed communication mode designed to save tokens by dropping
   articles and filler words. Removed from mattpocock/skills suite in v1.0.1.
 createdAt: '2026-05-21'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-05'
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/productivity/caveman
 trustMagnitude: 30.0
@@ -46,6 +46,14 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 3★ to 2★ per G7 final rankings calibration.
+- timestamp: '2026-08-05T06:27:25Z'
+  action: upstream_deprecated
+  contributor: unknown
+  previousValue: null
+  newValue: null
+  details: 'Removed upstream in mattpocock/skills — author''s CHANGELOG: ''caveman
+    was a duplicate of another skill I was testing and was never meant to be public.''
+    No replacement.'
 evidence:
 - source: https://github.com/mattpocock/skills/issues/189
   evaluator: mbtiongson1
@@ -58,6 +66,7 @@ verification:
   firstEvidenceAt: '2026-06-19T12:32:51Z'
 suiteRef: mattpocock/productivity
 trustMagnitudeInputHash: b465d715e6b28aa3c1fcc03f36ba73520d63fee9cba499c0e2c70600c1bcd51e
+installable: false
 ---
 
 ## Installation

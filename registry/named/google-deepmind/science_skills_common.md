@@ -10,7 +10,7 @@ description: Shared Python package for Science Skills, currently containing http
   -- a unified HTTP client with rate limiting, retries, and exponential backoff. Not
   a standalone agent skill. Do not invoke directly.
 createdAt: '2026-05-23'
-updatedAt: '2026-07-31'
+updatedAt: '2026-08-05'
 links:
   github: https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common
 evidence:

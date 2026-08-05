@@ -65,8 +65,8 @@
       "genericSkillRef": "static-artwork-design"
     },
     {
-      "id": "gaia-research/skill-fuse",
-      "name": "Skill Fuse",
+      "id": "gaia-research/fuse",
+      "name": "Fuse",
       "level": "2★",
       "trustMagnitude": 41.62,
       "overallTrustGrade": "C",
@@ -76,7 +76,7 @@
       "rankWord": "Named",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/gaia-research/skill-fuse.json"
+        "self": "/api/v1/skills/gaia-research/fuse.json"
       },
       "genericSkillRef": "skill-fusion"
     },
@@ -97,7 +97,7 @@
       "genericSkillRef": "prototype"
     },
     {
-      "id": "gaia-research/skill-ci-churn",
+      "id": "gaia-research/ci-churn",
       "name": "CI Churn",
       "level": "2★",
       "trustMagnitude": 41.0,
@@ -108,7 +108,7 @@
       "rankWord": "Named",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/gaia-research/skill-ci-churn.json"
+        "self": "/api/v1/skills/gaia-research/ci-churn.json"
       },
       "genericSkillRef": "ci-churn-analysis"
     },
@@ -641,7 +641,7 @@
       "genericSkillRef": "semantic-cache"
     },
     {
-      "id": "karpathy/autoresearch",
+      "id": "karpathy/autoresearch-universal",
       "name": "AutoResearch",
       "level": "2★",
       "trustMagnitude": 36.0,
@@ -652,7 +652,7 @@
       "rankWord": "Named",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/karpathy/autoresearch.json"
+        "self": "/api/v1/skills/karpathy/autoresearch-universal.json"
       },
       "genericSkillRef": "autonomous-web-research"
     },

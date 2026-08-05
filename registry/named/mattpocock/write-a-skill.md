@@ -13,8 +13,6 @@ description: Guides creation of new agent skills through a structured requiremen
   layout, and optional bundled scripts or reference files — ready for installation
   in any Claude Code, Cursor, or Codex CLI skills directory. Removed from mattpocock/skills
   suite in v1.0.1.
-links:
-  github: https://github.com/mattpocock/skills/blob/main/skills/productivity/write-a-skill/SKILL.md
 tags:
 - skill-authoring
 - meta-agent
@@ -22,7 +20,9 @@ tags:
 - skill-scaffolding
 - progressive-disclosure
 createdAt: '2026-04-30'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-05'
+links:
+  github: https://github.com/mattpocock/skills/blob/main/skills/productivity/write-a-skill/SKILL.md
 timeline:
 - timestamp: '2026-06-02T23:33:00Z'
   action: rank_up
@@ -54,6 +54,15 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 3★ to 2★ per G7 final rankings calibration.
+- timestamp: '2026-08-05T06:27:32Z'
+  action: upstream_deprecated
+  contributor: unknown
+  previousValue: null
+  newValue: null
+  details: 'Removed upstream in mattpocock/skills — author''s CHANGELOG: ''Replace
+    write-a-skill with writing-great-skills... write-a-skill has been removed.'' Successor
+    is a differently-shaped reference skill (disable-model-invocation), not a 1:1
+    rename, so not relinked under this id.'
 trustMagnitude: 45.0
 overallTrustGrade: C
 apexGateStatus:
@@ -84,6 +93,7 @@ verification:
   firstEvidenceAt: '2026-06-19T12:38:21Z'
 suiteRef: mattpocock/productivity
 trustMagnitudeInputHash: 1d906afe9a855f5ede2526bbb6693737df6c39405057dbb08ba7d96fa6abd8c5
+installable: false
 ---
 
 ## Overview

@@ -198,9 +198,9 @@ ALLOWLIST_PATHS = {
     'registry/named/firecrawl/firecrawl-skills.md',                    # #994
     'registry/named/garrytan/garrytan.md',                             # #994
     'registry/named/garrytan/gstack.md',                               # #994
-    'registry/named/google-deepmind/alphafold_database_fetch_and_analyze.md',  # #994
-    'registry/named/google-deepmind/alphagenome_single_variant_analysis.md',   # #994
-    'registry/named/google-deepmind/workflow_skill_creator.md',        # #994
+    'registry/named/google-deepmind/alphafold-database-fetch-and-analyze.md',  # #994
+    'registry/named/google-deepmind/alphagenome-single-variant-analysis.md',   # #994
+    'registry/named/google-deepmind/workflow-skill-creator.md',        # #994
     'registry/named/gsd-build/get-shit-done.md',                       # #994
     'registry/named/mattpocock/engineering.md',                        # #994
     'registry/named/mattpocock/productivity.md',                       # #994

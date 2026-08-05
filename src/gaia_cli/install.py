@@ -129,6 +129,16 @@ def _run_git(args: list[str], cwd: str | None = None) -> bool:
         return False
 
 
+def _clone_repo(repo_url: str, branch: str | None, dest: str) -> bool:
+    """Clone repo_url into dest, creating parent dirs as needed."""
+    os.makedirs(os.path.dirname(dest), exist_ok=True)
+    args = ["clone", "--single-branch", "--depth", "1"]
+    if branch:
+        args += ["-b", branch]
+    args += [repo_url, dest]
+    return _run_git(args)
+
+
 def resolve_named_skill_reference(skill_ref, registry_path):
     """Resolve an install reference to (canonical_id, meta_dict)."""
     skill_ref = skill_ref.lstrip("/")
@@ -166,6 +176,13 @@ def _install_single(sid: str, meta: dict, registry_path: str, visited: set[str],
     Args:
         location: "local" (default, .agents/.claude) or "global" (~/.gaia/skills)
     """
+    if isinstance(meta, dict) and meta.get("installable") is False:
+        print(
+            f"Error: Skill '{sid}' is marked registry-only (installable: false).",
+            file=sys.stderr,
+        )
+        return False
+
     links = meta.get("links", {}) if isinstance(meta, dict) else {}
     github_url = links.get("github") if isinstance(links, dict) else None
     if not github_url:
@@ -178,18 +195,26 @@ def _install_single(sid: str, meta: dict, registry_path: str, visited: set[str],
 
     # 1. Clone/Fetch to global cache
     global_cache = os.path.join(get_global_cache_dir(), owner, repo_name)
+    cache_is_valid_repo = os.path.isdir(os.path.join(global_cache, ".git"))
+    if os.path.exists(global_cache) and not cache_is_valid_repo:
+        print(
+            f"Warning: {global_cache} exists but is not a git repo (likely a partial "
+            "clone); removing and re-cloning...",
+            file=sys.stderr,
+        )
+        shutil.rmtree(global_cache, ignore_errors=True)
+
     if not os.path.exists(global_cache):
         print(f"Cloning {repo_url}...")
-        os.makedirs(os.path.dirname(global_cache), exist_ok=True)
-        args = ["clone", "--single-branch", "--depth", "1"]
-        if branch:
-            args += ["-b", branch]
-        args += [repo_url, global_cache]
-        if not _run_git(args):
+        if not _clone_repo(repo_url, branch, global_cache):
             return False
     else:
         print(f"Updating {repo_name}...")
-        _run_git(["pull"], cwd=global_cache)
+        if not _run_git(["pull"], cwd=global_cache):
+            print(f"Pull failed for {repo_name}; re-cloning from scratch...", file=sys.stderr)
+            shutil.rmtree(global_cache, ignore_errors=True)
+            if not _clone_repo(repo_url, branch, global_cache):
+                return False
 
     # 2. Symlink to target agent directory
     target_dir = get_repo_skills_dir(location=location)

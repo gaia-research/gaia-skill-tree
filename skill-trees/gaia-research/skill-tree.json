@@ -3,7 +3,7 @@
   "updatedAt": "2026-05-25",
   "unlockedSkills": [
     {
-      "skillId": "gaia-research/skill-ci-churn",
+      "skillId": "gaia-research/ci-churn",
       "level": "2★",
       "unlockedAt": "2026-07-08T00:00:00Z",
       "unlockedIn": "gaia-research/gaia-skill-tree",
@@ -17,7 +17,7 @@
       ]
     },
     {
-      "skillId": "gaia-research/skill-fuse",
+      "skillId": "gaia-research/fuse",
       "level": "2★",
       "unlockedAt": "2026-07-08T00:00:00Z",
       "unlockedIn": "gaia-research/gaia-skill-tree",
@@ -35,7 +35,7 @@
     {
       "timestamp": "2026-07-08T00:00:00Z",
       "action": "register",
-      "skillId": "gaia-research/skill-ci-churn",
+      "skillId": "gaia-research/ci-churn",
       "details": "Registered named skill gaia-research/skill-ci-churn",
       "previousValue": null,
       "newValue": "2★"
@@ -43,7 +43,7 @@
     {
       "timestamp": "2026-07-08T00:00:00Z",
       "action": "register",
-      "skillId": "gaia-research/skill-fuse",
+      "skillId": "gaia-research/fuse",
       "details": "Registered named skill gaia-research/skill-fuse",
       "previousValue": null,
       "newValue": "2★"

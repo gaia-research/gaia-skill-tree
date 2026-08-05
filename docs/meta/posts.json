@@ -1,6 +1,17 @@
 {
   "posts": [
     {
+      "id": "2026-08-04-skill-tree-report-backlog-registry-changes",
+      "type": "report",
+      "date": "2026-08-04",
+      "title": "Skill Tree Report: Backlog Changes in /registry/",
+      "summary": "A reader-facing report on the backlog-era /registry/ changes: new and refreshed named skill files, expanded generic skill nodes, benchmark-source trust infrastructure, and public surfaces that make those records easier to inspect.",
+      "label": "Skill Tree Report",
+      "url": "meta/reports/2026-08-04-skill-tree-report-backlog-registry-changes.html",
+      "author": "Gaia Research",
+      "source": "docs/meta/2026-08-04-skill-tree-report-backlog-registry-changes.md"
+    },
+    {
       "id": "2026-08-01-registry-audit-report-deepmind-cluster-audit-release-v733-rank-calibrations",
       "type": "report",
       "date": "2026-08-01",

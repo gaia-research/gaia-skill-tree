@@ -1061,8 +1061,8 @@
     ]
   },
   {
-    "id": "ruvnet/hive-mind-coordination",
-    "name": "Hive Mind Coordination",
+    "id": "ruvnet/hive-mind",
+    "name": "Hive Mind",
     "contributor": "ruvnet",
     "level": "3★",
     "grade": "B",
@@ -3069,8 +3069,8 @@
     ]
   },
   {
-    "id": "vercel-labs/react-best-practices",
-    "name": "React Best Practices",
+    "id": "vercel-labs/vercel-react-best-practices",
+    "name": "Vercel React Best Practices",
     "contributor": "vercel-labs",
     "level": "3★",
     "grade": "B",
@@ -3093,6 +3093,7 @@
       "react",
       "rendering",
       "requested",
+      "vercel",
       "while"
     ]
   },
@@ -3248,8 +3249,8 @@
     ]
   },
   {
-    "id": "gaia-research/skill-fuse",
-    "name": "Skill Fuse",
+    "id": "gaia-research/fuse",
+    "name": "Fuse",
     "contributor": "gaia-research",
     "level": "2★",
     "grade": "C",
@@ -3306,7 +3307,7 @@
     ]
   },
   {
-    "id": "gaia-research/skill-ci-churn",
+    "id": "gaia-research/ci-churn",
     "name": "CI Churn",
     "contributor": "gaia-research",
     "level": "2★",
@@ -4385,7 +4386,7 @@
     ]
   },
   {
-    "id": "karpathy/autoresearch",
+    "id": "karpathy/autoresearch-universal",
     "name": "AutoResearch",
     "contributor": "karpathy",
     "level": "2★",
