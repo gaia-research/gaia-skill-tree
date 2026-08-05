@@ -1719,7 +1719,7 @@ def main(argv: list[str] | None = None) -> int:
     # badge tree. Badges still appear in the diff output for visibility.
     if badges_changed and args.check:
         print(
-            "::warning::docs/badges/ is stale. Run `python scripts/generateBadges.py` locally and commit the results.",
+            "::error::docs/badges/ is stale. Run `python scripts/generateBadges.py` locally and commit the results.",
             file=sys.stderr,
         )
     if okf_bundle_changed and args.check:
@@ -1774,7 +1774,7 @@ def main(argv: list[str] | None = None) -> int:
         # trending_changed: intentionally omitted — see warn-only block above (#1108).
         or content_engine_changed
         or profiles_changed
-        # badges_changed: intentionally omitted -- see warn-only block above (infra/badge-* only).
+        or badges_changed
         # og_changed: intentionally omitted — see warn-only block above (platform-sensitive SVG).
         or tree_changed
         or ruflo_curation_changed
