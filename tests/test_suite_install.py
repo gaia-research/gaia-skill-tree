@@ -443,6 +443,7 @@ class TestSuiteInstallFlow:
                 clone_calls.append(args)
                 dest = args[-1]
                 os.makedirs(dest, exist_ok=True)
+                os.makedirs(os.path.join(dest, ".git"), exist_ok=True)
                 for slug in ["alpha", "beta", "gamma"]:
                     d = os.path.join(dest, slug)
                     os.makedirs(d, exist_ok=True)

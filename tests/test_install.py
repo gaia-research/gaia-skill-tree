@@ -397,3 +397,90 @@ class TestInstallFlow:
         result = install_skill("nobody/nonexistent", str(tmp_path))
 
         assert result is False
+
+    def test_install_repairs_partial_clone_cache(self, tmp_path, monkeypatch):
+        """A cache dir that exists but has no .git (partial/interrupted clone) is
+        purged and re-cloned rather than trusted as-is (issue #1442)."""
+        monkeypatch.chdir(tmp_path)
+        cache_base = str(tmp_path / ".gaia" / "skills")
+
+        # Simulate a prior interrupted clone: directory exists, no .git, no content.
+        partial_cache = os.path.join(cache_base, "testuser", "repo")
+        os.makedirs(partial_cache, exist_ok=True)
+
+        clone_calls = []
+
+        def mock_run_git(args, cwd=None):
+            if args[0] == "clone":
+                clone_calls.append(args)
+                dest = args[-1]
+                os.makedirs(os.path.join(dest, ".git"), exist_ok=True)
+                os.makedirs(os.path.join(dest, "my-skill"), exist_ok=True)
+            elif args[0] == "pull":
+                raise AssertionError("pull should never be attempted on an invalid cache")
+            return True
+
+        monkeypatch.setattr("gaia_cli.install._run_git", mock_run_git)
+        monkeypatch.setattr("gaia_cli.install.get_global_cache_dir", lambda: cache_base)
+        _write_json_registry(
+            tmp_path,
+            [
+                {
+                    "id": "testuser/my-skill",
+                    "name": "My Skill",
+                    "links": {
+                        "github": "https://github.com/testuser/repo/blob/main/my-skill/SKILL.md"
+                    },
+                }
+            ],
+        )
+
+        result = install_skill("testuser/my-skill", str(tmp_path))
+
+        assert result is True
+        assert len(clone_calls) == 1
+        assert os.path.isdir(os.path.join(partial_cache, ".git"))
+
+    def test_install_recovers_from_failed_pull(self, tmp_path, monkeypatch):
+        """A failed `git pull` on an existing valid cache triggers a re-clone
+        instead of silently proceeding with a stale/broken tree (issue #1442)."""
+        monkeypatch.chdir(tmp_path)
+        cache_base = str(tmp_path / ".gaia" / "skills")
+        valid_cache = os.path.join(cache_base, "testuser", "repo")
+        os.makedirs(os.path.join(valid_cache, ".git"), exist_ok=True)
+        os.makedirs(os.path.join(valid_cache, "my-skill"), exist_ok=True)
+
+        clone_calls = []
+        pull_calls = []
+
+        def mock_run_git(args, cwd=None):
+            if args[0] == "pull":
+                pull_calls.append(args)
+                return False
+            if args[0] == "clone":
+                clone_calls.append(args)
+                dest = args[-1]
+                os.makedirs(os.path.join(dest, ".git"), exist_ok=True)
+                os.makedirs(os.path.join(dest, "my-skill"), exist_ok=True)
+            return True
+
+        monkeypatch.setattr("gaia_cli.install._run_git", mock_run_git)
+        monkeypatch.setattr("gaia_cli.install.get_global_cache_dir", lambda: cache_base)
+        _write_json_registry(
+            tmp_path,
+            [
+                {
+                    "id": "testuser/my-skill",
+                    "name": "My Skill",
+                    "links": {
+                        "github": "https://github.com/testuser/repo/blob/main/my-skill/SKILL.md"
+                    },
+                }
+            ],
+        )
+
+        result = install_skill("testuser/my-skill", str(tmp_path))
+
+        assert result is True
+        assert len(pull_calls) == 1
+        assert len(clone_calls) == 1
