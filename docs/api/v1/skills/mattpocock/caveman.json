@@ -80,12 +80,9 @@
       "previousValue": null,
       "newValue": null,
       "details": "Removed upstream in mattpocock/skills — author's CHANGELOG: 'caveman was a duplicate of another skill I was testing and was never meant to be public.' No replacement."
-    },
-    {
-      "timestamp": "2026-08-05T06:27:43Z",
-      "action": "note",
-      "contributor": "unknown",
-      "details": "Cleared GitHub link."
     }
-  ]
+  ],
+  "links": {
+    "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/caveman"
+  }
 }

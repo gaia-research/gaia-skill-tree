@@ -20,6 +20,8 @@ tags:
 - codebase-orientation
 createdAt: '2026-04-30'
 updatedAt: '2026-08-05'
+links:
+  github: https://github.com/mattpocock/skills/blob/main/skills/engineering/zoom-out/SKILL.md
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -52,10 +54,6 @@ timeline:
   newValue: null
   details: 'Removed upstream in mattpocock/skills — author''s CHANGELOG: ''zoom-out
     went unused in practice, so it''s been removed from the repo.'' No replacement.'
-- timestamp: '2026-08-05T06:27:44Z'
-  action: note
-  contributor: unknown
-  details: Cleared GitHub link.
 suiteRef: mattpocock/engineering
 trustMagnitudeInputHash: 70f00b628a79c9da2191cf0e1578a1e382448eb0e1f6c450959f3bbc6c3352a8
 installable: false

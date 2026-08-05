@@ -21,6 +21,8 @@ tags:
 - progressive-disclosure
 createdAt: '2026-04-30'
 updatedAt: '2026-08-05'
+links:
+  github: https://github.com/mattpocock/skills/blob/main/skills/productivity/write-a-skill/SKILL.md
 timeline:
 - timestamp: '2026-06-02T23:33:00Z'
   action: rank_up
@@ -61,10 +63,6 @@ timeline:
     write-a-skill with writing-great-skills... write-a-skill has been removed.'' Successor
     is a differently-shaped reference skill (disable-model-invocation), not a 1:1
     rename, so not relinked under this id.'
-- timestamp: '2026-08-05T06:27:44Z'
-  action: note
-  contributor: unknown
-  details: Cleared GitHub link.
 trustMagnitude: 45.0
 overallTrustGrade: C
 apexGateStatus:

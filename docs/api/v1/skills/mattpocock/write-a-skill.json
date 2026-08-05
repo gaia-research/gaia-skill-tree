@@ -108,12 +108,9 @@
       "previousValue": null,
       "newValue": null,
       "details": "Removed upstream in mattpocock/skills — author's CHANGELOG: 'Replace write-a-skill with writing-great-skills... write-a-skill has been removed.' Successor is a differently-shaped reference skill (disable-model-invocation), not a 1:1 rename, so not relinked under this id."
-    },
-    {
-      "timestamp": "2026-08-05T06:27:44Z",
-      "action": "note",
-      "contributor": "unknown",
-      "details": "Cleared GitHub link."
     }
-  ]
+  ],
+  "links": {
+    "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/write-a-skill/SKILL.md"
+  }
 }

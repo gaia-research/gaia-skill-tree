@@ -11,6 +11,8 @@ description: Shared Python package for Science Skills, currently containing http
   a standalone agent skill. Do not invoke directly.
 createdAt: '2026-05-23'
 updatedAt: '2026-08-05'
+links:
+  github: https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common
 evidence:
 - class: B
   source: https://github.com/google-deepmind/science-skills/blob/main/skills/science_skills_common/SKILL.md
@@ -100,10 +102,6 @@ timeline:
   action: demote
   contributor: marcotiongson
   details: Calibrated level from 4★ to 1★
-- timestamp: '2026-08-05T06:27:47Z'
-  action: note
-  contributor: unknown
-  details: Cleared GitHub link.
 trustMagnitude: 100.82
 overallTrustGrade: A
 apexGateStatus:
