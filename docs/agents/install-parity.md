@@ -72,13 +72,36 @@ comparison tool, `--gaia-bin` tests an installed `gaia` instead of this checkout
 Requires `git`, `node`, and `npm`, plus network. Everything it writes goes to
 gitignored `generated-output/parity/<runid>/` and is removed unless `--keep`.
 
+**Budget for a full sweep:** ~40–60 minutes at `--jobs 8`, and roughly **2 GB**
+of clone cache across the ~53 source repos. `--keep` leaves all of it on disk —
+delete `generated-output/parity/` when finished inspecting. Narrow with
+`--contributor`, `--category`, or `--only` for day-to-day work; the full sweep
+is for a periodic health read, not an inner loop.
+
 ## Reading the output
 
-Failures print one line per finding, leading with the skill:
+Findings print one line each, grouped under the origin that owns the fix:
 
 ```
-FAIL  gsd-build/ship    NO_SKILL_MD    no SKILL.md in installed tree .../commands/gsd
-FAIL  stanfordnlp/dspy  NOT_A_SKILL_DIR  gaia exited 0 but installed a non-directory: .../dspy/__init__.py
+FINDINGS (2 across 2 skill(s))
+==============================================================================
+DATA — registry curation; fix registry/named/<contributor>/<slug>.md  [1]
+==============================================================================
+* stanfordnlp/dspy  NOT_A_SKILL_DIR  gaia exited 0 but installed a non-directory: .../dspy/__init__.py
+==============================================================================
+POLICY — one ruling settles the whole class; these are NOT per-skill tasks.
+         Decide once: does gaia install under the registry slug, or the upstream name?  [1]
+==============================================================================
+  google-deepmind/chembl_database  DIRNAME_MISMATCH  gaia:'chembl_database' npx:'chembl-database'
+```
+
+and the run closes with the verdict:
+
+```
+VERDICT — what the next pass actually is
+  data updates      1 skill(s) need a registry edit (gaia dev verbs)
+  cli updates       0 skill(s) blocked by an installer defect
+  decisions         1 ruling clears 1 finding(s) — not per-skill work
 ```
 
 ### Findings are grouped by where the fix belongs
