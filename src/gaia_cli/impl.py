@@ -2344,10 +2344,14 @@ def install_command(args):
         sys.exit(2)
 
     # Use suite logic if flagged or implicitly requested
-    if getattr(args, "suite", False):
-        success = install_suite(args.skill_id, args.registry, location=location)
-    else:
-        success = install_skill(args.skill_id, args.registry, location=location)
+    try:
+        if getattr(args, "suite", False):
+            success = install_suite(args.skill_id, args.registry, location=location)
+        else:
+            success = install_skill(args.skill_id, args.registry, location=location)
+    except ValueError as exc:
+        print(f"Error: {exc}", file=sys.stderr)
+        sys.exit(1)
 
     if not success:
         sys.exit(1)
@@ -2514,10 +2518,14 @@ def skills_command(args):
     verb = getattr(args, "skills_command", None)
     if verb == "install":
         location = _resolve_install_location(args)
-        if getattr(args, "suite", False):
-            success = install_suite(args.skill_id, args.registry, location=location)
-        else:
-            success = install_skill(args.skill_id, args.registry, location=location)
+        try:
+            if getattr(args, "suite", False):
+                success = install_suite(args.skill_id, args.registry, location=location)
+            else:
+                success = install_skill(args.skill_id, args.registry, location=location)
+        except ValueError as exc:
+            print(f"Error: {exc}", file=sys.stderr)
+            sys.exit(1)
         if not success:
             sys.exit(1)
         return
