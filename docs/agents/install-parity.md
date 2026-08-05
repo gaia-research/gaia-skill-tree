@@ -1,5 +1,24 @@
 # Install-parity harness
 
+## Run it (TL;DR)
+
+```bash
+# One skill, ~30s — start here to see what the output looks like
+python scripts/install_parity.py --only garrytan/health
+
+# One contributor, a few minutes — the usual working loop
+python scripts/install_parity.py --contributor mattpocock
+
+# Everything, ~40-60 min and ~2 GB of clones — the periodic health read
+python scripts/install_parity.py --json generated-output/parity/report.json
+```
+
+Needs `git`, `node`, `npm`, and network. Nothing is written outside gitignored
+`generated-output/`. Read the closing **`VERDICT`** block first — it tells you
+whether the next pass is a data pass, a CLI pass, or a decision.
+
+---
+
 `scripts/install_parity.py` sweeps every named skill in the registry, installs
 each one twice — once with `gaia install`, once with the `skills` npm CLI
 (`npx skills add`) — and diffs the result.
@@ -39,6 +58,19 @@ Parity is judged on two things only:
 
 Link-vs-copy and lockfile shape are recorded as KPIs, never as failures.
 
+### The npm CLI is not always a valid oracle
+
+A `REPO_ROOT` link points at a repo that **groups** skills — it is not itself a
+single-skill repo. The npm CLI may legitimately find nothing there, or find N
+skills under names of its own choosing, and neither says anything about whether
+Gaia works. So `REPO_ROOT` is judged **purely on the gaia side**: did
+`gaia install` produce a real directory containing a `SKILL.md`? Whatever the
+npm CLI did is captured in `npxNote` and `npxDiscovered` for information only.
+
+`ruvnet/*` is the reference case. The comparison is still run and reported —
+that is how you learn whether the npm CLI copes with grouped-skill repos — but
+it can never fail a skill.
+
 ## Categories
 
 Every skill is classified before it runs, because the four kinds are not
@@ -47,7 +79,7 @@ comparable the same way:
 | Category | What it is | How it's judged |
 |---|---|---|
 | `STANDARD` | `links.github` has `/blob/` or `/tree/` | dir name **and** full content diff |
-| `REPO_ROOT` | bare `github.com/owner/repo` | no content diff — gaia symlinks the whole clone as one skill while the npm CLI discovers N inside it. Health + name only; the fan-out is a KPI |
+| `REPO_ROOT` | bare `github.com/owner/repo` | **gaia-side only.** Does `gaia install` produce a real directory with a `SKILL.md`? The npm CLI's result is recorded, never failed on — see below |
 | `SUITE` | `suiteComponents` non-empty | no content diff — instead, **every** component must install |
 | `NO_SOURCE` | no `links.github` | must fail, and fail with the right message. An install that *succeeds* is the failure |
 

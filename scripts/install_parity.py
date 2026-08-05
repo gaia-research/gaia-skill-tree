@@ -163,6 +163,7 @@ class Result:
     gaia_mechanism: str | None = None
     files_compared: int = 0
     npx_discovered: int = 0
+    npx_note: str | None = None
     suite_installed: int = 0
     suite_total: int = 0
 
@@ -610,13 +611,26 @@ def check_skill(cfg, skill: Skill, cold: bool) -> Result:
             # only add a second, derivative failure.
             return result
 
-        # The npm CLI side runs for STANDARD and REPO_ROOT alike — REPO_ROOT
-        # needs it for the fan-out KPI and the dirname check even though its
-        # content is not comparable.
         npx_code, npx_out, npx_err, npx_seconds = install_npx(cfg, skill, sandbox)
         result.npx_seconds = npx_seconds
         roots = npx_roots(sandbox)
         result.npx_discovered = len(roots)
+
+        if skill.category == REPO_ROOT:
+            # A bare repo link points at a repo that GROUPS skills; it is not
+            # itself a skill repo. The npm CLI is therefore not a valid oracle
+            # here — it may legitimately find nothing, or find N skills under
+            # names of its own choosing. What matters is that `gaia install`
+            # produced something that works, which check_gaia_health already
+            # confirmed. Everything the npm CLI did is recorded as information,
+            # never as a failure.
+            result.npx_dirname = os.path.basename(roots[0]) if roots else None
+            result.npx_note = (
+                "npm CLI found nothing (expected for a grouped-skills repo)"
+                if not roots
+                else f"npm CLI discovered {len(roots)} skill(s)"
+            )
+            return result
 
         if npx_code == 124:
             result.fail("TIMEOUT", "npm CLI install timed out")
@@ -634,15 +648,6 @@ def check_skill(cfg, skill: Skill, cold: bool) -> Result:
                     f"no skill found at {npx_ref(skill)} (links.github -> "
                     f"{skill.github})",
                 )
-            return result
-
-        if skill.category == REPO_ROOT:
-            # gaia symlinks the whole clone as one skill; the npm CLI discovers
-            # N skills inside it. Content is not comparable — record the
-            # fan-out and check the name only.
-            result.npx_dirname = os.path.basename(roots[0])
-            if result.npx_discovered == 1:
-                check_dirname(result)
             return result
 
         if result.npx_discovered > 1:
@@ -1162,6 +1167,7 @@ def main(argv: list[str] | None = None) -> int:
                     "gaiaMechanism": r.gaia_mechanism,
                     "filesCompared": r.files_compared,
                     "npxDiscovered": r.npx_discovered,
+                    "npxNote": r.npx_note,
                     "suiteInstalled": r.suite_installed,
                     "suiteTotal": r.suite_total,
                     "failures": [
