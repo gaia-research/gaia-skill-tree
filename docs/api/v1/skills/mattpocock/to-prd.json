@@ -145,9 +145,15 @@
       "action": "rank_up",
       "contributor": "mbtiongson1",
       "details": "Level updated from 2★ to 3★ per G7 final rankings calibration."
+    },
+    {
+      "timestamp": "2026-08-05T06:27:13Z",
+      "action": "note",
+      "contributor": "unknown",
+      "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/to-spec/SKILL.md"
     }
   ],
   "links": {
-    "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-prd/SKILL.md"
+    "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/to-spec/SKILL.md"
   }
 }

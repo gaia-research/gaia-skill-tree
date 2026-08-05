@@ -12,8 +12,6 @@ description: Signals the agent to ascend one layer of abstraction and produce a 
   of all relevant modules, callers, and domain-glossary terms in the unfamiliar code
   area, without explaining implementation details. Removed from mattpocock/skills
   suite in v1.0.1.
-links:
-  github: https://github.com/mattpocock/skills/blob/main/skills/engineering/zoom-out/SKILL.md
 tags:
 - code-navigation
 - abstraction
@@ -21,7 +19,7 @@ tags:
 - domain-glossary
 - codebase-orientation
 createdAt: '2026-04-30'
-updatedAt: '2026-04-30'
+updatedAt: '2026-08-05'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -47,8 +45,20 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
+- timestamp: '2026-08-05T06:27:29Z'
+  action: upstream_deprecated
+  contributor: unknown
+  previousValue: null
+  newValue: null
+  details: 'Removed upstream in mattpocock/skills — author''s CHANGELOG: ''zoom-out
+    went unused in practice, so it''s been removed from the repo.'' No replacement.'
+- timestamp: '2026-08-05T06:27:44Z'
+  action: note
+  contributor: unknown
+  details: Cleared GitHub link.
 suiteRef: mattpocock/engineering
 trustMagnitudeInputHash: 70f00b628a79c9da2191cf0e1578a1e382448eb0e1f6c450959f3bbc6c3352a8
+installable: false
 ---
 
 ## Overview

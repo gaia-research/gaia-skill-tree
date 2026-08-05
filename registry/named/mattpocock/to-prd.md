@@ -13,7 +13,7 @@ description: Synthesises the current conversation context and codebase knowledge
   decisions (modules, interfaces, schema), testing decisions, and out-of-scope items
   — then publishes it to the project issue tracker.
 links:
-  github: https://github.com/mattpocock/skills/blob/main/skills/engineering/to-prd/SKILL.md
+  github: https://github.com/mattpocock/skills/blob/main/skills/engineering/to-spec/SKILL.md
 tags:
 - prd
 - requirements
@@ -21,7 +21,7 @@ tags:
 - product-management
 - issue-tracker
 createdAt: '2026-04-30'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-05'
 suiteRef: mattpocock/engineering
 evidence:
 - class: B
@@ -106,6 +106,10 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Level updated from 2★ to 3★ per G7 final rankings calibration.
+- timestamp: '2026-08-05T06:27:13Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/to-spec/SKILL.md
 trustMagnitude: 63.71
 overallTrustGrade: B
 apexGateStatus:

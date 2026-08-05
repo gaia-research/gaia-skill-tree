@@ -13,7 +13,7 @@ description: Breaks a plan, spec, or PRD into independently-grabbable GitHub iss
   Classifies each slice HITL or AFK, maps dependency chains, quizzes the user on granularity,
   and publishes structured issues with acceptance criteria in dependency order.
 links:
-  github: https://github.com/mattpocock/skills/blob/main/skills/engineering/to-issues/SKILL.md
+  github: https://github.com/mattpocock/skills/blob/main/skills/engineering/to-tickets/SKILL.md
 tags:
 - vertical-slicing
 - issue-decomposition
@@ -22,7 +22,7 @@ tags:
 - afk
 - acceptance-criteria
 createdAt: '2026-04-30'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-05'
 suiteRef: mattpocock/engineering
 evidence:
 - class: B
@@ -102,6 +102,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T17:13:03Z'
   details: TM 11.21 -> 90.38, grade ungraded -> B (direct edit -- CLI gap)
+- timestamp: '2026-08-05T06:27:10Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/to-tickets/SKILL.md
 trustMagnitude: 90.38
 overallTrustGrade: B
 apexGateStatus:
