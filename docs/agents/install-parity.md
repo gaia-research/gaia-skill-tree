@@ -12,7 +12,7 @@ merge gate.
 
 ## What it proves
 
-That a named skill in the Gaia registry delivers the *same skill* the wider
+That a named skill in the Gaia Skill Tree delivers the *same skill* the wider
 ecosystem's installer delivers. If gaia silently ships different bytes, a
 wrongly-named directory, or nothing at all, this is the only thing that says so.
 
