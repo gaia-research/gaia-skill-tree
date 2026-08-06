@@ -224,6 +224,19 @@ The `--timestamp` flag accepts ISO 8601 (e.g. `2026-03-01T00:00:00Z`); without i
 
 Closed as of v5.0.11 (2026-06-23): `gaia dev timeline --user <username>` writes to the user tree (not the registry node); `--timestamp` ISO 8601 backfills; `--action demote` is in the enum. Only skill removal still lacks a dedicated verb (workaround above).
 
+### `gaia dev rename` owns every reference surface — do not hand-patch after it
+
+**Closed as of #1456 (2026-08-06).** A rename updates all of these in one command; if you find yourself patching one by hand, that is a bug in the CLI, not your job:
+
+- registry node / named `.md` file move, `id`, display name, `prerequisites`, `derivatives`, `genericSkillRef`, `suiteComponents`, `suiteRef`
+- `registry/suites/**/*.json` — including **nested `suites[].members[]` and `suites[].fusion`**; a manifest whose own `id` was renamed is moved so its path matches
+- `skill-trees/*/skill-tree.json` — `unlockedSkills[]`, `combinedFrom[]`, `pendingCombinations[]`, `timeline[].skillId`, and `timeline[].details` prose
+- prose inside the affected registry markdown (install commands, badge/explorer URLs, cross-links). Changelog/history sections are deliberately **not** rewritten — they record what the skill was called at the time — and the skipped count is printed. `--no-prose` opts out entirely.
+
+After writing, the command prints a **stale-reference report**: a non-fatal checklist of every remaining occurrence of the old id across `registry/`, `docs/` (non-generated), `skill-trees/`, and `README.md`. Generated artifacts (`docs/graph/`, `docs/api/`, `registry/gaia.json`, …) are named as out of scope — refresh them with `gaia dev docs`. `--skip-ref-scan` suppresses the report.
+
+**No user-tree timeline event is written for a rename.** `skillTree.schema.json`'s `timelineEvent` action enum has no `rename` member, so writing one would land a state the schema rejects; fabricating a different action or a synthetic timestamp would be worse. The rename is audited on the registry side by `append_skill_event`.
+
 ## CLI Shape
 
 Top-level (lifecycle-oriented): `init`, `scan`, `pull`, `push`, `appraise`, `promote`, `release`, `version`, `whoami`, `mcp`, `tree`, `graph`, `docs`, `update`, `share`, `help`.
