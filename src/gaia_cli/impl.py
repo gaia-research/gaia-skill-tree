@@ -3623,6 +3623,16 @@ def get_parser():
     )
     dev_rename.add_argument("old_id", help="Original skill ID")
     dev_rename.add_argument("new_id", help="New skill ID")
+    dev_rename.add_argument(
+        "--no-prose",
+        action="store_true",
+        help="Do not rewrite prose references to the old ID in affected registry markdown",
+    )
+    dev_rename.add_argument(
+        "--skip-ref-scan",
+        action="store_true",
+        help="Skip the post-rename stale-reference report",
+    )
 
     dev_verify = dev_sub.add_parser(
         "verify", help="Verify or dispute a skill's evidence"
