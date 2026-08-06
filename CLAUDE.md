@@ -224,6 +224,8 @@ The `--timestamp` flag accepts ISO 8601 (e.g. `2026-03-01T00:00:00Z`); without i
 
 Closed as of v5.0.11 (2026-06-23): `gaia dev timeline --user <username>` writes to the user tree (not the registry node); `--timestamp` ISO 8601 backfills; `--action demote` is in the enum. Only skill removal still lacks a dedicated verb (workaround above).
 
+Closed as of #1456: `gaia dev rename` now logs a `rename` event to the affected user tree's timeline automatically (registry/schema/skillTree.schema.json's `timelineEvent.action` enum carries `rename`) — no CLI-gap workaround needed for renames specifically.
+
 ## CLI Shape
 
 Top-level (lifecycle-oriented): `init`, `scan`, `pull`, `push`, `appraise`, `promote`, `release`, `version`, `whoami`, `mcp`, `tree`, `graph`, `docs`, `update`, `share`, `help`.
