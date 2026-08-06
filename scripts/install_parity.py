@@ -59,6 +59,13 @@ SUITE = "SUITE"
 NO_SOURCE = "NO_SOURCE"
 CATEGORIES = (STANDARD, REPO_ROOT, SUITE, NO_SOURCE)
 
+# Messages the installer may emit when correctly refusing a NO_SOURCE skill.
+# Matched lowercased against combined stdout+stderr.
+NO_SOURCE_REFUSALS = (
+    "no source repository link",
+    "registry-only",
+)
+
 PASS = "PASS"
 FAIL = "FAIL"
 
@@ -135,6 +142,7 @@ class Skill:
     slug: str
     github: str | None
     suite_components: list[str]
+    suite_ref: str | None
     category: str
     repo_url: str | None
     branch: str | None
@@ -173,6 +181,7 @@ class Result:
     npx_note: str | None = None
     suite_installed: int = 0
     suite_total: int = 0
+    suite_ref: str | None = None
 
     def fail(self, code: str, detail: str) -> None:
         self.verdict = FAIL
@@ -253,6 +262,7 @@ def build_skills(entries: list[dict]) -> list[Skill]:
                 slug=slug,
                 github=github,
                 suite_components=list(entry.get("suiteComponents") or []),
+                suite_ref=entry.get("suiteRef") or None,
                 category=classify(entry),
                 repo_url=repo_url,
                 branch=branch,
@@ -533,11 +543,16 @@ def check_no_source(result: Result, code: int, out: str, err: str) -> None:
             "skill has no links.github but gaia install exited 0",
         )
         return
-    if "no source repository link" not in f"{out}\n{err}".lower():
+    blob = f"{out}\n{err}".lower()
+    # Two honest refusals, not one. A skill can reach NO_SOURCE either by having
+    # no links.github at all, or by being curated `installable: false` (which
+    # pops the links block). The installer names the second case explicitly, and
+    # that message is the more accurate of the two — accept both.
+    if not any(phrase in blob for phrase in NO_SOURCE_REFUSALS):
         failure_code, detail = classify_gaia_failure(code, out, err)
         result.fail(
             "GAIA_INSTALL_FAILED",
-            f"expected a 'no source repository link' error, got {failure_code}: {detail}",
+            f"expected a no-source refusal, got {failure_code}: {detail}",
         )
 
 
@@ -569,7 +584,12 @@ def check_suite(result: Result, skill: Skill, manifest: dict) -> None:
 
 
 def check_skill(cfg, skill: Skill, cold: bool) -> Result:
-    result = Result(skill_id=skill.id, category=skill.category, cold=cold)
+    result = Result(
+        skill_id=skill.id,
+        category=skill.category,
+        cold=cold,
+        suite_ref=skill.suite_ref,
+    )
     result.repo_url = skill.repo_url
     sandbox = os.path.join(cfg.run_root, "sandboxes", skill.id.replace("/", "__"))
     os.makedirs(sandbox, exist_ok=True)
@@ -876,6 +896,37 @@ def build_kpis(results: list[Result], cfg, wall_seconds: float, npx_version: str
     }
 
 
+def render_suite_rollup(failures: list[Result]) -> None:
+    """Collapse failing components of one suite into a single shared-shape line.
+
+    Components of a suite fail together for the same upstream-packaging reason
+    far more often than they fail independently. Without this, five sibling
+    components read as five unrelated defects and get triaged five times.
+    """
+    grouped: dict[str, list[Result]] = {}
+    for result in failures:
+        if result.suite_ref:
+            grouped.setdefault(result.suite_ref, []).append(result)
+    shared = {ref: rs for ref, rs in grouped.items() if len(rs) > 1}
+    if not shared:
+        return
+
+    print("\n" + "=" * 78)
+    print(f"SUITE ROLLUP ({len(shared)} suite(s) with multiple failing components)")
+    print("=" * 78)
+    print("These are one shape each, not one task per row.")
+    for ref in sorted(shared):
+        members = sorted(shared[ref], key=lambda r: r.skill_id)
+        codes: dict[str, int] = {}
+        for result in members:
+            for failure in result.failures:
+                codes[failure.code] = codes.get(failure.code, 0) + 1
+        summary = ", ".join(f"{code}x{n}" for code, n in sorted(codes.items()))
+        print(f"\n  {ref}  —  {len(members)} component(s) failing:  {summary}")
+        for result in members:
+            print(f"      {result.skill_id}")
+
+
 def render(results: list[Result], kpis: dict) -> None:
     failures = [r for r in results if r.verdict == FAIL]
 
@@ -908,9 +959,10 @@ def render(results: list[Result], kpis: dict) -> None:
             print("=" * 78)
             for failure, result in group:
                 mark = "*" if failure.dual else " "
+                suite = f"  [suite: {result.suite_ref}]" if result.suite_ref else ""
                 print(
                     f"{mark} {result.skill_id:<{width}}  {failure.code:<24}  "
-                    f"{failure.detail}"
+                    f"{failure.detail}{suite}"
                 )
         if any(f.dual for f, _ in findings):
             print(
@@ -918,6 +970,8 @@ def render(results: list[Result], kpis: dict) -> None:
                 "Fixing the data clears the finding; hardening the installer stops "
                 "the next one landing silently."
             )
+
+        render_suite_rollup(failures)
 
     print("\n" + "=" * 78)
     print("KPIs")
@@ -1178,6 +1232,7 @@ def main(argv: list[str] | None = None) -> int:
                     "npxNote": r.npx_note,
                     "suiteInstalled": r.suite_installed,
                     "suiteTotal": r.suite_total,
+                    "suiteRef": r.suite_ref,
                     "failures": [
                         {
                             "code": f.code,
