@@ -98,6 +98,17 @@ timeline:
   action: evidence_removed
   contributor: unknown
   details: 'Removed dead/invalid evidence: https://www.techtimes.com/articles/320756/20260716/jetbrains-tests-caveman-token-skill-86-real-tasks-savings-hit-9-not-65.htm'
+- timestamp: '2026-08-06T11:12:46Z'
+  action: note
+  contributor: unknown
+  details: 'Clarification: the 2026-08-06T05:17:30Z removal of the sovgrid.org/blog/caveman-local-benchmark
+    benchmark-result row was mislabeled ''dead/invalid evidence'' in that entry''s
+    details. The source was verified LIVE (Phase 4 link validation, 2026-08-06) --
+    it was withdrawn because scripts/generateBenchmarkProjection.py requires a pre-existing
+    benchmarkId in registry/benchmark-sources.json and no gaia dev verb exists to
+    register one; forcing it through would have bypassed the human-gate promotion
+    this pipeline explicitly avoids. Only the TechTimes/JetBrains row (403 dead) was
+    actually dead. This note corrects the record rather than rewriting the prior entry.'
 links:
   github: https://github.com/JuliusBrussee/caveman/blob/main/skills/caveman/SKILL.md
 installable: true
