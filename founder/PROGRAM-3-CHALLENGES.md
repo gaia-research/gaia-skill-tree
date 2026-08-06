@@ -130,6 +130,46 @@ No decision needed. Recorded so the gap between the vocabulary and the code is v
 
 ---
 
+## C7 — Summon fetched a file; installing a skill means cloning a directory
+
+**Status: caught mid-session, rework dispatched.**
+
+The first summon engine fetched a single `SKILL.md` over HTTP and wrote it into the session.
+That is **not how Gaia installs skills**, and it silently produces broken ones.
+
+`src/gaia_cli/install.py` is the real thing, and it does considerably more:
+
+- parses `blob/branch/path` (taking the **dirname** when the path ends `.md`) vs `tree/branch/path`
+  (verbatim) vs a bare repo root
+- `git clone --single-branch --depth 1` into a cache, or `git pull` if the cache is already a
+  valid repo — and rmtree + re-clone if it is a partial clone or the pull fails
+- validates the resolved subpath **exists**, is a **directory**, and contains **`SKILL.md`**
+  before linking, so a stale link never reports success (issue #1441)
+- links or copies the **whole skill directory**
+- installs `suiteComponents` recursively, with a `visited` set for cycle safety
+- records a manifest entry
+
+Many skills are directories — `SKILL.md` plus `reference/`, `scripts/`, fixtures. A summoned
+skill missing its scripts is not a skill, it is a description of one. The impeccable skill in our
+own fixtures has both subdirectories.
+
+**Founder ruling: summon must behave exactly like `gaia install`.** The rework ports those
+semantics into TypeScript (no shelling out to Python, no dependency on a possibly-outdated
+globally installed `gaia`). Session-locking is preserved by putting the git cache **inside** the
+session root rather than `~/.gaia/` — repeated summons from one repo still clone only once.
+
+### The metric that comes with it
+
+Cloning is much slower than fetching one file, and high-entropy modes summon many skills. So the
+rework measures and reports **install time in seconds** per skill — clone, materialize, total —
+and whether the repo cache was **cold or warm**, since that dominates the number and a timing
+without it cannot be interpreted.
+
+This is the founder's stated performance worry for the high-entropy end of the ladder, and it is
+now a first-class output rather than something to discover during benchmarking.
+
+---
+
 ## C6 — Benchmark visibility now has a rule, because a worker broke it
 
 **Status: fixed this session.**
