@@ -3,14 +3,14 @@
   "updatedAt": "2026-05-25",
   "unlockedSkills": [
     {
-      "skillId": "bradautomates/claude-video",
-      "level": "2★",
+      "skillId": "bradautomates/watch",
+      "level": "2\u2605",
       "unlockedAt": "2026-05-14T00:00:00Z",
       "unlockedIn": "bradautomates/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2★",
+          "level": "2\u2605",
           "achievedAt": "2026-05-14T00:00:00Z",
           "source": "promotion"
         }
@@ -21,10 +21,16 @@
     {
       "timestamp": "2026-05-14T00:00:00Z",
       "action": "register",
-      "skillId": "bradautomates/claude-video",
-      "details": "Registered named skill bradautomates/claude-video",
+      "skillId": "bradautomates/watch",
+      "details": "Registered named skill bradautomates/watch",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
+    },
+    {
+      "timestamp": "2026-08-06T11:14:57Z",
+      "action": "rename",
+      "skillId": "bradautomates/watch",
+      "details": "Renamed from bradautomates/claude-video to bradautomates/watch"
     }
   ],
   "stats": {

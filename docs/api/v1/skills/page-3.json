@@ -113,8 +113,8 @@
       "genericSkillRef": "ci-churn-analysis"
     },
     {
-      "id": "bradautomates/claude-video",
-      "name": "Claude Video",
+      "id": "bradautomates/watch",
+      "name": "Watch",
       "level": "2★",
       "trustMagnitude": 37.47,
       "overallTrustGrade": "C",
@@ -124,7 +124,7 @@
       "rankWord": "Named",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/bradautomates/claude-video.json"
+        "self": "/api/v1/skills/bradautomates/watch.json"
       },
       "genericSkillRef": "video-intelligence"
     },

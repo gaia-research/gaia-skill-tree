@@ -1,6 +1,6 @@
 ---
-id: bradautomates/claude-video
-name: Claude Video
+id: bradautomates/watch
+name: Watch
 contributor: bradautomates
 origin: true
 genericSkillRef: video-intelligence
@@ -74,6 +74,14 @@ timeline:
   action: note
   contributor: unknown
   details: Updated GitHub link to https://github.com/bradautomates/claude-video/blob/main/skills/watch/SKILL.md
+- timestamp: '2026-08-06T11:14:51Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/bradautomates/claude-video/blob/main/skills/watch/SKILL.md
+- timestamp: '2026-08-06T11:14:57Z'
+  action: rename
+  contributor: unknown
+  details: Renamed named skill from bradautomates/claude-video to bradautomates/watch
 trustMagnitude: 37.47
 overallTrustGrade: C
 apexGateStatus:

@@ -3,19 +3,19 @@
   "updatedAt": "2026-05-25",
   "unlockedSkills": [
     {
-      "skillId": "browserbase/stagehand",
-      "level": "1★",
+      "skillId": "browserbase/browse",
+      "level": "1\u2605",
       "unlockedAt": "2026-05-17T00:00:00Z",
       "unlockedIn": "browserbase/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2★",
+          "level": "2\u2605",
           "achievedAt": "2026-05-17T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "1★",
+          "level": "1\u2605",
           "achievedAt": "2026-06-20T06:31:20Z",
           "source": "demote"
         }
@@ -26,18 +26,24 @@
     {
       "timestamp": "2026-05-17T00:00:00Z",
       "action": "register",
-      "skillId": "browserbase/stagehand",
-      "details": "Registered named skill browserbase/stagehand",
+      "skillId": "browserbase/browse",
+      "details": "Registered named skill browserbase/browse",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-06-20T06:31:20Z",
       "action": "demote",
-      "previousValue": "2★",
-      "newValue": "1★",
-      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
-      "skillId": "browserbase/stagehand"
+      "previousValue": "2\u2605",
+      "newValue": "1\u2605",
+      "details": "Level updated from 2\u2605 to 1\u2605 per G7 final rankings calibration.",
+      "skillId": "browserbase/browse"
+    },
+    {
+      "timestamp": "2026-08-06T11:14:40Z",
+      "action": "rename",
+      "skillId": "browserbase/browse",
+      "details": "Renamed from browserbase/stagehand to browserbase/browse"
     }
   ],
   "stats": {

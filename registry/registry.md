@@ -24,7 +24,7 @@
 | · [mvanhorn](../docs/u/mvanhorn/)/last30days | Fusion | 4★ | `/autonomous-web-research` |
 | ○ /bioinformatic-sequence-analysis | Basic | — | `/bioinformatic-sequence-analysis` |
 | · [obra](../docs/u/obra/)/brainstorming | Fusion | 3★ | `/brainstorming` |
-| · ████████/stagehand | Fusion | — | `/browser-automation` |
+| · ████████/browse | Fusion | — | `/browser-automation` |
 | ○ [browser-use](../docs/u/browser-use/)/browser-harness | Basic | 3★ | `/browser-control` |
 | · [santifer](../docs/u/santifer/)/career-ops | Fusion | 2★ | `/career-operations` |
 | · /causal-inference | Fusion | — | `/causal-inference` |
@@ -221,7 +221,7 @@
 | ○ [ruvnet](../docs/u/ruvnet/)/agentdb-vector-search | Basic | 2★ | `/vector-search` |
 | · [obra](../docs/u/obra/)/verification-before-completion | Fusion | 3★ | `/verification-before-completion` |
 | · [garrytan](../docs/u/garrytan/)/garrytan | Fusion | 4★ | `/vertical-slice-planning` |
-| · [bradautomates](../docs/u/bradautomates/)/claude-video | Fusion | 2★ | `/video-intelligence` |
+| · [bradautomates](../docs/u/bradautomates/)/watch | Fusion | 2★ | `/video-intelligence` |
 | ○ /vision-qa | Basic | — | `/vision-qa` |
 | · /voice-agent | Fusion | — | `/voice-agent` |
 | · /web-accessibility | Fusion | — | `/web-accessibility` |

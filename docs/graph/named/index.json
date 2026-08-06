@@ -5192,8 +5192,8 @@
     ],
     "video-intelligence": [
       {
-        "id": "bradautomates/claude-video",
-        "name": "Claude Video",
+        "id": "bradautomates/watch",
+        "name": "Watch",
         "contributor": "bradautomates",
         "origin": true,
         "genericSkillRef": "video-intelligence",
@@ -5284,6 +5284,18 @@
             "action": "note",
             "contributor": "unknown",
             "details": "Updated GitHub link to https://github.com/bradautomates/claude-video/blob/main/skills/watch/SKILL.md"
+          },
+          {
+            "timestamp": "2026-08-06T11:14:51Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/bradautomates/claude-video/blob/main/skills/watch/SKILL.md"
+          },
+          {
+            "timestamp": "2026-08-06T11:14:57Z",
+            "action": "rename",
+            "contributor": "unknown",
+            "details": "Renamed named skill from bradautomates/claude-video to bradautomates/watch"
           }
         ],
         "trustMagnitude": 37.47,
@@ -5960,8 +5972,8 @@
     ],
     "browser-automation": [
       {
-        "id": "browserbase/stagehand",
-        "name": "Stagehand",
+        "id": "browserbase/browse",
+        "name": "Browse",
         "contributor": "browserbase",
         "origin": false,
         "genericSkillRef": "browser-automation",
@@ -5976,10 +5988,10 @@
           "sdk"
         ],
         "links": {
-          "github": "https://github.com/browserbase/stagehand"
+          "github": "https://github.com/browserbase/stagehand/blob/main/packages/cli/skills/browse/SKILL.md"
         },
         "createdAt": "2026-05-17",
-        "updatedAt": "2026-05-17",
+        "updatedAt": "2026-08-06",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -6001,6 +6013,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-06T11:14:35Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/browserbase/stagehand/blob/main/packages/cli/skills/browse/SKILL.md"
+          },
+          {
+            "timestamp": "2026-08-06T11:14:40Z",
+            "action": "rename",
+            "contributor": "unknown",
+            "details": "Renamed named skill from browserbase/stagehand to browserbase/browse"
           }
         ],
         "trustMagnitude": 0.0,
@@ -10667,6 +10691,12 @@
             "action": "evidence_removed",
             "contributor": "unknown",
             "details": "Removed dead/invalid evidence: https://www.techtimes.com/articles/320756/20260716/jetbrains-tests-caveman-token-skill-86-real-tasks-savings-hit-9-not-65.htm"
+          },
+          {
+            "timestamp": "2026-08-06T11:12:46Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Clarification: the 2026-08-06T05:17:30Z removal of the sovgrid.org/blog/caveman-local-benchmark benchmark-result row was mislabeled 'dead/invalid evidence' in that entry's details. The source was verified LIVE (Phase 4 link validation, 2026-08-06) -- it was withdrawn because scripts/generateBenchmarkProjection.py requires a pre-existing benchmarkId in registry/benchmark-sources.json and no gaia dev verb exists to register one; forcing it through would have bypassed the human-gate promotion this pipeline explicitly avoids. Only the TechTimes/JetBrains row (403 dead) was actually dead. This note corrects the record rather than rewriting the prior entry."
           }
         ],
         "type": "basic",
@@ -34997,13 +35027,13 @@
       "ayghri/i-have-adhd"
     ],
     "bradautomates": [
-      "bradautomates/claude-video"
+      "bradautomates/watch"
     ],
     "browser-use": [
       "browser-use/browser-harness"
     ],
     "browserbase": [
-      "browserbase/stagehand"
+      "browserbase/browse"
     ],
     "caioribeiroclw-pixel": [
       "caioribeiroclw-pixel/evidence-attestation"

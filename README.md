@@ -89,7 +89,7 @@ So that means, its the developers who make skills maintaining this. I have a tho
   │  ├─ ○ /plan-decompose
   │  └─ ○ ████████/ask-matt
   ├─ · garrytan/design-consultation  [3★]
-  │  ├─ · ████████/stagehand
+  │  ├─ · ████████/browse
   │  │  ├─ ○ firecrawl/firecrawl-build-search  [4★]
   │  │  └─ ○ /computer-use
 

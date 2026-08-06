@@ -3342,8 +3342,8 @@
     ]
   },
   {
-    "id": "bradautomates/claude-video",
-    "name": "Claude Video",
+    "id": "bradautomates/watch",
+    "name": "Watch",
     "contributor": "bradautomates",
     "level": "2★",
     "grade": "C",
@@ -3354,7 +3354,6 @@
       "ai",
       "analysis",
       "audio",
-      "claude",
       "downloading",
       "enables",
       "extracting",

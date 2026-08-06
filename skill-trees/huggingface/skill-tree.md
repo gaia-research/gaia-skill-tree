@@ -103,7 +103,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ /plan-decompose
   │  └─ · ○ ████████/ask-matt
   ├─ · · garrytan/design-consultation  [3★]
-  │  ├─ · · ████████/stagehand
+  │  ├─ · · ████████/browse
   │  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]
   │  │  └─ · ○ /computer-use
   │  └─ · ○ /parse-html
@@ -115,7 +115,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ /hypothesis-generate
   │  └─ · ○ /error-interpretation
   ├─ · · garrytan/qa  [3★]
-  │  ├─ · · ████████/stagehand  (↑ see above)
+  │  ├─ · · ████████/browse  (↑ see above)
   │  └─ · · garrytan/health  [2★]
   │     ├─ · ○ upsonic/unittest-generator  [2★]
   │     ├─ · ○ /code-execution
@@ -133,7 +133,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   │  └─ · ○ /error-interpretation  (↑ see above)
   ├─ · ○ garrytan/document-generate  [3★]
-  ├─ · · ████████/stagehand  (↑ see above)
+  ├─ · · ████████/browse  (↑ see above)
   ├─ · · garrytan/cso  [3★]
   │  ├─ · · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
   │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
