@@ -11,15 +11,13 @@ level: 2★
 description: Guides an AI agent through upgrading a Laravel 12 application to Laravel
   13 safely, covering breaking changes, dependency updates, config migrations, and
   post-upgrade test validation.
-links:
-  github: https://github.com/laravel/boost/issues/698
 tags:
 - laravel
 - php
 - framework-upgrade
 - migration
 createdAt: '2026-04-30'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-06'
 evidence:
 - class: B
   source: https://github.com/laravel/boost/issues/698
@@ -51,6 +49,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:40Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-08-06T04:54:18Z'
+  action: note
+  contributor: unknown
+  details: Set installable to false
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -63,6 +65,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 36313141e02d09d0728c3445627db62d082668a849270a5754f9a9b7019582f1
+installable: false
 ---
 
 ## Overview

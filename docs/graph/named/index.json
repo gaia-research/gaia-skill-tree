@@ -3134,7 +3134,7 @@
         "title": "GSD Ship Phase",
         "installable": true,
         "links": {
-          "github": "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/ship.md"
+          "github": "https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/ship.md"
         },
         "evidence": [
           {
@@ -3157,7 +3157,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-07-03",
+        "updatedAt": "2026-08-06",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:04:52Z",
@@ -3229,6 +3229,12 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-08-06T04:54:32Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/ship.md"
           }
         ],
         "suiteRef": "gsd-build/get-shit-done",
@@ -5201,7 +5207,7 @@
           "vision"
         ],
         "links": {
-          "github": "https://github.com/bradautomates/claude-video/blob/main/SKILL.md"
+          "github": "https://github.com/bradautomates/claude-video/blob/main/skills/watch/SKILL.md"
         },
         "evidence": [
           {
@@ -5228,7 +5234,7 @@
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-06",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:17Z",
@@ -5272,6 +5278,12 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T17:13:00Z",
             "details": "TM 1.22 -> 37.47, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-08-06T04:54:09Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/bradautomates/claude-video/blob/main/skills/watch/SKILL.md"
           }
         ],
         "trustMagnitude": 37.47,
@@ -6667,9 +6679,7 @@
         "level": "1★",
         "description": "Applies deliberate judgment before writing code: evaluating whether to implement at all, scoping to the minimum needed, deferring or rejecting features that add complexity without proportionate value.",
         "title": "Implement With Discernment",
-        "links": {
-          "github": "https://github.com/rico-favor/gaia-skill-tree/blob/main/CLAUDE.md"
-        },
+        "installable": false,
         "evidence": [
           {
             "source": "https://github.com/rico-favor/gaia-skill-tree",
@@ -6684,7 +6694,7 @@
           }
         ],
         "createdAt": "2026-07-09",
-        "updatedAt": "2026-07-09",
+        "updatedAt": "2026-08-06",
         "timeline": [
           {
             "timestamp": "2026-07-08T21:02:12Z",
@@ -6721,6 +6731,12 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 1★"
+          },
+          {
+            "timestamp": "2026-08-06T04:54:22Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Set installable to false"
           }
         ],
         "type": "basic",
@@ -8700,14 +8716,12 @@
         "level": "2★",
         "description": "Cost and token observability tool for tracking AI coding agent spending across models and projects.",
         "title": "The Ledger of Light",
+        "installable": false,
         "tags": [
           "observability",
           "cost",
           "tokens"
         ],
-        "links": {
-          "github": "https://github.com/getagentseal/codeburn"
-        },
         "evidence": [
           {
             "class": "B",
@@ -8723,7 +8737,7 @@
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-06",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:27Z",
@@ -8750,6 +8764,12 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-08-06T04:54:17Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Set installable to false"
           }
         ],
         "trustMagnitude": 36.0,
@@ -16151,7 +16171,7 @@
         "title": "GSD Discuss Phase",
         "installable": true,
         "links": {
-          "github": "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/discuss-phase.md"
+          "github": "https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/discuss-phase.md"
         },
         "evidence": [
           {
@@ -16174,7 +16194,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-07-03",
+        "updatedAt": "2026-08-06",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:04:47Z",
@@ -16252,6 +16272,12 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-08-06T04:54:30Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/discuss-phase.md"
           }
         ],
         "suiteRef": "gsd-build/get-shit-done",
@@ -16513,7 +16539,7 @@
         "title": "GSD Execute Phase",
         "installable": true,
         "links": {
-          "github": "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/execute-phase.md"
+          "github": "https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/execute-phase.md"
         },
         "evidence": [
           {
@@ -16536,7 +16562,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-07-03",
+        "updatedAt": "2026-08-06",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:04:49Z",
@@ -16608,6 +16634,12 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-08-06T04:54:31Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/execute-phase.md"
           }
         ],
         "suiteRef": "gsd-build/get-shit-done",
@@ -16983,7 +17015,7 @@
         "title": "GSD Plan Phase",
         "installable": true,
         "links": {
-          "github": "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/plan-phase.md"
+          "github": "https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/plan-phase.md"
         },
         "evidence": [
           {
@@ -17006,7 +17038,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-07-03",
+        "updatedAt": "2026-08-06",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:04:48Z",
@@ -17078,6 +17110,12 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-08-06T04:54:31Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/plan-phase.md"
           }
         ],
         "suiteRef": "gsd-build/get-shit-done",
@@ -17280,7 +17318,7 @@
         "title": "GSD Verify Work",
         "installable": true,
         "links": {
-          "github": "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/verify-work.md"
+          "github": "https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/verify-work.md"
         },
         "evidence": [
           {
@@ -17303,7 +17341,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-07-03",
+        "updatedAt": "2026-08-06",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:04:50Z",
@@ -17375,6 +17413,12 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-08-06T04:54:33Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/verify-work.md"
           }
         ],
         "suiteRef": "gsd-build/get-shit-done",
@@ -19872,15 +19916,13 @@
         "description": "Guides an AI agent through upgrading a Laravel 12 application to Laravel 13 safely, covering breaking changes, dependency updates, config migrations, and post-upgrade test validation.",
         "title": "The Versionist's Trial",
         "catalogRef": "laravel-upgrade-laravel-v13",
+        "installable": false,
         "tags": [
           "laravel",
           "php",
           "framework-upgrade",
           "migration"
         ],
-        "links": {
-          "github": "https://github.com/laravel/boost/issues/698"
-        },
         "evidence": [
           {
             "class": "B",
@@ -19896,7 +19938,7 @@
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-06",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:42Z",
@@ -19923,6 +19965,12 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:40Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-08-06T04:54:18Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Set installable to false"
           }
         ],
         "trustMagnitude": 36.0,
@@ -23297,6 +23345,7 @@
         "description": "Continuous monitoring of content feeds with intelligent discovery and state tracking.",
         "title": "The Signal Scout",
         "catalogRef": "nousresearch-feed-monitoring",
+        "installable": false,
         "tags": [
           "rss",
           "feeds",
@@ -23304,9 +23353,6 @@
           "signal-discovery",
           "unique"
         ],
-        "links": {
-          "github": "https://github.com/NousResearch/hermes-agent"
-        },
         "evidence": [
           {
             "class": "B",
@@ -23322,7 +23368,7 @@
           }
         ],
         "createdAt": "2026-05-15",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-06",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:19Z",
@@ -23361,6 +23407,12 @@
             "action": "rank_up",
             "contributor": "mbtiongson1",
             "details": "Level updated from 1★ to 2★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-06T04:54:19Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Set installable to false"
           }
         ],
         "trustMagnitude": 36.0,
@@ -28382,6 +28434,7 @@
         "description": "Autonomous Claude agent that generates comprehensive unittest.TestCase suites from source code, organising tests into concept-based subfolders under a tests/ directory with proper imports, fixtures, and edge-case coverage.",
         "title": "The Test Weaver",
         "catalogRef": "upsonic-unittest-generator",
+        "installable": false,
         "tags": [
           "unit-testing",
           "unittest",
@@ -28389,9 +28442,6 @@
           "python",
           "autonomous-agent"
         ],
-        "links": {
-          "github": "https://github.com/Upsonic/Upsonic"
-        },
         "evidence": [
           {
             "source": "https://arxiv.org/abs/2403.16218",
@@ -28421,7 +28471,7 @@
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-06",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -28470,6 +28520,12 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:45Z",
             "details": "TM 0.0 -> 33.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-08-06T04:54:20Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Set installable to false"
           }
         ],
         "trustMagnitude": 33.0,
@@ -28980,6 +29036,7 @@
       "status": "awakened",
       "level": "2★",
       "description": "Builds and validates repository documentation as a pre-PR guardrail by reminding contributors to run the local docs drift check, then surfaces actionable regeneration commands so pull requests do not fail CI on documentation freshness.",
+      "installable": false,
       "tags": [
         "documentation",
         "ci",
@@ -28987,9 +29044,6 @@
         "quality-gate",
         "repo-maintenance"
       ],
-      "links": {
-        "github": "https://github.com/gaia-research/gaia-skill-tree"
-      },
       "evidence": [
         {
           "class": "B",
@@ -29005,7 +29059,7 @@
         }
       ],
       "createdAt": "2026-05-01",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-08-06",
       "timeline": [
         {
           "timestamp": "2026-06-10T05:38:16Z",
@@ -29038,6 +29092,12 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:36Z",
           "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-08-06T04:54:21Z",
+          "action": "note",
+          "contributor": "unknown",
+          "details": "Set installable to false"
         }
       ],
       "trustMagnitude": 36.0,
@@ -34422,12 +34482,10 @@
       "status": "awakened",
       "level": "1★",
       "description": "Classifies the affective polarity (positive / negative / neutral, or fine-grained) of user-generated text. Covers the full pipeline from raw noisy input through preprocessing, inference, and output normalisation. Stack is intentionally tool-agnostic — three implementation tracks are documented below.\n",
-      "links": {
-        "github": "https://github.com/pexp13/basic-nlp-text-processor-python/blob/main/SKILL.md"
-      },
+      "installable": false,
       "evidence": [],
       "createdAt": "2026-05-17",
-      "updatedAt": "2026-08-01",
+      "updatedAt": "2026-08-06",
       "timeline": [
         {
           "action": "migrate_trust_magnitude",
@@ -34525,6 +34583,12 @@
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 4★ to 1★"
+        },
+        {
+          "timestamp": "2026-08-06T04:54:19Z",
+          "action": "note",
+          "contributor": "unknown",
+          "details": "Set installable to false"
         }
       ],
       "trustMagnitude": 0.0,

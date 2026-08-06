@@ -9,7 +9,7 @@ level: 3★
 description: Runs implementation plans in parallel executor waves where each executor
   starts from a clean context.
 createdAt: '2026-07-03'
-updatedAt: '2026-07-03'
+updatedAt: '2026-08-06'
 timeline:
 - timestamp: '2026-07-02T18:04:49Z'
   action: add
@@ -60,6 +60,10 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 3★
+- timestamp: '2026-08-06T04:54:31Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/execute-phase.md
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/execute-phase.md
   updatedAt: '2026-08-01'
@@ -93,7 +97,7 @@ apexGateStatus:
   systemWideCap: null
 trustMagnitudeInputHash: 85790c7452b97aaf2c601aae7c269c068b80a1697e66c723885c54462b9760a2
 links:
-  github: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/execute-phase.md
+  github: https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/execute-phase.md
 ---
 
 ## Installation

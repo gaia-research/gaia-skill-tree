@@ -11,8 +11,6 @@ level: 2★
 description: Autonomous Claude agent that generates comprehensive unittest.TestCase
   suites from source code, organising tests into concept-based subfolders under a
   tests/ directory with proper imports, fixtures, and edge-case coverage.
-links:
-  github: https://github.com/Upsonic/Upsonic
 tags:
 - unit-testing
 - unittest
@@ -20,7 +18,7 @@ tags:
 - python
 - autonomous-agent
 createdAt: '2026-04-30'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-06'
 trustMagnitude: 33.0
 overallTrustGrade: C
 apexGateStatus:
@@ -64,6 +62,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:45Z'
   details: TM 0.0 -> 33.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-08-06T04:54:20Z'
+  action: note
+  contributor: unknown
+  details: Set installable to false
 evidence:
 - source: https://arxiv.org/abs/2403.16218
   evaluator: mbtiongson1
@@ -90,6 +92,7 @@ evidence:
 verification:
   firstEvidenceAt: '2026-06-19T09:23:55Z'
 trustMagnitudeInputHash: 6b3fef7f19fab551c00e99cbf661282004523fb0e79418487fd1fde173a76079
+installable: false
 ---
 
 ## Overview

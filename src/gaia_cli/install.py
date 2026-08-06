@@ -173,6 +173,11 @@ def _install_single(sid: str, meta: dict, registry_path: str, visited: set[str],
     called install_skill(sid) there — install_skill would detect suiteComponents
     and re-enter install_suite.
 
+    Before linking, validates that the resolved source_skill_path actually
+    exists, is a directory, and contains a SKILL.md — otherwise returns False
+    with a stderr message rather than reporting a successful install for a
+    stale/malformed links.github (issue #1441).
+
     Args:
         location: "local" (default, .agents/.claude) or "global" (~/.gaia/skills)
     """
@@ -224,6 +229,31 @@ def _install_single(sid: str, meta: dict, registry_path: str, visited: set[str],
     local_skill_path = os.path.join(target_dir, skill_slug)
 
     source_skill_path = os.path.join(global_cache, subpath)
+
+    # Validate the resolved source before linking/copying it in — a stale or
+    # malformed links.github (renamed/moved/deleted subpath, a file instead
+    # of a directory, or a directory with no SKILL.md) must not be reported
+    # as a successful install (issue #1441).
+    if not os.path.exists(source_skill_path):
+        print(
+            f"Error: subpath '{subpath}' not found in {repo_url}; "
+            "the link may be stale.",
+            file=sys.stderr,
+        )
+        return False
+    if not os.path.isdir(source_skill_path):
+        print(
+            f"Error: links.github for '{sid}' points at a file, not a skill directory "
+            f"({source_skill_path}).",
+            file=sys.stderr,
+        )
+        return False
+    if not os.path.exists(os.path.join(source_skill_path, "SKILL.md")):
+        print(
+            f"Error: no SKILL.md at {source_skill_path}.",
+            file=sys.stderr,
+        )
+        return False
 
     if os.path.exists(local_skill_path) or os.path.islink(local_skill_path) or isLinkOrJunction(local_skill_path):
         if os.path.islink(local_skill_path) or isLinkOrJunction(local_skill_path):

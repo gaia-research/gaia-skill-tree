@@ -375,6 +375,12 @@ class TestDetectCombinationsChainFusion:
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _RUN = [sys.executable, "-m", "gaia_cli.main", "--registry", REPO_ROOT]
+# Standardize PYTHONIOENCODING + explicit decode encoding across every
+# subprocess spawn in this file so glyph assertions (e.g. "✓ owned",
+# "✗ missing") don't see mojibake on platforms whose default console
+# codepage isn't UTF-8 (gaia-skill-tree#1458).
+_ENV = os.environ.copy()
+_ENV["PYTHONIOENCODING"] = "utf-8"
 
 
 class TestPathCommandCLI:
@@ -382,7 +388,7 @@ class TestPathCommandCLI:
         """gaia path agent-environment-setup exits 0."""
         r = subprocess.run(
             _RUN + ["path", "agent-environment-setup"],
-            capture_output=True, text=True,
+            capture_output=True, text=True, encoding="utf-8", env=_ENV,
         )
         assert r.returncode == 0, r.stderr
 
@@ -390,7 +396,7 @@ class TestPathCommandCLI:
         """Human-readable output mentions the target skill id."""
         r = subprocess.run(
             _RUN + ["path", "agent-environment-setup"],
-            capture_output=True, text=True,
+            capture_output=True, text=True, encoding="utf-8", env=_ENV,
         )
         assert "agent-environment-setup" in r.stdout
 
@@ -398,7 +404,7 @@ class TestPathCommandCLI:
         """Output includes owned/missing markers."""
         r = subprocess.run(
             _RUN + ["path", "agent-environment-setup"],
-            capture_output=True, text=True,
+            capture_output=True, text=True, encoding="utf-8", env=_ENV,
         )
         assert "✓ owned" in r.stdout or "✗ missing" in r.stdout
 
@@ -406,7 +412,7 @@ class TestPathCommandCLI:
         """gaia path --json exits 0."""
         r = subprocess.run(
             _RUN + ["path", "agent-environment-setup", "--json"],
-            capture_output=True, text=True,
+            capture_output=True, text=True, encoding="utf-8", env=_ENV,
         )
         assert r.returncode == 0, r.stderr
 
@@ -414,7 +420,7 @@ class TestPathCommandCLI:
         """--json output parses as valid JSON with expected keys."""
         r = subprocess.run(
             _RUN + ["path", "agent-environment-setup", "--json"],
-            capture_output=True, text=True,
+            capture_output=True, text=True, encoding="utf-8", env=_ENV,
         )
         assert r.returncode == 0
         data = json.loads(r.stdout)
@@ -426,7 +432,7 @@ class TestPathCommandCLI:
         """Leading slash in skill ID is stripped and resolves correctly."""
         r = subprocess.run(
             _RUN + ["path", "/agent-environment-setup"],
-            capture_output=True, text=True,
+            capture_output=True, text=True, encoding="utf-8", env=_ENV,
         )
         assert r.returncode == 0, r.stderr
         assert "agent-environment-setup" in r.stdout
@@ -435,7 +441,7 @@ class TestPathCommandCLI:
         """--owned-only flag does not crash the command."""
         r = subprocess.run(
             _RUN + ["path", "agent-environment-setup", "--owned-only"],
-            capture_output=True, text=True,
+            capture_output=True, text=True, encoding="utf-8", env=_ENV,
         )
         assert r.returncode == 0, r.stderr
 
@@ -443,7 +449,7 @@ class TestPathCommandCLI:
         """Unknown skill ID causes exit code 1."""
         r = subprocess.run(
             _RUN + ["path", "this-skill-definitely-does-not-exist"],
-            capture_output=True, text=True,
+            capture_output=True, text=True, encoding="utf-8", env=_ENV,
         )
         assert r.returncode == 1
         assert "not found" in r.stderr.lower() or "not found" in r.stdout.lower()
@@ -452,7 +458,7 @@ class TestPathCommandCLI:
         """Multi-hop skill (advanced-swarm-coordination) renders successfully."""
         r = subprocess.run(
             _RUN + ["path", "advanced-swarm-coordination"],
-            capture_output=True, text=True,
+            capture_output=True, text=True, encoding="utf-8", env=_ENV,
         )
         assert r.returncode == 0, r.stderr
         # Root skill should be in output
@@ -464,7 +470,7 @@ class TestPathCommandCLI:
         """JSON tree for a composite skill has non-empty children."""
         r = subprocess.run(
             _RUN + ["path", "agent-environment-setup", "--json"],
-            capture_output=True, text=True,
+            capture_output=True, text=True, encoding="utf-8", env=_ENV,
         )
         assert r.returncode == 0
         data = json.loads(r.stdout)

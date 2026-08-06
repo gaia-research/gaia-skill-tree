@@ -10,7 +10,7 @@ description: 'Applies deliberate judgment before writing code: evaluating whethe
   to implement at all, scoping to the minimum needed, deferring or rejecting features
   that add complexity without proportionate value.'
 createdAt: '2026-07-09'
-updatedAt: '2026-07-09'
+updatedAt: '2026-08-06'
 title: Implement With Discernment
 timeline:
 - timestamp: '2026-07-08T21:02:12Z'
@@ -39,6 +39,10 @@ timeline:
   action: demote
   contributor: unknown
   details: Calibrated level from 2★ to 1★
+- timestamp: '2026-08-06T04:54:22Z'
+  action: note
+  contributor: unknown
+  details: Set installable to false
 evidence:
 - source: https://github.com/rico-favor/gaia-skill-tree
   evaluator: unknown
@@ -52,8 +56,7 @@ evidence:
   contributors: 1
 verification:
   firstEvidenceAt: '2026-07-08T21:02:30Z'
-links:
-  github: https://github.com/rico-favor/gaia-skill-tree/blob/main/CLAUDE.md
+installable: false
 ---
 
 ## Installation

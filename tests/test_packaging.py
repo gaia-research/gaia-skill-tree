@@ -401,6 +401,8 @@ def test_install_cache_honors_gaia_home(tmp_path, monkeypatch):
     def mock_run_git(args, cwd=None):
         source_dir = os.path.join(str(gaia_home), "skills", "alice", "repo", "skill")
         os.makedirs(source_dir, exist_ok=True)
+        with open(os.path.join(source_dir, "SKILL.md"), "w") as f:
+            f.write("content")
         return True
     monkeypatch.setattr("gaia_cli.install._run_git", mock_run_git)
 

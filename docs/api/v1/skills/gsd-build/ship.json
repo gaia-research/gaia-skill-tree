@@ -120,9 +120,15 @@
       "action": "rank_up",
       "contributor": "unknown",
       "details": "Calibrated level from 2★ to 3★"
+    },
+    {
+      "timestamp": "2026-08-06T04:54:32Z",
+      "action": "note",
+      "contributor": "unknown",
+      "details": "Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/ship.md"
     }
   ],
   "links": {
-    "github": "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/ship.md"
+    "github": "https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/ship.md"
   }
 }

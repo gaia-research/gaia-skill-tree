@@ -101,9 +101,15 @@
       "action": "migrate_trust_magnitude",
       "timestamp": "2026-06-19T17:13:00Z",
       "details": "TM 1.22 -> 37.47, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-08-06T04:54:09Z",
+      "action": "note",
+      "contributor": "unknown",
+      "details": "Updated GitHub link to https://github.com/bradautomates/claude-video/blob/main/skills/watch/SKILL.md"
     }
   ],
   "links": {
-    "github": "https://github.com/bradautomates/claude-video/blob/main/SKILL.md"
+    "github": "https://github.com/bradautomates/claude-video/blob/main/skills/watch/SKILL.md"
   }
 }
