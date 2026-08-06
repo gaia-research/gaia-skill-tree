@@ -62,8 +62,8 @@
       "properties": {
         "skillId": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$",
-          "description": "Reference to a skill ID in the Gaia graph."
+          "pattern": "^(?:[a-z][a-z0-9]*(-[a-z0-9]+)*|[a-z0-9][a-z0-9_-]*/[a-z0-9][a-z0-9_-]*)$",
+          "description": "Reference to a skill ID in the Gaia graph. Generic slug or contributor/slug named-skill form."
         },
         "level": {
           "type": "string",
@@ -92,9 +92,9 @@
           "type": "array",
           "items": {
             "type": "string",
-            "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
+            "pattern": "^(?:[a-z][a-z0-9]*(-[a-z0-9]+)*|[a-z0-9][a-z0-9_-]*/[a-z0-9][a-z0-9_-]*)$"
           },
-          "description": "Parent skill IDs used in fusion (for extra/ultimate skills)."
+          "description": "Parent skill IDs used in fusion (for extra/ultimate skills). Generic slug or contributor/slug named-skill form."
         },
         "levelHistory": {
           "type": "array",
@@ -221,13 +221,14 @@
             "ascend",
             "register",
             "bond",
-            "push"
+            "push",
+            "rename"
           ],
           "description": "The meta-action that occurred."
         },
         "skillId": {
           "type": "string",
-          "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
+          "pattern": "^(?:[a-z][a-z0-9]*(-[a-z0-9]+)*|[a-z0-9][a-z0-9_-]*/[a-z0-9][a-z0-9_-]*)$"
         },
         "details": {
           "type": "string",
