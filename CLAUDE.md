@@ -184,11 +184,11 @@ Footgun history: commit `de3e77f7e` untracked both classes; auto-sync's `gaia de
 - `docs/tree.md`, `docs/about.html`, `docs/index.html` stat blocks, `README.md` — registry-driven summary stats
 - `skill-trees/*/skill-tree.md` — skill-tree markdown mirrors for newly unlocked skills
 - `registry/registry.md` — generated registry summary
+- `docs/graph/ledger/data.json` — Trust Magnitude ledger. **Was wrongly listed as "do NOT commit / timestamp-only bump" until 2026-08-06 (PR #1464 retro).** It is hard-fail (`trust_ledger_changed` is inside `changed` in `build_docs.py`), its `--check` normalizes `generatedAt`/`version` so committing it never causes timestamp churn, and `buildApiProjection.build_leaderboard()` reads the **committed** copy to emit `docs/api/v1/leaderboard.json`. Leaving it stale while committing a freshly-generated `leaderboard.json` makes CI rebuild the leaderboard from the old ledger → permanent `diff docs/api/v1/leaderboard.json`. Commit the two together, always.
 
 **Do NOT commit (warn-only or noisy):**
 - `docs/og/*.svg` — OG share cards: platform-sensitive SVG rendering (Windows CRLF ≠ Linux LF). Drift is warn-only in `build_docs.py`. Regenerating locally on Windows pollutes 159 files with CRLF; revert any accidental changes with `git checkout origin/main -- docs/og/` and keep only the new-contributor SVGs.
 - `docs/api/v1/trending/` — rolling time-window artifact; timestamps recompute on UTC-day rollover. Warn-only.
-- `docs/graph/ledger/data.json` — timestamp-only bump.
 - `docs/experiments/ml-graph-viz/layouts_3d.json` — non-deterministic 3D layout AND carries a stale version stamp that can downgrade the semver lockstep check.
 - `docs/okf/` — decorative meta bundle. Warn-only.
 

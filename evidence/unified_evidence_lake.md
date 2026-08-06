@@ -7435,3 +7435,84 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Description:** Ji Chi LinkedIn — echoes fusion-harness opensourcing, references as potentially standard multi-agent composition architecture. (isNew discovery 2026-07-29)
 
 ---
+
+## Skill: <a name="skill-juliusbrusseecaveman"></a>`juliusbrussee/caveman`
+
+- **Name:** Caveman
+- **Contributor:** `juliusbrussee`
+- **Tier:** (intake)
+- **Primary Repository:** [https://github.com/JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman)
+
+**Provenance note:** compiled from `evidence/by-type/{repo-own,benchmark-result,proxy-containment,social-signal}.md`. Evidence discovery was explicitly skipped for this candidate — Marcus (founder) posted these 8 sources directly as human-supplied evidence curation in PR #1464 comments (2026-08-06), following a prior `/gaia-curate` discovery pass parked at L4 human review (`registry-for-review/discovery-packets/juliusbrussee-caveman.json`, commit f6c939f87, on branch `claude/gaia-orchestrator-integration-3hizne`). This is a pre-ingestion candidate — no `gaia dev` mutation has been run and it is not yet a registered named skill.
+
+**Verification Status (Phase 2–4 complete):**
+- Phase 2 (ev-star-verification): Live star count verified as 96.2k (2026-08-06) vs. reported 96,128 — consistent.
+- Phase 2B (ev-benchmark-verification): Two benchmark-result rows identified; neither source provides percentile field. Sovgrid.org verdict SKIP. TechTimes inaccessible (403). Both candidates for `registry/benchmark-sources.json` pending human gate approval.
+- Phase 4 (ev-link-validation): 6 of 8 source URLs live; 2 dead (TechTimes 403, OpenAgentSkills 404 — see detailed results below).
+
+### Base Evidence Rows
+
+#### E1: `repo-own`
+- **Source:** [https://github.com/JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman)
+- **Date:** 2026-08-06
+- **Verified Star Count:** 96.2k (verified via live GitHub page 2026-08-06)
+- **Description:** Primary source / official repository. Standalone, MIT-licensed, actively maintained; dedicated site at caveman.so. Canonical SKILL.md at `blob/main/skills/caveman/SKILL.md`. Contains install instructions, benchmarks, an intensity-level system (lite/full/ultra plus wenyan-lite/wenyan-full/wenyan-ultra variants), and multi-agent support. README's own ~65% output-token-reduction claim is self-reported (unverified in this phase). Discovery-packet snapshot (2026-08-06T00:25:27Z) recorded 96,128 stars / 5,521 forks / 466 open issues as of last push 2026-08-04T13:44:52Z, repo created 2026-04-04. Star count verified 2026-08-06: 96.2k (live page check) — consistent with discovery-packet figure (~72 star difference over 2 days). Prior true-owner finding: this repo's first commit (2026-04-04) precedes the now-removed `mattpocock/skills` caveman copy's addition (2026-04-17) by 13 days.
+
+#### E2: `benchmark-result`
+- **Source:** [https://sovgrid.org/blog/caveman-local-benchmark](https://sovgrid.org/blog/caveman-local-benchmark)
+- **Date:** 2026-08-06 (collection date)
+- **Verified:** Live source accessible; tested on five models (Qwen, Mistral, three Claude variants); measured ~31% token reduction (best observed), far below claimed 65-75%; verdict scale (ADOPT/SITUATIONAL/SKIP) applied → SKIP verdict ("never cheaper in dollars").
+- **Percentile:** NOT SUPPLIED — source uses verdict scale instead of percentile ranking. No numeric percentile available.
+- **Description:** Independent empirical benchmark, tested on local models and Claude; measured ~31-33% output-token reduction, well below the primary repo's claimed 65-75%. Candidate for `registry/benchmark-sources.json` as `status: reported` pending human gate approval.
+
+#### E3: `benchmark-result`
+- **Source:** [https://www.techtimes.com/articles/320756/20260716/jetbrains-tests-caveman-token-skill-86-real-tasks-savings-hit-9-not-65.htm](https://www.techtimes.com/articles/320756/20260716/jetbrains-tests-caveman-token-skill-86-real-tasks-savings-hit-9-not-65.htm)
+- **Date:** 2026-07-16 (inferred from URL date slug `20260716`)
+- **Verified:** Article inaccessible (HTTP 403 Forbidden). Title reports ~9% token savings on 86 real coding tasks, but content unavailable for verification.
+- **Percentile:** NOT SUPPLIED — source inaccessible. Cannot verify percentile or methodology details.
+- **Description:** Independent large-scale agent benchmark — Tech Times reporting on a JetBrains test across 86 real coding tasks. Title claims output quality held, but token savings on full agent runs measured only ~9% (vs. the claimed 65%). Candidate for `registry/benchmark-sources.json` as `status: candidate` pending human gate verification and source access.
+
+#### E4: `proxy-containment`
+- **Source:** [https://github.com/yuritoledo/caveman-skill](https://github.com/yuritoledo/caveman-skill)
+- **Date:** 2026-08-06 (collection date — TODO: source's own publish/creation date not supplied)
+- **Description:** Independent fork / alternative implementation, similar token-cut claims to the primary source. Classified `proxy-containment` per founder ruling on PR #1464 (2026-08-06): "Independent forks can be considered proxy evidence."
+
+#### E5: `proxy-containment`
+- **Source:** [https://github.com/Shawnchee/caveman-skill](https://github.com/Shawnchee/caveman-skill)
+- **Date:** 2026-08-06 (collection date — TODO: source's own publish/creation date not supplied)
+- **Description:** Independent fork / alternative implementation focused on removing narration/filler text; measured ~61% average reduction. Classified `proxy-containment` per the same founder ruling.
+
+#### E6: `proxy-containment`
+- **Source:** [https://getcaveman.dev/](https://getcaveman.dev/) (also [https://caveman.so](https://caveman.so))
+- **Date:** 2026-08-06 (collection date — TODO: source's own publish/launch date not supplied)
+- **Description:** Commercial / product extension — third-party full-stack build on the same capability (gateway, memory layer, a "Caveman Code" agent) claiming ~2x fewer tokens. Not a repo fork; grouped under proxy-containment as an external commercial consumer of the capability.
+
+### Social Evidence Rows
+
+#### S1: `social-signal`
+- **Source:** [https://openagentskills.dev/skills/mattpocock-skills-skills-productivity-caveman](https://openagentskills.dev/skills/mattpocock-skills-skills-productivity-caveman) (and similarly-positioned listings on ClaudSkills, 8Labs docs)
+- **Date:** 2026-08-06 (collection date — TODO: listing date not supplied by source)
+- **Description:** Ecosystem / distribution evidence — skill listed across multiple third-party skill registries (OpenAgentSkills, ClaudSkills, 8Labs docs) with install stats and multi-agent packaging references. Factual note: this URL slug still points at the old `mattpocock-skills` path rather than `juliusbrussee/caveman`; third-party re-indexing to the true-owner repo is outside Phase 1 scope and is recorded here as supplied.
+
+#### S2: `social-signal`
+- **Source:** [https://8labs.id/guides/opencode/caveman/](https://8labs.id/guides/opencode/caveman/)
+- **Date:** 2026-08-06 (collection date; guide last updated 2026-07-28)
+- **Description:** Documentation / adoption guide — practical install/usage instructions for coding agents (OpenCode) adopting caveman.
+
+### Link Validation Results (Phase 4)
+
+| URL | Status | Notes |
+|---|---|---|
+| https://github.com/JuliusBrussee/caveman | **LIVE** | Accessible, 96.2k stars, 263 commits, minor rendering notice present |
+| https://sovgrid.org/blog/caveman-local-benchmark | **LIVE** | Accessible, well-maintained blog post dated 2026-06-10 |
+| https://www.techtimes.com/articles/320756/20260716/jetbrains-tests-caveman-token-skill-86-real-tasks-savings-hit-9-not-65.htm | **DEAD** | HTTP 403 Forbidden — inaccessible |
+| https://github.com/yuritoledo/caveman-skill | **LIVE** | Accessible, active fork with 3 commits, 75% token reduction claim |
+| https://github.com/Shawnchee/caveman-skill | **LIVE** | Accessible, active fork with 6 commits, 69 stars, 9 forks |
+| https://getcaveman.dev/ | **LIVE** | Accessible, active product site with commercial offerings |
+| https://caveman.so | **LIVE** | Accessible, active product site, marked "live" with real-time GitHub metrics |
+| https://openagentskills.dev/skills/mattpocock-skills-skills-productivity-caveman | **DEAD** | HTTP 404 Not Found — page does not exist |
+| https://8labs.id/guides/opencode/caveman/ | **LIVE** | Accessible, active guide, last updated 2026-07-28 |
+
+**Summary:** 6 live URLs (75%), 2 dead URLs (25%). TechTimes article and OpenAgentSkills listing inaccessible. All GitHub repositories and product sites functional.
+
+---

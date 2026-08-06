@@ -3,38 +3,19 @@
   "updatedAt": "2026-05-25",
   "unlockedSkills": [
     {
-      "skillId": "mattpocock/caveman",
-      "level": "2★",
-      "unlockedAt": "2026-05-21T00:00:00Z",
-      "unlockedIn": "mattpocock/gaia-skill-tree",
-      "combinedFrom": [],
-      "levelHistory": [
-        {
-          "level": "3★",
-          "achievedAt": "2026-05-21T00:00:00Z",
-          "source": "promotion"
-        },
-        {
-          "level": "2★",
-          "achievedAt": "2026-06-20T06:31:30Z",
-          "source": "demote"
-        }
-      ]
-    },
-    {
       "skillId": "mattpocock/diagnose",
-      "level": "3★",
+      "level": "3\u2605",
       "unlockedAt": "2026-04-30T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2★",
+          "level": "2\u2605",
           "achievedAt": "2026-04-30T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "3★",
+          "level": "3\u2605",
           "achievedAt": "2026-06-20T06:31:30Z",
           "source": "promotion"
         }
@@ -42,18 +23,18 @@
     },
     {
       "skillId": "mattpocock/edit-article",
-      "level": "3★",
+      "level": "3\u2605",
       "unlockedAt": "2026-04-30T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2★",
+          "level": "2\u2605",
           "achievedAt": "2026-04-30T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "3★",
+          "level": "3\u2605",
           "achievedAt": "2026-06-20T06:31:31Z",
           "source": "promotion"
         }
@@ -61,28 +42,28 @@
     },
     {
       "skillId": "mattpocock/engineering",
-      "level": "4★",
+      "level": "4\u2605",
       "unlockedAt": "2026-05-21T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "5★",
+          "level": "5\u2605",
           "achievedAt": "2026-05-21T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "4★",
+          "level": "4\u2605",
           "achievedAt": "2026-06-20T06:31:31Z",
           "source": "demote"
         },
         {
-          "level": "3★",
+          "level": "3\u2605",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
         },
         {
-          "level": "4★",
+          "level": "4\u2605",
           "achievedAt": "2026-07-20T00:00:01Z",
           "source": "promotion"
         }
@@ -90,18 +71,18 @@
     },
     {
       "skillId": "mattpocock/grill-me",
-      "level": "3★",
+      "level": "3\u2605",
       "unlockedAt": "2026-04-30T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "4★",
+          "level": "4\u2605",
           "achievedAt": "2026-04-30T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "3★",
+          "level": "3\u2605",
           "achievedAt": "2026-06-20T06:31:31Z",
           "source": "demote"
         }
@@ -109,13 +90,13 @@
     },
     {
       "skillId": "mattpocock/grill-with-docs",
-      "level": "3★",
+      "level": "3\u2605",
       "unlockedAt": "2026-04-30T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "3★",
+          "level": "3\u2605",
           "achievedAt": "2026-04-30T00:00:00Z",
           "source": "promotion"
         }
@@ -123,18 +104,18 @@
     },
     {
       "skillId": "mattpocock/handoff",
-      "level": "3★",
+      "level": "3\u2605",
       "unlockedAt": "2026-05-21T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "4★",
+          "level": "4\u2605",
           "achievedAt": "2026-05-21T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "3★",
+          "level": "3\u2605",
           "achievedAt": "2026-06-20T06:31:31Z",
           "source": "demote"
         }
@@ -142,18 +123,18 @@
     },
     {
       "skillId": "mattpocock/improve-codebase-architecture",
-      "level": "2★",
+      "level": "2\u2605",
       "unlockedAt": "2026-04-30T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "3★",
+          "level": "3\u2605",
           "achievedAt": "2026-04-30T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "2★",
+          "level": "2\u2605",
           "achievedAt": "2026-06-20T06:31:31Z",
           "source": "demote"
         }
@@ -161,13 +142,13 @@
     },
     {
       "skillId": "mattpocock/obsidian-vault",
-      "level": "3★",
+      "level": "3\u2605",
       "unlockedAt": "2026-05-21T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "3★",
+          "level": "3\u2605",
           "achievedAt": "2026-05-21T00:00:00Z",
           "source": "promotion"
         }
@@ -175,18 +156,18 @@
     },
     {
       "skillId": "mattpocock/personal",
-      "level": "3★",
+      "level": "3\u2605",
       "unlockedAt": "2026-05-21T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "4★",
+          "level": "4\u2605",
           "achievedAt": "2026-05-21T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "3★",
+          "level": "3\u2605",
           "achievedAt": "2026-06-20T06:31:32Z",
           "source": "demote"
         }
@@ -194,23 +175,23 @@
     },
     {
       "skillId": "mattpocock/productivity",
-      "level": "4★",
+      "level": "4\u2605",
       "unlockedAt": "2026-05-21T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "4★",
+          "level": "4\u2605",
           "achievedAt": "2026-05-21T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "3★",
+          "level": "3\u2605",
           "achievedAt": "2026-07-16T00:00:01Z",
           "source": "demote"
         },
         {
-          "level": "4★",
+          "level": "4\u2605",
           "achievedAt": "2026-07-20T00:00:01Z",
           "source": "promotion"
         }
@@ -218,18 +199,18 @@
     },
     {
       "skillId": "mattpocock/prototype",
-      "level": "2★",
+      "level": "2\u2605",
       "unlockedAt": "2026-05-21T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "3★",
+          "level": "3\u2605",
           "achievedAt": "2026-05-21T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "2★",
+          "level": "2\u2605",
           "achievedAt": "2026-06-20T06:31:32Z",
           "source": "demote"
         }
@@ -237,13 +218,13 @@
     },
     {
       "skillId": "mattpocock/setup-matt-pocock-skills",
-      "level": "3★",
+      "level": "3\u2605",
       "unlockedAt": "2026-05-21T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "3★",
+          "level": "3\u2605",
           "achievedAt": "2026-05-21T00:00:00Z",
           "source": "promotion"
         }
@@ -251,33 +232,33 @@
     },
     {
       "skillId": "mattpocock/skills",
-      "level": "5★",
+      "level": "5\u2605",
       "unlockedAt": "2026-05-22T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "6★",
+          "level": "6\u2605",
           "achievedAt": "2026-05-22T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "5★",
+          "level": "5\u2605",
           "achievedAt": "2026-06-18T12:54:50Z",
           "source": "demote",
-          "note": "G7 apex cutover — apex gate failed; backfilled from trunk timeline (CLI gap)"
+          "note": "G7 apex cutover \u2014 apex gate failed; backfilled from trunk timeline (CLI gap)"
         }
       ]
     },
     {
       "skillId": "mattpocock/to-issues",
-      "level": "3★",
+      "level": "3\u2605",
       "unlockedAt": "2026-04-30T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "3★",
+          "level": "3\u2605",
           "achievedAt": "2026-04-30T00:00:00Z",
           "source": "promotion"
         }
@@ -285,18 +266,18 @@
     },
     {
       "skillId": "mattpocock/to-prd",
-      "level": "3★",
+      "level": "3\u2605",
       "unlockedAt": "2026-04-30T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2★",
+          "level": "2\u2605",
           "achievedAt": "2026-04-30T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "3★",
+          "level": "3\u2605",
           "achievedAt": "2026-06-20T06:31:32Z",
           "source": "promotion"
         }
@@ -304,13 +285,13 @@
     },
     {
       "skillId": "mattpocock/triage",
-      "level": "3★",
+      "level": "3\u2605",
       "unlockedAt": "2026-04-30T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "3★",
+          "level": "3\u2605",
           "achievedAt": "2026-04-30T00:00:00Z",
           "source": "promotion"
         }
@@ -318,18 +299,18 @@
     },
     {
       "skillId": "mattpocock/ubiquitous-language",
-      "level": "3★",
+      "level": "3\u2605",
       "unlockedAt": "2026-05-15T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "4★",
+          "level": "4\u2605",
           "achievedAt": "2026-05-15T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "3★",
+          "level": "3\u2605",
           "achievedAt": "2026-06-20T06:31:33Z",
           "source": "demote"
         }
@@ -337,18 +318,18 @@
     },
     {
       "skillId": "mattpocock/write-a-skill",
-      "level": "2★",
+      "level": "2\u2605",
       "unlockedAt": "2026-04-30T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "3★",
+          "level": "3\u2605",
           "achievedAt": "2026-04-30T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "2★",
+          "level": "2\u2605",
           "achievedAt": "2026-06-20T06:31:33Z",
           "source": "demote"
         }
@@ -356,18 +337,18 @@
     },
     {
       "skillId": "mattpocock/zoom-out",
-      "level": "1★",
+      "level": "1\u2605",
       "unlockedAt": "2026-04-30T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2★",
+          "level": "2\u2605",
           "achievedAt": "2026-04-30T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "1★",
+          "level": "1\u2605",
           "achievedAt": "2026-06-20T06:31:33Z",
           "source": "demote"
         }
@@ -375,18 +356,18 @@
     },
     {
       "skillId": "mattpocock/ask-matt",
-      "level": "1★",
+      "level": "1\u2605",
       "unlockedAt": "2026-06-20T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2★",
+          "level": "2\u2605",
           "achievedAt": "2026-06-20T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "1★",
+          "level": "1\u2605",
           "achievedAt": "2026-06-20T06:31:30Z",
           "source": "demote"
         }
@@ -394,18 +375,18 @@
     },
     {
       "skillId": "mattpocock/codebase-design",
-      "level": "1★",
+      "level": "1\u2605",
       "unlockedAt": "2026-06-20T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2★",
+          "level": "2\u2605",
           "achievedAt": "2026-06-20T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "1★",
+          "level": "1\u2605",
           "achievedAt": "2026-06-20T06:31:30Z",
           "source": "demote"
         }
@@ -413,18 +394,18 @@
     },
     {
       "skillId": "mattpocock/diagnosing-bugs",
-      "level": "1★",
+      "level": "1\u2605",
       "unlockedAt": "2026-06-20T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2★",
+          "level": "2\u2605",
           "achievedAt": "2026-06-20T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "1★",
+          "level": "1\u2605",
           "achievedAt": "2026-06-20T06:31:30Z",
           "source": "demote"
         }
@@ -432,18 +413,18 @@
     },
     {
       "skillId": "mattpocock/domain-modeling",
-      "level": "1★",
+      "level": "1\u2605",
       "unlockedAt": "2026-06-20T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2★",
+          "level": "2\u2605",
           "achievedAt": "2026-06-20T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "1★",
+          "level": "1\u2605",
           "achievedAt": "2026-06-20T06:31:31Z",
           "source": "demote"
         }
@@ -451,18 +432,18 @@
     },
     {
       "skillId": "mattpocock/git-guardrails-claude-code",
-      "level": "1★",
+      "level": "1\u2605",
       "unlockedAt": "2026-06-20T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2★",
+          "level": "2\u2605",
           "achievedAt": "2026-06-20T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "1★",
+          "level": "1\u2605",
           "achievedAt": "2026-06-20T06:31:31Z",
           "source": "demote"
         }
@@ -470,18 +451,18 @@
     },
     {
       "skillId": "mattpocock/grilling",
-      "level": "1★",
+      "level": "1\u2605",
       "unlockedAt": "2026-06-20T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2★",
+          "level": "2\u2605",
           "achievedAt": "2026-06-20T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "1★",
+          "level": "1\u2605",
           "achievedAt": "2026-06-20T06:31:31Z",
           "source": "demote"
         }
@@ -489,18 +470,18 @@
     },
     {
       "skillId": "mattpocock/implement",
-      "level": "1★",
+      "level": "1\u2605",
       "unlockedAt": "2026-06-20T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2★",
+          "level": "2\u2605",
           "achievedAt": "2026-06-20T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "1★",
+          "level": "1\u2605",
           "achievedAt": "2026-06-20T06:31:31Z",
           "source": "demote"
         }
@@ -508,18 +489,18 @@
     },
     {
       "skillId": "mattpocock/migrate-to-shoehorn",
-      "level": "1★",
+      "level": "1\u2605",
       "unlockedAt": "2026-06-20T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2★",
+          "level": "2\u2605",
           "achievedAt": "2026-06-20T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "1★",
+          "level": "1\u2605",
           "achievedAt": "2026-06-20T06:31:32Z",
           "source": "demote"
         }
@@ -527,18 +508,18 @@
     },
     {
       "skillId": "mattpocock/resolving-merge-conflicts",
-      "level": "1★",
+      "level": "1\u2605",
       "unlockedAt": "2026-06-20T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2★",
+          "level": "2\u2605",
           "achievedAt": "2026-06-20T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "1★",
+          "level": "1\u2605",
           "achievedAt": "2026-06-20T06:31:32Z",
           "source": "demote"
         }
@@ -546,18 +527,18 @@
     },
     {
       "skillId": "mattpocock/scaffold-exercises",
-      "level": "1★",
+      "level": "1\u2605",
       "unlockedAt": "2026-06-20T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2★",
+          "level": "2\u2605",
           "achievedAt": "2026-06-20T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "1★",
+          "level": "1\u2605",
           "achievedAt": "2026-06-20T06:31:32Z",
           "source": "demote"
         }
@@ -565,18 +546,18 @@
     },
     {
       "skillId": "mattpocock/setup-pre-commit",
-      "level": "1★",
+      "level": "1\u2605",
       "unlockedAt": "2026-06-20T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2★",
+          "level": "2\u2605",
           "achievedAt": "2026-06-20T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "1★",
+          "level": "1\u2605",
           "achievedAt": "2026-06-20T06:31:32Z",
           "source": "demote"
         }
@@ -584,18 +565,18 @@
     },
     {
       "skillId": "mattpocock/tdd",
-      "level": "1★",
+      "level": "1\u2605",
       "unlockedAt": "2026-06-20T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2★",
+          "level": "2\u2605",
           "achievedAt": "2026-06-20T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "1★",
+          "level": "1\u2605",
           "achievedAt": "2026-06-20T06:31:32Z",
           "source": "demote"
         }
@@ -603,13 +584,13 @@
     },
     {
       "skillId": "mattpocock/teach",
-      "level": "2★",
+      "level": "2\u2605",
       "unlockedAt": "2026-06-20T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2★",
+          "level": "2\u2605",
           "achievedAt": "2026-06-20T00:00:00Z",
           "source": "promotion"
         }
@@ -617,18 +598,18 @@
     },
     {
       "skillId": "mattpocock/writing-great-skills",
-      "level": "1★",
+      "level": "1\u2605",
       "unlockedAt": "2026-06-20T00:00:00Z",
       "unlockedIn": "mattpocock/gaia-skill-tree",
       "combinedFrom": [],
       "levelHistory": [
         {
-          "level": "2★",
+          "level": "2\u2605",
           "achievedAt": "2026-06-20T00:00:00Z",
           "source": "promotion"
         },
         {
-          "level": "1★",
+          "level": "1\u2605",
           "achievedAt": "2026-06-20T06:31:33Z",
           "source": "demote"
         }
@@ -642,7 +623,7 @@
       "skillId": "mattpocock/diagnose",
       "details": "Registered named skill mattpocock/diagnose",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-04-30T00:00:00Z",
@@ -650,7 +631,7 @@
       "skillId": "mattpocock/edit-article",
       "details": "Registered named skill mattpocock/edit-article",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-04-30T00:00:00Z",
@@ -658,7 +639,7 @@
       "skillId": "mattpocock/grill-me",
       "details": "Registered named skill mattpocock/grill-me",
       "previousValue": null,
-      "newValue": "4★"
+      "newValue": "4\u2605"
     },
     {
       "timestamp": "2026-04-30T00:00:00Z",
@@ -666,7 +647,7 @@
       "skillId": "mattpocock/grill-with-docs",
       "details": "Registered named skill mattpocock/grill-with-docs",
       "previousValue": null,
-      "newValue": "3★"
+      "newValue": "3\u2605"
     },
     {
       "timestamp": "2026-04-30T00:00:00Z",
@@ -674,7 +655,7 @@
       "skillId": "mattpocock/improve-codebase-architecture",
       "details": "Registered named skill mattpocock/improve-codebase-architecture",
       "previousValue": null,
-      "newValue": "3★"
+      "newValue": "3\u2605"
     },
     {
       "timestamp": "2026-04-30T00:00:00Z",
@@ -682,7 +663,7 @@
       "skillId": "mattpocock/to-issues",
       "details": "Registered named skill mattpocock/to-issues",
       "previousValue": null,
-      "newValue": "3★"
+      "newValue": "3\u2605"
     },
     {
       "timestamp": "2026-04-30T00:00:00Z",
@@ -690,7 +671,7 @@
       "skillId": "mattpocock/to-prd",
       "details": "Registered named skill mattpocock/to-prd",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-04-30T00:00:00Z",
@@ -698,7 +679,7 @@
       "skillId": "mattpocock/triage",
       "details": "Registered named skill mattpocock/triage",
       "previousValue": null,
-      "newValue": "3★"
+      "newValue": "3\u2605"
     },
     {
       "timestamp": "2026-04-30T00:00:00Z",
@@ -706,7 +687,7 @@
       "skillId": "mattpocock/write-a-skill",
       "details": "Registered named skill mattpocock/write-a-skill",
       "previousValue": null,
-      "newValue": "3★"
+      "newValue": "3\u2605"
     },
     {
       "timestamp": "2026-04-30T00:00:00Z",
@@ -714,7 +695,7 @@
       "skillId": "mattpocock/zoom-out",
       "details": "Registered named skill mattpocock/zoom-out",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-05-15T00:00:00Z",
@@ -722,7 +703,7 @@
       "skillId": "mattpocock/ubiquitous-language",
       "details": "Registered named skill mattpocock/ubiquitous-language",
       "previousValue": null,
-      "newValue": "4★"
+      "newValue": "4\u2605"
     },
     {
       "timestamp": "2026-05-21T00:00:00Z",
@@ -730,7 +711,7 @@
       "skillId": "mattpocock/caveman",
       "details": "Registered named skill mattpocock/caveman",
       "previousValue": null,
-      "newValue": "3★"
+      "newValue": "3\u2605"
     },
     {
       "timestamp": "2026-05-21T00:00:00Z",
@@ -738,7 +719,7 @@
       "skillId": "mattpocock/engineering",
       "details": "Registered named skill mattpocock/engineering",
       "previousValue": null,
-      "newValue": "5★"
+      "newValue": "5\u2605"
     },
     {
       "timestamp": "2026-05-21T00:00:00Z",
@@ -746,7 +727,7 @@
       "skillId": "mattpocock/handoff",
       "details": "Registered named skill mattpocock/handoff",
       "previousValue": null,
-      "newValue": "4★"
+      "newValue": "4\u2605"
     },
     {
       "timestamp": "2026-05-21T00:00:00Z",
@@ -754,7 +735,7 @@
       "skillId": "mattpocock/obsidian-vault",
       "details": "Registered named skill mattpocock/obsidian-vault",
       "previousValue": null,
-      "newValue": "3★"
+      "newValue": "3\u2605"
     },
     {
       "timestamp": "2026-05-21T00:00:00Z",
@@ -762,7 +743,7 @@
       "skillId": "mattpocock/personal",
       "details": "Registered named skill mattpocock/personal",
       "previousValue": null,
-      "newValue": "4★"
+      "newValue": "4\u2605"
     },
     {
       "timestamp": "2026-05-21T00:00:00Z",
@@ -770,7 +751,7 @@
       "skillId": "mattpocock/productivity",
       "details": "Registered named skill mattpocock/productivity",
       "previousValue": null,
-      "newValue": "4★"
+      "newValue": "4\u2605"
     },
     {
       "timestamp": "2026-05-21T00:00:00Z",
@@ -778,7 +759,7 @@
       "skillId": "mattpocock/prototype",
       "details": "Registered named skill mattpocock/prototype",
       "previousValue": null,
-      "newValue": "3★"
+      "newValue": "3\u2605"
     },
     {
       "timestamp": "2026-05-21T00:00:00Z",
@@ -786,7 +767,7 @@
       "skillId": "mattpocock/setup-matt-pocock-skills",
       "details": "Registered named skill mattpocock/setup-matt-pocock-skills",
       "previousValue": null,
-      "newValue": "3★"
+      "newValue": "3\u2605"
     },
     {
       "timestamp": "2026-05-22T00:00:00Z",
@@ -794,367 +775,373 @@
       "skillId": "mattpocock/skills",
       "details": "Registered named skill mattpocock/skills",
       "previousValue": null,
-      "newValue": "6★"
+      "newValue": "6\u2605"
     },
     {
       "timestamp": "2026-06-18T12:54:50Z",
       "action": "demote",
       "skillId": "mattpocock/skills",
-      "details": "G7 apex cutover — registry level demoted 6★→5★; re-application open once all 6 apex predicates pass",
-      "newValue": "5★",
-      "previousValue": "6★"
+      "details": "G7 apex cutover \u2014 registry level demoted 6\u2605\u21925\u2605; re-application open once all 6 apex predicates pass",
+      "newValue": "5\u2605",
+      "previousValue": "6\u2605"
     },
     {
       "timestamp": "2026-06-20T00:00:00Z",
       "action": "register",
       "skillId": "mattpocock/ask-matt",
-      "details": "Registered named skill mattpocock/ask-matt (I13 classify: awakened→named, direct edit — CLI gap)",
+      "details": "Registered named skill mattpocock/ask-matt (I13 classify: awakened\u2192named, direct edit \u2014 CLI gap)",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-06-20T00:00:00Z",
       "action": "register",
       "skillId": "mattpocock/codebase-design",
-      "details": "Registered named skill mattpocock/codebase-design (I13 classify: awakened→named, direct edit — CLI gap)",
+      "details": "Registered named skill mattpocock/codebase-design (I13 classify: awakened\u2192named, direct edit \u2014 CLI gap)",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-06-20T00:00:00Z",
       "action": "register",
       "skillId": "mattpocock/diagnosing-bugs",
-      "details": "Registered named skill mattpocock/diagnosing-bugs (I13 classify: awakened→named, direct edit — CLI gap)",
+      "details": "Registered named skill mattpocock/diagnosing-bugs (I13 classify: awakened\u2192named, direct edit \u2014 CLI gap)",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-06-20T00:00:00Z",
       "action": "register",
       "skillId": "mattpocock/domain-modeling",
-      "details": "Registered named skill mattpocock/domain-modeling (I13 classify: awakened→named, direct edit — CLI gap)",
+      "details": "Registered named skill mattpocock/domain-modeling (I13 classify: awakened\u2192named, direct edit \u2014 CLI gap)",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-06-20T00:00:00Z",
       "action": "register",
       "skillId": "mattpocock/git-guardrails-claude-code",
-      "details": "Registered named skill mattpocock/git-guardrails-claude-code (I13 classify: awakened→named, direct edit — CLI gap)",
+      "details": "Registered named skill mattpocock/git-guardrails-claude-code (I13 classify: awakened\u2192named, direct edit \u2014 CLI gap)",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-06-20T00:00:00Z",
       "action": "register",
       "skillId": "mattpocock/grilling",
-      "details": "Registered named skill mattpocock/grilling (I13 classify: awakened→named, direct edit — CLI gap)",
+      "details": "Registered named skill mattpocock/grilling (I13 classify: awakened\u2192named, direct edit \u2014 CLI gap)",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-06-20T00:00:00Z",
       "action": "register",
       "skillId": "mattpocock/implement",
-      "details": "Registered named skill mattpocock/implement (I13 classify: awakened→named, direct edit — CLI gap)",
+      "details": "Registered named skill mattpocock/implement (I13 classify: awakened\u2192named, direct edit \u2014 CLI gap)",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-06-20T00:00:00Z",
       "action": "register",
       "skillId": "mattpocock/migrate-to-shoehorn",
-      "details": "Registered named skill mattpocock/migrate-to-shoehorn (I13 classify: awakened→named, direct edit — CLI gap)",
+      "details": "Registered named skill mattpocock/migrate-to-shoehorn (I13 classify: awakened\u2192named, direct edit \u2014 CLI gap)",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-06-20T00:00:00Z",
       "action": "register",
       "skillId": "mattpocock/resolving-merge-conflicts",
-      "details": "Registered named skill mattpocock/resolving-merge-conflicts (I13 classify: awakened→named, direct edit — CLI gap)",
+      "details": "Registered named skill mattpocock/resolving-merge-conflicts (I13 classify: awakened\u2192named, direct edit \u2014 CLI gap)",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-06-20T00:00:00Z",
       "action": "register",
       "skillId": "mattpocock/scaffold-exercises",
-      "details": "Registered named skill mattpocock/scaffold-exercises (I13 classify: awakened→named, direct edit — CLI gap)",
+      "details": "Registered named skill mattpocock/scaffold-exercises (I13 classify: awakened\u2192named, direct edit \u2014 CLI gap)",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-06-20T00:00:00Z",
       "action": "register",
       "skillId": "mattpocock/setup-pre-commit",
-      "details": "Registered named skill mattpocock/setup-pre-commit (I13 classify: awakened→named, direct edit — CLI gap)",
+      "details": "Registered named skill mattpocock/setup-pre-commit (I13 classify: awakened\u2192named, direct edit \u2014 CLI gap)",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-06-20T00:00:00Z",
       "action": "register",
       "skillId": "mattpocock/tdd",
-      "details": "Registered named skill mattpocock/tdd (I13 classify: awakened→named, direct edit — CLI gap)",
+      "details": "Registered named skill mattpocock/tdd (I13 classify: awakened\u2192named, direct edit \u2014 CLI gap)",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-06-20T00:00:00Z",
       "action": "register",
       "skillId": "mattpocock/teach",
-      "details": "Registered named skill mattpocock/teach (I13 classify: awakened→named, direct edit — CLI gap)",
+      "details": "Registered named skill mattpocock/teach (I13 classify: awakened\u2192named, direct edit \u2014 CLI gap)",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-06-20T00:00:00Z",
       "action": "register",
       "skillId": "mattpocock/writing-great-skills",
-      "details": "Registered named skill mattpocock/writing-great-skills (I13 classify: awakened→named, direct edit — CLI gap)",
+      "details": "Registered named skill mattpocock/writing-great-skills (I13 classify: awakened\u2192named, direct edit \u2014 CLI gap)",
       "previousValue": null,
-      "newValue": "2★"
+      "newValue": "2\u2605"
     },
     {
       "timestamp": "2026-06-20T06:31:30Z",
       "action": "demote",
-      "previousValue": "3★",
-      "newValue": "2★",
-      "details": "Level updated from 3★ to 2★ per G7 final rankings calibration.",
+      "previousValue": "3\u2605",
+      "newValue": "2\u2605",
+      "details": "Level updated from 3\u2605 to 2\u2605 per G7 final rankings calibration.",
       "skillId": "mattpocock/caveman"
     },
     {
       "timestamp": "2026-06-20T06:31:30Z",
       "action": "rank_up",
-      "previousValue": "2★",
-      "newValue": "3★",
-      "details": "Level updated from 2★ to 3★ per G7 final rankings calibration.",
+      "previousValue": "2\u2605",
+      "newValue": "3\u2605",
+      "details": "Level updated from 2\u2605 to 3\u2605 per G7 final rankings calibration.",
       "skillId": "mattpocock/diagnose"
     },
     {
       "timestamp": "2026-06-20T06:31:30Z",
       "action": "demote",
-      "previousValue": "2★",
-      "newValue": "1★",
-      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "previousValue": "2\u2605",
+      "newValue": "1\u2605",
+      "details": "Level updated from 2\u2605 to 1\u2605 per G7 final rankings calibration.",
       "skillId": "mattpocock/ask-matt"
     },
     {
       "timestamp": "2026-06-20T06:31:30Z",
       "action": "demote",
-      "previousValue": "2★",
-      "newValue": "1★",
-      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "previousValue": "2\u2605",
+      "newValue": "1\u2605",
+      "details": "Level updated from 2\u2605 to 1\u2605 per G7 final rankings calibration.",
       "skillId": "mattpocock/codebase-design"
     },
     {
       "timestamp": "2026-06-20T06:31:30Z",
       "action": "demote",
-      "previousValue": "2★",
-      "newValue": "1★",
-      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "previousValue": "2\u2605",
+      "newValue": "1\u2605",
+      "details": "Level updated from 2\u2605 to 1\u2605 per G7 final rankings calibration.",
       "skillId": "mattpocock/diagnosing-bugs"
     },
     {
       "timestamp": "2026-06-20T06:31:31Z",
       "action": "rank_up",
-      "previousValue": "2★",
-      "newValue": "3★",
-      "details": "Level updated from 2★ to 3★ per G7 final rankings calibration.",
+      "previousValue": "2\u2605",
+      "newValue": "3\u2605",
+      "details": "Level updated from 2\u2605 to 3\u2605 per G7 final rankings calibration.",
       "skillId": "mattpocock/edit-article"
     },
     {
       "timestamp": "2026-06-20T06:31:31Z",
       "action": "demote",
-      "previousValue": "5★",
-      "newValue": "4★",
-      "details": "Level updated from 5★ to 4★ per G7 final rankings calibration.",
+      "previousValue": "5\u2605",
+      "newValue": "4\u2605",
+      "details": "Level updated from 5\u2605 to 4\u2605 per G7 final rankings calibration.",
       "skillId": "mattpocock/engineering"
     },
     {
       "timestamp": "2026-06-20T06:31:31Z",
       "action": "demote",
-      "previousValue": "4★",
-      "newValue": "3★",
-      "details": "Level updated from 4★ to 3★ per G7 final rankings calibration.",
+      "previousValue": "4\u2605",
+      "newValue": "3\u2605",
+      "details": "Level updated from 4\u2605 to 3\u2605 per G7 final rankings calibration.",
       "skillId": "mattpocock/grill-me"
     },
     {
       "timestamp": "2026-06-20T06:31:31Z",
       "action": "demote",
-      "previousValue": "4★",
-      "newValue": "3★",
-      "details": "Level updated from 4★ to 3★ per G7 final rankings calibration.",
+      "previousValue": "4\u2605",
+      "newValue": "3\u2605",
+      "details": "Level updated from 4\u2605 to 3\u2605 per G7 final rankings calibration.",
       "skillId": "mattpocock/handoff"
     },
     {
       "timestamp": "2026-06-20T06:31:31Z",
       "action": "demote",
-      "previousValue": "3★",
-      "newValue": "2★",
-      "details": "Level updated from 3★ to 2★ per G7 final rankings calibration.",
+      "previousValue": "3\u2605",
+      "newValue": "2\u2605",
+      "details": "Level updated from 3\u2605 to 2\u2605 per G7 final rankings calibration.",
       "skillId": "mattpocock/improve-codebase-architecture"
     },
     {
       "timestamp": "2026-06-20T06:31:31Z",
       "action": "demote",
-      "previousValue": "2★",
-      "newValue": "1★",
-      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "previousValue": "2\u2605",
+      "newValue": "1\u2605",
+      "details": "Level updated from 2\u2605 to 1\u2605 per G7 final rankings calibration.",
       "skillId": "mattpocock/domain-modeling"
     },
     {
       "timestamp": "2026-06-20T06:31:31Z",
       "action": "demote",
-      "previousValue": "2★",
-      "newValue": "1★",
-      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "previousValue": "2\u2605",
+      "newValue": "1\u2605",
+      "details": "Level updated from 2\u2605 to 1\u2605 per G7 final rankings calibration.",
       "skillId": "mattpocock/git-guardrails-claude-code"
     },
     {
       "timestamp": "2026-06-20T06:31:31Z",
       "action": "demote",
-      "previousValue": "2★",
-      "newValue": "1★",
-      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "previousValue": "2\u2605",
+      "newValue": "1\u2605",
+      "details": "Level updated from 2\u2605 to 1\u2605 per G7 final rankings calibration.",
       "skillId": "mattpocock/grilling"
     },
     {
       "timestamp": "2026-06-20T06:31:31Z",
       "action": "demote",
-      "previousValue": "2★",
-      "newValue": "1★",
-      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "previousValue": "2\u2605",
+      "newValue": "1\u2605",
+      "details": "Level updated from 2\u2605 to 1\u2605 per G7 final rankings calibration.",
       "skillId": "mattpocock/implement"
     },
     {
       "timestamp": "2026-06-20T06:31:32Z",
       "action": "demote",
-      "previousValue": "4★",
-      "newValue": "3★",
-      "details": "Level updated from 4★ to 3★ per G7 final rankings calibration.",
+      "previousValue": "4\u2605",
+      "newValue": "3\u2605",
+      "details": "Level updated from 4\u2605 to 3\u2605 per G7 final rankings calibration.",
       "skillId": "mattpocock/personal"
     },
     {
       "timestamp": "2026-06-20T06:31:32Z",
       "action": "demote",
-      "previousValue": "3★",
-      "newValue": "2★",
-      "details": "Level updated from 3★ to 2★ per G7 final rankings calibration.",
+      "previousValue": "3\u2605",
+      "newValue": "2\u2605",
+      "details": "Level updated from 3\u2605 to 2\u2605 per G7 final rankings calibration.",
       "skillId": "mattpocock/prototype"
     },
     {
       "timestamp": "2026-06-20T06:31:32Z",
       "action": "rank_up",
-      "previousValue": "2★",
-      "newValue": "3★",
-      "details": "Level updated from 2★ to 3★ per G7 final rankings calibration.",
+      "previousValue": "2\u2605",
+      "newValue": "3\u2605",
+      "details": "Level updated from 2\u2605 to 3\u2605 per G7 final rankings calibration.",
       "skillId": "mattpocock/to-prd"
     },
     {
       "timestamp": "2026-06-20T06:31:32Z",
       "action": "demote",
-      "previousValue": "2★",
-      "newValue": "1★",
-      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "previousValue": "2\u2605",
+      "newValue": "1\u2605",
+      "details": "Level updated from 2\u2605 to 1\u2605 per G7 final rankings calibration.",
       "skillId": "mattpocock/migrate-to-shoehorn"
     },
     {
       "timestamp": "2026-06-20T06:31:32Z",
       "action": "demote",
-      "previousValue": "2★",
-      "newValue": "1★",
-      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "previousValue": "2\u2605",
+      "newValue": "1\u2605",
+      "details": "Level updated from 2\u2605 to 1\u2605 per G7 final rankings calibration.",
       "skillId": "mattpocock/resolving-merge-conflicts"
     },
     {
       "timestamp": "2026-06-20T06:31:32Z",
       "action": "demote",
-      "previousValue": "2★",
-      "newValue": "1★",
-      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "previousValue": "2\u2605",
+      "newValue": "1\u2605",
+      "details": "Level updated from 2\u2605 to 1\u2605 per G7 final rankings calibration.",
       "skillId": "mattpocock/scaffold-exercises"
     },
     {
       "timestamp": "2026-06-20T06:31:32Z",
       "action": "demote",
-      "previousValue": "2★",
-      "newValue": "1★",
-      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "previousValue": "2\u2605",
+      "newValue": "1\u2605",
+      "details": "Level updated from 2\u2605 to 1\u2605 per G7 final rankings calibration.",
       "skillId": "mattpocock/setup-pre-commit"
     },
     {
       "timestamp": "2026-06-20T06:31:32Z",
       "action": "demote",
-      "previousValue": "2★",
-      "newValue": "1★",
-      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "previousValue": "2\u2605",
+      "newValue": "1\u2605",
+      "details": "Level updated from 2\u2605 to 1\u2605 per G7 final rankings calibration.",
       "skillId": "mattpocock/tdd"
     },
     {
       "timestamp": "2026-06-20T06:31:33Z",
       "action": "demote",
-      "previousValue": "4★",
-      "newValue": "3★",
-      "details": "Level updated from 4★ to 3★ per G7 final rankings calibration.",
+      "previousValue": "4\u2605",
+      "newValue": "3\u2605",
+      "details": "Level updated from 4\u2605 to 3\u2605 per G7 final rankings calibration.",
       "skillId": "mattpocock/ubiquitous-language"
     },
     {
       "timestamp": "2026-06-20T06:31:33Z",
       "action": "demote",
-      "previousValue": "3★",
-      "newValue": "2★",
-      "details": "Level updated from 3★ to 2★ per G7 final rankings calibration.",
+      "previousValue": "3\u2605",
+      "newValue": "2\u2605",
+      "details": "Level updated from 3\u2605 to 2\u2605 per G7 final rankings calibration.",
       "skillId": "mattpocock/write-a-skill"
     },
     {
       "timestamp": "2026-06-20T06:31:33Z",
       "action": "demote",
-      "previousValue": "2★",
-      "newValue": "1★",
-      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "previousValue": "2\u2605",
+      "newValue": "1\u2605",
+      "details": "Level updated from 2\u2605 to 1\u2605 per G7 final rankings calibration.",
       "skillId": "mattpocock/zoom-out"
     },
     {
       "timestamp": "2026-06-20T06:31:33Z",
       "action": "demote",
-      "previousValue": "2★",
-      "newValue": "1★",
-      "details": "Level updated from 2★ to 1★ per G7 final rankings calibration.",
+      "previousValue": "2\u2605",
+      "newValue": "1\u2605",
+      "details": "Level updated from 2\u2605 to 1\u2605 per G7 final rankings calibration.",
       "skillId": "mattpocock/writing-great-skills"
     },
     {
       "timestamp": "2026-07-16T00:00:01Z",
       "action": "demote",
-      "previousValue": "4★",
-      "newValue": "3★",
-      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
+      "previousValue": "4\u2605",
+      "newValue": "3\u2605",
+      "details": "Reconciled to current registry level 3\u2605 (registry-side recalibration; no source event recorded).",
       "skillId": "mattpocock/engineering"
     },
     {
       "timestamp": "2026-07-16T00:00:01Z",
       "action": "demote",
-      "previousValue": "4★",
-      "newValue": "3★",
-      "details": "Reconciled to current registry level 3★ (registry-side recalibration; no source event recorded).",
+      "previousValue": "4\u2605",
+      "newValue": "3\u2605",
+      "details": "Reconciled to current registry level 3\u2605 (registry-side recalibration; no source event recorded).",
       "skillId": "mattpocock/productivity"
     },
     {
       "timestamp": "2026-07-20T00:00:01Z",
       "action": "rank_up",
-      "previousValue": "3★",
-      "newValue": "4★",
-      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
+      "previousValue": "3\u2605",
+      "newValue": "4\u2605",
+      "details": "Reconciled to current registry level 4\u2605 (registry-side recalibration; no source event recorded).",
       "skillId": "mattpocock/engineering"
     },
     {
       "timestamp": "2026-07-20T00:00:01Z",
       "action": "rank_up",
-      "previousValue": "3★",
-      "newValue": "4★",
-      "details": "Reconciled to current registry level 4★ (registry-side recalibration; no source event recorded).",
+      "previousValue": "3\u2605",
+      "newValue": "4\u2605",
+      "details": "Reconciled to current registry level 4\u2605 (registry-side recalibration; no source event recorded).",
       "skillId": "mattpocock/productivity"
+    },
+    {
+      "timestamp": "2026-08-06T00:02:32Z",
+      "action": "demote",
+      "skillId": "mattpocock/caveman",
+      "details": "Removed from unlockedSkills: upstream mattpocock/skills CHANGELOG states caveman was a duplicate of another skill never meant to be public, no replacement (issue #1453)."
     }
   ],
   "stats": {

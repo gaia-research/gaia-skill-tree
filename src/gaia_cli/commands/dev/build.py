@@ -16,6 +16,7 @@ from gaia_cli.commands.dev.helpers import (
     preflightAddCommand,
     preflightLinkCommand,
     preflightRemoveCommand,
+    preflightRemoveNamedCommand,
     preflightReclassifyCommand,
     parseCommaSeparatedIds,
 )
@@ -148,7 +149,122 @@ def meta_add_command(args):
         print("Skipping documentation rebuild as requested (--no-build).")
 
 
+def _remove_named_skill(args) -> None:
+    """Remove a named skill (contributor/slug): delete the .md, strip every
+    suiteComponents / suite-manifest ``members`` reference, and log a
+    timeline note on each affected parent suite.
+
+    Named skills carry their own identity/evidence in frontmatter and have
+    no dedicated removal verb -- this path closes that gap (Programmatic-
+    First Policy / "close the gap" philosophy in src/gaia_cli/CLAUDE.md),
+    reusing the reference-repointing pattern already established by
+    ``_rename_named_skill`` (commands/dev/rename.py), but stripping the
+    reference instead of repointing it.
+    """
+    registry_path = args.registry
+    skill_id = args.skill_id.lstrip("/")
+    reason = getattr(args, "reason", None) or "Removed from the registry."
+
+    named_dir = Path(named_skills_dir(registry_path))
+    named_file = _find_named_file(named_dir, skill_id)
+    if named_file is None:
+        print(f"Error: Named skill '{skill_id}' not found.")
+        sys.exit(1)
+
+    _confirm_destructive(
+        f"Remove named skill '{skill_id}' and all references? This cannot be undone.",
+        args,
+    )
+
+    named_file.unlink()
+    print(f"Removed named skill file: {named_file}")
+
+    timestamp = (
+        datetime.datetime.now(datetime.timezone.utc)
+        .replace(microsecond=0)
+        .isoformat()
+        .replace("+00:00", "Z")
+    )
+    # No dedicated "component_removed" action exists in the timelineEvent
+    # schema enum; upstream_deprecated is the closest sanctioned value and
+    # `details` spells out that this was a full removal, not a freeze.
+    parent_event = {
+        "timestamp": timestamp,
+        "action": "upstream_deprecated",
+        "contributor": _get_contributor(),
+        "details": (
+            f"Component {skill_id} permanently removed (not frozen) from this "
+            f"suite: {reason}"
+        ),
+    }
+
+    # Strip suiteComponents references in sibling named files.
+    for p in named_dir.glob("**/*.md"):
+        pm, pb = _parse_md(p)
+        comps = pm.get("suiteComponents")
+        if isinstance(comps, list) and skill_id in comps:
+            pm["suiteComponents"] = [c for c in comps if c != skill_id]
+            pm.setdefault("timeline", [])
+            pm["timeline"].append(dict(parent_event))
+            pm["updatedAt"] = datetime.date.today().isoformat()
+            _write_md(p, pm, pb)
+            print(f"Removed suiteComponents reference in {p}")
+
+    # Strip references from suite manifests (registry/suites/**/*.json):
+    # flat id lists ("standalones", "components") and nested group members
+    # ("suites"[].members).
+    suites_dir = named_dir.parent / "suites"
+    if suites_dir.exists():
+        for p in suites_dir.glob("**/*.json"):
+            try:
+                data = json.loads(p.read_text(encoding="utf-8"))
+            except json.JSONDecodeError:
+                continue
+            changed = False
+            for key in ("standalones", "components"):
+                lst = data.get(key)
+                if isinstance(lst, list) and skill_id in lst:
+                    data[key] = [x for x in lst if x != skill_id]
+                    changed = True
+            groups = data.get("suites")
+            if isinstance(groups, list):
+                for group in groups:
+                    if not isinstance(group, dict):
+                        continue
+                    members = group.get("members")
+                    if isinstance(members, list) and skill_id in members:
+                        group["members"] = [m for m in members if m != skill_id]
+                        changed = True
+            if changed:
+                p.write_text(
+                    json.dumps(data, indent=2, ensure_ascii=False) + "\n",
+                    encoding="utf-8",
+                )
+                print(f"Removed suite manifest reference in {p}")
+
+    if not getattr(args, "no_build", False):
+        print("Regenerating registry and documentation...")
+        _run_docs_build(args.registry)
+    else:
+        print("Skipping documentation rebuild as requested (--no-build).")
+
+    print(f"Successfully removed named skill '{skill_id}'.")
+
+
 def meta_remove_command(args):
+    registry_path = args.registry
+    skill_id = args.skill_id.lstrip("/")
+
+    # Named skills (contributor/slug) live in registry/named/ and have their
+    # own removal path -- the generic-node walk below only ever looks at
+    # registry/nodes/, so it can never find (or safely remove) one.
+    if "/" in skill_id:
+        _run_dev_preflights([
+            lambda: preflightRemoveNamedCommand(args),
+        ])
+        _remove_named_skill(args)
+        return
+
     _run_dev_preflights([
         lambda: preflightRemoveCommand(args),
     ])
