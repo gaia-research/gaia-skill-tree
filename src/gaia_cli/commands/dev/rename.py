@@ -15,6 +15,42 @@ from gaia_cli.commands.dev.helpers import (
     _run_dev_preflights,
     preflightRenameCommand,
 )
+from gaia_cli.commands.dev.renameSurfaces import (
+    rewriteProseRefs,
+    rewriteJsonSurfaces,
+    reportStaleRefs,
+)
+
+
+def _rewrite_prose(body: str, old_id: str, new_id: str, path_label: str) -> str:
+    """Rewrite prose references to the old id. Always runs — cheap and safe.
+
+    Prose inside a registry markdown file routinely carries the id as a real
+    reference — install commands, badge/explorer URLs, cross-links.
+    Changelog/history sections are left untouched (they record what the
+    skill was called at the time).
+    """
+    rewritten, count, changelog_hits = rewriteProseRefs(body, old_id, new_id)
+    if count:
+        print(f"Rewrote {count} prose reference(s) in {path_label}")
+    if changelog_hits:
+        print(
+            f"Left {changelog_hits} changelog/history reference(s) in {path_label} "
+            "untouched (historical record)"
+        )
+    return rewritten
+
+
+def _update_shared_surfaces(args, old_id: str, new_id: str) -> None:
+    """Update every non-node reference surface, then report what is left.
+
+    Shared by the generic-node and named-skill rename paths (#1456). Both
+    the suite/tree rewrite and the stale-ref report always run — no
+    opt-out flags, since both are cheap and safe.
+    """
+    for message in rewriteJsonSurfaces(args.registry, old_id, new_id):
+        print(message)
+    reportStaleRefs(args.registry, old_id, new_id)
 
 
 def _rename_named_skill(args, old_id: str, new_id: str) -> None:
@@ -60,6 +96,7 @@ def _rename_named_skill(args, old_id: str, new_id: str) -> None:
 
     meta["id"] = new_id
     meta["updatedAt"] = datetime.date.today().isoformat()
+    body = _rewrite_prose(body, old_id, new_id, str(new_file))
     _write_md(new_file, meta, body)
     old_file.unlink()
     print(f"Renamed {old_file} to {new_file}")
@@ -78,33 +115,14 @@ def _rename_named_skill(args, old_id: str, new_id: str) -> None:
             pm["suiteRef"] = new_id
             changed = True
         if changed:
+            # A file that structurally references the renamed skill almost
+            # always names it in prose too (install commands, cross-links).
+            pb = _rewrite_prose(pb, old_id, new_id, str(p))
             _write_md(p, pm, pb)
             print(f"Updated suite references in {p}")
 
-    # Repoint references inside suite manifests (registry/suites/**/*.json).
-    suites_dir = named_dir.parent / "suites"
-    if suites_dir.exists():
-        for p in suites_dir.glob("**/*.json"):
-            try:
-                data = json.loads(p.read_text(encoding="utf-8"))
-            except json.JSONDecodeError:
-                continue
-            changed = False
-            for key in ("capstone",):
-                if data.get(key) == old_id:
-                    data[key] = new_id
-                    changed = True
-            for key in ("suites", "standalones", "components"):
-                lst = data.get(key)
-                if isinstance(lst, list) and old_id in lst:
-                    data[key] = [new_id if x == old_id else x for x in lst]
-                    changed = True
-            if changed:
-                p.write_text(
-                    json.dumps(data, indent=2, ensure_ascii=False) + "\n",
-                    encoding="utf-8",
-                )
-                print(f"Updated suite manifest references in {p}")
+    # Suite manifests, user skill trees, and the stale-reference report.
+    _update_shared_surfaces(args, old_id, new_id)
 
     append_skill_event(
         new_id,
@@ -137,7 +155,7 @@ def meta_rename_command(args):
     old_file = None
     skill_data = None
 
-    # ⚡ Bolt: Single pass read of all nodes
+    # Single pass read of all nodes
     all_nodes = []
     new_id_exists = False
 
@@ -215,6 +233,13 @@ def meta_rename_command(args):
     for p in named_dir.glob("**/*.md"):
         if _update_named_skill_ref(p, old_id, new_id):
             print(f"Updated genericSkillRef in {p}")
+            pm, pb = _parse_md(p)
+            rewritten = _rewrite_prose(pb, old_id, new_id, str(p))
+            if rewritten != pb:
+                _write_md(p, pm, rewritten)
+
+    # Suite manifests, user skill trees, and the stale-reference report.
+    _update_shared_surfaces(args, old_id, new_id)
 
     append_skill_event(
         new_id,
