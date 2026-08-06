@@ -88,9 +88,12 @@
       "action": "rank_up",
       "contributor": "mbtiongson1",
       "details": "Level updated from 1★ to 2★ per G7 final rankings calibration."
+    },
+    {
+      "timestamp": "2026-08-06T04:54:19Z",
+      "action": "note",
+      "contributor": "unknown",
+      "details": "Set installable to false"
     }
-  ],
-  "links": {
-    "github": "https://github.com/NousResearch/hermes-agent"
-  }
+  ]
 }
