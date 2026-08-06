@@ -22,12 +22,18 @@ future full run will extend this file with the rest of the registry's
 
 #### E1: `benchmark-result`
 - **Source:** [https://sovgrid.org/blog/caveman-local-benchmark](https://sovgrid.org/blog/caveman-local-benchmark)
-- **Date:** 2026-08-06 (collection date — TODO: source does not supply its own publish date)
+- **Date:** 2026-08-06 (collection date; source does not supply separate publish date)
 - **Scope:** standalone
-- **Description:** Independent empirical benchmark per founder evidence curation (PR #1464 comments). Tested on local models and Claude; measured ~31-33% output-token reduction, well below the primary repo's claimed 65-75%. TODO: `percentile` field not supplied by source and left blank — required for benchmark-result rows per curation guidance; needs direct-source confirmation in Phase 2B (ev-benchmark-verification), not fabricated here.
+- **Verified:** Live source accessible; tested on Qwen, Mistral, and three Claude variants; measured ~31% token reduction (best observed), far below claimed 65-75%; used verdict scale (ADOPT/SITUATIONAL/SKIP) with SKIP verdict for Caveman ("never cheaper in dollars").
+- **Percentile:** NOT SUPPLIED by source; uses verdict scale instead of percentile ranking. No numeric percentile rank available in this benchmark.
+- **Status:** Candidate for `registry/benchmark-sources.json` entry as `status: reported`; pending human gate approval. Does not meet percentile requirement — flag for review.
+- **Description:** Independent empirical benchmark per founder evidence curation (PR #1464 comments). Tested on local models and Claude; measured ~31-33% output-token reduction, well below the primary repo's claimed 65-75%.
 
 #### E2: `benchmark-result`
 - **Source:** [https://www.techtimes.com/articles/320756/20260716/jetbrains-tests-caveman-token-skill-86-real-tasks-savings-hit-9-not-65.htm](https://www.techtimes.com/articles/320756/20260716/jetbrains-tests-caveman-token-skill-86-real-tasks-savings-hit-9-not-65.htm)
-- **Date:** 2026-07-16 (inferred from URL date slug `20260716`; article does not display a separate byline date in the evidence Marcus supplied)
+- **Date:** 2026-07-16 (inferred from URL date slug `20260716`)
 - **Scope:** standalone
-- **Description:** Independent large-scale agent benchmark per founder evidence curation (PR #1464 comments). Tech Times reporting on a JetBrains test across 86 real coding tasks: output quality held, but token savings on full agent runs measured only ~9% (vs. the claimed 65%). TODO: `percentile` field not supplied by source and left blank — same as E1, pending Phase 2B verification.
+- **Verified:** URL returns HTTP 403 Forbidden; article inaccessible for verification. Title claims ~9% token savings on 86 real coding tasks (vs. claimed 65%), but content not retrievable to confirm percentile or methodology details.
+- **Percentile:** NOT SUPPLIED by source (article inaccessible). Cannot verify percentile or ranking information from this source.
+- **Status:** Candidate for `registry/benchmark-sources.json` entry as `status: candidate`; inaccessible for verification. Requires human gate review and source confirmation before eligibility as `reported` benchmark evidence.
+- **Description:** Independent large-scale agent benchmark per founder evidence curation (PR #1464 comments). Tech Times reporting on a JetBrains test across 86 real coding tasks: output quality held, but token savings on full agent runs measured only ~9% (vs. the claimed 65%).
