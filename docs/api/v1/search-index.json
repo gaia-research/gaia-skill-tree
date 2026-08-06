@@ -5623,38 +5623,6 @@
     ]
   },
   {
-    "id": "mattpocock/caveman",
-    "name": "Caveman Mode",
-    "contributor": "mattpocock",
-    "level": "2★",
-    "grade": "C",
-    "trustMagnitude": 30.0,
-    "branch": "standard",
-    "tokens": [
-      "0",
-      "1",
-      "articles",
-      "caveman",
-      "communication",
-      "compressed",
-      "compression",
-      "context",
-      "designed",
-      "dropping",
-      "filler",
-      "mattpocock",
-      "mode",
-      "removed",
-      "save",
-      "skills",
-      "suite",
-      "tokens",
-      "ultra",
-      "v1",
-      "words"
-    ]
-  },
-  {
     "id": "mattpocock/teach",
     "name": "Teach",
     "contributor": "mattpocock",

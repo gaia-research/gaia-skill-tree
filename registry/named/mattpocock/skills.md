@@ -13,7 +13,7 @@ description: The ultimate capstone suite encompassing all of Matt Pocock's engin
 links:
   github: https://github.com/mattpocock/skills
 createdAt: '2026-05-22'
-updatedAt: '2026-07-20'
+updatedAt: '2026-08-06'
 trustMagnitude: 480.29
 overallTrustGrade: S
 apexGateStatus:
@@ -113,6 +113,12 @@ timeline:
     II taxonomy migration #997)'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-20
+- timestamp: '2026-08-06T00:03:12Z'
+  action: upstream_deprecated
+  contributor: unknown
+  details: 'Component mattpocock/caveman permanently removed (not frozen) from this
+    suite: Author''s CHANGELOG: caveman was a duplicate of another skill being tested
+    and was never meant to be public. No replacement. (Issue #1453)'
 evidence:
 - source: https://github.com/mattpocock/skills/stargazers
   evaluator: mbtiongson1
@@ -154,7 +160,6 @@ evidence:
 verification:
   firstEvidenceAt: '2026-06-19T09:18:11Z'
 suiteComponents:
-- mattpocock/caveman
 - mattpocock/diagnose
 - mattpocock/edit-article
 - mattpocock/engineering

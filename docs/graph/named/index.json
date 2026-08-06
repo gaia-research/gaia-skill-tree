@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-05",
+  "generatedAt": "2026-08-06",
   "buckets": {
     "automated-testing": [
       {
@@ -10477,98 +10477,6 @@
           "systemWideCap": null
         },
         "type": "basic",
-        "role": "variant",
-        "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
-      },
-      {
-        "id": "mattpocock/caveman",
-        "name": "Caveman Mode",
-        "contributor": "mattpocock",
-        "origin": false,
-        "genericSkillRef": "context-compression",
-        "status": "named",
-        "level": "2★",
-        "description": "An ultra-compressed communication mode designed to save tokens by dropping articles and filler words. Removed from mattpocock/skills suite in v1.0.1.",
-        "title": "The Caveman Console",
-        "installable": false,
-        "links": {
-          "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/caveman"
-        },
-        "evidence": [
-          {
-            "source": "https://github.com/mattpocock/skills/issues/189",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-19",
-            "type": "peer-review",
-            "class": "A",
-            "notes": "GitHub issue about caveman skill feature request.",
-            "grade": "C"
-          }
-        ],
-        "createdAt": "2026-05-21",
-        "updatedAt": "2026-08-05",
-        "timeline": [
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-18T11:27:18Z",
-            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-06-19T12:32:52Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/mattpocock/skills/issues/189 (type: peer-review)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T12:53:50Z",
-            "details": "TM 0.0 -> 30.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:19:38Z",
-            "details": "TM 0.0 -> 30.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:26:41Z",
-            "details": "TM 0.0 -> 30.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-06-20T06:31:30Z",
-            "action": "demote",
-            "contributor": "mbtiongson1",
-            "details": "Level updated from 3★ to 2★ per G7 final rankings calibration."
-          },
-          {
-            "timestamp": "2026-08-05T06:27:25Z",
-            "action": "upstream_deprecated",
-            "contributor": "unknown",
-            "previousValue": null,
-            "newValue": null,
-            "details": "Removed upstream in mattpocock/skills — author's CHANGELOG: 'caveman was a duplicate of another skill I was testing and was never meant to be public.' No replacement."
-          }
-        ],
-        "suiteRef": "mattpocock/productivity",
-        "trustMagnitude": 30.0,
-        "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "b465d715e6b28aa3c1fcc03f36ba73520d63fee9cba499c0e2c70600c1bcd51e",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "type": "basic",
-        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
         "branch": "standard",
         "rank": 2,
@@ -21077,7 +20985,7 @@
         "description": "Productivity category suite for Matt Pocock's skills. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Matt Pocock Productivity Suite",
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-07-20",
+        "updatedAt": "2026-08-06",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -21101,11 +21009,16 @@
             "details": "Generic parent 'productivity' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-20"
+          },
+          {
+            "timestamp": "2026-08-06T00:03:12Z",
+            "action": "upstream_deprecated",
+            "contributor": "unknown",
+            "details": "Component mattpocock/caveman permanently removed (not frozen) from this suite: Author's CHANGELOG: caveman was a duplicate of another skill being tested and was never meant to be public. No replacement. (Issue #1453)"
           }
         ],
         "suiteRef": "mattpocock/skills",
         "suiteComponents": [
-          "mattpocock/caveman",
           "mattpocock/grill-me",
           "mattpocock/handoff",
           "mattpocock/write-a-skill"
@@ -21544,7 +21457,7 @@
           }
         ],
         "createdAt": "2026-05-22",
-        "updatedAt": "2026-07-20",
+        "updatedAt": "2026-08-06",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -21657,10 +21570,15 @@
             "details": "Generic parent 'skill-mastery' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-20"
+          },
+          {
+            "timestamp": "2026-08-06T00:03:12Z",
+            "action": "upstream_deprecated",
+            "contributor": "unknown",
+            "details": "Component mattpocock/caveman permanently removed (not frozen) from this suite: Author's CHANGELOG: caveman was a duplicate of another skill being tested and was never meant to be public. No replacement. (Issue #1453)"
           }
         ],
         "suiteComponents": [
-          "mattpocock/caveman",
           "mattpocock/diagnose",
           "mattpocock/edit-article",
           "mattpocock/engineering",
@@ -35038,7 +34956,6 @@
     ],
     "mattpocock": [
       "mattpocock/ask-matt",
-      "mattpocock/caveman",
       "mattpocock/codebase-design",
       "mattpocock/diagnose",
       "mattpocock/diagnosing-bugs",

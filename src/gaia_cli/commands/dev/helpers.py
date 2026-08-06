@@ -863,6 +863,52 @@ def preflightRemoveCommand(args) -> None:
         )
 
 
+def preflightRemoveNamedCommand(args) -> None:
+    """Preflight for removing a named skill (contributor/slug).
+
+    Unlike generic-node removal, named skills have no dedicated CLI verb
+    today -- this closes that gap (see CLAUDE.md Programmatic-First Policy /
+    "close the gap" philosophy in src/gaia_cli/CLAUDE.md). Reuses the
+    documented skill-tree workaround (CLAUDE.md "Known CLI gap") as a hard
+    precondition: a skill still unlocked in a user's tree must be cleaned up
+    there first, so the removal never orphans a user's progression record.
+    """
+    registryPath = args.registry
+    skillId = args.skill_id.lstrip("/")
+
+    namedDir = Path(named_skills_dir(registryPath))
+    namedFile = _find_named_file(namedDir, skillId)
+    if namedFile is None:
+        _fail_dev_preflight(
+            f"Named skill '{skillId}' not found in registry/named/.",
+            fix="Check the skill ID with `gaia dev list --named`.",
+        )
+
+    treesDir = Path(registryPath) / "skill-trees"
+    referencingUsers = []
+    if treesDir.exists():
+        for treeFile in treesDir.glob("*/skill-tree.json"):
+            try:
+                treeData = json.loads(treeFile.read_text(encoding="utf-8"))
+            except json.JSONDecodeError:
+                continue
+            unlocked = treeData.get("unlockedSkills") or []
+            if any(entry.get("skillId") == skillId for entry in unlocked):
+                referencingUsers.append(treeFile.parent.name)
+    if referencingUsers:
+        _fail_dev_preflight(
+            f"Cannot remove named skill '{skillId}' while it is still unlocked in: "
+            f"{', '.join(sorted(referencingUsers))}.",
+            fix=(
+                "Remove the entry from unlockedSkills in each user's "
+                "skill-trees/<user>/skill-tree.json, then log it with "
+                f"`gaia dev timeline {skillId} --user <user> --action demote "
+                '--notes "..."` (CLAUDE.md\'s documented skill-tree-removal '
+                "workaround) before retrying `gaia dev rm`."
+            ),
+        )
+
+
 def preflightReclassifyCommand(args) -> None:
     registryPath = args.registry
     skillId = args.skill_id.lstrip("/")

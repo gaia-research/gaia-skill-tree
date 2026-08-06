@@ -185,13 +185,18 @@
       "details": "Generic parent 'skill-mastery' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
       "metaEpoch": "yggdrasil-ii",
       "migrationBatch": "yggdrasil-ii@2026-07-20"
+    },
+    {
+      "timestamp": "2026-08-06T00:03:12Z",
+      "action": "upstream_deprecated",
+      "contributor": "unknown",
+      "details": "Component mattpocock/caveman permanently removed (not frozen) from this suite: Author's CHANGELOG: caveman was a duplicate of another skill being tested and was never meant to be public. No replacement. (Issue #1453)"
     }
   ],
   "links": {
     "github": "https://github.com/mattpocock/skills"
   },
   "suiteComponents": [
-    "mattpocock/caveman",
     "mattpocock/diagnose",
     "mattpocock/edit-article",
     "mattpocock/engineering",
