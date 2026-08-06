@@ -35,6 +35,7 @@ from scripts.lib.named_iterator import iter_named_skills
 from scripts.upstream_watcher.finder import compute_finding, detect_mode, iter_suite_skills
 from scripts.upstream_watcher.issuer import create_issues
 from scripts.upstream_watcher.liveness import check_component_liveness, fetch_component_diff
+from scripts.upstream_watcher.name_drift import check_name_drift
 
 # ---------------------------------------------------------------------------
 # Registry map builder
@@ -89,6 +90,7 @@ def _render_report(full_findings: list[dict]) -> str:
             adds = f.get("componentAdds", [])
             removes = f.get("componentRemoves", [])
             liveness = f.get("linkLiveness", [])
+            name_drift = f.get("nameDrift", [])
 
             if adds:
                 lines.append(f"- **Component adds:** {', '.join(f'`{s}`' for s in adds)}")
@@ -98,6 +100,13 @@ def _render_report(full_findings: list[dict]) -> str:
                 lines.append(f"- **Broken links:** {len(liveness)}")
                 for row in liveness:
                     lines.append(f"  - `{row['skillId']}` → `{row['url']}` ({row['status']})")
+            if name_drift:
+                lines.append(f"- **Name drift:** {len(name_drift)}")
+                for row in name_drift:
+                    lines.append(
+                        f"  - `{row['skillId']}` registry:`{row['registrySlug']}` "
+                        f"upstream:`{row['sanitizedName']}` — fix: `{row['fixCommand']}`"
+                    )
             lines.append("")
 
     return "\n".join(lines)
@@ -155,7 +164,8 @@ def _poll_suite(
     components = fm.get("suiteComponents") or []
     component_root = fm.get("upstreamComponentRoot") or "skills"
 
-    # Only do component diff and liveness for update findings in components mode
+    # Only do component diff, liveness, and name-drift for update findings
+    # in components mode.
     if finding["finding_type"] == "update" and mode == "components":
         adds, removes = fetch_component_diff(
             owner, repo, new_version, component_root, components
@@ -165,10 +175,17 @@ def _poll_suite(
 
         liveness = check_component_liveness(components, registry_map)
         finding["linkLiveness"] = liveness
+
+        # Issue #1457: compare each tracked component's registry slug against
+        # its sanitized upstream SKILL.md frontmatter `name` — catches
+        # DIRNAME_MISMATCH drift at release time, before a periodic
+        # install_parity.py sweep would surface it.
+        finding["nameDrift"] = check_name_drift(components, registry_map)
     else:
         finding["componentAdds"] = []
         finding["componentRemoves"] = []
         finding["linkLiveness"] = []
+        finding["nameDrift"] = []
 
     return finding
 
