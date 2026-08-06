@@ -1,0 +1,540 @@
+<title>Program 3 — Prototypes Session</title>
+<style>
+  :root {
+    --ground:        #F2F3F6;
+    --panel:         #FFFFFF;
+    --panel-2:       #E9EBF0;
+    --ink:           #14171F;
+    --ink-soft:      #464C5C;
+    --ink-faint:     #6E7488;
+    --rule:          #D3D7E0;
+    --rule-soft:     #E3E6EC;
+    --accent:        #9A6414;
+    --accent-soft:   #F0E2C6;
+
+    --ok:            #2E6B3E;
+    --ok-bg:         #DDEEE1;
+    --warn:          #8A5A10;
+    --warn-bg:       #F6E6C8;
+    --stop:          #93342C;
+    --stop-bg:       #F6DDDA;
+
+    /* the entropy ladder, off -> ultra. data encoding, not decoration */
+    --rung-off:      #4A6E8A;
+    --rung-low:      #3E7F7C;
+    --rung-med:      #6E7F3A;
+    --rung-high:     #A8792A;
+    --rung-xhigh:    #B4632C;
+    --rung-max:      #9E3F35;
+    --rung-ultra:    #6E3A6B;
+
+    --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground:      #0F1218;
+      --panel:       #161B23;
+      --panel-2:     #1E242E;
+      --ink:         #E7EAF0;
+      --ink-soft:    #AEB6C6;
+      --ink-faint:   #7B8496;
+      --rule:        #2B323E;
+      --rule-soft:   #222834;
+      --accent:      #D9A94A;
+      --accent-soft: #33291410;
+
+      --ok:          #7FC08D;
+      --ok-bg:       #1B2E22;
+      --warn:        #DCAE5C;
+      --warn-bg:     #322718;
+      --stop:        #E08B80;
+      --stop-bg:     #34201E;
+
+      --rung-off:    #7BA4C4;
+      --rung-low:    #63B3AF;
+      --rung-med:    #A3B85E;
+      --rung-high:   #D9AC55;
+      --rung-xhigh:  #E0925A;
+      --rung-max:    #DC7368;
+      --rung-ultra:  #B07CAC;
+    }
+  }
+
+  :root[data-theme="dark"] {
+    --ground: #0F1218; --panel: #161B23; --panel-2: #1E242E;
+    --ink: #E7EAF0; --ink-soft: #AEB6C6; --ink-faint: #7B8496;
+    --rule: #2B323E; --rule-soft: #222834;
+    --accent: #D9A94A; --accent-soft: #33291410;
+    --ok: #7FC08D; --ok-bg: #1B2E22; --warn: #DCAE5C; --warn-bg: #322718;
+    --stop: #E08B80; --stop-bg: #34201E;
+    --rung-off: #7BA4C4; --rung-low: #63B3AF; --rung-med: #A3B85E;
+    --rung-high: #D9AC55; --rung-xhigh: #E0925A; --rung-max: #DC7368; --rung-ultra: #B07CAC;
+  }
+  :root[data-theme="light"] {
+    --ground: #F2F3F6; --panel: #FFFFFF; --panel-2: #E9EBF0;
+    --ink: #14171F; --ink-soft: #464C5C; --ink-faint: #6E7488;
+    --rule: #D3D7E0; --rule-soft: #E3E6EC;
+    --accent: #9A6414; --accent-soft: #F0E2C6;
+    --ok: #2E6B3E; --ok-bg: #DDEEE1; --warn: #8A5A10; --warn-bg: #F6E6C8;
+    --stop: #93342C; --stop-bg: #F6DDDA;
+    --rung-off: #4A6E8A; --rung-low: #3E7F7C; --rung-med: #6E7F3A;
+    --rung-high: #A8792A; --rung-xhigh: #B4632C; --rung-max: #9E3F35; --rung-ultra: #6E3A6B;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 60rem; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 0.75rem;
+  }
+
+  h1 {
+    font-size: clamp(1.9rem, 4.5vw, 2.9rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 640;
+    margin: 0 0 1rem;
+    text-wrap: balance;
+  }
+
+  .thesis {
+    font-size: 1.18rem;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 44rem;
+    margin: 0 0 2rem;
+    text-wrap: pretty;
+  }
+
+  .meta {
+    display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem;
+    font-family: var(--mono); font-size: 0.78rem; color: var(--ink-faint);
+    border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+    padding: 0.85rem 0; margin-bottom: 3.5rem;
+  }
+  .meta b { color: var(--ink-soft); font-weight: 500; }
+
+  section { margin-bottom: 3.5rem; }
+
+  h2 {
+    font-size: 1.35rem; font-weight: 620; letter-spacing: -0.01em;
+    margin: 0 0 0.35rem; text-wrap: balance;
+  }
+  h2 + .lede { color: var(--ink-soft); margin: 0 0 1.5rem; max-width: 44rem; }
+
+  h3 {
+    font-size: 1rem; font-weight: 620; margin: 2rem 0 0.6rem;
+    letter-spacing: -0.005em;
+  }
+
+  p { max-width: 44rem; margin: 0 0 1rem; text-wrap: pretty; }
+
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+
+  code {
+    font-family: var(--mono); font-size: 0.86em;
+    background: var(--panel-2); padding: 0.1em 0.35em; border-radius: 3px;
+  }
+
+  /* ── ledger ─────────────────────────────────────────── */
+  .ledger { display: grid; gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+  @media (min-width: 40rem) { .ledger { grid-template-columns: repeat(3, 1fr); } }
+  .cell { background: var(--panel); padding: 1.1rem 1.2rem; }
+  .cell .n {
+    font-family: var(--mono); font-size: 1.9rem; font-weight: 600;
+    line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums;
+    display: block; margin-bottom: 0.4rem;
+  }
+  .cell .k {
+    font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-faint);
+  }
+  .cell.good .n { color: var(--ok); }
+  .cell.work .n { color: var(--warn); }
+
+  /* ── status chips ───────────────────────────────────── */
+  .chip {
+    display: inline-block; font-family: var(--mono); font-size: 0.7rem;
+    letter-spacing: 0.06em; text-transform: uppercase; font-weight: 600;
+    padding: 0.16em 0.5em; border-radius: 3px; white-space: nowrap;
+  }
+  .chip.ok   { background: var(--ok-bg);   color: var(--ok); }
+  .chip.work { background: var(--warn-bg); color: var(--warn); }
+  .chip.none { background: var(--stop-bg); color: var(--stop); }
+
+  /* ── tables ─────────────────────────────────────────── */
+  .scroll { overflow-x: auto; border: 1px solid var(--rule); background: var(--panel); }
+  table { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
+  th, td {
+    text-align: left; padding: 0.6rem 0.9rem;
+    border-bottom: 1px solid var(--rule-soft); vertical-align: top;
+  }
+  thead th {
+    font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.09em;
+    text-transform: uppercase; color: var(--ink-faint); font-weight: 600;
+    background: var(--panel-2); border-bottom: 1px solid var(--rule);
+    position: sticky; top: 0;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+  td.mono, th.mono { font-family: var(--mono); font-size: 0.82rem; }
+  .dim { color: var(--ink-faint); }
+
+  /* ── ladder ─────────────────────────────────────────── */
+  .ladder { display: flex; flex-wrap: wrap; gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-bottom: 1.25rem; }
+  .rung { flex: 1 1 7rem; background: var(--panel); padding: 0.8rem 0.9rem; border-top: 3px solid var(--c); }
+  .rung .r { font-family: var(--mono); font-size: 0.9rem; font-weight: 640; color: var(--c); }
+  .rung .d { font-size: 0.76rem; color: var(--ink-faint); line-height: 1.4; margin-top: 0.2rem; }
+
+  /* ── terminal block ─────────────────────────────────── */
+  pre {
+    font-family: var(--mono); font-size: 0.82rem; line-height: 1.55;
+    background: var(--panel); border: 1px solid var(--rule);
+    border-left: 3px solid var(--accent);
+    padding: 0.9rem 1.1rem; overflow-x: auto; margin: 0 0 1.25rem;
+    color: var(--ink-soft);
+  }
+  pre b { color: var(--ink); font-weight: 600; }
+
+  /* ── challenge list ─────────────────────────────────── */
+  .chal { border-top: 1px solid var(--rule); padding: 1.1rem 0; display: grid; gap: 0.3rem 1rem; }
+  @media (min-width: 46rem) { .chal { grid-template-columns: 4.5rem 1fr auto; align-items: baseline; } }
+  .chal .id { font-family: var(--mono); font-size: 0.8rem; font-weight: 640; color: var(--accent); }
+  .chal .body { max-width: 42rem; }
+  .chal .t { font-weight: 600; display: block; margin-bottom: 0.2rem; }
+  .chal .x { color: var(--ink-soft); font-size: 0.92rem; }
+
+  footer {
+    border-top: 1px solid var(--rule); margin-top: 4rem; padding-top: 1.5rem;
+    font-family: var(--mono); font-size: 0.76rem; color: var(--ink-faint);
+  }
+</style>
+
+<div class="wrap">
+
+  <p class="eyebrow">Gaia Roadmap v5 · Program 3 · EPIC #1336</p>
+  <h1>Building the prototypes</h1>
+  <p class="thesis">
+    Program 3's standing goal is the Hell Heaven Index — the research moat that turns routing
+    eligibility into a lookup rather than a guess. But an index cannot measure products that do
+    not exist. So this session built the things it will eventually measure: Skill Heaven's doors,
+    and Skill Hell's summon engine.
+  </p>
+  <div class="meta">
+    <span><b>Date</b> 2026-08-07</span>
+    <span><b>Mode</b> build now, benchmark later</span>
+    <span><b>Tests</b> deferred by ruling</span>
+    <span><b>Environment</b> herdr — every worker in a visible pane</span>
+  </div>
+
+  <section>
+    <div class="ledger">
+      <div class="cell good"><span class="n">3</span><span class="k">draft PRs open</span></div>
+      <div class="cell good"><span class="n">2</span><span class="k">doors launching</span></div>
+      <div class="cell good"><span class="n">1</span><span class="k">summon engine live</span></div>
+      <div class="cell good"><span class="n">5</span><span class="k">playbooks shipped</span></div>
+      <div class="cell work"><span class="n">2</span><span class="k">workers in flight</span></div>
+      <div class="cell work"><span class="n">7</span><span class="k">challenges logged</span></div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">The headline</p>
+    <h2>Skill Hell summons real skills</h2>
+    <p class="lede">
+      Verified directly, not on a worker's report. <code>gaia-mcp</code> had no filesystem write
+      path at all before today — three read-only tools and nothing else. It now has one.
+    </p>
+
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr><th>Query</th><th>Summoned</th><th class="mono">Rank</th><th>Result</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="mono">code review</td><td class="mono">garrytan/review</td><td class="mono">3★</td><td><span class="chip ok">on topic</span></td></tr>
+          <tr><td class="mono">browser automation</td><td class="mono">browserbase/browse</td><td class="mono">1★</td><td><span class="chip ok">on topic</span></td></tr>
+          <tr><td class="mono">security audit</td><td class="mono">garrytan/cso</td><td class="mono">3★</td><td><span class="chip ok">on topic</span></td></tr>
+          <tr><td class="mono">test driven development</td><td class="mono">addy-osmani/test-driven-development</td><td class="mono">2★</td><td><span class="chip ok">exact</span></td></tr>
+          <tr><td class="mono">zzqxvbklmwprjhtdfgc</td><td class="dim">—</td><td class="dim">—</td><td><span class="chip ok">honest refusal</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Both paths work</h3>
+    <p>
+      The CLI answers when you call it by hand. The MCP tool means an agent can summon on its own,
+      which is what makes this usable rather than a demo.
+    </p>
+    <pre><b>$ gaia-hell summon "test driven development"</b>
+  summoned  addy-osmani/test-driven-development  2★  TM 36.0
+            -&gt; …/gaia-hell-6RqGOl/skills/addy-osmani__test-driven-development/SKILL.md
+
+<b>$ gaia_summon  (over MCP stdio)</b>
+  { "id": "addy-osmani/test-driven-development", "level": "2★",
+    "bytes": 16477, "sha256": "71fddd…",
+    "sessionRoot": "/var/folders/…/gaia-hell-6RqGOl" }</pre>
+
+    <h3>One bug, and it was mine</h3>
+    <p>
+      The first ranking returned <code>garrytan/gstack</code> for every query — the single
+      highest-rated skill in the registry winning regardless of what was asked. The dispatch brief
+      had specified rating as the primary sort key, and the worker implemented it exactly.
+      Relevance now <em>gates</em>, rating <em>orders</em> within the on-topic band. Still untuned;
+      tuning is what the Index is for.
+    </p>
+  </section>
+
+  <section>
+    <p class="eyebrow">Skill Heaven</p>
+    <h2>Doors</h2>
+    <p class="lede">
+      A door is a launcher that boots a harness into a chosen posture. The compiler never ships a
+      route it has not measured, so every new door is a probe campaign before it is a package.
+    </p>
+
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr><th>Door</th><th>Harness</th><th>At session start</th><th>Now</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="mono">claude-heaven</td><td>Claude Code</td><td class="dim">ships</td><td><span class="chip ok">ships + /skill-hell</span></td></tr>
+          <tr><td class="mono">pi-heaven</td><td>pi 0.83.0</td><td class="dim">stub — zero code</td><td><span class="chip ok">launching</span></td></tr>
+          <tr><td class="mono">codex-heaven</td><td>codex-cli 0.146.0</td><td class="dim">recipe-only, never execs</td><td><span class="chip work">in flight</span></td></tr>
+          <tr><td class="mono">hermes-heaven</td><td>Hermes 0.20.0</td><td class="dim">no compile route at all</td><td><span class="chip work">in flight</span></td></tr>
+          <tr><td class="mono">grok-heaven</td><td>grok 0.2.118</td><td class="dim">nothing</td><td><span class="chip none">not started</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>pi-heaven, measured</h3>
+    <p>
+      The worker found that asking a model to list its own skills produces confabulation — identical
+      argv gave different answers across runs. It switched to <code>--mode json</code> token counts
+      as ground truth, which is better methodology than the brief asked for.
+    </p>
+
+    <div class="scroll">
+      <table>
+        <thead>
+          <tr><th>Composition</th><th class="num">totalTokens</th><th>Note</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="mono">baseline</td><td class="num">11,271</td><td class="dim">native</td></tr>
+          <tr><td class="mono">--no-skills</td><td class="num">4,371</td><td class="dim">order-independent on 0.83.0</td></tr>
+          <tr><td class="mono">+ --no-context-files --no-prompt-templates</td><td class="num">2,831</td><td>product-floor</td></tr>
+          <tr><td class="mono">+ --no-extensions</td><td class="num">1,069</td><td class="dim">doorless — kills the door</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:1rem">
+      <strong>The pi door costs ~1,762 tokens</strong> — the pi analogue of Claude's +515. And the
+      pi 0.80.10 argv-ordering quirk does <em>not</em> reproduce on 0.83.0, so that compiler comment
+      is now recorded as history rather than guidance.
+    </p>
+
+    <h3>The inline surface</h3>
+    <p>
+      <code>/skill-hell</code> summons, names the skill, then prints its body — so the skill is
+      genuinely in context with no restart. The statusline carries the minimal signal you asked for:
+      which skill, nothing more.
+    </p>
+    <pre>⚡ native · 14.2k standing (excl. bundled/plugin) · <b>hell: grill-me +2</b></pre>
+  </section>
+
+  <section>
+    <p class="eyebrow">Vocabulary</p>
+    <h2>The entropy ladder</h2>
+    <p class="lede">
+      One ladder, <code>off</code> through <code>max</code>, plus <code>ultra</code>. The rungs are
+      named; most are not yet wired.
+    </p>
+    <div class="ladder">
+      <div class="rung" style="--c: var(--rung-off)"><div class="r">off</div><div class="d">product-floor — nearest launchable zero, door open</div></div>
+      <div class="rung" style="--c: var(--rung-low)"><div class="r">low</div><div class="d">curated — a chosen set, nothing else</div></div>
+      <div class="rung" style="--c: var(--rung-med)"><div class="r">med</div><div class="d">Hell — gated</div></div>
+      <div class="rung" style="--c: var(--rung-high)"><div class="r">high</div><div class="d">Hell — gated</div></div>
+      <div class="rung" style="--c: var(--rung-xhigh)"><div class="r">xhigh</div><div class="d">Hell — gated</div></div>
+      <div class="rung" style="--c: var(--rung-max)"><div class="r">max</div><div class="d">Hell — gated</div></div>
+      <div class="rung" style="--c: var(--rung-ultra)"><div class="r">ultra</div><div class="d">ledger arm only, unratified</div></div>
+    </div>
+    <p>
+      Two gaps worth knowing. <code>off</code> still aliases to <code>floor</code>, the
+      <em>doorless</em> benchmark ruler, rather than <code>product-floor</code>, the launchable one —
+      that is skill-heaven&nbsp;#24 and it is a small fix. And the four Hell rungs currently refuse
+      rather than compose; wiring them to the summon engine is what turns a gate into a product.
+    </p>
+    <p>
+      Incidental find: Hermes' own <code>--reasoning</code> scale is
+      <code>none · minimal · low · medium · high · xhigh · max · ultra</code>. It ships
+      <code>ultra</code> natively, where here the word exists only as an unratified ledger arm.
+    </p>
+  </section>
+
+  <section>
+    <p class="eyebrow">Instrumentation</p>
+    <h2>herdr is the benchmarking environment</h2>
+    <p class="lede">
+      Every worker, probe, and benchmark arm runs in a pane you can watch. Nothing hidden, including
+      nested subagents.
+    </p>
+    <p>
+      This became a written rule after a worker was caught probing <code>pi</code> through its own
+      Bash tool, hiding which <code>--model</code> actually ran. <strong>Rule 0:</strong> no harness
+      invocation goes through an agent's shell tool — it runs in a pane with the argv on screen. A
+      probe the operator could not see is not evidence.
+    </p>
+
+    <h3>The refusal worth keeping</h3>
+    <p>
+      The correction was first sent to the worker mid-turn. <strong>It refused</strong> — reasoning
+      that an unexpected instruction changing its execution path had the shape of a prompt injection
+      — and kept following its written brief. It refused a second time when the founder typed the
+      same thing directly into its pane.
+    </p>
+    <p>
+      That was the right call, and the fix was the channel rather than the worker. Execution rules
+      now live in <code>CLAUDE.md</code>, loaded as project context before work starts, alongside an
+      explicit endorsement of continuing to refuse mid-turn redirects. The pane is a window, not a
+      control channel.
+    </p>
+
+    <h3>Playbooks</h3>
+    <p>All written so a Sonnet-class worker can follow them unaided.</p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Skill</th><th>Covers</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">herdr-dispatch</td><td>visible-pane worker dispatch — start, prompt, wait, read, teardown</td></tr>
+          <tr><td class="mono">herdr-benchmark-pane</td><td>side-by-side posture arms, priced separately and never averaged</td></tr>
+          <tr><td class="mono">pi-playbook</td><td>pi 0.83.0 flags mapped onto Skill Heaven mechanisms</td></tr>
+          <tr><td class="mono">codex-playbook</td><td>codex isolation flags, per-session skills toggle</td></tr>
+          <tr><td class="mono">cost-measurement</td><td>skill-cost as the canonical cost basis</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:1rem">
+      <code>herdr-benchmark-pane</code> was rewritten rather than extended — it hardcoded a
+      <code>Documents/skill-heaven</code> path that no longer exists and drove panes with fragile
+      <code>send-text</code> instead of the structured agent API.
+    </p>
+  </section>
+
+  <section>
+    <p class="eyebrow">Founder scratchpad</p>
+    <h2>Engineering challenges</h2>
+    <p class="lede">
+      What stands between us and a product anyone else could use — recorded so a pivot can be called
+      early rather than discovered late.
+    </p>
+
+    <div class="chal">
+      <div class="id">C1</div>
+      <div class="body"><span class="t">Every door needs its own probe first</span>
+      <span class="x">Three more doors is three probe campaigns, not three packages. Claude and pi are done; Hermes and Grok are entirely unknown.</span></div>
+      <div><span class="chip ok">accepted</span></div>
+    </div>
+    <div class="chal">
+      <div class="id">C2</div>
+      <div class="body"><span class="t">Zero-manual-update delivery is unsolved</span>
+      <span class="x">No door is installed, on PATH, or updatable today. Blocks anyone but you using this. Choosing the delivery model late means rewriting every door's entrypoint.</span></div>
+      <div><span class="chip none">biggest risk</span></div>
+    </div>
+    <div class="chal">
+      <div class="id">C3</div>
+      <div class="body"><span class="t">/skill-hell must work with no door active</span>
+      <span class="x">Resolved: the summon engine owns its own session root and never depends on a door providing one.</span></div>
+      <div><span class="chip ok">shaped</span></div>
+    </div>
+    <div class="chal">
+      <div class="id">C4</div>
+      <div class="body"><span class="t">Summoned skills are fetched, not verified</span>
+      <span class="x">The content hash is recorded, not checked — the registry publishes no expected hash. Fine for a prototype you drive; a blocker before pointing summon at anyone else's session.</span></div>
+      <div><span class="chip work">needs a ruling</span></div>
+    </div>
+    <div class="chal">
+      <div class="id">C5</div>
+      <div class="body"><span class="t">The ladder is named but not wired</span>
+      <span class="x"><code>off</code> aliases the doorless floor; the four Hell rungs refuse rather than compose.</span></div>
+      <div><span class="chip work">tracked #24</span></div>
+    </div>
+    <div class="chal">
+      <div class="id">C6</div>
+      <div class="body"><span class="t">Benchmark visibility now has a rule</span>
+      <span class="x">Agents default to the cheapest path to an answer, and the cheapest path is almost never the observable one.</span></div>
+      <div><span class="chip ok">fixed</span></div>
+    </div>
+    <div class="chal">
+      <div class="id">C7</div>
+      <div class="body"><span class="t">Summon fetched a file; installing means cloning a directory</span>
+      <span class="x">Many skills are directories — <code>SKILL.md</code> plus <code>reference/</code> and <code>scripts/</code>. A summoned skill missing its scripts is a description of a skill, not a skill. Rework in flight to match <code>gaia install</code> exactly, with install time in seconds as a first-class output.</span></div>
+      <div><span class="chip work">reworking</span></div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">State</p>
+    <h2>Branches and spend</h2>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Repo</th><th>Branch</th><th>PR</th><th>Carries</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">skill-heaven</td><td class="mono">integration/program-3-prototypes</td><td class="mono">#39</td><td>doors, playbooks, /skill-hell</td></tr>
+          <tr><td class="mono">gaia-mcp</td><td class="mono">integration/skill-hell</td><td class="mono">#7</td><td>summon engine</td></tr>
+          <tr><td class="mono">gaia-skill-tree</td><td class="mono">founder/program-3-prototypes</td><td class="mono">#1474</td><td>challenges, memory snapshot</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:1.25rem">
+      All three are draft. Feature branches merge to integration at the orchestrator's discretion;
+      <strong>integration to <code>main</code> is yours alone.</strong>
+    </p>
+
+    <h3>Spend</h3>
+    <p>
+      Measured with <code>gaia-research/skill-cost</code>, now the canonical basis for every cost
+      figure in the ecosystem — it reads persisted harness session logs and prices against LiteLLM's
+      catalog, never a model's self-report.
+    </p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Workspace</th><th class="num">in</th><th class="num">out</th><th class="num">cache read</th><th class="num">USD</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">gaia-skill-tree</td><td class="num">213,872</td><td class="num">242,029</td><td class="num">38,411,189</td><td class="num">27.34</td></tr>
+          <tr><td class="mono">gaia-mcp</td><td class="num">5,861</td><td class="num">129,661</td><td class="num">13,274,792</td><td class="num">4.74</td></tr>
+          <tr><td class="mono">sh-wt-pi</td><td class="num">240</td><td class="num">108,797</td><td class="num">11,558,623</td><td class="num">4.26</td></tr>
+          <tr><td class="mono">sh-wt-hell</td><td class="num">56</td><td class="num">11,055</td><td class="num">1,824,557</td><td class="num">1.22</td></tr>
+          <tr><td class="mono">skill-heaven</td><td class="num">222,058</td><td class="num">23,161</td><td class="num">5,828,864</td><td class="num">0.36</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="dim" style="margin-top:0.75rem; font-size:0.86rem">
+      Snapshot at mid-session. Known gap: <code>skill-cost</code> has no Grok parser — one small
+      function when a Grok arm needs pricing.
+    </p>
+  </section>
+
+  <footer>
+    Gaia Roadmap v5 · Program 3 · EPIC #1336 · session 2026-08-07 · building now, benchmarking later
+  </footer>
+</div>
