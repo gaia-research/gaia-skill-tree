@@ -7435,3 +7435,58 @@ This unified data lake compiles all evidence dumps (Tiers 1★ to 6★) and spec
 - **Description:** Ji Chi LinkedIn — echoes fusion-harness opensourcing, references as potentially standard multi-agent composition architecture. (isNew discovery 2026-07-29)
 
 ---
+
+## Skill: <a name="skill-juliusbrusseecaveman"></a>`juliusbrussee/caveman`
+
+- **Name:** Caveman
+- **Contributor:** `juliusbrussee`
+- **Tier:** (intake)
+- **Primary Repository:** [https://github.com/JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman)
+
+**Provenance note:** compiled from `evidence/by-type/{repo-own,benchmark-result,proxy-containment,social-signal}.md`. Evidence discovery was explicitly skipped for this candidate — Marcus (founder) posted these 8 sources directly as human-supplied evidence curation in PR #1464 comments (2026-08-06), following a prior `/gaia-curate` discovery pass parked at L4 human review (`registry-for-review/discovery-packets/juliusbrussee-caveman.json`, commit f6c939f87, on branch `claude/gaia-orchestrator-integration-3hizne`). This is a pre-ingestion candidate — no `gaia dev` mutation has been run and it is not yet a registered named skill. This ev-collection (Phase 1) pass does not verify stars, benchmark percentiles, or link liveness; those are Phase 2/2B/4 of the pipeline.
+
+### Base Evidence Rows
+
+#### E1: `repo-own`
+- **Source:** [https://github.com/JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman)
+- **Date:** 2026-08-06
+- **Description:** Primary source / official repository. Standalone, MIT-licensed, actively maintained; dedicated site at caveman.so. Canonical SKILL.md at `blob/main/skills/caveman/SKILL.md`. Contains install instructions, benchmarks, an intensity-level system (lite/full/ultra plus wenyan-lite/wenyan-full/wenyan-ultra variants), and multi-agent support. README's own ~65% output-token-reduction claim is self-reported (unverified in this phase). Discovery-packet snapshot (2026-08-06T00:25:27Z) recorded 96,128 stars / 5,521 forks / 466 open issues as of last push 2026-08-04T13:44:52Z, repo created 2026-04-04 — reported figures only, NOT independently verified here (pending Phase 2 ev-star-verification). Prior true-owner finding: this repo's first commit (2026-04-04) precedes the now-removed `mattpocock/skills` caveman copy's addition (2026-04-17) by 13 days.
+
+#### E2: `benchmark-result`
+- **Source:** [https://sovgrid.org/blog/caveman-local-benchmark](https://sovgrid.org/blog/caveman-local-benchmark)
+- **Date:** 2026-08-06 (collection date — TODO: source's own publish date not supplied)
+- **Description:** Independent empirical benchmark, tested on local models and Claude; measured ~31-33% output-token reduction, well below the primary repo's claimed 65-75%. TODO: `percentile` field not supplied by source, left blank pending Phase 2B (ev-benchmark-verification) rather than fabricated here.
+
+#### E3: `benchmark-result`
+- **Source:** [https://www.techtimes.com/articles/320756/20260716/jetbrains-tests-caveman-token-skill-86-real-tasks-savings-hit-9-not-65.htm](https://www.techtimes.com/articles/320756/20260716/jetbrains-tests-caveman-token-skill-86-real-tasks-savings-hit-9-not-65.htm)
+- **Date:** 2026-07-16 (inferred from the article's own URL date slug `20260716`)
+- **Description:** Independent large-scale agent benchmark — Tech Times reporting on a JetBrains test across 86 real coding tasks. Output quality held, but token savings on full agent runs measured only ~9% (vs. the claimed 65%). TODO: `percentile` field not supplied by source, left blank pending Phase 2B.
+
+#### E4: `proxy-containment`
+- **Source:** [https://github.com/yuritoledo/caveman-skill](https://github.com/yuritoledo/caveman-skill)
+- **Date:** 2026-08-06 (collection date — TODO: source's own publish/creation date not supplied)
+- **Description:** Independent fork / alternative implementation, similar token-cut claims to the primary source. Classified `proxy-containment` per founder ruling on PR #1464 (2026-08-06): "Independent forks can be considered proxy evidence."
+
+#### E5: `proxy-containment`
+- **Source:** [https://github.com/Shawnchee/caveman-skill](https://github.com/Shawnchee/caveman-skill)
+- **Date:** 2026-08-06 (collection date — TODO: source's own publish/creation date not supplied)
+- **Description:** Independent fork / alternative implementation focused on removing narration/filler text; measured ~61% average reduction. Classified `proxy-containment` per the same founder ruling.
+
+#### E6: `proxy-containment`
+- **Source:** [https://getcaveman.dev/](https://getcaveman.dev/) (also [https://caveman.so](https://caveman.so))
+- **Date:** 2026-08-06 (collection date — TODO: source's own publish/launch date not supplied)
+- **Description:** Commercial / product extension — third-party full-stack build on the same capability (gateway, memory layer, a "Caveman Code" agent) claiming ~2x fewer tokens. Not a repo fork; grouped under proxy-containment as an external commercial consumer of the capability.
+
+### Social Evidence Rows
+
+#### S1: `social-signal`
+- **Source:** [https://openagentskills.dev/skills/mattpocock-skills-skills-productivity-caveman](https://openagentskills.dev/skills/mattpocock-skills-skills-productivity-caveman) (and similarly-positioned listings on ClaudSkills, 8Labs docs)
+- **Date:** 2026-08-06 (collection date — TODO: listing date not supplied by source)
+- **Description:** Ecosystem / distribution evidence — skill listed across multiple third-party skill registries (OpenAgentSkills, ClaudSkills, 8Labs docs) with install stats and multi-agent packaging references. Factual note: this URL slug still points at the old `mattpocock-skills` path rather than `juliusbrussee/caveman`; third-party re-indexing to the true-owner repo is outside Phase 1 scope and is recorded here as supplied.
+
+#### S2: `social-signal`
+- **Source:** [https://8labs.id/guides/opencode/caveman/](https://8labs.id/guides/opencode/caveman/)
+- **Date:** 2026-08-06 (collection date — TODO: guide publish date not supplied by source)
+- **Description:** Documentation / adoption guide — practical install/usage instructions for coding agents (OpenCode) adopting caveman.
+
+---
