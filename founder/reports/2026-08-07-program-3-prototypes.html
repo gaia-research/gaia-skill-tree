@@ -223,6 +223,11 @@
   .chal .t { font-weight: 600; display: block; margin-bottom: 0.2rem; }
   .chal .x { color: var(--ink-soft); font-size: 0.92rem; }
 
+  .warnbox {
+    background: var(--warn-bg); border-left: 3px solid var(--warn);
+    padding: 0.9rem 1.1rem; max-width: 44rem; font-size: 0.94rem;
+  }
+
   footer {
     border-top: 1px solid var(--rule); margin-top: 4rem; padding-top: 1.5rem;
     font-family: var(--mono); font-size: 0.76rem; color: var(--ink-faint);
@@ -384,10 +389,15 @@
       that is skill-heaven&nbsp;#24 and it is a small fix. And the four Hell rungs currently refuse
       rather than compose; wiring them to the summon engine is what turns a gate into a product.
     </p>
-    <p>
-      Incidental find: Hermes' own <code>--reasoning</code> scale is
-      <code>none · minimal · low · medium · high · xhigh · max · ultra</code>. It ships
-      <code>ultra</code> natively, where here the word exists only as an unratified ledger arm.
+    <p class="warnbox">
+      <strong>Not the same axis.</strong> Several harnesses ship a reasoning dial with level names
+      that look identical to these rungs — pi's <code>--thinking</code>, codex's
+      <code>model_reasoning_effort</code>, Hermes' <code>--reasoning</code> (which even carries an
+      <code>ultra</code>). Those set how hard the <em>model</em> reasons. This ladder is
+      <em>skill- and context-scoped</em> — what gets admitted into the session. The shared
+      vocabulary is coincidence. Reasoning effort is a control variable to hold constant across
+      benchmark arms, never the thing under test; treating the two as one axis would produce
+      meaningless measurements.
     </p>
   </section>
 
