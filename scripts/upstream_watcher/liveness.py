@@ -113,10 +113,24 @@ def fetch_component_diff(
 ) -> tuple[list[str], list[str]]:
     """Compare upstream release tree against current component list.
 
-    Fetches the GitHub tree for ``{owner}/{repo}`` at ``{tag}`` and lists
-    directory names under ``{component_root}/`` (default ``"skills"``).
+    Fetches the full recursive GitHub tree for ``{owner}/{repo}`` at ``{tag}``
+    and walks every path under ``{component_root}/`` (default ``"skills"``)
+    to find ``SKILL.md`` leaves at any depth — flat layouts
+    (``skills/<slug>/SKILL.md``) and layouts nested under grouping
+    directories (``skills/<category>/<slug>/SKILL.md``, e.g.
+    ``mattpocock/skills``'s ``skills/engineering/`` and
+    ``skills/productivity/`` categories). The component slug is the name of
+    the directory immediately containing ``SKILL.md`` — the same convention
+    flat suites already use to key slugs, so flat and nested layouts stay
+    consistent.
 
-    Each upstream directory slug is compared against the slugs of
+    Grouping directories that carry no ``SKILL.md`` anywhere beneath them
+    (e.g. ``deprecated/``, ``in-progress/``, ``misc/``) are never walked
+    into a slug, so they never surface as false additions, and real nested
+    slugs are found regardless of depth, so they never surface as false
+    removals.
+
+    Each upstream slug is compared against the slugs of
     ``current_components`` (which are ``contributor/slug`` pairs — we
     extract the slug part, i.e. the last path component).
 
@@ -124,12 +138,16 @@ def fetch_component_diff(
 
     Notes
     -----
-    - Returns ``([], [])`` if the tree API call fails.
+    - Returns ``([], [])`` if the tree API call fails or ``component_root``
+      is not present in the upstream tree (version-only fallback).
     - Does NOT attempt to resolve ``contributor/`` for add proposals — that
       is the issuer's job (it knows the suite's contributor).
     """
-    # Fetch the tree at tag depth=1 to list top-level items
-    tree_url = f"https://api.github.com/repos/{owner}/{repo}/git/trees/{tag}"
+    # Fetch the whole tree recursively in one call so nested component
+    # directories at any depth are visible.
+    tree_url = (
+        f"https://api.github.com/repos/{owner}/{repo}/git/trees/{tag}?recursive=1"
+    )
     tree_data = fetch_json(tree_url)
 
     if not tree_data:
@@ -139,30 +157,40 @@ def fetch_component_diff(
         )
         return ([], [])
 
-    # Collect subdirectory names under component_root
-    component_root_norm = component_root.strip("/")
-    upstream_slugs: set[str] = set()
-
-    # First, try to find the component_root subtree in the top-level tree
-    component_root_sha = None
-    for item in tree_data.get("tree", []):
-        if item.get("path") == component_root_norm and item.get("type") == "tree":
-            component_root_sha = item.get("sha")
-            break
-
-    if component_root_sha:
-        # Fetch the subtree for the component root
-        subtree_url = (
-            f"https://api.github.com/repos/{owner}/{repo}/git/trees/{component_root_sha}"
+    if tree_data.get("truncated"):
+        print(
+            f"  [warn] Tree for {owner}/{repo}@{tag} was truncated by the "
+            "GitHub API; component diff may be incomplete.",
+            file=sys.stderr,
         )
-        subtree_data = fetch_json(subtree_url)
-        if subtree_data:
-            for item in subtree_data.get("tree", []):
-                if item.get("type") == "tree":
-                    upstream_slugs.add(item["path"])
-    else:
+
+    component_root_norm = component_root.strip("/")
+    prefix = f"{component_root_norm}/"
+
+    root_present = any(
+        item.get("path") == component_root_norm and item.get("type") == "tree"
+        for item in tree_data.get("tree", [])
+    )
+    if not root_present:
         # component_root not found in tree — version-only fallback
         return ([], [])
+
+    # Walk every SKILL.md blob under component_root and take its immediate
+    # parent directory name as the component slug, regardless of nesting
+    # depth.
+    upstream_slugs: set[str] = set()
+    for item in tree_data.get("tree", []):
+        if item.get("type") != "blob":
+            continue
+        path = item.get("path", "")
+        if not path.startswith(prefix) or not path.endswith("/SKILL.md"):
+            continue
+        rel = path[len(prefix):]
+        parts = rel.split("/")
+        if len(parts) < 2:
+            # SKILL.md directly under component_root with no component dir
+            continue
+        upstream_slugs.add(parts[-2])
 
     # Build current slug set from suiteComponents (extract last segment)
     current_slugs: set[str] = set()

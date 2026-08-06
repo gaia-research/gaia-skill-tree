@@ -45,6 +45,7 @@ from scripts.upstream_watcher.issuer import (
 from scripts.upstream_watcher.liveness import (
     blob_to_raw,
     check_component_liveness,
+    fetch_component_diff,
 )
 
 # ---------------------------------------------------------------------------
@@ -391,6 +392,166 @@ class TestCheckComponentLiveness:
             check_component_liveness(["mattpocock/caveman"], registry_map)
 
         assert called_with == [expected_raw]
+
+
+# ---------------------------------------------------------------------------
+# 4b. Component diff — nested vs flat suite layouts (issue #1455)
+# ---------------------------------------------------------------------------
+
+
+def _tree_item(path: str, item_type: str) -> dict:
+    return {"path": path, "type": item_type, "sha": f"sha-{path}"}
+
+
+# Synthesized `mattpocock/skills`-style nested layout:
+#   skills/engineering/<comp>/SKILL.md
+#   skills/productivity/<comp>/SKILL.md
+#   deprecated/                    (grouping dir, no SKILL.md beneath it)
+#   misc/README.md                 (non-skill file, no SKILL.md)
+_NESTED_TREE_DATA = {
+    "tree": [
+        _tree_item("skills", "tree"),
+        _tree_item("skills/engineering", "tree"),
+        _tree_item("skills/engineering/caveman", "tree"),
+        _tree_item("skills/engineering/caveman/SKILL.md", "blob"),
+        _tree_item("skills/engineering/diagnose", "tree"),
+        _tree_item("skills/engineering/diagnose/SKILL.md", "blob"),
+        _tree_item("skills/productivity", "tree"),
+        _tree_item("skills/productivity/grill-me", "tree"),
+        _tree_item("skills/productivity/grill-me/SKILL.md", "blob"),
+        _tree_item("deprecated", "tree"),
+        _tree_item("misc", "tree"),
+        _tree_item("misc/README.md", "blob"),
+    ],
+    "truncated": False,
+}
+
+# Flat layout, for regression coverage that existing suites are unaffected:
+#   skills/<comp>/SKILL.md
+_FLAT_TREE_DATA = {
+    "tree": [
+        _tree_item("skills", "tree"),
+        _tree_item("skills/caveman", "tree"),
+        _tree_item("skills/caveman/SKILL.md", "blob"),
+        _tree_item("skills/diagnose", "tree"),
+        _tree_item("skills/diagnose/SKILL.md", "blob"),
+        _tree_item("skills/grill-me", "tree"),
+        _tree_item("skills/grill-me/SKILL.md", "blob"),
+    ],
+    "truncated": False,
+}
+
+
+class TestFetchComponentDiffNestedLayout:
+    def test_nested_components_produce_no_false_diff(self):
+        """Nested SKILL.md leaves under category dirs are discovered; no
+        false adds/removes when the current component list already matches
+        upstream."""
+        current_components = [
+            "mattpocock/caveman",
+            "mattpocock/diagnose",
+            "mattpocock/grill-me",
+        ]
+        with patch(
+            "scripts.upstream_watcher.liveness.fetch_json",
+            return_value=_NESTED_TREE_DATA,
+        ):
+            adds, removes = fetch_component_diff(
+                "mattpocock", "skills", "v1.1.0", "skills", current_components
+            )
+        assert adds == []
+        assert removes == []
+
+    def test_grouping_directories_not_reported_as_additions(self):
+        """`deprecated/` (no SKILL.md beneath it) and `misc/` (README only,
+        no SKILL.md) must never surface as component additions, even
+        starting from an empty current-component list."""
+        with patch(
+            "scripts.upstream_watcher.liveness.fetch_json",
+            return_value=_NESTED_TREE_DATA,
+        ):
+            adds, removes = fetch_component_diff(
+                "mattpocock", "skills", "v1.1.0", "skills", []
+            )
+        assert "deprecated" not in adds
+        assert "misc" not in adds
+        assert "engineering" not in adds
+        assert "productivity" not in adds
+        assert set(adds) == {"caveman", "diagnose", "grill-me"}
+
+    def test_new_nested_component_detected_as_add(self):
+        """A genuinely new nested component is reported as an add, not
+        confused with its category directory."""
+        current_components = ["mattpocock/caveman", "mattpocock/diagnose"]
+        with patch(
+            "scripts.upstream_watcher.liveness.fetch_json",
+            return_value=_NESTED_TREE_DATA,
+        ):
+            adds, removes = fetch_component_diff(
+                "mattpocock", "skills", "v1.1.0", "skills", current_components
+            )
+        assert adds == ["grill-me"]
+        assert removes == []
+
+    def test_removed_nested_component_detected_as_remove(self):
+        """A component no longer present anywhere in the nested tree is
+        reported as a removal."""
+        current_components = [
+            "mattpocock/caveman",
+            "mattpocock/diagnose",
+            "mattpocock/grill-me",
+            "mattpocock/retired-tool",
+        ]
+        with patch(
+            "scripts.upstream_watcher.liveness.fetch_json",
+            return_value=_NESTED_TREE_DATA,
+        ):
+            adds, removes = fetch_component_diff(
+                "mattpocock", "skills", "v1.1.0", "skills", current_components
+            )
+        assert adds == []
+        assert removes == ["retired-tool"]
+
+    def test_flat_layout_still_works_unchanged(self):
+        """Existing flat-suite layouts (component directly under
+        component_root) are unaffected by the nested-discovery rewrite."""
+        current_components = [
+            "mattpocock/caveman",
+            "mattpocock/diagnose",
+            "mattpocock/grill-me",
+        ]
+        with patch(
+            "scripts.upstream_watcher.liveness.fetch_json",
+            return_value=_FLAT_TREE_DATA,
+        ):
+            adds, removes = fetch_component_diff(
+                "mattpocock", "skills", "v1.1.0", "skills", current_components
+            )
+        assert adds == []
+        assert removes == []
+
+    def test_missing_component_root_falls_back_version_only(self):
+        """component_root absent from the tree entirely → ([], []) fallback."""
+        tree_data = {"tree": [_tree_item("README.md", "blob")], "truncated": False}
+        with patch(
+            "scripts.upstream_watcher.liveness.fetch_json", return_value=tree_data
+        ):
+            adds, removes = fetch_component_diff(
+                "mattpocock", "skills", "v1.1.0", "skills", ["mattpocock/caveman"]
+            )
+        assert adds == []
+        assert removes == []
+
+    def test_tree_fetch_failure_returns_empty_diff(self):
+        """fetch_json returning None (API error) → ([], []) gracefully."""
+        with patch(
+            "scripts.upstream_watcher.liveness.fetch_json", return_value=None
+        ):
+            adds, removes = fetch_component_diff(
+                "mattpocock", "skills", "v1.1.0", "skills", ["mattpocock/caveman"]
+            )
+        assert adds == []
+        assert removes == []
 
 
 # ---------------------------------------------------------------------------
