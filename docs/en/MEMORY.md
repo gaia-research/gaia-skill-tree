@@ -2,6 +2,32 @@
 
 ---
 
+## 2026-08-06 — Routine 023 — Version sync v7.3.1 → v7.3.17
+
+**Branch:** `docs/routines/023`
+**Task chosen:** SYNC — version bump from v7.3.1 to v7.3.17 (current pyproject.toml)
+
+### Trigger
+Routine documentation agent fired on schedule. Repository version is v7.3.17 (per `git describe --tags` and `pyproject.toml`). All 12 doc pages in `docs/en/` were at v7.3.1, requiring a version sync after 16 patch releases.
+
+### What I did
+1. **Updated all 12 HTML files** from v7.3.1 to v7.3.17 using sed across docs/en/*.html
+2. **Verified consistency** — all 12 pages now contain exactly one v7.3.17 string (the nav version chip)
+
+### Verification
+- `git status` scoped to `docs/en/**` only (12 files)
+- All pages grepped clean: each now reports v7.3.17 exactly once
+- No new hex colors, vocabulary drift, or broken links in the changed set
+
+### Files modified
+All 12 pages in `docs/en/` (version string update only); `docs/en/MEMORY.md` (this entry)
+
+### Planned next (Routine 024)
+- ROTATE: audit `skill-hierarchy.html` (least-recently-touched for content review per Routine 018 plan)
+- SYNC: monitor for new CLI features between v7.3.17 and next release
+
+---
+
 ## 2026-08-01 — Routine 018 — Editor pass (ship gate, PR #1334)
 
 **Role:** Weekly editor. Reviewed the week's accreted commits on `docs/routines/018`, verified
