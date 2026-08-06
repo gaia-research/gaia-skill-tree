@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-08-05T23:45:57Z",
+  "generatedAt": "2026-08-06T11:48:07Z",
   "firstRun": false,
   "skills": [
     {
@@ -522,6 +522,20 @@
       }
     },
     {
+      "id": "bradautomates/watch",
+      "name": "Watch",
+      "level": "2★",
+      "contributor": "bradautomates",
+      "trustMagnitude": 37.47,
+      "overallTrustGrade": "C",
+      "trendingScore": 18.73,
+      "tmDelta": 37.47,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/bradautomates/watch.json"
+      }
+    },
+    {
       "id": "disler/auto-review",
       "name": "Auto-Review",
       "level": "2★",
@@ -620,7 +634,7 @@
       }
     }
   ],
-  "totalTrending": 44,
+  "totalTrending": 45,
   "_links": {
     "self": "/api/v1/trending/30d.json"
   }

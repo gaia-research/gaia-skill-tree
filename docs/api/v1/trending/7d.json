@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-08-05T23:45:57Z",
+  "generatedAt": "2026-08-06T11:48:07Z",
   "firstRun": false,
   "skills": [
     {
@@ -57,20 +57,6 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/k-dense-ai/torch-geometric.json"
-      }
-    },
-    {
-      "id": "mvanhorn/last30days",
-      "name": "Last 30 Days Web Research",
-      "level": "4★",
-      "contributor": "mvanhorn",
-      "trustMagnitude": 129.1,
-      "overallTrustGrade": "A",
-      "trendingScore": 81.45,
-      "tmDelta": 1.25,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mvanhorn/last30days.json"
       }
     },
     {
@@ -382,6 +368,20 @@
       }
     },
     {
+      "id": "bradautomates/watch",
+      "name": "Watch",
+      "level": "2★",
+      "contributor": "bradautomates",
+      "trustMagnitude": 37.47,
+      "overallTrustGrade": "C",
+      "trendingScore": 18.73,
+      "tmDelta": 37.47,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/bradautomates/watch.json"
+      }
+    },
+    {
       "id": "karpathy/autoresearch-universal",
       "name": "AutoResearch",
       "level": "2★",
@@ -466,6 +466,20 @@
       }
     },
     {
+      "id": "mvanhorn/last30days",
+      "name": "Last 30 Days Web Research",
+      "level": "4★",
+      "contributor": "mvanhorn",
+      "trustMagnitude": 129.1,
+      "overallTrustGrade": "A",
+      "trendingScore": 1.45,
+      "tmDelta": 1.25,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/mvanhorn/last30days.json"
+      }
+    },
+    {
       "id": "nextlevelbuilder/ui-ux-pro-max",
       "name": "UI/UX Pro Max",
       "level": "4★",
@@ -480,7 +494,7 @@
       }
     }
   ],
-  "totalTrending": 34,
+  "totalTrending": 35,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }
