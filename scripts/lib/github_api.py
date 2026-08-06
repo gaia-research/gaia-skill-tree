@@ -20,6 +20,12 @@ head_check(url, timeout=10)
     Returns None on network error.  Safe on ``raw.githubusercontent.com``
     URLs (design §5 — rendered blob/ URLs can serve HTML on 404; raw URLs
     are the canonical liveness target).
+
+fetch_text(url, timeout=10)
+    Issue an HTTP GET to *url* and return the decoded response body as text.
+    Returns None on network error.  Intended for raw content fetches (e.g.
+    a component's ``SKILL.md`` source) — distinct from ``fetch_json``, which
+    parses ``api.github.com`` JSON responses.
 """
 
 from __future__ import annotations
@@ -178,4 +184,28 @@ def head_check(url: str, timeout: int = 10) -> int | None:
         # HTTPError is raised for 4xx/5xx — we still have a status code
         return exc.code
     except Exception:  # noqa: BLE001
+        return None
+
+
+# ---------------------------------------------------------------------------
+# Raw content fetch (new — used by upstream watcher name-drift detection)
+# ---------------------------------------------------------------------------
+
+
+def fetch_text(url: str, timeout: int = 10) -> str | None:
+    """Issue an HTTP GET to *url* and return the decoded response body.
+
+    Returns ``None`` on any network-level error (no response, timeout, 4xx/5xx).
+    Intended for ``raw.githubusercontent.com`` content fetches — callers
+    should convert rendered ``github.com/.../blob/…`` URLs first (see
+    :func:`scripts.upstream_watcher.liveness.blob_to_raw`).
+    """
+    req = urllib.request.Request(url)
+    req.add_header("User-Agent", "gaia-upstream-watcher/1.0 (content-fetch)")
+
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as resp:
+            return resp.read().decode("utf-8", errors="replace")
+    except Exception as exc:  # noqa: BLE001
+        print(f"  [warn] GitHub content fetch error for {url}: {exc}", file=sys.stderr)
         return None

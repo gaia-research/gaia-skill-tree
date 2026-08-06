@@ -1,10 +1,10 @@
 {
   "distribution": {
-    "total": 219,
+    "total": 218,
     "S": 5,
-    "A": 64,
-    "B": 67,
-    "C": 83,
+    "A": 63,
+    "B": 68,
+    "C": 82,
     "ungraded": 0,
     "floor": 0,
     "up": 29
@@ -26,7 +26,7 @@
     },
     {
       "id": "mattpocock/skills",
-      "trustMagnitude": 496.53,
+      "trustMagnitude": 489.45,
       "grade": "S",
       "level": "5★",
       "typeBreakdown": {
@@ -34,7 +34,7 @@
         "arxiv": 10.4,
         "social-signal": 39.5,
         "peer-review": 30.0,
-        "fusion-recipe": 367.08
+        "fusion-recipe": 360.0
       },
       "origin": true,
       "branch": "suite"
@@ -350,17 +350,6 @@
       },
       "origin": false,
       "branch": "standard"
-    },
-    {
-      "id": "mattpocock/productivity",
-      "trustMagnitude": 120.0,
-      "grade": "A",
-      "level": "4★",
-      "typeBreakdown": {
-        "fusion-recipe": 120.0
-      },
-      "origin": true,
-      "branch": "suite"
     },
     {
       "id": "ruvnet/reasoningbank",
@@ -955,6 +944,17 @@
       },
       "origin": false,
       "branch": "standard"
+    },
+    {
+      "id": "mattpocock/productivity",
+      "trustMagnitude": 90.0,
+      "grade": "B",
+      "level": "4★",
+      "typeBreakdown": {
+        "fusion-recipe": 90.0
+      },
+      "origin": true,
+      "branch": "suite"
     },
     {
       "id": "garrytan/browse",
@@ -1829,7 +1829,7 @@
       "branch": "standard"
     },
     {
-      "id": "bradautomates/claude-video",
+      "id": "bradautomates/watch",
       "trustMagnitude": 37.47,
       "grade": "C",
       "level": "2★",
@@ -2609,17 +2609,6 @@
         "peer-review": 30.0
       },
       "origin": true,
-      "branch": "standard"
-    },
-    {
-      "id": "mattpocock/caveman",
-      "trustMagnitude": 30.0,
-      "grade": "C",
-      "level": "2★",
-      "typeBreakdown": {
-        "peer-review": 30.0
-      },
-      "origin": false,
       "branch": "standard"
     }
   ],

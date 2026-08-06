@@ -241,6 +241,28 @@ bound default).  Token storage degrades gracefully: `keyring` is the optional
 so the suite is green with no keyring installed.  Full design + coverage map:
 `tests/AUTH_TEST_SUITE_HANDOVER.md`.
 
+**g. Full hermeticity on Windows/pi-shell — known limitations**
+A plain `pytest -q` should be clean on any dev machine, but two categories
+still need something installed beyond the base `pip install -e .`, and one
+category depends on how your shell attaches stdin:
+- `@pytest.mark.packaging` tests (`tests/test_packaging.py`) build and
+  install a real wheel — they need the optional `build` package
+  (`pip install -e ".[dev]"`) and skip cleanly without it.
+- `@pytest.mark.tui` tests (`tests/test_tui_tokens.py`) import
+  `gaia_cli.tui`, which pulls in the optional `textual` package
+  (`pip install -e ".[tui]"` or `".[dev]"`) — they skip cleanly without it.
+- If your shell attaches a real TTY to `pytest`'s stdin (common on Windows
+  consoles and some pi-shell/xterm setups), subprocess-spawning CLI tests
+  that don't force non-interactive mode can trip `gaia push`'s interactive
+  multiselect. The suite's own subprocess tests already pass `--yes` /
+  force `sys.stdin.isatty() → False` for this reason — if you hit this in
+  a new test, do the same rather than relying on the ambient shell.
+
+If you don't have `build`/`textual` installed, run the fast/hermetic subset:
+```bash
+pytest -m "not packaging and not tui"
+```
+
 ---
 
 ## 4. Common CI Failures & Troubleshooting Reference

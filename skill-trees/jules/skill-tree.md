@@ -22,7 +22,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — jules  ·  generated 2026-08-05
+GAIA SKILL TREE — jules  ·  generated 2026-08-06
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -102,7 +102,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ /plan-decompose
   │  └─ · ○ ████████/ask-matt
   ├─ · · garrytan/design-consultation  [3★]
-  │  ├─ · · ████████/stagehand
+  │  ├─ · · ████████/browse
   │  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]
   │  │  └─ · ○ /computer-use
   │  └─ · ○ /parse-html
@@ -114,7 +114,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ /hypothesis-generate
   │  └─ · ○ /error-interpretation
   ├─ · · garrytan/qa  [3★]
-  │  ├─ · · ████████/stagehand  (↑ see above)
+  │  ├─ · · ████████/browse  (↑ see above)
   │  └─ · · garrytan/health  [2★]
   │     ├─ · ○ upsonic/unittest-generator  [2★]
   │     ├─ · ○ /code-execution
@@ -132,7 +132,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   │  └─ · ○ /error-interpretation  (↑ see above)
   ├─ · ○ garrytan/document-generate  [3★]
-  ├─ · · ████████/stagehand  (↑ see above)
+  ├─ · · ████████/browse  (↑ see above)
   ├─ · · garrytan/cso  [3★]
   │  ├─ · · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
   │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)

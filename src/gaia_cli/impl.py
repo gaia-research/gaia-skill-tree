@@ -3834,6 +3834,7 @@ def get_parser():
             "suite_ref_set",
             "note",
             "apex_pr_signed",
+            "rename",
         ),
         help="The type of event action",
     )

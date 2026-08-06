@@ -74,9 +74,12 @@
       "action": "migrate_trust_magnitude",
       "timestamp": "2026-06-19T13:26:38Z",
       "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+    },
+    {
+      "timestamp": "2026-08-06T04:54:17Z",
+      "action": "note",
+      "contributor": "unknown",
+      "details": "Set installable to false"
     }
-  ],
-  "links": {
-    "github": "https://github.com/getagentseal/codeburn"
-  }
+  ]
 }

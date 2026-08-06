@@ -9,7 +9,7 @@ level: 3★
 description: Walks through built work, diagnoses gaps, and fixes issues before completion
   is declared.
 createdAt: '2026-07-03'
-updatedAt: '2026-07-03'
+updatedAt: '2026-08-06'
 timeline:
 - timestamp: '2026-07-02T18:04:50Z'
   action: add
@@ -60,6 +60,10 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 3★
+- timestamp: '2026-08-06T04:54:33Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/verify-work.md
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/verify-work.md
   updatedAt: '2026-08-01'
@@ -93,7 +97,7 @@ apexGateStatus:
   systemWideCap: null
 trustMagnitudeInputHash: 82901c4550a6c52331a59859de0992849e1c957f9c721b4f85aefe3c56c86284
 links:
-  github: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/verify-work.md
+  github: https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/verify-work.md
 ---
 
 ## Installation

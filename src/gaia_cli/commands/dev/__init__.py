@@ -391,8 +391,17 @@ class DevCommand(Command):
         )
         _add_build_flags(dev_add, "adding")
 
-        dev_rm = dev_sub.add_parser("rm", help="Remove a skill from the registry")
+        dev_rm = dev_sub.add_parser(
+            "rm",
+            help="Remove a skill from the registry (generic node, or named "
+                 "skill given a contributor/slug ID)",
+        )
         dev_rm.add_argument("skill_id", help="Skill ID to remove")
+        dev_rm.add_argument(
+            "--reason",
+            help="Named-skill removal only: human-readable reason logged to "
+                 "the parent suite's timeline (e.g. upstream CHANGELOG note).",
+        )
         _add_build_flags(dev_rm, "removing")
         dev_rm.add_argument(
             "--yes", "-y", "--y", action="store_true", help="Skip confirmation prompt"

@@ -10,7 +10,7 @@ level: 4★
 description: Productivity category suite for Matt Pocock's skills. Removed from mattpocock/skills
   suite in v1.0.1.
 createdAt: '2026-05-21'
-updatedAt: '2026-07-20'
+updatedAt: '2026-08-06'
 trustMagnitude: 120.0
 overallTrustGrade: A
 apexGateStatus:
@@ -39,9 +39,14 @@ timeline:
     II taxonomy migration #997)'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-20
+- timestamp: '2026-08-06T00:03:12Z'
+  action: upstream_deprecated
+  contributor: unknown
+  details: 'Component mattpocock/caveman permanently removed (not frozen) from this
+    suite: Author''s CHANGELOG: caveman was a duplicate of another skill being tested
+    and was never meant to be public. No replacement. (Issue #1453)'
 suiteRef: mattpocock/skills
 suiteComponents:
-- mattpocock/caveman
 - mattpocock/grill-me
 - mattpocock/handoff
 - mattpocock/write-a-skill
@@ -49,7 +54,7 @@ trustMagnitudeInputHash: aa642025793e17cfcbb52c5a22e59c701ec8ac599342bec37e02979
 ---
 ## Overview
 
-The Matt Pocock Productivity Suite bundles four skills that optimise the agent-developer feedback loop: Caveman Mode compresses communication to save tokens by dropping articles and filler words; Grill Me conducts a one-question-at-a-time design interview, substituting codebase exploration for empirically answerable questions; Handoff compacts the current conversation into a summary ready for a fresh agent context; and Write a Skill scaffolds new agent skills through a structured interview that produces a trigger-aware SKILL.md with progressive-disclosure layout. The suite covers the cognitive overhead of working with agents — prompt economy, design clarity, context continuity, and skill authoring.
+The Matt Pocock Productivity Suite bundles three skills that optimise the agent-developer feedback loop: Grill Me conducts a one-question-at-a-time design interview, substituting codebase exploration for empirically answerable questions; Handoff compacts the current conversation into a summary ready for a fresh agent context; and Write a Skill scaffolds new agent skills through a structured interview that produces a trigger-aware SKILL.md with progressive-disclosure layout. The suite covers the cognitive overhead of working with agents — prompt economy, design clarity, context continuity, and skill authoring.
 
 ## Installation
 

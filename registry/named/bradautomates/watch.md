@@ -1,6 +1,6 @@
 ---
-id: bradautomates/claude-video
-name: Claude Video
+id: bradautomates/watch
+name: Watch
 contributor: bradautomates
 origin: true
 genericSkillRef: video-intelligence
@@ -10,13 +10,13 @@ level: 2★
 description: Enables AI agents to watch videos by downloading them, extracting frames,
   and transcribing audio for multimodal analysis.
 links:
-  github: https://github.com/bradautomates/claude-video/blob/main/SKILL.md
+  github: https://github.com/bradautomates/claude-video/blob/main/skills/watch/SKILL.md
 tags:
 - video
 - multimodal
 - vision
 createdAt: '2026-05-14'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-06'
 evidence:
 - class: B
   source: https://github.com/bradautomates/claude-video
@@ -70,6 +70,18 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T17:13:00Z'
   details: TM 1.22 -> 37.47, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-08-06T04:54:09Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/bradautomates/claude-video/blob/main/skills/watch/SKILL.md
+- timestamp: '2026-08-06T11:14:51Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/bradautomates/claude-video/blob/main/skills/watch/SKILL.md
+- timestamp: '2026-08-06T11:14:57Z'
+  action: rename
+  contributor: unknown
+  details: Renamed named skill from bradautomates/claude-video to bradautomates/watch
 trustMagnitude: 37.47
 overallTrustGrade: C
 apexGateStatus:

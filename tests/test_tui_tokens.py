@@ -15,8 +15,19 @@ import re
 from pathlib import Path
 
 import pytest
-pytestmark = [pytest.mark.integration]
+pytestmark = [pytest.mark.integration, pytest.mark.tui]
 
+# gaia_cli.tui.__init__ unconditionally imports gaia_cli.tui.app, which
+# imports `textual` — an optional dep (pyproject `[tui]`/`[dev]` extra).
+# Without it installed, even `from gaia_cli.tui import tokens` raises
+# ImportError, so every test in this file needs textual present. Skip
+# cleanly instead of failing when a dev hasn't installed it locally
+# (gaia-skill-tree#1458).
+pytest.importorskip(
+    "textual",
+    reason="TUI token tests require the optional 'textual' package "
+    "(install with `pip install -e \".[tui]\"` or `\".[dev]\"`).",
+)
 
 
 REPO_ROOT = Path(__file__).resolve().parent.parent

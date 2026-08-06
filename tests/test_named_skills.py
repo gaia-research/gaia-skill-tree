@@ -12,6 +12,18 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+
+def _mock_run_git_seeds_skill_md(args, cwd=None):
+    """Seed the resolved skill subpath with a real SKILL.md so the
+    post-#1441 validation in _install_single passes."""
+    if args and args[0] == "clone":
+        skill_dir = os.path.join(args[-1], "my-skill")
+        os.makedirs(skill_dir, exist_ok=True)
+        with open(os.path.join(skill_dir, "SKILL.md"), "w") as f:
+            f.write("# My Skill\n")
+    return True
+
+
 class TestNamedSkillFrontmatter(unittest.TestCase):
     """Test YAML frontmatter parsing in generateNamedIndex."""
 
@@ -139,7 +151,7 @@ class TestInstallModule(unittest.TestCase):
         import shutil
         shutil.rmtree(self.tmp, ignore_errors=True)
 
-    @patch("gaia_cli.install._run_git", return_value=True)
+    @patch("gaia_cli.install._run_git", side_effect=_mock_run_git_seeds_skill_md)
     def test_install_creates_manifest(self, mock_run_git):
         """install_skill creates .gaia/install-manifest.json."""
         from gaia_cli.install import install_skill, get_manifest_path, load_manifest
@@ -150,7 +162,7 @@ class TestInstallModule(unittest.TestCase):
         ids = [e["id"] for e in manifest["installed"]]
         self.assertIn("alice/my-skill", ids)
 
-    @patch("gaia_cli.install._run_git", return_value=True)
+    @patch("gaia_cli.install._run_git", side_effect=_mock_run_git_seeds_skill_md)
     def test_uninstall_removes_from_manifest(self, mock_run_git):
         """uninstall_skill removes entry from manifest."""
         from gaia_cli.install import install_skill, uninstall_skill, load_manifest
@@ -166,7 +178,7 @@ class TestInstallModule(unittest.TestCase):
         result = install_skill("nobody/fake-skill", self.registry)
         self.assertFalse(result)
 
-    @patch("gaia_cli.install._run_git", return_value=True)
+    @patch("gaia_cli.install._run_git", side_effect=_mock_run_git_seeds_skill_md)
     def test_install_handles_leading_slash(self, mock_run_git):
         """install_skill handles leading slash in skill ID."""
         from gaia_cli.install import install_skill, load_manifest
@@ -193,7 +205,7 @@ class TestInstallModule(unittest.TestCase):
             skills_command(args)
         self.assertIn("alice/my-skill", buf.getvalue())
 
-    @patch("gaia_cli.install._run_git", return_value=True)
+    @patch("gaia_cli.install._run_git", side_effect=_mock_run_git_seeds_skill_md)
     def test_update_skills_pulls_repos(self, mock_run_git):
         """update_skills runs git pull on installed repos."""
         import io

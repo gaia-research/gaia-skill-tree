@@ -9,7 +9,7 @@ level: 3★
 description: Creates the pull request, runs review, archives the completed phase,
   and prepares the next iteration.
 createdAt: '2026-07-03'
-updatedAt: '2026-07-03'
+updatedAt: '2026-08-06'
 timeline:
 - timestamp: '2026-07-02T18:04:52Z'
   action: add
@@ -60,6 +60,10 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 3★
+- timestamp: '2026-08-06T04:54:32Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/ship.md
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/ship.md
   updatedAt: '2026-08-01'
@@ -93,7 +97,7 @@ apexGateStatus:
   systemWideCap: null
 trustMagnitudeInputHash: 3dfda9583775f46f9fcc81ddbbed752729906411f811523152e48513c443a2b5
 links:
-  github: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/ship.md
+  github: https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/ship.md
 ---
 
 ## Installation

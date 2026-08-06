@@ -17,7 +17,6 @@
       },
       "genericSkillRef": "skill-mastery",
       "suiteComponents": [
-        "mattpocock/caveman",
         "mattpocock/diagnose",
         "mattpocock/edit-article",
         "mattpocock/engineering",
@@ -82,7 +81,6 @@
       },
       "genericSkillRef": "productivity",
       "suiteComponents": [
-        "mattpocock/caveman",
         "mattpocock/grill-me",
         "mattpocock/handoff",
         "mattpocock/write-a-skill"
@@ -333,22 +331,6 @@
       "genericSkillRef": "prototype"
     },
     {
-      "id": "mattpocock/caveman",
-      "name": "Caveman Mode",
-      "level": "2★",
-      "trustMagnitude": 30.0,
-      "overallTrustGrade": "C",
-      "contributor": "mattpocock",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/caveman.json"
-      },
-      "genericSkillRef": "context-compression"
-    },
-    {
       "id": "mattpocock/teach",
       "name": "Teach",
       "level": "2★",
@@ -365,18 +347,18 @@
       "genericSkillRef": "knowledge-management"
     }
   ],
-  "namedSkillsCount": 20,
+  "namedSkillsCount": 19,
   "topSkill": {
     "id": "mattpocock/skills",
     "level": "5★",
     "trustMagnitude": 480.29
   },
-  "prestigeScore": 1910.66,
+  "prestigeScore": 1880.66,
   "gradeDistribution": {
     "S": 1,
     "A": 2,
     "B": 12,
-    "C": 4,
+    "C": 3,
     "ungraded": 1
   },
   "_links": {

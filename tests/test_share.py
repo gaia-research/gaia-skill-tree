@@ -252,11 +252,22 @@ class TestBundlePreview:
 # ─── consumer install flow ─────────────────────────────────────────────────────
 
 
-def _mock_git(monkeypatch, tmp_path):
-    """Mock git clone + cache dir so install runs offline."""
+def _mock_git(monkeypatch, tmp_path, subpaths=("skill-a", "skill-b", "one", "two")):
+    """Mock git clone + cache dir so install runs offline.
+
+    Seeds each of ``subpaths`` with a real SKILL.md so the post-#1441
+    existence/SKILL.md validation in _install_single passes for the skill
+    subpaths this test module's fixtures reference.
+    """
     def mock_run_git(args, cwd=None):
         if args and args[0] == "clone":
-            os.makedirs(args[-1], exist_ok=True)
+            dest = args[-1]
+            os.makedirs(dest, exist_ok=True)
+            for sp in subpaths:
+                skill_dir = os.path.join(dest, sp)
+                os.makedirs(skill_dir, exist_ok=True)
+                with open(os.path.join(skill_dir, "SKILL.md"), "w", encoding="utf-8") as f:
+                    f.write(f"# {sp}\n")
         return True
 
     monkeypatch.setattr("gaia_cli.install._run_git", mock_run_git)

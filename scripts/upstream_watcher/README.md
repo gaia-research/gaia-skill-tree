@@ -16,9 +16,10 @@ For each named skill with `suiteComponents` at 2★+:
    - **Bootstrap** — no `upstream:` block yet (first run).
    - **Update** — stored version differs from latest release.
    - _(no finding)_ — already up-to-date.
-4. **In `components` mode** (all components point to subpaths in the same repo):
+4. **In `components` mode** (all components point to subpaths in the same repo), for **update** findings only:
    - Diffs the upstream release tree to detect component adds/removes.
    - HEAD-checks each component's `links.github` URL for liveness.
+   - **Name drift** (issue #1457): fetches each component's upstream `SKILL.md`, sanitizes its frontmatter `name` the same way `npx skills add` does, and compares it to the registry slug. A mismatch is reported with the exact `gaia dev rename <old-id> <new-id>` fix — this is the same divergence `scripts/install_parity.py` would eventually catch as `DIRNAME_MISMATCH`, surfaced earlier, at release time.
 5. **Outputs** findings as a markdown report (`--dry-run`) or creates GitHub issues (`--apply`).
 
 ---
@@ -82,6 +83,7 @@ scripts/upstream_watcher/
 ├── watcher.py          # Main entry point (CLI flags, poll loop, dry-run report)
 ├── finder.py           # Suite enumeration, mode detection, finding computation
 ├── liveness.py         # Link liveness checks, blob→raw URL conversion, component diff
+├── name_drift.py       # SKILL.md frontmatter name-drift detection (issue #1457)
 ├── issuer.py           # Issue body renderers, idempotency checks, gh issue create
 ├── tests/
 │   └── test_upstream_watcher.py  # Unit tests (all API calls mocked)

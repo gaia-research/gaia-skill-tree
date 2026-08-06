@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-05",
+  "generatedAt": "2026-08-06",
   "buckets": {
     "automated-testing": [
       {
@@ -3134,7 +3134,7 @@
         "title": "GSD Ship Phase",
         "installable": true,
         "links": {
-          "github": "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/ship.md"
+          "github": "https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/ship.md"
         },
         "evidence": [
           {
@@ -3157,7 +3157,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-07-03",
+        "updatedAt": "2026-08-06",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:04:52Z",
@@ -3229,6 +3229,12 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-08-06T04:54:32Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/ship.md"
           }
         ],
         "suiteRef": "gsd-build/get-shit-done",
@@ -5186,8 +5192,8 @@
     ],
     "video-intelligence": [
       {
-        "id": "bradautomates/claude-video",
-        "name": "Claude Video",
+        "id": "bradautomates/watch",
+        "name": "Watch",
         "contributor": "bradautomates",
         "origin": true,
         "genericSkillRef": "video-intelligence",
@@ -5201,7 +5207,7 @@
           "vision"
         ],
         "links": {
-          "github": "https://github.com/bradautomates/claude-video/blob/main/SKILL.md"
+          "github": "https://github.com/bradautomates/claude-video/blob/main/skills/watch/SKILL.md"
         },
         "evidence": [
           {
@@ -5228,7 +5234,7 @@
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-06",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:17Z",
@@ -5272,6 +5278,24 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T17:13:00Z",
             "details": "TM 1.22 -> 37.47, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-08-06T04:54:09Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/bradautomates/claude-video/blob/main/skills/watch/SKILL.md"
+          },
+          {
+            "timestamp": "2026-08-06T11:14:51Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/bradautomates/claude-video/blob/main/skills/watch/SKILL.md"
+          },
+          {
+            "timestamp": "2026-08-06T11:14:57Z",
+            "action": "rename",
+            "contributor": "unknown",
+            "details": "Renamed named skill from bradautomates/claude-video to bradautomates/watch"
           }
         ],
         "trustMagnitude": 37.47,
@@ -5948,8 +5972,8 @@
     ],
     "browser-automation": [
       {
-        "id": "browserbase/stagehand",
-        "name": "Stagehand",
+        "id": "browserbase/browse",
+        "name": "Browse",
         "contributor": "browserbase",
         "origin": false,
         "genericSkillRef": "browser-automation",
@@ -5964,10 +5988,10 @@
           "sdk"
         ],
         "links": {
-          "github": "https://github.com/browserbase/stagehand"
+          "github": "https://github.com/browserbase/stagehand/blob/main/packages/cli/skills/browse/SKILL.md"
         },
         "createdAt": "2026-05-17",
-        "updatedAt": "2026-05-17",
+        "updatedAt": "2026-08-06",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -5989,6 +6013,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-06T11:14:35Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/browserbase/stagehand/blob/main/packages/cli/skills/browse/SKILL.md"
+          },
+          {
+            "timestamp": "2026-08-06T11:14:40Z",
+            "action": "rename",
+            "contributor": "unknown",
+            "details": "Renamed named skill from browserbase/stagehand to browserbase/browse"
           }
         ],
         "trustMagnitude": 0.0,
@@ -6667,9 +6703,7 @@
         "level": "1★",
         "description": "Applies deliberate judgment before writing code: evaluating whether to implement at all, scoping to the minimum needed, deferring or rejecting features that add complexity without proportionate value.",
         "title": "Implement With Discernment",
-        "links": {
-          "github": "https://github.com/rico-favor/gaia-skill-tree/blob/main/CLAUDE.md"
-        },
+        "installable": false,
         "evidence": [
           {
             "source": "https://github.com/rico-favor/gaia-skill-tree",
@@ -6684,7 +6718,7 @@
           }
         ],
         "createdAt": "2026-07-09",
-        "updatedAt": "2026-07-09",
+        "updatedAt": "2026-08-06",
         "timeline": [
           {
             "timestamp": "2026-07-08T21:02:12Z",
@@ -6721,6 +6755,12 @@
             "action": "demote",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 1★"
+          },
+          {
+            "timestamp": "2026-08-06T04:54:22Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Set installable to false"
           }
         ],
         "type": "basic",
@@ -8700,14 +8740,12 @@
         "level": "2★",
         "description": "Cost and token observability tool for tracking AI coding agent spending across models and projects.",
         "title": "The Ledger of Light",
+        "installable": false,
         "tags": [
           "observability",
           "cost",
           "tokens"
         ],
-        "links": {
-          "github": "https://github.com/getagentseal/codeburn"
-        },
         "evidence": [
           {
             "class": "B",
@@ -8723,7 +8761,7 @@
           }
         ],
         "createdAt": "2026-05-14",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-06",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:27Z",
@@ -8750,6 +8788,12 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:38Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-08-06T04:54:17Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Set installable to false"
           }
         ],
         "trustMagnitude": 36.0,
@@ -10485,78 +10529,180 @@
         "contractVersion": "gaia-public-v1"
       },
       {
-        "id": "mattpocock/caveman",
-        "name": "Caveman Mode",
-        "contributor": "mattpocock",
+        "id": "juliusbrussee/caveman",
+        "name": "Caveman",
+        "contributor": "juliusbrussee",
         "origin": false,
         "genericSkillRef": "context-compression",
         "status": "named",
-        "level": "2★",
-        "description": "An ultra-compressed communication mode designed to save tokens by dropping articles and filler words. Removed from mattpocock/skills suite in v1.0.1.",
-        "title": "The Caveman Console",
-        "installable": false,
+        "level": "1★",
+        "description": "Ultra-compressed agent communication mode that strips articles, filler words, and narration from prompts/output to cut token usage; ships lite/full/ultra intensity tiers plus wenyan variants and multi-agent support.",
+        "title": "The Caveman Codex",
+        "installable": true,
         "links": {
-          "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/caveman"
+          "github": "https://github.com/JuliusBrussee/caveman/blob/main/skills/caveman/SKILL.md"
         },
         "evidence": [
           {
-            "source": "https://github.com/mattpocock/skills/issues/189",
+            "source": "https://github.com/JuliusBrussee/caveman",
             "evaluator": "mbtiongson1",
-            "date": "2026-06-19",
-            "type": "peer-review",
-            "class": "A",
-            "notes": "GitHub issue about caveman skill feature request.",
-            "grade": "C"
+            "date": "2026-08-06",
+            "type": "repo-own",
+            "notes": "Primary source / official repository. Standalone, MIT-licensed, actively maintained; dedicated site at caveman.so. Star count verified live 2026-08-06: 96.2k (consistent with discovery-packet figure of 96,128). Repo predates the now-removed mattpocock/skills copy by 13 days (created 2026-04-04 vs. 2026-04-17). README's own ~65-75% output-token-reduction claim is self-reported and NOT independently corroborated -- see benchmark-result rows below, both of which measure substantially lower real-world savings (31% and 9%).",
+            "commits": 263
+          },
+          {
+            "source": "https://github.com/yuritoledo/caveman-skill",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-06",
+            "type": "proxy-containment",
+            "notes": "Independent fork / alternative implementation, similar token-cut claims (75%) to the primary source; 3 commits. Classified proxy-containment per founder ruling on PR #1464 (2026-08-06): \"Independent forks can be considered proxy evidence.\" Weighted as proxy evidence, not equivalent to a primary-source benchmark; TM formula requires externalStars>=10000 to score (no star count supplied for this fork -- CLI currently has no --external-stars flag to record one; row is audit-trail evidence, contributes 0 to Trust Magnitude)."
+          },
+          {
+            "source": "https://github.com/Shawnchee/caveman-skill",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-06",
+            "type": "proxy-containment",
+            "notes": "Independent fork / alternative implementation focused on removing narration/filler text; measured ~61% average reduction (self-reported by fork). 69 stars, 9 forks, 6 commits (well below the 10,000-external-star TM scoring floor for proxy-containment). Classified proxy-containment per the same founder ruling (independent forks count as proxy evidence, not primary validation)."
+          },
+          {
+            "source": "https://getcaveman.dev/",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-06",
+            "type": "proxy-containment",
+            "notes": "Commercial / product extension per founder's own type label on PR #1464 (\"Commercial / product extension\") -- a third-party full-stack build on the same capability (gateway, memory layer, a Caveman Code agent) claiming ~2x fewer tokens. Also mirrored at https://caveman.so. NOT an independent fork of the repository and NOT independent validation of the primary skill's efficiency claim -- it is a commercial consumer/extension of the capability, weighted and classified accordingly (vendor-claim language excluded from scoring framing)."
+          },
+          {
+            "source": "https://openagentskills.dev/skills/mattpocock-skills-skills-productivity-caveman",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-06",
+            "type": "social-signal",
+            "notes": "Ecosystem / distribution evidence -- listed across multiple third-party skill registries (OpenAgentSkills, ClaudSkills, 8Labs docs) with install stats and multi-agent packaging references. Factual note: this URL slug still points at the old mattpocock-skills path rather than juliusbrussee/caveman; third-party re-indexing to the true-owner repo is outside this pipeline's scope. LINK DEAD as of Phase 4 (2026-08-06): HTTP 404 Not Found. No view-count metric supplied by source, so no --views passed (would score 0 under the 1000-view floor regardless). Flagged, not formally disputed: gaia dev verify --dispute requires genuine 4-star Verifier status, which no actor holds in this registry yet."
+          },
+          {
+            "source": "https://8labs.id/guides/opencode/caveman/",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-06",
+            "type": "social-signal",
+            "notes": "Documentation / adoption guide -- practical install/usage instructions for coding agents (OpenCode) adopting caveman. Guide last updated 2026-07-28. No view-count metric supplied by source, so no --views passed."
           }
         ],
-        "createdAt": "2026-05-21",
-        "updatedAt": "2026-08-05",
+        "createdAt": "2026-08-06",
+        "updatedAt": "2026-08-06",
         "timeline": [
           {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-18T11:27:18Z",
-            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+            "timestamp": "2026-08-06T05:11:31Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill juliusbrussee/caveman"
           },
           {
-            "timestamp": "2026-06-19T12:32:52Z",
+            "timestamp": "2026-08-06T05:11:52Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-08-06T05:11:52Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/JuliusBrussee/caveman/blob/main/skills/caveman/SKILL.md"
+          },
+          {
+            "timestamp": "2026-08-06T05:11:52Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Set installable to true"
+          },
+          {
+            "timestamp": "2026-08-06T05:13:07Z",
             "action": "evidence_added",
             "contributor": "unknown",
-            "details": "Added evidence from https://github.com/mattpocock/skills/issues/189 (type: peer-review)"
+            "details": "Added evidence from https://github.com/JuliusBrussee/caveman (type: repo-own)"
           },
           {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T12:53:50Z",
-            "details": "TM 0.0 -> 30.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:19:38Z",
-            "details": "TM 0.0 -> 30.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:26:41Z",
-            "details": "TM 0.0 -> 30.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-06-20T06:31:30Z",
-            "action": "demote",
-            "contributor": "mbtiongson1",
-            "details": "Level updated from 3★ to 2★ per G7 final rankings calibration."
-          },
-          {
-            "timestamp": "2026-08-05T06:27:25Z",
-            "action": "upstream_deprecated",
+            "timestamp": "2026-08-06T05:13:08Z",
+            "action": "evidence_added",
             "contributor": "unknown",
-            "previousValue": null,
-            "newValue": null,
-            "details": "Removed upstream in mattpocock/skills — author's CHANGELOG: 'caveman was a duplicate of another skill I was testing and was never meant to be public.' No replacement."
+            "details": "Added evidence from https://sovgrid.org/blog/caveman-local-benchmark (type: benchmark-result)"
+          },
+          {
+            "timestamp": "2026-08-06T05:13:27Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.techtimes.com/articles/320756/20260716/jetbrains-tests-caveman-token-skill-86-real-tasks-savings-hit-9-not-65.htm (type: benchmark-result)"
+          },
+          {
+            "timestamp": "2026-08-06T05:13:27Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/yuritoledo/caveman-skill (type: proxy-containment)"
+          },
+          {
+            "timestamp": "2026-08-06T05:13:28Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/Shawnchee/caveman-skill (type: proxy-containment)"
+          },
+          {
+            "timestamp": "2026-08-06T05:13:29Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://getcaveman.dev/ (type: proxy-containment)"
+          },
+          {
+            "timestamp": "2026-08-06T05:13:40Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://openagentskills.dev/skills/mattpocock-skills-skills-productivity-caveman (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-08-06T05:13:41Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://8labs.id/guides/opencode/caveman/ (type: social-signal)"
+          },
+          {
+            "timestamp": "2026-08-06T05:14:34Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Updated evidence #2 metadata from https://www.techtimes.com/articles/320756/20260716/jetbrains-tests-caveman-token-skill-86-real-tasks-savings-hit-9-not-65.htm; changed notes"
+          },
+          {
+            "timestamp": "2026-08-06T05:14:35Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Updated evidence #6 metadata from https://openagentskills.dev/skills/mattpocock-skills-skills-productivity-caveman; changed notes"
+          },
+          {
+            "timestamp": "2026-08-06T05:15:47Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Calibrated conservatively at 1-star on intake (Phase 3 ev-adversarial-audit, 2026-08-06), not bumped to 2-star despite Class C-eligible primary-source repo-own evidence. Rationale: real primary source (96.2k stars, MIT, 263 commits, true-owner per PR #1464) plus real adoption/distribution signal (2 independent forks + commercial extensions + a live doc guide), but the skill's own ~65-75% token-reduction claim is substantially undercut by independent measurement -- sovgrid.org's own benchmark measured only ~31%, and the JetBrains/TechTimes agent benchmark measured only ~9% before its source link went dead (403). Both benchmark-result rows are provenance=pending (registry/benchmark-sources.json candidates awaiting human-gate promotion) and score zero Trust Magnitude as recorded. Rank reflects the gap between marketing claim and independent evidence honestly rather than the skill's own framing."
+          },
+          {
+            "timestamp": "2026-08-06T05:17:30Z",
+            "action": "evidence_removed",
+            "contributor": "unknown",
+            "details": "Removed dead/invalid evidence: https://sovgrid.org/blog/caveman-local-benchmark"
+          },
+          {
+            "timestamp": "2026-08-06T05:17:31Z",
+            "action": "evidence_removed",
+            "contributor": "unknown",
+            "details": "Removed dead/invalid evidence: https://www.techtimes.com/articles/320756/20260716/jetbrains-tests-caveman-token-skill-86-real-tasks-savings-hit-9-not-65.htm"
+          },
+          {
+            "timestamp": "2026-08-06T11:12:46Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Clarification: the 2026-08-06T05:17:30Z removal of the sovgrid.org/blog/caveman-local-benchmark benchmark-result row was mislabeled 'dead/invalid evidence' in that entry's details. The source was verified LIVE (Phase 4 link validation, 2026-08-06) -- it was withdrawn because scripts/generateBenchmarkProjection.py requires a pre-existing benchmarkId in registry/benchmark-sources.json and no gaia dev verb exists to register one; forcing it through would have bypassed the human-gate promotion this pipeline explicitly avoids. Only the TechTimes/JetBrains row (403 dead) was actually dead. This note corrects the record rather than rewriting the prior entry."
           }
         ],
-        "suiteRef": "mattpocock/productivity",
-        "trustMagnitude": 30.0,
-        "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "b465d715e6b28aa3c1fcc03f36ba73520d63fee9cba499c0e2c70600c1bcd51e",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 0.79,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -10567,12 +10713,9 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "basic",
-        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant",
         "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
+        "rank": 1,
+        "rankWord": "Awakened",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
       }
@@ -16058,7 +16201,7 @@
         "title": "GSD Discuss Phase",
         "installable": true,
         "links": {
-          "github": "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/discuss-phase.md"
+          "github": "https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/discuss-phase.md"
         },
         "evidence": [
           {
@@ -16081,7 +16224,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-07-03",
+        "updatedAt": "2026-08-06",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:04:47Z",
@@ -16159,6 +16302,12 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-08-06T04:54:30Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/discuss-phase.md"
           }
         ],
         "suiteRef": "gsd-build/get-shit-done",
@@ -16420,7 +16569,7 @@
         "title": "GSD Execute Phase",
         "installable": true,
         "links": {
-          "github": "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/execute-phase.md"
+          "github": "https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/execute-phase.md"
         },
         "evidence": [
           {
@@ -16443,7 +16592,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-07-03",
+        "updatedAt": "2026-08-06",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:04:49Z",
@@ -16515,6 +16664,12 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-08-06T04:54:31Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/execute-phase.md"
           }
         ],
         "suiteRef": "gsd-build/get-shit-done",
@@ -16890,7 +17045,7 @@
         "title": "GSD Plan Phase",
         "installable": true,
         "links": {
-          "github": "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/plan-phase.md"
+          "github": "https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/plan-phase.md"
         },
         "evidence": [
           {
@@ -16913,7 +17068,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-07-03",
+        "updatedAt": "2026-08-06",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:04:48Z",
@@ -16985,6 +17140,12 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-08-06T04:54:31Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/plan-phase.md"
           }
         ],
         "suiteRef": "gsd-build/get-shit-done",
@@ -17187,7 +17348,7 @@
         "title": "GSD Verify Work",
         "installable": true,
         "links": {
-          "github": "https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/verify-work.md"
+          "github": "https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/verify-work.md"
         },
         "evidence": [
           {
@@ -17210,7 +17371,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-07-03",
+        "updatedAt": "2026-08-06",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:04:50Z",
@@ -17282,6 +17443,12 @@
             "action": "rank_up",
             "contributor": "unknown",
             "details": "Calibrated level from 2★ to 3★"
+          },
+          {
+            "timestamp": "2026-08-06T04:54:33Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/verify-work.md"
           }
         ],
         "suiteRef": "gsd-build/get-shit-done",
@@ -19779,15 +19946,13 @@
         "description": "Guides an AI agent through upgrading a Laravel 12 application to Laravel 13 safely, covering breaking changes, dependency updates, config migrations, and post-upgrade test validation.",
         "title": "The Versionist's Trial",
         "catalogRef": "laravel-upgrade-laravel-v13",
+        "installable": false,
         "tags": [
           "laravel",
           "php",
           "framework-upgrade",
           "migration"
         ],
-        "links": {
-          "github": "https://github.com/laravel/boost/issues/698"
-        },
         "evidence": [
           {
             "class": "B",
@@ -19803,7 +19968,7 @@
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-06",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:42Z",
@@ -19830,6 +19995,12 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:40Z",
             "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-08-06T04:54:18Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Set installable to false"
           }
         ],
         "trustMagnitude": 36.0,
@@ -21077,7 +21248,7 @@
         "description": "Productivity category suite for Matt Pocock's skills. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Matt Pocock Productivity Suite",
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-07-20",
+        "updatedAt": "2026-08-06",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -21101,11 +21272,16 @@
             "details": "Generic parent 'productivity' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-20"
+          },
+          {
+            "timestamp": "2026-08-06T00:03:12Z",
+            "action": "upstream_deprecated",
+            "contributor": "unknown",
+            "details": "Component mattpocock/caveman permanently removed (not frozen) from this suite: Author's CHANGELOG: caveman was a duplicate of another skill being tested and was never meant to be public. No replacement. (Issue #1453)"
           }
         ],
         "suiteRef": "mattpocock/skills",
         "suiteComponents": [
-          "mattpocock/caveman",
           "mattpocock/grill-me",
           "mattpocock/handoff",
           "mattpocock/write-a-skill"
@@ -21544,7 +21720,7 @@
           }
         ],
         "createdAt": "2026-05-22",
-        "updatedAt": "2026-07-20",
+        "updatedAt": "2026-08-06",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -21657,10 +21833,15 @@
             "details": "Generic parent 'skill-mastery' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-20"
+          },
+          {
+            "timestamp": "2026-08-06T00:03:12Z",
+            "action": "upstream_deprecated",
+            "contributor": "unknown",
+            "details": "Component mattpocock/caveman permanently removed (not frozen) from this suite: Author's CHANGELOG: caveman was a duplicate of another skill being tested and was never meant to be public. No replacement. (Issue #1453)"
           }
         ],
         "suiteComponents": [
-          "mattpocock/caveman",
           "mattpocock/diagnose",
           "mattpocock/edit-article",
           "mattpocock/engineering",
@@ -23194,6 +23375,7 @@
         "description": "Continuous monitoring of content feeds with intelligent discovery and state tracking.",
         "title": "The Signal Scout",
         "catalogRef": "nousresearch-feed-monitoring",
+        "installable": false,
         "tags": [
           "rss",
           "feeds",
@@ -23201,9 +23383,6 @@
           "signal-discovery",
           "unique"
         ],
-        "links": {
-          "github": "https://github.com/NousResearch/hermes-agent"
-        },
         "evidence": [
           {
             "class": "B",
@@ -23219,7 +23398,7 @@
           }
         ],
         "createdAt": "2026-05-15",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-06",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:48:19Z",
@@ -23258,6 +23437,12 @@
             "action": "rank_up",
             "contributor": "mbtiongson1",
             "details": "Level updated from 1★ to 2★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-06T04:54:19Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Set installable to false"
           }
         ],
         "trustMagnitude": 36.0,
@@ -28279,6 +28464,7 @@
         "description": "Autonomous Claude agent that generates comprehensive unittest.TestCase suites from source code, organising tests into concept-based subfolders under a tests/ directory with proper imports, fixtures, and edge-case coverage.",
         "title": "The Test Weaver",
         "catalogRef": "upsonic-unittest-generator",
+        "installable": false,
         "tags": [
           "unit-testing",
           "unittest",
@@ -28286,9 +28472,6 @@
           "python",
           "autonomous-agent"
         ],
-        "links": {
-          "github": "https://github.com/Upsonic/Upsonic"
-        },
         "evidence": [
           {
             "source": "https://arxiv.org/abs/2403.16218",
@@ -28318,7 +28501,7 @@
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-06",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -28367,6 +28550,12 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T13:26:45Z",
             "details": "TM 0.0 -> 33.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-08-06T04:54:20Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Set installable to false"
           }
         ],
         "trustMagnitude": 33.0,
@@ -28877,6 +29066,7 @@
       "status": "awakened",
       "level": "2★",
       "description": "Builds and validates repository documentation as a pre-PR guardrail by reminding contributors to run the local docs drift check, then surfaces actionable regeneration commands so pull requests do not fail CI on documentation freshness.",
+      "installable": false,
       "tags": [
         "documentation",
         "ci",
@@ -28884,9 +29074,6 @@
         "quality-gate",
         "repo-maintenance"
       ],
-      "links": {
-        "github": "https://github.com/gaia-research/gaia-skill-tree"
-      },
       "evidence": [
         {
           "class": "B",
@@ -28902,7 +29089,7 @@
         }
       ],
       "createdAt": "2026-05-01",
-      "updatedAt": "2026-06-21",
+      "updatedAt": "2026-08-06",
       "timeline": [
         {
           "timestamp": "2026-06-10T05:38:16Z",
@@ -28935,6 +29122,12 @@
           "action": "migrate_trust_magnitude",
           "timestamp": "2026-06-19T13:26:36Z",
           "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+        },
+        {
+          "timestamp": "2026-08-06T04:54:21Z",
+          "action": "note",
+          "contributor": "unknown",
+          "details": "Set installable to false"
         }
       ],
       "trustMagnitude": 36.0,
@@ -34319,12 +34512,10 @@
       "status": "awakened",
       "level": "1★",
       "description": "Classifies the affective polarity (positive / negative / neutral, or fine-grained) of user-generated text. Covers the full pipeline from raw noisy input through preprocessing, inference, and output normalisation. Stack is intentionally tool-agnostic — three implementation tracks are documented below.\n",
-      "links": {
-        "github": "https://github.com/pexp13/basic-nlp-text-processor-python/blob/main/SKILL.md"
-      },
+      "installable": false,
       "evidence": [],
       "createdAt": "2026-05-17",
-      "updatedAt": "2026-08-01",
+      "updatedAt": "2026-08-06",
       "timeline": [
         {
           "action": "migrate_trust_magnitude",
@@ -34422,6 +34613,12 @@
           "action": "demote",
           "contributor": "mbtiongson1",
           "details": "Calibrated level from 4★ to 1★"
+        },
+        {
+          "timestamp": "2026-08-06T04:54:19Z",
+          "action": "note",
+          "contributor": "unknown",
+          "details": "Set installable to false"
         }
       ],
       "trustMagnitude": 0.0,
@@ -34830,13 +35027,13 @@
       "ayghri/i-have-adhd"
     ],
     "bradautomates": [
-      "bradautomates/claude-video"
+      "bradautomates/watch"
     ],
     "browser-use": [
       "browser-use/browser-harness"
     ],
     "browserbase": [
-      "browserbase/stagehand"
+      "browserbase/browse"
     ],
     "caioribeiroclw-pixel": [
       "caioribeiroclw-pixel/evidence-attestation"
@@ -35008,6 +35205,9 @@
       "intelligentcode-ai/security-engineer",
       "intelligentcode-ai/user-tester"
     ],
+    "juliusbrussee": [
+      "juliusbrussee/caveman"
+    ],
     "k-dense-ai": [
       "k-dense-ai/deepchem",
       "k-dense-ai/pymc",
@@ -35038,7 +35238,6 @@
     ],
     "mattpocock": [
       "mattpocock/ask-matt",
-      "mattpocock/caveman",
       "mattpocock/codebase-design",
       "mattpocock/diagnose",
       "mattpocock/diagnosing-bugs",

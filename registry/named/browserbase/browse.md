@@ -1,6 +1,6 @@
 ---
-id: browserbase/stagehand
-name: Stagehand
+id: browserbase/browse
+name: Browse
 contributor: browserbase
 origin: false
 genericSkillRef: browser-automation
@@ -11,13 +11,13 @@ level: 1★
 description: SDK for browser agents that combines deterministic browser automation
   with AI-assisted page interaction.
 links:
-  github: https://github.com/browserbase/stagehand
+  github: https://github.com/browserbase/stagehand/blob/main/packages/cli/skills/browse/SKILL.md
 tags:
 - browser-automation
 - agent
 - sdk
 createdAt: '2026-05-17'
-updatedAt: '2026-05-17'
+updatedAt: '2026-08-06'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -43,6 +43,14 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
+- timestamp: '2026-08-06T11:14:35Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/browserbase/stagehand/blob/main/packages/cli/skills/browse/SKILL.md
+- timestamp: '2026-08-06T11:14:40Z'
+  action: rename
+  contributor: unknown
+  details: Renamed named skill from browserbase/stagehand to browserbase/browse
 trustMagnitudeInputHash: b81d88b6ee558769dea22df8e932d30b04e14b472875d4dbfa05ec7fc89b6625
 ---
 

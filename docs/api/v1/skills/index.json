@@ -145,7 +145,6 @@
       },
       "genericSkillRef": "skill-mastery",
       "suiteComponents": [
-        "mattpocock/caveman",
         "mattpocock/diagnose",
         "mattpocock/edit-article",
         "mattpocock/engineering",
@@ -555,7 +554,6 @@
       },
       "genericSkillRef": "productivity",
       "suiteComponents": [
-        "mattpocock/caveman",
         "mattpocock/grill-me",
         "mattpocock/handoff",
         "mattpocock/write-a-skill"
@@ -1021,7 +1019,7 @@
   ],
   "page": 1,
   "totalPages": 4,
-  "totalSkills": 181,
+  "totalSkills": 180,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"

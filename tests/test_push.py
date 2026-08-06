@@ -95,9 +95,17 @@ class TestGaiaPush(unittest.TestCase):
                     REPO_ROOT,
                     "push",
                     "--dry-run",
+                    # Force the non-interactive path. subprocess.run() without
+                    # an explicit stdin= inherits the parent's stdin fd; under
+                    # a real TTY shell (Windows/pi-shell), that would let
+                    # push_command launch the prompt_toolkit multiselect
+                    # instead of just printing the dry-run batch
+                    # (gaia-skill-tree#1458).
+                    "--yes",
                 ],
                 cwd=tmp,
                 env=env,
+                stdin=subprocess.DEVNULL,
                 capture_output=True,
                 text=True,
                 encoding="utf-8",
@@ -146,9 +154,14 @@ class TestGaiaPush(unittest.TestCase):
                     registry,
                     "push",
                     "--no-pr",
+                    # Force the non-interactive path — see comment in
+                    # test_push_dry_run_separates_known_and_proposed_skills
+                    # above (#1458).
+                    "--yes",
                 ],
                 cwd=tmp,
                 env=env,
+                stdin=subprocess.DEVNULL,
                 capture_output=True,
                 text=True,
                 encoding="utf-8",

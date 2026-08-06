@@ -9,7 +9,7 @@ level: 3★
 description: Captures implementation decisions and tradeoffs before planning so the
   agent begins with explicit shared context.
 createdAt: '2026-07-03'
-updatedAt: '2026-07-03'
+updatedAt: '2026-08-06'
 timeline:
 - timestamp: '2026-07-02T18:04:47Z'
   action: add
@@ -64,6 +64,10 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 3★
+- timestamp: '2026-08-06T04:54:30Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/discuss-phase.md
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/discuss-phase.md
   updatedAt: '2026-08-01'
@@ -97,7 +101,7 @@ apexGateStatus:
   systemWideCap: null
 trustMagnitudeInputHash: 78c3dfe9a70a59107cb53569c9d1eae4d63f2f18065557262679b776374b6b3f
 links:
-  github: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/discuss-phase.md
+  github: https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/discuss-phase.md
 ---
 
 ## Installation

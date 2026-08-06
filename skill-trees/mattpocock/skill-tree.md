@@ -10,7 +10,6 @@
 
 | Skill | Type | Rank | Tier name | Source | Date |
 |---|---|---|---|---|---|
-| ○ mattpocock/caveman | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
 | ○ mattpocock/diagnose | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
 | ○ mattpocock/edit-article | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
 | ○ mattpocock/engineering | Basic | 4★ | Extra | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
@@ -50,7 +49,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — mattpocock  ·  generated 2026-08-05
+GAIA SKILL TREE — mattpocock  ·  generated 2026-08-06
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -130,7 +129,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ /plan-decompose
   │  └─ · ○ ████████/ask-matt
   ├─ · · garrytan/design-consultation  [3★]
-  │  ├─ · · ████████/stagehand
+  │  ├─ · · ████████/browse
   │  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]
   │  │  └─ · ○ /computer-use
   │  └─ · ○ /parse-html
@@ -142,7 +141,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ /hypothesis-generate
   │  └─ · ○ /error-interpretation
   ├─ · · garrytan/qa  [3★]
-  │  ├─ · · ████████/stagehand  (↑ see above)
+  │  ├─ · · ████████/browse  (↑ see above)
   │  └─ · · garrytan/health  [2★]
   │     ├─ · ○ upsonic/unittest-generator  [2★]
   │     ├─ · ○ /code-execution
@@ -160,7 +159,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
   │  └─ · ○ /error-interpretation  (↑ see above)
   ├─ · ○ garrytan/document-generate  [3★]
-  ├─ · · ████████/stagehand  (↑ see above)
+  ├─ · · ████████/browse  (↑ see above)
   ├─ · · garrytan/cso  [3★]
   │  ├─ · · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
   │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)

@@ -13,7 +13,7 @@ description: 'Classifies the affective polarity (positive / negative / neutral, 
 
   '
 createdAt: '2026-05-17'
-updatedAt: '2026-08-01'
+updatedAt: '2026-08-06'
 trustMagnitude: 0.0
 overallTrustGrade: ungraded
 apexGateStatus:
@@ -90,12 +90,15 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 4★ to 1★
+- timestamp: '2026-08-06T04:54:19Z'
+  action: note
+  contributor: unknown
+  details: Set installable to false
 evidence: []
 verification:
   firstEvidenceAt: '2026-06-19T09:26:06Z'
 trustMagnitudeInputHash: null
-links:
-  github: https://github.com/pexp13/basic-nlp-text-processor-python/blob/main/SKILL.md
+installable: false
 ---
 
 ## Implementation

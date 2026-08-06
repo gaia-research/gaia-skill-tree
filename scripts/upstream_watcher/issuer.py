@@ -78,6 +78,7 @@ def render_umbrella_body(
     component_adds: list[str],
     component_removes: list[str],
     link_liveness: list[dict],
+    name_drift: list[dict] | None = None,
 ) -> str:
     """Render the full body for an umbrella ``[upstream:release]`` issue."""
     skill_id = finding["skillId"]
@@ -85,6 +86,7 @@ def render_umbrella_body(
     new_version = finding["newVersion"]
     released_at = finding.get("releasedAt", "")
     source_url = finding.get("sourceUrl", "")
+    name_drift = name_drift or []
 
     # Machine-readable payload
     payload = {
@@ -97,6 +99,7 @@ def render_umbrella_body(
         "componentAdds": component_adds,
         "componentRemoves": component_removes,
         "linkLiveness": link_liveness,
+        "nameDrift": name_drift,
     }
 
     # Human-readable sections
@@ -125,6 +128,20 @@ def render_umbrella_body(
         )
     else:
         liveness_section = "_All component links are healthy._"
+
+    drift_section = ""
+    if name_drift:
+        rows = [
+            f"| `{r['skillId']}` | `{r['registrySlug']}` | `{r['sanitizedName']}` | `{r['fixCommand']}` |"
+            for r in name_drift
+        ]
+        drift_section = (
+            "| Skill | Registry slug | Upstream name (sanitized) | Fix |\n"
+            "|---|---|---|---|\n"
+            + "\n".join(rows)
+        )
+    else:
+        drift_section = "_No slug/name drift detected._"
 
     mode_note = (
         "**Mode:** `components` — component diff and link-liveness checks were performed."
@@ -165,6 +182,14 @@ Source: {source_url}
 ### Link liveness
 
 {liveness_section}
+
+---
+
+### Name drift (registry slug vs upstream `SKILL.md` name)
+
+> Per [issue #1446](https://github.com/gaia-research/gaia-skill-tree/issues/1446) (Option A), the registry slug is authoritative. A row below means the sanitized upstream frontmatter `name` no longer matches it — apply the listed fix command to realign before this shows up as `DIRNAME_MISMATCH` in an `install_parity.py` sweep.
+
+{drift_section}
 
 ---
 
@@ -501,10 +526,11 @@ def create_issues(
         component_adds = finding.get("componentAdds", [])
         component_removes = finding.get("componentRemoves", [])
         link_liveness = finding.get("linkLiveness", [])
+        name_drift = finding.get("nameDrift", [])
         mode = finding.get("mode", "version-only")
 
         umbrella_body = render_umbrella_body(
-            finding, mode, component_adds, component_removes, link_liveness
+            finding, mode, component_adds, component_removes, link_liveness, name_drift
         )
         umbrella_num = _create_issue(
             umbrella_title,
