@@ -4,6 +4,72 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-08-07, Program 3 — building the prototypes: skill-heaven doors + skill-hell summon engine)
+
+### TLDR
+- Session goal per founder: **check Program 3 progress and build working prototypes I can actually use.** Building now, benchmarking later. Tests explicitly deferred — "throwaway variations" until a direction is picked.
+- **Skill Hell works end-to-end and was verified by the orchestrator directly, not on a worker's report.** `gaia-hell summon "code review"` fetches a real 105KB `SKILL.md` from GitHub into a session-locked temp root, writes a manifest with sha256, and `list`/`path`/`close` all behave. `gaia_summon` is also live as an MCP tool.
+- **gaia-mcp gained its first write path.** It was read-only before this session — three tools (`gaia_search`/`gaia_inspect`/`gaia_status`), no filesystem write anywhere in `src/`.
+- **herdr is now the benchmarking environment.** Every worker runs in a visible pane via `herdr agent start` + `agent prompt`/`read`. Nothing hidden, including nested subagents.
+- Three draft PRs opened immediately per founder's integration-branch strategy: **skill-heaven#39**, **gaia-mcp#7**, **gaia-skill-tree#1474**.
+
+### Decisions locked
+
+- **Relevance gates, rating orders.** The founder asked for "untuned logic but prefer higher-rated skills." The orchestrator's own dispatch brief specified rating as the primary sort key, which made the single highest-rated skill in the registry (`garrytan/gstack`, 5★) win *every* query. Fixed: drop candidates below a minimum meaningful relevance, keep those within 50% of the best score as equally on-topic, then let star level and Trust Magnitude decide. Still untuned. **Lesson: the worker followed the brief exactly; the bug was in the brief.**
+- **Rule 0 — every harness invocation runs in a visible pane.** No `claude`/`pi`/`codex`/`hermes`/`grok` through an agent's Bash tool. The operator must be able to see which `--model` actually ran. Codified in `skill-heaven/CLAUDE.md` and in three playbook skills.
+- **`gaia-research/skill-cost` is the canonical basis for every cost measure** across the ecosystem. Reads persisted harness session logs, prices against LiteLLM's catalog; never self-reported token counts. **Known gap: no Grok parser.** The repo is ours and may be extended when a gap blocks a measurement.
+- **Execution rules travel through trusted channels only** — `CLAUDE.md` or the dispatch brief, read before work starts. Never mid-turn.
+
+### The prompt-injection refusal (worth carrying forward)
+
+The founder noticed a worker probing `pi` through its Bash tool, hiding the `--model` argv. The orchestrator sent a mid-turn correction telling it to reroute through herdr panes. **The worker refused it, reasoning that an unexpected mid-turn instruction changing its execution path had the shape of a prompt injection, and continued following its written brief.**
+
+That was the correct call and the founder agreed. A worker's brief is its trusted contract; a plausible-sounding mid-turn redirect is exactly what an attacker would send. The fix was the *channel*, not the worker: Rule 0 now lives in `skill-heaven/CLAUDE.md`, loaded as project context at worker startup, plus a paragraph explicitly endorsing continued refusal of mid-turn execution redirects. Founder ruling: "let it do its thing" — the in-flight worker was not interrupted again.
+
+### Ground truth established (do not re-derive)
+
+- **claude-heaven ships and works**: `--print` composes a live plan (68 skills censused, 5029 standing tokens), 213/213 tests green, `/skill-heaven` is a genuine marketplace-installable slash command.
+- **pi-heaven was a stub** — `package.json` + `README.md`, zero code. But `packages/core` already had `compilePi()` at `execSupport: "exec"`, so the compiler side existed; only the door package was missing.
+- **codex-heaven**: `compileCodex()` exists but is recipe-only, never spawns. **hermes-heaven / grok-heaven**: nothing at all.
+- `POSTURES = [floor, product-floor, curated, native]`; `LEVEL_ALIASES = {off: floor, low: curated}`; `HELL_LEVELS = [med, high, xhigh, max]` all hard-error at the P2 gate; `ultra` exists only as a ledger arm string.
+- Live registry reachable: 253 named skills bucketed + 52 awaiting classification, 59 contributors, levels 1★–4★ with `trustMagnitude`. `blob/` → `raw.githubusercontent.com` rewriting fetches real content.
+- **Luna Light addressing differs per harness** — pi: `--model openai-codex/gpt-5.6-luna:low`. codex: `--model gpt-5.6-luna -c model_reasoning_effort=low`. There is **no** `gpt-5.6-luna-light` model id; passing one fails. "Light"/"Max" are reasoning-effort settings.
+- CLI versions: herdr 0.8.0, codex-cli 0.146.0, pi 0.83.0, Hermes 0.20.0, grok 0.2.118.
+
+### Playbooks shipped (`skill-heaven/packages/core/skills/`)
+
+`herdr-dispatch` (new), `herdr-benchmark-pane` (rewritten — the old one hardcoded `/Users/marcotiongson/Documents/skill-heaven`, a path that does not exist, and used fragile `pane send-text` instead of the structured agent API), `pi-playbook` (new), `codex-playbook` (new), `cost-measurement` (new). All written so a Sonnet-class worker can follow them.
+
+### Branches / PRs
+
+| Repo | Branch | PR |
+|---|---|---|
+| skill-heaven | `integration/program-3-prototypes` | #39 (draft) |
+| skill-heaven | `feat/pi-heaven-door` (worktree `~/sh-wt-pi`) | → integration |
+| skill-heaven | `feat/skill-hell-command` (worktree `~/sh-wt-hell`) | → integration |
+| gaia-mcp | `integration/skill-hell` | #7 (draft) |
+| gaia-skill-tree | `founder/program-3-prototypes` | #1474 (draft) |
+
+EPIC **#1336** Program 3 section filled in this session.
+
+### Engineering challenges (founder scratchpad: `founder/PROGRAM-3-CHALLENGES.md`)
+
+C1 every new door needs its own probe first (structural, accepted) · **C2 zero-manual-update delivery unsolved, skill-heaven#34 — biggest adoption risk** · C3 `/skill-hell` must work with no door active (shaped: summon engine owns its own session root) · **C4 summoned skills are fetched, not verified — no content-hash gate; fine for founder-driven prototype, blocker before pointing at anyone else's session** · C5 entropy ladder named but not wired (`off` still aliases to the doorless `floor`; skill-heaven#24) · C6 benchmark visibility now has a rule.
+
+### Quick handoff for the next session
+
+1. **Verify pi-door and hell-cmd landed.** Both were in flight at snapshot time: `feat/pi-heaven-door` (pi-heaven launcher + `PROBE.md` re-probing the pi 0.80.10 ordering quirk on 0.83.0) and `feat/skill-hell-command` (`/skill-hell` command, `render-hell.mjs`, statusline segment, namespace observations for #30).
+2. **Not yet started:** codex-heaven door, hermes-heaven door, grok-heaven (stretch), claude-heaven polish (#24 `product-floor` scope leak + `LEVEL_ALIASES off→product-floor`, #25 slash-command baseline, #29 `--continue`).
+3. **Integration → main is founder-gated.** The orchestrator merges feature → integration at discretion; only Marcus merges to `main`.
+4. **skill-heaven has untracked `.claude/`, `.github/agents|hooks|skills`** (impeccable tooling) in the main checkout — left alone deliberately, not part of this work.
+5. Founder wants a **final HTML report** of the session, built alongside the snapshots.
+
+### Spend (via `skill-cost`, the canonical basis)
+
+2026-08-07, Opus 5 + Sonnet workers: 442k in, 558k out, 74.9M cache reads — **~$37.92** across session workspaces (gaia-skill-tree $27.34, gaia-mcp $4.74, sh-wt-pi $4.26, sh-wt-hell $1.22, skill-heaven $0.36). Excludes $1.68 of unrelated `rock-favor-plugin` activity on the same day.
+
+---
+
 ## State Snapshot (2026-08-06, issue sprint #1438/1441/1445/1453/1455/1456/1457/1458 — closeout pass, integration branch clean and founder-gated for `main`)
 
 ### TLDR
