@@ -10,8 +10,6 @@ catalogRef: nousresearch-feed-monitoring
 level: 2★
 description: Continuous monitoring of content feeds with intelligent discovery and
   state tracking.
-links:
-  github: https://github.com/NousResearch/hermes-agent
 tags:
 - rss
 - feeds
@@ -19,7 +17,7 @@ tags:
 - signal-discovery
 - unique
 createdAt: '2026-05-15'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-06'
 evidence:
 - class: B
   source: https://github.com/NousResearch/hermes-agent/blob/main/skills/research/blogwatcher/SKILL.md
@@ -60,6 +58,10 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Level updated from 1★ to 2★ per G7 final rankings calibration.
+- timestamp: '2026-08-06T04:54:19Z'
+  action: note
+  contributor: unknown
+  details: Set installable to false
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -72,6 +74,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: f876256aec3e5b099c8f4416932011859c902fd03e09d2978cd8b659ef173fc4
+installable: false
 ---
 
 ## Overview

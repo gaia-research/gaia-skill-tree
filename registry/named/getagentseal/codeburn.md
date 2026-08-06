@@ -9,14 +9,12 @@ title: The Ledger of Light
 level: 2★
 description: Cost and token observability tool for tracking AI coding agent spending
   across models and projects.
-links:
-  github: https://github.com/getagentseal/codeburn
 tags:
 - observability
 - cost
 - tokens
 createdAt: '2026-05-14'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-06'
 evidence:
 - class: B
   source: https://github.com/getagentseal/codeburn
@@ -49,6 +47,10 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T13:26:38Z'
   details: TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)
+- timestamp: '2026-08-06T04:54:17Z'
+  action: note
+  contributor: unknown
+  details: Set installable to false
 trustMagnitude: 36.0
 overallTrustGrade: C
 apexGateStatus:
@@ -61,6 +63,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: fed10b7235b3ffa4e485f54f4f888ce10942520a42c4de78e170d73da7ba822e
+installable: false
 ---
 
 ## Overview

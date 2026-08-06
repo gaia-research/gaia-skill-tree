@@ -9,7 +9,7 @@ level: 3★
 description: Researches, decomposes, and verifies an implementation plan against a
   fresh context window before execution.
 createdAt: '2026-07-03'
-updatedAt: '2026-07-03'
+updatedAt: '2026-08-06'
 timeline:
 - timestamp: '2026-07-02T18:04:48Z'
   action: add
@@ -60,6 +60,10 @@ timeline:
   action: rank_up
   contributor: unknown
   details: Calibrated level from 2★ to 3★
+- timestamp: '2026-08-06T04:54:31Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/plan-phase.md
 evidence:
 - source: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/plan-phase.md
   updatedAt: '2026-08-01'
@@ -93,7 +97,7 @@ apexGateStatus:
   systemWideCap: null
 trustMagnitudeInputHash: c2bfc8b438f3eb3184a5029e752e30d498c8365387ef64ba650d8f1a45f56a75
 links:
-  github: https://github.com/gsd-build/get-shit-done/blob/main/commands/gsd/plan-phase.md
+  github: https://github.com/open-gsd/gsd-core/blob/next/commands/gsd/plan-phase.md
 ---
 
 ## Installation
