@@ -465,6 +465,11 @@ class TestPush:
         from gaia_cli import push as push_mod
         monkeypatch.setattr(push_mod, "detect_source_repo",
                             lambda config: "testuser/test-repo")
+        # Force the non-interactive path: if pytest itself is run under a
+        # real TTY (e.g. a pi/xterm-like local shell), sys.stdin.isatty()
+        # is True in-process and push_command would otherwise launch the
+        # prompt_toolkit multiselect (see gaia-skill-tree#1458).
+        monkeypatch.setattr(sys.stdin, "isatty", lambda: False)
 
         run_cli(monkeypatch, ["--registry", str(project), "push", "--dry-run"])
 
@@ -479,6 +484,9 @@ class TestPush:
         self._seed_custom_state(project)
         from gaia_cli import push as push_mod
         monkeypatch.setattr(push_mod, "detect_source_repo", lambda config: "testuser/test-repo")
+        # Force the non-interactive path — see comment in
+        # test_dry_run_outputs_batch_json above (#1458).
+        monkeypatch.setattr(sys.stdin, "isatty", lambda: False)
 
         run_cli(monkeypatch, ["--registry", str(project), "push", "--dry-run"])
 
