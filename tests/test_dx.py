@@ -385,7 +385,10 @@ def test_skills_install_creates_manifest_entry_via_cli(tmp_path, monkeypatch):
 
     def mock_run_git(args, cwd=None):
         if args[0] == "clone":
-            os.makedirs(os.path.join(args[-1], "test-skill"), exist_ok=True)
+            skill_dir = os.path.join(args[-1], "test-skill")
+            os.makedirs(skill_dir, exist_ok=True)
+            with open(os.path.join(skill_dir, "SKILL.md"), "w") as f:
+                f.write("content")
         return True
 
     monkeypatch.setattr("gaia_cli.install._run_git", mock_run_git)
@@ -453,7 +456,10 @@ def test_gaia_install_command_installs_skill(tmp_path, monkeypatch):
 
     def mock_run_git(args, cwd=None):
         if args[0] == "clone":
-            os.makedirs(os.path.join(args[-1], "test-skill"), exist_ok=True)
+            skill_dir = os.path.join(args[-1], "test-skill")
+            os.makedirs(skill_dir, exist_ok=True)
+            with open(os.path.join(skill_dir, "SKILL.md"), "w") as f:
+                f.write("content")
         return True
 
     monkeypatch.setattr("gaia_cli.install._run_git", mock_run_git)

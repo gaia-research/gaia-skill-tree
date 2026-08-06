@@ -178,6 +178,8 @@ class TestInstallFlow:
             if args[0] == "clone":
                 source_dir = os.path.join(args[-1], "my-skill")
                 os.makedirs(source_dir, exist_ok=True)
+                with open(os.path.join(source_dir, "SKILL.md"), "w") as f:
+                    f.write("content")
             return True
 
         monkeypatch.setattr("gaia_cli.install._run_git", mock_run_git)
@@ -294,7 +296,10 @@ class TestInstallFlow:
 
         def mock_run_git(args, cwd=None):
             if args[0] == "clone":
-                os.makedirs(os.path.join(args[-1], "my-skill"), exist_ok=True)
+                skill_dir = os.path.join(args[-1], "my-skill")
+                os.makedirs(skill_dir, exist_ok=True)
+                with open(os.path.join(skill_dir, "SKILL.md"), "w") as f:
+                    f.write("content")
             return True
 
         monkeypatch.setattr("gaia_cli.install._run_git", mock_run_git)
@@ -328,7 +333,10 @@ class TestInstallFlow:
 
         def mock_run_git(args, cwd=None):
             if args[0] == "clone":
-                os.makedirs(os.path.join(args[-1], "my-skill"), exist_ok=True)
+                skill_dir = os.path.join(args[-1], "my-skill")
+                os.makedirs(skill_dir, exist_ok=True)
+                with open(os.path.join(skill_dir, "SKILL.md"), "w") as f:
+                    f.write("content")
             return True
 
         monkeypatch.setattr("gaia_cli.install._run_git", mock_run_git)
@@ -362,7 +370,10 @@ class TestInstallFlow:
 
         def mock_run_git(args, cwd=None):
             if args[0] == "clone":
-                os.makedirs(os.path.join(args[-1], "unique-name"), exist_ok=True)
+                skill_dir = os.path.join(args[-1], "unique-name")
+                os.makedirs(skill_dir, exist_ok=True)
+                with open(os.path.join(skill_dir, "SKILL.md"), "w") as f:
+                    f.write("content")
             return True
 
         monkeypatch.setattr("gaia_cli.install._run_git", mock_run_git)
@@ -444,7 +455,10 @@ class TestInstallFlow:
                 clone_calls.append(args)
                 dest = args[-1]
                 os.makedirs(os.path.join(dest, ".git"), exist_ok=True)
-                os.makedirs(os.path.join(dest, "my-skill"), exist_ok=True)
+                skill_dir = os.path.join(dest, "my-skill")
+                os.makedirs(skill_dir, exist_ok=True)
+                with open(os.path.join(skill_dir, "SKILL.md"), "w") as f:
+                    f.write("content")
             elif args[0] == "pull":
                 raise AssertionError("pull should never be attempted on an invalid cache")
             return True
@@ -490,7 +504,10 @@ class TestInstallFlow:
                 clone_calls.append(args)
                 dest = args[-1]
                 os.makedirs(os.path.join(dest, ".git"), exist_ok=True)
-                os.makedirs(os.path.join(dest, "my-skill"), exist_ok=True)
+                skill_dir = os.path.join(dest, "my-skill")
+                os.makedirs(skill_dir, exist_ok=True)
+                with open(os.path.join(skill_dir, "SKILL.md"), "w") as f:
+                    f.write("content")
             return True
 
         monkeypatch.setattr("gaia_cli.install._run_git", mock_run_git)
@@ -610,3 +627,211 @@ class TestAmbiguousResolution:
         assert excinfo.value.code == 1
         captured = capsys.readouterr()
         assert "Ambiguous bare name" in captured.err
+
+
+class TestInstallTargetValidation:
+    """Regression coverage for issue #1441: `gaia install` reported success on
+    skills whose resolved source path did not actually exist/qualify as a
+    skill directory. _install_single must validate the resolved
+    source_skill_path (exists / is a directory / contains SKILL.md) *before*
+    linking and before printing "Installed" — a stale, misdirected, or
+    malformed links.github must surface as a failure, not a silent no-op
+    reported as a success.
+    """
+
+    def _base_registry(self, tmp_path, github_url):
+        _write_json_registry(
+            tmp_path,
+            [
+                {
+                    "id": "testuser/my-skill",
+                    "name": "My Skill",
+                    "links": {"github": github_url},
+                }
+            ],
+        )
+
+    def test_missing_subpath_fails_and_reports_stale_link(self, tmp_path, monkeypatch, capsys):
+        """subpath does not exist inside the cloned repo (renamed/moved/deleted
+        upstream) -> install fails with a 'stale' message, no 'Installed' line,
+        no manifest entry."""
+        monkeypatch.chdir(tmp_path)
+
+        def mock_run_git(args, cwd=None):
+            if args[0] == "clone":
+                # Repo clones fine, but the subpath the registry points at
+                # was never created (e.g. renamed upstream since curation).
+                os.makedirs(args[-1], exist_ok=True)
+            return True
+
+        monkeypatch.setattr("gaia_cli.install._run_git", mock_run_git)
+        monkeypatch.setattr(
+            "gaia_cli.install.get_global_cache_dir",
+            lambda: str(tmp_path / ".gaia" / "skills"),
+        )
+        self._base_registry(
+            tmp_path,
+            "https://github.com/testuser/repo/blob/main/my-skill/SKILL.md",
+        )
+
+        result = install_skill("testuser/my-skill", str(tmp_path))
+
+        assert result is False
+        captured = capsys.readouterr()
+        assert "not found" in captured.err
+        assert "stale" in captured.err
+        assert "Installed" not in captured.out
+        manifest = load_manifest()
+        assert manifest["installed"] == []
+
+    def test_subpath_is_a_file_not_a_directory_fails(self, tmp_path, monkeypatch, capsys):
+        """links.github resolves to a file (not a skill directory) -> install fails."""
+        monkeypatch.chdir(tmp_path)
+
+        def mock_run_git(args, cwd=None):
+            if args[0] == "clone":
+                dest = args[-1]
+                os.makedirs(dest, exist_ok=True)
+                # "my-skill" resolves to a *file*, not a directory.
+                with open(os.path.join(dest, "my-skill"), "w") as f:
+                    f.write("not a directory")
+            return True
+
+        monkeypatch.setattr("gaia_cli.install._run_git", mock_run_git)
+        monkeypatch.setattr(
+            "gaia_cli.install.get_global_cache_dir",
+            lambda: str(tmp_path / ".gaia" / "skills"),
+        )
+        self._base_registry(
+            tmp_path,
+            "https://github.com/testuser/repo/blob/main/my-skill/SKILL.md",
+        )
+
+        result = install_skill("testuser/my-skill", str(tmp_path))
+
+        assert result is False
+        captured = capsys.readouterr()
+        assert "not a skill directory" in captured.err
+        assert "Installed" not in captured.out
+        manifest = load_manifest()
+        assert manifest["installed"] == []
+
+    def test_directory_without_skill_md_fails(self, tmp_path, monkeypatch, capsys):
+        """Subpath resolves to a real directory but has no SKILL.md -> install fails."""
+        monkeypatch.chdir(tmp_path)
+
+        def mock_run_git(args, cwd=None):
+            if args[0] == "clone":
+                skill_dir = os.path.join(args[-1], "my-skill")
+                os.makedirs(skill_dir, exist_ok=True)
+                # Directory exists but is empty -- no SKILL.md inside.
+                with open(os.path.join(skill_dir, "README.md"), "w") as f:
+                    f.write("not a skill file")
+            return True
+
+        monkeypatch.setattr("gaia_cli.install._run_git", mock_run_git)
+        monkeypatch.setattr(
+            "gaia_cli.install.get_global_cache_dir",
+            lambda: str(tmp_path / ".gaia" / "skills"),
+        )
+        self._base_registry(
+            tmp_path,
+            "https://github.com/testuser/repo/blob/main/my-skill/SKILL.md",
+        )
+
+        result = install_skill("testuser/my-skill", str(tmp_path))
+
+        assert result is False
+        captured = capsys.readouterr()
+        assert "no SKILL.md" in captured.err
+        assert "Installed" not in captured.out
+        manifest = load_manifest()
+        assert manifest["installed"] == []
+
+    def test_valid_skill_dir_with_skill_md_still_installs(self, tmp_path, monkeypatch, capsys):
+        """Sanity check: a well-formed skill dir (exists, is a dir, has
+        SKILL.md) still installs successfully -- the new validation does not
+        regress the happy path."""
+        monkeypatch.chdir(tmp_path)
+
+        def mock_run_git(args, cwd=None):
+            if args[0] == "clone":
+                skill_dir = os.path.join(args[-1], "my-skill")
+                os.makedirs(skill_dir, exist_ok=True)
+                with open(os.path.join(skill_dir, "SKILL.md"), "w") as f:
+                    f.write("# My Skill\n")
+            return True
+
+        monkeypatch.setattr("gaia_cli.install._run_git", mock_run_git)
+        monkeypatch.setattr(
+            "gaia_cli.install.get_global_cache_dir",
+            lambda: str(tmp_path / ".gaia" / "skills"),
+        )
+        self._base_registry(
+            tmp_path,
+            "https://github.com/testuser/repo/blob/main/my-skill/SKILL.md",
+        )
+
+        result = install_skill("testuser/my-skill", str(tmp_path))
+
+        assert result is True
+        captured = capsys.readouterr()
+        assert "✓ Installed" in captured.out
+        manifest = load_manifest()
+        assert any(e["id"] == "testuser/my-skill" for e in manifest["installed"])
+
+    def test_suite_reports_failure_when_component_target_missing(self, tmp_path, monkeypatch, capsys):
+        """A suite component whose resolved target doesn't exist makes the
+        whole suite install report failure (not silently counted as success)."""
+        monkeypatch.chdir(tmp_path)
+        _write_json_registry(
+            tmp_path,
+            [
+                {
+                    "id": "testuser/my-suite",
+                    "name": "My Suite",
+                    "status": "named",
+                    "suiteComponents": ["testuser/good", "testuser/broken"],
+                },
+                {
+                    "id": "testuser/good",
+                    "name": "Good",
+                    "links": {
+                        "github": "https://github.com/testuser/repo/blob/main/good/SKILL.md"
+                    },
+                },
+                {
+                    "id": "testuser/broken",
+                    "name": "Broken",
+                    "links": {
+                        "github": "https://github.com/testuser/repo/blob/main/broken/SKILL.md"
+                    },
+                },
+            ],
+        )
+
+        def mock_run_git(args, cwd=None):
+            if args[0] == "clone":
+                dest = args[-1]
+                good_dir = os.path.join(dest, "good")
+                os.makedirs(good_dir, exist_ok=True)
+                with open(os.path.join(good_dir, "SKILL.md"), "w") as f:
+                    f.write("good content")
+                # "broken" subpath is never created -- stale link.
+            return True
+
+        monkeypatch.setattr("gaia_cli.install._run_git", mock_run_git)
+        monkeypatch.setattr(
+            "gaia_cli.install.get_global_cache_dir",
+            lambda: str(tmp_path / ".gaia" / "skills"),
+        )
+
+        result = install_skill("testuser/my-suite", str(tmp_path))
+
+        assert result is False
+        captured = capsys.readouterr()
+        assert "testuser/broken" in captured.err
+        manifest = load_manifest()
+        installed_ids = {e["id"] for e in manifest["installed"]}
+        assert "testuser/good" in installed_ids
+        assert "testuser/broken" not in installed_ids
