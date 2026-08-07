@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-08-06T12:22:05Z",
+  "generatedAt": "2026-08-07T02:02:53Z",
   "firstRun": false,
   "skills": [
     {
@@ -10,7 +10,7 @@
       "contributor": "firecrawl",
       "trustMagnitude": 150.32,
       "overallTrustGrade": "A",
-      "trendingScore": 164.52,
+      "trendingScore": 104.52,
       "tmDelta": 74.74,
       "new": false,
       "_links": {
@@ -158,104 +158,6 @@
       }
     },
     {
-      "id": "firecrawl/firecrawl-build-interact",
-      "name": "Firecrawl Interact",
-      "level": "3★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 75.7,
-      "overallTrustGrade": "B",
-      "trendingScore": 60.15,
-      "tmDelta": 0.12,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-build-interact.json"
-      }
-    },
-    {
-      "id": "firecrawl/firecrawl-build-onboarding",
-      "name": "Firecrawl Onboarding",
-      "level": "3★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 75.7,
-      "overallTrustGrade": "B",
-      "trendingScore": 60.15,
-      "tmDelta": 0.12,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
-      }
-    },
-    {
-      "id": "gsd-build/get-shit-done",
-      "name": "Get Shit Done",
-      "level": "4★",
-      "contributor": "gsd-build",
-      "trustMagnitude": 202.16,
-      "overallTrustGrade": "A",
-      "trendingScore": 60.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/gsd-build/get-shit-done.json"
-      }
-    },
-    {
-      "id": "disler/agent-fusion",
-      "name": "Agent Fusion",
-      "level": "4★",
-      "contributor": "disler",
-      "trustMagnitude": 127.54,
-      "overallTrustGrade": "C",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/disler/agent-fusion.json"
-      }
-    },
-    {
-      "id": "disler/auto-review",
-      "name": "Auto-Review",
-      "level": "2★",
-      "contributor": "disler",
-      "trustMagnitude": 36.34,
-      "overallTrustGrade": "C",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/disler/auto-review.json"
-      }
-    },
-    {
-      "id": "disler/opinion",
-      "name": "Opinion",
-      "level": "2★",
-      "contributor": "disler",
-      "trustMagnitude": 36.34,
-      "overallTrustGrade": "C",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/disler/opinion.json"
-      }
-    },
-    {
-      "id": "disler/plan-synthesis",
-      "name": "Plan Synthesis",
-      "level": "2★",
-      "contributor": "disler",
-      "trustMagnitude": 36.34,
-      "overallTrustGrade": "C",
-      "trendingScore": 50.0,
-      "tmDelta": 0.0,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/disler/plan-synthesis.json"
-      }
-    },
-    {
       "id": "ruvnet/hive-mind",
       "name": "Hive Mind",
       "level": "3★",
@@ -396,31 +298,17 @@
       }
     },
     {
-      "id": "firecrawl/firecrawl-build-scrape",
-      "name": "Firecrawl Scrape",
+      "id": "gsd-build/get-shit-done",
+      "name": "Get Shit Done",
       "level": "4★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 135.72,
+      "contributor": "gsd-build",
+      "trustMagnitude": 202.16,
       "overallTrustGrade": "A",
-      "trendingScore": 10.14,
-      "tmDelta": 0.12,
+      "trendingScore": 10.0,
+      "tmDelta": 0.0,
       "new": false,
       "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
-      }
-    },
-    {
-      "id": "firecrawl/firecrawl-build-search",
-      "name": "Firecrawl Search",
-      "level": "4★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 109.32,
-      "overallTrustGrade": "A",
-      "trendingScore": 10.14,
-      "tmDelta": 0.12,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-build-search.json"
+        "self": "/api/v1/skills/gsd-build/get-shit-done.json"
       }
     },
     {
@@ -492,9 +380,65 @@
       "_links": {
         "self": "/api/v1/skills/nextlevelbuilder/ui-ux-pro-max.json"
       }
+    },
+    {
+      "id": "firecrawl/firecrawl-build-interact",
+      "name": "Firecrawl Interact",
+      "level": "3★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 75.7,
+      "overallTrustGrade": "B",
+      "trendingScore": 0.15,
+      "tmDelta": 0.12,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-interact.json"
+      }
+    },
+    {
+      "id": "firecrawl/firecrawl-build-onboarding",
+      "name": "Firecrawl Onboarding",
+      "level": "3★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 75.7,
+      "overallTrustGrade": "B",
+      "trendingScore": 0.15,
+      "tmDelta": 0.12,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
+      }
+    },
+    {
+      "id": "firecrawl/firecrawl-build-scrape",
+      "name": "Firecrawl Scrape",
+      "level": "4★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 135.72,
+      "overallTrustGrade": "A",
+      "trendingScore": 0.14,
+      "tmDelta": 0.12,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
+      }
+    },
+    {
+      "id": "firecrawl/firecrawl-build-search",
+      "name": "Firecrawl Search",
+      "level": "4★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 109.32,
+      "overallTrustGrade": "A",
+      "trendingScore": 0.14,
+      "tmDelta": 0.12,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-search.json"
+      }
     }
   ],
-  "totalTrending": 35,
+  "totalTrending": 31,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }
