@@ -362,3 +362,48 @@ where model identity is the thing at stake.
 Worth noting as a pattern: agents default to the cheapest path to an answer, and the cheapest
 path is almost never the observable one. Visibility has to be a stated rule with a stated
 reason, or it erodes every session.
+
+---
+
+## C10 — Ambient skill-hell meets the boot-index constraint
+
+**Status: ruled by the founder, one mechanism question remains open.**
+
+Your ruling: skill-hell is the ladder, not a search box. Invoking it *opens a rung* (default
+`high`); skills then arrive on their own, each announcing itself with a compact card; they land
+in a session directory the agent can reach for later; the root stays warm so a later session
+re-attaches instead of re-cloning; nothing ever touches the permanent repo. Explicit summon
+survives as the advanced control.
+
+**What blocks a literal reading.** WP13 probed Claude Code 2.1.224 for a mid-session skill load
+and found none — boot-time controls and resume only. Claude builds its *skill listing* (name +
+description per skill) at startup and reads a body on invoke. A skill directory written at
+minute 40 is therefore on disk but not in the listing: the model does not know it exists, so it
+never reaches for it. Writing files alone does not make a skill available.
+
+**The mechanism that does work, and is the honest version of what you asked for.** The agent
+summons *itself*, through the MCP tool, at the moment it hits a capability gap. The user never
+types a summon — which is your requirement — and the tool result is what puts the skill in the
+listing, because a tool result is context. So:
+
+- **whole directory to disk** — `reference/`, `scripts/`, fixtures all intact, which is what
+  makes the skill genuinely usable rather than quoted
+- **card into context** — identity, whatever trust the tree published, cost, path, inspect URL
+
+That split is also cheaper than what we ship today, which pastes the entire `SKILL.md` body into
+the transcript on every summon.
+
+`/skill-hell` mid-session then means *arm the lane at rung N* — announce the tool, set how freely
+it may fire — rather than *fetch one skill now*.
+
+**The open question is the trigger, and it is yours to call.** Agent-initiated is honest and
+ships now, but a skill only arrives if the model recognises its own gap — a model that does not
+know what it is missing will not ask. The aggressive alternative is a per-turn hook that summons
+against every user message, which is genuinely ambient and genuinely noisier and more expensive.
+Recommendation: agent-initiated for the prototype, and let the benchmark decide whether the hook
+earns its cost.
+
+**A policy note, flagged not decided.** "Opens to `high` by default" opens the Hell lane, which
+P2 currently gates at `med` and above. Reading your instruction as the ruling that opens it for
+the launcher path; the benchmark `floor` stays byte-frozen and untouched either way. Say if that
+reading is wrong.
