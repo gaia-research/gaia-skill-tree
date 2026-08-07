@@ -39,9 +39,88 @@ and costs nothing.
 
 ---
 
-## C2 — Zero-manual-update delivery is unsolved (skill-heaven #34)
+## C2 — Zero-manual-update delivery
 
-**Status: unsolved. This is the biggest adoption risk in Program 3.**
+**Status: RULED 2026-08-07 — npx, and we ship the launcher, never a harness.**
+
+> **Founder ruling:** "I'm actually really good with npx, just make sure that it uses the users
+> `claude` that is installed. The idea is that we don't ship 'another claude' but the launcher
+> that launches a 'heaven' version of it that ships with the almost zero skill launcher."
+
+This resolves the update problem and clarifies what the product *is*.
+
+**The shape.** `npx` distributes a small launcher. The launcher resolves the harness the user
+already has on `PATH` and execs it with a composed posture. We never bundle, vendor, or version a
+harness. `claude-heaven` already behaves this way — it finds `claude` on `PATH` and execs it — so
+this ratifies existing behaviour rather than redirecting it.
+
+**Why it settles C2 cleanly:**
+
+- Nothing to update manually, because nothing is installed. `npx` fetches the current launcher
+  each launch.
+- No version skew between launcher, plugin, and core — one artifact, fetched together.
+- The harness stays whatever the user chose to install. We are not in the business of shipping
+  someone else's agent.
+
+**What it costs:** a network round-trip at session start. Acceptable for a launcher measured in
+kilobytes, and `npx` caches.
+
+**The one genuine tension — M0 discipline.** Our probes pin a harness version. Under this model
+the *harness* version is entirely the user's, and can change under us without warning. That is
+correct product behaviour but it means a recorded dose is a statement about a version, never a
+standing guarantee. The door should therefore **read and report the harness version it actually
+launched**, so any result carries its own provenance. Cheap to build, and it keeps the Index
+honest once benchmarking starts.
+
+**Positioning worth keeping in the founder's words:** the value is *"we don't ship another
+claude"* — we ship the thing that launches the user's own harness with almost no skills loaded.
+That is the pitch, in an era where models do not need the bloat.
+
+---
+
+## C9 — Grok reads Claude's skill directories
+
+**Status: scouted 2026-08-07, door not built.**
+
+Probed live rather than assumed. `grok inspect` — which enumerates from disk and therefore cannot
+confabulate — reports **Skills (110)** on a free-tier account, and the sources are the interesting
+part:
+
+```
+Skills (110)
+  └ impeccable      project [claude]
+  └ check-work      user
+  └ code-review     user
+  ...
+```
+
+**Grok reads the same `.claude` project and user skill directories Claude does.** So grok's bloat
+is not a separate plugin problem — it is the *same scope problem* `--setting-sources` addresses on
+Claude, arriving through a different front door.
+
+Levers found:
+
+- **`GROK_HOME`** — documented in grok's own docs as "Override config directory (default:
+  `~/.grok`)". Same shape as `CODEX_HOME`; the door can scope it to the session and copy
+  `auth.json` in, exactly as codex-heaven does.
+- **`grok plugin disable`** exists but mutates global state — **violates P3, do not use it.**
+- `--disallowed-tools`, `--no-memory`, `--no-subagents`, `--no-plan`, `--disable-web-search` trim
+  the surface further.
+- **`grok inspect` is the probe instrument** — a hard, disk-derived count. Use it rather than
+  asking the model, which confabulates.
+
+**Open question for the door:** scoping `GROK_HOME` should handle the `user` skills, but the
+`project [claude]` ones come from the working directory. Whether those can be scoped away without
+changing `--cwd` is unprobed.
+
+**Caveat recorded:** this is a free-tier account without SuperGrok, and the harness may be
+partially locked. Findings above are what that account can see; a fuller account may expose more.
+
+---
+
+## C2 (original framing, kept for the record)
+
+**Status when written: unsolved. Was the biggest adoption risk in Program 3.**
 
 Issue #34 states the hard requirement: users should never run `npm install`, `git pull`, or
 `brew upgrade` to get new door behaviour. Today none of the delivery paths satisfy it:
