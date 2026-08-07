@@ -299,6 +299,42 @@
     "bytes": 16477, "sha256": "71fddd…",
     "sessionRoot": "/var/folders/…/gaia-hell-6RqGOl" }</pre>
 
+    <h3>Install parity — the correction that mattered</h3>
+    <p>
+      Summon originally fetched a single <code>SKILL.md</code> over HTTP. That is not how Gaia
+      installs skills, and it silently produces broken ones: many skills are <em>directories</em> —
+      <code>SKILL.md</code> plus <code>reference/</code>, <code>scripts/</code>, fixtures. A summoned
+      skill missing its scripts is a description of a skill, not a skill.
+    </p>
+    <p>
+      Summon now mirrors <code>gaia install</code>: parse the GitHub URL the same way, shallow-clone
+      the source repo, validate that the resolved subpath exists and is a directory containing
+      <code>SKILL.md</code>, then materialize the <strong>whole directory</strong>. Suites recurse.
+      Session-locking is preserved by putting the git cache <em>inside</em> the session root, so
+      nothing outside the session is touched.
+    </p>
+    <p><strong>Proof it works</strong> — <code>garrytan/review</code> comes down as 13 files including a
+      <code>specialists/</code> subdirectory, not one lone file.</p>
+
+    <h3>Install time — the high-entropy metric</h3>
+    <p>
+      Cloning costs more than fetching one file, and high-entropy modes summon many skills. So every
+      summon now reports its own install time and whether the repo cache was cold or warm. The two
+      differ by roughly 4×, which is why they are never printed apart — a timing without its cache
+      state cannot be interpreted.
+    </p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Skill</th><th class="num">cold</th><th class="num">warm</th><th class="num">files</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">garrytan/review</td><td class="num">2.952s</td><td class="num">0.765s</td><td class="num">13</td></tr>
+          <tr><td class="mono">addy-osmani/test-driven-development</td><td class="num">1.266s</td><td class="num">0.716s</td><td class="num">1</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <pre>  summoned  garrytan/review  3★  TM 63.7  <b>(2.952s, cold)</b>
+            -&gt; …/skills/garrytan__review  (13 files)</pre>
+
     <h3>One bug, and it was mine</h3>
     <p>
       The first ranking returned <code>garrytan/gstack</code> for every query — the single
@@ -326,7 +362,7 @@
           <tr><td class="mono">claude-heaven</td><td>Claude Code</td><td class="dim">ships</td><td><span class="chip ok">ships + /skill-hell</span></td></tr>
           <tr><td class="mono">pi-heaven</td><td>pi 0.83.0</td><td class="dim">stub — zero code</td><td><span class="chip ok">launching</span></td></tr>
           <tr><td class="mono">codex-heaven</td><td>codex-cli 0.146.0</td><td class="dim">recipe-only, never execs</td><td><span class="chip work">in flight</span></td></tr>
-          <tr><td class="mono">hermes-heaven</td><td>Hermes 0.20.0</td><td class="dim">no compile route at all</td><td><span class="chip work">in flight</span></td></tr>
+          <tr><td class="mono">hermes-heaven</td><td>Hermes 0.20.0</td><td class="dim">no compile route at all</td><td><span class="chip work">door built, floor in progress</span></td></tr>
           <tr><td class="mono">grok-heaven</td><td>grok 0.2.118</td><td class="dim">nothing</td><td><span class="chip none">not started</span></td></tr>
         </tbody>
       </table>
@@ -356,6 +392,30 @@
       <strong>The pi door costs ~1,762 tokens</strong> — the pi analogue of Claude's +515. And the
       pi 0.80.10 argv-ordering quirk does <em>not</em> reproduce on 0.83.0, so that compiler comment
       is now recorded as history rather than guidance.
+    </p>
+
+    <h3>Hermes hides its skills on disk, not behind a flag</h3>
+    <p>
+      Hermes resisted every documented suppression flag — <code>--safe-mode</code>,
+      <code>--ignore-rules</code>, <code>--ignore-user-config</code> all still reported 108 skills,
+      despite <code>--ignore-rules</code> claiming to skip "preloaded skills". The worker probed it,
+      failed to find a clean floor, and honestly shipped a recipe-only door rather than overclaim.
+    </p>
+    <p>
+      The reason turned out to be structural: <strong>those 108 are bundled skills already seeded onto
+      disk inside the profile.</strong> They are not injected at runtime, so no runtime flag can
+      remove them — by the time a session starts they are simply files the profile owns.
+      <code>--safe-mode</code> suppresses <em>customizations</em>; seeded bundled skills are not
+      customizations.
+    </p>
+    <p>
+      Confirmed in the Hermes source: <code>hermes_constants.py:63</code> resolves
+      <code>HERMES_HOME</code> from the process environment, and
+      <code>skills_sync.py:1269</code> writes a <code>.no-bundled-skills</code> marker into it that
+      yields "zero bundled-skill seeding". So the clean room is a <em>filesystem</em> problem, not a
+      flag problem — which is the shape the compiler's <code>fsPlan</code> already handles, exactly as
+      codex-heaven scopes <code>CODEX_HOME</code>. A session-scoped home with the marker pre-written
+      gives a true floor while never touching the real profile.
     </p>
 
     <h3>The inline surface</h3>
@@ -429,6 +489,30 @@
       control channel.
     </p>
 
+    <h3>The subagent roster changed mid-session</h3>
+    <p>
+      Sonnet workers were swapped for <code>pi</code> running GPT-5.6 — <strong>Luna Max</strong> for
+      mechanical work, <strong>Sol Medium</strong> where judgement is needed. Both picked up the
+      brief-file convention, the commit discipline, and Rule 0 unprompted. The cost difference is not
+      subtle.
+    </p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Worker</th><th>Model</th><th>Delivered</th><th class="num">USD</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">summon-parity</td><td>Sonnet</td><td>install parity port</td><td class="num">5.87</td></tr>
+          <tr><td class="mono">pi-door</td><td>Sonnet</td><td>pi-heaven door + probe</td><td class="num">6.74</td></tr>
+          <tr><td class="mono">summon-timing</td><td>Luna Max</td><td>timing, suites, docs — 6 commits</td><td class="num">0.13</td></tr>
+          <tr><td class="mono">hermes-door</td><td>Sol Medium</td><td>hermes probe + door</td><td class="num">3.01</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:1rem">
+      Luna Max closed the entire remaining install-parity scope for <strong>13 cents</strong>. Sol
+      Medium costs more because probe work is judgement work — it ran a full negative-result
+      investigation and correctly refused to overclaim.
+    </p>
+
     <h3>Playbooks</h3>
     <p>All written so a Sonnet-class worker can follow them unaided.</p>
     <div class="scroll">
@@ -479,8 +563,8 @@
     <div class="chal">
       <div class="id">C4</div>
       <div class="body"><span class="t">Summoned skills are fetched, not verified</span>
-      <span class="x">The content hash is recorded, not checked — the registry publishes no expected hash. Fine for a prototype you drive; a blocker before pointing summon at anyone else's session.</span></div>
-      <div><span class="chip work">needs a ruling</span></div>
+      <span class="x"><strong>Ruled:</strong> content hashing deferred until after benchmarking — hashing a skill is only meaningful once the Index has something to say about it. Risk accepted for founder-driven use. Reopens the moment summon points at another session.</span></div>
+      <div><span class="chip ok">ruled — deferred</span></div>
     </div>
     <div class="chal">
       <div class="id">C5</div>
