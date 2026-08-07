@@ -253,12 +253,12 @@
 
   <section>
     <div class="ledger">
+      <div class="cell good"><span class="n">4</span><span class="k">doors launching</span></div>
+      <div class="cell good"><span class="n">212<span style="font-size:1rem">KB</span></span><span class="k">session root, was 100MB</span></div>
+      <div class="cell good"><span class="n">0.83<span style="font-size:1rem">s</span></span><span class="k">re-summon, cache warm</span></div>
+      <div class="cell good"><span class="n">7</span><span class="k">playbooks shipped</span></div>
       <div class="cell good"><span class="n">3</span><span class="k">draft PRs open</span></div>
-      <div class="cell good"><span class="n">2</span><span class="k">doors launching</span></div>
-      <div class="cell good"><span class="n">1</span><span class="k">summon engine live</span></div>
-      <div class="cell good"><span class="n">5</span><span class="k">playbooks shipped</span></div>
-      <div class="cell work"><span class="n">2</span><span class="k">workers in flight</span></div>
-      <div class="cell work"><span class="n">7</span><span class="k">challenges logged</span></div>
+      <div class="cell work"><span class="n">9</span><span class="k">challenges logged</span></div>
     </div>
   </section>
 
@@ -294,7 +294,7 @@
   summoned  addy-osmani/test-driven-development  2★  TM 36.0
             -&gt; …/gaia-hell-6RqGOl/skills/addy-osmani__test-driven-development/SKILL.md
 
-<b>$ gaia_summon  (over MCP stdio)</b>
+<b>$ summon  (over MCP stdio)</b>
   { "id": "addy-osmani/test-driven-development", "level": "2★",
     "bytes": 16477, "sha256": "71fddd…",
     "sessionRoot": "/var/folders/…/gaia-hell-6RqGOl" }</pre>
@@ -315,6 +315,42 @@
     </p>
     <p><strong>Proof it works</strong> — <code>garrytan/review</code> comes down as 13 files including a
       <code>specialists/</code> subdirectory, not one lone file.</p>
+
+    <h3>Then the clone had to go</h3>
+    <p>
+      Install parity worked, and immediately created a new problem: <strong>247 MB of orphaned
+      session roots filled the machine and killed a running worker with <code>ENOSPC</code>.</strong>
+      Cloning repos means a session root is repo-sized, and the high-entropy rungs are <em>defined</em>
+      by summoning more — so the most valuable mode allocates the most disk fastest.
+    </p>
+    <p>
+      The ratio that solved it: <strong>the clone is ~100 MB, the skill inside it is ~200 KB.</strong>
+      We were keeping the crate to store the envelope. Discard the clone after extraction, reap
+      abandoned roots on every summon (with a signal-0 PID check so a live session is never
+      collected), and retain only extracted payloads in a bounded 16 MiB LRU cache keyed by
+      resolved commit SHA.
+    </p>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>&nbsp;</th><th class="num">before</th><th class="num">after</th></tr></thead>
+        <tbody>
+          <tr><td>session root</td><td class="num">69–101 MB</td><td class="num">212 KB</td></tr>
+          <tr><td>re-summon after the session was destroyed</td><td class="num">full re-clone</td><td class="num">0.831 s</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:1rem">
+      The founder's instinct to keep this "in memory" was right, and the mechanism is simpler than
+      a daemon: at this size the OS page cache holds hot payloads in RAM anyway, so an on-disk
+      payload store <em>is</em> memory-resident in every way that matters — without owning a
+      background process or a crash lifecycle. A RAM disk lost on portability; a daemon lost on
+      complexity.
+    </p>
+    <p>
+      <strong>A prior of mine was disproved, correctly.</strong> I expected sparse/partial checkout
+      to be the real fix. Measured across three skills it gave smaller transient peaks but was
+      slower every time. The worker rejected my hint on evidence.
+    </p>
 
     <h3>Install time — the high-entropy metric</h3>
     <p>
@@ -361,9 +397,9 @@
         <tbody>
           <tr><td class="mono">claude-heaven</td><td>Claude Code</td><td class="dim">ships</td><td><span class="chip ok">ships + /skill-hell</span></td></tr>
           <tr><td class="mono">pi-heaven</td><td>pi 0.83.0</td><td class="dim">stub — zero code</td><td><span class="chip ok">launching</span></td></tr>
-          <tr><td class="mono">codex-heaven</td><td>codex-cli 0.146.0</td><td class="dim">recipe-only, never execs</td><td><span class="chip work">in flight</span></td></tr>
-          <tr><td class="mono">hermes-heaven</td><td>Hermes 0.20.0</td><td class="dim">no compile route at all</td><td><span class="chip work">door built, floor in progress</span></td></tr>
-          <tr><td class="mono">grok-heaven</td><td>grok 0.2.118</td><td class="dim">nothing</td><td><span class="chip none">not started</span></td></tr>
+          <tr><td class="mono">codex-heaven</td><td>codex-cli 0.146.0</td><td class="dim">recipe-only, never execs</td><td><span class="chip ok">launching</span></td></tr>
+          <tr><td class="mono">hermes-heaven</td><td>Hermes 0.20.0</td><td class="dim">no compile route at all</td><td><span class="chip ok">launching</span></td></tr>
+          <tr><td class="mono">grok-heaven</td><td>grok 0.2.118</td><td class="dim">nothing</td><td><span class="chip work">in flight</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -418,6 +454,20 @@
       gives a true floor while never touching the real profile.
     </p>
 
+    <h3>The bottom rung was pointing at the wrong object</h3>
+    <p>
+      Two live defects in shipped code, both closed (#24). <code>product-floor</code> still named
+      <code>--setting-sources project</code> — but that flag is an <em>allowlist</em>, so naming a
+      scope <strong>keeps</strong> it. The same leak had been fixed for <code>curated</code> a week
+      earlier and left open on its sibling. And <code>LEVEL_ALIASES</code> pointed <code>off</code>
+      at <code>floor</code>, the doorless internal ruler that must never be product vocabulary,
+      rather than at <code>product-floor</code>.
+    </p>
+    <p>
+      <code>--level off</code> and <code>--posture product-floor</code> now compose byte-for-byte
+      identically. The benchmark floor route is untouched, and F7 was deliberately not remeasured.
+    </p>
+
     <h3>The inline surface</h3>
     <p>
       <code>/skill-hell</code> summons, names the skill, then prints its body — so the skill is
@@ -425,6 +475,58 @@
       which skill, nothing more.
     </p>
     <pre>⚡ native · 14.2k standing (excl. bundled/plugin) · <b>hell: grill-me +2</b></pre>
+    <p>
+      pi got both surfaces too — launcher and extension. And it turned up a real capability
+      difference: <strong>pi can load a summoned skill mid-session</strong> through resource
+      discovery and reload (<code>skills admitted by pi now: 1 (planned at boot: 0)</code>).
+      Claude's markdown plugin cannot. Same <code>/skill-hell</code>, different depth — on pi the
+      skill genuinely loads; on Claude its body is pasted into context. The core hands over a
+      directory either way, which is the property worth protecting.
+    </p>
+  </section>
+
+  <section>
+    <p class="eyebrow">Architecture</p>
+    <h2>Core and quirks</h2>
+    <p class="lede">
+      Five doors in, the boundary is clear enough to name — so adding harness six is a table row
+      and a probe, not a redesign.
+    </p>
+    <p>
+      The correction that mattered: <strong>a door does not suppress "skills", it suppresses
+      context sources</strong> — skills, rule and instruction files, memory, prompt templates,
+      toolsets, plugins and MCP, subagents. That narrow early framing is exactly why Hermes and
+      Grok both surprised us. Cursor's <code>.cursorrules</code> is the next instance and it drops
+      into the matrix without touching the ladder.
+    </p>
+    <p>
+      <strong>Core</strong> owns the ladder, the postures, the P2/P3/D12/M0 guarantees, the
+      compiler, the summon engine, measurement, and the door package shape.
+      <strong>Quirks</strong> own which mechanism class a harness is, its flags, its auth file,
+      whether skills load mid-session, extra rule surfaces, and whether it reads another harness's
+      directories.
+    </p>
+    <p>
+      The boundary carries a falsifiable test: <em>if adding a door needs core edits beyond a
+      switch case, the abstraction is leaking</em> — fix it before the sixth door bakes it in.
+    </p>
+
+    <h3>Four suppression classes — the whole taxonomy</h3>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Class</th><th>Shape</th><th>Seen in</th></tr></thead>
+        <tbody>
+          <tr><td>allowlist</td><td>a flag that reads like suppression but <em>keeps</em> what you name</td><td class="mono">claude, hermes</td></tr>
+          <tr><td>native evict/readmit</td><td>one flag clears, another admits paths</td><td class="mono">pi</td></tr>
+          <tr><td>config-home scoping</td><td>an env var relocates the whole config root</td><td class="mono">codex, hermes, grok</td></tr>
+          <tr><td>seeded on disk</td><td>already files; <strong>no runtime flag can delete a file</strong></td><td class="mono">hermes, grok</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:1rem">
+      The allowlist class has bitten twice. The seeded-on-disk class is the one that wastes a whole
+      campaign, because the flags look right and the docs say they work.
+    </p>
   </section>
 
   <section>
@@ -503,14 +605,26 @@
           <tr><td class="mono">summon-parity</td><td>Sonnet</td><td>install parity port</td><td class="num">5.87</td></tr>
           <tr><td class="mono">pi-door</td><td>Sonnet</td><td>pi-heaven door + probe</td><td class="num">6.74</td></tr>
           <tr><td class="mono">summon-timing</td><td>Luna Max</td><td>timing, suites, docs — 6 commits</td><td class="num">0.13</td></tr>
-          <tr><td class="mono">hermes-door</td><td>Sol Medium</td><td>hermes probe + door</td><td class="num">3.01</td></tr>
+          <tr><td class="mono">p8-fix</td><td>Luna Max</td><td>#24 across 15 files, 215 tests green</td><td class="num">0.33</td></tr>
+          <tr><td class="mono">grok-door</td><td>Luna Max</td><td>grok probe + door (in flight)</td><td class="num">0.42</td></tr>
+          <tr><td class="mono">hermes-door</td><td>Sol Medium</td><td>hermes probe campaign + door</td><td class="num">8.32</td></tr>
+          <tr><td class="mono">pi-ext</td><td>Sol Medium</td><td>pi extension, both commands</td><td class="num">7.42</td></tr>
+          <tr><td class="mono">summon-gc</td><td>Sol Medium</td><td>GC + retention, 3 approaches measured</td><td class="num">3.53</td></tr>
         </tbody>
       </table>
     </div>
     <p style="margin-top:1rem">
-      Luna Max closed the entire remaining install-parity scope for <strong>13 cents</strong>. Sol
-      Medium costs more because probe work is judgement work — it ran a full negative-result
-      investigation and correctly refused to overclaim.
+      Luna Max closed the entire remaining install-parity scope for <strong>13 cents</strong>, and
+      the P8 fix across 15 files for 33. Sol Medium costs more because probe work <em>is</em>
+      judgement work — its hermes campaign ran a full negative-result investigation and correctly
+      refused to overclaim a floor it had not proven.
+    </p>
+    <p>
+      The split holds up: <strong>mechanical work to Luna Max, investigation to Sol Medium.</strong>
+      Both picked up the brief-file convention, the commit discipline, and Rule 0 with no extra
+      prompting. Two things they got wrong are worth recording — one worker reported
+      "TYPECHECK: pass" having run <code>npm test</code> instead, and a prompt to a freshly-started
+      pi agent can be swallowed by its startup banner. Both are now written down.
     </p>
 
     <h3>Playbooks</h3>
@@ -614,17 +728,17 @@
       <table>
         <thead><tr><th>Workspace</th><th class="num">in</th><th class="num">out</th><th class="num">cache read</th><th class="num">USD</th></tr></thead>
         <tbody>
-          <tr><td class="mono">gaia-skill-tree</td><td class="num">213,872</td><td class="num">242,029</td><td class="num">38,411,189</td><td class="num">27.34</td></tr>
-          <tr><td class="mono">gaia-mcp</td><td class="num">5,861</td><td class="num">129,661</td><td class="num">13,274,792</td><td class="num">4.74</td></tr>
-          <tr><td class="mono">sh-wt-pi</td><td class="num">240</td><td class="num">108,797</td><td class="num">11,558,623</td><td class="num">4.26</td></tr>
-          <tr><td class="mono">sh-wt-hell</td><td class="num">56</td><td class="num">11,055</td><td class="num">1,824,557</td><td class="num">1.22</td></tr>
-          <tr><td class="mono">skill-heaven</td><td class="num">222,058</td><td class="num">23,161</td><td class="num">5,828,864</td><td class="num">0.36</td></tr>
+          <tr><td class="mono">gaia-skill-tree <span class="dim">(orchestrator)</span></td><td class="num">8,991</td><td class="num">682,599</td><td class="num">199,041,281</td><td class="num">129.73</td></tr>
+          <tr><td class="mono">sh-wt-doors</td><td class="num">568,239</td><td class="num">43,138</td><td class="num">12,524,544</td><td class="num">9.32</td></tr>
+          <tr><td class="mono">sh-wt-piext</td><td class="num">209,192</td><td class="num">25,766</td><td class="num">11,201,024</td><td class="num">7.42</td></tr>
+          <tr><td class="mono">gaia-mcp</td><td class="num">261,077</td><td class="num">63,197</td><td class="num">7,068,160</td><td class="num">3.66</td></tr>
+          <tr><td class="mono">sh-wt-grok</td><td class="num">272,573</td><td class="num">50,545</td><td class="num">15,000,576</td><td class="num">0.42</td></tr>
+          <tr><td class="mono">sh-wt-p8</td><td class="num">298,704</td><td class="num">40,625</td><td class="num">10,836,480</td><td class="num">0.33</td></tr>
         </tbody>
       </table>
     </div>
     <p class="dim" style="margin-top:0.75rem; font-size:0.86rem">
-      Snapshot at mid-session. Known gap: <code>skill-cost</code> has no Grok parser — one small
-      function when a Grok arm needs pricing.
+      <strong>$150.87</strong> on the 2026-08-07 UTC day (an earlier stretch of the same session fell into the previous UTC bucket at ~$77). Known gap: <code>skill-cost</code> has no Grok parser — one small function when a Grok arm needs pricing.
     </p>
   </section>
 
