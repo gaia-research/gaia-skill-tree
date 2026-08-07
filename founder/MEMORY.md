@@ -4,6 +4,104 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-08-07 FINAL, Program 3 — five doors, skill-hell working, taxonomy abstracted, session closed)
+
+Supersedes both earlier same-day snapshots. This is the session close.
+
+### TLDR
+- **Five doors exist and launch**: claude-heaven, pi-heaven (launcher **and** extension), codex-heaven, hermes-heaven, grok-heaven (recipe-only, honestly). `npm test` 214/214, typecheck clean.
+- **Skill Hell works end-to-end** with install parity to `gaia install`, session GC, and a cross-session payload cache. Session root **212 KB** (was 69–101 MB); re-summon after the session is destroyed lands in **0.831 s**.
+- **The five-door experience is abstracted** into `harness-door-pattern` (skill) + `docs/CORE-AND-QUIRKS.md` so door six is a quirks-table row plus a probe, not a redesign.
+- **Research post** published to gaia-research (#155), drafted then adversarially fact-checked, with four corrections applied before publication.
+- Session spend **~$177** across all workspaces.
+
+### Founder rulings locked this session
+
+- **C4 — content hashing deferred** until after benchmarking. Ship the prototype. Deferred, not closed: reopens the moment summon points at a session that is not the founder's own.
+- **C2 — delivery is `npx`, and we ship the launcher, never a harness.** The door execs whatever harness the user already has on `PATH`. *"We don't ship another claude"* — that is the pitch. Consequence: the harness version is the user's and can move under us, so a door should report the version it actually launched. A dose is a statement about a version, never a standing guarantee.
+- **Reasoning effort is NOT a Skill Heaven posture** — model-scoped dial vs skill/context-scoped ladder; shared level names are coincidence. Hold constant across arms.
+- **Summon must behave exactly like `gaia install`** — clone and materialize the whole skill **directory**. Semantics ported from `src/gaia_cli/install.py` (the checkout, never a globally-installed `gaia`).
+- **Install time in seconds is the metric** for high-entropy modes, always carrying cold-vs-warm.
+- **GC is essential per session**; retention across sessions via a small bounded cache.
+- **Roster**: pi + GPT-5.6 — **Luna Max mechanical, Sol Medium judgement**. Opus stays for tasks needing the juice.
+- **Fan-out**: a pi worker may spawn unlimited `worker-luna` subagents for mechanical probes. Orchestrator concurrency stays **2 herdr pane workers**; fan-out happens inside one, never as a third.
+- **Stash panes, don't close them** — `herdr pane move --tab` to an archive tab keeps evidence with scrollback intact.
+- **Name the capability, never the tree.** The summon engine is **tree-agnostic** — the same summon will point at a user tree, an enterprise tree, anything. `GAIA_REGISTRY_URL` / `GAIA_NAMED_SKILLS_URL` already make it configuration, not a fork. Hence `summon`, not `gaia_summon` (D4).
+
+### The abstraction — read this before adding door six
+
+`packages/core/skills/harness-door-pattern/SKILL.md` and `docs/CORE-AND-QUIRKS.md`.
+
+**A door does not suppress "skills" — it suppresses CONTEXT SOURCES**: skills, rule/instruction files, memory, prompt templates, toolsets, plugins/MCP, subagents. The narrow framing is exactly why Hermes and grok were both missed on the first pass.
+
+**Four mechanism classes, the whole taxonomy:** allowlist flags that read like suppression flags (claude, hermes) · native evict/readmit (pi) · config-home scoping (codex, hermes, grok) · **skills already seeded onto disk** (hermes, grok) — the class that wastes a campaign, because the flags look right and the docs say they work.
+
+**Falsifiable boundary test:** if adding a door needs core edits beyond a switch case, the abstraction is leaking — fix it before the sixth door bakes it in.
+
+### Measurement discipline (hard-won)
+
+- **Self-report confabulates.** Hermes' composed floor, asked to list its skills, **invented four names that do not exist**. pi gave different answers to identical argv.
+- **Hard signals, in order:** a disk-enumerating subcommand (`grok inspect`) · a snapshot/cache file (`.skills_prompt_snapshot.json`) · token counts (`--mode json` totalTokens; hermes prompt-side usage) · **a canary skill with a unique marker string** (proved curated works on both hermes and grok).
+- **Docs can be wrong about their own implementation.** Hermes' `--ignore-rules` claims to skip "preloaded skills"; it maps only to `skip_context_files` + `skip_memory` and never touches toolsets. One grep beat an hour of black-box probing. **Founder: use the web/source-explore method for this class — "a gold mine."**
+- **An account limit is not a harness limit.** grok was free-tier; door is recipe-only for that reason.
+- **`herdr pane run` splits argv** — use `pane send-text` with a trailing newline inside the quotes. A split prompt still returns a plausible answer to a question nobody asked.
+- **A prompt to a freshly-started `pi` agent can be swallowed by its startup banner** — use `--wait --until working --timeout 60000` and verify.
+
+### Doses (pinned; magnitudes are working-directory-dependent)
+
+- **pi 0.83.0**: 11,271 baseline → 4,371 (`--no-skills`) → 2,831 (product floor) → 1,069 (doorless). **Door costs 1,762 tok.** 0.80.10 ordering quirk does NOT reproduce. `--no-prompt-templates` contributes zero here.
+- **claude 2.1.216 (F7)**: native 28,379 · doorless 19,661 · doorful 20,176. **Door 515 tok**, product floor −28.9% vs native.
+- **hermes 0.20.0**: prompt-side usage 22,089 → 7,938 (**−64%**), identical across repeats. `--safe-mode` adds nothing on top of the toolset allowlist.
+- **grok 0.2.118**: 110 skills (75 user, 16 bundled, 19 across 3 plugins) → 79 scoped → 1 curated. No dose claimed.
+
+### Branches / PRs — all three integration branches DRAFT against main, founder's to merge
+
+| Repo | Branch | PR | Head |
+|---|---|---|---|
+| skill-heaven | `integration/program-3-prototypes` | **#39** (draft) | `59cae81` |
+| gaia-mcp | `integration/skill-hell` | **#7** (draft) | `05dcf15` |
+| gaia-skill-tree | `founder/program-3-prototypes` | **#1474** (draft) | founder docs |
+
+**Merged this session:** gaia-research **#154** (lexicon: three door names + `context source`). **Open:** gaia-research **#155** (research post).
+
+All six feature branches merged into integration and deleted; all six worktrees removed. Panes stashed in the `heaven-archive` tab (8 panes, scrollback intact).
+
+### Roster economics — measured
+
+| Worker | Model | Delivered | USD |
+|---|---|---|---|
+| summon-parity | Sonnet | install-parity port | 5.87 |
+| pi-door | Sonnet | pi-heaven door + probe | 6.74 |
+| summon-timing | Luna Max | timing, suites, docs | **0.13** |
+| p8-fix | Luna Max | #24 across 15 files | **0.33** |
+| grok-door | Luna Max | grok probe + door | **0.59** |
+| summon-gc | Sol Medium | GC + retention, 3 approaches measured | 3.53 |
+| pi-ext | Sol Medium | pi extension, both commands | 7.42 |
+| hermes-door | Sol Medium | hermes probe campaign + door | 8.32 |
+
+Luna Max did comparable mechanical scope to Sonnet for ~2%. Sol Medium is dearer because probe campaigns are judgement work. **grok cost $0.59 against hermes' $8.32 largely because grok's mechanism class was scouted by hand before dispatch** — that is the bet `harness-door-pattern` is making, and it is stated as a hypothesis in the research post, not a claim.
+
+### Worker failure modes to design against
+
+- A worker reported **"TYPECHECK: pass" having run `npm test`** — verified a neighbouring gate. The pi extension merged with 13 typecheck errors. Always name the exact gate and verify it yourself before merging.
+- A worker **refused a mid-turn instruction as a suspected prompt injection** — correctly, twice, including when the founder typed it directly into its pane. **A pane is a window, not a control channel.** Execution rules go in `CLAUDE.md` or the dispatch brief, read before work starts.
+- **My own dispatch brief caused a bug**: I specified rating as the primary sort key, so the top-rated skill won every query. The worker followed it exactly. Fix the brief, not the output.
+
+### Not built — the remaining list
+
+1. **#30** namespace split — answer known (a command's prefix is its PLUGIN's name, so it needs two plugin.json entries in marketplace.json), not implemented.
+2. **#25** slash-command baseline for product-floor · **#29** `claude --continue` · **#32** launcher-vs-desktop matrix · **#33** harness-agnostic test framework.
+3. **#34 / C2** — ruled `npx`; the launcher work itself is unbuilt.
+4. **The `med…max` hell rungs still compose nothing** — they hard-error at the P2 gate. Wiring them to the summon engine is what turns a gate into a product, and it is the natural next sprint.
+5. `skill-cost` has **no Grok parser** — one small function when a Grok arm needs pricing.
+6. Cursor is the obvious sixth door; `.cursorrules` is a rule-file context source and slots into the matrix.
+
+### Spend
+
+2026-08-07 UTC day: **~$177**, 315.8M tokens, across orchestrator + 8 workers + scouts. Measured with `skill-cost`, the canonical basis. (An earlier stretch of the same session fell into the 2026-08-06 UTC bucket at ~$77.)
+
+---
+
 ## State Snapshot (2026-08-07 late, Program 3 — four doors landed, skill-hell working, new pi subagent roster proven)
 
 Supersedes the earlier same-day snapshot below (which recorded the mid-session token-budget pause). Session resumed after that pause and ran considerably further.
