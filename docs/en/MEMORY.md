@@ -2,6 +2,47 @@
 
 ---
 
+## 2026-08-07 — Routine 024
+
+**Branch:** `docs/routines/024`
+**Task chosen:** SYNC — version bump v7.3.1 → v7.4.1 (current pyproject.toml / main)
+
+### Trigger
+
+Routine documentation agent triggered; repository version bumped to v7.4.1 on main. Routine 023 was unmerged; created fresh routine 024 from origin/main per workflow discipline.
+
+### What I did
+
+1. **Version sync: all 12 pages, v7.3.1 → v7.4.1**
+   - Updated nav version chips (`.docs-nav-version`)
+   - Updated footer version spans
+   - Updated script cache-bust query parameters (`?v=7.4.1` on `mounts.js`, `site-nav.js`, `ui.js`)
+   - All 12 pages: `index.html`, `getting-started.html`, `cli-reference.html`, `skill-hierarchy.html`, `contributing.html`, `named-skills.html`, `evidence-classes.html`, `fusion.html`, `mcp-server.html`, `faq.html`, `share-bundles.html`, `timeline-audit.html`
+
+### Design decisions
+
+- Updated uniformly across all HTML files to maintain consistency
+- No content changes — version maintenance only
+- Scope limited to documented changes visible in repository tag
+
+### Verification
+
+- `git status` scoped to `docs/en/**` only
+- All 12 pages now consistently contain `v7.4.1` in nav chips, footer, and script query params
+- No vocabulary drift (merge/combine/compose/rarity correctly avoided)
+- No new hex colors introduced
+
+### Files modified
+
+All 12 pages in `docs/en/` (version sync only); `docs/en/MEMORY.md` (this entry).
+
+### Planned next (Routine 025+)
+
+- ROTATE: audit least-recently-touched page for content improvements
+- SYNC: monitor for new CLI features/flags between v7.3.1 and v7.4.1
+
+---
+
 ## 2026-08-01 — Routine 018 — Editor pass (ship gate, PR #1334)
 
 **Role:** Weekly editor. Reviewed the week's accreted commits on `docs/routines/018`, verified
