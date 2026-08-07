@@ -266,7 +266,49 @@ now a first-class output rather than something to discover during benchmarking.
 
 ## C8 — Summon sessions fill the disk, and nothing reaps them
 
-**Status: hit for real this session. Needs a decision before high-entropy modes are usable.**
+**Status: SOLVED 2026-08-07. Verified independently.**
+
+> **Founder direction:** "Reaping / Garbage Collection is essential per session. Possibly retained
+> in memory cache only for the next session especially for curated ones… leaning towards a more
+> long-term option which utilizes memory — a few megabytes won't hurt."
+
+**What shipped:**
+
+- **The clone is discarded after extraction.** It was always transient scaffolding; we were
+  keeping a ~100 MB crate to store a ~200 KB envelope.
+- **Per-session GC.** Every summon sweeps roots older than 4 hours (`GAIA_HELL_TTL_HOURS`).
+  `close` removes its whole root. `gaia-hell gc --dry-run` previews. **A signal-0 PID check
+  protects any live session** — reaping a running session's skills mid-task would have been a
+  rare, ugly bug.
+- **Cross-session retention: a 16 MiB bounded payload cache with LRU eviction**, keyed by
+  resolved commit SHA plus repo and subpath. Only extracted skill payloads, never clones.
+
+**Measured, verified independently by the orchestrator:**
+
+| | before | after |
+|---|---|---|
+| session root | 69–101 MB | **212 KB** |
+| re-summon after `close` destroyed the session | full re-clone | **0.831 s** |
+
+**The founder's "memory" instinct was right, and the mechanism is simpler than a daemon.** At
+this size the OS page cache keeps hot payloads in RAM anyway, so an on-disk payload store *is*
+memory-resident in every way that matters — without a background process, a socket, or a crash
+lifecycle to own. A RAM disk lost on portability and setup; a daemon lost on complexity.
+
+**A prior of mine was disproved, correctly.** I expected sparse/partial checkout
+(`--filter=blob:none`, sparse-checkout of the subpath) to be the real fix. Measured across three
+skills it produced smaller transient peaks but was **slower every time**. Rejected on evidence.
+Discard-after-extract wins outright.
+
+**Consequence to carry:** earlier "warm" timings in this document and in the session report
+described a warm *git* cache, which no longer exists in that form. Warm now means a payload-cache
+hit. Old numbers do not describe the current code.
+
+---
+
+### Original framing (kept for the record)
+
+**Status when written: hit for real this session.**
 
 Install parity means summon **clones repos**. A session root is therefore not a few kilobytes of
 markdown — it is however large the source repos are. Measured today, from ordinary verification
