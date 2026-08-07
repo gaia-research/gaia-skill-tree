@@ -84,7 +84,22 @@ removable. Not elegant, but honest and recoverable.
 
 ## C4 — Summoned skills are fetched, not verified
 
-**Status: open. Security-shaped. Worth your ruling before this leaves prototype.**
+**Status: RULED 2026-08-07. Content hashing is deferred until after benchmarking. Ship the
+working prototype now.**
+
+> **Founder ruling:** "content hash will be added later after benchmarking the skill. I just want
+> a working prototype now."
+
+Rationale as recorded: hashing a skill is only meaningful once the Index has something to say
+about that skill, and gating a prototype on it would stall the thing the Index exists to measure.
+The risk below stands and is accepted knowingly for founder-driven use.
+
+**Carry forward:** this becomes live again the moment summon points at a session that is not the
+founder's own. Do not treat the ruling as closing the question — it defers it.
+
+---
+
+### Original framing (kept for the record)
 
 Skill Hell fetches a `SKILL.md` from `raw.githubusercontent.com` at the URL the registry carries
 in `links.github`, and writes it into the session where an agent will read it. The content hash
