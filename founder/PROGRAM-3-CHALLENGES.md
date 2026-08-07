@@ -185,6 +185,47 @@ now a first-class output rather than something to discover during benchmarking.
 
 ---
 
+## C8 — Summon sessions fill the disk, and nothing reaps them
+
+**Status: hit for real this session. Needs a decision before high-entropy modes are usable.**
+
+Install parity means summon **clones repos**. A session root is therefore not a few kilobytes of
+markdown — it is however large the source repos are. Measured today, from ordinary verification
+work: **247 MB across a dozen orphaned session roots**, the largest three at 101 MB, 73 MB and
+69 MB. That filled the machine's remaining disk and killed a running worker with `ENOSPC`
+mid-task.
+
+This is C3's "orphaned root" footnote turning into the actual constraint. The engine ships an
+explicit `close`, but nothing calls it when a session ends abnormally — a crash, a killed pane, a
+CLI invocation the user never followed up. Every abandoned summon leaves its clones behind.
+
+**Why this bites hardest exactly where it matters.** The high-entropy rungs — `med` through
+`max` — are defined by summoning *more*. The mode with the most product value is the mode that
+allocates the most disk, from the most repos, fastest. A ladder whose top rung reliably fills the
+user's disk is not shippable.
+
+**Options, roughly in ascending cost:**
+
+1. **Reap on start.** On every summon, delete session roots older than N hours. Cheap, no
+   daemon, no lifecycle assumptions. Wrong only if someone wants a long-lived session.
+2. **Share the repo cache across sessions.** Clone once per repo into a user-level cache and
+   materialize skills from it. This is what `gaia install` already does with
+   `~/.gaia/cache`. Kills the duplication outright — the three big roots above are almost
+   certainly the same repos cloned repeatedly. Costs the P3 "nothing outside the session" purity
+   we deliberately chose.
+3. **Sparse/partial clone.** `--filter=blob:none` or sparse-checkout of just the skill subpath.
+   Keeps session-locking intact and cuts the size by a lot. Most engineering, best result.
+
+**Recommendation: (1) now, (3) before benchmarking.** Reaping is a few lines and removes the
+failure mode today. Sparse checkout is the real fix and it also makes the install-time metric
+look dramatically better — worth doing *before* the numbers get recorded, since a benchmark run
+on full clones would price a cost we intend to remove.
+
+Option 2 is the one to think hardest about: it trades an invariant we chose on purpose for
+speed. Worth it only if sparse clone proves insufficient.
+
+---
+
 ## C6 — Benchmark visibility now has a rule, because a worker broke it
 
 **Status: fixed this session.**
