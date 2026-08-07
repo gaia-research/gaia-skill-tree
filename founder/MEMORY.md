@@ -4,6 +4,95 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-08-07 late, Program 3 — four doors landed, skill-hell working, new pi subagent roster proven)
+
+Supersedes the earlier same-day snapshot below (which recorded the mid-session token-budget pause). Session resumed after that pause and ran considerably further.
+
+### TLDR
+- **Four doors now exist and typecheck clean**: claude-heaven, codex-heaven, hermes-heaven, pi-heaven. Only grok-heaven remains unbuilt.
+- **Skill Hell works and has install parity with `gaia install`** — clones the source repo, validates the subpath, materializes the WHOLE skill directory. Verified: `garrytan/review` → 13 files including `specialists/`. Suites verified live (`garrytan/garrytan`, 4/4 components + root).
+- **Install timing shipped** (the founder's high-entropy performance metric): cold 2.952s / warm 0.765s for `garrytan/review`. Cold vs warm never printed apart — the two differ ~4× and a timing without cache state is uninterpretable.
+- **P8 (#24) fixed**: `product-floor` no longer leaks project scope, and `off` now aliases `product-floor` instead of the doorless `floor`. `--level off` and `--posture product-floor` are byte-for-byte identical. F7 / `FLOOR_EVIDENCE` untouched per ruling.
+- **hermes-heaven promoted to `exec`** via a lever nobody had documented (below).
+- **Subagent roster swapped to pi mid-session** and it is a large win.
+
+### Founder rulings this session
+
+- **C4 RULED — content hashing deferred until after benchmarking.** Ship the working prototype. "Hashing a skill is only meaningful once the Index has something to say about it." Risk accepted for founder-driven use. **Deferred, not closed** — reopens the moment summon points at a session that is not the founder's own.
+- **Reasoning effort is NOT a Skill Heaven posture.** pi's `--thinking`, codex's `model_reasoning_effort`, Hermes' `--reasoning` are **model-scoped**; the ladder is **skill- and context-scoped**. Shared level names are coincidence. Hold reasoning constant across arms; never test it as the ladder. Corrected in both playbooks and the report.
+- **Summon must behave exactly like `gaia install`** — semantics ported from `src/gaia_cli/install.py` (the checkout, never a globally-installed `gaia`, which may be stale).
+- **Install time in seconds is the metric** for high-entropy modes; must carry cold-vs-warm.
+- **New roster**: pi + GPT-5.6. **Luna Max for mechanical work, Sol Medium for judgement**, substituting for Sonnet xhigh. Opus stays available for tasks that need the juice.
+- **Fan-out rule**: a pi worker may spawn unlimited `worker-luna` subagents for mechanical probes. Orchestrator concurrency stays **2 herdr pane workers** — fan-out happens *inside* one, never as a third. Codified in `skill-heaven/CLAUDE.md` + `herdr-dispatch`.
+- **C8 direction**: per-session GC is essential; leaning toward a small memory-resident retention layer across sessions, especially for curated sets. Test freely until the shape feels solid.
+
+### The roster swap — measured, and it is not close
+
+| Worker | Model | Delivered | USD |
+|---|---|---|---|
+| summon-parity | Sonnet | install-parity port | 5.87 |
+| pi-door | Sonnet | pi-heaven door + probe | 6.74 |
+| **summon-timing** | **Luna Max** | timing + suites + docs, 6 commits | **0.13** |
+| **p8-fix** | **Luna Max** | P8 fix across 15 files, 215 tests green | **0.33** |
+| **hermes-door** | **Sol Medium** | hermes probe campaign + door | **8.32** |
+
+Luna Max does comparable-scope mechanical work for roughly 2% of Sonnet's cost. Sol Medium is dearer because probe campaigns are judgement work — it ran a full negative-result investigation and correctly refused to overclaim a floor it had not proven.
+
+**Operational gotcha:** a prompt sent to a freshly-started `pi` agent can be swallowed by its startup banner. Use `herdr agent prompt <name> "..." --wait --until working --timeout 60000` and verify it actually started.
+
+### The Hermes finding (worth carrying — it generalises)
+
+Hermes resisted every documented suppression flag; `--safe-mode`, `--ignore-rules`, `--ignore-user-config` all still reported **108 skills**. The worker probed it, found no clean floor, and honestly shipped recipe-only rather than overclaim — the correct call.
+
+A **web/source-explore pass** found why:
+- `_apply_safe_mode()` (`hermes_cli/main.py:10850-10855`) sets only three env vars.
+- `ignore_rules` maps solely to `skip_context_files` + `skip_memory` (`cli_agent_setup_mixin.py:509-510`). **It never touches toolsets.**
+- The skills index is built ONLY when `skills_list`/`skill_view`/`skill_manage` are in `valid_tool_names` (`agent/system_prompt.py:299`); otherwise `skills_prompt = ""` (`:327`). `--toolsets` is an explicit allowlist.
+
+**So `--ignore-rules`' own help text — claiming it skips "preloaded skills" — is inaccurate against its implementation.** Shipped routes: `floor` = `--toolsets terminal,web,file --safe-mode`; `product-floor` = same with `--ignore-user-config --ignore-rules`. No `fsPlan`, no auth-copy trap. Verified live: native 108 → floor 5. (The residual 5 is a model self-report and **self-report confabulates** — the 108→5 collapse is the signal; the exact floor needs a harder probe.)
+
+**Curated on hermes also resolved**: a skill directory placed into a session-scoped `HERMES_HOME` IS admitted by name — canary probe returned `HERMES_PATH_SKILL_LOADED`. Dissolves the earlier "names not paths" limitation.
+
+**Founder ruling: use the web-explore method for engineering problems like this — "this is a gold mine."**
+
+### Methodology learned (both worth keeping)
+
+- **Free-text self-report confabulates.** On pi, identical argv produced different skill lists across runs, including invented names. Use hard signals: `--mode json` token counts, snapshot-file entry counts, or a **canary skill with a unique marker string** (Sol's technique on hermes — a token the model cannot invent).
+- **`herdr pane run` splits argv on whitespace** and destroys quoted prompts. Use `pane send-text` with a trailing newline inside the quotes.
+
+### Branches / PRs
+
+| Repo | Branch | PR | Head |
+|---|---|---|---|
+| skill-heaven | `integration/program-3-prototypes` | **#39** | `7d66cbe` |
+| gaia-mcp | `integration/skill-hell` | **#7** | `06a89bd` |
+| gaia-skill-tree | `founder/program-3-prototypes` | **#1474** | founder docs |
+
+Worktrees live: `~/sh-wt-pi`, `~/sh-wt-hell`, `~/sh-wt-doors`, `~/sh-wt-p8`. Report: `founder/reports/2026-08-07-program-3-prototypes.html` (also published as an artifact).
+
+### Challenges (`founder/PROGRAM-3-CHALLENGES.md`)
+
+C1 probe-per-door (structural) · **C2 zero-manual-update delivery unsolved (#34) — still the biggest adoption risk** · C3 skill-hell with no door active (resolved) · **C4 RULED — hashing deferred** · C5 ladder wiring (bottom rung fixed by P8; hell rungs still gated) · C6 visibility rule · C7 install parity (done) · **C8 summon sessions fill the disk — hit for real, 247MB of orphans caused an ENOSPC that killed a worker. GC + retention in flight.**
+
+### In flight at snapshot
+
+`summon-gc` (Sol Medium, `gaia-mcp`): discard-the-clone / sparse checkout, per-session GC with pid-liveness protection, and a small cross-session retention layer. Key ratio driving it: **clone ~100MB vs skill ~200KB.**
+
+### Not yet built — the remaining prototype gaps
+
+1. **pi-heaven extension** — the launcher ships; the in-session surface does not. Founder deliverable named "pi-heaven + pi-heaven extension".
+2. **`/skill-hell` on pi** — the Claude-side command ships; the pi side does not. Founder deliverable named skill-hell for "pi running gpt 5.6-luna light".
+3. **grok-heaven** — 5th door, never started. Note `skill-cost` also has no Grok parser.
+4. **#30 namespace split** — the answer is known (a command's prefix is its PLUGIN's name, so it needs two plugin.json entries in marketplace.json), not implemented.
+5. **#25** slash-command baseline for product-floor · **#29** `claude --continue` · **#32** launcher-vs-desktop test matrix · **#33** harness-agnostic test framework.
+6. **#34 / C2 delivery** — likely needs a founder decision (npm `npx` per-launch vs self-updating binary) before it can be built.
+
+### Spend
+
+2026-08-07 UTC day: **~$101**, 161M tokens. (The earlier part of the session fell into the 2026-08-06 UTC bucket at ~$77.) Measured with `skill-cost`, the canonical basis.
+
+---
+
 ## State Snapshot (2026-08-07, Program 3 — building the prototypes: skill-heaven doors + skill-hell summon engine) — PAUSED ON TOKEN BUDGET
 
 ### TLDR
