@@ -811,9 +811,9 @@
 
   <!-- Main site nav (hamburger on mobile, full menu on desktop) -->
   <nav id="site-nav"></nav>
-  <script src="../js/mounts.js?v=7.3.1"></script>
-  <script src="../js/site-nav.js?v=7.3.1"></script>
-  <script src="../js/ui.js?v=7.3.1"></script>
+  <script src="../js/mounts.js?v=7.4.2"></script>
+  <script src="../js/site-nav.js?v=7.4.2"></script>
+  <script src="../js/ui.js?v=7.4.2"></script>
 
 
 
@@ -825,7 +825,7 @@
     <span class="nav-sep">/</span>
     <span class="nav-crumb current">CLI Reference</span>
     <div class="nav-spacer"></div>
-    <span class="nav-version">v7.3.1</span>
+    <span class="nav-version">v7.4.2</span>
   </nav>
 
   <div class="page-layout">
@@ -836,7 +836,6 @@
         <ul class="sidebar-links">
           <li><a href="#init"><code>init</code></a></li>
           <li><a href="#scan"><code>scan</code></a></li>
-          <li><a href="#promote"><code>promote</code></a></li>
           <li><a href="#fuse"><code>fuse</code></a></li>
           <li><a href="#tree"><code>tree</code></a></li>
           <li><a href="#push"><code>push</code></a></li>
@@ -883,6 +882,7 @@
           <li><a href="#dev-evidence"><code>dev evidence</code></a></li>
           <li><a href="#dev-merge"><code>dev merge</code></a></li>
           <li><a href="#dev-split"><code>dev split</code></a></li>
+          <li><a href="#dev-rename"><code>dev rename</code></a></li>
           <li><a href="#dev-timeline"><code>dev timeline</code></a></li>
           <li><a href="#dev-list"><code>dev list</code></a></li>
           <li><a href="#dev-audit"><code>dev audit</code></a></li>
@@ -930,7 +930,6 @@
           <ul class="toc-section-list">
             <li><a href="#init"><code>init</code> — Initialize config</a></li>
             <li><a href="#scan"><code>scan</code> — Scan for evidence</a></li>
-            <li><a href="#promote"><code>promote</code> — Rank up skill</a></li>
             <li><a href="#fuse"><code>fuse</code> — Fuse skills</a></li>
             <li><a href="#tree"><code>tree</code> — Render skill tree</a></li>
             <li><a href="#push"><code>push</code> — Submit intake batch</a></li>
@@ -972,6 +971,7 @@
             <li><a href="#dev-evidence"><code>dev evidence</code> — Add evidence</a></li>
             <li><a href="#dev-merge"><code>dev merge</code> — Merge nodes</a></li>
             <li><a href="#dev-split"><code>dev split</code> — Split node</a></li>
+            <li><a href="#dev-rename"><code>dev rename</code> — Rename a skill</a></li>
             <li><a href="#dev-timeline"><code>dev timeline</code> — Add timeline log</a></li>
             <li><a href="#dev-list"><code>dev list</code> — Query registry</a></li>
             <li><a href="#dev-audit"><code>dev audit</code> — Run registry linter</a></li>
@@ -985,7 +985,7 @@
       <!-- ═══════════════ PLAYER WORKFLOW ═══════════════ -->
       <section class="section" id="player-workflow">
         <h2 class="section-title">Player workflow</h2>
-        <p class="section-desc">Use these commands to scan your local code, promote your skills, and save your progress.
+        <p class="section-desc">Use these commands to scan your local code, propose your skills to canon, and save your progress.
         </p>
 
         <!-- init -->
@@ -1129,68 +1129,6 @@
 
 <span class="c"># Scan configured paths plus two extra directories</span>
 <span class="cmd">gaia scan</span> <span class="arg">--dir ~/my-skills --dir ./local-agents</span></pre>
-            </div>
-          </div>
-        </div>
-
-        <!-- promote -->
-        <div class="cmd-card" id="promote">
-          <div class="cmd-card-header">
-            <span class="cmd-name">gaia promote</span>
-            <span class="cmd-signature">[&lt;skillId&gt;] [--all] [--unique] [--name &lt;label&gt;]</span>
-            <span class="gate-badge open">● open</span>
-          </div>
-          <div class="cmd-body">
-            <ul class="cmd-desc">
-              <li>Promotes one skill or all candidates from your last scan.</li>
-              <li>Requires candidate skills to be listed in a non-stale file.</li>
-              <li>Appends a timeline event to your skill tree file.</li>
-            </ul>
-            <table class="flag-table">
-              <thead>
-                <tr>
-                  <th>Flag</th>
-                  <th>Description</th>
-                  <th>Default</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>&lt;skillId&gt;</td>
-                  <td>Slash-prefixed or bare canonical skill ID, e.g. <code>/web-search</code> or
-                    <code>web-search</code>.
-                  </td>
-                  <td>—</td>
-                </tr>
-                <tr>
-                  <td>--all</td>
-                  <td>Promote every candidate from the most recent scan in one pass.</td>
-                  <td>false</td>
-                </tr>
-                <tr>
-                  <td>--unique</td>
-                  <td>Promote a Basic skill to the Unique tier (requires 4★ and graph-isolation with a named
-                    implementation).</td>
-                  <td>false</td>
-                </tr>
-                <tr>
-                  <td>--name &lt;label&gt;</td>
-                  <td>Optional display name for the skill entry in your tree.</td>
-                  <td>canonical name</td>
-                </tr>
-              </tbody>
-            </table>
-            <div class="example-block">
-              <div class="example-label">examples</div>
-              <pre><span class="c"># Promote a single skill after scanning</span>
-<span class="cmd">gaia scan</span>
-<span class="cmd">gaia promote</span> <span class="arg">/web-search</span>
-
-<span class="c"># Promote every candidate from the last scan</span>
-<span class="cmd">gaia promote</span> <span class="arg">--all</span>
-
-<span class="c"># Promote a Basic skill to Unique tier</span>
-<span class="cmd">gaia promote</span> <span class="arg">code-review --unique</span></pre>
             </div>
           </div>
         </div>
@@ -1447,7 +1385,7 @@
           <div class="cmd-body">
             <ul class="cmd-desc">
               <li>Renders a status card for a specific skill.</li>
-              <li>Displays stars, possible actions (<a href="#promote">promote</a>, <a href="#fuse">fuse</a>, <a
+              <li>Displays stars, possible actions (<a href="#fuse">fuse</a>, <a
                   href="#propose">propose</a>), evidence, and installation status.</li>
               <li>Defaults to your last active skill if no argument is passed.</li>
             </ul>
@@ -1618,7 +1556,7 @@
         <div class="cmd-card" id="propose">
           <div class="cmd-card-header">
             <span class="cmd-name">gaia propose</span>
-            <span class="cmd-signature">&lt;skillId&gt; [--target &lt;contributor/skill&gt;] [--ultimate] [--yes]
+            <span class="cmd-signature">&lt;skillId&gt; [--target &lt;contributor/skill&gt;] [--yes]
               [--no-pr]</span>
             <span class="gate-badge open">● open</span>
           </div>
@@ -1641,11 +1579,6 @@
                   <td>--target &lt;contributor/skill&gt;</td>
                   <td>Named skill identifier in <code>contributor/skill-name</code> format.</td>
                   <td>prompted</td>
-                </tr>
-                <tr>
-                  <td>--ultimate</td>
-                  <td>Assert the skill is an Ultimate. Fails if it is not.</td>
-                  <td>false</td>
                 </tr>
                 <tr>
                   <td>--yes</td>
@@ -1763,7 +1696,7 @@
             </ul>
             <div class="example-block">
               <div class="example-label">examples</div>
-              <pre><span class="cmd">gaia version</span>    <span class="c"># → 7.3.1</span>
+              <pre><span class="cmd">gaia version</span>    <span class="c"># → 7.4.2</span>
 <span class="cmd">gaia --version</span></pre>
             </div>
           </div>
@@ -1936,7 +1869,7 @@
                   <td>false</td>
                 </tr>
                 <tr>
-                  <td>--ultimate, --suite</td>
+                  <td>--suite</td>
                   <td>Batch-install all component skills of a suite skill.</td>
                   <td>false</td>
                 </tr>
@@ -1985,7 +1918,7 @@
         <div class="cmd-card" id="dev-add">
           <div class="cmd-card-header">
             <span class="cmd-name">gaia dev add</span>
-            <span class="cmd-signature">&lt;name&gt; [--type basic|extra|unique|ultimate] [--description &lt;text&gt;]
+            <span class="cmd-signature">&lt;name&gt; [--type basic|fusion] [--description &lt;text&gt;]
               ...</span>
             <span class="gate-badge verifier">◇ verifier</span>
           </div>
@@ -2006,7 +1939,7 @@
               <tbody>
                 <tr>
                   <td>--type</td>
-                  <td>Tier: <code>basic</code>, <code>extra</code>, <code>unique</code>, or <code>ultimate</code>.</td>
+                  <td>Structural type: <code>basic</code> (no prerequisites) or <code>fusion</code> (≥1 prerequisite).</td>
                   <td>basic</td>
                 </tr>
                 <tr>
@@ -2164,6 +2097,36 @@
             <div class="example-block">
               <div class="example-label">examples</div>
               <pre><span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev split</span> <span class="arg">web-automation web-scraping browser-control</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev rename -->
+        <div class="cmd-card" id="dev-rename">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev rename</span>
+            <span class="cmd-signature">&lt;old-id&gt; &lt;new-id&gt;</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Renames a generic skill ID or a Named Skill (<code>contributor/slug</code>) and rewrites every
+                reference surface: <code>prerequisites</code>/<code>derivatives</code> in other nodes,
+                <code>genericSkillRef</code> and <code>suiteComponents</code>/<code>suiteRef</code> in named skill
+                files, suite manifests, and user skill trees.</li>
+              <li>Rewrites prose references (install commands, cross-links) but leaves changelog/history sections
+                untouched — they record what the skill was called at the time.</li>
+              <li>Logs a <code>rename</code> timeline event automatically. No separate
+                <code>gaia dev timeline</code> call needed.</li>
+              <li>Fails if <code>new-id</code> already exists in the registry.</li>
+            </ul>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Rename a generic node</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev rename</span> <span class="arg">web-search web-search-and-retrieval</span>
+
+<span class="c"># Rename a Named Skill</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev rename</span> <span class="arg">marco/old-slug marco/new-slug</span></pre>
             </div>
           </div>
         </div>

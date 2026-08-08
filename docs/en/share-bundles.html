@@ -331,9 +331,9 @@
 
   <!-- Main site nav (hamburger on mobile, full menu on desktop) -->
   <nav id="site-nav"></nav>
-  <script src="../js/mounts.js?v=7.3.1"></script>
-  <script src="../js/site-nav.js?v=7.3.1"></script>
-  <script src="../js/ui.js?v=7.3.1"></script>
+  <script src="../js/mounts.js?v=7.4.2"></script>
+  <script src="../js/site-nav.js?v=7.4.2"></script>
+  <script src="../js/ui.js?v=7.4.2"></script>
 
 
 
@@ -345,7 +345,7 @@
     <span class="nav-sep">/</span>
     <span class="nav-crumb current">Share Bundles</span>
     <span class="nav-spacer"></span>
-    <span class="nav-version">v7.3.1</span>
+    <span class="nav-version">v7.4.2</span>
   </nav>
 
   <div class="page-layout">
@@ -664,7 +664,7 @@ Summary:
           <tbody>
             <tr><td>name</td><td>string</td><td>Human-readable display name.</td></tr>
             <tr><td>level</td><td>string</td><td>Star level (e.g. <code>"2★"</code>).</td></tr>
-            <tr><td>type</td><td>string</td><td>Tier: <code>basic</code>, <code>extra</code>, <code>unique</code>, or <code>ultimate</code>.</td></tr>
+            <tr><td>type</td><td>string</td><td>Structural type: <code>basic</code> (no prerequisites) or <code>fusion</code> (≥1 prerequisite).</td></tr>
             <tr><td>named</td><td>boolean</td><td>True if this is a Named Skill (contributor/slug ID).</td></tr>
             <tr><td>genericRef</td><td>string | null</td><td>The canonical skill ID this named skill implements.</td></tr>
             <tr><td>prereqs</td><td>string[]</td><td>Owned-skill edges (translated from canonical prerequisite IDs to IDs the sharer actually holds).</td></tr>

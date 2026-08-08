@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>FAQ — Gaia Docs</title>
-  <meta name="description" content="Frequently asked questions about Gaia: CLI setup, skill hierarchy, the MCP server, scan and promote workflow, share bundles, and contributing.">
+  <meta name="description" content="Frequently asked questions about Gaia: CLI setup, skill hierarchy, the MCP server, scan and propose workflow, share bundles, and contributing.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -264,9 +264,9 @@
 
   <!-- Main site nav (hamburger on mobile, full menu on desktop) -->
   <nav id="site-nav"></nav>
-  <script src="../js/mounts.js?v=7.3.1"></script>
-  <script src="../js/site-nav.js?v=7.3.1"></script>
-  <script src="../js/ui.js?v=7.3.1"></script>
+  <script src="../js/mounts.js?v=7.4.2"></script>
+  <script src="../js/site-nav.js?v=7.4.2"></script>
+  <script src="../js/ui.js?v=7.4.2"></script>
 
 
 
@@ -278,7 +278,7 @@
     <span class="nav-sep">/</span>
     <span class="nav-crumb current">FAQ</span>
     <span class="nav-spacer"></span>
-    <span class="nav-version">v7.3.1</span>
+    <span class="nav-version">v7.4.2</span>
   </nav>
 
   <div class="page-layout">
@@ -290,7 +290,7 @@
         <ul class="sidebar-links">
           <li><a href="#cli">CLI &amp; Setup</a></li>
           <li><a href="#skills">Skills &amp; Hierarchy</a></li>
-          <li><a href="#scan-promote">Scan &amp; Promote</a></li>
+          <li><a href="#scan-propose">Scan &amp; Propose</a></li>
           <li><a href="#mcp">MCP Server</a></li>
           <li><a href="#contributing">Contributing</a></li>
         </ul>
@@ -316,7 +316,7 @@
     <main class="main-content">
       <h1 class="page-title">FAQ</h1>
       <p class="page-lead">
-        Common questions about the CLI, the skill system, scan and promote, the MCP server,
+        Common questions about the CLI, the skill system, scan and propose, the MCP server,
         and contributing. Sourced from open GitHub issues and recurring support threads.
       </p>
 
@@ -520,18 +520,18 @@
                   </tr>
                   <tr style="border-bottom:1px solid rgba(30,41,59,0.5);">
                     <td style="padding:0.45rem 0.6rem; color:var(--text,#e2e8f0);">4★</td>
-                    <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Hardened</td>
+                    <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Extra (Suite) / Unique (Unique branch)</td>
                     <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Verifier threshold — peer-reviewed or battle-tested (Grade A / Gold)</td>
                   </tr>
                   <tr style="border-bottom:1px solid rgba(30,41,59,0.5);">
                     <td style="padding:0.45rem 0.6rem; color:var(--text,#e2e8f0);">5★</td>
-                    <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Transcendent</td>
+                    <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Ultimate (Suite) / Unique Ultimate (Unique branch)</td>
                     <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);"></td>
                   </tr>
                   <tr>
                     <td style="padding:0.45rem 0.6rem; color:var(--text,#e2e8f0);">6★</td>
-                    <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Transcendent ★</td>
-                    <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Apex — highest attainable rank</td>
+                    <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Apex (Suite) / Unique Impossible (Unique branch)</td>
+                    <td style="padding:0.45rem 0.6rem; color:var(--muted,#64748b);">Apex — highest attainable rank (Suite branch)</td>
                   </tr>
                 </tbody>
               </table>
@@ -593,7 +593,7 @@
       </div><!-- /faq-list -->
 
       <!-- ── Scan & Promote ── -->
-      <p class="cat-header" id="scan-promote">Scan &amp; Promote</p>
+      <p class="cat-header" id="scan-propose">Scan &amp; Propose</p>
       <div class="faq-list">
 
         <div class="faq-item">
@@ -624,23 +624,25 @@
 
         <div class="faq-item">
           <button class="faq-question" aria-expanded="false">
-            My promotion candidates disappeared. Why is <code>gaia promote</code> failing?
+            <code>gaia push</code> says there's nothing new to submit. Why?
             <span class="faq-chevron">▾</span>
           </button>
           <div class="faq-answer">
             <div class="faq-answer-inner">
               <p>
-                Promotion candidates expire <strong>24 hours</strong> after the scan that produced them.
-                If your candidate file is stale, <code>gaia promote</code> rejects it.
+                <code>gaia push --update</code> is an incremental push: it queries open
+                <code>intake</code> issues for this repo, drops skills that are unchanged since
+                the last push, and only submits new or edited ones. If every detected skill is
+                already pending review, there's nothing left to submit.
               </p>
               <div class="code-block">
                 <div class="code-block-header"><span class="code-block-label">fix</span></div>
-                <pre><span class="cmd">gaia scan</span>               <span class="c"># regenerate candidates</span>
-<span class="cmd">gaia promote</span> &lt;skillId&gt;  <span class="c"># promote within 24 h</span></pre>
+                <pre><span class="cmd">gaia scan</span>                  <span class="c"># regenerate candidates</span>
+<span class="cmd">gaia push</span> <span class="arg">--dry-run</span>       <span class="c"># see the full batch, ignoring pending state</span></pre>
               </div>
               <p>
-                The <code>promote</code> command also only accepts skill IDs listed in the most
-                recent candidate file — you can't promote arbitrary skill IDs by hand.
+                There is no self-promote path — stars and rank are assigned only by canon
+                curation once your proposal is reviewed, never written directly by the CLI.
               </p>
             </div>
           </div>
@@ -648,21 +650,23 @@
 
         <div class="faq-item">
           <button class="faq-question" aria-expanded="false">
-            What's the difference between <code>gaia push</code> and <code>gaia promote</code>?
+            What's the difference between <code>gaia push</code> and <code>gaia propose</code>?
             <span class="faq-chevron">▾</span>
           </button>
           <div class="faq-answer">
             <div class="faq-answer-inner">
               <ul>
                 <li>
-                  <strong><code>gaia promote &lt;skillId&gt;</code></strong> — writes a rank-up to
-                  <em>your local</em> <code>skill-tree.json</code>. This is a personal progression
-                  action; it doesn't touch the shared registry. Always run <code>gaia scan</code> first.
+                  <strong><code>gaia push</code></strong> — submits the full batch of skills and
+                  fusion candidates detected by your last scan to the canonical registry for
+                  review. This opens a GitHub intake issue. Always dry-run first:
+                  <code>gaia push --dry-run</code>.
                 </li>
                 <li>
-                  <strong><code>gaia push</code></strong> — submits a batch of detected skills
-                  to the canonical registry for Verifier review. This opens a GitHub issue tagged
-                  <code>draft-skills</code>. Always dry-run first: <code>gaia push --dry-run</code>.
+                  <strong><code>gaia propose &lt;skillId&gt;</code></strong> — claims one specific,
+                  already-canonical skill under your name as a Named Skill (optionally targeting
+                  <code>--target contributor/skill-name</code>). Opens a naming PR rather than an
+                  intake issue.
                 </li>
               </ul>
               <div class="callout callout-warn">

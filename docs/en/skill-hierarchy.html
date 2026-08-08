@@ -524,9 +524,9 @@
 
   <!-- Main site nav (hamburger on mobile, full menu on desktop) -->
   <nav id="site-nav"></nav>
-  <script src="../js/mounts.js?v=7.3.1"></script>
-  <script src="../js/site-nav.js?v=7.3.1"></script>
-  <script src="../js/ui.js?v=7.3.1"></script>
+  <script src="../js/mounts.js?v=7.4.2"></script>
+  <script src="../js/site-nav.js?v=7.4.2"></script>
+  <script src="../js/ui.js?v=7.4.2"></script>
 
 
 
@@ -538,7 +538,7 @@
     <span class="nav-sep">/</span>
     <span class="nav-crumb current">Skill Hierarchy</span>
     <div class="nav-spacer"></div>
-    <span class="nav-version">v7.3.1</span>
+    <span class="nav-version">v7.4.2</span>
   </nav>
 
   <div class="page-layout">
@@ -638,15 +638,15 @@
               </div>
               <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.82rem;">
                 <span class="r4" style="font-family:'JetBrains Mono',monospace;width:22px;">4★</span>
-                <span style="color:var(--muted,#64748b);">Hardened — verified + Grade A (Gold)</span>
+                <span style="color:var(--muted,#64748b);">Extra / Unique — verified + Grade A (Gold)</span>
               </div>
               <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.82rem;">
                 <span class="r5" style="font-family:'JetBrains Mono',monospace;width:22px;">5★</span>
-                <span style="color:var(--muted,#64748b);">Transcendent — peer-reviewed</span>
+                <span style="color:var(--muted,#64748b);">Ultimate / Unique Ultimate — peer-reviewed</span>
               </div>
               <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.82rem;">
                 <span class="r6" style="font-family:'JetBrains Mono',monospace;width:22px;">6★</span>
-                <span style="color:var(--muted,#64748b);">Transcendent ★ — Apex</span>
+                <span style="color:var(--muted,#64748b);">Apex / Unique Impossible</span>
               </div>
             </div>
           </div>
@@ -698,9 +698,9 @@
             <div class="tier-card-label">Section header: Uniques</div>
             <div class="tier-card-desc">
               A graph-isolated Basic skill that reached elite mastery through
-              depth alone — no fusion path forward exists for it. Requires 4★
-              Hardened rank and an existing named implementation to promote to
-              Unique via <code>gaia promote --unique</code>.
+              depth alone — no fusion path forward exists for it. The Unique
+              branch is computed, not declared: a Named Skill reaching 4★+
+              without <code>suiteComponents</code> is Unique automatically.
             </div>
           </div>
 
@@ -742,8 +742,8 @@
           <p>
             The axis runs from 0★ (no evidence) to 6★ (the Apex). Rank names are
             the canonical labels for specific star values; they are only valid when
-            paired with the name — <em>"the Hardened rank"</em>, never just
-            <em>"rank 4."</em>
+            paired with the name — <em>"the Evolved rank"</em>, never just
+            <em>"rank 3."</em>
           </p>
         </div>
 
@@ -779,18 +779,18 @@
             </tr>
             <tr>
               <td class="r4">4★</td>
-              <td style="color:var(--text,#e2e8f0);">Hardened</td>
+              <td style="color:var(--text,#e2e8f0);">Extra (Suite branch) / Unique (Unique branch)</td>
               <td style="color:var(--muted,#64748b);font-size:0.85rem;">Gold (Grade A) evidence — battle-tested. Threshold for Verifier authorization.</td>
             </tr>
             <tr>
               <td class="r5">5★</td>
-              <td style="color:var(--text,#e2e8f0);">Transcendent</td>
+              <td style="color:var(--text,#e2e8f0);">Ultimate (Suite branch) / Unique Ultimate (Unique branch)</td>
               <td style="color:var(--muted,#64748b);font-size:0.85rem;">Platinum (Grade S) evidence — peer-reviewed academic literature or equivalent.</td>
             </tr>
             <tr>
               <td class="r6">6★</td>
-              <td style="color:var(--text,#e2e8f0);">Transcendent ★</td>
-              <td style="color:var(--muted,#64748b);font-size:0.85rem;">The Apex. Reserved for skills with community-verified Grade S evidence across multiple independent sources.</td>
+              <td style="color:var(--text,#e2e8f0);">Apex (Suite branch) / Unique Impossible (Unique branch)</td>
+              <td style="color:var(--muted,#64748b);font-size:0.85rem;">Reserved for skills with community-verified Grade S evidence across multiple independent sources. Apex is the Suite-branch 6★; Unique Impossible is the Unique-branch 6★.</td>
             </tr>
           </tbody>
         </table>
@@ -853,7 +853,7 @@
 
           <div class="fusion-row" style="margin-top:1.25rem;">
             <span class="skill-pill basic">○ code-review</span>
-            <span style="color:var(--muted,#64748b);font-size:0.85rem;">→ 4★ Hardened + graph-isolated</span>
+            <span style="color:var(--muted,#64748b);font-size:0.85rem;">→ 4★ + graph-isolated</span>
             <span class="fusion-arrow">→</span>
             <span class="skill-pill unique">◉ code-review (Unique)</span>
           </div>
@@ -936,8 +936,9 @@
           <div class="named-step-num">5</div>
           <div class="named-step-body">
             Continue adding evidence (<code>gaia dev evidence</code>) to rank the skill
-            up from 2★ Named through Evolved, Hardened, and eventually Transcendent.
-            At 4★ the holder gains Verifier authorization to review others' submissions.
+            up from 2★ Named through Evolved, then Extra/Unique, and eventually
+            Ultimate/Unique Ultimate. At 4★ the holder gains Verifier authorization to
+            review others' submissions.
           </div>
         </div>
       </section>

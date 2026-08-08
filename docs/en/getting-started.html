@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Getting Started — Gaia Docs</title>
-  <meta name="description" content="Install the Gaia CLI, initialise your profile, scan your agent repo, and promote your first skill in under 10 minutes.">
+  <meta name="description" content="Install the Gaia CLI, initialise your profile, scan your agent repo, and propose your first skill in under 10 minutes.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -504,9 +504,9 @@
 
   <!-- Main site nav (hamburger on mobile, full menu on desktop) -->
   <nav id="site-nav"></nav>
-  <script src="../js/mounts.js?v=7.3.1"></script>
-  <script src="../js/site-nav.js?v=7.3.1"></script>
-  <script src="../js/ui.js?v=7.3.1"></script>
+  <script src="../js/mounts.js?v=7.4.2"></script>
+  <script src="../js/site-nav.js?v=7.4.2"></script>
+  <script src="../js/ui.js?v=7.4.2"></script>
 
 
 
@@ -518,7 +518,7 @@
     <span class="nav-sep">/</span>
     <span class="nav-crumb current">Getting Started</span>
     <span class="nav-spacer"></span>
-    <span class="nav-version">v7.3.1</span>
+    <span class="nav-version">v7.4.2</span>
   </nav>
 
   <div class="page-layout">
@@ -531,7 +531,7 @@
         <a href="#install" class="sidebar-link">Installation</a>
         <a href="#init" class="sidebar-link">Initialise your profile</a>
         <a href="#scan" class="sidebar-link">Scan your repo</a>
-        <a href="#promote" class="sidebar-link">Promote a skill</a>
+        <a href="#promote" class="sidebar-link">Propose to canon</a>
         <a href="#tree" class="sidebar-link">View your tree</a>
         <a href="#push" class="sidebar-link">Submit for intake</a>
         <a href="#concepts" class="sidebar-link">Core concepts</a>
@@ -565,7 +565,7 @@
           <li><a href="#install">Installation</a></li>
           <li><a href="#init">Initialise your profile</a></li>
           <li><a href="#scan">Scan your repo</a></li>
-          <li><a href="#promote">Promote a skill</a></li>
+          <li><a href="#promote">Propose to canon</a></li>
           <li><a href="#tree">View your skill tree</a></li>
           <li><a href="#push">Submit for intake</a></li>
           <li><a href="#concepts">Core concepts</a></li>
@@ -644,7 +644,7 @@
         <div class="code-fence">
           <div class="code-fence-header"><span class="code-fence-label">shell</span></div>
           <pre><span class="cmd">gaia --version</span>
-<span class="c"># gaia 7.3.1</span></pre>
+<span class="c"># gaia 7.4.2</span></pre>
         </div>
 
         <div class="callout info" style="margin-top:0.85rem;">
@@ -709,14 +709,6 @@
 <span class="c"># Found 3 candidates → generated-output/promotion-candidates.json</span></pre>
         </div>
 
-        <div class="callout warn">
-          <span class="callout-icon">⚠</span>
-          <p>
-            Promotion candidates expire after <strong>24 hours</strong>. Run <code>gaia promote</code>
-            in the same session, or re-run <code>gaia scan</code> if the file has gone stale.
-          </p>
-        </div>
-
         <h3>What the scanner looks for</h3>
 
         <p>In order of precedence, the scanner inspects:</p>
@@ -732,34 +724,40 @@
         If a match is found, the skill inherits the canonical node's lineage and graph placement.
         Unmatched skills appear as new starless generics.</p>
 
-        <!-- ────────────── PROMOTE ────────────── -->
-        <h2 id="promote">Promote a skill</h2>
+        <!-- ────────────── PROPOSE ────────────── -->
+        <h2 id="promote">Propose your skills to canon</h2>
 
-        <p>After a scan, promote a candidate to your skill tree:</p>
+        <p>There is no self-promote command. Under the current model, a player's CLI job ends at
+        <em>propose</em> — stars and rank are assigned only by canon curation, never written
+        directly into your own <code>skill-tree.json</code>. After a scan, submit what you found:</p>
 
         <div class="code-fence">
           <div class="code-fence-header"><span class="code-fence-label">shell</span></div>
-          <pre><span class="c"># List candidates from the last scan</span>
-<span class="cmd">gaia scan</span>
+          <pre><span class="c"># Always dry-run first — see exactly what would be proposed</span>
+<span class="cmd">gaia push <span class="pl">--dry-run</span></span>
 
-<span class="c"># Promote a specific skill (use the /slug from the scan output)</span>
-<span class="cmd">gaia promote <span class="pl">/tool-use</span></span>
-
-<span class="c"># Or promote interactively — the CLI shows a ranked selection menu</span>
-<span class="cmd">gaia promote</span></pre>
+<span class="c"># Submit for real — opens a GitHub intake issue</span>
+<span class="cmd">gaia push</span></pre>
         </div>
 
-        <p>A successful promotion writes a ranked entry to your
-        <code>skill-trees/&lt;handle&gt;/skill-tree.json</code> and appends a
-        <code>rank_up</code> event to the <code>timeline</code> array. The timeline is
-        the auditable history of your progression — it cannot be hand-edited without
-        leaving a gap in the record.</p>
+        <p><code>gaia push</code> writes an intake proposal listing every detected skill and
+        fusion candidate from your last scan and, by default, opens a GitHub issue for curation
+        to review. Once approved, curation assigns the star rank in the canonical graph —
+        this is the auditable, curation-owned event, not something the CLI writes on your behalf.</p>
+
+        <p>To claim a specific unclaimed skill under your name as a Named Skill, use
+        <code>gaia propose</code> instead:</p>
+
+        <div class="code-fence">
+          <div class="code-fence-header"><span class="code-fence-label">shell</span></div>
+          <pre><span class="cmd">gaia propose <span class="pl">/tool-use</span> <span class="arg">--target yourhandle/tool-use-implementation</span></span></pre>
+        </div>
 
         <div class="callout tip">
           <span class="callout-icon">✦</span>
           <p>
             Skill IDs in scan output are slash-prefixed slugs like <code>/tool-use</code>
-            or <code>/code-generation</code>. Pass that exact string to <code>gaia promote</code>.
+            or <code>/code-generation</code>. Pass that exact string to <code>gaia propose</code>.
           </p>
         </div>
 
@@ -872,9 +870,12 @@
           <li><strong>1★ — Awakened:</strong> first sighting, Grade C (Bronze) evidence</li>
           <li><strong>2★ — Named:</strong> claimed by an Origin Contributor with Grade C (Bronze) or better</li>
           <li><strong>3★ — Evolved:</strong> documented, Grade B (Silver) evidence</li>
-          <li><strong>4★ — Hardened:</strong> battle-tested, Grade A (Gold) evidence</li>
-          <li><strong>5★ — Transcendent:</strong> peer-reviewed, Grade S (Platinum) evidence</li>
-          <li><strong>6★ — Transcendent ★ (Apex):</strong> community-verified Grade S (Platinum) evidence</li>
+          <li><strong>4★ — Extra</strong> (Suite branch) <strong>/ Unique</strong> (Unique branch):
+            battle-tested, Grade A (Gold) evidence</li>
+          <li><strong>5★ — Ultimate</strong> (Suite branch) <strong>/ Unique Ultimate</strong> (Unique branch):
+            peer-reviewed, Grade S (Platinum) evidence</li>
+          <li><strong>6★ — Apex</strong> (Suite branch) <strong>/ Unique Impossible</strong> (Unique branch):
+            community-verified Grade S (Platinum) evidence</li>
         </ul>
 
         <div class="callout info">
@@ -947,9 +948,9 @@
         <ol class="step-list">
           <li>
             <div class="step-content">
-              <h3>Scan and promote locally</h3>
-              <p>Run <code>gaia scan</code> and <code>gaia promote</code> to manage your local skill tree.
-              Promotion candidates are still generated normally.</p>
+              <h3>Scan and propose locally</h3>
+              <p>Run <code>gaia scan</code> and <code>gaia push --dry-run</code> to see your local
+              skill tree. Scan candidates are still generated normally.</p>
             </div>
           </li>
           <li>
