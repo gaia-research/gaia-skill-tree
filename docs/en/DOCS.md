@@ -18,18 +18,18 @@ Secondary: Open-source contributors wanting to claim a Named Skill.
 
 | # | File | Title | Status | Routine |
 |---|------|--------|--------|---------|
-| 1 | `index.html` | Docs Home | ✅ Done (updated 018) | 001, 017, 018 |
-| 2 | `getting-started.html` | Getting Started | ✅ Done (updated 018) | 001, 017, 018 |
-| 3 | `cli-reference.html` | CLI Reference | ✅ Done (updated 018) | 002, 017, 018 |
-| 4 | `skill-hierarchy.html` | Skill Hierarchy | ✅ Done (updated 018) | 002, 018 |
-| 5 | `contributing.html` | Contributing | ✅ Done (updated 018) | 003, 017, 018 |
-| 6 | `named-skills.html` | Named Skills & Origin | ✅ Done (updated 018) | 003, 017, 018 |
-| 7 | `evidence-classes.html` | Evidence & Trust | ✅ Done (updated 018) | 004, 017, 018 |
-| 8 | `fusion.html` | Skill Fusion | ✅ Done (updated 018) | 004, 017, 018 |
-| 9 | `mcp-server.html` | MCP Server | ✅ Done (updated 018) | 005, 017, 018 |
-| 10 | `faq.html` | FAQ | ✅ Done (updated 018) | 005, 017, 018 |
-| 11 | `share-bundles.html` | Share Bundles | ✅ Done (updated 018) | 006, 018 |
-| 12 | `timeline-audit.html` | Timeline Audit & Repair | ✅ Done (updated 018) | 008, 018 |
+| 1 | `index.html` | Docs Home | ✅ Done (updated 025) | 001, 017, 018, 025 |
+| 2 | `getting-started.html` | Getting Started | ✅ Done (updated 025) | 001, 017, 018, 025 |
+| 3 | `cli-reference.html` | CLI Reference | ✅ Done (updated 025) | 002, 017, 018, 025 |
+| 4 | `skill-hierarchy.html` | Skill Hierarchy | ⚠ Rank names fixed (025); tier framing still pre-Yggdrasil-II — see #1479 | 002, 018, 025 |
+| 5 | `contributing.html` | Contributing | ✅ Done (updated 025) | 003, 017, 018, 025 |
+| 6 | `named-skills.html` | Named Skills & Origin | ✅ Done (updated 025) | 003, 017, 018, 025 |
+| 7 | `evidence-classes.html` | Evidence & Trust | ✅ Done (updated 025) | 004, 017, 018, 025 |
+| 8 | `fusion.html` | Skill Fusion | ⚠ Version-synced only (025); tier framing still pre-Yggdrasil-II — see #1479 | 004, 017, 018, 025 |
+| 9 | `mcp-server.html` | MCP Server | ⚠ Disclosure banner added (025); tool list documents a deleted prototype — see #1478 | 005, 017, 018, 025 |
+| 10 | `faq.html` | FAQ | ✅ Done (updated 025) | 005, 017, 018, 025 |
+| 11 | `share-bundles.html` | Share Bundles | ✅ Done (updated 025) | 006, 018, 025 |
+| 12 | `timeline-audit.html` | Timeline Audit & Repair | ✅ Done (updated 025) | 008, 018, 025 |
 
 ---
 
@@ -80,13 +80,14 @@ Interactive & Copy UI:
 
 ## Vocabulary Rules (from CONTEXT.md)
 
-- Tier taxonomy: Basic Skill (○), Extra Skill (◇), Unique Skill (◉), Ultimate Skill (◆)
+- **Yggdrasil II (ratified 2026-07-07) is current** — see `CONTEXT.md` § Taxonomy v6 before writing tier/rank copy. The legacy Yggdrasil I four-tier taxonomy (Basic ○ / Extra ◇ / Unique ◉ / Ultimate ◆ as *structural* categories) is retired, replaced by a Type axis (`basic`/`fusion`, starless only) + Branch axis (`standard`/`unique`/`suite`, named only, computed from `suiteComponents`). `docs/en/skill-hierarchy.html` and `fusion.html` still teach the retired model in full — tracked in issue #1479; don't copy their tier framing into new pages until that lands.
 - Stars axis: 0★ → 6★. Never call it "rank" or "level" alone.
-- Rank names: Unawakened, Awakened, Named, Evolved, Hardened, Transcendent, Transcendent ★
-- Fusion: combining skills. Never "merge", "combine", "compose".
+- Rank names (Yggdrasil II, current): Unawakened(0★), Awakened(1★), Named(2★), Evolved(3★), then branch-qualified — **Extra** (4★ Suite) / **Unique** (4★ Unique branch), **Ultimate** (5★ Suite) / **Unique Ultimate** (5★ Unique branch), **Apex** (6★ Suite) / **Unique Impossible** (6★ Unique branch). "Hardened" (4★), "Transcendent" (5★), and "Transcendent ★" (6★) are deprecated Yggdrasil I names — never use them.
+- Fusion: the act of combining two or more skills into one. Never call it "merge" or "compose" in user-facing copy (`gaia dev merge` is a real CLI verb — fine in command examples, just not as the concept name).
 - Named Skill: a skill claimed by a real contributor with Grade C (Bronze) evidence or better.
 - Evidence Grade (current, S/A/B/C → Platinum/Gold/Silver/Bronze): the quality axis. Evidence Type (arxiv, repo-own, github-stars-own, etc.): the provenance axis. Evidence Class (deprecated, letters A/B/C): the legacy single axis these two replaced — never conflate Class A/B with Grade A/B.
 - Do NOT mention rarity (deprecated axis).
+- There is no `gaia promote` command (retired under Yggdrasil II — "No self-promote"). The player-facing flow is `gaia scan` → `gaia push` (proposes to canon; curation assigns rank) or `gaia propose <skillId>` (claims one specific skill as a Named Skill). Never document `gaia promote`, `--all`, `--unique`, or `--name` as real flags — they don't exist on any current command.
 
 ---
 

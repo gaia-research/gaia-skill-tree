@@ -2,6 +2,144 @@
 
 ---
 
+## 2026-08-08 — Routine 025 — Editor pass (branch consolidation + accuracy sweep, ship gate)
+
+**Role:** Weekly editor. Started from four diverged, non-rebased `docs/routines/0NN` branches
+left by drifting dailies, consolidated into one clean branch, then ran a SYNC + accuracy pass.
+
+### Branch drift found and how it was resolved
+
+Four branches existed with open (or recently-closed) PRs, **none an ancestor of another** —
+each daily forked from `main` independently and never rebased:
+
+- `docs/routines/021` (PR #1414, already closed, unmerged) — version-synced to v7.3.1 but
+  **stripped every page from CRLF to LF** (main's `docs/en/*.html` convention is CRLF) and
+  **replaced the shared, JS-mounted site footer** (`<div id="site-footer-mount">` +
+  `site-footer.js`) with a hardcoded inline `<footer class="footer-v2">` block duplicated
+  across all 12 pages, undoing a real footer-unification change already on `main`.
+- `docs/routines/022` (PR #1437) — same CRLF-stripping + hardcoded-footer regression as 021,
+  carried forward across two more version bumps (v7.3.6, then v7.3.10 in a same-branch
+  "routine 023" continuation logged in its own MEMORY.md, which was never true routine 023 —
+  it just reused the number while still on the 022 branch).
+- `docs/routines/023` (PR #1465) — clean, CRLF-preserved, but only a **partial** sync: bumped
+  the `nav-version` chip to v7.3.17 and nothing else (scripts, footer, body examples left
+  stale). Diverged from `main` at the same point as 022 — contains none of 022's work.
+- `docs/routines/024` (PR #1475) — clean, CRLF-preserved, complete sync to v7.3.1→v7.4.1
+  (chips, script cache-bust params, body examples). Also diverged independently; contains
+  none of 022's or 023's work.
+
+None of the four were rebuildable into one branch without re-doing the footer regression, so
+this pass **discarded all four** rather than merge them: closed PRs #1414 (already closed),
+#1437, #1465, #1475 with an explanation comment, deleted the four remote branches, and started
+`docs/routines/025` fresh off `origin/main`. Nothing of value was lost — the only non-version
+content across all four branches was the footer regression (rejected) and duplicate/partial
+version bumps (superseded by a complete sync to the actual current release, v7.4.2, in this
+branch).
+
+### What I did
+
+1. **Version sync, all 12 pages, all locations, v7.3.1 → v7.4.2** (current `pyproject.toml` /
+   latest tag) — nav chips, `mounts.js`/`site-nav.js`/`ui.js` cache-bust params, and every
+   body-copy version mention (`cli-reference.html`'s `gaia version` example,
+   `getting-started.html`'s `# gaia 7.4.2` example, `timeline-audit.html`'s "as of vX" gap
+   note). Left `site-footer.js?v=7.3.8`'s independent cache-bust untouched — that's an asset
+   version outside `docs/en/`'s convention, not a page-content version.
+2. **Documented `gaia dev rename`** (shipped in #1456, referenced in `CLAUDE.md` but never
+   added to `cli-reference.html`) — new command card + sidebar/TOC entries, sourced directly
+   from `src/gaia_cli/commands/dev/rename.py` and the `impl.py` argparse block.
+3. **Fixed a sitewide dead-command bug: `gaia promote` does not exist.** Confirmed via
+   `gaia --help` — there is no top-level `promote` command; the real player flow is
+   `gaia scan` → `gaia push` (proposes to canon; curation assigns rank) or
+   `gaia propose <skillId>` (claims a specific skill). `gaia promote` and its documented
+   flags (`--all`, `--unique`, `--name`) never existed in the current CLI shape. Removed the
+   entire dead `gaia promote` command card + sidebar links from `cli-reference.html`; rewrote
+   the "Promote a skill" section of `getting-started.html` (including its Workspace Mode
+   callout) around `gaia push`/`gaia propose`; rewrote two `faq.html` Q&As built entirely on
+   the fictional 24-hour-candidate-expiry mechanic (confirmed no such expiry logic exists
+   anywhere in `push.py`/`scanner.py`); fixed the quickstart snippet in `index.html`; fixed
+   the `gaia promote --unique` mention in `skill-hierarchy.html` (branch is computed from
+   `suiteComponents` absence, not set by a flag — no such flag exists on any command). Also
+   dropped `gaia propose`'s own fictional `--ultimate` flag (not in the real argparse) while
+   in the same card.
+4. **Fixed deprecated Yggdrasil I rank names sitewide.** "Hardened" (4★), "Transcendent"
+   (5★), and "Transcendent ★" (6★) were deprecated under Yggdrasil II (ratified 2026-07-07,
+   `CONTEXT.md` § Taxonomy v6) — replaced by branch-qualified names (Extra/Unique at 4★,
+   Ultimate/Unique Ultimate at 5★, Apex/Unique Impossible at 6★), confirmed live in
+   `src/gaia_cli/formatting.py`'s `RANK_COLORS`. Fixed every literal occurrence across
+   `getting-started.html`, `faq.html`, `evidence-classes.html`, `named-skills.html`, and
+   `skill-hierarchy.html` (rank tables, quick-reference lists, and prose mentions). Did
+   **not** rewrite the deeper "four tiers as structural taxonomy" framing that these same
+   pages (plus `fusion.html`) still teach — that's a full conceptual/diagram rewrite, not a
+   find-replace, and is tracked separately (see below).
+5. **Fixed the `--type` flag enum sitewide.** `gaia dev add --type` only accepts
+   `basic`/`fusion` (confirmed in `impl.py`'s argparse and `registry/schema/skill.schema.json`
+   — zero `extra`/`unique`/`ultimate` values exist in `registry/nodes/` today). Docs on
+   `cli-reference.html`, `share-bundles.html`'s bundle-format reference, and
+   `mcp-server.html`'s tool param table still listed the four legacy values. Fixed all three.
+6. **Fixed a stale flag reference:** `gaia install --ultimate, --suite` in `cli-reference.html`
+   — `--ultimate` isn't a real flag on `gaia install`/`gaia skills install` (confirmed via
+   `--help`); only `--suite` is.
+7. **Added an interim disclosure banner to `mcp-server.html`** rather than rewrite it blind.
+   Fetched the live `gaia-research/gaia-mcp` README: the real v0.1.0 surface is read-only
+   (`gaia_search`, `gaia_inspect`, `gaia_status`, plus `summon`) — matching `CLAUDE.md`'s
+   Current Layout note that the in-repo `packages/mcp` prototype was deleted. The page as
+   written documents that deleted prototype's five-tool, write-capable design
+   (`gaia_lookup`/`gaia_suggest`/`gaia_scan_context`/`gaia_my_tree`/`gaia_propose`) plus an
+   architecture diagram for classes that no longer exist. A full rewrite needs the external
+   repo's exact tool schemas, which I could only partially verify via web fetch (conflicting
+   signals on npm publish status) — filed as **#1478** rather than ship guessed parameter
+   tables.
+8. **Fixed a self-contradiction in `DOCS.md`'s own Vocabulary Rules** ("Fusion: combining
+   skills. Never... 'combine'...") and updated the rank-name list and tier-taxonomy line to
+   match Yggdrasil II, plus added the no-`gaia promote` rule — this file is what future
+   routines read before writing, so shipping it stale propagates the same bugs forward.
+
+### Filed (genuinely new scope, not this routine's own remainder)
+
+- **#1478** — `mcp-server.html` documents a deleted MCP tool surface; needs a full rewrite
+  sourced from the real `gaia-research/gaia-mcp` repo.
+- **#1479** — the four-tier structural taxonomy (Basic/Extra/Unique/Ultimate) is still taught
+  wholesale in `skill-hierarchy.html`, `fusion.html`, and referenced in `named-skills.html`/
+  `faq.html`/`index.html`; needs a full rewrite around the Yggdrasil II Type+Branch model.
+
+Both predate any of this week's daily commits by roughly a month (Yggdrasil II) to indefinitely
+(MCP externalization) — this is backlog the sweep surfaced, not spillover from routines 019–024.
+
+### What I checked and left alone
+
+- No new hex colors introduced (diff-scanned; the only hex literals added are pre-existing
+  `var(--token, #hex)` fallback patterns copied verbatim from surrounding table rows).
+- No banned-synonym violations introduced (diff-scanned against `CONTEXT.md`'s list).
+- `docs/js/site-footer.js`'s own cache-bust version (`?v=7.3.8`) left untouched — asset
+  version, not page-content version, and outside `docs/en/`'s guardrail scope anyway.
+
+### Verification
+
+Tag-balance check (div/table/tr/td/th/tbody/thead/ul/ol/li/section/span/p/h1/h2/h3/a) clean
+on all 12 pages. `html.parser` parse-error check clean on all 12 pages. Same-page anchor
+integrity check clean (the only "missing" hits were a JS template-literal false positive,
+pre-existing, unrelated to this diff). `git status` scoped to `docs/en/**` only.
+
+### Files modified this pass
+
+`cli-reference.html`, `contributing.html`, `evidence-classes.html`, `faq.html`, `fusion.html`,
+`getting-started.html`, `index.html`, `mcp-server.html`, `named-skills.html`,
+`share-bundles.html`, `skill-hierarchy.html`, `timeline-audit.html`, `DOCS.md`, `MEMORY.md`
+(this entry).
+
+### Planned next (Routine 026)
+
+- Execute #1478 (MCP server page rewrite) and #1479 (Yggdrasil II tier taxonomy rewrite) —
+  both are now well-scoped; either is a reasonable single-routine focus.
+- Audit the rest of `cli-reference.html`'s Registry-dev section against `impl.py` for more
+  drift of the same shape found this week (`dev calibrate`, `dev rm-evidence`, `dev link`,
+  `dev reclassify`, `dev update-named`, `dev verify`, `dev rm`, `dev build` are all real
+  mutating `gaia dev` subcommands per `CLAUDE.md`'s Authorization section but undocumented).
+
+### Shipped
+
+---
+
 ## 2026-08-01 — Routine 018 — Editor pass (ship gate, PR #1334)
 
 **Role:** Weekly editor. Reviewed the week's accreted commits on `docs/routines/018`, verified

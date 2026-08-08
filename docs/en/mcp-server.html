@@ -489,9 +489,9 @@
 
   <!-- Main site nav (hamburger on mobile, full menu on desktop) -->
   <nav id="site-nav"></nav>
-  <script src="../js/mounts.js?v=7.3.1"></script>
-  <script src="../js/site-nav.js?v=7.3.1"></script>
-  <script src="../js/ui.js?v=7.3.1"></script>
+  <script src="../js/mounts.js?v=7.4.2"></script>
+  <script src="../js/site-nav.js?v=7.4.2"></script>
+  <script src="../js/ui.js?v=7.4.2"></script>
 
 
 
@@ -503,7 +503,7 @@
     <span class="nav-sep">/</span>
     <span class="nav-crumb current">MCP Server</span>
     <span class="nav-spacer"></span>
-    <span class="nav-version">v7.3.1</span>
+    <span class="nav-version">v7.4.2</span>
   </nav>
 
   <div class="page-layout">
@@ -548,9 +548,23 @@
       <h1 class="page-title">MCP Server</h1>
       <p class="page-lead">
         Connect Gaia to any MCP-compatible agent — Claude Code, Claude Desktop, Cursor,
-        VS Code, Gemini — and give it native access to skill lookup, fusion suggestions,
-        context scanning, and your personal skill tree.
+        VS Code, Gemini — and give it native access to skill lookup and evidence dossiers.
       </p>
+
+      <div class="callout callout-warn">
+        <span class="callout-label">⚠ Page under revision — tool list may not match the live server</span>
+        <p>
+          The Gaia MCP server now ships from the external
+          <code>gaia-research/gaia-mcp</code> repository as a
+          <strong>read-only</strong> surface (<code>gaia_search</code>, <code>gaia_inspect</code>,
+          <code>gaia_status</code>, plus a <code>summon</code> tool) — it cannot install, fuse, or
+          mutate skills. The five-tool, write-capable design documented below (<code>gaia_lookup</code>,
+          <code>gaia_suggest</code>, <code>gaia_scan_context</code>, <code>gaia_my_tree</code>,
+          <code>gaia_propose</code>) describes an earlier in-repo prototype that has been deleted.
+          Tracked in <a href="https://github.com/gaia-research/gaia-skill-tree/issues/1478" target="_blank" rel="noopener">issue #1478</a>
+          pending a full rewrite against the current external repo.
+        </p>
+      </div>
 
       <!-- Overview -->
       <section class="section" id="overview">
