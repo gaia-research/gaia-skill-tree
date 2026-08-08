@@ -57,6 +57,27 @@ npx -y -p @gaia-research/mcp gaia-mcp          # the MCP server
 Verified: the command above summoned `garrytan/qa` (3★, TM 63.73) in 3.4s cold, with path
 and inspect link.
 
+### Coming: `npx skill-hell` (one founder step away)
+
+The name `skill-hell` is **free on npm**, and a pointer package claiming it is merged to
+`gaia-research/gaia-mcp` main. Once published, the obvious command works:
+
+```sh
+npx skill-hell summon "code review" --card
+```
+
+It ships no code — one pinned dependency and a README. npm links the engine's own binary on
+install, so npx reaches the real thing directly. Verified from a packed tarball in a clean
+directory before merging.
+
+**It is not published yet, and that step is yours**: npm trusted publishing is configured
+per package, and a package that does not exist has no publisher to trust. One manual
+`npm publish --access public` from `alias/skill-hell/`, then point the trusted publisher at
+this repo's `release.yml` / `npm` environment. Full steps: `alias/skill-hell/PUBLISHING.md`.
+
+Claiming the name has value beyond ergonomics — it is a product name you said you intend to
+keep.
+
 ### The flag that matters
 
 **`-p` is required, and `npx @gaia-research/mcp` alone fails:**
