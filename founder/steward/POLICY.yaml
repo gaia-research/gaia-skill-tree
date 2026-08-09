@@ -1,5 +1,5 @@
 version: 1
-mode: report-only
+mode: class-a-closed-loop
 
 state:
   directory: .gaia/steward
@@ -7,6 +7,7 @@ state:
 
 allowedWrites:
   - .gaia/steward/**
+  - src/gaia_cli/data/registry/schema/**
 
 authority:
   bundled_schema_mirror_drift: A
@@ -63,3 +64,19 @@ priority:
 
 budgets:
   maxObservationsPerRun: 1000
+
+repairs:
+  maxRepairsPerRun: 1
+  executors:
+    bundled-schema-mirror:
+      debtKind: bundled_schema_mirror_drift
+      authority: A
+      canonicalPath: registry/schema/**
+      writablePath: src/gaia_cli/data/registry/schema/**
+      allowedCommands:
+        - git status --porcelain=v1 --untracked-files=all -- src/gaia_cli/data/registry/schema
+        - python scripts/sync_bundled_schemas.py --check
+      stopConditions:
+        - canonical input is missing, symlinked, non-regular, non-JSON, or changes during repair
+        - mirror contains an extra path, a symlink, or a dirty user edit
+        - staged copy, atomic replacement, recursive parity, or sync validation cannot be proven
