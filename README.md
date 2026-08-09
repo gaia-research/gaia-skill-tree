@@ -263,10 +263,13 @@ A GitHub issue opens automatically. Don't worry, we thoroughly review every inta
 **4. MCP Server**
 
 ```bash
-claude mcp add gaia -- npx -y @gaia-research/mcp@0.1.0
+claude mcp add gaia -- npx --yes --package=@gaia-research/mcp@latest gaia-mcp
 ```
 
-Connects your AI agent to the public Gaia Skill Tree registry over stdio. Full configuration guidance and planned features are documented on the [Gaia MCP Page](https://research.gaiaskilltree.com/mcp).
+Connects your AI agent to the public Gaia Skill Tree registry over stdio. The
+scoped package has two binaries, so the explicit package selector invokes
+`gaia-mcp`; see the [Gaia MCP 0.4.0 release](https://github.com/gaia-research/gaia-mcp/releases/tag/mcp-v0.4.0) for the current
+contract.
 
 ---
 
@@ -355,26 +358,43 @@ Maintainer commands:  gaia dev --help
 
 ---
 
-## MCP Server Full Instructions
+## MCP Server
 
-`@gaia-research/mcp` connects Gaia to MCP-compatible agents (Claude Code, Cursor, VS Code, etc.). It is published on npm at **v0.1.0** and ships the binary `gaia-mcp`.
+[`@gaia-research/mcp@0.4.0`](https://github.com/gaia-research/gaia-mcp/releases/tag/mcp-v0.4.0) is the published Gaia MCP prototype.
+Public installation examples use `@latest`; it currently resolves to that
+release. The scoped package registers two binaries, `gaia-mcp` and
+`skill-hell`, so an MCP client must select `gaia-mcp` explicitly.
 
 | Agent | Install |
 |-------|---------|
-| Claude Code | `claude mcp add gaia -- npx -y @gaia-research/mcp@0.1.0` |
-| Any MCP client | Command: `npx`, args: `["-y", "@gaia-research/mcp@0.1.0"]` |
+| Claude Code | `claude mcp add gaia -- npx --yes --package=@gaia-research/mcp@latest gaia-mcp` |
+| Any MCP client | Command: `npx`; args: `["--yes", "--package=@gaia-research/mcp@latest", "gaia-mcp"]` |
 
-**What v0.1.0 does today.** It is **read-only registry mode** — three discovery tools, no write path:
+**Current rich Registry/Bond package surface:**
 
 | Tool | Purpose |
 |---|---|
-| `gaia_search` | Find generic and Named Skills by task and constraints |
-| `gaia_inspect` | Return an evidence-backed skill dossier |
-| `gaia_status` | Report server compatibility, registry freshness, counts, source URLs |
+| `gaia_search` | Find generic and Named Skills by task and constraints. |
+| `gaia_inspect` | Return an evidence-backed skill dossier. |
+| `summon` | Materialize a matching Named Skill into an ephemeral session. |
+| `gaia_status` | Report version, compatibility, Registry freshness, counts, and tools. |
 
-It **cannot install, fuse, or mutate skills**, and it does not submit to Intake. Project analysis and path planning arrive with Bonded mode in v0.2.0. Installation stays with the `gaia` CLI, which is where approval for anything that changes your workspace belongs.
+`summon` is the current tool name, not `gaia_summon`. It never mutates the
+Registry, current repository, or persistent user configuration. The current
+package is not an implemented or measured D4 thin `search_skills` + `summon`
+profile; that profile does not deprecate the four tools above. Hell/Heaven
+scoring, routing eligibility, and content-hash admission or verification are
+not shipped.
 
-Source and releases: <https://github.com/gaia-research/gaia-mcp>. See the [Gaia MCP Page](https://research.gaiaskilltree.com/mcp) for full docs and agent-specific config examples.
+For a direct CLI summon, use the npx-friendly alias:
+
+```bash
+npx --yes skill-hell@latest summon "code review" --card
+```
+
+Source and releases: <https://github.com/gaia-research/gaia-mcp>. See the
+[Gaia MCP Page](https://research.gaiaskilltree.com/mcp) for current
+configuration guidance.
 
 ---
 

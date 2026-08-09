@@ -30,7 +30,7 @@ Branch is **always derived, never declared** on a node. The fork happens at 4★
 *   `registry/`: Canonical graph (`gaia.json`), named skills, and schemas. **Source of Truth.**
 *   `registry-for-review/`: Intake area for proposed skills (`gaia push`).
 *   `src/gaia_cli/`: Core Python CLI logic.
-*   MCP server: standalone package `@gaia-research/mcp` — see https://research.gaiaskilltree.com/mcp
+*   MCP server: standalone package — use the moving `@gaia-research/mcp@latest` install selector; [v0.4.0 release evidence](https://github.com/gaia-research/gaia-mcp/releases/tag/mcp-v0.4.0) records the rich tools: `gaia_search`, `gaia_inspect`, `summon`, `gaia_status`; see https://research.gaiaskilltree.com/mcp
 *   `scripts/`: Essential utilities for validation, building, and registry maintenance.
 *   `docs/`: Documentation site and generated graph assets.
 
@@ -70,12 +70,18 @@ Connect Gaia natively to MCP-compatible agents (Claude Code, Cursor, VS Code, et
 
 ### Claude Code Integration
 ```bash
-claude mcp add gaia -- npx -y @gaia-research/mcp@0.1.0
+claude mcp add gaia -- npx --yes --package=@gaia-research/mcp@latest gaia-mcp
 ```
 
-### Environment Variables
-*   `GAIA_USER`: Your GitHub username (used to attribute claims).
-*   `GITHUB_TOKEN`: GitHub personal access token (optional, used for pull request creation).
+The package has both `gaia-mcp` and `skill-hell` binaries, so the explicit
+selector is required for MCP registration. `summon` is the current tool name;
+`gaia_summon` is not a package tool.
+
+### Configuration
+Normal Registry use needs no identity or GitHub token. For isolated testing,
+`TREE_URL` and `TREE_NAMED_URL` can override the public projection endpoints.
+The package does not submit pull requests, mutate the Registry, or implement
+Hell/Heaven scoring, routing eligibility, or content-hash admission.
 
 ---
 

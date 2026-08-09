@@ -516,13 +516,9 @@
           <li><a href="#overview">Overview</a></li>
           <li><a href="#install">Installation</a></li>
           <li><a href="#tools">Tools</a></li>
-          <li><a href="#resources">Resources</a></li>
-          <li><a href="#config">Configuration</a></li>
+          <li><a href="#boundaries">Prototype boundaries</a></li>
           <li><a href="#prompts">Prompt examples</a></li>
           <li><a href="#how-it-works">How it works</a></li>
-          <li><a href="#advisor-architecture">Advisor Architecture</a></li>
-          <li><a href="#telemetry">Telemetry & Privacy</a></li>
-          <li><a href="#known-issues">Known issues</a></li>
         </ul>
       </div>
       <div class="sidebar-group">
@@ -547,588 +543,135 @@
       <div class="page-badge">● Model Context Protocol server</div>
       <h1 class="page-title">MCP Server</h1>
       <p class="page-lead">
-        Connect Gaia to any MCP-compatible agent — Claude Code, Claude Desktop, Cursor,
-        VS Code, Gemini — and give it native access to skill lookup and evidence dossiers.
+        Connect Gaia's public Registry to an MCP-compatible agent for discovery,
+        evidence inspection, temporary skill summoning, and status checks.
       </p>
 
-      <div class="callout callout-warn">
-        <span class="callout-label">⚠ Page under revision — tool list may not match the live server</span>
+      <div class="callout callout-info">
+        <span class="callout-label">● Current package contract — v0.4.0</span>
         <p>
-          The Gaia MCP server now ships from the external
-          <code>gaia-research/gaia-mcp</code> repository as a
-          <strong>read-only</strong> surface (<code>gaia_search</code>, <code>gaia_inspect</code>,
-          <code>gaia_status</code>, plus a <code>summon</code> tool) — it cannot install, fuse, or
-          mutate skills. The five-tool, write-capable design documented below (<code>gaia_lookup</code>,
-          <code>gaia_suggest</code>, <code>gaia_scan_context</code>, <code>gaia_my_tree</code>,
-          <code>gaia_propose</code>) describes an earlier in-repo prototype that has been deleted.
-          Tracked in <a href="https://github.com/gaia-research/gaia-skill-tree/issues/1478" target="_blank" rel="noopener">issue #1478</a>
-          pending a full rewrite against the current external repo.
+          The external <a href="https://github.com/gaia-research/gaia-mcp/releases/tag/mcp-v0.4.0" target="_blank" rel="noopener"><code>gaia-research/gaia-mcp</code> release</a>
+          publishes <code>@gaia-research/mcp</code>. Its current rich Registry/Bond
+          package surface is <code>gaia_search</code>, <code>gaia_inspect</code>,
+          <code>summon</code>, and <code>gaia_status</code>. It is a working prototype,
+          not the deleted in-repository MCP implementation.
         </p>
       </div>
 
-      <!-- Overview -->
       <section class="section" id="overview">
         <h2 class="section-title">Overview</h2>
         <div class="section-body">
           <p>
-            The Gaia MCP server is a
-            <a href="https://modelcontextprotocol.io" rel="noopener" target="_blank">Model Context Protocol</a>
-            server that exposes Gaia's registry to your AI agent at inference time.
-            Instead of copying skill IDs into prompts, the agent calls structured tools
-            and receives structured responses — metadata, prerequisites, fusion candidates,
-            and progression stats.
+            Gaia MCP is a stdio server. It reads public Gaia Registry projections;
+            it does not mutate the Registry, a project checkout, or persistent agent
+            configuration. <code>summon</code> materializes a matching Named Skill only
+            into an ephemeral session directory.
           </p>
           <p>
-            The server is stateless and read-heavy. It fetches <code>gaia.json</code>
-            from GitHub on first request and caches locally with ETag revalidation.
-            Writes (proposing a skill, claiming a fusion) require a <code>GITHUB_TOKEN</code>
-            and open a PR on your behalf.
+            <code>summon</code> is the current tool name. There is no current
+            <code>gaia_summon</code> tool. The package's four tools are not an
+            implemented or measured D4 thin <code>search_skills</code> +
+            <code>summon</code> Heaven/Summon profile.
           </p>
-        </div>
-
-        <div class="callout callout-info">
-          <span class="callout-label">💡 Quick start</span>
-          <p>Using Claude Code, registration is a single <code>claude mcp add</code> call
-          pointed at the published <code>@gaia-research/mcp</code> package — see the
-          install shape below for the exact env vars it needs.</p>
-          <p>Then ask: <em>"Use gaia_lookup to find the rag-pipeline skill."</em></p>
         </div>
       </section>
 
-      <!-- Installation -->
       <section class="section" id="install">
         <h2 class="section-title">Installation</h2>
         <div class="section-body">
           <p>
-            The universal install shape is <code>npx</code>-based, with an optional
-            <code>GAIA_USER</code> env var set to your GitHub username. The package
-            is published to npm as <code>@gaia-research/mcp</code> — platform
-            specifics below show the exact commands and config to run it.
-          </p>
-        </div>
-
-        <div class="platform-tabs" id="platform-tabs">
-          <button class="platform-tab active" data-pane="claude-code">Claude Code</button>
-          <button class="platform-tab" data-pane="claude-desktop">Claude Desktop</button>
-          <button class="platform-tab" data-pane="cursor">Cursor</button>
-          <button class="platform-tab" data-pane="vscode">VS Code</button>
-          <button class="platform-tab" data-pane="gemini">Gemini</button>
-          <button class="platform-tab" data-pane="other">Other</button>
-        </div>
-
-        <!-- Claude Code -->
-        <div class="platform-pane active" id="pane-claude-code">
-          <h3>Claude Code (CLI)</h3>
-          <div class="section-body">
-            <p>One-liner registration — works project-locally or globally:</p>
-          </div>
-          <div class="code-block">
-            <div class="code-block-header"><span class="code-block-label">bash</span></div>
-            <pre><span class="c"># project-local (adds to .claude/settings.json)</span>
-<span class="cmd">claude mcp add gaia</span> -- npx @gaia-research/mcp
-
-<span class="c"># global (available in every project)</span>
-<span class="cmd">claude mcp add gaia</span> --global -- npx @gaia-research/mcp</pre>
-          </div>
-          <div class="section-body">
-            <p>To pass <code>GAIA_USER</code> and <code>GITHUB_TOKEN</code>, edit <code>.claude/settings.json</code> directly:</p>
-          </div>
-          <div class="code-block">
-            <div class="code-block-header"><span class="code-block-label">.claude/settings.json</span></div>
-            <pre>{
-  <span class="str">"mcpServers"</span>: {
-    <span class="str">"gaia"</span>: {
-      <span class="str">"command"</span>: <span class="str">"npx"</span>,
-      <span class="str">"args"</span>: [<span class="str">"@gaia-research/mcp"</span>],
-      <span class="str">"env"</span>: {
-        <span class="str">"GAIA_USER"</span>: <span class="str">"your-github-username"</span>,
-        <span class="str">"GITHUB_TOKEN"</span>: <span class="str">"ghp_..."</span>
-      }
-    }
-  }
-}</pre>
-          </div>
-          <div class="callout callout-warn">
-            <span class="callout-label">⚠ Set GAIA_USER in env, not config.json</span>
-            <p>
-              The MCP server resolves identity from <code>process.cwd()</code>, which may not
-              be your project root when launched by Claude Code. Always set
-              <strong>GAIA_USER</strong> in the <code>env</code> block above — this is the
-              only reliable override. See <a href="#known-issues">Known issues</a>.
-            </p>
-          </div>
-        </div>
-
-        <!-- Claude Desktop -->
-        <div class="platform-pane" id="pane-claude-desktop">
-          <h3>Claude Desktop</h3>
-          <div class="section-body">
-            <p>
-              Edit your config file, then restart Claude Desktop.
-              The Gaia tools will appear in the tool picker (hammer icon).
-            </p>
-            <ul style="padding-left:1.25rem; color:var(--muted,#64748b); font-size:0.9rem; line-height:1.8;">
-              <li><strong style="color:var(--text,#e2e8f0)">macOS:</strong> <code>~/Library/Application Support/Claude/claude_desktop_config.json</code></li>
-              <li><strong style="color:var(--text,#e2e8f0)">Windows:</strong> <code>%APPDATA%\Claude\claude_desktop_config.json</code></li>
-            </ul>
-          </div>
-          <div class="code-block">
-            <div class="code-block-header"><span class="code-block-label">claude_desktop_config.json</span></div>
-            <pre>{
-  <span class="str">"mcpServers"</span>: {
-    <span class="str">"gaia"</span>: {
-      <span class="str">"command"</span>: <span class="str">"npx"</span>,
-      <span class="str">"args"</span>: [<span class="str">"@gaia-research/mcp"</span>],
-      <span class="str">"env"</span>: {
-        <span class="str">"GAIA_USER"</span>: <span class="str">"your-github-username"</span>
-      }
-    }
-  }
-}</pre>
-          </div>
-        </div>
-
-        <!-- Cursor -->
-        <div class="platform-pane" id="pane-cursor">
-          <h3>Cursor</h3>
-          <div class="section-body">
-            <p>
-              Create <code>.cursor/mcp.json</code> in your project root
-              (or <code>~/.cursor/mcp.json</code> for global). Restart Cursor.
-              Gaia tools are available in Composer and Agent mode.
-            </p>
-          </div>
-          <div class="code-block">
-            <div class="code-block-header"><span class="code-block-label">.cursor/mcp.json</span></div>
-            <pre>{
-  <span class="str">"mcpServers"</span>: {
-    <span class="str">"gaia"</span>: {
-      <span class="str">"command"</span>: <span class="str">"npx"</span>,
-      <span class="str">"args"</span>: [<span class="str">"@gaia-research/mcp"</span>],
-      <span class="str">"env"</span>: {
-        <span class="str">"GAIA_USER"</span>: <span class="str">"your-github-username"</span>
-      }
-    }
-  }
-}</pre>
-          </div>
-        </div>
-
-        <!-- VS Code -->
-        <div class="platform-pane" id="pane-vscode">
-          <h3>VS Code</h3>
-          <div class="section-body">
-            <p>
-              For GitHub Copilot (agent mode) or Continue. Add to
-              <code>.vscode/mcp.json</code> in your workspace, then reload the window
-              (<kbd>Ctrl+Shift+P</kbd> → "Reload Window").
-            </p>
-          </div>
-          <div class="code-block">
-            <div class="code-block-header"><span class="code-block-label">.vscode/mcp.json</span></div>
-            <pre>{
-  <span class="str">"servers"</span>: {
-    <span class="str">"gaia"</span>: {
-      <span class="str">"command"</span>: <span class="str">"npx"</span>,
-      <span class="str">"args"</span>: [<span class="str">"@gaia-research/mcp"</span>],
-      <span class="str">"env"</span>: {
-        <span class="str">"GAIA_USER"</span>: <span class="str">"your-github-username"</span>
-      }
-    }
-  }
-}</pre>
-          </div>
-          <div class="section-body">
-            <p>Or via <code>settings.json</code>:</p>
-          </div>
-          <div class="code-block">
-            <div class="code-block-header"><span class="code-block-label">settings.json</span></div>
-            <pre>{
-  <span class="str">"mcp"</span>: {
-    <span class="str">"servers"</span>: {
-      <span class="str">"gaia"</span>: {
-        <span class="str">"command"</span>: <span class="str">"npx"</span>,
-        <span class="str">"args"</span>: [<span class="str">"@gaia-research/mcp"</span>],
-        <span class="str">"env"</span>: { <span class="str">"GAIA_USER"</span>: <span class="str">"your-github-username"</span> }
-      }
-    }
-  }
-}</pre>
-          </div>
-        </div>
-
-        <!-- Gemini -->
-        <div class="platform-pane" id="pane-gemini">
-          <h3>Gemini CLI / Google AI Studio</h3>
-          <div class="section-body">
-            <p>Add to your MCP config file. The exact path depends on your Gemini client — see its documentation.</p>
-          </div>
-          <div class="code-block">
-            <div class="code-block-header"><span class="code-block-label">mcp config</span></div>
-            <pre>{
-  <span class="str">"mcpServers"</span>: {
-    <span class="str">"gaia"</span>: {
-      <span class="str">"command"</span>: <span class="str">"npx"</span>,
-      <span class="str">"args"</span>: [<span class="str">"@gaia-research/mcp"</span>],
-      <span class="str">"env"</span>: { <span class="str">"GAIA_USER"</span>: <span class="str">"your-github-username"</span> }
-    }
-  }
-}</pre>
-          </div>
-        </div>
-
-        <!-- Other -->
-        <div class="platform-pane" id="pane-other">
-          <h3>Any MCP-compatible agent</h3>
-          <div class="section-body">
-            <p>
-              Any agent that supports the Model Context Protocol can connect to Gaia.
-              The universal shape:
-            </p>
-          </div>
-          <div class="code-block">
-            <div class="code-block-header"><span class="code-block-label">universal shape</span></div>
-            <pre>{
-  <span class="str">"command"</span>: <span class="str">"npx"</span>,
-  <span class="str">"args"</span>: [<span class="str">"@gaia-research/mcp"</span>],
-  <span class="str">"env"</span>: {
-    <span class="str">"GAIA_USER"</span>: <span class="str">"your-github-username"</span>,
-    <span class="str">"GITHUB_TOKEN"</span>: <span class="str">"ghp_..."</span>   <span class="c">// required for gaia_propose</span>
-  }
-}</pre>
-          </div>
-        </div>
-
-      </section>
-
-      <!-- Tools -->
-      <section class="section" id="tools">
-        <h2 class="section-title">Tools</h2>
-        <div class="section-body">
-          <p>
-            Five tools are registered. All read-only tools work without any env config.
-            <code>gaia_propose</code> requires <code>GITHUB_TOKEN</code>.
-          </p>
-        </div>
-
-        <div class="tool-grid">
-
-          <div class="tool-card">
-            <div class="tool-card-name">gaia_lookup</div>
-            <div class="tool-card-desc">
-              Look up a skill by ID or fuzzy name. Returns full metadata — type, stars, description,
-              prerequisites, derivatives, evidence entries, and graph context (ancestors, descendants).
-            </div>
-            <div class="tool-card-params">
-              <div class="tool-param">
-                <span class="tool-param-name">query</span>
-                <span class="tool-param-opt">required</span>
-                <span class="tool-param-desc">Skill ID (<code>web-scrape</code>) or fuzzy name (<code>"web scraping"</code>).</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="tool-card">
-            <div class="tool-card-name">gaia_suggest</div>
-            <div class="tool-card-desc">
-              Get fusion recommendations for what you're building. Compares your connected tools and
-              project description against the registry to surface achievable fusions and skills
-              one step away from unlocking.
-            </div>
-            <div class="tool-card-params">
-              <div class="tool-param">
-                <span class="tool-param-name">context</span>
-                <span class="tool-param-opt">optional</span>
-                <span class="tool-param-desc">Array of project signals — descriptions, package names, file patterns.</span>
-              </div>
-              <div class="tool-param">
-                <span class="tool-param-name">tools</span>
-                <span class="tool-param-opt">optional</span>
-                <span class="tool-param-desc">MCP tool names currently connected (<code>"web_search"</code>, <code>"bash"</code>).</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="tool-card">
-            <div class="tool-card-name">gaia_scan_context</div>
-            <div class="tool-card-desc">
-              Scan the current session's context to detect skills in use. Pass connected tool names
-              and project signals; the server maps them to Gaia skill IDs and reports fusion
-              opportunities. Set <code>deepScan: true</code> to invoke the local <code>gaia</code>
-              CLI for a full source-code scan.
-            </div>
-            <div class="tool-card-params">
-              <div class="tool-param">
-                <span class="tool-param-name">connectedTools</span>
-                <span class="tool-param-opt">optional</span>
-                <span class="tool-param-desc">MCP tool names available in this session.</span>
-              </div>
-              <div class="tool-param">
-                <span class="tool-param-name">projectSignals</span>
-                <span class="tool-param-opt">optional</span>
-                <span class="tool-param-desc">Capability descriptions (<code>"cheerio in package.json"</code>).</span>
-              </div>
-              <div class="tool-param">
-                <span class="tool-param-name">deepScan</span>
-                <span class="tool-param-opt">optional · bool</span>
-                <span class="tool-param-desc">Invoke local <code>gaia scan</code> CLI for full source analysis.</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="tool-card">
-            <div class="tool-card-name">gaia_my_tree</div>
-            <div class="tool-card-desc">
-              Fetch a user's Gaia skill tree — unlocked skills with star levels, pending fusions,
-              and progression stats. Defaults to the configured <code>GAIA_USER</code>.
-            </div>
-            <div class="tool-card-params">
-              <div class="tool-param">
-                <span class="tool-param-name">username</span>
-                <span class="tool-param-opt">optional</span>
-                <span class="tool-param-desc">GitHub username. Falls back to <code>GAIA_USER</code> env var.</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="tool-card">
-            <div class="tool-card-name">gaia_propose</div>
-            <div class="tool-card-desc">
-              Claim a skill fusion or propose a novel skill to the registry. Opens a PR on GitHub.
-              Requires <code>GITHUB_TOKEN</code> or <code>GH_TOKEN</code> in the server environment.
-            </div>
-            <div class="tool-card-params">
-              <div class="tool-param">
-                <span class="tool-param-name">skillId</span>
-                <span class="tool-param-opt">optional</span>
-                <span class="tool-param-desc">Existing skill ID to fuse or claim.</span>
-              </div>
-              <div class="tool-param">
-                <span class="tool-param-name">name</span>
-                <span class="tool-param-opt">optional</span>
-                <span class="tool-param-desc">Name for a novel skill proposal.</span>
-              </div>
-              <div class="tool-param">
-                <span class="tool-param-name">description</span>
-                <span class="tool-param-opt">optional</span>
-                <span class="tool-param-desc">Description of the novel skill (≥ 10 chars).</span>
-              </div>
-              <div class="tool-param">
-                <span class="tool-param-name">type</span>
-                <span class="tool-param-opt">optional</span>
-                <span class="tool-param-desc"><code>basic</code> · <code>extra</code> · <code>unique</code> · <code>ultimate</code></span>
-              </div>
-              <div class="tool-param">
-                <span class="tool-param-name">prerequisites</span>
-                <span class="tool-param-opt">optional</span>
-                <span class="tool-param-desc">Prerequisite skill IDs for extra/ultimate proposals.</span>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- Resources -->
-      <section class="section" id="resources">
-        <h2 class="section-title">Resources</h2>
-        <div class="section-body">
-          <p>
-            Two MCP resources expose raw registry data. Use these when you want
-            the full graph in context rather than a single skill lookup.
-          </p>
-        </div>
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>URI</th>
-              <th>Contents</th>
-              <th>Notes</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><code>gaia://registry</code></td>
-              <td>Full skill graph — all skills with type, stars, prerequisites, evidence</td>
-              <td>JSON, ETag-cached. Large (hundreds of nodes); prefer <code>gaia_lookup</code> for single skills.</td>
-            </tr>
-            <tr>
-              <td><code>gaia://tree/{username}</code></td>
-              <td>A user's skill tree — unlocked skills, stars, timeline events</td>
-              <td>Fetched from <code>skill-trees/{username}/skill-tree.json</code> in the registry repo.</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      <!-- Configuration -->
-      <section class="section" id="config">
-        <h2 class="section-title">Configuration</h2>
-        <div class="section-body">
-          <p>
-            The server resolves identity in priority order. The first source that returns
-            a non-empty value wins.
-          </p>
-        </div>
-        <table class="data-table">
-          <thead>
-            <tr><th>Priority</th><th>Source</th><th>Value</th></tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>1 — highest</td>
-              <td><code>GAIA_USER</code> env var</td>
-              <td>Your GitHub username, set in the MCP server's <code>env</code> block.</td>
-            </tr>
-            <tr>
-              <td>2</td>
-              <td><code>.gaia/config.json</code> (project)</td>
-              <td>Config file in the directory where the server process was spawned.</td>
-            </tr>
-            <tr>
-              <td>3 — lowest</td>
-              <td><code>~/.gaia/config.json</code> (global)</td>
-              <td>Global fallback; usually set by <code>gaia init --user &lt;username&gt;</code>.</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="section-body">
-          <p>
-            For <code>gaia_propose</code>, set <strong>GITHUB_TOKEN</strong> or
-            <strong>GH_TOKEN</strong> to a personal access token with <code>repo</code> scope.
-            Without it, proposal calls will fail with an authentication error.
+            Public commands use <code>@latest</code>. The scoped package has two bins,
+            so always select <code>gaia-mcp</code> explicitly when configuring an MCP
+            client.
           </p>
         </div>
         <div class="code-block">
-          <div class="code-block-header"><span class="code-block-label">env block — both vars</span></div>
-          <pre><span class="str">"env"</span>: {
-  <span class="str">"GAIA_USER"</span>: <span class="str">"your-github-username"</span>,
-  <span class="str">"GITHUB_TOKEN"</span>: <span class="str">"ghp_..."</span>
+          <div class="code-block-header"><span class="code-block-label">Claude Code</span></div>
+          <pre><span class="cmd">claude mcp add gaia</span> -- npx --yes --package=@gaia-research/mcp@latest gaia-mcp</pre>
+        </div>
+        <div class="section-body">
+          <p>For any MCP client that accepts a command and argument array:</p>
+        </div>
+        <div class="code-block">
+          <div class="code-block-header"><span class="code-block-label">MCP config</span></div>
+          <pre>{
+  <span class="str">"command"</span>: <span class="str">"npx"</span>,
+  <span class="str">"args"</span>: [
+    <span class="str">"--yes"</span>,
+    <span class="str">"--package=@gaia-research/mcp@latest"</span>,
+    <span class="str">"gaia-mcp"</span>
+  ]
 }</pre>
         </div>
-      </section>
-
-      <!-- Prompt examples -->
-      <section class="section" id="prompts">
-        <h2 class="section-title">Prompt examples</h2>
         <div class="section-body">
-          <p>Once Gaia is connected, try these in your agent:</p>
+          <p>For one-shot Skill Hell use, choose the separate npx-friendly alias:</p>
         </div>
-        <ul class="prompt-list">
-          <li>"What skills do I have? Use gaia_my_tree."</li>
-          <li>"Scan my current context and suggest skill fusions. Use gaia_scan_context."</li>
-          <li>"Look up the rag-pipeline skill in the Gaia registry."</li>
-          <li>"I just built a multi-step web scraper with Playwright. What Gaia skill does that map to?"</li>
-          <li>"What's the upgrade path from web-search to autonomous-research-agent? Use gaia_lookup."</li>
-          <li>"I have web-scrape and parse-html unlocked. What fusions are available? Use gaia_suggest."</li>
-          <li>"Propose a new skill called 'agentic-code-review' based on what I just built. Use gaia_propose."</li>
-        </ul>
-      </section>
-
-      <!-- How it works -->
-      <section class="section" id="how-it-works">
-        <h2 class="section-title">How it works</h2>
-        <div class="section-body">
-          <p>
-            On startup the server registers its tools and resources with the MCP SDK, then waits
-            for calls over stdio. Registry data is fetched lazily — the first tool call triggers
-            a <code>gaia.json</code> download from GitHub, which is stored in-memory and
-            revalidated with ETag on subsequent calls.
-          </p>
-          <p>
-            When <code>gaia_suggest</code> or <code>gaia_scan_context</code> runs, the advisor
-            module maps your connected tool names and project signals to Gaia skill IDs
-            (via a keyword/semantic match), then walks the prerequisite graph to find any
-            Extra or Ultimate skill whose inputs are fully satisfied. Fusion candidates
-            are returned ranked by confidence.
-          </p>
-        </div>
-        <div class="arch-diagram">
-          <div>src/</div>
-          <div>├── <span class="hi">index.ts</span>           ← server setup, tool + resource registration</div>
-          <div>├── graph/             ← registry loader, types, search, DAG traversal</div>
-          <div>├── tools/</div>
-          <div>│   ├── <span class="hi2">lookup.ts</span>     ← gaia_lookup</div>
-          <div>│   ├── <span class="hi2">suggest.ts</span>    ← gaia_suggest</div>
-          <div>│   ├── <span class="hi2">scanContext.ts</span> ← gaia_scan_context</div>
-          <div>│   ├── <span class="hi2">myTree.ts</span>     ← gaia_my_tree</div>
-          <div>│   └── <span class="hi2">propose.ts</span>    ← gaia_propose (writes PR via GitHub API)</div>
-          <div>├── advisor/           ← skill detection engine, fusion matcher, novelty scorer</div>
-          <div>├── config/            ← identity resolution, ETag cache</div>
-          <div>├── resources/         ← gaia://registry + gaia://tree/{username}</div>
-          <div>└── utils/             ← GitHub API helpers, error handling</div>
+        <div class="code-block">
+          <div class="code-block-header"><span class="code-block-label">shell</span></div>
+          <pre>npx --yes skill-hell@latest summon <span class="str">"code review"</span> --card</pre>
         </div>
       </section>
 
-      <!-- Advisor Architecture -->
-      <section class="section" id="advisor-architecture">
-        <h2 class="section-title">Advisor Architecture</h2>
+      <section class="section" id="tools">
+        <h2 class="section-title">Tools</h2>
+        <div class="section-body"><p>Four tools are registered in the current package:</p></div>
+        <div class="tool-grid">
+          <div class="tool-card">
+            <div class="tool-card-name">gaia_search</div>
+            <div class="tool-card-desc">Find generic and Named Skills by task and constraints.</div>
+          </div>
+          <div class="tool-card">
+            <div class="tool-card-name">gaia_inspect</div>
+            <div class="tool-card-desc">Return an evidence-backed dossier for one candidate.</div>
+          </div>
+          <div class="tool-card">
+            <div class="tool-card-name">summon</div>
+            <div class="tool-card-desc">Materialize a matching Named Skill's full directory into an ephemeral session.</div>
+          </div>
+          <div class="tool-card">
+            <div class="tool-card-name">gaia_status</div>
+            <div class="tool-card-desc">Report package version, data freshness, compatibility, counts, and available tools.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="boundaries">
+        <h2 class="section-title">Prototype boundaries</h2>
         <div class="section-body">
-          <p>
-            The MCP server runs a unified advisor module to scan project context and suggest skill fusions. All advisors inherit from a common base class: <code>AbstractAdvisor&lt;TResult&gt;</code>.
-          </p>
-          <p>
-            The engine runs three concrete advisor classes:
-          </p>
           <ul>
-            <li><strong>SkillDetector</strong>: Inspects connected tool names and project signals. It uses regular expressions to find match patterns and returns a list of detected Basic Skills (○).</li>
-            <li><strong>FusionEngine</strong>: Compares owned and detected skills against the prerequisite graph. It identifies Extra Skills (◇) and Ultimate Skills (◆) that you can unlock immediately (<code>ready</code>) or skills that need only one more prerequisite (<code>one_away</code>).</li>
-            <li><strong>NoveltyScorer</strong>: Checks proposed skills against the existing registry. It calculates Jaccard similarity based on word tokens. A proposal is marked novel if the similarity score is below 0.3.</li>
+            <li>No Registry mutation, fusion, Intake submission, project analysis, or persistent installation path.</li>
+            <li>No Hell/Heaven score, routing-eligibility decision, or content-hash admission or verification system.</li>
+            <li>D4's thin two-tool Heaven/Summon profile is separate from this rich four-tool package and does not deprecate it.</li>
+            <li>Normal Registry use needs no <code>GAIA_USER</code> or GitHub token. For isolated testing, <code>TREE_URL</code> and <code>TREE_NAMED_URL</code> can override the public projections.</li>
           </ul>
         </div>
       </section>
 
-      <!-- Telemetry & Privacy -->
-      <section class="section" id="telemetry">
-        <h2 class="section-title">Telemetry & Privacy</h2>
+      <section class="section" id="prompts">
+        <h2 class="section-title">Prompt examples</h2>
+        <ul class="prompt-list">
+          <li>"Search the Gaia Registry for a code-review skill."</li>
+          <li>"Inspect the evidence for <code>garrytan/review</code>."</li>
+          <li>"Summon a skill for reviewing this pull request."</li>
+          <li>"Check Gaia MCP status and Registry freshness."</li>
+        </ul>
+      </section>
+
+      <section class="section" id="how-it-works">
+        <h2 class="section-title">How it works</h2>
         <div class="section-body">
           <p>
-            The Gaia MCP server collects no usage data, telemetry, or analytics. It has zero tracking pixels or phone-home systems.
+            The stdio server loads Gaia's public generic and Named Skill projections on demand.
+            Search and inspection return structured Registry facts. A summon resolves the selected
+            source, validates it, and materializes the whole skill directory in a session-scoped
+            temporary location; a bounded payload cache may make later materializations warm.
           </p>
           <p>
-            All skill detection and graph traversal run locally in your environment. The server only communicates with external hosts to fetch the registry data file (<code>gaia.json</code>) or write pull requests when you use <code>gaia_propose</code>.
+            A temporary session is not a permanent installation or an admission decision. The
+            package reports its source and cache state so callers can see those boundaries.
           </p>
         </div>
       </section>
-
-      <!-- Known issues -->
-      <section class="section" id="known-issues">
-        <h2 class="section-title">Known issues</h2>
-
-        <h3>Identity resolution uses process.cwd() — issue #212</h3>
-        <div class="section-body">
-          <p>
-            <code>src/config/identity.ts</code> resolves <code>.gaia/config.json</code>
-            relative to <code>process.cwd()</code>. When an MCP host (Claude Code, Cursor,
-            VS Code) spawns the server, the working directory may not be your project root.
-          </p>
-          <p>
-            <strong>Impact:</strong> <code>gaia_my_tree</code> and <code>gaia_propose</code>
-            return a "no user configured" error even when a project-level config exists.
-          </p>
-          <p>
-            <strong>Workaround:</strong> Set <code>GAIA_USER</code> explicitly in the server's
-            <code>env</code> block. The env var is checked before any file-based resolution and
-            is unaffected by CWD.
-          </p>
-        </div>
-        <div class="code-block">
-          <div class="code-block-header"><span class="code-block-label">fix — always set GAIA_USER in env</span></div>
-          <pre><span class="str">"env"</span>: {
-  <span class="str">"GAIA_USER"</span>: <span class="str">"your-github-username"</span>   <span class="c">// immune to CWD issues</span>
-}</pre>
-        </div>
-
-        <div class="callout callout-info">
-          <span class="callout-label">💡 Development workaround</span>
-          <p>
-            If you're running the server from source (<code>npm run dev</code>), set
-            <code>GAIA_USER</code> in a <code>.env</code> file at the repo root and load it
-            via your preferred env tool. The env var takes priority over all config files.
-          </p>
-        </div>
-      </section>
-
     </main>
   </div>
 
