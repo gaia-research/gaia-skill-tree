@@ -216,6 +216,14 @@ class RegistryIntegritySensor:
                             {"path": relative, "error": f"{field} references missing id {reference!r}"}
                         )
 
+        for cycle in _dependency_cycles(nodes):
+            violations.append(
+                {
+                    "path": "registry/nodes",
+                    "error": f"dependency cycle detected: {' -> '.join(cycle)}",
+                }
+            )
+
         violations.sort(key=lambda item: (item["path"], item["error"]))
         digest = hashlib.sha256(stable_json(manifest).encode("utf-8")).hexdigest()
         observed_state: dict[str, object] = {
@@ -241,6 +249,50 @@ class RegistryIntegritySensor:
                 },
             )
         ]
+
+
+def _dependency_cycles(
+    nodes: dict[str, tuple[Path, dict[str, object]]],
+) -> list[tuple[str, ...]]:
+    """Return deterministic prerequisite cycles using the canonical edge direction.
+
+    Canonical validation treats each prerequisite as an edge from prerequisite
+    to dependent. Derivative metadata is reference-checked but does not define
+    the DAG, matching ``scripts.validate.validate_dag``.
+    """
+
+    children: dict[str, list[str]] = {skill_id: [] for skill_id in nodes}
+    for target_id in sorted(nodes):
+        prerequisites = nodes[target_id][1].get("prerequisites")
+        if not isinstance(prerequisites, list):
+            continue
+        for source_id in prerequisites:
+            if isinstance(source_id, str) and source_id in children:
+                children[source_id].append(target_id)
+    for values in children.values():
+        values.sort()
+
+    white, gray, black = 0, 1, 2
+    color = {skill_id: white for skill_id in nodes}
+    stack: list[str] = []
+    cycles: set[tuple[str, ...]] = set()
+
+    def visit(skill_id: str) -> None:
+        color[skill_id] = gray
+        stack.append(skill_id)
+        for child_id in children[skill_id]:
+            if color[child_id] == white:
+                visit(child_id)
+            elif color[child_id] == gray:
+                start = stack.index(child_id)
+                cycles.add(tuple(stack[start:] + [child_id]))
+        stack.pop()
+        color[skill_id] = black
+
+    for skill_id in sorted(nodes):
+        if color[skill_id] == white:
+            visit(skill_id)
+    return sorted(cycles)
 
 
 def default_sensors() -> tuple[Sensor, ...]:

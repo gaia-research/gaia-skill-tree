@@ -99,3 +99,17 @@ def test_registry_integrity_reports_schema_and_reference_failures(tmp_path: Path
     errors = [entry["error"] for entry in observation.observed_state["violations"]]
     assert any("filename does not match" in error for error in errors)
     assert any("references missing id" in error for error in errors)
+
+
+def test_registry_integrity_reports_schema_valid_dependency_cycle(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    alpha = {"id": "alpha", "prerequisites": ["beta"], "derivatives": ["beta"]}
+    beta = {"id": "beta", "prerequisites": ["alpha"], "derivatives": ["alpha"]}
+    _write(tmp_path / "registry/nodes/basic/alpha.json", json.dumps(alpha))
+    _write(tmp_path / "registry/nodes/basic/beta.json", json.dumps(beta))
+
+    observation = RegistryIntegritySensor().scan(tmp_path, NOW)[0]
+
+    assert observation.status == "drift"
+    errors = [entry["error"] for entry in observation.observed_state["violations"]]
+    assert "dependency cycle detected: alpha -> beta -> alpha" in errors
