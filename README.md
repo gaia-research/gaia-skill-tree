@@ -17,33 +17,24 @@ Gaia is the open-source registry where AI agent capabilities aren't just claimed
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Website](https://img.shields.io/badge/Website-gaiaskilltree.com-f59e0b)](https://gaiaskilltree.com/)
 
-👉 **Claim your skill origin:** Run `curl -fsSL https://gaiaskilltree.com/install.sh | sh` and verify your first skill in under 2 minutes.
+👉 **Claim your skill origin:** Run 
+
+```
+curl -fsSL https://gaiaskilltree.com/install.sh | sh
+```
+
+and verify your first skill in under 2 minutes.
 
 
 # Get your badges! Some skills already curated.
 
 [![Gaia rank](https://gaiaskilltree.com/badges/_assets/mbtiongson1/rank.svg?repo=gaia-research%2Fgaia-skill-tree)](https://gaiaskilltree.com/u/mbtiongson1/)<br>
-[![Gaia skills](https://gaiaskilltree.com/badges/_assets/mbtiongson1/skills.svg?repo=gaia-research%2Fgaia-skill-tree)](https://gaiaskilltree.com/u/mbtiongson1/)
 
 Generate yours at **[gaiaskilltree.com/badges/](https://gaiaskilltree.com/badges/)**.
 
 **Brand & product:** [PRODUCT.md](PRODUCT.md) · [CONTEXT.md](CONTEXT.md) · [DESIGN.md](DESIGN.md)
 
 **Keywords:** AI Agent Skill registry • Evidence-Backed Skill Graph • Capability Graph • Model Context Protocol • AI Agents • Attribution
-
----
-
-## Yggdrasil II just dropped! (July 2026)
-
-Gaia has moved from **Yggdrasil I** to **Yggdrasil II**, the ratified meta that governs how skills are typed, ranked, and trusted. If you last looked before July 2026, three things changed:
-
-- **Trust Magnitude is the sole promotion gate.** The old per-star *Evidence Floor* is retired. A skill rises by accumulating Trust Magnitude — an unbounded score summed across ten evidence types (`magnitude × weight × freshness`), graded S ≥ 250 / A ≥ 100 / B ≥ 50 / C ≥ 20. The legacy "≥ 10k repository stars" hard requirement for the top pathways is gone; TM is the only numeric gate.
-- **Two node types, not five.** `extra`, `ultimate`, and `unique` are retired — every non-basic node is now `fusion`. Type is pure structure and lives only on starless (generic) references; **named skills carry no type**.
-- **Branch is derived, never declared.** A named skill's branch is computed at read-time from `branch = f(suiteComponents present?, rank)` — `suite` (has suiteComponents, any rank; ladder words Extra → Ultimate → Apex appear at 4★+), `unique` (no suiteComponents, rank ≥ 4; ladder Unique → Unique Ultimate → Unique Impossible), or `standard` (rank 1–3). No hand-maintained branch field to drift. The two 6★ pinnacles are **Apex** (suite branch) and **Unique Impossible** (unique branch).
-
-Stars now live on **named skills only**; generic references are *starless* — rank-less taxonomy nodes whose effective rank is the top star among their named children.
-
-**The full ruleset lives in [META.md](META.md)** (the single source of truth) and [CONTEXT.md](CONTEXT.md) (vocabulary). Explore it live at **[gaiaskilltree.com](https://gaiaskilltree.com/)** — the redesigned site renders the graph, per-contributor trees, the public [Trust leaderboard](https://gaiaskilltree.com/trust/leaderboard/), and every skill's evidence ledger.
 
 ---
 
@@ -157,32 +148,6 @@ This is the evidence grade at the Skill level.
 > **Detailed Policy:** See [META.md](META.md) for the full evidence methodology, ranking floors, and prestige requirements.
 
 > **Public Trust Ledger:** The Trust Ledger ranks every named skill by computed Trust Magnitude — see [`docs/trust/ledger/`](docs/trust/ledger/) (deployed at <https://gaiaskilltree.com/trust/ledger/> once the site rebuilds).
-
----
-
-## API
-
-The registry is available as a static read-only JSON API — no authentication, no rate limits.
-
-- **Base URL:** `https://gaiaskilltree.com/api/v1/`
-- **Docs:** [gaiaskilltree.com/api/](https://gaiaskilltree.com/api/)
-- **OpenAPI 3.1 spec:** [/api/v1/openapi.json](https://gaiaskilltree.com/api/v1/openapi.json)
-
-Quick examples:
-
-```bash
-# Health check
-curl https://gaiaskilltree.com/api/v1/health.json
-
-# All skills (page 1, sorted by Trust Magnitude)
-curl https://gaiaskilltree.com/api/v1/skills/index.json
-
-# Single skill detail
-curl https://gaiaskilltree.com/api/v1/skills/garrytan/gstack.json
-
-# Trust leaderboard
-curl https://gaiaskilltree.com/api/v1/leaderboard.json
-```
 
 ---
 
@@ -395,6 +360,32 @@ npx --yes skill-hell@latest summon "code review" --card
 Source and releases: <https://github.com/gaia-research/gaia-mcp>. See the
 [Gaia MCP Page](https://research.gaiaskilltree.com/mcp) for current
 configuration guidance.
+
+---
+
+## API
+
+The registry is available as a static read-only JSON API — no authentication, no rate limits.
+
+- **Base URL:** `https://gaiaskilltree.com/api/v1/`
+- **Docs:** [gaiaskilltree.com/api/](https://gaiaskilltree.com/api/)
+- **OpenAPI 3.1 spec:** [/api/v1/openapi.json](https://gaiaskilltree.com/api/v1/openapi.json)
+
+Quick examples:
+
+```bash
+# Health check
+curl https://gaiaskilltree.com/api/v1/health.json
+
+# All skills (page 1, sorted by Trust Magnitude)
+curl https://gaiaskilltree.com/api/v1/skills/index.json
+
+# Single skill detail
+curl https://gaiaskilltree.com/api/v1/skills/garrytan/gstack.json
+
+# Trust leaderboard
+curl https://gaiaskilltree.com/api/v1/leaderboard.json
+```
 
 ---
 
