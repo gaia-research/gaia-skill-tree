@@ -27,9 +27,10 @@ def _clean_cli_repo(root: Path) -> None:
     schema = {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
-        "required": ["id", "prerequisites", "derivatives"],
+        "required": ["id", "type", "prerequisites", "derivatives"],
         "properties": {
             "id": {"type": "string"},
+            "type": {"enum": ["basic", "fusion"]},
             "prerequisites": {"type": "array", "items": {"type": "string"}},
             "derivatives": {"type": "array", "items": {"type": "string"}},
         },
@@ -37,7 +38,10 @@ def _clean_cli_repo(root: Path) -> None:
     schema_text = json.dumps(schema, sort_keys=True)
     _write(root / "registry/schema/skill.schema.json", schema_text)
     _write(root / "src/gaia_cli/data/registry/schema/skill.schema.json", schema_text)
-    node = {"id": "example", "prerequisites": [], "derivatives": []}
+    meta_text = json.dumps({"types": {"minPrereqs": {"basic": 0, "fusion": 1}}})
+    _write(root / "registry/schema/meta.json", meta_text)
+    _write(root / "src/gaia_cli/data/registry/schema/meta.json", meta_text)
+    node = {"id": "example", "type": "basic", "prerequisites": [], "derivatives": []}
     _write(root / "registry/nodes/basic/example.json", json.dumps(node))
     _write(root / ".agents/skills/example/SKILL.md", "# Example\n")
     _write(root / ".claude/skills/example/SKILL.md", "# Example\n")

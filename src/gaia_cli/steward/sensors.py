@@ -150,9 +150,12 @@ class RegistryIntegritySensor:
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
         schema_path = repo_root / "registry/schema/skill.schema.json"
+        meta_path = repo_root / "registry/schema/meta.json"
         nodes_root = repo_root / "registry/nodes"
         if not schema_path.is_file():
             raise FileNotFoundError("required schema does not exist: registry/schema/skill.schema.json")
+        if not meta_path.is_file():
+            raise FileNotFoundError("required policy does not exist: registry/schema/meta.json")
         if not nodes_root.is_dir():
             raise FileNotFoundError("required directory does not exist: registry/nodes")
 
@@ -162,6 +165,16 @@ class RegistryIntegritySensor:
         except SchemaError as exc:
             raise ValueError(f"invalid registry skill schema: {exc.message}") from exc
         validator = Draft7Validator(schema)
+        meta = json.loads(meta_path.read_text(encoding="utf-8"))
+        min_prereqs = meta.get("types", {}).get("minPrereqs", {})
+        if not isinstance(min_prereqs, dict) or not all(
+            isinstance(kind, str)
+            and isinstance(floor, int)
+            and not isinstance(floor, bool)
+            and floor >= 0
+            for kind, floor in min_prereqs.items()
+        ):
+            raise ValueError("registry/schema/meta.json types.minPrereqs is invalid")
 
         paths = sorted(nodes_root.rglob("*.json"))
         violations: list[dict[str, str]] = []
@@ -224,6 +237,8 @@ class RegistryIntegritySensor:
                 }
             )
 
+        violations.extend(_prerequisite_count_violations(nodes, min_prereqs, repo_root))
+
         violations.sort(key=lambda item: (item["path"], item["error"]))
         digest = hashlib.sha256(stable_json(manifest).encode("utf-8")).hexdigest()
         observed_state: dict[str, object] = {
@@ -246,9 +261,41 @@ class RegistryIntegritySensor:
                 provenance={
                     "nodesPath": "registry/nodes",
                     "schemaPath": "registry/schema/skill.schema.json",
+                    "typePolicyPath": "registry/schema/meta.json",
                 },
             )
         ]
+
+
+def _prerequisite_count_violations(
+    nodes: dict[str, tuple[Path, dict[str, object]]],
+    min_prereqs: dict[str, int],
+    repo_root: Path,
+) -> list[dict[str, str]]:
+    """Match the bounded type floor in canonical validate_prerequisites_count."""
+
+    violations: list[dict[str, str]] = []
+    for skill_id in sorted(nodes):
+        path, node = nodes[skill_id]
+        skill_type = node.get("type")
+        prerequisites = node.get("prerequisites")
+        if not isinstance(skill_type, str) or not isinstance(prerequisites, list):
+            continue  # JSON Schema reports malformed fields.
+        actual = len(prerequisites)
+        minimum = min_prereqs.get(skill_type, 0)
+        if skill_type == "basic" and actual > 0:
+            error = f"basic skill {skill_id!r} must have 0 prerequisites (has {actual})"
+        elif actual < minimum:
+            error = (
+                f"{skill_type} skill {skill_id!r} needs >={minimum} prerequisites "
+                f"(has {actual})"
+            )
+        else:
+            continue
+        violations.append(
+            {"path": path.relative_to(repo_root).as_posix(), "error": error}
+        )
+    return violations
 
 
 def _dependency_cycles(
