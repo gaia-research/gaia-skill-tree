@@ -216,6 +216,8 @@ class Receipt:
     open_debt: tuple[str, ...]
     authority_counts: Mapping[str, int]
     result_status: str
+    repairs: tuple[Mapping[str, Any], ...] = ()
+    blocked: tuple[Mapping[str, Any], ...] = ()
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -231,7 +233,8 @@ class Receipt:
             "openDebt": list(self.open_debt),
             "authorityCounts": dict(self.authority_counts),
             "dispatches": [],
-            "repairs": [],
+            "repairs": [dict(item) for item in self.repairs],
+            "blocked": [dict(item) for item in self.blocked],
             "founderEscalations": [],
             "models": [],
             "result": {"status": self.result_status},

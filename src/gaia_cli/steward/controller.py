@@ -20,6 +20,7 @@ from gaia_cli.steward.receipts import (
     write_immutable_receipt,
 )
 from gaia_cli.steward.sensors import Sensor, default_sensors
+from gaia_cli.steward.repairs import RepairError, repair_bundled_schema_mirror
 
 
 Clock = Callable[[], datetime]
@@ -59,6 +60,22 @@ class ScanResult:
         }
 
 
+@dataclass(frozen=True)
+class RunResult:
+    initial: ScanResult
+    final: ScanResult | None
+    receipt: Receipt
+    receipt_path: Path
+
+    def to_dict(self) -> dict[str, object]:
+        return {
+            "receipt": self.receipt.to_dict(),
+            "initial": self.initial.to_dict(),
+            "final": self.final.to_dict() if self.final is not None else None,
+            "state": {"receipt": str(self.receipt_path)},
+        }
+
+
 class StewardController:
     def __init__(
         self,
@@ -72,7 +89,7 @@ class StewardController:
         if len(sensor_ids) != len(set(sensor_ids)):
             raise ValueError("Steward sensor ids must be unique")
 
-    def scan(self, repo_root: Path) -> ScanResult:
+    def scan(self, repo_root: Path, *, _lock_held: bool = False) -> ScanResult:
         root = repo_root.resolve()
         policy = StewardPolicy.load(root)
         observed_at = _timestamp(self.clock())
@@ -110,6 +127,16 @@ class StewardController:
         ensure_local_state_path(root, state_directory, debt_state_path)
         ensure_local_state_path(root, state_directory, receipts_directory)
         ensure_local_state_path(root, state_directory, lock_directory)
+        if _lock_held:
+            return self._reconcile_and_commit(
+                root=root,
+                policy=policy,
+                observed_at=observed_at,
+                observations=observations,
+                state_directory=state_directory,
+                debt_state_path=debt_state_path,
+                receipts_directory=receipts_directory,
+            )
         with exclusive_scan_lock(
             lock_directory,
             repo_root=root,
@@ -124,6 +151,76 @@ class StewardController:
                 debt_state_path=debt_state_path,
                 receipts_directory=receipts_directory,
             )
+
+    def run(self, repo_root: Path) -> RunResult:
+        """Resolve at most one eligible, policy-declared Class A debt."""
+
+        root = repo_root.resolve()
+        policy = StewardPolicy.load(root)
+        state_directory = root / policy.state_directory
+        receipts_directory = state_directory / policy.receipts_directory
+        lock_directory = state_directory / ".scan.lock"
+        ensure_local_state_path(root, state_directory, state_directory)
+        ensure_local_state_path(root, state_directory, receipts_directory)
+        ensure_local_state_path(root, state_directory, lock_directory)
+        with exclusive_scan_lock(lock_directory, repo_root=root, state_root=state_directory):
+            initial = self.scan(root, _lock_held=True)
+            eligible = tuple(
+                debt for debt in initial.open_debts
+                if debt.authority is AuthorityClass.A and policy.executor_for(debt.kind) is not None
+            )
+            if not eligible:
+                if not initial.open_debts:
+                    return RunResult(initial=initial, final=initial, receipt=initial.receipt, receipt_path=initial.receipt_path)
+                return self._run_receipt(
+                    root, state_directory, receipts_directory, initial, None,
+                    result_status="blocked",
+                    blocked=({"reason": "no eligible Class A repair debt", "openDebt": list(initial.receipt.open_debt)},),
+                )
+            debt = sorted(eligible, key=lambda item: (-item.priority.score, item.id))[0]
+            executor = policy.executor_for(debt.kind)
+            assert executor is not None
+            try:
+                repair = repair_bundled_schema_mirror(root, executor, state_root=state_directory)
+            except RepairError as exc:
+                return self._run_receipt(
+                    root, state_directory, receipts_directory, initial, None,
+                    result_status="blocked",
+                    blocked=({"debtId": debt.id, "reason": str(exc)},),
+                )
+            final = self.scan(root, _lock_held=True)
+            if debt.id not in final.receipt.debt_resolved:
+                return self._run_receipt(
+                    root, state_directory, receipts_directory, initial, final,
+                    result_status="blocked",
+                    repairs=(dict(repair),),
+                    blocked=({"debtId": debt.id, "reason": "post-repair rescan did not resolve debt"},),
+                )
+            repair_record = dict(repair)
+            repair_record.update({"debtId": debt.id, "detected": dict(debt.observed_state), "resolved": True})
+            return self._run_receipt(
+                root, state_directory, receipts_directory, initial, final,
+                result_status="repaired", repairs=(repair_record,),
+            )
+
+    def _run_receipt(
+        self, root: Path, state_directory: Path, receipts_directory: Path,
+        initial: ScanResult, final: ScanResult | None, *, result_status: str,
+        repairs: tuple[dict[str, object], ...] = (), blocked: tuple[dict[str, object], ...] = (),
+    ) -> RunResult:
+        finished_at = _timestamp(self.clock())
+        payload = {"initial": initial.receipt.run_id, "final": final.receipt.run_id if final else None, "repairs": repairs, "blocked": blocked, "result": result_status}
+        receipt = Receipt(
+            run_id=make_run_id(finished_at, payload), started_at=initial.receipt.started_at,
+            finished_at=finished_at, observations_collected=initial.receipt.observations_collected + (final.receipt.observations_collected if final else 0),
+            coverage_unknown=initial.receipt.coverage_unknown + (final.receipt.coverage_unknown if final else ()),
+            debt_created=initial.receipt.debt_created, debt_updated=initial.receipt.debt_updated,
+            debt_resolved=final.receipt.debt_resolved if final else (), open_debt=final.receipt.open_debt if final else initial.receipt.open_debt,
+            authority_counts=final.receipt.authority_counts if final else initial.receipt.authority_counts,
+            result_status=result_status, repairs=repairs, blocked=blocked,
+        )
+        path, _created = write_immutable_receipt(receipts_directory, receipt, repo_root=root, state_root=state_directory)
+        return RunResult(initial=initial, final=final, receipt=receipt, receipt_path=path)
 
     @staticmethod
     def _reconcile_and_commit(

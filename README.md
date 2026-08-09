@@ -323,6 +323,7 @@ Daily commands:
   gaia appraise [<skillId>]
   gaia stats
   gaia steward scan [--json]
+  gaia steward run [--json]
   gaia pull
   gaia fuse <skillId> [--name <name>]
   gaia path <skillId> [--owned-only] [--json]
