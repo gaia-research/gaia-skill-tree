@@ -29,6 +29,13 @@ def _repo(tmp_path: Path) -> Path:
     _write(tmp_path / "registry/schema/nested/child.json", '{"type":"string"}\n')
     _write(tmp_path / "src/gaia_cli/data/registry/schema/root.json", '{"type":"old"}\n')
     _write(tmp_path / "unrelated.txt", "unchanged\n")
+    subprocess.run(["git", "init", "-q"], cwd=tmp_path, check=True)
+    subprocess.run(["git", "add", "."], cwd=tmp_path, check=True)
+    subprocess.run(
+        ["git", "-c", "user.name=fixture", "-c", "user.email=fixture@example.test", "commit", "-qm", "base"],
+        cwd=tmp_path,
+        check=True,
+    )
     return tmp_path
 
 
@@ -97,13 +104,6 @@ def test_symlink_and_invalid_canonical_input_are_refused(tmp_path: Path) -> None
 
 def test_dirty_target_is_refused_before_overwrite(tmp_path: Path) -> None:
     root = _repo(tmp_path)
-    subprocess.run(["git", "init", "-q"], cwd=root, check=True)
-    subprocess.run(["git", "add", "."], cwd=root, check=True)
-    subprocess.run(
-        ["git", "-c", "user.name=fixture", "-c", "user.email=fixture@example.test", "commit", "-qm", "base"],
-        cwd=root,
-        check=True,
-    )
     _write(root / "src/gaia_cli/data/registry/schema/root.json", '{"type":"user-edit"}\n')
 
     with pytest.raises(repairs.RepairBlocked, match="user edits"):

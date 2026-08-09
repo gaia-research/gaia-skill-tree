@@ -73,7 +73,6 @@ def repair_bundled_schema_mirror(
     _validate_executor(executor)
     canonical = _manifest(root, CANONICAL_ROOT, required=True, json_only=True)
     mirror = _manifest(root, MIRROR_ROOT, required=False, json_only=False)
-    _assert_clean_target(root)
 
     extras = sorted(set(mirror.files) - set(canonical.files))
     if extras:
@@ -96,6 +95,7 @@ def repair_bundled_schema_mirror(
             "verified": {"recursiveParity": True, "syncCheck": True},
         }
 
+    _assert_clean_target(root)
     _ensure_plain_ancestors(root, MIRROR_ROOT.parent)
     state_root.mkdir(parents=True, exist_ok=True)
     stage_root = Path(tempfile.mkdtemp(prefix="class-a-schema-", dir=state_root))
@@ -213,8 +213,6 @@ def _assert_clean_target(root: Path) -> None:
         capture_output=True,
         check=False,
     )
-    if result.returncode == 128 and "not a git repository" in result.stderr.lower():
-        return
     if result.returncode:
         raise RepairBlocked(f"cannot establish bundled schema target cleanliness: {result.stderr.strip()}")
     if result.stdout.strip():
