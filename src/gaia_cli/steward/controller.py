@@ -14,6 +14,7 @@ from gaia_cli.steward.receipts import (
     ensure_local_state_path,
     load_debts,
     make_run_id,
+    remove_uncommitted_receipt,
     write_current_state,
     write_immutable_receipt,
 )
@@ -152,18 +153,31 @@ class StewardController:
             result_status=result_status,
         )
 
-        write_current_state(
-            debt_state_path,
-            reconciliation.debts,
-            repo_root=root,
-            state_root=state_directory,
-        )
-        receipt_path = write_immutable_receipt(
+        # The receipt is the audit precondition for committing current state.
+        # If it cannot be persisted, debt.json remains untouched. If the later
+        # atomic ledger replace fails, remove only the receipt created by this
+        # aborted transaction.
+        receipt_path, receipt_created = write_immutable_receipt(
             receipts_directory,
             receipt,
             repo_root=root,
             state_root=state_directory,
         )
+        try:
+            write_current_state(
+                debt_state_path,
+                reconciliation.debts,
+                repo_root=root,
+                state_root=state_directory,
+            )
+        except Exception:
+            if receipt_created:
+                remove_uncommitted_receipt(
+                    receipt_path,
+                    repo_root=root,
+                    state_root=state_directory,
+                )
+            raise
         return ScanResult(
             observations=tuple(observations),
             debts=reconciliation.debts,

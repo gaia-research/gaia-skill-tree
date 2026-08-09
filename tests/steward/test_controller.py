@@ -176,3 +176,46 @@ def test_symlinked_debt_file_is_refused_without_touching_target(tmp_path: Path) 
         StewardController(sensors=[MutableSensor(status="drift")], clock=lambda: FROZEN).scan(root)
 
     assert outside.read_text(encoding="utf-8") == "sentinel\n"
+
+
+def test_receipt_failure_cannot_commit_new_debt_state(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = _repo(tmp_path)
+    baseline = StewardController(
+        sensors=[MutableSensor(status="healthy")], clock=lambda: FROZEN
+    ).scan(root)
+    state_before = baseline.debt_state_path.read_bytes()
+
+    def fail_receipt(*args, **kwargs):
+        raise StateError("fixture receipt failure")
+
+    monkeypatch.setattr("gaia_cli.steward.controller.write_immutable_receipt", fail_receipt)
+
+    with pytest.raises(StateError, match="fixture receipt failure"):
+        StewardController(
+            sensors=[MutableSensor(status="drift")], clock=lambda: LATER
+        ).scan(root)
+
+    assert baseline.debt_state_path.read_bytes() == state_before
+
+
+def test_ledger_failure_removes_receipt_from_aborted_transaction(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = _repo(tmp_path)
+
+    def fail_state(*args, **kwargs):
+        raise StateError("fixture ledger failure")
+
+    monkeypatch.setattr("gaia_cli.steward.controller.write_current_state", fail_state)
+
+    with pytest.raises(StateError, match="fixture ledger failure"):
+        StewardController(
+            sensors=[MutableSensor(status="drift")], clock=lambda: FROZEN
+        ).scan(root)
+
+    assert not (root / ".gaia/steward/debt.json").exists()
+    assert list((root / ".gaia/steward/receipts").glob("*.json")) == []

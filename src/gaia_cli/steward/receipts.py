@@ -113,9 +113,10 @@ def write_current_state(
         with temporary.open("xb") as handle:
             handle.write(content)
         os.replace(temporary, path)
-    finally:
+    except Exception:
         if temporary.exists():
             temporary.unlink()
+        raise
     return True
 
 
@@ -131,7 +132,9 @@ def write_immutable_receipt(
     *,
     repo_root: Path,
     state_root: Path,
-) -> Path:
+) -> tuple[Path, bool]:
+    """Persist a receipt and return ``(path, created_by_this_call)``."""
+
     ensure_local_state_path(repo_root, state_root, receipts_directory)
     receipts_directory.mkdir(parents=True, exist_ok=True)
     path = receipts_directory / f"{receipt.run_id}.json"
@@ -143,4 +146,20 @@ def write_immutable_receipt(
     except FileExistsError:
         if path.read_bytes() != content:
             raise StateError(f"immutable Steward receipt collision at {path}")
-    return path
+        return path, False
+    return path, True
+
+
+def remove_uncommitted_receipt(
+    path: Path,
+    *,
+    repo_root: Path,
+    state_root: Path,
+) -> None:
+    """Remove a newly created receipt when its paired ledger commit aborts."""
+
+    ensure_local_state_path(repo_root, state_root, path)
+    try:
+        path.unlink()
+    except FileNotFoundError:
+        return
