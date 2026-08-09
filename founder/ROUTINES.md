@@ -4,6 +4,10 @@ Routines are recurring stewardship jobs for an agent that has time to improve th
 
 This catalog stays deliberately high level. The agent should inspect the current repository, choose the smallest valuable intervention, and retain agency over implementation.
 
+## Gaia Steward
+
+The new `STEWARD.md` supersedes routines as of 08-09-2026. This document is maintained as a reference of all routines. This can be viewed at https://github.com/marcotiongson/gaia-skill-tree/blob/main/STEWARD.md
+
 ## Existing routines
 
 Two self-contained routines already live in `docs/en/`:
