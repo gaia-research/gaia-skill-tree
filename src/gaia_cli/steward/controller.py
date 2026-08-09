@@ -165,6 +165,15 @@ class StewardController:
         ensure_local_state_path(root, state_directory, lock_directory)
         with exclusive_scan_lock(lock_directory, repo_root=root, state_root=state_directory):
             initial = self.scan(root, _lock_held=True)
+            if initial.receipt.coverage_unknown:
+                return self._run_receipt(
+                    root, state_directory, receipts_directory, initial, None,
+                    result_status="blocked",
+                    blocked=({
+                        "reason": "sensor coverage is unknown; refusing Class A mutation",
+                        "coverageUnknown": list(initial.receipt.coverage_unknown),
+                    },),
+                )
             eligible = tuple(
                 debt for debt in initial.open_debts
                 if debt.authority is AuthorityClass.A and policy.executor_for(debt.kind) is not None

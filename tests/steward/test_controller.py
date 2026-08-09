@@ -148,6 +148,27 @@ def test_sensor_failure_is_unknown_and_does_not_clear_existing_debt(tmp_path: Pa
     assert coverage[0].observed_state["coverage"] == "unknown"
 
 
+def test_run_refuses_class_a_mutation_when_any_sensor_coverage_is_unknown(tmp_path: Path) -> None:
+    root = _repo(tmp_path)
+    mirror = root / "src/gaia_cli/data/registry/schema/fixture.json"
+    mirror.parent.mkdir(parents=True)
+    mirror.write_text('{"before":"must-survive"}\n', encoding="utf-8")
+    before = mirror.read_bytes()
+
+    result = StewardController(
+        sensors=[
+            MutableSensor(status="drift"),
+            MutableSensor(id="unrelated-failure", fail=True),
+        ],
+        clock=lambda: FROZEN,
+    ).run(root)
+
+    assert result.receipt.result_status == "blocked"
+    assert result.receipt.repairs == ()
+    assert result.receipt.blocked[0]["coverageUnknown"] == ["unrelated-failure"]
+    assert mirror.read_bytes() == before
+
+
 def test_receipts_are_immutable_and_equivalent_repeat_reuses_receipt(tmp_path: Path) -> None:
     root = _repo(tmp_path)
     controller = StewardController(sensors=[MutableSensor()], clock=lambda: FROZEN)
