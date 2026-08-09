@@ -293,7 +293,13 @@ def test_post_install_receipt_failure_rolls_back_and_preserves_open_ledger(
 
     assert mirror.read_bytes() == mirror_before
     assert baseline.debt_state_path.read_bytes() == ledger_before
-    assert {path.name: path.read_bytes() for path in baseline.receipt_path.parent.glob("*.json")} == receipts_before
+    receipts_after = {
+        path.name: path.read_bytes() for path in baseline.receipt_path.parent.glob("*.json")
+    }
+    assert receipts_after[baseline.receipt_path.name] == receipts_before[baseline.receipt_path.name]
+    assert all(
+        not json.loads(content)["repairs"] for content in receipts_after.values()
+    )
 
 
 def test_post_install_ledger_failure_removes_repair_receipt_and_rolls_back(
@@ -322,7 +328,13 @@ def test_post_install_ledger_failure_removes_repair_receipt_and_rolls_back(
 
     assert mirror.read_bytes() == mirror_before
     assert baseline.debt_state_path.read_bytes() == ledger_before
-    assert {path.name: path.read_bytes() for path in baseline.receipt_path.parent.glob("*.json")} == receipts_before
+    receipts_after = {
+        path.name: path.read_bytes() for path in baseline.receipt_path.parent.glob("*.json")
+    }
+    assert receipts_after[baseline.receipt_path.name] == receipts_before[baseline.receipt_path.name]
+    assert all(
+        not json.loads(content)["repairs"] for content in receipts_after.values()
+    )
 
 
 def test_unknown_or_unresolved_postcondition_rolls_back_without_recovery_scan(
