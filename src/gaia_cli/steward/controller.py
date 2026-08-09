@@ -11,6 +11,7 @@ from gaia_cli.steward.debt import reconcile_debt
 from gaia_cli.steward.models import AuthorityClass, Debt, Observation, Receipt, Subject
 from gaia_cli.steward.policy import StewardPolicy
 from gaia_cli.steward.receipts import (
+    ensure_local_state_path,
     load_debts,
     make_run_id,
     write_current_state,
@@ -98,7 +99,18 @@ class StewardController:
 
         state_directory = root / policy.state_directory
         debt_state_path = state_directory / "debt.json"
-        existing = load_debts(debt_state_path)
+        receipts_directory = state_directory / policy.receipts_directory
+        # Preflight every directory that this run could touch before reading or
+        # writing state. In particular, a symlinked receipts directory must not
+        # allow the earlier debt write to escape or partially commit.
+        ensure_local_state_path(root, state_directory, state_directory)
+        ensure_local_state_path(root, state_directory, debt_state_path)
+        ensure_local_state_path(root, state_directory, receipts_directory)
+        existing = load_debts(
+            debt_state_path,
+            repo_root=root,
+            state_root=state_directory,
+        )
         reconciliation = reconcile_debt(observations, existing, policy)
         open_debts = tuple(debt for debt in reconciliation.debts if debt.status == "open")
         coverage_unknown = tuple(
@@ -140,10 +152,17 @@ class StewardController:
             result_status=result_status,
         )
 
-        write_current_state(debt_state_path, reconciliation.debts)
+        write_current_state(
+            debt_state_path,
+            reconciliation.debts,
+            repo_root=root,
+            state_root=state_directory,
+        )
         receipt_path = write_immutable_receipt(
-            state_directory / policy.receipts_directory,
+            receipts_directory,
             receipt,
+            repo_root=root,
+            state_root=state_directory,
         )
         return ScanResult(
             observations=tuple(observations),

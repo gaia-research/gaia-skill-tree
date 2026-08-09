@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import stat
 from pathlib import Path
 from typing import Iterable
 
@@ -15,7 +16,47 @@ class StateError(RuntimeError):
     """Raised when ignored Steward state is malformed or cannot be persisted."""
 
 
-def load_debts(path: Path) -> dict[str, Debt]:
+def ensure_local_state_path(repo_root: Path, state_root: Path, path: Path) -> None:
+    """Refuse paths that escape the repository or traverse any symlink.
+
+    Steward state is intentionally local to one checkout. Even a symlink whose
+    target happens to remain inside the checkout is refused: accepting it would
+    make the write boundary depend on mutable filesystem indirection.
+    """
+
+    root = repo_root.resolve()
+    lexical_state = state_root.absolute()
+    lexical_path = path.absolute()
+    try:
+        lexical_state.relative_to(root)
+        lexical_path.relative_to(lexical_state)
+    except ValueError as exc:
+        raise StateError(f"Steward state path escapes repository-local state: {path}") from exc
+
+    relative = lexical_path.relative_to(root)
+    candidate = root
+    for part in relative.parts:
+        candidate = candidate / part
+        try:
+            mode = candidate.lstat().st_mode
+        except FileNotFoundError:
+            continue
+        except OSError as exc:
+            raise StateError(f"cannot inspect Steward state path {candidate}: {exc}") from exc
+        if stat.S_ISLNK(mode):
+            raise StateError(f"Steward state path may not traverse symlink: {candidate}")
+
+    resolved_state = lexical_state.resolve(strict=False)
+    resolved_path = lexical_path.resolve(strict=False)
+    try:
+        resolved_state.relative_to(root)
+        resolved_path.relative_to(resolved_state)
+    except ValueError as exc:
+        raise StateError(f"resolved Steward state path escapes repository: {path}") from exc
+
+
+def load_debts(path: Path, *, repo_root: Path, state_root: Path) -> dict[str, Debt]:
+    ensure_local_state_path(repo_root, state_root, path)
     if not path.exists():
         return {}
     try:
@@ -51,16 +92,26 @@ def _pretty_json(data: object) -> bytes:
     return (json.dumps(data, indent=2, sort_keys=True, ensure_ascii=False) + "\n").encode("utf-8")
 
 
-def write_current_state(path: Path, debts: Iterable[Debt]) -> bool:
+def write_current_state(
+    path: Path,
+    debts: Iterable[Debt],
+    *,
+    repo_root: Path,
+    state_root: Path,
+) -> bool:
     """Atomically update current debt state, skipping byte-identical writes."""
 
+    ensure_local_state_path(repo_root, state_root, path)
     content = _pretty_json(ledger_document(debts))
     if path.is_file() and path.read_bytes() == content:
         return False
     path.parent.mkdir(parents=True, exist_ok=True)
+    ensure_local_state_path(repo_root, state_root, path)
     temporary = path.with_name(f".{path.name}.{os.getpid()}.tmp")
+    ensure_local_state_path(repo_root, state_root, temporary)
     try:
-        temporary.write_bytes(content)
+        with temporary.open("xb") as handle:
+            handle.write(content)
         os.replace(temporary, path)
     finally:
         if temporary.exists():
@@ -74,9 +125,17 @@ def make_run_id(timestamp: str, payload: object) -> str:
     return f"steward-{compact_time}-{digest}"
 
 
-def write_immutable_receipt(receipts_directory: Path, receipt: Receipt) -> Path:
+def write_immutable_receipt(
+    receipts_directory: Path,
+    receipt: Receipt,
+    *,
+    repo_root: Path,
+    state_root: Path,
+) -> Path:
+    ensure_local_state_path(repo_root, state_root, receipts_directory)
     receipts_directory.mkdir(parents=True, exist_ok=True)
     path = receipts_directory / f"{receipt.run_id}.json"
+    ensure_local_state_path(repo_root, state_root, path)
     content = _pretty_json(receipt.to_dict())
     try:
         with path.open("xb") as handle:

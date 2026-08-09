@@ -5,9 +5,12 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 
+import pytest
+
 from gaia_cli.steward.controller import StewardController
 from gaia_cli.steward.models import Observation, Subject
 from gaia_cli.steward.policy import POLICY_RELATIVE_PATH
+from gaia_cli.steward.receipts import StateError
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -135,3 +138,41 @@ def test_receipts_are_immutable_and_equivalent_repeat_reuses_receipt(tmp_path: P
     assert second.receipt_path == first.receipt_path
     assert second.receipt_path.read_bytes() == receipt_bytes
     assert len(list(second.receipt_path.parent.glob("*.json"))) == 1
+
+
+@pytest.mark.parametrize("symlink_location", [".gaia", ".gaia/steward", ".gaia/steward/receipts"])
+def test_state_path_symlink_escape_is_refused_before_any_write(
+    tmp_path: Path,
+    symlink_location: str,
+) -> None:
+    root = _repo(tmp_path / "repo")
+    outside = tmp_path / "outside"
+    outside.mkdir()
+    link = root / symlink_location
+    link.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        link.symlink_to(outside, target_is_directory=True)
+    except (NotImplementedError, OSError):
+        pytest.skip("directory symlinks are unavailable on this platform")
+
+    with pytest.raises(StateError, match="symlink|escapes"):
+        StewardController(sensors=[MutableSensor(status="drift")], clock=lambda: FROZEN).scan(root)
+
+    assert list(outside.iterdir()) == []
+
+
+def test_symlinked_debt_file_is_refused_without_touching_target(tmp_path: Path) -> None:
+    root = _repo(tmp_path / "repo")
+    state = root / ".gaia/steward"
+    state.mkdir(parents=True)
+    outside = tmp_path / "outside-debt.json"
+    outside.write_text("sentinel\n", encoding="utf-8")
+    try:
+        (state / "debt.json").symlink_to(outside)
+    except (NotImplementedError, OSError):
+        pytest.skip("file symlinks are unavailable on this platform")
+
+    with pytest.raises(StateError, match="symlink"):
+        StewardController(sensors=[MutableSensor(status="drift")], clock=lambda: FROZEN).scan(root)
+
+    assert outside.read_text(encoding="utf-8") == "sentinel\n"
