@@ -4,6 +4,38 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-08-09, Roadmap v5 closeout and MCP 0.4.0 release-contract synchronization complete)
+
+### TLDR
+
+- **Roadmap v5 is closed.** [EPIC #1336](https://github.com/gaia-research/gaia-skill-tree/issues/1336) closed at 2026-08-09T06:51:35Z after the cross-repository contract pass and committed closeout receipts landed.
+- **MCP 0.4.0 is the active contract.** The published rich Registry/Bond package has exactly four tools: `gaia_search`, `gaia_inspect`, `summon`, and `gaia_status`. Public setup uses moving `@latest` selectors; `mcp-v0.4.0` is the immutable release receipt, not a promise about what a later `@latest` resolves to.
+- **Do not conflate the package with the planned thin profile.** D4's future Heaven/Summon profile is `search_skills` + `summon`; it does not cap or rename the published package's four-tool surface.
+- **No capability inflation survived closeout.** The shipped docs and receipts make no HH scoring, routing eligibility, content-hash admission, measured thin-profile, or exhaustive five-door runtime claim. Skill Heaven's usable additive prototype default is `high`; `xhigh`/`max` broaden behavior without fixed-count claims; `ultra` remains unratified.
+
+### Merged closeout work
+
+| Surface | PR | Immutable merge commit | Merged at |
+|---|---|---|---|
+| Gaia Research contract, lexicon, acceptance test, and receipt index | [gaia-research#160](https://github.com/gaia-research/gaia-research/pull/160) | [`0168fab877117d99b78e1519ece346b6d5310660`](https://github.com/gaia-research/gaia-research/commit/0168fab877117d99b78e1519ece346b6d5310660) | 2026-08-09T06:22:23Z |
+| Gaia MCP release-contract documentation | [gaia-mcp#18](https://github.com/gaia-research/gaia-mcp/pull/18) | [`0107eccb1a88003369e971fa1f30380bfd1a1847`](https://github.com/gaia-research/gaia-mcp/commit/0107eccb1a88003369e971fa1f30380bfd1a1847) | 2026-08-09T06:25:38Z |
+| Skill Heaven contract wording | [skill-heaven#43](https://github.com/gaia-research/skill-heaven/pull/43) | [`46c015a7ed991abbd535df48fe0bd0b90ebda940`](https://github.com/gaia-research/skill-heaven/commit/46c015a7ed991abbd535df48fe0bd0b90ebda940) | 2026-08-09T06:39:58Z |
+| Gaia Skill Tree agent/founder/docs surfaces | [gaia-skill-tree#1491](https://github.com/gaia-research/gaia-skill-tree/pull/1491) | [`899e9b1baf59fbb8db4354315df2527432f31e89`](https://github.com/gaia-research/gaia-skill-tree/commit/899e9b1baf59fbb8db4354315df2527432f31e89) | 2026-08-09T06:37:53Z |
+| Fresh-environment receipts | [gaia-research#161](https://github.com/gaia-research/gaia-research/pull/161) | [`5d777d260638b96ea568d65deeb525516191e6bc`](https://github.com/gaia-research/gaia-research/commit/5d777d260638b96ea568d65deeb525516191e6bc) | 2026-08-09T06:50:02Z |
+
+### Receipt and archival record
+
+- Cross-repository receipt index: [`gaia-research/content/reports/v5-closeout/receipt-index.md`](https://github.com/gaia-research/gaia-research/blob/main/content/reports/v5-closeout/receipt-index.md). It keeps `DIRECT`, `ASSERTED`, and `UNVERIFIED` evidence classes distinct rather than treating a merge or npm release as a runtime transcript.
+- Fresh-environment artifacts from #161 prove: `npx skill-hell@latest summon "code review" --card`; the scoped `@gaia-research/mcp@latest` Skill Hell invocation; MCP initialization; and exact four-tool `tools/list`.
+- [gaia-research#158](https://github.com/gaia-research/gaia-research/issues/158) (release-contract synchronization) and [gaia-research#159](https://github.com/gaia-research/gaia-research/issues/159) (receipt index) both closed at 2026-08-09T06:51Z.
+- Historical Program 3 PR [#1474](https://github.com/gaia-research/gaia-skill-tree/pull/1474) was correctly **closed unmerged as superseded**, not migrated into current founder docs. Its exact head is preserved by tag [`program-3-pr1474-historical-d150ed0`](https://github.com/gaia-research/gaia-skill-tree/tree/program-3-pr1474-historical-d150ed0) → [`d150ed0f2d34c2fbf88b3ac53b61423f5fa718b8`](https://github.com/gaia-research/gaia-skill-tree/commit/d150ed0f2d34c2fbf88b3ac53b61423f5fa718b8).
+
+### Next handoff
+
+V5 is historical. Do not reopen #1336 for strategic work. The next governance seam is [#1302](https://github.com/gaia-research/gaia-skill-tree/issues/1302), the lexicon-of-record authority model, as input to Roadmap v6/ENDGAME work.
+
+---
+
 ## State Snapshot (2026-08-06, issue sprint #1438/1441/1445/1453/1455/1456/1457/1458 — closeout pass, integration branch clean and founder-gated for `main`)
 
 ### TLDR
