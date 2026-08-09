@@ -140,6 +140,40 @@ def test_verification_failure_and_source_race_rollback_exact_target(tmp_path: Pa
     assert target.read_bytes() == before
 
 
+def test_stage_install_failure_restores_displaced_mirror_exactly(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root = _repo(tmp_path)
+    mirror = root / "src/gaia_cli/data/registry/schema"
+    before = {
+        path.relative_to(mirror).as_posix(): path.read_bytes()
+        for path in mirror.rglob("*")
+        if path.is_file()
+    }
+    real_replace = repairs.os.replace
+    replacements = 0
+
+    def fail_second_replace(source, destination) -> None:
+        nonlocal replacements
+        replacements += 1
+        if replacements == 2:
+            raise OSError("fixture stage install failure")
+        real_replace(source, destination)
+
+    monkeypatch.setattr(repairs.os, "replace", fail_second_replace)
+
+    with pytest.raises(OSError, match="fixture stage install failure"):
+        _repair(root)
+
+    after = {
+        path.relative_to(mirror).as_posix(): path.read_bytes()
+        for path in mirror.rglob("*")
+        if path.is_file()
+    }
+    assert after == before
+    assert not list((root / ".gaia/steward").glob("class-a-schema-*"))
+
+
 def test_repair_changes_only_the_explicit_mirror_allowlist(tmp_path: Path) -> None:
     root = _repo(tmp_path)
     before = {

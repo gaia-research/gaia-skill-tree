@@ -102,6 +102,7 @@ def repair_bundled_schema_mirror(
     stage = stage_root / "schema"
     rollback = stage_root / "rollback-schema"
     had_mirror = (root / MIRROR_ROOT).exists()
+    displaced = False
     installed = False
     try:
         _copy_manifest(root / CANONICAL_ROOT, canonical, stage)
@@ -110,12 +111,13 @@ def repair_bundled_schema_mirror(
         _assert_same_manifest(root, CANONICAL_ROOT, canonical)
         if (root / MIRROR_ROOT).exists():
             os.replace(root / MIRROR_ROOT, rollback)
+            displaced = True
         os.replace(stage, root / MIRROR_ROOT)
         installed = True
         _verify(root, canonical)
         _assert_same_manifest(root, CANONICAL_ROOT, canonical)
     except BaseException:
-        if installed:
+        if installed or displaced:
             _rollback(root / MIRROR_ROOT, rollback, had_mirror, stage_root)
         raise
     finally:
