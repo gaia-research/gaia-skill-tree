@@ -200,14 +200,14 @@ class StewardController:
             if transaction is None:
                 return RunResult(initial=initial, final=initial, receipt=initial.receipt, receipt_path=initial.receipt_path)
             final = self.scan(root, _lock_held=True)
-            if debt.id not in final.receipt.debt_resolved:
+            if final.receipt.coverage_unknown or debt.id not in final.receipt.debt_resolved:
                 transaction.rollback()
                 reopened = self.scan(root, _lock_held=True)
                 return self._run_receipt(
                     root, state_directory, receipts_directory, initial, reopened,
                     result_status="blocked",
                     repairs=(),
-                    blocked=({"debtId": debt.id, "reason": "post-repair rescan did not resolve debt"},),
+                    blocked=({"debtId": debt.id, "reason": "post-repair rescan was unknown or did not resolve debt"},),
                 )
             repair_record = transaction.receipt()
             repair_record.update({"debtId": debt.id, "detected": dict(debt.observed_state), "resolved": True})
