@@ -4,12 +4,10 @@
       "type": "stdio",
       "command": "npx",
       "args": [
-        "-y",
-        "@gaia-research/mcp@0.1.0"
-      ],
-      "env": {
-        "GAIA_USER": "your-github-username"
-      }
+        "--yes",
+        "--package=@gaia-research/mcp@latest",
+        "gaia-mcp"
+      ]
     }
   }
 }

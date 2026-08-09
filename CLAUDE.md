@@ -145,7 +145,7 @@ See [DEV.md](file:///Users/marcotiongson/Documents/gaia-skill-tree/DEV.md) for l
 | Slash-naming helpers | `src/gaia_cli/formatting.py` | Slash-naming formatters, RANK_COLORS, tier colors |
 | Local-first context | `src/gaia_cli/localContext.py` | Merges user tree + scan results + named skill map into `LocalContext` |
 | npm wrapper | `packages/cli-npm/` | `@gaia-registry/cli` — Node.js wrapper that execs the local Python binary. **Not published to npm** (the whole `@gaia-registry/*` scope is unpublished); the published CLI is `gaia-cli` on PyPI. Source-checkout use only. |
-| MCP server | *(external repo)* | Lives in `gaia-research/gaia-mcp`, published as `@gaia-research/mcp` v0.1.0 (binary `gaia-mcp`). Read-only registry mode; tools `gaia_search`, `gaia_inspect`, `gaia_status`. The in-repo `packages/mcp` prototype was deleted — do not resurrect it. |
+| MCP server | *(external repo)* | Lives in `gaia-research/gaia-mcp`; [v0.4.0](https://github.com/gaia-research/gaia-mcp/releases/tag/mcp-v0.4.0) is published as `@gaia-research/mcp` (use `@latest` with an explicit `gaia-mcp` selector). Its rich Registry/Bond package surface is `gaia_search`, `gaia_inspect`, `summon`, and `gaia_status`; it does not mutate the Registry or persistent user configuration. The D4 thin `search_skills` + `summon` profile is separate, and the in-repo `packages/mcp` prototype was deleted — do not resurrect it. |
 
 ```bash
 # Meta Review (CLI-ONLY)
