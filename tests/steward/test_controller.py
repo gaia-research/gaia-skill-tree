@@ -7,6 +7,7 @@ from pathlib import Path
 
 import pytest
 
+import gaia_cli.steward.receipts as receipt_store
 from gaia_cli.steward.controller import StewardController
 from gaia_cli.steward.models import Observation, Subject
 from gaia_cli.steward.policy import POLICY_RELATIVE_PATH
@@ -219,3 +220,76 @@ def test_ledger_failure_removes_receipt_from_aborted_transaction(
 
     assert not (root / ".gaia/steward/debt.json").exists()
     assert list((root / ".gaia/steward/receipts").glob("*.json")) == []
+
+
+def test_short_receipt_write_error_leaves_no_partial_final_or_changed_ledger(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = _repo(tmp_path)
+    baseline = StewardController(
+        sensors=[MutableSensor(status="healthy")], clock=lambda: FROZEN
+    ).scan(root)
+    ledger_before = baseline.debt_state_path.read_bytes()
+    receipt_before = baseline.receipt_path.read_bytes()
+    real_write = receipt_store.os.write
+    calls = 0
+
+    def short_then_error(file_descriptor: int, content: memoryview) -> int:
+        nonlocal calls
+        calls += 1
+        if calls == 1:
+            return real_write(file_descriptor, content[:7])
+        raise OSError("fixture short receipt write")
+
+    monkeypatch.setattr(receipt_store, "_write_chunk", short_then_error)
+
+    with pytest.raises(OSError, match="fixture short receipt write"):
+        StewardController(
+            sensors=[MutableSensor(status="drift")], clock=lambda: LATER
+        ).scan(root)
+
+    receipts = root / ".gaia/steward/receipts"
+    assert baseline.debt_state_path.read_bytes() == ledger_before
+    assert baseline.receipt_path.read_bytes() == receipt_before
+    assert list(receipts.glob("*.json")) == [baseline.receipt_path]
+    assert list(receipts.glob(".*.tmp")) == []
+
+
+def test_keyboard_interrupt_cleans_new_receipt_but_preserves_preexisting_receipt(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = _repo(tmp_path)
+    baseline = StewardController(
+        sensors=[MutableSensor(status="healthy")], clock=lambda: FROZEN
+    ).scan(root)
+    ledger_before = baseline.debt_state_path.read_bytes()
+    receipt_before = baseline.receipt_path.read_bytes()
+
+    def interrupt_state(*args, **kwargs):
+        raise KeyboardInterrupt("fixture interrupt after receipt")
+
+    monkeypatch.setattr("gaia_cli.steward.controller.write_current_state", interrupt_state)
+
+    # A newly published receipt from a different run is transaction-owned and
+    # must be removed when the following ledger commit is interrupted.
+    with pytest.raises(KeyboardInterrupt, match="fixture interrupt"):
+        StewardController(
+            sensors=[MutableSensor(status="drift")], clock=lambda: LATER
+        ).scan(root)
+
+    receipts = root / ".gaia/steward/receipts"
+    assert list(receipts.glob("*.json")) == [baseline.receipt_path]
+    assert baseline.debt_state_path.read_bytes() == ledger_before
+
+    # An equivalent run reuses the pre-existing immutable receipt. Cleanup may
+    # not delete it because this transaction did not create it.
+    with pytest.raises(KeyboardInterrupt, match="fixture interrupt"):
+        StewardController(
+            sensors=[MutableSensor(status="healthy")], clock=lambda: FROZEN
+        ).scan(root)
+
+    assert baseline.receipt_path.read_bytes() == receipt_before
+    assert list(receipts.glob("*.json")) == [baseline.receipt_path]
+    assert baseline.debt_state_path.read_bytes() == ledger_before

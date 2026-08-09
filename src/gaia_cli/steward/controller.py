@@ -157,27 +157,30 @@ class StewardController:
         # If it cannot be persisted, debt.json remains untouched. If the later
         # atomic ledger replace fails, remove only the receipt created by this
         # aborted transaction.
-        receipt_path, receipt_created = write_immutable_receipt(
-            receipts_directory,
-            receipt,
-            repo_root=root,
-            state_root=state_directory,
-        )
+        receipt_path: Path | None = None
+        receipt_created = False
         try:
+            receipt_path, receipt_created = write_immutable_receipt(
+                receipts_directory,
+                receipt,
+                repo_root=root,
+                state_root=state_directory,
+            )
             write_current_state(
                 debt_state_path,
                 reconciliation.debts,
                 repo_root=root,
                 state_root=state_directory,
             )
-        except Exception:
-            if receipt_created:
+        except BaseException:
+            if receipt_created and receipt_path is not None:
                 remove_uncommitted_receipt(
                     receipt_path,
                     repo_root=root,
                     state_root=state_directory,
                 )
             raise
+        assert receipt_path is not None
         return ScanResult(
             observations=tuple(observations),
             debts=reconciliation.debts,

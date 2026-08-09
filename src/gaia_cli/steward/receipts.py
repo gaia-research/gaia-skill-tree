@@ -6,6 +6,7 @@ import hashlib
 import json
 import os
 import stat
+import tempfile
 from pathlib import Path
 from typing import Iterable
 
@@ -113,7 +114,7 @@ def write_current_state(
         with temporary.open("xb") as handle:
             handle.write(content)
         os.replace(temporary, path)
-    except Exception:
+    except BaseException:
         if temporary.exists():
             temporary.unlink()
         raise
@@ -133,21 +134,75 @@ def write_immutable_receipt(
     repo_root: Path,
     state_root: Path,
 ) -> tuple[Path, bool]:
-    """Persist a receipt and return ``(path, created_by_this_call)``."""
+    """Stage and atomically publish an immutable receipt.
+
+    The empty exclusive final-file claim prevents ``os.replace`` from
+    overwriting an immutable receipt created by an equivalent concurrent run.
+    Both the stage and any final claim owned by this call are removed if a
+    ``BaseException`` interrupts publication.
+    """
 
     ensure_local_state_path(repo_root, state_root, receipts_directory)
     receipts_directory.mkdir(parents=True, exist_ok=True)
     path = receipts_directory / f"{receipt.run_id}.json"
     ensure_local_state_path(repo_root, state_root, path)
     content = _pretty_json(receipt.to_dict())
+
+    stage_fd, stage_name = tempfile.mkstemp(
+        dir=receipts_directory,
+        prefix=f".{receipt.run_id}.",
+        suffix=".tmp",
+    )
+    stage = Path(stage_name)
     try:
-        with path.open("xb") as handle:
-            handle.write(content)
+        try:
+            ensure_local_state_path(repo_root, state_root, stage)
+            _write_all(stage_fd, content)
+            os.fsync(stage_fd)
+        finally:
+            os.close(stage_fd)
+    except BaseException:
+        _unlink_owned(stage)
+        raise
+
+    try:
+        claim_fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
     except FileExistsError:
+        _unlink_owned(stage)
         if path.read_bytes() != content:
             raise StateError(f"immutable Steward receipt collision at {path}")
         return path, False
-    return path, True
+
+    try:
+        os.close(claim_fd)
+        os.replace(stage, path)
+        return path, True
+    except BaseException:
+        _unlink_owned(stage)
+        _unlink_owned(path)
+        raise
+
+
+def _write_chunk(file_descriptor: int, content: memoryview) -> int:
+    """One injectable low-level write used by short-write regression tests."""
+
+    return os.write(file_descriptor, content)
+
+
+def _write_all(file_descriptor: int, content: bytes) -> None:
+    remaining = memoryview(content)
+    while remaining:
+        written = _write_chunk(file_descriptor, remaining)
+        if written <= 0:
+            raise OSError("receipt staging write made no progress")
+        remaining = remaining[written:]
+
+
+def _unlink_owned(path: Path) -> None:
+    try:
+        path.unlink()
+    except FileNotFoundError:
+        return
 
 
 def remove_uncommitted_receipt(
