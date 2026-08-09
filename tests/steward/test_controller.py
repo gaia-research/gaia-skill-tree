@@ -397,3 +397,56 @@ def test_receipt_publication_boundary_is_absent_then_complete_never_partial(
     assert (path, created) == (final, True)
     assert json.loads(final.read_text(encoding="utf-8")) == receipt.to_dict()
     assert list(receipts.glob(".*.tmp")) == []
+
+
+def test_stage_cleanup_failure_cannot_revoke_concurrently_reused_receipt(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = _repo(tmp_path)
+    state = root / ".gaia/steward"
+    receipts = state / "receipts"
+    receipt = _receipt("steward-stage-cleanup-fixture")
+    final = receipts / f"{receipt.run_id}.json"
+    cleanup_started = threading.Event()
+    allow_cleanup_failure = threading.Event()
+    injected = False
+    real_unlink = receipt_store._unlink_owned
+
+    def transient_stage_unlink_failure(path: Path) -> None:
+        nonlocal injected
+        if path.suffix == ".tmp" and not injected:
+            injected = True
+            cleanup_started.set()
+            assert allow_cleanup_failure.wait(timeout=5)
+            raise OSError("fixture transient stage unlink failure")
+        real_unlink(path)
+
+    monkeypatch.setattr(receipt_store, "_unlink_owned", transient_stage_unlink_failure)
+
+    with ThreadPoolExecutor(max_workers=1) as executor:
+        publisher = executor.submit(
+            receipt_store.write_immutable_receipt,
+            receipts,
+            receipt,
+            repo_root=root,
+            state_root=state,
+        )
+        assert cleanup_started.wait(timeout=5)
+        assert json.loads(final.read_text(encoding="utf-8")) == receipt.to_dict()
+
+        reused_path, reused_created = receipt_store.write_immutable_receipt(
+            receipts,
+            receipt,
+            repo_root=root,
+            state_root=state,
+        )
+        assert (reused_path, reused_created) == (final, False)
+        assert json.loads(final.read_text(encoding="utf-8")) == receipt.to_dict()
+
+        allow_cleanup_failure.set()
+        published_path, published_created = publisher.result(timeout=10)
+
+    assert (published_path, published_created) == (final, True)
+    assert json.loads(final.read_text(encoding="utf-8")) == receipt.to_dict()
+    assert list(receipts.glob(".*.tmp")) == []

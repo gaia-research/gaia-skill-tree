@@ -166,23 +166,25 @@ def write_immutable_receipt(
         _unlink_owned(stage)
         raise
 
-    published = False
     try:
         _publish_stage(stage, path)
-        published = True
-        _unlink_owned(stage)
-        return path, True
     except FileExistsError:
-        _unlink_owned(stage)
-        ensure_local_state_path(repo_root, state_root, path)
-        if path.read_bytes() != content:
-            raise StateError(f"immutable Steward receipt collision at {path}")
-        return path, False
+        try:
+            ensure_local_state_path(repo_root, state_root, path)
+            if path.read_bytes() != content:
+                raise StateError(f"immutable Steward receipt collision at {path}")
+            return path, False
+        finally:
+            _cleanup_stage_best_effort(stage)
     except BaseException:
-        _unlink_owned(stage)
-        if published:
-            _unlink_owned(path)
+        _cleanup_stage_best_effort(stage)
         raise
+    else:
+        # Publication is irrevocable at this layer. A concurrent equivalent
+        # run may already have observed and reused the complete final receipt,
+        # so stage cleanup must never remove or invalidate it.
+        _cleanup_stage_best_effort(stage)
+        return path, True
 
 
 def _publish_stage(stage: Path, final: Path) -> None:
@@ -204,6 +206,17 @@ def _write_all(file_descriptor: int, content: bytes) -> None:
         if written <= 0:
             raise OSError("receipt staging write made no progress")
         remaining = remaining[written:]
+
+
+def _cleanup_stage_best_effort(stage: Path) -> None:
+    """Remove a receipt stage without affecting an already-published final."""
+
+    for _attempt in range(2):
+        try:
+            _unlink_owned(stage)
+            return
+        except OSError:
+            continue
 
 
 def _unlink_owned(path: Path) -> None:
