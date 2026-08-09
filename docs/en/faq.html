@@ -685,31 +685,18 @@
 
         <div class="faq-item">
           <button class="faq-question" aria-expanded="false">
-            <code>gaia_my_tree</code> returns "no user configured" even though I set up <code>~/.gaia/config.json</code>.
+            Which tools does the current Gaia MCP package provide?
             <span class="faq-chevron">▾</span>
           </button>
           <div class="faq-answer">
             <div class="faq-answer-inner">
               <p>
-                The MCP server resolves identity relative to <code>process.cwd()</code>, not the
-                script's own directory. When an MCP host (Claude Code, Cursor, VS Code) spawns
-                the server, the working directory may not be your project root — so
-                <code>.gaia/config.json</code> is never found.
+                The published <code>@gaia-research/mcp</code> package currently provides
+                <code>gaia_search</code>, <code>gaia_inspect</code>, <code>summon</code>, and
+                <code>gaia_status</code>. <code>summon</code> materializes a matching Named Skill
+                in an ephemeral session directory; it is not <code>gaia_summon</code> and does
+                not install into your repository or persistent configuration.
               </p>
-              <p>
-                <strong>Fix:</strong> Set <code>GAIA_USER</code> in the server's <code>env</code>
-                block. It is checked before any file-based resolution and is unaffected by CWD.
-              </p>
-              <div class="code-block">
-                <div class="code-block-header"><span class="code-block-label">.claude/settings.json</span></div>
-                <pre><span class="str">"env"</span>: {
-  <span class="str">"GAIA_USER"</span>: <span class="str">"your-github-username"</span>
-}</pre>
-              </div>
-              <div class="callout callout-info">
-                <span class="callout-label">📌 Tracked in issue #212</span>
-                <p>A future fix will resolve the config path from the server's own install location instead of CWD.</p>
-              </div>
             </div>
           </div>
         </div>
@@ -722,15 +709,14 @@
           <div class="faq-answer">
             <div class="faq-answer-inner">
               <p>
-                No — for the core tools (<code>gaia_lookup</code>, <code>gaia_suggest</code>,
-                <code>gaia_my_tree</code>, <code>gaia_propose</code>), the server is self-contained.
-                It fetches registry data directly from GitHub.
+                No. The server fetches Gaia's public generic and Named Skill projections
+                directly. Search, inspection, and status need no local Gaia CLI; the
+                <code>summon</code> tool resolves and materializes its temporary session payload
+                independently.
               </p>
               <p>
-                The one exception: <code>gaia_scan_context</code> with <code>deepScan: true</code>
-                invokes the local <code>gaia</code> CLI binary for a full source-code scan.
-                If the CLI isn't installed, <code>deepScan</code> will fail; the default
-                (signal-based) scan mode still works without it.
+                For one-shot command-line summoning, use the separate npx-friendly
+                <code>skill-hell</code> alias.
               </p>
             </div>
           </div>
@@ -738,19 +724,19 @@
 
         <div class="faq-item">
           <button class="faq-question" aria-expanded="false">
-            What is <code>GITHUB_TOKEN</code> used for?
+            Does the MCP server need <code>GAIA_USER</code> or <code>GITHUB_TOKEN</code>?
             <span class="faq-chevron">▾</span>
           </button>
           <div class="faq-answer">
             <div class="faq-answer-inner">
               <p>
-                Only <code>gaia_propose</code> requires <code>GITHUB_TOKEN</code>. It opens a
-                pull request on <code>gaia-research/gaia-skill-tree</code> to claim a fusion or
-                propose a new skill. All read-only tools work without a token.
+                No. The current package is a public Registry/Bond surface and has no
+                user-identity or GitHub write path. It cannot open pull requests, mutate the
+                Registry, submit Intake proposals, or change persistent user configuration.
               </p>
               <p>
-                Create a personal access token with <code>repo</code> scope and set it as
-                <code>GITHUB_TOKEN</code> or <code>GH_TOKEN</code> in the server's <code>env</code> block.
+                For isolated testing only, <code>TREE_URL</code> and
+                <code>TREE_NAMED_URL</code> can override the public projection endpoints.
               </p>
             </div>
           </div>
