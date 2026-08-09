@@ -1,4 +1,4 @@
-"""One finite, report-only Gaia Steward scan cycle."""
+"""Finite Gaia Steward scans plus one policy-authorized Class A repair."""
 
 from __future__ import annotations
 
@@ -20,9 +20,14 @@ from gaia_cli.steward.receipts import (
     write_immutable_receipt,
 )
 from gaia_cli.steward.sensors import Sensor, default_sensors
+from gaia_cli.steward.repairs import RepairError, prepare_bundled_schema_mirror
 
 
 Clock = Callable[[], datetime]
+
+
+class RepairPostconditionError(RepairError):
+    """A verified install did not produce a fully known resolved debt state."""
 
 
 def _utc_now() -> datetime:
@@ -59,6 +64,22 @@ class ScanResult:
         }
 
 
+@dataclass(frozen=True)
+class RunResult:
+    initial: ScanResult
+    final: ScanResult | None
+    receipt: Receipt
+    receipt_path: Path
+
+    def to_dict(self) -> dict[str, object]:
+        return {
+            "receipt": self.receipt.to_dict(),
+            "initial": self.initial.to_dict(),
+            "final": self.final.to_dict() if self.final is not None else None,
+            "state": {"receipt": str(self.receipt_path)},
+        }
+
+
 class StewardController:
     def __init__(
         self,
@@ -72,32 +93,11 @@ class StewardController:
         if len(sensor_ids) != len(set(sensor_ids)):
             raise ValueError("Steward sensor ids must be unique")
 
-    def scan(self, repo_root: Path) -> ScanResult:
+    def scan(self, repo_root: Path, *, _lock_held: bool = False) -> ScanResult:
         root = repo_root.resolve()
         policy = StewardPolicy.load(root)
         observed_at = _timestamp(self.clock())
-        observations: list[Observation] = []
-
-        for sensor in self.sensors:
-            try:
-                sensor_observations = sensor.scan(root, observed_at)
-                for observation in sensor_observations:
-                    if observation.source != sensor.id:
-                        raise ValueError(
-                            f"sensor {sensor.id} emitted observation with source {observation.source}"
-                        )
-                observations.extend(sensor_observations)
-                observations.append(self._coverage_observation(sensor.id, observed_at, healthy=True))
-            except Exception as exc:
-                observations.append(
-                    self._coverage_observation(sensor.id, observed_at, healthy=False, error=exc)
-                )
-
-        if len(observations) > policy.max_observations_per_run:
-            raise RuntimeError(
-                f"Steward observation budget exceeded: {len(observations)} > "
-                f"{policy.max_observations_per_run}"
-            )
+        observations = self._collect_observations(root, policy, observed_at)
 
         state_directory = root / policy.state_directory
         debt_state_path = state_directory / "debt.json"
@@ -110,6 +110,16 @@ class StewardController:
         ensure_local_state_path(root, state_directory, debt_state_path)
         ensure_local_state_path(root, state_directory, receipts_directory)
         ensure_local_state_path(root, state_directory, lock_directory)
+        if _lock_held:
+            return self._reconcile_and_commit(
+                root=root,
+                policy=policy,
+                observed_at=observed_at,
+                observations=observations,
+                state_directory=state_directory,
+                debt_state_path=debt_state_path,
+                receipts_directory=receipts_directory,
+            )
         with exclusive_scan_lock(
             lock_directory,
             repo_root=root,
@@ -125,6 +135,116 @@ class StewardController:
                 receipts_directory=receipts_directory,
             )
 
+    def run(self, repo_root: Path) -> RunResult:
+        """Resolve at most one eligible, policy-declared Class A debt."""
+
+        root = repo_root.resolve()
+        policy = StewardPolicy.load(root)
+        state_directory = root / policy.state_directory
+        receipts_directory = state_directory / policy.receipts_directory
+        lock_directory = state_directory / ".scan.lock"
+        ensure_local_state_path(root, state_directory, state_directory)
+        ensure_local_state_path(root, state_directory, receipts_directory)
+        ensure_local_state_path(root, state_directory, lock_directory)
+        with exclusive_scan_lock(lock_directory, repo_root=root, state_root=state_directory):
+            initial = self.scan(root, _lock_held=True)
+            if initial.receipt.coverage_unknown:
+                return self._run_receipt(
+                    root, state_directory, receipts_directory, initial, None,
+                    result_status="blocked",
+                    blocked=({
+                        "reason": "sensor coverage is unknown; refusing Class A mutation",
+                        "coverageUnknown": list(initial.receipt.coverage_unknown),
+                    },),
+                )
+            eligible = tuple(
+                debt for debt in initial.open_debts
+                if debt.authority is AuthorityClass.A and policy.executor_for(debt.kind) is not None
+            )
+            if not eligible:
+                if not initial.open_debts:
+                    return RunResult(initial=initial, final=initial, receipt=initial.receipt, receipt_path=initial.receipt_path)
+                return self._run_receipt(
+                    root, state_directory, receipts_directory, initial, None,
+                    result_status="blocked",
+                    blocked=({"reason": "no eligible Class A repair debt", "openDebt": list(initial.receipt.open_debt)},),
+                )
+            debt = sorted(eligible, key=lambda item: (-item.priority.score, item.id))[0]
+            executor = policy.executor_for(debt.kind)
+            assert executor is not None
+            try:
+                transaction = prepare_bundled_schema_mirror(root, executor, state_root=state_directory)
+            except RepairError as exc:
+                return self._run_receipt(
+                    root, state_directory, receipts_directory, initial, None,
+                    result_status="blocked",
+                    blocked=({"debtId": debt.id, "reason": str(exc)},),
+                )
+            if transaction is None:
+                return RunResult(initial=initial, final=initial, receipt=initial.receipt, receipt_path=initial.receipt_path)
+            try:
+                finished_at = _timestamp(self.clock())
+                observations = self._collect_observations(root, policy, finished_at)
+                repair_record = transaction.receipt()
+                repair_record.update(
+                    {
+                        "debtId": debt.id,
+                        "detected": dict(debt.observed_state),
+                        "resolved": True,
+                    }
+                )
+                transaction.commit()
+                final = self._reconcile_and_commit(
+                    root=root,
+                    policy=policy,
+                    observed_at=finished_at,
+                    observations=observations,
+                    state_directory=state_directory,
+                    debt_state_path=initial.debt_state_path,
+                    receipts_directory=receipts_directory,
+                    cycle_start=initial.receipt,
+                    repairs=(repair_record,),
+                    required_resolved=(debt.id,),
+                    require_known_coverage=True,
+                    result_status="repaired",
+                )
+            except RepairPostconditionError as exc:
+                transaction.rollback()
+                return self._run_receipt(
+                    root, state_directory, receipts_directory, initial, None,
+                    result_status="blocked",
+                    repairs=(),
+                    blocked=({"debtId": debt.id, "reason": str(exc)},),
+                )
+            except BaseException:
+                transaction.rollback()
+                raise
+            return RunResult(
+                initial=initial,
+                final=final,
+                receipt=final.receipt,
+                receipt_path=final.receipt_path,
+            )
+
+    def _run_receipt(
+        self, root: Path, state_directory: Path, receipts_directory: Path,
+        initial: ScanResult, final: ScanResult | None, *, result_status: str,
+        repairs: tuple[dict[str, object], ...] = (), blocked: tuple[dict[str, object], ...] = (),
+    ) -> RunResult:
+        finished_at = _timestamp(self.clock())
+        payload = {"initial": initial.receipt.run_id, "final": final.receipt.run_id if final else None, "repairs": repairs, "blocked": blocked, "result": result_status}
+        receipt = Receipt(
+            run_id=make_run_id(finished_at, payload), started_at=initial.receipt.started_at,
+            finished_at=finished_at, observations_collected=initial.receipt.observations_collected + (final.receipt.observations_collected if final else 0),
+            coverage_unknown=initial.receipt.coverage_unknown + (final.receipt.coverage_unknown if final else ()),
+            debt_created=initial.receipt.debt_created, debt_updated=initial.receipt.debt_updated,
+            debt_resolved=final.receipt.debt_resolved if final else (), open_debt=final.receipt.open_debt if final else initial.receipt.open_debt,
+            authority_counts=final.receipt.authority_counts if final else initial.receipt.authority_counts,
+            result_status=result_status, repairs=repairs, blocked=blocked,
+        )
+        path, _created = write_immutable_receipt(receipts_directory, receipt, repo_root=root, state_root=state_directory)
+        return RunResult(initial=initial, final=final, receipt=receipt, receipt_path=path)
+
     @staticmethod
     def _reconcile_and_commit(
         *,
@@ -135,6 +255,11 @@ class StewardController:
         state_directory: Path,
         debt_state_path: Path,
         receipts_directory: Path,
+        cycle_start: Receipt | None = None,
+        repairs: tuple[dict[str, object], ...] = (),
+        required_resolved: tuple[str, ...] = (),
+        require_known_coverage: bool = False,
+        result_status: str | None = None,
     ) -> ScanResult:
         existing = load_debts(
             debt_state_path,
@@ -155,31 +280,52 @@ class StewardController:
             authority.value: sum(1 for debt in open_debts if debt.authority is authority)
             for authority in AuthorityClass
         }
-        result_status = (
+        if require_known_coverage and coverage_unknown:
+            raise RepairPostconditionError(
+                "post-repair observation coverage is unknown: " + ", ".join(coverage_unknown)
+            )
+        unresolved = tuple(
+            debt_id
+            for debt_id in required_resolved
+            if debt_id not in reconciliation.resolved
+            or any(debt.id == debt_id and debt.status != "resolved" for debt in reconciliation.debts)
+        )
+        if unresolved:
+            raise RepairPostconditionError(
+                "post-repair observations did not resolve debt: " + ", ".join(unresolved)
+            )
+        resolved_status = result_status or (
             "blocked" if coverage_unknown else "debt_reported" if open_debts else "no_change"
         )
+        debt_created = (cycle_start.debt_created if cycle_start else ()) + reconciliation.created
+        debt_updated = (cycle_start.debt_updated if cycle_start else ()) + reconciliation.updated
         receipt_payload = {
             "observedAt": observed_at,
             "observations": [observation.to_dict() for observation in observations],
-            "created": reconciliation.created,
-            "updated": reconciliation.updated,
+            "cycleStart": cycle_start.run_id if cycle_start else None,
+            "created": debt_created,
+            "updated": debt_updated,
             "resolved": reconciliation.resolved,
             "openDebt": [debt.id for debt in open_debts],
-            "result": result_status,
+            "repairs": repairs,
+            "result": resolved_status,
         }
         run_id = make_run_id(observed_at, receipt_payload)
         receipt = Receipt(
             run_id=run_id,
-            started_at=observed_at,
+            started_at=cycle_start.started_at if cycle_start else observed_at,
             finished_at=observed_at,
-            observations_collected=len(observations),
+            observations_collected=(
+                (cycle_start.observations_collected if cycle_start else 0) + len(observations)
+            ),
             coverage_unknown=coverage_unknown,
-            debt_created=reconciliation.created,
-            debt_updated=reconciliation.updated,
+            debt_created=debt_created,
+            debt_updated=debt_updated,
             debt_resolved=reconciliation.resolved,
             open_debt=tuple(debt.id for debt in open_debts),
             authority_counts=authority_counts,
-            result_status=result_status,
+            result_status=resolved_status,
+            repairs=repairs,
         )
 
         # The receipt is the audit precondition for committing current state.
@@ -217,6 +363,45 @@ class StewardController:
             debt_state_path=debt_state_path,
             receipt_path=receipt_path,
         )
+
+    def _collect_observations(
+        self,
+        root: Path,
+        policy: StewardPolicy,
+        observed_at: str,
+    ) -> list[Observation]:
+        """Collect sensor output without reading or writing Steward state."""
+
+        observations: list[Observation] = []
+        for sensor in self.sensors:
+            try:
+                sensor_observations = sensor.scan(root, observed_at)
+                for observation in sensor_observations:
+                    if observation.source != sensor.id:
+                        raise ValueError(
+                            f"sensor {sensor.id} emitted observation with source "
+                            f"{observation.source}"
+                        )
+                observations.extend(sensor_observations)
+                observations.append(
+                    self._coverage_observation(sensor.id, observed_at, healthy=True)
+                )
+            except Exception as exc:
+                observations.append(
+                    self._coverage_observation(
+                        sensor.id,
+                        observed_at,
+                        healthy=False,
+                        error=exc,
+                    )
+                )
+
+        if len(observations) > policy.max_observations_per_run:
+            raise RuntimeError(
+                f"Steward observation budget exceeded: {len(observations)} > "
+                f"{policy.max_observations_per_run}"
+            )
+        return observations
 
     @staticmethod
     def _coverage_observation(

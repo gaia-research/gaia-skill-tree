@@ -1,4 +1,4 @@
-"""Report-only maintenance debt scanning for Gaia Skill Tree."""
+"""Maintenance debt scanning and one explicit, policy-authorized Class A repair."""
 
 from gaia_cli.steward.models import (
     AuthorityClass,

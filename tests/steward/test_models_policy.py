@@ -59,5 +59,5 @@ def test_policy_rejects_write_scope_outside_local_steward_state(tmp_path: Path) 
     policy_path.parent.mkdir(parents=True)
     policy_path.write_text(yaml.safe_dump(data, sort_keys=False), encoding="utf-8")
 
-    with pytest.raises(PolicyError, match="may write only"):
+    with pytest.raises(PolicyError, match="allowedWrites"):
         StewardPolicy.load(tmp_path)

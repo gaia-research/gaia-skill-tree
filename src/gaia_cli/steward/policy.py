@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
+import re
 from typing import Any, Mapping
 
 import yaml
@@ -20,6 +21,7 @@ _TOP_LEVEL_KEYS = {
     "authority",
     "priority",
     "budgets",
+    "repairs",
 }
 _PRIORITY_KEYS = {
     "importance",
@@ -28,6 +30,20 @@ _PRIORITY_KEYS = {
     "freshnessNeed",
     "expectedCost",
 }
+_REPAIR_KEYS = {"maxRepairsPerRun", "executors"}
+_EXECUTOR_KEYS = {
+    "debtKind",
+    "authority",
+    "canonicalPath",
+    "writablePath",
+    "allowedCommands",
+    "stopConditions",
+}
+_CLASS_A_MODE = "class-a-closed-loop"
+_CLASS_A_ALLOWED_WRITES = (
+    ".gaia/steward/**",
+    "src/gaia_cli/data/registry/schema/**",
+)
 
 
 class PolicyError(ValueError):
@@ -63,6 +79,19 @@ class PriorityWeights:
 
 
 @dataclass(frozen=True)
+class RepairExecutorPolicy:
+    """One mechanically bounded Class A repair authority envelope."""
+
+    id: str
+    debt_kind: str
+    authority: AuthorityClass
+    canonical_path: str
+    writable_path: str
+    allowed_commands: tuple[str, ...]
+    stop_conditions: tuple[str, ...]
+
+
+@dataclass(frozen=True)
 class StewardPolicy:
     version: int
     state_directory: Path
@@ -71,6 +100,8 @@ class StewardPolicy:
     authority: Mapping[str, AuthorityClass]
     priority: Mapping[str, PriorityWeights]
     max_observations_per_run: int
+    max_repairs_per_run: int
+    repair_executors: Mapping[str, RepairExecutorPolicy]
 
     @classmethod
     def load(cls, repo_root: Path) -> "StewardPolicy":
@@ -99,8 +130,8 @@ class StewardPolicy:
             )
         if data["version"] != 1:
             raise PolicyError("Steward policy version must be 1")
-        if data["mode"] != "report-only":
-            raise PolicyError("Steward V1 policy mode must be report-only")
+        if data["mode"] not in {"report-only", _CLASS_A_MODE}:
+            raise PolicyError("Steward policy mode must be report-only or class-a-closed-loop")
 
         state = _mapping(data["state"], "state")
         if set(state) != {"directory", "receiptsDirectory"}:
@@ -116,8 +147,13 @@ class StewardPolicy:
         if not isinstance(allowed_writes_raw, list) or not allowed_writes_raw:
             raise PolicyError("allowedWrites must be a non-empty list")
         allowed_writes = tuple(str(item) for item in allowed_writes_raw)
-        if allowed_writes != (".gaia/steward/**",):
-            raise PolicyError("Steward V1 may write only .gaia/steward/**")
+        expected_writes = (
+            (".gaia/steward/**",)
+            if data["mode"] == "report-only"
+            else _CLASS_A_ALLOWED_WRITES
+        )
+        if allowed_writes != expected_writes:
+            raise PolicyError(f"Steward {data['mode']} allowedWrites are fixed by policy")
 
         authority_raw = _mapping(data["authority"], "authority")
         if not authority_raw:
@@ -156,6 +192,52 @@ class StewardPolicy:
         if isinstance(max_observations, bool) or not isinstance(max_observations, int) or max_observations < 1:
             raise PolicyError("maxObservationsPerRun must be a positive integer")
 
+        repairs = _mapping(data["repairs"], "repairs")
+        if set(repairs) != _REPAIR_KEYS:
+            raise PolicyError("repairs must contain only maxRepairsPerRun and executors")
+        max_repairs = repairs["maxRepairsPerRun"]
+        if isinstance(max_repairs, bool) or not isinstance(max_repairs, int) or max_repairs < 0:
+            raise PolicyError("maxRepairsPerRun must be a non-negative integer")
+        executor_data = _mapping(repairs["executors"], "repairs.executors")
+        executors: dict[str, RepairExecutorPolicy] = {}
+        for executor_id, raw_executor in executor_data.items():
+            if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", executor_id):
+                raise PolicyError("repair executor ids must be kebab-case")
+            executor = _mapping(raw_executor, f"repairs.executors.{executor_id}")
+            if set(executor) != _EXECUTOR_KEYS:
+                raise PolicyError(
+                    f"repairs.executors.{executor_id} must contain exactly "
+                    f"{sorted(_EXECUTOR_KEYS)}"
+                )
+            debt_kind = _nonempty_string(executor["debtKind"], f"repairs.executors.{executor_id}.debtKind")
+            if debt_kind not in authority:
+                raise PolicyError(f"repair executor {executor_id} has unclassified debt kind")
+            try:
+                executor_authority = AuthorityClass(executor["authority"])
+            except ValueError as exc:
+                raise PolicyError(f"repair executor {executor_id} authority must be A, B, or C") from exc
+            if executor_authority is not AuthorityClass.A or authority[debt_kind] is not AuthorityClass.A:
+                raise PolicyError(f"repair executor {executor_id} may only execute Class A debt")
+            canonical_path = _safe_glob(executor["canonicalPath"], f"repairs.executors.{executor_id}.canonicalPath")
+            writable_path = _safe_glob(executor["writablePath"], f"repairs.executors.{executor_id}.writablePath")
+            if writable_path not in allowed_writes:
+                raise PolicyError(f"repair executor {executor_id} writablePath is not allowed")
+            allowed_commands = _string_list(executor["allowedCommands"], f"repairs.executors.{executor_id}.allowedCommands")
+            stop_conditions = _string_list(executor["stopConditions"], f"repairs.executors.{executor_id}.stopConditions")
+            executors[executor_id] = RepairExecutorPolicy(
+                id=executor_id,
+                debt_kind=debt_kind,
+                authority=executor_authority,
+                canonical_path=canonical_path,
+                writable_path=writable_path,
+                allowed_commands=allowed_commands,
+                stop_conditions=stop_conditions,
+            )
+        if data["mode"] == "report-only" and (max_repairs or executors):
+            raise PolicyError("report-only policy may not authorize repair executors")
+        if data["mode"] == _CLASS_A_MODE and (max_repairs != 1 or len(executors) != 1):
+            raise PolicyError("class-a-closed-loop policy must authorize exactly one repair executor")
+
         return cls(
             version=1,
             state_directory=state_directory,
@@ -164,6 +246,8 @@ class StewardPolicy:
             authority=authority,
             priority=priorities,
             max_observations_per_run=max_observations,
+            max_repairs_per_run=max_repairs,
+            repair_executors=executors,
         )
 
     def authority_for(self, kind: str) -> AuthorityClass:
@@ -177,6 +261,12 @@ class StewardPolicy:
             return self.priority[kind].calculate(confidence)
         except KeyError as exc:
             raise PolicyError(f"debt kind has no priority policy: {kind}") from exc
+
+    def executor_for(self, debt_kind: str) -> RepairExecutorPolicy | None:
+        matches = [item for item in self.repair_executors.values() if item.debt_kind == debt_kind]
+        if len(matches) > 1:
+            raise PolicyError(f"multiple repair executors are configured for {debt_kind}")
+        return matches[0] if matches else None
 
 
 def _mapping(value: Any, name: str) -> Mapping[str, Any]:
@@ -194,6 +284,25 @@ def _safe_relative_path(value: Any, name: str) -> Path:
     if path.is_absolute() or ".." in path.parts:
         raise PolicyError(f"{name} must be a safe repository-relative path")
     return Path(*path.parts)
+
+
+def _safe_glob(value: Any, name: str) -> str:
+    if not isinstance(value, str) or not value.endswith("/**"):
+        raise PolicyError(f"{name} must be a safe repository-relative /** path")
+    _safe_relative_path(value[:-3], name)
+    return value
+
+
+def _nonempty_string(value: Any, name: str) -> str:
+    if not isinstance(value, str) or not value.strip():
+        raise PolicyError(f"{name} must be a non-empty string")
+    return value
+
+
+def _string_list(value: Any, name: str) -> tuple[str, ...]:
+    if not isinstance(value, list) or not value:
+        raise PolicyError(f"{name} must be a non-empty list")
+    return tuple(_nonempty_string(item, name) for item in value)
 
 
 def _bounded_number(value: Any, name: str) -> float:

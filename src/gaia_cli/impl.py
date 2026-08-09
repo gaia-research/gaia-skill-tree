@@ -146,6 +146,7 @@ Daily commands:
   {_fg(*C4)}gaia appraise{_reset()} [<skillId>]
   {_fg(*C4)}gaia stats{_reset()}
   {_fg(*COLOR_GREY)}gaia steward scan{_reset()} [--json]
+  {_fg(*COLOR_GREY)}gaia steward run{_reset()} [--json]
   {_fg(*C3)}gaia pull{_reset()}
   {_fg(*COLOR_FUSE_PURPLE)}gaia fuse{_reset()} <skillId> [--name <name>]
   {_fg(*C5)}gaia path{_reset()} <skillId> [--owned-only] [--json]

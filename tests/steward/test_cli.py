@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import shutil
+import subprocess
 import sys
 from pathlib import Path
 
@@ -24,6 +25,9 @@ def _clean_cli_repo(root: Path) -> None:
     policy = root / POLICY_RELATIVE_PATH
     policy.parent.mkdir(parents=True)
     shutil.copyfile(REPO_ROOT / POLICY_RELATIVE_PATH, policy)
+    sync_script = root / "scripts/sync_bundled_schemas.py"
+    sync_script.parent.mkdir(parents=True)
+    shutil.copyfile(REPO_ROOT / "scripts/sync_bundled_schemas.py", sync_script)
     schema = {
         "$schema": "http://json-schema.org/draft-07/schema#",
         "type": "object",
@@ -45,6 +49,13 @@ def _clean_cli_repo(root: Path) -> None:
     _write(root / "registry/nodes/basic/example.json", json.dumps(node))
     _write(root / ".agents/skills/example/SKILL.md", "# Example\n")
     _write(root / ".claude/skills/example/SKILL.md", "# Example\n")
+    subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+    subprocess.run(["git", "add", "."], cwd=root, check=True)
+    subprocess.run(
+        ["git", "-c", "user.name=fixture", "-c", "user.email=fixture@example.test", "commit", "-qm", "base"],
+        cwd=root,
+        check=True,
+    )
 
 
 def test_steward_is_dynamically_discovered_and_in_public_help() -> None:
@@ -101,7 +112,44 @@ def test_steward_scan_human_output_is_concise(
     assert ".gaia/steward/receipts/" in output
 
 
-def test_steward_exposes_no_repair_or_dispatch_subcommand() -> None:
+def test_steward_run_clean_is_a_zero_repair_noop(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    _clean_cli_repo(tmp_path)
+    monkeypatch.setattr(sys, "argv", ["gaia", "--registry", str(tmp_path), "steward", "run", "--json"])
+
+    main()
+
+    payload = json.loads(capsys.readouterr().out)
+    assert payload["receipt"]["result"]["status"] == "no_change"
+    assert payload["receipt"]["repairs"] == []
+    assert payload["final"] is not None
+
+
+def test_steward_run_repairs_one_schema_debt_with_receipts(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    _clean_cli_repo(tmp_path)
+    canonical = tmp_path / "registry/schema/skill.schema.json"
+    canonical.write_text('{"type":"string"}\n', encoding="utf-8")
+    monkeypatch.setattr(sys, "argv", ["gaia", "--registry", str(tmp_path), "steward", "run", "--json"])
+
+    main()
+
+    payload = json.loads(capsys.readouterr().out)
+    repair = payload["receipt"]["repairs"][0]
+    assert payload["receipt"]["result"]["status"] == "repaired"
+    assert repair["status"] == "repaired"
+    assert repair["verified"] == {"recursiveParity": True, "syncCheck": True}
+    assert repair["resolved"] is True
+    assert (tmp_path / "src/gaia_cli/data/registry/schema/skill.schema.json").read_bytes() == canonical.read_bytes()
+
+
+def test_steward_rejects_unknown_subcommand() -> None:
     parser, _ = get_parser()
 
     with pytest.raises(SystemExit) as exc:

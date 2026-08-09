@@ -1,4 +1,4 @@
-"""Top-level, report-only Gaia Steward command."""
+"""Top-level local Gaia Steward commands."""
 
 from __future__ import annotations
 
@@ -13,10 +13,10 @@ from gaia_cli.commands.base import Command
 class StewardCommand(Command):
     name = "steward"
     help = "Report repository maintenance debt"
-    description = "Run deterministic, local, report-only Gaia Steward checks."
+    description = "Scan maintenance debt or repair one policy-authorized Class A debt."
 
     def configure(self, parser: argparse.ArgumentParser) -> None:
-        subparsers = parser.add_subparsers(dest="steward_command", metavar="{scan}")
+        subparsers = parser.add_subparsers(dest="steward_command", metavar="{scan,run}")
         scan = subparsers.add_parser(
             "scan",
             help="Collect observations and report normalized maintenance debt",
@@ -26,10 +26,16 @@ class StewardCommand(Command):
             ),
         )
         scan.add_argument("--json", action="store_true", help="Output the full scan result as JSON")
+        run = subparsers.add_parser(
+            "run",
+            help="Repair at most one eligible Class A debt with independent proof",
+            description="Run local sensors then the one policy-authorized Class A repair, if eligible.",
+        )
+        run.add_argument("--json", action="store_true", help="Output the full run result as JSON")
 
     def execute(self, args: argparse.Namespace) -> int | None:
-        if args.steward_command != "scan":
-            print("usage: gaia steward scan [--json]", file=sys.stderr)
+        if args.steward_command not in {"scan", "run"}:
+            print("usage: gaia steward {scan,run} [--json]", file=sys.stderr)
             return 2
 
         from gaia_cli.steward.controller import StewardController
@@ -37,9 +43,10 @@ class StewardCommand(Command):
         from gaia_cli.steward.receipts import StateError
 
         try:
-            result = StewardController().scan(Path(args.registry))
+            controller = StewardController()
+            result = controller.scan(Path(args.registry)) if args.steward_command == "scan" else controller.run(Path(args.registry))
         except (OSError, PolicyError, StateError, RuntimeError, ValueError) as exc:
-            print(f"Steward scan failed: {exc}", file=sys.stderr)
+            print(f"Steward {args.steward_command} failed: {exc}", file=sys.stderr)
             return 2
 
         if args.json:
@@ -47,7 +54,7 @@ class StewardCommand(Command):
             return 0
 
         receipt = result.receipt
-        print("Gaia Steward scan")
+        print(f"Gaia Steward {args.steward_command}")
         print(f"Observations       {receipt.observations_collected}")
         print(f"Open debt          {len(receipt.open_debt)}")
         print(f"Created            {len(receipt.debt_created)}")
@@ -61,7 +68,8 @@ class StewardCommand(Command):
             f"C {receipt.authority_counts.get('C', 0)}"
         )
         print("Model dispatches   0")
-        print("Repairs            0")
+        print(f"Repairs            {len(receipt.repairs)}")
+        print(f"Blocked            {len(receipt.blocked)}")
         print(f"Result             {receipt.result_status}")
         try:
             receipt_display = result.receipt_path.relative_to(Path(args.registry).resolve())
