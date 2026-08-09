@@ -10,6 +10,7 @@ from pathlib import Path
 
 import pytest
 
+import gaia_cli.steward.controller as controller_module
 import gaia_cli.steward.receipts as receipt_store
 from gaia_cli.steward.controller import StewardController
 from gaia_cli.steward.models import Observation, Receipt, Subject
@@ -219,6 +220,7 @@ def test_receipt_failure_cannot_commit_new_debt_state(
         ).scan(root)
 
     assert baseline.debt_state_path.read_bytes() == state_before
+    assert not (root / ".gaia/steward/.scan.lock").exists()
 
 
 def test_ledger_failure_removes_receipt_from_aborted_transaction(
@@ -239,6 +241,72 @@ def test_ledger_failure_removes_receipt_from_aborted_transaction(
 
     assert not (root / ".gaia/steward/debt.json").exists()
     assert list((root / ".gaia/steward/receipts").glob("*.json")) == []
+    assert not (root / ".gaia/steward/.scan.lock").exists()
+
+
+def test_transaction_lock_prevents_failed_run_from_revoking_successful_receipt(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = _repo(tmp_path)
+    controller = StewardController(
+        sensors=[MutableSensor(status="drift")], clock=lambda: FROZEN
+    )
+    receipt_published = threading.Event()
+    allow_ledger_failure = threading.Event()
+    first_write = True
+    real_write = controller_module.write_current_state
+
+    def fail_first_ledger_commit(*args, **kwargs):
+        nonlocal first_write
+        if first_write:
+            first_write = False
+            receipt_published.set()
+            assert allow_ledger_failure.wait(timeout=5)
+            raise StateError("fixture first ledger failure")
+        return real_write(*args, **kwargs)
+
+    monkeypatch.setattr(
+        controller_module,
+        "write_current_state",
+        fail_first_ledger_commit,
+    )
+
+    with ThreadPoolExecutor(max_workers=1) as executor:
+        failed_run = executor.submit(controller.scan, root)
+        assert receipt_published.wait(timeout=5)
+
+        with pytest.raises(StateError, match="another scan is active|prior process crashed"):
+            controller.scan(root)
+
+        allow_ledger_failure.set()
+        with pytest.raises(StateError, match="fixture first ledger failure"):
+            failed_run.result(timeout=10)
+
+    assert not (root / ".gaia/steward/.scan.lock").exists()
+    assert list((root / ".gaia/steward/receipts").glob("*.json")) == []
+
+    successful_run = controller.scan(root)
+
+    assert successful_run.receipt_path.is_file()
+    assert json.loads(successful_run.receipt_path.read_text(encoding="utf-8")) == (
+        successful_run.receipt.to_dict()
+    )
+    assert successful_run.debt_state_path.is_file()
+    assert not (root / ".gaia/steward/.scan.lock").exists()
+
+
+def test_stale_scan_lock_fails_closed_with_recovery_guidance(tmp_path: Path) -> None:
+    root = _repo(tmp_path)
+    lock = root / ".gaia/steward/.scan.lock"
+    lock.mkdir(parents=True)
+
+    with pytest.raises(StateError, match="prior process crashed.*confirming no scan"):
+        StewardController(sensors=[MutableSensor()], clock=lambda: FROZEN).scan(root)
+
+    assert lock.is_dir()
+    assert not (root / ".gaia/steward/debt.json").exists()
+    assert not (root / ".gaia/steward/receipts").exists()
 
 
 def test_short_receipt_write_error_leaves_no_partial_final_or_changed_ledger(
@@ -312,6 +380,7 @@ def test_keyboard_interrupt_cleans_new_receipt_but_preserves_preexisting_receipt
     assert baseline.receipt_path.read_bytes() == receipt_before
     assert list(receipts.glob("*.json")) == [baseline.receipt_path]
     assert baseline.debt_state_path.read_bytes() == ledger_before
+    assert not (root / ".gaia/steward/.scan.lock").exists()
 
 
 def test_concurrent_identical_receipt_publish_is_complete_and_idempotent(

@@ -12,6 +12,7 @@ from gaia_cli.steward.models import AuthorityClass, Debt, Observation, Receipt, 
 from gaia_cli.steward.policy import StewardPolicy
 from gaia_cli.steward.receipts import (
     ensure_local_state_path,
+    exclusive_scan_lock,
     load_debts,
     make_run_id,
     remove_uncommitted_receipt,
@@ -101,12 +102,40 @@ class StewardController:
         state_directory = root / policy.state_directory
         debt_state_path = state_directory / "debt.json"
         receipts_directory = state_directory / policy.receipts_directory
+        lock_directory = state_directory / ".scan.lock"
         # Preflight every directory that this run could touch before reading or
         # writing state. In particular, a symlinked receipts directory must not
         # allow the earlier debt write to escape or partially commit.
         ensure_local_state_path(root, state_directory, state_directory)
         ensure_local_state_path(root, state_directory, debt_state_path)
         ensure_local_state_path(root, state_directory, receipts_directory)
+        ensure_local_state_path(root, state_directory, lock_directory)
+        with exclusive_scan_lock(
+            lock_directory,
+            repo_root=root,
+            state_root=state_directory,
+        ):
+            return self._reconcile_and_commit(
+                root=root,
+                policy=policy,
+                observed_at=observed_at,
+                observations=observations,
+                state_directory=state_directory,
+                debt_state_path=debt_state_path,
+                receipts_directory=receipts_directory,
+            )
+
+    @staticmethod
+    def _reconcile_and_commit(
+        *,
+        root: Path,
+        policy: StewardPolicy,
+        observed_at: str,
+        observations: list[Observation],
+        state_directory: Path,
+        debt_state_path: Path,
+        receipts_directory: Path,
+    ) -> ScanResult:
         existing = load_debts(
             debt_state_path,
             repo_root=root,

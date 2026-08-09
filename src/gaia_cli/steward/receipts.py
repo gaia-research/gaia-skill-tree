@@ -7,14 +7,51 @@ import json
 import os
 import stat
 import tempfile
+from contextlib import contextmanager
 from pathlib import Path
-from typing import Iterable
+from typing import Iterable, Iterator
 
 from gaia_cli.steward.models import DEBT_SCHEMA, LEDGER_SCHEMA, Debt, Receipt, stable_json
 
 
 class StateError(RuntimeError):
     """Raised when ignored Steward state is malformed or cannot be persisted."""
+
+
+@contextmanager
+def exclusive_scan_lock(
+    lock_directory: Path,
+    *,
+    repo_root: Path,
+    state_root: Path,
+) -> Iterator[None]:
+    """Serialize one checkout's debt transaction with an atomic directory.
+
+    A process crash can leave the directory behind. That state deliberately
+    fails closed: a maintainer must remove it only after confirming that no
+    Steward scan is active. Normal exceptions and ``BaseException`` paths
+    release the lock in ``finally``.
+    """
+
+    ensure_local_state_path(repo_root, state_root, lock_directory)
+    state_root.mkdir(parents=True, exist_ok=True)
+    ensure_local_state_path(repo_root, state_root, lock_directory)
+    try:
+        lock_directory.mkdir()
+    except FileExistsError as exc:
+        raise StateError(
+            f"Steward scan lock exists at {lock_directory}; another scan is active "
+            "or a prior process crashed. Refusing to continue; remove the lock "
+            "only after confirming no scan is running."
+        ) from exc
+
+    try:
+        yield
+    finally:
+        try:
+            lock_directory.rmdir()
+        except FileNotFoundError:
+            pass
 
 
 def ensure_local_state_path(repo_root: Path, state_root: Path, path: Path) -> None:
