@@ -69,16 +69,22 @@ class SchemaMirrorTransaction:
     displaced: bool = False
 
     def receipt(self) -> dict[str, object]:
-        return {"executor": EXECUTOR_ID, "status": "repaired", "plannedPaths": list(self.changed), "repairedPaths": list(self.changed), "verified": {"recursiveParity": True, "syncCheck": True}}
+        return {
+            "executor": EXECUTOR_ID,
+            "status": "repaired",
+            "plannedPaths": list(self.changed),
+            "repairedPaths": list(self.changed),
+            "verified": {"recursiveParity": True, "syncCheck": True},
+            "recovery": {
+                "path": self.rollback_path.relative_to(self.root).as_posix(),
+                "manifest": {path: item.digest for path, item in self.captured_mirror.files.items()},
+                "retained": True,
+            },
+        }
 
     def commit(self) -> None:
-        """Release rollback bytes only after the controller persisted its receipt."""
-        try:
-            shutil.rmtree(self.stage_root)
-        except OSError as exc:
-            raise RepairError(
-                f"repair is verified but rollback recovery remains at {self.stage_root}; remove only after inspection: {exc}"
-            ) from exc
+        """Retain V1 recovery bytes under local Steward state for manual audit."""
+        return None
 
     def rollback(self) -> None:
         try:
