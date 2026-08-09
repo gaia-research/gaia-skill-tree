@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import shutil
 import subprocess
 from pathlib import Path
@@ -193,6 +194,65 @@ def test_handoff_race_preserves_target_edit_instead_of_discarding_it(
     with pytest.raises(repairs.RepairBlocked, match="changed during handoff"):
         _repair(root)
     assert target.read_text(encoding="utf-8") == '{"target":"handoff-edit"}\n'
+
+
+def test_success_retains_contained_recovery_and_open_handle_edit(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = _repo(tmp_path)
+    target = root / "src/gaia_cli/data/registry/schema/root.json"
+    target_before = target.read_bytes()
+    handle = target.open("r+b")
+    real_verify = repairs._verify
+    injected = False
+
+    def edit_displaced_inode_then_verify(*args, **kwargs) -> None:
+        nonlocal injected
+        if not injected:
+            injected = True
+            handle.seek(0)
+            handle.write(b'{"type":"open-handle-edit"}\n')
+            handle.truncate()
+            handle.flush()
+        real_verify(*args, **kwargs)
+
+    monkeypatch.setattr(repairs, "_verify", edit_displaced_inode_then_verify)
+    try:
+        receipt = _repair(root)
+    finally:
+        handle.close()
+
+    recovery = receipt["recovery"]
+    recovery_path = root / recovery["path"]
+    assert recovery_path.is_relative_to(root / ".gaia/steward")
+    assert (recovery_path / "root.json").read_bytes() == b'{"type":"open-handle-edit"}\n'
+    assert (root / "src/gaia_cli/data/registry/schema/root.json").read_bytes() == (
+        root / "registry/schema/root.json"
+    ).read_bytes()
+    assert recovery["preRepairManifest"]["root.json"] == hashlib.sha256(
+        target_before
+    ).hexdigest()
+    assert recovery["originalTargetPresent"] is True
+    assert recovery["retained"] is True
+
+
+def test_recovery_state_outside_repository_is_refused_before_mutation(tmp_path: Path) -> None:
+    root = _repo(tmp_path / "repo")
+    target = root / "src/gaia_cli/data/registry/schema/root.json"
+    before = target.read_bytes()
+    executor = _executor(root)
+    assert executor is not None
+
+    with pytest.raises(repairs.RepairBlocked, match="repository-local state"):
+        repairs.prepare_bundled_schema_mirror(
+            root,
+            executor,
+            state_root=tmp_path / "outside",
+        )
+
+    assert target.read_bytes() == before
+    assert not (tmp_path / "outside").exists()
 
 
 def test_repair_changes_only_the_explicit_mirror_allowlist(tmp_path: Path) -> None:

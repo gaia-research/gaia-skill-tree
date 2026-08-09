@@ -268,6 +268,41 @@ def test_post_install_collection_exception_rolls_back_without_touching_open_ledg
     assert not (root / ".gaia/steward/.scan.lock").exists()
 
 
+def test_post_install_reconciliation_exception_rolls_back_open_ledger(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = _class_a_repo(tmp_path)
+    controller = StewardController(sensors=[BundledSchemaMirrorSensor()], clock=lambda: FROZEN)
+    baseline = controller.scan(root)
+    ledger_before = baseline.debt_state_path.read_bytes()
+    mirror = root / "src/gaia_cli/data/registry/schema/fixture.json"
+    mirror_before = mirror.read_bytes()
+    real_reconcile = controller_module.reconcile_debt
+    reconciliations = 0
+
+    def fail_post_install_reconciliation(*args, **kwargs):
+        nonlocal reconciliations
+        reconciliations += 1
+        if reconciliations == 2:
+            raise RuntimeError("fixture post-install reconciliation failure")
+        return real_reconcile(*args, **kwargs)
+
+    monkeypatch.setattr(
+        controller_module,
+        "reconcile_debt",
+        fail_post_install_reconciliation,
+    )
+
+    with pytest.raises(RuntimeError, match="fixture post-install reconciliation failure"):
+        controller.run(root)
+
+    assert reconciliations == 2
+    assert mirror.read_bytes() == mirror_before
+    assert baseline.debt_state_path.read_bytes() == ledger_before
+    assert not (root / ".gaia/steward/.scan.lock").exists()
+
+
 def test_post_install_receipt_failure_rolls_back_and_preserves_open_ledger(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
@@ -363,6 +398,35 @@ def test_unknown_or_unresolved_postcondition_rolls_back_without_recovery_scan(
     assert result.receipt.result_status == "blocked"
     assert "did not resolve" in result.receipt.blocked[0]["reason"]
     assert collections == 2
+    assert mirror.read_bytes() == mirror_before
+    assert baseline.debt_state_path.read_bytes() == ledger_before
+
+
+def test_unknown_postcondition_rolls_back_without_recovery_scan(tmp_path: Path) -> None:
+    root = _class_a_repo(tmp_path)
+    sensor = MutableSensor(status="drift")
+    controller = StewardController(sensors=[sensor], clock=lambda: FROZEN)
+    baseline = controller.scan(root)
+    ledger_before = baseline.debt_state_path.read_bytes()
+    mirror = root / "src/gaia_cli/data/registry/schema/fixture.json"
+    mirror_before = mirror.read_bytes()
+    sensor_calls = 0
+    real_scan = sensor.scan
+
+    def fail_post_install_sensor(repo_root: Path, observed_at: str) -> list[Observation]:
+        nonlocal sensor_calls
+        sensor_calls += 1
+        if sensor_calls == 2:
+            raise OSError("fixture post-install sensor failure")
+        return real_scan(repo_root, observed_at)
+
+    sensor.scan = fail_post_install_sensor
+
+    result = controller.run(root)
+
+    assert result.receipt.result_status == "blocked"
+    assert "coverage is unknown" in result.receipt.blocked[0]["reason"]
+    assert sensor_calls == 2
     assert mirror.read_bytes() == mirror_before
     assert baseline.debt_state_path.read_bytes() == ledger_before
 

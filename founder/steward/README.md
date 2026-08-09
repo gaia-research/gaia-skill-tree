@@ -16,5 +16,12 @@ Each checkout permits one debt transaction at a time via the atomic
 place; subsequent scans fail closed, and the lock may be removed manually only
 after confirming that no Steward scan is active.
 
+A successful changed run retains the displaced pre-repair schema mirror under
+`.gaia/steward/`. The repair receipt records its repository-relative recovery
+path and pre-repair SHA-256 manifest. This recovery is intentionally retained
+for manual audit or restoration until a maintainer removes that receipt-recorded
+local recovery directory; failed transactions restore the target and clean
+their temporary recovery instead.
+
 Authority is a ceiling. A future runtime may downgrade A to B or B to C when
 proof becomes ambiguous; it may never upgrade authority automatically.

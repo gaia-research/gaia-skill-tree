@@ -20,6 +20,7 @@ from pathlib import Path
 from typing import Mapping
 
 from gaia_cli.steward.policy import RepairExecutorPolicy
+from gaia_cli.steward.receipts import StateError, ensure_local_state_path
 
 
 CANONICAL_ROOT = Path("registry/schema")
@@ -59,6 +60,7 @@ class TreeManifest:
 @dataclass
 class SchemaMirrorTransaction:
     root: Path
+    state_root: Path
     canonical: TreeManifest
     captured_mirror: TreeManifest
     stage_root: Path
@@ -69,6 +71,7 @@ class SchemaMirrorTransaction:
     displaced: bool = False
 
     def receipt(self) -> dict[str, object]:
+        recovery_path = self._validate_recovery()
         return {
             "executor": EXECUTOR_ID,
             "status": "repaired",
@@ -76,15 +79,29 @@ class SchemaMirrorTransaction:
             "repairedPaths": list(self.changed),
             "verified": {"recursiveParity": True, "syncCheck": True},
             "recovery": {
-                "path": self.rollback_path.relative_to(self.root).as_posix(),
-                "manifest": {path: item.digest for path, item in self.captured_mirror.files.items()},
+                "path": recovery_path,
+                "preRepairManifest": {
+                    path: item.digest
+                    for path, item in sorted(self.captured_mirror.files.items())
+                },
+                "originalTargetPresent": self.had_mirror,
                 "retained": True,
             },
         }
 
     def commit(self) -> None:
         """Retain V1 recovery bytes under local Steward state for manual audit."""
-        return None
+        self._validate_recovery()
+
+    def _validate_recovery(self) -> str:
+        try:
+            ensure_local_state_path(self.root, self.state_root, self.rollback_path)
+            mode = self.rollback_path.lstat().st_mode
+        except (OSError, StateError) as exc:
+            raise RepairError(f"cannot validate retained repair recovery: {exc}") from exc
+        if stat.S_ISLNK(mode) or not stat.S_ISDIR(mode):
+            raise RepairError("retained repair recovery must be a real directory")
+        return self.rollback_path.relative_to(self.root).as_posix()
 
     def rollback(self) -> None:
         try:
@@ -129,6 +146,11 @@ def prepare_bundled_schema_mirror(
 ) -> SchemaMirrorTransaction | None:
     """Install a verified mirror but retain exact rollback bytes for the controller."""
     root = repo_root.resolve()
+    local_state = state_root if state_root.is_absolute() else root / state_root
+    try:
+        ensure_local_state_path(root, local_state, local_state)
+    except StateError as exc:
+        raise RepairBlocked(f"repair recovery must remain under repository-local state: {exc}") from exc
     _validate_executor(executor)
     canonical = _manifest(root, CANONICAL_ROOT, required=True, json_only=True)
     mirror = _manifest(root, MIRROR_ROOT, required=False, json_only=False)
@@ -150,12 +172,32 @@ def prepare_bundled_schema_mirror(
 
     _assert_clean_target(root)
     _ensure_plain_ancestors(root, MIRROR_ROOT.parent)
-    state_root.mkdir(parents=True, exist_ok=True)
-    stage_root = Path(tempfile.mkdtemp(prefix="class-a-schema-", dir=state_root))
+    local_state.mkdir(parents=True, exist_ok=True)
+    try:
+        ensure_local_state_path(root, local_state, local_state)
+    except StateError as exc:
+        raise RepairBlocked(f"repair recovery state is unsafe: {exc}") from exc
+    stage_root = Path(tempfile.mkdtemp(prefix="class-a-schema-", dir=local_state))
     stage = stage_root / "schema"
     rollback = stage_root / "rollback-schema"
+    try:
+        ensure_local_state_path(root, local_state, stage_root)
+        ensure_local_state_path(root, local_state, stage)
+        ensure_local_state_path(root, local_state, rollback)
+    except StateError as exc:
+        shutil.rmtree(stage_root)
+        raise RepairBlocked(f"repair recovery path is unsafe: {exc}") from exc
     had_mirror = (root / MIRROR_ROOT).exists()
-    transaction = SchemaMirrorTransaction(root, canonical, mirror, stage_root, rollback, had_mirror, changed)
+    transaction = SchemaMirrorTransaction(
+        root,
+        local_state,
+        canonical,
+        mirror,
+        stage_root,
+        rollback,
+        had_mirror,
+        changed,
+    )
     try:
         _copy_manifest(root / CANONICAL_ROOT, canonical, stage)
         if had_mirror:
@@ -167,6 +209,8 @@ def prepare_bundled_schema_mirror(
             observed_rollback = _manifest(root, rollback.relative_to(root), required=True, json_only=False)
             if observed_rollback.files != mirror.files:
                 raise RepairBlocked("bundled schema mirror changed during handoff; restoring edited target")
+        else:
+            rollback.mkdir()
         os.replace(stage, root / MIRROR_ROOT)
         transaction.installed = True
         _verify(root, canonical)
