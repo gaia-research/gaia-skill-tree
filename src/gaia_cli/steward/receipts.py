@@ -136,10 +136,11 @@ def write_immutable_receipt(
 ) -> tuple[Path, bool]:
     """Stage and atomically publish an immutable receipt.
 
-    The empty exclusive final-file claim prevents ``os.replace`` from
-    overwriting an immutable receipt created by an equivalent concurrent run.
-    Both the stage and any final claim owned by this call are removed if a
-    ``BaseException`` interrupts publication.
+    A same-directory hard link publishes the fully written stage without ever
+    creating an empty/partial final path and without overwriting an immutable
+    receipt created by an equivalent concurrent run. Platforms that cannot
+    provide this no-clobber primitive fail closed rather than falling back to
+    a racy final-file claim.
     """
 
     ensure_local_state_path(repo_root, state_root, receipts_directory)
@@ -165,22 +166,29 @@ def write_immutable_receipt(
         _unlink_owned(stage)
         raise
 
+    published = False
     try:
-        claim_fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+        _publish_stage(stage, path)
+        published = True
+        _unlink_owned(stage)
+        return path, True
     except FileExistsError:
         _unlink_owned(stage)
+        ensure_local_state_path(repo_root, state_root, path)
         if path.read_bytes() != content:
             raise StateError(f"immutable Steward receipt collision at {path}")
         return path, False
-
-    try:
-        os.close(claim_fd)
-        os.replace(stage, path)
-        return path, True
     except BaseException:
         _unlink_owned(stage)
-        _unlink_owned(path)
+        if published:
+            _unlink_owned(path)
         raise
+
+
+def _publish_stage(stage: Path, final: Path) -> None:
+    """Atomically create ``final`` as a no-clobber link to a complete stage."""
+
+    os.link(stage, final, follow_symlinks=False)
 
 
 def _write_chunk(file_descriptor: int, content: memoryview) -> int:

@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+import json
 import shutil
+import threading
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -9,7 +12,7 @@ import pytest
 
 import gaia_cli.steward.receipts as receipt_store
 from gaia_cli.steward.controller import StewardController
-from gaia_cli.steward.models import Observation, Subject
+from gaia_cli.steward.models import Observation, Receipt, Subject
 from gaia_cli.steward.policy import POLICY_RELATIVE_PATH
 from gaia_cli.steward.receipts import StateError
 
@@ -37,6 +40,22 @@ def _observation(status: str, observed_at: str = "2026-08-09T00:00:00Z") -> Obse
         current_state={"digest": "canonical"},
         observed_state={"digest": "mirror" if status == "drift" else "canonical"},
         confidence=1.0,
+    )
+
+
+def _receipt(run_id: str = "steward-concurrency-fixture") -> Receipt:
+    return Receipt(
+        run_id=run_id,
+        started_at="2026-08-09T00:00:00Z",
+        finished_at="2026-08-09T00:00:00Z",
+        observations_collected=0,
+        coverage_unknown=(),
+        debt_created=(),
+        debt_updated=(),
+        debt_resolved=(),
+        open_debt=(),
+        authority_counts={"A": 0, "B": 0, "C": 0},
+        result_status="no_change",
     )
 
 
@@ -293,3 +312,88 @@ def test_keyboard_interrupt_cleans_new_receipt_but_preserves_preexisting_receipt
     assert baseline.receipt_path.read_bytes() == receipt_before
     assert list(receipts.glob("*.json")) == [baseline.receipt_path]
     assert baseline.debt_state_path.read_bytes() == ledger_before
+
+
+def test_concurrent_identical_receipt_publish_is_complete_and_idempotent(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = _repo(tmp_path)
+    state = root / ".gaia/steward"
+    receipts = state / "receipts"
+    receipt = _receipt()
+    barrier = threading.Barrier(2)
+    real_publish = receipt_store._publish_stage
+
+    def simultaneous_publish(stage: Path, final: Path) -> None:
+        barrier.wait(timeout=5)
+        real_publish(stage, final)
+
+    monkeypatch.setattr(receipt_store, "_publish_stage", simultaneous_publish)
+
+    def publish() -> tuple[Path, bool]:
+        return receipt_store.write_immutable_receipt(
+            receipts,
+            receipt,
+            repo_root=root,
+            state_root=state,
+        )
+
+    with ThreadPoolExecutor(max_workers=2) as executor:
+        futures = [executor.submit(publish), executor.submit(publish)]
+        results = [future.result(timeout=10) for future in futures]
+
+    final = receipts / f"{receipt.run_id}.json"
+    assert sorted(created for _path, created in results) == [False, True]
+    assert {path for path, _created in results} == {final}
+    assert json.loads(final.read_text(encoding="utf-8")) == receipt.to_dict()
+    assert final.stat().st_size > 0
+    assert list(receipts.glob(".*.tmp")) == []
+
+
+def test_receipt_publication_boundary_is_absent_then_complete_never_partial(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = _repo(tmp_path)
+    state = root / ".gaia/steward"
+    receipts = state / "receipts"
+    receipt = _receipt("steward-crash-window-fixture")
+    final = receipts / f"{receipt.run_id}.json"
+    before_link = threading.Event()
+    allow_link = threading.Event()
+    after_link = threading.Event()
+    allow_return = threading.Event()
+    real_publish = receipt_store._publish_stage
+
+    def paused_publish(stage: Path, target: Path) -> None:
+        before_link.set()
+        assert allow_link.wait(timeout=5)
+        real_publish(stage, target)
+        after_link.set()
+        assert allow_return.wait(timeout=5)
+
+    monkeypatch.setattr(receipt_store, "_publish_stage", paused_publish)
+
+    with ThreadPoolExecutor(max_workers=1) as executor:
+        future = executor.submit(
+            receipt_store.write_immutable_receipt,
+            receipts,
+            receipt,
+            repo_root=root,
+            state_root=state,
+        )
+        assert before_link.wait(timeout=5)
+        assert not final.exists()
+
+        allow_link.set()
+        assert after_link.wait(timeout=5)
+        assert final.stat().st_size > 0
+        assert json.loads(final.read_text(encoding="utf-8")) == receipt.to_dict()
+
+        allow_return.set()
+        path, created = future.result(timeout=10)
+
+    assert (path, created) == (final, True)
+    assert json.loads(final.read_text(encoding="utf-8")) == receipt.to_dict()
+    assert list(receipts.glob(".*.tmp")) == []
