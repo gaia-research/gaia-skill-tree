@@ -174,6 +174,27 @@ def test_stage_install_failure_restores_displaced_mirror_exactly(
     assert not list((root / ".gaia/steward").glob("class-a-schema-*"))
 
 
+def test_handoff_race_preserves_target_edit_instead_of_discarding_it(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root = _repo(tmp_path)
+    target = root / "src/gaia_cli/data/registry/schema/root.json"
+    real_replace = repairs.os.replace
+    injected = False
+
+    def edit_before_displacement(source, destination) -> None:
+        nonlocal injected
+        if not injected and Path(source) == root / repairs.MIRROR_ROOT:
+            injected = True
+            target.write_text('{"target":"handoff-edit"}\n', encoding="utf-8")
+        real_replace(source, destination)
+
+    monkeypatch.setattr(repairs.os, "replace", edit_before_displacement)
+    with pytest.raises(repairs.RepairBlocked, match="changed during handoff"):
+        _repair(root)
+    assert target.read_text(encoding="utf-8") == '{"target":"handoff-edit"}\n'
+
+
 def test_repair_changes_only_the_explicit_mirror_allowlist(tmp_path: Path) -> None:
     root = _repo(tmp_path)
     before = {

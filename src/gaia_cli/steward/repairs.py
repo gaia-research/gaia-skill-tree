@@ -56,6 +56,43 @@ class TreeManifest:
         return tuple(sorted(self.files))
 
 
+@dataclass
+class SchemaMirrorTransaction:
+    root: Path
+    canonical: TreeManifest
+    captured_mirror: TreeManifest
+    stage_root: Path
+    rollback_path: Path
+    had_mirror: bool
+    changed: tuple[str, ...]
+    installed: bool = False
+    displaced: bool = False
+
+    def receipt(self) -> dict[str, object]:
+        return {"executor": EXECUTOR_ID, "status": "repaired", "plannedPaths": list(self.changed), "repairedPaths": list(self.changed), "verified": {"recursiveParity": True, "syncCheck": True}}
+
+    def commit(self) -> None:
+        """Release rollback bytes only after the controller persisted its receipt."""
+        try:
+            shutil.rmtree(self.stage_root)
+        except OSError as exc:
+            raise RepairError(
+                f"repair is verified but rollback recovery remains at {self.stage_root}; remove only after inspection: {exc}"
+            ) from exc
+
+    def rollback(self) -> None:
+        try:
+            _rollback(self.root / MIRROR_ROOT, self.rollback_path, self.had_mirror, self.stage_root)
+        except OSError as exc:
+            raise RepairError(
+                f"rollback failed; original mirror recovery is preserved at {self.rollback_path}: {exc}"
+            ) from exc
+        try:
+            shutil.rmtree(self.stage_root)
+        except OSError as exc:
+            raise RepairError(f"rollback completed; recovery cleanup remains at {self.stage_root}: {exc}") from exc
+
+
 def repair_bundled_schema_mirror(
     repo_root: Path,
     executor: RepairExecutorPolicy,
@@ -69,6 +106,22 @@ def repair_bundled_schema_mirror(
     returning or raising.
     """
 
+    transaction = prepare_bundled_schema_mirror(repo_root, executor, state_root=state_root)
+    if transaction is None:
+        return {"executor": EXECUTOR_ID, "status": "no_change", "plannedPaths": [], "repairedPaths": [], "verified": {"recursiveParity": True, "syncCheck": True}}
+    try:
+        result = transaction.receipt()
+        transaction.commit()
+        return result
+    except BaseException:
+        transaction.rollback()
+        raise
+
+
+def prepare_bundled_schema_mirror(
+    repo_root: Path, executor: RepairExecutorPolicy, *, state_root: Path,
+) -> SchemaMirrorTransaction | None:
+    """Install a verified mirror but retain exact rollback bytes for the controller."""
     root = repo_root.resolve()
     _validate_executor(executor)
     canonical = _manifest(root, CANONICAL_ROOT, required=True, json_only=True)
@@ -87,13 +140,7 @@ def repair_bundled_schema_mirror(
     )
     if not changed:
         _verify(root, canonical)
-        return {
-            "executor": EXECUTOR_ID,
-            "status": "no_change",
-            "plannedPaths": [],
-            "repairedPaths": [],
-            "verified": {"recursiveParity": True, "syncCheck": True},
-        }
+        return None
 
     _assert_clean_target(root)
     _ensure_plain_ancestors(root, MIRROR_ROOT.parent)
@@ -102,8 +149,7 @@ def repair_bundled_schema_mirror(
     stage = stage_root / "schema"
     rollback = stage_root / "rollback-schema"
     had_mirror = (root / MIRROR_ROOT).exists()
-    displaced = False
-    installed = False
+    transaction = SchemaMirrorTransaction(root, canonical, mirror, stage_root, rollback, had_mirror, changed)
     try:
         _copy_manifest(root / CANONICAL_ROOT, canonical, stage)
         if had_mirror:
@@ -111,26 +157,21 @@ def repair_bundled_schema_mirror(
         _assert_same_manifest(root, CANONICAL_ROOT, canonical)
         if (root / MIRROR_ROOT).exists():
             os.replace(root / MIRROR_ROOT, rollback)
-            displaced = True
+            transaction.displaced = True
+            observed_rollback = _manifest(root, rollback.relative_to(root), required=True, json_only=False)
+            if observed_rollback.files != mirror.files:
+                raise RepairBlocked("bundled schema mirror changed during handoff; restoring edited target")
         os.replace(stage, root / MIRROR_ROOT)
-        installed = True
+        transaction.installed = True
         _verify(root, canonical)
         _assert_same_manifest(root, CANONICAL_ROOT, canonical)
     except BaseException:
-        if installed or displaced:
-            _rollback(root / MIRROR_ROOT, rollback, had_mirror, stage_root)
-        raise
-    finally:
-        if stage_root.exists():
+        if transaction.installed or transaction.displaced:
+            transaction.rollback()
+        elif stage_root.exists():
             shutil.rmtree(stage_root)
-
-    return {
-        "executor": EXECUTOR_ID,
-        "status": "repaired",
-        "plannedPaths": list(changed),
-        "repairedPaths": list(changed),
-        "verified": {"recursiveParity": True, "syncCheck": True},
-    }
+        raise
+    return transaction
 
 
 def _validate_executor(executor: RepairExecutorPolicy) -> None:

@@ -1,4 +1,4 @@
-"""One finite, report-only Gaia Steward scan cycle."""
+"""Finite Gaia Steward scans plus one policy-authorized Class A repair."""
 
 from __future__ import annotations
 
@@ -20,7 +20,7 @@ from gaia_cli.steward.receipts import (
     write_immutable_receipt,
 )
 from gaia_cli.steward.sensors import Sensor, default_sensors
-from gaia_cli.steward.repairs import RepairError, repair_bundled_schema_mirror
+from gaia_cli.steward.repairs import RepairError, prepare_bundled_schema_mirror
 
 
 Clock = Callable[[], datetime]
@@ -190,27 +190,38 @@ class StewardController:
             executor = policy.executor_for(debt.kind)
             assert executor is not None
             try:
-                repair = repair_bundled_schema_mirror(root, executor, state_root=state_directory)
+                transaction = prepare_bundled_schema_mirror(root, executor, state_root=state_directory)
             except RepairError as exc:
                 return self._run_receipt(
                     root, state_directory, receipts_directory, initial, None,
                     result_status="blocked",
                     blocked=({"debtId": debt.id, "reason": str(exc)},),
                 )
+            if transaction is None:
+                return RunResult(initial=initial, final=initial, receipt=initial.receipt, receipt_path=initial.receipt_path)
             final = self.scan(root, _lock_held=True)
             if debt.id not in final.receipt.debt_resolved:
+                transaction.rollback()
+                reopened = self.scan(root, _lock_held=True)
                 return self._run_receipt(
-                    root, state_directory, receipts_directory, initial, final,
+                    root, state_directory, receipts_directory, initial, reopened,
                     result_status="blocked",
-                    repairs=(dict(repair),),
+                    repairs=(),
                     blocked=({"debtId": debt.id, "reason": "post-repair rescan did not resolve debt"},),
                 )
-            repair_record = dict(repair)
+            repair_record = transaction.receipt()
             repair_record.update({"debtId": debt.id, "detected": dict(debt.observed_state), "resolved": True})
-            return self._run_receipt(
-                root, state_directory, receipts_directory, initial, final,
-                result_status="repaired", repairs=(repair_record,),
-            )
+            try:
+                result = self._run_receipt(
+                    root, state_directory, receipts_directory, initial, final,
+                    result_status="repaired", repairs=(repair_record,),
+                )
+            except BaseException:
+                transaction.rollback()
+                self.scan(root, _lock_held=True)
+                raise
+            transaction.commit()
+            return result
 
     def _run_receipt(
         self, root: Path, state_directory: Path, receipts_directory: Path,
