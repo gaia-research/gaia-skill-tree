@@ -25,6 +25,7 @@ registry-for-review/ @mbtiongson1 @rico-favor
 
 # Documentation and website
 docs/ @mbtiongson1 @rico-favor
+docs/en @mbtiongson1 @MariTiongson
 
 # User skill tree directories — only the owner can modify their own
 skill-trees/mbtiongson1/ @mbtiongson1
