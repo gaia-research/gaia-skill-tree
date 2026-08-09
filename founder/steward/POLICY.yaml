@@ -80,3 +80,48 @@ repairs:
         - canonical input is missing, symlinked, non-regular, non-JSON, or changes during repair
         - mirror contains an extra path, a symlink, or a dirty user edit
         - staged copy, atomic replacement, recursive parity, or sync validation cannot be proven
+
+routing:
+  maxDispatchesPerRun: 1
+  budget:
+    modelCalls: 0
+    maxTokens: 0
+    maxMinutes: 0
+  dispatchRules:
+    registry-integrity-review:
+      debtKind: registry_integrity_failed
+      authority: B
+      routine: gaia-registry-integrity-review
+      objective: >-
+        Reproduce the reported registry-integrity failure, prepare the smallest
+        policy-compliant correction, and return independent proof for review.
+      allowedPaths:
+        - registry/nodes/**
+        - scripts/**
+        - tests/**
+      allowedCommands:
+        - python scripts/validate.py
+        - python scripts/sync_bundled_schemas.py --check
+        - python -m pytest
+      forbiddenPaths:
+        - .gaia/steward/**
+        - .github/**
+        - docs/**
+        - founder/**
+        - skill-trees/**
+      stopConditions:
+        - fresh local evidence does not reproduce the packet violation
+        - the correction requires a write outside allowedPaths
+        - the correction requires a Class C product or governance decision
+        - validation, coverage, or independent proof is incomplete
+      proof:
+        - reproduce every packet violation from local repository state
+        - show a diff confined to allowedPaths
+        - run the packet validation commands that apply to the correction
+        - obtain independent review before integration
+  founderRules:
+    generic-mapping-decision:
+      debtKind: generic_mapping
+      authority: C
+      decisionTargetField: decisionTarget
+      objective: Decide the canonical generic mapping for the explicit normalized target.
