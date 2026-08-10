@@ -106,7 +106,7 @@ two HQs:
 
 | Repo | Owns |
 |---|---|
-| `gaia-research` | `core` · `gaia.research` · `gaia.brand` · `gaia.heaven` · `gaia.mcp` |
+| `gaia-research` | `core` · `gaia.research` · `gaia.brand` · `gaia.heaven` · `gaia.zero` · `gaia.mcp` |
 | `gaia-skill-tree` | `gaia.skills` · `gaia.trust` |
 
 `skill-heaven` and `gaia-mcp` hold no namespace file — they consume. **`gaia.registry` is

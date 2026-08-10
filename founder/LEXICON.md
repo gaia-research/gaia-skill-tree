@@ -4,7 +4,7 @@
 <!-- Regenerate: npx tsx scripts/lexicon/check-lexicon.ts --emit -->
 <!-- lexicon-allow -->
 
-> Schema `2` · HQ `gaia-skill-tree` · 18 terms across 2 namespace(s) · updated **2026-07-28**.
+> Schema `2` · HQ `gaia-skill-tree` · 18 terms across 2 namespace(s) · updated **2026-08-10**.
 >
 > **One term, one owner.** A term is defined in **exactly one** file, ever. A
 > namespace file **adds** terms in its own namespace and may never redefine a
