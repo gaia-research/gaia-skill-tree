@@ -5,28 +5,28 @@
   </picture>
 </div>
 
-# Gaia: The Evidence-Backed AI Agent Skill Graph 🌲
+# Gaia: A Skill Tree 🌲
 
 [![Gaia](https://gaiaskilltree.com/badges/_assets/gaia-research/ci-churn.svg?repo=gaia-research%2Fgaia-skill-tree)](https://gaiaskilltree.com/named/#explorer/gaia-research/ci-churn)
 
-**Stop guessing if your agent works. Prove it.**
+**Share your skill. We prove that it works. Then we name it to you.**
 
-Gaia is the open-source registry where AI agent capabilities aren't just claimed—they're verified through a public ledger of code-execution runs, license checks, and security audits.
+Gaia is not a marketplace of skills, or an installer of some sorts. What we do is we verify your skill, check its capability, and reward them to those who AUTHORED them. Not the model, not the AI, but the HUMAN who authored them.
 
 [![Validate](https://github.com/gaia-research/gaia-skill-tree/actions/workflows/validate.yml/badge.svg)](https://github.com/gaia-research/gaia-skill-tree/actions/workflows/validate.yml)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Website](https://img.shields.io/badge/Website-gaiaskilltree.com-f59e0b)](https://gaiaskilltree.com/)
 
-👉 **Claim your skill origin:** Run 
+👉 **Have an original skill? Send it to us.** Run 
 
 ```
 curl -fsSL https://gaiaskilltree.com/install.sh | sh
 ```
 
-and verify your first skill in under 2 minutes.
+and push your first skill in under 2 minutes.
 
 
-# Get your badges! Some skills already curated.
+# A few have been named already. Your skill got appraised? Badge is yours forever.
 
 [![Gaia rank](https://gaiaskilltree.com/badges/_assets/mbtiongson1/rank.svg?repo=gaia-research%2Fgaia-skill-tree)](https://gaiaskilltree.com/u/mbtiongson1/)<br>
 
@@ -48,7 +48,7 @@ I built this because skills should be attributed to the people who proved them. 
 
 So that means, its the developers who make skills maintaining this. I have a thorough curation process, and the dev community is evidence on why this works. As long as developers making skills exists, this registry will exist. This is open-source, so feel free to contribute! 
 
-# The Gaia Skill Tree!
+# The structure--literally a "tree" as you know it:
 
 <!-- gaia:registry-start -->
 ```text
@@ -96,7 +96,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
 <!-- gaia:registry-end -->
 
 
-### How Skills Fuse
+### Skills can fuse. Here's how:
 
 Do a `gaia scan` and `gaia fuse` render in your terminal:
 
@@ -106,41 +106,49 @@ Do a `gaia scan` and `gaia fuse` render in your terminal:
   mattpocock/ubiquitous-language  ─┘
 ```
 
-Basics fuse into Extras; Extras can fuse into Ultimates. Evidence powers each ascent.
-
 > [!TIP]
-> **New here?** The interactive tutorial at **[gaiaskilltree.com](https://gaiaskilltree.com/)** covers everything visually: skill tiers, the stars axis, The Initiate's Rite, and copy-paste commands.
+> **New here?** The interactive tutorial at **[gaiaskilltree.com](https://gaiaskilltree.com/)** covers everything visually: skill tiers, the stars axis, and copy-paste commands.
 
 ---
 
 ## Stars
 
-Gaia uses a tiered star system (**0★–6★**) to rank agent capabilities.
+| Stars | Rank           | Notes                                                  |
+|------:|----------------|--------------------------------------------------------|
+| 0★    | Starless       |                                                        |
+| 1★    | Awakened       | Default star rank once you push                        |
+| 2★    | Named          | You get to be on the tree if you reach here            |
+| 3★    | Evolved        | You ranked up!!                                        |
+| 4★    | Extra / Unique | Extra (skill packs/suites), Unique (standalone)        |
+| 5★    | Ultimate       | Ultimate / Unique Ultimate                              |
+| 6★    | Apex           | Apex / Unique Impossible                                |
 
-| Symbol | Tier | Levels |
-|--------|------|--------|
-| ○ Basic | Primitive capability | 0★ → 4★ |
-| ◉ Unique | Mastery without fusion | 4★ → 6★ |
-| ◇ Extra | Composite workflow | 2★ → 4★ |
-| ◆ Ultimate | Platform capstone | 5★ → 6★ |
 
 ## Evidence
 
-1. **Evidence Type** (provenance: one of 10 canonical types per the G7 Trust Taxonomy RFC
+1. **Evidence Type**
 
-`arxiv`
-`repo` or `repo-own`
-`github-stars`
-`github-stars-own`
-`peer-review`
-`social-signal`
-`proxy-containment`
-`benchmark-result`
-`verifier-attestation`
-`fusion-recipe`
+| # | Evidence Type | Notes |
+|---|---------------|-------|
+| 1 | `arxiv` | scientific papers |
+| 2 | `repo` / `repo-own` | contains a repo link |
+| 3 | `github-stars` | how many github stars you have |
+| 4 | `peer-review` | someone reviewed your skill |
+| 5 | `social-signal` | youtube, X, or any post |
+| 6 | `proxy` | someone used your skill, maybe in another repo and it has a lot of stars |
+| 7 | `benchmark-result` | benchmark that showcases your skill |
+| 8 | `verifier-attestation` | our own verifiers attest to your skill |
+| 9 | `fusion-recipe` | gaia's own fusion structure |
 
 2. **Evidence Grade**
-S | A | B | C | ungraded
+
+| Evidence Name | Grade |
+|---|----------------|
+| Platinum | S |
+| Gold | A |
+| Silver | B |
+| Bronze | C |
+| Grey | ungraded |
 
 4. **Trust Magnitude**
 This is the evidence grade at the Skill level.
@@ -153,7 +161,7 @@ This is the evidence grade at the Skill level.
 
 ## Quickstart
 
-**1. CLI
+**1. CLI**
 
 <!-- gaia:version-start -->
 Current Gaia CLI version: `7.4.13`.
