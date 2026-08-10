@@ -1,0 +1,22 @@
+{
+  "id": "video-rendering",
+  "name": "video-rendering",
+  "type": "basic",
+  "description": "Automating the compilation, rendering, and export of code-defined video compositions into standard media formats.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-08-10",
+  "updatedAt": "2026-08-10",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-08-10T14:47:23Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill video-rendering"
+    }
+  ]
+}

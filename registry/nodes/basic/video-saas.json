@@ -1,0 +1,22 @@
+{
+  "id": "video-saas",
+  "name": "video-saas",
+  "type": "basic",
+  "description": "Designing and developing web applications that embed, render, and orchestrate code-driven video compositions using cloud rendering infrastructure.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-08-10",
+  "updatedAt": "2026-08-10",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-08-10T14:47:24Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill video-saas"
+    }
+  ]
+}

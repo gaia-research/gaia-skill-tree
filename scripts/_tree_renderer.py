@@ -34,6 +34,31 @@ def _star_pill(named_level_map, sid) -> str:
     star = (named_level_map or {}).get(sid)
     return f"  [{star}]" if star else ""
 
+
+def _subtree_has_owned(root_id, skill_map, owned_ids) -> bool:
+    """True if ``root_id`` or any transitive prerequisite is in ``owned_ids``.
+
+    User-mode pruning (Issue #1489): a branch is worth rendering in a
+    per-user tree only when the user owns at least one node somewhere in it.
+    Walks ``prerequisites`` with a visited guard so shared prereqs / cycles
+    don't loop forever.
+    """
+    if not owned_ids:
+        return False
+    stack = [root_id]
+    visited: set = set()
+    while stack:
+        sid = stack.pop()
+        if sid in visited:
+            continue
+        visited.add(sid)
+        if sid in owned_ids:
+            return True
+        sk = skill_map.get(sid)
+        if sk:
+            stack.extend(sk.get("prerequisites", []))
+    return False
+
 # Section separators.
 _SEP70 = "═" * 70
 _SEP65 = "─" * 65
@@ -292,6 +317,11 @@ def render_tree(
     for legendary in legendaries:
         lid = legendary.get("id")
         prereq_ids = legendary.get("prerequisites", [])
+        # User mode (Issue #1489): render an upgrade path only when the user
+        # owns the Ultimate itself or some node inside its subtree. Branches
+        # the user has no stake in are omitted rather than listed as `·`.
+        if is_user and lid not in owned_ids and not _subtree_has_owned(lid, skill_map, owned_ids):
+            continue
         display = _bsd(lid, "ultimate", named_map, handle_rel,
                        named_level_map=named_level_map, named_entry_level=named_entry_level)
 
@@ -332,7 +362,17 @@ def render_tree(
         lines.append("")
 
     # ── Unique Skills ─────────────────────────────────────────────────────
-    if unique_skills:
+    # User mode (Issue #1489): keep only uniques the user owns or has a node
+    # inside; if none survive, the whole section (header + blurb) is dropped.
+    if is_user:
+        rendered_uniques = [
+            us for us in unique_skills
+            if us.get("id") in owned_ids
+            or _subtree_has_owned(us.get("id"), skill_map, owned_ids)
+        ]
+    else:
+        rendered_uniques = unique_skills
+    if rendered_uniques:
         lines.append(_SEP70)
         lines.append(
             "Uniques — Basic Skills that reached elite mastery"
@@ -340,7 +380,7 @@ def render_tree(
         )
         lines.append(_SEP70)
         lines.append("")
-        for us in unique_skills:
+        for us in rendered_uniques:
             uid_s = us.get("id")
             display = _bsd(uid_s, "unique", named_map, handle_rel,
                            named_level_map=named_level_map, named_entry_level=named_entry_level)
@@ -374,7 +414,14 @@ def render_tree(
         lines.append("")
 
     # ── Basics (orphan basics) ────────────────────────────────────────────
-    if basic_orphans:
+    # User mode (Issue #1489): orphan basics are single-node branches, so
+    # "owns a node in the branch" reduces to "owns the basic". Show only
+    # those; drop the section header when the user owns none.
+    if is_user:
+        rendered_basics = [ps for ps in basic_orphans if ps.get("id") in owned_ids]
+    else:
+        rendered_basics = basic_orphans
+    if rendered_basics:
         lines.append(_SEP70)
         lines.append(
             "Basics — basic-tier skills with no prerequisites, listed vertically (not as a single combined line)."
@@ -383,7 +430,7 @@ def render_tree(
         lines.append(_SEP70)
 
         lines.append("")
-        for ps in basic_orphans:
+        for ps in rendered_basics:
             pid = ps.get("id")
             display = _bsd(pid, "basic", named_map, handle_rel,
                            named_level_map=named_level_map, named_entry_level=named_entry_level)

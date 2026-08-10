@@ -363,7 +363,7 @@ CI health
 dependency/security checks
 CLI contract checks
 benchmark controller
-Skill Heaven telemetry
+Skill Zero launcher telemetry
 ```
 
 A sensor observes.
@@ -555,7 +555,8 @@ Steward is not merely repository maintenance infrastructure.
 
 Its debt and observation architecture can become a shared pattern across the Gaia ecosystem.
 
-Skill Heaven may eventually emit:
+Under the **Skill Heaven** runtime umbrella, the **Skill Zero** launcher may
+eventually emit:
 
 - runtime observations;
 - benchmark candidates;

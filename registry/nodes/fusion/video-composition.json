@@ -1,0 +1,43 @@
+{
+  "id": "video-composition",
+  "name": "Video Composition",
+  "type": "fusion",
+  "description": "Guiding agents to create, organize, and render code-defined video compositions using programmatic frameworks across the full workflow from scaffolding to render.",
+  "prerequisites": [
+    "video-scaffolding",
+    "timeline-animation",
+    "video-preview",
+    "video-rendering",
+    "map-animation",
+    "video-saas",
+    "video-interactivity",
+    "video-captions"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-08-10",
+  "updatedAt": "2026-08-10",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-08-10T14:48:17Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Created generic fusion node 'video-composition' via `gaia dev fuse`."
+    },
+    {
+      "timestamp": "2026-08-10T14:48:18Z",
+      "action": "fuse",
+      "contributor": "mbtiongson1",
+      "details": "Set prerequisites via `gaia dev fuse`: video-scaffolding, timeline-animation, video-preview, video-rendering, map-animation, video-saas, video-interactivity, video-captions."
+    },
+    {
+      "timestamp": "2026-08-10T14:48:55Z",
+      "action": "fuse",
+      "contributor": "mbtiongson1",
+      "details": "Set prerequisites via `gaia dev fuse`: video-scaffolding, timeline-animation, video-preview, video-rendering, map-animation, video-saas, video-interactivity, video-captions."
+    }
+  ]
+}

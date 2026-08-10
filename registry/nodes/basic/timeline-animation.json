@@ -1,0 +1,22 @@
+{
+  "id": "timeline-animation",
+  "name": "timeline-animation",
+  "type": "basic",
+  "description": "Orchestrating frame-by-frame visual animations, interpolation, easing curves, and multimedia asset placement using declarative timeline-based code.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-08-10",
+  "updatedAt": "2026-08-10",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-08-10T14:47:22Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill timeline-animation"
+    }
+  ]
+}

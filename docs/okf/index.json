@@ -4,7 +4,7 @@
   "families": [
     {
       "id": "basic",
-      "count": 126,
+      "count": 136,
       "skills": [
         {
           "id": "adaptive-pattern-learning",
@@ -297,6 +297,11 @@
           "summary": "Applies deductive, inductive, or abductive reasoning to derive valid conclusions from premises and structured knowledge."
         },
         {
+          "id": "map-animation",
+          "name": "map-animation",
+          "summary": "Animating geographic, static, and 3D maps using render engines, custom imagery overlays, vector styling, and terrain flythroughs."
+        },
+        {
           "id": "math-reason",
           "name": "Math Reason",
           "summary": "Solves multi-step mathematical problems including arithmetic, algebra, calculus, and competition mathematics through symbolic and numeric reasoning."
@@ -375,6 +380,11 @@
           "id": "plan-synthesis",
           "name": "Plan Synthesis",
           "summary": "Combine two or more independently produced plans into a single attributed result, resolving conflicts and surfacing consensus and divergence."
+        },
+        {
+          "id": "postgres-best-practices",
+          "name": "postgres-best-practices",
+          "summary": "Guiding agents to design, migrate, secure, tune, and operate PostgreSQL databases using robust schema, SQL, RLS, indexing, and performance practices."
         },
         {
           "id": "probabilistic-programming",
@@ -537,6 +547,11 @@
           "summary": "Condenses longer input into a shorter representation that preserves key information and intent."
         },
         {
+          "id": "supabase",
+          "name": "supabase",
+          "summary": "Use when doing any task involving Supabase products including Database, Auth, Edge Functions, Realtime, Storage, client libraries, RLS, migrations, and Postgres extensions."
+        },
+        {
           "id": "swarm-topology-management",
           "name": "Swarm Topology Management",
           "summary": "Initializes and manages multi-agent swarm network topologies (hierarchical, mesh, ring, star) with load balancing and fault tolerance."
@@ -565,6 +580,11 @@
           "id": "time-series-forecasting",
           "name": "Time Series Forecasting",
           "summary": "Forecasts temporal sequences with seasonal-trend decomposition, ensemble models (ARIMA, Prophet, NBEATS, TFT), and residual-based anomaly detection."
+        },
+        {
+          "id": "timeline-animation",
+          "name": "timeline-animation",
+          "summary": "Orchestrating frame-by-frame visual animations, interpolation, easing curves, and multimedia asset placement using declarative timeline-based code."
         },
         {
           "id": "token-observability",
@@ -615,6 +635,36 @@
           "id": "vector-search",
           "name": "Vector Search",
           "summary": "Performs similarity search over high-dimensional embeddings using cosine, Euclidean, dot-product, or custom distance metrics."
+        },
+        {
+          "id": "video-captions",
+          "name": "video-captions",
+          "summary": "Transcribing, displaying, and animating caption and subtitle tracks in code-defined media."
+        },
+        {
+          "id": "video-interactivity",
+          "name": "video-interactivity",
+          "summary": "Designing code-defined video templates and compositions to support visual manipulation, timeline interactivity, and direct in-studio editing."
+        },
+        {
+          "id": "video-preview",
+          "name": "video-preview",
+          "summary": "Providing an interactive local preview or development studio environment for code-defined video compositions."
+        },
+        {
+          "id": "video-rendering",
+          "name": "video-rendering",
+          "summary": "Automating the compilation, rendering, and export of code-defined video compositions into standard media formats."
+        },
+        {
+          "id": "video-saas",
+          "name": "video-saas",
+          "summary": "Designing and developing web applications that embed, render, and orchestrate code-driven video compositions using cloud rendering infrastructure."
+        },
+        {
+          "id": "video-scaffolding",
+          "name": "video-scaffolding",
+          "summary": "Scaffolding and initializing programmatic video composition projects including boilerplate generation, dependency installation, and local preview setup."
         },
         {
           "id": "vision-qa",

@@ -1,0 +1,17 @@
+{
+  "type": "bar",
+  "caption": "Figure 2. Source composition of the top 100 candidates by hostRepository, with GitHub star counts. Microsoft/Azure (1,364 stars, ~475k installs/skill avg) and Lark/Feishu (16,323 stars but split across two source identities) together account for 73 of 100 entries. The trust signal mismatch is stark: azure-skills has fewer stars than remotion-dev/skills (4,255) despite 23× the represented install count on the leaderboard.",
+  "labels": ["open.feishu.cn\n(Lark)", "larksuite/cli\n(Lark)", "microsoft/\nazure-skills", "mattpocock/\nskills", "vercel-labs/\n*", "remotion-dev/\nskills", "supabase/\nagent-skills", "Other"],
+  "datasets": [
+    {
+      "label": "Candidate count",
+      "color": "#ef444499",
+      "data": [27, 23, 23, 10, 3, 1, 2, 11]
+    },
+    {
+      "label": "GitHub stars (÷100 for scale)",
+      "color": "#6366f1",
+      "data": [163, 163, 14, 0, 0, 43, 25, 0]
+    }
+  ]
+}

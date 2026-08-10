@@ -4,6 +4,79 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-08-11, Skill Zero split ratified and Skill Heaven repo rename shipped)
+
+### TLDR
+
+- **Decision ratified this session.** RFC [gaia-skill-tree#1509](https://github.com/gaia-research/gaia-skill-tree/issues/1509) amends [gaia-research#68](https://github.com/gaia-research/gaia-research/issues/68) plus RATIFICATION N8/N9: Skill Heaven is the umbrella runtime brand; Skill Zero is the launcher-with-zero-skills prototype module inside `gaia-skill-heaven`; Heaven/Hell are Arbor summon directions, not launcher cleanup semantics.
+- **Repo rename is real and deliberate.** `gaia-research/skill-heaven` was renamed to `gaia-research/gaia-skill-heaven`; the ecosystem repo gets the `gaia-*` prefix while the user-facing runtime brand stays Skill Heaven.
+- **Skill Zero is complete and kept.** Packages/core now expose npm/bin `skill-zero`; door launch identities are `claude-zero`, `pi-zero`, `codex-zero`, `hermes-zero`, and `grok-zero`. The short `*-zero` names are user-facing doors; `gaia-*` is for repos/modules only.
+- **Semantic inversion fixed.** Old docs described Heaven as subtraction/strip/evict/clean-floor. That behavior is Skill Zero. Heaven now means converge/curated summon; Hell means explore/expand summon; Ultra is the future automated Heaven<->Hell governor.
+- **Everything shipped as DRAFT PRs only.** No merge happened; all founder review/merge gates remain open.
+
+### Ratified taxonomy
+
+| Term | Ratified meaning |
+|---|---|
+| Skill Heaven | Umbrella runtime brand: what users associate with the runtime surface as a whole |
+| `gaia-skill-heaven` | Renamed repo/module home for the Skill Heaven runtime ecosystem |
+| Skill Zero | Launcher-with-zero-skills: deep standalone now-complete prototype module inside `gaia-skill-heaven` |
+| `skill-zero` | Core npm/bin entrypoint for the launcher |
+| `claude-zero`, `pi-zero`, `codex-zero`, `hermes-zero`, `grok-zero` | Door launch identities; short user-facing names, not repo names |
+| Heaven | Arbor converge / curated summon direction |
+| Hell | Arbor explore / expand summon direction |
+| Ultra | Automated Heaven<->Hell switch / governor |
+| HH Index | Hell-Heaven axis index; **WORK IN PROGRESS**. The WIP banner moved off the launcher and onto this index |
+| `skill-hell` | Unchanged gaia-mcp summon tool for the explore direction |
+
+### Lexicon and namespace state
+
+- **Prefix taxonomy ratified:** `gaia-*` = ecosystem repos/modules; `skill-*` = standalone skill tools. Therefore `skill-hell` correctly keeps `skill-*`.
+- **Lexicon split landed:** new `gaia.zero` namespace carved out for launcher terms; `gaia.heaven` now owns umbrella + axis terms. Both are owned by the `gaia-research` HQ; `gaia-skill-heaven` consumes them.
+- **Regeneration done:** foreign mirror + `LEXICON.md` regenerated in both HQs; `check-lexicon` green.
+- **Deferred, explicitly not done:** promote `gaia.zero` to its own HQ once `gaia-skill-heaven` stabilizes; migrate axis vocabulary to the `gaia-skill-tree` HQ when Arbor I ratifies.
+
+### Shipped PRs and artifacts
+
+| Repo | Draft PR / artifact | State |
+|---|---|---|
+| `gaia-skill-tree` | Draft PR [#1507](https://github.com/gaia-research/gaia-skill-tree/pull/1507) | Founder docs relabeled (`ENDGAME`, `MIGRATION`, `SCHEMA`, `ROADMAP`, `STEWARD`, `ARC_I`, `MEMORY`); lexicon foreign mirror; handover doc; RFC issue [#1509](https://github.com/gaia-research/gaia-skill-tree/issues/1509) posted |
+| Connected issues | Comments posted | [gaia-research#68](https://github.com/gaia-research/gaia-research/issues/68), `skill-heaven` #25/#29/#30/#31/#32, [gaia-mcp#15](https://github.com/gaia-research/gaia-mcp/issues/15) |
+| `gaia-research` | Draft PR [#165](https://github.com/gaia-research/gaia-research/pull/165) | VISION/MISSION Heaven-inversion fix; reports + `hh-benchmark` demos `skill-heaven` -> `skill-zero`; site copy (`app/page.tsx` etc.); `lexicon.gaia.zero.json` split; RATIFICATION "Skill Zero split" delta; RFC draft doc |
+| `gaia-skill-heaven` | Draft PR [#46](https://github.com/gaia-research/gaia-skill-heaven/pull/46) | All door packages `*-heaven` -> `*-zero`; core bin `skill-zero`; README rewritten; marketplace/plugin/commands; `CLAUDE.md` + docs. `npm test` green: 208/208 |
+| `gaia-mcp` | Draft PR [#19](https://github.com/gaia-research/gaia-mcp/pull/19) | Outward refs only updated to `gaia-skill-heaven`; `skill-hell` code, bins, and `SESSION_DIR_PREFIX` untouched |
+| GitHub repo | `gaia-research/skill-heaven` -> `gaia-research/gaia-skill-heaven` | Rename completed; PR #46 survived; local remote updated |
+
+All listed commits were authored by `mbtiongson1` only. All listed PRs are **DRAFT** and awaiting founder review/merge.
+
+### Summon direction note
+
+- `skill-hell` in `gaia-mcp` stays unchanged: it is the explore-direction summon.
+- Future work: add a heaven-direction converge summon alongside `skill-hell`, making summon bidirectional.
+
+### Lesson / hazard preserved
+
+- The initial scout was **stale**. An early `git pull` on `skill-heaven` aborted on an untracked-file conflict, leaving the working copy at `2726cb9` while `origin/main` was `e8658cb`; the scout therefore saw only 4 packages.
+- That stale checkout caused a false fabrication alarm on `codex-zero`, `hermes-zero`, and `grok-zero`.
+- Ground truth, verified against `origin/main` `e8658cb`: those are real, tested prototype doors (`PROBE.md` + CLI + launcher) that the founder had tested. They were correctly renamed to `*-zero` and kept.
+- Takeaway for next orchestrator: verify against `origin/main`, not a possibly stale local checkout, before judging scope or fabrication.
+
+### Next handoff
+
+- Do not merge from this branch. Founder review/merge is still pending across the draft PRs.
+- Keep the semantic split crisp: Skill Zero owns launcher-with-zero-skills behavior; Skill Heaven owns the runtime umbrella and Heaven direction branding; HH Index remains WIP.
+
+### Closeout (verified)
+
+- **All four draft PRs are CI-green; nothing merged.** [gaia-skill-tree#1507](https://github.com/gaia-research/gaia-skill-tree/pull/1507) is green on Vocabulary gate + Test/Build/Smoke; [gaia-research#165](https://github.com/gaia-research/gaia-research/pull/165) on Vocabulary gate + Build & Edge + Workers Build + Ledger; [gaia-skill-heaven#46](https://github.com/gaia-research/gaia-skill-heaven/pull/46) on build; [gaia-mcp#19](https://github.com/gaia-research/gaia-mcp/pull/19) on Node 22 + Node 24. All remain **draft** and founder-gated for review/merge.
+- **Scout-gap correction was verified and the historical record was fixed.** `codex-zero`, `hermes-zero`, and `grok-zero` were never future/lexicon-only inventions; they were real tested prototype doors already present on `gaia-skill-heaven` `origin/main` (`PROBE.md` + CLI + launcher). They were correctly renamed and kept. RFC [#1509](https://github.com/gaia-research/gaia-skill-tree/issues/1509) and the handover now say "existing tested prototype doors."
+- **Post-split CI gate fixes were narrow and complete.** Lexicon self-tests that hardcoded the pre-split world were updated: in `gaia-skill-tree`, "redefining a foreign term" now expects `floor -> gaia.zero` (not `gaia.heaven`) and "covers all five namespaces" became six; in `gaia-research`, "this HQ owns exactly [5]" became 6 including `gaia.zero`, and `LEXICON.md` was regenerated accordingly. Separately, `gaia-research` site build was fixed by removing a stray trailing comma in `components/MilimPet/tooltips.ts` that had produced an `undefined` `Tooltip[]` member.
+- **Homepage and README cleanup landed.** GitHub Pages references were repointed from `gaia-research.github.io/skill-heaven` to `/gaia-skill-heaven` in `gaia-research/README.md`, `gaia-skill-tree/README.md`, and the handover; the `gaia-mcp` alias homepage had already been repointed earlier. `gaia-skill-heaven` README examples now use public `--level` wording (not internal `--posture`), list the launcher-shipped commands `/skill-heaven`, `//skill-zero`, `//skill-hell`, `//skill-ultra`, and describe the final framing: Heaven = converge, Hell = explore, Ultra = auto-switch, Skill Zero = launch-time reduction.
+- **Verification sweep passed.** Fast scout + worker-sol confirmed marketplace `name=gaia-skill-heaven` and plugin `claude-zero` (the founder's specific concern — successfully migrated from `claude-heaven`); there are zero launcher-as-heaven leftovers across the repos; `skill-hell` code remains intact (`SESSION_DIR_PREFIX` unchanged); and the Heaven-inversion fixes are consistent across VISION / MISSION / app surfaces.
+- **Open nuance, explicitly out of scope for this rename:** README maps `level off -> product-floor` while core `LEVEL_ALIASES` maps `off -> floor`. That is a pre-existing posture/level mechanic documentation question for a later founder call, not a rename defect.
+
+---
+
 ## State Snapshot (2026-08-09, Roadmap v5 closeout and MCP 0.4.0 release-contract synchronization complete)
 
 ### TLDR
@@ -1617,7 +1690,7 @@ Rendered as `{status} {statusText[status]}` — so a chip reads "WIP EXPERIMENTA
 
 ⚠️ **The lexicon gate cannot catch this class of defect.** It flags *banned* and *parked* terms — terms someone registered. **Invented vocabulary is invisible to it.** This is the strongest argument for the human gate: CI was green on that page.
 
-Also ruled: **drop the `Gaia` prefix** — `Gaia Skill Tree` → **Skill Tree**, `Gaia Research` → **Research**, matching the ratified four-name story (**Tree · Heaven · Hell · Research**). `Skill Heaven` and `Skill Hell` keep `Skill` — that is the name, not a prefix. **Skill Hell's chip was explicitly NOT delegated** — `PLANNED` is wrong (it is *gated*), and the homepage already has a bespoke `🔥 HELL · GATED` treatment beside `☁ HEAVEN · SHIPS FIRST`.
+Also ruled: **drop the `Gaia` prefix** — `Gaia Skill Tree` → **Skill Tree**, `Gaia Research` → **Research**, matching the ratified four-name story (**Tree · Heaven · Hell · Research**). `Skill Heaven` and `Skill Hell` keep `Skill` — that is the name, not a prefix. **Skill Hell's chip was explicitly NOT delegated** — `PLANNED` is wrong (it is *gated*), and the homepage already has a bespoke `🔥 HELL · GATED` treatment beside `☁ HEAVEN · SHIPS FIRST`. *(Amended 2026-08-11 — Skill Zero rename: the story becomes **Tree · Skill Heaven [umbrella] · Skill Zero [launcher] · Hell · Research**; Heaven/Hell are Arbor axis summon directions, Skill Zero is the mode-neutral launcher.)*
 
 ### PR states at end of session
 
@@ -1633,7 +1706,7 @@ Also ruled: **drop the `Gaia` prefix** — `Gaia Skill Tree` → **Skill Tree**,
 
 ### About surface — what shipped
 
-Cards read **Skill Tree** (THE RECORD), **Research** (THE LABORATORY), **Skill Heaven** (THE RUNTIME), **Skill Hell** — unprefixed. The loop: Research measures → the Skill Tree records → Skill Heaven admits → the run produces new evidence. Framing line: *"It is a loop, not a stack."*
+Cards read **Skill Tree** (THE RECORD), **Research** (THE LABORATORY), **Skill Heaven** (THE RUNTIME), **Skill Hell** — unprefixed. The loop: Research measures → the Skill Tree records → Skill Heaven admits → the run produces new evidence. Framing line: *"It is a loop, not a stack."* *(Amended 2026-08-11 — Skill Zero rename: Skill Heaven is the runtime **umbrella**; its launcher is **Skill Zero**; Heaven/Hell are Arbor axis summon directions.)*
 
 **Hell renders INSIDE the Heaven card** — the nesting is what says "gated tier", so no disclaimer sentence is needed. Dashed border, hatched ground, lock glyph, role label `A GATED TIER OF SKILL HEAVEN`, chip `🔥 HELL · GATED`, and the nesting survives the mobile stack. **V5-4 held:** no repo or package name appears in any user-facing copy (grep-verified; the only hits are a source comment explaining the constraint).
 
@@ -1973,7 +2046,7 @@ The worker **rejected** creating a second file (`lexicon.mcp.json`), on the grou
 ### TLDR
 - **v5 is ratified.** 14 decisions ruled, 3 amended, 1 (V5-4) left deliberately open. PR **#1340** (`dev/gaia-v5-program-1-setup-eaf791` → `main`). v4 archived to `founder/handovers/archive/roadmaps/`.
 - **The three amendments matter more than the ratifications.** (a) **V5-2** — the ecosystem is *Skill Tree + Skill Heaven + Skill Hell*, Research is the laboratory; v5's *focus* is Heaven but it is not a ranked flagship. The Tree is **feature-complete for this cycle** until **Yggdrasil III** → Program 5 rescoped from ~$40 to a **~$20 maintenance lane**, arc total ~$204 → **~$184**. (b) **V5-8 escalated** — full six-namespace migration lands in **Arc I**; **`gaia.registry` REJECTED → `gaia.skills`** (same ruling as #1258, arriving from the vocabulary side); **two namespace HQs**. (c) **V5-12** — Ygg II remainder runs as ONE resumable PR with ONE founder review; **#1001 deferred to TM Index v2, August 2026** (founder is satisfied with Ygg II as shipped).
-- **V5-4 is OPEN on purpose and must stay that way.** Founder leans **four names: Tree · Heaven · Hell · Research**, with Skill Heaven as one package containing MCP + Skill Hell, and the Tree fanning out later (Canon Tree done; enterprise trees a packaged product with an enterprise-ready Heaven). **Resolution that keeps it free:** Program 7's About surface ships the four-name *public story* and **never names a repo or an npm package**. Topology can move without rewriting the page.
+- **V5-4 is OPEN on purpose and must stay that way.** Founder leans **four names: Tree · Heaven · Hell · Research**, with Skill Heaven as one package containing MCP + Skill Hell, and the Tree fanning out later (Canon Tree done; enterprise trees a packaged product with an enterprise-ready Heaven). **Resolution that keeps it free:** Program 7's About surface ships the four-name *public story* and **never names a repo or an npm package**. Topology can move without rewriting the page. *(Amended 2026-08-11 — Skill Zero rename: story evolves to **Tree · Skill Heaven [umbrella] · Skill Zero [launcher] · Hell · Research**; the launcher is carved out of Skill Heaven as Skill Zero; Heaven/Hell/Ultra are the Arbor axis.)*
 - **PRIVATE — not in the public roadmap (V5-9 ruled enterprise out of the public text):** Skill Hell is the **enterprise unlock**. Enterprise needs its own skill trees, sold packaged with an enterprise-ready Skill Heaven. Recorded here so the *why* behind Hell's design survives; do not write it into public copy.
 - **Ground-truth correction worth remembering: ALWAYS fetch remote `main` before trusting a local clone.** A scout read `/Users/marcotiongson/Documents/gaia-research` sitting on `staging`, 6 days stale, and reported `founder/lexicon.json` missing. It is live on `main`: **51 terms** (29 canonical / 13 parked / 9 banned), plus generated `founder/LEXICON.md`, `scripts/lexicon/check-lexicon.ts`, and **`.github/workflows/lexicon-ci.yml` already running green**. Marco caught it. Program 2 is a **restructure of a working system**, not a greenfield build.
 - **The `search_skills` ↔ `gaia_search` collision was already ruled** — `summon` is canonical with oracle **D4** and names `search_skills` as its partner tool. Only the enforcing `banned` entries are missing (#1338). **Ten minutes of work that permanently discharges the arc's only cross-lane dependency**, and the window exists exactly once because nothing is published.

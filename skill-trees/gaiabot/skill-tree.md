@@ -22,7 +22,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — gaiabot  ·  generated 2026-08-09
+GAIA SKILL TREE — gaiabot  ·  generated 2026-08-10
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -293,81 +293,10 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      ├─ · · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
      └─ · ○ /diff-content  (↑ see above)
 
-· ◆ firecrawl/firecrawl-skills  [4★]
-  ├─ · · firecrawl/firecrawl-build-scrape  [4★]
-  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]
-  │  ├─ · ○ /parse-html
-  │  └─ · ○ /extract-entities
-  ├─ · ○ firecrawl/firecrawl-build-search  [4★]  (↑ see above)
-  ├─ · ○ browser-use/browser-harness  [3★]
-  ├─ · · firecrawl/firecrawl-build-onboarding  [3★]
-  │  ├─ · ○ garrytan/document-generate  [3★]
-  │  └─ · ○ /tool-use
-  └─ · ○ firecrawl/firecrawl-research-index  [3★]
-
-· ◆ disler/agent-fusion  [4★]
-  ├─ · ○ disler/opinion  [2★]
-  ├─ · ○ disler/plan-synthesis  [2★]
-  └─ · ○ disler/auto-review  [2★]
-
 ══════════════════════════════════════════════════════════════════════
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
 ══════════════════════════════════════════════════════════════════════
 
-  · ◉ mvanhorn/last30days  [4★]
-    ├─ · · /ghostwrite
-    │  ├─ · · /research
-    │  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]
-    │  │  ├─ · ○ /summarize
-    │  │  └─ · ○ /cite-sources
-    │  ├─ · ○ garrytan/retro  [3★]
-    │  └─ · ○ /audience-model
-    ├─ · · /knowledge-harvest
-    │  ├─ · · firecrawl/firecrawl-build-scrape  [4★]
-    │  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]  (↑ see above)
-    │  │  ├─ · ○ /parse-html
-    │  │  └─ · ○ /extract-entities
-    │  ├─ · ○ /extract-entities  (↑ see above)
-    │  └─ · ○ /embed-text
-    ├─ · · /research  (↑ see above)
-    ├─ · · firecrawl/firecrawl-build-scrape  [4★]  (↑ see above)
-    └─ · ○ firecrawl/firecrawl-build-search  [4★]  (↑ see above)
-  · ◉ openai/few-shot-learning  [4★]
-  · ◉ k-dense-ai/torch-geometric  [4★]
-    ├─ · · ████████/huggingface-datasets
-    │  ├─ · ○ /generate-sql
-    │  ├─ · ○ /data-visualize
-    │  └─ · ○ /summarize
-    ├─ · ○ ████████/huggingface-llm-trainer
-    └─ · · /ml-pipeline
-       ├─ · · ████████/huggingface-datasets  (↑ see above)
-       ├─ · · garrytan/health  [2★]
-       │  ├─ · ○ upsonic/unittest-generator  [2★]
-       │  ├─ · ○ /code-execution
-       │  └─ · ○ /error-interpretation
-       └─ · ○ garrytan/design-html  [3★]
-  · ◉ dietrichgebert/ponytail  [4★]
-  · ◉ safishamsi/graphify  [4★]
-    ├─ · ○ /extract-entities
-    └─ · ○ /logical-inference
-  · ◉ k-dense-ai/deepchem  [4★]
-    ├─ · ○ /molecular-databases
-    ├─ · · ████████/huggingface-datasets
-    │  ├─ · ○ /generate-sql
-    │  ├─ · ○ /data-visualize
-    │  └─ · ○ /summarize
-    └─ · · /ml-pipeline
-       ├─ · · ████████/huggingface-datasets  (↑ see above)
-       ├─ · · garrytan/health  [2★]
-       │  ├─ · ○ upsonic/unittest-generator  [2★]
-       │  ├─ · ○ /code-execution
-       │  └─ · ○ /error-interpretation
-       └─ · ○ garrytan/design-html  [3★]
-  · ◉ addy-osmani/performance-optimization  [4★]
-  · ◉ k-dense-ai/pymc  [4★]
-  · ◉ stanfordnlp/dspy  [4★]
-    ├─ · ○ garrytan/benchmark  [3★]
-    └─ · ○ /generate-text
   · ◉ obra/subagent-driven-development  [4★]
     ├─ · · obra/executing-plans  [3★]
     │  ├─ · · obra/writing-plans  [4★]
@@ -381,51 +310,6 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
        ├─ · ○ garrytan/design-html  [3★]
        ├─ · ○ /diff-content
        └─ · ○ garrytan/benchmark  [3★]
-  · ◉ pbakaus/impeccable  [4★]
-  · ◉ obra/using-git-worktrees  [4★]
-    ├─ · ○ /code-execution
-    └─ · ○ /tool-use
-  · ◉ nextlevelbuilder/ui-ux-pro-max  [4★]
-
-══════════════════════════════════════════════════════════════════════
-Basics — basic-tier skills with no prerequisites, listed vertically (not as a single combined line).  ([N★] = top named-variant stars; blank = no named implementation.)
-══════════════════════════════════════════════════════════════════════
-
-  · ○ panniantong/agent-reach  [3★]
-  · ○ /autonomous-engineering-platform
-  · ○ anthropics/brand-guidelines  [3★]
-  · ○ gaia-research/ci-churn  [2★]
-  · ○ /clinical-data-retrieval
-  · ○ ████████/update-unique-churches
-  · ○ /cultural-localization
-  · ○ ████████/domain-modeling
-  · ○ ████████/attendees
-  · ○ ████████/export-attendees
-  · ○ ████████/triage-conference
-  · ○ ████████/ticket-transfer
-  · ○ ████████/evidence-attestation
-  · ○ laravel/upgrade-laravel-v13  [2★]
-  · ○ ruvnet/agentic-jujutsu  [2★]
-  · ○ ████████/financial-assistance
-  · ○ /image-generate
-  · ○ ████████/huggingface-vision-trainer
-  · ○ /pathway-ontology-retrieval
-  · ○ /prompt-caching
-  · ○ k-dense-ai/qiskit  [3★]
-  · ○ vercel-labs/vercel-react-best-practices  [3★]
-  · ○ oso95/scroll-world  [3★]
-  · ○ openai/self-consistency  [3★]
-  · ○ huggingface/semantic-cache  [2★]
-  · ○ ruvnet/stream-chain  [2★]
-  · ○ ████████/log-to-daily
-  · ○ k-dense-ai/scanpy  [3★]
-  · ○ ████████/codebase-design
-  · ○ anthropics/canvas-design  [2★]
-  · ○ /synthetic-data-generation
-  · ○ addy-osmani/test-driven-development  [2★]
-  · ○ /time-series-forecasting
-  · ○ getagentseal/codeburn  [2★]
-  · ○ ████████/resend-conference-emails-carefully-with-smtp
 ```
 
 ## Pending Combinations

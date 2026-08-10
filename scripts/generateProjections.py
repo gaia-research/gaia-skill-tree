@@ -374,6 +374,18 @@ def main():
                         named_entry_level[e["id"]] = e.get("level")
         named_level_map = build_named_level_map(nidx)
 
+    # Inverse of the named index: a named-form id ("handle/slug") -> the
+    # generic canonical id it implements. User trees store unlockedSkills by
+    # named id, but the skill graph (nodes + prerequisites) is keyed by generic
+    # id — normalizing owned ids through this map is what makes the per-user
+    # ✓/· markers and the #1489 upgrade-path pruning actually match the tree.
+    named_to_generic = {}
+    for _generic_id, _entries in nidx.get("buckets", {}).items():
+        for _e in _entries:
+            _nid = _e.get("id")
+            if _nid:
+                named_to_generic[_nid] = _generic_id
+
     # Populate module-level maps used by _sorted_ultimates callback.
     # These read branch/ordering from the EMITTED named index rather than
     # re-deriving from skill.type (Ygg II single-authority principle).
@@ -703,8 +715,15 @@ def main():
                     f.write("_No skills unlocked yet._\n")
                 f.write("\n---\n\n")
 
-                # Upgrade path tree — routed through shared render_tree contract
-                unlocked_ids = {us.get("skillId") for us in unlocked}
+                # Upgrade path tree — routed through shared render_tree contract.
+                # Normalize owned ids to generic canonical ids so ownership
+                # matches the generic-keyed graph (unlockedSkills store named
+                # ids like "handle/slug"; fall back to the raw id when a skill
+                # has no named form / is already generic).
+                unlocked_ids = {
+                    named_to_generic.get(us.get("skillId"), us.get("skillId"))
+                    for us in unlocked
+                }
                 f.write("## Upgrade Path\n\n")
                 f.write("```\n")
                 tree_body = render_tree(
