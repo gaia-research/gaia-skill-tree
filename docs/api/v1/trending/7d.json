@@ -1,22 +1,8 @@
 {
   "window": "7d",
-  "generatedAt": "2026-08-10T02:56:59Z",
+  "generatedAt": "2026-08-10T13:38:28Z",
   "firstRun": false,
   "skills": [
-    {
-      "id": "firecrawl/firecrawl-research-index",
-      "name": "Firecrawl Research Index",
-      "level": "3★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 150.32,
-      "overallTrustGrade": "A",
-      "trendingScore": 94.33,
-      "tmDelta": 74.62,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
-      }
-    },
     {
       "id": "ruvnet/hive-mind",
       "name": "Hive Mind",
@@ -102,7 +88,7 @@
       }
     }
   ],
-  "totalTrending": 7,
+  "totalTrending": 6,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }
