@@ -1,13 +1,13 @@
 {
   "version": "7.3.1",
-  "generatedAt": "2026-08-10T15:39:45Z",
+  "generatedAt": "2026-08-10T15:03:24Z",
   "summary": {
-    "total": 230,
+    "total": 232,
     "S": 5,
     "A": 63,
     "B": 68,
     "C": 82,
-    "ungraded": 12,
+    "ungraded": 14,
     "floor": 0,
     "up": 29
   },
@@ -3746,6 +3746,38 @@
         "peer-review": 30.0
       },
       "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "supabase/supabase",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "supabase/supabase-postgres-best-practices",
+      "tm": 5.0,
+      "grade": "ungraded",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "1★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false,
       "branch": "standard"
     },
     {

@@ -28988,6 +28988,90 @@
         "contractVersion": "gaia-public-v1"
       }
     ],
+    "postgres-best-practices": [
+      {
+        "id": "supabase/supabase-postgres-best-practices",
+        "name": "Supabase Postgres Best Practices",
+        "contributor": "supabase",
+        "origin": false,
+        "genericSkillRef": "postgres-best-practices",
+        "status": "named",
+        "level": "2★",
+        "description": "supabase named skill for supabase-postgres-best-practices",
+        "title": "Supabase Postgres Best Practices",
+        "createdAt": "2026-08-10",
+        "updatedAt": "2026-08-10",
+        "timeline": [
+          {
+            "timestamp": "2026-08-10T15:02:55Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill supabase/supabase-postgres-best-practices"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 5.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "supabase": [
+      {
+        "id": "supabase/supabase",
+        "name": "Supabase",
+        "contributor": "supabase",
+        "origin": false,
+        "genericSkillRef": "supabase",
+        "status": "named",
+        "level": "2★",
+        "description": "supabase named skill for supabase core integration",
+        "title": "Supabase",
+        "createdAt": "2026-08-10",
+        "updatedAt": "2026-08-10",
+        "timeline": [
+          {
+            "timestamp": "2026-08-10T15:02:59Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill supabase/supabase"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 5.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
     "generate-test": [
       {
         "id": "upsonic/unittest-generator",
@@ -35946,6 +36030,10 @@
     ],
     "stanfordnlp": [
       "stanfordnlp/dspy"
+    ],
+    "supabase": [
+      "supabase/supabase-postgres-best-practices",
+      "supabase/supabase"
     ],
     "upsonic": [
       "upsonic/unittest-generator"

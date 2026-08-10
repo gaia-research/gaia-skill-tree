@@ -1117,6 +1117,13 @@
           <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
+      <node id="postgres-best-practices" label="postgres-best-practices">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="prd-generation" label="PRD Generation">
         <attvalues>
           <attvalue for="level" value="" />
@@ -1566,6 +1573,13 @@
         </attvalues>
       </node>
       <node id="summarize" label="Summarize">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
+      <node id="supabase" label="supabase">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />

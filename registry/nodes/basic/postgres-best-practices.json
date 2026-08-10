@@ -1,0 +1,39 @@
+{
+  "id": "postgres-best-practices",
+  "name": "postgres-best-practices",
+  "type": "basic",
+  "description": "Guiding agents to design, migrate, secure, tune, and operate PostgreSQL databases using robust schema, SQL, RLS, indexing, and performance practices.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [
+    {
+      "source": "https://github.com/supabase/agent-skills/blob/main/skills/supabase-postgres-best-practices/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-08-10",
+      "type": "self-attestation",
+      "grade": "C"
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-08-10",
+  "updatedAt": "2026-08-10",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-08-10T15:02:43Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill postgres-best-practices"
+    },
+    {
+      "timestamp": "2026-08-10T15:03:05Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/supabase/agent-skills/blob/main/skills/supabase-postgres-best-practices/SKILL.md (type: self-attestation)"
+    }
+  ],
+  "verification": {
+    "firstEvidenceAt": "2026-08-10T15:03:05Z"
+  }
+}
