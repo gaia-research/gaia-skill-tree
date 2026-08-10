@@ -1,0 +1,40 @@
+{
+  "id": "supabase/supabase",
+  "name": "Supabase",
+  "contributor": "supabase",
+  "level": "2★",
+  "type": "basic",
+  "status": "named",
+  "trustMagnitude": 5.0,
+  "overallTrustGrade": null,
+  "branch": "standard",
+  "rankWord": "Named",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/supabase/supabase.json",
+    "contributor": "/api/v1/contributors/supabase.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "Supabase",
+  "genericSkillRef": "supabase",
+  "origin": false,
+  "description": "supabase named skill for supabase core integration",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "timeline": [
+    {
+      "timestamp": "2026-08-10T15:02:59Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added named skill supabase/supabase"
+    }
+  ]
+}

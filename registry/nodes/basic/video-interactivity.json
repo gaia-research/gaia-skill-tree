@@ -1,0 +1,22 @@
+{
+  "id": "video-interactivity",
+  "name": "video-interactivity",
+  "type": "basic",
+  "description": "Designing code-defined video templates and compositions to support visual manipulation, timeline interactivity, and direct in-studio editing.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-08-10",
+  "updatedAt": "2026-08-10",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-08-10T14:47:25Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill video-interactivity"
+    }
+  ]
+}

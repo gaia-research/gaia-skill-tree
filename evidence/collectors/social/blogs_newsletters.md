@@ -277,3 +277,17 @@ This report documents the social signals (developer articles, blogs, newsletters
 ## 40. `disler/agent-fusion` — Ji Chi (LinkedIn)
 *   **Article URL:** [https://www.linkedin.com/posts/jichi_i-made-a-small-codex-skill-called-ask-n-times-activity-7478155793599492096-PrM4](https://www.linkedin.com/posts/jichi_i-made-a-small-codex-skill-called-ask-n-times-activity-7478155793599492096-PrM4)
 *   **Grade:** C
+
+### `programmatic-video-composition` — self-attestation
+* **Skill:** `programmatic-video-composition`
+* **Source:** https://github.com/remotion-dev/skills/blob/main/skills/remotion-best-practices/SKILL.md
+* **Claimed evidence type:** self-attestation
+* **Attribution scope:** standalone
+
+
+### `postgres-best-practices` — self-attestation
+* **Skill:** `postgres-best-practices`
+* **Source:** https://github.com/supabase/agent-skills/blob/main/skills/supabase-postgres-best-practices/SKILL.md
+* **Claimed evidence type:** self-attestation
+* **Attribution scope:** standalone
+

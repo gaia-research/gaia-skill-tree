@@ -1,0 +1,25 @@
+{
+  "id": "remotion-dev/remotion-best-practices",
+  "name": "Video Composition",
+  "contributor": "remotion-dev",
+  "description": "Guiding agents to create, organize, and render code-defined video compositions using programmatic frameworks across the full workflow from scaffolding to render.",
+  "version": "1.0.0",
+  "capstone": "remotion-dev/remotion-best-practices",
+  "suites": [],
+  "standalones": [
+    "remotion-dev/remotion-best-practices",
+    "remotion-dev/remotion-captions",
+    "remotion-dev/remotion-create",
+    "remotion-dev/remotion-docs",
+    "remotion-dev/remotion-interactivity",
+    "remotion-dev/remotion-maps",
+    "remotion-dev/remotion-markup",
+    "remotion-dev/remotion-multimedia",
+    "remotion-dev/remotion-render",
+    "remotion-dev/remotion-saas",
+    "remotion-dev/remotion-studio",
+    "remotion-dev/remotion-upgrade"
+  ],
+  "createdAt": "2026-08-10",
+  "updatedAt": "2026-08-10"
+}

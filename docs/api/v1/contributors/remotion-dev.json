@@ -1,0 +1,224 @@
+{
+  "handle": "remotion-dev",
+  "namedSkills": [
+    {
+      "id": "remotion-dev/remotion-best-practices",
+      "name": "Remotion Best Practices",
+      "level": "2★",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": null,
+      "contributor": "remotion-dev",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/remotion-dev/remotion-best-practices.json"
+      },
+      "genericSkillRef": "video-composition",
+      "suiteComponents": [
+        "remotion-dev/remotion-captions",
+        "remotion-dev/remotion-create",
+        "remotion-dev/remotion-docs",
+        "remotion-dev/remotion-interactivity",
+        "remotion-dev/remotion-maps",
+        "remotion-dev/remotion-markup",
+        "remotion-dev/remotion-multimedia",
+        "remotion-dev/remotion-render",
+        "remotion-dev/remotion-saas",
+        "remotion-dev/remotion-studio",
+        "remotion-dev/remotion-upgrade"
+      ]
+    },
+    {
+      "id": "remotion-dev/remotion-captions",
+      "name": "Remotion Captions",
+      "level": "2★",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": null,
+      "contributor": "remotion-dev",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/remotion-dev/remotion-captions.json"
+      },
+      "genericSkillRef": "video-captions"
+    },
+    {
+      "id": "remotion-dev/remotion-create",
+      "name": "Remotion Create",
+      "level": "2★",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": null,
+      "contributor": "remotion-dev",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/remotion-dev/remotion-create.json"
+      },
+      "genericSkillRef": "video-scaffolding"
+    },
+    {
+      "id": "remotion-dev/remotion-docs",
+      "name": "Remotion Docs",
+      "level": "2★",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": null,
+      "contributor": "remotion-dev",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/remotion-dev/remotion-docs.json"
+      },
+      "genericSkillRef": "wiki-search"
+    },
+    {
+      "id": "remotion-dev/remotion-interactivity",
+      "name": "Remotion Interactivity",
+      "level": "2★",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": null,
+      "contributor": "remotion-dev",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/remotion-dev/remotion-interactivity.json"
+      },
+      "genericSkillRef": "video-interactivity"
+    },
+    {
+      "id": "remotion-dev/remotion-maps",
+      "name": "Remotion Maps",
+      "level": "2★",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": null,
+      "contributor": "remotion-dev",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/remotion-dev/remotion-maps.json"
+      },
+      "genericSkillRef": "map-animation"
+    },
+    {
+      "id": "remotion-dev/remotion-markup",
+      "name": "Remotion Markup",
+      "level": "2★",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": null,
+      "contributor": "remotion-dev",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/remotion-dev/remotion-markup.json"
+      },
+      "genericSkillRef": "timeline-animation"
+    },
+    {
+      "id": "remotion-dev/remotion-multimedia",
+      "name": "Remotion Multimedia",
+      "level": "2★",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": null,
+      "contributor": "remotion-dev",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/remotion-dev/remotion-multimedia.json"
+      },
+      "genericSkillRef": "generative-media"
+    },
+    {
+      "id": "remotion-dev/remotion-render",
+      "name": "Remotion Render",
+      "level": "2★",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": null,
+      "contributor": "remotion-dev",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/remotion-dev/remotion-render.json"
+      },
+      "genericSkillRef": "video-rendering"
+    },
+    {
+      "id": "remotion-dev/remotion-saas",
+      "name": "Remotion SaaS",
+      "level": "2★",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": null,
+      "contributor": "remotion-dev",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/remotion-dev/remotion-saas.json"
+      },
+      "genericSkillRef": "video-saas"
+    },
+    {
+      "id": "remotion-dev/remotion-studio",
+      "name": "Remotion Studio",
+      "level": "2★",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": null,
+      "contributor": "remotion-dev",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/remotion-dev/remotion-studio.json"
+      },
+      "genericSkillRef": "video-preview"
+    },
+    {
+      "id": "remotion-dev/remotion-upgrade",
+      "name": "Remotion Upgrade",
+      "level": "2★",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": null,
+      "contributor": "remotion-dev",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/remotion-dev/remotion-upgrade.json"
+      },
+      "genericSkillRef": "framework-upgrade"
+    }
+  ],
+  "namedSkillsCount": 12,
+  "topSkill": {
+    "id": "remotion-dev/remotion-best-practices",
+    "level": "2★",
+    "trustMagnitude": 0.0
+  },
+  "prestigeScore": 0.0,
+  "gradeDistribution": {
+    "ungraded": 12
+  },
+  "_links": {
+    "self": "/api/v1/contributors/remotion-dev.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}
