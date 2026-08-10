@@ -770,16 +770,46 @@ EOF
 
   <p style="color:var(--muted);margin-bottom:18px">You run each phase manually. The pipeline operates on <code>evidence/by-type/</code> files — it never touches <code>registry/</code>. Each phase produces review artifacts; you decide what to approve.</p>
 
+  <div class="card warn">
+    <div class="card-title warn">Phase 0 — ev-discovery: find Stage-2 evidence <em style="font-weight:400;text-transform:none">(skippable — run only on declared need)</em></div>
+    <p style="font-size:13.5px;color:var(--muted);margin-bottom:10px">Phase 0 is the <strong>only</strong> phase that searches the web for new evidence. Skip it for a routine Stage-1 intake. Run it when you need <code>benchmark-result</code>, <code>arxiv</code>, <code>peer-review</code>, or richer <code>social-signal</code> rows — e.g. when trying to promote a skill to 3★+.</p>
+    <div class="callout note" style="background:rgba(250,204,21,0.05);border-color:rgba(250,204,21,0.3);">
+      <span class="icon" style="color:var(--warn)">⚠</span>
+      <span>Requires <code>FIRECRAWL_API_KEY</code> in your environment. If absent, skip this phase entirely.</span>
+    </div>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot" style="background:var(--warn)"></div>bash — discover Stage-2 evidence for one skill</div>
+      <pre><span class="cmt"># Confirm key is set</span>
+<span class="cmd">echo</span> <span class="val">$FIRECRAWL_API_KEY</span>
+
+<span class="cmt"># Run discovery — declare the evidence types you need</span>
+<span class="cmt"># Valid Stage-2 types: benchmark-result, arxiv, peer-review, social-signal</span>
+<span class="cmd">gaia</span> <span class="arg">dev discover</span> \
+  <span class="flag">--skill</span> <span class="val">contributor/skill-id</span> \
+  <span class="flag">--repo</span> <span class="val">"https://github.com/owner/repo"</span> \
+  <span class="flag">--types</span> <span class="val">benchmark-result,arxiv,peer-review,social-signal</span> \
+  <span class="flag">--output</span> <span class="val">evidence/discovery/contributor--skill-id.md</span>
+
+<span class="cmt"># Review discovered rows — do NOT commit them yet</span>
+<span class="cmd">cat</span> <span class="val">evidence/discovery/contributor--skill-id.md</span></pre>
+    </div>
+    <p style="font-size:13px;color:var(--muted);margin-top:12px"><strong style="color:var(--warn)">Benchmark candidates — special rule:</strong> if discovery finds a vendor benchmark page, it becomes a <em>candidate</em> for Phase 2B, not a scoring row. It only scores after: (1) you promote it in <code>registry/benchmark-sources.json</code>, (2) reproducibility fields are verified, (3) you approve it in Phase 2B. After reviewing, append the rows you want into the appropriate source input files so Phase 1 picks them up.</p>
+  </div>
+
   <div class="card info">
     <div class="card-title info">Phase 1 — ev-collection: build the type-first evidence lake</div>
+    <div class="callout note" style="margin-bottom:12px">
+      <span class="icon">⚠</span>
+      <span><strong>This runs on the entire registry — not just your new skill.</strong> <code>generate_source_dump.py</code> reads all named-skill evidence rows and all collector channels for every skill in <code>registry/named/</code>. You are refreshing the whole lake. Your new skill's rows will appear in the output alongside all other skills. That is expected and correct.</span>
+    </div>
     <div class="code-block">
       <div class="cb-label"><div class="dot"></div>bash</div>
-      <pre><span class="cmt"># Generate source dump — writes evidence/by-type/*.md</span>
+      <pre><span class="cmt"># Generates evidence/by-type/*.md — reads the WHOLE registry</span>
 <span class="cmd">python3</span> <span class="arg">evidence/scripts/generate_source_dump.py</span> \
   <span class="flag">--output-dir</span> <span class="val">evidence</span> \
   <span class="flag">--by-type-dir</span> <span class="val">evidence/by-type</span>
 
-<span class="cmt"># Compile unified lake from by-type files</span>
+<span class="cmt"># Compiles unified lake from by-type files</span>
 <span class="cmd">python3</span> <span class="arg">evidence/scripts/compile_data_lake.py</span> \
   <span class="flag">--sources</span> <span class="val">evidence/by-type</span> \
   <span class="flag">--lake</span> <span class="val">evidence</span>
@@ -1221,6 +1251,9 @@ print(hashlib.sha256(json.dumps(d,sort_keys=True,separators=(',',':')).encode())
 <span class="cmd">gh</span> <span class="arg">pr create</span> <span class="flag">--draft --title</span> <span class="val">"..."</span> <span class="flag">--body-file</span> <span class="val">/tmp/pr-body.md</span>
 
 <span class="cmt"># ── Phase 4: ev-pipeline ─────────────────────────────────────────</span>
+<span class="cmt"># Phase 0 (skippable — only if you need Stage-2 evidence)</span>
+<span class="cmd">gaia</span> <span class="arg">dev discover</span> <span class="flag">--skill</span> <span class="val">contributor/skill</span> <span class="flag">--repo</span> <span class="val">"https://github.com/owner/repo"</span> <span class="flag">--types</span> <span class="val">arxiv,peer-review,social-signal</span> <span class="flag">--output</span> <span class="val">evidence/discovery/contributor--skill.md</span>
+<span class="cmt"># Phase 1 (whole-registry lake rebuild)</span>
 <span class="cmd">python3</span> <span class="arg">evidence/scripts/generate_source_dump.py</span> <span class="flag">--output-dir</span> <span class="val">evidence</span> <span class="flag">--by-type-dir</span> <span class="val">evidence/by-type</span>
 <span class="cmd">python3</span> <span class="arg">evidence/scripts/compile_data_lake.py</span> <span class="flag">--sources</span> <span class="val">evidence/by-type</span> <span class="flag">--lake</span> <span class="val">evidence</span>
 <span class="cmd">gh</span> <span class="arg">api</span> <span class="val">repos/OWNER/REPO</span> <span class="flag">--jq</span> <span class="val">'.stargazers_count'</span>     <span class="cmt"># phase 2 star check</span>
