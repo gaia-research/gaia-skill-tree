@@ -227,6 +227,12 @@
       <div class="abstract-content">skills.sh ranks agent skills by install count. We ran its top 100 non-Microsoft entries through Gaia's mechanical curation pipeline — embedding similarity, deduplication, precedence rules, and human L4 review. The result: only 2 contributors cleared our bar. This post shows the full funnel, flags a suspicious cluster, and introduces the Remotion suite we found along the way.
 </div>
     </section>
+<p>Honestly, this started as a simple question: <em>what are the best agent skills out there that we haven't curated yet?</em> Gaia's registry is deliberate and slow by design — we don't crawl and import; we evaluate. But the flip side of that discipline is genuine curiosity. Are we missing something? Is there a skill that 400,000 agents are using that we've never looked at? That felt worth knowing.</p>
+
+<p>So we went to skills.sh — the closest thing the agent skills ecosystem has to a public leaderboard — and pulled the top 100 non-Microsoft entries. Fresh eyes. No assumptions. We genuinely wanted to find things worth adding.</p>
+
+<p>What we found instead was a lesson in what install count actually measures. The leaderboard isn't a ranking of quality, usefulness, or originality. It's a ranking of distribution. And distribution, it turns out, is trivially gameable when you're a large SaaS platform that bundles skills with your product and counts every agent initialization as an install. The top of the leaderboard isn't the best skills — it's just the most-bundled ones. That distinction matters enormously if you're trying to curate.</p>
+
 <h2>The Funnel</h2>
 <p>We ingested 77 candidate skills from the skills.sh top-100 non-Microsoft leaderboard (75 successfully fetched). Every row went through embedding similarity checks against Gaia's existing 321-node registry, followed by a mechanical deduplication pass, and then L4 human review with precedence and attribution rules applied.</p>
 <p>Here's how the funnel collapsed:</p>
