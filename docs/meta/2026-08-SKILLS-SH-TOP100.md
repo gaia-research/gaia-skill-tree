@@ -1,5 +1,5 @@
 ---
-title: "99 Out of 100 Aren't Good Enough"
+title: "98 Out of 100 Aren't Good Enough"
 author: "Gaia Research"
 summary: "We ran the skills.sh top-100 leaderboard through our curation pipeline. Here's what survived — and what the numbers say about skills marketplaces."
 abstract: |
