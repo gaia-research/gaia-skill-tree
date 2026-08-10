@@ -184,9 +184,35 @@ For strategies A–D and F, L4 means:
 ```bash
 git checkout -b review/meta/<handle>--<skill>
 gaia push --from-file <packet>.json --dry-run   # preview
-gaia push --from-file <packet>.json             # opens intake issue
+gaia push --from-file <packet>.json             # opens intake issue (auto-labels: intake + needs-triage)
 git add . && git commit -m "feat(intake): ..." && git push -u origin <branch>
 gh pr create --draft --title "..." --body-file /tmp/pr-body.md
+```
+
+### `intake:*` label lifecycle — machine gates, applied in order
+
+| Label | Applied to | Who applies | What it triggers |
+|---|---|---|---|
+| `intake` | Issue + PR | Auto (`gaia push`) or you | Routes into the intake queue |
+| `needs-triage` | Issue | Auto (`gaia push`) | Marks as awaiting review |
+| `intake:topology-approved` | Issue | **Maintainer only** | Workflow fires: adds `intake:evidence-review`, removes `needs-triage`, posts handoff comment |
+| `intake:evidence-review` | Issue | Auto (workflow) | Signals agent to prepare Stage-1 seed + Phase-0 plan |
+| `intake:evidence-ready` | Issue | Agent / you | Signals evidence plan is ready for human approval |
+| `intake:evidence-approved` | Issue | **Maintainer only** | Workflow fires: opens single draft `review/meta/intake-<N>` PR |
+| `intake:rejected` | Issue | **Maintainer only** | Closes intake; no automation fires |
+| `human-proposal` | PR | Auto (triage workflow) | Routes non-bot PR for human review |
+| `needs-review` | PR | Auto (triage workflow) | Signals PR needs a reviewer |
+
+> **Gate constraint:** `intake:evidence-approved` requires *both* `intake:evidence-review` and `intake:evidence-ready` to already be present — the workflow errors if either is missing. `intake:topology-approved` and `intake:evidence-approved` are rejected by the workflow if the actor is not `admin`/`maintain`/`write`.
+
+```bash
+# Auto-triage usually applies PR labels, but if not:
+gh pr edit <PR> --add-label "intake" --add-label "human-proposal" --add-label "needs-review"
+
+# When ready to approve topology (maintainer only):
+gh issue edit <ISSUE> --add-label "intake:topology-approved"
+# ↑ fires intake-approval.yml — watch it:
+gh run list --workflow=intake-approval.yml
 ```
 
 ---

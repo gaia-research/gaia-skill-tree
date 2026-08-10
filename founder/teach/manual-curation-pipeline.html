@@ -748,17 +748,40 @@ EOF
   </div>
 
   <div class="card">
-    <div class="card-title">Step 4 — Apply labels</div>
-    <div class="code-block">
-      <div class="cb-label"><div class="dot"></div>bash</div>
-      <pre><span class="cmt"># First read what labels exist</span>
-<span class="cmd">gh</span> <span class="arg">label list</span> <span class="flag">--limit 200 --json</span> <span class="val">name,description</span> \
-  <span class="flag">--jq</span> <span class="val">'.[] | "\(.name) — \(.description)"'</span>
-
-<span class="cmt"># Apply appropriate labels (adjust to what the repo actually has)</span>
-<span class="cmd">gh</span> <span class="arg">pr edit</span> <span class="val">&lt;PR_NUMBER&gt;</span> \
+    <div class="card-title">Step 4 — Apply labels to the PR and the intake issue</div>
+    <p style="font-size:13.5px;color:var(--muted);margin-bottom:10px">The <code>intake:*</code> labels are <strong>machine gates</strong> — the <code>intake-approval.yml</code> workflow watches for them and fires automatically. Apply them in order; do not skip ahead.</p>
+    <table>
+      <thead><tr><th>Label</th><th>Applied to</th><th>Who applies</th><th>What it triggers</th></tr></thead>
+      <tbody>
+        <tr><td><code>intake</code></td><td>Issue + PR</td><td>Auto (<code>gaia push</code>) or you</td><td>Routes into the intake queue</td></tr>
+        <tr><td><code>needs-triage</code></td><td>Issue</td><td>Auto (<code>gaia push</code>)</td><td>Marks it as awaiting review</td></tr>
+        <tr><td><code>intake:topology-approved</code></td><td>Issue</td><td>Maintainer only</td><td>Fires workflow: adds <code>intake:evidence-review</code>, removes <code>needs-triage</code>, posts handoff comment</td></tr>
+        <tr><td><code>intake:evidence-review</code></td><td>Issue</td><td>Auto (workflow)</td><td>Signals agent to prepare Stage-1 seed + Phase-0 plan</td></tr>
+        <tr><td><code>intake:evidence-ready</code></td><td>Issue</td><td>Agent / you</td><td>Signals evidence plan is ready for human approval</td></tr>
+        <tr><td><code>intake:evidence-approved</code></td><td>Issue</td><td>Maintainer only</td><td>Fires workflow: opens the single draft <code>review/meta/intake-&lt;N&gt;</code> PR</td></tr>
+        <tr><td><code>intake:rejected</code></td><td>Issue</td><td>Maintainer only</td><td>Closes intake; no promotion automation fires</td></tr>
+        <tr><td><code>human-proposal</code></td><td>PR</td><td>Auto (triage workflow)</td><td>Routes non-bot PRs for human review</td></tr>
+        <tr><td><code>needs-review</code></td><td>PR</td><td>Auto (triage workflow)</td><td>Signals PR needs a reviewer</td></tr>
+      </tbody>
+    </table>
+    <div class="callout note" style="margin-top:10px">
+      <span class="icon">ℹ</span>
+      <span><code>intake:topology-approved</code> and <code>intake:evidence-approved</code> are <strong>maintainer-only</strong> — the workflow checks your repo permission and rejects the label if you're not <code>admin</code>, <code>maintain</code>, or <code>write</code>. Also: <code>intake:evidence-approved</code> requires <em>both</em> <code>intake:evidence-review</code> and <code>intake:evidence-ready</code> to be present or the workflow errors.</span>
+    </div>
+    <div class="code-block" style="margin-top:12px">
+      <div class="cb-label"><div class="dot"></div>bash — label the PR (auto-triage usually does this, but if not:)</div>
+      <pre><span class="cmd">gh</span> <span class="arg">pr edit</span> <span class="val">&lt;PR_NUMBER&gt;</span> \
   <span class="flag">--add-label</span> <span class="val">"intake"</span> \
-  <span class="flag">--add-label</span> <span class="val">"curation"</span></pre>
+  <span class="flag">--add-label</span> <span class="val">"human-proposal"</span> \
+  <span class="flag">--add-label</span> <span class="val">"needs-review"</span>
+
+<span class="cmt"># Verify labels landed correctly</span>
+<span class="cmd">gh</span> <span class="arg">pr view</span> <span class="val">&lt;PR_NUMBER&gt;</span> <span class="flag">--json</span> <span class="val">labels</span> <span class="flag">--jq</span> <span class="val">'.labels[].name'</span>
+
+<span class="cmt"># When you (as maintainer) are ready to approve the topology:</span>
+<span class="cmd">gh</span> <span class="arg">issue edit</span> <span class="val">&lt;ISSUE_NUMBER&gt;</span> <span class="flag">--add-label</span> <span class="val">"intake:topology-approved"</span>
+<span class="cmt"># ↑ This fires intake-approval.yml automatically — it adds intake:evidence-review</span>
+<span class="cmt">#   and removes needs-triage. Watch it at: gh run list --workflow=intake-approval.yml</span></pre>
     </div>
   </div>
 
@@ -1245,9 +1268,15 @@ print(hashlib.sha256(json.dumps(d,sort_keys=True,separators=(',',':')).encode())
 <span class="cmt"># ── Phase 3: Push + PR ───────────────────────────────────────────</span>
 <span class="cmd">git</span> <span class="arg">checkout</span> <span class="flag">-b</span> <span class="val">review/meta/handle--skill</span>
 <span class="cmd">gaia</span> <span class="arg">push</span> <span class="flag">--from-file</span> <span class="val">&lt;packet&gt;.json</span> <span class="flag">--dry-run</span>
-<span class="cmd">gaia</span> <span class="arg">push</span> <span class="flag">--from-file</span> <span class="val">&lt;packet&gt;.json</span>
+<span class="cmd">gaia</span> <span class="arg">push</span> <span class="flag">--from-file</span> <span class="val">&lt;packet&gt;.json</span>           <span class="cmt"># auto-labels issue: intake + needs-triage</span>
 <span class="cmd">git</span> <span class="arg">add</span> <span class="val">.</span> <span class="arg">&amp;&amp; git commit -m "feat(intake): ..."</span> <span class="arg">&amp;&amp; git push -u origin &lt;branch&gt;</span>
 <span class="cmd">gh</span> <span class="arg">pr create</span> <span class="flag">--draft --title</span> <span class="val">"..."</span> <span class="flag">--body-file</span> <span class="val">/tmp/pr-body.md</span>
+<span class="cmt"># PR labels (auto-triage usually handles; if not):</span>
+<span class="cmd">gh</span> <span class="arg">pr edit</span> <span class="val">&lt;PR&gt;</span> <span class="flag">--add-label</span> <span class="val">"intake"</span> <span class="flag">--add-label</span> <span class="val">"human-proposal"</span> <span class="flag">--add-label</span> <span class="val">"needs-review"</span>
+<span class="cmt"># Approve topology when ready (maintainer only — fires intake-approval.yml):</span>
+<span class="cmd">gh</span> <span class="arg">issue edit</span> <span class="val">&lt;ISSUE&gt;</span> <span class="flag">--add-label</span> <span class="val">"intake:topology-approved"</span>
+<span class="cmt"># After evidence-ready is set, approve evidence (maintainer only — opens promotion PR):</span>
+<span class="cmd">gh</span> <span class="arg">issue edit</span> <span class="val">&lt;ISSUE&gt;</span> <span class="flag">--add-label</span> <span class="val">"intake:evidence-approved"</span>
 
 <span class="cmt"># ── Phase 4: ev-pipeline ─────────────────────────────────────────</span>
 <span class="cmt"># Phase 0 (skippable — only if you need Stage-2 evidence)</span>
