@@ -12,6 +12,8 @@ description: >-
 version: 2.0.0
 ---
 
+> **Have one repo URL and want full automation?** Run [/gaia-quick-curate](../gaia-quick-curate/SKILL.md) — 2 human gates, auto-merge. This document is the **manual reference** explaining what runs inside each gate.
+
 # gaia-full-pipeline
 
 Orchestrates the complete curation lifecycle. Each phase delegates to its canonical skill — this skill is the **routing layer**, not the implementation. Read the referenced skill for the exact commands at each phase.
