@@ -1,0 +1,12 @@
+{
+  "type": "bar",
+  "caption": "Figure 2. Source composition of the 77 input candidates by hostRepository. open.feishu.cn and larksuite/cli are two surface identities for the same ByteDance product (Feishu/Lark), collectively contributing 65% of all input candidates. mattpocock/skills entries were rejected as exact duplicates of skills already in the Gaia registry. remotion-dev and supabase were the only contributors to clear the L4 human review gate.",
+  "labels": ["open.feishu.cn", "larksuite/cli", "mattpocock/skills", "vercel-labs/*", "remotion-dev", "supabase", "Other"],
+  "datasets": [
+    {
+      "label": "Candidate count",
+      "color": "#6366f1",
+      "data": [27, 23, 10, 3, 1, 2, 11]
+    }
+  ]
+}

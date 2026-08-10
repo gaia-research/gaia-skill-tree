@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-05",
+  "generatedAt": "2026-08-10",
   "schema": "gaia-badges-registry/2",
   "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The site Worker at worker/index.js handles /badges/<handle>/<file>.svg (the real SVGs live at /badges/_assets/<handle>/<file>.svg) and serves the `validating\u2026` SVG (docs/badges/not-found.svg) when the `?repo=` query string doesn't match a repo listed here. Schema v2 adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant.",
   "contributors": {
@@ -677,13 +677,16 @@
     },
     "gsd-build": {
       "repos": [
-        "gsd-build/get-shit-done"
+        "gsd-build/get-shit-done",
+        "open-gsd/gsd-core"
       ],
       "skillsByRepo": {
         "gsd-build/get-shit-done": [
+          "gsd-build/get-shit-done"
+        ],
+        "open-gsd/gsd-core": [
           "gsd-build/discuss-phase",
           "gsd-build/execute-phase",
-          "gsd-build/get-shit-done",
           "gsd-build/plan-phase",
           "gsd-build/ship",
           "gsd-build/verify-work"
@@ -1107,7 +1110,6 @@
       ],
       "skillsByRepo": {
         "mattpocock/skills": [
-          "mattpocock/caveman",
           "mattpocock/diagnose",
           "mattpocock/edit-article",
           "mattpocock/grill-me",
@@ -1129,7 +1131,7 @@
       "topSkill": "mattpocock/skills",
       "topRank": 5,
       "topIsUnique": false,
-      "count": 34,
+      "count": 33,
       "namedSkills": [
         {
           "id": "mattpocock/skills",
@@ -1280,16 +1282,6 @@
           "slash": "/ubiquitous-language",
           "file": "ubiquitous-language.svg",
           "fileSeal": "ubiquitous-language-seal.svg"
-        },
-        {
-          "id": "mattpocock/caveman",
-          "name": "Caveman Mode",
-          "rank": 2,
-          "type": "basic",
-          "branch": "standard",
-          "slash": "/caveman",
-          "file": "caveman.svg",
-          "fileSeal": "caveman-seal.svg"
         },
         {
           "id": "mattpocock/improve-codebase-architecture",
@@ -1560,23 +1552,23 @@
       ],
       "skillsByRepo": {
         "bradautomates/claude-video": [
-          "bradautomates/claude-video"
+          "bradautomates/watch"
         ]
       },
-      "topSkill": "bradautomates/claude-video",
+      "topSkill": "bradautomates/watch",
       "topRank": 2,
       "topIsUnique": false,
       "count": 1,
       "namedSkills": [
         {
-          "id": "bradautomates/claude-video",
-          "name": "Claude Video",
+          "id": "bradautomates/watch",
+          "name": "Watch",
           "rank": 2,
           "type": "fusion",
           "branch": "standard",
-          "slash": "/claude-video",
-          "file": "claude-video.svg",
-          "fileSeal": "claude-video-seal.svg"
+          "slash": "/watch",
+          "file": "watch.svg",
+          "fileSeal": "watch-seal.svg"
         }
       ]
     },
@@ -1842,14 +1834,8 @@
       ]
     },
     "getagentseal": {
-      "repos": [
-        "getagentseal/codeburn"
-      ],
-      "skillsByRepo": {
-        "getagentseal/codeburn": [
-          "getagentseal/codeburn"
-        ]
-      },
+      "repos": [],
+      "skillsByRepo": {},
       "topSkill": "getagentseal/codeburn",
       "topRank": 2,
       "topIsUnique": false,
@@ -2265,14 +2251,8 @@
       ]
     },
     "laravel": {
-      "repos": [
-        "laravel/boost"
-      ],
-      "skillsByRepo": {
-        "laravel/boost": [
-          "laravel/upgrade-laravel-v13"
-        ]
-      },
+      "repos": [],
+      "skillsByRepo": {},
       "topSkill": "laravel/upgrade-laravel-v13",
       "topRank": 2,
       "topIsUnique": false,
@@ -2287,6 +2267,136 @@
           "slash": "/upgrade-laravel-v13",
           "file": "upgrade-laravel-v13.svg",
           "fileSeal": "upgrade-laravel-v13-seal.svg"
+        }
+      ]
+    },
+    "remotion-dev": {
+      "repos": [],
+      "skillsByRepo": {},
+      "topSkill": "remotion-dev/remotion-best-practices",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 12,
+      "namedSkills": [
+        {
+          "id": "remotion-dev/remotion-best-practices",
+          "name": "Remotion Best Practices",
+          "rank": 2,
+          "type": "fusion",
+          "branch": "suite",
+          "slash": "/remotion-best-practices",
+          "file": "remotion-best-practices.svg",
+          "fileSeal": "remotion-best-practices-seal.svg"
+        },
+        {
+          "id": "remotion-dev/remotion-captions",
+          "name": "Remotion Captions",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/remotion-captions",
+          "file": "remotion-captions.svg",
+          "fileSeal": "remotion-captions-seal.svg"
+        },
+        {
+          "id": "remotion-dev/remotion-create",
+          "name": "Remotion Create",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/remotion-create",
+          "file": "remotion-create.svg",
+          "fileSeal": "remotion-create-seal.svg"
+        },
+        {
+          "id": "remotion-dev/remotion-docs",
+          "name": "Remotion Docs",
+          "rank": 2,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/remotion-docs",
+          "file": "remotion-docs.svg",
+          "fileSeal": "remotion-docs-seal.svg"
+        },
+        {
+          "id": "remotion-dev/remotion-interactivity",
+          "name": "Remotion Interactivity",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/remotion-interactivity",
+          "file": "remotion-interactivity.svg",
+          "fileSeal": "remotion-interactivity-seal.svg"
+        },
+        {
+          "id": "remotion-dev/remotion-maps",
+          "name": "Remotion Maps",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/remotion-maps",
+          "file": "remotion-maps.svg",
+          "fileSeal": "remotion-maps-seal.svg"
+        },
+        {
+          "id": "remotion-dev/remotion-markup",
+          "name": "Remotion Markup",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/remotion-markup",
+          "file": "remotion-markup.svg",
+          "fileSeal": "remotion-markup-seal.svg"
+        },
+        {
+          "id": "remotion-dev/remotion-multimedia",
+          "name": "Remotion Multimedia",
+          "rank": 2,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/remotion-multimedia",
+          "file": "remotion-multimedia.svg",
+          "fileSeal": "remotion-multimedia-seal.svg"
+        },
+        {
+          "id": "remotion-dev/remotion-render",
+          "name": "Remotion Render",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/remotion-render",
+          "file": "remotion-render.svg",
+          "fileSeal": "remotion-render-seal.svg"
+        },
+        {
+          "id": "remotion-dev/remotion-saas",
+          "name": "Remotion SaaS",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/remotion-saas",
+          "file": "remotion-saas.svg",
+          "fileSeal": "remotion-saas-seal.svg"
+        },
+        {
+          "id": "remotion-dev/remotion-studio",
+          "name": "Remotion Studio",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/remotion-studio",
+          "file": "remotion-studio.svg",
+          "fileSeal": "remotion-studio-seal.svg"
+        },
+        {
+          "id": "remotion-dev/remotion-upgrade",
+          "name": "Remotion Upgrade",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/remotion-upgrade",
+          "file": "remotion-upgrade.svg",
+          "fileSeal": "remotion-upgrade-seal.svg"
         }
       ]
     },
@@ -2317,14 +2427,8 @@
       ]
     },
     "nousresearch": {
-      "repos": [
-        "NousResearch/hermes-agent"
-      ],
-      "skillsByRepo": {
-        "NousResearch/hermes-agent": [
-          "nousresearch/feed-monitoring"
-        ]
-      },
+      "repos": [],
+      "skillsByRepo": {},
       "topSkill": "nousresearch/feed-monitoring",
       "topRank": 2,
       "topIsUnique": false,
@@ -2477,14 +2581,8 @@
       ]
     },
     "upsonic": {
-      "repos": [
-        "Upsonic/Upsonic"
-      ],
-      "skillsByRepo": {
-        "Upsonic/Upsonic": [
-          "upsonic/unittest-generator"
-        ]
-      },
+      "repos": [],
+      "skillsByRepo": {},
       "topSkill": "upsonic/unittest-generator",
       "topRank": 2,
       "topIsUnique": false,
@@ -2555,14 +2653,8 @@
       ]
     },
     "gaiabot": {
-      "repos": [
-        "gaia-research/gaia-skill-tree"
-      ],
-      "skillsByRepo": {
-        "gaia-research/gaia-skill-tree": [
-          "gaiabot/repo-docs-before-pr"
-        ]
-      },
+      "repos": [],
+      "skillsByRepo": {},
       "topSkill": "gaiabot/repo-docs-before-pr",
       "topRank": 2,
       "topIsUnique": false,
