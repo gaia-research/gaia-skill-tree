@@ -361,7 +361,8 @@ The founder's role evolves from **benchmark runner** toward **benchmark protocol
 
 # 11. Skill Heaven and Benchmarking
 
-Skill Heaven should eventually become a major producer of Arbor observations.
+Skill Heaven (the runtime umbrella) should eventually become a major producer of
+Arbor observations, driven by the Skill Zero launcher.
 
 Runtime:
 
@@ -370,7 +371,7 @@ Tree knowledge
     ↓
 composition
     ↓
-Skill Heaven execution
+Skill Zero launcher execution
     ↓
 telemetry
     ↓
@@ -417,6 +418,8 @@ Benchmarks
 Developer
 ```
 
+(Skill Heaven groups the Skill Zero launcher and the Arbor behavioral axis.)
+
 Implementation boundaries may remain polyrepo.
 
 Interface boundaries need not mirror repository boundaries.
@@ -432,7 +435,7 @@ Conceptually:
 ```text
 gaia-research/
 ├── gaia-skill-tree
-├── skill-heaven
+├── gaia-skill-heaven
 ├── gaia-research
 └── gaia-operator
 ```
@@ -447,7 +450,11 @@ HH-index
 
 unless they become independently reusable systems with genuinely independent ownership and release requirements.
 
-Heaven, Hell, and Ultra remain concepts within the execution product.
+`gaia-skill-heaven` is the umbrella runtime brand. Inside it, **Skill Zero** is
+the launcher module and **Heaven / Hell / Ultra** are the Arbor behavioral axis
+(summon directions + governor). Skill Zero is a deep standalone module inside
+`gaia-skill-heaven`, **not** a separate repo. Heaven, Hell, and Ultra remain
+concepts on the axis, not repos or launchers.
 
 Arbor belongs to Gaia Skill Tree because it is a Tree and index over Gaia capability knowledge.
 
@@ -472,7 +479,9 @@ Skill
  └── Evidence
 ```
 
-Skill Heaven may have its own product domain because it is an execution system rather than a knowledge projection.
+Skill Heaven (the runtime umbrella, housing the Skill Zero launcher) may have
+its own product domain because it is a runtime system rather than a knowledge
+projection.
 
 Hell and Ultra should not require independent domains.
 
