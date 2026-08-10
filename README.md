@@ -14,6 +14,8 @@ Gaia is not a marketplace of skills, or an installer of some sorts. What we do i
 [![Validate](https://github.com/gaia-research/gaia-skill-tree/actions/workflows/validate.yml/badge.svg)](https://github.com/gaia-research/gaia-skill-tree/actions/workflows/validate.yml)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Website](https://img.shields.io/badge/Website-gaiaskilltree.com-f59e0b)](https://gaiaskilltree.com/)
+[![Research](https://img.shields.io/badge/Research-gaia--research%2Fgaia--research-informational)](https://github.com/gaia-research/gaia-research)
+[![Skill Heaven Preview](https://img.shields.io/badge/Skill_Heaven_Preview-gaia--research.github.io%2Fskill--heaven-informational)](https://gaia-research.github.io/skill-heaven/#/hero-a)
 
 👉 **Have an original skill? Send it to us.** Run 
 
