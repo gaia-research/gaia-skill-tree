@@ -95,7 +95,7 @@ toward ENDGAME, and delivers the messaging the founder wants:
 - **Lexicon** (see §4).
 
 ### 3c. `gaia-mcp` (skill-hell stays; outward references only)
-- `alias/skill-hell/package.json` `homepage` `https://gaia-research.github.io/skill-heaven/`
+- `alias/skill-hell/package.json` `homepage` `https://gaia-research.github.io/gaia-skill-heaven/`
   → new umbrella URL; keyword `skill-heaven`.
 - `alias/skill-hell/README.md` — "additive half of the **Skill Heaven** ladder"
   + "launchers live at gaia-research/**skill-heaven**" → `gaia-skill-heaven` +
