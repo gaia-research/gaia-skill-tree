@@ -5,8 +5,20 @@ from __future__ import annotations
 from gaia_cli.curation.state import CurationRun, STATE_NAMES
 
 
-GATE_STATES = frozenset({"AWAITING_L4_REVIEW", "AWAITING_EVIDENCE_APPROVAL"})
+GATE_STATES = frozenset(
+    {
+        "AWAITING_L4_REVIEW",
+        "AWAITING_EVIDENCE_APPROVAL",
+        "AWAITING_CALIBRATION_APPROVAL",
+    }
+)
 TERMINAL_STATES = frozenset({"DONE"})
+
+# The curate command is currently an orchestration scaffold: only the run ledger
+# and gates exist, while workflow transitions are deliberately stubbed.  Pause
+# fresh runs here so `gaia curate <url>` persists state and reports scaffold
+# status instead of invoking the unimplemented INITIALIZED transition.
+SCAFFOLD_PAUSE_STATES = frozenset({"INITIALIZED"})
 
 
 class CurationOrchestrator:
@@ -18,7 +30,8 @@ class CurationOrchestrator:
 
     def run_to_next_gate(self):
         """Advance the run until a human gate or terminal state is reached."""
-        while self.run.current_state not in GATE_STATES | TERMINAL_STATES:
+        pause_states = GATE_STATES | TERMINAL_STATES | SCAFFOLD_PAUSE_STATES
+        while self.run.current_state not in pause_states:
             method = getattr(self, f"transition_{self.run.current_state.lower()}", None)
             if method is None:
                 raise NotImplementedError(
@@ -133,7 +146,7 @@ class CurationOrchestrator:
 
     def transition_done(self):
         """No-op terminal transition for completed curation runs."""
-        raise NotImplementedError("DONE transition is not implemented yet.")
+        return self.run
 
 
 _missing = [
