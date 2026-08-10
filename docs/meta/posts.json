@@ -1,6 +1,17 @@
 {
   "posts": [
     {
+      "id": "2026-08-10-99-out-of-100-arent-good-enough",
+      "type": "report",
+      "date": "2026-08-10",
+      "title": "99 Out of 100 Aren't Good Enough",
+      "summary": "We ran the skills.sh top-100 leaderboard through our curation pipeline. Here's what survived — and what the numbers say about skills marketplaces.",
+      "label": "Curation Report",
+      "url": "meta/reports/2026-08-10-99-out-of-100-arent-good-enough.html",
+      "author": "Gaia Research",
+      "source": "docs/meta/2026-08-SKILLS-SH-TOP100.md"
+    },
+    {
       "id": "2026-08-06-a-registry-correction-on-caveman-and-two-install-fixes",
       "type": "report",
       "date": "2026-08-06",

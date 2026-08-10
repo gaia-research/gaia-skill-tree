@@ -1,0 +1,6 @@
+{
+  "labels": ["Exact Duplicate", "Deferred", "Review-Ready", "Final Approved"],
+  "datasets": [
+    { "label": "skills.sh top-100 outcome", "color": "#6366f1", "data": [36, 8, 33, 2] }
+  ]
+}
