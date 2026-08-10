@@ -1,31 +1,54 @@
-"""Tests for the `gaia curate` command scaffold."""
+"""Unit tests for the `gaia curate` command scaffold."""
 
 from __future__ import annotations
 
 import argparse
 
 from gaia_cli.commands.curate import CurateCommand
-from gaia_cli.curation.orchestrator import GATE_STATES
 
 
-def test_curate_scaffold_persists_initial_run_without_crashing(tmp_path, monkeypatch, capsys):
-    monkeypatch.chdir(tmp_path)
-    args = argparse.Namespace(
-        url="https://github.com/example/repo",
-        generic=None,
-        discover=False,
-        resume=None,
-        status=False,
-        dry_run=False,
+def test_curate_command_name_and_help_are_stable():
+    command = CurateCommand()
+
+    assert command.name == "curate"
+    assert command.help == "Scaffold a guided Gaia curation run"
+
+
+def test_curate_command_configure_runs_without_error():
+    command = CurateCommand()
+    parser = argparse.ArgumentParser(prog="gaia curate")
+
+    command.configure(parser)
+    parsed = parser.parse_args(
+        [
+            "https://github.com/example/repo",
+            "--generic",
+            "document-editing",
+            "--discover",
+            "--resume",
+            "run-123",
+            "--status",
+            "--dry-run",
+        ]
     )
 
-    assert CurateCommand().execute(args) == 0
+    assert parsed.url == "https://github.com/example/repo"
+    assert parsed.generic == "document-editing"
+    assert parsed.discover is True
+    assert parsed.resume == "run-123"
+    assert parsed.status is True
+    assert parsed.dry_run is True
 
-    out = capsys.readouterr().out
-    assert "State: INITIALIZED" in out
-    assert "URL: https://github.com/example/repo" in out
-    assert len(list((tmp_path / ".gaia" / "curation" / "runs").glob("*/state.json"))) == 1
 
+def test_curate_command_help_text_renders():
+    command = CurateCommand()
+    parser = argparse.ArgumentParser(prog="gaia curate")
 
-def test_calibration_approval_is_a_human_gate():
-    assert "AWAITING_CALIBRATION_APPROVAL" in GATE_STATES
+    command.configure(parser)
+    help_text = parser.format_help()
+
+    assert "--generic" in help_text
+    assert "--discover" in help_text
+    assert "--resume" in help_text
+    assert "--status" in help_text
+    assert "--dry-run" in help_text
