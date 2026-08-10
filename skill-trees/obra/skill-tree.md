@@ -426,6 +426,7 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   · ○ /image-generate
   · ○ ████████/huggingface-vision-trainer
   · ○ /pathway-ontology-retrieval
+  · ○ supabase/supabase-postgres-best-practices  [2★]
   · ○ /prompt-caching
   · ○ k-dense-ai/qiskit  [3★]
   · ○ vercel-labs/vercel-react-best-practices  [3★]
@@ -437,6 +438,7 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   · ○ k-dense-ai/scanpy  [3★]
   · ○ ████████/codebase-design
   · ○ anthropics/canvas-design  [2★]
+  · ○ supabase/supabase  [2★]
   · ○ /synthetic-data-generation
   · ○ addy-osmani/test-driven-development  [2★]
   · ○ /time-series-forecasting

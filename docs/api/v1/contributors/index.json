@@ -495,6 +495,19 @@
       }
     },
     {
+      "handle": "supabase",
+      "namedSkills": 2,
+      "topSkill": {
+        "id": "supabase/supabase",
+        "level": "2★",
+        "trustMagnitude": 5.0
+      },
+      "prestigeScore": 10.0,
+      "_links": {
+        "self": "/api/v1/contributors/supabase.json"
+      }
+    },
+    {
       "handle": "remotion-dev",
       "namedSkills": 12,
       "topSkill": {
@@ -508,7 +521,7 @@
       }
     }
   ],
-  "totalContributors": 39,
+  "totalContributors": 40,
   "_links": {
     "self": "/api/v1/contributors/index.json"
   }

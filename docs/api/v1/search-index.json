@@ -5622,6 +5622,39 @@
     ]
   },
   {
+    "id": "supabase/supabase",
+    "name": "Supabase",
+    "contributor": "supabase",
+    "level": "2★",
+    "grade": null,
+    "trustMagnitude": 5.0,
+    "branch": "standard",
+    "tokens": [
+      "core",
+      "integration",
+      "named",
+      "skill",
+      "supabase"
+    ]
+  },
+  {
+    "id": "supabase/supabase-postgres-best-practices",
+    "name": "Supabase Postgres Best Practices",
+    "contributor": "supabase",
+    "level": "2★",
+    "grade": null,
+    "trustMagnitude": 5.0,
+    "branch": "standard",
+    "tokens": [
+      "best",
+      "named",
+      "postgres",
+      "practices",
+      "skill",
+      "supabase"
+    ]
+  },
+  {
     "id": "mattpocock/teach",
     "name": "Teach",
     "contributor": "mattpocock",

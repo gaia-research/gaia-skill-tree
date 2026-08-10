@@ -294,6 +294,7 @@
 | ○ Image Generate | Intrinsic Skill | — | `/image-generate` |
 | ○ Object Detection | Intrinsic Skill | — | `/object-detection` |
 | ○ Pathway Ontology Retrieval | Intrinsic Skill | — | `/pathway-ontology-retrieval` |
+| ○ postgres-best-practices | Intrinsic Skill | 2★ | `/postgres-best-practices` |
 | ○ Prompt Caching | Intrinsic Skill | — | `/prompt-caching` |
 | ○ Quantum Circuit Programming | Intrinsic Skill | 3★ | `/quantum-circuit-programming` |
 | ○ React Performance Optimization | Intrinsic Skill | 3★ | `/react-performance-optimization` |
@@ -305,6 +306,7 @@
 | ○ Single-Cell Analysis | Intrinsic Skill | 3★ | `/single-cell-analysis` |
 | ○ Software Design | Intrinsic Skill | — | `/software-design` |
 | ○ Static Artwork Design | Intrinsic Skill | 2★ | `/static-artwork-design` |
+| ○ supabase | Intrinsic Skill | 2★ | `/supabase` |
 | ○ Synthetic Data Generation | Intrinsic Skill | — | `/synthetic-data-generation` |
 | ○ Test-Driven Development | Intrinsic Skill | 2★ | `/test-driven-development` |
 | ○ Time Series Forecasting | Intrinsic Skill | — | `/time-series-forecasting` |

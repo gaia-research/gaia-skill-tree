@@ -1,11 +1,11 @@
 {
   "distribution": {
-    "total": 230,
+    "total": 232,
     "S": 5,
     "A": 63,
     "B": 68,
     "C": 82,
-    "ungraded": 12,
+    "ungraded": 14,
     "floor": 0,
     "up": 29
   },
@@ -2609,6 +2609,28 @@
         "peer-review": 30.0
       },
       "origin": true,
+      "branch": "standard"
+    },
+    {
+      "id": "supabase/supabase",
+      "trustMagnitude": 5.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "supabase/supabase-postgres-best-practices",
+      "trustMagnitude": 5.0,
+      "grade": "ungraded",
+      "level": "2★",
+      "typeBreakdown": {
+        "self-attestation": 5.0
+      },
+      "origin": false,
       "branch": "standard"
     },
     {

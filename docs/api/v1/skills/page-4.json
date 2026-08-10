@@ -465,6 +465,38 @@
       "genericSkillRef": "autonomous-debug"
     },
     {
+      "id": "supabase/supabase",
+      "name": "Supabase",
+      "level": "2★",
+      "trustMagnitude": 5.0,
+      "overallTrustGrade": null,
+      "contributor": "supabase",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/supabase/supabase.json"
+      },
+      "genericSkillRef": "supabase"
+    },
+    {
+      "id": "supabase/supabase-postgres-best-practices",
+      "name": "Supabase Postgres Best Practices",
+      "level": "2★",
+      "trustMagnitude": 5.0,
+      "overallTrustGrade": null,
+      "contributor": "supabase",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/supabase/supabase-postgres-best-practices.json"
+      },
+      "genericSkillRef": "postgres-best-practices"
+    },
+    {
       "id": "mattpocock/teach",
       "name": "Teach",
       "level": "2★",
@@ -688,7 +720,7 @@
   ],
   "page": 4,
   "totalPages": 4,
-  "totalSkills": 192,
+  "totalSkills": 194,
   "_links": {
     "self": "/api/v1/skills/page-4.json",
     "prev": "/api/v1/skills/page-3.json"

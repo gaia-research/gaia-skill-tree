@@ -1,0 +1,40 @@
+{
+  "id": "supabase/supabase-postgres-best-practices",
+  "name": "Supabase Postgres Best Practices",
+  "contributor": "supabase",
+  "level": "2★",
+  "type": "basic",
+  "status": "named",
+  "trustMagnitude": 5.0,
+  "overallTrustGrade": null,
+  "branch": "standard",
+  "rankWord": "Named",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/supabase/supabase-postgres-best-practices.json",
+    "contributor": "/api/v1/contributors/supabase.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "Supabase Postgres Best Practices",
+  "genericSkillRef": "postgres-best-practices",
+  "origin": false,
+  "description": "supabase named skill for supabase-postgres-best-practices",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "timeline": [
+    {
+      "timestamp": "2026-08-10T15:02:55Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added named skill supabase/supabase-postgres-best-practices"
+    }
+  ]
+}
