@@ -42,8 +42,9 @@ toward ENDGAME, and delivers the messaging the founder wants:
   (NOT a new repo — ENDGAME MIGRATION §13). Engine `packages/core` → npm
   `skill-zero`, bin `skill-zero`.
 - Doors → short user-facing identities: **`claude-zero`, `pi-zero`,
-  `codex-zero`, `hermes-zero`, `grok-zero`**. `gaia-` prefix is for **repos
-  only**.
+  `codex-zero`, `hermes-zero`, `grok-zero`**. These are existing tested
+  prototype doors on `skill-heaven` main being renamed to `*-zero`, not future
+  lexicon-only placeholders. `gaia-` prefix is for **repos only**.
 - **Heaven / Hell = summon directions** (axis); **Ultra = the auto-switch**.
   HH Index stays in `gaia-research`, marked WIP.
 - **skill-hell** (summon) stays in `gaia-mcp` **unchanged**, except outward
