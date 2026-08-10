@@ -1042,7 +1042,7 @@ EOF
 
 <span class="cmt"># Output to read:</span>
 <span class="cmt">#   TM: X.X  (Trust Magnitude score)</span>
-<span class="cmt">#   Grade: A / B / C / D / F</span>
+<span class="cmt">#   Overall Trust Grade: S / A / B / C / ungraded</span>
 <span class="cmt">#   Per-row breakdown with score + trust multiplier</span>
 <span class="cmt">#   Current star level vs. what grade supports</span></pre>
     </div>
@@ -1053,12 +1053,11 @@ EOF
     <table>
       <thead><tr><th>Grade</th><th>TM Range</th><th>Max Stars</th><th>Notes</th></tr></thead>
       <tbody>
-        <tr><td>F</td><td>&lt; 1.0</td><td>0★</td><td>Insufficient evidence</td></tr>
-        <tr><td>D</td><td>1.0–1.9</td><td>1★</td><td>Stage 1 minimum</td></tr>
-        <tr><td>C</td><td>2.0–3.9</td><td>2★</td><td>Badge unlock floor</td></tr>
-        <tr><td>B</td><td>4.0–6.9</td><td>3★</td><td>Solid adoption signals</td></tr>
-        <tr><td>A</td><td>7.0–9.9</td><td>4★</td><td>Strong external proof</td></tr>
-        <tr><td>S</td><td>10.0+</td><td>5★–6★</td><td>Benchmark + peer-review required</td></tr>
+        <tr><td>ungraded</td><td>&lt; 20</td><td>1★–2★</td><td>Stage-1 minimum (Awakened/Named baseline)</td></tr>
+        <tr><td>C</td><td>≥ 20</td><td>up to 3★</td><td>Badge unlock floor at 2★ Named</td></tr>
+        <tr><td>B</td><td>≥ 50</td><td>up to 3★</td><td>Solid adoption signals (Evolved)</td></tr>
+        <tr><td>A</td><td>≥ 100</td><td>gates 4★</td><td>4★ Extra/Unique gate — Origin + TM ≥ 100</td></tr>
+        <tr><td>S</td><td>≥ 250 + diversity</td><td>gates 5★–6★</td><td>≥3 evidence types + non-self-producible row required. 5★ = TM ≥ 250. 6★ Apex adds 6-predicate gate.</td></tr>
       </tbody>
     </table>
     <div class="callout note">
@@ -1331,8 +1330,31 @@ print(hashlib.sha256(json.dumps(d,sort_keys=True,separators=(',',':')).encode())
 <span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> <span class="arg">dev docs</span></pre>
   </div>
 
+  <div class="card success" style="margin-top:48px">
+    <div class="card-title success">🚀 Want to automate this? Become a contributor.</div>
+    <p style="font-size:13.5px;margin-bottom:14px">Once you've curated a skill manually, you can contribute back to the registry directly using <code>gaia dev</code> commands — the same CLI the pipeline runs under the hood. No intake queue. Direct mutations with your approval.</p>
+    <table>
+      <thead><tr><th>What you want to do</th><th>Command</th></tr></thead>
+      <tbody>
+        <tr><td>Add a new generic skill node</td><td><code>gaia dev add "Name" --id kebab-id --type basic --description "..."</code></td></tr>
+        <tr><td>Add a named implementation</td><td><code>gaia dev named --contributor handle --skill slug --generic generic-id --upstream &lt;blob-url&gt;</code></td></tr>
+        <tr><td>Add an evidence row</td><td><code>gaia dev evidence contributor/skill "&lt;url&gt;" --type repo-own --commits N --contributors N --notes "..." --source-started-at YYYY-MM-DD</code></td></tr>
+        <tr><td>Appraise Trust Magnitude</td><td><code>PYTHONPATH=src python3 scripts/trust_appraise.py --skill contributor/skill</code></td></tr>
+        <tr><td>Calibrate star level</td><td><code>gaia dev calibrate contributor/skill --stars N</code></td></tr>
+        <tr><td>Fuse a suite capstone</td><td><code>gaia dev fuse &lt;fusion-id&gt; --name "..." --prereqs id1,id2 --named-capstone contributor/slug --suite-components named-id-1,named-id-2</code></td></tr>
+        <tr><td>Validate registry</td><td><code>GAIA_OPERATOR_OVERRIDE=1 gaia dev validate</code></td></tr>
+        <tr><td>Regenerate site artifacts</td><td><code>GAIA_OPERATOR_OVERRIDE=1 gaia dev docs</code></td></tr>
+      </tbody>
+    </table>
+    <div class="callout tip" style="margin-top:12px">
+      <span class="icon">✓</span>
+      <span>All <code>gaia dev</code> mutations require <code>GAIA_OPERATOR_OVERRIDE=1</code> or maintainer permissions. Read <code>CONTRIBUTING.md</code> §1C before making direct registry changes. Or run <code>gaia curate &lt;url&gt;</code> to automate the full pipeline with 2 human gates.</span>
+    </div>
+  </div>
+
   <p class="footnote">
     Source of truth for commands: <code>.agents/skills/gaia-curate/SKILL.md</code> · <code>.agents/skills/ev-pipeline/SKILL.md</code> · <code>.agents/skills/gaia-ingest/SKILL.md</code> · <code>.agents/skills/gaia-intake-close/SKILL.md</code><br/>
+    TM thresholds sourced from <code>src/gaia_cli/grading.py</code> · <code>META.md §1.1</code>. Grade S requires TM ≥ 250 + diversity gate (≥3 evidence types, non-self-producible row).<br/>
     Generated for <code>founder/teach/</code> · Gaia Skill Tree · Manual pipeline reference, no AI required.
   </p>
 
