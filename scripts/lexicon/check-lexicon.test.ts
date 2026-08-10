@@ -119,9 +119,9 @@ check(
 
 console.log("\nfederation — the other HQ's terms are theirs (KC2)");
 check(
-  "the foreign mirror covers all five namespaces the other HQ owns",
+  "the foreign mirror covers all six namespaces the other HQ owns",
   !!foreign &&
-    ["core", "gaia.research", "gaia.brand", "gaia.heaven", "gaia.mcp"].every((ns) =>
+    ["core", "gaia.research", "gaia.brand", "gaia.heaven", "gaia.zero", "gaia.mcp"].every((ns) =>
       Object.values(foreign.terms).includes(ns),
     ),
 );
@@ -139,7 +139,7 @@ check(
   foreignCollisions(
     { ...lex, terms: [{ term: "floor", state: "canonical", definition: "d" }] },
     foreign,
-  ).some((e) => e.includes("gaia.heaven")),
+  ).some((e) => e.includes("gaia.zero")),
 );
 check(
   "the three published MCP tool names stay owned by gaia.mcp upstream",

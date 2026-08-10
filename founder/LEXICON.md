@@ -4,7 +4,7 @@
 <!-- Regenerate: npx tsx scripts/lexicon/check-lexicon.ts --emit -->
 <!-- lexicon-allow -->
 
-> Schema `2` · HQ `gaia-skill-tree` · 18 terms across 2 namespace(s) · updated **2026-07-28**.
+> Schema `2` · HQ `gaia-skill-tree` · 18 terms across 2 namespace(s) · updated **2026-08-10**.
 >
 > **One term, one owner.** A term is defined in **exactly one** file, ever. A
 > namespace file **adds** terms in its own namespace and may never redefine a
@@ -19,54 +19,65 @@
 Terms owned by **gaia-research/gaia-research** are listed name-only in `scripts/lexicon/lexicon.foreign.json` and are
 defined there, never here:
 
-- `add-ons` → `gaia.heaven`
+- `/skill-heaven` → `gaia.heaven`
+- `/skill-hell` → `gaia.heaven`
+- `/skill-ultra` → `gaia.heaven`
+- `/skill-zero` → `gaia.zero`
+- `add-ons` → `gaia.zero`
 - `budget` → `gaia.research`
-- `claude-heaven` → `gaia.heaven`
-- `clean-room` → `gaia.heaven`
-- `curated` → `gaia.heaven`
+- `claude-zero` → `gaia.zero`
+- `clean-room` → `gaia.zero`
+- `codex-zero` → `gaia.zero`
+- `context source` → `gaia.zero`
+- `curated` → `gaia.zero`
 - `CURRENT` → `core`
-- `door` → `gaia.heaven`
+- `door` → `gaia.zero`
 - `dose` → `gaia.research`
-- `eviction` → `gaia.heaven`
-- `firebreak` → `gaia.heaven`
-- `floor` → `gaia.heaven`
+- `eviction` → `gaia.zero`
+- `firebreak` → `gaia.zero`
+- `floor` → `gaia.zero`
 - `gaia_inspect` → `gaia.mcp`
 - `gaia_search` → `gaia.mcp`
 - `gaia_status` → `gaia.mcp`
 - `gauge` → `gaia.research`
+- `grok-zero` → `gaia.zero`
 - `harness dose` → `gaia.research`
 - `heat` → `gaia.research`
-- `Heaven-0` → `gaia.heaven`
-- `Heaven-1` → `gaia.heaven`
+- `heaven` → `gaia.heaven`
+- `Heaven-0` → `gaia.zero`
+- `Heaven-1` → `gaia.zero`
+- `hell` → `gaia.heaven`
 - `hell lane` → `gaia.heaven`
+- `hermes-zero` → `gaia.zero`
 - `HH Index` → `gaia.research`
-- `hh-launcher` → `gaia.heaven`
 - `INVARIANT` → `core`
 - `invocation dose` → `gaia.research`
 - `ladder` → `gaia.heaven`
-- `launcher` → `gaia.heaven`
-- `lean` → `gaia.heaven`
-- `level` → `gaia.heaven`
+- `launcher` → `gaia.zero`
+- `lean` → `gaia.zero`
+- `level` → `gaia.zero`
 - `meter` → `gaia.research`
 - `Milim` → `gaia.brand`
 - `mode` → `gaia.heaven`
-- `native` → `gaia.heaven`
-- `notch` → `gaia.heaven`
+- `native` → `gaia.zero`
+- `notch` → `gaia.zero`
 - `own-placebo` → `gaia.research`
-- `pi-heaven` → `gaia.heaven`
-- `picker` → `gaia.heaven`
-- `posture` → `gaia.heaven`
-- `project-only` → `gaia.heaven`
-- `purge` → `gaia.heaven`
-- `resident` → `gaia.heaven`
-- `restraint` → `gaia.heaven`
+- `pi-zero` → `gaia.zero`
+- `picker` → `gaia.zero`
+- `polarity` → `gaia.heaven`
+- `posture` → `gaia.zero`
+- `product-floor` → `gaia.zero`
+- `project-only` → `gaia.zero`
+- `purge` → `gaia.zero`
+- `resident` → `gaia.zero`
+- `restraint` → `gaia.zero`
 - `router` → `gaia.heaven`
 - `rung` → `gaia.heaven`
-- `scalpel` → `gaia.heaven`
+- `scalpel` → `gaia.zero`
 - `seed` → `gaia.research`
 - `skill-heaven` → `gaia.heaven`
-- `skill-heaven-hell` → `gaia.heaven`
-- `slider` → `gaia.heaven`
+- `skill-zero` → `gaia.zero`
+- `slider` → `gaia.zero`
 - `stamp` → `gaia.research`
 - `standing dose` → `gaia.research`
 - `summon` → `gaia.heaven`

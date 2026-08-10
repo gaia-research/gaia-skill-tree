@@ -17,7 +17,7 @@ Gaia is not a marketplace of skills, or an installer of some sorts. What we do i
 ### Gaia Ecosystem
 [![Skill Tree](https://img.shields.io/badge/Skill_Tree-gaiaskilltree.com-f59e0b)](https://gaiaskilltree.com/)
 [![Research](https://img.shields.io/badge/Research-research.gaiaskilltree.com-ec4899)](https://research.gaiaskilltree.com/)
-[![Skill Heaven Preview](https://img.shields.io/badge/Skill_Heaven_Preview-gaia--research.github.io%2Fskill--heaven-a58ae0)](https://gaia-research.github.io/skill-heaven/)
+[![Skill Heaven Preview](https://img.shields.io/badge/Skill_Heaven_Preview-gaia--research.github.io%2Fgaia--skill--heaven-a58ae0)](https://gaia-research.github.io/gaia-skill-heaven/)
 
 👉 **Have an original skill? Send it to us.** Run 
 
@@ -175,7 +175,7 @@ This is the evidence grade at the Skill level.
 **1. CLI**
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `7.4.18`.
+Current Gaia CLI version: `7.4.19`.
 
 ```bash
 curl -fsSL https://gaiaskilltree.com/install.sh | sh
