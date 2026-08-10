@@ -1,0 +1,249 @@
+{
+  "schemaVersion": "1.0.0",
+  "reportId": "2026-33",
+  "isoYear": 2026,
+  "isoWeek": 33,
+  "generatedAt": "2026-08-10T09:21:16Z",
+  "generator": "gaia-content-engine",
+  "generatorVersion": "7.4.18",
+  "salvageLayer": "L3",
+  "sections": {
+    "trending": {
+      "title": "Trending this week",
+      "entries": [
+        {
+          "id": "firecrawl/firecrawl-research-index",
+          "name": "Firecrawl Research Index",
+          "contributor": "firecrawl",
+          "level": "3★",
+          "trustMagnitude": 150.32,
+          "trustGrade": "A",
+          "trendingScore": 94.33,
+          "tmDelta": 74.62,
+          "isNew": false,
+          "url": "/named/#explorer/firecrawl/firecrawl-research-index"
+        },
+        {
+          "id": "ruvnet/hive-mind",
+          "name": "Hive Mind",
+          "contributor": "ruvnet",
+          "level": "3★",
+          "trustMagnitude": 96.09,
+          "trustGrade": "B",
+          "trendingScore": 48.05,
+          "tmDelta": 96.09,
+          "isNew": true,
+          "url": "/named/#explorer/ruvnet/hive-mind"
+        },
+        {
+          "id": "vercel-labs/vercel-react-best-practices",
+          "name": "Vercel React Best Practices",
+          "contributor": "vercel-labs",
+          "level": "3★",
+          "trustMagnitude": 50.48,
+          "trustGrade": "B",
+          "trendingScore": 25.24,
+          "tmDelta": 50.48,
+          "isNew": true,
+          "url": "/named/#explorer/vercel-labs/vercel-react-best-practices"
+        },
+        {
+          "id": "gaia-research/fuse",
+          "name": "Fuse",
+          "contributor": "gaia-research",
+          "level": "2★",
+          "trustMagnitude": 41.62,
+          "trustGrade": "C",
+          "trendingScore": 20.81,
+          "tmDelta": 41.62,
+          "isNew": true,
+          "url": "/named/#explorer/gaia-research/fuse"
+        },
+        {
+          "id": "gaia-research/ci-churn",
+          "name": "CI Churn",
+          "contributor": "gaia-research",
+          "level": "2★",
+          "trustMagnitude": 41.0,
+          "trustGrade": "C",
+          "trendingScore": 20.5,
+          "tmDelta": 41.0,
+          "isNew": true,
+          "url": "/named/#explorer/gaia-research/ci-churn"
+        }
+      ]
+    },
+    "ascended": {
+      "title": "Recently ascended",
+      "entries": [
+        {
+          "id": "anthropics/brand-guidelines",
+          "name": "Brand Guidelines",
+          "contributor": "anthropics",
+          "level": "3★",
+          "previousLevel": "2★",
+          "trustMagnitude": 77.35,
+          "trustGrade": "B",
+          "ascendedAt": "2026-07-31T16:25:05Z",
+          "url": "/named/#explorer/anthropics/brand-guidelines"
+        },
+        {
+          "id": "k-dense-ai/transformers",
+          "name": "Transformers",
+          "contributor": "k-dense-ai",
+          "level": "3★",
+          "previousLevel": "2★",
+          "trustMagnitude": 97.07,
+          "trustGrade": "B",
+          "ascendedAt": "2026-07-31T16:20:18Z",
+          "url": "/named/#explorer/k-dense-ai/transformers"
+        },
+        {
+          "id": "k-dense-ai/torch-geometric",
+          "name": "Torch Geometric",
+          "contributor": "k-dense-ai",
+          "level": "4★",
+          "previousLevel": "2★",
+          "trustMagnitude": 167.07,
+          "trustGrade": "A",
+          "ascendedAt": "2026-07-31T16:20:17Z",
+          "url": "/named/#explorer/k-dense-ai/torch-geometric"
+        },
+        {
+          "id": "k-dense-ai/stable-baselines3",
+          "name": "Stable Baselines3",
+          "contributor": "k-dense-ai",
+          "level": "3★",
+          "previousLevel": "2★",
+          "trustMagnitude": 97.07,
+          "trustGrade": "B",
+          "ascendedAt": "2026-07-31T16:20:16Z",
+          "url": "/named/#explorer/k-dense-ai/stable-baselines3"
+        },
+        {
+          "id": "k-dense-ai/scanpy",
+          "name": "Scanpy",
+          "contributor": "k-dense-ai",
+          "level": "3★",
+          "previousLevel": "2★",
+          "trustMagnitude": 97.07,
+          "trustGrade": "B",
+          "ascendedAt": "2026-07-31T16:20:15Z",
+          "url": "/named/#explorer/k-dense-ai/scanpy"
+        }
+      ]
+    },
+    "contested": {
+      "title": "Most contested spaces",
+      "entries": [
+        {
+          "genericSkillRef": "git-ship-done-pipeline",
+          "implementations": 2,
+          "topTM": 293.14,
+          "skills": [
+            {
+              "id": "addy-osmani/agent-skills",
+              "level": "5★",
+              "trustMagnitude": 293.14,
+              "trustGrade": "S",
+              "origin": true,
+              "url": "/named/#explorer/addy-osmani/agent-skills"
+            },
+            {
+              "id": "gsd-build/get-shit-done",
+              "level": "4★",
+              "trustMagnitude": 202.16,
+              "trustGrade": "A",
+              "origin": false,
+              "url": "/named/#explorer/gsd-build/get-shit-done"
+            }
+          ]
+        },
+        {
+          "genericSkillRef": "ux-audit",
+          "implementations": 5,
+          "topTM": 195.51,
+          "skills": [
+            {
+              "id": "nextlevelbuilder/ui-ux-pro-max",
+              "level": "4★",
+              "trustMagnitude": 195.51,
+              "trustGrade": "A",
+              "origin": true,
+              "url": "/named/#explorer/nextlevelbuilder/ui-ux-pro-max"
+            },
+            {
+              "id": "martin-stepanoski/nielsen-heuristics-audit",
+              "level": "3★",
+              "trustMagnitude": 94.9,
+              "trustGrade": "B",
+              "origin": false,
+              "url": "/named/#explorer/martin-stepanoski/nielsen-heuristics-audit"
+            },
+            {
+              "id": "garrytan/plan-design-review",
+              "level": "3★",
+              "trustMagnitude": 63.73,
+              "trustGrade": "B",
+              "origin": false,
+              "url": "/named/#explorer/garrytan/plan-design-review"
+            },
+            {
+              "id": "garrytan/plan-devex-review",
+              "level": "3★",
+              "trustMagnitude": 63.73,
+              "trustGrade": "B",
+              "origin": false,
+              "url": "/named/#explorer/garrytan/plan-devex-review"
+            },
+            {
+              "id": "garrytan/devex-review",
+              "level": "2★",
+              "trustMagnitude": 36.0,
+              "trustGrade": "C",
+              "origin": false,
+              "url": "/named/#explorer/garrytan/devex-review"
+            }
+          ]
+        },
+        {
+          "genericSkillRef": "vertical-slice-planning",
+          "implementations": 3,
+          "topTM": 156.0,
+          "skills": [
+            {
+              "id": "garrytan/garrytan",
+              "level": "4★",
+              "trustMagnitude": 156.0,
+              "trustGrade": "A",
+              "origin": true,
+              "url": "/named/#explorer/garrytan/garrytan"
+            },
+            {
+              "id": "mattpocock/to-issues",
+              "level": "3★",
+              "trustMagnitude": 90.38,
+              "trustGrade": "B",
+              "origin": false,
+              "url": "/named/#explorer/mattpocock/to-issues"
+            },
+            {
+              "id": "addy-osmani/planning-and-task-breakdown",
+              "level": "3★",
+              "trustMagnitude": 53.14,
+              "trustGrade": "B",
+              "origin": false,
+              "url": "/named/#explorer/addy-osmani/planning-and-task-breakdown"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "urls": {
+    "canonical": "https://gaiaskilltree.com/reports/2026-33/",
+    "json": "/api/v1/reports/2026-33.json",
+    "previous": "/reports/2026-32/",
+    "archive": "/reports/"
+  }
+}
