@@ -41,8 +41,9 @@ These skills are available under both `.claude/skills/` and `.agents/skills/`. C
 Pick by what you're doing:
 
 - **Submitting a skill you already understand?** Use `gaia push --from-file skills.yml` or the new-skill intake issue form (A).
-- **Reviewing external candidates first?** Start with `/gaia-curate`; add trending, checkpoints, or dynamic workers only when needed (B).
-- **Making a one-off correction** (a single merge, split, reclassify, or evidence add)? Use the direct CLI meta shifts (C).
+- **Using the fully automated, guided pipeline?** Use the `gaia curate` 2-gate flow (B).
+- **Reviewing external candidates first?** Start with `/gaia-curate` agent skill (C).
+- **Making a one-off correction** (a single merge, split, reclassify, or evidence add)? Use the direct CLI meta shifts (D).
 
 ### A) Submit discovered skills
 
@@ -55,7 +56,61 @@ gaia push --from-file skills.yml
 
 The CLI and issue form are two ways to reach the same intake queue. Do not hand-edit `registry/` or open an unstructured “add my skill” issue.
 
-### B) Run a discovery-only curate pass
+### B) The Guided 2-Gate Curation Pipeline (`gaia curate`)
+
+For a fully automated and guided curation flow, use the CLI's 2-gate pipeline. It orchestrates the entire lifecycle—from URL resolution to evidence discovery, validation, ingestion, star calibration, and PR creation—reducing ~20 manual CLI/JSON commands down to just two human approval checkpoints.
+
+#### Command Syntax
+```bash
+gaia curate <url> [options]
+
+# Arguments:
+#   <url>                  The GitHub repository or SKILL.md URL to curate
+
+# Options:
+#   -g, --generic <id>     Suggested generic skill ID for the candidate mapping
+#   --discover             Run optional evidence discovery before verification
+#   --resume <RUN_ID>      Resume an existing curation run by its unique run ID
+#   --status               Print the current curation run status and exit
+#   --dry-run              Plan the run without mutating the registry or GitHub
+```
+
+#### The Two Gates
+1. **Gate 1: Topology & Mapping (`AWAITING_L4_REVIEW`)**
+   - **What happens:** The system resolves the source URL, embeds the candidate skill, runs embedding-driven prefill to suggest generic mapping candidates, and generates a `discovery-packet-v2` file under `registry-for-review/discovery-packets/`.
+   - **Your job:** Confirm the candidate mapping, generic identity, and upstream URL. Append your `l4Resolution` decision to the packet to clear the gate.
+2. **Gate 2: Evidence & Calibration (`AWAITING_EVIDENCE_APPROVAL` / `AWAITING_CALIBRATION_APPROVAL`)**
+   - **What happens:** Once Gate 1 is cleared, a review branch is opened and a draft PR is created. The pipeline runs `/ev-pipeline` end-to-end to compile the evidence data lake, verify live star counts and benchmark sources, audit evidence for noise, and validate link liveness. It then generates an ingestion plan and computes a Trust Magnitude rating for star calibration.
+   - **Your job:** Approve the verified evidence rows and the auto-computed calibration rating to clear the gate.
+
+#### Post-Gate Auto-Merge
+Once Gate 2 is approved, if CI checks are green, the changes are auto-merged. The CLI automatically runs post-merge tasks, including posting closing comments, badge status notes, and regenerating documentation.
+
+#### Resuming and Checking Status
+If a curation run is paused at a gate, you can inspect its status or resume it by specifying its run ID:
+```bash
+# Check status
+gaia curate --resume <RUN_ID> --status
+
+# Resume execution
+gaia curate --resume <RUN_ID>
+```
+
+#### State File Location
+Local run history and execution state are serialized and stored as formatted JSON at:
+`.gaia/curation/runs/<run_id>/state.json`
+
+#### When to Use vs. Manual Pipeline
+- **Use `gaia curate`:** For standard, named-first curations bringing a new contributor implementation into the skill tree. It ensures strict provenance, automated evidence gathering, and timeline auditing.
+- **Use the Manual Pipeline:** For complex multi-repo suite consolidations, custom calibrations, or structural meta shifts (like merging/splitting nodes or manual overrides) where the standard guided state machine is too rigid.
+
+#### Implementation File Paths
+- CLI Command Definition: `src/gaia_cli/commands/curate.py`
+- State Model & Ledger: `src/gaia_cli/curation/state.py`
+- State-Machine Orchestrator: `src/gaia_cli/curation/orchestrator.py`
+- URL & Provenance Resolver: `src/gaia_cli/curation/url_resolver.py`
+
+### C) Run a discovery-only curate pass
 
 Start with one source page and at most five candidates. The core does this:
 
@@ -95,9 +150,9 @@ python3 .agents/skills/gaia-curate/scripts/validate_discovery_packet.py \
   .agents/skills/gaia-curate/fixtures/review-ready-packet.json
 ```
 
-The shortlist is not acceptance. Discovery must not collect evidence, calculate Trust Magnitude, calibrate stars, mutate the registry, generate intake, commit, push, or open a PR. After L4 approval, send new external discoveries through `gaia push --from-file`; send rows already in intake through `/ev-pipeline` and then the maintainer-only CLI path in §1C. Never submit the same intake twice.
+The shortlist is not acceptance. Discovery must not collect evidence, calculate Trust Magnitude, calibrate stars, mutate the registry, generate intake, commit, push, or open a PR. After L4 approval, send new external discoveries through `gaia push --from-file`; send rows already in intake through `/ev-pipeline` and then the maintainer-only CLI path in §1D. Never submit the same intake twice.
 
-### C) Update the canonical graph directly (Meta Shifts)
+### D) Update the canonical graph directly (Meta Shifts)
 
 **DEPRECATED:** Hand-editing individual JSON files in `registry/nodes/` is now deprecated. 
 
@@ -351,7 +406,7 @@ If a tab's markdown contains a table with columns `Agent` (or `Host`) and `Flag`
 
 ### Editing and Submitting a PR
 
-Use `gaia dev` commands — do not edit files manually or invoke build scripts directly (see §1.B).
+Use `gaia dev` commands — do not edit files manually or invoke build scripts directly (see §1D).
 
 1. **Set suiteComponents on the capstone skill:**
    ```bash
@@ -385,7 +440,7 @@ Use `gaia dev` commands — do not edit files manually or invoke build scripts d
 ## 11) Automated Maintenance
 
 The registry is supported by several automated workflows:
-- **Discovery curation:** `/gaia-curate` creates a read-only L4 shortlist. `/gaia-curate-trending` adds external snapshots, `/gaia-curate-chain` adds resumable checkpoints, and `/gaia-curate-dynamic` adds harness-neutral worker orchestration. All stop before intake, evidence, and mutation (see §1B).
+- **Discovery curation:** `/gaia-curate` creates a read-only L4 shortlist. `/gaia-curate-trending` adds external snapshots, `/gaia-curate-chain` adds resumable checkpoints, and `/gaia-curate-dynamic` adds harness-neutral worker orchestration. All stop before intake, evidence, and mutation (see §1C).
 - **Auto-Sync:** On every push to a branch, a GitHub Action automatically runs the versioning and regeneration scripts. You no longer need to run these manually before pushing.
 - **Validation:** Every PR is automatically validated for schema correctness, DAG integrity, and evidence quality.
 - **Transparency Gate (`scripts/validate_timelines.py`):** Enforces the Transparency Mandate (§8) — every named skill a contributor owns must be charted at its *current* registry rank, with a timeline event explaining it. A silent demotion/promotion (a rank change with no `demote`/`rank_up` event on the user tree) fails the build. Runs in `gaia dev validate` and the release workflow; reconcile drift with `/gaia-trace-timeline` (or `scripts/trace_timeline.py --all --apply`). A sibling **Redaction Gate** (`scripts/validate_redaction.py`) likewise proves ≤1★ handles stay withheld (see META.md §1.3).

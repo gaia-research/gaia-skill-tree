@@ -30,6 +30,7 @@ Secondary: Open-source contributors wanting to claim a Named Skill.
 | 10 | `faq.html` | FAQ | ✅ Done (updated 025) | 005, 017, 018, 025 |
 | 11 | `share-bundles.html` | Share Bundles | ✅ Done (updated 025) | 006, 018, 025 |
 | 12 | `timeline-audit.html` | Timeline Audit & Repair | ✅ Done (updated 025) | 008, 018, 025 |
+| 13 | `manual-curation-pipeline.html` | Manual Curation Pipeline | ✅ Done | — |
 
 ---
 
