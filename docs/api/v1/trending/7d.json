@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-08-09T14:21:40Z",
+  "generatedAt": "2026-08-10T02:56:59Z",
   "firstRun": false,
   "skills": [
     {
@@ -10,7 +10,7 @@
       "contributor": "firecrawl",
       "trustMagnitude": 150.32,
       "overallTrustGrade": "A",
-      "trendingScore": 104.33,
+      "trendingScore": 94.33,
       "tmDelta": 74.62,
       "new": false,
       "_links": {
