@@ -313,6 +313,16 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · ○ disler/plan-synthesis  [2★]
   └─ · ○ disler/auto-review  [2★]
 
+· ◆ remotion-dev/remotion-best-practices  [2★]
+  ├─ · ○ remotion-dev/remotion-create  [2★]
+  ├─ · ○ remotion-dev/remotion-markup  [2★]
+  ├─ · ○ remotion-dev/remotion-studio  [2★]
+  ├─ · ○ remotion-dev/remotion-render  [2★]
+  ├─ · ○ remotion-dev/remotion-maps  [2★]
+  ├─ · ○ remotion-dev/remotion-saas  [2★]
+  ├─ · ○ remotion-dev/remotion-interactivity  [2★]
+  └─ · ○ remotion-dev/remotion-captions  [2★]
+
 ══════════════════════════════════════════════════════════════════════
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
 ══════════════════════════════════════════════════════════════════════
