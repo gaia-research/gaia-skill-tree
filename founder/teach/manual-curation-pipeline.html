@@ -439,6 +439,29 @@
 <!-- ══════════════════════════════════════════════ WRAPPER ══ -->
 <div class="wrapper">
 
+<div style="background:rgba(124,106,247,0.08);border:1px solid rgba(124,106,247,0.35);border-radius:12px;padding:28px 32px;margin:32px 0 0;">
+  <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:12px">⚡ Quick Path — 2 approvals, everything else automated</div>
+  <div style="background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:14px 18px;font-family:monospace;font-size:14px;color:#a8d5a2;margin-bottom:18px">gaia curate https://github.com/owner/repo [--generic &lt;id&gt;] [--discover]</div>
+  <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start;margin-bottom:18px">
+    <div style="flex:1;min-width:200px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px 16px">
+      <div style="font-size:12px;font-weight:700;color:var(--warn);margin-bottom:6px">🛑 Gate 1 — Topology (you)</div>
+      <div style="font-size:13px;color:var(--muted)">Confirm mapping, generic identity, upstream URL. ~30 seconds.</div>
+    </div>
+    <div style="color:var(--muted);font-size:20px;align-self:center">→</div>
+    <div style="flex:1;min-width:200px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px 16px">
+      <div style="font-size:12px;font-weight:700;color:var(--warn);margin-bottom:6px">🛑 Gate 2 — Evidence + Stars (you)</div>
+      <div style="font-size:13px;color:var(--muted)">Approve verified evidence rows and auto-computed star rating.</div>
+    </div>
+    <div style="color:var(--muted);font-size:20px;align-self:center">→</div>
+    <div style="flex:1;min-width:200px;background:var(--surface2);border:1px solid rgba(34,197,94,0.4);border-radius:8px;padding:14px 16px">
+      <div style="font-size:12px;font-weight:700;color:var(--accent4);margin-bottom:6px">✅ Auto-merged</div>
+      <div style="font-size:13px;color:var(--muted)">CI green → merge → comments → docs. Done.</div>
+    </div>
+  </div>
+  <div style="font-size:12px;color:var(--muted)">Before: ~20 commands, hand-written JSON &nbsp;·&nbsp; After: 2 approvals &nbsp;·&nbsp; Reference below explains what runs inside each gate.</div>
+</div>
+<h3 style="font-size:1rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin:40px 0 16px">Reference: What happens inside each gate</h3>
+
   <!-- OVERVIEW TABLE -->
   <div class="card" style="margin-bottom:32px">
     <div class="card-title info">Pipeline at a glance</div>
