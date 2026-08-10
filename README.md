@@ -105,6 +105,14 @@ Do a `gaia scan` and `gaia fuse` render in your terminal:
   mattpocock/ubiquitous-language  ─┘
 ```
 
+Then the whole tree emerges from the fusions. Here's what it looks like.
+
+<img width="2122" height="1248" alt="image" src="https://github.com/user-attachments/assets/e5ff3e24-c44e-49c7-a26f-4dae38520636" />
+
+Direct link: https://gaiaskilltree.com/named/#explorer/mattpocock/skills
+
+
+
 > [!TIP]
 > **New here?** The interactive tutorial at **[gaiaskilltree.com](https://gaiaskilltree.com/)** covers everything visually: skill tiers, the stars axis, and copy-paste commands.
 
