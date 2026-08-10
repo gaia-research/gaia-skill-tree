@@ -4,7 +4,7 @@
       "id": "2026-08-10-98-out-of-100-arent-good-enough",
       "type": "report",
       "date": "2026-08-10",
-      "title": "98 Out of 100 Aren't Good Enough",
+      "title": "98 Out of the Top 100 Installed Skills Aren't Good Enough",
       "summary": "We ran the skills.sh top-100 leaderboard through our curation pipeline. 73 of 100 entries are from two vendor clusters gaming install count. Here's what actually survived.",
       "label": "Curation Report",
       "url": "meta/reports/2026-08-10-98-out-of-100-arent-good-enough.html",
