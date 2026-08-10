@@ -8,7 +8,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 
 ## Registry Index
 
-### Basic Skills (126)
+### Basic Skills (136)
 
 * [API Call](/skills/basic/api-call.md) - A fundamental skill that enables agents to interact with external services via HTTP API calls.
 * [Adaptive Pattern Learning](/skills/basic/adaptive-pattern-learning.md) - Implements adaptive learning through pattern recognition and strategy optimization.
@@ -136,4 +136,14 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [Write Report](/skills/basic/write-report.md) - Produces structured, multi-section written output with headings, citations, and coherent narrative.
 * [evidence-attestation](/skills/basic/evidence-attestation.md) - Produces privacy-safe proof objects from agent claims by recording what evidence supports or contradicts each claim, what raw content was intentionally omitted, what verdict follows, and what would make the evidence stale; enables downstream registries, review gates, and scoreboards to verify agent work without accessing raw private context.
 * [implement-with-discernment](/skills/basic/implement-with-discernment.md) - Applies deliberate judgment before writing code: evaluating whether to implement at all, scoping to the minimum needed, deferring or rejecting features that add complexity without proportionate value, and stopping when the task is done.
+* [map-animation](/skills/basic/map-animation.md) - Animating geographic, static, and 3D maps using render engines, custom imagery overlays, vector styling, and terrain flythroughs.
+* [postgres-best-practices](/skills/basic/postgres-best-practices.md) - Guiding agents to design, migrate, secure, tune, and operate PostgreSQL databases using robust schema, SQL, RLS, indexing, and performance practices.
+* [supabase](/skills/basic/supabase.md) - Use when doing any task involving Supabase products including Database, Auth, Edge Functions, Realtime, Storage, client libraries, RLS, migrations, and Postgres extensions.
+* [timeline-animation](/skills/basic/timeline-animation.md) - Orchestrating frame-by-frame visual animations, interpolation, easing curves, and multimedia asset placement using declarative timeline-based code.
+* [video-captions](/skills/basic/video-captions.md) - Transcribing, displaying, and animating caption and subtitle tracks in code-defined media.
+* [video-interactivity](/skills/basic/video-interactivity.md) - Designing code-defined video templates and compositions to support visual manipulation, timeline interactivity, and direct in-studio editing.
+* [video-preview](/skills/basic/video-preview.md) - Providing an interactive local preview or development studio environment for code-defined video compositions.
+* [video-rendering](/skills/basic/video-rendering.md) - Automating the compilation, rendering, and export of code-defined video compositions into standard media formats.
+* [video-saas](/skills/basic/video-saas.md) - Designing and developing web applications that embed, render, and orchestrate code-driven video compositions using cloud rendering infrastructure.
+* [video-scaffolding](/skills/basic/video-scaffolding.md) - Scaffolding and initializing programmatic video composition projects including boilerplate generation, dependency installation, and local preview setup.
 

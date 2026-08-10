@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-08-10T15:12:01Z",
+  "generatedAt": "2026-08-10T16:35:44Z",
   "firstRun": false,
   "skills": [
     {
@@ -632,9 +632,37 @@
       "_links": {
         "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
       }
+    },
+    {
+      "id": "supabase/supabase",
+      "name": "Supabase",
+      "level": "2★",
+      "contributor": "supabase",
+      "trustMagnitude": 5.0,
+      "overallTrustGrade": null,
+      "trendingScore": 2.5,
+      "tmDelta": 5.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/supabase/supabase.json"
+      }
+    },
+    {
+      "id": "supabase/supabase-postgres-best-practices",
+      "name": "Supabase Postgres Best Practices",
+      "level": "2★",
+      "contributor": "supabase",
+      "trustMagnitude": 5.0,
+      "overallTrustGrade": null,
+      "trendingScore": 2.5,
+      "tmDelta": 5.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/supabase/supabase-postgres-best-practices.json"
+      }
     }
   ],
-  "totalTrending": 45,
+  "totalTrending": 47,
   "_links": {
     "self": "/api/v1/trending/30d.json"
   }
