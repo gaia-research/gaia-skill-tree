@@ -84,7 +84,7 @@
 | ○ /generate-sql | Basic | — | `/generate-sql` |
 | ○ [upsonic](../docs/u/upsonic/)/unittest-generator | Basic | 2★ | `/generate-test` |
 | ○ /generate-text | Basic | — | `/generate-text` |
-| · /generative-media | Fusion | — | `/generative-media` |
+| · [remotion-dev](../docs/u/remotion-dev/)/remotion-multimedia | Fusion | 2★ | `/generative-media` |
 | ○ /genomic-data-retrieval | Basic | — | `/genomic-data-retrieval` |
 | · /ghostwrite | Fusion | — | `/ghostwrite` |
 | · [ruvnet](../docs/u/ruvnet/)/github-suite | Fusion | 3★ | `/git-integration` |
@@ -109,6 +109,7 @@
 | · ████████/huggingface-papers | Fusion | — | `/literature-review` |
 | ○ [firecrawl](../docs/u/firecrawl/)/firecrawl-research-index | Basic | 3★ | `/literature-search` |
 | ○ /logical-inference | Basic | — | `/logical-inference` |
+| ○ [remotion-dev](../docs/u/remotion-dev/)/remotion-maps | Basic | 2★ | `/map-animation` |
 | ○ /math-reason | Basic | — | `/math-reason` |
 | · /mathematical-animation | Fusion | — | `/mathematical-animation` |
 | · /mcp-debugger-control | Fusion | — | `/mcp-debugger-control` |
@@ -204,6 +205,7 @@
 | ○ /text-to-speech | Basic | — | `/text-to-speech` |
 | · /text-to-sql-pipeline | Fusion | — | `/text-to-sql-pipeline` |
 | · /threat-intelligence-synthesis | Fusion | — | `/threat-intelligence-synthesis` |
+| ○ [remotion-dev](../docs/u/remotion-dev/)/remotion-markup | Basic | 2★ | `/timeline-animation` |
 | ○ /tokenize | Basic | — | `/tokenize` |
 | · /tool-chaining | Fusion | — | `/tool-chaining` |
 | · [mattpocock](../docs/u/mattpocock/)/write-a-skill | Fusion | 3★ | `/tool-creation` |
@@ -221,7 +223,14 @@
 | ○ [ruvnet](../docs/u/ruvnet/)/agentdb-vector-search | Basic | 2★ | `/vector-search` |
 | · [obra](../docs/u/obra/)/verification-before-completion | Fusion | 3★ | `/verification-before-completion` |
 | · [garrytan](../docs/u/garrytan/)/garrytan | Fusion | 4★ | `/vertical-slice-planning` |
+| ○ [remotion-dev](../docs/u/remotion-dev/)/remotion-captions | Basic | 2★ | `/video-captions` |
+| · [remotion-dev](../docs/u/remotion-dev/)/remotion-best-practices | Fusion | 2★ | `/video-composition` |
 | · [bradautomates](../docs/u/bradautomates/)/watch | Fusion | 2★ | `/video-intelligence` |
+| ○ [remotion-dev](../docs/u/remotion-dev/)/remotion-interactivity | Basic | 2★ | `/video-interactivity` |
+| ○ [remotion-dev](../docs/u/remotion-dev/)/remotion-studio | Basic | 2★ | `/video-preview` |
+| ○ [remotion-dev](../docs/u/remotion-dev/)/remotion-render | Basic | 2★ | `/video-rendering` |
+| ○ [remotion-dev](../docs/u/remotion-dev/)/remotion-saas | Basic | 2★ | `/video-saas` |
+| ○ [remotion-dev](../docs/u/remotion-dev/)/remotion-create | Basic | 2★ | `/video-scaffolding` |
 | ○ /vision-qa | Basic | — | `/vision-qa` |
 | · /voice-agent | Fusion | — | `/voice-agent` |
 | · /web-accessibility | Fusion | — | `/web-accessibility` |
@@ -229,7 +238,7 @@
 | · /web-quality-audit | Fusion | — | `/web-quality-audit` |
 | · [firecrawl](../docs/u/firecrawl/)/firecrawl-build-scrape | Fusion | 4★ | `/web-scrape` |
 | ○ [firecrawl](../docs/u/firecrawl/)/firecrawl-build-search | Basic | 4★ | `/web-search` |
-| · /wiki-search | Fusion | — | `/wiki-search` |
+| · [remotion-dev](../docs/u/remotion-dev/)/remotion-docs | Fusion | 2★ | `/wiki-search` |
 | ○ [ruvnet](../docs/u/ruvnet/)/worker-integration | Basic | 2★ | `/worker-agent-dispatch` |
 | · ████████/github-workflow-automation | Fusion | — | `/workflow-automation` |
 | · [garrytan](../docs/u/garrytan/)/gstack-upgrade | Fusion | 2★ | `/workspace-automation` |
@@ -285,6 +294,7 @@
 | ○ Image Generate | Intrinsic Skill | — | `/image-generate` |
 | ○ Object Detection | Intrinsic Skill | — | `/object-detection` |
 | ○ Pathway Ontology Retrieval | Intrinsic Skill | — | `/pathway-ontology-retrieval` |
+| ○ postgres-best-practices | Intrinsic Skill | 2★ | `/postgres-best-practices` |
 | ○ Prompt Caching | Intrinsic Skill | — | `/prompt-caching` |
 | ○ Quantum Circuit Programming | Intrinsic Skill | 3★ | `/quantum-circuit-programming` |
 | ○ React Performance Optimization | Intrinsic Skill | 3★ | `/react-performance-optimization` |
@@ -296,6 +306,7 @@
 | ○ Single-Cell Analysis | Intrinsic Skill | 3★ | `/single-cell-analysis` |
 | ○ Software Design | Intrinsic Skill | — | `/software-design` |
 | ○ Static Artwork Design | Intrinsic Skill | 2★ | `/static-artwork-design` |
+| ○ supabase | Intrinsic Skill | 2★ | `/supabase` |
 | ○ Synthetic Data Generation | Intrinsic Skill | — | `/synthetic-data-generation` |
 | ○ Test-Driven Development | Intrinsic Skill | 2★ | `/test-driven-development` |
 | ○ Time Series Forecasting | Intrinsic Skill | — | `/time-series-forecasting` |

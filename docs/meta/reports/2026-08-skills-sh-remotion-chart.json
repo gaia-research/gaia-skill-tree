@@ -1,0 +1,17 @@
+{
+  "type": "bar",
+  "caption": "Figure 3. Remotion suite expansion: a single skills.sh entry (rank 55, remotion-best-practices) resolves to 12 distinct named skills after source repository inspection. 9 skills proposed new generic capability nodes; 3 skills map to existing Gaia generics (wiki-search, framework-upgrade, generative-media). The fusion capstone video-composition (type: fusion) caps the suite with 8 component prerequisite nodes.",
+  "labels": ["remotion-best-practices\n(capstone)", "remotion-create", "remotion-markup", "remotion-studio", "remotion-render", "remotion-maps", "remotion-saas", "remotion-interactivity", "remotion-captions", "remotion-docs\n→wiki-search", "remotion-upgrade\n→framework-upgrade", "remotion-multimedia\n→generative-media"],
+  "datasets": [
+    {
+      "label": "NEW_GENERIC",
+      "color": "#22c55e",
+      "data": [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0]
+    },
+    {
+      "label": "MAP to existing",
+      "color": "#6366f1",
+      "data": [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1]
+    }
+  ]
+}

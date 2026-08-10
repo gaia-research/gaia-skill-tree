@@ -1,0 +1,39 @@
+{
+  "id": "supabase",
+  "name": "supabase",
+  "type": "basic",
+  "description": "Use when doing any task involving Supabase products including Database, Auth, Edge Functions, Realtime, Storage, client libraries, RLS, migrations, and Postgres extensions.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [
+    {
+      "source": "https://github.com/supabase/agent-skills/blob/main/skills/supabase/SKILL.md",
+      "evaluator": "mbtiongson1",
+      "date": "2026-08-10",
+      "type": "self-attestation",
+      "grade": "C"
+    }
+  ],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-08-10",
+  "updatedAt": "2026-08-10",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-08-10T15:02:49Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill supabase"
+    },
+    {
+      "timestamp": "2026-08-10T15:03:10Z",
+      "action": "evidence_added",
+      "contributor": "mbtiongson1",
+      "details": "Added evidence from https://github.com/supabase/agent-skills/blob/main/skills/supabase/SKILL.md (type: self-attestation)"
+    }
+  ],
+  "verification": {
+    "firstEvidenceAt": "2026-08-10T15:03:10Z"
+  }
+}

@@ -493,9 +493,35 @@
       "_links": {
         "self": "/api/v1/contributors/devin-ai.json"
       }
+    },
+    {
+      "handle": "supabase",
+      "namedSkills": 2,
+      "topSkill": {
+        "id": "supabase/supabase",
+        "level": "2★",
+        "trustMagnitude": 5.0
+      },
+      "prestigeScore": 10.0,
+      "_links": {
+        "self": "/api/v1/contributors/supabase.json"
+      }
+    },
+    {
+      "handle": "remotion-dev",
+      "namedSkills": 12,
+      "topSkill": {
+        "id": "remotion-dev/remotion-best-practices",
+        "level": "2★",
+        "trustMagnitude": 0.0
+      },
+      "prestigeScore": 0.0,
+      "_links": {
+        "self": "/api/v1/contributors/remotion-dev.json"
+      }
     }
   ],
-  "totalContributors": 38,
+  "totalContributors": 40,
   "_links": {
     "self": "/api/v1/contributors/index.json"
   }

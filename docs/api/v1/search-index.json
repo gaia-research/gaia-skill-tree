@@ -5622,6 +5622,39 @@
     ]
   },
   {
+    "id": "supabase/supabase",
+    "name": "Supabase",
+    "contributor": "supabase",
+    "level": "2★",
+    "grade": null,
+    "trustMagnitude": 5.0,
+    "branch": "standard",
+    "tokens": [
+      "core",
+      "integration",
+      "named",
+      "skill",
+      "supabase"
+    ]
+  },
+  {
+    "id": "supabase/supabase-postgres-best-practices",
+    "name": "Supabase Postgres Best Practices",
+    "contributor": "supabase",
+    "level": "2★",
+    "grade": null,
+    "trustMagnitude": 5.0,
+    "branch": "standard",
+    "tokens": [
+      "best",
+      "named",
+      "postgres",
+      "practices",
+      "skill",
+      "supabase"
+    ]
+  },
+  {
     "id": "mattpocock/teach",
     "name": "Teach",
     "contributor": "mattpocock",
@@ -5642,6 +5675,219 @@
       "teach",
       "user",
       "workspace"
+    ]
+  },
+  {
+    "id": "remotion-dev/remotion-best-practices",
+    "name": "Remotion Best Practices",
+    "contributor": "remotion-dev",
+    "level": "2★",
+    "grade": null,
+    "trustMagnitude": 0.0,
+    "branch": "suite",
+    "tokens": [
+      "best",
+      "composition",
+      "dev",
+      "named",
+      "practices",
+      "remotion",
+      "skill",
+      "video"
+    ]
+  },
+  {
+    "id": "remotion-dev/remotion-captions",
+    "name": "Remotion Captions",
+    "contributor": "remotion-dev",
+    "level": "2★",
+    "grade": null,
+    "trustMagnitude": 0.0,
+    "branch": "standard",
+    "tokens": [
+      "captions",
+      "dev",
+      "named",
+      "remotion",
+      "skill",
+      "video"
+    ]
+  },
+  {
+    "id": "remotion-dev/remotion-create",
+    "name": "Remotion Create",
+    "contributor": "remotion-dev",
+    "level": "2★",
+    "grade": null,
+    "trustMagnitude": 0.0,
+    "branch": "standard",
+    "tokens": [
+      "create",
+      "dev",
+      "named",
+      "remotion",
+      "scaffolding",
+      "skill",
+      "video"
+    ]
+  },
+  {
+    "id": "remotion-dev/remotion-docs",
+    "name": "Remotion Docs",
+    "contributor": "remotion-dev",
+    "level": "2★",
+    "grade": null,
+    "trustMagnitude": 0.0,
+    "branch": "standard",
+    "tokens": [
+      "dev",
+      "docs",
+      "named",
+      "remotion",
+      "search",
+      "skill",
+      "wiki"
+    ]
+  },
+  {
+    "id": "remotion-dev/remotion-interactivity",
+    "name": "Remotion Interactivity",
+    "contributor": "remotion-dev",
+    "level": "2★",
+    "grade": null,
+    "trustMagnitude": 0.0,
+    "branch": "standard",
+    "tokens": [
+      "dev",
+      "interactivity",
+      "named",
+      "remotion",
+      "skill",
+      "video"
+    ]
+  },
+  {
+    "id": "remotion-dev/remotion-maps",
+    "name": "Remotion Maps",
+    "contributor": "remotion-dev",
+    "level": "2★",
+    "grade": null,
+    "trustMagnitude": 0.0,
+    "branch": "standard",
+    "tokens": [
+      "animation",
+      "dev",
+      "map",
+      "maps",
+      "named",
+      "remotion",
+      "skill"
+    ]
+  },
+  {
+    "id": "remotion-dev/remotion-markup",
+    "name": "Remotion Markup",
+    "contributor": "remotion-dev",
+    "level": "2★",
+    "grade": null,
+    "trustMagnitude": 0.0,
+    "branch": "standard",
+    "tokens": [
+      "animation",
+      "dev",
+      "markup",
+      "named",
+      "remotion",
+      "skill",
+      "timeline"
+    ]
+  },
+  {
+    "id": "remotion-dev/remotion-multimedia",
+    "name": "Remotion Multimedia",
+    "contributor": "remotion-dev",
+    "level": "2★",
+    "grade": null,
+    "trustMagnitude": 0.0,
+    "branch": "standard",
+    "tokens": [
+      "dev",
+      "generative",
+      "media",
+      "multimedia",
+      "named",
+      "remotion",
+      "skill"
+    ]
+  },
+  {
+    "id": "remotion-dev/remotion-render",
+    "name": "Remotion Render",
+    "contributor": "remotion-dev",
+    "level": "2★",
+    "grade": null,
+    "trustMagnitude": 0.0,
+    "branch": "standard",
+    "tokens": [
+      "dev",
+      "named",
+      "remotion",
+      "render",
+      "rendering",
+      "skill",
+      "video"
+    ]
+  },
+  {
+    "id": "remotion-dev/remotion-saas",
+    "name": "Remotion SaaS",
+    "contributor": "remotion-dev",
+    "level": "2★",
+    "grade": null,
+    "trustMagnitude": 0.0,
+    "branch": "standard",
+    "tokens": [
+      "dev",
+      "named",
+      "remotion",
+      "saas",
+      "skill",
+      "video"
+    ]
+  },
+  {
+    "id": "remotion-dev/remotion-studio",
+    "name": "Remotion Studio",
+    "contributor": "remotion-dev",
+    "level": "2★",
+    "grade": null,
+    "trustMagnitude": 0.0,
+    "branch": "standard",
+    "tokens": [
+      "dev",
+      "named",
+      "preview",
+      "remotion",
+      "skill",
+      "studio",
+      "video"
+    ]
+  },
+  {
+    "id": "remotion-dev/remotion-upgrade",
+    "name": "Remotion Upgrade",
+    "contributor": "remotion-dev",
+    "level": "2★",
+    "grade": null,
+    "trustMagnitude": 0.0,
+    "branch": "standard",
+    "tokens": [
+      "dev",
+      "framework",
+      "named",
+      "remotion",
+      "skill",
+      "upgrade"
     ]
   }
 ]

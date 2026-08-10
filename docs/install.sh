@@ -61,10 +61,10 @@ fi
 
 if command -v pipx >/dev/null 2>&1; then
   echo "Installing $PACKAGE via pipx..."
-  pipx install "$PACKAGE"
+  pipx install --force "$PACKAGE"
 else
   echo "Installing $PACKAGE via pip..."
-  "$PYTHON" -m pip install --user "$PACKAGE"
+  "$PYTHON" -m pip install --user --force-reinstall "$PACKAGE"
 
   # PATH hint when gaia isn't immediately on PATH after a pip --user install
   if ! command -v gaia >/dev/null 2>&1; then

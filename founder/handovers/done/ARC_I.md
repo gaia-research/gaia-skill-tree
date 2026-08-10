@@ -16,9 +16,9 @@ Arc I is **three independent lanes**. They do not block each other. There is exa
 
 | Lane | Program | Repo(s) | Tracking |
 |---|---|---|---|
-| **A — Skill Heaven** | 1 | `gaia-research/skill-heaven` | issues **#5–#13**, milestone #1 |
+| **A — Skill Heaven** | 1 | `gaia-research/gaia-skill-heaven` | issues **#5–#13**, milestone #1 |
 | **B — Lexicon** | 2 | `gaia-research`, `gaia-skill-tree` | Program 2 milestone in HQ |
-| **C — Adoption** | 7 | `gaia-research`, `gaia-skill-tree`, `skill-heaven` | Program 7 milestone in HQ |
+| **C — Adoption** | 7 | `gaia-research`, `gaia-skill-tree`, `gaia-skill-heaven` | Program 7 milestone in HQ |
 
 **Not in Arc I:** Program 3 (Arc II), Program 4 (Arc III — and blocked, see §5), Program 5 (background maintenance lane, its own orchestrator), Program 6 (continuous cadence).
 
@@ -71,7 +71,7 @@ The standing rules behind it:
 
 ### Lane A — Skill Heaven (Program 1)
 
-**Repo:** `gaia-research/skill-heaven` · **Issues:** #5–#13 · **Tests today:** **64 on `origin/main`** (75 on the `feat/p1-floor-split` branch)
+**Repo:** `gaia-research/gaia-skill-heaven` · **Issues:** #5–#13 · **Tests today:** **64 on `origin/main`** (75 on the `feat/p1-floor-split` branch)
 
 > ⚠️ **Corrected 2026-07-28.** This line previously read "95/95 green." That number was wrong. **Measure the baseline yourself before claiming your branch keeps tests green** — a wrong baseline makes every later "still green" claim unverifiable.
 
@@ -79,9 +79,9 @@ The demonstration, in order: native session dose honestly scoped → a visible s
 
 **Start here, in this order:**
 
-1. **#6 — the floor split.** Ratified V5-5. The **benchmark floor stays completely doorless** — it is the placebo-of-record (B2). A separate **doorful product floor** ships, retaining the minimum control surface. The two are measured and named separately and priced as **separate arms** (B1) — never averaged. Evidence already in hand: PR #4's finding **F6** (`--disable-slash-commands` at the T9b floor suppresses plugin commands too, so `/skill-heaven` does not exist at the ratified floor — "the clean room as currently composed has no door") and **F7** (the door costs **+515 tokens**: 20,176 vs T9b's 19,661, still −28.9% off native's 28,379). Consequence: the `floor` term in `gaia-research/founder/lexicon.json` currently instructs readers not to assume one term covers both floors — once this lands, **split it into two terms**.
+1. **#6 — the floor split.** Ratified V5-5. The **benchmark floor stays completely doorless** — it is the placebo-of-record (B2). A separate **doorful product floor** ships, retaining the minimum control surface. The two are measured and named separately and priced as **separate arms** (B1) — never averaged. Evidence already in hand: PR #4's finding **F6** (`--disable-slash-commands` at the T9b floor suppresses plugin commands too, so `/skill-zero` does not exist at the ratified floor — "the clean room as currently composed has no door") and **F7** (the door costs **+515 tokens**: 20,176 vs T9b's 19,661, still −28.9% off native's 28,379). Consequence: the `floor` term in `gaia-research/founder/lexicon.json` currently instructs readers not to assume one term covers both floors — once this lands, **split it into two terms**.
 2. **#5 — re-cut PR #4.** Ratified V5-6. The PR binds itself to "D12, **D13**, P2, P3, D6". **D13 is retired** — it is on `gaia-research/founder/RATIFICATION.md`'s never-reused list, deleted 2026-07-24. Re-bind to live decisions, drop D13, absorb #6's floor split, and land the ratification delta **in the same PR cycle** (D9). This is a governance defect, not a code defect — the tests are green.
-3. **#7 — complete `/skill-heaven` (N8).** Closes ledger OPEN 10. Four uncovered scenarios: posture adjustment, capability discovery, clean-room access, refusal transparency. It **explains** posture and available transitions; it must never imply an in-session subtraction the harness cannot perform (D12).
+3. **#7 — complete `/skill-zero` (N8).** Closes ledger OPEN 10. Four uncovered scenarios: posture adjustment, capability discovery, clean-room access, refusal transparency. It **explains** posture and available transitions; it must never imply an in-session subtraction the harness cannot perform (D12).
 4. **#9 — honest standing-dose scope.** PR #3's unresolved item: the census covers **user + project only**; bundled and plugin-provided skills are excluded. Confirm the scope and disclose the exclusion on every surface that reports the number, *before* it anchors any public "native = Nk" claim.
 5. **#8, #10, #11, #12** — packaging, zero listing residual, zero shared-state mutation, honest refusal.
 6. **#13 — the three-minute demo.** This is the arc's gate artifact.
@@ -105,7 +105,7 @@ The demonstration, in order: native session dose honestly scoped → a visible s
    | `gaia-research` | `core` · `gaia.research` · `gaia.brand` · `gaia.heaven` · `gaia.mcp` |
    | `gaia-skill-tree` | `gaia.skills` · `gaia.trust` |
 
-   `skill-heaven` and `gaia-mcp` hold **no** namespace files — they consume. **`gaia.registry` is rejected; the namespace is `gaia.skills`.** That is the same ruling as #1258 ("Gaia Registry" is not the product name). Extend, never redefine: a term is defined in exactly one file, ever. Extend the CI gate to the second HQ.
+   `gaia-skill-heaven` and `gaia-mcp` hold **no** namespace files — they consume. **`gaia.registry` is rejected; the namespace is `gaia.skills`.** That is the same ruling as #1258 ("Gaia Registry" is not the product name). Extend, never redefine: a term is defined in exactly one file, ever. Extend the CI gate to the second HQ.
 
 2. **Record the prototype MCP tool names as `banned` vocabulary intent.** `summon` is `canonical` with oracle **D4**, and its definition names `search_skills` as its partner tool. Add `gaia_search`, `gaia_inspect`, `gaia_status` as `banned` with `replacement: search_skills` and an oracle citation, in `gaia.mcp`. Small; do it early. **Landed in `gaia-research` PR #126.**
 
@@ -127,7 +127,7 @@ The demonstration, in order: native session dose honestly scoped → a visible s
 
 4. **The four proven surface breaks** — fix only these in Arc I:
    - **#1130** — re-enable the Latest Weekly Report and Benchmarks Leaderboard entrypoints in `docs/index.html`. Their blocking condition (EPIC #1002) closed. Both surfaces exist and render at `docs/reports/2026-28/` and `docs/benchmarks/{humaneval,mmlu}/`. **Do this first — it is the cheapest credibility win in the arc.**
-   - **`skill-heaven/README.md` lines 26–27** — the Vision and Mission badges point at `gaia-research` repo-root `VISION.md`/`MISSION.md`, which **404**. The files live at `docs/skill-heaven/VISION.md` and `docs/skill-heaven/MISSION.md`.
+   - **`gaia-skill-heaven/README.md` lines 26–27** — the Vision and Mission badges point at `gaia-research` repo-root `VISION.md`/`MISSION.md`, which **404**. The files live at `docs/skill-heaven/VISION.md` and `docs/skill-heaven/MISSION.md`.
    - **#1328** — 14 stale `@gaia-registry/mcp-server` refs in `docs/en/mcp-server.html`. **No active surface may present an unpublished package as installable.**
    - **#1258** — the "Gaia Registry" branding audit. Same ruling as Lane B's `gaia.skills` rename; coordinate the copy.
 

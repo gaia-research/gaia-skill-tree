@@ -189,3 +189,90 @@ class TestUltimateOrdering:
         top = _top_ult_lines(out)
         # orphan has no star → must be last
         assert "orphan" in top[-1].lower() or "Orphan" in top[-1]
+
+
+# ---------------------------------------------------------------------------
+# User-mode pruning (Issue #1489)
+#
+# In mode="user" the per-user tree must show only the branches the user has a
+# stake in (owns the node or a node in its subtree) plus that branch's lineage
+# for context — NOT the entire canonical catalog. Canonical mode is unchanged
+# and covered by the tests above.
+# ---------------------------------------------------------------------------
+
+# Two orphan basics that belong to no upgrade path, plus a standalone Unique.
+_ORPHAN_A = {"id": "orphan-a", "name": "Orphan A", "type": "basic", "branch": "standard", "level": "0★", "prerequisites": []}
+_ORPHAN_B = {"id": "orphan-b", "name": "Orphan B", "type": "basic", "branch": "standard", "level": "0★", "prerequisites": []}
+_UNIQUE = {"id": "solo-unique", "name": "Solo Unique", "type": "basic", "branch": "unique", "level": "0★", "prerequisites": []}
+
+_USER_SKILLS = _ALL_SKILLS + [_ORPHAN_A, _ORPHAN_B, _UNIQUE]
+
+
+def _render_user(owned, skills=None):
+    return render_tree(
+        _USER_SKILLS if skills is None else skills,
+        mode="user",
+        owned_ids=set(owned),
+        named_map=_NAMED_MAP,
+        named_level_map=_NAMED_LEVEL_MAP,
+        version="0.0.0",
+        date_str="2026-01-01",
+        user_id="tester",
+    )
+
+
+class TestUserModePruning:
+    def test_owned_leaf_renders_its_ultimate_branch(self):
+        # User owns `search`, a shared leaf inside BOTH the `skills` and
+        # `gstack` suite branches (branch read from the emitted `branch` field;
+        # no `type` and no resolver). Both branches have an owned node in their
+        # subtree, so both top-level ◆ entries render.
+        out = _render_user(["search"])
+        ults = [l for l in out.splitlines() if l.startswith(("· ◆", "✓ ◆"))]
+        assert any("skills" in l for l in ults)
+        assert any("gstack" in l for l in ults)
+
+    def test_unowned_ultimate_branch_is_omitted(self):
+        # Owning only `engineering` gives a stake in `skills` (engineering is
+        # its prereq) but NOT in `gstack` (which only contains `search`).
+        out = _render_user(["engineering"])
+        assert any("skills" in l for l in out.splitlines() if l.startswith(("· ◆", "✓ ◆")))
+        assert not any("gstack" in l for l in out.splitlines()), (
+            "gstack has no owned node in its subtree and must be omitted"
+        )
+
+    def test_only_owned_orphan_basics_shown(self):
+        out = _render_user(["orphan-a"])
+        assert any("/orphan-a" in l for l in out.splitlines())
+        assert not any("/orphan-b" in l for l in out.splitlines()), (
+            "unowned orphan basic must not appear in a user tree"
+        )
+
+    def test_unique_shown_only_when_owned(self):
+        owned_out = _render_user(["solo-unique"])
+        assert any("/solo-unique" in l for l in owned_out.splitlines())
+        assert "Uniques —" in owned_out  # section header present
+        unowned_out = _render_user(["orphan-a"])
+        assert not any("/solo-unique" in l for l in unowned_out.splitlines())
+        assert "Uniques —" not in unowned_out  # header dropped when none survive
+
+    def test_empty_user_has_no_skill_rows_or_headers(self):
+        out = _render_user([])
+        body = out.splitlines()
+        assert not any(l.lstrip().startswith(("◆", "◉", "○")) for l in body), (
+            "a user who owns nothing should have no skill rows in the upgrade path"
+        )
+        assert "Uniques —" not in out
+        assert "Basics —" not in out
+
+    def test_adding_unowned_basic_does_not_change_user_output(self):
+        # Anti-churn guard (the core of #1489): a new orphan basic the user
+        # does not own must NOT alter their rendered tree.
+        before = _render_user(["search"])
+        new_basic = {"id": "brand-new", "name": "Brand New", "type": "basic", "branch": "standard", "level": "0★", "prerequisites": []}
+        after = _render_user(["search"], skills=_USER_SKILLS + [new_basic])
+        assert before == after, (
+            "adding an unowned catalog basic changed a user's tree — the "
+            "whole-catalog churn #1489 is meant to fix"
+        )
+

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-09",
+  "generatedAt": "2026-08-10",
   "buckets": {
     "automated-testing": [
       {
@@ -20023,6 +20023,47 @@
         "rankWord": "Named",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
+      },
+      {
+        "id": "remotion-dev/remotion-upgrade",
+        "name": "Remotion Upgrade",
+        "contributor": "remotion-dev",
+        "origin": false,
+        "genericSkillRef": "framework-upgrade",
+        "status": "named",
+        "level": "2★",
+        "description": "remotion-dev named skill for remotion-upgrade",
+        "title": "Remotion Upgrade",
+        "createdAt": "2026-08-10",
+        "updatedAt": "2026-08-10",
+        "timeline": [
+          {
+            "timestamp": "2026-08-10T14:48:07Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill remotion-dev/remotion-upgrade"
+          }
+        ],
+        "suiteRef": "remotion-dev/remotion-best-practices",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "route-intent": [
@@ -24730,6 +24771,501 @@
         "contractVersion": "gaia-public-v1"
       }
     ],
+    "video-composition": [
+      {
+        "id": "remotion-dev/remotion-best-practices",
+        "name": "Remotion Best Practices",
+        "contributor": "remotion-dev",
+        "origin": false,
+        "genericSkillRef": "video-composition",
+        "status": "named",
+        "level": "2★",
+        "description": "remotion-dev named skill for remotion-best-practices",
+        "title": "Remotion Best Practices",
+        "createdAt": "2026-08-10",
+        "updatedAt": "2026-08-10",
+        "timeline": [
+          {
+            "timestamp": "2026-08-10T14:48:24Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill remotion-dev/remotion-best-practices"
+          },
+          {
+            "timestamp": "2026-08-10T14:48:57Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef=remotion-dev/remotion-best-practices, genericSkillRef=video-composition via `gaia dev fuse`."
+          }
+        ],
+        "suiteComponents": [
+          "remotion-dev/remotion-captions",
+          "remotion-dev/remotion-create",
+          "remotion-dev/remotion-docs",
+          "remotion-dev/remotion-interactivity",
+          "remotion-dev/remotion-maps",
+          "remotion-dev/remotion-markup",
+          "remotion-dev/remotion-multimedia",
+          "remotion-dev/remotion-render",
+          "remotion-dev/remotion-saas",
+          "remotion-dev/remotion-studio",
+          "remotion-dev/remotion-upgrade"
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "suite",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "only 0/3 components carry graded evidence"
+        }
+      }
+    ],
+    "video-captions": [
+      {
+        "id": "remotion-dev/remotion-captions",
+        "name": "Remotion Captions",
+        "contributor": "remotion-dev",
+        "origin": false,
+        "genericSkillRef": "video-captions",
+        "status": "named",
+        "level": "2★",
+        "description": "remotion-dev named skill for remotion-captions",
+        "title": "Remotion Captions",
+        "createdAt": "2026-08-10",
+        "updatedAt": "2026-08-10",
+        "timeline": [
+          {
+            "timestamp": "2026-08-10T14:48:06Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill remotion-dev/remotion-captions"
+          }
+        ],
+        "suiteRef": "remotion-dev/remotion-best-practices",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "video-scaffolding": [
+      {
+        "id": "remotion-dev/remotion-create",
+        "name": "Remotion Create",
+        "contributor": "remotion-dev",
+        "origin": false,
+        "genericSkillRef": "video-scaffolding",
+        "status": "named",
+        "level": "2★",
+        "description": "remotion-dev named skill for remotion-create",
+        "title": "Remotion Create",
+        "createdAt": "2026-08-10",
+        "updatedAt": "2026-08-10",
+        "timeline": [
+          {
+            "timestamp": "2026-08-10T14:48:01Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill remotion-dev/remotion-create"
+          }
+        ],
+        "suiteRef": "remotion-dev/remotion-best-practices",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "wiki-search": [
+      {
+        "id": "remotion-dev/remotion-docs",
+        "name": "Remotion Docs",
+        "contributor": "remotion-dev",
+        "origin": false,
+        "genericSkillRef": "wiki-search",
+        "status": "named",
+        "level": "2★",
+        "description": "remotion-dev named skill for remotion-docs",
+        "title": "Remotion Docs",
+        "createdAt": "2026-08-10",
+        "updatedAt": "2026-08-10",
+        "timeline": [
+          {
+            "timestamp": "2026-08-10T14:48:07Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill remotion-dev/remotion-docs"
+          }
+        ],
+        "suiteRef": "remotion-dev/remotion-best-practices",
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "video-interactivity": [
+      {
+        "id": "remotion-dev/remotion-interactivity",
+        "name": "Remotion Interactivity",
+        "contributor": "remotion-dev",
+        "origin": false,
+        "genericSkillRef": "video-interactivity",
+        "status": "named",
+        "level": "2★",
+        "description": "remotion-dev named skill for remotion-interactivity",
+        "title": "Remotion Interactivity",
+        "createdAt": "2026-08-10",
+        "updatedAt": "2026-08-10",
+        "timeline": [
+          {
+            "timestamp": "2026-08-10T14:48:05Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill remotion-dev/remotion-interactivity"
+          }
+        ],
+        "suiteRef": "remotion-dev/remotion-best-practices",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "map-animation": [
+      {
+        "id": "remotion-dev/remotion-maps",
+        "name": "Remotion Maps",
+        "contributor": "remotion-dev",
+        "origin": false,
+        "genericSkillRef": "map-animation",
+        "status": "named",
+        "level": "2★",
+        "description": "remotion-dev named skill for remotion-maps",
+        "title": "Remotion Maps",
+        "createdAt": "2026-08-10",
+        "updatedAt": "2026-08-10",
+        "timeline": [
+          {
+            "timestamp": "2026-08-10T14:48:04Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill remotion-dev/remotion-maps"
+          }
+        ],
+        "suiteRef": "remotion-dev/remotion-best-practices",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "timeline-animation": [
+      {
+        "id": "remotion-dev/remotion-markup",
+        "name": "Remotion Markup",
+        "contributor": "remotion-dev",
+        "origin": false,
+        "genericSkillRef": "timeline-animation",
+        "status": "named",
+        "level": "2★",
+        "description": "remotion-dev named skill for remotion-markup",
+        "title": "Remotion Markup",
+        "createdAt": "2026-08-10",
+        "updatedAt": "2026-08-10",
+        "timeline": [
+          {
+            "timestamp": "2026-08-10T14:48:02Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill remotion-dev/remotion-markup"
+          }
+        ],
+        "suiteRef": "remotion-dev/remotion-best-practices",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "generative-media": [
+      {
+        "id": "remotion-dev/remotion-multimedia",
+        "name": "Remotion Multimedia",
+        "contributor": "remotion-dev",
+        "origin": false,
+        "genericSkillRef": "generative-media",
+        "status": "named",
+        "level": "2★",
+        "description": "remotion-dev named skill for remotion-multimedia",
+        "title": "Remotion Multimedia",
+        "createdAt": "2026-08-10",
+        "updatedAt": "2026-08-10",
+        "timeline": [
+          {
+            "timestamp": "2026-08-10T14:48:08Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill remotion-dev/remotion-multimedia"
+          }
+        ],
+        "suiteRef": "remotion-dev/remotion-best-practices",
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "video-rendering": [
+      {
+        "id": "remotion-dev/remotion-render",
+        "name": "Remotion Render",
+        "contributor": "remotion-dev",
+        "origin": false,
+        "genericSkillRef": "video-rendering",
+        "status": "named",
+        "level": "2★",
+        "description": "remotion-dev named skill for remotion-render",
+        "title": "Remotion Render",
+        "createdAt": "2026-08-10",
+        "updatedAt": "2026-08-10",
+        "timeline": [
+          {
+            "timestamp": "2026-08-10T14:48:03Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill remotion-dev/remotion-render"
+          }
+        ],
+        "suiteRef": "remotion-dev/remotion-best-practices",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "video-saas": [
+      {
+        "id": "remotion-dev/remotion-saas",
+        "name": "Remotion SaaS",
+        "contributor": "remotion-dev",
+        "origin": false,
+        "genericSkillRef": "video-saas",
+        "status": "named",
+        "level": "2★",
+        "description": "remotion-dev named skill for remotion-saas",
+        "title": "Remotion SaaS",
+        "createdAt": "2026-08-10",
+        "updatedAt": "2026-08-10",
+        "timeline": [
+          {
+            "timestamp": "2026-08-10T14:48:04Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill remotion-dev/remotion-saas"
+          }
+        ],
+        "suiteRef": "remotion-dev/remotion-best-practices",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "video-preview": [
+      {
+        "id": "remotion-dev/remotion-studio",
+        "name": "Remotion Studio",
+        "contributor": "remotion-dev",
+        "origin": false,
+        "genericSkillRef": "video-preview",
+        "status": "named",
+        "level": "2★",
+        "description": "remotion-dev named skill for remotion-studio",
+        "title": "Remotion Studio",
+        "createdAt": "2026-08-10",
+        "updatedAt": "2026-08-10",
+        "timeline": [
+          {
+            "timestamp": "2026-08-10T14:48:02Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill remotion-dev/remotion-studio"
+          }
+        ],
+        "suiteRef": "remotion-dev/remotion-best-practices",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 0.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
     "distributed-vector-memory": [
       {
         "id": "ruvnet/agentdb-advanced",
@@ -28445,6 +28981,90 @@
         },
         "type": "fusion",
         "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "postgres-best-practices": [
+      {
+        "id": "supabase/supabase-postgres-best-practices",
+        "name": "Supabase Postgres Best Practices",
+        "contributor": "supabase",
+        "origin": false,
+        "genericSkillRef": "postgres-best-practices",
+        "status": "named",
+        "level": "2★",
+        "description": "supabase named skill for supabase-postgres-best-practices",
+        "title": "Supabase Postgres Best Practices",
+        "createdAt": "2026-08-10",
+        "updatedAt": "2026-08-10",
+        "timeline": [
+          {
+            "timestamp": "2026-08-10T15:02:55Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill supabase/supabase-postgres-best-practices"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 5.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "supabase": [
+      {
+        "id": "supabase/supabase",
+        "name": "Supabase",
+        "contributor": "supabase",
+        "origin": false,
+        "genericSkillRef": "supabase",
+        "status": "named",
+        "level": "2★",
+        "description": "supabase named skill for supabase core integration",
+        "title": "Supabase",
+        "createdAt": "2026-08-10",
+        "updatedAt": "2026-08-10",
+        "timeline": [
+          {
+            "timestamp": "2026-08-10T15:02:59Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill supabase/supabase"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 5.0,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
         "branch": "standard",
         "rank": 2,
         "rankWord": "Named",
@@ -35327,6 +35947,20 @@
     "pexp13": [
       "pexp13/sentiment-analysis"
     ],
+    "remotion-dev": [
+      "remotion-dev/remotion-best-practices",
+      "remotion-dev/remotion-captions",
+      "remotion-dev/remotion-create",
+      "remotion-dev/remotion-docs",
+      "remotion-dev/remotion-interactivity",
+      "remotion-dev/remotion-maps",
+      "remotion-dev/remotion-markup",
+      "remotion-dev/remotion-multimedia",
+      "remotion-dev/remotion-render",
+      "remotion-dev/remotion-saas",
+      "remotion-dev/remotion-studio",
+      "remotion-dev/remotion-upgrade"
+    ],
     "rico-favor": [
       "rico-favor/implement-with-discernment"
     ],
@@ -35396,6 +36030,10 @@
     ],
     "stanfordnlp": [
       "stanfordnlp/dspy"
+    ],
+    "supabase": [
+      "supabase/supabase-postgres-best-practices",
+      "supabase/supabase"
     ],
     "upsonic": [
       "upsonic/unittest-generator"

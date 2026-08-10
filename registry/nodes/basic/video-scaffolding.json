@@ -1,0 +1,22 @@
+{
+  "id": "video-scaffolding",
+  "name": "video-scaffolding",
+  "type": "basic",
+  "description": "Scaffolding and initializing programmatic video composition projects including boilerplate generation, dependency installation, and local preview setup.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-08-10",
+  "updatedAt": "2026-08-10",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-08-10T14:47:21Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill video-scaffolding"
+    }
+  ]
+}

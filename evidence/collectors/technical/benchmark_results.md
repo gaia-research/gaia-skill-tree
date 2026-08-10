@@ -126,3 +126,29 @@ This report presents objective benchmark scores, evaluation parameters, and perf
 * **Benchmark:** DRACO Benchmark
 * **Grade:** A
 * **Setup Description:** OpenRouter's Fusion technique achieved 69.0% on DRACO deep research tasks, surpassing individual frontier models when combining Fable 5 and GPT-5.5 through synthesis.
+
+### `programmatic-video-composition` — repo-own
+* **Skill:** `programmatic-video-composition`
+* **Source:** https://github.com/remotion-dev/skills/blob/main/skills/remotion-best-practices/SKILL.md
+* **Claimed evidence type:** repo-own
+* **Attribution scope:** standalone
+
+### `programmatic-video-composition` — github-stars-own
+* **Skill:** `programmatic-video-composition`
+* **Source:** https://github.com/remotion-dev/skills/blob/main/skills/remotion-best-practices/SKILL.md
+* **Claimed evidence type:** github-stars-own
+* **Attribution scope:** standalone
+
+
+### `postgres-best-practices` — repo-own
+* **Skill:** `postgres-best-practices`
+* **Source:** https://github.com/supabase/agent-skills/blob/main/skills/supabase-postgres-best-practices/SKILL.md
+* **Claimed evidence type:** repo-own
+* **Attribution scope:** standalone
+
+### `postgres-best-practices` — github-stars-own
+* **Skill:** `postgres-best-practices`
+* **Source:** https://github.com/supabase/agent-skills/blob/main/skills/supabase-postgres-best-practices/SKILL.md
+* **Claimed evidence type:** github-stars-own
+* **Attribution scope:** standalone
+
