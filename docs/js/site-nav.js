@@ -175,7 +175,8 @@
     'named-skills.html':    'Named Skills',
     'share-bundles.html':   'Share Bundles',
     'skill-hierarchy.html': 'Skill Hierarchy',
-    'timeline-audit.html':  'Timeline Audit'
+    'timeline-audit.html':  'Timeline Audit',
+    'manual-curation-pipeline.html': 'Manual Curation Pipeline'
   };
 
   function renderBreadcrumb() {
