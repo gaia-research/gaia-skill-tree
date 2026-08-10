@@ -7,8 +7,6 @@
 
 # Gaia: A Skill Tree 🌲
 
-[![Gaia](https://gaiaskilltree.com/badges/_assets/gaia-research/ci-churn.svg?repo=gaia-research%2Fgaia-skill-tree)](https://gaiaskilltree.com/named/#explorer/gaia-research/ci-churn)
-
 **Share your skill. We prove that it works. Then we name it to you.**
 
 Gaia is not a marketplace of skills, or an installer of some sorts. What we do is we verify your skill, check its capability, and reward them to those who AUTHORED them. Not the model, not the AI, but the HUMAN who authored them.
@@ -29,6 +27,7 @@ and push your first skill in under 2 minutes.
 # A few have been named already. Your skill got appraised? Badge is yours forever.
 
 [![Gaia rank](https://gaiaskilltree.com/badges/_assets/mbtiongson1/rank.svg?repo=gaia-research%2Fgaia-skill-tree)](https://gaiaskilltree.com/u/mbtiongson1/)<br>
+[![Gaia](https://gaiaskilltree.com/badges/_assets/gaia-research/ci-churn.svg?repo=gaia-research%2Fgaia-skill-tree)](https://gaiaskilltree.com/named/#explorer/gaia-research/ci-churn)
 
 Generate yours at **[gaiaskilltree.com/badges/](https://gaiaskilltree.com/badges/)**.
 
