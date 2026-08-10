@@ -435,7 +435,74 @@
     }
     .page-nav-btn:hover { border-color: rgba(56,189,248,0.4); color: var(--tier-basic, #38bdf8); text-decoration: none; }
 
-    @media (max-width: 768px) {
+    /* ── Code fence copy behaviour (matches cli-reference mini-terminal) ── */
+    .code-fence {
+      cursor: pointer;
+      user-select: none;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s cubic-bezier(0.4,0,0.2,1);
+    }
+    .code-fence pre { user-select: text; }
+    .code-fence:hover {
+      border-color: var(--tier-basic, #38bdf8);
+      box-shadow: 0 6px 16px rgba(56,189,248,0.12);
+      transform: translateY(-1.5px);
+    }
+    .code-fence:active { transform: translateY(0); }
+    .code-fence-header {
+      position: relative;
+    }
+    /* macOS dots in header */
+    .code-fence-header::before {
+      content: '';
+      display: inline-flex;
+      gap: 4px;
+      width: 36px;
+      height: 8px;
+      background:
+        radial-gradient(circle 3px at 4px 4px, #475569 100%, transparent 100%),
+        radial-gradient(circle 3px at 16px 4px, #475569 100%, transparent 100%),
+        radial-gradient(circle 3px at 28px 4px, #475569 100%, transparent 100%);
+      margin-right: 8px;
+      flex-shrink: 0;
+      transition: background 0.15s;
+    }
+    .code-fence:hover .code-fence-header::before {
+      background:
+        radial-gradient(circle 3px at 4px 4px, #ef4444 100%, transparent 100%),
+        radial-gradient(circle 3px at 16px 4px, #fbbf24 100%, transparent 100%),
+        radial-gradient(circle 3px at 28px 4px, #22c55e 100%, transparent 100%);
+    }
+    /* copy feedback toast */
+    .copy-toast {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: var(--surface, #0f172a);
+      border: 1px solid var(--tier-basic, #38bdf8);
+      color: var(--tier-basic, #38bdf8);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.15s, transform 0.15s;
+      pointer-events: none;
+      z-index: 9999;
+    }
+    .copy-toast.show { opacity: 1; transform: translateY(0); }
+
+    /* copy-status label on the header right side */
+    .code-fence-copy-status {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--muted, #64748b);
+      margin-left: auto;
+      opacity: 0;
+      transition: opacity 0.15s, color 0.15s;
+    }
+    .code-fence:hover .code-fence-copy-status { opacity: 1; }
+    .code-fence.copied .code-fence-copy-status { opacity: 1; color: #22c55e; }
       .quick-path-gates { flex-direction: column; }
       .gate-sep { display: none; }
     }
@@ -570,7 +637,7 @@
 
         <h3>Step 1 — Preflight</h3>
         <div class="code-fence">
-          <div class="code-fence-header"><span class="code-fence-label">bash</span></div>
+          <div class="code-fence-header"><span class="code-fence-label">bash</span><span class="code-fence-copy-status">click to copy</span></div>
           <pre><span class="c"># confirm gaia CLI is installed</span>
 <span class="cmd">gaia</span> --version
 
@@ -584,14 +651,14 @@
         <h3>Step 2 — Snapshot the generic list</h3>
         <p>Save this file. It's the trust anchor for packet validation. Don't overwrite it mid-run.</p>
         <div class="code-fence">
-          <div class="code-fence-header"><span class="code-fence-label">bash</span></div>
+          <div class="code-fence-header"><span class="code-fence-label">bash</span><span class="code-fence-copy-status">click to copy</span></div>
           <pre><span class="cmd">gaia</span> dev list <span class="arg">--generic --json</span> <span class="str">&gt; /tmp/generic-snapshot.json</span>
 <span class="cmd">wc</span> -l /tmp/generic-snapshot.json</pre>
         </div>
 
         <h3>Step 3 — Run prefill against the SKILL.md URL</h3>
         <div class="code-fence">
-          <div class="code-fence-header"><span class="code-fence-label">bash</span></div>
+          <div class="code-fence-header"><span class="code-fence-label">bash</span><span class="code-fence-copy-status">click to copy</span></div>
           <pre><span class="cmd">gaia</span> dev prefill \
   <span class="arg">--source</span> <span class="str">"https://github.com/owner/repo/blob/main/SKILL.md"</span> \
   <span class="arg">--output</span> /tmp/prefill-output.json
@@ -619,7 +686,7 @@
         <h3>Step 5 — Write and validate the discovery-packet-v2</h3>
         <p>Create the packet at <code>registry-for-review/discovery-packets/owner--skill-name.json</code>. Key fields:</p>
         <div class="code-fence">
-          <div class="code-fence-header"><span class="code-fence-label">json — minimum required fields</span></div>
+          <div class="code-fence-header"><span class="code-fence-label">json — minimum required fields</span><span class="code-fence-copy-status">click to copy</span></div>
           <pre>{
   <span class="str">"schemaVersion"</span>: <span class="str">"discovery-packet-v2"</span>,
   <span class="str">"source"</span>: { <span class="str">"url"</span>: <span class="pl">"&lt;blob-url&gt;"</span>, <span class="str">"canonicalUrl"</span>: <span class="pl">"&lt;blob-url&gt;"</span>, <span class="str">"lane"</span>: <span class="str">"github-skill-file"</span> },
@@ -635,7 +702,7 @@
 }</pre>
         </div>
         <div class="code-fence">
-          <div class="code-fence-header"><span class="code-fence-label">bash — validate</span></div>
+          <div class="code-fence-header"><span class="code-fence-label">bash — validate</span><span class="code-fence-copy-status">click to copy</span></div>
           <pre><span class="cmd">python3</span> scripts/validate_discovery_packet.py \
   <span class="arg">--generic-snapshot</span> /tmp/generic-snapshot.json \
   registry-for-review/discovery-packets/owner--skill-name.json
@@ -670,7 +737,7 @@
 
         <h3>Append l4Resolution</h3>
         <div class="code-fence">
-          <div class="code-fence-header"><span class="code-fence-label">json — append to packet</span></div>
+          <div class="code-fence-header"><span class="code-fence-label">json — append to packet</span><span class="code-fence-copy-status">click to copy</span></div>
           <pre><span class="str">"l4Resolution"</span>: {
   <span class="str">"generic"</span>: { <span class="str">"id"</span>: <span class="pl">"final-generic-id"</span>, <span class="str">"name"</span>: <span class="pl">"Human Readable Name"</span>, <span class="str">"description"</span>: <span class="pl">"Vendor-neutral, falsifiable."</span>, <span class="str">"type"</span>: <span class="str">"basic"</span>, <span class="str">"prerequisites"</span>: [] },
   <span class="str">"named"</span>: { <span class="str">"contributor"</span>: <span class="pl">"github-handle"</span>, <span class="str">"skillName"</span>: <span class="pl">"kebab-case-name"</span> },
@@ -678,7 +745,7 @@
 }</pre>
         </div>
         <div class="code-fence">
-          <div class="code-fence-header"><span class="code-fence-label">bash — re-validate after appending</span></div>
+          <div class="code-fence-header"><span class="code-fence-label">bash — re-validate after appending</span><span class="code-fence-copy-status">click to copy</span></div>
           <pre><span class="cmd">python3</span> scripts/validate_discovery_packet.py \
   <span class="arg">--generic-snapshot</span> /tmp/generic-snapshot.json \
   registry-for-review/discovery-packets/owner--skill-name.json</pre>
@@ -691,7 +758,7 @@
         </div>
 
         <div class="code-fence">
-          <div class="code-fence-header"><span class="code-fence-label">bash</span></div>
+          <div class="code-fence-header"><span class="code-fence-label">bash</span><span class="code-fence-copy-status">click to copy</span></div>
           <pre><span class="cmd">git</span> checkout <span class="arg">-b</span> review/meta/github-handle--skill-name
 
 <span class="c"># Dry run first</span>
@@ -725,7 +792,7 @@
           <p><code>intake:evidence-approved</code> requires both <code>intake:evidence-review</code> <strong>and</strong> <code>intake:evidence-ready</code> to already be present. The workflow errors if either is missing.</p>
         </div>
         <div class="code-fence">
-          <div class="code-fence-header"><span class="code-fence-label">bash — approve topology when ready (maintainer only)</span></div>
+          <div class="code-fence-header"><span class="code-fence-label">bash — approve topology when ready (maintainer only)</span><span class="code-fence-copy-status">click to copy</span></div>
           <pre><span class="cmd">gh</span> issue edit <span class="pl">&lt;ISSUE_NUMBER&gt;</span> <span class="arg">--add-label</span> <span class="str">"intake:topology-approved"</span>
 <span class="c"># Fires intake-approval.yml — watch it:</span>
 <span class="cmd">gh</span> run list <span class="arg">--workflow=intake-approval.yml</span></pre>
@@ -746,7 +813,7 @@
           <p>Requires <code>FIRECRAWL_API_KEY</code>. Skip gracefully if absent.</p>
         </div>
         <div class="code-fence">
-          <div class="code-fence-header"><span class="code-fence-label">bash</span></div>
+          <div class="code-fence-header"><span class="code-fence-label">bash</span><span class="code-fence-copy-status">click to copy</span></div>
           <pre><span class="cmd">gaia</span> dev discover \
   <span class="arg">--skill</span> contributor/skill-id \
   <span class="arg">--repo</span> <span class="str">"https://github.com/owner/repo"</span> \
@@ -760,7 +827,7 @@
           <p><strong>This runs on the entire registry — not just your new skill.</strong> <code>generate_source_dump.py</code> reads all named-skill evidence rows across every skill in <code>registry/named/</code>. Your new skill's rows appear alongside all others. That is expected.</p>
         </div>
         <div class="code-fence">
-          <div class="code-fence-header"><span class="code-fence-label">bash</span></div>
+          <div class="code-fence-header"><span class="code-fence-label">bash</span><span class="code-fence-copy-status">click to copy</span></div>
           <pre><span class="cmd">python3</span> evidence/scripts/generate_source_dump.py \
   <span class="arg">--output-dir</span> evidence <span class="arg">--by-type-dir</span> evidence/by-type
 
@@ -770,7 +837,7 @@
 
         <h3>Phase 2 — ev-star-verification</h3>
         <div class="code-fence">
-          <div class="code-fence-header"><span class="code-fence-label">bash</span></div>
+          <div class="code-fence-header"><span class="code-fence-label">bash</span><span class="code-fence-copy-status">click to copy</span></div>
           <pre><span class="c"># Check auth first — zero stars from an unauth'd call is poison data</span>
 <span class="cmd">gh</span> auth status
 <span class="cmd">gh</span> api repos/OWNER/REPO <span class="arg">--jq</span> <span class="str">'.stargazers_count'</span>
@@ -779,7 +846,7 @@
 
         <h3>Phase 3 — ev-adversarial-audit</h3>
         <div class="code-fence">
-          <div class="code-fence-header"><span class="code-fence-label">bash — check for common issues</span></div>
+          <div class="code-fence-header"><span class="code-fence-label">bash — check for common issues</span><span class="code-fence-copy-status">click to copy</span></div>
           <pre><span class="c"># Find github tree/ URLs that should be blob/</span>
 <span class="cmd">grep</span> <span class="arg">-rn</span> <span class="str">"github.com/.*/tree/"</span> evidence/by-type/
 
@@ -789,7 +856,7 @@
 
         <h3>Phase 4 — ev-link-validation</h3>
         <div class="code-fence">
-          <div class="code-fence-header"><span class="code-fence-label">bash</span></div>
+          <div class="code-fence-header"><span class="code-fence-label">bash</span><span class="code-fence-copy-status">click to copy</span></div>
           <pre><span class="cmd">python3</span> evidence/scripts/validate_sources.py
 <span class="c"># Or a 10-URL sample first:</span>
 <span class="cmd">python3</span> evidence/scripts/validate_sources.py 10</pre>
@@ -813,7 +880,7 @@
 
         <h3>Ingest each approved evidence row</h3>
         <div class="code-fence">
-          <div class="code-fence-header"><span class="code-fence-label">bash — repo-own</span></div>
+          <div class="code-fence-header"><span class="code-fence-label">bash — repo-own</span><span class="code-fence-copy-status">click to copy</span></div>
           <pre><span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> dev evidence contributor/skill-id \
   <span class="str">"https://github.com/owner/repo"</span> \
   <span class="arg">--type</span> repo-own <span class="arg">--commits</span> 847 <span class="arg">--contributors</span> 12 \
@@ -821,7 +888,7 @@
   <span class="arg">--source-started-at</span> 2024-03-01 <span class="arg">--no-build</span></pre>
         </div>
         <div class="code-fence">
-          <div class="code-fence-header"><span class="code-fence-label">bash — github-stars-own</span></div>
+          <div class="code-fence-header"><span class="code-fence-label">bash — github-stars-own</span><span class="code-fence-copy-status">click to copy</span></div>
           <pre><span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> dev evidence contributor/skill-id \
   <span class="str">"https://github.com/owner/repo/blob/main/SKILL.md"</span> \
   <span class="arg">--type</span> github-stars-own <span class="arg">--stars</span> 3421 <span class="arg">--skill-count-in-repo</span> 1 \
@@ -829,7 +896,7 @@
   <span class="arg">--source-started-at</span> 2024-03-01 <span class="arg">--no-build</span></pre>
         </div>
         <div class="code-fence">
-          <div class="code-fence-header"><span class="code-fence-label">bash — build + appraise + calibrate</span></div>
+          <div class="code-fence-header"><span class="code-fence-label">bash — build + appraise + calibrate</span><span class="code-fence-copy-status">click to copy</span></div>
           <pre><span class="c"># Single build after all rows are written</span>
 <span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> dev build
 
@@ -866,7 +933,7 @@
         </div>
 
         <div class="code-fence">
-          <div class="code-fence-header"><span class="code-fence-label">bash</span></div>
+          <div class="code-fence-header"><span class="code-fence-label">bash</span><span class="code-fence-copy-status">click to copy</span></div>
           <pre><span class="cmd">gh</span> pr ready <span class="pl">&lt;PR_NUMBER&gt;</span>
 <span class="cmd">gh</span> pr checks <span class="pl">&lt;PR_NUMBER&gt;</span>
 
@@ -891,7 +958,7 @@
         <h3>UNTRUSTED_GENERIC_SNAPSHOT</h3>
         <p>The <code>contentSha256</code> in the packet doesn't match the snapshot file passed to <code>--generic-snapshot</code>.</p>
         <div class="code-fence">
-          <div class="code-fence-header"><span class="code-fence-label">bash — recompute the hash</span></div>
+          <div class="code-fence-header"><span class="code-fence-label">bash — recompute the hash</span><span class="code-fence-copy-status">click to copy</span></div>
           <pre><span class="cmd">python3</span> -c <span class="str">"import json,hashlib; d=json.load(open('/tmp/generic-snapshot.json')); print(hashlib.sha256(json.dumps(d,sort_keys=True,separators=(',',':')).encode()).hexdigest())"</span></pre>
         </div>
 
@@ -900,14 +967,14 @@
 
         <h3>gaia dev evidence fails — "unknown evidence type"</h3>
         <div class="code-fence">
-          <div class="code-fence-header"><span class="code-fence-label">bash</span></div>
+          <div class="code-fence-header"><span class="code-fence-label">bash</span><span class="code-fence-copy-status">click to copy</span></div>
           <pre><span class="cmd">gaia</span> dev evidence <span class="arg">--help</span>
 <span class="c"># Lists all supported --type values and required flags</span></pre>
         </div>
 
         <h3>gaia dev validate fails after ingest</h3>
         <div class="code-fence">
-          <div class="code-fence-header"><span class="code-fence-label">bash</span></div>
+          <div class="code-fence-header"><span class="code-fence-label">bash</span><span class="code-fence-copy-status">click to copy</span></div>
           <pre><span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> dev validate <span class="arg">--verbose</span>
 <span class="c"># Read the first error — usually a missing field or schema mismatch</span></pre>
         </div>
@@ -915,7 +982,7 @@
         <!-- ── CHEAT SHEET ── -->
         <h2 id="cheatsheet">Cheat sheet — every command in order</h2>
         <div class="code-fence">
-          <div class="code-fence-header"><span class="code-fence-label">bash — full pipeline sequence</span></div>
+          <div class="code-fence-header"><span class="code-fence-label">bash — full pipeline sequence</span><span class="code-fence-copy-status">click to copy</span></div>
           <pre><span class="c"># ── Phase 1: Curate ──────────────────────────────────────────</span>
 <span class="cmd">gaia</span> dev list <span class="arg">--generic --json</span> <span class="str">&gt; /tmp/generic-snapshot.json</span>
 <span class="cmd">gaia</span> dev prefill <span class="arg">--source</span> <span class="str">"&lt;blob-url&gt;"</span> <span class="arg">--output</span> /tmp/prefill-output.json
@@ -994,6 +1061,54 @@
       </div><!-- /.prose -->
     </main>
   </div><!-- /.page-layout -->
+
+  <script>
+    // Click-to-copy for every .code-fence (matches cli-reference behaviour)
+    (function () {
+      // Toast feedback
+      var toast = document.createElement('div');
+      toast.className = 'copy-toast';
+      toast.textContent = 'Copied!';
+      document.body.appendChild(toast);
+      var toastTimer;
+      function showToast() {
+        clearTimeout(toastTimer);
+        toast.classList.add('show');
+        toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 1200);
+      }
+
+      document.querySelectorAll('.code-fence').forEach(function (fence) {
+        var status = fence.querySelector('.code-fence-copy-status');
+
+        fence.addEventListener('click', function (e) {
+          // Don’t intercept text selection
+          if (window.getSelection && window.getSelection().toString()) return;
+          var pre = fence.querySelector('pre');
+          if (!pre) return;
+          var text = pre.innerText || pre.textContent || '';
+          navigator.clipboard.writeText(text.trim()).then(function () {
+            if (status) status.textContent = '✓ copied';
+            fence.classList.add('copied');
+            showToast();
+            setTimeout(function () {
+              fence.classList.remove('copied');
+              if (status) status.textContent = 'click to copy';
+            }, 1500);
+          }).catch(function () {
+            // Fallback for older browsers
+            var ta = document.createElement('textarea');
+            ta.value = text.trim();
+            ta.style.cssText = 'position:fixed;opacity:0';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            showToast();
+          });
+        });
+      });
+    })();
+  </script>
 
   <script>
     // Highlight active sidebar link on scroll
