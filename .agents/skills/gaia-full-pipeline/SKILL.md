@@ -7,8 +7,9 @@ description: >-
   without duplicating each phase's instructions. Trigger phrases: "/gaia-full-pipeline",
   "run the full pipeline", "start a curation from scratch", "take this skill through
   the full pipeline", "curate end-to-end", "pipeline run", "full curation flow".
-  Fused from: gaia-curate + ev-pipeline + gaia-ingest + gaia-intake-close.
-version: 1.0.0
+  Fused from: gaia-curate + gaia-curate-chain + gaia-curate-dynamic + gaia-curate-trending
+  + gaia-bot-curate + gaia-draft-curate + ev-pipeline + gaia-ingest + gaia-intake-close.
+version: 2.0.0
 ---
 
 # gaia-full-pipeline
@@ -19,42 +20,160 @@ Orchestrates the complete curation lifecycle. Each phase delegates to its canoni
 
 ---
 
-## Pipeline sequence
+## Phase 1 — Choose a discovery strategy
 
-```
-① /gaia-curate  →  ② L4 (human gate)  →  ③ gaia push + /pr
-→  ④ /ev-pipeline  →  ⑤ /gaia-ingest  →  ⑥ /gaia-intake-close
-```
+The pipeline starts differently depending on whether you already know *what* you're curating or need to find it first. Pick exactly one path. All strategies stop at L4 — none touch the registry.
 
-Suite detour (if applicable): between ⑤ and ⑥ → `/gaia-fuse-full-suite`
+### Strategy decision guide
+
+| You want to… | Use |
+|---|---|
+| Curate **one specific skill** you already have the URL for | [`/gaia-curate`](#strategy-a) |
+| Curate a **small batch of up to ~5** where recoverability matters (each step checkpointed, retries on failure) | [`/gaia-curate-chain`](#strategy-b) |
+| Curate a **large or broad batch** with parallelism across multiple candidates (fan-out to Luna workers) | [`/gaia-curate-dynamic`](#strategy-c) |
+| **Discover what's trending** — you don't have a specific skill in mind, you want to see what's hot on configured marketplaces/repos | [`/gaia-curate-trending`](#strategy-d) |
+| Process **bot crawler output** already sitting in `bot/*` branches | [`/gaia-bot-curate`](#strategy-e) |
+| Review **pending `gaia push` intake batches** in `registry-for-review/` that someone else already submitted | [`/gaia-draft-curate`](#strategy-f) |
+
+> **Rule of thumb:** if you're declaring ("I want to curate this skill at this URL"), use A or B. If you're discovering ("show me what exists"), use D. If you're processing a queue, use E or F.
 
 ---
 
-## Phase 1 — Discovery
+### Strategy A — `/gaia-curate` · Single declared skill {#strategy-a}
 
-**Skill:** `/gaia-curate`
+**When:** You have one specific upstream `SKILL.md` URL. Lowest overhead.
 
-Fetch the upstream SKILL.md, run prefill, apply the 6-rule mapping decision, write a `discovery-packet-v2` to `registry-for-review/discovery-packets/`, and validate the packet. Stop at L4.
+**Depth:** One candidate. No parallelism. No checkpointing.
 
-Key constraints:
-- Snapshot generics *before* worker dispatch: `gaia dev list --generic --json > /tmp/generic-snapshot.json`
-- Decision is mechanical (first matching rule wins) — no re-ranking
-- Packet must exit `python3 scripts/validate_discovery_packet.py --generic-snapshot ... <packet>` with 0 errors
+**Breadth:** 1 skill per run.
 
-→ See full commands: [`/gaia-curate`](../gaia-curate/SKILL.md) and [`CURATION-CORE.md`](../gaia-curate/CURATION-CORE.md)
+```
+gaia dev list --generic --json > /tmp/generic-snapshot.json
+gaia dev prefill --source "<blob-url>" --output /tmp/prefill-output.json
+# … write discovery-packet-v2 JSON …
+python3 scripts/validate_discovery_packet.py \
+  --generic-snapshot /tmp/generic-snapshot.json <packet>.json
+# → Stop at L4
+```
+
+→ Full commands: [`/gaia-curate`](../gaia-curate/SKILL.md) · [`CURATION-CORE.md`](../gaia-curate/CURATION-CORE.md)
+
+---
+
+### Strategy B — `/gaia-curate-chain` · Small batch, checkpointed {#strategy-b}
+
+**When:** You have 2–10 candidates and want recoverability. Each candidate transition is atomically checkpointed; a failed field retries in isolation without restarting the whole batch. Good for higher-risk or unfamiliar sources where you expect some defers.
+
+**Depth:** One candidate at a time, sequentially. Max 2 transient-fetch retries, 1 Luna High repair per candidate.
+
+**Breadth:** Small batch. Checkpointed run ledger under `generated-output/curate-discovery/<run-id>/run.json`.
+
+```
+/gaia-curate-chain <source-or-small-batch>
+# Checkpoints each candidate → validates → persists to registry-for-review/discovery-packets/
+# On failure: emits DEFER with exact resume instruction (candidate ID, failed field, next command)
+# → Stop at L4
+```
+
+→ Full protocol: [`/gaia-curate-chain`](../gaia-curate-chain/SKILL.md)
+
+---
+
+### Strategy C — `/gaia-curate-dynamic` · Large batch, parallel workers {#strategy-c}
+
+**When:** You have a broad source manifest (many repos, a marketplace page, a topic) and want throughput. A Sol/Terra orchestrator shards work to Luna Light harvesters and mappers. Adversarial review only for risky candidates (NEW_GENERIC, fusion proposals, attribution conflicts).
+
+**Depth:** Adversarial review for risky cases only (proposer/refuter isolated passes). Safe/straightforward candidates skip adversarial cost.
+
+**Breadth:** Large batch. Configurable concurrency. Resumable cost log in `usage.jsonl`. Effective concurrency = min(requested, observed harness capacity, remaining shards, budget).
+
+```
+/gaia-curate-dynamic <broad-source-manifest>
+# Preflight → capacity canary → shard → harvest → map → [adversarial for risky] → assemble → L4
+# State: generated-output/curate-discovery/<run-id>/
+# → Stop at L4
+```
+
+**Note:** Requires configured harness binary (`CLAUDE_BIN`, `CODEX_BIN`, or `HERMES_BIN`). Runs sequentially if concurrency cannot be established.
+
+→ Full protocol: [`/gaia-curate-dynamic`](../gaia-curate-dynamic/SKILL.md)
+
+---
+
+### Strategy D — `/gaia-curate-trending` · Discover what's trending {#strategy-d}
+
+**When:** You don't have a specific skill in mind. You want to snapshot configured external skill sources (marketplaces, GitHub topics, model hubs) and surface the top candidates by trend band. Best for periodic sweeps or identifying what to curate next.
+
+**Depth:** Trend bands only (`HOT`, `RISING`, `NEW`, `STEADY`, `UNKNOWN`) — mechanical, never a model judgment. No evidence scoring, no TM, no trust signal.
+
+**Breadth:** Up to 5 candidates per source page, all configured sources in the run manifest. Resumable with `RESUME <run-id>`.
+
+```
+/gaia-curate-trending <source-manifest-or-run-id>
+# Snapshot → trend-band → fetch SKILL.md → dedupe → map → L4-REVIEW.md
+# State: generated-output/curate-discovery/<run-id>/
+# → Stop at L4
+```
+
+**Operator controls:** `NEXT` (advance to next candidate), `STOP` (write resumable checkpoint), `RESUME <run-id>`.
+
+→ Full protocol: [`/gaia-curate-trending`](../gaia-curate-trending/SKILL.md)
+
+---
+
+### Strategy E — `/gaia-bot-curate` · Process bot crawler branches {#strategy-e}
+
+**When:** The automated crawler has already run and left `bot/*` branches on the remote. You are processing crawl output — filtering, accepting, rejecting, integrating — not discovering new skills yourself.
+
+**Depth:** Human-in-the-loop filtration per candidate. Fusion analysis included (does it combine capabilities in a novel way?). Demerit assignment at 3★+.
+
+**Breadth:** All pending `bot/*` branches in one run. Narrows by source type (github, vscode-marketplace, huggingface) for triage.
+
+```
+git fetch --all --prune
+git for-each-ref refs/remotes/origin/bot   # list branches
+# Triage → accept/reject/needs-evidence → gaia dev add/evidence/calibrate
+# Delete consumed bot branches after review branch exists
+gaia dev docs && gaia validate
+gh pr create ...
+```
+
+**Key difference from other strategies:** this is the only strategy that runs `gaia dev add` and mutates the registry directly during curation — it is not discovery-only.
+
+→ Full protocol: [`/gaia-bot-curate`](../gaia-bot-curate/SKILL.md)
+
+---
+
+### Strategy F — `/gaia-draft-curate` · Review pending gaia push batches {#strategy-f}
+
+**When:** Someone has already run `gaia push` and proposals are sitting in `registry-for-review/skill-batches/`. You are the intake gate deciding which proposals move forward.
+
+**Depth:** Read-only triage — accept, rename, duplicate, needs-evidence, or reject. No registry mutation. Hands off to `/gaia-curate-chain` or `/gaia-curate` for accepted proposals.
+
+**Breadth:** All pending batches in `registry-for-review/skill-batches/*.json`.
+
+```
+git status --short --branch
+python3 scripts/validate_intake.py
+gh issue list --state open --search 'label:intake'
+# Review decision table → produce handoff packet
+# → Hand accepted to /gaia-curate-chain or /gaia-curate
+```
+
+→ Full protocol: [`/gaia-draft-curate`](../gaia-draft-curate/SKILL.md)
 
 ---
 
 ## Phase 2 — L4 Human Gate 🛑
 
-**No skill — human only.**
+**No skill — human only. All strategies converge here.**
 
-Open the packet JSON. Check:
-1. Mapping decision is correct for the skill's actual capability
-2. `source.url` is a `blob/` URL (not `tree/`)
-3. `normalized.description` is verbatim from frontmatter
+Every strategy stops after producing review-ready `discovery-packet-v2` files in `registry-for-review/discovery-packets/`. (Exception: `/gaia-bot-curate` may go directly to registry mutation — re-read its protocol.)
 
-Append `l4Resolution` with the ratified `generic`, `named`, and `upstreamSkillFileUrl`. Re-validate.
+For strategies A–D and F, L4 means:
+1. Open each packet JSON. Verify mapping decision, `blob/` URL, verbatim description.
+2. Append `l4Resolution` with ratified `generic`, `named`, and `upstreamSkillFileUrl`.
+3. Re-validate: `python3 scripts/validate_discovery_packet.py --generic-snapshot /tmp/generic-snapshot.json <packet>.json`
 
 ---
 
@@ -76,18 +195,16 @@ gh pr create --draft --title "..." --body-file /tmp/pr-body.md
 
 **Skill:** [`/ev-pipeline`](../ev-pipeline/SKILL.md)
 
-Runs five sub-phases in order. Each has a dedicated skill if you need to re-run one in isolation:
-
-| Sub-phase | Skill | When to skip |
+| Sub-phase | Skill | Skip when |
 |---|---|---|
-| Phase 0 — ev-discovery | [`/ev-discovery`](../ev-discovery/SKILL.md) | Skip for Stage-1 intakes; run only for promotion candidates needing `benchmark-result`, `arxiv`, or `peer-review` |
-| Phase 1 — ev-collection | [`/ev-collection`](../ev-collection/SKILL.md) | Never skip — rebuilds the whole-registry lake |
-| Phase 2 — ev-star-verification | [`/ev-star-verification`](../ev-star-verification/SKILL.md) | Skip only if no `github-stars-own` rows exist |
-| Phase 2B — ev-benchmark-verification | [`/ev-benchmark-verification`](../ev-benchmark-verification/SKILL.md) | Skip if no `benchmark-result` rows |
-| Phase 3 — ev-adversarial-audit | [`/ev-adversarial-audit`](../ev-adversarial-audit/SKILL.md) | Never skip |
-| Phase 4 — ev-link-validation | [`/ev-link-validation`](../ev-link-validation/SKILL.md) | Never skip |
+| Phase 0 — ev-discovery | [`/ev-discovery`](../ev-discovery/SKILL.md) | Stage-1 intakes; only run for promotion candidates needing `benchmark-result`, `arxiv`, or `peer-review` |
+| Phase 1 — ev-collection | [`/ev-collection`](../ev-collection/SKILL.md) | Never — rebuilds the **whole-registry** lake |
+| Phase 2 — ev-star-verification | [`/ev-star-verification`](../ev-star-verification/SKILL.md) | No `github-stars-own` rows |
+| Phase 2B — ev-benchmark-verification | [`/ev-benchmark-verification`](../ev-benchmark-verification/SKILL.md) | No `benchmark-result` rows |
+| Phase 3 — ev-adversarial-audit | [`/ev-adversarial-audit`](../ev-adversarial-audit/SKILL.md) | Never |
+| Phase 4 — ev-link-validation | [`/ev-link-validation`](../ev-link-validation/SKILL.md) | Never |
 
-**Human gate:** Review the source report. Approve rows for ingest. Remove dead-link, subjective, or type-mismatched rows.
+**Human gate:** Review source report. Approve rows. Remove dead-link, subjective, or type-mismatched rows before ingest.
 
 ---
 
@@ -95,22 +212,19 @@ Runs five sub-phases in order. Each has a dedicated skill if you need to re-run 
 
 **Skill:** [`/gaia-ingest`](../gaia-ingest/SKILL.md) (single row) · [`/gaia-ingest-batch`](../gaia-ingest-batch/SKILL.md) (multiple rows)
 
-Pattern for every row: one `gaia dev evidence` call with `--no-build`, then one final `gaia dev build`.
-
 ```bash
 GAIA_OPERATOR_OVERRIDE=1 gaia dev evidence contributor/skill "<url>" \
   --type <evidence-type> <numeric-flags> \
   --notes "..." --source-started-at YYYY-MM-DD --no-build
-
-# ... repeat per row ...
-
+# … repeat per row …
 GAIA_OPERATOR_OVERRIDE=1 gaia dev build
 PYTHONPATH=src python3 scripts/trust_appraise.py --skill contributor/skill
+# → Human approves calibration
+GAIA_OPERATOR_OVERRIDE=1 gaia dev calibrate contributor/skill --stars N
+GAIA_OPERATOR_OVERRIDE=1 gaia dev validate
 ```
 
-**Human gate:** Review TM output. Approve the star calibration explicitly before running `gaia dev calibrate`.
-
-Trust Magnitude → star grade reference:
+Trust Magnitude → star grade:
 
 | Grade | TM | Max stars |
 |---|---|---|
@@ -120,32 +234,28 @@ Trust Magnitude → star grade reference:
 | A | 7.0–9.9 | 4★ |
 | S | 10.0+ | 5★–6★ |
 
-→ For methodology details: [`/trust-methodology-consult`](../trust-methodology-consult/SKILL.md)
+→ Methodology: [`/trust-methodology-consult`](../trust-methodology-consult/SKILL.md)
 
 ---
 
-## Suite detour (between Phase 5 and Phase 6) 🔀
+## Suite detour — between Phase 5 and Phase 6 🔀
 
-**Run this only when curating a suite capstone** — i.e. the contributor has 3+ named skills and the intake is fusing them into a single fusion node.
+Run only when the intake is a **suite capstone** (contributor has 3+ named skills being fused).
 
 **Skill:** [`/gaia-fuse-full-suite`](../gaia-fuse-full-suite/SKILL.md)
 
 ```bash
-# Verify all component named skills are in the registry
-ls registry/named/<contributor>/
-
-# Run the fusion
+ls registry/named/<contributor>/        # confirm all components exist
 gaia dev fuse <fusion-id> \
   --name "<Fusion Name>" \
   --description "<one-sentence synthesis>" \
   --prereqs <id-1>,<id-2>,... \
   --named-capstone <contributor>/<capstone-slug> \
   --suite-components <named-id-1>,<named-id-2>,...
-
 GAIA_OPERATOR_OVERRIDE=1 gaia dev validate
 ```
 
-Suite rank gates (TM is the sole gate — no per-star Evidence Floor):
+Suite rank gates (TM is sole gate):
 - **4★ Extra** — Origin Contributor recorded + TM ≥ 100
 - **5★ Ultimate** — Origin in `suiteComponents` + 5 A-graded origins + TM ≥ 250
 - **6★ Apex** — full 6-predicate Apex Gate (see `META.md`)
@@ -166,20 +276,18 @@ gh issue close <ISSUE>
 GAIA_OPERATOR_OVERRIDE=1 gaia dev docs             # regenerate Class S artifacts
 ```
 
-Closing comment structure (PR): evidence findings table + `/trust-appraise` output + badge status note.
-Closing comment structure (issue): decision + TM grade + path-to-next-level + `@contributor` tag.
-
-→ See full comment templates: [`/gaia-intake-close`](../gaia-intake-close/SKILL.md)
-
 ---
 
-## Triggers for sub-skills
-
-If you need to re-enter the pipeline mid-flow, invoke the sub-skill directly:
+## Re-entry map — jumping back in mid-pipeline
 
 | Where you are | Invoke |
 |---|---|
-| Just validated packet, ready for L4 | (human step — no skill) |
+| Single declared skill | `/gaia-curate` |
+| Small batch, need recoverability | `/gaia-curate-chain` |
+| Large batch, need parallelism | `/gaia-curate-dynamic` |
+| Want to discover trending skills | `/gaia-curate-trending` |
+| Processing bot crawler branches | `/gaia-bot-curate` |
+| Reviewing pending gaia push batches | `/gaia-draft-curate` |
 | Post-L4, ready to push | `/pr` |
 | Evidence collection only | `/ev-collection` |
 | Star verification only | `/ev-star-verification` |
