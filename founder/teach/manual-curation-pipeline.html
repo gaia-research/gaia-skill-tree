@@ -1,0 +1,1257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manual Curation Pipeline — Gaia Skill Tree</title>
+  <style>
+    :root {
+      --bg: #0d0d14;
+      --surface: #13131e;
+      --surface2: #1a1a28;
+      --border: #2a2a42;
+      --accent: #7c6af7;
+      --accent2: #5eead4;
+      --accent3: #f97316;
+      --accent4: #22c55e;
+      --warn: #facc15;
+      --danger: #ef4444;
+      --text: #e2e8f0;
+      --muted: #8892a4;
+      --code-bg: #0a0a12;
+      --step-label: #c4b5fd;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #1a1035 0%, #0d1a2e 50%, #0d0d14 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 56px 40px 48px;
+      text-align: center;
+    }
+    .hero .badge {
+      display: inline-block;
+      background: rgba(124,106,247,0.15);
+      border: 1px solid rgba(124,106,247,0.4);
+      color: var(--accent);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .hero h1 {
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      background: linear-gradient(135deg, #e2e8f0 30%, #a78bfa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 14px;
+    }
+    .hero p {
+      color: var(--muted);
+      max-width: 620px;
+      margin: 0 auto;
+      font-size: 1.05rem;
+    }
+    .hero .pipeline-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 32px;
+    }
+    .pipeline-bar .pill {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 5px 13px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .pipeline-bar .pill.active { border-color: var(--accent); color: var(--accent); }
+    .pipeline-bar .arrow { color: var(--muted); font-size: 14px; }
+
+    /* ── LAYOUT ── */
+    .wrapper {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 48px 28px 80px;
+    }
+
+    /* ── SECTION HEADER ── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 52px 0 20px;
+    }
+    .section-header .num {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(124,106,247,0.12);
+      border: 2px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+    .section-header h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .section-header h2 span {
+      color: var(--muted);
+      font-weight: 400;
+      font-size: 1rem;
+      margin-left: 8px;
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 22px 24px;
+      margin-bottom: 16px;
+    }
+    .card.warn {
+      border-color: rgba(250,204,21,0.35);
+      background: rgba(250,204,21,0.04);
+    }
+    .card.danger {
+      border-color: rgba(239,68,68,0.35);
+      background: rgba(239,68,68,0.04);
+    }
+    .card.success {
+      border-color: rgba(34,197,94,0.35);
+      background: rgba(34,197,94,0.04);
+    }
+    .card.info {
+      border-color: rgba(94,234,212,0.35);
+      background: rgba(94,234,212,0.04);
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .07em;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+    .card-title.warn { color: var(--warn); }
+    .card-title.danger { color: var(--danger); }
+    .card-title.success { color: var(--accent4); }
+    .card-title.info { color: var(--accent2); }
+
+    /* ── CODE BLOCKS ── */
+    .code-block {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      margin: 10px 0;
+      overflow: hidden;
+    }
+    .code-block .cb-label {
+      background: var(--surface2);
+      border-bottom: 1px solid var(--border);
+      padding: 6px 14px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .code-block .cb-label .dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+    .code-block pre {
+      padding: 16px 18px;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 13px;
+      line-height: 1.65;
+      overflow-x: auto;
+      color: #c9d1d9;
+      white-space: pre;
+    }
+    .code-block pre .cmd { color: #79c0ff; }
+    .code-block pre .arg { color: #a5d6ff; }
+    .code-block pre .flag { color: #d2a8ff; }
+    .code-block pre .val { color: #a8d5a2; }
+    .code-block pre .cmt { color: #6e7681; font-style: italic; }
+    .code-block pre .out { color: #8b949e; }
+    .code-block pre .ok { color: #3fb950; }
+    .code-block pre .err { color: #f85149; }
+    .code-block pre .hl { color: #f0883e; font-weight: 700; }
+
+    /* ── STEP LIST ── */
+    .steps {
+      counter-reset: step-counter;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .steps li {
+      counter-increment: step-counter;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .steps li::before {
+      content: counter(step-counter);
+      width: 26px;
+      height: 26px;
+      background: rgba(124,106,247,0.15);
+      border: 1.5px solid rgba(124,106,247,0.5);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--step-label);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ── INLINE CODE ── */
+    code {
+      background: rgba(124,106,247,0.12);
+      border: 1px solid rgba(124,106,247,0.25);
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 12.5px;
+      color: #c4b5fd;
+    }
+
+    /* ── TABLE ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      font-size: 13.5px;
+    }
+    th {
+      background: var(--surface2);
+      color: var(--muted);
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: .06em;
+      padding: 9px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 9px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(255,255,255,0.02); }
+    td code { font-size: 12px; }
+
+    /* ── VERDICT TAGS ── */
+    .tag {
+      display: inline-block;
+      border-radius: 4px;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .tag.ok { background: rgba(34,197,94,0.12); color: var(--accent4); border: 1px solid rgba(34,197,94,0.3); }
+    .tag.warn { background: rgba(250,204,21,0.10); color: var(--warn); border: 1px solid rgba(250,204,21,0.3); }
+    .tag.stop { background: rgba(239,68,68,0.10); color: var(--danger); border: 1px solid rgba(239,68,68,0.3); }
+    .tag.info { background: rgba(94,234,212,0.10); color: var(--accent2); border: 1px solid rgba(94,234,212,0.3); }
+
+    /* ── DIVIDER ── */
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 40px 0;
+    }
+
+    /* ── FOOTNOTE ── */
+    .footnote {
+      font-size: 12.5px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+      margin-top: 60px;
+    }
+
+    /* ── GATE BANNER ── */
+    .gate-banner {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      background: rgba(249,115,22,0.06);
+      border: 1px solid rgba(249,115,22,0.35);
+      border-radius: 8px;
+      padding: 16px 18px;
+      margin: 16px 0;
+    }
+    .gate-banner .gate-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .gate-banner .gate-body strong {
+      color: var(--accent3);
+      display: block;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      margin-bottom: 4px;
+    }
+    .gate-banner .gate-body p {
+      font-size: 13.5px;
+      color: var(--text);
+    }
+
+    /* ── PHASE FLOW MINI ── */
+    .phase-flow {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .phase-row {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+    }
+    .phase-connector {
+      width: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .phase-connector .line {
+      width: 2px;
+      flex: 1;
+      background: var(--border);
+      margin-left: -1px;
+    }
+    .phase-connector .dot-outer {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      background: var(--bg);
+      flex-shrink: 0;
+      margin: 4px 0;
+    }
+    .phase-body {
+      flex: 1;
+      padding: 6px 0 20px 12px;
+    }
+    .phase-body h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .phase-body p {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* ── CALLOUT ── */
+    .callout {
+      display: flex;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 8px;
+      margin: 12px 0;
+      font-size: 13.5px;
+    }
+    .callout.note {
+      background: rgba(124,106,247,0.07);
+      border: 1px solid rgba(124,106,247,0.3);
+      color: var(--text);
+    }
+    .callout.note .icon { color: var(--accent); font-size: 16px; }
+    .callout.tip {
+      background: rgba(34,197,94,0.07);
+      border: 1px solid rgba(34,197,94,0.3);
+    }
+    .callout.tip .icon { color: var(--accent4); font-size: 16px; }
+
+    /* responsive */
+    @media(max-width: 600px) {
+      .hero h1 { font-size: 1.6rem; }
+      .wrapper { padding: 32px 16px 60px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════ HERO ══ -->
+<div class="hero">
+  <div class="badge">Founder Reference · No AI Needed</div>
+  <h1>Manual Curation Pipeline</h1>
+  <p>The exact commands to take a skill from discovery to a closed intake — typed by a human, no agent required.</p>
+  <div class="pipeline-bar">
+    <div class="pill active">① gaia-curate</div>
+    <div class="arrow">→</div>
+    <div class="pill active">② L4 Review</div>
+    <div class="arrow">→</div>
+    <div class="pill active">③ gaia push → PR</div>
+    <div class="arrow">→</div>
+    <div class="pill active">④ ev-pipeline</div>
+    <div class="arrow">→</div>
+    <div class="pill active">⑤ gaia-ingest</div>
+    <div class="arrow">→</div>
+    <div class="pill active">⑥ Close</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════ WRAPPER ══ -->
+<div class="wrapper">
+
+  <!-- OVERVIEW TABLE -->
+  <div class="card" style="margin-bottom:32px">
+    <div class="card-title info">Pipeline at a glance</div>
+    <table>
+      <thead><tr><th>#</th><th>Phase</th><th>What you produce</th><th>Gate</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><strong>gaia-curate</strong></td>
+          <td>A <code>discovery-packet-v2</code> JSON in <code>registry-for-review/discovery-packets/</code></td>
+          <td><span class="tag warn">Human L4</span></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><strong>L4 Review</strong></td>
+          <td>You append <code>l4Resolution</code> to the packet</td>
+          <td><span class="tag stop">Hard stop — must be you</span></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><strong>gaia push → PR</strong></td>
+          <td>Intake issue opened; draft PR created on a <code>review/meta</code> branch</td>
+          <td><span class="tag info">CI green</span></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><strong>ev-pipeline</strong></td>
+          <td>Verified evidence lake ready for ingest</td>
+          <td><span class="tag warn">Human approves evidence</span></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><strong>gaia-ingest</strong></td>
+          <td>Evidence rows written, TM appraised, star calibrated</td>
+          <td><span class="tag warn">Human approves calibration</span></td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><strong>Close</strong></td>
+          <td>PR merged, intake issue closed with standardized comment</td>
+          <td><span class="tag ok">Done</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ══════════ PHASE 1: CURATE ══════════ -->
+  <div class="section-header">
+    <div class="num">1</div>
+    <h2>gaia-curate <span>— Discover &amp; package the skill</span></h2>
+  </div>
+
+  <p style="color:var(--muted);margin-bottom:18px">You have found a real repo with a <code>SKILL.md</code>. Your job is to run the prefill, let the worker map it to a generic, validate the packet, and write it to the review folder. Nothing touches the registry yet.</p>
+
+  <div class="card">
+    <div class="card-title">Step 1 — Preflight: check auth &amp; tools</div>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>bash</div>
+      <pre><span class="cmt"># confirm gaia CLI is installed</span>
+<span class="cmd">gaia</span> <span class="flag">--version</span>
+
+<span class="cmt"># confirm gh CLI is authenticated</span>
+<span class="cmd">gh</span> <span class="arg">auth status</span>
+
+<span class="cmt"># confirm python3 available</span>
+<span class="cmd">python3</span> <span class="flag">--version</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Step 2 — Snapshot the generic list (save this file — you need it for validation)</div>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>bash</div>
+      <pre><span class="cmd">gaia</span> <span class="arg">dev list</span> <span class="flag">--generic --json</span> <span class="val">&gt; /tmp/generic-snapshot.json</span>
+
+<span class="cmt"># verify it produced output</span>
+<span class="cmd">wc</span> <span class="flag">-l</span> <span class="val">/tmp/generic-snapshot.json</span></pre>
+    </div>
+    <div class="callout note">
+      <span class="icon">ℹ</span>
+      <span>This snapshot is the <strong>trust anchor</strong> for packet validation. Keep it. Don't overwrite it mid-run.</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Step 3 — Run the prefill against the candidate SKILL.md URL</div>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>bash</div>
+      <pre><span class="cmt"># Replace the URL with the real blob URL of the upstream SKILL.md</span>
+<span class="cmd">gaia</span> <span class="arg">dev prefill</span> \
+  <span class="flag">--source</span> <span class="val">"https://github.com/owner/repo/blob/main/SKILL.md"</span> \
+  <span class="flag">--output</span> <span class="val">/tmp/prefill-output.json</span>
+
+<span class="cmt"># Inspect the result — check nStrong / nTotal / matchTier values</span>
+<span class="cmd">cat</span> <span class="val">/tmp/prefill-output.json</span> <span class="arg">| python3 -m json.tool | head -80</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Step 4 — Apply the mapping decision rules (no judgment — just the rules)</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Rule (first match wins)</th>
+          <th>Decision</th>
+          <th>When</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td><code>NOT_A_SKILL</code></td><td><code>artifactGate != "valid-skill"</code></td></tr>
+        <tr><td>2</td><td><code>DUPLICATE</code></td><td><code>exactDedupe != null</code></td></tr>
+        <tr><td>3</td><td><code>DEFER</code></td><td><code>ambiguity != null</code></td></tr>
+        <tr><td>4</td><td><code>NEW_GENERIC</code></td><td><code>nTotal == 0</code></td></tr>
+        <tr><td>5</td><td><code>MAP</code></td><td><code>nStrong == 1</code> → use that genericId</td></tr>
+        <tr><td>6</td><td><code>DEFER</code></td><td>everything else (weak only, or nStrong ≥ 2)</td></tr>
+      </tbody>
+    </table>
+    <div class="callout note">
+      <span class="icon">ℹ</span>
+      <span>Count <code>nStrong</code> = number of entries with <code>matchTier == "strong"</code> in <code>mappingOptions[]</code>. Count <code>nTotal</code> = total entries. Do not re-rank.</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Step 5 — Write the discovery-packet-v2 JSON</div>
+    <p style="font-size:13.5px;color:var(--muted);margin-bottom:10px">Create the packet at a path like <code>registry-for-review/discovery-packets/owner--skill-name.json</code>. Minimum required fields:</p>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>json skeleton</div>
+      <pre>{
+  <span class="hl">"schemaVersion"</span>: <span class="val">"discovery-packet-v2"</span>,
+  <span class="arg">"source"</span>: {
+    <span class="arg">"url"</span>: <span class="val">"https://github.com/owner/repo/blob/main/SKILL.md"</span>,
+    <span class="arg">"canonicalUrl"</span>: <span class="val">"https://github.com/owner/repo/blob/main/SKILL.md"</span>,
+    <span class="arg">"retrievedAt"</span>: <span class="val">"2025-01-15T10:00:00Z"</span>,
+    <span class="arg">"lane"</span>: <span class="val">"github-skill-file"</span>
+  },
+  <span class="arg">"normalized"</span>: {
+    <span class="arg">"name"</span>: <span class="val">"Skill Name From Frontmatter"</span>,
+    <span class="arg">"description"</span>: <span class="val">"Description from frontmatter — verbatim"</span>,
+    <span class="arg">"hostRepository"</span>: <span class="val">"https://github.com/owner/repo"</span>
+  },
+  <span class="arg">"contentSha256"</span>: <span class="val">"&lt;sha256 of the SKILL.md content&gt;"</span>,
+  <span class="arg">"exactDedupe"</span>: <span class="val">null</span>,
+  <span class="arg">"mappingOptions"</span>: [
+    <span class="cmt">/* copy from prefill-output.json */</span>
+  ],
+  <span class="arg">"decision"</span>: <span class="val">"MAP"</span>,
+  <span class="arg">"reasonCode"</span>: <span class="val">"MAP_EXISTING_GENERIC"</span>,
+  <span class="arg">"selectedGenericId"</span>: <span class="val">"the-generic-id-from-strong-option"</span>,
+  <span class="arg">"genericSnapshot"</span>: {
+    <span class="arg">"command"</span>: <span class="val">"gaia dev list --generic --json"</span>,
+    <span class="arg">"capturedAt"</span>: <span class="val">"2025-01-15T10:00:00Z"</span>,
+    <span class="arg">"contentSha256"</span>: <span class="val">"&lt;sha256 of canonical JSON of that snapshot&gt;"</span>,
+    <span class="arg">"generics"</span>: [<span class="cmt">/* contents of /tmp/generic-snapshot.json */</span>]
+  },
+  <span class="arg">"lifecycle"</span>: <span class="val">"review-ready"</span>
+}</pre>
+    </div>
+    <div class="callout tip">
+      <span class="icon">✓</span>
+      <span>For <code>contentSha256</code> of the generic snapshot: <code>python3 -c "import json,hashlib; d=json.load(open('/tmp/generic-snapshot.json')); print(hashlib.sha256(json.dumps(d,sort_keys=True,separators=(',',':')).encode()).hexdigest())"</code></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Step 6 — Validate the packet</div>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>bash</div>
+      <pre><span class="cmd">python3</span> <span class="arg">scripts/validate_discovery_packet.py</span> \
+  <span class="flag">--generic-snapshot</span> <span class="val">/tmp/generic-snapshot.json</span> \
+  <span class="val">registry-for-review/discovery-packets/owner--skill-name.json</span>
+
+<span class="cmt"># Must exit 0 with no MALFORMED_PACKET or MISSING_REQUIRED_FIELD errors</span></pre>
+    </div>
+  </div>
+
+  <div class="gate-banner">
+    <div class="gate-icon">🛑</div>
+    <div class="gate-body">
+      <strong>Stop — L4 Human Gate</strong>
+      <p>The packet is now in <code>registry-for-review/discovery-packets/</code>. Review it carefully before proceeding. The next step mutates the packet — you cannot un-write it to the registry once pushed.</p>
+    </div>
+  </div>
+
+  <!-- ══════════ PHASE 2: L4 ══════════ -->
+  <div class="section-header">
+    <div class="num">2</div>
+    <h2>L4 Review <span>— You ratify the topology</span></h2>
+  </div>
+
+  <p style="color:var(--muted);margin-bottom:18px">No one else does this. You are the human reviewing the packet and appending <code>l4Resolution</code>. This is the only place where new generic IDs, named skill identity, and exact upstream URLs get locked.</p>
+
+  <div class="card">
+    <div class="card-title">What to check</div>
+    <ul class="steps">
+      <li>The mapping decision is correct — does <code>selectedGenericId</code> match the skill's actual capability?</li>
+      <li>If <code>NEW_GENERIC</code>: is the proposed generic name and description vendor-neutral and falsifiable?</li>
+      <li>The <code>source.url</code> is a real <code>blob/</code> GitHub URL (not a <code>tree/</code> or a listing page).</li>
+      <li>The <code>normalized.description</code> is verbatim from the SKILL.md frontmatter — not paraphrased.</li>
+      <li>The similarity score (<code>mappingOptions[].similarity</code>) and <code>matchTier</code> make sense for the mapping.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Append l4Resolution to the packet</div>
+    <p style="font-size:13.5px;color:var(--muted);margin-bottom:10px">Open the JSON file and add this block at the top level:</p>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>json — append to packet</div>
+      <pre><span class="arg">"l4Resolution"</span>: {
+  <span class="arg">"generic"</span>: {
+    <span class="arg">"id"</span>: <span class="val">"the-final-generic-id"</span>,
+    <span class="arg">"name"</span>: <span class="val">"Human Readable Generic Name"</span>,
+    <span class="arg">"description"</span>: <span class="val">"Vendor-neutral, falsifiable, one paragraph."</span>,
+    <span class="arg">"type"</span>: <span class="val">"basic"</span>,
+    <span class="arg">"prerequisites"</span>: []
+  },
+  <span class="arg">"named"</span>: {
+    <span class="arg">"contributor"</span>: <span class="val">"github-handle"</span>,
+    <span class="arg">"skillName"</span>: <span class="val">"kebab-case-skill-name"</span>
+  },
+  <span class="arg">"upstreamSkillFileUrl"</span>: <span class="val">"https://github.com/owner/repo/blob/main/SKILL.md"</span>
+}</pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Re-validate after appending l4Resolution</div>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>bash</div>
+      <pre><span class="cmd">python3</span> <span class="arg">scripts/validate_discovery_packet.py</span> \
+  <span class="flag">--generic-snapshot</span> <span class="val">/tmp/generic-snapshot.json</span> \
+  <span class="val">registry-for-review/discovery-packets/owner--skill-name.json</span></pre>
+    </div>
+  </div>
+
+  <!-- ══════════ PHASE 3: PUSH + PR ══════════ -->
+  <div class="section-header">
+    <div class="num">3</div>
+    <h2>gaia push → Draft PR <span>— Materialize the intake issue + branch</span></h2>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Step 1 — Create the review branch</div>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>bash</div>
+      <pre><span class="cmt"># Use the convention: review/meta/&lt;contributor&gt;--&lt;skill-name&gt;</span>
+<span class="cmd">git</span> <span class="arg">checkout</span> <span class="flag">-b</span> <span class="val">review/meta/github-handle--skill-name</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Step 2 — Run gaia push to validate + open intake issue</div>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>bash</div>
+      <pre><span class="cmt"># Dry run first — preview without writing anything</span>
+<span class="cmd">gaia</span> <span class="arg">push</span> \
+  <span class="flag">--from-file</span> <span class="val">registry-for-review/discovery-packets/owner--skill-name.json</span> \
+  <span class="flag">--dry-run</span>
+
+<span class="cmt"># If dry run looks good — run for real (opens GitHub intake issue)</span>
+<span class="cmd">gaia</span> <span class="arg">push</span> \
+  <span class="flag">--from-file</span> <span class="val">registry-for-review/discovery-packets/owner--skill-name.json</span>
+
+<span class="cmt"># Note the issue number printed — you need it for the PR</span></pre>
+    </div>
+    <div class="callout note">
+      <span class="icon">ℹ</span>
+      <span><code>gaia push</code> validates the frozen generic snapshot, rejects canonical duplicates, and opens the intake issue. It does not write to <code>registry/</code> yet.</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Step 3 — Commit the packet and open a draft PR</div>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>bash</div>
+      <pre><span class="cmd">git</span> <span class="arg">add</span> <span class="val">registry-for-review/discovery-packets/owner--skill-name.json</span>
+<span class="cmd">git</span> <span class="arg">commit</span> <span class="flag">-m</span> <span class="val">"feat(intake): curate contributor/skill-name [closes #ISSUE]"</span>
+<span class="cmd">git</span> <span class="arg">push</span> <span class="flag">-u origin</span> <span class="val">review/meta/github-handle--skill-name</span>
+
+<span class="cmt"># Write the PR body to a temp file (avoids shell quoting issues)</span>
+<span class="cmd">cat</span> <span class="val">&gt; /tmp/pr-body.md</span> <span class="flag">&lt;&lt;'EOF'</span>
+## Intake: contributor/skill-name
+
+Closes #ISSUE
+
+### What this does
+- Discovery packet for `contributor/skill-name` (generic: `the-generic-id`)
+- L4 reviewed and approved
+- ev-pipeline + ingest to follow on this branch
+
+### Checklist
+- [x] Packet validated (exit 0)
+- [x] l4Resolution appended
+- [ ] ev-pipeline run
+- [ ] gaia-ingest complete
+- [ ] TM appraised + calibration approved
+EOF
+
+<span class="cmd">gh</span> <span class="arg">pr create</span> \
+  <span class="flag">--draft</span> \
+  <span class="flag">--title</span> <span class="val">"feat(intake): curate contributor/skill-name"</span> \
+  <span class="flag">--body-file</span> <span class="val">/tmp/pr-body.md</span>
+
+<span class="cmt"># Note the PR number printed</span>
+<span class="cmd">gh</span> <span class="arg">pr view</span> <span class="flag">--json</span> <span class="val">number,url</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Step 4 — Apply labels</div>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>bash</div>
+      <pre><span class="cmt"># First read what labels exist</span>
+<span class="cmd">gh</span> <span class="arg">label list</span> <span class="flag">--limit 200 --json</span> <span class="val">name,description</span> \
+  <span class="flag">--jq</span> <span class="val">'.[] | "\(.name) — \(.description)"'</span>
+
+<span class="cmt"># Apply appropriate labels (adjust to what the repo actually has)</span>
+<span class="cmd">gh</span> <span class="arg">pr edit</span> <span class="val">&lt;PR_NUMBER&gt;</span> \
+  <span class="flag">--add-label</span> <span class="val">"intake"</span> \
+  <span class="flag">--add-label</span> <span class="val">"curation"</span></pre>
+    </div>
+  </div>
+
+  <!-- ══════════ PHASE 4: EV-PIPELINE ══════════ -->
+  <div class="section-header">
+    <div class="num">4</div>
+    <h2>ev-pipeline <span>— Verify evidence before ingesting</span></h2>
+  </div>
+
+  <p style="color:var(--muted);margin-bottom:18px">You run each phase manually. The pipeline operates on <code>evidence/by-type/</code> files — it never touches <code>registry/</code>. Each phase produces review artifacts; you decide what to approve.</p>
+
+  <div class="card info">
+    <div class="card-title info">Phase 1 — ev-collection: build the type-first evidence lake</div>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>bash</div>
+      <pre><span class="cmt"># Generate source dump — writes evidence/by-type/*.md</span>
+<span class="cmd">python3</span> <span class="arg">evidence/scripts/generate_source_dump.py</span> \
+  <span class="flag">--output-dir</span> <span class="val">evidence</span> \
+  <span class="flag">--by-type-dir</span> <span class="val">evidence/by-type</span>
+
+<span class="cmt"># Compile unified lake from by-type files</span>
+<span class="cmd">python3</span> <span class="arg">evidence/scripts/compile_data_lake.py</span> \
+  <span class="flag">--sources</span> <span class="val">evidence/by-type</span> \
+  <span class="flag">--lake</span> <span class="val">evidence</span>
+
+<span class="cmt"># Verify primary outputs exist</span>
+<span class="cmd">ls</span> <span class="val">evidence/by-type/</span>
+<span class="cmd">ls</span> <span class="val">evidence/unified_evidence_lake.md</span></pre>
+    </div>
+  </div>
+
+  <div class="card info">
+    <div class="card-title info">Phase 2 — ev-star-verification: verify live GitHub star counts</div>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>bash</div>
+      <pre><span class="cmt"># Check auth first — zero stars from an unauth'd call is poison data</span>
+<span class="cmd">gh</span> <span class="arg">auth status</span>
+
+<span class="cmt"># For each github-stars-own row in evidence/by-type/github-stars-own.md,</span>
+<span class="cmt"># fetch the live count and compare:</span>
+<span class="cmd">gh</span> <span class="arg">api</span> <span class="val">repos/OWNER/REPO</span> <span class="flag">--jq</span> <span class="val">'.stargazers_count'</span>
+
+<span class="cmt"># Flag any row where recorded stars differ from live count.</span>
+<span class="cmt"># Do NOT silently update — note them in your source report.</span></pre>
+    </div>
+    <div class="callout note">
+      <span class="icon">ℹ</span>
+      <span>If stars differ by &gt;10%: add a note in the source report. Don't auto-correct; that's for the ingest step under your explicit approval.</span>
+    </div>
+  </div>
+
+  <div class="card info">
+    <div class="card-title info">Phase 2B — ev-benchmark-verification: classify benchmark rows (if any)</div>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>bash</div>
+      <pre><span class="cmt"># Only needed if the skill has benchmark-result evidence</span>
+<span class="cmt"># Check whether the benchmarkId is in the catalog:</span>
+<span class="cmd">cat</span> <span class="val">registry/benchmark-sources.json</span> \
+  <span class="arg">| python3 -m json.tool</span> \
+  <span class="arg">| grep</span> <span class="val">"the-benchmark-id"</span>
+
+<span class="cmt"># Lane classification:</span>
+<span class="cmt">#   "verified"  = CI/verifier reproduced  → 2.0x multiplier</span>
+<span class="cmt">#   "reported"  = public claim accepted   → 1.0x multiplier</span>
+<span class="cmt">#   "rejected"  = blacklisted / no proof  → 0x (skip)</span></pre>
+    </div>
+  </div>
+
+  <div class="card info">
+    <div class="card-title info">Phase 3 — ev-adversarial-audit: check for bad data</div>
+    <p style="font-size:13.5px;color:var(--muted);margin-bottom:10px">Read each <code>evidence/by-type/&lt;type&gt;.md</code> and flag:</p>
+    <ul class="steps">
+      <li>Dead or malformed URLs — especially GitHub <code>tree/</code> where <code>blob/</code> is required</li>
+      <li>Subjective wording not backed by source (<em>"elite"</em>, <em>"high-quality"</em>, <em>"leading"</em>)</li>
+      <li>Evidence type mismatches (e.g. a <code>social-signal</code> row that is really a <code>peer-review</code>)</li>
+      <li>Star counts that conflict with Phase 2 live results</li>
+      <li>Benchmark rows citing unregistered or rejected benchmark IDs</li>
+      <li>arXiv rows with 0 citations — these contribute 0 TM; note them explicitly</li>
+    </ul>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>bash — check URL format issues</div>
+      <pre><span class="cmt"># Find any github tree/ URLs that should be blob/</span>
+<span class="cmd">grep</span> <span class="flag">-rn</span> <span class="val">"github.com/.*/tree/"</span> <span class="arg">evidence/by-type/</span>
+
+<span class="cmt"># Find subjective words in evidence notes</span>
+<span class="cmd">grep</span> <span class="flag">-rni</span> <span class="val">"elite\|high-quality\|best-in-class\|leading"</span> <span class="arg">evidence/by-type/</span></pre>
+    </div>
+  </div>
+
+  <div class="card info">
+    <div class="card-title info">Phase 4 — ev-link-validation: check URL health</div>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>bash</div>
+      <pre><span class="cmt"># Run the coexistence URL health shim</span>
+<span class="cmd">python3</span> <span class="arg">evidence/scripts/validate_sources.py</span>
+
+<span class="cmt"># Or a 10-URL sample first to test</span>
+<span class="cmd">python3</span> <span class="arg">evidence/scripts/validate_sources.py</span> <span class="val">10</span>
+
+<span class="cmt"># 404 / timeout / connection-refused = dead link → remove that row before ingest</span></pre>
+    </div>
+  </div>
+
+  <div class="gate-banner">
+    <div class="gate-icon">🛑</div>
+    <div class="gate-body">
+      <strong>Human Evidence Gate</strong>
+      <p>Review the source report from Phases 1–4. Approve the rows you want to ingest. Remove any dead-link, subjective, or mismatched rows. Only pass live, correctly scoped rows to Phase 5.</p>
+    </div>
+  </div>
+
+  <!-- ══════════ PHASE 5: INGEST ══════════ -->
+  <div class="section-header">
+    <div class="num">5</div>
+    <h2>gaia-ingest <span>— Write evidence to the named skill</span></h2>
+  </div>
+
+  <p style="color:var(--muted);margin-bottom:18px">This is the first time you mutate <code>registry/</code>. Every row uses <code>--no-build</code>. You run one build at the end. Then you appraise TM and calibrate stars — but you never run <code>gaia dev calibrate</code> without your own explicit approval.</p>
+
+  <div class="card">
+    <div class="card-title">Step 1 — Confirm the named skill file exists</div>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>bash</div>
+      <pre><span class="cmt"># Does the named skill node exist?</span>
+<span class="cmd">ls</span> <span class="val">registry/named/&lt;contributor&gt;/&lt;skill-id&gt;.md</span>
+
+<span class="cmt"># If it does NOT exist — create it first:</span>
+<span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> <span class="arg">dev named</span> \
+  <span class="flag">--contributor</span> <span class="val">github-handle</span> \
+  <span class="flag">--skill</span> <span class="val">kebab-case-skill-name</span> \
+  <span class="flag">--generic</span> <span class="val">the-generic-id</span> \
+  <span class="flag">--upstream</span> <span class="val">"https://github.com/owner/repo/blob/main/SKILL.md"</span> \
+  <span class="flag">--no-build</span>
+
+<span class="cmt"># Inspect what's already there</span>
+<span class="cmd">sed</span> <span class="flag">-n</span> <span class="val">'1,80p'</span> <span class="val">registry/named/&lt;contributor&gt;/&lt;skill-id&gt;.md</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Step 2 — Ingest each approved evidence row (one command per row, all --no-build)</div>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>bash — repo-own row</div>
+      <pre><span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> <span class="arg">dev evidence</span> <span class="val">contributor/skill-id</span> \
+  <span class="val">"https://github.com/owner/repo"</span> \
+  <span class="flag">--type</span> <span class="val">repo-own</span> \
+  <span class="flag">--commits</span> <span class="val">847</span> \
+  <span class="flag">--contributors</span> <span class="val">12</span> \
+  <span class="flag">--notes</span> <span class="val">"Official upstream repo. Commit/contributor counts verified via GitHub API."</span> \
+  <span class="flag">--source-started-at</span> <span class="val">2024-03-01</span> \
+  <span class="flag">--no-build</span></pre>
+    </div>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>bash — github-stars-own row</div>
+      <pre><span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> <span class="arg">dev evidence</span> <span class="val">contributor/skill-id</span> \
+  <span class="val">"https://github.com/owner/repo/blob/main/SKILL.md"</span> \
+  <span class="flag">--type</span> <span class="val">github-stars-own</span> \
+  <span class="flag">--stars</span> <span class="val">3421</span> \
+  <span class="flag">--skill-count-in-repo</span> <span class="val">1</span> \
+  <span class="flag">--notes</span> <span class="val">"Official SKILL.md. Star count verified live via gh api."</span> \
+  <span class="flag">--source-started-at</span> <span class="val">2024-03-01</span> \
+  <span class="flag">--no-build</span></pre>
+    </div>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>bash — self-attestation row (Stage 1 baseline)</div>
+      <pre><span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> <span class="arg">dev evidence</span> <span class="val">contributor/skill-id</span> \
+  <span class="val">"https://github.com/owner/repo/blob/main/SKILL.md"</span> \
+  <span class="flag">--type</span> <span class="val">self-attestation</span> \
+  <span class="flag">--notes</span> <span class="val">"Contributor's own SKILL.md — baseline self-attestation."</span> \
+  <span class="flag">--source-started-at</span> <span class="val">2024-03-01</span> \
+  <span class="flag">--no-build</span></pre>
+    </div>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>bash — social-signal row (e.g. YouTube view count)</div>
+      <pre><span class="cmt"># Only if view count is PUBLICLY VISIBLE on the source page.
+# If you cannot see it, do not ingest it.</span>
+<span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> <span class="arg">dev evidence</span> <span class="val">contributor/skill-id</span> \
+  <span class="val">"https://www.youtube.com/watch?v=XXXX"</span> \
+  <span class="flag">--type</span> <span class="val">social-signal</span> \
+  <span class="flag">--views</span> <span class="val">8510</span> \
+  <span class="flag">--notes</span> <span class="val">"Third-party tutorial demonstrating the skill. View count verified on source page."</span> \
+  <span class="flag">--source-started-at</span> <span class="val">2025-01-10</span> \
+  <span class="flag">--no-build</span></pre>
+    </div>
+    <div class="callout note">
+      <span class="icon">ℹ</span>
+      <span>To see all supported flags for a type: <code>gaia dev evidence --help</code></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Step 3 — Run the single build after all rows are written</div>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>bash</div>
+      <pre><span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> <span class="arg">dev build</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Step 4 — Appraise Trust Magnitude</div>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>bash</div>
+      <pre><span class="cmd">PYTHONPATH=src</span> <span class="cmd">python3</span> <span class="arg">scripts/trust_appraise.py</span> \
+  <span class="flag">--skill</span> <span class="val">contributor/skill-id</span>
+
+<span class="cmt"># Output to read:</span>
+<span class="cmt">#   TM: X.X  (Trust Magnitude score)</span>
+<span class="cmt">#   Grade: A / B / C / D / F</span>
+<span class="cmt">#   Per-row breakdown with score + trust multiplier</span>
+<span class="cmt">#   Current star level vs. what grade supports</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Star level guide — what TM grade unlocks</div>
+    <table>
+      <thead><tr><th>Grade</th><th>TM Range</th><th>Max Stars</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>F</td><td>&lt; 1.0</td><td>0★</td><td>Insufficient evidence</td></tr>
+        <tr><td>D</td><td>1.0–1.9</td><td>1★</td><td>Stage 1 minimum</td></tr>
+        <tr><td>C</td><td>2.0–3.9</td><td>2★</td><td>Badge unlock floor</td></tr>
+        <tr><td>B</td><td>4.0–6.9</td><td>3★</td><td>Solid adoption signals</td></tr>
+        <tr><td>A</td><td>7.0–9.9</td><td>4★</td><td>Strong external proof</td></tr>
+        <tr><td>S</td><td>10.0+</td><td>5★–6★</td><td>Benchmark + peer-review required</td></tr>
+      </tbody>
+    </table>
+    <div class="callout note">
+      <span class="icon">ℹ</span>
+      <span>TM is the sole promotion gate under Yggdrasil II. The per-star Evidence Floor is retired. But the Star Bar (installability, GitHub link requirements) still applies.</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Step 5 — Calibrate stars (only after explicit approval)</div>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>bash</div>
+      <pre><span class="cmt"># Propose: look at TM output above, decide the star level yourself
+# ONLY run this command when you have explicitly approved the calibration</span>
+
+<span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> <span class="arg">dev calibrate</span> <span class="val">contributor/skill-id</span> \
+  <span class="flag">--stars</span> <span class="val">2</span>
+
+<span class="cmt"># Validate everything is clean</span>
+<span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> <span class="arg">dev validate</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Step 6 — Commit the registry changes to the branch</div>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>bash</div>
+      <pre><span class="cmd">git</span> <span class="arg">add</span> <span class="val">registry/named/&lt;contributor&gt;/</span>
+<span class="cmd">git</span> <span class="arg">add</span> <span class="val">registry/nodes/</span>       <span class="cmt"># if a new generic node was created</span>
+<span class="cmd">git</span> <span class="arg">add</span> <span class="val">registry/named-skills.json</span>  <span class="cmt"># if regenerated</span>
+
+<span class="cmd">git</span> <span class="arg">commit</span> <span class="flag">-m</span> \
+  <span class="val">"feat(registry): ingest evidence for contributor/skill-name — TM X.X Grade B @ 2★"</span>
+
+<span class="cmd">git</span> <span class="arg">push</span></pre>
+    </div>
+  </div>
+
+  <!-- ══════════ PHASE 6: CLOSE ══════════ -->
+  <div class="section-header">
+    <div class="num">6</div>
+    <h2>Close <span>— Merge PR &amp; post intake comments</span></h2>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Step 1 — Mark PR ready for review (out of draft)</div>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>bash</div>
+      <pre><span class="cmd">gh</span> <span class="arg">pr ready</span> <span class="val">&lt;PR_NUMBER&gt;</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Step 2 — Wait for CI to go green, then merge</div>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>bash</div>
+      <pre><span class="cmt"># Poll CI status</span>
+<span class="cmd">gh</span> <span class="arg">pr checks</span> <span class="val">&lt;PR_NUMBER&gt;</span>
+
+<span class="cmt"># When all checks pass:</span>
+<span class="cmd">gh</span> <span class="arg">pr merge</span> <span class="val">&lt;PR_NUMBER&gt;</span> \
+  <span class="flag">--squash</span> \
+  <span class="flag">--subject</span> <span class="val">"feat(registry): ingest contributor/skill-name [closes #ISSUE]"</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Step 3 — Post the PR closing comment (intake pipeline findings)</div>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>bash</div>
+      <pre><span class="cmd">cat</span> <span class="val">&gt; /tmp/pr-close-comment.md</span> <span class="flag">&lt;&lt;'EOF'</span>
+## Evidence Pipeline Findings — #ISSUE
+
+### `contributor/skill-name`
+
+**Final TM: X.X | Grade: B | Calibrated: 2★ (Awakened)**
+
+| Entry | Type | Verdict | Reason |
+|---|---|---|---|
+| github.com/owner/repo | repo-own | KEPT | Commits + contributors verified via GitHub API |
+| github.com/owner/repo/blob/main/SKILL.md | github-stars-own | KEPT | Stars verified live: 3421 |
+| github.com/owner/repo/blob/main/SKILL.md | self-attestation | KEPT | Stage 1 baseline |
+
+### /trust-appraise
+\`\`\`
+TM: X.X  Grade: B
+repo-own       score=1.2  trust=0.9  github.com/owner/repo
+github-stars-own  score=1.8  trust=0.85  github.com/owner/repo/blob/main/SKILL.md
+self-attestation   score=0.3  trust=0.5  (baseline)
+\`\`\`
+
+---
+
+## Badges
+contributor is at 2★ — badges are live:
+Visit https://gaiaskilltree.com/badges/ to generate your badge.
+EOF
+
+<span class="cmd">gh</span> <span class="arg">pr comment</span> <span class="val">&lt;PR_NUMBER&gt;</span> \
+  <span class="flag">--body-file</span> <span class="val">/tmp/pr-close-comment.md</span></pre>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Step 4 — Post the issue closing comment (personalized to contributor)</div>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>bash</div>
+      <pre><span class="cmd">cat</span> <span class="val">&gt; /tmp/issue-close-comment.md</span> <span class="flag">&lt;&lt;'EOF'</span>
+## Pipeline Review Complete — Final Decision
+
+**Skill:** `contributor/skill-name`
+**Contributor:** @github-handle
+**Status: Accepted at 2★ Awakened**
+
+### Evidence Pipeline Findings
+| Entry | Type | Verdict | Reason |
+|---|---|---|---|
+| github.com/owner/repo | repo-own | KEPT | Verified |
+| github.com/owner/repo/blob/main/SKILL.md | github-stars-own | KEPT | 3421 stars live |
+| github.com/owner/repo/blob/main/SKILL.md | self-attestation | KEPT | Baseline |
+
+### /trust-appraise
+\`\`\`
+TM: X.X  Grade: B  →  2★ Awakened
+\`\`\`
+
+### Path to 3★ (Grade B→ higher B)
+To reach 3★, add `social-signal` evidence (a YouTube tutorial or community post
+with a publicly visible view count ≥ 1000) or a `peer-review` row from an
+independent reviewer. TM gate for 3★ is ≥ 4.0.
+
+Thank you for the submission @github-handle — [one sentence about the skill].
+
+Merged in: #PR_NUMBER
+EOF
+
+<span class="cmd">gh</span> <span class="arg">issue comment</span> <span class="val">&lt;ISSUE_NUMBER&gt;</span> \
+  <span class="flag">--body-file</span> <span class="val">/tmp/issue-close-comment.md</span>
+
+<span class="cmt"># Close the issue</span>
+<span class="cmd">gh</span> <span class="arg">issue close</span> <span class="val">&lt;ISSUE_NUMBER&gt;</span></pre>
+    </div>
+  </div>
+
+  <div class="card success">
+    <div class="card-title success">Step 5 — Regenerate site artifacts (Class S)</div>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>bash</div>
+      <pre><span class="cmt"># Regenerate docs/graph/* so the live website reflects the new skill</span>
+<span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> <span class="arg">dev docs</span>
+
+<span class="cmd">git</span> <span class="arg">add</span> <span class="val">docs/graph/</span>
+<span class="cmd">git</span> <span class="arg">commit</span> <span class="flag">-m</span> <span class="val">"chore: regenerate Class S artifacts after contributor/skill-name intake"</span>
+<span class="cmd">git</span> <span class="arg">push</span></pre>
+    </div>
+    <div class="callout note">
+      <span class="icon">ℹ</span>
+      <span>This is separate from the intake PR. Do it on <code>main</code> after merge, or on a follow-up <code>chore/</code> branch. CI Guard E (<code>docs-cohesion.yml</code>) will fail if these are out of date.</span>
+    </div>
+  </div>
+
+  <hr />
+
+  <!-- COMMON ERRORS -->
+  <div class="section-header" style="margin-top:8px">
+    <div class="num" style="background:rgba(239,68,68,0.1);border-color:var(--danger);color:var(--danger)">!</div>
+    <h2>Common errors <span>— and exactly what to do</span></h2>
+  </div>
+
+  <div class="card danger">
+    <div class="card-title danger">UNTRUSTED_GENERIC_SNAPSHOT</div>
+    <p style="font-size:13.5px">The <code>contentSha256</code> in the packet doesn't match the file you're passing to <code>--generic-snapshot</code>.</p>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>fix</div>
+      <pre><span class="cmt"># Recompute the sha256 from your saved snapshot file:</span>
+<span class="cmd">python3</span> <span class="flag">-c</span> <span class="val">"import json,hashlib; d=json.load(open('/tmp/generic-snapshot.json')); \
+print(hashlib.sha256(json.dumps(d,sort_keys=True,separators=(',',':')).encode()).hexdigest())"</span>
+<span class="cmt"># Paste that value into genericSnapshot.contentSha256 in your packet.</span></pre>
+    </div>
+  </div>
+
+  <div class="card danger">
+    <div class="card-title danger">INVALID_GENERIC_SELECTION — mapped ID not in snapshot</div>
+    <p style="font-size:13.5px">You used a genericId that wasn't in the snapshot you captured. Either re-capture the snapshot after adding the new generic, or use the id that's actually there.</p>
+  </div>
+
+  <div class="card danger">
+    <div class="card-title danger">gaia dev evidence fails — "unknown evidence type"</div>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>fix</div>
+      <pre><span class="cmd">gaia</span> <span class="arg">dev evidence</span> <span class="flag">--help</span>
+<span class="cmt"># Lists all supported --type values and their required flags</span></pre>
+    </div>
+  </div>
+
+  <div class="card danger">
+    <div class="card-title danger">gaia dev validate fails after ingest</div>
+    <div class="code-block">
+      <div class="cb-label"><div class="dot"></div>fix</div>
+      <pre><span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> <span class="arg">dev validate</span> <span class="flag">--verbose</span>
+<span class="cmt"># Read the first error carefully — usually a missing required field or</span>
+<span class="cmt"># a schema mismatch. Fix the named skill file, then re-run validate.</span></pre>
+    </div>
+  </div>
+
+  <div class="card danger">
+    <div class="card-title danger">"view count not publicly available" — social-signal ingest rejected</div>
+    <p style="font-size:13.5px">Do not fabricate view counts. If you can't see the count on the source page, omit the <code>--views</code> flag or skip the row entirely. A row without a verifiable view count does not score.</p>
+  </div>
+
+  <hr />
+
+  <!-- CHEAT SHEET -->
+  <div class="section-header" style="margin-top:8px">
+    <div class="num" style="background:rgba(94,234,212,0.1);border-color:var(--accent2);color:var(--accent2)">✦</div>
+    <h2>Quick-reference cheat sheet</h2>
+  </div>
+
+  <div class="code-block">
+    <div class="cb-label"><div class="dot" style="background:var(--accent2)"></div>every command in order</div>
+    <pre><span class="cmt"># ── Phase 1: Curate ──────────────────────────────────────────────</span>
+<span class="cmd">gaia</span> <span class="arg">dev list</span> <span class="flag">--generic --json</span> <span class="val">&gt; /tmp/generic-snapshot.json</span>
+<span class="cmd">gaia</span> <span class="arg">dev prefill</span> <span class="flag">--source</span> <span class="val">"&lt;blob-url&gt;"</span> <span class="flag">--output</span> <span class="val">/tmp/prefill-output.json</span>
+<span class="cmt"># ... write packet JSON ...</span>
+<span class="cmd">python3</span> <span class="arg">scripts/validate_discovery_packet.py</span> \
+  <span class="flag">--generic-snapshot</span> <span class="val">/tmp/generic-snapshot.json</span> <span class="val">registry-for-review/discovery-packets/&lt;packet&gt;.json</span>
+
+<span class="cmt"># ── Phase 2: L4 ─────────────────────────────────────────────────</span>
+<span class="cmt"># Add l4Resolution to the packet JSON, re-validate</span>
+
+<span class="cmt"># ── Phase 3: Push + PR ───────────────────────────────────────────</span>
+<span class="cmd">git</span> <span class="arg">checkout</span> <span class="flag">-b</span> <span class="val">review/meta/handle--skill</span>
+<span class="cmd">gaia</span> <span class="arg">push</span> <span class="flag">--from-file</span> <span class="val">&lt;packet&gt;.json</span> <span class="flag">--dry-run</span>
+<span class="cmd">gaia</span> <span class="arg">push</span> <span class="flag">--from-file</span> <span class="val">&lt;packet&gt;.json</span>
+<span class="cmd">git</span> <span class="arg">add</span> <span class="val">.</span> <span class="arg">&amp;&amp; git commit -m "feat(intake): ..."</span> <span class="arg">&amp;&amp; git push -u origin &lt;branch&gt;</span>
+<span class="cmd">gh</span> <span class="arg">pr create</span> <span class="flag">--draft --title</span> <span class="val">"..."</span> <span class="flag">--body-file</span> <span class="val">/tmp/pr-body.md</span>
+
+<span class="cmt"># ── Phase 4: ev-pipeline ─────────────────────────────────────────</span>
+<span class="cmd">python3</span> <span class="arg">evidence/scripts/generate_source_dump.py</span> <span class="flag">--output-dir</span> <span class="val">evidence</span> <span class="flag">--by-type-dir</span> <span class="val">evidence/by-type</span>
+<span class="cmd">python3</span> <span class="arg">evidence/scripts/compile_data_lake.py</span> <span class="flag">--sources</span> <span class="val">evidence/by-type</span> <span class="flag">--lake</span> <span class="val">evidence</span>
+<span class="cmd">gh</span> <span class="arg">api</span> <span class="val">repos/OWNER/REPO</span> <span class="flag">--jq</span> <span class="val">'.stargazers_count'</span>     <span class="cmt"># phase 2 star check</span>
+<span class="cmd">grep</span> <span class="flag">-rn</span> <span class="val">"github.com/.*/tree/"</span> <span class="arg">evidence/by-type/</span>          <span class="cmt"># phase 3 tree/ URLs</span>
+<span class="cmd">python3</span> <span class="arg">evidence/scripts/validate_sources.py</span>             <span class="cmt"># phase 4 link health</span>
+
+<span class="cmt"># ── Phase 5: gaia-ingest ─────────────────────────────────────────</span>
+<span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> <span class="arg">dev evidence</span> <span class="val">contributor/skill</span> <span class="val">"&lt;url&gt;"</span> \
+  <span class="flag">--type</span> <span class="val">repo-own</span> <span class="flag">--commits</span> <span class="val">N</span> <span class="flag">--contributors</span> <span class="val">N</span> \
+  <span class="flag">--notes</span> <span class="val">"..."</span> <span class="flag">--source-started-at</span> <span class="val">YYYY-MM-DD</span> <span class="flag">--no-build</span>
+<span class="cmt"># ... repeat for each evidence type ...</span>
+<span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> <span class="arg">dev build</span>
+<span class="cmd">PYTHONPATH=src</span> <span class="cmd">python3</span> <span class="arg">scripts/trust_appraise.py</span> <span class="flag">--skill</span> <span class="val">contributor/skill</span>
+<span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> <span class="arg">dev calibrate</span> <span class="val">contributor/skill</span> <span class="flag">--stars</span> <span class="val">N</span>   <span class="cmt"># after your approval</span>
+<span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> <span class="arg">dev validate</span>
+
+<span class="cmt"># ── Phase 6: Close ───────────────────────────────────────────────</span>
+<span class="cmd">gh</span> <span class="arg">pr ready</span> <span class="val">&lt;PR&gt;</span>
+<span class="cmd">gh</span> <span class="arg">pr checks</span> <span class="val">&lt;PR&gt;</span>
+<span class="cmd">gh</span> <span class="arg">pr merge</span> <span class="val">&lt;PR&gt;</span> <span class="flag">--squash --subject</span> <span class="val">"feat(registry): ... [closes #ISSUE]"</span>
+<span class="cmd">gh</span> <span class="arg">pr comment</span> <span class="val">&lt;PR&gt;</span> <span class="flag">--body-file</span> <span class="val">/tmp/pr-close-comment.md</span>
+<span class="cmd">gh</span> <span class="arg">issue comment</span> <span class="val">&lt;ISSUE&gt;</span> <span class="flag">--body-file</span> <span class="val">/tmp/issue-close-comment.md</span>
+<span class="cmd">gh</span> <span class="arg">issue close</span> <span class="val">&lt;ISSUE&gt;</span>
+<span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> <span class="arg">dev docs</span></pre>
+  </div>
+
+  <p class="footnote">
+    Source of truth for commands: <code>.agents/skills/gaia-curate/SKILL.md</code> · <code>.agents/skills/ev-pipeline/SKILL.md</code> · <code>.agents/skills/gaia-ingest/SKILL.md</code> · <code>.agents/skills/gaia-intake-close/SKILL.md</code><br/>
+    Generated for <code>founder/teach/</code> · Gaia Skill Tree · Manual pipeline reference, no AI required.
+  </p>
+
+</div><!-- /wrapper -->
+</body>
+</html>
