@@ -4,6 +4,70 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-08-11, Skill Zero split ratified and Skill Heaven repo rename shipped)
+
+### TLDR
+
+- **Decision ratified this session.** RFC [gaia-skill-tree#1509](https://github.com/gaia-research/gaia-skill-tree/issues/1509) amends [gaia-research#68](https://github.com/gaia-research/gaia-research/issues/68) plus RATIFICATION N8/N9: Skill Heaven is the umbrella runtime brand; Skill Zero is the launcher-with-zero-skills prototype module inside `gaia-skill-heaven`; Heaven/Hell are Arbor summon directions, not launcher cleanup semantics.
+- **Repo rename is real and deliberate.** `gaia-research/skill-heaven` was renamed to `gaia-research/gaia-skill-heaven`; the ecosystem repo gets the `gaia-*` prefix while the user-facing runtime brand stays Skill Heaven.
+- **Skill Zero is complete and kept.** Packages/core now expose npm/bin `skill-zero`; door launch identities are `claude-zero`, `pi-zero`, `codex-zero`, `hermes-zero`, and `grok-zero`. The short `*-zero` names are user-facing doors; `gaia-*` is for repos/modules only.
+- **Semantic inversion fixed.** Old docs described Heaven as subtraction/strip/evict/clean-floor. That behavior is Skill Zero. Heaven now means converge/curated summon; Hell means explore/expand summon; Ultra is the future automated Heaven<->Hell governor.
+- **Everything shipped as DRAFT PRs only.** No merge happened; all founder review/merge gates remain open.
+
+### Ratified taxonomy
+
+| Term | Ratified meaning |
+|---|---|
+| Skill Heaven | Umbrella runtime brand: what users associate with the runtime surface as a whole |
+| `gaia-skill-heaven` | Renamed repo/module home for the Skill Heaven runtime ecosystem |
+| Skill Zero | Launcher-with-zero-skills: deep standalone now-complete prototype module inside `gaia-skill-heaven` |
+| `skill-zero` | Core npm/bin entrypoint for the launcher |
+| `claude-zero`, `pi-zero`, `codex-zero`, `hermes-zero`, `grok-zero` | Door launch identities; short user-facing names, not repo names |
+| Heaven | Arbor converge / curated summon direction |
+| Hell | Arbor explore / expand summon direction |
+| Ultra | Automated Heaven<->Hell switch / governor |
+| HH Index | Hell-Heaven axis index; **WORK IN PROGRESS**. The WIP banner moved off the launcher and onto this index |
+| `skill-hell` | Unchanged gaia-mcp summon tool for the explore direction |
+
+### Lexicon and namespace state
+
+- **Prefix taxonomy ratified:** `gaia-*` = ecosystem repos/modules; `skill-*` = standalone skill tools. Therefore `skill-hell` correctly keeps `skill-*`.
+- **Lexicon split landed:** new `gaia.zero` namespace carved out for launcher terms; `gaia.heaven` now owns umbrella + axis terms. Both are owned by the `gaia-research` HQ; `gaia-skill-heaven` consumes them.
+- **Regeneration done:** foreign mirror + `LEXICON.md` regenerated in both HQs; `check-lexicon` green.
+- **Deferred, explicitly not done:** promote `gaia.zero` to its own HQ once `gaia-skill-heaven` stabilizes; migrate axis vocabulary to the `gaia-skill-tree` HQ when Arbor I ratifies.
+
+### Shipped PRs and artifacts
+
+| Repo | Draft PR / artifact | State |
+|---|---|---|
+| `gaia-skill-tree` | Draft PR [#1507](https://github.com/gaia-research/gaia-skill-tree/pull/1507) | Founder docs relabeled (`ENDGAME`, `MIGRATION`, `SCHEMA`, `ROADMAP`, `STEWARD`, `ARC_I`, `MEMORY`); lexicon foreign mirror; handover doc; RFC issue [#1509](https://github.com/gaia-research/gaia-skill-tree/issues/1509) posted |
+| Connected issues | Comments posted | [gaia-research#68](https://github.com/gaia-research/gaia-research/issues/68), `skill-heaven` #25/#29/#30/#31/#32, [gaia-mcp#15](https://github.com/gaia-research/gaia-mcp/issues/15) |
+| `gaia-research` | Draft PR [#165](https://github.com/gaia-research/gaia-research/pull/165) | VISION/MISSION Heaven-inversion fix; reports + `hh-benchmark` demos `skill-heaven` -> `skill-zero`; site copy (`app/page.tsx` etc.); `lexicon.gaia.zero.json` split; RATIFICATION "Skill Zero split" delta; RFC draft doc |
+| `gaia-skill-heaven` | Draft PR [#46](https://github.com/gaia-research/gaia-skill-heaven/pull/46) | All door packages `*-heaven` -> `*-zero`; core bin `skill-zero`; README rewritten; marketplace/plugin/commands; `CLAUDE.md` + docs. `npm test` green: 208/208 |
+| `gaia-mcp` | Draft PR [#19](https://github.com/gaia-research/gaia-mcp/pull/19) | Outward refs only updated to `gaia-skill-heaven`; `skill-hell` code, bins, and `SESSION_DIR_PREFIX` untouched |
+| GitHub repo | `gaia-research/skill-heaven` -> `gaia-research/gaia-skill-heaven` | Rename completed; PR #46 survived; local remote updated |
+
+All listed commits were authored by `mbtiongson1` only. All listed PRs are **DRAFT** and awaiting founder review/merge.
+
+### Summon direction note
+
+- `skill-hell` in `gaia-mcp` stays unchanged: it is the explore-direction summon.
+- Future work: add a heaven-direction converge summon alongside `skill-hell`, making summon bidirectional.
+
+### Lesson / hazard preserved
+
+- The initial scout was **stale**. An early `git pull` on `skill-heaven` aborted on an untracked-file conflict, leaving the working copy at `2726cb9` while `origin/main` was `e8658cb`; the scout therefore saw only 4 packages.
+- That stale checkout caused a false fabrication alarm on `codex-zero`, `hermes-zero`, and `grok-zero`.
+- Ground truth, verified against `origin/main` `e8658cb`: those are real, tested prototype doors (`PROBE.md` + CLI + launcher) that the founder had tested. They were correctly renamed to `*-zero` and kept.
+- Takeaway for next orchestrator: verify against `origin/main`, not a possibly stale local checkout, before judging scope or fabrication.
+
+### Next handoff
+
+- Do not merge from this branch. Founder review/merge is still pending across the draft PRs.
+- Keep the semantic split crisp: Skill Zero owns launcher-with-zero-skills behavior; Skill Heaven owns the runtime umbrella and Heaven direction branding; HH Index remains WIP.
+
+---
+
 ## State Snapshot (2026-08-09, Roadmap v5 closeout and MCP 0.4.0 release-contract synchronization complete)
 
 ### TLDR
