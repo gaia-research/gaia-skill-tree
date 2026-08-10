@@ -1074,7 +1074,6 @@ EOF
 
 <span class="cmt"># When all checks pass:</span>
 <span class="cmd">gh</span> <span class="arg">pr merge</span> <span class="val">&lt;PR_NUMBER&gt;</span> \
-  <span class="flag">--squash</span> \
   <span class="flag">--subject</span> <span class="val">"feat(registry): ingest contributor/skill-name [closes #ISSUE]"</span></pre>
     </div>
   </div>
@@ -1273,7 +1272,7 @@ print(hashlib.sha256(json.dumps(d,sort_keys=True,separators=(',',':')).encode())
 <span class="cmt"># ── Phase 6: Close ───────────────────────────────────────────────</span>
 <span class="cmd">gh</span> <span class="arg">pr ready</span> <span class="val">&lt;PR&gt;</span>
 <span class="cmd">gh</span> <span class="arg">pr checks</span> <span class="val">&lt;PR&gt;</span>
-<span class="cmd">gh</span> <span class="arg">pr merge</span> <span class="val">&lt;PR&gt;</span> <span class="flag">--squash --subject</span> <span class="val">"feat(registry): ... [closes #ISSUE]"</span>
+<span class="cmd">gh</span> <span class="arg">pr merge</span> <span class="val">&lt;PR&gt;</span> <span class="flag">--subject</span> <span class="val">"feat(registry): ... [closes #ISSUE]"</span>
 <span class="cmd">gh</span> <span class="arg">pr comment</span> <span class="val">&lt;PR&gt;</span> <span class="flag">--body-file</span> <span class="val">/tmp/pr-close-comment.md</span>
 <span class="cmd">gh</span> <span class="arg">issue comment</span> <span class="val">&lt;ISSUE&gt;</span> <span class="flag">--body-file</span> <span class="val">/tmp/issue-close-comment.md</span>
 <span class="cmd">gh</span> <span class="arg">issue close</span> <span class="val">&lt;ISSUE&gt;</span>
