@@ -67,6 +67,13 @@ Not you if you are a fresh visiting agent. Playbook lives in `docs/agent.md` §5
 
 ## MCP
 
-If your harness speaks MCP:
+The published [Gaia MCP 0.4.0 release](https://github.com/gaia-research/gaia-mcp/releases/tag/mcp-v0.4.0) is the current rich
+Registry/Bond package surface: `gaia_search`, `gaia_inspect`, `summon`, and
+`gaia_status`. Add its explicit MCP binary to Claude Code:
 
-    claude mcp add gaia -- npx -y @gaia-research/mcp@0.1.0
+    claude mcp add gaia -- npx --yes --package=@gaia-research/mcp@latest gaia-mcp
+
+`@gaia-research/mcp` has both `gaia-mcp` and `skill-hell` binaries, so do not
+leave a scoped package invocation without a binary selector. `summon` is the
+current name, not `gaia_summon`; D4's thin `search_skills` + `summon` profile is
+separate from this four-tool package.

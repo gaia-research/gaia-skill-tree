@@ -17,33 +17,24 @@ Gaia is the open-source registry where AI agent capabilities aren't just claimed
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Website](https://img.shields.io/badge/Website-gaiaskilltree.com-f59e0b)](https://gaiaskilltree.com/)
 
-👉 **Claim your skill origin:** Run `curl -fsSL https://gaiaskilltree.com/install.sh | sh` and verify your first skill in under 2 minutes.
+👉 **Claim your skill origin:** Run 
+
+```
+curl -fsSL https://gaiaskilltree.com/install.sh | sh
+```
+
+and verify your first skill in under 2 minutes.
 
 
 # Get your badges! Some skills already curated.
 
 [![Gaia rank](https://gaiaskilltree.com/badges/_assets/mbtiongson1/rank.svg?repo=gaia-research%2Fgaia-skill-tree)](https://gaiaskilltree.com/u/mbtiongson1/)<br>
-[![Gaia skills](https://gaiaskilltree.com/badges/_assets/mbtiongson1/skills.svg?repo=gaia-research%2Fgaia-skill-tree)](https://gaiaskilltree.com/u/mbtiongson1/)
 
 Generate yours at **[gaiaskilltree.com/badges/](https://gaiaskilltree.com/badges/)**.
 
 **Brand & product:** [PRODUCT.md](PRODUCT.md) · [CONTEXT.md](CONTEXT.md) · [DESIGN.md](DESIGN.md)
 
 **Keywords:** AI Agent Skill registry • Evidence-Backed Skill Graph • Capability Graph • Model Context Protocol • AI Agents • Attribution
-
----
-
-## Yggdrasil II just dropped! (July 2026)
-
-Gaia has moved from **Yggdrasil I** to **Yggdrasil II**, the ratified meta that governs how skills are typed, ranked, and trusted. If you last looked before July 2026, three things changed:
-
-- **Trust Magnitude is the sole promotion gate.** The old per-star *Evidence Floor* is retired. A skill rises by accumulating Trust Magnitude — an unbounded score summed across ten evidence types (`magnitude × weight × freshness`), graded S ≥ 250 / A ≥ 100 / B ≥ 50 / C ≥ 20. The legacy "≥ 10k repository stars" hard requirement for the top pathways is gone; TM is the only numeric gate.
-- **Two node types, not five.** `extra`, `ultimate`, and `unique` are retired — every non-basic node is now `fusion`. Type is pure structure and lives only on starless (generic) references; **named skills carry no type**.
-- **Branch is derived, never declared.** A named skill's branch is computed at read-time from `branch = f(suiteComponents present?, rank)` — `suite` (has suiteComponents, any rank; ladder words Extra → Ultimate → Apex appear at 4★+), `unique` (no suiteComponents, rank ≥ 4; ladder Unique → Unique Ultimate → Unique Impossible), or `standard` (rank 1–3). No hand-maintained branch field to drift. The two 6★ pinnacles are **Apex** (suite branch) and **Unique Impossible** (unique branch).
-
-Stars now live on **named skills only**; generic references are *starless* — rank-less taxonomy nodes whose effective rank is the top star among their named children.
-
-**The full ruleset lives in [META.md](META.md)** (the single source of truth) and [CONTEXT.md](CONTEXT.md) (vocabulary). Explore it live at **[gaiaskilltree.com](https://gaiaskilltree.com/)** — the redesigned site renders the graph, per-contributor trees, the public [Trust leaderboard](https://gaiaskilltree.com/trust/leaderboard/), and every skill's evidence ledger.
 
 ---
 
@@ -160,38 +151,12 @@ This is the evidence grade at the Skill level.
 
 ---
 
-## API
-
-The registry is available as a static read-only JSON API — no authentication, no rate limits.
-
-- **Base URL:** `https://gaiaskilltree.com/api/v1/`
-- **Docs:** [gaiaskilltree.com/api/](https://gaiaskilltree.com/api/)
-- **OpenAPI 3.1 spec:** [/api/v1/openapi.json](https://gaiaskilltree.com/api/v1/openapi.json)
-
-Quick examples:
-
-```bash
-# Health check
-curl https://gaiaskilltree.com/api/v1/health.json
-
-# All skills (page 1, sorted by Trust Magnitude)
-curl https://gaiaskilltree.com/api/v1/skills/index.json
-
-# Single skill detail
-curl https://gaiaskilltree.com/api/v1/skills/garrytan/gstack.json
-
-# Trust leaderboard
-curl https://gaiaskilltree.com/api/v1/leaderboard.json
-```
-
----
-
 ## Quickstart
 
 **1. CLI
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `7.4.8`.
+Current Gaia CLI version: `7.4.12`.
 
 ```bash
 curl -fsSL https://gaiaskilltree.com/install.sh | sh
@@ -263,10 +228,13 @@ A GitHub issue opens automatically. Don't worry, we thoroughly review every inta
 **4. MCP Server**
 
 ```bash
-claude mcp add gaia -- npx -y @gaia-research/mcp@0.1.0
+claude mcp add gaia -- npx --yes --package=@gaia-research/mcp@latest gaia-mcp
 ```
 
-Connects your AI agent to the public Gaia Skill Tree registry over stdio. Full configuration guidance and planned features are documented on the [Gaia MCP Page](https://research.gaiaskilltree.com/mcp).
+Connects your AI agent to the public Gaia Skill Tree registry over stdio. The
+scoped package has two binaries, so the explicit package selector invokes
+`gaia-mcp`; see the [Gaia MCP 0.4.0 release](https://github.com/gaia-research/gaia-mcp/releases/tag/mcp-v0.4.0) for the current
+contract.
 
 ---
 
@@ -355,26 +323,69 @@ Maintainer commands:  gaia dev --help
 
 ---
 
-## MCP Server Full Instructions
+## MCP Server
 
-`@gaia-research/mcp` connects Gaia to MCP-compatible agents (Claude Code, Cursor, VS Code, etc.). It is published on npm at **v0.1.0** and ships the binary `gaia-mcp`.
+[`@gaia-research/mcp@0.4.0`](https://github.com/gaia-research/gaia-mcp/releases/tag/mcp-v0.4.0) is the published Gaia MCP prototype.
+Public installation examples use `@latest`; it currently resolves to that
+release. The scoped package registers two binaries, `gaia-mcp` and
+`skill-hell`, so an MCP client must select `gaia-mcp` explicitly.
 
 | Agent | Install |
 |-------|---------|
-| Claude Code | `claude mcp add gaia -- npx -y @gaia-research/mcp@0.1.0` |
-| Any MCP client | Command: `npx`, args: `["-y", "@gaia-research/mcp@0.1.0"]` |
+| Claude Code | `claude mcp add gaia -- npx --yes --package=@gaia-research/mcp@latest gaia-mcp` |
+| Any MCP client | Command: `npx`; args: `["--yes", "--package=@gaia-research/mcp@latest", "gaia-mcp"]` |
 
-**What v0.1.0 does today.** It is **read-only registry mode** — three discovery tools, no write path:
+**Current rich Registry/Bond package surface:**
 
 | Tool | Purpose |
 |---|---|
-| `gaia_search` | Find generic and Named Skills by task and constraints |
-| `gaia_inspect` | Return an evidence-backed skill dossier |
-| `gaia_status` | Report server compatibility, registry freshness, counts, source URLs |
+| `gaia_search` | Find generic and Named Skills by task and constraints. |
+| `gaia_inspect` | Return an evidence-backed skill dossier. |
+| `summon` | Materialize a matching Named Skill into an ephemeral session. |
+| `gaia_status` | Report version, compatibility, Registry freshness, counts, and tools. |
 
-It **cannot install, fuse, or mutate skills**, and it does not submit to Intake. Project analysis and path planning arrive with Bonded mode in v0.2.0. Installation stays with the `gaia` CLI, which is where approval for anything that changes your workspace belongs.
+`summon` is the current tool name, not `gaia_summon`. It never mutates the
+Registry, current repository, or persistent user configuration. The current
+package is not an implemented or measured D4 thin `search_skills` + `summon`
+profile; that profile does not deprecate the four tools above. Hell/Heaven
+scoring, routing eligibility, and content-hash admission or verification are
+not shipped.
 
-Source and releases: <https://github.com/gaia-research/gaia-mcp>. See the [Gaia MCP Page](https://research.gaiaskilltree.com/mcp) for full docs and agent-specific config examples.
+For a direct CLI summon, use the npx-friendly alias:
+
+```bash
+npx --yes skill-hell@latest summon "code review" --card
+```
+
+Source and releases: <https://github.com/gaia-research/gaia-mcp>. See the
+[Gaia MCP Page](https://research.gaiaskilltree.com/mcp) for current
+configuration guidance.
+
+---
+
+## API
+
+The registry is available as a static read-only JSON API — no authentication, no rate limits.
+
+- **Base URL:** `https://gaiaskilltree.com/api/v1/`
+- **Docs:** [gaiaskilltree.com/api/](https://gaiaskilltree.com/api/)
+- **OpenAPI 3.1 spec:** [/api/v1/openapi.json](https://gaiaskilltree.com/api/v1/openapi.json)
+
+Quick examples:
+
+```bash
+# Health check
+curl https://gaiaskilltree.com/api/v1/health.json
+
+# All skills (page 1, sorted by Trust Magnitude)
+curl https://gaiaskilltree.com/api/v1/skills/index.json
+
+# Single skill detail
+curl https://gaiaskilltree.com/api/v1/skills/garrytan/gstack.json
+
+# Trust leaderboard
+curl https://gaiaskilltree.com/api/v1/leaderboard.json
+```
 
 ---
 

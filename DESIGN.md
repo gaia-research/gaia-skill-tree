@@ -522,7 +522,7 @@ This section is the **canonical grading rubric** for the Yggdrasil II design run
 - `--honor-red` may remain for unrelated link/emphasis use; the FAIL is specifically a red *origin* mark.
 
 ### E5 — Cross-brand Research bridge
-- Links out to Gaia Research products (MCP `@gaia-research/mcp@0.1.0` + `research.gaiaskilltree.com/mcp`; skill-fuse `github.com/gaia-research/skill-fuse`) use the shared "Research product" affordance in the Rimuru-Blue (`#38bdf8`) bridge language — "one house, two rooms." Content/schema never imported cross-repo; hyperlinks are fine.
+- Links out to Gaia Research products (MCP install selector `@gaia-research/mcp@latest` (moving) and [v0.4.0 release evidence](https://github.com/gaia-research/gaia-mcp/releases/tag/mcp-v0.4.0) for `gaia_search`, `gaia_inspect`, `summon`, and `gaia_status`, plus `research.gaiaskilltree.com/mcp`; skill-fuse `github.com/gaia-research/skill-fuse`) use the shared "Research product" affordance in the Rimuru-Blue (`#38bdf8`) bridge language — "one house, two rooms." Content/schema never imported cross-repo; hyperlinks are fine.
 
 ### E6 — Mobile-first (non-homepage surfaces)
 - Built 320px-up, `min-width` breakpoints (scale: sm 480 / md 768 / lg 1024 / xl 1280). Touch targets ≥44×44px. Font sizes `clamp()` with a 320px-safe floor. No `position:fixed` decoration on mobile.
@@ -581,7 +581,7 @@ Origin is rendered in **GOLD** (`--apex-gold` `#fbbf24`, the gold origin token) 
 
 ### The cross-brand Rimuru-Blue bridge
 
-Gaia Skill Tree ("The Hunter's Atlas" — serif/gold register) is the flagship of Gaia Research ("The Cyber-Slime Laboratory" — Bebas/Syne, Milim-Pink/Rimuru-Blue register). Surfaces that link OUT to Research products (MCP `@gaia-research/mcp@0.1.0` + `research.gaiaskilltree.com/mcp`; skill-fuse `github.com/gaia-research/skill-fuse`) use one shared "Research product" affordance in the **Rimuru-Blue `#38bdf8`** bridge language. This is an exact match to this repo's `--tier-basic` token (`#38bdf8`) — the natural bridge color, expressing "one house, two rooms." Cross-repo content/schema is never imported; hyperlinks and sibling brand lockups are fine.
+Gaia Skill Tree ("The Hunter's Atlas" — serif/gold register) is the flagship of Gaia Research ("The Cyber-Slime Laboratory" — Bebas/Syne, Milim-Pink/Rimuru-Blue register). Surfaces that link OUT to Research products (MCP install selector `@gaia-research/mcp@latest` (moving) and [v0.4.0 release evidence](https://github.com/gaia-research/gaia-mcp/releases/tag/mcp-v0.4.0) for `gaia_search`, `gaia_inspect`, `summon`, and `gaia_status`, plus `research.gaiaskilltree.com/mcp`; skill-fuse `github.com/gaia-research/skill-fuse`) use one shared "Research product" affordance in the **Rimuru-Blue `#38bdf8`** bridge language. This is an exact match to this repo's `--tier-basic` token (`#38bdf8`) — the natural bridge color, expressing "one house, two rooms." Cross-repo content/schema is never imported; hyperlinks and sibling brand lockups are fine.
 
 ### Shared resolvers — the single source both client and Python read
 
