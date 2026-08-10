@@ -17,7 +17,7 @@
       --warn: #facc15;
       --danger: #ef4444;
       --text: #e2e8f0;
-      --muted: #8892a4;
+      --muted: #9aa5b8;
       --code-bg: #0a0a12;
       --step-label: #c4b5fd;
     }
@@ -56,10 +56,7 @@
       font-size: 2.4rem;
       font-weight: 800;
       letter-spacing: -.02em;
-      background: linear-gradient(135deg, #e2e8f0 30%, #a78bfa 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: #f1f5f9;
       margin-bottom: 14px;
     }
     .hero p {
@@ -205,7 +202,7 @@
     .code-block pre .arg { color: #a5d6ff; }
     .code-block pre .flag { color: #d2a8ff; }
     .code-block pre .val { color: #a8d5a2; }
-    .code-block pre .cmt { color: #6e7681; font-style: italic; }
+    .code-block pre .cmt { color: #838c98; font-style: italic; }
     .code-block pre .out { color: #8b949e; }
     .code-block pre .ok { color: #3fb950; }
     .code-block pre .err { color: #f85149; }
@@ -407,10 +404,71 @@
     }
     .callout.tip .icon { color: var(--accent4); font-size: 16px; }
 
+    /* ── QUICK PATH ── */
+    .quick-path {
+      background: rgba(124,106,247,0.08);
+      border: 1px solid rgba(124,106,247,0.35);
+      border-radius: 12px;
+      padding: 28px 32px;
+      margin: 32px 0 0;
+    }
+    .quick-path .qp-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .quick-path .qp-cmd {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 18px;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 13px;
+      color: #a8d5a2;
+      margin-bottom: 18px;
+      overflow-x: auto;
+    }
+    .quick-gates {
+      display: flex;
+      gap: 12px;
+      align-items: stretch;
+      margin-bottom: 18px;
+    }
+    .quick-gates .qp-gate {
+      flex: 1;
+      min-width: 0;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+    .quick-gates .qp-gate.done { border-color: rgba(34,197,94,0.4); }
+    .quick-gates .qp-gate h4 {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--warn);
+      margin-bottom: 6px;
+    }
+    .quick-gates .qp-gate.done h4 { color: var(--accent4); }
+    .quick-gates .qp-gate p { font-size: 13px; color: var(--muted); }
+    .quick-gates .qp-arrow {
+      color: var(--muted);
+      font-size: 20px;
+      align-self: center;
+      flex-shrink: 0;
+    }
+    .quick-path .qp-foot { font-size: 12px; color: var(--muted); }
+
     /* responsive */
     @media(max-width: 600px) {
       .hero h1 { font-size: 1.6rem; }
       .wrapper { padding: 32px 16px 60px; }
+      .quick-path { padding: 22px 18px; }
+      .quick-gates { flex-direction: column; }
+      .quick-gates .qp-arrow { transform: rotate(90deg); }
     }
   </style>
 </head>
@@ -439,26 +497,26 @@
 <!-- ══════════════════════════════════════════════ WRAPPER ══ -->
 <div class="wrapper">
 
-<div style="background:rgba(124,106,247,0.08);border:1px solid rgba(124,106,247,0.35);border-radius:12px;padding:28px 32px;margin:32px 0 0;">
-  <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:12px">⚡ Quick Path — 2 approvals, everything else automated</div>
-  <div style="background:var(--code-bg);border:1px solid var(--border);border-radius:8px;padding:14px 18px;font-family:monospace;font-size:14px;color:#a8d5a2;margin-bottom:18px">gaia curate https://github.com/owner/repo [--generic &lt;id&gt;] [--discover]</div>
-  <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start;margin-bottom:18px">
-    <div style="flex:1;min-width:200px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px 16px">
-      <div style="font-size:12px;font-weight:700;color:var(--warn);margin-bottom:6px">🛑 Gate 1 — Topology (you)</div>
-      <div style="font-size:13px;color:var(--muted)">Confirm mapping, generic identity, upstream URL. ~30 seconds.</div>
+<div class="quick-path">
+  <div class="qp-label">⚡ Quick Path — 2 approvals, everything else automated</div>
+  <div class="qp-cmd">gaia curate https://github.com/owner/repo [--generic &lt;id&gt;] [--discover]</div>
+  <div class="quick-gates">
+    <div class="qp-gate">
+      <h4>🛑 Gate 1 — Topology (you)</h4>
+      <p>Confirm mapping, generic identity, upstream URL. ~30 seconds.</p>
     </div>
-    <div style="color:var(--muted);font-size:20px;align-self:center">→</div>
-    <div style="flex:1;min-width:200px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px 16px">
-      <div style="font-size:12px;font-weight:700;color:var(--warn);margin-bottom:6px">🛑 Gate 2 — Evidence + Stars (you)</div>
-      <div style="font-size:13px;color:var(--muted)">Approve verified evidence rows and auto-computed star rating.</div>
+    <div class="qp-arrow">→</div>
+    <div class="qp-gate">
+      <h4>🛑 Gate 2 — Evidence + Stars (you)</h4>
+      <p>Approve verified evidence rows and auto-computed star rating.</p>
     </div>
-    <div style="color:var(--muted);font-size:20px;align-self:center">→</div>
-    <div style="flex:1;min-width:200px;background:var(--surface2);border:1px solid rgba(34,197,94,0.4);border-radius:8px;padding:14px 16px">
-      <div style="font-size:12px;font-weight:700;color:var(--accent4);margin-bottom:6px">✅ Auto-merged</div>
-      <div style="font-size:13px;color:var(--muted)">CI green → merge → comments → docs. Done.</div>
+    <div class="qp-arrow">→</div>
+    <div class="qp-gate done">
+      <h4>✅ Auto-merged</h4>
+      <p>CI green → merge → comments → docs. Done.</p>
     </div>
   </div>
-  <div style="font-size:12px;color:var(--muted)">Before: ~20 commands, hand-written JSON &nbsp;·&nbsp; After: 2 approvals &nbsp;·&nbsp; Reference below explains what runs inside each gate.</div>
+  <div class="qp-foot">Before: ~20 commands, hand-written JSON &nbsp;·&nbsp; After: 2 approvals &nbsp;·&nbsp; Reference below explains what runs inside each gate.</div>
 </div>
 <h3 style="font-size:1rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin:40px 0 16px">Reference: What happens inside each gate</h3>
 
@@ -1355,7 +1413,7 @@ print(hashlib.sha256(json.dumps(d,sort_keys=True,separators=(',',':')).encode())
   <p class="footnote">
     Source of truth for commands: <code>.agents/skills/gaia-curate/SKILL.md</code> · <code>.agents/skills/ev-pipeline/SKILL.md</code> · <code>.agents/skills/gaia-ingest/SKILL.md</code> · <code>.agents/skills/gaia-intake-close/SKILL.md</code><br/>
     TM thresholds sourced from <code>src/gaia_cli/grading.py</code> · <code>META.md §1.1</code>. Grade S requires TM ≥ 250 + diversity gate (≥3 evidence types, non-self-producible row).<br/>
-    Generated for <code>founder/teach/</code> · Gaia Skill Tree · Manual pipeline reference, no AI required.
+    Generated for <code>docs/en/</code> · Gaia Skill Tree · Manual pipeline reference, no AI required.
   </p>
 
 </div><!-- /wrapper -->

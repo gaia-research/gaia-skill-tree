@@ -16,7 +16,7 @@ This is a **lookup skill** — it points you at the canonical pipeline reference
 ## Reference document
 
 ```
-founder/teach/manual-curation-pipeline.html
+docs/en/manual-curation-pipeline.html
 ```
 
 Open it in any browser. It is self-contained, offline-capable, and covers every phase with exact typed commands.
