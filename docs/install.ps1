@@ -41,7 +41,7 @@ $InstalledViaPipx = $false
 if (Get-Command pipx -ErrorAction SilentlyContinue) {
     Write-Host "Installing gaia-cli via pipx..." -ForegroundColor Cyan
     try {
-        & pipx install gaia-cli
+        & pipx install --force gaia-cli
         $InstalledViaPipx = $true
     } catch {
         Write-Host "pipx install failed. Falling back to pip..." -ForegroundColor Yellow
@@ -50,7 +50,7 @@ if (Get-Command pipx -ErrorAction SilentlyContinue) {
 
 if (-not $InstalledViaPipx) {
     Write-Host "Installing gaia-cli via pip..." -ForegroundColor Cyan
-    & $PythonCmd -m pip install --user gaia-cli
+    & $PythonCmd -m pip install --user --force-reinstall gaia-cli
 }
 
 # 3. Handle PATH configuration
