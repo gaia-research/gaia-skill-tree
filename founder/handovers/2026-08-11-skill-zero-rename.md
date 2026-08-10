@@ -6,7 +6,7 @@ Status: PLAN — REVIEW-READY (execution gated on founder approval)
 Date: 2026-08-11
 Branches: `dev/skill-zero-rename` in each of the four repos
 Decision authority: `gaia-research/founder/RATIFICATION.md` (amends N8/N9)
-Governing RFC: `gaia-research/docs/plans/2026-08-11-skill-zero-rename-rfc-issue-draft.md` → to be posted as a `gaia-research/gaia-research` issue
+Governing RFC: https://github.com/gaia-research/gaia-skill-tree/issues/1509
 Covers: amends `gaia-research#68`; touches `skill-heaven` #25/#29/#30/#31/#32, `gaia-mcp#15`
 
 ---
