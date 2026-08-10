@@ -250,6 +250,12 @@ Neither side is inherently superior.
 
 A productive agentic system may repeatedly move between them.
 
+**Heaven and Hell are both summon directions** on this behavioral axis —
+Heaven converges (curated summon), Hell explores (expand summon). Neither is a
+launcher or a repo name. The mode-neutral launcher that severs the skill
+catalogue to zero and restores the user's own skills is **Skill Zero** (see
+§9), a distinct tool that is not a pole of this axis.
+
 ## Ultra
 
 Ultra is not a third entropy direction.
@@ -399,25 +405,33 @@ A pair may have both kinds of edges.
 
 ---
 
-# 9. Skill Heaven
+# 9. Skill Heaven (umbrella), Skill Zero (launcher), Arbor (axis)
 
-Skill Heaven is the execution system interacting with Arbor.
+**Skill Heaven** is the umbrella runtime brand — what users associate with
+everything Gaia does at runtime (repo `gaia-skill-heaven`). It is not a single
+module; it is the runtime family that houses the launcher and interacts with
+Arbor. Two distinct concerns live under it:
 
-It owns runtime behavior such as:
+## 9a. Skill Zero — the launcher
+
+**Skill Zero** is the launcher with zero skills: a deep, standalone, and now
+**complete, usable prototype** module inside `gaia-skill-heaven` (engine npm
+`skill-zero`; per-harness doors `claude-zero`, `pi-zero`, `codex-zero`,
+`hermes-zero`, `grok-zero`). It is mode-neutral — it severs the skill catalogue
+to zero and can restore the user's own skills (the same *ephemeral-skills*
+mechanic as summon, in the subtractive direction).
+
+It owns the launch-time concerns:
 
 - controlled launch
 - skill composition
-- Heaven posture
-- Hell posture
-- Ultra governance
+- floor / product-floor / curated / native postures
+- eviction (clean-room / clean-slate)
 - telemetry
 - runtime adaptation
 - benchmark execution
 
-Skill Heaven does not own Gaia's canonical interpretation of results.
-
-It executes.
-
+Skill Zero does not own Gaia's canonical interpretation of results. It executes.
 Gaia Skill Tree records and interprets.
 
 ```text
@@ -425,7 +439,8 @@ GAIA SKILL TREE
      │
      │ capability knowledge
      ▼
-SKILL HEAVEN
+SKILL HEAVEN  (umbrella)
+   └── SKILL ZERO  (launcher)
      │
      │ execution
      ▼
@@ -438,6 +453,15 @@ BENCHMARKS
      ▼
 GAIA SKILL TREE
 ```
+
+## 9b. Heaven / Hell / Ultra — the Arbor behavioral axis
+
+The **behavioral postures are not part of the launcher.** Heaven and Hell are
+summon **directions** on the Arbor axis (§5/§7) — Heaven converges (curated
+summon), Hell explores (expand summon) — and **Ultra** is the automated
+Heaven↔Hell switch (the long-horizon governor). The **HH Index** is the
+behavioral index over this axis and remains **work in progress** (WIP), living
+in `gaia-research`.
 
 ---
 
@@ -460,11 +484,14 @@ Skill Tree
   appraise
   fuse
 
-Skill Heaven
+Skill Zero (launcher)
+  zero
+  sessions
+
+Arbor (behavioral axis)
   heaven
   hell
   ultra
-  sessions
 
 Benchmarks
   run
@@ -482,7 +509,8 @@ The TUI becomes the visual shell over these domains.
 
 Existing CLI semantics should remain backward-compatible wherever practical.
 
-Skill Heaven may initially integrate through a command-provider/plugin boundary rather than forcing a repository merger.
+Skill Heaven (the runtime umbrella) may initially integrate through a
+command-provider/plugin boundary rather than forcing a repository merger.
 
 ---
 
