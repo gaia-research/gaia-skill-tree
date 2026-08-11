@@ -157,22 +157,18 @@ class DispatchPacket:
         proof: tuple[str, ...],
         budget: RoutingBudget,
     ) -> "DispatchPacket":
-        identity = {
+        # A packet remains the same requested work when its evidence refreshes.
+        # Content is separately hashed below so receipts can still attest to the
+        # exact rendering that was reviewed.
+        semantic_identity = {
             "schemaVersion": DISPATCH_PACKET_SCHEMA,
-            "debt": dict(debt),
-            "evidence": dict(evidence),
+            "debtId": debt.get("id"),
             "authority": authority.value,
             "rule": rule,
-            "routine": routine,
-            "objective": objective,
-            "allowedPaths": list(allowed_paths),
-            "allowedCommands": list(allowed_commands),
-            "forbiddenPaths": list(forbidden_paths),
-            "stopConditions": list(stop_conditions),
-            "proof": list(proof),
-            "budget": budget.to_dict(),
         }
-        dispatch_id = f"dispatch-{content_hash(identity)[:20]}"
+        if not isinstance(semantic_identity["debtId"], str) or not semantic_identity["debtId"]:
+            raise ValueError("dispatch packet debt must include a non-empty id")
+        dispatch_id = f"dispatch-{content_hash(semantic_identity)[:20]}"
         return cls(
             dispatch_id=dispatch_id,
             debt=dict(debt),
@@ -242,15 +238,15 @@ class FounderDecision:
         normalized_evidence = tuple(
             sorted((dict(item) for item in evidence), key=stable_json)
         )
-        identity = {
+        # The decision is identified by its policy question and exact target,
+        # not by today's evidence rows. New blocked debt must not produce a new
+        # founder decision identity.
+        semantic_identity = {
             "schemaVersion": FOUNDER_DECISION_SCHEMA,
             "rule": rule,
             "decisionTarget": normalized_target,
-            "objective": objective,
-            "debtIds": list(normalized_ids),
-            "evidence": [dict(item) for item in normalized_evidence],
         }
-        decision_id = f"decision-{content_hash(identity)[:20]}"
+        decision_id = f"decision-{content_hash(semantic_identity)[:20]}"
         return cls(
             decision_id=decision_id,
             rule=rule,
@@ -284,14 +280,8 @@ class FounderQueue:
         ordered = tuple(
             sorted(decisions, key=lambda item: (item.rule, item.decision_target, item.decision_id))
         )
-        identity = {
-            "schemaVersion": FOUNDER_QUEUE_SCHEMA,
-            "decisions": [item.to_dict() for item in ordered],
-        }
-        return cls(
-            queue_id=f"founder-queue-{content_hash(identity)[:20]}",
-            decisions=ordered,
-        )
+        # This is one queue surface; its content hash records membership.
+        return cls(queue_id="founder-queue-v1", decisions=ordered)
 
     def to_dict(self) -> dict[str, Any]:
         return {

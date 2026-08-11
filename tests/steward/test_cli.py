@@ -149,6 +149,21 @@ def test_steward_run_repairs_one_schema_debt_with_receipts(
     assert (tmp_path / "src/gaia_cli/data/registry/schema/skill.schema.json").read_bytes() == canonical.read_bytes()
 
 
+def test_steward_routing_commands_are_public_and_parse_json_access() -> None:
+    parser, _ = get_parser()
+
+    dispatch = parser.parse_args(
+        ["--registry", str(REPO_ROOT), "steward", "dispatch", "debt:fixture", "--json"]
+    )
+    founder = parser.parse_args(["--registry", str(REPO_ROOT), "steward", "founder", "--json"])
+
+    assert dispatch.steward_command == "dispatch"
+    assert dispatch.debt_id == "debt:fixture"
+    assert dispatch.json is True
+    assert founder.steward_command == "founder"
+    assert founder.json is True
+
+
 def test_steward_rejects_unknown_subcommand() -> None:
     parser, _ = get_parser()
 

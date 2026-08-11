@@ -102,13 +102,25 @@ def test_routing_policy_fails_closed_on_broadened_or_malformed_rules(
         StewardPolicy.load(root)
 
 
-def test_dispatch_packet_id_hash_and_zero_budget_are_stable() -> None:
+def test_dispatch_packet_semantic_id_survives_evidence_refresh() -> None:
     first = _packet()
-    second = _packet()
+    refreshed = DispatchPacket.create(
+        debt={"id": "debt:registry", "kind": "registry_integrity_failed", "lastObservedAt": "later"},
+        evidence={"violations": [{"path": "registry/nodes/x.json", "error": "different fresh evidence"}]},
+        authority=AuthorityClass.B,
+        rule="registry-integrity-review",
+        routine="gaia-registry-integrity-review",
+        objective="Reproduce and report the bounded integrity failure.",
+        allowed_paths=("registry/nodes/**", "scripts/**", "tests/**"),
+        allowed_commands=("python scripts/validate.py",),
+        forbidden_paths=("founder/**", ".github/**"),
+        stop_conditions=("proof is incomplete",),
+        proof=("reproduce the violation",),
+        budget=RoutingBudget(model_calls=0, max_tokens=0, max_minutes=0),
+    )
 
-    assert first == second
-    assert first.dispatch_id == second.dispatch_id
-    assert first.packet_hash == second.packet_hash
+    assert first.dispatch_id == refreshed.dispatch_id
+    assert first.packet_hash != refreshed.packet_hash
     assert first.to_dict()["budget"] == {
         "modelCalls": 0,
         "maxTokens": 0,
@@ -144,5 +156,17 @@ def test_founder_decisions_normalize_explicit_targets_and_sort_queue() -> None:
     ]
     assert queue == repeated
     assert queue.queue_hash == repeated.queue_hash
+    grown = FounderDecision.create(
+        rule="generic-mapping-decision",
+        decision_target="context-compression",
+        objective="Decide the canonical mapping.",
+        debt_ids=("debt:z", "debt:new"),
+        evidence=(
+            {"debtId": "debt:z", "source": "fixture"},
+            {"debtId": "debt:new", "source": "fixture"},
+        ),
+    )
+    assert grown.decision_id == first.decision_id
+    assert FounderQueue.create((grown,)).queue_id == FounderQueue.create((first,)).queue_id
     with pytest.raises(ValueError, match="decisionTarget"):
         normalize_decision_target("ambiguous target?")
