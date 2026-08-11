@@ -149,16 +149,19 @@ def test_steward_run_repairs_one_schema_debt_with_receipts(
     assert (tmp_path / "src/gaia_cli/data/registry/schema/skill.schema.json").read_bytes() == canonical.read_bytes()
 
 
-def test_steward_founder_cli_outputs_fresh_nonempty_report_only_queue(
+def test_steward_founder_cli_outputs_controlled_current_nonempty_report_only_queue(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,
     capsys: pytest.CaptureFixture[str],
 ) -> None:
     _clean_cli_repo(tmp_path)
-    _write(
-        tmp_path / "registry-for-review/discovery-packets/example.json",
-        json.dumps({"sourceRepo": "example/repo", "proposedSkills": [{"id": "alpha"}, {"id": "beta"}]}),
-    )
+    _write(tmp_path / ".gaia/steward/discovery-mapping-input.json", json.dumps({
+        "schemaVersion": "steward-discovery-mapping-input-v1",
+        "candidates": [{
+            "candidateId": "example/open-candidate", "sourceRepo": "example/repo",
+            "sourceState": "current", "disposition": "unresolved",
+        }],
+    }))
     monkeypatch.setattr(sys, "argv", ["gaia", "--registry", str(tmp_path), "steward", "founder", "--json"])
 
     main()
@@ -166,7 +169,7 @@ def test_steward_founder_cli_outputs_fresh_nonempty_report_only_queue(
     payload = json.loads(capsys.readouterr().out)
     decisions = payload["artifact"]["decisions"]
     assert len(decisions) == 1
-    assert decisions[0]["decisionTarget"] == "source-repo/example-repo"
+    assert decisions[0]["decisionTarget"] == "generic-mapping/example/open-candidate"
     assert len(decisions[0]["debtIds"]) == 1
     assert payload["receipt"]["result"]["status"] == "reported"
     assert not (tmp_path / ".github").exists()

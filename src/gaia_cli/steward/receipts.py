@@ -175,11 +175,9 @@ def write_immutable_receipt(
 ) -> tuple[Path, bool]:
     """Stage and atomically publish an immutable receipt.
 
-    A same-directory hard link publishes the fully written stage without ever
-    creating an empty/partial final path and without overwriting an immutable
-    receipt created by an equivalent concurrent run. Platforms that cannot
-    provide this no-clobber primitive fail closed rather than falling back to
-    a racy final-file claim.
+    Every publication lane first owns the same per-name claim.  The owner may
+    use a hard link or the same-directory rename fallback, but no second lane
+    can publish different bytes while that claim is held.
     """
 
     ensure_local_state_path(repo_root, state_root, receipts_directory)
@@ -227,49 +225,52 @@ def write_immutable_receipt(
 
 
 def _publish_stage(stage: Path, final: Path) -> None:
-    """Atomically create ``final`` without replacing an immutable receipt.
+    """Atomically create ``final`` under a shared no-clobber ownership claim.
 
-    Hard links provide an ideal no-clobber publish primitive.  Termux and some
-    other supported filesystems do not provide them, so use an atomic per-name
-    directory claim and same-directory rename instead.  A stale claim fails
-    closed; no writer may replace a receipt it did not create.
+    The claim is acquired before choosing a publication primitive.  This is
+    essential: a hard-link writer and a fallback writer otherwise have no
+    common ownership boundary and can race to replace the final name.
     """
 
-    try:
-        os.link(stage, final, follow_symlinks=False)
-        return
-    except FileExistsError:
-        raise
-    except (AttributeError, NotImplementedError, OSError) as exc:
-        if isinstance(exc, OSError) and exc.errno not in {
-            errno.EPERM, errno.EOPNOTSUPP, errno.ENOSYS, errno.EXDEV,
-        }:
-            raise
-    _publish_stage_without_link(stage, final)
-
-
-def _publish_stage_without_link(stage: Path, final: Path) -> None:
-    claim = final.with_name(f".{final.name}.publish-lock")
-    try:
-        claim.mkdir()
-    except FileExistsError:
-        # A live publisher can only expose the final name after a complete
-        # same-directory rename. Wait briefly for an equivalent receipt; a
-        # stale claim remains an explicit fail-closed operator intervention.
-        for _ in range(100):
-            if final.exists():
-                raise FileExistsError(final)
-            time.sleep(0.01)
-        raise StateError(f"immutable Steward receipt publication is in progress or stale: {claim}")
+    claim = _claim_publication(final)
     try:
         if final.exists():
             raise FileExistsError(final)
+        try:
+            os.link(stage, final, follow_symlinks=False)
+            return
+        except FileExistsError:
+            raise
+        except (AttributeError, NotImplementedError, OSError) as exc:
+            if isinstance(exc, OSError) and exc.errno not in {
+                errno.EPERM, errno.EOPNOTSUPP, errno.ENOSYS, errno.EXDEV,
+            }:
+                raise
+        # Only the claim owner can use rename.  It has already established
+        # final absence, and no other Steward lane can publish until release.
         os.replace(stage, final)
     finally:
         try:
             claim.rmdir()
         except FileNotFoundError:
             pass
+
+
+def _claim_publication(final: Path) -> Path:
+    """Claim one final name or wait only long enough to observe its owner."""
+
+    claim = final.with_name(f".{final.name}.publish-lock")
+    try:
+        claim.mkdir()
+        return claim
+    except FileExistsError:
+        # A live owner publishes only a complete final file.  A missing final
+        # after the bounded wait is a stale claim and remains fail-closed.
+        for _ in range(100):
+            if final.exists():
+                raise FileExistsError(final)
+            time.sleep(0.01)
+        raise StateError(f"immutable Steward receipt publication is in progress or stale: {claim}")
 
 
 def _write_chunk(file_descriptor: int, content: memoryview) -> int:

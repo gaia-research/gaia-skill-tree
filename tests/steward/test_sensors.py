@@ -57,24 +57,58 @@ def test_all_sensors_report_healthy_on_clean_fixture(tmp_path: Path) -> None:
     assert [observation.status for observation in observations] == ["healthy"] * 3
 
 
-def test_discovery_packets_emit_one_truthful_groupable_mapping_question(tmp_path: Path) -> None:
-    packet = {
-        "sourceRepo": "example/repo",
-        "proposedSkills": [{"id": "alpha"}, {"id": "beta"}],
-    }
-    _write(
-        tmp_path / "registry-for-review/discovery-packets/example.json",
-        json.dumps(packet),
-    )
+def test_discovery_sensor_excludes_archived_and_processed_packets_and_targets_exact_candidate(tmp_path: Path) -> None:
+    archived = {"sourceRepo": "example/repo", "sourceState": "current", "disposition": "unresolved", "proposedSkills": [{"id": "archived"}]}
+    processed = {"sourceRepo": "example/repo", "sourceState": "current", "disposition": "accepted", "proposedSkills": [{"id": "processed"}]}
+    current = {"sourceRepo": "example/repo", "sourceState": "current", "disposition": "unresolved", "proposedSkills": [{"id": "alpha"}, {"id": "beta"}]}
+    _write(tmp_path / "registry-for-review/archive/old.json", json.dumps(archived))
+    _write(tmp_path / "registry-for-review/discovery-packets/processed.json", json.dumps(processed))
+    _write(tmp_path / "registry-for-review/discovery-packets/current.json", json.dumps(current))
 
-    observation = DiscoveryGenericMappingSensor().scan(tmp_path, NOW)[0]
+    observations = DiscoveryGenericMappingSensor().scan(tmp_path, NOW)
 
-    assert observation.kind == "generic_mapping"
-    assert observation.status == "drift"
-    assert observation.current_state == {"genericMapping": "unresolved"}
-    assert observation.observed_state["decisionTarget"] == "source-repo/example-repo"
-    assert observation.observed_state["candidateIds"] == ["alpha", "beta"]
-    assert observation.provenance["packetPath"] == "registry-for-review/discovery-packets/example.json"
+    assert [item.subject.id for item in observations] == ["alpha", "beta"]
+    assert [item.observed_state["decisionTarget"] for item in observations] == [
+        "generic-mapping/alpha", "generic-mapping/beta",
+    ]
+    assert all(item.observed_state["sourceState"] == "current" for item in observations)
+
+
+def test_discovery_sensor_deduplicates_repeated_exact_candidate_question(tmp_path: Path) -> None:
+    packet = {"sourceRepo": "example/repo", "sourceState": "current", "disposition": "unresolved", "proposedSkills": [{"id": "owner/open"}]}
+    _write(tmp_path / "registry-for-review/discovery-packets/one.json", json.dumps(packet))
+    _write(tmp_path / "registry-for-review/discovery-packets/two.json", json.dumps(packet))
+
+    observations = DiscoveryGenericMappingSensor().scan(tmp_path, NOW)
+
+    assert len(observations) == 1
+    assert observations[0].observed_state["decisionTarget"] == "generic-mapping/owner/open"
+
+
+def test_discovery_sensor_excludes_exact_candidate_with_canonical_mapping(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    packet = {"sourceRepo": "example/repo", "sourceState": "current", "disposition": "unresolved", "proposedSkills": [{"id": "owner/covered"}, {"id": "owner/open"}]}
+    _write(tmp_path / "registry-for-review/discovery-packets/current.json", json.dumps(packet))
+    _write(tmp_path / "registry/named/owner/covered.json", json.dumps({"id": "owner/covered", "targetSkillId": "example"}))
+
+    observations = DiscoveryGenericMappingSensor().scan(tmp_path, NOW)
+
+    assert [item.subject.id for item in observations] == ["owner/open"]
+
+
+def test_discovery_sensor_accepts_only_explicit_current_local_input(tmp_path: Path) -> None:
+    _write(tmp_path / ".gaia/steward/discovery-mapping-input.json", json.dumps({
+        "schemaVersion": "steward-discovery-mapping-input-v1",
+        "candidates": [
+            {"candidateId": "owner/open", "sourceRepo": "owner/repo", "sourceState": "current", "disposition": "unresolved"},
+            {"candidateId": "owner/done", "sourceRepo": "owner/repo", "sourceState": "current", "disposition": "accepted"},
+        ],
+    }))
+
+    observations = DiscoveryGenericMappingSensor().scan(tmp_path, NOW)
+
+    assert [item.subject.id for item in observations] == ["owner/open"]
+    assert observations[0].provenance["inputPath"] == ".gaia/steward/discovery-mapping-input.json"
 
 
 def test_schema_drift_is_deterministic_and_semantically_stable(tmp_path: Path) -> None:

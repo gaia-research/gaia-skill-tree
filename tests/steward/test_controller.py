@@ -5,7 +5,7 @@ import shutil
 import subprocess
 import threading
 from concurrent.futures import ThreadPoolExecutor
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -727,6 +727,51 @@ def test_receipt_publish_falls_back_to_atomic_claim_when_links_are_unavailable(
     assert (reused_path, reused_created) == (path, False)
     assert json.loads(path.read_text(encoding="utf-8")) == receipt.to_dict()
     assert not list(receipts.glob("*.publish-lock"))
+
+
+def test_mixed_hardlink_fallback_race_claims_one_immutable_byte_sequence(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = _repo(tmp_path)
+    state = root / ".gaia/steward"
+    receipts = state / "receipts"
+    fallback_receipt = _receipt("steward-mixed-lane-fixture")
+    hardlink_receipt = replace(fallback_receipt, result_status="different-bytes")
+    fallback_at_link = threading.Event()
+    release_fallback = threading.Event()
+    fallback_thread: list[int] = []
+    def mixed_link(source: Path, target: Path, **kwargs: object) -> None:
+        if not fallback_thread:
+            fallback_thread.append(threading.get_ident())
+        if threading.get_ident() == fallback_thread[0]:
+            fallback_at_link.set()
+            assert release_fallback.wait(timeout=5)
+            raise OSError(receipt_store.errno.EPERM, "links unavailable for fallback lane")
+        # Simulate a supported hard-link lane on this Termux filesystem.
+        with target.open("xb") as handle:
+            handle.write(source.read_bytes())
+
+    monkeypatch.setattr(receipt_store.os, "link", mixed_link, raising=False)
+
+    def publish(receipt: Receipt) -> tuple[Path, bool]:
+        return receipt_store.write_immutable_receipt(receipts, receipt, repo_root=root, state_root=state)
+
+    with ThreadPoolExecutor(max_workers=2) as executor:
+        # Let the fallback publisher own the shared claim before the hard-link
+        # publisher begins; the latter must observe the immutable final, never
+        # replace it with its distinct content.
+        first = executor.submit(publish, fallback_receipt)
+        assert fallback_at_link.wait(timeout=5)
+        second = executor.submit(publish, hardlink_receipt)
+        release_fallback.set()
+        assert first.result(timeout=10)[1] is True
+        with pytest.raises(StateError, match="collision"):
+            second.result(timeout=10)
+
+    final = receipts / "steward-mixed-lane-fixture.json"
+    assert json.loads(final.read_text(encoding="utf-8")) == fallback_receipt.to_dict()
+    assert final.read_bytes() == final.read_bytes()
 
 
 def test_receipt_publication_boundary_is_absent_then_complete_never_partial(

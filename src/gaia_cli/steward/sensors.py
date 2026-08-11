@@ -144,65 +144,128 @@ class AgentSkillMirrorSensor:
 
 
 class DiscoveryGenericMappingSensor:
-    """Surface unclassified review-packet sources for a founder mapping ruling.
+    """Surface only explicit, current, unresolved mapping decisions.
 
-    These packets are already repository-local discovery/intake records, not
-    canonical nodes.  The sensor only reports that their proposed skill ids
-    have no generic-mapping decision recorded in the packet; it neither
-    creates an issue nor asserts that a mapping should be accepted.
+    Discovery and archive records are evidence of process, not debt.  A
+    packet contributes only when it explicitly says it is ``current`` and
+    ``unresolved``; archived and otherwise governed records are ignored.  The
+    optional local input is deliberately outside canonical data and exists so
+    operators can truthfully exercise the report-only queue on a checkout with
+    no current unresolved candidate.  This sensor never selects or writes a
+    canonical mapping.
     """
 
     id = "discovery-generic-mapping"
-    _ROOTS = ("registry-for-review/discovery-packets", "registry-for-review/archive")
+    _PACKETS_ROOT = "registry-for-review/discovery-packets"
+    _LOCAL_INPUT = ".gaia/steward/discovery-mapping-input.json"
+    _INPUT_SCHEMA = "steward-discovery-mapping-input-v1"
     _MAX_PACKET_BYTES = 2 * 1024 * 1024
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
+        mapped_candidates = self._canonical_mapped_candidates(repo_root)
+        candidates = self._current_packet_candidates(repo_root)
+        candidates.extend(self._local_input_candidates(repo_root))
+        # One exact candidate has one mapping question, even if the same
+        # current evidence is repeated in multiple local inputs.
+        unique_candidates: dict[str, tuple[dict[str, str], str, str]] = {}
+        for item in sorted(candidates, key=lambda item: (item[0]["candidateId"], item[1])):
+            unique_candidates.setdefault(item[0]["candidateId"], item)
         observations: list[Observation] = []
-        for relative_root in self._ROOTS:
-            directory = repo_root / relative_root
-            if not directory.is_dir():
+        for candidate_id, (candidate, source_path, digest) in sorted(unique_candidates.items()):
+            # A named record for this exact candidate with a targetSkillId is
+            # objective evidence that this mapping was already governed.
+            if candidate_id in mapped_candidates:
                 continue
-            for path in sorted(directory.glob("*.json")):
-                raw = path.read_bytes()
-                if len(raw) > self._MAX_PACKET_BYTES:
-                    raise ValueError(f"discovery packet exceeds safety limit: {path.relative_to(repo_root)}")
-                try:
-                    packet = json.loads(raw)
-                except (UnicodeDecodeError, json.JSONDecodeError) as exc:
-                    raise ValueError(f"invalid discovery packet: {path.relative_to(repo_root)}") from exc
-                if not isinstance(packet, dict):
-                    raise ValueError(f"discovery packet must be an object: {path.relative_to(repo_root)}")
-                source_repo = packet.get("sourceRepo")
-                proposed = packet.get("proposedSkills")
-                if not isinstance(source_repo, str) or not source_repo.strip() or not isinstance(proposed, list):
-                    continue
-                candidate_ids = sorted({
-                    item["id"] for item in proposed
-                    if isinstance(item, dict) and isinstance(item.get("id"), str) and item["id"].strip()
-                })
-                if not candidate_ids:
-                    continue
-                target = "source-repo/" + source_repo.strip().lower().replace("/", "-")
-                relative_path = path.relative_to(repo_root).as_posix()
-                observations.append(Observation(
-                    kind="generic_mapping",
-                    subject=Subject(type="discovery-packet", id=relative_path),
-                    observed_at=observed_at,
-                    source=self.id,
-                    status="drift",
-                    current_state={"genericMapping": "unresolved"},
-                    observed_state={
-                        "decisionTarget": target,
-                        "sourceRepo": source_repo,
-                        "packet": relative_path,
-                        "packetDigest": hashlib.sha256(raw).hexdigest(),
-                        "candidateCount": len(candidate_ids),
-                        "candidateIds": candidate_ids,
-                    },
-                    confidence=1.0,
-                    provenance={"packetPath": relative_path, "sourceRepo": source_repo},
-                ))
+            observations.append(Observation(
+                kind="generic_mapping",
+                subject=Subject(type="generic-mapping-candidate", id=candidate_id),
+                observed_at=observed_at,
+                source=self.id,
+                status="drift",
+                current_state={"genericMapping": "unresolved"},
+                observed_state={
+                    # One exact candidate is one real shared mapping decision;
+                    # repository membership is not a decision target.
+                    "decisionTarget": f"generic-mapping/{candidate_id}",
+                    "candidateId": candidate_id,
+                    "sourceRepo": candidate["sourceRepo"],
+                    "sourceState": "current",
+                    "disposition": "unresolved",
+                    "input": source_path,
+                    "inputDigest": digest,
+                },
+                confidence=1.0,
+                provenance={"inputPath": source_path, "sourceRepo": candidate["sourceRepo"]},
+            ))
         return observations
+
+    def _current_packet_candidates(self, repo_root: Path) -> list[tuple[dict[str, str], str, str]]:
+        directory = repo_root / self._PACKETS_ROOT
+        if not directory.is_dir():
+            return []
+        result: list[tuple[dict[str, str], str, str]] = []
+        for path in sorted(directory.glob("*.json")):
+            raw = self._read_object(path, repo_root, "discovery packet")
+            # Legacy packets with no explicit lifecycle state are intentionally
+            # not interpreted as unresolved.
+            if raw.get("sourceState") != "current" or raw.get("disposition") != "unresolved":
+                continue
+            source_repo = raw.get("sourceRepo")
+            proposed = raw.get("proposedSkills")
+            if not isinstance(source_repo, str) or not source_repo.strip() or not isinstance(proposed, list):
+                continue
+            digest = hashlib.sha256(path.read_bytes()).hexdigest()
+            relative_path = path.relative_to(repo_root).as_posix()
+            for item in proposed:
+                if isinstance(item, dict) and isinstance(item.get("id"), str) and item["id"].strip():
+                    result.append(({"candidateId": item["id"].strip(), "sourceRepo": source_repo.strip()}, relative_path, digest))
+        return result
+
+    def _local_input_candidates(self, repo_root: Path) -> list[tuple[dict[str, str], str, str]]:
+        path = repo_root / self._LOCAL_INPUT
+        if not path.exists():
+            return []
+        raw = self._read_object(path, repo_root, "local discovery mapping input")
+        if raw.get("schemaVersion") != self._INPUT_SCHEMA or not isinstance(raw.get("candidates"), list):
+            raise ValueError(f"invalid local discovery mapping input: {self._LOCAL_INPUT}")
+        digest = hashlib.sha256(path.read_bytes()).hexdigest()
+        result: list[tuple[dict[str, str], str, str]] = []
+        for item in raw["candidates"]:
+            if not isinstance(item, dict):
+                continue
+            candidate_id, source_repo = item.get("candidateId"), item.get("sourceRepo")
+            if (
+                item.get("sourceState") == "current"
+                and item.get("disposition") == "unresolved"
+                and isinstance(candidate_id, str) and candidate_id.strip()
+                and isinstance(source_repo, str) and source_repo.strip()
+            ):
+                result.append(({"candidateId": candidate_id.strip(), "sourceRepo": source_repo.strip()}, self._LOCAL_INPUT, digest))
+        return result
+
+    def _canonical_mapped_candidates(self, repo_root: Path) -> set[str]:
+        mapped: set[str] = set()
+        directory = repo_root / "registry/named"
+        if not directory.is_dir():
+            return mapped
+        for path in sorted(directory.rglob("*.json")):
+            raw = self._read_object(path, repo_root, "named skill")
+            candidate_id, target = raw.get("id"), raw.get("targetSkillId")
+            if isinstance(candidate_id, str) and candidate_id.strip() and isinstance(target, str) and target.strip():
+                mapped.add(candidate_id.strip())
+        return mapped
+
+    def _read_object(self, path: Path, repo_root: Path, label: str) -> dict[str, object]:
+        content = path.read_bytes()
+        if len(content) > self._MAX_PACKET_BYTES:
+            raise ValueError(f"{label} exceeds safety limit: {path.relative_to(repo_root)}")
+        try:
+            raw = json.loads(content)
+        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+            raise ValueError(f"invalid {label}: {path.relative_to(repo_root)}") from exc
+        if not isinstance(raw, dict):
+            raise ValueError(f"{label} must be an object: {path.relative_to(repo_root)}")
+        return raw
 
 
 class RegistryIntegritySensor:

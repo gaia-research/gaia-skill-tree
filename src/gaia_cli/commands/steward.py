@@ -48,8 +48,11 @@ class StewardCommand(Command):
             "founder",
             help="Render the report-only Class C founder decision queue",
             description=(
-                "Freshly scan known-coverage local state and group only by exact "
-                "normalized decisionTarget. Never changes canonical state."
+                "Freshly scan known-coverage local state and group only explicit current "
+                "unresolved candidates by exact normalized decisionTarget. Never changes "
+                "canonical state. For controlled local report input, use ignored "
+                ".gaia/steward/discovery-mapping-input.json with schemaVersion "
+                "steward-discovery-mapping-input-v1 and current/unresolved candidates."
             ),
         )
         founder.add_argument("--json", action="store_true", help="Output the queue and receipt as JSON")

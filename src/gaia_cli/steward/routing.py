@@ -229,7 +229,11 @@ def render_founder_queue(repo_root: Path, *, controller: StewardController | Non
         for debt in scan.open_debts:
             if debt.authority is not AuthorityClass.C:
                 continue
-            _assert_fresh_open(debt, scan)
+            # Founder output is a current governance queue, not a historical
+            # debt ledger.  A condition absent from this scan is not a decision
+            # question, even if an older local ledger entry remains open.
+            if debt.id not in scan.fresh_open_debt_ids:
+                continue
             rule = policy.founder_rule_for(debt.kind)
             if rule is None:
                 raise RoutingError(f"unsupported Class C routing debt: {debt.id}")
