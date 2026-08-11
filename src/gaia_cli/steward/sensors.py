@@ -143,6 +143,68 @@ class AgentSkillMirrorSensor:
         ]
 
 
+class DiscoveryGenericMappingSensor:
+    """Surface unclassified review-packet sources for a founder mapping ruling.
+
+    These packets are already repository-local discovery/intake records, not
+    canonical nodes.  The sensor only reports that their proposed skill ids
+    have no generic-mapping decision recorded in the packet; it neither
+    creates an issue nor asserts that a mapping should be accepted.
+    """
+
+    id = "discovery-generic-mapping"
+    _ROOTS = ("registry-for-review/discovery-packets", "registry-for-review/archive")
+    _MAX_PACKET_BYTES = 2 * 1024 * 1024
+
+    def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
+        observations: list[Observation] = []
+        for relative_root in self._ROOTS:
+            directory = repo_root / relative_root
+            if not directory.is_dir():
+                continue
+            for path in sorted(directory.glob("*.json")):
+                raw = path.read_bytes()
+                if len(raw) > self._MAX_PACKET_BYTES:
+                    raise ValueError(f"discovery packet exceeds safety limit: {path.relative_to(repo_root)}")
+                try:
+                    packet = json.loads(raw)
+                except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+                    raise ValueError(f"invalid discovery packet: {path.relative_to(repo_root)}") from exc
+                if not isinstance(packet, dict):
+                    raise ValueError(f"discovery packet must be an object: {path.relative_to(repo_root)}")
+                source_repo = packet.get("sourceRepo")
+                proposed = packet.get("proposedSkills")
+                if not isinstance(source_repo, str) or not source_repo.strip() or not isinstance(proposed, list):
+                    continue
+                candidate_ids = sorted({
+                    item["id"] for item in proposed
+                    if isinstance(item, dict) and isinstance(item.get("id"), str) and item["id"].strip()
+                })
+                if not candidate_ids:
+                    continue
+                target = "source-repo/" + source_repo.strip().lower().replace("/", "-")
+                relative_path = path.relative_to(repo_root).as_posix()
+                observations.append(Observation(
+                    kind="generic_mapping",
+                    subject=Subject(type="discovery-packet", id=relative_path),
+                    observed_at=observed_at,
+                    source=self.id,
+                    status="drift",
+                    current_state={"genericMapping": "unresolved"},
+                    observed_state={
+                        "decisionTarget": target,
+                        "sourceRepo": source_repo,
+                        "packet": relative_path,
+                        "packetDigest": hashlib.sha256(raw).hexdigest(),
+                        "candidateCount": len(candidate_ids),
+                        "candidateIds": candidate_ids,
+                    },
+                    confidence=1.0,
+                    provenance={"packetPath": relative_path, "sourceRepo": source_repo},
+                ))
+        return observations
+
+
 class RegistryIntegritySensor:
     """Validate generic nodes and their local graph references without mutation."""
 
@@ -347,4 +409,5 @@ def default_sensors() -> tuple[Sensor, ...]:
         BundledSchemaMirrorSensor(),
         AgentSkillMirrorSensor(),
         RegistryIntegritySensor(),
+        DiscoveryGenericMappingSensor(),
     )

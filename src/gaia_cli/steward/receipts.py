@@ -2,11 +2,13 @@
 
 from __future__ import annotations
 
+import errno
 import hashlib
 import json
 import os
 import stat
 import tempfile
+import time
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Iterable, Iterator
@@ -225,9 +227,49 @@ def write_immutable_receipt(
 
 
 def _publish_stage(stage: Path, final: Path) -> None:
-    """Atomically create ``final`` as a no-clobber link to a complete stage."""
+    """Atomically create ``final`` without replacing an immutable receipt.
 
-    os.link(stage, final, follow_symlinks=False)
+    Hard links provide an ideal no-clobber publish primitive.  Termux and some
+    other supported filesystems do not provide them, so use an atomic per-name
+    directory claim and same-directory rename instead.  A stale claim fails
+    closed; no writer may replace a receipt it did not create.
+    """
+
+    try:
+        os.link(stage, final, follow_symlinks=False)
+        return
+    except FileExistsError:
+        raise
+    except (AttributeError, NotImplementedError, OSError) as exc:
+        if isinstance(exc, OSError) and exc.errno not in {
+            errno.EPERM, errno.EOPNOTSUPP, errno.ENOSYS, errno.EXDEV,
+        }:
+            raise
+    _publish_stage_without_link(stage, final)
+
+
+def _publish_stage_without_link(stage: Path, final: Path) -> None:
+    claim = final.with_name(f".{final.name}.publish-lock")
+    try:
+        claim.mkdir()
+    except FileExistsError:
+        # A live publisher can only expose the final name after a complete
+        # same-directory rename. Wait briefly for an equivalent receipt; a
+        # stale claim remains an explicit fail-closed operator intervention.
+        for _ in range(100):
+            if final.exists():
+                raise FileExistsError(final)
+            time.sleep(0.01)
+        raise StateError(f"immutable Steward receipt publication is in progress or stale: {claim}")
+    try:
+        if final.exists():
+            raise FileExistsError(final)
+        os.replace(stage, final)
+    finally:
+        try:
+            claim.rmdir()
+        except FileNotFoundError:
+            pass
 
 
 def _write_chunk(file_descriptor: int, content: memoryview) -> int:

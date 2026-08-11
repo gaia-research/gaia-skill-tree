@@ -703,6 +703,32 @@ def test_concurrent_identical_receipt_publish_is_complete_and_idempotent(
     assert list(receipts.glob(".*.tmp")) == []
 
 
+def test_receipt_publish_falls_back_to_atomic_claim_when_links_are_unavailable(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = _repo(tmp_path)
+    state = root / ".gaia/steward"
+    receipts = state / "receipts"
+    receipt = _receipt("steward-no-link-fixture")
+
+    def no_links(*args, **kwargs):
+        raise OSError(receipt_store.errno.EPERM, "links unavailable")
+
+    monkeypatch.setattr(receipt_store.os, "link", no_links, raising=False)
+    path, created = receipt_store.write_immutable_receipt(
+        receipts, receipt, repo_root=root, state_root=state
+    )
+    reused_path, reused_created = receipt_store.write_immutable_receipt(
+        receipts, receipt, repo_root=root, state_root=state
+    )
+
+    assert (path, created) == (receipts / "steward-no-link-fixture.json", True)
+    assert (reused_path, reused_created) == (path, False)
+    assert json.loads(path.read_text(encoding="utf-8")) == receipt.to_dict()
+    assert not list(receipts.glob("*.publish-lock"))
+
+
 def test_receipt_publication_boundary_is_absent_then_complete_never_partial(
     tmp_path: Path,
     monkeypatch: pytest.MonkeyPatch,

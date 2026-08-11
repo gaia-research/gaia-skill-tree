@@ -70,7 +70,7 @@ def test_dispatch_is_fresh_report_only_and_keeps_semantic_identity_on_evidence_r
     assert first.artifact.packet_hash == second.artifact.packet_hash
     assert first.artifact.budget.to_dict() == {"modelCalls": 0, "maxTokens": 0, "maxMinutes": 0}
     assert first.receipt_path == second.receipt_path
-    assert len(list(first.receipt_path.parent.glob("*.json"))) == 2  # scan + routing receipt
+    assert len(list(first.receipt_path.parent.glob("*.json"))) == 3  # initial scan, fresh routing scan, routing receipt
     assert not (root / "registry").exists()
 
 
@@ -94,7 +94,7 @@ def test_founder_groups_only_exact_normalized_target_and_identity_survives_growt
     assert grown.artifact.queue_hash != first.artifact.queue_hash
 
 
-def test_founder_rejects_invalid_target_and_dispatch_rejects_unsupported_or_stale_debt(tmp_path: Path) -> None:
+def test_founder_rejects_invalid_target_and_dispatch_rejects_stale_same_second_debt(tmp_path: Path) -> None:
     root = _repo(tmp_path)
     invalid = RoutingSensor(include_b=False, include_c=1, target="prose target?")
     with pytest.raises(RoutingError, match="invalid decisionTarget"):
@@ -110,7 +110,7 @@ def test_founder_rejects_invalid_target_and_dispatch_rejects_unsupported_or_stal
       "schemaVersion": "steward-debt-v1", "id": "debt:cli_contract_drift:x:stale", "kind": "cli_contract_drift",
       "subject": {"type": "surface", "id": "x"}, "source": "old", "currentState": {}, "observedState": {}, "confidence": 1.0,
       "priority": {"importance": 0.7, "decisionImpact": 0.6, "exposure": 0.8, "freshnessNeed": 0.8, "expectedCost": 0.4, "score": 0.672},
-      "authority": {"class": "B"}, "status": "open", "firstObservedAt": "2020-01-01T00:00:00Z", "lastObservedAt": "2020-01-01T00:00:00Z", "observationCount": 1
+      "authority": {"class": "B"}, "status": "open", "firstObservedAt": "2026-08-09T00:00:00Z", "lastObservedAt": "2026-08-09T00:00:00Z", "observationCount": 1
     }]'''), encoding="utf-8")
     with pytest.raises(RoutingError, match="stale"):
         render_dispatch(root, "debt:cli_contract_drift:x:stale", controller=controller)
@@ -121,7 +121,8 @@ def test_unknown_coverage_and_routing_receipt_failure_fail_closed_without_report
     sensor = RoutingSensor(include_c=0)
     controller = _controller(sensor)
     debt_id = controller.scan(root).open_debts[0].id
-    before = set((root / ".gaia/steward/receipts").glob("*.json"))
+    ledger_before = (root / ".gaia/steward/debt.json").read_bytes()
+    before = {path.name: path.read_bytes() for path in (root / ".gaia/steward/receipts").glob("*.json")}
 
     def fail_receipt(*args, **kwargs):
         raise StateError("routing receipt unavailable")
@@ -129,7 +130,8 @@ def test_unknown_coverage_and_routing_receipt_failure_fail_closed_without_report
     monkeypatch.setattr(routing_module, "write_immutable_receipt", fail_receipt)
     with pytest.raises(StateError, match="routing receipt unavailable"):
         render_dispatch(root, debt_id, controller=controller)
-    assert set((root / ".gaia/steward/receipts").glob("*.json")) == before
+    assert (root / ".gaia/steward/debt.json").read_bytes() == ledger_before
+    assert {path.name: path.read_bytes() for path in (root / ".gaia/steward/receipts").glob("*.json")} == before
 
     class FailingSensor(RoutingSensor):
         def scan(self, root: Path, observed_at: str) -> list[Observation]:

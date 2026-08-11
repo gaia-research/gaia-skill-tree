@@ -8,6 +8,7 @@ import pytest
 from gaia_cli.steward.sensors import (
     AgentSkillMirrorSensor,
     BundledSchemaMirrorSensor,
+    DiscoveryGenericMappingSensor,
     RegistryIntegritySensor,
 )
 
@@ -54,6 +55,26 @@ def test_all_sensors_report_healthy_on_clean_fixture(tmp_path: Path) -> None:
     ]
 
     assert [observation.status for observation in observations] == ["healthy"] * 3
+
+
+def test_discovery_packets_emit_one_truthful_groupable_mapping_question(tmp_path: Path) -> None:
+    packet = {
+        "sourceRepo": "example/repo",
+        "proposedSkills": [{"id": "alpha"}, {"id": "beta"}],
+    }
+    _write(
+        tmp_path / "registry-for-review/discovery-packets/example.json",
+        json.dumps(packet),
+    )
+
+    observation = DiscoveryGenericMappingSensor().scan(tmp_path, NOW)[0]
+
+    assert observation.kind == "generic_mapping"
+    assert observation.status == "drift"
+    assert observation.current_state == {"genericMapping": "unresolved"}
+    assert observation.observed_state["decisionTarget"] == "source-repo/example-repo"
+    assert observation.observed_state["candidateIds"] == ["alpha", "beta"]
+    assert observation.provenance["packetPath"] == "registry-for-review/discovery-packets/example.json"
 
 
 def test_schema_drift_is_deterministic_and_semantically_stable(tmp_path: Path) -> None:

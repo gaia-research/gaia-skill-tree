@@ -84,7 +84,7 @@ def test_steward_scan_json_cli_is_clean_and_report_only(
 
     payload = json.loads(capsys.readouterr().out)
     assert payload["receipt"]["result"]["status"] == "no_change"
-    assert payload["receipt"]["observationsCollected"] == 6
+    assert payload["receipt"]["observationsCollected"] == 7
     assert payload["receipt"]["dispatches"] == []
     assert payload["receipt"]["repairs"] == []
     assert payload["state"]["debt"].startswith(str(tmp_path / ".gaia/steward"))
@@ -147,6 +147,29 @@ def test_steward_run_repairs_one_schema_debt_with_receipts(
     assert repair["verified"] == {"recursiveParity": True, "syncCheck": True}
     assert repair["resolved"] is True
     assert (tmp_path / "src/gaia_cli/data/registry/schema/skill.schema.json").read_bytes() == canonical.read_bytes()
+
+
+def test_steward_founder_cli_outputs_fresh_nonempty_report_only_queue(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    _clean_cli_repo(tmp_path)
+    _write(
+        tmp_path / "registry-for-review/discovery-packets/example.json",
+        json.dumps({"sourceRepo": "example/repo", "proposedSkills": [{"id": "alpha"}, {"id": "beta"}]}),
+    )
+    monkeypatch.setattr(sys, "argv", ["gaia", "--registry", str(tmp_path), "steward", "founder", "--json"])
+
+    main()
+
+    payload = json.loads(capsys.readouterr().out)
+    decisions = payload["artifact"]["decisions"]
+    assert len(decisions) == 1
+    assert decisions[0]["decisionTarget"] == "source-repo/example-repo"
+    assert len(decisions[0]["debtIds"]) == 1
+    assert payload["receipt"]["result"]["status"] == "reported"
+    assert not (tmp_path / ".github").exists()
 
 
 def test_steward_routing_commands_are_public_and_parse_json_access() -> None:
