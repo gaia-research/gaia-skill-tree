@@ -175,6 +175,31 @@ def test_steward_founder_cli_outputs_controlled_current_nonempty_report_only_que
     assert not (tmp_path / ".github").exists()
 
 
+def test_steward_founder_cli_fails_closed_for_malformed_controlled_candidate(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    _clean_cli_repo(tmp_path)
+    _write(tmp_path / ".gaia/steward/discovery-mapping-input.json", json.dumps({
+        "schemaVersion": "steward-discovery-mapping-input-v1",
+        "candidates": [{
+            "candidateId": "owner//open", "sourceRepo": "owner/repo",
+            "sourceState": "current", "disposition": "unresolved",
+        }],
+    }))
+    monkeypatch.setattr(sys, "argv", ["gaia", "--registry", str(tmp_path), "steward", "founder", "--json"])
+
+    with pytest.raises(SystemExit) as exc:
+        main()
+
+    output = capsys.readouterr()
+    assert exc.value.code == 2
+    assert output.out == ""
+    assert "Steward founder failed: sensor coverage is unknown; refusing routing" in output.err
+    assert not list((tmp_path / ".gaia/steward/receipts").glob("*.json"))
+
+
 def test_steward_routing_commands_are_public_and_parse_json_access() -> None:
     parser, _ = get_parser()
 

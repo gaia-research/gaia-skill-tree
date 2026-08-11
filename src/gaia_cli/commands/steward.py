@@ -52,7 +52,10 @@ class StewardCommand(Command):
                 "unresolved candidates by exact normalized decisionTarget. Never changes "
                 "canonical state. For controlled local report input, use ignored "
                 ".gaia/steward/discovery-mapping-input.json with schemaVersion "
-                "steward-discovery-mapping-input-v1 and current/unresolved candidates."
+                "steward-discovery-mapping-input-v1 and valid current/unresolved candidates. "
+                "Exits 0 after reporting a known-coverage queue (including zero decisions); "
+                "exits 2, writes no founder queue, and reports coverage failure when a "
+                "current/unresolved controlled candidate is malformed."
             ),
         )
         founder.add_argument("--json", action="store_true", help="Output the queue and receipt as JSON")

@@ -214,20 +214,23 @@ class DiscoveryGenericMappingSensor:
         for path in sorted(directory.glob("*.json")):
             raw, content = self._read_object(path, repo_root, "discovery packet")
             # Legacy packets with no explicit lifecycle state are intentionally
-            # not interpreted as unresolved.
+            # not interpreted as unresolved. A packet that explicitly declares
+            # itself current/unresolved is controlled input and must be valid.
             if raw.get("sourceState") != "current" or raw.get("disposition") != "unresolved":
                 continue
             source_repo = raw.get("sourceRepo")
             proposed = raw.get("proposedSkills")
-            if not isinstance(source_repo, str) or not source_repo.strip() or not isinstance(proposed, list):
-                continue
-            digest = hashlib.sha256(content).hexdigest()
             relative_path = path.relative_to(repo_root).as_posix()
+            if not isinstance(source_repo, str) or not source_repo.strip() or not isinstance(proposed, list):
+                raise ValueError(f"invalid current unresolved discovery packet: {relative_path}")
+            digest = hashlib.sha256(content).hexdigest()
             for item in proposed:
-                if isinstance(item, dict) and isinstance(item.get("id"), str):
-                    candidate = self._candidate_record(item["id"], source_repo)
-                    if candidate is not None:
-                        result.append((candidate, relative_path, digest))
+                if not isinstance(item, dict) or not isinstance(item.get("id"), str):
+                    raise ValueError(f"invalid current unresolved discovery candidate: {relative_path}")
+                candidate = self._candidate_record(item["id"], source_repo)
+                if candidate is None:
+                    raise ValueError(f"invalid current unresolved discovery candidate: {relative_path}")
+                result.append((candidate, relative_path, digest))
         return result
 
     def _local_input_candidates(self, repo_root: Path) -> list[tuple[dict[str, str], str, str]]:
@@ -244,16 +247,17 @@ class DiscoveryGenericMappingSensor:
         for item in raw["candidates"]:
             if not isinstance(item, dict):
                 continue
+            # Only the explicit current/unresolved state is controlled input.
+            # Optional, archived, and processed entries remain safely ignored.
+            if item.get("sourceState") != "current" or item.get("disposition") != "unresolved":
+                continue
             candidate_id, source_repo = item.get("candidateId"), item.get("sourceRepo")
-            if (
-                item.get("sourceState") == "current"
-                and item.get("disposition") == "unresolved"
-                and isinstance(candidate_id, str)
-                and isinstance(source_repo, str)
-            ):
-                candidate = self._candidate_record(candidate_id, source_repo)
-                if candidate is not None:
-                    result.append((candidate, self._LOCAL_INPUT, digest))
+            if not isinstance(candidate_id, str) or not isinstance(source_repo, str):
+                raise ValueError(f"invalid current unresolved local discovery candidate: {self._LOCAL_INPUT}")
+            candidate = self._candidate_record(candidate_id, source_repo)
+            if candidate is None:
+                raise ValueError(f"invalid current unresolved local discovery candidate: {self._LOCAL_INPUT}")
+            result.append((candidate, self._LOCAL_INPUT, digest))
         return result
 
     @staticmethod
@@ -281,15 +285,41 @@ class DiscoveryGenericMappingSensor:
         directory = repo_root / "registry/named"
         if not directory.is_dir():
             return mapped
+        for path in sorted(directory.rglob("*.md")):
+            raw = self._read_named_markdown(path, repo_root)
+            self._add_canonical_mapping(mapped, raw, path, repo_root)
+        # JSON named records are legacy but remain supported when valid.
         for path in sorted(directory.rglob("*.json")):
             raw, _ = self._read_object(path, repo_root, "named skill")
-            candidate_id, target = raw.get("id"), raw.get("targetSkillId")
-            if isinstance(candidate_id, str) and isinstance(target, str) and target.strip():
-                candidate = self._candidate_record(candidate_id, "canonical")
-                if candidate is None:
-                    raise ValueError(f"invalid canonical named skill id: {path.relative_to(repo_root)}")
-                mapped.add(candidate["candidateId"])
+            self._add_canonical_mapping(mapped, raw, path, repo_root)
         return mapped
+
+    def _add_canonical_mapping(
+        self, mapped: set[str], raw: dict[str, object], path: Path, repo_root: Path,
+    ) -> None:
+        candidate_id = raw.get("id")
+        target = raw.get("genericSkillRef") or raw.get("targetSkillId")
+        if not isinstance(candidate_id, str) or not isinstance(target, str) or not target.strip():
+            return
+        candidate = self._candidate_record(candidate_id, "canonical")
+        if candidate is None:
+            raise ValueError(f"invalid canonical named skill id: {path.relative_to(repo_root)}")
+        mapped.add(candidate["candidateId"])
+
+    def _read_named_markdown(self, path: Path, repo_root: Path) -> dict[str, object]:
+        content = path.read_bytes()
+        if len(content) > self._MAX_PACKET_BYTES:
+            raise ValueError(f"named skill exceeds safety limit: {path.relative_to(repo_root)}")
+        try:
+            text = content.decode("utf-8")
+            from gaia_cli.frontmatter import load_yaml_simple, split_frontmatter
+            _fence, frontmatter, _body = split_frontmatter(text)
+            raw = load_yaml_simple(frontmatter)
+        except Exception as exc:
+            raise ValueError(f"invalid named skill: {path.relative_to(repo_root)}") from exc
+        if not isinstance(raw, dict):
+            raise ValueError(f"named skill frontmatter must be an object: {path.relative_to(repo_root)}")
+        return raw
 
     def _read_object(self, path: Path, repo_root: Path, label: str) -> tuple[dict[str, object], bytes]:
         content = path.read_bytes()

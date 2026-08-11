@@ -22,6 +22,18 @@ def _write(path: Path, content: str) -> None:
     path.write_text(content, encoding="utf-8")
 
 
+def _named_markdown(skill_id: str, generic_ref: str) -> str:
+    return (
+        "---\n"
+        f"id: {skill_id}\n"
+        f"name: Representative Skill\n"
+        f"genericSkillRef: {generic_ref}\n"
+        "status: named\n"
+        "---\n\n"
+        "## Overview\n"
+    )
+
+
 def _make_clean_repo(root: Path) -> None:
     schema = {
         "$schema": "http://json-schema.org/draft-07/schema#",
@@ -90,7 +102,10 @@ def test_discovery_sensor_excludes_exact_candidate_with_canonical_mapping(tmp_pa
     _make_clean_repo(tmp_path)
     packet = {"sourceRepo": "example/repo", "sourceState": "current", "disposition": "unresolved", "proposedSkills": [{"id": "owner/covered"}, {"id": "owner/open"}]}
     _write(tmp_path / "registry-for-review/discovery-packets/current.json", json.dumps(packet))
-    _write(tmp_path / "registry/named/owner/covered.json", json.dumps({"id": "owner/covered", "targetSkillId": "example"}))
+    _write(
+        tmp_path / "registry/named/owner/covered.md",
+        _named_markdown("owner/covered", "example"),
+    )
 
     observations = DiscoveryGenericMappingSensor().scan(tmp_path, NOW)
 
@@ -118,8 +133,21 @@ def test_discovery_sensor_casefolds_before_canonical_mapping_lookup(tmp_path: Pa
         "sourceRepo": "example/repo", "sourceState": "current", "disposition": "unresolved",
         "proposedSkills": [{"id": "Owner/Open"}],
     }))
-    _write(tmp_path / "registry/named/owner/open.json", json.dumps({
-        "id": "owner/open", "targetSkillId": "example",
+    _write(
+        tmp_path / "registry/named/owner/open.md",
+        _named_markdown("owner/open", "example"),
+    )
+
+    assert DiscoveryGenericMappingSensor().scan(tmp_path, NOW) == []
+
+
+def test_discovery_sensor_supports_legacy_json_canonical_mapping(tmp_path: Path) -> None:
+    _write(tmp_path / "registry-for-review/discovery-packets/current.json", json.dumps({
+        "sourceRepo": "example/repo", "sourceState": "current", "disposition": "unresolved",
+        "proposedSkills": [{"id": "owner/covered"}],
+    }))
+    _write(tmp_path / "registry/named/owner/covered.json", json.dumps({
+        "id": "owner/covered", "targetSkillId": "example",
     }))
 
     assert DiscoveryGenericMappingSensor().scan(tmp_path, NOW) == []
@@ -141,6 +169,41 @@ def test_discovery_sensor_groups_equivalent_candidate_identifiers_by_canonical_i
     assert observations[0].subject.id == "owner/open"
     assert observations[0].observed_state["decisionTarget"] == "generic-mapping/owner/open"
     assert observations[0].observed_state["candidateDisplayId"] == "Owner/Open"
+
+
+def test_discovery_sensor_fails_closed_for_malformed_controlled_candidate(tmp_path: Path) -> None:
+    _write(tmp_path / ".gaia/steward/discovery-mapping-input.json", json.dumps({
+        "schemaVersion": "steward-discovery-mapping-input-v1",
+        "candidates": [{
+            "candidateId": "owner//open", "sourceRepo": "owner/repo",
+            "sourceState": "current", "disposition": "unresolved",
+        }],
+    }))
+
+    with pytest.raises(ValueError, match="invalid current unresolved local discovery candidate"):
+        DiscoveryGenericMappingSensor().scan(tmp_path, NOW)
+
+
+def test_discovery_sensor_fails_closed_for_malformed_current_packet_candidate(tmp_path: Path) -> None:
+    _write(tmp_path / "registry-for-review/discovery-packets/current.json", json.dumps({
+        "sourceRepo": "owner/repo", "sourceState": "current", "disposition": "unresolved",
+        "proposedSkills": [{"id": "owner//open"}],
+    }))
+
+    with pytest.raises(ValueError, match="invalid current unresolved discovery candidate"):
+        DiscoveryGenericMappingSensor().scan(tmp_path, NOW)
+
+
+def test_discovery_sensor_skips_malformed_archived_local_candidate(tmp_path: Path) -> None:
+    _write(tmp_path / ".gaia/steward/discovery-mapping-input.json", json.dumps({
+        "schemaVersion": "steward-discovery-mapping-input-v1",
+        "candidates": [{
+            "candidateId": "owner//archived", "sourceRepo": "owner/repo",
+            "sourceState": "archived", "disposition": "unresolved",
+        }],
+    }))
+
+    assert DiscoveryGenericMappingSensor().scan(tmp_path, NOW) == []
 
 
 def test_discovery_sensor_fails_closed_for_malformed_canonical_identity(tmp_path: Path) -> None:
