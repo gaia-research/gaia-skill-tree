@@ -5,6 +5,7 @@ from __future__ import annotations
 import fnmatch
 import hashlib
 import json
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable, Protocol
@@ -165,15 +166,16 @@ class DiscoveryGenericMappingSensor:
         mapped_candidates = self._canonical_mapped_candidates(repo_root)
         candidates = self._current_packet_candidates(repo_root)
         candidates.extend(self._local_input_candidates(repo_root))
-        # One exact candidate has one mapping question, even if the same
-        # current evidence is repeated in multiple local inputs.
+        # Group by canonical identity, rather than by a display spelling from
+        # an external packet.  This must happen before lookup and grouping so
+        # ``Owner/Open`` cannot bypass canonical ``owner/open`` coverage.
         unique_candidates: dict[str, tuple[dict[str, str], str, str]] = {}
-        for item in sorted(candidates, key=lambda item: (item[0]["candidateId"], item[1])):
+        for item in sorted(candidates, key=lambda item: (item[0]["candidateId"], item[1], item[0]["candidateDisplayId"])):
             unique_candidates.setdefault(item[0]["candidateId"], item)
         observations: list[Observation] = []
         for candidate_id, (candidate, source_path, digest) in sorted(unique_candidates.items()):
-            # A named record for this exact candidate with a targetSkillId is
-            # objective evidence that this mapping was already governed.
+            # A named record for this canonical candidate with a targetSkillId
+            # is objective evidence that this mapping was already governed.
             if candidate_id in mapped_candidates:
                 continue
             observations.append(Observation(
@@ -188,6 +190,7 @@ class DiscoveryGenericMappingSensor:
                     # repository membership is not a decision target.
                     "decisionTarget": f"generic-mapping/{candidate_id}",
                     "candidateId": candidate_id,
+                    "candidateDisplayId": candidate["candidateDisplayId"],
                     "sourceRepo": candidate["sourceRepo"],
                     "sourceState": "current",
                     "disposition": "unresolved",
@@ -195,7 +198,11 @@ class DiscoveryGenericMappingSensor:
                     "inputDigest": digest,
                 },
                 confidence=1.0,
-                provenance={"inputPath": source_path, "sourceRepo": candidate["sourceRepo"]},
+                provenance={
+                    "inputPath": source_path,
+                    "sourceRepo": candidate["sourceRepo"],
+                    "candidateDisplayId": candidate["candidateDisplayId"],
+                },
             ))
         return observations
 
@@ -205,7 +212,7 @@ class DiscoveryGenericMappingSensor:
             return []
         result: list[tuple[dict[str, str], str, str]] = []
         for path in sorted(directory.glob("*.json")):
-            raw = self._read_object(path, repo_root, "discovery packet")
+            raw, content = self._read_object(path, repo_root, "discovery packet")
             # Legacy packets with no explicit lifecycle state are intentionally
             # not interpreted as unresolved.
             if raw.get("sourceState") != "current" or raw.get("disposition") != "unresolved":
@@ -214,21 +221,25 @@ class DiscoveryGenericMappingSensor:
             proposed = raw.get("proposedSkills")
             if not isinstance(source_repo, str) or not source_repo.strip() or not isinstance(proposed, list):
                 continue
-            digest = hashlib.sha256(path.read_bytes()).hexdigest()
+            digest = hashlib.sha256(content).hexdigest()
             relative_path = path.relative_to(repo_root).as_posix()
             for item in proposed:
-                if isinstance(item, dict) and isinstance(item.get("id"), str) and item["id"].strip():
-                    result.append(({"candidateId": item["id"].strip(), "sourceRepo": source_repo.strip()}, relative_path, digest))
+                if isinstance(item, dict) and isinstance(item.get("id"), str):
+                    candidate = self._candidate_record(item["id"], source_repo)
+                    if candidate is not None:
+                        result.append((candidate, relative_path, digest))
         return result
 
     def _local_input_candidates(self, repo_root: Path) -> list[tuple[dict[str, str], str, str]]:
         path = repo_root / self._LOCAL_INPUT
         if not path.exists():
             return []
-        raw = self._read_object(path, repo_root, "local discovery mapping input")
+        # Read exactly once: parsing, validation, and provenance digest below
+        # all bind to this same byte sequence, not to a later path read.
+        raw, content = self._read_object(path, repo_root, "local discovery mapping input")
         if raw.get("schemaVersion") != self._INPUT_SCHEMA or not isinstance(raw.get("candidates"), list):
             raise ValueError(f"invalid local discovery mapping input: {self._LOCAL_INPUT}")
-        digest = hashlib.sha256(path.read_bytes()).hexdigest()
+        digest = hashlib.sha256(content).hexdigest()
         result: list[tuple[dict[str, str], str, str]] = []
         for item in raw["candidates"]:
             if not isinstance(item, dict):
@@ -237,11 +248,33 @@ class DiscoveryGenericMappingSensor:
             if (
                 item.get("sourceState") == "current"
                 and item.get("disposition") == "unresolved"
-                and isinstance(candidate_id, str) and candidate_id.strip()
-                and isinstance(source_repo, str) and source_repo.strip()
+                and isinstance(candidate_id, str)
+                and isinstance(source_repo, str)
             ):
-                result.append(({"candidateId": candidate_id.strip(), "sourceRepo": source_repo.strip()}, self._LOCAL_INPUT, digest))
+                candidate = self._candidate_record(candidate_id, source_repo)
+                if candidate is not None:
+                    result.append((candidate, self._LOCAL_INPUT, digest))
         return result
+
+    @staticmethod
+    def _candidate_record(candidate_id: str, source_repo: str) -> dict[str, str] | None:
+        """Return canonical identity while retaining the external spelling.
+
+        Candidate locators are restricted to ASCII slash-separated identifier
+        components.  In particular, invalid punctuation is not repaired or
+        collapsed: ``owner//open`` cannot collide with ``owner/open``.
+        """
+        display_id = candidate_id.strip()
+        canonical_id = display_id.casefold()
+        if not display_id or not source_repo.strip() or not canonical_id.isascii():
+            return None
+        if not re.fullmatch(r"[a-z0-9](?:[a-z0-9._-]*[a-z0-9])?(?:/[a-z0-9](?:[a-z0-9._-]*[a-z0-9])?)*", canonical_id):
+            return None
+        return {
+            "candidateId": canonical_id,
+            "candidateDisplayId": display_id,
+            "sourceRepo": source_repo.strip(),
+        }
 
     def _canonical_mapped_candidates(self, repo_root: Path) -> set[str]:
         mapped: set[str] = set()
@@ -249,13 +282,16 @@ class DiscoveryGenericMappingSensor:
         if not directory.is_dir():
             return mapped
         for path in sorted(directory.rglob("*.json")):
-            raw = self._read_object(path, repo_root, "named skill")
+            raw, _ = self._read_object(path, repo_root, "named skill")
             candidate_id, target = raw.get("id"), raw.get("targetSkillId")
-            if isinstance(candidate_id, str) and candidate_id.strip() and isinstance(target, str) and target.strip():
-                mapped.add(candidate_id.strip())
+            if isinstance(candidate_id, str) and isinstance(target, str) and target.strip():
+                candidate = self._candidate_record(candidate_id, "canonical")
+                if candidate is None:
+                    raise ValueError(f"invalid canonical named skill id: {path.relative_to(repo_root)}")
+                mapped.add(candidate["candidateId"])
         return mapped
 
-    def _read_object(self, path: Path, repo_root: Path, label: str) -> dict[str, object]:
+    def _read_object(self, path: Path, repo_root: Path, label: str) -> tuple[dict[str, object], bytes]:
         content = path.read_bytes()
         if len(content) > self._MAX_PACKET_BYTES:
             raise ValueError(f"{label} exceeds safety limit: {path.relative_to(repo_root)}")
@@ -265,7 +301,7 @@ class DiscoveryGenericMappingSensor:
             raise ValueError(f"invalid {label}: {path.relative_to(repo_root)}") from exc
         if not isinstance(raw, dict):
             raise ValueError(f"{label} must be an object: {path.relative_to(repo_root)}")
-        return raw
+        return raw, content
 
 
 class RegistryIntegritySensor:

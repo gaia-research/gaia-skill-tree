@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from pathlib import Path
 
@@ -109,6 +110,83 @@ def test_discovery_sensor_accepts_only_explicit_current_local_input(tmp_path: Pa
 
     assert [item.subject.id for item in observations] == ["owner/open"]
     assert observations[0].provenance["inputPath"] == ".gaia/steward/discovery-mapping-input.json"
+
+
+def test_discovery_sensor_casefolds_before_canonical_mapping_lookup(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    _write(tmp_path / "registry-for-review/discovery-packets/current.json", json.dumps({
+        "sourceRepo": "example/repo", "sourceState": "current", "disposition": "unresolved",
+        "proposedSkills": [{"id": "Owner/Open"}],
+    }))
+    _write(tmp_path / "registry/named/owner/open.json", json.dumps({
+        "id": "owner/open", "targetSkillId": "example",
+    }))
+
+    assert DiscoveryGenericMappingSensor().scan(tmp_path, NOW) == []
+
+
+def test_discovery_sensor_groups_equivalent_candidate_identifiers_by_canonical_identity(tmp_path: Path) -> None:
+    _write(tmp_path / "registry-for-review/discovery-packets/one.json", json.dumps({
+        "sourceRepo": "example/repo", "sourceState": "current", "disposition": "unresolved",
+        "proposedSkills": [{"id": " Owner/Open "}],
+    }))
+    _write(tmp_path / "registry-for-review/discovery-packets/two.json", json.dumps({
+        "sourceRepo": "example/repo", "sourceState": "current", "disposition": "unresolved",
+        "proposedSkills": [{"id": "owner/open"}],
+    }))
+
+    observations = DiscoveryGenericMappingSensor().scan(tmp_path, NOW)
+
+    assert len(observations) == 1
+    assert observations[0].subject.id == "owner/open"
+    assert observations[0].observed_state["decisionTarget"] == "generic-mapping/owner/open"
+    assert observations[0].observed_state["candidateDisplayId"] == "Owner/Open"
+
+
+def test_discovery_sensor_fails_closed_for_malformed_canonical_identity(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    _write(tmp_path / "registry/named/owner/open.json", json.dumps({
+        "id": "owner//open", "targetSkillId": "example",
+    }))
+    _write(tmp_path / "registry-for-review/discovery-packets/current.json", json.dumps({
+        "sourceRepo": "example/repo", "sourceState": "current", "disposition": "unresolved",
+        "proposedSkills": [{"id": "owner/open"}],
+    }))
+
+    with pytest.raises(ValueError, match="invalid canonical named skill id"):
+        DiscoveryGenericMappingSensor().scan(tmp_path, NOW)
+
+
+def test_discovery_sensor_hashes_exact_controlled_input_bytes_once_under_mutation(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    path = tmp_path / ".gaia/steward/discovery-mapping-input.json"
+    original = json.dumps({
+        "schemaVersion": "steward-discovery-mapping-input-v1",
+        "candidates": [{
+            "candidateId": "Owner/Open", "sourceRepo": "owner/repo",
+            "sourceState": "current", "disposition": "unresolved",
+        }],
+    }).encode("utf-8")
+    replacement = json.dumps({
+        "schemaVersion": "steward-discovery-mapping-input-v1", "candidates": [],
+    })
+    path.parent.mkdir(parents=True)
+    path.write_bytes(original)
+    original_read_bytes = Path.read_bytes
+    reads: list[Path] = []
+
+    def mutate_after_read(self: Path) -> bytes:
+        if self == path:
+            reads.append(self)
+            path.write_text(replacement, encoding="utf-8")
+            return original
+        return original_read_bytes(self)
+
+    monkeypatch.setattr(Path, "read_bytes", mutate_after_read)
+    observations = DiscoveryGenericMappingSensor().scan(tmp_path, NOW)
+
+    assert reads == [path]
+    assert observations[0].subject.id == "owner/open"
+    assert observations[0].observed_state["inputDigest"] == hashlib.sha256(original).hexdigest()
 
 
 def test_schema_drift_is_deterministic_and_semantically_stable(tmp_path: Path) -> None:
