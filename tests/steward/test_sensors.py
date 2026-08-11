@@ -171,11 +171,14 @@ def test_discovery_sensor_groups_equivalent_candidate_identifiers_by_canonical_i
     assert observations[0].observed_state["candidateDisplayId"] == "Owner/Open"
 
 
-def test_discovery_sensor_fails_closed_for_malformed_controlled_candidate(tmp_path: Path) -> None:
+@pytest.mark.parametrize("candidate_id", ["owner//open", "zzreview/ſ", "owner/K", "owner/ß"])
+def test_discovery_sensor_fails_closed_for_malformed_controlled_candidate(
+    tmp_path: Path, candidate_id: str,
+) -> None:
     _write(tmp_path / ".gaia/steward/discovery-mapping-input.json", json.dumps({
         "schemaVersion": "steward-discovery-mapping-input-v1",
         "candidates": [{
-            "candidateId": "owner//open", "sourceRepo": "owner/repo",
+            "candidateId": candidate_id, "sourceRepo": "owner/repo",
             "sourceState": "current", "disposition": "unresolved",
         }],
     }))
@@ -184,13 +187,37 @@ def test_discovery_sensor_fails_closed_for_malformed_controlled_candidate(tmp_pa
         DiscoveryGenericMappingSensor().scan(tmp_path, NOW)
 
 
-def test_discovery_sensor_fails_closed_for_malformed_current_packet_candidate(tmp_path: Path) -> None:
+@pytest.mark.parametrize("candidate_id", ["owner//open", "zzreview/ſ", "owner/K", "owner/ß"])
+def test_discovery_sensor_fails_closed_for_malformed_current_packet_candidate(
+    tmp_path: Path, candidate_id: str,
+) -> None:
     _write(tmp_path / "registry-for-review/discovery-packets/current.json", json.dumps({
         "sourceRepo": "owner/repo", "sourceState": "current", "disposition": "unresolved",
-        "proposedSkills": [{"id": "owner//open"}],
+        "proposedSkills": [{"id": candidate_id}],
     }))
 
     with pytest.raises(ValueError, match="invalid current unresolved discovery candidate"):
+        DiscoveryGenericMappingSensor().scan(tmp_path, NOW)
+
+
+@pytest.mark.parametrize(
+    ("canonical_id", "controlled_id"),
+    [("zzreview/ſ", "zzreview/s"), ("owner/K", "owner/k"), ("owner/ß", "owner/ss")],
+)
+def test_discovery_sensor_rejects_non_ascii_canonical_markdown_collision(
+    tmp_path: Path, canonical_id: str, controlled_id: str,
+) -> None:
+    _make_clean_repo(tmp_path)
+    _write(tmp_path / "registry-for-review/discovery-packets/current.json", json.dumps({
+        "sourceRepo": "example/repo", "sourceState": "current", "disposition": "unresolved",
+        "proposedSkills": [{"id": controlled_id}],
+    }))
+    _write(
+        tmp_path / "registry/named/owner/collision.md",
+        _named_markdown(canonical_id, "example"),
+    )
+
+    with pytest.raises(ValueError, match="invalid canonical named skill id"):
         DiscoveryGenericMappingSensor().scan(tmp_path, NOW)
 
 

@@ -269,9 +269,14 @@ class DiscoveryGenericMappingSensor:
         collapsed: ``owner//open`` cannot collide with ``owner/open``.
         """
         display_id = candidate_id.strip()
-        canonical_id = display_id.casefold()
-        if not display_id or not source_repo.strip() or not canonical_id.isascii():
+        # Validate the submitted spelling before any case-folding.  Unicode
+        # characters such as long-s (ſ), Kelvin sign (K), and sharp-s (ß)
+        # can fold into ASCII or otherwise alter an identifier after this
+        # boundary; accepting them would make controlled input collide with a
+        # different canonical mapping.
+        if not display_id or not display_id.isascii() or not source_repo.strip():
             return None
+        canonical_id = display_id.casefold()
         if not re.fullmatch(r"[a-z0-9](?:[a-z0-9._-]*[a-z0-9])?(?:/[a-z0-9](?:[a-z0-9._-]*[a-z0-9])?)*", canonical_id):
             return None
         return {
