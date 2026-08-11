@@ -27,7 +27,7 @@ Secondary: Open-source contributors wanting to claim a Named Skill.
 | 7 | `evidence-classes.html` | Evidence & Trust | ✅ Done (updated 025) | 004, 017, 018, 025 |
 | 8 | `fusion.html` | Skill Fusion | ⚠ Version-synced only (025); tier framing still pre-Yggdrasil-II — see #1479 | 004, 017, 018, 025 |
 | 9 | `mcp-server.html` | MCP Server | ⚠ Disclosure banner added (025); tool list documents a deleted prototype — see #1478 | 005, 017, 018, 025 |
-| 10 | `faq.html` | FAQ | ✅ Done (updated 025) | 005, 017, 018, 025 |
+| 10 | `faq.html` | FAQ | ✅ Done (tier/branch FAQ fixed 026) | 005, 017, 018, 025, 026 |
 | 11 | `share-bundles.html` | Share Bundles | ✅ Done (updated 025) | 006, 018, 025 |
 | 12 | `timeline-audit.html` | Timeline Audit & Repair | ✅ Done (updated 025) | 008, 018, 025 |
 | 13 | `manual-curation-pipeline.html` | Manual Curation Pipeline | ✅ Done | — |

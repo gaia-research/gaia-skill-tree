@@ -2,6 +2,82 @@
 
 ---
 
+## 2026-08-11 — Routine 026
+
+**Branch:** `docs/routines/026`
+**Task chosen:** CONTINUE — "Planned next (Routine 026)" named #1478 (MCP page rewrite) and
+#1479 (Yggdrasil II tier taxonomy rewrite).
+
+### Trigger
+
+No open `docs/routines/*` PR existed (025 was merged and its branch deleted), so this
+routine started `docs/routines/026` fresh off `origin/main` per the branch-selection rule.
+
+### What I found before writing anything
+
+`mcp-server.html` (#1478's target) was already rewritten to the real v0.4.0 tool surface
+(`gaia_search`, `gaia_inspect`, `summon`, `gaia_status`) by an out-of-band commit
+(`3ae216a72`, "docs: update active MCP 0.4 guidance", 2026-08-09 — not a docs/routines
+branch). Cross-checked `faq.html`'s MCP FAQ answer and `index.html`'s MCP card copy
+(both named in #1478's own cross-check scope) — both already match the current tool
+list. #1478's scope is done; the GitHub issue just wasn't closed. Left it open (daily
+routine doesn't close issues) rather than comment, since nothing here needs a decision.
+
+That left #1479 (retired four-tier taxonomy still taught) as the live target. Its full
+scope (`skill-hierarchy.html`, `fusion.html`, `named-skills.html`, `faq.html`,
+`index.html`) is a multi-page diagram rewrite — too large for one daily slot. Took the
+top part per the one-page limit: `faq.html`'s "What's the difference between Basic,
+Extra, Unique, and Ultimate skills?" Q&A, a self-contained block that doesn't touch the
+diagram-heavy pages.
+
+### What I did
+
+Rewrote the FAQ answer around `CONTEXT.md`'s § Taxonomy v6: the old four-way tier split
+is retired. Replaced it with the two real axes — **Type** (starless only: Basic / Fusion,
+where Fusion absorbs the old "Extra" and structural "Ultimate") and **Branch** (Named
+Skills 4★+, computed from `suiteComponents`: Unique branch → Unique/Unique
+Ultimate/Unique Impossible; Suite branch → Extra/Ultimate/Apex). Removed the false claim
+"an Ultimate can sit at 0★" — Ultimate is now a 5★ rank name, not a starless structural
+type, so that sentence no longer parses under the current model.
+
+### Design decisions
+
+- Reused the existing `.tier-pill` classes (`pill-basic`, `pill-extra`, `pill-unique`,
+  `pill-ultimate`) rather than adding new styles — `pill-extra` now labels Fusion,
+  `pill-unique`/`pill-ultimate` now label the two branches. No new colors or markup.
+- Kept the closing link to `skill-hierarchy.html` but dropped the claim that it teaches
+  "the full two-axis model" — that page still teaches the retired taxonomy (tracked in
+  #1479) — so the FAQ answer doesn't assert something the linked page doesn't back up yet.
+
+### Issues informed
+
+- #1478 — scope already complete on `main`; left open, not closed (daily routine rule).
+- #1479 — one Q&A block of five now fixed; `skill-hierarchy.html`, `fusion.html`,
+  `named-skills.html`, `index.html` still teach the retired four-tier framing.
+
+### Verification
+
+`git status` scoped to `docs/en/faq.html` only. `html.parser` parse-error check clean.
+CRLF line endings preserved (file stayed CRLF throughout). No new hex introduced
+(diff-scanned). Banned-synonym grep on the diff clean (`merge` hits are pre-existing
+`gaia dev merge` command examples, exempted per DOCS.md vocabulary rules). All three
+stylesheets still linked.
+
+### Files modified
+
+- `docs/en/faq.html` — tier/branch FAQ answer rewritten
+- `docs/en/DOCS.md` — page map row 10 updated
+- `docs/en/MEMORY.md` — this entry
+
+### Planned next (Routine 027)
+
+- Continue #1479: `named-skills.html` and `index.html`'s tier framing are the next
+  smallest slices. `skill-hierarchy.html` and `fusion.html` are the two large
+  diagram-heavy rewrites — save those for a routine with more room, or split each into
+  its own daily slot (e.g. one diagram per day) rather than attempting either whole.
+
+---
+
 ## 2026-08-08 — Routine 025 — Editor pass (branch consolidation + accuracy sweep, ship gate)
 
 **Role:** Weekly editor. Started from four diverged, non-rebased `docs/routines/0NN` branches
