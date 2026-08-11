@@ -17,7 +17,7 @@
   },
   "title": "Remotion Create",
   "genericSkillRef": "video-scaffolding",
-  "origin": false,
+  "origin": true,
   "description": "remotion-dev named skill for remotion-create",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
@@ -35,6 +35,12 @@
       "action": "add",
       "contributor": "mbtiongson1",
       "details": "Added named skill remotion-dev/remotion-create"
+    },
+    {
+      "timestamp": "2026-08-11T08:38:08Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Origin status set to true."
     }
   ]
 }

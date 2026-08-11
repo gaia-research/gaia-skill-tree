@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-10",
+  "generatedAt": "2026-08-11",
   "schema": "gaia-badges-registry/2",
   "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The site Worker at worker/index.js handles /badges/<handle>/<file>.svg (the real SVGs live at /badges/_assets/<handle>/<file>.svg) and serves the `validating\u2026` SVG (docs/badges/not-found.svg) when the `?repo=` query string doesn't match a repo listed here. Schema v2 adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant.",
   "contributors": {
@@ -2577,6 +2577,36 @@
           "slash": "/career-ops",
           "file": "career-ops.svg",
           "fileSeal": "career-ops-seal.svg"
+        }
+      ]
+    },
+    "supabase": {
+      "repos": [],
+      "skillsByRepo": {},
+      "topSkill": "supabase/supabase",
+      "topRank": 2,
+      "topIsUnique": false,
+      "count": 2,
+      "namedSkills": [
+        {
+          "id": "supabase/supabase",
+          "name": "Supabase",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/supabase",
+          "file": "supabase.svg",
+          "fileSeal": "supabase-seal.svg"
+        },
+        {
+          "id": "supabase/supabase-postgres-best-practices",
+          "name": "Supabase Postgres Best Practices",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/supabase-postgres-best-practices",
+          "file": "supabase-postgres-best-practices.svg",
+          "fileSeal": "supabase-postgres-best-practices-seal.svg"
         }
       ]
     },

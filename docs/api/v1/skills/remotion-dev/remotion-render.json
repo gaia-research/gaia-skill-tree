@@ -17,7 +17,7 @@
   },
   "title": "Remotion Render",
   "genericSkillRef": "video-rendering",
-  "origin": false,
+  "origin": true,
   "description": "remotion-dev named skill for remotion-render",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
@@ -35,6 +35,12 @@
       "action": "add",
       "contributor": "mbtiongson1",
       "details": "Added named skill remotion-dev/remotion-render"
+    },
+    {
+      "timestamp": "2026-08-11T08:38:11Z",
+      "action": "rank_up",
+      "contributor": "unknown",
+      "details": "Origin status set to true."
     }
   ]
 }

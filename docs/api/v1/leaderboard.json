@@ -2639,7 +2639,7 @@
       "grade": "ungraded",
       "level": "2★",
       "typeBreakdown": {},
-      "origin": false,
+      "origin": true,
       "branch": "suite"
     },
     {
@@ -2648,7 +2648,7 @@
       "grade": "ungraded",
       "level": "2★",
       "typeBreakdown": {},
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -2657,7 +2657,7 @@
       "grade": "ungraded",
       "level": "2★",
       "typeBreakdown": {},
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -2675,7 +2675,7 @@
       "grade": "ungraded",
       "level": "2★",
       "typeBreakdown": {},
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -2684,7 +2684,7 @@
       "grade": "ungraded",
       "level": "2★",
       "typeBreakdown": {},
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -2693,7 +2693,7 @@
       "grade": "ungraded",
       "level": "2★",
       "typeBreakdown": {},
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -2711,7 +2711,7 @@
       "grade": "ungraded",
       "level": "2★",
       "typeBreakdown": {},
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -2720,7 +2720,7 @@
       "grade": "ungraded",
       "level": "2★",
       "typeBreakdown": {},
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
@@ -2729,7 +2729,7 @@
       "grade": "ungraded",
       "level": "2★",
       "typeBreakdown": {},
-      "origin": false,
+      "origin": true,
       "branch": "standard"
     },
     {
