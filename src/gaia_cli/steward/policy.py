@@ -9,7 +9,7 @@ from typing import Any, Mapping
 
 import yaml
 
-from gaia_cli.steward.models import AuthorityClass, Priority
+from gaia_cli.steward.models import AuthorityClass, Priority, RoutingBudget
 
 
 POLICY_RELATIVE_PATH = Path("founder/steward/POLICY.yaml")
@@ -22,6 +22,7 @@ _TOP_LEVEL_KEYS = {
     "priority",
     "budgets",
     "repairs",
+    "routing",
 }
 _PRIORITY_KEYS = {
     "importance",
@@ -44,6 +45,25 @@ _CLASS_A_ALLOWED_WRITES = (
     ".gaia/steward/**",
     "src/gaia_cli/data/registry/schema/**",
 )
+_ROUTING_KEYS = {"maxDispatchesPerRun", "budget", "dispatchRules", "founderRules"}
+_ROUTING_BUDGET_KEYS = {"modelCalls", "maxTokens", "maxMinutes"}
+_DISPATCH_RULE_KEYS = {
+    "debtKind",
+    "authority",
+    "routine",
+    "objective",
+    "allowedPaths",
+    "allowedCommands",
+    "forbiddenPaths",
+    "stopConditions",
+    "proof",
+}
+_FOUNDER_RULE_KEYS = {
+    "debtKind",
+    "authority",
+    "decisionTargetField",
+    "objective",
+}
 
 
 class PolicyError(ValueError):
@@ -92,6 +112,33 @@ class RepairExecutorPolicy:
 
 
 @dataclass(frozen=True)
+class DispatchRulePolicy:
+    """One report-only Class B packet rule."""
+
+    id: str
+    debt_kind: str
+    authority: AuthorityClass
+    routine: str
+    objective: str
+    allowed_paths: tuple[str, ...]
+    allowed_commands: tuple[str, ...]
+    forbidden_paths: tuple[str, ...]
+    stop_conditions: tuple[str, ...]
+    proof: tuple[str, ...]
+
+
+@dataclass(frozen=True)
+class FounderRulePolicy:
+    """One exact Class C founder-grouping rule."""
+
+    id: str
+    debt_kind: str
+    authority: AuthorityClass
+    decision_target_field: str
+    objective: str
+
+
+@dataclass(frozen=True)
 class StewardPolicy:
     version: int
     state_directory: Path
@@ -102,6 +149,10 @@ class StewardPolicy:
     max_observations_per_run: int
     max_repairs_per_run: int
     repair_executors: Mapping[str, RepairExecutorPolicy]
+    max_dispatches_per_run: int
+    routing_budget: RoutingBudget
+    dispatch_rules: Mapping[str, DispatchRulePolicy]
+    founder_rules: Mapping[str, FounderRulePolicy]
 
     @classmethod
     def load(cls, repo_root: Path) -> "StewardPolicy":
@@ -238,6 +289,100 @@ class StewardPolicy:
         if data["mode"] == _CLASS_A_MODE and (max_repairs != 1 or len(executors) != 1):
             raise PolicyError("class-a-closed-loop policy must authorize exactly one repair executor")
 
+        routing = _mapping(data["routing"], "routing")
+        if set(routing) != _ROUTING_KEYS:
+            raise PolicyError(f"routing must contain exactly {sorted(_ROUTING_KEYS)}")
+        max_dispatches = routing["maxDispatchesPerRun"]
+        if max_dispatches != 1 or isinstance(max_dispatches, bool):
+            raise PolicyError("routing.maxDispatchesPerRun must be exactly 1")
+        budget_raw = _mapping(routing["budget"], "routing.budget")
+        if set(budget_raw) != _ROUTING_BUDGET_KEYS:
+            raise PolicyError(
+                f"routing.budget must contain exactly {sorted(_ROUTING_BUDGET_KEYS)}"
+            )
+        try:
+            routing_budget = RoutingBudget(
+                model_calls=budget_raw["modelCalls"],
+                max_tokens=budget_raw["maxTokens"],
+                max_minutes=budget_raw["maxMinutes"],
+            )
+        except ValueError as exc:
+            raise PolicyError(str(exc)) from exc
+
+        dispatch_data = _mapping(routing["dispatchRules"], "routing.dispatchRules")
+        if set(dispatch_data) != {"registry-integrity-review"}:
+            raise PolicyError("routing must define exactly registry-integrity-review")
+        dispatch_rules: dict[str, DispatchRulePolicy] = {}
+        for rule_id, raw_rule in dispatch_data.items():
+            rule = _mapping(raw_rule, f"routing.dispatchRules.{rule_id}")
+            if set(rule) != _DISPATCH_RULE_KEYS:
+                raise PolicyError(
+                    f"routing.dispatchRules.{rule_id} must contain exactly "
+                    f"{sorted(_DISPATCH_RULE_KEYS)}"
+                )
+            debt_kind = _nonempty_string(rule["debtKind"], f"routing.dispatchRules.{rule_id}.debtKind")
+            rule_authority = _authority_value(rule["authority"], f"routing.dispatchRules.{rule_id}.authority")
+            if (
+                debt_kind != "registry_integrity_failed"
+                or rule_authority is not AuthorityClass.B
+                or authority.get(debt_kind) is not AuthorityClass.B
+            ):
+                raise PolicyError(
+                    "registry-integrity-review must route only Class B registry_integrity_failed debt"
+                )
+            allowed_paths = tuple(
+                _safe_glob(item, f"routing.dispatchRules.{rule_id}.allowedPaths")
+                for item in _string_list(rule["allowedPaths"], f"routing.dispatchRules.{rule_id}.allowedPaths")
+            )
+            forbidden_paths = tuple(
+                _safe_glob(item, f"routing.dispatchRules.{rule_id}.forbiddenPaths")
+                for item in _string_list(rule["forbiddenPaths"], f"routing.dispatchRules.{rule_id}.forbiddenPaths")
+            )
+            if set(allowed_paths) & set(forbidden_paths):
+                raise PolicyError(f"routing dispatch rule {rule_id} path scopes overlap")
+            dispatch_rules[rule_id] = DispatchRulePolicy(
+                id=rule_id,
+                debt_kind=debt_kind,
+                authority=rule_authority,
+                routine=_nonempty_string(rule["routine"], f"routing.dispatchRules.{rule_id}.routine"),
+                objective=_nonempty_string(rule["objective"], f"routing.dispatchRules.{rule_id}.objective"),
+                allowed_paths=allowed_paths,
+                allowed_commands=_string_list(rule["allowedCommands"], f"routing.dispatchRules.{rule_id}.allowedCommands"),
+                forbidden_paths=forbidden_paths,
+                stop_conditions=_string_list(rule["stopConditions"], f"routing.dispatchRules.{rule_id}.stopConditions"),
+                proof=_string_list(rule["proof"], f"routing.dispatchRules.{rule_id}.proof"),
+            )
+
+        founder_data = _mapping(routing["founderRules"], "routing.founderRules")
+        if set(founder_data) != {"generic-mapping-decision"}:
+            raise PolicyError("routing must define exactly generic-mapping-decision")
+        founder_rules: dict[str, FounderRulePolicy] = {}
+        for rule_id, raw_rule in founder_data.items():
+            rule = _mapping(raw_rule, f"routing.founderRules.{rule_id}")
+            if set(rule) != _FOUNDER_RULE_KEYS:
+                raise PolicyError(
+                    f"routing.founderRules.{rule_id} must contain exactly "
+                    f"{sorted(_FOUNDER_RULE_KEYS)}"
+                )
+            debt_kind = _nonempty_string(rule["debtKind"], f"routing.founderRules.{rule_id}.debtKind")
+            rule_authority = _authority_value(rule["authority"], f"routing.founderRules.{rule_id}.authority")
+            if (
+                debt_kind != "generic_mapping"
+                or rule_authority is not AuthorityClass.C
+                or authority.get(debt_kind) is not AuthorityClass.C
+                or rule["decisionTargetField"] != "decisionTarget"
+            ):
+                raise PolicyError(
+                    "generic-mapping-decision must require decisionTarget for Class C generic_mapping debt"
+                )
+            founder_rules[rule_id] = FounderRulePolicy(
+                id=rule_id,
+                debt_kind=debt_kind,
+                authority=rule_authority,
+                decision_target_field="decisionTarget",
+                objective=_nonempty_string(rule["objective"], f"routing.founderRules.{rule_id}.objective"),
+            )
+
         return cls(
             version=1,
             state_directory=state_directory,
@@ -248,6 +393,10 @@ class StewardPolicy:
             max_observations_per_run=max_observations,
             max_repairs_per_run=max_repairs,
             repair_executors=executors,
+            max_dispatches_per_run=max_dispatches,
+            routing_budget=routing_budget,
+            dispatch_rules=dispatch_rules,
+            founder_rules=founder_rules,
         )
 
     def authority_for(self, kind: str) -> AuthorityClass:
@@ -266,6 +415,18 @@ class StewardPolicy:
         matches = [item for item in self.repair_executors.values() if item.debt_kind == debt_kind]
         if len(matches) > 1:
             raise PolicyError(f"multiple repair executors are configured for {debt_kind}")
+        return matches[0] if matches else None
+
+    def dispatch_rule_for(self, debt_kind: str) -> DispatchRulePolicy | None:
+        matches = [item for item in self.dispatch_rules.values() if item.debt_kind == debt_kind]
+        if len(matches) > 1:
+            raise PolicyError(f"multiple dispatch rules are configured for {debt_kind}")
+        return matches[0] if matches else None
+
+    def founder_rule_for(self, debt_kind: str) -> FounderRulePolicy | None:
+        matches = [item for item in self.founder_rules.values() if item.debt_kind == debt_kind]
+        if len(matches) > 1:
+            raise PolicyError(f"multiple founder rules are configured for {debt_kind}")
         return matches[0] if matches else None
 
 
@@ -312,3 +473,10 @@ def _bounded_number(value: Any, name: str) -> float:
     if not 0.0 <= number <= 1.0:
         raise PolicyError(f"{name} must be between 0 and 1")
     return number
+
+
+def _authority_value(value: Any, name: str) -> AuthorityClass:
+    try:
+        return AuthorityClass(value)
+    except (TypeError, ValueError) as exc:
+        raise PolicyError(f"{name} must be A, B, or C") from exc

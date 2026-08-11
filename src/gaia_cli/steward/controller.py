@@ -47,6 +47,9 @@ class ScanResult:
     receipt: Receipt
     debt_state_path: Path
     receipt_path: Path
+    # Open debt ids observed as drift during this reconciliation. Routing must
+    # use this membership, not a clock-resolution-dependent timestamp.
+    fresh_open_debt_ids: frozenset[str]
 
     @property
     def open_debts(self) -> tuple[Debt, ...]:
@@ -362,6 +365,11 @@ class StewardController:
             receipt=receipt,
             debt_state_path=debt_state_path,
             receipt_path=receipt_path,
+            fresh_open_debt_ids=frozenset(
+                observation.debt_id
+                for observation in observations
+                if observation.status == "drift"
+            ),
         )
 
     def _collect_observations(

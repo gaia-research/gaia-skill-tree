@@ -84,7 +84,7 @@ def test_steward_scan_json_cli_is_clean_and_report_only(
 
     payload = json.loads(capsys.readouterr().out)
     assert payload["receipt"]["result"]["status"] == "no_change"
-    assert payload["receipt"]["observationsCollected"] == 6
+    assert payload["receipt"]["observationsCollected"] == 7
     assert payload["receipt"]["dispatches"] == []
     assert payload["receipt"]["repairs"] == []
     assert payload["state"]["debt"].startswith(str(tmp_path / ".gaia/steward"))
@@ -147,6 +147,75 @@ def test_steward_run_repairs_one_schema_debt_with_receipts(
     assert repair["verified"] == {"recursiveParity": True, "syncCheck": True}
     assert repair["resolved"] is True
     assert (tmp_path / "src/gaia_cli/data/registry/schema/skill.schema.json").read_bytes() == canonical.read_bytes()
+
+
+def test_steward_founder_cli_outputs_controlled_current_nonempty_report_only_queue(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    _clean_cli_repo(tmp_path)
+    _write(tmp_path / ".gaia/steward/discovery-mapping-input.json", json.dumps({
+        "schemaVersion": "steward-discovery-mapping-input-v1",
+        "candidates": [{
+            "candidateId": "example/open-candidate", "sourceRepo": "example/repo",
+            "sourceState": "current", "disposition": "unresolved",
+        }],
+    }))
+    monkeypatch.setattr(sys, "argv", ["gaia", "--registry", str(tmp_path), "steward", "founder", "--json"])
+
+    main()
+
+    payload = json.loads(capsys.readouterr().out)
+    decisions = payload["artifact"]["decisions"]
+    assert len(decisions) == 1
+    assert decisions[0]["decisionTarget"] == "generic-mapping/example/open-candidate"
+    assert len(decisions[0]["debtIds"]) == 1
+    assert payload["receipt"]["result"]["status"] == "reported"
+    assert not (tmp_path / ".github").exists()
+
+
+@pytest.mark.parametrize("candidate_id", ["zzreview/ſ", "owner/K", "owner/ß"])
+def test_steward_founder_cli_fails_closed_for_non_ascii_controlled_candidate(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+    candidate_id: str,
+) -> None:
+    _clean_cli_repo(tmp_path)
+    _write(tmp_path / ".gaia/steward/discovery-mapping-input.json", json.dumps({
+        "schemaVersion": "steward-discovery-mapping-input-v1",
+        "candidates": [{
+            "candidateId": candidate_id, "sourceRepo": "owner/repo",
+            "sourceState": "current", "disposition": "unresolved",
+        }],
+    }))
+    monkeypatch.setattr(sys, "argv", ["gaia", "--registry", str(tmp_path), "steward", "founder", "--json"])
+
+    with pytest.raises(SystemExit) as exc:
+        main()
+
+    output = capsys.readouterr()
+    assert exc.value.code == 2
+    assert output.out == ""
+    assert "Steward founder failed: sensor coverage is unknown; refusing routing: discovery-generic-mapping" in output.err
+    assert not (tmp_path / ".gaia/steward/debt.json").exists()
+    assert not list((tmp_path / ".gaia/steward/receipts").glob("*.json"))
+
+
+def test_steward_routing_commands_are_public_and_parse_json_access() -> None:
+    parser, _ = get_parser()
+
+    dispatch = parser.parse_args(
+        ["--registry", str(REPO_ROOT), "steward", "dispatch", "debt:fixture", "--json"]
+    )
+    founder = parser.parse_args(["--registry", str(REPO_ROOT), "steward", "founder", "--json"])
+
+    assert dispatch.steward_command == "dispatch"
+    assert dispatch.debt_id == "debt:fixture"
+    assert dispatch.json is True
+    assert founder.steward_command == "founder"
+    assert founder.json is True
 
 
 def test_steward_rejects_unknown_subcommand() -> None:
