@@ -4,6 +4,62 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-08-11, Steward V1 complete and ready for founder merge gate)
+
+### TLDR
+
+- **Steward V1 is complete on integration PR [#1494](https://github.com/gaia-research/gaia-skill-tree/pull/1494)** at `649b456d3e842579d544b66b05514554013ac01c` (`dev/steward-v1` → `main`). It is CI-green, independently reviewed, has been marked ready for review, and remains explicitly founder-gated for the integration → `main` merge.
+- **#1496 merged into integration** at `56d0ab0b3d16bb3c5f006dae2b920fa1a3ae5759`; it delivers Class B report-only Tree Keeper packets and Class C report-only founder queue routing. The feature required several exact-SHA hardening rounds before approval; do not reopen those safety decisions casually.
+- **Founder manual shipped into integration** via [#1525](https://github.com/gaia-research/gaia-skill-tree/pull/1525), merge `649b456d3e842579d544b66b05514554013ac01c`: `founder/teach/steward-v1-manual.html`. It is self-contained, interactive, reduced-motion-safe, and explains manual scan/run/dispatch/founder use plus the controlled local Class C input.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| Class B / Class C routing | ✅ #1496 merged after exact-SHA independent review; stable semantic IDs, fresh-ledger membership, transaction rollback, immutable receipt no-clobber, and fail-closed input validation are proven. |
+| Class A / scanner integration | ✅ Aggregate proof exercised sensors → reconciliation → Class A repair → Class B packet → Class C queue → immutable receipt. |
+| Authority boundaries | ✅ No canonical mutation, trust/rank/schema governance, issue/PR creation, agent/model execution, patch/worktree creation, release, or merge automation in V1. |
+| Test setup | ✅ Clean checkout requires `python scripts/assemble_gaia.py` and `python scripts/generateNamedIndex.py` before full pytest because Class-P artifacts are intentionally ignored. Then: `2091 passed, 4 skipped, 2 subtests passed`. |
+| Founder teaching | ✅ `founder/teach/steward-v1-manual.html` is merged into `dev/steward-v1`; it is not a public website surface. |
+| Main merge | ⏳ Awaiting explicit founder approval only. |
+
+### Branches at end of session
+
+| Branch / PR | Head SHA | Status |
+|---|---|---|
+| `dev/steward-v1` / #1494 | `649b456d3e842579d544b66b05514554013ac01c` | Ready for review, CI green, founder-gated against `main`. |
+| `dev/steward-v1-routing` / #1496 | merge `56d0ab0b3d16bb3c5f006dae2b920fa1a3ae5759` | Merged into integration. |
+| `dev/steward-v1-teach` / #1525 | merge `649b456d3e842579d544b66b05514554013ac01c` | Merged into integration. |
+| `main` | unchanged by this session | No direct push or merge performed. |
+
+### Issues + PRs touched
+
+- #1477 remains the governing issue; #1494’s body now has exact-head aggregate proof and states the founder gate.
+- #1496 was independently reviewed at final SHA `b9d1ca7efe5f68707087f6ed21d0d4718ec6dde0`; all adversarial probes, 94 Steward tests, wheel/install smoke, and CI passed before merge.
+- #1525 created and merged the founder manual. It had green checks; it was not public UI and its Entrypoints section explicitly waived nav/mount work.
+
+### Routing — where things live now
+
+- Runtime-local Steward state only: `.gaia/steward/debt.json`, immutable `.gaia/steward/receipts/*.json`, and optional ignored `.gaia/steward/discovery-mapping-input.json`.
+- V1 manual: `founder/teach/steward-v1-manual.html`.
+- Founder source of truth: `founder/STEWARD.md`; implementation handover: `founder/handovers/2026-08-09-GAIA-STEWARD-v1.md`.
+
+### Lessons / hazards preserved
+
+- **Fresh checkout is not full-test-ready until ignored Class-P artifacts are generated.** Canonical setup is: `python -m pip install -e ".[dev]" && python scripts/assemble_gaia.py && python scripts/generateNamedIndex.py && python -m pytest -q`.
+- **Class C must not manufacture founder work.** Only explicit `current` + `unresolved` source data may route; candidate identifiers are raw-ASCII validated before case-folding, normalized before Markdown/JSON canonical lookup and grouping, and malformed controlled input exits 2 without report/state writes.
+- **Receipt immutability is cross-platform.** Hard-link and rename-fallback publication share an atomic per-name claim; never revert this to `exists()` + replace semantics.
+- Current `main` checkout has unrelated untracked intake/discovery files under `registry-for-review/`; do not delete or commit them during Steward cleanup.
+
+### Open questions for next orchestrator
+
+- The sole remaining decision is the founder gate: review #1494 and explicitly approve/reject its merge to `main`.
+- On approval: re-check exact integration head + CI, merge #1494 only, then post proof-of-work to #1477 and remove merged worktrees/feature branches.
+
+### Token cost (this session)
+
+- Pi harness total at snapshot: **$6.0245** (main $1.0599; subagents $4.9646). Main: 23 turns at last measured run; heavy cost came from repeated exact-SHA Sol reviews and Terra correction rounds.
+
 ## State Snapshot (2026-08-11, Skill Zero split ratified and Skill Heaven repo rename shipped)
 
 ### TLDR
