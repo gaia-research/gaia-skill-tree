@@ -26,7 +26,7 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 | Class B dispatch | ✅ `gaia steward dispatch <debt-id> --prompt` renders a complete harness-neutral Tree Keeper prompt. Report-only: reuses the dispatch receipt, writes no second one, spends nothing. |
 | Dispatch rules | ✅ Generalized from one hard-coded rule to a declared set. Wiring the next Class B routine is a `POLICY.yaml` edit plus a sensor — no CLI change. |
 | Founder routine library | ✅ `founder/steward/routines/` — README with cadence table and harness guidance, plus one document per routine. |
-| Test setup | ✅ Same Class-P caveat as V1. Full suite after setup: **2109 passed, 5 skipped**. Steward suite: 113 passed. |
+| Test setup | ✅ Same Class-P caveat as V1. Full suite after setup and review fixes: **2122 passed, 5 skipped**. Steward suite: 126 passed. |
 | `main` merge | ⏳ Awaiting explicit founder approval only. |
 
 ### Branches at end of session
@@ -44,6 +44,28 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 - **`maxRepairsPerRun` = 2, one per authorized executor.** Kept as a policy number rather than a constant so a narrower policy can still cap it.
 - **A blocked surface does not block an unrelated one.** Strict all-or-nothing was considered and rejected: it would let one unprovable mirror hold another mirror's proven repair hostage indefinitely.
 - **Unwired routines are documented honestly rather than quietly.** `repository_hygiene`, `cli_contract_drift`, and `knowledge_contradiction` have contracts and cadences but no sensor, and the README says so in the table rather than implying they are live.
+
+### Independent review — what it caught
+
+Two verifiers ran once over the two risk surfaces. Both confirmed the central invariants held; both found real defects, all fixed on this branch with regression tests confirmed red against the unfixed code.
+
+**Class A (data safety) — verdict sound, three defects:**
+
+1. `_rollback_all` aborted on the first failing rollback. `rollback()` raises even when the mirror was fully restored and only its temporary recovery could not be cleaned up, so a cosmetic cleanup failure on one surface silently cancelled another's rollback — leaving it installed while the receipt reported no repair. Now every transaction is attempted and failures aggregate.
+2. An empty locally-owned directory was deleted by the atomic swap, invisibly: the manifest records files, so no file implied the directory back, and the `lost` check could not represent it. Directories holding no compared file are now carried forward.
+3. `.claude/skills/skill-creator` was not gitignored though its canonical twin was — so once that bundle exists, the cleanliness check would refuse every agent-skill-mirror repair permanently.
+
+**Class B (authority boundary) — verdict defect found, one serious:**
+
+The registry-integrity rule granted `registry/nodes/**` writes but no `gaia dev` command, so the rendered prompt instructed an agent to hand-edit canonical nodes — exactly what Programmatic-First forbids, skipping the timeline. The operating model's own canonical packet example forbids registry paths; the shipped rule had drifted from it. Now `registry/**` is forbidden and the correction is delivered as a verb sequence for a Verifier.
+
+Also fixed: Class B `allowedPaths` had no floor and could reach `founder/**`, the receipts, or CI; the prompt now states generically that allowed commands are the only mutation interface; `--prompt` loads policy once instead of twice.
+
+**Deliberately not fixed, surfaced instead:**
+
+- `founder/STEWARD.md` § 9 still specifies `model:` and `harness:` inside a dispatch packet. V1.2 drops both on purpose — harness-neutrality is the property that keeps a pasted prompt meaning the same thing everywhere. **That is a doctrine amendment and belongs to the founder, not to me.** Same for § 9's `prohibitedChanges`/`escalationConditions` naming versus the shipped `forbiddenPaths`/`stopConditions`.
+- Retained recovery accumulates without bound under `.gaia/steward/` (a few MB per repair on the real mirror). It is gitignored, and it is precisely what makes the two rollback findings recoverable. If a GC lands later, keep a retention window rather than deleting on success.
+- Neither the repair nor its check command compares file **mode**. Identical bytes with a different exec bit read as in-sync. Pre-existing in V1's design; noted, not expanded into this sprint.
 
 ### Routing — where things live now
 
@@ -65,6 +87,7 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 ### Open questions for next orchestrator
 
 - **The only decision is the founder gate:** review the `integration/steward-v1-1` → `main` PR and approve or reject.
+- **One doctrine question is genuinely open:** does `founder/STEWARD.md` § 9 amend to drop `model:`/`harness:` from the dispatch packet? V1.2 shipped harness-neutral prompts on the reasoning that harness choice is a scheduling decision and must not change what the work is. If the founder agrees, § 9 needs the amendment; if not, V1.2's prompt needs the fields back. Nobody should silently edit doctrine to match an implementation.
 - V1.3 (independent verifier) and V1.4 (bounded Class B rolling lane) are unstarted and remain in handover order. Do not start V1.4 before V1.3 — the verifier is what makes autonomous Class B integration defensible.
 - The three unwired Class B routines need sensors before their debt can be dispatched. Each is a sensor plus a policy rule; the CLI no longer needs to change.
 
