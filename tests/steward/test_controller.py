@@ -17,7 +17,7 @@ from gaia_cli.steward.controller import StewardController
 from gaia_cli.steward.models import Observation, Receipt, Subject
 from gaia_cli.steward.policy import POLICY_RELATIVE_PATH
 from gaia_cli.steward.receipts import StateError
-from gaia_cli.steward.sensors import BundledSchemaMirrorSensor
+from gaia_cli.steward.sensors import AgentSkillMirrorSensor, BundledSchemaMirrorSensor
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -873,3 +873,113 @@ def test_stage_cleanup_failure_cannot_revoke_concurrently_reused_receipt(
     assert (published_path, published_created) == (final, True)
     assert json.loads(final.read_text(encoding="utf-8")) == receipt.to_dict()
     assert list(receipts.glob(".*.tmp")) == []
+
+
+# --- V1.1: two authorized Class A executors in one bounded run ----------------
+
+
+def _two_surface_repo(tmp_path: Path) -> Path:
+    """A checkout where both authorized Class A mirrors have drifted."""
+
+    root = _class_a_repo(tmp_path)
+    agent_script = root / "scripts/sync_agent_skill_mirror.py"
+    shutil.copyfile(REPO_ROOT / "scripts/sync_agent_skill_mirror.py", agent_script)
+    canonical = root / ".agents/skills/alpha/SKILL.md"
+    canonical.parent.mkdir(parents=True)
+    canonical.write_text("# alpha\n", encoding="utf-8")
+    mirror = root / ".claude/skills/alpha/SKILL.md"
+    mirror.parent.mkdir(parents=True)
+    mirror.write_text("# stale alpha\n", encoding="utf-8")
+    subprocess.run(["git", "add", "-A"], cwd=root, check=True)
+    subprocess.run(
+        [
+            "git",
+            "-c",
+            "user.name=fixture",
+            "-c",
+            "user.email=fixture@example.test",
+            "commit",
+            "-qm",
+            "two-surface base",
+        ],
+        cwd=root,
+        check=True,
+    )
+    return root
+
+
+def _both_mirror_sensors() -> list[object]:
+    return [BundledSchemaMirrorSensor(), AgentSkillMirrorSensor()]
+
+
+def test_run_repairs_both_authorized_class_a_surfaces_then_is_idempotent(
+    tmp_path: Path,
+) -> None:
+    root = _two_surface_repo(tmp_path)
+    controller = StewardController(sensors=_both_mirror_sensors(), clock=lambda: FROZEN)
+
+    result = controller.run(root)
+
+    assert result.receipt.result_status == "repaired"
+    assert sorted(repair["executor"] for repair in result.receipt.repairs) == [
+        "agent-skill-mirror",
+        "bundled-schema-mirror",
+    ]
+    assert result.final is not None
+    assert result.final.open_debts == ()
+    assert (root / ".claude/skills/alpha/SKILL.md").read_text(encoding="utf-8") == "# alpha\n"
+    assert (root / "src/gaia_cli/data/registry/schema/fixture.json").read_bytes() == (
+        root / "registry/schema/fixture.json"
+    ).read_bytes()
+
+    repeated = controller.run(root)
+
+    assert repeated.receipt.result_status == "no_change"
+    assert repeated.receipt.repairs == ()
+
+
+def test_blocked_surface_does_not_suppress_an_unrelated_proven_repair(
+    tmp_path: Path,
+) -> None:
+    """One unprovable mirror must not hold the other mirror's debt open."""
+
+    root = _two_surface_repo(tmp_path)
+    orphan = root / ".claude/skills/claude-only/SKILL.md"
+    orphan.parent.mkdir(parents=True)
+    orphan.write_text("# claude only\n", encoding="utf-8")
+    controller = StewardController(sensors=_both_mirror_sensors(), clock=lambda: FROZEN)
+
+    result = controller.run(root)
+
+    assert result.receipt.result_status == "repaired"
+    assert [repair["executor"] for repair in result.receipt.repairs] == ["bundled-schema-mirror"]
+    assert len(result.receipt.blocked) == 1
+    assert "mirror-only paths" in result.receipt.blocked[0]["reason"]
+    assert orphan.read_text(encoding="utf-8") == "# claude only\n"
+    assert (root / ".claude/skills/alpha/SKILL.md").read_text(encoding="utf-8") == "# stale alpha\n"
+    assert (root / "src/gaia_cli/data/registry/schema/fixture.json").read_bytes() == (
+        root / "registry/schema/fixture.json"
+    ).read_bytes()
+    assert result.final is not None
+    assert [debt.kind for debt in result.final.open_debts] == ["agent_skill_mirror_drift"]
+
+
+def test_repair_budget_caps_how_many_surfaces_one_run_may_change(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    root = _two_surface_repo(tmp_path)
+    real_load = controller_module.StewardPolicy.load
+
+    def one_repair_policy(repo_root: Path):
+        return replace(real_load(repo_root), max_repairs_per_run=1)
+
+    monkeypatch.setattr(controller_module.StewardPolicy, "load", staticmethod(one_repair_policy))
+    controller = StewardController(sensors=_both_mirror_sensors(), clock=lambda: FROZEN)
+
+    result = controller.run(root)
+
+    assert len(result.receipt.repairs) == 1
+    assert len(result.receipt.blocked) == 1
+    assert "budget" in result.receipt.blocked[0]["reason"]
+    assert result.final is not None
+    assert len(result.final.open_debts) == 1

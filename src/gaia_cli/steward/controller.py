@@ -20,7 +20,7 @@ from gaia_cli.steward.receipts import (
     write_immutable_receipt,
 )
 from gaia_cli.steward.sensors import Sensor, default_sensors
-from gaia_cli.steward.repairs import RepairError, prepare_bundled_schema_mirror
+from gaia_cli.steward.repairs import MirrorTransaction, RepairError, prepare_mirror_repair
 
 
 Clock = Callable[[], datetime]
@@ -172,31 +172,57 @@ class StewardController:
                     result_status="blocked",
                     blocked=({"reason": "no eligible Class A repair debt", "openDebt": list(initial.receipt.open_debt)},),
                 )
-            debt = sorted(eligible, key=lambda item: (-item.priority.score, item.id))[0]
-            executor = policy.executor_for(debt.kind)
-            assert executor is not None
-            try:
-                transaction = prepare_bundled_schema_mirror(root, executor, state_root=state_directory)
-            except RepairError as exc:
-                return self._run_receipt(
-                    root, state_directory, receipts_directory, initial, None,
-                    result_status="blocked",
-                    blocked=({"debtId": debt.id, "reason": str(exc)},),
-                )
-            if transaction is None:
+
+            # Each authorized executor owns a disjoint writable surface, so a
+            # debt that cannot be proven blocks only its own repair. A blocked
+            # surface must never suppress an unrelated proven one.
+            prepared: list[tuple[Debt, MirrorTransaction]] = []
+            blocked: list[dict[str, object]] = []
+            for debt in sorted(eligible, key=lambda item: (-item.priority.score, item.id)):
+                if len(prepared) >= policy.max_repairs_per_run:
+                    blocked.append({
+                        "debtId": debt.id,
+                        "reason": "policy repair budget for this run is exhausted",
+                    })
+                    continue
+                executor = policy.executor_for(debt.kind)
+                assert executor is not None
+                try:
+                    transaction = prepare_mirror_repair(root, executor, state_root=state_directory)
+                except RepairError as exc:
+                    blocked.append({"debtId": debt.id, "reason": str(exc)})
+                    continue
+                except BaseException:
+                    self._rollback_all(prepared)
+                    raise
+                if transaction is not None:
+                    prepared.append((debt, transaction))
+
+            if not prepared:
+                if blocked:
+                    return self._run_receipt(
+                        root, state_directory, receipts_directory, initial, None,
+                        result_status="blocked",
+                        blocked=tuple(blocked),
+                    )
                 return RunResult(initial=initial, final=initial, receipt=initial.receipt, receipt_path=initial.receipt_path)
+
             try:
                 finished_at = _timestamp(self.clock())
                 observations = self._collect_observations(root, policy, finished_at)
-                repair_record = transaction.receipt()
-                repair_record.update(
-                    {
-                        "debtId": debt.id,
-                        "detected": dict(debt.observed_state),
-                        "resolved": True,
-                    }
-                )
-                transaction.commit()
+                repair_records: list[dict[str, object]] = []
+                for debt, transaction in prepared:
+                    record = transaction.receipt()
+                    record.update(
+                        {
+                            "debtId": debt.id,
+                            "detected": dict(debt.observed_state),
+                            "resolved": True,
+                        }
+                    )
+                    repair_records.append(record)
+                for _debt, transaction in prepared:
+                    transaction.commit()
                 final = self._reconcile_and_commit(
                     root=root,
                     policy=policy,
@@ -206,21 +232,27 @@ class StewardController:
                     debt_state_path=initial.debt_state_path,
                     receipts_directory=receipts_directory,
                     cycle_start=initial.receipt,
-                    repairs=(repair_record,),
-                    required_resolved=(debt.id,),
+                    repairs=tuple(repair_records),
+                    required_resolved=tuple(debt.id for debt, _transaction in prepared),
                     require_known_coverage=True,
                     result_status="repaired",
+                    blocked=tuple(blocked),
                 )
             except RepairPostconditionError as exc:
-                transaction.rollback()
+                self._rollback_all(prepared)
                 return self._run_receipt(
                     root, state_directory, receipts_directory, initial, None,
                     result_status="blocked",
                     repairs=(),
-                    blocked=({"debtId": debt.id, "reason": str(exc)},),
+                    blocked=tuple(blocked) + (
+                        {
+                            "debtId": ", ".join(debt.id for debt, _transaction in prepared),
+                            "reason": str(exc),
+                        },
+                    ),
                 )
             except BaseException:
-                transaction.rollback()
+                self._rollback_all(prepared)
                 raise
             return RunResult(
                 initial=initial,
@@ -228,6 +260,13 @@ class StewardController:
                 receipt=final.receipt,
                 receipt_path=final.receipt_path,
             )
+
+    @staticmethod
+    def _rollback_all(prepared: list[tuple[Debt, MirrorTransaction]]) -> None:
+        """Undo installed mirrors in reverse order, newest first."""
+
+        for _debt, transaction in reversed(prepared):
+            transaction.rollback()
 
     def _run_receipt(
         self, root: Path, state_directory: Path, receipts_directory: Path,
@@ -260,6 +299,7 @@ class StewardController:
         receipts_directory: Path,
         cycle_start: Receipt | None = None,
         repairs: tuple[dict[str, object], ...] = (),
+        blocked: tuple[dict[str, object], ...] = (),
         required_resolved: tuple[str, ...] = (),
         require_known_coverage: bool = False,
         result_status: str | None = None,
@@ -311,6 +351,7 @@ class StewardController:
             "resolved": reconciliation.resolved,
             "openDebt": [debt.id for debt in open_debts],
             "repairs": repairs,
+            "blocked": blocked,
             "result": resolved_status,
         }
         run_id = make_run_id(observed_at, receipt_payload)
@@ -329,6 +370,7 @@ class StewardController:
             authority_counts=authority_counts,
             result_status=resolved_status,
             repairs=repairs,
+            blocked=blocked,
         )
 
         # The receipt is the audit precondition for committing current state.
