@@ -218,6 +218,35 @@ def render_dispatch(repo_root: Path, debt_id: str, *, controller: StewardControl
     return _scan_and_persist_routing(root, policy, "dispatch", controller or StewardController(), build)
 
 
+def render_dispatch_prompt(
+    repo_root: Path, debt_id: str, *, controller: StewardController | None = None
+) -> tuple[RoutingResult, str]:
+    """Render one Class B packet and its harness-neutral Tree Keeper prompt.
+
+    The prompt is a projection of the packet that was just rendered and
+    receipted; it introduces no new authority, no new evidence, and no second
+    receipt.  Choosing a harness for it stays a human scheduling decision.
+    """
+
+    from gaia_cli.steward.prompt import render_tree_keeper_prompt
+
+    root = repo_root.resolve()
+    result = render_dispatch(root, debt_id, controller=controller)
+    policy = StewardPolicy.load(root)
+    packet = result.artifact
+    if not isinstance(packet, DispatchPacket):
+        raise RoutingError("dispatch did not render a Class B packet")
+    rule = policy.dispatch_rules.get(packet.rule)
+    if rule is None:
+        raise RoutingError(f"packet references an unknown dispatch rule: {packet.rule}")
+    prompt = render_tree_keeper_prompt(
+        packet,
+        prompt_guide=rule.prompt_guide,
+        receipt=result.receipt.to_dict(),
+    )
+    return result, prompt
+
+
 def render_founder_queue(repo_root: Path, *, controller: StewardController | None = None) -> RoutingResult:
     """Freshly scan and render only exact-target Class C governance groups."""
 

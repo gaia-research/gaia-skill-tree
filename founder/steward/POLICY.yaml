@@ -106,6 +106,7 @@ routing:
       debtKind: registry_integrity_failed
       authority: B
       routine: gaia-registry-integrity-review
+      promptGuide: founder/steward/routines/registry-integrity-review.md
       objective: >-
         Reproduce the reported registry-integrity failure, prepare the smallest
         policy-compliant correction, and return independent proof for review.

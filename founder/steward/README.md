@@ -45,3 +45,24 @@ their temporary recovery instead.
 
 Authority is a ceiling. A future runtime may downgrade A to B or B to C when
 proof becomes ambiguous; it may never upgrade authority automatically.
+
+## Class B — dispatch is report-only
+
+`gaia steward dispatch <debt-id>` renders one policy-bounded Tree Keeper packet.
+`--prompt` projects that packet into a complete, harness-neutral prompt you can
+paste into any agent:
+
+```bash
+gaia steward dispatch <debt-id> --prompt | pbcopy
+```
+
+Rendering executes nothing and spends nothing. Each dispatch rule names the
+routine's human contract in `promptGuide`, which policy validates must be a
+markdown file under `founder/steward/routines/` — see that directory's README
+for the routine library and its recommended cadences.
+
+Dispatch rules are a declared set, not a fixed one. Wiring another Class B
+routine is a `POLICY.yaml` edit plus a sensor that emits its debt kind; no CLI
+change is needed. A rule may only route debt that policy classifies Class B, so
+neither a Class A repair nor a Class C governance decision can be handed to an
+agent by editing routing.
