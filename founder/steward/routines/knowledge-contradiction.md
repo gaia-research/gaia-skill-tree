@@ -32,8 +32,8 @@ the highest-value moment for this routine by a wide margin.
 
 ## Envelope to grant
 
-- **May write:** the specific documents named in the finding
-- **Never writes:** `registry/**`, `skill-trees/**`, `docs/graph/**`, source code
+- **May write:** the directory subtree holding the documents named in the finding. Policy expresses scopes as `<dir>/**` subtrees, so a routine touching a root-level file such as `CLAUDE.md` cannot be wired without widening that scope — prefer running it by hand over granting the repository root.
+- **Never writes:** `registry/**`, `skill-trees/**`, `docs/graph/**`, `founder/**`, source code
 - **May run:** read-only search, link checks, the mirror check commands
 
 ## Stop conditions

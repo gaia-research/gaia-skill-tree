@@ -45,33 +45,47 @@ gaia steward dispatch <debt-id> --prompt
 
 Fixed by `POLICY.yaml`; the prompt carries the authoritative copy.
 
-- **May write:** `registry/nodes/**`, `scripts/**`, `tests/**`
-- **Never writes:** `.gaia/steward/**`, `.github/**`, `docs/**`, `founder/**`, `skill-trees/**`
+- **May write:** `scripts/**`, `tests/**`
+- **Never writes:** `registry/**`, `.agents/skills/**`, `.gaia/steward/**`, `.github/**`, `docs/**`, `founder/**`, `skill-trees/**`
 - **May run:** `python scripts/validate.py`, `python scripts/sync_bundled_schemas.py --check`, `python -m pytest`
+
+**`registry/**` is forbidden on purpose, and that is the whole shape of this
+routine.** Canonical registry nodes are mutated only by a Verifier running
+`gaia dev` verbs (Programmatic-First Policy), which is also what keeps the
+timeline honest. So the dispatch does not produce a registry diff — it produces
+a *diagnosis plus the exact verb sequence* a Verifier should run, with the
+violation reproduced and proof attached. An agent that could edit
+`registry/nodes/` directly would be routing around the audit trail the tool
+exists to write.
 
 ## Stop conditions
 
 1. Fresh local evidence does not reproduce the packet violation.
 2. The correction needs a write outside the allowed paths.
 3. The correction needs a Class C product or governance decision.
-4. Validation, coverage, or independent proof is incomplete.
+4. The correction cannot be expressed as a `gaia dev` verb sequence.
+5. Validation, coverage, or independent proof is incomplete.
 
 Condition 3 is the common one and the important one. "Which generic should this
 map to?", "should this node exist at all?", and "does this deserve its rank?"
 are all Class C. They go to `gaia steward founder`, never into the diff.
 
+Condition 4 is the CLI-gap escape hatch: if no verb can express the correction,
+that gap is the finding. File it as `CLI` + `tech-debt` rather than working
+around it.
+
 ## Done means
 
 - Every packet violation reproduced from local state before anything changed
-- A diff confined to the allowed paths
-- `python scripts/validate.py` clean
+- A diff confined to the allowed paths (often empty — that is fine)
+- The exact `gaia dev` verb sequence stated for a Verifier to run
+- `python scripts/validate.py` clean after that sequence is applied
 - Independent review before integration
 
 ## Founder notes
 
-- Registry mutations must still route through `gaia dev` verbs
-  (Programmatic-First Policy). If a correction cannot be expressed as a CLI
-  verb, that is a CLI gap to file — not a licence to hand-edit
-  `registry/nodes/`.
+- Running the proposed verbs needs Verifier authorization, and CI bots need
+  `GAIA_OPERATOR_OVERRIDE=1`. That gate is deliberate: the dispatch proposes,
+  a Verifier disposes.
 - A Class S regeneration (`gaia dev docs`) is a separate human-gated commit.
   Do not let a repair dispatch quietly regenerate site artifacts.

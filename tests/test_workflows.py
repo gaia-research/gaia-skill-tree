@@ -29,10 +29,18 @@ class TestWorkflowConfig(unittest.TestCase):
         with open(BRANCH_SCOPE_PATH, "r", encoding="utf-8") as f:
             content = f.read()
 
-        self.assertIn("unrestricted branches (dev/*, claude/*, codex/*, gemini/*, chore/*) have no forward restriction", content)
+        self.assertIn("have no forward restriction", content)
         self.assertIn('[ "$PREFIX" != "unrestricted" ]', content)
         self.assertIn("skip-scope-check", content)
         self.assertNotIn("!startsWith(github.head_ref || '', 'dev/')", content)
+
+        # Every prefix CLAUDE.md documents as unrestricted must classify as
+        # unrestricted here. integration/* is the one multi-PR work assembles
+        # on, so a missing case statement fails exactly the branch shape the
+        # founder ruling requires.
+        for prefix in ("dev", "integration", "claude", "codex", "gemini", "chore", "fix"):
+            self.assertIn(f'{prefix}/*)', content)
+            self.assertRegex(content, rf'{prefix}/\*\)\s+PREFIX="unrestricted"')
 
 
 if __name__ == "__main__":

@@ -87,7 +87,30 @@ once; paste the prompt every time.
 contract and a cadence, but no sensor emits their debt, so `gaia steward
 dispatch` will refuse them today. You can still run one by hand from its file.
 Wiring a routine is a `POLICY.yaml` edit plus a sensor — no CLI change, since
-V1.2 generalized dispatch rules to a declared set.
+V1.2 generalized dispatch rules to a declared set. Two details differ between
+them: `cli_contract_drift` and `knowledge_contradiction` are already classified
+Class B in `POLICY.yaml`, while `repository_hygiene` is not classified at all
+and needs an `authority` and `priority` entry as well.
+
+`sensor_coverage_unknown` is also Class B but is **undispatchable by
+construction**, and deliberately so: routing refuses to render anything while
+sensor coverage is unknown, which is precisely the condition that creates that
+debt. A blind Steward must not hand out work based on what it could not see.
+Treat it as a signal to fix the sensor, not as a routine.
+
+### The envelope has a floor
+
+`POLICY.yaml` cannot grant a dispatch write access to `founder/**` (the policy
+that defines authority), `.gaia/steward/**` (the receipts that are the audit
+trail), `.github/**` (the gates), `registry/schema/**`, `skill-trees/**`, or
+`.agents/skills/**` (the canonical side of a mirror the Class A lane itself may
+not write). Every rule must also name those as forbidden, so the rendered
+prompt always carries them. Class A envelopes are pinned in code; this is the
+equivalent floor for Class B.
+
+Note that "downgrading" a Class A debt kind to Class B is permitted by the
+constitution but is **not automatically safer** — it trades a compiled-in
+envelope for a free-text one. The floor above is what keeps that trade bounded.
 
 ---
 

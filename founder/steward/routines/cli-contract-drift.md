@@ -17,10 +17,16 @@ which flags are honored, how the registry path resolves, and what the docs claim
 about all of it. Drift here is quiet — nothing fails, the CLI simply stops
 meaning what it says.
 
-Typical findings: a flag documented but ignored (`--global` on
-`gaia skills install` is a live example), a command removed from the shape table
-but still dispatchable, help text describing a behavior that changed, a doc
-example that no longer runs.
+Typical findings: a flag documented but ignored, a command missing from the
+shape table but still dispatchable, help text describing a behavior that
+changed, a doc example that no longer runs.
+
+A live example of the last kind, found while writing this file:
+`src/gaia_cli/CLAUDE.md` described a `--global` flag on `gaia skills install`
+as an unwired stub. The real flag is `--install-location {local,global}`, and
+global installs have been wired for some time. The doc had drifted twice over —
+wrong flag name, wrong status — and every agent reading it inherited both
+errors. That is exactly the shape this routine exists to catch.
 
 ## When it is worth looking
 

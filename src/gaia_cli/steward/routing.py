@@ -191,11 +191,23 @@ def _scan_and_persist_routing(
     return RoutingResult(scan=scan, artifact=artifact, receipt=receipt, receipt_path=receipt_path)
 
 
-def render_dispatch(repo_root: Path, debt_id: str, *, controller: StewardController | None = None) -> RoutingResult:
-    """Freshly scan, then render exactly one policy-supported Class B packet."""
+def render_dispatch(
+    repo_root: Path,
+    debt_id: str,
+    *,
+    controller: StewardController | None = None,
+    policy: StewardPolicy | None = None,
+) -> RoutingResult:
+    """Freshly scan, then render exactly one policy-supported Class B packet.
+
+    A caller that needs the rule behind the packet must pass the same policy
+    object it will read, rather than loading the file a second time: two loads
+    can straddle an edit and describe the packet with a rule that never
+    authorized it.
+    """
 
     root = repo_root.resolve()
-    policy = StewardPolicy.load(root)
+    policy = policy if policy is not None else StewardPolicy.load(root)
     def build(scan: ScanResult) -> DispatchPacket:
         _assert_known_fresh_scan(scan)
         debt = next((item for item in scan.debts if item.id == debt_id), None)
@@ -231,8 +243,9 @@ def render_dispatch_prompt(
     from gaia_cli.steward.prompt import render_tree_keeper_prompt
 
     root = repo_root.resolve()
-    result = render_dispatch(root, debt_id, controller=controller)
+    # One load serves both the envelope and its routine pointer.
     policy = StewardPolicy.load(root)
+    result = render_dispatch(root, debt_id, controller=controller, policy=policy)
     packet = result.artifact
     if not isinstance(packet, DispatchPacket):
         raise RoutingError("dispatch did not render a Class B packet")

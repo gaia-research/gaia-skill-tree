@@ -246,11 +246,15 @@ haven't been updated yet. Do not introduce new uses of it.
 
 ---
 
-## `--global` flag for `gaia skills install`
+## `--install-location` for `gaia skills install`
 
-**Currently a stub.** `install_skill()` always calls `get_repo_skills_dir()`
-which returns `.agents/skills` (or `.claude/skills`). The `--global` argparse
-flag is parsed but ignored. There is no wired global install destination yet.
+**Wired.** The flag is `--install-location {local,global}` (default `local`) —
+there is no `--global` flag. `install_skill(..., location=...)` threads it down
+to `get_repo_skills_dir(location)`:
 
-When wiring it up, the natural target would be `~/.agents/skills/<name>` (with
-`~/.gaia/skills/<owner>/<repo>` continuing as the clone cache).
+- `local` → `.agents/skills` (or `.claude/skills`), project-relative
+- `global` → `<gaia home>/skills`, i.e. `~/.gaia/skills`
+
+The manifest records `location` per entry, and reinstalling a skill to a
+different location cleans up the old path. `~/.gaia/skills/<owner>/<repo>`
+remains the clone cache and is unrelated to this destination.

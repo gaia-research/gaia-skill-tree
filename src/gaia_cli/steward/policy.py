@@ -62,6 +62,21 @@ _DISPATCH_RULE_KEYS = {
     "proof",
 }
 _ROUTINE_GUIDE_ROOT = "founder/steward/routines/"
+# Class A envelopes are pinned in code. Class B envelopes are free text in
+# policy, so they need their own floor: no dispatch rule may grant an agent
+# write access to the policy that defines authority, the receipts that are the
+# audit trail, the CI that enforces the gates, canonical schema or user
+# progression, or the canonical side of a mirror the Class A lane is itself
+# forbidden to write. Every rule must also state these as forbidden, so the
+# rendered prompt always carries them.
+_PROTECTED_DISPATCH_PATHS = (
+    ".agents/skills/**",
+    ".gaia/steward/**",
+    ".github/**",
+    "founder/**",
+    "registry/schema/**",
+    "skill-trees/**",
+)
 _FOUNDER_RULE_KEYS = {
     "debtKind",
     "authority",
@@ -379,6 +394,28 @@ class StewardPolicy:
                 _safe_glob(item, f"routing.dispatchRules.{rule_id}.forbiddenPaths")
                 for item in _string_list(rule["forbiddenPaths"], f"routing.dispatchRules.{rule_id}.forbiddenPaths")
             )
+            # A broader forbidden scope already guards a protected subtree:
+            # forbidding registry/** covers registry/schema/**.
+            missing_guards = [
+                item
+                for item in _PROTECTED_DISPATCH_PATHS
+                if not any(_glob_covers(declared, item) for declared in forbidden_paths)
+            ]
+            if missing_guards:
+                raise PolicyError(
+                    f"routing.dispatchRules.{rule_id}.forbiddenPaths must include the protected "
+                    f"paths {missing_guards}"
+                )
+            for allowed in allowed_paths:
+                conflict = next(
+                    (item for item in _PROTECTED_DISPATCH_PATHS if _globs_overlap(allowed, item)),
+                    None,
+                )
+                if conflict is not None:
+                    raise PolicyError(
+                        f"routing.dispatchRules.{rule_id}.allowedPaths may not reach the "
+                        f"protected path {conflict}: {allowed}"
+                    )
             if set(allowed_paths) & set(forbidden_paths):
                 raise PolicyError(f"routing dispatch rule {rule_id} path scopes overlap")
             dispatch_rules[rule_id] = DispatchRulePolicy(
@@ -494,6 +531,28 @@ def _safe_glob(value: Any, name: str) -> str:
         raise PolicyError(f"{name} must be a safe repository-relative /** path")
     _safe_relative_path(value[:-3], name)
     return value
+
+
+def _glob_covers(outer: str, inner: str) -> bool:
+    """Return whether the ``outer`` subtree contains the whole ``inner`` one."""
+
+    outer_parts = PurePosixPath(outer[:-3]).parts
+    inner_parts = PurePosixPath(inner[:-3]).parts
+    return inner_parts[: len(outer_parts)] == outer_parts
+
+
+def _globs_overlap(first: str, second: str) -> bool:
+    """Return whether two ``<dir>/**`` scopes can reach any common path.
+
+    Both are directory subtrees, so they overlap exactly when one directory is
+    the other or is an ancestor of it. Comparison is on path components so that
+    ``founders/**`` does not read as living under ``founder/**``.
+    """
+
+    left = PurePosixPath(first[:-3]).parts
+    right = PurePosixPath(second[:-3]).parts
+    shared = min(len(left), len(right))
+    return left[:shared] == right[:shared]
 
 
 def _nonempty_string(value: Any, name: str) -> str:

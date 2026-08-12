@@ -28,7 +28,7 @@ the run must still be allowed to find nothing and stop.
 
 ## Envelope to grant
 
-- **May write:** the specific artifact paths named in the finding, `scripts/**`, `tests/**`
+- **May write:** `scripts/**`, `tests/**`, and the directory subtree holding the artifacts named in the finding. Policy expresses scopes as `<dir>/**` subtrees, never per-file lists, so grant the narrowest *directory* that covers the finding.
 - **Never writes:** `registry/**`, `skill-trees/**`, `docs/graph/**`, `founder/**`, `.github/workflows/**`
 - **May run:** the repository's own regeneration and validation commands, `git status`, `python -m pytest`
 

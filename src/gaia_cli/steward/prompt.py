@@ -33,7 +33,13 @@ or when a stop condition fires — whichever comes first.
 
 You may not widen your own authority. If the work turns out to need a path,
 command, or decision that is not granted here, that is a finding to report, not a
-permission to assume."""
+permission to assume.
+
+The allowed commands are the only mutation interface you have. Anything this
+envelope grants you no command for, you **describe** — you do not reach around
+the missing command and do it by hand. A repository that routes changes through
+a tool routes them through that tool for reasons the tool enforces and you
+cannot see: audit trails, validation, provenance."""
 
 _REPORTING = """Report back in this shape, and nothing more:
 
@@ -109,9 +115,11 @@ def render_tree_keeper_prompt(
         f"- Model calls granted by Steward: **{budget['modelCalls']}**\n"
         f"- Token ceiling: **{budget['maxTokens']}**\n"
         f"- Wall-clock ceiling: **{budget['maxMinutes']} minutes**\n\n"
-        "A zero budget means Steward is not paying for this dispatch — it is "
-        "report-only, and the operator who pastes this prompt owns the spend "
-        "and the ceiling.",
+        "Steward grants zero of all three: it is not commissioning this work "
+        "and has authorized no spend for it. That is a statement about "
+        "Steward's authority, not permission for you to set your own — "
+        "whoever pasted this prompt decides the ceiling, and every other "
+        "bound in this dispatch still holds exactly as written.",
         "## Reporting\n\n" + _REPORTING,
     ]
     return "\n\n".join(sections).strip() + "\n"
