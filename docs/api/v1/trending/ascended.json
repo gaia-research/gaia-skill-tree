@@ -1,6 +1,114 @@
 {
-  "generatedAt": "2026-08-10T16:35:44Z",
+  "generatedAt": "2026-08-11T09:14:17Z",
   "skills": [
+    {
+      "id": "remotion-dev/remotion-best-practices",
+      "name": "Remotion Best Practices",
+      "level": "2★",
+      "contributor": "remotion-dev",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": null,
+      "ascendedAt": "2026-08-11T08:38:18Z",
+      "_links": {
+        "self": "/api/v1/skills/remotion-dev/remotion-best-practices.json"
+      }
+    },
+    {
+      "id": "remotion-dev/remotion-captions",
+      "name": "Remotion Captions",
+      "level": "2★",
+      "contributor": "remotion-dev",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": null,
+      "ascendedAt": "2026-08-11T08:38:17Z",
+      "_links": {
+        "self": "/api/v1/skills/remotion-dev/remotion-captions.json"
+      }
+    },
+    {
+      "id": "remotion-dev/remotion-interactivity",
+      "name": "Remotion Interactivity",
+      "level": "2★",
+      "contributor": "remotion-dev",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": null,
+      "ascendedAt": "2026-08-11T08:38:15Z",
+      "_links": {
+        "self": "/api/v1/skills/remotion-dev/remotion-interactivity.json"
+      }
+    },
+    {
+      "id": "remotion-dev/remotion-saas",
+      "name": "Remotion SaaS",
+      "level": "2★",
+      "contributor": "remotion-dev",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": null,
+      "ascendedAt": "2026-08-11T08:38:14Z",
+      "_links": {
+        "self": "/api/v1/skills/remotion-dev/remotion-saas.json"
+      }
+    },
+    {
+      "id": "remotion-dev/remotion-maps",
+      "name": "Remotion Maps",
+      "level": "2★",
+      "contributor": "remotion-dev",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": null,
+      "ascendedAt": "2026-08-11T08:38:12Z",
+      "_links": {
+        "self": "/api/v1/skills/remotion-dev/remotion-maps.json"
+      }
+    },
+    {
+      "id": "remotion-dev/remotion-render",
+      "name": "Remotion Render",
+      "level": "2★",
+      "contributor": "remotion-dev",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": null,
+      "ascendedAt": "2026-08-11T08:38:11Z",
+      "_links": {
+        "self": "/api/v1/skills/remotion-dev/remotion-render.json"
+      }
+    },
+    {
+      "id": "remotion-dev/remotion-markup",
+      "name": "Remotion Markup",
+      "level": "2★",
+      "contributor": "remotion-dev",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": null,
+      "ascendedAt": "2026-08-11T08:38:09Z",
+      "_links": {
+        "self": "/api/v1/skills/remotion-dev/remotion-markup.json"
+      }
+    },
+    {
+      "id": "remotion-dev/remotion-create",
+      "name": "Remotion Create",
+      "level": "2★",
+      "contributor": "remotion-dev",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": null,
+      "ascendedAt": "2026-08-11T08:38:08Z",
+      "_links": {
+        "self": "/api/v1/skills/remotion-dev/remotion-create.json"
+      }
+    },
+    {
+      "id": "remotion-dev/remotion-studio",
+      "name": "Remotion Studio",
+      "level": "2★",
+      "contributor": "remotion-dev",
+      "trustMagnitude": 0.0,
+      "overallTrustGrade": null,
+      "ascendedAt": "2026-08-11T08:38:06Z",
+      "_links": {
+        "self": "/api/v1/skills/remotion-dev/remotion-studio.json"
+      }
+    },
     {
       "id": "anthropics/brand-guidelines",
       "name": "Brand Guidelines",
@@ -268,109 +376,6 @@
       "ascendedAt": "2026-07-29T20:34:59Z",
       "_links": {
         "self": "/api/v1/skills/panniantong/agent-reach.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "oso95/scroll-world",
-      "name": "Scroll World",
-      "level": "3★",
-      "contributor": "oso95",
-      "trustMagnitude": 60.98,
-      "overallTrustGrade": "B",
-      "ascendedAt": "2026-07-29T20:34:58Z",
-      "_links": {
-        "self": "/api/v1/skills/oso95/scroll-world.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "nextlevelbuilder/ui-ux-pro-max",
-      "name": "UI/UX Pro Max",
-      "level": "4★",
-      "contributor": "nextlevelbuilder",
-      "trustMagnitude": 195.51,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-07-29T20:34:54Z",
-      "_links": {
-        "self": "/api/v1/skills/nextlevelbuilder/ui-ux-pro-max.json"
-      }
-    },
-    {
-      "id": "stanfordnlp/dspy",
-      "name": "DSPy",
-      "level": "4★",
-      "contributor": "stanfordnlp",
-      "trustMagnitude": 100.0,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-07-19T02:05:13Z",
-      "_links": {
-        "self": "/api/v1/skills/stanfordnlp/dspy.json"
-      },
-      "previousLevel": "3★"
-    },
-    {
-      "id": "safishamsi/graphify",
-      "name": "Graphify",
-      "level": "4★",
-      "contributor": "safishamsi",
-      "trustMagnitude": 116.57,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-07-19T02:04:29Z",
-      "_links": {
-        "self": "/api/v1/skills/safishamsi/graphify.json"
-      },
-      "previousLevel": "3★"
-    },
-    {
-      "id": "obra/writing-plans",
-      "name": "Writing Plans",
-      "level": "4★",
-      "contributor": "obra",
-      "trustMagnitude": 110.15,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-07-19T01:38:24Z",
-      "_links": {
-        "self": "/api/v1/skills/obra/writing-plans.json"
-      },
-      "previousLevel": "3★"
-    },
-    {
-      "id": "obra/using-git-worktrees",
-      "name": "Using Git Worktrees",
-      "level": "4★",
-      "contributor": "obra",
-      "trustMagnitude": 117.65,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-07-19T01:38:18Z",
-      "_links": {
-        "self": "/api/v1/skills/obra/using-git-worktrees.json"
-      },
-      "previousLevel": "3★"
-    },
-    {
-      "id": "firecrawl/firecrawl-skills",
-      "name": "Firecrawl Skills",
-      "level": "4★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 223.52,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-07-13T06:22:38Z",
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
-      },
-      "previousLevel": "2★"
-    },
-    {
-      "id": "firecrawl/firecrawl-build-scrape",
-      "name": "Firecrawl Scrape",
-      "level": "4★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 135.72,
-      "overallTrustGrade": "A",
-      "ascendedAt": "2026-07-13T06:22:38Z",
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
       },
       "previousLevel": "2★"
     }

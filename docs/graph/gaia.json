@@ -1,6 +1,6 @@
 {
   "$schema": "./schema/skill.schema.json",
-  "generatedAt": "2026-08-10T19:05:50Z",
+  "generatedAt": "2026-08-11T09:14:06Z",
   "meta": {
     "typeLabels": {
       "basic": "Basic",
@@ -9789,7 +9789,12 @@
           0.1203034684939989,
           -0.00043104947799481
         ]
-      }
+      },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
+      "namedMaxLevel": "2★"
     },
     {
       "id": "math-reason",
@@ -19175,7 +19180,12 @@
           -0.7108841320099938,
           -0.0010807282556189383
         ]
-      }
+      },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
+      "namedMaxLevel": "2★"
     },
     {
       "id": "token-observability",
@@ -20565,7 +20575,12 @@
           -0.856706518063326,
           0.00038850960991632013
         ]
-      }
+      },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
+      "namedMaxLevel": "2★"
     },
     {
       "id": "video-composition",
@@ -20629,6 +20644,15 @@
           -0.8639976373659927,
           0.0004765611078708436
         ]
+      },
+      "branch": "suite",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
+      "namedMaxLevel": "2★",
+      "ultimateGateStatus": {
+        "passes": false,
+        "reason": "only 0/3 graded evidence sources"
       }
     },
     {
@@ -20736,7 +20760,12 @@
           -0.8785798759713257,
           0.0006355155706576299
         ]
-      }
+      },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
+      "namedMaxLevel": "2★"
     },
     {
       "id": "video-preview",
@@ -20779,7 +20808,12 @@
           -0.8858709952739919,
           0.0007048303150410869
         ]
-      }
+      },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
+      "namedMaxLevel": "2★"
     },
     {
       "id": "video-rendering",
@@ -20822,7 +20856,12 @@
           -0.893162114576659,
           0.0007664232300546532
         ]
-      }
+      },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
+      "namedMaxLevel": "2★"
     },
     {
       "id": "video-saas",
@@ -20865,7 +20904,12 @@
           -0.9004532338793254,
           0.0008196788996514212
         ]
-      }
+      },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
+      "namedMaxLevel": "2★"
     },
     {
       "id": "video-scaffolding",
@@ -20908,7 +20952,12 @@
           -0.9077443531819921,
           0.0008640652107847623
         ]
-      }
+      },
+      "branch": "standard",
+      "rank": 2,
+      "rankWord": "Named",
+      "medallion": "◇",
+      "namedMaxLevel": "2★"
     },
     {
       "id": "vision-qa",
