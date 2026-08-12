@@ -9,6 +9,7 @@ from typing import Any, Mapping
 
 import yaml
 
+from gaia_cli.steward.mirrors import spec_by_id
 from gaia_cli.steward.models import AuthorityClass, Priority, RoutingBudget
 
 
@@ -42,6 +43,7 @@ _EXECUTOR_KEYS = {
 }
 _CLASS_A_MODE = "class-a-closed-loop"
 _CLASS_A_ALLOWED_WRITES = (
+    ".claude/skills/**",
     ".gaia/steward/**",
     "src/gaia_cli/data/registry/schema/**",
 )
@@ -275,6 +277,24 @@ class StewardPolicy:
                 raise PolicyError(f"repair executor {executor_id} writablePath is not allowed")
             allowed_commands = _string_list(executor["allowedCommands"], f"repairs.executors.{executor_id}.allowedCommands")
             stop_conditions = _string_list(executor["stopConditions"], f"repairs.executors.{executor_id}.stopConditions")
+            # A Class A executor is only ever an authority envelope over a
+            # registered repair implementation. Policy may narrow that surface
+            # by omitting an executor; it may never invent or redirect one.
+            spec = spec_by_id(executor_id)
+            if spec is None:
+                raise PolicyError(f"no registered Class A repair implements executor {executor_id}")
+            if (
+                debt_kind != spec.debt_kind
+                or canonical_path != spec.canonical_glob
+                or writable_path != spec.writable_glob
+                or spec.check_command not in allowed_commands
+                or spec.git_status_command not in allowed_commands
+            ):
+                raise PolicyError(
+                    f"repair executor {executor_id} does not match its fixed authority envelope"
+                )
+            if any(item.debt_kind == debt_kind for item in executors.values()):
+                raise PolicyError(f"multiple repair executors are configured for {debt_kind}")
             executors[executor_id] = RepairExecutorPolicy(
                 id=executor_id,
                 debt_kind=debt_kind,
@@ -286,8 +306,14 @@ class StewardPolicy:
             )
         if data["mode"] == "report-only" and (max_repairs or executors):
             raise PolicyError("report-only policy may not authorize repair executors")
-        if data["mode"] == _CLASS_A_MODE and (max_repairs != 1 or len(executors) != 1):
-            raise PolicyError("class-a-closed-loop policy must authorize exactly one repair executor")
+        if data["mode"] == _CLASS_A_MODE and not executors:
+            raise PolicyError("class-a-closed-loop policy must authorize at least one repair executor")
+        # One run may resolve at most one debt per authorized executor. The
+        # ceiling stays a policy number so a narrower policy can still cap it.
+        if data["mode"] == _CLASS_A_MODE and not 1 <= max_repairs <= len(executors):
+            raise PolicyError(
+                "class-a-closed-loop maxRepairsPerRun must be between 1 and the authorized executor count"
+            )
 
         routing = _mapping(data["routing"], "routing")
         if set(routing) != _ROUTING_KEYS:

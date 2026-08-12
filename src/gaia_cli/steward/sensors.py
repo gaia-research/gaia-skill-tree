@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import fnmatch
 import hashlib
 import json
 import re
@@ -13,6 +12,12 @@ from typing import Iterable, Protocol
 from jsonschema import Draft7Validator
 from jsonschema.exceptions import SchemaError
 
+from gaia_cli.steward.mirrors import (
+    AGENT_SKILL_MIRROR,
+    BUNDLED_SCHEMA_MIRROR,
+    MirrorSpec,
+    is_ignored as _is_ignored,
+)
 from gaia_cli.steward.models import Observation, Subject, stable_json
 
 
@@ -36,15 +41,6 @@ class DirectoryManifest:
         return {"root": self.root, "fileCount": len(self.files), "digest": self.digest}
 
 
-def _is_ignored(relative_path: str, patterns: Iterable[str]) -> bool:
-    for pattern in patterns:
-        if fnmatch.fnmatchcase(relative_path, pattern):
-            return True
-        if pattern.endswith("/**") and relative_path.startswith(pattern[:-3] + "/"):
-            return True
-    return False
-
-
 def _manifest(repo_root: Path, relative_root: str, ignore: Iterable[str] = ()) -> DirectoryManifest:
     directory = repo_root / relative_root
     if not directory.is_dir():
@@ -60,19 +56,9 @@ def _manifest(repo_root: Path, relative_root: str, ignore: Iterable[str] = ()) -
     return DirectoryManifest(root=relative_root, files=files)
 
 
-def _mirror_observation(
-    *,
-    kind: str,
-    subject_id: str,
-    sensor_id: str,
-    repo_root: Path,
-    canonical_root: str,
-    mirror_root: str,
-    observed_at: str,
-    ignore: Iterable[str] = (),
-) -> Observation:
-    canonical = _manifest(repo_root, canonical_root, ignore)
-    mirror = _manifest(repo_root, mirror_root, ignore)
+def _mirror_observation(spec: MirrorSpec, repo_root: Path, observed_at: str) -> Observation:
+    canonical = _manifest(repo_root, spec.canonical_root, spec.ignore)
+    mirror = _manifest(repo_root, spec.mirror_root, spec.ignore)
     canonical_paths = set(canonical.files)
     mirror_paths = set(mirror.files)
     missing = sorted(canonical_paths - mirror_paths)
@@ -92,56 +78,34 @@ def _mirror_observation(
         }
     )
     return Observation(
-        kind=kind,
-        subject=Subject(type="repository-surface", id=subject_id),
+        kind=spec.debt_kind,
+        subject=Subject(type="repository-surface", id=spec.subject_id),
         observed_at=observed_at,
-        source=sensor_id,
+        source=spec.id,
         status="drift" if drift else "healthy",
         current_state=canonical.summary(),
         observed_state=observed_state,
         confidence=1.0,
-        provenance={"canonicalPath": canonical_root, "mirrorPath": mirror_root},
+        provenance={"canonicalPath": spec.canonical_root, "mirrorPath": spec.mirror_root},
     )
 
 
 class BundledSchemaMirrorSensor:
     """Compare both schema trees recursively and byte-for-byte."""
 
-    id = "bundled-schema-mirror"
+    id = BUNDLED_SCHEMA_MIRROR.id
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
-        return [
-            _mirror_observation(
-                kind="bundled_schema_mirror_drift",
-                subject_id="registry-schema",
-                sensor_id=self.id,
-                repo_root=repo_root,
-                canonical_root="registry/schema",
-                mirror_root="src/gaia_cli/data/registry/schema",
-                observed_at=observed_at,
-            )
-        ]
+        return [_mirror_observation(BUNDLED_SCHEMA_MIRROR, repo_root, observed_at)]
 
 
 class AgentSkillMirrorSensor:
     """Compare the checked-in agent skill mirrors recursively."""
 
-    id = "agent-skill-mirror"
-    _LOCAL_ONLY_PATTERNS = ("skill-creator/**", "**/__pycache__/**", "**/*.pyc")
+    id = AGENT_SKILL_MIRROR.id
 
     def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
-        return [
-            _mirror_observation(
-                kind="agent_skill_mirror_drift",
-                subject_id="agent-skill-mirrors",
-                sensor_id=self.id,
-                repo_root=repo_root,
-                canonical_root=".agents/skills",
-                mirror_root=".claude/skills",
-                observed_at=observed_at,
-                ignore=self._LOCAL_ONLY_PATTERNS,
-            )
-        ]
+        return [_mirror_observation(AGENT_SKILL_MIRROR, repo_root, observed_at)]
 
 
 class DiscoveryGenericMappingSensor:
