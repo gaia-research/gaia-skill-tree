@@ -281,7 +281,7 @@ Navigate skills:
 <!-- gaia:cli-start -->
 ```text
 usage: gaia [-h] [--registry REGISTRY] [--global] [--version]
-            {help,init,scan,fetch,pull,update,install,uninstall,share,tree,push,propose,version,whoami,login,logout,reset,graph,stats,appraise,fuse,lookup,path,dev,skills}
+            {help,init,scan,steward,fetch,pull,update,install,uninstall,share,tree,push,propose,version,whoami,login,logout,reset,graph,stats,appraise,fuse,lookup,path,dev,skills}
             ...
 
 Gaia CLI
@@ -306,6 +306,8 @@ Daily commands:
   gaia tree [--named] [--title]
   gaia appraise [<skillId>]
   gaia stats
+  gaia steward scan [--json]
+  gaia steward run [--json]
   gaia pull
   gaia fuse <skillId> [--name <name>]
   gaia path <skillId> [--owned-only] [--json]

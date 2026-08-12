@@ -1,0 +1,875 @@
+from __future__ import annotations
+
+import json
+import shutil
+import subprocess
+import threading
+from concurrent.futures import ThreadPoolExecutor
+from dataclasses import dataclass, replace
+from datetime import datetime, timezone
+from pathlib import Path
+
+import pytest
+
+import gaia_cli.steward.controller as controller_module
+import gaia_cli.steward.receipts as receipt_store
+from gaia_cli.steward.controller import StewardController
+from gaia_cli.steward.models import Observation, Receipt, Subject
+from gaia_cli.steward.policy import POLICY_RELATIVE_PATH
+from gaia_cli.steward.receipts import StateError
+from gaia_cli.steward.sensors import BundledSchemaMirrorSensor
+
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+FROZEN = datetime(2026, 8, 9, tzinfo=timezone.utc)
+LATER = datetime(2026, 8, 10, tzinfo=timezone.utc)
+
+
+def _repo(tmp_path: Path) -> Path:
+    destination = tmp_path / POLICY_RELATIVE_PATH
+    destination.parent.mkdir(parents=True)
+    shutil.copyfile(REPO_ROOT / POLICY_RELATIVE_PATH, destination)
+    (tmp_path / "tracked.txt").write_text("untouched\n", encoding="utf-8")
+    return tmp_path
+
+
+def _class_a_repo(tmp_path: Path) -> Path:
+    root = _repo(tmp_path)
+    script = root / "scripts/sync_bundled_schemas.py"
+    script.parent.mkdir(parents=True)
+    shutil.copyfile(REPO_ROOT / "scripts/sync_bundled_schemas.py", script)
+    canonical = root / "registry/schema/fixture.json"
+    canonical.parent.mkdir(parents=True)
+    canonical.write_text('{"type":"canonical"}\n', encoding="utf-8")
+    mirror = root / "src/gaia_cli/data/registry/schema/fixture.json"
+    mirror.parent.mkdir(parents=True)
+    mirror.write_text('{"type":"old"}\n', encoding="utf-8")
+    subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+    subprocess.run(["git", "add", "."], cwd=root, check=True)
+    subprocess.run(
+        [
+            "git",
+            "-c",
+            "user.name=fixture",
+            "-c",
+            "user.email=fixture@example.test",
+            "commit",
+            "-qm",
+            "base",
+        ],
+        cwd=root,
+        check=True,
+    )
+    return root
+
+
+def _observation(status: str, observed_at: str = "2026-08-09T00:00:00Z") -> Observation:
+    return Observation(
+        kind="bundled_schema_mirror_drift",
+        subject=Subject(type="repository-surface", id="registry-schema"),
+        observed_at=observed_at,
+        source="fixture-sensor",
+        status=status,
+        current_state={"digest": "canonical"},
+        observed_state={"digest": "mirror" if status == "drift" else "canonical"},
+        confidence=1.0,
+    )
+
+
+def _receipt(run_id: str = "steward-concurrency-fixture") -> Receipt:
+    return Receipt(
+        run_id=run_id,
+        started_at="2026-08-09T00:00:00Z",
+        finished_at="2026-08-09T00:00:00Z",
+        observations_collected=0,
+        coverage_unknown=(),
+        debt_created=(),
+        debt_updated=(),
+        debt_resolved=(),
+        open_debt=(),
+        authority_counts={"A": 0, "B": 0, "C": 0},
+        result_status="no_change",
+    )
+
+
+@dataclass
+class MutableSensor:
+    id: str = "fixture-sensor"
+    status: str = "healthy"
+    duplicate: bool = False
+    fail: bool = False
+
+    def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
+        if self.fail:
+            raise OSError("fixture sensor unavailable")
+        item = _observation(self.status, observed_at)
+        return [item, item] if self.duplicate else [item]
+
+
+def _files_outside_state(root: Path) -> dict[str, bytes]:
+    return {
+        path.relative_to(root).as_posix(): path.read_bytes()
+        for path in root.rglob("*")
+        if path.is_file() and ".gaia" not in path.relative_to(root).parts
+    }
+
+
+def test_clean_scan_writes_no_change_receipt_only_under_ignored_state(tmp_path: Path) -> None:
+    root = _repo(tmp_path)
+    before = _files_outside_state(root)
+    controller = StewardController(sensors=[MutableSensor()], clock=lambda: FROZEN)
+
+    result = controller.scan(root)
+
+    assert result.open_debts == ()
+    assert result.receipt.result_status == "no_change"
+    assert result.receipt.debt_created == ()
+    assert result.debt_state_path == root / ".gaia/steward/debt.json"
+    assert result.receipt_path.parent == root / ".gaia/steward/receipts"
+    assert _files_outside_state(root) == before
+
+
+def test_duplicate_drift_is_deduplicated_and_same_clock_is_idempotent(tmp_path: Path) -> None:
+    root = _repo(tmp_path)
+    sensor = MutableSensor(status="drift", duplicate=True)
+    controller = StewardController(sensors=[sensor], clock=lambda: FROZEN)
+
+    first = controller.scan(root)
+    first_state = first.debt_state_path.read_bytes()
+    second = controller.scan(root)
+
+    assert len(first.open_debts) == 1
+    assert first.open_debts[0].observation_count == 1
+    assert second.open_debts[0].id == first.open_debts[0].id
+    assert second.open_debts[0].observation_count == 1
+    assert second.receipt.debt_created == ()
+    assert second.receipt.debt_updated == ()
+    assert second.debt_state_path.read_bytes() == first_state
+
+
+def test_recovered_observation_resolves_but_retains_debt_record(tmp_path: Path) -> None:
+    root = _repo(tmp_path)
+    sensor = MutableSensor(status="drift")
+    StewardController(sensors=[sensor], clock=lambda: FROZEN).scan(root)
+    sensor.status = "healthy"
+
+    recovered = StewardController(sensors=[sensor], clock=lambda: LATER).scan(root)
+
+    assert recovered.open_debts == ()
+    assert len(recovered.debts) == 1
+    assert recovered.debts[0].status == "resolved"
+    assert recovered.debts[0].resolution == "condition_recovered"
+    assert recovered.receipt.debt_resolved == (recovered.debts[0].id,)
+
+
+def test_sensor_failure_is_unknown_and_does_not_clear_existing_debt(tmp_path: Path) -> None:
+    root = _repo(tmp_path)
+    sensor = MutableSensor(status="drift")
+    first = StewardController(sensors=[sensor], clock=lambda: FROZEN).scan(root)
+    original_id = first.open_debts[0].id
+    sensor.fail = True
+
+    failed = StewardController(sensors=[sensor], clock=lambda: LATER).scan(root)
+
+    assert failed.receipt.result_status == "blocked"
+    assert failed.receipt.coverage_unknown == ("fixture-sensor",)
+    assert original_id in {debt.id for debt in failed.open_debts}
+    coverage = [debt for debt in failed.open_debts if debt.kind == "sensor_coverage_unknown"]
+    assert len(coverage) == 1
+    assert coverage[0].authority.value == "B"
+    assert coverage[0].observed_state["coverage"] == "unknown"
+
+
+def test_run_refuses_class_a_mutation_when_any_sensor_coverage_is_unknown(tmp_path: Path) -> None:
+    root = _repo(tmp_path)
+    mirror = root / "src/gaia_cli/data/registry/schema/fixture.json"
+    mirror.parent.mkdir(parents=True)
+    mirror.write_text('{"before":"must-survive"}\n', encoding="utf-8")
+    before = mirror.read_bytes()
+
+    result = StewardController(
+        sensors=[
+            MutableSensor(status="drift"),
+            MutableSensor(id="unrelated-failure", fail=True),
+        ],
+        clock=lambda: FROZEN,
+    ).run(root)
+
+    assert result.receipt.result_status == "blocked"
+    assert result.receipt.repairs == ()
+    assert result.receipt.blocked[0]["coverageUnknown"] == ["unrelated-failure"]
+    assert mirror.read_bytes() == before
+
+
+def test_class_a_success_commits_one_repair_receipt_with_resolved_ledger(
+    tmp_path: Path,
+) -> None:
+    root = _class_a_repo(tmp_path)
+    controller = StewardController(sensors=[BundledSchemaMirrorSensor()], clock=lambda: FROZEN)
+
+    result = controller.run(root)
+
+    receipts = [
+        json.loads(path.read_text(encoding="utf-8"))
+        for path in (root / ".gaia/steward/receipts").glob("*.json")
+    ]
+    repair_receipts = [receipt for receipt in receipts if receipt["repairs"]]
+    assert len(repair_receipts) == 1
+    assert result.final is not None
+    assert result.final.receipt == result.receipt
+    assert result.final.receipt_path == result.receipt_path
+    assert result.receipt.repairs[0]["resolved"] is True
+    assert result.receipt.debt_resolved == (result.initial.open_debts[0].id,)
+    assert result.final.open_debts == ()
+    assert (root / "src/gaia_cli/data/registry/schema/fixture.json").read_bytes() == (
+        root / "registry/schema/fixture.json"
+    ).read_bytes()
+
+    repeated = controller.run(root)
+
+    assert repeated.receipt.result_status == "no_change"
+    assert repeated.receipt.repairs == ()
+    assert len(
+        [
+            path
+            for path in (root / ".gaia/steward/receipts").glob("*.json")
+            if json.loads(path.read_text(encoding="utf-8"))["repairs"]
+        ]
+    ) == 1
+
+
+def test_post_install_collection_exception_rolls_back_without_touching_open_ledger(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = _class_a_repo(tmp_path)
+    controller = StewardController(sensors=[BundledSchemaMirrorSensor()], clock=lambda: FROZEN)
+    baseline = controller.scan(root)
+    ledger_before = baseline.debt_state_path.read_bytes()
+    mirror = root / "src/gaia_cli/data/registry/schema/fixture.json"
+    mirror_before = mirror.read_bytes()
+    real_collect = controller._collect_observations
+    collections = 0
+
+    def fail_post_install_collection(*args, **kwargs):
+        nonlocal collections
+        collections += 1
+        if collections == 2:
+            raise OSError("fixture post-install collection failure")
+        return real_collect(*args, **kwargs)
+
+    monkeypatch.setattr(controller, "_collect_observations", fail_post_install_collection)
+
+    with pytest.raises(OSError, match="fixture post-install collection failure"):
+        controller.run(root)
+
+    assert mirror.read_bytes() == mirror_before
+    assert baseline.debt_state_path.read_bytes() == ledger_before
+    assert not (root / ".gaia/steward/.scan.lock").exists()
+
+
+def test_post_install_reconciliation_exception_rolls_back_open_ledger(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = _class_a_repo(tmp_path)
+    controller = StewardController(sensors=[BundledSchemaMirrorSensor()], clock=lambda: FROZEN)
+    baseline = controller.scan(root)
+    ledger_before = baseline.debt_state_path.read_bytes()
+    mirror = root / "src/gaia_cli/data/registry/schema/fixture.json"
+    mirror_before = mirror.read_bytes()
+    real_reconcile = controller_module.reconcile_debt
+    reconciliations = 0
+
+    def fail_post_install_reconciliation(*args, **kwargs):
+        nonlocal reconciliations
+        reconciliations += 1
+        if reconciliations == 2:
+            raise RuntimeError("fixture post-install reconciliation failure")
+        return real_reconcile(*args, **kwargs)
+
+    monkeypatch.setattr(
+        controller_module,
+        "reconcile_debt",
+        fail_post_install_reconciliation,
+    )
+
+    with pytest.raises(RuntimeError, match="fixture post-install reconciliation failure"):
+        controller.run(root)
+
+    assert reconciliations == 2
+    assert mirror.read_bytes() == mirror_before
+    assert baseline.debt_state_path.read_bytes() == ledger_before
+    assert not (root / ".gaia/steward/.scan.lock").exists()
+
+
+def test_post_install_receipt_failure_rolls_back_and_preserves_open_ledger(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = _class_a_repo(tmp_path)
+    controller = StewardController(sensors=[BundledSchemaMirrorSensor()], clock=lambda: FROZEN)
+    baseline = controller.scan(root)
+    ledger_before = baseline.debt_state_path.read_bytes()
+    receipts_before = {path.name: path.read_bytes() for path in baseline.receipt_path.parent.glob("*.json")}
+    mirror = root / "src/gaia_cli/data/registry/schema/fixture.json"
+    mirror_before = mirror.read_bytes()
+    real_write = controller_module.write_immutable_receipt
+
+    def fail_repair_receipt(receipts_directory, receipt, **kwargs):
+        if receipt.repairs:
+            raise StateError("fixture repair receipt failure")
+        return real_write(receipts_directory, receipt, **kwargs)
+
+    monkeypatch.setattr(controller_module, "write_immutable_receipt", fail_repair_receipt)
+
+    with pytest.raises(StateError, match="fixture repair receipt failure"):
+        controller.run(root)
+
+    assert mirror.read_bytes() == mirror_before
+    assert baseline.debt_state_path.read_bytes() == ledger_before
+    receipts_after = {
+        path.name: path.read_bytes() for path in baseline.receipt_path.parent.glob("*.json")
+    }
+    assert receipts_after[baseline.receipt_path.name] == receipts_before[baseline.receipt_path.name]
+    assert all(
+        not json.loads(content)["repairs"] for content in receipts_after.values()
+    )
+
+
+def test_post_install_ledger_failure_removes_repair_receipt_and_rolls_back(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = _class_a_repo(tmp_path)
+    controller = StewardController(sensors=[BundledSchemaMirrorSensor()], clock=lambda: FROZEN)
+    baseline = controller.scan(root)
+    ledger_before = baseline.debt_state_path.read_bytes()
+    receipts_before = {path.name: path.read_bytes() for path in baseline.receipt_path.parent.glob("*.json")}
+    mirror = root / "src/gaia_cli/data/registry/schema/fixture.json"
+    mirror_before = mirror.read_bytes()
+    real_write = controller_module.write_current_state
+
+    def fail_resolved_ledger(path, debts, **kwargs):
+        materialized = tuple(debts)
+        if materialized and all(debt.status == "resolved" for debt in materialized):
+            raise StateError("fixture repaired ledger failure")
+        return real_write(path, materialized, **kwargs)
+
+    monkeypatch.setattr(controller_module, "write_current_state", fail_resolved_ledger)
+
+    with pytest.raises(StateError, match="fixture repaired ledger failure"):
+        controller.run(root)
+
+    assert mirror.read_bytes() == mirror_before
+    assert baseline.debt_state_path.read_bytes() == ledger_before
+    receipts_after = {
+        path.name: path.read_bytes() for path in baseline.receipt_path.parent.glob("*.json")
+    }
+    assert receipts_after[baseline.receipt_path.name] == receipts_before[baseline.receipt_path.name]
+    assert all(
+        not json.loads(content)["repairs"] for content in receipts_after.values()
+    )
+
+
+def test_unknown_or_unresolved_postcondition_rolls_back_without_recovery_scan(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = _class_a_repo(tmp_path)
+    sensor = MutableSensor(status="drift")
+    controller = StewardController(sensors=[sensor], clock=lambda: FROZEN)
+    baseline = controller.scan(root)
+    ledger_before = baseline.debt_state_path.read_bytes()
+    mirror = root / "src/gaia_cli/data/registry/schema/fixture.json"
+    mirror_before = mirror.read_bytes()
+    collections = 0
+    real_collect = controller._collect_observations
+
+    def count_collections(*args, **kwargs):
+        nonlocal collections
+        collections += 1
+        return real_collect(*args, **kwargs)
+
+    monkeypatch.setattr(controller, "_collect_observations", count_collections)
+
+    result = controller.run(root)
+
+    assert result.receipt.result_status == "blocked"
+    assert "did not resolve" in result.receipt.blocked[0]["reason"]
+    assert collections == 2
+    assert mirror.read_bytes() == mirror_before
+    assert baseline.debt_state_path.read_bytes() == ledger_before
+
+
+def test_unknown_postcondition_rolls_back_without_recovery_scan(tmp_path: Path) -> None:
+    root = _class_a_repo(tmp_path)
+    sensor = MutableSensor(status="drift")
+    controller = StewardController(sensors=[sensor], clock=lambda: FROZEN)
+    baseline = controller.scan(root)
+    ledger_before = baseline.debt_state_path.read_bytes()
+    mirror = root / "src/gaia_cli/data/registry/schema/fixture.json"
+    mirror_before = mirror.read_bytes()
+    sensor_calls = 0
+    real_scan = sensor.scan
+
+    def fail_post_install_sensor(repo_root: Path, observed_at: str) -> list[Observation]:
+        nonlocal sensor_calls
+        sensor_calls += 1
+        if sensor_calls == 2:
+            raise OSError("fixture post-install sensor failure")
+        return real_scan(repo_root, observed_at)
+
+    sensor.scan = fail_post_install_sensor
+
+    result = controller.run(root)
+
+    assert result.receipt.result_status == "blocked"
+    assert "coverage is unknown" in result.receipt.blocked[0]["reason"]
+    assert sensor_calls == 2
+    assert mirror.read_bytes() == mirror_before
+    assert baseline.debt_state_path.read_bytes() == ledger_before
+
+
+def test_receipts_are_immutable_and_equivalent_repeat_reuses_receipt(tmp_path: Path) -> None:
+    root = _repo(tmp_path)
+    controller = StewardController(sensors=[MutableSensor()], clock=lambda: FROZEN)
+    first = controller.scan(root)
+    receipt_bytes = first.receipt_path.read_bytes()
+
+    second = controller.scan(root)
+
+    assert second.receipt_path == first.receipt_path
+    assert second.receipt_path.read_bytes() == receipt_bytes
+    assert len(list(second.receipt_path.parent.glob("*.json"))) == 1
+
+
+@pytest.mark.parametrize("symlink_location", [".gaia", ".gaia/steward", ".gaia/steward/receipts"])
+def test_state_path_symlink_escape_is_refused_before_any_write(
+    tmp_path: Path,
+    symlink_location: str,
+) -> None:
+    root = _repo(tmp_path / "repo")
+    outside = tmp_path / "outside"
+    outside.mkdir()
+    link = root / symlink_location
+    link.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        link.symlink_to(outside, target_is_directory=True)
+    except (NotImplementedError, OSError):
+        pytest.skip("directory symlinks are unavailable on this platform")
+
+    with pytest.raises(StateError, match="symlink|escapes"):
+        StewardController(sensors=[MutableSensor(status="drift")], clock=lambda: FROZEN).scan(root)
+
+    assert list(outside.iterdir()) == []
+
+
+def test_symlinked_debt_file_is_refused_without_touching_target(tmp_path: Path) -> None:
+    root = _repo(tmp_path / "repo")
+    state = root / ".gaia/steward"
+    state.mkdir(parents=True)
+    outside = tmp_path / "outside-debt.json"
+    outside.write_text("sentinel\n", encoding="utf-8")
+    try:
+        (state / "debt.json").symlink_to(outside)
+    except (NotImplementedError, OSError):
+        pytest.skip("file symlinks are unavailable on this platform")
+
+    with pytest.raises(StateError, match="symlink"):
+        StewardController(sensors=[MutableSensor(status="drift")], clock=lambda: FROZEN).scan(root)
+
+    assert outside.read_text(encoding="utf-8") == "sentinel\n"
+
+
+def test_receipt_failure_cannot_commit_new_debt_state(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = _repo(tmp_path)
+    baseline = StewardController(
+        sensors=[MutableSensor(status="healthy")], clock=lambda: FROZEN
+    ).scan(root)
+    state_before = baseline.debt_state_path.read_bytes()
+
+    def fail_receipt(*args, **kwargs):
+        raise StateError("fixture receipt failure")
+
+    monkeypatch.setattr("gaia_cli.steward.controller.write_immutable_receipt", fail_receipt)
+
+    with pytest.raises(StateError, match="fixture receipt failure"):
+        StewardController(
+            sensors=[MutableSensor(status="drift")], clock=lambda: LATER
+        ).scan(root)
+
+    assert baseline.debt_state_path.read_bytes() == state_before
+    assert not (root / ".gaia/steward/.scan.lock").exists()
+
+
+def test_ledger_failure_removes_receipt_from_aborted_transaction(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = _repo(tmp_path)
+
+    def fail_state(*args, **kwargs):
+        raise StateError("fixture ledger failure")
+
+    monkeypatch.setattr("gaia_cli.steward.controller.write_current_state", fail_state)
+
+    with pytest.raises(StateError, match="fixture ledger failure"):
+        StewardController(
+            sensors=[MutableSensor(status="drift")], clock=lambda: FROZEN
+        ).scan(root)
+
+    assert not (root / ".gaia/steward/debt.json").exists()
+    assert list((root / ".gaia/steward/receipts").glob("*.json")) == []
+    assert not (root / ".gaia/steward/.scan.lock").exists()
+
+
+def test_transaction_lock_prevents_failed_run_from_revoking_successful_receipt(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = _repo(tmp_path)
+    controller = StewardController(
+        sensors=[MutableSensor(status="drift")], clock=lambda: FROZEN
+    )
+    receipt_published = threading.Event()
+    allow_ledger_failure = threading.Event()
+    first_write = True
+    real_write = controller_module.write_current_state
+
+    def fail_first_ledger_commit(*args, **kwargs):
+        nonlocal first_write
+        if first_write:
+            first_write = False
+            receipt_published.set()
+            assert allow_ledger_failure.wait(timeout=5)
+            raise StateError("fixture first ledger failure")
+        return real_write(*args, **kwargs)
+
+    monkeypatch.setattr(
+        controller_module,
+        "write_current_state",
+        fail_first_ledger_commit,
+    )
+
+    with ThreadPoolExecutor(max_workers=1) as executor:
+        failed_run = executor.submit(controller.scan, root)
+        assert receipt_published.wait(timeout=5)
+
+        with pytest.raises(StateError, match="another scan is active|prior process crashed"):
+            controller.scan(root)
+
+        allow_ledger_failure.set()
+        with pytest.raises(StateError, match="fixture first ledger failure"):
+            failed_run.result(timeout=10)
+
+    assert not (root / ".gaia/steward/.scan.lock").exists()
+    assert list((root / ".gaia/steward/receipts").glob("*.json")) == []
+
+    successful_run = controller.scan(root)
+
+    assert successful_run.receipt_path.is_file()
+    assert json.loads(successful_run.receipt_path.read_text(encoding="utf-8")) == (
+        successful_run.receipt.to_dict()
+    )
+    assert successful_run.debt_state_path.is_file()
+    assert not (root / ".gaia/steward/.scan.lock").exists()
+
+
+def test_stale_scan_lock_fails_closed_with_recovery_guidance(tmp_path: Path) -> None:
+    root = _repo(tmp_path)
+    lock = root / ".gaia/steward/.scan.lock"
+    lock.mkdir(parents=True)
+
+    with pytest.raises(StateError, match="prior process crashed.*confirming no scan"):
+        StewardController(sensors=[MutableSensor()], clock=lambda: FROZEN).scan(root)
+
+    assert lock.is_dir()
+    assert not (root / ".gaia/steward/debt.json").exists()
+    assert not (root / ".gaia/steward/receipts").exists()
+
+
+def test_short_receipt_write_error_leaves_no_partial_final_or_changed_ledger(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = _repo(tmp_path)
+    baseline = StewardController(
+        sensors=[MutableSensor(status="healthy")], clock=lambda: FROZEN
+    ).scan(root)
+    ledger_before = baseline.debt_state_path.read_bytes()
+    receipt_before = baseline.receipt_path.read_bytes()
+    real_write = receipt_store.os.write
+    calls = 0
+
+    def short_then_error(file_descriptor: int, content: memoryview) -> int:
+        nonlocal calls
+        calls += 1
+        if calls == 1:
+            return real_write(file_descriptor, content[:7])
+        raise OSError("fixture short receipt write")
+
+    monkeypatch.setattr(receipt_store, "_write_chunk", short_then_error)
+
+    with pytest.raises(OSError, match="fixture short receipt write"):
+        StewardController(
+            sensors=[MutableSensor(status="drift")], clock=lambda: LATER
+        ).scan(root)
+
+    receipts = root / ".gaia/steward/receipts"
+    assert baseline.debt_state_path.read_bytes() == ledger_before
+    assert baseline.receipt_path.read_bytes() == receipt_before
+    assert list(receipts.glob("*.json")) == [baseline.receipt_path]
+    assert list(receipts.glob(".*.tmp")) == []
+
+
+def test_keyboard_interrupt_cleans_new_receipt_but_preserves_preexisting_receipt(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = _repo(tmp_path)
+    baseline = StewardController(
+        sensors=[MutableSensor(status="healthy")], clock=lambda: FROZEN
+    ).scan(root)
+    ledger_before = baseline.debt_state_path.read_bytes()
+    receipt_before = baseline.receipt_path.read_bytes()
+
+    def interrupt_state(*args, **kwargs):
+        raise KeyboardInterrupt("fixture interrupt after receipt")
+
+    monkeypatch.setattr("gaia_cli.steward.controller.write_current_state", interrupt_state)
+
+    # A newly published receipt from a different run is transaction-owned and
+    # must be removed when the following ledger commit is interrupted.
+    with pytest.raises(KeyboardInterrupt, match="fixture interrupt"):
+        StewardController(
+            sensors=[MutableSensor(status="drift")], clock=lambda: LATER
+        ).scan(root)
+
+    receipts = root / ".gaia/steward/receipts"
+    assert list(receipts.glob("*.json")) == [baseline.receipt_path]
+    assert baseline.debt_state_path.read_bytes() == ledger_before
+
+    # An equivalent run reuses the pre-existing immutable receipt. Cleanup may
+    # not delete it because this transaction did not create it.
+    with pytest.raises(KeyboardInterrupt, match="fixture interrupt"):
+        StewardController(
+            sensors=[MutableSensor(status="healthy")], clock=lambda: FROZEN
+        ).scan(root)
+
+    assert baseline.receipt_path.read_bytes() == receipt_before
+    assert list(receipts.glob("*.json")) == [baseline.receipt_path]
+    assert baseline.debt_state_path.read_bytes() == ledger_before
+    assert not (root / ".gaia/steward/.scan.lock").exists()
+
+
+def test_concurrent_identical_receipt_publish_is_complete_and_idempotent(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = _repo(tmp_path)
+    state = root / ".gaia/steward"
+    receipts = state / "receipts"
+    receipt = _receipt()
+    barrier = threading.Barrier(2)
+    real_publish = receipt_store._publish_stage
+
+    def simultaneous_publish(stage: Path, final: Path) -> None:
+        barrier.wait(timeout=5)
+        real_publish(stage, final)
+
+    monkeypatch.setattr(receipt_store, "_publish_stage", simultaneous_publish)
+
+    def publish() -> tuple[Path, bool]:
+        return receipt_store.write_immutable_receipt(
+            receipts,
+            receipt,
+            repo_root=root,
+            state_root=state,
+        )
+
+    with ThreadPoolExecutor(max_workers=2) as executor:
+        futures = [executor.submit(publish), executor.submit(publish)]
+        results = [future.result(timeout=10) for future in futures]
+
+    final = receipts / f"{receipt.run_id}.json"
+    assert sorted(created for _path, created in results) == [False, True]
+    assert {path for path, _created in results} == {final}
+    assert json.loads(final.read_text(encoding="utf-8")) == receipt.to_dict()
+    assert final.stat().st_size > 0
+    assert list(receipts.glob(".*.tmp")) == []
+
+
+def test_receipt_publish_falls_back_to_atomic_claim_when_links_are_unavailable(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = _repo(tmp_path)
+    state = root / ".gaia/steward"
+    receipts = state / "receipts"
+    receipt = _receipt("steward-no-link-fixture")
+
+    def no_links(*args, **kwargs):
+        raise OSError(receipt_store.errno.EPERM, "links unavailable")
+
+    monkeypatch.setattr(receipt_store.os, "link", no_links, raising=False)
+    path, created = receipt_store.write_immutable_receipt(
+        receipts, receipt, repo_root=root, state_root=state
+    )
+    reused_path, reused_created = receipt_store.write_immutable_receipt(
+        receipts, receipt, repo_root=root, state_root=state
+    )
+
+    assert (path, created) == (receipts / "steward-no-link-fixture.json", True)
+    assert (reused_path, reused_created) == (path, False)
+    assert json.loads(path.read_text(encoding="utf-8")) == receipt.to_dict()
+    assert not list(receipts.glob("*.publish-lock"))
+
+
+def test_mixed_hardlink_fallback_race_claims_one_immutable_byte_sequence(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = _repo(tmp_path)
+    state = root / ".gaia/steward"
+    receipts = state / "receipts"
+    fallback_receipt = _receipt("steward-mixed-lane-fixture")
+    hardlink_receipt = replace(fallback_receipt, result_status="different-bytes")
+    fallback_at_link = threading.Event()
+    release_fallback = threading.Event()
+    fallback_thread: list[int] = []
+    def mixed_link(source: Path, target: Path, **kwargs: object) -> None:
+        if not fallback_thread:
+            fallback_thread.append(threading.get_ident())
+        if threading.get_ident() == fallback_thread[0]:
+            fallback_at_link.set()
+            assert release_fallback.wait(timeout=5)
+            raise OSError(receipt_store.errno.EPERM, "links unavailable for fallback lane")
+        # Simulate a supported hard-link lane on this Termux filesystem.
+        with target.open("xb") as handle:
+            handle.write(source.read_bytes())
+
+    monkeypatch.setattr(receipt_store.os, "link", mixed_link, raising=False)
+
+    def publish(receipt: Receipt) -> tuple[Path, bool]:
+        return receipt_store.write_immutable_receipt(receipts, receipt, repo_root=root, state_root=state)
+
+    with ThreadPoolExecutor(max_workers=2) as executor:
+        # Let the fallback publisher own the shared claim before the hard-link
+        # publisher begins; the latter must observe the immutable final, never
+        # replace it with its distinct content.
+        first = executor.submit(publish, fallback_receipt)
+        assert fallback_at_link.wait(timeout=5)
+        second = executor.submit(publish, hardlink_receipt)
+        release_fallback.set()
+        assert first.result(timeout=10)[1] is True
+        with pytest.raises(StateError, match="collision"):
+            second.result(timeout=10)
+
+    final = receipts / "steward-mixed-lane-fixture.json"
+    assert json.loads(final.read_text(encoding="utf-8")) == fallback_receipt.to_dict()
+    assert final.read_bytes() == final.read_bytes()
+
+
+def test_receipt_publication_boundary_is_absent_then_complete_never_partial(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = _repo(tmp_path)
+    state = root / ".gaia/steward"
+    receipts = state / "receipts"
+    receipt = _receipt("steward-crash-window-fixture")
+    final = receipts / f"{receipt.run_id}.json"
+    before_link = threading.Event()
+    allow_link = threading.Event()
+    after_link = threading.Event()
+    allow_return = threading.Event()
+    real_publish = receipt_store._publish_stage
+
+    def paused_publish(stage: Path, target: Path) -> None:
+        before_link.set()
+        assert allow_link.wait(timeout=5)
+        real_publish(stage, target)
+        after_link.set()
+        assert allow_return.wait(timeout=5)
+
+    monkeypatch.setattr(receipt_store, "_publish_stage", paused_publish)
+
+    with ThreadPoolExecutor(max_workers=1) as executor:
+        future = executor.submit(
+            receipt_store.write_immutable_receipt,
+            receipts,
+            receipt,
+            repo_root=root,
+            state_root=state,
+        )
+        assert before_link.wait(timeout=5)
+        assert not final.exists()
+
+        allow_link.set()
+        assert after_link.wait(timeout=5)
+        assert final.stat().st_size > 0
+        assert json.loads(final.read_text(encoding="utf-8")) == receipt.to_dict()
+
+        allow_return.set()
+        path, created = future.result(timeout=10)
+
+    assert (path, created) == (final, True)
+    assert json.loads(final.read_text(encoding="utf-8")) == receipt.to_dict()
+    assert list(receipts.glob(".*.tmp")) == []
+
+
+def test_stage_cleanup_failure_cannot_revoke_concurrently_reused_receipt(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    root = _repo(tmp_path)
+    state = root / ".gaia/steward"
+    receipts = state / "receipts"
+    receipt = _receipt("steward-stage-cleanup-fixture")
+    final = receipts / f"{receipt.run_id}.json"
+    cleanup_started = threading.Event()
+    allow_cleanup_failure = threading.Event()
+    injected = False
+    real_unlink = receipt_store._unlink_owned
+
+    def transient_stage_unlink_failure(path: Path) -> None:
+        nonlocal injected
+        if path.suffix == ".tmp" and not injected:
+            injected = True
+            cleanup_started.set()
+            assert allow_cleanup_failure.wait(timeout=5)
+            raise OSError("fixture transient stage unlink failure")
+        real_unlink(path)
+
+    monkeypatch.setattr(receipt_store, "_unlink_owned", transient_stage_unlink_failure)
+
+    with ThreadPoolExecutor(max_workers=1) as executor:
+        publisher = executor.submit(
+            receipt_store.write_immutable_receipt,
+            receipts,
+            receipt,
+            repo_root=root,
+            state_root=state,
+        )
+        assert cleanup_started.wait(timeout=5)
+        assert json.loads(final.read_text(encoding="utf-8")) == receipt.to_dict()
+
+        reused_path, reused_created = receipt_store.write_immutable_receipt(
+            receipts,
+            receipt,
+            repo_root=root,
+            state_root=state,
+        )
+        assert (reused_path, reused_created) == (final, False)
+        assert json.loads(final.read_text(encoding="utf-8")) == receipt.to_dict()
+
+        allow_cleanup_failure.set()
+        published_path, published_created = publisher.result(timeout=10)
+
+    assert (published_path, published_created) == (final, True)
+    assert json.loads(final.read_text(encoding="utf-8")) == receipt.to_dict()
+    assert list(receipts.glob(".*.tmp")) == []

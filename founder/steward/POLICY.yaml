@@ -1,0 +1,127 @@
+version: 1
+mode: class-a-closed-loop
+
+state:
+  directory: .gaia/steward
+  receiptsDirectory: receipts
+
+allowedWrites:
+  - .gaia/steward/**
+  - src/gaia_cli/data/registry/schema/**
+
+authority:
+  bundled_schema_mirror_drift: A
+  agent_skill_mirror_drift: A
+  registry_integrity_failed: B
+  sensor_coverage_unknown: B
+  cli_contract_drift: B
+  knowledge_contradiction: B
+  generic_mapping: C
+
+priority:
+  bundled_schema_mirror_drift:
+    importance: 0.8
+    decisionImpact: 0.7
+    exposure: 0.8
+    freshnessNeed: 1.0
+    expectedCost: 0.1
+  agent_skill_mirror_drift:
+    importance: 0.7
+    decisionImpact: 0.5
+    exposure: 0.8
+    freshnessNeed: 1.0
+    expectedCost: 0.1
+  registry_integrity_failed:
+    importance: 1.0
+    decisionImpact: 1.0
+    exposure: 1.0
+    freshnessNeed: 1.0
+    expectedCost: 0.4
+  sensor_coverage_unknown:
+    importance: 0.8
+    decisionImpact: 0.8
+    exposure: 0.8
+    freshnessNeed: 1.0
+    expectedCost: 0.3
+  cli_contract_drift:
+    importance: 0.7
+    decisionImpact: 0.6
+    exposure: 0.8
+    freshnessNeed: 0.8
+    expectedCost: 0.4
+  knowledge_contradiction:
+    importance: 0.7
+    decisionImpact: 0.8
+    exposure: 0.6
+    freshnessNeed: 0.6
+    expectedCost: 0.5
+  generic_mapping:
+    importance: 0.9
+    decisionImpact: 1.0
+    exposure: 0.7
+    freshnessNeed: 0.5
+    expectedCost: 0.8
+
+budgets:
+  maxObservationsPerRun: 1000
+
+repairs:
+  maxRepairsPerRun: 1
+  executors:
+    bundled-schema-mirror:
+      debtKind: bundled_schema_mirror_drift
+      authority: A
+      canonicalPath: registry/schema/**
+      writablePath: src/gaia_cli/data/registry/schema/**
+      allowedCommands:
+        - git status --porcelain=v1 --untracked-files=all -- src/gaia_cli/data/registry/schema
+        - python scripts/sync_bundled_schemas.py --check
+      stopConditions:
+        - canonical input is missing, symlinked, non-regular, non-JSON, or changes during repair
+        - mirror contains an extra path, a symlink, or a dirty user edit
+        - staged copy, atomic replacement, recursive parity, or sync validation cannot be proven
+
+routing:
+  maxDispatchesPerRun: 1
+  budget:
+    modelCalls: 0
+    maxTokens: 0
+    maxMinutes: 0
+  dispatchRules:
+    registry-integrity-review:
+      debtKind: registry_integrity_failed
+      authority: B
+      routine: gaia-registry-integrity-review
+      objective: >-
+        Reproduce the reported registry-integrity failure, prepare the smallest
+        policy-compliant correction, and return independent proof for review.
+      allowedPaths:
+        - registry/nodes/**
+        - scripts/**
+        - tests/**
+      allowedCommands:
+        - python scripts/validate.py
+        - python scripts/sync_bundled_schemas.py --check
+        - python -m pytest
+      forbiddenPaths:
+        - .gaia/steward/**
+        - .github/**
+        - docs/**
+        - founder/**
+        - skill-trees/**
+      stopConditions:
+        - fresh local evidence does not reproduce the packet violation
+        - the correction requires a write outside allowedPaths
+        - the correction requires a Class C product or governance decision
+        - validation, coverage, or independent proof is incomplete
+      proof:
+        - reproduce every packet violation from local repository state
+        - show a diff confined to allowedPaths
+        - run the packet validation commands that apply to the correction
+        - obtain independent review before integration
+  founderRules:
+    generic-mapping-decision:
+      debtKind: generic_mapping
+      authority: C
+      decisionTargetField: decisionTarget
+      objective: Decide the canonical generic mapping for the explicit normalized target.

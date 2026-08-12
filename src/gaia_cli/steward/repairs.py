@@ -1,0 +1,358 @@
+"""The one deliberately narrow, zero-LLM Steward Class A repair.
+
+This module is intentionally not a generic file synchronizer.  It owns exactly
+the checked-in schema bundle, where the canonical registry tree is read-only
+and the bundle is the only writable project surface.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import os
+import shutil
+import stat
+import subprocess
+import sys
+import tempfile
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Mapping
+
+from gaia_cli.steward.policy import RepairExecutorPolicy
+from gaia_cli.steward.receipts import StateError, ensure_local_state_path
+
+
+CANONICAL_ROOT = Path("registry/schema")
+MIRROR_ROOT = Path("src/gaia_cli/data/registry/schema")
+EXECUTOR_ID = "bundled-schema-mirror"
+SYNC_CHECK_COMMAND = "python scripts/sync_bundled_schemas.py --check"
+GIT_STATUS_COMMAND = (
+    "git status --porcelain=v1 --untracked-files=all -- src/gaia_cli/data/registry/schema"
+)
+
+
+class RepairError(RuntimeError):
+    """A repair could not be proven safe; callers must leave debt open."""
+
+
+class RepairBlocked(RepairError):
+    """A precondition or policy ceiling deliberately prevented mutation."""
+
+
+@dataclass(frozen=True)
+class TreeFile:
+    relative: str
+    digest: str
+    stat_key: tuple[int, int, int, int]
+
+
+@dataclass(frozen=True)
+class TreeManifest:
+    root: Path
+    files: Mapping[str, TreeFile]
+
+    @property
+    def paths(self) -> tuple[str, ...]:
+        return tuple(sorted(self.files))
+
+
+@dataclass
+class SchemaMirrorTransaction:
+    root: Path
+    state_root: Path
+    canonical: TreeManifest
+    captured_mirror: TreeManifest
+    stage_root: Path
+    rollback_path: Path
+    had_mirror: bool
+    changed: tuple[str, ...]
+    installed: bool = False
+    displaced: bool = False
+
+    def receipt(self) -> dict[str, object]:
+        recovery_path = self._validate_recovery()
+        return {
+            "executor": EXECUTOR_ID,
+            "status": "repaired",
+            "plannedPaths": list(self.changed),
+            "repairedPaths": list(self.changed),
+            "verified": {"recursiveParity": True, "syncCheck": True},
+            "recovery": {
+                "path": recovery_path,
+                "preRepairManifest": {
+                    path: item.digest
+                    for path, item in sorted(self.captured_mirror.files.items())
+                },
+                "originalTargetPresent": self.had_mirror,
+                "retained": True,
+            },
+        }
+
+    def commit(self) -> None:
+        """Retain V1 recovery bytes under local Steward state for manual audit."""
+        self._validate_recovery()
+
+    def _validate_recovery(self) -> str:
+        try:
+            ensure_local_state_path(self.root, self.state_root, self.rollback_path)
+            mode = self.rollback_path.lstat().st_mode
+        except (OSError, StateError) as exc:
+            raise RepairError(f"cannot validate retained repair recovery: {exc}") from exc
+        if stat.S_ISLNK(mode) or not stat.S_ISDIR(mode):
+            raise RepairError("retained repair recovery must be a real directory")
+        return self.rollback_path.relative_to(self.root).as_posix()
+
+    def rollback(self) -> None:
+        try:
+            _rollback(self.root / MIRROR_ROOT, self.rollback_path, self.had_mirror, self.stage_root)
+        except OSError as exc:
+            raise RepairError(
+                f"rollback failed; original mirror recovery is preserved at {self.rollback_path}: {exc}"
+            ) from exc
+        try:
+            shutil.rmtree(self.stage_root)
+        except OSError as exc:
+            raise RepairError(f"rollback completed; recovery cleanup remains at {self.stage_root}: {exc}") from exc
+
+
+def repair_bundled_schema_mirror(
+    repo_root: Path,
+    executor: RepairExecutorPolicy,
+    *,
+    state_root: Path,
+) -> dict[str, object]:
+    """Stage, prove, and atomically install the exact canonical schema mirror.
+
+    The caller must hold Steward's transaction lock.  On every failed proof or
+    interruption this function restores the previous mirror bytes before
+    returning or raising.
+    """
+
+    transaction = prepare_bundled_schema_mirror(repo_root, executor, state_root=state_root)
+    if transaction is None:
+        return {"executor": EXECUTOR_ID, "status": "no_change", "plannedPaths": [], "repairedPaths": [], "verified": {"recursiveParity": True, "syncCheck": True}}
+    try:
+        result = transaction.receipt()
+        transaction.commit()
+        return result
+    except BaseException:
+        transaction.rollback()
+        raise
+
+
+def prepare_bundled_schema_mirror(
+    repo_root: Path, executor: RepairExecutorPolicy, *, state_root: Path,
+) -> SchemaMirrorTransaction | None:
+    """Install a verified mirror but retain exact rollback bytes for the controller."""
+    root = repo_root.resolve()
+    local_state = state_root if state_root.is_absolute() else root / state_root
+    try:
+        ensure_local_state_path(root, local_state, local_state)
+    except StateError as exc:
+        raise RepairBlocked(f"repair recovery must remain under repository-local state: {exc}") from exc
+    _validate_executor(executor)
+    canonical = _manifest(root, CANONICAL_ROOT, required=True, json_only=True)
+    mirror = _manifest(root, MIRROR_ROOT, required=False, json_only=False)
+
+    extras = sorted(set(mirror.files) - set(canonical.files))
+    if extras:
+        raise RepairBlocked(
+            "bundled schema mirror has bundled-only paths; refusing deletion: " + ", ".join(extras)
+        )
+
+    changed = tuple(
+        path
+        for path in canonical.paths
+        if path not in mirror.files or canonical.files[path].digest != mirror.files[path].digest
+    )
+    if not changed:
+        _verify(root, canonical)
+        return None
+
+    _assert_clean_target(root)
+    _ensure_plain_ancestors(root, MIRROR_ROOT.parent)
+    local_state.mkdir(parents=True, exist_ok=True)
+    try:
+        ensure_local_state_path(root, local_state, local_state)
+    except StateError as exc:
+        raise RepairBlocked(f"repair recovery state is unsafe: {exc}") from exc
+    stage_root = Path(tempfile.mkdtemp(prefix="class-a-schema-", dir=local_state))
+    stage = stage_root / "schema"
+    rollback = stage_root / "rollback-schema"
+    try:
+        ensure_local_state_path(root, local_state, stage_root)
+        ensure_local_state_path(root, local_state, stage)
+        ensure_local_state_path(root, local_state, rollback)
+    except StateError as exc:
+        shutil.rmtree(stage_root)
+        raise RepairBlocked(f"repair recovery path is unsafe: {exc}") from exc
+    had_mirror = (root / MIRROR_ROOT).exists()
+    transaction = SchemaMirrorTransaction(
+        root,
+        local_state,
+        canonical,
+        mirror,
+        stage_root,
+        rollback,
+        had_mirror,
+        changed,
+    )
+    try:
+        _copy_manifest(root / CANONICAL_ROOT, canonical, stage)
+        if had_mirror:
+            shutil.copystat(root / MIRROR_ROOT, stage, follow_symlinks=False)
+        _assert_same_manifest(root, CANONICAL_ROOT, canonical)
+        if (root / MIRROR_ROOT).exists():
+            os.replace(root / MIRROR_ROOT, rollback)
+            transaction.displaced = True
+            observed_rollback = _manifest(root, rollback.relative_to(root), required=True, json_only=False)
+            if observed_rollback.files != mirror.files:
+                raise RepairBlocked("bundled schema mirror changed during handoff; restoring edited target")
+        else:
+            rollback.mkdir()
+        os.replace(stage, root / MIRROR_ROOT)
+        transaction.installed = True
+        _verify(root, canonical)
+        _assert_same_manifest(root, CANONICAL_ROOT, canonical)
+    except BaseException:
+        if transaction.installed or transaction.displaced:
+            transaction.rollback()
+        elif stage_root.exists():
+            shutil.rmtree(stage_root)
+        raise
+    return transaction
+
+
+def _validate_executor(executor: RepairExecutorPolicy) -> None:
+    if (
+        executor.id != EXECUTOR_ID
+        or executor.debt_kind != "bundled_schema_mirror_drift"
+        or executor.canonical_path != "registry/schema/**"
+        or executor.writable_path != "src/gaia_cli/data/registry/schema/**"
+        or SYNC_CHECK_COMMAND not in executor.allowed_commands
+        or GIT_STATUS_COMMAND not in executor.allowed_commands
+    ):
+        raise RepairBlocked("bundled schema repair policy does not match its fixed authority envelope")
+
+
+def _manifest(root: Path, relative_root: Path, *, required: bool, json_only: bool) -> TreeManifest:
+    directory = root / relative_root
+    _ensure_plain_ancestors(root, relative_root.parent)
+    try:
+        mode = directory.lstat().st_mode
+    except FileNotFoundError:
+        if required:
+            raise RepairBlocked(f"canonical schema root is missing: {relative_root}")
+        return TreeManifest(root=relative_root, files={})
+    if stat.S_ISLNK(mode) or not stat.S_ISDIR(mode):
+        raise RepairBlocked(f"schema root must be a real directory, not a symlink: {relative_root}")
+
+    files: dict[str, TreeFile] = {}
+    for current, directories, names in os.walk(directory, followlinks=False):
+        current_path = Path(current)
+        for name in sorted(directories):
+            path = current_path / name
+            child_mode = path.lstat().st_mode
+            if stat.S_ISLNK(child_mode) or not stat.S_ISDIR(child_mode):
+                raise RepairBlocked(f"schema tree has non-directory or symlink path: {path.relative_to(root)}")
+        for name in sorted(names):
+            path = current_path / name
+            mode = path.lstat().st_mode
+            relative = path.relative_to(directory).as_posix()
+            if stat.S_ISLNK(mode) or not stat.S_ISREG(mode):
+                raise RepairBlocked(f"schema tree has non-regular or symlink file: {relative_root / relative}")
+            if json_only and not relative.endswith(".json"):
+                raise RepairBlocked(f"canonical schema input is not JSON: {relative_root / relative}")
+            raw = path.read_bytes()
+            if json_only:
+                try:
+                    json.loads(raw.decode("utf-8"))
+                except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+                    raise RepairBlocked(
+                        f"canonical schema input is invalid JSON: {relative_root / relative}: {exc}"
+                    ) from exc
+            after = path.lstat()
+            stat_key = (after.st_dev, after.st_ino, after.st_mtime_ns, after.st_size)
+            if not stat.S_ISREG(after.st_mode) or after.st_size != len(raw):
+                raise RepairBlocked(f"schema input changed while reading: {relative_root / relative}")
+            files[relative] = TreeFile(
+                relative=relative,
+                digest=hashlib.sha256(raw).hexdigest(),
+                stat_key=stat_key,
+            )
+    return TreeManifest(root=relative_root, files=files)
+
+
+def _ensure_plain_ancestors(root: Path, relative: Path) -> None:
+    candidate = root
+    for part in relative.parts:
+        candidate /= part
+        try:
+            mode = candidate.lstat().st_mode
+        except FileNotFoundError:
+            continue
+        if stat.S_ISLNK(mode):
+            raise RepairBlocked(f"schema path may not traverse symlink: {candidate.relative_to(root)}")
+        if not stat.S_ISDIR(mode):
+            raise RepairBlocked(f"schema path ancestor is not a directory: {candidate.relative_to(root)}")
+
+
+def _assert_clean_target(root: Path) -> None:
+    result = subprocess.run(
+        ["git", "status", "--porcelain=v1", "--untracked-files=all", "--", str(MIRROR_ROOT)],
+        cwd=root,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode:
+        raise RepairBlocked(f"cannot establish bundled schema target cleanliness: {result.stderr.strip()}")
+    if result.stdout.strip():
+        raise RepairBlocked("bundled schema target has user edits; refusing overwrite")
+
+
+def _copy_manifest(canonical_root: Path, manifest: TreeManifest, stage: Path) -> None:
+    stage.mkdir()
+    for relative in manifest.paths:
+        source = canonical_root / relative
+        destination = stage / relative
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, destination, follow_symlinks=False)
+
+
+def _assert_same_manifest(root: Path, relative_root: Path, expected: TreeManifest) -> None:
+    current = _manifest(root, relative_root, required=True, json_only=True)
+    if current.files != expected.files:
+        raise RepairBlocked("canonical schema inputs changed during repair; rolling back")
+
+
+def _verify(root: Path, canonical: TreeManifest) -> None:
+    _assert_same_manifest(root, CANONICAL_ROOT, canonical)
+    mirror = _manifest(root, MIRROR_ROOT, required=True, json_only=False)
+    if set(canonical.files) != set(mirror.files):
+        raise RepairError("recursive bundled schema parity failed: path sets differ")
+    mismatches = [
+        path
+        for path in canonical.paths
+        if canonical.files[path].digest != mirror.files[path].digest
+    ]
+    if mismatches:
+        raise RepairError("recursive bundled schema parity failed: " + ", ".join(mismatches))
+    result = subprocess.run(
+        [sys.executable, "scripts/sync_bundled_schemas.py", "--check"],
+        cwd=root,
+        text=True,
+        capture_output=True,
+        check=False,
+    )
+    if result.returncode:
+        raise RepairError("bundled schema sync validation failed: " + result.stderr.strip())
+
+
+def _rollback(mirror: Path, rollback: Path, had_mirror: bool, stage_root: Path) -> None:
+    displaced = stage_root / "failed-schema"
+    if mirror.exists():
+        os.replace(mirror, displaced)
+    if had_mirror and rollback.exists():
+        os.replace(rollback, mirror)
