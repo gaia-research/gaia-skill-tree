@@ -56,6 +56,11 @@ class TreeManifest:
     # a repair can prove it carried them forward byte-for-byte, but they never
     # participate in canonical parity.
     preserved: Mapping[str, TreeFile]
+    # Directories holding no compared file anywhere beneath them. They carry no
+    # parity meaning, so installing over them would be an unrequested deletion
+    # of something a human made — including a deliberately empty directory,
+    # which no file manifest can represent.
+    preserved_directories: tuple[str, ...] = ()
 
     @property
     def paths(self) -> tuple[str, ...]:
@@ -90,6 +95,7 @@ class MirrorTransaction:
             "plannedPaths": list(self.changed),
             "repairedPaths": list(self.changed),
             "preservedPaths": list(self.captured_mirror.preserved_paths),
+            "preservedDirectories": list(self.captured_mirror.preserved_directories),
             "verified": {"recursiveParity": True, "syncCheck": True},
             "recovery": {
                 "path": recovery_path,
@@ -158,6 +164,7 @@ def repair_mirror(
             "plannedPaths": [],
             "repairedPaths": [],
             "preservedPaths": [],
+            "preservedDirectories": [],
             "verified": {"recursiveParity": True, "syncCheck": True},
         }
     try:
@@ -306,6 +313,7 @@ def _manifest(
 
     files: dict[str, TreeFile] = {}
     preserved: dict[str, TreeFile] = {}
+    seen_directories: list[str] = []
     json_only = canonical and spec.json_only
     for current, directories, names in os.walk(directory, followlinks=False):
         current_path = Path(current)
@@ -314,6 +322,7 @@ def _manifest(
             child_mode = path.lstat().st_mode
             if stat.S_ISLNK(child_mode) or not stat.S_ISDIR(child_mode):
                 raise RepairBlocked(f"mirror tree has non-directory or symlink path: {path.relative_to(root)}")
+            seen_directories.append(path.relative_to(directory).as_posix())
         for name in sorted(names):
             path = current_path / name
             mode = path.lstat().st_mode
@@ -344,7 +353,19 @@ def _manifest(
                 preserved[relative] = entry
             else:
                 files[relative] = entry
-    return TreeManifest(root=relative_root, files=files, preserved=preserved)
+    preserved_directories = tuple(
+        sorted(
+            candidate
+            for candidate in seen_directories
+            if not any(path.startswith(candidate + "/") for path in files)
+        )
+    )
+    return TreeManifest(
+        root=relative_root,
+        files=files,
+        preserved=preserved,
+        preserved_directories=preserved_directories,
+    )
 
 
 def _ensure_plain_ancestors(root: Path, relative: Path) -> None:
@@ -387,6 +408,11 @@ def _copy_manifest(canonical_root: Path, manifest: TreeManifest, stage: Path) ->
 def _copy_preserved(displaced_mirror: Path, manifest: TreeManifest, stage: Path) -> None:
     """Carry locally owned mirror paths into the staged replacement unchanged."""
 
+    # Directories first: an empty one has no file to imply it back into being.
+    for relative in manifest.preserved_directories:
+        destination = stage / relative
+        destination.mkdir(parents=True, exist_ok=True)
+        shutil.copystat(displaced_mirror / relative, destination, follow_symlinks=False)
     for relative in manifest.preserved_paths:
         source = displaced_mirror / relative
         destination = stage / relative
@@ -424,6 +450,11 @@ def _verify(
         path
         for path, item in captured_mirror.preserved.items()
         if path not in mirror.preserved or mirror.preserved[path].digest != item.digest
+    )
+    lost += sorted(
+        f"{path}/"
+        for path in captured_mirror.preserved_directories
+        if not (root / spec.mirror_root / path).is_dir()
     )
     if lost:
         raise RepairError(

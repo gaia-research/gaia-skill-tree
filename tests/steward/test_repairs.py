@@ -446,3 +446,30 @@ def test_executor_may_not_be_redirected_to_another_surface(tmp_path: Path) -> No
 
     with pytest.raises(repairs.RepairBlocked, match="fixed authority envelope"):
         repairs.prepare_mirror_repair(root, redirected, state_root=root / ".gaia/steward")
+
+
+def test_repair_preserves_an_empty_locally_owned_directory(tmp_path: Path) -> None:
+    """A deliberately empty directory has no file to imply it back into being."""
+
+    root = _agent_repo(tmp_path)
+    empty = root / ".claude/skills/skill-creator/scratch"
+    empty.mkdir(parents=True)
+
+    receipt = _agent_repair(root)
+
+    assert empty.is_dir()
+    assert "skill-creator/scratch" in receipt["preservedDirectories"]
+
+
+def test_repair_refuses_to_silently_delete_an_unrelated_empty_mirror_directory(
+    tmp_path: Path,
+) -> None:
+    """Deleting is never the conservative choice, even for a stray directory."""
+
+    root = _agent_repo(tmp_path)
+    stray = root / ".claude/skills/leftover"
+    stray.mkdir(parents=True)
+
+    _agent_repair(root)
+
+    assert stray.is_dir()

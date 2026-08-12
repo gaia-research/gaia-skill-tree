@@ -13,6 +13,7 @@ import pytest
 
 import gaia_cli.steward.controller as controller_module
 import gaia_cli.steward.receipts as receipt_store
+import gaia_cli.steward.repairs as repairs
 from gaia_cli.steward.controller import StewardController
 from gaia_cli.steward.models import Observation, Receipt, Subject
 from gaia_cli.steward.policy import POLICY_RELATIVE_PATH
@@ -983,3 +984,55 @@ def test_repair_budget_caps_how_many_surfaces_one_run_may_change(
     assert "budget" in result.receipt.blocked[0]["reason"]
     assert result.final is not None
     assert len(result.final.open_debts) == 1
+
+
+def test_one_failing_rollback_does_not_cancel_the_others(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """A cosmetic cleanup failure must not leave another surface installed.
+
+    MirrorTransaction.rollback() raises even when the mirror was fully restored
+    and only its temporary recovery could not be removed. Aborting the loop
+    there would leave a later surface mutated while the receipt reports no
+    repair — the working tree and the audit record disagreeing.
+    """
+
+    root = _two_surface_repo(tmp_path)
+    schema_mirror = root / "src/gaia_cli/data/registry/schema/fixture.json"
+    agent_mirror = root / ".claude/skills/alpha/SKILL.md"
+    before = (schema_mirror.read_bytes(), agent_mirror.read_bytes())
+
+    real_reconcile = controller_module.StewardController._reconcile_and_commit
+    calls = 0
+
+    def fail_post_repair_reconcile(*args, **kwargs):
+        nonlocal calls
+        calls += 1
+        if calls == 2:
+            raise controller_module.RepairPostconditionError("fixture postcondition failure")
+        return real_reconcile(*args, **kwargs)
+
+    real_rollback = repairs.MirrorTransaction.rollback
+    rollbacks = 0
+
+    def first_rollback_reports_cleanup_failure(self):
+        nonlocal rollbacks
+        rollbacks += 1
+        real_rollback(self)
+        if rollbacks == 1:
+            raise repairs.RepairError("rollback completed; recovery cleanup remains")
+
+    monkeypatch.setattr(
+        controller_module.StewardController,
+        "_reconcile_and_commit",
+        staticmethod(fail_post_repair_reconcile),
+    )
+    monkeypatch.setattr(repairs.MirrorTransaction, "rollback", first_rollback_reports_cleanup_failure)
+    controller = StewardController(sensors=_both_mirror_sensors(), clock=lambda: FROZEN)
+
+    with pytest.raises(repairs.RepairError, match="rollback incomplete"):
+        controller.run(root)
+
+    # Both surfaces attempted, both restored — the failure is reported, not hidden.
+    assert rollbacks == 2
+    assert (schema_mirror.read_bytes(), agent_mirror.read_bytes()) == before

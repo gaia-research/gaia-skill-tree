@@ -263,10 +263,24 @@ class StewardController:
 
     @staticmethod
     def _rollback_all(prepared: list[tuple[Debt, MirrorTransaction]]) -> None:
-        """Undo installed mirrors in reverse order, newest first."""
+        """Undo every installed mirror, newest first, before reporting failure.
 
+        One transaction's rollback must never cancel another's. ``rollback()``
+        raises even when the mirror was restored and only its temporary
+        recovery could not be cleaned up, so aborting the loop on the first
+        exception would leave a later surface installed while the receipt
+        reports no repair — the working tree and the audit record disagreeing.
+        Every transaction is therefore attempted, and failures are aggregated.
+        """
+
+        failures: list[str] = []
         for _debt, transaction in reversed(prepared):
-            transaction.rollback()
+            try:
+                transaction.rollback()
+            except Exception as exc:
+                failures.append(f"{transaction.spec.id}: {exc}")
+        if failures:
+            raise RepairError("rollback incomplete: " + "; ".join(failures))
 
     def _run_receipt(
         self, root: Path, state_directory: Path, receipts_directory: Path,
