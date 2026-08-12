@@ -18,7 +18,7 @@ Secondary: Open-source contributors wanting to claim a Named Skill.
 
 | # | File | Title | Status | Routine |
 |---|------|--------|--------|---------|
-| 1 | `index.html` | Docs Home | ✅ Done (updated 025) | 001, 017, 018, 025 |
+| 1 | `index.html` | Docs Home | ✅ Done (tier-card blurbs fixed 027) | 001, 017, 018, 025, 027 |
 | 2 | `getting-started.html` | Getting Started | ✅ Done (updated 025) | 001, 017, 018, 025 |
 | 3 | `cli-reference.html` | CLI Reference | ✅ Done (updated 025) | 002, 017, 018, 025 |
 | 4 | `skill-hierarchy.html` | Skill Hierarchy | ⚠ Rank names fixed (025); tier framing still pre-Yggdrasil-II — see #1479 | 002, 018, 025 |

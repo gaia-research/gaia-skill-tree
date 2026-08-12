@@ -2,6 +2,73 @@
 
 ---
 
+## 2026-08-12 — Routine 027
+
+**Branch:** `docs/routines/026` (PR #1528 was still open — continued on it per the
+one-open-PR rule; the routine's own commit count/number in this diary tracks daily
+runs, not the branch name)
+
+**Task chosen:** CONTINUE — "Planned next (Routine 027)" named `index.html`'s tier
+framing as the next smallest slice of #1479.
+
+### What I did
+
+Rewrote the two `docs-card-desc` blurbs on `index.html` that still taught the retired
+Yggdrasil I four-tier taxonomy:
+
+- **Skill Hierarchy card** — was "Basic → Extra → Unique → Ultimate. How the four
+  tiers work, how fusion promotes a skill, and how stars are awarded." Replaced with
+  the real Type/Branch model: "Type (Basic, Fusion) and Branch (Unique, Suite) — the
+  two axes that replaced the old four-tier split. How fusion and evidence move a
+  skill through 0★–6★."
+- **Skill Fusion card** — was "Combine two or more skills into an Extra or Ultimate,"
+  which conflated the Type axis (Fusion) with Suite-branch rank names (Extra/Ultimate
+  are 4★/5★ Suite outcomes, not what fusion itself produces). Replaced with "Combine
+  two or more skills into one Fusion."
+
+Did not touch `skill-hierarchy.html` or `fusion.html` themselves — those are the two
+large diagram-heavy rewrites flagged in #1479 and still teach the retired model; the
+card links point at them but no longer assert the four-tier framing as ground truth.
+
+### Design decisions
+
+- Reused the exact Type/Branch wording established in `faq.html`'s routine 026 fix for
+  consistency across the site.
+- Kept "Combine" as the verb (DOCS.md's own definition of Fusion: "the act of
+  combining two or more skills into one") — only "merge"/"compose" are banned
+  synonyms, not "combine".
+
+### Issues informed
+
+- #1479 — two more slices closed (`faq.html` in 026, `index.html` in 027).
+  `named-skills.html` was checked this run and found already clean (only uses the
+  correct branch-qualified "Extra / Unique" naming at line 796) — no edit needed
+  there. `skill-hierarchy.html` and `fusion.html` remain the two large rewrites.
+
+### Verification
+
+`git status` scoped to `docs/en/index.html`, `docs/en/DOCS.md`, `docs/en/MEMORY.md`
+only. `html.parser` parse-error check clean on `index.html`. CRLF line endings
+preserved on `index.html` (repo convention for `docs/en/*.html`). No new hex
+introduced (diff-scanned). Banned-synonym grep on the diff clean ("combine" is
+DOCS.md's approved Fusion verb, not a banned one). All three stylesheets
+(`tokens.css`, `styles.css`, `docs-en-shell.css`) still linked.
+
+### Files modified
+
+- `docs/en/index.html` — Skill Hierarchy and Skill Fusion card blurbs rewritten
+- `docs/en/DOCS.md` — page map row 1 updated
+- `docs/en/MEMORY.md` — this entry
+
+### Planned next (Routine 028)
+
+- Continue #1479: the two large diagram-heavy rewrites (`skill-hierarchy.html`,
+  `fusion.html`) are the only slices left. Split each into its own daily slot —
+  `skill-hierarchy.html`'s tier-card diagram section first (the page's main
+  four-tier visual), `fusion.html`'s promotion diagram second.
+
+---
+
 ## 2026-08-11 — Routine 026
 
 **Branch:** `docs/routines/026`
