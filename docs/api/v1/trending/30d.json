@@ -1,20 +1,20 @@
 {
   "window": "30d",
-  "generatedAt": "2026-08-11T09:14:17Z",
+  "generatedAt": "2026-08-12T19:08:28Z",
   "firstRun": false,
   "skills": [
     {
-      "id": "firecrawl/firecrawl-skills",
-      "name": "Firecrawl Skills",
-      "level": "4★",
+      "id": "firecrawl/firecrawl-research-index",
+      "name": "Firecrawl Research Index",
+      "level": "3★",
       "contributor": "firecrawl",
-      "trustMagnitude": 223.52,
+      "trustMagnitude": 150.32,
       "overallTrustGrade": "A",
-      "trendingScore": 111.76,
-      "tmDelta": 223.52,
-      "new": true,
+      "trendingScore": 167.69,
+      "tmDelta": 76.8,
+      "new": false,
       "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
+        "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
       }
     },
     {
@@ -74,34 +74,6 @@
       }
     },
     {
-      "id": "firecrawl/firecrawl-research-index",
-      "name": "Firecrawl Research Index",
-      "level": "3★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 150.32,
-      "overallTrustGrade": "A",
-      "trendingScore": 75.16,
-      "tmDelta": 150.32,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
-      }
-    },
-    {
-      "id": "firecrawl/firecrawl-build-scrape",
-      "name": "Firecrawl Scrape",
-      "level": "4★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 135.72,
-      "overallTrustGrade": "A",
-      "trendingScore": 67.86,
-      "tmDelta": 135.72,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
-      }
-    },
-    {
       "id": "mvanhorn/last30days",
       "name": "Last 30 Days Web Research",
       "level": "4★",
@@ -130,6 +102,34 @@
       }
     },
     {
+      "id": "firecrawl/firecrawl-build-interact",
+      "name": "Firecrawl Interact",
+      "level": "3★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 75.7,
+      "overallTrustGrade": "B",
+      "trendingScore": 62.77,
+      "tmDelta": 2.18,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-interact.json"
+      }
+    },
+    {
+      "id": "firecrawl/firecrawl-build-onboarding",
+      "name": "Firecrawl Onboarding",
+      "level": "3★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 75.7,
+      "overallTrustGrade": "B",
+      "trendingScore": 62.77,
+      "tmDelta": 2.18,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
+      }
+    },
+    {
       "id": "gsd-build/get-shit-done",
       "name": "Get Shit Done",
       "level": "4★",
@@ -155,20 +155,6 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/k-dense-ai/qiskit.json"
-      }
-    },
-    {
-      "id": "firecrawl/firecrawl-build-search",
-      "name": "Firecrawl Search",
-      "level": "4★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 109.32,
-      "overallTrustGrade": "A",
-      "trendingScore": 54.66,
-      "tmDelta": 109.32,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-build-search.json"
       }
     },
     {
@@ -337,34 +323,6 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/anthropics/brand-guidelines.json"
-      }
-    },
-    {
-      "id": "firecrawl/firecrawl-build-interact",
-      "name": "Firecrawl Interact",
-      "level": "3★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 75.7,
-      "overallTrustGrade": "B",
-      "trendingScore": 37.85,
-      "tmDelta": 75.7,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-build-interact.json"
-      }
-    },
-    {
-      "id": "firecrawl/firecrawl-build-onboarding",
-      "name": "Firecrawl Onboarding",
-      "level": "3★",
-      "contributor": "firecrawl",
-      "trustMagnitude": 75.7,
-      "overallTrustGrade": "B",
-      "trendingScore": 37.85,
-      "tmDelta": 75.7,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
       }
     },
     {
@@ -592,6 +550,34 @@
       }
     },
     {
+      "id": "firecrawl/firecrawl-build-search",
+      "name": "Firecrawl Search",
+      "level": "4★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 109.32,
+      "overallTrustGrade": "A",
+      "trendingScore": 12.59,
+      "tmDelta": 2.18,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-search.json"
+      }
+    },
+    {
+      "id": "firecrawl/firecrawl-build-scrape",
+      "name": "Firecrawl Scrape",
+      "level": "4★",
+      "contributor": "firecrawl",
+      "trustMagnitude": 135.72,
+      "overallTrustGrade": "A",
+      "trendingScore": 12.51,
+      "tmDelta": 2.18,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-build-scrape.json"
+      }
+    },
+    {
       "id": "obra/subagent-driven-development",
       "name": "Subagent-Driven Development",
       "level": "4★",
@@ -662,7 +648,7 @@
       }
     }
   ],
-  "totalTrending": 47,
+  "totalTrending": 46,
   "_links": {
     "self": "/api/v1/trending/30d.json"
   }
