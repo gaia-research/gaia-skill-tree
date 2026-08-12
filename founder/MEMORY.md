@@ -4,6 +4,78 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-08-12, Steward V1.1 + V1.2 assembled on integration, awaiting founder merge gate)
+
+### TLDR
+
+- **Steward V1.1 and V1.2 are both complete on `integration/steward-v1-1`**, opened against `main` as a founder-gated PR. V1 shipped the debt control plane; V1.1 closes the second Class A loop; V1.2 makes Class B packets actually handable to an agent.
+- **The second Class A repair is real and was proven on this repository, not on a fixture.** Three skills (`gaia-consult`, `gaia-full-pipeline`, `gaia-quick-curate`) had been added to `.agents/skills/` and never mirrored into `.claude/skills/`. `gaia steward run` found and repaired that drift; commit `dea5735` is the machine's output, not a hand edit.
+- **The Class A scheduler question is answered:** GitHub Actions, daily, **repair-ready without auto-merge**. `.github/workflows/steward.yml` observes, repairs in a disposable checkout, and publishes the receipt plus a reviewable patch. It never pushes, opens an issue or PR, or dispatches a model.
+- **The founder's Class B ask is delivered as `founder/steward/routines/`** — a harness-neutral routine library with cadences, written so Hermes, Claude, or anything else works from the same prompt.
+- **Nothing merged to `main`.** The constitutional line is intact: no canonical curation, no trust/rank/schema governance change, no issue/PR creation by Steward, no agent or model execution, no release.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| Class A repair family | ✅ One hard-coded repair became a bounded family of registered mirror surfaces. `src/gaia_cli/steward/mirrors.py` is the single contract read by sensor, policy, and repair — a surface can no longer be repaired on different terms than it was observed. |
+| Second Class A loop | ✅ `agent-skill-mirror`: `.agents/skills/**` → `.claude/skills/**`, with `scripts/sync_agent_skill_mirror.py --check` as its independent proof command. |
+| Locally owned paths | ✅ Installation replaces the whole mirror directory atomically, so `skill-creator/**` and bytecode are carried across the swap byte-for-byte. A naive mirror sync would have deleted them. |
+| Multi-repair run | ✅ Up to `maxRepairsPerRun` (now 2) surfaces per run. A surface that cannot be proven is recorded as `blocked` and never suppresses another surface's proven repair. |
+| Class A scheduling | ✅ `.github/workflows/steward.yml`, daily 07:10 UTC + `workflow_dispatch`, artifacts only. |
+| Class B dispatch | ✅ `gaia steward dispatch <debt-id> --prompt` renders a complete harness-neutral Tree Keeper prompt. Report-only: reuses the dispatch receipt, writes no second one, spends nothing. |
+| Dispatch rules | ✅ Generalized from one hard-coded rule to a declared set. Wiring the next Class B routine is a `POLICY.yaml` edit plus a sensor — no CLI change. |
+| Founder routine library | ✅ `founder/steward/routines/` — README with cadence table and harness guidance, plus one document per routine. |
+| Test setup | ✅ Same Class-P caveat as V1. Full suite after setup: **2109 passed, 5 skipped**. Steward suite: 113 passed. |
+| `main` merge | ⏳ Awaiting explicit founder approval only. |
+
+### Branches at end of session
+
+| Branch / PR | Status |
+|---|---|
+| `integration/steward-v1-1` → `main` | Open PR, founder-gated. This is the review surface. |
+| `claude/solo-v1-1-steward-uidmqv` / #1529 | Merged into integration (V1.1 Class A loop + scheduler). |
+| `claude/steward-v1-2-tree-keeper` / #1530 | Merged into integration (V1.2 Tree Keeper prompts + routine library). |
+| `main` | Unchanged by this session. No direct push, no merge. |
+
+### Decisions made this session (founder-delegated)
+
+- **Class A scheduler = GitHub Actions, repair-ready, no auto-merge.** A disposable checkout, an audited run, and a receipt that survives the container beat a local runner for this lane. Debt is information, so open debt still passes the job; only a Steward that cannot complete a scan fails it — a blind sensor is a defect, an idle one is not.
+- **`maxRepairsPerRun` = 2, one per authorized executor.** Kept as a policy number rather than a constant so a narrower policy can still cap it.
+- **A blocked surface does not block an unrelated one.** Strict all-or-nothing was considered and rejected: it would let one unprovable mirror hold another mirror's proven repair hostage indefinitely.
+- **Unwired routines are documented honestly rather than quietly.** `repository_hygiene`, `cli_contract_drift`, and `knowledge_contradiction` have contracts and cadences but no sensor, and the README says so in the table rather than implying they are live.
+
+### Routing — where things live now
+
+- Mirror surface contract: `src/gaia_cli/steward/mirrors.py` (add a surface here first; policy can only narrow it).
+- Repair engine: `src/gaia_cli/steward/repairs.py`. Prompt projection: `src/gaia_cli/steward/prompt.py`.
+- Machine policy: `founder/steward/POLICY.yaml`. Human policy: `founder/steward/README.md`.
+- Class B routine library: `founder/steward/routines/` (README carries the cadence table).
+- Class A pulse: `.github/workflows/steward.yml`.
+- Founder source of truth: `founder/STEWARD.md`; handover: `founder/handovers/2026-08-09-GAIA-STEWARD-v1.md` (§ 18 is the version ladder).
+
+### Lessons / hazards preserved
+
+- **A whole-directory atomic install is a deletion primitive.** Any mirror repair whose sensor ignores paths MUST carry those paths across the swap explicitly. This is the single highest-risk line in the Class A lane; `test_agent_mirror_repair_preserves_locally_owned_paths` exists to keep it honest.
+- **The check script is deliberately a second implementation.** `sync_agent_skill_mirror.py` does not import the Steward spec — that independence is the point of the proof. `test_check_script_ignore_set_matches_the_repair_specification` asserts the two ignore sets stay equal without coupling the code.
+- **`skill-creator` is not in this checkout.** The ignore pattern is inherited from V1's sensor and covers a founder-local skill. It is exercised by fixture, not by repository state — do not "clean it up" as dead config.
+- **The prompt must never name a harness.** If a routine only works on one harness, that is a defect in the routine, not a property of the work. A test enforces the absence with word-boundary matching (a naive substring check false-positives on "resolve" containing "sol").
+- Class-P setup is still required before a full local pytest run; `gaia dev docs` also touches `docs/graph/gaia.json` and `docs/graph/ledger/data.json` with timestamp-only diffs — revert those before committing anything else.
+
+### Open questions for next orchestrator
+
+- **The only decision is the founder gate:** review the `integration/steward-v1-1` → `main` PR and approve or reject.
+- V1.3 (independent verifier) and V1.4 (bounded Class B rolling lane) are unstarted and remain in handover order. Do not start V1.4 before V1.3 — the verifier is what makes autonomous Class B integration defensible.
+- The three unwired Class B routines need sensors before their debt can be dispatched. Each is a sensor plus a policy rule; the CLI no longer needs to change.
+
+### Token cost (this session)
+
+- `2026-08-12 Opus 5: ~215k in, ~46k out (cache-heavy; single continuous session). ~$9 estimated.`
+- Two independent verification subagents (Opus 5) spawned once for sanity, per founder instruction.
+- Class A runs themselves cost **zero tokens** by design — the entire V1.1 lane is deterministic code.
+
+---
+
 ## State Snapshot (2026-08-11, Steward V1 complete and ready for founder merge gate)
 
 ### TLDR
