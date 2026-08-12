@@ -54,12 +54,14 @@ _DISPATCH_RULE_KEYS = {
     "authority",
     "routine",
     "objective",
+    "promptGuide",
     "allowedPaths",
     "allowedCommands",
     "forbiddenPaths",
     "stopConditions",
     "proof",
 }
+_ROUTINE_GUIDE_ROOT = "founder/steward/routines/"
 _FOUNDER_RULE_KEYS = {
     "debtKind",
     "authority",
@@ -122,6 +124,7 @@ class DispatchRulePolicy:
     authority: AuthorityClass
     routine: str
     objective: str
+    prompt_guide: str
     allowed_paths: tuple[str, ...]
     allowed_commands: tuple[str, ...]
     forbidden_paths: tuple[str, ...]
@@ -336,10 +339,12 @@ class StewardPolicy:
             raise PolicyError(str(exc)) from exc
 
         dispatch_data = _mapping(routing["dispatchRules"], "routing.dispatchRules")
-        if set(dispatch_data) != {"registry-integrity-review"}:
-            raise PolicyError("routing must define exactly registry-integrity-review")
+        if not dispatch_data:
+            raise PolicyError("routing must define at least one dispatch rule")
         dispatch_rules: dict[str, DispatchRulePolicy] = {}
         for rule_id, raw_rule in dispatch_data.items():
+            if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", rule_id):
+                raise PolicyError("routing dispatch rule ids must be kebab-case")
             rule = _mapping(raw_rule, f"routing.dispatchRules.{rule_id}")
             if set(rule) != _DISPATCH_RULE_KEYS:
                 raise PolicyError(
@@ -348,13 +353,23 @@ class StewardPolicy:
                 )
             debt_kind = _nonempty_string(rule["debtKind"], f"routing.dispatchRules.{rule_id}.debtKind")
             rule_authority = _authority_value(rule["authority"], f"routing.dispatchRules.{rule_id}.authority")
-            if (
-                debt_kind != "registry_integrity_failed"
-                or rule_authority is not AuthorityClass.B
-                or authority.get(debt_kind) is not AuthorityClass.B
-            ):
+            # Dispatch is the Class B lane and only the Class B lane. A rule may
+            # never route Class A work (that belongs to a proven repair) nor
+            # Class C work (that belongs to the founder queue).
+            if rule_authority is not AuthorityClass.B or authority.get(debt_kind) is not AuthorityClass.B:
                 raise PolicyError(
-                    "registry-integrity-review must route only Class B registry_integrity_failed debt"
+                    f"routing.dispatchRules.{rule_id} must route Class B debt classified as Class B"
+                )
+            if any(item.debt_kind == debt_kind for item in dispatch_rules.values()):
+                raise PolicyError(f"multiple dispatch rules are configured for {debt_kind}")
+            prompt_guide = _nonempty_string(
+                rule["promptGuide"], f"routing.dispatchRules.{rule_id}.promptGuide"
+            )
+            _safe_relative_path(prompt_guide, f"routing.dispatchRules.{rule_id}.promptGuide")
+            if not prompt_guide.startswith(_ROUTINE_GUIDE_ROOT) or not prompt_guide.endswith(".md"):
+                raise PolicyError(
+                    f"routing.dispatchRules.{rule_id}.promptGuide must be a markdown routine "
+                    f"under {_ROUTINE_GUIDE_ROOT}"
                 )
             allowed_paths = tuple(
                 _safe_glob(item, f"routing.dispatchRules.{rule_id}.allowedPaths")
@@ -372,6 +387,7 @@ class StewardPolicy:
                 authority=rule_authority,
                 routine=_nonempty_string(rule["routine"], f"routing.dispatchRules.{rule_id}.routine"),
                 objective=_nonempty_string(rule["objective"], f"routing.dispatchRules.{rule_id}.objective"),
+                prompt_guide=prompt_guide,
                 allowed_paths=allowed_paths,
                 allowed_commands=_string_list(rule["allowedCommands"], f"routing.dispatchRules.{rule_id}.allowedCommands"),
                 forbidden_paths=forbidden_paths,

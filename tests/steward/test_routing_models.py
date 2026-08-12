@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 import pytest
@@ -14,6 +15,7 @@ from gaia_cli.steward.models import (
     normalize_decision_target,
 )
 from gaia_cli.steward.policy import POLICY_RELATIVE_PATH, PolicyError, StewardPolicy
+from gaia_cli.steward.prompt import render_tree_keeper_prompt
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -71,13 +73,31 @@ def test_checked_in_routing_policy_is_exact_and_does_not_change_authority() -> N
             lambda data: data["routing"]["dispatchRules"].update(
                 {"coverage-review": data["routing"]["dispatchRules"]["registry-integrity-review"]}
             ),
-            "exactly registry-integrity-review",
+            "multiple dispatch rules are configured",
         ),
         (
             lambda data: data["routing"]["dispatchRules"]["registry-integrity-review"].update(
                 {"authority": "A"}
             ),
-            "only Class B",
+            "must route Class B debt",
+        ),
+        (
+            # Class C work belongs to the founder queue; a dispatch rule may
+            # never quietly hand a governance decision to an agent.
+            lambda data: data["routing"]["dispatchRules"]["registry-integrity-review"].update(
+                {"debtKind": "generic_mapping"}
+            ),
+            "must route Class B debt",
+        ),
+        (
+            lambda data: data["routing"]["dispatchRules"]["registry-integrity-review"].update(
+                {"promptGuide": "docs/agents/whatever.md"}
+            ),
+            "promptGuide must be a markdown routine",
+        ),
+        (
+            lambda data: data["routing"]["dispatchRules"].clear(),
+            "at least one dispatch rule",
         ),
         (
             lambda data: data["routing"]["founderRules"]["generic-mapping-decision"].update(
@@ -170,3 +190,56 @@ def test_founder_decisions_normalize_explicit_targets_and_sort_queue() -> None:
     assert FounderQueue.create((grown,)).queue_id == FounderQueue.create((first,)).queue_id
     with pytest.raises(ValueError, match="decisionTarget"):
         normalize_decision_target("ambiguous target?")
+
+
+# --- V1.2: Tree Keeper prompt rendering ---------------------------------------
+
+
+def test_checked_in_dispatch_rules_point_at_a_real_routine_document() -> None:
+    """A policy rule's human contract must exist, not just validate."""
+
+    policy = StewardPolicy.load(REPO_ROOT)
+
+    assert policy.dispatch_rules
+    for rule in policy.dispatch_rules.values():
+        assert (REPO_ROOT / rule.prompt_guide).is_file(), rule.prompt_guide
+
+
+def test_tree_keeper_prompt_carries_the_whole_envelope_and_names_no_harness() -> None:
+    packet = _packet()
+
+    prompt = render_tree_keeper_prompt(
+        packet,
+        prompt_guide="founder/steward/routines/registry-integrity-review.md",
+        receipt={"runId": "steward-fixture-run"},
+    )
+
+    # Everything that bounds the work must survive the projection.
+    assert packet.dispatch_id in prompt
+    assert packet.objective in prompt
+    assert "Class B" in prompt
+    assert "founder/steward/routines/registry-integrity-review.md" in prompt
+    assert "steward-fixture-run" in prompt
+    for value in packet.allowed_paths + packet.allowed_commands + packet.forbidden_paths:
+        assert value in prompt
+    for value in packet.stop_conditions + packet.proof:
+        assert value in prompt
+    assert "registry/nodes/x.json" in prompt
+
+    # The prompt is a contract, not a routing decision: naming a harness or a
+    # model here would let the paste target change what the work is.
+    lowered = prompt.lower()
+    for harness in ("claude", "hermes", "codex", "opus", "sonnet", "gpt", "luna", "terra", "sol"):
+        assert re.search(rf"\b{harness}\b", lowered) is None, harness
+
+
+def test_tree_keeper_prompt_is_deterministic_and_declares_a_zero_budget() -> None:
+    packet = _packet()
+
+    first = render_tree_keeper_prompt(packet, prompt_guide="founder/steward/routines/x.md")
+    second = render_tree_keeper_prompt(packet, prompt_guide="founder/steward/routines/x.md")
+
+    assert first == second
+    assert first.endswith("\n")
+    assert "Model calls granted by Steward: **0**" in first
+    assert "unrecorded" in first
