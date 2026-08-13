@@ -97,6 +97,18 @@ repairs:
 
 routing:
   maxDispatchesPerRun: 1
+  # The bounded Class B rolling lane. These three numbers are the whole of what
+  # makes it a lane rather than a loop, and code caps each of them independently
+  # so editing this file can never grant unbounded autonomy.
+  lane:
+    # Never more outstanding work than a human can actually review.
+    maxInFlight: 1
+    # A debt that fails bounded repair this many times is not asking for another
+    # attempt; it is evidence the envelope is wrong, which is a founder question.
+    maxAttempts: 2
+    # A just-rejected debt is not immediately re-dispatchable, so a broken loop
+    # cannot spend an afternoon rediscovering the same rejection.
+    cooldownSeconds: 3600
   budget:
     modelCalls: 0
     maxTokens: 0

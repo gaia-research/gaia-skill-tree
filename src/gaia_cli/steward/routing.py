@@ -23,6 +23,16 @@ from gaia_cli.steward.models import (
     FounderQueue,
     normalize_decision_target,
 )
+from gaia_cli.steward.lane import (
+    Lane,
+    LaneError,
+    lane_document,
+    load_lane,
+    mark_dispatched,
+    next_dispatchable,
+    reconcile,
+    record_verdict,
+)
 from gaia_cli.steward.policy import StewardPolicy
 from gaia_cli.steward.receipts import (
     ensure_local_state_path,
@@ -45,6 +55,32 @@ from gaia_cli.steward.verification import (
 
 class RoutingError(RuntimeError):
     """A routing precondition was not proven; no report is rendered."""
+
+
+class LaneEmpty(RoutingError):
+    """The lane has nothing it may hand out. This is a healthy outcome.
+
+    Kept distinct from every other routing failure so callers can tell "Steward
+    is idle" from "Steward is broken". A scheduled pickup that treated the two
+    alike would either page a human every quiet day or hide a real stall.
+    """
+
+
+@dataclass(frozen=True)
+class LaneReport:
+    """A rendered view of the rolling lane at one moment."""
+
+    lane: Lane
+    next_debt_id: str | None
+    reason: str
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "schemaVersion": "steward-lane-report-v1",
+            "lane": self.lane.to_dict(),
+            "summary": self.lane.summary(),
+            "next": {"debtId": self.next_debt_id, "reason": self.reason},
+        }
 
 
 @dataclass(frozen=True)
@@ -73,7 +109,7 @@ class RoutingReceipt:
 @dataclass(frozen=True)
 class RoutingResult:
     scan: ScanResult
-    artifact: DispatchPacket | FounderQueue | VerificationVerdict
+    artifact: DispatchPacket | FounderQueue | VerificationVerdict | LaneReport
     receipt: RoutingReceipt
     receipt_path: Path
 
@@ -118,7 +154,7 @@ def _persist(
     policy: StewardPolicy,
     scan: ScanResult,
     action: str,
-    artifact: DispatchPacket | FounderQueue | VerificationVerdict,
+    artifact: DispatchPacket | FounderQueue | VerificationVerdict | LaneReport,
 ) -> tuple[RoutingReceipt, Path]:
     artifact_dict = artifact.to_dict()
     # Artifact identity is semantic and intentionally stable; this hash records
@@ -148,32 +184,45 @@ def _persist(
     return receipt, path
 
 
-def _restore_routing_scan_state(scan: ScanResult, ledger_before: bytes | None, receipts_before: set[Path]) -> None:
-    """Undo scan state if the paired routing receipt cannot be published."""
+def _restore_bytes(path: Path, before: bytes | None, *, tag: str) -> None:
+    """Atomically put one local-state file back the way this transaction found it."""
 
-    if ledger_before is None:
+    if before is None:
         try:
-            scan.debt_state_path.unlink()
+            path.unlink()
         except FileNotFoundError:
             pass
-    else:
-        fd, temporary_name = tempfile.mkstemp(
-            dir=scan.debt_state_path.parent,
-            prefix=f".{scan.debt_state_path.name}.",
-            suffix=".routing-rollback",
-        )
+        return
+    fd, temporary_name = tempfile.mkstemp(
+        dir=path.parent, prefix=f".{path.name}.", suffix=tag
+    )
+    try:
+        with os.fdopen(fd, "wb") as handle:
+            handle.write(before)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary_name, path)
+    except BaseException:
         try:
-            with os.fdopen(fd, "wb") as handle:
-                handle.write(ledger_before)
-                handle.flush()
-                os.fsync(handle.fileno())
-            os.replace(temporary_name, scan.debt_state_path)
-        except BaseException:
-            try:
-                os.unlink(temporary_name)
-            except FileNotFoundError:
-                pass
-            raise
+            os.unlink(temporary_name)
+        except FileNotFoundError:
+            pass
+        raise
+
+
+def _restore_routing_scan_state(
+    scan: ScanResult,
+    ledger_before: bytes | None,
+    receipts_before: set[Path],
+    *,
+    lane_path: Path | None = None,
+    lane_before: bytes | None = None,
+) -> None:
+    """Undo scan and lane state if the paired routing receipt cannot be published."""
+
+    _restore_bytes(scan.debt_state_path, ledger_before, tag=".routing-rollback")
+    if lane_path is not None:
+        _restore_bytes(lane_path, lane_before, tag=".lane-rollback")
     for path in scan.receipt_path.parent.glob("*.json"):
         if path not in receipts_before:
             path.unlink()
@@ -185,17 +234,26 @@ def _scan_and_persist_routing(
     action: str,
     controller: StewardController,
     build: Any,
+    commit: Any = None,
 ) -> RoutingResult:
-    """Make scan + routing receipt one local-state transaction."""
+    """Make scan, routing receipt, and any lane move one local-state transaction.
+
+    ``commit`` runs after the receipt is published but still under the lock and
+    still inside the rollback. That ordering is deliberate: the receipt is the
+    audit precondition for a lane move, so a lane must never advance past a
+    dispatch that was never recorded.
+    """
 
     state_directory = root / policy.state_directory
     ledger_path = state_directory / "debt.json"
+    lane_path = state_directory / LANE_STATE_FILE
     receipts_directory = state_directory / policy.receipts_directory
     lock_directory = state_directory / ".scan.lock"
-    for path in (state_directory, ledger_path, receipts_directory, lock_directory):
+    for path in (state_directory, ledger_path, lane_path, receipts_directory, lock_directory):
         ensure_local_state_path(root, state_directory, path)
     with exclusive_scan_lock(lock_directory, repo_root=root, state_root=state_directory):
         ledger_before = ledger_path.read_bytes() if ledger_path.exists() else None
+        lane_before = lane_path.read_bytes() if lane_path.exists() else None
         receipts_before = set(receipts_directory.glob("*.json")) if receipts_directory.exists() else set()
         scan = controller.scan(root, _lock_held=True)
         try:
@@ -203,10 +261,220 @@ def _scan_and_persist_routing(
             receipt, receipt_path = _persist(
                 root=root, policy=policy, scan=scan, action=action, artifact=artifact
             )
+            if commit is not None:
+                commit(scan, artifact)
         except BaseException:
-            _restore_routing_scan_state(scan, ledger_before, receipts_before)
+            _restore_routing_scan_state(
+                scan,
+                ledger_before,
+                receipts_before,
+                lane_path=lane_path,
+                lane_before=lane_before,
+            )
             raise
     return RoutingResult(scan=scan, artifact=artifact, receipt=receipt, receipt_path=receipt_path)
+
+
+LANE_STATE_FILE = "lane.json"
+
+# Escalation out of the rolling lane is not one of the founder rules in policy:
+# it is not a question about a debt kind, it is a question about an envelope
+# that kept failing. It carries its own identity so a lowered attempt ceiling
+# cannot silently re-file every escalation as a different decision.
+LANE_ESCALATION_RULE = "lane-escalation"
+LANE_ESCALATION_OBJECTIVE = (
+    "Bounded repair exhausted its attempt ceiling on this routine. Decide "
+    "whether the authority envelope is wrong, whether the finding is a Class C "
+    "question in disguise, or whether the routine should be retired. Another "
+    "attempt under the same envelope is not one of the options — that is what "
+    "the ceiling already ruled out."
+)
+
+
+def _lane_path(root: Path, policy: StewardPolicy) -> Path:
+    return root / policy.state_directory / LANE_STATE_FILE
+
+
+def _read_lane(root: Path, policy: StewardPolicy) -> Lane:
+    path = _lane_path(root, policy)
+    ensure_local_state_path(root, root / policy.state_directory, path)
+    if not path.is_file():
+        return load_lane(None, policy.lane)
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise RoutingError(f"cannot read Steward lane state at {path}: {exc}") from exc
+    return load_lane(data, policy.lane)
+
+
+def _write_lane(root: Path, policy: StewardPolicy, lane: Lane) -> None:
+    path = _lane_path(root, policy)
+    ensure_local_state_path(root, root / policy.state_directory, path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    content = (
+        json.dumps(lane_document(lane), indent=2, sort_keys=True, ensure_ascii=False) + "\n"
+    ).encode("utf-8")
+    if path.is_file() and path.read_bytes() == content:
+        return
+    temporary = path.with_name(f".{path.name}.{os.getpid()}.tmp")
+    ensure_local_state_path(root, root / policy.state_directory, temporary)
+    try:
+        with temporary.open("xb") as handle:
+            handle.write(content)
+        os.replace(temporary, path)
+    except BaseException:
+        if temporary.exists():
+            temporary.unlink()
+        raise
+
+
+def _dispatchable_kinds(policy: StewardPolicy) -> dict[str, str]:
+    return {rule.debt_kind: rule.id for rule in policy.dispatch_rules.values()}
+
+
+def _reconciled_lane(root: Path, policy: StewardPolicy, scan: ScanResult) -> Lane:
+    """The lane, brought into agreement with what this scan actually observed.
+
+    Only debt this scan saw as drift can hold a live lane slot. A stale ledger
+    entry that no sensor confirmed must not occupy capacity that a real finding
+    needs — that is how a bounded lane silently becomes a blocked one.
+    """
+
+    fresh = tuple(
+        debt for debt in scan.open_debts if debt.id in scan.fresh_open_debt_ids
+    )
+    return reconcile(
+        _read_lane(root, policy),
+        open_debts=fresh,
+        dispatchable_kinds=_dispatchable_kinds(policy),
+        now=scan.receipt.finished_at,
+    )
+
+
+def render_lane(repo_root: Path, *, controller: StewardController | None = None) -> RoutingResult:
+    """Reconcile the rolling lane against a fresh scan and report it."""
+
+    root = repo_root.resolve()
+    policy = StewardPolicy.load(root)
+    pending: dict[str, Lane] = {}
+
+    def build(scan: ScanResult) -> LaneReport:
+        _assert_known_fresh_scan(scan)
+        lane = _reconciled_lane(root, policy, scan)
+        pending["lane"] = lane
+        entry, reason = next_dispatchable(lane, now=scan.receipt.finished_at)
+        return LaneReport(lane=lane, next_debt_id=entry.debt_id if entry else None, reason=reason)
+
+    def commit(_scan: ScanResult, _artifact: object) -> None:
+        _write_lane(root, policy, pending["lane"])
+
+    return _scan_and_persist_routing(
+        root, policy, "lane", controller or StewardController(), build, commit
+    )
+
+
+def render_lane_next(
+    repo_root: Path,
+    *,
+    controller: StewardController | None = None,
+    prompt: bool = False,
+) -> tuple[RoutingResult, str | None]:
+    """Hand out the next bounded Class B dispatch the lane permits, if any.
+
+    This is the pickup point. It writes the same `dispatch` receipt that
+    `gaia steward dispatch` writes, so verification can find the envelope the
+    work was authorized under without knowing which command produced it.
+    """
+
+    from gaia_cli.steward.prompt import render_tree_keeper_prompt
+
+    root = repo_root.resolve()
+    policy = StewardPolicy.load(root)
+    pending: dict[str, Any] = {}
+
+    def build(scan: ScanResult) -> DispatchPacket:
+        _assert_known_fresh_scan(scan)
+        lane = _reconciled_lane(root, policy, scan)
+        entry, reason = next_dispatchable(lane, now=scan.receipt.finished_at)
+        if entry is None:
+            # A lane with nothing to hand out is a healthy lane. It still
+            # persists the reconciliation so the reason is auditable.
+            _write_lane(root, policy, lane)
+            raise LaneEmpty(reason)
+        debt = next((item for item in scan.debts if item.id == entry.debt_id), None)
+        if debt is None:
+            raise RoutingError(f"lane references debt absent from this scan: {entry.debt_id}")
+        _assert_fresh_open(debt, scan)
+        rule = policy.dispatch_rule_for(debt.kind)
+        if rule is None or debt.authority is not AuthorityClass.B or rule.authority is not AuthorityClass.B:
+            raise RoutingError(f"lane selected non-Class-B debt: {debt.id}")
+        packet = DispatchPacket.create(
+            debt=debt.to_dict(), evidence=_routing_evidence(debt), authority=debt.authority,
+            rule=rule.id, routine=rule.routine, objective=rule.objective,
+            allowed_paths=rule.allowed_paths, allowed_commands=rule.allowed_commands,
+            forbidden_paths=rule.forbidden_paths, stop_conditions=rule.stop_conditions,
+            proof=rule.proof, budget=policy.routing_budget, capability=rule.capability,
+        )
+        pending["lane"] = mark_dispatched(
+            lane, entry, dispatch_id=packet.dispatch_id, now=scan.receipt.finished_at
+        )
+        pending["rule"] = rule
+        return packet
+
+    def commit(_scan: ScanResult, _artifact: object) -> None:
+        _write_lane(root, policy, pending["lane"])
+
+    result = _scan_and_persist_routing(
+        root, policy, "dispatch", controller or StewardController(), build, commit
+    )
+    if not prompt:
+        return result, None
+    packet = result.artifact
+    assert isinstance(packet, DispatchPacket)
+    return result, render_tree_keeper_prompt(
+        packet,
+        prompt_guide=pending["rule"].prompt_guide,
+        receipt=result.receipt.to_dict(),
+    )
+
+
+def record_lane_verdict(
+    repo_root: Path,
+    debt_id: str,
+    verdict: str,
+    *,
+    note: str = "",
+    controller: StewardController | None = None,
+) -> RoutingResult:
+    """Record an outcome the lane cannot observe for itself.
+
+    ``accept`` only ever arrives here. Steward's own verification is structurally
+    incapable of producing one, so closing an entry as accepted is always the
+    act of a person or an independent verifier, and the note records who said so.
+    """
+
+    root = repo_root.resolve()
+    policy = StewardPolicy.load(root)
+    pending: dict[str, Lane] = {}
+
+    def build(scan: ScanResult) -> LaneReport:
+        _assert_known_fresh_scan(scan)
+        lane = _reconciled_lane(root, policy, scan)
+        if lane.by_id(debt_id) is None:
+            raise RoutingError(f"the lane is not tracking debt {debt_id}")
+        updated = record_verdict(lane, debt_id, verdict, now=scan.receipt.finished_at, note=note)
+        pending["lane"] = updated
+        entry, reason = next_dispatchable(updated, now=scan.receipt.finished_at)
+        return LaneReport(
+            lane=updated, next_debt_id=entry.debt_id if entry else None, reason=reason
+        )
+
+    def commit(_scan: ScanResult, _artifact: object) -> None:
+        _write_lane(root, policy, pending["lane"])
+
+    return _scan_and_persist_routing(
+        root, policy, "lane", controller or StewardController(), build, commit
+    )
 
 
 def render_dispatch(
@@ -388,6 +656,7 @@ def render_verification(
 
     active_controller = controller or StewardController()
     sensor_sources = tuple(sensor.id for sensor in active_controller.sensors)
+    pending: dict[str, Lane] = {}
 
     def build(scan: ScanResult) -> VerificationVerdict:
         _assert_known_fresh_scan(scan)
@@ -408,7 +677,30 @@ def render_verification(
             authority_still_class_b=still_class_b,
         )
 
-    result = _scan_and_persist_routing(root, policy, "verify", active_controller, build)
+    def commit(scan: ScanResult, artifact: object) -> None:
+        # The lane rolls forward off real verification outcomes, not off manual
+        # bookkeeping. A lane advanced by hand would drift from the receipts.
+        if not isinstance(artifact, VerificationVerdict):
+            return
+        lane = _reconciled_lane(root, policy, scan)
+        if lane.by_id(debt_id) is None or lane.by_id(debt_id).state != "dispatched":
+            _write_lane(root, policy, lane)
+            return
+        _write_lane(
+            root,
+            policy,
+            record_verdict(
+                lane,
+                debt_id,
+                artifact.verdict,
+                now=scan.receipt.finished_at,
+                note=f"receipt {artifact.dispatch_id}",
+            ),
+        )
+
+    result = _scan_and_persist_routing(
+        root, policy, "verify", active_controller, build, commit
+    )
     return result, diff_text, transcript.outputs
 
 
@@ -464,7 +756,24 @@ def render_founder_queue(repo_root: Path, *, controller: StewardController | Non
     def build(scan: ScanResult) -> FounderQueue:
         _assert_known_fresh_scan(scan)
         groups: dict[tuple[str, str], list[Debt]] = {}
+        # Debt the rolling lane gave up on belongs here. Exhausting the attempt
+        # ceiling is exactly the permitted B → C downgrade: bounded repair kept
+        # failing, so the envelope — not the attempt — is the likelier defect,
+        # and an envelope is a governance question. The reverse never happens;
+        # nothing in this file can promote a founder matter back into the lane.
+        escalated = {
+            entry.debt_id: entry
+            for entry in _reconciled_lane(root, policy, scan).escalated
+        }
         for debt in scan.open_debts:
+            if debt.id in escalated and debt.id in scan.fresh_open_debt_ids:
+                # Grouped by the routine whose envelope kept failing, because
+                # that is the shared decision: one ruling on one envelope can
+                # unblock every debt that routine gave up on.
+                groups.setdefault(
+                    (LANE_ESCALATION_RULE, f"lane-escalation/{escalated[debt.id].rule}"), []
+                ).append(debt)
+                continue
             if debt.authority is not AuthorityClass.C:
                 continue
             # Founder output is a current governance queue, not a historical
@@ -485,10 +794,14 @@ def render_founder_queue(repo_root: Path, *, controller: StewardController | Non
             groups.setdefault((rule.id, target), []).append(debt)
         decisions: list[FounderDecision] = []
         for (rule_id, target), debts in sorted(groups.items()):
-            rule = policy.founder_rules[rule_id]
+            objective = (
+                LANE_ESCALATION_OBJECTIVE
+                if rule_id == LANE_ESCALATION_RULE
+                else policy.founder_rules[rule_id].objective
+            )
             ordered = sorted(debts, key=lambda item: item.id)
             decisions.append(FounderDecision.create(
-                rule=rule.id, decision_target=target, objective=rule.objective,
+                rule=rule_id, decision_target=target, objective=objective,
                 debt_ids=tuple(item.id for item in ordered),
                 evidence=tuple(_routing_evidence(item) for item in ordered),
             ))

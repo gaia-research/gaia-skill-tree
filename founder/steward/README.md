@@ -74,6 +74,54 @@ names a model, a provider, or a harness (founder ruling 2026-08-13,
 work knows whether they are handing over a chore or a judgment call, and so a
 stronger reasoner is never mistaken for a wider envelope.
 
+## Class B — the rolling lane
+
+`gaia steward dispatch <debt-id>` answers *render this one*. The lane answers the
+question that decides whether maintenance keeps moving while nobody is watching:
+**what next, how much at once, and what happens to work that keeps failing.**
+
+```bash
+gaia steward lane status                 # what is queued, in flight, escalated
+gaia steward lane next --prompt          # hand out the next dispatch the bounds allow
+gaia steward lane record <debt-id> --verdict accept --note "who said so"
+```
+
+`lane next` writes the same `dispatch` receipt that `gaia steward dispatch`
+writes, so verification finds the envelope without knowing which command
+produced it. It is the pickup point: an agent or a scheduled routine calls it,
+gets a prompt or nothing, and either way it is done.
+
+Almost all of the lane is limits, and code caps each one so editing `POLICY.yaml`
+can never grant unbounded autonomy:
+
+| Bound | Shipped | Why it exists |
+|---|---:|---|
+| `maxInFlight` | 1 | Autonomy that outruns review is not autonomy, it is backlog |
+| `maxAttempts` | 2 | A debt that keeps failing bounded repair is telling you the envelope is wrong |
+| `cooldownSeconds` | 3600 | A broken loop cannot spend an afternoon rediscovering one rejection |
+
+The states are `queued → dispatched → {queued, escalated, closed}`. There is no
+`accepted` state — acceptance *closes* an entry, and the entry records who said
+so. A `pending` verdict is deliberately **not** progress: machinery finding
+nothing wrong leaves the work outstanding until someone judges it.
+
+**Escalation has somewhere to land.** A debt that exhausts its attempts leaves
+the agent lane and appears in `gaia steward founder`, grouped by the routine
+whose envelope kept failing — so one ruling can unblock everything that routine
+gave up on. That is the permitted B → C downgrade. Nothing promotes a founder
+matter back into the lane, and a fresh observation does not re-queue an
+escalated entry: the sensor keeps seeing the condition precisely because nobody
+has ruled on it yet.
+
+Reconciliation is mechanical in both directions. Debt this scan observed as
+drift enters as `queued`; debt no longer observed leaves as `closed`, including
+debt that was in flight — a finding that stopped reproducing is resolved whether
+or not the agent is what resolved it.
+
+`LaneEmpty` is a distinct error from every other routing failure, so a scheduled
+pickup can tell *Steward is idle* from *Steward is broken*. The CLI exits `0`
+on an empty lane. Quiet days are the common case and must not page anyone.
+
 ## Class B — verification is where autonomy earns its keep
 
 ```bash

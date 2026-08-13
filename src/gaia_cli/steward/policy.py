@@ -9,6 +9,7 @@ from typing import Any, Mapping
 
 import yaml
 
+from gaia_cli.steward.lane import LanePolicy
 from gaia_cli.steward.mirrors import spec_by_id
 from gaia_cli.steward.models import AuthorityClass, Priority, RoutingBudget
 
@@ -47,7 +48,16 @@ _CLASS_A_ALLOWED_WRITES = (
     ".gaia/steward/**",
     "src/gaia_cli/data/registry/schema/**",
 )
-_ROUTING_KEYS = {"maxDispatchesPerRun", "budget", "dispatchRules", "founderRules"}
+_ROUTING_KEYS = {"maxDispatchesPerRun", "lane", "budget", "dispatchRules", "founderRules"}
+_LANE_KEYS = {"maxInFlight", "maxAttempts", "cooldownSeconds"}
+# Hard ceilings, pinned in code for the same reason Class A envelopes are: the
+# lane's bounds are the only thing standing between "bounded autonomous repair"
+# and an unattended loop. Policy may narrow these; it may not widen them.
+_LANE_LIMITS = {
+    "maxInFlight": (1, 4),
+    "maxAttempts": (1, 5),
+    "cooldownSeconds": (0, 86_400),
+}
 _ROUTING_BUDGET_KEYS = {"modelCalls", "maxTokens", "maxMinutes"}
 _DISPATCH_RULE_KEYS = {
     "debtKind",
@@ -183,6 +193,7 @@ class StewardPolicy:
     max_repairs_per_run: int
     repair_executors: Mapping[str, RepairExecutorPolicy]
     max_dispatches_per_run: int
+    lane: LanePolicy
     routing_budget: RoutingBudget
     dispatch_rules: Mapping[str, DispatchRulePolicy]
     founder_rules: Mapping[str, FounderRulePolicy]
@@ -352,6 +363,23 @@ class StewardPolicy:
         max_dispatches = routing["maxDispatchesPerRun"]
         if max_dispatches != 1 or isinstance(max_dispatches, bool):
             raise PolicyError("routing.maxDispatchesPerRun must be exactly 1")
+        lane_raw = _mapping(routing["lane"], "routing.lane")
+        if set(lane_raw) != _LANE_KEYS:
+            raise PolicyError(f"routing.lane must contain exactly {sorted(_LANE_KEYS)}")
+        lane_values: dict[str, int] = {}
+        for key, (floor, ceiling) in _LANE_LIMITS.items():
+            value = lane_raw[key]
+            if isinstance(value, bool) or not isinstance(value, int) or not floor <= value <= ceiling:
+                raise PolicyError(
+                    f"routing.lane.{key} must be an integer between {floor} and {ceiling}"
+                )
+            lane_values[key] = value
+        lane_policy = LanePolicy(
+            max_in_flight=lane_values["maxInFlight"],
+            max_attempts=lane_values["maxAttempts"],
+            cooldown_seconds=lane_values["cooldownSeconds"],
+        )
+
         budget_raw = _mapping(routing["budget"], "routing.budget")
         if set(budget_raw) != _ROUTING_BUDGET_KEYS:
             raise PolicyError(
@@ -501,6 +529,7 @@ class StewardPolicy:
             max_repairs_per_run=max_repairs,
             repair_executors=executors,
             max_dispatches_per_run=max_dispatches,
+            lane=lane_policy,
             routing_budget=routing_budget,
             dispatch_rules=dispatch_rules,
             founder_rules=founder_rules,
