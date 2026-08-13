@@ -170,6 +170,7 @@ class StewardCommand(Command):
             record_lane_verdict,
             render_dispatch,
             render_dispatch_prompt,
+            render_founder_digest,
             render_founder_queue,
             render_lane,
             render_lane_next,
@@ -213,8 +214,12 @@ class StewardCommand(Command):
                         diff_path=Path(args.diff),
                         proof_path=Path(args.proof),
                     )
-            else:
+            elif args.json:
                 result = render_founder_queue(root)
+            else:
+                # The digest *is* the human surface. A terse list of decision
+                # ids is machine output wearing a person's clothes.
+                result, prompt = render_founder_digest(root)
         except LaneEmpty as exc:
             # A lane with nothing to hand out is healthy, not broken. Scheduled
             # pickups run on quiet days far more often than busy ones, and a

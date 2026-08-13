@@ -122,6 +122,38 @@ or not the agent is what resolved it.
 pickup can tell *Steward is idle* from *Steward is broken*. The CLI exits `0`
 on an empty lane. Quiet days are the common case and must not page anyone.
 
+## Class C — the founder digest
+
+```bash
+gaia steward founder            # the digest a person reads
+gaia steward founder --json     # the queue as data, unchanged
+```
+
+The digest *is* the human surface. A terse list of decision ids was machine
+output wearing a person's clothes.
+
+Three rules shape it, and each is easy to lose by "improving" it:
+
+- **Report by exception.** A digest that summarises a healthy repository at
+  length trains you to stop opening it. Nothing to decide → one paragraph, stop.
+- **Recommend only what is derivable.** A lane escalation has a mechanically
+  obvious shape — bounded repair reached its ceiling, so the envelope is the
+  likelier defect — and gets a recommendation. A generic-mapping question turns
+  on ontology, and gets an explicit *"Steward has no basis for an opinion here."*
+  A recommendation nobody can trace is worse than none.
+- **Blindness is louder than debt.** Open debt is information. A sensor that
+  could not run means Steward does not know what is true, and routing refuses
+  outright rather than printing a queue that looks complete.
+
+Decision labels (`C-5de8`) are a prefix of the decision's own identity hash, not
+a position in the list. A positional `C-001` would renumber everything remaining
+the moment one decision was resolved, and a label that moves is not a label. If
+two would collide, every label lengthens together, so two printings of one queue
+never disagree.
+
+Decisions group by the exact question, not by the debt that surfaced it — one
+ruling can close several items at once.
+
 ## Class B — verification is where autonomy earns its keep
 
 ```bash

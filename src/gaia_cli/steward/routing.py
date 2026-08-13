@@ -808,3 +808,24 @@ def render_founder_queue(repo_root: Path, *, controller: StewardController | Non
         return FounderQueue.create(tuple(decisions))
 
     return _scan_and_persist_routing(root, policy, "founder", controller or StewardController(), build)
+
+
+def render_founder_digest(
+    repo_root: Path, *, controller: StewardController | None = None
+) -> tuple[RoutingResult, str]:
+    """Render the founder queue as the digest a person actually reads.
+
+    The digest is a pure projection of the queue that was just rendered and
+    receipted. It introduces no new evidence, writes no second receipt, and
+    spends nothing.
+    """
+
+    from gaia_cli.steward.digest import render_founder_digest as _render
+
+    root = repo_root.resolve()
+    policy = StewardPolicy.load(root)
+    result = render_founder_queue(root, controller=controller)
+    queue = result.artifact
+    if not isinstance(queue, FounderQueue):
+        raise RoutingError("founder routing did not render a queue")
+    return result, _render(result.scan, queue, _read_lane(root, policy))
