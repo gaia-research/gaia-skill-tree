@@ -427,16 +427,41 @@ authorityClass:
 allowedPaths:
 allowedCommands:
 
-prohibitedChanges:
+forbiddenPaths:
 
 stopConditions:
 proofContract:
-escalationConditions:
 
 budget:
-model:
-harness:
+capability:
 ```
+
+## Amendment — 2026-08-13 (founder ruling)
+
+This section originally ended `model:` / `harness:`. Both are removed.
+
+A packet names **no model and no harness**. It states, in general terms, the
+kind of reasoning the work demands — `capability:` — and nothing about who
+supplies it. Harness and model selection is a scheduling decision made by
+whoever picks the packet up, at the moment they pick it up, and it must not
+change what the work *is*. A packet that reads differently depending on where
+it is pasted was never a contract.
+
+`capability:` is a **suggestion, not a gate**. Nothing refuses to run because
+the reasoning available is weaker or stronger than the line describes. It exists
+so a human scheduling the work knows whether they are handing over a mechanical
+chore or a judgment call — and so a stronger model is never mistaken for a wider
+envelope. Authority remains machine-enforced in `POLICY.yaml`; capability is
+prose, and deliberately so.
+
+**Escalation protocols are unchanged and remain mandatory.** They moved rather
+than disappeared: `stopConditions` says when to stop, and the rolling lane
+(§ 8 of the operating model, V1.4) says where a stop *goes*. An escalation that
+has nowhere to land is not an escalation.
+
+Two names also align with what shipped: `prohibitedChanges` is `forbiddenPaths`,
+and `escalationConditions` folded into `stopConditions` — one list of conditions
+that end a dispatch, rather than two that overlap.
 
 Tree Keeper may continue autonomously while:
 

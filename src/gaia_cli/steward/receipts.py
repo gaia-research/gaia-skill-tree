@@ -162,8 +162,27 @@ def write_current_state(
 
 def make_run_id(timestamp: str, payload: object) -> str:
     compact_time = timestamp.replace("-", "").replace(":", "")
-    digest = hashlib.sha256(stable_json(payload).encode("utf-8")).hexdigest()[:16]
-    return f"steward-{compact_time}-{digest}"
+    return f"steward-{compact_time}-{run_id_digest(payload)}"
+
+
+def run_id_digest(payload: object) -> str:
+    """The content half of a run id: a digest of the payload alone."""
+
+    return hashlib.sha256(stable_json(payload).encode("utf-8")).hexdigest()[:16]
+
+
+def run_id_matches(run_id: str, payload: object) -> bool:
+    """Return whether a receipt's own id still attests to its contents.
+
+    A receipt is only evidence while it is unedited. The id already commits to
+    the payload, so this needs no extra field: a receipt whose body was changed
+    after publication no longer hashes to the name it was published under.
+    Timestamps are excluded from the digest by construction, so this compares
+    content and nothing else.
+    """
+
+    _, _, digest = run_id.rpartition("-")
+    return bool(digest) and digest == run_id_digest(payload)
 
 
 def write_immutable_receipt(

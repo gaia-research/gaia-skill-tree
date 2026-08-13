@@ -9,6 +9,7 @@ from typing import Any, Mapping
 
 import yaml
 
+from gaia_cli.steward.lane import LanePolicy
 from gaia_cli.steward.mirrors import spec_by_id
 from gaia_cli.steward.models import AuthorityClass, Priority, RoutingBudget
 
@@ -47,7 +48,16 @@ _CLASS_A_ALLOWED_WRITES = (
     ".gaia/steward/**",
     "src/gaia_cli/data/registry/schema/**",
 )
-_ROUTING_KEYS = {"maxDispatchesPerRun", "budget", "dispatchRules", "founderRules"}
+_ROUTING_KEYS = {"maxDispatchesPerRun", "lane", "budget", "dispatchRules", "founderRules"}
+_LANE_KEYS = {"maxInFlight", "maxAttempts", "cooldownSeconds"}
+# Hard ceilings, pinned in code for the same reason Class A envelopes are: the
+# lane's bounds are the only thing standing between "bounded autonomous repair"
+# and an unattended loop. Policy may narrow these; it may not widen them.
+_LANE_LIMITS = {
+    "maxInFlight": (1, 4),
+    "maxAttempts": (1, 5),
+    "cooldownSeconds": (0, 86_400),
+}
 _ROUTING_BUDGET_KEYS = {"modelCalls", "maxTokens", "maxMinutes"}
 _DISPATCH_RULE_KEYS = {
     "debtKind",
@@ -55,12 +65,24 @@ _DISPATCH_RULE_KEYS = {
     "routine",
     "objective",
     "promptGuide",
+    "capability",
     "allowedPaths",
     "allowedCommands",
     "forbiddenPaths",
     "stopConditions",
     "proof",
 }
+# `capability` states the reasoning a routine demands, generally. Founder ruling
+# 2026-08-13 (STEWARD.md § 9) removed `model:` and `harness:` from the packet:
+# naming either makes the packet mean different things in different places, and
+# invites reading a stronger model as a wider envelope. The ban is enforced here
+# rather than left to prompt etiquette, because policy is the only place an
+# author would think to put a model name.
+_BANNED_CAPABILITY_WORDS = (
+    "claude", "hermes", "codex", "cursor", "copilot", "gpt", "gemini", "llama",
+    "mistral", "openai", "anthropic", "google", "opus", "sonnet", "haiku",
+    "fable", "sol", "terra", "luna", "model", "harness", "llm",
+)
 _ROUTINE_GUIDE_ROOT = "founder/steward/routines/"
 # Class A envelopes are pinned in code. Class B envelopes are free text in
 # policy, so they need their own floor: no dispatch rule may grant an agent
@@ -140,6 +162,7 @@ class DispatchRulePolicy:
     routine: str
     objective: str
     prompt_guide: str
+    capability: str
     allowed_paths: tuple[str, ...]
     allowed_commands: tuple[str, ...]
     forbidden_paths: tuple[str, ...]
@@ -170,6 +193,7 @@ class StewardPolicy:
     max_repairs_per_run: int
     repair_executors: Mapping[str, RepairExecutorPolicy]
     max_dispatches_per_run: int
+    lane: LanePolicy
     routing_budget: RoutingBudget
     dispatch_rules: Mapping[str, DispatchRulePolicy]
     founder_rules: Mapping[str, FounderRulePolicy]
@@ -339,6 +363,23 @@ class StewardPolicy:
         max_dispatches = routing["maxDispatchesPerRun"]
         if max_dispatches != 1 or isinstance(max_dispatches, bool):
             raise PolicyError("routing.maxDispatchesPerRun must be exactly 1")
+        lane_raw = _mapping(routing["lane"], "routing.lane")
+        if set(lane_raw) != _LANE_KEYS:
+            raise PolicyError(f"routing.lane must contain exactly {sorted(_LANE_KEYS)}")
+        lane_values: dict[str, int] = {}
+        for key, (floor, ceiling) in _LANE_LIMITS.items():
+            value = lane_raw[key]
+            if isinstance(value, bool) or not isinstance(value, int) or not floor <= value <= ceiling:
+                raise PolicyError(
+                    f"routing.lane.{key} must be an integer between {floor} and {ceiling}"
+                )
+            lane_values[key] = value
+        lane_policy = LanePolicy(
+            max_in_flight=lane_values["maxInFlight"],
+            max_attempts=lane_values["maxAttempts"],
+            cooldown_seconds=lane_values["cooldownSeconds"],
+        )
+
         budget_raw = _mapping(routing["budget"], "routing.budget")
         if set(budget_raw) != _ROUTING_BUDGET_KEYS:
             raise PolicyError(
@@ -386,6 +427,20 @@ class StewardPolicy:
                     f"routing.dispatchRules.{rule_id}.promptGuide must be a markdown routine "
                     f"under {_ROUTINE_GUIDE_ROOT}"
                 )
+            capability = _nonempty_string(
+                rule["capability"], f"routing.dispatchRules.{rule_id}.capability"
+            )
+            named = sorted(
+                word
+                for word in _BANNED_CAPABILITY_WORDS
+                if re.search(rf"\b{word}\b", capability, flags=re.IGNORECASE)
+            )
+            if named:
+                raise PolicyError(
+                    f"routing.dispatchRules.{rule_id}.capability must describe the "
+                    "reasoning the work needs, not who supplies it; it names "
+                    f"{named}"
+                )
             allowed_paths = tuple(
                 _safe_glob(item, f"routing.dispatchRules.{rule_id}.allowedPaths")
                 for item in _string_list(rule["allowedPaths"], f"routing.dispatchRules.{rule_id}.allowedPaths")
@@ -425,6 +480,7 @@ class StewardPolicy:
                 routine=_nonempty_string(rule["routine"], f"routing.dispatchRules.{rule_id}.routine"),
                 objective=_nonempty_string(rule["objective"], f"routing.dispatchRules.{rule_id}.objective"),
                 prompt_guide=prompt_guide,
+                capability=capability,
                 allowed_paths=allowed_paths,
                 allowed_commands=_string_list(rule["allowedCommands"], f"routing.dispatchRules.{rule_id}.allowedCommands"),
                 forbidden_paths=forbidden_paths,
@@ -473,6 +529,7 @@ class StewardPolicy:
             max_repairs_per_run=max_repairs,
             repair_executors=executors,
             max_dispatches_per_run=max_dispatches,
+            lane=lane_policy,
             routing_budget=routing_budget,
             dispatch_rules=dispatch_rules,
             founder_rules=founder_rules,

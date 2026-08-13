@@ -97,6 +97,18 @@ repairs:
 
 routing:
   maxDispatchesPerRun: 1
+  # The bounded Class B rolling lane. These three numbers are the whole of what
+  # makes it a lane rather than a loop, and code caps each of them independently
+  # so editing this file can never grant unbounded autonomy.
+  lane:
+    # Never more outstanding work than a human can actually review.
+    maxInFlight: 1
+    # A debt that fails bounded repair this many times is not asking for another
+    # attempt; it is evidence the envelope is wrong, which is a founder question.
+    maxAttempts: 2
+    # A just-rejected debt is not immediately re-dispatchable, so a broken loop
+    # cannot spend an afternoon rediscovering the same rejection.
+    cooldownSeconds: 3600
   budget:
     modelCalls: 0
     maxTokens: 0
@@ -107,6 +119,15 @@ routing:
       authority: B
       routine: gaia-registry-integrity-review
       promptGuide: founder/steward/routines/registry-integrity-review.md
+      # What reasoning the work demands, stated generally. Never a model, a
+      # provider, or a harness — founder ruling 2026-08-13, STEWARD.md § 9.
+      # This is a suggestion for whoever schedules the work; it gates nothing,
+      # and a stronger reasoner never receives a wider envelope.
+      capability: >-
+        Sustained reasoning across many files with a schema and a graph held in
+        mind at once, plus the discipline to express a correction as a command
+        sequence rather than an edit. A fast pattern-matching pass will produce
+        a plausible fix that violates a constraint it never loaded.
       objective: >-
         Reproduce the reported registry-integrity failure, diagnose its exact
         cause, and return the smallest policy-compliant correction as a
@@ -138,6 +159,54 @@ routing:
         - reproduce every packet violation from local repository state
         - show a diff confined to allowedPaths
         - state the exact gaia dev verb sequence a Verifier should run
+        - run the packet validation commands that apply to the correction
+        - obtain independent review before integration
+    cli-contract-drift:
+      debtKind: cli_contract_drift
+      authority: B
+      routine: gaia-cli-contract-steward
+      promptGuide: founder/steward/routines/cli-contract-drift.md
+      capability: >-
+        Careful reading of a command surface against its own declarations, and
+        the judgement to tell an omission from a deliberate hidden verb. The
+        cheap answer — add every missing name to the public list — is usually
+        wrong; some commands are unlisted on purpose and the correction is to
+        say so.
+      objective: >-
+        Reproduce the reported command-surface inconsistency, decide for each
+        violation whether the code or the declaration is the defect, and return
+        the smallest correction as a reviewable proposal. Anything that changes
+        what a user sees in `gaia help` is founder-gated, so it ships as a
+        proposal with before/after output, never as a merge.
+      allowedPaths:
+        - src/gaia_cli/**
+        - tests/**
+      allowedCommands:
+        - PYTHONPATH=src python -m gaia_cli.main --help
+        - PYTHONPATH=src python -m gaia_cli.main help
+        - python -m pytest tests/
+      forbiddenPaths:
+        - .agents/skills/**
+        - .gaia/steward/**
+        - .github/**
+        - docs/**
+        - founder/**
+        - registry/**
+        - skill-trees/**
+      stopConditions:
+        - fresh local state does not reproduce a reported violation
+        - the correction requires editing the agent contract or another document
+          outside allowedPaths
+        - whether a command should be public is a product decision rather than
+          an omission
+        - the correction would change a command's behaviour rather than its
+          declaration
+        - validation, coverage, or independent proof is incomplete
+      proof:
+        - reproduce every reported violation from local repository state
+        - show a diff confined to allowedPaths
+        - show the before and after of the rendered help surface
+        - state which violations are NOT fixable inside this envelope and why
         - run the packet validation commands that apply to the correction
         - obtain independent review before integration
   founderRules:

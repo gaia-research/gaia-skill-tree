@@ -44,6 +44,7 @@ def _packet() -> DispatchPacket:
         stop_conditions=("proof is incomplete",),
         proof=("reproduce the violation",),
         budget=RoutingBudget(model_calls=0, max_tokens=0, max_minutes=0),
+        capability="Sustained reasoning across a schema and a graph at once.",
     )
 
 
@@ -64,6 +65,48 @@ def test_checked_in_routing_policy_is_exact_and_does_not_change_authority() -> N
     }
     assert policy.authority_for("registry_integrity_failed") is AuthorityClass.B
     assert policy.authority_for("generic_mapping") is AuthorityClass.C
+
+
+def test_every_shipped_capability_line_describes_work_and_names_nobody() -> None:
+    """Founder ruling 2026-08-13 (STEWARD.md § 9), enforced against the real policy.
+
+    A packet that names a model or a harness means different things in
+    different places, and invites reading a stronger reasoner as a wider
+    envelope. Policy is the one place an author would think to write such a
+    name, so the ban is checked here rather than left to prompt etiquette.
+    """
+
+    policy = StewardPolicy.load(REPO_ROOT)
+    assert policy.dispatch_rules
+    for rule in policy.dispatch_rules.values():
+        assert rule.capability.strip()
+        for word in ("claude", "hermes", "codex", "opus", "sonnet", "gpt", "model", "harness"):
+            assert not re.search(rf"\b{word}\b", rule.capability, flags=re.IGNORECASE), (
+                rule.id,
+                word,
+            )
+
+
+@pytest.mark.parametrize(
+    "capability",
+    [
+        "Use Claude for this one.",
+        "Needs a strong model.",
+        "Run on the Hermes harness.",
+        "gpt-class reasoning",
+    ],
+)
+def test_a_capability_line_that_names_a_supplier_is_refused(
+    tmp_path: Path, capability: str
+) -> None:
+    root = _policy_copy(
+        tmp_path,
+        lambda data: data["routing"]["dispatchRules"]["registry-integrity-review"].update(
+            {"capability": capability}
+        ),
+    )
+    with pytest.raises(PolicyError, match="not who supplies it"):
+        StewardPolicy.load(root)
 
 
 @pytest.mark.parametrize(
@@ -137,6 +180,7 @@ def test_dispatch_packet_semantic_id_survives_evidence_refresh() -> None:
         stop_conditions=("proof is incomplete",),
         proof=("reproduce the violation",),
         budget=RoutingBudget(model_calls=0, max_tokens=0, max_minutes=0),
+        capability="Sustained reasoning across a schema and a graph at once.",
     )
 
     assert first.dispatch_id == refreshed.dispatch_id
@@ -241,7 +285,7 @@ def test_tree_keeper_prompt_is_deterministic_and_declares_a_zero_budget() -> Non
 
     assert first == second
     assert first.endswith("\n")
-    assert "Model calls granted by Steward: **0**" in first
+    assert "Reasoning calls granted by Steward: **0**" in first
     assert "unrecorded" in first
 
 
@@ -284,6 +328,7 @@ def test_evidence_cannot_break_out_of_the_prompt_json_fence() -> None:
         stop_conditions=("proof is incomplete",),
         proof=("reproduce the violation",),
         budget=RoutingBudget(model_calls=0, max_tokens=0, max_minutes=0),
+        capability="Sustained reasoning across a schema and a graph at once.",
     )
 
     prompt = render_tree_keeper_prompt(packet, prompt_guide="founder/steward/routines/x.md")

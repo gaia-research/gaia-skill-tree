@@ -115,6 +115,7 @@ class DispatchPacket:
     stop_conditions: tuple[str, ...]
     proof: tuple[str, ...]
     budget: RoutingBudget
+    capability: str
 
     def __post_init__(self) -> None:
         if self.authority is not AuthorityClass.B:
@@ -125,6 +126,7 @@ class DispatchPacket:
             ("rule", self.rule),
             ("routine", self.routine),
             ("objective", self.objective),
+            ("capability", self.capability),
         ):
             if not value.strip():
                 raise ValueError(f"dispatch packet {name} must be non-empty")
@@ -156,6 +158,7 @@ class DispatchPacket:
         stop_conditions: tuple[str, ...],
         proof: tuple[str, ...],
         budget: RoutingBudget,
+        capability: str,
     ) -> "DispatchPacket":
         # A packet remains the same requested work when its evidence refreshes.
         # Content is separately hashed below so receipts can still attest to the
@@ -183,6 +186,7 @@ class DispatchPacket:
             stop_conditions=stop_conditions,
             proof=proof,
             budget=budget,
+            capability=capability,
         )
 
     def to_dict(self) -> dict[str, Any]:
@@ -201,7 +205,47 @@ class DispatchPacket:
             "stopConditions": list(self.stop_conditions),
             "proof": list(self.proof),
             "budget": self.budget.to_dict(),
+            # A suggestion about the reasoning the work demands, never a model
+            # or a harness. Founder ruling 2026-08-13, STEWARD.md § 9.
+            "capability": self.capability,
         }
+
+    @classmethod
+    def from_dict(cls, data: Mapping[str, Any]) -> "DispatchPacket":
+        """Rebuild the exact packet a dispatch receipt recorded.
+
+        Verification must judge work against the envelope it was dispatched
+        under, not against one re-derived from today's policy.  Re-deriving
+        would let a policy edit made after dispatch silently change what the
+        builder is held to.  So the packet is restored from its receipt, and
+        the restored ``dispatchId`` must match what its own contents imply —
+        a receipt whose identity and body disagree is not evidence.
+        """
+
+        if data.get("schemaVersion") != DISPATCH_PACKET_SCHEMA:
+            raise ValueError("unsupported dispatch packet schemaVersion")
+        packet = cls.create(
+            debt=data["debt"],
+            evidence=data["evidence"],
+            authority=AuthorityClass(data["authority"]),
+            rule=str(data["rule"]),
+            routine=str(data["routine"]),
+            objective=str(data["objective"]),
+            allowed_paths=tuple(str(item) for item in data["allowedPaths"]),
+            allowed_commands=tuple(str(item) for item in data["allowedCommands"]),
+            forbidden_paths=tuple(str(item) for item in data["forbiddenPaths"]),
+            stop_conditions=tuple(str(item) for item in data["stopConditions"]),
+            proof=tuple(str(item) for item in data["proof"]),
+            budget=RoutingBudget(
+                model_calls=data["budget"]["modelCalls"],
+                max_tokens=data["budget"]["maxTokens"],
+                max_minutes=data["budget"]["maxMinutes"],
+            ),
+            capability=str(data["capability"]),
+        )
+        if packet.dispatch_id != data["dispatchId"]:
+            raise ValueError("dispatch packet identity does not match its contents")
+        return packet
 
     @property
     def packet_hash(self) -> str:
