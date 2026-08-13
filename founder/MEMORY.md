@@ -4,6 +4,91 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-08-13, Steward V1.3 + V1.4 + V1.5 assembled on integration — GREEN, awaiting founder merge gate)
+
+### TLDR
+
+- **V1.3, V1.4, and V1.5 are all complete on `dev/steward-v1-3-v1-4`**, opened against `main` as founder-gated draft PR **#1535**. V1.3 is the independent verifier; V1.4 is the bounded Class B rolling lane plus the first real Class B sensor and an agent pickup door; V1.5 is the founder digest.
+- **The lane is real on this repository, not on a fixture.** The new `cli_contract_drift` sensor found genuine drift in this checkout — `docs`, `mcp`, `promote`, `release` are documented in `CLAUDE.md` § CLI Shape but are not dispatchable commands, and `curate`/`trust` are dispatchable but absent from the help surface. That finding is currently sitting in the lane as a live Class B dispatch.
+- **The open doctrine question is closed by founder ruling (2026-08-13).** `STEWARD.md` § 9 no longer carries `model:` / `harness:`. A packet states the reasoning the work demands in general terms (`capability:`) and nothing about who supplies it; the policy loader refuses a capability line that names a model, provider, or harness. Escalation protocols stay mandatory — they moved into the lane rather than disappearing.
+- **A real bypass was found and closed during review.** See below; it is the most important thing in this snapshot.
+- **Nothing merged to `main`.** No canonical curation, no trust/rank/schema governance change, no issue or PR creation by Steward, no agent or model execution from inside Steward, no release.
+
+### The invariant V1.3 rests on
+
+> **The machine may reject. The machine may escalate. The machine may never accept.**
+
+There is deliberately no branch in `_mechanical_verdict` returning `accept`, and a combinatorial test walks all 64 fact combinations to prove none produces one. If a purely mechanical check could bless a patch, autonomous Class B integration would rest on something that never looked at whether the patch does anything.
+
+Everything a path comparison, a policy lookup, or an exit code can settle is settled for free. What survives — *does this patch resolve the finding, is the proof genuine* — is the only thing that reaches a reasoner, and `--prompt` is **refused** once machinery has decided.
+
+### The bypass that review caught
+
+The V1.3 diff parser took each file's path from its `diff --git` header. `git apply` takes it from the `---`/`+++` pair, and will apply a section with no `diff --git` header at all. A candidate diff could therefore carry a header naming an allowed path above a body naming a forbidden one: the hunk was counted against `scripts/ok.py`, verification reported `scopeValid: True`, and applying it wrote `registry/nodes/x.json`.
+
+**Scope checking is only as trustworthy as that function, and it was trusting the wrong line.** Paths now come from the body; a header is corroboration and must agree. Hunk bodies are consumed by their declared line counts, so a removed line reading `--- a/somewhere` is content rather than a new section — without counting, that is the same bypass wearing different clothes. The regression test is confirmed red against the unfixed parser.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| Independent verifier | ✅ `src/gaia_cli/steward/verification.py`. Six operating-model questions, mechanically answered where possible. `gaia steward verify <debt-id> --diff … --proof …`, exit `0` pending / `1` reject / `3` escalate — and `0` never means accept. |
+| Verifier prompt | ✅ Separate artifact from builder context. Carries the finding as a sensor recorded it, the envelope, the diff, the captured proof — and no builder narrative. Enforced structurally by a signature test, not by etiquette. |
+| Receipt integrity | ✅ A routing receipt is checked against its own run id, which is a digest of exactly its payload. An envelope widened in local state after publication stops being evidence. Found by a failing test, not by inspection. |
+| Envelope provenance | ✅ The packet is restored from its dispatch receipt, never re-derived. A policy edit after dispatch cannot retroactively change what a builder is held to. |
+| Doctrine | ✅ `STEWARD.md` § 9 amended: `model:`/`harness:` → `capability:`. Also aligned `prohibitedChanges` → `forbiddenPaths` and folded `escalationConditions` into `stopConditions`. |
+| Rolling lane | ✅ `src/gaia_cli/steward/lane.py`. `maxInFlight` 1, `maxAttempts` 2, `cooldownSeconds` 3600 — each capped in code as well as policy. |
+| Escalation destination | ✅ Exhausted debt leaves the agent lane for the founder queue, grouped by the routine whose envelope kept failing. The permitted B → C downgrade; nothing moves the other way. |
+| First real Class B sensor | ✅ `cli_contract_drift` — static AST comparison of the discovered command surface, the declared help surface, and the CLI-Shape line in `CLAUDE.md`. Zero tokens, no code execution, real finding. |
+| Agent pickup door | ✅ `gaia-steward-lane` skill, mirrored in `.agents/skills/` and `.claude/skills/` (mirror check passes). |
+| Scheduled heartbeat | ✅ `founder/steward/routines/heartbeat.md` — one standing prompt for a scheduled routine. Reads receipts, reports, never dispatches or repairs. Daily is plenty. |
+| Founder digest | ✅ V1.5. Compact health view; says "nothing requires a decision" plainly rather than manufacturing a queue. |
+| Tests | ✅ **222 passed** in `tests/steward/`. Full suite: 29 failures, **all confirmed pre-existing on `origin/main`** (Class-P setup gap — `registry/gaia.json` is gitignored). |
+| `main` merge | ⏳ Founder gate only. |
+
+### Branches and PRs
+
+| Branch / PR | Status |
+|---|---|
+| `dev/steward-v1-3-v1-4` → `main` / **#1535** | Open draft. **This is the review surface.** |
+| `claude/solo-v1-3-v1-4-srny9h` / #1532 | Merged into integration (V1.3 + the capability amendment). |
+| `claude/steward-v1-4-lane` / #1533 | Merged into integration (V1.4 lane). |
+| `claude/steward-v1-4-sensor` | Merged into integration (Class B sensor, pickup skill, heartbeat). |
+| V1.5 digest branch | Merged into integration. |
+| `claude/steward-review-fixes` / #1537 | Merged into integration (the diff-parser bypass fix). |
+| `main` | Unchanged by this session. |
+
+### Decisions made this session (founder-delegated)
+
+- **Class B sensor = `cli_contract_drift`, read statically.** Chosen over `repository_hygiene` and `knowledge_contradiction` because it is the most mechanically crisp of the three and it is what a release actually cares about. It parses the checkout with `ast` rather than importing it — `gaia steward scan` must not execute arbitrary repository code, and a static read also works on a checkout that is not the installed package.
+- **A missing or malformed CLI-Shape block is *drift*, not sensor failure.** Raising would mark coverage unknown, and unknown coverage blocks the Class A lane. A fragile sensor must not be able to brick a working one.
+- **The pickup door is a skill, not a workflow.** `gaia steward lane next --prompt` is the whole contract; the skill exists so an agent with no other instruction finds it. Its first rule is the one that matters: *if Steward has not found the work, the work probably does not exist.*
+- **Lane bounds are capped in code.** Policy may narrow them; it may never widen them. Same treatment as a Class A envelope, for the same reason.
+- **`capability` is a suggestion, not a gate.** Nothing refuses to run because the reasoning available is weaker or stronger than the line describes, and the prompt says so — so a stronger reasoner is never mistaken for a wider envelope.
+
+### Lessons / hazards preserved
+
+- **A diff parser is a security boundary.** Anything that decides *which paths a patch touches* must read them the way the tool that applies the patch reads them. Corroborating headers are fine; trusting them is not. This cost one real bypass and is the single highest-risk line in the Class B lane.
+- **Hunk line counts are load-bearing, not decoration.** Without consuming a hunk by its declared length, diff *content* can pose as diff *structure*.
+- **`dispatchId` covers semantic identity only** — debt, authority, rule — so a re-render on refreshed evidence keeps one identity. That deliberately leaves the envelope uncovered, which is why receipts are checked against their own content hash instead.
+- **`pending` must never read as approval.** Exit `0` from `gaia steward verify` means "no mechanical objection", and both the CLI output and the docs say so explicitly. Anything that made `0` mean "safe to integrate" would undo V1.3.
+- Class-P setup is still required before a full local pytest run. The 29 failures are `main`'s, not this branch's — verify by running the same files on `main` before chasing any of them.
+
+### Open questions for next orchestrator
+
+- **The only decision is the founder gate:** review #1535 and approve or reject.
+- **The live `cli_contract_drift` finding is real and unresolved.** `CLAUDE.md` § CLI Shape lists four commands that no longer exist and omits two that do. It is sitting in the lane as a dispatch. Fixing it is the lane's first real end-to-end exercise — resist fixing it by hand, since that is the one thing the lane exists to make unnecessary.
+- **Two Class C `generic_mapping` items in the digest come from `.gaia/steward/discovery-mapping-input.json`**, a gitignored local test input. They are not real curation candidates. Delete that file to quiet them.
+- `repository_hygiene` and `knowledge_contradiction` still have contracts and cadences but no sensor. Each is a sensor plus a policy rule; the CLI does not need to change.
+- V2 (observation substrate expansion) is unstarted.
+
+### Token cost (this session)
+
+- `2026-08-13 Opus 5: ~470k in, ~95k out (cache-heavy; single continuous session, one subagent review pass that hit the session limit mid-run). ~$22 estimated.`
+- Class A runs and every sensor remain **zero tokens** by design. The `cli_contract_drift` sensor is a static AST read; the lane, the verifier's mechanical pass, and the digest all spend nothing.
+
+---
+
 ## State Snapshot (2026-08-12, Steward V1.1 + V1.2 assembled on integration, awaiting founder merge gate)
 
 ### TLDR

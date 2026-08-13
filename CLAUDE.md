@@ -346,6 +346,7 @@ The **rarity** axis (`common`/`uncommon`/`rare`/`epic`/`legendary`) is **depreca
 
 Project skills are delivered in both `.claude/skills/` and `.agents/skills/`; keep mirrored copies synchronized. Shared curation contracts live beside the canonical skill in both trees.
 
+- `gaia-steward-lane/` — `/gaia-steward-lane`: pick up one bounded Class B maintenance dispatch from `gaia steward lane next`, stay inside its envelope, hand it back through `gaia steward verify`. Reach for this **before** any speculative repository cleanup: if Steward has not found the work, the work probably does not exist.
 - `gaia-curate/` — `/gaia-curate`: canonical preliminary curation; read its `CURATION-CORE.md` contract.
 - `gaia-curate-chain/` — `/gaia-curate-chain`: extends `/gaia-curate` with fixed topology, deterministic gates, bounded retries, and audit state.
 - `gaia-curate-dynamic/` — `/gaia-curate-dynamic`: extends `/gaia-curate` with dynamic sharding, proposer⇄refuter convergence, and a resumable ledger.
