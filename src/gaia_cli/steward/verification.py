@@ -217,25 +217,58 @@ def _is_guard(path: str) -> bool:
     return any(_matches(path, pattern) for pattern in _GUARD_PATTERNS)
 
 
-def parse_unified_diff(text: str) -> ChangeSet:
-    """Parse a git unified diff, failing closed on anything ambiguous.
+_HUNK_HEADER = re.compile(r"^@@+ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@")
+_TOLERATED_PREAMBLE = ("commit ", "Author: ", "Date: ", "From ", "Subject: ")
+_IGNORED_METADATA = (
+    "index ",
+    "new file mode",
+    "old mode",
+    "new mode",
+    "similarity index",
+    "dissimilarity index",
+    "GIT binary patch",
+)
 
-    Scope checking is only as trustworthy as this function: a path it silently
-    fails to see is a path that never gets checked against the envelope.  So
-    every construct it cannot reduce to an unambiguous repository-relative path
-    — a quoted or escaped filename, a rename, a header it does not recognise —
-    raises rather than being skipped.
+
+def parse_unified_diff(text: str) -> ChangeSet:
+    """Parse a git unified diff the way ``git apply`` reads one, failing closed.
+
+    Scope checking is only as trustworthy as this function: a path it fails to
+    see is a path that never gets checked against the envelope. Two properties
+    make that trustworthy, and both were learned from a real bypass.
+
+    **Paths come from the ``---``/``+++`` pair, not from ``diff --git``.** That
+    is where ``git apply`` reads them, and it will apply a section with no
+    ``diff --git`` header at all. A parser that trusted the header could be
+    handed a header naming an allowed path above a body naming a forbidden one,
+    report `scopeValid: True`, and watch the patch write somewhere it was never
+    granted. A header may still appear, and must then *agree* with the body.
+
+    **Hunk bodies are consumed by their declared line counts.** Content lines
+    are only interpreted inside a hunk whose length the header declared, so a
+    removed line that happens to read ``--- a/somewhere`` is content rather
+    than a new file section. Without counting, that ambiguity is the same
+    bypass wearing different clothes.
+
+    Everything it cannot reduce to one unambiguous repository-relative path —
+    a rename, a quoted or escaped name, a combined diff, a hunk belonging to no
+    file, a stray line outside any hunk — raises rather than being skipped.
     """
 
     if len(text.encode("utf-8")) > MAX_DIFF_BYTES:
         raise VerificationError("candidate diff exceeds the 2 MiB safety limit")
 
     changes: list[FileChange] = []
+    deleted_guards: list[str] = []
+    guard_added = guard_removed = 0
+
     current: str | None = None
     added = removed = 0
     deleted_file = False
-    guard_added = guard_removed = 0
-    deleted_guards: list[str] = []
+    pending_header: str | None = None
+    pending_deleted = False
+    pending_old: str | None = None
+    old_remaining = new_remaining = 0
 
     def flush() -> None:
         nonlocal current, added, removed, deleted_file
@@ -249,34 +282,85 @@ def parse_unified_diff(text: str) -> ChangeSet:
         current, added, removed, deleted_file = None, 0, 0, False
 
     for line in text.splitlines():
+        if old_remaining > 0 or new_remaining > 0:
+            # Inside a hunk of declared length. Nothing here is a header, no
+            # matter what it looks like.
+            assert current is not None
+            if line.startswith("\\"):
+                continue  # "\ No newline at end of file" belongs to neither side
+            if line.startswith("+"):
+                new_remaining -= 1
+                added += 1
+                if _is_guard(current) and _GUARD_SIGNAL.match(line[1:]):
+                    guard_added += 1
+            elif line.startswith("-"):
+                old_remaining -= 1
+                removed += 1
+                if _is_guard(current) and _GUARD_SIGNAL.match(line[1:]):
+                    guard_removed += 1
+            elif line.startswith(" ") or line == "":
+                old_remaining -= 1
+                new_remaining -= 1
+            else:
+                raise VerificationError(
+                    f"unreadable line inside a hunk of {current}: {line[:80]!r}"
+                )
+            if old_remaining < 0 or new_remaining < 0:
+                raise VerificationError(f"hunk in {current} overruns its declared length")
+            continue
+
         if line.startswith("diff --git "):
             flush()
-            current = _diff_header_path(line)
+            pending_header = _diff_header_path(line)
+            pending_deleted = False
+            pending_old = None
             continue
-        if current is None:
-            # Content outside any file header cannot be attributed to a path,
-            # so it cannot be scope-checked. Only benign preamble is tolerated.
-            if line.strip() and not line.startswith(("index ", "From ", "Date ", "Subject:", "---", "commit ", "Author: ")):
-                raise VerificationError(f"diff content precedes any file header: {line[:80]!r}")
-            continue
+        if line.startswith("diff --cc ") or line.startswith("diff --combined "):
+            raise VerificationError("combined diffs are not verifiable by this parser")
         if line.startswith("rename from ") or line.startswith("rename to "):
             raise VerificationError(
                 "renames are not verifiable by this parser; supply the diff as a "
                 "delete plus an add"
             )
         if line.startswith("deleted file mode"):
-            deleted_file = True
+            pending_deleted = True
             continue
-        if line.startswith(("+++ ", "--- ", "@@", "index ", "new file mode", "old mode", "new mode", "similarity index", "Binary files", "\\ No newline")):
+        if line.startswith("Binary files") or line.startswith(_IGNORED_METADATA):
             continue
-        if line.startswith("+"):
-            added += 1
-            if _is_guard(current) and _GUARD_SIGNAL.match(line[1:]):
-                guard_added += 1
-        elif line.startswith("-"):
-            removed += 1
-            if _is_guard(current) and _GUARD_SIGNAL.match(line[1:]):
-                guard_removed += 1
+        if line.startswith("--- "):
+            pending_old = line[4:]
+            continue
+        if line.startswith("+++ "):
+            if pending_old is None:
+                raise VerificationError(
+                    f"a new-file line has no matching old-file line: {line[:80]!r}"
+                )
+            flush()
+            current, deleted_file = _section_path(pending_old, line[4:])
+            deleted_file = deleted_file or pending_deleted
+            if pending_header is not None and pending_header != current:
+                # The header said one path and the body says another. git
+                # applies the body; a parser that believed the header would be
+                # scope-checking a file that never gets written.
+                raise VerificationError(
+                    f"diff header names {pending_header!r} but its body names "
+                    f"{current!r}; the two must agree"
+                )
+            pending_header, pending_old, pending_deleted = None, None, False
+            continue
+        match = _HUNK_HEADER.match(line)
+        if match is not None:
+            if current is None:
+                raise VerificationError(f"hunk belongs to no file: {line[:80]!r}")
+            old_remaining = int(match.group(2)) if match.group(2) is not None else 1
+            new_remaining = int(match.group(4)) if match.group(4) is not None else 1
+            continue
+        if not line.strip() or line.startswith(_TOLERATED_PREAMBLE):
+            continue
+        raise VerificationError(f"unreadable line outside any hunk: {line[:80]!r}")
+
+    if old_remaining > 0 or new_remaining > 0:
+        raise VerificationError("the diff ends inside an unfinished hunk")
     flush()
 
     if not changes:
@@ -293,8 +377,52 @@ def parse_unified_diff(text: str) -> ChangeSet:
     )
 
 
+def _strip_side(value: str) -> str:
+    """Reduce one ``---``/``+++`` operand to a repository-relative path."""
+
+    # git never emits a timestamp, but plain `diff -u` does, after a tab.
+    candidate = value.split("\t", 1)[0].strip()
+    if not candidate:
+        raise VerificationError("a diff file line names nothing")
+    if '"' in candidate or "\\" in candidate:
+        raise VerificationError(f"quoted or escaped diff path is not verifiable: {candidate!r}")
+    if candidate == "/dev/null":
+        return candidate
+    if candidate.startswith(("a/", "b/")):
+        candidate = candidate[2:]
+    path = PurePosixPath(candidate)
+    if not candidate or path.is_absolute() or ".." in path.parts:
+        raise VerificationError(f"unsafe diff path: {candidate!r}")
+    return candidate
+
+
+def _section_path(old_side: str, new_side: str) -> tuple[str, bool]:
+    """Resolve the one path a ``---``/``+++`` pair writes, and whether it deletes."""
+
+    old, new = _strip_side(old_side), _strip_side(new_side)
+    if old == "/dev/null" and new == "/dev/null":
+        return _unverifiable("a diff section names /dev/null on both sides")
+    if new == "/dev/null":
+        return old, True
+    if old == "/dev/null":
+        return new, False
+    if old != new:
+        return _unverifiable(
+            f"a diff section rewrites {old!r} as {new!r}; supply that as a delete plus an add"
+        )
+    return new, False
+
+
+def _unverifiable(message: str) -> tuple[str, bool]:
+    raise VerificationError(message)
+
+
 def _diff_header_path(line: str) -> str:
-    """Extract the single repository-relative path from a ``diff --git`` header."""
+    """Extract the single repository-relative path from a ``diff --git`` header.
+
+    The header is corroboration, never the source of truth: ``_section_path``
+    decides, and a header that disagrees with the body raises.
+    """
 
     remainder = line[len("diff --git ") :].strip()
     if '"' in remainder or "\\" in remainder:

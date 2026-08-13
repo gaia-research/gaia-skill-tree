@@ -87,7 +87,7 @@ def _diff(path: str = "scripts/fix.py", *, removed_assert: bool = False) -> str:
         "index 1111111..2222222 100644\n"
         f"--- a/{path}\n"
         f"+++ b/{path}\n"
-        "@@ -1,2 +1,2 @@\n"
+        "@@ -1 +1 @@\n"
         f"{body}"
         "+new line\n"
     )
@@ -155,6 +155,60 @@ def _evaluate(**overrides: object):
 # --- diff parsing ------------------------------------------------------------
 
 
+def test_a_header_cannot_launder_a_write_into_a_forbidden_path() -> None:
+    """The bypass that decided how this parser reads a diff.
+
+    ``git apply`` takes the path it writes from the ``---``/``+++`` pair, not
+    from ``diff --git``. A parser that trusted the header could be handed one
+    naming an allowed path above a body naming a forbidden one: it would count
+    the hunk against ``scripts/ok.py``, report ``scopeValid: True``, and the
+    patch would write ``registry/nodes/x.json`` — inside the exact scope the
+    envelope forbids. The header is corroboration now, and must agree.
+    """
+
+    laundered = (
+        "diff --git a/scripts/ok.py b/scripts/ok.py\n"
+        "--- a/registry/nodes/x.json\n"
+        "+++ b/registry/nodes/x.json\n"
+        "@@ -1 +1 @@\n-{}\n+{\"owned\": true}\n"
+    )
+    with pytest.raises(VerificationError, match="the two must agree"):
+        parse_unified_diff(laundered)
+
+    # And with no header at all, the body still decides — so the forbidden path
+    # is seen, scope-checked, and rejected rather than silently skipped.
+    headerless = (
+        "--- a/registry/nodes/x.json\n"
+        "+++ b/registry/nodes/x.json\n"
+        "@@ -1 +1 @@\n-{}\n+{\"owned\": true}\n"
+    )
+    assert parse_unified_diff(headerless).paths == ("registry/nodes/x.json",)
+    verdict = _evaluate(change_set=parse_unified_diff(headerless))
+    assert verdict.verdict == "reject"
+    assert not verdict.scope_valid
+
+
+def test_a_removed_line_that_looks_like_a_header_is_content() -> None:
+    """Hunks are consumed by their declared length, so content cannot pose.
+
+    Without counting, deleting a line that happens to read ``--- a/somewhere``
+    would start a new file section — the same bypass wearing different clothes.
+    """
+
+    text = (
+        "diff --git a/scripts/one.py b/scripts/one.py\n"
+        "--- a/scripts/one.py\n+++ b/scripts/one.py\n"
+        "@@ -1,2 +1,2 @@\n"
+        "---- a/registry/nodes/x.json\n"
+        "-+++ b/registry/nodes/x.json\n"
+        "+clean\n"
+        "+lines\n"
+    )
+    change_set = parse_unified_diff(text)
+    assert change_set.paths == ("scripts/one.py",)
+    assert change_set.changes[0].removed == 2
+
+
 def test_diff_parsing_reports_paths_counts_and_deletions() -> None:
     text = (
         "diff --git a/scripts/one.py b/scripts/one.py\n"
@@ -176,11 +230,16 @@ def test_diff_parsing_reports_paths_counts_and_deletions() -> None:
         ('diff --git "a/one two" "b/one two"\n', "quoted"),
         ("diff --git a//etc/passwd b//etc/passwd\n", "unsafe"),
         ("diff --git a/one\n", "unparseable"),
-        ("+++ stray content\n+line\n", "precedes any file header"),
+        ("+++ stray content\n+line\n", "no matching old-file line"),
+        ("@@ -1 +1 @@\n-a\n+b\n", "hunk belongs to no file"),
+        ("--- a/x\n+++ b/x\n@@ -1,3 +1 @@\n-a\n", "ends inside an unfinished hunk"),
+        ("--- a/x\n+++ b/x\n@@ -1 +1 @@\n-a\n+b\nstray\n", "outside any hunk"),
+        ("--- /dev/null\n+++ /dev/null\n", "/dev/null on both sides"),
+        ("--- a/x\n+++ b/y\n@@ -1 +1 @@\n-a\n+b\n", "rewrites"),
         ("", "touches no files"),
         (
-            "diff --git a/x b/x\n@@ -1 +1 @@\n+a\n"
-            "diff --git a/x b/x\n@@ -1 +1 @@\n+b\n",
+            "diff --git a/x b/x\n--- a/x\n+++ b/x\n@@ -0,0 +1 @@\n+a\n"
+            "diff --git a/x b/x\n--- a/x\n+++ b/x\n@@ -0,0 +1 @@\n+b\n",
             "same path twice",
         ),
         (
