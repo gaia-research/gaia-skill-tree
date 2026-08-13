@@ -228,7 +228,7 @@ Closed as of #1456: `gaia dev rename` now logs a `rename` event to the affected 
 
 ## CLI Shape
 
-Top-level (lifecycle-oriented): `init`, `scan`, `pull`, `push`, `appraise`, `promote`, `release`, `version`, `whoami`, `mcp`, `tree`, `graph`, `docs`, `update`, `share`, `steward`, `help`.
+Top-level (lifecycle-oriented): `init`, `scan`, `pull`, `push`, `appraise`, `curate`, `trust`, `version`, `whoami`, `tree`, `graph`, `update`, `share`, `steward`, `help`. Note: docs/mcp/release live under `gaia dev`; promote has been removed.
 
 Maintenance actions under `gaia steward`: `scan`, `run`, `dispatch`, `founder`. `scan` and the two report-only renderers write nothing outside ignored `.gaia/steward/`; `run` performs only the Class A repairs declared in `founder/steward/POLICY.yaml`. See `founder/steward/README.md` for the authority envelope and `founder/steward/routines/` for the Class B routine library.
 
