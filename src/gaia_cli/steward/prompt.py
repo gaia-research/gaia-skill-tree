@@ -112,8 +112,15 @@ def render_tree_keeper_prompt(
         + _numbered(packet.stop_conditions),
         "## Proof contract\n\nThe work is not done until every one of these holds:\n\n"
         + _numbered(packet.proof),
+        "## What this work demands\n\n"
+        f"{packet.capability.strip()}\n\n"
+        "That is a description of the work, not a requirement about who does "
+        "it. Being more capable than this line does not widen your envelope by "
+        "one path; being less capable does not narrow the proof contract by one "
+        "item. If the work turns out to demand more than you can give it, that "
+        "is a stop condition, not a reason to approximate.",
         "## Budget\n\n"
-        f"- Model calls granted by Steward: **{budget['modelCalls']}**\n"
+        f"- Reasoning calls granted by Steward: **{budget['modelCalls']}**\n"
         f"- Token ceiling: **{budget['maxTokens']}**\n"
         f"- Wall-clock ceiling: **{budget['maxMinutes']} minutes**\n\n"
         "Steward grants zero of all three: it is not commissioning this work "

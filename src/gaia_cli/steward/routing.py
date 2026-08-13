@@ -242,7 +242,7 @@ def render_dispatch(
             rule=rule.id, routine=rule.routine, objective=rule.objective,
             allowed_paths=rule.allowed_paths, allowed_commands=rule.allowed_commands,
             forbidden_paths=rule.forbidden_paths, stop_conditions=rule.stop_conditions,
-            proof=rule.proof, budget=policy.routing_budget,
+            proof=rule.proof, budget=policy.routing_budget, capability=rule.capability,
         )
 
     return _scan_and_persist_routing(root, policy, "dispatch", controller or StewardController(), build)

@@ -115,6 +115,7 @@ class DispatchPacket:
     stop_conditions: tuple[str, ...]
     proof: tuple[str, ...]
     budget: RoutingBudget
+    capability: str
 
     def __post_init__(self) -> None:
         if self.authority is not AuthorityClass.B:
@@ -125,6 +126,7 @@ class DispatchPacket:
             ("rule", self.rule),
             ("routine", self.routine),
             ("objective", self.objective),
+            ("capability", self.capability),
         ):
             if not value.strip():
                 raise ValueError(f"dispatch packet {name} must be non-empty")
@@ -156,6 +158,7 @@ class DispatchPacket:
         stop_conditions: tuple[str, ...],
         proof: tuple[str, ...],
         budget: RoutingBudget,
+        capability: str,
     ) -> "DispatchPacket":
         # A packet remains the same requested work when its evidence refreshes.
         # Content is separately hashed below so receipts can still attest to the
@@ -183,6 +186,7 @@ class DispatchPacket:
             stop_conditions=stop_conditions,
             proof=proof,
             budget=budget,
+            capability=capability,
         )
 
     def to_dict(self) -> dict[str, Any]:
@@ -201,6 +205,9 @@ class DispatchPacket:
             "stopConditions": list(self.stop_conditions),
             "proof": list(self.proof),
             "budget": self.budget.to_dict(),
+            # A suggestion about the reasoning the work demands, never a model
+            # or a harness. Founder ruling 2026-08-13, STEWARD.md § 9.
+            "capability": self.capability,
         }
 
     @classmethod
@@ -234,6 +241,7 @@ class DispatchPacket:
                 max_tokens=data["budget"]["maxTokens"],
                 max_minutes=data["budget"]["maxMinutes"],
             ),
+            capability=str(data["capability"]),
         )
         if packet.dispatch_id != data["dispatchId"]:
             raise ValueError("dispatch packet identity does not match its contents")

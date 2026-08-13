@@ -116,9 +116,34 @@ envelope for a free-text one. The floor above is what keeps that trade bounded.
 
 ## When a routine comes back
 
+Do not read the diff first. Hand it to Steward:
+
+```bash
+gaia steward verify <debt-id> --diff candidate.diff --proof proof.json
+```
+
+Most of what you would check by eye is mechanical, and Steward checks it for
+free: did the change stay inside the envelope, does every proof-contract item
+have passing evidence, was the finding observed by a sensor or merely asserted,
+is the debt still Class B, were guards weakened, did unrelated debt appear while
+the builder worked. Any of those failing ends it — and the machine can only
+**reject** or **escalate**. It never accepts. That is deliberate: a check that
+never looks at whether the patch does anything must not be able to bless it.
+
+If nothing mechanical objects, the remaining question is real and needs a second
+reader:
+
+```bash
+gaia steward verify <debt-id> --diff candidate.diff --proof proof.json --prompt
+```
+
+Paste that into a *different* session than the one that did the work. It carries
+the finding, the envelope, the diff, and the proof output — and none of the
+builder's account of what they did. That omission is the whole point.
+
 Three verdicts, three responses:
 
-- **`resolved`** — read the diff and the proof. It is a normal PR from there.
+- **`resolved`** — verify it, then read the diff and the proof. It is a normal PR from there.
 - **`blocked`** — a stop condition fired. This is the routine working. Read the
   reason; it usually means the envelope was wrong, not that the agent failed.
 - **`escalate`** — the work turned out to need a Class C decision. It belongs in

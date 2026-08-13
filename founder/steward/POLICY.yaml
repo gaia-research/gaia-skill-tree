@@ -107,6 +107,15 @@ routing:
       authority: B
       routine: gaia-registry-integrity-review
       promptGuide: founder/steward/routines/registry-integrity-review.md
+      # What reasoning the work demands, stated generally. Never a model, a
+      # provider, or a harness — founder ruling 2026-08-13, STEWARD.md § 9.
+      # This is a suggestion for whoever schedules the work; it gates nothing,
+      # and a stronger reasoner never receives a wider envelope.
+      capability: >-
+        Sustained reasoning across many files with a schema and a graph held in
+        mind at once, plus the discipline to express a correction as a command
+        sequence rather than an edit. A fast pattern-matching pass will produce
+        a plausible fix that violates a constraint it never loaded.
       objective: >-
         Reproduce the reported registry-integrity failure, diagnose its exact
         cause, and return the smallest policy-compliant correction as a

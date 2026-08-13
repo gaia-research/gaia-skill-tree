@@ -66,3 +66,69 @@ routine is a `POLICY.yaml` edit plus a sensor that emits its debt kind; no CLI
 change is needed. A rule may only route debt that policy classifies Class B, so
 neither a Class A repair nor a Class C governance decision can be handed to an
 agent by editing routing.
+
+Each rule also carries `capability`: one sentence about the *reasoning the work
+demands*, never about who supplies it. Policy refuses a capability line that
+names a model, a provider, or a harness (founder ruling 2026-08-13,
+`founder/STEWARD.md` § 9). It gates nothing — it exists so whoever schedules the
+work knows whether they are handing over a chore or a judgment call, and so a
+stronger reasoner is never mistaken for a wider envelope.
+
+## Class B — verification is where autonomy earns its keep
+
+```bash
+gaia steward verify <debt-id> --diff candidate.diff --proof proof.json
+```
+
+Verification judges a candidate patch against the envelope **its dispatch
+receipt recorded**, not one re-derived from today's policy — otherwise a policy
+edit made after dispatch would retroactively change what the builder was held
+to. Work that was never dispatched cannot be verified at all, and a receipt
+edited after publication no longer hashes to its own name and stops counting as
+evidence.
+
+One asymmetry makes the whole lane defensible:
+
+> **The machine may reject. The machine may escalate. The machine may never accept.**
+
+Everything a path comparison, a policy lookup, or an exit code can settle is
+settled for free: scope against the envelope, proof coverage and exit codes,
+whether the finding came from a sensor or was merely asserted, whether the debt
+is still Class B, whether guards were weakened, whether unrelated debt appeared
+mid-flight. Anything disqualifying ends the verification there, having spent
+nothing.
+
+What survives is the part machinery cannot reach — *does this patch resolve the
+finding, and does the proof demonstrate that rather than merely exiting zero?*
+Only that goes to an independent verifier:
+
+```bash
+gaia steward verify <debt-id> --diff candidate.diff --proof proof.json --prompt
+```
+
+`--prompt` is **refused** when machinery already decided. Paying a reasoner to
+re-derive a fact a path comparison established is exactly the spend the cost
+doctrine exists to prevent.
+
+The verifier's prompt is a separate artifact from the builder's context. It
+carries the finding as a sensor recorded it, the envelope, the diff, and the
+captured proof output — and deliberately no account from the builder of what
+they did or why. A verifier reading that account is verifying the account.
+
+Exit codes: `0` pending, `1` reject, `3` escalate. **`0` does not mean accept**
+— Steward has no authority to accept, and never returns a code that should be
+read as one.
+
+`--proof` takes a `steward-proof-transcript-v1` document:
+
+```json
+{
+  "schemaVersion": "steward-proof-transcript-v1",
+  "entries": [
+    {"contractIndex": 1, "command": "python scripts/validate.py", "exitCode": 0, "output": "..."}
+  ]
+}
+```
+
+`contractIndex` is the 1-based position in the packet's proof contract. Every
+item needs at least one entry; every entry must have exited zero.

@@ -55,12 +55,24 @@ _DISPATCH_RULE_KEYS = {
     "routine",
     "objective",
     "promptGuide",
+    "capability",
     "allowedPaths",
     "allowedCommands",
     "forbiddenPaths",
     "stopConditions",
     "proof",
 }
+# `capability` states the reasoning a routine demands, generally. Founder ruling
+# 2026-08-13 (STEWARD.md § 9) removed `model:` and `harness:` from the packet:
+# naming either makes the packet mean different things in different places, and
+# invites reading a stronger model as a wider envelope. The ban is enforced here
+# rather than left to prompt etiquette, because policy is the only place an
+# author would think to put a model name.
+_BANNED_CAPABILITY_WORDS = (
+    "claude", "hermes", "codex", "cursor", "copilot", "gpt", "gemini", "llama",
+    "mistral", "openai", "anthropic", "google", "opus", "sonnet", "haiku",
+    "fable", "sol", "terra", "luna", "model", "harness", "llm",
+)
 _ROUTINE_GUIDE_ROOT = "founder/steward/routines/"
 # Class A envelopes are pinned in code. Class B envelopes are free text in
 # policy, so they need their own floor: no dispatch rule may grant an agent
@@ -140,6 +152,7 @@ class DispatchRulePolicy:
     routine: str
     objective: str
     prompt_guide: str
+    capability: str
     allowed_paths: tuple[str, ...]
     allowed_commands: tuple[str, ...]
     forbidden_paths: tuple[str, ...]
@@ -386,6 +399,20 @@ class StewardPolicy:
                     f"routing.dispatchRules.{rule_id}.promptGuide must be a markdown routine "
                     f"under {_ROUTINE_GUIDE_ROOT}"
                 )
+            capability = _nonempty_string(
+                rule["capability"], f"routing.dispatchRules.{rule_id}.capability"
+            )
+            named = sorted(
+                word
+                for word in _BANNED_CAPABILITY_WORDS
+                if re.search(rf"\b{word}\b", capability, flags=re.IGNORECASE)
+            )
+            if named:
+                raise PolicyError(
+                    f"routing.dispatchRules.{rule_id}.capability must describe the "
+                    "reasoning the work needs, not who supplies it; it names "
+                    f"{named}"
+                )
             allowed_paths = tuple(
                 _safe_glob(item, f"routing.dispatchRules.{rule_id}.allowedPaths")
                 for item in _string_list(rule["allowedPaths"], f"routing.dispatchRules.{rule_id}.allowedPaths")
@@ -425,6 +452,7 @@ class StewardPolicy:
                 routine=_nonempty_string(rule["routine"], f"routing.dispatchRules.{rule_id}.routine"),
                 objective=_nonempty_string(rule["objective"], f"routing.dispatchRules.{rule_id}.objective"),
                 prompt_guide=prompt_guide,
+                capability=capability,
                 allowed_paths=allowed_paths,
                 allowed_commands=_string_list(rule["allowedCommands"], f"routing.dispatchRules.{rule_id}.allowedCommands"),
                 forbidden_paths=forbidden_paths,

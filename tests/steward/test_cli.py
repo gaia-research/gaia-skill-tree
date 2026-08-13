@@ -273,7 +273,7 @@ def test_steward_dispatch_prompt_prints_only_the_pasteable_prompt(
     assert "Class B — bounded autonomous repair" in output
     assert "founder/steward/routines/registry-integrity-review.md" in output
     assert "does-not-exist" in output
-    assert "Model calls granted by Steward: **0**" in output
+    assert "Reasoning calls granted by Steward: **0**" in output
     assert "Gaia Steward dispatch" not in output
 
 

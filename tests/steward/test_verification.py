@@ -130,6 +130,7 @@ def _packet(**overrides: object) -> DispatchPacket:
         "stop_conditions": ("scope expands",),
         "proof": ("reproduce the violation", "show a confined diff"),
         "budget": RoutingBudget(model_calls=0, max_tokens=0, max_minutes=0),
+        "capability": "Sustained reasoning across a schema and a graph at once.",
     }
     defaults.update(overrides)
     return DispatchPacket.create(**defaults)  # type: ignore[arg-type]
