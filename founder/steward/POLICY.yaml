@@ -6,6 +6,7 @@ state:
   receiptsDirectory: receipts
 
 allowedWrites:
+  - .claude/skills/**
   - .gaia/steward/**
   - src/gaia_cli/data/registry/schema/**
 
@@ -66,8 +67,21 @@ budgets:
   maxObservationsPerRun: 1000
 
 repairs:
-  maxRepairsPerRun: 1
+  maxRepairsPerRun: 2
   executors:
+    agent-skill-mirror:
+      debtKind: agent_skill_mirror_drift
+      authority: A
+      canonicalPath: .agents/skills/**
+      writablePath: .claude/skills/**
+      allowedCommands:
+        - git status --porcelain=v1 --untracked-files=all -- .claude/skills
+        - python scripts/sync_agent_skill_mirror.py --check
+      stopConditions:
+        - canonical input is missing, symlinked, non-regular, or changes during repair
+        - mirror contains a mirror-only path, a symlink, or a dirty user edit
+        - a locally owned mirror path cannot be carried across the atomic replacement
+        - staged copy, atomic replacement, recursive parity, or sync validation cannot be proven
     bundled-schema-mirror:
       debtKind: bundled_schema_mirror_drift
       authority: A
@@ -92,11 +106,14 @@ routing:
       debtKind: registry_integrity_failed
       authority: B
       routine: gaia-registry-integrity-review
+      promptGuide: founder/steward/routines/registry-integrity-review.md
       objective: >-
-        Reproduce the reported registry-integrity failure, prepare the smallest
-        policy-compliant correction, and return independent proof for review.
+        Reproduce the reported registry-integrity failure, diagnose its exact
+        cause, and return the smallest policy-compliant correction as a
+        reviewable proposal with independent proof. Canonical registry nodes
+        are mutated only by a Verifier running gaia dev verbs, so the
+        correction is delivered as that verb sequence, never as an edit.
       allowedPaths:
-        - registry/nodes/**
         - scripts/**
         - tests/**
       allowedCommands:
@@ -104,19 +121,23 @@ routing:
         - python scripts/sync_bundled_schemas.py --check
         - python -m pytest
       forbiddenPaths:
+        - .agents/skills/**
         - .gaia/steward/**
         - .github/**
         - docs/**
         - founder/**
+        - registry/**
         - skill-trees/**
       stopConditions:
         - fresh local evidence does not reproduce the packet violation
         - the correction requires a write outside allowedPaths
         - the correction requires a Class C product or governance decision
+        - the correction cannot be expressed as a gaia dev verb sequence
         - validation, coverage, or independent proof is incomplete
       proof:
         - reproduce every packet violation from local repository state
         - show a diff confined to allowedPaths
+        - state the exact gaia dev verb sequence a Verifier should run
         - run the packet validation commands that apply to the correction
         - obtain independent review before integration
   founderRules:

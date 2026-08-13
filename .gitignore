@@ -15,6 +15,7 @@ docs/assets/**/Individual/
 
 # Externally installed agent skills (managed by `gaia skills install`)
 .agents/skills/skill-creator
+.claude/skills/skill-creator
 
 # Python
 __pycache__/

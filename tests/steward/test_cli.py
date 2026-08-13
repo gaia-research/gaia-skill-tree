@@ -225,3 +225,79 @@ def test_steward_rejects_unknown_subcommand() -> None:
         parser.parse_args(["--registry", str(REPO_ROOT), "steward", "repair"])
 
     assert exc.value.code == 2
+
+
+# --- V1.2: Tree Keeper prompt from the CLI ------------------------------------
+
+
+def _open_class_b_debt(root: Path, monkeypatch: pytest.MonkeyPatch, capsys) -> str:
+    """Introduce one real Class B integrity violation and return its debt id."""
+
+    _write(
+        root / "registry/nodes/basic/broken.json",
+        json.dumps(
+            {
+                "id": "broken",
+                "type": "fusion",
+                "prerequisites": ["does-not-exist"],
+                "derivatives": [],
+            }
+        ),
+    )
+    monkeypatch.setattr(sys, "argv", ["gaia", "--registry", str(root), "steward", "scan", "--json"])
+    main()
+    payload = json.loads(capsys.readouterr().out)
+    open_debt = payload["receipt"]["openDebt"]
+    assert len(open_debt) == 1, open_debt
+    return open_debt[0]
+
+
+def test_steward_dispatch_prompt_prints_only_the_pasteable_prompt(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    _clean_cli_repo(tmp_path)
+    debt_id = _open_class_b_debt(tmp_path, monkeypatch, capsys)
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        ["gaia", "--registry", str(tmp_path), "steward", "dispatch", debt_id, "--prompt"],
+    )
+
+    main()
+
+    output = capsys.readouterr().out
+    # No status banner may precede the prompt: the whole stdout is the paste.
+    assert output.startswith("# Tree Keeper dispatch")
+    assert "Class B — bounded autonomous repair" in output
+    assert "founder/steward/routines/registry-integrity-review.md" in output
+    assert "does-not-exist" in output
+    assert "Model calls granted by Steward: **0**" in output
+    assert "Gaia Steward dispatch" not in output
+
+
+def test_steward_dispatch_prompt_json_carries_packet_receipt_and_prompt(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    _clean_cli_repo(tmp_path)
+    debt_id = _open_class_b_debt(tmp_path, monkeypatch, capsys)
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        ["gaia", "--registry", str(tmp_path), "steward", "dispatch", debt_id, "--prompt", "--json"],
+    )
+
+    main()
+
+    payload = json.loads(capsys.readouterr().out)
+    assert payload["artifact"]["authority"] == "B"
+    assert payload["artifact"]["budget"] == {"modelCalls": 0, "maxTokens": 0, "maxMinutes": 0}
+    assert payload["receipt"]["result"]["status"] == "reported"
+    assert payload["receipt"]["models"] == []
+    assert payload["artifact"]["dispatchId"] in payload["prompt"]
+    # Rendering a prompt must not create a second dispatch surface.
+    assert payload["receipt"]["repairs"] == []
+    assert not (tmp_path / ".github").exists()

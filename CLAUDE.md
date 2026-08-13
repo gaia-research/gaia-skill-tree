@@ -228,7 +228,9 @@ Closed as of #1456: `gaia dev rename` now logs a `rename` event to the affected 
 
 ## CLI Shape
 
-Top-level (lifecycle-oriented): `init`, `scan`, `pull`, `push`, `appraise`, `promote`, `release`, `version`, `whoami`, `mcp`, `tree`, `graph`, `docs`, `update`, `share`, `help`.
+Top-level (lifecycle-oriented): `init`, `scan`, `pull`, `push`, `appraise`, `promote`, `release`, `version`, `whoami`, `mcp`, `tree`, `graph`, `docs`, `update`, `share`, `steward`, `help`.
+
+Maintenance actions under `gaia steward`: `scan`, `run`, `dispatch`, `founder`. `scan` and the two report-only renderers write nothing outside ignored `.gaia/steward/`; `run` performs only the Class A repairs declared in `founder/steward/POLICY.yaml`. See `founder/steward/README.md` for the authority envelope and `founder/steward/routines/` for the Class B routine library.
 
 Named skill actions under `gaia skills`: `list`, `search`, `install`, `uninstall`, `info`. Old flat verbs are intentionally removed.
 
@@ -411,7 +413,7 @@ here fresh with the owner and the reason.
 - When starting fresh and indicating a PR, work on the PR branch right away. GO TO THE PR BRANCH, not the `claude/` branch.
 
 ### Skills Intake
-- Skills are mirrored in `.claude/skills/` and `.agents/skills/`; keep both copies byte-identical.
+- Skills are mirrored in `.claude/skills/` and `.agents/skills/`; keep both copies byte-identical. Check with `python scripts/sync_agent_skill_mirror.py --check` and fix with the same script without `--check`. Gaia Steward also repairs this drift as Class A (`agent-skill-mirror`), so a forgotten mirror copy is self-healing — but a `.claude/skills/`-only path is not: the repair refuses to delete it and leaves the debt open for a human.
 
 ### Upstream Watcher (V1 design, phased implementation)
 - Design at [`docs/agents/upstream-watcher.md`](docs/agents/upstream-watcher.md). Read before touching `scripts/upstream_watcher/`, `scripts/lib/`, `.github/workflows/upstream-*.yml`, or any `upstream:*` label.

@@ -9,6 +9,7 @@ from typing import Any, Mapping
 
 import yaml
 
+from gaia_cli.steward.mirrors import spec_by_id
 from gaia_cli.steward.models import AuthorityClass, Priority, RoutingBudget
 
 
@@ -42,6 +43,7 @@ _EXECUTOR_KEYS = {
 }
 _CLASS_A_MODE = "class-a-closed-loop"
 _CLASS_A_ALLOWED_WRITES = (
+    ".claude/skills/**",
     ".gaia/steward/**",
     "src/gaia_cli/data/registry/schema/**",
 )
@@ -52,12 +54,29 @@ _DISPATCH_RULE_KEYS = {
     "authority",
     "routine",
     "objective",
+    "promptGuide",
     "allowedPaths",
     "allowedCommands",
     "forbiddenPaths",
     "stopConditions",
     "proof",
 }
+_ROUTINE_GUIDE_ROOT = "founder/steward/routines/"
+# Class A envelopes are pinned in code. Class B envelopes are free text in
+# policy, so they need their own floor: no dispatch rule may grant an agent
+# write access to the policy that defines authority, the receipts that are the
+# audit trail, the CI that enforces the gates, canonical schema or user
+# progression, or the canonical side of a mirror the Class A lane is itself
+# forbidden to write. Every rule must also state these as forbidden, so the
+# rendered prompt always carries them.
+_PROTECTED_DISPATCH_PATHS = (
+    ".agents/skills/**",
+    ".gaia/steward/**",
+    ".github/**",
+    "founder/**",
+    "registry/schema/**",
+    "skill-trees/**",
+)
 _FOUNDER_RULE_KEYS = {
     "debtKind",
     "authority",
@@ -120,6 +139,7 @@ class DispatchRulePolicy:
     authority: AuthorityClass
     routine: str
     objective: str
+    prompt_guide: str
     allowed_paths: tuple[str, ...]
     allowed_commands: tuple[str, ...]
     forbidden_paths: tuple[str, ...]
@@ -275,6 +295,24 @@ class StewardPolicy:
                 raise PolicyError(f"repair executor {executor_id} writablePath is not allowed")
             allowed_commands = _string_list(executor["allowedCommands"], f"repairs.executors.{executor_id}.allowedCommands")
             stop_conditions = _string_list(executor["stopConditions"], f"repairs.executors.{executor_id}.stopConditions")
+            # A Class A executor is only ever an authority envelope over a
+            # registered repair implementation. Policy may narrow that surface
+            # by omitting an executor; it may never invent or redirect one.
+            spec = spec_by_id(executor_id)
+            if spec is None:
+                raise PolicyError(f"no registered Class A repair implements executor {executor_id}")
+            if (
+                debt_kind != spec.debt_kind
+                or canonical_path != spec.canonical_glob
+                or writable_path != spec.writable_glob
+                or spec.check_command not in allowed_commands
+                or spec.git_status_command not in allowed_commands
+            ):
+                raise PolicyError(
+                    f"repair executor {executor_id} does not match its fixed authority envelope"
+                )
+            if any(item.debt_kind == debt_kind for item in executors.values()):
+                raise PolicyError(f"multiple repair executors are configured for {debt_kind}")
             executors[executor_id] = RepairExecutorPolicy(
                 id=executor_id,
                 debt_kind=debt_kind,
@@ -286,8 +324,14 @@ class StewardPolicy:
             )
         if data["mode"] == "report-only" and (max_repairs or executors):
             raise PolicyError("report-only policy may not authorize repair executors")
-        if data["mode"] == _CLASS_A_MODE and (max_repairs != 1 or len(executors) != 1):
-            raise PolicyError("class-a-closed-loop policy must authorize exactly one repair executor")
+        if data["mode"] == _CLASS_A_MODE and not executors:
+            raise PolicyError("class-a-closed-loop policy must authorize at least one repair executor")
+        # One run may resolve at most one debt per authorized executor. The
+        # ceiling stays a policy number so a narrower policy can still cap it.
+        if data["mode"] == _CLASS_A_MODE and not 1 <= max_repairs <= len(executors):
+            raise PolicyError(
+                "class-a-closed-loop maxRepairsPerRun must be between 1 and the authorized executor count"
+            )
 
         routing = _mapping(data["routing"], "routing")
         if set(routing) != _ROUTING_KEYS:
@@ -310,10 +354,12 @@ class StewardPolicy:
             raise PolicyError(str(exc)) from exc
 
         dispatch_data = _mapping(routing["dispatchRules"], "routing.dispatchRules")
-        if set(dispatch_data) != {"registry-integrity-review"}:
-            raise PolicyError("routing must define exactly registry-integrity-review")
+        if not dispatch_data:
+            raise PolicyError("routing must define at least one dispatch rule")
         dispatch_rules: dict[str, DispatchRulePolicy] = {}
         for rule_id, raw_rule in dispatch_data.items():
+            if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", rule_id):
+                raise PolicyError("routing dispatch rule ids must be kebab-case")
             rule = _mapping(raw_rule, f"routing.dispatchRules.{rule_id}")
             if set(rule) != _DISPATCH_RULE_KEYS:
                 raise PolicyError(
@@ -322,13 +368,23 @@ class StewardPolicy:
                 )
             debt_kind = _nonempty_string(rule["debtKind"], f"routing.dispatchRules.{rule_id}.debtKind")
             rule_authority = _authority_value(rule["authority"], f"routing.dispatchRules.{rule_id}.authority")
-            if (
-                debt_kind != "registry_integrity_failed"
-                or rule_authority is not AuthorityClass.B
-                or authority.get(debt_kind) is not AuthorityClass.B
-            ):
+            # Dispatch is the Class B lane and only the Class B lane. A rule may
+            # never route Class A work (that belongs to a proven repair) nor
+            # Class C work (that belongs to the founder queue).
+            if rule_authority is not AuthorityClass.B or authority.get(debt_kind) is not AuthorityClass.B:
                 raise PolicyError(
-                    "registry-integrity-review must route only Class B registry_integrity_failed debt"
+                    f"routing.dispatchRules.{rule_id} must route Class B debt classified as Class B"
+                )
+            if any(item.debt_kind == debt_kind for item in dispatch_rules.values()):
+                raise PolicyError(f"multiple dispatch rules are configured for {debt_kind}")
+            prompt_guide = _nonempty_string(
+                rule["promptGuide"], f"routing.dispatchRules.{rule_id}.promptGuide"
+            )
+            _safe_relative_path(prompt_guide, f"routing.dispatchRules.{rule_id}.promptGuide")
+            if not prompt_guide.startswith(_ROUTINE_GUIDE_ROOT) or not prompt_guide.endswith(".md"):
+                raise PolicyError(
+                    f"routing.dispatchRules.{rule_id}.promptGuide must be a markdown routine "
+                    f"under {_ROUTINE_GUIDE_ROOT}"
                 )
             allowed_paths = tuple(
                 _safe_glob(item, f"routing.dispatchRules.{rule_id}.allowedPaths")
@@ -338,6 +394,28 @@ class StewardPolicy:
                 _safe_glob(item, f"routing.dispatchRules.{rule_id}.forbiddenPaths")
                 for item in _string_list(rule["forbiddenPaths"], f"routing.dispatchRules.{rule_id}.forbiddenPaths")
             )
+            # A broader forbidden scope already guards a protected subtree:
+            # forbidding registry/** covers registry/schema/**.
+            missing_guards = [
+                item
+                for item in _PROTECTED_DISPATCH_PATHS
+                if not any(_glob_covers(declared, item) for declared in forbidden_paths)
+            ]
+            if missing_guards:
+                raise PolicyError(
+                    f"routing.dispatchRules.{rule_id}.forbiddenPaths must include the protected "
+                    f"paths {missing_guards}"
+                )
+            for allowed in allowed_paths:
+                conflict = next(
+                    (item for item in _PROTECTED_DISPATCH_PATHS if _globs_overlap(allowed, item)),
+                    None,
+                )
+                if conflict is not None:
+                    raise PolicyError(
+                        f"routing.dispatchRules.{rule_id}.allowedPaths may not reach the "
+                        f"protected path {conflict}: {allowed}"
+                    )
             if set(allowed_paths) & set(forbidden_paths):
                 raise PolicyError(f"routing dispatch rule {rule_id} path scopes overlap")
             dispatch_rules[rule_id] = DispatchRulePolicy(
@@ -346,6 +424,7 @@ class StewardPolicy:
                 authority=rule_authority,
                 routine=_nonempty_string(rule["routine"], f"routing.dispatchRules.{rule_id}.routine"),
                 objective=_nonempty_string(rule["objective"], f"routing.dispatchRules.{rule_id}.objective"),
+                prompt_guide=prompt_guide,
                 allowed_paths=allowed_paths,
                 allowed_commands=_string_list(rule["allowedCommands"], f"routing.dispatchRules.{rule_id}.allowedCommands"),
                 forbidden_paths=forbidden_paths,
@@ -452,6 +531,28 @@ def _safe_glob(value: Any, name: str) -> str:
         raise PolicyError(f"{name} must be a safe repository-relative /** path")
     _safe_relative_path(value[:-3], name)
     return value
+
+
+def _glob_covers(outer: str, inner: str) -> bool:
+    """Return whether the ``outer`` subtree contains the whole ``inner`` one."""
+
+    outer_parts = PurePosixPath(outer[:-3]).parts
+    inner_parts = PurePosixPath(inner[:-3]).parts
+    return inner_parts[: len(outer_parts)] == outer_parts
+
+
+def _globs_overlap(first: str, second: str) -> bool:
+    """Return whether two ``<dir>/**`` scopes can reach any common path.
+
+    Both are directory subtrees, so they overlap exactly when one directory is
+    the other or is an ancestor of it. Comparison is on path components so that
+    ``founders/**`` does not read as living under ``founder/**``.
+    """
+
+    left = PurePosixPath(first[:-3]).parts
+    right = PurePosixPath(second[:-3]).parts
+    shared = min(len(left), len(right))
+    return left[:shared] == right[:shared]
 
 
 def _nonempty_string(value: Any, name: str) -> str:

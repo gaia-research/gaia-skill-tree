@@ -55,16 +55,16 @@
 </head>
 <body>
   <main>
-    <p class="eyebrow">Founder teaching file · Steward V1</p>
+    <p class="eyebrow">Founder teaching file · Steward V1.2</p>
     <h1>Operate the maintenance governor—without granting it governance.</h1>
-    <p class="lede">This is the manual interface for the shipped V1 control plane. Steward observes local repository conditions, records maintenance debt, repairs one narrow Class A mirror drift, prepares one bounded Class B packet, and compresses explicit Class C questions into a founder queue.</p>
+    <p class="lede">This is the manual interface for the shipped V1 control plane. Steward observes local repository conditions, records maintenance debt, repairs the narrow Class A mirror surfaces it is authorized to repair, prepares bounded Class B packets you can hand to any agent, and compresses explicit Class C questions into a founder queue.</p>
 
-    <aside class="notice"><strong>Authority rule.</strong> V1 never creates an issue or PR, runs an agent, executes a Class B packet, merges, releases, changes canonical registry state, assigns trust/rank, or decides a generic mapping. A packet and a queue are reports, not actions.</aside>
+    <aside class="notice"><strong>Authority rule.</strong> Steward never creates an issue or PR, runs an agent, executes a Class B packet, merges, releases, changes canonical registry state, assigns trust/rank, or decides a generic mapping. A packet and a queue are reports, not actions.</aside>
 
     <section>
       <h2>Before you run anything</h2>
       <ol class="checklist">
-        <li>Use a disposable clone for any <code>run</code> exercise. It can repair only the bundled schema mirror, but it is still a mutation.</li>
+        <li>Use a disposable clone for any <code>run</code> exercise. It can repair only the two declared mirror surfaces, but it is still a mutation.</li>
         <li>Install the development dependencies and materialize the repository’s ignored Class-P test prerequisites.</li>
         <li>Use <code>scan</code>, <code>dispatch</code>, and <code>founder</code> freely: their durable state is confined to ignored <code>.gaia/steward/</code>.</li>
       </ol>
@@ -79,8 +79,8 @@ python -m pytest -q</pre>
       <h2>The four commands</h2>
       <div class="grid">
         <article class="card"><span class="tag safe">observe</span><h3>Scan</h3><p>Collect deterministic sensors, reconcile semantic debt, and write a small immutable receipt. A healthy result is useful: it says <code>no_change</code>.</p><pre>gaia --registry "$PWD" steward scan --json</pre></article>
-        <article class="card"><span class="tag caution">one Class A lane</span><h3>Run</h3><p>Attempt the sole authorized repair: bundled schema-mirror drift. It refuses unknown coverage, a dirty target, stale state, path escape, or failed proof.</p><pre>gaia --registry "$PWD" steward run --json</pre></article>
-        <article class="card"><span class="tag safe">report only</span><h3>Dispatch</h3><p>Render a policy-bounded Tree Keeper packet for one fresh Class B debt. It does not invoke a model, an agent, a command, or a worktree.</p><pre>gaia --registry "$PWD" steward dispatch &lt;debt-id&gt; --json</pre></article>
+        <article class="card"><span class="tag caution">one Class A lane</span><h3>Run</h3><p>Attempt the authorized repairs: bundled schema-mirror and agent skill-mirror drift. It refuses unknown coverage, a dirty target, stale state, path escape, or failed proof — one blocked surface never suppresses another’s proven repair.</p><pre>gaia --registry "$PWD" steward run --json</pre></article>
+        <article class="card"><span class="tag safe">report only</span><h3>Dispatch</h3><p>Render a policy-bounded Tree Keeper packet for one fresh Class B debt. Add <code>--prompt</code> for a harness-neutral prompt you can paste into any agent. It does not invoke a model, an agent, a command, or a worktree.</p><pre>gaia --registry "$PWD" steward dispatch &lt;debt-id&gt; --prompt</pre></article>
         <article class="card"><span class="tag founder">founder decision</span><h3>Founder</h3><p>Render a deduplicated Class C decision queue. It groups only exact normalized decision targets and never chooses the mapping.</p><pre>gaia --registry "$PWD" steward founder --json</pre></article>
       </div>
     </section>
@@ -117,7 +117,7 @@ gaia --registry "$PWD" steward founder --json</pre>
 
     <section>
       <h2>What to inspect</h2>
-      <ul class="checklist"><li><strong>Receipt:</strong> <code>.gaia/steward/receipts/*.json</code> is immutable. Equivalent repeat work reuses it.</li><li><strong>Debt ledger:</strong> <code>.gaia/steward/debt.json</code> is local, deduplicated state—not canonical registry data.</li><li><strong>Class A proof:</strong> a successful repair requires recursive parity and <code>python scripts/sync_bundled_schemas.py --check</code>.</li><li><strong>Class B packet:</strong> read its paths, commands, proof, stop conditions, zero model budget, and escalation boundary before any later execution system is considered.</li><li><strong>Class C queue:</strong> treat it as a ruling request. Make the governance decision outside Steward; V1 only presents it.</li></ul>
+      <ul class="checklist"><li><strong>Receipt:</strong> <code>.gaia/steward/receipts/*.json</code> is immutable. Equivalent repeat work reuses it.</li><li><strong>Debt ledger:</strong> <code>.gaia/steward/debt.json</code> is local, deduplicated state—not canonical registry data.</li><li><strong>Class A proof:</strong> a successful repair requires recursive parity plus that surface’s own independent check command — <code>scripts/sync_bundled_schemas.py --check</code> or <code>scripts/sync_agent_skill_mirror.py --check</code>.</li><li><strong>Class B packet:</strong> read its paths, commands, proof, stop conditions, zero model budget, and escalation boundary before pasting its <code>--prompt</code> anywhere. Cadence guidance lives in <code>founder/steward/routines/</code>.</li><li><strong>Class C queue:</strong> treat it as a ruling request. Make the governance decision outside Steward; V1 only presents it.</li></ul>
       <p class="stop"><strong>Stop immediately</strong> if a report shows unknown coverage, stale/resolved debt, an unsupported authority class, malformed controlled input, path/symlink protection failure, or failed proof. That is Steward behaving correctly.</p>
     </section>
   </main>
@@ -129,8 +129,8 @@ gaia --registry "$PWD" steward founder --json</pre>
         ['system', '[1/6] Collect deterministic local sensor observations.'],
         ['command', '$ gaia steward scan --json'],
         ['pass', 'Debt reconciled. A healthy no-work result stops here.'],
-        ['command', '$ gaia steward dispatch debt:registry-integrity-failed:... --json'],
-        ['pass', 'Class B packet rendered: paths, commands, proof, stop conditions, zero model budget. No agent was started.'],
+        ['command', '$ gaia steward dispatch debt:registry-integrity-failed:... --prompt'],
+        ['pass', 'Class B prompt rendered: paths, commands, proof, stop conditions, zero model budget. No agent was started.'],
         ['founder', '$ gaia steward founder --json'],
         ['founder', 'Class C decision queue rendered. No canonical mapping was selected.'],
         ['halt', 'STOP: founder judgment is the boundary.']

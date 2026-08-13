@@ -44,6 +44,14 @@ class StewardCommand(Command):
         )
         dispatch.add_argument("debt_id", help="Open Class B debt id to render")
         dispatch.add_argument("--json", action="store_true", help="Output the packet and receipt as JSON")
+        dispatch.add_argument(
+            "--prompt",
+            action="store_true",
+            help=(
+                "Print the packet as a harness-neutral Tree Keeper prompt to paste "
+                "into any agent. Renders only; runs nothing and spends nothing."
+            ),
+        )
         founder = subparsers.add_parser(
             "founder",
             help="Render the report-only Class C founder decision queue",
@@ -68,8 +76,14 @@ class StewardCommand(Command):
         from gaia_cli.steward.controller import StewardController
         from gaia_cli.steward.policy import PolicyError
         from gaia_cli.steward.receipts import StateError
-        from gaia_cli.steward.routing import RoutingError, render_dispatch, render_founder_queue
+        from gaia_cli.steward.routing import (
+            RoutingError,
+            render_dispatch,
+            render_dispatch_prompt,
+            render_founder_queue,
+        )
 
+        prompt: str | None = None
         try:
             root = Path(args.registry)
             if args.steward_command == "scan":
@@ -77,7 +91,10 @@ class StewardCommand(Command):
             elif args.steward_command == "run":
                 result = StewardController().run(root)
             elif args.steward_command == "dispatch":
-                result = render_dispatch(root, args.debt_id)
+                if args.prompt:
+                    result, prompt = render_dispatch_prompt(root, args.debt_id)
+                else:
+                    result = render_dispatch(root, args.debt_id)
             else:
                 result = render_founder_queue(root)
         except (OSError, PolicyError, StateError, RoutingError, RuntimeError, ValueError) as exc:
@@ -85,7 +102,16 @@ class StewardCommand(Command):
             return 2
 
         if args.json:
-            print(json.dumps(result.to_dict(), indent=2, sort_keys=True, ensure_ascii=False))
+            payload = result.to_dict()
+            if prompt is not None:
+                payload["prompt"] = prompt
+            print(json.dumps(payload, indent=2, sort_keys=True, ensure_ascii=False))
+            return 0
+
+        if prompt is not None:
+            # The prompt is the whole output: it is meant to be piped or pasted
+            # verbatim, so no status banner may precede it.
+            print(prompt, end="")
             return 0
 
         if args.steward_command in {"dispatch", "founder"}:

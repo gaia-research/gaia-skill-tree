@@ -1,0 +1,121 @@
+name: Gaia Steward
+
+# The Class A maintenance pulse.
+#
+# This workflow is deliberately "repair-ready without auto-merge" (founder
+# handover 2026-08-09 § 7). It observes the repository, closes what it is
+# authorized to close in a throwaway checkout, and publishes the proof as
+# artifacts. It never pushes, never opens an issue or pull request, never
+# mutates canonical registry data, and never calls a model — a Class A run
+# costs zero tokens.
+#
+# A quiet day is a healthy day: no debt means no artifact worth reading, and
+# the job still passes. The job fails only when Steward itself cannot complete
+# a scan, because that means the maintenance nervous system is blind rather
+# than idle.
+
+on:
+  schedule:
+    # 07:10 UTC daily. Off the hour so it does not queue behind the
+    # top-of-hour rush.
+    - cron: "10 7 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: gaia-steward
+  cancel-in-progress: false
+
+jobs:
+  class-a:
+    name: Class A closed loop
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install the CLI
+        run: python -m pip install --quiet -e .
+
+      - name: Observe maintenance debt
+        run: gaia steward scan --json > steward-scan.json
+
+      - name: Close authorized Class A debt
+        run: gaia steward run --json > steward-run.json
+
+      - name: Summarize
+        if: always()
+        run: |
+          python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          import pathlib
+
+          def load(name):
+              path = pathlib.Path(name)
+              if not path.is_file() or not path.read_text().strip():
+                  return None
+              return json.loads(path.read_text())
+
+          run = load("steward-run.json") or load("steward-scan.json")
+          print("## Gaia Steward\n")
+          if run is None:
+              print("Steward did not produce a receipt. Coverage is unknown.")
+              raise SystemExit(0)
+
+          receipt = run["receipt"]
+          counts = receipt["authorityCounts"]
+          print(f"**Result:** `{receipt['result']['status']}`\n")
+          print("| | |")
+          print("|---|---:|")
+          print(f"| Observations | {receipt['observationsCollected']} |")
+          print(f"| Open debt | {len(receipt['openDebt'])} |")
+          print(f"| Class A / B / C | {counts.get('A', 0)} / {counts.get('B', 0)} / {counts.get('C', 0)} |")
+          print(f"| Repairs | {len(receipt['repairs'])} |")
+          print(f"| Blocked | {len(receipt['blocked'])} |")
+          print(f"| Coverage unknown | {len(receipt['coverageUnknown'])} |")
+          print(f"| Model dispatches | {len(receipt['models'])} |")
+          print("")
+
+          for repair in receipt["repairs"]:
+              print(f"### Repaired — `{repair['executor']}`\n")
+              print(f"Writable surface: `{repair['writablePath']}`\n")
+              for path in repair["repairedPaths"]:
+                  print(f"- `{path}`")
+              print("")
+
+          for blocked in receipt["blocked"]:
+              print(f"### Blocked\n\n{blocked.get('reason', 'unspecified')}\n")
+
+          if receipt["repairs"]:
+              print(
+                  "The repair is proven in this throwaway checkout only. "
+                  "Download `steward-receipts` and apply `steward-repair.patch` "
+                  "locally, or run `gaia steward run` yourself, to land it."
+              )
+          PY
+
+      - name: Capture the repair as a reviewable patch
+        if: always()
+        run: |
+          git add -A
+          git diff --cached > steward-repair.patch
+          git reset --quiet
+
+      - name: Publish receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: steward-receipts
+          if-no-files-found: ignore
+          retention-days: 30
+          path: |
+            steward-scan.json
+            steward-run.json
+            steward-repair.patch
+            .gaia/steward/receipts/

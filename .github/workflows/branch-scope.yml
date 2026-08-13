@@ -51,6 +51,7 @@ jobs:
             codex/*)            PREFIX="unrestricted" ;;
             gemini/*)           PREFIX="unrestricted" ;;
             dev/*)              PREFIX="unrestricted" ;;
+            integration/*)      PREFIX="unrestricted" ;;
             fix/*)              PREFIX="unrestricted" ;;
             chore/*)            PREFIX="unrestricted" ;;
             infra/*)            PREFIX="infra" ;;
@@ -62,8 +63,8 @@ jobs:
           echo ""
 
           # ── Fork-scoped downgrade (issue #986) ────────────────────────────────
-          # The unrestricted prefixes (codex/*, claude/*, gemini/*, dev/*, fix/*,
-          # chore/*) exist to grant Codex/Claude/Jules/Gemini in-repo bot sessions
+          # The unrestricted prefixes (codex/*, claude/*, gemini/*, dev/*,
+          # integration/*, fix/*, chore/*) exist to grant Codex/Claude/Jules/Gemini in-repo bot sessions
           # a free-scope pass. That assumption doesn't hold when the branch is
           # pushed from a FORK — a fresh external contributor can name their
           # branch codex/anything and slip past every file-type guard.
@@ -90,7 +91,7 @@ jobs:
             PREFIX="other"
           fi
 
-          # unrestricted branches (dev/*, claude/*, codex/*, gemini/*, chore/*) have no forward restriction
+          # unrestricted branches (dev/*, integration/*, claude/*, codex/*, gemini/*, chore/*) have no forward restriction
           if [ "$PREFIX" = "unrestricted" ]; then
             echo "✓ $BRANCH has no scope restrictions."
             exit 0
@@ -197,7 +198,7 @@ jobs:
                 esac
                 ;;
               other)
-                VIOLATIONS="$VIOLATIONS\n  ❌ $file (unrecognized branch prefix; use schema/, cli/, docs/, design/, review/gaia-push/, review/meta/, dev/, claude/, codex/, gemini/, jules/, or infra/)"
+                VIOLATIONS="$VIOLATIONS\n  ❌ $file (unrecognized branch prefix; use schema/, cli/, docs/, design/, review/gaia-push/, review/meta/, dev/, integration/, claude/, codex/, gemini/, jules/, or infra/)"
                 ;;
             esac
           done <<< "$FILES"
@@ -221,7 +222,7 @@ jobs:
               echo "  - $f"
             done
             echo ""
-            echo "Create your branch as: schema/<description>, use an unrestricted branch (dev/*, claude/*, codex/*, gemini/*), or add the 'skip-scope-check' label."
+            echo "Create your branch as: schema/<description>, use an unrestricted branch (dev/*, integration/*, claude/*, codex/*, gemini/*), or add the 'skip-scope-check' label."
             exit 1
           fi
 
