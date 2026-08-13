@@ -203,6 +203,42 @@ class DispatchPacket:
             "budget": self.budget.to_dict(),
         }
 
+    @classmethod
+    def from_dict(cls, data: Mapping[str, Any]) -> "DispatchPacket":
+        """Rebuild the exact packet a dispatch receipt recorded.
+
+        Verification must judge work against the envelope it was dispatched
+        under, not against one re-derived from today's policy.  Re-deriving
+        would let a policy edit made after dispatch silently change what the
+        builder is held to.  So the packet is restored from its receipt, and
+        the restored ``dispatchId`` must match what its own contents imply —
+        a receipt whose identity and body disagree is not evidence.
+        """
+
+        if data.get("schemaVersion") != DISPATCH_PACKET_SCHEMA:
+            raise ValueError("unsupported dispatch packet schemaVersion")
+        packet = cls.create(
+            debt=data["debt"],
+            evidence=data["evidence"],
+            authority=AuthorityClass(data["authority"]),
+            rule=str(data["rule"]),
+            routine=str(data["routine"]),
+            objective=str(data["objective"]),
+            allowed_paths=tuple(str(item) for item in data["allowedPaths"]),
+            allowed_commands=tuple(str(item) for item in data["allowedCommands"]),
+            forbidden_paths=tuple(str(item) for item in data["forbiddenPaths"]),
+            stop_conditions=tuple(str(item) for item in data["stopConditions"]),
+            proof=tuple(str(item) for item in data["proof"]),
+            budget=RoutingBudget(
+                model_calls=data["budget"]["modelCalls"],
+                max_tokens=data["budget"]["maxTokens"],
+                max_minutes=data["budget"]["maxMinutes"],
+            ),
+        )
+        if packet.dispatch_id != data["dispatchId"]:
+            raise ValueError("dispatch packet identity does not match its contents")
+        return packet
+
     @property
     def packet_hash(self) -> str:
         return content_hash(self.to_dict())

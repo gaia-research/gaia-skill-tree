@@ -17,7 +17,7 @@ class StewardCommand(Command):
 
     def configure(self, parser: argparse.ArgumentParser) -> None:
         subparsers = parser.add_subparsers(
-            dest="steward_command", metavar="{scan,run,dispatch,founder}"
+            dest="steward_command", metavar="{scan,run,dispatch,verify,founder}"
         )
         scan = subparsers.add_parser(
             "scan",
@@ -52,6 +52,37 @@ class StewardCommand(Command):
                 "into any agent. Renders only; runs nothing and spends nothing."
             ),
         )
+        verify = subparsers.add_parser(
+            "verify",
+            help="Independently verify one dispatched Class B patch",
+            description=(
+                "Judge a candidate patch against the envelope its dispatch receipt "
+                "recorded, not against a freshly re-derived one. Everything a path "
+                "comparison, a policy lookup, or an exit code can settle is settled "
+                "here for free. The machine may reject and may escalate; it may never "
+                "accept. Use --prompt to render the independent verifier's prompt for "
+                "the judgment that survives, which is refused when machinery already "
+                "decided."
+            ),
+        )
+        verify.add_argument("debt_id", help="Dispatched Class B debt id under verification")
+        verify.add_argument(
+            "--diff", required=True, help="Path to the candidate unified diff"
+        )
+        verify.add_argument(
+            "--proof",
+            required=True,
+            help="Path to a steward-proof-transcript-v1 JSON document",
+        )
+        verify.add_argument("--json", action="store_true", help="Output the verdict and receipt as JSON")
+        verify.add_argument(
+            "--prompt",
+            action="store_true",
+            help=(
+                "Print the harness-neutral independent verifier prompt. Refused when "
+                "machinery already reached a verdict."
+            ),
+        )
         founder = subparsers.add_parser(
             "founder",
             help="Render the report-only Class C founder decision queue",
@@ -69,8 +100,8 @@ class StewardCommand(Command):
         founder.add_argument("--json", action="store_true", help="Output the queue and receipt as JSON")
 
     def execute(self, args: argparse.Namespace) -> int | None:
-        if args.steward_command not in {"scan", "run", "dispatch", "founder"}:
-            print("usage: gaia steward {scan,run,dispatch,founder} [--json]", file=sys.stderr)
+        if args.steward_command not in {"scan", "run", "dispatch", "verify", "founder"}:
+            print("usage: gaia steward {scan,run,dispatch,verify,founder} [--json]", file=sys.stderr)
             return 2
 
         from gaia_cli.steward.controller import StewardController
@@ -81,6 +112,8 @@ class StewardCommand(Command):
             render_dispatch,
             render_dispatch_prompt,
             render_founder_queue,
+            render_verification,
+            render_verifier_prompt_for,
         )
 
         prompt: str | None = None
@@ -95,6 +128,21 @@ class StewardCommand(Command):
                     result, prompt = render_dispatch_prompt(root, args.debt_id)
                 else:
                     result = render_dispatch(root, args.debt_id)
+            elif args.steward_command == "verify":
+                if args.prompt:
+                    result, prompt = render_verifier_prompt_for(
+                        root,
+                        args.debt_id,
+                        diff_path=Path(args.diff),
+                        proof_path=Path(args.proof),
+                    )
+                else:
+                    result, _diff, _outputs = render_verification(
+                        root,
+                        args.debt_id,
+                        diff_path=Path(args.diff),
+                        proof_path=Path(args.proof),
+                    )
             else:
                 result = render_founder_queue(root)
         except (OSError, PolicyError, StateError, RoutingError, RuntimeError, ValueError) as exc:
@@ -106,6 +154,10 @@ class StewardCommand(Command):
             if prompt is not None:
                 payload["prompt"] = prompt
             print(json.dumps(payload, indent=2, sort_keys=True, ensure_ascii=False))
+            if args.steward_command == "verify":
+                # The verdict must survive the output format. A machine reading
+                # JSON gets the same disposition a human reading the table does.
+                return {"pending": 0, "reject": 1, "escalate": 3}[result.artifact.verdict]
             return 0
 
         if prompt is not None:
@@ -113,6 +165,37 @@ class StewardCommand(Command):
             # verbatim, so no status banner may precede it.
             print(prompt, end="")
             return 0
+
+        if args.steward_command == "verify":
+            verdict = result.artifact
+            print("Gaia Steward verify")
+            print(f"Dispatch             {verdict.dispatch_id}")
+            print(f"Debt                 {verdict.debt_id}")
+            print(f"Finding confirmed    {verdict.finding_confirmed}")
+            print(f"Scope valid          {verdict.scope_valid}")
+            print(f"Proof valid          {verdict.proof_valid}")
+            print(f"Authority valid      {verdict.authority_still_valid}")
+            print(f"Guards weakened      {verdict.guards_weakened}")
+            print(f"New debt             {len(verdict.new_debt)}")
+            print(f"Verdict              {verdict.verdict}")
+            for reason in verdict.reasons:
+                print(f"  - {reason}")
+            if not verdict.decided:
+                # Steward has no authority to accept and must never be read as
+                # having done so. A clean mechanical pass is the beginning of
+                # verification, not the end of it.
+                print(
+                    "\nNo mechanical objection. Steward cannot accept work — run\n"
+                    f"  gaia steward verify {verdict.debt_id} --diff ... --proof ... --prompt\n"
+                    "and have an independent verifier judge whether the patch resolves\n"
+                    "the finding and whether the proof is genuine."
+                )
+            try:
+                receipt_display = result.receipt_path.relative_to(Path(args.registry).resolve())
+            except ValueError:
+                receipt_display = result.receipt_path
+            print(f"Receipt              {receipt_display}")
+            return {"pending": 0, "reject": 1, "escalate": 3}[verdict.verdict]
 
         if args.steward_command in {"dispatch", "founder"}:
             artifact = result.artifact

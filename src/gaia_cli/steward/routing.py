@@ -8,6 +8,7 @@ state.
 from __future__ import annotations
 
 from dataclasses import dataclass
+import json
 import os
 from pathlib import Path
 import tempfile
@@ -27,7 +28,18 @@ from gaia_cli.steward.receipts import (
     ensure_local_state_path,
     exclusive_scan_lock,
     make_run_id,
+    run_id_matches,
     write_immutable_receipt,
+)
+from gaia_cli.steward.verification import (
+    MAX_DIFF_BYTES,
+    MAX_TRANSCRIPT_BYTES,
+    VerificationError,
+    VerificationVerdict,
+    evaluate,
+    parse_proof_transcript,
+    parse_unified_diff,
+    read_text_input,
 )
 
 
@@ -43,6 +55,7 @@ class RoutingReceipt:
     action: str
     scan_receipt_id: str
     artifact: Mapping[str, Any]
+    status: str = "reported"
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -52,7 +65,7 @@ class RoutingReceipt:
             "scanReceiptId": self.scan_receipt_id,
             "models": [],
             "repairs": [],
-            "result": {"status": "reported"},
+            "result": {"status": self.status},
             "artifact": dict(self.artifact),
         }
 
@@ -60,7 +73,7 @@ class RoutingReceipt:
 @dataclass(frozen=True)
 class RoutingResult:
     scan: ScanResult
-    artifact: DispatchPacket | FounderQueue
+    artifact: DispatchPacket | FounderQueue | VerificationVerdict
     receipt: RoutingReceipt
     receipt_path: Path
 
@@ -105,7 +118,7 @@ def _persist(
     policy: StewardPolicy,
     scan: ScanResult,
     action: str,
-    artifact: DispatchPacket | FounderQueue,
+    artifact: DispatchPacket | FounderQueue | VerificationVerdict,
 ) -> tuple[RoutingReceipt, Path]:
     artifact_dict = artifact.to_dict()
     # Artifact identity is semantic and intentionally stable; this hash records
@@ -120,6 +133,11 @@ def _persist(
         action=action,
         scan_receipt_id=scan.receipt.run_id,
         artifact=artifact_dict,
+        status=(
+            f"verdict:{artifact.verdict}"
+            if isinstance(artifact, VerificationVerdict)
+            else "reported"
+        ),
     )
     path, _created = write_immutable_receipt(
         root / policy.state_directory / policy.receipts_directory,
@@ -255,6 +273,184 @@ def render_dispatch_prompt(
     prompt = render_tree_keeper_prompt(
         packet,
         prompt_guide=rule.prompt_guide,
+        receipt=result.receipt.to_dict(),
+    )
+    return result, prompt
+
+
+_MAX_RECEIPT_BYTES = 8 * 1024 * 1024
+
+
+def _read_receipt(path: Path) -> Mapping[str, Any]:
+    raw = path.read_bytes()
+    if len(raw) > _MAX_RECEIPT_BYTES:
+        raise RoutingError(f"Steward receipt exceeds its safety limit: {path.name}")
+    try:
+        data = json.loads(raw)
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise RoutingError(f"invalid Steward receipt {path.name}: {exc}") from exc
+    if not isinstance(data, dict):
+        raise RoutingError(f"Steward receipt must be an object: {path.name}")
+    return data
+
+
+def _latest_dispatch_receipt(receipts_directory: Path, debt_id: str) -> Mapping[str, Any]:
+    """Return the most recent dispatch receipt that authorized work on this debt.
+
+    Verification is only meaningful for work Steward actually dispatched. If no
+    receipt authorized it, there is no envelope to verify against and the
+    request fails closed rather than inventing one.  Receipt ids embed a
+    fixed-width timestamp, so lexicographic order is chronological order.
+    """
+
+    if not receipts_directory.is_dir():
+        raise RoutingError(f"no dispatch receipt exists for debt {debt_id}")
+    candidates: list[Mapping[str, Any]] = []
+    for path in sorted(receipts_directory.glob("steward-*.json")):
+        data = _read_receipt(path)
+        if data.get("action") != "dispatch":
+            continue
+        artifact = data.get("artifact")
+        if not isinstance(artifact, dict):
+            continue
+        debt = artifact.get("debt")
+        if not isinstance(debt, dict) or debt.get("id") != debt_id:
+            continue
+        # The receipt is the only record of what was authorized, so it has to
+        # still attest to itself. Its id is a digest of exactly this payload;
+        # an envelope widened after publication no longer hashes to its name.
+        if not run_id_matches(
+            str(data.get("runId", "")),
+            {
+                "action": "dispatch",
+                "scanReceiptId": data.get("scanReceiptId"),
+                "artifact": artifact,
+            },
+        ):
+            raise RoutingError(
+                f"dispatch receipt {path.name} no longer matches its own content "
+                "hash; it has been edited since publication and is not evidence "
+                "of what was authorized"
+            )
+        candidates.append(data)
+    if not candidates:
+        raise RoutingError(
+            f"no dispatch receipt exists for debt {debt_id}; run "
+            f"`gaia steward dispatch {debt_id}` before verifying work against it"
+        )
+    return max(candidates, key=lambda item: str(item.get("runId", "")))
+
+
+def render_verification(
+    repo_root: Path,
+    debt_id: str,
+    *,
+    diff_path: Path,
+    proof_path: Path,
+    controller: StewardController | None = None,
+) -> tuple[RoutingResult, str, Mapping[int, tuple[str, ...]]]:
+    """Verify one dispatched Class B patch against the envelope that authorized it.
+
+    The packet is restored from its dispatch receipt rather than re-rendered.
+    A packet re-derived from today's policy would quietly hold the builder to
+    an envelope that did not exist when the work was commissioned.
+    """
+
+    root = repo_root.resolve()
+    policy = StewardPolicy.load(root)
+    receipts_directory = root / policy.state_directory / policy.receipts_directory
+    dispatch_receipt = _latest_dispatch_receipt(receipts_directory, debt_id)
+    try:
+        packet = DispatchPacket.from_dict(dispatch_receipt["artifact"])
+    except (KeyError, TypeError, ValueError) as exc:
+        raise RoutingError(f"unusable dispatch receipt for debt {debt_id}: {exc}") from exc
+
+    baseline_receipt_path = receipts_directory / f"{dispatch_receipt.get('scanReceiptId')}.json"
+    if not baseline_receipt_path.is_file():
+        raise RoutingError(
+            "the scan receipt behind this dispatch is missing; new debt cannot be "
+            "distinguished from pre-existing debt"
+        )
+        # Failing closed here is deliberate: without the baseline, "new debt
+        # appeared" would silently become "all debt is new".
+    baseline_open = _read_receipt(baseline_receipt_path).get("openDebt")
+    if not isinstance(baseline_open, list):
+        raise RoutingError("the scan receipt behind this dispatch records no open debt set")
+
+    diff_text = read_text_input(diff_path, label="candidate diff", limit=MAX_DIFF_BYTES)
+    transcript_text = read_text_input(
+        proof_path, label="proof transcript", limit=MAX_TRANSCRIPT_BYTES
+    )
+    change_set = parse_unified_diff(diff_text)
+    transcript = parse_proof_transcript(
+        transcript_text, proof_contract_length=len(packet.proof)
+    )
+
+    active_controller = controller or StewardController()
+    sensor_sources = tuple(sensor.id for sensor in active_controller.sensors)
+
+    def build(scan: ScanResult) -> VerificationVerdict:
+        _assert_known_fresh_scan(scan)
+        rule = policy.dispatch_rule_for(str(packet.debt.get("kind")))
+        still_class_b = (
+            policy.authority.get(str(packet.debt.get("kind"))) is AuthorityClass.B
+            and rule is not None
+            and rule.id == packet.rule
+        )
+        return evaluate(
+            packet=packet,
+            change_set=change_set,
+            transcript=transcript,
+            debt_source=str(packet.debt.get("source")),
+            sensor_sources=sensor_sources,
+            baseline_open_debt=[str(item) for item in baseline_open],
+            current_open_debt=[debt.id for debt in scan.open_debts],
+            authority_still_class_b=still_class_b,
+        )
+
+    result = _scan_and_persist_routing(root, policy, "verify", active_controller, build)
+    return result, diff_text, transcript.outputs
+
+
+def render_verifier_prompt_for(
+    repo_root: Path,
+    debt_id: str,
+    *,
+    diff_path: Path,
+    proof_path: Path,
+    controller: StewardController | None = None,
+) -> tuple[RoutingResult, str]:
+    """Verify mechanically, then render a judgment prompt only if one is needed."""
+
+    from gaia_cli.steward.prompt import render_verifier_prompt
+
+    root = repo_root.resolve()
+    policy = StewardPolicy.load(root)
+    result, diff_text, proof_outputs = render_verification(
+        root, debt_id, diff_path=diff_path, proof_path=proof_path, controller=controller
+    )
+    verdict = result.artifact
+    if not isinstance(verdict, VerificationVerdict):
+        raise RoutingError("verification did not render a verdict")
+    if verdict.decided:
+        raise VerificationError(
+            f"machinery already reached {verdict.verdict!r}; no independent judgment "
+            "is required and none should be paid for. Reasons: "
+            + "; ".join(verdict.reasons)
+        )
+    dispatch_receipt = _latest_dispatch_receipt(
+        root / policy.state_directory / policy.receipts_directory, debt_id
+    )
+    packet = DispatchPacket.from_dict(dispatch_receipt["artifact"])
+    rule = policy.dispatch_rules.get(packet.rule)
+    if rule is None:
+        raise RoutingError(f"packet references an unknown dispatch rule: {packet.rule}")
+    prompt = render_verifier_prompt(
+        packet,
+        verdict,
+        prompt_guide=rule.prompt_guide,
+        diff_text=diff_text,
+        proof_outputs=proof_outputs,
         receipt=result.receipt.to_dict(),
     )
     return result, prompt

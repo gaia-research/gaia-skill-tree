@@ -24,6 +24,7 @@ from gaia_cli.steward.models import DispatchPacket
 
 
 PROMPT_SCHEMA = "steward-tree-keeper-prompt-v1"
+VERIFIER_PROMPT_SCHEMA = "steward-verifier-prompt-v1"
 
 _ROLE = """You are **Tree Keeper**, executing exactly one Gaia Steward maintenance dispatch.
 
@@ -121,5 +122,111 @@ def render_tree_keeper_prompt(
         "whoever pasted this prompt decides the ceiling, and every other "
         "bound in this dispatch still holds exactly as written.",
         "## Reporting\n\n" + _REPORTING,
+    ]
+    return "\n\n".join(sections).strip() + "\n"
+
+
+_VERIFIER_ROLE = """You are the **independent verifier** for one Gaia Steward Class B dispatch.
+
+You did not do this work and you are not being asked to improve it. You are being
+asked whether it should be integrated.
+
+Everything below reached you from Steward, not from the builder. The finding is
+quoted as a **sensor** recorded it. The envelope is quoted from the policy that
+authorized the work. You have deliberately not been given the builder's account
+of what they did or why — an explanation is exactly the thing you would be
+verifying against, and reading it first is how verification turns into agreement.
+
+Do not redesign the patch. If it is wrong, say it is wrong; a corrected patch is
+a new dispatch, not part of this one."""
+
+_VERIFIER_REPORTING = """Answer in exactly this shape:
+
+```yaml
+findingConfirmed:      # did the finding this patch claims to fix actually exist?
+scopeValid:            # did the change stay inside what was authorized?
+proofValid:            # does the proof genuinely demonstrate the contract items?
+authorityStillValid:   # is Class B still the right authority for what this turned out to be?
+guardsWeakened:        # were tests, validators, or checks made less strict?
+newDebt:               # conditions you noticed that are outside this dispatch
+verdict:               # accept | reject | escalate
+reasons:               # one line per finding that drove the verdict
+```
+
+`accept` means: integrate this as it stands.
+`reject` means: this should not be integrated, and the reason is the builder's to fix.
+`escalate` means: the decision is not yours — the work turned out to need
+governance, or the authority envelope itself was wrong.
+
+If you are unsure, escalate. An escalation costs a message. A wrong accept costs
+the property that makes autonomous repair defensible at all."""
+
+
+def render_verifier_prompt(
+    packet: DispatchPacket,
+    verdict: Any,
+    *,
+    prompt_guide: str,
+    diff_text: str,
+    proof_outputs: Mapping[int, tuple[str, ...]],
+    receipt: Mapping[str, Any] | None = None,
+) -> str:
+    """Render the independent verifier's prompt for one pending verification.
+
+    This is only ever rendered for a ``pending`` mechanical verdict. When
+    machinery already reached ``reject`` or ``escalate``, there is nothing left
+    to judge and spending a model on it would be spending it to re-derive a
+    fact that a path comparison already established.
+    """
+
+    if getattr(verdict, "decided", False):
+        raise ValueError(
+            "machinery already decided this verification; no judgment is required"
+        )
+
+    debt = dict(packet.debt)
+    receipt_id = (receipt or {}).get("runId", "unrecorded")
+    proof_sections = []
+    for index, item in enumerate(packet.proof, start=1):
+        outputs = proof_outputs.get(index, ())
+        body = "\n\n".join(f"```text\n{text.strip()}\n```" for text in outputs if text.strip())
+        proof_sections.append(
+            f"**{index}. {item}**\n\n{body or '_No output was supplied for this item._'}"
+        )
+
+    sections = [
+        f"# Independent verification — `{packet.dispatch_id}`",
+        _VERIFIER_ROLE,
+        "## What Steward already established\n\n"
+        "These were settled mechanically, so do not spend effort re-deriving them:\n\n"
+        f"- The diff writes only inside the authorized paths, and none of the forbidden ones.\n"
+        f"- Every one of the {len(packet.proof)} proof-contract items has evidence, and every "
+        "proof command exited zero.\n"
+        f"- `{debt.get('source', 'unknown')}` is a registered sensor, so the finding was "
+        "observed rather than asserted.\n"
+        "- The debt is still classified Class B under current policy.\n"
+        "- No guard file was deleted and no net guard assertion was removed.\n"
+        "- No unrelated debt appeared between dispatch and now.\n\n"
+        "**What is left is the part machinery cannot reach:** whether this patch "
+        "actually resolves the finding, and whether the proof demonstrates that "
+        "rather than merely exiting zero.",
+        "## Authority the work was done under\n\n"
+        f"**Class {packet.authority.value}** — routine `{packet.routine}` under rule "
+        f"`{packet.rule}`.\n\n"
+        f"Human contract: `{prompt_guide}`\n\n"
+        f"Steward receipt: `{receipt_id}`\n\n"
+        "Allowed paths:\n\n" + _bullets(packet.allowed_paths) + "\n\n"
+        "Forbidden paths:\n\n" + _bullets(packet.forbidden_paths),
+        "## The finding, as a sensor recorded it\n\n"
+        f"- Debt: `{debt.get('id', 'unknown')}`\n"
+        f"- Kind: `{debt.get('kind', 'unknown')}`\n"
+        f"- Observed by: `{debt.get('source', 'unknown')}` at `{debt.get('lastObservedAt', 'unknown')}`\n\n"
+        + _fenced_json(dict(packet.evidence)),
+        f"## The objective it was dispatched against\n\n{packet.objective.strip()}",
+        "## The candidate change\n\n"
+        f"```diff\n{diff_text.rstrip()}\n```",
+        "## The proof contract, and the evidence offered for each item\n\n"
+        + "\n\n".join(proof_sections),
+        "## Your verdict\n\n" + _VERIFIER_REPORTING,
     ]
     return "\n\n".join(sections).strip() + "\n"
