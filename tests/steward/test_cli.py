@@ -49,6 +49,18 @@ def _clean_cli_repo(root: Path) -> None:
     _write(root / "registry/nodes/basic/example.json", json.dumps(node))
     _write(root / ".agents/skills/example/SKILL.md", "# Example\n")
     _write(root / ".claude/skills/example/SKILL.md", "# Example\n")
+    # A consistent CLI command surface, so the cli-contract sensor has
+    # something to observe. A checkout with no CLI is genuinely a checkout
+    # Steward cannot observe, and it reports that as unknown coverage rather
+    # than as a clean bill of health.
+    _write(root / "src/gaia_cli/commands/__init__.py", "")
+    _write(root / "src/gaia_cli/commands/base.py", "class Command:\n    name = 'base'\n")
+    _write(
+        root / "src/gaia_cli/commands/example_cmd.py",
+        'class ExampleCommand(Command):\n    name = "example"\n\n\nCOMMAND = ExampleCommand()\n',
+    )
+    _write(root / "src/gaia_cli/impl.py", 'PUBLIC_COMMANDS = ("help", "example")\n')
+    _write(root / "CLAUDE.md", "Top-level (lifecycle-oriented): `example`, `help`.\n")
     subprocess.run(["git", "init", "-q"], cwd=root, check=True)
     subprocess.run(["git", "add", "."], cwd=root, check=True)
     subprocess.run(
@@ -84,7 +96,7 @@ def test_steward_scan_json_cli_is_clean_and_report_only(
 
     payload = json.loads(capsys.readouterr().out)
     assert payload["receipt"]["result"]["status"] == "no_change"
-    assert payload["receipt"]["observationsCollected"] == 7
+    assert payload["receipt"]["observationsCollected"] == 9  # 5 sensors + 4 coverage marks
     assert payload["receipt"]["dispatches"] == []
     assert payload["receipt"]["repairs"] == []
     assert payload["state"]["debt"].startswith(str(tmp_path / ".gaia/steward"))

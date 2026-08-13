@@ -502,10 +502,102 @@ def _dependency_cycles(
     return sorted(cycles)
 
 
+class CliContractSensor:
+    """Compare the CLI's three declarations of its own command surface.
+
+    A CLI has more than one place where it says what it is, and those places
+    drift apart quietly. This sensor reads all three statically — never by
+    importing the code it is auditing — and reports only differences that are
+    exact:
+
+    - a command the loader will dispatch but the help surface never lists, so
+      it works and is undiscoverable;
+    - a command the help surface advertises with nothing behind it;
+    - a command the agent contract documents that does not exist.
+
+    The last direction is deliberately one-way. The contract's list is an
+    intentionally curated lifecycle subset, so "documented but absent" is a
+    lie about the CLI while "present but undocumented" is an editorial choice.
+    Reporting the second would bury the first in noise.
+    """
+
+    id = "cli-contract"
+
+    def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
+        from gaia_cli.steward.cli_contract import (
+            BUILTIN_COMMANDS,
+            CONTRACT_DOCUMENT,
+            PUBLIC_SOURCE,
+            discovered_commands,
+            documented_commands,
+            public_commands,
+        )
+
+        discovered = discovered_commands(repo_root)
+        public = public_commands(repo_root)
+        documented = documented_commands(repo_root)
+
+        dispatchable = set(discovered) | set(BUILTIN_COMMANDS)
+        undiscoverable = sorted(set(discovered) - set(public))
+        advertised_but_absent = sorted(set(public) - dispatchable)
+        if documented is None:
+            documented_but_absent: list[str] = []
+            contract_state = "absent"
+        else:
+            documented_but_absent = sorted(set(documented) - dispatchable)
+            contract_state = "present"
+
+        violations = [
+            {"kind": "undiscoverable", "command": name, "detail": f"defined in {discovered[name]}, absent from PUBLIC_COMMANDS"}
+            for name in undiscoverable
+        ]
+        violations.extend(
+            {"kind": "advertised-but-absent", "command": name, "detail": "listed in PUBLIC_COMMANDS with no command behind it"}
+            for name in advertised_but_absent
+        )
+        violations.extend(
+            {"kind": "documented-but-absent", "command": name, "detail": f"documented in {CONTRACT_DOCUMENT} but not dispatchable"}
+            for name in documented_but_absent
+        )
+        if contract_state == "absent":
+            violations.append({
+                "kind": "contract-missing",
+                "command": "-",
+                "detail": f"{CONTRACT_DOCUMENT} no longer declares a top-level command surface",
+            })
+        violations.sort(key=lambda item: (item["kind"], item["command"]))
+
+        return [
+            Observation(
+                kind="cli_contract_drift",
+                subject=Subject(type="repository-surface", id="cli-command-surface"),
+                observed_at=observed_at,
+                source=self.id,
+                status="drift" if violations else "healthy",
+                current_state={"consistent": True},
+                observed_state={
+                    "consistent": not violations,
+                    "violationCount": len(violations),
+                    "discoveredCount": len(discovered),
+                    "publicCount": len(public),
+                    "contract": contract_state,
+                    "violations": violations,
+                },
+                confidence=1.0,
+                provenance={
+                    "commandsPath": "src/gaia_cli/commands",
+                    "publicPath": PUBLIC_SOURCE,
+                    "contractPath": CONTRACT_DOCUMENT,
+                },
+            )
+        ]
+
+
 def default_sensors() -> tuple[Sensor, ...]:
     return (
         BundledSchemaMirrorSensor(),
         AgentSkillMirrorSensor(),
         RegistryIntegritySensor(),
+        CliContractSensor(),
         DiscoveryGenericMappingSensor(),
     )

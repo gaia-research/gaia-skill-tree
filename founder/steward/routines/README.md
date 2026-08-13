@@ -54,8 +54,19 @@ Never hand-write one. Ask Steward:
 
 ```bash
 gaia steward scan                          # what is open?
-gaia steward dispatch <debt-id> --prompt   # the full prompt, verbatim
+gaia steward lane next --prompt            # the next thing the bounds allow
+gaia steward dispatch <debt-id> --prompt   # or one specific finding, verbatim
 ```
+
+`lane next` is the one to reach for by default: it respects `maxInFlight`, skips
+anything still cooling down after a rejection, and picks by expected maintenance
+value rather than by whatever caught your eye. `dispatch` is for when you already
+know which finding you want.
+
+**Agents pick work up through the same door.** The `gaia-steward-lane` skill
+(mirrored in `.claude/skills/` and `.agents/skills/`) is the agent-facing wrapper
+around exactly these commands — so an agent asked "is there anything to fix?"
+finds the lane instead of inventing a cleanup pass.
 
 `--prompt` renders only. It runs nothing, changes nothing, and spends nothing —
 it reuses the receipt written when the packet was rendered, so the dispatch you
@@ -79,18 +90,35 @@ once; paste the prompt every time.
 | Routine | Debt kind | Wired to a sensor? | Worth looking | Trigger that actually matters |
 |---|---|---|---|---|
 | [Registry integrity review](registry-integrity-review.md) | `registry_integrity_failed` | **Yes** | Every scan (daily pulse) | Any node schema, reference, or DAG violation |
+| [CLI contract drift](cli-contract-drift.md) | `cli_contract_drift` | **Yes** | Every scan; matters most before a release | A command exists but is unlisted, is listed but absent, or is documented and gone |
 | [Repository hygiene](repository-hygiene.md) | `repository_hygiene` | Not yet | Weekly | Generated drift, stale branches, orphaned artifacts |
-| [CLI contract drift](cli-contract-drift.md) | `cli_contract_drift` | Not yet | Before each release, else monthly | Help, discovery, or config surface changed without its contract |
 | [Knowledge contradiction](knowledge-contradiction.md) | `knowledge_contradiction` | Not yet | Monthly, and after any founder ruling | Two source-of-truth documents disagree |
 
-**"Not yet" is honest, not aspirational.** Those routines have a written human
-contract and a cadence, but no sensor emits their debt, so `gaia steward
+[**Heartbeat**](heartbeat.md) is not a repair routine and is not in that table.
+It is the standing scheduled question — *is anything happening a person should
+know about?* — and it reports by exception. Daily is plenty.
+
+**"Not yet" is honest, not aspirational.** Those two routines have a written
+human contract and a cadence, but no sensor emits their debt, so `gaia steward
 dispatch` will refuse them today. You can still run one by hand from its file.
 Wiring a routine is a `POLICY.yaml` edit plus a sensor — no CLI change, since
-V1.2 generalized dispatch rules to a declared set. Two details differ between
-them: `cli_contract_drift` and `knowledge_contradiction` are already classified
-Class B in `POLICY.yaml`, while `repository_hygiene` is not classified at all
-and needs an `authority` and `priority` entry as well.
+V1.2 generalized dispatch rules to a declared set. `knowledge_contradiction` is
+already classified Class B in `POLICY.yaml`; `repository_hygiene` is not
+classified at all and needs an `authority` and `priority` entry as well.
+
+`cli_contract_drift` was the second one wired (V1.4), and it is worth knowing how
+its sensor works before you read its findings. It never imports the CLI — a
+sensor that imports the code it audits reports on the *installed* package rather
+than the checkout in front of it, and runs arbitrary repository code to do so.
+It parses the source instead, and compares the three places this CLI declares
+itself: the command modules, `PUBLIC_COMMANDS`, and the top-level list in
+`CLAUDE.md`. Only unambiguous directions are reported. "Documented but absent" is
+a lie about the CLI; "present but undocumented" is an editorial choice, and
+reporting it would bury the first under every deliberate omission.
+
+Its envelope deliberately cannot reach `CLAUDE.md` or anything under `founder/`.
+An agent may reconcile the code to the contract; deciding what the contract
+*should say* is not a bounded repair.
 
 `sensor_coverage_unknown` is also Class B but is **undispatchable by
 construction**, and deliberately so: routing refuses to render anything while
