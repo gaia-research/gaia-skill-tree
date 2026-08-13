@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Skill Hierarchy — Gaia Docs</title>
-  <meta name="description" content="How Gaia's four tiers (Basic, Extra, Unique, Ultimate), the 0★–6★ stars axis, and skill fusion work together.">
+  <meta name="description" content="How Gaia's Type axis (Basic, Fusion), Branch axis (Unique, Suite), the 0★–6★ stars axis, and skill fusion work together.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -548,11 +548,11 @@
         <div class="sidebar-group-label">On this page</div>
         <ul class="sidebar-links">
           <li><a href="#overview">Overview</a></li>
-          <li><a href="#tiers">The four tiers</a></li>
+          <li><a href="#type-branch">Type &amp; Branch</a></li>
           <li><a href="#basic">Basic ○</a></li>
-          <li><a href="#extra">Extra ◇</a></li>
-          <li><a href="#unique">Unique ◉</a></li>
-          <li><a href="#ultimate">Ultimate ◆</a></li>
+          <li><a href="#type-fusion">Fusion ◇</a></li>
+          <li><a href="#unique-branch">Unique branch ◉</a></li>
+          <li><a href="#suite-branch">Suite branch ◆</a></li>
           <li><a href="#stars">Stars axis</a></li>
           <li><a href="#rank-names">Rank names</a></li>
           <li><a href="#fusion">Fusion</a></li>
@@ -567,10 +567,11 @@
     <main class="main-content">
       <h1 class="page-title">Skill Hierarchy</h1>
       <p class="page-lead">
-        Gaia organizes capabilities along two orthogonal axes: <strong>tier</strong>
-        (what kind of skill it is) and <strong>stars</strong> (how mature the evidence is).
-        Understanding both is essential for reading the tree, interpreting the graph,
-        and planning your next fusion.
+        Gaia describes a skill with three labels: <strong>Type</strong> — Basic or
+        Fusion, fixed before anyone claims the skill — <strong>Branch</strong> — Unique
+        or Suite, computed for Named Skills at 4★ and up — and <strong>stars</strong>,
+        the 0★–6★ evidence axis. Understanding all three is essential for reading the
+        tree, interpreting the graph, and planning your next fusion.
       </p>
 
       <!-- ═══ OVERVIEW ═══ -->
@@ -578,42 +579,45 @@
         <h2 class="section-title">Overview</h2>
         <div class="section-body">
           <p>
-            Every skill in the Gaia registry lives at the intersection of a <strong>tier</strong>
-            and a <strong>star value</strong>. These are independent axes — a Basic skill can
-            reach 6★ just as an Ultimate can sit at 0★. Neither axis implies the other.
+            As of Yggdrasil II (ratified 2026-07-07), there is no single four-way tier
+            split. A skill's structure is described by two separate axes instead.
+            <strong>Type</strong> (Basic or Fusion) lives on starless skills only — it
+            is fixed before anyone claims the skill. <strong>Branch</strong> (Unique or
+            Suite) lives on Named Skills at 4★ and up — it is computed from whether the
+            skill carries <code>suiteComponents</code>, never declared by hand. Stars
+            (0★–6★) measure evidence depth and apply throughout.
           </p>
           <p>
-            A third axis — <em>rarity</em> — existed in earlier schema versions but has been
+            A fourth axis — <em>rarity</em> — existed in earlier schema versions but has been
             fully removed. If you encounter old documentation referencing
-            common/uncommon/rare/epic/legendary, treat it as stale. All current signal
-            lives in tier and stars.
+            common/uncommon/rare/epic/legendary, treat it as stale.
           </p>
         </div>
 
         <!-- quick reference axes -->
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.25rem;" class="axes-grid">
           <div style="background:var(--surface,#0f172a);border:1px solid var(--border,#1e293b);border-radius:8px;padding:1.25rem;">
-            <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted,#64748b);margin-bottom:0.75rem;overflow-wrap:break-word;">Tier axis — what kind</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted,#64748b);margin-bottom:0.75rem;overflow-wrap:break-word;">Type &amp; Branch — what kind</div>
             <div style="display:flex;flex-direction:column;gap:0.4rem;">
               <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.875rem;">
                 <span style="color:var(--tier-basic,#38bdf8);font-size:1rem;">○</span>
                 <span style="color:var(--text,#e2e8f0);">Basic</span>
-                <span style="color:var(--muted,#64748b);font-size:0.8rem;">primitive, indivisible</span>
+                <span style="color:var(--muted,#64748b);font-size:0.8rem;">type — starless, no prerequisites</span>
               </div>
               <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.875rem;">
                 <span style="color:var(--rank-4);font-size:1rem;">◇</span>
-                <span style="color:var(--text,#e2e8f0);">Extra</span>
-                <span style="color:var(--muted,#64748b);font-size:0.8rem;">emergent via fusion</span>
+                <span style="color:var(--text,#e2e8f0);">Fusion</span>
+                <span style="color:var(--muted,#64748b);font-size:0.8rem;">type — starless, one or more prerequisites</span>
               </div>
               <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.875rem;">
                 <span style="color:var(--tier-unique,#7c3aed);font-size:1rem;">◉</span>
-                <span style="color:var(--text,#e2e8f0);">Unique</span>
-                <span style="color:var(--muted,#64748b);font-size:0.8rem;">elite Basic, no fusion path</span>
+                <span style="color:var(--text,#e2e8f0);">Unique branch</span>
+                <span style="color:var(--muted,#64748b);font-size:0.8rem;">branch — Named, 4★+, no suiteComponents</span>
               </div>
               <div style="display:flex;align-items:center;gap:0.6rem;font-size:0.875rem;">
                 <span style="color:var(--rank-5);font-size:1rem;">◆</span>
-                <span style="color:var(--text,#e2e8f0);">Ultimate</span>
-                <span style="color:var(--muted,#64748b);font-size:0.8rem;">apex complexity, &lt;1% of agents</span>
+                <span style="color:var(--text,#e2e8f0);">Suite branch</span>
+                <span style="color:var(--muted,#64748b);font-size:0.8rem;">branch — Named, carries suiteComponents</span>
               </div>
             </div>
           </div>
@@ -655,74 +659,71 @@
 
       <hr class="section-hr">
 
-      <!-- ═══ TIERS ═══ -->
-      <section class="section" id="tiers">
-        <h2 class="section-title">The four tiers</h2>
+      <!-- ═══ TYPE & BRANCH ═══ -->
+      <section class="section" id="type-branch">
+        <h2 class="section-title">Type &amp; Branch</h2>
         <p class="section-body" style="margin-bottom:0;">
-          Tier is a structural category describing how a skill came to exist and whether
-          it can fuse further. It is determined at curation time and does not change
-          with evidence accumulation.
+          As of Yggdrasil II, the old four-way tier split is retired. <strong>Type</strong>
+          describes a starless skill's structure. <strong>Branch</strong> describes a
+          Named Skill's progression path. Both are computed, never declared, and neither
+          changes by hand.
         </p>
 
         <div class="tier-grid">
           <!-- Basic -->
           <div class="tier-card basic" id="basic">
             <div class="tier-card-glyph">○</div>
-            <div class="tier-card-name">Basic Skill</div>
-            <div class="tier-card-label">Section header: Basics</div>
+            <div class="tier-card-name">Basic</div>
+            <div class="tier-card-label">Type — starless</div>
             <div class="tier-card-desc">
-              A primitive, indivisible capability — the genome of every agent.
-              Basic skills are the atoms from which all higher tiers are built.
-              They can fuse with other Basics to produce Extras or Ultimates.
-              Most of the registry is made up of Basic skills.
+              A skill with no prerequisites — the atom other skills fuse from.
+              Most of the registry is Basic skills. Type is fixed before anyone
+              claims the skill.
             </div>
           </div>
 
-          <!-- Extra -->
-          <div class="tier-card extra" id="extra">
+          <!-- Fusion -->
+          <div class="tier-card extra" id="type-fusion">
             <div class="tier-card-glyph">◇</div>
-            <div class="tier-card-name">Extra Skill</div>
-            <div class="tier-card-label">Section header: Extras</div>
+            <div class="tier-card-name">Fusion</div>
+            <div class="tier-card-label">Type — starless</div>
             <div class="tier-card-desc">
-              A capability that emerges when two or more lower-tier skills fuse.
-              Extra skills can themselves fuse with other Extras to produce more
-              complex Extras or Ultimates. Never created directly — always the
-              product of a fusion path.
+              A skill with one or more prerequisites — built by fusing other
+              skills. Fusion replaces the old "Extra" and structural "Ultimate"
+              categories; any depth of fusion chain is still just Fusion.
             </div>
           </div>
 
-          <!-- Unique -->
-          <div class="tier-card unique" id="unique">
+          <!-- Unique branch -->
+          <div class="tier-card unique" id="unique-branch">
             <div class="tier-card-glyph">◉</div>
-            <div class="tier-card-name">Unique Skill</div>
-            <div class="tier-card-label">Section header: Uniques</div>
+            <div class="tier-card-name">Unique branch</div>
+            <div class="tier-card-label">Branch — Named, 4★ and up</div>
             <div class="tier-card-desc">
-              A graph-isolated Basic skill that reached elite mastery through
-              depth alone — no fusion path forward exists for it. The Unique
-              branch is computed, not declared: a Named Skill reaching 4★+
-              without <code>suiteComponents</code> is Unique automatically.
+              A Named Skill that reaches 4★ or higher without <code>suiteComponents</code>.
+              Computed at read time, never declared: 4★ Unique → 5★ Unique
+              Ultimate → 6★ Unique Impossible.
             </div>
           </div>
 
-          <!-- Ultimate -->
-          <div class="tier-card ultimate" id="ultimate">
+          <!-- Suite branch -->
+          <div class="tier-card ultimate" id="suite-branch">
             <div class="tier-card-glyph">◆</div>
-            <div class="tier-card-name">Ultimate Skill</div>
-            <div class="tier-card-label">Section header: Ultimates</div>
+            <div class="tier-card-name">Suite branch</div>
+            <div class="tier-card-label">Branch — Named, carries suiteComponents</div>
             <div class="tier-card-desc">
-              A high-complexity emergent capability found in fewer than 1% of
-              agents — the apex tier. Ultimates require broad prerequisite coverage
-              across multiple sub-trees, making them the hardest skills to
-              legitimately demonstrate and the most meaningful to hold.
+              A Named Skill that carries <code>suiteComponents</code>. Branch is
+              Suite from 2★ up, but the ladder words — Extra (4★), Ultimate (5★),
+              Apex (6★) — and the ◆ glyph only render at 4★ and up.
             </div>
           </div>
         </div>
 
         <div class="callout info">
-          <strong>Tier is structural, not aspirational.</strong> A Basic skill is not
-          "worse" than an Ultimate — it is a different <em>kind</em> of capability.
-          Some of the most useful and widely-held skills in the registry are Basic.
-          Stars measure depth; tier measures shape.
+          <strong>Type and Branch are structural, not aspirational.</strong> A Basic
+          skill is not "worse" than a Fusion skill — it is a different <em>kind</em>
+          of capability. Some of the most useful and widely-held skills in the
+          registry are Basic. Stars measure depth; Type and Branch measure shape.
         </div>
       </section>
 
@@ -796,10 +797,10 @@
         </table>
 
         <div class="callout warn" style="margin-top:1.25rem;">
-          <strong>Do not confuse tier and stars.</strong> "Tier" (Basic/Extra/Unique/Ultimate)
-          describes the structural category. "Stars" (0★–6★) describes the evidence depth.
-          "Rank" is only the <em>name</em> for a specific star value — never use "rank" as a
-          synonym for the full stars axis.
+          <strong>Do not confuse Type/Branch and stars.</strong> "Type" (Basic/Fusion) and
+          "Branch" (Unique/Suite) describe the structural category. "Stars" (0★–6★)
+          describes the evidence depth. "Rank" is only the <em>name</em> for a specific
+          star value — never use "rank" as a synonym for the full stars axis.
         </div>
       </section>
 

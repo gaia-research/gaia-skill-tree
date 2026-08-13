@@ -2,6 +2,95 @@
 
 ---
 
+## 2026-08-13 — Routine 028
+
+**Branch:** `docs/routines/026` (PR #1528 still open — continued on it per the
+one-open-PR rule)
+
+**Task chosen:** CONTINUE — "Planned next (Routine 028)" named `skill-hierarchy.html`'s
+tier-card diagram section as the first of the two remaining #1479 slices.
+
+### What I did
+
+Rewrote `skill-hierarchy.html`'s main four-tier visual (the `id="tiers"` section and its
+four `.tier-card` divs — Basic ○ / Extra ◇ / Unique ◉ / Ultimate ◆) to teach the real
+Type/Branch model instead of the retired Yggdrasil I taxonomy:
+
+- **Type axis (starless only)** — Basic (no prerequisites) and Fusion (one or more
+  prerequisites, replacing the old "Extra" and structural "Ultimate" categories).
+- **Branch axis (Named Skills, 4★+)** — Unique branch (no `suiteComponents`) and Suite
+  branch (carries `suiteComponents`; ladder words Extra/Ultimate/Apex and the ◆ glyph
+  render only at 4★+, matching the Suite branch definition in `CONTEXT.md` § Taxonomy v6).
+
+Reused all four existing `.tier-card` modifier classes (`basic`/`extra`/`unique`/
+`ultimate`) and their token colors unchanged — only glyphs, names, labels, and
+descriptions changed, so no new CSS or colors were needed.
+
+Also fixed three places that would have contradicted the corrected section if left
+alone, all tightly coupled to the same "tier" narrative on this page:
+
+- The page's `<meta name="description">` and `page-lead` paragraph, which asserted the
+  old "tier × stars, two orthogonal axes" framing.
+- The Overview section's false claim "a Basic skill can reach 6★ just as an Ultimate can
+  sit at 0★" — the same claim already removed from `faq.html` in routine 026, since
+  Ultimate is now a 5★ rank name, not a starless structural type.
+- The "quick reference axes" grid's left card (Tier axis list) in Overview, and a second
+  `callout warn` in the Stars section ("Do not confuse tier and stars") that sat directly
+  below an already-correct rank-names table (fixed in routine 025) and would have read as
+  a contradiction next to it.
+
+Did not touch the page's own Fusion section (`id="fusion"`, further down — still uses
+"Extra"/"Ultimate" tier language in its diagram) or `fusion.html` — both are the larger
+diagram-heavy rewrites already flagged for future slots.
+
+### Design decisions
+
+- Mirrored the exact Type/Branch wording and card mapping established in `faq.html`'s
+  routine 026 fix (pill-basic→Basic, pill-extra→Fusion, pill-unique→Unique branch,
+  pill-ultimate→Suite branch) for site-wide consistency.
+- Kept anchor ids stable where the concept didn't change (`#basic`); renamed
+  `#tiers`→`#type-branch`, `#extra`→`#type-fusion` (`#fusion` was already taken by the
+  page's own Fusion section further down), `#unique`→`#unique-branch`,
+  `#ultimate`→`#suite-branch`. Confirmed via grep these ids aren't referenced from
+  anywhere else in the file before renaming.
+- Left the Suite branch description precise about the 2★-vs-4★ split (branch membership
+  from 2★, ladder decoration from 4★) per `CONTEXT.md`'s Suite branch entry, rather than
+  the FAQ's simplified "4★+" framing, since this page is the deeper reference.
+
+### Issues informed
+
+- #1479 — one more slice closed (`skill-hierarchy.html`'s main tier-card diagram, in
+  028). Two large diagram-heavy rewrites remain: this page's own Fusion section diagram
+  (lines ~811+, still "Basic→Extra→Ultimate" fusion path language) and `fusion.html`.
+
+### Verification
+
+`git status` scoped to `docs/en/skill-hierarchy.html`, `docs/en/DOCS.md`,
+`docs/en/MEMORY.md` only. `html.parser` parse-error check clean. CRLF line endings
+preserved (repo convention for `docs/en/*.html`, spot-checked on edited lines). No new
+hex introduced — diff-scanned, all matched hex are pre-existing `var(..., #hex)`
+fallbacks on unchanged or text-only-edited lines. Banned-synonym grep on the file clean
+("combine" only appears in an untouched, pre-existing sentence banning it). All three
+stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`) still linked.
+
+### Files modified
+
+- `docs/en/skill-hierarchy.html` — tier-card diagram section rewritten to Type/Branch;
+  meta description, page-lead, Overview text, quick-reference axes grid, and the Stars
+  section's "tier vs stars" callout updated to match
+- `docs/en/DOCS.md` — page map row 4 updated
+- `docs/en/MEMORY.md` — this entry
+
+### Planned next (Routine 029)
+
+- Continue #1479: two large diagram-heavy rewrites remain — `skill-hierarchy.html`'s own
+  Fusion section (`id="fusion"`, the page's fusion-path diagram, still teaches
+  Basic→Extra→Ultimate) and `fusion.html`'s promotion diagram. Take `fusion.html` next
+  (the originally planned order), then close out `skill-hierarchy.html`'s Fusion section
+  in a later slot — the two are independent enough to split.
+
+---
+
 ## 2026-08-12 — Routine 027
 
 **Branch:** `docs/routines/026` (PR #1528 was still open — continued on it per the

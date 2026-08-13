@@ -21,7 +21,7 @@ Secondary: Open-source contributors wanting to claim a Named Skill.
 | 1 | `index.html` | Docs Home | ✅ Done (tier-card blurbs fixed 027) | 001, 017, 018, 025, 027 |
 | 2 | `getting-started.html` | Getting Started | ✅ Done (updated 025) | 001, 017, 018, 025 |
 | 3 | `cli-reference.html` | CLI Reference | ✅ Done (updated 025) | 002, 017, 018, 025 |
-| 4 | `skill-hierarchy.html` | Skill Hierarchy | ⚠ Rank names fixed (025); tier framing still pre-Yggdrasil-II — see #1479 | 002, 018, 025 |
+| 4 | `skill-hierarchy.html` | Skill Hierarchy | ⚠ Rank names fixed (025); Type/Branch tier-card diagram fixed (028); Fusion section diagram still pre-Yggdrasil-II — see #1479 | 002, 018, 025, 028 |
 | 5 | `contributing.html` | Contributing | ✅ Done (updated 025) | 003, 017, 018, 025 |
 | 6 | `named-skills.html` | Named Skills & Origin | ✅ Done (updated 025) | 003, 017, 018, 025 |
 | 7 | `evidence-classes.html` | Evidence & Trust | ✅ Done (updated 025) | 004, 017, 018, 025 |
