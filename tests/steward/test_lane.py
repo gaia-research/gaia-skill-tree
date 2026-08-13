@@ -365,7 +365,8 @@ def test_a_verification_verdict_rolls_the_lane_forward_without_bookkeeping(tmp_p
 
     diff = root / "candidate.diff"
     diff.write_text(
-        "diff --git a/docs/leak.html b/docs/leak.html\n@@ -1 +1 @@\n-a\n+b\n", encoding="utf-8"
+        "diff --git a/docs/leak.html b/docs/leak.html\n"
+        "--- a/docs/leak.html\n+++ b/docs/leak.html\n@@ -1 +1 @@\n-a\n+b\n", encoding="utf-8"
     )
     proof = root / "proof.json"
     proof.write_text(
