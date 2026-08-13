@@ -244,6 +244,8 @@ PUBLIC_COMMANDS = (
     "path",
     "dev",
     "skills",
+    "curate",
+    "trust",
 )
 
 # dev subcommands that mutate the registry or user trees.
