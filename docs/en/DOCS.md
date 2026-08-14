@@ -25,7 +25,7 @@ Secondary: Open-source contributors wanting to claim a Named Skill.
 | 5 | `contributing.html` | Contributing | ✅ Done (updated 025) | 003, 017, 018, 025 |
 | 6 | `named-skills.html` | Named Skills & Origin | ✅ Done (updated 025) | 003, 017, 018, 025 |
 | 7 | `evidence-classes.html` | Evidence & Trust | ✅ Done (updated 025) | 004, 017, 018, 025 |
-| 8 | `fusion.html` | Skill Fusion | ⚠ Version-synced only (025); tier framing still pre-Yggdrasil-II — see #1479 | 004, 017, 018, 025 |
+| 8 | `fusion.html` | Skill Fusion | ⚠ Fusion Paths diagram + Prerequisites fixed to Type/Branch model (029); page's later `gaia fuse`/propose code samples still use pre-Option-D `type`/`fusedFrom` fields — needs a schema-accurate pass, see Planned next in MEMORY.md | 004, 017, 018, 025, 029 |
 | 9 | `mcp-server.html` | MCP Server | ⚠ Disclosure banner added (025); tool list documents a deleted prototype — see #1478 | 005, 017, 018, 025 |
 | 10 | `faq.html` | FAQ | ✅ Done (tier/branch FAQ fixed 026) | 005, 017, 018, 025, 026 |
 | 11 | `share-bundles.html` | Share Bundles | ✅ Done (updated 025) | 006, 018, 025 |

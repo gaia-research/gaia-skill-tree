@@ -2,6 +2,126 @@
 
 ---
 
+## 2026-08-14 — Routine 029
+
+**Branch:** `docs/routines/026` (PR #1528 still open — continued on it per the
+one-open-PR rule; the routine's own commit count/number in this diary tracks daily
+runs, not the branch name)
+
+**Task chosen:** CONTINUE — "Planned next (Routine 029)" named `fusion.html`'s
+promotion diagram as the next slice of #1479, taken in the order routine 028 set
+(fusion.html next, `skill-hierarchy.html`'s own Fusion section after).
+
+### What I did
+
+Rewrote `fusion.html`'s Overview intro and its "Fusion Paths" section (`id="paths"`)
+from the retired Yggdrasil I structural model (fusion literally promotes a skill
+Basic → Extra → Ultimate) to the real Type/Branch model from `CONTEXT.md` § Taxonomy
+v6:
+
+- **Overview intro** — replaced "two axes: tier and stars… upward from Basic to
+  Extra, or from Extra to Ultimate" with the real three-axis framing (Type, Branch,
+  stars) and a pointer to `skill-hierarchy.html#type-branch` (the anchor
+  routine 028 established for the corrected tier-card section).
+- **Fusion Paths diagram** — was three rows ending in a `pill-ultimate` "◆ Ultimate
+  Skill" row (Path 3: Extra+Extra→Ultimate). Cut to two rows: Basic+Basic→Fusion,
+  Fusion+Fusion→Fusion — every fusion output carries Type `fusion`, full stop. There
+  is no structural "Ultimate" a fusion can produce; rank names only attach to Named
+  Skills later, via evidence.
+- **Unique Skills callout** — was describing Unique as a structural, fusion-isolated
+  Basic ("Uniques do not participate in fusion and cannot be fused into an Extra or
+  Ultimate"). Rewrote as "Unique branch — not a fusion output": Unique is a Branch on
+  Named Skills (no `suiteComponents`, 4★+), independent of Type — a Unique-branch
+  skill can be Type `basic` or Type `fusion` underneath.
+- **Path 1/Path 2 subsections** — retitled and rewrote bodies to match (Basic+Basic→
+  Fusion, Fusion+Fusion→Fusion); replaced the old "Path 3" subsection with a new
+  "Ranks come later, not from fusion" paragraph explaining that Extra/Ultimate/Apex
+  (Suite branch) or Unique/Unique Ultimate/Unique Impossible (Unique branch) are
+  earned by a Named Skill through `gaia push`/`gaia propose` + evidence, and that
+  which branch it lands in depends on `suiteComponents`, not fusion depth.
+- **Prerequisites table** (directly below Fusion Paths, same contradiction risk as
+  routine 028 flagged for its own section) — "The registry defines an Extra or
+  Ultimate that lists those inputs as `components`" → "a Fusion-type skill".
+- **Fixed a confirmed-false claim in the same table's callout**: "Promotion
+  candidates written by `gaia scan` expire after 24 hours" — grepped
+  `scanner.py`/`push.py`/`registry.py` for any TTL/expiry logic; none exists.
+  `promotion_candidates_path()` in `registry.py` just points at a file `gaia scan`
+  overwrites fresh every run. This is the same fictional 24-hour-expiry mechanic
+  routine 025 already found and removed from two `faq.html` Q&As — it had also
+  spread to `fusion.html` and was missed. Replaced the `callout-warn` with an
+  accurate `callout-info` ("Stale candidates" — re-run `gaia scan` when your tree or
+  evidence changes, no timer involved).
+
+### Design decisions
+
+- Reused the existing `pill-extra` class/color for "◇ Fusion" pills rather than
+  adding a new pill style, matching the exact convention `faq.html` (routine 026)
+  and `skill-hierarchy.html` (routine 028) already established for the Type axis.
+- Kept "Path 1"/"Path 2" labels on the two remaining diagram rows (dropped "Path 3"
+  entirely rather than repurposing it) since there are now genuinely only two
+  structural shapes, not three.
+- Downgraded the candidate-expiry callout from `callout-warn` to `callout-info` —
+  per DOCS.md's Callouts & Notes Branding, warn is for breaking behaviors/strict
+  requirements; a re-run tip isn't one now that the false timer claim is gone.
+
+### What I found but did NOT fix (left for a later slot)
+
+Reading further down the page while scoping this fix surfaced a second, larger
+problem in the `gaia fuse` Walkthrough and Proposing-a-New-Fusion sections: the
+`skill-tree.json` code sample writes `"type": "extra"` and `"fusedFrom": [...]` on a
+fused skill, and the push-batch YAML sample writes `type: extra`. Grepped
+`progression.py` (the `gaia fuse` implementation) and `skillTree.schema.json`:
+neither `type` nor `fusedFrom` appears anywhere in the actual code or schema for
+`unlockedSkills` entries — confirms `CONTEXT.md`'s Option D rule ("Named skills have
+no `type` field") but the schema shape for `unlockedSkills` itself looks stranger
+than expected (`schema.json` declares it as an `array` with a `level` string enum,
+not an object keyed by skill ID as every example on this page assumes). That's a
+data-model question, not a taxonomy-wording one — CLAUDE.md's Data & Permissions
+section says not to treat data/schema as invalid without approval, and this needs a
+careful read of `skillTree.schema.json` + `progression.py` end to end before any doc
+rewrite, not a same-day drive-by fix. Left both code samples untouched.
+
+### Issues informed
+
+- #1479 — one more slice closed (`fusion.html`'s Fusion Paths + Prerequisites
+  section, in 029). Two large pieces remain: `skill-hierarchy.html`'s own Fusion
+  section (`id="fusion"`, still "Basic→Extra→Ultimate" pill chain) and now this
+  page's own `gaia fuse`/propose code samples (new finding, not part of #1479's
+  original scope — it's a schema-accuracy gap, not a taxonomy-wording one).
+
+### Verification
+
+`git status` scoped to `docs/en/fusion.html`, `docs/en/DOCS.md`,
+`docs/en/MEMORY.md` only. `html.parser` parse-error check clean. CRLF line endings
+preserved (1025/1025 lines CRLF, zero bare LF, spot-checked with `file`). No new hex
+introduced (diff-scanned, zero hex hits in the diff). Banned-synonym grep on the
+file: all `merge`/`combine` hits are pre-existing `gaia dev merge` command examples
+or DOCS.md's approved "combine" verb for Fusion — no violations. All three
+stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`) still linked.
+
+### Files modified
+
+- `docs/en/fusion.html` — Overview intro, Fusion Paths diagram + Unique callout +
+  Path 1/2 subsections, Prerequisites table row, candidate-expiry callout
+- `docs/en/DOCS.md` — page map row 8 updated
+- `docs/en/MEMORY.md` — this entry
+
+### Planned next (Routine 030)
+
+- Continue #1479: `skill-hierarchy.html`'s own Fusion section (`id="fusion"`, further
+  down the page from the tier-card diagram routine 028 already fixed) is the last
+  piece of the retired four-tier taxonomy still standing — its `skill-pill` chain
+  still ends in a `pill-ultimate` "◆ autonomous-research" row implying fusion
+  produces an Ultimate-tier skill directly.
+- New, separate finding (not #1479): `fusion.html`'s `gaia fuse` Walkthrough and
+  Proposing-a-New-Fusion code samples write `"type": "extra"` / `"fusedFrom"` fields
+  that don't exist in `progression.py` or `skillTree.schema.json`, and the schema's
+  actual `unlockedSkills` shape (array vs. the object-keyed-by-ID every sample on the
+  page assumes) needs to be read end-to-end before rewriting those samples —
+  worth its own dedicated slot rather than a same-day fix.
+
+---
+
 ## 2026-08-13 — Routine 028
 
 **Branch:** `docs/routines/026` (PR #1528 still open — continued on it per the

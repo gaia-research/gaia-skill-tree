@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Skill Fusion — Gaia Docs</title>
-  <meta name="description" content="Skill Fusion in Gaia: how combining Basic Skills produces Extra Skills, how gaia fuse works, prerequisites, proposing new fusions, and registry-level merges via gaia dev merge.">
+  <meta name="description" content="Skill Fusion in Gaia: how combining skills produces a Fusion-type skill, how gaia fuse works, prerequisites, proposing new fusions, and registry-level merges via gaia dev merge.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Bricolage+Grotesque:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -585,9 +585,12 @@
         <h2 class="section-title">Overview</h2>
         <div class="section-body">
           <p>
-            The Gaia skill graph has two axes: tier and stars. Fusion moves skills along the
-            <strong>tier axis</strong> — upward from Basic to Extra, or from Extra to Ultimate.
-            It is distinct from ranking up (which moves along the stars axis via evidence).
+            The Gaia skill graph has a <strong>Type</strong> axis, a <strong>Branch</strong> axis,
+            and a stars axis. Fusion moves a skill along the Type axis only — from Basic (no
+            prerequisites) to Fusion (one or more prerequisites). It does not by itself change
+            stars or Branch. A fusion result only earns a rank name like Extra or Ultimate later,
+            when it's claimed as a Named Skill and climbs stars through evidence — a separate step
+            from fusion itself (see <a href="skill-hierarchy.html#type-branch">Type vs. Branch</a>).
           </p>
           <p>
             Fusion happens at two levels that are entirely separate:
@@ -638,10 +641,10 @@
         <h2 class="section-title">Fusion Paths</h2>
         <div class="section-body">
           <p>
-            Three canonical fusion paths exist. Fusion is not restricted to a fixed recipe
-            list — the registry models which skill IDs are valid inputs for a given Extra or
-            Ultimate output, and <code>gaia fuse</code> validates against that model at
-            runtime.
+            Fusion is not restricted to a fixed recipe list — the registry models which skill
+            IDs are valid inputs for a given Fusion output, and <code>gaia fuse</code> validates
+            against that model at runtime. Every fusion output carries Type <code>fusion</code>,
+            whether it combines two Basic skills or two skills that are themselves Fusions.
           </p>
         </div>
 
@@ -652,65 +655,62 @@
             <span class="fusion-op">+</span>
             <span class="skill-pill pill-basic">○ Basic Skill B</span>
             <span class="fusion-arrow">→</span>
-            <span class="skill-pill pill-extra">◇ Extra Skill</span>
+            <span class="skill-pill pill-extra">◇ Fusion</span>
             <span class="fusion-label">Path 1</span>
           </div>
 
           <div class="fusion-row">
-            <span class="skill-pill pill-extra">◇ Extra Skill A</span>
+            <span class="skill-pill pill-extra">◇ Fusion A</span>
             <span class="fusion-op">+</span>
-            <span class="skill-pill pill-extra">◇ Extra Skill B</span>
+            <span class="skill-pill pill-extra">◇ Fusion B</span>
             <span class="fusion-arrow">→</span>
-            <span class="skill-pill pill-extra">◇ Extra Skill (complex)</span>
+            <span class="skill-pill pill-extra">◇ Fusion (deeper)</span>
             <span class="fusion-label">Path 2</span>
-          </div>
-
-          <div class="fusion-row">
-            <span class="skill-pill pill-extra">◇ Extra Skill</span>
-            <span class="fusion-op">+</span>
-            <span class="skill-pill pill-extra">◇ Extra Skill</span>
-            <span class="fusion-arrow">→</span>
-            <span class="skill-pill pill-ultimate">◆ Ultimate Skill</span>
-            <span class="fusion-label">Path 3</span>
           </div>
 
         </div>
 
         <div class="callout callout-purple">
-          <span class="callout-label">◉ Unique Skills — depth over breadth</span>
+          <span class="callout-label">◉ Unique branch — not a fusion output</span>
           <p>
-            A <strong>Unique Skill</strong> (◉) is a graph-isolated Basic Skill that reached
-            elite mastery through depth alone, with no fusion path forward. Uniques do not
-            participate in fusion and cannot be fused into an Extra or Ultimate.
+            <strong>Unique</strong> is a Branch, not a Type. It applies to a Named Skill (2★+)
+            that carries no <code>suiteComponents</code> and climbs to 4★+ through depth
+            alone — Unique (4★), Unique Ultimate (5★), Unique Impossible (6★). Fusion never
+            produces a Unique-branch result directly: a Unique-branch skill can be Type
+            <code>basic</code> or Type <code>fusion</code> underneath, since Type and Branch
+            are independent axes.
           </p>
         </div>
 
-        <h3>Path 1: Basic → Extra</h3>
+        <h3>Path 1: Basic + Basic → Fusion</h3>
         <div class="section-body">
           <p>
-            The most common fusion. Two or more Basic Skills (○) whose capabilities combine
-            into a qualitatively new emergent capability produce an Extra Skill (◇). The Extra
+            The most common fusion. Two or more Basic skills (○) whose capabilities combine
+            into a qualitatively new emergent capability produce a Fusion skill (◇). The target
             must be defined in the registry beforehand — <code>gaia fuse</code> matches your
             unlocked skill set against known fusion recipes.
           </p>
         </div>
 
-        <h3>Path 2: Extra + Extra → Extra</h3>
+        <h3>Path 2: Fusion + Fusion → Fusion</h3>
         <div class="section-body">
           <p>
-            An Extra Skill can fuse with another Extra to produce a more complex Extra. This
-            path is valid when the resulting skill is compositionally richer but does not yet
-            cross the Ultimate complexity bar. Common in reasoning and multi-step planning chains.
+            A Fusion skill can fuse with another Fusion (or a Basic) to produce a deeper,
+            compositionally richer Fusion. The Type axis doesn't have a further step to climb
+            to — however many layers of prerequisites a skill carries, its Type stays
+            <code>fusion</code>. Common in reasoning and multi-step planning chains.
           </p>
         </div>
 
-        <h3>Path 3: Extra + Extra → Ultimate</h3>
+        <h3>Ranks come later, not from fusion</h3>
         <div class="section-body">
           <p>
-            When two Extra Skills combine into a capability that crosses the Ultimate complexity
-            threshold — full autonomy, cross-domain synthesis, or long-horizon orchestration —
-            the result is an Ultimate Skill (◆). Ultimate Skills sit at the apex of the tier
-            hierarchy; they cannot fuse further.
+            Fusion only moves a skill along the Type axis. A fusion result earns a rank name —
+            Extra (4★), Ultimate (5★), Apex (6★) on the Suite branch, or Unique / Unique
+            Ultimate / Unique Impossible on the Unique branch — only after it's claimed as a
+            Named Skill via <code>gaia push</code> or <code>gaia propose</code> and climbs stars
+            through evidence. Which Branch it lands in depends on whether the Named Skill
+            carries <code>suiteComponents</code>, not on how many times it was fused.
           </p>
         </div>
       </section>
@@ -741,7 +741,7 @@
               </tr>
               <tr>
                 <td>Fusion recipe exists</td>
-                <td>The registry defines an Extra or Ultimate that lists those inputs as <code>components</code></td>
+                <td>The registry defines a Fusion-type skill that lists those inputs as <code>components</code></td>
                 <td><code>gaia dev list --generic</code></td>
               </tr>
               <tr>
@@ -753,12 +753,13 @@
           </table>
         </div>
 
-        <div class="callout callout-warn">
-          <span class="callout-label">⏱ Candidate expiry</span>
+        <div class="callout callout-info">
+          <span class="callout-label">💡 Stale candidates</span>
           <p>
-            Promotion candidates written by <code>gaia scan</code> expire after <strong>24 hours</strong>.
-            If your candidate file is stale, run <code>gaia scan</code> again before attempting
-            <code>gaia fuse</code>.
+            <code>gaia scan</code> writes <code>promotion-candidates.json</code> fresh on every
+            run — it does not expire on a timer. Re-run <code>gaia scan</code> whenever your
+            skill tree or repo evidence changes, so <code>gaia fuse</code> is matching against
+            current candidates.
           </p>
         </div>
       </section>
