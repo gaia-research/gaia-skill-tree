@@ -18,16 +18,16 @@ Secondary: Open-source contributors wanting to claim a Named Skill.
 
 | # | File | Title | Status | Routine |
 |---|------|--------|--------|---------|
-| 1 | `index.html` | Docs Home | ✅ Done (updated 025) | 001, 017, 018, 025 |
+| 1 | `index.html` | Docs Home | ✅ Done (tier-card blurbs fixed 027) | 001, 017, 018, 025, 027 |
 | 2 | `getting-started.html` | Getting Started | ✅ Done (updated 025) | 001, 017, 018, 025 |
 | 3 | `cli-reference.html` | CLI Reference | ✅ Done (updated 025) | 002, 017, 018, 025 |
-| 4 | `skill-hierarchy.html` | Skill Hierarchy | ⚠ Rank names fixed (025); tier framing still pre-Yggdrasil-II — see #1479 | 002, 018, 025 |
+| 4 | `skill-hierarchy.html` | Skill Hierarchy | ✅ Done — Type/Branch model throughout, incl. Fusion section diagram (editor pass closes #1479) | 002, 018, 025, 028, editor-026wk |
 | 5 | `contributing.html` | Contributing | ✅ Done (updated 025) | 003, 017, 018, 025 |
 | 6 | `named-skills.html` | Named Skills & Origin | ✅ Done (updated 025) | 003, 017, 018, 025 |
 | 7 | `evidence-classes.html` | Evidence & Trust | ✅ Done (updated 025) | 004, 017, 018, 025 |
-| 8 | `fusion.html` | Skill Fusion | ⚠ Version-synced only (025); tier framing still pre-Yggdrasil-II — see #1479 | 004, 017, 018, 025 |
-| 9 | `mcp-server.html` | MCP Server | ⚠ Disclosure banner added (025); tool list documents a deleted prototype — see #1478 | 005, 017, 018, 025 |
-| 10 | `faq.html` | FAQ | ✅ Done (updated 025) | 005, 017, 018, 025 |
+| 8 | `fusion.html` | Skill Fusion | ✅ Done — Type/Branch model throughout, incl. `gaia fuse`/propose code samples now schema-accurate (`prerequisites`/`combinedFrom`, Type `fusion`) (editor pass closes #1479) | 004, 017, 018, 025, 029, editor-026wk |
+| 9 | `mcp-server.html` | MCP Server | ✅ Done — tool list matches the live v0.4.0 surface (`gaia_search`/`gaia_inspect`/`summon`/`gaia_status`); #1478 closed | 005, 017, 018, 025 |
+| 10 | `faq.html` | FAQ | ✅ Done (tier/branch FAQ fixed 026) | 005, 017, 018, 025, 026 |
 | 11 | `share-bundles.html` | Share Bundles | ✅ Done (updated 025) | 006, 018, 025 |
 | 12 | `timeline-audit.html` | Timeline Audit & Repair | ✅ Done (updated 025) | 008, 018, 025 |
 | 13 | `manual-curation-pipeline.html` | Manual Curation Pipeline | ✅ Done | — |

@@ -278,7 +278,7 @@
     <span class="nav-sep">/</span>
     <span class="nav-crumb current">FAQ</span>
     <span class="nav-spacer"></span>
-    <span class="nav-version">v7.4.2</span>
+    <span class="nav-version">v7.6.2</span>
   </nav>
 
   <div class="page-layout">
@@ -457,25 +457,29 @@
           <div class="faq-answer">
             <div class="faq-answer-inner">
               <p>
-                The tier axis describes the <em>structural role</em> of a skill in the registry graph:
+                As of Yggdrasil II, this is not one four-way split — it's two separate axes.
               </p>
+              <p><strong>Type</strong> (starless skills, before anyone claims them):</p>
               <ul>
                 <li>
-                  <span class="tier-pill pill-basic">○ Basic</span> — a standalone atomic capability (web scraping, code generation). No prerequisites. Can fuse with other Basics to produce an Extra.
+                  <span class="tier-pill pill-basic">○ Basic</span> — no prerequisites.
                 </li>
                 <li>
-                  <span class="tier-pill pill-extra">◇ Extra</span> — a composite skill produced by fusing two or more Basic Skills (or Extra Skills). Qualitatively richer than any single input.
+                  <span class="tier-pill pill-extra">◇ Fusion</span> — one or more prerequisites. Replaces the old "Extra" and structural "Ultimate" categories. "Unique" is never a type value.
+                </li>
+              </ul>
+              <p><strong>Branch</strong> (Named Skills at 4★ and up), set by whether the Named Skill carries <code>suiteComponents</code>:</p>
+              <ul>
+                <li>
+                  <span class="tier-pill pill-unique">◉ Unique branch</span> — no <code>suiteComponents</code>. Ranks: Unique (4★), Unique Ultimate (5★), Unique Impossible (6★).
                 </li>
                 <li>
-                  <span class="tier-pill pill-unique">◉ Unique</span> — a depth-only Basic that reached elite mastery without a fusion path. Does not fuse into an Extra or Ultimate. Reserved for narrow-but-deep specializations.
-                </li>
-                <li>
-                  <span class="tier-pill pill-ultimate">◆ Ultimate</span> — a top-of-tree composite that crosses the full-autonomy threshold. Cannot fuse further. Highest tier in the graph.
+                  <span class="tier-pill pill-ultimate">◆ Suite branch</span> — carries <code>suiteComponents</code>. Ranks: Extra (4★), Ultimate (5★), Apex (6★).
                 </li>
               </ul>
               <p>
-                Tier and stars (0★–6★) are independent axes. A Basic can reach 6★; an Ultimate can sit at 0★.
-                See <a href="skill-hierarchy.html">Skill Hierarchy</a> for the full two-axis model.
+                Branch is computed from evidence at read time — never declared on a node.
+                See <a href="skill-hierarchy.html">Skill Hierarchy</a> for more.
               </p>
             </div>
           </div>
