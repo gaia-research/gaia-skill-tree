@@ -538,7 +538,7 @@
     <span class="nav-sep">/</span>
     <span class="nav-crumb current">Skill Hierarchy</span>
     <div class="nav-spacer"></div>
-    <span class="nav-version">v7.4.2</span>
+    <span class="nav-version">v7.6.2</span>
   </nav>
 
   <div class="page-layout">
@@ -813,9 +813,10 @@
         <h2 class="section-title">Fusion</h2>
         <div class="section-body">
           <p>
-            Fusion is the act of combining two or more skills into a single
-            higher-complexity skill. It is the mechanism by which Basic skills
-            produce Extra skills, and Extra skills produce Ultimates.
+            Fusion is the act of combining two or more skills into a single skill of
+            Type <code>fusion</code> (see <a href="#type-branch">Type/Branch</a> above).
+            Every fusion output carries Type <code>fusion</code>, full stop — there is
+            no separate structural "Extra" or "Ultimate" a fusion produces directly.
             The verb is always <em>fuse</em> — never merge, combine, or compose.
           </p>
           <p>
@@ -839,7 +840,7 @@
             <span class="fusion-arrow">→</span>
             <span class="skill-pill extra">◇ web-scraping</span>
           </div>
-          <div class="fusion-label">Three Basic skills fuse into one Extra skill.</div>
+          <div class="fusion-label">Basic skills fuse into a Fusion-type skill.</div>
 
           <div class="fusion-row" style="margin-top:1.25rem;">
             <span class="skill-pill extra">◇ web-scraping</span>
@@ -848,26 +849,26 @@
             <span class="fusion-arrow">+</span>
             <span class="skill-pill extra">◇ tool-calling</span>
             <span class="fusion-arrow">→</span>
-            <span class="skill-pill ultimate">◆ autonomous-research</span>
+            <span class="skill-pill extra">◇ autonomous-research</span>
           </div>
-          <div class="fusion-label">Extra skills fuse into an Ultimate. Prerequisite chains can run deep.</div>
-
-          <div class="fusion-row" style="margin-top:1.25rem;">
-            <span class="skill-pill basic">○ code-review</span>
-            <span style="color:var(--muted,#64748b);font-size:0.85rem;">→ 4★ + graph-isolated</span>
-            <span class="fusion-arrow">→</span>
-            <span class="skill-pill unique">◉ code-review (Unique)</span>
-          </div>
-          <div class="fusion-label">A Basic skill with no fusion path and 4★+ depth is eligible for Unique promotion.</div>
+          <div class="fusion-label">Fusion-type skills can fuse again — prerequisite chains can run deep, but Type never changes.</div>
         </div>
+
+        <p style="font-size:0.9rem;color:var(--muted,#64748b);line-height:1.75;margin-top:1.25rem;">
+          Rank words like Extra, Ultimate, and Apex (Suite branch), or Unique, Unique
+          Ultimate, and Unique Impossible (Unique branch), are not produced by fusion —
+          they're earned by a Named Skill through evidence, via <code>gaia push</code>.
+          A Fusion-type skill can land in the Unique branch or the Suite branch, exactly
+          like a Basic-type skill can — Type and Branch are independent axes. See
+          <a href="#type-branch">Type/Branch</a> above.
+        </p>
 
         <h3>Rules</h3>
         <ul style="font-size:0.9rem;color:var(--muted,#64748b);line-height:1.75;padding-left:1.4rem;margin-top:0.5rem;">
           <li>You must hold <em>all</em> prerequisite components in your tree before a fusion becomes available.</li>
-          <li>The fused skill is added to your tree; the component skills remain — they are not consumed.</li>
+          <li>The fused skill is added to your tree carrying Type <code>fusion</code>; the component skills remain — they are not consumed.</li>
           <li>Fusion is not free-form: only registry-defined fusion paths are valid. You cannot fuse arbitrary skills.</li>
           <li>The registry defines which combinations are meaningful. To propose a new fusion path, open an issue or PR.</li>
-          <li>Basic → Unique is a one-way promotion, not a fusion — no other skills are consumed.</li>
         </ul>
 
         <div class="code-fence" style="margin-top:1.25rem;">

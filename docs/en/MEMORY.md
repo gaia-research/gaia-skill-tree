@@ -2,6 +2,127 @@
 
 ---
 
+## 2026-08-15 — Editor pass (week of routine 026–029, PR #1528)
+
+**Branch:** `docs/routines/026` (PR #1528, ships this pass — squash-merge closes the week)
+
+**Role:** Weekly editor/ship-gate. No stray daily branches this week — all four
+daily commits (026–029) landed on the one open PR as intended, so no branch
+consolidation was needed. This pass makes the week cohere and ships it.
+
+### What I found
+
+The four dailies did careful, self-aware work rewriting the retired Yggdrasil I
+four-tier taxonomy (Basic ○ / Extra ◇ / Unique ◉ / Ultimate ◆) to the real
+Type/Branch model (`CONTEXT.md` § Taxonomy v6) across `faq.html` (026),
+`skill-hierarchy.html`'s tier-card diagram (028), `index.html` card copy (027),
+and `fusion.html`'s Fusion Paths diagram (029). But routine 029's own "Planned
+next" flagged two things left undone, and I found a third pre-existing issue
+while verifying the week:
+
+1. **`skill-hierarchy.html`'s own Fusion section** (`id="fusion"`, below the
+   corrected tier-card section) still taught "Basic skills produce Extra
+   skills, and Extra skills produce Ultimates," with a 3-row diagram ending in
+   a `pill-ultimate` "◆ autonomous-research" row and a "Basic → Unique"
+   promotion row — directly contradicting the Type/Branch framing the same
+   page teaches two sections above it. This is issue #1479's last piece.
+2. **`fusion.html`'s `gaia fuse` Walkthrough and Proposing-a-New-Fusion code
+   samples** wrote schema fields that don't exist: `"type": "extra"` /
+   `"fusedFrom"` on `unlockedSkills`, and `components:` in a push-batch YAML
+   sample. Verified against `registry/schema/skillTree.schema.json` and
+   `registry/schema/skillBatch.schema.json` directly: `unlockedSkills` is an
+   **array** of objects (`skillId`, `level`, `unlockedAt`, `unlockedIn`,
+   optional `combinedFrom` — no `type` field, matching Option D's "named
+   skills have no type field"), and the batch schema's fusion-recipe field is
+   `prerequisites` with `type` enum `["basic", "fusion"]`, not `components`/
+   `"extra"`.
+3. **`mcp-server.html`'s DOCS.md row was stale.** PR #1528's own first commit
+   (026) found #1478 already fixed by an out-of-band commit but never updated
+   the page-map row to say so — it still read "tool list documents a deleted
+   prototype." Re-verified live against the connected `gaia` MCP server this
+   session: the page correctly documents `gaia_search`/`gaia_inspect`/
+   `summon`/`gaia_status`. Closed #1478.
+4. **Every `docs/en/*.html` page's version chip was dead.** All 13 pages ship
+   a static `<span class="nav-version">v7.4.2</span>` (current release is
+   v7.6.2 per `origin/main`'s latest `chore: release` commit). Two pages
+   (`index.html`, `evidence-classes.html`, `share-bundles.html`) carry a
+   script that overwrites the chip from `window.GAIA_VERSION` — but no
+   `docs/en/` page ever *sets* that global (unlike the rest of `docs/`, where
+   each generated page stamps its own `window.GAIA_VERSION = "7.6.2"`), so the
+   dynamic update never fires and the stale static text is what every visitor
+   actually sees. Fixed the static fallback text to v7.6.2 on all 13 pages
+   (didn't wire up `GAIA_VERSION` — that's an engineering change to a shared
+   script, out of an editor's content-fix scope; flagged below).
+
+### What I changed
+
+- `skill-hierarchy.html` — rewrote the Fusion section's intro, diagram (2 rows
+  instead of 3, both ending in Type `fusion`), and Rules list to match the
+  page's own corrected Type/Branch section; replaced the old "Basic → Unique"
+  diagram row with a short paragraph explaining rank/branch is earned by
+  evidence, not fusion. Reused the existing `.skill-pill.extra` class per
+  routine 029's established convention (no new CSS).
+- `fusion.html` — rewrote the `gaia fuse` Walkthrough JSON sample to the real
+  `unlockedSkills` array shape with `combinedFrom`; fixed the "under the hood"
+  prose (`components` → `prerequisites`); fixed the Proposing-a-New-Fusion
+  YAML sample (`type: extra` → `type: fusion`, `components:` →
+  `prerequisites:`) and its surrounding prose/labels; fixed a leftover "Extra
+  or Ultimate you want to unlock" shell comment.
+- `docs/en/DOCS.md` — rows 4, 8, 9 updated to ✅ Done reflecting the above.
+- Version chips bumped `v7.4.2` → `v7.6.2` on all 13 `docs/en/*.html` pages.
+- Closed #1478 (already fixed, now disclosed in DOCS.md) and #1479 (last piece
+  closed by this pass) with comments pointing at the confirming commits.
+
+### What I did NOT change (flagged, not fixed)
+
+- The `docs/en/` version-chip wiring itself (no page sets `window.GAIA_VERSION`,
+  so the dynamic-update script on 3 pages is currently decorative dead code).
+  This is a one-time engineering fix to a shared script pattern, not a content
+  edit — filing as a small follow-up rather than taking generator/JS-wiring
+  scope in an editor content pass.
+- Dead `.skill-pill.unique` / `.skill-pill.ultimate` CSS rules in
+  `skill-hierarchy.html` and `.pill-ultimate` in `fusion.html`, now unused
+  after the Fusion-section rewrite. Left in place — zero reader-facing effect,
+  not worth the diff noise this pass.
+
+### How I worked
+
+Solo — no subagents this week; the scope (two pages, both already scoped by
+the dailies' own notes) didn't warrant fanning out. Read the actual schema
+files (`skillTree.schema.json`, `skillBatch.schema.json`, `skill.schema.json`)
+and `timeline.py` directly rather than guessing at field names. Used
+Playwright against the local Chromium to render both edited pages and confirm
+no layout breaks, correct pill colors, and the version-chip fix taking effect.
+
+### Verification
+
+`git status` scoped to `docs/en/**` only (14 files). `html.parser` parse-check
+clean on all touched files. CRLF preserved on all files that were already
+CRLF (12 of 13 — `manual-curation-pipeline.html` was already LF-only before
+this pass, untouched convention). `scripts/check_hex_colors.py` — Guard A OK,
+no new hex. `scripts/check_rank_vocabulary.py` — PASS, 0 hard violations.
+`scripts/check_taxonomy_authority.py` — PASS, 0 read-time derivation sites.
+Grepped for remaining "Extra/Ultimate as structural tier" and
+`type: extra`/`fusedFrom` patterns across all of `docs/en/` — clean.
+Playwright screenshots of both rewritten sections in `docs/en/skill-hierarchy.html`
+and `docs/en/fusion.html` — render correctly, no console errors attributable
+to the edits (remaining console noise is `file://`-protocol SVG-sprite/font-CDN
+limitations of local-file testing, not a real-site defect).
+
+### Issues closed
+
+- #1478 (mcp-server.html stale tool surface) — already fixed on `main`,
+  disclosed in DOCS.md, closed with a comment.
+- #1479 (four-tier taxonomy across docs/en) — last two pieces
+  (`skill-hierarchy.html` Fusion section, `fusion.html` code samples) closed
+  by this pass; all five pages named in the issue are now Type/Branch-accurate.
+
+### Token spend
+
+2026-08-15 Sonnet 5 High: ~95k in, ~14k out. ~$1.60
+
+---
+
 ## 2026-08-14 — Routine 029
 
 **Branch:** `docs/routines/026` (PR #1528 still open — continued on it per the
