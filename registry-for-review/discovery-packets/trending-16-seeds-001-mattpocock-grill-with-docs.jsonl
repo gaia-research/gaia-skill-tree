@@ -1,0 +1,65 @@
+{
+  "contractVersion": "discovery-packet-v2",
+  "candidateId": "mattpocock/grill-with-docs",
+  "lifecycle": [
+    "discovered",
+    "deferred"
+  ],
+  "source": {
+    "canonicalUrl": "https://github.com/mattpocock/skills/blob/main/skills/engineering/grill-with-docs/SKILL.md",
+    "sourceLane": "source-repository"
+  },
+  "normalized": {
+    "name": "grill-with-docs",
+    "description": "A relentless interview to sharpen a plan or design, which also creates docs (ADR's and glossary) as we go."
+  },
+  "exactDedupe": {
+    "matched": false
+  },
+  "mappingOptions": [
+    {
+      "genericId": "grill-with-docs",
+      "rationale": "Cosine similarity 0.4891 to generic 'grill-with-docs' (weak match).",
+      "similarity": 0.489105,
+      "matchTier": "weak"
+    },
+    {
+      "genericId": "design-review",
+      "rationale": "Cosine similarity 0.4881 to generic 'design-review' (weak match).",
+      "similarity": 0.488126,
+      "matchTier": "weak"
+    }
+  ],
+  "decision": {
+    "value": "DEFER",
+    "reasonCode": "PREFILL_AWAITING_WORKER"
+  },
+  "flags": [
+    {
+      "code": "SUITE_COMPONENT_CANDIDATES",
+      "namedNeighbors": [
+        {
+          "id": "mattpocock/grill-with-docs",
+          "similarity": 0.713391
+        },
+        {
+          "id": "mattpocock/grilling",
+          "similarity": 0.557198
+        },
+        {
+          "id": "mattpocock/grill-me",
+          "similarity": 0.520175
+        },
+        {
+          "id": "garrytan/design-consultation",
+          "similarity": 0.487522
+        },
+        {
+          "id": "huggingface/huggingface-papers",
+          "similarity": 0.450788
+        }
+      ],
+      "note": "Closest named skills \u2014 candidate suite components for appointing."
+    }
+  ]
+}
