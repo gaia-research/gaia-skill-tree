@@ -2,12 +2,12 @@
   "distribution": {
     "total": 232,
     "S": 5,
-    "A": 63,
-    "B": 68,
-    "C": 82,
+    "A": 59,
+    "B": 71,
+    "C": 83,
     "ungraded": 14,
     "floor": 0,
-    "up": 29
+    "up": 25
   },
   "rows": [
     {
@@ -105,31 +105,6 @@
       "branch": "suite"
     },
     {
-      "id": "openai/few-shot-learning",
-      "trustMagnitude": 220.96,
-      "grade": "A",
-      "level": "4★",
-      "typeBreakdown": {
-        "arxiv": 100.0,
-        "benchmark-result": 120.96
-      },
-      "origin": true,
-      "branch": "unique"
-    },
-    {
-      "id": "anthropic/skill-creator",
-      "trustMagnitude": 211.52,
-      "grade": "A",
-      "level": "3★",
-      "typeBreakdown": {
-        "arxiv": 60.0,
-        "peer-review": 30.0,
-        "benchmark-result": 121.52
-      },
-      "origin": false,
-      "branch": "standard"
-    },
-    {
       "id": "gsd-build/get-shit-done",
       "trustMagnitude": 202.2,
       "grade": "A",
@@ -154,19 +129,6 @@
       },
       "origin": true,
       "branch": "suite"
-    },
-    {
-      "id": "addy-osmani/code-simplification",
-      "trustMagnitude": 196.3,
-      "grade": "A",
-      "level": "3★",
-      "typeBreakdown": {
-        "github-stars-own": 20.3,
-        "repo-own": 36.0,
-        "benchmark-result": 140.0
-      },
-      "origin": false,
-      "branch": "standard"
     },
     {
       "id": "nextlevelbuilder/ui-ux-pro-max",
@@ -204,19 +166,6 @@
       },
       "origin": true,
       "branch": "suite"
-    },
-    {
-      "id": "firecrawl/firecrawl-research-index",
-      "trustMagnitude": 150.32,
-      "grade": "A",
-      "level": "3★",
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 39.7,
-        "benchmark-result": 74.62
-      },
-      "origin": false,
-      "branch": "standard"
     },
     {
       "id": "safishamsi/graphify",
@@ -338,18 +287,6 @@
       },
       "origin": true,
       "branch": "suite"
-    },
-    {
-      "id": "huggingface/semantic-cache",
-      "trustMagnitude": 125.46,
-      "grade": "A",
-      "level": "2★",
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "benchmark-result": 89.46
-      },
-      "origin": false,
-      "branch": "standard"
     },
     {
       "id": "ruvnet/reasoningbank",
@@ -847,6 +784,17 @@
       "branch": "unique"
     },
     {
+      "id": "openai/few-shot-learning",
+      "trustMagnitude": 100.0,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "arxiv": 100.0
+      },
+      "origin": true,
+      "branch": "unique"
+    },
+    {
       "id": "openai/self-consistency",
       "trustMagnitude": 100.0,
       "grade": "A",
@@ -941,6 +889,18 @@
         "repo-own": 36.0,
         "github-stars-own": 8.07,
         "arxiv": 43.96
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "anthropic/skill-creator",
+      "trustMagnitude": 90.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "arxiv": 60.0,
+        "peer-review": 30.0
       },
       "origin": false,
       "branch": "standard"
@@ -1081,6 +1041,18 @@
         "github-stars-own": 39.7
       },
       "origin": true,
+      "branch": "standard"
+    },
+    {
+      "id": "firecrawl/firecrawl-research-index",
+      "trustMagnitude": 75.7,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 39.7
+      },
+      "origin": false,
       "branch": "standard"
     },
     {
@@ -1564,6 +1536,18 @@
     },
     {
       "id": "addy-osmani/code-review-and-quality",
+      "trustMagnitude": 56.3,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "github-stars-own": 20.3,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "addy-osmani/code-simplification",
       "trustMagnitude": 56.3,
       "grade": "B",
       "level": "3★",
@@ -2179,6 +2163,17 @@
         "repo-own": 36.0
       },
       "origin": true,
+      "branch": "standard"
+    },
+    {
+      "id": "huggingface/semantic-cache",
+      "trustMagnitude": 36.0,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "repo-own": 36.0
+      },
+      "origin": false,
       "branch": "standard"
     },
     {

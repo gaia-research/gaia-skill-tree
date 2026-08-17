@@ -25,22 +25,6 @@
       ]
     },
     {
-      "id": "firecrawl/firecrawl-research-index",
-      "name": "Firecrawl Research Index",
-      "level": "3★",
-      "trustMagnitude": 150.32,
-      "overallTrustGrade": "A",
-      "contributor": "firecrawl",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
-      },
-      "genericSkillRef": "literature-search"
-    },
-    {
       "id": "firecrawl/firecrawl-build-scrape",
       "name": "Firecrawl Scrape",
       "level": "4★",
@@ -103,6 +87,22 @@
         "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
       },
       "genericSkillRef": "agent-environment-setup"
+    },
+    {
+      "id": "firecrawl/firecrawl-research-index",
+      "name": "Firecrawl Research Index",
+      "level": "3★",
+      "trustMagnitude": 75.7,
+      "overallTrustGrade": "B",
+      "contributor": "firecrawl",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-research-index.json"
+      },
+      "genericSkillRef": "literature-search"
     }
   ],
   "namedSkillsCount": 6,
@@ -111,10 +111,10 @@
     "level": "4★",
     "trustMagnitude": 223.52
   },
-  "prestigeScore": 770.28,
+  "prestigeScore": 695.66,
   "gradeDistribution": {
-    "A": 4,
-    "B": 2
+    "A": 3,
+    "B": 3
   },
   "_links": {
     "self": "/api/v1/contributors/firecrawl.json",

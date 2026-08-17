@@ -8419,8 +8419,8 @@
         "type": "basic",
         "installBody": "Add installation instructions here.",
         "role": "variant",
-        "trustMagnitude": 150.32,
-        "overallTrustGrade": "A",
+        "trustMagnitude": 75.7,
+        "overallTrustGrade": "B",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
