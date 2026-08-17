@@ -1,38 +1,136 @@
 {
   "window": "7d",
-  "generatedAt": "2026-08-15T01:44:24Z",
+  "generatedAt": "2026-08-17T09:40:06Z",
   "firstRun": false,
   "skills": [
     {
-      "id": "supabase/supabase",
-      "name": "Supabase",
+      "id": "remotion-dev/remotion-best-practices",
+      "name": "Remotion Best Practices",
       "level": "2★",
-      "contributor": "supabase",
-      "trustMagnitude": 5.0,
+      "contributor": "remotion-dev",
+      "trustMagnitude": 0,
       "overallTrustGrade": null,
-      "trendingScore": 2.5,
-      "tmDelta": 5.0,
-      "new": true,
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
       "_links": {
-        "self": "/api/v1/skills/supabase/supabase.json"
+        "self": "/api/v1/skills/remotion-dev/remotion-best-practices.json"
       }
     },
     {
-      "id": "supabase/supabase-postgres-best-practices",
-      "name": "Supabase Postgres Best Practices",
+      "id": "remotion-dev/remotion-captions",
+      "name": "Remotion Captions",
       "level": "2★",
-      "contributor": "supabase",
-      "trustMagnitude": 5.0,
+      "contributor": "remotion-dev",
+      "trustMagnitude": 0,
       "overallTrustGrade": null,
-      "trendingScore": 2.5,
-      "tmDelta": 5.0,
-      "new": true,
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
       "_links": {
-        "self": "/api/v1/skills/supabase/supabase-postgres-best-practices.json"
+        "self": "/api/v1/skills/remotion-dev/remotion-captions.json"
+      }
+    },
+    {
+      "id": "remotion-dev/remotion-create",
+      "name": "Remotion Create",
+      "level": "2★",
+      "contributor": "remotion-dev",
+      "trustMagnitude": 0,
+      "overallTrustGrade": null,
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/remotion-dev/remotion-create.json"
+      }
+    },
+    {
+      "id": "remotion-dev/remotion-interactivity",
+      "name": "Remotion Interactivity",
+      "level": "2★",
+      "contributor": "remotion-dev",
+      "trustMagnitude": 0,
+      "overallTrustGrade": null,
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/remotion-dev/remotion-interactivity.json"
+      }
+    },
+    {
+      "id": "remotion-dev/remotion-maps",
+      "name": "Remotion Maps",
+      "level": "2★",
+      "contributor": "remotion-dev",
+      "trustMagnitude": 0,
+      "overallTrustGrade": null,
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/remotion-dev/remotion-maps.json"
+      }
+    },
+    {
+      "id": "remotion-dev/remotion-markup",
+      "name": "Remotion Markup",
+      "level": "2★",
+      "contributor": "remotion-dev",
+      "trustMagnitude": 0,
+      "overallTrustGrade": null,
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/remotion-dev/remotion-markup.json"
+      }
+    },
+    {
+      "id": "remotion-dev/remotion-render",
+      "name": "Remotion Render",
+      "level": "2★",
+      "contributor": "remotion-dev",
+      "trustMagnitude": 0,
+      "overallTrustGrade": null,
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/remotion-dev/remotion-render.json"
+      }
+    },
+    {
+      "id": "remotion-dev/remotion-saas",
+      "name": "Remotion SaaS",
+      "level": "2★",
+      "contributor": "remotion-dev",
+      "trustMagnitude": 0,
+      "overallTrustGrade": null,
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/remotion-dev/remotion-saas.json"
+      }
+    },
+    {
+      "id": "remotion-dev/remotion-studio",
+      "name": "Remotion Studio",
+      "level": "2★",
+      "contributor": "remotion-dev",
+      "trustMagnitude": 0,
+      "overallTrustGrade": null,
+      "trendingScore": 50.0,
+      "tmDelta": 0.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/remotion-dev/remotion-studio.json"
       }
     }
   ],
-  "totalTrending": 2,
+  "totalTrending": 9,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }

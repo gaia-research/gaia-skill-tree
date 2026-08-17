@@ -5,21 +5,70 @@
     <link>https://gaiaskilltree.com/trending/</link>
     <description>Skills gaining trust this week — ranked by evidence velocity, not hype.</description>
     <language>en-us</language>
-    <lastBuildDate>Sat, 15 Aug 2026 01:44:24 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 17 Aug 2026 09:40:06 +0000</lastBuildDate>
     <atom:link href="https://gaiaskilltree.com/api/v1/trending/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
-      <title>Supabase (+5.0 TM)</title>
-      <link>https://gaiaskilltree.com/named/#explorer/supabase/supabase</link>
-      <description>Trust Magnitude: 5.0</description>
-      <pubDate>Sat, 15 Aug 2026 01:44:24 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-supabase/supabase-2026-08-15</guid>
+      <title>Remotion Best Practices</title>
+      <link>https://gaiaskilltree.com/named/#explorer/remotion-dev/remotion-best-practices</link>
+      <description>Trust Magnitude: 0.0</description>
+      <pubDate>Mon, 17 Aug 2026 09:40:06 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-remotion-dev/remotion-best-practices-2026-08-17</guid>
     </item>
     <item>
-      <title>Supabase Postgres Best Practices (+5.0 TM)</title>
-      <link>https://gaiaskilltree.com/named/#explorer/supabase/supabase-postgres-best-practices</link>
-      <description>Trust Magnitude: 5.0</description>
-      <pubDate>Sat, 15 Aug 2026 01:44:24 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-supabase/supabase-postgres-best-practices-2026-08-15</guid>
+      <title>Remotion Captions</title>
+      <link>https://gaiaskilltree.com/named/#explorer/remotion-dev/remotion-captions</link>
+      <description>Trust Magnitude: 0.0</description>
+      <pubDate>Mon, 17 Aug 2026 09:40:06 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-remotion-dev/remotion-captions-2026-08-17</guid>
+    </item>
+    <item>
+      <title>Remotion Create</title>
+      <link>https://gaiaskilltree.com/named/#explorer/remotion-dev/remotion-create</link>
+      <description>Trust Magnitude: 0.0</description>
+      <pubDate>Mon, 17 Aug 2026 09:40:06 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-remotion-dev/remotion-create-2026-08-17</guid>
+    </item>
+    <item>
+      <title>Remotion Interactivity</title>
+      <link>https://gaiaskilltree.com/named/#explorer/remotion-dev/remotion-interactivity</link>
+      <description>Trust Magnitude: 0.0</description>
+      <pubDate>Mon, 17 Aug 2026 09:40:06 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-remotion-dev/remotion-interactivity-2026-08-17</guid>
+    </item>
+    <item>
+      <title>Remotion Maps</title>
+      <link>https://gaiaskilltree.com/named/#explorer/remotion-dev/remotion-maps</link>
+      <description>Trust Magnitude: 0.0</description>
+      <pubDate>Mon, 17 Aug 2026 09:40:06 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-remotion-dev/remotion-maps-2026-08-17</guid>
+    </item>
+    <item>
+      <title>Remotion Markup</title>
+      <link>https://gaiaskilltree.com/named/#explorer/remotion-dev/remotion-markup</link>
+      <description>Trust Magnitude: 0.0</description>
+      <pubDate>Mon, 17 Aug 2026 09:40:06 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-remotion-dev/remotion-markup-2026-08-17</guid>
+    </item>
+    <item>
+      <title>Remotion Render</title>
+      <link>https://gaiaskilltree.com/named/#explorer/remotion-dev/remotion-render</link>
+      <description>Trust Magnitude: 0.0</description>
+      <pubDate>Mon, 17 Aug 2026 09:40:06 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-remotion-dev/remotion-render-2026-08-17</guid>
+    </item>
+    <item>
+      <title>Remotion SaaS</title>
+      <link>https://gaiaskilltree.com/named/#explorer/remotion-dev/remotion-saas</link>
+      <description>Trust Magnitude: 0.0</description>
+      <pubDate>Mon, 17 Aug 2026 09:40:06 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-remotion-dev/remotion-saas-2026-08-17</guid>
+    </item>
+    <item>
+      <title>Remotion Studio</title>
+      <link>https://gaiaskilltree.com/named/#explorer/remotion-dev/remotion-studio</link>
+      <description>Trust Magnitude: 0.0</description>
+      <pubDate>Mon, 17 Aug 2026 09:40:06 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-remotion-dev/remotion-studio-2026-08-17</guid>
     </item>
   </channel>
 </rss>
