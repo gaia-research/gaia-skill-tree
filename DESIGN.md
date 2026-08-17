@@ -8,12 +8,10 @@ The visual system below applies to the public site, generated registry pages, an
 
 | Zone | Path | Purpose |
 |---|---|---|
-| Curated registry | `registry/` | Maintainer-reviewed graph, named skills, schemas, and public generated catalog artifacts |
-| Review intake | `registry-for-review/` | Draft skill batches created by `gaia push` |
+| Curated skills | `registry/` | Maintainer-reviewed graph, named skills, schemas, and public generated catalog artifacts |
 | User skill trees | `skill-trees/` | Durable per-user `skill-tree.json` records |
 | Local output | `generated-output/` | Gitignored scan artifacts and personal tree renders |
 | Python CLI | `src/gaia_cli/` | Core lifecycle behavior and path resolution |
-| npm wrapper | `packages/cli-npm/` | Thin Node wrapper around the Python CLI |
 
 Public curated outputs, such as `registry/gaia.svg`, `registry/gaia.gexf`, `registry/real-skills.html`, and `registry/combinations.md`, inherit this design language. `docs/graph/*` remains a generated GitHub Pages mirror so the docs site can load graph assets when served from the `docs/` directory.
 

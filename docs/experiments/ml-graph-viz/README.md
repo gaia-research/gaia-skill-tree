@@ -1,5 +1,7 @@
 # ML Layout Sampler
 
+THIS IS COMPLETELY STALE!! Superseded by world tree. Deleting soon.
+
 Branch: `dev/ml-graph-viz-sampler`
 
 Three candidate layouts for the Gaia skill graph rendered side-by-side so we can
