@@ -1,6 +1,6 @@
 # Gaia
 
-Gaia is an open, evidence-backed skill registry for AI agents. Capabilities are catalogued in a graph, awakened by real usage, and named to the contributor who first demonstrates them.
+Gaia Skill Tree is an open, evidence-backed skill registry for agents. Capabilities are catalogued in a graph, awakened by real usage, and named to the contributor who first demonstrates them.
 
 _See also: `PRODUCT.md` for audience, product purpose, and the design-principle / anti-reference / accessibility baseline. `DESIGN.md` for visual tokens and motion specs._
 
