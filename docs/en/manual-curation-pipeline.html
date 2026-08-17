@@ -667,11 +667,17 @@
         <h3>Step 3 — Run prefill against the SKILL.md URL</h3>
         <div class="code-fence">
           <div class="code-fence-header"><span class="code-fence-label">bash</span><span class="code-fence-copy-status">click to copy</span></div>
-          <pre><span class="cmd">gaia</span> dev prefill \
-  <span class="arg">--source</span> <span class="str">"https://github.com/owner/repo/blob/main/SKILL.md"</span> \
-  <span class="arg">--output</span> /tmp/prefill-output.json
+          <pre><span class="cmd">gaia</span> dev prefill <span class="arg">contributor/skill-name</span> \
+  <span class="arg">--name</span> <span class="str">"Skill Name"</span> \
+  <span class="arg">--description</span> <span class="str">"Verbatim from SKILL.md frontmatter"</span> \
+  <span class="arg">--url</span> <span class="str">"https://github.com/owner/repo/blob/main/SKILL.md"</span> \
+  <span class="arg">--stdout</span> > /tmp/prefill-output.json
 
 <span class="cmd">cat</span> /tmp/prefill-output.json | python3 -m json.tool | head -80</pre>
+        </div>
+        <div class="callout info">
+          <span class="callout-icon">ℹ</span>
+          <p>Drop <code>--stdout</code> and <code>gaia dev prefill</code> writes the packet straight to <code>registry-for-review/discovery-packets/&lt;candidate-id-slug&gt;.json</code> — there is no <code>--output</code> flag.</p>
         </div>
 
         <h3>Step 4 — Apply the 6-rule mapping decision</h3>

@@ -2,6 +2,80 @@
 
 ---
 
+## 2026-08-17 — Routine 030
+
+**Branch:** `docs/routines/030` (new — PR #1528/`docs/routines/026` merged 2026-08-15,
+so per the branch rule this starts the next open PR from `origin/main`)
+
+**Task chosen:** ROTATE — `docs/en/manual-curation-pipeline.html` had never been
+touched by a daily routine (blank Routine column in DOCS.md's Page Map), making it
+the least-recently-touched page. No "Planned next" was named by the prior entry
+(the 2026-08-15 editor pass closed out #1479 and #1478 with no open thread), and
+the only commits on `main` since then were the editor-pass merge itself and a
+`chore: release v7.6.3` version bump — no SYNC candidate (no documented command
+behavior changed).
+
+### What I did
+
+Read the page fully to check its commands against the real CLI (`src/gaia_cli/`)
+rather than assuming a page marked "✅ Done" was still accurate. Found Step 3
+("Run prefill against the SKILL.md URL") documents `gaia dev prefill --source
+<url> --output <path>` — neither flag exists. The real argparse definition
+(`src/gaia_cli/commands/dev/__init__.py` `dev_prefill`) is a positional
+`candidate_id` plus required `--name`, `--description`, `--url`, with `--json`/
+`--stdout` to print instead of the default behavior of writing straight to
+`registry-for-review/discovery-packets/<candidate-id-slug>.json`
+(`src/gaia_cli/prefill.py` `writePacket()`). A reader copy-pasting the old
+command would hit an immediate argparse error. Fixed the command block to the
+real signature and added a one-line callout explaining the default write path
+now that `--output` is gone.
+
+### Design decisions
+
+- Kept the surrounding `/tmp/prefill-output.json` capture-to-file pattern (used
+  again in Step 4) by using `--stdout > /tmp/prefill-output.json` rather than
+  rewriting the whole downstream flow — the smallest correct fix, not a redesign.
+- Added the info callout directly below the code fence per DOCS.md's Callouts &
+  Notes Branding placement rule, using the existing `.callout.info` class.
+
+### Issues informed
+
+None filed — this is a same-page accuracy fix, not a tracked bug.
+
+### Verification
+
+`git status` shows only `docs/en/manual-curation-pipeline.html` and this diary +
+DOCS.md. `html.parser` parse-check clean. Vocabulary grep clean (remaining
+"merge" hits are all `gh pr merge`, a real CLI verb, not the fusion concept — no
+new violations). No new hex introduced (diff-scanned). All three stylesheets
+(`tokens.css`, `styles.css`, `docs-en-shell.css`) still linked.
+
+### Files modified
+
+- `docs/en/manual-curation-pipeline.html` — Step 3 `gaia dev prefill` command
+- `docs/en/DOCS.md` — page map row 13 updated
+- `docs/en/MEMORY.md` — this entry
+
+### Planned next (Routine 031)
+
+- Same page, deeper issue found but not fixed today (out of today's one-section
+  scope): Phase 4's "Phase 0 — ev-discovery" documents `gaia dev discover
+  --skill ... --repo ... --types ... --output ...` as a CLI command. No
+  `discover` subcommand exists anywhere under `dev_sub.add_parser(...)` in
+  `src/gaia_cli/commands/dev/__init__.py` — `ev-discovery` is an *agent skill*
+  (`.claude/skills/ev-discovery/`), not a `gaia` CLI verb. Needs a proper
+  investigation into what the correct instruction should be (invoke the skill?
+  a different real command?) before rewriting — don't guess at a replacement.
+- Also noticed but unverified: the packet JSON template in Step 5 uses
+  `schemaVersion` and a string `"decision": "MAP"`, while the packet
+  `gaia dev prefill` actually emits (`prefill.py` `buildPrefillPacket()`) uses
+  `contractVersion` and an object `"decision": {"value": ..., "reasonCode": ...}`.
+  Could be two valid packet shapes (hand-authored vs. tool-generated) or could be
+  more drift — check `scripts/validate_discovery_packet.py`'s accepted schema
+  before touching Step 5.
+
+---
+
 ## 2026-08-15 — Editor pass (week of routine 026–029, PR #1528)
 
 **Branch:** `docs/routines/026` (PR #1528, ships this pass — squash-merge closes the week)
