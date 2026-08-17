@@ -1,0 +1,20 @@
+---
+type: "AI Agent Skill"
+title: "Sentiment Analysis"
+description: "Classifies the affective polarity (positive / negative / neutral, or fine-grained) of user-generated text. Covers pipelines from raw noisy input through preprocessing, inference (Transformer, Lexicon, or LLM), and output normalisation."
+resource: "https://gaiaskilltree.com/codex.html#sentiment-analysis"
+tags: ["gaia-skill-tree", "basic-skill"]
+timestamp: "2026-07-05T00:00:00Z"
+---
+
+# Sentiment Analysis
+
+## Description
+
+Classifies the affective polarity (positive / negative / neutral, or fine-grained) of user-generated text. Covers pipelines from raw noisy input through preprocessing, inference (Transformer, Lexicon, or LLM), and output normalisation.
+
+## Derivatives
+
+- [Content Moderation](/skills/fusion/content-moderation.md)
+- [Translation Pipeline](/skills/fusion/translation-pipeline.md)
+

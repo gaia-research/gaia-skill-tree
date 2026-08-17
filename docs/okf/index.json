@@ -1,0 +1,702 @@
+{
+  "schemaVersion": "1.0.0",
+  "generatedAt": null,
+  "families": [
+    {
+      "id": "basic",
+      "count": 136,
+      "skills": [
+        {
+          "id": "adaptive-pattern-learning",
+          "name": "Adaptive Pattern Learning",
+          "summary": "Implements adaptive learning through pattern recognition and strategy optimization."
+        },
+        {
+          "id": "agent-reach",
+          "name": "Agent Reach",
+          "summary": "Gives an AI agent internet access by routing web requests across 16+ platforms with MCP support and harness-agnostic integration."
+        },
+        {
+          "id": "api-call",
+          "name": "API Call",
+          "summary": "A fundamental skill that enables agents to interact with external services via HTTP API calls."
+        },
+        {
+          "id": "audience-model",
+          "name": "Audience Model",
+          "summary": "Adapts tone, complexity, and framing of output to match a target audience profile."
+        },
+        {
+          "id": "auto-review",
+          "name": "Auto-Review",
+          "summary": "Automatically review and gate agent outputs by writing and executing a self-authored acceptance script, combining self-critique with pre-completion verification."
+        },
+        {
+          "id": "autonomous-engineering-platform",
+          "name": "Autonomous Engineering Platform",
+          "summary": "An autonomous engineering platform integrating chat, specs, tasks, and code for full agentic software delivery."
+        },
+        {
+          "id": "bioinformatic-sequence-analysis",
+          "name": "Bioinformatic Sequence Analysis",
+          "summary": "Performs biological sequence alignment, similarity searches, multiple sequence alignment (MSA), and genomic variant analysis using standard bioinformatics tools and databases."
+        },
+        {
+          "id": "brand-guideline-application",
+          "name": "Brand Guideline Application",
+          "summary": "Applies a supplied organization's colors, typography, and visual rules consistently to artifacts."
+        },
+        {
+          "id": "browser-control",
+          "name": "Browser Control",
+          "summary": "A foundational skill for interacting directly with the web browser using Chrome DevTools Protocol (CDP)."
+        },
+        {
+          "id": "chain-of-thought",
+          "name": "Chain-of-Thought Reasoning",
+          "summary": "Produces explicit intermediate reasoning steps before arriving at a final answer, dramatically improving accuracy on multi-step problems."
+        },
+        {
+          "id": "chunk-document",
+          "name": "Chunk Document",
+          "summary": "Splits a document into semantically meaningful segments optimized for embedding and retrieval."
+        },
+        {
+          "id": "ci-churn-analysis",
+          "name": "CI Churn Analysis",
+          "summary": "Measures avoidable CI iteration cost for a pull request by classifying commits as feature work versus fix-the-CI rework, summing CI compute time burned on avoidable push rounds, and surfacing pre-push checks that would have prevented them."
+        },
+        {
+          "id": "cite-sources",
+          "name": "Cite Sources",
+          "summary": "Attributes claims to specific sources with proper references, URLs, or bibliographic entries."
+        },
+        {
+          "id": "classify",
+          "name": "Classify",
+          "summary": "Assigns one or more categorical labels to an input based on learned or rule-based criteria."
+        },
+        {
+          "id": "cli-modernization",
+          "name": "CLI Modernization",
+          "summary": "Refactors command-line interfaces for improved UX, plugin architecture, and extensibility."
+        },
+        {
+          "id": "clinical-data-retrieval",
+          "name": "Clinical Data Retrieval",
+          "summary": "Retrieves and parses clinical trial records, drug approvals, regulatory filings, or medical variant databases (e.g. ClinicalTrials.gov, OpenFDA, ClinVar)."
+        },
+        {
+          "id": "code-execution",
+          "name": "Code Execution",
+          "summary": "Writes and executes code in a sandboxed environment, uses the runtime output to verify correctness, and iterates until the result is correct."
+        },
+        {
+          "id": "code-explain",
+          "name": "Code Explain",
+          "summary": "Generates accurate natural-language explanations of source code, describing intent, logic flow, and key decisions at function or module level."
+        },
+        {
+          "id": "code-generation",
+          "name": "Code Generation",
+          "summary": "Produces syntactically correct and functionally appropriate source code from specifications or prompts."
+        },
+        {
+          "id": "computer-use",
+          "name": "Computer Use",
+          "summary": "Controls desktop GUIs and web browsers by interpreting screenshots, issuing mouse/keyboard actions, and verifying visual state to complete open-ended computer tasks."
+        },
+        {
+          "id": "context-compression",
+          "name": "Context Compression",
+          "summary": "Reduces the length of prompts or retrieved context to fit token limits while preserving semantic content, using techniques such as selective token removal, summarization, or token-classification-based pruning (e.g. LLMLingua)."
+        },
+        {
+          "id": "core-platform-implementation",
+          "name": "Core Platform Implementation",
+          "summary": "Implements foundational platform architecture including plugin discovery, server lifecycle management, and API contracts."
+        },
+        {
+          "id": "crm-data-cleanup",
+          "name": "CRM Data Cleanup",
+          "summary": "Perform data hygiene, normalization, and deduplication of contact, event, or organization records in CRM and tracking databases."
+        },
+        {
+          "id": "cultural-localization",
+          "name": "Cultural Localization",
+          "summary": "Adapts content for regional audiences beyond translation: idioms, cultural nuance, tone, trust conventions, and regional compliance for culturally faithful output."
+        },
+        {
+          "id": "data-visualize",
+          "name": "Data Visualize",
+          "summary": "Generates charts, graphs, and visual summaries from datasets by selecting appropriate visualization types and mapping data dimensions."
+        },
+        {
+          "id": "diff-content",
+          "name": "Diff Content",
+          "summary": "Compares two versions of content and produces a structured delta highlighting additions, deletions, and modifications."
+        },
+        {
+          "id": "document-editing",
+          "name": "Document Editing",
+          "summary": "Reads, edits, repacks, and applies styling or design principles to structured binary document formats such as PPTX, DOCX, and XLSX."
+        },
+        {
+          "id": "domain-modeling",
+          "name": "Domain Modeling",
+          "summary": "Build and maintain a shared domain model with ubiquitous language and architectural decision records."
+        },
+        {
+          "id": "embed-text",
+          "name": "Embed Text",
+          "summary": "Converts text into dense vector representations suitable for similarity search and clustering."
+        },
+        {
+          "id": "error-interpretation",
+          "name": "Error Interpretation",
+          "summary": "Diagnoses error messages, stack traces, and failure modes to identify root causes and suggest fixes."
+        },
+        {
+          "id": "evaluate-output",
+          "name": "Evaluate Output",
+          "summary": "Assesses the quality, correctness, or safety of generated output against defined criteria."
+        },
+        {
+          "id": "event-attendance-metrics",
+          "name": "Event Attendance Metrics",
+          "summary": "Collect, process, and query attendee RSVP and check-in records for events, normalizing data to produce clean, unique attendance counts and metrics."
+        },
+        {
+          "id": "event-attendee-management",
+          "name": "Event Attendee Management",
+          "summary": "Manage, export, sync, and format event attendee data between registration platforms, CRM databases, and spreadsheet records."
+        },
+        {
+          "id": "event-support-triage",
+          "name": "Event Support Triage",
+          "summary": "Triage customer support emails or issues related to events, query attendee records to address ticketing problems, and draft responses using dynamic templates."
+        },
+        {
+          "id": "event-ticket-transfer",
+          "name": "Event Ticket Transfer",
+          "summary": "Process requests to transfer event tickets between attendees, validating tickets, updating registration metadata, and resending confirmation passes."
+        },
+        {
+          "id": "evidence-attestation",
+          "name": "evidence-attestation",
+          "summary": "Produces privacy-safe proof objects from agent claims by recording what evidence supports or contradicts each claim, what raw content was intentionally omitted, what verdict follows, and what would make the evidence stale; enables downstream registries, review gates, and scoreboards to verify agent work without accessing raw private context."
+        },
+        {
+          "id": "extract-entities",
+          "name": "Extract Entities",
+          "summary": "Identifies and extracts named entities such as people, organizations, dates, and locations from text."
+        },
+        {
+          "id": "feed-monitoring",
+          "name": "Feed Monitoring",
+          "summary": "Monitors RSS, Atom, blog, or other recurring content feeds, discovers updates, tracks read state, and surfaces new signals for downstream agent workflows."
+        },
+        {
+          "id": "few-shot-learning",
+          "name": "Few-Shot Learning",
+          "summary": "Conditions a language model on a small number of input-output demonstrations within the prompt, enabling task adaptation without weight updates."
+        },
+        {
+          "id": "fine-tune",
+          "name": "Fine-Tune",
+          "summary": "Adapts a pre-trained model to a new task or domain by updating model weights using parameter-efficient methods such as LoRA, QLoRA, or full supervised fine-tuning, without retraining from scratch."
+        },
+        {
+          "id": "format-output",
+          "name": "Format Output",
+          "summary": "Structures raw output into a specified format such as markdown, JSON, CSV, or HTML."
+        },
+        {
+          "id": "framework-upgrade",
+          "name": "Framework Upgrade",
+          "summary": "Guides an agent through upgrading a project from one major framework version to another, including breaking-change detection, migration steps, and post-upgrade validation."
+        },
+        {
+          "id": "generate-sql",
+          "name": "Generate SQL",
+          "summary": "Translates natural-language data questions into syntactically correct, executable SQL queries against a given schema."
+        },
+        {
+          "id": "generate-test",
+          "name": "Generate Test",
+          "summary": "Produces comprehensive unit, integration, and edge-case test suites from source code."
+        },
+        {
+          "id": "generate-text",
+          "name": "Generate Text",
+          "summary": "Produces coherent natural language output given a prompt, instruction, or context window."
+        },
+        {
+          "id": "genomic-data-retrieval",
+          "name": "Genomic Data Retrieval",
+          "summary": "Queries and retrieves DNA sequence data, transcription factor binding models, cis-regulatory elements, and genetic annotations from genomic repositories (e.g. Ensembl, GTEx, JASPAR, UniBind, ENCODE, UCSC, dbSNP)."
+        },
+        {
+          "id": "git-diff-risk-analysis",
+          "name": "Git Diff Risk Analysis",
+          "summary": "Analyzes git diffs for complexity, churn, and risk scores to prioritize review attention and flag dangerous changes."
+        },
+        {
+          "id": "grant-application-processing",
+          "name": "Grant Application Processing",
+          "summary": "Process financial aid, grant, or assistance applications by calculating discounts, assigning discount codes, updating tracker logs, and sending status updates."
+        },
+        {
+          "id": "headless-worker-collect",
+          "name": "Headless Worker Collect",
+          "summary": "Aggregates and formats results from distributed headless workers stored in shared memory with filtering and status reporting."
+        },
+        {
+          "id": "headless-worker-spawn",
+          "name": "Headless Worker Spawn",
+          "summary": "Launches headless AI worker processes for parallel background task execution with configurable worker types and shared memory coordination."
+        },
+        {
+          "id": "hybrid-workflow-coordination",
+          "name": "Hybrid Workflow Coordination",
+          "summary": "Routes tasks between interactive reasoning phases and parallel background execution with configurable workflow templates."
+        },
+        {
+          "id": "hypothesis-generate",
+          "name": "Hypothesis Generation",
+          "summary": "Formulates novel, testable scientific hypotheses by synthesising existing literature, identifying knowledge gaps, and proposing mechanistic explanations."
+        },
+        {
+          "id": "image-caption",
+          "name": "Image Caption",
+          "summary": "Generates accurate natural-language descriptions of images, capturing objects, actions, and spatial relationships."
+        },
+        {
+          "id": "image-generate",
+          "name": "Image Generate",
+          "summary": "Creates photorealistic or stylized images from text prompts using diffusion-based or autoregressive generative models."
+        },
+        {
+          "id": "implement-with-discernment",
+          "name": "implement-with-discernment",
+          "summary": "Applies deliberate judgment before writing code: evaluating whether to implement at all, scoping to the minimum needed, deferring or rejecting features that add complexity without proportionate value, and stopping when the task is done."
+        },
+        {
+          "id": "issue-triage",
+          "name": "Issue Triage",
+          "summary": "Classifies incoming issue reports through a structured state machine, assigns triage roles (bug/enhancement, needs-info/ready-for-agent/wontfix), reproduces bugs, requests missing detail, and produces structured resolution briefs for agent or human handoff."
+        },
+        {
+          "id": "literature-search",
+          "name": "Literature Search",
+          "summary": "Queries and searches academic literature databases (e.g. PubMed, arXiv, bioRxiv, OpenAlex) to locate papers, retrieve abstracts, resolve citations, and fetch full-text documents."
+        },
+        {
+          "id": "logical-inference",
+          "name": "Logical Inference",
+          "summary": "Applies deductive, inductive, or abductive reasoning to derive valid conclusions from premises and structured knowledge."
+        },
+        {
+          "id": "map-animation",
+          "name": "map-animation",
+          "summary": "Animating geographic, static, and 3D maps using render engines, custom imagery overlays, vector styling, and terrain flythroughs."
+        },
+        {
+          "id": "math-reason",
+          "name": "Math Reason",
+          "summary": "Solves multi-step mathematical problems including arithmetic, algebra, calculus, and competition mathematics through symbolic and numeric reasoning."
+        },
+        {
+          "id": "mcp-integration",
+          "name": "MCP Integration",
+          "summary": "Connect to and invoke tools exposed by Model Context Protocol (MCP) servers \\u2014 enumerate available tools, execute calls, and handle responses across any MCP-compatible backend."
+        },
+        {
+          "id": "memory-pattern-design",
+          "name": "Memory Pattern Design",
+          "summary": "Designs recurring memory storage patterns for AI agents with LRU caching, SQLite persistence, and associative retrieval."
+        },
+        {
+          "id": "molecular-databases",
+          "name": "Molecular Databases",
+          "summary": "Queries and retrieves structural, chemical, and biological activity data for small molecules, chemical compounds, or drug candidates from molecular repositories (e.g., ChEMBL, PubChem)."
+        },
+        {
+          "id": "multi-repo-coordination",
+          "name": "Multi-Repo Coordination",
+          "summary": "Manages synchronized operations across multiple repositories including cross-repo PRs, dependency tracking, and bulk workflow automation."
+        },
+        {
+          "id": "object-detection",
+          "name": "Object Detection",
+          "summary": "Locates and classifies multiple objects within images by producing bounding boxes, confidence scores, and category labels in a single forward pass."
+        },
+        {
+          "id": "opinion",
+          "name": "Opinion",
+          "summary": "Formulate and articulate a strong, reasoned opinion or recommendation as a discrete agent step, avoiding model selection bias and decision paralysis."
+        },
+        {
+          "id": "optical-character-recognition",
+          "name": "OCR",
+          "summary": "Extracts machine-readable text from raster images, scanned pages, and photo documents using optical character recognition, preserving layout and handling skew, noise, and varied fonts."
+        },
+        {
+          "id": "parallel-execution",
+          "name": "Parallel Execution",
+          "summary": "Decompose a task into independent sub-tasks and execute them concurrently, merging results with configurable concurrency limits and queue-based state tracking."
+        },
+        {
+          "id": "parse-html",
+          "name": "Parse HTML",
+          "summary": "Extracts structured content from raw HTML, navigating DOM trees and handling malformed markup."
+        },
+        {
+          "id": "parse-json",
+          "name": "Parse JSON",
+          "summary": "Extracts structured data from JSON-formatted input, handling nested objects and arrays."
+        },
+        {
+          "id": "parse-pdf",
+          "name": "Parse PDF",
+          "summary": "Extracts text, tables, equations, and structure from PDF documents, preserving layout and reading order."
+        },
+        {
+          "id": "pathway-ontology-retrieval",
+          "name": "Pathway Ontology Retrieval",
+          "summary": "Queries, parses, and resolves biological pathway models, cellular reactions, and hierarchical ontology metadata from pathway and ontology search systems (e.g., Reactome, QuickGO, EMBL-EBI OLS)."
+        },
+        {
+          "id": "performance-tuning",
+          "name": "Performance Tuning",
+          "summary": "Profiles execution hotspots, measures throughput and latency, and applies targeted optimizations to reduce resource consumption."
+        },
+        {
+          "id": "plan-decompose",
+          "name": "Plan and Decompose",
+          "summary": "Breaks a complex objective into an ordered sequence of executable sub-tasks."
+        },
+        {
+          "id": "plan-synthesis",
+          "name": "Plan Synthesis",
+          "summary": "Combine two or more independently produced plans into a single attributed result, resolving conflicts and surfacing consensus and divergence."
+        },
+        {
+          "id": "postgres-best-practices",
+          "name": "postgres-best-practices",
+          "summary": "Guiding agents to design, migrate, secure, tune, and operate PostgreSQL databases using robust schema, SQL, RLS, indexing, and performance practices."
+        },
+        {
+          "id": "probabilistic-programming",
+          "name": "Probabilistic Programming",
+          "summary": "Specifies Bayesian models and runs inference (MCMC/NUTS, variational) to quantify epistemic and aleatoric uncertainty using PyMC, Stan, Pyro, or NumPyro."
+        },
+        {
+          "id": "prompt-caching",
+          "name": "Prompt Caching",
+          "summary": "Reuses a model's encoded prompt prefix or KV cache across repeated requests so identical long-context prefixes are not reprocessed, reducing latency and billed input tokens without serving a cached response or rewriting the prompt."
+        },
+        {
+          "id": "prompt-injection-defense",
+          "name": "Prompt Injection Defense",
+          "summary": "Detects and neutralizes adversarial instructions injected into agent context from untrusted external sources (indirect prompt injection), using techniques such as context isolation, hierarchical intent verification, or semantic consistency checks."
+        },
+        {
+          "id": "protein-structure-analysis",
+          "name": "Protein Structure Analysis",
+          "summary": "Analyzes, searches, and aligns three-dimensional macromolecular structures using structural databases, alignment search algorithms (e.g. Foldseek, PDB search), or molecular modeling tools."
+        },
+        {
+          "id": "proteomic-data-retrieval",
+          "name": "Proteomic Data Retrieval",
+          "summary": "Queries and retrieves amino acid sequences, protein families, functional domains, tissue distribution, and protein-protein interactions from proteomic repositories (e.g. UniProt, InterPro, Human Protein Atlas, STRING)."
+        },
+        {
+          "id": "quantum-circuit-programming",
+          "name": "Quantum Circuit Programming",
+          "summary": "Build, simulate, transpile, and execute quantum circuits on local simulators or quantum runtimes."
+        },
+        {
+          "id": "question-answer",
+          "name": "Question Answer",
+          "summary": "Produces accurate, context-grounded answers to natural-language questions, handling unanswerable cases."
+        },
+        {
+          "id": "rank",
+          "name": "Rank",
+          "summary": "Orders a set of candidate items by relevance, quality, or fitness for a given objective."
+        },
+        {
+          "id": "react-performance-optimization",
+          "name": "React Performance Optimization",
+          "summary": "Optimizes component rendering, data fetching, and bundle composition in React applications while preserving requested behavior."
+        },
+        {
+          "id": "refactor-code",
+          "name": "Refactor Code",
+          "summary": "Restructures existing source code to improve readability, maintainability, or performance without changing observable behavior."
+        },
+        {
+          "id": "requirements-analysis",
+          "name": "Requirements Analysis",
+          "summary": "Elicit and structure requirements from stakeholder inputs into formal specifications \\u2014 user stories, acceptance criteria, and traceability matrices."
+        },
+        {
+          "id": "retrieve",
+          "name": "Retrieve",
+          "summary": "Fetches relevant documents or passages from an indexed corpus given a query."
+        },
+        {
+          "id": "reward-modeling",
+          "name": "Reward Modeling",
+          "summary": "Learns a scalar reward signal from human preference comparisons between model outputs, enabling reinforcement learning from human feedback (RLHF) to align model behavior with human values."
+        },
+        {
+          "id": "route-intent",
+          "name": "Route Intent",
+          "summary": "Classifies user intent and directs execution to the appropriate handler, tool, or sub-agent."
+        },
+        {
+          "id": "schema-design",
+          "name": "Schema Design",
+          "summary": "Design database schemas across relational, NoSQL, graph, and time-series stores \\u2014 entity modelling, normalization, indexing strategies, and migration planning."
+        },
+        {
+          "id": "scientific-visualization",
+          "name": "Scientific Visualization",
+          "summary": "Creates publication-ready scientific figures and visualizes molecular structures."
+        },
+        {
+          "id": "score-relevance",
+          "name": "Score Relevance",
+          "summary": "Assigns a numerical relevance score to candidate items relative to a query or objective."
+        },
+        {
+          "id": "scroll-world",
+          "name": "Scroll World",
+          "summary": "Builds scroll-scrubbed 3D world landing pages for any brand or industry with zero-cut camera paths through connected scenes."
+        },
+        {
+          "id": "self-consistency",
+          "name": "Self-Consistency",
+          "summary": "Samples multiple independent reasoning paths for the same problem and selects the answer by majority vote, improving robustness without any additional training."
+        },
+        {
+          "id": "self-critique",
+          "name": "Self-Critique",
+          "summary": "Iteratively evaluates and refines its own outputs using self-generated feedback, improving quality without external supervision."
+        },
+        {
+          "id": "semantic-cache",
+          "name": "Semantic Cache",
+          "summary": "Stores LLM responses keyed by embedding similarity so that semantically equivalent queries are served from cache, reducing inference latency and token cost without sacrificing answer quality."
+        },
+        {
+          "id": "sentiment-analysis",
+          "name": "Sentiment Analysis",
+          "summary": "Classifies the affective polarity (positive / negative / neutral, or fine-grained) of user-generated text. Covers pipelines from raw noisy input through preprocessing, inference (Transformer, Lexicon, or LLM), and output normalisation."
+        },
+        {
+          "id": "sequential-agent-pipeline",
+          "name": "Sequential Agent Pipeline",
+          "summary": "Chains agent outputs sequentially so each step's result feeds the next, enabling multi-stage data transformation and coordinated processing."
+        },
+        {
+          "id": "session-journaling",
+          "name": "Session Journaling",
+          "summary": "At the end of a work session, the agent summarizes the conversation and appends a structured, timestamped entry to a persistent dated note so future sessions can read back the durable record."
+        },
+        {
+          "id": "single-cell-analysis",
+          "name": "Single-Cell Analysis",
+          "summary": "Analyze single-cell transcriptomics data for preprocessing, visualization, clustering, and differential expression."
+        },
+        {
+          "id": "skill-discovery",
+          "name": "Skill Discovery",
+          "summary": "Searches a skill or tool registry, ranks results by relevance and install count, and surfaces candidates for the agent to adopt or invoke."
+        },
+        {
+          "id": "software-design",
+          "name": "Software Design",
+          "summary": "Design software modules with clean interfaces, seams, and deep implementations for maintainability and testability."
+        },
+        {
+          "id": "speech-to-text",
+          "name": "Speech to Text",
+          "summary": "Transcribes spoken audio into accurate text, handling diverse accents, noise conditions, and multiple languages."
+        },
+        {
+          "id": "static-artwork-design",
+          "name": "Static Artwork Design",
+          "summary": "Creates original static visual artifacts such as posters and print-ready graphics from a design brief."
+        },
+        {
+          "id": "statistical-analysis",
+          "name": "Statistical Analysis",
+          "summary": "Performs hypothesis testing, regression analysis, and Bayesian modelling with effect size calculation and APA-formatted statistical reporting using scipy, statsmodels, and PyMC."
+        },
+        {
+          "id": "structured-output",
+          "name": "Structured Output Generation",
+          "summary": "Generates output guaranteed to conform to a given schema (JSON, YAML, Pydantic model, etc.) using constrained decoding or grammar-guided generation."
+        },
+        {
+          "id": "summarize",
+          "name": "Summarize",
+          "summary": "Condenses longer input into a shorter representation that preserves key information and intent."
+        },
+        {
+          "id": "supabase",
+          "name": "supabase",
+          "summary": "Use when doing any task involving Supabase products including Database, Auth, Edge Functions, Realtime, Storage, client libraries, RLS, migrations, and Postgres extensions."
+        },
+        {
+          "id": "swarm-topology-management",
+          "name": "Swarm Topology Management",
+          "summary": "Initializes and manages multi-agent swarm network topologies (hierarchical, mesh, ring, star) with load balancing and fault tolerance."
+        },
+        {
+          "id": "synthetic-data-generation",
+          "name": "Synthetic Data Generation",
+          "summary": "Generates privacy-preserving, domain-representative datasets via tabular synthesis and generative models, infusing schema and regulatory constraints to substitute for sensitive real data."
+        },
+        {
+          "id": "system-integration",
+          "name": "System Integration",
+          "summary": "Connects disparate subsystems via shared contracts, event buses, and compatibility layers for coherent cross-component operation."
+        },
+        {
+          "id": "test-driven-development",
+          "name": "Test-Driven Development",
+          "summary": "Enforces a strict red-green-refactor TDD loop: writes failing tests before implementation, blocks code generation that skips the test step, and validates coverage thresholds before marking tasks complete."
+        },
+        {
+          "id": "text-to-speech",
+          "name": "Text to Speech",
+          "summary": "Synthesizes natural-sounding speech audio from text input, supporting voice cloning and prosody control."
+        },
+        {
+          "id": "time-series-forecasting",
+          "name": "Time Series Forecasting",
+          "summary": "Forecasts temporal sequences with seasonal-trend decomposition, ensemble models (ARIMA, Prophet, NBEATS, TFT), and residual-based anomaly detection."
+        },
+        {
+          "id": "timeline-animation",
+          "name": "timeline-animation",
+          "summary": "Orchestrating frame-by-frame visual animations, interpolation, easing curves, and multimedia asset placement using declarative timeline-based code."
+        },
+        {
+          "id": "token-observability",
+          "name": "Token Observability",
+          "summary": "Observability tool for tracking AI coding agent token spend locally."
+        },
+        {
+          "id": "tokenize",
+          "name": "Tokenize",
+          "summary": "Splits input text into discrete tokens suitable for downstream processing by language models."
+        },
+        {
+          "id": "tool-select",
+          "name": "Tool Select",
+          "summary": "Chooses the most appropriate tool or API from a set of available options given a task description."
+        },
+        {
+          "id": "tool-use",
+          "name": "Tool Use",
+          "summary": "Invokes external functions or APIs by generating well-formed call signatures, parsing results, and incorporating them into reasoning."
+        },
+        {
+          "id": "transactional-email-resend",
+          "name": "Transactional Email Resend",
+          "summary": "Manage and resend transactional ticket or confirmation emails, verifying recipient addresses and utilizing rate-limited or alternative relays to ensure delivery."
+        },
+        {
+          "id": "translate",
+          "name": "Translate",
+          "summary": "Converts text from one natural language to another while preserving meaning, tone, and formatting."
+        },
+        {
+          "id": "ui-audit",
+          "name": "UI Audit",
+          "summary": "Structured review of a product's user interface for layout clarity, affordance, accessibility, and visual polish \\u2014 produces actionable improvement recommendations."
+        },
+        {
+          "id": "ux-audit",
+          "name": "UX Audit",
+          "summary": "Systematically evaluates a user interface against established usability heuristics or accessibility standards, producing a scored finding report with remediation recommendations."
+        },
+        {
+          "id": "vector-db-optimization",
+          "name": "Vector DB Optimization",
+          "summary": "Tunes vector database indices, sharding strategies, and multi-database coordination for production-scale retrieval."
+        },
+        {
+          "id": "vector-search",
+          "name": "Vector Search",
+          "summary": "Performs similarity search over high-dimensional embeddings using cosine, Euclidean, dot-product, or custom distance metrics."
+        },
+        {
+          "id": "video-captions",
+          "name": "video-captions",
+          "summary": "Transcribing, displaying, and animating caption and subtitle tracks in code-defined media."
+        },
+        {
+          "id": "video-interactivity",
+          "name": "video-interactivity",
+          "summary": "Designing code-defined video templates and compositions to support visual manipulation, timeline interactivity, and direct in-studio editing."
+        },
+        {
+          "id": "video-preview",
+          "name": "video-preview",
+          "summary": "Providing an interactive local preview or development studio environment for code-defined video compositions."
+        },
+        {
+          "id": "video-rendering",
+          "name": "video-rendering",
+          "summary": "Automating the compilation, rendering, and export of code-defined video compositions into standard media formats."
+        },
+        {
+          "id": "video-saas",
+          "name": "video-saas",
+          "summary": "Designing and developing web applications that embed, render, and orchestrate code-driven video compositions using cloud rendering infrastructure."
+        },
+        {
+          "id": "video-scaffolding",
+          "name": "video-scaffolding",
+          "summary": "Scaffolding and initializing programmatic video composition projects including boilerplate generation, dependency installation, and local preview setup."
+        },
+        {
+          "id": "vision-qa",
+          "name": "Visual Question Answering",
+          "summary": "Answers natural-language questions grounded in a specific image or screenshot by combining visual perception with language reasoning, enabling visual debugging, UI analysis, and document-image Q&A."
+        },
+        {
+          "id": "web-search",
+          "name": "Web Search",
+          "summary": "Queries external search engines or APIs and retrieves relevant result sets."
+        },
+        {
+          "id": "worker-agent-dispatch",
+          "name": "Worker Agent Dispatch",
+          "summary": "Maps trigger events to optimal agent combinations for background task execution with performance tracking and continuous feedback."
+        },
+        {
+          "id": "write-report",
+          "name": "Write Report",
+          "summary": "Produces structured, multi-section written output with headings, citations, and coherent narrative."
+        }
+      ]
+    },
+    {
+      "id": "extra",
+      "count": 0,
+      "skills": []
+    },
+    {
+      "id": "ultimate",
+      "count": 0,
+      "skills": []
+    }
+  ]
+}
