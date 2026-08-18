@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-17T09:40:06Z",
+  "generatedAt": "2026-08-18T14:22:01Z",
   "skills": [
     {
       "id": "remotion-dev/remotion-best-practices",
@@ -127,7 +127,7 @@
       "name": "Transformers",
       "level": "3★",
       "contributor": "k-dense-ai",
-      "trustMagnitude": 97.07,
+      "trustMagnitude": 76.07,
       "overallTrustGrade": "B",
       "ascendedAt": "2026-07-31T16:20:18Z",
       "_links": {
@@ -140,7 +140,7 @@
       "name": "Torch Geometric",
       "level": "4★",
       "contributor": "k-dense-ai",
-      "trustMagnitude": 167.07,
+      "trustMagnitude": 137.07,
       "overallTrustGrade": "A",
       "ascendedAt": "2026-07-31T16:20:17Z",
       "_links": {
@@ -153,7 +153,7 @@
       "name": "Stable Baselines3",
       "level": "3★",
       "contributor": "k-dense-ai",
-      "trustMagnitude": 97.07,
+      "trustMagnitude": 76.07,
       "overallTrustGrade": "B",
       "ascendedAt": "2026-07-31T16:20:16Z",
       "_links": {
@@ -166,7 +166,7 @@
       "name": "Scanpy",
       "level": "3★",
       "contributor": "k-dense-ai",
-      "trustMagnitude": 97.07,
+      "trustMagnitude": 76.07,
       "overallTrustGrade": "B",
       "ascendedAt": "2026-07-31T16:20:15Z",
       "_links": {
@@ -179,8 +179,8 @@
       "name": "Qiskit",
       "level": "3★",
       "contributor": "k-dense-ai",
-      "trustMagnitude": 111.87,
-      "overallTrustGrade": "A",
+      "trustMagnitude": 93.03,
+      "overallTrustGrade": "B",
       "ascendedAt": "2026-07-31T16:20:13Z",
       "_links": {
         "self": "/api/v1/skills/k-dense-ai/qiskit.json"
@@ -205,7 +205,7 @@
       "name": "PyMC",
       "level": "4★",
       "contributor": "k-dense-ai",
-      "trustMagnitude": 197.07,
+      "trustMagnitude": 146.07,
       "overallTrustGrade": "A",
       "ascendedAt": "2026-07-31T16:20:11Z",
       "_links": {
@@ -218,7 +218,7 @@
       "name": "DeepChem",
       "level": "4★",
       "contributor": "k-dense-ai",
-      "trustMagnitude": 167.07,
+      "trustMagnitude": 137.07,
       "overallTrustGrade": "A",
       "ascendedAt": "2026-07-31T16:20:10Z",
       "_links": {
@@ -231,7 +231,7 @@
       "name": "Ponytail",
       "level": "4★",
       "contributor": "dietrichgebert",
-      "trustMagnitude": 102.79,
+      "trustMagnitude": 102.49,
       "overallTrustGrade": "A",
       "ascendedAt": "2026-07-31T16:20:09Z",
       "_links": {
@@ -244,7 +244,7 @@
       "name": "Get Shit Done",
       "level": "4★",
       "contributor": "gsd-build",
-      "trustMagnitude": 202.16,
+      "trustMagnitude": 202.2,
       "overallTrustGrade": "A",
       "ascendedAt": "2026-07-30T22:37:20Z",
       "_links": {
@@ -297,7 +297,7 @@
       "level": "4★",
       "contributor": "disler",
       "trustMagnitude": 127.54,
-      "overallTrustGrade": "C",
+      "overallTrustGrade": "A",
       "ascendedAt": "2026-07-30T22:15:53Z",
       "_links": {
         "self": "/api/v1/skills/disler/agent-fusion.json"

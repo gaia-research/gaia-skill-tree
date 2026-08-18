@@ -5,70 +5,147 @@
     <link>https://gaiaskilltree.com/trending/</link>
     <description>Skills gaining trust this week — ranked by evidence velocity, not hype.</description>
     <language>en-us</language>
-    <lastBuildDate>Mon, 17 Aug 2026 09:40:06 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 18 Aug 2026 14:22:01 +0000</lastBuildDate>
     <atom:link href="https://gaiaskilltree.com/api/v1/trending/feed.xml" rel="self" type="application/rss+xml"/>
     <item>
-      <title>Remotion Best Practices</title>
-      <link>https://gaiaskilltree.com/named/#explorer/remotion-dev/remotion-best-practices</link>
-      <description>Trust Magnitude: 0.0</description>
-      <pubDate>Mon, 17 Aug 2026 09:40:06 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-remotion-dev/remotion-best-practices-2026-08-17</guid>
+      <title>Teach (+44.5 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/mattpocock/teach</link>
+      <description>Trust Magnitude: 44.5 · Grade C</description>
+      <pubDate>Tue, 18 Aug 2026 14:22:01 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/teach-2026-08-18</guid>
     </item>
     <item>
-      <title>Remotion Captions</title>
-      <link>https://gaiaskilltree.com/named/#explorer/remotion-dev/remotion-captions</link>
-      <description>Trust Magnitude: 0.0</description>
-      <pubDate>Mon, 17 Aug 2026 09:40:06 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-remotion-dev/remotion-captions-2026-08-17</guid>
+      <title>Code Simplification (+143.2 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/addy-osmani/code-simplification</link>
+      <description>Trust Magnitude: 196.3 · Grade A</description>
+      <pubDate>Tue, 18 Aug 2026 14:22:01 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-addy-osmani/code-simplification-2026-08-18</guid>
     </item>
     <item>
-      <title>Remotion Create</title>
-      <link>https://gaiaskilltree.com/named/#explorer/remotion-dev/remotion-create</link>
-      <description>Trust Magnitude: 0.0</description>
-      <pubDate>Mon, 17 Aug 2026 09:40:06 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-remotion-dev/remotion-create-2026-08-17</guid>
+      <title>Skill Creator (+121.5 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/anthropic/skill-creator</link>
+      <description>Trust Magnitude: 211.5 · Grade A</description>
+      <pubDate>Tue, 18 Aug 2026 14:22:01 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-anthropic/skill-creator-2026-08-18</guid>
     </item>
     <item>
-      <title>Remotion Interactivity</title>
-      <link>https://gaiaskilltree.com/named/#explorer/remotion-dev/remotion-interactivity</link>
-      <description>Trust Magnitude: 0.0</description>
-      <pubDate>Mon, 17 Aug 2026 09:40:06 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-remotion-dev/remotion-interactivity-2026-08-17</guid>
+      <title>Few-Shot Learning (+121.0 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/openai/few-shot-learning</link>
+      <description>Trust Magnitude: 221.0 · Grade A</description>
+      <pubDate>Tue, 18 Aug 2026 14:22:01 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-openai/few-shot-learning-2026-08-18</guid>
     </item>
     <item>
-      <title>Remotion Maps</title>
-      <link>https://gaiaskilltree.com/named/#explorer/remotion-dev/remotion-maps</link>
-      <description>Trust Magnitude: 0.0</description>
-      <pubDate>Mon, 17 Aug 2026 09:40:06 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-remotion-dev/remotion-maps-2026-08-17</guid>
+      <title>Semantic Cache (+89.5 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/huggingface/semantic-cache</link>
+      <description>Trust Magnitude: 125.5 · Grade A</description>
+      <pubDate>Tue, 18 Aug 2026 14:22:01 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-huggingface/semantic-cache-2026-08-18</guid>
     </item>
     <item>
-      <title>Remotion Markup</title>
-      <link>https://gaiaskilltree.com/named/#explorer/remotion-dev/remotion-markup</link>
-      <description>Trust Magnitude: 0.0</description>
-      <pubDate>Mon, 17 Aug 2026 09:40:06 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-remotion-dev/remotion-markup-2026-08-17</guid>
+      <title>Incremental Implementation (+48.2 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/addy-osmani/incremental-implementation</link>
+      <description>Trust Magnitude: 101.3 · Grade A</description>
+      <pubDate>Tue, 18 Aug 2026 14:22:01 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-addy-osmani/incremental-implementation-2026-08-18</guid>
     </item>
     <item>
-      <title>Remotion Render</title>
-      <link>https://gaiaskilltree.com/named/#explorer/remotion-dev/remotion-render</link>
-      <description>Trust Magnitude: 0.0</description>
-      <pubDate>Mon, 17 Aug 2026 09:40:06 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-remotion-dev/remotion-render-2026-08-17</guid>
+      <title>Planning and Task Breakdown (+48.2 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/addy-osmani/planning-and-task-breakdown</link>
+      <description>Trust Magnitude: 101.3 · Grade A</description>
+      <pubDate>Tue, 18 Aug 2026 14:22:01 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-addy-osmani/planning-and-task-breakdown-2026-08-18</guid>
     </item>
     <item>
-      <title>Remotion SaaS</title>
-      <link>https://gaiaskilltree.com/named/#explorer/remotion-dev/remotion-saas</link>
-      <description>Trust Magnitude: 0.0</description>
-      <pubDate>Mon, 17 Aug 2026 09:40:06 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-remotion-dev/remotion-saas-2026-08-17</guid>
+      <title>Spec-Driven Development (+33.2 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/addy-osmani/spec-driven-development</link>
+      <description>Trust Magnitude: 86.3 · Grade B</description>
+      <pubDate>Tue, 18 Aug 2026 14:22:01 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-addy-osmani/spec-driven-development-2026-08-18</guid>
     </item>
     <item>
-      <title>Remotion Studio</title>
-      <link>https://gaiaskilltree.com/named/#explorer/remotion-dev/remotion-studio</link>
-      <description>Trust Magnitude: 0.0</description>
-      <pubDate>Mon, 17 Aug 2026 09:40:06 +0000</pubDate>
-      <guid isPermaLink="false">gaia-trending-remotion-dev/remotion-studio-2026-08-17</guid>
+      <title>Performance Optimization (+34.0 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/addy-osmani/performance-optimization</link>
+      <description>Trust Magnitude: 117.2 · Grade A</description>
+      <pubDate>Tue, 18 Aug 2026 14:22:01 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-addy-osmani/performance-optimization-2026-08-18</guid>
+    </item>
+    <item>
+      <title>Graphify (+31.1 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/safishamsi/graphify</link>
+      <description>Trust Magnitude: 147.7 · Grade A</description>
+      <pubDate>Tue, 18 Aug 2026 14:22:01 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-safishamsi/graphify-2026-08-18</guid>
+    </item>
+    <item>
+      <title>Diagnose (+15.3 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/mattpocock/diagnose</link>
+      <description>Trust Magnitude: 105.7 · Grade A</description>
+      <pubDate>Tue, 18 Aug 2026 14:22:01 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/diagnose-2026-08-18</guid>
+    </item>
+    <item>
+      <title>Edit Article (+15.3 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/mattpocock/edit-article</link>
+      <description>Trust Magnitude: 105.7 · Grade A</description>
+      <pubDate>Tue, 18 Aug 2026 14:22:01 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/edit-article-2026-08-18</guid>
+    </item>
+    <item>
+      <title>Obsidian Vault Manager (+15.3 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/mattpocock/obsidian-vault</link>
+      <description>Trust Magnitude: 105.7 · Grade A</description>
+      <pubDate>Tue, 18 Aug 2026 14:22:01 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/obsidian-vault-2026-08-18</guid>
+    </item>
+    <item>
+      <title>To Issues (+15.3 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/mattpocock/to-issues</link>
+      <description>Trust Magnitude: 105.7 · Grade A</description>
+      <pubDate>Tue, 18 Aug 2026 14:22:01 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/to-issues-2026-08-18</guid>
+    </item>
+    <item>
+      <title>Ubiquitous Language (+15.3 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/mattpocock/ubiquitous-language</link>
+      <description>Trust Magnitude: 105.7 · Grade A</description>
+      <pubDate>Tue, 18 Aug 2026 14:22:01 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/ubiquitous-language-2026-08-18</guid>
+    </item>
+    <item>
+      <title>Brainstorming (+15.0 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/obra/brainstorming</link>
+      <description>Trust Magnitude: 110.2 · Grade A</description>
+      <pubDate>Tue, 18 Aug 2026 14:22:01 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-obra/brainstorming-2026-08-18</guid>
+    </item>
+    <item>
+      <title>Impeccable (+15.4 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/pbakaus/impeccable</link>
+      <description>Trust Magnitude: 138.2 · Grade A</description>
+      <pubDate>Tue, 18 Aug 2026 14:22:01 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-pbakaus/impeccable-2026-08-18</guid>
+    </item>
+    <item>
+      <title>Matt Pocock Skills (+9.2 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/mattpocock/skills</link>
+      <description>Trust Magnitude: 489.4 · Grade S</description>
+      <pubDate>Tue, 18 Aug 2026 14:22:01 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-mattpocock/skills-2026-08-18</guid>
+    </item>
+    <item>
+      <title>Ruflo (+5.2 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/ruvnet/ruflo</link>
+      <description>Trust Magnitude: 487.4 · Grade S</description>
+      <pubDate>Tue, 18 Aug 2026 14:22:01 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-ruvnet/ruflo-2026-08-18</guid>
+    </item>
+    <item>
+      <title>Benchmark (+3.7 TM)</title>
+      <link>https://gaiaskilltree.com/named/#explorer/garrytan/benchmark</link>
+      <description>Trust Magnitude: 67.4 · Grade B</description>
+      <pubDate>Tue, 18 Aug 2026 14:22:01 +0000</pubDate>
+      <guid isPermaLink="false">gaia-trending-garrytan/benchmark-2026-08-18</guid>
     </item>
   </channel>
 </rss>
