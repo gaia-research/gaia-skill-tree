@@ -5,7 +5,7 @@
       "id": "firecrawl/firecrawl-skills",
       "name": "Firecrawl Skills",
       "level": "4★",
-      "trustMagnitude": 223.52,
+      "trustMagnitude": 225.7,
       "overallTrustGrade": "A",
       "contributor": "firecrawl",
       "type": "fusion",
@@ -109,9 +109,9 @@
   "topSkill": {
     "id": "firecrawl/firecrawl-skills",
     "level": "4★",
-    "trustMagnitude": 223.52
+    "trustMagnitude": 225.7
   },
-  "prestigeScore": 770.28,
+  "prestigeScore": 772.46,
   "gradeDistribution": {
     "A": 4,
     "B": 2

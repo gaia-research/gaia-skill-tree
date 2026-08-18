@@ -5,7 +5,7 @@
       "id": "addy-osmani/agent-skills",
       "name": "Agent Skills",
       "level": "5★",
-      "trustMagnitude": 293.14,
+      "trustMagnitude": 296.3,
       "overallTrustGrade": "S",
       "contributor": "addy-osmani",
       "type": "fusion",
@@ -28,43 +28,11 @@
       ]
     },
     {
-      "id": "addy-osmani/performance-optimization",
-      "name": "Performance Optimization",
-      "level": "4★",
-      "trustMagnitude": 83.2,
-      "overallTrustGrade": "B",
-      "contributor": "addy-osmani",
-      "type": "basic",
-      "branch": "unique",
-      "rankWord": "Unique",
-      "medallion": "◉",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/performance-optimization.json"
-      },
-      "genericSkillRef": "performance-tuning"
-    },
-    {
-      "id": "addy-osmani/code-review-and-quality",
-      "name": "Code Review and Quality",
-      "level": "3★",
-      "trustMagnitude": 53.14,
-      "overallTrustGrade": "B",
-      "contributor": "addy-osmani",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/code-review-and-quality.json"
-      },
-      "genericSkillRef": "code-review-pipeline"
-    },
-    {
       "id": "addy-osmani/code-simplification",
       "name": "Code Simplification",
       "level": "3★",
-      "trustMagnitude": 53.14,
-      "overallTrustGrade": "B",
+      "trustMagnitude": 196.3,
+      "overallTrustGrade": "A",
       "contributor": "addy-osmani",
       "type": "basic",
       "branch": "standard",
@@ -76,11 +44,27 @@
       "genericSkillRef": "refactor-code"
     },
     {
+      "id": "addy-osmani/performance-optimization",
+      "name": "Performance Optimization",
+      "level": "4★",
+      "trustMagnitude": 117.19,
+      "overallTrustGrade": "A",
+      "contributor": "addy-osmani",
+      "type": "basic",
+      "branch": "unique",
+      "rankWord": "Unique",
+      "medallion": "◉",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/performance-optimization.json"
+      },
+      "genericSkillRef": "performance-tuning"
+    },
+    {
       "id": "addy-osmani/incremental-implementation",
       "name": "Incremental Implementation",
       "level": "3★",
-      "trustMagnitude": 53.14,
-      "overallTrustGrade": "B",
+      "trustMagnitude": 101.3,
+      "overallTrustGrade": "A",
       "contributor": "addy-osmani",
       "type": "fusion",
       "branch": "standard",
@@ -95,8 +79,8 @@
       "id": "addy-osmani/planning-and-task-breakdown",
       "name": "Planning and Task Breakdown",
       "level": "3★",
-      "trustMagnitude": 53.14,
-      "overallTrustGrade": "B",
+      "trustMagnitude": 101.3,
+      "overallTrustGrade": "A",
       "contributor": "addy-osmani",
       "type": "fusion",
       "branch": "standard",
@@ -108,26 +92,10 @@
       "genericSkillRef": "vertical-slice-planning"
     },
     {
-      "id": "addy-osmani/shipping-and-launch",
-      "name": "Shipping and Launch",
-      "level": "3★",
-      "trustMagnitude": 53.14,
-      "overallTrustGrade": "B",
-      "contributor": "addy-osmani",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/shipping-and-launch.json"
-      },
-      "genericSkillRef": "finishing-a-development-branch"
-    },
-    {
       "id": "addy-osmani/spec-driven-development",
       "name": "Spec-Driven Development",
       "level": "3★",
-      "trustMagnitude": 53.14,
+      "trustMagnitude": 86.3,
       "overallTrustGrade": "B",
       "contributor": "addy-osmani",
       "type": "fusion",
@@ -138,6 +106,38 @@
         "self": "/api/v1/skills/addy-osmani/spec-driven-development.json"
       },
       "genericSkillRef": "prd-generation"
+    },
+    {
+      "id": "addy-osmani/code-review-and-quality",
+      "name": "Code Review and Quality",
+      "level": "3★",
+      "trustMagnitude": 56.3,
+      "overallTrustGrade": "B",
+      "contributor": "addy-osmani",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/code-review-and-quality.json"
+      },
+      "genericSkillRef": "code-review-pipeline"
+    },
+    {
+      "id": "addy-osmani/shipping-and-launch",
+      "name": "Shipping and Launch",
+      "level": "3★",
+      "trustMagnitude": 56.3,
+      "overallTrustGrade": "B",
+      "contributor": "addy-osmani",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/shipping-and-launch.json"
+      },
+      "genericSkillRef": "finishing-a-development-branch"
     },
     {
       "id": "addy-osmani/test-driven-development",
@@ -160,12 +160,13 @@
   "topSkill": {
     "id": "addy-osmani/agent-skills",
     "level": "5★",
-    "trustMagnitude": 293.14
+    "trustMagnitude": 296.3
   },
-  "prestigeScore": 731.18,
+  "prestigeScore": 1047.29,
   "gradeDistribution": {
     "S": 1,
-    "B": 7,
+    "A": 4,
+    "B": 3,
     "C": 1
   },
   "_links": {

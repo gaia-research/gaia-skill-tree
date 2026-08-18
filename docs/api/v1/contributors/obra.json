@@ -63,6 +63,22 @@
       "genericSkillRef": "using-git-worktrees"
     },
     {
+      "id": "obra/brainstorming",
+      "name": "Brainstorming",
+      "level": "3★",
+      "trustMagnitude": 110.15,
+      "overallTrustGrade": "A",
+      "contributor": "obra",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/obra/brainstorming.json"
+      },
+      "genericSkillRef": "brainstorming"
+    },
+    {
       "id": "obra/writing-plans",
       "name": "Writing Plans",
       "level": "4★",
@@ -77,22 +93,6 @@
         "self": "/api/v1/skills/obra/writing-plans.json"
       },
       "genericSkillRef": "writing-plans"
-    },
-    {
-      "id": "obra/brainstorming",
-      "name": "Brainstorming",
-      "level": "3★",
-      "trustMagnitude": 95.15,
-      "overallTrustGrade": "B",
-      "contributor": "obra",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/obra/brainstorming.json"
-      },
-      "genericSkillRef": "brainstorming"
     },
     {
       "id": "obra/executing-plans",
@@ -213,11 +213,11 @@
     "level": "5★",
     "trustMagnitude": 445.15
   },
-  "prestigeScore": 1335.2,
+  "prestigeScore": 1350.2,
   "gradeDistribution": {
     "S": 1,
-    "A": 3,
-    "B": 5,
+    "A": 4,
+    "B": 4,
     "C": 3
   },
   "_links": {

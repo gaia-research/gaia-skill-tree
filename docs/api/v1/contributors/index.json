@@ -6,9 +6,9 @@
       "topSkill": {
         "id": "garrytan/gstack",
         "level": "5★",
-        "trustMagnitude": 589.32
+        "trustMagnitude": 592.99
       },
-      "prestigeScore": 2996.5,
+      "prestigeScore": 3058.89,
       "_links": {
         "self": "/api/v1/contributors/garrytan.json"
       }
@@ -19,9 +19,9 @@
       "topSkill": {
         "id": "ruvnet/ruflo",
         "level": "5★",
-        "trustMagnitude": 482.27
+        "trustMagnitude": 487.45
       },
-      "prestigeScore": 2163.86,
+      "prestigeScore": 2170.65,
       "_links": {
         "self": "/api/v1/contributors/ruvnet.json"
       }
@@ -32,9 +32,9 @@
       "topSkill": {
         "id": "mattpocock/skills",
         "level": "5★",
-        "trustMagnitude": 480.29
+        "trustMagnitude": 489.45
       },
-      "prestigeScore": 1880.66,
+      "prestigeScore": 1980.8,
       "_links": {
         "self": "/api/v1/contributors/mattpocock.json"
       }
@@ -47,9 +47,22 @@
         "level": "5★",
         "trustMagnitude": 445.15
       },
-      "prestigeScore": 1335.2,
+      "prestigeScore": 1350.2,
       "_links": {
         "self": "/api/v1/contributors/obra.json"
+      }
+    },
+    {
+      "handle": "addy-osmani",
+      "namedSkills": 9,
+      "topSkill": {
+        "id": "addy-osmani/agent-skills",
+        "level": "5★",
+        "trustMagnitude": 296.3
+      },
+      "prestigeScore": 1047.29,
+      "_links": {
+        "self": "/api/v1/contributors/addy-osmani.json"
       }
     },
     {
@@ -58,9 +71,9 @@
       "topSkill": {
         "id": "k-dense-ai/pymc",
         "level": "4★",
-        "trustMagnitude": 197.07
+        "trustMagnitude": 146.07
       },
-      "prestigeScore": 1099.5,
+      "prestigeScore": 906.66,
       "_links": {
         "self": "/api/v1/contributors/k-dense-ai.json"
       }
@@ -71,24 +84,11 @@
       "topSkill": {
         "id": "firecrawl/firecrawl-skills",
         "level": "4★",
-        "trustMagnitude": 223.52
+        "trustMagnitude": 225.7
       },
-      "prestigeScore": 770.28,
+      "prestigeScore": 772.46,
       "_links": {
         "self": "/api/v1/contributors/firecrawl.json"
-      }
-    },
-    {
-      "handle": "addy-osmani",
-      "namedSkills": 9,
-      "topSkill": {
-        "id": "addy-osmani/agent-skills",
-        "level": "5★",
-        "trustMagnitude": 293.14
-      },
-      "prestigeScore": 731.18,
-      "_links": {
-        "self": "/api/v1/contributors/addy-osmani.json"
       }
     },
     {
@@ -97,11 +97,37 @@
       "topSkill": {
         "id": "gsd-build/get-shit-done",
         "level": "4★",
-        "trustMagnitude": 202.16
+        "trustMagnitude": 202.2
       },
-      "prestigeScore": 462.96,
+      "prestigeScore": 463.2,
       "_links": {
         "self": "/api/v1/contributors/gsd-build.json"
+      }
+    },
+    {
+      "handle": "openai",
+      "namedSkills": 2,
+      "topSkill": {
+        "id": "openai/few-shot-learning",
+        "level": "4★",
+        "trustMagnitude": 220.96
+      },
+      "prestigeScore": 320.96,
+      "_links": {
+        "self": "/api/v1/contributors/openai.json"
+      }
+    },
+    {
+      "handle": "anthropic",
+      "namedSkills": 2,
+      "topSkill": {
+        "id": "anthropic/skill-creator",
+        "level": "3★",
+        "trustMagnitude": 211.52
+      },
+      "prestigeScore": 247.52,
+      "_links": {
+        "self": "/api/v1/contributors/anthropic.json"
       }
     },
     {
@@ -115,19 +141,6 @@
       "prestigeScore": 236.56,
       "_links": {
         "self": "/api/v1/contributors/disler.json"
-      }
-    },
-    {
-      "handle": "openai",
-      "namedSkills": 2,
-      "topSkill": {
-        "id": "openai/few-shot-learning",
-        "level": "4★",
-        "trustMagnitude": 100.0
-      },
-      "prestigeScore": 200.0,
-      "_links": {
-        "self": "/api/v1/contributors/openai.json"
       }
     },
     {
@@ -157,6 +170,32 @@
       }
     },
     {
+      "handle": "safishamsi",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "safishamsi/graphify",
+        "level": "4★",
+        "trustMagnitude": 147.68
+      },
+      "prestigeScore": 147.68,
+      "_links": {
+        "self": "/api/v1/contributors/safishamsi.json"
+      }
+    },
+    {
+      "handle": "pbakaus",
+      "namedSkills": 1,
+      "topSkill": {
+        "id": "pbakaus/impeccable",
+        "level": "4★",
+        "trustMagnitude": 138.25
+      },
+      "prestigeScore": 138.25,
+      "_links": {
+        "self": "/api/v1/contributors/pbakaus.json"
+      }
+    },
+    {
       "handle": "mvanhorn",
       "namedSkills": 1,
       "topSkill": {
@@ -170,29 +209,16 @@
       }
     },
     {
-      "handle": "anthropic",
-      "namedSkills": 2,
-      "topSkill": {
-        "id": "anthropic/skill-creator",
-        "level": "3★",
-        "trustMagnitude": 90.0
-      },
-      "prestigeScore": 126.0,
-      "_links": {
-        "self": "/api/v1/contributors/anthropic.json"
-      }
-    },
-    {
-      "handle": "pbakaus",
+      "handle": "huggingface",
       "namedSkills": 1,
       "topSkill": {
-        "id": "pbakaus/impeccable",
-        "level": "4★",
-        "trustMagnitude": 122.8
+        "id": "huggingface/semantic-cache",
+        "level": "2★",
+        "trustMagnitude": 125.46
       },
-      "prestigeScore": 122.8,
+      "prestigeScore": 125.46,
       "_links": {
-        "self": "/api/v1/contributors/pbakaus.json"
+        "self": "/api/v1/contributors/huggingface.json"
       }
     },
     {
@@ -209,27 +235,14 @@
       }
     },
     {
-      "handle": "safishamsi",
-      "namedSkills": 1,
-      "topSkill": {
-        "id": "safishamsi/graphify",
-        "level": "4★",
-        "trustMagnitude": 116.57
-      },
-      "prestigeScore": 116.57,
-      "_links": {
-        "self": "/api/v1/contributors/safishamsi.json"
-      }
-    },
-    {
       "handle": "dietrichgebert",
       "namedSkills": 1,
       "topSkill": {
         "id": "dietrichgebert/ponytail",
         "level": "4★",
-        "trustMagnitude": 102.79
+        "trustMagnitude": 102.49
       },
-      "prestigeScore": 102.79,
+      "prestigeScore": 102.49,
       "_links": {
         "self": "/api/v1/contributors/dietrichgebert.json"
       }
@@ -362,19 +375,6 @@
       "prestigeScore": 36.0,
       "_links": {
         "self": "/api/v1/contributors/getagentseal.json"
-      }
-    },
-    {
-      "handle": "huggingface",
-      "namedSkills": 1,
-      "topSkill": {
-        "id": "huggingface/semantic-cache",
-        "level": "2★",
-        "trustMagnitude": 36.0
-      },
-      "prestigeScore": 36.0,
-      "_links": {
-        "self": "/api/v1/contributors/huggingface.json"
       }
     },
     {

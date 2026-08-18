@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-17",
+  "generatedAt": "2026-08-18",
   "buckets": {
     "automated-testing": [
       {
@@ -283,7 +283,7 @@
           }
         ],
         "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 63.73,
+        "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "63fd36d9ca424ed4f47afde8469abea3a4c9103503b246b41f6adfe9db11c294",
         "apexGateStatus": {
@@ -571,7 +571,7 @@
           "addy-osmani/spec-driven-development",
           "addy-osmani/test-driven-development"
         ],
-        "trustMagnitude": 293.14,
+        "trustMagnitude": 296.3,
         "overallTrustGrade": "S",
         "trustMagnitudeInputHash": "328510a733654dd48aa9af8b91b72de65f27baa1665a5afb720b3548f5c4e477",
         "apexGateStatus": {
@@ -771,7 +771,7 @@
           "gsd-build/ship",
           "gsd-build/verify-work"
         ],
-        "trustMagnitude": 202.16,
+        "trustMagnitude": 202.2,
         "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "e97616a7dfa339c7a99c95043b951f9b9a049190bc6ea5aacf7ab550d93cdf48",
         "apexGateStatus": {
@@ -909,7 +909,7 @@
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
-        "trustMagnitude": 53.14,
+        "trustMagnitude": 56.3,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "1357157b24cb4c415ada4f22940663a7c19cab2b5ad55cbcfdbd522603d6a445",
         "apexGateStatus": {
@@ -1156,7 +1156,7 @@
           }
         ],
         "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 63.73,
+        "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "01c47f17582b841ffc7336c127bad10ea656673ce009b841afa47e18ffefd3a2",
         "apexGateStatus": {
@@ -1399,8 +1399,8 @@
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
-        "trustMagnitude": 53.14,
-        "overallTrustGrade": "B",
+        "trustMagnitude": 196.3,
+        "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "2e1638f36946942de2f3ac486132612234c55b29335037d455c05bfab91e616a",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -1631,7 +1631,7 @@
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
           }
         ],
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 5.0,
         "overallTrustGrade": "ungraded",
         "trustMagnitudeInputHash": "0f0996b49ad31fcf8aa6fc46dd24bdaf0b90c02ac0b206fc77215f094a263b01",
         "apexGateStatus": {
@@ -1959,8 +1959,8 @@
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
-        "trustMagnitude": 53.14,
-        "overallTrustGrade": "B",
+        "trustMagnitude": 101.3,
+        "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "2740413bf1805f07868604003c1d0223b68fd988a7f503cec6cb4d528de851ed",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -2084,7 +2084,7 @@
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
           }
         ],
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 5.0,
         "overallTrustGrade": "ungraded",
         "trustMagnitudeInputHash": "8e7f70de077103de425ca1ea8ff4b8afeef6d848874306414e47679def4d3383",
         "apexGateStatus": {
@@ -2240,8 +2240,8 @@
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
-        "trustMagnitude": 83.2,
-        "overallTrustGrade": "B",
+        "trustMagnitude": 117.19,
+        "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "32dbe25f29d47c797933a404beeec42d5f9e81254e88df6a574205f2153637a6",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -2678,8 +2678,8 @@
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
-        "trustMagnitude": 53.14,
-        "overallTrustGrade": "B",
+        "trustMagnitude": 101.3,
+        "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "1efb6a18a406cee1cf25e7d35c588008ee5b652b53acd65a0dfb1d0392c4776e",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -2832,8 +2832,8 @@
           }
         ],
         "suiteRef": "mattpocock/engineering",
-        "trustMagnitude": 90.38,
-        "overallTrustGrade": "B",
+        "trustMagnitude": 105.68,
+        "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "848d74165305557c250a81ef7bdaa739c61a32f9474a7823d247db12b83549d7",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -2969,7 +2969,7 @@
           }
         ],
         "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 63.73,
+        "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "cd424c47cab4fab0d5809899aa0fa439b80ed5db43075612b29ce4fb0555bde9",
         "apexGateStatus": {
@@ -3100,7 +3100,7 @@
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
-        "trustMagnitude": 53.14,
+        "trustMagnitude": 56.3,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "4cab31dd5d68c254b5cb459e5e04b29d0d65f92fbb48317072c57c1787795c51",
         "apexGateStatus": {
@@ -3238,7 +3238,7 @@
           }
         ],
         "suiteRef": "gsd-build/get-shit-done",
-        "trustMagnitude": 52.16,
+        "trustMagnitude": 52.2,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "3dfda9583775f46f9fcc81ddbbed752729906411f811523152e48513c443a2b5",
         "apexGateStatus": {
@@ -3676,7 +3676,7 @@
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
-        "trustMagnitude": 53.14,
+        "trustMagnitude": 86.3,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "ad81871fb5a557792a021b4ce9cd1c5888b54c597b5975a57a15694cc9d35c69",
         "apexGateStatus": {
@@ -3911,7 +3911,7 @@
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
           }
         ],
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 14.0,
         "overallTrustGrade": "ungraded",
         "trustMagnitudeInputHash": "d7d632fa44c2bd582cc54450b4ab1fb67f99ab0c45901759666ff3e40f239fee",
         "apexGateStatus": {
@@ -4048,7 +4048,7 @@
           }
         ],
         "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 63.73,
+        "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "9a183ef2d178af58b29d15dddffe7a618a3bfa827b6e3594f4aa80c48f6e428c",
         "apexGateStatus": {
@@ -4206,8 +4206,8 @@
           }
         ],
         "suiteRef": "mattpocock/personal",
-        "trustMagnitude": 90.38,
-        "overallTrustGrade": "B",
+        "trustMagnitude": 105.68,
+        "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "991dc9dc09633b202ec9657470e5c24b81e22590d0e1f97f4b73cfe4d59376d9",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -4546,8 +4546,8 @@
             "details": "Added evidence from https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard (type: benchmark-result)"
           }
         ],
-        "trustMagnitude": 90.0,
-        "overallTrustGrade": "B",
+        "trustMagnitude": 211.52,
+        "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "3592919611bbbcfc966da0c18437884dd159bd12c456e8a040f74478585295c9",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -6409,8 +6409,8 @@
           }
         ],
         "suiteRef": "mattpocock/engineering",
-        "trustMagnitude": 90.38,
-        "overallTrustGrade": "B",
+        "trustMagnitude": 105.68,
+        "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "4bc1966f539e634f304282dbaa5f91ab0f894c0d45971725a69e36bd9a21b9de",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -6671,7 +6671,7 @@
         "type": "basic",
         "installBody": "Add installation instructions here.",
         "role": "variant",
-        "trustMagnitude": 102.79,
+        "trustMagnitude": 102.49,
         "overallTrustGrade": "A",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -6766,7 +6766,7 @@
         "type": "basic",
         "installBody": "Add installation instructions here.",
         "role": "variant",
-        "trustMagnitude": 2.49,
+        "trustMagnitude": 2.19,
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -6871,7 +6871,7 @@
         "installBody": "Add installation instructions here.",
         "role": "origin",
         "trustMagnitude": 127.54,
-        "overallTrustGrade": "C",
+        "overallTrustGrade": "A",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -8595,7 +8595,7 @@
           "firecrawl/firecrawl-build-search",
           "firecrawl/firecrawl-research-index"
         ],
-        "trustMagnitude": 223.52,
+        "trustMagnitude": 225.7,
         "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "bc865a773c50df9fe80e056b41575039c7bf61f6b8ce2122a55da282b280e464",
         "apexGateStatus": {
@@ -9318,7 +9318,7 @@
           }
         ],
         "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 63.73,
+        "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "0643b2928c2c22d4d97a3152e13a990e84f7d2fa620a3aeed50710b281711d67",
         "apexGateStatus": {
@@ -9446,7 +9446,7 @@
           }
         ],
         "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 63.73,
+        "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "0bce47e22aff478fc093dec7749a34290ea0c1ebc7f300ca702bbbeb67e85c98",
         "apexGateStatus": {
@@ -9576,7 +9576,7 @@
           }
         ],
         "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 63.73,
+        "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "ff7df02acc13f47113e1a53168d602761c35bc07d468f00b25fc149d335ef7bd",
         "apexGateStatus": {
@@ -10098,7 +10098,7 @@
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
           }
         ],
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 5.0,
         "overallTrustGrade": "ungraded",
         "trustMagnitudeInputHash": "e6cba724ab46e5f9079c9be9a8bf7d654d8ae2f788ea091ec200339afbe7e275",
         "apexGateStatus": {
@@ -10223,7 +10223,7 @@
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
           }
         ],
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 5.0,
         "overallTrustGrade": "ungraded",
         "trustMagnitudeInputHash": "cb6fefdbfe4c11bc6c71d908e0e19fa9cebcbad077152a66a87c79153a3722c2",
         "apexGateStatus": {
@@ -10829,7 +10829,7 @@
           }
         ],
         "suiteRef": "garrytan/garrytan",
-        "trustMagnitude": 63.73,
+        "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "1e1cdd622594fd26dd72c63d6112ddec0053a8552ee44814c7d55df7b9a3ad3a",
         "apexGateStatus": {
@@ -11157,7 +11157,7 @@
           }
         ],
         "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 63.73,
+        "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "59476342421b329329fedf5a7402082e6eafba26e7d288945c00dbe1658deac8",
         "apexGateStatus": {
@@ -11361,7 +11361,7 @@
             "migrationBatch": "yggdrasil-ii@2026-07-20"
           }
         ],
-        "trustMagnitude": 122.8,
+        "trustMagnitude": 138.25,
         "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "9d41d4da90c59573d1f77d42c4e89ee8a23cc30a35f2597ccb03394eab2e67ef",
         "apexGateStatus": {
@@ -11604,7 +11604,7 @@
           }
         ],
         "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 63.73,
+        "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "be5820a8cdc5f8160520bfaaa0277ddfb4ac8179b0cfe83687a7e96e322a46e1",
         "apexGateStatus": {
@@ -11728,7 +11728,7 @@
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
           }
         ],
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 5.0,
         "overallTrustGrade": "ungraded",
         "trustMagnitudeInputHash": "1c442c52cddd24686fa12753d84d52636d6e1787a5e47fbe24d62fc6d18865b3",
         "apexGateStatus": {
@@ -12008,7 +12008,7 @@
           }
         ],
         "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 63.73,
+        "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "077448b384430d9756cc6e630c18eb8abe15357559b9526ceb4af5343e39128e",
         "apexGateStatus": {
@@ -12136,7 +12136,7 @@
           }
         ],
         "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 63.73,
+        "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "8580d33277a7f70df855307ee67342509cdefd5d675f6230a7276d50a5823456",
         "apexGateStatus": {
@@ -12667,7 +12667,7 @@
           "garrytan/sync-gbrain",
           "garrytan/unfreeze"
         ],
-        "trustMagnitude": 589.32,
+        "trustMagnitude": 592.99,
         "overallTrustGrade": "S",
         "trustMagnitudeInputHash": "1487c2042544e947cfda07cc8779022ed8747a69c3dfac8c1ec225b1400389fc",
         "apexGateStatus": {
@@ -12808,7 +12808,7 @@
           }
         ],
         "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 63.73,
+        "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "3197d16ad889cab97d211ef4fc622f420478b7435caa0a0fa12025f85f5e8d31",
         "apexGateStatus": {
@@ -13080,7 +13080,7 @@
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
           }
         ],
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 5.0,
         "overallTrustGrade": "ungraded",
         "trustMagnitudeInputHash": "b369ca8ab8a86b95888e79d9b1b934316367dfab97cc323e46eefa120a472215",
         "apexGateStatus": {
@@ -13211,7 +13211,7 @@
           }
         ],
         "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 63.73,
+        "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "77e3bde2ec82007386e2e77a793366528526bf578a9d9b0e1ce61d096a2e9330",
         "apexGateStatus": {
@@ -14632,7 +14632,7 @@
           }
         ],
         "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 63.73,
+        "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "16c58e0915bb3377d6fe7b76b2809103af83e02de4692c72a948868f55b737c5",
         "apexGateStatus": {
@@ -15538,8 +15538,8 @@
             "details": "I13 classify: status promoted from awakened to named (evidence floor met: repo-own B + self-attestation C)"
           }
         ],
-        "trustMagnitude": 0.0,
-        "overallTrustGrade": "ungraded",
+        "trustMagnitude": 44.48,
+        "overallTrustGrade": "C",
         "trustMagnitudeInputHash": "d89e707515e393b229cbf8e69f51a6ea4ba8820d07009fe1b715587ceb20caaa",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -15668,7 +15668,7 @@
           }
         ],
         "suiteRef": "garrytan/gstack",
-        "trustMagnitude": 63.73,
+        "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "afde557e68445b1914b3438d0cb5ddddd3747dd07f7ed534d6c19175782ce141",
         "apexGateStatus": {
@@ -15792,7 +15792,7 @@
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
           }
         ],
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 5.0,
         "overallTrustGrade": "ungraded",
         "trustMagnitudeInputHash": "265e473bf86b49b889d12de7a1f768be9ad27207ef91767d27627878b41f0cd2",
         "apexGateStatus": {
@@ -15917,7 +15917,7 @@
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
           }
         ],
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 5.0,
         "overallTrustGrade": "ungraded",
         "trustMagnitudeInputHash": "854f0f32706bc1453786631d754def26a41ab6fc472a78d286a98b264023a5e6",
         "apexGateStatus": {
@@ -16168,8 +16168,8 @@
           }
         ],
         "suiteRef": "obra/superpowers",
-        "trustMagnitude": 95.15,
-        "overallTrustGrade": "B",
+        "trustMagnitude": 110.15,
+        "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "c4bb503427298e66e85aef80869d5aaf4fa8f1286f98ae55fe1f9122c7660fc0",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -16311,7 +16311,7 @@
           }
         ],
         "suiteRef": "gsd-build/get-shit-done",
-        "trustMagnitude": 52.16,
+        "trustMagnitude": 52.2,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "78c3dfe9a70a59107cb53569c9d1eae4d63f2f18065557262679b776374b6b3f",
         "apexGateStatus": {
@@ -16673,7 +16673,7 @@
           }
         ],
         "suiteRef": "gsd-build/get-shit-done",
-        "trustMagnitude": 52.16,
+        "trustMagnitude": 52.2,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "85790c7452b97aaf2c601aae7c269c068b80a1697e66c723885c54462b9760a2",
         "apexGateStatus": {
@@ -17149,7 +17149,7 @@
           }
         ],
         "suiteRef": "gsd-build/get-shit-done",
-        "trustMagnitude": 52.16,
+        "trustMagnitude": 52.2,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "c2bfc8b438f3eb3184a5029e752e30d498c8365387ef64ba650d8f1a45f56a75",
         "apexGateStatus": {
@@ -17452,7 +17452,7 @@
           }
         ],
         "suiteRef": "gsd-build/get-shit-done",
-        "trustMagnitude": 52.16,
+        "trustMagnitude": 52.2,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "82901c4550a6c52331a59859de0992849e1c957f9c721b4f85aefe3c56c86284",
         "apexGateStatus": {
@@ -18034,8 +18034,8 @@
             "details": "Added evidence from https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard (type: benchmark-result)"
           }
         ],
-        "trustMagnitude": 36.0,
-        "overallTrustGrade": "C",
+        "trustMagnitude": 125.46,
+        "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "218c09e58c2261c5210efad6f857a14f94bb2f35051476ca0207c34654dd5904",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -18773,7 +18773,7 @@
         "type": "fusion",
         "installBody": "Add installation instructions here.",
         "role": "variant",
-        "trustMagnitude": 167.07,
+        "trustMagnitude": 137.07,
         "overallTrustGrade": "A",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -18878,7 +18878,7 @@
         "type": "basic",
         "installBody": "Add installation instructions here.",
         "role": "variant",
-        "trustMagnitude": 197.07,
+        "trustMagnitude": 146.07,
         "overallTrustGrade": "A",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -19084,8 +19084,8 @@
         "type": "basic",
         "installBody": "Add installation instructions here.",
         "role": "variant",
-        "trustMagnitude": 111.87,
-        "overallTrustGrade": "A",
+        "trustMagnitude": 93.03,
+        "overallTrustGrade": "B",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -19280,7 +19280,7 @@
         "type": "basic",
         "installBody": "Add installation instructions here.",
         "role": "variant",
-        "trustMagnitude": 97.07,
+        "trustMagnitude": 76.07,
         "overallTrustGrade": "B",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -19476,7 +19476,7 @@
         "type": "fusion",
         "installBody": "Add installation instructions here.",
         "role": "variant",
-        "trustMagnitude": 97.07,
+        "trustMagnitude": 76.07,
         "overallTrustGrade": "B",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -19577,7 +19577,7 @@
         "type": "fusion",
         "installBody": "Add installation instructions here.",
         "role": "variant",
-        "trustMagnitude": 167.07,
+        "trustMagnitude": 137.07,
         "overallTrustGrade": "A",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -19682,7 +19682,7 @@
         "type": "fusion",
         "installBody": "Add installation instructions here.",
         "role": "variant",
-        "trustMagnitude": 97.07,
+        "trustMagnitude": 76.07,
         "overallTrustGrade": "B",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -20220,7 +20220,7 @@
             "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/ask-matt/SKILL.md"
           }
         ],
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 5.0,
         "overallTrustGrade": "ungraded",
         "trustMagnitudeInputHash": "ac7e99815540d5245b73b80a00d5ff8da9c3a86c47f30dadd666fc8e27ad0b44",
         "apexGateStatus": {
@@ -20347,7 +20347,7 @@
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
           }
         ],
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 5.0,
         "overallTrustGrade": "ungraded",
         "trustMagnitudeInputHash": "5a285ad4ce39781560b51ab109e896053606239fe117082494fc6bd73efef651",
         "apexGateStatus": {
@@ -20474,7 +20474,7 @@
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
           }
         ],
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 5.0,
         "overallTrustGrade": "ungraded",
         "trustMagnitudeInputHash": "bc5ec5dd81c68a4dff4ca35904c2f354607682706d72525b41a36c3e6ec25acd",
         "apexGateStatus": {
@@ -21186,8 +21186,8 @@
           }
         ],
         "suiteRef": "mattpocock/personal",
-        "trustMagnitude": 90.38,
-        "overallTrustGrade": "B",
+        "trustMagnitude": 105.68,
+        "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "a7ba764dc6d2a5d586b7773dd6f99205775a5fc6221851ffe43470f841373e6e",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -21327,8 +21327,8 @@
           "mattpocock/handoff",
           "mattpocock/write-a-skill"
         ],
-        "trustMagnitude": 120.0,
-        "overallTrustGrade": "A",
+        "trustMagnitude": 90.0,
+        "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "aa642025793e17cfcbb52c5a22e59c701ec8ac599342bec37e02979bf496e192",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -21679,7 +21679,7 @@
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
           }
         ],
-        "trustMagnitude": 0.0,
+        "trustMagnitude": 5.0,
         "overallTrustGrade": "ungraded",
         "trustMagnitudeInputHash": "d31d6dd3c0c78cbe391add61a21cff15dc0ac02eba367cebb5a1ad96eced2419",
         "apexGateStatus": {
@@ -21902,7 +21902,7 @@
           "mattpocock/write-a-skill",
           "mattpocock/zoom-out"
         ],
-        "trustMagnitude": 480.29,
+        "trustMagnitude": 489.45,
         "overallTrustGrade": "S",
         "trustMagnitudeInputHash": "349d174f8f94cd100299e12ac72dde50e45702118e3e22c9d36cf4091e48f522",
         "apexGateStatus": {
@@ -22257,8 +22257,8 @@
           }
         ],
         "suiteRef": "mattpocock/engineering",
-        "trustMagnitude": 90.38,
-        "overallTrustGrade": "B",
+        "trustMagnitude": 105.68,
+        "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "93c720242a46b215789bae724573d16cd95c9b5acb9a4ed1a137fa308cdb34f8",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -24381,7 +24381,7 @@
             "migrationBatch": "yggdrasil-ii@2026-07-20"
           }
         ],
-        "trustMagnitude": 100.0,
+        "trustMagnitude": 220.96,
         "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "408d42e006dd910b5242b50e03126276ff7961527565125dd179b17b8cfb14dd",
         "apexGateStatus": {
@@ -27336,7 +27336,7 @@
           }
         ],
         "suiteRef": "ruvnet/ruflo",
-        "trustMagnitude": 96.09,
+        "trustMagnitude": 97.7,
         "overallTrustGrade": "B",
         "trustMagnitudeInputHash": "5198a4f070e375309b15820509f885ed2476684a5532a19d63aa1af6883579fc",
         "apexGateStatus": {
@@ -28006,7 +28006,7 @@
           "ruvnet/worker-benchmarks",
           "ruvnet/worker-integration"
         ],
-        "trustMagnitude": 482.27,
+        "trustMagnitude": 487.45,
         "overallTrustGrade": "S",
         "trustMagnitudeInputHash": "490f123ef91fa042713964e1a8ff96a6da965a81539693e3c33e3237b823eaf2",
         "apexGateStatus": {
@@ -28925,7 +28925,7 @@
             "migrationBatch": "yggdrasil-ii@2026-07-20"
           }
         ],
-        "trustMagnitude": 116.57,
+        "trustMagnitude": 147.68,
         "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "ae90ab68d4801463666f7bd7e7c88a76e5d8f530513b89a05c4073ebbafdd701",
         "apexGateStatus": {

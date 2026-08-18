@@ -5,7 +5,7 @@
       "id": "openai/few-shot-learning",
       "name": "Few-Shot Learning",
       "level": "4★",
-      "trustMagnitude": 100.0,
+      "trustMagnitude": 220.96,
       "overallTrustGrade": "A",
       "contributor": "openai",
       "type": "basic",
@@ -38,9 +38,9 @@
   "topSkill": {
     "id": "openai/few-shot-learning",
     "level": "4★",
-    "trustMagnitude": 100.0
+    "trustMagnitude": 220.96
   },
-  "prestigeScore": 200.0,
+  "prestigeScore": 320.96,
   "gradeDistribution": {
     "A": 2
   },

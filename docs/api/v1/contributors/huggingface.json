@@ -5,8 +5,8 @@
       "id": "huggingface/semantic-cache",
       "name": "Semantic Cache",
       "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
+      "trustMagnitude": 125.46,
+      "overallTrustGrade": "A",
       "contributor": "huggingface",
       "type": "basic",
       "branch": "standard",
@@ -22,11 +22,11 @@
   "topSkill": {
     "id": "huggingface/semantic-cache",
     "level": "2★",
-    "trustMagnitude": 36.0
+    "trustMagnitude": 125.46
   },
-  "prestigeScore": 36.0,
+  "prestigeScore": 125.46,
   "gradeDistribution": {
-    "C": 1
+    "A": 1
   },
   "_links": {
     "self": "/api/v1/contributors/huggingface.json",

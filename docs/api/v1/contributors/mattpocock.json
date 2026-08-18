@@ -5,7 +5,7 @@
       "id": "mattpocock/skills",
       "name": "Matt Pocock Skills",
       "level": "5★",
-      "trustMagnitude": 480.29,
+      "trustMagnitude": 489.45,
       "overallTrustGrade": "S",
       "contributor": "mattpocock",
       "type": "fusion",
@@ -66,32 +66,11 @@
       ]
     },
     {
-      "id": "mattpocock/productivity",
-      "name": "Productivity",
-      "level": "4★",
-      "trustMagnitude": 120.0,
-      "overallTrustGrade": "A",
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/productivity.json"
-      },
-      "genericSkillRef": "productivity",
-      "suiteComponents": [
-        "mattpocock/grill-me",
-        "mattpocock/handoff",
-        "mattpocock/write-a-skill"
-      ]
-    },
-    {
       "id": "mattpocock/diagnose",
       "name": "Diagnose",
       "level": "3★",
-      "trustMagnitude": 90.38,
-      "overallTrustGrade": "B",
+      "trustMagnitude": 105.68,
+      "overallTrustGrade": "A",
       "contributor": "mattpocock",
       "type": "fusion",
       "branch": "standard",
@@ -106,8 +85,8 @@
       "id": "mattpocock/edit-article",
       "name": "Edit Article",
       "level": "3★",
-      "trustMagnitude": 90.38,
-      "overallTrustGrade": "B",
+      "trustMagnitude": 105.68,
+      "overallTrustGrade": "A",
       "contributor": "mattpocock",
       "type": "basic",
       "branch": "standard",
@@ -122,8 +101,8 @@
       "id": "mattpocock/obsidian-vault",
       "name": "Obsidian Vault Manager",
       "level": "3★",
-      "trustMagnitude": 90.38,
-      "overallTrustGrade": "B",
+      "trustMagnitude": 105.68,
+      "overallTrustGrade": "A",
       "contributor": "mattpocock",
       "type": "fusion",
       "branch": "standard",
@@ -138,8 +117,8 @@
       "id": "mattpocock/to-issues",
       "name": "To Issues",
       "level": "3★",
-      "trustMagnitude": 90.38,
-      "overallTrustGrade": "B",
+      "trustMagnitude": 105.68,
+      "overallTrustGrade": "A",
       "contributor": "mattpocock",
       "type": "fusion",
       "branch": "standard",
@@ -154,8 +133,8 @@
       "id": "mattpocock/ubiquitous-language",
       "name": "Ubiquitous Language",
       "level": "3★",
-      "trustMagnitude": 90.38,
-      "overallTrustGrade": "B",
+      "trustMagnitude": 105.68,
+      "overallTrustGrade": "A",
       "contributor": "mattpocock",
       "type": "fusion",
       "branch": "standard",
@@ -165,6 +144,27 @@
         "self": "/api/v1/skills/mattpocock/ubiquitous-language.json"
       },
       "genericSkillRef": "ubiquitous-language"
+    },
+    {
+      "id": "mattpocock/productivity",
+      "name": "Productivity",
+      "level": "4★",
+      "trustMagnitude": 90.0,
+      "overallTrustGrade": "B",
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/productivity.json"
+      },
+      "genericSkillRef": "productivity",
+      "suiteComponents": [
+        "mattpocock/grill-me",
+        "mattpocock/handoff",
+        "mattpocock/write-a-skill"
+      ]
     },
     {
       "id": "mattpocock/grill-me",
@@ -315,6 +315,22 @@
       "genericSkillRef": "tool-creation"
     },
     {
+      "id": "mattpocock/teach",
+      "name": "Teach",
+      "level": "2★",
+      "trustMagnitude": 44.48,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/teach.json"
+      },
+      "genericSkillRef": "knowledge-management"
+    },
+    {
       "id": "mattpocock/prototype",
       "name": "Prototype",
       "level": "2★",
@@ -329,37 +345,20 @@
         "self": "/api/v1/skills/mattpocock/prototype.json"
       },
       "genericSkillRef": "prototype"
-    },
-    {
-      "id": "mattpocock/teach",
-      "name": "Teach",
-      "level": "2★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": "ungraded",
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/teach.json"
-      },
-      "genericSkillRef": "knowledge-management"
     }
   ],
   "namedSkillsCount": 19,
   "topSkill": {
     "id": "mattpocock/skills",
     "level": "5★",
-    "trustMagnitude": 480.29
+    "trustMagnitude": 489.45
   },
-  "prestigeScore": 1880.66,
+  "prestigeScore": 1980.8,
   "gradeDistribution": {
     "S": 1,
-    "A": 2,
-    "B": 12,
-    "C": 3,
-    "ungraded": 1
+    "A": 6,
+    "B": 8,
+    "C": 4
   },
   "_links": {
     "self": "/api/v1/contributors/mattpocock.json",

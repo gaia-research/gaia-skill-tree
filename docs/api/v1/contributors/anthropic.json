@@ -5,8 +5,8 @@
       "id": "anthropic/skill-creator",
       "name": "Skill Creator",
       "level": "3★",
-      "trustMagnitude": 90.0,
-      "overallTrustGrade": "B",
+      "trustMagnitude": 211.52,
+      "overallTrustGrade": "A",
       "contributor": "anthropic",
       "type": "fusion",
       "branch": "standard",
@@ -38,11 +38,11 @@
   "topSkill": {
     "id": "anthropic/skill-creator",
     "level": "3★",
-    "trustMagnitude": 90.0
+    "trustMagnitude": 211.52
   },
-  "prestigeScore": 126.0,
+  "prestigeScore": 247.52,
   "gradeDistribution": {
-    "B": 1,
+    "A": 1,
     "C": 1
   },
   "_links": {
