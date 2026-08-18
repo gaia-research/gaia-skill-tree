@@ -450,7 +450,11 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config):
     """
     from gaia_cli.grading import overall_trust_grade, check_ultimate_gate
     from gaia_cli.evidence import inherited_evidence
-    from gaia_cli.trustMagnitude import computeTrustMagnitude, passesSuiteApexGate
+    from gaia_cli.trustMagnitude import (
+        computeTrustMagnitude,
+        computeTrustMagnitudeInputHash,
+        passesSuiteApexGate,
+    )
 
     def _effective(entry):
         generic_node = generic_skills_map.get(entry.get("genericSkillRef"))
@@ -468,11 +472,22 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config):
                 "suiteComponents": entry.get("suiteComponents"),
             }
 
-    # Build a named-skill lookup for apex gate predicate resolution
+    # Build a named-skill lookup for apex gate predicate resolution.
+    #
+    # Strip the display-only `role` key ("origin"/"variant", injected by
+    # role_for_entry() in validate_and_group() to mark which bucket entry is
+    # the champion shown first in the UI) before storing. _gradedOriginCount
+    # (RFC §C-2) also reads a `role` field, but its "variant" there means
+    # something unrelated (a reclassified/redirected duplicate skill, not
+    # "not this bucket's champion") — leaking the display role through this
+    # map silently zeroed out every non-champion suiteComponents origin's
+    # contribution to the graded-origin count, undercounting fusion recipes
+    # with many components down to a fraction of their real Trust Magnitude.
+    # See PR retro 2026-08-18 (Hall of Heroes TM drift investigation).
     named_skill_map = {}
     for _ref, entries in buckets.items():
         for entry in entries:
-            named_skill_map[entry["id"]] = entry
+            named_skill_map[entry["id"]] = {k: v for k, v in entry.items() if k != "role"}
 
     for _ref, entries in buckets.items():
         for entry in entries:
@@ -484,11 +499,20 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config):
             # correctly. Only recompute when the frontmatter is missing or when the
             # input hash mismatches (i.e. the migration hasn't caught up to a
             # registry change yet). See Issue #755.
+            #
+            # The hash check itself was previously a no-op — this branch trusted
+            # any present trustMagnitude/overallTrustGrade unconditionally, so an
+            # evidence edit that never re-ran migrateTrustMagnitude.py left the
+            # generated docs/graph/named/index.json (and the Hall of Heroes cards
+            # that read it) serving a frozen, stale TM forever. See PR retro
+            # 2026-08-18: Hall of Heroes TM drifted from the live registry state.
             fm_tm = entry.get("trustMagnitude")
             fm_grade = entry.get("overallTrustGrade")
+            fm_hash = entry.get("trustMagnitudeInputHash")
+            currentHash = computeTrustMagnitudeInputHash(entry)
 
             skill_with_effective = {**entry, "evidence": effective}
-            if fm_tm is not None and fm_grade is not None:
+            if fm_tm is not None and fm_grade is not None and fm_hash == currentHash:
                 # Trust the frontmatter — propagate to index unchanged.
                 entry["trustMagnitude"] = round(float(fm_tm), 2)
                 entry["overallTrustGrade"] = fm_grade
@@ -497,12 +521,22 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config):
                 # Pre-merge namedSkillMap so suite-component origin IDs
                 # (e.g. "gsd-build/discuss-phase") resolve in _gradedOriginCount.
                 merged_map = {**generic_skills_map, **named_skill_map}
-                tm = computeTrustMagnitude(skill_with_effective, merged_map)
+                # computeTrustMagnitude/overall_trust_grade resolve the
+                # effective (own ∪ inherited) evidence pool themselves via
+                # _effectivePool — that's what every other caller (the Trust
+                # Magnitude ledger, leaderboard, migration script, inspector)
+                # passes in: the raw entry, not a pre-merged one. Passing
+                # skill_with_effective here re-applies effective-pool
+                # resolution on top of an already-merged pool, silently
+                # double-counting inherited rows and inflating (or, via grade
+                # diversity-gate side effects, sometimes deflating) the score
+                # relative to every other TM pipeline in the codebase.
+                tm = computeTrustMagnitude(entry, merged_map)
                 entry["trustMagnitude"] = round(tm, 2)
                 grade = overall_trust_grade(
                     effective,
-                    skill=skill_with_effective,
-                    generic_skill_map=generic_skills_map,
+                    skill=entry,
+                    generic_skill_map=merged_map,
                 )
                 if grade is not None:
                     entry["overallTrustGrade"] = grade

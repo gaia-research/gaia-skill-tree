@@ -21,6 +21,7 @@ I1's schema fields land in registry/named/ markdown frontmatter.
 from __future__ import annotations
 
 import datetime
+import hashlib
 import math
 from typing import Any, Optional
 
@@ -671,6 +672,55 @@ def enforceAntiAutoMint(skill: dict) -> list[dict]:
             continue
         cleaned.append(row)
     return cleaned
+
+
+def computeTrustMagnitudeInputHash(skill: dict) -> str:
+    """Stable hash of (skillId + sorted evidence row keys + suiteComponents).
+
+    Used to detect whether a skill's frozen `trustMagnitude`/`overallTrustGrade`
+    frontmatter (written once by the I3 migration, see
+    scripts/archive/migrateTrustMagnitude.py) is still valid, or whether the
+    evidence backing it has since changed and the value must be recomputed.
+    Covers every numeric payload field that drives the TM computation per row
+    (commits, contributors, stars, views, origins, percentile, citations,
+    reviewers, gradedOriginCount, skillCountInRepo, externalStars, verifiers)
+    plus suiteComponents, since adding suite components auto-derives a
+    fusion-recipe row worth hundreds of TM points.
+    """
+    sid = skill.get("id") or ""
+    rows = []
+    for r in skill.get("evidence") or []:
+        if not isinstance(r, dict):
+            continue
+        source = r.get("source") or r.get("url") or ""
+        evType = r.get("type") or ""
+        grade = r.get("grade") or ""
+        commits = str(r.get("commits") or 0)
+        contributors = str(r.get("contributors") or 0)
+        stars = str(r.get("stars") or 0)
+        views = str(r.get("views") or 0)
+        originsVal = r.get("origins")
+        originsHash = str(len(originsVal)) if isinstance(originsVal, list) else str(originsVal or 0)
+        percentile = str(r.get("percentile") or 0)
+        citations = str(r.get("citations") or 0)
+        reviewers = str(r.get("reviewers") or 0)
+        gradedOriginCount = str(r.get("gradedOriginCount") or 0)
+        skillCountInRepo = str(r.get("skillCountInRepo") or 0)
+        externalStars = str(r.get("externalStars") or 0)
+        verifiers = str(r.get("verifiers") or 0)
+        rows.append(
+            f"{source}|{evType}|{grade}"
+            f"|commits={commits}|contributors={contributors}|stars={stars}"
+            f"|views={views}|origins={originsHash}|percentile={percentile}"
+            f"|citations={citations}|reviewers={reviewers}"
+            f"|gradedOriginCount={gradedOriginCount}|skillCountInRepo={skillCountInRepo}"
+            f"|externalStars={externalStars}|verifiers={verifiers}"
+        )
+    rows.sort()
+    suiteComponents = sorted(skill.get("suiteComponents") or [])
+    suitePayload = "suiteComponents=" + ",".join(suiteComponents)
+    payload = sid + "::" + "||".join(rows) + "::" + suitePayload
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
 # ---------------------------------------------------------------------------
