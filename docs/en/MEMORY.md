@@ -2,6 +2,98 @@
 
 ---
 
+## 2026-08-18 — Routine 031
+
+**Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the
+one-open-PR rule; the routine's own commit count/number in this diary tracks daily
+runs, not the branch name)
+
+**Task chosen:** CONTINUE — routine 030's own "Planned next" flagged two unverified
+spots on the same page it had just touched (`manual-curation-pipeline.html`): a fake
+`gaia dev discover` command in Phase 0, and an unverified packet-JSON field mismatch
+in Step 5. Took the first — small, concrete, and already scoped by the prior entry.
+
+### What I did
+
+Confirmed `gaia dev discover` does not exist: grepped every `dev_sub.add_parser(...)`
+call in `src/gaia_cli/commands/dev/__init__.py` — no `discover` subcommand anywhere.
+Read `.claude/skills/ev-discovery/SKILL.md`: Phase 0 (`ev-discovery`) is an **agent
+skill**, not a CLI verb — it runs Firecrawl web searches and requires
+`FIRECRAWL_API_KEY`, invoked as `/ev-discovery` in Claude Code, not a `gaia` command.
+This directly contradicts the page's own promise ("every command typed by a human, no
+AI required") — Phase 0 is the one genuine exception, since live web search has no
+deterministic CLI equivalent the way Phases 1-4 do (those wrap real scripts/`gh`
+calls).
+
+Rewrote the Phase 0 section (`docs/en/manual-curation-pipeline.html`, `id="phase-4"`
+area): removed the fictional `gaia dev discover --skill/--repo/--types/--output` code
+block, replaced the `callout info` with a `callout warn` stating plainly there's no
+CLI command for this phase and naming the real invocation path (`/ev-discovery` agent
+skill), and added a line pointing at Phase 1's `evidence/by-type/<type>.md` format for
+where discovered rows land — that format is already documented two sections down, no
+need to duplicate it.
+
+While in the same section, found and fixed a second, closer-to-home bug: the page's
+own bottom "Cheat sheet" section (`id="cheatsheet"`) still had **both** of routine
+030's own unfixed spots in the exact same command block — the cheat sheet's
+`gaia dev prefill --source ... --output ...` line (the same broken flags routine 030
+fixed in Step 3, but never mirrored into the cheat sheet) and its own copy of the fake
+`gaia dev discover` command. Fixed both to match: the prefill line now uses the real
+positional-id + `--name`/`--description`/`--url`/`--stdout` signature verified in
+routine 030's own pass; the discover line is now a comment pointing at the
+`/ev-discovery` skill instead of a copy-pasteable command that would 404 in argparse.
+
+### Design decisions
+
+- Used `callout warn` (not `info`) for the Phase 0 fix — DOCS.md's Callouts branding
+  reserves warn for "breaking behaviors, strict requirements, or crucial gaps," and a
+  reader trying to copy-paste a nonexistent command is exactly that gap.
+- Did not rewrite the page's "No AI required" framing in the lead paragraph — that's a
+  page-wide claim, Phase 0 is a single explicitly-flagged exception already labeled
+  "(skippable)," and rewriting the lead is a bigger scope call than today's slot.
+- Left routine 030's second flagged item (packet JSON `schemaVersion`/`decision`
+  string vs. `contractVersion`/`decision` object shape) untouched — it needs a read of
+  `scripts/validate_discovery_packet.py`'s accepted schema before editing Step 5, which
+  routine 030 correctly scoped as its own investigation, not a quick fix.
+
+### Issues informed
+
+None filed or closed — this is the same page's own unfixed remainder from yesterday,
+not new backlog.
+
+### Verification
+
+`git status` scoped to `docs/en/manual-curation-pipeline.html`, `docs/en/DOCS.md`,
+`docs/en/MEMORY.md` only. `html.parser` parse-error check clean. Vocabulary grep
+(`merge|combine|compose|rarity`) — all hits are pre-existing `gh pr merge`/`gh issue`
+CLI examples, no violations. No new hex introduced (diff-scanned, zero hex hits). File
+stayed LF-only (its pre-existing convention, confirmed by routine 030's own note — not
+CRLF like the other 12 pages). All three stylesheets (`tokens.css`, `styles.css`,
+`docs-en-shell.css`) still linked.
+
+### Files modified
+
+- `docs/en/manual-curation-pipeline.html` — Phase 0 section rewritten; cheat-sheet
+  `prefill` and `discover` lines fixed to match
+- `docs/en/DOCS.md` — page map row 13 updated
+- `docs/en/MEMORY.md` — this entry
+
+### Planned next (Routine 032)
+
+- Routine 030's second flagged item is still open: `manual-curation-pipeline.html`
+  Step 5's packet JSON template uses `schemaVersion` and a string `"decision": "MAP"`,
+  while `prefill.py`'s `buildPrefillPacket()` actually emits `contractVersion` and an
+  object `"decision": {"value": ..., "reasonCode": ...}`. Read
+  `scripts/validate_discovery_packet.py`'s accepted schema first to confirm whether
+  these are two valid packet shapes (hand-authored vs. tool-generated) or real drift
+  before touching Step 5.
+
+### Token spend
+
+2026-08-18 Sonnet 5 Low: ~55k in, ~7k out. ~$0.25
+
+---
+
 ## 2026-08-17 — Routine 030
 
 **Branch:** `docs/routines/030` (new — PR #1528/`docs/routines/026` merged 2026-08-15,

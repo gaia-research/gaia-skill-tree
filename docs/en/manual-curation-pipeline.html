@@ -822,18 +822,11 @@
 
         <h3>Phase 0 — ev-discovery (skippable)</h3>
         <p>The only phase that searches the web for new evidence. Skip for routine Stage-1 intakes. Run when you need <code>benchmark-result</code>, <code>arxiv</code>, <code>peer-review</code>, or richer <code>social-signal</code> rows.</p>
-        <div class="callout info">
-          <span class="callout-icon">ℹ</span>
-          <p>Requires <code>FIRECRAWL_API_KEY</code>. Skip gracefully if absent.</p>
+        <div class="callout warn">
+          <span class="callout-icon">⚠</span>
+          <p>No <code>gaia</code> CLI command runs this phase — there is no <code>gaia dev discover</code>. Trigger the <code>ev-discovery</code> agent skill directly (<code>/ev-discovery</code> in Claude Code), naming the skill id, source repo, and evidence types needed. It requires <code>FIRECRAWL_API_KEY</code> and skips gracefully if absent. This is the one phase on this page that needs an AI agent — every other phase is a plain command.</p>
         </div>
-        <div class="code-fence">
-          <div class="code-fence-header"><span class="code-fence-label">bash</span><span class="code-fence-copy-status">click to copy</span></div>
-          <pre><span class="cmd">gaia</span> dev discover \
-  <span class="arg">--skill</span> contributor/skill-id \
-  <span class="arg">--repo</span> <span class="str">"https://github.com/owner/repo"</span> \
-  <span class="arg">--types</span> benchmark-result,arxiv,peer-review,social-signal \
-  <span class="arg">--output</span> evidence/discovery/contributor--skill-id.md</pre>
-        </div>
+        <p>Discovered rows get appended to <code>evidence/by-type/&lt;type&gt;.md</code> under the same source-input format Phase 1 already reads — see Phase 1 below.</p>
 
         <h3>Phase 1 — ev-collection</h3>
         <div class="callout stop">
@@ -999,7 +992,7 @@
           <div class="code-fence-header"><span class="code-fence-label">bash — full pipeline sequence</span><span class="code-fence-copy-status">click to copy</span></div>
           <pre><span class="c"># ── Phase 1: Curate ──────────────────────────────────────────</span>
 <span class="cmd">gaia</span> dev list <span class="arg">--generic --json</span> <span class="str">&gt; /tmp/generic-snapshot.json</span>
-<span class="cmd">gaia</span> dev prefill <span class="arg">--source</span> <span class="str">"&lt;blob-url&gt;"</span> <span class="arg">--output</span> /tmp/prefill-output.json
+<span class="cmd">gaia</span> dev prefill <span class="arg">contributor/skill-name --name</span> <span class="str">"Skill Name"</span> <span class="arg">--description</span> <span class="str">"..."</span> <span class="arg">--url</span> <span class="str">"&lt;blob-url&gt;"</span> <span class="arg">--stdout</span> > /tmp/prefill-output.json
 <span class="c"># ... write packet JSON ...</span>
 <span class="cmd">python3</span> scripts/validate_discovery_packet.py <span class="arg">--generic-snapshot</span> /tmp/generic-snapshot.json <span class="pl">&lt;packet&gt;</span>.json
 
@@ -1016,8 +1009,8 @@
 <span class="cmd">gh</span> issue edit <span class="pl">&lt;ISSUE&gt;</span> <span class="arg">--add-label</span> <span class="str">"intake:evidence-approved"</span>   <span class="c"># maintainer only, after evidence-ready</span>
 
 <span class="c"># ── Phase 4: ev-pipeline ─────────────────────────────────────</span>
-<span class="c"># Phase 0 (skippable)</span>
-<span class="cmd">gaia</span> dev discover <span class="arg">--skill</span> contributor/skill <span class="arg">--repo</span> <span class="str">"&lt;url&gt;"</span> <span class="arg">--types</span> arxiv,peer-review,social-signal
+<span class="c"># Phase 0 (skippable, no CLI equivalent — run the ev-discovery agent skill instead)</span>
+<span class="c"># /ev-discovery contributor/skill "&lt;repo-url&gt;" arxiv,peer-review,social-signal</span>
 <span class="c"># Phase 1 (whole-registry lake rebuild)</span>
 <span class="cmd">python3</span> evidence/scripts/generate_source_dump.py <span class="arg">--output-dir</span> evidence <span class="arg">--by-type-dir</span> evidence/by-type
 <span class="cmd">python3</span> evidence/scripts/compile_data_lake.py <span class="arg">--sources</span> evidence/by-type <span class="arg">--lake</span> evidence
