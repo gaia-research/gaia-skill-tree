@@ -1,0 +1,17 @@
+{
+  "id": "mattpocock/misc",
+  "name": "Matt Pocock Misc",
+  "contributor": "mattpocock",
+  "description": "Utility and setup skills that do not fit the engineering/productivity split.",
+  "version": "1.0.0",
+  "capstone": "mattpocock/misc",
+  "suites": [],
+  "standalones": [
+    "mattpocock/git-guardrails-claude-code",
+    "mattpocock/migrate-to-shoehorn",
+    "mattpocock/scaffold-exercises",
+    "mattpocock/setup-pre-commit"
+  ],
+  "createdAt": "2026-08-19",
+  "updatedAt": "2026-08-19"
+}

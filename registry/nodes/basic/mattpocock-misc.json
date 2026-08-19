@@ -1,0 +1,32 @@
+{
+  "id": "mattpocock-misc",
+  "name": "Matt Pocock Misc",
+  "type": "fusion",
+  "description": "Utility and setup skills that do not fit the engineering/productivity split.",
+  "prerequisites": [
+    "guardrails",
+    "refactor-code",
+    "skill-authoring"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-08-19",
+  "updatedAt": "2026-08-19",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-08-19T11:50:13Z",
+      "action": "add",
+      "contributor": "unknown",
+      "details": "Added generic skill mattpocock-misc"
+    },
+    {
+      "timestamp": "2026-08-19T11:50:29Z",
+      "action": "fuse",
+      "contributor": "unknown",
+      "details": "Set prerequisites via `gaia dev fuse`: guardrails, refactor-code, skill-authoring."
+    }
+  ]
+}

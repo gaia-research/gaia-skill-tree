@@ -10,7 +10,7 @@ level: 4★
 description: Engineering category suite for Matt Pocock's skills. Removed from mattpocock/skills
   suite in v1.0.1.
 createdAt: '2026-05-21'
-updatedAt: '2026-07-20'
+updatedAt: '2026-08-19'
 trustMagnitude: 270.0
 overallTrustGrade: A
 apexGateStatus:
@@ -44,18 +44,18 @@ timeline:
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-20
 suiteRef: mattpocock/skills
-suiteComponents:
-- mattpocock/diagnose
-- mattpocock/grill-with-docs
-- mattpocock/improve-codebase-architecture
-- mattpocock/prototype
-- mattpocock/setup-matt-pocock-skills
-- mattpocock/to-issues
-- mattpocock/to-prd
-- mattpocock/triage
-- mattpocock/ubiquitous-language
-- mattpocock/zoom-out
 trustMagnitudeInputHash: 4c0c7b233e624b41fc0b52204b68f31891b2e5d33b311a17b288573ab2927bca
+suiteComponents:
+  - mattpocock/diagnose
+  - mattpocock/grill-with-docs
+  - mattpocock/improve-codebase-architecture
+  - mattpocock/prototype
+  - mattpocock/setup-matt-pocock-skills
+  - mattpocock/to-spec
+  - mattpocock/to-tickets
+  - mattpocock/triage
+  - mattpocock/ubiquitous-language
+  - mattpocock/zoom-out
 ---
 ## Overview
 

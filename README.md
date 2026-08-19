@@ -56,20 +56,20 @@ So that means, its the developers who make skills maintaining this. I have a tho
 <!-- gaia:registry-start -->
 ```text
 ◆ mattpocock/skills  [5★]
+  ├─ ○ ████████/domain-modeling
   ├─ · mattpocock/engineering  [4★]
+  │  ├─ · firecrawl/firecrawl-build-onboarding  [3★]
+  │  │  ├─ ○ garrytan/document-generate  [3★]
+  │  │  └─ ○ /tool-use
   │  ├─ · devin-ai/autonomous-swe  [3★]
   │  │  ├─ ○ garrytan/design-html  [3★]
   │  │  ├─ ○ /code-execution
   │  │  └─ ○ /error-interpretation
-  │  ├─ ○ addy-osmani/code-simplification  [3★]
-  │  ├─ · garrytan/garrytan  [4★]
-  │  │  ├─ ○ /plan-decompose
-  │  │  └─ ○ ████████/ask-matt
-  │  ├─ · mattpocock/to-prd  [3★]
-  │  │  ├─ ○ garrytan/retro  [3★]
-  │  │  └─ ○ /plan-decompose  (↑ see above)
-  │  ├─ ○ mattpocock/triage  [3★]
-  │  ├─ · mattpocock/ubiquitous-language  [3★]
+  │  ├─ ○ ████████/zoom-out
+  │  ├─ ○ ████████/domain-modeling  (↑ see above)
+  │  ├─ · mattpocock/grill-with-docs  [3★]
+  │  │  ├─ · mattpocock/grill-me  [3★]
+  │  │  │  └─ ○ /self-critique
 
 ◆ garrytan/gstack  [5★]
   ├─ ○ garrytan/office-hours  [3★]
@@ -94,7 +94,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     │  │  ├─ ○ firecrawl/firecrawl-build-search  [4★]
     │  │  ├─ ○ /summarize
 
-(278 skills total — see docs/tree.md)
+(279 skills total — see docs/tree.md)
 ```
 <!-- gaia:registry-end -->
 

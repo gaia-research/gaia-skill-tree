@@ -105,6 +105,12 @@ timeline:
   action: note
   contributor: unknown
   details: Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/deprecated/ubiquitous-language/SKILL.md
+- timestamp: '2026-08-19T11:49:11Z'
+  action: upstream_deprecated
+  contributor: unknown
+  previousValue: null
+  newValue: null
+  details: superseded by mattpocock/domain-modeling upstream (folded in v1.2.x)
 trustMagnitude: 90.38
 overallTrustGrade: B
 apexGateStatus:
@@ -120,6 +126,7 @@ suiteRef: mattpocock/engineering
 trustMagnitudeInputHash: 93c720242a46b215789bae724573d16cd95c9b5acb9a4ed1a137fa308cdb34f8
 verification:
   firstEvidenceAt: '2026-06-19T16:57:17Z'
+installable: false
 ---
 
 ## Overview

@@ -4,16 +4,16 @@
   "type": "fusion",
   "description": "Engineering category suite for Matt Pocock's skills.",
   "prerequisites": [
+    "agent-environment-setup",
     "autonomous-debug",
-    "refactor-code",
-    "vertical-slice-planning",
-    "prd-generation",
-    "issue-triage",
-    "ubiquitous-language",
     "code-explain",
+    "domain-modeling",
     "grill-with-docs",
+    "issue-triage",
+    "prd-generation",
     "prototype",
-    "agent-environment-setup"
+    "refactor-code",
+    "vertical-slice-planning"
   ],
   "derivatives": [],
   "evidence": [
@@ -30,7 +30,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-22",
-  "updatedAt": "2026-07-16",
+  "updatedAt": "2026-08-19",
   "version": "0.1.0",
   "timeline": [
     {

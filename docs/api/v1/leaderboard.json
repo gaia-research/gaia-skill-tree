@@ -1,13 +1,13 @@
 {
   "distribution": {
-    "total": 232,
+    "total": 233,
     "S": 5,
-    "A": 63,
+    "A": 64,
     "B": 68,
     "C": 82,
     "ungraded": 14,
     "floor": 0,
-    "up": 29
+    "up": 30
   },
   "rows": [
     {
@@ -352,6 +352,17 @@
       "branch": "standard"
     },
     {
+      "id": "mattpocock/misc",
+      "trustMagnitude": 120.0,
+      "grade": "A",
+      "level": "3★",
+      "typeBreakdown": {
+        "fusion-recipe": 120.0
+      },
+      "origin": false,
+      "branch": "suite"
+    },
+    {
       "id": "ruvnet/reasoningbank",
       "trustMagnitude": 118.5,
       "grade": "A",
@@ -481,7 +492,7 @@
       "branch": "standard"
     },
     {
-      "id": "mattpocock/to-issues",
+      "id": "mattpocock/to-tickets",
       "trustMagnitude": 105.68,
       "grade": "A",
       "level": "3★",
@@ -1529,7 +1540,7 @@
       "branch": "standard"
     },
     {
-      "id": "mattpocock/to-prd",
+      "id": "mattpocock/to-spec",
       "trustMagnitude": 63.71,
       "grade": "B",
       "level": "3★",

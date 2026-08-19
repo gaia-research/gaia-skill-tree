@@ -74,6 +74,12 @@ timeline:
   action: rank_up
   contributor: mbtiongson1
   details: Level updated from 2★ to 3★ per G7 final rankings calibration.
+- timestamp: '2026-08-19T11:49:10Z'
+  action: upstream_deprecated
+  contributor: unknown
+  previousValue: null
+  newValue: null
+  details: personal/ bucket deleted upstream (v1.2.x); no successor
 evidence:
 - class: B
   source: https://github.com/mattpocock/skills/blob/main/skills/personal/edit-article/SKILL.md
@@ -123,6 +129,7 @@ apexGateStatus:
 verification:
   firstEvidenceAt: '2026-06-10T05:38:17Z'
 trustMagnitudeInputHash: 991dc9dc09633b202ec9657470e5c24b81e22590d0e1f97f4b73cfe4d59376d9
+installable: false
 ---
 
 ## Overview

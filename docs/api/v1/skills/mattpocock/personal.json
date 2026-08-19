@@ -50,6 +50,14 @@
       "action": "demote",
       "contributor": "mbtiongson1",
       "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+    },
+    {
+      "timestamp": "2026-08-19T11:49:11Z",
+      "action": "upstream_deprecated",
+      "contributor": "unknown",
+      "previousValue": null,
+      "newValue": null,
+      "details": "personal/ bucket removed entirely upstream; no successor bucket"
     }
   ],
   "suiteComponents": [

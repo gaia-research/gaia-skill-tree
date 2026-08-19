@@ -23,8 +23,8 @@
 | ○ mattpocock/prototype | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
 | ○ mattpocock/setup-matt-pocock-skills | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
 | ○ mattpocock/skills | Basic | 5★ | Ultimate | mattpocock/gaia-skill-tree | 2026-05-22T00:00:00Z |
-| ○ mattpocock/to-issues | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
-| ○ mattpocock/to-prd | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
+| ○ mattpocock/to-tickets | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
+| ○ mattpocock/to-spec | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
 | ○ mattpocock/triage | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
 | ○ mattpocock/ubiquitous-language | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-05-15T00:00:00Z |
 | ○ mattpocock/write-a-skill | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
@@ -42,7 +42,7 @@
 | ○ mattpocock/setup-pre-commit | Basic | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
 | ○ mattpocock/tdd | Basic | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
 | ○ mattpocock/teach | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
-| ○ mattpocock/writing-great-skills | Basic | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/writing-for-agents | Basic | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
 
 ---
 
@@ -207,37 +207,48 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      └─ · ○ /generate-text  (↑ see above)
 
 ✓ ◆ mattpocock/skills  [5★]
+  ├─ ✓ ○ ████████/domain-modeling
   ├─ ✓ · mattpocock/engineering  [4★]
+  │  ├─ ✓ · firecrawl/firecrawl-build-onboarding  [3★]
+  │  │  ├─ ✓ ○ garrytan/document-generate  [3★]
+  │  │  └─ · ○ /tool-use
   │  ├─ ✓ · devin-ai/autonomous-swe  [3★]
   │  │  ├─ · ○ garrytan/design-html  [3★]
   │  │  ├─ · ○ /code-execution
   │  │  └─ · ○ /error-interpretation
-  │  ├─ ✓ ○ addy-osmani/code-simplification  [3★]
-  │  ├─ ✓ · garrytan/garrytan  [4★]
-  │  │  ├─ · ○ /plan-decompose
-  │  │  └─ ✓ ○ ████████/ask-matt
-  │  ├─ ✓ · mattpocock/to-prd  [3★]
-  │  │  ├─ · ○ garrytan/retro  [3★]
-  │  │  └─ · ○ /plan-decompose  (↑ see above)
-  │  ├─ ✓ ○ mattpocock/triage  [3★]
-  │  ├─ ✓ · mattpocock/ubiquitous-language  [3★]
-  │  │  ├─ · ○ /extract-entities
-  │  │  └─ · ○ ████████/requirements-engineer
   │  ├─ ✓ ○ ████████/zoom-out
+  │  ├─ ✓ ○ ████████/domain-modeling  (↑ see above)
   │  ├─ ✓ · mattpocock/grill-with-docs  [3★]
   │  │  ├─ ✓ · mattpocock/grill-me  [3★]
   │  │  │  ├─ ✓ · garrytan/design-shotgun  [3★]
   │  │  │  │  ├─ · ○ garrytan/benchmark  [3★]
-  │  │  │  │  └─ · ○ /plan-decompose  (↑ see above)
+  │  │  │  │  └─ · ○ /plan-decompose
   │  │  │  └─ · ○ /self-critique
-  │  │  ├─ ✓ · mattpocock/ubiquitous-language  [3★]  (↑ see above)
-  │  │  └─ ✓ ○ garrytan/document-generate  [3★]
+  │  │  ├─ ✓ · mattpocock/ubiquitous-language  [3★]
+  │  │  │  ├─ · ○ /extract-entities
+  │  │  │  └─ · ○ ████████/requirements-engineer
+  │  │  └─ ✓ ○ garrytan/document-generate  [3★]  (↑ see above)
+  │  ├─ ✓ ○ mattpocock/triage  [3★]
+  │  ├─ ✓ · mattpocock/to-spec  [3★]
+  │  │  ├─ · ○ garrytan/retro  [3★]
+  │  │  └─ · ○ /plan-decompose  (↑ see above)
   │  ├─ ✓ · mattpocock/prototype  [2★]
   │  │  ├─ · ○ garrytan/design-html  [3★]  (↑ see above)
   │  │  └─ · ○ /code-execution  (↑ see above)
-  │  └─ ✓ · firecrawl/firecrawl-build-onboarding  [3★]
-  │     ├─ ✓ ○ garrytan/document-generate  [3★]  (↑ see above)
-  │     └─ · ○ /tool-use
+  │  ├─ ✓ ○ addy-osmani/code-simplification  [3★]
+  │  └─ ✓ · garrytan/garrytan  [4★]
+  │     ├─ · ○ /plan-decompose  (↑ see above)
+  │     └─ ✓ ○ ████████/ask-matt
+  ├─ · · mattpocock/misc  [3★]
+  │  ├─ ✓ · garrytan/careful  [3★]
+  │  │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
+  │  │  ├─ · ○ /classify
+  │  │  └─ · ○ /structured-output
+  │  ├─ ✓ ○ addy-osmani/code-simplification  [3★]  (↑ see above)
+  │  └─ ✓ · garrytan/skillify  [3★]
+  │     ├─ · ○ /generate-text
+  │     ├─ · ○ /structured-output  (↑ see above)
+  │     └─ · ○ garrytan/design-html  [3★]  (↑ see above)
   ├─ ✓ · mattpocock/productivity  [4★]
   │  ├─ ✓ · mattpocock/handoff  [3★]
   │  │  ├─ · ○ /summarize
@@ -248,13 +259,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ ✓ · mattpocock/write-a-skill  [3★]
   │     ├─ · ○ garrytan/design-html  [3★]  (↑ see above)
   │     └─ · ○ /tool-use  (↑ see above)
-  ├─ ✓ · mattpocock/personal  [3★]
-  │  ├─ ✓ ○ garrytan/document-generate  [3★]  (↑ see above)
-  │  └─ ✓ · mattpocock/obsidian-vault  [3★]
-  │     ├─ · ○ /retrieve
-  │     └─ · ○ garrytan/context-restore  [2★]  (↑ see above)
-  ├─ ✓ · mattpocock/write-a-skill  [3★]  (↑ see above)
-  └─ ✓ · mattpocock/ubiquitous-language  [3★]  (↑ see above)
+  └─ ✓ · mattpocock/write-a-skill  [3★]  (↑ see above)
 
 · ◆ obra/superpowers  [5★]
   ├─ · · obra/brainstorming  [3★]
@@ -332,6 +337,12 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ · ○ /tool-use
   └─ · ○ firecrawl/firecrawl-research-index  [3★]
 
+✓ ◆ mattpocock/personal  [3★]
+  ├─ ✓ ○ garrytan/document-generate  [3★]
+  └─ ✓ · mattpocock/obsidian-vault  [3★]
+     ├─ · ○ /retrieve
+     └─ · ○ garrytan/context-restore  [2★]
+
 ══════════════════════════════════════════════════════════════════════
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
 ══════════════════════════════════════════════════════════════════════
@@ -354,7 +365,6 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
 Basics — basic-tier skills with no prerequisites, listed vertically (not as a single combined line).  ([N★] = top named-variant stars; blank = no named implementation.)
 ══════════════════════════════════════════════════════════════════════
 
-  ✓ ○ ████████/domain-modeling
   ✓ ○ ████████/codebase-design
   ✓ ○ addy-osmani/test-driven-development  [2★]
 ```

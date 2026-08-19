@@ -13,7 +13,7 @@ description: The ultimate capstone suite encompassing all of Matt Pocock's engin
 links:
   github: https://github.com/mattpocock/skills
 createdAt: '2026-05-22'
-updatedAt: '2026-08-06'
+updatedAt: '2026-08-19'
 trustMagnitude: 480.29
 overallTrustGrade: S
 apexGateStatus:
@@ -159,25 +159,6 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-06-19T09:18:11Z'
-suiteComponents:
-- mattpocock/diagnose
-- mattpocock/edit-article
-- mattpocock/engineering
-- mattpocock/grill-me
-- mattpocock/grill-with-docs
-- mattpocock/handoff
-- mattpocock/improve-codebase-architecture
-- mattpocock/obsidian-vault
-- mattpocock/personal
-- mattpocock/productivity
-- mattpocock/prototype
-- mattpocock/setup-matt-pocock-skills
-- mattpocock/to-issues
-- mattpocock/to-prd
-- mattpocock/triage
-- mattpocock/ubiquitous-language
-- mattpocock/write-a-skill
-- mattpocock/zoom-out
 trustMagnitudeInputHash: 349d174f8f94cd100299e12ac72dde50e45702118e3e22c9d36cf4091e48f522
 upstream:
   mode: components
@@ -186,6 +167,25 @@ upstream:
   sourceUrl: https://github.com/mattpocock/skills/releases/tag/v1.1.0
   syncedAt: '2026-07-08T19:53:32Z'
   version: v1.1.0
+suiteComponents:
+  - mattpocock/diagnose
+  - mattpocock/edit-article
+  - mattpocock/engineering
+  - mattpocock/grill-me
+  - mattpocock/grill-with-docs
+  - mattpocock/handoff
+  - mattpocock/improve-codebase-architecture
+  - mattpocock/obsidian-vault
+  - mattpocock/personal
+  - mattpocock/productivity
+  - mattpocock/prototype
+  - mattpocock/setup-matt-pocock-skills
+  - mattpocock/to-spec
+  - mattpocock/to-tickets
+  - mattpocock/triage
+  - mattpocock/ubiquitous-language
+  - mattpocock/write-a-skill
+  - mattpocock/zoom-out
 ---
 
 ## Installation

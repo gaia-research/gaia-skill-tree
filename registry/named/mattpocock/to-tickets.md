@@ -1,6 +1,6 @@
 ---
-id: mattpocock/to-issues
-name: To Issues
+id: mattpocock/to-tickets
+name: To Tickets
 contributor: mattpocock
 origin: false
 genericSkillRef: vertical-slice-planning
@@ -22,7 +22,7 @@ tags:
 - afk
 - acceptance-criteria
 createdAt: '2026-04-30'
-updatedAt: '2026-08-05'
+updatedAt: '2026-08-19'
 suiteRef: mattpocock/engineering
 evidence:
 - class: B
@@ -103,6 +103,14 @@ timeline:
   timestamp: '2026-06-19T17:13:03Z'
   details: TM 11.21 -> 90.38, grade ungraded -> B (direct edit -- CLI gap)
 - timestamp: '2026-08-05T06:27:10Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/to-tickets/SKILL.md
+- timestamp: '2026-08-19T11:49:27Z'
+  action: rename
+  contributor: unknown
+  details: Renamed named skill from mattpocock/to-issues to mattpocock/to-tickets
+- timestamp: '2026-08-19T11:49:27Z'
   action: note
   contributor: unknown
   details: Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/to-tickets/SKILL.md

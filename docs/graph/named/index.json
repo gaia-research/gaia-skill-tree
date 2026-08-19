@@ -1631,6 +1631,7 @@
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
           }
         ],
+        "suiteRef": "mattpocock/misc",
         "trustMagnitude": 5.0,
         "overallTrustGrade": "ungraded",
         "trustMagnitudeInputHash": "0f0996b49ad31fcf8aa6fc46dd24bdaf0b90c02ac0b206fc77215f094a263b01",
@@ -2701,8 +2702,8 @@
         "contractVersion": "gaia-public-v1"
       },
       {
-        "id": "mattpocock/to-issues",
-        "name": "To Issues",
+        "id": "mattpocock/to-tickets",
+        "name": "To Tickets",
         "contributor": "mattpocock",
         "origin": false,
         "genericSkillRef": "vertical-slice-planning",
@@ -2761,7 +2762,7 @@
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-08-05",
+        "updatedAt": "2026-08-19",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:00Z",
@@ -2826,6 +2827,18 @@
           },
           {
             "timestamp": "2026-08-05T06:27:10Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/to-tickets/SKILL.md"
+          },
+          {
+            "timestamp": "2026-08-19T11:49:27Z",
+            "action": "rename",
+            "contributor": "unknown",
+            "details": "Renamed named skill from mattpocock/to-issues to mattpocock/to-tickets"
+          },
+          {
+            "timestamp": "2026-08-19T11:49:27Z",
             "action": "note",
             "contributor": "unknown",
             "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/to-tickets/SKILL.md"
@@ -3388,7 +3401,7 @@
     ],
     "prd-generation": [
       {
-        "id": "mattpocock/to-prd",
+        "id": "mattpocock/to-spec",
         "name": "To PRD",
         "contributor": "mattpocock",
         "origin": true,
@@ -3457,7 +3470,7 @@
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-08-05",
+        "updatedAt": "2026-08-19",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:44Z",
@@ -3522,6 +3535,18 @@
           },
           {
             "timestamp": "2026-08-05T06:27:13Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/to-spec/SKILL.md"
+          },
+          {
+            "timestamp": "2026-08-19T11:49:33Z",
+            "action": "rename",
+            "contributor": "unknown",
+            "details": "Renamed named skill from mattpocock/to-prd to mattpocock/to-spec"
+          },
+          {
+            "timestamp": "2026-08-19T11:49:33Z",
             "action": "note",
             "contributor": "unknown",
             "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/to-spec/SKILL.md"
@@ -4080,6 +4105,7 @@
         "description": "Edits articles by first sectioning them as a DAG of information dependencies, confirming the section order, then rewriting each section for clarity and flow with a 240-character-per-paragraph constraint.",
         "title": "The Section-by-Section Rewrite",
         "catalogRef": "mattpocock-edit-article",
+        "installable": false,
         "tags": [
           "article-editing",
           "prose-rewrite",
@@ -4203,6 +4229,14 @@
             "action": "rank_up",
             "contributor": "mbtiongson1",
             "details": "Level updated from 2★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-19T11:49:10Z",
+            "action": "upstream_deprecated",
+            "contributor": "unknown",
+            "previousValue": null,
+            "newValue": null,
+            "details": "personal/ bucket deleted upstream (v1.2.x); no successor"
           }
         ],
         "suiteRef": "mattpocock/personal",
@@ -10098,6 +10132,7 @@
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
           }
         ],
+        "suiteRef": "mattpocock/misc",
         "trustMagnitude": 5.0,
         "overallTrustGrade": "ungraded",
         "trustMagnitudeInputHash": "e6cba724ab46e5f9079c9be9a8bf7d654d8ae2f788ea091ec200339afbe7e275",
@@ -10223,6 +10258,7 @@
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
           }
         ],
+        "suiteRef": "mattpocock/misc",
         "trustMagnitude": 5.0,
         "overallTrustGrade": "ungraded",
         "trustMagnitudeInputHash": "cb6fefdbfe4c11bc6c71d908e0e19fa9cebcbad077152a66a87c79153a3722c2",
@@ -15792,6 +15828,7 @@
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
           }
         ],
+        "suiteRef": "mattpocock/misc",
         "trustMagnitude": 5.0,
         "overallTrustGrade": "ungraded",
         "trustMagnitudeInputHash": "265e473bf86b49b889d12de7a1f768be9ad27207ef91767d27627878b41f0cd2",
@@ -15815,17 +15852,17 @@
         "contractVersion": "gaia-public-v1"
       },
       {
-        "id": "mattpocock/writing-great-skills",
-        "name": "Writing Great Skills",
+        "id": "mattpocock/writing-for-agents",
+        "name": "Writing For Agents",
         "contributor": "mattpocock",
         "origin": false,
         "genericSkillRef": "skill-authoring",
         "status": "named",
         "level": "1★",
         "description": "Reference for writing and editing skills to be predictable — vocabulary and principles for deterministic skills.",
-        "title": "Writing Great Skills",
+        "title": "Writing For Agents",
         "links": {
-          "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-great-skills/SKILL.md"
+          "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-for-agents/SKILL.md"
         },
         "evidence": [
           {
@@ -15856,7 +15893,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-19",
         "timeline": [
           {
             "timestamp": "2026-06-19T13:03:02Z",
@@ -15915,6 +15952,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-19T11:49:38Z",
+            "action": "rename",
+            "contributor": "unknown",
+            "details": "Renamed named skill from mattpocock/writing-great-skills to mattpocock/writing-for-agents"
+          },
+          {
+            "timestamp": "2026-08-19T11:49:38Z",
+            "action": "note",
+            "contributor": "unknown",
+            "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-for-agents/SKILL.md"
           }
         ],
         "trustMagnitude": 5.0,
@@ -20509,7 +20558,7 @@
         "description": "Engineering category suite for Matt Pocock's skills. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Matt Pocock Engineering Discipline",
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-07-20",
+        "updatedAt": "2026-08-19",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -20548,8 +20597,8 @@
           "mattpocock/improve-codebase-architecture",
           "mattpocock/prototype",
           "mattpocock/setup-matt-pocock-skills",
-          "mattpocock/to-issues",
-          "mattpocock/to-prd",
+          "mattpocock/to-spec",
+          "mattpocock/to-tickets",
           "mattpocock/triage",
           "mattpocock/ubiquitous-language",
           "mattpocock/zoom-out"
@@ -21074,6 +21123,65 @@
         "contractVersion": "gaia-public-v1"
       }
     ],
+    "mattpocock-misc": [
+      {
+        "id": "mattpocock/misc",
+        "name": "Misc",
+        "contributor": "mattpocock",
+        "origin": false,
+        "genericSkillRef": "mattpocock-misc",
+        "status": "named",
+        "level": "3★",
+        "description": "Utility and setup skills that do not fit the engineering/productivity split: guardrails, migration, exercise scaffolding, and pre-commit setup.",
+        "title": "The Matt Pocock Utility Belt",
+        "createdAt": "2026-08-19",
+        "updatedAt": "2026-08-19",
+        "timeline": [
+          {
+            "timestamp": "2026-08-19T11:50:18Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill mattpocock/misc"
+          },
+          {
+            "timestamp": "2026-08-19T11:50:29Z",
+            "action": "suite_ref_set",
+            "contributor": "unknown",
+            "details": "Set suiteRef=mattpocock/misc, genericSkillRef=mattpocock-misc via `gaia dev fuse`."
+          }
+        ],
+        "suiteComponents": [
+          "mattpocock/git-guardrails-claude-code",
+          "mattpocock/migrate-to-shoehorn",
+          "mattpocock/scaffold-exercises",
+          "mattpocock/setup-pre-commit"
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 120.0,
+        "overallTrustGrade": "A",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "suite",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "need ≥1 component(s) graded S+, have 0"
+        }
+      }
+    ],
     "personal-knowledge-management": [
       {
         "id": "mattpocock/obsidian-vault",
@@ -21085,6 +21193,7 @@
         "level": "3★",
         "description": "Manage notes and organization in a specific Obsidian vault using Title Case and wikilinks.",
         "title": "The Obsidian Vault Mapper",
+        "installable": false,
         "links": {
           "github": "https://github.com/mattpocock/skills/blob/main/skills/personal/obsidian-vault"
         },
@@ -21183,6 +21292,14 @@
             "action": "migrate_trust_magnitude",
             "timestamp": "2026-06-19T17:13:03Z",
             "details": "TM 11.21 -> 90.38, grade ungraded -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-08-19T11:49:10Z",
+            "action": "upstream_deprecated",
+            "contributor": "unknown",
+            "previousValue": null,
+            "newValue": null,
+            "details": "deleted upstream for security: hardcoded personal vault path, was model-invocable"
           }
         ],
         "suiteRef": "mattpocock/personal",
@@ -21220,6 +21337,7 @@
         "level": "3★",
         "description": "Personal category suite for Matt Pocock's skills. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Matt Pocock Personal Suite",
+        "installable": false,
         "createdAt": "2026-05-21",
         "updatedAt": "2026-06-10",
         "timeline": [
@@ -21243,6 +21361,14 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-19T11:49:11Z",
+            "action": "upstream_deprecated",
+            "contributor": "unknown",
+            "previousValue": null,
+            "newValue": null,
+            "details": "personal/ bucket removed entirely upstream; no successor bucket"
           }
         ],
         "suiteRef": "mattpocock/skills",
@@ -21289,7 +21415,7 @@
         "description": "Productivity category suite for Matt Pocock's skills. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Matt Pocock Productivity Suite",
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-08-06",
+        "updatedAt": "2026-08-19",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -21761,7 +21887,7 @@
           }
         ],
         "createdAt": "2026-05-22",
-        "updatedAt": "2026-08-06",
+        "updatedAt": "2026-08-19",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -21895,8 +22021,8 @@
           "mattpocock/productivity",
           "mattpocock/prototype",
           "mattpocock/setup-matt-pocock-skills",
-          "mattpocock/to-issues",
-          "mattpocock/to-prd",
+          "mattpocock/to-spec",
+          "mattpocock/to-tickets",
           "mattpocock/triage",
           "mattpocock/ubiquitous-language",
           "mattpocock/write-a-skill",
@@ -22136,6 +22262,7 @@
         "description": "Extracts and formalises a project's domain terminology into a shared glossary, enforcing consistent naming across code and conversations to eliminate ambiguity. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Domain Linguist",
         "catalogRef": "mattpocock-ubiquitous-language",
+        "installable": false,
         "tags": [
           "domain-driven-design",
           "ddd",
@@ -22254,6 +22381,14 @@
             "action": "note",
             "contributor": "unknown",
             "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/deprecated/ubiquitous-language/SKILL.md"
+          },
+          {
+            "timestamp": "2026-08-19T11:49:11Z",
+            "action": "upstream_deprecated",
+            "contributor": "unknown",
+            "previousValue": null,
+            "newValue": null,
+            "details": "superseded by mattpocock/domain-modeling upstream (folded in v1.2.x)"
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -35926,6 +36061,7 @@
       "mattpocock/implement",
       "mattpocock/improve-codebase-architecture",
       "mattpocock/migrate-to-shoehorn",
+      "mattpocock/misc",
       "mattpocock/obsidian-vault",
       "mattpocock/personal",
       "mattpocock/productivity",
@@ -35937,12 +36073,12 @@
       "mattpocock/skills",
       "mattpocock/tdd",
       "mattpocock/teach",
-      "mattpocock/to-issues",
-      "mattpocock/to-prd",
+      "mattpocock/to-spec",
+      "mattpocock/to-tickets",
       "mattpocock/triage",
       "mattpocock/ubiquitous-language",
       "mattpocock/write-a-skill",
-      "mattpocock/writing-great-skills",
+      "mattpocock/writing-for-agents",
       "mattpocock/zoom-out"
     ],
     "mbtiongson1": [

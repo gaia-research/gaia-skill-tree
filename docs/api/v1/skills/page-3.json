@@ -1,6 +1,22 @@
 {
   "skills": [
     {
+      "id": "vercel-labs/vercel-react-best-practices",
+      "name": "Vercel React Best Practices",
+      "level": "3★",
+      "trustMagnitude": 50.48,
+      "overallTrustGrade": "B",
+      "contributor": "vercel-labs",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/vercel-labs/vercel-react-best-practices.json"
+      },
+      "genericSkillRef": "react-performance-optimization"
+    },
+    {
       "id": "k-dense-ai/rdkit",
       "name": "RDKit",
       "level": "2★",
@@ -783,27 +799,11 @@
         "self": "/api/v1/skills/nexu-io/open-design.json"
       },
       "genericSkillRef": "design-generation"
-    },
-    {
-      "id": "nousresearch/feed-monitoring",
-      "name": "Feed Monitoring",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "nousresearch",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/nousresearch/feed-monitoring.json"
-      },
-      "genericSkillRef": "feed-monitoring"
     }
   ],
   "page": 3,
   "totalPages": 4,
-  "totalSkills": 194,
+  "totalSkills": 195,
   "_links": {
     "self": "/api/v1/skills/page-3.json",
     "prev": "/api/v1/skills/page-2.json",

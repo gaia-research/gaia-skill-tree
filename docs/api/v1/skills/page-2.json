@@ -1,6 +1,27 @@
 {
   "skills": [
     {
+      "id": "mattpocock/productivity",
+      "name": "Productivity",
+      "level": "4★",
+      "trustMagnitude": 90.0,
+      "overallTrustGrade": "B",
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/productivity.json"
+      },
+      "genericSkillRef": "productivity",
+      "suiteComponents": [
+        "mattpocock/grill-me",
+        "mattpocock/handoff",
+        "mattpocock/write-a-skill"
+      ]
+    },
+    {
       "id": "garrytan/browse",
       "name": "Browse",
       "level": "3★",
@@ -584,7 +605,7 @@
       "genericSkillRef": "agent-handoff"
     },
     {
-      "id": "mattpocock/to-prd",
+      "id": "mattpocock/to-spec",
       "name": "To PRD",
       "level": "3★",
       "trustMagnitude": 63.71,
@@ -595,7 +616,7 @@
       "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/mattpocock/to-prd.json"
+        "self": "/api/v1/skills/mattpocock/to-spec.json"
       },
       "genericSkillRef": "prd-generation"
     },
@@ -794,27 +815,11 @@
         "self": "/api/v1/skills/gsd-build/verify-work.json"
       },
       "genericSkillRef": "verification-before-completion"
-    },
-    {
-      "id": "vercel-labs/vercel-react-best-practices",
-      "name": "Vercel React Best Practices",
-      "level": "3★",
-      "trustMagnitude": 50.48,
-      "overallTrustGrade": "B",
-      "contributor": "vercel-labs",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/vercel-labs/vercel-react-best-practices.json"
-      },
-      "genericSkillRef": "react-performance-optimization"
     }
   ],
   "page": 2,
   "totalPages": 4,
-  "totalSkills": 194,
+  "totalSkills": 195,
   "_links": {
     "self": "/api/v1/skills/page-2.json",
     "prev": "/api/v1/skills/index.json",

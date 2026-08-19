@@ -36,11 +36,18 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 4★ to 3★ per G7 final rankings calibration.
+- timestamp: '2026-08-19T11:49:11Z'
+  action: upstream_deprecated
+  contributor: unknown
+  previousValue: null
+  newValue: null
+  details: personal/ bucket removed entirely upstream; no successor bucket
 suiteRef: mattpocock/skills
 suiteComponents:
 - mattpocock/edit-article
 - mattpocock/obsidian-vault
 trustMagnitudeInputHash: 6d3e8fe18d151d7cb6dd617859e75e659faa6cc3bce88adf66195ef1886aa841
+installable: false
 ---
 
 ## Overview
