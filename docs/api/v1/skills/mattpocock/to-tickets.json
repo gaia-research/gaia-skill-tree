@@ -1,6 +1,6 @@
 {
-  "id": "mattpocock/to-issues",
-  "name": "To Issues",
+  "id": "mattpocock/to-tickets",
+  "name": "To Tickets",
   "contributor": "mattpocock",
   "level": "3★",
   "type": "fusion",
@@ -11,7 +11,7 @@
   "rankWord": "Evolved",
   "medallion": "◇",
   "_links": {
-    "self": "/api/v1/skills/mattpocock/to-issues.json",
+    "self": "/api/v1/skills/mattpocock/to-tickets.json",
     "contributor": "/api/v1/contributors/mattpocock.json",
     "list": "/api/v1/skills/index.json"
   },
@@ -139,6 +139,18 @@
     },
     {
       "timestamp": "2026-08-05T06:27:10Z",
+      "action": "note",
+      "contributor": "unknown",
+      "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/to-tickets/SKILL.md"
+    },
+    {
+      "timestamp": "2026-08-19T11:49:27Z",
+      "action": "rename",
+      "contributor": "unknown",
+      "details": "Renamed named skill from mattpocock/to-issues to mattpocock/to-tickets"
+    },
+    {
+      "timestamp": "2026-08-19T11:49:27Z",
       "action": "note",
       "contributor": "unknown",
       "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/to-tickets/SKILL.md"

@@ -92,8 +92,8 @@
         "mattpocock/productivity",
         "mattpocock/prototype",
         "mattpocock/setup-matt-pocock-skills",
-        "mattpocock/to-issues",
-        "mattpocock/to-prd",
+        "mattpocock/to-spec",
+        "mattpocock/to-tickets",
         "mattpocock/triage",
         "mattpocock/ubiquitous-language",
         "mattpocock/write-a-skill",
@@ -241,8 +241,8 @@
         "mattpocock/improve-codebase-architecture",
         "mattpocock/prototype",
         "mattpocock/setup-matt-pocock-skills",
-        "mattpocock/to-issues",
-        "mattpocock/to-prd",
+        "mattpocock/to-spec",
+        "mattpocock/to-tickets",
         "mattpocock/triage",
         "mattpocock/ubiquitous-language",
         "mattpocock/zoom-out"
@@ -619,6 +619,28 @@
       "genericSkillRef": "semantic-cache"
     },
     {
+      "id": "mattpocock/misc",
+      "name": "Misc",
+      "level": "3★",
+      "trustMagnitude": 120.0,
+      "overallTrustGrade": "A",
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/misc.json"
+      },
+      "genericSkillRef": "mattpocock-misc",
+      "suiteComponents": [
+        "mattpocock/git-guardrails-claude-code",
+        "mattpocock/migrate-to-shoehorn",
+        "mattpocock/scaffold-exercises",
+        "mattpocock/setup-pre-commit"
+      ]
+    },
+    {
       "id": "ruvnet/reasoningbank",
       "name": "ReasoningBank",
       "level": "4★",
@@ -783,8 +805,8 @@
       "genericSkillRef": "personal-knowledge-management"
     },
     {
-      "id": "mattpocock/to-issues",
-      "name": "To Issues",
+      "id": "mattpocock/to-tickets",
+      "name": "To Tickets",
       "level": "3★",
       "trustMagnitude": 105.68,
       "overallTrustGrade": "A",
@@ -794,7 +816,7 @@
       "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/mattpocock/to-issues.json"
+        "self": "/api/v1/skills/mattpocock/to-tickets.json"
       },
       "genericSkillRef": "vertical-slice-planning"
     },
@@ -994,32 +1016,11 @@
         "self": "/api/v1/skills/k-dense-ai/qiskit.json"
       },
       "genericSkillRef": "quantum-circuit-programming"
-    },
-    {
-      "id": "mattpocock/productivity",
-      "name": "Productivity",
-      "level": "4★",
-      "trustMagnitude": 90.0,
-      "overallTrustGrade": "B",
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/productivity.json"
-      },
-      "genericSkillRef": "productivity",
-      "suiteComponents": [
-        "mattpocock/grill-me",
-        "mattpocock/handoff",
-        "mattpocock/write-a-skill"
-      ]
     }
   ],
   "page": 1,
   "totalPages": 4,
-  "totalSkills": 194,
+  "totalSkills": 195,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"

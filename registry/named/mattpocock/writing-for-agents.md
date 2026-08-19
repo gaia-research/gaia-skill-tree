@@ -1,17 +1,17 @@
 ---
-id: mattpocock/writing-great-skills
-name: Writing Great Skills
+id: mattpocock/writing-for-agents
+name: Writing For Agents
 contributor: mattpocock
 origin: false
 genericSkillRef: skill-authoring
 status: named
 links:
-  github: https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-great-skills/SKILL.md
+  github: https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-for-agents/SKILL.md
 level: 1★
 description: Reference for writing and editing skills to be predictable — vocabulary
   and principles for deterministic skills.
 createdAt: '2026-06-19'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-19'
 timeline:
 - timestamp: '2026-06-19T13:03:02Z'
   action: add
@@ -56,6 +56,14 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
+- timestamp: '2026-08-19T11:49:38Z'
+  action: rename
+  contributor: unknown
+  details: Renamed named skill from mattpocock/writing-great-skills to mattpocock/writing-for-agents
+- timestamp: '2026-08-19T11:49:38Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-for-agents/SKILL.md
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-great-skills/SKILL.md
   evaluator: unknown
@@ -91,7 +99,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 854f0f32706bc1453786631d754def26a41ab6fc472a78d286a98b264023a5e6
-title: Writing Great Skills
+title: Writing For Agents
 ---
 
 ## Installation

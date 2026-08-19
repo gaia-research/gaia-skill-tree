@@ -782,6 +782,35 @@
     ]
   },
   {
+    "id": "mattpocock/misc",
+    "name": "Misc",
+    "contributor": "mattpocock",
+    "level": "3★",
+    "grade": "A",
+    "trustMagnitude": 120.0,
+    "branch": "suite",
+    "tokens": [
+      "commit",
+      "do",
+      "engineering",
+      "exercise",
+      "fit",
+      "guardrails",
+      "mattpocock",
+      "migration",
+      "misc",
+      "not",
+      "pre",
+      "productivity",
+      "scaffolding",
+      "setup",
+      "skills",
+      "split",
+      "that",
+      "utility"
+    ]
+  },
+  {
     "id": "ruvnet/reasoningbank",
     "name": "ReasoningBank",
     "contributor": "ruvnet",
@@ -1120,8 +1149,8 @@
     ]
   },
   {
-    "id": "mattpocock/to-issues",
-    "name": "To Issues",
+    "id": "mattpocock/to-tickets",
+    "name": "To Tickets",
     "contributor": "mattpocock",
     "level": "3★",
     "grade": "A",
@@ -1158,6 +1187,7 @@
       "spec",
       "that",
       "through",
+      "tickets",
       "tracer",
       "vertical"
     ]
@@ -2737,7 +2767,7 @@
     ]
   },
   {
-    "id": "mattpocock/to-prd",
+    "id": "mattpocock/to-spec",
     "name": "To PRD",
     "contributor": "mattpocock",
     "level": "3★",

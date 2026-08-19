@@ -163,37 +163,48 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 
 ◆ mattpocock/skills  [5★]
 ─────────────────────────────────────────────────────────────────
+  ├─ ○ ████████/domain-modeling
   ├─ · mattpocock/engineering  [4★]
+  │  ├─ · firecrawl/firecrawl-build-onboarding  [3★]
+  │  │  ├─ ○ garrytan/document-generate  [3★]
+  │  │  └─ ○ /tool-use
   │  ├─ · devin-ai/autonomous-swe  [3★]
   │  │  ├─ ○ garrytan/design-html  [3★]
   │  │  ├─ ○ /code-execution
   │  │  └─ ○ /error-interpretation
-  │  ├─ ○ addy-osmani/code-simplification  [3★]
-  │  ├─ · garrytan/garrytan  [4★]
-  │  │  ├─ ○ /plan-decompose
-  │  │  └─ ○ ████████/ask-matt
-  │  ├─ · mattpocock/to-prd  [3★]
-  │  │  ├─ ○ garrytan/retro  [3★]
-  │  │  └─ ○ /plan-decompose  (↑ see above)
-  │  ├─ ○ mattpocock/triage  [3★]
-  │  ├─ · mattpocock/ubiquitous-language  [3★]
-  │  │  ├─ ○ /extract-entities
-  │  │  └─ ○ ████████/requirements-engineer
   │  ├─ ○ ████████/zoom-out
+  │  ├─ ○ ████████/domain-modeling  (↑ see above)
   │  ├─ · mattpocock/grill-with-docs  [3★]
   │  │  ├─ · mattpocock/grill-me  [3★]
   │  │  │  ├─ · garrytan/design-shotgun  [3★]
   │  │  │  │  ├─ ○ garrytan/benchmark  [3★]
-  │  │  │  │  └─ ○ /plan-decompose  (↑ see above)
+  │  │  │  │  └─ ○ /plan-decompose
   │  │  │  └─ ○ /self-critique
-  │  │  ├─ · mattpocock/ubiquitous-language  [3★]  (↑ see above)
-  │  │  └─ ○ garrytan/document-generate  [3★]
+  │  │  ├─ · mattpocock/ubiquitous-language  [3★]
+  │  │  │  ├─ ○ /extract-entities
+  │  │  │  └─ ○ ████████/requirements-engineer
+  │  │  └─ ○ garrytan/document-generate  [3★]  (↑ see above)
+  │  ├─ ○ mattpocock/triage  [3★]
+  │  ├─ · mattpocock/to-spec  [3★]
+  │  │  ├─ ○ garrytan/retro  [3★]
+  │  │  └─ ○ /plan-decompose  (↑ see above)
   │  ├─ · mattpocock/prototype  [2★]
   │  │  ├─ ○ garrytan/design-html  [3★]  (↑ see above)
   │  │  └─ ○ /code-execution  (↑ see above)
-  │  └─ · firecrawl/firecrawl-build-onboarding  [3★]
-  │     ├─ ○ garrytan/document-generate  [3★]  (↑ see above)
-  │     └─ ○ /tool-use
+  │  ├─ ○ addy-osmani/code-simplification  [3★]
+  │  └─ · garrytan/garrytan  [4★]
+  │     ├─ ○ /plan-decompose  (↑ see above)
+  │     └─ ○ ████████/ask-matt
+  ├─ · mattpocock/misc  [3★]
+  │  ├─ · garrytan/careful  [3★]
+  │  │  ├─ ○ garrytan/benchmark  [3★]  (↑ see above)
+  │  │  ├─ ○ /classify
+  │  │  └─ ○ /structured-output
+  │  ├─ ○ addy-osmani/code-simplification  [3★]  (↑ see above)
+  │  └─ · garrytan/skillify  [3★]
+  │     ├─ ○ /generate-text
+  │     ├─ ○ /structured-output  (↑ see above)
+  │     └─ ○ garrytan/design-html  [3★]  (↑ see above)
   ├─ · mattpocock/productivity  [4★]
   │  ├─ · mattpocock/handoff  [3★]
   │  │  ├─ ○ /summarize
@@ -204,13 +215,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  └─ · mattpocock/write-a-skill  [3★]
   │     ├─ ○ garrytan/design-html  [3★]  (↑ see above)
   │     └─ ○ /tool-use  (↑ see above)
-  ├─ · mattpocock/personal  [3★]
-  │  ├─ ○ garrytan/document-generate  [3★]  (↑ see above)
-  │  └─ · mattpocock/obsidian-vault  [3★]
-  │     ├─ ○ /retrieve
-  │     └─ ○ garrytan/context-restore  [2★]  (↑ see above)
-  ├─ · mattpocock/write-a-skill  [3★]  (↑ see above)
-  └─ · mattpocock/ubiquitous-language  [3★]  (↑ see above)
+  └─ · mattpocock/write-a-skill  [3★]  (↑ see above)
 
 ◆ obra/superpowers  [5★]
 ─────────────────────────────────────────────────────────────────
@@ -296,6 +301,13 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ○ disler/opinion  [2★]
   ├─ ○ disler/plan-synthesis  [2★]
   └─ ○ disler/auto-review  [2★]
+
+◆ mattpocock/personal  [3★]
+─────────────────────────────────────────────────────────────────
+  ├─ ○ garrytan/document-generate  [3★]
+  └─ · mattpocock/obsidian-vault  [3★]
+     ├─ ○ /retrieve
+     └─ ○ garrytan/context-restore  [2★]
 
 ◆ remotion-dev/remotion-best-practices  [2★]
 ─────────────────────────────────────────────────────────────────
@@ -396,7 +408,6 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   ○ /clinical-data-retrieval
   ○ ████████/update-unique-churches
   ○ /cultural-localization
-  ○ ████████/domain-modeling
   ○ ████████/attendees
   ○ ████████/export-attendees
   ○ ████████/triage-conference

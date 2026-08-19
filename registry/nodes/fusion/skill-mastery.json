@@ -4,11 +4,11 @@
   "type": "fusion",
   "description": "Ultimate capstone suite for Matt Pocock's skills.",
   "prerequisites": [
+    "domain-modeling",
     "engineering-discipline",
+    "mattpocock-misc",
     "productivity",
-    "personal",
-    "tool-creation",
-    "ubiquitous-language"
+    "tool-creation"
   ],
   "derivatives": [],
   "evidence": [
@@ -43,7 +43,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-22",
-  "updatedAt": "2026-07-16",
+  "updatedAt": "2026-08-19",
   "version": "0.1.0",
   "timeline": [
     {

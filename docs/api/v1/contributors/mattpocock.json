@@ -29,8 +29,8 @@
         "mattpocock/productivity",
         "mattpocock/prototype",
         "mattpocock/setup-matt-pocock-skills",
-        "mattpocock/to-issues",
-        "mattpocock/to-prd",
+        "mattpocock/to-spec",
+        "mattpocock/to-tickets",
         "mattpocock/triage",
         "mattpocock/ubiquitous-language",
         "mattpocock/write-a-skill",
@@ -58,11 +58,33 @@
         "mattpocock/improve-codebase-architecture",
         "mattpocock/prototype",
         "mattpocock/setup-matt-pocock-skills",
-        "mattpocock/to-issues",
-        "mattpocock/to-prd",
+        "mattpocock/to-spec",
+        "mattpocock/to-tickets",
         "mattpocock/triage",
         "mattpocock/ubiquitous-language",
         "mattpocock/zoom-out"
+      ]
+    },
+    {
+      "id": "mattpocock/misc",
+      "name": "Misc",
+      "level": "3★",
+      "trustMagnitude": 120.0,
+      "overallTrustGrade": "A",
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/misc.json"
+      },
+      "genericSkillRef": "mattpocock-misc",
+      "suiteComponents": [
+        "mattpocock/git-guardrails-claude-code",
+        "mattpocock/migrate-to-shoehorn",
+        "mattpocock/scaffold-exercises",
+        "mattpocock/setup-pre-commit"
       ]
     },
     {
@@ -114,8 +136,8 @@
       "genericSkillRef": "personal-knowledge-management"
     },
     {
-      "id": "mattpocock/to-issues",
-      "name": "To Issues",
+      "id": "mattpocock/to-tickets",
+      "name": "To Tickets",
       "level": "3★",
       "trustMagnitude": 105.68,
       "overallTrustGrade": "A",
@@ -125,7 +147,7 @@
       "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/mattpocock/to-issues.json"
+        "self": "/api/v1/skills/mattpocock/to-tickets.json"
       },
       "genericSkillRef": "vertical-slice-planning"
     },
@@ -215,7 +237,7 @@
       "genericSkillRef": "agent-handoff"
     },
     {
-      "id": "mattpocock/to-prd",
+      "id": "mattpocock/to-spec",
       "name": "To PRD",
       "level": "3★",
       "trustMagnitude": 63.71,
@@ -226,7 +248,7 @@
       "rankWord": "Evolved",
       "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/mattpocock/to-prd.json"
+        "self": "/api/v1/skills/mattpocock/to-spec.json"
       },
       "genericSkillRef": "prd-generation"
     },
@@ -347,16 +369,16 @@
       "genericSkillRef": "prototype"
     }
   ],
-  "namedSkillsCount": 19,
+  "namedSkillsCount": 20,
   "topSkill": {
     "id": "mattpocock/skills",
     "level": "5★",
     "trustMagnitude": 489.45
   },
-  "prestigeScore": 1980.8,
+  "prestigeScore": 2100.8,
   "gradeDistribution": {
     "S": 1,
-    "A": 6,
+    "A": 7,
     "B": 8,
     "C": 4
   },

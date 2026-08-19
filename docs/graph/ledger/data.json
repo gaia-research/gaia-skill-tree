@@ -1,15 +1,15 @@
 {
-  "version": "7.7.3",
-  "generatedAt": "2026-08-19T11:32:00Z",
+  "version": "7.7.1",
+  "generatedAt": "2026-08-19T11:52:47Z",
   "summary": {
-    "total": 232,
+    "total": 233,
     "S": 5,
-    "A": 63,
+    "A": 64,
     "B": 68,
     "C": 82,
     "ungraded": 14,
     "floor": 0,
-    "up": 29
+    "up": 30
   },
   "rows": [
     {
@@ -529,6 +529,22 @@
       "branch": "standard"
     },
     {
+      "skillId": "mattpocock/misc",
+      "tm": 120.0,
+      "grade": "A",
+      "currentStars": "3★",
+      "mayStars": "3★",
+      "juneStars": "3★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "fusion-recipe": 120.0
+      },
+      "origin": false,
+      "branch": "suite"
+    },
+    {
       "skillId": "ruvnet/reasoningbank",
       "tm": 118.5,
       "grade": "A",
@@ -708,7 +724,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "mattpocock/to-issues",
+      "skillId": "mattpocock/to-tickets",
       "tm": 105.68,
       "grade": "A",
       "currentStars": "3★",
@@ -2186,7 +2202,7 @@
       "branch": "standard"
     },
     {
-      "skillId": "mattpocock/to-prd",
+      "skillId": "mattpocock/to-spec",
       "tm": 63.71,
       "grade": "B",
       "currentStars": "3★",

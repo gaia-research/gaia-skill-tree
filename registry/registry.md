@@ -61,6 +61,7 @@
 | · [ruvnet](../docs/u/ruvnet/)/agentdb-advanced | Fusion | 2★ | `/distributed-vector-memory` |
 | · /document-analyst | Fusion | — | `/document-analyst` |
 | ○ [garrytan](../docs/u/garrytan/)/document-generate | Basic | 3★ | `/document-editing` |
+| ○ ████████/domain-modeling | Basic | — | `/domain-modeling` |
 | · [ruvnet](../docs/u/ruvnet/)/dual-mode | Fusion | 4★ | `/dual-mode` |
 | · [garrytan](../docs/u/garrytan/)/qa | Fusion | 3★ | `/e2e-testing` |
 | · /edge-optimization | Fusion | — | `/edge-optimization` |
@@ -112,6 +113,7 @@
 | ○ [remotion-dev](../docs/u/remotion-dev/)/remotion-maps | Basic | 2★ | `/map-animation` |
 | ○ /math-reason | Basic | — | `/math-reason` |
 | · /mathematical-animation | Fusion | — | `/mathematical-animation` |
+| · [mattpocock](../docs/u/mattpocock/)/misc | Fusion | 3★ | `/mattpocock-misc` |
 | · /mcp-debugger-control | Fusion | — | `/mcp-debugger-control` |
 | ○ [garrytan](../docs/u/garrytan/)/pair-agent | Basic | 2★ | `/mcp-integration` |
 | · /mcp-server-creation | Fusion | — | `/mcp-server-creation` |
@@ -143,7 +145,7 @@
 | ○ /plan-decompose | Basic | — | `/plan-decompose` |
 | ○ [disler](../docs/u/disler/)/plan-synthesis | Basic | 2★ | `/plan-synthesis` |
 | · [ruvnet](../docs/u/ruvnet/)/ruflo-v3 | Fusion | 4★ | `/platform-modernization-sprint` |
-| · [mattpocock](../docs/u/mattpocock/)/to-prd | Fusion | 3★ | `/prd-generation` |
+| · [mattpocock](../docs/u/mattpocock/)/to-spec | Fusion | 3★ | `/prd-generation` |
 | · /prediction-market-analysis | Fusion | — | `/prediction-market-analysis` |
 | ○ [k-dense-ai](../docs/u/k-dense-ai/)/pymc | Basic | 4★ | `/probabilistic-programming` |
 | · [mattpocock](../docs/u/mattpocock/)/productivity | Fusion | 4★ | `/productivity` |
@@ -282,7 +284,6 @@
 | ○ Clinical Data Retrieval | Intrinsic Skill | — | `/clinical-data-retrieval` |
 | ○ CRM Data Cleanup | Intrinsic Skill | — | `/crm-data-cleanup` |
 | ○ Cultural Localization | Intrinsic Skill | — | `/cultural-localization` |
-| ○ Domain Modeling | Intrinsic Skill | — | `/domain-modeling` |
 | ○ Event Attendance Metrics | Intrinsic Skill | — | `/event-attendance-metrics` |
 | ○ Event Attendee Management | Intrinsic Skill | — | `/event-attendee-management` |
 | ○ Event Support Triage | Intrinsic Skill | — | `/event-support-triage` |

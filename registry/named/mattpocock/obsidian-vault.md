@@ -88,6 +88,12 @@ timeline:
 - action: migrate_trust_magnitude
   timestamp: '2026-06-19T17:13:03Z'
   details: TM 11.21 -> 90.38, grade ungraded -> B (direct edit -- CLI gap)
+- timestamp: '2026-08-19T11:49:10Z'
+  action: upstream_deprecated
+  contributor: unknown
+  previousValue: null
+  newValue: null
+  details: 'deleted upstream for security: hardcoded personal vault path, was model-invocable'
 trustMagnitude: 90.38
 overallTrustGrade: B
 apexGateStatus:
@@ -102,6 +108,7 @@ apexGateStatus:
 trustMagnitudeInputHash: a7ba764dc6d2a5d586b7773dd6f99205775a5fc6221851ffe43470f841373e6e
 verification:
   firstEvidenceAt: '2026-06-19T17:07:33Z'
+installable: false
 ---
 
 ## Installation

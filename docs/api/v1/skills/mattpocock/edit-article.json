@@ -147,6 +147,14 @@
       "action": "rank_up",
       "contributor": "mbtiongson1",
       "details": "Level updated from 2★ to 3★ per G7 final rankings calibration."
+    },
+    {
+      "timestamp": "2026-08-19T11:49:10Z",
+      "action": "upstream_deprecated",
+      "contributor": "unknown",
+      "previousValue": null,
+      "newValue": null,
+      "details": "personal/ bucket deleted upstream (v1.2.x); no successor"
     }
   ],
   "links": {

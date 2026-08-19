@@ -13,8 +13,8 @@
       "members": [
         "mattpocock/diagnose",
         "mattpocock/improve-codebase-architecture",
-        "mattpocock/to-issues",
-        "mattpocock/to-prd",
+        "mattpocock/to-tickets",
+        "mattpocock/to-spec",
         "mattpocock/triage",
         "mattpocock/ubiquitous-language",
         "mattpocock/zoom-out",

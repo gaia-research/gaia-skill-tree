@@ -1,5 +1,5 @@
 ---
-id: mattpocock/to-prd
+id: mattpocock/to-spec
 name: To PRD
 contributor: mattpocock
 origin: true
@@ -21,7 +21,7 @@ tags:
 - product-management
 - issue-tracker
 createdAt: '2026-04-30'
-updatedAt: '2026-08-05'
+updatedAt: '2026-08-19'
 suiteRef: mattpocock/engineering
 evidence:
 - class: B
@@ -107,6 +107,14 @@ timeline:
   contributor: mbtiongson1
   details: Level updated from 2★ to 3★ per G7 final rankings calibration.
 - timestamp: '2026-08-05T06:27:13Z'
+  action: note
+  contributor: unknown
+  details: Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/to-spec/SKILL.md
+- timestamp: '2026-08-19T11:49:33Z'
+  action: rename
+  contributor: unknown
+  details: Renamed named skill from mattpocock/to-prd to mattpocock/to-spec
+- timestamp: '2026-08-19T11:49:33Z'
   action: note
   contributor: unknown
   details: Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/to-spec/SKILL.md
