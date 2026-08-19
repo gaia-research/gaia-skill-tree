@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-08-19T11:32:02Z",
+  "generatedAt": "2026-08-19T16:23:24Z",
   "firstRun": false,
   "skills": [
     {
@@ -102,6 +102,34 @@
       }
     },
     {
+      "id": "mattpocock/misc",
+      "name": "Misc",
+      "level": "3★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 120.0,
+      "overallTrustGrade": "A",
+      "trendingScore": 60.0,
+      "tmDelta": 120.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/misc.json"
+      }
+    },
+    {
+      "id": "mattpocock/to-tickets",
+      "name": "To Tickets",
+      "level": "3★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 105.68,
+      "overallTrustGrade": "A",
+      "trendingScore": 52.84,
+      "tmDelta": 105.68,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/to-tickets.json"
+      }
+    },
+    {
       "id": "addy-osmani/spec-driven-development",
       "name": "Spec-Driven Development",
       "level": "3★",
@@ -144,6 +172,20 @@
       }
     },
     {
+      "id": "mattpocock/to-spec",
+      "name": "To PRD",
+      "level": "3★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 63.71,
+      "overallTrustGrade": "B",
+      "trendingScore": 31.86,
+      "tmDelta": 63.71,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/to-spec.json"
+      }
+    },
+    {
       "id": "mattpocock/diagnose",
       "name": "Diagnose",
       "level": "3★",
@@ -183,20 +225,6 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/mattpocock/obsidian-vault.json"
-      }
-    },
-    {
-      "id": "mattpocock/to-issues",
-      "name": "To Issues",
-      "level": "3★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 105.68,
-      "overallTrustGrade": "A",
-      "trendingScore": 18.69,
-      "tmDelta": 15.3,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/to-issues.json"
       }
     },
     {
@@ -662,7 +690,7 @@
       }
     }
   ],
-  "totalTrending": 47,
+  "totalTrending": 49,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }

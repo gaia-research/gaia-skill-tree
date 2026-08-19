@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-19T11:32:02Z",
+  "generatedAt": "2026-08-19T16:23:24Z",
   "buckets": [
     {
       "genericSkillRef": "git-ship-done-pipeline",
@@ -119,7 +119,7 @@
           "origin": true
         },
         {
-          "id": "mattpocock/to-issues",
+          "id": "mattpocock/to-tickets",
           "trustMagnitude": 105.68,
           "level": "3★",
           "overallTrustGrade": "A",
@@ -469,7 +469,7 @@
           "origin": true
         },
         {
-          "id": "mattpocock/to-prd",
+          "id": "mattpocock/to-spec",
           "trustMagnitude": 63.71,
           "level": "3★",
           "overallTrustGrade": "B",
