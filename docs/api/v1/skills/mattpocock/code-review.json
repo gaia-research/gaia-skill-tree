@@ -1,0 +1,61 @@
+{
+  "id": "mattpocock/code-review",
+  "name": "Code Review",
+  "contributor": "mattpocock",
+  "level": "2★",
+  "type": "fusion",
+  "status": "named",
+  "trustMagnitude": 20.77,
+  "overallTrustGrade": "C",
+  "branch": "standard",
+  "rankWord": "Named",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/mattpocock/code-review.json",
+    "contributor": "/api/v1/contributors/mattpocock.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "The Twin-Axis Reviewer",
+  "genericSkillRef": "requesting-code-review",
+  "origin": false,
+  "description": "Review the changes since a fixed point (commit, branch, tag, or merge-base) along two axes: Standards (does the code follow this repo's documented coding standards?) and Spec (does the code match what the originating issue/spec asked for?). Runs both reviews in parallel sub-agents and reports them side by side.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/code-review/SKILL.md",
+      "evaluator": "marco-tngsn",
+      "date": "2026-08-20",
+      "type": "repo-own",
+      "notes": "Confirmed-promoted skill in mattpocock/skills engineering bucket per upstream v1.2.3 taxonomy (not in-progress/). Shared-repo metrics (523 commits, 4 contributors, MIT license) per Stage-1 collection 2026-08-19.",
+      "commits": 523,
+      "contributors": 4,
+      "grade": "C"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-08-19T16:10:19Z",
+      "action": "add",
+      "contributor": "marco-tngsn",
+      "details": "Added named skill mattpocock/code-review"
+    },
+    {
+      "timestamp": "2026-08-19T16:10:32Z",
+      "action": "evidence_added",
+      "contributor": "marco-tngsn",
+      "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/code-review/SKILL.md (type: repo-own)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/code-review/SKILL.md"
+  }
+}

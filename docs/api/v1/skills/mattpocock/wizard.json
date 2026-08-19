@@ -1,0 +1,61 @@
+{
+  "id": "mattpocock/wizard",
+  "name": "Wizard",
+  "contributor": "mattpocock",
+  "level": "2★",
+  "type": "basic",
+  "status": "named",
+  "trustMagnitude": 20.77,
+  "overallTrustGrade": "C",
+  "branch": "standard",
+  "rankWord": "Named",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/mattpocock/wizard.json",
+    "contributor": "/api/v1/contributors/mattpocock.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "The Guided Setup Wizard",
+  "genericSkillRef": "guided-setup-scripting",
+  "origin": false,
+  "description": "Generate an interactive bash wizard that walks a human through steps only they can perform. Use when provisioning infrastructure, setting up credentials or CI secrets, walking an unfamiliar third-party dashboard, or running a one-off migration or cutover.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/wizard/SKILL.md",
+      "evaluator": "marco-tngsn",
+      "date": "2026-08-20",
+      "type": "repo-own",
+      "notes": "Confirmed-promoted skill in mattpocock/skills engineering bucket per upstream v1.2.3 taxonomy. Shared-repo metrics (523 commits, 4 contributors, MIT license) per Stage-1 collection 2026-08-19.",
+      "commits": 523,
+      "contributors": 4,
+      "grade": "C"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-08-19T16:10:19Z",
+      "action": "add",
+      "contributor": "marco-tngsn",
+      "details": "Added named skill mattpocock/wizard"
+    },
+    {
+      "timestamp": "2026-08-19T16:10:33Z",
+      "action": "evidence_added",
+      "contributor": "marco-tngsn",
+      "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/wizard/SKILL.md (type: repo-own)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/wizard/SKILL.md"
+  }
+}

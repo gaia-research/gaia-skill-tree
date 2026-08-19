@@ -375,6 +375,13 @@
           <attvalue for="type" value="basic" />
         </attvalues>
       </node>
+      <node id="decision-ticket-planning" label="Decision Ticket Planning">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="deployment-automation" label="Deployment Automation">
         <attvalues>
           <attvalue for="level" value="" />
@@ -760,6 +767,13 @@
           <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
+      <node id="guided-setup-scripting" label="Guided Setup Scripting">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="headless-worker-collect" label="Headless Worker Collect">
         <attvalues>
           <attvalue for="level" value="" />
@@ -1096,6 +1110,13 @@
           <attvalue for="type" value="fusion" />
         </attvalues>
       </node>
+      <node id="plain-language-restatement" label="Plain Language Restatement">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
       <node id="plan-and-execute" label="Plan and Execute">
         <attvalues>
           <attvalue for="level" value="" />
@@ -1216,6 +1237,13 @@
         </attvalues>
       </node>
       <node id="question-answer" label="Question Answer">
+        <attvalues>
+          <attvalue for="level" value="" />
+          <attvalue for="status" value="provisional" />
+          <attvalue for="type" value="basic" />
+        </attvalues>
+      </node>
+      <node id="questionnaire-generation" label="Questionnaire Generation">
         <attvalues>
           <attvalue for="level" value="" />
           <attvalue for="status" value="provisional" />

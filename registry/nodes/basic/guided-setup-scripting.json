@@ -1,0 +1,22 @@
+{
+  "id": "guided-setup-scripting",
+  "name": "Guided Setup Scripting",
+  "type": "basic",
+  "description": "Generate an interactive script that walks a human through steps only they can perform, such as provisioning infrastructure, setting up credentials, or running a one-off migration.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-08-20",
+  "updatedAt": "2026-08-20",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-08-19T16:08:50Z",
+      "action": "add",
+      "contributor": "marco-tngsn",
+      "details": "Added generic skill guided-setup-scripting"
+    }
+  ]
+}
