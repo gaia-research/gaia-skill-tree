@@ -172,7 +172,7 @@
 | · ████████/release | Fusion | — | `/release-automation` |
 | · [obra](../docs/u/obra/)/requesting-code-review | Fusion | 2★ | `/requesting-code-review` |
 | ○ ████████/requirements-engineer | Basic | — | `/requirements-analysis` |
-| · /research | Fusion | — | `/research` |
+| · [mattpocock](../docs/u/mattpocock/)/research | Fusion | 2★ | `/research` |
 | ○ /retrieve | Basic | — | `/retrieve` |
 | ○ /reward-modeling | Basic | — | `/reward-modeling` |
 | ○ ████████/ask-matt | Basic | — | `/route-intent` |
@@ -284,6 +284,7 @@
 | ○ Clinical Data Retrieval | Intrinsic Skill | — | `/clinical-data-retrieval` |
 | ○ CRM Data Cleanup | Intrinsic Skill | — | `/crm-data-cleanup` |
 | ○ Cultural Localization | Intrinsic Skill | — | `/cultural-localization` |
+| ○ Decision Ticket Planning | Intrinsic Skill | 2★ | `/decision-ticket-planning` |
 | ○ Event Attendance Metrics | Intrinsic Skill | — | `/event-attendance-metrics` |
 | ○ Event Attendee Management | Intrinsic Skill | — | `/event-attendee-management` |
 | ○ Event Support Triage | Intrinsic Skill | — | `/event-support-triage` |
@@ -292,12 +293,15 @@
 | ○ Framework Upgrade | Intrinsic Skill | 2★ | `/framework-upgrade` |
 | ○ Git Diff Risk Analysis | Intrinsic Skill | 2★ | `/git-diff-risk-analysis` |
 | ○ Grant Application Processing | Intrinsic Skill | — | `/grant-application-processing` |
+| ○ Guided Setup Scripting | Intrinsic Skill | 2★ | `/guided-setup-scripting` |
 | ○ Image Generate | Intrinsic Skill | — | `/image-generate` |
 | ○ Object Detection | Intrinsic Skill | — | `/object-detection` |
 | ○ Pathway Ontology Retrieval | Intrinsic Skill | — | `/pathway-ontology-retrieval` |
+| ○ Plain Language Restatement | Intrinsic Skill | 2★ | `/plain-language-restatement` |
 | ○ postgres-best-practices | Intrinsic Skill | 2★ | `/postgres-best-practices` |
 | ○ Prompt Caching | Intrinsic Skill | — | `/prompt-caching` |
 | ○ Quantum Circuit Programming | Intrinsic Skill | 3★ | `/quantum-circuit-programming` |
+| ○ Questionnaire Generation | Intrinsic Skill | 2★ | `/questionnaire-generation` |
 | ○ React Performance Optimization | Intrinsic Skill | 3★ | `/react-performance-optimization` |
 | ○ Scroll World | Intrinsic Skill | 3★ | `/scroll-world` |
 | ○ Self-Consistency | Intrinsic Skill | 3★ | `/self-consistency` |
