@@ -119,6 +119,12 @@ timeline:
   details: 'Component mattpocock/caveman permanently removed (not frozen) from this
     suite: Author''s CHANGELOG: caveman was a duplicate of another skill being tested
     and was never meant to be public. No replacement. (Issue #1453)'
+- timestamp: '2026-08-19T11:18:21Z'
+  action: upstream_synced
+  contributor: nova-gaia
+  previousValue: v1.1.0
+  newValue: v1.2.3
+  details: synced from https://github.com/mattpocock/skills/releases/tag/v1.2.3
 evidence:
 - source: https://github.com/mattpocock/skills/stargazers
   evaluator: mbtiongson1
@@ -162,11 +168,11 @@ verification:
 trustMagnitudeInputHash: 349d174f8f94cd100299e12ac72dde50e45702118e3e22c9d36cf4091e48f522
 upstream:
   mode: components
-  releasedAt: '2026-07-08T13:20:57Z'
+  releasedAt: '2026-08-06T14:05:28Z'
   repo: mattpocock/skills
-  sourceUrl: https://github.com/mattpocock/skills/releases/tag/v1.1.0
-  syncedAt: '2026-07-08T19:53:32Z'
-  version: v1.1.0
+  sourceUrl: https://github.com/mattpocock/skills/releases/tag/v1.2.3
+  syncedAt: '2026-08-19T11:18:21Z'
+  version: v1.2.3
 suiteComponents:
   - mattpocock/diagnose
   - mattpocock/edit-article
