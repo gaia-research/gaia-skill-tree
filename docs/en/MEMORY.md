@@ -101,7 +101,7 @@ stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`) still linked.
 
 ### Token spend
 
-2026-08-19 Sonnet 5 Low: TBD — filled in on the PR comment.
+2026-08-19 Sonnet 5 Low: ~75k in, ~9k out. ~$0.30
 
 ---
 
