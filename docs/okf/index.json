@@ -4,7 +4,7 @@
   "families": [
     {
       "id": "basic",
-      "count": 136,
+      "count": 140,
       "skills": [
         {
           "id": "adaptive-pattern-learning",
@@ -132,6 +132,11 @@
           "summary": "Generates charts, graphs, and visual summaries from datasets by selecting appropriate visualization types and mapping data dimensions."
         },
         {
+          "id": "decision-ticket-planning",
+          "name": "Decision Ticket Planning",
+          "summary": "Plan work too large for one session as a shared map of decision tickets on an issue tracker, resolving them one at a time until the path forward is clear."
+        },
+        {
           "id": "diff-content",
           "name": "Diff Content",
           "summary": "Compares two versions of content and produces a structured delta highlighting additions, deletions, and modifications."
@@ -245,6 +250,11 @@
           "id": "grant-application-processing",
           "name": "Grant Application Processing",
           "summary": "Process financial aid, grant, or assistance applications by calculating discounts, assigning discount codes, updating tracker logs, and sending status updates."
+        },
+        {
+          "id": "guided-setup-scripting",
+          "name": "Guided Setup Scripting",
+          "summary": "Generate an interactive script that walks a human through steps only they can perform, such as provisioning infrastructure, setting up credentials, or running a one-off migration."
         },
         {
           "id": "headless-worker-collect",
@@ -372,6 +382,11 @@
           "summary": "Profiles execution hotspots, measures throughput and latency, and applies targeted optimizations to reduce resource consumption."
         },
         {
+          "id": "plain-language-restatement",
+          "name": "Plain Language Restatement",
+          "summary": "Notice when a prior message did not land and re-pitch it in clearer, plainer terms rather than repeating the original phrasing."
+        },
+        {
           "id": "plan-decompose",
           "name": "Plan and Decompose",
           "summary": "Breaks a complex objective into an ordered sequence of executable sub-tasks."
@@ -420,6 +435,11 @@
           "id": "question-answer",
           "name": "Question Answer",
           "summary": "Produces accurate, context-grounded answers to natural-language questions, handling unanswerable cases."
+        },
+        {
+          "id": "questionnaire-generation",
+          "name": "Questionnaire Generation",
+          "summary": "Turn a decision that cannot be fully answered alone into a structured questionnaire for someone else to fill in."
         },
         {
           "id": "rank",

@@ -8,7 +8,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 
 ## Registry Index
 
-### Basic Skills (136)
+### Basic Skills (140)
 
 * [API Call](/skills/basic/api-call.md) - A fundamental skill that enables agents to interact with external services via HTTP API calls.
 * [Adaptive Pattern Learning](/skills/basic/adaptive-pattern-learning.md) - Implements adaptive learning through pattern recognition and strategy optimization.
@@ -35,6 +35,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [Core Platform Implementation](/skills/basic/core-platform-implementation.md) - Implements foundational platform architecture including plugin discovery, server lifecycle management, and API contracts.
 * [Cultural Localization](/skills/basic/cultural-localization.md) - Adapts content for regional audiences beyond translation: idioms, cultural nuance, tone, trust conventions, and regional compliance for culturally faithful output.
 * [Data Visualize](/skills/basic/data-visualize.md) - Generates charts, graphs, and visual summaries from datasets by selecting appropriate visualization types and mapping data dimensions.
+* [Decision Ticket Planning](/skills/basic/decision-ticket-planning.md) - Plan work too large for one session as a shared map of decision tickets on an issue tracker, resolving them one at a time until the path forward is clear.
 * [Diff Content](/skills/basic/diff-content.md) - Compares two versions of content and produces a structured delta highlighting additions, deletions, and modifications.
 * [Document Editing](/skills/basic/document-editing.md) - Reads, edits, repacks, and applies styling or design principles to structured binary document formats such as PPTX, DOCX, and XLSX.
 * [Domain Modeling](/skills/basic/domain-modeling.md) - Build and maintain a shared domain model with ubiquitous language and architectural decision records.
@@ -57,6 +58,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [Genomic Data Retrieval](/skills/basic/genomic-data-retrieval.md) - Queries and retrieves DNA sequence data, transcription factor binding models, cis-regulatory elements, and genetic annotations from genomic repositories (e.g. Ensembl, GTEx, JASPAR, UniBind, ENCODE, UCSC, dbSNP).
 * [Git Diff Risk Analysis](/skills/basic/git-diff-risk-analysis.md) - Analyzes git diffs for complexity, churn, and risk scores to prioritize review attention and flag dangerous changes.
 * [Grant Application Processing](/skills/basic/grant-application-processing.md) - Process financial aid, grant, or assistance applications by calculating discounts, assigning discount codes, updating tracker logs, and sending status updates.
+* [Guided Setup Scripting](/skills/basic/guided-setup-scripting.md) - Generate an interactive script that walks a human through steps only they can perform, such as provisioning infrastructure, setting up credentials, or running a one-off migration.
 * [Headless Worker Collect](/skills/basic/headless-worker-collect.md) - Aggregates and formats results from distributed headless workers stored in shared memory with filtering and status reporting.
 * [Headless Worker Spawn](/skills/basic/headless-worker-spawn.md) - Launches headless AI worker processes for parallel background task execution with configurable worker types and shared memory coordination.
 * [Hybrid Workflow Coordination](/skills/basic/hybrid-workflow-coordination.md) - Routes tasks between interactive reasoning phases and parallel background execution with configurable workflow templates.
@@ -80,6 +82,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [Parse PDF](/skills/basic/parse-pdf.md) - Extracts text, tables, equations, and structure from PDF documents, preserving layout and reading order.
 * [Pathway Ontology Retrieval](/skills/basic/pathway-ontology-retrieval.md) - Queries, parses, and resolves biological pathway models, cellular reactions, and hierarchical ontology metadata from pathway and ontology search systems (e.g., Reactome, QuickGO, EMBL-EBI OLS).
 * [Performance Tuning](/skills/basic/performance-tuning.md) - Profiles execution hotspots, measures throughput and latency, and applies targeted optimizations to reduce resource consumption.
+* [Plain Language Restatement](/skills/basic/plain-language-restatement.md) - Notice when a prior message did not land and re-pitch it in clearer, plainer terms rather than repeating the original phrasing.
 * [Plan Synthesis](/skills/basic/plan-synthesis.md) - Combine two or more independently produced plans into a single attributed result, resolving conflicts and surfacing consensus and divergence.
 * [Plan and Decompose](/skills/basic/plan-decompose.md) - Breaks a complex objective into an ordered sequence of executable sub-tasks.
 * [Probabilistic Programming](/skills/basic/probabilistic-programming.md) - Specifies Bayesian models and runs inference (MCMC/NUTS, variational) to quantify epistemic and aleatoric uncertainty using PyMC, Stan, Pyro, or NumPyro.
@@ -89,6 +92,7 @@ Welcome to the agent-readable Open Knowledge Format (OKF) bundle of the Gaia Ski
 * [Proteomic Data Retrieval](/skills/basic/proteomic-data-retrieval.md) - Queries and retrieves amino acid sequences, protein families, functional domains, tissue distribution, and protein-protein interactions from proteomic repositories (e.g. UniProt, InterPro, Human Protein Atlas, STRING).
 * [Quantum Circuit Programming](/skills/basic/quantum-circuit-programming.md) - Build, simulate, transpile, and execute quantum circuits on local simulators or quantum runtimes.
 * [Question Answer](/skills/basic/question-answer.md) - Produces accurate, context-grounded answers to natural-language questions, handling unanswerable cases.
+* [Questionnaire Generation](/skills/basic/questionnaire-generation.md) - Turn a decision that cannot be fully answered alone into a structured questionnaire for someone else to fill in.
 * [Rank](/skills/basic/rank.md) - Orders a set of candidate items by relevance, quality, or fitness for a given objective.
 * [React Performance Optimization](/skills/basic/react-performance-optimization.md) - Optimizes component rendering, data fetching, and bundle composition in React applications while preserving requested behavior.
 * [Refactor Code](/skills/basic/refactor-code.md) - Restructures existing source code to improve readability, maintainability, or performance without changing observable behavior.
