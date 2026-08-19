@@ -1,0 +1,70 @@
+{
+  "batchId": "20260819155506-marco.tngsn-from-file",
+  "userId": "marco.tngsn",
+  "sourceRepo": "gaia-research/gaia-skill-tree",
+  "generatedAt": "2026-08-19T15:55:06Z",
+  "fromFile": true,
+  "knownSkills": [],
+  "proposedSkills": [
+    {
+      "id": "plain-language-restatement",
+      "candidateId": "mattpocock/wait-what",
+      "name": "Plain Language Restatement",
+      "description": "Notice when a prior message did not land and re-pitch it in clearer, plainer terms rather than repeating the original phrasing.",
+      "attribution": {
+        "skill_file_url": "https://github.com/mattpocock/skills/blob/main/skills/productivity/wait-what/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "C",
+          "type": "repo",
+          "url": "https://github.com/mattpocock/skills/blob/main/skills/productivity/wait-what/SKILL.md",
+          "notes": "Source reference from discovery packet (unverified; Stage-1 minimum-effort evidence written separately)."
+        }
+      ],
+      "type": "basic",
+      "prerequisites": [],
+      "attributionScope": "standalone",
+      "named": {
+        "contributor": "mattpocock",
+        "skill_name": "wait-what",
+        "links_github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/wait-what/SKILL.md",
+        "level": "2\u2605"
+      },
+      "sourceRepo": "gaia-research/gaia-skill-tree",
+      "lifecycle": "pending"
+    }
+  ],
+  "similarity": [
+    {
+      "sourceSkillId": "plain-language-restatement",
+      "targetSkillId": "ml-artifact-management",
+      "score": 0.542,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "plain-language-restatement",
+      "targetSkillId": "multi-agent-orchestration-v",
+      "score": 0.528,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "plain-language-restatement",
+      "targetSkillId": "cloud-platform-management",
+      "score": 0.51,
+      "reason": "Lexical similarity from Gaia push scan."
+    }
+  ],
+  "curationHandoff": {
+    "contractVersion": "curation-handoff-v1",
+    "packetRefs": [
+      {
+        "candidateId": "mattpocock/wait-what",
+        "packetContentSha256": "7737706c19d3dc8a169144fd98e14f84f76f1bfe031b53090e0c994c53db0f43",
+        "sourceContentSha256": "33d3df40e5386df6b6d46def4965c8d0f7c769bddc096f07fef9d283f431be45",
+        "packetPath": "registry-for-review/discovery-packets/mattpocock-wait-what.discovery-packet-v2.json"
+      }
+    ]
+  }
+}

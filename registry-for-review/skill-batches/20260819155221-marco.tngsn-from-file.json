@@ -1,0 +1,74 @@
+{
+  "batchId": "20260819155221-marco.tngsn-from-file",
+  "userId": "marco.tngsn",
+  "sourceRepo": "gaia-research/gaia-skill-tree",
+  "generatedAt": "2026-08-19T15:52:21Z",
+  "fromFile": true,
+  "knownSkills": [],
+  "proposedSkills": [
+    {
+      "id": "research",
+      "candidateId": "mattpocock/research",
+      "name": "Research",
+      "description": "Conducts multi-source information gathering, synthesis, and citation for a given topic.",
+      "attribution": {
+        "skill_file_url": "https://github.com/mattpocock/skills/blob/main/skills/engineering/research/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "C",
+          "type": "repo",
+          "url": "https://github.com/mattpocock/skills/blob/main/skills/engineering/research/SKILL.md",
+          "notes": "Source reference from discovery packet (unverified; Stage-1 minimum-effort evidence written separately)."
+        }
+      ],
+      "type": "fusion",
+      "prerequisites": [
+        "web-search",
+        "summarize",
+        "cite-sources"
+      ],
+      "mapsToGeneric": "research",
+      "attributionScope": "standalone",
+      "named": {
+        "contributor": "mattpocock",
+        "skill_name": "research",
+        "links_github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/research/SKILL.md",
+        "level": "2\u2605"
+      },
+      "sourceRepo": "gaia-research/gaia-skill-tree",
+      "lifecycle": "pending"
+    }
+  ],
+  "similarity": [
+    {
+      "sourceSkillId": "research",
+      "targetSkillId": "research",
+      "score": 1.0,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "research",
+      "targetSkillId": "web-search",
+      "score": 0.778,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "research",
+      "targetSkillId": "vector-search",
+      "score": 0.667,
+      "reason": "Lexical similarity from Gaia push scan."
+    }
+  ],
+  "curationHandoff": {
+    "contractVersion": "curation-handoff-v1",
+    "packetRefs": [
+      {
+        "candidateId": "mattpocock/research",
+        "packetContentSha256": "adef7cc3be70be95c04987691238ac5a6023df5fd03d90715bcf554834685759",
+        "packetPath": "registry-for-review/discovery-packets/mattpocock-research.discovery-packet-v2.json"
+      }
+    ]
+  }
+}
