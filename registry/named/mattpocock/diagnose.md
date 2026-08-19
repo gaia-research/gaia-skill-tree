@@ -108,6 +108,13 @@ timeline:
   action: note
   contributor: unknown
   details: Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnosing-bugs/SKILL.md
+- timestamp: '2026-08-19T17:15:14Z'
+  action: upstream_deprecated
+  contributor: marco-tngsn
+  previousValue: null
+  newValue: null
+  details: Removed from mattpocock/skills suite in v1.0.1 (per skill's own description);
+    superseded by mattpocock/diagnosing-bugs, which links the same upstream engineering/diagnosing-bugs/SKILL.md.
 trustMagnitude: 90.38
 overallTrustGrade: B
 apexGateStatus:
@@ -123,6 +130,7 @@ verification:
   firstEvidenceAt: '2026-06-10T05:38:16Z'
 suiteRef: mattpocock/engineering
 trustMagnitudeInputHash: 4bc1966f539e634f304282dbaa5f91ab0f894c0d45971725a69e36bd9a21b9de
+installable: false
 ---
 
 ## Overview

@@ -13,7 +13,7 @@ description: The ultimate capstone suite encompassing all of Matt Pocock's engin
 links:
   github: https://github.com/mattpocock/skills
 createdAt: '2026-05-22'
-updatedAt: '2026-08-19'
+updatedAt: '2026-08-20'
 trustMagnitude: 480.29
 overallTrustGrade: S
 apexGateStatus:
