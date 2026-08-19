@@ -14,6 +14,19 @@
       }
     },
     {
+      "handle": "mattpocock",
+      "namedSkills": 26,
+      "topSkill": {
+        "id": "mattpocock/skills",
+        "level": "5★",
+        "trustMagnitude": 489.45
+      },
+      "prestigeScore": 2225.42,
+      "_links": {
+        "self": "/api/v1/contributors/mattpocock.json"
+      }
+    },
+    {
       "handle": "ruvnet",
       "namedSkills": 30,
       "topSkill": {
@@ -24,19 +37,6 @@
       "prestigeScore": 2170.65,
       "_links": {
         "self": "/api/v1/contributors/ruvnet.json"
-      }
-    },
-    {
-      "handle": "mattpocock",
-      "namedSkills": 20,
-      "topSkill": {
-        "id": "mattpocock/skills",
-        "level": "5★",
-        "trustMagnitude": 489.45
-      },
-      "prestigeScore": 2100.8,
-      "_links": {
-        "self": "/api/v1/contributors/mattpocock.json"
       }
     },
     {

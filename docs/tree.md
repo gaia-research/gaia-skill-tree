@@ -326,7 +326,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
 
   ◉ mvanhorn/last30days  [4★]
     ├─ · /ghostwrite
-    │  ├─ · /research
+    │  ├─ · mattpocock/research  [2★]
     │  │  ├─ ○ firecrawl/firecrawl-build-search  [4★]
     │  │  ├─ ○ /summarize
     │  │  └─ ○ /cite-sources
@@ -339,7 +339,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     │  │  └─ ○ /extract-entities
     │  ├─ ○ /extract-entities  (↑ see above)
     │  └─ ○ /embed-text
-    ├─ · /research  (↑ see above)
+    ├─ · mattpocock/research  [2★]  (↑ see above)
     ├─ · firecrawl/firecrawl-build-scrape  [4★]  (↑ see above)
     └─ ○ firecrawl/firecrawl-build-search  [4★]  (↑ see above)
   ◉ openai/few-shot-learning  [4★]
@@ -408,6 +408,7 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   ○ /clinical-data-retrieval
   ○ ████████/update-unique-churches
   ○ /cultural-localization
+  ○ mattpocock/wayfinder  [2★]
   ○ ████████/attendees
   ○ ████████/export-attendees
   ○ ████████/triage-conference
@@ -416,12 +417,15 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   ○ laravel/upgrade-laravel-v13  [2★]
   ○ ruvnet/agentic-jujutsu  [2★]
   ○ ████████/financial-assistance
+  ○ mattpocock/wizard  [2★]
   ○ /image-generate
   ○ ████████/huggingface-vision-trainer
   ○ /pathway-ontology-retrieval
+  ○ mattpocock/wait-what  [2★]
   ○ supabase/supabase-postgres-best-practices  [2★]
   ○ /prompt-caching
   ○ k-dense-ai/qiskit  [3★]
+  ○ mattpocock/to-questionnaire  [2★]
   ○ vercel-labs/vercel-react-best-practices  [3★]
   ○ oso95/scroll-world  [3★]
   ○ openai/self-consistency  [3★]

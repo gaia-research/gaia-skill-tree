@@ -1,0 +1,61 @@
+{
+  "id": "mattpocock/research",
+  "name": "Research",
+  "contributor": "mattpocock",
+  "level": "2★",
+  "type": "fusion",
+  "status": "named",
+  "trustMagnitude": 20.77,
+  "overallTrustGrade": "C",
+  "branch": "standard",
+  "rankWord": "Named",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/mattpocock/research.json",
+    "contributor": "/api/v1/contributors/mattpocock.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "The Primary-Source Researcher",
+  "genericSkillRef": "research",
+  "origin": false,
+  "description": "Investigate a question against high-trust primary sources and capture the findings as a Markdown file in the repo. Use when the user wants a topic researched, docs or API facts gathered, or reading legwork delegated to a background agent.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/research/SKILL.md",
+      "evaluator": "marco-tngsn",
+      "date": "2026-08-20",
+      "type": "repo-own",
+      "notes": "Confirmed-promoted skill in mattpocock/skills engineering bucket per upstream v1.2.3 taxonomy. Shared-repo metrics (523 commits, 4 contributors, MIT license) per Stage-1 collection 2026-08-19.",
+      "commits": 523,
+      "contributors": 4,
+      "grade": "C"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-08-19T16:10:19Z",
+      "action": "add",
+      "contributor": "marco-tngsn",
+      "details": "Added named skill mattpocock/research"
+    },
+    {
+      "timestamp": "2026-08-19T16:10:33Z",
+      "action": "evidence_added",
+      "contributor": "marco-tngsn",
+      "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/research/SKILL.md (type: repo-own)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/research/SKILL.md"
+  }
+}

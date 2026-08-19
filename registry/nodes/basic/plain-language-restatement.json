@@ -1,0 +1,22 @@
+{
+  "id": "plain-language-restatement",
+  "name": "Plain Language Restatement",
+  "type": "basic",
+  "description": "Notice when a prior message did not land and re-pitch it in clearer, plainer terms rather than repeating the original phrasing.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-08-20",
+  "updatedAt": "2026-08-20",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-08-19T16:08:50Z",
+      "action": "add",
+      "contributor": "marco-tngsn",
+      "details": "Added generic skill plain-language-restatement"
+    }
+  ]
+}

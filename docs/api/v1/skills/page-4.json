@@ -497,6 +497,102 @@
       "genericSkillRef": "autonomous-debug"
     },
     {
+      "id": "mattpocock/code-review",
+      "name": "Code Review",
+      "level": "2★",
+      "trustMagnitude": 20.77,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/code-review.json"
+      },
+      "genericSkillRef": "requesting-code-review"
+    },
+    {
+      "id": "mattpocock/research",
+      "name": "Research",
+      "level": "2★",
+      "trustMagnitude": 20.77,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/research.json"
+      },
+      "genericSkillRef": "research"
+    },
+    {
+      "id": "mattpocock/to-questionnaire",
+      "name": "To Questionnaire",
+      "level": "2★",
+      "trustMagnitude": 20.77,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/to-questionnaire.json"
+      },
+      "genericSkillRef": "questionnaire-generation"
+    },
+    {
+      "id": "mattpocock/wait-what",
+      "name": "Wait What",
+      "level": "2★",
+      "trustMagnitude": 20.77,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/wait-what.json"
+      },
+      "genericSkillRef": "plain-language-restatement"
+    },
+    {
+      "id": "mattpocock/wayfinder",
+      "name": "Wayfinder",
+      "level": "2★",
+      "trustMagnitude": 20.77,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/wayfinder.json"
+      },
+      "genericSkillRef": "decision-ticket-planning"
+    },
+    {
+      "id": "mattpocock/wizard",
+      "name": "Wizard",
+      "level": "2★",
+      "trustMagnitude": 20.77,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/wizard.json"
+      },
+      "genericSkillRef": "guided-setup-scripting"
+    },
+    {
       "id": "supabase/supabase",
       "name": "Supabase",
       "level": "2★",
@@ -716,29 +812,14 @@
         "self": "/api/v1/skills/remotion-dev/remotion-studio.json"
       },
       "genericSkillRef": "video-preview"
-    },
-    {
-      "id": "remotion-dev/remotion-upgrade",
-      "name": "Remotion Upgrade",
-      "level": "2★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": null,
-      "contributor": "remotion-dev",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/remotion-dev/remotion-upgrade.json"
-      },
-      "genericSkillRef": "framework-upgrade"
     }
   ],
   "page": 4,
-  "totalPages": 4,
-  "totalSkills": 195,
+  "totalPages": 5,
+  "totalSkills": 201,
   "_links": {
     "self": "/api/v1/skills/page-4.json",
-    "prev": "/api/v1/skills/page-3.json"
+    "prev": "/api/v1/skills/page-3.json",
+    "next": "/api/v1/skills/page-5.json"
   }
 }

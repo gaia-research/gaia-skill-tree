@@ -20292,6 +20292,162 @@
         "contractVersion": "gaia-public-v1"
       }
     ],
+    "requesting-code-review": [
+      {
+        "id": "obra/requesting-code-review",
+        "name": "Requesting Code Review",
+        "contributor": "obra",
+        "origin": true,
+        "genericSkillRef": "requesting-code-review",
+        "status": "named",
+        "level": "2★",
+        "description": "Dispatches a code reviewer subagent with isolated context to catch issues before they cascade — producing a structured review report that guides targeted fixes.",
+        "title": "The Preemptive Review",
+        "tags": [
+          "code-review",
+          "subagent",
+          "quality-gate",
+          "pre-merge",
+          "isolated-context"
+        ],
+        "links": {
+          "github": "https://github.com/obra/superpowers/blob/main/skills/requesting-code-review/SKILL.md"
+        },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/obra/superpowers/blob/main/skills/requesting-code-review/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-18",
+            "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)",
+            "type": "repo",
+            "trustNumber": 70.0,
+            "commits": 609,
+            "contributors": 36,
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-05-18",
+        "updatedAt": "2026-06-21",
+        "timeline": [
+          {
+            "timestamp": "2026-06-14T12:32:48Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Re-graded evidence from https://github.com/obra/superpowers/blob/main/skills/requesting-code-review/SKILL.md as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:07:58Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:42Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-20T06:31:34Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Level updated from 3★ to 2★ per G7 final rankings calibration."
+          }
+        ],
+        "suiteRef": "obra/superpowers",
+        "trustMagnitude": 36.0,
+        "overallTrustGrade": "C",
+        "trustMagnitudeInputHash": "137bb6d275f16fd372c3cf8d98a484390a148d5f614b65cf96e9969f8724d6e6",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "type": "fusion",
+        "role": "origin",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      },
+      {
+        "id": "mattpocock/code-review",
+        "name": "Code Review",
+        "contributor": "mattpocock",
+        "origin": false,
+        "genericSkillRef": "requesting-code-review",
+        "status": "named",
+        "level": "2★",
+        "description": "Review the changes since a fixed point (commit, branch, tag, or merge-base) along two axes: Standards (does the code follow this repo's documented coding standards?) and Spec (does the code match what the originating issue/spec asked for?). Runs both reviews in parallel sub-agents and reports them side by side.",
+        "title": "The Twin-Axis Reviewer",
+        "links": {
+          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/code-review/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/code-review/SKILL.md",
+            "evaluator": "marco-tngsn",
+            "date": "2026-08-20",
+            "type": "repo-own",
+            "notes": "Confirmed-promoted skill in mattpocock/skills engineering bucket per upstream v1.2.3 taxonomy (not in-progress/). Shared-repo metrics (523 commits, 4 contributors, MIT license) per Stage-1 collection 2026-08-19.",
+            "commits": 523,
+            "contributors": 4,
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-08-20",
+        "updatedAt": "2026-08-20",
+        "timeline": [
+          {
+            "timestamp": "2026-08-19T16:10:19Z",
+            "action": "add",
+            "contributor": "marco-tngsn",
+            "details": "Added named skill mattpocock/code-review"
+          },
+          {
+            "timestamp": "2026-08-19T16:10:32Z",
+            "action": "evidence_added",
+            "contributor": "marco-tngsn",
+            "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/code-review/SKILL.md (type: repo-own)"
+          }
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 20.77,
+        "overallTrustGrade": "C",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
     "software-design": [
       {
         "id": "mattpocock/codebase-design",
@@ -21588,6 +21744,70 @@
         "contractVersion": "gaia-public-v1"
       }
     ],
+    "research": [
+      {
+        "id": "mattpocock/research",
+        "name": "Research",
+        "contributor": "mattpocock",
+        "origin": false,
+        "genericSkillRef": "research",
+        "status": "named",
+        "level": "2★",
+        "description": "Investigate a question against high-trust primary sources and capture the findings as a Markdown file in the repo. Use when the user wants a topic researched, docs or API facts gathered, or reading legwork delegated to a background agent.",
+        "title": "The Primary-Source Researcher",
+        "links": {
+          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/research/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/research/SKILL.md",
+            "evaluator": "marco-tngsn",
+            "date": "2026-08-20",
+            "type": "repo-own",
+            "notes": "Confirmed-promoted skill in mattpocock/skills engineering bucket per upstream v1.2.3 taxonomy. Shared-repo metrics (523 commits, 4 contributors, MIT license) per Stage-1 collection 2026-08-19.",
+            "commits": 523,
+            "contributors": 4,
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-08-20",
+        "updatedAt": "2026-08-20",
+        "timeline": [
+          {
+            "timestamp": "2026-08-19T16:10:19Z",
+            "action": "add",
+            "contributor": "marco-tngsn",
+            "details": "Added named skill mattpocock/research"
+          },
+          {
+            "timestamp": "2026-08-19T16:10:33Z",
+            "action": "evidence_added",
+            "contributor": "marco-tngsn",
+            "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/research/SKILL.md (type: repo-own)"
+          }
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 20.77,
+        "overallTrustGrade": "C",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
     "git-integration": [
       {
         "id": "ruvnet/github-suite",
@@ -22055,6 +22275,70 @@
         }
       }
     ],
+    "questionnaire-generation": [
+      {
+        "id": "mattpocock/to-questionnaire",
+        "name": "To Questionnaire",
+        "contributor": "mattpocock",
+        "origin": false,
+        "genericSkillRef": "questionnaire-generation",
+        "status": "named",
+        "level": "2★",
+        "description": "Turn a decision you can't fully answer into a questionnaire for someone else to fill in.",
+        "title": "The Questionnaire Converter",
+        "links": {
+          "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/to-questionnaire/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/to-questionnaire/SKILL.md",
+            "evaluator": "marco-tngsn",
+            "date": "2026-08-20",
+            "type": "repo-own",
+            "notes": "Confirmed-promoted skill in mattpocock/skills productivity bucket per upstream v1.2.3 taxonomy. Shared-repo metrics (523 commits, 4 contributors, MIT license) per Stage-1 collection 2026-08-19.",
+            "commits": 523,
+            "contributors": 4,
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-08-20",
+        "updatedAt": "2026-08-20",
+        "timeline": [
+          {
+            "timestamp": "2026-08-19T16:10:19Z",
+            "action": "add",
+            "contributor": "marco-tngsn",
+            "details": "Added named skill mattpocock/to-questionnaire"
+          },
+          {
+            "timestamp": "2026-08-19T16:10:34Z",
+            "action": "evidence_added",
+            "contributor": "marco-tngsn",
+            "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/to-questionnaire/SKILL.md (type: repo-own)"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 20.77,
+        "overallTrustGrade": "C",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
     "issue-triage": [
       {
         "id": "mattpocock/triage",
@@ -22502,6 +22786,198 @@
         "type": "fusion",
         "installBody": "This skill is part of the Ruflo orchestration platform.\n\n```bash\nnpx ruflo@latest init\n```\n\nSee the [Ruflo (ruvnet/ruflo)](../ruvnet/ruflo.md) capstone for full multi-topology installation options.",
         "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "plain-language-restatement": [
+      {
+        "id": "mattpocock/wait-what",
+        "name": "Wait What",
+        "contributor": "mattpocock",
+        "origin": false,
+        "genericSkillRef": "plain-language-restatement",
+        "status": "named",
+        "level": "2★",
+        "description": "Stop. That last message did not land: re-pitch it.",
+        "title": "The Re-Pitcher",
+        "links": {
+          "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/wait-what/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/wait-what/SKILL.md",
+            "evaluator": "marco-tngsn",
+            "date": "2026-08-20",
+            "type": "repo-own",
+            "notes": "Confirmed-promoted skill in mattpocock/skills productivity bucket per upstream v1.2.3 taxonomy. Shared-repo metrics (523 commits, 4 contributors, MIT license) per Stage-1 collection 2026-08-19.",
+            "commits": 523,
+            "contributors": 4,
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-08-20",
+        "updatedAt": "2026-08-20",
+        "timeline": [
+          {
+            "timestamp": "2026-08-19T16:10:20Z",
+            "action": "add",
+            "contributor": "marco-tngsn",
+            "details": "Added named skill mattpocock/wait-what"
+          },
+          {
+            "timestamp": "2026-08-19T16:10:34Z",
+            "action": "evidence_added",
+            "contributor": "marco-tngsn",
+            "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/wait-what/SKILL.md (type: repo-own)"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 20.77,
+        "overallTrustGrade": "C",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "decision-ticket-planning": [
+      {
+        "id": "mattpocock/wayfinder",
+        "name": "Wayfinder",
+        "contributor": "mattpocock",
+        "origin": false,
+        "genericSkillRef": "decision-ticket-planning",
+        "status": "named",
+        "level": "2★",
+        "description": "Plan a huge chunk of work (more than one agent session can hold) as a shared map of decision tickets on your issue tracker, and resolve them one at a time until the way to the destination is clear.",
+        "title": "The Decision Ticket Cartographer",
+        "links": {
+          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/wayfinder/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/wayfinder/SKILL.md",
+            "evaluator": "marco-tngsn",
+            "date": "2026-08-20",
+            "type": "repo-own",
+            "notes": "Confirmed-promoted skill in mattpocock/skills engineering bucket per upstream v1.2.3 taxonomy. Shared-repo metrics (523 commits, 4 contributors, MIT license) per Stage-1 collection 2026-08-19.",
+            "commits": 523,
+            "contributors": 4,
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-08-20",
+        "updatedAt": "2026-08-20",
+        "timeline": [
+          {
+            "timestamp": "2026-08-19T16:10:19Z",
+            "action": "add",
+            "contributor": "marco-tngsn",
+            "details": "Added named skill mattpocock/wayfinder"
+          },
+          {
+            "timestamp": "2026-08-19T16:10:33Z",
+            "action": "evidence_added",
+            "contributor": "marco-tngsn",
+            "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/wayfinder/SKILL.md (type: repo-own)"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 20.77,
+        "overallTrustGrade": "C",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "guided-setup-scripting": [
+      {
+        "id": "mattpocock/wizard",
+        "name": "Wizard",
+        "contributor": "mattpocock",
+        "origin": false,
+        "genericSkillRef": "guided-setup-scripting",
+        "status": "named",
+        "level": "2★",
+        "description": "Generate an interactive bash wizard that walks a human through steps only they can perform. Use when provisioning infrastructure, setting up credentials or CI secrets, walking an unfamiliar third-party dashboard, or running a one-off migration or cutover.",
+        "title": "The Guided Setup Wizard",
+        "links": {
+          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/wizard/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/wizard/SKILL.md",
+            "evaluator": "marco-tngsn",
+            "date": "2026-08-20",
+            "type": "repo-own",
+            "notes": "Confirmed-promoted skill in mattpocock/skills engineering bucket per upstream v1.2.3 taxonomy. Shared-repo metrics (523 commits, 4 contributors, MIT license) per Stage-1 collection 2026-08-19.",
+            "commits": 523,
+            "contributors": 4,
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-08-20",
+        "updatedAt": "2026-08-20",
+        "timeline": [
+          {
+            "timestamp": "2026-08-19T16:10:19Z",
+            "action": "add",
+            "contributor": "marco-tngsn",
+            "details": "Added named skill mattpocock/wizard"
+          },
+          {
+            "timestamp": "2026-08-19T16:10:33Z",
+            "action": "evidence_added",
+            "contributor": "marco-tngsn",
+            "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/wizard/SKILL.md (type: repo-own)"
+          }
+        ],
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 20.77,
+        "overallTrustGrade": "C",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
         "branch": "standard",
         "rank": 2,
         "rankWord": "Named",
@@ -23855,100 +24331,6 @@
         "trustMagnitude": 36.0,
         "overallTrustGrade": "C",
         "trustMagnitudeInputHash": "6c80eaf45cbbd7e5044fd7265d6caa0b3f16e5c5cab0cf21d16166f60a52eb10",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "type": "fusion",
-        "role": "origin",
-        "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
-      }
-    ],
-    "requesting-code-review": [
-      {
-        "id": "obra/requesting-code-review",
-        "name": "Requesting Code Review",
-        "contributor": "obra",
-        "origin": true,
-        "genericSkillRef": "requesting-code-review",
-        "status": "named",
-        "level": "2★",
-        "description": "Dispatches a code reviewer subagent with isolated context to catch issues before they cascade — producing a structured review report that guides targeted fixes.",
-        "title": "The Preemptive Review",
-        "tags": [
-          "code-review",
-          "subagent",
-          "quality-gate",
-          "pre-merge",
-          "isolated-context"
-        ],
-        "links": {
-          "github": "https://github.com/obra/superpowers/blob/main/skills/requesting-code-review/SKILL.md"
-        },
-        "evidence": [
-          {
-            "class": "B",
-            "source": "https://github.com/obra/superpowers/blob/main/skills/requesting-code-review/SKILL.md",
-            "evaluator": "mbtiongson1",
-            "date": "2026-05-18",
-            "notes": "obra/superpowers — complete software development methodology for coding agents, 196k+ stars, v5.1.0, adopted across Claude Code, Codex CLI, Gemini CLI, OpenCode, Cursor, GitHub Copilot CLI. (backfilled — class-to-type migration)",
-            "type": "repo",
-            "trustNumber": 70.0,
-            "commits": 609,
-            "contributors": 36,
-            "grade": "B"
-          }
-        ],
-        "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
-        "timeline": [
-          {
-            "timestamp": "2026-06-14T12:32:48Z",
-            "action": "evidence_graded",
-            "contributor": "unknown",
-            "details": "Re-graded evidence from https://github.com/obra/superpowers/blob/main/skills/requesting-code-review/SKILL.md as B (trustNumber: 70.0)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-18T11:27:19Z",
-            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T11:07:58Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:19:38Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:26:42Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-06-20T06:31:34Z",
-            "action": "demote",
-            "contributor": "mbtiongson1",
-            "details": "Level updated from 3★ to 2★ per G7 final rankings calibration."
-          }
-        ],
-        "suiteRef": "obra/superpowers",
-        "trustMagnitude": 36.0,
-        "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "137bb6d275f16fd372c3cf8d98a484390a148d5f614b65cf96e9969f8724d6e6",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -36047,6 +36429,7 @@
     ],
     "mattpocock": [
       "mattpocock/ask-matt",
+      "mattpocock/code-review",
       "mattpocock/codebase-design",
       "mattpocock/diagnose",
       "mattpocock/diagnosing-bugs",
@@ -36066,6 +36449,7 @@
       "mattpocock/personal",
       "mattpocock/productivity",
       "mattpocock/prototype",
+      "mattpocock/research",
       "mattpocock/resolving-merge-conflicts",
       "mattpocock/scaffold-exercises",
       "mattpocock/setup-matt-pocock-skills",
@@ -36073,10 +36457,14 @@
       "mattpocock/skills",
       "mattpocock/tdd",
       "mattpocock/teach",
+      "mattpocock/to-questionnaire",
       "mattpocock/to-spec",
       "mattpocock/to-tickets",
       "mattpocock/triage",
       "mattpocock/ubiquitous-language",
+      "mattpocock/wait-what",
+      "mattpocock/wayfinder",
+      "mattpocock/wizard",
       "mattpocock/write-a-skill",
       "mattpocock/writing-for-agents",
       "mattpocock/zoom-out"

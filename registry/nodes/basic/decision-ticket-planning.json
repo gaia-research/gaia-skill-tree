@@ -1,0 +1,22 @@
+{
+  "id": "decision-ticket-planning",
+  "name": "Decision Ticket Planning",
+  "type": "basic",
+  "description": "Plan work too large for one session as a shared map of decision tickets on an issue tracker, resolving them one at a time until the path forward is clear.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-08-20",
+  "updatedAt": "2026-08-20",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-08-19T16:08:50Z",
+      "action": "add",
+      "contributor": "marco-tngsn",
+      "details": "Added generic skill decision-ticket-planning"
+    }
+  ]
+}

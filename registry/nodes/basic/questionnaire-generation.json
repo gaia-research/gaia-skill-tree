@@ -1,0 +1,22 @@
+{
+  "id": "questionnaire-generation",
+  "name": "Questionnaire Generation",
+  "type": "basic",
+  "description": "Turn a decision that cannot be fully answered alone into a structured questionnaire for someone else to fill in.",
+  "prerequisites": [],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-08-20",
+  "updatedAt": "2026-08-20",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-08-19T16:08:50Z",
+      "action": "add",
+      "contributor": "marco-tngsn",
+      "details": "Added generic skill questionnaire-generation"
+    }
+  ]
+}

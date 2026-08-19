@@ -363,7 +363,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
 
   · ◉ mvanhorn/last30days  [4★]
     ├─ · · /ghostwrite
-    │  ├─ · · /research
+    │  ├─ · · mattpocock/research  [2★]
     │  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]
     │  │  ├─ · ○ /summarize
     │  │  └─ · ○ /cite-sources
@@ -376,7 +376,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     │  │  └─ · ○ /extract-entities
     │  ├─ · ○ /extract-entities  (↑ see above)
     │  └─ · ○ /embed-text
-    ├─ · · /research  (↑ see above)
+    ├─ · · mattpocock/research  [2★]  (↑ see above)
     ├─ ✓ · firecrawl/firecrawl-build-scrape  [4★]  (↑ see above)
     └─ · ○ firecrawl/firecrawl-build-search  [4★]  (↑ see above)
   · ◉ k-dense-ai/torch-geometric  [4★]

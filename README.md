@@ -90,11 +90,11 @@ So that means, its the developers who make skills maintaining this. I have a tho
 Uniques — Basic Skills that reached elite mastery (4★+) through depth alone, with no fusion path forward.
   ◉ mvanhorn/last30days  [4★]
     ├─ · /ghostwrite
-    │  ├─ · /research
+    │  ├─ · mattpocock/research  [2★]
     │  │  ├─ ○ firecrawl/firecrawl-build-search  [4★]
     │  │  ├─ ○ /summarize
 
-(279 skills total — see docs/tree.md)
+(283 skills total — see docs/tree.md)
 ```
 <!-- gaia:registry-end -->
 

@@ -1,0 +1,61 @@
+{
+  "id": "mattpocock/wait-what",
+  "name": "Wait What",
+  "contributor": "mattpocock",
+  "level": "2★",
+  "type": "basic",
+  "status": "named",
+  "trustMagnitude": 20.77,
+  "overallTrustGrade": "C",
+  "branch": "standard",
+  "rankWord": "Named",
+  "medallion": "◇",
+  "_links": {
+    "self": "/api/v1/skills/mattpocock/wait-what.json",
+    "contributor": "/api/v1/contributors/mattpocock.json",
+    "list": "/api/v1/skills/index.json"
+  },
+  "title": "The Re-Pitcher",
+  "genericSkillRef": "plain-language-restatement",
+  "origin": false,
+  "description": "Stop. That last message did not land: re-pitch it.",
+  "apexGateStatus": {
+    "aGradedOriginsGte5": false,
+    "sourceTenureDaysGte180AorS": false,
+    "directNestedSuiteGte1": false,
+    "depth2OnlyReachableGte1": false,
+    "overallGradeS": false,
+    "apexPromotionPrSigned": false,
+    "crossOrgVerifier": null,
+    "systemWideCap": null
+  },
+  "evidence": [
+    {
+      "source": "https://github.com/mattpocock/skills/blob/main/skills/productivity/wait-what/SKILL.md",
+      "evaluator": "marco-tngsn",
+      "date": "2026-08-20",
+      "type": "repo-own",
+      "notes": "Confirmed-promoted skill in mattpocock/skills productivity bucket per upstream v1.2.3 taxonomy. Shared-repo metrics (523 commits, 4 contributors, MIT license) per Stage-1 collection 2026-08-19.",
+      "commits": 523,
+      "contributors": 4,
+      "grade": "C"
+    }
+  ],
+  "timeline": [
+    {
+      "timestamp": "2026-08-19T16:10:20Z",
+      "action": "add",
+      "contributor": "marco-tngsn",
+      "details": "Added named skill mattpocock/wait-what"
+    },
+    {
+      "timestamp": "2026-08-19T16:10:34Z",
+      "action": "evidence_added",
+      "contributor": "marco-tngsn",
+      "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/wait-what/SKILL.md (type: repo-own)"
+    }
+  ],
+  "links": {
+    "github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/wait-what/SKILL.md"
+  }
+}
