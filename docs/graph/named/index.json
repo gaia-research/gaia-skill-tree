@@ -6317,6 +6317,7 @@
         "description": "Drives a rigorous five-phase debugging discipline — build a feedback loop, minimise, hypothesise, instrument, fix and regression-test — refusing to proceed until a fast deterministic pass/fail signal exists. Applies to hard bugs and performance regressions. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Disciplined Diagnosis Loop",
         "catalogRef": "mattpocock-diagnose",
+        "installable": false,
         "tags": [
           "debugging",
           "diagnosis",
@@ -6440,6 +6441,14 @@
             "action": "note",
             "contributor": "unknown",
             "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnosing-bugs/SKILL.md"
+          },
+          {
+            "timestamp": "2026-08-19T17:15:14Z",
+            "action": "upstream_deprecated",
+            "contributor": "marco-tngsn",
+            "previousValue": null,
+            "newValue": null,
+            "details": "Removed from mattpocock/skills suite in v1.0.1 (per skill's own description); superseded by mattpocock/diagnosing-bugs, which links the same upstream engineering/diagnosing-bugs/SKILL.md."
           }
         ],
         "suiteRef": "mattpocock/engineering",
@@ -22107,7 +22116,7 @@
           }
         ],
         "createdAt": "2026-05-22",
-        "updatedAt": "2026-08-19",
+        "updatedAt": "2026-08-20",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
