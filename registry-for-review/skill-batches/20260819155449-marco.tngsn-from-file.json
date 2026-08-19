@@ -1,0 +1,70 @@
+{
+  "batchId": "20260819155449-marco.tngsn-from-file",
+  "userId": "marco.tngsn",
+  "sourceRepo": "gaia-research/gaia-skill-tree",
+  "generatedAt": "2026-08-19T15:54:49Z",
+  "fromFile": true,
+  "knownSkills": [],
+  "proposedSkills": [
+    {
+      "id": "guided-setup-scripting",
+      "candidateId": "mattpocock/wizard",
+      "name": "Guided Setup Scripting",
+      "description": "Generate an interactive script that walks a human through steps only they can perform, such as provisioning infrastructure, setting up credentials, or running a one-off migration.",
+      "attribution": {
+        "skill_file_url": "https://github.com/mattpocock/skills/blob/main/skills/engineering/wizard/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "C",
+          "type": "repo",
+          "url": "https://github.com/mattpocock/skills/blob/main/skills/engineering/wizard/SKILL.md",
+          "notes": "Source reference from discovery packet (unverified; Stage-1 minimum-effort evidence written separately)."
+        }
+      ],
+      "type": "basic",
+      "prerequisites": [],
+      "attributionScope": "standalone",
+      "named": {
+        "contributor": "mattpocock",
+        "skill_name": "wizard",
+        "links_github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/wizard/SKILL.md",
+        "level": "2\u2605"
+      },
+      "sourceRepo": "gaia-research/gaia-skill-tree",
+      "lifecycle": "pending"
+    }
+  ],
+  "similarity": [
+    {
+      "sourceSkillId": "guided-setup-scripting",
+      "targetSkillId": "video-captions",
+      "score": 0.5,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "guided-setup-scripting",
+      "targetSkillId": "distributed-consensus-coordination",
+      "score": 0.5,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "guided-setup-scripting",
+      "targetSkillId": "advanced-swarm-coordination",
+      "score": 0.49,
+      "reason": "Lexical similarity from Gaia push scan."
+    }
+  ],
+  "curationHandoff": {
+    "contractVersion": "curation-handoff-v1",
+    "packetRefs": [
+      {
+        "candidateId": "mattpocock/wizard",
+        "packetContentSha256": "2852c59cbaeb2b42a578aeae3c1e071f698c14ef097beba8c4dc4d0f2a3e1418",
+        "sourceContentSha256": "bdf31d48211ea559878f95a4f344aeabf8d85897488ba564382bab0b000daac1",
+        "packetPath": "registry-for-review/discovery-packets/mattpocock-wizard.discovery-packet-v2.json"
+      }
+    ]
+  }
+}

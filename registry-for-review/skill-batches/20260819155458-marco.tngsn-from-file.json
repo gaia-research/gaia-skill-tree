@@ -1,0 +1,70 @@
+{
+  "batchId": "20260819155458-marco.tngsn-from-file",
+  "userId": "marco.tngsn",
+  "sourceRepo": "gaia-research/gaia-skill-tree",
+  "generatedAt": "2026-08-19T15:54:58Z",
+  "fromFile": true,
+  "knownSkills": [],
+  "proposedSkills": [
+    {
+      "id": "questionnaire-generation",
+      "candidateId": "mattpocock/to-questionnaire",
+      "name": "Questionnaire Generation",
+      "description": "Turn a decision that cannot be fully answered alone into a structured questionnaire for someone else to fill in.",
+      "attribution": {
+        "skill_file_url": "https://github.com/mattpocock/skills/blob/main/skills/productivity/to-questionnaire/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "C",
+          "type": "repo",
+          "url": "https://github.com/mattpocock/skills/blob/main/skills/productivity/to-questionnaire/SKILL.md",
+          "notes": "Source reference from discovery packet (unverified; Stage-1 minimum-effort evidence written separately)."
+        }
+      ],
+      "type": "basic",
+      "prerequisites": [],
+      "attributionScope": "standalone",
+      "named": {
+        "contributor": "mattpocock",
+        "skill_name": "to-questionnaire",
+        "links_github": "https://github.com/mattpocock/skills/blob/main/skills/productivity/to-questionnaire/SKILL.md",
+        "level": "2\u2605"
+      },
+      "sourceRepo": "gaia-research/gaia-skill-tree",
+      "lifecycle": "pending"
+    }
+  ],
+  "similarity": [
+    {
+      "sourceSkillId": "questionnaire-generation",
+      "targetSkillId": "design-generation",
+      "score": 0.732,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "questionnaire-generation",
+      "targetSkillId": "code-generation",
+      "score": 0.667,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "questionnaire-generation",
+      "targetSkillId": "prd-generation",
+      "score": 0.632,
+      "reason": "Lexical similarity from Gaia push scan."
+    }
+  ],
+  "curationHandoff": {
+    "contractVersion": "curation-handoff-v1",
+    "packetRefs": [
+      {
+        "candidateId": "mattpocock/to-questionnaire",
+        "packetContentSha256": "2b0321169c76832b8f20f1d801ad6f7c2258f48edfc1d02ea7a48fd871480f80",
+        "sourceContentSha256": "b5eb929842ee0e93d867c5e906d183d350f2f2d149eaeaa86967d94d8eda1d3b",
+        "packetPath": "registry-for-review/discovery-packets/mattpocock-to-questionnaire.discovery-packet-v2.json"
+      }
+    ]
+  }
+}

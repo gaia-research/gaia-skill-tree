@@ -1,0 +1,69 @@
+{
+  "batchId": "20260819155404-marco.tngsn-from-file",
+  "userId": "marco.tngsn",
+  "sourceRepo": "gaia-research/gaia-skill-tree",
+  "generatedAt": "2026-08-19T15:54:04Z",
+  "fromFile": true,
+  "knownSkills": [],
+  "proposedSkills": [
+    {
+      "id": "decision-ticket-planning",
+      "candidateId": "mattpocock/wayfinder",
+      "name": "Decision Ticket Planning",
+      "description": "Plan work too large for one session as a shared map of decision tickets on an issue tracker, resolving them one at a time until the path forward is clear.",
+      "attribution": {
+        "skill_file_url": "https://github.com/mattpocock/skills/blob/main/skills/engineering/wayfinder/SKILL.md",
+        "type": "attributed"
+      },
+      "evidence": [
+        {
+          "grade": "C",
+          "type": "repo",
+          "url": "https://github.com/mattpocock/skills/blob/main/skills/engineering/wayfinder/SKILL.md",
+          "notes": "Source reference from discovery packet (unverified; Stage-1 minimum-effort evidence written separately)."
+        }
+      ],
+      "type": "basic",
+      "prerequisites": [],
+      "attributionScope": "standalone",
+      "named": {
+        "contributor": "mattpocock",
+        "skill_name": "wayfinder",
+        "links_github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/wayfinder/SKILL.md",
+        "level": "2\u2605"
+      },
+      "sourceRepo": "gaia-research/gaia-skill-tree",
+      "lifecycle": "pending"
+    }
+  ],
+  "similarity": [
+    {
+      "sourceSkillId": "decision-ticket-planning",
+      "targetSkillId": "vertical-slice-planning",
+      "score": 0.596,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "decision-ticket-planning",
+      "targetSkillId": "few-shot-learning",
+      "score": 0.537,
+      "reason": "Lexical similarity from Gaia push scan."
+    },
+    {
+      "sourceSkillId": "decision-ticket-planning",
+      "targetSkillId": "event-ticket-transfer",
+      "score": 0.533,
+      "reason": "Lexical similarity from Gaia push scan."
+    }
+  ],
+  "curationHandoff": {
+    "contractVersion": "curation-handoff-v1",
+    "packetRefs": [
+      {
+        "candidateId": "mattpocock/wayfinder",
+        "packetContentSha256": "281932d8f24642de7282de7cc92e0d723df8b7c4052828b8f64a3ed75bbb07d5",
+        "packetPath": "registry-for-review/discovery-packets/mattpocock-wayfinder.discovery-packet-v2.json"
+      }
+    ]
+  }
+}
