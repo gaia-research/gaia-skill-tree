@@ -54,7 +54,7 @@ jobs:
           if [ -n "${{ inputs.skill_id }}" ]; then
             ARGS="--skill ${{ inputs.skill_id }}"
           fi
-          if [ "${{ inputs.apply }}" = "true" ]; then
+          if [ "${{ inputs.apply }}" = "true" ] || [ "${{ github.event_name }}" = "schedule" ]; then
             ARGS="$ARGS --apply"
           else
             ARGS="$ARGS --dry-run"
