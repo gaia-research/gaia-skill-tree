@@ -2,6 +2,109 @@
 
 ---
 
+## 2026-08-19 — Routine 032
+
+**Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the
+one-open-PR rule; the routine's own commit count/number in this diary tracks daily
+runs, not the branch name)
+
+**Task chosen:** CONTINUE — routine 031's "Planned next" flagged routine 030's own
+unresolved item: `manual-curation-pipeline.html` Step 5's packet JSON template used
+`schemaVersion` and a string `"decision": "MAP"`, while the real validator expects
+`contractVersion` and an object `decision`. Routine 031 scoped this to "read
+`scripts/validate_discovery_packet.py`'s accepted schema first" before touching it.
+
+### What I did
+
+Found the validator isn't at `scripts/validate_discovery_packet.py` — it's mirrored at
+`.claude/skills/gaia-curate/scripts/validate_discovery_packet.py` and
+`.agents/skills/gaia-curate/scripts/validate_discovery_packet.py` (per CLAUDE.md, the
+`.agents/` copy is primary). Read `validate_packet()` in full against
+`src/gaia_cli/prefill.py`'s `buildPrefillPacket()` (the function that actually emits
+Step 3's `prefill-output.json`) to confirm real field names and shapes.
+
+Confirmed real drift, not two valid packet shapes:
+- Top-level field is `contractVersion`, not `schemaVersion`.
+- `decision` must be an object (`{"value": ..., "reasonCode": ..., "genericId": ...}`
+  for a `MAP` decision) — a bare string fails `UNKNOWN_DECISION` since the validator
+  does `decision.get("value") if isinstance(decision, dict) else None`.
+- `exactDedupe` must be a dict (`{"matched": false}`), not `null` — the validator's
+  `INVALID_EXACT_DEDUPE` check requires `isinstance(..., dict)`. The page had `null`.
+- `candidateId` and `flags` are both in the validator's required-field list
+  (`MISSING_REQUIRED_FIELD`) but were absent from the page's example entirely.
+- `source.sourceLane` must be one of `marketplace` / `source-repository` /
+  `github-topic` — the page's `"github-skill-file"` isn't a valid value
+  (`INVALID_SOURCE_LANE`); `source` also had a spurious `"lane"` key instead of
+  `sourceLane`, and a redundant `"url"` key duplicating `canonicalUrl`.
+- `genericSnapshot` needs `capturedAt` and `mappingOptionsSha256` alongside
+  `command`/`contentSha256`/`generics` for the `"mapped"` lifecycle check — the page
+  only had three of the five required keys.
+- `lifecycle` reaching the `"review-ready"` end state requires the **full** six-stage
+  prefix (`discovered → fetched → parsed → normalized → deduped → mapped`), not the
+  bare string `"review-ready"` the page had.
+
+Rewrote Step 5's JSON template (`docs/en/manual-curation-pipeline.html`, `id="phase-1"`
+area) with the corrected field names/shapes and the full lifecycle array. Added a
+`callout warn` directly under it flagging a real, unresolved workflow gap: reaching
+`"fetched"` needs `source.hostRepository`/`fetchedAt`/`contentSha256`, and `"parsed"`
+needs `source.frontmatter.name`/`description` — fields `gaia dev prefill` does not
+populate (confirmed by reading `buildPrefillPacket()`, which only ever emits
+`["discovered", "deferred"]`). Rather than fabricate placeholder values for a gap the
+CLI doesn't currently close, the callout says so plainly and tells the reader to
+validate after every edit instead of guessing.
+
+Also fixed the same wrong `scripts/validate_discovery_packet.py` path in two more
+places on the page that would 404 identically: the Phase 2 "re-validate after
+appending" command and the cheat-sheet's Phase 1 validate line. All three now point at
+`.agents/skills/gaia-curate/scripts/validate_discovery_packet.py`.
+
+### Design decisions
+
+- Used `callout warn` (not `info`) for the lifecycle-gap note — it is exactly the
+  "crucial gap" case DOCS.md's Callouts branding reserves warn for, and a reader who
+  skips it will get `INVALID_LIFECYCLE_TRANSITION` with no clue why.
+- Did not attempt to fabricate `hostRepository`/`fetchedAt`/`frontmatter` values or
+  invent a missing CLI step to produce them — that's real, unscoped product work
+  (either the CLI needs a fetch/parse verb, or the docs need to show a manual
+  workaround), not a documentation wording fix. Flagged for investigation instead.
+- Kept `.agents/skills/...` (not `.claude/skills/...`) as the canonical validator path
+  per CLAUDE.md's "Skills Intake" note that `.agents/skills/` is primary and
+  agent-agnostic.
+
+### Issues informed
+
+None filed or closed — this is the same page's own unfixed remainder from the last two
+days, not new backlog.
+
+### Verification
+
+`git status` scoped to `docs/en/manual-curation-pipeline.html`, `docs/en/DOCS.md`,
+`docs/en/MEMORY.md` only. `html.parser` parse-error check clean. Vocabulary grep
+(`merge|combine|compose|rarity`) — all hits are pre-existing `gh pr merge` CLI examples,
+no violations. No new hex introduced (diff-scanned, zero hex hits). All three
+stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`) still linked.
+
+### Files modified
+
+- `docs/en/manual-curation-pipeline.html` — Step 5 packet JSON template corrected; new
+  warn callout on the lifecycle/fetched/parsed gap; three broken validator paths fixed
+- `docs/en/DOCS.md` — page map row 13 updated
+- `docs/en/MEMORY.md` — this entry
+
+### Planned next (Routine 033)
+
+- Investigate whether the `"fetched"`/`"parsed"` lifecycle gap flagged above is a real
+  CLI gap (no verb populates `source.hostRepository`/`fetchedAt`/`frontmatter`) or
+  whether curators are expected to hand-fill those fields — check
+  `.claude/skills/gaia-curate/SKILL.md` and `.agents/skills/gaia-curate/SKILL.md` for
+  guidance before deciding whether this needs a docs fix, a CLI issue, or both.
+
+### Token spend
+
+2026-08-19 Sonnet 5 Low: TBD — filled in on the PR comment.
+
+---
+
 ## 2026-08-18 — Routine 031
 
 **Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the

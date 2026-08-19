@@ -698,26 +698,29 @@
         </div>
 
         <h3>Step 5 — Write and validate the discovery-packet-v2</h3>
-        <p>Create the packet at <code>registry-for-review/discovery-packets/owner--skill-name.json</code>. Key fields:</p>
+        <p>Update the packet at <code>registry-for-review/discovery-packets/owner--skill-name.json</code> with your Step 4 decision. Key fields (matching what <code>validate_discovery_packet.py</code> actually checks — <code>decision</code> is an object, not a string, and the top-level field is <code>contractVersion</code>, not <code>schemaVersion</code>):</p>
         <div class="code-fence">
           <div class="code-fence-header"><span class="code-fence-label">json — minimum required fields</span><span class="code-fence-copy-status">click to copy</span></div>
           <pre>{
-  <span class="str">"schemaVersion"</span>: <span class="str">"discovery-packet-v2"</span>,
-  <span class="str">"source"</span>: { <span class="str">"url"</span>: <span class="pl">"&lt;blob-url&gt;"</span>, <span class="str">"canonicalUrl"</span>: <span class="pl">"&lt;blob-url&gt;"</span>, <span class="str">"lane"</span>: <span class="str">"github-skill-file"</span> },
+  <span class="str">"contractVersion"</span>: <span class="str">"discovery-packet-v2"</span>,
+  <span class="str">"candidateId"</span>: <span class="pl">"owner/skill-name"</span>,
+  <span class="str">"source"</span>: { <span class="str">"canonicalUrl"</span>: <span class="pl">"&lt;blob-url&gt;"</span>, <span class="str">"sourceLane"</span>: <span class="str">"source-repository"</span> },
   <span class="str">"normalized"</span>: { <span class="str">"name"</span>: <span class="pl">"verbatim from frontmatter"</span>, <span class="str">"description"</span>: <span class="pl">"verbatim"</span> },
-  <span class="str">"contentSha256"</span>: <span class="pl">"&lt;sha256 of SKILL.md content&gt;"</span>,
-  <span class="str">"exactDedupe"</span>: null,
-  <span class="str">"mappingOptions"</span>: [ <span class="c">/* copy from prefill-output.json */</span> ],
-  <span class="str">"decision"</span>: <span class="str">"MAP"</span>,
-  <span class="str">"reasonCode"</span>: <span class="str">"MAP_EXISTING_GENERIC"</span>,
-  <span class="str">"selectedGenericId"</span>: <span class="pl">"&lt;id from strong option&gt;"</span>,
-  <span class="str">"genericSnapshot"</span>: { <span class="str">"command"</span>: <span class="str">"gaia dev list --generic --json"</span>, <span class="str">"contentSha256"</span>: <span class="pl">"&lt;hash&gt;"</span>, <span class="str">"generics"</span>: [ <span class="c">/* snapshot contents */</span> ] },
-  <span class="str">"lifecycle"</span>: <span class="str">"review-ready"</span>
+  <span class="str">"exactDedupe"</span>: { <span class="str">"matched"</span>: false },
+  <span class="str">"mappingOptions"</span>: [ <span class="c">/* copy from prefill-output.json — each needs genericId, rationale, similarity, matchTier */</span> ],
+  <span class="str">"decision"</span>: { <span class="str">"value"</span>: <span class="str">"MAP"</span>, <span class="str">"reasonCode"</span>: <span class="str">"MAP_EXISTING_GENERIC"</span>, <span class="str">"genericId"</span>: <span class="pl">"&lt;id from strong option&gt;"</span> },
+  <span class="str">"flags"</span>: [ <span class="c">/* copy from prefill-output.json */</span> ],
+  <span class="str">"genericSnapshot"</span>: { <span class="str">"capturedAt"</span>: <span class="pl">"&lt;ISO timestamp&gt;"</span>, <span class="str">"command"</span>: <span class="str">"gaia dev list --generic --json"</span>, <span class="str">"contentSha256"</span>: <span class="pl">"&lt;hash&gt;"</span>, <span class="str">"mappingOptionsSha256"</span>: <span class="pl">"&lt;hash&gt;"</span>, <span class="str">"generics"</span>: [ <span class="c">/* snapshot contents */</span> ] },
+  <span class="str">"lifecycle"</span>: [ <span class="str">"discovered"</span>, <span class="str">"fetched"</span>, <span class="str">"parsed"</span>, <span class="str">"normalized"</span>, <span class="str">"deduped"</span>, <span class="str">"mapped"</span>, <span class="str">"review-ready"</span> ]
 }</pre>
+        </div>
+        <div class="callout warn">
+          <span class="callout-icon">⚠</span>
+          <p>The <code>"review-ready"</code> lifecycle end state requires the full six-stage prefix shown above. <code>"fetched"</code> additionally requires <code>source.hostRepository</code>, <code>source.fetchedAt</code>, and <code>source.contentSha256</code>; <code>"parsed"</code> requires <code>source.frontmatter.name</code> and <code>source.frontmatter.description</code>. <code>gaia dev prefill</code> (Step 3) does not populate these — filling them in is on you for now. Run the validator after every edit rather than guessing.</p>
         </div>
         <div class="code-fence">
           <div class="code-fence-header"><span class="code-fence-label">bash — validate</span><span class="code-fence-copy-status">click to copy</span></div>
-          <pre><span class="cmd">python3</span> scripts/validate_discovery_packet.py \
+          <pre><span class="cmd">python3</span> .agents/skills/gaia-curate/scripts/validate_discovery_packet.py \
   <span class="arg">--generic-snapshot</span> /tmp/generic-snapshot.json \
   registry-for-review/discovery-packets/owner--skill-name.json
 
@@ -760,7 +763,7 @@
         </div>
         <div class="code-fence">
           <div class="code-fence-header"><span class="code-fence-label">bash — re-validate after appending</span><span class="code-fence-copy-status">click to copy</span></div>
-          <pre><span class="cmd">python3</span> scripts/validate_discovery_packet.py \
+          <pre><span class="cmd">python3</span> .agents/skills/gaia-curate/scripts/validate_discovery_packet.py \
   <span class="arg">--generic-snapshot</span> /tmp/generic-snapshot.json \
   registry-for-review/discovery-packets/owner--skill-name.json</pre>
         </div>
@@ -994,7 +997,7 @@
 <span class="cmd">gaia</span> dev list <span class="arg">--generic --json</span> <span class="str">&gt; /tmp/generic-snapshot.json</span>
 <span class="cmd">gaia</span> dev prefill <span class="arg">contributor/skill-name --name</span> <span class="str">"Skill Name"</span> <span class="arg">--description</span> <span class="str">"..."</span> <span class="arg">--url</span> <span class="str">"&lt;blob-url&gt;"</span> <span class="arg">--stdout</span> > /tmp/prefill-output.json
 <span class="c"># ... write packet JSON ...</span>
-<span class="cmd">python3</span> scripts/validate_discovery_packet.py <span class="arg">--generic-snapshot</span> /tmp/generic-snapshot.json <span class="pl">&lt;packet&gt;</span>.json
+<span class="cmd">python3</span> .agents/skills/gaia-curate/scripts/validate_discovery_packet.py <span class="arg">--generic-snapshot</span> /tmp/generic-snapshot.json <span class="pl">&lt;packet&gt;</span>.json
 
 <span class="c"># ── Phase 2: L4 ──────────────────────────────────────────────</span>
 <span class="c"># Append l4Resolution to packet, re-validate</span>
