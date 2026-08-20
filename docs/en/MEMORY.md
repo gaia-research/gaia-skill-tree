@@ -2,6 +2,97 @@
 
 ---
 
+## 2026-08-20 — Routine 033
+
+**Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the
+one-open-PR rule; the routine's own commit count/number in this diary tracks daily
+runs, not the branch name)
+
+**Task chosen:** CONTINUE — routine 032's "Planned next" asked whether the
+`"fetched"`/`"parsed"` lifecycle gap it flagged in `manual-curation-pipeline.html`
+Step 5 is a real CLI gap or something curators are expected to hand-fill, and named
+the two `gaia-curate` `SKILL.md` files as where to look before deciding.
+
+### What I did
+
+Read `.agents/skills/gaia-curate/SKILL.md` (confirmed byte-identical to the
+`.claude/` mirror first) and `CURATION-CORE.md`. Line 9-11 of `CURATION-CORE.md`
+defines the canonical lifecycle contract directly: `"fetched" requires an actually
+fetched upstream SKILL.md; "parsed" requires non-empty name and description
+frontmatter" — this is a worker attestation, not a CLI-populated field. `SKILL.md`
+step 2 confirms the fetch/parse work is done by whoever (human or agent) is running
+the `/gaia-curate` discovery flow, not by any `gaia` CLI verb.
+
+Cross-checked against `src/gaia_cli/prefill.py` directly (`buildPrefillPacket()`,
+`REVIEW_READY_LIFECYCLE` constant, and the module docstring): prefill is explicitly
+scoped as deterministic embedding-similarity ranking only — "does NOT mutate the
+registry" and hands back a `DEFER` packet at `["discovered", "deferred"]` for a
+"worker" to advance. It never fetches a URL, computes a hash, or reads frontmatter;
+the `name`/`description` a human types into Step 3's `--name`/`--description` flags
+land in `normalized.*`, not `source.frontmatter.*`. This settles the question:
+`"fetched"`/`"parsed"` are not an unclosed CLI gap — prefill was never meant to do
+that work, by design (RFC1 §3.3, per the module docstring). The curator who already
+opened the upstream URL to get the name/description for Step 3 is the one who can
+attest to having fetched and parsed it.
+
+Fixed the Step 5 callout in `manual-curation-pipeline.html` (`id="phase-1"` area,
+directly under the packet JSON template) accordingly: it previously said prefill
+"does not populate these — filling them in is on you for now," which reads as an
+open CLI deficiency. Rewrote it to say plainly this is by design, not a gap, and
+gave concrete guidance for each required field: `source.hostRepository` (the repo
+URL), `source.fetchedAt` (an ISO timestamp for the fetch), `source.contentSha256`
+(a SHA-256 of the raw SKILL.md text, with the `sha256sum`/`shasum -a 256` command
+to get it), and `source.frontmatter.name`/`.description` (the same verbatim values
+already passed to Step 3's flags).
+
+### Design decisions
+
+- Did not file a CLI issue — the investigation concluded there's no gap to file.
+  Filing one would misrepresent a deliberate design boundary (prefill = ranking
+  only, fetch/parse = worker's job) as a missing feature.
+- Kept the fix to the callout's prose only — no new code-fence for the hash
+  command, since the page already has a python3/hashlib snippet nearby for a
+  different hash (the generic-snapshot one) and adding a second full block for a
+  one-line `sha256sum` command would be more diff than the fix needs. Named the
+  plain shell command inline instead.
+- Did not soften or remove the "run the validator after every edit" closing
+  sentence — that guidance is still correct and unrelated to the by-design/gap
+  question this pass resolved.
+
+### Issues informed
+
+None filed or closed — this closes out the investigation routine 032 opened; no
+new backlog surfaced.
+
+### Verification
+
+`git status` scoped to `docs/en/manual-curation-pipeline.html`, `docs/en/DOCS.md`,
+`docs/en/MEMORY.md` only. `html.parser` parse-error check clean. Vocabulary grep
+(`merge|combine|compose|rarity`) — all hits are pre-existing `gh pr merge` CLI
+examples, no violations. No new hex introduced (diff-scanned, zero hex hits). All
+three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`) still linked.
+
+### Files modified
+
+- `docs/en/manual-curation-pipeline.html` — Step 5 fetched/parsed callout rewritten
+- `docs/en/DOCS.md` — page map row 13 updated
+- `docs/en/MEMORY.md` — this entry
+
+### Planned next (Routine 034)
+
+- No open remainder on `manual-curation-pipeline.html` from this thread — routines
+  030-033 closed out every drift flagged in it. Next routine should ROTATE to the
+  least-recently-touched page per DOCS.md (currently `contributing.html`,
+  `named-skills.html`, `evidence-classes.html`, and `share-bundles.html` are all
+  tied at "updated 025," oldest untouched since) or check for a SYNC trigger from
+  any release/merge since 2026-08-19.
+
+### Token spend
+
+2026-08-20 Sonnet 5 Low: ~65k in, ~8k out. ~$0.25
+
+---
+
 ## 2026-08-19 — Routine 032
 
 **Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the
