@@ -20,7 +20,11 @@
         "mattpocock/zoom-out",
         "mattpocock/grill-with-docs",
         "mattpocock/prototype",
-        "mattpocock/setup-matt-pocock-skills"
+        "mattpocock/setup-matt-pocock-skills",
+        "mattpocock/code-review",
+        "mattpocock/research",
+        "mattpocock/wayfinder",
+        "mattpocock/wizard"
       ]
     },
     {
@@ -30,7 +34,10 @@
       "members": [
         "mattpocock/write-a-skill",
         "mattpocock/handoff",
-        "mattpocock/grill-me"
+        "mattpocock/grill-me",
+        "mattpocock/teach",
+        "mattpocock/to-questionnaire",
+        "mattpocock/wait-what"
       ]
     },
     {
@@ -45,5 +52,5 @@
   ],
   "standalones": [],
   "createdAt": "2026-05-22",
-  "updatedAt": "2026-05-22"
+  "updatedAt": "2026-08-20"
 }

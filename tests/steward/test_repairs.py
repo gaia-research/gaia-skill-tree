@@ -263,7 +263,7 @@ def test_repair_changes_only_the_explicit_mirror_allowlist(tmp_path: Path) -> No
     before = {
         path.relative_to(root).as_posix(): path.read_bytes()
         for path in root.rglob("*")
-        if path.is_file() and ".gaia" not in path.relative_to(root).parts
+        if path.is_file() and not {".gaia", ".git"}.intersection(path.relative_to(root).parts)
     }
 
     _repair(root)
@@ -271,7 +271,7 @@ def test_repair_changes_only_the_explicit_mirror_allowlist(tmp_path: Path) -> No
     after = {
         path.relative_to(root).as_posix(): path.read_bytes()
         for path in root.rglob("*")
-        if path.is_file() and ".gaia" not in path.relative_to(root).parts
+        if path.is_file() and not {".gaia", ".git"}.intersection(path.relative_to(root).parts)
     }
     changed = sorted(path for path in set(before) | set(after) if before.get(path) != after.get(path))
     assert changed == [

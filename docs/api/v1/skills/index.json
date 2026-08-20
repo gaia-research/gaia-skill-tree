@@ -68,7 +68,7 @@
       "id": "mattpocock/skills",
       "name": "Matt Pocock Skills",
       "level": "5★",
-      "trustMagnitude": 489.45,
+      "trustMagnitude": 528.95,
       "overallTrustGrade": "S",
       "contributor": "mattpocock",
       "type": "fusion",
@@ -80,6 +80,7 @@
       },
       "genericSkillRef": "skill-mastery",
       "suiteComponents": [
+        "mattpocock/code-review",
         "mattpocock/diagnose",
         "mattpocock/edit-article",
         "mattpocock/engineering",
@@ -91,11 +92,17 @@
         "mattpocock/personal",
         "mattpocock/productivity",
         "mattpocock/prototype",
+        "mattpocock/research",
         "mattpocock/setup-matt-pocock-skills",
+        "mattpocock/teach",
+        "mattpocock/to-questionnaire",
         "mattpocock/to-spec",
         "mattpocock/to-tickets",
         "mattpocock/triage",
         "mattpocock/ubiquitous-language",
+        "mattpocock/wait-what",
+        "mattpocock/wayfinder",
+        "mattpocock/wizard",
         "mattpocock/write-a-skill",
         "mattpocock/zoom-out"
       ]
@@ -195,6 +202,38 @@
       ]
     },
     {
+      "id": "mattpocock/engineering",
+      "name": "Engineering",
+      "level": "4★",
+      "trustMagnitude": 351.96,
+      "overallTrustGrade": "A",
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/engineering.json"
+      },
+      "genericSkillRef": "engineering-discipline",
+      "suiteComponents": [
+        "mattpocock/code-review",
+        "mattpocock/diagnose",
+        "mattpocock/grill-with-docs",
+        "mattpocock/improve-codebase-architecture",
+        "mattpocock/prototype",
+        "mattpocock/research",
+        "mattpocock/setup-matt-pocock-skills",
+        "mattpocock/to-spec",
+        "mattpocock/to-tickets",
+        "mattpocock/triage",
+        "mattpocock/ubiquitous-language",
+        "mattpocock/wayfinder",
+        "mattpocock/wizard",
+        "mattpocock/zoom-out"
+      ]
+    },
+    {
       "id": "addy-osmani/agent-skills",
       "name": "Agent Skills",
       "level": "5★",
@@ -218,34 +257,6 @@
         "addy-osmani/shipping-and-launch",
         "addy-osmani/spec-driven-development",
         "addy-osmani/test-driven-development"
-      ]
-    },
-    {
-      "id": "mattpocock/engineering",
-      "name": "Engineering",
-      "level": "4★",
-      "trustMagnitude": 270.0,
-      "overallTrustGrade": "A",
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/engineering.json"
-      },
-      "genericSkillRef": "engineering-discipline",
-      "suiteComponents": [
-        "mattpocock/diagnose",
-        "mattpocock/grill-with-docs",
-        "mattpocock/improve-codebase-architecture",
-        "mattpocock/prototype",
-        "mattpocock/setup-matt-pocock-skills",
-        "mattpocock/to-spec",
-        "mattpocock/to-tickets",
-        "mattpocock/triage",
-        "mattpocock/ubiquitous-language",
-        "mattpocock/zoom-out"
       ]
     },
     {
@@ -408,6 +419,30 @@
         "ruvnet/v3-performance-optimization",
         "ruvnet/v3-security-overhaul",
         "ruvnet/v3-swarm-coordination"
+      ]
+    },
+    {
+      "id": "mattpocock/productivity",
+      "name": "Productivity",
+      "level": "3★",
+      "trustMagnitude": 180.0,
+      "overallTrustGrade": "A",
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/productivity.json"
+      },
+      "genericSkillRef": "productivity",
+      "suiteComponents": [
+        "mattpocock/grill-me",
+        "mattpocock/handoff",
+        "mattpocock/teach",
+        "mattpocock/to-questionnaire",
+        "mattpocock/wait-what",
+        "mattpocock/write-a-skill"
       ]
     },
     {
@@ -1000,27 +1035,11 @@
         "self": "/api/v1/skills/martin-stepanoski/nielsen-heuristics-audit.json"
       },
       "genericSkillRef": "ux-audit"
-    },
-    {
-      "id": "k-dense-ai/qiskit",
-      "name": "Qiskit",
-      "level": "3★",
-      "trustMagnitude": 93.03,
-      "overallTrustGrade": "B",
-      "contributor": "k-dense-ai",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Evolved",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/k-dense-ai/qiskit.json"
-      },
-      "genericSkillRef": "quantum-circuit-programming"
     }
   ],
   "page": 1,
   "totalPages": 5,
-  "totalSkills": 201,
+  "totalSkills": 214,
   "_links": {
     "self": "/api/v1/skills/index.json",
     "next": "/api/v1/skills/page-2.json"

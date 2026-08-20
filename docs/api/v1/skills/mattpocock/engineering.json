@@ -5,7 +5,7 @@
   "level": "4★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 270.0,
+  "trustMagnitude": 351.96,
   "overallTrustGrade": "A",
   "branch": "suite",
   "rankWord": "Extra",
@@ -58,18 +58,34 @@
       "details": "Generic parent 'engineering-discipline' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
       "metaEpoch": "yggdrasil-ii",
       "migrationBatch": "yggdrasil-ii@2026-07-20"
+    },
+    {
+      "timestamp": "2026-08-20T04:49:27Z",
+      "action": "suite_ref_set",
+      "contributor": "mbtiongson1",
+      "details": "Set suiteRef=mattpocock/engineering, genericSkillRef=engineering-discipline via `gaia dev fuse`."
+    },
+    {
+      "timestamp": "2026-08-20T04:52:44Z",
+      "action": "suite_ref_set",
+      "contributor": "mbtiongson1",
+      "details": "Set suiteRef to mattpocock/skills"
     }
   ],
   "suiteComponents": [
+    "mattpocock/code-review",
     "mattpocock/diagnose",
     "mattpocock/grill-with-docs",
     "mattpocock/improve-codebase-architecture",
     "mattpocock/prototype",
+    "mattpocock/research",
     "mattpocock/setup-matt-pocock-skills",
     "mattpocock/to-spec",
     "mattpocock/to-tickets",
     "mattpocock/triage",
     "mattpocock/ubiquitous-language",
+    "mattpocock/wayfinder",
+    "mattpocock/wizard",
     "mattpocock/zoom-out"
   ]
 }

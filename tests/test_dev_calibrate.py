@@ -175,6 +175,36 @@ def test_starbar_passes_with_blob_url(tmp_path, monkeypatch):
     assert "level: 4★" in md_path.read_text(encoding="utf-8")
 
 
+def test_starbar_allows_suite_components_without_github_link(tmp_path, monkeypatch):
+    """Calibrating a suite/fusion skill (suiteComponents set) to 3★+ does not
+    require links.github — it derives trust from its components, mirroring
+    what `gaia dev fuse` already permits at creation time (Issue: calibrate
+    CLI gap found auditing mattpocock/productivity, 2026-08-20)."""
+    named_dir = tmp_path / "registry" / "named"
+    contributor_dir = named_dir / "alice"
+    contributor_dir.mkdir(parents=True)
+    path = contributor_dir / "test-skill.md"
+    path.write_text(
+        "---\nid: alice/test-skill\nname: Test Skill\ncontributor: alice\n"
+        "origin: true\ngenericSkillRef: test-skill\nstatus: named\nlevel: 4★\n"
+        "description: A suite skill for calibrate tests.\n"
+        "suiteComponents:\n  - alice/component-a\n  - alice/component-b\n---\n",
+        encoding="utf-8",
+    )
+    schema = tmp_path / "registry" / "schema"
+    schema.mkdir(parents=True)
+    (schema / "meta.json").write_text(json.dumps({}))
+    root = str(tmp_path)
+
+    monkeypatch.setattr("gaia_cli.commands.dev.calibrate._get_contributor", lambda: "alice")
+    monkeypatch.setattr("gaia_cli.commands.dev.calibrate._run_docs_build", lambda *a, **kw: None)
+    monkeypatch.setattr("gaia_cli.commands.dev.calibrate.append_skill_event", lambda *a, **kw: None)
+
+    meta_calibrate_command(_args(root, level="3★"))
+
+    assert "level: 3★" in path.read_text(encoding="utf-8")
+
+
 def test_starbar_not_triggered_for_2star(tmp_path, monkeypatch):
     """Calibrating to 2★ does not require links.github."""
     root = _make_registry(tmp_path)  # no github_link

@@ -10,7 +10,7 @@ level: 4★
 description: Engineering category suite for Matt Pocock's skills. Removed from mattpocock/skills
   suite in v1.0.1.
 createdAt: '2026-05-21'
-updatedAt: '2026-08-19'
+updatedAt: '2026-08-20'
 trustMagnitude: 270.0
 overallTrustGrade: A
 apexGateStatus:
@@ -43,18 +43,31 @@ timeline:
     (Yggdrasil II taxonomy migration #997)'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-20
+- timestamp: '2026-08-20T04:49:27Z'
+  action: suite_ref_set
+  contributor: mbtiongson1
+  details: Set suiteRef=mattpocock/engineering, genericSkillRef=engineering-discipline
+    via `gaia dev fuse`.
+- timestamp: '2026-08-20T04:52:44Z'
+  action: suite_ref_set
+  contributor: mbtiongson1
+  details: Set suiteRef to mattpocock/skills
 suiteRef: mattpocock/skills
 trustMagnitudeInputHash: 4c0c7b233e624b41fc0b52204b68f31891b2e5d33b311a17b288573ab2927bca
 suiteComponents:
+  - mattpocock/code-review
   - mattpocock/diagnose
   - mattpocock/grill-with-docs
   - mattpocock/improve-codebase-architecture
   - mattpocock/prototype
+  - mattpocock/research
   - mattpocock/setup-matt-pocock-skills
   - mattpocock/to-spec
   - mattpocock/to-tickets
   - mattpocock/triage
   - mattpocock/ubiquitous-language
+  - mattpocock/wayfinder
+  - mattpocock/wizard
   - mattpocock/zoom-out
 ---
 ## Overview

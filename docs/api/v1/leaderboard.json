@@ -1,13 +1,13 @@
 {
   "distribution": {
-    "total": 239,
+    "total": 252,
     "S": 5,
-    "A": 64,
+    "A": 65,
     "B": 68,
-    "C": 88,
+    "C": 100,
     "ungraded": 14,
     "floor": 0,
-    "up": 30
+    "up": 31
   },
   "rows": [
     {
@@ -26,7 +26,7 @@
     },
     {
       "id": "mattpocock/skills",
-      "trustMagnitude": 489.45,
+      "trustMagnitude": 528.95,
       "grade": "S",
       "level": "5★",
       "typeBreakdown": {
@@ -34,7 +34,7 @@
         "arxiv": 10.4,
         "social-signal": 39.5,
         "peer-review": 30.0,
-        "fusion-recipe": 360.0
+        "fusion-recipe": 399.5
       },
       "origin": true,
       "branch": "suite"
@@ -68,6 +68,17 @@
       "branch": "suite"
     },
     {
+      "id": "mattpocock/engineering",
+      "trustMagnitude": 351.96,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "fusion-recipe": 351.96
+      },
+      "origin": true,
+      "branch": "suite"
+    },
+    {
       "id": "addy-osmani/agent-skills",
       "trustMagnitude": 296.3,
       "grade": "S",
@@ -76,17 +87,6 @@
         "github-stars-own": 20.3,
         "repo-own": 36.0,
         "fusion-recipe": 240.0
-      },
-      "origin": true,
-      "branch": "suite"
-    },
-    {
-      "id": "mattpocock/engineering",
-      "trustMagnitude": 270.0,
-      "grade": "A",
-      "level": "4★",
-      "typeBreakdown": {
-        "fusion-recipe": 270.0
       },
       "origin": true,
       "branch": "suite"
@@ -189,6 +189,17 @@
       "typeBreakdown": {
         "repo-own": 36.0,
         "fusion-recipe": 150.0
+      },
+      "origin": true,
+      "branch": "suite"
+    },
+    {
+      "id": "mattpocock/productivity",
+      "trustMagnitude": 180.0,
+      "grade": "A",
+      "level": "3★",
+      "typeBreakdown": {
+        "fusion-recipe": 180.0
       },
       "origin": true,
       "branch": "suite"
@@ -957,17 +968,6 @@
       "branch": "standard"
     },
     {
-      "id": "mattpocock/productivity",
-      "trustMagnitude": 90.0,
-      "grade": "B",
-      "level": "4★",
-      "typeBreakdown": {
-        "fusion-recipe": 90.0
-      },
-      "origin": true,
-      "branch": "suite"
-    },
-    {
       "id": "garrytan/browse",
       "trustMagnitude": 88.5,
       "grade": "B",
@@ -1708,6 +1708,19 @@
       "branch": "standard"
     },
     {
+      "id": "mattpocock/tdd",
+      "trustMagnitude": 50.0,
+      "grade": "B",
+      "level": "3★",
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 36.0,
+        "peer-review": 9.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
       "id": "k-dense-ai/rdkit",
       "trustMagnitude": 49.07,
       "grade": "C",
@@ -1835,6 +1848,150 @@
       "typeBreakdown": {
         "repo-own": 36.0,
         "self-attestation": 5.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "mattpocock/ask-matt",
+      "trustMagnitude": 41.0,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "mattpocock/codebase-design",
+      "trustMagnitude": 41.0,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "mattpocock/diagnosing-bugs",
+      "trustMagnitude": 41.0,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "mattpocock/domain-modeling",
+      "trustMagnitude": 41.0,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "mattpocock/git-guardrails-claude-code",
+      "trustMagnitude": 41.0,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "mattpocock/grilling",
+      "trustMagnitude": 41.0,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "mattpocock/implement",
+      "trustMagnitude": 41.0,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "mattpocock/migrate-to-shoehorn",
+      "trustMagnitude": 41.0,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "mattpocock/resolving-merge-conflicts",
+      "trustMagnitude": 41.0,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "mattpocock/scaffold-exercises",
+      "trustMagnitude": 41.0,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "mattpocock/setup-pre-commit",
+      "trustMagnitude": 41.0,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "id": "mattpocock/writing-for-agents",
+      "trustMagnitude": 41.0,
+      "grade": "C",
+      "level": "2★",
+      "typeBreakdown": {
+        "self-attestation": 5.0,
+        "repo-own": 36.0
       },
       "origin": false,
       "branch": "standard"

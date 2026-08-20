@@ -174,6 +174,7 @@ upstream:
   syncedAt: '2026-08-19T11:18:21Z'
   version: v1.2.3
 suiteComponents:
+  - mattpocock/code-review
   - mattpocock/diagnose
   - mattpocock/edit-article
   - mattpocock/engineering
@@ -185,11 +186,17 @@ suiteComponents:
   - mattpocock/personal
   - mattpocock/productivity
   - mattpocock/prototype
+  - mattpocock/research
   - mattpocock/setup-matt-pocock-skills
+  - mattpocock/teach
+  - mattpocock/to-questionnaire
   - mattpocock/to-spec
   - mattpocock/to-tickets
   - mattpocock/triage
   - mattpocock/ubiquitous-language
+  - mattpocock/wait-what
+  - mattpocock/wayfinder
+  - mattpocock/wizard
   - mattpocock/write-a-skill
   - mattpocock/zoom-out
 ---

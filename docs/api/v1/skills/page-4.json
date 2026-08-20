@@ -1,6 +1,214 @@
 {
   "skills": [
     {
+      "id": "garrytan/setup-deploy",
+      "name": "Setup Deploy",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/setup-deploy.json"
+      },
+      "genericSkillRef": "deployment-automation"
+    },
+    {
+      "id": "garrytan/setup-gbrain",
+      "name": "Setup GBrain",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/setup-gbrain.json"
+      },
+      "genericSkillRef": "knowledge-management"
+    },
+    {
+      "id": "garrytan/sync-gbrain",
+      "name": "Sync GBrain",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/sync-gbrain.json"
+      },
+      "genericSkillRef": "knowledge-management"
+    },
+    {
+      "id": "garrytan/unfreeze",
+      "name": "Unfreeze",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "garrytan",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/garrytan/unfreeze.json"
+      },
+      "genericSkillRef": "guardrails"
+    },
+    {
+      "id": "getagentseal/codeburn",
+      "name": "CodeBurn",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "getagentseal",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/getagentseal/codeburn.json"
+      },
+      "genericSkillRef": "token-observability"
+    },
+    {
+      "id": "karpathy/autoresearch-universal",
+      "name": "AutoResearch",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "karpathy",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/karpathy/autoresearch-universal.json"
+      },
+      "genericSkillRef": "autonomous-web-research"
+    },
+    {
+      "id": "laravel/upgrade-laravel-v13",
+      "name": "Upgrade Laravel v13",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "laravel",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/laravel/upgrade-laravel-v13.json"
+      },
+      "genericSkillRef": "framework-upgrade"
+    },
+    {
+      "id": "mbtiongson1/gaia-audit",
+      "name": "Gaia Audit",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "mbtiongson1",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mbtiongson1/gaia-audit.json"
+      },
+      "genericSkillRef": "registry-entry-audit"
+    },
+    {
+      "id": "mbtiongson1/gaia-curation-review",
+      "name": "Gaia Curation Review",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "mbtiongson1",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mbtiongson1/gaia-curation-review.json"
+      },
+      "genericSkillRef": "registry-entry-audit"
+    },
+    {
+      "id": "mbtiongson1/gaia-meta-audit",
+      "name": "Gaia Meta Audit",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "mbtiongson1",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mbtiongson1/gaia-meta-audit.json"
+      },
+      "genericSkillRef": "registry-health-scan"
+    },
+    {
+      "id": "mbtiongson1/gaia-preview",
+      "name": "Gaia Preview",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "mbtiongson1",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mbtiongson1/gaia-preview.json"
+      },
+      "genericSkillRef": "deployment-automation"
+    },
+    {
+      "id": "mbtiongson1/graphify-triage",
+      "name": "Graphify Triage",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "mbtiongson1",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mbtiongson1/graphify-triage.json"
+      },
+      "genericSkillRef": "graph-driven-issue-triage"
+    },
+    {
+      "id": "nexu-io/open-design",
+      "name": "Open Design",
+      "level": "2★",
+      "trustMagnitude": 36.0,
+      "overallTrustGrade": "C",
+      "contributor": "nexu-io",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/nexu-io/open-design.json"
+      },
+      "genericSkillRef": "design-generation"
+    },
+    {
       "id": "nousresearch/feed-monitoring",
       "name": "Feed Monitoring",
       "level": "2★",
@@ -591,232 +799,11 @@
         "self": "/api/v1/skills/mattpocock/wizard.json"
       },
       "genericSkillRef": "guided-setup-scripting"
-    },
-    {
-      "id": "supabase/supabase",
-      "name": "Supabase",
-      "level": "2★",
-      "trustMagnitude": 5.0,
-      "overallTrustGrade": null,
-      "contributor": "supabase",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/supabase/supabase.json"
-      },
-      "genericSkillRef": "supabase"
-    },
-    {
-      "id": "supabase/supabase-postgres-best-practices",
-      "name": "Supabase Postgres Best Practices",
-      "level": "2★",
-      "trustMagnitude": 5.0,
-      "overallTrustGrade": null,
-      "contributor": "supabase",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/supabase/supabase-postgres-best-practices.json"
-      },
-      "genericSkillRef": "postgres-best-practices"
-    },
-    {
-      "id": "remotion-dev/remotion-best-practices",
-      "name": "Remotion Best Practices",
-      "level": "2★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": null,
-      "contributor": "remotion-dev",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/remotion-dev/remotion-best-practices.json"
-      },
-      "genericSkillRef": "video-composition",
-      "suiteComponents": [
-        "remotion-dev/remotion-captions",
-        "remotion-dev/remotion-create",
-        "remotion-dev/remotion-docs",
-        "remotion-dev/remotion-interactivity",
-        "remotion-dev/remotion-maps",
-        "remotion-dev/remotion-markup",
-        "remotion-dev/remotion-multimedia",
-        "remotion-dev/remotion-render",
-        "remotion-dev/remotion-saas",
-        "remotion-dev/remotion-studio",
-        "remotion-dev/remotion-upgrade"
-      ]
-    },
-    {
-      "id": "remotion-dev/remotion-captions",
-      "name": "Remotion Captions",
-      "level": "2★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": null,
-      "contributor": "remotion-dev",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/remotion-dev/remotion-captions.json"
-      },
-      "genericSkillRef": "video-captions"
-    },
-    {
-      "id": "remotion-dev/remotion-create",
-      "name": "Remotion Create",
-      "level": "2★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": null,
-      "contributor": "remotion-dev",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/remotion-dev/remotion-create.json"
-      },
-      "genericSkillRef": "video-scaffolding"
-    },
-    {
-      "id": "remotion-dev/remotion-docs",
-      "name": "Remotion Docs",
-      "level": "2★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": null,
-      "contributor": "remotion-dev",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/remotion-dev/remotion-docs.json"
-      },
-      "genericSkillRef": "wiki-search"
-    },
-    {
-      "id": "remotion-dev/remotion-interactivity",
-      "name": "Remotion Interactivity",
-      "level": "2★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": null,
-      "contributor": "remotion-dev",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/remotion-dev/remotion-interactivity.json"
-      },
-      "genericSkillRef": "video-interactivity"
-    },
-    {
-      "id": "remotion-dev/remotion-maps",
-      "name": "Remotion Maps",
-      "level": "2★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": null,
-      "contributor": "remotion-dev",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/remotion-dev/remotion-maps.json"
-      },
-      "genericSkillRef": "map-animation"
-    },
-    {
-      "id": "remotion-dev/remotion-markup",
-      "name": "Remotion Markup",
-      "level": "2★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": null,
-      "contributor": "remotion-dev",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/remotion-dev/remotion-markup.json"
-      },
-      "genericSkillRef": "timeline-animation"
-    },
-    {
-      "id": "remotion-dev/remotion-multimedia",
-      "name": "Remotion Multimedia",
-      "level": "2★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": null,
-      "contributor": "remotion-dev",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/remotion-dev/remotion-multimedia.json"
-      },
-      "genericSkillRef": "generative-media"
-    },
-    {
-      "id": "remotion-dev/remotion-render",
-      "name": "Remotion Render",
-      "level": "2★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": null,
-      "contributor": "remotion-dev",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/remotion-dev/remotion-render.json"
-      },
-      "genericSkillRef": "video-rendering"
-    },
-    {
-      "id": "remotion-dev/remotion-saas",
-      "name": "Remotion SaaS",
-      "level": "2★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": null,
-      "contributor": "remotion-dev",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/remotion-dev/remotion-saas.json"
-      },
-      "genericSkillRef": "video-saas"
-    },
-    {
-      "id": "remotion-dev/remotion-studio",
-      "name": "Remotion Studio",
-      "level": "2★",
-      "trustMagnitude": 0.0,
-      "overallTrustGrade": null,
-      "contributor": "remotion-dev",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/remotion-dev/remotion-studio.json"
-      },
-      "genericSkillRef": "video-preview"
     }
   ],
   "page": 4,
   "totalPages": 5,
-  "totalSkills": 201,
+  "totalSkills": 214,
   "_links": {
     "self": "/api/v1/skills/page-4.json",
     "prev": "/api/v1/skills/page-3.json",

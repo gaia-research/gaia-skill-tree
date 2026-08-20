@@ -340,13 +340,19 @@ def meta_dev_fuse_command(args) -> None:
             print(f"Error: Named capstone '{capstone_id}' not found after preflight.", file=sys.stderr)
             sys.exit(1)
         cap_meta, cap_body = _parse_md(capstone_file)
-        cap_changed = False
+        cap_changes = []
         if cap_meta.get("genericSkillRef") != generic_id:
             cap_meta["genericSkillRef"] = generic_id
-            cap_changed = True
-        if cap_meta.get("suiteRef") != capstone_id:
+            cap_changes.append(f"genericSkillRef={generic_id}")
+        if not cap_meta.get("suiteRef"):
+            # Only stamp suiteRef on first assignment. capstone_id is always
+            # this same file's own id, so overwriting an existing value here
+            # would clobber a meaningful parent-suite pointer (e.g.
+            # mattpocock/engineering -> mattpocock/skills) with a
+            # self-reference every time an existing suite capstone is
+            # re-fused to add new components.
             cap_meta["suiteRef"] = capstone_id
-            cap_changed = True
+            cap_changes.append(f"suiteRef={capstone_id}")
         if components:
             existing_comps = list(cap_meta.get("suiteComponents") or [])
             merged = list(existing_comps)
@@ -355,14 +361,14 @@ def meta_dev_fuse_command(args) -> None:
                     merged.append(c)
             if merged != existing_comps:
                 cap_meta["suiteComponents"] = merged
-                cap_changed = True
-        if cap_changed:
+                cap_changes.append(f"suiteComponents+={[c for c in components if c not in existing_comps]}")
+        if cap_changes:
             cap_meta["updatedAt"] = datetime.date.today().isoformat()
             _write_md(capstone_file, cap_meta, cap_body)
             print(f"Updated capstone frontmatter: {capstone_file}")
             append_skill_event(
                 capstone_id, "suite_ref_set", _get_contributor(),
-                f"Set suiteRef={capstone_id}, genericSkillRef={generic_id} via `gaia dev fuse`.",
+                f"Updated via `gaia dev fuse`: {', '.join(cap_changes)}.",
                 registry_path=registry_path,
             )
 

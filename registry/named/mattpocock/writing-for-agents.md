@@ -7,11 +7,11 @@ genericSkillRef: skill-authoring
 status: named
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-for-agents/SKILL.md
-level: 1★
+level: 2★
 description: Reference for writing and editing skills to be predictable — vocabulary
   and principles for deterministic skills.
 createdAt: '2026-06-19'
-updatedAt: '2026-08-19'
+updatedAt: '2026-08-20'
 timeline:
 - timestamp: '2026-06-19T13:03:02Z'
   action: add
@@ -64,6 +64,14 @@ timeline:
   action: note
   contributor: unknown
   details: Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-for-agents/SKILL.md
+- timestamp: '2026-08-20T05:14:35Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://github.com/mattpocock/skills (type: repo-own)'
+- timestamp: '2026-08-20T05:15:20Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Calibrated level from 1★ to 2★
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-great-skills/SKILL.md
   evaluator: unknown
@@ -85,6 +93,13 @@ evidence:
   grade: C
   notes: 'I13 classify: contributor-owned skill directory evidence'
   sourceStartedAt: '2026-06-19'
+- source: https://github.com/mattpocock/skills
+  evaluator: mbtiongson1
+  date: '2026-08-20'
+  type: repo-own
+  commits: 525
+  contributors: 7
+  grade: B
 verification:
   firstEvidenceAt: '2026-06-19T13:07:43Z'
 trustMagnitude: 0.0

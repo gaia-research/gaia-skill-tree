@@ -45,7 +45,7 @@
     "contributor": "mattpocock",
     "level": "5★",
     "grade": "S",
-    "trustMagnitude": 489.45,
+    "trustMagnitude": 528.95,
     "branch": "suite",
     "tokens": [
       "all",
@@ -141,6 +141,29 @@
     ]
   },
   {
+    "id": "mattpocock/engineering",
+    "name": "Engineering",
+    "contributor": "mattpocock",
+    "level": "4★",
+    "grade": "A",
+    "trustMagnitude": 351.96,
+    "branch": "suite",
+    "tokens": [
+      "0",
+      "1",
+      "category",
+      "discipline",
+      "engineering",
+      "matt",
+      "mattpocock",
+      "pocock's",
+      "removed",
+      "skills",
+      "suite",
+      "v1"
+    ]
+  },
+  {
     "id": "addy-osmani/agent-skills",
     "name": "Agent Skills",
     "contributor": "addy-osmani",
@@ -176,29 +199,6 @@
       "test",
       "web",
       "—"
-    ]
-  },
-  {
-    "id": "mattpocock/engineering",
-    "name": "Engineering",
-    "contributor": "mattpocock",
-    "level": "4★",
-    "grade": "A",
-    "trustMagnitude": 270.0,
-    "branch": "suite",
-    "tokens": [
-      "0",
-      "1",
-      "category",
-      "discipline",
-      "engineering",
-      "matt",
-      "mattpocock",
-      "pocock's",
-      "removed",
-      "skills",
-      "suite",
-      "v1"
     ]
   },
   {
@@ -451,6 +451,28 @@
       "tuning",
       "unification",
       "v3"
+    ]
+  },
+  {
+    "id": "mattpocock/productivity",
+    "name": "Productivity",
+    "contributor": "mattpocock",
+    "level": "3★",
+    "grade": "A",
+    "trustMagnitude": 180.0,
+    "branch": "suite",
+    "tokens": [
+      "0",
+      "1",
+      "category",
+      "matt",
+      "mattpocock",
+      "pocock's",
+      "productivity",
+      "removed",
+      "skills",
+      "suite",
+      "v1"
     ]
   },
   {
@@ -1548,28 +1570,6 @@
       "runtime",
       "simulate",
       "transpile"
-    ]
-  },
-  {
-    "id": "mattpocock/productivity",
-    "name": "Productivity",
-    "contributor": "mattpocock",
-    "level": "4★",
-    "grade": "B",
-    "trustMagnitude": 90.0,
-    "branch": "suite",
-    "tokens": [
-      "0",
-      "1",
-      "category",
-      "matt",
-      "mattpocock",
-      "pocock's",
-      "productivity",
-      "removed",
-      "skills",
-      "suite",
-      "v1"
     ]
   },
   {
@@ -3155,6 +3155,29 @@
     ]
   },
   {
+    "id": "mattpocock/tdd",
+    "name": "TDD",
+    "contributor": "mattpocock",
+    "level": "3★",
+    "grade": "B",
+    "trustMagnitude": 50.0,
+    "branch": "standard",
+    "tokens": [
+      "behavior",
+      "development",
+      "driven",
+      "green",
+      "interfaces",
+      "public",
+      "red",
+      "refactor",
+      "tdd",
+      "test",
+      "through",
+      "verifying"
+    ]
+  },
+  {
     "id": "k-dense-ai/rdkit",
     "name": "RDKit",
     "contributor": "k-dense-ai",
@@ -3419,6 +3442,287 @@
       "time",
       "versus",
       "work"
+    ]
+  },
+  {
+    "id": "mattpocock/ask-matt",
+    "name": "Ask Matt",
+    "contributor": "mattpocock",
+    "level": "2★",
+    "grade": "C",
+    "trustMagnitude": 41.0,
+    "branch": "standard",
+    "tokens": [
+      "ask",
+      "expert",
+      "intent",
+      "matt",
+      "productivity",
+      "questions",
+      "right",
+      "route",
+      "routing",
+      "skill",
+      "workspace"
+    ]
+  },
+  {
+    "id": "mattpocock/codebase-design",
+    "name": "Codebase Design",
+    "contributor": "mattpocock",
+    "level": "2★",
+    "grade": "C",
+    "trustMagnitude": 41.0,
+    "branch": "standard",
+    "tokens": [
+      "better",
+      "codebase",
+      "deep",
+      "design",
+      "implementations",
+      "interfaces",
+      "large",
+      "modules",
+      "small",
+      "software",
+      "testability"
+    ]
+  },
+  {
+    "id": "mattpocock/diagnosing-bugs",
+    "name": "Diagnosing Bugs",
+    "contributor": "mattpocock",
+    "level": "2★",
+    "grade": "C",
+    "trustMagnitude": 41.0,
+    "branch": "standard",
+    "tokens": [
+      "bugs",
+      "debugging",
+      "diagnosing",
+      "diagnosis",
+      "feedback",
+      "hard",
+      "loop",
+      "performance",
+      "regressions",
+      "systematic",
+      "tight",
+      "using"
+    ]
+  },
+  {
+    "id": "mattpocock/domain-modeling",
+    "name": "Domain Modeling",
+    "contributor": "mattpocock",
+    "level": "2★",
+    "grade": "C",
+    "trustMagnitude": 41.0,
+    "branch": "standard",
+    "tokens": [
+      "build",
+      "context",
+      "domain",
+      "language",
+      "maintenance",
+      "md",
+      "model",
+      "modeling",
+      "project",
+      "sharpen",
+      "ubiquitous"
+    ]
+  },
+  {
+    "id": "mattpocock/git-guardrails-claude-code",
+    "name": "Git Guardrails Claude Code",
+    "contributor": "mattpocock",
+    "level": "2★",
+    "grade": "C",
+    "trustMagnitude": 41.0,
+    "branch": "standard",
+    "tokens": [
+      "before",
+      "block",
+      "claude",
+      "code",
+      "commands",
+      "dangerous",
+      "execute",
+      "git",
+      "guardrails",
+      "hooks",
+      "set",
+      "they",
+      "up"
+    ]
+  },
+  {
+    "id": "mattpocock/grilling",
+    "name": "Grilling",
+    "contributor": "mattpocock",
+    "level": "2★",
+    "grade": "C",
+    "trustMagnitude": 41.0,
+    "branch": "standard",
+    "tokens": [
+      "about",
+      "before",
+      "building",
+      "design",
+      "grilling",
+      "interview",
+      "plan",
+      "relentlessly",
+      "review",
+      "stress",
+      "test",
+      "user"
+    ]
+  },
+  {
+    "id": "mattpocock/implement",
+    "name": "Implement",
+    "contributor": "mattpocock",
+    "level": "2★",
+    "grade": "C",
+    "trustMagnitude": 41.0,
+    "branch": "standard",
+    "tokens": [
+      "agreed",
+      "based",
+      "executing",
+      "implement",
+      "issues",
+      "piece",
+      "plans",
+      "prd",
+      "pre",
+      "seams",
+      "tdd",
+      "using",
+      "work"
+    ]
+  },
+  {
+    "id": "mattpocock/migrate-to-shoehorn",
+    "name": "Migrate to Shoehorn",
+    "contributor": "mattpocock",
+    "level": "2★",
+    "grade": "C",
+    "trustMagnitude": 41.0,
+    "branch": "standard",
+    "tokens": [
+      "assertions",
+      "code",
+      "data",
+      "files",
+      "migrate",
+      "partial",
+      "refactor",
+      "safe",
+      "shoehorn",
+      "test",
+      "type"
+    ]
+  },
+  {
+    "id": "mattpocock/resolving-merge-conflicts",
+    "name": "Resolving Merge Conflicts",
+    "contributor": "mattpocock",
+    "level": "2★",
+    "grade": "C",
+    "trustMagnitude": 41.0,
+    "branch": "standard",
+    "tokens": [
+      "automated",
+      "both",
+      "checks",
+      "conflicts",
+      "git",
+      "integration",
+      "intents",
+      "merge",
+      "preserving",
+      "progress",
+      "rebase",
+      "resolve",
+      "resolving"
+    ]
+  },
+  {
+    "id": "mattpocock/scaffold-exercises",
+    "name": "Scaffold Exercises",
+    "contributor": "mattpocock",
+    "level": "2★",
+    "grade": "C",
+    "trustMagnitude": 41.0,
+    "branch": "standard",
+    "tokens": [
+      "authoring",
+      "create",
+      "directory",
+      "exercise",
+      "exercises",
+      "explainers",
+      "linting",
+      "pass",
+      "problems",
+      "scaffold",
+      "sections",
+      "skill",
+      "solutions",
+      "structures",
+      "that"
+    ]
+  },
+  {
+    "id": "mattpocock/setup-pre-commit",
+    "name": "Setup Pre-Commit",
+    "contributor": "mattpocock",
+    "level": "2★",
+    "grade": "C",
+    "trustMagnitude": 41.0,
+    "branch": "standard",
+    "tokens": [
+      "checking",
+      "commit",
+      "guardrails",
+      "hooks",
+      "husky",
+      "lint",
+      "pre",
+      "prettier",
+      "set",
+      "setup",
+      "staged",
+      "tests",
+      "type",
+      "up"
+    ]
+  },
+  {
+    "id": "mattpocock/writing-for-agents",
+    "name": "Writing For Agents",
+    "contributor": "mattpocock",
+    "level": "2★",
+    "grade": "C",
+    "trustMagnitude": 41.0,
+    "branch": "standard",
+    "tokens": [
+      "agents",
+      "authoring",
+      "be",
+      "deterministic",
+      "editing",
+      "predictable",
+      "principles",
+      "reference",
+      "skill",
+      "skills",
+      "vocabulary",
+      "writing",
+      "—"
     ]
   },
   {

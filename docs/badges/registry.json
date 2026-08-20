@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-11",
+  "generatedAt": "2026-08-20",
   "schema": "gaia-badges-registry/2",
   "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The site Worker at worker/index.js handles /badges/<handle>/<file>.svg (the real SVGs live at /badges/_assets/<handle>/<file>.svg) and serves the `validating\u2026` SVG (docs/badges/not-found.svg) when the `?repo=` query string doesn't match a repo listed here. Schema v2 adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant.",
   "contributors": {
@@ -1110,28 +1110,47 @@
       ],
       "skillsByRepo": {
         "mattpocock/skills": [
+          "mattpocock/ask-matt",
+          "mattpocock/code-review",
+          "mattpocock/codebase-design",
           "mattpocock/diagnose",
+          "mattpocock/diagnosing-bugs",
+          "mattpocock/domain-modeling",
           "mattpocock/edit-article",
+          "mattpocock/git-guardrails-claude-code",
           "mattpocock/grill-me",
           "mattpocock/grill-with-docs",
+          "mattpocock/grilling",
           "mattpocock/handoff",
+          "mattpocock/implement",
           "mattpocock/improve-codebase-architecture",
+          "mattpocock/migrate-to-shoehorn",
           "mattpocock/obsidian-vault",
           "mattpocock/prototype",
+          "mattpocock/research",
+          "mattpocock/resolving-merge-conflicts",
+          "mattpocock/scaffold-exercises",
           "mattpocock/setup-matt-pocock-skills",
+          "mattpocock/setup-pre-commit",
           "mattpocock/skills",
+          "mattpocock/tdd",
           "mattpocock/teach",
-          "mattpocock/to-issues",
-          "mattpocock/to-prd",
+          "mattpocock/to-questionnaire",
+          "mattpocock/to-spec",
+          "mattpocock/to-tickets",
           "mattpocock/triage",
           "mattpocock/ubiquitous-language",
-          "mattpocock/write-a-skill"
+          "mattpocock/wait-what",
+          "mattpocock/wayfinder",
+          "mattpocock/wizard",
+          "mattpocock/write-a-skill",
+          "mattpocock/writing-for-agents"
         ]
       },
       "topSkill": "mattpocock/skills",
       "topRank": 5,
       "topIsUnique": false,
-      "count": 33,
+      "count": 40,
       "namedSkills": [
         {
           "id": "mattpocock/skills",
@@ -1152,16 +1171,6 @@
           "slash": "/engineering",
           "file": "engineering.svg",
           "fileSeal": "engineering-seal.svg"
-        },
-        {
-          "id": "mattpocock/productivity",
-          "name": "Productivity",
-          "rank": 4,
-          "type": "fusion",
-          "branch": "suite",
-          "slash": "/productivity",
-          "file": "productivity.svg",
-          "fileSeal": "productivity-seal.svg"
         },
         {
           "id": "mattpocock/diagnose",
@@ -1214,6 +1223,16 @@
           "fileSeal": "handoff-seal.svg"
         },
         {
+          "id": "mattpocock/misc",
+          "name": "Misc",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "suite",
+          "slash": "/misc",
+          "file": "misc.svg",
+          "fileSeal": "misc-seal.svg"
+        },
+        {
           "id": "mattpocock/obsidian-vault",
           "name": "Obsidian Vault Manager",
           "rank": 3,
@@ -1234,6 +1253,16 @@
           "fileSeal": "personal-seal.svg"
         },
         {
+          "id": "mattpocock/productivity",
+          "name": "Productivity",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "suite",
+          "slash": "/productivity",
+          "file": "productivity.svg",
+          "fileSeal": "productivity-seal.svg"
+        },
+        {
           "id": "mattpocock/setup-matt-pocock-skills",
           "name": "Setup Matt Pocock Skills",
           "rank": 3,
@@ -1244,24 +1273,34 @@
           "fileSeal": "setup-matt-pocock-skills-seal.svg"
         },
         {
-          "id": "mattpocock/to-issues",
-          "name": "To Issues",
+          "id": "mattpocock/tdd",
+          "name": "TDD",
           "rank": 3,
-          "type": "fusion",
+          "type": "basic",
           "branch": "standard",
-          "slash": "/to-issues",
-          "file": "to-issues.svg",
-          "fileSeal": "to-issues-seal.svg"
+          "slash": "/tdd",
+          "file": "tdd.svg",
+          "fileSeal": "tdd-seal.svg"
         },
         {
-          "id": "mattpocock/to-prd",
+          "id": "mattpocock/to-spec",
           "name": "To PRD",
           "rank": 3,
           "type": "fusion",
           "branch": "standard",
-          "slash": "/to-prd",
-          "file": "to-prd.svg",
-          "fileSeal": "to-prd-seal.svg"
+          "slash": "/to-spec",
+          "file": "to-spec.svg",
+          "fileSeal": "to-spec-seal.svg"
+        },
+        {
+          "id": "mattpocock/to-tickets",
+          "name": "To Tickets",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/to-tickets",
+          "file": "to-tickets.svg",
+          "fileSeal": "to-tickets-seal.svg"
         },
         {
           "id": "mattpocock/triage",
@@ -1284,6 +1323,86 @@
           "fileSeal": "ubiquitous-language-seal.svg"
         },
         {
+          "id": "mattpocock/ask-matt",
+          "name": "Ask Matt",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/ask-matt",
+          "file": "ask-matt.svg",
+          "fileSeal": "ask-matt-seal.svg"
+        },
+        {
+          "id": "mattpocock/code-review",
+          "name": "Code Review",
+          "rank": 2,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/code-review",
+          "file": "code-review.svg",
+          "fileSeal": "code-review-seal.svg"
+        },
+        {
+          "id": "mattpocock/codebase-design",
+          "name": "Codebase Design",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/codebase-design",
+          "file": "codebase-design.svg",
+          "fileSeal": "codebase-design-seal.svg"
+        },
+        {
+          "id": "mattpocock/diagnosing-bugs",
+          "name": "Diagnosing Bugs",
+          "rank": 2,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/diagnosing-bugs",
+          "file": "diagnosing-bugs.svg",
+          "fileSeal": "diagnosing-bugs-seal.svg"
+        },
+        {
+          "id": "mattpocock/domain-modeling",
+          "name": "Domain Modeling",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/domain-modeling",
+          "file": "domain-modeling.svg",
+          "fileSeal": "domain-modeling-seal.svg"
+        },
+        {
+          "id": "mattpocock/git-guardrails-claude-code",
+          "name": "Git Guardrails Claude Code",
+          "rank": 2,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/git-guardrails-claude-code",
+          "file": "git-guardrails-claude-code.svg",
+          "fileSeal": "git-guardrails-claude-code-seal.svg"
+        },
+        {
+          "id": "mattpocock/grilling",
+          "name": "Grilling",
+          "rank": 2,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/grilling",
+          "file": "grilling.svg",
+          "fileSeal": "grilling-seal.svg"
+        },
+        {
+          "id": "mattpocock/implement",
+          "name": "Implement",
+          "rank": 2,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/implement",
+          "file": "implement.svg",
+          "fileSeal": "implement-seal.svg"
+        },
+        {
           "id": "mattpocock/improve-codebase-architecture",
           "name": "Improve Codebase Architecture",
           "rank": 2,
@@ -1292,6 +1411,16 @@
           "slash": "/improve-codebase-architecture",
           "file": "improve-codebase-architecture.svg",
           "fileSeal": "improve-codebase-architecture-seal.svg"
+        },
+        {
+          "id": "mattpocock/migrate-to-shoehorn",
+          "name": "Migrate to Shoehorn",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/migrate-to-shoehorn",
+          "file": "migrate-to-shoehorn.svg",
+          "fileSeal": "migrate-to-shoehorn-seal.svg"
         },
         {
           "id": "mattpocock/prototype",
@@ -1304,6 +1433,46 @@
           "fileSeal": "prototype-seal.svg"
         },
         {
+          "id": "mattpocock/research",
+          "name": "Research",
+          "rank": 2,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/research",
+          "file": "research.svg",
+          "fileSeal": "research-seal.svg"
+        },
+        {
+          "id": "mattpocock/resolving-merge-conflicts",
+          "name": "Resolving Merge Conflicts",
+          "rank": 2,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/resolving-merge-conflicts",
+          "file": "resolving-merge-conflicts.svg",
+          "fileSeal": "resolving-merge-conflicts-seal.svg"
+        },
+        {
+          "id": "mattpocock/scaffold-exercises",
+          "name": "Scaffold Exercises",
+          "rank": 2,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/scaffold-exercises",
+          "file": "scaffold-exercises.svg",
+          "fileSeal": "scaffold-exercises-seal.svg"
+        },
+        {
+          "id": "mattpocock/setup-pre-commit",
+          "name": "Setup Pre-Commit",
+          "rank": 2,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/setup-pre-commit",
+          "file": "setup-pre-commit.svg",
+          "fileSeal": "setup-pre-commit-seal.svg"
+        },
+        {
           "id": "mattpocock/teach",
           "name": "Teach",
           "rank": 2,
@@ -1314,6 +1483,46 @@
           "fileSeal": "teach-seal.svg"
         },
         {
+          "id": "mattpocock/to-questionnaire",
+          "name": "To Questionnaire",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/to-questionnaire",
+          "file": "to-questionnaire.svg",
+          "fileSeal": "to-questionnaire-seal.svg"
+        },
+        {
+          "id": "mattpocock/wait-what",
+          "name": "Wait What",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/wait-what",
+          "file": "wait-what.svg",
+          "fileSeal": "wait-what-seal.svg"
+        },
+        {
+          "id": "mattpocock/wayfinder",
+          "name": "Wayfinder",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/wayfinder",
+          "file": "wayfinder.svg",
+          "fileSeal": "wayfinder-seal.svg"
+        },
+        {
+          "id": "mattpocock/wizard",
+          "name": "Wizard",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/wizard",
+          "file": "wizard.svg",
+          "fileSeal": "wizard-seal.svg"
+        },
+        {
           "id": "mattpocock/write-a-skill",
           "name": "Write a Skill",
           "rank": 2,
@@ -1322,6 +1531,16 @@
           "slash": "/write-a-skill",
           "file": "write-a-skill.svg",
           "fileSeal": "write-a-skill-seal.svg"
+        },
+        {
+          "id": "mattpocock/writing-for-agents",
+          "name": "Writing For Agents",
+          "rank": 2,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/writing-for-agents",
+          "file": "writing-for-agents.svg",
+          "fileSeal": "writing-for-agents-seal.svg"
         }
       ]
     },

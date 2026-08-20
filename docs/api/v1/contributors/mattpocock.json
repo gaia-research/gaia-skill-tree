@@ -5,7 +5,7 @@
       "id": "mattpocock/skills",
       "name": "Matt Pocock Skills",
       "level": "5★",
-      "trustMagnitude": 489.45,
+      "trustMagnitude": 528.95,
       "overallTrustGrade": "S",
       "contributor": "mattpocock",
       "type": "fusion",
@@ -17,6 +17,7 @@
       },
       "genericSkillRef": "skill-mastery",
       "suiteComponents": [
+        "mattpocock/code-review",
         "mattpocock/diagnose",
         "mattpocock/edit-article",
         "mattpocock/engineering",
@@ -28,11 +29,17 @@
         "mattpocock/personal",
         "mattpocock/productivity",
         "mattpocock/prototype",
+        "mattpocock/research",
         "mattpocock/setup-matt-pocock-skills",
+        "mattpocock/teach",
+        "mattpocock/to-questionnaire",
         "mattpocock/to-spec",
         "mattpocock/to-tickets",
         "mattpocock/triage",
         "mattpocock/ubiquitous-language",
+        "mattpocock/wait-what",
+        "mattpocock/wayfinder",
+        "mattpocock/wizard",
         "mattpocock/write-a-skill",
         "mattpocock/zoom-out"
       ]
@@ -41,7 +48,7 @@
       "id": "mattpocock/engineering",
       "name": "Engineering",
       "level": "4★",
-      "trustMagnitude": 270.0,
+      "trustMagnitude": 351.96,
       "overallTrustGrade": "A",
       "contributor": "mattpocock",
       "type": "fusion",
@@ -53,16 +60,44 @@
       },
       "genericSkillRef": "engineering-discipline",
       "suiteComponents": [
+        "mattpocock/code-review",
         "mattpocock/diagnose",
         "mattpocock/grill-with-docs",
         "mattpocock/improve-codebase-architecture",
         "mattpocock/prototype",
+        "mattpocock/research",
         "mattpocock/setup-matt-pocock-skills",
         "mattpocock/to-spec",
         "mattpocock/to-tickets",
         "mattpocock/triage",
         "mattpocock/ubiquitous-language",
+        "mattpocock/wayfinder",
+        "mattpocock/wizard",
         "mattpocock/zoom-out"
+      ]
+    },
+    {
+      "id": "mattpocock/productivity",
+      "name": "Productivity",
+      "level": "3★",
+      "trustMagnitude": 180.0,
+      "overallTrustGrade": "A",
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/productivity.json"
+      },
+      "genericSkillRef": "productivity",
+      "suiteComponents": [
+        "mattpocock/grill-me",
+        "mattpocock/handoff",
+        "mattpocock/teach",
+        "mattpocock/to-questionnaire",
+        "mattpocock/wait-what",
+        "mattpocock/write-a-skill"
       ]
     },
     {
@@ -166,27 +201,6 @@
         "self": "/api/v1/skills/mattpocock/ubiquitous-language.json"
       },
       "genericSkillRef": "ubiquitous-language"
-    },
-    {
-      "id": "mattpocock/productivity",
-      "name": "Productivity",
-      "level": "4★",
-      "trustMagnitude": 90.0,
-      "overallTrustGrade": "B",
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/productivity.json"
-      },
-      "genericSkillRef": "productivity",
-      "suiteComponents": [
-        "mattpocock/grill-me",
-        "mattpocock/handoff",
-        "mattpocock/write-a-skill"
-      ]
     },
     {
       "id": "mattpocock/grill-me",
@@ -305,6 +319,22 @@
       "genericSkillRef": "issue-triage"
     },
     {
+      "id": "mattpocock/tdd",
+      "name": "TDD",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "contributor": "mattpocock",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/tdd.json"
+      },
+      "genericSkillRef": "test-driven-development"
+    },
+    {
       "id": "mattpocock/improve-codebase-architecture",
       "name": "Improve Codebase Architecture",
       "level": "2★",
@@ -367,6 +397,198 @@
         "self": "/api/v1/skills/mattpocock/prototype.json"
       },
       "genericSkillRef": "prototype"
+    },
+    {
+      "id": "mattpocock/ask-matt",
+      "name": "Ask Matt",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/ask-matt.json"
+      },
+      "genericSkillRef": "route-intent"
+    },
+    {
+      "id": "mattpocock/codebase-design",
+      "name": "Codebase Design",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/codebase-design.json"
+      },
+      "genericSkillRef": "software-design"
+    },
+    {
+      "id": "mattpocock/diagnosing-bugs",
+      "name": "Diagnosing Bugs",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/diagnosing-bugs.json"
+      },
+      "genericSkillRef": "systematic-debugging"
+    },
+    {
+      "id": "mattpocock/domain-modeling",
+      "name": "Domain Modeling",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/domain-modeling.json"
+      },
+      "genericSkillRef": "domain-modeling"
+    },
+    {
+      "id": "mattpocock/git-guardrails-claude-code",
+      "name": "Git Guardrails Claude Code",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/git-guardrails-claude-code.json"
+      },
+      "genericSkillRef": "guardrails"
+    },
+    {
+      "id": "mattpocock/grilling",
+      "name": "Grilling",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/grilling.json"
+      },
+      "genericSkillRef": "design-review"
+    },
+    {
+      "id": "mattpocock/implement",
+      "name": "Implement",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/implement.json"
+      },
+      "genericSkillRef": "executing-plans"
+    },
+    {
+      "id": "mattpocock/migrate-to-shoehorn",
+      "name": "Migrate to Shoehorn",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/migrate-to-shoehorn.json"
+      },
+      "genericSkillRef": "refactor-code"
+    },
+    {
+      "id": "mattpocock/resolving-merge-conflicts",
+      "name": "Resolving Merge Conflicts",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/resolving-merge-conflicts.json"
+      },
+      "genericSkillRef": "git-integration"
+    },
+    {
+      "id": "mattpocock/scaffold-exercises",
+      "name": "Scaffold Exercises",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/scaffold-exercises.json"
+      },
+      "genericSkillRef": "skill-authoring"
+    },
+    {
+      "id": "mattpocock/setup-pre-commit",
+      "name": "Setup Pre-Commit",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/setup-pre-commit.json"
+      },
+      "genericSkillRef": "guardrails"
+    },
+    {
+      "id": "mattpocock/writing-for-agents",
+      "name": "Writing For Agents",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/writing-for-agents.json"
+      },
+      "genericSkillRef": "skill-authoring"
     },
     {
       "id": "mattpocock/code-review",
@@ -465,18 +687,18 @@
       "genericSkillRef": "guided-setup-scripting"
     }
   ],
-  "namedSkillsCount": 26,
+  "namedSkillsCount": 39,
   "topSkill": {
     "id": "mattpocock/skills",
     "level": "5★",
-    "trustMagnitude": 489.45
+    "trustMagnitude": 528.95
   },
-  "prestigeScore": 2225.42,
+  "prestigeScore": 2978.88,
   "gradeDistribution": {
     "S": 1,
-    "A": 7,
+    "A": 8,
     "B": 8,
-    "C": 10
+    "C": 22
   },
   "_links": {
     "self": "/api/v1/contributors/mattpocock.json",

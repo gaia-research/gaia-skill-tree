@@ -49,6 +49,7 @@
 | ○ [ruvnet](../docs/u/ruvnet/)/v3-core-implementation | Basic | 2★ | `/core-platform-implementation` |
 | · ████████/huggingface-datasets | Fusion | — | `/data-analysis` |
 | ○ /data-visualize | Basic | — | `/data-visualize` |
+| ○ [mattpocock](../docs/u/mattpocock/)/wayfinder | Basic | 2★ | `/decision-ticket-planning` |
 | · [garrytan](../docs/u/garrytan/)/land-and-deploy | Fusion | 3★ | `/deployment-automation` |
 | · [nexu-io](../docs/u/nexu-io/)/open-design | Fusion | 2★ | `/design-generation` |
 | · [garrytan](../docs/u/garrytan/)/design-shotgun | Fusion | 3★ | `/design-review` |
@@ -61,7 +62,7 @@
 | · [ruvnet](../docs/u/ruvnet/)/agentdb-advanced | Fusion | 2★ | `/distributed-vector-memory` |
 | · /document-analyst | Fusion | — | `/document-analyst` |
 | ○ [garrytan](../docs/u/garrytan/)/document-generate | Basic | 3★ | `/document-editing` |
-| ○ ████████/domain-modeling | Basic | — | `/domain-modeling` |
+| ○ [mattpocock](../docs/u/mattpocock/)/domain-modeling | Basic | 2★ | `/domain-modeling` |
 | · [ruvnet](../docs/u/ruvnet/)/dual-mode | Fusion | 4★ | `/dual-mode` |
 | · [garrytan](../docs/u/garrytan/)/qa | Fusion | 3★ | `/e2e-testing` |
 | · /edge-optimization | Fusion | — | `/edge-optimization` |
@@ -96,6 +97,7 @@
 | · [mattpocock](../docs/u/mattpocock/)/grill-with-docs | Fusion | 3★ | `/grill-with-docs` |
 | · /grounding | Fusion | — | `/grounding` |
 | · [garrytan](../docs/u/garrytan/)/careful | Fusion | 3★ | `/guardrails` |
+| ○ [mattpocock](../docs/u/mattpocock/)/wizard | Basic | 2★ | `/guided-setup-scripting` |
 | ○ [ruvnet](../docs/u/ruvnet/)/dual-collect | Basic | 2★ | `/headless-worker-collect` |
 | ○ [ruvnet](../docs/u/ruvnet/)/dual-spawn | Basic | 2★ | `/headless-worker-spawn` |
 | · ████████/speak-like-favor | Fusion | — | `/humanize-prose` |
@@ -141,6 +143,7 @@
 | ○ [addy-osmani](../docs/u/addy-osmani/)/performance-optimization | Basic | 4★ | `/performance-tuning` |
 | · [mattpocock](../docs/u/mattpocock/)/personal | Fusion | 3★ | `/personal` |
 | · [mattpocock](../docs/u/mattpocock/)/obsidian-vault | Fusion | 3★ | `/personal-knowledge-management` |
+| ○ [mattpocock](../docs/u/mattpocock/)/wait-what | Basic | 2★ | `/plain-language-restatement` |
 | · /plan-and-execute | Fusion | — | `/plan-and-execute` |
 | ○ /plan-decompose | Basic | — | `/plan-decompose` |
 | ○ [disler](../docs/u/disler/)/plan-synthesis | Basic | 2★ | `/plan-synthesis` |
@@ -148,7 +151,7 @@
 | · [mattpocock](../docs/u/mattpocock/)/to-spec | Fusion | 3★ | `/prd-generation` |
 | · /prediction-market-analysis | Fusion | — | `/prediction-market-analysis` |
 | ○ [k-dense-ai](../docs/u/k-dense-ai/)/pymc | Basic | 4★ | `/probabilistic-programming` |
-| · [mattpocock](../docs/u/mattpocock/)/productivity | Fusion | 4★ | `/productivity` |
+| · [mattpocock](../docs/u/mattpocock/)/productivity | Fusion | 3★ | `/productivity` |
 | · [garrytan](../docs/u/garrytan/)/landing-report | Fusion | 2★ | `/project-management` |
 | ○ /prompt-injection-defense | Basic | — | `/prompt-injection-defense` |
 | · [stanfordnlp](../docs/u/stanfordnlp/)/dspy | Fusion | 4★ | `/prompt-optimization` |
@@ -156,6 +159,7 @@
 | ○ /proteomic-data-retrieval | Basic | — | `/proteomic-data-retrieval` |
 | · [mattpocock](../docs/u/mattpocock/)/prototype | Fusion | 2★ | `/prototype` |
 | ○ [garrytan](../docs/u/garrytan/)/office-hours | Basic | 3★ | `/question-answer` |
+| ○ [mattpocock](../docs/u/mattpocock/)/to-questionnaire | Basic | 2★ | `/questionnaire-generation` |
 | · ████████/orchestkit-rag | Fusion | — | `/rag-pipeline` |
 | ○ /rank | Basic | — | `/rank` |
 | · /re-act-reasoning | Fusion | — | `/re-act-reasoning` |
@@ -175,7 +179,7 @@
 | · [mattpocock](../docs/u/mattpocock/)/research | Fusion | 2★ | `/research` |
 | ○ /retrieve | Basic | — | `/retrieve` |
 | ○ /reward-modeling | Basic | — | `/reward-modeling` |
-| ○ ████████/ask-matt | Basic | — | `/route-intent` |
+| ○ [mattpocock](../docs/u/mattpocock/)/ask-matt | Basic | 2★ | `/route-intent` |
 | ○ ████████/database-engineer | Basic | — | `/schema-design` |
 | · /scientific-discovery | Fusion | — | `/scientific-discovery` |
 | · /scientific-literature-retrieval | Fusion | — | `/scientific-literature-retrieval` |
@@ -284,7 +288,6 @@
 | ○ Clinical Data Retrieval | Intrinsic Skill | — | `/clinical-data-retrieval` |
 | ○ CRM Data Cleanup | Intrinsic Skill | — | `/crm-data-cleanup` |
 | ○ Cultural Localization | Intrinsic Skill | — | `/cultural-localization` |
-| ○ Decision Ticket Planning | Intrinsic Skill | 2★ | `/decision-ticket-planning` |
 | ○ Event Attendance Metrics | Intrinsic Skill | — | `/event-attendance-metrics` |
 | ○ Event Attendee Management | Intrinsic Skill | — | `/event-attendee-management` |
 | ○ Event Support Triage | Intrinsic Skill | — | `/event-support-triage` |
@@ -293,15 +296,12 @@
 | ○ Framework Upgrade | Intrinsic Skill | 2★ | `/framework-upgrade` |
 | ○ Git Diff Risk Analysis | Intrinsic Skill | 2★ | `/git-diff-risk-analysis` |
 | ○ Grant Application Processing | Intrinsic Skill | — | `/grant-application-processing` |
-| ○ Guided Setup Scripting | Intrinsic Skill | 2★ | `/guided-setup-scripting` |
 | ○ Image Generate | Intrinsic Skill | — | `/image-generate` |
 | ○ Object Detection | Intrinsic Skill | — | `/object-detection` |
 | ○ Pathway Ontology Retrieval | Intrinsic Skill | — | `/pathway-ontology-retrieval` |
-| ○ Plain Language Restatement | Intrinsic Skill | 2★ | `/plain-language-restatement` |
 | ○ postgres-best-practices | Intrinsic Skill | 2★ | `/postgres-best-practices` |
 | ○ Prompt Caching | Intrinsic Skill | — | `/prompt-caching` |
 | ○ Quantum Circuit Programming | Intrinsic Skill | 3★ | `/quantum-circuit-programming` |
-| ○ Questionnaire Generation | Intrinsic Skill | 2★ | `/questionnaire-generation` |
 | ○ React Performance Optimization | Intrinsic Skill | 3★ | `/react-performance-optimization` |
 | ○ Scroll World | Intrinsic Skill | 3★ | `/scroll-world` |
 | ○ Self-Consistency | Intrinsic Skill | 3★ | `/self-consistency` |
@@ -309,11 +309,11 @@
 | ○ Sequential Agent Pipeline | Intrinsic Skill | 2★ | `/sequential-agent-pipeline` |
 | ○ Session Journaling | Intrinsic Skill | — | `/session-journaling` |
 | ○ Single-Cell Analysis | Intrinsic Skill | 3★ | `/single-cell-analysis` |
-| ○ Software Design | Intrinsic Skill | — | `/software-design` |
+| ○ Software Design | Intrinsic Skill | 2★ | `/software-design` |
 | ○ Static Artwork Design | Intrinsic Skill | 2★ | `/static-artwork-design` |
 | ○ supabase | Intrinsic Skill | 2★ | `/supabase` |
 | ○ Synthetic Data Generation | Intrinsic Skill | — | `/synthetic-data-generation` |
-| ○ Test-Driven Development | Intrinsic Skill | 2★ | `/test-driven-development` |
+| ○ Test-Driven Development | Intrinsic Skill | 3★ | `/test-driven-development` |
 | ○ Time Series Forecasting | Intrinsic Skill | — | `/time-series-forecasting` |
 | ○ Token Observability | Intrinsic Skill | 2★ | `/token-observability` |
 | ○ Transactional Email Resend | Intrinsic Skill | — | `/transactional-email-resend` |
