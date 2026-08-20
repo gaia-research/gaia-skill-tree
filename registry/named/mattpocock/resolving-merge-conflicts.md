@@ -7,11 +7,11 @@ genericSkillRef: git-integration
 status: named
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/resolving-merge-conflicts/SKILL.md
-level: 1★
+level: 2★
 description: Resolve in-progress git merge and rebase conflicts preserving both intents
   with automated checks.
 createdAt: '2026-06-19'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-20'
 timeline:
 - timestamp: '2026-06-19T13:01:24Z'
   action: add
@@ -56,6 +56,14 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
+- timestamp: '2026-08-20T05:14:34Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://github.com/mattpocock/skills (type: repo-own)'
+- timestamp: '2026-08-20T05:15:20Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Calibrated level from 1★ to 2★
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/engineering/resolving-merge-conflicts/SKILL.md
   evaluator: unknown
@@ -77,6 +85,13 @@ evidence:
   grade: C
   notes: 'I13 classify: contributor-owned skill directory evidence'
   sourceStartedAt: '2026-06-19'
+- source: https://github.com/mattpocock/skills
+  evaluator: mbtiongson1
+  date: '2026-08-20'
+  type: repo-own
+  commits: 525
+  contributors: 7
+  grade: B
 verification:
   firstEvidenceAt: '2026-06-19T13:06:09Z'
 trustMagnitude: 0.0

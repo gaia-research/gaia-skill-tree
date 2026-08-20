@@ -7,11 +7,11 @@ genericSkillRef: guardrails
 status: named
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/misc/setup-pre-commit/SKILL.md
-level: 1★
+level: 2★
 description: Set up Husky pre-commit hooks with lint-staged, Prettier, type checking,
   and tests.
 createdAt: '2026-06-19'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-20'
 timeline:
 - timestamp: '2026-06-19T13:02:03Z'
   action: add
@@ -56,6 +56,14 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
+- timestamp: '2026-08-20T05:14:34Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://github.com/mattpocock/skills (type: repo-own)'
+- timestamp: '2026-08-20T05:15:20Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Calibrated level from 1★ to 2★
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/misc/setup-pre-commit/SKILL.md
   evaluator: unknown
@@ -77,6 +85,13 @@ evidence:
   grade: C
   notes: 'I13 classify: contributor-owned skill directory evidence'
   sourceStartedAt: '2026-06-19'
+- source: https://github.com/mattpocock/skills
+  evaluator: mbtiongson1
+  date: '2026-08-20'
+  type: repo-own
+  commits: 525
+  contributors: 7
+  grade: B
 verification:
   firstEvidenceAt: '2026-06-19T13:06:47Z'
 trustMagnitude: 0.0
@@ -92,7 +107,7 @@ apexGateStatus:
   systemWideCap: null
 trustMagnitudeInputHash: cb6fefdbfe4c11bc6c71d908e0e19fa9cebcbad077152a66a87c79153a3722c2
 title: Setup Pre-commit
-suiteRef: "mattpocock/misc"
+suiteRef: mattpocock/misc
 ---
 
 ## Installation

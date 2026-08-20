@@ -15,13 +15,13 @@
     },
     {
       "handle": "mattpocock",
-      "namedSkills": 26,
+      "namedSkills": 39,
       "topSkill": {
         "id": "mattpocock/skills",
         "level": "5★",
         "trustMagnitude": 528.95
       },
-      "prestigeScore": 2436.88,
+      "prestigeScore": 2978.88,
       "_links": {
         "self": "/api/v1/contributors/mattpocock.json"
       }

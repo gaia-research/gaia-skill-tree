@@ -7,11 +7,11 @@ genericSkillRef: systematic-debugging
 status: named
 links:
   github: https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnosing-bugs/SKILL.md
-level: 1★
+level: 2★
 description: Systematic diagnosis loop for hard bugs and performance regressions using
   a tight feedback loop.
 createdAt: '2026-06-19'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-20'
 timeline:
 - timestamp: '2026-06-19T12:58:59Z'
   action: add
@@ -56,6 +56,14 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 2★ to 1★ per G7 final rankings calibration.
+- timestamp: '2026-08-20T05:14:32Z'
+  action: evidence_added
+  contributor: mbtiongson1
+  details: 'Added evidence from https://github.com/mattpocock/skills (type: repo-own)'
+- timestamp: '2026-08-20T05:15:17Z'
+  action: rank_up
+  contributor: mbtiongson1
+  details: Calibrated level from 1★ to 2★
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/engineering/diagnosing-bugs/SKILL.md
   evaluator: unknown
@@ -77,6 +85,13 @@ evidence:
   grade: C
   notes: 'I13 classify: contributor-owned skill directory evidence'
   sourceStartedAt: '2026-06-19'
+- source: https://github.com/mattpocock/skills
+  evaluator: mbtiongson1
+  date: '2026-08-20'
+  type: repo-own
+  commits: 525
+  contributors: 7
+  grade: B
 verification:
   firstEvidenceAt: '2026-06-19T13:04:14Z'
 trustMagnitude: 0.0

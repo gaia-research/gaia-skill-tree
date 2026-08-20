@@ -13,10 +13,10 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · ruvnet/flow-nexus  [3★]
   │  ├─ · ████████/flow-nexus-swarm
   │  │  ├─ · /plan-and-execute
-  │  │  │  ├─ ○ ████████/ask-matt
+  │  │  │  ├─ ○ mattpocock/ask-matt  [2★]
   │  │  │  ├─ ○ /plan-decompose
   │  │  │  └─ ○ /tool-select
-  │  │  ├─ ○ ████████/ask-matt  (↑ see above)
+  │  │  ├─ ○ mattpocock/ask-matt  [2★]  (↑ see above)
   │  │  └─ ○ /tool-select  (↑ see above)
   │  ├─ · ruvnet/flow-nexus-platform  [2★]
   │  │  ├─ ○ ████████/hf-cli
@@ -82,7 +82,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ ○ nextlevelbuilder/ui-ux-pro-max  [4★]
   ├─ · garrytan/garrytan  [4★]
   │  ├─ ○ /plan-decompose
-  │  └─ ○ ████████/ask-matt
+  │  └─ ○ mattpocock/ask-matt  [2★]
   ├─ · garrytan/design-consultation  [3★]
   │  ├─ · ████████/browse
   │  │  ├─ ○ firecrawl/firecrawl-build-search  [4★]
@@ -163,7 +163,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
 
 ◆ mattpocock/skills  [5★]
 ─────────────────────────────────────────────────────────────────
-  ├─ ○ ████████/domain-modeling
+  ├─ ○ mattpocock/domain-modeling  [2★]
   ├─ · mattpocock/engineering  [4★]
   │  ├─ · firecrawl/firecrawl-build-onboarding  [3★]
   │  │  ├─ ○ garrytan/document-generate  [3★]
@@ -173,7 +173,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  ├─ ○ /code-execution
   │  │  └─ ○ /error-interpretation
   │  ├─ ○ ████████/zoom-out
-  │  ├─ ○ ████████/domain-modeling  (↑ see above)
+  │  ├─ ○ mattpocock/domain-modeling  [2★]  (↑ see above)
   │  ├─ · mattpocock/grill-with-docs  [3★]
   │  │  ├─ · mattpocock/grill-me  [3★]
   │  │  │  ├─ · garrytan/design-shotgun  [3★]
@@ -194,7 +194,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ○ addy-osmani/code-simplification  [3★]
   │  ├─ · garrytan/garrytan  [4★]
   │  │  ├─ ○ /plan-decompose  (↑ see above)
-  │  │  └─ ○ ████████/ask-matt
+  │  │  └─ ○ mattpocock/ask-matt  [2★]
   │  ├─ · obra/requesting-code-review  [2★]
   │  │  ├─ · addy-osmani/code-review-and-quality  [3★]
   │  │  │  ├─ ○ garrytan/design-html  [3★]  (↑ see above)
@@ -448,11 +448,11 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   ○ ruvnet/stream-chain  [2★]
   ○ ████████/log-to-daily
   ○ k-dense-ai/scanpy  [3★]
-  ○ ████████/codebase-design
+  ○ mattpocock/codebase-design  [2★]
   ○ anthropics/canvas-design  [2★]
   ○ supabase/supabase  [2★]
   ○ /synthetic-data-generation
-  ○ addy-osmani/test-driven-development  [2★]
+  ○ addy-osmani/test-driven-development  [3★]
   ○ /time-series-forecasting
   ○ getagentseal/codeburn  [2★]
   ○ ████████/resend-conference-emails-carefully-with-smtp

@@ -1535,7 +1535,7 @@
         "origin": false,
         "genericSkillRef": "refactor-code",
         "status": "named",
-        "level": "1★",
+        "level": "2★",
         "description": "Migrate test files from type assertions to shoehorn for type-safe partial test data.",
         "title": "Migrate to Shoehorn",
         "links": {
@@ -1567,10 +1567,19 @@
             "grade": "C",
             "notes": "I13 classify: contributor-owned skill directory evidence",
             "sourceStartedAt": "2026-06-19"
+          },
+          {
+            "source": "https://github.com/mattpocock/skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-20",
+            "type": "repo-own",
+            "commits": 525,
+            "contributors": 7,
+            "grade": "B"
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-20",
         "timeline": [
           {
             "timestamp": "2026-06-19T13:01:05Z",
@@ -1629,11 +1638,23 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-20T05:14:34Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/mattpocock/skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-20T05:15:19Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 1★ to 2★"
           }
         ],
         "suiteRef": "mattpocock/misc",
-        "trustMagnitude": 5.0,
-        "overallTrustGrade": "ungraded",
+        "trustMagnitude": 41.0,
+        "overallTrustGrade": "C",
         "trustMagnitudeInputHash": "0f0996b49ad31fcf8aa6fc46dd24bdaf0b90c02ac0b206fc77215f094a263b01",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -1649,8 +1670,8 @@
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
         "branch": "standard",
-        "rank": 1,
-        "rankWord": "Awakened",
+        "rank": 2,
+        "rankWord": "Named",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
       }
@@ -1989,7 +2010,7 @@
         "origin": false,
         "genericSkillRef": "executing-plans",
         "status": "named",
-        "level": "1★",
+        "level": "2★",
         "description": "Implement a piece of work based on a PRD or issues using TDD at pre-agreed seams.",
         "title": "Implement",
         "links": {
@@ -2021,10 +2042,19 @@
             "grade": "C",
             "notes": "I13 classify: contributor-owned skill directory evidence",
             "sourceStartedAt": "2026-06-19"
+          },
+          {
+            "source": "https://github.com/mattpocock/skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-20",
+            "type": "repo-own",
+            "commits": 525,
+            "contributors": 7,
+            "grade": "B"
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-20",
         "timeline": [
           {
             "timestamp": "2026-06-19T13:00:19Z",
@@ -2083,10 +2113,22 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-20T05:14:33Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/mattpocock/skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-20T05:15:19Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 1★ to 2★"
           }
         ],
-        "trustMagnitude": 5.0,
-        "overallTrustGrade": "ungraded",
+        "trustMagnitude": 41.0,
+        "overallTrustGrade": "C",
         "trustMagnitudeInputHash": "8e7f70de077103de425ca1ea8ff4b8afeef6d848874306414e47679def4d3383",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -2102,8 +2144,8 @@
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
         "branch": "standard",
-        "rank": 1,
-        "rankWord": "Awakened",
+        "rank": 2,
+        "rankWord": "Named",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
       }
@@ -3726,6 +3768,152 @@
     ],
     "test-driven-development": [
       {
+        "id": "mattpocock/tdd",
+        "name": "TDD",
+        "contributor": "mattpocock",
+        "origin": false,
+        "genericSkillRef": "test-driven-development",
+        "status": "named",
+        "level": "3★",
+        "description": "Test-driven development with red-green-refactor, verifying behavior through public interfaces.",
+        "title": "Test-Driven Development",
+        "links": {
+          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md",
+            "evaluator": "unknown",
+            "date": "2026-06-19",
+            "class": "B"
+          },
+          {
+            "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md",
+            "evaluator": "testuser",
+            "date": "2026-06-20",
+            "type": "repo-own",
+            "trustNumber": 65.0,
+            "notes": "I13 classify: repo-own evidence backfill (skill file)",
+            "skillCountInRepo": 34,
+            "sourceStartedAt": "2026-06-19"
+          },
+          {
+            "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd",
+            "evaluator": "testuser",
+            "date": "2026-06-20",
+            "type": "self-attestation",
+            "trustNumber": 45.0,
+            "grade": "C",
+            "notes": "I13 classify: contributor-owned skill directory evidence",
+            "sourceStartedAt": "2026-06-19"
+          },
+          {
+            "source": "https://github.com/mattpocock/skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-20",
+            "type": "repo-own",
+            "commits": 525,
+            "contributors": 7,
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-06-19",
+        "updatedAt": "2026-08-20",
+        "timeline": [
+          {
+            "timestamp": "2026-06-19T13:02:23Z",
+            "action": "add",
+            "contributor": "unknown",
+            "details": "Added named skill mattpocock/tdd"
+          },
+          {
+            "timestamp": "2026-06-19T13:07:04Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:41Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T18:37:47Z",
+            "action": "evidence_added",
+            "contributor": "testuser",
+            "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-06-19T18:37:48Z",
+            "action": "evidence_graded",
+            "contributor": "testuser",
+            "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md as B (trustNumber: 65.0)"
+          },
+          {
+            "timestamp": "2026-06-19T18:37:49Z",
+            "action": "evidence_added",
+            "contributor": "testuser",
+            "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd (type: self-attestation)"
+          },
+          {
+            "timestamp": "2026-06-19T18:37:49Z",
+            "action": "evidence_graded",
+            "contributor": "testuser",
+            "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd as C (trustNumber: 45.0)"
+          },
+          {
+            "timestamp": "2026-06-19T18:41:32Z",
+            "action": "rank_up",
+            "contributor": "testuser",
+            "details": "I13 classify: status promoted from awakened to named (evidence floor met: repo-own B + self-attestation C)"
+          },
+          {
+            "timestamp": "2026-06-20T06:31:32Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-20T05:13:27Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/mattpocock/skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-20T05:15:21Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 1★ to 3★"
+          }
+        ],
+        "trustMagnitude": 50.0,
+        "overallTrustGrade": "B",
+        "trustMagnitudeInputHash": "d7d632fa44c2bd582cc54450b4ab1fb67f99ab0c45901759666ff3e40f239fee",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "type": "basic",
+        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
+        "role": "variant",
+        "branch": "standard",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      },
+      {
         "id": "addy-osmani/test-driven-development",
         "name": "Test-Driven Development",
         "contributor": "addy-osmani",
@@ -3830,131 +4018,6 @@
         "branch": "standard",
         "rank": 2,
         "rankWord": "Named",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
-      },
-      {
-        "id": "mattpocock/tdd",
-        "name": "TDD",
-        "contributor": "mattpocock",
-        "origin": false,
-        "genericSkillRef": "test-driven-development",
-        "status": "named",
-        "level": "1★",
-        "description": "Test-driven development with red-green-refactor, verifying behavior through public interfaces.",
-        "title": "Test-Driven Development",
-        "links": {
-          "github": "https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md"
-        },
-        "evidence": [
-          {
-            "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md",
-            "evaluator": "unknown",
-            "date": "2026-06-19",
-            "class": "B"
-          },
-          {
-            "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md",
-            "evaluator": "testuser",
-            "date": "2026-06-20",
-            "type": "repo-own",
-            "trustNumber": 65.0,
-            "notes": "I13 classify: repo-own evidence backfill (skill file)",
-            "skillCountInRepo": 34,
-            "sourceStartedAt": "2026-06-19"
-          },
-          {
-            "source": "https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd",
-            "evaluator": "testuser",
-            "date": "2026-06-20",
-            "type": "self-attestation",
-            "trustNumber": 45.0,
-            "grade": "C",
-            "notes": "I13 classify: contributor-owned skill directory evidence",
-            "sourceStartedAt": "2026-06-19"
-          }
-        ],
-        "createdAt": "2026-06-19",
-        "updatedAt": "2026-06-21",
-        "timeline": [
-          {
-            "timestamp": "2026-06-19T13:02:23Z",
-            "action": "add",
-            "contributor": "unknown",
-            "details": "Added named skill mattpocock/tdd"
-          },
-          {
-            "timestamp": "2026-06-19T13:07:04Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:19:38Z",
-            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:26:41Z",
-            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-06-19T18:37:47Z",
-            "action": "evidence_added",
-            "contributor": "testuser",
-            "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md (type: repo-own)"
-          },
-          {
-            "timestamp": "2026-06-19T18:37:48Z",
-            "action": "evidence_graded",
-            "contributor": "testuser",
-            "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd/SKILL.md as B (trustNumber: 65.0)"
-          },
-          {
-            "timestamp": "2026-06-19T18:37:49Z",
-            "action": "evidence_added",
-            "contributor": "testuser",
-            "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd (type: self-attestation)"
-          },
-          {
-            "timestamp": "2026-06-19T18:37:49Z",
-            "action": "evidence_graded",
-            "contributor": "testuser",
-            "details": "Graded evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/tdd as C (trustNumber: 45.0)"
-          },
-          {
-            "timestamp": "2026-06-19T18:41:32Z",
-            "action": "rank_up",
-            "contributor": "testuser",
-            "details": "I13 classify: status promoted from awakened to named (evidence floor met: repo-own B + self-attestation C)"
-          },
-          {
-            "timestamp": "2026-06-20T06:31:32Z",
-            "action": "demote",
-            "contributor": "mbtiongson1",
-            "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
-          }
-        ],
-        "trustMagnitude": 14.0,
-        "overallTrustGrade": "ungraded",
-        "trustMagnitudeInputHash": "d7d632fa44c2bd582cc54450b4ab1fb67f99ab0c45901759666ff3e40f239fee",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "type": "basic",
-        "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
-        "role": "variant",
-        "branch": "standard",
-        "rank": 1,
-        "rankWord": "Awakened",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
       }
@@ -10045,7 +10108,7 @@
         "origin": false,
         "genericSkillRef": "guardrails",
         "status": "named",
-        "level": "1★",
+        "level": "2★",
         "description": "Set up Claude Code hooks to block dangerous git commands before they execute.",
         "title": "Git Guardrails for Claude Code",
         "links": {
@@ -10077,10 +10140,19 @@
             "grade": "C",
             "notes": "I13 classify: contributor-owned skill directory evidence",
             "sourceStartedAt": "2026-06-19"
+          },
+          {
+            "source": "https://github.com/mattpocock/skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-20",
+            "type": "repo-own",
+            "commits": 525,
+            "contributors": 7,
+            "grade": "B"
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-20",
         "timeline": [
           {
             "timestamp": "2026-06-19T12:59:34Z",
@@ -10139,11 +10211,23 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-20T05:14:33Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/mattpocock/skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-20T05:15:18Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 1★ to 2★"
           }
         ],
         "suiteRef": "mattpocock/misc",
-        "trustMagnitude": 5.0,
-        "overallTrustGrade": "ungraded",
+        "trustMagnitude": 41.0,
+        "overallTrustGrade": "C",
         "trustMagnitudeInputHash": "e6cba724ab46e5f9079c9be9a8bf7d654d8ae2f788ea091ec200339afbe7e275",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -10159,8 +10243,8 @@
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
         "branch": "standard",
-        "rank": 1,
-        "rankWord": "Awakened",
+        "rank": 2,
+        "rankWord": "Named",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
       },
@@ -10171,7 +10255,7 @@
         "origin": false,
         "genericSkillRef": "guardrails",
         "status": "named",
-        "level": "1★",
+        "level": "2★",
         "description": "Set up Husky pre-commit hooks with lint-staged, Prettier, type checking, and tests.",
         "title": "Setup Pre-commit",
         "links": {
@@ -10203,10 +10287,19 @@
             "grade": "C",
             "notes": "I13 classify: contributor-owned skill directory evidence",
             "sourceStartedAt": "2026-06-19"
+          },
+          {
+            "source": "https://github.com/mattpocock/skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-20",
+            "type": "repo-own",
+            "commits": 525,
+            "contributors": 7,
+            "grade": "B"
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-20",
         "timeline": [
           {
             "timestamp": "2026-06-19T13:02:03Z",
@@ -10265,11 +10358,23 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-20T05:14:34Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/mattpocock/skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-20T05:15:20Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 1★ to 2★"
           }
         ],
         "suiteRef": "mattpocock/misc",
-        "trustMagnitude": 5.0,
-        "overallTrustGrade": "ungraded",
+        "trustMagnitude": 41.0,
+        "overallTrustGrade": "C",
         "trustMagnitudeInputHash": "cb6fefdbfe4c11bc6c71d908e0e19fa9cebcbad077152a66a87c79153a3722c2",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -10285,8 +10390,8 @@
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
         "branch": "standard",
-        "rank": 1,
-        "rankWord": "Awakened",
+        "rank": 2,
+        "rankWord": "Named",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
       }
@@ -11677,7 +11782,7 @@
         "origin": false,
         "genericSkillRef": "design-review",
         "status": "named",
-        "level": "1★",
+        "level": "2★",
         "description": "Interview the user relentlessly about a plan to stress-test it before building.",
         "title": "Grilling",
         "links": {
@@ -11709,10 +11814,19 @@
             "grade": "C",
             "notes": "I13 classify: contributor-owned skill directory evidence",
             "sourceStartedAt": "2026-06-19"
+          },
+          {
+            "source": "https://github.com/mattpocock/skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-20",
+            "type": "repo-own",
+            "commits": 525,
+            "contributors": 7,
+            "grade": "B"
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-20",
         "timeline": [
           {
             "timestamp": "2026-06-19T12:59:50Z",
@@ -11771,10 +11885,22 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-20T05:14:33Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/mattpocock/skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-20T05:15:19Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 1★ to 2★"
           }
         ],
-        "trustMagnitude": 5.0,
-        "overallTrustGrade": "ungraded",
+        "trustMagnitude": 41.0,
+        "overallTrustGrade": "C",
         "trustMagnitudeInputHash": "1c442c52cddd24686fa12753d84d52636d6e1787a5e47fbe24d62fc6d18865b3",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -11790,8 +11916,8 @@
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
         "branch": "standard",
-        "rank": 1,
-        "rankWord": "Awakened",
+        "rank": 2,
+        "rankWord": "Named",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
       }
@@ -13029,7 +13155,7 @@
         "origin": false,
         "genericSkillRef": "systematic-debugging",
         "status": "named",
-        "level": "1★",
+        "level": "2★",
         "description": "Systematic diagnosis loop for hard bugs and performance regressions using a tight feedback loop.",
         "title": "Diagnosing Bugs",
         "links": {
@@ -13061,10 +13187,19 @@
             "grade": "C",
             "notes": "I13 classify: contributor-owned skill directory evidence",
             "sourceStartedAt": "2026-06-19"
+          },
+          {
+            "source": "https://github.com/mattpocock/skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-20",
+            "type": "repo-own",
+            "commits": 525,
+            "contributors": 7,
+            "grade": "B"
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-20",
         "timeline": [
           {
             "timestamp": "2026-06-19T12:58:59Z",
@@ -13123,10 +13258,22 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-20T05:14:32Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/mattpocock/skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-20T05:15:17Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 1★ to 2★"
           }
         ],
-        "trustMagnitude": 5.0,
-        "overallTrustGrade": "ungraded",
+        "trustMagnitude": 41.0,
+        "overallTrustGrade": "C",
         "trustMagnitudeInputHash": "b369ca8ab8a86b95888e79d9b1b934316367dfab97cc323e46eefa120a472215",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -13142,8 +13289,8 @@
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
         "branch": "standard",
-        "rank": 1,
-        "rankWord": "Awakened",
+        "rank": 2,
+        "rankWord": "Named",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
       }
@@ -15748,7 +15895,7 @@
         "origin": false,
         "genericSkillRef": "skill-authoring",
         "status": "named",
-        "level": "1★",
+        "level": "2★",
         "description": "Create exercise directory structures with sections, problems, solutions, and explainers that pass linting.",
         "title": "Scaffold Exercises",
         "links": {
@@ -15780,10 +15927,19 @@
             "grade": "C",
             "notes": "I13 classify: contributor-owned skill directory evidence",
             "sourceStartedAt": "2026-06-19"
+          },
+          {
+            "source": "https://github.com/mattpocock/skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-20",
+            "type": "repo-own",
+            "commits": 525,
+            "contributors": 7,
+            "grade": "B"
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-20",
         "timeline": [
           {
             "timestamp": "2026-06-19T13:01:41Z",
@@ -15842,11 +15998,23 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-20T05:14:34Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/mattpocock/skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-20T05:15:20Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 1★ to 2★"
           }
         ],
         "suiteRef": "mattpocock/misc",
-        "trustMagnitude": 5.0,
-        "overallTrustGrade": "ungraded",
+        "trustMagnitude": 41.0,
+        "overallTrustGrade": "C",
         "trustMagnitudeInputHash": "265e473bf86b49b889d12de7a1f768be9ad27207ef91767d27627878b41f0cd2",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -15862,8 +16030,8 @@
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
         "branch": "standard",
-        "rank": 1,
-        "rankWord": "Awakened",
+        "rank": 2,
+        "rankWord": "Named",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
       },
@@ -15874,7 +16042,7 @@
         "origin": false,
         "genericSkillRef": "skill-authoring",
         "status": "named",
-        "level": "1★",
+        "level": "2★",
         "description": "Reference for writing and editing skills to be predictable — vocabulary and principles for deterministic skills.",
         "title": "Writing For Agents",
         "links": {
@@ -15906,10 +16074,19 @@
             "grade": "C",
             "notes": "I13 classify: contributor-owned skill directory evidence",
             "sourceStartedAt": "2026-06-19"
+          },
+          {
+            "source": "https://github.com/mattpocock/skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-20",
+            "type": "repo-own",
+            "commits": 525,
+            "contributors": 7,
+            "grade": "B"
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-08-19",
+        "updatedAt": "2026-08-20",
         "timeline": [
           {
             "timestamp": "2026-06-19T13:03:02Z",
@@ -15980,10 +16157,22 @@
             "action": "note",
             "contributor": "unknown",
             "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/productivity/writing-for-agents/SKILL.md"
+          },
+          {
+            "timestamp": "2026-08-20T05:14:35Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/mattpocock/skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-20T05:15:20Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 1★ to 2★"
           }
         ],
-        "trustMagnitude": 5.0,
-        "overallTrustGrade": "ungraded",
+        "trustMagnitude": 41.0,
+        "overallTrustGrade": "C",
         "trustMagnitudeInputHash": "854f0f32706bc1453786631d754def26a41ab6fc472a78d286a98b264023a5e6",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -15999,8 +16188,8 @@
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
         "branch": "standard",
-        "rank": 1,
-        "rankWord": "Awakened",
+        "rank": 2,
+        "rankWord": "Named",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
       },
@@ -20139,7 +20328,7 @@
         "origin": false,
         "genericSkillRef": "route-intent",
         "status": "named",
-        "level": "1★",
+        "level": "2★",
         "description": "Productivity skill for routing questions to the right expert or skill in a workspace.",
         "title": "Ask Matt",
         "links": {
@@ -20191,10 +20380,19 @@
             "grade": "C",
             "notes": "I13 classify: contributor-owned skill directory evidence",
             "sourceStartedAt": "2026-06-19"
+          },
+          {
+            "source": "https://github.com/mattpocock/skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-20",
+            "type": "repo-own",
+            "commits": 525,
+            "contributors": 7,
+            "grade": "B"
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-08-05",
+        "updatedAt": "2026-08-20",
         "timeline": [
           {
             "timestamp": "2026-06-19T12:58:22Z",
@@ -20283,10 +20481,22 @@
             "action": "note",
             "contributor": "unknown",
             "details": "Updated GitHub link to https://github.com/mattpocock/skills/blob/main/skills/engineering/ask-matt/SKILL.md"
+          },
+          {
+            "timestamp": "2026-08-20T05:14:32Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/mattpocock/skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-20T05:15:17Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 1★ to 2★"
           }
         ],
-        "trustMagnitude": 5.0,
-        "overallTrustGrade": "ungraded",
+        "trustMagnitude": 41.0,
+        "overallTrustGrade": "C",
         "trustMagnitudeInputHash": "ac7e99815540d5245b73b80a00d5ff8da9c3a86c47f30dadd666fc8e27ad0b44",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -20302,8 +20512,8 @@
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
         "branch": "standard",
-        "rank": 1,
-        "rankWord": "Awakened",
+        "rank": 2,
+        "rankWord": "Named",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
       }
@@ -20479,7 +20689,7 @@
         "origin": false,
         "genericSkillRef": "software-design",
         "status": "named",
-        "level": "1★",
+        "level": "2★",
         "description": "Design deep modules with small interfaces and large implementations for better testability.",
         "title": "Codebase Design",
         "links": {
@@ -20511,10 +20721,19 @@
             "grade": "C",
             "notes": "I13 classify: contributor-owned skill directory evidence",
             "sourceStartedAt": "2026-06-19"
+          },
+          {
+            "source": "https://github.com/mattpocock/skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-20",
+            "type": "repo-own",
+            "commits": 525,
+            "contributors": 7,
+            "grade": "B"
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-20",
         "timeline": [
           {
             "timestamp": "2026-06-19T12:58:38Z",
@@ -20573,10 +20792,22 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-20T05:14:32Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/mattpocock/skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-20T05:15:17Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 1★ to 2★"
           }
         ],
-        "trustMagnitude": 5.0,
-        "overallTrustGrade": "ungraded",
+        "trustMagnitude": 41.0,
+        "overallTrustGrade": "C",
         "trustMagnitudeInputHash": "5a285ad4ce39781560b51ab109e896053606239fe117082494fc6bd73efef651",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -20592,8 +20823,8 @@
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
         "branch": "standard",
-        "rank": 1,
-        "rankWord": "Awakened",
+        "rank": 2,
+        "rankWord": "Named",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
       }
@@ -20606,7 +20837,7 @@
         "origin": false,
         "genericSkillRef": "domain-modeling",
         "status": "named",
-        "level": "1★",
+        "level": "2★",
         "description": "Build and sharpen a project domain model with ubiquitous language and CONTEXT.md maintenance.",
         "title": "Domain Modeling",
         "links": {
@@ -20638,10 +20869,19 @@
             "grade": "C",
             "notes": "I13 classify: contributor-owned skill directory evidence",
             "sourceStartedAt": "2026-06-19"
+          },
+          {
+            "source": "https://github.com/mattpocock/skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-20",
+            "type": "repo-own",
+            "commits": 525,
+            "contributors": 7,
+            "grade": "B"
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-20",
         "timeline": [
           {
             "timestamp": "2026-06-19T12:59:14Z",
@@ -20700,10 +20940,22 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-20T05:14:32Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/mattpocock/skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-20T05:15:18Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 1★ to 2★"
           }
         ],
-        "trustMagnitude": 5.0,
-        "overallTrustGrade": "ungraded",
+        "trustMagnitude": 41.0,
+        "overallTrustGrade": "C",
         "trustMagnitudeInputHash": "bc5ec5dd81c68a4dff4ca35904c2f354607682706d72525b41a36c3e6ec25acd",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -20719,8 +20971,8 @@
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
         "branch": "standard",
-        "rank": 1,
-        "rankWord": "Awakened",
+        "rank": 2,
+        "rankWord": "Named",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
       }
@@ -21990,7 +22242,7 @@
         "origin": false,
         "genericSkillRef": "git-integration",
         "status": "named",
-        "level": "1★",
+        "level": "2★",
         "description": "Resolve in-progress git merge and rebase conflicts preserving both intents with automated checks.",
         "title": "Resolving Merge Conflicts",
         "links": {
@@ -22022,10 +22274,19 @@
             "grade": "C",
             "notes": "I13 classify: contributor-owned skill directory evidence",
             "sourceStartedAt": "2026-06-19"
+          },
+          {
+            "source": "https://github.com/mattpocock/skills",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-20",
+            "type": "repo-own",
+            "commits": 525,
+            "contributors": 7,
+            "grade": "B"
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-20",
         "timeline": [
           {
             "timestamp": "2026-06-19T13:01:24Z",
@@ -22084,10 +22345,22 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 2★ to 1★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-20T05:14:34Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/mattpocock/skills (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-20T05:15:20Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 1★ to 2★"
           }
         ],
-        "trustMagnitude": 5.0,
-        "overallTrustGrade": "ungraded",
+        "trustMagnitude": 41.0,
+        "overallTrustGrade": "C",
         "trustMagnitudeInputHash": "d31d6dd3c0c78cbe391add61a21cff15dc0ac02eba367cebb5a1ad96eced2419",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -22103,8 +22376,8 @@
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "variant",
         "branch": "standard",
-        "rank": 1,
-        "rankWord": "Awakened",
+        "rank": 2,
+        "rankWord": "Named",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
       }

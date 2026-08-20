@@ -17,6 +17,22 @@
       "genericSkillRef": "react-performance-optimization"
     },
     {
+      "id": "mattpocock/tdd",
+      "name": "TDD",
+      "level": "3★",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "contributor": "mattpocock",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/tdd.json"
+      },
+      "genericSkillRef": "test-driven-development"
+    },
+    {
       "id": "k-dense-ai/rdkit",
       "name": "RDKit",
       "level": "2★",
@@ -159,6 +175,198 @@
         "self": "/api/v1/skills/gaia-research/ci-churn.json"
       },
       "genericSkillRef": "ci-churn-analysis"
+    },
+    {
+      "id": "mattpocock/ask-matt",
+      "name": "Ask Matt",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/ask-matt.json"
+      },
+      "genericSkillRef": "route-intent"
+    },
+    {
+      "id": "mattpocock/codebase-design",
+      "name": "Codebase Design",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/codebase-design.json"
+      },
+      "genericSkillRef": "software-design"
+    },
+    {
+      "id": "mattpocock/diagnosing-bugs",
+      "name": "Diagnosing Bugs",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/diagnosing-bugs.json"
+      },
+      "genericSkillRef": "systematic-debugging"
+    },
+    {
+      "id": "mattpocock/domain-modeling",
+      "name": "Domain Modeling",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/domain-modeling.json"
+      },
+      "genericSkillRef": "domain-modeling"
+    },
+    {
+      "id": "mattpocock/git-guardrails-claude-code",
+      "name": "Git Guardrails Claude Code",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/git-guardrails-claude-code.json"
+      },
+      "genericSkillRef": "guardrails"
+    },
+    {
+      "id": "mattpocock/grilling",
+      "name": "Grilling",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/grilling.json"
+      },
+      "genericSkillRef": "design-review"
+    },
+    {
+      "id": "mattpocock/implement",
+      "name": "Implement",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/implement.json"
+      },
+      "genericSkillRef": "executing-plans"
+    },
+    {
+      "id": "mattpocock/migrate-to-shoehorn",
+      "name": "Migrate to Shoehorn",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/migrate-to-shoehorn.json"
+      },
+      "genericSkillRef": "refactor-code"
+    },
+    {
+      "id": "mattpocock/resolving-merge-conflicts",
+      "name": "Resolving Merge Conflicts",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/resolving-merge-conflicts.json"
+      },
+      "genericSkillRef": "git-integration"
+    },
+    {
+      "id": "mattpocock/scaffold-exercises",
+      "name": "Scaffold Exercises",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/scaffold-exercises.json"
+      },
+      "genericSkillRef": "skill-authoring"
+    },
+    {
+      "id": "mattpocock/setup-pre-commit",
+      "name": "Setup Pre-Commit",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/setup-pre-commit.json"
+      },
+      "genericSkillRef": "guardrails"
+    },
+    {
+      "id": "mattpocock/writing-for-agents",
+      "name": "Writing For Agents",
+      "level": "2★",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "contributor": "mattpocock",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/writing-for-agents.json"
+      },
+      "genericSkillRef": "skill-authoring"
     },
     {
       "id": "bradautomates/watch",
@@ -591,219 +799,11 @@
         "self": "/api/v1/skills/garrytan/setup-browser-cookies.json"
       },
       "genericSkillRef": "browser-control"
-    },
-    {
-      "id": "garrytan/setup-deploy",
-      "name": "Setup Deploy",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/setup-deploy.json"
-      },
-      "genericSkillRef": "deployment-automation"
-    },
-    {
-      "id": "garrytan/setup-gbrain",
-      "name": "Setup GBrain",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/setup-gbrain.json"
-      },
-      "genericSkillRef": "knowledge-management"
-    },
-    {
-      "id": "garrytan/sync-gbrain",
-      "name": "Sync GBrain",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/sync-gbrain.json"
-      },
-      "genericSkillRef": "knowledge-management"
-    },
-    {
-      "id": "garrytan/unfreeze",
-      "name": "Unfreeze",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "garrytan",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/garrytan/unfreeze.json"
-      },
-      "genericSkillRef": "guardrails"
-    },
-    {
-      "id": "getagentseal/codeburn",
-      "name": "CodeBurn",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "getagentseal",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/getagentseal/codeburn.json"
-      },
-      "genericSkillRef": "token-observability"
-    },
-    {
-      "id": "karpathy/autoresearch-universal",
-      "name": "AutoResearch",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "karpathy",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/karpathy/autoresearch-universal.json"
-      },
-      "genericSkillRef": "autonomous-web-research"
-    },
-    {
-      "id": "laravel/upgrade-laravel-v13",
-      "name": "Upgrade Laravel v13",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "laravel",
-      "type": "basic",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/laravel/upgrade-laravel-v13.json"
-      },
-      "genericSkillRef": "framework-upgrade"
-    },
-    {
-      "id": "mbtiongson1/gaia-audit",
-      "name": "Gaia Audit",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "mbtiongson1",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mbtiongson1/gaia-audit.json"
-      },
-      "genericSkillRef": "registry-entry-audit"
-    },
-    {
-      "id": "mbtiongson1/gaia-curation-review",
-      "name": "Gaia Curation Review",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "mbtiongson1",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mbtiongson1/gaia-curation-review.json"
-      },
-      "genericSkillRef": "registry-entry-audit"
-    },
-    {
-      "id": "mbtiongson1/gaia-meta-audit",
-      "name": "Gaia Meta Audit",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "mbtiongson1",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mbtiongson1/gaia-meta-audit.json"
-      },
-      "genericSkillRef": "registry-health-scan"
-    },
-    {
-      "id": "mbtiongson1/gaia-preview",
-      "name": "Gaia Preview",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "mbtiongson1",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mbtiongson1/gaia-preview.json"
-      },
-      "genericSkillRef": "deployment-automation"
-    },
-    {
-      "id": "mbtiongson1/graphify-triage",
-      "name": "Graphify Triage",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "mbtiongson1",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/mbtiongson1/graphify-triage.json"
-      },
-      "genericSkillRef": "graph-driven-issue-triage"
-    },
-    {
-      "id": "nexu-io/open-design",
-      "name": "Open Design",
-      "level": "2★",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "contributor": "nexu-io",
-      "type": "fusion",
-      "branch": "standard",
-      "rankWord": "Named",
-      "medallion": "◇",
-      "_links": {
-        "self": "/api/v1/skills/nexu-io/open-design.json"
-      },
-      "genericSkillRef": "design-generation"
     }
   ],
   "page": 3,
   "totalPages": 5,
-  "totalSkills": 201,
+  "totalSkills": 214,
   "_links": {
     "self": "/api/v1/skills/page-3.json",
     "prev": "/api/v1/skills/page-2.json",

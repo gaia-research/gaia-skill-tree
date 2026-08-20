@@ -62,7 +62,7 @@
 | · [ruvnet](../docs/u/ruvnet/)/agentdb-advanced | Fusion | 2★ | `/distributed-vector-memory` |
 | · /document-analyst | Fusion | — | `/document-analyst` |
 | ○ [garrytan](../docs/u/garrytan/)/document-generate | Basic | 3★ | `/document-editing` |
-| ○ ████████/domain-modeling | Basic | — | `/domain-modeling` |
+| ○ [mattpocock](../docs/u/mattpocock/)/domain-modeling | Basic | 2★ | `/domain-modeling` |
 | · [ruvnet](../docs/u/ruvnet/)/dual-mode | Fusion | 4★ | `/dual-mode` |
 | · [garrytan](../docs/u/garrytan/)/qa | Fusion | 3★ | `/e2e-testing` |
 | · /edge-optimization | Fusion | — | `/edge-optimization` |
@@ -179,7 +179,7 @@
 | · [mattpocock](../docs/u/mattpocock/)/research | Fusion | 2★ | `/research` |
 | ○ /retrieve | Basic | — | `/retrieve` |
 | ○ /reward-modeling | Basic | — | `/reward-modeling` |
-| ○ ████████/ask-matt | Basic | — | `/route-intent` |
+| ○ [mattpocock](../docs/u/mattpocock/)/ask-matt | Basic | 2★ | `/route-intent` |
 | ○ ████████/database-engineer | Basic | — | `/schema-design` |
 | · /scientific-discovery | Fusion | — | `/scientific-discovery` |
 | · /scientific-literature-retrieval | Fusion | — | `/scientific-literature-retrieval` |
@@ -309,11 +309,11 @@
 | ○ Sequential Agent Pipeline | Intrinsic Skill | 2★ | `/sequential-agent-pipeline` |
 | ○ Session Journaling | Intrinsic Skill | — | `/session-journaling` |
 | ○ Single-Cell Analysis | Intrinsic Skill | 3★ | `/single-cell-analysis` |
-| ○ Software Design | Intrinsic Skill | — | `/software-design` |
+| ○ Software Design | Intrinsic Skill | 2★ | `/software-design` |
 | ○ Static Artwork Design | Intrinsic Skill | 2★ | `/static-artwork-design` |
 | ○ supabase | Intrinsic Skill | 2★ | `/supabase` |
 | ○ Synthetic Data Generation | Intrinsic Skill | — | `/synthetic-data-generation` |
-| ○ Test-Driven Development | Intrinsic Skill | 2★ | `/test-driven-development` |
+| ○ Test-Driven Development | Intrinsic Skill | 3★ | `/test-driven-development` |
 | ○ Time Series Forecasting | Intrinsic Skill | — | `/time-series-forecasting` |
 | ○ Token Observability | Intrinsic Skill | 2★ | `/token-observability` |
 | ○ Transactional Email Resend | Intrinsic Skill | — | `/transactional-email-resend` |

@@ -29,20 +29,20 @@
 | ○ mattpocock/ubiquitous-language | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-05-15T00:00:00Z |
 | ○ mattpocock/write-a-skill | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
 | ○ mattpocock/zoom-out | Basic | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
-| ○ mattpocock/ask-matt | Basic | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
-| ○ mattpocock/codebase-design | Basic | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
-| ○ mattpocock/diagnosing-bugs | Basic | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
-| ○ mattpocock/domain-modeling | Basic | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
-| ○ mattpocock/git-guardrails-claude-code | Basic | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
-| ○ mattpocock/grilling | Basic | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
-| ○ mattpocock/implement | Basic | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
-| ○ mattpocock/migrate-to-shoehorn | Basic | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
-| ○ mattpocock/resolving-merge-conflicts | Basic | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
-| ○ mattpocock/scaffold-exercises | Basic | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
-| ○ mattpocock/setup-pre-commit | Basic | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
-| ○ mattpocock/tdd | Basic | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/ask-matt | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/codebase-design | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/diagnosing-bugs | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/domain-modeling | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/git-guardrails-claude-code | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/grilling | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/implement | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/migrate-to-shoehorn | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/resolving-merge-conflicts | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/scaffold-exercises | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/setup-pre-commit | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/tdd | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
 | ○ mattpocock/teach | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
-| ○ mattpocock/writing-for-agents | Basic | 1★ | Awakened | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
+| ○ mattpocock/writing-for-agents | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-06-20T00:00:00Z |
 
 ---
 
@@ -59,10 +59,10 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · · ruvnet/flow-nexus  [3★]
   │  ├─ · · ████████/flow-nexus-swarm
   │  │  ├─ · · /plan-and-execute
-  │  │  │  ├─ ✓ ○ ████████/ask-matt
+  │  │  │  ├─ ✓ ○ mattpocock/ask-matt  [2★]
   │  │  │  ├─ · ○ /plan-decompose
   │  │  │  └─ · ○ /tool-select
-  │  │  ├─ ✓ ○ ████████/ask-matt  (↑ see above)
+  │  │  ├─ ✓ ○ mattpocock/ask-matt  [2★]  (↑ see above)
   │  │  └─ · ○ /tool-select  (↑ see above)
   │  ├─ · · ruvnet/flow-nexus-platform  [2★]
   │  │  ├─ · ○ ████████/hf-cli
@@ -127,7 +127,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · ○ nextlevelbuilder/ui-ux-pro-max  [4★]
   ├─ ✓ · garrytan/garrytan  [4★]
   │  ├─ · ○ /plan-decompose
-  │  └─ ✓ ○ ████████/ask-matt
+  │  └─ ✓ ○ mattpocock/ask-matt  [2★]
   ├─ · · garrytan/design-consultation  [3★]
   │  ├─ · · ████████/browse
   │  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]
@@ -207,7 +207,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      └─ · ○ /generate-text  (↑ see above)
 
 ✓ ◆ mattpocock/skills  [5★]
-  ├─ ✓ ○ ████████/domain-modeling
+  ├─ ✓ ○ mattpocock/domain-modeling  [2★]
   ├─ ✓ · mattpocock/engineering  [4★]
   │  ├─ ✓ · firecrawl/firecrawl-build-onboarding  [3★]
   │  │  ├─ ✓ ○ garrytan/document-generate  [3★]
@@ -217,7 +217,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  ├─ · ○ /code-execution
   │  │  └─ · ○ /error-interpretation
   │  ├─ ✓ ○ ████████/zoom-out
-  │  ├─ ✓ ○ ████████/domain-modeling  (↑ see above)
+  │  ├─ ✓ ○ mattpocock/domain-modeling  [2★]  (↑ see above)
   │  ├─ ✓ · mattpocock/grill-with-docs  [3★]
   │  │  ├─ ✓ · mattpocock/grill-me  [3★]
   │  │  │  ├─ ✓ · garrytan/design-shotgun  [3★]
@@ -238,7 +238,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  ├─ ✓ ○ addy-osmani/code-simplification  [3★]
   │  ├─ ✓ · garrytan/garrytan  [4★]
   │  │  ├─ · ○ /plan-decompose  (↑ see above)
-  │  │  └─ ✓ ○ ████████/ask-matt
+  │  │  └─ ✓ ○ mattpocock/ask-matt  [2★]
   │  ├─ · · obra/requesting-code-review  [2★]
   │  │  ├─ · · addy-osmani/code-review-and-quality  [3★]
   │  │  │  ├─ · ○ garrytan/design-html  [3★]  (↑ see above)
@@ -384,8 +384,8 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
 Basics — basic-tier skills with no prerequisites, listed vertically (not as a single combined line).  ([N★] = top named-variant stars; blank = no named implementation.)
 ══════════════════════════════════════════════════════════════════════
 
-  ✓ ○ ████████/codebase-design
-  ✓ ○ addy-osmani/test-driven-development  [2★]
+  ✓ ○ mattpocock/codebase-design  [2★]
+  ✓ ○ addy-osmani/test-driven-development  [3★]
 ```
 
 ## Pending Combinations

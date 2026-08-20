@@ -56,7 +56,7 @@ So that means, its the developers who make skills maintaining this. I have a tho
 <!-- gaia:registry-start -->
 ```text
 ◆ mattpocock/skills  [5★]
-  ├─ ○ ████████/domain-modeling
+  ├─ ○ mattpocock/domain-modeling  [2★]
   ├─ · mattpocock/engineering  [4★]
   │  ├─ · firecrawl/firecrawl-build-onboarding  [3★]
   │  │  ├─ ○ garrytan/document-generate  [3★]
@@ -66,7 +66,7 @@ So that means, its the developers who make skills maintaining this. I have a tho
   │  │  ├─ ○ /code-execution
   │  │  └─ ○ /error-interpretation
   │  ├─ ○ ████████/zoom-out
-  │  ├─ ○ ████████/domain-modeling  (↑ see above)
+  │  ├─ ○ mattpocock/domain-modeling  [2★]  (↑ see above)
   │  ├─ · mattpocock/grill-with-docs  [3★]
   │  │  ├─ · mattpocock/grill-me  [3★]
   │  │  │  └─ ○ /self-critique
@@ -81,7 +81,7 @@ So that means, its the developers who make skills maintaining this. I have a tho
   ├─ ○ nextlevelbuilder/ui-ux-pro-max  [4★]
   ├─ · garrytan/garrytan  [4★]
   │  ├─ ○ /plan-decompose
-  │  └─ ○ ████████/ask-matt
+  │  └─ ○ mattpocock/ask-matt  [2★]
   ├─ · garrytan/design-consultation  [3★]
   │  ├─ · ████████/browse
   │  │  ├─ ○ firecrawl/firecrawl-build-search  [4★]
