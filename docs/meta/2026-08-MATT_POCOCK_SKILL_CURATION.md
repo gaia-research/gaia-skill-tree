@@ -4,7 +4,7 @@ author: "Gaia Research"
 date: "2026-08-20"
 summary: "Gaia's Matt Pocock curation maps a connected work loop—from shaping a problem to implementation, review, and handoff—while keeping suite structure, trust, and historical records visible."
 abstract: |
-  Gaia's Matt Pocock curation is easiest to use as a route through a workday: shape the problem, make the work concrete, build against feedback, check the result, and leave the next person a trail. This report shows the current catalog, how its collections fit together, and what its stars and evidence do—and do not—promise.
+  Gaia's Matt Pocock curation is easiest to use as a route through a workday: shape the problem, make the work concrete, build against feedback, check the result, and leave the next person a trail. This report shows the current Skill Tree, how its collections fit together, and what its stars and evidence do—and do not—promise.
 label: "Suite Curation"
 chart: "2026-08-matt-pocock-skill-curation.json"
 ---
@@ -13,7 +13,7 @@ chart: "2026-08-matt-pocock-skill-curation.json"
 
 A request arrives half-formed. The codebase is unfamiliar. The plan is too large to hold in one context window. A test fails, but the failure is not yet a diagnosis. A review needs to answer two different questions: does the change meet the project's standards, and does it solve the problem that was actually asked?
 
-Matt Pocock's curated catalog is useful because it meets those moments directly. It is not just a list of names. It is a set of handholds for turning uncertainty into work another person—or another agent—can inspect.
+Matt Pocock's curated Skill Tree is useful because it meets those moments directly. It is not just a list of names. It is a set of handholds for turning uncertainty into work another person—or another agent—can inspect.
 
 | If you are facing… | Start with… | The useful output is… |
 |---|---|---|
@@ -28,7 +28,7 @@ Matt Pocock's curated catalog is useful because it meets those moments directly.
 
 The sequence below is an editorial reading path, not a required dependency graph. It shows what the curation feels like when read from the user's point of view: start with meaning, make the work concrete, build, check, and leave a trail.
 
-<div style="margin:2.5rem -2rem; padding:1.25rem; background:#fafaf8; border:1px solid #eee;"><img src="2026-08-matt-pocock-work-loop.svg" alt="Five-stage editorial route through Matt Pocock's curated skills: shape it, make it visible, build with feedback, check the change, and leave a trail." style="display:block; width:100%; height:auto;"></div>
+<img src="2026-08-matt-pocock-work-loop.svg" alt="Five-stage editorial route through Matt Pocock's curated skills: shape it, make it visible, build with feedback, check the change, and leave a trail." style="display:block; width:100%; height:auto; margin:2.5rem 0; border:1px solid #eee;"> <em>Figure 2. An editorial route through the Skill Tree—not a dependency graph or required sequence.</em>
 
 | Stage | Representative skills | Reader-facing question |
 |---|---|---|
@@ -44,7 +44,7 @@ The main Matt Pocock collection connects 25 records directly. That number is a c
 
 The chart above is interactive on the published report. Hover a bar to see the direct-link count; the table is the no-script fallback.
 
-| Published collection | Rank | Overall grade | Direct links |
+| Published collection | Stars | Overall grade | Direct links |
 |---|---:|---:|---:|
 | Matt Pocock Skills | 5★ | S | 25 |
 | Engineering | 4★ | A | 14 |
@@ -56,7 +56,7 @@ Engineering holds the planning, implementation, debugging, and review path. Prod
 
 ## Choose by the job, not by the label
 
-A catalog is most useful when it answers “what should I reach for now?” before it asks the reader to learn the taxonomy.
+The Skill Tree is most useful when it answers “what should I reach for now?” before it asks the reader to learn the taxonomy.
 
 | You need to… | Try… | Published standing |
 |---|---|---:|
@@ -76,23 +76,23 @@ The labels are signals about maturity and evidence, not a promise that one skill
 
 The capstone's 5★ / S standing describes the combined collection. It is supported by more than one kind of public signal: the source repository, an academic paper, a public demonstration, and peer review. That is stronger than a popularity number alone, but it is not evidence that every individual leaf has the same reach or validation.
 
-The profile currently preserves 40 Matt-attributed records. The ordinary public catalog exposes 39 of them because one historical 1★ record is kept out of the normal installation view. The remaining visible records range from 2★ named implementations through the 5★ collection, with the strongest individual paths concentrated around planning, debugging, domain language, personal knowledge work, and vertical-slice delivery.
+The Skill Tree currently preserves 40 Matt-attributed records. The ordinary public Skill Tree exposes 39 of them because one historical 1★ record is kept out of the normal installation view. The remaining visible records range from 2★ named implementations through the 5★ collection, with the strongest individual paths concentrated around planning, debugging, domain language, personal knowledge work, and vertical-slice delivery.
 
-Several recently surfaced entries—including `code-review`, `research`, `wayfinder`, `wizard`, `to-questionnaire`, and `wait-what`—are source-backed first-party implementations at 2★ / C. That confirms what the records are and where they come from. It does not claim independent usage results, benchmark performance, or equal validation across the catalog.
+Several recently surfaced entries—including `code-review`, `research`, `wayfinder`, `wizard`, `to-questionnaire`, and `wait-what`—are source-backed first-party implementations at 2★ / C. That confirms what the records are and where they come from. It does not claim independent usage results, benchmark performance, or equal validation across the Skill Tree.
 
 Stars and trust grades answer related but different questions. Stars describe a skill's place in Gaia's maturity ladder. The overall grade describes the strength of the evidence assembled around that record or collection. Gaia's current public projection and its underlying Trust Magnitude calculation have a small discrepancy for the capstone and Engineering collection, so this report intentionally uses the stable star and grade labels rather than presenting conflicting decimal values. The curation itself remains published while that value is reconciled.
 
 ## Current paths and preserved history
 
-Curation has to preserve useful history without confusing it with a current installation recommendation. The Matt Pocock catalog contains names that changed shape or status upstream, including `diagnose`, `ubiquitous-language`, `write-a-skill`, and `zoom-out`. It also preserves personal-work records that are useful for understanding the collection but are not presented as general engineering utilities.
+Curation has to preserve useful history without confusing it with a current installation recommendation. The Matt Pocock Skill Tree contains names that changed shape or status upstream, including `diagnose`, `ubiquitous-language`, `write-a-skill`, and `zoom-out`. It also preserves personal-work records that are useful for understanding the collection but are not presented as general engineering utilities.
 
 That distinction helps a reader make a safe choice:
 
 - Use the current source link when you want to install or inspect a skill.
 - Treat historical or explicitly non-installable records as context, not as a promise of a working install path.
-- Read the collection badge as a summary of the whole curation, not as a replacement for the individual skill page.
+- Read the collection summary as a view of the whole curation, not as a replacement for the individual skill page.
 
-For the full source, start at [Matt Pocock's public skills repository](https://github.com/mattpocock/skills). For the Gaia view, browse the [Matt Pocock contributor profile](https://gaiaskilltree.com/u/mattpocock/), then open the specific skill that matches the work in front of you.
+For the full source, start at [Matt Pocock's public skills repository](https://github.com/mattpocock/skills). For the Gaia view, browse the [Matt Pocock Skill Tree](https://gaiaskilltree.com/u/mattpocock/), then open the specific skill that matches the work in front of you.
 
 ## The useful conclusion
 
@@ -106,13 +106,13 @@ The strongest way to read this curation is as a disciplined loop:
 6. Diagnose and review what changed.
 7. Leave enough context for someone else to continue.
 
-Matt Pocock's collection gives each transition a concrete starting point. Gaia's curation adds the map around those starting points: how the records group together, what evidence supports the collection, where the leaves differ, and which names belong to the catalog's history.
+Matt Pocock's collection gives each transition a concrete starting point. Gaia's curation adds the map around those starting points: how the records group together, what evidence supports the collection, where the leaves differ, and which names belong to the Skill Tree's history.
 
 ## References
 
 [1] Matt Pocock. *Skills repository*. https://github.com/mattpocock/skills
 
-[2] Gaia. *Matt Pocock contributor profile*. https://gaiaskilltree.com/u/mattpocock/
+[2] Gaia. *Matt Pocock Skill Tree*. https://gaiaskilltree.com/u/mattpocock/
 
 [3] Gaia. *The GAIA Trust Methodology: Evidence Types, Grades, and Inherited Standing*. https://gaiaskilltree.com/meta/reports/2026-06-15-the-gaia-trust-methodology-evidence-types-grades-and-inherited-standing.html
 
