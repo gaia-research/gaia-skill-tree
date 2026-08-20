@@ -11,7 +11,7 @@ description: Productivity category suite for Matt Pocock's skills. Removed from 
   suite in v1.0.1.
 createdAt: '2026-05-21'
 updatedAt: '2026-08-20'
-trustMagnitude: 120.0
+trustMagnitude: 180.0
 overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -54,15 +54,20 @@ timeline:
   contributor: mbtiongson1
   details: Set suiteRef=mattpocock/productivity, genericSkillRef=productivity via
     `gaia dev fuse`.
+- timestamp: '2026-08-20T09:30:06Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 120.0 -> 180.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 suiteRef: mattpocock/skills
-trustMagnitudeInputHash: aa642025793e17cfcbb52c5a22e59c701ec8ac599342bec37e02979bf496e192
+trustMagnitudeInputHash: 7d29d5d833135693367eb0f68fe35a56c24c08e700e8e109a6d4e0652d0ec8f5
 suiteComponents:
-  - mattpocock/grill-me
-  - mattpocock/handoff
-  - mattpocock/teach
-  - mattpocock/to-questionnaire
-  - mattpocock/wait-what
-  - mattpocock/write-a-skill
+- mattpocock/grill-me
+- mattpocock/handoff
+- mattpocock/teach
+- mattpocock/to-questionnaire
+- mattpocock/wait-what
+- mattpocock/write-a-skill
 ---
 ## Overview
 

@@ -34,7 +34,7 @@
         "level": "5★",
         "trustMagnitude": 487.45
       },
-      "prestigeScore": 2170.65,
+      "prestigeScore": 2200.65,
       "_links": {
         "self": "/api/v1/contributors/ruvnet.json"
       }
@@ -60,7 +60,7 @@
         "level": "5★",
         "trustMagnitude": 296.3
       },
-      "prestigeScore": 1047.29,
+      "prestigeScore": 1056.29,
       "_links": {
         "self": "/api/v1/contributors/addy-osmani.json"
       }

@@ -23,7 +23,7 @@ tags:
 - vertical-slicing
 - tracer-bullet
 createdAt: '2026-04-30'
-updatedAt: '2026-07-03'
+updatedAt: '2026-08-20'
 timeline:
 - timestamp: '2026-05-31T02:17:00Z'
   action: installation_updated
@@ -54,6 +54,11 @@ timeline:
   action: suite_ref_set
   contributor: unknown
   details: Set suiteRef to addy-osmani/agent-skills
+- timestamp: '2026-08-20T09:34:05Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 36.0 -> 45.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - class: B
   source: https://github.com/addyosmani/agent-skills/blob/main/skills/test-driven-development/SKILL.md
@@ -67,7 +72,7 @@ evidence:
   contributors: 36
   trustNumber: 70.0
   grade: B
-trustMagnitude: 36.0
+trustMagnitude: 45.0
 overallTrustGrade: C
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -79,7 +84,7 @@ apexGateStatus:
   crossOrgVerifier: null
   systemWideCap: null
 trustMagnitudeInputHash: 650f0466e751f4446ba928c959d5b8aa50cb4ff5b844c60a905f3f41f4286fa0
-suiteRef: "addy-osmani/agent-skills"
+suiteRef: addy-osmani/agent-skills
 ---
 
 ## Overview

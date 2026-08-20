@@ -64,6 +64,7 @@ def _run_generate_named_index():
                 mod.write_index(
                     buckets, awaiting_classification, by_contributor, output_path, today,
                     generic_skills_map=generic_skills_map, gate_config=gate_config,
+                    repo_root=repo_root,
                 )
                 total = sum(len(v) for v in buckets.values())
                 print(f"Generated named index: {total} skill(s) across "

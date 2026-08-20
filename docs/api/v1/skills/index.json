@@ -299,6 +299,35 @@
       "genericSkillRef": "few-shot-learning"
     },
     {
+      "id": "ruvnet/ruflo-v3",
+      "name": "Ruflo V3",
+      "level": "4★",
+      "trustMagnitude": 216.0,
+      "overallTrustGrade": "A",
+      "contributor": "ruvnet",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/ruflo-v3.json"
+      },
+      "genericSkillRef": "platform-modernization-sprint",
+      "suiteComponents": [
+        "ruvnet/swarm-advanced",
+        "ruvnet/swarm-orchestration",
+        "ruvnet/v3-cli-modernization",
+        "ruvnet/v3-core-implementation",
+        "ruvnet/v3-ddd-architecture",
+        "ruvnet/v3-integration-deep",
+        "ruvnet/v3-mcp-optimization",
+        "ruvnet/v3-memory-unification",
+        "ruvnet/v3-performance-optimization",
+        "ruvnet/v3-security-overhaul",
+        "ruvnet/v3-swarm-coordination"
+      ]
+    },
+    {
       "id": "anthropic/skill-creator",
       "name": "Skill Creator",
       "level": "3★",
@@ -391,35 +420,6 @@
         "self": "/api/v1/skills/nextlevelbuilder/ui-ux-pro-max.json"
       },
       "genericSkillRef": "ux-audit"
-    },
-    {
-      "id": "ruvnet/ruflo-v3",
-      "name": "Ruflo V3",
-      "level": "4★",
-      "trustMagnitude": 186.0,
-      "overallTrustGrade": "A",
-      "contributor": "ruvnet",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/ruflo-v3.json"
-      },
-      "genericSkillRef": "platform-modernization-sprint",
-      "suiteComponents": [
-        "ruvnet/swarm-advanced",
-        "ruvnet/swarm-orchestration",
-        "ruvnet/v3-cli-modernization",
-        "ruvnet/v3-core-implementation",
-        "ruvnet/v3-ddd-architecture",
-        "ruvnet/v3-integration-deep",
-        "ruvnet/v3-mcp-optimization",
-        "ruvnet/v3-memory-unification",
-        "ruvnet/v3-performance-optimization",
-        "ruvnet/v3-security-overhaul",
-        "ruvnet/v3-swarm-coordination"
-      ]
     },
     {
       "id": "mattpocock/productivity",

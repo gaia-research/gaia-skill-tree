@@ -3951,7 +3951,7 @@
           }
         ],
         "createdAt": "2026-04-30",
-        "updatedAt": "2026-07-03",
+        "updatedAt": "2026-08-20",
         "timeline": [
           {
             "timestamp": "2026-05-31T02:17:00Z",
@@ -3996,10 +3996,16 @@
             "action": "suite_ref_set",
             "contributor": "unknown",
             "details": "Set suiteRef to addy-osmani/agent-skills"
+          },
+          {
+            "timestamp": "2026-08-20T09:34:05Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 36.0 -> 45.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "addy-osmani/agent-skills",
-        "trustMagnitude": 36.0,
+        "trustMagnitude": 45.0,
         "overallTrustGrade": "C",
         "trustMagnitudeInputHash": "650f0466e751f4446ba928c959d5b8aa50cb4ff5b844c60a905f3f41f4286fa0",
         "apexGateStatus": {
@@ -21031,6 +21037,12 @@
             "action": "suite_ref_set",
             "contributor": "mbtiongson1",
             "details": "Set suiteRef to mattpocock/skills"
+          },
+          {
+            "timestamp": "2026-08-20T09:30:05Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 270.0 -> 351.96, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "mattpocock/skills",
@@ -21052,7 +21064,7 @@
         ],
         "trustMagnitude": 351.96,
         "overallTrustGrade": "A",
-        "trustMagnitudeInputHash": "4c0c7b233e624b41fc0b52204b68f31891b2e5d33b311a17b288573ab2927bca",
+        "trustMagnitudeInputHash": "84bb03bde46f1e5dbf730b2f8ee2abbfd93c5cd04481b6dcb983bfbe04e0a6b4",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -21582,7 +21594,7 @@
         "description": "Utility and setup skills that do not fit the engineering/productivity split: guardrails, migration, exercise scaffolding, and pre-commit setup.",
         "title": "The Matt Pocock Utility Belt",
         "createdAt": "2026-08-19",
-        "updatedAt": "2026-08-19",
+        "updatedAt": "2026-08-20",
         "timeline": [
           {
             "timestamp": "2026-08-19T11:50:18Z",
@@ -21595,6 +21607,12 @@
             "action": "suite_ref_set",
             "contributor": "unknown",
             "details": "Set suiteRef=mattpocock/misc, genericSkillRef=mattpocock-misc via `gaia dev fuse`."
+          },
+          {
+            "timestamp": "2026-08-20T09:30:06Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM (none) -> 120.0, grade (none) -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteComponents": [
@@ -21603,11 +21621,12 @@
           "mattpocock/scaffold-exercises",
           "mattpocock/setup-pre-commit"
         ],
+        "trustMagnitude": 120.0,
+        "overallTrustGrade": "A",
+        "trustMagnitudeInputHash": "4c59ac0648fe2f9b4e9d848dc8e6feacfbe20f0a7c5d29898f0659ca1207070e",
         "type": "fusion",
         "installBody": "Add installation instructions here.",
         "role": "variant",
-        "trustMagnitude": 120.0,
-        "overallTrustGrade": "A",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -21904,6 +21923,12 @@
             "action": "suite_ref_set",
             "contributor": "mbtiongson1",
             "details": "Set suiteRef=mattpocock/productivity, genericSkillRef=productivity via `gaia dev fuse`."
+          },
+          {
+            "timestamp": "2026-08-20T09:30:06Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 120.0 -> 180.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "mattpocock/skills",
@@ -21917,7 +21942,7 @@
         ],
         "trustMagnitude": 180.0,
         "overallTrustGrade": "A",
-        "trustMagnitudeInputHash": "aa642025793e17cfcbb52c5a22e59c701ec8ac599342bec37e02979bf496e192",
+        "trustMagnitudeInputHash": "7d29d5d833135693367eb0f68fe35a56c24c08e700e8e109a6d4e0652d0ec8f5",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -22568,6 +22593,12 @@
             "previousValue": "v1.1.0",
             "newValue": "v1.2.3",
             "details": "synced from https://github.com/mattpocock/skills/releases/tag/v1.2.3"
+          },
+          {
+            "timestamp": "2026-08-20T09:30:05Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 480.29 -> 528.95, grade S -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteComponents": [
@@ -22599,7 +22630,7 @@
         ],
         "trustMagnitude": 528.95,
         "overallTrustGrade": "S",
-        "trustMagnitudeInputHash": "349d174f8f94cd100299e12ac72dde50e45702118e3e22c9d36cf4091e48f522",
+        "trustMagnitudeInputHash": "963b0bfb79077b054cd7a9024a9f321698f89cf037a182af079d86a46f6e0efd",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -28587,7 +28618,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-07-20",
+        "updatedAt": "2026-08-20",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:58Z",
@@ -28630,6 +28661,12 @@
             "details": "Generic parent 'platform-modernization-sprint' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-20"
+          },
+          {
+            "timestamp": "2026-08-20T09:34:06Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "mbtiongson1",
+            "details": "TM 186.0 -> 216.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "ruvnet/ruflo",
@@ -28646,7 +28683,7 @@
           "ruvnet/v3-security-overhaul",
           "ruvnet/v3-swarm-coordination"
         ],
-        "trustMagnitude": 186.0,
+        "trustMagnitude": 216.0,
         "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "bdd2d28180885bdd2d93e64d0e2f0f9c48e16340828670f82761ce4664666d3d",
         "apexGateStatus": {

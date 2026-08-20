@@ -14,7 +14,7 @@ links:
   github: https://github.com/mattpocock/skills
 createdAt: '2026-05-22'
 updatedAt: '2026-08-20'
-trustMagnitude: 480.29
+trustMagnitude: 528.95
 overallTrustGrade: S
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -125,6 +125,11 @@ timeline:
   previousValue: v1.1.0
   newValue: v1.2.3
   details: synced from https://github.com/mattpocock/skills/releases/tag/v1.2.3
+- timestamp: '2026-08-20T09:30:05Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 480.29 -> 528.95, grade S -> S (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 evidence:
 - source: https://github.com/mattpocock/skills/stargazers
   evaluator: mbtiongson1
@@ -165,7 +170,7 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-06-19T09:18:11Z'
-trustMagnitudeInputHash: 349d174f8f94cd100299e12ac72dde50e45702118e3e22c9d36cf4091e48f522
+trustMagnitudeInputHash: 963b0bfb79077b054cd7a9024a9f321698f89cf037a182af079d86a46f6e0efd
 upstream:
   mode: components
   releasedAt: '2026-08-06T14:05:28Z'
@@ -174,31 +179,31 @@ upstream:
   syncedAt: '2026-08-19T11:18:21Z'
   version: v1.2.3
 suiteComponents:
-  - mattpocock/code-review
-  - mattpocock/diagnose
-  - mattpocock/edit-article
-  - mattpocock/engineering
-  - mattpocock/grill-me
-  - mattpocock/grill-with-docs
-  - mattpocock/handoff
-  - mattpocock/improve-codebase-architecture
-  - mattpocock/obsidian-vault
-  - mattpocock/personal
-  - mattpocock/productivity
-  - mattpocock/prototype
-  - mattpocock/research
-  - mattpocock/setup-matt-pocock-skills
-  - mattpocock/teach
-  - mattpocock/to-questionnaire
-  - mattpocock/to-spec
-  - mattpocock/to-tickets
-  - mattpocock/triage
-  - mattpocock/ubiquitous-language
-  - mattpocock/wait-what
-  - mattpocock/wayfinder
-  - mattpocock/wizard
-  - mattpocock/write-a-skill
-  - mattpocock/zoom-out
+- mattpocock/code-review
+- mattpocock/diagnose
+- mattpocock/edit-article
+- mattpocock/engineering
+- mattpocock/grill-me
+- mattpocock/grill-with-docs
+- mattpocock/handoff
+- mattpocock/improve-codebase-architecture
+- mattpocock/obsidian-vault
+- mattpocock/personal
+- mattpocock/productivity
+- mattpocock/prototype
+- mattpocock/research
+- mattpocock/setup-matt-pocock-skills
+- mattpocock/teach
+- mattpocock/to-questionnaire
+- mattpocock/to-spec
+- mattpocock/to-tickets
+- mattpocock/triage
+- mattpocock/ubiquitous-language
+- mattpocock/wait-what
+- mattpocock/wayfinder
+- mattpocock/wizard
+- mattpocock/write-a-skill
+- mattpocock/zoom-out
 ---
 
 ## Installation

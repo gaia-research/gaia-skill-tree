@@ -425,7 +425,7 @@ def _inject_resolved_taxonomy(entry):
     entry["contractVersion"] = "gaia-public-v1"
 
 
-def _inject_trust_grades(buckets, generic_skills_map, gate_config):
+def _inject_trust_grades(buckets, generic_skills_map, gate_config, repo_root=None):
     """Annotate each named-skill bucket entry with overallTrustGrade, trustMagnitude,
     and apexGateStatus.
 
@@ -455,6 +455,7 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config):
         computeTrustMagnitudeInputHash,
         passesSuiteApexGate,
     )
+    from gaia_cli.registryMaps import buildMergedSkillMap
 
     def _effective(entry):
         generic_node = generic_skills_map.get(entry.get("genericSkillRef"))
@@ -489,6 +490,16 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config):
         for entry in entries:
             named_skill_map[entry["id"]] = {k: v for k, v in entry.items() if k != "role"}
 
+    # Canonical merged map for TM/grade recompute (Issue #1600): the SAME
+    # helper `scripts/trust_appraise.py` builds, so the dry-run appraiser and
+    # this generator can never construct divergent registry context again.
+    # Falls back to the local generic_skills_map + named_skill_map merge
+    # (graph_data-sourced generic half) when repo_root isn't supplied.
+    if repo_root is not None:
+        merged_map = buildMergedSkillMap(repo_root)
+    else:
+        merged_map = {**generic_skills_map, **named_skill_map}
+
     for _ref, entries in buckets.items():
         for entry in entries:
             effective = _effective(entry)
@@ -517,10 +528,11 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config):
                 entry["trustMagnitude"] = round(float(fm_tm), 2)
                 entry["overallTrustGrade"] = fm_grade
             else:
-                # Missing frontmatter values — recompute via G7 path.
-                # Pre-merge namedSkillMap so suite-component origin IDs
-                # (e.g. "gsd-build/discuss-phase") resolve in _gradedOriginCount.
-                merged_map = {**generic_skills_map, **named_skill_map}
+                # Missing frontmatter values — recompute via G7 path, against
+                # the canonical merged_map built above (Issue #1600) so
+                # suite-component origin IDs (e.g. "gsd-build/discuss-phase")
+                # resolve in _gradedOriginCount the same way trust_appraise.py
+                # resolves them.
                 # computeTrustMagnitude/overall_trust_grade resolve the
                 # effective (own ∪ inherited) evidence pool themselves via
                 # _effectivePool — that's what every other caller (the Trust
@@ -572,10 +584,10 @@ def _inject_trust_grades(buckets, generic_skills_map, gate_config):
 
 
 def write_index(buckets, awaiting_classification, by_contributor, output_path, today,
-                generic_skills_map=None, gate_config=None):
+                generic_skills_map=None, gate_config=None, repo_root=None):
     """Write the named skill index JSON file."""
     if generic_skills_map is not None:
-        _inject_trust_grades(buckets, generic_skills_map, gate_config or {})
+        _inject_trust_grades(buckets, generic_skills_map, gate_config or {}, repo_root=repo_root)
     for entry in awaiting_classification:
         _inject_resolved_taxonomy(entry)
 
@@ -662,7 +674,7 @@ def main():
         gate_config = {}
 
     write_index(buckets, awaiting_classification, by_contributor, output_path, today,
-                generic_skills_map=generic_skills_map, gate_config=gate_config)
+                generic_skills_map=generic_skills_map, gate_config=gate_config, repo_root=repo_root)
     total_named = sum(len(v) for v in buckets.values())
     total_awaiting = len(awaiting_classification)
     print(f"\nWrote {output_path}")

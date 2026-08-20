@@ -4149,6 +4149,13 @@ def validate_command(args):
     if timeline_script.exists():
         rc = subprocess.call([sys.executable, str(timeline_script)]) or rc
 
+    # Trust Magnitude Consistency Gate (Issue #1600) — the dry-run appraiser
+    # and the generated registry projection must agree; a cached frontmatter
+    # trustMagnitude with a still-valid hash must match the live recompute.
+    tm_script = repo_root / "scripts" / "check_trust_magnitude_consistency.py"
+    if tm_script.exists():
+        rc = subprocess.call([sys.executable, str(tm_script)]) or rc
+
     raise SystemExit(rc)
 
 
