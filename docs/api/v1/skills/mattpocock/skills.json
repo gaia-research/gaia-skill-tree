@@ -5,7 +5,7 @@
   "level": "5★",
   "type": "fusion",
   "status": "named",
-  "trustMagnitude": 489.45,
+  "trustMagnitude": 528.95,
   "overallTrustGrade": "S",
   "branch": "suite",
   "rankWord": "Ultimate",
@@ -205,6 +205,7 @@
     "github": "https://github.com/mattpocock/skills"
   },
   "suiteComponents": [
+    "mattpocock/code-review",
     "mattpocock/diagnose",
     "mattpocock/edit-article",
     "mattpocock/engineering",
@@ -216,11 +217,17 @@
     "mattpocock/personal",
     "mattpocock/productivity",
     "mattpocock/prototype",
+    "mattpocock/research",
     "mattpocock/setup-matt-pocock-skills",
+    "mattpocock/teach",
+    "mattpocock/to-questionnaire",
     "mattpocock/to-spec",
     "mattpocock/to-tickets",
     "mattpocock/triage",
     "mattpocock/ubiquitous-language",
+    "mattpocock/wait-what",
+    "mattpocock/wayfinder",
+    "mattpocock/wizard",
     "mattpocock/write-a-skill",
     "mattpocock/zoom-out"
   ]

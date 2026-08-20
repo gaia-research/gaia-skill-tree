@@ -22,6 +22,10 @@ timeline:
   contributor: marco-tngsn
   details: 'Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/wait-what/SKILL.md
     (type: repo-own)'
+- timestamp: '2026-08-20T04:55:15Z'
+  action: suite_ref_set
+  contributor: mbtiongson1
+  details: Set suiteRef to mattpocock/productivity
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/productivity/wait-what/SKILL.md
   evaluator: marco-tngsn
@@ -35,6 +39,7 @@ evidence:
   grade: C
 verification:
   firstEvidenceAt: '2026-08-19T16:10:34Z'
+suiteRef: mattpocock/productivity
 ---
 
 ## Installation

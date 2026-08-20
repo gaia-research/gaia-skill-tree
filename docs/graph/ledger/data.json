@@ -1,15 +1,15 @@
 {
-  "version": "7.7.9",
-  "generatedAt": "2026-08-19T17:24:06Z",
+  "version": "7.7.1",
+  "generatedAt": "2026-08-20T05:00:42Z",
   "summary": {
     "total": 239,
     "S": 5,
-    "A": 64,
-    "B": 68,
+    "A": 65,
+    "B": 67,
     "C": 88,
     "ungraded": 14,
     "floor": 0,
-    "up": 30
+    "up": 31
   },
   "rows": [
     {
@@ -42,7 +42,7 @@
     },
     {
       "skillId": "mattpocock/skills",
-      "tm": 489.45,
+      "tm": 528.95,
       "grade": "S",
       "currentStars": "5★",
       "mayStars": "6★",
@@ -64,7 +64,7 @@
         "arxiv": 10.4,
         "social-signal": 39.5,
         "peer-review": 30.0,
-        "fusion-recipe": 360.0
+        "fusion-recipe": 399.5
       },
       "origin": true,
       "branch": "suite"
@@ -126,6 +126,22 @@
       "branch": "suite"
     },
     {
+      "skillId": "mattpocock/engineering",
+      "tm": 351.96,
+      "grade": "A",
+      "currentStars": "4★",
+      "mayStars": "5★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "fusion-recipe": 351.96
+      },
+      "origin": true,
+      "branch": "suite"
+    },
+    {
       "skillId": "addy-osmani/agent-skills",
       "tm": 296.3,
       "grade": "S",
@@ -148,22 +164,6 @@
         "github-stars-own": 20.3,
         "repo-own": 36.0,
         "fusion-recipe": 240.0
-      },
-      "origin": true,
-      "branch": "suite"
-    },
-    {
-      "skillId": "mattpocock/engineering",
-      "tm": 270.0,
-      "grade": "A",
-      "currentStars": "4★",
-      "mayStars": "5★",
-      "juneStars": "4★",
-      "g7Stars": "4★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "fusion-recipe": 270.0
       },
       "origin": true,
       "branch": "suite"
@@ -306,6 +306,22 @@
       "typeBreakdown": {
         "repo-own": 36.0,
         "fusion-recipe": 150.0
+      },
+      "origin": true,
+      "branch": "suite"
+    },
+    {
+      "skillId": "mattpocock/productivity",
+      "tm": 180.0,
+      "grade": "A",
+      "currentStars": "3★",
+      "mayStars": "4★",
+      "juneStars": "3★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "fusion-recipe": 180.0
       },
       "origin": true,
       "branch": "suite"
@@ -1377,22 +1393,6 @@
       },
       "origin": false,
       "branch": "standard"
-    },
-    {
-      "skillId": "mattpocock/productivity",
-      "tm": 90.0,
-      "grade": "B",
-      "currentStars": "4★",
-      "mayStars": "4★",
-      "juneStars": "4★",
-      "g7Stars": "3★",
-      "flag": "",
-      "apexResults": null,
-      "typeBreakdown": {
-        "fusion-recipe": 90.0
-      },
-      "origin": true,
-      "branch": "suite"
     },
     {
       "skillId": "garrytan/browse",

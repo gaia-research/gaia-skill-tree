@@ -2,12 +2,12 @@
   "distribution": {
     "total": 239,
     "S": 5,
-    "A": 64,
-    "B": 68,
+    "A": 65,
+    "B": 67,
     "C": 88,
     "ungraded": 14,
     "floor": 0,
-    "up": 30
+    "up": 31
   },
   "rows": [
     {
@@ -26,7 +26,7 @@
     },
     {
       "id": "mattpocock/skills",
-      "trustMagnitude": 489.45,
+      "trustMagnitude": 528.95,
       "grade": "S",
       "level": "5★",
       "typeBreakdown": {
@@ -34,7 +34,7 @@
         "arxiv": 10.4,
         "social-signal": 39.5,
         "peer-review": 30.0,
-        "fusion-recipe": 360.0
+        "fusion-recipe": 399.5
       },
       "origin": true,
       "branch": "suite"
@@ -68,6 +68,17 @@
       "branch": "suite"
     },
     {
+      "id": "mattpocock/engineering",
+      "trustMagnitude": 351.96,
+      "grade": "A",
+      "level": "4★",
+      "typeBreakdown": {
+        "fusion-recipe": 351.96
+      },
+      "origin": true,
+      "branch": "suite"
+    },
+    {
       "id": "addy-osmani/agent-skills",
       "trustMagnitude": 296.3,
       "grade": "S",
@@ -76,17 +87,6 @@
         "github-stars-own": 20.3,
         "repo-own": 36.0,
         "fusion-recipe": 240.0
-      },
-      "origin": true,
-      "branch": "suite"
-    },
-    {
-      "id": "mattpocock/engineering",
-      "trustMagnitude": 270.0,
-      "grade": "A",
-      "level": "4★",
-      "typeBreakdown": {
-        "fusion-recipe": 270.0
       },
       "origin": true,
       "branch": "suite"
@@ -189,6 +189,17 @@
       "typeBreakdown": {
         "repo-own": 36.0,
         "fusion-recipe": 150.0
+      },
+      "origin": true,
+      "branch": "suite"
+    },
+    {
+      "id": "mattpocock/productivity",
+      "trustMagnitude": 180.0,
+      "grade": "A",
+      "level": "3★",
+      "typeBreakdown": {
+        "fusion-recipe": 180.0
       },
       "origin": true,
       "branch": "suite"
@@ -955,17 +966,6 @@
       },
       "origin": false,
       "branch": "standard"
-    },
-    {
-      "id": "mattpocock/productivity",
-      "trustMagnitude": 90.0,
-      "grade": "B",
-      "level": "4★",
-      "typeBreakdown": {
-        "fusion-recipe": 90.0
-      },
-      "origin": true,
-      "branch": "suite"
     },
     {
       "id": "garrytan/browse",

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-19",
+  "generatedAt": "2026-08-20",
   "schema": "gaia-badges-registry/2",
   "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The site Worker at worker/index.js handles /badges/<handle>/<file>.svg (the real SVGs live at /badges/_assets/<handle>/<file>.svg) and serves the `validating\u2026` SVG (docs/badges/not-found.svg) when the `?repo=` query string doesn't match a repo listed here. Schema v2 adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant.",
   "contributors": {
@@ -1160,16 +1160,6 @@
           "fileSeal": "engineering-seal.svg"
         },
         {
-          "id": "mattpocock/productivity",
-          "name": "Productivity",
-          "rank": 4,
-          "type": "fusion",
-          "branch": "suite",
-          "slash": "/productivity",
-          "file": "productivity.svg",
-          "fileSeal": "productivity-seal.svg"
-        },
-        {
           "id": "mattpocock/diagnose",
           "name": "Diagnose",
           "rank": 3,
@@ -1248,6 +1238,16 @@
           "slash": "/personal",
           "file": "personal.svg",
           "fileSeal": "personal-seal.svg"
+        },
+        {
+          "id": "mattpocock/productivity",
+          "name": "Productivity",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "suite",
+          "slash": "/productivity",
+          "file": "productivity.svg",
+          "fileSeal": "productivity-seal.svg"
         },
         {
           "id": "mattpocock/setup-matt-pocock-skills",

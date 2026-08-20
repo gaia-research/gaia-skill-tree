@@ -1,25 +1,20 @@
 {
   "skills": [
     {
-      "id": "mattpocock/productivity",
-      "name": "Productivity",
-      "level": "4★",
-      "trustMagnitude": 90.0,
+      "id": "k-dense-ai/qiskit",
+      "name": "Qiskit",
+      "level": "3★",
+      "trustMagnitude": 93.03,
       "overallTrustGrade": "B",
-      "contributor": "mattpocock",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
+      "contributor": "k-dense-ai",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Evolved",
+      "medallion": "◇",
       "_links": {
-        "self": "/api/v1/skills/mattpocock/productivity.json"
+        "self": "/api/v1/skills/k-dense-ai/qiskit.json"
       },
-      "genericSkillRef": "productivity",
-      "suiteComponents": [
-        "mattpocock/grill-me",
-        "mattpocock/handoff",
-        "mattpocock/write-a-skill"
-      ]
+      "genericSkillRef": "quantum-circuit-programming"
     },
     {
       "id": "garrytan/browse",

@@ -11,7 +11,7 @@ level: 2★
 description: Teach the user a new skill or concept in a workspace with mission, reference
   materials, and lessons.
 createdAt: '2026-06-19'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-20'
 timeline:
 - timestamp: '2026-06-19T13:02:46Z'
   action: add
@@ -62,6 +62,10 @@ timeline:
   contributor: testuser
   details: 'I13 classify: status promoted from awakened to named (evidence floor met:
     repo-own B + self-attestation C)'
+- timestamp: '2026-08-20T04:55:14Z'
+  action: suite_ref_set
+  contributor: mbtiongson1
+  details: Set suiteRef to mattpocock/productivity
 evidence:
 - source: https://github.com/mattpocock/skills/blob/main/skills/productivity/teach/SKILL.md
   evaluator: unknown
@@ -108,6 +112,7 @@ apexGateStatus:
   systemWideCap: null
 trustMagnitudeInputHash: d89e707515e393b229cbf8e69f51a6ea4ba8820d07009fe1b715587ceb20caaa
 title: Teach
+suiteRef: mattpocock/productivity
 ---
 
 ## Installation

@@ -132,6 +132,12 @@
       "action": "rank_up",
       "contributor": "testuser",
       "details": "I13 classify: status promoted from awakened to named (evidence floor met: repo-own B + self-attestation C)"
+    },
+    {
+      "timestamp": "2026-08-20T04:55:14Z",
+      "action": "suite_ref_set",
+      "contributor": "mbtiongson1",
+      "details": "Set suiteRef to mattpocock/productivity"
     }
   ],
   "links": {

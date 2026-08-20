@@ -45,7 +45,7 @@
     "contributor": "mattpocock",
     "level": "5★",
     "grade": "S",
-    "trustMagnitude": 489.45,
+    "trustMagnitude": 528.95,
     "branch": "suite",
     "tokens": [
       "all",
@@ -141,6 +141,29 @@
     ]
   },
   {
+    "id": "mattpocock/engineering",
+    "name": "Engineering",
+    "contributor": "mattpocock",
+    "level": "4★",
+    "grade": "A",
+    "trustMagnitude": 351.96,
+    "branch": "suite",
+    "tokens": [
+      "0",
+      "1",
+      "category",
+      "discipline",
+      "engineering",
+      "matt",
+      "mattpocock",
+      "pocock's",
+      "removed",
+      "skills",
+      "suite",
+      "v1"
+    ]
+  },
+  {
     "id": "addy-osmani/agent-skills",
     "name": "Agent Skills",
     "contributor": "addy-osmani",
@@ -176,29 +199,6 @@
       "test",
       "web",
       "—"
-    ]
-  },
-  {
-    "id": "mattpocock/engineering",
-    "name": "Engineering",
-    "contributor": "mattpocock",
-    "level": "4★",
-    "grade": "A",
-    "trustMagnitude": 270.0,
-    "branch": "suite",
-    "tokens": [
-      "0",
-      "1",
-      "category",
-      "discipline",
-      "engineering",
-      "matt",
-      "mattpocock",
-      "pocock's",
-      "removed",
-      "skills",
-      "suite",
-      "v1"
     ]
   },
   {
@@ -451,6 +451,28 @@
       "tuning",
       "unification",
       "v3"
+    ]
+  },
+  {
+    "id": "mattpocock/productivity",
+    "name": "Productivity",
+    "contributor": "mattpocock",
+    "level": "3★",
+    "grade": "A",
+    "trustMagnitude": 180.0,
+    "branch": "suite",
+    "tokens": [
+      "0",
+      "1",
+      "category",
+      "matt",
+      "mattpocock",
+      "pocock's",
+      "productivity",
+      "removed",
+      "skills",
+      "suite",
+      "v1"
     ]
   },
   {
@@ -1548,28 +1570,6 @@
       "runtime",
       "simulate",
       "transpile"
-    ]
-  },
-  {
-    "id": "mattpocock/productivity",
-    "name": "Productivity",
-    "contributor": "mattpocock",
-    "level": "4★",
-    "grade": "B",
-    "trustMagnitude": 90.0,
-    "branch": "suite",
-    "tokens": [
-      "0",
-      "1",
-      "category",
-      "matt",
-      "mattpocock",
-      "pocock's",
-      "productivity",
-      "removed",
-      "skills",
-      "suite",
-      "v1"
     ]
   },
   {

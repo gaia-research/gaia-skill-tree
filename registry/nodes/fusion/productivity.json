@@ -7,7 +7,10 @@
     "agent-handoff",
     "context-compression",
     "grill-me",
-    "tool-creation"
+    "tool-creation",
+    "knowledge-management",
+    "questionnaire-generation",
+    "plain-language-restatement"
   ],
   "derivatives": [],
   "evidence": [
@@ -24,7 +27,7 @@
   "knownAgents": [],
   "status": "provisional",
   "createdAt": "2026-05-22",
-  "updatedAt": "2026-07-16",
+  "updatedAt": "2026-08-20",
   "version": "0.1.0",
   "timeline": [
     {
@@ -88,6 +91,12 @@
       "details": "Reclassified from extra to fusion (Yggdrasil II taxonomy migration #997)",
       "metaEpoch": "yggdrasil-ii",
       "migrationBatch": "yggdrasil-ii@2026-07-16"
+    },
+    {
+      "timestamp": "2026-08-20T04:52:58Z",
+      "action": "fuse",
+      "contributor": "mbtiongson1",
+      "details": "Set prerequisites via `gaia dev fuse`: knowledge-management, questionnaire-generation, plain-language-restatement."
     }
   ]
 }

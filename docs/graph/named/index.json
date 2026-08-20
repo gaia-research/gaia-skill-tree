@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-19",
+  "generatedAt": "2026-08-20",
   "buckets": {
     "automated-testing": [
       {
@@ -15516,7 +15516,7 @@
           }
         ],
         "createdAt": "2026-06-19",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-20",
         "timeline": [
           {
             "timestamp": "2026-06-19T13:02:46Z",
@@ -15581,8 +15581,15 @@
             "action": "rank_up",
             "contributor": "testuser",
             "details": "I13 classify: status promoted from awakened to named (evidence floor met: repo-own B + self-attestation C)"
+          },
+          {
+            "timestamp": "2026-08-20T04:55:14Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to mattpocock/productivity"
           }
         ],
+        "suiteRef": "mattpocock/productivity",
         "trustMagnitude": 44.48,
         "overallTrustGrade": "C",
         "trustMagnitudeInputHash": "d89e707515e393b229cbf8e69f51a6ea4ba8820d07009fe1b715587ceb20caaa",
@@ -20433,8 +20440,15 @@
             "action": "evidence_added",
             "contributor": "marco-tngsn",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/code-review/SKILL.md (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-20T04:55:12Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to mattpocock/engineering"
           }
         ],
+        "suiteRef": "mattpocock/engineering",
         "type": "fusion",
         "installBody": "Add installation instructions here.",
         "role": "variant",
@@ -20723,7 +20737,7 @@
         "description": "Engineering category suite for Matt Pocock's skills. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Matt Pocock Engineering Discipline",
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-08-19",
+        "updatedAt": "2026-08-20",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -20753,22 +20767,38 @@
             "details": "Generic parent 'engineering-discipline' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-20"
+          },
+          {
+            "timestamp": "2026-08-20T04:49:27Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef=mattpocock/engineering, genericSkillRef=engineering-discipline via `gaia dev fuse`."
+          },
+          {
+            "timestamp": "2026-08-20T04:52:44Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to mattpocock/skills"
           }
         ],
         "suiteRef": "mattpocock/skills",
         "suiteComponents": [
+          "mattpocock/code-review",
           "mattpocock/diagnose",
           "mattpocock/grill-with-docs",
           "mattpocock/improve-codebase-architecture",
           "mattpocock/prototype",
+          "mattpocock/research",
           "mattpocock/setup-matt-pocock-skills",
           "mattpocock/to-spec",
           "mattpocock/to-tickets",
           "mattpocock/triage",
           "mattpocock/ubiquitous-language",
+          "mattpocock/wayfinder",
+          "mattpocock/wizard",
           "mattpocock/zoom-out"
         ],
-        "trustMagnitude": 270.0,
+        "trustMagnitude": 351.96,
         "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "4c0c7b233e624b41fc0b52204b68f31891b2e5d33b311a17b288573ab2927bca",
         "apexGateStatus": {
@@ -21576,11 +21606,11 @@
         "origin": true,
         "genericSkillRef": "productivity",
         "status": "named",
-        "level": "4★",
+        "level": "3★",
         "description": "Productivity category suite for Matt Pocock's skills. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Matt Pocock Productivity Suite",
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-08-19",
+        "updatedAt": "2026-08-20",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -21610,16 +21640,31 @@
             "action": "upstream_deprecated",
             "contributor": "unknown",
             "details": "Component mattpocock/caveman permanently removed (not frozen) from this suite: Author's CHANGELOG: caveman was a duplicate of another skill being tested and was never meant to be public. No replacement. (Issue #1453)"
+          },
+          {
+            "timestamp": "2026-08-20T04:39:10Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 4★ to 3★"
+          },
+          {
+            "timestamp": "2026-08-20T04:52:58Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef=mattpocock/productivity, genericSkillRef=productivity via `gaia dev fuse`."
           }
         ],
         "suiteRef": "mattpocock/skills",
         "suiteComponents": [
           "mattpocock/grill-me",
           "mattpocock/handoff",
+          "mattpocock/teach",
+          "mattpocock/to-questionnaire",
+          "mattpocock/wait-what",
           "mattpocock/write-a-skill"
         ],
-        "trustMagnitude": 90.0,
-        "overallTrustGrade": "B",
+        "trustMagnitude": 180.0,
+        "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "aa642025793e17cfcbb52c5a22e59c701ec8ac599342bec37e02979bf496e192",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -21635,9 +21680,9 @@
         "installBody": "This skill is included in the Matt Pocock skills suite. It is highly recommended to install the full suite to enable cross-skill context sharing.\n\n```bash\nnpx skills@latest add mattpocock/skills\n```\n\nNo additional setup required beyond the main suite installation.",
         "role": "origin",
         "branch": "suite",
-        "rank": 4,
-        "rankWord": "Extra",
-        "medallion": "◆",
+        "rank": 3,
+        "rankWord": "Evolved",
+        "medallion": "◇",
         "contractVersion": "gaia-public-v1",
         "ultimateGateStatus": {
           "passes": false,
@@ -21793,8 +21838,15 @@
             "action": "evidence_added",
             "contributor": "marco-tngsn",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/research/SKILL.md (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-20T04:55:12Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to mattpocock/engineering"
           }
         ],
+        "suiteRef": "mattpocock/engineering",
         "type": "fusion",
         "installBody": "Add installation instructions here.",
         "role": "variant",
@@ -22246,6 +22298,7 @@
           }
         ],
         "suiteComponents": [
+          "mattpocock/code-review",
           "mattpocock/diagnose",
           "mattpocock/edit-article",
           "mattpocock/engineering",
@@ -22257,15 +22310,21 @@
           "mattpocock/personal",
           "mattpocock/productivity",
           "mattpocock/prototype",
+          "mattpocock/research",
           "mattpocock/setup-matt-pocock-skills",
+          "mattpocock/teach",
+          "mattpocock/to-questionnaire",
           "mattpocock/to-spec",
           "mattpocock/to-tickets",
           "mattpocock/triage",
           "mattpocock/ubiquitous-language",
+          "mattpocock/wait-what",
+          "mattpocock/wayfinder",
+          "mattpocock/wizard",
           "mattpocock/write-a-skill",
           "mattpocock/zoom-out"
         ],
-        "trustMagnitude": 489.45,
+        "trustMagnitude": 528.95,
         "overallTrustGrade": "S",
         "trustMagnitudeInputHash": "349d174f8f94cd100299e12ac72dde50e45702118e3e22c9d36cf4091e48f522",
         "apexGateStatus": {
@@ -22332,8 +22391,15 @@
             "action": "evidence_added",
             "contributor": "marco-tngsn",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/to-questionnaire/SKILL.md (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-20T04:55:14Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to mattpocock/productivity"
           }
         ],
+        "suiteRef": "mattpocock/productivity",
         "type": "basic",
         "installBody": "Add installation instructions here.",
         "role": "variant",
@@ -22850,8 +22916,15 @@
             "action": "evidence_added",
             "contributor": "marco-tngsn",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/productivity/wait-what/SKILL.md (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-20T04:55:15Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to mattpocock/productivity"
           }
         ],
+        "suiteRef": "mattpocock/productivity",
         "type": "basic",
         "installBody": "Add installation instructions here.",
         "role": "variant",
@@ -22914,8 +22987,15 @@
             "action": "evidence_added",
             "contributor": "marco-tngsn",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/wayfinder/SKILL.md (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-20T04:55:13Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to mattpocock/engineering"
           }
         ],
+        "suiteRef": "mattpocock/engineering",
         "type": "basic",
         "installBody": "Add installation instructions here.",
         "role": "variant",
@@ -22978,8 +23058,15 @@
             "action": "evidence_added",
             "contributor": "marco-tngsn",
             "details": "Added evidence from https://github.com/mattpocock/skills/blob/main/skills/engineering/wizard/SKILL.md (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-20T04:55:13Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to mattpocock/engineering"
           }
         ],
+        "suiteRef": "mattpocock/engineering",
         "type": "basic",
         "installBody": "Add installation instructions here.",
         "role": "variant",

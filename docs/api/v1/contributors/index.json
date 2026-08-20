@@ -19,9 +19,9 @@
       "topSkill": {
         "id": "mattpocock/skills",
         "level": "5★",
-        "trustMagnitude": 489.45
+        "trustMagnitude": 528.95
       },
-      "prestigeScore": 2225.42,
+      "prestigeScore": 2436.88,
       "_links": {
         "self": "/api/v1/contributors/mattpocock.json"
       }

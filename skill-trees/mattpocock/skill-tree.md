@@ -19,7 +19,7 @@
 | ○ mattpocock/improve-codebase-architecture | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-04-30T00:00:00Z |
 | ○ mattpocock/obsidian-vault | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
 | ○ mattpocock/personal | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
-| ○ mattpocock/productivity | Basic | 4★ | Extra | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
+| ○ mattpocock/productivity | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
 | ○ mattpocock/prototype | Basic | 2★ | Named | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
 | ○ mattpocock/setup-matt-pocock-skills | Basic | 3★ | Evolved | mattpocock/gaia-skill-tree | 2026-05-21T00:00:00Z |
 | ○ mattpocock/skills | Basic | 5★ | Ultimate | mattpocock/gaia-skill-tree | 2026-05-22T00:00:00Z |
@@ -49,7 +49,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — mattpocock  ·  generated 2026-08-19
+GAIA SKILL TREE — mattpocock  ·  generated 2026-08-20
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -236,9 +236,23 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │  │  ├─ · ○ garrytan/design-html  [3★]  (↑ see above)
   │  │  └─ · ○ /code-execution  (↑ see above)
   │  ├─ ✓ ○ addy-osmani/code-simplification  [3★]
-  │  └─ ✓ · garrytan/garrytan  [4★]
-  │     ├─ · ○ /plan-decompose  (↑ see above)
-  │     └─ ✓ ○ ████████/ask-matt
+  │  ├─ ✓ · garrytan/garrytan  [4★]
+  │  │  ├─ · ○ /plan-decompose  (↑ see above)
+  │  │  └─ ✓ ○ ████████/ask-matt
+  │  ├─ · · obra/requesting-code-review  [2★]
+  │  │  ├─ · · addy-osmani/code-review-and-quality  [3★]
+  │  │  │  ├─ · ○ garrytan/design-html  [3★]  (↑ see above)
+  │  │  │  ├─ · ○ /diff-content
+  │  │  │  └─ · ○ garrytan/benchmark  [3★]  (↑ see above)
+  │  │  └─ · · obra/dispatching-parallel-agents  [3★]
+  │  │     ├─ · ○ /plan-decompose  (↑ see above)
+  │  │     └─ · ○ ████████/parallel-execution
+  │  ├─ · · mattpocock/research  [2★]
+  │  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]
+  │  │  ├─ · ○ /summarize
+  │  │  └─ · ○ /cite-sources
+  │  ├─ · ○ mattpocock/wayfinder  [2★]
+  │  └─ · ○ mattpocock/wizard  [2★]
   ├─ · · mattpocock/misc  [3★]
   │  ├─ ✓ · garrytan/careful  [3★]
   │  │  ├─ · ○ garrytan/benchmark  [3★]  (↑ see above)
@@ -249,16 +263,21 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   │     ├─ · ○ /generate-text
   │     ├─ · ○ /structured-output  (↑ see above)
   │     └─ · ○ garrytan/design-html  [3★]  (↑ see above)
-  ├─ ✓ · mattpocock/productivity  [4★]
+  ├─ ✓ · mattpocock/productivity  [3★]
   │  ├─ ✓ · mattpocock/handoff  [3★]
-  │  │  ├─ · ○ /summarize
+  │  │  ├─ · ○ /summarize  (↑ see above)
   │  │  ├─ ✓ ○ garrytan/document-generate  [3★]  (↑ see above)
   │  │  └─ · ○ garrytan/context-restore  [2★]
   │  ├─ · ○ garrytan/context-restore  [2★]  (↑ see above)
   │  ├─ ✓ · mattpocock/grill-me  [3★]  (↑ see above)
-  │  └─ ✓ · mattpocock/write-a-skill  [3★]
-  │     ├─ · ○ garrytan/design-html  [3★]  (↑ see above)
-  │     └─ · ○ /tool-use  (↑ see above)
+  │  ├─ ✓ · mattpocock/write-a-skill  [3★]
+  │  │  ├─ · ○ garrytan/design-html  [3★]  (↑ see above)
+  │  │  └─ · ○ /tool-use  (↑ see above)
+  │  ├─ ✓ · garrytan/setup-gbrain  [2★]
+  │  │  ├─ · ○ ████████/hf-cli
+  │  │  └─ · ○ /retrieve
+  │  ├─ · ○ mattpocock/to-questionnaire  [2★]
+  │  └─ · ○ mattpocock/wait-what  [2★]
   └─ ✓ · mattpocock/write-a-skill  [3★]  (↑ see above)
 
 · ◆ obra/superpowers  [5★]

@@ -49,12 +49,20 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Calibrated level from 4★ to 3★
+- timestamp: '2026-08-20T04:52:58Z'
+  action: suite_ref_set
+  contributor: mbtiongson1
+  details: Set suiteRef=mattpocock/productivity, genericSkillRef=productivity via
+    `gaia dev fuse`.
 suiteRef: mattpocock/skills
 trustMagnitudeInputHash: aa642025793e17cfcbb52c5a22e59c701ec8ac599342bec37e02979bf496e192
 suiteComponents:
-- mattpocock/grill-me
-- mattpocock/handoff
-- mattpocock/write-a-skill
+  - mattpocock/grill-me
+  - mattpocock/handoff
+  - mattpocock/teach
+  - mattpocock/to-questionnaire
+  - mattpocock/wait-what
+  - mattpocock/write-a-skill
 ---
 ## Overview
 
