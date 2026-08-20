@@ -47,7 +47,7 @@ timeline:
     and was never meant to be public. No replacement. (Issue #1453)'
 - timestamp: '2026-08-20T04:39:10Z'
   action: demote
-  contributor: marco-tngsn
+  contributor: mbtiongson1
   details: Calibrated level from 4★ to 3★
 suiteRef: mattpocock/skills
 trustMagnitudeInputHash: aa642025793e17cfcbb52c5a22e59c701ec8ac599342bec37e02979bf496e192
