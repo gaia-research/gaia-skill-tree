@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-08-20T08:09:35Z",
+  "generatedAt": "2026-08-20T09:54:51Z",
   "firstRun": false,
   "skills": [
     {
@@ -211,6 +211,20 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/safishamsi/graphify.json"
+      }
+    },
+    {
+      "id": "ruvnet/ruflo-v3",
+      "name": "Ruflo V3",
+      "level": "4★",
+      "contributor": "ruvnet",
+      "trustMagnitude": 216.0,
+      "overallTrustGrade": "A",
+      "trendingScore": 33.23,
+      "tmDelta": 30.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/ruflo-v3.json"
       }
     },
     {
@@ -491,6 +505,20 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/pbakaus/impeccable.json"
+      }
+    },
+    {
+      "id": "addy-osmani/test-driven-development",
+      "name": "Test-Driven Development",
+      "level": "2★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 45.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 14.0,
+      "tmDelta": 9.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/test-driven-development.json"
       }
     },
     {
@@ -984,7 +1012,7 @@
       }
     }
   ],
-  "totalTrending": 70,
+  "totalTrending": 72,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }

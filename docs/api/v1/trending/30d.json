@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-08-20T08:09:35Z",
+  "generatedAt": "2026-08-20T09:54:51Z",
   "firstRun": false,
   "skills": [
     {
@@ -116,6 +116,20 @@
       }
     },
     {
+      "id": "ruvnet/ruflo-v3",
+      "name": "Ruflo V3",
+      "level": "4★",
+      "contributor": "ruvnet",
+      "trustMagnitude": 216.0,
+      "overallTrustGrade": "A",
+      "trendingScore": 108.0,
+      "tmDelta": 216.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/ruvnet/ruflo-v3.json"
+      }
+    },
+    {
       "id": "anthropic/skill-creator",
       "name": "Skill Creator",
       "level": "3★",
@@ -183,20 +197,6 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/nextlevelbuilder/ui-ux-pro-max.json"
-      }
-    },
-    {
-      "id": "ruvnet/ruflo-v3",
-      "name": "Ruflo V3",
-      "level": "4★",
-      "contributor": "ruvnet",
-      "trustMagnitude": 186.0,
-      "overallTrustGrade": "A",
-      "trendingScore": 93.0,
-      "tmDelta": 186.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/ruvnet/ruflo-v3.json"
       }
     },
     {
@@ -1460,6 +1460,20 @@
       }
     },
     {
+      "id": "addy-osmani/test-driven-development",
+      "name": "Test-Driven Development",
+      "level": "2★",
+      "contributor": "addy-osmani",
+      "trustMagnitude": 45.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 22.5,
+      "tmDelta": 45.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/test-driven-development.json"
+      }
+    },
+    {
       "id": "mattpocock/improve-codebase-architecture",
       "name": "Improve Codebase Architecture",
       "level": "2★",
@@ -1793,20 +1807,6 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/Manavarya09/design-extract.json"
-      }
-    },
-    {
-      "id": "addy-osmani/test-driven-development",
-      "name": "Test-Driven Development",
-      "level": "2★",
-      "contributor": "addy-osmani",
-      "trustMagnitude": 36.0,
-      "overallTrustGrade": "C",
-      "trendingScore": 18.0,
-      "tmDelta": 36.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/test-driven-development.json"
       }
     },
     {
