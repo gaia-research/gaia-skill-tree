@@ -146,6 +146,41 @@ def test_dev_fuse_writes_suite_manifest_with_capstone(tmp_path):
     assert cap_meta["suiteComponents"] == ["acme/comp1", "acme/comp2"]
 
 
+def test_dev_fuse_preserves_existing_suiteref_on_recalibration(tmp_path):
+    """Re-fusing an existing sub-suite capstone to add components must not
+    clobber its suiteRef pointer to a parent suite with a self-reference
+    (regression: mattpocock/engineering's suiteRef=mattpocock/skills was
+    overwritten to suiteRef=mattpocock/engineering when re-fused to add
+    orphaned components, 2026-08-20)."""
+    root = _make_registry(tmp_path)
+    named_dir = Path(root) / "registry" / "named"
+    _write_named(named_dir, "acme/sub-suite")
+    _write_named(named_dir, "acme/new-comp")
+
+    # sub-suite already points up to a parent suite capstone.
+    from gaia_cli.commands.dev.helpers import _parse_md, _write_md
+    cap_path = named_dir / "acme" / "sub-suite.md"
+    cap_meta, cap_body = _parse_md(cap_path)
+    cap_meta["suiteRef"] = "acme/parent-suite"
+    cap_meta["genericSkillRef"] = "sub-suite-fusion"
+    cap_meta["suiteComponents"] = ["acme/existing-comp"]
+    _write_md(cap_path, cap_meta, cap_body)
+
+    nodes_dir = Path(root) / "registry" / "nodes"
+    _write_generic(nodes_dir, "sub-suite-fusion", skill_type="fusion")
+
+    meta_dev_fuse_command(_args(
+        root, "sub-suite-fusion",
+        named_capstone="acme/sub-suite",
+        suite_components="acme/new-comp",
+    ))
+
+    from gaia_cli.commands.dev.helpers import _parse_md as _reread
+    updated_meta, _ = _reread(cap_path)
+    assert updated_meta["suiteRef"] == "acme/parent-suite"
+    assert updated_meta["suiteComponents"] == ["acme/existing-comp", "acme/new-comp"]
+
+
 def test_dev_fuse_updates_existing_suite_manifest_preserves_subsuites(tmp_path):
     """Existing manifests with structured sub-suites must not be flattened into standalones."""
     root = _make_registry(tmp_path)
