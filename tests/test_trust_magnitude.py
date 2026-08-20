@@ -1148,3 +1148,58 @@ def test_asOriginCountingUsesIntendedClosureAndDoesNotOvercount():
     }
     assert checkAGradedOriginsGte5(skillVariant, genericSkillMap=genericSkillMapVariant) is False
 
+
+# ---------------------------------------------------------------------------
+# Batch M: genericSkillMap=None fusion-recipe fallback (Issue #1600)
+# ---------------------------------------------------------------------------
+
+
+def test_gradedOriginCount_with_no_map_assumes_every_bare_id_origin_is_graded():
+    """Reproduces the Issue #1600 root cause: a suite skill appraised with
+
+    genericSkillMap=None (scripts/trust_appraise.py's bug before the fix)
+    cannot tell whether a bare-string suiteComponents origin is graded, so it
+    optimistically counts every origin as graded >= C. With the real map, only
+    origins that actually resolve to a graded skill count.
+    """
+    skill = {
+        "id": "host/suite",
+        "suiteComponents": ["comp/a", "comp/b", "comp/c", "comp/d"],
+    }
+    tmWithoutMap = computeTrustMagnitude(skill, genericSkillMap=None)
+
+    # Only 2 of the 4 origins are actually graded in the real registry.
+    # _gradedOriginCount resolves grade via _highestGradeFromEvidence over the
+    # origin's own evidence rows (matching how a real named skill's grade is
+    # derived) — not a cached overallTrustGrade/overallGrade field.
+    genericSkillMap = {
+        "comp/a": {"id": "comp/a", "evidence": [{"type": "repo-own", "grade": "B"}]},
+        "comp/b": {"id": "comp/b", "evidence": [{"type": "repo-own", "grade": "C"}]},
+        "comp/c": {"id": "comp/c", "evidence": []},
+        "comp/d": {"id": "comp/d"},
+    }
+    tmWithMap = computeTrustMagnitude(skill, genericSkillMap=genericSkillMap)
+
+    # No-map fallback assumes all 4 origins graded: 20*4*1.5 = 120.
+    assert tmWithoutMap == pytest.approx(120.0)
+    # Real map resolves only 2 graded origins: 20*2*1.5 = 60.
+    assert tmWithMap == pytest.approx(60.0)
+    assert tmWithoutMap > tmWithMap
+
+
+def test_gradedOriginCount_with_map_ignores_ungraded_bare_id_origins():
+    """A registry map with zero graded origins should score the fusion-recipe
+
+    row at 0, unlike the None-map fallback which would assume all graded.
+    """
+    skill = {
+        "id": "host/suite",
+        "suiteComponents": ["comp/a", "comp/b"],
+    }
+    genericSkillMap = {
+        "comp/a": {"id": "comp/a"},
+        "comp/b": {"id": "comp/b"},
+    }
+    tm = computeTrustMagnitude(skill, genericSkillMap=genericSkillMap)
+    assert tm == pytest.approx(0.0)
+

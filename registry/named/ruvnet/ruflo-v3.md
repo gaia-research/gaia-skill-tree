@@ -21,7 +21,7 @@ tags:
 - security
 - memory-unification
 createdAt: '2026-05-19'
-updatedAt: '2026-07-20'
+updatedAt: '2026-08-20'
 suiteRef: ruvnet/ruflo
 suiteComponents:
 - ruvnet/swarm-advanced
@@ -78,7 +78,12 @@ timeline:
     → fusion (Yggdrasil II taxonomy migration #997)'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-20
-trustMagnitude: 186.0
+- timestamp: '2026-08-20T09:34:06Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 186.0 -> 216.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
+trustMagnitude: 216.0
 overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false

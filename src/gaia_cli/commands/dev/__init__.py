@@ -34,6 +34,7 @@ from gaia_cli.commands.dev.rename import meta_rename_command
 from gaia_cli.commands.dev.calibrate import (
     meta_calibrate_command,
     calibrate_evidence_grades_command,
+    calibrate_trust_magnitude_command,
 )
 from gaia_cli.commands.dev.audit import (
     meta_audit_command,
@@ -353,6 +354,27 @@ class DevCommand(Command):
         )
         _add_build_flags(dev_calibrate_ev, "backfill")
         dev_calibrate_ev.add_argument(
+            "--yes", "-y", action="store_true", help="Skip confirmation prompt"
+        )
+
+        dev_calibrate_tm = dev_sub.add_parser(
+            "calibrate-trust-magnitude",
+            help="Refresh cached trustMagnitude/overallTrustGrade/trustMagnitudeInputHash "
+                 "frontmatter fields from the canonical computeTrustMagnitude pipeline (Issue #1600)",
+        )
+        dev_calibrate_tm.add_argument(
+            "--skill", action="append", metavar="CONTRIBUTOR/SKILL-ID",
+            help="Named skill to refresh (repeatable, e.g. --skill mattpocock/skills --skill mattpocock/engineering)",
+        )
+        dev_calibrate_tm.add_argument(
+            "--all", action="store_true",
+            help="Refresh every named skill in the registry (mutually exclusive with --skill)",
+        )
+        dev_calibrate_tm.add_argument(
+            "--dry-run", action="store_true", help="Show old -> new TM/grade without writing"
+        )
+        _add_build_flags(dev_calibrate_tm, "recalibrating")
+        dev_calibrate_tm.add_argument(
             "--yes", "-y", action="store_true", help="Skip confirmation prompt"
         )
 
@@ -872,6 +894,7 @@ class DevCommand(Command):
             "rename",
             "calibrate",
             "calibrate-evidence-grades",
+            "calibrate-trust-magnitude",
             "evidence",
             "rm-evidence",
             "link",
@@ -924,6 +947,9 @@ class DevCommand(Command):
         elif dev_cmd == "calibrate-evidence-grades":
             from gaia_cli.commands.dev.calibrate import calibrate_evidence_grades_command
             calibrate_evidence_grades_command(args)
+        elif dev_cmd == "calibrate-trust-magnitude":
+            from gaia_cli.commands.dev.calibrate import calibrate_trust_magnitude_command
+            calibrate_trust_magnitude_command(args)
         elif dev_cmd == "add":
             from gaia_cli.commands.dev.build import meta_add_command
             meta_add_command(args)

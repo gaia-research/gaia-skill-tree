@@ -11,7 +11,7 @@ description: Engineering category suite for Matt Pocock's skills. Removed from m
   suite in v1.0.1.
 createdAt: '2026-05-21'
 updatedAt: '2026-08-20'
-trustMagnitude: 270.0
+trustMagnitude: 351.96
 overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -52,23 +52,28 @@ timeline:
   action: suite_ref_set
   contributor: mbtiongson1
   details: Set suiteRef to mattpocock/skills
+- timestamp: '2026-08-20T09:30:05Z'
+  action: recalibrate_trust_magnitude
+  contributor: mbtiongson1
+  details: 'TM 270.0 -> 351.96, grade A -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
 suiteRef: mattpocock/skills
-trustMagnitudeInputHash: 4c0c7b233e624b41fc0b52204b68f31891b2e5d33b311a17b288573ab2927bca
+trustMagnitudeInputHash: 84bb03bde46f1e5dbf730b2f8ee2abbfd93c5cd04481b6dcb983bfbe04e0a6b4
 suiteComponents:
-  - mattpocock/code-review
-  - mattpocock/diagnose
-  - mattpocock/grill-with-docs
-  - mattpocock/improve-codebase-architecture
-  - mattpocock/prototype
-  - mattpocock/research
-  - mattpocock/setup-matt-pocock-skills
-  - mattpocock/to-spec
-  - mattpocock/to-tickets
-  - mattpocock/triage
-  - mattpocock/ubiquitous-language
-  - mattpocock/wayfinder
-  - mattpocock/wizard
-  - mattpocock/zoom-out
+- mattpocock/code-review
+- mattpocock/diagnose
+- mattpocock/grill-with-docs
+- mattpocock/improve-codebase-architecture
+- mattpocock/prototype
+- mattpocock/research
+- mattpocock/setup-matt-pocock-skills
+- mattpocock/to-spec
+- mattpocock/to-tickets
+- mattpocock/triage
+- mattpocock/ubiquitous-language
+- mattpocock/wayfinder
+- mattpocock/wizard
+- mattpocock/zoom-out
 ---
 ## Overview
 

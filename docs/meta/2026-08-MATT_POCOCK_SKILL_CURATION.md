@@ -80,7 +80,7 @@ The Skill Tree currently preserves 40 Matt-attributed records. The ordinary publ
 
 Several recently surfaced entries—including `code-review`, `research`, `wayfinder`, `wizard`, `to-questionnaire`, and `wait-what`—are source-backed first-party implementations at 2★ / C. That confirms what the records are and where they come from. It does not claim independent usage results, benchmark performance, or equal validation across the Skill Tree.
 
-Stars and trust grades answer related but different questions. Stars describe a skill's place in Gaia's maturity ladder. The overall grade describes the strength of the evidence assembled around that record or collection. Gaia's current public projection and its underlying Trust Magnitude calculation have a small discrepancy for the capstone and Engineering collection, so this report intentionally uses the stable star and grade labels rather than presenting conflicting decimal values. The curation itself remains published while that value is reconciled.
+Stars and trust grades answer related but different questions. Stars describe a skill's place in Gaia's maturity ladder. The overall grade describes the strength of the evidence assembled around that record or collection. An earlier version of this report withheld the underlying decimal Trust Magnitude for the capstone and Engineering collection because the dry-run appraiser and the published projection briefly disagreed — a mismatch traced to the dry-run tool computing suite scores without the registry context needed to check whether each component was actually graded. That gap is closed: the appraiser, the published projection, and the source record now compute from the same registry-context-aware pipeline and agree.
 
 ## Current paths and preserved history
 

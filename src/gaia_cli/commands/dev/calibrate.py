@@ -266,3 +266,129 @@ def calibrate_evidence_grades_command(args):
         _run_docs_build(registry_path)
     elif getattr(args, "no_build", False):
         print("Skipping documentation rebuild as requested (--no-build).")
+
+
+def calibrate_trust_magnitude_command(args):
+    """Refresh cached trustMagnitude/overallTrustGrade/trustMagnitudeInputHash
+    frontmatter fields from the canonical computeTrustMagnitude pipeline (Issue #1600).
+
+    These three fields are a disposable cache — see
+    `gaia_cli.trustMagnitude.computeTrustMagnitudeInputHash` — written once by
+    the now-archived `scripts/archive/migrateTrustMagnitude.py` big-bang
+    migration and never re-stamped since. `scripts/generateNamedIndex.py`
+    already recomputes the live value whenever a suite/evidence edit
+    invalidates the stored hash, so the generated docs stay correct, but the
+    frontmatter itself is left frozen until an operator explicitly refreshes
+    it. This verb is that refresh — closing the "CLI gap" every prior
+    migration timeline entry for these fields has flagged.
+    """
+    from gaia_cli.registryMaps import buildMergedSkillMap
+    from gaia_cli.trustMagnitude import (
+        computeOverallTrustGradeFromSkill,
+        computeTrustMagnitude,
+        computeTrustMagnitudeInputHash,
+    )
+
+    registry_path = args.registry
+    dry_run = getattr(args, "dry_run", False)
+    skill_ids = list(getattr(args, "skill", None) or [])
+    refresh_all = getattr(args, "all", False)
+
+    if not skill_ids and not refresh_all:
+        print("Error: pass --skill CONTRIBUTOR/ID (repeatable) or --all.", file=sys.stderr)
+        sys.exit(1)
+    if skill_ids and refresh_all:
+        print("Error: --skill and --all are mutually exclusive.", file=sys.stderr)
+        sys.exit(1)
+
+    named_dir = Path(named_skills_dir(registry_path))
+
+    if refresh_all:
+        skill_ids = []
+        for md_file in sorted(named_dir.rglob("*.md")):
+            meta, _ = _parse_md(md_file)
+            if meta.get("status") == "named" and meta.get("id"):
+                skill_ids.append(meta["id"])
+
+    missing = []
+    resolved = {}
+    for skill_id in skill_ids:
+        node_file = _find_named_file(named_dir, skill_id)
+        if not node_file:
+            missing.append(skill_id)
+        else:
+            resolved[skill_id] = node_file
+
+    def _preflight_targets_exist():
+        if missing:
+            _fail_dev_preflight(
+                f"Named skill(s) not found: {', '.join(missing)}.",
+                fix="Pass an existing contributor/skill-id, e.g. "
+                    "`gaia dev calibrate-trust-magnitude --skill mattpocock/skills`.",
+            )
+
+    _run_dev_preflights([_preflight_targets_exist])
+
+    if not dry_run:
+        _confirm_destructive(
+            f"Recompute and write trustMagnitude/overallTrustGrade/trustMagnitudeInputHash "
+            f"for {len(resolved)} skill(s)?",
+            args,
+        )
+
+    merged_map = buildMergedSkillMap(registry_path)
+
+    changed = 0
+    unchanged = 0
+    for skill_id in skill_ids:
+        node_file = resolved[skill_id]
+        skill_data, body = _parse_md(node_file)
+
+        if not skill_data.get("evidence") and not skill_data.get("suiteComponents"):
+            print(f"  {skill_id}: warning -- no evidence[] and no suiteComponents, TM is trivially 0")
+
+        new_tm = round(computeTrustMagnitude(skill_data, merged_map), 2)
+        new_grade = computeOverallTrustGradeFromSkill(skill_data, merged_map)
+        new_hash = computeTrustMagnitudeInputHash(skill_data)
+
+        old_tm = skill_data.get("trustMagnitude")
+        old_grade = skill_data.get("overallTrustGrade")
+        old_hash = skill_data.get("trustMagnitudeInputHash")
+
+        same_tm = old_tm is not None and abs(float(old_tm) - new_tm) < 0.005
+        if same_tm and old_grade == new_grade and old_hash == new_hash:
+            print(f"  {skill_id}: no change (TM already {new_tm}, hash valid)")
+            unchanged += 1
+            continue
+
+        old_tm_str = old_tm if old_tm is not None else "(none)"
+        old_grade_str = old_grade if old_grade is not None else "(none)"
+        print(f"  {skill_id}: TM {old_tm_str} -> {new_tm}, grade {old_grade_str} -> {new_grade}")
+        changed += 1
+
+        if dry_run:
+            continue
+
+        skill_data["trustMagnitude"] = new_tm
+        skill_data["overallTrustGrade"] = new_grade
+        skill_data["trustMagnitudeInputHash"] = new_hash
+        skill_data["updatedAt"] = datetime.date.today().isoformat()
+        _write_md(node_file, skill_data, body)
+
+        append_skill_event(
+            skill_id,
+            "recalibrate_trust_magnitude",
+            _get_contributor(),
+            f"TM {old_tm_str} -> {new_tm}, grade {old_grade_str} -> {new_grade} "
+            f"(gaia dev calibrate-trust-magnitude; Issue #1600)",
+            registry_path=registry_path,
+        )
+
+    mode = "[DRY RUN] " if dry_run else ""
+    print(f"\n{mode}calibrate-trust-magnitude complete: {changed} updated, {unchanged} unchanged")
+
+    if not dry_run and not getattr(args, "no_build", False):
+        print("Regenerating registry and documentation...")
+        _run_docs_build(registry_path)
+    elif getattr(args, "no_build", False):
+        print("Skipping documentation rebuild as requested (--no-build).")

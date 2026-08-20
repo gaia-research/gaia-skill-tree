@@ -1,0 +1,84 @@
+"""Tests for gaia_cli.registryMaps.buildMergedSkillMap (Issue #1600).
+
+Covers:
+- Generic nodes and named skills merge into one {id: skillDict} map
+- Named entries win over a generic entry on id collision
+- Only status == "named" entries are included from the named half
+- The display-only `role` key is stripped from named entries
+- Missing registry/nodes or registry/named directories degrade gracefully
+"""
+
+import json
+from pathlib import Path
+
+from gaia_cli.registryMaps import buildMergedSkillMap
+
+
+def _write_generic_node(tmp_path: Path, skill_id: str, **fields) -> None:
+    nodes_dir = tmp_path / "registry" / "nodes" / "basic"
+    nodes_dir.mkdir(parents=True, exist_ok=True)
+    node = {"id": skill_id, "name": skill_id, "evidence": [], **fields}
+    (nodes_dir / f"{skill_id}.json").write_text(json.dumps(node), encoding="utf-8")
+
+
+def _write_named_skill(tmp_path: Path, skill_id: str, *, status: str = "named", **fields) -> None:
+    contributor, slug = skill_id.split("/", 1)
+    named_dir = tmp_path / "registry" / "named" / contributor
+    named_dir.mkdir(parents=True, exist_ok=True)
+    frontmatter = {
+        "id": skill_id,
+        "contributor": contributor,
+        "status": status,
+        "level": "2★",
+        **fields,
+    }
+    body = "\n".join(f"{k}: {json.dumps(v)}" for k, v in frontmatter.items())
+    (named_dir / f"{slug}.md").write_text(f"---\n{body}\n---\n## Installation\n", encoding="utf-8")
+
+
+def test_merges_generic_and_named_skills(tmp_path):
+    _write_generic_node(tmp_path, "research")
+    _write_named_skill(tmp_path, "alice/research-deep")
+
+    merged = buildMergedSkillMap(tmp_path)
+
+    assert "research" in merged
+    assert "alice/research-deep" in merged
+
+
+def test_named_entry_wins_on_id_collision(tmp_path):
+    _write_generic_node(tmp_path, "shared-id", name="generic-version")
+    # Not a realistic id shape (named ids are normally contributor/slug), but
+    # the merge semantics under test are id-keyed dict overlay regardless of
+    # shape — write the file directly rather than through the slug-splitting
+    # helper.
+    named_dir = tmp_path / "registry" / "named"
+    named_dir.mkdir(parents=True, exist_ok=True)
+    (named_dir / "shared-id.md").write_text(
+        '---\nid: "shared-id"\nstatus: "named"\nname: "named-version"\n---\n',
+        encoding="utf-8",
+    )
+
+    merged = buildMergedSkillMap(tmp_path)
+    assert merged["shared-id"]["name"] == "named-version"
+
+
+def test_excludes_non_named_status(tmp_path):
+    _write_named_skill(tmp_path, "bob/draft-skill", status="provisional")
+
+    merged = buildMergedSkillMap(tmp_path)
+
+    assert "bob/draft-skill" not in merged
+
+
+def test_strips_role_key_from_named_entries(tmp_path):
+    _write_named_skill(tmp_path, "alice/variant-skill", role="variant")
+
+    merged = buildMergedSkillMap(tmp_path)
+
+    assert "role" not in merged["alice/variant-skill"]
+
+
+def test_missing_registry_dirs_return_empty_map(tmp_path):
+    merged = buildMergedSkillMap(tmp_path)
+    assert merged == {}

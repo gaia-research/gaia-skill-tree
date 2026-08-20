@@ -23,6 +23,7 @@ SRC = REPO_ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
 
+from gaia_cli.registryMaps import buildMergedSkillMap  # noqa: E402
 from gaia_cli.trustMagnitude import (  # noqa: E402
     computeOverallTrustGrade,
     computeOverallTrustGradeFromSkill,
@@ -113,7 +114,14 @@ def appraiseNode(skillRef: str) -> dict[str, Any]:
     When the ref is ``contributor/slug``, the named skill's .md frontmatter is
     read first so the evidence array set by ``gaia dev evidence`` is used.
     Falls back to the generic JSON node if the named file does not exist.
+
+    A merged generic+named registry map (Issue #1600) is built once and
+    threaded through every TM call so suite/fusion skills (``suiteComponents``
+    present) resolve their fusion-recipe origin grades against the real
+    registry instead of falling back to computeTrustMagnitude's "assume
+    graded" guess for an unresolvable bare-id origin list.
     """
+    mergedMap = buildMergedSkillMap(REPO_ROOT)
     parts = skillRef.split("/", 1)
     if len(parts) == 2:
         contributor, skillId = parts
@@ -127,10 +135,10 @@ def appraiseNode(skillRef: str) -> dict[str, Any]:
 
             _, fmText, _ = split_frontmatter(namedPath.read_text(encoding="utf-8"))
             skill = load_yaml_simple(fmText)
-            tm = computeTrustMagnitude(skill)
-            grade = computeOverallTrustGradeFromSkill(skill)
-            rowScores = computeRowArtifactScores(skill)
-            byType = computeTrustMagnitudeByType(skill)
+            tm = computeTrustMagnitude(skill, mergedMap)
+            grade = computeOverallTrustGradeFromSkill(skill, mergedMap)
+            rowScores = computeRowArtifactScores(skill, mergedMap)
+            byType = computeTrustMagnitudeByType(skill, mergedMap)
             return {
                 "skillRef": skillRef,
                 "tm": round(tm, 2),
@@ -169,10 +177,10 @@ def appraiseNode(skillRef: str) -> dict[str, Any]:
         return {"skillRef": skillRef, "error": f"node not found for {skillRef!r}"}
 
     skill = json.loads(nodePath.read_text(encoding="utf-8"))
-    tm = computeTrustMagnitude(skill)
-    grade = computeOverallTrustGradeFromSkill(skill)
-    rowScores = computeRowArtifactScores(skill)
-    byType = computeTrustMagnitudeByType(skill)
+    tm = computeTrustMagnitude(skill, mergedMap)
+    grade = computeOverallTrustGradeFromSkill(skill, mergedMap)
+    rowScores = computeRowArtifactScores(skill, mergedMap)
+    byType = computeTrustMagnitudeByType(skill, mergedMap)
 
     return {
         "skillRef": skillRef,

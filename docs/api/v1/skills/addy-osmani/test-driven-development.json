@@ -5,7 +5,7 @@
   "level": "2★",
   "type": "basic",
   "status": "named",
-  "trustMagnitude": 36.0,
+  "trustMagnitude": 45.0,
   "overallTrustGrade": "C",
   "branch": "standard",
   "rankWord": "Named",
@@ -96,6 +96,12 @@
       "action": "suite_ref_set",
       "contributor": "unknown",
       "details": "Set suiteRef to addy-osmani/agent-skills"
+    },
+    {
+      "timestamp": "2026-08-20T09:34:05Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "mbtiongson1",
+      "details": "TM 36.0 -> 45.0, grade C -> C (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {
