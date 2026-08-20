@@ -175,7 +175,7 @@ This is the evidence grade at the Skill level.
 **1. CLI**
 
 <!-- gaia:version-start -->
-Current Gaia CLI version: `7.7.9`.
+Current Gaia CLI version: `7.8.0`.
 
 ```bash
 curl -fsSL https://gaiaskilltree.com/install.sh | sh
