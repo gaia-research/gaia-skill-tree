@@ -1,6 +1,6 @@
 {
   "window": "30d",
-  "generatedAt": "2026-08-19T16:48:59Z",
+  "generatedAt": "2026-08-20T06:48:03Z",
   "firstRun": false,
   "skills": [
     {
@@ -88,6 +88,20 @@
       }
     },
     {
+      "id": "mattpocock/productivity",
+      "name": "Productivity",
+      "level": "3★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 180.0,
+      "overallTrustGrade": "A",
+      "trendingScore": 120.0,
+      "tmDelta": 60.0,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/productivity.json"
+      }
+    },
+    {
       "id": "nextlevelbuilder/ui-ux-pro-max",
       "name": "UI/UX Pro Max",
       "level": "4★",
@@ -99,6 +113,20 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/nextlevelbuilder/ui-ux-pro-max.json"
+      }
+    },
+    {
+      "id": "mattpocock/engineering",
+      "name": "Engineering",
+      "level": "4★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 351.96,
+      "overallTrustGrade": "A",
+      "trendingScore": 88.03,
+      "tmDelta": 81.96,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/engineering.json"
       }
     },
     {
@@ -298,6 +326,20 @@
       }
     },
     {
+      "id": "mattpocock/skills",
+      "name": "Matt Pocock Skills",
+      "level": "5★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 528.95,
+      "overallTrustGrade": "S",
+      "trendingScore": 50.69,
+      "tmDelta": 48.66,
+      "new": false,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/skills.json"
+      }
+    },
+    {
       "id": "ruvnet/hive-mind",
       "name": "Hive Mind",
       "level": "3★",
@@ -494,6 +536,20 @@
       }
     },
     {
+      "id": "mattpocock/tdd",
+      "name": "TDD",
+      "level": "3★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 50.0,
+      "overallTrustGrade": "B",
+      "trendingScore": 25.0,
+      "tmDelta": 50.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/tdd.json"
+      }
+    },
+    {
       "id": "k-dense-ai/rdkit",
       "name": "RDKit",
       "level": "2★",
@@ -561,6 +617,174 @@
       "new": true,
       "_links": {
         "self": "/api/v1/skills/gaia-research/ci-churn.json"
+      }
+    },
+    {
+      "id": "mattpocock/ask-matt",
+      "name": "Ask Matt",
+      "level": "2★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 20.5,
+      "tmDelta": 41.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/ask-matt.json"
+      }
+    },
+    {
+      "id": "mattpocock/codebase-design",
+      "name": "Codebase Design",
+      "level": "2★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 20.5,
+      "tmDelta": 41.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/codebase-design.json"
+      }
+    },
+    {
+      "id": "mattpocock/diagnosing-bugs",
+      "name": "Diagnosing Bugs",
+      "level": "2★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 20.5,
+      "tmDelta": 41.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/diagnosing-bugs.json"
+      }
+    },
+    {
+      "id": "mattpocock/domain-modeling",
+      "name": "Domain Modeling",
+      "level": "2★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 20.5,
+      "tmDelta": 41.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/domain-modeling.json"
+      }
+    },
+    {
+      "id": "mattpocock/git-guardrails-claude-code",
+      "name": "Git Guardrails Claude Code",
+      "level": "2★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 20.5,
+      "tmDelta": 41.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/git-guardrails-claude-code.json"
+      }
+    },
+    {
+      "id": "mattpocock/grilling",
+      "name": "Grilling",
+      "level": "2★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 20.5,
+      "tmDelta": 41.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/grilling.json"
+      }
+    },
+    {
+      "id": "mattpocock/implement",
+      "name": "Implement",
+      "level": "2★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 20.5,
+      "tmDelta": 41.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/implement.json"
+      }
+    },
+    {
+      "id": "mattpocock/migrate-to-shoehorn",
+      "name": "Migrate to Shoehorn",
+      "level": "2★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 20.5,
+      "tmDelta": 41.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/migrate-to-shoehorn.json"
+      }
+    },
+    {
+      "id": "mattpocock/resolving-merge-conflicts",
+      "name": "Resolving Merge Conflicts",
+      "level": "2★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 20.5,
+      "tmDelta": 41.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/resolving-merge-conflicts.json"
+      }
+    },
+    {
+      "id": "mattpocock/scaffold-exercises",
+      "name": "Scaffold Exercises",
+      "level": "2★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 20.5,
+      "tmDelta": 41.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/scaffold-exercises.json"
+      }
+    },
+    {
+      "id": "mattpocock/setup-pre-commit",
+      "name": "Setup Pre-Commit",
+      "level": "2★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 20.5,
+      "tmDelta": 41.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/setup-pre-commit.json"
+      }
+    },
+    {
+      "id": "mattpocock/writing-for-agents",
+      "name": "Writing For Agents",
+      "level": "2★",
+      "contributor": "mattpocock",
+      "trustMagnitude": 41.0,
+      "overallTrustGrade": "C",
+      "trendingScore": 20.5,
+      "tmDelta": 41.0,
+      "new": true,
+      "_links": {
+        "self": "/api/v1/skills/mattpocock/writing-for-agents.json"
       }
     },
     {
@@ -827,20 +1051,6 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/obra/subagent-driven-development.json"
-      }
-    },
-    {
-      "id": "mattpocock/skills",
-      "name": "Matt Pocock Skills",
-      "level": "5★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 489.45,
-      "overallTrustGrade": "S",
-      "trendingScore": 9.54,
-      "tmDelta": 9.16,
-      "new": false,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/skills.json"
       }
     },
     {
@@ -1250,7 +1460,7 @@
       }
     }
   ],
-  "totalTrending": 89,
+  "totalTrending": 104,
   "_links": {
     "self": "/api/v1/trending/30d.json"
   }

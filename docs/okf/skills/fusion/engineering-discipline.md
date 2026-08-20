@@ -4,7 +4,7 @@ title: "mattpocock-engineering"
 description: "Engineering category suite for Matt Pocock's skills."
 resource: "https://gaiaskilltree.com/codex.html#engineering-discipline"
 tags: ["gaia-skill-tree", "fusion-skill"]
-timestamp: "2026-08-19T00:00:00Z"
+timestamp: "2026-08-20T00:00:00Z"
 ---
 
 # mattpocock-engineering
@@ -25,4 +25,8 @@ Engineering category suite for Matt Pocock's skills.
 - [prototype](/skills/fusion/prototype.md)
 - [Refactor Code](/skills/basic/refactor-code.md)
 - [Vertical Slice Planning](/skills/fusion/vertical-slice-planning.md)
+- [Requesting Code Review](/skills/fusion/requesting-code-review.md)
+- [Research](/skills/fusion/research.md)
+- [Decision Ticket Planning](/skills/basic/decision-ticket-planning.md)
+- [Guided Setup Scripting](/skills/basic/guided-setup-scripting.md)
 

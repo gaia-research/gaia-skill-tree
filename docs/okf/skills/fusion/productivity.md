@@ -4,7 +4,7 @@ title: "mattpocock-productivity"
 description: "Productivity category suite for Matt Pocock's skills."
 resource: "https://gaiaskilltree.com/codex.html#productivity"
 tags: ["gaia-skill-tree", "fusion-skill"]
-timestamp: "2026-07-16T00:00:00Z"
+timestamp: "2026-08-20T00:00:00Z"
 ---
 
 # mattpocock-productivity
@@ -19,4 +19,7 @@ Productivity category suite for Matt Pocock's skills.
 - [Context Compression](/skills/basic/context-compression.md)
 - [Grill Me](/skills/fusion/grill-me.md)
 - [Tool Creation](/skills/fusion/tool-creation.md)
+- [Knowledge Management](/skills/fusion/knowledge-management.md)
+- [Questionnaire Generation](/skills/basic/questionnaire-generation.md)
+- [Plain Language Restatement](/skills/basic/plain-language-restatement.md)
 

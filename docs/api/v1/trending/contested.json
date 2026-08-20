@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-19T16:48:59Z",
+  "generatedAt": "2026-08-20T06:48:03Z",
   "buckets": [
     {
       "genericSkillRef": "git-ship-done-pipeline",
@@ -45,7 +45,7 @@
     },
     {
       "genericSkillRef": "refactor-code",
-      "implementations": 2,
+      "implementations": 3,
       "topTM": 196.3,
       "skills": [
         {
@@ -58,6 +58,13 @@
         {
           "id": "mattpocock/improve-codebase-architecture",
           "trustMagnitude": 45.0,
+          "level": "2★",
+          "overallTrustGrade": "C",
+          "origin": false
+        },
+        {
+          "id": "mattpocock/migrate-to-shoehorn",
+          "trustMagnitude": 41.0,
           "level": "2★",
           "overallTrustGrade": "C",
           "origin": false
@@ -346,7 +353,7 @@
     },
     {
       "genericSkillRef": "executing-plans",
-      "implementations": 2,
+      "implementations": 3,
       "topTM": 101.3,
       "skills": [
         {
@@ -361,6 +368,13 @@
           "trustMagnitude": 95.15,
           "level": "3★",
           "overallTrustGrade": "B",
+          "origin": false
+        },
+        {
+          "id": "mattpocock/implement",
+          "trustMagnitude": 41.0,
+          "level": "2★",
+          "overallTrustGrade": "C",
           "origin": false
         }
       ]

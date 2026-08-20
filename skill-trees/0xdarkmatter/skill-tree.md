@@ -17,7 +17,7 @@
 ## Upgrade Path
 
 ```
-GAIA SKILL TREE — 0xdarkmatter  ·  generated 2026-08-19
+GAIA SKILL TREE — 0xdarkmatter  ·  generated 2026-08-20
 ══════════════════════════════════════════════════════════════════════
 ✓ = owned   · = unowned   ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -33,7 +33,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · ○ nextlevelbuilder/ui-ux-pro-max  [4★]
   ├─ · · garrytan/garrytan  [4★]
   │  ├─ · ○ /plan-decompose
-  │  └─ · ○ ████████/ask-matt
+  │  └─ · ○ mattpocock/ask-matt  [2★]
   ├─ · · garrytan/design-consultation  [3★]
   │  ├─ · · ████████/browse
   │  │  ├─ · ○ firecrawl/firecrawl-build-search  [4★]
