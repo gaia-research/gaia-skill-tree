@@ -99,6 +99,13 @@ def _preflight_starbar_blob_link(skill_id: str, skill_data: dict, level: str) ->
     three_star_plus = {"3★", "4★", "5★", "6★"}
     if level not in three_star_plus:
         return
+    if skill_data.get("suiteComponents"):
+        # Suite/fusion skills derive trust from their component skills, not a
+        # personal repo (Curation Guidelines: "Skills with suiteComponents need
+        # NO links.github of their own"). `gaia dev fuse` already creates such
+        # skills at 3★+ without one; calibrate must accept the same shape on
+        # recalibration (e.g. after a suiteComponents change shifts the grade).
+        return
     github_url = (skill_data.get("links") or {}).get("github", "")
     if github_url and "/blob/" in github_url:
         return

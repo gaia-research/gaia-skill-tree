@@ -6,11 +6,11 @@ origin: true
 title: The Matt Pocock Productivity Suite
 genericSkillRef: productivity
 status: named
-level: 4★
+level: 3★
 description: Productivity category suite for Matt Pocock's skills. Removed from mattpocock/skills
   suite in v1.0.1.
 createdAt: '2026-05-21'
-updatedAt: '2026-08-19'
+updatedAt: '2026-08-20'
 trustMagnitude: 120.0
 overallTrustGrade: A
 apexGateStatus:
@@ -45,12 +45,16 @@ timeline:
   details: 'Component mattpocock/caveman permanently removed (not frozen) from this
     suite: Author''s CHANGELOG: caveman was a duplicate of another skill being tested
     and was never meant to be public. No replacement. (Issue #1453)'
+- timestamp: '2026-08-20T04:39:10Z'
+  action: demote
+  contributor: marco-tngsn
+  details: Calibrated level from 4★ to 3★
 suiteRef: mattpocock/skills
 trustMagnitudeInputHash: aa642025793e17cfcbb52c5a22e59c701ec8ac599342bec37e02979bf496e192
 suiteComponents:
-  - mattpocock/grill-me
-  - mattpocock/handoff
-  - mattpocock/write-a-skill
+- mattpocock/grill-me
+- mattpocock/handoff
+- mattpocock/write-a-skill
 ---
 ## Overview
 
