@@ -1,0 +1,18 @@
+{
+  "type": "bar",
+  "caption": "Figure 1. Direct links listed by Gaia's published suite records. These are structural links, not deduplicated skill totals.",
+  "labels": [
+    "Matt Pocock Skills",
+    "Engineering",
+    "Productivity",
+    "Misc",
+    "Personal"
+  ],
+  "datasets": [
+    {
+      "label": "Direct component links",
+      "color": "#c8a84b",
+      "data": [25, 14, 6, 4, 2]
+    }
+  ]
+}

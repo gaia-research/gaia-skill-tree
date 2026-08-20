@@ -1,6 +1,17 @@
 {
   "posts": [
     {
+      "id": "2026-08-20-from-question-to-code-matt-pococks-skill-curation",
+      "type": "report",
+      "date": "2026-08-20",
+      "title": "From Question to Code: Matt Pocock's Skill Curation",
+      "summary": "Gaia's Matt Pocock curation maps a connected work loop—from shaping a problem to implementation, review, and handoff—while keeping suite structure, trust, and historical records visible.",
+      "label": "Suite Curation",
+      "url": "meta/reports/2026-08-20-from-question-to-code-matt-pococks-skill-curation.html",
+      "author": "Gaia Research",
+      "source": "docs/meta/2026-08-MATT_POCOCK_SKILL_CURATION.md"
+    },
+    {
       "id": "2026-08-10-98-out-of-100-arent-good-enough",
       "type": "report",
       "date": "2026-08-10",

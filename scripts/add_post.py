@@ -735,7 +735,7 @@ def render_report_html(
       <button type="button" class="ms-close" id="closeChangelogBtn">✕</button>
     </div>
     <div class="ms-body" id="changelogBody">
-      <div style="color:#666;font-size:0.9rem">Loading registry changelog…</div>
+      <div style="color:#666;font-size:0.9rem">Loading Skill Tree history…</div>
     </div>
   </aside>
 

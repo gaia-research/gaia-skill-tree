@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 430" role="img" aria-labelledby="title desc">
+  <title id="title">An editorial route through Matt Pocock's curated skills</title>
+  <desc id="desc">Five stages move from shaping a question to making work concrete, building with feedback, checking the change, and leaving a clear handoff.</desc>
+  <style>
+    .bg { fill: #fafaf8; }
+    .line { stroke: #c8a84b; stroke-width: 3; stroke-dasharray: 8 8; }
+    .tile { fill: #fff; stroke: #111; stroke-width: 1.5; }
+    .num { fill: #c8a84b; }
+    .ntext { fill: #111; font: 700 22px 'Bricolage Grotesque', Arial, sans-serif; }
+    .head { fill: #111; font: 700 20px 'Bricolage Grotesque', Arial, sans-serif; }
+    .body { fill: #444; font: 16px 'JetBrains Mono', monospace; }
+    .caption { fill: #666; font: italic 15px Georgia, serif; }
+  </style>
+  <rect class="bg" x="0" y="0" width="1200" height="430" rx="2"/>
+  <line class="line" x1="218" y1="184" x2="252" y2="184"/>
+  <line class="line" x1="448" y1="184" x2="482" y2="184"/>
+  <line class="line" x1="678" y1="184" x2="712" y2="184"/>
+  <line class="line" x1="908" y1="184" x2="942" y2="184"/>
+  <polygon fill="#c8a84b" points="252,184 242,178 242,190"/>
+  <polygon fill="#c8a84b" points="482,184 472,178 472,190"/>
+  <polygon fill="#c8a84b" points="712,184 702,178 702,190"/>
+  <polygon fill="#c8a84b" points="942,184 932,178 932,190"/>
+
+  <g transform="translate(18 75)">
+    <rect class="tile" width="200" height="220"/>
+    <circle class="num" cx="28" cy="30" r="17"/><text class="ntext" x="21" y="38">1</text>
+    <text class="head" x="20" y="78">Shape it</text>
+    <text class="body" x="20" y="116">domain-modeling</text>
+    <text class="body" x="20" y="142">grill-me</text>
+    <text class="body" x="20" y="168">to-spec</text>
+    <text class="caption" x="20" y="201">Name the problem.</text>
+  </g>
+  <g transform="translate(248 75)">
+    <rect class="tile" width="200" height="220"/>
+    <circle class="num" cx="28" cy="30" r="17"/><text class="ntext" x="21" y="38">2</text>
+    <text class="head" x="20" y="78">Make it visible</text>
+    <text class="body" x="20" y="116">to-tickets</text>
+    <text class="body" x="20" y="142">wayfinder</text>
+    <text class="body" x="20" y="168">triage</text>
+    <text class="caption" x="20" y="201">Give work a shape.</text>
+  </g>
+  <g transform="translate(478 75)">
+    <rect class="tile" width="200" height="220"/>
+    <circle class="num" cx="28" cy="30" r="17"/><text class="ntext" x="21" y="38">3</text>
+    <text class="head" x="20" y="78">Build with feedback</text>
+    <text class="body" x="20" y="116">implement</text>
+    <text class="body" x="20" y="142">tdd</text>
+    <text class="body" x="20" y="168">prototype</text>
+    <text class="caption" x="20" y="201">Test the behavior.</text>
+  </g>
+  <g transform="translate(708 75)">
+    <rect class="tile" width="200" height="220"/>
+    <circle class="num" cx="28" cy="30" r="17"/><text class="ntext" x="21" y="38">4</text>
+    <text class="head" x="20" y="78">Check the change</text>
+    <text class="body" x="20" y="116">diagnose</text>
+    <text class="body" x="20" y="142">code-review</text>
+    <text class="body" x="20" y="168">research</text>
+    <text class="caption" x="20" y="201">Look again.</text>
+  </g>
+  <g transform="translate(938 75)">
+    <rect class="tile" width="200" height="220"/>
+    <circle class="num" cx="28" cy="30" r="17"/><text class="ntext" x="21" y="38">5</text>
+    <text class="head" x="20" y="78">Leave a trail</text>
+    <text class="body" x="20" y="116">handoff</text>
+    <text class="body" x="20" y="142">teach</text>
+    <text class="body" x="20" y="168">wait-what</text>
+    <text class="caption" x="20" y="201">Make next steps clear.</text>
+  </g>
+  <text class="caption" x="600" y="360" text-anchor="middle">An editorial route through the Skill Tree — not a dependency graph or required sequence.</text>
+</svg>
