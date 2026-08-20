@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-11",
+  "generatedAt": "2026-08-19",
   "schema": "gaia-badges-registry/2",
   "description": "Approved repos per contributor for Gaia README badges. Derived from registry/named-skills.json `links.github` URLs. The site Worker at worker/index.js handles /badges/<handle>/<file>.svg (the real SVGs live at /badges/_assets/<handle>/<file>.svg) and serves the `validating\u2026` SVG (docs/badges/not-found.svg) when the `?repo=` query string doesn't match a repo listed here. Schema v2 adds `fileSeal` for the seal-only (no 'Gaia' wordmark) variant.",
   "contributors": {
@@ -1110,6 +1110,7 @@
       ],
       "skillsByRepo": {
         "mattpocock/skills": [
+          "mattpocock/code-review",
           "mattpocock/diagnose",
           "mattpocock/edit-article",
           "mattpocock/grill-me",
@@ -1118,20 +1119,25 @@
           "mattpocock/improve-codebase-architecture",
           "mattpocock/obsidian-vault",
           "mattpocock/prototype",
+          "mattpocock/research",
           "mattpocock/setup-matt-pocock-skills",
           "mattpocock/skills",
           "mattpocock/teach",
-          "mattpocock/to-issues",
-          "mattpocock/to-prd",
+          "mattpocock/to-questionnaire",
+          "mattpocock/to-spec",
+          "mattpocock/to-tickets",
           "mattpocock/triage",
           "mattpocock/ubiquitous-language",
+          "mattpocock/wait-what",
+          "mattpocock/wayfinder",
+          "mattpocock/wizard",
           "mattpocock/write-a-skill"
         ]
       },
       "topSkill": "mattpocock/skills",
       "topRank": 5,
       "topIsUnique": false,
-      "count": 33,
+      "count": 40,
       "namedSkills": [
         {
           "id": "mattpocock/skills",
@@ -1214,6 +1220,16 @@
           "fileSeal": "handoff-seal.svg"
         },
         {
+          "id": "mattpocock/misc",
+          "name": "Misc",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "suite",
+          "slash": "/misc",
+          "file": "misc.svg",
+          "fileSeal": "misc-seal.svg"
+        },
+        {
           "id": "mattpocock/obsidian-vault",
           "name": "Obsidian Vault Manager",
           "rank": 3,
@@ -1244,24 +1260,24 @@
           "fileSeal": "setup-matt-pocock-skills-seal.svg"
         },
         {
-          "id": "mattpocock/to-issues",
-          "name": "To Issues",
-          "rank": 3,
-          "type": "fusion",
-          "branch": "standard",
-          "slash": "/to-issues",
-          "file": "to-issues.svg",
-          "fileSeal": "to-issues-seal.svg"
-        },
-        {
-          "id": "mattpocock/to-prd",
+          "id": "mattpocock/to-spec",
           "name": "To PRD",
           "rank": 3,
           "type": "fusion",
           "branch": "standard",
-          "slash": "/to-prd",
-          "file": "to-prd.svg",
-          "fileSeal": "to-prd-seal.svg"
+          "slash": "/to-spec",
+          "file": "to-spec.svg",
+          "fileSeal": "to-spec-seal.svg"
+        },
+        {
+          "id": "mattpocock/to-tickets",
+          "name": "To Tickets",
+          "rank": 3,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/to-tickets",
+          "file": "to-tickets.svg",
+          "fileSeal": "to-tickets-seal.svg"
         },
         {
           "id": "mattpocock/triage",
@@ -1284,6 +1300,16 @@
           "fileSeal": "ubiquitous-language-seal.svg"
         },
         {
+          "id": "mattpocock/code-review",
+          "name": "Code Review",
+          "rank": 2,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/code-review",
+          "file": "code-review.svg",
+          "fileSeal": "code-review-seal.svg"
+        },
+        {
           "id": "mattpocock/improve-codebase-architecture",
           "name": "Improve Codebase Architecture",
           "rank": 2,
@@ -1304,6 +1330,16 @@
           "fileSeal": "prototype-seal.svg"
         },
         {
+          "id": "mattpocock/research",
+          "name": "Research",
+          "rank": 2,
+          "type": "fusion",
+          "branch": "standard",
+          "slash": "/research",
+          "file": "research.svg",
+          "fileSeal": "research-seal.svg"
+        },
+        {
           "id": "mattpocock/teach",
           "name": "Teach",
           "rank": 2,
@@ -1312,6 +1348,46 @@
           "slash": "/teach",
           "file": "teach.svg",
           "fileSeal": "teach-seal.svg"
+        },
+        {
+          "id": "mattpocock/to-questionnaire",
+          "name": "To Questionnaire",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/to-questionnaire",
+          "file": "to-questionnaire.svg",
+          "fileSeal": "to-questionnaire-seal.svg"
+        },
+        {
+          "id": "mattpocock/wait-what",
+          "name": "Wait What",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/wait-what",
+          "file": "wait-what.svg",
+          "fileSeal": "wait-what-seal.svg"
+        },
+        {
+          "id": "mattpocock/wayfinder",
+          "name": "Wayfinder",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/wayfinder",
+          "file": "wayfinder.svg",
+          "fileSeal": "wayfinder-seal.svg"
+        },
+        {
+          "id": "mattpocock/wizard",
+          "name": "Wizard",
+          "rank": 2,
+          "type": "basic",
+          "branch": "standard",
+          "slash": "/wizard",
+          "file": "wizard.svg",
+          "fileSeal": "wizard-seal.svg"
         },
         {
           "id": "mattpocock/write-a-skill",
