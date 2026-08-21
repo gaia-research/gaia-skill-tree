@@ -20,7 +20,7 @@ Secondary: Open-source contributors wanting to claim a Named Skill.
 |---|------|--------|--------|---------|
 | 1 | `index.html` | Docs Home | ✅ Done (tier-card blurbs fixed 027) | 001, 017, 018, 025, 027 |
 | 2 | `getting-started.html` | Getting Started | ✅ Done (updated 025) | 001, 017, 018, 025 |
-| 3 | `cli-reference.html` | CLI Reference | ✅ Done (updated 025) | 002, 017, 018, 025 |
+| 3 | `cli-reference.html` | CLI Reference | ✅ Done — added the undocumented `gaia dev calibrate`/`calibrate-evidence-grades`/`calibrate-trust-magnitude` verbs; fixed `--no-build` flag docs across the Registry dev section (rebuild is opt-in via `--build`, not opt-out, since v7.4.19) 034 | 002, 017, 018, 025, 034 |
 | 4 | `skill-hierarchy.html` | Skill Hierarchy | ✅ Done — Type/Branch model throughout, incl. Fusion section diagram (editor pass closes #1479) | 002, 018, 025, 028, editor-026wk |
 | 5 | `contributing.html` | Contributing | ✅ Done (updated 025) | 003, 017, 018, 025 |
 | 6 | `named-skills.html` | Named Skills & Origin | ✅ Done (updated 025) | 003, 017, 018, 025 |

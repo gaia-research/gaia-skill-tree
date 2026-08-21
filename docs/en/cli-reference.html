@@ -880,6 +880,9 @@
         <ul class="sidebar-links">
           <li><a href="#dev-add"><code>dev add</code></a></li>
           <li><a href="#dev-evidence"><code>dev evidence</code></a></li>
+          <li><a href="#dev-calibrate"><code>dev calibrate</code></a></li>
+          <li><a href="#dev-calibrate-evidence-grades"><code>dev calibrate-evidence-grades</code></a></li>
+          <li><a href="#dev-calibrate-trust-magnitude"><code>dev calibrate-trust-magnitude</code></a></li>
           <li><a href="#dev-merge"><code>dev merge</code></a></li>
           <li><a href="#dev-split"><code>dev split</code></a></li>
           <li><a href="#dev-rename"><code>dev rename</code></a></li>
@@ -969,6 +972,9 @@
           <ul class="toc-section-list">
             <li><a href="#dev-add"><code>dev add</code> — Add node</a></li>
             <li><a href="#dev-evidence"><code>dev evidence</code> — Add evidence</a></li>
+            <li><a href="#dev-calibrate"><code>dev calibrate</code> — Set star level</a></li>
+            <li><a href="#dev-calibrate-evidence-grades"><code>dev calibrate-evidence-grades</code> — Backfill evidence grades</a></li>
+            <li><a href="#dev-calibrate-trust-magnitude"><code>dev calibrate-trust-magnitude</code> — Refresh Trust Magnitude cache</a></li>
             <li><a href="#dev-merge"><code>dev merge</code> — Merge nodes</a></li>
             <li><a href="#dev-split"><code>dev split</code> — Split node</a></li>
             <li><a href="#dev-rename"><code>dev rename</code> — Rename a skill</a></li>
@@ -1958,21 +1964,31 @@
                   <td>false</td>
                 </tr>
                 <tr>
-                  <td>--no-build</td>
-                  <td>Skip rebuilding docs and graph assets after adding.</td>
+                  <td>--build</td>
+                  <td>Rebuild docs and graph assets after adding (opt-in; slower).</td>
                   <td>false</td>
+                </tr>
+                <tr>
+                  <td>--no-build</td>
+                  <td>Skip rebuilding docs and graph assets after adding. No-op alias — this is already the default.</td>
+                  <td>true</td>
                 </tr>
               </tbody>
             </table>
+            <div class="callout info" style="margin-bottom:0.85rem;">
+              Docs rebuild is opt-in: a mutating command skips <code>gaia dev docs</code>
+              regeneration by default. Pass <code>--build</code> when you need the rebuild
+              in the same step (e.g. before manually inspecting <code>docs/graph/</code>).
+            </div>
             <div class="example-block">
               <div class="example-label">examples</div>
-              <pre><span class="c"># Add a new Basic skill</span>
+              <pre><span class="c"># Add a new Basic skill (no docs rebuild, the default)</span>
 <span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev add</span> <span class="str">"Structured Output"</span> \
   <span class="arg">--type basic --description "Reliably emits JSON/XML/YAML matching a given schema."</span>
 
-<span class="c"># Add an Extra skill without triggering a full rebuild</span>
+<span class="c"># Add an Extra skill and rebuild docs/graph assets in the same step</span>
 <span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev add</span> <span class="str">"Chain-of-Thought Reasoning"</span> \
-  <span class="arg">--type extra --no-build</span></pre>
+  <span class="arg">--type extra --build</span></pre>
             </div>
           </div>
         </div>
@@ -2042,9 +2058,14 @@
                   <td>—</td>
                 </tr>
                 <tr>
-                  <td>--no-build</td>
-                  <td>Skip rebuilding docs and graph assets after adding evidence.</td>
+                  <td>--build</td>
+                  <td>Rebuild docs and graph assets after adding evidence (opt-in; slower).</td>
                   <td>false</td>
+                </tr>
+                <tr>
+                  <td>--no-build</td>
+                  <td>Skip rebuilding docs and graph assets after adding evidence. No-op alias — this is already the default.</td>
+                  <td>true</td>
                 </tr>
               </tbody>
             </table>
@@ -2058,6 +2079,168 @@
 <span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev evidence</span> \
   <span class="arg">autonomous-research-agent https://arxiv.org/abs/2401.00000 \
   --type arxiv --trust 100 --evaluator alice --notes "Peer-reviewed benchmark, 2024"</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev calibrate -->
+        <div class="cmd-card" id="dev-calibrate">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev calibrate</span>
+            <span class="cmd-signature">&lt;contributor/skill-id&gt; &lt;level&gt;</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Sets a Named Skill's star level directly (1★–6★).</li>
+              <li>Stars live only on named skills — a generic reference has no level to set.</li>
+              <li>Logs a <code>rank_up</code> or <code>demote</code> timeline event automatically.</li>
+            </ul>
+            <div class="callout warn" style="margin-bottom:0.85rem;">
+              <strong>⚠️ 3★+ requires a verified repo link.</strong> Calibrating to 3★ or
+              higher checks for a <code>links.github</code> value containing <code>/blob/</code>
+              (the Star Bar rule, META.md §2.4) and refuses the write otherwise — unless the
+              skill has <code>suiteComponents</code>, which derive trust from their components
+              instead of a personal repo link.
+            </div>
+            <table class="flag-table">
+              <thead>
+                <tr>
+                  <th>Flag</th>
+                  <th>Description</th>
+                  <th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>--build</td>
+                  <td>Rebuild docs and graph assets after calibrating (opt-in; slower).</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--no-build</td>
+                  <td>Skip rebuilding docs and graph assets after calibrating. No-op alias — this is already the default.</td>
+                  <td>true</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Calibrate a named skill to 3★ (requires a blob/ repo link already on file)</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev calibrate</span> <span class="arg">mattpocock/skills 3★</span>
+
+<span class="c"># Demote back to 2★</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev calibrate</span> <span class="arg">mattpocock/skills 2★</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev calibrate-evidence-grades -->
+        <div class="cmd-card" id="dev-calibrate-evidence-grades">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev calibrate-evidence-grades</span>
+            <span class="cmd-signature">[--skill &lt;id&gt;] [--scope all|generic|named] [--dry-run] [--yes]</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Backfills each evidence row's per-row Evidence Grade from its artifact score, using the thresholds in <code>meta.json</code>.</li>
+              <li>Walks every generic node and named skill file, or just one skill with <code>--skill</code>.</li>
+              <li>Skips auto-derived rows (<code>_autoDerived: true</code>) — those are computed, not stored.</li>
+            </ul>
+            <table class="flag-table">
+              <thead>
+                <tr>
+                  <th>Flag</th>
+                  <th>Description</th>
+                  <th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>--dry-run</td>
+                  <td>Show what would change without writing.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--skill &lt;id&gt;</td>
+                  <td>Only process this skill (generic ref or <code>contributor/name</code>).</td>
+                  <td>all skills</td>
+                </tr>
+                <tr>
+                  <td>--scope</td>
+                  <td>Limit to <code>generic</code> nodes, <code>named</code> files, or <code>all</code>.</td>
+                  <td>all</td>
+                </tr>
+                <tr>
+                  <td>--yes / -y</td>
+                  <td>Skip the confirmation prompt.</td>
+                  <td>false</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Preview grade backfill for one named skill first</span>
+<span class="cmd">gaia dev calibrate-evidence-grades</span> <span class="arg">--skill mattpocock/skills --dry-run</span>
+
+<span class="c"># Apply it across the whole registry without a confirmation prompt</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev calibrate-evidence-grades</span> <span class="arg">--yes</span></pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- dev calibrate-trust-magnitude -->
+        <div class="cmd-card" id="dev-calibrate-trust-magnitude">
+          <div class="cmd-card-header">
+            <span class="cmd-name">gaia dev calibrate-trust-magnitude</span>
+            <span class="cmd-signature">(--skill &lt;contributor/id&gt;... | --all) [--dry-run] [--yes]</span>
+            <span class="gate-badge verifier">◇ verifier</span>
+          </div>
+          <div class="cmd-body">
+            <ul class="cmd-desc">
+              <li>Refreshes the cached <code>trustMagnitude</code>, <code>overallTrustGrade</code>, and <code>trustMagnitudeInputHash</code> frontmatter fields from the live Trust Magnitude formula.</li>
+              <li>These three fields are a disposable cache — the generated site already recomputes the live value on every build, but a named skill's own frontmatter stays frozen until this verb re-stamps it.</li>
+              <li>Closes the CLI gap earlier migration timeline entries flagged: before this verb existed, only an archived one-off script could write these fields.</li>
+            </ul>
+            <table class="flag-table">
+              <thead>
+                <tr>
+                  <th>Flag</th>
+                  <th>Description</th>
+                  <th>Default</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>--skill &lt;contributor/id&gt;</td>
+                  <td>Named skill to refresh. Repeatable. Mutually exclusive with <code>--all</code>.</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>--all</td>
+                  <td>Refresh every named skill in the registry.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--dry-run</td>
+                  <td>Show the old → new Trust Magnitude / grade without writing.</td>
+                  <td>false</td>
+                </tr>
+                <tr>
+                  <td>--yes / -y</td>
+                  <td>Skip the confirmation prompt.</td>
+                  <td>false</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="example-block">
+              <div class="example-label">examples</div>
+              <pre><span class="c"># Preview the refresh for two named skills</span>
+<span class="cmd">gaia dev calibrate-trust-magnitude</span> <span class="arg">--skill mattpocock/skills --skill mattpocock/engineering --dry-run</span>
+
+<span class="c"># Refresh every named skill's cached Trust Magnitude fields</span>
+<span class="kw">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia dev calibrate-trust-magnitude</span> <span class="arg">--all --yes</span></pre>
             </div>
           </div>
         </div>

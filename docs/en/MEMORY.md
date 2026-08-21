@@ -2,6 +2,113 @@
 
 ---
 
+## 2026-08-21 — Routine 034
+
+**Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the
+one-open-PR rule; the routine's own commit count/number in this diary tracks daily
+runs, not the branch name)
+
+**Task chosen:** SYNC — routine 033's "Planned next" pointed at either a ROTATE
+target or a SYNC check against releases since 2026-08-19. Checked `git log
+origin/main --since=2026-08-19 --merges` first: found `fix(trust-magnitude):
+reconcile dry-run, API, and source TM (Issue #1600)` (2026-08-20), which added a
+new CLI verb, `gaia dev calibrate-trust-magnitude`, explicitly closing a
+long-flagged CLI gap. Checked whether `cli-reference.html` documented it — it
+didn't, and neither did its two siblings, `gaia dev calibrate` (the core
+star-level setter, pre-existing) and `gaia dev calibrate-evidence-grades`. All
+three were completely absent from the Registry dev section and its two sidebar
+navs.
+
+### What I did
+
+Read `src/gaia_cli/commands/dev/__init__.py`'s three `calibrate*` parser
+definitions and `src/gaia_cli/commands/dev/calibrate.py`'s three command
+functions (`meta_calibrate_command`, `calibrate_evidence_grades_command`,
+`calibrate_trust_magnitude_command`) to get real flags, defaults, and behavior
+before writing anything.
+
+While reading `_add_build_flags()` in `commands/dev/helpers.py` (shared by
+`calibrate` and every other mutating dev verb), found a second, older drift:
+its docstring says docs rebuild is "now OPT-IN" — `--no-build` defaults to
+`True`, `--build` is the flag that opts into a rebuild. `git log -S` on that
+docstring dates the flip to v7.4.19 (2026-08-10), well before this routine's
+scan window, but `cli-reference.html`'s existing `dev add` and `dev evidence`
+cards still documented the old shape: `--no-build` listed as the only flag,
+default `false`, phrased as "skip rebuilding" — i.e. implying rebuild-by-default
+when the CLI has done the opposite for 11 days. Fixed both existing flag tables
+(added the `--build` row, corrected `--no-build`'s default to `true` and its
+description to "no-op alias — this is already the default") and added a short
+info callout on `dev add` explaining the opt-in model. Also fixed `dev add`'s
+second example, which was passing `--no-build` as if it were doing something —
+now shows `--build` for the "rebuild in this step" case instead.
+
+Added three new command cards to the Registry dev section, using the corrected
+`--build`/`--no-build` semantics from the start: `gaia dev calibrate` (with a
+warn callout on the 3★+ Star Bar blob-link preflight, since that's the one
+sharp edge a reader would hit immediately), `gaia dev calibrate-evidence-grades`
+(dry-run/scope/skill flags), and `gaia dev calibrate-trust-magnitude`
+(--skill/--all mutual exclusivity, what the three cached fields are and why
+they go stale). Added matching entries to both sidebar navs (the compact
+group list and the descriptive "what does this do" list) in the same position.
+
+### Design decisions
+
+- Placed the three new cards between `dev evidence` and `dev merge` — calibrate
+  operates on evidence-derived state (stars, grades, Trust Magnitude), so it
+  reads better grouped with evidence than sorted alphabetically against merge/
+  split/rename.
+- Fixed the pre-existing `--no-build` drift on `dev add`/`dev evidence` in the
+  same pass rather than filing it as a follow-up: it's the same page, same
+  section, same root cause (`_add_build_flags`), and leaving it wrong right
+  next to three brand-new cards documenting the correct default would have
+  been a worse reader experience than the extra diff.
+- Did not touch the docs-rebuild flag rows on other pages (`named-skills.html`,
+  `manual-curation-pipeline.html`, etc. reference `gaia dev` commands too) —
+  out of scope for one page today; noted below for a future ROTATE/SYNC pass.
+- Used `--yes`/`-y` and `--dry-run` flag names verbatim from the argparse
+  definitions rather than paraphrasing, matching the page's existing convention
+  of exact flag names in the table's first column.
+
+### Issues informed
+
+None filed or closed — this is a documentation-only fix; no product gap
+remains (the CLI verb this closes a gap for already merged on main).
+
+### Verification
+
+`git status` scoped to `docs/en/cli-reference.html`, `docs/en/DOCS.md`,
+`docs/en/MEMORY.md` only. `html.parser` parse-error check clean. Vocabulary
+grep (`merge|combine|compose|rarity`) — only hit is the pre-existing `dev
+merge` CLI verb, no violations. No new hex introduced (diff-scanned, zero hex
+hits). All three stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`)
+still linked.
+
+### Files modified
+
+- `docs/en/cli-reference.html` — added `dev calibrate`, `dev
+  calibrate-evidence-grades`, `dev calibrate-trust-magnitude` cards + sidebar
+  entries; fixed `--build`/`--no-build` flag docs on `dev add` and `dev
+  evidence` to match the opt-in-since-v7.4.19 default
+- `docs/en/DOCS.md` — page map row 3 updated
+- `docs/en/MEMORY.md` — this entry
+
+### Planned next (Routine 035)
+
+- The `--no-build`/`--build` opt-in flag drift found today is almost certainly
+  repeated on other pages that show `gaia dev` command examples (e.g.
+  `named-skills.html`'s evidence-add examples, `manual-curation-pipeline.html`'s
+  cheat sheet). Worth a targeted grep pass (`--no-build`) across `docs/en/*.html`
+  next, fixing whichever page turns up wrong flag semantics.
+- If that's clean, fall back to ROTATE: `contributing.html`, `named-skills.html`,
+  `evidence-classes.html`, and `share-bundles.html` are still tied at "updated
+  025," oldest untouched since.
+
+### Token spend
+
+2026-08-21 Sonnet 5 Low: ~70k in, ~9k out. ~$0.27
+
+---
+
 ## 2026-08-20 — Routine 033
 
 **Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the
