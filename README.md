@@ -250,7 +250,7 @@ A GitHub issue opens automatically. Don't worry, we thoroughly review every inta
 claude plugin install skill-heaven@gaia-skill-heaven
 ```
 
-Installs Skill Heaven for Claude Code, bundling its own summon MCP server. Summon skills on demand with `/summon` without permanent context debt. (Note: legacy `@gaia-research/mcp` is deprecated on npm as of 2026-08-19).
+Installs Skill Heaven for Claude Code, bundling its own summon MCP server. Summon skills on demand with `/summon` without permanent context debt. (Note: Standalone `@gaia-research/mcp` is decommissioned and deprecated on npm as of 2026-08-19).
 
 ---
 
@@ -351,10 +351,10 @@ claude plugin install skill-heaven@gaia-skill-heaven
 
 The core mechanic is **`/summon`** &mdash; materializing capabilities into session context on demand with zero ambient skill debt.
 
-*(Note: The standalone `@gaia-research/mcp` and `skill-hell` npm packages were deprecated on npm on 2026-08-19 in favor of the bundled Agent Plugin in `gaia-research/gaia-skill-heaven`.)*
+*(Note: The standalone `@gaia-research/mcp` and `skill-hell` npm packages have been decommissioned and deprecated on npm as of 2026-08-19 in favor of the bundled Agent Plugin in `gaia-research/gaia-skill-heaven`.)*
 
 Source and releases: <https://github.com/gaia-research/gaia-skill-heaven>. See the
-[Skill Heaven site](https://skill-heaven.dev) for full installation and door options.
+[Skill Heaven site](https://gaia-research.github.io/gaia-skill-heaven/) for full installation and door options.
 
 ---
 

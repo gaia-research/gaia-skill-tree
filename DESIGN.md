@@ -520,7 +520,7 @@ This section is the **canonical grading rubric** for the Yggdrasil II design run
 - `--honor-red` may remain for unrelated link/emphasis use; the FAIL is specifically a red *origin* mark.
 
 ### E5 — Cross-brand ecosystem bridge
-- Links out to Gaia Research products (HH Index, benchmark method at `research.gaiaskilltree.com`) and Gaia Skill Heaven (`skill-heaven.dev` / `github.com/gaia-research/gaia-skill-heaven`) use the shared ecosystem affordances — "ONE HOUSE, THREE ROOMS." Gaia Research uses Rimuru-Blue (`#38bdf8`), Gaia Skill Tree uses Apex Gold (`#d4a853`), and Gaia Skill Heaven uses Heaven Violet (`#c084fc`). Content/schema is never imported cross-repo; hyperlinks and lockups are fine.
+- Links out to Gaia Research products (HH Index, benchmark method at `research.gaiaskilltree.com`) and Gaia Skill Heaven (`https://gaia-research.github.io/gaia-skill-heaven/` / `github.com/gaia-research/gaia-skill-heaven`) use the shared ecosystem affordances — "ONE HOUSE, THREE ROOMS." Gaia Research uses Rimuru-Blue (`#38bdf8`), Gaia Skill Tree uses Apex Gold (`#d4a853`), and Gaia Skill Heaven uses Heaven Violet (`#c084fc`). Content/schema is never imported cross-repo; hyperlinks and lockups are fine.
 
 ### E6 — Mobile-first (non-homepage surfaces)
 - Built 320px-up, `min-width` breakpoints (scale: sm 480 / md 768 / lg 1024 / xl 1280). Touch targets ≥44×44px. Font sizes `clamp()` with a 320px-safe floor. No `position:fixed` decoration on mobile.

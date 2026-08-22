@@ -30,7 +30,7 @@ Branch is **always derived, never declared** on a node. The fork happens at 4★
 *   `registry/`: Canonical graph (`gaia.json`), named skills, and schemas. **Source of Truth.**
 *   `registry-for-review/`: Intake area for proposed skills (`gaia push`).
 *   `src/gaia_cli/`: Core Python CLI logic.
-*   MCP & Agent Plugin: standalone plugin via `claude plugin install skill-heaven@gaia-skill-heaven` (bundles its own summon MCP server); see https://skill-heaven.dev
+*   MCP & Agent Plugin: standalone plugin via `claude plugin install skill-heaven@gaia-skill-heaven` (bundles its own summon MCP server; standalone Gaia MCP is decommissioned); see https://gaia-research.github.io/gaia-skill-heaven/
 *   `scripts/`: Essential utilities for validation, building, and registry maintenance.
 *   `docs/`: Documentation site and generated graph assets.
 
