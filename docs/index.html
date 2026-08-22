@@ -622,32 +622,32 @@
 
   <!-- ─── ECOSYSTEM POINTER ───────────────────────────────────────────────
        A POINTER, not an explainer. The canonical ecosystem surface lives on
-       Gaia Research; this section names the four and links out, and must not
-       grow into a second telling of the same story. If you find yourself
-       adding a paragraph here, it belongs on the canonical surface instead.
+       Gaia Research; this section names the three and links out, and must not
+       grow into a second telling of the same story.
 
-       Skill Hell is deliberately rendered as a locked card in the same row:
-       present and named, evidently not open. It is a gated tier of Skill
-       Heaven — do not restyle it into a peer product. -->
+       Skill Heaven is the runtime umbrella that houses Skill Zero (clean
+       launcher) and Skill Hell (exploratory summon). -->
   <section id="ecosystem" class="reveal eco-pointer" data-section="ecosystem" aria-labelledby="ecoTitle">
-    <h2 id="ecoTitle">Gaia is four names</h2>
-    <p class="section-sub">The Skill Tree is one of them. What each name is and how they relate is explained in one place, and that place is Gaia Research.</p>
+    <h2 id="ecoTitle">Gaia is three names</h2>
+    <p class="section-sub">Research proves it, the registry records it, the launcher runs it. The Skill Tree is the record.</p>
     <ul class="eco-row">
+      <li class="eco-name">
+        <span class="eco-state" style="color:var(--research-blue)">Room 01 · The laboratory</span>
+        <strong>Gaia Research</strong>
+        <p class="eco-desc">The open lab measuring cost, quality, and failure, publishing the HH Index and ledger.</p>
+        <a class="eco-link" href="https://research.gaiaskilltree.com" target="_blank" rel="noopener" style="color:var(--research-blue)">Read the method ↗</a>
+      </li>
       <li class="eco-name eco-name--here">
-        <span class="eco-state">You are here</span>
-        <strong>Skill Tree</strong>
+        <span class="eco-state" style="color:var(--apex-gold)">Room 02 · You are here</span>
+        <strong>Gaia Skill Tree</strong>
+        <p class="eco-desc">The permanent public record of verified capabilities, origins, stars, and progression trails.</p>
+        <a class="eco-link" href="#paths" style="color:var(--apex-gold)">Browse the registry ↓</a>
       </li>
-      <li class="eco-name">
-        <span class="eco-state">The laboratory</span>
-        <strong>Research</strong>
-      </li>
-      <li class="eco-name">
-        <span class="eco-state">Experimental</span>
-        <strong>Skill Heaven</strong>
-      </li>
-      <li class="eco-name eco-name--locked">
-        <span class="eco-state"><span class="eco-lock" aria-hidden="true">🔒</span> Gated · a tier of Skill Heaven</span>
-        <strong>Skill Hell</strong>
+      <li class="eco-name eco-name--heaven">
+        <span class="eco-state" style="color:#c084fc">Room 03 · The runtime umbrella</span>
+        <strong>Gaia Skill Heaven</strong>
+        <p class="eco-desc">Houses Skill Zero (clean launcher) and Skill Hell (exploratory summon) on one unified axis.</p>
+        <a class="eco-link" href="https://skill-heaven.dev" target="_blank" rel="noopener" style="color:#c084fc">Visit Skill Heaven ↗</a>
       </li>
     </ul>
     <a class="btn btn-ghost eco-cta" href="https://research.gaiaskilltree.com/about" target="_blank" rel="noopener">
@@ -656,18 +656,19 @@
     </a>
     <style>
       .eco-pointer{max-width:1100px;margin:0 auto;padding:0 clamp(1.5rem,4vw,2.5rem);text-align:center}
-      .eco-row{list-style:none;display:flex;flex-wrap:wrap;justify-content:center;gap:.75rem;margin:2rem 0 1.75rem;padding:0}
-      .eco-name{flex:1 1 13rem;max-width:16rem;display:flex;flex-direction:column;border:1px solid var(--border);background:var(--surface);padding:1rem .9rem;text-align:left}
-      .eco-name strong{display:block;margin-top:auto;padding-top:.45rem;font-family:var(--font-display);font-weight:600;font-size:1.05rem;letter-spacing:-.01em;color:var(--text)}
+      .eco-row{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;margin:2rem 0 1.75rem;padding:0}
+      .eco-name{display:flex;flex-direction:column;border:1px solid var(--border);background:var(--surface);padding:1.25rem 1.1rem;text-align:left;border-radius:2px}
+      .eco-name strong{display:block;margin:.35rem 0 .45rem;font-family:var(--font-display);font-weight:700;font-size:1.15rem;letter-spacing:-.01em;color:var(--text)}
+      .eco-desc{font-size:.85rem;line-height:1.45;color:var(--muted);margin:0 0 1rem;flex-grow:1}
+      .eco-link{font-family:var(--font-mono);font-size:.78rem;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;font-weight:600}
+      .eco-link:hover{text-decoration:underline}
       .eco-state{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-      .eco-name--here{border-color:rgba(var(--apex-gold-rgb),.5)}
-      .eco-name--here .eco-state{color:var(--apex-gold)}
-      .eco-name--locked{border-style:dashed;border-color:rgba(var(--research-pink-rgb),.5);opacity:.78}
-      .eco-name--locked .eco-state{text-transform:none;letter-spacing:.02em}
+      .eco-name--here{border-color:rgba(var(--apex-gold-rgb),.5);background:rgba(var(--apex-gold-rgb),.03)}
+      .eco-name--heaven{border-color:rgba(168,85,247,.4);background:rgba(168,85,247,.03)}
       .eco-cta{display:inline-flex;align-items:center;gap:.45rem;text-decoration:none;font-size:13px;color:var(--research-blue);font-family:var(--font-research);font-weight:700}
       .eco-cta-arrow{font-size:.85em;opacity:.75;transition:transform .28s cubic-bezier(0.16,1,0.3,1)}
       .eco-cta:hover .eco-cta-arrow{transform:translate(2px,-2px);opacity:1}
-      @media (max-width:640px){.eco-name{flex:1 1 100%;max-width:none}}
+      @media (max-width:800px){.eco-row{grid-template-columns:1fr}}
     </style>
   </section>
 
