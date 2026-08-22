@@ -30,7 +30,7 @@ Branch is **always derived, never declared** on a node. The fork happens at 4★
 *   `registry/`: Canonical graph (`gaia.json`), named skills, and schemas. **Source of Truth.**
 *   `registry-for-review/`: Intake area for proposed skills (`gaia push`).
 *   `src/gaia_cli/`: Core Python CLI logic.
-*   MCP server: standalone package — use the moving `@gaia-research/mcp@latest` install selector; [v0.4.0 release evidence](https://github.com/gaia-research/gaia-mcp/releases/tag/mcp-v0.4.0) records the rich tools: `gaia_search`, `gaia_inspect`, `summon`, `gaia_status`; see https://research.gaiaskilltree.com/mcp
+*   MCP & Agent Plugin: standalone plugin via `claude plugin install skill-heaven@gaia-skill-heaven` (bundles its own summon MCP server); see https://skill-heaven.dev
 *   `scripts/`: Essential utilities for validation, building, and registry maintenance.
 *   `docs/`: Documentation site and generated graph assets.
 
@@ -68,14 +68,12 @@ gaia stats                # Show registry health, skills, and named implementati
 
 Connect Gaia natively to MCP-compatible agents (Claude Code, Cursor, VS Code, etc.).
 
-### Claude Code Integration
+### Claude Code Integration (Skill Heaven Plugin)
 ```bash
-claude mcp add gaia -- npx --yes --package=@gaia-research/mcp@latest gaia-mcp
+claude plugin install skill-heaven@gaia-skill-heaven
 ```
 
-The package has both `gaia-mcp` and `skill-hell` binaries, so the explicit
-selector is required for MCP registration. `summon` is the current tool name;
-`gaia_summon` is not a package tool.
+The plugin bundles its own summon MCP server. Use `/summon` to bring any skill into your session on demand with zero ambient skill debt.
 
 ### Configuration
 Normal Registry use needs no identity or GitHub token. For isolated testing,

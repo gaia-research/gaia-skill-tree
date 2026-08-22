@@ -548,13 +548,11 @@
       </p>
 
       <div class="callout callout-info">
-        <span class="callout-label">● Current package contract — v0.4.0</span>
+        <span class="callout-label">● Recommended: Skill Heaven Plugin</span>
         <p>
-          The external <a href="https://github.com/gaia-research/gaia-mcp/releases/tag/mcp-v0.4.0" target="_blank" rel="noopener"><code>gaia-research/gaia-mcp</code> release</a>
-          publishes <code>@gaia-research/mcp</code>. Its current rich Registry/Bond
-          package surface is <code>gaia_search</code>, <code>gaia_inspect</code>,
-          <code>summon</code>, and <code>gaia_status</code>. It is a working prototype,
-          not the deleted in-repository MCP implementation.
+          The recommended way to access summon capabilities in Claude Code is the unified
+          <a href="https://github.com/gaia-research/gaia-skill-heaven" target="_blank" rel="noopener"><code>gaia-research/gaia-skill-heaven</code></a>
+          plugin. It bundles its own summon MCP server with zero configuration.
         </p>
       </div>
 
@@ -562,16 +560,9 @@
         <h2 class="section-title">Overview</h2>
         <div class="section-body">
           <p>
-            Gaia MCP is a stdio server. It reads public Gaia Registry projections;
-            it does not mutate the Registry, a project checkout, or persistent agent
-            configuration. <code>summon</code> materializes a matching Named Skill only
-            into an ephemeral session directory.
-          </p>
-          <p>
-            <code>summon</code> is the current tool name. There is no current
-            <code>gaia_summon</code> tool. The package's four tools are not an
-            implemented or measured D4 thin <code>search_skills</code> +
-            <code>summon</code> Heaven/Summon profile.
+            The core runtime mechanic is <code>summon</code>. It reads public Gaia Registry projections
+            to materialize a matching Named Skill into an ephemeral session directory on demand &mdash;
+            leaving zero ambient debt and writing nothing permanently to your repository.
           </p>
         </div>
       </section>
@@ -580,57 +571,27 @@
         <h2 class="section-title">Installation</h2>
         <div class="section-body">
           <p>
-            Public commands use <code>@latest</code>. The scoped package has two bins,
-            so always select <code>gaia-mcp</code> explicitly when configuring an MCP
-            client.
+            Install the Skill Heaven plugin directly into Claude Code:
           </p>
         </div>
         <div class="code-block">
-          <div class="code-block-header"><span class="code-block-label">Claude Code</span></div>
-          <pre><span class="cmd">claude mcp add gaia</span> -- npx --yes --package=@gaia-research/mcp@latest gaia-mcp</pre>
+          <div class="code-block-header"><span class="code-block-label">Claude Code Plugin</span></div>
+          <pre><span class="cmd">claude plugin install</span> skill-heaven@gaia-skill-heaven</pre>
         </div>
         <div class="section-body">
-          <p>For any MCP client that accepts a command and argument array:</p>
-        </div>
-        <div class="code-block">
-          <div class="code-block-header"><span class="code-block-label">MCP config</span></div>
-          <pre>{
-  <span class="str">"command"</span>: <span class="str">"npx"</span>,
-  <span class="str">"args"</span>: [
-    <span class="str">"--yes"</span>,
-    <span class="str">"--package=@gaia-research/mcp@latest"</span>,
-    <span class="str">"gaia-mcp"</span>
-  ]
-}</pre>
-        </div>
-        <div class="section-body">
-          <p>For one-shot Skill Hell use, choose the separate npx-friendly alias:</p>
-        </div>
-        <div class="code-block">
-          <div class="code-block-header"><span class="code-block-label">shell</span></div>
-          <pre>npx --yes skill-hell@latest summon <span class="str">"code review"</span> --card</pre>
+          <p>
+            <em>Note on legacy packages:</em> The standalone <code>@gaia-research/mcp</code> and <code>skill-hell</code> npm packages were deprecated on npm on 2026-08-19 in favor of the bundled Agent Plugin in <code>gaia-research/gaia-skill-heaven</code>.
+          </p>
         </div>
       </section>
 
       <section class="section" id="tools">
-        <h2 class="section-title">Tools</h2>
-        <div class="section-body"><p>Four tools are registered in the current package:</p></div>
+        <h2 class="section-title">Core Mechanic</h2>
+        <div class="section-body"><p>The primary tool surface is <code>summon</code>:</p></div>
         <div class="tool-grid">
-          <div class="tool-card">
-            <div class="tool-card-name">gaia_search</div>
-            <div class="tool-card-desc">Find generic and Named Skills by task and constraints.</div>
-          </div>
-          <div class="tool-card">
-            <div class="tool-card-name">gaia_inspect</div>
-            <div class="tool-card-desc">Return an evidence-backed dossier for one candidate.</div>
-          </div>
           <div class="tool-card">
             <div class="tool-card-name">summon</div>
             <div class="tool-card-desc">Materialize a matching Named Skill's full directory into an ephemeral session.</div>
-          </div>
-          <div class="tool-card">
-            <div class="tool-card-name">gaia_status</div>
-            <div class="tool-card-desc">Report package version, data freshness, compatibility, counts, and available tools.</div>
           </div>
         </div>
       </section>
