@@ -1,0 +1,225 @@
+{
+  "handle": "leonxlnx",
+  "namedSkills": [
+    {
+      "id": "leonxlnx/taste-skill",
+      "name": "taste-skill",
+      "level": "4★",
+      "trustMagnitude": 445.07,
+      "overallTrustGrade": "S",
+      "contributor": "leonxlnx",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/taste-skill.json"
+      },
+      "genericSkillRef": "design-generation",
+      "suiteComponents": [
+        "leonxlnx/brandkit",
+        "leonxlnx/brutalist-skill",
+        "leonxlnx/gpt-tasteskill",
+        "leonxlnx/image-to-code-skill",
+        "leonxlnx/imagegen-frontend-mobile",
+        "leonxlnx/imagegen-frontend-web",
+        "leonxlnx/minimalist-skill",
+        "leonxlnx/output-skill",
+        "leonxlnx/redesign-skill",
+        "leonxlnx/soft-skill",
+        "leonxlnx/stitch-skill"
+      ]
+    },
+    {
+      "id": "leonxlnx/brandkit",
+      "name": "brandkit",
+      "level": "2★",
+      "trustMagnitude": 115.07,
+      "overallTrustGrade": "A",
+      "contributor": "leonxlnx",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/brandkit.json"
+      },
+      "genericSkillRef": "brand-guideline-application"
+    },
+    {
+      "id": "leonxlnx/brutalist-skill",
+      "name": "brutalist-skill",
+      "level": "2★",
+      "trustMagnitude": 115.07,
+      "overallTrustGrade": "A",
+      "contributor": "leonxlnx",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/brutalist-skill.json"
+      },
+      "genericSkillRef": "design-generation"
+    },
+    {
+      "id": "leonxlnx/gpt-tasteskill",
+      "name": "gpt-tasteskill",
+      "level": "2★",
+      "trustMagnitude": 115.07,
+      "overallTrustGrade": "A",
+      "contributor": "leonxlnx",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/gpt-tasteskill.json"
+      },
+      "genericSkillRef": "design-generation"
+    },
+    {
+      "id": "leonxlnx/image-to-code-skill",
+      "name": "image-to-code-skill",
+      "level": "2★",
+      "trustMagnitude": 115.07,
+      "overallTrustGrade": "A",
+      "contributor": "leonxlnx",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/image-to-code-skill.json"
+      },
+      "genericSkillRef": "vision-qa"
+    },
+    {
+      "id": "leonxlnx/imagegen-frontend-mobile",
+      "name": "imagegen-frontend-mobile",
+      "level": "2★",
+      "trustMagnitude": 115.07,
+      "overallTrustGrade": "A",
+      "contributor": "leonxlnx",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/imagegen-frontend-mobile.json"
+      },
+      "genericSkillRef": "image-generate"
+    },
+    {
+      "id": "leonxlnx/imagegen-frontend-web",
+      "name": "imagegen-frontend-web",
+      "level": "2★",
+      "trustMagnitude": 115.07,
+      "overallTrustGrade": "A",
+      "contributor": "leonxlnx",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/imagegen-frontend-web.json"
+      },
+      "genericSkillRef": "image-generate"
+    },
+    {
+      "id": "leonxlnx/minimalist-skill",
+      "name": "minimalist-skill",
+      "level": "2★",
+      "trustMagnitude": 115.07,
+      "overallTrustGrade": "A",
+      "contributor": "leonxlnx",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/minimalist-skill.json"
+      },
+      "genericSkillRef": "design-generation"
+    },
+    {
+      "id": "leonxlnx/output-skill",
+      "name": "output-skill",
+      "level": "2★",
+      "trustMagnitude": 115.07,
+      "overallTrustGrade": "A",
+      "contributor": "leonxlnx",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/output-skill.json"
+      },
+      "genericSkillRef": "format-output"
+    },
+    {
+      "id": "leonxlnx/redesign-skill",
+      "name": "redesign-skill",
+      "level": "2★",
+      "trustMagnitude": 115.07,
+      "overallTrustGrade": "A",
+      "contributor": "leonxlnx",
+      "type": "basic",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/redesign-skill.json"
+      },
+      "genericSkillRef": "ui-audit"
+    },
+    {
+      "id": "leonxlnx/soft-skill",
+      "name": "soft-skill",
+      "level": "2★",
+      "trustMagnitude": 115.07,
+      "overallTrustGrade": "A",
+      "contributor": "leonxlnx",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/soft-skill.json"
+      },
+      "genericSkillRef": "design-generation"
+    },
+    {
+      "id": "leonxlnx/stitch-skill",
+      "name": "stitch-skill",
+      "level": "2★",
+      "trustMagnitude": 115.07,
+      "overallTrustGrade": "A",
+      "contributor": "leonxlnx",
+      "type": "fusion",
+      "branch": "standard",
+      "rankWord": "Named",
+      "medallion": "◇",
+      "_links": {
+        "self": "/api/v1/skills/leonxlnx/stitch-skill.json"
+      },
+      "genericSkillRef": "design-system-extraction"
+    }
+  ],
+  "namedSkillsCount": 12,
+  "topSkill": {
+    "id": "leonxlnx/taste-skill",
+    "level": "4★",
+    "trustMagnitude": 445.07
+  },
+  "prestigeScore": 1710.84,
+  "gradeDistribution": {
+    "S": 1,
+    "A": 11
+  },
+  "_links": {
+    "self": "/api/v1/contributors/leonxlnx.json",
+    "list": "/api/v1/contributors/index.json"
+  }
+}

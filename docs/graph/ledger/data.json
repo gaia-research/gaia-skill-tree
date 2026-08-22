@@ -1,15 +1,15 @@
 {
-  "version": "7.8.3",
-  "generatedAt": "2026-08-20T09:54:49Z",
+  "version": "7.8.0",
+  "generatedAt": "2026-08-22T08:12:58Z",
   "summary": {
-    "total": 252,
-    "S": 5,
-    "A": 65,
+    "total": 264,
+    "S": 6,
+    "A": 76,
     "B": 68,
     "C": 100,
     "ungraded": 14,
     "floor": 0,
-    "up": 31
+    "up": 43
   },
   "rows": [
     {
@@ -123,6 +123,33 @@
         "fusion-recipe": 330.0
       },
       "origin": true,
+      "branch": "suite"
+    },
+    {
+      "skillId": "leonxlnx/taste-skill",
+      "tm": 445.07,
+      "grade": "S",
+      "currentStars": "4★",
+      "mayStars": "4★",
+      "juneStars": "4★",
+      "g7Stars": "5★",
+      "flag": "[up]",
+      "apexResults": {
+        "aGradedOriginsGte5": false,
+        "sourceTenureDaysGte180AorS": true,
+        "directNestedSuiteGte1": false,
+        "depth2OnlyReachableGte1": false,
+        "overallGradeS": true,
+        "apexPromotionPrSigned": false,
+        "crossOrgVerifier": null,
+        "systemWideCap": null
+      },
+      "typeBreakdown": {
+        "github-stars-own": 79.07,
+        "repo-own": 36.0,
+        "fusion-recipe": 330.0
+      },
+      "origin": false,
       "branch": "suite"
     },
     {
@@ -630,6 +657,193 @@
       },
       "origin": true,
       "branch": "unique"
+    },
+    {
+      "skillId": "leonxlnx/brandkit",
+      "tm": 115.07,
+      "grade": "A",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 79.07,
+        "repo-own": 36.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "leonxlnx/brutalist-skill",
+      "tm": 115.07,
+      "grade": "A",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 79.07,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "leonxlnx/gpt-tasteskill",
+      "tm": 115.07,
+      "grade": "A",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 79.07,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "leonxlnx/image-to-code-skill",
+      "tm": 115.07,
+      "grade": "A",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 79.07,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "leonxlnx/imagegen-frontend-mobile",
+      "tm": 115.07,
+      "grade": "A",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 79.07,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "leonxlnx/imagegen-frontend-web",
+      "tm": 115.07,
+      "grade": "A",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 79.07,
+        "repo-own": 36.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "leonxlnx/minimalist-skill",
+      "tm": 115.07,
+      "grade": "A",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 79.07,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "leonxlnx/output-skill",
+      "tm": 115.07,
+      "grade": "A",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 79.07,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "leonxlnx/redesign-skill",
+      "tm": 115.07,
+      "grade": "A",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 79.07,
+        "repo-own": 36.0
+      },
+      "origin": true,
+      "branch": "standard"
+    },
+    {
+      "skillId": "leonxlnx/soft-skill",
+      "tm": 115.07,
+      "grade": "A",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 79.07,
+        "repo-own": 36.0
+      },
+      "origin": false,
+      "branch": "standard"
+    },
+    {
+      "skillId": "leonxlnx/stitch-skill",
+      "tm": 115.07,
+      "grade": "A",
+      "currentStars": "2★",
+      "mayStars": "2★",
+      "juneStars": "2★",
+      "g7Stars": "4★",
+      "flag": "[up]",
+      "apexResults": null,
+      "typeBreakdown": {
+        "github-stars-own": 79.07,
+        "repo-own": 36.0
+      },
+      "origin": true,
+      "branch": "standard"
     },
     {
       "skillId": "obra/brainstorming",
@@ -1840,7 +2054,7 @@
         "repo-own": 36.0,
         "github-stars-own": 31.4
       },
-      "origin": true,
+      "origin": false,
       "branch": "standard"
     },
     {
@@ -3486,7 +3700,7 @@
       "typeBreakdown": {
         "repo-own": 36.0
       },
-      "origin": true,
+      "origin": false,
       "branch": "standard"
     },
     {

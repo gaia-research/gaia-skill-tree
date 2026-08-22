@@ -1,0 +1,31 @@
+{
+  "id": "task-depth-enforcement",
+  "name": "Task Depth Enforcement",
+  "type": "fusion",
+  "description": "Anti-laziness execution discipline and depth enforcement for multi-step agent tasks. Decomposes objectives into recursive subtask trees with runnable gate verification to prevent premature completion and long-context quality decay.",
+  "prerequisites": [
+    "plan-decompose",
+    "verification-before-completion"
+  ],
+  "derivatives": [],
+  "evidence": [],
+  "knownAgents": [],
+  "status": "provisional",
+  "createdAt": "2026-08-22",
+  "updatedAt": "2026-08-22",
+  "version": "0.1.0",
+  "timeline": [
+    {
+      "timestamp": "2026-08-22T07:10:59Z",
+      "action": "add",
+      "contributor": "mbtiongson1",
+      "details": "Added generic skill task-depth-enforcement"
+    },
+    {
+      "timestamp": "2026-08-22T08:07:17Z",
+      "action": "type_change",
+      "contributor": "mbtiongson1",
+      "details": "Reclassified from basic to fusion"
+    }
+  ]
+}

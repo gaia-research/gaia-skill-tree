@@ -4,7 +4,7 @@ title: "Design Generation"
 description: "Generates high-fidelity visual assets, prototypes, and UI components from design intent or discovery forms, adhering to brand and UX standards."
 resource: "https://gaiaskilltree.com/codex.html#design-generation"
 tags: ["gaia-skill-tree", "fusion-skill"]
-timestamp: "2026-07-16T00:00:00Z"
+timestamp: "2026-08-22T00:00:00Z"
 ---
 
 # Design Generation
@@ -16,6 +16,7 @@ Generates high-fidelity visual assets, prototypes, and UI components from design
 ## Prerequisites
 
 - [Code Generation](/skills/basic/code-generation.md)
+- [UI Audit](/skills/basic/ui-audit.md)
 - [Visual Question Answering](/skills/basic/vision-qa.md)
 
 ## Derivatives
