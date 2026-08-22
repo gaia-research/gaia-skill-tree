@@ -244,16 +244,13 @@ gaia push
 
 A GitHub issue opens automatically. Don't worry, we thoroughly review every intake.
 
-**4. MCP Server**
+**4. Agent Plugin & MCP**
 
 ```bash
-claude mcp add gaia -- npx --yes --package=@gaia-research/mcp@latest gaia-mcp
+claude plugin install skill-heaven@gaia-skill-heaven
 ```
 
-Connects your AI agent to the public Gaia Skill Tree registry over stdio. The
-scoped package has two binaries, so the explicit package selector invokes
-`gaia-mcp`; see the [Gaia MCP 0.4.0 release](https://github.com/gaia-research/gaia-mcp/releases/tag/mcp-v0.4.0) for the current
-contract.
+Installs Skill Heaven for Claude Code, bundling its own summon MCP server. Summon skills on demand with `/summon` without permanent context debt. (Note: Standalone `@gaia-research/mcp` is decommissioned and deprecated on npm as of 2026-08-19).
 
 ---
 
@@ -344,43 +341,20 @@ Maintainer commands:  gaia dev --help
 
 ---
 
-## MCP Server
+## Agent Plugin & Summon
 
-[`@gaia-research/mcp@0.4.0`](https://github.com/gaia-research/gaia-mcp/releases/tag/mcp-v0.4.0) is the published Gaia MCP prototype.
-Public installation examples use `@latest`; it currently resolves to that
-release. The scoped package registers two binaries, `gaia-mcp` and
-`skill-hell`, so an MCP client must select `gaia-mcp` explicitly.
-
-| Agent | Install |
-|-------|---------|
-| Claude Code | `claude mcp add gaia -- npx --yes --package=@gaia-research/mcp@latest gaia-mcp` |
-| Any MCP client | Command: `npx`; args: `["--yes", "--package=@gaia-research/mcp@latest", "gaia-mcp"]` |
-
-**Current rich Registry/Bond package surface:**
-
-| Tool | Purpose |
-|---|---|
-| `gaia_search` | Find generic and Named Skills by task and constraints. |
-| `gaia_inspect` | Return an evidence-backed skill dossier. |
-| `summon` | Materialize a matching Named Skill into an ephemeral session. |
-| `gaia_status` | Report version, compatibility, Registry freshness, counts, and tools. |
-
-`summon` is the current tool name, not `gaia_summon`. It never mutates the
-Registry, current repository, or persistent user configuration. The current
-package is not an implemented or measured D4 thin `search_skills` + `summon`
-profile; that profile does not deprecate the four tools above. Hell/Heaven
-scoring, routing eligibility, and content-hash admission or verification are
-not shipped.
-
-For a direct CLI summon, use the npx-friendly alias:
+The recommended path for Claude Code is the unified **Skill Heaven** plugin, which bundles its own MCP server:
 
 ```bash
-npx --yes skill-hell@latest summon "code review" --card
+claude plugin install skill-heaven@gaia-skill-heaven
 ```
 
-Source and releases: <https://github.com/gaia-research/gaia-mcp>. See the
-[Gaia MCP Page](https://research.gaiaskilltree.com/mcp) for current
-configuration guidance.
+The core mechanic is **`/summon`** &mdash; materializing capabilities into session context on demand with zero ambient skill debt.
+
+*(Note: The standalone `@gaia-research/mcp` and `skill-hell` npm packages have been decommissioned and deprecated on npm as of 2026-08-19 in favor of the bundled Agent Plugin in `gaia-research/gaia-skill-heaven`.)*
+
+Source and releases: <https://github.com/gaia-research/gaia-skill-heaven>. See the
+[Skill Heaven site](https://gaia-research.github.io/gaia-skill-heaven/) for full installation and door options.
 
 ---
 
