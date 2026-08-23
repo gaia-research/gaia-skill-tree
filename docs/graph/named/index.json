@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-22",
+  "generatedAt": "2026-08-23",
   "buckets": {
     "automated-testing": [
       {
@@ -22633,7 +22633,7 @@
         "trustMagnitudeInputHash": "963b0bfb79077b054cd7a9024a9f321698f89cf037a182af079d86a46f6e0efd",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
+          "sourceTenureDaysGte180AorS": true,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": true,
           "overallGradeS": false,

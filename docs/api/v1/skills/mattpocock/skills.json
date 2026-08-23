@@ -21,7 +21,7 @@
   "description": "The ultimate capstone suite encompassing all of Matt Pocock's engineering, productivity, and personal skills.",
   "apexGateStatus": {
     "aGradedOriginsGte5": false,
-    "sourceTenureDaysGte180AorS": false,
+    "sourceTenureDaysGte180AorS": true,
     "directNestedSuiteGte1": false,
     "depth2OnlyReachableGte1": true,
     "overallGradeS": false,
