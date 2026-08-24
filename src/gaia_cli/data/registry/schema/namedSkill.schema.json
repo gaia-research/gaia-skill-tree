@@ -253,7 +253,7 @@
     "trustMagnitude": {
       "type": "number",
       "minimum": 0,
-      "description": "G7 Trust Magnitude — unbounded aggregate artifact score computed from the 10-type evidence taxonomy (RFC §3). Sum of per-evidence artifact scores (magnitude × weight × freshness). Display layer soft-caps at 500; raw value drives grading and the apex gate. Replaces the legacy trustNumber aggregate."
+      "description": "Yggdrasil III Trust Magnitude — aggregate artifact score computed from the 10-type evidence taxonomy. Sum of per-evidence artifact scores (magnitude × weight × freshness); fusion-recipe has a 200 final-contribution ceiling after weighting and applicable multipliers. Display layer soft-caps at 500; raw value drives grading and the apex gate. Replaces the legacy trustNumber aggregate."
     },
     "overallTrustGrade": {
       "type": "string",
@@ -264,7 +264,7 @@
         "C",
         "ungraded"
       ],
-      "description": "G7 Overall Trust Grade derived from trustMagnitude thresholds and diversity gate (RFC §4): S ≥ 250, A ≥ 100, B ≥ 50, C ≥ 20, ungraded < 20. Requires meeting the diversity gate (distinct evidence types, non-self-producible rule) in addition to the magnitude floor."
+      "description": "Yggdrasil III Overall Trust Grade derived from trustMagnitude thresholds: S ≥ 250, A ≥ 100, B ≥ 50, C ≥ 20, ungraded < 20. S additionally requires at least 3 distinct evidence types and one positive eligible independent witness from benchmark-result, verifier-attestation, or peer-review; rejected, deranked, zero-scoring, and phantom rows do not qualify."
     },
     "provisional": {
       "type": "boolean",
