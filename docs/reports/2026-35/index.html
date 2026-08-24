@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en" data-icon-base="../../assets/icons.svg">
+<head>
+  <script>window.GAIA_VERSION = "7.10.0";</script>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="generator" content="gaia-content-engine">
+  <title>Weekly Report 2026-35 — Gaia</title>
+  <meta name="description" content="Gaia weekly report for ISO week 2026-35 — trending skills, recent rank-ups, and the most contested skill spaces.">
+  <link rel="canonical" href="https://gaiaskilltree.com/reports/2026-35/">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Gaia Weekly Report · 2026-35">
+  <meta property="og:description" content="What's moving in the Gaia skill registry — ISO week 2026-35.">
+  <meta property="og:url" content="https://gaiaskilltree.com/reports/2026-35/">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="../../assets/marks/diamond-seal.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../../css/tokens.css?v=7.10.0">
+  <link rel="stylesheet" href="../../css/styles.css?v=7.10.0">
+  <link rel="alternate" type="application/json" href="/api/v1/reports/2026-35.json">
+
+  <style>
+    /* ─────────────────────────────────────────────────────────────
+       WEEKLY REPORT — one ISO week of registry movement, read as a
+       ledger. Shares the archive register (.reports-shell): EB Garamond
+       display, Bricolage body, JetBrains Mono for identifiers and
+       numerics. Evidence-grade chips reuse the global .ev-grade family
+       from styles.css ([data-grade] coloring). Body copy sits on
+       --text against --bg for 4.5:1+ contrast. Token-only (rubric E7);
+       mobile-first with min-width breakpoints (rubric E6).
+       ───────────────────────────────────────────────────────────── */
+
+    .report-shell {
+      max-width: 62rem;
+      margin: 0 auto;
+      padding: 5rem 1.25rem 6rem;
+      color: var(--text);
+      font-family: var(--font-body);
+    }
+    @media (min-width: 768px) {
+      .report-shell { padding: 8rem 2rem 7rem; }
+    }
+
+    /* ── Masthead: the report's metadata header ─────────────── */
+    .report-masthead {
+      margin: 0 0 3.5rem;
+      padding-bottom: 1.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .report-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 0.85rem;
+    }
+    .report-masthead h1 {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(2.2rem, 6vw, 3.5rem);
+      line-height: 1.04;
+      letter-spacing: -0.02em;
+      margin: 0 0 1.25rem;
+      color: var(--text);
+      text-wrap: balance;
+    }
+    .report-masthead h1 em {
+      font-style: italic;
+      color: var(--apex-gold);
+      font-weight: 400;
+    }
+    .report-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      line-height: 1.6;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+    .report-meta .rm-item { white-space: nowrap; }
+    .report-meta .rm-item strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+    .report-meta code {
+      font-family: var(--font-mono);
+      color: var(--evidence-gold);
+      background: rgba(var(--evidence-gold-rgb), 0.08);
+      border: 1px solid rgba(var(--evidence-gold-rgb), 0.28);
+      padding: 0.05em 0.4em;
+      border-radius: 3px;
+      font-size: 0.9em;
+    }
+    .report-navlinks {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.5rem;
+      margin-top: 1.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.02em;
+    }
+    .report-navlinks a {
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: color 160ms ease-out, border-color 160ms ease-out;
+    }
+    .report-navlinks a:hover,
+    .report-navlinks a:focus-visible {
+      color: var(--text);
+      border-bottom-color: var(--border);
+      outline: none;
+    }
+    .report-navlinks .navlink-disabled {
+      color: var(--border);
+      cursor: default;
+      user-select: none;
+    }
+
+    /* ── Section: a headed block, not a boxed card ──────────── */
+    .report-section { margin-bottom: 3.5rem; }
+    .report-section-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-bottom: 1rem;
+      margin-bottom: 0.25rem;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .report-section-head h2 {
+      font-family: var(--font-display);
+      font-weight: 500;
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      margin: 0;
+      color: var(--text);
+    }
+    .report-section-note {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Data table ─────────────────────────────────────────── */
+    .report-table-wrap { overflow-x: auto; }
+    .report-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      min-width: 34rem;
+    }
+    .report-table thead th {
+      text-align: left;
+      padding: 0.9rem 0.85rem 0.7rem 0;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+      font-weight: 500;
+    }
+    .report-table thead th.num { text-align: right; }
+    .report-table tbody td {
+      padding: 0.9rem 0.85rem 0.9rem 0;
+      vertical-align: baseline;
+      border-bottom: 1px solid rgba(var(--evidence-platinum-rgb), 0.06);
+      color: var(--text);
+    }
+    .report-table tbody tr:last-child td { border-bottom: none; }
+    .report-table td.num {
+      text-align: right;
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+    }
+    .report-table td.rank {
+      font-family: var(--font-mono);
+      color: var(--muted);
+      font-size: 0.82rem;
+      width: 2.5rem;
+    }
+
+    .rt-skill {
+      color: var(--text);
+      text-decoration: none;
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 500;
+      letter-spacing: -0.005em;
+      border-bottom: 1px solid transparent;
+      transition: color 160ms ease-out, border-color 160ms ease-out;
+    }
+    .rt-skill:hover,
+    .rt-skill:focus-visible {
+      color: var(--apex-gold);
+      border-bottom-color: rgba(var(--apex-gold-rgb), 0.4);
+      outline: none;
+    }
+    .rt-contributor {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      margin-top: 0.2rem;
+      letter-spacing: 0.02em;
+    }
+    .rt-level {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--text);
+      white-space: nowrap;
+    }
+    .rt-rankchange {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text);
+      white-space: nowrap;
+    }
+    .rt-rankchange .rc-prev { color: var(--muted); }
+    .rt-rankchange .rc-arrow { color: var(--muted); margin: 0 0.25em; }
+    .rt-when {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    /* Grade chip — reuses the global .ev-grade family from styles.css. */
+    .ev-grade { margin-left: 0.4rem; }
+
+    /* Delta / new / origin markers */
+    .rt-tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.04em;
+      padding: 0.08rem 0.4rem;
+      border-radius: 0.25rem;
+      border: 1px solid;
+      vertical-align: middle;
+    }
+    .rt-tag--new {
+      color: var(--apex-gold);
+      border-color: rgba(var(--apex-gold-rgb), 0.4);
+      background: rgba(var(--apex-gold-rgb), 0.08);
+    }
+    .rt-tag--origin {
+      color: var(--apex-gold);
+      border-color: rgba(var(--apex-gold-rgb), 0.4);
+      background: rgba(var(--apex-gold-rgb), 0.08);
+    }
+    .rt-delta { color: var(--muted); font-family: var(--font-mono); }
+    .rt-muted { color: var(--muted); }
+
+    /* ── Contested space sub-block ──────────────────────────── */
+    .report-space { margin-bottom: 2.5rem; }
+    .report-space:last-child { margin-bottom: 0; }
+    .report-space-head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .report-space-ref {
+      font-family: var(--font-mono);
+      font-size: 0.92rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+    .report-space-meta {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Empty section ──────────────────────────────────────── */
+    .report-empty {
+      padding: 1.5rem 0;
+      color: var(--muted);
+      font-style: italic;
+      font-size: 0.9rem;
+    }
+
+    /* ── Footer caption ─────────────────────────────────────── */
+    .report-caption {
+      margin-top: 4rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      line-height: 1.7;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+    .report-caption a {
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: color 160ms ease-out, border-color 160ms ease-out;
+    }
+    .report-caption a:hover,
+    .report-caption a:focus-visible {
+      color: var(--text);
+      border-bottom-color: var(--border);
+      outline: none;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .report-navlinks a,
+      .rt-skill,
+      .report-caption a { transition: none; }
+    }
+  </style>
+<script type="application/ld+json" data-injector="gaia-json-ld">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Gaia Weekly Report — 2026-35",
+  "url": "https://gaiaskilltree.com/reports/2026-35/",
+  "publisher": {
+    "@type": "Organization",
+    "name": "Gaia Skill Tree",
+    "url": "https://gaiaskilltree.com/"
+  }
+}
+</script>
+</head>
+<body>
+  <nav id="site-nav"></nav>
+  <script src="../../js/mounts.js?v=7.10.0"></script>
+  <script src="../../js/site-nav.js?v=7.10.0"></script>
+
+  <main class="report-shell">
+
+    <header class="report-masthead">
+      <p class="report-eyebrow">Weekly Report · ISO 2026-W35</p>
+      <h1>What moved, <em>week 35</em>.</h1>
+      <div class="report-meta">
+        <span class="rm-item"><strong>Generated</strong> 2026-08-24</span>
+        <span class="rm-item"><strong>Salvage layer</strong> <code>L3</code></span>
+        <span class="rm-item"><strong>Generator</strong> gaia-content-engine v7.10.0</span>
+      </div>
+      <nav class="report-navlinks" aria-label="Report navigation">
+<a href="/reports/2026-34/">← Previous week</a>        <a href="/reports/">Archive</a>
+        <a href="/api/v1/reports/2026-35.json">Canonical JSON</a>
+      </nav>
+    </header>
+
+    <section class="report-section" aria-labelledby="trendingHeading">
+      <div class="report-section-head">
+        <h2 id="trendingHeading">Trending this week</h2>
+        <span class="report-section-note">by Trust Magnitude</span>
+      </div>
+      <div class="report-table-wrap">
+        <table class="report-table">
+          <thead><tr>
+            <th>#</th><th>Skill</th><th>Level</th>
+            <th class="num">Trust Magnitude</th><th class="num">Δ TM</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td class="rank">1</td>
+              <td>
+                <a class="rt-skill" href="/named/#explorer/mattpocock/teach">Teach</a>
+                <span class="rt-contributor">@mattpocock</span>
+              </td>
+              <td><span class="rt-level">2★</span></td>
+              <td class="num">44.5<span class="ev-grade" data-grade="C">C</span></td>
+              <td class="num"><span class="rt-delta">+44.5</span></td>
+            </tr>
+            <tr>
+              <td class="rank">2</td>
+              <td>
+                <a class="rt-skill" href="/named/#explorer/addy-osmani/code-simplification">Code Simplification</a>
+                <span class="rt-contributor">@addy-osmani</span>
+              </td>
+              <td><span class="rt-level">3★</span></td>
+              <td class="num">196.3<span class="ev-grade" data-grade="A">A</span></td>
+              <td class="num"><span class="rt-delta">+143.2</span></td>
+            </tr>
+            <tr>
+              <td class="rank">3</td>
+              <td>
+                <a class="rt-skill" href="/named/#explorer/anthropic/skill-creator">Skill Creator</a>
+                <span class="rt-contributor">@anthropic</span>
+              </td>
+              <td><span class="rt-level">3★</span></td>
+              <td class="num">211.5<span class="ev-grade" data-grade="A">A</span></td>
+              <td class="num"><span class="rt-delta">+121.5</span></td>
+            </tr>
+            <tr>
+              <td class="rank">4</td>
+              <td>
+                <a class="rt-skill" href="/named/#explorer/openai/few-shot-learning">Few-Shot Learning</a>
+                <span class="rt-contributor">@openai</span>
+              </td>
+              <td><span class="rt-level">4★</span></td>
+              <td class="num">221.0<span class="ev-grade" data-grade="A">A</span></td>
+              <td class="num"><span class="rt-delta">+121.0</span></td>
+            </tr>
+            <tr>
+              <td class="rank">5</td>
+              <td>
+                <a class="rt-skill" href="/named/#explorer/huggingface/semantic-cache">Semantic Cache</a>
+                <span class="rt-contributor">@huggingface</span>
+              </td>
+              <td><span class="rt-level">2★</span></td>
+              <td class="num">125.5<span class="ev-grade" data-grade="A">A</span></td>
+              <td class="num"><span class="rt-delta">+89.5</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="report-section" aria-labelledby="ascendedHeading">
+      <div class="report-section-head">
+        <h2 id="ascendedHeading">Recently ascended</h2>
+        <span class="report-section-note">most recent rank-ups</span>
+      </div>
+      <div class="report-table-wrap">
+        <table class="report-table">
+          <thead><tr>
+            <th>Skill</th><th>Rank change</th>
+            <th class="num">Trust Magnitude</th><th>Ascended</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td>
+                <a class="rt-skill" href="/named/#explorer/mattpocock/tdd">TDD</a>
+                <span class="rt-contributor">@mattpocock</span>
+              </td>
+              <td>
+                <span class="rt-rankchange">
+<span class="rc-prev">1★</span><span class="rc-arrow">→</span>3★
+                </span>
+              </td>
+              <td class="num">50.0<span class="ev-grade" data-grade="B">B</span></td>
+              <td><span class="rt-when">2026-08-20</span></td>
+            </tr>
+            <tr>
+              <td>
+                <a class="rt-skill" href="/named/#explorer/mattpocock/resolving-merge-conflicts">Resolving Merge Conflicts</a>
+                <span class="rt-contributor">@mattpocock</span>
+              </td>
+              <td>
+                <span class="rt-rankchange">
+<span class="rc-prev">1★</span><span class="rc-arrow">→</span>2★
+                </span>
+              </td>
+              <td class="num">41.0<span class="ev-grade" data-grade="C">C</span></td>
+              <td><span class="rt-when">2026-08-20</span></td>
+            </tr>
+            <tr>
+              <td>
+                <a class="rt-skill" href="/named/#explorer/mattpocock/scaffold-exercises">Scaffold Exercises</a>
+                <span class="rt-contributor">@mattpocock</span>
+              </td>
+              <td>
+                <span class="rt-rankchange">
+<span class="rc-prev">1★</span><span class="rc-arrow">→</span>2★
+                </span>
+              </td>
+              <td class="num">41.0<span class="ev-grade" data-grade="C">C</span></td>
+              <td><span class="rt-when">2026-08-20</span></td>
+            </tr>
+            <tr>
+              <td>
+                <a class="rt-skill" href="/named/#explorer/mattpocock/setup-pre-commit">Setup Pre-Commit</a>
+                <span class="rt-contributor">@mattpocock</span>
+              </td>
+              <td>
+                <span class="rt-rankchange">
+<span class="rc-prev">1★</span><span class="rc-arrow">→</span>2★
+                </span>
+              </td>
+              <td class="num">41.0<span class="ev-grade" data-grade="C">C</span></td>
+              <td><span class="rt-when">2026-08-20</span></td>
+            </tr>
+            <tr>
+              <td>
+                <a class="rt-skill" href="/named/#explorer/mattpocock/writing-for-agents">Writing For Agents</a>
+                <span class="rt-contributor">@mattpocock</span>
+              </td>
+              <td>
+                <span class="rt-rankchange">
+<span class="rc-prev">1★</span><span class="rc-arrow">→</span>2★
+                </span>
+              </td>
+              <td class="num">41.0<span class="ev-grade" data-grade="C">C</span></td>
+              <td><span class="rt-when">2026-08-20</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="report-section" aria-labelledby="contestedHeading">
+      <div class="report-section-head">
+        <h2 id="contestedHeading">Most contested spaces</h2>
+        <span class="report-section-note">most-implemented generic skills</span>
+      </div>
+        <div class="report-space">
+          <div class="report-space-head">
+            <span class="report-space-ref">git-ship-done-pipeline</span>
+            <span class="report-space-meta">2 implementations · top TM 296.3</span>
+          </div>
+          <div class="report-table-wrap">
+            <table class="report-table">
+              <thead><tr>
+                <th>Skill</th><th>Level</th>
+                <th class="num">Trust Magnitude</th><th>Origin</th>
+              </tr></thead>
+              <tbody>
+                <tr>
+                  <td><a class="rt-skill" href="/named/#explorer/addy-osmani/agent-skills">addy-osmani/agent-skills</a></td>
+                  <td><span class="rt-level">5★</span></td>
+                  <td class="num">296.3<span class="ev-grade" data-grade="S">S</span></td>
+                  <td><span class="rt-tag rt-tag--origin">origin</span></td>
+                </tr>
+                <tr>
+                  <td><a class="rt-skill" href="/named/#explorer/gsd-build/get-shit-done">gsd-build/get-shit-done</a></td>
+                  <td><span class="rt-level">4★</span></td>
+                  <td class="num">202.2<span class="ev-grade" data-grade="A">A</span></td>
+                  <td><span class="rt-muted">—</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="report-space">
+          <div class="report-space-head">
+            <span class="report-space-ref">tool-creation</span>
+            <span class="report-space-meta">2 implementations · top TM 211.5</span>
+          </div>
+          <div class="report-table-wrap">
+            <table class="report-table">
+              <thead><tr>
+                <th>Skill</th><th>Level</th>
+                <th class="num">Trust Magnitude</th><th>Origin</th>
+              </tr></thead>
+              <tbody>
+                <tr>
+                  <td><a class="rt-skill" href="/named/#explorer/anthropic/skill-creator">anthropic/skill-creator</a></td>
+                  <td><span class="rt-level">3★</span></td>
+                  <td class="num">211.5<span class="ev-grade" data-grade="A">A</span></td>
+                  <td><span class="rt-tag rt-tag--origin">origin</span></td>
+                </tr>
+                <tr>
+                  <td><a class="rt-skill" href="/named/#explorer/mattpocock/write-a-skill">mattpocock/write-a-skill</a></td>
+                  <td><span class="rt-level">2★</span></td>
+                  <td class="num">45.0<span class="ev-grade" data-grade="C">C</span></td>
+                  <td><span class="rt-muted">—</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="report-space">
+          <div class="report-space-head">
+            <span class="report-space-ref">refactor-code</span>
+            <span class="report-space-meta">3 implementations · top TM 196.3</span>
+          </div>
+          <div class="report-table-wrap">
+            <table class="report-table">
+              <thead><tr>
+                <th>Skill</th><th>Level</th>
+                <th class="num">Trust Magnitude</th><th>Origin</th>
+              </tr></thead>
+              <tbody>
+                <tr>
+                  <td><a class="rt-skill" href="/named/#explorer/addy-osmani/code-simplification">addy-osmani/code-simplification</a></td>
+                  <td><span class="rt-level">3★</span></td>
+                  <td class="num">196.3<span class="ev-grade" data-grade="A">A</span></td>
+                  <td><span class="rt-tag rt-tag--origin">origin</span></td>
+                </tr>
+                <tr>
+                  <td><a class="rt-skill" href="/named/#explorer/mattpocock/improve-codebase-architecture">mattpocock/improve-codebase-architecture</a></td>
+                  <td><span class="rt-level">2★</span></td>
+                  <td class="num">45.0<span class="ev-grade" data-grade="C">C</span></td>
+                  <td><span class="rt-muted">—</span></td>
+                </tr>
+                <tr>
+                  <td><a class="rt-skill" href="/named/#explorer/mattpocock/migrate-to-shoehorn">mattpocock/migrate-to-shoehorn</a></td>
+                  <td><span class="rt-level">2★</span></td>
+                  <td class="num">41.0<span class="ev-grade" data-grade="C">C</span></td>
+                  <td><span class="rt-muted">—</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+    </section>
+
+    <footer class="report-caption">
+      Compiled mechanically by the <a href="https://github.com/gaia-research/gaia-skill-tree/tree/main/scripts/contentEngine">Gaia Content Engine</a> from <a href="/api/v1/trending/">/api/v1/trending/*.json</a>, recomputed daily. The <a href="/api/v1/reports/2026-35.json">canonical JSON</a> is frozen and permanent. Salvage layer: <code>L3</code>.
+    </footer>
+
+  </main>
+
+  <div id="site-footer-mount"></div>
+  <script src="../../js/site-footer.js?v=7.10.0"></script>
+</body>
+</html>
