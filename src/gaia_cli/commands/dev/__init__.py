@@ -77,12 +77,15 @@ Registry development commands (requires Verifier authorization):
                 [--named-capstone contributor/slug] [--suite-components a,b,c]
   gaia dev build
   gaia dev verify <skill_id>
+  gaia dev arbor import <hh-stamp-v1.json>
+  gaia dev arbor replay
 
 Read-only (no Verifier required):
   gaia dev list
   gaia dev audit <skill_id>
   gaia dev diff [ref]
   gaia dev validate [--intake] [--meta-sync]
+  gaia dev arbor check
   gaia dev test <suite>
 """
 
@@ -736,6 +739,22 @@ class DevCommand(Command):
             help="Verify meta.json is in sync with gaia.json",
         )
 
+        dev_arbor = dev_sub.add_parser(
+            "arbor",
+            help="Import, verify, or replay Research-owned HH stamp decisions",
+        )
+        arbor_sub = dev_arbor.add_subparsers(dest="arbor_command", required=True)
+        arbor_import = arbor_sub.add_parser(
+            "import", help="Validate and atomically accept an hh-stamp/v1 bundle"
+        )
+        arbor_import.add_argument("bundle", help="Path to the Research acceptance bundle")
+        arbor_sub.add_parser(
+            "check", help="Validate retained bundles and detect projection drift"
+        )
+        arbor_sub.add_parser(
+            "replay", help="Regenerate the projection from retained accepted bundles"
+        )
+
         dev_release = dev_sub.add_parser(
             "release", help="Bump version, commit, tag, and push to trigger GitHub Release"
         )
@@ -910,9 +929,12 @@ class DevCommand(Command):
             "sync-upstream",
             "freeze",
         }
-        if dev_cmd in MUTATING_DEV_COMMANDS:
+        if dev_cmd in MUTATING_DEV_COMMANDS or (
+            dev_cmd == "arbor" and args.arbor_command in {"import", "replay"}
+        ):
             from gaia_cli.authz import require_operator
-            require_operator(f"dev {dev_cmd}", args.registry)
+            label = f"dev arbor {args.arbor_command}" if dev_cmd == "arbor" else f"dev {dev_cmd}"
+            require_operator(label, args.registry)
 
         if dev_cmd == "list":
             from gaia_cli.commands.dev.list import meta_list_command
@@ -986,6 +1008,9 @@ class DevCommand(Command):
         elif dev_cmd == "validate":
             from gaia_cli.impl import validate_command
             validate_command(args)
+        elif dev_cmd == "arbor":
+            from gaia_cli.commands.dev.arbor import arborCommand
+            return arborCommand(args)
         elif dev_cmd == "release":
             from gaia_cli.impl import release_command
             release_command(args)
