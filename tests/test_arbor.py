@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import json
 import shutil
 from pathlib import Path
@@ -19,13 +20,19 @@ from gaia_cli.arbor import (
     writeAtomic,
 )
 
-SKILL_HASH = "1" * 64
+CANONICAL_BYTES = b'{"id":"example-skill","type":"basic"}\n'
+SKILL_HASH = hashlib.sha256(CANONICAL_BYTES).hexdigest()
 ARTIFACT_HASH = "2" * 64
+TASK_SET_HASH = "3" * 64
+SEED_HASH = "4" * 64
 
 
 def makeStore(tmpPath: Path) -> Path:
     contracts = Path(__file__).parents[1] / "registry" / "arbor" / "contracts"
     shutil.copytree(contracts, tmpPath / "registry" / "arbor" / "contracts")
+    source = tmpPath / "registry" / "nodes" / "basic" / "example-skill.json"
+    source.parent.mkdir(parents=True)
+    source.write_bytes(CANONICAL_BYTES)
     return tmpPath
 
 
@@ -35,10 +42,10 @@ def writeRecord(tmpPath: Path, name: str, record: dict) -> Path:
     return path
 
 
-def declaration() -> dict:
+def declaration(skillId: str = "example-skill", skillHash: str = SKILL_HASH) -> dict:
     return {
         "schema": "gaia.arbor-expert-declaration/v1",
-        "skill": {"id": "expert/example", "contentSha256": SKILL_HASH},
+        "skill": {"id": skillId, "contentSha256": skillHash},
         "claims": [
             {
                 "id": "human-review",
@@ -68,19 +75,28 @@ def declaration() -> dict:
     }
 
 
+def environment() -> dict:
+    return {
+        "model": "fixture-model",
+        "harness": "fixture-harness",
+        "taskSetSha256": TASK_SET_HASH,
+        "seedSha256": SEED_HASH,
+    }
+
+
 def receipt(declarationDigest: str, claimId: str = "human-review") -> dict:
     return {
         "schema": "gaia.arbor-benchmark-receipt/v1",
-        "skill": {"id": "expert/example", "contentSha256": SKILL_HASH},
+        "skill": {"id": "example-skill", "contentSha256": SKILL_HASH},
         "target": {"declarationSha256": declarationDigest, "claimId": claimId},
         "benchmark": {"id": "focused-review", "version": "1"},
         "control": {
             "definition": "The same tasks without the declared capability.",
-            "environment": {"model": "fixture-model", "harness": "fixture-harness"},
+            "environment": environment(),
         },
         "treatment": {
             "definition": "The same tasks with the declared capability.",
-            "environment": {"model": "fixture-model", "harness": "fixture-harness"},
+            "environment": environment(),
         },
         "provenance": {
             "runner": "fixture-runner",
@@ -95,18 +111,25 @@ def receipt(declarationDigest: str, claimId: str = "human-review") -> dict:
                 "treatment": {"n": 20, "mean": 2.0},
                 "difference": {
                     "estimate": -2.0,
-                    "confidenceInterval": {"lower": -3.0, "upper": -1.2, "confidence": 0.95},
+                    "confidenceInterval": {
+                        "lower": -3.0,
+                        "upper": -1.2,
+                        "confidence": 0.95,
+                    },
                 },
             }
         ],
     }
 
 
+def importDeclaration(root: Path, tmpPath: Path) -> tuple[Path, str, bool]:
+    return importSource(writeRecord(tmpPath, "declaration.json", declaration()), root)
+
+
 def test_dual_human_and_model_facets_are_independent(tmp_path):
     root = makeStore(tmp_path)
-    source = writeRecord(tmp_path, "declaration.json", declaration())
+    _, digest, created = importDeclaration(root, tmp_path)
 
-    _, digest, created = importSource(source, root)
     assert created is True
     [profileFile] = replay(root)
     profile = readJson(profileFile)
@@ -119,8 +142,7 @@ def test_dual_human_and_model_facets_are_independent(tmp_path):
 
 def test_profile_recomputes_from_immutable_declaration_and_receipt(tmp_path):
     root = makeStore(tmp_path)
-    declarationPath = writeRecord(tmp_path, "declaration.json", declaration())
-    storedDeclaration, declarationDigest, _ = importSource(declarationPath, root)
+    storedDeclaration, declarationDigest, _ = importDeclaration(root, tmp_path)
     [profileFile] = replay(root)
     before = readJson(profileFile)
 
@@ -151,7 +173,7 @@ def test_profile_recomputes_from_immutable_declaration_and_receipt(tmp_path):
 def test_receipt_interpretation_is_derived_from_measurements(
     estimate, lower, upper, expected
 ):
-    record = receipt("3" * 64)
+    record = receipt("5" * 64)
     difference = record["measurements"][0]["difference"]
     difference["estimate"] = estimate
     difference["confidenceInterval"]["lower"] = lower
@@ -160,25 +182,87 @@ def test_receipt_interpretation_is_derived_from_measurements(
     assert interpretReceipt(declaration()["claims"][0], record) == expected
 
 
-def test_targeted_unresolved_measurement_is_inconclusive(tmp_path):
+def test_targeted_unresolved_measurement_is_inconclusive_but_untargeted_is_unchanged(tmp_path):
     root = makeStore(tmp_path)
-    _, declarationDigest, _ = importSource(
-        writeRecord(tmp_path, "declaration.json", declaration()), root
-    )
+    _, declarationDigest, _ = importDeclaration(root, tmp_path)
     unresolved = receipt(declarationDigest)
     unresolved["measurements"][0]["metric"] = "another-metric"
     importSource(writeRecord(tmp_path, "receipt.json", unresolved), root)
 
     [profileFile] = replay(root)
     support = {claim["id"]: claim["support"] for claim in readJson(profileFile)["claims"]}
-    assert support["human-review"] == "inconclusive"
+    assert support == {"human-review": "inconclusive", "model-draft": "expert-declared"}
+
+
+def test_canonical_exact_bytes_are_verified_for_generic_and_named_skills(tmp_path):
+    root = makeStore(tmp_path)
+    namedBytes = b"---\nid: expert/named-example\n---\n# Named example\n"
+    named = root / "registry" / "named" / "expert" / "named-example.md"
+    named.parent.mkdir(parents=True)
+    named.write_bytes(namedBytes)
+    namedHash = hashlib.sha256(namedBytes).hexdigest()
+
+    validateRecord(declaration("expert/named-example", namedHash), root)
+    altered = declaration("expert/named-example", "0" * 64)
+    with pytest.raises(ArborError, match="canonical skill hash mismatch"):
+        validateRecord(altered, root)
+    with pytest.raises(ArborError, match="canonical skill id does not exist"):
+        validateRecord(declaration("missing-skill", SKILL_HASH), root)
+
+
+def test_canonical_source_change_breaks_check_and_replay(tmp_path):
+    root = makeStore(tmp_path)
+    importDeclaration(root, tmp_path)
+    [profile] = replay(root)
+    before = profile.read_bytes()
+    canonical = root / "registry" / "nodes" / "basic" / "example-skill.json"
+    canonical.write_bytes(CANONICAL_BYTES + b" ")
+
+    with pytest.raises(ArborError, match="canonical skill hash mismatch"):
+        checkStore(root)
+    with pytest.raises(ArborError, match="canonical skill hash mismatch"):
+        replay(root)
+    assert profile.read_bytes() == before
+
+
+def test_declaration_preflight_rejects_cross_source_duplicate_without_poison(tmp_path):
+    root = makeStore(tmp_path)
+    importDeclaration(root, tmp_path)
+    second = declaration()
+    second["claims"] = [copy.deepcopy(second["claims"][0])]
+    second["claims"][0]["rationale"] = "A distinct declaration with a colliding claim id."
+
+    with pytest.raises(ArborError, match="duplicate Arbor claim id"):
+        importSource(writeRecord(tmp_path, "duplicate.json", second), root)
+
+    assert len(list((root / "registry" / "arbor" / "sources" / "declarations").glob("*.json"))) == 1
+
+
+@pytest.mark.parametrize(
+    ("mutate", "message"),
+    [
+        (lambda record: record["measurements"][0]["difference"].update(estimate=-1.5), "treatment.mean - control.mean"),
+        (lambda record: record["measurements"][0]["difference"]["confidenceInterval"].update(lower=-3.0, upper=-2.5), "outside confidence interval"),
+        (lambda record: record["treatment"]["environment"].update(model="other-model"), "environments must be equivalent"),
+        (lambda record: record["provenance"].update(observedAt="not-a-date"), "not a 'date-time'"),
+    ],
+)
+def test_contradictory_receipts_are_rejected_without_poison(tmp_path, mutate, message):
+    root = makeStore(tmp_path)
+    _, declarationDigest, _ = importDeclaration(root, tmp_path)
+    record = receipt(declarationDigest)
+    mutate(record)
+
+    with pytest.raises(ArborError, match=message):
+        importSource(writeRecord(tmp_path, "contradictory.json", record), root)
+
+    receiptRoot = root / "registry" / "arbor" / "sources" / "receipts"
+    assert not receiptRoot.exists() or list(receiptRoot.glob("*.json")) == []
 
 
 def test_immutable_receipt_reuse_and_tamper_detection(tmp_path):
     root = makeStore(tmp_path)
-    _, declarationDigest, _ = importSource(
-        writeRecord(tmp_path, "declaration.json", declaration()), root
-    )
+    _, declarationDigest, _ = importDeclaration(root, tmp_path)
     inputPath = writeRecord(tmp_path, "receipt.json", receipt(declarationDigest))
     stored, _, created = importSource(inputPath, root)
     assert created is True
@@ -186,11 +270,32 @@ def test_immutable_receipt_reuse_and_tamper_detection(tmp_path):
     assert sameStored == stored
     assert createdAgain is False
 
-    altered = readJson(stored)
-    altered["measurements"][0]["control"]["mean"] = 99
-    stored.write_text(json.dumps(altered), encoding="utf-8")
-    with pytest.raises(ArborError, match="filename does not match its digest"):
+    stored.write_bytes(stored.read_bytes() + b" ")
+    with pytest.raises(ArborError, match="not canonically serialized"):
         checkStore(root)
+
+
+def test_replay_reconciles_stale_generated_profiles(tmp_path):
+    root = makeStore(tmp_path)
+    importDeclaration(root, tmp_path)
+    [expected] = replay(root)
+    stale = expected.parent / ("f" * 64 + ".json")
+    stale.write_text("{}\n", encoding="utf-8")
+
+    assert replay(root) == [expected]
+    assert expected.is_file()
+    assert not stale.exists()
+
+
+def test_store_lock_blocks_import_check_and_replay(tmp_path):
+    root = makeStore(tmp_path)
+    lock = root / "registry" / "arbor" / ".store-lock"
+    lock.mkdir()
+    source = writeRecord(tmp_path, "declaration.json", declaration())
+
+    for operation in (lambda: importSource(source, root), lambda: checkStore(root), lambda: replay(root)):
+        with pytest.raises(ArborError, match="store is locked"):
+            operation()
 
 
 def test_atomic_generated_write_preserves_old_file_on_replace_failure(tmp_path, monkeypatch):
@@ -208,7 +313,10 @@ def test_atomic_generated_write_preserves_old_file_on_replace_failure(tmp_path, 
     assert list(tmp_path.glob(".*.tmp")) == []
 
 
-@pytest.mark.parametrize("field", ["stars", "rank", "trustMagnitude", "prestige", "tm"])
+@pytest.mark.parametrize(
+    "field",
+    ["stars", "rank", "trustMagnitude", "prestige", "tm", "trust", "grade"],
+)
 def test_prestige_fields_are_rejected_recursively(tmp_path, field):
     root = makeStore(tmp_path)
     record = declaration()
@@ -218,16 +326,29 @@ def test_prestige_fields_are_rejected_recursively(tmp_path, field):
         validateRecord(record, root)
 
 
-def test_receipt_rejects_conclusion_labels(tmp_path):
+@pytest.mark.parametrize(
+    "field",
+    ["verdict", "result", "interpretation", "assessment", "conclusion", "support"],
+)
+def test_source_interpretation_fields_are_rejected_recursively(tmp_path, field):
     root = makeStore(tmp_path)
-    record = receipt("3" * 64)
-    record["measurements"][0]["verdict"] = "confirmed"
+    record = receipt("5" * 64)
+    record["provenance"][field] = "confirmed"
 
-    with pytest.raises(ArborError, match="benchmark conclusion field is forbidden"):
+    with pytest.raises(ArborError, match="source interpretation field is forbidden"):
         validateRecord(record, root)
+
+
+@pytest.mark.parametrize("skillId", ["expert//example", "expert/example/extra", "expert/..", "expert/"])
+def test_schema_and_profile_path_share_exact_safe_grammar(tmp_path, skillId):
+    root = makeStore(tmp_path)
+    with pytest.raises(ArborError, match="invalid Arbor record"):
+        validateRecord(declaration(skillId, SKILL_HASH), root)
+    with pytest.raises(ArborError, match="unsafe Arbor skill id"):
+        profilePath(root / "registry" / "arbor", skillId, SKILL_HASH)
 
 
 def test_profile_path_keeps_skill_identity_and_exact_hash_separate(tmp_path):
     root = makeStore(tmp_path)
-    expected = root / "registry" / "arbor" / "profiles" / "expert" / "example" / f"{SKILL_HASH}.json"
-    assert profilePath(root / "registry" / "arbor", "expert/example", SKILL_HASH) == expected
+    expected = root / "registry" / "arbor" / "profiles" / "example-skill" / f"{SKILL_HASH}.json"
+    assert profilePath(root / "registry" / "arbor", "example-skill", SKILL_HASH) == expected

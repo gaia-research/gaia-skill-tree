@@ -27,12 +27,13 @@
     "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
     "digests": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/definitions/sha256"}},
     "nonEmpty": {"type": "string", "minLength": 1},
+    "skillId": {"type": "string", "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?(/[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?)?$"},
     "skill": {
       "type": "object",
       "additionalProperties": false,
       "required": ["id", "contentSha256"],
       "properties": {
-        "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._/-]*$"},
+        "id": {"$ref": "#/definitions/skillId"},
         "contentSha256": {"$ref": "#/definitions/sha256"}
       }
     },

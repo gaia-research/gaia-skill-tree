@@ -58,13 +58,25 @@
   "definitions": {
     "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
     "nonEmpty": {"type": "string", "minLength": 1},
+    "skillId": {"type": "string", "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?(/[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?)?$"},
     "skill": {
       "type": "object",
       "additionalProperties": false,
       "required": ["id", "contentSha256"],
       "properties": {
-        "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._/-]*$"},
+        "id": {"$ref": "#/definitions/skillId"},
         "contentSha256": {"$ref": "#/definitions/sha256"}
+      }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["model", "harness", "taskSetSha256", "seedSha256"],
+      "properties": {
+        "model": {"$ref": "#/definitions/nonEmpty"},
+        "harness": {"$ref": "#/definitions/nonEmpty"},
+        "taskSetSha256": {"$ref": "#/definitions/sha256"},
+        "seedSha256": {"$ref": "#/definitions/sha256"}
       }
     },
     "arm": {
@@ -73,7 +85,7 @@
       "required": ["definition", "environment"],
       "properties": {
         "definition": {"$ref": "#/definitions/nonEmpty"},
-        "environment": {"type": "object", "minProperties": 1, "additionalProperties": {"type": ["string", "number", "boolean", "null"]}}
+        "environment": {"$ref": "#/definitions/environment"}
       }
     },
     "sample": {
