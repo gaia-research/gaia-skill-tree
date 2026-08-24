@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "gaia.arbor-profile/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "skill", "inputDigest", "sources", "claims"],
+  "properties": {
+    "schema": {"const": "gaia.arbor-profile/v1"},
+    "skill": {"$ref": "#/definitions/skill"},
+    "inputDigest": {"$ref": "#/definitions/sha256"},
+    "sources": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["declarations", "benchmarkReceipts", "interpretations"],
+      "properties": {
+        "declarations": {"$ref": "#/definitions/digests"},
+        "benchmarkReceipts": {"$ref": "#/definitions/digests"},
+        "interpretations": {"$ref": "#/definitions/digests"}
+      }
+    },
+    "claims": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/definitions/claim"}
+    }
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "digests": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/definitions/sha256"}},
+    "nonEmpty": {"type": "string", "minLength": 1},
+    "recordId": {"type": "string", "pattern": "^[a-z][a-z0-9.-]*$"},
+    "skillId": {"type": "string", "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?(/[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?)?$"},
+    "skill": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "contentSha256"],
+      "properties": {
+        "id": {"$ref": "#/definitions/skillId"},
+        "contentSha256": {"$ref": "#/definitions/sha256"}
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actor", "basis"],
+      "properties": {
+        "actor": {"$ref": "#/definitions/nonEmpty"},
+        "basis": {"$ref": "#/definitions/nonEmpty"}
+      }
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "facet", "conditions", "rationale", "authority", "support", "declarationId", "declaredAt", "declarationSource", "benchmarkSources", "interpretationSource"],
+      "properties": {
+        "id": {"$ref": "#/definitions/recordId"},
+        "facet": {"enum": ["human-led", "model-led"]},
+        "conditions": {"$ref": "#/definitions/nonEmpty"},
+        "rationale": {"$ref": "#/definitions/nonEmpty"},
+        "authority": {"$ref": "#/definitions/authority"},
+        "support": {"enum": ["expert-declared", "benchmark-confirmed", "benchmark-qualified", "benchmark-revised", "inconclusive"]},
+        "declarationId": {"$ref": "#/definitions/recordId"},
+        "declaredAt": {"type": "string", "format": "date-time"},
+        "declarationSource": {"$ref": "#/definitions/sha256"},
+        "benchmarkSources": {"$ref": "#/definitions/digests"},
+        "interpretationSource": {
+          "anyOf": [
+            {"$ref": "#/definitions/sha256"},
+            {"type": "null"}
+          ]
+        }
+      }
+    }
+  }
+}

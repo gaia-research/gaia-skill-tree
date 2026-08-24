@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 620" role="img" aria-labelledby="title desc">
+  <title id="title">Arbor behavioral tree</title><desc id="desc">A rooted tree with blue converging and pink exploratory currents in its canopy.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#11172b"/><stop offset="1" stop-color="#24162e"/></linearGradient>
+    <linearGradient id="trunk" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d4b177"/><stop offset="1" stop-color="#694b52"/></linearGradient>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#38bdf8" stop-opacity=".15"/><stop offset=".55" stop-color="#8ee7ff"/><stop offset="1" stop-color="#38bdf8" stop-opacity=".2"/></linearGradient>
+    <linearGradient id="pink" x1="1" y1="0" x2="0" y2="1"><stop stop-color="#ec4899" stop-opacity=".2"/><stop offset=".48" stop-color="#ff9acb"/><stop offset="1" stop-color="#ec4899" stop-opacity=".1"/></linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="1200" height="620" fill="url(#sky)" rx="24"/>
+  <g fill="#fff" opacity=".5"><circle cx="105" cy="95" r="1.5"/><circle cx="190" cy="170" r="1"/><circle cx="320" cy="78" r="1.5"/><circle cx="855" cy="92" r="1.5"/><circle cx="1050" cy="150" r="1"/><circle cx="1090" cy="65" r="1.5"/><circle cx="925" cy="238" r="1"/></g>
+  <path d="M596 550 C575 476 586 407 596 334 C607 262 603 179 601 92" fill="none" stroke="url(#trunk)" stroke-width="31" stroke-linecap="round"/>
+  <g fill="none" stroke="url(#trunk)" stroke-width="17" stroke-linecap="round">
+    <path d="M595 348 C497 300 401 236 296 202"/><path d="M596 281 C686 245 777 171 893 144"/><path d="M597 220 C525 181 476 124 429 80"/><path d="M599 185 C678 149 751 111 783 61"/><path d="M592 410 C496 382 426 350 365 310"/><path d="M605 375 C702 348 782 305 862 242"/>
+  </g>
+  <g fill="#4f925f" stroke="#a8e7a7" stroke-opacity=".38">
+    <circle cx="295" cy="200" r="47"/><circle cx="400" cy="235" r="57"/><circle cx="474" cy="142" r="53"/><circle cx="426" cy="79" r="39"/><circle cx="700" cy="215" r="61"/><circle cx="796" cy="162" r="52"/><circle cx="892" cy="143" r="48"/><circle cx="785" cy="63" r="40"/><circle cx="862" cy="241" r="50"/><circle cx="363" cy="310" r="42"/>
+  </g>
+  <g fill="none" stroke-linecap="round" filter="url(#glow)">
+    <path d="M148 188 C276 150 410 263 565 290 C662 306 769 260 965 165" stroke="url(#blue)" stroke-width="8"/>
+    <path d="M214 331 C370 283 453 367 579 333 C689 304 727 197 1030 128" stroke="url(#blue)" stroke-width="5" stroke-dasharray="5 16"/>
+    <path d="M1046 305 C885 223 781 284 665 238 C568 198 512 147 315 106" stroke="url(#pink)" stroke-width="8"/>
+    <path d="M954 84 C790 91 744 188 635 192 C514 197 416 293 213 351" stroke="url(#pink)" stroke-width="5" stroke-dasharray="5 16"/>
+  </g>
+  <g fill="#d8c090"><path d="M595 534 C543 565 500 575 430 580"/><path d="M601 534 C652 569 735 573 810 582"/><path d="M593 525 C558 540 535 559 514 591"/><path d="M606 525 C644 542 664 558 682 590"/></g>
+  <g font-family="ui-sans-serif,system-ui" font-size="15" font-weight="600"><text x="73" y="520" fill="#9fe7ff">converge · verify · recover</text><text x="845" y="520" fill="#ff9acb">explore · challenge · branch</text></g>
+</svg>

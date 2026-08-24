@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 330" role="img" aria-labelledby="title desc">
+<title id="title">Arbor declaration-first evidence loop</title><desc id="desc">Five stages from claim declaration through governed interpretation, with the first three identifying a question and the final two answering it.</desc>
+<defs><linearGradient id="g" x1="0" x2="1"><stop stop-color="#6d3d72"/><stop offset="1" stop-color="#1689aa"/></linearGradient><filter id="s"><feDropShadow dx="0" dy="5" stdDeviation="6" flood-opacity=".22"/></filter></defs>
+<rect width="1200" height="330" rx="22" fill="#101527"/>
+<text x="66" y="55" fill="#cbd5e1" font-family="ui-sans-serif,system-ui" font-size="15" font-weight="700" letter-spacing="2">ARBO R EVIDENCE LOOP · REVIEW-STAGE PROTOCOL</text>
+<path d="M157 170 H1043" stroke="url(#g)" stroke-width="5" stroke-linecap="round"/>
+<g font-family="ui-sans-serif,system-ui" text-anchor="middle" filter="url(#s)">
+ <g transform="translate(156 170)"><circle r="48" fill="#51365b" stroke="#f3a2ca" stroke-width="2"/><text y="-5" fill="white" font-size="14" font-weight="700">DECLARE</text><text y="17" fill="#f7d4e6" font-size="11">conditions + authority</text><text y="84" fill="#b6bfce" font-size="12">claim, not verdict</text></g>
+ <g transform="translate(378 170)"><circle r="48" fill="#283b58" stroke="#84dffd" stroke-width="2"/><text y="-5" fill="white" font-size="14" font-weight="700">OBSERVE</text><text y="17" fill="#d6f5ff" font-size="11">local + opt-in</text><text y="84" fill="#b6bfce" font-size="12">signal, not benchmark</text></g>
+ <g transform="translate(600 170)"><circle r="48" fill="#3b4266" stroke="#c4c9ff" stroke-width="2"/><text y="-5" fill="white" font-size="14" font-weight="700">QUESTION</text><text y="17" fill="#e7e9ff" font-size="11">one uncertainty</text><text y="84" fill="#b6bfce" font-size="12">candidate, not queue</text></g>
+ <g transform="translate(822 170)"><circle r="48" fill="#28515a" stroke="#86eed1" stroke-width="2"/><text y="-5" fill="white" font-size="14" font-weight="700">RECEIPT</text><text y="17" fill="#d2fff4" font-size="11">control + treatment</text><text y="84" fill="#b6bfce" font-size="12">observation, not score</text></g>
+ <g transform="translate(1044 170)"><circle r="48" fill="#4b465e" stroke="#d5b5ff" stroke-width="2"/><text y="-5" fill="white" font-size="14" font-weight="700">INTERPRET</text><text y="17" fill="#f0e3ff" font-size="11">governed revision</text><text y="84" fill="#b6bfce" font-size="12">explicit, revisable</text></g>
+</g>
+<text x="354" y="292" fill="#84dffd" font-family="ui-sans-serif,system-ui" font-size="13" text-anchor="middle">TELEMETRY IDENTIFIES A QUESTION</text><text x="926" y="292" fill="#d5b5ff" font-family="ui-sans-serif,system-ui" font-size="13" text-anchor="middle">CONTROLLED EVIDENCE ANSWERS IT</text>
+</svg>

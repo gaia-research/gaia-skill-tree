@@ -77,12 +77,15 @@ Registry development commands (requires Verifier authorization):
                 [--named-capstone contributor/slug] [--suite-components a,b,c]
   gaia dev build
   gaia dev verify <skill_id>
+  gaia dev arbor import <record.json>
+  gaia dev arbor replay
 
 Read-only (no Verifier required):
   gaia dev list
   gaia dev audit <skill_id>
   gaia dev diff [ref]
   gaia dev validate [--intake] [--meta-sync]
+  gaia dev arbor check [record.json]
   gaia dev test <suite>
 """
 
@@ -271,6 +274,25 @@ class DevCommand(Command):
         dev_provenance.add_argument(
             "--timestamp",
             help="ISO 8601 date-time for the stage event (defaults to now)",
+        )
+
+        dev_arbor = dev_sub.add_parser(
+            "arbor",
+            help="Import, validate, and replay declaration-first Arbor sidecar records",
+        )
+        arbor_sub = dev_arbor.add_subparsers(dest="arbor_command")
+        arbor_import = arbor_sub.add_parser(
+            "import", help="Validate and immutably import a declaration or benchmark receipt"
+        )
+        arbor_import.add_argument("input", help="Path to a declaration or receipt JSON file")
+        arbor_check = arbor_sub.add_parser(
+            "check", help="Validate one record or the complete Arbor source/profile store"
+        )
+        arbor_check.add_argument(
+            "input", nargs="?", help="Optional record path; omit to check the complete store"
+        )
+        arbor_sub.add_parser(
+            "replay", help="Recompute generated Arbor profiles from immutable sources"
         )
 
         dev_merge = dev_sub.add_parser(
@@ -910,9 +932,14 @@ class DevCommand(Command):
             "sync-upstream",
             "freeze",
         }
-        if dev_cmd in MUTATING_DEV_COMMANDS:
+        if dev_cmd in MUTATING_DEV_COMMANDS or (
+            dev_cmd == "arbor" and getattr(args, "arbor_command", None) in {"import", "replay"}
+        ):
             from gaia_cli.authz import require_operator
-            require_operator(f"dev {dev_cmd}", args.registry)
+            operation = (
+                f"dev arbor {args.arbor_command}" if dev_cmd == "arbor" else f"dev {dev_cmd}"
+            )
+            require_operator(operation, args.registry)
 
         if dev_cmd == "list":
             from gaia_cli.commands.dev.list import meta_list_command
@@ -926,6 +953,9 @@ class DevCommand(Command):
         elif dev_cmd == "provenance":
             from gaia_cli.commands.dev.provenanceCmd import provenanceCommand
             return provenanceCommand(args)
+        elif dev_cmd == "arbor":
+            from gaia_cli.commands.dev.arborCmd import arborCommand
+            return arborCommand(args)
         elif dev_cmd == "merge":
             from gaia_cli.commands.dev.merge import meta_merge_command
             meta_merge_command(args)
