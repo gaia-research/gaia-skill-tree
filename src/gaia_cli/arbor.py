@@ -57,13 +57,23 @@ def arborPaths(repoRoot: str | Path) -> tuple[Path, Path, Path]:
 
 
 def loadSchemas(repoRoot: str | Path) -> tuple[dict[str, Any], dict[str, Any]]:
-    schemaRoot = Path(repoRoot) / "registry" / "schema"
-    try:
-        bundle = json.loads((schemaRoot / "hh-stamp.schema.json").read_text(encoding="utf-8"))
-        projection = json.loads((schemaRoot / "arborStamp.schema.json").read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
-        raise ArborError(f"could not load Arbor schemas: {exc}") from exc
-    return bundle, projection
+    """Load canonical Arbor schemas, falling back to bundled package mirrors."""
+    schemaRoots = (
+        Path(repoRoot) / "registry" / "schema",
+        Path(__file__).resolve().parent / "data" / "registry" / "schema",
+    )
+    schemaNames = ("hh-stamp.schema.json", "arborStamp.schema.json")
+    for schemaRoot in schemaRoots:
+        schemaPaths = tuple(schemaRoot / name for name in schemaNames)
+        if not all(path.is_file() for path in schemaPaths):
+            continue
+        try:
+            bundle = json.loads(schemaPaths[0].read_text(encoding="utf-8"))
+            projection = json.loads(schemaPaths[1].read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            raise ArborError(f"could not load Arbor schemas: {exc}") from exc
+        return bundle, projection
+    raise ArborError("could not load Arbor schemas: canonical and bundled schema files are missing")
 
 
 def validateAgainst(value: Any, schema: dict[str, Any], label: str, store: dict[str, Any] | None = None) -> None:
@@ -245,7 +255,10 @@ def importBundle(repoRoot: str | Path, bundlePath: str | Path) -> tuple[str, int
     existingRows = projectionRows(existing)
     validateProjection(existingRows, projectionSchema, bundleSchema)
     _arborRoot, sourcesRoot, projectionPath = arborPaths(repoRoot)
-    currentProjection = projectionPath.read_bytes()
+    try:
+        currentProjection = projectionPath.read_bytes()
+    except OSError as exc:
+        raise ArborError(f"could not read Arbor projection: {exc}") from exc
     expectedCurrent = projectionBytes(existingRows)
     if currentProjection != expectedCurrent:
         raise ArborError("Arbor projection drift detected; import refused")

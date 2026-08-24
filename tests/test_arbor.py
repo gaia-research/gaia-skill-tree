@@ -100,6 +100,18 @@ def test_schemas_are_valid_and_mirrored_byte_for_byte():
         jsonschema.Draft202012Validator.check_schema(json.loads(canonical.read_text(encoding="utf-8")))
 
 
+def test_schema_loading_prefers_selected_root_then_falls_back_to_bundled(tmp_path: Path):
+    bundled = loadSchemas(tmp_path)
+    schemaRoot = tmp_path / "registry" / "schema"
+    schemaRoot.mkdir(parents=True)
+    selected = ({"selected": "bundle"}, {"selected": "projection"})
+    for name, schema in zip(("hh-stamp.schema.json", "arborStamp.schema.json"), selected, strict=True):
+        (schemaRoot / name).write_text(json.dumps(schema), encoding="utf-8")
+
+    assert loadSchemas(tmp_path) == selected
+    assert bundled != selected
+
+
 def test_valid_multiplicative_import_preserves_tier_qualifiers_and_exact_hash(arborRepo: Path):
     digest, count, written = importBundle(arborRepo, writeBundle(arborRepo, bundle(decision()), pretty=True))
     assert written is True
@@ -245,6 +257,14 @@ def test_invalid_existing_state_blocks_import_without_writes(arborRepo: Path):
     with pytest.raises(ArborError):
         importBundle(arborRepo, writeBundle(arborRepo, bundle(decision())))
     assert snapshot(arborRepo / "registry" / "arbor") == before
+
+
+def test_import_missing_projection_raises_arbor_error(arborRepo: Path):
+    (arborRepo / "registry" / "arbor" / "stamps.jsonl").unlink()
+    source = writeBundle(arborRepo, bundle(decision()))
+
+    with pytest.raises(ArborError, match="could not read Arbor projection"):
+        importBundle(arborRepo, source)
 
 
 def addVerifierIndex(root: Path) -> None:
