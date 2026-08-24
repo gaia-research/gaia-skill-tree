@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "gaia.arbor-interpretation/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "interpretationId", "interpretedAt", "skill", "target", "authority", "support", "rationale", "receiptSources"],
+  "properties": {
+    "schema": {"const": "gaia.arbor-interpretation/v1"},
+    "interpretationId": {"$ref": "#/definitions/recordId"},
+    "interpretedAt": {"type": "string", "format": "date-time"},
+    "skill": {"$ref": "#/definitions/skill"},
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["declarationSha256", "claimId"],
+      "properties": {
+        "declarationSha256": {"$ref": "#/definitions/sha256"},
+        "claimId": {"$ref": "#/definitions/recordId"}
+      }
+    },
+    "authority": {"$ref": "#/definitions/authority"},
+    "support": {"enum": ["benchmark-confirmed", "benchmark-qualified", "benchmark-revised", "inconclusive"]},
+    "rationale": {"$ref": "#/definitions/nonEmpty"},
+    "receiptSources": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/definitions/sha256"}
+    },
+    "supersedesSha256": {"$ref": "#/definitions/sha256"}
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "nonEmpty": {"type": "string", "minLength": 1},
+    "recordId": {"type": "string", "pattern": "^[a-z][a-z0-9.-]*$"},
+    "skillId": {"type": "string", "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?(/[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?)?$"},
+    "skill": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "contentSha256"],
+      "properties": {
+        "id": {"$ref": "#/definitions/skillId"},
+        "contentSha256": {"$ref": "#/definitions/sha256"}
+      }
+    },
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["actor", "basis"],
+      "properties": {
+        "actor": {"$ref": "#/definitions/nonEmpty"},
+        "basis": {"$ref": "#/definitions/nonEmpty"}
+      }
+    }
+  }
+}
