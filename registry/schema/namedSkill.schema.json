@@ -264,7 +264,7 @@
         "C",
         "ungraded"
       ],
-      "description": "Yggdrasil III Overall Trust Grade derived from Trust Magnitude: S ≥ 250 additionally requires at least three distinct evidence types and one positive eligible benchmark-result, verifier-attestation, or peer-review witness; A ≥ 100, B ≥ 50, C ≥ 20, ungraded < 20. Rejected, deranked, zero-scoring, stale, and phantom rows cannot witness S."
+      "description": "G7 Overall Trust Grade derived from trustMagnitude thresholds and diversity gate (RFC §4): S ≥ 250, A ≥ 100, B ≥ 50, C ≥ 20, ungraded < 20. Requires meeting the diversity gate (distinct evidence types, non-self-producible rule) in addition to the magnitude floor."
     },
     "provisional": {
       "type": "boolean",

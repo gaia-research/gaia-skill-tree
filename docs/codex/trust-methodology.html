@@ -422,8 +422,8 @@
 <br>
 <span class="fm-key">diversity_gate</span>(skill) = ALL of:<br>
 &nbsp;&nbsp;<span class="fm-comment">• ≥ 3 distinct evidence types</span><br>
-&nbsp;&nbsp;<span class="fm-comment">• ≥ 1 positive eligible independent witness from {benchmark-result, verifier-attestation, peer-review}</span><br>
-&nbsp;&nbsp;<span class="fm-comment">• rejected, deranked, zero-score, and phantom rows do not qualify</span>
+&nbsp;&nbsp;<span class="fm-comment">• ≥ 1 S-tier row OR ≥ 3 A-tier rows of distinct types</span><br>
+&nbsp;&nbsp;<span class="fm-comment">• ≥ 1 type from {benchmark-result, verifier-attestation, peer-review, proxy-containment}</span>
       </div>
 
       <h3 style="font-family: var(--font-display); font-size: 1.05rem; margin: 1.75rem 0 0.5rem;">5 · The 10 evidence types — base formula at a glance</h3>
@@ -454,12 +454,12 @@
         <table class="tm-table" aria-label="Worked examples for 5-star skills">
           <thead><tr><th>Skill</th><th>Row</th><th>Inputs</th><th>base</th><th>× weight</th><th>= MAG</th></tr></thead>
           <tbody>
-            <tr><td rowspan="4"><code>garrytan/gstack</code><br>TM 309.3 → A</td><td><code>repo-own</code></td><td>commits=323, contrib=9</td><td>(323/200)+(9²×2)=163.6 → cap 60</td><td>×0.6</td><td><strong>36.0</strong></td></tr>
+            <tr><td rowspan="4"><code>garrytan/gstack</code><br>TM 309.3 → S</td><td><code>repo-own</code></td><td>commits=323, contrib=9</td><td>(323/200)+(9²×2)=163.6 → cap 60</td><td>×0.6</td><td><strong>36.0</strong></td></tr>
             <tr><td><code>github-stars-own</code></td><td>stars=110930, skills=46</td><td>min(200,110.93)÷min(46,4)=27.73</td><td>×1.0</td><td><strong>27.7</strong></td></tr>
             <tr><td><code>social-signal</code></td><td>views=500000</td><td>log₁₀(500000)×8=45.59</td><td>×1.0</td><td><strong>45.6</strong></td></tr>
             <tr><td><code>fusion-recipe</code></td><td>N=46 origins ≥C</td><td>200+20·√(46−10)=320.0</td><td>×1.5 → final cap 200</td><td><strong>200.0</strong></td></tr>
 
-            <tr><td rowspan="5"><code>ruvnet/ruflo</code><br>TM 255.0 → A</td><td><code>repo-own</code></td><td>commits=6899, contrib=32</td><td>(6899/200)+(32²×2)=2082.5 → cap 60</td><td>×0.6</td><td><strong>36.0</strong></td></tr>
+            <tr><td rowspan="5"><code>ruvnet/ruflo</code><br>TM 255.0 → S</td><td><code>repo-own</code></td><td>commits=6899, contrib=32</td><td>(6899/200)+(32²×2)=2082.5 → cap 60</td><td>×0.6</td><td><strong>36.0</strong></td></tr>
             <tr><td><code>github-stars-own</code></td><td>stars=59957, skills=4</td><td>min(200,59.96)÷min(4,4)=14.99</td><td>×1.0</td><td><strong>14.99</strong></td></tr>
             <tr><td><code>arxiv</code></td><td>citations=20</td><td>20/5=4.0</td><td>×1.0</td><td><strong>4.0</strong></td></tr>
             <tr><td><code>social-signal</code></td><td>views=null</td><td>(no driver — 0)</td><td>—</td><td><strong>0</strong></td></tr>
@@ -572,7 +572,7 @@
               <td>100</td>
               <td>—  (1 row max)</td>
               <td>50 % / year (half-life decay)</td>
-              <td>A public benchmark result. Verified rows are CI-reproduced or verifier-attested; reported rows are public claims/mirrors approved by the human gate. Rejected rows score zero and cannot witness S.</td>
+              <td>A public benchmark result. Verified rows are CI-reproduced or verifier-attested; reported rows are public claims/mirrors approved by the human gate. Rejected rows score zero. This is pre TM Index V2; fusion scoring changes are a separate RFC.</td>
             </tr>
             <tr>
               <td><code>arxiv</code></td>
@@ -633,7 +633,7 @@
       </div>
 
       <p style="font-size: 0.82rem; color: var(--muted); margin-top: 0.5rem;">
-        N counts only <code>role='origin'</code> components graded ≥C. A five-origin skill contributes 20×5×1.5 = 150 TM; six contributes 180 TM; seven reaches 210 before the final 200-TM ceiling. Larger fusions retain their raw sqrt-softened magnitude for reporting, but their contribution plateaus at 200 TM. Fusion demonstrates composition scope; it does not supply independent S-grade trust.
+        N counts only <code>role='origin'</code> components graded ≥C. A five-origin skill contributes 20×5×1.5 = 150 TM; six contributes 180 TM; seven reaches 210 before the final 200-TM ceiling. Larger fusions retain their raw sqrt-softened magnitude for reporting, but their contribution plateaus at 200 TM. Fusion demonstrates composition scope; the existing diversity gate still requires a non-self-producible type for an S grade.
       </p>
     </section>
 
@@ -803,10 +803,11 @@
             <td><span class="grade-pill grade-s">S</span> · Platinum</td>
             <td>TM ≥ 250</td>
             <td>
-              Both of:<br>
+              All three of:<br>
               <ul style="margin: 0.4rem 0 0; padding-left: 1.1rem; color: var(--muted); font-size: 0.82rem; display: flex; flex-direction: column; gap: 0.25rem;">
                 <li>≥ 3 distinct Evidence Types represented</li>
-                <li>≥ 1 positive eligible independent witness: <code>benchmark-result</code>, <code>verifier-attestation</code>, or <code>peer-review</code>. Rejected, deranked, zero-score, and phantom rows cannot unlock S.</li>
+                <li>≥ 1 S-tier evidence row <em>OR</em> ≥ 3 A-tier rows of distinct types</li>
+                <li>≥ 1 type from the non-self-producible set: <code>benchmark-result</code>, <code>verifier-attestation</code>, <code>peer-review</code>, or <code>proxy-containment</code></li>
               </ul>
             </td>
           </tr>
@@ -834,9 +835,9 @@
       </table>
 
       <p style="font-size: 0.88rem; color: var(--muted); margin-top: 0.75rem;">
-        The S gate is the primary anti-gaming control at the highest grade. It requires a
-        positive eligible independent witness, so fusion magnitude, repo-own evidence, and
-        mothership popularity cannot self-certify Platinum status.
+        The diversity gate at S is the primary anti-gaming control at the highest grade. It
+        ensures that a Platinum grade requires external validation — a skill cannot reach S
+        through self-producible signals alone, regardless of how many stars are stacked.
       </p>
 
       <div class="tm-callout" style="margin-top: 1.25rem;">
@@ -1308,7 +1309,7 @@
           <span>
             A contributor creating many thin named skills and fusing them to themselves to
             boost <code>aGradedOriginsGte5</code>. Each origin must independently hold grade A+,
-            which requires evidence capable of clearing the A threshold on each child. Self-
+            which requires external or non-self-producible evidence on each child. Self-
             attestation caps at flat 10 × 0.5 = 5 TM per skill — far below the A-grade
             threshold of 100 TM.
           </span>

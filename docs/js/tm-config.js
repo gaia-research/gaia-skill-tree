@@ -29,7 +29,7 @@
   // ── Aggregate skill grade thresholds (docs/trust/index.html §3) ───────────
   var OVERALL_GRADES = [
     { grade: 'S', floor: 250, name: 'Platinum',
-      note: 'requires ≥3 distinct types AND ≥1 positive eligible independent witness (benchmark, verifier, or peer review)' },
+      note: 'requires ≥3 distinct types AND ≥1 non-self-producible row (diversity gate)' },
     { grade: 'A', floor: 100, name: 'Gold',   note: '' },
     { grade: 'B', floor:  50, name: 'Silver', note: '' },
     { grade: 'C', floor:  20, name: 'Bronze', note: '' },
@@ -37,13 +37,6 @@
 
   // Types that cannot anchor the S diversity gate alone (RFC §4).
   var SELF_PRODUCIBLE = ['fusion-recipe', 'self-attestation', 'repo-own'];
-
-  // Evidence types that can independently witness S-grade trust. The backend
-  // also requires that a row survives eligibility checks and contributes a
-  // positive score; rejected, deranked, zero-score, and phantom rows do not.
-  var INDEPENDENT_WITNESS_TYPES = [
-    'benchmark-result', 'verifier-attestation', 'peer-review'
-  ];
 
   // ── Per-type config (docs/trust/index.html §2) ────────────────────────────
   //
@@ -376,7 +369,6 @@
     ALIASES: ALIASES,
     OVERALL_GRADES: OVERALL_GRADES,
     SELF_PRODUCIBLE: SELF_PRODUCIBLE,
-    INDEPENDENT_WITNESS_TYPES: INDEPENDENT_WITNESS_TYPES,
     canonicalType: canonicalType,
     applyCap: applyCap,
     applyContributionCap: applyContributionCap,

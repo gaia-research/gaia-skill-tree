@@ -113,7 +113,7 @@ Key mechanics (summary; see `founder/handovers/G7_TRUST_TAXONOMY_RFC.md` for the
 - **Grade thresholds:** S requires Trust Magnitude ≥ 250, A ≥ 100, B ≥ 50, C ≥ 20.
 - **Type weights:** `benchmark-result` 1.4×, `verifier-attestation` and `fusion-recipe` 1.5×, `repo-own` 0.6×, most others 1.0×.
 - **Benchmark lanes (#1419):** `benchmark-result` magnitude uses `percentile` when present, otherwise normalized `score`, then applies lane multiplier: `verified` 2.0×, `reported` 1.0×, `rejected` 0×. Catalog `status: rejected` is the blacklist. This is pre TM Index V2; fusion scoring changes are separate.
-- **S witness gate:** S requires TM ≥ 250, ≥ 3 distinct Evidence Types, and at least one positive eligible `benchmark-result`, `verifier-attestation`, or `peer-review` row. Rejected, deranked, zero-scoring, stale, and phantom rows cannot witness S; fusion, repo ownership, and mothership popularity cannot self-certify it.
+- **Diversity gate:** S requires ≥ 3 distinct Evidence Types including at least 1 non-self-producible type. A contributor cannot reach S by stacking self-minted evidence alone.
 - **Suite-fusion ceiling:** fusion-recipe keeps graded-origin counting and its existing sqrt-softened raw formula, but its final contribution is capped at 200 TM after weighting and applicable multipliers. Five graded origins contribute 150 TM, six 180 TM, and seven or more plateau at 200 TM.
 - **Same-source dedup:** multiple evidence rows pointing at the same URL collapse to one.
 - **Fork-network canonicalization:** forks of a repo share one star pool unless `links.canonicalRepo` is set explicitly.

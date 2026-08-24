@@ -69,11 +69,6 @@ SELF_PRODUCIBLE_TYPES = frozenset({"fusion-recipe", "self-attestation", "repo-ow
 # Yggdrasil III: a suite may create fusion magnitude, but its fusion structure
 # cannot create unbounded trust by itself.
 FUSION_CONTRIBUTION_CAP = 200.0
-INDEPENDENT_WITNESS_TYPES = frozenset({
-    "benchmark-result",
-    "verifier-attestation",
-    "peer-review",
-})
 
 # Apex predicate thresholds (delta §B)
 APEX_AGRADED_ORIGINS_MIN = 5
@@ -500,8 +495,7 @@ def _rawMagnitudeForType(
         return (externalStars / 1000.0) * 0.8
 
     if evidenceType == "verifier-attestation":
-        rawVerifiers = row.get("verifiers", 1)
-        verifiers = int(rawVerifiers) if rawVerifiers is not None else 1
+        verifiers = int(row.get("verifiers", 1) or 1)
         return 30.0 * verifiers
 
     if evidenceType == "benchmark-result":
@@ -513,8 +507,7 @@ def _rawMagnitudeForType(
         return citations / 5.0
 
     if evidenceType == "peer-review":
-        rawReviewers = row.get("reviewers", 1)
-        reviewers = int(rawReviewers) if rawReviewers is not None else 1
+        reviewers = int(row.get("reviewers", 1) or 1)
         return 25.0 * reviewers
 
     if evidenceType == "repo-own":
@@ -951,13 +944,12 @@ def computeOverallTrustGrade(
     distinctTypes: int,
     hasNonSelfProducible: bool,
 ) -> str:
-    """Map (TM, distinctTypes, independentWitness) -> grade letter (RFC §4).
+    """Map (TM, distinctTypes, hasNonSelf) -> grade letter (RFC §4).
 
     Returns one of "S", "A", "B", "C", "ungraded".
 
     Diversity gate:
-    - S: TM >= 250 AND distinctTypes >= 3 AND at least one positive eligible
-      independent witness. The legacy parameter name is retained for callers.
+    - S: TM >= 250 AND distinctTypes >= 3 AND hasNonSelfProducible.
     - A: TM >= 100.
     - B: TM >= 50.
     - C: TM >= 20.
@@ -982,8 +974,8 @@ def computeOverallTrustGradeFromSkill(
     """Convenience: compute TM and grade together from a skill dict."""
     tm = computeTrustMagnitude(skill, genericSkillMap, namedSkillMap)
     distinctTypes = _countDistinctEvidenceTypes(skill)
-    hasIndependentWitness = _hasIndependentWitness(skill, genericSkillMap)
-    return computeOverallTrustGrade(tm, distinctTypes, hasIndependentWitness)
+    hasNonSelf = _hasNonSelfProducible(skill)
+    return computeOverallTrustGrade(tm, distinctTypes, hasNonSelf)
 
 
 def computeRowArtifactScores(
@@ -1036,27 +1028,13 @@ def _countDistinctEvidenceTypes(skill: dict) -> int:
     return len(types)
 
 
-def _hasIndependentWitness(
-    skill: dict,
-    genericSkillMap: Optional[dict] = None,
-) -> bool:
-    """Return whether own evidence contains a positive eligible S witness.
-
-    The gate intentionally evaluates the skill's own rows rather than
-    inherited evidence: parent-repository evidence remains baseline
-    credibility, while component-specific S trust requires a component-level
-    witness. Anti-auto-mint, same-source dedup, row eligibility, and plateau
-    handling all run before a row can satisfy the gate.
-    """
+def _hasNonSelfProducible(skill: dict) -> bool:
+    """Return whether evidence contains a non-self-producible type."""
     evidence = enforceAntiAutoMint(skill)
     deduped = _dedupeSameSource(evidence)
-    witnessRows: list[tuple[dict, Optional[float]]] = []
     for row in deduped:
-        if _typeOf(row) not in INDEPENDENT_WITNESS_TYPES:
-            continue
-        witnessRows.append((row, computeArtifactScoreOrNone(row, genericSkillMap)))
-    for _row, score in _applyPlateauAndCreatorDedup(witnessRows):
-        if score is not None and score > 0:
+        t = _typeOf(row)
+        if t and t not in SELF_PRODUCIBLE_TYPES:
             return True
     return False
 
@@ -1481,9 +1459,15 @@ def explainTrustMagnitude(
     totalTM = nonSocialTotal + socialCapped
 
     # Derive grade
-    distinctTypes = _countDistinctEvidenceTypes(skill)
-    hasIndependentWitness = _hasIndependentWitness(skill, genericSkillMap)
-    grade = computeOverallTrustGrade(totalTM, distinctTypes, hasIndependentWitness)
+    distinctTypes = len({
+        _typeOf(r) for r, _ in rowsWithScores if _typeOf(r)
+    })
+    hasNonSelf = any(
+        _typeOf(r) not in SELF_PRODUCIBLE_TYPES
+        for r, s in rowsWithScores
+        if _typeOf(r) and s is not None and s > 0
+    )
+    grade = computeOverallTrustGrade(totalTM, distinctTypes, hasNonSelf)
 
     # Build the explanation string
     lines: list[str] = []
@@ -1598,6 +1582,5 @@ __all__ = [
     "GRADE_B_FLOOR",
     "GRADE_C_FLOOR",
     "SELF_PRODUCIBLE_TYPES",
-    "INDEPENDENT_WITNESS_TYPES",
     "FUSION_CONTRIBUTION_CAP",
 ]

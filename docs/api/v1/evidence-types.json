@@ -13,7 +13,7 @@
       "allowedLayers": [
         "named"
       ],
-      "notes": "Mandatory for any fused or Ultimate skill. A skill with suiteComponents and no fusion-recipe row fails validation (RFC §10.2). Only graded≥C origins count (RFC §3.5). Fusion demonstrates composition scope but cannot supply the independent witness required for S."
+      "notes": "Mandatory for any fused or Ultimate skill. A skill with suiteComponents and no fusion-recipe row fails validation (RFC §10.2). Only graded≥C origins count (RFC §3.5)."
     },
     {
       "id": "github-stars-own",
@@ -131,7 +131,7 @@
       "allowedLayers": [
         "named"
       ],
-      "notes": "B-cap and weight 0.6 ensure repo-own alone cannot carry a skill past B. repo-own is self-producible: it can support aggregate TM but cannot supply the independent S witness."
+      "notes": "B-cap and weight 0.6 ensure repo-own alone cannot carry a skill past B. Diversity gate classes repo-own as self-producible: A or S requires non-self-producible evidence on top."
     },
     {
       "id": "self-attestation",

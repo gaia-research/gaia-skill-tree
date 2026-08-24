@@ -126,7 +126,7 @@
         "allowedLayers": [
           "named"
         ],
-        "notes": "Mandatory for any fused or Ultimate skill. A skill with suiteComponents and no fusion-recipe row fails validation (RFC §10.2). Only graded≥C origins count (RFC §3.5). Fusion demonstrates composition scope but cannot supply the independent witness required for S."
+        "notes": "Mandatory for any fused or Ultimate skill. A skill with suiteComponents and no fusion-recipe row fails validation (RFC §10.2). Only graded≥C origins count (RFC §3.5)."
       },
       {
         "id": "github-stars-own",
@@ -244,7 +244,7 @@
         "allowedLayers": [
           "named"
         ],
-        "notes": "B-cap and weight 0.6 ensure repo-own alone cannot carry a skill past B. repo-own is self-producible: it can support aggregate TM but cannot supply the independent S witness."
+        "notes": "B-cap and weight 0.6 ensure repo-own alone cannot carry a skill past B. Diversity gate classes repo-own as self-producible: A or S requires non-self-producible evidence on top."
       },
       {
         "id": "self-attestation",
@@ -322,7 +322,7 @@
     }
   },
   "trustMagnitudeThresholds": {
-    "description": "Yggdrasil III Trust Magnitude grade thresholds. S requires its TM floor, at least three distinct evidence types, and one positive eligible independent witness; all other grade thresholds are unchanged.",
+    "description": "G7 Trust Magnitude grade thresholds (RFC §4). trustMagnitude must meet the minimum AND the diversity gate (distinct types + non-self-producible rule at S) to earn the grade.",
     "S": 250,
     "A": 100,
     "B": 50,
@@ -332,24 +332,22 @@
     "diversityGate": {
       "S": {
         "minDistinctTypes": 3,
-        "requiresIndependentWitness": true,
-        "independentWitnessTypes": [
-          "benchmark-result",
-          "verifier-attestation",
-          "peer-review"
-        ],
-        "plusRule": ">=1 positive eligible independent witness from benchmark-result, verifier-attestation, or peer-review; rejected, deranked, zero-scoring, stale, and phantom rows do not qualify"
+        "requiresNonSelfProducible": true,
+        "plusRule": ">=1 S-capable type present OR >=3 A-capable types of distinct kinds; AND >=1 non-self-producible type"
       },
       "A": {
         "minDistinctTypes": 1,
+        "requiresNonSelfProducible": false,
         "plusRule": ">=1 A-capable type present (pure github-stars-own at A is valid)"
       },
       "B": {
         "minDistinctTypes": 1,
+        "requiresNonSelfProducible": false,
         "plusRule": ">=1 B-capable type or higher"
       },
       "C": {
         "minDistinctTypes": 0,
+        "requiresNonSelfProducible": false,
         "plusRule": "none"
       }
     },

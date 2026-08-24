@@ -317,7 +317,7 @@ def test_null_on_derank_legacy_derank_field_also_honored():
 
 
 def test_diversity_gate_blocks_S_when_only_self_producible():
-    """Yggdrasil III: fusion and self-owned rows cannot witness S."""
+    """RFC §4: S grade requires non-self-producible evidence type."""
     # Pure fusion-recipe, repo-own, self-attestation are all self-producible
     skill = {
         "evidence": [
@@ -327,26 +327,26 @@ def test_diversity_gate_blocks_S_when_only_self_producible():
         ]
     }
     grade = computeOverallTrustGradeFromSkill(skill)
-    # TM clearly >= 250, but no independent witness -> max is A.
+    # TM clearly >=250, but no non-self-producible -> max is A.
     assert grade == "A"
 
 
 def test_diversity_gate_S_requires_three_distinct_types():
-    """Yggdrasil III: an independent witness still needs three types."""
+    """RFC §4: S grade requires at least 3 distinct evidence types."""
     skill = {
         "evidence": [
-            # one verifier witness + one fusion = only 2 types
+            # one verifier (non-self-producible) + one fusion = only 2 types
             {"type": "verifier-attestation", "verifiers": 8},  # 30*8=240; *1.5=360
             {"type": "fusion-recipe", "gradedOriginCount": 5},  # 100*1.5=150
         ]
     }
-    # TM = 510, has a witness, but only 2 types -> A (not S)
+    # TM = 510, has non-self-producible evidence, but only 2 types -> A (not S)
     grade = computeOverallTrustGradeFromSkill(skill)
     assert grade == "A"
 
 
 def test_diversity_gate_S_passes_with_three_types_and_non_self_producible():
-    """Yggdrasil III: a positive verifier witness can anchor S."""
+    """RFC §4: S grade passes with 3 types including non-self-producible."""
     skill = {
         "evidence": [
             {"type": "verifier-attestation", "verifiers": 4},  # 30*4*1.5 = 180
@@ -354,61 +354,9 @@ def test_diversity_gate_S_passes_with_three_types_and_non_self_producible():
             {"type": "arxiv", "citations": 200},  # 40*1.0 = 40
         ]
     }
-    # TM = 180+50+40 = 270, 3 distinct types -> S.
+    # TM = 180+50+40 = 270, 3 distinct types and non-self-producible -> S.
     grade = computeOverallTrustGradeFromSkill(skill)
     assert grade == "S"
-
-
-def _s_gate_self_produced_rows():
-    return [
-        {"type": "fusion-recipe", "gradedOriginCount": 10},
-        {"type": "repo-own", "commits": 10000, "contributors": 10,
-         "source": "https://github.com/owner/repo"},
-        {"type": "github-stars-own", "stars": 50000,
-         "skillCountInRepo": 1, "source": "https://github.com/owner/repo/stars"},
-    ]
-
-
-@pytest.mark.parametrize(
-    "witness",
-    [
-        {"type": "benchmark-result", **_verified_benchmark_row()},
-        {"type": "verifier-attestation", "verifiers": 1,
-         "source": "https://verifier.example/attestation"},
-        {"type": "peer-review", "reviewers": 1,
-         "source": "https://review.example/review"},
-    ],
-)
-def test_s_gate_accepts_each_positive_independent_witness_class(witness):
-    skill = {"evidence": _s_gate_self_produced_rows() + [witness]}
-    assert computeTrustMagnitude(skill) >= GRADE_S_FLOOR
-    assert computeOverallTrustGradeFromSkill(skill) == "S"
-
-
-def test_s_gate_rejects_fusion_repo_and_mothership_stars_without_witness():
-    skill = {"evidence": _s_gate_self_produced_rows()}
-    assert computeTrustMagnitude(skill) >= GRADE_S_FLOOR
-    assert computeOverallTrustGradeFromSkill(skill) == "A"
-
-
-@pytest.mark.parametrize(
-    "witness",
-    [
-        {"type": "benchmark-result", "benchmarkId": "unknown@v1",
-         "provenance": "rejected", "percentile": 99},
-        {"type": "verifier-attestation", "verifiers": 4,
-         "verifierActiveRank": False},
-        {"type": "verifier-attestation", "verifiers": 0},
-        {"type": "peer-review", "reviewers": 1,
-         "lastVerified": "2000-01-01T00:00:00Z"},
-        {"type": "peer-review", "reviewers": 0},
-        {"type": "peer-review", "reviewers": 1, "phantom": True},
-    ],
-)
-def test_s_gate_rejects_ineligible_zero_or_phantom_independent_rows(witness):
-    skill = {"evidence": _s_gate_self_produced_rows() + [witness]}
-    assert computeTrustMagnitude(skill) >= GRADE_S_FLOOR
-    assert computeOverallTrustGradeFromSkill(skill) == "A"
 
 
 def test_rank_floor_grade_thresholds_constants():

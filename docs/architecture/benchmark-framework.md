@@ -131,7 +131,7 @@ artifact_score = percentile × type_weight × freshness
               = 118.93
 ```
 
-This single row contributes ~119 to the skill's `TM`, clearing the A threshold (≥ 100) on its own and clearing the B threshold (≥ 50) more than twice over. It does not on its own clear S (≥ 250); a contributor would still need enough additional TM and at least two other distinct evidence types. A positive eligible `benchmark-result` is one of the three independent witness classes that can satisfy the S gate.
+This single row contributes ~119 to the skill's `TM`, clearing the A threshold (≥ 100) on its own and clearing the B threshold (≥ 50) more than twice over. It does not on its own clear S (≥ 250); a contributor would still need additional rows of distinct, non-self-producible types to satisfy the diversity gate (G7 §4) for an Overall Trust Grade of S.
 
 This row also advertises an Evidence Grade of **A** in the per-row catalog rendering. The Overall Trust Grade is computed at the skill level (G7 §3 aggregation) and may be higher or lower than any single row's grade — the per-row grade is a property of the row, never the skill.
 
@@ -192,5 +192,5 @@ The cutoffs and behaviors below are intentionally underspecified; settling them 
 - `founder/handovers/G7_TRUST_TAXONOMY_RFC.md` §0 — Headline trust-number thresholds (S ≥ 250, A ≥ 100, B ≥ 50, C ≥ 20). This RFC's score-to-grade mapping anchors against those exact numbers.
 - `founder/handovers/G7_TRUST_TAXONOMY_RFC.md` §2.6 — `benchmark-result` magnitude, weight, freshness, and grade ceiling. This RFC operationalizes the type without amending it.
 - `founder/handovers/G7_TRUST_TAXONOMY_RFC.md` §3 — Aggregation. Per-row artifact scores from benchmark runs flow into Trust Magnitude under the rules defined there; this RFC does not change aggregation.
-- `META.md` §1 — Yggdrasil III S witness gate. A `benchmark-result` must be positive and eligible under the benchmark validator to witness S; rejected, stale, zero-scoring, and phantom rows do not qualify.
+- `founder/handovers/G7_TRUST_TAXONOMY_RFC.md` §4 — Diversity gate and non-self-producible rule. `benchmark-result` is non-self-producible only when the run is independently verified per §6 above; self-reported runs without a Verifier replay are an open question (§7.5) but currently count as non-self-producible at full magnitude.
 - Issue #649 — Phase 1 closeout tracker.
