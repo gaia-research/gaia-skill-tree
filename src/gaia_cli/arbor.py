@@ -23,14 +23,8 @@ from jsonschema import Draft7Validator, FormatChecker
 
 DECLARATION_SCHEMA = "gaia.arbor-expert-declaration/v1"
 RECEIPT_SCHEMA = "gaia.arbor-benchmark-receipt/v1"
+INTERPRETATION_SCHEMA = "gaia.arbor-interpretation/v1"
 PROFILE_SCHEMA = "gaia.arbor-profile/v1"
-SUPPORT_VALUES = {
-    "expert-declared",
-    "benchmark-confirmed",
-    "benchmark-qualified",
-    "benchmark-revised",
-    "inconclusive",
-}
 
 PRESTIGE_KEYS = {
     "grade",
@@ -89,11 +83,13 @@ def isDateTime(value: object) -> bool:
 SCHEMA_FILES = {
     DECLARATION_SCHEMA: "expert-declaration.schema.json",
     RECEIPT_SCHEMA: "benchmark-receipt.schema.json",
+    INTERPRETATION_SCHEMA: "interpretation.schema.json",
     PROFILE_SCHEMA: "profile.schema.json",
 }
 SOURCE_DIRECTORIES = {
     DECLARATION_SCHEMA: "declarations",
     RECEIPT_SCHEMA: "receipts",
+    INTERPRETATION_SCHEMA: "interpretations",
 }
 
 
@@ -159,13 +155,14 @@ def validateSkillIdentity(skill: dict, registryRoot: str | Path) -> None:
 
 
 def validateRecord(record: dict, registryRoot: str | Path) -> str:
-    """Validate one of the three Arbor contracts and return its schema id."""
+    """Validate one Arbor contract without consulting moving canonical skill bytes."""
 
     schemaId = record.get("schema")
     if schemaId not in SCHEMA_FILES:
         raise ArborError(f"unsupported Arbor schema: {schemaId!r}")
     if schemaId in SOURCE_DIRECTORIES:
         rejectKeys(record, PRESTIGE_KEYS, "prestige")
+    if schemaId in {DECLARATION_SCHEMA, RECEIPT_SCHEMA}:
         rejectKeys(record, SOURCE_INTERPRETATION_KEYS, "source interpretation")
 
     schemaPath = arborRoot(registryRoot) / "contracts" / SCHEMA_FILES[schemaId]
@@ -179,7 +176,6 @@ def validateRecord(record: dict, registryRoot: str | Path) -> str:
             details.append(f"{location}: {error.message}")
         raise ArborError("invalid Arbor record: " + "; ".join(details))
     rejectNonFinite(record)
-    validateSkillIdentity(record["skill"], registryRoot)
     if schemaId == DECLARATION_SCHEMA:
         claimIds = [claim["id"] for claim in record["claims"]]
         if len(claimIds) != len(set(claimIds)):
@@ -190,23 +186,6 @@ def validateRecord(record: dict, registryRoot: str | Path) -> str:
             raise ArborError("benchmark receipt measurement metrics must be unique")
         if record["control"]["environment"] != record["treatment"]["environment"]:
             raise ArborError("benchmark receipt control and treatment environments must be equivalent")
-        for measurement in record["measurements"]:
-            difference = measurement["difference"]
-            interval = difference["confidenceInterval"]
-            metric = measurement["metric"]
-            if interval["lower"] > interval["upper"]:
-                raise ArborError(
-                    f"benchmark receipt confidence interval is reversed for {metric}"
-                )
-            estimate = difference["estimate"]
-            expected = measurement["treatment"]["mean"] - measurement["control"]["mean"]
-            if not math.isclose(estimate, expected, rel_tol=1e-9, abs_tol=1e-12):
-                raise ArborError(
-                    f"benchmark receipt estimate is not treatment.mean - control.mean for {metric}"
-                )
-            tolerance = max(1e-12, abs(estimate) * 1e-9)
-            if estimate < interval["lower"] - tolerance or estimate > interval["upper"] + tolerance:
-                raise ArborError(f"benchmark receipt estimate lies outside confidence interval for {metric}")
     return schemaId
 
 
@@ -260,18 +239,26 @@ def importSource(inputPath: str | Path, registryRoot: str | Path) -> tuple[Path,
             raise ArborError("generated Arbor profiles cannot be imported as source records")
 
         root = arborRoot(registryRoot)
+        digest = contentDigest(record)
+        destination = root / "sources" / SOURCE_DIRECTORIES[schemaId] / f"{digest}.json"
+        if schemaId == DECLARATION_SCHEMA and not destination.is_file():
+            # The moving canonical file is an admission oracle only. Once stored,
+            # the declaration digest and pinned hash are immutable history.
+            validateSkillIdentity(record["skill"], registryRoot)
         if schemaId == RECEIPT_SCHEMA:
             validateReceiptTarget(record, root, registryRoot)
+        if schemaId == INTERPRETATION_SCHEMA:
+            validateInterpretationTarget(record, root, registryRoot)
 
-        digest = contentDigest(record)
-        declarations, receipts = sourceRecords(registryRoot)
+        declarations, receipts, interpretations = sourceRecords(registryRoot)
         if schemaId == DECLARATION_SCHEMA:
             declarations[digest] = record
-        else:
+        elif schemaId == RECEIPT_SCHEMA:
             receipts[digest] = record
-        buildProfiles(declarations, receipts, registryRoot)
+        else:
+            interpretations[digest] = record
+        buildProfiles(declarations, receipts, interpretations, registryRoot)
 
-        destination = root / "sources" / SOURCE_DIRECTORIES[schemaId] / f"{digest}.json"
         created = publishImmutable(destination, canonicalBytes(record) + b"\n")
         return destination, digest, created
 
@@ -347,11 +334,16 @@ def writeAtomic(path: Path, content: bytes) -> bool:
     return True
 
 
-def sourceRecords(registryRoot: str | Path) -> tuple[dict[str, dict], dict[str, dict]]:
+def sourceRecords(
+    registryRoot: str | Path,
+) -> tuple[dict[str, dict], dict[str, dict], dict[str, dict]]:
     root = arborRoot(registryRoot) / "sources"
     declarations = loadSources(root / "declarations", DECLARATION_SCHEMA, registryRoot)
     receipts = loadSources(root / "receipts", RECEIPT_SCHEMA, registryRoot)
-    return declarations, receipts
+    interpretations = loadSources(
+        root / "interpretations", INTERPRETATION_SCHEMA, registryRoot
+    )
+    return declarations, receipts, interpretations
 
 
 def loadSources(directory: Path, expectedSchema: str, registryRoot: str | Path) -> dict[str, dict]:
@@ -391,24 +383,90 @@ def validateReceiptTarget(receipt: dict, root: Path, registryRoot: str | Path) -
         raise ArborError("benchmark receipt skill identity/hash differs from its declaration")
 
 
+def validateInterpretationTarget(
+    interpretation: dict, root: Path, registryRoot: str | Path
+) -> None:
+    target = interpretation["target"]
+    declarationDigest = target["declarationSha256"]
+    declarationPath = root / "sources" / "declarations" / f"{declarationDigest}.json"
+    if not declarationPath.is_file():
+        raise ArborError(
+            f"Arbor interpretation references missing declaration {declarationDigest}"
+        )
+    declaration = readJson(declarationPath)
+    validateRecord(declaration, registryRoot)
+    if contentDigest(declaration) != declarationDigest:
+        raise ArborError(
+            f"Arbor interpretation references altered declaration {declarationDigest}"
+        )
+    if not any(claim["id"] == target["claimId"] for claim in declaration["claims"]):
+        raise ArborError("Arbor interpretation target claim does not exist")
+    if interpretation["skill"] != declaration["skill"]:
+        raise ArborError("Arbor interpretation skill identity/hash differs from its declaration")
+
+    for receiptDigest in interpretation["receiptSources"]:
+        receiptPath = root / "sources" / "receipts" / f"{receiptDigest}.json"
+        if not receiptPath.is_file():
+            raise ArborError(
+                f"Arbor interpretation references missing receipt {receiptDigest}"
+            )
+        receipt = readJson(receiptPath)
+        validateRecord(receipt, registryRoot)
+        if contentDigest(receipt) != receiptDigest:
+            raise ArborError(
+                f"Arbor interpretation references altered receipt {receiptDigest}"
+            )
+        if receipt["target"] != target:
+            raise ArborError("Arbor interpretation receipt targets a different claim")
+
+    supersedes = interpretation.get("supersedesSha256")
+    if supersedes is not None:
+        priorPath = root / "sources" / "interpretations" / f"{supersedes}.json"
+        if not priorPath.is_file():
+            raise ArborError(
+                f"Arbor interpretation supersedes missing interpretation {supersedes}"
+            )
+        prior = readJson(priorPath)
+        validateRecord(prior, registryRoot)
+        if contentDigest(prior) != supersedes:
+            raise ArborError(
+                f"Arbor interpretation supersedes altered interpretation {supersedes}"
+            )
+        if prior["target"] != target or prior["skill"] != interpretation["skill"]:
+            raise ArborError("Arbor interpretation may only supersede the same claim")
+
+
 def buildProfiles(
-    declarations: dict[str, dict], receipts: dict[str, dict], registryRoot: str | Path
+    declarations: dict[str, dict],
+    receipts: dict[str, dict],
+    interpretations: dict[str, dict],
+    registryRoot: str | Path,
 ) -> dict[Path, dict]:
     """Build and validate a complete profile generation without publishing it."""
 
+    root = arborRoot(registryRoot)
     for receipt in receipts.values():
-        validateReceiptTarget(receipt, arborRoot(registryRoot), registryRoot)
+        validateReceiptTarget(receipt, root, registryRoot)
+    for interpretation in interpretations.values():
+        validateInterpretationTarget(interpretation, root, registryRoot)
     grouped: dict[tuple[str, str], list[tuple[str, dict]]] = {}
+    declarationIds: dict[tuple[str, str], set[str]] = {}
     for digest, declaration in declarations.items():
         skill = declaration["skill"]
         key = (skill["id"], skill["contentSha256"])
+        ids = declarationIds.setdefault(key, set())
+        if declaration["declarationId"] in ids:
+            raise ArborError(
+                f"duplicate Arbor declaration id for one skill hash: {declaration['declarationId']}"
+            )
+        ids.add(declaration["declarationId"])
         grouped.setdefault(key, []).append((digest, declaration))
 
     profiles = {}
     for (skillId, skillHash), items in sorted(grouped.items()):
-        profile = interpretProfile(items, receipts)
+        profile = interpretProfile(items, receipts, interpretations)
         validateRecord(profile, registryRoot)
-        profiles[profilePath(arborRoot(registryRoot), skillId, skillHash)] = profile
+        profiles[profilePath(root, skillId, skillHash)] = profile
     return profiles
 
 
@@ -416,8 +474,8 @@ def replay(registryRoot: str | Path) -> list[Path]:
     """Stage, validate, then reconcile every generated profile under one lock."""
 
     with storeLock(registryRoot):
-        declarations, receipts = sourceRecords(registryRoot)
-        profiles = buildProfiles(declarations, receipts, registryRoot)
+        declarations, receipts, interpretations = sourceRecords(registryRoot)
+        profiles = buildProfiles(declarations, receipts, interpretations, registryRoot)
         staged = {
             path: json.dumps(profile, indent=2, sort_keys=True, ensure_ascii=False).encode("utf-8")
             + b"\n"
@@ -443,13 +501,16 @@ def replay(registryRoot: str | Path) -> list[Path]:
 
 
 def interpretProfile(
-    declarations: Iterable[tuple[str, dict]], receipts: dict[str, dict]
+    declarations: Iterable[tuple[str, dict]],
+    receipts: dict[str, dict],
+    interpretations: dict[str, dict],
 ) -> dict:
     declarationItems = sorted(declarations, key=lambda item: item[0])
     firstSkill = declarationItems[0][1]["skill"]
     claims = []
     seen = set()
     usedReceipts = set()
+    usedInterpretations = set()
     for declarationDigest, declaration in declarationItems:
         if declaration["skill"] != firstSkill:
             raise ArborError("cannot combine declarations for different skill identities or hashes")
@@ -457,18 +518,37 @@ def interpretProfile(
             if claim["id"] in seen:
                 raise ArborError(f"duplicate Arbor claim id for one skill hash: {claim['id']}")
             seen.add(claim["id"])
-            targeted = [
-                (digest, receipt)
-                for digest, receipt in receipts.items()
-                if receipt["target"] == {
-                    "declarationSha256": declarationDigest,
-                    "claimId": claim["id"],
-                }
-            ]
-            outcomes = [interpretReceipt(claim, receipt) for _, receipt in targeted]
-            support = combineOutcomes(outcomes)
-            receiptDigests = sorted(digest for digest, _ in targeted)
+            target = {
+                "declarationSha256": declarationDigest,
+                "claimId": claim["id"],
+            }
+            receiptDigests = sorted(
+                digest for digest, receipt in receipts.items() if receipt["target"] == target
+            )
+            targetedInterpretations = {
+                digest: interpretation
+                for digest, interpretation in interpretations.items()
+                if interpretation["target"] == target
+            }
+            superseded = {
+                interpretation["supersedesSha256"]
+                for interpretation in targetedInterpretations.values()
+                if "supersedesSha256" in interpretation
+            }
+            tips = sorted(set(targetedInterpretations) - superseded)
+            if len(tips) > 1:
+                raise ArborError(
+                    f"multiple active Arbor interpretations for claim {claim['id']}; "
+                    "a new interpretation must supersede the active source"
+                )
+            interpretationDigest = tips[0] if tips else None
+            support = (
+                targetedInterpretations[interpretationDigest]["support"]
+                if interpretationDigest is not None
+                else "expert-declared"
+            )
             usedReceipts.update(receiptDigests)
+            usedInterpretations.update(targetedInterpretations)
             claims.append(
                 {
                     "id": claim["id"],
@@ -477,13 +557,18 @@ def interpretProfile(
                     "rationale": claim["rationale"],
                     "authority": claim["authority"],
                     "support": support,
+                    "declarationId": declaration["declarationId"],
+                    "declaredAt": declaration["declaredAt"],
                     "declarationSource": declarationDigest,
                     "benchmarkSources": receiptDigests,
+                    "interpretationSource": interpretationDigest,
                 }
             )
 
     declarationDigests = [digest for digest, _ in declarationItems]
-    sourceDigests = declarationDigests + sorted(usedReceipts)
+    sourceDigests = (
+        declarationDigests + sorted(usedReceipts) + sorted(usedInterpretations)
+    )
     return {
         "schema": PROFILE_SCHEMA,
         "skill": firstSkill,
@@ -491,56 +576,10 @@ def interpretProfile(
         "sources": {
             "declarations": declarationDigests,
             "benchmarkReceipts": sorted(usedReceipts),
+            "interpretations": sorted(usedInterpretations),
         },
         "claims": sorted(claims, key=lambda item: item["id"]),
     }
-
-
-def interpretReceipt(claim: dict, receipt: dict) -> str:
-    expectation = claim["expectation"]
-    observation = next(
-        (item for item in receipt["measurements"] if item["metric"] == expectation["metric"]),
-        None,
-    )
-    if observation is None:
-        return "inconclusive"
-    difference = observation["difference"]
-    estimate = difference["estimate"]
-    lower = difference["confidenceInterval"]["lower"]
-    upper = difference["confidenceInterval"]["upper"]
-    minimum = expectation["minimumEffect"]
-    if expectation["direction"] == "increase":
-        if lower >= minimum:
-            return "benchmark-confirmed"
-        if estimate >= minimum:
-            return "benchmark-qualified"
-        if upper < 0:
-            return "benchmark-revised"
-    else:
-        threshold = -minimum
-        if upper <= threshold:
-            return "benchmark-confirmed"
-        if estimate <= threshold:
-            return "benchmark-qualified"
-        if lower > 0:
-            return "benchmark-revised"
-    return "inconclusive"
-
-
-def combineOutcomes(outcomes: list[str]) -> str:
-    if not outcomes:
-        return "expert-declared"
-    distinct = set(outcomes)
-    positive = distinct & {"benchmark-confirmed", "benchmark-qualified"}
-    if "benchmark-revised" in distinct and positive:
-        return "inconclusive"
-    if "benchmark-revised" in distinct:
-        return "benchmark-revised"
-    if "benchmark-confirmed" in distinct:
-        return "benchmark-confirmed"
-    if "benchmark-qualified" in distinct:
-        return "benchmark-qualified"
-    return "inconclusive"
 
 
 def profilePath(root: Path, skillId: str, skillHash: str) -> Path:
@@ -550,18 +589,35 @@ def profilePath(root: Path, skillId: str, skillHash: str) -> Path:
 
 
 def checkStore(registryRoot: str | Path, inputPath: str | Path | None = None) -> int:
-    """Validate one input or the complete store; returns checked file count."""
+    """Validate one input or immutable store integrity; returns checked file count.
+
+    A standalone declaration not already stored also receives the current
+    canonical admission check. Receipts validate their immutable target; profiles
+    receive contract validation. Stored history never consults moving skill bytes.
+    """
 
     with storeLock(registryRoot):
         if inputPath is not None:
             record = readJson(Path(inputPath))
             schemaId = validateRecord(record, registryRoot)
-            if schemaId == RECEIPT_SCHEMA:
-                validateReceiptTarget(record, arborRoot(registryRoot), registryRoot)
+            root = arborRoot(registryRoot)
+            if schemaId == DECLARATION_SCHEMA:
+                digest = contentDigest(record)
+                stored = root / "sources" / "declarations" / f"{digest}.json"
+                expectedBytes = canonicalBytes(record) + b"\n"
+                if stored.is_file():
+                    if stored.read_bytes() != expectedBytes:
+                        raise ArborError(f"immutable Arbor source collision at {stored}")
+                else:
+                    validateSkillIdentity(record["skill"], registryRoot)
+            elif schemaId == RECEIPT_SCHEMA:
+                validateReceiptTarget(record, root, registryRoot)
+            elif schemaId == INTERPRETATION_SCHEMA:
+                validateInterpretationTarget(record, root, registryRoot)
             return 1
 
-        declarations, receipts = sourceRecords(registryRoot)
-        expected = buildProfiles(declarations, receipts, registryRoot)
+        declarations, receipts, interpretations = sourceRecords(registryRoot)
+        expected = buildProfiles(declarations, receipts, interpretations, registryRoot)
         profileRoot = arborRoot(registryRoot) / "profiles"
         existing = set(profileRoot.glob("**/*.json")) if profileRoot.exists() else set()
         if existing != set(expected):
@@ -571,4 +627,4 @@ def checkStore(registryRoot: str | Path, inputPath: str | Path | None = None) ->
             validateRecord(stored, registryRoot)
             if stored != profile:
                 raise ArborError(f"generated Arbor profile is stale: {path}")
-        return len(declarations) + len(receipts) + len(expected)
+        return len(declarations) + len(receipts) + len(interpretations) + len(expected)

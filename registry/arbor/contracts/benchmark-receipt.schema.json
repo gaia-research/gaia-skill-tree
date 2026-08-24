@@ -13,7 +13,7 @@
       "required": ["declarationSha256", "claimId"],
       "properties": {
         "declarationSha256": {"$ref": "#/definitions/sha256"},
-        "claimId": {"type": "string", "pattern": "^[a-z][a-z0-9.-]*$"}
+        "claimId": {"$ref": "#/definitions/recordId"}
       }
     },
     "benchmark": {
@@ -58,6 +58,7 @@
   "definitions": {
     "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
     "nonEmpty": {"type": "string", "minLength": 1},
+    "recordId": {"type": "string", "pattern": "^[a-z][a-z0-9.-]*$"},
     "skillId": {"type": "string", "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?(/[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?)?$"},
     "skill": {
       "type": "object",
@@ -68,15 +69,24 @@
         "contentSha256": {"$ref": "#/definitions/sha256"}
       }
     },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["taskSha256", "fixtureSha256", "evaluatorSha256"],
+      "properties": {
+        "taskSha256": {"$ref": "#/definitions/sha256"},
+        "fixtureSha256": {"$ref": "#/definitions/sha256"},
+        "evaluatorSha256": {"$ref": "#/definitions/sha256"}
+      }
+    },
     "environment": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["model", "harness", "taskSetSha256", "seedSha256"],
+      "required": ["model", "harness", "artifacts"],
       "properties": {
         "model": {"$ref": "#/definitions/nonEmpty"},
         "harness": {"$ref": "#/definitions/nonEmpty"},
-        "taskSetSha256": {"$ref": "#/definitions/sha256"},
-        "seedSha256": {"$ref": "#/definitions/sha256"}
+        "artifacts": {"$ref": "#/definitions/artifacts"}
       }
     },
     "arm": {
@@ -88,42 +98,25 @@
         "environment": {"$ref": "#/definitions/environment"}
       }
     },
-    "sample": {
+    "observation": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["n", "mean"],
+      "required": ["value"],
       "properties": {
-        "n": {"type": "integer", "minimum": 1},
-        "mean": {"type": "number"}
+        "value": {"type": "number"},
+        "count": {"type": "integer", "minimum": 1}
       }
     },
     "measurement": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["metric", "unit", "control", "treatment", "difference"],
+      "required": ["metric", "unit", "control", "treatment"],
       "properties": {
-        "metric": {"type": "string", "pattern": "^[a-z][a-z0-9.-]*$"},
+        "metric": {"$ref": "#/definitions/recordId"},
         "unit": {"$ref": "#/definitions/nonEmpty"},
-        "control": {"$ref": "#/definitions/sample"},
-        "treatment": {"$ref": "#/definitions/sample"},
-        "difference": {
-          "type": "object",
-          "additionalProperties": false,
-          "required": ["estimate", "confidenceInterval"],
-          "properties": {
-            "estimate": {"type": "number"},
-            "confidenceInterval": {
-              "type": "object",
-              "additionalProperties": false,
-              "required": ["lower", "upper", "confidence"],
-              "properties": {
-                "lower": {"type": "number"},
-                "upper": {"type": "number"},
-                "confidence": {"type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1}
-              }
-            }
-          }
-        }
+        "control": {"$ref": "#/definitions/observation"},
+        "treatment": {"$ref": "#/definitions/observation"},
+        "difference": {"type": "number"}
       }
     }
   }

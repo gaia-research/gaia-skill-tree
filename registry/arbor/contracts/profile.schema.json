@@ -11,10 +11,11 @@
     "sources": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["declarations", "benchmarkReceipts"],
+      "required": ["declarations", "benchmarkReceipts", "interpretations"],
       "properties": {
         "declarations": {"$ref": "#/definitions/digests"},
-        "benchmarkReceipts": {"$ref": "#/definitions/digests"}
+        "benchmarkReceipts": {"$ref": "#/definitions/digests"},
+        "interpretations": {"$ref": "#/definitions/digests"}
       }
     },
     "claims": {
@@ -27,6 +28,7 @@
     "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
     "digests": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/definitions/sha256"}},
     "nonEmpty": {"type": "string", "minLength": 1},
+    "recordId": {"type": "string", "pattern": "^[a-z][a-z0-9.-]*$"},
     "skillId": {"type": "string", "pattern": "^[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?(/[A-Za-z0-9](?:[A-Za-z0-9._-]*[A-Za-z0-9])?)?$"},
     "skill": {
       "type": "object",
@@ -49,16 +51,24 @@
     "claim": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["id", "facet", "conditions", "rationale", "authority", "support", "declarationSource", "benchmarkSources"],
+      "required": ["id", "facet", "conditions", "rationale", "authority", "support", "declarationId", "declaredAt", "declarationSource", "benchmarkSources", "interpretationSource"],
       "properties": {
-        "id": {"type": "string", "pattern": "^[a-z][a-z0-9.-]*$"},
+        "id": {"$ref": "#/definitions/recordId"},
         "facet": {"enum": ["human-led", "model-led"]},
         "conditions": {"$ref": "#/definitions/nonEmpty"},
         "rationale": {"$ref": "#/definitions/nonEmpty"},
         "authority": {"$ref": "#/definitions/authority"},
-        "support": {"enum": ["expert-declared", "benchmark-confirmed", "benchmark-qualified", "benchmark-revised", "inconclusive"]},
+        "support": {"enum": ["expert-declared", "benchmark-confirmed", "benchmark-revised"]},
+        "declarationId": {"$ref": "#/definitions/recordId"},
+        "declaredAt": {"type": "string", "format": "date-time"},
         "declarationSource": {"$ref": "#/definitions/sha256"},
-        "benchmarkSources": {"$ref": "#/definitions/digests"}
+        "benchmarkSources": {"$ref": "#/definitions/digests"},
+        "interpretationSource": {
+          "anyOf": [
+            {"$ref": "#/definitions/sha256"},
+            {"type": "null"}
+          ]
+        }
       }
     }
   }
