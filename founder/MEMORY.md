@@ -4,6 +4,28 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-08-24, HH Benchmark R2 integration assembled; empirical campaign fail-closed before first run)
+
+### TLDR
+
+- R2’s reproducible contracts, Skill Zero record/runtime support, deterministic Arbor stamp importer, execution controller, analysis gates, and preflight evidence are assembled on three draft integration PRs: gaia-research#193, gaia-skill-heaven#100, and gaia-skill-tree#1620.
+- No empirical stamp exists. The mandatory #2/#11 control pilot stopped **before attempt 1**: this execution host has neither Docker nor Podman and therefore cannot provide the required fresh OCI sandbox plus provider-only egress network. Model runs, valid records, invalid attempts, and pilot/full cells launched are all zero. This is an honest blocked state, not a negative benchmark finding and not an issue-close condition.
+- The full prescribed matrix is pinned and ready: 20 identities at exact raw `SKILL.md` hashes, 20 deterministic tasks, six loadouts per task, five repeats, and a cryptographically shuffled 600-cell order. It must run only on a host meeting the committed preflight; never replace real model behavior with fixtures or synthesize ledger records.
+
+### Delivered contracts and review state
+
+- **Research:** Workstreams A/D plus execution preflight are merged into `dev/r2-hh-benchmark`. `hh-ledger/v1` remains frozen; exact rungs, retry chains, blind packets/mappings, loadouts, and stamps remain companion artifacts. Review repairs closed Vitest discovery, identity history, valid-retry handling, blinded same-cell pairing, Wilson/paired analysis, exact-rung curves, runner argument/timeout handling, and test timeout flakiness.
+- **Runtime:** `dev/r2-hh-benchmark-runtime` accepts frozen `placebo`/`heaven`/`hell`/`ultra` arms and exact rungs while preserving floor vs product-floor, upper-rung summon semantics, sandboxed pinned bundles, content hashes, and companion receipts. The parity fixture and ledger shape are unchanged.
+- **Arbor:** `dev/r2-arbor-stamps` contains `hh-stamp/v1` import/check/replay and immutable-source projection machinery. It rejects empty or weak provenance, prestige/Trust Magnitude fields, denied hell-safe stamps, and fabricated rows. `registry/arbor/stamps.jsonl` remains header-only until a real accepted receipt bundle exists.
+- Every feature PR had exact-SHA bounded review through `worker-flash-high`; external full review remains separate. Local aggregate gates passed: research 313 tests, TypeScript, R2 source verification and ledger/claims gates; runtime 420 tests plus typecheck; Arbor 24 focused tests, schema-mirror sync, and projection check. Research’s existing craft sync sanity warnings appeared during tests but did not fail them.
+
+### Resume / hard dependency
+
+1. Provision a Linux host with Docker or Podman and an enforced provider-only network matching `scripts/hell-heaven-bench/data/r2/execution-manifest.json`.
+2. Re-run `r2-preflight.ts`; only a clean preflight may launch the 30-cell control pilot. Do not alter its gate to accommodate this Android/Termux host.
+3. If the pilot promotes, run the remaining 570 cells in the committed order, validate all receipts/shards, then derive results and an `hh-stamp/v1` bundle. Import it only with `gaia dev arbor import`; never hand-edit the projection.
+4. Only after actual records, final aggregate CI, and external full review may integrations be marked ready, main merges considered, and gaia-research#190 closed.
+
 ## State Snapshot (2026-08-13, Steward V1.3 + V1.4 + V1.5 assembled on integration — GREEN, awaiting founder merge gate)
 
 ### TLDR
