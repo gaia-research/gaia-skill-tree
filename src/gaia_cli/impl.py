@@ -4156,6 +4156,18 @@ def validate_command(args):
     if tm_script.exists():
         rc = subprocess.call([sys.executable, str(tm_script)]) or rc
 
+    # Arbor Gate — accepted Research bundles are immutable source records and
+    # stamps.jsonl is only their deterministic, rankless projection.
+    arbor_root = repo_root / "registry" / "arbor"
+    if arbor_root.exists():
+        from gaia_cli.arbor import ArborError, checkProjection
+        try:
+            checkProjection(repo_root)
+            print("Arbor projection check passed.")
+        except ArborError as exc:
+            print(f"Arbor validation error: {exc}", file=sys.stderr)
+            rc = rc or 1
+
     raise SystemExit(rc)
 
 
