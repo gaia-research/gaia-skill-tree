@@ -1,4 +1,4 @@
-/* docs/js/tm-config.js  —  G7 Trust Magnitude single source of truth (frontend)
+/* docs/js/tm-config.js  —  Yggdrasil III Trust Magnitude frontend configuration
  *
  * When RFC G7 formulas change, update:
  *   1. THIS FILE                               ← frontend SoT
@@ -29,14 +29,51 @@
   // ── Aggregate skill grade thresholds (docs/trust/index.html §3) ───────────
   var OVERALL_GRADES = [
     { grade: 'S', floor: 250, name: 'Platinum',
-      note: 'requires ≥3 distinct types AND ≥1 non-self-producible row (diversity gate)' },
+      note: 'requires ≥3 distinct positive scoring types AND an eligible independent witness' },
     { grade: 'A', floor: 100, name: 'Gold',   note: '' },
     { grade: 'B', floor:  50, name: 'Silver', note: '' },
     { grade: 'C', floor:  20, name: 'Bronze', note: '' },
   ];
 
-  // Types that cannot anchor the S diversity gate alone (RFC §4).
+  // Structural/self-produced types do not count toward S diversity.
   var SELF_PRODUCIBLE = ['fusion-recipe', 'self-attestation', 'repo-own'];
+  var S_WITNESS_TYPES = ['benchmark-result', 'verifier-attestation', 'peer-review'];
+  var YGGDRASIL_III = {
+    suiteRepositoryBaselineCap: 50,
+    suiteRepositoryBaselineTypes: ['github-stars-own', 'repo-own'],
+    benchmarkVerifiedLanes: ['verified', 'ci-reproduced', 'verifier-attested'],
+    benchmarkReportedLanes: ['reported', 'mirrored'],
+    benchmarkRejectedLanes: ['rejected', 'pending', 'candidate', 'retired', 'unknown'],
+  };
+  var SUITE_COMPONENT_REPOSITORY_CAP = 50;
+
+  function isInvalidEvidence(row) {
+    if (!row || row._phantom === true || row.phantom === true) return true;
+    var eligibility = scoreEligibility(row);
+    return !eligibility.eligible && !eligibility.structuralOnly;
+  }
+
+  function githubRepo(source) {
+    var m = String(source || '').match(/github\.com[/:]([^/]+)\/([^/#?]+)/i);
+    return m ? (m[1] + '/' + m[2].replace(/\.git$/, '')).toLowerCase() : '';
+  }
+
+  function suiteRepositoryCapMultiplier(rows, skill) {
+    var ref = String(skill && skill.suiteRef || '').trim().toLowerCase();
+    if (!ref || ref.indexOf('/') < 0 || !Array.isArray(rows)) return 1;
+    var shared = rows.filter(function (row) {
+      var type = canonicalType(row.type || '');
+      return (type === 'github-stars-own' || type === 'repo-own') && githubRepo(row.source || row.url) === ref;
+    });
+    if (!shared.length) return 1;
+    var total = shared.reduce(function (sum, row) {
+      if (isInvalidEvidence(row)) return sum;
+      var cfg = TYPES[canonicalType(row.type || '')];
+      var d = cfg && cfg.describe(row);
+      return sum + (d && d.value != null ? applyContributionCap(canonicalType(row.type || ''), applyCap(canonicalType(row.type || ''), d.value) * cfg.weight) : 0);
+    }, 0);
+    return total > SUITE_COMPONENT_REPOSITORY_CAP ? SUITE_COMPONENT_REPOSITORY_CAP / total : 1;
+  }
 
   // ── Per-type config (docs/trust/index.html §2) ────────────────────────────
   //
@@ -253,36 +290,16 @@
 
     'fusion-recipe': {
       label: 'fusion',
-      formula: '20 × N  (N ≤ 10)  |  200 + 20 × √(N−10)  (N > 10)  where N = graded ≥C origins',
+      formula: 'structural/provenance metadata only — 0 TM',
       describe: function (row) {
-        var n = null;
-        var caveat = '';
-        // Priority 1: explicit graded-origin count written by backend (exact match)
-        if (row.gradedOriginCount != null) {
-          n = Number(row.gradedOriginCount);
-        // Priority 2: numeric origins field (also a pre-computed graded count from CLI)
-        } else if (!Array.isArray(row.origins) && row.origins != null) {
-          n = Number(row.origins);
-        // Priority 3: raw array length — approximation only; tooltip says so
-        } else if (Array.isArray(row.origins)) {
-          n = row.origins.length;
-          caveat = ' (raw count — backend filters to graded ≥C origins only)';
-        }
-        if (n == null) return null;
-        var raw = n <= 10 ? 20 * n : 200 + 20 * Math.sqrt(n - 10);
-        var expr = n <= 10
-          ? '20 × ' + n + caveat
-          : '200 + 20 × √(' + n + '−10)' + caveat;
-        return { value: raw, expr: expr };
+        return { value: 0, expr: 'structural/provenance metadata only' };
       },
-      weight: 1.5,
-      cap: null,
-      // Final contribution ceiling, applied after weight and applicable
-      // multipliers. Raw origin-count magnitude remains visible above.
-      contributionCap: 200,
+      weight: 0,
+      cap: 0,
+      contributionCap: 0,
       plateau: { factors: [1.0], maxRows: 1 },
       freshness: null,
-      gradeFloors: { S: 200, A: 120, B: 60, C: 30 },
+      gradeFloors: {},
       gradeCeiling: null,
       anchor: 'suiteVsFusion',
     },
@@ -294,6 +311,87 @@
 
   function canonicalType(t) {
     return (t && ALIASES[t]) || t || '';
+  }
+
+  function _benchmarkLane(row) {
+    var raw = String((row && row.provenance) || '').trim().toLowerCase();
+    if (YGGDRASIL_III.benchmarkVerifiedLanes.indexOf(raw) !== -1) return 'verified';
+    if (YGGDRASIL_III.benchmarkReportedLanes.indexOf(raw) !== -1) return 'reported';
+    return 'rejected';
+  }
+
+  function benchmarkScoringEligibility(row) {
+    if (!row || canonicalType(row.type || '') !== 'benchmark-result') return false;
+    if (!row.benchmarkId ||
+        (row.score == null && row.percentile == null) || !row.unit || !row.provenance || !row.attestor) return false;
+    if (row.scoresTrustMagnitude === false || row.catalogScoringEnabled === false) return false;
+    var catalogStatus = String(row.catalogStatus || row.benchmarkCatalogStatus || row.benchmarkStatus || '').trim().toLowerCase();
+    if (catalogStatus && ['verified', 'reported', 'approved'].indexOf(catalogStatus) === -1) return false;
+    var lane = _benchmarkLane(row);
+    if (lane === 'rejected') return false;
+    if (lane === 'verified' && (!row.runAt || !row.datasetHash || !row.benchmarkInputHash)) return false;
+    return true;
+  }
+
+  function scoreEligibility(row) {
+    var t = canonicalType(row && row.type || '');
+    if (!row || !TYPES[t]) return { eligible: false, reason: 'unknown-type' };
+    if (row._phantom === true || row.phantom === true) return { eligible: false, reason: 'phantom' };
+    if (row.autoMinted === true && t !== 'fusion-recipe') return { eligible: false, reason: 'auto-minted' };
+    if (t === 'fusion-recipe') return { eligible: false, structuralOnly: true, reason: 'structural-only' };
+    if (t === 'benchmark-result' && !benchmarkScoringEligibility(row)) return { eligible: false, reason: 'benchmark-ineligible' };
+    if (t === 'verifier-attestation' && (row.verifierActiveRank === false || row.derank === true)) {
+      return { eligible: false, reason: 'verifier-deranked' };
+    }
+    return { eligible: true, reason: 'eligible' };
+  }
+
+  function isScoringEligible(row) {
+    return scoreEligibility(row).eligible;
+  }
+
+  function isStructuralOnly(row) {
+    return !!scoreEligibility(row).structuralOnly;
+  }
+
+  function _githubRepository(source) {
+    var value = String(source || '').trim().toLowerCase();
+    if (!value) return '';
+    value = value.replace(/#.*$/, '').replace(/\/(tree|blob)\/[^/]+\/.*$/, '').replace(/\/$/, '');
+    var match = value.match(/^https?:\/\/(?:www\.)?github\.com\/([^/]+\/[^/]+)/);
+    return match ? match[1].replace(/\.git$/, '') : '';
+  }
+
+  function isSuiteRepositoryBaselineRow(row, skill) {
+    var suiteRef = skill && (skill.suiteRef || skill._suiteRef);
+    var t = canonicalType(row && row.type || '');
+    return !!(suiteRef && YGGDRASIL_III.suiteRepositoryBaselineTypes.indexOf(t) !== -1 &&
+      _githubRepository(row.source || row.url || row.sourceUrl) === String(suiteRef).trim().toLowerCase());
+  }
+
+  // Build once per skill/group so matching stars + repo rows share one proportional cap.
+  function createSuiteRepositoryBaselineContext(rows, skill, scoreFn) {
+    var context = { suiteRef: skill && (skill.suiteRef || skill._suiteRef) || '', cap: YGGDRASIL_III.suiteRepositoryBaselineCap, total: 0, factor: 1 };
+    if (!context.suiteRef || !Array.isArray(rows) || typeof scoreFn !== 'function') return context;
+    rows.forEach(function (row) {
+      if (!isSuiteRepositoryBaselineRow(row, skill) || !isScoringEligible(row)) return;
+      var score = scoreFn(row);
+      if (score != null && score > 0) context.total += score;
+    });
+    if (context.total > context.cap) context.factor = context.cap / context.total;
+    return context;
+  }
+
+  function applySuiteRepositoryBaseline(score, row, context) {
+    if (score == null || !context || context.factor === 1 || !isSuiteRepositoryBaselineRow(row, context)) return score;
+    return Math.round(score * context.factor * 10) / 10;
+  }
+
+  function suiteRepositoryBaselineNote(context) {
+    if (!context || !context.suiteRef || context.factor >= 1) return '';
+    return 'SuiteRef repository baseline: github-stars-own + repo-own rows from ' + context.suiteRef +
+      ' share a combined cap of ' + context.cap + ' TM per component; applied scale ×' + context.factor.toFixed(3) +
+      '; component-specific evidence remains fully eligible.';
   }
 
   function applyCap(typeKey, raw) {
@@ -341,6 +439,7 @@
   // already computed for the MAG bar. Pass null if not yet computed (function derives it
   // via gradeFloors grade-floor lookup instead, which is less precise).
   function effectiveGrade(ev, weightedScore) {
+    if (!isScoringEligible(ev)) return '';
     var g = (ev.grade || '').toUpperCase().charAt(0);
     if (g) return g;
     var t = canonicalType(ev.type || '');
@@ -369,7 +468,20 @@
     ALIASES: ALIASES,
     OVERALL_GRADES: OVERALL_GRADES,
     SELF_PRODUCIBLE: SELF_PRODUCIBLE,
+    S_WITNESS_TYPES: S_WITNESS_TYPES,
+    YGGDRASIL_III: YGGDRASIL_III,
+    SUITE_COMPONENT_REPOSITORY_CAP: SUITE_COMPONENT_REPOSITORY_CAP,
+    isInvalidEvidence: isInvalidEvidence,
+    suiteRepositoryCapMultiplier: suiteRepositoryCapMultiplier,
     canonicalType: canonicalType,
+    benchmarkScoringEligibility: benchmarkScoringEligibility,
+    scoreEligibility: scoreEligibility,
+    isScoringEligible: isScoringEligible,
+    isStructuralOnly: isStructuralOnly,
+    isSuiteRepositoryBaselineRow: isSuiteRepositoryBaselineRow,
+    createSuiteRepositoryBaselineContext: createSuiteRepositoryBaselineContext,
+    applySuiteRepositoryBaseline: applySuiteRepositoryBaseline,
+    suiteRepositoryBaselineNote: suiteRepositoryBaselineNote,
     applyCap: applyCap,
     applyContributionCap: applyContributionCap,
     gradeFloor: gradeFloor,

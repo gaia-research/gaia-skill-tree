@@ -420,9 +420,12 @@
       }
       lines.push('  Ungraded · TM < 20');
       lines.push('');
-      lines.push('Diversity gate (S only): ≥3 distinct evidence types AND');
-      lines.push('  ≥1 non-self-producible type (' +
-        TM.SELF_PRODUCIBLE.join(', ') + ' cannot anchor alone).');
+      lines.push('S gate: TM ≥ 250, ≥3 distinct positive scoring types, AND');
+      lines.push('  an eligible independent witness (' + TM.S_WITNESS_TYPES.join(', ') + ').');
+      lines.push('  Not witnesses: stars, repo-own, fusion, self-attestation, social-signal, arxiv, proxy-containment.');
+      if (ns && ns.suiteRef) {
+        lines.push('SuiteRef baseline: github-stars-own + repo-own share a combined 50 TM cap per component; component-specific evidence remains fully eligible.');
+      }
       lines.push('');
       lines.push('Evidence cards show per-row artifact scores (pre-weight).');
       lines.push('Full methodology: ' + TM.RFC.grades);

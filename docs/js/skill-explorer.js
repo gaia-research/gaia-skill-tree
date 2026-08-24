@@ -119,6 +119,8 @@
     if (ev._noScore) return null;
     var TM = window.TM_CONFIG;
     if (!TM) return null;
+    var eligibility = TM.scoreEligibility ? TM.scoreEligibility(ev) : { eligible: true };
+    if (!eligibility.eligible) return eligibility.structuralOnly ? 0 : null;
     var t = TM.canonicalType(ev.type || '');
     var cfg = TM.TYPES[t];
     if (!cfg) return null;
@@ -133,12 +135,14 @@
   // Derive the fully-weighted artifact score: base × weight × freshness × creator × engagement.
   // This is what the MAG bar displays — the actual contribution before plateau stacking.
   // Mirrors computeArtifactScoreOrNone() in trustMagnitude.py exactly.
-  function _deriveWeightedScore(ev) {
+  function _deriveWeightedScore(ev, baselineContext) {
     if (ev._noScore) return null;
     var TM = window.TM_CONFIG;
     if (!TM) return null;
 
     var t = TM.canonicalType(ev.type || '');
+    var eligibility = TM.scoreEligibility ? TM.scoreEligibility(ev) : { eligible: true };
+    if (!eligibility.eligible) return eligibility.structuralOnly ? 0 : null;
     var cfg = TM.TYPES[t];
     if (!cfg) return null;
 
@@ -182,12 +186,17 @@
       if (im != null) score *= im;
     }
 
-    return Math.round(TM.applyContributionCap(t, score) * 10) / 10;
+    var finalScore = Math.round(TM.applyContributionCap(t, score) * 10) / 10;
+    if (baselineContext && TM.applySuiteRepositoryBaseline) {
+      return TM.applySuiteRepositoryBaseline(finalScore, ev, baselineContext);
+    }
+    var multiplier = ev._suiteRepositoryCapMultiplier == null ? 1 : ev._suiteRepositoryCapMultiplier;
+    return Math.round(finalScore * multiplier * 10) / 10;
   }
   // Build a tooltip showing the FULL multiplier chain, mirroring inspectTrustMagnitude.py:
   //   base × weight × freshness [× mothership] [× creator] [× engagement] [× inheritMult] [× plateau] = final
   // All values read from window.TM_CONFIG — no hardcoded numbers.
-  function _magTooltip(ev, tmRaw, skillTm) {
+  function _magTooltip(ev, tmRaw, skillTm, baselineContext) {
     var TM = window.TM_CONFIG;
     if (!TM) return 'Trust config unavailable. See https://gaiaskilltree.com/codex/trust-methodology.html';
 
@@ -207,6 +216,22 @@
 
     // ── Full multiplier chain (live formula only — no stale "stored" values) ──
     var d = cfg.describe(ev);
+    var eligibility = TM.scoreEligibility ? TM.scoreEligibility(ev) : { eligible: true };
+    if (!eligibility.eligible && !eligibility.structuralOnly) {
+      lines.push('No positive TM: ' + eligibility.reason + '.');
+      lines.push('= MAG —');
+      return lines.join('\n');
+    }
+    if (eligibility.structuralOnly) {
+      lines.push('Structural/provenance metadata only; contributes 0 TM.');
+      lines.push('= MAG 0.0');
+      return lines.join('\n');
+    }
+    if (t === 'fusion-recipe') {
+      lines.push('Structural/provenance metadata only; contributes 0 TM.');
+      lines.push('= MAG 0.0');
+      return lines.join('\n');
+    }
     if (d != null && d.value != null) {
       var baseMag = d.value;
       var capped  = TM.applyCap(t, baseMag);
@@ -275,7 +300,14 @@
       // Final weighted score that the MAG bar displays
       lines.push('');
       var weighted = Math.round(capped * cfg.weight * 10) / 10;
+      if (baselineContext && TM.applySuiteRepositoryBaseline) {
+        weighted = TM.applySuiteRepositoryBaseline(weighted, ev, baselineContext);
+      }
       lines.push('= MAG ' + weighted.toFixed(1) + '  (displayed on card; pre-plateau approximation)');
+      if (TM.suiteRepositoryBaselineNote && TM.isSuiteRepositoryBaselineRow(ev, baselineContext)) {
+        var baselineNote = TM.suiteRepositoryBaselineNote(baselineContext);
+        if (baselineNote) lines.push(baselineNote);
+      }
 
     } else {
       // No metric drivers — honest empty state. Prompt the curator to add fields.
@@ -490,6 +522,11 @@
           // These are pre-plateau individual scores; the actual sum may differ slightly because
           // plateau factors are applied at aggregate time by the backend (not displayed row-by-row).
           var allEv = (ns.evidence || []).concat((generic ? generic.evidence : null) || []);
+          var heroScoreContext = TM_N && TM_N.createSuiteRepositoryBaselineContext
+            ? TM_N.createSuiteRepositoryBaselineContext(allEv, ns, function (row) {
+                return _deriveWeightedScore(row);
+              })
+            : null;
           if (allEv.length && TM_N) {
             tipLines.push('');
             tipLines.push('Per-row weighted scores (matches each card\'s MAG bar):');
@@ -500,13 +537,13 @@
               var t = TM_N.canonicalType(ev.type || '');
               var cfg = TM_N.TYPES[t];
               if (!cfg) return;
-              var weighted = _deriveWeightedScore(ev);
+              var weighted = _deriveWeightedScore(ev, heroScoreContext);
               if (weighted == null) return;
               rowSum += weighted;
               var plateauNote = cfg.plateau && cfg.plateau.maxRows > 1 ? '*' : '';
               rowLines.push('  ' + cfg.label + ': ' + weighted.toFixed(1) + plateauNote);
             });
-            // Also synthesize fusion row if suiteComponents present
+            // Also synthesize structural fusion row if suiteComponents present.
             var suiteComps = ns.suiteComponents || [];
             var hasFusionEv = allEv.some(function(e){ return (e.type||'') === 'fusion-recipe'; });
             if (suiteComps.length && !hasFusionEv) {
@@ -516,7 +553,7 @@
                 var fWeighted = _deriveWeightedScore(synFusion);
                 if (fWeighted != null) {
                   rowSum += fWeighted;
-                  rowLines.push('  fusion: ' + fWeighted.toFixed(1) + ' (raw origin count — backend uses graded ≥C)');
+                  rowLines.push('  fusion: 0.0 (structural/provenance metadata only)');
                 }
               }
             }
@@ -537,6 +574,10 @@
           }
 
           if (TM_N) {
+            if (TM_N.suiteRepositoryBaselineNote && heroScoreContext && heroScoreContext.suiteRef) {
+              tipLines.push('');
+              tipLines.push(TM_N.suiteRepositoryBaselineNote(heroScoreContext));
+            }
             tipLines.push('');
             tipLines.push('Full methodology: ' + TM_N.RFC.grades);
           }
@@ -1073,17 +1114,14 @@
     addEvidences(ns.evidence, 'named');
     addEvidences(generic ? generic.evidence : null, 'generic');
 
-    // Synthesize fusion-recipe tile from suiteComponents when no fusion-recipe
-    // row exists in the on-disk evidence (it's auto-derived at TM-compute time
-    // and never serialized, so we reconstruct it here for display only).
+    // Synthesize the structural fusion-recipe tile from suiteComponents when no
+    // row exists on disk. It is metadata only and contributes 0 TM.
     var hasFusionRow = combinedEvidence.some(function(ev) {
       return (ev.type || '') === 'fusion-recipe';
     });
     var suiteComponents = ns.suiteComponents || [];
     if (suiteComponents.length && !hasFusionRow) {
-      // suiteComponents ARE the fusion origins per RFC §2.2.
-      // The backend counts graded ≥C among them; on the frontend we use the
-      // raw count as an upper-bound approximation (tooltip says so).
+      // suiteComponents remain visible as composition/provenance metadata.
       combinedEvidence.unshift({
         type: 'fusion-recipe',
         origins: suiteComponents,
@@ -1094,6 +1132,13 @@
       });
     }
 
+    var TM_SCORE = window.TM_CONFIG;
+    var scoreContext = TM_SCORE && TM_SCORE.createSuiteRepositoryBaselineContext
+      ? TM_SCORE.createSuiteRepositoryBaselineContext(combinedEvidence, ns, function (row) {
+          return _deriveWeightedScore(row);
+        })
+      : null;
+
     var rootPath = getRootPath();
     var evidenceLibraryUrl = rootPath + 'evidence/';
 
@@ -1101,13 +1146,14 @@
     if (combinedEvidence.length) {
       evidenceContent = '<div class="se-ev-grid">' +
         combinedEvidence.map(function(ev){
-          var gradeChar = (ev.grade || '').toUpperCase().charAt(0);
+          var TM_G = window.TM_CONFIG;
+          var gradeChar = TM_G && TM_G.isScoringEligible && !TM_G.isScoringEligible(ev)
+            ? '' : (ev.grade || '').toUpperCase().charAt(0);
           // Fallback: if no persisted per-row grade, derive from live weighted score + gradeFloors.
           // Logic lives in TM_CONFIG.effectiveGrade — single source shared with evidence-library.js.
           if (!gradeChar) {
-            var TM_G = window.TM_CONFIG;
             if (TM_G && TM_G.effectiveGrade) {
-              var liveScore = _deriveWeightedScore(ev);
+              var liveScore = _deriveWeightedScore(ev, scoreContext);
               gradeChar = TM_G.effectiveGrade(ev, liveScore);
             }
           }
@@ -1194,13 +1240,13 @@
           // MAG bar — shows the fully-weighted artifact score (base × weight × freshness × …).
           // (i) tooltip shows the full multiplier chain so users can verify each step.
           var tmRaw      = _deriveTrustNum(ev);       // pre-weight base (used inside tooltip chain)
-          var tmWeighted = _deriveWeightedScore(ev);  // post-weight score — displayed on bar
+          var tmWeighted = _deriveWeightedScore(ev, scoreContext);  // post-weight score — displayed on bar
           var skillTm    = ns.trustMagnitude || ns.overallTrustMagnitude || null;
           var barGrade   = trustGrade;
           var tmDisplay  = tmWeighted != null
             ? (Number.isInteger(tmWeighted) ? String(tmWeighted) : parseFloat(tmWeighted).toFixed(1))
             : '—';
-          var magTooltipText = _magTooltip(ev, tmRaw, skillTm);
+          var magTooltipText = _magTooltip(ev, tmRaw, skillTm, scoreContext);
           var magBarHtml = '<div class="se-ev-mag-bar"' +
             (barGrade ? ' data-trust-grade="' + esc(barGrade) + '"' : ' data-trust-grade="none"') + '>' +
             '<span class="se-ev-mag-label">MAG <span class="se-ev-mag-num">' + esc(tmDisplay) + '</span></span>' +

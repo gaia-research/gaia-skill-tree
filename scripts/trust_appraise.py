@@ -25,7 +25,6 @@ if str(SRC) not in sys.path:
 
 from gaia_cli.registryMaps import buildMergedSkillMap  # noqa: E402
 from gaia_cli.trustMagnitude import (  # noqa: E402
-    computeOverallTrustGrade,
     computeOverallTrustGradeFromSkill,
     computeRowArtifactScores,
     computeTrustMagnitude,
@@ -103,7 +102,7 @@ def appraise(target: AppraisalTarget) -> dict[str, Any]:
         "commits": commitCount,
         "evidenceUrl": evidenceUrl,
         "tm": round(tm, 2),
-        "grade": computeOverallTrustGrade(tm, distinctTypes=3, hasNonSelfProducible=True),
+        "grade": computeOverallTrustGradeFromSkill(skill),
         "byType": computeTrustMagnitudeByType(skill),
     }
 

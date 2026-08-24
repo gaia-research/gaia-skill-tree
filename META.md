@@ -12,7 +12,7 @@ Gaia uses a tiered star system (`0★`–`6★`) to rank skills. Levels are both
 
 ### 1.1 Star Tiers & Rank Labels (named implementations)
 
-> **Evidence Floor retired — Trust Magnitude is the sole gate.** Per the Yggdrasil II ratification (2026-07-07), the per-star **Evidence Floor** column is removed; **Trust Magnitude (TM)** is the sole promotion gate. Evidence rows carry a `grade` field (S/A/B/C, Platinum → Bronze) as a quality signal that feeds TM scoring. The promotion engine (`src/gaia_cli/promotion.py`) reads `grade` first and falls back to the deprecated `class` field (A/B/C legacy) during the migration window — Grade A ≠ Class A; never conflate them. See §2.1b for the TM formula and `CONTEXT.md` § Evidence Class for the deprecation notice.
+> **Yggdrasil III ruling — Trust Magnitude measures accumulated scoring evidence only.** The per-star **Evidence Floor** remains retired; TM is the numeric promotion gate. Evidence rows carry a `grade` field (S/A/B/C, Platinum → Bronze) as a quality signal that feeds TM scoring. The promotion engine (`src/gaia_cli/promotion.py`) reads `grade` first and falls back to the deprecated `class` field (A/B/C legacy) during the migration window — Grade A ≠ Class A; never conflate them. See §2.1b for the TM formula and `CONTEXT.md` § Evidence Class for the deprecation notice.
 
 | Level | Label | Significance | Verification Tier (max) |
 |---|---|---|---|
@@ -30,7 +30,7 @@ Gaia uses a tiered star system (`0★`–`6★`) to rank skills. Levels are both
 - **`basic`** — 0 prerequisites. Root primitive nodes.
 - **`fusion`** — ≥ 1 prerequisite. Any non-basic starless node. PURE STRUCTURE — `type` does **not** determine a named skill's branch. Legacy values `extra`, `ultimate`, and `unique` are retired; all non-basic nodes are `fusion`.
 
-**`suiteComponents`** — a **Named-Skill-only** list of co-located suite components (never on the starless generic parent, per #996). Its **presence** puts the Named Skill on the `suite` branch at any rank and feeds downstream Trust Magnitude (§4.3 depth-2 walker). Independent of `type`.
+**`suiteComponents`** — a **Named-Skill-only** list of co-located suite components (never on the starless generic parent, per #996). Its **presence** puts the Named Skill on the `suite` branch at any rank and feeds downstream structural rank/Apex graph predicates. Independent of `type`.
 
 **Branch axis** — named skills only, **derived at read-time, never declared**. `branch = f(suiteComponents present?, rank)`, **suiteComponents-presence first**:
 - **`suite`** — `suiteComponents` present, at **any rank** (from the 2★ push floor). Suite **ladder words + glyph appear only at 4★+**: 4★ **Extra** → 5★ **Ultimate** → 6★ **Apex**; a 2★/3★ suite shows the shared word (Named/Evolved) + plain glyph. Membership is structural; the 4★ fork is a decoration gate.
@@ -88,9 +88,10 @@ The original single-axis encoding conflated provenance and quality into one lett
 Evidence attaches at two levels:
 
 - **Starless (generic) references** hold the **capability-level** evidence — Class A / academic provenance for the abstract capability itself (the foundational paper, the canonical technique). This is the **inherited capability pool**: every named child of a starless ref inherits this evidence automatically as the baseline for the capability they implement.
-- **Named skills** add their own **implementation-specific** evidence (their repo, tests, adoption, demos) on top of the inherited pool. A named skill's rank is gated by its *own* implementation evidence, not by the inherited capability evidence alone.
+- **Suite components** identified by `suiteRef` may also receive a limited inherited repository-wide baseline from `github-stars-own` and `repo-own` evidence at the suite capstone, with a combined cap of **50 TM per component**. This baseline cannot alone make a component A or S; component-specific `benchmark-result`, `peer-review`, and `verifier-attestation` rows remain fully eligible.
+- **Named skills** add their own **implementation-specific** evidence (their repo, tests, adoption, demos) on top of the inherited pool. A named skill's rank is gated by its *own* implementation evidence, not by the inherited capability or suite baseline alone.
 
-This keeps the starless reference rank-less while still letting it carry the shared academic backing that justifies the capability's existence in the graph.
+This keeps the starless reference rank-less while still letting it carry the shared academic backing that justifies the capability's existence in the graph. Generic-layer inheritance remains governed by each evidence type's `allowedLayers` and `inheritMultiplier`; the `suiteRef` baseline is a separate bounded component rule.
 
 > **Upcoming meta shift.** Per-named **evidence-floor enforcement** (validating each named child's own evidence against the floor for its claimed star, independent of the inherited pool) and finer-grained **advanced evidence tiers** are on the roadmap. The model above is the current, forward-looking direction — exact enforcement thresholds will be settled in a future meta shift.
 
@@ -111,10 +112,10 @@ The G7 RFC replaces the legacy `trustNumber` aggregate with **Trust Magnitude** 
 Key mechanics (summary; see `founder/handovers/G7_TRUST_TAXONOMY_RFC.md` for the full spec):
 
 - **Grade thresholds:** S requires Trust Magnitude ≥ 250, A ≥ 100, B ≥ 50, C ≥ 20.
-- **Type weights:** `benchmark-result` 1.4×, `verifier-attestation` and `fusion-recipe` 1.5×, `repo-own` 0.6×, most others 1.0×.
+- **Scoring:** TM sums positive-scoring evidence rows only. `fusion-recipe` is retained as structural/provenance/rank metadata and contributes **0 TM**.
 - **Benchmark lanes (#1419):** `benchmark-result` magnitude uses `percentile` when present, otherwise normalized `score`, then applies lane multiplier: `verified` 2.0×, `reported` 1.0×, `rejected` 0×. Catalog `status: rejected` is the blacklist. This is pre TM Index V2; fusion scoring changes are separate.
-- **Diversity gate:** S requires ≥ 3 distinct Evidence Types including at least 1 non-self-producible type. A contributor cannot reach S by stacking self-minted evidence alone.
-- **Suite-fusion ceiling:** fusion-recipe keeps graded-origin counting and its existing sqrt-softened raw formula, but its final contribution is capped at 200 TM after weighting and applicable multipliers. Five graded origins contribute 150 TM, six 180 TM, and seven or more plateau at 200 TM.
+- **S gate:** S requires TM ≥ 250, at least 3 distinct positive-scoring Evidence Types, and a positive eligible independent witness from `benchmark-result`, `verifier-attestation`, or `peer-review`. `github-stars-own`, `repo-own`, `fusion-recipe`, `self-attestation`, `social-signal`, `arxiv`, and `proxy-containment` are not S witnesses.
+- **Fusion/rank structure:** suite membership, origin counts, nested suites, graph traversal, and Apex predicates remain structural. `fusion-recipe` does not count toward Trust Grade diversity. No Fusion/Composition scalar is introduced.
 - **Same-source dedup:** multiple evidence rows pointing at the same URL collapse to one.
 - **Fork-network canonicalization:** forks of a repo share one star pool unless `links.canonicalRepo` is set explicitly.
 - **Null-on-derank verifier:** when a 4★+ Verifier loses rank, their attestations evaluate to null (not flagged, not zero — null); the skill's Trust Magnitude is recomputed without those rows.
@@ -125,7 +126,7 @@ The Overall Trust Grade is computed at the skill level from the accumulated Trus
 
 ### 2.1d Anti-auto-mint clause (registry-wide)
 
-Per G7 RFC §10.14: every non-fusion-recipe evidence row must be **physically present** in the skill's `evidence:` array. No phantom rows. A grade that cannot be traced back to an explicit row in the array is invalid. The sole exception is the fusion-recipe entry generated automatically for suites — all other types must be explicitly declared.
+Per G7 RFC §10.14: every non-fusion-recipe evidence row must be **physically present** in the skill's `evidence:` array. No phantom rows. A grade that cannot be traced back to an explicit row in the array is invalid. The sole exception is the fusion-recipe entry generated automatically for suites; it is structural metadata only and scores 0 TM.
 
 ### 2.2 The "Prestige Pivot" Roadmap (RFC #457)
 
@@ -172,7 +173,7 @@ The **Canonical Level** (e.g., 4★) is the claimed tier based on evidence. The 
 - **Origin Status**: The **most renowned** implementation in a generic bucket earns "Origin" — the highest-rated named skill (ties broken by most-attributed / Trust Score), **not** necessarily the earliest. An early implementation may be **superseded** when a stronger one earns the rank. Origin is a mark of merit granted to the implementation that earned it, in keeping with the product motif. Exactly one Origin exists per bucket. *(Updated 2026-06-02: Origin is merit-based; this supersedes the earlier "first contributor / earliest" rule, since an early entry can be outclassed by a better one.)*
 
 ### 4.2 Suite-Branch 5★/6★ Pathways
-- **Suite 5★ Ultimate pathway**: Proposer must hold Origin status on at least 1 of the ≥ 5 `suiteComponents`. Trust Magnitude ≥ 250 (S-grade) required. The legacy "≥ 10k repository stars" hard-requirement is retired under Yggdrasil II; TM is the sole numeric gate.
+- **Suite 5★ Ultimate pathway**: Proposer must hold Origin status on at least 1 of the ≥ 5 `suiteComponents`. Trust Magnitude ≥ 250 (S-grade) required from scoring evidence; suite membership and origin status remain structural/rank metadata. The legacy "≥ 10k repository stars" hard-requirement is retired under Yggdrasil II.
 - **The Ascension Cycle (6★ Apex, Suite branch)**: Reaching **Apex** requires TM ≥ 250 (S-grade) and the full 6-predicate gate (§4.3), including at least one direct component that is itself a suite. Any skill recorded at 6★ before the G7 cutover was subject to demotion review against the original 9-predicate gate at migration time; the active set is now 6 predicates (§4.3).
 
 ### 4.3 Apex (6★) Gate — 6-Predicate Requirements (active set, post-2026-06-17 delta)
@@ -199,7 +200,7 @@ The G7 RFC is the normative spec; META.md is a summary.
 Under Yggdrasil II there are **two distinct 6★ paths**, one per branch:
 
 - **Suite branch → 6★ Apex** — the 6-predicate gate in §4.3.
-- **Unique branch → 6★ Unique Impossible** — a **provisional 5-predicate gate**: the Apex set **minus `directNestedSuiteGte1`** (§11.12.2). A Unique-branch skill has no `suiteComponents` by definition, so the directly-nested-suite composition-depth predicate does not apply; the remaining five carry over unchanged. **Formal ratification is deferred to Yggdrasil III** (the branch-aware Trust Magnitude formula rebuild) — until then this gate is provisional, not RFC-ratified.
+- **Unique branch → 6★ Unique Impossible** — the **5-predicate gate**: the Apex set **minus `directNestedSuiteGte1`** (§11.12.2). A Unique-branch skill has no `suiteComponents` by definition, so the directly-nested-suite composition-depth predicate does not apply; the remaining five carry over unchanged. Yggdrasil III ratifies this branch distinction without changing the existing rank gates.
 
 The five active Unique Impossible predicates:
 
@@ -211,7 +212,7 @@ The five active Unique Impossible predicates:
 
 **Dropped for the Unique branch:** §11.12.2 `directNestedSuiteGte1` (no nested suite exists on a Unique skill). **Feature-flagged OFF (both branches):** §11.12.5 `crossOrgVerifierGte2` and §11.12.6 `systemWideCapRespected` — return skipped, not failed, until 2026-Q4 review.
 
-The Evidence Floor requirement has been retired: **Trust Magnitude is the sole promotion gate** on both branches. The branch-aware split is authoritatively rendered in `docs/codex/trust-methodology.html` §5 (Apex Gate — Suite Branch, with the Yggdrasil II branch-aware callout); META.md mirrors it. The G7 RFC remains the normative spec for the shared predicate definitions.
+The Evidence Floor requirement has been retired: **Trust Magnitude is the sole promotion gate** on both branches. Yggdrasil III keeps rank predicates structural and separate from TM: fusion/rank structure does not mint scoring evidence. The branch-aware split is authoritatively rendered in `docs/codex/trust-methodology.html` §5; META.md mirrors it.
 
 ---
 
@@ -263,7 +264,7 @@ To maintain high prestige and avoid "Vendor Bloat," Gaia employs a proactive pru
 - Other implementations remain accessible as variants but do not clutter the primary graph view.
 
 ### 6.2 Semantic Fusion
-- When multiple distinct named skills represent specialized capabilities that can be orchestrated in a single high-level workflow, they are fused into a new **`fusion`-type** generic skill.
+- When multiple distinct named skills represent specialized capabilities that can be orchestrated in a single high-level workflow, they are fused into a new **`fusion`-type** generic skill. Fusion is composition/provenance/rank structure, not scoring evidence.
 - The original `basic` nodes are linked as prerequisites, and the composite named implementations are promoted to higher star tiers (3★ or 4★).
 
 ---
