@@ -66,6 +66,15 @@ TYPE_CAPS = {
 # Self-producible types that cannot anchor S alone (RFC §4 diversity gate)
 SELF_PRODUCIBLE_TYPES = frozenset({"fusion-recipe", "self-attestation", "repo-own"})
 
+# Yggdrasil III: a suite may create fusion magnitude, but its fusion structure
+# cannot create unbounded trust by itself.
+FUSION_CONTRIBUTION_CAP = 200.0
+INDEPENDENT_WITNESS_TYPES = frozenset({
+    "benchmark-result",
+    "verifier-attestation",
+    "peer-review",
+})
+
 # Apex predicate thresholds (delta §B)
 APEX_AGRADED_ORIGINS_MIN = 5
 APEX_TENURE_DAYS_MIN = 180
@@ -146,6 +155,21 @@ def _inheritMultiplierFor(row: dict, skill: dict) -> float:
     if mult is None:
         return 1.0
     return float(mult)
+
+
+def _finalRowScore(
+    row: dict,
+    skill: dict,
+    genericSkillMap: Optional[dict],
+) -> Optional[float]:
+    """Return the row contribution after eligibility and layer multipliers."""
+    baseScore = computeArtifactScoreOrNone(row, genericSkillMap)
+    if baseScore is None:
+        return None
+    score = baseScore * _inheritMultiplierFor(row, skill)
+    if _typeOf(row) == "fusion-recipe":
+        score = min(score, FUSION_CONTRIBUTION_CAP)
+    return score
 
 
 # ---------------------------------------------------------------------------
@@ -436,6 +460,11 @@ def computeArtifactScoreOrNone(
         # If neither stored ratio nor raw fields are present, fall through to 1.0.
 
     score = rawMagnitude * weight * freshness * creatorMult * engagementRatio
+    if evidenceType == "fusion-recipe":
+        # Cap the final row contribution after weighting and row-local
+        # multipliers. Inherited rows are capped again after their inherit
+        # multiplier at each aggregate/reporting call site.
+        score = min(score, FUSION_CONTRIBUTION_CAP)
     return score
 
 
@@ -471,7 +500,8 @@ def _rawMagnitudeForType(
         return (externalStars / 1000.0) * 0.8
 
     if evidenceType == "verifier-attestation":
-        verifiers = int(row.get("verifiers", 1) or 1)
+        rawVerifiers = row.get("verifiers", 1)
+        verifiers = int(rawVerifiers) if rawVerifiers is not None else 1
         return 30.0 * verifiers
 
     if evidenceType == "benchmark-result":
@@ -483,7 +513,8 @@ def _rawMagnitudeForType(
         return citations / 5.0
 
     if evidenceType == "peer-review":
-        reviewers = int(row.get("reviewers", 1) or 1)
+        rawReviewers = row.get("reviewers", 1)
+        reviewers = int(rawReviewers) if rawReviewers is not None else 1
         return 25.0 * reviewers
 
     if evidenceType == "repo-own":
@@ -775,12 +806,11 @@ def computeTrustMagnitude(
     # 5. Per-row artifact score, with inherit multiplier applied at sum-time.
     rowsWithScores: list[tuple[dict, Optional[float]]] = []
     for row in deduped:
-        baseScore = computeArtifactScoreOrNone(row, genericSkillMap)
-        if baseScore is None:
+        score = _finalRowScore(row, skill, genericSkillMap)
+        if score is None:
             rowsWithScores.append((row, None))
             continue
-        mult = _inheritMultiplierFor(row, skill)
-        rowsWithScores.append((row, baseScore * mult))
+        rowsWithScores.append((row, score))
 
     # 6. Plateau / per-creator dedup, then social cap + sum.
     rowsWithScores = _applyPlateauAndCreatorDedup(rowsWithScores)
@@ -833,12 +863,11 @@ def computeTrustMagnitudeByType(
     # 5: per-row scoring with inherit multiplier.
     rowsWithScores: list[tuple[dict, Optional[float]]] = []
     for row in deduped:
-        baseScore = computeArtifactScoreOrNone(row, genericSkillMap)
-        if baseScore is None:
+        score = _finalRowScore(row, skill, genericSkillMap)
+        if score is None:
             rowsWithScores.append((row, None))
             continue
-        mult = _inheritMultiplierFor(row, skill)
-        rowsWithScores.append((row, baseScore * mult))
+        rowsWithScores.append((row, score))
 
     # 6: plateau / per-creator dedup.
     rowsWithScores = _applyPlateauAndCreatorDedup(rowsWithScores)
@@ -922,12 +951,13 @@ def computeOverallTrustGrade(
     distinctTypes: int,
     hasNonSelfProducible: bool,
 ) -> str:
-    """Map (TM, distinctTypes, hasNonSelf) -> grade letter (RFC §4).
+    """Map (TM, distinctTypes, independentWitness) -> grade letter (RFC §4).
 
     Returns one of "S", "A", "B", "C", "ungraded".
 
     Diversity gate:
-    - S: TM >= 250 AND distinctTypes >= 3 AND hasNonSelfProducible.
+    - S: TM >= 250 AND distinctTypes >= 3 AND at least one positive eligible
+      independent witness. The legacy parameter name is retained for callers.
     - A: TM >= 100.
     - B: TM >= 50.
     - C: TM >= 20.
@@ -952,8 +982,8 @@ def computeOverallTrustGradeFromSkill(
     """Convenience: compute TM and grade together from a skill dict."""
     tm = computeTrustMagnitude(skill, genericSkillMap, namedSkillMap)
     distinctTypes = _countDistinctEvidenceTypes(skill)
-    hasNonSelf = _hasNonSelfProducible(skill)
-    return computeOverallTrustGrade(tm, distinctTypes, hasNonSelf)
+    hasIndependentWitness = _hasIndependentWitness(skill, genericSkillMap)
+    return computeOverallTrustGrade(tm, distinctTypes, hasIndependentWitness)
 
 
 def computeRowArtifactScores(
@@ -983,12 +1013,11 @@ def computeRowArtifactScores(
 
     rowsWithScores: list = []
     for row in deduped:
-        baseScore = computeArtifactScoreOrNone(row, genericSkillMap)
-        if baseScore is None:
+        score = _finalRowScore(row, skill, genericSkillMap)
+        if score is None:
             rowsWithScores.append((row, 0.0))
             continue
-        mult = _inheritMultiplierFor(row, skill)
-        rowsWithScores.append((row, baseScore * mult))
+        rowsWithScores.append((row, score))
 
     rowsWithScores = _applyPlateauAndCreatorDedup(rowsWithScores)
     return rowsWithScores
@@ -1007,12 +1036,27 @@ def _countDistinctEvidenceTypes(skill: dict) -> int:
     return len(types)
 
 
-def _hasNonSelfProducible(skill: dict) -> bool:
+def _hasIndependentWitness(
+    skill: dict,
+    genericSkillMap: Optional[dict] = None,
+) -> bool:
+    """Return whether own evidence contains a positive eligible S witness.
+
+    The gate intentionally evaluates the skill's own rows rather than
+    inherited evidence: parent-repository evidence remains baseline
+    credibility, while component-specific S trust requires a component-level
+    witness. Anti-auto-mint, same-source dedup, row eligibility, and plateau
+    handling all run before a row can satisfy the gate.
+    """
     evidence = enforceAntiAutoMint(skill)
     deduped = _dedupeSameSource(evidence)
+    witnessRows: list[tuple[dict, Optional[float]]] = []
     for row in deduped:
-        t = _typeOf(row)
-        if t and t not in SELF_PRODUCIBLE_TYPES:
+        if _typeOf(row) not in INDEPENDENT_WITNESS_TYPES:
+            continue
+        witnessRows.append((row, computeArtifactScoreOrNone(row, genericSkillMap)))
+    for _row, score in _applyPlateauAndCreatorDedup(witnessRows):
+        if score is not None and score > 0:
             return True
     return False
 
@@ -1414,12 +1458,11 @@ def explainTrustMagnitude(
     # Step 5: per-row scores with inherit multiplier
     rowsWithScores: list[tuple[dict, Optional[float]]] = []
     for row in deduped:
-        baseScore = computeArtifactScoreOrNone(row, genericSkillMap)
-        if baseScore is None:
+        score = _finalRowScore(row, skill, genericSkillMap)
+        if score is None:
             rowsWithScores.append((row, None))
             continue
-        mult = _inheritMultiplierFor(row, skill)
-        rowsWithScores.append((row, baseScore * mult))
+        rowsWithScores.append((row, score))
 
     # Step 6: plateau / per-creator dedup
     rowsWithScores = _applyPlateauAndCreatorDedup(rowsWithScores)
@@ -1438,15 +1481,9 @@ def explainTrustMagnitude(
     totalTM = nonSocialTotal + socialCapped
 
     # Derive grade
-    distinctTypes = len({
-        _typeOf(r) for r, _ in rowsWithScores if _typeOf(r)
-    })
-    hasNonSelf = any(
-        _typeOf(r) not in SELF_PRODUCIBLE_TYPES
-        for r, s in rowsWithScores
-        if _typeOf(r) and s is not None and s > 0
-    )
-    grade = computeOverallTrustGrade(totalTM, distinctTypes, hasNonSelf)
+    distinctTypes = _countDistinctEvidenceTypes(skill)
+    hasIndependentWitness = _hasIndependentWitness(skill, genericSkillMap)
+    grade = computeOverallTrustGrade(totalTM, distinctTypes, hasIndependentWitness)
 
     # Build the explanation string
     lines: list[str] = []
@@ -1525,6 +1562,8 @@ def explainTrustMagnitude(
         lines.append("    " + " ".join(factorParts))
         if plateauFactor is not None:
             lines.append(f"    x plateau {plateauFactor:.2f}")
+        if rowType == "fusion-recipe" and finalScore is not None and finalScore >= FUSION_CONTRIBUTION_CAP:
+            lines.append(f"    fusion contribution cap: {FUSION_CONTRIBUTION_CAP:.2f}")
         if finalScore is not None:
             lines.append(f"    = {finalScore:.2f}")
         lines.append("")
@@ -1559,4 +1598,6 @@ __all__ = [
     "GRADE_B_FLOOR",
     "GRADE_C_FLOOR",
     "SELF_PRODUCIBLE_TYPES",
+    "INDEPENDENT_WITNESS_TYPES",
+    "FUSION_CONTRIBUTION_CAP",
 ]
