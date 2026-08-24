@@ -1,0 +1,118 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "gaia.arbor-benchmark-receipt/v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "skill", "target", "benchmark", "control", "treatment", "provenance", "measurements"],
+  "properties": {
+    "schema": {"const": "gaia.arbor-benchmark-receipt/v1"},
+    "skill": {"$ref": "#/definitions/skill"},
+    "target": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["declarationSha256", "claimId"],
+      "properties": {
+        "declarationSha256": {"$ref": "#/definitions/sha256"},
+        "claimId": {"type": "string", "pattern": "^[a-z][a-z0-9.-]*$"}
+      }
+    },
+    "benchmark": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version"],
+      "properties": {
+        "id": {"$ref": "#/definitions/nonEmpty"},
+        "version": {"$ref": "#/definitions/nonEmpty"}
+      }
+    },
+    "control": {"$ref": "#/definitions/arm"},
+    "treatment": {"$ref": "#/definitions/arm"},
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["runner", "observedAt", "artifacts"],
+      "properties": {
+        "runner": {"$ref": "#/definitions/nonEmpty"},
+        "observedAt": {"type": "string", "format": "date-time"},
+        "artifacts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["uri", "sha256"],
+            "properties": {
+              "uri": {"$ref": "#/definitions/nonEmpty"},
+              "sha256": {"$ref": "#/definitions/sha256"}
+            }
+          }
+        }
+      }
+    },
+    "measurements": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/definitions/measurement"}
+    }
+  },
+  "definitions": {
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "nonEmpty": {"type": "string", "minLength": 1},
+    "skill": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "contentSha256"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._/-]*$"},
+        "contentSha256": {"$ref": "#/definitions/sha256"}
+      }
+    },
+    "arm": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["definition", "environment"],
+      "properties": {
+        "definition": {"$ref": "#/definitions/nonEmpty"},
+        "environment": {"type": "object", "minProperties": 1, "additionalProperties": {"type": ["string", "number", "boolean", "null"]}}
+      }
+    },
+    "sample": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["n", "mean"],
+      "properties": {
+        "n": {"type": "integer", "minimum": 1},
+        "mean": {"type": "number"}
+      }
+    },
+    "measurement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["metric", "unit", "control", "treatment", "difference"],
+      "properties": {
+        "metric": {"type": "string", "pattern": "^[a-z][a-z0-9.-]*$"},
+        "unit": {"$ref": "#/definitions/nonEmpty"},
+        "control": {"$ref": "#/definitions/sample"},
+        "treatment": {"$ref": "#/definitions/sample"},
+        "difference": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["estimate", "confidenceInterval"],
+          "properties": {
+            "estimate": {"type": "number"},
+            "confidenceInterval": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["lower", "upper", "confidence"],
+              "properties": {
+                "lower": {"type": "number"},
+                "upper": {"type": "number"},
+                "confidence": {"type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 1}
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
