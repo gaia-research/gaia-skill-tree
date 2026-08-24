@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gaiaskilltree.com/schema/hh-stamp/v1",
+  "title": "Research-owned HH stamp acceptance bundle",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "sourceDigest", "decisions"],
+  "properties": {
+    "schema": { "const": "hh-stamp/v1" },
+    "sourceDigest": { "$ref": "#/$defs/sha256" },
+    "decisions": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/decision" }
+    }
+  },
+  "$defs": {
+    "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "skillId": {
+      "type": "string",
+      "pattern": "^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?(?:/[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)?$"
+    },
+    "ledgerRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "recordSha256"],
+      "properties": {
+        "schema": { "const": "hh-ledger/v1" },
+        "recordSha256": { "$ref": "#/$defs/sha256" }
+      }
+    },
+    "qualifiers": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["network", "filesystem", "sandbox", "approval", "cost"],
+      "properties": {
+        "network": { "enum": ["denied", "restricted", "required"] },
+        "filesystem": { "enum": ["read-only", "workspace-write", "unrestricted"] },
+        "sandbox": { "enum": ["required", "optional"] },
+        "approval": { "enum": ["none", "destructive-actions", "all-actions"] },
+        "cost": { "enum": ["unmetered", "metered", "fixed-ceiling"] }
+      }
+    },
+    "stamps": {
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "heaven-native": { "const": true },
+        "hell-safe": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["tier", "qualifiers"],
+          "properties": {
+            "tier": { "enum": ["low", "med", "high", "xhigh", "max"] },
+            "qualifiers": { "$ref": "#/$defs/qualifiers" }
+          }
+        },
+        "ultra-ready": { "const": true }
+      }
+    },
+    "denyClear": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status"],
+      "properties": { "status": { "const": "clear" } }
+    },
+    "denyListed": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "reasons"],
+      "properties": {
+        "status": { "const": "denied" },
+        "reasons": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "destructive-action",
+              "environment-escape",
+              "privacy-egress",
+              "unbounded-cost",
+              "unrecoverable-state",
+              "safety-endpoint"
+            ]
+          }
+        }
+      }
+    },
+    "accepted": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["skillId", "skillMdSha256", "decision", "stamps", "primaryStamp", "denyStatus", "ledgerRefs"],
+      "properties": {
+        "skillId": { "$ref": "#/$defs/skillId" },
+        "skillMdSha256": { "$ref": "#/$defs/sha256" },
+        "decision": { "const": "accepted" },
+        "stamps": { "$ref": "#/$defs/stamps" },
+        "primaryStamp": { "enum": ["heaven-native", "hell-safe", "ultra-ready"] },
+        "denyStatus": { "oneOf": [{ "$ref": "#/$defs/denyClear" }, { "$ref": "#/$defs/denyListed" }] },
+        "ledgerRefs": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/ledgerRef" } }
+      }
+    },
+    "noStamp": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["skillId", "skillMdSha256", "decision", "denyStatus", "ledgerRefs"],
+      "properties": {
+        "skillId": { "$ref": "#/$defs/skillId" },
+        "skillMdSha256": { "$ref": "#/$defs/sha256" },
+        "decision": { "const": "no-stamp" },
+        "denyStatus": { "oneOf": [{ "$ref": "#/$defs/denyClear" }, { "$ref": "#/$defs/denyListed" }] },
+        "ledgerRefs": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "$ref": "#/$defs/ledgerRef" } }
+      }
+    },
+    "decision": { "oneOf": [{ "$ref": "#/$defs/accepted" }, { "$ref": "#/$defs/noStamp" }] }
+  }
+}

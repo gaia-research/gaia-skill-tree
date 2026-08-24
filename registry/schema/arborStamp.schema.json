@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://gaiaskilltree.com/schema/arbor-stamp/v1",
+  "title": "Arbor stamp projection row",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "sourceDigest", "sourceBundleSha256", "acceptance"],
+  "properties": {
+    "schema": { "const": "arbor-stamp/v1" },
+    "sourceDigest": { "$ref": "https://gaiaskilltree.com/schema/hh-stamp/v1#/$defs/sha256" },
+    "sourceBundleSha256": { "$ref": "https://gaiaskilltree.com/schema/hh-stamp/v1#/$defs/sha256" },
+    "acceptance": { "$ref": "https://gaiaskilltree.com/schema/hh-stamp/v1#/$defs/decision" }
+  }
+}
