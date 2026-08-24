@@ -106,22 +106,22 @@ The `grade` field is the primary read target for all promotion gates; `class` is
 
 ### 2.1c Trust Magnitude formula (G7 RFC summary)
 
-The G7 RFC replaces the legacy `trustNumber` aggregate with **Trust Magnitude** — a set-bonus-driven score derived from a fixed taxonomy of ten evidence types. Each evidence row produces an **artifact score** (`magnitude × weight × freshness`); the skill's Trust Magnitude is the sum of artifact scores across all rows.
+The G7 RFC replaces the legacy `trustNumber` aggregate with **Trust Magnitude** — an unbounded, set-bonus-driven score derived from a fixed taxonomy of ten evidence types. Each evidence row produces an **artifact score** (`magnitude × weight × freshness`); the skill's Trust Magnitude is the sum of artifact scores across all rows.
 
 Key mechanics (summary; see `founder/handovers/G7_TRUST_TAXONOMY_RFC.md` for the full spec):
 
 - **Grade thresholds:** S requires Trust Magnitude ≥ 250, A ≥ 100, B ≥ 50, C ≥ 20.
 - **Type weights:** `benchmark-result` 1.4×, `verifier-attestation` and `fusion-recipe` 1.5×, `repo-own` 0.6×, most others 1.0×.
-- **Benchmark lanes (#1419):** `benchmark-result` magnitude uses `percentile` when present, otherwise normalized `score`, then applies lane multiplier: `verified` 2.0×, `reported` 1.0×, `rejected` 0×. Catalog `status: rejected` is the blacklist. This benchmark eligibility rule is unchanged by Yggdrasil III.
-- **S independent-witness gate (Yggdrasil III):** S requires ≥ 3 distinct Evidence Types and at least one positive, eligible row of exactly `benchmark-result`, `verifier-attestation`, or `peer-review`. Rejected, deranked, zero-scoring, and phantom rows do not satisfy the witness gate. Fusion structure, `repo-own`, and `github-stars-own` cannot certify S by themselves.
-- **Suite-fusion contribution ceiling (Yggdrasil III):** retain the graded-origin formula and its sqrt-softening past 10, but cap the final fusion-recipe contribution at **200 TM** after weighting and applicable multipliers. This preserves meaningful reward for coherent small/medium suites without allowing fusion magnitude to manufacture trust indefinitely.
+- **Benchmark lanes (#1419):** `benchmark-result` magnitude uses `percentile` when present, otherwise normalized `score`, then applies lane multiplier: `verified` 2.0×, `reported` 1.0×, `rejected` 0×. Catalog `status: rejected` is the blacklist. This is pre TM Index V2; fusion scoring changes are separate.
+- **S witness gate:** S requires TM ≥ 250, ≥ 3 distinct Evidence Types, and at least one positive eligible `benchmark-result`, `verifier-attestation`, or `peer-review` row. Rejected, deranked, zero-scoring, stale, and phantom rows cannot witness S; fusion, repo ownership, and mothership popularity cannot self-certify it.
+- **Suite-fusion ceiling:** fusion-recipe keeps graded-origin counting and its existing sqrt-softened raw formula, but its final contribution is capped at 200 TM after weighting and applicable multipliers. Five graded origins contribute 150 TM, six 180 TM, and seven or more plateau at 200 TM.
 - **Same-source dedup:** multiple evidence rows pointing at the same URL collapse to one.
 - **Fork-network canonicalization:** forks of a repo share one star pool unless `links.canonicalRepo` is set explicitly.
 - **Null-on-derank verifier:** when a 4★+ Verifier loses rank, their attestations evaluate to null (not flagged, not zero — null); the skill's Trust Magnitude is recomputed without those rows.
 
 The Overall Trust Grade is computed at the skill level from the accumulated Trust Magnitude and is **never stored on a node** — it materialises only in generated catalogs. Distinct from any single row's Evidence Grade.
 
-**Implementation status (Yggdrasil III stack):** the Trust Magnitude implementation is updated in code and public methodology without a corpus regrade. No generated registry, profile, or leaderboard artifacts are changed by this cut. Corpus calibration, false-negative component review, and any component-inheritance recalibration remain follow-up work after the bounded meta-audit and explicit merge-or-recalibrate decision.
+**Implementation status (updated 2026-06-20):** the Trust Magnitude formula is **live in code** as of Phase 1.5 (`src/gaia_cli/trustMagnitude.py`). Migration regrade has run across all 249 named skills; current distribution is **S=4 / A=42 / B=56 / C=76 / ungraded=71** (post-I11 source-curation pass). The public Trust Magnitude leaderboard at `/trust/leaderboard/` reads `docs/graph/leaderboard/data.json`. The recalibration RFC v3 (depth-2 amendments, evidence-tier weights) is scheduled for follow-up — tracked in issue #749.
 
 ### 2.1d Anti-auto-mint clause (registry-wide)
 

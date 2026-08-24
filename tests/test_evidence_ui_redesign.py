@@ -19,6 +19,7 @@ URLs to verify manually:
   http://localhost:8787/codex/trust-methodology.html  Threshold table
 """
 
+import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -31,6 +32,12 @@ TM_HTML = (ROOT / "docs" / "codex" / "trust-methodology.html").read_text(encodin
 TM_CONFIG_JS = (ROOT / "docs" / "js" / "tm-config.js").read_text(encoding="utf-8")
 NAMED_HTML = (ROOT / "docs" / "named" / "index.html").read_text(encoding="utf-8")
 PLAQUE_JS = (ROOT / "docs" / "js" / "plaque.js").read_text(encoding="utf-8")
+META_MD = (ROOT / "META.md").read_text(encoding="utf-8")
+BENCHMARK_FRAMEWORK = (ROOT / "docs" / "architecture" / "benchmark-framework.md").read_text(encoding="utf-8")
+MANUAL_CURATION_HTML = (ROOT / "docs" / "en" / "manual-curation-pipeline.html").read_text(encoding="utf-8")
+EVIDENCE_TYPES_API = json.loads(
+    (ROOT / "docs" / "api" / "v1" / "evidence-types.json").read_text(encoding="utf-8")
+)
 
 
 # ── evidence-library.js ───────────────────────────────────────────────────────
@@ -383,7 +390,6 @@ class TestMetaJSON:
     """Validate the schema-level invariants of the recalibrated thresholds."""
 
     def setup_method(self):
-        import json
         self.meta = json.loads(
             (ROOT / "registry" / "schema" / "meta.json").read_text(encoding="utf-8")
         )
@@ -434,6 +440,20 @@ class TestMetaJSON:
             "benchmark-result", "verifier-attestation", "peer-review",
         ]
         assert "zero-scoring" in gate["plusRule"]
+        assert "requiresNonSelfProducible" not in gate
+        assert "non-self-producible" not in gate["plusRule"]
+
+    def test_current_metadata_and_api_projection_state_the_yggdrasil_iii_rule(self):
+        assert "requiresNonSelfProducible" not in json.dumps(
+            self.meta["trustMagnitudeThresholds"]
+        )
+        assert "S witness gate" in META_MD
+        assert "non-self-producible type" not in META_MD
+        assert "positive eligible <code>benchmark-result</code>" in MANUAL_CURATION_HTML
+        assert "positive eligible `benchmark-result`" in BENCHMARK_FRAMEWORK
+        api_types = {entry["id"]: entry for entry in EVIDENCE_TYPES_API["types"]}
+        assert api_types["fusion-recipe"]["contributionCap"] == 200
+        assert "non-self-producible" not in api_types["repo-own"]["notes"]
 
     def test_all_10_types_have_thresholds(self):
         expected = {
