@@ -150,9 +150,17 @@ def effectiveRank(grade: str, currentStars: str) -> tuple[str, str]:
     return (g7Stars, "")
 
 
-def nextGradeInfo(tm: float) -> tuple[str, float]:
-    if tm >= GRADE_S_FLOOR:
+def nextGradeInfo(tm: float, grade: str) -> tuple[str, float]:
+    """Return the next grade and numeric TM gap.
+
+    A skill can meet the 250-TM floor but remain A until it passes Yggdrasil
+    III's independent-witness and diversity requirements. Only an actual S
+    grade is therefore "already at top".
+    """
+    if grade == "S":
         return ("S (already at top)", 0.0)
+    if tm >= GRADE_S_FLOOR:
+        return ("S", 0.0)
     if tm >= GRADE_A_FLOOR:
         return ("S", GRADE_S_FLOOR - tm)
     if tm >= GRADE_B_FLOOR:
@@ -235,7 +243,7 @@ def inspectMode(skillId: str) -> int:
     tm = computeTrustMagnitude(fm, mergedMap)
     grade = computeOverallTrustGradeFromSkill(fm, mergedMap)
     g7Stars, flag = effectiveRank(grade, currentStars)
-    nextGrade, pointsNeeded = nextGradeInfo(tm)
+    nextGrade, pointsNeeded = nextGradeInfo(tm, grade)
 
     print(f"\n--- Stars & Grade ---")
     print(f"  Current stars:  {starsLabel(currentStars, fm)}")
@@ -243,12 +251,15 @@ def inspectMode(skillId: str) -> int:
     print(f"  G7 Eff. stars:  {starsLabel(g7Stars, fm)}{'  ' + flag if flag else ''}")
 
     print(f"\n--- Next Grade Analysis ---")
-    if pointsNeeded > 0:
-        print(f"  Next grade: {nextGrade}")
-        print(f"  Points needed: {pointsNeeded:.2f}")
-        print(f"  Most efficient type to add: {mostEfficientNextType(fm, mergedMap)}")
-    else:
+    if grade == "S":
         print(f"  Already at top grade (S, TM={tm:.2f})")
+    else:
+        print(f"  Next grade: {nextGrade}")
+        if pointsNeeded > 0:
+            print(f"  Points needed: {pointsNeeded:.2f}")
+            print(f"  Most efficient type to add: {mostEfficientNextType(fm, mergedMap)}")
+        else:
+            print("  TM floor met; S still requires ≥3 distinct types and a positive eligible independent witness.")
 
     if grade == "S":
         print(f"\n--- Apex Gate (6-star predicates, RFC §11.12) ---")
@@ -398,7 +409,7 @@ def buildSkillJson(skillId: str, mergedMap: dict, namedSkillMap: dict) -> dict |
     grade = computeOverallTrustGradeFromSkill(fm, mergedMap)
     currentStars = fm.get("level") or fm.get("rank") or "?"
     g7Stars, rankFlag = effectiveRank(grade, currentStars)
-    nextGrade, pointsNeeded = nextGradeInfo(tm)
+    nextGrade, pointsNeeded = nextGradeInfo(tm, grade)
 
     apexResults = None
     if grade == "S":
