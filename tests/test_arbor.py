@@ -219,6 +219,44 @@ def test_explicit_immutable_interpretation_controls_support_and_revision(tmp_pat
     assert checkStore(root) == 5
 
 
+@pytest.mark.parametrize("support", ["benchmark-qualified", "inconclusive"])
+def test_governed_interpretation_persists_qualified_or_inconclusive_support(
+    tmp_path, support
+):
+    root = makeStore(tmp_path)
+    _, declarationDigest, _ = importDeclaration(root, tmp_path)
+    _, receiptDigest, _ = importSource(
+        writeRecord(tmp_path, "receipt.json", receipt(declarationDigest)), root
+    )
+    _, interpretationDigest, _ = importSource(
+        writeRecord(
+            tmp_path,
+            "interpretation.json",
+            interpretation(declarationDigest, receiptDigest, support),
+        ),
+        root,
+    )
+
+    [profileFile] = replay(root)
+    humanClaim = next(
+        claim for claim in readJson(profileFile)["claims"] if claim["id"] == "human-review"
+    )
+    assert humanClaim["support"] == support
+    assert humanClaim["interpretationSource"] == interpretationDigest
+
+
+def test_expert_declared_remains_a_default_not_an_interpretation_outcome(tmp_path):
+    root = makeStore(tmp_path)
+    _, declarationDigest, _ = importDeclaration(root, tmp_path)
+    _, receiptDigest, _ = importSource(
+        writeRecord(tmp_path, "receipt.json", receipt(declarationDigest)), root
+    )
+    record = interpretation(declarationDigest, receiptDigest, "expert-declared")
+
+    with pytest.raises(ArborError, match="expert-declared.*is not one of"):
+        validateRecord(record, root)
+
+
 def test_parallel_interpretation_requires_explicit_supersession(tmp_path):
     root = makeStore(tmp_path)
     _, declarationDigest, _ = importDeclaration(root, tmp_path)

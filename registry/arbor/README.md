@@ -38,15 +38,17 @@ Contracts are JSON Schema files under `contracts/` and reject unknown fields.
    but no interval or threshold is required and no support classification is
    calculated from them.
 3. **`gaia.arbor-interpretation/v1`** — a small, explicit curator record that
-   confirms or revises one declaration claim using named receipt digests. It has
-   its own identity, time, authority, rationale, and immutable digest. A later
+   records one declaration claim as confirmed, qualified, revised, or
+   inconclusive using named receipt digests. It has its own identity, time,
+   authority, rationale, and immutable digest. A later
    interpretation must explicitly supersede the active interpretation for that
    claim; parallel active interpretations are rejected.
 4. **`gaia.arbor-profile/v1`** — a deterministic generated projection referencing
    exact declaration, receipt, and interpretation digests. Every claim remains
    `expert-declared` unless an explicit governed interpretation source sets it
-   to `benchmark-confirmed` or `benchmark-revised`. The profile exposes the exact
-   active `interpretationSource`; receipts alone never promote or revise a claim.
+   to `benchmark-confirmed`, `benchmark-qualified`, `benchmark-revised`, or
+   `inconclusive`. The profile exposes the exact active `interpretationSource`;
+   receipts alone never classify a claim.
 
 Stars, rank labels, Trust Magnitude, grades, trust/prestige fields, and authored
 receipt conclusions are rejected recursively. They belong to Yggdrasil or to an
@@ -115,10 +117,11 @@ validation failures occur before any profile write.
 ## Interpretation rule
 
 A receipt is an observation linked to a claim, never a verdict. Importing any
-number of receipts leaves the generated claim at `expert-declared`. Confirmation
-or revision is an intentional curator action: import a
-`gaia.arbor-interpretation/v1` record naming the exact declaration, claim, and
-receipt digests. Replay then projects that explicit support and source digest.
-Changing that support requires another immutable interpretation that explicitly
-supersedes the current one. No measurement threshold, interval, prestige signal,
-or hidden numerical algorithm can promote or revise an expert declaration.
+number of receipts leaves the generated claim at `expert-declared`. Confirming,
+qualifying, revising, or leaving the declaration inconclusive is an intentional
+curator action: import a `gaia.arbor-interpretation/v1` record naming the exact
+declaration, claim, and receipt digests. Replay then projects that explicit
+support and source digest. Changing that support requires another immutable
+interpretation that explicitly supersedes the current one. No measurement
+threshold, interval, prestige signal, or hidden numerical algorithm can classify
+an expert declaration.

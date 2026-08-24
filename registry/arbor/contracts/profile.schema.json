@@ -58,7 +58,7 @@
         "conditions": {"$ref": "#/definitions/nonEmpty"},
         "rationale": {"$ref": "#/definitions/nonEmpty"},
         "authority": {"$ref": "#/definitions/authority"},
-        "support": {"enum": ["expert-declared", "benchmark-confirmed", "benchmark-revised"]},
+        "support": {"enum": ["expert-declared", "benchmark-confirmed", "benchmark-qualified", "benchmark-revised", "inconclusive"]},
         "declarationId": {"$ref": "#/definitions/recordId"},
         "declaredAt": {"type": "string", "format": "date-time"},
         "declarationSource": {"$ref": "#/definitions/sha256"},

@@ -19,7 +19,7 @@
       }
     },
     "authority": {"$ref": "#/definitions/authority"},
-    "support": {"enum": ["benchmark-confirmed", "benchmark-revised"]},
+    "support": {"enum": ["benchmark-confirmed", "benchmark-qualified", "benchmark-revised", "inconclusive"]},
     "rationale": {"$ref": "#/definitions/nonEmpty"},
     "receiptSources": {
       "type": "array",
