@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-24",
+  "generatedAt": "2026-08-25",
   "buckets": {
     "automated-testing": [
       {
@@ -174,7 +174,7 @@
         "id": "garrytan/design-consultation",
         "name": "Design Consultation",
         "contributor": "garrytan",
-        "origin": true,
+        "origin": false,
         "genericSkillRef": "design-system-extraction",
         "status": "named",
         "level": "3★",
@@ -218,7 +218,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-22",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:43:00Z",
@@ -280,6 +280,12 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-22T08:07:45Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Origin status removed. Transferred to leonxlnx/stitch-skill."
           }
         ],
         "suiteRef": "garrytan/gstack",
@@ -297,10 +303,102 @@
           "systemWideCap": null
         },
         "type": "fusion",
-        "role": "origin",
+        "role": "variant",
         "branch": "standard",
         "rank": 3,
         "rankWord": "Evolved",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      },
+      {
+        "id": "leonxlnx/stitch-skill",
+        "name": "stitch-skill",
+        "contributor": "leonxlnx",
+        "origin": true,
+        "genericSkillRef": "design-system-extraction",
+        "status": "named",
+        "level": "2★",
+        "description": "Google Stitch semantic token and DESIGN.md system integration for natural-language UI visual styling.",
+        "title": "Stitch Design Taste",
+        "links": {
+          "github": "https://github.com/leonxlnx/taste-skill/blob/main/skills/stitch-skill/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/leonxlnx/taste-skill/blob/main/skills/stitch-skill/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "github-stars-own",
+            "notes": "79.0k stars on Leonxlnx/taste-skill suite component",
+            "stars": 79067,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/leonxlnx/taste-skill",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "repo-own",
+            "notes": "152 commits, 6 contributors, MIT license",
+            "commits": 152,
+            "contributors": 6,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-08-22",
+        "updatedAt": "2026-08-22",
+        "timeline": [
+          {
+            "timestamp": "2026-08-22T08:07:43Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill leonxlnx/stitch-skill"
+          },
+          {
+            "timestamp": "2026-08-22T08:07:45Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-08-22T08:08:23Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill/blob/main/skills/stitch-skill/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:24Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:38Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to leonxlnx/taste-skill"
+          }
+        ],
+        "suiteRef": "leonxlnx/taste-skill",
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "origin",
+        "trustMagnitude": 115.07,
+        "overallTrustGrade": "A",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
       },
@@ -571,8 +669,8 @@
           "addy-osmani/spec-driven-development",
           "addy-osmani/test-driven-development"
         ],
-        "trustMagnitude": 296.3,
-        "overallTrustGrade": "S",
+        "trustMagnitude": 256.3,
+        "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "328510a733654dd48aa9af8b91b72de65f27baa1665a5afb720b3548f5c4e477",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -4878,6 +4976,98 @@
         "rankWord": "Evolved",
         "medallion": "◇",
         "contractVersion": "gaia-public-v1"
+      },
+      {
+        "id": "leonxlnx/brandkit",
+        "name": "brandkit",
+        "contributor": "leonxlnx",
+        "origin": true,
+        "genericSkillRef": "brand-guideline-application",
+        "status": "named",
+        "level": "2★",
+        "description": "Visual identity director generating comprehensive brand guidelines, color palettes, typography moodboards, and logo systems from briefs.",
+        "title": "Brandkit",
+        "links": {
+          "github": "https://github.com/leonxlnx/taste-skill/blob/main/skills/brandkit/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/leonxlnx/taste-skill/blob/main/skills/brandkit/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "github-stars-own",
+            "notes": "79.0k stars on Leonxlnx/taste-skill suite component",
+            "stars": 79067,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/leonxlnx/taste-skill",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "repo-own",
+            "notes": "152 commits, 6 contributors, MIT license",
+            "commits": 152,
+            "contributors": 6,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-08-22",
+        "updatedAt": "2026-08-22",
+        "timeline": [
+          {
+            "timestamp": "2026-08-22T08:07:37Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill leonxlnx/brandkit"
+          },
+          {
+            "timestamp": "2026-08-22T08:07:40Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-08-22T08:08:07Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill/blob/main/skills/brandkit/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:08Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:32Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to leonxlnx/taste-skill"
+          }
+        ],
+        "suiteRef": "leonxlnx/taste-skill",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "origin",
+        "trustMagnitude": 115.07,
+        "overallTrustGrade": "A",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       }
     ],
     "static-artwork-design": [
@@ -5168,6 +5358,92 @@
         },
         "type": "basic",
         "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      },
+      {
+        "id": "leonxlnx/output-skill",
+        "name": "output-skill",
+        "contributor": "leonxlnx",
+        "origin": false,
+        "genericSkillRef": "format-output",
+        "status": "named",
+        "level": "2★",
+        "description": "Anti-truncation execution directive preventing LLMs from skipping code blocks, omitting sections, or using placeholder comments.",
+        "title": "Full Output Enforcement",
+        "links": {
+          "github": "https://github.com/leonxlnx/taste-skill/blob/main/skills/output-skill/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/leonxlnx/taste-skill/blob/main/skills/output-skill/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "github-stars-own",
+            "notes": "79.0k stars on Leonxlnx/taste-skill suite component",
+            "stars": 79067,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/leonxlnx/taste-skill",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "repo-own",
+            "notes": "152 commits, 6 contributors, MIT license",
+            "commits": 152,
+            "contributors": 6,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-08-22",
+        "updatedAt": "2026-08-22",
+        "timeline": [
+          {
+            "timestamp": "2026-08-22T08:07:46Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill leonxlnx/output-skill"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:26Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill/blob/main/skills/output-skill/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:27Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:40Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to leonxlnx/taste-skill"
+          }
+        ],
+        "suiteRef": "leonxlnx/taste-skill",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 115.07,
+        "overallTrustGrade": "A",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
         "branch": "standard",
         "rank": 2,
         "rankWord": "Named",
@@ -11337,192 +11613,84 @@
     ],
     "ui-audit": [
       {
-        "id": "pbakaus/impeccable",
-        "name": "Impeccable",
-        "contributor": "pbakaus",
+        "id": "leonxlnx/redesign-skill",
+        "name": "redesign-skill",
+        "contributor": "leonxlnx",
         "origin": true,
         "genericSkillRef": "ui-audit",
         "status": "named",
-        "level": "4★",
-        "description": "Elite design vocabulary and audit tool for polishing AI-generated frontend code.",
-        "title": "The Aesthetic Shield",
-        "tags": [
-          "design",
-          "audit",
-          "frontend",
-          "polishing"
-        ],
+        "level": "2★",
+        "description": "Systematic UI/UX audit and overhaul workflow for existing web codebases, diagnosing AI layout anti-patterns and applying non-breaking redesigns.",
+        "title": "Redesign Skill",
         "links": {
-          "github": "https://github.com/pbakaus/impeccable/blob/main/.agents/skills/impeccable/SKILL.md"
+          "github": "https://github.com/leonxlnx/taste-skill/blob/main/skills/redesign-skill/SKILL.md"
         },
         "evidence": [
           {
-            "class": "B",
-            "source": "https://github.com/pbakaus/impeccable",
+            "source": "https://github.com/leonxlnx/taste-skill/blob/main/skills/redesign-skill/SKILL.md",
             "evaluator": "mbtiongson1",
-            "date": "2026-05-14",
-            "notes": "Paul Bakaus /impeccable -- Elite design vocabulary and audit tool with 23 specialized polishing commands. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
-            "type": "repo",
-            "commits": 804,
-            "contributors": 27,
-            "trustNumber": 70.0,
-            "grade": "B"
-          },
-          {
-            "source": "https://github.com/pbakaus/impeccable/stargazers",
-            "evaluator": "mbtiongson1",
-            "updatedAt": "2026-08-01",
-            "date": "2026-06-19",
+            "date": "2026-08-22",
             "type": "github-stars-own",
-            "class": "A",
-            "notes": "38,000 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; standalone skill)",
-            "stars": 53455,
+            "notes": "79.0k stars on Leonxlnx/taste-skill suite component",
+            "stars": 79067,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/leonxlnx/taste-skill",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "repo-own",
+            "notes": "152 commits, 6 contributors, MIT license",
+            "commits": 152,
+            "contributors": 6,
+            "sourceStartedAt": "2026-02-19",
             "grade": "B"
-          },
-          {
-            "source": "https://arxiv.org/abs/2411.01606",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-19",
-            "type": "arxiv",
-            "class": "A",
-            "notes": "Design systems / UI automation paper — ~19 citations as of 2026-06-19 (arXiv:2411.01606)",
-            "citations": 19
-          },
-          {
-            "source": "https://www.youtube.com/watch?v=k5f2uP33u5g",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-19",
-            "type": "social-signal",
-            "class": "A",
-            "notes": "Full Stack YouTube: \"Every AI Website Looks the Same | Here's the Fix.\" Paul Bakaus' Impeccable design steering skill walkthrough. Topical authority."
-          },
-          {
-            "source": "https://github.com/pbakaus/impeccable/issues/268",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-19",
-            "type": "peer-review",
-            "class": "A",
-            "notes": "Production bug in live skill affecting session stability on frequently re-rendering pages; root cause and fix documented.",
-            "grade": "C"
-          },
-          {
-            "source": "https://github.com/pbakaus/impeccable/issues/183",
-            "evaluator": "mbtiongson1",
-            "date": "2026-06-19",
-            "type": "peer-review",
-            "class": "A",
-            "notes": "Live skill incompatibility with Vite watcher; .impeccable state mutations trigger full-page reloads in watched project root.",
-            "grade": "C"
           }
         ],
-        "createdAt": "2026-05-14",
-        "updatedAt": "2026-07-30",
+        "createdAt": "2026-08-22",
+        "updatedAt": "2026-08-22",
         "timeline": [
           {
-            "timestamp": "2026-06-02T01:42:59Z",
+            "timestamp": "2026-08-22T08:07:35Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill leonxlnx/redesign-skill"
+          },
+          {
+            "timestamp": "2026-08-22T08:07:37Z",
             "action": "rank_up",
-            "contributor": "unknown",
+            "contributor": "mbtiongson1",
             "details": "Origin status set to true."
           },
           {
-            "timestamp": "2026-06-14T12:32:50Z",
-            "action": "evidence_graded",
-            "contributor": "unknown",
-            "details": "Re-graded evidence from https://github.com/pbakaus/impeccable as B (trustNumber: 70.0)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-18T11:27:19Z",
-            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-06-19T09:20:18Z",
+            "timestamp": "2026-08-22T08:08:05Z",
             "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/pbakaus/impeccable (type: github-stars-own)"
-          },
-          {
-            "timestamp": "2026-06-19T09:23:05Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://arxiv.org/abs/2411.01606 (type: arxiv)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T09:29:08Z",
-            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T09:34:47Z",
-            "details": "TM 0.0 -> 41.8, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T10:36:26Z",
-            "details": "TM 41.8 -> 77.8, grade C -> B (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-06-19T10:46:29Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://www.youtube.com/watch?v=k5f2uP33u5g (type: social-signal)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T10:52:25Z",
-            "details": "TM 77.8 -> 77.8, grade B -> B (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-06-19T12:52:15Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/pbakaus/impeccable/issues/268 (type: peer-review)"
-          },
-          {
-            "timestamp": "2026-06-19T12:52:32Z",
-            "action": "evidence_added",
-            "contributor": "unknown",
-            "details": "Added evidence from https://github.com/pbakaus/impeccable/issues/183 (type: peer-review)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T12:53:51Z",
-            "details": "TM 77.8 -> 122.8, grade B -> A (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:19:38Z",
-            "details": "TM 0.0 -> 122.8, grade ungraded -> A (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:26:43Z",
-            "details": "TM 0.0 -> 122.8, grade ungraded -> A (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-07-16T08:36:44Z",
-            "action": "type_change",
             "contributor": "mbtiongson1",
-            "details": "Generic parent 'ux-audit' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
-            "metaEpoch": "yggdrasil-ii",
-            "migrationBatch": "yggdrasil-ii@2026-07-16"
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill/blob/main/skills/redesign-skill/SKILL.md (type: github-stars-own)"
           },
           {
-            "timestamp": "2026-07-20T18:16:45Z",
-            "action": "type_change",
+            "timestamp": "2026-08-22T08:08:06Z",
+            "action": "evidence_added",
             "contributor": "mbtiongson1",
-            "details": "Generic parent 'ux-audit' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
-            "metaEpoch": "yggdrasil-ii",
-            "migrationBatch": "yggdrasil-ii@2026-07-20"
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:31Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to leonxlnx/taste-skill"
           }
         ],
-        "trustMagnitude": 138.25,
+        "suiteRef": "leonxlnx/taste-skill",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "origin",
+        "trustMagnitude": 115.07,
         "overallTrustGrade": "A",
-        "trustMagnitudeInputHash": "9d41d4da90c59573d1f77d42c4e89ee8a23cc30a35f2597ccb03394eab2e67ef",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
+          "sourceTenureDaysGte180AorS": true,
           "directNestedSuiteGte1": false,
           "depth2OnlyReachableGte1": false,
           "overallGradeS": false,
@@ -11530,17 +11698,11 @@
           "crossOrgVerifier": null,
           "systemWideCap": null
         },
-        "type": "basic",
-        "role": "origin",
-        "branch": "unique",
-        "rank": 4,
-        "rankWord": "Unique",
-        "medallion": "◉",
-        "contractVersion": "gaia-public-v1",
-        "ultimateGateStatus": {
-          "passes": false,
-          "reason": "need ≥1 graded source(s) at S+, have 0"
-        }
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
       },
       {
         "id": "garrytan/design-review",
@@ -12844,8 +13006,8 @@
           "garrytan/sync-gbrain",
           "garrytan/unfreeze"
         ],
-        "trustMagnitude": 592.99,
-        "overallTrustGrade": "S",
+        "trustMagnitude": 312.99,
+        "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "1487c2042544e947cfda07cc8779022ed8747a69c3dfac8c1ec225b1400389fc",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -20326,6 +20488,1126 @@
         "contractVersion": "gaia-public-v1"
       }
     ],
+    "design-generation": [
+      {
+        "id": "pbakaus/impeccable",
+        "name": "Impeccable",
+        "contributor": "pbakaus",
+        "origin": true,
+        "genericSkillRef": "design-generation",
+        "status": "named",
+        "level": "4★",
+        "description": "Elite design vocabulary and audit tool for polishing AI-generated frontend code.",
+        "title": "The Aesthetic Shield",
+        "tags": [
+          "design",
+          "audit",
+          "frontend",
+          "polishing"
+        ],
+        "links": {
+          "github": "https://github.com/pbakaus/impeccable/blob/main/.agents/skills/impeccable/SKILL.md"
+        },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/pbakaus/impeccable",
+            "evaluator": "mbtiongson1",
+            "date": "2026-05-14",
+            "notes": "Paul Bakaus /impeccable -- Elite design vocabulary and audit tool with 23 specialized polishing commands. (backfilled — class-to-type migration) (CLI gap: commits+contributors not writable via gaia dev evidence)",
+            "type": "repo",
+            "commits": 804,
+            "contributors": 27,
+            "trustNumber": 70.0,
+            "grade": "B"
+          },
+          {
+            "source": "https://github.com/pbakaus/impeccable/stargazers",
+            "evaluator": "mbtiongson1",
+            "updatedAt": "2026-08-01",
+            "date": "2026-06-19",
+            "type": "github-stars-own",
+            "class": "A",
+            "notes": "38,000 GitHub stars as of 2026-06-19 (verified via firecrawl validation report; standalone skill)",
+            "stars": 53455,
+            "grade": "B"
+          },
+          {
+            "source": "https://arxiv.org/abs/2411.01606",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "arxiv",
+            "class": "A",
+            "notes": "Design systems / UI automation paper — ~19 citations as of 2026-06-19 (arXiv:2411.01606)",
+            "citations": 19
+          },
+          {
+            "source": "https://www.youtube.com/watch?v=k5f2uP33u5g",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "social-signal",
+            "class": "A",
+            "notes": "Full Stack YouTube: \"Every AI Website Looks the Same | Here's the Fix.\" Paul Bakaus' Impeccable design steering skill walkthrough. Topical authority."
+          },
+          {
+            "source": "https://github.com/pbakaus/impeccable/issues/268",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Production bug in live skill affecting session stability on frequently re-rendering pages; root cause and fix documented.",
+            "grade": "C"
+          },
+          {
+            "source": "https://github.com/pbakaus/impeccable/issues/183",
+            "evaluator": "mbtiongson1",
+            "date": "2026-06-19",
+            "type": "peer-review",
+            "class": "A",
+            "notes": "Live skill incompatibility with Vite watcher; .impeccable state mutations trigger full-page reloads in watched project root.",
+            "grade": "C"
+          }
+        ],
+        "createdAt": "2026-05-14",
+        "updatedAt": "2026-08-22",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T01:42:59Z",
+            "action": "rank_up",
+            "contributor": "unknown",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-06-14T12:32:50Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Re-graded evidence from https://github.com/pbakaus/impeccable as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T09:20:18Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/pbakaus/impeccable (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-06-19T09:23:05Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://arxiv.org/abs/2411.01606 (type: arxiv)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T09:29:08Z",
+            "details": "TM 0.0 -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T09:34:47Z",
+            "details": "TM 0.0 -> 41.8, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:36:26Z",
+            "details": "TM 41.8 -> 77.8, grade C -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T10:46:29Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://www.youtube.com/watch?v=k5f2uP33u5g (type: social-signal)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T10:52:25Z",
+            "details": "TM 77.8 -> 77.8, grade B -> B (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-19T12:52:15Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/pbakaus/impeccable/issues/268 (type: peer-review)"
+          },
+          {
+            "timestamp": "2026-06-19T12:52:32Z",
+            "action": "evidence_added",
+            "contributor": "unknown",
+            "details": "Added evidence from https://github.com/pbakaus/impeccable/issues/183 (type: peer-review)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T12:53:51Z",
+            "details": "TM 77.8 -> 122.8, grade B -> A (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 122.8, grade ungraded -> A (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:43Z",
+            "details": "TM 0.0 -> 122.8, grade ungraded -> A (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-07-16T08:36:44Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'ux-audit' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-16"
+          },
+          {
+            "timestamp": "2026-07-20T18:16:45Z",
+            "action": "type_change",
+            "contributor": "mbtiongson1",
+            "details": "Generic parent 'ux-audit' type: basic (unchanged; Yggdrasil II taxonomy migration #997)",
+            "metaEpoch": "yggdrasil-ii",
+            "migrationBatch": "yggdrasil-ii@2026-07-20"
+          }
+        ],
+        "trustMagnitude": 138.25,
+        "overallTrustGrade": "A",
+        "trustMagnitudeInputHash": "9d41d4da90c59573d1f77d42c4e89ee8a23cc30a35f2597ccb03394eab2e67ef",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "type": "fusion",
+        "role": "origin",
+        "branch": "unique",
+        "rank": 4,
+        "rankWord": "Unique",
+        "medallion": "◉",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "need ≥1 graded source(s) at S+, have 0"
+        }
+      },
+      {
+        "id": "leonxlnx/taste-skill",
+        "name": "taste-skill",
+        "contributor": "leonxlnx",
+        "origin": false,
+        "genericSkillRef": "design-generation",
+        "status": "named",
+        "level": "4★",
+        "description": "Anti-slop frontend master skill for landing pages, portfolios, and redesigns. Infers design direction, dials visual variance and density, applies real design systems, and runs strict pre-flight checks.",
+        "title": "Taste Skill",
+        "links": {
+          "github": "https://github.com/leonxlnx/taste-skill/blob/main/skills/taste-skill/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/leonxlnx/taste-skill/blob/main/skills/taste-skill/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "github-stars-own",
+            "notes": "79.0k stars on Leonxlnx/taste-skill repository",
+            "stars": 79067,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/leonxlnx/taste-skill",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "repo-own",
+            "notes": "152 commits, 6 contributors, MIT license",
+            "commits": 152,
+            "contributors": 6,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-08-22",
+        "updatedAt": "2026-08-22",
+        "timeline": [
+          {
+            "timestamp": "2026-08-22T07:11:01Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill leonxlnx/taste-skill"
+          },
+          {
+            "timestamp": "2026-08-22T07:11:07Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill/blob/main/skills/taste-skill/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-08-22T07:11:11Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-22T07:13:42Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 4★"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:52Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Updated via `gaia dev fuse`: suiteRef=leonxlnx/taste-skill, suiteComponents+=['leonxlnx/redesign-skill', 'leonxlnx/brandkit', 'leonxlnx/imagegen-frontend-web', 'leonxlnx/imagegen-frontend-mobile', 'leonxlnx/gpt-tasteskill', 'leonxlnx/brutalist-skill', 'leonxlnx/minimalist-skill', 'leonxlnx/soft-skill', 'leonxlnx/stitch-skill', 'leonxlnx/image-to-code-skill', 'leonxlnx/output-skill']."
+          }
+        ],
+        "suiteComponents": [
+          "leonxlnx/brandkit",
+          "leonxlnx/brutalist-skill",
+          "leonxlnx/gpt-tasteskill",
+          "leonxlnx/image-to-code-skill",
+          "leonxlnx/imagegen-frontend-mobile",
+          "leonxlnx/imagegen-frontend-web",
+          "leonxlnx/minimalist-skill",
+          "leonxlnx/output-skill",
+          "leonxlnx/redesign-skill",
+          "leonxlnx/soft-skill",
+          "leonxlnx/stitch-skill"
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 315.07,
+        "overallTrustGrade": "A",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "suite",
+        "rank": 4,
+        "rankWord": "Extra",
+        "medallion": "◆",
+        "contractVersion": "gaia-public-v1",
+        "ultimateGateStatus": {
+          "passes": false,
+          "reason": "need ≥1 component(s) graded S+, have 0"
+        }
+      },
+      {
+        "id": "leonxlnx/brutalist-skill",
+        "name": "brutalist-skill",
+        "contributor": "leonxlnx",
+        "origin": false,
+        "genericSkillRef": "design-generation",
+        "status": "named",
+        "level": "2★",
+        "description": "Industrial brutalism UI archetype with aerospace telemetry aesthetics, high-density monospace typography, and raw structural borders.",
+        "title": "Industrial Brutalist UI",
+        "links": {
+          "github": "https://github.com/leonxlnx/taste-skill/blob/main/skills/brutalist-skill/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/leonxlnx/taste-skill/blob/main/skills/brutalist-skill/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "github-stars-own",
+            "notes": "79.0k stars on Leonxlnx/taste-skill suite component",
+            "stars": 79067,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/leonxlnx/taste-skill",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "repo-own",
+            "notes": "152 commits, 6 contributors, MIT license",
+            "commits": 152,
+            "contributors": 6,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-08-22",
+        "updatedAt": "2026-08-22",
+        "timeline": [
+          {
+            "timestamp": "2026-08-22T08:07:43Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill leonxlnx/brutalist-skill"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:14Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill/blob/main/skills/brutalist-skill/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:15Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:36Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to leonxlnx/taste-skill"
+          }
+        ],
+        "suiteRef": "leonxlnx/taste-skill",
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 115.07,
+        "overallTrustGrade": "A",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      },
+      {
+        "id": "leonxlnx/gpt-tasteskill",
+        "name": "gpt-tasteskill",
+        "contributor": "leonxlnx",
+        "origin": false,
+        "genericSkillRef": "design-generation",
+        "status": "named",
+        "level": "2★",
+        "description": "Awwwards-grade kinetic typography, GSAP ScrollTrigger animation systems, and bento grid layout generation.",
+        "title": "GPT Taste",
+        "links": {
+          "github": "https://github.com/leonxlnx/taste-skill/blob/main/skills/gpt-tasteskill/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/leonxlnx/taste-skill/blob/main/skills/gpt-tasteskill/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "github-stars-own",
+            "notes": "79.0k stars on Leonxlnx/taste-skill suite component",
+            "stars": 79067,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/leonxlnx/taste-skill",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "repo-own",
+            "notes": "152 commits, 6 contributors, MIT license",
+            "commits": 152,
+            "contributors": 6,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-08-22",
+        "updatedAt": "2026-08-22",
+        "timeline": [
+          {
+            "timestamp": "2026-08-22T08:07:42Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill leonxlnx/gpt-tasteskill"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:12Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill/blob/main/skills/gpt-tasteskill/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:13Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:35Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to leonxlnx/taste-skill"
+          }
+        ],
+        "suiteRef": "leonxlnx/taste-skill",
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 115.07,
+        "overallTrustGrade": "A",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      },
+      {
+        "id": "leonxlnx/minimalist-skill",
+        "name": "minimalist-skill",
+        "contributor": "leonxlnx",
+        "origin": false,
+        "genericSkillRef": "design-generation",
+        "status": "named",
+        "level": "2★",
+        "description": "Utilitarian editorial minimalism UI archetype featuring macro-whitespace, monochrome palettes, and clean document-inspired layouts.",
+        "title": "Minimalist UI",
+        "links": {
+          "github": "https://github.com/leonxlnx/taste-skill/blob/main/skills/minimalist-skill/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/leonxlnx/taste-skill/blob/main/skills/minimalist-skill/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "github-stars-own",
+            "notes": "79.0k stars on Leonxlnx/taste-skill suite component",
+            "stars": 79067,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/leonxlnx/taste-skill",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "repo-own",
+            "notes": "152 commits, 6 contributors, MIT license",
+            "commits": 152,
+            "contributors": 6,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-08-22",
+        "updatedAt": "2026-08-22",
+        "timeline": [
+          {
+            "timestamp": "2026-08-22T08:07:43Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill leonxlnx/minimalist-skill"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:16Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill/blob/main/skills/minimalist-skill/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:19Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:36Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to leonxlnx/taste-skill"
+          }
+        ],
+        "suiteRef": "leonxlnx/taste-skill",
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 115.07,
+        "overallTrustGrade": "A",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      },
+      {
+        "id": "leonxlnx/soft-skill",
+        "name": "soft-skill",
+        "contributor": "leonxlnx",
+        "origin": false,
+        "genericSkillRef": "design-generation",
+        "status": "named",
+        "level": "2★",
+        "description": "Luxury tactile visual design archetype with subtle lighting, smooth neumorphic depth, and premium agency aesthetics.",
+        "title": "Luxury Soft UI",
+        "links": {
+          "github": "https://github.com/leonxlnx/taste-skill/blob/main/skills/soft-skill/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/leonxlnx/taste-skill/blob/main/skills/soft-skill/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "github-stars-own",
+            "notes": "79.0k stars on Leonxlnx/taste-skill suite component",
+            "stars": 79067,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/leonxlnx/taste-skill",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "repo-own",
+            "notes": "152 commits, 6 contributors, MIT license",
+            "commits": 152,
+            "contributors": 6,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-08-22",
+        "updatedAt": "2026-08-22",
+        "timeline": [
+          {
+            "timestamp": "2026-08-22T08:07:43Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill leonxlnx/soft-skill"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:20Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill/blob/main/skills/soft-skill/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:22Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:37Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to leonxlnx/taste-skill"
+          }
+        ],
+        "suiteRef": "leonxlnx/taste-skill",
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 115.07,
+        "overallTrustGrade": "A",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      },
+      {
+        "id": "nexu-io/open-design",
+        "name": "Open Design",
+        "contributor": "nexu-io",
+        "origin": false,
+        "genericSkillRef": "design-generation",
+        "status": "named",
+        "level": "2★",
+        "description": "Local-first design engine for generating high-fidelity UI/UX prototypes and brand assets from structured intent.",
+        "title": "The Artisan's Forge",
+        "tags": [
+          "design",
+          "ui",
+          "ux",
+          "generation"
+        ],
+        "links": {
+          "github": "https://github.com/nexu-io/open-design"
+        },
+        "evidence": [
+          {
+            "class": "B",
+            "source": "https://github.com/nexu-io/open-design",
+            "evaluator": "gemini-cli",
+            "date": "2026-05-14",
+            "notes": "Open Design -- local-first design engine generating high-fidelity prototypes\" and brand assets. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
+            "type": "repo",
+            "trustNumber": 70.0,
+            "commits": 2382,
+            "contributors": 332,
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-05-14",
+        "updatedAt": "2026-08-22",
+        "timeline": [
+          {
+            "timestamp": "2026-06-02T23:48:19Z",
+            "action": "demote",
+            "contributor": "unknown",
+            "details": "Calibrated level from 3★ to 1★"
+          },
+          {
+            "timestamp": "2026-06-14T12:32:46Z",
+            "action": "evidence_graded",
+            "contributor": "unknown",
+            "details": "Re-graded evidence from https://github.com/nexu-io/open-design as B (trustNumber: 70.0)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-18T11:27:19Z",
+            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T11:52:12Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:19:38Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "action": "migrate_trust_magnitude",
+            "timestamp": "2026-06-19T13:26:42Z",
+            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
+          },
+          {
+            "timestamp": "2026-06-20T06:31:34Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Level updated from 1★ to 2★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-22T08:10:50Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to false."
+          }
+        ],
+        "trustMagnitude": 36.0,
+        "overallTrustGrade": "C",
+        "trustMagnitudeInputHash": "8160ffbdfe5eea8db15945eca7d38f15ffb9c6efe3f3a10845062976ca4e76e2",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "type": "fusion",
+        "role": "variant",
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "vision-qa": [
+      {
+        "id": "leonxlnx/image-to-code-skill",
+        "name": "image-to-code-skill",
+        "contributor": "leonxlnx",
+        "origin": false,
+        "genericSkillRef": "vision-qa",
+        "status": "named",
+        "level": "2★",
+        "description": "Multimodal visual decomposition and pixel-accurate translation of UI mockups into responsive frontend code.",
+        "title": "Image to Code",
+        "links": {
+          "github": "https://github.com/leonxlnx/taste-skill/blob/main/skills/image-to-code-skill/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/leonxlnx/taste-skill/blob/main/skills/image-to-code-skill/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "github-stars-own",
+            "notes": "79.0k stars on Leonxlnx/taste-skill suite component",
+            "stars": 79067,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/leonxlnx/taste-skill",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "repo-own",
+            "notes": "152 commits, 6 contributors, MIT license",
+            "commits": 152,
+            "contributors": 6,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-08-22",
+        "updatedAt": "2026-08-22",
+        "timeline": [
+          {
+            "timestamp": "2026-08-22T08:07:45Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill leonxlnx/image-to-code-skill"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:25Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill/blob/main/skills/image-to-code-skill/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:26Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:39Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to leonxlnx/taste-skill"
+          }
+        ],
+        "suiteRef": "leonxlnx/taste-skill",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 115.07,
+        "overallTrustGrade": "A",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "image-generate": [
+      {
+        "id": "leonxlnx/imagegen-frontend-web",
+        "name": "imagegen-frontend-web",
+        "contributor": "leonxlnx",
+        "origin": true,
+        "genericSkillRef": "image-generate",
+        "status": "named",
+        "level": "2★",
+        "description": "Section-by-section web reference image prompt engineering for diffusion models to establish website hero and section art direction.",
+        "title": "Imagegen Frontend Web",
+        "links": {
+          "github": "https://github.com/leonxlnx/taste-skill/blob/main/skills/imagegen-frontend-web/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/leonxlnx/taste-skill/blob/main/skills/imagegen-frontend-web/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "github-stars-own",
+            "notes": "79.0k stars on Leonxlnx/taste-skill suite component",
+            "stars": 79067,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/leonxlnx/taste-skill",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "repo-own",
+            "notes": "152 commits, 6 contributors, MIT license",
+            "commits": 152,
+            "contributors": 6,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-08-22",
+        "updatedAt": "2026-08-22",
+        "timeline": [
+          {
+            "timestamp": "2026-08-22T08:07:40Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill leonxlnx/imagegen-frontend-web"
+          },
+          {
+            "timestamp": "2026-08-22T08:07:42Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to true."
+          },
+          {
+            "timestamp": "2026-08-22T08:08:09Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill/blob/main/skills/imagegen-frontend-web/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:10Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:33Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to leonxlnx/taste-skill"
+          }
+        ],
+        "suiteRef": "leonxlnx/taste-skill",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "origin",
+        "trustMagnitude": 115.07,
+        "overallTrustGrade": "A",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      },
+      {
+        "id": "leonxlnx/imagegen-frontend-mobile",
+        "name": "imagegen-frontend-mobile",
+        "contributor": "leonxlnx",
+        "origin": false,
+        "genericSkillRef": "image-generate",
+        "status": "named",
+        "level": "2★",
+        "description": "Mobile app mockup prompt engineering generating realistic iOS and Android UI screen concept art for diffusion models.",
+        "title": "Imagegen Frontend Mobile",
+        "links": {
+          "github": "https://github.com/leonxlnx/taste-skill/blob/main/skills/imagegen-frontend-mobile/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/leonxlnx/taste-skill/blob/main/skills/imagegen-frontend-mobile/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "github-stars-own",
+            "notes": "79.0k stars on Leonxlnx/taste-skill suite component",
+            "stars": 79067,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "A"
+          },
+          {
+            "source": "https://github.com/leonxlnx/taste-skill",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "repo-own",
+            "notes": "152 commits, 6 contributors, MIT license",
+            "commits": 152,
+            "contributors": 6,
+            "sourceStartedAt": "2026-02-19",
+            "grade": "B"
+          }
+        ],
+        "createdAt": "2026-08-22",
+        "updatedAt": "2026-08-22",
+        "timeline": [
+          {
+            "timestamp": "2026-08-22T08:07:42Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill leonxlnx/imagegen-frontend-mobile"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:11Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill/blob/main/skills/imagegen-frontend-mobile/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:12Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/taste-skill (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-22T08:08:34Z",
+            "action": "suite_ref_set",
+            "contributor": "mbtiongson1",
+            "details": "Set suiteRef to leonxlnx/taste-skill"
+          }
+        ],
+        "suiteRef": "leonxlnx/taste-skill",
+        "type": "basic",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 115.07,
+        "overallTrustGrade": "A",
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": true,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 2,
+        "rankWord": "Named",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
+    "task-depth-enforcement": [
+      {
+        "id": "leonxlnx/unlazy",
+        "name": "unlazy",
+        "contributor": "leonxlnx",
+        "origin": false,
+        "genericSkillRef": "task-depth-enforcement",
+        "status": "named",
+        "level": "1★",
+        "description": "Anti-laziness execution discipline for substantial tasks. Decomposes work into recursive depth trees and enforces completion criteria through gate files and runnable checks.",
+        "title": "Unlazy",
+        "links": {
+          "github": "https://github.com/leonxlnx/unlazy/blob/main/SKILL.md"
+        },
+        "evidence": [
+          {
+            "source": "https://github.com/leonxlnx/unlazy/blob/main/SKILL.md",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "github-stars-own",
+            "notes": "700 stars on Leonxlnx/unlazy repository",
+            "stars": 700,
+            "sourceStartedAt": "2026-08-09"
+          },
+          {
+            "source": "https://github.com/leonxlnx/unlazy",
+            "evaluator": "mbtiongson1",
+            "date": "2026-08-22",
+            "type": "repo-own",
+            "notes": "9 commits, 1 contributor, MIT license",
+            "commits": 9,
+            "contributors": 1,
+            "sourceStartedAt": "2026-08-09"
+          }
+        ],
+        "createdAt": "2026-08-22",
+        "updatedAt": "2026-08-22",
+        "timeline": [
+          {
+            "timestamp": "2026-08-22T07:11:04Z",
+            "action": "add",
+            "contributor": "mbtiongson1",
+            "details": "Added named skill leonxlnx/unlazy"
+          },
+          {
+            "timestamp": "2026-08-22T07:11:13Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/unlazy/blob/main/SKILL.md (type: github-stars-own)"
+          },
+          {
+            "timestamp": "2026-08-22T07:11:16Z",
+            "action": "evidence_added",
+            "contributor": "mbtiongson1",
+            "details": "Added evidence from https://github.com/leonxlnx/unlazy (type: repo-own)"
+          },
+          {
+            "timestamp": "2026-08-22T07:13:44Z",
+            "action": "demote",
+            "contributor": "mbtiongson1",
+            "details": "Calibrated level from 2★ to 1★"
+          },
+          {
+            "timestamp": "2026-08-22T08:07:57Z",
+            "action": "rank_up",
+            "contributor": "mbtiongson1",
+            "details": "Origin status set to true."
+          }
+        ],
+        "type": "fusion",
+        "installBody": "Add installation instructions here.",
+        "role": "variant",
+        "trustMagnitude": 1.93,
+        "apexGateStatus": {
+          "aGradedOriginsGte5": false,
+          "sourceTenureDaysGte180AorS": false,
+          "directNestedSuiteGte1": false,
+          "depth2OnlyReachableGte1": false,
+          "overallGradeS": false,
+          "apexPromotionPrSigned": false,
+          "crossOrgVerifier": null,
+          "systemWideCap": null
+        },
+        "branch": "standard",
+        "rank": 1,
+        "rankWord": "Awakened",
+        "medallion": "◇",
+        "contractVersion": "gaia-public-v1"
+      }
+    ],
     "route-intent": [
       {
         "id": "mattpocock/ask-matt",
@@ -24325,104 +25607,6 @@
         "contractVersion": "gaia-public-v1"
       }
     ],
-    "design-generation": [
-      {
-        "id": "nexu-io/open-design",
-        "name": "Open Design",
-        "contributor": "nexu-io",
-        "origin": true,
-        "genericSkillRef": "design-generation",
-        "status": "named",
-        "level": "2★",
-        "description": "Local-first design engine for generating high-fidelity UI/UX prototypes and brand assets from structured intent.",
-        "title": "The Artisan's Forge",
-        "tags": [
-          "design",
-          "ui",
-          "ux",
-          "generation"
-        ],
-        "links": {
-          "github": "https://github.com/nexu-io/open-design"
-        },
-        "evidence": [
-          {
-            "class": "B",
-            "source": "https://github.com/nexu-io/open-design",
-            "evaluator": "gemini-cli",
-            "date": "2026-05-14",
-            "notes": "Open Design -- local-first design engine generating high-fidelity prototypes\" and brand assets. (backfilled — class-to-type migration) (CLI gap: --commits/--contributors not supported by gaia dev evidence)",
-            "type": "repo",
-            "trustNumber": 70.0,
-            "commits": 2382,
-            "contributors": 332,
-            "grade": "B"
-          }
-        ],
-        "createdAt": "2026-05-14",
-        "updatedAt": "2026-06-21",
-        "timeline": [
-          {
-            "timestamp": "2026-06-02T23:48:19Z",
-            "action": "demote",
-            "contributor": "unknown",
-            "details": "Calibrated level from 3★ to 1★"
-          },
-          {
-            "timestamp": "2026-06-14T12:32:46Z",
-            "action": "evidence_graded",
-            "contributor": "unknown",
-            "details": "Re-graded evidence from https://github.com/nexu-io/open-design as B (trustNumber: 70.0)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-18T11:27:19Z",
-            "details": "TM None -> 0.0, grade ungraded -> ungraded (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T11:52:12Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:19:38Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "action": "migrate_trust_magnitude",
-            "timestamp": "2026-06-19T13:26:42Z",
-            "details": "TM 0.0 -> 36.0, grade ungraded -> C (direct edit -- CLI gap)"
-          },
-          {
-            "timestamp": "2026-06-20T06:31:34Z",
-            "action": "rank_up",
-            "contributor": "mbtiongson1",
-            "details": "Level updated from 1★ to 2★ per G7 final rankings calibration."
-          }
-        ],
-        "trustMagnitude": 36.0,
-        "overallTrustGrade": "C",
-        "trustMagnitudeInputHash": "8160ffbdfe5eea8db15945eca7d38f15ffb9c6efe3f3a10845062976ca4e76e2",
-        "apexGateStatus": {
-          "aGradedOriginsGte5": false,
-          "sourceTenureDaysGte180AorS": false,
-          "directNestedSuiteGte1": false,
-          "depth2OnlyReachableGte1": false,
-          "overallGradeS": false,
-          "apexPromotionPrSigned": false,
-          "crossOrgVerifier": null,
-          "systemWideCap": null
-        },
-        "type": "fusion",
-        "role": "origin",
-        "branch": "standard",
-        "rank": 2,
-        "rankWord": "Named",
-        "medallion": "◇",
-        "contractVersion": "gaia-public-v1"
-      }
-    ],
     "feed-monitoring": [
       {
         "id": "nousresearch/feed-monitoring",
@@ -24937,8 +26121,8 @@
           "obra/verification-before-completion",
           "obra/writing-plans"
         ],
-        "trustMagnitude": 445.15,
-        "overallTrustGrade": "S",
+        "trustMagnitude": 315.15,
+        "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "2d67b35c36b1d3e307febe93181725bf1ac72fc1f25555849b9517d275189606",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -28937,8 +30121,8 @@
           "ruvnet/worker-benchmarks",
           "ruvnet/worker-integration"
         ],
-        "trustMagnitude": 487.45,
-        "overallTrustGrade": "S",
+        "trustMagnitude": 256.68,
+        "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "490f123ef91fa042713964e1a8ff96a6da965a81539693e3c33e3237b823eaf2",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -36837,6 +38021,21 @@
     ],
     "laravel": [
       "laravel/upgrade-laravel-v13"
+    ],
+    "leonxlnx": [
+      "leonxlnx/brandkit",
+      "leonxlnx/brutalist-skill",
+      "leonxlnx/gpt-tasteskill",
+      "leonxlnx/image-to-code-skill",
+      "leonxlnx/imagegen-frontend-mobile",
+      "leonxlnx/imagegen-frontend-web",
+      "leonxlnx/minimalist-skill",
+      "leonxlnx/output-skill",
+      "leonxlnx/redesign-skill",
+      "leonxlnx/soft-skill",
+      "leonxlnx/stitch-skill",
+      "leonxlnx/taste-skill",
+      "leonxlnx/unlazy"
     ],
     "martin-stepanoski": [
       "martin-stepanoski/nielsen-heuristics-audit"

@@ -2,7 +2,7 @@
 id: garrytan/design-consultation
 name: Design Consultation
 contributor: garrytan
-origin: true
+origin: false
 genericSkillRef: design-system-extraction
 status: named
 title: Gstack Design Consultation
@@ -20,7 +20,7 @@ tags:
 - colors
 - design-tokens
 createdAt: '2026-05-18'
-updatedAt: '2026-06-21'
+updatedAt: '2026-08-22'
 suiteRef: garrytan/gstack
 timeline:
 - timestamp: '2026-06-02T01:43:00Z'
@@ -64,6 +64,10 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Level updated from 4★ to 3★ per G7 final rankings calibration.
+- timestamp: '2026-08-22T08:07:45Z'
+  action: demote
+  contributor: mbtiongson1
+  details: Origin status removed. Transferred to leonxlnx/stitch-skill.
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/design-consultation/SKILL.md

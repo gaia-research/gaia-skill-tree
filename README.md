@@ -82,7 +82,7 @@ So that means, its the developers who make skills maintaining this. I have a tho
   ├─ · garrytan/garrytan  [4★]
   │  ├─ ○ /plan-decompose
   │  └─ ○ mattpocock/ask-matt  [2★]
-  ├─ · garrytan/design-consultation  [3★]
+  ├─ · leonxlnx/stitch-skill  [3★]
   │  ├─ · ████████/browse
   │  │  ├─ ○ firecrawl/firecrawl-build-search  [4★]
   │  │  └─ ○ /computer-use
@@ -94,7 +94,7 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
     │  │  ├─ ○ firecrawl/firecrawl-build-search  [4★]
     │  │  ├─ ○ /summarize
 
-(283 skills total — see docs/tree.md)
+(284 skills total — see docs/tree.md)
 ```
 <!-- gaia:registry-end -->
 

@@ -2,7 +2,7 @@
 
 ```
 ══════════════════════════════════════════════════════════════════════
-GAIA SKILL TREE  ·  generated 2026-08-24
+GAIA SKILL TREE  ·  generated 2026-08-25
 ══════════════════════════════════════════════════════════════════════
 ◆ Suite (4★ Extra · 5★ Ultimate · 6★ Apex) · ◉ Unique (4★ · 5★ Unique Ultimate · 6★ Unique Impossible) · ○ Basic   ·   · = fusion (requires component skills)   ·   [N★] = top named-variant stars (blank = no named implementation yet) · (↑ see above) = shared prerequisite
 Shared prerequisites marked (↑ see above) on second occurrence.
@@ -83,7 +83,7 @@ Shared prerequisites marked (↑ see above) on second occurrence.
   ├─ · garrytan/garrytan  [4★]
   │  ├─ ○ /plan-decompose
   │  └─ ○ mattpocock/ask-matt  [2★]
-  ├─ · garrytan/design-consultation  [3★]
+  ├─ · leonxlnx/stitch-skill  [3★]
   │  ├─ · ████████/browse
   │  │  ├─ ○ firecrawl/firecrawl-build-search  [4★]
   │  │  └─ ○ /computer-use
@@ -302,6 +302,12 @@ Shared prerequisites marked (↑ see above) on second occurrence.
      ├─ · addy-osmani/code-review-and-quality  [3★]  (↑ see above)
      └─ ○ /diff-content  (↑ see above)
 
+◆ pbakaus/impeccable  [4★]
+─────────────────────────────────────────────────────────────────
+  ├─ ○ garrytan/design-html  [3★]
+  ├─ ○ leonxlnx/redesign-skill  [2★]
+  └─ ○ leonxlnx/image-to-code-skill  [2★]
+
 ◆ firecrawl/firecrawl-skills  [4★]
 ─────────────────────────────────────────────────────────────────
   ├─ · firecrawl/firecrawl-build-scrape  [4★]
@@ -410,7 +416,6 @@ Uniques — Basic Skills that reached elite mastery (4★+) through depth alone,
        ├─ ○ garrytan/design-html  [3★]
        ├─ ○ /diff-content
        └─ ○ garrytan/benchmark  [3★]
-  ◉ pbakaus/impeccable  [4★]
   ◉ obra/using-git-worktrees  [4★]
     ├─ ○ /code-execution
     └─ ○ /tool-use
@@ -422,7 +427,7 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
 
   ○ panniantong/agent-reach  [3★]
   ○ /autonomous-engineering-platform
-  ○ anthropics/brand-guidelines  [3★]
+  ○ leonxlnx/brandkit  [3★]
   ○ gaia-research/ci-churn  [2★]
   ○ /clinical-data-retrieval
   ○ ████████/update-unique-churches
@@ -435,7 +440,7 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   ○ laravel/upgrade-laravel-v13  [2★]
   ○ ruvnet/agentic-jujutsu  [2★]
   ○ ████████/financial-assistance
-  ○ /image-generate
+  ○ leonxlnx/imagegen-frontend-web  [2★]
   ○ ████████/huggingface-vision-trainer
   ○ /pathway-ontology-retrieval
   ○ supabase/supabase-postgres-best-practices  [2★]
@@ -458,4 +463,4 @@ Basics — basic-tier skills with no prerequisites, listed vertically (not as a 
   ○ ████████/resend-conference-emails-carefully-with-smtp
 ```
 
-*Generated from gaia.json on 2026-08-24. Do not edit directly.*
+*Generated from gaia.json on 2026-08-25. Do not edit directly.*

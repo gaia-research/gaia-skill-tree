@@ -5,8 +5,8 @@
       "id": "ruvnet/ruflo",
       "name": "Ruflo",
       "level": "5★",
-      "trustMagnitude": 487.45,
-      "overallTrustGrade": "S",
+      "trustMagnitude": 256.68,
+      "overallTrustGrade": "A",
       "contributor": "ruvnet",
       "type": "fusion",
       "branch": "suite",
@@ -576,12 +576,11 @@
   "topSkill": {
     "id": "ruvnet/ruflo",
     "level": "5★",
-    "trustMagnitude": 487.45
+    "trustMagnitude": 256.68
   },
-  "prestigeScore": 2200.65,
+  "prestigeScore": 1969.88,
   "gradeDistribution": {
-    "S": 1,
-    "A": 4,
+    "A": 5,
     "B": 3,
     "C": 22
   },

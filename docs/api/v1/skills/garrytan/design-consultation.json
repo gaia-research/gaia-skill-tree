@@ -17,7 +17,7 @@
   },
   "title": "Gstack Design Consultation",
   "genericSkillRef": "design-system-extraction",
-  "origin": true,
+  "origin": false,
   "description": "Builds a complete design system by researching the product and competitors, then proposing a coherent package of typography, colours, spacing, layout, and motion — persisted as a DESIGN.md file that serves as the project's authoritative design source of truth.",
   "tags": [
     "design-system",
@@ -123,6 +123,12 @@
       "action": "demote",
       "contributor": "mbtiongson1",
       "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+    },
+    {
+      "timestamp": "2026-08-22T08:07:45Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Origin status removed. Transferred to leonxlnx/stitch-skill."
     }
   ],
   "links": {
