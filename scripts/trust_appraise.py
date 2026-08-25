@@ -103,7 +103,10 @@ def appraise(target: AppraisalTarget) -> dict[str, Any]:
         "commits": commitCount,
         "evidenceUrl": evidenceUrl,
         "tm": round(tm, 2),
-        "grade": computeOverallTrustGrade(tm, distinctTypes=3, hasNonSelfProducible=True),
+        # Fusion + mothership stars + repo ownership is deliberately not an
+        # independent witness. Appraisal must report A until a positive
+        # benchmark, verifier, or peer-review row is present.
+        "grade": computeOverallTrustGrade(tm, distinctTypes=3, hasNonSelfProducible=False),
         "byType": computeTrustMagnitudeByType(skill),
     }
 
