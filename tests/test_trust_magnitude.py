@@ -27,8 +27,11 @@ from gaia_cli.trustMagnitude import (
     computeArtifactScoreOrNone,
     computeOverallTrustGrade,
     computeOverallTrustGradeFromSkill,
+    computeRowArtifactScores,
     computeTrustMagnitude,
+    computeTrustMagnitudeByType,
     enforceAntiAutoMint,
+    explainTrustMagnitude,
     isSuiteApex,
     passesSuiteApexGate,
 )
@@ -205,17 +208,53 @@ def test_same_source_dedup_normalizes_tree_to_blob():
 
 
 def test_fusion_recipe_sqrt_softening_above_10_origins():
-    """RFC §2.2: m = 200 + 20*sqrt(origins-10) for origins > 10. weight=1.5."""
+    """Yggdrasil III caps the weighted fusion contribution at 200 TM."""
     row = {"type": "fusion-recipe", "gradedOriginCount": 14}
-    # 200 + 20*sqrt(4)=200+40=240; weight 1.5 => 360
-    assert computeArtifactScore(row) == pytest.approx(360.0)
+    # Raw formula remains 240; weighted score is capped at 200.
+    assert computeArtifactScore(row) == pytest.approx(200.0)
 
 
 def test_fusion_recipe_at_exactly_10_origins_linear_endpoint():
     """RFC §2.2: at origins=10, linear path applies (m=200)."""
     row = {"type": "fusion-recipe", "gradedOriginCount": 10}
-    # 20*10=200; weight 1.5 => 300
-    assert computeArtifactScore(row) == pytest.approx(300.0)
+    # 20*10=200; weight 1.5 => 300, then cap at 200.
+    assert computeArtifactScore(row) == pytest.approx(200.0)
+
+
+@pytest.mark.parametrize(
+    ("originCount", "expected"),
+    [(5, 150.0), (6, 180.0), (7, 200.0), (10, 200.0), (46, 200.0)],
+)
+def test_fusion_contribution_cap_preserves_small_suite_curve(originCount, expected):
+    """Fusion remains linear through six graded origins and plateaus at 200."""
+    row = {"type": "fusion-recipe", "gradedOriginCount": originCount}
+    assert computeArtifactScore(row) == pytest.approx(expected)
+
+
+def test_fusion_cap_is_consistent_across_aggregate_reporting_and_explanation():
+    skill = {"evidence": [{"type": "fusion-recipe", "gradedOriginCount": 10}]}
+
+    assert computeTrustMagnitude(skill) == pytest.approx(200.0)
+    assert computeTrustMagnitudeByType(skill) == {"fusion-recipe": 200.0}
+    rows = computeRowArtifactScores(skill)
+    assert rows[0][1] == pytest.approx(200.0)
+    explanation = explainTrustMagnitude(skill)
+    assert "Trust Magnitude: 200.00" in explanation
+    assert "fusion contribution cap: 200.00" in explanation
+
+
+def test_explanation_uses_final_fusion_cap_after_inheritance_multiplier():
+    skill = {
+        "genericSkillRef": "generic-fusion",
+        "evidence": [{
+            "type": "fusion-recipe",
+            "gradedOriginCount": 10,
+            "layer": "generic",
+        }],
+    }
+    generic_map = {"generic-fusion": {"evidence": []}}
+    assert computeTrustMagnitude(skill, generic_map) == pytest.approx(200.0)
+    assert "Trust Magnitude: 200.00" in explainTrustMagnitude(skill, generic_map)
 
 
 # ---------------------------------------------------------------------------
@@ -278,7 +317,7 @@ def test_null_on_derank_legacy_derank_field_also_honored():
 
 
 def test_diversity_gate_blocks_S_when_only_self_producible():
-    """RFC §4: S grade requires non-self-producible evidence type."""
+    """Yggdrasil III: fusion and self-owned rows cannot witness S."""
     # Pure fusion-recipe, repo-own, self-attestation are all self-producible
     skill = {
         "evidence": [
@@ -288,26 +327,26 @@ def test_diversity_gate_blocks_S_when_only_self_producible():
         ]
     }
     grade = computeOverallTrustGradeFromSkill(skill)
-    # TM clearly >= 250, but no non-self-producible -> max is A
+    # TM clearly >= 250, but no independent witness -> max is A.
     assert grade == "A"
 
 
 def test_diversity_gate_S_requires_three_distinct_types():
-    """RFC §4: even with non-self-producible, distinct types must be >= 3."""
+    """Yggdrasil III: an independent witness still needs three types."""
     skill = {
         "evidence": [
-            # one verifier (non-self-producible) + one fusion = only 2 types
+            # one verifier witness + one fusion = only 2 types
             {"type": "verifier-attestation", "verifiers": 8},  # 30*8=240; *1.5=360
             {"type": "fusion-recipe", "gradedOriginCount": 5},  # 100*1.5=150
         ]
     }
-    # TM = 510, has non-self-producible, but only 2 types -> A (not S)
+    # TM = 510, has a witness, but only 2 types -> A (not S)
     grade = computeOverallTrustGradeFromSkill(skill)
     assert grade == "A"
 
 
 def test_diversity_gate_S_passes_with_three_types_and_non_self_producible():
-    """RFC §4: passes S when TM >= 250, distinctTypes >= 3, non-self-producible present."""
+    """Yggdrasil III: a positive verifier witness can anchor S."""
     skill = {
         "evidence": [
             {"type": "verifier-attestation", "verifiers": 4},  # 30*4*1.5 = 180
@@ -315,9 +354,61 @@ def test_diversity_gate_S_passes_with_three_types_and_non_self_producible():
             {"type": "arxiv", "citations": 200},  # 40*1.0 = 40
         ]
     }
-    # TM = 180+50+40 = 270, 3 distinct types (all non-self-producible) -> S
+    # TM = 180+50+40 = 270, 3 distinct types -> S.
     grade = computeOverallTrustGradeFromSkill(skill)
     assert grade == "S"
+
+
+def _s_gate_self_produced_rows():
+    return [
+        {"type": "fusion-recipe", "gradedOriginCount": 10},
+        {"type": "repo-own", "commits": 10000, "contributors": 10,
+         "source": "https://github.com/owner/repo"},
+        {"type": "github-stars-own", "stars": 50000,
+         "skillCountInRepo": 1, "source": "https://github.com/owner/repo/stars"},
+    ]
+
+
+@pytest.mark.parametrize(
+    "witness",
+    [
+        {"type": "benchmark-result", **_verified_benchmark_row()},
+        {"type": "verifier-attestation", "verifiers": 1,
+         "source": "https://verifier.example/attestation"},
+        {"type": "peer-review", "reviewers": 1,
+         "source": "https://review.example/review"},
+    ],
+)
+def test_s_gate_accepts_each_positive_independent_witness_class(witness):
+    skill = {"evidence": _s_gate_self_produced_rows() + [witness]}
+    assert computeTrustMagnitude(skill) >= GRADE_S_FLOOR
+    assert computeOverallTrustGradeFromSkill(skill) == "S"
+
+
+def test_s_gate_rejects_fusion_repo_and_mothership_stars_without_witness():
+    skill = {"evidence": _s_gate_self_produced_rows()}
+    assert computeTrustMagnitude(skill) >= GRADE_S_FLOOR
+    assert computeOverallTrustGradeFromSkill(skill) == "A"
+
+
+@pytest.mark.parametrize(
+    "witness",
+    [
+        {"type": "benchmark-result", "benchmarkId": "unknown@v1",
+         "provenance": "rejected", "percentile": 99},
+        {"type": "verifier-attestation", "verifiers": 4,
+         "verifierActiveRank": False},
+        {"type": "verifier-attestation", "verifiers": 0},
+        {"type": "peer-review", "reviewers": 1,
+         "lastVerified": "2000-01-01T00:00:00Z"},
+        {"type": "peer-review", "reviewers": 0},
+        {"type": "peer-review", "reviewers": 1, "phantom": True},
+    ],
+)
+def test_s_gate_rejects_ineligible_zero_or_phantom_independent_rows(witness):
+    skill = {"evidence": _s_gate_self_produced_rows() + [witness]}
+    assert computeTrustMagnitude(skill) >= GRADE_S_FLOOR
+    assert computeOverallTrustGradeFromSkill(skill) == "A"
 
 
 def test_rank_floor_grade_thresholds_constants():
@@ -1202,4 +1293,3 @@ def test_gradedOriginCount_with_map_ignores_ungraded_bare_id_origins():
     }
     tm = computeTrustMagnitude(skill, genericSkillMap=genericSkillMap)
     assert tm == pytest.approx(0.0)
-
