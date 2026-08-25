@@ -1,19 +1,6 @@
 {
   "contributors": [
     {
-      "handle": "mattpocock",
-      "namedSkills": 39,
-      "topSkill": {
-        "id": "mattpocock/skills",
-        "level": "5★",
-        "trustMagnitude": 528.95
-      },
-      "prestigeScore": 2978.88,
-      "_links": {
-        "self": "/api/v1/contributors/mattpocock.json"
-      }
-    },
-    {
       "handle": "garrytan",
       "namedSkills": 47,
       "topSkill": {
@@ -24,6 +11,19 @@
       "prestigeScore": 2778.89,
       "_links": {
         "self": "/api/v1/contributors/garrytan.json"
+      }
+    },
+    {
+      "handle": "mattpocock",
+      "namedSkills": 39,
+      "topSkill": {
+        "id": "mattpocock/skills",
+        "level": "5★",
+        "trustMagnitude": 329.45
+      },
+      "prestigeScore": 2627.42,
+      "_links": {
+        "self": "/api/v1/contributors/mattpocock.json"
       }
     },
     {
