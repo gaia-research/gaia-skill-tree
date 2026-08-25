@@ -1,6 +1,6 @@
 {
   "window": "7d",
-  "generatedAt": "2026-08-24T12:52:57Z",
+  "generatedAt": "2026-08-25T12:07:03Z",
   "firstRun": false,
   "skills": [
     {
@@ -32,34 +32,6 @@
       }
     },
     {
-      "id": "mattpocock/misc",
-      "name": "Misc",
-      "level": "3★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 120.0,
-      "overallTrustGrade": "A",
-      "trendingScore": 60.0,
-      "tmDelta": 120.0,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/misc.json"
-      }
-    },
-    {
-      "id": "mattpocock/to-tickets",
-      "name": "To Tickets",
-      "level": "3★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 105.68,
-      "overallTrustGrade": "A",
-      "trendingScore": 52.84,
-      "tmDelta": 105.68,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/to-tickets.json"
-      }
-    },
-    {
       "id": "mattpocock/skills",
       "name": "Matt Pocock Skills",
       "level": "5★",
@@ -85,20 +57,6 @@
       "new": false,
       "_links": {
         "self": "/api/v1/skills/ruvnet/ruflo-v3.json"
-      }
-    },
-    {
-      "id": "mattpocock/to-spec",
-      "name": "To PRD",
-      "level": "3★",
-      "contributor": "mattpocock",
-      "trustMagnitude": 63.71,
-      "overallTrustGrade": "B",
-      "trendingScore": 31.86,
-      "tmDelta": 63.71,
-      "new": true,
-      "_links": {
-        "self": "/api/v1/skills/mattpocock/to-spec.json"
       }
     },
     {
@@ -304,9 +262,9 @@
       "contributor": "mattpocock",
       "trustMagnitude": 20.77,
       "overallTrustGrade": "C",
-      "trendingScore": 10.38,
-      "tmDelta": 20.77,
-      "new": true,
+      "trendingScore": 10.0,
+      "tmDelta": 0.0,
+      "new": false,
       "_links": {
         "self": "/api/v1/skills/mattpocock/code-review.json"
       }
@@ -318,9 +276,9 @@
       "contributor": "mattpocock",
       "trustMagnitude": 20.77,
       "overallTrustGrade": "C",
-      "trendingScore": 10.38,
-      "tmDelta": 20.77,
-      "new": true,
+      "trendingScore": 10.0,
+      "tmDelta": 0.0,
+      "new": false,
       "_links": {
         "self": "/api/v1/skills/mattpocock/research.json"
       }
@@ -332,9 +290,9 @@
       "contributor": "mattpocock",
       "trustMagnitude": 20.77,
       "overallTrustGrade": "C",
-      "trendingScore": 10.38,
-      "tmDelta": 20.77,
-      "new": true,
+      "trendingScore": 10.0,
+      "tmDelta": 0.0,
+      "new": false,
       "_links": {
         "self": "/api/v1/skills/mattpocock/to-questionnaire.json"
       }
@@ -346,9 +304,9 @@
       "contributor": "mattpocock",
       "trustMagnitude": 20.77,
       "overallTrustGrade": "C",
-      "trendingScore": 10.38,
-      "tmDelta": 20.77,
-      "new": true,
+      "trendingScore": 10.0,
+      "tmDelta": 0.0,
+      "new": false,
       "_links": {
         "self": "/api/v1/skills/mattpocock/wait-what.json"
       }
@@ -360,9 +318,9 @@
       "contributor": "mattpocock",
       "trustMagnitude": 20.77,
       "overallTrustGrade": "C",
-      "trendingScore": 10.38,
-      "tmDelta": 20.77,
-      "new": true,
+      "trendingScore": 10.0,
+      "tmDelta": 0.0,
+      "new": false,
       "_links": {
         "self": "/api/v1/skills/mattpocock/wayfinder.json"
       }
@@ -374,15 +332,15 @@
       "contributor": "mattpocock",
       "trustMagnitude": 20.77,
       "overallTrustGrade": "C",
-      "trendingScore": 10.38,
-      "tmDelta": 20.77,
-      "new": true,
+      "trendingScore": 10.0,
+      "tmDelta": 0.0,
+      "new": false,
       "_links": {
         "self": "/api/v1/skills/mattpocock/wizard.json"
       }
     }
   ],
-  "totalTrending": 27,
+  "totalTrending": 24,
   "_links": {
     "self": "/api/v1/trending/7d.json"
   }
