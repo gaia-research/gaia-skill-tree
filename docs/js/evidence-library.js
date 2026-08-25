@@ -433,7 +433,7 @@
                    'proxy-containment': 0.25, 'benchmark-result': 0.15 }[t];
       if (im) score *= im;
     }
-    return Math.round(score * 10) / 10;
+    return Math.round(TM.applyContributionCap(t, score) * 10) / 10;
   }
 
   // Derive the effective display grade for an evidence row.
@@ -453,6 +453,7 @@
     return cfg.label.toUpperCase() + ' evidence\nFormula: ' + cfg.formula +
       '\nweight ×' + cfg.weight +
       (cfg.cap != null ? '  ·  cap ' + cfg.cap : '') +
+      (cfg.contributionCap != null ? '  ·  final contribution cap ' + cfg.contributionCap : '') +
       (cfg.gradeCeiling ? '  ·  ceiling ' + cfg.gradeCeiling : '') +
       '\nSee: ' + ((TM.RFC && TM.RFC.types) || TM.RFC_BASE);
   }
@@ -484,6 +485,13 @@
       if (t === 'social-signal') {
         lines.push('× creator:    ' + (ev.creatorMultiplier || 1.0).toFixed(2));
         lines.push('× engagement: ' + (ev.engagementRatio || 1.0).toFixed(2));
+      }
+      if (cfg.contributionCap != null) {
+        const uncapped = capped * cfg.weight;
+        const contributionNote = uncapped > cfg.contributionCap
+          ? '  (capped from ' + uncapped.toFixed(1) + ')'
+          : '';
+        lines.push('final cap:    ' + cfg.contributionCap + contributionNote);
       }
       if (cfg.plateau) {
         if (cfg.plateau.maxRows === 1) lines.push('× plateau:    1.00  (max 1 row)');
