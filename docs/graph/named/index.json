@@ -218,7 +218,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-08-22",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:43:00Z",
@@ -286,12 +286,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Origin status removed. Transferred to leonxlnx/stitch-skill."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "63fd36d9ca424ed4f47afde8469abea3a4c9103503b246b41f6adfe9db11c294",
+        "trustMagnitudeInputHash": "f32accd537c17f9165ae21cda89b09ee8036136d0331b5c7fbc64df9f27f53ce",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -1201,7 +1207,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:35Z",
@@ -1257,12 +1263,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "01c47f17582b841ffc7336c127bad10ea656673ce009b841afa47e18ffefd3a2",
+        "trustMagnitudeInputHash": "692a68af9f23ff466edced7048256eff387628a79fa3707860494b14fa2bcd11",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -3063,7 +3075,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:32:59Z",
@@ -3125,12 +3137,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "cd424c47cab4fab0d5809899aa0fa439b80ed5db43075612b29ce4fb0555bde9",
+        "trustMagnitudeInputHash": "176423f3bd19cdecb33118d59d33c68909a871a0ffedb0668bca111365fc95e7",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -4181,7 +4199,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:43:00Z",
@@ -4243,12 +4261,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "9a183ef2d178af58b29d15dddffe7a618a3bfa827b6e3594f4aa80c48f6e428c",
+        "trustMagnitudeInputHash": "d99c1bc2e842d38e44a3bd22e9a7ae05cdca99843a1c76e22c96f4470440aa83",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -9653,7 +9677,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:29Z",
@@ -9709,12 +9733,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "0643b2928c2c22d4d97a3152e13a990e84f7d2fa620a3aeed50710b281711d67",
+        "trustMagnitudeInputHash": "be56d11a91e34d6d13091a61ae64f4194f3fe539bfde4673594addfaffe43fde",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -9781,7 +9811,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:29Z",
@@ -9837,12 +9867,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "0bce47e22aff478fc093dec7749a34290ea0c1ebc7f300ca702bbbeb67e85c98",
+        "trustMagnitudeInputHash": "af4b68a4768dd221a372cfefe779eb1e5363fc521dff66384d7c7eebd8411fab",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -9911,7 +9947,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:29Z",
@@ -9967,12 +10003,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "ff7df02acc13f47113e1a53168d602761c35bc07d468f00b25fc149d335ef7bd",
+        "trustMagnitudeInputHash": "c00c53fcf9338205767b5ce69ef3122f956a74a1fd1498655b875113bbc81754",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -11208,7 +11250,7 @@
           }
         ],
         "createdAt": "2026-05-12",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:31Z",
@@ -11264,12 +11306,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/garrytan",
         "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "1e1cdd622594fd26dd72c63d6112ddec0053a8552ee44814c7d55df7b9a3ad3a",
+        "trustMagnitudeInputHash": "ffe5732bf0c191af325031aa203391159f4ffd3c1a911331477734298631fb4f",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -11530,7 +11578,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-02T01:42:59Z",
@@ -11592,12 +11640,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "59476342421b329329fedf5a7402082e6eafba26e7d288945c00dbe1658deac8",
+        "trustMagnitudeInputHash": "75b6dbb7a37d9a9ecf785ba34adaef9abee3958544a072310111280f398e43c5",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -11869,7 +11923,7 @@
           }
         ],
         "createdAt": "2026-05-12",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:33Z",
@@ -11925,12 +11979,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "be5820a8cdc5f8160520bfaaa0277ddfb4ac8179b0cfe83687a7e96e322a46e1",
+        "trustMagnitudeInputHash": "6d9a764ff9db1fc7fa7aa5a4ad941c7b8f3f0fb5e5ec348cc745945fde490c3e",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -12294,7 +12354,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:32Z",
@@ -12350,12 +12410,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "077448b384430d9756cc6e630c18eb8abe15357559b9526ceb4af5343e39128e",
+        "trustMagnitudeInputHash": "5c9ec7550625a8958a1bc75d4827acdce2b889eb34236edeb80a1073b3b91f51",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -12422,7 +12488,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:32Z",
@@ -12478,12 +12544,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "8580d33277a7f70df855307ee67342509cdefd5d675f6230a7276d50a5823456",
+        "trustMagnitudeInputHash": "88cb640252cd8e7c2257503b77ccb82e860c3b234b6f5fa2170171a7ea1a8fa9",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -13094,7 +13166,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-02T23:33:00Z",
@@ -13156,12 +13228,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "3197d16ad889cab97d211ef4fc622f420478b7435caa0a0fa12025f85f5e8d31",
+        "trustMagnitudeInputHash": "d561cf18da19b854ede3750414cf45d77ec3908c40882ed12c2b0a23eb1c0f7e",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -13524,7 +13602,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:34Z",
@@ -13580,12 +13658,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "77e3bde2ec82007386e2e77a793366528526bf578a9d9b0e1ce61d096a2e9330",
+        "trustMagnitudeInputHash": "5dd88b7640bb431644036472c880a7a80e3361ace2b04d06343767a737cc3a2d",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -14945,7 +15029,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:36Z",
@@ -15001,12 +15085,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "16c58e0915bb3377d6fe7b76b2809103af83e02de4692c72a948868f55b737c5",
+        "trustMagnitudeInputHash": "db59b8ddef26641c696abf22978385ea4013c47fe003a9fd024729f71e7d0132",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -15988,7 +16078,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-06-21",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-03T05:51:37Z",
@@ -16044,12 +16134,18 @@
             "action": "demote",
             "contributor": "mbtiongson1",
             "details": "Level updated from 4★ to 3★ per G7 final rankings calibration."
+          },
+          {
+            "timestamp": "2026-08-25T13:17:09Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "garrytan/gstack",
         "trustMagnitude": 67.4,
         "overallTrustGrade": "B",
-        "trustMagnitudeInputHash": "afde557e68445b1914b3438d0cb5ddddd3747dd07f7ed534d6c19175782ce141",
+        "trustMagnitudeInputHash": "bfff5590da060f24332033246e6b8c2dbd91dd525b267fa34df338d3052304f1",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
