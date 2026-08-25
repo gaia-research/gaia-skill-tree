@@ -23,7 +23,7 @@ tags:
 - orchestration
 - ultimate
 createdAt: '2026-05-18'
-updatedAt: '2026-07-20'
+updatedAt: '2026-08-25'
 suiteComponents:
 - garrytan/benchmark
 - garrytan/benchmark-models
@@ -159,8 +159,13 @@ timeline:
     (Yggdrasil II taxonomy migration #997)'
   metaEpoch: yggdrasil-ii
   migrationBatch: yggdrasil-ii@2026-07-20
-trustMagnitude: 589.32
-overallTrustGrade: S
+- timestamp: '2026-08-25T11:23:15Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 589.32 -> 312.99, grade S -> A (gaia dev calibrate-trust-magnitude;
+    Issue #1600)'
+trustMagnitude: 312.99
+overallTrustGrade: A
 apexGateStatus:
   aGradedOriginsGte5: false
   sourceTenureDaysGte180AorS: false
@@ -174,7 +179,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-19T09:18:27Z'
-trustMagnitudeInputHash: 1487c2042544e947cfda07cc8779022ed8747a69c3dfac8c1ec225b1400389fc
+trustMagnitudeInputHash: 65c926600e3530f4d55aa5d07c23107fcf6020682b9ff6e74500ee1e3adc17a5
 ---
 
 ## Overview

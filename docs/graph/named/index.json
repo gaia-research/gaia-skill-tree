@@ -537,7 +537,7 @@
           }
         ],
         "createdAt": "2026-07-03",
-        "updatedAt": "2026-07-20",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-07-02T18:42:20Z",
@@ -657,6 +657,12 @@
             "details": "Generic parent 'git-ship-done-pipeline' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-20"
+          },
+          {
+            "timestamp": "2026-08-25T11:23:16Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 293.14 -> 256.3, grade S -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteComponents": [
@@ -671,7 +677,7 @@
         ],
         "trustMagnitude": 256.3,
         "overallTrustGrade": "A",
-        "trustMagnitudeInputHash": "328510a733654dd48aa9af8b91b72de65f27baa1665a5afb720b3548f5c4e477",
+        "trustMagnitudeInputHash": "a8f017083d71ce0a97c4d775a6682a16f38bb9e5550769b888eae6db3a418fae",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -12885,7 +12891,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-07-20",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:22Z",
@@ -12956,6 +12962,12 @@
             "details": "Generic parent 'founder-mode-orchestration' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-20"
+          },
+          {
+            "timestamp": "2026-08-25T11:23:15Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 589.32 -> 312.99, grade S -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteComponents": [
@@ -13008,7 +13020,7 @@
         ],
         "trustMagnitude": 312.99,
         "overallTrustGrade": "A",
-        "trustMagnitudeInputHash": "1487c2042544e947cfda07cc8779022ed8747a69c3dfac8c1ec225b1400389fc",
+        "trustMagnitudeInputHash": "65c926600e3530f4d55aa5d07c23107fcf6020682b9ff6e74500ee1e3adc17a5",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -22277,7 +22289,7 @@
         "description": "Engineering category suite for Matt Pocock's skills. Removed from mattpocock/skills suite in v1.0.1.",
         "title": "The Matt Pocock Engineering Discipline",
         "createdAt": "2026-05-21",
-        "updatedAt": "2026-08-20",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -22325,6 +22337,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 270.0 -> 351.96, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-08-25T11:23:16Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 351.96 -> 200.0, grade A -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteRef": "mattpocock/skills",
@@ -22344,7 +22362,7 @@
           "mattpocock/wizard",
           "mattpocock/zoom-out"
         ],
-        "trustMagnitude": 351.96,
+        "trustMagnitude": 200.0,
         "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "84bb03bde46f1e5dbf730b2f8ee2abbfd93c5cd04481b6dcb983bfbe04e0a6b4",
         "apexGateStatus": {
@@ -23748,7 +23766,7 @@
           }
         ],
         "createdAt": "2026-05-22",
-        "updatedAt": "2026-08-20",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "action": "migrate_trust_magnitude",
@@ -23881,6 +23899,12 @@
             "action": "recalibrate_trust_magnitude",
             "contributor": "mbtiongson1",
             "details": "TM 480.29 -> 528.95, grade S -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
+          },
+          {
+            "timestamp": "2026-08-25T11:23:16Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 528.95 -> 329.45, grade S -> S (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteComponents": [
@@ -23910,7 +23934,7 @@
           "mattpocock/write-a-skill",
           "mattpocock/zoom-out"
         ],
-        "trustMagnitude": 528.95,
+        "trustMagnitude": 329.45,
         "overallTrustGrade": "S",
         "trustMagnitudeInputHash": "963b0bfb79077b054cd7a9024a9f321698f89cf037a182af079d86a46f6e0efd",
         "apexGateStatus": {
@@ -26000,7 +26024,7 @@
           }
         ],
         "createdAt": "2026-05-18",
-        "updatedAt": "2026-07-20",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:48Z",
@@ -26106,6 +26130,12 @@
             "details": "Generic parent 'superpowers' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-20"
+          },
+          {
+            "timestamp": "2026-08-25T11:23:16Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 445.15 -> 315.15, grade S -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteComponents": [
@@ -26123,7 +26153,7 @@
         ],
         "trustMagnitude": 315.15,
         "overallTrustGrade": "A",
-        "trustMagnitudeInputHash": "2d67b35c36b1d3e307febe93181725bf1ac72fc1f25555849b9517d275189606",
+        "trustMagnitudeInputHash": "776d1928a79530d825389a6d3e046f7b5dca8c80d21b9350c80842b587c2e200",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,
@@ -29968,7 +29998,7 @@
           }
         ],
         "createdAt": "2026-05-19",
-        "updatedAt": "2026-07-20",
+        "updatedAt": "2026-08-25",
         "timeline": [
           {
             "timestamp": "2026-06-14T12:32:58Z",
@@ -30070,6 +30100,12 @@
             "details": "Generic parent 'multi-topology-orchestration' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
             "metaEpoch": "yggdrasil-ii",
             "migrationBatch": "yggdrasil-ii@2026-07-20"
+          },
+          {
+            "timestamp": "2026-08-25T11:23:15Z",
+            "action": "recalibrate_trust_magnitude",
+            "contributor": "unknown",
+            "details": "TM 482.27 -> 256.68, grade S -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
           }
         ],
         "suiteComponents": [
@@ -30123,7 +30159,7 @@
         ],
         "trustMagnitude": 256.68,
         "overallTrustGrade": "A",
-        "trustMagnitudeInputHash": "490f123ef91fa042713964e1a8ff96a6da965a81539693e3c33e3237b823eaf2",
+        "trustMagnitudeInputHash": "2ba95c671ca96ab8ae6aeb10c68e55f0457f8a9b824be6ad28fdaaa74550bfb0",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": false,

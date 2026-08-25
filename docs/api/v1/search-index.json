@@ -5,7 +5,7 @@
     "contributor": "mattpocock",
     "level": "5★",
     "grade": "S",
-    "trustMagnitude": 528.95,
+    "trustMagnitude": 329.45,
     "branch": "suite",
     "tokens": [
       "all",
@@ -22,29 +22,6 @@
       "skills",
       "suite",
       "ultimate"
-    ]
-  },
-  {
-    "id": "mattpocock/engineering",
-    "name": "Engineering",
-    "contributor": "mattpocock",
-    "level": "4★",
-    "grade": "A",
-    "trustMagnitude": 351.96,
-    "branch": "suite",
-    "tokens": [
-      "0",
-      "1",
-      "category",
-      "discipline",
-      "engineering",
-      "matt",
-      "mattpocock",
-      "pocock's",
-      "removed",
-      "skills",
-      "suite",
-      "v1"
     ]
   },
   {
@@ -434,6 +411,29 @@
       "ultimate",
       "vector",
       "—"
+    ]
+  },
+  {
+    "id": "mattpocock/engineering",
+    "name": "Engineering",
+    "contributor": "mattpocock",
+    "level": "4★",
+    "grade": "A",
+    "trustMagnitude": 200.0,
+    "branch": "suite",
+    "tokens": [
+      "0",
+      "1",
+      "category",
+      "discipline",
+      "engineering",
+      "matt",
+      "mattpocock",
+      "pocock's",
+      "removed",
+      "skills",
+      "suite",
+      "v1"
     ]
   },
   {

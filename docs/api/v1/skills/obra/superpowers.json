@@ -177,6 +177,12 @@
       "details": "Generic parent 'superpowers' type: extra/ultimate → fusion (Yggdrasil II taxonomy migration #997)",
       "metaEpoch": "yggdrasil-ii",
       "migrationBatch": "yggdrasil-ii@2026-07-20"
+    },
+    {
+      "timestamp": "2026-08-25T11:23:16Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 445.15 -> 315.15, grade S -> A (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {
