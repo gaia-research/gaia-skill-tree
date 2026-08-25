@@ -689,17 +689,16 @@
 
         <div class="faq-item">
           <button class="faq-question" aria-expanded="false">
-            Which tools does the current Gaia MCP package provide?
+            How do I connect Claude Code to the Gaia Registry?
             <span class="faq-chevron">▾</span>
           </button>
           <div class="faq-answer">
             <div class="faq-answer-inner">
               <p>
-                The published <code>@gaia-research/mcp</code> package currently provides
-                <code>gaia_search</code>, <code>gaia_inspect</code>, <code>summon</code>, and
-                <code>gaia_status</code>. <code>summon</code> materializes a matching Named Skill
-                in an ephemeral session directory; it is not <code>gaia_summon</code> and does
-                not install into your repository or persistent configuration.
+                Install the unified <strong>Skill Heaven</strong> plugin:
+                <code>claude plugin install skill-heaven@gaia-skill-heaven</code>.
+                It bundles its own MCP server and enables on-demand <code>/summon</code>
+                directly in your Claude Code sessions with zero ambient configuration bloat.
               </p>
             </div>
           </div>
@@ -707,20 +706,15 @@
 
         <div class="faq-item">
           <button class="faq-question" aria-expanded="false">
-            Does the MCP server need a running <code>gaia</code> CLI on the machine?
+            Does summoning skills leave permanent files in my repository?
             <span class="faq-chevron">▾</span>
           </button>
           <div class="faq-answer">
             <div class="faq-answer-inner">
               <p>
-                No. The server fetches Gaia's public generic and Named Skill projections
-                directly. Search, inspection, and status need no local Gaia CLI; the
-                <code>summon</code> tool resolves and materializes its temporary session payload
-                independently.
-              </p>
-              <p>
-                For one-shot command-line summoning, use the separate npx-friendly
-                <code>skill-hell</code> alias.
+                No. The <code>summon</code> mechanic materializes skills strictly into disposable,
+                ephemeral session storage for the duration of a run. It never mutates your repository,
+                stashes changes, or leaves background dependencies installed.
               </p>
             </div>
           </div>

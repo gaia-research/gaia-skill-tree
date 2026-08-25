@@ -182,7 +182,7 @@
       if (im != null) score *= im;
     }
 
-    return Math.round(score * 10) / 10;
+    return Math.round(TM.applyContributionCap(t, score) * 10) / 10;
   }
   // Build a tooltip showing the FULL multiplier chain, mirroring inspectTrustMagnitude.py:
   //   base × weight × freshness [× mothership] [× creator] [× engagement] [× inheritMult] [× plateau] = final
@@ -217,6 +217,14 @@
 
       // × weight
       lines.push('× weight:      ' + cfg.weight);
+
+      if (cfg.contributionCap != null) {
+        var uncappedContribution = capped * cfg.weight;
+        var contributionNote = uncappedContribution > cfg.contributionCap
+          ? '  (capped from ' + uncappedContribution.toFixed(1) + ')'
+          : '';
+        lines.push('final cap:     ' + cfg.contributionCap + contributionNote);
+      }
 
       // × freshness
       if (cfg.freshness && cfg.freshness.decayPerYear) {

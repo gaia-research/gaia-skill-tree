@@ -6,7 +6,7 @@
  *   3. docs/codex/trust-methodology.html       ← canonical public RFC
  *   4. registry/schema/meta.json               ← perRowGradeThresholds fixture
  *   5. tests/test_row_grading.py               ← bump hardcoded expected values
- *   6. python scripts/build_docs.py            ← regenerate docs/graph/named/index.json
+ *   6. Regenerate only docs/api/v1/evidence-types.json from the schema
  *
  * Everything else in docs/js/ reads from window.TM_CONFIG — no other
  * file needs touching when formulas change.
@@ -29,7 +29,7 @@
   // ── Aggregate skill grade thresholds (docs/trust/index.html §3) ───────────
   var OVERALL_GRADES = [
     { grade: 'S', floor: 250, name: 'Platinum',
-      note: 'requires ≥3 distinct types AND ≥1 non-self-producible row (diversity gate)' },
+      note: 'requires ≥3 distinct types AND ≥1 positive eligible independent witness (benchmark, verifier, or peer review)' },
     { grade: 'A', floor: 100, name: 'Gold',   note: '' },
     { grade: 'B', floor:  50, name: 'Silver', note: '' },
     { grade: 'C', floor:  20, name: 'Bronze', note: '' },
@@ -37,6 +37,13 @@
 
   // Types that cannot anchor the S diversity gate alone (RFC §4).
   var SELF_PRODUCIBLE = ['fusion-recipe', 'self-attestation', 'repo-own'];
+
+  // Evidence types that can independently witness S-grade trust. The backend
+  // also requires that a row survives eligibility checks and contributes a
+  // positive score; rejected, deranked, zero-score, and phantom rows do not.
+  var INDEPENDENT_WITNESS_TYPES = [
+    'benchmark-result', 'verifier-attestation', 'peer-review'
+  ];
 
   // ── Per-type config (docs/trust/index.html §2) ────────────────────────────
   //
@@ -277,6 +284,9 @@
       },
       weight: 1.5,
       cap: null,
+      // Final contribution ceiling, applied after weight and applicable
+      // multipliers. Raw origin-count magnitude remains visible above.
+      contributionCap: 200,
       plateau: { factors: [1.0], maxRows: 1 },
       freshness: null,
       gradeFloors: { S: 200, A: 120, B: 60, C: 30 },
@@ -297,6 +307,12 @@
     var cfg = TYPES[typeKey];
     if (!cfg || cfg.cap == null) return raw;
     return Math.min(raw, cfg.cap);
+  }
+
+  function applyContributionCap(typeKey, score) {
+    var cfg = TYPES[typeKey];
+    if (!cfg || cfg.contributionCap == null) return score;
+    return Math.min(score, cfg.contributionCap);
   }
 
   // Grade-floor fallback when no metric drivers are present but a grade is set.
@@ -360,8 +376,10 @@
     ALIASES: ALIASES,
     OVERALL_GRADES: OVERALL_GRADES,
     SELF_PRODUCIBLE: SELF_PRODUCIBLE,
+    INDEPENDENT_WITNESS_TYPES: INDEPENDENT_WITNESS_TYPES,
     canonicalType: canonicalType,
     applyCap: applyCap,
+    applyContributionCap: applyContributionCap,
     gradeFloor: gradeFloor,
     effectiveGrade: effectiveGrade,
     overallGradeFor: overallGradeFor,
@@ -378,7 +396,7 @@
  *   3. docs/codex/trust-methodology.html          ← canonical public RFC
  *   4. registry/schema/meta.json::perRowGradeThresholds
  *   5. tests/test_row_grading.py + tests/test_calibrate_evidence_grades.py
- *   6. Run: python scripts/build_docs.py
+ *   6. Regenerate only docs/api/v1/evidence-types.json from the schema
  *
  * Nothing else in docs/js/ needs editing — _deriveTrustNum, _magTooltip,
  * and _fieldTrustNotch all read from window.TM_CONFIG.
