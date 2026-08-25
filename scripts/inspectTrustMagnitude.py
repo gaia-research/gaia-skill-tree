@@ -24,6 +24,7 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
 sys.path.insert(0, str(REPO_ROOT / "src"))
 
+from gaia_cli.registryMaps import buildMergedSkillMap  # noqa: E402
 from gaia_cli.taxonomy import rankWord, branchFor  # noqa: E402
 from gaia_cli.trustMagnitude import (  # noqa: E402
     APEX_AGRADED_ORIGINS_MIN,
@@ -82,37 +83,30 @@ def loadNamedSkill(path: Path) -> tuple[dict | None, str]:
     return fm, m.group(2)
 
 
-def buildGenericSkillMap(nodesDir: Path) -> dict[str, dict]:
-    gmap: dict[str, dict] = {}
-    for p in nodesDir.rglob("*.json"):
-        try:
-            d = json.loads(p.read_text(encoding="utf-8"))
-        except Exception:
-            continue
-        sid = d.get("id")
-        if sid:
-            gmap[sid] = d
-    return gmap
-
-
-def buildNamedSkillMap(namedDir: Path) -> dict[str, dict]:
-    """Walk registry/named/**/*.md, keyed by skill id."""
-    nmap: dict[str, dict] = {}
-    for p in namedDir.rglob("*.md"):
-        fm, _ = loadNamedSkill(p)
-        if fm is None:
-            continue
-        sid = fm.get("id")
-        if sid:
-            nmap[sid] = fm
-    return nmap
-
-
 def buildMaps() -> tuple[dict, dict]:
-    """Return (mergedMap, namedSkillMap)."""
-    gmap = buildGenericSkillMap(NODES_DIR)
-    nmap = buildNamedSkillMap(NAMED_DIR)
-    return {**gmap, **nmap}, nmap
+    """Return (mergedMap, namedSkillMap).
+
+    Both built from the shared `gaia_cli.registryMaps.buildMergedSkillMap()`
+    resolver (Issue #1643) rather than this script's own forked
+    `buildGenericSkillMap`/`buildNamedSkillMap` (retired here). This script
+    used to be the one place in the codebase that resolved the RFC §C-2
+    `role: variant` suite-component exclusion correctly, precisely because
+    it had never adopted the shared resolver back when that resolver still
+    blanket-stripped `role` — see the registryMaps.py docstring for the
+    full history. Now that the shared resolver preserves `role`, this fork
+    is redundant and drifts if left alone, so it's retired in favor of the
+    one canonical map builder every other TM caller (calibrate.py,
+    trust_appraise.py, check_trust_magnitude_consistency.py,
+    generateNamedIndex.py) already uses.
+
+    `namedSkillMap` is the same merged map, reused for this script's own
+    named-component lookups (e.g. resolving a `suiteComponents` id's grade
+    for display) — `buildMergedSkillMap()` already keys every `status:
+    "named"` entry by its full id, which is the only status this script's
+    component-lookup paths need to resolve.
+    """
+    merged = buildMergedSkillMap(REPO_ROOT)
+    return merged, merged
 
 
 def loadAllNamedSkills() -> list[dict]:
