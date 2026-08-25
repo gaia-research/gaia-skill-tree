@@ -5,8 +5,8 @@
       "id": "addy-osmani/agent-skills",
       "name": "Agent Skills",
       "level": "5★",
-      "trustMagnitude": 296.3,
-      "overallTrustGrade": "S",
+      "trustMagnitude": 256.3,
+      "overallTrustGrade": "A",
       "contributor": "addy-osmani",
       "type": "fusion",
       "branch": "suite",
@@ -160,12 +160,11 @@
   "topSkill": {
     "id": "addy-osmani/agent-skills",
     "level": "5★",
-    "trustMagnitude": 296.3
+    "trustMagnitude": 256.3
   },
-  "prestigeScore": 1056.29,
+  "prestigeScore": 1016.29,
   "gradeDistribution": {
-    "S": 1,
-    "A": 4,
+    "A": 5,
     "B": 3,
     "C": 1
   },

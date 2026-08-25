@@ -1,48 +1,20 @@
 {
   "version": "7.11.0",
-  "generatedAt": "2026-08-24T13:10:05Z",
+  "generatedAt": "2026-08-25T10:12:22Z",
   "summary": {
     "total": 264,
-    "S": 6,
-    "A": 76,
+    "S": 1,
+    "A": 81,
     "B": 68,
     "C": 100,
     "ungraded": 14,
     "floor": 0,
-    "up": 43
+    "up": 42
   },
   "rows": [
     {
-      "skillId": "garrytan/gstack",
-      "tm": 592.99,
-      "grade": "S",
-      "currentStars": "5★",
-      "mayStars": "5★",
-      "juneStars": "5★",
-      "g7Stars": "5★",
-      "flag": "",
-      "apexResults": {
-        "aGradedOriginsGte5": false,
-        "sourceTenureDaysGte180AorS": false,
-        "directNestedSuiteGte1": true,
-        "depth2OnlyReachableGte1": true,
-        "overallGradeS": true,
-        "apexPromotionPrSigned": true,
-        "crossOrgVerifier": null,
-        "systemWideCap": null
-      },
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 31.4,
-        "social-signal": 45.59,
-        "fusion-recipe": 480.0
-      },
-      "origin": true,
-      "branch": "suite"
-    },
-    {
       "skillId": "mattpocock/skills",
-      "tm": 528.95,
+      "tm": 329.45,
       "grade": "S",
       "currentStars": "5★",
       "mayStars": "6★",
@@ -64,133 +36,100 @@
         "arxiv": 10.4,
         "social-signal": 39.5,
         "peer-review": 30.0,
-        "fusion-recipe": 399.5
-      },
-      "origin": true,
-      "branch": "suite"
-    },
-    {
-      "skillId": "ruvnet/ruflo",
-      "tm": 483.96,
-      "grade": "S",
-      "currentStars": "5★",
-      "mayStars": "6★",
-      "juneStars": "5★",
-      "g7Stars": "5★",
-      "flag": "",
-      "apexResults": {
-        "aGradedOriginsGte5": false,
-        "sourceTenureDaysGte180AorS": false,
-        "directNestedSuiteGte1": true,
-        "depth2OnlyReachableGte1": true,
-        "overallGradeS": true,
-        "apexPromotionPrSigned": true,
-        "crossOrgVerifier": null,
-        "systemWideCap": null
-      },
-      "typeBreakdown": {
-        "repo-own": 36.0,
-        "github-stars-own": 16.68,
-        "arxiv": 4.0,
-        "fusion-recipe": 427.28
+        "fusion-recipe": 200.0
       },
       "origin": true,
       "branch": "suite"
     },
     {
       "skillId": "obra/superpowers",
-      "tm": 445.15,
-      "grade": "S",
+      "tm": 315.15,
+      "grade": "A",
       "currentStars": "5★",
       "mayStars": "5★",
       "juneStars": "5★",
-      "g7Stars": "5★",
+      "g7Stars": "4★",
       "flag": "",
-      "apexResults": {
-        "aGradedOriginsGte5": false,
-        "sourceTenureDaysGte180AorS": false,
-        "directNestedSuiteGte1": false,
-        "depth2OnlyReachableGte1": false,
-        "overallGradeS": true,
-        "apexPromotionPrSigned": true,
-        "crossOrgVerifier": null,
-        "systemWideCap": null
-      },
+      "apexResults": null,
       "typeBreakdown": {
         "repo-own": 36.0,
         "github-stars-own": 50.0,
         "social-signal": 29.15,
-        "fusion-recipe": 330.0
+        "fusion-recipe": 200.0
       },
       "origin": true,
       "branch": "suite"
     },
     {
       "skillId": "leonxlnx/taste-skill",
-      "tm": 445.07,
-      "grade": "S",
-      "currentStars": "4★",
-      "mayStars": "4★",
-      "juneStars": "4★",
-      "g7Stars": "5★",
-      "flag": "[up]",
-      "apexResults": {
-        "aGradedOriginsGte5": false,
-        "sourceTenureDaysGte180AorS": true,
-        "directNestedSuiteGte1": false,
-        "depth2OnlyReachableGte1": false,
-        "overallGradeS": true,
-        "apexPromotionPrSigned": false,
-        "crossOrgVerifier": null,
-        "systemWideCap": null
-      },
-      "typeBreakdown": {
-        "github-stars-own": 79.07,
-        "repo-own": 36.0,
-        "fusion-recipe": 330.0
-      },
-      "origin": false,
-      "branch": "suite"
-    },
-    {
-      "skillId": "mattpocock/engineering",
-      "tm": 351.96,
+      "tm": 315.07,
       "grade": "A",
       "currentStars": "4★",
-      "mayStars": "5★",
+      "mayStars": "4★",
       "juneStars": "4★",
       "g7Stars": "4★",
       "flag": "",
       "apexResults": null,
       "typeBreakdown": {
-        "fusion-recipe": 351.96
+        "github-stars-own": 79.07,
+        "repo-own": 36.0,
+        "fusion-recipe": 200.0
+      },
+      "origin": false,
+      "branch": "suite"
+    },
+    {
+      "skillId": "garrytan/gstack",
+      "tm": 312.99,
+      "grade": "A",
+      "currentStars": "5★",
+      "mayStars": "5★",
+      "juneStars": "5★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 31.4,
+        "social-signal": 45.59,
+        "fusion-recipe": 200.0
+      },
+      "origin": true,
+      "branch": "suite"
+    },
+    {
+      "skillId": "ruvnet/ruflo",
+      "tm": 256.68,
+      "grade": "A",
+      "currentStars": "5★",
+      "mayStars": "6★",
+      "juneStars": "5★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "repo-own": 36.0,
+        "github-stars-own": 16.68,
+        "arxiv": 4.0,
+        "fusion-recipe": 200.0
       },
       "origin": true,
       "branch": "suite"
     },
     {
       "skillId": "addy-osmani/agent-skills",
-      "tm": 296.3,
-      "grade": "S",
+      "tm": 256.3,
+      "grade": "A",
       "currentStars": "5★",
       "mayStars": "5★",
       "juneStars": "5★",
-      "g7Stars": "5★",
+      "g7Stars": "4★",
       "flag": "",
-      "apexResults": {
-        "aGradedOriginsGte5": false,
-        "sourceTenureDaysGte180AorS": false,
-        "directNestedSuiteGte1": false,
-        "depth2OnlyReachableGte1": false,
-        "overallGradeS": true,
-        "apexPromotionPrSigned": false,
-        "crossOrgVerifier": null,
-        "systemWideCap": null
-      },
+      "apexResults": null,
       "typeBreakdown": {
         "github-stars-own": 20.3,
         "repo-own": 36.0,
-        "fusion-recipe": 240.0
+        "fusion-recipe": 200.0
       },
       "origin": true,
       "branch": "suite"
@@ -280,6 +219,22 @@
         "repo-own": 36.0,
         "peer-review": 45.0,
         "fusion-recipe": 120.0
+      },
+      "origin": true,
+      "branch": "suite"
+    },
+    {
+      "skillId": "mattpocock/engineering",
+      "tm": 200.0,
+      "grade": "A",
+      "currentStars": "4★",
+      "mayStars": "5★",
+      "juneStars": "4★",
+      "g7Stars": "4★",
+      "flag": "",
+      "apexResults": null,
+      "typeBreakdown": {
+        "fusion-recipe": 200.0
       },
       "origin": true,
       "branch": "suite"

@@ -17,7 +17,7 @@
   },
   "title": "The Artisan's Forge",
   "genericSkillRef": "design-generation",
-  "origin": true,
+  "origin": false,
   "description": "Local-first design engine for generating high-fidelity UI/UX prototypes and brand assets from structured intent.",
   "tags": [
     "design",
@@ -87,6 +87,12 @@
       "action": "rank_up",
       "contributor": "mbtiongson1",
       "details": "Level updated from 1★ to 2★ per G7 final rankings calibration."
+    },
+    {
+      "timestamp": "2026-08-22T08:10:50Z",
+      "action": "demote",
+      "contributor": "mbtiongson1",
+      "details": "Origin status set to false."
     }
   ],
   "links": {

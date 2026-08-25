@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-24",
+  "generatedAt": "2026-08-25",
   "buckets": {
     "automated-testing": [
       {
@@ -669,8 +669,8 @@
           "addy-osmani/spec-driven-development",
           "addy-osmani/test-driven-development"
         ],
-        "trustMagnitude": 296.3,
-        "overallTrustGrade": "S",
+        "trustMagnitude": 256.3,
+        "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "328510a733654dd48aa9af8b91b72de65f27baa1665a5afb720b3548f5c4e477",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -13006,8 +13006,8 @@
           "garrytan/sync-gbrain",
           "garrytan/unfreeze"
         ],
-        "trustMagnitude": 592.99,
-        "overallTrustGrade": "S",
+        "trustMagnitude": 312.99,
+        "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "1487c2042544e947cfda07cc8779022ed8747a69c3dfac8c1ec225b1400389fc",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -20781,8 +20781,8 @@
         "type": "fusion",
         "installBody": "Add installation instructions here.",
         "role": "variant",
-        "trustMagnitude": 445.07,
-        "overallTrustGrade": "S",
+        "trustMagnitude": 315.07,
+        "overallTrustGrade": "A",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
           "sourceTenureDaysGte180AorS": true,
@@ -26121,8 +26121,8 @@
           "obra/verification-before-completion",
           "obra/writing-plans"
         ],
-        "trustMagnitude": 445.15,
-        "overallTrustGrade": "S",
+        "trustMagnitude": 315.15,
+        "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "2d67b35c36b1d3e307febe93181725bf1ac72fc1f25555849b9517d275189606",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,
@@ -30121,8 +30121,8 @@
           "ruvnet/worker-benchmarks",
           "ruvnet/worker-integration"
         ],
-        "trustMagnitude": 487.45,
-        "overallTrustGrade": "S",
+        "trustMagnitude": 256.68,
+        "overallTrustGrade": "A",
         "trustMagnitudeInputHash": "490f123ef91fa042713964e1a8ff96a6da965a81539693e3c33e3237b823eaf2",
         "apexGateStatus": {
           "aGradedOriginsGte5": false,

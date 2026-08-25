@@ -1,19 +1,6 @@
 {
   "contributors": [
     {
-      "handle": "garrytan",
-      "namedSkills": 47,
-      "topSkill": {
-        "id": "garrytan/gstack",
-        "level": "5★",
-        "trustMagnitude": 592.99
-      },
-      "prestigeScore": 3058.89,
-      "_links": {
-        "self": "/api/v1/contributors/garrytan.json"
-      }
-    },
-    {
       "handle": "mattpocock",
       "namedSkills": 39,
       "topSkill": {
@@ -27,16 +14,42 @@
       }
     },
     {
+      "handle": "garrytan",
+      "namedSkills": 47,
+      "topSkill": {
+        "id": "garrytan/gstack",
+        "level": "5★",
+        "trustMagnitude": 312.99
+      },
+      "prestigeScore": 2778.89,
+      "_links": {
+        "self": "/api/v1/contributors/garrytan.json"
+      }
+    },
+    {
       "handle": "ruvnet",
       "namedSkills": 30,
       "topSkill": {
         "id": "ruvnet/ruflo",
         "level": "5★",
-        "trustMagnitude": 487.45
+        "trustMagnitude": 256.68
       },
-      "prestigeScore": 2200.65,
+      "prestigeScore": 1969.88,
       "_links": {
         "self": "/api/v1/contributors/ruvnet.json"
+      }
+    },
+    {
+      "handle": "leonxlnx",
+      "namedSkills": 12,
+      "topSkill": {
+        "id": "leonxlnx/taste-skill",
+        "level": "4★",
+        "trustMagnitude": 315.07
+      },
+      "prestigeScore": 1580.84,
+      "_links": {
+        "self": "/api/v1/contributors/leonxlnx.json"
       }
     },
     {
@@ -45,9 +58,9 @@
       "topSkill": {
         "id": "obra/superpowers",
         "level": "5★",
-        "trustMagnitude": 445.15
+        "trustMagnitude": 315.15
       },
-      "prestigeScore": 1350.2,
+      "prestigeScore": 1220.2,
       "_links": {
         "self": "/api/v1/contributors/obra.json"
       }
@@ -58,9 +71,9 @@
       "topSkill": {
         "id": "addy-osmani/agent-skills",
         "level": "5★",
-        "trustMagnitude": 296.3
+        "trustMagnitude": 256.3
       },
-      "prestigeScore": 1056.29,
+      "prestigeScore": 1016.29,
       "_links": {
         "self": "/api/v1/contributors/addy-osmani.json"
       }
@@ -521,7 +534,7 @@
       }
     }
   ],
-  "totalContributors": 40,
+  "totalContributors": 41,
   "_links": {
     "self": "/api/v1/contributors/index.json"
   }

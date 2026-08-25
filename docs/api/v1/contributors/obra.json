@@ -5,8 +5,8 @@
       "id": "obra/superpowers",
       "name": "Superpowers",
       "level": "5★",
-      "trustMagnitude": 445.15,
-      "overallTrustGrade": "S",
+      "trustMagnitude": 315.15,
+      "overallTrustGrade": "A",
       "contributor": "obra",
       "type": "fusion",
       "branch": "suite",
@@ -211,12 +211,11 @@
   "topSkill": {
     "id": "obra/superpowers",
     "level": "5★",
-    "trustMagnitude": 445.15
+    "trustMagnitude": 315.15
   },
-  "prestigeScore": 1350.2,
+  "prestigeScore": 1220.2,
   "gradeDistribution": {
-    "S": 1,
-    "A": 4,
+    "A": 5,
     "B": 4,
     "C": 3
   },
