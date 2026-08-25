@@ -20,7 +20,7 @@ tags:
 - colors
 - design-tokens
 createdAt: '2026-05-18'
-updatedAt: '2026-08-22'
+updatedAt: '2026-08-25'
 suiteRef: garrytan/gstack
 timeline:
 - timestamp: '2026-06-02T01:43:00Z'
@@ -68,6 +68,11 @@ timeline:
   action: demote
   contributor: mbtiongson1
   details: Origin status removed. Transferred to leonxlnx/stitch-skill.
+- timestamp: '2026-08-25T13:17:09Z'
+  action: recalibrate_trust_magnitude
+  contributor: unknown
+  details: 'TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue
+    #1600)'
 evidence:
 - class: B
   source: https://github.com/garrytan/gstack/blob/main/design-consultation/SKILL.md
@@ -94,7 +99,7 @@ evidence:
   stars: 125610
   skillCountInRepo: 42
   sourceStartedAt: '2024-01-01'
-trustMagnitude: 63.73
+trustMagnitude: 67.4
 overallTrustGrade: B
 apexGateStatus:
   aGradedOriginsGte5: false
@@ -107,7 +112,7 @@ apexGateStatus:
   systemWideCap: null
 verification:
   firstEvidenceAt: '2026-06-03T05:51:27Z'
-trustMagnitudeInputHash: 63fd36d9ca424ed4f47afde8469abea3a4c9103503b246b41f6adfe9db11c294
+trustMagnitudeInputHash: f32accd537c17f9165ae21cda89b09ee8036136d0331b5c7fbc64df9f27f53ce
 ---
 
 ## Overview

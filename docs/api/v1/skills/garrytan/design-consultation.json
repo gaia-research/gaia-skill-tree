@@ -129,6 +129,12 @@
       "action": "demote",
       "contributor": "mbtiongson1",
       "details": "Origin status removed. Transferred to leonxlnx/stitch-skill."
+    },
+    {
+      "timestamp": "2026-08-25T13:17:09Z",
+      "action": "recalibrate_trust_magnitude",
+      "contributor": "unknown",
+      "details": "TM 63.73 -> 67.4, grade B -> B (gaia dev calibrate-trust-magnitude; Issue #1600)"
     }
   ],
   "links": {
