@@ -665,7 +665,7 @@
 <span class="cmd">gaia dev verify</span> <span class="val">registry-curation</span> <span class="flag">--index</span> 0 <span class="flag">--dispute</span></pre>
       </div>
       <div class="callout warn">
-        <p><strong>Check <code>gaia whoami</code> before writing.</strong> Evidence writes directly to a registry node under Verifier authorization — a bad URL or wrong skill ID produces invalid JSON that will fail CI. Pass <code>--no-build</code> to skip the doc/graph rebuild while iterating.</p>
+        <p><strong>Check <code>gaia whoami</code> before writing.</strong> Evidence writes directly to a registry node under Verifier authorization — a bad URL or wrong skill ID produces invalid JSON that will fail CI. Doc/graph rebuild is skipped by default while iterating — pass <code>--build</code> only when you need the rebuild in the same step.</p>
       </div>
 
       <h3>URL format rules per type</h3>
@@ -739,7 +739,7 @@
       <p>Star counts are volatile and subject to farming. Never use <code>github-stars-own</code> as the sole evidence for a skill — always pair it with at least one <code>repo-own</code> entry pointing to a SKILL.md.</p>
 
       <h3>Passing <code>--grade</code> instead of <code>--trust</code></h3>
-      <p><code>gaia dev evidence</code> has no <code>--grade</code> flag — Grade is always auto-derived from the <code>--trust</code> number you supply (see thresholds above). There is also no <code>--dry-run</code> mode for this subcommand; it writes directly to the registry node under Verifier authorization, so confirm the skill ID and URL before running it. Pass <code>--no-build</code> to skip the doc/graph rebuild while iterating.</p>
+      <p><code>gaia dev evidence</code> has no <code>--grade</code> flag — Grade is always auto-derived from the <code>--trust</code> number you supply (see thresholds above). There is also no <code>--dry-run</code> mode for this subcommand; it writes directly to the registry node under Verifier authorization, so confirm the skill ID and URL before running it. Doc/graph rebuild is skipped by default — pass <code>--build</code> only when you need the rebuild in the same step.</p>
 
     </main>
   </div>

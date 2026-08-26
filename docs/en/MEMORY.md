@@ -2,6 +2,101 @@
 
 ---
 
+## 2026-08-26 — Routine 035
+
+**Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the
+one-open-PR rule; the routine's own commit count/number in this diary tracks daily
+runs, not the branch name)
+
+**Task chosen:** CONTINUE — routine 034's "Planned next" asked for a targeted
+grep pass for `--no-build` across `docs/en/*.html`, since the flag's
+opt-in-since-v7.4.19 semantics (confirmed in `_add_build_flags()`,
+`src/gaia_cli/commands/dev/helpers.py:495`: `--no-build` is a no-op default
+alias, `--build` is the real opt-in flag) had already turned up wrong on
+`cli-reference.html` and been fixed there in routine 034.
+
+### What I did
+
+Ran `grep -n "\-\-no-build|\-\-build\b" docs/en/*.html`. Five pages matched:
+`cli-reference.html` (already correct — fixed 034), `manual-curation-pipeline.html`,
+`named-skills.html`, `contributing.html`, and `evidence-classes.html`.
+
+Read each hit in context. `named-skills.html`'s uses are plain inline
+`--no-build` flags on example commands with no surrounding claim about what
+the flag does — harmless no-ops, not wrong. `manual-curation-pipeline.html`
+similarly just appends `--no-build` to example invocations with a neutral
+"every row uses `--no-build`, one build at the end" framing — technically
+still correct today (the CLI still accepts `--no-build`, it's just already
+the default), so lower priority. `evidence-classes.html` and
+`contributing.html` both had callouts making an active, now-false claim:
+"**Pass** `--no-build` **to skip** the rebuild" implies you must opt in to
+skip it, when skipping is what already happens without the flag. That's the
+same class of drift fixed on `cli-reference.html` in 034, so I fixed it here
+too, picking `evidence-classes.html` as today's one page per the one-page
+limit (it carries two instances of the exact drift, both in high-traffic
+`gaia dev evidence` guidance).
+
+Fixed both callouts (Migration Guide section, ~L668, and Common Pitfalls
+"Passing `--grade` instead of `--trust`" section, ~L742) to state the correct
+default and point at the real opt-in flag: "Doc/graph rebuild is skipped by
+default — pass `--build` only when you need the rebuild in the same step."
+Verified `gaia dev evidence`'s parser calls `_add_build_flags(dev_evidence,
+"adding evidence")` (`src/gaia_cli/commands/dev/__init__.py:703`) before
+writing, confirming the same shared default applies to this subcommand.
+
+### Design decisions
+
+- Scoped to one page today per the routine's one-page limit, even though two
+  more pages (`contributing.html`, `manual-curation-pipeline.html`) still
+  read as outdated in the same direction — `evidence-classes.html` had the
+  clearest active-claim drift (two instances) versus the others' more benign
+  inline flag usage.
+- Kept the fix to the two callout sentences only — did not restructure
+  surrounding text or add a new flag table to this page (that's
+  `cli-reference.html`'s job; this page teaches evidence Grade concepts, not
+  full CLI flag reference).
+
+### Issues informed
+
+None filed or closed — documentation-only correction; the CLI behavior itself
+has been stable since v7.4.19.
+
+### Verification
+
+`git status` scoped to `docs/en/evidence-classes.html`, `docs/en/DOCS.md`,
+`docs/en/MEMORY.md` only. `html.parser` parse-check clean. Vocabulary grep
+(`merge|combine|compose|rarity`) — only pre-existing hit is `gaia dev fuse` /
+`merge` as a real CLI verb reference, no violations. No new hex introduced
+(diff-scanned, zero hits). All three stylesheets (`tokens.css`, `styles.css`,
+`docs-en-shell.css`) still linked.
+
+### Files modified
+
+- `docs/en/evidence-classes.html` — fixed two `--no-build` callouts to the
+  correct opt-in-since-v7.4.19 semantics
+- `docs/en/DOCS.md` — page map row 7 updated
+- `docs/en/MEMORY.md` — this entry
+
+### Planned next (Routine 036)
+
+- Same `--no-build` drift, lower severity, still open on two pages:
+  - `contributing.html` ~L656 — "Batch tip" callout says "Most `gaia dev`
+    commands accept `--no-build`. Use this... to skip expensive
+    documentation/graph regeneration" — same wrong direction, one instance.
+  - `manual-curation-pipeline.html` (Phase 5 gaia-ingest section, ~L889,
+    898, 906, 1026) — neutral framing, not actively wrong, but could be
+    tightened to mention `--build` is the real opt-in and drop the redundant
+    `--no-build` from example commands since it's already default.
+- If both come back clean/deprioritized, fall back to ROTATE:
+  `contributing.html`, `named-skills.html`, and `share-bundles.html` are tied
+  at "updated 025," oldest untouched since.
+
+### Token spend
+
+2026-08-26 Sonnet 5 Low: ~55k in, ~7k out. ~$0.22
+
+---
+
 ## 2026-08-21 — Routine 034
 
 **Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the

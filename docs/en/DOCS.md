@@ -24,7 +24,7 @@ Secondary: Open-source contributors wanting to claim a Named Skill.
 | 4 | `skill-hierarchy.html` | Skill Hierarchy | ✅ Done — Type/Branch model throughout, incl. Fusion section diagram (editor pass closes #1479) | 002, 018, 025, 028, editor-026wk |
 | 5 | `contributing.html` | Contributing | ✅ Done (updated 025) | 003, 017, 018, 025 |
 | 6 | `named-skills.html` | Named Skills & Origin | ✅ Done (updated 025) | 003, 017, 018, 025 |
-| 7 | `evidence-classes.html` | Evidence & Trust | ✅ Done (updated 025) | 004, 017, 018, 025 |
+| 7 | `evidence-classes.html` | Evidence & Trust | ✅ Done — fixed two `--no-build` callouts to match the opt-in-since-v7.4.19 default (`--build` is the real opt-in flag, `--no-build` is a no-op) 035 | 004, 017, 018, 025, 035 |
 | 8 | `fusion.html` | Skill Fusion | ✅ Done — Type/Branch model throughout, incl. `gaia fuse`/propose code samples now schema-accurate (`prerequisites`/`combinedFrom`, Type `fusion`) (editor pass closes #1479) | 004, 017, 018, 025, 029, editor-026wk |
 | 9 | `mcp-server.html` | MCP Server | ✅ Done — tool list matches the live v0.4.0 surface (`gaia_search`/`gaia_inspect`/`summon`/`gaia_status`); #1478 closed | 005, 017, 018, 025 |
 | 10 | `faq.html` | FAQ | ✅ Done (tier/branch FAQ fixed 026) | 005, 017, 018, 025, 026 |
