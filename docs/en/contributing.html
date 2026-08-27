@@ -653,7 +653,7 @@ gaia dev validate</pre>
         </div>
 
         <div class="callout tip">
-          <strong>Batch tip:</strong> Most <code>gaia dev</code> commands accept <code>--no-build</code>. Use this during batch operations to skip expensive documentation/graph regeneration on every step — run <code>gaia dev build</code> once at the end.
+          <strong>Batch tip:</strong> Most <code>gaia dev</code> commands skip documentation/graph regeneration by default — <code>--no-build</code> is a no-op alias for that default. During batch operations, just let each step run without a rebuild, then pass <code>--build</code> on the last step (or run <code>gaia dev build</code> once at the end) to regenerate.
         </div>
 
         <h3>Authorization paths</h3>

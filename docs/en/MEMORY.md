@@ -2,6 +2,79 @@
 
 ---
 
+## 2026-08-27 — Routine 036
+
+**Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the
+one-open-PR rule; the routine's own commit count/number in this diary tracks daily
+runs, not the branch name)
+
+**Task chosen:** CONTINUE — routine 035's "Planned next" named the first item
+directly: the same `--no-build`/`--build` opt-in drift, still open on
+`contributing.html`'s "Batch tip" callout (~L656), one instance.
+
+### What I did
+
+Confirmed the CLI facts again before touching copy: `_add_build_flags()`
+(`src/gaia_cli/commands/dev/helpers.py:495`) makes `--no-build` a no-op alias
+for the default (skip rebuild) and `--build` the real opt-in flag, unchanged
+since v7.4.19 (routine 034's finding). `contributing.html`'s "Batch tip"
+callout still told readers to "accept `--no-build` … to skip … regeneration
+on every step" — the pre-v7.4.19 framing where skipping needed a flag.
+
+Rewrote the callout: batch operations already skip the rebuild by default
+(no flag needed); pass `--build` on the last step, or run `gaia dev build`
+once at the end, to regenerate. Confirmed `gaia dev build` is a real
+subcommand (`src/gaia_cli/commands/dev/__init__.py:725`) before keeping that
+reference.
+
+### Design decisions
+
+- One-sentence callout fix only — no new flag table or restructuring, since
+  this is a "tip" aside, not the CLI reference page.
+- Left `manual-curation-pipeline.html`'s neutral `--no-build` example usage
+  alone, per routine 035's note that it's technically still correct (the flag
+  still exists, just redundant) and lower priority than an active wrong claim.
+
+### Issues informed
+
+None filed or closed — documentation-only correction, CLI behavior itself
+unchanged.
+
+### Verification
+
+`git status` scoped to `docs/en/contributing.html`, `docs/en/DOCS.md`,
+`docs/en/MEMORY.md` only. `html.parser` parse-check clean. Vocabulary grep
+(`merge|combine|compose|rarity`) on the file — all hits are pre-existing
+`gaia dev merge` CLI verb references, the "No rarity references" instructional
+line, and an example pipeline showing `[merge]`/`compose` as literal fixture
+output — no violations. No new hex introduced (diff-scanned, zero hits). CRLF
+line ending preserved on the edited line (verified byte-for-byte). All three
+stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`) still linked.
+
+### Files modified
+
+- `docs/en/contributing.html` — fixed the "Batch tip" callout's
+  `--no-build`/`--build` semantics to the opt-in-since-v7.4.19 default
+- `docs/en/DOCS.md` — page map row 5 updated
+- `docs/en/MEMORY.md` — this entry
+
+### Planned next (Routine 037)
+
+- The only remaining `--no-build` item from routine 035's list:
+  `manual-curation-pipeline.html` (Phase 5 gaia-ingest section, ~L889, 898,
+  906, 1026) — neutral framing, not actively wrong, but could be tightened to
+  mention `--build` is the real opt-in and drop the now-redundant
+  `--no-build` from example commands.
+- If deprioritized, fall back to ROTATE: `named-skills.html` and
+  `share-bundles.html` are still tied at "updated 025," oldest untouched
+  since (now that `contributing.html` has a 036 touch).
+
+### Token spend
+
+2026-08-27 Sonnet 5 Low: ~60k in, ~7k out. ~$0.23
+
+---
+
 ## 2026-08-26 — Routine 035
 
 **Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the
