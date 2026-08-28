@@ -2,6 +2,78 @@
 
 ---
 
+## 2026-08-28 — Routine 037
+
+**Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the
+one-open-PR rule; the routine's own commit count/number in this diary tracks daily
+runs, not the branch name)
+
+**Task chosen:** CONTINUE — routine 036's "Planned next" named the first item
+directly: the remaining `--no-build` item, `manual-curation-pipeline.html`
+Phase 5 (`gaia-ingest`) section, ~L889, 898, 906, 1026.
+
+### What I did
+
+Re-confirmed `_add_build_flags()` (`src/gaia_cli/commands/dev/helpers.py:495`):
+`no_build` defaults to `True`, so a mutating `gaia dev` command already skips
+the docs rebuild without any flag; `--no-build` is kept only as a backward-compat
+no-op alias, and `--build` is the real opt-in.
+
+Phase 5's four `gaia dev evidence` example commands each carried a trailing
+`--no-build`. Not actively wrong (the flag exists and does nothing), but it
+implied a flag is required to get the default behavior, and it crowded out the
+one flag that actually matters (`--build`, for the rare single-row-then-build
+case). Dropped `--no-build` from all four command blocks (two named examples
+under "Ingest each approved evidence row" plus the matching lines in the
+"build + appraise + calibrate" fence and the cheat-sheet's Phase 5 block).
+Rewrote the section's lead sentence to state the default plainly and name
+`gaia dev build` (run once after all rows) as the normal path, with `--build`
+on a single row as the alternative.
+
+### Design decisions
+
+- Left the "build + appraise + calibrate" fence's own `gaia dev build` line
+  untouched — it was already correct, just now the sole build call across the
+  section instead of one of several redundant flags.
+- No new callout box added; the lead paragraph already carried the fix and a
+  callout would be ceremony for a one-line clarification.
+
+### Issues informed
+
+None filed or closed — documentation-only correction, CLI behavior itself
+unchanged.
+
+### Verification
+
+`git status` scoped to `docs/en/manual-curation-pipeline.html`, `docs/en/DOCS.md`,
+`docs/en/MEMORY.md` only. `html.parser` parse-check clean. Vocabulary grep
+(`merge|combine|compose|rarity`) — all hits are `gh pr merge` (real CLI verb)
+and "CI green → merge → docs" (real git merge, not the fusion concept); no
+violations. No new hex introduced (diff-scanned, zero hits). All three
+stylesheets (`tokens.css`, `styles.css`, `docs-en-shell.css`) still linked.
+
+### Files modified
+
+- `docs/en/manual-curation-pipeline.html` — dropped redundant `--no-build`
+  from four Phase 5 example commands, rewrote the lead sentence to name
+  `--build` as the real opt-in
+- `docs/en/DOCS.md` — page map row 13 updated
+- `docs/en/MEMORY.md` — this entry
+
+### Planned next (Routine 038)
+
+- The `--no-build` sweep across `docs/en/` is now complete (034 cli-reference,
+  035 evidence-classes, 036 contributing, 037 manual-curation-pipeline). No
+  more known instances.
+- Fall back to ROTATE: `named-skills.html` and `share-bundles.html` are still
+  tied at "updated 025," the oldest untouched pages in the Page Map.
+
+### Token spend
+
+2026-08-28 Sonnet 5 Low: ~45k in, ~5k out. ~$0.19
+
+---
+
 ## 2026-08-27 — Routine 036
 
 **Branch:** `docs/routines/030` (PR #1544 still open — continued on it per the

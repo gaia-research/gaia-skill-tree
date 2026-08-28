@@ -886,7 +886,7 @@
           <h2>gaia-ingest <small>— Write evidence to the named skill</small></h2>
         </div>
 
-        <p>First time mutating <code>registry/</code>. Every row uses <code>--no-build</code>. One build at the end. You approve calibration before it runs.</p>
+        <p>First time mutating <code>registry/</code>. Docs rebuild is skipped by default — no flag needed. Run <code>gaia dev build</code> once after all rows, or pass <code>--build</code> on a single row instead. You approve calibration before it runs.</p>
 
         <h3>Ingest each approved evidence row</h3>
         <div class="code-fence">
@@ -895,7 +895,7 @@
   <span class="str">"https://github.com/owner/repo"</span> \
   <span class="arg">--type</span> repo-own <span class="arg">--commits</span> 847 <span class="arg">--contributors</span> 12 \
   <span class="arg">--notes</span> <span class="str">"Official upstream repo. Counts verified via GitHub API."</span> \
-  <span class="arg">--source-started-at</span> 2024-03-01 <span class="arg">--no-build</span></pre>
+  <span class="arg">--source-started-at</span> 2024-03-01</pre>
         </div>
         <div class="code-fence">
           <div class="code-fence-header"><span class="code-fence-label">bash — github-stars-own</span><span class="code-fence-copy-status">click to copy</span></div>
@@ -903,7 +903,7 @@
   <span class="str">"https://github.com/owner/repo/blob/main/SKILL.md"</span> \
   <span class="arg">--type</span> github-stars-own <span class="arg">--stars</span> 3421 <span class="arg">--skill-count-in-repo</span> 1 \
   <span class="arg">--notes</span> <span class="str">"Official SKILL.md. Star count verified live via gh api."</span> \
-  <span class="arg">--source-started-at</span> 2024-03-01 <span class="arg">--no-build</span></pre>
+  <span class="arg">--source-started-at</span> 2024-03-01</pre>
         </div>
         <div class="code-fence">
           <div class="code-fence-header"><span class="code-fence-label">bash — build + appraise + calibrate</span><span class="code-fence-copy-status">click to copy</span></div>
@@ -1023,7 +1023,7 @@
 
 <span class="c"># ── Phase 5: gaia-ingest ─────────────────────────────────────</span>
 <span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> dev evidence contributor/skill <span class="str">"&lt;url&gt;"</span> \
-  <span class="arg">--type</span> repo-own <span class="arg">--commits</span> N <span class="arg">--contributors</span> N <span class="arg">--notes</span> <span class="str">"..."</span> <span class="arg">--source-started-at</span> YYYY-MM-DD <span class="arg">--no-build</span>
+  <span class="arg">--type</span> repo-own <span class="arg">--commits</span> N <span class="arg">--contributors</span> N <span class="arg">--notes</span> <span class="str">"..."</span> <span class="arg">--source-started-at</span> YYYY-MM-DD
 <span class="c"># ... repeat for each evidence type ...</span>
 <span class="cmd">GAIA_OPERATOR_OVERRIDE=1</span> <span class="cmd">gaia</span> dev build
 <span class="cmd">PYTHONPATH=src</span> <span class="cmd">python3</span> scripts/trust_appraise.py <span class="arg">--skill</span> contributor/skill
