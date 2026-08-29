@@ -593,6 +593,213 @@ class CliContractSensor:
         ]
 
 
+class GeneratedProjectionsSensor:
+    """Verify Class S generated artifacts exist, are non-empty, and match canonical named skills."""
+
+    id = "generated-projections"
+    _REQUIRED_PROJECTIONS = (
+        "docs/graph/gaia.json",
+        "docs/graph/named/index.json",
+        "docs/api/v1/health.json",
+    )
+    _NAMED_ROOT = "registry/named"
+    _MAX_FILE_BYTES = 20 * 1024 * 1024
+
+    def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
+        violations: list[dict[str, str]] = []
+        manifest: dict[str, str] = {}
+        missing_artifacts: list[str] = []
+        empty_artifacts: list[str] = []
+        corrupted_artifacts: list[str] = []
+        named_index_data: object = None
+
+        for rel_path in self._REQUIRED_PROJECTIONS:
+            file_path = repo_root / rel_path
+            if not file_path.is_file():
+                missing_artifacts.append(rel_path)
+                violations.append({
+                    "path": rel_path,
+                    "error": "required Class S artifact missing",
+                })
+                continue
+
+            raw_bytes = file_path.read_bytes()
+            if len(raw_bytes) == 0:
+                empty_artifacts.append(rel_path)
+                violations.append({
+                    "path": rel_path,
+                    "error": "Class S artifact is empty",
+                })
+                continue
+
+            manifest[rel_path] = hashlib.sha256(raw_bytes).hexdigest()
+            try:
+                data = json.loads(raw_bytes)
+                if not isinstance(data, (dict, list)):
+                    corrupted_artifacts.append(rel_path)
+                    violations.append({
+                        "path": rel_path,
+                        "error": "Class S artifact must be a JSON object or array",
+                    })
+                    continue
+                if rel_path == "docs/graph/named/index.json":
+                    named_index_data = data
+            except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+                corrupted_artifacts.append(rel_path)
+                violations.append({
+                    "path": rel_path,
+                    "error": f"invalid JSON: {exc}",
+                })
+
+        canonical_ids = self._canonical_named_skill_ids(repo_root, violations, manifest)
+
+        if named_index_data is not None:
+            indexed_ids = self._extract_indexed_skill_ids(named_index_data)
+        else:
+            indexed_ids = set()
+
+        missing_from_index = sorted(canonical_ids - indexed_ids)
+        extra_in_index = sorted(indexed_ids - canonical_ids)
+
+        for skill_id in missing_from_index:
+            violations.append({
+                "path": "docs/graph/named/index.json",
+                "error": f"canonical named skill {skill_id!r} is missing from projection index",
+            })
+        for skill_id in extra_in_index:
+            violations.append({
+                "path": "docs/graph/named/index.json",
+                "error": f"projection index contains extra un-canonical skill {skill_id!r}",
+            })
+
+        violations.sort(key=lambda item: (item["path"], item["error"]))
+        drift = bool(violations)
+        digest = hashlib.sha256(stable_json(manifest).encode("utf-8")).hexdigest()
+
+        observed_state: dict[str, object] = {
+            "consistent": not drift,
+            "canonicalNamedCount": len(canonical_ids),
+            "indexedNamedCount": len(indexed_ids),
+            "missingArtifacts": missing_artifacts,
+            "emptyArtifacts": empty_artifacts,
+            "corruptedArtifacts": corrupted_artifacts,
+            "missingFromIndex": missing_from_index,
+            "extraInIndex": extra_in_index,
+            "violationCount": len(violations),
+            "digest": digest,
+            "violations": violations,
+        }
+
+        return [
+            Observation(
+                kind="generated_projection_drift",
+                subject=Subject(type="repository-surface", id="class-s-projections"),
+                observed_at=observed_at,
+                source=self.id,
+                status="drift" if drift else "healthy",
+                current_state={"consistent": True},
+                observed_state=observed_state,
+                confidence=1.0,
+                provenance={
+                    "gaiaGraphPath": "docs/graph/gaia.json",
+                    "namedIndexPath": "docs/graph/named/index.json",
+                    "healthApiPath": "docs/api/v1/health.json",
+                    "canonicalNamedPath": self._NAMED_ROOT,
+                },
+            )
+        ]
+
+    def _canonical_named_skill_ids(
+        self,
+        repo_root: Path,
+        violations: list[dict[str, str]],
+        manifest: dict[str, str],
+    ) -> set[str]:
+        canonical_ids: set[str] = set()
+        directory = repo_root / self._NAMED_ROOT
+        if not directory.is_dir():
+            return canonical_ids
+
+        for path in sorted(directory.rglob("*.md")):
+            relative = path.relative_to(repo_root).as_posix()
+            raw_bytes = path.read_bytes()
+            manifest[relative] = hashlib.sha256(raw_bytes).hexdigest()
+            try:
+                raw = self._read_named_markdown(path, repo_root)
+            except ValueError as exc:
+                violations.append({"path": relative, "error": str(exc)})
+                continue
+            skill_id = raw.get("id")
+            if isinstance(skill_id, str) and skill_id.strip():
+                canonical_ids.add(skill_id.strip())
+            else:
+                violations.append(
+                    {"path": relative, "error": "missing or invalid skill id in frontmatter"}
+                )
+        return canonical_ids
+
+    def _extract_indexed_skill_ids(self, data: object) -> set[str]:
+        indexed: set[str] = set()
+        if isinstance(data, dict):
+            buckets = data.get("buckets")
+            if isinstance(buckets, dict):
+                for items in buckets.values():
+                    if isinstance(items, list):
+                        for item in items:
+                            if isinstance(item, dict) and isinstance(item.get("id"), str) and item["id"].strip():
+                                indexed.add(item["id"].strip())
+                            elif isinstance(item, str) and item.strip():
+                                indexed.add(item.strip())
+
+            awaiting = data.get("awaitingClassification")
+            if isinstance(awaiting, list):
+                for item in awaiting:
+                    if isinstance(item, dict) and isinstance(item.get("id"), str) and item["id"].strip():
+                        indexed.add(item["id"].strip())
+                    elif isinstance(item, str) and item.strip():
+                        indexed.add(item.strip())
+
+            by_contributor = data.get("byContributor")
+            if isinstance(by_contributor, dict):
+                for items in by_contributor.values():
+                    if isinstance(items, list):
+                        for item in items:
+                            if isinstance(item, dict) and isinstance(item.get("id"), str) and item["id"].strip():
+                                indexed.add(item["id"].strip())
+                            elif isinstance(item, str) and item.strip():
+                                indexed.add(item.strip())
+
+            skills = data.get("skills")
+            if isinstance(skills, list):
+                for item in skills:
+                    if isinstance(item, dict) and isinstance(item.get("id"), str) and item["id"].strip():
+                        indexed.add(item["id"].strip())
+                    elif isinstance(item, str) and item.strip():
+                        indexed.add(item.strip())
+        elif isinstance(data, list):
+            for item in data:
+                if isinstance(item, dict) and isinstance(item.get("id"), str) and item["id"].strip():
+                    indexed.add(item["id"].strip())
+                elif isinstance(item, str) and item.strip():
+                    indexed.add(item.strip())
+        return indexed
+
+    def _read_named_markdown(self, path: Path, repo_root: Path) -> dict[str, object]:
+        content = path.read_bytes()
+        if len(content) > self._MAX_FILE_BYTES:
+            raise ValueError(f"named skill exceeds safety limit: {path.relative_to(repo_root)}")
+        try:
+            text = content.decode("utf-8")
+            from gaia_cli.frontmatter import load_yaml_simple, split_frontmatter
+            _fence, frontmatter, _body = split_frontmatter(text)
+            raw = load_yaml_simple(frontmatter)
+        except Exception as exc:
+            raise ValueError(f"invalid named skill: {path.relative_to(repo_root)}") from exc
+        if not isinstance(raw, dict):
+            raise ValueError(f"named skill frontmatter must be an object: {path.relative_to(repo_root)}")
+        return raw
+
+
 def default_sensors() -> tuple[Sensor, ...]:
     return (
         BundledSchemaMirrorSensor(),
@@ -600,4 +807,6 @@ def default_sensors() -> tuple[Sensor, ...]:
         RegistryIntegritySensor(),
         CliContractSensor(),
         DiscoveryGenericMappingSensor(),
+        GeneratedProjectionsSensor(),
     )
+

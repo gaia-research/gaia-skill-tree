@@ -49,6 +49,12 @@ def _clean_cli_repo(root: Path) -> None:
     _write(root / "registry/nodes/basic/example.json", json.dumps(node))
     _write(root / ".agents/skills/example/SKILL.md", "# Example\n")
     _write(root / ".claude/skills/example/SKILL.md", "# Example\n")
+    _write(root / "docs/graph/gaia.json", '{"skills": []}\n')
+    _write(
+        root / "docs/graph/named/index.json",
+        '{"buckets": {}, "awaitingClassification": [], "byContributor": {}}\n',
+    )
+    _write(root / "docs/api/v1/health.json", '{"ok": true}\n')
     # A consistent CLI command surface, so the cli-contract sensor has
     # something to observe. A checkout with no CLI is genuinely a checkout
     # Steward cannot observe, and it reports that as unknown coverage rather
@@ -96,7 +102,7 @@ def test_steward_scan_json_cli_is_clean_and_report_only(
 
     payload = json.loads(capsys.readouterr().out)
     assert payload["receipt"]["result"]["status"] == "no_change"
-    assert payload["receipt"]["observationsCollected"] == 9  # 5 sensors + 4 coverage marks
+    assert payload["receipt"]["observationsCollected"] == 11  # 6 sensors + 5 coverage marks
     assert payload["receipt"]["dispatches"] == []
     assert payload["receipt"]["repairs"] == []
     assert payload["state"]["debt"].startswith(str(tmp_path / ".gaia/steward"))

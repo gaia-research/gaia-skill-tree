@@ -10,7 +10,9 @@ from gaia_cli.steward.sensors import (
     AgentSkillMirrorSensor,
     BundledSchemaMirrorSensor,
     DiscoveryGenericMappingSensor,
+    GeneratedProjectionsSensor,
     RegistryIntegritySensor,
+    default_sensors,
 )
 
 
@@ -56,6 +58,12 @@ def _make_clean_repo(root: Path) -> None:
     _write(root / "registry/nodes/basic/example.json", json.dumps(node))
     _write(root / ".agents/skills/example/SKILL.md", "# Example\n")
     _write(root / ".claude/skills/example/SKILL.md", "# Example\n")
+    _write(root / "docs/graph/gaia.json", '{"skills": []}\n')
+    _write(
+        root / "docs/graph/named/index.json",
+        '{"buckets": {}, "awaitingClassification": [], "byContributor": {}}\n',
+    )
+    _write(root / "docs/api/v1/health.json", '{"ok": true}\n')
 
 
 def test_all_sensors_report_healthy_on_clean_fixture(tmp_path: Path) -> None:
@@ -65,9 +73,10 @@ def test_all_sensors_report_healthy_on_clean_fixture(tmp_path: Path) -> None:
         BundledSchemaMirrorSensor().scan(tmp_path, NOW)[0],
         AgentSkillMirrorSensor().scan(tmp_path, NOW)[0],
         RegistryIntegritySensor().scan(tmp_path, NOW)[0],
+        GeneratedProjectionsSensor().scan(tmp_path, NOW)[0],
     ]
 
-    assert [observation.status for observation in observations] == ["healthy"] * 3
+    assert [observation.status for observation in observations] == ["healthy"] * 4
 
 
 def test_discovery_sensor_excludes_archived_and_processed_packets_and_targets_exact_candidate(tmp_path: Path) -> None:
@@ -410,3 +419,224 @@ def test_registry_integrity_accepts_basic_and_fusion_prerequisite_boundaries(
     observation = RegistryIntegritySensor().scan(tmp_path, NOW)[0]
 
     assert observation.status == "healthy"
+
+
+# --- GeneratedProjectionsSensor unit tests ----------------------------------
+
+
+def test_default_sensors_contains_generated_projections_sensor() -> None:
+    sensors = default_sensors()
+    assert any(sensor.id == "generated-projections" for sensor in sensors)
+    matching = [s for s in sensors if isinstance(s, GeneratedProjectionsSensor)]
+    assert len(matching) == 1
+
+
+def test_generated_projections_reports_healthy_on_clean_fixture(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+
+    obs = GeneratedProjectionsSensor().scan(tmp_path, NOW)[0]
+
+    assert obs.status == "healthy"
+    assert obs.kind == "generated_projection_drift"
+    assert obs.subject.id == "class-s-projections"
+    assert obs.observed_state["consistent"] is True
+    assert obs.observed_state["violationCount"] == 0
+    assert obs.observed_state["canonicalNamedCount"] == 0
+    assert obs.observed_state["indexedNamedCount"] == 0
+    assert obs.confidence == 1.0
+
+
+def test_generated_projections_with_matching_named_skills(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    _write(
+        tmp_path / "registry/named/alice/my-tool.md",
+        _named_markdown("alice/my-tool", "example"),
+    )
+    _write(
+        tmp_path / "registry/named/bob/helper.md",
+        _named_markdown("bob/helper", "example"),
+    )
+    index_data = {
+        "buckets": {
+            "example": [
+                {"id": "alice/my-tool", "level": "1★"},
+            ]
+        },
+        "awaitingClassification": [
+            {"id": "bob/helper", "level": "0★"},
+        ],
+        "byContributor": {
+            "alice": ["alice/my-tool"],
+            "bob": ["bob/helper"],
+        },
+    }
+    _write(tmp_path / "docs/graph/named/index.json", json.dumps(index_data))
+
+    obs = GeneratedProjectionsSensor().scan(tmp_path, NOW)[0]
+
+    assert obs.status == "healthy"
+    assert obs.observed_state["canonicalNamedCount"] == 2
+    assert obs.observed_state["indexedNamedCount"] == 2
+    assert obs.observed_state["missingFromIndex"] == []
+    assert obs.observed_state["extraInIndex"] == []
+    assert obs.observed_state["violationCount"] == 0
+
+
+@pytest.mark.parametrize(
+    "missing_file",
+    [
+        "docs/graph/gaia.json",
+        "docs/graph/named/index.json",
+        "docs/api/v1/health.json",
+    ],
+)
+def test_generated_projections_detects_missing_artifact(tmp_path: Path, missing_file: str) -> None:
+    _make_clean_repo(tmp_path)
+    (tmp_path / missing_file).unlink()
+
+    obs = GeneratedProjectionsSensor().scan(tmp_path, NOW)[0]
+
+    assert obs.status == "drift"
+    assert missing_file in obs.observed_state["missingArtifacts"]
+    assert any("required Class S artifact missing" in v["error"] and v["path"] == missing_file for v in obs.observed_state["violations"])
+
+
+@pytest.mark.parametrize(
+    "empty_file",
+    [
+        "docs/graph/gaia.json",
+        "docs/graph/named/index.json",
+        "docs/api/v1/health.json",
+    ],
+)
+def test_generated_projections_detects_empty_artifact(tmp_path: Path, empty_file: str) -> None:
+    _make_clean_repo(tmp_path)
+    _write(tmp_path / empty_file, "")
+
+    obs = GeneratedProjectionsSensor().scan(tmp_path, NOW)[0]
+
+    assert obs.status == "drift"
+    assert empty_file in obs.observed_state["emptyArtifacts"]
+    assert any("Class S artifact is empty" in v["error"] and v["path"] == empty_file for v in obs.observed_state["violations"])
+
+
+def test_generated_projections_detects_invalid_json(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    _write(tmp_path / "docs/graph/gaia.json", "{not valid json")
+
+    obs = GeneratedProjectionsSensor().scan(tmp_path, NOW)[0]
+
+    assert obs.status == "drift"
+    assert "docs/graph/gaia.json" in obs.observed_state["corruptedArtifacts"]
+    assert any("invalid JSON" in v["error"] and v["path"] == "docs/graph/gaia.json" for v in obs.observed_state["violations"])
+
+
+def test_generated_projections_detects_non_object_json(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    _write(tmp_path / "docs/api/v1/health.json", '"plain string"')
+
+    obs = GeneratedProjectionsSensor().scan(tmp_path, NOW)[0]
+
+    assert obs.status == "drift"
+    assert "docs/api/v1/health.json" in obs.observed_state["corruptedArtifacts"]
+    assert any("must be a JSON object or array" in v["error"] for v in obs.observed_state["violations"])
+
+
+def test_generated_projections_detects_missing_from_index(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    _write(
+        tmp_path / "registry/named/alice/my-tool.md",
+        _named_markdown("alice/my-tool", "example"),
+    )
+    _write(
+        tmp_path / "registry/named/bob/unindexed.md",
+        _named_markdown("bob/unindexed", "example"),
+    )
+    # Index only includes alice/my-tool
+    index_data = {
+        "buckets": {
+            "example": [
+                {"id": "alice/my-tool", "level": "1★"},
+            ]
+        },
+        "awaitingClassification": [],
+        "byContributor": {},
+    }
+    _write(tmp_path / "docs/graph/named/index.json", json.dumps(index_data))
+
+    obs = GeneratedProjectionsSensor().scan(tmp_path, NOW)[0]
+
+    assert obs.status == "drift"
+    assert obs.observed_state["canonicalNamedCount"] == 2
+    assert obs.observed_state["indexedNamedCount"] == 1
+    assert obs.observed_state["missingFromIndex"] == ["bob/unindexed"]
+    assert obs.observed_state["extraInIndex"] == []
+    assert any("canonical named skill 'bob/unindexed' is missing from projection index" in v["error"] for v in obs.observed_state["violations"])
+
+
+def test_generated_projections_detects_extra_in_index(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    _write(
+        tmp_path / "registry/named/alice/my-tool.md",
+        _named_markdown("alice/my-tool", "example"),
+    )
+    # Index includes phantom skill
+    index_data = {
+        "buckets": {
+            "example": [
+                {"id": "alice/my-tool", "level": "1★"},
+                {"id": "charlie/phantom", "level": "2★"},
+            ]
+        },
+        "awaitingClassification": [],
+        "byContributor": {},
+    }
+    _write(tmp_path / "docs/graph/named/index.json", json.dumps(index_data))
+
+    obs = GeneratedProjectionsSensor().scan(tmp_path, NOW)[0]
+
+    assert obs.status == "drift"
+    assert obs.observed_state["canonicalNamedCount"] == 1
+    assert obs.observed_state["indexedNamedCount"] == 2
+    assert obs.observed_state["missingFromIndex"] == []
+    assert obs.observed_state["extraInIndex"] == ["charlie/phantom"]
+    assert any("projection index contains extra un-canonical skill 'charlie/phantom'" in v["error"] for v in obs.observed_state["violations"])
+
+
+def test_generated_projections_detects_malformed_named_frontmatter(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    _write(tmp_path / "registry/named/alice/broken.md", "---\nid:\n---\n")
+
+    obs = GeneratedProjectionsSensor().scan(tmp_path, NOW)[0]
+
+    assert obs.status == "drift"
+    assert any("missing or invalid skill id" in v["error"] for v in obs.observed_state["violations"])
+
+
+def test_generated_projections_is_deterministic(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    _write(
+        tmp_path / "registry/named/alice/my-tool.md",
+        _named_markdown("alice/my-tool", "example"),
+    )
+    sensor = GeneratedProjectionsSensor()
+
+    obs1 = sensor.scan(tmp_path, NOW)[0]
+    obs2 = sensor.scan(tmp_path, "2026-08-10T12:00:00Z")[0]
+
+    assert obs1.debt_id == obs2.debt_id
+    assert obs1.current_state == obs2.current_state
+    assert obs1.observed_state == obs2.observed_state
+
+
+def test_generated_projections_on_real_repo() -> None:
+    repo_root = Path(__file__).resolve().parents[2]
+    obs = GeneratedProjectionsSensor().scan(repo_root, NOW)[0]
+
+    assert obs.status == "healthy"
+    assert obs.observed_state["consistent"] is True
+    assert obs.observed_state["violationCount"] == 0
+    assert obs.observed_state["canonicalNamedCount"] > 0
+    assert obs.observed_state["indexedNamedCount"] > 0
+    assert obs.observed_state["canonicalNamedCount"] == obs.observed_state["indexedNamedCount"]
+
