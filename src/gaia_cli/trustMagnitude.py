@@ -25,6 +25,34 @@ import hashlib
 import math
 from typing import Any, Optional
 
+
+# ---------------------------------------------------------------------------
+# Star Authority Multiplier (Yggdrasil III amendment, 2026-08-30)
+# ---------------------------------------------------------------------------
+# GitHub stars act as a multiplicative authority signal on the entire TM sum.
+# Formula: max(1.0, min(2.5, 1.0 + sqrt(stars / 100_000)))
+#   0 stars     -> 1.0x  (no effect)
+#   25k stars   -> 1.5x
+#   50k stars   -> 1.71x
+#   100k stars  -> 2.0x
+#   250k+ stars -> 2.5x  (cap)
+# This is monotonically increasing with zero downgrades: every skill's TM
+# is >= its pre-amendment value.  The multiplier is applied once at the
+# aggregate level (computeTrustMagnitude) AFTER all per-row artifact scores,
+# dedup, plateau, and caps have been computed.
+# Rationale: stars reflect real-world adoption authority that should amplify
+# the trust signal from other evidence types, not merely add a capped value.
+# See issue #XXXX for the full recalibration RFC.
+
+def _starAuthorityMultiplier(stars: float) -> float:
+    """Compute the star authority multiplier for a skill's TM.
+
+    Returns a value in [1.0, 2.5].  Zero or negative stars return 1.0.
+    """
+    if stars <= 0:
+        return 1.0
+    return max(1.0, min(2.5, 1.0 + math.sqrt(stars / 100_000.0)))
+
 from gaia_cli.benchmarkCatalog import benchmarkFinalMagnitude, isBenchmarkScoringEligible
 from gaia_cli.evidence import inherited_evidence
 
@@ -871,7 +899,18 @@ def computeTrustMagnitude(
         else:
             nonSocialTotal += score
     socialTotal = min(socialTotal, 80.0)
-    return nonSocialTotal + socialTotal
+    baseTM = nonSocialTotal + socialTotal
+
+    # Star Authority Multiplier (Yggdrasil III amendment, 2026-08-30)
+    # Find the highest github-stars-own star count in the effective pool and
+    # apply the sqrt-curve multiplier to the aggregate TM.
+    maxStars = 0.0
+    for row, _score in rowsWithScores:
+        if _typeOf(row) == "github-stars-own":
+            s = float(row.get("stars", 0) or 0)
+            if s > maxStars:
+                maxStars = s
+    return baseTM * _starAuthorityMultiplier(maxStars)
 
 
 def computeTrustMagnitudeByType(
