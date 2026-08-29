@@ -4,6 +4,57 @@ Maintained by the Orchestrator agent. Newest entries first within each section.
 
 ---
 
+## State Snapshot (2026-08-29, full sensor fleet wired into Gaia Steward — PR #1664)
+
+### TLDR
+
+- Designed, planned, and implemented 6 new deterministic, read-only sensors for Gaia Steward, expanding default sensors from 5 to 11.
+- All 6 sensor issues filed, implemented on feature branches, reviewed, and consolidated into integration branch `dev/steward-sensors-fleet` (`fb2a5261a`):
+  - #1609: `TaxonomyScriptDriftSensor` (Class B)
+  - #1580: `UpstreamWatcherSensor` (Class B)
+  - #1654: `KnowledgeContradictionSensor` (Class B)
+  - #1655: `EvidenceLinkHealthSensor` (Class B)
+  - #1656: `GeneratedProjectionsSensor` (Class B)
+  - #1657: `BenchmarkFreshnessSensor` (Class B)
+- Updated `founder/steward/POLICY.yaml` to classify authority and calibrated priority weights across all 11 sensors.
+- Full test suite passing 100%: 300/300 steward tests pass (`pytest tests/steward/`).
+- Ran scout fleet across `scripts/`, `.github/workflows/`, and `.agents/skills/` to catalog redundant legacy verification mechanisms ready for deprecation.
+- Created integration PR #1664 against `main`.
+
+### What changed this session
+
+| Layer | State |
+|---|---|
+| Sensor Fleet Implementation | ✅ 6 new sensors wired in `src/gaia_cli/steward/sensors.py` (`default_sensors()` = 11 total) |
+| Policy & Authority Configuration | ✅ `founder/steward/POLICY.yaml` updated with all 11 debt kinds under `authority` & `priority` |
+| Test Coverage | ✅ 300 tests passing in `tests/steward/` (including 108 comprehensive sensor tests) |
+| Feature Branches & PRs | ✅ PRs #1658, #1659, #1660, #1661, #1662, #1663 consolidated into `dev/steward-sensors-fleet` |
+| Scout Fleet Analysis | ✅ Identified candidate legacy scripts (`scripts/check_taxonomy_authority.py`, `scripts/validate.py` sub-checks, `scripts/check_rank_vocabulary.py`) for retirement |
+| Integration PR | ✅ PR #1664 opened against `main` |
+
+### Branches and PRs
+
+| Branch / PR | Status |
+|---|---|
+| `dev/steward-sensors-fleet` | Integration branch with all 11 sensors wired, tests passing, head `fb2a5261a`. |
+| PR #1664 | Integration PR `dev/steward-sensors-fleet` → `main` (open, clean). |
+| PRs #1658, #1659, #1660, #1661, #1662, #1663 | Closed/merged into `dev/steward-sensors-fleet`. |
+
+### Scout Fleet Findings — Candidates for Retirement
+
+- **`scripts/check_taxonomy_authority.py`**: Can be retired; checks for read-time branch derivation and shim calls are fully subsumed by `TaxonomyScriptDriftSensor`.
+- **`scripts/check_rank_vocabulary.py`**: Code checks subsumed by `TaxonomyScriptDriftSensor`; markdown vocabulary checks to be absorbed into `KnowledgeContradictionSensor`.
+- **`scripts/validate.py` (partial sub-checks)**: JSON schema, prerequisite counts, DAG cycle checks, and benchmark row validation are now continuously observed by `RegistryIntegritySensor` and `BenchmarkFreshnessSensor`.
+- **Workflows (`.github/workflows/taxonomy-authority-guard.yml`, `rank-vocabulary-guard.yml`)**: Can be consolidated into `gaia steward scan`.
+
+### Token usage & Cost (this session via /pi-cost)
+
+- **Main Session**: 112 turns, 644,014 input tokens, 35,333 output tokens, 9,629,790 cache read tokens ($1.7837)
+- **Subagent Runs**: 169 turns, 1,161,783 input tokens, 66,537 output tokens, 16,607,006 cache read tokens ($3.6009)
+- **Total Session Cost**: $5.3846
+
+---
+
 ## State Snapshot (2026-08-25, Yggdrasil III stack merged to integration; intake #1608 restacked behind it)
 
 ### TLDR
