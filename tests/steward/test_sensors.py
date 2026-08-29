@@ -10,7 +10,9 @@ from gaia_cli.steward.sensors import (
     AgentSkillMirrorSensor,
     BundledSchemaMirrorSensor,
     DiscoveryGenericMappingSensor,
+    KnowledgeContradictionSensor,
     RegistryIntegritySensor,
+    default_sensors,
 )
 
 
@@ -65,9 +67,10 @@ def test_all_sensors_report_healthy_on_clean_fixture(tmp_path: Path) -> None:
         BundledSchemaMirrorSensor().scan(tmp_path, NOW)[0],
         AgentSkillMirrorSensor().scan(tmp_path, NOW)[0],
         RegistryIntegritySensor().scan(tmp_path, NOW)[0],
+        KnowledgeContradictionSensor().scan(tmp_path, NOW)[0],
     ]
 
-    assert [observation.status for observation in observations] == ["healthy"] * 3
+    assert [observation.status for observation in observations] == ["healthy"] * 4
 
 
 def test_discovery_sensor_excludes_archived_and_processed_packets_and_targets_exact_candidate(tmp_path: Path) -> None:
@@ -410,3 +413,247 @@ def test_registry_integrity_accepts_basic_and_fusion_prerequisite_boundaries(
     observation = RegistryIntegritySensor().scan(tmp_path, NOW)[0]
 
     assert observation.status == "healthy"
+
+
+# --- KnowledgeContradictionSensor unit tests ----------------------------------
+
+
+def test_default_sensors_contains_knowledge_contradiction_sensor() -> None:
+    sensors = default_sensors()
+    assert any(sensor.id == "knowledge-contradiction" for sensor in sensors)
+    matching = [s for s in sensors if isinstance(s, KnowledgeContradictionSensor)]
+    assert len(matching) == 1
+
+
+def test_knowledge_contradiction_sensor_healthy_on_real_repo() -> None:
+    repo_root = Path(__file__).resolve().parents[2]
+    observations = KnowledgeContradictionSensor().scan(repo_root, NOW)
+
+    assert len(observations) == 1
+    obs = observations[0]
+    assert obs.kind == "knowledge_contradiction"
+    assert obs.subject.id == "governance-policy"
+    assert obs.status == "healthy"
+    assert obs.confidence == 1.0
+    assert obs.observed_state["consistent"] is True
+    assert obs.observed_state["violationCount"] == 0
+    assert obs.observed_state["violations"] == []
+
+
+def test_knowledge_contradiction_detects_unknown_debt_kind(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    policy_yaml = (
+        "authority:\n"
+        "  unknown_bogus_drift: B\n"
+        "priority:\n"
+        "  unknown_bogus_drift:\n"
+        "    importance: 0.5\n"
+        "    decisionImpact: 0.5\n"
+        "    exposure: 0.5\n"
+        "    freshnessNeed: 0.5\n"
+        "    expectedCost: 0.5\n"
+    )
+    _write(tmp_path / "founder/steward/POLICY.yaml", policy_yaml)
+
+    obs = KnowledgeContradictionSensor().scan(tmp_path, NOW)[0]
+    assert obs.status == "drift"
+    assert obs.observed_state["consistent"] is False
+    violations = obs.observed_state["violations"]
+    assert any(v["rule"] == "registered-debt-kinds" and "unknown_bogus_drift" in v["detail"] for v in violations)
+
+
+def test_knowledge_contradiction_detects_invalid_authority_class(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    policy_yaml = (
+        "authority:\n"
+        "  cli_contract_drift: X\n"
+        "priority:\n"
+        "  cli_contract_drift:\n"
+        "    importance: 0.5\n"
+        "    decisionImpact: 0.5\n"
+        "    exposure: 0.5\n"
+        "    freshnessNeed: 0.5\n"
+        "    expectedCost: 0.5\n"
+    )
+    _write(tmp_path / "founder/steward/POLICY.yaml", policy_yaml)
+
+    obs = KnowledgeContradictionSensor().scan(tmp_path, NOW)[0]
+    assert obs.status == "drift"
+    violations = obs.observed_state["violations"]
+    assert any(v["rule"] == "valid-authority-class" and "invalid authority class 'X'" in v["detail"] for v in violations)
+
+
+def test_knowledge_contradiction_detects_authority_priority_mismatch(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    policy_yaml = (
+        "authority:\n"
+        "  cli_contract_drift: B\n"
+        "  knowledge_contradiction: B\n"
+        "priority:\n"
+        "  cli_contract_drift:\n"
+        "    importance: 0.5\n"
+        "    decisionImpact: 0.5\n"
+        "    exposure: 0.5\n"
+        "    freshnessNeed: 0.5\n"
+        "    expectedCost: 0.5\n"
+    )
+    _write(tmp_path / "founder/steward/POLICY.yaml", policy_yaml)
+
+    obs = KnowledgeContradictionSensor().scan(tmp_path, NOW)[0]
+    assert obs.status == "drift"
+    violations = obs.observed_state["violations"]
+    assert any(v["rule"] == "authority-priority-alignment" for v in violations)
+
+
+def test_knowledge_contradiction_detects_repair_executor_authority_mismatch(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    policy_yaml = (
+        "authority:\n"
+        "  registry_integrity_failed: B\n"
+        "priority:\n"
+        "  registry_integrity_failed:\n"
+        "    importance: 0.5\n"
+        "    decisionImpact: 0.5\n"
+        "    exposure: 0.5\n"
+        "    freshnessNeed: 0.5\n"
+        "    expectedCost: 0.5\n"
+        "repairs:\n"
+        "  executors:\n"
+        "    bad-executor:\n"
+        "      debtKind: registry_integrity_failed\n"
+        "      authority: B\n"
+    )
+    _write(tmp_path / "founder/steward/POLICY.yaml", policy_yaml)
+
+    obs = KnowledgeContradictionSensor().scan(tmp_path, NOW)[0]
+    assert obs.status == "drift"
+    violations = obs.observed_state["violations"]
+    assert any(v["rule"] == "repair-executor-authority" for v in violations)
+
+
+def test_knowledge_contradiction_detects_dispatch_rule_authority_mismatch(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    policy_yaml = (
+        "authority:\n"
+        "  bundled_schema_mirror_drift: A\n"
+        "priority:\n"
+        "  bundled_schema_mirror_drift:\n"
+        "    importance: 0.5\n"
+        "    decisionImpact: 0.5\n"
+        "    exposure: 0.5\n"
+        "    freshnessNeed: 0.5\n"
+        "    expectedCost: 0.5\n"
+        "routing:\n"
+        "  dispatchRules:\n"
+        "    bad-dispatch:\n"
+        "      debtKind: bundled_schema_mirror_drift\n"
+        "      authority: A\n"
+    )
+    _write(tmp_path / "founder/steward/POLICY.yaml", policy_yaml)
+
+    obs = KnowledgeContradictionSensor().scan(tmp_path, NOW)[0]
+    assert obs.status == "drift"
+    violations = obs.observed_state["violations"]
+    assert any(v["rule"] == "dispatch-rule-authority" for v in violations)
+
+
+def test_knowledge_contradiction_detects_founder_rule_authority_mismatch(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    policy_yaml = (
+        "authority:\n"
+        "  cli_contract_drift: B\n"
+        "priority:\n"
+        "  cli_contract_drift:\n"
+        "    importance: 0.5\n"
+        "    decisionImpact: 0.5\n"
+        "    exposure: 0.5\n"
+        "    freshnessNeed: 0.5\n"
+        "    expectedCost: 0.5\n"
+        "routing:\n"
+        "  founderRules:\n"
+        "    bad-founder:\n"
+        "      debtKind: cli_contract_drift\n"
+        "      authority: B\n"
+    )
+    _write(tmp_path / "founder/steward/POLICY.yaml", policy_yaml)
+
+    obs = KnowledgeContradictionSensor().scan(tmp_path, NOW)[0]
+    assert obs.status == "drift"
+    violations = obs.observed_state["violations"]
+    assert any(v["rule"] == "founder-rule-authority" for v in violations)
+
+
+def test_knowledge_contradiction_detects_skill_type_enum_mismatch(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    schema = {
+        "properties": {
+            "type": {"enum": ["basic", "fusion", "custom_invalid"]},
+        },
+    }
+    _write(tmp_path / "registry/schema/skill.schema.json", json.dumps(schema))
+
+    obs = KnowledgeContradictionSensor().scan(tmp_path, NOW)[0]
+    assert obs.status == "drift"
+    violations = obs.observed_state["violations"]
+    assert any(v["rule"] == "skill-type-enum-alignment" for v in violations)
+
+
+def test_knowledge_contradiction_detects_meta_tier_label_contradiction(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    meta_json = {
+        "levels": {
+            "order": ["0★", "1★"],
+            "labels": {"0★": "Basic", "1★": "Awakened"},
+        },
+    }
+    _write(tmp_path / "registry/schema/meta.json", json.dumps(meta_json))
+    meta_md = (
+        "| Level | Label |\n"
+        "|---|---|\n"
+        "| **0★** | **Master** |\n"
+        "| **1★** | **Awakened** |\n"
+    )
+    _write(tmp_path / "META.md", meta_md)
+
+    obs = KnowledgeContradictionSensor().scan(tmp_path, NOW)[0]
+    assert obs.status == "drift"
+    violations = obs.observed_state["violations"]
+    assert any(v["rule"] == "meta-tier-label-contradiction" and "Master" in v["detail"] for v in violations)
+
+
+def test_knowledge_contradiction_detects_meta_node_type_contradiction(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    meta_json = {
+        "types": {
+            "order": ["basic", "fusion"],
+            "minPrereqs": {"basic": 0, "fusion": 1},
+        },
+    }
+    _write(tmp_path / "registry/schema/meta.json", json.dumps(meta_json))
+    meta_md = (
+        "- **`basic`** — 0 prerequisites.\n"
+        "- **`advanced`** — ≥ 1 prerequisite.\n"
+    )
+    _write(tmp_path / "META.md", meta_md)
+
+    obs = KnowledgeContradictionSensor().scan(tmp_path, NOW)[0]
+    assert obs.status == "drift"
+    violations = obs.observed_state["violations"]
+    assert any(v["rule"] == "meta-node-type-contradiction" for v in violations)
+
+
+def test_knowledge_contradiction_detects_claude_schema_scope_contradiction(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    claude_md = (
+        "## Branch Scope\n\n"
+        "| Scope | Allowed Directories |\n"
+        "|---|---|\n"
+        "| **schema/** | `registry/schema/` only |\n"
+    )
+    _write(tmp_path / "CLAUDE.md", claude_md)
+
+    obs = KnowledgeContradictionSensor().scan(tmp_path, NOW)[0]
+    assert obs.status == "drift"
+    violations = obs.observed_state["violations"]
+    assert any(v["rule"] == "claude-schema-scope-contradiction" for v in violations)
+

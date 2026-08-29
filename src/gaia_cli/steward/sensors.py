@@ -593,6 +593,320 @@ class CliContractSensor:
         ]
 
 
+class KnowledgeContradictionSensor:
+    """Detect contradictions and policy inconsistencies across governance surfaces."""
+
+    id = "knowledge-contradiction"
+    _REGISTERED_DEBT_KINDS = frozenset({
+        "bundled_schema_mirror_drift",
+        "agent_skill_mirror_drift",
+        "registry_integrity_failed",
+        "sensor_coverage_unknown",
+        "cli_contract_drift",
+        "knowledge_contradiction",
+        "generic_mapping",
+    })
+    _VALID_AUTHORITY_CLASSES = frozenset({"A", "B", "C"})
+
+    def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
+        violations: list[dict[str, str]] = []
+        violations.extend(self._check_policy(repo_root))
+        violations.extend(self._check_schema_and_metadata(repo_root))
+        violations.extend(self._check_governance_docs(repo_root))
+        violations.extend(self._check_claude_workflow(repo_root))
+
+        violations.sort(key=lambda item: (item["source"], item["rule"], item["detail"]))
+        drift = bool(violations)
+
+        return [
+            Observation(
+                kind="knowledge_contradiction",
+                subject=Subject(type="repository-surface", id="governance-policy"),
+                observed_at=observed_at,
+                source=self.id,
+                status="drift" if drift else "healthy",
+                current_state={"consistent": True},
+                observed_state={
+                    "consistent": not drift,
+                    "violationCount": len(violations),
+                    "violations": violations,
+                },
+                confidence=1.0,
+                provenance={
+                    "policyPath": "founder/steward/POLICY.yaml",
+                    "metaSchemaPath": "registry/schema/meta.json",
+                    "skillSchemaPath": "registry/schema/skill.schema.json",
+                    "metaDocPath": "META.md",
+                    "claudeDocPath": "CLAUDE.md",
+                },
+            )
+        ]
+
+    def _check_policy(self, repo_root: Path) -> list[dict[str, str]]:
+        violations: list[dict[str, str]] = []
+        policy_file = repo_root / "founder/steward/POLICY.yaml"
+        if not policy_file.is_file():
+            return violations
+
+        try:
+            policy_text = policy_file.read_text(encoding="utf-8")
+            import yaml
+            policy_data = yaml.safe_load(policy_text)
+        except Exception as exc:
+            violations.append({
+                "source": "founder/steward/POLICY.yaml",
+                "rule": "policy-parse",
+                "detail": f"failed to parse POLICY.yaml: {exc}",
+            })
+            return violations
+
+        if not isinstance(policy_data, dict):
+            violations.append({
+                "source": "founder/steward/POLICY.yaml",
+                "rule": "policy-structure",
+                "detail": "POLICY.yaml must be a mapping",
+            })
+            return violations
+
+        authority_map = policy_data.get("authority")
+        priority_map = policy_data.get("priority")
+
+        if not isinstance(authority_map, dict):
+            violations.append({
+                "source": "founder/steward/POLICY.yaml",
+                "rule": "authority-declaration",
+                "detail": "POLICY.yaml must define a mapping under 'authority'",
+            })
+        else:
+            for debt_kind, auth_val in sorted(authority_map.items()):
+                if debt_kind not in self._REGISTERED_DEBT_KINDS:
+                    violations.append({
+                        "source": "founder/steward/POLICY.yaml",
+                        "rule": "registered-debt-kinds",
+                        "detail": f"unknown debt kind {debt_kind!r} declared in authority",
+                    })
+                if auth_val not in self._VALID_AUTHORITY_CLASSES:
+                    violations.append({
+                        "source": "founder/steward/POLICY.yaml",
+                        "rule": "valid-authority-class",
+                        "detail": f"invalid authority class {auth_val!r} for debt kind {debt_kind!r}",
+                    })
+
+        if not isinstance(priority_map, dict):
+            violations.append({
+                "source": "founder/steward/POLICY.yaml",
+                "rule": "priority-declaration",
+                "detail": "POLICY.yaml must define a mapping under 'priority'",
+            })
+        elif isinstance(authority_map, dict):
+            auth_kinds = set(authority_map)
+            prio_kinds = set(priority_map)
+            if auth_kinds != prio_kinds:
+                missing_in_prio = sorted(auth_kinds - prio_kinds)
+                extra_in_prio = sorted(prio_kinds - auth_kinds)
+                detail_parts: list[str] = []
+                if missing_in_prio:
+                    detail_parts.append(f"missing in priority: {missing_in_prio}")
+                if extra_in_prio:
+                    detail_parts.append(f"extra in priority: {extra_in_prio}")
+                violations.append({
+                    "source": "founder/steward/POLICY.yaml",
+                    "rule": "authority-priority-alignment",
+                    "detail": f"debt kinds in priority do not match authority: {', '.join(detail_parts)}",
+                })
+
+        repairs = policy_data.get("repairs")
+        if isinstance(repairs, dict):
+            executors = repairs.get("executors")
+            if isinstance(executors, dict) and isinstance(authority_map, dict):
+                for exec_id, exec_conf in sorted(executors.items()):
+                    if isinstance(exec_conf, dict):
+                        d_kind = exec_conf.get("debtKind")
+                        e_auth = exec_conf.get("authority")
+                        if d_kind in authority_map:
+                            if authority_map[d_kind] != "A" or e_auth != "A":
+                                violations.append({
+                                    "source": "founder/steward/POLICY.yaml",
+                                    "rule": "repair-executor-authority",
+                                    "detail": f"repair executor {exec_id!r} debtKind {d_kind!r} has authority {e_auth!r} (policy authority {authority_map[d_kind]!r}), expected 'A'",
+                                })
+
+        routing = policy_data.get("routing")
+        if isinstance(routing, dict):
+            dispatch_rules = routing.get("dispatchRules")
+            if isinstance(dispatch_rules, dict) and isinstance(authority_map, dict):
+                for rule_id, rule_conf in sorted(dispatch_rules.items()):
+                    if isinstance(rule_conf, dict):
+                        d_kind = rule_conf.get("debtKind")
+                        r_auth = rule_conf.get("authority")
+                        if d_kind in authority_map:
+                            if authority_map[d_kind] != "B" or r_auth != "B":
+                                violations.append({
+                                    "source": "founder/steward/POLICY.yaml",
+                                    "rule": "dispatch-rule-authority",
+                                    "detail": f"dispatch rule {rule_id!r} debtKind {d_kind!r} has authority {r_auth!r} (policy authority {authority_map[d_kind]!r}), expected 'B'",
+                                })
+            founder_rules = routing.get("founderRules")
+            if isinstance(founder_rules, dict) and isinstance(authority_map, dict):
+                for rule_id, rule_conf in sorted(founder_rules.items()):
+                    if isinstance(rule_conf, dict):
+                        d_kind = rule_conf.get("debtKind")
+                        f_auth = rule_conf.get("authority")
+                        if d_kind in authority_map:
+                            if authority_map[d_kind] != "C" or f_auth != "C":
+                                violations.append({
+                                    "source": "founder/steward/POLICY.yaml",
+                                    "rule": "founder-rule-authority",
+                                    "detail": f"founder rule {rule_id!r} debtKind {d_kind!r} has authority {f_auth!r} (policy authority {authority_map[d_kind]!r}), expected 'C'",
+                                })
+
+        return violations
+
+    def _check_schema_and_metadata(self, repo_root: Path) -> list[dict[str, str]]:
+        violations: list[dict[str, str]] = []
+        meta_json_path = repo_root / "registry/schema/meta.json"
+        meta_data: dict[str, object] | None = None
+        if meta_json_path.is_file():
+            try:
+                meta_data = json.loads(meta_json_path.read_text(encoding="utf-8"))
+            except Exception as exc:
+                violations.append({
+                    "source": "registry/schema/meta.json",
+                    "rule": "meta-json-parse",
+                    "detail": f"failed to parse meta.json: {exc}",
+                })
+
+        if isinstance(meta_data, dict):
+            levels_section = meta_data.get("levels")
+            if isinstance(levels_section, dict):
+                levels_order = levels_section.get("order")
+                levels_labels = levels_section.get("labels")
+                if isinstance(levels_order, list) and isinstance(levels_labels, dict):
+                    missing_labels = [lvl for lvl in levels_order if lvl not in levels_labels]
+                    if missing_labels:
+                        violations.append({
+                            "source": "registry/schema/meta.json",
+                            "rule": "levels-label-coverage",
+                            "detail": f"levels.order contains levels without labels: {missing_labels}",
+                        })
+
+            types_section = meta_data.get("types")
+            meta_types: list[str] = []
+            if isinstance(types_section, dict):
+                if isinstance(types_section.get("order"), list):
+                    meta_types = [t for t in types_section["order"] if isinstance(t, str)]
+                elif isinstance(types_section.get("minPrereqs"), dict):
+                    meta_types = [t for t in types_section["minPrereqs"] if isinstance(t, str)]
+
+                min_prereqs = types_section.get("minPrereqs")
+                if isinstance(min_prereqs, dict) and meta_types:
+                    missing_prereqs = [t for t in meta_types if t not in min_prereqs]
+                    if missing_prereqs:
+                        violations.append({
+                            "source": "registry/schema/meta.json",
+                            "rule": "types-min-prereqs-coverage",
+                            "detail": f"types contains types missing from minPrereqs: {missing_prereqs}",
+                        })
+
+            skill_schema_path = repo_root / "registry/schema/skill.schema.json"
+            if skill_schema_path.is_file():
+                try:
+                    schema_data = json.loads(skill_schema_path.read_text(encoding="utf-8"))
+                    schema_type_enum = schema_data.get("properties", {}).get("type", {}).get("enum")
+                    if isinstance(schema_type_enum, list) and meta_types:
+                        if sorted(schema_type_enum) != sorted(meta_types):
+                            violations.append({
+                                "source": "registry/schema/skill.schema.json",
+                                "rule": "skill-type-enum-alignment",
+                                "detail": f"skill.schema.json type enum {schema_type_enum} does not match meta.json types {meta_types}",
+                            })
+                except Exception as exc:
+                    violations.append({
+                        "source": "registry/schema/skill.schema.json",
+                        "rule": "skill-schema-parse",
+                        "detail": f"failed to parse skill.schema.json: {exc}",
+                    })
+
+        return violations
+
+    def _check_governance_docs(self, repo_root: Path) -> list[dict[str, str]]:
+        violations: list[dict[str, str]] = []
+        meta_doc_path = repo_root / "META.md"
+        meta_json_path = repo_root / "registry/schema/meta.json"
+        if not (meta_doc_path.is_file() and meta_json_path.is_file()):
+            return violations
+
+        try:
+            meta_data = json.loads(meta_json_path.read_text(encoding="utf-8"))
+            meta_text = meta_doc_path.read_text(encoding="utf-8")
+        except Exception:
+            return violations
+
+        if not isinstance(meta_data, dict):
+            return violations
+
+        levels_labels = meta_data.get("levels", {}).get("labels") if isinstance(meta_data.get("levels"), dict) else None
+        if isinstance(levels_labels, dict):
+            level_matches = re.findall(r"\|\s*\*\*([0-6]★)\*\*\s*\|\s*\*\*([^*|\n]+)\*\*", meta_text)
+            for tier, raw_label in level_matches:
+                label = raw_label.strip()
+                label_first_word = label.split()[0]
+                expected = levels_labels.get(tier)
+                if expected and expected != label and expected != label_first_word:
+                    violations.append({
+                        "source": "META.md",
+                        "rule": "meta-tier-label-contradiction",
+                        "detail": f"META.md defines tier {tier} as {label!r}, contradicting meta.json {expected!r}",
+                    })
+
+        types_section = meta_data.get("types")
+        meta_types: list[str] = []
+        if isinstance(types_section, dict):
+            if isinstance(types_section.get("order"), list):
+                meta_types = [t for t in types_section["order"] if isinstance(t, str)]
+            elif isinstance(types_section.get("minPrereqs"), dict):
+                meta_types = [t for t in types_section["minPrereqs"] if isinstance(t, str)]
+
+        if meta_types:
+            type_matches = re.findall(r"-\s+\*\*`([a-z0-9_-]+)`\*\*\s+—\s+(\d+|≥\s*\d+)\s+prerequisite", meta_text)
+            if type_matches:
+                doc_types = [t[0] for t in type_matches]
+                if sorted(doc_types) != sorted(meta_types):
+                    violations.append({
+                        "source": "META.md",
+                        "rule": "meta-node-type-contradiction",
+                        "detail": f"META.md active node types {doc_types} do not match meta.json types {meta_types}",
+                    })
+
+        return violations
+
+    def _check_claude_workflow(self, repo_root: Path) -> list[dict[str, str]]:
+        violations: list[dict[str, str]] = []
+        claude_doc_path = repo_root / "CLAUDE.md"
+        if not claude_doc_path.is_file():
+            return violations
+
+        try:
+            claude_text = claude_doc_path.read_text(encoding="utf-8")
+        except Exception as exc:
+            violations.append({
+                "source": "CLAUDE.md",
+                "rule": "claude-doc-read",
+                "detail": f"failed to read CLAUDE.md: {exc}",
+            })
+            return violations
+
+        if "| **schema/**" in claude_text:
+            if "registry/schema/" not in claude_text or "src/gaia_cli/data/registry/schema/" not in claude_text:
+                violations.append({
+                    "source": "CLAUDE.md",
+                    "rule": "claude-schema-scope-contradiction",
+                    "detail": "CLAUDE.md schema branch scope must list both registry/schema/ and src/gaia_cli/data/registry/schema/",
+                })
+
+        return violations
+
+
 def default_sensors() -> tuple[Sensor, ...]:
     return (
         BundledSchemaMirrorSensor(),
@@ -600,4 +914,5 @@ def default_sensors() -> tuple[Sensor, ...]:
         RegistryIntegritySensor(),
         CliContractSensor(),
         DiscoveryGenericMappingSensor(),
+        KnowledgeContradictionSensor(),
     )

@@ -96,7 +96,7 @@ def test_steward_scan_json_cli_is_clean_and_report_only(
 
     payload = json.loads(capsys.readouterr().out)
     assert payload["receipt"]["result"]["status"] == "no_change"
-    assert payload["receipt"]["observationsCollected"] == 9  # 5 sensors + 4 coverage marks
+    assert payload["receipt"]["observationsCollected"] == 11  # 6 sensors + 5 observations
     assert payload["receipt"]["dispatches"] == []
     assert payload["receipt"]["repairs"] == []
     assert payload["state"]["debt"].startswith(str(tmp_path / ".gaia/steward"))
