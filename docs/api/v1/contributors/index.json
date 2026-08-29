@@ -6,9 +6,9 @@
       "topSkill": {
         "id": "garrytan/gstack",
         "level": "5★",
-        "trustMagnitude": 312.99
+        "trustMagnitude": 112.99
       },
-      "prestigeScore": 2778.89,
+      "prestigeScore": 2197.89,
       "_links": {
         "self": "/api/v1/contributors/garrytan.json"
       }
@@ -19,9 +19,9 @@
       "topSkill": {
         "id": "mattpocock/skills",
         "level": "5★",
-        "trustMagnitude": 329.45
+        "trustMagnitude": 129.45
       },
-      "prestigeScore": 2627.42,
+      "prestigeScore": 1867.42,
       "_links": {
         "self": "/api/v1/contributors/mattpocock.json"
       }
@@ -30,52 +30,26 @@
       "handle": "ruvnet",
       "namedSkills": 30,
       "topSkill": {
-        "id": "ruvnet/ruflo",
-        "level": "5★",
-        "trustMagnitude": 256.68
+        "id": "ruvnet/hive-mind",
+        "level": "3★",
+        "trustMagnitude": 95.02
       },
-      "prestigeScore": 1969.88,
+      "prestigeScore": 1257.2,
       "_links": {
         "self": "/api/v1/contributors/ruvnet.json"
-      }
-    },
-    {
-      "handle": "leonxlnx",
-      "namedSkills": 12,
-      "topSkill": {
-        "id": "leonxlnx/taste-skill",
-        "level": "4★",
-        "trustMagnitude": 315.07
-      },
-      "prestigeScore": 1580.84,
-      "_links": {
-        "self": "/api/v1/contributors/leonxlnx.json"
       }
     },
     {
       "handle": "obra",
       "namedSkills": 12,
       "topSkill": {
-        "id": "obra/superpowers",
-        "level": "5★",
-        "trustMagnitude": 315.15
+        "id": "obra/subagent-driven-development",
+        "level": "4★",
+        "trustMagnitude": 117.65
       },
-      "prestigeScore": 1220.2,
+      "prestigeScore": 984.2,
       "_links": {
         "self": "/api/v1/contributors/obra.json"
-      }
-    },
-    {
-      "handle": "addy-osmani",
-      "namedSkills": 9,
-      "topSkill": {
-        "id": "addy-osmani/agent-skills",
-        "level": "5★",
-        "trustMagnitude": 256.3
-      },
-      "prestigeScore": 1016.29,
-      "_links": {
-        "self": "/api/v1/contributors/addy-osmani.json"
       }
     },
     {
@@ -92,29 +66,42 @@
       }
     },
     {
-      "handle": "firecrawl",
-      "namedSkills": 6,
+      "handle": "addy-osmani",
+      "namedSkills": 9,
       "topSkill": {
-        "id": "firecrawl/firecrawl-skills",
-        "level": "4★",
-        "trustMagnitude": 225.7
+        "id": "addy-osmani/code-simplification",
+        "level": "3★",
+        "trustMagnitude": 196.3
       },
-      "prestigeScore": 772.46,
+      "prestigeScore": 816.29,
       "_links": {
-        "self": "/api/v1/contributors/firecrawl.json"
+        "self": "/api/v1/contributors/addy-osmani.json"
       }
     },
     {
-      "handle": "gsd-build",
+      "handle": "leonxlnx",
+      "namedSkills": 12,
+      "topSkill": {
+        "id": "leonxlnx/taste-skill",
+        "level": "4★",
+        "trustMagnitude": 115.07
+      },
+      "prestigeScore": 665.07,
+      "_links": {
+        "self": "/api/v1/contributors/leonxlnx.json"
+      }
+    },
+    {
+      "handle": "firecrawl",
       "namedSkills": 6,
       "topSkill": {
-        "id": "gsd-build/get-shit-done",
-        "level": "4★",
-        "trustMagnitude": 202.2
+        "id": "firecrawl/firecrawl-research-index",
+        "level": "3★",
+        "trustMagnitude": 150.32
       },
-      "prestigeScore": 463.2,
+      "prestigeScore": 622.46,
       "_links": {
-        "self": "/api/v1/contributors/gsd-build.json"
+        "self": "/api/v1/contributors/firecrawl.json"
       }
     },
     {
@@ -131,6 +118,19 @@
       }
     },
     {
+      "handle": "gsd-build",
+      "namedSkills": 6,
+      "topSkill": {
+        "id": "gsd-build/get-shit-done",
+        "level": "4★",
+        "trustMagnitude": 52.2
+      },
+      "prestigeScore": 302.2,
+      "_links": {
+        "self": "/api/v1/contributors/gsd-build.json"
+      }
+    },
+    {
       "handle": "anthropic",
       "namedSkills": 2,
       "topSkill": {
@@ -141,19 +141,6 @@
       "prestigeScore": 247.52,
       "_links": {
         "self": "/api/v1/contributors/anthropic.json"
-      }
-    },
-    {
-      "handle": "disler",
-      "namedSkills": 4,
-      "topSkill": {
-        "id": "disler/agent-fusion",
-        "level": "4★",
-        "trustMagnitude": 127.54
-      },
-      "prestigeScore": 236.56,
-      "_links": {
-        "self": "/api/v1/contributors/disler.json"
       }
     },
     {
@@ -193,6 +180,19 @@
       "prestigeScore": 147.68,
       "_links": {
         "self": "/api/v1/contributors/safishamsi.json"
+      }
+    },
+    {
+      "handle": "disler",
+      "namedSkills": 4,
+      "topSkill": {
+        "id": "disler/agent-fusion",
+        "level": "4★",
+        "trustMagnitude": 37.54
+      },
+      "prestigeScore": 146.56,
+      "_links": {
+        "self": "/api/v1/contributors/disler.json"
       }
     },
     {

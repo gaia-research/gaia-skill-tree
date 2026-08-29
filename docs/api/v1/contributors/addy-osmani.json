@@ -2,32 +2,6 @@
   "handle": "addy-osmani",
   "namedSkills": [
     {
-      "id": "addy-osmani/agent-skills",
-      "name": "Agent Skills",
-      "level": "5★",
-      "trustMagnitude": 256.3,
-      "overallTrustGrade": "A",
-      "contributor": "addy-osmani",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Ultimate",
-      "medallion": "◆",
-      "_links": {
-        "self": "/api/v1/skills/addy-osmani/agent-skills.json"
-      },
-      "genericSkillRef": "git-ship-done-pipeline",
-      "suiteComponents": [
-        "addy-osmani/code-review-and-quality",
-        "addy-osmani/code-simplification",
-        "addy-osmani/incremental-implementation",
-        "addy-osmani/performance-optimization",
-        "addy-osmani/planning-and-task-breakdown",
-        "addy-osmani/shipping-and-launch",
-        "addy-osmani/spec-driven-development",
-        "addy-osmani/test-driven-development"
-      ]
-    },
-    {
       "id": "addy-osmani/code-simplification",
       "name": "Code Simplification",
       "level": "3★",
@@ -108,6 +82,32 @@
       "genericSkillRef": "prd-generation"
     },
     {
+      "id": "addy-osmani/agent-skills",
+      "name": "Agent Skills",
+      "level": "5★",
+      "trustMagnitude": 56.3,
+      "overallTrustGrade": "B",
+      "contributor": "addy-osmani",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Ultimate",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/addy-osmani/agent-skills.json"
+      },
+      "genericSkillRef": "git-ship-done-pipeline",
+      "suiteComponents": [
+        "addy-osmani/code-review-and-quality",
+        "addy-osmani/code-simplification",
+        "addy-osmani/incremental-implementation",
+        "addy-osmani/performance-optimization",
+        "addy-osmani/planning-and-task-breakdown",
+        "addy-osmani/shipping-and-launch",
+        "addy-osmani/spec-driven-development",
+        "addy-osmani/test-driven-development"
+      ]
+    },
+    {
       "id": "addy-osmani/code-review-and-quality",
       "name": "Code Review and Quality",
       "level": "3★",
@@ -158,14 +158,14 @@
   ],
   "namedSkillsCount": 9,
   "topSkill": {
-    "id": "addy-osmani/agent-skills",
-    "level": "5★",
-    "trustMagnitude": 256.3
+    "id": "addy-osmani/code-simplification",
+    "level": "3★",
+    "trustMagnitude": 196.3
   },
-  "prestigeScore": 1016.29,
+  "prestigeScore": 816.29,
   "gradeDistribution": {
-    "A": 5,
-    "B": 3,
+    "A": 4,
+    "B": 4,
     "C": 1
   },
   "_links": {

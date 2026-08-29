@@ -2,29 +2,6 @@
   "handle": "firecrawl",
   "namedSkills": [
     {
-      "id": "firecrawl/firecrawl-skills",
-      "name": "Firecrawl Skills",
-      "level": "4★",
-      "trustMagnitude": 225.7,
-      "overallTrustGrade": "A",
-      "contributor": "firecrawl",
-      "type": "fusion",
-      "branch": "suite",
-      "rankWord": "Extra",
-      "medallion": "◆",
-      "_links": {
-        "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
-      },
-      "genericSkillRef": "firecrawl",
-      "suiteComponents": [
-        "firecrawl/firecrawl-build-interact",
-        "firecrawl/firecrawl-build-onboarding",
-        "firecrawl/firecrawl-build-scrape",
-        "firecrawl/firecrawl-build-search",
-        "firecrawl/firecrawl-research-index"
-      ]
-    },
-    {
       "id": "firecrawl/firecrawl-research-index",
       "name": "Firecrawl Research Index",
       "level": "3★",
@@ -103,18 +80,41 @@
         "self": "/api/v1/skills/firecrawl/firecrawl-build-onboarding.json"
       },
       "genericSkillRef": "agent-environment-setup"
+    },
+    {
+      "id": "firecrawl/firecrawl-skills",
+      "name": "Firecrawl Skills",
+      "level": "4★",
+      "trustMagnitude": 75.7,
+      "overallTrustGrade": "B",
+      "contributor": "firecrawl",
+      "type": "fusion",
+      "branch": "suite",
+      "rankWord": "Extra",
+      "medallion": "◆",
+      "_links": {
+        "self": "/api/v1/skills/firecrawl/firecrawl-skills.json"
+      },
+      "genericSkillRef": "firecrawl",
+      "suiteComponents": [
+        "firecrawl/firecrawl-build-interact",
+        "firecrawl/firecrawl-build-onboarding",
+        "firecrawl/firecrawl-build-scrape",
+        "firecrawl/firecrawl-build-search",
+        "firecrawl/firecrawl-research-index"
+      ]
     }
   ],
   "namedSkillsCount": 6,
   "topSkill": {
-    "id": "firecrawl/firecrawl-skills",
-    "level": "4★",
-    "trustMagnitude": 225.7
+    "id": "firecrawl/firecrawl-research-index",
+    "level": "3★",
+    "trustMagnitude": 150.32
   },
-  "prestigeScore": 772.46,
+  "prestigeScore": 622.46,
   "gradeDistribution": {
-    "A": 4,
-    "B": 2
+    "A": 3,
+    "B": 3
   },
   "_links": {
     "self": "/api/v1/contributors/firecrawl.json",
