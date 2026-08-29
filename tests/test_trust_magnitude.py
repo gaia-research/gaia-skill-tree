@@ -29,6 +29,7 @@ from gaia_cli.trustMagnitude import (
     computeOverallTrustGradeFromSkill,
     computeRowArtifactScores,
     computeTrustMagnitude,
+    computeTrustMagnitudeInputHash,
     computeTrustMagnitudeByType,
     enforceAntiAutoMint,
     explainTrustMagnitude,
@@ -60,12 +61,11 @@ def _verified_benchmark_row(**overrides):
 # ---------------------------------------------------------------------------
 
 
-def test_fusion_recipe_magnitude_under_10_origins_linear():
-    """RFC §2.2: m = 20 * origins for origins <= 10. weight=1.5."""
+def test_fusion_recipe_is_structural_provenance_with_zero_tm():
+    """Yggdrasil III retains fusion rows but fixes their TM contribution at zero."""
     row = {"type": "fusion-recipe", "origins": ["a", "b", "c"]}
-    score = computeArtifactScore(row)
-    # 20 * 3 = 60; weight 1.5 => 90.0
-    assert score == pytest.approx(90.0)
+    assert computeArtifactScore(row) == 0.0
+    assert computeArtifactScoreOrNone(row) == 0.0
 
 
 def test_github_stars_own_magnitude_basic():
@@ -154,7 +154,7 @@ def test_social_signal_magnitude_log_views():
 
 
 # ---------------------------------------------------------------------------
-# Batch B: Mothership discount (3) + same-source dedup (2) + sqrt fusion (2)
+# Batch B: Mothership discount (3) + same-source dedup (2) + fusion provenance
 # ---------------------------------------------------------------------------
 
 
@@ -207,43 +207,30 @@ def test_same_source_dedup_normalizes_tree_to_blob():
     assert tm == pytest.approx(1.2)
 
 
-def test_fusion_recipe_sqrt_softening_above_10_origins():
-    """Yggdrasil III caps the weighted fusion contribution at 200 TM."""
-    row = {"type": "fusion-recipe", "gradedOriginCount": 14}
-    # Raw formula remains 240; weighted score is capped at 200.
-    assert computeArtifactScore(row) == pytest.approx(200.0)
-
-
-def test_fusion_recipe_at_exactly_10_origins_linear_endpoint():
-    """RFC §2.2: at origins=10, linear path applies (m=200)."""
-    row = {"type": "fusion-recipe", "gradedOriginCount": 10}
-    # 20*10=200; weight 1.5 => 300, then cap at 200.
-    assert computeArtifactScore(row) == pytest.approx(200.0)
-
-
 @pytest.mark.parametrize(
-    ("originCount", "expected"),
-    [(5, 150.0), (6, 180.0), (7, 200.0), (10, 200.0), (46, 200.0)],
+    "originCount",
+    [5, 10, 46],
 )
-def test_fusion_contribution_cap_preserves_small_suite_curve(originCount, expected):
-    """Fusion remains linear through six graded origins and plateaus at 200."""
+def test_fusion_recipe_scores_zero_regardless_of_origin_count(originCount):
+    """The old fusion contribution cap is gone: structural rows never score."""
     row = {"type": "fusion-recipe", "gradedOriginCount": originCount}
-    assert computeArtifactScore(row) == pytest.approx(expected)
+    assert computeArtifactScore(row) == 0.0
 
 
-def test_fusion_cap_is_consistent_across_aggregate_reporting_and_explanation():
+def test_fusion_zero_is_consistent_across_aggregate_reporting_and_explanation():
     skill = {"evidence": [{"type": "fusion-recipe", "gradedOriginCount": 10}]}
 
-    assert computeTrustMagnitude(skill) == pytest.approx(200.0)
-    assert computeTrustMagnitudeByType(skill) == {"fusion-recipe": 200.0}
+    assert computeTrustMagnitude(skill) == 0.0
+    assert computeTrustMagnitudeByType(skill) == {}
     rows = computeRowArtifactScores(skill)
-    assert rows[0][1] == pytest.approx(200.0)
+    assert rows[0][1] == 0.0
     explanation = explainTrustMagnitude(skill)
-    assert "Trust Magnitude: 200.00" in explanation
-    assert "fusion contribution cap: 200.00" in explanation
+    assert "Trust Magnitude: 0.00" in explanation
+    assert "structural provenance retained; TM contribution fixed at 0.00" in explanation
+    assert "fusion contribution cap" not in explanation
 
 
-def test_explanation_uses_final_fusion_cap_after_inheritance_multiplier():
+def test_fusion_provenance_remains_zero_if_legacy_layer_data_is_present():
     skill = {
         "genericSkillRef": "generic-fusion",
         "evidence": [{
@@ -253,8 +240,8 @@ def test_explanation_uses_final_fusion_cap_after_inheritance_multiplier():
         }],
     }
     generic_map = {"generic-fusion": {"evidence": []}}
-    assert computeTrustMagnitude(skill, generic_map) == pytest.approx(200.0)
-    assert "Trust Magnitude: 200.00" in explainTrustMagnitude(skill, generic_map)
+    assert computeTrustMagnitude(skill, generic_map) == 0.0
+    assert "Trust Magnitude: 0.00" in explainTrustMagnitude(skill, generic_map)
 
 
 # ---------------------------------------------------------------------------
@@ -317,36 +304,34 @@ def test_null_on_derank_legacy_derank_field_also_honored():
 
 
 def test_diversity_gate_blocks_S_when_only_self_producible():
-    """Yggdrasil III: fusion and self-owned rows cannot witness S."""
-    # Pure fusion-recipe, repo-own, self-attestation are all self-producible
+    """Yggdrasil III fusion cannot promote self-produced repository evidence."""
     skill = {
         "evidence": [
-            {"type": "fusion-recipe", "gradedOriginCount": 12},  # huge
+            {"type": "fusion-recipe", "gradedOriginCount": 12},
             {"type": "repo-own", "commits": 1000, "contributors": 5},
             {"type": "self-attestation"},
         ]
     }
     grade = computeOverallTrustGradeFromSkill(skill)
-    # TM clearly >= 250, but no independent witness -> max is A.
-    assert grade == "A"
+    assert grade == "C"
 
 
 def test_diversity_gate_S_requires_three_distinct_types():
-    """Yggdrasil III: an independent witness still needs three types."""
+    """Fusion structural provenance does not count as a third scoring type."""
     skill = {
         "evidence": [
-            # one verifier witness + one fusion = only 2 types
-            {"type": "verifier-attestation", "verifiers": 8},  # 30*8=240; *1.5=360
-            {"type": "fusion-recipe", "gradedOriginCount": 5},  # 100*1.5=150
+            {"type": "verifier-attestation", "verifiers": 5},  # 225
+            {"type": "github-stars-own", "stars": 50000},  # 50
+            {"type": "fusion-recipe", "gradedOriginCount": 5},
         ]
     }
-    # TM = 510, has a witness, but only 2 types -> A (not S)
+    # TM = 275 but only verifier + stars are positive scoring types.
     grade = computeOverallTrustGradeFromSkill(skill)
     assert grade == "A"
 
 
-def test_diversity_gate_S_passes_with_three_types_and_non_self_producible():
-    """Yggdrasil III: a positive verifier witness can anchor S."""
+def test_diversity_gate_S_passes_with_three_types_and_independent_witness():
+    """A positive verifier remains an eligible independent S witness."""
     skill = {
         "evidence": [
             {"type": "verifier-attestation", "verifiers": 4},  # 30*4*1.5 = 180
@@ -354,61 +339,223 @@ def test_diversity_gate_S_passes_with_three_types_and_non_self_producible():
             {"type": "arxiv", "citations": 200},  # 40*1.0 = 40
         ]
     }
-    # TM = 180+50+40 = 270, 3 distinct types -> S.
+    # TM = 180+50+40 = 270 with three scoring types and a verifier -> S.
     grade = computeOverallTrustGradeFromSkill(skill)
     assert grade == "S"
 
 
-def _s_gate_self_produced_rows():
-    return [
-        {"type": "fusion-recipe", "gradedOriginCount": 10},
-        {"type": "repo-own", "commits": 10000, "contributors": 10,
-         "source": "https://github.com/owner/repo"},
-        {"type": "github-stars-own", "stars": 50000,
-         "skillCountInRepo": 1, "source": "https://github.com/owner/repo/stars"},
-    ]
-
-
 @pytest.mark.parametrize(
     "witness",
     [
-        {"type": "benchmark-result", **_verified_benchmark_row()},
-        {"type": "verifier-attestation", "verifiers": 1,
-         "source": "https://verifier.example/attestation"},
-        {"type": "peer-review", "reviewers": 1,
-         "source": "https://review.example/review"},
+        {"type": "verifier-attestation", "verifiers": 2},
+        _verified_benchmark_row(),
+        {"type": "peer-review", "reviewers": 2},
     ],
 )
-def test_s_gate_accepts_each_positive_independent_witness_class(witness):
-    skill = {"evidence": _s_gate_self_produced_rows() + [witness]}
+def test_s_accepts_each_positive_eligible_independent_witness_class(witness):
+    """Each approved witness class can satisfy S when the rest of the gate holds."""
+    skill = {
+        "evidence": [
+            {"type": "github-stars-own", "stars": 200000},
+            {"type": "repo-own", "commits": 100000, "contributors": 100},
+            witness,
+        ]
+    }
     assert computeTrustMagnitude(skill) >= GRADE_S_FLOOR
     assert computeOverallTrustGradeFromSkill(skill) == "S"
 
 
-def test_s_gate_rejects_fusion_repo_and_mothership_stars_without_witness():
-    skill = {"evidence": _s_gate_self_produced_rows()}
-    assert computeTrustMagnitude(skill) >= GRADE_S_FLOOR
-    assert computeOverallTrustGradeFromSkill(skill) == "A"
-
-
 @pytest.mark.parametrize(
-    "witness",
+    "invalidWitness",
     [
-        {"type": "benchmark-result", "benchmarkId": "unknown@v1",
-         "provenance": "rejected", "percentile": 99},
-        {"type": "verifier-attestation", "verifiers": 4,
-         "verifierActiveRank": False},
-        {"type": "verifier-attestation", "verifiers": 0},
-        {"type": "peer-review", "reviewers": 1,
-         "lastVerified": "2000-01-01T00:00:00Z"},
-        {"type": "peer-review", "reviewers": 0},
-        {"type": "peer-review", "reviewers": 1, "phantom": True},
+        _verified_benchmark_row(provenance="rejected"),
+        {"type": "verifier-attestation", "verifiers": 2, "verifierActiveRank": False},
+        {"type": "peer-review", "reviewers": 2, "autoMinted": True},
+        {"type": "peer-review", "reviewers": 2, "lastVerified": "2000-01-01"},
     ],
 )
-def test_s_gate_rejects_ineligible_zero_or_phantom_independent_rows(witness):
-    skill = {"evidence": _s_gate_self_produced_rows() + [witness]}
+def test_s_rejects_invalid_phantom_deranked_and_zero_independent_witnesses(invalidWitness):
+    """Only a positive, eligible, physically present witness may satisfy S."""
+    skill = {
+        "evidence": [
+            {"type": "github-stars-own", "stars": 200000},
+            {"type": "arxiv", "citations": 500},
+            {"type": "repo-own", "commits": 100000, "contributors": 100},
+            invalidWitness,
+        ]
+    }
     assert computeTrustMagnitude(skill) >= GRADE_S_FLOOR
     assert computeOverallTrustGradeFromSkill(skill) == "A"
+
+
+def test_s_rejects_an_inherited_only_independent_witness():
+    """A generic-layer benchmark can add TM and diversity but cannot witness S."""
+    genericId = "parent-generic"
+    generic = {
+        "evidence": [_verified_benchmark_row(source="https://bench.example/parent")],
+    }
+    named = {
+        "genericSkillRef": genericId,
+        "evidence": [
+            {"type": "github-stars-own", "stars": 200000},
+            {
+                "type": "repo-own",
+                "commits": 100000,
+                "contributors": 100,
+                "source": "https://github.com/named/component",
+            },
+        ],
+    }
+
+    assert computeTrustMagnitude(named, {genericId: generic}) >= GRADE_S_FLOOR
+    assert computeOverallTrustGradeFromSkill(named, {genericId: generic}) == "A"
+    assert "grade: A" in explainTrustMagnitude(named, {genericId: generic})
+
+
+def test_fusion_repo_and_stars_cannot_reach_s():
+    """Fusion plus own-repository signals is neither a witness nor three scoring types."""
+    skill = {
+        "evidence": [
+            {"type": "fusion-recipe", "gradedOriginCount": 30},
+            {"type": "github-stars-own", "stars": 200000},
+            {"type": "repo-own", "commits": 100000, "contributors": 100},
+        ]
+    }
+    assert computeTrustMagnitude(skill) == pytest.approx(236.0)
+    assert "fusion-recipe" not in computeTrustMagnitudeByType(skill)
+    assert computeOverallTrustGradeFromSkill(skill) == "A"
+
+
+def test_fusion_only_capstone_no_longer_overtakes_richer_standalone():
+    """A Taste-like capstone cannot outrank independent evidence solely via fusion."""
+    fusionCapstone = {
+        "evidence": [{"type": "fusion-recipe", "gradedOriginCount": 50}],
+    }
+    richerStandalone = {
+        "evidence": [
+            {"type": "verifier-attestation", "verifiers": 3},
+            {"type": "github-stars-own", "stars": 100000},
+            {"type": "repo-own", "commits": 100000, "contributors": 100},
+        ]
+    }
+    assert computeTrustMagnitude(fusionCapstone) == 0.0
+    assert computeTrustMagnitude(fusionCapstone) < computeTrustMagnitude(richerStandalone)
+
+
+def _taste_like_component(extraEvidence=None):
+    return {
+        "id": "taste/component",
+        "suiteRef": "taste/taste",
+        "evidence": [
+            {
+                "type": "github-stars-own",
+                "stars": 200000,
+                "source": "https://github.com/taste/taste/stargazers",
+            },
+            {
+                "type": "repo-own",
+                "commits": 100000,
+                "contributors": 100,
+                "source": "https://github.com/taste/taste/blob/main/SKILL.md",
+            },
+            *(extraEvidence or []),
+        ],
+    }
+
+
+def test_suite_component_shared_repository_rows_cap_at_50_and_cannot_reach_a_or_s():
+    """A component inherits at most 50 TM from its suite root's repository."""
+    component = _taste_like_component()
+    rows = computeRowArtifactScores(component)
+    sharedTotal = sum(
+        score for row, score in rows if row.get("source", "").startswith("https://github.com/taste/taste")
+    )
+    byType = computeTrustMagnitudeByType(component)
+
+    assert sharedTotal == pytest.approx(50.0)
+    assert computeTrustMagnitude(component) == pytest.approx(50.0)
+    assert sum(byType.values()) == pytest.approx(50.0)
+    assert computeOverallTrustGradeFromSkill(component) == "B"
+    explanation = explainTrustMagnitude(component)
+    assert "suite component repository baseline: 50.00 / 50.00 TM" in explanation
+
+
+def test_suite_component_keeps_other_repository_evidence_fully_eligible():
+    """Only suite-root repository rows are bounded; a component repo row is not."""
+    component = _taste_like_component()
+    component["evidence"] = [component["evidence"][0], {
+        "type": "repo-own",
+        "commits": 100000,
+        "contributors": 100,
+        "source": "https://github.com/taste/component/blob/main/SKILL.md",
+    }]
+    rows = computeRowArtifactScores(component)
+    componentRow = next(score for row, score in rows if "taste/component" in row.get("source", ""))
+
+    assert componentRow == pytest.approx(36.0)
+    assert computeTrustMagnitude(component) == pytest.approx(86.0)
+
+
+def test_suite_component_benchmark_and_review_lift_normally():
+    """Component-specific independent evidence is uncapped and can promote normally."""
+    component = _taste_like_component([
+        _verified_benchmark_row(source="https://bench.example/taste-component"),
+        {"type": "peer-review", "reviewers": 4, "source": "https://review.example/taste-component"},
+    ])
+    byType = computeTrustMagnitudeByType(component)
+
+    assert byType["benchmark-result"] == pytest.approx(140.0)
+    assert byType["peer-review"] == pytest.approx(120.0)
+    assert computeTrustMagnitude(component) == pytest.approx(310.0)
+    assert computeOverallTrustGradeFromSkill(component) == "S"
+
+
+def test_standalone_own_repository_evidence_remains_uncapped():
+    """A root/standalone skill without suiteRef keeps normal own-repository TM."""
+    standalone = _taste_like_component()
+    standalone.pop("suiteRef")
+
+    assert computeTrustMagnitude(standalone) == pytest.approx(236.0)
+    assert computeOverallTrustGradeFromSkill(standalone) == "A"
+
+
+def test_tm_input_hash_ignores_structural_fusion_metadata_but_tracks_suite_ref():
+    """Only suiteRef, not fusion provenance, changes the component baseline hash."""
+    base = {
+        "id": "taste/component",
+        "suiteRef": "taste/taste",
+        "suiteComponents": ["taste/a"],
+        "evidence": [
+            {
+                "type": "github-stars-own",
+                "stars": 200000,
+                "source": "https://github.com/taste/taste/stargazers",
+            },
+            {
+                "type": "fusion-recipe",
+                "origins": ["taste/a"],
+                "gradedOriginCount": 1,
+            },
+        ],
+    }
+    changedStructuralMetadata = {
+        **base,
+        "suiteComponents": ["taste/b", "taste/c"],
+        "evidence": [
+            base["evidence"][0],
+            {
+                "type": "fusion-recipe",
+                "origins": ["taste/b", "taste/c"],
+                "gradedOriginCount": 2,
+            },
+        ],
+    }
+    changedSuiteRef = {**base, "suiteRef": "taste/other"}
+
+    assert computeTrustMagnitude(base) == computeTrustMagnitude(changedStructuralMetadata)
+    assert computeTrustMagnitudeInputHash(base) == computeTrustMagnitudeInputHash(changedStructuralMetadata)
+    assert computeTrustMagnitude(base) != computeTrustMagnitude(changedSuiteRef)
+    assert computeTrustMagnitudeInputHash(base) != computeTrustMagnitudeInputHash(changedSuiteRef)
 
 
 def test_rank_floor_grade_thresholds_constants():
@@ -540,8 +687,8 @@ def test_apex_gate_inactive_predicates_return_none():
     assert checkSystemWideCap({"systemWideApexCount": 100}) is None
 
 
-def test_role_variant_origin_does_not_count_in_fusion_recipe():
-    """Delta §C-2: role='variant' origins contribute 0 to graded-origin count."""
+def test_role_variant_origin_keeps_fusion_structural_score_zero():
+    """Variant handling remains structural; fusion itself contributes no TM."""
     row = {
         "type": "fusion-recipe",
         "origins": [
@@ -551,8 +698,7 @@ def test_role_variant_origin_does_not_count_in_fusion_recipe():
         ],
     }
     score = computeArtifactScore(row)
-    # Only 2 graded origins counted: 20*2 = 40; weight 1.5 = 60
-    assert score == pytest.approx(60.0)
+    assert score == 0.0
 
 
 def test_role_variant_excluded_from_depth1_fusion_origins_for_apex():
@@ -1245,44 +1391,30 @@ def test_asOriginCountingUsesIntendedClosureAndDoesNotOvercount():
 # ---------------------------------------------------------------------------
 
 
-def test_gradedOriginCount_with_no_map_assumes_every_bare_id_origin_is_graded():
-    """Reproduces the Issue #1600 root cause: a suite skill appraised with
-
-    genericSkillMap=None (scripts/trust_appraise.py's bug before the fix)
-    cannot tell whether a bare-string suiteComponents origin is graded, so it
-    optimistically counts every origin as graded >= C. With the real map, only
-    origins that actually resolve to a graded skill count.
-    """
+def test_fusion_only_suite_keeps_structural_apex_helpers_while_scoring_zero():
+    """Fusion provenance stays available to origin and depth traversal helpers."""
     skill = {
         "id": "host/suite",
-        "suiteComponents": ["comp/a", "comp/b", "comp/c", "comp/d"],
+        "evidence": [{
+            "type": "fusion-recipe",
+            "origins": ["origin/a", "origin/b", "origin/c", "origin/d", "origin/e"],
+        }],
     }
-    tmWithoutMap = computeTrustMagnitude(skill, genericSkillMap=None)
-
-    # Only 2 of the 4 origins are actually graded in the real registry.
-    # _gradedOriginCount resolves grade via _highestGradeFromEvidence over the
-    # origin's own evidence rows (matching how a real named skill's grade is
-    # derived) — not a cached overallTrustGrade/overallGrade field.
     genericSkillMap = {
-        "comp/a": {"id": "comp/a", "evidence": [{"type": "repo-own", "grade": "B"}]},
-        "comp/b": {"id": "comp/b", "evidence": [{"type": "repo-own", "grade": "C"}]},
-        "comp/c": {"id": "comp/c", "evidence": []},
-        "comp/d": {"id": "comp/d"},
+        "origin/a": {"overallTrustGrade": "A", "evidence": [{"type": "fusion-recipe", "origins": ["depth/two"]}]},
+        "origin/b": {"overallTrustGrade": "A"},
+        "origin/c": {"overallTrustGrade": "A"},
+        "origin/d": {"overallTrustGrade": "A"},
+        "origin/e": {"overallTrustGrade": "A"},
+        "depth/two": {},
     }
-    tmWithMap = computeTrustMagnitude(skill, genericSkillMap=genericSkillMap)
-
-    # No-map fallback assumes all 4 origins graded: 20*4*1.5 = 120.
-    assert tmWithoutMap == pytest.approx(120.0)
-    # Real map resolves only 2 graded origins: 20*2*1.5 = 60.
-    assert tmWithMap == pytest.approx(60.0)
-    assert tmWithoutMap > tmWithMap
+    assert computeTrustMagnitude(skill, genericSkillMap=genericSkillMap) == 0.0
+    assert checkAGradedOriginsGte5(skill, genericSkillMap=genericSkillMap) is True
+    assert checkDepth2OnlyReachableGte1(skill, {"genericSkillMap": genericSkillMap}) is True
 
 
-def test_gradedOriginCount_with_map_ignores_ungraded_bare_id_origins():
-    """A registry map with zero graded origins should score the fusion-recipe
-
-    row at 0, unlike the None-map fallback which would assume all graded.
-    """
+def test_fusion_only_suite_with_ungraded_origins_still_scores_zero():
+    """Origin grade resolution no longer changes fusion's TM contribution."""
     skill = {
         "id": "host/suite",
         "suiteComponents": ["comp/a", "comp/b"],

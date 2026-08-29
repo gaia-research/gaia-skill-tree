@@ -421,9 +421,9 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fm-val">ungraded</span>  otherwise<br>
 <br>
 <span class="fm-key">diversity_gate</span>(skill) = ALL of:<br>
-&nbsp;&nbsp;<span class="fm-comment">• ≥ 3 distinct evidence types</span><br>
+&nbsp;&nbsp;<span class="fm-comment">• ≥ 3 distinct positive-scoring evidence types</span><br>
 &nbsp;&nbsp;<span class="fm-comment">• ≥ 1 positive eligible independent witness from {benchmark-result, verifier-attestation, peer-review}</span><br>
-&nbsp;&nbsp;<span class="fm-comment">• rejected, deranked, zero-score, and phantom rows do not qualify</span>
+&nbsp;&nbsp;<span class="fm-comment">• fusion-recipe is structural/provenance metadata: 0 TM and excluded from diversity</span>
       </div>
 
       <h3 style="font-family: var(--font-display); font-size: 1.05rem; margin: 1.75rem 0 0.5rem;">5 · The 10 evidence types — base formula at a glance</h3>
@@ -431,7 +431,7 @@
         <table class="tm-table" aria-label="Quick math: per-type base formula">
           <thead><tr><th>Type</th><th>base formula</th><th>weight</th><th>cap</th><th>ceiling</th></tr></thead>
           <tbody>
-            <tr><td><code>fusion-recipe</code></td><td>20·N (N≤10) or 200+20·√(N−10) (N&gt;10)<br><span style="opacity:.7;font-size:.7rem;">N = origins graded ≥ C</span></td><td>1.5</td><td>200 final TM</td><td>S</td></tr>
+            <tr><td><code>fusion-recipe</code></td><td>structural/provenance metadata only</td><td>0</td><td>0 TM</td><td>—</td></tr>
             <tr><td><code>github-stars-own</code></td><td>min(200, stars/1000) ÷ min(skillCountInRepo, 4)</td><td>1.0</td><td>200</td><td>S</td></tr>
             <tr><td><code>proxy-containment</code></td><td>(externalStars/1000) × 0.8  <span style="opacity:.7;font-size:.7rem;">(min 10000)</span></td><td>1.0</td><td>160</td><td>S</td></tr>
             <tr><td><code>verifier-attestation</code></td><td>30 × verifiers</td><td>1.5</td><td>—</td><td>S</td></tr>
@@ -454,19 +454,26 @@
         <table class="tm-table" aria-label="Worked examples for 5-star skills">
           <thead><tr><th>Skill</th><th>Row</th><th>Inputs</th><th>base</th><th>× weight</th><th>= MAG</th></tr></thead>
           <tbody>
-            <tr><td rowspan="4"><code>garrytan/gstack</code><br>TM 309.3 → A</td><td><code>repo-own</code></td><td>commits=323, contrib=9</td><td>(323/200)+(9²×2)=163.6 → cap 60</td><td>×0.6</td><td><strong>36.0</strong></td></tr>
+            <tr><td rowspan="4"><code>garrytan/gstack</code><br>TM 309.3 → A*</td><td><code>repo-own</code></td><td>commits=323, contrib=9</td><td>(323/200)+(9²×2)=163.6 → cap 60</td><td>×0.6</td><td><strong>36.0</strong></td></tr>
             <tr><td><code>github-stars-own</code></td><td>stars=110930, skills=46</td><td>min(200,110.93)÷min(46,4)=27.73</td><td>×1.0</td><td><strong>27.7</strong></td></tr>
             <tr><td><code>social-signal</code></td><td>views=500000</td><td>log₁₀(500000)×8=45.59</td><td>×1.0</td><td><strong>45.6</strong></td></tr>
-            <tr><td><code>fusion-recipe</code></td><td>N=46 origins ≥C</td><td>200+20·√(46−10)=320.0</td><td>×1.5 → final cap 200</td><td><strong>200.0</strong></td></tr>
+            <tr><td><code>fusion-recipe</code></td><td>N=46 origins ≥C</td><td>structural origin count</td><td>0 TM</td><td><strong>0.0</strong></td></tr>
 
-            <tr><td rowspan="5"><code>ruvnet/ruflo</code><br>TM 255.0 → A</td><td><code>repo-own</code></td><td>commits=6899, contrib=32</td><td>(6899/200)+(32²×2)=2082.5 → cap 60</td><td>×0.6</td><td><strong>36.0</strong></td></tr>
+            <tr><td rowspan="5"><code>ruvnet/ruflo</code><br>TM 255.0 → A*</td><td><code>repo-own</code></td><td>commits=6899, contrib=32</td><td>(6899/200)+(32²×2)=2082.5 → cap 60</td><td>×0.6</td><td><strong>36.0</strong></td></tr>
             <tr><td><code>github-stars-own</code></td><td>stars=59957, skills=4</td><td>min(200,59.96)÷min(4,4)=14.99</td><td>×1.0</td><td><strong>14.99</strong></td></tr>
             <tr><td><code>arxiv</code></td><td>citations=20</td><td>20/5=4.0</td><td>×1.0</td><td><strong>4.0</strong></td></tr>
             <tr><td><code>social-signal</code></td><td>views=null</td><td>(no driver — 0)</td><td>—</td><td><strong>0</strong></td></tr>
-            <tr><td><code>fusion-recipe</code></td><td>N=27 graded (47 raw)</td><td>200+20·√(27−10)≈282.5</td><td>×1.5 → final cap 200</td><td><strong>200.0</strong></td></tr>
+            <tr><td><code>fusion-recipe</code></td><td>N=27 graded (47 raw)</td><td>structural origin count</td><td>0 TM</td><td><strong>0.0</strong></td></tr>
           </tbody>
         </table>
       </div>
+
+      <p style="font-size: 0.82rem; color: var(--muted); margin-top: 0.75rem;">
+        <strong style="color: var(--text);">* Current Yggdrasil III grade:</strong>
+        these historical rows show TM arithmetic only. Without a positive eligible
+        <code>benchmark-result</code>, <code>verifier-attestation</code>, or
+        <code>peer-review</code> row, TM ≥ 250 resolves to A rather than S.
+      </p>
 
       <p style="font-size: 0.85rem; color: var(--muted); margin-top: 0.75rem;">
         <strong style="color: var(--text);">If you change a formula, you must update — in this exact order:</strong>
@@ -512,7 +519,7 @@
         <li><strong style="color: var(--text);">Cap:</strong> a hard ceiling per row after the magnitude function is applied, before the weight multiplier.</li>
         <li><strong style="color: var(--text);">Freshness:</strong> some types decay over time (e.g. benchmark-result at 50 % / year); others are time-invariant.</li>
         <li><strong style="color: var(--text);">Dedup:</strong> duplicate URL rows are collapsed to a single entry before any scoring begins.</li>
-        <li><strong style="color: var(--text);">Role guard:</strong> certain types are only valid for specific skill roles (e.g. <code>fusion-recipe</code> only scores when <code>role='origin'</code>).</li>
+        <li><strong style="color: var(--text);">Role guard:</strong> structural roles such as <code>role='origin'</code> still govern graph/rank predicates; <code>fusion-recipe</code> remains metadata and scores 0.</li>
       </ul>
     </section>
 
@@ -572,7 +579,7 @@
               <td>100</td>
               <td>—  (1 row max)</td>
               <td>50 % / year (half-life decay)</td>
-              <td>A public benchmark result. Verified rows are CI-reproduced or verifier-attested; reported rows are public claims/mirrors approved by the human gate. Rejected rows score zero and cannot witness S.</td>
+              <td>A public benchmark result. Verified rows are CI-reproduced or verifier-attested; reported rows are public claims/mirrors approved by the human gate. Rejected rows score zero. This is pre TM Index V2; fusion scoring changes are a separate RFC.</td>
             </tr>
             <tr>
               <td><code>arxiv</code></td>
@@ -621,19 +628,19 @@
             </tr>
             <tr>
               <td><code>fusion-recipe</code></td>
-              <td>20 × N <em>(N ≤ 10)</em> &nbsp;|&nbsp; 200 + 20 × √(N−10) <em>(N &gt; 10)</em></td>
-              <td>1.5</td>
-              <td>200 final TM</td>
+              <td>structural origin count N (rank/provenance only)</td>
+              <td>0</td>
+              <td>0 TM</td>
               <td>—  (1 per skill; role='origin' only)</td>
               <td>None</td>
-              <td>N = graded ≥C origin skills in the fusion tree. Raw magnitude remains sqrt-softened past 10; after weight and applicable multipliers, the final fusion contribution is capped at 200 TM. Suite role='variant' components do not score.</td>
+              <td>Structural/provenance/rank metadata only. Origin counts and role guards remain available to graph traversal and Apex predicates; this row contributes 0 TM and does not count toward diversity.</td>
             </tr>
           </tbody>
         </table>
       </div>
 
       <p style="font-size: 0.82rem; color: var(--muted); margin-top: 0.5rem;">
-        N counts only <code>role='origin'</code> components graded ≥C. A five-origin skill contributes 20×5×1.5 = 150 TM; six contributes 180 TM; seven reaches 210 before the final 200-TM ceiling. Larger fusions retain their raw sqrt-softened magnitude for reporting, but their contribution plateaus at 200 TM. Fusion demonstrates composition scope; it does not supply independent S-grade trust.
+        N remains a structural origin count for composition and rank predicates. It contributes 0 TM. Fusion demonstrates composition scope; S instead requires three distinct positive-scoring evidence types and a positive eligible independent witness from <code>benchmark-result</code>, <code>verifier-attestation</code>, or <code>peer-review</code>.
       </p>
     </section>
 
@@ -660,6 +667,18 @@
         deduped by source URL. Own-layer rows always receive an <code>inheritMultiplier</code> of 1.0 — no discount
         is applied. Inherited rows receive the per-type discount documented in the table below.
       </p>
+
+      <div class="tm-callout" style="margin-bottom: 1.5rem;">
+        <div class="tm-callout-label"><code>suiteRef</code> component baseline</div>
+        <p>
+          A suite member identified by <code>suiteRef</code> may receive a limited inherited
+          repository-wide baseline from <code>github-stars-own</code> and <code>repo-own</code> evidence
+          at the suite capstone. The combined baseline is capped at <strong>50 TM per component</strong>:
+          it cannot alone make the component Overall Trust Grade A or S. Component-specific
+          <code>benchmark-result</code>, <code>peer-review</code>, and <code>verifier-attestation</code>
+          rows remain fully eligible and are not reduced by this baseline cap.
+        </p>
+      </div>
 
       <h3 style="font-family: var(--font-display); font-size: 1.1rem; margin: 1.5rem 0 0.5rem;"><code>allowedLayers</code> per Type</h3>
       <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 0.75rem;">
@@ -786,7 +805,7 @@
     <section class="process-section" id="grade-thresholds">
       <h2>Overall Trust Grade Thresholds</h2>
       <p class="section-sub">
-        The Overall Trust Grade is derived from a skill's Trust Magnitude and a diversity gate.
+        The Overall Trust Grade is derived from accumulated positive-scoring evidence in a skill's Trust Magnitude and a diversity gate.
         It is computed at build time and surfaces in generated catalogs — never stored on a node.
       </p>
 
@@ -803,10 +822,11 @@
             <td><span class="grade-pill grade-s">S</span> · Platinum</td>
             <td>TM ≥ 250</td>
             <td>
-              Both of:<br>
+              All three of:<br>
               <ul style="margin: 0.4rem 0 0; padding-left: 1.1rem; color: var(--muted); font-size: 0.82rem; display: flex; flex-direction: column; gap: 0.25rem;">
-                <li>≥ 3 distinct Evidence Types represented</li>
-                <li>≥ 1 positive eligible independent witness: <code>benchmark-result</code>, <code>verifier-attestation</code>, or <code>peer-review</code>. Rejected, deranked, zero-score, and phantom rows cannot unlock S.</li>
+                <li>≥ 3 distinct positive-scoring Evidence Types represented</li>
+                <li>≥ 1 positive eligible independent witness: <code>benchmark-result</code>, <code>verifier-attestation</code>, or <code>peer-review</code></li>
+                <li>Stars, <code>repo-own</code>, fusion, <code>self-attestation</code>, <code>social-signal</code>, <code>arxiv</code>, and <code>proxy-containment</code> are not S witnesses</li>
               </ul>
             </td>
           </tr>
@@ -834,9 +854,9 @@
       </table>
 
       <p style="font-size: 0.88rem; color: var(--muted); margin-top: 0.75rem;">
-        The S gate is the primary anti-gaming control at the highest grade. It requires a
-        positive eligible independent witness, so fusion magnitude, repo-own evidence, and
-        mothership popularity cannot self-certify Platinum status.
+        The diversity gate at S is the primary anti-gaming control at the highest grade. It
+        ensures that a Platinum grade requires external validation — a skill cannot reach S
+        through self-producible signals alone, regardless of how many stars are stacked.
       </p>
 
       <div class="tm-callout" style="margin-top: 1.25rem;">
@@ -867,7 +887,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr><td><code>fusion-recipe</code></td><td>200</td><td>120</td><td>60</td><td>30</td><td><span class="grade-pill grade-s">S</span></td></tr>
+          <tr><td><code>fusion-recipe</code></td><td>—</td><td>—</td><td>—</td><td>—</td><td><span class="grade-pill grade-none">structural only</span></td></tr>
           <tr><td><code>github-stars-own</code></td><td>88</td><td>60</td><td>35</td><td>20</td><td><span class="grade-pill grade-s">S</span></td></tr>
           <tr><td><code>proxy-containment</code></td><td>112</td><td>64</td><td>32</td><td>16</td><td><span class="grade-pill grade-s">S</span></td></tr>
           <tr><td><code>verifier-attestation</code></td><td>90</td><td>54</td><td>27</td><td>14</td><td><span class="grade-pill grade-s">S</span></td></tr>
@@ -939,14 +959,14 @@
         <div class="review-card">
           <h3 style="color: var(--rank-4); margin-bottom: 0.5rem;">Fusion Recipe</h3>
           <p style="font-size: 0.88rem; color: var(--muted); margin-bottom: 0.75rem;">
-            Fusion is <strong style="color: var(--text);">canonical provenance</strong>.
+            Fusion is <strong style="color: var(--text);">structural/provenance metadata</strong>.
             When a skill fuses origins together (via <code>gaia fuse</code>), those origins earn
-            <code>role='origin'</code> in the fusion recipe. Only role='origin' components score
-            the <code>fusion-recipe</code> Trust Magnitude term.
+            <code>role='origin'</code> in the fusion recipe. Origin counts remain available to
+            graph traversal and rank predicates; the <code>fusion-recipe</code> term contributes 0 TM.
           </p>
           <ul style="font-size: 0.85rem; color: var(--muted); padding-left: 1.1rem;">
             <li>Origin components carry <code>role='origin'</code></li>
-            <li>Only origins contribute to <code>fusion-recipe</code> magnitude</li>
+            <li>Origins remain structural metadata; <code>fusion-recipe</code> contributes 0 TM</li>
             <li>Each origin must itself be a Named Skill (2★+)</li>
             <li>The Apex Gate's <code>aGradedOriginsGte5</code> predicate counts role='origin' children only</li>
           </ul>
@@ -958,10 +978,10 @@
         <p>
           The single most powerful inflation attempt is "variant-padding": registering many
           <code>role='variant'</code> sub-skills inside a suite to artificially inflate the
-          origin count used by the fusion-recipe formula. This attack is
+          origin count used by structural fusion metadata. This attack is
           <strong>structurally blocked</strong> by the role guard: the formula reads
           <code>role='origin'</code> exclusively. Adding suite variants does not move the
-          fusion-recipe score by one point, regardless of variant count.
+          fusion-recipe TM by one point, regardless of variant count: the term is always 0.
         </p>
         <p>
           Conversely, suite-only paths (installation without provenance) are excluded from the
@@ -982,12 +1002,13 @@
       <div class="tm-callout" style="margin-bottom: 1.25rem;">
         <div class="tm-callout-label">Yggdrasil II — Branch-aware 6★ gates (TM Index 2026 Q2/Q3)</div>
         <p>
-          Under Yggdrasil II there are two distinct 6★ paths:
+          Under Yggdrasil III there are two distinct 6★ paths:
           <strong>Suite branch: 6★ Apex</strong> (this gate, 6 predicates) and
           <strong>Unique branch: 6★ Unique Impossible</strong> (provisional 5-predicate gate — Apex minus
-          <code>directNestedSuiteGte1</code>; formal ratification deferred to Yggdrasil III).
-          Trust Magnitude is the sole promotion gate — the Evidence Floor requirement has been
-          retired. See <em>TM Index (2026 Q3)</em> for the planned branch-aware TM formula rebuild.
+          <code>directNestedSuiteGte1</code>; ratified by Yggdrasil III).
+          Trust Magnitude is the sole numeric promotion gate — the Evidence Floor requirement has been
+          retired. Fusion/rank structure remains separate from accumulated scoring evidence; existing
+          rank predicates are unchanged.
         </p>
       </div>
 
@@ -1185,12 +1206,12 @@
             </tr>
             <tr>
               <td><code>fusion-recipe</code></td>
-              <td>4 role='origin' components (graded ≥C)</td>
-              <td>20 × 4 = 80</td>
-              <td>1.5</td>
-              <td>1.0</td>
-              <td>120</td>
-              <td><span class="grade-pill grade-a">A</span></td>
+              <td>4 role='origin' components (structural count)</td>
+              <td>structural metadata</td>
+              <td>0</td>
+              <td>—</td>
+              <td>0</td>
+              <td><span class="grade-pill grade-none">structural only</span></td>
             </tr>
             <tr>
               <td><code>repo-own</code></td>
@@ -1254,7 +1275,7 @@
           <span class="pred-id">overallGradeS ✓</span>
           <span class="pred-desc">
             Synthesis projection TM ≈ 1 187 ≫ threshold 250. Diversity gate passed (3 types,
-            verifier-attestation present, 1 S-tier row). Overall Trust Grade S in the
+            verifier-attestation present, positive eligible independent witness). Overall Trust Grade S in the
             synthesis projection. Post-I3 registry grade is B (no 10-type evidence ingested
             yet — this predicate will re-evaluate as evidence is entered).
           </span>
@@ -1308,8 +1329,9 @@
           <span>
             A contributor creating many thin named skills and fusing them to themselves to
             boost <code>aGradedOriginsGte5</code>. Each origin must independently hold grade A+,
-            which requires external or non-self-producible evidence on each child. Self-
-            attestation caps at flat 10 × 0.4 = 4 TM per skill — far below the A-grade
+            which requires enough positive scoring evidence on each child; S additionally
+            requires an eligible independent witness. Self-
+            attestation caps at flat 10 × 0.5 = 5 TM per skill — far below the A-grade
             threshold of 100 TM.
           </span>
         </li>

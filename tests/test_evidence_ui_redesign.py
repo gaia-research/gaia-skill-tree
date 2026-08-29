@@ -19,6 +19,7 @@ URLs to verify manually:
   http://localhost:8787/codex/trust-methodology.html  Threshold table
 """
 
+import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -353,19 +354,9 @@ class TestTrustMethodologyHTML:
         """New S floor of 88 must appear in the table."""
         assert "88" in TM_HTML
 
-    def test_s_gate_names_only_the_independent_witness_types(self):
-        gate_start = TM_HTML.find("Diversity gate (S only)")
-        assert gate_start != -1
-        gate = TM_HTML[gate_start:gate_start + 1800]
-        assert "benchmark-result" in gate
-        assert "verifier-attestation" in gate
-        assert "peer-review" in gate
-        assert "proxy-containment</code></li>" not in gate
-        assert "Rejected, deranked, zero-score, and phantom rows" in gate
-
-    def test_fusion_final_contribution_cap_is_public(self):
-        assert "200 final TM" in TM_HTML
-        assert "five-origin skill contributes" in TM_HTML
+    def test_fusion_is_publicly_structural_only(self):
+        assert "structural/provenance metadata" in TM_HTML
+        assert "contributes 0 TM" in TM_HTML
 
     def test_github_stars_own_new_s_floor_88(self):
         """github-stars-own S floor recalibrated to 88 must appear."""
@@ -383,7 +374,6 @@ class TestMetaJSON:
     """Validate the schema-level invariants of the recalibrated thresholds."""
 
     def setup_method(self):
-        import json
         self.meta = json.loads(
             (ROOT / "registry" / "schema" / "meta.json").read_text(encoding="utf-8")
         )
@@ -421,19 +411,11 @@ class TestMetaJSON:
     def test_verifier_attestation_s_floor_is_90(self):
         assert self.thresholds["verifier-attestation"]["S"] == 90
 
-    def test_fusion_contribution_cap_is_200(self):
+    def test_fusion_contribution_is_zero_and_excluded_from_diversity(self):
         fusion = self.types_map["fusion-recipe"]
-        assert fusion["contributionCap"] == 200
-        assert "200 final TM contribution" in fusion["cap"]
-
-    def test_s_gate_has_exact_independent_witnesses(self):
-        gate = self.meta["trustMagnitudeThresholds"]["diversityGate"]["S"]
-        assert gate["minDistinctTypes"] == 3
-        assert gate["requiresIndependentWitness"] is True
-        assert gate["independentWitnessTypes"] == [
-            "benchmark-result", "verifier-attestation", "peer-review",
-        ]
-        assert "zero-scoring" in gate["plusRule"]
+        assert fusion["contributionCap"] == 0
+        assert "contributes 0 Trust Magnitude" in fusion["description"]
+        assert "does not count toward Trust Grade diversity" in fusion["description"]
 
     def test_all_10_types_have_thresholds(self):
         expected = {
@@ -512,20 +494,19 @@ class TestTMConfigJS:
         assert "fusion-recipe" in TM_CONFIG_JS
         assert "self-attestation" in TM_CONFIG_JS
 
-    def test_independent_witness_list_is_exact(self):
-        assert "INDEPENDENT_WITNESS_TYPES" in TM_CONFIG_JS
-        assert "'benchmark-result', 'verifier-attestation', 'peer-review'" in TM_CONFIG_JS
-        assert "'proxy-containment'" not in TM_CONFIG_JS.split("INDEPENDENT_WITNESS_TYPES", 1)[1].split("// ── Per-type config", 1)[0]
-
-    def test_fusion_final_contribution_cap_is_configured_and_applied(self):
-        assert "contributionCap: 200" in TM_CONFIG_JS
+    def test_fusion_zero_contribution_and_s_witness_are_configured_and_applied(self):
+        assert "contributionCap: 0" in TM_CONFIG_JS
+        assert "structural/provenance metadata only — 0 TM" in TM_CONFIG_JS
+        assert "S_WITNESS_TYPES" in TM_CONFIG_JS
+        assert "eligible independent witness" in TM_CONFIG_JS
+        assert "SUITE_COMPONENT_REPOSITORY_CAP" in TM_CONFIG_JS
+        assert "suiteRepositoryCapMultiplier" in TM_CONFIG_JS
+        assert "isInvalidEvidence" in TM_CONFIG_JS
         assert "applyContributionCap" in TM_CONFIG_JS
-        assert "TM.applyContributionCap(t, score)" in EV_LIB_JS
-        assert "TM.applyContributionCap(t, score)" in SE_JS
-
-    def test_plaque_names_positive_eligible_independent_witnesses(self):
-        assert "positive eligible independent witness" in PLAQUE_JS
-        assert "INDEPENDENT_WITNESS_TYPES" in PLAQUE_JS
+        assert "magTooltip(ev, weighted, baselineContext)" in EV_LIB_JS
+        assert "suiteRepositoryBaselineNote" in EV_LIB_JS
+        assert "applySuiteRepositoryBaseline" in SE_JS
+        assert "createSuiteRepositoryBaselineContext" in SE_JS
 
     def test_skill_explorer_reads_tm_config(self):
         """_deriveTrustNum and _magTooltip must reference window.TM_CONFIG."""

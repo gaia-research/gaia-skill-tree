@@ -158,7 +158,7 @@
     "trustMagnitude": {
       "type": "number",
       "minimum": 0,
-      "description": "Yggdrasil III Trust Magnitude — aggregate artifact score computed from the 10-type evidence taxonomy. Sum of per-evidence artifact scores (magnitude × weight × freshness); fusion-recipe has a 200 final-contribution ceiling after weighting and applicable multipliers. Display layer soft-caps at 500; raw value drives grading and the apex gate. Replaces the legacy trustNumber aggregate."
+      "description": "Yggdrasil III Trust Magnitude — accumulated positive-scoring evidence only. Sum of per-evidence artifact scores (magnitude × weight × freshness); fusion-recipe is structural/provenance metadata at 0 TM. Display layer soft-caps at 500; raw value drives grading and the apex gate."
     },
     "overallTrustGrade": {
       "type": "string",
@@ -169,12 +169,12 @@
         "C",
         "ungraded"
       ],
-      "description": "Yggdrasil III Overall Trust Grade derived from trustMagnitude thresholds: S ≥ 250, A ≥ 100, B ≥ 50, C ≥ 20, ungraded < 20. S additionally requires at least 3 distinct evidence types and one positive eligible independent witness from benchmark-result, verifier-attestation, or peer-review; rejected, deranked, zero-scoring, and phantom rows do not qualify."
+      "description": "Yggdrasil III Overall Trust Grade: S ≥ 250 plus ≥3 distinct positive-scoring evidence types and a positive eligible independent witness from benchmark-result, verifier-attestation, or peer-review; A ≥ 100, B ≥ 50, C ≥ 20, ungraded < 20. Fusion-recipe does not score or count toward diversity."
     },
     "provisional": {
       "type": "boolean",
       "default": false,
-      "description": "True if this skill is graded at its current overallTrustGrade under the 6-month provisional grace window (RFC §5.7). A provisional skill passed the magnitude threshold for its grade but failed the diversity gate at G7 migration cutover. Demotion at grace expiry is PR-gated, not automatic."
+      "description": "True if this skill is graded at its current overallTrustGrade under the 6-month provisional grace window (RFC §5.7). A provisional skill passed the magnitude threshold for its grade but failed the applicable Yggdrasil III diversity gate at migration cutover. Demotion at grace expiry is PR-gated, not automatic."
     },
     "provisionalUntil": {
       "type": "string",
@@ -219,7 +219,7 @@
             "boolean",
             "null"
           ],
-          "description": "TRUE if overallTrustGrade equals S under strict-evidence reading (anti-auto-mint per RFC §10.14; only fusion-recipe may be auto-derived)."
+          "description": "TRUE if overallTrustGrade equals S under strict-evidence reading: TM ≥250, three distinct positive-scoring types, and an eligible positive witness; fusion-recipe may be auto-derived only as structural metadata."
         },
         "apexPromotionPrSigned": {
           "type": [
