@@ -18,6 +18,10 @@ authority:
   cli_contract_drift: B
   knowledge_contradiction: B
   taxonomy_script_drift: B
+  upstream_drift: B
+  evidence_link_drift: B
+  generated_projection_drift: B
+  benchmark_source_drift: B
   generic_mapping: C
 
 priority:
@@ -62,6 +66,30 @@ priority:
     decisionImpact: 0.8
     exposure: 0.8
     freshnessNeed: 0.8
+    expectedCost: 0.4
+  upstream_drift:
+    importance: 0.8
+    decisionImpact: 0.7
+    exposure: 0.8
+    freshnessNeed: 0.9
+    expectedCost: 0.3
+  evidence_link_drift:
+    importance: 0.8
+    decisionImpact: 0.7
+    exposure: 0.8
+    freshnessNeed: 0.8
+    expectedCost: 0.3
+  generated_projection_drift:
+    importance: 0.9
+    decisionImpact: 0.8
+    exposure: 0.9
+    freshnessNeed: 0.9
+    expectedCost: 0.2
+  benchmark_source_drift:
+    importance: 0.8
+    decisionImpact: 0.8
+    exposure: 0.7
+    freshnessNeed: 0.7
     expectedCost: 0.4
   generic_mapping:
     importance: 0.9

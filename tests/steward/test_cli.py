@@ -49,6 +49,31 @@ def _clean_cli_repo(root: Path) -> None:
     _write(root / "registry/nodes/basic/example.json", json.dumps(node))
     _write(root / ".agents/skills/example/SKILL.md", "# Example\n")
     _write(root / ".claude/skills/example/SKILL.md", "# Example\n")
+    _write(root / "docs/graph/gaia.json", json.dumps({"nodes": [], "edges": []}))
+    _write(root / "docs/graph/named/index.json", json.dumps({"buckets": {}, "awaitingClassification": [], "byContributor": {}}))
+    _write(root / "docs/api/v1/health.json", json.dumps({"status": "ok"}))
+    catalog_schema = {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "required": ["schemaVersion", "benchmarks"],
+        "properties": {
+            "schemaVersion": {"type": "string"},
+            "benchmarks": {"type": "array"}
+        }
+    }
+    catalog_schema_text = json.dumps(catalog_schema, sort_keys=True)
+    _write(root / "registry/schema/benchmarkSourceCatalog.schema.json", catalog_schema_text)
+    _write(root / "src/gaia_cli/data/registry/schema/benchmarkSourceCatalog.schema.json", catalog_schema_text)
+    catalog_benchmarks = [
+        {
+            "id": "humaneval@v1.0",
+            "name": "HumanEval",
+            "status": "verified",
+            "scoring": {"scoresTrustMagnitude": True, "requiredFields": ["runAt", "attestor", "datasetHash", "benchmarkInputHash"]},
+            "push": {"enabled": False, "aliases": []}
+        }
+    ]
+    _write(root / "registry/benchmark-sources.json", json.dumps({"schemaVersion": "1.0.0", "benchmarks": catalog_benchmarks}))
     # A consistent CLI command surface, so the cli-contract sensor has
     # something to observe. A checkout with no CLI is genuinely a checkout
     # Steward cannot observe, and it reports that as unknown coverage rather
@@ -60,7 +85,7 @@ def _clean_cli_repo(root: Path) -> None:
         'class ExampleCommand(Command):\n    name = "example"\n\n\nCOMMAND = ExampleCommand()\n',
     )
     _write(root / "src/gaia_cli/impl.py", 'PUBLIC_COMMANDS = ("help", "example")\n')
-    _write(root / "CLAUDE.md", "Top-level (lifecycle-oriented): `example`, `help`.\n")
+    _write(root / "CLAUDE.md", "Top-level (lifecycle-oriented): `example`, `help`.\n| **schema/** | `registry/schema/`, `src/gaia_cli/data/registry/schema/` |\n")
     subprocess.run(["git", "init", "-q"], cwd=root, check=True)
     subprocess.run(["git", "add", "."], cwd=root, check=True)
     subprocess.run(
@@ -96,7 +121,7 @@ def test_steward_scan_json_cli_is_clean_and_report_only(
 
     payload = json.loads(capsys.readouterr().out)
     assert payload["receipt"]["result"]["status"] == "no_change"
-    assert payload["receipt"]["observationsCollected"] == 11  # 6 sensors + 5 coverage marks
+    assert payload["receipt"]["observationsCollected"] == 21  # 11 sensors + coverage marks
     assert payload["receipt"]["dispatches"] == []
     assert payload["receipt"]["repairs"] == []
     assert payload["state"]["debt"].startswith(str(tmp_path / ".gaia/steward"))
