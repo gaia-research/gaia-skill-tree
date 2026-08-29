@@ -42,7 +42,7 @@ from typing import Any, Optional
 # dedup, plateau, and caps have been computed.
 # Rationale: stars reflect real-world adoption authority that should amplify
 # the trust signal from other evidence types, not merely add a capped value.
-# See issue #XXXX for the full recalibration RFC.
+# See issue #1665 for the full recalibration RFC.
 
 def _starAuthorityMultiplier(stars: float) -> float:
     """Compute the star authority multiplier for a skill's TM.
