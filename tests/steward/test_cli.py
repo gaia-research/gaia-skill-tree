@@ -49,6 +49,25 @@ def _clean_cli_repo(root: Path) -> None:
     _write(root / "registry/nodes/basic/example.json", json.dumps(node))
     _write(root / ".agents/skills/example/SKILL.md", "# Example\n")
     _write(root / ".claude/skills/example/SKILL.md", "# Example\n")
+    catalog = {
+        "schemaVersion": "1.0.0",
+        "benchmarks": [
+            {
+                "id": "humaneval@v1.0",
+                "name": "HumanEval",
+                "status": "verified",
+                "mode": "internal-ci",
+                "unit": "pass@1",
+                "sourceUrl": "https://github.com/openai/human-eval",
+                "methodologyUrl": "/benchmarks/humaneval-v1/",
+                "aliases": ["humaneval"],
+                "defaultProvenance": "verified",
+                "scoring": {"scoresTrustMagnitude": True, "requiredFields": []},
+                "push": {"enabled": True, "aliases": ["humaneval"]},
+            }
+        ],
+    }
+    _write(root / "registry/benchmark-sources.json", json.dumps(catalog))
     # A consistent CLI command surface, so the cli-contract sensor has
     # something to observe. A checkout with no CLI is genuinely a checkout
     # Steward cannot observe, and it reports that as unknown coverage rather
@@ -96,7 +115,7 @@ def test_steward_scan_json_cli_is_clean_and_report_only(
 
     payload = json.loads(capsys.readouterr().out)
     assert payload["receipt"]["result"]["status"] == "no_change"
-    assert payload["receipt"]["observationsCollected"] == 9  # 5 sensors + 4 coverage marks
+    assert payload["receipt"]["observationsCollected"] == 11  # 6 sensors + 5 observations
     assert payload["receipt"]["dispatches"] == []
     assert payload["receipt"]["repairs"] == []
     assert payload["state"]["debt"].startswith(str(tmp_path / ".gaia/steward"))

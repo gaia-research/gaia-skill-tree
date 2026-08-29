@@ -593,6 +593,313 @@ class CliContractSensor:
         ]
 
 
+class BenchmarkFreshnessSensor:
+    """Validate benchmark source catalog schema and verify benchmark-result evidence rows."""
+
+    id = "benchmark-freshness"
+    _CATALOG_PATH = "registry/benchmark-sources.json"
+    _SCHEMA_PATH = "registry/schema/benchmarkSourceCatalog.schema.json"
+    _NAMED_ROOT = "registry/named"
+    _MAX_FILE_BYTES = 20 * 1024 * 1024
+    _VERIFIED_LANES = frozenset({"verified", "ci-reproduced", "verifier-attested"})
+    _VERIFIED_REQUIRED_FIELDS = ("runAt", "attestor", "datasetHash", "benchmarkInputHash")
+
+    def scan(self, repo_root: Path, observed_at: str) -> list[Observation]:
+        violations: list[dict[str, str]] = []
+        manifest: dict[str, str] = {}
+        catalog_benchmarks: dict[str, dict[str, Any]] = {}
+        registered_keys: set[str] = set()
+
+        catalog_file = repo_root / self._CATALOG_PATH
+        if not catalog_file.is_file():
+            violations.append({
+                "path": self._CATALOG_PATH,
+                "error": f"required catalog file does not exist: {self._CATALOG_PATH}",
+            })
+        else:
+            raw_bytes = catalog_file.read_bytes()
+            manifest[self._CATALOG_PATH] = hashlib.sha256(raw_bytes).hexdigest()
+            catalog_data: dict[str, Any] | None = None
+            try:
+                parsed = json.loads(raw_bytes.decode("utf-8"))
+                if isinstance(parsed, dict):
+                    catalog_data = parsed
+                else:
+                    violations.append({
+                        "path": self._CATALOG_PATH,
+                        "error": "catalog root must be a JSON object",
+                    })
+            except Exception as exc:
+                violations.append({
+                    "path": self._CATALOG_PATH,
+                    "error": f"invalid JSON: {exc}",
+                })
+
+            if catalog_data is not None:
+                self._validate_catalog(repo_root, catalog_data, violations, catalog_benchmarks, registered_keys)
+
+        named_dir = repo_root / self._NAMED_ROOT
+        scanned_rows = 0
+        if named_dir.is_dir():
+            for path in sorted(named_dir.rglob("*.md")):
+                relative = path.relative_to(repo_root).as_posix()
+                raw_bytes = path.read_bytes()
+                manifest[relative] = hashlib.sha256(raw_bytes).hexdigest()
+                try:
+                    raw = self._read_named_markdown(path, repo_root)
+                except ValueError as exc:
+                    violations.append({"path": relative, "error": str(exc)})
+                    continue
+                skill_id = str(raw.get("id") or path.stem)
+                scanned_rows += self._check_named_skill_benchmarks(
+                    raw, relative, skill_id, registered_keys, violations
+                )
+
+            for path in sorted(named_dir.rglob("*.json")):
+                relative = path.relative_to(repo_root).as_posix()
+                raw_bytes = path.read_bytes()
+                manifest[relative] = hashlib.sha256(raw_bytes).hexdigest()
+                try:
+                    raw_obj, _ = self._read_object(path, repo_root, "named skill")
+                    if isinstance(raw_obj, dict):
+                        skill_id = str(raw_obj.get("id") or path.stem)
+                        scanned_rows += self._check_named_skill_benchmarks(
+                            raw_obj, relative, skill_id, registered_keys, violations
+                        )
+                except ValueError as exc:
+                    violations.append({"path": relative, "error": str(exc)})
+                    continue
+
+        violations.sort(key=lambda item: (item["path"], item["error"]))
+        drift = bool(violations)
+        digest = hashlib.sha256(stable_json(manifest).encode("utf-8")).hexdigest()
+
+        observed_state: dict[str, object] = {
+            "consistent": not drift,
+            "catalogBenchmarkCount": len(catalog_benchmarks),
+            "scannedRowsCount": scanned_rows,
+            "violationCount": len(violations),
+            "digest": digest,
+            "violations": violations,
+        }
+
+        return [
+            Observation(
+                kind="benchmark_source_drift",
+                subject=Subject(type="repository-surface", id="benchmark-sources"),
+                observed_at=observed_at,
+                source=self.id,
+                status="drift" if drift else "healthy",
+                current_state={"consistent": True},
+                observed_state=observed_state,
+                confidence=1.0,
+                provenance={
+                    "catalogPath": self._CATALOG_PATH,
+                    "schemaPath": self._SCHEMA_PATH,
+                    "namedPath": self._NAMED_ROOT,
+                },
+            )
+        ]
+
+    def _validate_catalog(
+        self,
+        repo_root: Path,
+        catalog_data: dict[str, Any],
+        violations: list[dict[str, str]],
+        catalog_benchmarks: dict[str, dict[str, Any]],
+        registered_keys: set[str],
+    ) -> None:
+        schema_path = repo_root / self._SCHEMA_PATH
+        if not schema_path.is_file():
+            schema_path = repo_root / "src/gaia_cli/data/registry/schema/benchmarkSourceCatalog.schema.json"
+
+        if schema_path.is_file():
+            try:
+                schema = json.loads(schema_path.read_text(encoding="utf-8"))
+                Draft7Validator.check_schema(schema)
+                validator = Draft7Validator(schema)
+                for error in sorted(validator.iter_errors(catalog_data), key=lambda e: list(e.path)):
+                    pointer = "/" + "/".join(str(p) for p in error.path)
+                    violations.append({
+                        "path": self._CATALOG_PATH,
+                        "error": f"schema {pointer}: {error.message}",
+                    })
+            except Exception as exc:
+                violations.append({
+                    "path": self._CATALOG_PATH,
+                    "error": f"schema validation error: {exc}",
+                })
+
+        benchmarks = catalog_data.get("benchmarks")
+        if not isinstance(benchmarks, list):
+            violations.append({
+                "path": self._CATALOG_PATH,
+                "error": "catalog 'benchmarks' must be an array",
+            })
+            return
+
+        seen_ids: set[str] = set()
+        seen_aliases: dict[str, str] = {}
+
+        for entry in benchmarks:
+            if not isinstance(entry, dict):
+                violations.append({
+                    "path": self._CATALOG_PATH,
+                    "error": "benchmark entry must be a JSON object",
+                })
+                continue
+
+            bench_id = entry.get("id")
+            if isinstance(bench_id, str) and bench_id.strip():
+                bench_id_clean = bench_id.strip()
+                if bench_id_clean in seen_ids:
+                    violations.append({
+                        "path": self._CATALOG_PATH,
+                        "error": f"duplicate benchmarkId in catalog: {bench_id_clean!r}",
+                    })
+                seen_ids.add(bench_id_clean)
+                registered_keys.add(bench_id_clean)
+                catalog_benchmarks[bench_id_clean] = entry
+
+                aliases = entry.get("aliases")
+                if isinstance(aliases, list):
+                    for alias in aliases:
+                        if isinstance(alias, str) and alias.strip():
+                            alias_clean = alias.strip()
+                            if alias_clean in seen_aliases and seen_aliases[alias_clean] != bench_id_clean:
+                                violations.append({
+                                    "path": self._CATALOG_PATH,
+                                    "error": f"duplicate benchmark alias {alias_clean!r} for {seen_aliases[alias_clean]!r} and {bench_id_clean!r}",
+                                })
+                            seen_aliases[alias_clean] = bench_id_clean
+                            registered_keys.add(alias_clean)
+
+                push_block = entry.get("push")
+                if isinstance(push_block, dict):
+                    push_aliases = push_block.get("aliases")
+                    if isinstance(push_aliases, list):
+                        for alias in push_aliases:
+                            if isinstance(alias, str) and alias.strip():
+                                alias_clean = alias.strip()
+                                if alias_clean in seen_aliases and seen_aliases[alias_clean] != bench_id_clean:
+                                    violations.append({
+                                        "path": self._CATALOG_PATH,
+                                        "error": f"duplicate benchmark push alias {alias_clean!r} for {seen_aliases[alias_clean]!r} and {bench_id_clean!r}",
+                                    })
+                                seen_aliases[alias_clean] = bench_id_clean
+                                registered_keys.add(alias_clean)
+
+                status = entry.get("status")
+                scoring = entry.get("scoring")
+                mode = entry.get("mode")
+
+                if isinstance(scoring, dict) and scoring.get("scoresTrustMagnitude"):
+                    if status in {"rejected", "retired", "pending", "candidate", "unknown"}:
+                        violations.append({
+                            "path": self._CATALOG_PATH,
+                            "error": f"{bench_id_clean}: status {status!r} must not score Trust Magnitude",
+                        })
+
+                if isinstance(push_block, dict) and push_block.get("enabled"):
+                    if status != "verified" or mode != "internal-ci":
+                        violations.append({
+                            "path": self._CATALOG_PATH,
+                            "error": f"{bench_id_clean}: push aliases require verified internal-ci status",
+                        })
+
+    def _check_named_skill_benchmarks(
+        self,
+        raw: dict[str, object],
+        relative: str,
+        skill_id: str,
+        registered_keys: set[str],
+        violations: list[dict[str, str]],
+    ) -> int:
+        evidence = raw.get("evidence")
+        if not isinstance(evidence, list):
+            return 0
+
+        count = 0
+        for idx, row in enumerate(evidence):
+            if not isinstance(row, dict) or row.get("type") != "benchmark-result":
+                continue
+
+            count += 1
+            bench_id = row.get("benchmarkId")
+            if not isinstance(bench_id, str) or not bench_id.strip():
+                violations.append({
+                    "path": relative,
+                    "error": f"skill {skill_id!r} evidence[{idx}] (type: benchmark-result) missing benchmarkId",
+                })
+            else:
+                clean_bench_id = bench_id.strip()
+                if clean_bench_id not in registered_keys:
+                    violations.append({
+                        "path": relative,
+                        "error": f"skill {skill_id!r} evidence[{idx}] references unregistered benchmarkId {clean_bench_id!r}",
+                    })
+
+            provenance = row.get("provenance")
+            if provenance == "self-attested":
+                violations.append({
+                    "path": relative,
+                    "error": f"skill {skill_id!r} evidence[{idx}] has forbidden provenance 'self-attested'",
+                })
+
+            if isinstance(provenance, str) and provenance in self._VERIFIED_LANES:
+                for req_field in self._VERIFIED_REQUIRED_FIELDS:
+                    val = row.get(req_field)
+                    if val is None or val == "":
+                        violations.append({
+                            "path": relative,
+                            "error": f"skill {skill_id!r} evidence[{idx}] verified lane missing required field {req_field!r}",
+                        })
+
+            percentile = row.get("percentile")
+            if percentile is not None and percentile != "":
+                try:
+                    pct = float(percentile)
+                    if pct < 0 or pct > 100:
+                        violations.append({
+                            "path": relative,
+                            "error": f"skill {skill_id!r} evidence[{idx}] percentile {percentile!r} outside 0..100",
+                        })
+                except (ValueError, TypeError):
+                    violations.append({
+                        "path": relative,
+                        "error": f"skill {skill_id!r} evidence[{idx}] has non-numeric percentile {percentile!r}",
+                    })
+
+        return count
+
+    def _read_named_markdown(self, path: Path, repo_root: Path) -> dict[str, object]:
+        content = path.read_bytes()
+        if len(content) > self._MAX_FILE_BYTES:
+            raise ValueError(f"named skill exceeds safety limit: {path.relative_to(repo_root)}")
+        try:
+            text = content.decode("utf-8")
+            from gaia_cli.frontmatter import load_yaml_simple, split_frontmatter
+            _fence, frontmatter, _body = split_frontmatter(text)
+            raw = load_yaml_simple(frontmatter)
+        except Exception as exc:
+            raise ValueError(f"invalid named skill: {path.relative_to(repo_root)}") from exc
+        if not isinstance(raw, dict):
+            raise ValueError(f"named skill frontmatter must be an object: {path.relative_to(repo_root)}")
+        return raw
+
+    def _read_object(self, path: Path, repo_root: Path, label: str) -> tuple[dict[str, object] | list[object], bytes]:
+        content = path.read_bytes()
+        if len(content) > self._MAX_FILE_BYTES:
+            raise ValueError(f"{label} exceeds safety limit: {path.relative_to(repo_root)}")
+        try:
+            raw = json.loads(content)
+        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+            raise ValueError(f"invalid {label}: {path.relative_to(repo_root)}") from exc
+        if not isinstance(raw, (dict, list)):
+            raise ValueError(f"{label} must be an object or array: {path.relative_to(repo_root)}")
+        return raw, content
+
+
 def default_sensors() -> tuple[Sensor, ...]:
     return (
         BundledSchemaMirrorSensor(),
@@ -600,4 +907,5 @@ def default_sensors() -> tuple[Sensor, ...]:
         RegistryIntegritySensor(),
         CliContractSensor(),
         DiscoveryGenericMappingSensor(),
+        BenchmarkFreshnessSensor(),
     )

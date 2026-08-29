@@ -8,6 +8,7 @@ import pytest
 
 from gaia_cli.steward.sensors import (
     AgentSkillMirrorSensor,
+    BenchmarkFreshnessSensor,
     BundledSchemaMirrorSensor,
     DiscoveryGenericMappingSensor,
     RegistryIntegritySensor,
@@ -56,6 +57,25 @@ def _make_clean_repo(root: Path) -> None:
     _write(root / "registry/nodes/basic/example.json", json.dumps(node))
     _write(root / ".agents/skills/example/SKILL.md", "# Example\n")
     _write(root / ".claude/skills/example/SKILL.md", "# Example\n")
+    catalog = {
+        "schemaVersion": "1.0.0",
+        "benchmarks": [
+            {
+                "id": "humaneval@v1.0",
+                "name": "HumanEval",
+                "status": "verified",
+                "mode": "internal-ci",
+                "unit": "pass@1",
+                "sourceUrl": "https://github.com/openai/human-eval",
+                "methodologyUrl": "/benchmarks/humaneval-v1/",
+                "aliases": ["humaneval"],
+                "defaultProvenance": "verified",
+                "scoring": {"scoresTrustMagnitude": True, "requiredFields": []},
+                "push": {"enabled": True, "aliases": ["humaneval"]},
+            }
+        ],
+    }
+    _write(root / "registry/benchmark-sources.json", json.dumps(catalog))
 
 
 def test_all_sensors_report_healthy_on_clean_fixture(tmp_path: Path) -> None:
@@ -65,9 +85,10 @@ def test_all_sensors_report_healthy_on_clean_fixture(tmp_path: Path) -> None:
         BundledSchemaMirrorSensor().scan(tmp_path, NOW)[0],
         AgentSkillMirrorSensor().scan(tmp_path, NOW)[0],
         RegistryIntegritySensor().scan(tmp_path, NOW)[0],
+        BenchmarkFreshnessSensor().scan(tmp_path, NOW)[0],
     ]
 
-    assert [observation.status for observation in observations] == ["healthy"] * 3
+    assert [observation.status for observation in observations] == ["healthy"] * 4
 
 
 def test_discovery_sensor_excludes_archived_and_processed_packets_and_targets_exact_candidate(tmp_path: Path) -> None:
@@ -410,3 +431,330 @@ def test_registry_integrity_accepts_basic_and_fusion_prerequisite_boundaries(
     observation = RegistryIntegritySensor().scan(tmp_path, NOW)[0]
 
     assert observation.status == "healthy"
+
+
+def test_benchmark_freshness_sensor_on_clean_fixture(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+
+    obs = BenchmarkFreshnessSensor().scan(tmp_path, NOW)[0]
+
+    assert obs.status == "healthy"
+    assert obs.kind == "benchmark_source_drift"
+    assert obs.subject.id == "benchmark-sources"
+    assert obs.observed_state["consistent"] is True
+    assert obs.observed_state["violationCount"] == 0
+    assert obs.observed_state["catalogBenchmarkCount"] == 1
+    assert obs.observed_state["scannedRowsCount"] == 0
+
+
+def test_benchmark_freshness_sensor_with_valid_named_benchmark(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    skill_content = (
+        "---\n"
+        "id: example/code-eval\n"
+        "name: Code Eval\n"
+        "genericSkillRef: example\n"
+        "evidence:\n"
+        "  - type: benchmark-result\n"
+        "    benchmarkId: humaneval@v1.0\n"
+        "    score: 0.85\n"
+        "    unit: pass@1\n"
+        "    provenance: verified\n"
+        "    runAt: '2026-08-01T00:00:00Z'\n"
+        "    attestor: https://ci.example.test/run/1\n"
+        "    datasetHash: deadbeef1234\n"
+        "    benchmarkInputHash: feedface5678\n"
+        "    percentile: 95.5\n"
+        "---\n\n"
+        "## Overview\n"
+    )
+    _write(tmp_path / "registry/named/example/code-eval.md", skill_content)
+
+    obs = BenchmarkFreshnessSensor().scan(tmp_path, NOW)[0]
+
+    assert obs.status == "healthy"
+    assert obs.observed_state["scannedRowsCount"] == 1
+    assert obs.observed_state["violationCount"] == 0
+
+
+def test_benchmark_freshness_sensor_reports_missing_catalog(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    (tmp_path / "registry/benchmark-sources.json").unlink()
+
+    obs = BenchmarkFreshnessSensor().scan(tmp_path, NOW)[0]
+
+    assert obs.status == "drift"
+    assert obs.observed_state["violationCount"] == 1
+    assert any("required catalog file does not exist" in v["error"] for v in obs.observed_state["violations"])
+
+
+def test_benchmark_freshness_sensor_reports_invalid_json_catalog(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    _write(tmp_path / "registry/benchmark-sources.json", "not valid json {")
+
+    obs = BenchmarkFreshnessSensor().scan(tmp_path, NOW)[0]
+
+    assert obs.status == "drift"
+    assert any("invalid JSON" in v["error"] for v in obs.observed_state["violations"])
+
+
+def test_benchmark_freshness_sensor_reports_schema_violations(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    catalog_schema = {
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "type": "object",
+        "required": ["schemaVersion", "benchmarks"],
+        "properties": {
+            "schemaVersion": {"type": "string"},
+            "benchmarks": {
+                "type": "array",
+                "items": {
+                    "type": "object",
+                    "required": ["id", "status"],
+                    "properties": {
+                        "id": {"type": "string"},
+                        "status": {"enum": ["verified", "reported", "rejected"]},
+                    },
+                },
+            },
+        },
+    }
+    _write(tmp_path / "registry/schema/benchmarkSourceCatalog.schema.json", json.dumps(catalog_schema))
+    broken_catalog = {
+        "schemaVersion": "1.0.0",
+        "benchmarks": [
+            {"id": "test@v1.0", "status": "invalid-status"},
+        ],
+    }
+    _write(tmp_path / "registry/benchmark-sources.json", json.dumps(broken_catalog))
+
+    obs = BenchmarkFreshnessSensor().scan(tmp_path, NOW)[0]
+
+    assert obs.status == "drift"
+    assert any("schema /benchmarks/0/status" in v["error"] for v in obs.observed_state["violations"])
+
+
+def test_benchmark_freshness_sensor_reports_duplicate_benchmark_ids_and_aliases(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    catalog = {
+        "schemaVersion": "1.0.0",
+        "benchmarks": [
+            {
+                "id": "humaneval@v1.0",
+                "name": "HumanEval",
+                "status": "reported",
+                "mode": "external",
+                "unit": "pass@1",
+                "sourceUrl": "https://example.test",
+                "methodologyUrl": "/benchmarks/he/",
+                "aliases": ["shared-alias"],
+            },
+            {
+                "id": "humaneval@v1.0",
+                "name": "Duplicate ID",
+                "status": "reported",
+                "mode": "external",
+                "unit": "pass@1",
+                "sourceUrl": "https://example.test",
+                "methodologyUrl": "/benchmarks/he2/",
+                "aliases": [],
+            },
+            {
+                "id": "other@v1.0",
+                "name": "Other Benchmark",
+                "status": "reported",
+                "mode": "external",
+                "unit": "pct",
+                "sourceUrl": "https://example.test",
+                "methodologyUrl": "/benchmarks/other/",
+                "aliases": ["shared-alias"],
+            },
+        ],
+    }
+    _write(tmp_path / "registry/benchmark-sources.json", json.dumps(catalog))
+
+    obs = BenchmarkFreshnessSensor().scan(tmp_path, NOW)[0]
+
+    assert obs.status == "drift"
+    errors = [v["error"] for v in obs.observed_state["violations"]]
+    assert any("duplicate benchmarkId in catalog: 'humaneval@v1.0'" in err for err in errors)
+    assert any("duplicate benchmark alias 'shared-alias'" in err for err in errors)
+
+
+def test_benchmark_freshness_sensor_reports_unregistered_benchmark_id(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    skill_content = (
+        "---\n"
+        "id: example/unregistered\n"
+        "name: Unregistered Benchmark Row\n"
+        "genericSkillRef: example\n"
+        "evidence:\n"
+        "  - type: benchmark-result\n"
+        "    benchmarkId: unknown-benchmark@v1.0\n"
+        "    score: 99.0\n"
+        "    unit: pct\n"
+        "    provenance: reported\n"
+        "---\n\n"
+        "## Overview\n"
+    )
+    _write(tmp_path / "registry/named/example/unregistered.md", skill_content)
+
+    obs = BenchmarkFreshnessSensor().scan(tmp_path, NOW)[0]
+
+    assert obs.status == "drift"
+    errors = [v["error"] for v in obs.observed_state["violations"]]
+    assert any("references unregistered benchmarkId 'unknown-benchmark@v1.0'" in err for err in errors)
+
+
+def test_benchmark_freshness_sensor_reports_missing_benchmark_id(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    skill_content = (
+        "---\n"
+        "id: example/missing-id\n"
+        "name: Missing BenchmarkId\n"
+        "genericSkillRef: example\n"
+        "evidence:\n"
+        "  - type: benchmark-result\n"
+        "    score: 50.0\n"
+        "    unit: pct\n"
+        "---\n\n"
+        "## Overview\n"
+    )
+    _write(tmp_path / "registry/named/example/missing-id.md", skill_content)
+
+    obs = BenchmarkFreshnessSensor().scan(tmp_path, NOW)[0]
+
+    assert obs.status == "drift"
+    errors = [v["error"] for v in obs.observed_state["violations"]]
+    assert any("missing benchmarkId" in err for err in errors)
+
+
+def test_benchmark_freshness_sensor_reports_forbidden_self_attested(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    skill_content = (
+        "---\n"
+        "id: example/self-attested\n"
+        "name: Self-Attested Benchmark\n"
+        "genericSkillRef: example\n"
+        "evidence:\n"
+        "  - type: benchmark-result\n"
+        "    benchmarkId: humaneval@v1.0\n"
+        "    score: 0.9\n"
+        "    unit: pass@1\n"
+        "    provenance: self-attested\n"
+        "---\n\n"
+        "## Overview\n"
+    )
+    _write(tmp_path / "registry/named/example/self-attested.md", skill_content)
+
+    obs = BenchmarkFreshnessSensor().scan(tmp_path, NOW)[0]
+
+    assert obs.status == "drift"
+    errors = [v["error"] for v in obs.observed_state["violations"]]
+    assert any("forbidden provenance 'self-attested'" in err for err in errors)
+
+
+@pytest.mark.parametrize("percentile_val", [-5.0, 105.0, "invalid-pct"])
+def test_benchmark_freshness_sensor_reports_invalid_percentiles(tmp_path: Path, percentile_val: object) -> None:
+    _make_clean_repo(tmp_path)
+    skill_content = (
+        "---\n"
+        "id: example/bad-percentile\n"
+        "name: Bad Percentile\n"
+        "genericSkillRef: example\n"
+        "evidence:\n"
+        "  - type: benchmark-result\n"
+        "    benchmarkId: humaneval@v1.0\n"
+        "    score: 0.9\n"
+        "    unit: pass@1\n"
+        "    provenance: reported\n"
+        f"    percentile: {percentile_val}\n"
+        "---\n\n"
+        "## Overview\n"
+    )
+    _write(tmp_path / "registry/named/example/bad-percentile.md", skill_content)
+
+    obs = BenchmarkFreshnessSensor().scan(tmp_path, NOW)[0]
+
+    assert obs.status == "drift"
+    errors = [v["error"] for v in obs.observed_state["violations"]]
+    assert any("percentile" in err for err in errors)
+
+
+def test_benchmark_freshness_sensor_reports_missing_verified_receipt_fields(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    skill_content = (
+        "---\n"
+        "id: example/missing-receipt-fields\n"
+        "name: Missing Verified Receipt Fields\n"
+        "genericSkillRef: example\n"
+        "evidence:\n"
+        "  - type: benchmark-result\n"
+        "    benchmarkId: humaneval@v1.0\n"
+        "    score: 0.8\n"
+        "    unit: pass@1\n"
+        "    provenance: verified\n"
+        "    runAt: '2026-08-01T00:00:00Z'\n"
+        "    attestor: https://ci.example.test\n"
+        "    # datasetHash and benchmarkInputHash missing\n"
+        "---\n\n"
+        "## Overview\n"
+    )
+    _write(tmp_path / "registry/named/example/missing-receipt-fields.md", skill_content)
+
+    obs = BenchmarkFreshnessSensor().scan(tmp_path, NOW)[0]
+
+    assert obs.status == "drift"
+    errors = [v["error"] for v in obs.observed_state["violations"]]
+    assert any("missing required field 'datasetHash'" in err for err in errors)
+    assert any("missing required field 'benchmarkInputHash'" in err for err in errors)
+
+
+def test_benchmark_freshness_sensor_reports_policy_inconsistencies(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    catalog = {
+        "schemaVersion": "1.0.0",
+        "benchmarks": [
+            {
+                "id": "candidate-scoring@v1.0",
+                "name": "Candidate Scoring",
+                "status": "candidate",
+                "mode": "external",
+                "unit": "pct",
+                "sourceUrl": "https://example.test",
+                "methodologyUrl": "/benchmarks/cs/",
+                "scoring": {"scoresTrustMagnitude": True},
+            },
+            {
+                "id": "push-not-ci@v1.0",
+                "name": "Push Not Internal CI",
+                "status": "reported",
+                "mode": "external",
+                "unit": "pct",
+                "sourceUrl": "https://example.test",
+                "methodologyUrl": "/benchmarks/pnc/",
+                "push": {"enabled": True, "aliases": ["pnc"]},
+            },
+        ],
+    }
+    _write(tmp_path / "registry/benchmark-sources.json", json.dumps(catalog))
+
+    obs = BenchmarkFreshnessSensor().scan(tmp_path, NOW)[0]
+
+    assert obs.status == "drift"
+    errors = [v["error"] for v in obs.observed_state["violations"]]
+    assert any("candidate-scoring@v1.0: status 'candidate' must not score Trust Magnitude" in err for err in errors)
+    assert any("push-not-ci@v1.0: push aliases require verified internal-ci status" in err for err in errors)
+
+
+def test_benchmark_freshness_sensor_is_deterministic(tmp_path: Path) -> None:
+    _make_clean_repo(tmp_path)
+    sensor = BenchmarkFreshnessSensor()
+
+    obs1 = sensor.scan(tmp_path, NOW)[0]
+    obs2 = sensor.scan(tmp_path, "2026-08-10T12:00:00Z")[0]
+
+    assert obs1.debt_id == obs2.debt_id
+    assert obs1.current_state == obs2.current_state
+    assert obs1.observed_state == obs2.observed_state
+
