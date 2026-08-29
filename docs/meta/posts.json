@@ -12,17 +12,6 @@
       "source": "docs/meta/2026-08-29-yggdrasil-iii-trust-integrity.md"
     },
     {
-      "id": "2026-08-24-arbor-opens-for-review-a-behavioral-tree-without-a-leaderboard",
-      "type": "report",
-      "date": "2026-08-24",
-      "title": "Arbor Opens for Review: A Behavioral Tree Without a Leaderboard",
-      "summary": "Arbor's declaration-first evidence loop is opening for review: expert claims, privacy-bounded runtime observations, focused receipts, and explicit governed interpretations—without turning behavior into stars.",
-      "label": "Arbor Review",
-      "url": "meta/reports/2026-08-24-arbor-opens-for-review-a-behavioral-tree-without-a-leaderboard.html",
-      "author": "Gaia Research",
-      "source": "docs/meta/2026-08-24-arbor-review-launch.md"
-    },
-    {
       "id": "2026-08-20-from-question-to-code-matt-pococks-skill-curation",
       "type": "report",
       "date": "2026-08-20",
